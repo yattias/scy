@@ -21,18 +21,20 @@ import org.jdom.JDOMException;
 public class PreDefinedFunction implements Cloneable{
     public final static String TAG_PRE_DEFINED_FUNCTION="function";
     private final static String TAG_PRE_DEFINED_NAME="name";
+    private final static String TAG_PRE_DEFINED_ID="id_function";
     private final static String TAG_PRE_DEFINED_TYPE="type";
     private final static String TAG_PRE_DEFINED_DESCRIPTION = "description";
     private final static String TAG_PRE_DEFINED_EXPRESSION = "expression";
     
-    
+    private String idFunction;
     private List<LocalText> listName;
     /* type x=f(y) ou y=f(x) cf cst FUNCTION_TYPE_*/
     private char type;
     private String description;
     private String expression;
 
-    public PreDefinedFunction(List<LocalText> listName, char type, String description, String expression) {
+    public PreDefinedFunction(String idFunction, List<LocalText> listName, char type, String description, String expression) {
+        this.idFunction = idFunction;
         this.listName = listName;
         this.type = type;
         this.description = description;
@@ -41,6 +43,10 @@ public class PreDefinedFunction implements Cloneable{
 
     public PreDefinedFunction(Element xmlElem) throws JDOMException {
         if (xmlElem.getName().equals(TAG_PRE_DEFINED_FUNCTION)) {
+            idFunction = "";
+            if(xmlElem.getChild(TAG_PRE_DEFINED_ID) != null){
+                idFunction = xmlElem.getChild(TAG_PRE_DEFINED_ID).getText();
+            }
             listName = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_PRE_DEFINED_NAME).iterator(); variableElem.hasNext();) {
                 Element e = variableElem.next();
@@ -60,6 +66,10 @@ public class PreDefinedFunction implements Cloneable{
 	}else{
             throw(new JDOMException("PreDefinedFunction expects <"+TAG_PRE_DEFINED_FUNCTION+"> as root element, but found <"+xmlElem.getName()+">."));
         }
+    }
+
+    public String getIdFunction() {
+        return idFunction;
     }
 
     public String getDescription() {
@@ -97,11 +107,16 @@ public class PreDefinedFunction implements Cloneable{
         this.type = type;
     }
 
+    public void setIdFunction(String idFunction) {
+        this.idFunction = idFunction;
+    }
+
     // CLONE
     @Override
     public Object clone()  {
         try {
             PreDefinedFunction fct = (PreDefinedFunction) super.clone() ;
+            fct.setIdFunction(new String(idFunction));
             List<LocalText> listNameC = new LinkedList();
             for (Iterator<LocalText> t = listName.iterator(); t.hasNext();) {
                 listNameC.add((LocalText)t.next().clone());

@@ -30,12 +30,14 @@ public class PreDefinedFunctionDialog extends javax.swing.JDialog {
     private FitexPanel fitexPanel;
     /* list functions */
     private ArrayList<PreDefinedFunctionCategory> listFunctions;
+    private String idPredefFunction;
 
-    public PreDefinedFunctionDialog(FitexToolPanel owner, FitexPanel fitexPanel,ArrayList<PreDefinedFunctionCategory> listFunctions) {
+    public PreDefinedFunctionDialog(FitexToolPanel owner, FitexPanel fitexPanel,ArrayList<PreDefinedFunctionCategory> listFunctions, String idPredefFunction) {
         super();
         this.owner = owner;
         this.fitexPanel = fitexPanel;
         this.listFunctions = listFunctions;
+        this.idPredefFunction = idPredefFunction;
         initComponents();
         setLocation(owner.getLocationDialog());
         setModal(true);
@@ -172,6 +174,7 @@ public class PreDefinedFunctionDialog extends javax.swing.JDialog {
         buttonOk.setSize(60+MyUtilities.lenghtOfString(this.buttonOk.getText(), getFontMetrics(this.buttonOk.getFont())), buttonOk.getHeight());
         buttonCancel.setSize(60+MyUtilities.lenghtOfString(this.buttonCancel.getText(), getFontMetrics(this.buttonCancel.getFont())), buttonCancel.getHeight());
         changeType();
+        initPredefFunction();
     }
 
     private void validPreDefinedFunction(){
@@ -239,6 +242,34 @@ public class PreDefinedFunctionDialog extends javax.swing.JDialog {
             }
         }
     }
+
+     private void initPredefFunction(){
+         if(idPredefFunction != null){
+             int idC = getIdPredefFunction()[0];
+             int idF = getIdPredefFunction()[1];
+             if(idC != -1 && idF != -1){
+                 cbType.setSelectedIndex(idC);
+                 changeType();
+                 cbFunction.setSelectedIndex(idF);
+                 changeFunction();
+             }
+         }
+     }
+
+     private int[] getIdPredefFunction(){
+         int[] ids = new int[2];
+         ids[0] = -1;
+         ids[1] = -1;
+         for(int i=0; i<listFunctions.size(); i++ ){
+             for (int j=0; j<listFunctions.get(i).getListFunctions().size(); j++){
+                 if(listFunctions.get(i).getListFunctions().get(j).getIdFunction().equals(idPredefFunction)){
+                     ids[0]=i;
+                     ids[1]=j;
+                 }
+             }
+         }
+         return ids;
+     }
      
      private int getMaxWidth(ArrayList<String> list, FontMetrics fm){
          int max = 0;

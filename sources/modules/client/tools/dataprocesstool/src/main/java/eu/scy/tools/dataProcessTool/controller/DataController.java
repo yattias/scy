@@ -417,7 +417,7 @@ public class DataController implements ControllerInterface{
                         for (int k=0; k<np; k++){
                             listParam.add(new FunctionParam(idFunctionParam++, lfm.get(j).getListParam().get(k).getParam(), lfm.get(j).getListParam().get(k).getValue()));
                         }
-                        FunctionModel fm = new FunctionModel(idFunctionModel++, lfm.get(j).getDescription(),lfm.get(j).getType(),  new Color(lfm.get(j).getColorR(),lfm.get(j).getColorG(),lfm.get(j).getColorB() ), listParam);
+                        FunctionModel fm = new FunctionModel(idFunctionModel++, lfm.get(j).getDescription(),lfm.get(j).getType(),  new Color(lfm.get(j).getColorR(),lfm.get(j).getColorG(),lfm.get(j).getColorB() ), listParam, lfm.get(j).getIdPredefFunction());
                         listFunctionModel.add(fm);
                     }
                 }
@@ -1142,7 +1142,7 @@ public class DataController implements ControllerInterface{
 
     /* ajout ou modification d'une fonction modeme */
     @Override
-    public CopexReturn setFunctionModel(Dataset ds, Visualization vis, String description, char type, Color fColor, ArrayList<FunctionParam> listParam,ArrayList v){
+    public CopexReturn setFunctionModel(Dataset ds, Visualization vis, String description, char type, Color fColor, ArrayList<FunctionParam> listParam, String idPredefFunction,ArrayList v){
         int idDs = getIdDataset(ds.getDbKey());
         if(idDs == -1){
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
@@ -1159,7 +1159,7 @@ public class DataController implements ControllerInterface{
         if (fm == null){
             // creation de la fonction
             // memoire
-            FunctionModel myFm = new FunctionModel(idFunctionModel++, description, type, fColor, listParam);
+            FunctionModel myFm = new FunctionModel(idFunctionModel++, description, type, fColor, listParam, idPredefFunction);
             ((Graph)dataset.getListVisualization().get(idVis)).addFunctionModel(myFm);
         }else{
             //mise a jour
@@ -1171,6 +1171,7 @@ public class DataController implements ControllerInterface{
                 fm.setType(type);
                 fm.setDescription(description);
                 fm.setListParam(listParam);
+                fm.setIdPredefFunction(idPredefFunction);
             }
         }
         listDataset.set(idDs, dataset);

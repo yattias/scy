@@ -70,6 +70,7 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
     // couleur de la courbe selectionnee (initialement bleue)
     private Color couleurSelect=DataConstants.FUNCTION_COLOR_1 ;
     private char typeSelect = DataConstants.FUNCTION_TYPE_Y_FCT_X;
+    private String idPredefFunction = null;
 
     // stockage des fonctions
     private HashMap<Color,Function> mapDesFonctions = new HashMap<Color,Function>();
@@ -171,9 +172,10 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
             panelFct.add(getRbGreen());
             panelFct.add(getRbBlack());
             panelFct.add(Box.createHorizontalStrut(5));
+            panelFct.add(getButtonPreDefinedFct());
+            panelFct.add(Box.createHorizontalStrut(5));
             panelFct.add(getLabelFct());
             panelFct.add(getTextFieldFct());
-            panelFct.add(getButtonPreDefinedFct());
         }
         return panelFct;
     }
@@ -296,8 +298,9 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
     private CopexButtonPanel getButtonPreDefinedFct(){
         if(buttonPreDefinedFct == null){
             buttonPreDefinedFct = new CopexButtonPanel(imgFct.getImage(),imgFctSurvol.getImage(), imgFctClic.getImage(), imgFctGris.getImage() );
-            buttonPreDefinedFct.setBounds((panelFct.getHeight()-buttonPreDefinedFct.getHeight())/2,5, buttonPreDefinedFct.getWidth(), buttonPreDefinedFct.getHeight());
+            //buttonPreDefinedFct.setBounds((panelFct.getHeight()-buttonPreDefinedFct.getHeight())/2,5, buttonPreDefinedFct.getWidth(), buttonPreDefinedFct.getHeight());
             buttonPreDefinedFct.setPreferredSize(buttonPreDefinedFct.getSize());
+            buttonPreDefinedFct.setMinimumSize(buttonPreDefinedFct.getSize());
             buttonPreDefinedFct.setMaximumSize(buttonPreDefinedFct.getSize());
             buttonPreDefinedFct.addActionCopexButton(this);
             buttonPreDefinedFct.setToolTipText(owner.getBundleString("TOOLTIPTEXT_PREDEFINED_FUNCTION"));
@@ -417,8 +420,9 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
         drawFct();
         for (int i=0; i<nb; i++){
             FunctionModel fm = listFunctionModel.get(i);
-            Function f = new Function(owner, fm.getDescription(),fm.getType(),  datas);
+            Function f = new Function(owner, fm.getDescription(),fm.getType(), fm.getIdPredefFunction(),  datas);
             typeSelect = f.getType();
+            idPredefFunction = f.getIdPredefFunction();
             int nbP = fm.getListParam().size();
             for (int k=0; k<nbP; k++){
                 f.setValeurParametre(fm.getListParam().get(k).getParam(), fm.getListParam().get(k).getValue());
@@ -504,11 +508,14 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
         if(text.equals(getBundleString("DEFAULT_FUNCTION_MODEL")))
             text = "";
         if (mapDesFonctions.get(couleurSelect) == null){
-            mapDesFonctions.put(couleurSelect, new Function(owner, text, typeSelect, datas));
+            mapDesFonctions.put(couleurSelect, new Function(owner, text, typeSelect, idPredefFunction, datas));
         }else{
             String oldT = mapDesFonctions.get(couleurSelect).getIntitule();
-            if(oldT != null  && !oldT.equals(text) || typeSelect != mapDesFonctions.get(couleurSelect).getType())
-                mapDesFonctions.get(couleurSelect).maJFonction(text, typeSelect) ;
+            if(oldT != null  && !oldT.equals(text) || typeSelect != mapDesFonctions.get(couleurSelect).getType() ||
+                    ((idPredefFunction == null && mapDesFonctions.get(couleurSelect).getIdPredefFunction() != null) ||
+                    (idPredefFunction != null && mapDesFonctions.get(couleurSelect).getIdPredefFunction() == null) ||
+                    (idPredefFunction != null && mapDesFonctions.get(couleurSelect).getIdPredefFunction() != null && !idPredefFunction.equals(mapDesFonctions.get(couleurSelect).getIdPredefFunction()) )))
+                mapDesFonctions.get(couleurSelect).maJFonction(text, typeSelect, idPredefFunction) ;
         }
         // affichage des parametres de la fonction
         affichageParametres(couleurSelect) ;
@@ -522,7 +529,7 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
             listParam.add(p);
         }
         if(actionFitex != null)
-            actionFitex.setFunctionModel(text, typeSelect, couleurSelect, listParam);
+            actionFitex.setFunctionModel(text, typeSelect, couleurSelect, listParam, idPredefFunction);
     }
 
     /** MaJ de l'affichage des parametres de la fonction */
@@ -579,7 +586,7 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
             listParam.add(fp);
         }
         if(actionFitex != null)
-            actionFitex.setFunctionModel(mapDesFonctions.get(couleurSelect).getIntitule(), typeSelect, couleurSelect,listParam );
+            actionFitex.setFunctionModel(mapDesFonctions.get(couleurSelect).getIntitule(), typeSelect, couleurSelect,listParam ,mapDesFonctions.get(couleurSelect).getIdPredefFunction());
     }
 
     /** methode  appelee lors d'un changement de couleur de fonction */
@@ -595,6 +602,7 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
                 labelFct.setText(getBundleString("LABEL_FUNCTION_Y")+" = " );
                 typeSelect = DataConstants.FUNCTION_TYPE_X_FCT_Y ;
             }
+            idPredefFunction = mapDesFonctions.get(coul).getIdPredefFunction();
             textFieldFct.setText((mapDesFonctions.get(coul)).getIntitule());
         }
         else{
@@ -603,6 +611,7 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
             textFieldFct.setForeground(DEFAULT_TEXT_COLOR);
             labelFct.setText(getBundleString("LABEL_FUNCTION")+" = " );
             typeSelect = DataConstants.FUNCTION_TYPE_Y_FCT_X;
+            idPredefFunction = null;
         }
         textFieldFct.requestFocusInWindow();
         
@@ -731,7 +740,7 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
 
    @Override
     public void actionCopexButtonClic(CopexButtonPanel button) {
-        PreDefinedFunctionDialog fctDialog = new PreDefinedFunctionDialog(owner, this,owner.getListPreDefinedFunction());
+        PreDefinedFunctionDialog fctDialog = new PreDefinedFunctionDialog(owner, this,owner.getListPreDefinedFunction(), idPredefFunction);
         fctDialog.setVisible(true);
     }
 
@@ -747,6 +756,7 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
                 labelFct.setText(getBundleString("LABEL_FUNCTION_Y")+" = " );
                 typeSelect = DataConstants.FUNCTION_TYPE_X_FCT_Y ;
             }
+           idPredefFunction = function.getIdFunction();
            textFieldFct.postActionEvent();
        }
    }

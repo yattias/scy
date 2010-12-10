@@ -316,7 +316,7 @@ public class VisualizationFromDB {
     }
 
      /* mise a jour d'une fonction modele */
-    public static CopexReturn updateFunctionModelInDB(DataBaseCommunication dbC, long dbKey, String description, char type, ArrayList<FunctionParam> listParam, ArrayList v){
+    public static CopexReturn updateFunctionModelInDB(DataBaseCommunication dbC, long dbKey, String description, char type, ArrayList<FunctionParam> listParam, String idPredefFunction, ArrayList v){
         // suppression et creation des param
         CopexReturn cr = deleteFunctionParamFromDB(dbC, dbKey);
         if(cr.isError())
@@ -330,7 +330,11 @@ public class VisualizationFromDB {
             listParam.set(k, (FunctionParam)v2.get(0));
         }
         String desc  = MyUtilities.replace("\'",description,"''") ;
-        String query = "UPDATE FUNCTION_MODEL SET DESCRIPTION = '"+desc+"' , F_TYPE = "+type+" WHERE ID_FUNCTION_MODEL = "+dbKey+" ;";
+        String predef = "NULL";
+        if(idPredefFunction != null && idPredefFunction.length()> 0 && !idPredefFunction.equals("NULL")){
+            predef = "'"+idPredefFunction+"'";
+        }
+        String query = "UPDATE FUNCTION_MODEL SET DESCRIPTION = '"+desc+"' , F_TYPE = "+type+", F.ID_PREDEF_FUNCTION = "+predef+" WHERE ID_FUNCTION_MODEL = "+dbKey+" ;";
         String[] querys = new String[1];
         querys[0] = query ;
         ArrayList v2 = new ArrayList();

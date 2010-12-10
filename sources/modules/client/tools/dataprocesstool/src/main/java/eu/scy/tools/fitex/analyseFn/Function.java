@@ -34,6 +34,7 @@ public class Function
     private Expression expression=null ;
     // type y = f(x) or x = f(y) cf DataConstants.FUNCTION_TYPE_
     private char type;
+    private String idPredefFunction;
     // liste des paramietres : intitulie et objet parametre
     private HashMap<String,Parametre> mapDesParametres  = new HashMap<String,Parametre>();
     // liste tampon des paramietres pour pouvoir garder les anciennes valeurs de parametres
@@ -44,18 +45,20 @@ public class Function
     private Double[] reliabilityFactor ;
     
     /** Creates a new instance of Function */
-    public Function(FitexToolPanel owner, String intitule, char type, DefaultTableModel[] data) {
+    public Function(FitexToolPanel owner, String intitule, char type, String idPredefFunction, DefaultTableModel[] data) {
         this.data = data ;
         this.type = type;
+        this.idPredefFunction = idPredefFunction;
         this.owner = owner;
         if(data != null)
             this.reliabilityFactor = new Double[data.length];
-        maJFonction(intitule, type) ;
+        maJFonction(intitule, type, idPredefFunction) ;
     }
     
-    public void maJFonction(String intitule, char type) {
+    public void maJFonction(String intitule, char type, String idPredefFunction) {
         this.intitule=intitule ;
         this.type = type;
+        this.idPredefFunction = idPredefFunction;
         
         // Selon l'intitule, traiter des cas speciaux a la main
         // crieer une expression "a la main"
@@ -278,6 +281,14 @@ public class Function
     
     public Expression getExpression(){
         return expression ;
+    }
+
+    public String getIdPredefFunction() {
+        return idPredefFunction;
+    }
+
+    public void setIdPredefFunction(String idPredefFunction) {
+        this.idPredefFunction = idPredefFunction;
     }
    
     public HashMap<String,Parametre> getMapParametre(){

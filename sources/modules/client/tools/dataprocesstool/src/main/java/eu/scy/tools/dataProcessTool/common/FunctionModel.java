@@ -23,6 +23,7 @@ public class FunctionModel implements Cloneable{
     private final static String TAG_COLOR_R = "color_red";
     private final static String TAG_COLOR_G = "color_green";
     private final static String TAG_COLOR_B = "color_blue";
+    private final static String TAG_ID_FUNCTION_PREDEF = "id_predef_function";
 
     /* identifiant */
     private long dbKey ;
@@ -34,15 +35,26 @@ public class FunctionModel implements Cloneable{
     private ArrayList<FunctionParam> listParam;
     /* type */
     private char type;
+    /* eventually id predefined function */
+    private String idPredefFunction;
     
 
     // CONSTRUCTOR
-     public FunctionModel(long dbKey, String description, char type, Color color, ArrayList<FunctionParam> listParam) {
+     public FunctionModel(long dbKey, String description, char type, Color color, ArrayList<FunctionParam> listParam, String idPredefFunction) {
         this.dbKey = dbKey ;
         this.description = description;
         this.type = type;
         this.color = color;
         this.listParam = listParam;
+        this.idPredefFunction = idPredefFunction;
+    }
+
+    public String getIdPredefFunction() {
+        return idPredefFunction;
+    }
+
+    public void setIdPredefFunction(String idPredefFunction) {
+        this.idPredefFunction = idPredefFunction;
     }
 
     public long getDbKey() {
@@ -103,6 +115,11 @@ public class FunctionModel implements Cloneable{
             for (int i=0; i<n; i++){
                 l.add((FunctionParam)listParam.get(i).clone());
             }
+            if(idPredefFunction == null){
+                fm.setIdPredefFunction(null);
+            }else{
+                fm.setIdPredefFunction(new String(this.idPredefFunction));
+            }
             return fm;
         } catch (CloneNotSupportedException e) {
             // this shouldn't happen, since we are Cloneable
@@ -121,6 +138,9 @@ public class FunctionModel implements Cloneable{
         element.addContent(c);
         for(Iterator<FunctionParam> p = listParam.iterator();p.hasNext();){
             element.addContent(p.next().toXML());
+        }
+        if(idPredefFunction != null){
+            element.addContent(new Element(TAG_ID_FUNCTION_PREDEF).setText(idPredefFunction));
         }
         return element;
     }

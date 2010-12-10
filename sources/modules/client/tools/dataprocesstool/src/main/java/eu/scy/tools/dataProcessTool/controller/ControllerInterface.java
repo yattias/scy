@@ -62,7 +62,7 @@ public interface ControllerInterface {
     /** delete data or operations in a dataset*/
     public CopexReturn deleteData(boolean confirm, Dataset ds, ArrayList<Data> listData, ArrayList<Integer> listNoDataRow, ArrayList<Integer> listNoDataCol, ArrayList<DataOperation> listOperation,  ArrayList v);
     /** add or update a function model */
-    public CopexReturn setFunctionModel(Dataset ds, Visualization vis, String description, char type, Color fColor, ArrayList<FunctionParam> listParam, ArrayList v);
+    public CopexReturn setFunctionModel(Dataset ds, Visualization vis, String description, char type, Color fColor, ArrayList<FunctionParam> listParam, String idPredefFunction, ArrayList v);
     /** insert row or columns*/
     public CopexReturn insertData(Dataset ds,  boolean isOnCol, int nb, int idBefore, ArrayList v) ;
     /** PDF export*/

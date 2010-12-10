@@ -26,6 +26,7 @@ public class FunctionModel {
     public final static String TAG_VISUALIZATION_FUNCTION_MODEL_COLOR_R="color_r";
     public final static String TAG_VISUALIZATION_FUNCTION_MODEL_COLOR_G="color_g";
     public final static String TAG_VISUALIZATION_FUNCTION_MODEL_COLOR_B="color_b";
+    public final static String TAG_VISUALIZATION_FUNCTION_MODEL_PREDEF = "id_predef_function";
 
     /* description */
     private String description;
@@ -36,14 +37,16 @@ public class FunctionModel {
     private int colorB;
     /* eventuellement param */
     private List<FunctionParam> listParam;
+    private String idPredefFunction;
 
-    public FunctionModel(String description, char type, int colorR, int colorG, int colorB, List<FunctionParam> listParam) {
+    public FunctionModel(String description, char type, int colorR, int colorG, int colorB, List<FunctionParam> listParam, String idPredefFunction) {
         this.description = description;
         this.type = type;
         this.colorR = colorR;
         this.colorG = colorG;
         this.colorB = colorB;
         this.listParam = listParam;
+        this.idPredefFunction = idPredefFunction;
     }
 
     public FunctionModel(Element xmlElem) throws JDOMException {
@@ -64,6 +67,10 @@ public class FunctionModel {
             listParam = new LinkedList<FunctionParam>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(FunctionParam.TAG_VISUALIZATION_FUNCTION_PARAM).iterator(); variableElem.hasNext();) {
                 listParam.add(new FunctionParam(variableElem.next()));
+            }
+            idPredefFunction = null;
+            if(xmlElem.getChild(TAG_VISUALIZATION_FUNCTION_MODEL_PREDEF) != null){
+                this.idPredefFunction = xmlElem.getChild(TAG_VISUALIZATION_FUNCTION_MODEL_PREDEF).getText();
             }
         } else {
             throw(new JDOMException("Operation expects <"+TAG_VISUALIZATION_FUNCTION_MODEL+"> as root element, but found <"+xmlElem.getName()+">."));
@@ -104,6 +111,14 @@ public class FunctionModel {
         this.type = type;
     }
 
+    public String getIdPredefFunction() {
+        return idPredefFunction;
+    }
+
+    public void setIdPredefFunction(String idPredefFunction) {
+        this.idPredefFunction = idPredefFunction;
+    }
+
 
     // toXML
     public Element toXML(){
@@ -118,6 +133,8 @@ public class FunctionModel {
                     element.addContent(param.next().toXML());
             }
         }
-		return element;
+        if(idPredefFunction != null)
+            element.addContent(new Element(TAG_VISUALIZATION_FUNCTION_MODEL_PREDEF).setText(idPredefFunction));
+        return element;
     }
 }
