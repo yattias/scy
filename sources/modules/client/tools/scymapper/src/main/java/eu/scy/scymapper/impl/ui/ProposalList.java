@@ -12,7 +12,9 @@ import javax.swing.border.LineBorder;
 
 public class ProposalList extends JPanel {
 
-	private List<ProposalEntry> proposalList = null;
+	private static final int BORDER_WIDTH = 2;
+
+        private List<ProposalEntry> proposalList = null;
 
 	private int proposalCount = 0;
 
@@ -22,10 +24,11 @@ public class ProposalList extends JPanel {
 		this.proposalList = new ArrayList<ProposalEntry>();
 		this.maxLength = maxLength;
 		this.setLayout(new GridLayout(maxLength, 1));
-		this.setBorder(BorderFactory.createEmptyBorder(3, 3, 3, 3));
+		setBackground(Color.WHITE);
+		this.setBorder(BorderFactory.createEmptyBorder(BORDER_WIDTH, BORDER_WIDTH, BORDER_WIDTH, BORDER_WIDTH));
 	}
 	
-	public boolean addEntry(ProposalEntry entry, int index) {
+	public boolean addEntry(ProposalEntry entry, int index, boolean highlightNew) {
 	    if (index >= maxLength) {
 	        return false;
 	    }
@@ -40,9 +43,10 @@ public class ProposalList extends JPanel {
 	        proposalCount++;
 	        proposalList.add(entry);
 	    }
-	    entry.setBorder(new LineBorder(Color.RED, 3));
+	    if (highlightNew) {
+	        entry.setBorder(new LineBorder(Color.RED,BORDER_WIDTH));
+	    }
             add(entry, index);
-            validate();
             return true;
 	}
 
@@ -51,6 +55,7 @@ public class ProposalList extends JPanel {
             if (removed) {
                 proposalCount--;
                 remove(entry);
+                updateUI();
             }
             return removed;
         }
@@ -69,11 +74,11 @@ public class ProposalList extends JPanel {
 		removeAll();
 	}
 
-    public void addEntries(List<ProposalEntry> newEntries) {
+    public void addEntries(List<ProposalEntry> newEntries, boolean highlightNew) {
         ArrayList<Integer> remainingIndexes = new ArrayList<Integer>();
         ArrayList<Integer> notInsertedIndexes = new ArrayList<Integer>();
         for (int i = 0; i < proposalList.size(); i++) {
-            proposalList.get(i).setBorder(new EmptyBorder(3,3,3,3));
+            proposalList.get(i).setBorder(new EmptyBorder(BORDER_WIDTH,BORDER_WIDTH,BORDER_WIDTH,BORDER_WIDTH));
             String proposalText = proposalList.get(i).getTextLabel().getText();
             for (int j = 0; j < newEntries.size(); j++) {
                 if (proposalText.equals(newEntries.get(j).getTextLabel().getText())) {
@@ -95,7 +100,7 @@ public class ProposalList extends JPanel {
                    }
                }
                if (insertionIndex != -1) {
-                   addEntry(insertedEntry, insertionIndex);
+                   addEntry(insertedEntry, insertionIndex, highlightNew);
                }
            }
        }
