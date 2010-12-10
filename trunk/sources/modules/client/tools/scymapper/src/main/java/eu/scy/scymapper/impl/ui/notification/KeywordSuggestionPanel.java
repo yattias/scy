@@ -224,8 +224,9 @@ public class KeywordSuggestionPanel extends JPanel {
             }
             pes.add(pe);
         }
+        proposalList.clear();
         proposalList.addEntries(pes, SCYMapperStandaloneConfig.getInstance().getHelpMode() == Help.CONTINUOUS);
-        validate();
+        updateUI();
     }
 
     protected ProposalEntry createProposalEntry(ImageIcon icon, String keyword, String text, String secondText, boolean isLink) {
