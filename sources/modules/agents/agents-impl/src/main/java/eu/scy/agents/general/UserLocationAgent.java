@@ -6,6 +6,7 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -19,8 +20,30 @@ import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
+/**
+ * An agent that tracks the locations of users. Which mission and which las they
+ * are in.
+ * 
+ * The agent can be queried for:
+ * <ul>
+ * <li>Which LAS a user is in: ("userInfoRequest","query", <QueryId>:String,
+ * <Mission>:String, "lasOfUser", <UserName>:String) -> ("userInfoRequest",
+ * "response", <QueryId>:String, <Las>:String)</li>
+ * <li>What users are in a LAS: ("userInfoRequest","query", <QueryId>:String,
+ * <Mission>:String, "userInLas", <LASId>:String) -> ("userInfoRequest",
+ * "response", <QueryId>:String, <User>:String*)</li>
+ * <li>What users are in a Mission: ("userInfoRequest","query",
+ * <QueryId>:String, <Mission>:String, "userInMission") -> ("userInfoRequest",
+ * "response", <QueryId>:String, <User>:String*)</li>
+ * </ul>
+ * 
+ * @author fschulz
+ * 
+ */
 public class UserLocationAgent extends AbstractRequestAgent {
 
+	public static final String METHOD_USERS_IN_LAS = "userInLas";
+	public static final String METHOD_USERS_IN_MISSION = "userInMission";
 	public static final String METHOD_GET_LAS = "lasOfUser";
 	public static final String USER_INFO_REQUEST = "userInfoRequest";
 	public static final String NAME = UserLocationAgent.class.getName();
@@ -28,7 +51,7 @@ public class UserLocationAgent extends AbstractRequestAgent {
 	private static final Logger LOGGER = Logger
 			.getLogger(UserLocationAgent.class);
 
-	private static final String LAS = "las";
+	private static final String LAS = "newLasId";
 
 	private int actionTupleListenerId;
 	private int requestListenerId;
@@ -62,7 +85,7 @@ public class UserLocationAgent extends AbstractRequestAgent {
 		// <Method>:String, <Parameter>:String)
 		return new Tuple(UserLocationAgent.USER_INFO_REQUEST,
 				AgentProtocol.QUERY, String.class, String.class, String.class,
-				String.class);
+				Field.createWildCardField());
 	}
 
 	private Tuple getActivationTuple() {
@@ -128,31 +151,16 @@ public class UserLocationAgent extends AbstractRequestAgent {
 				String mission = (String) activationTuple.getField(3)
 						.getValue();
 				String method = (String) activationTuple.getField(4).getValue();
-				String parameter = (String) activationTuple.getField(5)
-						.getValue();
-				if ("userInLas".equals(method)) {
-					List<String> usersInLas = getUsersInLas(mission, parameter);
-					if (usersInLas == null) {
-						return;
-					}
-					// ("userInfoRequest", "response" <QueryId>:String,
-					// <User>:String*)
-					Tuple response = new Tuple(USER_INFO_REQUEST,
-							AgentProtocol.RESPONSE, queryId);
-					for (String user : usersInLas) {
-						response.add(user);
-					}
-					sendResponse(response);
+				String parameter = "";
+				if (activationTuple.numberOfFields() > 5) {
+					parameter = (String) activationTuple.getField(5).getValue();
+				}
+				if (METHOD_USERS_IN_LAS.equals(method)) {
+					handleCommandUsersInLas(queryId, mission, parameter);
 				} else if (METHOD_GET_LAS.equals(method)) {
-					String lasForUser = getLasForUser(mission, parameter);
-					if (lasForUser == null) {
-						return;
-					}
-					// ("userInfoRequest", "response" <QueryId>:String,
-					// <Las>:String)
-					Tuple response = new Tuple(USER_INFO_REQUEST,
-							AgentProtocol.RESPONSE, queryId, lasForUser);
-					sendResponse(response);
+					handleCommandLasForUser(queryId, mission, parameter);
+				} else if (METHOD_USERS_IN_MISSION.equals(method)) {
+					handleCommandUsersInMission(queryId, mission, parameter);
 				} else {
 					LOGGER.debug("requested not existing method");
 				}
@@ -167,41 +175,72 @@ public class UserLocationAgent extends AbstractRequestAgent {
 		}
 	}
 
+	private void handleCommandUsersInMission(String queryId, String mission,
+			String parameter) {
+		UserLocationInfoMap userLocationInfoMap = missionInfoMap.get(mission);
+		Set<String> users = userLocationInfoMap.getUsers();
+		Tuple response = new Tuple(USER_INFO_REQUEST, AgentProtocol.RESPONSE,
+				queryId);
+		for (String user : users) {
+			response.add(user);
+		}
+		sendResponse(response);
+	}
+
+	private void handleCommandLasForUser(String queryId, String mission,
+			String user) {
+		UserLocationInfoMap userLocationInfoMap = getUserLocationInfoMap(mission);
+		if (userLocationInfoMap == null) {
+			LOGGER
+					.debug("did not find any information for mission: "
+							+ mission);
+			return;
+		}
+		UserLocationInfo userInfo = userLocationInfoMap.getUserInfo(user);
+		if (userInfo == null) {
+			LOGGER.debug("did not find any information for user " + user
+					+ " in mission: " + mission);
+			return;
+
+		}
+		String lasForUser = userInfo.getLas();
+		if (lasForUser == null) {
+			return;
+		}
+		// ("userInfoRequest", "response" <QueryId>:String,
+		// <Las>:String)
+		Tuple response = new Tuple(USER_INFO_REQUEST, AgentProtocol.RESPONSE,
+				queryId, lasForUser);
+		sendResponse(response);
+	}
+
+	private void handleCommandUsersInLas(String queryId, String mission,
+			String parameter) {
+		UserLocationInfoMap userLocationInfoMap = getUserLocationInfoMap(mission);
+		if (userLocationInfoMap == null) {
+			LOGGER
+					.debug("did not find any information for mission: "
+							+ mission);
+			return;
+		}
+		List<String> usersInLas = userLocationInfoMap.getUserInLas(parameter);
+		if (usersInLas == null) {
+			return;
+		}
+		Tuple response = new Tuple(USER_INFO_REQUEST, AgentProtocol.RESPONSE,
+				queryId);
+		for (String user : usersInLas) {
+			response.add(user);
+		}
+		sendResponse(response);
+	}
+
 	private void sendResponse(Tuple response) {
 		try {
 			getCommandSpace().write(response);
 		} catch (TupleSpaceException e) {
 			LOGGER.warn("", e);
 		}
-	}
-
-	private String getLasForUser(String mission, String user) {
-		UserLocationInfoMap userLocationInfoMap = getUserLocationInfoMap(mission);
-		if (userLocationInfoMap == null) {
-			LOGGER
-					.debug("did not find any information for mission: "
-							+ mission);
-			return null;
-		}
-		UserLocationInfo userInfo = userLocationInfoMap.getUserInfo(user);
-		if (userInfo == null) {
-			LOGGER.debug("did not find any information for user " + user
-					+ " in mission: " + mission);
-			return null;
-
-		}
-		return userInfo.getLas();
-	}
-
-	private List<String> getUsersInLas(String mission, String las) {
-		UserLocationInfoMap userLocationInfoMap = getUserLocationInfoMap(mission);
-		if (userLocationInfoMap == null) {
-			LOGGER
-					.debug("did not find any information for mission: "
-							+ mission);
-			return null;
-		}
-		return userLocationInfoMap.getUserInLas(las);
 	}
 
 	private void handleLogout(IAction action) {

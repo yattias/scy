@@ -2,6 +2,7 @@ package eu.scy.agents.general;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -50,6 +51,10 @@ public class UserLocationInfoMap {
 			}
 		}
 		return userInLas;
+	}
+
+	public Set<String> getUsers() {
+		return userLocationInfoMap.keySet();
 	}
 
 }
