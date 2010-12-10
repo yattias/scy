@@ -17,9 +17,6 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import eu.scy.actionlogging.ActionTupleTransformer;
-import eu.scy.actionlogging.api.ContextConstants;
-import eu.scy.actionlogging.api.IAction;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractDecisionAgent;
 import eu.scy.agents.impl.AgentProtocol;
@@ -101,6 +98,7 @@ public class HypothesisDecisionMakerAgent extends AbstractDecisionAgent implemen
     }
     if (hypothesisHistogramTuple != null) {
       try {
+        String eloUri = (String) hypothesisHistogramTuple.getField(5).getValue();
         HashMap<Integer, Integer> histogramMap = getHistogram(hypothesisHistogramTuple);
         double numberOfSentences = sum(histogramMap);
         double score = 0;
@@ -113,13 +111,14 @@ public class HypothesisDecisionMakerAgent extends AbstractDecisionAgent implemen
         // TODO get information about level of scaffold
         if (score < 0.6) {
           // send notification "too few keywords or text too long"
-          sendNotification(contextInformation, "message = too few keywords or text too long");
+          sendNotification(contextInformation, eloUri,
+                           "message = too few keywords or text too long");
         } else if (maxKey < 2) {
           // send notification " try to express more inter-relation between keywords"
-          sendNotification(contextInformation, "message = inter-relation between keywords");
+          sendNotification(contextInformation, eloUri, "message = inter-relation between keywords");
         } else {
           // send notification "hypothesis is ok"
-          sendNotification(contextInformation, "message = ok");
+          sendNotification(contextInformation, eloUri, "message = ok");
         }
       } catch (IOException e) {
         e.printStackTrace();
@@ -129,12 +128,12 @@ public class HypothesisDecisionMakerAgent extends AbstractDecisionAgent implemen
     }
   }
 
-  private void sendNotification(ContextInformation contextInformation, String message) {
+  private void sendNotification(ContextInformation contextInformation, String eloUri, String message) {
     Tuple notificationTuple = new Tuple();
     notificationTuple.add(AgentProtocol.NOTIFICATION);
     notificationTuple.add(new VMID().toString());
     notificationTuple.add(contextInformation.user);
-    notificationTuple.add(TOOL_TYPE);
+    notificationTuple.add(eloUri);
     notificationTuple.add(NAME);
     notificationTuple.add(contextInformation.mission);
     notificationTuple.add(contextInformation.session);

@@ -112,7 +112,7 @@ public class HypopthesisEvaluationTest extends AbstractTestFixture {
   public void testRun() throws TupleSpaceException, IOException, ClassNotFoundException {
     Tuple tuple = new Tuple("action", UUID1234, TIME_IN_MILLIS, AgentProtocol.ACTION_ELO_SAVED,
                             "testUser", "SomeTool", "SomeMission", "TestSession", eloPath,
-                            "type=" + ELO_TYPE);
+                            "elo_type=" + ELO_TYPE);
     getActionSpace().write(tuple);
 
     Tuple response = this.getCommandSpace().waitToTake(new Tuple(HypothesisEvaluationAgent.EVAL,
