@@ -8,12 +8,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.rmi.dgc.VMID;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.log4j.Logger;
 
@@ -54,6 +53,8 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 
 		public long lastNotification;
 
+		public URI scyMapperElo;
+
 		@Override
 		public String toString() {
 			String webresourcerURL = this.webresourcerELO != null ? this.webresourcerELO
@@ -73,20 +74,15 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 			.getName();
 
 	static final Object SCYMAPPER = "scymapper";
-
 	static final Object CONCEPTMAP = "conceptmap";
-
 	static final Object WEBRESOURCER = "webresource";
-
 	public static final String IDLE_TIME_INMS = "idleTime";
-
 	public static final String MINIMUM_NUMBER_OF_CONCEPTS = "minimumNumberOfConcepts";
-
 	public static final String TIME_AFTER_USERS_ARE_REMOVED = "timeAfterUserIsRemoved";
 
 	private int listenerId = -1;
 
-	private Map<String, ContextInformation> user2Context;
+	private ConcurrentHashMap<String, ContextInformation> user2Context;
 
 	private IRepository repository;
 
@@ -98,8 +94,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 		this.setParameter(params);
 
 		this.registerToolStartedListener();
-		this.user2Context = Collections
-				.synchronizedMap(new HashMap<String, ContextInformation>());
+		this.user2Context = new ConcurrentHashMap<String, ContextInformation>();
 		extractor = new WebresourceExtractor();
 		extractor.setTupleSpace(getCommandSpace());
 	}
@@ -198,6 +193,22 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 				}
 			}
 		}
+		if (SCYMAPPER.equals(action.getContext(ContextConstants.tool))) {
+			ContextInformation contextInfo = this.getContextInformation(action);
+			contextInfo.lastAction = action.getTimeInMillis();
+			String eloUri = action.getContext(ContextConstants.eloURI);
+			if (eloUri.startsWith(UNSAVED_ELO)) {
+				LOGGER.warn("eloUri not present");
+				contextInfo.scyMapperElo = null;
+			} else {
+				try {
+					contextInfo.scyMapperElo = new URI(eloUri);
+					contextInfo.scyMapperStarted = true;
+				} catch (URISyntaxException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	private void handleNodeRemoved(IAction action) {
@@ -232,6 +243,12 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 			LOGGER.debug(CONCEPTMAP + " started by " + action.getUser()
 					+ ". Recognized by ExtractKeywordsDecisionAgent");
 			contextInfo.scyMapperStarted = true;
+			try {
+				contextInfo.scyMapperElo = new URI(action
+						.getContext(ContextConstants.eloURI));
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
 		}
 		if (WEBRESOURCER.equals(action.getContext(ContextConstants.tool))) {
 			LOGGER.debug(WEBRESOURCER + " started  by " + action.getUser()
@@ -247,7 +264,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 		contextInfo.lastAction = action.getTimeInMillis();
 	}
 
-	public ContextInformation getContextInformation(IAction action) {
+	private synchronized ContextInformation getContextInformation(IAction action) {
 		ContextInformation result = this.user2Context.get(action.getUser());
 		if (result == null) {
 			result = new ContextInformation();
@@ -370,7 +387,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 		notificationTuple.add(AgentProtocol.NOTIFICATION);
 		notificationTuple.add(new VMID().toString());
 		notificationTuple.add(contextInformation.user);
-		notificationTuple.add(SCYMAPPER);
+		notificationTuple.add(contextInformation.scyMapperElo.toString());
 		notificationTuple.add(NAME);
 		notificationTuple.add(contextInformation.mission);
 		notificationTuple.add(contextInformation.session);
