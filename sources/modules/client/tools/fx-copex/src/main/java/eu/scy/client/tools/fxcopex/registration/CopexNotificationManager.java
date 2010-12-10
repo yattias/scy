@@ -18,14 +18,15 @@ public class CopexNotificationManager {
     private String message = "";
     private String toolId;
     private static final Logger logger = Logger.getLogger(CopexNotificationManager.class.getName());
-    private final static String keyMessage = "message";
+    public final static String keyMessage = "message";
     
     public CopexNotificationManager(String toolId) {
         this.toolId = toolId;
     }
 
     public boolean processNotification(INotification notification) {
-        if(notification != null && notification.getToolId() != null && notification.getToolId().equals(toolId)){
+        //if(notification != null && notification.getToolId() != null && notification.getToolId().equals(toolId)){
+        if(notification != null) {
             logger.log(Level.INFO, "notification from {0}", notification.getSender());
             if(!message.equals(""))
                 message +="\n";
