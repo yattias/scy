@@ -16,8 +16,6 @@ public class NotifyUserAgent extends AbstractRequestAgent implements Callback {
 	public static final String SEND_NOTIFICATION = "send_notification";
 	public static final String NAME = NotifyUserAgent.class.getName();
 
-	private static final String GROWL = "growl";
-
 	private int listenerId;
 
 	public NotifyUserAgent(Map<String, Object> params) {
@@ -28,7 +26,7 @@ public class NotifyUserAgent extends AbstractRequestAgent implements Callback {
 		if (params.containsKey(AgentProtocol.TS_PORT)) {
 			port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
-		
+
 		try {
 			listenerId = getCommandSpace().eventRegister(Command.WRITE,
 					getTemplateTuple(), this, true);
@@ -98,7 +96,7 @@ public class NotifyUserAgent extends AbstractRequestAgent implements Callback {
 		notificationTuple.add(AgentProtocol.NOTIFICATION);
 		notificationTuple.add(new VMID().toString());
 		notificationTuple.add(to);
-		notificationTuple.add(GROWL);
+		notificationTuple.add("no elo");
 		notificationTuple.add(from);
 		notificationTuple.add(mission);
 		notificationTuple.add("");
