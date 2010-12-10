@@ -17,7 +17,7 @@ public class DoubleKeywordSuggestionPanel extends KeywordSuggestionPanel {
     public DoubleKeywordSuggestionPanel(ConceptMapActionLogger actionLogger) {
         super(actionLogger, false);        
         setLayout(new GridLayout(2,1));
-        relationPanel = new KeywordSuggestionPanel(actionLogger);
+        relationPanel = new KeywordSuggestionPanelCollide(actionLogger);
         conceptPanel = new KeywordSuggestionPanelCollide(actionLogger);
         conceptPanel.setTitle(Localization.getString("Mainframe.KeywordSuggestion.ConceptTitle"));
         relationPanel.setTitle(Localization.getString("Mainframe.KeywordSuggestion.RelationTitle"));
