@@ -63,7 +63,7 @@ public class SCYMapperStandaloneCollide extends SCYMapperStandalone {
             }
             for (char c : userid.toCharArray()) {
                 if (!Character.isLetterOrDigit(c)) {
-                    JOptionPane.showMessageDialog(this, "Ihr Name beinhaltet nicht gültige Zeichen. Es sind nur Zahlen und Buchstaben erlaubt!", "Fehler", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Ihr Name beinhaltet nicht g\u00FCltige Zeichen. Es sind nur Zahlen und Buchstaben erlaubt!", "Fehler", JOptionPane.ERROR_MESSAGE);
                     userid = "";
                     break;
                 }

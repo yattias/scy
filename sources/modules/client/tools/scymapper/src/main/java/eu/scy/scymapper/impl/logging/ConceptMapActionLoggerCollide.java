@@ -41,7 +41,7 @@ public class ConceptMapActionLoggerCollide extends ConceptMapActionLogger {
     }
 
     /**
-     * Logs when the user added a synonym
+     * Logs when the user adds a synonym
      *
      * @param node The node model
      */
