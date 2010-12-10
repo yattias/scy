@@ -47,10 +47,18 @@ public class ExceptionCatcher implements Thread.UncaughtExceptionHandler
       System.err.println("An uncatched exception occurred at " + new Date() + " in thread " + t.getName());
       e.printStackTrace(System.err);
       final ResourceBundleWrapper resourceBundleWrapper = new ResourceBundleWrapper(this);
+      StringBuilder exceptionMessage = new StringBuilder(e.getMessage());
+      Throwable cause = e.getCause();
+      while (cause!=null){
+         exceptionMessage.append("\n");
+         exceptionMessage.append(resourceBundleWrapper.getString("ExceptionCatcher.causedBy"));
+         exceptionMessage.append(" ");
+         cause = e.getCause();
+      }
       JOptionPane.showMessageDialog(null,resourceBundleWrapper.getString("ExceptionCatcher.message")+ "\n" +
          resourceBundleWrapper.getString("ExceptionCatcher.application") + " " + appName + "\n" +
          resourceBundleWrapper.getString("ExceptionCatcher.thread") + " " + t.getName() + "\n" +
-         resourceBundleWrapper.getString("ExceptionCatcher.exceptionMessage") + " " + e.getMessage() + "\n" +
+         resourceBundleWrapper.getString("ExceptionCatcher.exceptionMessage") + " " + exceptionMessage.toString() + "\n" +
          resourceBundleWrapper.getString("ExceptionCatcher.loggedAction"),
          resourceBundleWrapper.getString("ExceptionCatcher.title"),
          JOptionPane.ERROR_MESSAGE);
