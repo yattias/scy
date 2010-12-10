@@ -18,7 +18,6 @@ import org.junit.Test;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent;
 import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 
 public class UserLanguageAgentTest extends AbstractTestFixture {
