@@ -34,7 +34,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 	private static final Logger LOGGER = Logger
 			.getLogger(GroupFormationAgent.class);
 
-	private static final String SCY_LAB = "scy-lab";
+	private static final String LAS = "las";
 	private static final String STRATEGY = "strategy";
 	private static final String FORM_GROUP = "form_group";
 	private static final String NAME = GroupFormationAgent.class.getName();
@@ -69,8 +69,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 	/* activated by action log */
 	private Tuple getActivationTuple() {
 		return new Tuple(AgentProtocol.ACTION, String.class, Long.class,
-				FORM_GROUP, String.class, String.class, String.class,
-				String.class, String.class, Field.createWildCardField());
+				FORM_GROUP, Field.createWildCardField());
 	}
 
 	@Override
@@ -119,6 +118,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 			IAction action = ActionTupleTransformer
 					.getActionFromTuple(afterTuple);
 			String mission = action.getContext(ContextConstants.mission);
+			String las = action.getAttribute(LAS);
 
 			int minGroupSize = (Integer) configuration
 					.getParameter(new AgentParameter(mission,
@@ -138,12 +138,14 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 					.get(mission);
 
 			String strategy = action.getAttribute(STRATEGY);
-			String scope = action.getAttribute(SCOPE);
+			GroupFormationScope scope = GroupFormationScope.valueOf(action
+					.getAttribute(SCOPE));
 
 			GroupFormationStrategy groupFormationStrategy = factory
 					.getStrategy(strategy);
 			groupFormationStrategy.setGroupFormationCache(groupFormationCache);
 			groupFormationStrategy.setScope(scope);
+			groupFormationStrategy.setLas(las);
 			groupFormationStrategy.setMission(mission);
 			groupFormationStrategy.setMinimumGroupSize(minGroupSize);
 			groupFormationStrategy.setMaximumGroupSize(maxGroupSize);
@@ -155,22 +157,21 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 			missionGroupsCache.put(mission, groupFormationCache);
 			// }
 
-			sendCollaborationNotification(action, groupFormationCache);
+			sendNotification(action, groupFormationCache);
 		}
 	}
 
-	private boolean groupsAreOk(Collection<Set<String>> formedGroup,
-			int minGroupSize, int maxGroupSize) {
-		for (Set<String> group : formedGroup) {
-			if (group.size() < minGroupSize || group.size() > maxGroupSize) {
-				return false;
-			}
-		}
-		return true;
-	}
+	// private boolean groupsAreOk(Collection<Set<String>> formedGroup,
+	// int minGroupSize, int maxGroupSize) {
+	// for (Set<String> group : formedGroup) {
+	// if (group.size() < minGroupSize || group.size() > maxGroupSize) {
+	// return false;
+	// }
+	// }
+	// return true;
+	// }
 
-	private void sendCollaborationNotification(IAction action,
-			GroupFormationCache cache) {
+	private void sendNotification(IAction action, GroupFormationCache cache) {
 
 		for (Set<String> group : cache.getGroups()) {
 			StringBuilder message = new StringBuilder();
@@ -223,7 +224,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		notificationTuple.add(AgentProtocol.NOTIFICATION);
 		notificationTuple.add(new VMID().toString());
 		notificationTuple.add(user);
-		notificationTuple.add(SCY_LAB);
+		notificationTuple.add("no specific elo");
 		notificationTuple.add(NAME);
 		notificationTuple.add(action.getContext(ContextConstants.mission));
 		notificationTuple.add(action.getContext(ContextConstants.session));

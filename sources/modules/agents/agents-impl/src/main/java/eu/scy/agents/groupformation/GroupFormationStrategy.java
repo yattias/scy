@@ -15,12 +15,14 @@ public interface GroupFormationStrategy {
 
 	public void setGroupFormationCache(GroupFormationCache groupFormationCache);
 
-	public void setScope(String scope);
+	public void setScope(GroupFormationScope scope);
 
 	public void setMission(String mission);
 
 	public void setMinimumGroupSize(int minGroupSize);
 
 	public void setMaximumGroupSize(int maxGroupSize);
+
+	public void setLas(String las);
 
 }

@@ -2,6 +2,7 @@ package eu.scy.agents.groupformation.strategies;
 
 import info.collide.sqlspaces.client.TupleSpace;
 import eu.scy.agents.groupformation.GroupFormationCache;
+import eu.scy.agents.groupformation.GroupFormationScope;
 import eu.scy.agents.groupformation.GroupFormationStrategy;
 
 public abstract class AbstractGroupFormationStrategy implements
@@ -9,10 +10,12 @@ public abstract class AbstractGroupFormationStrategy implements
 
 	protected GroupFormationCache cache;
 	protected TupleSpace commandSpace;
-	private String scope;
-	private String mission;
-	private int maximumGroupSize;
-	private int minimumGroupSize;
+	protected GroupFormationScope scope;
+	protected String mission;
+	protected String las;
+
+	protected int maximumGroupSize;
+	protected int minimumGroupSize;
 
 	@Override
 	public void setGroupFormationCache(GroupFormationCache groupFormationCache) {
@@ -29,7 +32,7 @@ public abstract class AbstractGroupFormationStrategy implements
 		minimumGroupSize = minGroupSize;
 	}
 
-	public String getScope() {
+	public GroupFormationScope getScope() {
 		return scope;
 	}
 
@@ -51,7 +54,7 @@ public abstract class AbstractGroupFormationStrategy implements
 	}
 
 	@Override
-	public void setScope(String scope) {
+	public void setScope(GroupFormationScope scope) {
 		this.scope = scope;
 	}
 
@@ -62,6 +65,15 @@ public abstract class AbstractGroupFormationStrategy implements
 	@Override
 	public void setCommandSpace(TupleSpace commandSpace) {
 		this.commandSpace = commandSpace;
+	}
+
+	public String getLas() {
+		return las;
+	}
+
+	@Override
+	public void setLas(String las) {
+		this.las = las;
 	}
 
 }
