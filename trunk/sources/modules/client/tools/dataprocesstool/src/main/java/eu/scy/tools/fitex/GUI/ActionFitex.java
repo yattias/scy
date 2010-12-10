@@ -23,7 +23,7 @@ public interface ActionFitex {
 
     
     /*mise a jour d'une fonction modele */
-    public void setFunctionModel(String function, char type, Color color, ArrayList<FunctionParam> listParam);
+    public void setFunctionModel(String function, char type, Color color, ArrayList<FunctionParam> listParam, String idPredefFunction);
 
     /* zoom */
     public void setPreviousZoom();

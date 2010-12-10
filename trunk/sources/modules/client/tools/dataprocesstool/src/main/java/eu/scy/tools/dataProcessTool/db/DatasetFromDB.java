@@ -1061,7 +1061,7 @@ public class DatasetFromDB {
     /* chargement de la liste des function  model */
     private static CopexReturn getAllFunctionModelGraphFromDB(DataBaseCommunication dbC, long dbKeyGraph, Color[] functionsColor, ArrayList v){
         ArrayList<FunctionModel> listFunctionModel = new ArrayList();
-        String query = "SELECT F.ID_FUNCTION_MODEL, F.DESCRIPTION, F.F_TYPE, F.ID_FUNCTION_COLOR " +
+        String query = "SELECT F.ID_FUNCTION_MODEL, F.DESCRIPTION, F.F_TYPE, F.ID_FUNCTION_COLOR, F.ID_PREDEF_FUNCTION " +
                 "FROM FUNCTION_MODEL F, LINK_GRAPH_FUNCTION_MODEL  L " +
                 "WHERE L.ID_DATA_VISUALIZATION = "+dbKeyGraph+" AND L.ID_FUNCTION_MODEL = L.ID_FUNCTION_MODEL ;";
         ArrayList v2 = new ArrayList();
@@ -1070,6 +1070,7 @@ public class DatasetFromDB {
         listFields.add("F.DESCRIPTION");
         listFields.add("F.F_TYPE");
         listFields.add("F.ID_FUNCTION_COLOR");
+        listFields.add("F.ID_PREDEF_FUNCTION");
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError())
             return cr;
@@ -1098,7 +1099,8 @@ public class DatasetFromDB {
             if(cr.isError())
                 return cr;
             ArrayList<FunctionParam> listParam = (ArrayList<FunctionParam>)v3.get(0);
-            FunctionModel fm = new FunctionModel(dbKey, description, type, functionColor, listParam);
+            String idPredefFunction = rs.getColumnData("F.ID_PREDEF_FUNCTION");
+            FunctionModel fm = new FunctionModel(dbKey, description, type, functionColor, listParam, idPredefFunction);
             listFunctionModel.add(fm);
         }
         v.add(listFunctionModel);

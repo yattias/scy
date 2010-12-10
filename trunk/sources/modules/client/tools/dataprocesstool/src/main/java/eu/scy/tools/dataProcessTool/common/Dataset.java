@@ -437,7 +437,7 @@ public class Dataset implements Cloneable{
             for (int i=0; i<nb; i++){
                 FunctionModel fm = listFm.get(i);
                 List<eu.scy.tools.dataProcessTool.pdsELO.FunctionParam> listParam = getListFunctionParam(listFm.get(i));
-                eu.scy.tools.dataProcessTool.pdsELO.FunctionModel f = new eu.scy.tools.dataProcessTool.pdsELO.FunctionModel(fm.getDescription(), fm.getType(), fm.getColor().getRed(), fm.getColor().getGreen(), fm.getColor().getBlue(), listParam);
+                eu.scy.tools.dataProcessTool.pdsELO.FunctionModel f = new eu.scy.tools.dataProcessTool.pdsELO.FunctionModel(fm.getDescription(), fm.getType(), fm.getColor().getRed(), fm.getColor().getGreen(), fm.getColor().getBlue(), listParam, fm.getIdPredefFunction());
                 list.add(f);
             }
         }

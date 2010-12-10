@@ -533,7 +533,7 @@ public class DataControllerDB implements ControllerInterface{
                         for (int k=0; k<np; k++){
                             listParam.add(new FunctionParam(-1, lfm.get(j).getListParam().get(k).getParam(), lfm.get(j).getListParam().get(k).getValue()));
                         }
-                        FunctionModel fm = new FunctionModel(-1, lfm.get(j).getDescription(),lfm.get(j).getType(),  new Color(lfm.get(j).getColorR(),lfm.get(j).getColorG(),lfm.get(j).getColorB() ), listParam);
+                        FunctionModel fm = new FunctionModel(-1, lfm.get(j).getDescription(),lfm.get(j).getType(),  new Color(lfm.get(j).getColorR(),lfm.get(j).getColorG(),lfm.get(j).getColorB() ), listParam, lfm.get(j).getIdPredefFunction());
                         listFunctionModel.add(fm);
                     }
                 }
@@ -1272,7 +1272,7 @@ public class DataControllerDB implements ControllerInterface{
 
     /* ajout ou modification d'une fonction modeme */
     @Override
-    public CopexReturn setFunctionModel(Dataset ds, Visualization vis, String description, char type, Color fColor, ArrayList<FunctionParam> listParam,ArrayList v){
+    public CopexReturn setFunctionModel(Dataset ds, Visualization vis, String description, char type, Color fColor, ArrayList<FunctionParam> listParam, String idPredefFunction,ArrayList v){
         int idDs = getIdDataset(ds.getDbKey());
         if(idDs == -1){
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
@@ -1297,7 +1297,7 @@ public class DataControllerDB implements ControllerInterface{
             long dbKey = (Long)v2.get(0);
             listParam = (ArrayList<FunctionParam>)v2.get(1);
             // memoire
-            FunctionModel myFm = new FunctionModel(dbKey, description,type, fColor, listParam);
+            FunctionModel myFm = new FunctionModel(dbKey, description,type, fColor, listParam, idPredefFunction);
             ((Graph)dataset.getListVisualization().get(idVis)).addFunctionModel(myFm);
         }else{
             //mise a jour
@@ -1310,12 +1310,13 @@ public class DataControllerDB implements ControllerInterface{
             }else{
                 // modification
                 ArrayList v2 = new ArrayList();
-                CopexReturn cr = VisualizationFromDB.updateFunctionModelInDB(dbC, fm.getDbKey(), description,type,  listParam, v2);
+                CopexReturn cr = VisualizationFromDB.updateFunctionModelInDB(dbC, fm.getDbKey(), description,type,  listParam, idPredefFunction, v2);
                 if (cr.isError())
                     return cr;
                 fm.setType(type);
                 fm.setDescription(description);
                 fm.setListParam(listParam);
+                fm.setIdPredefFunction(idPredefFunction);
             }
         }
         CopexReturn cr = exportHTML(dataset);

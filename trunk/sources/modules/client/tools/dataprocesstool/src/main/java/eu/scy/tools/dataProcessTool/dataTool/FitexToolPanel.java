@@ -967,7 +967,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
     public Function getFunction(String formulaValue){
         if(formulaValue != null){
-            return new Function(this, formulaValue, DataConstants.FUNCTION_TYPE_Y_FCT_X, null);
+            return new Function(this, formulaValue, DataConstants.FUNCTION_TYPE_Y_FCT_X, null, null);
         }
         return null;
     }
@@ -1170,9 +1170,9 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     }
 
     /* creation ou mise a jour d'une fonction modele */
-    public void setFunctionModel(Graph graph, String description,char type,  Color fColor, ArrayList<FunctionParam> listParam ){
+    public void setFunctionModel(Graph graph, String description,char type,  Color fColor, ArrayList<FunctionParam> listParam, String idPredefFunction ){
         ArrayList v = new ArrayList();
-        CopexReturn cr = this.controller.setFunctionModel(dataset, graph, description, type, fColor, listParam, v);
+        CopexReturn cr = this.controller.setFunctionModel(dataset, graph, description, type, fColor, listParam, idPredefFunction, v);
         if (cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return;
