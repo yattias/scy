@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import eu.scy.scymapper.api.diagram.model.INodeModel;
@@ -39,18 +40,25 @@ public class KeywordSuggestionPanelCollide extends KeywordSuggestionPanel {
     }
 	
     @Override
-    protected ProposalEntry createProposalEntry(ImageIcon icon, String keyword, final String link, final String secondLink) {
-    	if(link == null) {
-    		return super.createProposalEntry(icon, keyword, link, secondLink);
+    protected ProposalEntry createProposalEntry(ImageIcon icon, String keyword, final String text, final String secondText, boolean isLink) {
+    	if(text == null) {
+    		return super.createProposalEntry(icon, keyword, text, secondText, isLink);
     	}
-		final KeywordLabel linkLabel = new KeywordLabel(link, keyword);
-		final ProposalEntry entry = new ProposalEntry(icon, new JLabel(keyword), linkLabel);
-		linkLabel.addMouseListener(new MouseAdapter() {
+    	if(!isLink) {
+    		JLabel secondLabel = new JLabel(text);
+    		return new ProposalEntry(icon, new JLabel(keyword), secondLabel);
+    	}
+
+    	final KeywordLabel secondLabel = new KeywordLabel(text, keyword);
+		secondLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		final ProposalEntry entry = new ProposalEntry(icon, new JLabel(keyword), secondLabel);
+
+		secondLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				KeywordLabel label = (KeywordLabel) e.getSource();
 				selectedKeyword = label.getKeyword();
-				linkLabel.setLink(secondLink);
+				secondLabel.setLink(secondText);
                                 SwingUtilities.getRoot(label).setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
                                 setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 				label.requestFocusInWindow();
@@ -76,14 +84,14 @@ public class KeywordSuggestionPanelCollide extends KeywordSuggestionPanel {
 			}
 		});
 
-		linkLabel.addFocusListener(new FocusAdapter() {
+		secondLabel.addFocusListener(new FocusAdapter() {
 
 			@Override
 			public void focusLost(FocusEvent e) {
 				Component newFocusOwner = e.getOppositeComponent();
 				SwingUtilities.getRoot(newFocusOwner).setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 				setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-				linkLabel.setLink(link);
+				secondLabel.setLink(text);
 				INodeModel model = null;
 				if (newFocusOwner == null) {
 				    JOptionPane.showMessageDialog(null, Localization.getString("Mainframe.KeywordSuggestion.SynonymNodeNotFound"), "Problem", JOptionPane.ERROR_MESSAGE);
