@@ -33,10 +33,6 @@ public class HypothesisDecisionMakerTest extends AbstractTestFixture {
 
   private IELO elo;
 
-  private static final long TIME_IN_MILLIS = 666;
-
-  private static final String UUID1234 = "uuid1234";
-
   private String eloPath;
 
   private HashMap<Integer, Integer> histogram;
@@ -112,7 +108,7 @@ public class HypothesisDecisionMakerTest extends AbstractTestFixture {
     getCommandSpace().write(tuple);
     Tuple response = this.getCommandSpace().waitToTake(new Tuple(AgentProtocol.NOTIFICATION,
                                                                  String.class, String.class,
-                                                                 "copex", String.class,
+                                                                 String.class, String.class,
                                                                  String.class, String.class,
                                                                  Field.createWildCardField()),
                                                        AgentProtocol.ALIVE_INTERVAL * 3);

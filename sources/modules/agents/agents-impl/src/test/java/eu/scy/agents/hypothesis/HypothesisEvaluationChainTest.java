@@ -99,12 +99,12 @@ public class HypothesisEvaluationChainTest extends AbstractTestFixture {
   @Test
   public void testRun() throws InterruptedException, TupleSpaceException, IOException {
     Tuple tuple = new Tuple("action", UUID1234, TIME_IN_MILLIS, AgentProtocol.ACTION_ELO_SAVED,
-                            "testUser", "copex", "SomeMission", "TestSession", eloPath, "type="
+                            "testUser", "copex", "SomeMission", "TestSession", eloPath, "elo_type="
                                                                                         + ELO_TYPE);
     getActionSpace().write(tuple);
 
     Tuple responseTuple = new Tuple(AgentProtocol.NOTIFICATION, String.class, String.class,
-                                    "copex", String.class, String.class, String.class,
+                                    String.class, String.class, String.class, String.class,
                                     Field.createWildCardField());
 
     Tuple response = this.getCommandSpace().waitToTake(responseTuple, AgentProtocol.ALIVE_INTERVAL*10);
