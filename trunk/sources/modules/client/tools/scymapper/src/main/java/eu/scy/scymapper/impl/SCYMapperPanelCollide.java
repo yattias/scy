@@ -282,7 +282,9 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
             lexiconNotificator.hide();
         }
 
-        lexiconNotificator = createNotificator(this, conceptBrowserPanel, LEXICON_POSITION, 0, SwingUtilities.getRootPane(this).getY());
+        System.out.println(SwingUtilities.getRootPane(this).getY());
+        System.out.println(SwingUtilities.getRoot(this).getY());
+        lexiconNotificator = createNotificator(this, conceptBrowserPanel, LEXICON_POSITION, 0, 0);
 
         JButton close = new JButton(Localization.getString("Mainframe.Input.Close"));
         close.addActionListener(new ActionListener() {
