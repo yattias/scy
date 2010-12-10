@@ -64,7 +64,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
     
     public SCYMapperPanelCollide(IConceptMap cmap, ISCYMapperToolConfiguration configuration, String sqlspacesHost, int sqlspacesPort, String userid) {
         super(cmap, configuration);
-        actionLogger = new ConceptMapActionLoggerCollide(new SQLSpacesActionLogger(sqlspacesHost, sqlspacesPort, "actions"), getConceptMap().getDiagram(), userid, getConceptMap());
+        actionLogger = new ConceptMapActionLoggerCollide(new SQLSpacesActionLogger(sqlspacesHost, sqlspacesPort, "actions"), getConceptMap().getDiagram(), userid, getConceptMap(), this);
         suggestionPanel.setActionLogger(actionLogger);
     }
 
@@ -195,6 +195,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                ((ConceptMapActionLoggerCollide) actionLogger).logLexiconSwitched();
                 if (lexiconNotificator != null && lexiconNotificator.isVisible()) {
                     lexiconNotificator.hide();
                 } else {
@@ -227,7 +228,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
             requestConceptHelpButton.setEnabled(true);
             requestRelationHelpButton.setEnabled(true);
             suggestionPanel = new KeywordSuggestionPanelCollide(actionLogger);
-            if (reenableButtonTimer != null) {
+            if (reenableButtonTimer != null && reEnableTask != null) {
                 reEnableTask.cancel();
             }
 
