@@ -87,7 +87,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
                   throws BadLocationException {
               final int newLength = getLength() + str.length();
               if (newLength > MAX_TEXTLENGTH) {
-                str = str.substring(0, newLength - MAX_TEXTLENGTH - 1);
+                str = str.substring(0, MAX_TEXTLENGTH - getLength());
                 SwingUtilities.invokeLater(new Runnable() {
 
                     public void run() {
