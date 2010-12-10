@@ -45,6 +45,7 @@ import eu.scy.client.desktop.localtoolbroker.LocalToolBrokerLogin;
 import eu.scy.client.desktop.localtoolbroker.LocalMultiUserToolBrokerLogin;
 import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
 import eu.scy.client.desktop.scydesktop.tools.mission.EloXmlEditor;
+import eu.scy.client.desktop.scydesktop.scywindows.ModalDialogLayer;
 //import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
@@ -507,7 +508,7 @@ public class Initializer {
                initializer: this;
             }
             ScyDesktop.scyDektopGroup,
-            ModalDialogBox.modalDialogGroup,
+            ModalDialogLayer.layer,
             SimpleTooltipManager.tooltipGroup,
             MouseBlocker.mouseBlockNode
          ];

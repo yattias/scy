@@ -13,9 +13,6 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import org.apache.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoToolFactory;
 import eu.scy.client.desktop.scydesktop.scywindows.ShowInfoUrl;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoTypes;
 import eu.scy.client.common.scyi18n.UriLocalizer;
@@ -23,6 +20,7 @@ import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.client.desktop.scydesktop.scywindows.ModalDialogLayer;
 
 /**
  * @author SikkenJ
@@ -37,39 +35,45 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    public var tbi: ToolBrokerAPI;
    def noLasColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    var colorScheme = noLasColorScheme;
-   def moreInfoControl = InstructionWindowControl {
+   def moreInfoControl:InstructionWindowControl = InstructionWindowControl {
          windowColorScheme: bind colorScheme
          clickAction: showInstructionWindow
-         layoutX: bind scene.width / 2.0
          layoutY: 0
       }
    def relativeWindowScreenBoder = 0.2;
+   def sceneWidth = bind scene.width on replace { sceneSizeChanged() };
+   def sceneHeight = bind scene.height on replace { sceneSizeChanged() };
    def instructionWindow: MoreInfoWindow = MoreInfoWindow {
          title: "Instruction"
          closeAction: hideInstructionWindow
+         visible:false
       }
    var instructionTool: ShowInfoUrl;
    def moreInfoWindow: MoreInfoWindow = MoreInfoWindow {
          title: "More info"
          closeAction: hideMoreInfoWindow
+         visible:false
       }
    var moreInfoTool: ShowInfoUrl;
-   def modalLayer = Rectangle {
-         blocksMouse: true
-         x: 0, y: 0
-         width: bind scene.width, height: bind scene.height
-         fill: Color.color(1.0, 1.0, 1.0, 0.5)
-         onKeyPressed: function(e: KeyEvent): Void {
-         }
-         onKeyReleased: function(e: KeyEvent): Void {
-         }
-         onKeyTyped: function(e: KeyEvent): Void {
-         }
-      }
    def uriLocalizer = new UriLocalizer();
 
    init {
       activeLasChanged();
+      sceneSizeChanged();
+   }
+
+   function sceneSizeChanged() {
+      moreInfoControl.layoutX = scene.width / 2.0;
+      if (instructionWindow.visible) {
+         instructionWindow.width = (1 - 2 * relativeWindowScreenBoder) * scene.width;
+         instructionWindow.height = (1 - 1 * relativeWindowScreenBoder) * scene.height;
+         instructionWindow.layoutX = relativeWindowScreenBoder * scene.width;
+         instructionWindow.layoutY = 0.0;
+      }
+      if (moreInfoWindow.visible) {
+         moreInfoWindow.width = (1 - 2 * relativeWindowScreenBoder) * scene.width;
+         moreInfoWindow.height = (1 - 2 * relativeWindowScreenBoder) * scene.height;
+      }
    }
 
    public override function getControlNode(): Node {
@@ -77,7 +81,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    }
 
    function activeLasChanged() {
-//      logger.info("active las changed: {activeLas.id}");
+      //      logger.info("active las changed: {activeLas.id}");
       if (activeLas == null) {
          colorScheme = noLasColorScheme;
       } else {
@@ -88,10 +92,6 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    function showInstructionWindow(): Void {
       initInstructionWindow();
       instructionWindow.windowColorScheme = colorScheme;
-      instructionWindow.width = (1 - 2 * relativeWindowScreenBoder) * scene.width;
-      instructionWindow.height = (1 - 1 * relativeWindowScreenBoder) * scene.height;
-      instructionWindow.layoutX = relativeWindowScreenBoder * scene.width;
-      instructionWindow.layoutY = 0.0;
       instructionWindow.eloIcon = windowStyler.getScyEloIcon(activeLas.mainAnchor.eloUri);
       instructionWindow.infoTypeIcon = CharacterEloIcon {
             color: colorScheme.mainColor
@@ -100,13 +100,14 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
          }
       instructionWindow.title = activeLas.mainAnchor.scyElo.getTitle();
       instructionTool.showInfoUrl(uriLocalizer.localizeUrlwithChecking(activeLas.instructionUri.toURL()));
-      insert modalLayer into scene.content;
-      insert instructionWindow into scene.content;
+      instructionWindow.visible = true;
+      sceneSizeChanged();
+      ModalDialogLayer.addModalDialog(instructionWindow);
    }
 
    function hideInstructionWindow(): Void {
-      delete modalLayer from scene.content;
-      delete instructionWindow from scene.content;
+      ModalDialogLayer.removeModalDialog(instructionWindow);
+      instructionWindow.visible = false;
    }
 
    function initInstructionWindow(): Void {
@@ -150,18 +151,13 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       moreInfoWindow.eloIcon = eloIcon;
       moreInfoWindow.infoTypeIcon = infoTypeIcon;
       moreInfoWindow.windowColorScheme = moreInfoColorScheme;
-      moreInfoWindow.width = (1 - 2 * relativeWindowScreenBoder) * scene.width;
-      moreInfoWindow.height = (1 - 2 * relativeWindowScreenBoder) * scene.height;
-      moreInfoWindow.layoutX = relativeWindowScreenBoder * scene.width;
-      moreInfoWindow.layoutY = relativeWindowScreenBoder * scene.height;
       moreInfoTool.showInfoUrl(uriLocalizer.localizeUrlwithChecking(infoUri.toURL()));
-      insert modalLayer into scene.content;
-      insert moreInfoWindow into scene.content;
+      sceneSizeChanged();
+      ModalDialogLayer.addModalDialog(moreInfoWindow, true);
    }
 
    function hideMoreInfoWindow(): Void {
-      delete modalLayer from scene.content;
-      delete moreInfoWindow from scene.content;
+      ModalDialogLayer.removeModalDialog(moreInfoWindow);
    }
 
    function initMoreInfoWindow(): Void {

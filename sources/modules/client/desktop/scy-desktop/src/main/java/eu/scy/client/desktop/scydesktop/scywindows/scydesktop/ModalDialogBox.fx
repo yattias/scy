@@ -7,26 +7,20 @@ package eu.scy.client.desktop.scydesktop.scywindows.scydesktop;
 
 import javafx.scene.CustomNode;
 import javafx.scene.Node;
-import javafx.scene.shape.Rectangle;
 import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
 import javafx.scene.Scene;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
-import javafx.scene.Group;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Resizable;
-import javafx.scene.paint.Color;
 import java.lang.Void;
+import eu.scy.client.desktop.scydesktop.scywindows.ModalDialogLayer;
 
 /**
  * @author sikken
  */
 // place your code here
-public def modalDialogGroup = Group {
-      visible: false
-   }
 
 public class ModalDialogBox extends CustomNode {
 
@@ -52,8 +46,6 @@ public class ModalDialogBox extends CustomNode {
             title: title
             eloIcon: eloIcon;
             windowColorScheme: windowColorScheme
-            //         layoutX:scene.width-content.layoutBounds.width/2
-            //         layoutY:scene.height-content.layoutBounds.height/2
             closedAction: function(window: ScyWindow) {
                close();
             }
@@ -62,41 +54,17 @@ public class ModalDialogBox extends CustomNode {
             activated: true
          }
       dialogWindow.open();
-      return Group {
-            content: [
-               Rectangle {
-                  blocksMouse: true
-                  x: 0, y: 0
-                  width: bind scene.width, height: bind scene.height
-                  fill: Color.color(1.0, 1.0, 1.0, 0.5)
-                  onKeyPressed: function(e: KeyEvent): Void {
-                  }
-                  onKeyReleased: function(e: KeyEvent): Void {
-                  }
-                  onKeyTyped: function(e: KeyEvent): Void {
-                  }
-               }
-               dialogWindow
-            ]
-         };
+      dialogWindow
    }
 
    public function close(): Void {
-      //      var sceneContentList = scene.content;
-      //      delete this from sceneContentList;
-      //      scene.content = sceneContentList;
-      delete this from modalDialogGroup.content;
-      modalDialogGroup.visible = false;
+      ModalDialogLayer.removeModalDialog(this);
       closeAction();
    }
 
    public function place(): Void {
-      //      var sceneContentList = targetScene.content;
-      //      insert this into sceneContentList;
-      //      targetScene.content = sceneContentList;
-      insert this into modalDialogGroup.content;
+      ModalDialogLayer.addModalDialog(this);
       center();
-      modalDialogGroup.visible = true;
       this.requestFocus();
    }
 
@@ -105,18 +73,4 @@ public class ModalDialogBox extends CustomNode {
       dialogWindow.layoutY = scene.height / 2 - dialogWindow.layoutBounds.height / 2;
    }
 
-}
-
-public function placeInModalDialogBox(content: Node, scene: Scene): ModalDialogBox {
-   var modalDialogBox = ModalDialogBox {
-         content: content;
-      }
-   var sceneContentList = scene.content;
-   insert modalDialogBox into sceneContentList;
-   scene.content = sceneContentList;
-   return modalDialogBox;
-}
-
-public function placeInModalDialogBox(content: Node[], scene: Scene): ModalDialogBox {
-   return placeInModalDialogBox(Group { content: content }, scene);
 }
