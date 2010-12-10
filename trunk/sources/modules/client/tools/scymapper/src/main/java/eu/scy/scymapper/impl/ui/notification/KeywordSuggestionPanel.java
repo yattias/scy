@@ -223,8 +223,10 @@ public class KeywordSuggestionPanel extends JPanel {
                 pe = createProposalEntry(iconSpecifyEdge, keywords[i], null, null, false);
             }
             pes.add(pe);
+            System.out.println(pes.get(i).getLinkLabel().getText());;
         }
         proposalList.addEntries(pes, SCYMapperStandaloneConfig.getInstance().getHelpMode() == Help.CONTINUOUS);
+        validate();
     }
 
     protected ProposalEntry createProposalEntry(ImageIcon icon, String keyword, String text, String secondText, boolean isLink) {
