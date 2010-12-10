@@ -45,6 +45,8 @@ import eu.scy.scymapper.api.INodeFactory;
 import eu.scy.scymapper.api.diagram.model.INodeModel;
 import eu.scy.scymapper.api.shapes.INodeShape;
 import eu.scy.scymapper.api.styling.INodeStyle;
+import eu.scy.scymapper.impl.configuration.SCYMapperStandaloneConfig;
+import eu.scy.scymapper.impl.configuration.SCYMapperStandaloneConfig.Help;
 import eu.scy.scymapper.impl.logging.ConceptMapActionLogger;
 import eu.scy.scymapper.impl.ui.ConceptMapPanel;
 import eu.scy.scymapper.impl.ui.Localization;
@@ -221,7 +223,7 @@ public class KeywordSuggestionPanel extends JPanel {
             }
             pes.add(pe);
         }
-        proposalList.addEntries(pes);
+        proposalList.addEntries(pes, SCYMapperStandaloneConfig.getInstance().getHelpMode() == Help.CONTINUOUS);
     }
 
     protected ProposalEntry createProposalEntry(ImageIcon icon, String keyword, String link, String secondLink) {

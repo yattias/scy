@@ -1,9 +1,8 @@
 package eu.scy.scymapper.impl.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -45,6 +44,10 @@ public class ProposalEntry extends JPanel {
 
 		add(iconLabel, BorderLayout.WEST);
 		add(compound, BorderLayout.CENTER);
+		setBackground(Color.WHITE);
+		compound.setBackground(Color.WHITE);
+		textLabel.setBackground(Color.WHITE);
+		linkLabel.setBackground(Color.WHITE);
 	}
 
 	public JLabel getIconLabel() {
