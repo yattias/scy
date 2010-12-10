@@ -57,7 +57,7 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 			InterruptedException {
 		while (this.status == Status.Running) {
 			this.sendAliveUpdate();
-			Thread.sleep(AgentProtocol.COMMAND_EXPIRATION);
+			Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 2);
 		}
 	}
 
