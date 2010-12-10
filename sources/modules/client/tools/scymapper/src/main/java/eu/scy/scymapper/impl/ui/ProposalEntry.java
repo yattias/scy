@@ -28,14 +28,12 @@ public class ProposalEntry extends JPanel {
 		this.secondTextLabel = secondLabel;
 		this.firstTextLabel = firstLabel;
 		compound = new JPanel(new GridLayout(2, 1));
-
 		if (icon != null) {
 			iconLabel = new JLabel(icon);
 		} else {
 			iconLabel = new JLabel("+");
 		}
 		firstLabel.setVerticalAlignment(SwingConstants.BOTTOM);
-		
 		secondLabel.setVerticalAlignment(SwingConstants.TOP);
 
 		compound.add(firstLabel);
