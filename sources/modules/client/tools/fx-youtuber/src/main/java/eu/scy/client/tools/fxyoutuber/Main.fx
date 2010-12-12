@@ -18,6 +18,7 @@ var initializer = Initializer {
            autoLogin: true
            defaultUserName: "phil"
            defaultPassword: "phil"
+
 }
 function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def scyYouTuberID = "youtuber";

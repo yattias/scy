@@ -183,6 +183,12 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
     }
 
 
+    public function deleteItem(id:Integer):Void {
+        dataSets.remove(id);
+        refreshGUIList();
+    }
+
+
 
 
 
