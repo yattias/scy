@@ -22,12 +22,12 @@ public class SCYMathToolController extends MathToolController {
 		return xml;
 	}
 	
-	@Override
+//	@Override
 	public void open(String xml) {
 		String removeStart = StringUtils.remove(xml, MATH_TOOL_START);
 		String removeEnd = StringUtils.remove(removeStart, MATH_TOOL_END);
-		
-		super.open(removeEnd);
+
+//		super.open(removeEnd);
 	}
 	public void logAction(String actionLog) { 
 		

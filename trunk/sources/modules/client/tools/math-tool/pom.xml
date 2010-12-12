@@ -24,6 +24,39 @@
 	</developers>
 	<build>
 		<plugins>
+
+		</plugins>
+	</build>
+   <profiles>
+      <profile>
+         <id>local</id>
+         <build>
+            <resources>
+               <resource>
+                  <directory>src/main/java</directory>
+                  <includes>
+                     <include>**/*</include>
+                  </includes>
+               </resource>
+            </resources>
+         </build>
+      </profile>
+      <profile>
+         <id>webstart</id>
+         <build>
+            <resources>
+               <resource>
+                  <targetPath>config</targetPath>
+                  <directory>src/main/java/config</directory>
+               </resource>
+               <resource>
+                  <directory>src/main/java</directory>
+                  <includes>
+                     <include>client.properties</include>
+                  </includes>
+               </resource>
+            </resources>
+            <plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo.webstart</groupId>
 				<artifactId>webstart-maven-plugin</artifactId>
@@ -39,15 +72,15 @@
 				<configuration>
 					<!--outputDirectory></outputDirectory --> <!-- not required?? -->
 
-					<!-- Set to true to exclude all transitive dependencies. Default is 
+					<!-- Set to true to exclude all transitive dependencies. Default is
 						false. -->
 					<excludeTransitive>false</excludeTransitive>
 
-					<!-- The path where the libraries are stored within the jnlp structure. 
+					<!-- The path where the libraries are stored within the jnlp structure.
 						not required. by default the libraries are within the working directory -->
 
 					<libPath>lib</libPath>
-					<!-- [optional] transitive dependencies filter - if omitted, all transitive 
+					<!-- [optional] transitive dependencies filter - if omitted, all transitive
 						dependencies are included -->
 
 
@@ -64,7 +97,7 @@
 					</jnlp>
 
 					<!-- SIGNING -->
-					<!-- defining this will automatically sign the jar and its dependencies, 
+					<!-- defining this will automatically sign the jar and its dependencies,
 						if necessary -->
 							<unsign>true</unsign>
 
@@ -74,7 +107,7 @@
 					<pack200>false</pack200>
 					<gzip>false</gzip> <!-- default force when pack200 false, true when pack200 selected ?? -->
 
-					<!-- causes a version attribute to be output in each jar resource element, 
+					<!-- causes a version attribute to be output in each jar resource element,
 						optional, default is false -->
 					<outputJarVersions>false</outputJarVersions>
 
@@ -82,9 +115,10 @@
 					<verbose>true</verbose>
 				</configuration>
 			</plugin>
-
-		</plugins>
-	</build>
+            </plugins>
+         </build>
+      </profile>
+   </profiles>
 	<dependencies>
 		<dependency>
 			<groupId>org.swinglabs</groupId>
