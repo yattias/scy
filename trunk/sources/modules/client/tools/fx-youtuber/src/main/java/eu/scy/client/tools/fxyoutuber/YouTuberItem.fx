@@ -88,6 +88,16 @@ public class YouTuberItem extends CustomNode {
     }
 
 
+    var deleteButton:Button = Button {
+        tooltip: Tooltip {text: "delete" }
+        graphic: ImageView{ image: Image { url: "{__DIR__}resources/delete.png"  } fitHeight: 16; preserveRatio: true;}
+        action:function():Void {
+            ytNode.deleteItem(this.dataSetID);
+        }
+    }
+
+
+
     var backgroundRectangle:Rectangle = Rectangle {
         height: bind content.layoutBounds.height+20;
         width: bind ytNode.scyWindow.width - 19;
@@ -99,7 +109,7 @@ public class YouTuberItem extends CustomNode {
 
 
     var topLine:HBox = HBox {
-        content: [titleText, launchButton, editButton]
+        content: [titleText, launchButton, editButton, deleteButton]
         spacing: 10.0;
     }
 
