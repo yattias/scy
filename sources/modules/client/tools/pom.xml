@@ -3,7 +3,7 @@
 	
 	<parent>
 		<artifactId>parent</artifactId>
-		<groupId>eu.scy</groupId>
+		<groupId>eu.scy.client</groupId>
 		<version>28-SNAPSHOT</version>
 	</parent>
 
@@ -18,18 +18,21 @@
 		<module>scydynamics</module>
 		<module>scymapper</module>
 		<module>scysimulator</module>
-		<!--<module>student-planning-tool</module>-->
+		<module>student-planning-tool</module>
     	<module>chat-tool</module>
 		<module>chat-presence-tool</module>
 		<module>colemo-model</module>
 		<module>copex</module>
 		<module>dataprocesstool</module>
 		<module>drawingtool</module>
-		<module>fx-chattool</module>		
+		<module>math-tool</module>
+		<module>math-tool-scy-extensions</module>
+		<module>fx-chattool</module>
 		<module>fx-drawingtool</module>
 		<module>fx-copex</module>
 		<module>fx-fitex</module>
 		<module>fx-flying-saucer</module>
+		<module>fx-math-tool</module>
 		<module>fx-formauthor</module>
 		<module>fx-interviewtool</module>
 		<module>fx-pictureviewer</module>

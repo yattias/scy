@@ -56,14 +56,14 @@
 				<artifactId>maven-antrun-plugin</artifactId>
 				<executions>
 					<execution>
-						<phase>package</phase>
+						<phase>compile</phase>
 						<configuration>
 							<tasks>
 								<echo>Compiling JavaFX test sources</echo>
 								<taskdef classname="com.sun.tools.javafx.ant.JavaFxAntTask"
 									classpathref="maven.compile.classpath" name="javafxc" />
 								<mkdir dir="target/classes" />
-								<javafxc destdir="target/classes" compilerclasspathref="maven.compile.classpath">
+								<javafxc debug="true" destdir="target/classes" compilerclasspathref="maven.compile.classpath">
 									<src path="src/main/java" />
 									<classpath refid="maven.compile.classpath" />
 								</javafxc>
@@ -75,6 +75,39 @@
 					</execution>
 				</executions>
 			</plugin>
+		</plugins>
+	</build>
+
+   <profiles>
+      <profile>
+         <id>local</id>
+         <build>
+            <resources>
+               <resource>
+                  <directory>src/main/java</directory>
+                  <includes>
+                     <include>**/*</include>
+                  </includes>
+               </resource>
+            </resources>
+         </build>
+      </profile>
+      <profile>
+         <id>webstart</id>
+         <build>
+            <resources>
+               <resource>
+                  <targetPath>config</targetPath>
+                  <directory>src/main/java/config</directory>
+               </resource>
+               <resource>
+                  <directory>src/main/java</directory>
+                  <includes>
+                     <include>client.properties</include>
+                  </includes>
+               </resource>
+            </resources>
+            <plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo.webstart</groupId>
 				<artifactId>webstart-maven-plugin</artifactId>
@@ -128,7 +161,9 @@
 
 				</configuration>
 			</plugin>
-		</plugins>
-	</build>
+            </plugins>
+         </build>
+      </profile>
+   </profiles>
 	
 </project>
