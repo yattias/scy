@@ -226,11 +226,13 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
 
 
     override function loadXML(xml:String):Void {
+        this.dataSets = YTDataHandler.createSetFromString(xml);
+        refreshGUIList();
 
     }
 
     override function getXML():String {
-        return "yt rockx";
+        return YTDataHandler.createXMLDocument(dataSets);
     }
 
     override function setTitle(title:String):Void {
@@ -243,6 +245,11 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
     }
 
     public function saveElo():Void {
+    }
+
+
+    public function createXML():Void {
+
     }
 
 
