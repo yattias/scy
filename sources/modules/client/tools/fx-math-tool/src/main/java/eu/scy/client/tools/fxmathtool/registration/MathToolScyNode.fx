@@ -104,7 +104,7 @@ public class MathToolScyNode extends MathToolNode, ScyToolFX, EloSaverCallBack {
       logger.info("Trying to load elo {eloUri}");
       var newElo = repository.retrieveELO(eloUri);
       if (newElo != null) {
-         mathTool.getMathToolController().open(newElo.getContent().getXmlString());
+//         mathTool.getMathToolController().open(newElo.getContent().getXmlString());
          logger.info("elo mathtool loaded!");
          elo = newElo;
       }
