@@ -84,8 +84,7 @@
         <las>orientation_B3</las>
         <las>orientation_C1</las>
         <las>reportingVideo</las>
-        <las>startPage</las>
-      </nextLasses>
+        </nextLasses>
     </las>
       <las>
       <id>orientation_B3</id>
@@ -267,7 +266,7 @@
       <yPos>-40.0</yPos>
       <toolTip>Hypotheses</toolTip>
       <loElos>
-         <eloUri>roolo://memory/136/0/List_of_webpages.url</eloUri>
+        <eloUri>roolo://memory/136/0/List_of_webpages.url</eloUri>
         <eloUri>roolo://memory/137/0/Text_of_theory_Phytoplankton_and_primary_production.url</eloUri>
         <eloUri>roolo://memory/138/0/Text_of_theory_Nutrients.url</eloUri>
         <eloUri>roolo://memory/139/0/Text_of_theory_Eutrophication.url</eloUri>
