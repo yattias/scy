@@ -5,11 +5,11 @@ import java.util.HashMap;
 
 import javax.swing.table.AbstractTableModel;
 
-import eu.scy.tools.math.doa.ComputationDataObject;
+import eu.scy.tools.math.doa.ComputationDataObj;
 
 public class ComputationTableModel extends AbstractTableModel {
 
-	private HashMap<Point, ComputationDataObject> lookup;
+	private HashMap<Point, ComputationDataObj> lookup;
 
 	private final int rows;
 
@@ -25,7 +25,7 @@ public class ComputationTableModel extends AbstractTableModel {
 		this.rows = rows;
 		this.columns = columnHeaders.length;
 		headers = columnHeaders;
-		lookup = new HashMap<Point, ComputationDataObject>();
+		lookup = new HashMap<Point, ComputationDataObj>();
 	}
 
 	public int getColumnCount() {
@@ -40,7 +40,7 @@ public class ComputationTableModel extends AbstractTableModel {
 		return headers[column];
 	}
 
-	public ComputationDataObject getValueAt(int row, int column) {
+	public ComputationDataObj getValueAt(int row, int column) {
 		return lookup.get(new Point(row, column));
 	}
 
@@ -49,7 +49,7 @@ public class ComputationTableModel extends AbstractTableModel {
 			throw new IllegalArgumentException("Invalid row/column setting");
 		}
 		if ((row < rows) && (column < columns)) {
-			lookup.put(new Point(row, column), (ComputationDataObject) value);
+			lookup.put(new Point(row, column), (ComputationDataObj) value);
 		}
 	}
 	

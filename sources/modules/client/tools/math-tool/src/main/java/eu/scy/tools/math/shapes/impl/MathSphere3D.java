@@ -1,6 +1,7 @@
 package eu.scy.tools.math.shapes.impl;
 
 import java.awt.BorderLayout;
+import java.awt.Point;
 
 import javax.swing.ImageIcon;
 
@@ -23,8 +24,13 @@ public class MathSphere3D extends Math3DShape {
 		super(x,y);
 	}
 
-	protected void init() {
+	public MathSphere3D(Point location) {
+		super(location);
+		// TODO Auto-generated constructor stub
+	}
 
+	protected void init() {
+		super.init();
 		JXPanel allPanel = new JXPanel(new BorderLayout(0, 0));
 
 		allPanel.setOpaque(false);
@@ -45,9 +51,9 @@ public class MathSphere3D extends Math3DShape {
 		labelPanel.add(radiusLabel);
 		
 		radiusTextField = new JXTextField();
-		radiusTextField.setColumns(TEXTFIELD_LENGTH);
+		getRadiusTextField().setColumns(TEXTFIELD_LENGTH);
 		
-		labelPanel.add(radiusTextField,"wrap");
+		labelPanel.add(getRadiusTextField(),"wrap");
 		
 		setupCommonInputs();
 		
@@ -64,31 +70,35 @@ public class MathSphere3D extends Math3DShape {
 	public boolean checkForError() {
 		boolean checkForError = super.checkForError();
 		
-		String radius = radiusTextField.getText();
+		String radius = getRadiusTextField().getText();
 		
 		if( radius.isEmpty() || StringUtils.isNumeric(radius) == false ) {
-			radiusTextField.setBackground(UIUtils.ERROR_SHAPE_COLOR);
+			getRadiusTextField().setBackground(UIUtils.ERROR_SHAPE_COLOR);
 			errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
-			setHasError(true);
+			setError(true);
 		} else {
-			radiusTextField.setBackground(UIUtils.NONSHAPE_SHAPE_COLOR);
+			getRadiusTextField().setBackground(UIUtils.NONSHAPE_SHAPE_COLOR);
 			errorLabel.setForeground(UIUtils.NONSHAPE_SHAPE_COLOR);
-			setHasError(false);
+			setError(false);
 		}
 		
 		
 		if(checkForError == true) {
-			setHasError(true);
+			setError(true);
 			errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
 		}
 		
-		return isHasError();
+		return getError();
 	}
 
 
 	@Override
 	public String getType() {
 		return "Sphere";
+	}
+
+	public JXTextField getRadiusTextField() {
+		return radiusTextField;
 	}
 
 }

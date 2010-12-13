@@ -6,5 +6,5 @@ public interface I3D {
 
 	public JXButton getAddButton();
 
-	public boolean isHasError();
+	public boolean getError();
 }

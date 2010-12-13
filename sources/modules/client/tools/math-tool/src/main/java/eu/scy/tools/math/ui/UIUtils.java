@@ -38,10 +38,12 @@ public class UIUtils {
 	public static final String RECTANGLE = "RECTANGLE";
 	public static final String RECTANGLE3D = "RECTANGLE3D";
 	public static final String SPHERE3D = "SPHERE3D";
-	public static final Object CYLINDER3D = "CYLINDER3D";
+	public static final String CYLINDER3D = "CYLINDER3D";
 	public static final Color ERROR_SHAPE_COLOR = Color.red;
 	public static final String TYPE = "TYPE";
 	public final static String SHAPE = "SHAPE";
+
+	
 	public final static Color SHAPE_3D_DASH_BORDER_COLOR = Color.blue;
     
 	public static Dimension frameDimension;

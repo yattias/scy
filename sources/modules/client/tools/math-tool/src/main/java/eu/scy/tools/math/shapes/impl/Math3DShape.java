@@ -39,18 +39,22 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 	protected JXLabel volumeLabel;
 	private JXLabel volumeValueLabel;
 	protected JXLabel errorLabel;
-	private boolean hasError = false;
+	private boolean error = false;
 	private List<Action> shapeListeners = new ArrayList<Action>();
 	
 	
 	public Math3DShape(int x, int y) {
-		setLayout(new BorderLayout(1, 1));
-		this.setBackground(Color.white);
-		this.setLocation(x, y);
-		this.setOpaque(false);
 		init();
+		this.setLocation(x, y);
+		
 	}
 	
+	public Math3DShape(Point location) {
+		init();
+		this.setLocation(location);
+		
+	}
+
 	protected void setupVolumeLabel() {
 		volumeLabel = new JXLabel("V = ");
 		setVolumeValueLabel(new JXLabel("100.0"));
@@ -128,19 +132,21 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 			
 			if((hasError1 || hasError2)) {
 				errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
-				setHasError(true);
+				setError(true);
 			} else {
 				errorLabel.setForeground(UIUtils.NONSHAPE_SHAPE_COLOR);
-				setHasError(false);
+				setError(false);
 			}
 			
-			return isHasError();
+			return getError();
 			
 		}
 	
 	
 	protected void init() {
-		
+		setLayout(new BorderLayout(1, 1));
+		this.setOpaque(false);
+		this.setBackground(Color.white);
 	}
 	
 	@Override
@@ -264,13 +270,13 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 	}
 
 	
-	public void setHasError(boolean hasError) {
-		this.hasError = hasError;
+	public void setError(boolean error) {
+		this.error = error;
 	}
 
 	@Override
-	public boolean isHasError() {
-		return hasError;
+	public boolean getError() {
+		return error;
 	}
 
 	public void setShapeListeners(List<Action> shapeListeners) {
