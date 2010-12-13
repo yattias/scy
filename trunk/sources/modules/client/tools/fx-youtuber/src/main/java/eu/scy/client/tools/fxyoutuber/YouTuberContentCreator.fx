@@ -40,21 +40,17 @@ public class YouTuberContentCreator extends ScyToolWindowContentCreatorFX {
             return createYouTuberNode(scyWindow);
     }
     function createYouTuberNode(scyWindow:ScyWindow):YouTuberNode {
-        println("formauithornodebla");
         setWindowProperties(scyWindow);
         var props:Properties = new Properties();
         props.put("show.filetoolbar", "false");
-        /*
-        var formNode:FormAuthorNode = FormAuthorNode{scyWindow: scyWindow};
-        var formAuthorRepositoryWrapper:FormAuthorRepositoryWrapper = new FormAuthorRepositoryWrapper(formNode);
-        formAuthorRepositoryWrapper.setRepository(repository);
-        formAuthorRepositoryWrapper.setMetadataTypeManager(metadataTypeManager);
-        formAuthorRepositoryWrapper.setEloFactory(eloFactory);
-        formAuthorRepositoryWrapper.setDocName(scyWindow.title);
-        formNode.setFormAuthorRepositoryWrapper(formAuthorRepositoryWrapper);
-        return formNode;
-        */
-        return null;
+        var ytNode:YouTuberNode = YouTuberNode{scyWindow: scyWindow};
+        var youTuberRepositoryWrapper:YouTuberRepositoryWrapper = new YouTuberRepositoryWrapper(ytNode);
+        youTuberRepositoryWrapper.setRepository(repository);
+        youTuberRepositoryWrapper.setMetadataTypeManager(metadataTypeManager);
+        youTuberRepositoryWrapper.setEloFactory(eloFactory);
+        youTuberRepositoryWrapper.setDocName(scyWindow.title);
+        ytNode.setFormAuthorRepositoryWrapper(youTuberRepositoryWrapper);
+        return ytNode;
     }
 
     function setWindowProperties(scyWindow:ScyWindow) {
