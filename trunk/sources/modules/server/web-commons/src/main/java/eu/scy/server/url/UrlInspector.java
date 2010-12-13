@@ -1,10 +1,17 @@
 package eu.scy.server.url;
 
+import eu.scy.common.mission.MissionSpecificationElo;
+import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.AjaxPersistenceService;
 import eu.scy.core.model.ScyBase;
+import eu.scy.server.roolo.MissionELOService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URLDecoder;
+import java.util.logging.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,23 +23,45 @@ import javax.servlet.http.HttpServletResponse;
 public class UrlInspector {
 
     private AjaxPersistenceService service;
+    private MissionELOService missionELOService;
+
+    private static Logger log = Logger.getLogger("UrlInspector.class");
 
     public Object instpectRequest(HttpServletRequest request, HttpServletResponse httpServletResponse) {
-         String modelString = request.getParameter("model");
-        if(modelString != null) {
+        String modelString = request.getParameter("model");
+        log.info("MODEL STRING: " + modelString);
+
+        if (modelString != null) {
             String type = modelString.substring(0, modelString.indexOf("_"));
-            String id = modelString.substring(modelString.indexOf("_")+1, modelString.length());
+            String id = modelString.substring(modelString.indexOf("_") + 1, modelString.length());
             try {
                 Class clazz = Class.forName(type);
-                Object model =  getService().get(clazz, id);
+                Object model = getService().get(clazz, id);
 
                 request.setAttribute("modelObject", model);
 
                 return model;
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();  
+                e.printStackTrace();
             }
         }
+
+        String eloURI = request.getParameter("eloURI");
+        log.info("URI: " + eloURI);
+        if (eloURI != null && eloURI.length() > 0) {
+            try {
+                String uri = URLDecoder.decode(eloURI, "UTF-8");
+                URI realURI = new URI(uri);
+                request.setAttribute("eloURI", uri);
+                ScyElo scyElo =  ScyElo.loadElo(realURI, getMissionELOService());
+                if(scyElo.getTechnicalFormat().equals("scy/missionspecification")) return MissionSpecificationElo.loadElo(realURI, getMissionELOService());
+
+                return scyElo;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         return null;
     }
 
@@ -42,5 +71,13 @@ public class UrlInspector {
 
     public void setService(AjaxPersistenceService service) {
         this.service = service;
+    }
+
+    public MissionELOService getMissionELOService() {
+        return missionELOService;
+    }
+
+    public void setMissionELOService(MissionELOService missionELOService) {
+        this.missionELOService = missionELOService;
     }
 }

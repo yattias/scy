@@ -3,8 +3,29 @@
     <tiles:putAttribute name="main">
 
 
-
         <h1>WELCOME TO SCYAuthor Runtime!</h1>
+
+        <c:choose>
+            <c:when test="${fn:length(missionTransporters) > 0}">
+                <table id="pedagogicalPlansTable" width="100%">
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                    </tr>
+                    <c:forEach var="missionTransporter" items="${missionTransporters}">
+                        <tr class="${oddEven.oddEven}">
+                            <td>
+                                <a href="viewActivePedagogicalPlan.html?eloURI=${missionTransporter.uri}">${missionTransporter.elo.title}</a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+                <br/>
+
+            </c:when>
+        </c:choose>
+
 
         <c:choose>
             <c:when test="${fn:length(pedagogicalPlans) > 0}">
@@ -27,7 +48,7 @@
                 <br>
             </c:when>
         </c:choose>
-        
+
         <!--a href="ScyAuthorRuntimeGraphicalView.html">Graphical runtime view</a-->
     </tiles:putAttribute>
 </tiles:insertDefinition>

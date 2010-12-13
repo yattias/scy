@@ -118,6 +118,7 @@
 
     <bean id="urlInspector" class="eu.scy.server.url.UrlInspector">
         <property name="service" ref="ajaxPersistenceService"/>
+        <property name="missionELOService" ref="missionELOService"/>
     </bean>
 
     <bean id="currentStudentActivityController" class="eu.scy.server.controllers.components.realtime.CurrentStudentActivityController">

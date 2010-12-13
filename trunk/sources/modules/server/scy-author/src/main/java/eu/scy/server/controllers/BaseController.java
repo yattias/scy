@@ -1,5 +1,6 @@
 package eu.scy.server.controllers;
 
+import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.ServerService;
 import eu.scy.core.model.ScyBase;
 import eu.scy.core.model.Server;
@@ -24,6 +25,15 @@ public abstract class BaseController extends AbstractController {
     private ServerService serverService;
     private ScyBase model;
     private UrlInspector urlInspector;
+    private ScyElo scyElo;
+
+    public ScyElo getScyElo() {
+        return scyElo;
+    }
+
+    public void setScyElo(ScyElo scyElo) {
+        this.scyElo = scyElo;
+    }
 
     public ScyBase getModel() {
         return model;
@@ -64,7 +74,13 @@ public abstract class BaseController extends AbstractController {
         logger.info("-----------------------------------------------------");
         if(getUrlInspector() != null) {
             Object model = getUrlInspector().instpectRequest(request, httpServletResponse);
-            setModel((ScyBase) model);
+            if(model instanceof ScyElo) {
+                logger.info("Setting ELO: " + ((ScyElo)model). getTechnicalFormat());
+                setScyElo((ScyElo) model);
+            } else {
+                setModel((ScyBase) model);
+            }
+
         }
         logger.info("*******************************************************");
     }
