@@ -191,7 +191,7 @@
 
     <bean id="scyAuthorRuntimeIndexController" class="eu.scy.server.controllers.scyauthorruntime.ScyAuthorRuntimeIndexController">
         <property name="serverService" ref="serverService"/>
-        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="missionELOService" ref="missionELOService"/>
         <property name="urlInspector" ref="urlInspector"/>
     </bean>
 
@@ -218,9 +218,8 @@
 
     <bean id="viewActivePedagogicalPlanController" class="eu.scy.server.controllers.scyauthorruntime.ViewActivePedagogicalPlanController">
         <property name="serverService" ref="serverService"/>
-        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
-        <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
-        <property name="studentPedagogicalPlanPersistenceService" ref="studentPedagogicalPlanService"/>
+        <property name="userService" ref="userService"/>
+        <property name="missionELOService" ref="missionELOService"/>
         <property name="urlInspector" ref="urlInspector"/>
     </bean>
 

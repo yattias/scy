@@ -1,16 +1,22 @@
 package eu.scy.server.controllers.scyauthorruntime;
 
+import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.core.AssignedPedagogicalPlanService;
 import eu.scy.core.PedagogicalPlanPersistenceService;
 import eu.scy.core.StudentPedagogicalPlanPersistenceService;
+import eu.scy.core.UserService;
+import eu.scy.core.model.User;
 import eu.scy.core.model.pedagogicalplan.AssignedPedagogicalPlan;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.model.student.StudentPlanELO;
 import eu.scy.server.controllers.BaseController;
+
 import java.util.LinkedList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import eu.scy.server.roolo.MissionELOService;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -21,66 +27,43 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public class ViewActivePedagogicalPlanController extends BaseController {
 
-    private PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService = null;
-    private AssignedPedagogicalPlanService assignedPedagogicalPlanService = null;
-    private StudentPedagogicalPlanPersistenceService studentPedagogicalPlanPersistenceService = null;
+    private MissionELOService missionELOService;
+    private UserService userService;
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-        String pedPlanId = request.getParameter("id");
-        PedagogicalPlan pedagogicalPlan = getPedagogicalPlanPersistenceService().getPedagogicalPlan(pedPlanId);
-        setModel(pedagogicalPlan);
 
-        List<AssignedPedagogicalPlan> assignedList = getAssignedPedagogicalPlanService().getAssignedPedagogicalPlans(pedagogicalPlan);
-        List<DataClass> data = new LinkedList<DataClass>();
+        MissionSpecificationElo missionSpecificationElo = (MissionSpecificationElo) getScyElo();
+        List userNames = getMissionELOService().getAssignedUserNamesFor(missionSpecificationElo);
 
-        for (AssignedPedagogicalPlan plan : assignedList) {
-            data.add(new DataClass(plan, getStudentPedagogicalPlanPersistenceService().getStudentPlans(plan.getUser())));
+
+        List users = new LinkedList();
+        for (int i = 0; i < userNames.size(); i++) {
+            String s = (String) userNames.get(i);
+            User user = getUserService().getUser(s);
+            if (user != null && user.getUserDetails() != null) {
+                users.add(user);
+                logger.info("ADDED: " + user.getUserDetails().getUsername());
+            }
+
+
         }
-
-        modelAndView.addObject("assignedPedagogicalPlans", data);
-
+        modelAndView.addObject("users", users);
     }
 
-    public PedagogicalPlanPersistenceService getPedagogicalPlanPersistenceService() {
-        return pedagogicalPlanPersistenceService;
+    public MissionELOService getMissionELOService() {
+        return missionELOService;
     }
 
-    public void setPedagogicalPlanPersistenceService(PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService) {
-        this.pedagogicalPlanPersistenceService = pedagogicalPlanPersistenceService;
+    public void setMissionELOService(MissionELOService missionELOService) {
+        this.missionELOService = missionELOService;
     }
 
-    public AssignedPedagogicalPlanService getAssignedPedagogicalPlanService() {
-        return assignedPedagogicalPlanService;
+    public UserService getUserService() {
+        return userService;
     }
 
-    public void setAssignedPedagogicalPlanService(AssignedPedagogicalPlanService assignedPedagogicalPlanService) {
-        this.assignedPedagogicalPlanService = assignedPedagogicalPlanService;
-    }
-
-    public StudentPedagogicalPlanPersistenceService getStudentPedagogicalPlanPersistenceService() {
-        return studentPedagogicalPlanPersistenceService;
-    }
-
-    public void setStudentPedagogicalPlanPersistenceService(StudentPedagogicalPlanPersistenceService studentPedagogicalPlanPersistenceService) {
-        this.studentPedagogicalPlanPersistenceService = studentPedagogicalPlanPersistenceService;
-    }
-
-    public class DataClass {
-        private List<StudentPlanELO> studentPlans = null;
-        private AssignedPedagogicalPlan assignedPedagogicalPlan = null;
-
-        public DataClass(AssignedPedagogicalPlan assignedPedagogicalPlan, List<StudentPlanELO> studentPlans) {
-            this.assignedPedagogicalPlan = assignedPedagogicalPlan;
-            this.studentPlans = studentPlans;
-        }
-
-        public AssignedPedagogicalPlan getAssignedPedagogicalPlan() {
-            return assignedPedagogicalPlan;
-        }
-
-        public List<StudentPlanELO> getStudentPlans() {
-            return studentPlans;
-        }
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 }

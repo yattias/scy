@@ -2,6 +2,7 @@ package eu.scy.server.controllers.scyauthorruntime;
 
 import eu.scy.core.PedagogicalPlanPersistenceService;
 import eu.scy.server.controllers.BaseController;
+import eu.scy.server.roolo.MissionELOService;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,19 +17,19 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ScyAuthorRuntimeIndexController extends BaseController {
 
-    private PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService;
+    private MissionELOService missionELOService;
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-        modelAndView.addObject("pedagogicalPlans", getPedagogicalPlanPersistenceService().getPedagogicalPlans());
+        String username = getCurrentUserName(request);
+        modelAndView.addObject("missionTransporters", getMissionELOService().getWebSafeTransporters(getMissionELOService().getMissionSpecifications(username)));
     }
 
-
-    public PedagogicalPlanPersistenceService getPedagogicalPlanPersistenceService() {
-        return pedagogicalPlanPersistenceService;
+    public MissionELOService getMissionELOService() {
+        return missionELOService;
     }
 
-    public void setPedagogicalPlanPersistenceService(PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService) {
-        this.pedagogicalPlanPersistenceService = pedagogicalPlanPersistenceService;
+    public void setMissionELOService(MissionELOService missionELOService) {
+        this.missionELOService = missionELOService;
     }
 }
