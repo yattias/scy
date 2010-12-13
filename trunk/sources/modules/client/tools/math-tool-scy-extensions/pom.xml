@@ -28,6 +28,15 @@
     		<artifactId>math-tool</artifactId>
     		<version>${pom.version}</version>
     	</dependency>
-    	
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>action-logging-commons</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>action-logging-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
     </dependencies>
 </project>
