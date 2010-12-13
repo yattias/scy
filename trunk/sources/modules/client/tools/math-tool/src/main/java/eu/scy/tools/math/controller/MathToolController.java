@@ -45,8 +45,9 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import eu.scy.tools.math.adapters.AdjustSizeAdapter;
 import eu.scy.tools.math.adapters.ShapeJXLabelDropTargetListener;
 import eu.scy.tools.math.adapters.ShapeMoverAdapter;
-import eu.scy.tools.math.doa.ComputationDataObject;
+import eu.scy.tools.math.doa.ComputationDataObj;
 import eu.scy.tools.math.doa.DataStoreObj;
+import eu.scy.tools.math.doa.ThreeDObj;
 import eu.scy.tools.math.shapes.I3D;
 import eu.scy.tools.math.shapes.IMathCylinder3D;
 import eu.scy.tools.math.shapes.IMathEllipse;
@@ -86,7 +87,7 @@ public class MathToolController {
 		xstream.alias("rectangle", MathRectangle.class);
 		xstream.alias("triangle", MathTriangle.class);
 		xstream.alias("ellipse", MathEllipse.class);
-		xstream.alias("tableObject", ComputationDataObject.class);
+		xstream.alias("tableObject", ComputationDataObj.class);
 		xstream.alias("DataStoreObject", DataStoreObj.class);
 	}
 
@@ -267,7 +268,7 @@ public class MathToolController {
 					.getClientProperty(UIUtils.SHAPE);
 
 			mathShape.checkForError();
-			if (mathShape.isHasError() == true)
+			if (mathShape.getError() == true)
 				return;
 
 			String volume = mathShape.getVolumeValueLabel().getText();
@@ -411,7 +412,10 @@ public class MathToolController {
 		
 			DataStoreObj doa = new DataStoreObj();
 			doa.setType(key);
-			doa.setMathShapes(this.getShapeCanvases().get(key).getMathShapes());
+			if( key.equals(UIUtils._3D))
+				doa.setThreeDMathShapes(this.convertTo3DDataObj(this.getShapeCanvases().get(key).getMathShapes()));
+			else
+				doa.setTwoDMathShapes(this.getShapeCanvases().get(key).getMathShapes());
 			doa.setTablesObjects(getTableObjects(key));
 			objHashMap.put(key, doa);
 		}
@@ -419,13 +423,26 @@ public class MathToolController {
 		return xstream.toXML(objHashMap);
 	}
 
-	protected List<ComputationDataObject> getTableObjects(String key) {
+	private List<ThreeDObj> convertTo3DDataObj(ArrayList<IMathShape> mathShapes) {
+		List<ThreeDObj> objs = new ArrayList<ThreeDObj>();
+		for (IMathShape ms : mathShapes) {
+			if( ms instanceof MathCylinder3D)  
+				objs.add(new ThreeDObj(null,((MathCylinder3D) ms).getRadiusTextField().getText(), ((MathCylinder3D) ms).getSurfaceAreaTextField().getText(), ((MathCylinder3D) ms).getRatioTextField().getText(), ((MathCylinder3D) ms).getLocation(),UIUtils.CYLINDER3D));
+			else if( ms instanceof MathSphere3D ) 
+				objs.add(new ThreeDObj(null,((MathSphere3D) ms).getRadiusTextField().getText(), ((MathSphere3D) ms).getSurfaceAreaTextField().getText(), ((MathSphere3D) ms).getRatioTextField().getText(), ((MathSphere3D) ms).getLocation(),UIUtils.SPHERE3D));
+			else if( ms instanceof MathRectangle3D ) 
+				objs.add(new ThreeDObj(((MathRectangle3D) ms).getLengthTextField().getText(),null, ((MathRectangle3D) ms).getSurfaceAreaTextField().getText(), ((MathRectangle3D) ms).getRatioTextField().getText(), ((MathRectangle3D) ms).getLocation(), UIUtils.RECTANGLE3D));
+		}
+		return objs;
+	}
+
+	protected List<ComputationDataObj> getTableObjects(String key) {
 		JXTable jxTable = this.computationTables.get(key);
 		DefaultTableModel model = (DefaultTableModel) jxTable.getModel();
 		Vector<Vector> dataVector = model.getDataVector();
-		List<ComputationDataObject> cdos = new ArrayList<ComputationDataObject>();
+		List<ComputationDataObj> cdos = new ArrayList<ComputationDataObj>();
 		for (Vector data : dataVector) {
-			cdos.add(new ComputationDataObject(data, key));
+			cdos.add(new ComputationDataObj(data, key));
 		}
 		return cdos;
 		
@@ -478,26 +495,63 @@ public class MathToolController {
 				String key = (String) keySetIterator.next();
 			
 				ShapeCanvas sc = shapeCanvases.get(key);
-				sc.getMathShapes().removeAll(sc.getMathShapes());
+				sc.removeAllShapes();
+				
 				sc.repaint();
 				sc.revalidate();
 				
 				DataStoreObj dataStoreObj = objHashMap.get(key);
 				
-				List<IMathShape> mathShapes = dataStoreObj.getMathShapes();
-				for (IMathShape iMathShape : mathShapes) {
-					sc.addShape(iMathShape);
+				if( key.equals(UIUtils._3D) ) {
+					List<ThreeDObj> threeObjects = dataStoreObj.getThreeDMathShapes();
+					for (ThreeDObj to : threeObjects) {
+							sc.addShape(convertThreeObjToMathShape(to));
+					}
+
+				} else {
+					List<IMathShape> mathShapes = dataStoreObj.getTwoDMathShapes();
+					for (IMathShape iMathShape : mathShapes) {
+							sc.addShape(iMathShape);
+					}
+
 				}
+				
 				
 				sc.repaint();
 				sc.revalidate();
 				
-				List<ComputationDataObject> tablesObjects = dataStoreObj.getTablesObjects();
+				List<ComputationDataObj> tablesObjects = dataStoreObj.getTablesObjects();
 				DefaultTableModel model = (DefaultTableModel) getComputationTables().get(key).getModel();
 				model.getDataVector().removeAllElements();
-				for (ComputationDataObject computationDataObject : tablesObjects) {
-					model.addRow(computationDataObject.toArray());
+				for (ComputationDataObj computationDataObject : tablesObjects) {
+					model.addRow(computationDataObject.toArray(key));
 				}
 			}
+	}
+
+	private IMathShape convertThreeObjToMathShape(ThreeDObj to) {
+		if( to.getType().equals(UIUtils.CYLINDER3D)) {
+			MathCylinder3D ms = new MathCylinder3D(to.getPosition());
+			ms.getRadiusTextField().setText(to.getRadius());
+			ms.getSurfaceAreaTextField().setText(to.getSurfaceArea());
+			ms.getRatioTextField().setText(to.getRatio());
+			ms.getAddButton().addActionListener(add3dAction);
+			return ms;
+		} else if(to.getType().equals(UIUtils.SPHERE3D)) {
+			MathSphere3D ms = new MathSphere3D(to.getPosition());
+			ms.getRadiusTextField().setText(to.getRadius());
+			ms.getSurfaceAreaTextField().setText(to.getSurfaceArea());
+			ms.getRatioTextField().setText(to.getRatio());
+			ms.getAddButton().addActionListener(add3dAction);
+			return ms;
+		} else if(to.getType().equals(UIUtils.RECTANGLE3D)) {
+			MathRectangle3D ms = new MathRectangle3D(to.getPosition());
+			ms.getLengthTextField().setText(to.getLength());
+			ms.getSurfaceAreaTextField().setText(to.getSurfaceArea());
+			ms.getRatioTextField().setText(to.getRatio());
+			ms.getAddButton().addActionListener(add3dAction);
+			return ms;
+		}
+		return null;
 	}
 }

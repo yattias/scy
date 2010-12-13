@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import eu.scy.tools.math.ui.UIUtils;
 
-public class ComputationDataObject {
+public class ComputationDataObj {
 
 	private String name;
 	private Float value;
@@ -14,14 +14,14 @@ public class ComputationDataObject {
 	private String surfaceArea;
 	private String volume;
 
-	public ComputationDataObject(Integer columnNumber, String name, Float value, Float sum) {
+	public ComputationDataObj(Integer columnNumber, String name, Float value, Float sum) {
 		this.setColumnNumber(columnNumber);
 		this.name = name;
 		this.value = value;
 		this.setSum(sum);
 	}
 	
-	public ComputationDataObject(Object[] values, String type) {
+	public ComputationDataObj(Object[] values, String type) {
 		
 		if( type.equals(UIUtils._3D)) {
 			this.columnNumber  = (Integer)values[0];
@@ -38,7 +38,7 @@ public class ComputationDataObject {
 		
 	}
 	
-	public ComputationDataObject(Vector vector, String type) {
+	public ComputationDataObj(Vector vector, String type) {
 		
 		if( type.equals(UIUtils._3D)) {
 			this.columnNumber  = (Integer)vector.get(0);
@@ -67,7 +67,10 @@ public class ComputationDataObject {
 	public String getName() {
 		return name;
 	}
-	public Object[] toArray() {
+	public Object[] toArray(String type) {
+		if( type.equals(UIUtils._3D)) {
+			return new Object[]{ columnNumber, ratio, surfaceArea, volume};
+		}
 		return new Object[]{ columnNumber, name, value, sum};
 	}
 	@Override

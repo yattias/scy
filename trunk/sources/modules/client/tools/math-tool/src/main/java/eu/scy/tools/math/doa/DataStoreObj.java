@@ -8,8 +8,10 @@ import eu.scy.tools.math.shapes.IMathShape;
 public class DataStoreObj {
 	
 	private String type;
-	private List<IMathShape> mathShapes = new ArrayList<IMathShape> ();
-	private List<ComputationDataObject> tablesObjects = new ArrayList<ComputationDataObject> ();
+	private List<IMathShape> twoDMathShapes = new ArrayList<IMathShape> ();
+	private List<ThreeDObj> threeDMathShapes = new ArrayList<ThreeDObj> ();
+	
+	private List<ComputationDataObj> tablesObjects = new ArrayList<ComputationDataObj> ();
 	
 	public void setType(String type) {
 		this.type = type;
@@ -17,17 +19,23 @@ public class DataStoreObj {
 	public String getType() {
 		return type;
 	}
-	public void setMathShapes(List<IMathShape> mathShapes) {
-		this.mathShapes = mathShapes;
-	}
-	public List<IMathShape> getMathShapes() {
-		return mathShapes;
-	}
-	public void setTablesObjects(List<ComputationDataObject> tablesObjects) {
+	public void setTablesObjects(List<ComputationDataObj> tablesObjects) {
 		this.tablesObjects = tablesObjects;
 	}
-	public List<ComputationDataObject> getTablesObjects() {
+	public List<ComputationDataObj> getTablesObjects() {
 		return tablesObjects;
+	}
+	public void setTwoDMathShapes(List<IMathShape> twoDMathShapes) {
+		twoDMathShapes = this.twoDMathShapes;
+	}
+	public List<IMathShape> getTwoDMathShapes() {
+		return twoDMathShapes;
+	}
+	public void setThreeDMathShapes(List<ThreeDObj> threeDMathShapes) {
+		this.threeDMathShapes = threeDMathShapes;
+	}
+	public List<ThreeDObj> getThreeDMathShapes() {
+		return threeDMathShapes;
 	}
 
 }

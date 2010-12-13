@@ -1,6 +1,7 @@
 package eu.scy.tools.math.shapes.impl;
 
 import java.awt.BorderLayout;
+import java.awt.Point;
 import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
@@ -32,8 +33,13 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 		super(x,y);
 	}
 
+	public MathRectangle3D(Point location) {
+		super(location);
+		// TODO Auto-generated constructor stub
+	}
+
 	protected void init() {
-		
+		super.init();
 		
 		JXPanel allPanel = new JXPanel(new BorderLayout(0,0));
 		
@@ -66,9 +72,9 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 		labelPanel.add(lengthLabel);
 		
 		lengthTextField = new JXTextField();
-		lengthTextField.setColumns(TEXTFIELD_LENGTH);
+		getLengthTextField().setColumns(TEXTFIELD_LENGTH);
 		
-		labelPanel.add(lengthTextField,"wrap");
+		labelPanel.add(getLengthTextField(),"wrap");
 		
 
 		setupCommonInputs();
@@ -89,24 +95,24 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 	public boolean checkForError() {
 		boolean checkForError = super.checkForError();
 		
-		String length = lengthTextField.getText();
+		String length = getLengthTextField().getText();
 		
 		if( length.isEmpty() || StringUtils.isNumeric(length) == false ) {
-			lengthTextField.setBackground(UIUtils.ERROR_SHAPE_COLOR);
+			getLengthTextField().setBackground(UIUtils.ERROR_SHAPE_COLOR);
 			errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
-			setHasError(true);
+			setError(true);
 		} else {
-			lengthTextField.setBackground(UIUtils.NONSHAPE_SHAPE_COLOR);
+			getLengthTextField().setBackground(UIUtils.NONSHAPE_SHAPE_COLOR);
 			errorLabel.setForeground(UIUtils.NONSHAPE_SHAPE_COLOR);
-			setHasError(false);
+			setError(false);
 		}
 		
 		
 		if(checkForError == true) {
-			setHasError(true);
+			setError(true);
 			errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
 		}
-		return isHasError();
+		return getError();
 	}
 
 
@@ -126,6 +132,10 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 	@Override
 	public String getWidthValue() {
 		return widthValueLabel.getText();
+	}
+
+	public JXTextField getLengthTextField() {
+		return lengthTextField;
 	}
 
 

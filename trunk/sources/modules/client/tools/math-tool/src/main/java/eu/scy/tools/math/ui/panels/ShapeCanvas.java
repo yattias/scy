@@ -1,5 +1,6 @@
 package eu.scy.tools.math.ui.panels;
 
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -9,9 +10,11 @@ import java.util.logging.Logger;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import eu.scy.tools.math.shapes.I3D;
 import eu.scy.tools.math.shapes.IMathShape;
+import eu.scy.tools.math.ui.UIUtils;
 
 
 public class ShapeCanvas extends JPanel implements IShapeCanvas{
@@ -96,6 +99,7 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas{
 	public void addShape(IMathShape shape) {
 		getMathShapes().add(shape);
 		
+		((JComponent) shape).setName(UIUtils._3D);
 		if( shape instanceof I3D )
 			this.add((JComponent) shape);
 	
@@ -119,6 +123,19 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas{
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+
+	public void removeAllShapes() {
+		this.mathShapes.removeAll(mathShapes);
+		//remove the 3d ones
+		Component[] components = this.getComponents();
+		for (Component component : components) {
+			if( component.getName() != null && component.getName().equals(UIUtils._3D))
+				this.remove(component);
+				
+		}
+		
 	}
 
 	
