@@ -82,17 +82,17 @@ public class MathToolScyNode extends MathToolNode, ScyToolFX, EloSaverCallBack {
       var myEloUri:String = (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI();
       if (myEloUri == null and scyWindow.eloUri != null)
          myEloUri = scyWindow.eloUri.toString();
-    //  mathTool.setEloUri(myEloUri);
+         
+         ( mathTool.getMathToolController() as SCYMathToolController).setEloUri(myEloUri);
    }
 
    public override function initialize(windowContent:Boolean):Void{
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
-      if (actionLogger==null) {
+      if(actionLogger == null){
          actionLogger = new DevNullActionLogger();
       }
-      //mathTool.setRichTextEditorLogger(actionLogger,
-        //toolBrokerAPI.getLoginUserName(), toolname, toolBrokerAPI.getMission(), "n/a",
-       // "MathTool");
+      //( mathTool.getMathToolController() as SCYMathToolController);
+      //setActionLogger(actionLogger,toolBrokerAPI.getLoginUserName(), toolname, "n/a", MathTool");
       setLoggerEloUri();
     }
 
