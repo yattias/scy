@@ -6,9 +6,7 @@
 
 package eu.scy.client.tools.fxmathtool.registration;
 
-import javafx.scene.CustomNode;
 import javafx.scene.Node;
-import javafx.scene.layout.Resizable;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import org.apache.log4j.Logger;
@@ -33,12 +31,10 @@ import roolo.api.search.ISearchResult;
 import javax.swing.JOptionPane;
 import java.util.List;
 import eu.scy.actionlogging.DevNullActionLogger;
-import org.jdom.Element;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.Container;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 import org.roolo.search.BasicMetadataQuery;
 import org.roolo.search.BasicSearchOperations;
