@@ -116,7 +116,16 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
                 }
 
             }
-
+            Button {
+                graphic: ImageView{ image: Image { url: "{__DIR__}resources/world_add.png" } }
+                tooltip: Tooltip { text: "browse ELOs" }
+                action:function():Void {browseElos()}
+            },
+            Button {
+                graphic: ImageView{ image: Image { url: "{__DIR__}resources/page_white_world.png" } }
+                tooltip: Tooltip { text: "save ELO" }
+                action:function():Void {saveElo()}
+            }
             ]
             spacing: 5.0;
     }
@@ -232,6 +241,7 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
     }
 
     override function getXML():String {
+        //println(YTDataHandler.createXMLDocument(dataSets));
         return YTDataHandler.createXMLDocument(dataSets);
     }
 
@@ -242,9 +252,11 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
 
 
     public function browseElos():Void {
+        youTuberRepositoryWrapper.loatYTAction();
     }
 
-    public function saveElo():Void {
+    public function saveElo():Void { 
+        youTuberRepositoryWrapper.saveYTAction();
     }
 
 

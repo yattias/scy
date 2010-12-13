@@ -44,7 +44,73 @@
           <version>${pom.version}</version>
       </dependency>
     </dependencies>
+<repositories>
+        <repository>
+            <id>collide-releases</id>
+            <url>http://mvn.collide.info/content/repositories/releases</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>collide-snapshots</id>
+            <url>http://mvn.collide.info/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>cc-repo-internal</id>
+            <name>Concord Consortium Internal</name>
+            <url>http://source.concord.org/maven2/internal_snapshot/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>fhg-maven</id>
+            <url>http://theseuskd.iais.fraunhofer.de:8080/nexus/content/groups/public</url>
+            <releases>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </releases>
+            <snapshots>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>reucon</id>
+            <url>http://maven.reucon.com/public</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>java.net</id>
+            <url>http://download.java.net/maven/2/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
 
+        <repository>
+           <releases>
+                <enabled>true</enabled>
+           </releases>
+           <snapshots>
+                <enabled>false</enabled>
+           </snapshots>
+           <id>thirdparty-local</id>
+           <url>http://mvn.collide.info/content/repositories/thirdparty</url>
+       </repository>
+    </repositories>
     <build>
         <plugins>
             <plugin>

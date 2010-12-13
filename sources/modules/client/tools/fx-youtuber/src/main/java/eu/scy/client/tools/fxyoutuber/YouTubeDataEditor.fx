@@ -20,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javax.swing.JOptionPane;
 
 /**
  * @author pg
@@ -80,9 +81,7 @@ public class YouTubeDataEditor extends CustomNode {
         tooltip: Tooltip {text: "ok"}
         graphic: ImageView{ image: Image { url: "{__DIR__}resources/tick.png" } }
         action:function():Void {
-            this.dataSet = prepareDataSet(ytID, title, text);
-            ytNode.updateDataSet(dataSetID, dataSet);
-            ytNode.closePopup(this);
+            validateAndInsertData();
         }
 
     }
@@ -133,6 +132,7 @@ public class YouTubeDataEditor extends CustomNode {
 
     function prepareDataSet(inputURL:String, title:String, text:String):YouTuberDataSet {
         var url = inputURL;
+        /*
         if(url.equalsIgnoreCase("")) {
             url = "http://www.youtube.com/watch?v=spn-84Qe9i8";
         }
@@ -144,6 +144,7 @@ public class YouTubeDataEditor extends CustomNode {
         else {
             dataSet.setYtid(ytid);
         }
+        */
         if(title.equals("")) {
             dataSet.setTitle("no title");
         }
@@ -159,5 +160,24 @@ public class YouTubeDataEditor extends CustomNode {
         return dataSet;
 
     }
+
+    function validateAndInsertData():Void {
+            if(ytID.equalsIgnoreCase("")) {
+                JOptionPane.showMessageDialog(null, "Please enter a valid Youtube URL or ID.");
+                return;
+            }
+            var myYtID = YouTubeSplitter.split(ytID);
+            /*
+            //the code below is crap. i need to find a better way to validate input
+            if(myYtID.equals("-1")) {
+                JOptionPane.showMessageDialog(null, "Please enter a valid Youtube URL or ID.");
+                return;
+            }
+            */
+            this.dataSet = prepareDataSet(ytID, title, text);
+            ytNode.updateDataSet(dataSetID, dataSet);
+            ytNode.closePopup(this);
+    }
+
 
 }

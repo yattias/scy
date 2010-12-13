@@ -8,7 +8,13 @@ import eu.scy.client.desktop.scydesktop.corners.elomanagement.EloManagement;
 import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
 import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreator;
 
+//TODO:
+/*
+    - validate user input
+    - survive gui check 'adam style'
+    - propper elo connection
 
+*/
 
 var initializer = Initializer {
            scyDesktopConfigFile: "config/scyDesktopYouTuberTestConfig.xml"

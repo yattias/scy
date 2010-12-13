@@ -32,8 +32,8 @@ import roolo.elo.metadata.keys.Contribute;
  */
 public class YouTuberRepositoryWrapper {
     private static final Logger logger = Logger.getLogger(YouTuberRepositoryWrapper.class.getName());
-    public static final String scyFormAuthorType = "scy/formauthor";
-    public static final String untitledDocName = "Untitled Form";
+    public static final String scyFormAuthorType = "scy/youtuber";
+    public static final String untitledDocName = "Untitled YouTubeR Link Collection";
 
     private IRepository repository;
     private IMetadataTypeManager metadataTypeManager;
@@ -62,7 +62,7 @@ public class YouTuberRepositoryWrapper {
     public void setDocName(String docName)
     {
         this.docName = docName;
-        String windowTitle = "WebRessource: ";
+        String windowTitle = "YouTubeR: ";
         if (StringUtils.hasText(docName))
         {
             windowTitle += docName;
@@ -83,7 +83,7 @@ public class YouTuberRepositoryWrapper {
         logger.info("retrieved key " + authorKey.getId());
     }
 
-    public void loadFormAction()
+    public void loatYTAction()
     {
         IQuery query = null;
         IMetadataQuery metadataQuery = new BasicMetadataQuery(technicalFormatKey, BasicSearchOperations.EQUALS, scyFormAuthorType, null);
@@ -95,11 +95,11 @@ public class YouTuberRepositoryWrapper {
         {
             drawingUris[i++] = searchResult.getUri();
         }
-        URI webUri = (URI) JOptionPane.showInputDialog(null, "Select piece of Information", "Select piece of Information", JOptionPane.QUESTION_MESSAGE, null, drawingUris, null);
-        if (webUri != null)
+        URI ytUri = (URI) JOptionPane.showInputDialog(null, "Select piece of Information", "Select piece of Information", JOptionPane.QUESTION_MESSAGE, null, drawingUris, null);
+        if (ytUri != null)
         {
             //System.out.println(webUri);
-            loadElo(webUri);
+            loadElo(ytUri);
         }
         else {
             //System.out.println("error. elo did not want to be loaded :(");
@@ -138,11 +138,11 @@ public class YouTuberRepositoryWrapper {
             logger.warning("ERROR: could not retrieve elo.");
         }
     }
-    public void saveFormAction() {
-        logger.fine("save formauthor");
+    public void saveYTAction() {
+        logger.fine("save youtubeR elo");
         if (elo == null)
         {
-            saveAsFormAction();
+            saveAsYTAction();
         }
         else
         {
@@ -152,16 +152,16 @@ public class YouTuberRepositoryWrapper {
         }
     }
 
-    public void saveAsFormAction() {
-        logger.fine("save as formauthor form");
-        String webName = JOptionPane.showInputDialog("Enter FormAuthor form name:", docName);
-        if (StringUtils.hasText(webName)) {
-            setDocName(webName);
+    public void saveAsYTAction() {
+        logger.fine("save as youtubeR elo");
+        String ytName = JOptionPane.showInputDialog("Enter YouTubeR linklist name:", docName);
+        if (StringUtils.hasText(ytName)) {
+            setDocName(ytName);
             elo = eloFactory.createELO();
             elo.setDefaultLanguage(Locale.ENGLISH);
             elo.getMetadata().getMetadataValueContainer(titleKey).setValue(docName);
             elo.getMetadata().getMetadataValueContainer(titleKey).setValue(docName, Locale.GERMANY);
-            elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue("scy/formauthor");
+            elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue("scy/youtuber");
             elo.getMetadata().getMetadataValueContainer(dateCreatedKey).setValue(
             new Long(System.currentTimeMillis()));
             elo.getMetadata().getMetadataValueContainer(authorKey).setValue(
@@ -173,7 +173,7 @@ public class YouTuberRepositoryWrapper {
             eloFactory.updateELOWithResult(elo, resultMetadata);
             //sendEloLoadedChangedListener();
         }
-        target.setTitle(webName);
+        target.setTitle(ytName);
     }
 
 }
