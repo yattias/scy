@@ -99,6 +99,15 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML, E
 
     def menuBar:HBox = HBox {
         content: [
+            /*
+            Text {
+                content: "Add YouTube URL";
+                font: Font {
+                    size: 15.0;
+                }
+
+            },
+            */
             addURLButton,
             /*
             Button {

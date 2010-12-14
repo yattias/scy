@@ -76,7 +76,7 @@ public class YouTuberItem extends CustomNode {
     }
 
     var editButton:Button = Button {
-        tooltip: Tooltip {text: "watch on YouTube.com"}
+        tooltip: Tooltip {text: "edit"}
         graphic: ImageView{ image: Image { url: "{__DIR__}resources/cog_edit.png"  } fitHeight: 16; preserveRatio: true;}
         action:function():Void {
             ytNode.showPopup(YouTubeDataEditor {
