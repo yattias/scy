@@ -446,6 +446,24 @@
 
     </tag>
 
+    <tag>
+        <name>runtimeMissionController</name>
+        <tagclass>eu.scy.server.taglibs.components.runtimemissionselector.RuntimeMissionController</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Student can select mission</info>
+        <attribute>
+            <name>runtimeELOService</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>userService</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+    </tag>
+
 
 
 </taglib>
