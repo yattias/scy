@@ -246,10 +246,6 @@ public class FormViewer extends CustomNode, Resizable, ILoadXML, ScyToolFX {
         return 400;
     }
 
-    function setScyWindowTitle():Void {
-
-    }
-
     public function setFormAuthorRepositoryWrapper(wrapper:FormAuthorRepositoryWrapper):Void {
         formAuthorRepositoryWrapper = wrapper;
     }
@@ -262,6 +258,19 @@ public class FormViewer extends CustomNode, Resizable, ILoadXML, ScyToolFX {
         return "";
         //return formList.getXMLString();
     }
+
+    public var windowTitle:String;
+    function setScyWindowTitle():Void {
+        scyWindow.title = "FormAuthor: {windowTitle}";
+
+    }
+
+   override function setTitle(title:String):Void {
+       windowTitle = title;
+       this.title = title;
+       setScyWindowTitle();
+   }
+
 
     public override function postInitialize(): Void {
         formAuthorRepositoryWrapper = new FormAuthorRepositoryWrapper(this);
@@ -277,10 +286,6 @@ public class FormViewer extends CustomNode, Resizable, ILoadXML, ScyToolFX {
 
     public function saveElo():Void {
         formAuthorRepositoryWrapper.saveFormAction();
-    }
-
-    override function setTitle(title:String) {
-        this.title = title;
     }
 
 }

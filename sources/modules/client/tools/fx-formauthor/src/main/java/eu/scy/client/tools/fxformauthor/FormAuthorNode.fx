@@ -15,16 +15,22 @@ import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.tools.fxformauthor.FormAuthorRepositoryWrapper;
 import eu.scy.client.tools.fxformauthor.viewer.FormViewer;
 import eu.scy.client.tools.fxformauthor.datamodel.DataHandler;
+import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
+import java.net.URI;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
 /**
  * @author pg
  */
 
-public class FormAuthorNode extends CustomNode, Resizable, ScyToolFX, ILoadXML {
+public class FormAuthorNode extends CustomNode, Resizable, ScyToolFX, ILoadXML, EloSaverCallBack  {
     public-init var formAuthorRepositoryWrapper:FormAuthorRepositoryWrapper;
     public var repository:IRepository;
     public var eloFactory:IELOFactory;
     public var metadataTypeManager:IMetadataTypeManager;
+    public var technicalFormatKey: IMetadataKey;
     public var scyWindow:ScyWindow on replace {
         setScyWindowTitle();
         formList.setScyWindow(scyWindow);
@@ -34,6 +40,10 @@ public class FormAuthorNode extends CustomNode, Resizable, ScyToolFX, ILoadXML {
     override var children = bind nodes;
     var formList:FormList = FormList{formNode: this};
     var viewer:FormViewer;
+
+    var scyFormAuthorType = "scy/formauthor";
+    var elo:IELO;
+    var eloUri:String = "n/a";
 
     public var windowTitle:String;
 
@@ -111,13 +121,65 @@ public class FormAuthorNode extends CustomNode, Resizable, ScyToolFX, ILoadXML {
         formAuthorRepositoryWrapper.setDocName(scyWindow.title);
     }
 
+
+    public override function initialize(windowContent: Boolean):Void {
+        technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+    }
+    
     public function browseElos():Void {
         formAuthorRepositoryWrapper.loadFormAction();
     }
 
     public function saveElo():Void {
-        formAuthorRepositoryWrapper.saveFormAction();
+        //formAuthorRepositoryWrapper.saveFormAction();
+        doSaveELO();
     }
+
+    public function saveAsElo():Void {
+        doSaveAsELO();
+    }
+
+    public override function loadElo(uri:URI) {
+        doLoadELO(uri);
+    }
+ 
+    function doLoadELO(eloUri:URI) {
+        var newElo = repository.retrieveELO(eloUri);
+        if(newElo != null) {
+            loadXML(newElo.getContent().getXmlString());
+            this.eloUri = eloUri.toString();
+            //logger.info("youtubeR: elo loaded");
+            elo = newElo;
+        }
+    }
+    
+    function doSaveELO() {
+        eloSaver.eloUpdate(getELO(), this);
+        this.eloUri = elo.getUri().toString(); // stolen from filtex, dont know why (:
+    }
+
+    function doSaveAsELO() {
+        eloSaver.eloSaveAs(getELO(), this);
+    }
+
+    function getELO():IELO {
+        if(elo == null) {
+            elo = eloFactory.createELO();
+            elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(scyFormAuthorType);
+        }
+        elo.getContent().setXmlString(getXML()); 
+        return elo;
+    }
+
+    override public function eloSaveCancelled (elo : IELO) : Void {
+    }
+
+    override public function eloSaved (elo : IELO) : Void {
+        this.elo = elo;
+        eloUri = elo.getUri().toString();
+    }
+
+
 
 
 }

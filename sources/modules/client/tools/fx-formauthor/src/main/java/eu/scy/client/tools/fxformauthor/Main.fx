@@ -23,9 +23,9 @@ var initializer = Initializer {
            //loginType: "remote"
            loginType: "local"
            authorMode:true
-           autoLogin: true
-           defaultUserName: "phil"
-           defaultPassword: "phil"
+           //autoLogin: true
+           //defaultUserName: "phil"
+           //defaultPassword: "phil"
 }
 function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def scyFormAuthorId = "formauthor";
