@@ -12,10 +12,10 @@ import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import eu.scy.client.tools.fxflyingsaucer.BareBonesBrowserLaunch;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import eu.scy.client.tools.fxflyingsaucer.BareBonesBrowserLaunch;
 
 /**
  * @author frogbox-desktop
@@ -37,11 +37,11 @@ public class YouTuberItem extends CustomNode {
 
     postinit {
         if(dataSet == null) {
-            println("dataset == null. cannot work w/o data.");
+            //println("dataset == null. cannot work w/o data.");
 
         }
         if(dataSetID == -1) {
-            println("dataSetID == null. cannot work w/o my dataSetId! I miss it soo much :o(");
+            //println("dataSetID == null. cannot work w/o my dataSetId! I miss it soo much :o(");
         }
         loadData();
         insert backgroundRectangle into nodes;
@@ -52,7 +52,7 @@ public class YouTuberItem extends CustomNode {
     var titleText:Text = Text {
         content: bind title;
         font: ytNode.titleFont;
-        wrappingWidth: bind ytNode.scyWindow.width - 250;
+        wrappingWidth: bind ytNode.scyWindow.width - 265;
         /*
         layoutInfo: LayoutInfo {
             maxWidth: bind ytNode.scyWindow.width - 200;
@@ -62,7 +62,7 @@ public class YouTuberItem extends CustomNode {
 
     var textText:Text = Text {
         content: bind text;
-        wrappingWidth: bind ytNode.scyWindow.width - 40;
+        wrappingWidth: bind ytNode.scyWindow.width - 55;
         font: ytNode.textFont;
     }
 
@@ -100,7 +100,7 @@ public class YouTuberItem extends CustomNode {
 
     var backgroundRectangle:Rectangle = Rectangle {
         height: bind content.layoutBounds.height+20;
-        width: bind ytNode.scyWindow.width - 19;
+        width: bind ytNode.scyWindow.width - 30;
         fill: Color.WHITE;
         //arcWidth: 8;
         //arcHeight: 8;

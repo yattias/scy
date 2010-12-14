@@ -113,6 +113,7 @@ public class YouTubeDataEditor extends CustomNode {
             this.title = dataSet.getTitle();
             this.text = dataSet.getText();
         }
+
         insert [backgroundRectangle, content] into nodes;
         this.translateX = 15;
         this.translateY = 15;
@@ -131,7 +132,8 @@ public class YouTubeDataEditor extends CustomNode {
 
 
     function prepareDataSet(inputURL:String, title:String, text:String):YouTuberDataSet {
-        var url = inputURL;
+        var dataSet:YouTuberDataSet = new YouTuberDataSet();
+        //var url = inputURL;
         /*
         if(url.equalsIgnoreCase("")) {
             url = "http://www.youtube.com/watch?v=spn-84Qe9i8";
@@ -145,6 +147,7 @@ public class YouTubeDataEditor extends CustomNode {
             dataSet.setYtid(ytid);
         }
         */
+        dataSet.setYtid(inputURL);
         if(title.equals("")) {
             dataSet.setTitle("no title");
         }
@@ -164,6 +167,8 @@ public class YouTubeDataEditor extends CustomNode {
     function validateAndInsertData():Void {
             if(ytID.equalsIgnoreCase("")) {
                 JOptionPane.showMessageDialog(null, "Please enter a valid Youtube URL or ID.");
+                //DialogBox.showMessageDialog("Please enter a valid Youtube URL or ID.","Error", ytNode.scyWindow. , function(){});
+
                 return;
             }
             var myYtID = YouTubeSplitter.split(ytID);
@@ -174,7 +179,7 @@ public class YouTubeDataEditor extends CustomNode {
                 return;
             }
             */
-            this.dataSet = prepareDataSet(ytID, title, text);
+            this.dataSet = prepareDataSet(myYtID, title, text);
             ytNode.updateDataSet(dataSetID, dataSet);
             ytNode.closePopup(this);
     }
