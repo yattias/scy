@@ -32,7 +32,7 @@ import roolo.elo.metadata.keys.Contribute;
  */
 public class YouTuberRepositoryWrapper {
     private static final Logger logger = Logger.getLogger(YouTuberRepositoryWrapper.class.getName());
-    public static final String scyFormAuthorType = "scy/youtuber";
+    public static final String scyYouTubeRType = "scy/youtuber";
     public static final String untitledDocName = "Untitled YouTubeR Link Collection";
 
     private IRepository repository;
@@ -83,10 +83,10 @@ public class YouTuberRepositoryWrapper {
         logger.info("retrieved key " + authorKey.getId());
     }
 
-    public void loatYTAction()
+    public void loadYTAction()
     {
         IQuery query = null;
-        IMetadataQuery metadataQuery = new BasicMetadataQuery(technicalFormatKey, BasicSearchOperations.EQUALS, scyFormAuthorType, null);
+        IMetadataQuery metadataQuery = new BasicMetadataQuery(technicalFormatKey, BasicSearchOperations.EQUALS, scyYouTubeRType, null);
         query = metadataQuery;
         List<ISearchResult> searchResults = repository.search(query);
         URI[] drawingUris = new URI[searchResults.size()];
@@ -112,7 +112,7 @@ public class YouTuberRepositoryWrapper {
         if (newElo != null)
         {
             String eloType = newElo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue().toString();
-            if (!scyFormAuthorType.equals(eloType) ) {
+            if (!scyYouTubeRType.equals(eloType) ) {
                 throw new IllegalArgumentException("elo (" + eloUri + ") is of wrong type: " + eloType);
             }
             IContent content = newElo.getContent();

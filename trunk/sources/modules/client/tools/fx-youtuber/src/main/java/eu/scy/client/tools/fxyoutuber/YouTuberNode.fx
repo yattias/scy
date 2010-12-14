@@ -25,22 +25,32 @@ import javafx.scene.text.Font;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Tooltip;
+import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
+import java.net.URI;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 /**
  * @author pg
  */
 
-public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
+public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML, EloSaverCallBack {
     public-init var youTuberRepositoryWrapper:YouTuberRepositoryWrapper;
     public var repository:IRepository;
     public var eloFactory:IELOFactory;
     public var metadataTypeManager:IMetadataTypeManager;
+    public var technicalFormatKey: IMetadataKey;
     public var scyWindow:ScyWindow on replace {
         setScyWindowTitle();
     };
     public var spacing:Number on replace { requestLayout() }
     public var windowTitle:String;
-
+    var scyYouTubeRType = "scy/youtuber";
+    var elo:IELO;
+    var eloUri:String = "n/a";
 
     var dataSets:ArrayList;
     
@@ -51,24 +61,22 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
 
     public-read var titleFont:Font = Font {
         size: 15.0;
-        
     }
 
 
     public-read var textFont:Font = Font {
         size: 12.0;
-
     }
 
 
     var sv:ScrollView = ScrollView {
-        node: contentList;
+        node: bind contentList;
         style: "-fx-background-color: transparent;"
         vbarPolicy: ScrollBarPolicy.AS_NEEDED;
         hbarPolicy: ScrollBarPolicy.NEVER;
         layoutInfo: LayoutInfo{
             height: bind scyWindow.height-60;
-            width: bind scyWindow.width+25;
+            width: bind scyWindow.width-15;
         }
     }
 
@@ -83,7 +91,7 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
         action: function():Void {
             showPopup(YouTubeDataEditor{ ytNode: this });
             showPopup(Text { content: "foobar "});
-            println("added buttons");
+            //println("added buttons");
         }
 
     }
@@ -92,6 +100,7 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
     def menuBar:HBox = HBox {
         content: [
             addURLButton,
+            /*
             Button {
                 text: "fill with random data"
                 action:function():Void {
@@ -105,6 +114,7 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
                     set.setTitle("Rammstein - Haifisch Video HD");
                     set.setText("Haifisch, is the third single from the album 'Liebe ist für Alle da' For the video 'Haifisch' Rammstein have again worked with Joern Heitmann. The single due out in mid-May, we will know the exact date later.");
                     updateDataSet(-1,set);
+                    set = new YouTuberDataSet();
                     set.setYtid("spn-84Qe9i8");
                     set.setTitle("Frittenbude - Bilder mit Katze");
                     set.setText("just great music.");
@@ -114,8 +124,8 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
                     set.setTitle("A Day To Remember - All Signs Point to Lauderdale");
                     updateDataSet(-1, set);
                 }
-
-            }
+            },
+            */
             Button {
                 graphic: ImageView{ image: Image { url: "{__DIR__}resources/world_add.png" } }
                 tooltip: Tooltip { text: "browse ELOs" }
@@ -124,7 +134,18 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
             Button {
                 graphic: ImageView{ image: Image { url: "{__DIR__}resources/page_white_world.png" } }
                 tooltip: Tooltip { text: "save ELO" }
-                action:function():Void {saveElo()}
+                action:function():Void {
+                    //saveElo();
+                    doSaveELO();
+                }
+            },
+            Button {
+                graphic: ImageView{ image: Image { url: "{__DIR__}resources/page_world.png" } }
+                tooltip: Tooltip { text: "save AS ELO" }
+                action:function():Void {
+                    //saveElo();
+                    doSaveAsELO();
+                }
             }
             ]
             spacing: 5.0;
@@ -165,7 +186,8 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
 
 
     function refreshGUIList():Void {
-        delete contentList.content;
+        //delete contentList.content;
+        contentList.content = [];
 
         for(i in [0..dataSets.size()-1]) {
             var item = YouTuberItem {
@@ -176,6 +198,14 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
             insert item into contentList.content;
 
         }
+        insert Rectangle {
+            height: 10;
+            width: 10;
+            fill: Color.TRANSPARENT;
+            stroke: Color.TRANSPARENT
+        }
+        into contentList.content;
+
 
         
     }
@@ -188,7 +218,7 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
 
     public function showPopup(item:Node):Void {
         insert item into foreground;
-        println("inserting {item}");
+        //println("inserting {item}");
     }
 
 
@@ -196,13 +226,6 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
         dataSets.remove(id);
         refreshGUIList();
     }
-
-
-
-
-
-
-
 
     override function getPrefWidth(height:Number):Number {
         return 600;
@@ -218,12 +241,9 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
     }
 
 
-
     public function setFormAuthorRepositoryWrapper(wrapper:YouTuberRepositoryWrapper):Void {
         youTuberRepositoryWrapper = wrapper;
     }
-
-
 
     public override function postInitialize(): Void {
         youTuberRepositoryWrapper = new YouTuberRepositoryWrapper(this);
@@ -233,6 +253,9 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
         youTuberRepositoryWrapper.setDocName(scyWindow.title);
     }
 
+    public override function initialize(windowContent: Boolean):Void {
+        technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+    }
 
     override function loadXML(xml:String):Void {
         this.dataSets = YTDataHandler.createSetFromString(xml);
@@ -250,9 +273,8 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
     }
 
 
-
     public function browseElos():Void {
-        youTuberRepositoryWrapper.loatYTAction();
+        youTuberRepositoryWrapper.loadYTAction();
     }
 
     public function saveElo():Void { 
@@ -261,9 +283,46 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML {
 
 
     public function createXML():Void {
-
     }
 
+    public override function loadElo(uri:URI) {
+        doLoadELO(uri);
+    }
+ 
+    function doLoadELO(eloUri:URI) {
+        var newElo = repository.retrieveELO(eloUri);
+        if(newElo != null) {
+            loadXML(newElo.getContent().getXmlString());
+            this.eloUri = eloUri.toString();
+            //logger.info("youtubeR: elo loaded");
+            elo = newElo;
+        }
+    }
+    
+    function doSaveELO() {
+        eloSaver.eloUpdate(getELO(), this);
+        this.eloUri = elo.getUri().toString(); // stolen from filtex, dont know why (:
+    }
 
+    function doSaveAsELO() {
+        eloSaver.eloSaveAs(getELO(), this);
+    }
+
+    function getELO():IELO {
+        if(elo == null) {
+            elo = eloFactory.createELO();
+            elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(scyYouTubeRType);
+        }
+        elo.getContent().setXmlString(getXML());
+        return elo;
+    }
+
+    override public function eloSaveCancelled (elo : IELO) : Void {
+    }
+
+    override public function eloSaved (elo : IELO) : Void {
+        this.elo = elo;
+        eloUri = elo.getUri().toString();
+    }
 
 }
