@@ -3,12 +3,10 @@ package eu.scy.server.url;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.AjaxPersistenceService;
-import eu.scy.core.model.ScyBase;
-import eu.scy.server.roolo.MissionELOService;
+import eu.scy.core.roolo.MissionELOService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.util.logging.Logger;

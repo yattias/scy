@@ -164,14 +164,22 @@
 
     <bean name="jsonView" class="eu.scy.server.controllers.json.AbstractJSonView"/>
 
-    <bean name="rooloAccessor" class="eu.scy.server.roolo.impl.RooloAccessorImpl">
+    <bean name="rooloAccessor" class="eu.scy.core.roolo.RooloAccessorImpl">
         <property name="metaDataTypeManager" ref="metadataTypeManager"/>
         <property name="extensionManager" ref="extensionManager"/>
         <property name="repository" ref="repository"/>
         <property name="eloFactory" ref="eloFactory"/>
     </bean>
 
-    <bean name="missionELOService" class="eu.scy.server.roolo.impl.MissionELOServiceImpl">
+    <bean name="missionELOService" class="eu.scy.core.roolo.MissionELOServiceImpl">
+        <property name="metaDataTypeManager" ref="metadataTypeManager"/>
+        <property name="extensionManager" ref="extensionManager"/>
+        <property name="repository" ref="repository"/>
+        <property name="eloFactory" ref="eloFactory"/>
+        <property name="authorKey" ref="authorKey"/>
+    </bean>
+
+    <bean name="runtimeELOService" class="eu.scy.core.roolo.RuntimeELOServiceImpl">
         <property name="metaDataTypeManager" ref="metadataTypeManager"/>
         <property name="extensionManager" ref="extensionManager"/>
         <property name="repository" ref="repository"/>

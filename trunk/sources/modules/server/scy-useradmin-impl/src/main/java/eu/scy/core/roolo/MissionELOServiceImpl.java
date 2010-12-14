@@ -1,8 +1,7 @@
-package eu.scy.server.roolo.impl;
+package eu.scy.core.roolo;
 
 import eu.scy.common.mission.*;
 import eu.scy.common.scyelo.ScyElo;
-import eu.scy.server.roolo.MissionELOService;
 import org.roolo.search.BasicMetadataQuery;
 import org.roolo.search.BasicSearchOperations;
 import roolo.api.search.IQuery;
@@ -21,14 +20,14 @@ import java.util.logging.Logger;
  * Time: 06:16:46
  * To change this template use File | Settings | File Templates.
  */
-public class MissionELOServiceImpl extends RooloAccessorImpl implements MissionELOService {
+public class MissionELOServiceImpl extends BaseELOServiceImpl implements MissionELOService {
 
     private static Logger log = Logger.getLogger("MissionELOServiceImpl.class");
 
     private static final String GLOBAL_MISSION_SCAFFOLDING_LEVEL = "globalMissionScaffoldingLevel";
 
     private static final RuntimeSettingKey globalMissionScaffoldingLevelKey = new RuntimeSettingKey(GLOBAL_MISSION_SCAFFOLDING_LEVEL, null, null);
-    private IMetadataKey authorKey;
+
 
     @Override
     public MissionSpecificationElo createMissionSpecification(String title, String description, String author) {
@@ -86,13 +85,6 @@ public class MissionELOServiceImpl extends RooloAccessorImpl implements MissionE
     }
 
     @Override
-    public List getRuntimeElos(MissionSpecificationElo missionSpecificationElo) {
-        final IMetadataKey technicalFormatKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
-        IQuery missionRuntimeQuery = new BasicMetadataQuery(technicalFormatKey, BasicSearchOperations.EQUALS, MissionEloType.MISSION_RUNTIME.getType());
-        return getELOs(missionRuntimeQuery);
-    }
-
-    @Override
     public List getAssignedUserNamesFor(MissionSpecificationElo missionSpecificationElo) {
         List<ScyElo> runtimeModels = getRuntimeElos(missionSpecificationElo);
         List userNames = new LinkedList();
@@ -114,22 +106,6 @@ public class MissionELOServiceImpl extends RooloAccessorImpl implements MissionE
 
         return userNames;
 
-    }
-
-    @Override
-    public List getRuntimeElosForUser(String userName) {
-        List runtimeElos = new LinkedList();
-        List<ScyElo> runtimeModels = getRuntimeElos(null);
-        for (int i = 0; i < runtimeModels.size(); i++) {
-            MissionRuntimeElo missionRuntimeElo = new MissionRuntimeElo(runtimeModels.get(i).getElo(), this);
-            if (missionRuntimeElo != null) {
-                String missionRunningHAHAHA = missionRuntimeElo.getMissionRunning();
-                if (missionRunningHAHAHA != null && missionRunningHAHAHA.equals(userName)) {
-                    runtimeElos.add(missionRuntimeElo);
-                }
-            }
-        }
-        return runtimeElos;
     }
 
 
@@ -175,11 +151,4 @@ public class MissionELOServiceImpl extends RooloAccessorImpl implements MissionE
         */
     }
 
-    public IMetadataKey getAuthorKey() {
-        return authorKey;
-    }
-
-    public void setAuthorKey(IMetadataKey authorKey) {
-        this.authorKey = authorKey;
-    }
 }

@@ -1,14 +1,9 @@
 package eu.scy.server.controllers.scyauthorruntime;
 
 import eu.scy.common.mission.MissionSpecificationElo;
-import eu.scy.core.AssignedPedagogicalPlanService;
-import eu.scy.core.PedagogicalPlanPersistenceService;
-import eu.scy.core.StudentPedagogicalPlanPersistenceService;
 import eu.scy.core.UserService;
 import eu.scy.core.model.User;
-import eu.scy.core.model.pedagogicalplan.AssignedPedagogicalPlan;
-import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
-import eu.scy.core.model.student.StudentPlanELO;
+import eu.scy.core.roolo.MissionELOService;
 import eu.scy.server.controllers.BaseController;
 
 import java.util.LinkedList;
@@ -16,7 +11,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import eu.scy.server.roolo.MissionELOService;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -35,7 +29,6 @@ public class ViewActivePedagogicalPlanController extends BaseController {
 
         MissionSpecificationElo missionSpecificationElo = (MissionSpecificationElo) getScyElo();
         List userNames = getMissionELOService().getAssignedUserNamesFor(missionSpecificationElo);
-
 
         List users = new LinkedList();
         for (int i = 0; i < userNames.size(); i++) {

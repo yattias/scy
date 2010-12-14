@@ -5,14 +5,12 @@ import eu.scy.core.LASService;
 import eu.scy.core.PedagogicalPlanPersistenceService;
 import eu.scy.core.UserService;
 import eu.scy.core.model.User;
-import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
-import eu.scy.server.roolo.MissionELOService;
+import eu.scy.core.roolo.MissionELOService;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URLDecoder;
 
 /**

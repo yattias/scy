@@ -71,7 +71,7 @@
 	</bean>
 
     <bean id="runtimeElosListController" class="eu.scy.server.eportfolio.xml.RuntimeElosController">
-        <property name="missionELOService" ref="missionELOService"/>
+        <property name="runtimeELOService" ref="runtimeELOService"/>
 	</bean>
 
 
