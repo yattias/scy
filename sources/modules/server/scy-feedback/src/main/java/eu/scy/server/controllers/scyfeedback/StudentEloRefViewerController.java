@@ -11,9 +11,9 @@ import eu.scy.core.model.pedagogicalplan.AnchorELO;
 import eu.scy.core.model.pedagogicalplan.AssessmentCriteriaExperience;
 import eu.scy.core.model.pedagogicalplan.AssignedPedagogicalPlan;
 import eu.scy.core.model.playful.PlayfulAssessment;
+import eu.scy.core.roolo.RooloAccessor;
 import eu.scy.server.common.OddEven;
 import eu.scy.server.controllers.BaseFormController;
-import eu.scy.server.roolo.RooloAccessor;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 

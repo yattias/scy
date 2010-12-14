@@ -1,9 +1,8 @@
 package eu.scy.server.controllers;
 
 import eu.scy.core.PedagogicalPlanPersistenceService;
-import eu.scy.server.roolo.MissionELOService;
+import eu.scy.core.roolo.MissionELOService;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -1,15 +1,12 @@
 package eu.scy.server.controllers;
 
-import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionSpecificationElo;
-import eu.scy.common.mission.RuntimeSettingsElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.AssignedPedagogicalPlanService;
 import eu.scy.core.GroupService;
 import eu.scy.core.PedagogicalPlanPersistenceService;
 import eu.scy.core.UserService;
 import eu.scy.core.model.User;
-import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,7 +15,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import eu.scy.server.roolo.MissionELOService;
+import eu.scy.core.roolo.MissionELOService;
 import org.springframework.web.servlet.ModelAndView;
 
 /**

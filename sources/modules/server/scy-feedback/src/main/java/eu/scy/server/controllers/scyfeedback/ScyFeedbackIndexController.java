@@ -1,6 +1,5 @@
 package eu.scy.server.controllers.scyfeedback;
 
-import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.*;
 import eu.scy.core.model.ELORef;
 import eu.scy.core.model.FileRef;
@@ -8,10 +7,9 @@ import eu.scy.core.model.ImageRef;
 import eu.scy.core.model.User;
 import eu.scy.core.model.impl.ELORefImpl;
 import eu.scy.core.model.pedagogicalplan.AssignedPedagogicalPlan;
+import eu.scy.core.roolo.RooloAccessor;
 import eu.scy.core.runtime.RuntimeService;
 import eu.scy.server.controllers.BaseFormController;
-import eu.scy.server.roolo.ELOWebSafeTransporter;
-import eu.scy.server.roolo.RooloAccessor;
 import org.springframework.validation.BindException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;

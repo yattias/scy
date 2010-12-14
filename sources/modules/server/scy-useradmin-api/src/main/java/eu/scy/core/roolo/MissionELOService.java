@@ -1,8 +1,10 @@
-package eu.scy.server.roolo;
+package eu.scy.core.roolo;
 
 import eu.scy.common.mission.Las;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
+import eu.scy.core.BaseELOService;
+import eu.scy.core.roolo.RooloAccessor;
 
 import java.util.List;
 
@@ -13,7 +15,7 @@ import java.util.List;
  * Time: 06:16:22
  * To change this template use File | Settings | File Templates.
  */
-public interface MissionELOService extends RooloAccessor{
+public interface MissionELOService extends BaseELOService {
 
 
     MissionSpecificationElo createMissionSpecification(String title, String description, String author);
@@ -28,15 +30,13 @@ public interface MissionELOService extends RooloAccessor{
 
     Integer getGlobalMissionScaffoldingLevel(ScyElo missionSpecificationElo);
 
-    List <Las> getLasses(MissionSpecificationElo missionSpecificationElo);
+    List<Las> getLasses(MissionSpecificationElo missionSpecificationElo);
 
     void setTitle(ScyElo scyElo, Object value);
 
     String getTitle(ScyElo scyElo);
 
-    List getRuntimeElos(MissionSpecificationElo missionSpecificationElo);
-
     List getAssignedUserNamesFor(MissionSpecificationElo missionSpecificationElo);
 
-    List getRuntimeElosForUser(String userName);
+
 }

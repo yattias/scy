@@ -1,8 +1,8 @@
-package eu.scy.server.roolo.impl;
+package eu.scy.core.roolo;
 
 import eu.scy.common.scyelo.ScyElo;
-import eu.scy.server.roolo.ELOWebSafeTransporter;
-import eu.scy.server.roolo.RooloAccessor;
+import eu.scy.core.roolo.ELOWebSafeTransporter;
+import eu.scy.core.roolo.RooloAccessor;
 import org.roolo.search.BasicMetadataQuery;
 import org.roolo.search.BasicSearchOperations;
 import org.roolo.search.SearchResult;

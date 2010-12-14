@@ -1,4 +1,4 @@
-package eu.scy.server.roolo;
+package eu.scy.core.roolo;
 
 import eu.scy.common.scyelo.ScyElo;
 

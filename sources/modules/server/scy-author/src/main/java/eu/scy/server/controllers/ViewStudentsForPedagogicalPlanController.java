@@ -1,10 +1,8 @@
 package eu.scy.server.controllers;
 
-import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionRuntimeModel;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.mission.RuntimeSettingKey;
-import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.AssignedPedagogicalPlanService;
 import eu.scy.core.PedagogicalPlanPersistenceService;
 import eu.scy.core.UserService;
@@ -15,7 +13,7 @@ import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import eu.scy.server.roolo.MissionELOService;
+import eu.scy.core.roolo.MissionELOService;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.UnsupportedEncodingException;
