@@ -119,6 +119,11 @@ public class FormList extends CustomNode {
                 action:function():Void {formNode.saveElo()}
             },
             Button {
+                graphic: ImageView{ image: Image { url: "{__DIR__}resources/page_white_world.png" } }
+                tooltip: Tooltip { text: "save AS ELO" }
+                action:function():Void {formNode.saveAsElo()}
+            },
+            Button {
                 graphic: ImageView{ image: Image { url: "{__DIR__}resources/application_view_gallery.png" } }
                 tooltip: Tooltip { text: "switch to FormViewer" }
                 action:function():Void {formNode.loadViewer()}
