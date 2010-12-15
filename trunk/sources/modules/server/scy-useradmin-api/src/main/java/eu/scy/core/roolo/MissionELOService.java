@@ -32,6 +32,8 @@ public interface MissionELOService extends BaseELOService {
 
     List<Las> getLasses(MissionSpecificationElo missionSpecificationElo);
 
+    List getAnchorELOs(MissionSpecificationElo missionSpecificationElo);
+
     void setTitle(ScyElo scyElo, Object value);
 
     String getTitle(ScyElo scyElo);

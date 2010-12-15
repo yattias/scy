@@ -59,6 +59,7 @@
                    /components/xml/UserInfoController.html=userInfoController
                    /components/resourceservice.html=resourceService
                    /components/roleeditor/RoleEditorContoller.html=roleEditorController
+                   /components/runtimemissionselector/RuntimeMissionSelector.html=runtimemissionselector
                </value>
            </property>
        </bean>
@@ -160,6 +161,9 @@
 
     <bean id="roleEditorController" class="eu.scy.server.controllers.components.roleeditor.RoleEditorController">
         <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="runtimemissionselector" class="eu.scy.server.controllers.components.runtimemissionselector.RuntimeMissionSelector">
     </bean>
 
     <bean name="jsonView" class="eu.scy.server.controllers.json.AbstractJSonView"/>

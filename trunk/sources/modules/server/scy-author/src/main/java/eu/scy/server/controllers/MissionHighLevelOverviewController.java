@@ -1,5 +1,7 @@
 package eu.scy.server.controllers;
 
+import eu.scy.common.mission.Las;
+import eu.scy.common.mission.MissionModelElo;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.core.LASService;
 import eu.scy.core.PedagogicalPlanPersistenceService;
@@ -37,6 +39,7 @@ public class MissionHighLevelOverviewController extends BaseController{
             MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(uri, getMissionELOService());
             if(missionSpecificationElo != null) {
                 modelAndView.addObject("learningActivitySpaces", getMissionELOService().getLasses(missionSpecificationElo));
+                modelAndView.addObject("anchorElos", getMissionELOService().getAnchorELOs(missionSpecificationElo));
             } else {
                 logger.info("DID NOT FIND THE MISSION SPECIFICATION!!!");
             }

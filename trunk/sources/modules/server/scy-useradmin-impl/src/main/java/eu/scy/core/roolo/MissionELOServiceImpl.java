@@ -132,6 +132,31 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
         return missionModel.getTypedContent().getLasses();//what is  this? A getter??
     }
 
+    @Override
+    public List getAnchorELOs(MissionSpecificationElo missionSpecificationElo) {
+        MissionModelElo missionModel = MissionModelElo.loadLastVersionElo(missionSpecificationElo.getTypedContent().getMissionMapModelEloUri(), this);
+        missionModel.getMissionModel().loadMetadata(this);
+        List lasses = missionModel.getTypedContent().getLasses();//what is  this? A getter??
+
+        List missionAnchors = new LinkedList();
+        for (int i = 0; i < lasses.size(); i++) {
+            Las las = (Las) lasses.get(i);
+            MissionAnchor missionAnchor = las.getMissionAnchor();
+            if(missionAnchor != null) {
+                missionAnchors.add(missionAnchor);
+                if(missionAnchor.getScyElo() != null) {
+                    log.info("MISSION ANCHOR: " + missionAnchor.getScyElo().getTitle());
+                } else {
+                    log.info("MISSION SCY ELO IS NULL:" + missionAnchor.getIconType());
+                }
+
+            }
+
+        }
+
+        return missionAnchors;
+    }
+
     private RuntimeSettingsElo getRuntimeSettingsElo(MissionSpecificationElo missionSpecificationElo) {
         return RuntimeSettingsElo.loadLastVersionElo(missionSpecificationElo.getTypedContent().getRuntimeSettingsEloUri(), this);
     }

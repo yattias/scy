@@ -19,7 +19,7 @@ public interface MissionAnchor
    public URI getResourcesUri();
    public String getIconType();
    public ColorSchemeId getColorSchemeId();
-   
+
    public void setLas(Las las);
    public void setInputMissionAnchors(List<MissionAnchor> inputMissionAnchors);
    public void setExisting(boolean existing);
@@ -27,5 +27,5 @@ public interface MissionAnchor
    public void setScyElo(ScyElo scyElo);
    public void setEloUri(URI eloUri);
    public void setLoEloUris(List<URI> loEloUris);
-   
+
 }

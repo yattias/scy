@@ -40,6 +40,7 @@
                 /app/eportfolio/xml/eportfolioELOSearch.html=eportfolioELOSearchController
                 /app/eportfolio/xml/obligatoryELOsInMission.html=obligatoryELOsInMissionController
                 /app/eportfolio/xml/runtimeElosList.html=runtimeElosListController
+                /app/eportfolio/xml/currentMissionRuntimeInfo.html=currentMissionRuntimeInfo
             </value>
         </property>
     </bean>
@@ -66,12 +67,15 @@
 
     <bean id="obligatoryELOsInMissionController" class="eu.scy.server.eportfolio.xml.ObligatoryELOsInMission">
         <property name="userService" ref="userService"/>
-        <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
-        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <!--property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/-->
 	</bean>
 
     <bean id="runtimeElosListController" class="eu.scy.server.eportfolio.xml.RuntimeElosController">
         <property name="runtimeELOService" ref="runtimeELOService"/>
+	</bean>
+
+    <bean id="currentMissionRuntimeInfo" class="eu.scy.server.eportfolio.xml.CurrentMissionRuntimeInfoController">
 	</bean>
 
 
