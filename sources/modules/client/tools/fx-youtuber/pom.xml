@@ -2,208 +2,95 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
-     <parent>
-                <artifactId>parent</artifactId>
-                <groupId>eu.scy.client</groupId>
-                <version>28-SNAPSHOT</version>
-     </parent>
 
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>fx-youtuber</artifactId>
-    <name>fx-youtuber</name>
-    <packaging>jar</packaging>
+   <parent>
+      <artifactId>parent</artifactId>
+      <groupId>eu.scy.client.tools</groupId>
+      <version>28-SNAPSHOT</version>
+   </parent>
 
-    <licenses>
-        <license>
-            <name>lgpl</name>
-        </license>
-    </licenses>
-     <properties>
-                <javafx-version>1.3.1</javafx-version>
-    </properties>
+   <modelVersion>4.0.0</modelVersion>
+   <artifactId>fx-youtuber</artifactId>
+   <name>FX youtuber</name>
+   <packaging>jar</packaging>
 
+   <licenses>
+      <license>
+         <name>lgpl</name>
+      </license>
+   </licenses>
 
-
-    <dependencies>
-        <dependency>
-            <groupId>info.collide</groupId>
-            <artifactId>javafx-deps</artifactId>
-            <version>${javafx-version}</version>
-            <type>pom</type>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>eu.scy.client.desktop</groupId>
-            <artifactId>scy-desktop</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
-        <dependency>
-          <groupId>eu.scy.client.tools</groupId>
-          <artifactId>fx-flying-saucer</artifactId>
-          <version>${pom.version}</version>
+   <dependencies>
+      <dependency>
+         <groupId>info.collide</groupId>
+         <artifactId>javafx-deps</artifactId>
+         <version>${javafx-version}</version>
+         <type>pom</type>
+         <scope>provided</scope>
       </dependency>
-    </dependencies>
-<repositories>
-        <repository>
-            <id>collide-releases</id>
-            <url>http://mvn.collide.info/content/repositories/releases</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>collide-snapshots</id>
-            <url>http://mvn.collide.info/content/repositories/snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>cc-repo-internal</id>
-            <name>Concord Consortium Internal</name>
-            <url>http://source.concord.org/maven2/internal_snapshot/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>fhg-maven</id>
-            <url>http://theseuskd.iais.fraunhofer.de:8080/nexus/content/groups/public</url>
-            <releases>
-                <updatePolicy>always</updatePolicy>
-                <checksumPolicy>fail</checksumPolicy>
-            </releases>
-            <snapshots>
-                <updatePolicy>always</updatePolicy>
-                <checksumPolicy>fail</checksumPolicy>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>reucon</id>
-            <url>http://maven.reucon.com/public</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>java.net</id>
-            <url>http://download.java.net/maven/2/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
 
-        <repository>
-           <releases>
-                <enabled>true</enabled>
-           </releases>
-           <snapshots>
-                <enabled>false</enabled>
-           </snapshots>
-           <id>thirdparty-local</id>
-           <url>http://mvn.collide.info/content/repositories/thirdparty</url>
-       </repository>
-    </repositories>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                    <optimize>true</optimize>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <configuration>
-                            <tasks>
-                                <echo>Compiling JavaFX test sources</echo>
-                                <taskdef classname="com.sun.tools.javafx.ant.JavaFxAntTask" classpathref="maven.compile.classpath" name="javafxc"/>
-                                <mkdir dir="target/classes"/>
-                                <javafxc destdir="target/classes" compilerclasspathref="maven.compile.classpath">
-                                    <src path="src/main/java"/>
-                                    <classpath refid="maven.compile.classpath"/>
-                                </javafxc>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo.webstart</groupId>
-                <artifactId>webstart-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jnlp</goal> <!-- use jnlp, jnlp-inline or jnlp-single as appropriate -->
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-           <!--outputDirectory></outputDirectory--> <!-- not required?? -->
+      <dependency>
+         <groupId>eu.scy.client.desktop</groupId>
+         <artifactId>scy-desktop</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>eu.scy.client.tools</groupId>
+         <artifactId>fx-flying-saucer</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
+   </dependencies>
 
-           <!--
-           Set to true to exclude all transitive dependencies. Default is false.
-           -->
-                    <excludeTransitive>false</excludeTransitive>
-
-           <!-- The path where the libraries are stored within the jnlp structure. not required. by default the libraries are within the working directory -->
-                    <!--<libPath>lib</libPath>-->
-
-           <!-- JNLP generation -->
-                    <jnlp>
-             <!-- default values -->
-             <!--inputTemplateResourcePath>${project.basedir}</inputTemplateResourcePath-->
-                <!--        <inputTemplate>src/main/jnlp/template.vm</inputTemplate> --> <!-- relative to inputTemplateResourcePath -->
-                        <outputFile>mavenizedyoutuber</outputFile> <!-- defaults to launch.jnlp -->
-             <!-- used to automatically identify the jar containing the main class. -->
-             <!-- this is perhaps going to change -->
-                        <mainClass>eu.scy.client.tools.fxyoutuber.Main</mainClass>
-                    </jnlp>
-
-               <!--     <sign>
-                        <keypass>scylab</keypass>
-                        <storepass>scylab</storepass>
-                        <alias>scykeystore</alias>
-                        <keystore>${project.build.directory}/../scykeystore.jks</keystore>
-                        <verify>true</verify>
-                        <keystoreConfig>
-                            <delete>false</delete>
-                            <gen>false</gen>
-                        </keystoreConfig>
-
-                    </sign> -->
-                    <unsign>false</unsign>
-
-           <!-- BUILDING PROCESS -->
-
-                    <pack200>false</pack200>
-                    <gzip>false</gzip> <!-- default force when pack200 false, true when pack200 selected ?? -->
-
-           <!-- causes a version attribute to be output in each jar resource element, optional, default is false -->
-                    <outputJarVersions>false</outputJarVersions>
-
-           <!--install>false</install--> <!-- not yet supported -->
-                    <verbose>false</verbose>
-
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+   <build>
+      <resources>
+         <resource>
+            <directory>src/main/resources</directory>
+         </resource>
+         <!--
+         <resource>
+            <targetPath>config</targetPath>
+            <directory>src/main/java/config</directory>
+         </resource>
+          -->
+         <resource>
+            <directory>src/main/java</directory>
+            <includes>
+               <include>**/*</include>
+            </includes>
+         </resource>
+      </resources>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+               <source>1.6</source>
+               <target>1.6</target>
+               <optimize>true</optimize>
+            </configuration>
+         </plugin>
+         <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+               <execution>
+                  <phase>compile</phase>
+                  <configuration>
+                     <tasks>
+                        <echo>Compiling JavaFX sources</echo>
+                        <taskdef classname="com.sun.tools.javafx.ant.JavaFxAntTask" classpathref="maven.compile.classpath" name="javafxc"/>
+                        <mkdir dir="target/classes"/>
+                        <javafxc debug="true" destdir="target/classes" compilerclasspathref="maven.compile.classpath">
+                           <src path="src/main/java"/>
+                           <classpath refid="maven.compile.classpath"/>
+                        </javafxc>
+                     </tasks>
+                  </configuration>
+                  <goals>
+                     <goal>run</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+      </plugins>
+   </build>
 </project>

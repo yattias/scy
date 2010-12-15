@@ -10,7 +10,7 @@
       <property name="eloConfigs">
          <list value-type="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
-               <property name="type" value="youtuber"/>
+               <property name="type" value="scy/youtuber"/>
                <property name="display" value="youtuber"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="youtuber"/>
