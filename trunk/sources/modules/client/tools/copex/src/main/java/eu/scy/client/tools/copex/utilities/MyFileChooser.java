@@ -5,7 +5,6 @@
 
 package eu.scy.client.tools.copex.utilities;
 
-import eu.scy.client.tools.copex.edp.CopexApplet;
 import eu.scy.client.tools.copex.edp.EdPPanel;
 import java.io.File;
 import javax.swing.JDialog;
