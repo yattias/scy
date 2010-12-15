@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 /**
  * This class holds all RemoteCommands as a Registry. 
- * @author sven
+ * @author sven, lars
  */
 public class RemoteCommandRegistry {
 
@@ -47,6 +47,17 @@ public class RemoteCommandRegistry {
             actionsToClasses.put(remoteCommand.getActionName(), remoteCommand);
             logger.debug("registered IremoteCommand: " + remoteCommand);
         }
+    }
+
+    public boolean acceptsNotification(INotification notification) {
+        String[] notificationTypes = notification.getPropertyArray("type");
+        boolean success = false;
+        for (String notificationType: notificationTypes) {
+            if (actionsToClasses.containsKey(notificationType)) {
+                success = true;
+            }
+        }
+        return success;
     }
 
     public boolean processNotification(INotification notification) {

@@ -337,10 +337,10 @@ public class ScyDesktopCreator {
          };
       missionModelFX.scyDesktop = scyDesktop;
       //register for notifications
-      logger.debug("****************registering scyDesktop for notifications***************************");
-      scyDesktop.config.getToolBrokerAPI().registerForNotifications(scyDesktop);
-      logger.debug("****************registering RemoteControlRegistry for notifications***************************");
-      scyDesktop.config.getToolBrokerAPI().registerForNotifications(scyDesktop.remoteCommandRegistryFX);
+      //logger.debug("****************registering scyDesktop for notifications***************************");
+      //scyDesktop.config.getToolBrokerAPI().registerForNotifications(scyDesktop);
+      //logger.debug("****************registering RemoteControlRegistry for notifications***************************");
+      //scyDesktop.config.getToolBrokerAPI().registerForNotifications(scyDesktop.remoteCommandRegistryFX);
       logger.debug("****************registering ScyDesktopNotificationRouter for notifications***************************");
       def scyDesktopNotificationRouter: ScyDesktopNotificationRouter = ScyDesktopNotificationRouter {
           scyDesktop: scyDesktop;
