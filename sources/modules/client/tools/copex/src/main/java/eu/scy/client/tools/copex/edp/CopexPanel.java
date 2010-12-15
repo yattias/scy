@@ -394,7 +394,6 @@ public class CopexPanel extends JPanel {
         if(addProc)
             listProc.add(proc);
         if(scyMode){
-            //System.out.println("addCopexpanel, scyMode");
             this.add(copex, BorderLayout.CENTER);
         }else{
             copexTabbedPane.addTab(proc.getName(getLocale()), copex);
