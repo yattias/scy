@@ -50,6 +50,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.moreinfomanager.TestMoreInfoN
 import eu.scy.client.tools.fxflyingsaucer.FlyingSaucerMoreInfoToolFactory;
 import eu.scy.client.tools.fxflyingsaucer.UrlSource;
 import eu.scy.client.tools.fxformauthor.FormAuthorContentCreator;
+import eu.scy.client.tools.fxyoutuber.YouTuberContentCreator;
 
 /**
  * @author sikkenj
@@ -99,6 +100,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def scyFlyingSaucerResourcesId = "resourcesInfo";
    def testMoreInfoId = "testMoreInfo";
    def scyFormAuthorId = "formauthor";
+   def scyYouTuberID = "youtuber";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -156,6 +158,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(RichTextEditorContentCreatorFX{},scyRichTextId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ImageViewerCreator{}, scyImageId);
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(FormAuthorContentCreator {}, scyFormAuthorId);
+   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(YouTuberContentCreator {}, scyYouTuberID);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new SpeedTestPanelCreator(), speedTestPanelId);
 

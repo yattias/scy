@@ -219,6 +219,12 @@
                <property name="contentCreatorId" value="mathtool"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/youtuber"/>
+               <property name="display" value="YouTuber"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="youtuber"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/rtf"/>
                <property name="display" value="Rich text"/>
                <property name="creatable" value="true"/>
