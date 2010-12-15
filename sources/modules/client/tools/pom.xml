@@ -35,7 +35,9 @@
 		<module>fx-math-tool</module>
 		<module>fx-formauthor</module>
 		<module>fx-interviewtool</module>
+		<!--
 		<module>fx-pictureviewer</module>
+		-->
 		<module>fx-richtexteditor</module>
 		<module>fx-scydynamics</module>
 		<module>fx-scymapper</module>
@@ -43,6 +45,7 @@
 		<module>fx-student-planning-tool</module>
 		<module>fx-video</module>
 		<module>fx-webresourcer</module>
+		<module>fx-youtuber</module>
    </modules>
 	
 </project>
