@@ -77,6 +77,11 @@
     <contentCreatorId>formauthor</contentCreatorId>
   </eloToolConfig>
   <eloToolConfig>
+    <eloType>scy/youtuber</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>youtuber</contentCreatorId>
+  </eloToolConfig>
+  <eloToolConfig>
     <eloType>scy/drawing</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>drawing</contentCreatorId>
