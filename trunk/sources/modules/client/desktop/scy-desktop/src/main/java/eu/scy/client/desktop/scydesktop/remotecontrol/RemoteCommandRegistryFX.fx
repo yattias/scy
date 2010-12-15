@@ -17,7 +17,7 @@ import eu.scy.client.desktop.scydesktop.remotecontrol.impl.OptionDialogShowComma
 
 /** This JavaFX class wraps the Registry for RemoteCommands and makes JavaFX-RemoteCommands possible
  * (for example these Commands accessing ScyDesktop)
- * @author sven
+ * @author sven, lars
  */
 public class RemoteCommandRegistryFX extends INotifiable {
 
@@ -38,11 +38,11 @@ public class RemoteCommandRegistryFX extends INotifiable {
    }
 
     public override function processNotification(notification: INotification): Boolean {
-        var success: Boolean;
         FX.deferAction(function (): Void {
-            success = remoteCommandRegistry.processNotification(notification);
+            remoteCommandRegistry.processNotification(notification);
         });
-        return success;
+        // have to get the "success"-return-value differently because of the FX.deferAction stuff
+        return remoteCommandRegistry.acceptsNotification(notification);
     }
 
 }
