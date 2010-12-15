@@ -9,17 +9,17 @@ import eu.scy.actionlogging.Action;
 * Action logger for rich text editor component.
 */
 public class RichTextEditorLogger {
-    public final static String OPEN = "open file";
-    public final static String SAVE_RTF = "save rtf file";
-    public final static String PRINT = "print";
-    public final static String PDF = "save pdf file";
-    public final static String BOLD = "bold action";
-    public final static String ITALIC = "italic action";
-    public final static String UNDERLINE = "underline action";
-    public final static String SUPERSCRIPT = "superscript action";
-    public final static String SUBSCRIPT = "subscript action";
-    public final static String INSERT = "insert text";
-    public final static String DELETE = "delete text";
+    public final static String OPEN = "file_opened";
+    public final static String SAVE_RTF = "rtf_saved";
+    public final static String PRINT = "rtf_printed";
+    public final static String PDF = "pdf_saved";
+    public final static String BOLD = "bold_clicked";
+    public final static String ITALIC = "italic_clicked";
+    public final static String UNDERLINE = "underline_clicked";
+    public final static String SUPERSCRIPT = "superscript_clicked";
+    public final static String SUBSCRIPT = "subscript_clicked";
+    public final static String INSERT = "text_inserted";
+    public final static String DELETE = "text_deleted";
     public static int COUNT = 0;
 
     private IActionLogger actionLogger;
