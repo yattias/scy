@@ -20,14 +20,6 @@
                <property name="leftDrawerCollaboration" value="false"/>
             </bean>
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
-               <property name="eloType" value="scy/mathtool"/>
-               <property name="contentCreatorId" value="mathtool"/>
-            </bean>
-            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
-               <property name="eloType" value="scy/formauthor"/>
-               <property name="contentCreatorId" value="formauthor"/>
-            </bean>
-            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="scy/drawing"/>
                <property name="contentCreatorId" value="drawing"/>
                <property name="eloLogicalRoleValues">
@@ -66,7 +58,6 @@
                </property>
                <property name="eloFunctionalRoleValues">
                   <list>
-                     <value>dataset</value>
                      <value>dataset</value>
                      <value>dataset_Processed</value>
                   </list>
@@ -142,6 +133,7 @@
                      <value>map_Concept</value>
                      <value>map_Initial_Ideas</value>
                      <value>map_Key_Ideas</value>
+                     <value>argument</value>
                   </list>
                </property>
             </bean>
@@ -208,6 +200,8 @@
                      <value>information_Resource</value>
                      <value>information_Assignment</value>
                      <value>information_Help</value>
+                     <value>presentationFinal</value>
+                     <value>presentationDesign</value>
                   </list>
                </property>
             </bean>
@@ -221,27 +215,53 @@
                </property>
                <property name="eloFunctionalRoleValues">
                   <list>
-                     <value>information_Resource</value>
-                     <value>information_Assignment</value>
-                     <value>information_Help</value>
+                     <value>webSummary</value>
                   </list>
                </property>
             </bean>
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="scy/ppt"/>
                <property name="contentCreatorId" value="presentationUpload"/>
+                  <list>
+                     <value>presentationFinal</value>
+                     <value>presentationExpert</value>
+                  </list>
             </bean>
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="scy/skp"/>
                <property name="contentCreatorId" value="sketchUpUpload"/>
+                  <list>
+                     <value>drawingDesign</value>
+                  </list>
             </bean>
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="scy/doc"/>
                <property name="contentCreatorId" value="wordUpload"/>
+               <property name="eloFunctionalRoleValues">
+                  <list>
+                     <value>hypothesis</value>
+                     <value>document_Design</value>
+                     <value>report_Evaluation</value>
+                     <value>report_Final</value>
+                     <value>document_Reflection</value>
+                  </list>
+               </property>
             </bean>
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="scy/image"/>
                <property name="eloSystemRole" value="USER"/>
+            </bean>
+            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
+               <property name="eloType" value="scy/mathtool"/>
+               <property name="contentCreatorId" value="mathtool"/>
+            </bean>
+            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
+               <property name="eloType" value="scy/formauthor"/>
+               <property name="contentCreatorId" value="formauthor"/>
+            </bean>
+            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
+               <property name="eloType" value="scy/youtuber"/>
+               <property name="contentCreatorId" value="youtuber"/>
             </bean>
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="scy/speedTest"/>
