@@ -9,6 +9,8 @@ import eu.scy.core.roolo.RuntimeELOService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.List;
 
 /**
@@ -31,7 +33,11 @@ public class RuntimeMissionController extends TagSupport {
             for (int i = 0; i < runtimeELOs.size(); i++) {
                 MissionRuntimeElo missionRuntimeElo = new MissionRuntimeElo (((ScyElo) runtimeELOs.get(i)).getElo(), runtimeELOService);
                 if(missionRuntimeElo.getMissionRunning().equals(getCurrentUserName((HttpServletRequest) pageContext.getRequest()))) {
+                    String uri = missionRuntimeElo.getUri().toString();
+                    uri = URLEncoder.encode(uri, "UTF-8");
+                    pageContext.getOut().write("<a href=\"/webapp/components/runtimemissionselector/RuntimeMissionSelector.html?eloURI=" + uri + "\">");
                     pageContext.getOut().write(missionRuntimeElo.getTitle());
+                    pageContext.getOut().write("</a>");
                 }
 
             }
