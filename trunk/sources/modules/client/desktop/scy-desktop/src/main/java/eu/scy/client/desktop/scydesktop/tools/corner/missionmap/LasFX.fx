@@ -38,7 +38,7 @@ public class LasFX extends Las {
    public var selectedAnchor: MissionAnchorFX on replace { las.setSelectedMissionAnchor(selectedAnchor.missionAnchor) };
 
    public override function toString(): String {
-      return "id:{id}";
+      return "LasFX\{id:{id}\}";
    }
 
    function newLas(): Void {

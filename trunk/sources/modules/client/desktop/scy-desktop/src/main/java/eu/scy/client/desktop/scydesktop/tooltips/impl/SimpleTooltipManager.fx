@@ -6,18 +6,13 @@
 package eu.scy.client.desktop.scydesktop.tooltips.impl;
 
 import javafx.scene.Node;
-
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
-
 import java.util.HashMap;
-
 import javafx.scene.input.MouseEvent;
-
 import javafx.animation.Interpolator;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
-
 import java.lang.Exception;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import javafx.scene.Scene;
@@ -31,15 +26,13 @@ import eu.scy.client.desktop.scydesktop.art.AnimationTiming;
 /**
  * @author sikken
  */
-public var scene:Scene;
-public var tooltipGroup = Group{
-
-};
-
+public var scene: Scene;
+public var tooltipGroup = Group {
+   };
 
 public class SimpleTooltipManager extends TooltipManager {
-   def logger = Logger.getLogger(this.getClass());
 
+   def logger = Logger.getLogger(this.getClass());
    def sourceNodes = new HashMap();
    var currentSourceNode: Node;
    var currentTooltip: Node;
@@ -47,8 +40,12 @@ public class SimpleTooltipManager extends TooltipManager {
 //   def startShowTime = 1.0s;
 //   def appearTime = 250ms;
 //   def showTime = 10s;
-   def finalOpacity = 0.75;
+   def finalOpacity = 0.85;
    def useAnimation = true;
+   protected var startAppearingTime = AnimationTiming.startAppearingTime;
+   protected var fullAppearingTime = AnimationTiming.fullAppearingTime;
+   protected var startDisappearingTime = AnimationTiming.startDisappearingTime;
+   protected var fullDisappearingTime = AnimationTiming.fullDisappearingTime;
 
    function getTimeLine() {
       def tooltipNode = currentTooltip;
@@ -62,32 +59,33 @@ public class SimpleTooltipManager extends TooltipManager {
             //               }
             }
             KeyFrame {
-               time: AnimationTiming.startAppearingTime
+               time: startAppearingTime
                values: tooltipNode.opacity => 0.0;
             //               action: function () {
             //                  println("start opacity set: {tooltipNode.opacity}");
             //               }
             }
             KeyFrame {
-               time: AnimationTiming.fullAppearingTime
+               time: fullAppearingTime
                values: tooltipNode.opacity => finalOpacity tween Interpolator.EASEBOTH;
             //               action: function () {
             //                  println("final opacity set: {tooltipNode.opacity}");
             //               }
             }
             KeyFrame {
-               time: AnimationTiming.startDisappearingTime
+               time: startDisappearingTime
                values: tooltipNode.opacity => finalOpacity tween Interpolator.EASEBOTH;
             //               action: function () {
             //                  println("start time line: {tooltipNode.opacity}, {currentTooltip!=null}");
             //               }
             }
             KeyFrame {
-               time: AnimationTiming.fullDisappearingTime
+               time: fullDisappearingTime
                values: tooltipNode.opacity => 0.0 tween Interpolator.EASEBOTH;
-            //               action: function () {
-            //                  println("start time line: {tooltipNode.opacity}, {currentTooltip!=null}");
-            //               }
+               action: function() {
+                  removeTooltip();
+//                  println("start time line: {tooltipNode.opacity}, {currentTooltip != null}");
+               }
             }
          ]
       }
@@ -106,10 +104,17 @@ public class SimpleTooltipManager extends TooltipManager {
       sourceNode.onMouseExited = null;
    }
 
-   function onMouseEntered(e: MouseEvent): Void {
-      if (currentTooltip!=null){
+   package function onMouseEntered(e: MouseEvent): Void {
+      if (e.node == currentSourceNode) {
+         // nothing to do
+         return
+      } else {
+         removeTooltip();
+      }
+
+      if (currentTooltip != null) {
          var currentSourceLoc = currentSourceNode.sceneToLocal(e.sceneX, e.sceneY);
-         if (currentSourceNode.contains(currentSourceLoc)){
+         if (currentSourceNode.contains(currentSourceLoc)) {
             logger.debug("aborted start of tooltip for {e.node}, because tooltip is active for {currentSourceNode}");
             return;
          }
@@ -124,7 +129,24 @@ public class SimpleTooltipManager extends TooltipManager {
       }
    }
 
-   function onMouseExited(e: MouseEvent): Void {
+   package function onMouseExited(e: MouseEvent): Void {
+      removeTooltip();
+   //      if (currentTooltip != null) {
+   //         if (useAnimation) {
+   //            currentTimeLine.stop();
+   //            currentTimeLine.time = 0s;
+   //         }
+   //         //delete currentTooltip from currentSourceNode.scene.content;
+   //         delete currentTooltip from tooltipGroup.content;
+   //         //         var contentList = currentSourceNode.scene.content;
+   //         //         delete currentTooltip from contentList;
+   //         //         currentSourceNode.scene.content = contentList;
+   //         currentTooltip = null;
+   //         currentSourceNode = null;
+   //      }
+   }
+
+   public override function removeTooltip(): Void {
       if (currentTooltip != null) {
          if (useAnimation) {
             currentTimeLine.stop();
@@ -132,9 +154,9 @@ public class SimpleTooltipManager extends TooltipManager {
          }
          //delete currentTooltip from currentSourceNode.scene.content;
          delete currentTooltip from tooltipGroup.content;
-//         var contentList = currentSourceNode.scene.content;
-//         delete currentTooltip from contentList;
-//         currentSourceNode.scene.content = contentList;
+         //         var contentList = currentSourceNode.scene.content;
+         //         delete currentTooltip from contentList;
+         //         currentSourceNode.scene.content = contentList;
          currentTooltip = null;
          currentSourceNode = null;
       }
@@ -146,15 +168,15 @@ public class SimpleTooltipManager extends TooltipManager {
          try {
             var tooltipCreator = sourceNodes.get(sourceNode) as TooltipCreator;
             var newTooltip = tooltipCreator.createTooltipNode(sourceNode);
-            if (newTooltip!=null){
+            if (newTooltip != null) {
                currentTooltip = newTooltip;
                currentSourceNode = sourceNode;
                currentTooltip.opacity = 0.0;
                //insert currentTooltip into currentSourceNode.scene.content;
                insert currentTooltip into tooltipGroup.content;
-   //            var contentList = currentSourceNode.scene.content;
-   //            insert currentTooltip into contentList;
-   //            currentSourceNode.scene.content = contentList;
+               //            var contentList = currentSourceNode.scene.content;
+               //            insert currentTooltip into contentList;
+               //            currentSourceNode.scene.content = contentList;
 
                positionTooltip();
 
@@ -162,27 +184,28 @@ public class SimpleTooltipManager extends TooltipManager {
 //               currentTooltip.layoutX = sourceSceneBounds.minX - currentTooltip.layoutBounds.width - currentTooltip.layoutBounds.minX;
 //               currentTooltip.layoutY = sourceSceneBounds.minY - currentTooltip.layoutBounds.height - currentTooltip.layoutBounds.minY;
             }
-         } catch (e: Exception) {
+         }
+         catch (e: Exception) {
             logger.error("exception during tooltip creation", e);
          }
       }
    }
 
-   function positionTooltip(){
-      var sceneBounds = BoundingBox{
-         width:currentSourceNode.scene.width;
-         height:currentSourceNode.scene.height
-      }
+   function positionTooltip() {
+      var sceneBounds = BoundingBox {
+            width: currentSourceNode.scene.width;
+            height: currentSourceNode.scene.height
+         }
       var sourceSceneBounds = currentSourceNode.localToScene(currentSourceNode.layoutBounds);
 
-      var positionFunctions = [calculateBottomRightLayout,calculateBottomLeftLayout,calculateTopLeftLayout,calculateTopRightLayout];
+      var positionFunctions = [calculateBottomRightLayout, calculateBottomLeftLayout, calculateTopLeftLayout, calculateTopRightLayout];
 
       var outsideArea = Number.MAX_VALUE;
-      var toolTipLayout:Point2D;
-      for (positionFunction in positionFunctions){
+      var toolTipLayout: Point2D;
+      for (positionFunction in positionFunctions) {
          var newTooltipLayout = positionFunction();
-         var newOutsideArea = calculateTooltipAreaOutsideScene(currentTooltip,newTooltipLayout,sceneBounds);
-         if (newOutsideArea<outsideArea){
+         var newOutsideArea = calculateTooltipAreaOutsideScene(currentTooltip, newTooltipLayout, sceneBounds);
+         if (newOutsideArea < outsideArea) {
             outsideArea = newOutsideArea;
             toolTipLayout = newTooltipLayout;
          }
@@ -191,57 +214,57 @@ public class SimpleTooltipManager extends TooltipManager {
       currentTooltip.layoutY = toolTipLayout.y;
    }
 
-   function calculateTopLeftLayout():Point2D{
+   function calculateTopLeftLayout(): Point2D {
       var sourceSceneBounds = currentSourceNode.localToScene(currentSourceNode.layoutBounds);
-      Point2D{
-         x:sourceSceneBounds.minX - currentTooltip.layoutBounds.width - currentTooltip.layoutBounds.minX;
-         y:sourceSceneBounds.minY - currentTooltip.layoutBounds.height - currentTooltip.layoutBounds.minY;
+      Point2D {
+         x: sourceSceneBounds.minX - currentTooltip.layoutBounds.width - currentTooltip.layoutBounds.minX;
+         y: sourceSceneBounds.minY - currentTooltip.layoutBounds.height - currentTooltip.layoutBounds.minY;
       }
    }
 
-   function calculateTopRightLayout():Point2D{
+   function calculateTopRightLayout(): Point2D {
       var sourceSceneBounds = currentSourceNode.localToScene(currentSourceNode.layoutBounds);
-      Point2D{
-         x:sourceSceneBounds.maxX;
-         y:sourceSceneBounds.minY - currentTooltip.layoutBounds.height - currentTooltip.layoutBounds.minY;
+      Point2D {
+         x: sourceSceneBounds.maxX;
+         y: sourceSceneBounds.minY - currentTooltip.layoutBounds.height - currentTooltip.layoutBounds.minY;
       }
    }
 
-   function calculateBottomRightLayout():Point2D{
+   function calculateBottomRightLayout(): Point2D {
       var sourceSceneBounds = currentSourceNode.localToScene(currentSourceNode.layoutBounds);
-      Point2D{
-         x:sourceSceneBounds.maxX;
-         y:sourceSceneBounds.maxY;
+      Point2D {
+         x: sourceSceneBounds.maxX;
+         y: sourceSceneBounds.maxY;
       }
    }
 
-   function calculateBottomLeftLayout():Point2D{
+   function calculateBottomLeftLayout(): Point2D {
       var sourceSceneBounds = currentSourceNode.localToScene(currentSourceNode.layoutBounds);
-      Point2D{
-         x:sourceSceneBounds.minX - currentTooltip.layoutBounds.width - currentTooltip.layoutBounds.minX;
-         y:sourceSceneBounds.maxY;
+      Point2D {
+         x: sourceSceneBounds.minX - currentTooltip.layoutBounds.width - currentTooltip.layoutBounds.minX;
+         y: sourceSceneBounds.maxY;
       }
    }
 
-   function calculateTooltipAreaOutsideScene(node:Node,layout:Point2D,sceneBounds:Bounds):Number{
+   function calculateTooltipAreaOutsideScene(node: Node, layout: Point2D, sceneBounds: Bounds): Number {
       node.layoutX = layout.x;
       node.layoutY = layout.y;
       var nodeBounds = node.localToScene(node.layoutBounds);
-      var intersection = calculateRectangleIntersection(nodeBounds,sceneBounds);
-      return nodeBounds.width*nodeBounds.height-intersection;
+      var intersection = calculateRectangleIntersection(nodeBounds, sceneBounds);
+      return nodeBounds.width * nodeBounds.height - intersection;
    }
 
-   function calculateRectangleIntersection(rect1:Bounds,rect2:Bounds):Number{
-      if (rect1.intersects(rect2)){
-         var xLength = calculateIntersectionLength(rect1.minX,rect1.maxX,rect2.minX,rect2.maxX);
-         var yLength = calculateIntersectionLength(rect1.minY,rect1.maxY,rect2.minY,rect2.maxY);
+   function calculateRectangleIntersection(rect1: Bounds, rect2: Bounds): Number {
+      if (rect1.intersects(rect2)) {
+         var xLength = calculateIntersectionLength(rect1.minX, rect1.maxX, rect2.minX, rect2.maxX);
+         var yLength = calculateIntersectionLength(rect1.minY, rect1.maxY, rect2.minY, rect2.maxY);
          return xLength * yLength;
       }
       return 0.0;
    }
 
-   function calculateIntersectionLength(min1:Number,max1:Number,min2:Number,max2:Number):Number{
-      return Math.min(max1, max2) - Math.max(min1,min2);
+   function calculateIntersectionLength(min1: Number, max1: Number, min2: Number, max2: Number): Number {
+      return Math.min(max1, max2) - Math.max(min1, min2);
    }
 
 }

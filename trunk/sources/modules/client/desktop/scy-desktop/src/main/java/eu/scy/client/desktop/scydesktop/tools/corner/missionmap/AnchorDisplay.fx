@@ -74,6 +74,10 @@ public class AnchorDisplay extends CustomNode {
       }
    }
 
+   public override function toString():String{
+      "AnchorDisplay\{lasId:{las.id}\}"
+   }
+
    public override function create(): Node {
       disable = not las.exists;
 

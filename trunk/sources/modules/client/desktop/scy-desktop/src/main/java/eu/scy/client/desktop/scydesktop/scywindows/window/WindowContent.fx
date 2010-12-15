@@ -7,7 +7,6 @@ package eu.scy.client.desktop.scydesktop.scywindows.window;
 
 import javafx.scene.CustomNode;
 import javafx.scene.Node;
-import java.lang.Void;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Parent;
@@ -29,6 +28,7 @@ public class WindowContent extends CustomNode {
    public var windowColorScheme: WindowColorScheme;
    public var activated: Boolean;
    public var activate: function(): Void;
+   public var mouseClickedAction: function(:MouseEvent):Void;
    /**
     * workaround for the npe problems with swing content
     * first mouse click on content is used to "fix" problem
@@ -101,7 +101,8 @@ public class WindowContent extends CustomNode {
                   onMousePressed: function(e: MouseEvent): Void {
                      activate();
                   }
-               }
+                  onMouseClicked: mouseClickedAction
+              }
             ]
          };
    }

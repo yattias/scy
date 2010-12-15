@@ -29,6 +29,7 @@ import eu.scy.client.desktop.scydesktop.art.ArtSource;
 import javafx.util.Sequences;
 import eu.scy.client.desktop.scydesktop.tools.RuntimeSettingsRetriever;
 import eu.scy.common.mission.RuntimeSettingUtils;
+import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
 
 /**
  * @author sikken
@@ -51,16 +52,22 @@ public class MissionMap extends CustomNode {
    public var selectedScale = 1.5;
    public var notSelectedScale = 1.0;
    public var positionScale = 2.0;
+   public var bigMissionMap = false;
    var maximumLasXpos = -1e6;
    var minimumLasYPos = 1e6;
-   var displayGroup = Group {};
+   var displayGroup = Group {
+         managed: false
+      };
    var anchorDisplays: AnchorDisplay[];
    var anchorMap = new HashMap();
    var anchorLinks: AnchorLink[];
-   def anchorDisplayTooltipCreator = AnchorDisplayTooltipCreator {
-         scyDesktop: scyDesktop
-         metadataTypeManager: metadataTypeManager
-      }
+//   def anchorDisplayTooltipCreator = AnchorDisplayTooltipCreator {
+//         scyDesktop: scyDesktop
+//         metadataTypeManager: metadataTypeManager
+//      }
+//   def lasInfoTooltipCreator = LasInfoTooltipCreator {
+//         scyDesktop: scyDesktop
+//      }
    def selectedFxdImageLoader: FxdImageLoader = FxdImageLoader {
          sourceName: ArtSource.selectedIconsPackage
          backgroundLoading: false;
@@ -71,6 +78,7 @@ public class MissionMap extends CustomNode {
          backgroundLoading: false;
          loadedAction: fillDisplayGroup
       }
+   var tooltipCreator: TooltipCreator;
 
    postinit {
       if (missionModel.activeLas != null) {
@@ -86,6 +94,15 @@ public class MissionMap extends CustomNode {
       if (not selectedFxdImageLoader.loaded or not notSelectedFxdImageLoader.loaded) {
          // one the image loaders is not ready
          return;
+      }
+
+      if (bigMissionMap) {
+         tooltipCreator = LasInfoTooltipCreator {
+               scyDesktop: scyDesktop
+            }
+      } else {
+         tooltipCreator = AnchorDisplayTooltipCreator {
+            }
       }
 
       anchorDisplays = createAnchorDisplays();
@@ -141,7 +158,7 @@ public class MissionMap extends CustomNode {
             //               positionScale:positionScale
             }
          anchorMap.put(las, anchorDisplay);
-         tooltipManager.registerNode(anchorDisplay, anchorDisplayTooltipCreator);
+         tooltipManager.registerNode(anchorDisplay, tooltipCreator);
          maximumLasXpos = Math.max(maximumLasXpos, las.xPos);
          minimumLasYPos = Math.min(minimumLasYPos, las.yPos);
          anchorDisplay

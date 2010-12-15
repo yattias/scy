@@ -183,6 +183,12 @@
             </entry>
             <entry>
                <key>
+                  <value>scy/youtuber</value>
+               </key>
+               <value>.scyyoutuber</value>
+            </entry>
+            <entry>
+               <key>
                   <value>scy/speedtest</value>
                </key>
                <value>.speedtest</value>

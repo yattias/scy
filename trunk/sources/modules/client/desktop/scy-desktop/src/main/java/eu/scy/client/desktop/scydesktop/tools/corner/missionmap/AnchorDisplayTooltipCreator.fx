@@ -10,9 +10,7 @@ import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
 
 import javafx.scene.Node;
 
-import eu.scy.client.desktop.scydesktop.ScyDesktop;
 
-import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.ColoredTextTooltip;
 
 /**
@@ -21,9 +19,6 @@ import eu.scy.client.desktop.scydesktop.tooltips.impl.ColoredTextTooltip;
 
 public class AnchorDisplayTooltipCreator extends TooltipCreator {
 
-   public var scyDesktop:ScyDesktop;
-   public var metadataTypeManager:IMetadataTypeManager;
-
    public override function createTooltipNode(sourceNode:Node):Node{
       if (sourceNode instanceof AnchorDisplay){
          var anchorDisplay = sourceNode as AnchorDisplay;
@@ -31,12 +26,6 @@ public class AnchorDisplayTooltipCreator extends TooltipCreator {
             content:anchorDisplay.las.toolTip;
             color:anchorDisplay.las.color;
          }
-
-//         return AnchorDisplayTooltip{
-//            anchor:anchorDisplay.las.mainAnchor;
-//            scyDesktop:scyDesktop
-//            metadataTypeManager:metadataTypeManager
-//         }
       }
       return null;
    }

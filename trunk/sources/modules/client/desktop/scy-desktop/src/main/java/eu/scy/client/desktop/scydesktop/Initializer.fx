@@ -95,6 +95,7 @@ public class Initializer {
    public-init var localAuthorRootPath = "";
    public-init var disableRooloVersioning = false;
    public-init var dontUseMissionRuntimeElos = false;
+   public-init var useBigMissionMap = false;
    public-read var languages: String[];
    public-read var backgroundImage: Image;
    public-read var localLoggingDirectory: File = null;
@@ -148,6 +149,7 @@ public class Initializer {
    def localAuthorRootPathOption = "localAuthorRootPath";
    def disableRooloVersioningOption = "disableRooloVersioning";
    def dontUseMissionRuntimeElosOption = "dontUseMissionRuntimeElos";
+   def useBigMissionMapOption = "useBigMissionMap";
    var setupLoggingToFiles: SetupLoggingToFiles;
    package var background: DynamicTypeBackground;
    public-read var loginTypeEnum: LoginType;
@@ -332,6 +334,9 @@ public class Initializer {
             } else if (option == dontUseMissionRuntimeElosOption.toLowerCase()) {
                dontUseMissionRuntimeElos = argumentsList.nextBooleanValue(dontUseMissionRuntimeElosOption);
                logger.info("app: {dontUseMissionRuntimeElos}: {dontUseMissionRuntimeElos}");
+            } else if (option == useBigMissionMapOption.toLowerCase()) {
+               useBigMissionMap = argumentsList.nextBooleanValue(useBigMissionMapOption);
+               logger.info("app: {useBigMissionMap}: {useBigMissionMap}");
             } else {
                logger.info("Unknown option: {option}");
             }
@@ -379,6 +384,7 @@ public class Initializer {
       localAuthorRootPath = getWebstartParameterStringValue(localAuthorRootPathOption, localAuthorRootPath);
       disableRooloVersioning = getWebstartParameterBooleanValue(disableRooloVersioningOption, disableRooloVersioning);
       dontUseMissionRuntimeElos = getWebstartParameterBooleanValue(dontUseMissionRuntimeElosOption, dontUseMissionRuntimeElos);
+      useBigMissionMap = getWebstartParameterBooleanValue(useBigMissionMapOption, useBigMissionMap);
    }
 
    function getWebstartParameterStringValue(name: String, default: String): String {
@@ -462,6 +468,7 @@ public class Initializer {
       printWriter.println("- localAuthorRootPath: {localAuthorRootPath}");
       printWriter.println("- disableRooloVersioning: {disableRooloVersioning}");
       printWriter.println("- dontUseMissionRuntimeElos: {dontUseMissionRuntimeElos}");
+      printWriter.println("- useBigMissionMap: {useBigMissionMap}");
    }
 
    public function isEmpty(string: String): Boolean {
@@ -512,6 +519,7 @@ public class Initializer {
             SimpleTooltipManager.tooltipGroup,
             MouseBlocker.mouseBlockNode
          ];
+//      scene.stylesheets = "{__DIR__}css/scy-desktop.css";
       scene
    }
 

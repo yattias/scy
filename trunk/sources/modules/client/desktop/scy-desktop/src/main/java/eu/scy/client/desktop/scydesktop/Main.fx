@@ -41,6 +41,7 @@ var initializer = Initializer{
    debugMode:true
    authorMode:true
    dontUseMissionRuntimeElos:false
+   useBigMissionMap:true
    missionMapNotSelectedImageScale:1.0
    missionMapSelectedImageScale:1.5
    missionMapPositionScale:1.0
