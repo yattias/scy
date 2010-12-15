@@ -208,22 +208,25 @@
 				<mx:Image id="eloIcon" width="100" height="100"/>
 			</mx:Canvas>
 			
-			<mx:Form x="{eloIcon.x+eloIcon.width+30}" y="0" verticalGap="7" color="{Main.BACK_GRADIENT_BOT}" fontSize="14">
+			<mx:Form x="{eloIcon.x+eloIcon.width+30}" y="0" verticalGap="0" color="{Main.BACK_GRADIENT_BOT}" fontSize="13">
 				<mx:FormItem label="{resourceManager.getString('resources', 'MISSION')+' / '+resourceManager.getString('resources', 'ELO_NAME')+':'}">
 					<mx:Label id="missionText" text="CO2 neutral house"/>
 				</mx:FormItem>
-				
-			<!--	<mx:FormItem label="{resourceManager.getString('resources', 'ELO_NAME')+':'}">
-					<mx:Label id="elonameText" text="elo-1234567"/>
-				</mx:FormItem>
-			-->
 				
 				<mx:FormItem label="{resourceManager.getString('resources', 'ELO_TYPE')+':'}">
 					<mx:Label id="elotypeText" text="type"/>
 				</mx:FormItem>
 				
+				<mx:FormItem label="{resourceManager.getString('resources', 'ELO_FILENAME')+':'}">
+					<mx:Label id="elonameText" text="elo-1234567"/>
+				</mx:FormItem>
+				
 				<mx:FormItem label="{resourceManager.getString('resources', 'CREATED_BY')+':'}">
 					<mx:Label id="createdText" text="user1, user2, user3"/>
+				</mx:FormItem>
+				
+				<mx:FormItem label="{resourceManager.getString('resources', 'CREATED_DATE')+':'}">
+					<mx:Label id="createdDateText" text="01-01-2010"/>
 				</mx:FormItem>
 			</mx:Form>
 		</mx:Canvas>
@@ -274,7 +277,7 @@
 		
 		</mx:VBox>
 		<mx:HBox id="reflectionFooter" width="100%" height="40" horizontalAlign="center" horizontalGap="10" verticalAlign="middle">
-			<s:Button id="okReflect" label="{resourceManager.getString('resources', 'OK_BUTTON')}" click="clickHandler(Main.RIGHT_DIRECTION, Main.STACK_INTRO_PANEL, true)" excludeFrom="updateReflection"/>
+			<s:Button id="okReflect" label="{resourceManager.getString('resources', 'FINISHED_BUTTON')}" click="clickHandler(Main.RIGHT_DIRECTION, Main.STACK_INTRO_PANEL, true)" excludeFrom="updateReflection"/>
 			<s:Button id="cancelReflect" label="{resourceManager.getString('resources', 'CANCEL_BUTTON')}" click="clickHandler(Main.RIGHT_DIRECTION, Main.STACK_SEARCH_PANEL, false)" excludeFrom="updateReflection"/>
 			<s:Button id="updateReflect" label="{resourceManager.getString('resources', 'UPDATE_BUTTON')}" click="clickHandler(Main.RIGHT_DIRECTION, Main.STACK_INTRO_PANEL, true)" excludeFrom="newReflection"/>
 		</mx:HBox>

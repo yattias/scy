@@ -19,17 +19,7 @@
 			import spark.components.supportClasses.ItemRenderer;
 			import spark.events.IndexChangeEvent;
 			
-			[Bindable] private var obligElos:ArrayCollection = new ArrayCollection([
-				"Select ...",
-				"1st ideas of my design group",
-//				"Concept map Co2",
-//				"Inventory of solutions",
-//				"Research questions",
-//				"Individual report",
-//				"Experimental procedure",
-//				"Drawing of the house",
-				"House data"
-			]);
+			[Bindable] private var obligElos:ArrayCollection;
 			
 			[Bindable] private var obliEloCanvases:ArrayCollection;
 			
@@ -38,17 +28,43 @@
 			protected function obligEloSelection_changeHandler(event:spark.events.IndexChangeEvent):void {
 				if(event.newIndex > 0) {
 					currentState = "addAvailble";
+					addObliEloButton.enabled = true;
 				}
 				else {
 					currentState = "normal";
+					addObliEloButton.enabled = false;
 				}
 				
-				if(event.newIndex > 0) {
-					(introStack.selectedChild as introductionSubCanvas).refreshView();
+				checkForBuildButtonState(event.newIndex);
+			}
+			
+			private function checkForBuildButtonState(n:Number):void {
+				if(n > 0) {
+					if((introStack.selectedChild as introductionSubCanvas).refreshView() > 0) {
+						viewEport.enabled = true;
+					}
+					else {
+						viewEport.enabled = false;
+					}
 				}
 			}
 
 			protected function canvas1_creationCompleteHandler(event:FlexEvent):void {
+				
+				obligElos = new ArrayCollection([
+					resourceManager.getString('resources', 'MISSION_SELECT'),
+					"1st ideas of my design group",
+					//				"Concept map Co2",
+					//				"Inventory of solutions",
+					//				"Research questions",
+					//				"Individual report",
+					//				"Experimental procedure",
+					//				"Drawing of the house",
+					"House data"
+				]);
+				obligEloSelection.selectedIndex = 0;
+				
+				
 				uName = retrieveUserInfos();
 				obliEloCanvases = new ArrayCollection();
 				var obliEloCanvas:introductionSubCanvas;
@@ -116,9 +132,7 @@
 						(introStack.selectedChild as introductionSubCanvas).elosArray.addItem(selectedElo);
 					}
 					
-					if(introStack.selectedIndex > 0) {
-						(introStack.selectedChild as introductionSubCanvas).refreshView();
-					}
+					checkForBuildButtonState(introStack.selectedIndex);
 				}
 			}
 		]]>
@@ -150,7 +164,7 @@
 					</s:backgroundFill>
 	
 				<mx:HBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
-					<mx:Text id="headerText" width="60%" color="{Main.BACK_GRADIENT_BOT}" fontSize="15" fontAntiAliasType="advanced" textAlign="center" htmlText="{resourceManager.getString('resources', 'HELLO')+' '+uName+resourceManager.getString('resources', 'WELCOME')}" />
+					<mx:Text id="headerText" width="60%" color="{Main.BACK_GRADIENT_BOT}" fontSize="15" fontAntiAliasType="advanced" textAlign="center" htmlText="{uName+resourceManager.getString('resources', 'HELLO')}" />
 				</mx:HBox>
 			</s:BorderContainer>	
 		</mx:HBox>
@@ -168,17 +182,17 @@
 		</mx:HBox>
 		<mx:HBox width="100%">
 			<mx:Spacer width="10" />
-			<s:DropDownList id="obligEloSelection" width="200" dataProvider="{obligElos}" selectedIndex="0" change="obligEloSelection_changeHandler(event)" itemRendererFunction="renderItem"/>
-			<s:Button id="addObliEloButton" label="{resourceManager.getString('resources', 'ADD_BUTTON')}" includeIn="addAvailble" click="clickHandler(Main.LEFT_DIRECTION, Main.STACK_SEARCH_PANEL)" />
-			<s:Button id="viewEport" label="{resourceManager.getString('resources', 'VIEW_BUTTON')}" click="clickHandler(Main.LEFT_DIRECTION, Main.STACK_SUBMIT_PANEL)" />
+			<s:DropDownList id="obligEloSelection" width="200" dataProvider="{obligElos}" change="obligEloSelection_changeHandler(event)" itemRendererFunction="renderItem"/>
+			<s:Button id="addObliEloButton" label="{resourceManager.getString('resources', 'ADD_BUTTON')}" enabled="false" click="clickHandler(Main.LEFT_DIRECTION, Main.STACK_SEARCH_PANEL)" />
+			<s:Button id="viewEport" label="{resourceManager.getString('resources', 'VIEW_BUTTON')}" enabled="false" click="clickHandler(Main.LEFT_DIRECTION, Main.STACK_SUBMIT_PANEL)" />
 		</mx:HBox>
 		<mx:ViewStack id="introStack" width="100%" height="100%" selectedIndex="{obligEloSelection.selectedIndex}" resizeToContent="true"
 					  creationPolicy="all" historyManagementEnabled="true" >
 			<mx:VBox id="introCanvas" width="100%" height="100%" horizontalAlign="center" showEffect="{introFadeEffectStart}"
 					 hideEffect="{introZoomEffectStop}" horizontalScrollPolicy="off" verticalScrollPolicy="off">
 				<mx:Spacer height="20" />
-				<mx:HBox id="introductionBox" width="50%" height="250" backgroundColor="{Main.THEME_COL}" horizontalAlign="center" verticalAlign="middle" borderStyle="inset" cornerRadius="10" borderColor="{Main.THEME_COL}">
-					<mx:Text id="introductionText" width="90%" color="{Main.BACK_GRADIENT_BOT}" fontSize="18" fontAntiAliasType="advanced" textAlign="center" htmlText="{resourceManager.getString('resources', 'INTRODUCTION_TEXT')}" />
+				<mx:HBox id="introductionBox" width="50%" height="250" backgroundColor="{Main.THEME_COL}" horizontalAlign="center" verticalAlign="middle" borderStyle="inset" cornerRadius="10" borderColor="{Main.THEME_COL}" verticalScrollPolicy="off">
+					<mx:Text id="introductionText" width="95%" color="{Main.BACK_GRADIENT_BOT}" fontSize="16" fontAntiAliasType="advanced" textAlign="center" htmlText="{resourceManager.getString('resources', 'INTRODUCTION_TEXT')}"/>
 				</mx:HBox>
 				<reflector:Reflector target="{introductionBox}" alpha=".6" falloff=".5" y="{introductionBox.y+introductionBox.height}" />
 				<mx:Spacer height="100" />

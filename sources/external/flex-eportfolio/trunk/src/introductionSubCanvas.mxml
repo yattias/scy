@@ -22,7 +22,7 @@
 			private var selectedElo:Object;
 			private var subCE:subCanvasElo;
 
-			public function refreshView():void {
+			public function refreshView():Number {
 				if(elosArray.length == 0) {
 					var s:Sprite = new Sprite();
 					s.graphics.beginFill(Main.BACK_GRADIENT_TOP);
@@ -63,6 +63,7 @@
 						selecCol.eloIndex = i;
 					}
 				}
+				return elosArray.length;
 			}
 			
 			private function deleteSpecifiedElo(evt:DeleteEvent):void {
