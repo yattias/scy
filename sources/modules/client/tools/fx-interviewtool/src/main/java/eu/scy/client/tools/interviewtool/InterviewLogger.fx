@@ -15,13 +15,13 @@ import eu.scy.actionlogging.Action;
  * @author kaido
  */
 
-public def SHOW_HOME = "show start page";
-public def SHOW_PREPARE = "show prepare main page";
-public def SHOW_QUESTION = "show question page";
-public def QUESTION_CHANGED = "question changed";
-public def SHOW_TOPICS = "show topics page";
-public def OBJECT_ADD = ":1 added";
-public def OBJECT_REMOVE = ":1 removed";
+public def SHOW_HOME = "start_shown";
+public def SHOW_PREPARE = "prepare_main_shown";
+public def SHOW_QUESTION = "question_shown";
+public def QUESTION_CHANGED = "question_changed";
+public def SHOW_TOPICS = "topics_shown";
+public def OBJECT_ADD = ":1_added";
+public def OBJECT_REMOVE = ":1_removed";
 /*
 public def OBJECTS_BEFORE_SAVE = ":1s before save";
 public def OBJECTS_AFTER_SAVE = ":1s after save";
@@ -29,28 +29,28 @@ public def OBJECTS_BEFORE_CANCEL = ":1s before editing canceled";
 public def OBJECTS_AFTER_CANCEL = ":1s after editing canceled";
 public def OBJECTS_FOCUS_LOST = ":1s before focus lost";
 */
-public def SHOW_INDICATORS = "show indicators page";
-public def SHOW_ANSWERS = "show answers page";
-public def OTHER_NAMELY_CLICK = "other namely clicked";
-public def SHOW_FORMULATION = "show formulation page";
-public def FORMULATION_CHANGED = "formulation changed";
-public def SHOW_STATUS = "show status page";
-public def SHOW_DESIGN = "show design page";
-public def SHOW_CONDUCT = "show conduct page";
-public def SHOW_CONDUCT_PREPARATION = "show conduct preparation page";
-public def SHOW_CONDUCT_RECOMMENDATIONS = "show conduct recommendation page";
-public def OPEN_ELO = "open ELO";
-public def SAVE_ELO = "save ELO";
-public def SAVE_AS_ELO = "save as ELO";
-public def ZOOM_TREE_IN = "zoom tree in";
-public def ZOOM_TREE_OUT = "zoom tree out";
-public def BACK_CLICKED = "back button clicked";
-public def HOME_CLICKED = "home button clicked";
-public def NEXT_CLICKED = "next button clicked";
-public def ZOOM_SCHEMA_IN = "zoom schema in";
-public def ZOOM_SCHEMA_OUT = "zoom schema out";
-public def ZOOM_GUIDELINES_IN = "zoom guidelines in";
-public def ZOOM_GUIDELINES_OUT = "zoom guidelines out";
+public def SHOW_INDICATORS = "indicators_shown";
+public def SHOW_ANSWERS = "answers_shown";
+public def OTHER_NAMELY_CLICK = "answer_other_clicked";
+public def SHOW_FORMULATION = "formulation_shown";
+public def FORMULATION_CHANGED = "formulation_changed";
+public def SHOW_STATUS = "status_shown";
+public def SHOW_DESIGN = "design_shown";
+public def SHOW_CONDUCT = "conduct_shown";
+public def SHOW_CONDUCT_PREPARATION = "conduct_preparation_shown";
+public def SHOW_CONDUCT_RECOMMENDATIONS = "conduct_recommendation_shown";
+//public def OPEN_ELO = "open ELO";
+//public def SAVE_ELO = "save ELO";
+//public def SAVE_AS_ELO = "save as ELO";
+public def ZOOM_TREE_IN = "tree_in_zoomed";
+public def ZOOM_TREE_OUT = "tree_out_zoomed";
+public def BACK_CLICKED = "back_clicked";
+public def HOME_CLICKED = "home_clicked";
+public def NEXT_CLICKED = "next_clicked";
+public def ZOOM_SCHEMA_IN = "schema_in_zoomed";
+public def ZOOM_SCHEMA_OUT = "schema_out_zoomed";
+public def ZOOM_GUIDELINES_IN = "guidelines_in_zoomed";
+public def ZOOM_GUIDELINES_OUT = "guidelines_out_zoomed";
 
 var COUNT:Integer = 0;
 
