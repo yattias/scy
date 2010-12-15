@@ -38,6 +38,10 @@ public class MissionAnchorFX extends MissionAnchor {
    public var resourcesUri: URI;
    public var colorScheme: ColorSchemeId;
 
+   public override function toString(): String {
+      return "MissionAnchorFX\{eloUri:{eloUri}\}";
+   }
+
    function newMissionAnchor() {
       eloUri = missionAnchor.getEloUri();
       scyElo = missionAnchor.getScyElo();

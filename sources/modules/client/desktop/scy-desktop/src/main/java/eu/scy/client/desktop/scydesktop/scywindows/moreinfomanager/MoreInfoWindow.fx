@@ -23,6 +23,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Insets;
+import javafx.scene.input.MouseEvent;
 
 /**
  * @author SikkenJ
@@ -38,6 +39,7 @@ public class MoreInfoWindow extends CustomNode {
    public var content: Node;
    public var closeAction: function(): Void;
    public var environmentColor = Color.color(.90, .90, .90);
+   public var mouseClickedAction: function(:MouseEvent):Void;
    def borderLineWidth = 2.0;
    def borderWidth = 5.0;
    def iconSize = 40.0;
@@ -79,6 +81,7 @@ public class MoreInfoWindow extends CustomNode {
          height: bind height - topBorderWidth - borderWidth - borderLineWidth
          content: bind content;
          activated: true
+         mouseClickedAction:mouseClickedAction
          layoutX: borderWidth + borderLineWidth / 2.0;
          layoutY: topBorderWidth + borderLineWidth / 2.0;
       }
@@ -129,7 +132,9 @@ public class MoreInfoWindow extends CustomNode {
       }
 
    }
-
+   public function resizeTheContent() {
+      contentElement.resizeTheContent();
+   }
 }
 
 function run() {

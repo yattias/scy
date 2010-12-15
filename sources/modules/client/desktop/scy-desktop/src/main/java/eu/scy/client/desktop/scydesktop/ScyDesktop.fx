@@ -292,6 +292,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       contactList.height = 250;
       missionMap = MissionMap {
             missionModel: missionModelFX
+            bigMissionMap:false
             tooltipManager: tooltipManager
             dragAndDropManager: dragAndDropManager
             runtimeSettingsRetriever: EloRuntimeSettingsRetriever {
@@ -310,6 +311,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          }
       def bigMissionMap = BigMissionMap {
             missionModel: missionModelFX
+            bigMissionMap:true
             tooltipManager: tooltipManager
             dragAndDropManager: dragAndDropManager
             runtimeSettingsRetriever: EloRuntimeSettingsRetriever {
@@ -339,58 +341,58 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       //            color: Color.GREEN;
       //            effect: cornerToolEffect
       //        }
-      var SPTButton = MultiImageButton {
-            imageName: "planning"
-            disable: initializer.offlineMode
-            //                    toolTip: "Open the Student Planning Tool!";
-            //                    tooltipManager: tooltipManager;
-            //                    normalImage: Image { url: "{__DIR__}planningtoolicon.png" };
-            //                    selectImage: Image { url: "{__DIR__}planningtooliconhighlight.png" };
-            action: function(): Void {
-
-               var userName = config.getToolBrokerAPI().getLoginUserName();
-               var missionSpecificationURI = config.getToolBrokerAPI().getMissionSpecificationURI();
-               var typeQuery = new BasicMetadataQuery(config.getTechnicalFormatKey(), BasicSearchOperations.EQUALS, "scy/studentplanningtool");
-               var titleQuery = new BasicMetadataQuery(config.getTitleKey(), BasicSearchOperations.EQUALS, userName);
-               var andQuery = new AndQuery(typeQuery, titleQuery);
-               //var missionId = config.getBasicMissionMap().getId();
-               if (missionId != null) {
-                  var missionIdQuery = new BasicMetadataQuery(config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MISSION.getId()), BasicSearchOperations.EQUALS, missionId);
-                  andQuery.addQuery(missionIdQuery);
-               }
-               var results = config.getRepository().search(andQuery);
-               logger.info("NUMBER OF SPT elos found: {results.size()}");
-               var sptELO;
-               if (results.size() == 1) {
-                  var searchResult = results.get(0) as ISearchResult;
-                  sptELO = config.getRepository().retrieveELO(searchResult.getUri());
-
-               } else {
-                  logger.info("OK, let's create a new one");
-                  //we need to create a new one
-                  sptELO = config.getEloFactory().createELO();
-
-                  sptELO.getMetadata().getMetadataValueContainer(config.getTitleKey()).setValue(userName);
-                  sptELO.getMetadata().getMetadataValueContainer(config.getTechnicalFormatKey()).setValue("scy/studentplanningtool");
-                  var missionIdKy = config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MISSION.getId());
-                  sptELO.getMetadata().getMetadataValueContainer(missionIdKy).setValue(missionId);
-
-                  var sptMetadata = config.getRepository().addNewELO(sptELO);
-                  config.getEloFactory().updateELOWithResult(sptELO, sptMetadata);
-
-               }
-               def newWindow = scyWindowControl.addOtherScyWindow(sptELO.getUri());
-               newWindow.openWindow(700, 600);
-            }
-         }
-      topRightCorner = TopRightCorner {
-            content: SPTButton;
-            effect: cornerToolEffect
-         }
+//      var SPTButton = MultiImageButton {
+//            imageName: "planning"
+//            disable: initializer.offlineMode
+//            //                    toolTip: "Open the Student Planning Tool!";
+//            //                    tooltipManager: tooltipManager;
+//            //                    normalImage: Image { url: "{__DIR__}planningtoolicon.png" };
+//            //                    selectImage: Image { url: "{__DIR__}planningtooliconhighlight.png" };
+//            action: function(): Void {
+//
+//               var userName = config.getToolBrokerAPI().getLoginUserName();
+//               var missionSpecificationURI = config.getToolBrokerAPI().getMissionSpecificationURI();
+//               var typeQuery = new BasicMetadataQuery(config.getTechnicalFormatKey(), BasicSearchOperations.EQUALS, "scy/studentplanningtool");
+//               var titleQuery = new BasicMetadataQuery(config.getTitleKey(), BasicSearchOperations.EQUALS, userName);
+//               var andQuery = new AndQuery(typeQuery, titleQuery);
+//               //var missionId = config.getBasicMissionMap().getId();
+//               if (missionId != null) {
+//                  var missionIdQuery = new BasicMetadataQuery(config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MISSION.getId()), BasicSearchOperations.EQUALS, missionId);
+//                  andQuery.addQuery(missionIdQuery);
+//               }
+//               var results = config.getRepository().search(andQuery);
+//               logger.info("NUMBER OF SPT elos found: {results.size()}");
+//               var sptELO;
+//               if (results.size() == 1) {
+//                  var searchResult = results.get(0) as ISearchResult;
+//                  sptELO = config.getRepository().retrieveELO(searchResult.getUri());
+//
+//               } else {
+//                  logger.info("OK, let's create a new one");
+//                  //we need to create a new one
+//                  sptELO = config.getEloFactory().createELO();
+//
+//                  sptELO.getMetadata().getMetadataValueContainer(config.getTitleKey()).setValue(userName);
+//                  sptELO.getMetadata().getMetadataValueContainer(config.getTechnicalFormatKey()).setValue("scy/studentplanningtool");
+//                  var missionIdKy = config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MISSION.getId());
+//                  sptELO.getMetadata().getMetadataValueContainer(missionIdKy).setValue(missionId);
+//
+//                  var sptMetadata = config.getRepository().addNewELO(sptELO);
+//                  config.getEloFactory().updateELOWithResult(sptELO, sptMetadata);
+//
+//               }
+//               def newWindow = scyWindowControl.addOtherScyWindow(sptELO.getUri());
+//               newWindow.openWindow(700, 600);
+//            }
+//         }
+//      topRightCorner = TopRightCorner {
+//            content: SPTButton;
+//            effect: cornerToolEffect
+//         }
       bottomRightCorner = BottomRightCorner {
             // TODO, replace with specified tool
-//            content:bigMissionMapControl
-            content:missionMap
+            content: if (initializer.useBigMissionMap) bigMissionMapControl else missionMap
+//            content:missionMap
 //            content: HBox {
 //               spacing: 5.0
 //               content: [

@@ -8,11 +8,11 @@ import javafx.scene.layout.Resizable;
 import javafx.util.Math;
 import org.apache.log4j.Logger;
 import javafx.scene.Node;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.paint.Color;
 import javafx.scene.layout.Stack;
 import javafx.scene.layout.Container;
 import javafx.geometry.Insets;
+import eu.scy.client.desktop.scydesktop.tooltips.impl.SemiPermanentTooltipManager;
+import javafx.scene.input.MouseEvent;
 
 /**
  * @author SikkenJ
@@ -26,12 +26,16 @@ public class BigMissionMap extends MissionMap, Resizable {
    def relativeBorder = 0.2;
    var missionMapNode: Node;
    var myStack: Stack;
+   def activeLas = bind missionModel.activeLas on replace {};
+
+   init{
+      tooltipManager = SemiPermanentTooltipManager{
+      }
+   }
 
    public override function create(): Node {
       missionMapNode = super.create();
       def missionMapBounds = missionMapNode.layoutBounds;
-      //      missionMapNode.translateX = 100;
-      //      missionMapNode.layoutY = 50;
       myStack = Stack {
             padding: Insets {
                top: relativeBorder * missionMapBounds.height
@@ -40,18 +44,16 @@ public class BigMissionMap extends MissionMap, Resizable {
                left: relativeBorder * missionMapBounds.width
             }
             content: [
-               //               Rectangle {
-               //                  x: -relativeBorder * missionMapBounds.width
-               //                  y: -relativeBorder * missionMapBounds.height
-               //                  width: (1 + relativeBorder) * missionMapBounds.width, height: (1 + relativeBorder) * missionMapBounds.height
-               //                  fill: Color.YELLOW
-               //               }
                missionMapNode
             ]
+            onMouseClicked: function(e: MouseEvent):Void{
+               tooltipManager.removeTooltip();
+            }
+
          }
    }
 
-   function adjustSize() {
+   package function adjustSize() {
       //      Container.resizeNode(myStack, missionMapNode.layoutBounds.width, missionMapNode.layoutBounds.height);
       def scaleX = width / ((1 + 2 * relativeBorder) * missionMapNode.layoutBounds.width);
       def scaleY = height / ((1 + 2 * relativeBorder) * missionMapNode.layoutBounds.height);
@@ -63,10 +65,10 @@ public class BigMissionMap extends MissionMap, Resizable {
       this.scaleY = scale;
       missionMapNode.translateX = -missionMapNode.layoutBounds.minX + (scale - 1) * missionMapNode.layoutBounds.width / 2;
       missionMapNode.translateY = -missionMapNode.layoutBounds.minY + (scale - 1) * missionMapNode.layoutBounds.height / 2;
-      logger.info("translate: {missionMapNode.translateX},{missionMapNode.translateY}");
+//      logger.info("translate: {missionMapNode.translateX},{missionMapNode.translateY}");
       var stackX = (width - scale * missionMapNode.layoutBounds.width) / 2;
       var stackY = (height - scale * missionMapNode.layoutBounds.height) / 2;
-      logger.info("stack pos: {stackX},{stackY}");
+//      logger.info("stack pos: {stackX},{stackY}");
       Container.positionNode(myStack, stackX, stackY);
    }
 

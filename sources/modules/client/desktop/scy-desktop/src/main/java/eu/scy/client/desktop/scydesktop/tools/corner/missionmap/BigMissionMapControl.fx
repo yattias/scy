@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import eu.scy.client.desktop.scydesktop.scywindows.moreinfomanager.MoreInfoWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.ModalDialogLayer;
+import javafx.scene.input.MouseEvent;
 
 /**
  * @author SikkenJ
@@ -18,9 +19,10 @@ public class BigMissionMapControl extends CustomNode {
 
    public var bigMissionMap: BigMissionMap;
    def missionMapWindow: MoreInfoWindow = MoreInfoWindow {
-         title: "big mission map"
+         title: ##"Mission navigation"
          content: bigMissionMap
          closeAction: hideBigMissionMap
+         mouseClickedAction:mouseClickedInMissionWindowWindow
       }
    def sceneWidth = bind scene.width on replace { sceneSizeChanged() };
    def sceneHeight = bind scene.height on replace { sceneSizeChanged() };
@@ -45,18 +47,29 @@ public class BigMissionMapControl extends CustomNode {
       if (bigMissionMapVisible) {
          missionMapWindow.width = (1 - 2 * relativeWindowScreenBoder) * scene.width;
          missionMapWindow.height = (1 - 2 * relativeWindowScreenBoder) * scene.height;
+         bigMissionMap.tooltipManager.removeTooltip();
       }
    }
 
    function showBigMissionMap() {
       bigMissionMapVisible = true;
       sceneSizeChanged();
-      ModalDialogLayer.addModalDialog(missionMapWindow,true);
+      FX.deferAction(function(): Void {
+//         bigMissionMap.adjustSize();
+         missionMapWindow.resizeTheContent();
+      });
+      ModalDialogLayer.addModalDialog(missionMapWindow, true);
    }
 
    function hideBigMissionMap(): Void {
       bigMissionMapVisible = false;
       ModalDialogLayer.removeModalDialog(missionMapWindow);
+      bigMissionMap.tooltipManager.removeTooltip();
    }
+
+   function mouseClickedInMissionWindowWindow(e:MouseEvent):Void{
+      bigMissionMap.tooltipManager.removeTooltip();
+   }
+
 
 }
