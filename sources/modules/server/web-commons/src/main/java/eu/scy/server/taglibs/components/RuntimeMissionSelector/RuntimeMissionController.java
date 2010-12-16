@@ -25,7 +25,6 @@ public class RuntimeMissionController extends TagSupport {
     private RuntimeELOService runtimeELOService;
     private UserService userService;
 
-
     public int doEndTag() throws JspException {
         try {
             pageContext.getOut().write("<div id=\"runtimeMissionController\">\n");
