@@ -33,6 +33,7 @@ import eu.scy.notification.api.INotifiable;
 import eu.scy.notification.api.INotification;
 import eu.scy.scymapper.api.IConceptMap;
 import eu.scy.scymapper.api.configuration.ISCYMapperToolConfiguration;
+import eu.scy.scymapper.api.diagram.model.ILinkModel;
 import eu.scy.scymapper.api.diagram.model.INodeModel;
 import eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration;
 import eu.scy.scymapper.impl.controller.datasync.DataSyncDiagramController;
@@ -362,6 +363,14 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
         this.conceptMap = conceptMap;
         initComponents();
         actionLogger.setDiagram(getConceptMap().getDiagram());
+        for (INodeModel node: getConceptMap().getDiagram().getNodes()) {
+            // add actionlogger as listener to all nodes, needed for logging!
+            node.addListener(actionLogger);
+        }
+        for (ILinkModel link: getConceptMap().getDiagram().getLinks()) {
+            // add actionlogger as listener to all links, needed for logging!
+            link.addListener(actionLogger);
+        }
         repaint();
     }
 
