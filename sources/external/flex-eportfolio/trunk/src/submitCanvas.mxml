@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Canvas xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		   xmlns:s="library://ns.adobe.com/flex/spark" 
-		   xmlns:mx="library://ns.adobe.com/flex/mx" horizontalScrollPolicy="off" creationComplete="canvas1_creationCompleteHandler(event)">
+		   xmlns:mx="library://ns.adobe.com/flex/mx" horizontalScrollPolicy="off" >
 	
 	<fx:Script>
 		<![CDATA[
@@ -35,6 +35,8 @@
 				if(target > 1) {
 					submitBox.selectedIndex = target - 1;
 				}
+				
+				checkIfSelectionComplete();
 			}
 			
 			private function showPossibleSelection(ob:Object, index:Number):void {
@@ -46,13 +48,8 @@
 				submitcanvasnav.setBuildTile();
 				selectedElosNavigators.addItem(submitcanvasnav);
 			}
-
-
-			protected function canvas1_creationCompleteHandler(event:FlexEvent):void {
-				this.addEventListener(Main.SELECTION_COMMAND, checkIfSelectionComplete);
-			}
 			
-			private function checkIfSelectionComplete(evt:SelectionEvent):void {
+			private function checkIfSelectionComplete():void {
 				var readyForSubmit:Boolean = true;
 				for(var i:Number = 0; i < selectedElosNavigators.length; i++) {
 					if(!(selectedElosNavigators[i] as submitCanvasNavigator).hasSelectionBeenMade) {
@@ -80,7 +77,7 @@
 	
 	
 	<mx:VBox width="100%" height="100%" horizontalAlign="center" horizontalScrollPolicy="off">
-		<mx:HBox width="100%" height="70" horizontalAlign="center" verticalAlign="middle" horizontalGap="3">
+		<mx:HBox id="hbo" width="100%" height="70" horizontalAlign="center" verticalAlign="middle" horizontalGap="3">
 			<s:BorderContainer id="headerLogo" width="70" height="70" borderStyle="solid" borderColor="{Main.THEME_COL}">
 				<s:backgroundFill>
 					<s:LinearGradient rotation="90">
@@ -104,20 +101,12 @@
 				</mx:HBox>
 			</s:BorderContainer>	
 		</mx:HBox>
-		
-<!--		<s:BorderContainer id="header" width="100%" height="70" borderStyle="solid" borderColor="#666666">
-			<s:backgroundFill>
-				<s:LinearGradient rotation="90">
-					<s:GradientEntry color="{Main.BACK_GRADIENT_TOP}" />
-					<s:GradientEntry color="{Main.BACK_GRADIENT_BOT}" />
-				</s:LinearGradient>
-			</s:backgroundFill>
-			
-			<mx:HBox width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
-				<mx:Text id="headerText" width="60%" color="#FFFFFF" fontSize="15" fontAntiAliasType="advanced" textAlign="center" htmlText="{resourceManager.getString('resources', 'SUBMIT_HEADER')}" />
-			</mx:HBox>
+		<s:BorderContainer width="{hbo.width}" minHeight="10">
+			<s:HGroup left="2" top="2" right="2" bottom="2" verticalAlign="middle">
+				<mx:Image source="assets/images/inf.png" width="10" height="10" />
+				<s:Label id="instruc" width="100%" height="13" text="{resourceManager.getString('resources', 'SUBMIT_INSTRUC')}" verticalAlign="middle" />
+			</s:HGroup>
 		</s:BorderContainer>
-		-->
 		
 		<mx:Spacer height="20" />
 		<mx:Accordion id="submitBox" color="0x323232" width="90%" height="100%" />

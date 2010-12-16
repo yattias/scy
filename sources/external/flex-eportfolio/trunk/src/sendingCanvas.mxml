@@ -11,6 +11,11 @@
 			import mx.controls.Alert;
 			
 			[Bindable] private var sendingLabel:String = "";
+			[Bindable] private var sendButtonEnabled:Boolean = false;
+			
+			[Bindable] private var ref1Txt:String = "";
+			[Bindable] private var ref2Txt:String = "";
+			[Bindable] private var ref3Txt:String = "";
 
 			protected function clickHandler(dir:String, stack:Number):void {
 				var tEvent:ToggleEvent = new ToggleEvent(Main.TOGGLE_COMMAND, true);
@@ -77,8 +82,8 @@
 				}
 				glgInfo.htmlText = glgString;
 				var slgString:String = "<u>"+resourceManager.getString('resources', 'SLG') + "</u>: <br>";
-				for(var i:Number = 0; i<(evt.target).slg.length; i++) {
-					slgString = slgString + "     - " + ((evt.target).slg[i][0].entry).goal + "<br>";
+				for(var j:Number = 0; j<(evt.target).slg.length; j++) {
+					slgString = slgString + "     - " + ((evt.target).slg[j][0].entry).goal + "<br>";
 				}
 				slgInfo.htmlText = slgString;
 				reflectionInfo.htmlText = "<u>"+resourceManager.getString('resources', 'REFLECTION') + "</u>: " +(evt.target).reflection;
@@ -91,11 +96,20 @@
 				altBox.removeEventListener(Event.ENTER_FRAME, updateCoordinates);
 				altBox.x = Main.ALT_BOX_INIT_X;
 			}
+			
+			private function validateSubmitButton():void {
+				if(ref1Txt != "" && ref2Txt != "" && ref3Txt != "") {
+					sendButtonEnabled = true;
+				}
+				else {
+					sendButtonEnabled = false;
+				}
+			}
 		]]>
 	</fx:Script>
 	
 	<mx:VBox width="100%" height="100%" horizontalAlign="center" horizontalScrollPolicy="off">
-		<mx:HBox width="100%" height="70" horizontalAlign="center" verticalAlign="middle" horizontalGap="3">
+		<mx:HBox id="hbo" width="100%" height="70" horizontalAlign="center" verticalAlign="middle" horizontalGap="3">
 			<s:BorderContainer id="headerLogo" width="70" height="70" borderStyle="solid" borderColor="{Main.THEME_COL}">
 				<s:backgroundFill>
 					<s:LinearGradient rotation="90">
@@ -119,7 +133,13 @@
 				</mx:HBox>
 			</s:BorderContainer>	
 		</mx:HBox>
-		<mx:Spacer height="10" />
+		<s:BorderContainer width="{hbo.width}" minHeight="10">
+			<s:HGroup left="2" top="2" right="2" bottom="2" verticalAlign="middle">
+				<mx:Image source="assets/images/inf.png" width="10" height="10" />
+				<s:Label id="instruc" width="100%" height="13" text="{resourceManager.getString('resources', 'SENDING_INSTRUC')}" verticalAlign="middle" />
+			</s:HGroup>
+		</s:BorderContainer>
+		<mx:Spacer height="3" />
 		<mx:VBox width="100%" height="100%" horizontalAlign="center" verticalGap="0">
 			<mx:Panel title="{sendingLabel}" id="blog" horizontalAlign="left" height="280" width="90%">
 				<containers:CoverFlowContainer id="coverflow" width="100%" height="100%" 
@@ -136,21 +156,24 @@
 					<s:NavigatorContent label="{resourceManager.getString('resources', 'REFLECTION_TXT1')}" width="100%" height="100%">
 						<mx:HBox width="100%" height="90%" verticalAlign="middle" horizontalAlign="center">
 							<mx:FormItem label="{resourceManager.getString('resources', 'REFLECTION_TXT1')+':'}" required="true" height="90%">
-								<s:TextArea width="500" height="90%" id="reflectionArea1" color="#000000" text="{resourceManager.getString('resources', 'SENDING_TEXT1')}"/>
+								<mx:Text text="{resourceManager.getString('resources', 'SENDING_TEXT1')}" width="500" />
+								<s:TextArea width="500" height="90%" id="reflectionArea1" color="#000000" change="ref1Txt=reflectionArea1.text;validateSubmitButton()" />
 							</mx:FormItem>
 						</mx:HBox>
 					</s:NavigatorContent>
 					<s:NavigatorContent label="{resourceManager.getString('resources', 'REFLECTION_TXT2')}" width="100%" height="100%" >
 						<mx:HBox width="100%" height="90%" verticalAlign="middle" horizontalAlign="center">
 							<mx:FormItem label="{resourceManager.getString('resources', 'REFLECTION_TXT2')+':'}" required="true" height="90%">
-								<s:TextArea width="500" height="90%" id="reflectionArea2" color="#000000" text="{resourceManager.getString('resources', 'SENDING_TEXT2')}"/>
+								<mx:Text text="{resourceManager.getString('resources', 'SENDING_TEXT2')}" width="500" />
+								<s:TextArea width="500" height="90%" id="reflectionArea2" color="#000000" change="ref2Txt=reflectionArea2.text;validateSubmitButton()" />
 							</mx:FormItem>					
 						</mx:HBox>
 					</s:NavigatorContent>
 					<s:NavigatorContent label="{resourceManager.getString('resources', 'REFLECTION_TXT3')}"  width="100%" height="100%">
 						<mx:HBox width="100%" height="90%" verticalAlign="middle" horizontalAlign="center">
 							<mx:FormItem label="{resourceManager.getString('resources', 'REFLECTION_TXT3')+':'}" required="true" height="90%">
-								<s:TextArea width="500" height="90%" id="reflectionArea3" color="#000000" text="{resourceManager.getString('resources', 'SENDING_TEXT3')}"/>
+								<mx:Text text="{resourceManager.getString('resources', 'SENDING_TEXT3')}" width="500" />
+								<s:TextArea width="500" height="90%" id="reflectionArea3" color="#000000" change="ref3Txt=reflectionArea3.text;validateSubmitButton()"/>
 							</mx:FormItem>					
 						</mx:HBox>
 					</s:NavigatorContent>
@@ -174,7 +197,7 @@
 		</mx:VBox>
 		
 		<mx:HBox id="submitFooter" width="100%" height="40" horizontalAlign="center" horizontalGap="10" verticalAlign="middle">
-			<s:Button id="okSubmit" label="{resourceManager.getString('resources', 'SEND_BUTTON')}" enabled="true" click="okSubmit_clickHandler(event)" />
+			<s:Button id="okSubmit" label="{resourceManager.getString('resources', 'SEND_BUTTON')}" enabled="{sendButtonEnabled}" click="okSubmit_clickHandler(event)" />
 			<s:Button id="backSubmit" label="{resourceManager.getString('resources', 'BACK_BUTTON')}" click="clickHandler(Main.RIGHT_DIRECTION, Main.STACK_SUBMIT_PANEL)" />
 		</mx:HBox>
 	</mx:VBox>	

@@ -90,7 +90,7 @@
 
 	<mx:VBox width="100%" height="100%">
 	 	<mx:VBox id="searchBox" width="100%" height="100%" horizontalAlign="center">
-			<mx:HBox width="100%" height="70" horizontalAlign="center" verticalAlign="middle" horizontalGap="3">
+			<mx:HBox id="hbo" width="100%" height="70" horizontalAlign="center" verticalAlign="middle" horizontalGap="3">
 				<s:BorderContainer id="headerLogo" width="70" height="70" borderStyle="solid" borderColor="{Main.THEME_COL}">
 					<s:backgroundFill>
 						<s:LinearGradient rotation="90">
@@ -115,7 +115,13 @@
 				</s:BorderContainer>	
 			</mx:HBox>
 			
-			<mx:Spacer height="10" />
+			<s:BorderContainer width="{hbo.width}" minHeight="10">
+				<s:HGroup left="2" top="2" right="2" bottom="2" verticalAlign="middle">
+					<mx:Image source="assets/images/inf.png" width="10" height="10" />
+					<s:Label id="instruc" width="100%" height="13" text="{resourceManager.getString('resources', 'SEARCH_RESULT_INSTRUC')}" verticalAlign="middle" />
+				</s:HGroup>
+			</s:BorderContainer>
+			<mx:Spacer height="3" />
 			<mx:Text width="{this.width-20}" height="30" id="searchString" color="{Main.THEME_COL}" />
 			<mx:VBox width="{this.width-20}" height="100%" horizontalAlign="center">
 				<mx:Tile id="searchTile" width="100%" height="100%" direction="horizontal" borderStyle="none" horizontalGap="25" verticalGap="20" horizontalAlign="center" />

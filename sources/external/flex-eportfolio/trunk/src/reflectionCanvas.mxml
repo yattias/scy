@@ -62,7 +62,7 @@
 						&& reflecValidation.type == ValidationResultEvent.VALID 
 						//&& glgValidation.type == ValidationResultEvent.VALID
 						&& slectedGLGs.length > 0
-						&& slectedSLGs.length > 0 && reflectionArea.text != Main.REFLECTION_DEFAULT) {
+						&& slectedSLGs.length > 0 ) {
 						
 						var so:SharedObject = SharedObject.getLocal("scy-eportfolio");
 						var selectedElo:Object = so.data.searchSelection;
@@ -87,9 +87,6 @@
 					else if(slectedSLGs.length == 0) {
 						Alert.show(resourceManager.getString('resources', 'SLG_SELECT_ERROR'), resourceManager.getString('resources', 'SLG_SELECT_ERROR_TITLE'));
 					}
-					else if(reflectionArea.text == Main.REFLECTION_DEFAULT) {
-						Alert.show(resourceManager.getString('resources', 'REF_SELECT_ERROR'), resourceManager.getString('resources', 'REF_SELECT_ERROR_TITLE'));
-					}
 				}
 				else {
 					tEvent.eloToAdd = false;
@@ -104,11 +101,11 @@
 					GLG[i].shouldAdd = false;
 					
 				}
-				for(var i:Number=0; i < SLG.length; i++) {
-					SLG[i].shouldAdd = false;
+				for(var j:Number=0; j < SLG.length; j++) {
+					SLG[j].shouldAdd = false;
 					
 				}
-				reflectionArea.text= Main.REFLECTION_DEFAULT;
+				reflectionArea.text= "";
 				
 				updateSLGField();
 				updateGLGField();
@@ -132,9 +129,9 @@
 					updateGLGField();
 					
 					//retrieve selected boxes
-					for(var i:Number = 0; i<(selectedElo.rSLG as ArrayCollection).length; i++) {
-						var n:Number = new Number((selectedElo.rSLG as ArrayCollection)[i][0].pos);
-						SLG[n].shouldAdd = true;
+					for(var j:Number = 0; j<(selectedElo.rSLG as ArrayCollection).length; j++) {
+						var m:Number = new Number((selectedElo.rSLG as ArrayCollection)[j][0].pos);
+						SLG[m].shouldAdd = true;
 					}
 					updateSLGField();
 					
@@ -202,7 +199,7 @@
 		<s:State name="updateReflection" />
 	</mx:states>
 	
-	<mx:VBox width="100%" height="100%">
+	<mx:VBox width="100%" height="100%" horizontalScrollPolicy="off" verticalScrollPolicy="off">
 		<mx:Canvas id="reflectionHeader" width="100%" height="140" backgroundColor="{Main.THEME_COL}" borderStyle="solid" borderColor="{Main.THEME_COL}" verticalScrollPolicy="off" horizontalScrollPolicy="off">
 			<mx:Canvas width="100" height="100" x="15" y="20" verticalScrollPolicy="off" horizontalScrollPolicy="off" dropShadowVisible="true">
 				<mx:Image id="eloIcon" width="100" height="100"/>
@@ -230,16 +227,17 @@
 				</mx:FormItem>
 			</mx:Form>
 		</mx:Canvas>
-		<mx:Spacer height="5" />
+		<s:BorderContainer width="{reflectionHeader.width}" minHeight="10">
+			<s:HGroup left="2" top="2" right="2" bottom="2" verticalAlign="middle">
+				<mx:Image source="assets/images/inf.png" width="10" height="10" />
+				<s:Label id="instruc" width="100%" height="13" text="{resourceManager.getString('resources', 'REFLEC_RESULT_INSTRUC')}" verticalAlign="middle" />
+			</s:HGroup>
+		</s:BorderContainer>
 		<mx:VBox id="refForm" width="100%" height="100%" horizontalAlign="center">
-			<mx:Form verticalGap="10" color="{Main.THEME_COL}" fontSize="14">
+			<mx:Form verticalGap="7" color="{Main.THEME_COL}" fontSize="14">
 				<mx:FormItem label="{resourceManager.getString('resources', 'DESCRIPTION')+':'}" required="true">
 					<s:TextArea width="400" height="80" id="descriptionArea" color="#000000"/>
 				</mx:FormItem>
-				
-				<!-- <mx:FormItem label="{resourceManager.getString('resources', 'GLG')+':'}" required="true">
-					<s:DropDownList width="400" dataProvider="{GLG}" selectedIndex="0" id="glgCombo" color="#000000" />
-				</mx:FormItem> -->
 				
 				<mx:FormItem label="{resourceManager.getString('resources', 'GLG')+':'}" required="true">
 					<mx:HBox width="100%">
@@ -256,7 +254,8 @@
 				</mx:FormItem>
 				
 				<mx:FormItem label="{resourceManager.getString('resources', 'REFLECTION')+':'}" required="true">
-					<s:TextArea width="400" height="80" id="reflectionArea" color="#000000" text="{Main.REFLECTION_DEFAULT}"/>
+					<mx:Text id="reflectionAreaText" text="{resourceManager.getString('resources', 'REFLEC_BOX_TXT')}" width="400" />
+					<s:TextArea width="400" height="60" id="reflectionArea" color="#000000"/>
 				</mx:FormItem>
 				
 				<mx:FormItem label="{resourceManager.getString('resources', 'REF_ON_INQ')+':'}">
@@ -272,9 +271,7 @@
 								   snapInterval="1" tickInterval="1" allowTrackClick="true" width="400" showDataTip="false"/>
 					</mx:VBox>
 				</mx:FormItem>
-				
 			</mx:Form>
-		
 		</mx:VBox>
 		<mx:HBox id="reflectionFooter" width="100%" height="40" horizontalAlign="center" horizontalGap="10" verticalAlign="middle">
 			<s:Button id="okReflect" label="{resourceManager.getString('resources', 'FINISHED_BUTTON')}" click="clickHandler(Main.RIGHT_DIRECTION, Main.STACK_INTRO_PANEL, true)" excludeFrom="updateReflection"/>

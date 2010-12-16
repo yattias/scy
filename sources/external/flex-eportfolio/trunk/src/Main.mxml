@@ -35,7 +35,6 @@
 			public static const DELETE_COMMAND:String = "deleteELO";
 			
 			[Bindable] public static var MISSION_NAME:String = "C02 Neutral house";
-			[Bindable] public static var REFLECTION_DEFAULT:String = "What I learned about reducing global CO2 levels is that ...";
 			[Bindable] public static var REF_ON_INQ_TXT:String = "How helpful was building a concept map in identifying the main concepts related to reducing global CO2 levels?";
 			
 			/*public static const THEME_COL:Number = 0xFB06A2;
