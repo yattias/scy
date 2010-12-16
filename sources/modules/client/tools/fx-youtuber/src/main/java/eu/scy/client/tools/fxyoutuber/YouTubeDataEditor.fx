@@ -20,7 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javax.swing.JOptionPane;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBox;
 
 /**
  * @author pg
@@ -166,8 +166,8 @@ public class YouTubeDataEditor extends CustomNode {
 
     function validateAndInsertData():Void {
             if(ytID.equalsIgnoreCase("")) {
-                JOptionPane.showMessageDialog(null, "Please enter a valid Youtube URL or ID.");
-                //DialogBox.showMessageDialog("Please enter a valid Youtube URL or ID.","Error", ytNode.scyWindow. , function(){});
+                //JOptionPane.showMessageDialog(null, "Please enter a valid Youtube URL or ID.");
+                DialogBox.showMessageDialog("Please enter a valid Youtube URL or ID.","Error", ytNode.scyWindow.windowManager.scyDesktop , function(){});
 
                 return;
             }
