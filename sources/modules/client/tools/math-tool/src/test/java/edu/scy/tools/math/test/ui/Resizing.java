@@ -1,3 +1,4 @@
+package edu.scy.tools.math.test.ui;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;

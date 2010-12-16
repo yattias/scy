@@ -1,4 +1,4 @@
-package edu.scy.tools.math.test;
+package edu.scy.tools.math.test.ui;
 
 import java.awt.Dimension;
 import java.awt.Graphics;

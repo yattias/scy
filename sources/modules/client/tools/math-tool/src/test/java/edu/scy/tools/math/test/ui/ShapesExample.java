@@ -1,4 +1,4 @@
-package edu.scy.tools.math.test;
+package edu.scy.tools.math.test.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

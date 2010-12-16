@@ -99,10 +99,11 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas{
 	public void addShape(IMathShape shape) {
 		getMathShapes().add(shape);
 		
-		((JComponent) shape).setName(UIUtils._3D);
-		if( shape instanceof I3D )
+		
+		if( shape instanceof I3D ) {
+			((JComponent) shape).setName(UIUtils._3D);
 			this.add((JComponent) shape);
-	
+		}
 	}
 	
 	@Override
