@@ -17,15 +17,16 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Cedric
  *
- * Cette classe diecrit une fonction, ie savoir :
- * son intitulie, 
+ * Cette classe decrit une fonction, a savoir :
+ * son intitule,
  * son expression, 
- * son tableau des paramietres inclus dans l'expression,
- * et sa distance par rapport ie un jeu de donnees
+ * son tableau des parametres inclus dans l'expression,
+ * et sa distance par rapport a un jeu de donnees
  */
 public class Function
 {
     public static final boolean DEBUG_ANALYSEUR = false;
+    private static final boolean OLD_DIST=true;
     //
     private FitexToolPanel owner;
     //L'intitulie de la fonction
@@ -109,6 +110,7 @@ public class Function
 
     /** calcule la distance de la courbe par rapport ie un tableau de valeurs passie en parametre */
     public void majRF() {
+        
 //        try{
 //            double myd = Double.parseDouble("ttt");
 //        }catch(NumberFormatException e){
@@ -190,20 +192,26 @@ public class Function
                             double di=Math.abs((y-expression.valeur(x)));
                             double minDi =di;
                             double xc = x+pasX;
-                            while(xc <(x+(10*deltaX) )){
-                                di = Math.sqrt(Math.pow((x-xc), 2)+Math.pow((y-expression.valeur(xc)), 2));
-                                minDi = Math.min(di,minDi);
-                                if(di< (xc-x))
-                                    break;
-                                xc += pasX;
+                            double maxx = x+(10*deltaX);
+                            if(!OLD_DIST){
+                                while(xc < maxx ){
+                                    di = Math.sqrt(Math.pow((x-xc), 2)+Math.pow((y-expression.valeur(xc)), 2));
+                                    minDi = Math.min(di,minDi);
+                                    if(di< (xc-x))
+                                        break;
+                                    xc += pasX;
+                                }
                             }
                             xc = x-pasX;
-                            while(xc > (x-(10*deltaX))){
-                                di = Math.sqrt(Math.pow((x-xc), 2)+Math.pow((y-expression.valeur(xc)), 2));
-                                minDi = Math.min(di,minDi);
-                                if(di < x-xc)
-                                    break;
-                                xc -= pasX;
+                            maxx =x-(10*deltaX);
+                            if(!OLD_DIST){
+                                while(xc > maxx){
+                                    di = Math.sqrt(Math.pow((x-xc), 2)+Math.pow((y-expression.valeur(xc)), 2));
+                                    minDi = Math.min(di,minDi);
+                                    if(di < x-xc)
+                                        break;
+                                    xc -= pasX;
+                                }
                             }
                             r += Math.pow(minDi,2);
                             //sommeYCarre = sommeYCarre + Math.pow((y),2) ;
@@ -214,20 +222,24 @@ public class Function
                             double di=Math.abs((x-expression.valeur(y)));
                             double minDi =di;
                             double yc = y+pasY;
-                            while(yc <(y+(10*deltaY) )){
-                                di = Math.sqrt(Math.pow((y-yc), 2)+Math.pow((x-expression.valeur(yc)), 2));
-                                minDi = Math.min(di,minDi);
-                                if(di< (yc-y))
-                                    break;
-                                yc += pasY;
+                            if(!OLD_DIST){
+                                while(yc <(y+(10*deltaY) )){
+                                    di = Math.sqrt(Math.pow((y-yc), 2)+Math.pow((x-expression.valeur(yc)), 2));
+                                    minDi = Math.min(di,minDi);
+                                    if(di< (yc-y))
+                                        break;
+                                    yc += pasY;
+                                }
                             }
                             yc = y-pasY;
-                            while(yc > (y-(10*deltaY))){
-                                di = Math.sqrt(Math.pow((y-yc), 2)+Math.pow((x-expression.valeur(yc)), 2));
-                                minDi = Math.min(di,minDi);
-                                if(di < y-yc)
-                                    break;
-                                yc -= pasY;
+                            if(!OLD_DIST){
+                                while(yc > (y-(10*deltaY))){
+                                    di = Math.sqrt(Math.pow((y-yc), 2)+Math.pow((x-expression.valeur(yc)), 2));
+                                    minDi = Math.min(di,minDi);
+                                    if(di < y-yc)
+                                        break;
+                                    yc -= pasY;
+                                }
                             }
                             r += Math.pow(minDi,2);
                         }
@@ -243,13 +255,17 @@ public class Function
             //marjolaine le 21/05/10: racine carree (1/n* sum(i=1=>n) di²
             //else reliabilityFactor[d] = reliabilityFactor[d] / sommeYCarre ;
             else {
-                reliabilityFactor[d] = Math.sqrt(r/nbPts);
+                if(OLD_DIST){
+                    reliabilityFactor[d] = Math.sqrt(oldR/nbPts);
+                }else{
+                    reliabilityFactor[d] = Math.sqrt(r/nbPts);
+                }
                 String s= "********** DISTANCES **********\n";
                 //s += "reliabilityFactor old - sum(di²) / sum(yi²) avec di = |yi-f(xi)| : "+oldR / sommeYCarre+"\n";
                 if(!Double.isNaN(oldR)){
                 s += "reliabilityFactor - racineCarree(1/n * sum(di²)) avec di= |yi - f(xi)| : "+Math.sqrt(oldR/nbPts)+"\n";
                 }
-                s += "pas : "+pasX+"\n";
+                //s += "pas : "+pasX+"\n";
                 if(!Double.isNaN(r)){
                     s += "reliabilityFactor - racineCarree(1/n * sum(di²)) avec di= min(racineCarree((xi-x)²+(yi-f(x))²)) : "+Math.sqrt(r/nbPts)+"\n";
                 }

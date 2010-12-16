@@ -133,26 +133,26 @@ public class BoxSpinner extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void previousMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_previousMousePressed
-        updateValue();
+        //updateValue(false);
         value = value - step ;
-        majParametre() ;
+        majParametre(true) ;
     }//GEN-LAST:event_previousMousePressed
 
     private void nextMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nextMousePressed
-        updateValue();
+        //updateValue(false);
         value = value + step ;
-        majParametre() ;
+        majParametre(true) ;
     }//GEN-LAST:event_nextMousePressed
 
     private void champValeurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_champValeurActionPerformed
-       updateValue();
+        updateValue(true);
     }//GEN-LAST:event_champValeurActionPerformed
 
     private void champValeurFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_champValeurFocusLost
-       updateValue();
+        updateValue(true);
     }//GEN-LAST:event_champValeurFocusLost
     
-    public void majParametre (){
+    public void majParametre (boolean update){
         NumberFormat nfE = NumberFormat.getNumberInstance(owner.getLocale());
         DecimalFormat formatE = (DecimalFormat)nfE;
         formatE.applyPattern("0.######E0");
@@ -179,7 +179,8 @@ public class BoxSpinner extends javax.swing.JPanel {
             }
             champValeur.setText(format.format(value));
         }
-        owner.maJParametreDansFonction(label.getText(), value);
+        if(update)
+            owner.maJParametreDansFonction(label.getText(), value);
     }
 
     private boolean isInteger(Double d){
@@ -190,7 +191,9 @@ public class BoxSpinner extends javax.swing.JPanel {
      */
     public void setValue(double val) {
         value= val ;
-        majParametre() ;
+        majParametre(false) ;
+        if(!isInteger(val))
+            majStep(Double.toString(val));
     }
    
     public void setTextLabel(String nomParam){
@@ -232,13 +235,13 @@ public class BoxSpinner extends javax.swing.JPanel {
         return height ;
     }
 
-    private void updateValue(){
+    private void updateValue(boolean updateStep){
         String s = champValeur.getText();
         try {
             value = FitexNumber.getDoubleValue(s);
             owner.maJParametreDansFonction(label.getText(), value);
-            //if(updateStep)
-                majStep(s);
+            if(updateStep)
+                majStep(s.replace(',', '.'));
         } catch (NumberFormatException e) {
             //System.out.println("Le nombre entre n'est pas reconnu. "+s);
             owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_PARAM_NUMBER"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));

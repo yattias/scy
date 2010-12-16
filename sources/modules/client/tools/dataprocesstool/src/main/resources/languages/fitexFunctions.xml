@@ -137,7 +137,7 @@
             <name language="en">titration of a strong monoprotic acid by a strong base</name>
             <type>x=f(y)</type>
             <description></description>
-            <expression>((Vacid+Vwater)*(1E-14/1E-y-1E-y)+Cacid*Vacid)/(1E-y+Cbase-1E-14/1E-y)</expression>
+            <expression>((Vacid+Vwater)*(1E-14/(1E-y)-(1E-y))+Cacid*Vacid)/((1E-y)+Cbase-1E-14/(1E-y))</expression>
         </function>
         <function>
             <id_function>PH.AFA_BF</id_function>
@@ -145,7 +145,7 @@
             <name language="en">titration of a weak monoprotic acid by a strong base</name>
             <type>x=f(y)</type>
             <description></description>
-            <expression>((Vacid+Vwater)*(1E-14/1E-y-1E-y)+Cacid*Vacid/(1+(1E-y)/1E-pKa))/(1E-y+Cbase-1E-14/1E-y)</expression>
+            <expression>((Vacid+Vwater)*(1E-14/(1E-y)-(1E-y))+Cacid*Vacid/(1+(1E-y)/1E-pKa))/((1E-y)+Cbase-1E-14/(1E-y))</expression>
         </function>
         <function>
             <id_function>PH.DIA_BF</id_function>
@@ -153,7 +153,7 @@
             <name language="en">titration of a diprotic acid by a strong base</name>
             <type>x=f(y)</type>
             <description></description>
-            <expression>((Vacid+Vwater)*(1E-14/1E-y-1E-y)+Cacid*Vacid*(1E-y+2*1E-pKa2)/(1E-pKa2+1E-y+1E(-2*y)/1E-pKa1))/(1E-y+Cbase-1E-14/1E-y)</expression>
+            <expression>((Vacid+Vwater)*(1E-14/(1E-y)-(1E-y))+Cacid*Vacid*((1E-y)+2*1E-pKa2)/(1E-pKa2+(1E-y)+(1E(-2*y))/1E-pKa1))/((1E-y)+Cbase-1E-14/(1E-y))</expression>
         </function>
         <function>
             <id_function>PH.TRIA_BF</id_function>
@@ -161,7 +161,7 @@
             <name language="en">titration of a triprotic acid by a strong base</name>
             <type>x=f(y)</type>
             <description></description>
-            <expression>(((Vacid+Vwater)*((1E-14/1E-y)-(1E-y)))+(Cacid*Vacid*((1E(-2*y))+2*(1E-pKa2)*(1E-y)+3*(1E-pKa2)*(1E-pKa3)))/(((1E-pKa2)*(1E-pKa3))+((1E-pKa2)*(1E-y))+(1E(-2*y))+((1E(-3*y))/(1E-pKa1))))/(1E-y+Cbase-(1E-14/1E-y))</expression>
+            <expression>(((Vacid+Vwater)*((1E-14/(1E-y))-(1E-y)))+(Cacid*Vacid*((1E(-2*y))+2*(1E-pKa2)*(1E-y)+3*(1E-pKa2)*(1E-pKa3)))/(((1E-pKa2)*(1E-pKa3))+((1E-pKa2)*(1E-y))+(1E(-2*y))+((1E(-3*y))/(1E-pKa1))))/(1E-y+Cbase-(1E-14/(1E-y)))</expression>
         </function>
         <function>
             <id_function>PH.BF_AF</id_function>
@@ -169,7 +169,7 @@
             <name language="en">titration of a strong monoprotic base by a strong acid</name>
             <type>x=f(y)</type>
             <description></description>
-            <expression>((Vbase+Vwater)*(-1E-14/1E-y+1E-y)+Cbase*Vbase)/(Cacid+1E-14/1E-y-1E-y)</expression>
+            <expression>((Vbase+Vwater)*(-1E-14/(1E-y)+(1E-y))+Cbase*Vbase)/(Cacid+1E-14/(1E-y)-(1E-y))</expression>
         </function>
         <function>
             <id_function>PH.BFA_AF</id_function>
@@ -185,7 +185,7 @@
             <name language="en">titration of a diprotic base by a strong acid</name>
             <type>x=f(y)</type>
             <description></description>
-            <expression>((Vbase+Vwater)*((1E-y)-(1E-14/1E-y))+(Cbase*Vbase*((1E-pKa1)+2*(1E-y))/((1E-pKa1)*(1E-pKa2)/(1E-y)+(1E-y)+(1E-pKa1))))/(Cacid+(1E-14/1E-y)-1E-y)</expression>
+            <expression>((Vbase+Vwater)*((1E-y)-(1E-14/(1E-y)))+(Cbase*Vbase*((1E-pKa1)+2*(1E-y))/((1E-pKa1)*(1E-pKa2)/(1E-y)+(1E-y)+(1E-pKa1))))/(Cacid+(1E-14/1E-y)-(1E-y))</expression>
         </function>
         <function>
             <id_function>PH.TIB_AF</id_function>
@@ -193,7 +193,7 @@
             <name language="en">titration of a triprotic base by a strong acid</name>
             <type>x=f(y)</type>
             <description></description>
-            <expression>((Vbase+Vwater)*((1E-y)-(1E-14/1E-y))+(Cbase*Vbase*(((1E-pKa1)*(1E-pKa2))+(2*(1E-pKa1)*(1E-y))+(3*(1E(-2*y)))))/(((1E-pKa1)*(1E-pKa2)*((1E-pKa3)/(1E-y)))+((1E-pKa1)*(1E-pKa2))+((1E-pKa1)*(1E-y))+(1E(-2*y))))/(Cacid+(1E-14/1E-y)-(1E-y))</expression>
+            <expression>((Vbase+Vwater)*((1E-y)-(1E-14/(1E-y)))+(Cbase*Vbase*(((1E-pKa1)*(1E-pKa2))+(2*(1E-pKa1)*(1E-y))+(3*(1E(-2*y)))))/(((1E-pKa1)*(1E-pKa2)*((1E-pKa3)/(1E-y)))+((1E-pKa1)*(1E-pKa2))+((1E-pKa1)*(1E-y))+(1E(-2*y))))/(Cacid+(1E-14/1E-y)-(1E-y))</expression>
         </function>
     </function_class>
     <function_class>

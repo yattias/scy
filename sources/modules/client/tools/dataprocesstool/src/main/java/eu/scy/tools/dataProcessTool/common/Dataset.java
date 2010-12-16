@@ -1315,7 +1315,7 @@ public class Dataset implements Cloneable{
        ArrayList<DataHeader> list = new ArrayList();
        int nb = 0;
        for(int j=0; j<nbCol; j++){
-           if((isDouble && getDataHeader(j).isDouble()) || (!isDouble && !getDataHeader(j).isDouble())){
+           if((getDataHeader(j)!= null && (isDouble && getDataHeader(j).isDouble()) || (!isDouble && !getDataHeader(j).isDouble()))){
                list.add(getDataHeader(j));
                nb++;
            }

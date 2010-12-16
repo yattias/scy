@@ -476,7 +476,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
                 aLine = true;
             else if(h && r)
                 aLine = false;
-            if(h && getDataset().getDataHeader(cell[1]-1).isDouble()){
+            if(h && (getDataset().getDataHeader(cell[1]-1) == null || getDataset().getDataHeader(cell[1]-1).isDouble())){
                 isDouble = true;
             }
             if(r && getDataset().hasAtLeastADoubleColumn())
