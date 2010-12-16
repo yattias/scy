@@ -1,5 +1,6 @@
 package eu.scy.server.url;
 
+import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.AjaxPersistenceService;
@@ -52,8 +53,15 @@ public class UrlInspector {
                 URI realURI = new URI(uri);
                 request.setAttribute("eloURI", uri);
                 ScyElo scyElo =  ScyElo.loadElo(realURI, getMissionELOService());
-                if(scyElo.getTechnicalFormat().equals("scy/missionspecification")) return MissionSpecificationElo.loadElo(realURI, getMissionELOService());
-
+                if(scyElo.getTechnicalFormat().equals("scy/missionspecification")) {
+                    log.info("Loaded a missionSpecification");
+                    scyElo =  MissionSpecificationElo.loadElo(realURI, getMissionELOService());
+                }
+                else if(scyElo.getTechnicalFormat().equals("scy/missionruntime")) {
+                    log.info("Loaded a mission runtime elo");
+                    scyElo = MissionRuntimeElo.loadElo(realURI, getMissionELOService());
+                }
+                ScyElo.loadMetadata(scyElo.getUri(), getMissionELOService());
                 return scyElo;
             } catch (Exception e) {
                 e.printStackTrace();

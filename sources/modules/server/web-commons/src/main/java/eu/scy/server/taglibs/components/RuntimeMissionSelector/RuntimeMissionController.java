@@ -34,7 +34,7 @@ public class RuntimeMissionController extends TagSupport {
                 if(missionRuntimeElo.getMissionRunning().equals(getCurrentUserName((HttpServletRequest) pageContext.getRequest()))) {
                     String uri = missionRuntimeElo.getUri().toString();
                     uri = URLEncoder.encode(uri, "UTF-8");
-                    pageContext.getOut().write("<a href=\"/webapp/components/runtimemissionselector/RuntimeMissionSelector.html?eloURI=" + uri + "\">");
+                    pageContext.getOut().write("<a href=\"/webapp/app/student/StudentIndex.html?eloURI=" + uri + "\">");
                     pageContext.getOut().write(missionRuntimeElo.getTitle());
                     pageContext.getOut().write("</a>");
                 }
