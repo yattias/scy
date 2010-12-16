@@ -34,6 +34,7 @@
         <property name="order" value="2"></property>
         <property name="mappings">
             <value>
+                /app/student/StudentIndex.html=studentIndexController
                 /app/feedback/ScyFeedbackIndex.html=scyFeedbackIndexController
                 /app/feedback/studentEloRefViewer.html=studentEloRefViewerController
                 /app/feedback/studentFeedbackForm.html=studentFeedbackFormController
@@ -43,6 +44,12 @@
                 /app/feedback/storeELORefComment.html=storeELORefCommentController
             </value>
         </property>
+    </bean>
+
+    <bean id="studentIndexController" class="eu.scy.server.controllers.student.StudentIndexController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="missionELOService" ref="missionELOService"/>
     </bean>
 
     <bean id="scyFeedbackIndexController" class="eu.scy.server.controllers.scyfeedback.ScyFeedbackIndexController">
