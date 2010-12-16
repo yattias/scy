@@ -95,7 +95,7 @@ public class Initializer {
    public-init var localAuthorRootPath = "";
    public-init var disableRooloVersioning = false;
    public-init var dontUseMissionRuntimeElos = false;
-   public-init var useBigMissionMap = false;
+   public-init var useBigMissionMap = true;
    public-read var languages: String[];
    public-read var backgroundImage: Image;
    public-read var localLoggingDirectory: File = null;
