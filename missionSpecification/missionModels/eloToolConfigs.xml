@@ -200,8 +200,8 @@
                      <value>information_Resource</value>
                      <value>information_Assignment</value>
                      <value>information_Help</value>
-                     <value>presentationFinal</value>
-                     <value>presentationDesign</value>
+                     <value>presentation_Final</value>
+                     <value>presentation_Design</value>
                   </list>
                </property>
             </bean>
@@ -215,24 +215,28 @@
                </property>
                <property name="eloFunctionalRoleValues">
                   <list>
-                     <value>webSummary</value>
+                     <value>web_Summary</value>
                   </list>
                </property>
             </bean>
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="scy/ppt"/>
                <property name="contentCreatorId" value="presentationUpload"/>
+               <property name="eloFunctionalRoleValues">
                   <list>
-                     <value>presentationFinal</value>
-                     <value>presentationExpert</value>
+                     <value>presentation_Final</value>
+                     <value>presentation_Expert</value>
                   </list>
+               </property>
             </bean>
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="scy/skp"/>
                <property name="contentCreatorId" value="sketchUpUpload"/>
+               <property name="eloFunctionalRoleValues">
                   <list>
-                     <value>drawingDesign</value>
+                     <value>drawing_Design</value>
                   </list>
+               </property>
             </bean>
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="scy/doc"/>
