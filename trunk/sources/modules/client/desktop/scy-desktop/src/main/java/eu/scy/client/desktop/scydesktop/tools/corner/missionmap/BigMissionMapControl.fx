@@ -33,8 +33,7 @@ public class BigMissionMapControl extends CustomNode {
       Group {
          content: [
             Button {
-               rotate: 90
-               text: "big"
+               text: "Navigate"
                action: function() {
                   showBigMissionMap();
                }
