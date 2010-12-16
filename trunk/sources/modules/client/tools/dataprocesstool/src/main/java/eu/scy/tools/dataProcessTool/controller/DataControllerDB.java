@@ -753,7 +753,7 @@ public class DataControllerDB implements ControllerInterface{
         for(int j=0; j<nbCols; j++){
             if(dataset.getDataHeader(j) != null && dataset.getDataHeader(j).getFormulaValue() != null){
                 String f = dataset.getDataHeader(j).getFormulaValue();
-                if(f.contains(oldTitle)){
+                if(!oldTitle.equals("") && f.contains(oldTitle)){
                     String newF = f.replace(oldTitle,  title);
                     CopexReturn cr = DatasetFromDB.updateHeaderFormulaInDB(dbC, header.getDbKey(), newF);
                     if(cr.isError())
@@ -1190,11 +1190,13 @@ public class DataControllerDB implements ControllerInterface{
             //suppression des lignes :
             ArrayList[] tabDel = dataset.removeRows(listNoDataRow);
             // supression des colonnes
-            ArrayList[] tabDel2 = dataset.removeCols(listNoDataCol);
             ArrayList<DataHeader> listDataHeader = new ArrayList();
             for(Iterator<Integer> i = listNoDataCol.iterator();i.hasNext();){
-                listDataHeader.add(dataset.getDataHeader(i.next()));
+                int id = i.next();
+                if(dataset.getDataHeader(id) != null)
+                    listDataHeader.add(dataset.getDataHeader(id));
             }
+            ArrayList[] tabDel2 = dataset.removeCols(listNoDataCol);
             cr = DatasetFromDB.deleteDataHeaderFromDB(dbC, listDataHeader);
             if(cr.isError())
                 return cr;

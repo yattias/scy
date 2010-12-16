@@ -387,7 +387,7 @@ public class DataTableModel extends AbstractTableModel {
     }
     /* retourne vrai s'il s'agit d'une cellule contenant un header (hors titre) de type double */
     public boolean isValueDoubleHeader(int noRow, int noCol){
-        return  noRow == 0 && noCol > 0 && noCol <= nbColDs && dataset.getDataHeader(noCol-1).isDouble();
+        return  noRow == 0 && noCol > 0 && noCol <= nbColDs && (dataset.getDataHeader(noCol-1) == null ||dataset.getDataHeader(noCol-1).isDouble() );
     }
     
     /* retourne vrai s'il s'agit d'une cellule operations */

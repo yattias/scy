@@ -115,7 +115,7 @@ public class FitexHTML {
                     h[1] = tabHeader[t] == null ? "" : tabHeader[t].getUnit();
                     addString("<td>");
                     String c = "header";
-                    if(!tabHeader[t].isDouble()){
+                    if(tabHeader[t] != null && !tabHeader[t].isDouble()){
                         c = "headerText";
                     }
                     addString("<span class='"+c+"'>"+h[0]+((h[1] == null || h[1].equals("") || h[1].equals("null")) ? "": " ("+h[1]+")")+"</span>");

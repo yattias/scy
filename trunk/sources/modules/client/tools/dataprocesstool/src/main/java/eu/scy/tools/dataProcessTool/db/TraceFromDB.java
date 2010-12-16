@@ -25,7 +25,7 @@ public class TraceFromDB {
         dbC.updateDb(DataConstants.DB_LABBOOK);
         // enregistrement de l'action
        String queryAction = "INSERT INTO USER_ACTION (ID_ACTION, ID_TRACE, DATE_ACTION, TIME_ACTION, NAME_ACTION, CONTEXT_ACTION) " +
-               "VALUES (NULL, "+dbKeyTrace+", CURDATE(), CURTIME(), '"+type+"', 'COPEX') ;";
+               "VALUES (NULL, "+dbKeyTrace+", CURDATE(), CURTIME(), '"+type+"', 'FITEX') ;";
        String queryID = "SELECT max(last_insert_id(`ID_ACTION`))   FROM USER_ACTION ;";
        ArrayList v2 = new ArrayList();
        CopexReturn cr = dbC.getNewIdInsertInDB(queryAction, queryID, v2);

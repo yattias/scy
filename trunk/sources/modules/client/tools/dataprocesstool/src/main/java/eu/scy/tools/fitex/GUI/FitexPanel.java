@@ -430,6 +430,7 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
             mapDesFonctions.put(fm.getColor(), f);
             // affichage des parametres de la fonction
             affichageParametres(fm.getColor()) ;
+            f.majRF();
         }
         zoneDeTrace.setMapDesFonctions(mapDesFonctions);
         maJFonction(DataConstants.FUNCTION_COLOR_1);
@@ -630,7 +631,10 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
      * lors de la modif d'une donnee */
     public void calculTousK() {
         for (Color coul:mapDesFonctions.keySet()) {
-            if (mapDesFonctions.get(coul)!=null) mapDesFonctions.get(coul).majRF();
+            if (mapDesFonctions.get(coul)!=null) {
+                System.out.print("calculTousK ->");
+                mapDesFonctions.get(coul).majRF();
+            }
         }
     }
 
