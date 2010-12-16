@@ -2,6 +2,7 @@ package eu.scy.tools.math.ui.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -16,7 +17,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.plaf.FontUIResource;
 
 import net.miginfocom.swing.MigLayout;
+import net.sourceforge.jeval.function.Function;
 
+import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.JXLabel;
@@ -121,212 +124,264 @@ public class Calculator extends JXPanel {
 	private void init() {
 		this.setBorder(new RoundedBorder(5));
 		
-		setSumTextField(new JXTextField("Formula"));
+		setSumTextField(new JXTextField("Select a shape and create a Formula"));
 		getSumTextField().setBackground(Color.WHITE);
 		getSumTextField().setOpaque(true);
 		getSumTextField().putClientProperty(UIUtils.TYPE, type);
 		this.add(getSumTextField(),"growx, wrap");
 		
-		JXPanel buttonPanel = new JXPanel(new GridLayout(5,5,6,6));
+		JXButton piButton = new JXButton("<html>&#960</html>");
 		
-		//symbolic
-		symbolicButtons = new ArrayList<JXButton>();
-		adderButtons = new ArrayList<JXButton>();
-		numberButtons = new ArrayList<JXButton>();
+		buttonFont = piButton.getFont().deriveFont(Font.BOLD, 12f);
 		
-		JXButton symButton = new JXButton("pi");
+		piButton.setName("pi");
+		piButton.addActionListener(buttonAction);
+		this.modSymbolButton(piButton);
 		
-		buttonFont = symButton.getFont().deriveFont(Font.BOLD, 12f);
+		JXButton sqButton = new JXButton("<html>x<sup>2</sup></html>");
+		sqButton.setName("^2");
+		sqButton.addActionListener(buttonAction);
+		this.modSymbolButton(sqButton);
 		
-		symButton.setName("3.14");
-		symButton.addActionListener(buttonAction);
-		symbolicButtons.add(symButton);
+		JXButton sqrtButton = new JXButton("<html>&#8730</html>");
+		sqrtButton.setName("sqrt");
+		sqrtButton.addActionListener(buttonAction);
+		this.modSymbolButton(sqrtButton);
 		
-		symButton = new JXButton("<html>x<sup>2</sup></html>");
-		symButton.setName("^2");
-		symButton.addActionListener(buttonAction);
-		symbolicButtons.add(symButton);
+		JXButton cbrtButton = new JXButton("<html>&#179 &#8730;</html>");
+		cbrtButton.setName("cbrt");
+		cbrtButton.addActionListener(buttonAction);
+		this.modSymbolButton(cbrtButton);
 		
-		symButton = new JXButton("<html>x<sup>3</sup></html>");
-		symButton.setName("^3");
-		symButton.addActionListener(buttonAction);
-		symbolicButtons.add(symButton);
-		
-		
-		symButton = new JXButton(".");
-		symButton.setName(".");
-		symButton.addActionListener(buttonAction);
-		symbolicButtons.add(symButton);
-
-		symButton = new JXButton("c");
-		symButton.setName("c");
-		symButton.addActionListener(new ActionListener() {
+		JXButton clearButton = new JXButton("<html>C</html>");
+		clearButton.setName("c");
+		this.modSymbolButton(clearButton);
+		clearButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				sumTextField.setText("");
 			}
 		});
-		symbolicButtons.add(symButton);	
 		
-		symButton = new JXButton("(");
-		symButton.setName("(");
-		symButton.addActionListener(buttonAction);
-		symbolicButtons.add(symButton);	
+		JXButton deleteButton = new JXButton("<html>DEL</html>");
+		deleteButton.setName("del");
+		modSymbolButton(deleteButton);
+		deleteButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String text = sumTextField.getText();
+				
+				if( StringUtils.stripToNull(text) != null)
+					sumTextField.setText(StringUtils.chomp(text));
+			}
+		});
 		
-		symButton = new JXButton(")");
-		symButton.setName(")");
-		symButton.addActionListener(buttonAction);
-		symbolicButtons.add(symButton);
-
-	
 		
-		radiusButton = new JXButton("R");
+		JXButton leftButton = new JXButton("<html>(</html>");
+		leftButton.setName("(");
+		leftButton.addActionListener(buttonAction);
+		this.modRegularButton(leftButton);
+		
+		JXButton rightButton = new JXButton("<html>)</html>");
+		rightButton.setName(")");
+		rightButton.addActionListener(buttonAction);
+		this.modRegularButton(rightButton);
+		
+		radiusButton = new JXButton("<html>r</html>");
 		radiusButton.setName("r");
 		radiusButton.addActionListener(buttonAction);
+		this.modRegularButton(radiusButton);
 		
-		symbolicButtons.add(radiusButton);
-		widthButton = new JXButton("W");
+		widthButton = new JXButton("<html>w</html>");
 		widthButton.addActionListener(buttonAction);
 		widthButton.setName("w");
-		symbolicButtons.add(widthButton);
+		this.modRegularButton(widthButton);
 		
-		heightButton = new JXButton("H");
+		heightButton = new JXButton("<html>h</html>");
 		heightButton.setName("h");
 		heightButton.addActionListener(buttonAction);
+		this.modRegularButton(heightButton);
 		
-		symbolicButtons.add(heightButton);
+		JXButton mulButton = new JXButton("<html>x</html>");
+		mulButton.setName("*");
+		mulButton.addActionListener(buttonAction);
+		this.modSymbolButton(mulButton);
 		
-		JXButton adderButton = new JXButton("*");
-		adderButton.setName("*");
-		adderButton.addActionListener(buttonAction);
-		adderButtons.add(adderButton);
+		JXButton pointButton = new JXButton("<html>.</html>");
+		pointButton.setName(".");
+		pointButton.addActionListener(buttonAction);
+		this.modSymbolButton(pointButton);
 		
-		adderButton = new JXButton("-");
-		adderButton.setName("-");
-		adderButton.addActionListener(buttonAction);
-		adderButtons.add(adderButton);
-
-		adderButton = new JXButton("/");
-		adderButton.setName("/");
-		adderButton.addActionListener(buttonAction);
-		adderButtons.add(adderButton);
-
-		adderButton = new JXButton("+");
-		adderButton.setName("+");
-		adderButton.addActionListener(buttonAction);
-		adderButtons.add(adderButton);
-
-		JXButton eb = new JXButton("=");
+		
+		JXButton minusButton = new JXButton("<html>-</html>");
+		minusButton.setName("-");
+		minusButton.addActionListener(buttonAction);
+		this.modSymbolButton(minusButton);
+		
+		JXButton divButton = new JXButton("<html>&#247</html>");
+		divButton.setName("/");
+		divButton.addActionListener(buttonAction);
+		this.modSymbolButton(divButton);
+		
+		JXButton plusButton = new JXButton("<html>+</html>");
+		plusButton.setName("+");
+		plusButton.addActionListener(buttonAction);
+		this.modSymbolButton(plusButton);
+		JXButton eb = new JXButton("<html>=</html>");
+		eb.setName("=");
 		eb.putClientProperty(UIUtils.TYPE, type);
 		setEqualsButton(eb);
-		adderButtons.add(getEqualsButton());
+		eb.setBackgroundPainter(UIUtils.getEqualButtonPainter());
+		modSymbolButton(eb);
+		JXButton fourButton = new JXButton("<html>4</html>");
+		fourButton.setName("4");
+		fourButton.addActionListener(buttonAction);
+		this.modNumberButton(fourButton);
 		
-		JXButton numButton = new JXButton("4");
-		numButton.setName("4");
-		numButton.addActionListener(buttonAction);
-		numberButtons.add(numButton);
+		JXButton fiveButton = new JXButton("<html>5</html>");
+		fiveButton.setName("5");
+		fiveButton.addActionListener(buttonAction);
+		this.modNumberButton(fiveButton);
 		
-		numButton = new JXButton("5");
-		numButton.setName("5");
-		numButton.addActionListener(buttonAction);
-		numberButtons.add(numButton);
-
-		numButton = new JXButton("3");
-		numButton.setName("3");
-		numButton.addActionListener(buttonAction);
-		numberButtons.add(numButton);
-
-		numButton = new JXButton("9");
-		numButton.setName("9");
-		numButton.addActionListener(buttonAction);
-		numberButtons.add(numButton);
-
-		numButton = new JXButton("1");
-		numButton.setName("1");
-		numButton.addActionListener(buttonAction);
-		numberButtons.add(numButton);
-
-		numButton = new JXButton("2");
-		numButton.setName("2");
-		numButton.addActionListener(buttonAction);
-		numberButtons.add(numButton);
-
-		numButton = new JXButton("8");
-		numButton.setName("8");
-		numButton.addActionListener(buttonAction);
-		numberButtons.add(numButton);
-
-		numButton = new JXButton("6");
-		numButton.setName("6");
-		numButton.addActionListener(buttonAction);
-		numberButtons.add(numButton);
+		JXButton threeButton = new JXButton("<html>3</html>");
+		threeButton.setName("3");
+		threeButton.addActionListener(buttonAction);
+		this.modNumberButton(threeButton);
 		
-		numButton = new JXButton("0");
-		numButton.setName("0");
-		numButton.addActionListener(buttonAction);
-		numberButtons.add(numButton);
-
-		numButton = new JXButton("7");
-		numButton.setName("7");
-		numButton.addActionListener(buttonAction);
-		numberButtons.add(numButton);
+		JXButton nineButton = new JXButton("<html>9</html>");
+		nineButton.setName("9");
+		nineButton.addActionListener(buttonAction);
+		this.modNumberButton(nineButton);
 		
-		for (JXButton addButton : adderButtons) {
-			this.modButton(addButton);
-
-			addButton.setOpaque(true);
-			if( addButton.getText().equals("=")) {
-				addButton.setBackgroundPainter(UIUtils.getEqualButtonPainter());
-			} else {
-				addButton.setBackgroundPainter(UIUtils.getAdderButtonPainter());
-			}
+		JXButton oneButton = new JXButton("<html>1</html>");
+		oneButton.setName("1");
+		oneButton.addActionListener(buttonAction);
+		this.modNumberButton(oneButton);
+		
+		JXButton twoButton = new JXButton("<html>2</html>");
+		twoButton.setName("2");
+		twoButton.addActionListener(buttonAction);
+		this.modNumberButton(twoButton);
+		
+		JXButton eightButton = new JXButton("<html>8</html>");
+		eightButton.setName("8");
+		eightButton.addActionListener(buttonAction);
+		this.modNumberButton(eightButton);
+		
+		JXButton sixButton = new JXButton("<html>6</html>");
+		sixButton.setName("6");
+		sixButton.addActionListener(buttonAction);
+		this.modNumberButton(sixButton);
+		
+		JXButton zeroButton = new JXButton("<html>0</html>");
+		zeroButton.setName("0");
+		zeroButton.addActionListener(buttonAction);
+		this.modNumberButton(zeroButton);
+		
+		JXButton sevenButton = new JXButton("<html>7</html>");
+		sevenButton.setName("7");
+		sevenButton.addActionListener(buttonAction);
+		this.modNumberButton(sevenButton);
+		
 			
-			addButton.setForeground(Color.BLACK);
-			addButton.setBorderPainted(true);
-			addButton.setBorder(new LineBorder(Color.WHITE, 1));
-		}
+//			addButton.setForeground(Color.BLACK);
+//			addButton.setBorderPainted(true);
+//			addButton.setBorder(new LineBorder(Color.WHITE, 1));
 		
-		for (JXButton sButton : symbolicButtons) {
-			this.modButton(sButton);
-			sButton.setOpaque(true);
-			sButton.setBackgroundPainter(UIUtils.getSymbolButtonPainter());
-			sButton.setForeground(Color.WHITE);
-			sButton.setBorderPainted(true);
-			sButton.setBorder(new LineBorder(Color.WHITE, 1));
-			sButton.setRolloverEnabled(false);
-			buttonPanel.add(sButton);
-		}
+//			this.modButton(sButton);
+//			sButton.setOpaque(true);
+//			sButton.setBackgroundPainter(UIUtils.getSymbolButtonPainter());
+//			sButton.setForeground(Color.WHITE);
+//			sButton.setBorderPainted(true);
+//			sButton.setBorder(new LineBorder(Color.WHITE, 1));
+//			sButton.setRolloverEnabled(false);
 
-		for (JXButton nButton : numberButtons) {
-			this.modButton(nButton);
-			nButton.setBackgroundPainter(UIUtils.getNumButtonPainter());
-			nButton.setForeground(Color.WHITE);
-			nButton.setBorderPainted(true);
-			nButton.setBorder(new LineBorder(Color.WHITE, 1));
-			buttonPanel.add(nButton);
-			if( nButton.getText().equals("9"))
-				buttonPanel.add(adderButtons.get(0));
-			
-			if( nButton.getText().equals("6"))
-				buttonPanel.add(adderButtons.get(1));
-			
-			if( nButton.getText().equals("7")) {
-				buttonPanel.add(adderButtons.get(2));
-				buttonPanel.add(adderButtons.get(3));
-				buttonPanel.add(adderButtons.get(4));
-			}
-		}
+//			nButton.setBackgroundPainter(UIUtils.getNumButtonPainter());
+//			nButton.setForeground(Color.WHITE);
+//			nButton.setBorderPainted(true);
+//			nButton.setBorder(new LineBorder(Color.WHITE, 1));
+		
+		
+		JXPanel buttonPanel = new JXPanel(new MigLayout("insets 0 0 0 0"));
+		//top row
+		buttonPanel.add(piButton);
+		buttonPanel.add(sqButton);
+		buttonPanel.add(sqrtButton);
+		buttonPanel.add(cbrtButton);
+		buttonPanel.add(clearButton,"wrap");
+		//second row
+		buttonPanel.add(mulButton);
+		buttonPanel.add(plusButton);
+		buttonPanel.add(minusButton);
+		buttonPanel.add(divButton);
+		buttonPanel.add(deleteButton ,"wrap");
+		
+		buttonPanel.add(leftButton);
+		buttonPanel.add(rightButton);
+		buttonPanel.add(radiusButton);
+		buttonPanel.add(widthButton);
+		buttonPanel.add(heightButton ,"wrap");
+		
+		//third
+		buttonPanel.add(nineButton);
+		buttonPanel.add(eightButton);
+		buttonPanel.add(sevenButton);
+		buttonPanel.add(sixButton);
+		buttonPanel.add(fiveButton,"wrap");
+		
+		//third
+		buttonPanel.add(fourButton);
+		buttonPanel.add(threeButton);
+		buttonPanel.add(twoButton);
+		buttonPanel.add(oneButton);
+		buttonPanel.add(eb, "growy, span 1 2, wrap");
+		//fourth
+		buttonPanel.add(zeroButton, "growx, span 3");
+		buttonPanel.add(pointButton);
+//		buttonPanel.add(eb, "span 1 2");
+		
+		eb.setPreferredSize(new Dimension(40, eb.getPreferredSize().height));
 		
 		buttonPanel.setOpaque(false);
-		this.add(buttonPanel,"grow");
+		this.add(buttonPanel);
 		this.setBackgroundPainter(UIUtils.getCalcBackgroundPainter());
 	}
 
+	public void modSymbolButton(JXButton sButton) {
+		sButton.setOpaque(true);
+		
+		if( !sButton.getName().equals("="))
+			sButton.setBackgroundPainter(UIUtils.getSymbolButtonPainter());
+		
+		sButton.setForeground(Color.WHITE);
+		sButton.setBorderPainted(true);
+		sButton.setBorder(new LineBorder(Color.WHITE, 1));
+		sButton.setRolloverEnabled(false);
+		this.modButton(sButton);
+	}
+	
+	public void modRegularButton(JXButton regularButton) {
+		regularButton.setForeground(Color.BLACK);
+		regularButton.setBorderPainted(true);
+		regularButton.setBorder(new LineBorder(Color.WHITE, 1));
+		this.modButton(regularButton);
+	}
+	
+	public void modNumberButton(JXButton numberButton ){
+		numberButton.setBackgroundPainter(UIUtils.getNumButtonPainter());
+		numberButton.setForeground(Color.WHITE);
+		numberButton.setBorderPainted(true);
+		numberButton.setBorder(new LineBorder(Color.WHITE, 1));
+		
+		if( !numberButton.getName().equals("0"));
+			this.modButton(numberButton);
+	}
 
 	private void modButton(JXButton button) {
 		button.setFont(buttonFont);
-		
+		button.setPreferredSize(new Dimension(40, 30));
 	}
 
 

@@ -1,4 +1,4 @@
-package edu.scy.tools.math.test;
+package edu.scy.tools.math.test.ui;
 
 
 import net.sourceforge.jeval.EvaluationException;
