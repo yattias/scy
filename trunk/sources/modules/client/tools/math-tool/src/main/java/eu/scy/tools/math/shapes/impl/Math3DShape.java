@@ -12,6 +12,8 @@ import java.util.List;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.JTextField;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXButton;
