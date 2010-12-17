@@ -4,6 +4,7 @@ import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
+import java.rmi.dgc.VMID;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -52,6 +53,7 @@ public class UserLocationAgent extends AbstractRequestAgent {
 			.getLogger(UserLocationAgent.class);
 
 	private static final String LAS = "newLasId";
+	private static final String OLD_LAS = "oldLasId";
 
 	private int actionTupleListenerId;
 	private int requestListenerId;
@@ -261,6 +263,27 @@ public class UserLocationAgent extends AbstractRequestAgent {
 		UserLocationInfo userInfo = getUserInfo(action, userLocationInfoMap);
 
 		userInfo.setLas(action.getAttribute(LAS));
+		sendNotification(action);
+	}
+
+	private void sendNotification(IAction action) {
+		Tuple notification = new Tuple();
+		notification.add(AgentProtocol.NOTIFICATION);
+		notification.add(new VMID().toString());
+		notification.add(action.getUser());
+		notification.add(action.getContext(ContextConstants.eloURI));
+		notification.add(NAME);
+		notification.add(action.getContext(ContextConstants.mission));
+		notification.add(action.getContext(ContextConstants.session));
+
+		notification.add("type=authoring_notification");
+		notification.add("oldLas=" + action.getAttribute(OLD_LAS));
+		notification.add("newLas=" + action.getAttribute(LAS));
+		try {
+			getCommandSpace().write(notification);
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void handleToolClosed(IAction action) {
