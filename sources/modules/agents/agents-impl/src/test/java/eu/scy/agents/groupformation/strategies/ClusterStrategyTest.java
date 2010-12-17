@@ -6,7 +6,7 @@ import org.junit.Test;
 
 public class ClusterStrategyTest {
 
-	private ClusterStrategy groupFormationStrategySequence;
+	private AbstractGroupFormationStrategy groupFormationStrategySequence;
 
 	@Before
 	public void setup() {

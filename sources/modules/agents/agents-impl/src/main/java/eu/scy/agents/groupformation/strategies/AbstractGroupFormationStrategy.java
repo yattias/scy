@@ -1,6 +1,9 @@
 package eu.scy.agents.groupformation.strategies;
 
 import info.collide.sqlspaces.client.TupleSpace;
+
+import java.util.Set;
+
 import eu.scy.agents.groupformation.GroupFormationCache;
 import eu.scy.agents.groupformation.GroupFormationScope;
 import eu.scy.agents.groupformation.GroupFormationStrategy;
@@ -16,6 +19,7 @@ public abstract class AbstractGroupFormationStrategy implements
 
 	protected int maximumGroupSize;
 	protected int minimumGroupSize;
+	private Set<String> availableUsers;
 
 	@Override
 	public void setGroupFormationCache(GroupFormationCache groupFormationCache) {
@@ -74,6 +78,34 @@ public abstract class AbstractGroupFormationStrategy implements
 	@Override
 	public void setLas(String las) {
 		this.las = las;
+	}
+
+	public Set<String> getAvailableUsers() {
+		return availableUsers;
+	}
+
+	protected int getNumberOfGroups(int numberOfUsers) {
+		int minimumNumberOfGroups = 0;
+		if (numberOfUsers % getMaximumGroupSize() == 0) {
+			minimumNumberOfGroups = numberOfUsers / getMaximumGroupSize();
+		} else {
+			minimumNumberOfGroups = numberOfUsers / getMaximumGroupSize() + 1;
+		}
+
+		int maximumNumberOfGroups = 0;
+		if (numberOfUsers % getMinimumGroupSize() == 0) {
+			maximumNumberOfGroups = numberOfUsers / getMinimumGroupSize();
+		} else {
+			maximumNumberOfGroups = numberOfUsers / getMinimumGroupSize() + 1;
+		}
+
+		return (int) Math
+				.floor((maximumNumberOfGroups + minimumNumberOfGroups) / 2.0);
+	}
+
+	@Override
+	public void setAvailableUsers(Set<String> availableUsers) {
+		this.availableUsers = availableUsers;
 	}
 
 }
