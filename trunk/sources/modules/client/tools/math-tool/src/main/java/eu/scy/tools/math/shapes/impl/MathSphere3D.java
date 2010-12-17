@@ -72,14 +72,26 @@ public class MathSphere3D extends Math3DShape {
 		
 		String radius = getRadiusTextField().getText();
 		
-		if( radius.isEmpty() || StringUtils.isNumeric(radius) == false ) {
+		String radiusStripped = StringUtils.stripToNull(radius);
+		
+		if( radiusStripped == null || StringUtils.isAlpha(radiusStripped) ) {
 			getRadiusTextField().setBackground(UIUtils.ERROR_SHAPE_COLOR);
 			errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
 			setError(true);
 		} else {
-			getRadiusTextField().setBackground(UIUtils.NONSHAPE_SHAPE_COLOR);
-			errorLabel.setForeground(UIUtils.NONSHAPE_SHAPE_COLOR);
-			setError(false);
+			
+			try {
+				Double.parseDouble(radiusStripped);
+				getRadiusTextField().setBackground(UIUtils.NONSHAPE_SHAPE_COLOR);
+				errorLabel.setForeground(UIUtils.NONSHAPE_SHAPE_COLOR);
+				setError(false);
+			} catch (NumberFormatException e) {
+				getRadiusTextField().setBackground(UIUtils.ERROR_SHAPE_COLOR);
+				errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
+				setError(true);
+			}
+			
+		
 		}
 		
 		

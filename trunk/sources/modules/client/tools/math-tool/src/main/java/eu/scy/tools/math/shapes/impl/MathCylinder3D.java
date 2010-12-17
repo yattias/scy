@@ -94,16 +94,28 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 		boolean checkForError = super.checkForError();
 		
 		String radius = getRadiusTextField().getText();
+		String radiusStrip = StringUtils.stripToNull(radius);
 		
-		if( radius.isEmpty() || StringUtils.isNumeric(radius) == false ) {
+		if( radiusStrip == null || StringUtils.isAlpha(radiusStrip) ) {
 			getRadiusTextField().setBackground(UIUtils.ERROR_SHAPE_COLOR);
 			errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
 			setError(true);
 		} else {
-			getRadiusTextField().setBackground(UIUtils.NONSHAPE_SHAPE_COLOR);
-			errorLabel.setForeground(UIUtils.NONSHAPE_SHAPE_COLOR);
-			setError(false);
+			
+			try {
+				Double.parseDouble(radiusStrip);
+				getRadiusTextField().setBackground(UIUtils.NONSHAPE_SHAPE_COLOR);
+				errorLabel.setForeground(UIUtils.NONSHAPE_SHAPE_COLOR);
+				setError(false);
+			} catch (NumberFormatException e) {
+				getRadiusTextField().setBackground(UIUtils.ERROR_SHAPE_COLOR);
+				errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
+				setError(true);
+			}
+			
 		}
+		
+		
 		
 		
 		if(checkForError == true) {
