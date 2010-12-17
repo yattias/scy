@@ -108,27 +108,50 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 	
 		
 		public boolean checkForError() {
-			String sa = getSurfaceAreaTextField().getText();
+			String surfaceArea = getSurfaceAreaTextField().getText();
 			boolean hasError1;
 			boolean hasError2;
-			if( sa.isEmpty() ||  StringUtils.isNumeric(sa) == false) {
+			
+			String surfaceAreaStripped = StringUtils.stripToNull(surfaceArea);
+			
+			if( surfaceAreaStripped == null || StringUtils.isAlpha(surfaceAreaStripped )) {
 				getSurfaceAreaTextField().setBackground(UIUtils.ERROR_SHAPE_COLOR);
 				hasError1 = true;
 			} else {
-				getSurfaceAreaTextField().setBackground(UIUtils.NONSHAPE_SHAPE_COLOR);
-				hasError1 = false;
+				try {
+					Double.parseDouble(surfaceAreaStripped);
+					getSurfaceAreaTextField().setBackground(UIUtils.NONSHAPE_SHAPE_COLOR);
+					hasError1 = false;
+				} catch (NumberFormatException e) {
+					getSurfaceAreaTextField().setBackground(UIUtils.ERROR_SHAPE_COLOR);
+					hasError1 = true;
+				}
+				
+				
 			}
+			
+		
 			
 			String ratio = getRatioTextField().getText();
 			
-			if( ratio.isEmpty()  ||  StringUtils.isNumeric(ratio) == false) {
+			String ratioStripped = StringUtils.stripToNull(ratio);
+			
+			if( ratioStripped == null || StringUtils.isAlpha(ratioStripped )) {
 				getRatioTextField().setBackground(UIUtils.ERROR_SHAPE_COLOR);
 				hasError2 = true;
-			} else {
-				getRatioTextField().setBackground(UIUtils.NONSHAPE_SHAPE_COLOR);
-				
-				hasError2 = false;
+			} else{
+				try {
+					Double.parseDouble(ratioStripped);
+					getRatioTextField().setBackground(UIUtils.NONSHAPE_SHAPE_COLOR);
+					hasError2 = false;
+				} catch (NumberFormatException e) {
+					getRatioTextField().setBackground(UIUtils.ERROR_SHAPE_COLOR);
+					hasError2 = true;
+				}
+			
 			}
+			
+		
 			
 			if((hasError1 || hasError2)) {
 				errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);

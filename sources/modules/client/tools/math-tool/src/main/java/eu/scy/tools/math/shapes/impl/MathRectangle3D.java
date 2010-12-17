@@ -97,16 +97,25 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 		
 		String length = getLengthTextField().getText();
 		
-		if( length.isEmpty() || StringUtils.isNumeric(length) == false ) {
+		String lenghtStripped = StringUtils.stripToNull(length);
+		
+		if( lenghtStripped == null || StringUtils.isAlpha(lenghtStripped) ) {
 			getLengthTextField().setBackground(UIUtils.ERROR_SHAPE_COLOR);
 			errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
 			setError(true);
 		} else {
-			getLengthTextField().setBackground(UIUtils.NONSHAPE_SHAPE_COLOR);
-			errorLabel.setForeground(UIUtils.NONSHAPE_SHAPE_COLOR);
-			setError(false);
+			
+			try {
+				Double.parseDouble(lenghtStripped);
+				getLengthTextField().setBackground(UIUtils.NONSHAPE_SHAPE_COLOR);
+				errorLabel.setForeground(UIUtils.NONSHAPE_SHAPE_COLOR);
+				setError(false);
+			} catch (NumberFormatException e) {
+				getLengthTextField().setBackground(UIUtils.ERROR_SHAPE_COLOR);
+				errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
+				setError(true);
+			}
 		}
-		
 		
 		if(checkForError == true) {
 			setError(true);
