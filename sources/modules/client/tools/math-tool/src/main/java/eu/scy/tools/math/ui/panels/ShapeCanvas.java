@@ -1,5 +1,6 @@
 package eu.scy.tools.math.ui.panels;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -52,7 +53,7 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas{
 			final int GRID_SIZE = 20, DRAW = 0, FILL = 1, PAD = 20;
 
 			Graphics2D g2 = (Graphics2D) g;
-
+			g2.setColor(Color.GRAY);
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 					RenderingHints.VALUE_ANTIALIAS_ON);
 			double w = getWidth();

@@ -44,7 +44,7 @@ public class UIUtils {
 	public final static String SHAPE = "SHAPE";
 
 	
-	public final static Color SHAPE_3D_DASH_BORDER_COLOR = Color.blue;
+	public final static Color SHAPE_3D_DASH_BORDER_COLOR = Color.BLACK;
     
 	public static Dimension frameDimension;
 	public static Color NONSHAPE_SHAPE_COLOR = Color.white;
