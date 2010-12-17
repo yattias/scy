@@ -29,9 +29,9 @@ public class SCYMapperStandaloneConfig {
     private static final String LOCAL_CONFIG_FILE_PATH = "";
     
 
-    private static final String LOCAL_CONFIG_FILE = "scymapper.properties";
+    public static final String LOCAL_CONFIG_FILE = "scymapper.properties";
 
-    private static final String KEY_HELP_MODE = "HelpMode";
+    public static final String KEY_HELP_MODE = "HelpMode";
 
     private static final Help DEFAULT_HELP_MODE = Help.CONTINUOUS;
     
