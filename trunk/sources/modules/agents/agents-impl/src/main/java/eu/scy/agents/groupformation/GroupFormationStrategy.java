@@ -25,4 +25,8 @@ public interface GroupFormationStrategy {
 
 	public void setLas(String las);
 
+	public void setAvailableUsers(Set<String> availableUsers);
+
+	public GroupFormationStrategy makeNewEmptyInstance();
+
 }

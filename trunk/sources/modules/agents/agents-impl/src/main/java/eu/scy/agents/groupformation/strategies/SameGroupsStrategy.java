@@ -6,6 +6,8 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
+import eu.scy.agents.groupformation.GroupFormationStrategy;
+
 import roolo.elo.api.IELO;
 
 public class SameGroupsStrategy extends AbstractGroupFormationStrategy {
@@ -21,6 +23,11 @@ public class SameGroupsStrategy extends AbstractGroupFormationStrategy {
 			return Collections.emptyList();
 		}
 		return cache.getGroups();
+	}
+
+	@Override
+	public GroupFormationStrategy makeNewEmptyInstance() {
+		return new SameGroupsStrategy();
 	}
 
 }

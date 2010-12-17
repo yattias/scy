@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import eu.scy.agents.groupformation.GroupFormationStrategy;
+
 import roolo.elo.api.IELO;
 
 public class NoGroupStrategy extends AbstractGroupFormationStrategy {
@@ -13,4 +15,8 @@ public class NoGroupStrategy extends AbstractGroupFormationStrategy {
 		return Collections.emptyList();
 	}
 
+	@Override
+	public GroupFormationStrategy makeNewEmptyInstance() {
+		return this;
+	}
 }

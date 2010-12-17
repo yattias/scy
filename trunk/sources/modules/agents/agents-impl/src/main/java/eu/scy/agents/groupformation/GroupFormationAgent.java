@@ -9,6 +9,8 @@ import java.net.URISyntaxException;
 import java.rmi.dgc.VMID;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,6 +27,7 @@ import eu.scy.actionlogging.api.IAction;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.api.parameter.AgentParameter;
+import eu.scy.agents.general.UserLocationAgent;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
@@ -57,6 +60,8 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		if (params.containsKey(AgentProtocol.TS_PORT)) {
 			port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
+		params.put(MIN_GROUP_SIZE_PARAMETER, 2);
+		params.put(MAX_GROUP_SIZE_PARAMETER, 10);
 		factory = new GroupFormationStrategyFactory();
 		try {
 			listenerId = getActionSpace().eventRegister(Command.WRITE,
@@ -115,50 +120,90 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 			super.call(command, seq, afterTuple, beforeTuple);
 			return;
 		} else {
-			IAction action = ActionTupleTransformer
-					.getActionFromTuple(afterTuple);
-			String mission = action.getContext(ContextConstants.mission);
-			String las = action.getAttribute(LAS);
-
-			int minGroupSize = (Integer) configuration
-					.getParameter(new AgentParameter(mission,
-							MIN_GROUP_SIZE_PARAMETER));
-			int maxGroupSize = (Integer) configuration
-					.getParameter(new AgentParameter(mission,
-							MAX_GROUP_SIZE_PARAMETER));
-
-			String eloUri = action.getContext(ContextConstants.eloURI);
-			IELO elo = getElo(eloUri);
-			if (elo == null) {
-				// TODO handle?
-				return;
-			}
-
-			GroupFormationCache groupFormationCache = missionGroupsCache
-					.get(mission);
-
-			String strategy = action.getAttribute(STRATEGY);
-			GroupFormationScope scope = GroupFormationScope.valueOf(action
-					.getAttribute(SCOPE));
-
-			GroupFormationStrategy groupFormationStrategy = factory
-					.getStrategy(strategy);
-			groupFormationStrategy.setGroupFormationCache(groupFormationCache);
-			groupFormationStrategy.setScope(scope);
-			groupFormationStrategy.setLas(las);
-			groupFormationStrategy.setMission(mission);
-			groupFormationStrategy.setMinimumGroupSize(minGroupSize);
-			groupFormationStrategy.setMaximumGroupSize(maxGroupSize);
-			Collection<Set<String>> formedGroup = groupFormationStrategy
-					.formGroup(elo);
-
-			groupFormationCache.addGroups(formedGroup);
-			// if (groupsAreOk(formedGroup, minGroupSize, maxGroupSize)) {
-			missionGroupsCache.put(mission, groupFormationCache);
-			// }
-
-			sendNotification(action, groupFormationCache);
+			runGroupFormation(afterTuple);
 		}
+	}
+
+	private void runGroupFormation(Tuple afterTuple) {
+		IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
+		String mission = action.getContext(ContextConstants.mission);
+		String las = action.getAttribute(LAS);
+
+		int minGroupSize = (Integer) configuration
+				.getParameter(new AgentParameter(mission,
+						MIN_GROUP_SIZE_PARAMETER));
+		int maxGroupSize = (Integer) configuration
+				.getParameter(new AgentParameter(mission,
+						MAX_GROUP_SIZE_PARAMETER));
+		String eloUri = action.getContext(ContextConstants.eloURI);
+		IELO elo = getElo(eloUri);
+		GroupFormationCache groupFormationCache = missionGroupsCache
+				.get(mission);
+		String strategy = "dummy";// action.getAttribute(STRATEGY);
+		GroupFormationScope scope = GroupFormationScope.valueOf(action
+				.getAttribute(SCOPE));
+
+		Set<String> availableUsers = getAvailableUsers(scope, mission, las);
+		if (availableUsers.size() < minGroupSize) {
+			sendWaitNotification(action);
+			return;
+		}
+
+		GroupFormationStrategy groupFormationStrategy = factory
+				.getStrategy(strategy);
+		groupFormationStrategy.setGroupFormationCache(groupFormationCache);
+		groupFormationStrategy.setScope(scope);
+		groupFormationStrategy.setLas(las);
+		groupFormationStrategy.setMission(mission);
+		groupFormationStrategy.setMinimumGroupSize(minGroupSize);
+		groupFormationStrategy.setMaximumGroupSize(maxGroupSize);
+		groupFormationStrategy.setAvailableUsers(availableUsers);
+
+		Collection<Set<String>> formedGroups = groupFormationStrategy
+				.formGroup(elo);
+
+		groupFormationCache.addGroups(formedGroups);
+		// if (groupsAreOk(formedGroup, minGroupSize, maxGroupSize)) {
+		missionGroupsCache.put(mission, groupFormationCache);
+		// }
+
+		sendGroupNotification(action, groupFormationCache);
+	}
+
+	private Set<String> getAvailableUsers(GroupFormationScope scope,
+			String mission, String las) {
+		switch (scope) {
+		case LAS:
+			return getUsers(UserLocationAgent.METHOD_USERS_IN_LAS, mission, las);
+		case MISSION:
+			return getUsers(UserLocationAgent.METHOD_USERS_IN_MISSION, mission,
+					las);
+		}
+
+		return Collections.emptySet();
+	}
+
+	private Set<String> getUsers(String method, String mission, String las) {
+		Tuple request = new Tuple(UserLocationAgent.USER_INFO_REQUEST,
+				AgentProtocol.QUERY, new VMID().toString(), mission, method,
+				las);
+		try {
+			getCommandSpace().write(request);
+			Tuple response = getCommandSpace().waitToTake(
+					new Tuple(UserLocationAgent.USER_INFO_REQUEST,
+							AgentProtocol.RESPONSE, String.class, Field
+									.createWildCardField()),
+					AgentProtocol.ALIVE_INTERVAL);
+			Set<String> availableUsers = new HashSet<String>();
+			for (int i = 3; i < response.getNumberOfFields(); i++) {
+				availableUsers.add((String) response.getField(i).getValue());
+			}
+			return availableUsers;
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
+		}
+		return Collections.emptySet();
+
 	}
 
 	// private boolean groupsAreOk(Collection<Set<String>> formedGroup,
@@ -171,7 +216,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 	// return true;
 	// }
 
-	private void sendNotification(IAction action, GroupFormationCache cache) {
+	private void sendGroupNotification(IAction action, GroupFormationCache cache) {
 
 		for (Set<String> group : cache.getGroups()) {
 			StringBuilder message = new StringBuilder();
@@ -183,7 +228,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 
 			for (String user : group) {
 				Tuple notificationTuple = createNotificationTuple(action,
-						message, user);
+						message.toString(), user);
 
 				logGroupFormation(action, userListString, user);
 
@@ -218,8 +263,8 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		}
 	}
 
-	private Tuple createNotificationTuple(IAction action,
-			StringBuilder message, String user) {
+	private Tuple createNotificationTuple(IAction action, String message,
+			String user) {
 		Tuple notificationTuple = new Tuple();
 		notificationTuple.add(AgentProtocol.NOTIFICATION);
 		notificationTuple.add(new VMID().toString());
@@ -228,7 +273,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		notificationTuple.add(NAME);
 		notificationTuple.add(action.getContext(ContextConstants.mission));
 		notificationTuple.add(action.getContext(ContextConstants.session));
-		notificationTuple.add(message.toString());
+		notificationTuple.add("message=" + message.toString());
 		return notificationTuple;
 	}
 
@@ -251,6 +296,16 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+
+	private void sendWaitNotification(IAction action) {
+		Tuple notificationTuple = createNotificationTuple(action,
+				"please wait for other users to be available", action.getUser());
+		try {
+			getCommandSpace().write(notificationTuple);
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
 		}
 	}
 

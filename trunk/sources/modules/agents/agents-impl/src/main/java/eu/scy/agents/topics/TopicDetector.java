@@ -12,11 +12,6 @@ import java.util.Map;
 import cc.mallet.topics.ParallelTopicModel;
 import cc.mallet.topics.TopicInferencer;
 import cc.mallet.types.Instance;
-
-import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
-import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
-import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
-import de.fhg.iais.kd.tm.obwious.operator.Operator;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;

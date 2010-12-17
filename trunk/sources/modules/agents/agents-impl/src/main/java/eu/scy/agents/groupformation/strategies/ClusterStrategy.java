@@ -1,27 +1,19 @@
 package eu.scy.agents.groupformation.strategies;
 
-import info.collide.sqlspaces.commons.Field;
-import info.collide.sqlspaces.commons.Tuple;
-import info.collide.sqlspaces.commons.TupleSpaceException;
-
-import java.rmi.dgc.VMID;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import roolo.elo.api.IELO;
-import eu.scy.agents.general.UserLocationAgent;
+import eu.scy.agents.groupformation.GroupFormationStrategy;
 import eu.scy.agents.groupformation.strategies.algorithms.Cluster;
 import eu.scy.agents.groupformation.strategies.algorithms.FeatureVector;
 import eu.scy.agents.groupformation.strategies.algorithms.KMeansAlgorithm;
 import eu.scy.agents.groupformation.strategies.features.FeatureExtractor;
-import eu.scy.agents.impl.AgentProtocol;
 
 /**
  * A group formation strategy that combines several group formation strategies
@@ -43,13 +35,11 @@ public class ClusterStrategy extends AbstractGroupFormationStrategy {
 
 	@Override
 	public List<Set<String>> formGroup(IELO elo) {
-		Set<String> availableUsers = getAvailableUsers();
-
-		int numberOfClusters = getNumberOfClusters(availableUsers.size());
+		int numberOfClusters = getNumberOfGroups(getAvailableUsers().size());
 
 		clusterAlgorithm = new KMeansAlgorithm(numberOfClusters);
 
-		Map<String, FeatureVector> featureVectors = buildFeatureVectors(availableUsers);
+		Map<String, FeatureVector> featureVectors = buildFeatureVectors(getAvailableUsers());
 
 		List<Cluster> clusters = runClusterAlgorithm(featureVectors);
 
@@ -99,65 +89,17 @@ public class ClusterStrategy extends AbstractGroupFormationStrategy {
 		return featureVectors;
 	}
 
-	private int getNumberOfClusters(int numberOfUsers) {
-		int minimumNumberOfGroups = 0;
-		if (numberOfUsers % getMaximumGroupSize() == 0) {
-			minimumNumberOfGroups = numberOfUsers / getMaximumGroupSize();
-		} else {
-			minimumNumberOfGroups = numberOfUsers / getMaximumGroupSize() + 1;
-		}
-
-		int maximumNumberOfGroups = 0;
-		if (numberOfUsers % getMinimumGroupSize() == 0) {
-			maximumNumberOfGroups = numberOfUsers / getMinimumGroupSize();
-		} else {
-			maximumNumberOfGroups = numberOfUsers / getMinimumGroupSize() + 1;
-		}
-
-		return (int) Math
-				.floor((maximumNumberOfGroups + minimumNumberOfGroups) / 2.0);
-	}
-
-	private Set<String> getAvailableUsers() {
-		switch (scope) {
-		case LAS:
-			return getUsers(UserLocationAgent.METHOD_USERS_IN_LAS);
-		case MISSION:
-			return getUsers(UserLocationAgent.METHOD_USERS_IN_MISSION);
-		}
-
-		return Collections.emptySet();
-	}
-
-	private Set<String> getUsers(String method) {
-		Tuple request = new Tuple(UserLocationAgent.USER_INFO_REQUEST,
-				AgentProtocol.QUERY, new VMID().toString(), mission, method,
-				getLas());
-		try {
-			getCommandSpace().write(request);
-			Tuple response = getCommandSpace().waitToTake(
-					new Tuple(UserLocationAgent.USER_INFO_REQUEST,
-							AgentProtocol.RESPONSE, String.class, Field
-									.createWildCardField()),
-					AgentProtocol.ALIVE_INTERVAL);
-			Set<String> availableUsers = new HashSet<String>();
-			for (int i = 3; i < response.getNumberOfFields(); i++) {
-				availableUsers.add((String) response.getField(i).getValue());
-			}
-			return availableUsers;
-		} catch (TupleSpaceException e) {
-			e.printStackTrace();
-		}
-		return Collections.emptySet();
-
-	}
-
 	public void addFeatureExtractor(FeatureExtractor featureExtractor) {
 		extractors.add(featureExtractor);
 	}
 
 	public void removeFeatureExtractor(int index) {
 		extractors.remove(index);
+	}
+
+	@Override
+	public GroupFormationStrategy makeNewEmptyInstance() {
+		return new ClusterStrategy();
 	}
 
 }
