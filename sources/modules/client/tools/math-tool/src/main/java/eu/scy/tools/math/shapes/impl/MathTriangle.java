@@ -181,7 +181,7 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 				
 				 
 				//text height
-				String s = "h = " + height + " " + UIUtils.METERS;
+				String s = "h = " + ( height / 10 ) + " " + UIUtils.METERS;
 				
 				this.setHeight(height);
 				
@@ -203,7 +203,7 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 				
 				this.setWidth(width);
 				
-				String ws = "w = " + width + " " + UIUtils.METERS;
+				String ws = "w = " + ( width / 10 ) + " " + UIUtils.METERS;
 
 				    widthText = new AttributedString(ws);
 				    widthText.addAttribute(TextAttribute.FONT, UIUtils.plainFont);
@@ -349,6 +349,18 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 			}
 		}
 		
+	}
+
+
+	@Override
+	public double getScaledHeight() {
+		return this.getScaledHeight() / 10;
+	}
+
+
+	@Override
+	public double getScaledWidth() {
+		return this.getWidth() / 10;
 	}
 
 }

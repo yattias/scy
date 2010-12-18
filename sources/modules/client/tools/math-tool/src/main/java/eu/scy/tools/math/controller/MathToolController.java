@@ -116,22 +116,22 @@ public class MathToolController {
 		if (mathShape instanceof IMathEllipse)
 			lowerCaseExpression = StringUtils.replace(lowerCaseExpression,
 					IMathEllipse.RADIUS,
-					Double.toString(((IMathEllipse) mathShape).getRadius()));
+					Double.toString(((IMathEllipse) mathShape).getScaledRadius()));
 		else if (mathShape instanceof IMathRectangle) {
 
 			lowerCaseExpression = StringUtils.replace(lowerCaseExpression,
 					IMathRectangle.WIDTH,
-					Double.toString(((IMathRectangle) mathShape).getWidth()));
+					Double.toString(((IMathRectangle) mathShape).getScaledWidth()));
 			lowerCaseExpression = StringUtils.replace(lowerCaseExpression,
 					IMathRectangle.HEIGHT,
-					Double.toString(((IMathRectangle) mathShape).getHeight()));
+					Double.toString(((IMathRectangle) mathShape).getScaledHeight()));
 		} else if (mathShape instanceof IMathTriangle) {
 			lowerCaseExpression = StringUtils.replace(lowerCaseExpression,
 					IMathTriangle.WIDTH,
-					Double.toString(((IMathTriangle) mathShape).getWidth()));
+					Double.toString(((IMathTriangle) mathShape).getScaledWidth()));
 			lowerCaseExpression = StringUtils.replace(lowerCaseExpression,
 					IMathTriangle.HEIGHT,
-					Double.toString(((IMathTriangle) mathShape).getHeight()));
+					Double.toString(((IMathTriangle) mathShape).getScaledHeight()));
 		} else if (mathShape instanceof IMathRectangle3D) {
 			lowerCaseExpression = StringUtils.replace(lowerCaseExpression,
 					IMathRectangle3D.WIDTH,
@@ -308,8 +308,11 @@ public class MathToolController {
 
 	public void addComputationTable(String type, JXTable computationTable) {
 		
+//		if( type.equals(UIUtils._2D))
+//			computationTable.getSelectionModel().addListSelectionListener(new TwoDeeTableSelectionListener());
+//		
 		this.getComputationTables().put(type, computationTable);
-		computationTable.getSelectionModel().addListSelectionListener(new TwoDeeTableSelectionListener());
+		
 	}
 
 	public void setCalculators(HashMap<String, Calculator> calculators) {

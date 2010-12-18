@@ -14,4 +14,8 @@ public interface IMathRectangle extends IMathShape {
 	public double getHeight();
 	
 	public double getWidth();
+	
+	public double getScaledHeight();
+	
+	public double getScaledWidth();
 }
