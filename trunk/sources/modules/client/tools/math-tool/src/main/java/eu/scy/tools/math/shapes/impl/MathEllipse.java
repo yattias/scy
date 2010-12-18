@@ -65,7 +65,7 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 				g2.fill(cornerPointRectangles[0]);
 		}
 				//text height
-				String s = "r = " + getRadius();
+				String s = "r = " + getRadius() + " " + UIUtils.METERS;;
 
 			    AttributedString widthText = new AttributedString(s);
 			    widthText.addAttribute(TextAttribute.FONT, UIUtils.plainFont);

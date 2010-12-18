@@ -181,7 +181,7 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 				
 				 
 				//text height
-				String s = "h = " + height;
+				String s = "h = " + height + " " + UIUtils.METERS;
 				
 				this.setHeight(height);
 				
@@ -203,7 +203,7 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 				
 				this.setWidth(width);
 				
-				String ws = "w = " + width;
+				String ws = "w = " + width + " " + UIUtils.METERS;
 
 				    widthText = new AttributedString(ws);
 				    widthText.addAttribute(TextAttribute.FONT, UIUtils.plainFont);
