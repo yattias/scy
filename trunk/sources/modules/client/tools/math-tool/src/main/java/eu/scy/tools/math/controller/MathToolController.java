@@ -105,7 +105,7 @@ public class MathToolController {
 
 	public void addCalculator(String type, Calculator calculator) {
 		calculator.getEqualsButton().addActionListener(equalsAction);
-		calculator.getSumTextField().addActionListener(equalsAction);
+//		calculator.getSumTextField().addActionListener(equalsAction);
 
 		calculator.getAddButton().setAction(addResultAction);
 		calculator.getSubtractButton().setAction(subtractResultAction);

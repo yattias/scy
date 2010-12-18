@@ -75,7 +75,7 @@ public class Calculator extends JXPanel {
 	private Font buttonFont;
 
 
-	private ExpressionModel expressionModel;
+//	private ExpressionModel expressionModel;
 
 
 	private JXLabel textField;
@@ -147,7 +147,7 @@ public class Calculator extends JXPanel {
 		textField.setBackground(Color.white);
 		textField.setText("Formula");
 		
-		 expressionModel = new ExpressionModel();
+//		 expressionModel = new ExpressionModel();
 		
 		
 		
@@ -157,22 +157,22 @@ public class Calculator extends JXPanel {
 		
 		buttonFont = piButton.getFont().deriveFont(Font.BOLD, 12f);
 		
-		piButton.setName(ExpressionModel.PI);
+//		piButton.setName(ExpressionModel.PI);
 		piButton.addActionListener(buttonAction);
 		this.modSymbolButton(piButton);
 		
 		JXButton sqButton = new JXButton("<html>x<sup>2</sup></html>");
-		sqButton.setName(ExpressionModel.cubedsym);
+//		sqButton.setName(ExpressionModel.cubedsym);
 		sqButton.addActionListener(buttonAction);
 		this.modSymbolButton(sqButton);
 		
 		JXButton sqrtButton = new JXButton("<html>&#8730</html>");
-		sqrtButton.setName(ExpressionModel.SQRT);
+//		sqrtButton.setName(ExpressionModel.SQRT);
 		sqrtButton.addActionListener(buttonAction);
 		this.modSymbolButton(sqrtButton);
 		
 		JXButton cbrtButton = new JXButton("<html>&#179 &#8730;</html>");
-		cbrtButton.setName(ExpressionModel.CBRT);
+//		cbrtButton.setName(ExpressionModel.CBRT);
 		cbrtButton.addActionListener(buttonAction);
 		this.modSymbolButton(cbrtButton);
 		
@@ -473,23 +473,23 @@ public class Calculator extends JXPanel {
 		public void actionPerformed(ActionEvent e) {
 			JXButton button = (JXButton) e.getSource();
 			
-			expressionModel.addExpression(button.getName());
-			
-			log.info("new exp to display " + expressionModel.getExpressionHTML());
-			log.info("new exp to EVAL " + expressionModel.getExpressionEval());
+//			expressionModel.addExpression(button.getName());
+//
+//			log.info("new exp to display " + expressionModel.getExpressionHTML());
+//			log.info("new exp to EVAL " + expressionModel.getExpressionEval());
 			
 			
 			Evaluator evaluator = new Evaluator();
-			try {
-				String result = evaluator.evaluate(expressionModel.getExpressionEval());
-				log.info("result" +result );
-			} catch (EvaluationException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+//			try {
+//				String result = evaluator.evaluate(expressionModel.getExpressionEval());
+//				log.info("result" +result );
+//			} catch (EvaluationException e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
 			
 			
-			textField.setText(expressionModel.getExpressionHTML());
+//			textField.setText(expressionModel.getExpressionHTML());
 //			sumTextField.setText(sumTextField.getText() + button.getName());
 			
 		}
