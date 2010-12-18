@@ -8,7 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>math-tool-scy-extensions</artifactId>
     <packaging>jar</packaging>
-    <name>math-tool scy extensions</name>
+    <name>math-tool scy-extensions</name>
     <developers>
         <developer>
             <id>anthony</id>
