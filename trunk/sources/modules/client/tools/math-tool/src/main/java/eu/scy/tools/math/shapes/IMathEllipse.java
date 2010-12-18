@@ -15,6 +15,8 @@ public interface IMathEllipse extends IMathShape {
 	public void addHeight(int h);
 
 	public double getRadius();
+	
+	public double getScaledRadius();
 
 	public void setRadius(double radius);
 }

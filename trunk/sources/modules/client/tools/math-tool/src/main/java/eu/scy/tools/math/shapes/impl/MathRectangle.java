@@ -73,7 +73,7 @@ public class MathRectangle extends Rectangle implements IMathRectangle {
 				g2.fill(cornerPointRectangles[0]);
 		}	
 				//text height
-				String s = "h = " + this.getHeight() + " " + UIUtils.METERS;
+				String s = "h = " + ( this.getHeight() / 10 ) + " " + UIUtils.METERS;
 
 			    AttributedString heightText = new AttributedString(s);
 			    heightText.addAttribute(TextAttribute.FONT, UIUtils.plainFont);
@@ -84,7 +84,7 @@ public class MathRectangle extends Rectangle implements IMathRectangle {
 				g2.drawString(heightText.getIterator(), x,y);
 				
 				//text height
-				s = "w = " + this.getWidth() + " " + UIUtils.METERS;
+				s = "w = " + ( this.getWidth() / 10 ) + " " + UIUtils.METERS;
 
 			    AttributedString widthText = new AttributedString(s);
 			    widthText.addAttribute(TextAttribute.FONT, UIUtils.plainFont);
@@ -226,6 +226,16 @@ public class MathRectangle extends Rectangle implements IMathRectangle {
 	@Override
 	public Rectangle[] getCornerPointRectangles() {
 		return cornerPointRectangles;
+	}
+
+	@Override
+	public double getScaledHeight() {
+		return this.getHeight() / 10;
+	}
+
+	@Override
+	public double getScaledWidth() {
+		return this.getWidth() / 10;
 	}
 
 
