@@ -75,7 +75,7 @@ public class Calculator extends JXPanel {
 	private Font buttonFont;
 
 
-//	private ExpressionModel expressionModel;
+	private ExpressionModel expressionModel;
 
 
 	private JXLabel textField;
@@ -93,7 +93,7 @@ public class Calculator extends JXPanel {
 		  setCalcButtonPanel(new JXPanel(new BorderLayout(5,5)));
 		    getCalcButtonPanel().setBackgroundPainter(UIUtils.getSubPanelBackgroundPainter());
 		    
-		    setResultLabel(new JXLabel("0.00"));
+		    setResultLabel(new JXLabel("3.14"));
 		    this.modResultLabel(getResultLabel());
 		    
 		    JXPanel l = new JXPanel(new FlowLayout());
@@ -111,14 +111,16 @@ public class Calculator extends JXPanel {
 		    getSubtractButton().putClientProperty(UIUtils.TYPE, this.type);
 		    getSubtractButton().setToolTipText("Subtracts the calculation to the table.");
 		    
-		    JXPanel b = new JXPanel(new FlowLayout());
+		    
 		    
 		    if( type.equals(UIUtils._2D)) {
-		    b.add(getSubtractButton());
-		    b.add(getAddButton());
-		    b.setOpaque(false);
+		    	JXPanel b = new JXPanel(new FlowLayout());
+				b.add(getSubtractButton());
+				b.add(getAddButton());
+				b.setOpaque(false);
+				getCalcButtonPanel().add(b, BorderLayout.EAST);
 		    }
-		    getCalcButtonPanel().add(b, BorderLayout.EAST);
+		    
 	}
 
 
@@ -140,39 +142,43 @@ public class Calculator extends JXPanel {
 //		getSumTextField().setOpaque(true);
 //		getSumTextField().putClientProperty(UIUtils.TYPE, type);
 		
-		
+		JXPanel eqPanel = new JXPanel(new MigLayout("insets 2 2 2 2"));
+		eqPanel.setOpaque(false);
 		textField = new JXLabel();
 		textField.putClientProperty(UIUtils.TYPE, type);
 		textField.setPreferredSize(new Dimension(20,30));
+		textField.setBackgroundPainter(UIUtils.getSubPanelBackgroundPainter());
 		textField.setBackground(Color.white);
+		textField.setBorder(new LineBorder(Color.BLACK, 1));
 		textField.setText("Formula");
+		textField.setOpaque(true);
 		
-//		 expressionModel = new ExpressionModel();
+		 expressionModel = new ExpressionModel();
 		
 		
 		
-		this.add(textField,"growx, wrap");
+		 eqPanel.add(textField,"growx, wrap");
 		
 		JXButton piButton = new JXButton("<html>&#960</html>");
 		
 		buttonFont = piButton.getFont().deriveFont(Font.BOLD, 12f);
 		
-//		piButton.setName(ExpressionModel.PI);
+		piButton.setName(ExpressionModel.PI);
 		piButton.addActionListener(buttonAction);
 		this.modSymbolButton(piButton);
 		
 		JXButton sqButton = new JXButton("<html>x<sup>2</sup></html>");
-//		sqButton.setName(ExpressionModel.cubedsym);
+		sqButton.setName(ExpressionModel.cubedsym);
 		sqButton.addActionListener(buttonAction);
 		this.modSymbolButton(sqButton);
 		
 		JXButton sqrtButton = new JXButton("<html>&#8730</html>");
-//		sqrtButton.setName(ExpressionModel.SQRT);
+		sqrtButton.setName(ExpressionModel.SQRT);
 		sqrtButton.addActionListener(buttonAction);
 		this.modSymbolButton(sqrtButton);
 		
 		JXButton cbrtButton = new JXButton("<html>&#179 &#8730;</html>");
-//		cbrtButton.setName(ExpressionModel.CBRT);
+		cbrtButton.setName(ExpressionModel.CBRT);
 		cbrtButton.addActionListener(buttonAction);
 		this.modSymbolButton(cbrtButton);
 		
@@ -187,6 +193,19 @@ public class Calculator extends JXPanel {
 			}
 		});
 		
+		
+		JXButton clearNumButton = new JXButton("<html>C</html>");
+		clearNumButton.setName("c");
+		this.modSymbolButton(clearNumButton);
+		clearNumButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sumTextField.setText("");
+			}
+		});
+		
+		
 		JXButton deleteButton = new JXButton("<html>DEL</html>");
 		deleteButton.setName("del");
 		modSymbolButton(deleteButton);
@@ -200,6 +219,21 @@ public class Calculator extends JXPanel {
 					sumTextField.setText(StringUtils.chomp(text));
 			}
 		});
+		
+		JXButton deleteNumButton = new JXButton("<html>DEL</html>");
+		deleteNumButton.setName("del");
+		modSymbolButton(deleteNumButton);
+		deleteNumButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String text = sumTextField.getText();
+				
+				if( StringUtils.stripToNull(text) != null)
+					sumTextField.setText(StringUtils.chomp(text));
+			}
+		});
+		
 		
 		
 		JXButton leftButton = new JXButton("<html>(</html>");
@@ -252,12 +286,23 @@ public class Calculator extends JXPanel {
 		plusButton.setName("+");
 		plusButton.addActionListener(buttonAction);
 		this.modSymbolButton(plusButton);
+		
 		JXButton eb = new JXButton("<html>=</html>");
 		eb.setName("=");
 		eb.putClientProperty(UIUtils.TYPE, type);
 		setEqualsButton(eb);
 		eb.setBackgroundPainter(UIUtils.getEqualButtonPainter());
 		modSymbolButton(eb);
+		
+		JXButton enterButton = new JXButton("<html>&#8629</html>");
+		enterButton.setName("=");
+		enterButton.putClientProperty(UIUtils.TYPE, type);
+		enterButton.setBackgroundPainter(UIUtils.getEqualButtonPainter());
+		modSymbolButton(enterButton);
+		
+		
+		
+		
 		JXButton fourButton = new JXButton("<html>4</html>");
 		fourButton.setName("4");
 		fourButton.addActionListener(buttonAction);
@@ -308,68 +353,90 @@ public class Calculator extends JXPanel {
 		sevenButton.addActionListener(buttonAction);
 		this.modNumberButton(sevenButton);
 		
-			
-//			addButton.setForeground(Color.BLACK);
-//			addButton.setBorderPainted(true);
-//			addButton.setBorder(new LineBorder(Color.WHITE, 1));
-		
-//			this.modButton(sButton);
-//			sButton.setOpaque(true);
-//			sButton.setBackgroundPainter(UIUtils.getSymbolButtonPainter());
-//			sButton.setForeground(Color.WHITE);
-//			sButton.setBorderPainted(true);
-//			sButton.setBorder(new LineBorder(Color.WHITE, 1));
-//			sButton.setRolloverEnabled(false);
-
-//			nButton.setBackgroundPainter(UIUtils.getNumButtonPainter());
-//			nButton.setForeground(Color.WHITE);
-//			nButton.setBorderPainted(true);
-//			nButton.setBorder(new LineBorder(Color.WHITE, 1));
-		
 		
 		JXPanel buttonPanel = new JXPanel(new MigLayout("insets 0 0 0 0"));
 		//top row
+		
+		
+		
 		buttonPanel.add(piButton);
 		buttonPanel.add(sqButton);
 		buttonPanel.add(sqrtButton);
-		buttonPanel.add(cbrtButton);
 		buttonPanel.add(clearButton,"wrap");
-		//second row
-		buttonPanel.add(mulButton);
-		buttonPanel.add(plusButton);
+		
+		
+		buttonPanel.add(cbrtButton);
 		buttonPanel.add(minusButton);
-		buttonPanel.add(divButton);
+		buttonPanel.add(plusButton);
 		buttonPanel.add(deleteButton ,"wrap");
 		
+		
+		
+		buttonPanel.add(mulButton);
+		buttonPanel.add(divButton);
 		buttonPanel.add(leftButton);
-		buttonPanel.add(rightButton);
+		buttonPanel.add(rightButton, "wrap");
+		
 		buttonPanel.add(radiusButton);
 		buttonPanel.add(widthButton);
-		buttonPanel.add(heightButton ,"wrap");
-		
-		//third
-		buttonPanel.add(nineButton);
-		buttonPanel.add(eightButton);
-		buttonPanel.add(sevenButton);
-		buttonPanel.add(sixButton);
-		buttonPanel.add(fiveButton,"wrap");
-		
-		//third
-		buttonPanel.add(fourButton);
-		buttonPanel.add(threeButton);
-		buttonPanel.add(twoButton);
-		buttonPanel.add(oneButton);
-		buttonPanel.add(eb, "growy, span 1 2, wrap");
-		//fourth
-		buttonPanel.add(zeroButton, "growx, span 3");
-		buttonPanel.add(pointButton);
-//		buttonPanel.add(eb, "span 1 2");
-		
-		eb.setPreferredSize(new Dimension(40, eb.getPreferredSize().height));
+		buttonPanel.add(heightButton);
+		buttonPanel.add(eb,"wrap");
 		
 		buttonPanel.setOpaque(false);
-		this.add(buttonPanel);
+		eqPanel.add(buttonPanel);
+		
+		
+		JXPanel numPanel = new JXPanel(new MigLayout("insets 2 2 2 2"));
+		numPanel.setOpaque(false);
+		JXTextField numField = new JXTextField("type/enter number");
+		numField.putClientProperty(UIUtils.TYPE, type);
+		numField.setPreferredSize(new Dimension(20,30));
+		numField.setBackground(Color.white);
+		numField.setBorder(new LineBorder(Color.BLACK, 1));
+		numField.setText("Formula");
+		numField.setOpaque(true);
+		
+		
+		
+		
+		 numPanel.add(numField,"growx, wrap");
+		 JXPanel numButtonPanel = new JXPanel(new MigLayout("insets 0 0 0 0"));
+		 
+		 
+		 
+		 numButtonPanel.add(nineButton);
+		 numButtonPanel.add(eightButton);
+		 numButtonPanel.add(sevenButton);
+		
+		numButtonPanel.add(clearNumButton,"wrap");
+		
+		 numButtonPanel.add(sixButton);
+		numButtonPanel.add(fiveButton);
+		numButtonPanel.add(fourButton);
+		numButtonPanel.add(deleteNumButton,"wrap");
+		
+		numButtonPanel.add(threeButton);
+		numButtonPanel.add(twoButton);
+		numButtonPanel.add(oneButton);
+		numButtonPanel.add(zeroButton, "wrap");
+		
+		numButtonPanel.add(pointButton);
+		numButtonPanel.add(enterButton,"growx, span 3 1, wrap");
+		numButtonPanel.setOpaque(false);
+//		buttonPanel.add(oneButton);
+//		buttonPanel.add(eb, "growy, span 1 2, wrap");
+//		//fourth
+//		buttonPanel.add(zeroButton, "growx, span 3");
+//		buttonPanel.add(pointButton);
+////		buttonPanel.add(eb, "span 1 2");
+//		
+//		eb.setPreferredSize(new Dimension(40, eb.getPreferredSize().height));
+		
+	
+		numPanel.add(numButtonPanel);
 		this.setBackgroundPainter(UIUtils.getCalcBackgroundPainter());
+		this.add(eqPanel, "top");
+		this.add(numPanel, "top");
 	}
 
 	public void modSymbolButton(JXButton sButton) {
@@ -473,23 +540,23 @@ public class Calculator extends JXPanel {
 		public void actionPerformed(ActionEvent e) {
 			JXButton button = (JXButton) e.getSource();
 			
-//			expressionModel.addExpression(button.getName());
-//
-//			log.info("new exp to display " + expressionModel.getExpressionHTML());
-//			log.info("new exp to EVAL " + expressionModel.getExpressionEval());
+			expressionModel.addExpression(button.getName());
+			
+			log.info("new exp to display " + expressionModel.getExpressionHTML());
+			log.info("new exp to EVAL " + expressionModel.getExpressionEval());
 			
 			
 			Evaluator evaluator = new Evaluator();
-//			try {
-//				String result = evaluator.evaluate(expressionModel.getExpressionEval());
-//				log.info("result" +result );
-//			} catch (EvaluationException e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
+			try {
+				String result = evaluator.evaluate(expressionModel.getExpressionEval());
+				log.info("result" +result );
+			} catch (EvaluationException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			
 			
-//			textField.setText(expressionModel.getExpressionHTML());
+			textField.setText(expressionModel.getExpressionHTML());
 //			sumTextField.setText(sumTextField.getText() + button.getName());
 			
 		}

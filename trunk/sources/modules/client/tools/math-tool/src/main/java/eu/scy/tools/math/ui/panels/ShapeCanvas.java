@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.logging.Logger;
 
 import javax.swing.JComponent;
@@ -27,6 +28,7 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas{
 	private ArrayList<IMathShape> mathShapes = new ArrayList<IMathShape>();
 	private ControlPanel controlPanel;
 	private String type;
+	Random generator = new Random( 19580427 );
 
 	public ShapeCanvas() {
 		super(null);
@@ -98,12 +100,15 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas{
 	
 	@Override
 	public void addShape(IMathShape shape) {
-		getMathShapes().add(shape);
 		
+		
+		getMathShapes().add(shape);
 		
 		if( shape instanceof I3D ) {
 			((JComponent) shape).setName(UIUtils._3D);
 			this.add((JComponent) shape);
+		} else {
+			shape.setId(new Integer(generator.nextInt(1000)).toString());
 		}
 	}
 	

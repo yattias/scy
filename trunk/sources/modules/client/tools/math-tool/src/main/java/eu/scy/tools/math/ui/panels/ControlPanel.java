@@ -9,6 +9,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -17,6 +19,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.FontUIResource;
@@ -87,6 +90,10 @@ public class ControlPanel extends JXPanel {
 		twoDeeTableModel.addColumn("#");
 		twoDeeTableModel.addColumn("Shape");
 		
+	
+	    
+	    
+		
 		if( type.equals(UIUtils._3D)) {
 			twoDeeTableModel.addColumn("Ratio");
 			twoDeeTableModel.addColumn("Surface Area");
@@ -94,10 +101,14 @@ public class ControlPanel extends JXPanel {
 		} else {
 			twoDeeTableModel.addColumn("Calculation");
 			twoDeeTableModel.addColumn("Sum");
+			twoDeeTableModel.addColumn("operation");
+			twoDeeTableModel.addColumn("shapeId");
 		}
 		
 
 		table = new JXTable(twoDeeTableModel);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+
 	    getComputationTable().setAutoCreateColumnsFromModel(true);
 	    getComputationTable().addHighlighter(HighlighterFactory.createSimpleStriping()); 
 	    getComputationTable().setShowGrid(true, true);
@@ -127,6 +138,17 @@ public class ControlPanel extends JXPanel {
 	    
 	    
 	    temp.add(buttonPanel,"grow");
+	    
+		TableColumn col = table.getColumnModel().getColumn(0);
+	    int width = 4;
+	    col.setPreferredWidth(width);
+	    
+	    if( type.equals(UIUtils._2D) ) {
+	    	TableColumn column = table.getColumnModel().getColumn(table.getColumnModel().getColumnCount()-1);
+	    	table.getColumnModel().removeColumn(column);
+	    }
+	    
+	    
 	    return temp;
 	}
 	
@@ -141,6 +163,53 @@ public class ControlPanel extends JXPanel {
 			if( selectedRow != -1) {
 				DefaultTableModel model = (DefaultTableModel)getComputationTable().getModel();
 				model.removeRow(selectedRow);
+				
+				//recalc the sums
+				Vector dataVector = (Vector) model.getDataVector();
+				
+				ComputationDataObj oldCO = null;
+				List<ComputationDataObj> newDataSet = new ArrayList<ComputationDataObj>();
+				
+				if( !dataVector.isEmpty() ) {
+					//go over the rows
+					for (int i = 0; i < dataVector.size(); i++) {
+						Vector rowVector = (Vector)dataVector.get(i);
+						ComputationDataObj co = new ComputationDataObj(rowVector,UIUtils._2D);
+						newDataSet.add(co);
+					}
+					
+					//remove all the rows
+					while (model.getRowCount() > 0){
+						model.removeRow(0);
+					}
+					
+					//redow
+					
+					Float newSum = null;
+					
+					for (ComputationDataObj nco : newDataSet) {
+						
+						if( newSum == null) {
+							newSum = new Float(nco.getValue());
+							nco.setOperation("+");
+						} else {
+							if( nco.getOperation().equals("+"))
+								newSum = newSum + new Float(nco.getValue());
+							else
+								newSum = newSum - new Float(nco.getValue());
+						}
+						
+						model.addRow(new Object[] { new Integer(model.getRowCount() + 1),
+								nco.getName(), new Float(nco.getValue()),
+								new Float(newSum), nco.getOperation()});
+						
+					}
+					
+					
+				}
+				
+				
+				
 				ControlPanel.this.getComputationTable().revalidate();
 			} else {
 				JOptionPane.showMessageDialog(ControlPanel.this,"Please Select a Row to Remove");
