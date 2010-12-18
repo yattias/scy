@@ -13,7 +13,9 @@ public class ComputationDataObj {
 	private String ratio;
 	private String surfaceArea;
 	private String volume;
-
+	private String operation;
+	private String shapeId;
+	
 	public ComputationDataObj(Integer columnNumber, String name, Float value, Float sum) {
 		this.setColumnNumber(columnNumber);
 		this.name = name;
@@ -34,6 +36,8 @@ public class ComputationDataObj {
 			this.name = (String) values[1];
 			this.value = (Float) values[2];
 			this.sum = (Float) values[3];
+			this.operation = (String) values[4];
+			this.shapeId = (String) values[5];
 		}
 		
 	}
@@ -51,7 +55,8 @@ public class ComputationDataObj {
 			this.name = (String) vector.get(1);
 			this.value = (Float)vector.get(2);
 			this.sum = (Float) vector.get(3);
-		
+			this.operation = (String)vector.get(4);
+			this.shapeId = (String)vector.get(5);
 		}
 	}
 
@@ -112,6 +117,22 @@ public class ComputationDataObj {
 
 	public String getVolume() {
 		return volume;
+	}
+
+	public void setOperation(String operation) {
+		this.operation = operation;
+	}
+
+	public String getOperation() {
+		return operation;
+	}
+
+	public void setShapeId(String shapeId) {
+		this.shapeId = shapeId;
+	}
+
+	public String getShapeId() {
+		return shapeId;
 	}
 	
 }

@@ -7,14 +7,12 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.AbstractAction;
@@ -23,9 +21,10 @@ import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import net.sourceforge.jeval.EvaluationException;
 import net.sourceforge.jeval.Evaluator;
@@ -33,12 +32,8 @@ import net.sourceforge.jeval.Evaluator;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXButton;
-import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.JXTable;
-import org.jdesktop.swingx.JXTextField;
-import org.jdesktop.swingx.error.ErrorInfo;
 
-import com.jhlabs.image.CausticsFilter;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
@@ -64,7 +59,6 @@ import eu.scy.tools.math.shapes.impl.MathSphere3D;
 import eu.scy.tools.math.shapes.impl.MathTriangle;
 import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.panels.Calculator;
-import eu.scy.tools.math.ui.panels.ControlPanel;
 import eu.scy.tools.math.ui.panels.ShapeCanvas;
 
 public class MathToolController {
@@ -109,6 +103,7 @@ public class MathToolController {
 
 		calculator.getAddButton().setAction(addResultAction);
 		calculator.getSubtractButton().setAction(subtractResultAction);
+		calculator.getSubtractButton().setEnabled(false);
 		getCalculators().put(type, calculator);
 	}
 
@@ -156,12 +151,19 @@ public class MathToolController {
 	}
 
 	public void setSelectedMathShape(IMathShape mathShape) {
+		this.highLightShape(mathShape);
+
+		this.selectInTable(mathShape);
+
+	}
+	
+	protected void highLightShape(IMathShape mathShape) {
 		this.mathShape = mathShape;
 
-		String t;
+		String type;
 		if (mathShape instanceof I3D) {
-			t = UIUtils._3D;
-			ShapeCanvas shapeCanvas = shapeCanvases.get(t);
+			type = UIUtils._3D;
+			ShapeCanvas shapeCanvas = shapeCanvases.get(type);
 			ArrayList<IMathShape> mathShapes = shapeCanvas.getMathShapes();
 			for (IMathShape ms : mathShapes) {
 				if (ms instanceof I3D && !ms.equals(mathShape))
@@ -169,40 +171,52 @@ public class MathToolController {
 
 			}
 		} else {
-			t = UIUtils._2D;
-			ShapeCanvas shapeCanvas = shapeCanvases.get(t);
+			type = UIUtils._2D;
+			ShapeCanvas shapeCanvas = shapeCanvases.get(type);
 			ArrayList<IMathShape> mathShapes = shapeCanvas.getMathShapes();
 
 			for (IMathShape ms : mathShapes) {
-				if (!(ms instanceof I3D) && !ms.equals(mathShape))
+				if (!ms.equals(mathShape)) {
 					ms.setShowCornerPoints(false);
+					ms.repaint();
+				} else {
+					ms.setShowCornerPoints(true);
+					ms.repaint();
+				}
 
 			}
 		}
 
 		mathShape.setShowCornerPoints(true);
-
-		this.selectInTable(mathShape);
-
+		mathShape.repaint();
 	}
 
 	protected void selectInTable(IMathShape mathShape) {
 
-		String t;
+		String type;
 		if (mathShape.getId() != null && mathShape instanceof I3D) {
-			t = UIUtils._3D;
+			type = UIUtils._3D;
 
 		} else if (mathShape.getId() != null) {
-			t = UIUtils._2D;
+			type = UIUtils._2D;
 		} else {
 			return;
 		}
 
-		JXTable table = getComputationTables().get(t);
+		JXTable table = getComputationTables().get(type);
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
-		table.getSelectionModel().setSelectionInterval(
-				Integer.parseInt(mathShape.getId()),
-				Integer.parseInt(mathShape.getId()));
+		
+		
+		List<ComputationDataObj> tableObjects = getTableObjects(model.getDataVector(),type);
+		for (ComputationDataObj computationDataObj : tableObjects) {
+			if( computationDataObj.getShapeId().equals(mathShape.getId())) {
+				table.getSelectionModel().setSelectionInterval(computationDataObj.getColumnNumber().intValue()-1,computationDataObj.getColumnNumber().intValue()-1);
+			}
+		}
+		
+		
+		
+		
 	}
 
 	public IMathShape getMathSelectedShape() {
@@ -293,7 +307,9 @@ public class MathToolController {
 	};
 
 	public void addComputationTable(String type, JXTable computationTable) {
+		
 		this.getComputationTables().put(type, computationTable);
+		computationTable.getSelectionModel().addListSelectionListener(new TwoDeeTableSelectionListener());
 	}
 
 	public void setCalculators(HashMap<String, Calculator> calculators) {
@@ -315,37 +331,68 @@ public class MathToolController {
 	Action addResultAction = new AbstractAction("Add") {
 
 		@Override
-		public void actionPerformed(ActionEvent ae) {
+		public void actionPerformed(ActionEvent actionEvent) {
 
-			JXButton addButton = (JXButton) ae.getSource();
+			if( getMathSelectedShape() == null )
+				return;
+
+			
+			JXButton addButton = (JXButton) actionEvent.getSource();
 			String t = (String) addButton.getClientProperty(UIUtils.TYPE);
+			doOperation(t, "+");
 
-			Calculator calculator = getCalculators().get(t);
-
-			String text = calculator.getResultLabel().getText();
-			float parseFloat = Float.parseFloat(text);
-
-			DefaultTableModel model = (DefaultTableModel) getComputationTables()
-					.get(t).getModel();
-
-			model.addRow(new Object[] { new Integer(model.getRowCount() + 1),
-					getMathSelectedShape().getType(), new Float(text),
-					new Float(text) });
-			getMathSelectedShape().setId(
-					Integer.toString((model.getRowCount() - 1)));
-
-			calculator.resetLabel();
 		}
 
 	};
 
+	protected void doOperation(String t, String operation) {
+		Calculator calculator = getCalculators().get(t);
+		calculator.getSubtractButton().setEnabled(true);
+		String text = calculator.getResultLabel().getText();
+		float parseFloat = Float.parseFloat(text);
+
+		DefaultTableModel model = (DefaultTableModel) getComputationTables()
+				.get(t).getModel();
+
+		
+		
+		Vector dataVector = (Vector) model.getDataVector();
+		Float oldSum = null;
+		if( !dataVector.isEmpty() ) {
+			Vector elementAt = (Vector) dataVector.elementAt(dataVector.size()-1);
+		
+		if( elementAt != null) {
+			ComputationDataObj co = new ComputationDataObj(elementAt, UIUtils._2D);
+			oldSum = co.getSum();
+		}
+		} else {
+			oldSum = new Float("0.00");
+		}
+		
+		if( operation.equals("+")) {
+			model.addRow(new Object[] { new Integer(model.getRowCount() + 1),
+					getMathSelectedShape().getType(), new Float(text),
+					new Float(oldSum+parseFloat), operation, getMathSelectedShape().getId()});
+		} else {
+			model.addRow(new Object[] { new Integer(model.getRowCount() + 1),
+					getMathSelectedShape().getType(), new Float(text),
+					new Float(oldSum-parseFloat),operation,getMathSelectedShape().getId() });
+		}
+
+		//calculator.resetLabel();
+	}
+	
 	Action subtractResultAction = new AbstractAction("Subtract") {
 
 		@Override
-		public void actionPerformed(ActionEvent arg0) {
+		public void actionPerformed(ActionEvent actionEvent) {
 
-			// float parseFloat = Float.parseFloat(resultLabel.getText());
-
+			if( getMathSelectedShape() == null )
+				return;
+			
+			JXButton addButton = (JXButton) actionEvent.getSource();
+			String t = (String) addButton.getClientProperty(UIUtils.TYPE);
+			doOperation(t, "-");
 		}
 
 	};
@@ -377,6 +424,39 @@ public class MathToolController {
 		}
 	};
 
+	class TwoDeeTableSelectionListener implements ListSelectionListener{
+
+		@Override
+		public void valueChanged(ListSelectionEvent e) {
+
+			if( e.getValueIsAdjusting() ) {
+			int firstIndex = e.getFirstIndex();
+
+			DefaultTableModel model = (DefaultTableModel) getComputationTables()
+					.get(UIUtils._2D).getModel();
+
+			String shapeId = (String) model.getValueAt(firstIndex, 5);
+
+			log.info("shapeId " + shapeId);
+			ShapeCanvas sc = shapeCanvases.get(UIUtils._2D);
+
+			for (IMathShape ms : sc.getMathShapes()) {
+				if (ms.getId().equals(shapeId)) {
+					ms.setShowCornerPoints(true);
+					ms.repaint();
+					log.info("found shape" + ms);
+				} else {
+					ms.setShowCornerPoints(false);
+					ms.repaint();
+					log.info("no found shape" + ms);
+				}
+			}
+
+			sc.repaint();
+			
+			}
+		}
+	}
 	public String save() {
 		JFileChooser fc = new JFileChooser();
 
@@ -447,6 +527,15 @@ public class MathToolController {
 		return cdos;
 		
 	}
+	
+	protected List<ComputationDataObj> getTableObjects(Vector<Vector>  dataVector, String key) {
+		List<ComputationDataObj> cdos = new ArrayList<ComputationDataObj>();
+		for (Vector data : dataVector) {
+			cdos.add(new ComputationDataObj(data, key));
+		}
+		return cdos;
+	}
+	
 	public void open() {
 		JFileChooser fc = new JFileChooser();
 		
