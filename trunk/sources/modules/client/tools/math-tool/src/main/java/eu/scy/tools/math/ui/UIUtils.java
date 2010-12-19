@@ -139,10 +139,10 @@ public class UIUtils {
 	}
 
 	public static Painter getCalcBackgroundPainter() {
-		int width = 100;
+		int width = 300;
 		int height = 100;
-		Color color1 = Colors.White.color(1f);
-		Color color2 = Colors.Gray.color(0.7f);
+		Color color2 = Colors.White.color(1f);
+		Color color1 = Colors.Gray.color(0.7f);
 
 		LinearGradientPaint gradientPaint = new LinearGradientPaint(0.0f, 1.0f,
 				width, height, new float[] { 0.3f, 1f }, new Color[] { color1,
@@ -173,6 +173,18 @@ public class UIUtils {
 
 	}
 
+	public static Painter getRootButtonPainter() {
+
+		MattePainter mp = new MattePainter(Colors.Green.alpha(0.5f));
+		GlossPainter gp = new GlossPainter(Colors.White.alpha(0.3f),
+				GlossPainter.GlossPosition.TOP);
+		// return (new CompoundPainter(mp, gp));
+
+		return mp;
+
+	}
+
+	
 	public static Painter getAdderButtonPainter() {
 
 		MattePainter mp = new MattePainter(Colors.White.alpha(1f));
