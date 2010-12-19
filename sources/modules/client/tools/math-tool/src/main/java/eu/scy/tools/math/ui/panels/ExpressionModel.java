@@ -1,79 +1,56 @@
 package eu.scy.tools.math.ui.panels;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.StringTokenizer;
+import java.util.logging.Logger;
 
 import org.apache.commons.lang.StringUtils;
 
 public class ExpressionModel {
 
-	List<String> expressionToEval = new ArrayList<String>();
-	List<String> expressionToDisplay = new ArrayList<String>();
+	private static Logger log = Logger.getLogger("ExpressionModel.class");
 	
-	 static final String PI = "pi";
-	 static final String cubedsym = "^2";
+//	List<String> expressionToEval = new ArrayList<String>();
+//	List<String> expressionToDisplay = new ArrayList<String>();
+//	
+	StringBuilder expressionToDisplay = new StringBuilder();
+	
+	static final String PI = "pi";
+	static final String cubedsym = "^2";
 	static final String SQRT = "sqrt";
 	static final String CBRT = "cbrt";
 	static String cubeRoot = "&#179 &#8730";
 	static String sqRoot = "&#8730";
 	static String cubed = "<sup>2</sup>";
 	boolean needsReplacement = false;
+	
 	public void addExpression(String exp) {
-		//check rational
-		//check powers
-		//check pi
-		
-		
-		
-		if( exp.equals(CBRT) ) {
-			expressionToDisplay.add(cubeRoot);
-			
-			expressionToEval.add("exp(log(k)/3)");
-			
-			needsReplacement = true;
-		} else {
-			
-			if( needsReplacement == true && StringUtils.isNumeric(exp)) {
-				String last = expressionToEval.get(expressionToEval.size()-1);
-				String newLast = StringUtils.replace(last, "k", exp);
-				
-				expressionToEval.remove(expressionToEval.size()-1);
-				expressionToEval.add(newLast);
-				
-				needsReplacement = false;
-				
-			} else {
-				expressionToEval.add(exp);
-			}
-			
-			
-			expressionToDisplay.add(exp);
-		}
-		
-		
+		expressionToDisplay.append(exp);
 	}
 	
-	public void removeLastExpression() {
-		//check rational
-		//check powers
+	public void replaceExpression(String exp) {
+		this.clear();
+		this.addExpression(exp);
 	}
 	
 	public String getExpressionEval() {
-		StringBuffer buff = new StringBuffer();
-		for (String exp : expressionToEval) {
-			buff.append(exp);
-		}
-		return buff.toString();
-	}
-	
-	public String getExpressionHTML() {
 		
-		StringBuffer buff = new StringBuffer("<html>");
-		for (String exp : expressionToDisplay) {
-			buff.append(" " +exp);
-		}
-		buff.append("</html>");
-		return buff.toString();
+		//strip spaces
+		
+		String stripToNull = StringUtils.stripToNull(expressionToDisplay.toString());
+		
+		
+		return stripToNull;
 	}
 	
+	public String getExpressionDisplay() {
+		return expressionToDisplay.toString();
+	}
+	
+	public void clear() {
+		
+		if( expressionToDisplay.length() < 1)
+			return;
+		
+		expressionToDisplay.delete(0, expressionToDisplay.length());
+	}
 }

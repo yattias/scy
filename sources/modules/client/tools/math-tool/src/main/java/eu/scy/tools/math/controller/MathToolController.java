@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,6 +35,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.JXTextField;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -60,6 +63,7 @@ import eu.scy.tools.math.shapes.impl.MathTriangle;
 import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.panels.Calculator;
 import eu.scy.tools.math.ui.panels.ShapeCanvas;
+import eu.scy.tools.math.util.MathEvaluator;
 
 public class MathToolController {
 
@@ -99,7 +103,28 @@ public class MathToolController {
 
 	public void addCalculator(String type, Calculator calculator) {
 		calculator.getEqualsButton().addActionListener(equalsAction);
-//		calculator.getSumTextField().addActionListener(equalsAction);
+		calculator.getSumTextField().addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				  if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+			          	doEqualsAction((JComponent) e.getSource());
+			        }
+				
+			}
+		});
 
 		calculator.getAddButton().setAction(addResultAction);
 		calculator.getSubtractButton().setAction(subtractResultAction);
@@ -107,47 +132,80 @@ public class MathToolController {
 		getCalculators().put(type, calculator);
 	}
 
-	protected String modExpression(String expression) {
-		String lowerCaseExpression = StringUtils.lowerCase(expression);
+	protected void doEqualsAction(JComponent component) {
+	
+		String calcType = (String) component
+				.getClientProperty(UIUtils.TYPE);
+		Calculator c = getCalculators().get(calcType);
 
-		// check for sqrt
-		int indexOf = StringUtils.indexOf(lowerCaseExpression, "^");
+		String expression = c.getSumTextField().getText();
 
-		if (mathShape instanceof IMathEllipse)
-			lowerCaseExpression = StringUtils.replace(lowerCaseExpression,
-					IMathEllipse.RADIUS,
-					Double.toString(((IMathEllipse) mathShape).getScaledRadius()));
-		else if (mathShape instanceof IMathRectangle) {
+		if (expression != null
+				&& StringUtils.stripToNull(expression) != null) {
+			
+			
+			 MathEvaluator m = new MathEvaluator(StringUtils.lowerCase(expression));
+			
+			modExpression(m,expression);
 
-			lowerCaseExpression = StringUtils.replace(lowerCaseExpression,
-					IMathRectangle.WIDTH,
-					Double.toString(((IMathRectangle) mathShape).getScaledWidth()));
-			lowerCaseExpression = StringUtils.replace(lowerCaseExpression,
-					IMathRectangle.HEIGHT,
-					Double.toString(((IMathRectangle) mathShape).getScaledHeight()));
-		} else if (mathShape instanceof IMathTriangle) {
-			lowerCaseExpression = StringUtils.replace(lowerCaseExpression,
-					IMathTriangle.WIDTH,
-					Double.toString(((IMathTriangle) mathShape).getScaledWidth()));
-			lowerCaseExpression = StringUtils.replace(lowerCaseExpression,
-					IMathTriangle.HEIGHT,
-					Double.toString(((IMathTriangle) mathShape).getScaledHeight()));
-		} else if (mathShape instanceof IMathRectangle3D) {
-			lowerCaseExpression = StringUtils.replace(lowerCaseExpression,
-					IMathRectangle3D.WIDTH,
-					((IMathRectangle3D) mathShape).getWidthValue());
-			lowerCaseExpression = StringUtils.replace(lowerCaseExpression,
-					IMathRectangle3D.HEIGHT,
-					((IMathRectangle3D) mathShape).getHeightValue());
-		} else if (mathShape instanceof IMathCylinder3D) {
-			lowerCaseExpression = StringUtils.replace(lowerCaseExpression,
-					IMathCylinder3D.RADIUS,
-					((IMathCylinder3D) mathShape).getRadiusValue());
-			lowerCaseExpression = StringUtils.replace(lowerCaseExpression,
-					IMathCylinder3D.HEIGHT,
-					((IMathCylinder3D) mathShape).getHeightValue());
+				Double value = m.getValue();
+				if( value == null) {
+					JOptionPane.showMessageDialog(null, "Expression was invalid, check its notation");
+					c.getResultLabel().setText("0.00");
+				} else
+					c.getResultLabel().setText(""+value);
 		}
-		return lowerCaseExpression;
+		
+	}
+
+	protected void modExpression(MathEvaluator mathEvaluator, String expression) {
+		if (mathShape instanceof IMathEllipse) {
+			
+			if( expression.contains(IMathEllipse.RADIUS) ) {
+				mathEvaluator.addVariable(IMathEllipse.RADIUS, ((IMathEllipse) mathShape).getScaledRadius());
+			}
+			
+		} else if (mathShape instanceof IMathRectangle) {
+
+			if( expression.contains(IMathRectangle.WIDTH) ) {
+				mathEvaluator.addVariable(IMathRectangle.WIDTH, ((IMathRectangle) mathShape).getScaledWidth());
+			}
+			
+			if( expression.contains(IMathRectangle.HEIGHT) ) {
+				mathEvaluator.addVariable(IMathRectangle.HEIGHT, ((IMathRectangle) mathShape).getScaledHeight());
+			}
+			
+		} else if (mathShape instanceof IMathTriangle) {
+			
+			if( expression.contains(IMathTriangle.WIDTH) ) {
+				mathEvaluator.addVariable(IMathTriangle.WIDTH, ((IMathTriangle) mathShape).getScaledWidth());
+			}
+			
+			if( expression.contains(IMathTriangle.HEIGHT) ) {
+				mathEvaluator.addVariable(IMathTriangle.HEIGHT, ((IMathTriangle) mathShape).getScaledHeight());
+			}
+			
+		} else if (mathShape instanceof IMathRectangle3D) {
+			
+			if( expression.contains(IMathRectangle3D.WIDTH) ) {
+				mathEvaluator.addVariable(IMathRectangle3D.WIDTH, Double.parseDouble(((IMathRectangle3D) mathShape).getWidthValue()));
+			}
+			
+			if( expression.contains(IMathRectangle3D.HEIGHT) ) {
+				mathEvaluator.addVariable(IMathRectangle3D.HEIGHT, Double.parseDouble( ((IMathRectangle3D) mathShape).getHeightValue()));
+			}
+			
+		} else if (mathShape instanceof IMathCylinder3D) {
+			
+			
+			if( expression.contains(IMathCylinder3D.RADIUS) ) {
+				mathEvaluator.addVariable(IMathCylinder3D.RADIUS, Double.parseDouble(((IMathCylinder3D) mathShape).getRadiusValue()));
+			}
+			
+			if( expression.contains(IMathCylinder3D.HEIGHT) ) {
+				mathEvaluator.addVariable(IMathCylinder3D.HEIGHT, Double.parseDouble( ((IMathCylinder3D) mathShape).getHeightValue()));
+			}
+		}
 	}
 
 	public void setSelectedMathShape(IMathShape mathShape) {
@@ -187,6 +245,8 @@ public class MathToolController {
 			}
 		}
 
+		Calculator calculator = calculators.get(type);
+		calculator.getSumTextField().setEnabled(true);
 		mathShape.setShowCornerPoints(true);
 		mathShape.repaint();
 	}
@@ -403,30 +463,12 @@ public class MathToolController {
 	ActionListener equalsAction = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			JComponent equalsButton = (JComponent) e.getSource();
-			String calcType = (String) equalsButton
-					.getClientProperty(UIUtils.TYPE);
-			Calculator c = getCalculators().get(calcType);
-
-			String expression = c.getSumTextField().getText();
-
-			if (expression != null
-					&& StringUtils.stripToNull(expression) != null) {
-				String modExpression = modExpression(expression);
-				log.info("new expression: " + modExpression);
-
-				try {
-					Evaluator evaluator = new Evaluator();
-					String result = evaluator.evaluate(modExpression);
-					c.getResultLabel().setText(result);
-				} catch (EvaluationException ee) {
-					ee.printStackTrace();
-				}
-			}
+				doEqualsAction((JComponent) e.getSource());
 
 		}
 	};
 
+	
 	class TwoDeeTableSelectionListener implements ListSelectionListener{
 
 		@Override
