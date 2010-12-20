@@ -103,6 +103,7 @@ public class MathToolController {
 
 	public void addCalculator(String type, Calculator calculator) {
 		calculator.getEqualsButton().addActionListener(equalsAction);
+		calculator.getSumTextField().setEnabled(false);
 		calculator.getSumTextField().addKeyListener(new KeyListener() {
 			
 			@Override
@@ -119,9 +120,15 @@ public class MathToolController {
 			
 			@Override
 			public void keyPressed(KeyEvent e) {
+				
 				  if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			          	doEqualsAction((JComponent) e.getSource());
-			        }
+			      } else {
+			    	  String calcType = (String) ((JComponent) e.getSource())
+						.getClientProperty(UIUtils.TYPE);
+			    	  Calculator c = getCalculators().get(calcType);
+			    	  c.getResultLabel().setText("0.00");
+			      }
 				
 			}
 		});
@@ -150,7 +157,7 @@ public class MathToolController {
 
 				Double value = m.getValue();
 				if( value == null) {
-					JOptionPane.showMessageDialog(null, "Expression was invalid, check its notation");
+					JOptionPane.showMessageDialog(null, UIUtils.invalidExpressionErrorMessage, "Math Expression Problem", JOptionPane.ERROR_MESSAGE, null);
 					c.getResultLabel().setText("0.00");
 				} else
 					c.getResultLabel().setText(""+value);
@@ -159,6 +166,11 @@ public class MathToolController {
 	}
 
 	protected void modExpression(MathEvaluator mathEvaluator, String expression) {
+		
+		if( expression.contains("pi")) {
+			mathEvaluator.addVariable("pi", Math.PI);
+		}
+		
 		if (mathShape instanceof IMathEllipse) {
 			
 			if( expression.contains(IMathEllipse.RADIUS) ) {

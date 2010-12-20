@@ -49,9 +49,37 @@ public class UIUtils {
     
 	public static Dimension frameDimension;
 	public static Color NONSHAPE_SHAPE_COLOR = Color.white;
+	
+	private static String startTags = "<html><body>";
+	
+	private static String endTags = "</body></html>";
+	
+	public static String notationHtml = "<b>Notation Guide:</b><br>"+
+	"<br>" +
+	"<p>operators: 2*(h+2)+(1/2)" +
+	"<p>cube root: cbrt(r+1)" +
+	"<p>square root: sqrt(r+1)" +
+	"<p>powers : r^2" +
+	"<br><br>" +
+	"<i>example: -5-6/(-2)^2 + sqrt(15+r)</i>" ;
+
+	
+	public static String invalidExpressionErrorMessage = startTags +
+														"Formula was invaild check its notation.<br><br>" +
+														notationHtml + endTags;
+														
+	public static String notationHelpMessage = startTags + notationHtml +
+												endTags;
+	
+	public static String rootAddMessage = "<html>Enter number or expression for this root.<br><br>" +
+			"							  <i>ie: 28, 4+pi, w+2</i></html>";
+														
+	
+										
 
 	public static List<Component> getAllComponents(final Container c) {
 		Component[] comps = c.getComponents();
+		
 		List<Component> compList = new ArrayList<Component>();
 		for (Component comp : comps) {
 			compList.add(comp);
