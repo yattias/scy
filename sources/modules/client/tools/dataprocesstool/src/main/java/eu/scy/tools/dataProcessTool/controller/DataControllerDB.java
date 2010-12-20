@@ -1293,7 +1293,7 @@ public class DataControllerDB implements ControllerInterface{
             // creation en base
             ArrayList v2 = new ArrayList();
             int idFunctionColor = getIdFunctionColor(fColor);
-            CopexReturn cr = VisualizationFromDB.createFunctionModelInDB(dbC, graph.getDbKey(), description, type, idFunctionColor,  listParam, v2);
+            CopexReturn cr = VisualizationFromDB.createFunctionModelInDB(dbC, graph.getDbKey(), description, type, idFunctionColor,  listParam, idPredefFunction, v2);
             if (cr.isError())
                 return cr;
             long dbKey = (Long)v2.get(0);
@@ -1369,7 +1369,9 @@ public class DataControllerDB implements ControllerInterface{
         }
         else
             dataset.insertRow(nb, idBefore);
-
+        cr = DatasetFromDB.updateNoInDB(dbC, dataset);
+        if (cr.isError())
+            return cr;
         cr = exportHTML(dataset);
         if(cr.isError())
             return cr;
