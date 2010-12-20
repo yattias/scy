@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 /**
  * @author SikkenJ
  */
-public class InstructionTypIcon extends CustomNode {
+public class InstructionTypesIcon extends CustomNode {
 
    def scale = 1.25;
 
@@ -121,7 +121,7 @@ function run() {
                layoutY: 40
                content: [
                   MissionMapWindowIcon {}
-                  InstructionTypIcon {}
+                  InstructionTypesIcon {}
                ]
             }
             Group {
@@ -129,7 +129,7 @@ function run() {
                layoutY: 80
                content: [
                   MissionMapWindowIcon {}
-                  InstructionTypIcon {}
+                  InstructionTypesIcon {}
                ]
             }
          ]
