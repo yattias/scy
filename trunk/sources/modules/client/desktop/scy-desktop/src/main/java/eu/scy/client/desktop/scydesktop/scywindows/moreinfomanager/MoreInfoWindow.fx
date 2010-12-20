@@ -24,12 +24,14 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.geometry.Insets;
 import javafx.scene.input.MouseEvent;
+import eu.scy.client.desktop.scydesktop.art.javafx.MissionMapWindowIcon;
 
 /**
  * @author SikkenJ
  */
 public class MoreInfoWindow extends CustomNode {
 
+   def iconSize = 40.0;
    public var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    public var width = 300.0;
    public var height = 200.0;
@@ -42,7 +44,6 @@ public class MoreInfoWindow extends CustomNode {
    public var mouseClickedAction: function(:MouseEvent):Void;
    def borderLineWidth = 2.0;
    def borderWidth = 5.0;
-   def iconSize = 40.0;
    def infoTypeIconOffset = iconSize - 12;
    def closeSize = 10.0;
    def topBorderWidth = 2 * borderWidth + iconSize;
@@ -123,6 +124,7 @@ public class MoreInfoWindow extends CustomNode {
       if (eloIcon != null) {
          def eloIconWidth = eloIcon.boundsInParent.width;
          var scaleFactor = iconSize / eloIconWidth;
+         println("eloIcon.bounds: {eloIcon.boundsInParent}, {eloIcon.boundsInLocal} -> scaleFactor: {scaleFactor}");
          //          scaleFactor = 2.5;
          eloIcon.scaleX *= scaleFactor;
          eloIcon.scaleY *= scaleFactor;
@@ -145,14 +147,15 @@ function run() {
          layoutX: 40
          layoutY: 60
          windowColorScheme: colorScheme
-         eloIcon: CharacterEloIcon {
-            //            iconSize: iconSize;
-            //            fontSize: 32
-            //            iconGap: 7
-            color: colorScheme.mainColor
-            iconCharacter: "E"
-            selected: true
-         }
+//         eloIcon: CharacterEloIcon {
+//            //            iconSize: iconSize;
+//            //            fontSize: 32
+//            //            iconGap: 7
+//            color: colorScheme.mainColor
+//            iconCharacter: "E"
+//            selected: true
+//         }
+         eloIcon: MissionMapWindowIcon{}
          infoTypeIcon: CharacterEloIcon {
             color: colorScheme.mainColor
             iconCharacter: "T"
@@ -165,6 +168,8 @@ function run() {
             fill: Color.YELLOW
          }
       }
+//   moreInfoWindow.eloIcon = MissionMapWindowIcon{};
+//   moreInfoWindow.infoTypeIcon = MissionMapWindowIcon{};
    Stage {
       title: "test more info window"
       onClose: function() {

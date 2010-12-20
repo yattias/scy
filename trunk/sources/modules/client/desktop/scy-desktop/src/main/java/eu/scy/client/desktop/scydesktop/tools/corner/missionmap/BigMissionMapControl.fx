@@ -7,10 +7,11 @@ package eu.scy.client.desktop.scydesktop.tools.corner.missionmap;
 import javafx.scene.CustomNode;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import eu.scy.client.desktop.scydesktop.scywindows.moreinfomanager.MoreInfoWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.ModalDialogLayer;
 import javafx.scene.input.MouseEvent;
+import eu.scy.client.desktop.scydesktop.art.javafx.MissionMapWindowIcon;
+import eu.scy.client.desktop.scydesktop.art.javafx.MissionMapButtonIcon;
 
 /**
  * @author SikkenJ
@@ -20,6 +21,7 @@ public class BigMissionMapControl extends CustomNode {
    public var bigMissionMap: BigMissionMap;
    def missionMapWindow: MoreInfoWindow = MoreInfoWindow {
          title: ##"Mission navigation"
+         eloIcon: MissionMapWindowIcon{}
          content: bigMissionMap
          closeAction: hideBigMissionMap
          mouseClickedAction:mouseClickedInMissionWindowWindow
@@ -28,17 +30,29 @@ public class BigMissionMapControl extends CustomNode {
    def sceneHeight = bind scene.height on replace { sceneSizeChanged() };
    def relativeWindowScreenBoder = 0.2;
    var bigMissionMapVisible = false;
+   def displayIcon = MissionMapButtonIcon{};
 
    public override function create(): Node {
       Group {
          content: [
-            Button {
-               text: "Navigate"
-               action: function() {
-                  showBigMissionMap();
-               }
-            }
+            displayIcon
+//            Button {
+//               text: "Navigate"
+//               action: function() {
+//                  showBigMissionMap();
+//               }
+//            }
          ]
+         onMouseClicked: function (e:MouseEvent):Void{
+            showBigMissionMap();
+         }
+         onMouseEntered: function (e:MouseEvent):Void{
+            displayIcon.mouseOver = true
+         }
+         onMouseExited: function (e:MouseEvent):Void{
+            displayIcon.mouseOver = false
+         }
+
       }
    }
 
