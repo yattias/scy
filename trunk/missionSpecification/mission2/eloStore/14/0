@@ -14,7 +14,7 @@
       </title>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/14/0/Design+a+CO2-friendly+house.scymissionspecification</entry>
+        <entry>roolo://memory/14/0/ecoMission.scymissionspecification</entry>
       </identifier>
     </general>
     <lifecycle>
@@ -52,10 +52,10 @@
 </metadata>
 <content languageIndependent="true" contentType="xml">
 <missionSpeicification>
-  <missionMapModelEloUri>roolo://memory/11/0/ecoMission.scymissionmapmodel</missionMapModelEloUri>
-  <eloToolConfigsEloUri>roolo://memory/12/0/ecoMission.scyelotoolconfiguration</eloToolConfigsEloUri>
-  <templateElosEloUri>roolo://memory/13/0/ecoMission.scytemplateelos</templateElosEloUri>
-  <runtimeSettingsEloUri>roolo://memory/15/0/ecoMission.runtimesettings</runtimeSettingsEloUri>
+  <missionMapModelEloUri>roolo://memory/20040/0/ecoMission.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/20041/0/ecoMission.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/20042/0/ecoMission.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/20043/0/ecoMission.runtimesettings</runtimeSettingsEloUri>
 </missionSpeicification>
 </content>
 <resources>
