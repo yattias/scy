@@ -46,6 +46,7 @@ public class UIUtils {
 	
 	public final static Color SHAPE_3D_DASH_BORDER_COLOR = Color.BLACK;
 	public final static String METERS = "m";
+	public static final String SHAPE_ID = "SHAPE_ID";
     
 	public static Dimension frameDimension;
 	public static Color NONSHAPE_SHAPE_COLOR = Color.white;
@@ -74,7 +75,7 @@ public class UIUtils {
 	public static String rootAddMessage = "<html>Enter number or expression for this root.<br><br>" +
 			"							  <i>ie: 28, 4+pi, w+2</i></html>";
 														
-	
+	public static String dragAndDropShapeTip = "Drag and Drop a shape on the canvas";
 										
 
 	public static List<Component> getAllComponents(final Container c) {
@@ -167,7 +168,7 @@ public class UIUtils {
 	}
 
 	public static Painter getCalcBackgroundPainter() {
-		int width = 300;
+		int width = 250;
 		int height = 100;
 		Color color2 = Colors.White.color(1f);
 		Color color1 = Colors.Gray.color(0.7f);

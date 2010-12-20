@@ -38,6 +38,7 @@ import org.jdesktop.swingx.JXTitledPanel;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
 import org.jdesktop.swingx.error.ErrorInfo;
 
+import eu.scy.tools.math.controller.MathToolController;
 import eu.scy.tools.math.doa.ComputationDataObj;
 import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.paint.RoundedBorder;
@@ -60,10 +61,12 @@ public class ControlPanel extends JXPanel {
 	private JXLabel resultLabel;
 	private JXButton subtractResultButton;
 	private Calculator calculator;
+	private MathToolController mathToolController;
 
-	public ControlPanel(String type) {
+	public ControlPanel(MathToolController mathToolController, String type) {
 		super(new GridLayout(2,1));
 		this.type = type;
+		this.mathToolController = mathToolController;
 		init();
 	}
 
@@ -98,6 +101,7 @@ public class ControlPanel extends JXPanel {
 			twoDeeTableModel.addColumn("Ratio");
 			twoDeeTableModel.addColumn("Surface Area");
 			twoDeeTableModel.addColumn("Volume");
+			twoDeeTableModel.addColumn("shapeId");
 		} else {
 			twoDeeTableModel.addColumn("Calculation");
 			twoDeeTableModel.addColumn("Sum");
@@ -108,7 +112,7 @@ public class ControlPanel extends JXPanel {
 
 		table = new JXTable(twoDeeTableModel);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-
+		getComputationTable().putClientProperty(UIUtils.TYPE, type);
 	    getComputationTable().setAutoCreateColumnsFromModel(true);
 	    getComputationTable().addHighlighter(HighlighterFactory.createSimpleStriping()); 
 	    getComputationTable().setShowGrid(true, true);
@@ -143,10 +147,10 @@ public class ControlPanel extends JXPanel {
 	    int width = 4;
 	    col.setPreferredWidth(width);
 	    
-	    if( type.equals(UIUtils._2D) ) {
+//	    if( type.equals(UIUtils._2D) ) {
 	    	TableColumn column = table.getColumnModel().getColumn(table.getColumnModel().getColumnCount()-1);
 	    	table.getColumnModel().removeColumn(column);
-	    }
+//	    }
 	    
 	    
 	    return temp;
@@ -160,54 +164,32 @@ public class ControlPanel extends JXPanel {
 		public void actionPerformed(ActionEvent arg0) {
 			int selectedRow = ControlPanel.this.getComputationTable().getSelectedRow();
 			System.out.println(selectedRow);
-			if( selectedRow != -1) {
-				DefaultTableModel model = (DefaultTableModel)getComputationTable().getModel();
+			if (selectedRow != -1) {
+				DefaultTableModel model = (DefaultTableModel) getComputationTable()
+						.getModel();
 				model.removeRow(selectedRow);
-				
-				//recalc the sums
-				Vector dataVector = (Vector) model.getDataVector();
-				
-				ComputationDataObj oldCO = null;
-				List<ComputationDataObj> newDataSet = new ArrayList<ComputationDataObj>();
-				
-				if( !dataVector.isEmpty() ) {
-					//go over the rows
-					for (int i = 0; i < dataVector.size(); i++) {
-						Vector rowVector = (Vector)dataVector.get(i);
-						ComputationDataObj co = new ComputationDataObj(rowVector,UIUtils._2D);
-						newDataSet.add(co);
-					}
-					
-					//remove all the rows
-					while (model.getRowCount() > 0){
-						model.removeRow(0);
-					}
-					
-					//redow
-					
-					Float newSum = null;
-					
-					for (ComputationDataObj nco : newDataSet) {
-						
-						if( newSum == null) {
-							newSum = new Float(nco.getValue());
-							nco.setOperation("+");
-						} else {
-							if( nco.getOperation().equals("+"))
-								newSum = newSum + new Float(nco.getValue());
-							else
-								newSum = newSum - new Float(nco.getValue());
+
+				if (type.equals(UIUtils._2D)) {
+					// recalc the sums
+					Vector dataVector = (Vector) model.getDataVector();
+
+					ComputationDataObj oldCO = null;
+					List<ComputationDataObj> newDataSet = new ArrayList<ComputationDataObj>();
+
+					if (!dataVector.isEmpty()) {
+						// go over the rows
+						for (int i = 0; i < dataVector.size(); i++) {
+							Vector rowVector = (Vector) dataVector.get(i);
+							ComputationDataObj co = new ComputationDataObj(
+									rowVector, UIUtils._2D);
+							newDataSet.add(co);
 						}
-						
-						model.addRow(new Object[] { new Integer(model.getRowCount() + 1),
-								nco.getName(), new Float(nco.getValue()),
-								new Float(newSum), nco.getOperation()});
-						
+
+						mathToolController.recalculateModel(model, newDataSet,
+								type);
+
 					}
-					
-					
 				}
-				
 				
 				
 				ControlPanel.this.getComputationTable().revalidate();
