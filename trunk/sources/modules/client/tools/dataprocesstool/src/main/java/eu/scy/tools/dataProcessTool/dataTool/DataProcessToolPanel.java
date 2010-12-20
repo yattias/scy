@@ -1080,7 +1080,8 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     public DataTableModel getDataTableModel(Dataset ds){
        if(fitexTabbedPane != null)
         return fitexTabbedPane.getDataTableModel(ds);
-       else
+       else if(activFitex != null)
            return activFitex.getDataTableModel();
+       else return null;
     }
 }

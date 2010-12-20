@@ -102,7 +102,7 @@ public class DataProcessApplication extends JFrame implements  ActionDataProcess
                 idUser = "2";
                 mission= "1";
                 idGroup = "1";
-                idLabDoc = "135";
+                idLabDoc = "139";
                 labDocName = "fitex";
             } catch (MalformedURLException ex) {
 

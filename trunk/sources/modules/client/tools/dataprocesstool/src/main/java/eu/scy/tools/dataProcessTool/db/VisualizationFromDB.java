@@ -233,9 +233,13 @@ public class VisualizationFromDB {
 
 
     /* ajout d'une fonction modele, en v[0] le nouvel id  */
-    public static CopexReturn createFunctionModelInDB(DataBaseCommunication dbC, long dbKeyGraph, String description, char type, int idFunctionColor, ArrayList<FunctionParam> listParam, ArrayList v){
+    public static CopexReturn createFunctionModelInDB(DataBaseCommunication dbC, long dbKeyGraph, String description, char type, int idFunctionColor, ArrayList<FunctionParam> listParam,String idPredefFunction,ArrayList v){
         String desc  = MyUtilities.replace("\'",description,"''") ;
-        String query = "INSERT INTO FUNCTION_MODEL (ID_FUNCTION_MODEL, DESCRIPTION, F_TYPE, ID_FUNCTION_COLOR) VALUES (NULL, '"+desc+"',"+type+", "+idFunctionColor+" );";
+        String pf = "NULL";
+        if(idPredefFunction != null ){
+            pf = "'"+idPredefFunction+"'";
+        }
+        String query = "INSERT INTO FUNCTION_MODEL (ID_FUNCTION_MODEL, DESCRIPTION, F_TYPE, ID_FUNCTION_COLOR, ID_PREDEF_FUNCTION) VALUES (NULL, '"+desc+"','"+type+"', "+idFunctionColor+", "+pf+" );";
         String queryID = "SELECT max(last_insert_id(`ID_FUNCTION_MODEL`))   FROM FUNCTION_MODEL ;";
         ArrayList v2 = new ArrayList();
         CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
