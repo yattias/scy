@@ -11,7 +11,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.moreinfomanager.MoreInfoWindo
 import eu.scy.client.desktop.scydesktop.scywindows.ModalDialogLayer;
 import javafx.scene.input.MouseEvent;
 import eu.scy.client.desktop.scydesktop.art.javafx.MissionMapWindowIcon;
-import eu.scy.client.desktop.scydesktop.art.javafx.MissionMapButtonIcon;
+import eu.scy.client.desktop.scydesktop.uicontrols.MultiImageButton;
 
 /**
  * @author SikkenJ
@@ -30,29 +30,15 @@ public class BigMissionMapControl extends CustomNode {
    def sceneHeight = bind scene.height on replace { sceneSizeChanged() };
    def relativeWindowScreenBoder = 0.2;
    var bigMissionMapVisible = false;
-   def displayIcon = MissionMapButtonIcon{};
 
    public override function create(): Node {
       Group {
          content: [
-            displayIcon
-//            Button {
-//               text: "Navigate"
-//               action: function() {
-//                  showBigMissionMap();
-//               }
-//            }
+            MultiImageButton{
+               imageName: "missionMap"
+               action: showBigMissionMap
+            }
          ]
-         onMouseClicked: function (e:MouseEvent):Void{
-            showBigMissionMap();
-         }
-         onMouseEntered: function (e:MouseEvent):Void{
-            displayIcon.mouseOver = true
-         }
-         onMouseExited: function (e:MouseEvent):Void{
-            displayIcon.mouseOver = false
-         }
-
       }
    }
 
@@ -64,7 +50,7 @@ public class BigMissionMapControl extends CustomNode {
       }
    }
 
-   function showBigMissionMap() {
+   function showBigMissionMap():Void {
       bigMissionMapVisible = true;
       sceneSizeChanged();
       FX.deferAction(function(): Void {
