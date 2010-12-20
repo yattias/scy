@@ -32,6 +32,7 @@ import org.jdesktop.swingx.JXTitledPanel;
 import eu.scy.tools.math.controller.MathToolController;
 import eu.scy.tools.math.dnd.JLabelSelection;
 import eu.scy.tools.math.ui.actions.ExportToGoogleSketchUpAction;
+import eu.scy.tools.math.ui.actions.NotationHelpAction;
 import eu.scy.tools.math.ui.actions.OpenShapesAction;
 import eu.scy.tools.math.ui.actions.QuitAction;
 import eu.scy.tools.math.ui.actions.SaveShapesAction;
@@ -242,6 +243,11 @@ public class MathTool {
 		
 		menuBar.add(actionsMenu);
 		
+		JMenu helpMenu = new JMenu("Help");
+		
+		helpMenu.add(new NotationHelpAction());
+
+		menuBar.add(helpMenu);
 		return menuBar;
 	}
 

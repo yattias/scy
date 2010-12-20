@@ -27,12 +27,14 @@ import net.sourceforge.jeval.function.Function;
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXErrorPane;
+import org.jdesktop.swingx.JXHyperlink;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
 import org.jdesktop.swingx.error.ErrorInfo;
 
 import eu.scy.tools.math.ui.UIUtils;
+import eu.scy.tools.math.ui.actions.NotationHelpAction;
 import eu.scy.tools.math.ui.paint.RoundedBorder;
 
 public class Calculator extends JXPanel {
@@ -114,16 +116,19 @@ public class Calculator extends JXPanel {
 		    getSubtractButton().putClientProperty(UIUtils.TYPE, this.type);
 		    getSubtractButton().setToolTipText("Subtracts the calculation to the table.");
 		    
-		    
+		    JXPanel b = new JXPanel(new FlowLayout());
+		    b.setOpaque(false);
+		    JXHyperlink notationHelpLink = new JXHyperlink(new NotationHelpAction());
+		    notationHelpLink.setText("Notation Guide");
+		    b.add(notationHelpLink);
 		    
 		    if( type.equals(UIUtils._2D)) {
-		    	JXPanel b = new JXPanel(new FlowLayout());
+		    	
 				b.add(getSubtractButton());
 				b.add(getAddButton());
-				b.setOpaque(false);
-				getCalcButtonPanel().add(b, BorderLayout.EAST);
+				
 		    }
-		    
+		    getCalcButtonPanel().add(b, BorderLayout.EAST);
 	}
 
 
@@ -231,19 +236,6 @@ public class Calculator extends JXPanel {
 		});
 		
 		
-		JXButton clearNumButton = new JXButton("<html>C</html>");
-		clearNumButton.setName("c");
-		this.modSymbolButton(clearNumButton);
-		clearNumButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				sumTextField.setText("");
-				
-			}
-		});
-		
-		
 		JXButton deleteButton = new JXButton("<html>DEL</html>");
 		deleteButton.setName("del");
 		modSymbolButton(deleteButton);
@@ -254,7 +246,7 @@ public class Calculator extends JXPanel {
 				String text = sumTextField.getText();
 				
 				if( StringUtils.stripToNull(text) != null)
-					sumTextField.setText(StringUtils.chomp(text));
+					sumTextField.setText(StringUtils.chop(text));
 			}
 		});
 		
@@ -548,7 +540,10 @@ public class Calculator extends JXPanel {
 			
 			if( button.getName().equals(ExpressionModel.SQRT) || button.getName().equals(ExpressionModel.CBRT)) {
 					String popupRootDialog = popupRootDialog();
-				 getExpressionModel().addExpression(button.getName() + "(" +popupRootDialog + ")");
+					
+				if( popupRootDialog != null )	
+					getExpressionModel().addExpression(button.getName() + "(" +popupRootDialog + ")");
+				
 			} else {
 				getExpressionModel().addExpression(button.getName());
 			}
@@ -561,7 +556,7 @@ public class Calculator extends JXPanel {
 	};
 	
 	protected String popupRootDialog() {
-		String showInputDialog = JOptionPane.showInputDialog(null, "<html>Enter number or expression <i>ie: 28, 4+pi, w+2</i></html>", "Roots", JOptionPane.INFORMATION_MESSAGE);
+		String showInputDialog = JOptionPane.showInputDialog(null, UIUtils.rootAddMessage, "Add a Root", JOptionPane.INFORMATION_MESSAGE);
 		return showInputDialog;
 	}
 
