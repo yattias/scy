@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.Vector;
 import java.util.logging.Logger;
@@ -73,6 +74,7 @@ public class MathToolController {
 	protected Map<String, Calculator> calculators = new HashMap<String, Calculator>();
 	protected Map<String, JXTable> computationTables = new HashMap<String, JXTable>();
 	protected IMathShape mathShape;
+	Random generator = new Random( 19580427 );
 
 	protected XStream xstream;
 
@@ -128,12 +130,14 @@ public class MathToolController {
 						.getClientProperty(UIUtils.TYPE);
 			    	  Calculator c = getCalculators().get(calcType);
 			    	  c.getResultLabel().setText("0.00");
+			    	  c.getAddButton().setEnabled(false);
 			      }
 				
 			}
 		});
 
 		calculator.getAddButton().setAction(addResultAction);
+		calculator.getAddButton().setEnabled(false);
 		calculator.getSubtractButton().setAction(subtractResultAction);
 		calculator.getSubtractButton().setEnabled(false);
 		getCalculators().put(type, calculator);
@@ -159,8 +163,11 @@ public class MathToolController {
 				if( value == null) {
 					JOptionPane.showMessageDialog(null, UIUtils.invalidExpressionErrorMessage, "Math Expression Problem", JOptionPane.ERROR_MESSAGE, null);
 					c.getResultLabel().setText("0.00");
-				} else
+					c.getAddButton().setEnabled(false);
+				} else {
 					c.getResultLabel().setText(""+value);
+					c.getAddButton().setEnabled(true);
+				}
 		}
 		
 	}
@@ -221,6 +228,7 @@ public class MathToolController {
 	}
 
 	public void setSelectedMathShape(IMathShape mathShape) {
+		this.mathShape = mathShape;
 		this.highLightShape(mathShape);
 
 		this.selectInTable(mathShape);
@@ -228,7 +236,7 @@ public class MathToolController {
 	}
 	
 	protected void highLightShape(IMathShape mathShape) {
-		this.mathShape = mathShape;
+		
 
 		String type;
 		if (mathShape instanceof I3D) {
@@ -236,8 +244,10 @@ public class MathToolController {
 			ShapeCanvas shapeCanvas = shapeCanvases.get(type);
 			ArrayList<IMathShape> mathShapes = shapeCanvas.getMathShapes();
 			for (IMathShape ms : mathShapes) {
-				if (ms instanceof I3D && !ms.equals(mathShape))
+				if (ms instanceof I3D && !ms.equals(mathShape)) {
 					ms.setShowCornerPoints(false);
+					
+				}
 
 			}
 		} else {
@@ -308,27 +318,35 @@ public class MathToolController {
 
 		ShapeCanvas sc = getShapeCanvases().get(type);
 
+		String id = new Integer(generator.nextInt(1000)).toString();
+		
 		if (label.getName().equals(UIUtils.CIRCLE)) {
 			MathEllipse t = new MathEllipse(dropPoint.x, dropPoint.y, 200, 200);
+			t.setId(id);
 			sc.addShape(t);
 			this.setSelectedMathShape(t);
 		} else if (label.getName().equals(UIUtils.RECTANGLE)) {
 			MathRectangle t = new MathRectangle(dropPoint.x, dropPoint.y, 100,
 					100);
+			t.setId(id);
 			sc.addShape(t);
 			this.setSelectedMathShape(t);
 		} else if (label.getName().equals(UIUtils.TRIANGLE)) {
 			MathTriangle t = new MathTriangle(dropPoint.x, dropPoint.y, 200);
+			t.setId(id);
 			sc.addShape(t);
 			this.setSelectedMathShape(t);
 		} else if (label.getName().equals(UIUtils.RECTANGLE3D)) {
 			MathRectangle3D t = new MathRectangle3D(dropPoint.x, dropPoint.y);
+			t.setId(id);
+			t.setName(UIUtils._3D);
 			t.getAddButton().addActionListener(add3dAction);
 			sc.addShape(t);
 			this.setSelectedMathShape(t);
 		} else if (label.getName().equals(UIUtils.SPHERE3D)) {
 			MathSphere3D t = new MathSphere3D(dropPoint.x, dropPoint.y);
-
+			t.setId(id);
+			t.setName(UIUtils._3D);
 			sc.addShape(t);
 			t.getAddButton().addActionListener(add3dAction);
 			t.setLocation(dropPoint);
@@ -336,6 +354,8 @@ public class MathToolController {
 			this.setSelectedMathShape(t);
 		} else if (label.getName().equals(UIUtils.CYLINDER3D)) {
 			MathCylinder3D t = new MathCylinder3D(dropPoint.x, dropPoint.y);
+			t.setId(id);
+			t.setName(UIUtils._3D);
 			t.getAddButton().addActionListener(add3dAction);
 			sc.addShape(t);
 			t.setLocation(dropPoint);
@@ -350,31 +370,42 @@ public class MathToolController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JXButton button = (JXButton) e.getSource();
-			Math3DShape mathShape = (Math3DShape) button
-					.getClientProperty(UIUtils.SHAPE);
+			String mathShapeId = (String) button
+					.getClientProperty(UIUtils.SHAPE_ID);
 
-			mathShape.checkForError();
-			if (mathShape.getError() == true)
+			ShapeCanvas shapeCanvas = shapeCanvases.get(UIUtils._3D);
+			
+			Math3DShape ashape = null;
+			
+			ArrayList<IMathShape> mathShapes = shapeCanvas.getMathShapes();
+			for (IMathShape ms : mathShapes) {
+				if(ms.isShowCornerPoints())
+					ashape = (Math3DShape) ms;
+			}
+			
+			
+			ashape.checkForError();
+			if (ashape.getError() == true)
 				return;
 
-			String volume = mathShape.getVolumeValueLabel().getText();
-			String surfaceArea = mathShape.getSurfaceAreaTextField().getText();
-			String ratio = mathShape.getRatioTextField().getText();
-			String shape = mathShape.getType();
+			String volume = ashape.getVolumeValueLabel().getText();
+			String surfaceArea = ashape.getSurfaceAreaTextField().getText();
+			String ratio = ashape.getRatioTextField().getText();
+			String shape = ashape.getType();
+			String shapeId = ashape.getId();
 
 			JXTable table = getComputationTables().get(UIUtils._3D);
 			ShapeCanvas sc = getShapeCanvases().get(UIUtils._3D);
 			DefaultTableModel model = (DefaultTableModel) table.getModel();
 
 			Integer id = new Integer(model.getRowCount() + 1);
-			model.addRow(new Object[] { id, shape, ratio, surfaceArea, volume });
-			int indexOf = sc.getMathShapes().indexOf(mathShape);
-			mathShape.setId(Integer.toString(model.getRowCount() - 1));
-			sc.getMathShapes().add(indexOf, mathShape);
+			model.addRow(new Object[] { id, shape, ratio, surfaceArea, volume, shapeId });
+			int indexOf = sc.getMathShapes().indexOf(ashape);
+//			ashape.set(Integer.toString(model.getRowCount() - 1));
+//			sc.getMathShapes().add(indexOf, ashape);
 
 			table.getSelectionModel().setSelectionInterval(
 					model.getRowCount() - 1, model.getRowCount() - 1);
-			button.putClientProperty(UIUtils.SHAPE, mathShape);
 		}
 	};
 
@@ -454,7 +485,7 @@ public class MathToolController {
 					new Float(oldSum-parseFloat),operation,getMathSelectedShape().getId() });
 		}
 
-		//calculator.resetLabel();
+		calculator.resetLabel();
 	}
 	
 	Action subtractResultAction = new AbstractAction("Subtract") {
@@ -700,4 +731,108 @@ public class MathToolController {
 		}
 		return null;
 	}
+
+	public void removeSelectedShape() {
+		String type = null;
+		if( this.getMathSelectedShape() instanceof I3D ) {
+			type = UIUtils._3D;
+		} else {
+			type = UIUtils._2D;
+		}
+		
+		ShapeCanvas shapeCanvas = this.getShapeCanvases().get(type);
+		
+		this.removeRowsTable(this.getMathSelectedShape(), type);
+		shapeCanvas.removeSelectedShape(this.getMathSelectedShape());
+		
+		this.checkCalcTextField(shapeCanvas, type);
+		
+		
+	}
+
+	private void checkCalcTextField(ShapeCanvas shapeCanvas, String type) {
+		Calculator calculator = calculators.get(type);
+			ArrayList<IMathShape> mathShapes = shapeCanvas.getMathShapes();
+			
+			if( mathShapes.isEmpty() ) {
+				calculator.getSumTextField().setEnabled(false);
+				calculator.getSumTextField().setText(null);
+				return;
+			}
+			
+			for (IMathShape ms : mathShapes) {
+				if( ms.isShowCornerPoints() ) {
+					calculator.getSumTextField().setEnabled(true);
+					calculator.getSumTextField().setText(null);
+					return;
+				} else {
+					calculator.getSumTextField().setEnabled(false);
+					calculator.getSumTextField().setText(null);
+				}
+			}
+		
+	}
+
+	private void removeRowsTable(IMathShape mathSelectedShape, String type) {
+		JXTable jxTable = this.computationTables.get(type);
+		DefaultTableModel model = (DefaultTableModel) jxTable.getModel();
+		
+		Vector<Vector> dataVector = model.getDataVector();
+		
+		if( dataVector.isEmpty() )
+			return;
+		
+		List<ComputationDataObj> cdos = new ArrayList<ComputationDataObj>();
+		
+		for (Vector data : dataVector) {
+			ComputationDataObj computationDataObj = new ComputationDataObj(data, type);
+			if( !computationDataObj.getShapeId().equals(mathSelectedShape.getId()) )  
+				cdos.add(computationDataObj);
+		}
+		
+		this.recalculateModel(model, cdos, type);
+	}
+
+	public void recalculateModel(DefaultTableModel model, List<ComputationDataObj> newDataSet, String type) {
+		//remove all the rows
+		while (model.getRowCount() > 0){
+			model.removeRow(0);
+		}
+		
+		if( type.equals(UIUtils._3D)) {
+			int i = 0;
+			for (ComputationDataObj nco : newDataSet) {
+				
+				model.addRow(new Object[] { i++, nco.getName(), nco.getRatio(), nco.getSurfaceArea(), nco.getVolume(), nco.getShapeId() });
+
+//				table.getSelectionModel().setSelectionInterval(
+//						model.getRowCount() - 1, model.getRowCount() - 1);
+				
+				
+			}
+			
+		} else {
+			Float newSum = null;
+			
+			for (ComputationDataObj nco : newDataSet) {
+				
+				if( newSum == null) {
+					newSum = new Float(nco.getValue());
+					nco.setOperation("+");
+				} else {
+					if( nco.getOperation().equals("+"))
+						newSum = newSum + new Float(nco.getValue());
+					else
+						newSum = newSum - new Float(nco.getValue());
+				}
+				
+				model.addRow(new Object[] { new Integer(model.getRowCount() + 1),
+						nco.getName(), new Float(nco.getValue()),
+						new Float(newSum), nco.getOperation(), nco.getShapeId()});
+				
+			}
+		}
+		
+	}
+
 }

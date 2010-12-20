@@ -28,7 +28,7 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas{
 	private ArrayList<IMathShape> mathShapes = new ArrayList<IMathShape>();
 	private ControlPanel controlPanel;
 	private String type;
-	Random generator = new Random( 19580427 );
+	
 
 	public ShapeCanvas() {
 		super(null);
@@ -103,12 +103,8 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas{
 		
 		
 		getMathShapes().add(shape);
-		
 		if( shape instanceof I3D ) {
-			((JComponent) shape).setName(UIUtils._3D);
 			this.add((JComponent) shape);
-		} else {
-			shape.setId(new Integer(generator.nextInt(1000)).toString());
 		}
 	}
 	
@@ -140,8 +136,35 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas{
 		for (Component component : components) {
 			if( component.getName() != null && component.getName().equals(UIUtils._3D))
 				this.remove(component);
-				
+				this.revalidate();
 		}
+		
+	}
+	
+	public void removeSelectedShape(IMathShape shape) {
+		
+		synchronized (mathShapes) {
+			if( shape instanceof I3D ) {
+				Component[] components = this.getComponents();
+
+				for (Component component : components) {
+					if( component.getName() != null && component.getName().equals(UIUtils._3D)) {
+						if( ((IMathShape)component).getId().equals(shape.getId()) ) {
+							this.remove(component);
+							this.repaint();
+						}
+						
+					}
+						
+				}
+			}
+			
+			
+		}
+		
+		this.mathShapes.remove(shape);
+		this.repaint();
+	
 		
 	}
 

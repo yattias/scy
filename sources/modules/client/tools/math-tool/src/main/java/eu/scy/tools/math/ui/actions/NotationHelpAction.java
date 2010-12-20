@@ -11,7 +11,7 @@ import eu.scy.tools.math.ui.UIUtils;
 public class NotationHelpAction extends AbstractAction {
 
 	public NotationHelpAction() {
-		putValue(Action.NAME, "Expression Notation");
+		putValue(Action.NAME, "Notation Guide");
 		putValue(Action.SHORT_DESCRIPTION, "Notation guide for math expressions.");
 	}
 

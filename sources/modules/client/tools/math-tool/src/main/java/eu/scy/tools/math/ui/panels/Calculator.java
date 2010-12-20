@@ -42,6 +42,9 @@ public class Calculator extends JXPanel {
 
 
 
+	private static final String _0_00 = "0.00";
+
+
 	private static Logger log = Logger.getLogger("Calculator.class"); //$NON-NLS-1$
 
 
@@ -98,7 +101,7 @@ public class Calculator extends JXPanel {
 		  setCalcButtonPanel(new JXPanel(new BorderLayout(5,5)));
 		    getCalcButtonPanel().setBackgroundPainter(UIUtils.getSubPanelBackgroundPainter());
 		    
-		    setResultLabel(new JXLabel("0.00"));
+		    setResultLabel(new JXLabel(_0_00));
 		    this.modResultLabel(getResultLabel());
 		    
 		    JXPanel l = new JXPanel(new FlowLayout());
@@ -110,6 +113,7 @@ public class Calculator extends JXPanel {
 		    
 		    setAddButton(new JXButton());
 		    getAddButton().putClientProperty(UIUtils.TYPE, this.type);
+		    getAddButton().setEnabled(false);
 		    getAddButton().setToolTipText("Adds the calculation to the table.");
 
 		    setSubtractButton(new JXButton());
@@ -118,9 +122,8 @@ public class Calculator extends JXPanel {
 		    
 		    JXPanel b = new JXPanel(new FlowLayout());
 		    b.setOpaque(false);
-		    JXHyperlink notationHelpLink = new JXHyperlink(new NotationHelpAction());
-		    notationHelpLink.setText("Notation Guide");
-		    b.add(notationHelpLink);
+//		    JXHyperlink notationHelpLink = new JXHyperlink(new NotationHelpAction());
+//		    b.add(notationHelpLink);
 		    
 		    if( type.equals(UIUtils._2D)) {
 		    	
@@ -133,7 +136,7 @@ public class Calculator extends JXPanel {
 
 
 	public void resetLabel() {
-		this.resultLabel.setText("0.00");
+		this.resultLabel.setText(_0_00);
 	}
 	private void modResultLabel(JXLabel label) {
 		Font font = label.getFont();
@@ -175,6 +178,8 @@ public class Calculator extends JXPanel {
 			           JXTextField source = (JXTextField) e.getSource();
 			           expressionModel.replaceExpression(source.getText()+e.getKeyChar());
 			           System.out.println("exp " + expressionModel.getExpressionDisplay());
+			           getResultLabel().setText(_0_00);
+			           getAddButton().setEnabled(false);
 			        }
 				
 			}
@@ -431,7 +436,12 @@ public class Calculator extends JXPanel {
 	
 		this.setBackgroundPainter(UIUtils.getCalcBackgroundPainter());
 		this.add(eqPanel, "top");
-//		this.add(numPanel, "top");
+		
+		JXPanel nPanel = new JXPanel(new MigLayout());
+		nPanel.setOpaque(false);
+		 JXHyperlink notationHelpLink = new JXHyperlink(new NotationHelpAction());
+		nPanel.add(notationHelpLink);
+		this.add(nPanel, "top");
 	}
 
 	public void modSymbolButton(JXButton sButton) {
@@ -535,6 +545,8 @@ public class Calculator extends JXPanel {
 	ActionListener buttonAction = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			getResultLabel().setText(_0_00);
+			getAddButton().setEnabled(false);
 			JXButton button = (JXButton) e.getSource();
 			
 			

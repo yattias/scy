@@ -35,6 +35,7 @@ import eu.scy.tools.math.ui.actions.ExportToGoogleSketchUpAction;
 import eu.scy.tools.math.ui.actions.NotationHelpAction;
 import eu.scy.tools.math.ui.actions.OpenShapesAction;
 import eu.scy.tools.math.ui.actions.QuitAction;
+import eu.scy.tools.math.ui.actions.RemoveShapeAction;
 import eu.scy.tools.math.ui.actions.SaveShapesAction;
 import eu.scy.tools.math.ui.actions.ToggleGridAction;
 import eu.scy.tools.math.ui.images.Images;
@@ -134,7 +135,7 @@ public class MathTool {
 //		JXPanel allPanel = new JXPanel(new MigLayout("fill, inset "+insets)); //$NON-NLS-1$
 		JXPanel allPanel = new JXPanel(new BorderLayout(5, 5)); //$NON-NLS-1$
 
-		ControlPanel controlPanel = new ControlPanel(type);
+		ControlPanel controlPanel = new ControlPanel(mathToolController,type);
 		getMathToolController().addCalculator(type,controlPanel.getCalculator());
 		getMathToolController().addComputationTable(type, controlPanel.getComputationTable());
 		//40 of the width
@@ -165,6 +166,7 @@ public class MathTool {
 			JLabel label = new JLabel(image.getIcon());
 			label.setOpaque(false);
 			label.setName(image.getName());
+			label.setToolTipText(UIUtils.dragAndDropShapeTip);
 			label.setTransferHandler(new JLabelSelection());
 			
 			label.addMouseListener(new MouseAdapter(){
@@ -179,8 +181,24 @@ public class MathTool {
 			
 		}
 		
-		shapePanel.getContentContainer().add(labelPanel, "center");
-//		shapePanel.add(allPanel);
+		
+		
+		JXPanel outerPanel = new JXPanel(new BorderLayout(0,0));
+		outerPanel.add(labelPanel,BorderLayout.NORTH);
+		outerPanel.setOpaque(false);
+		
+		JXButton trashButton = new JXButton(new RemoveShapeAction(mathToolController));
+		trashButton.setText("");
+		trashButton.setOpaque(false);
+		trashButton.putClientProperty(UIUtils.TYPE, type);
+//		trashButton.setPaintBorderInsets(false);
+		trashButton.setBackgroundPainter(UIUtils.getSubPanelBackgroundPainter());
+		trashButton.setBorderPainted(true);
+		outerPanel.add(trashButton, BorderLayout.SOUTH);
+		
+		shapePanel.getContentContainer().setLayout(new MigLayout("fill, insets 0 0 0 0"));
+		shapePanel.getContentContainer().add(outerPanel, "grow, center");
+		
 		return shapePanel;
 	}
 
