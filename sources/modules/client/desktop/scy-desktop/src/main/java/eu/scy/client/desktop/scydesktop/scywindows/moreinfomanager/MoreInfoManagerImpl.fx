@@ -18,12 +18,11 @@ import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoTypes;
 import eu.scy.client.common.scyi18n.UriLocalizer;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
-import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.scywindows.ModalDialogLayer;
-import eu.scy.client.desktop.scydesktop.art.javafx.InstructionTypeIcon;
 import eu.scy.client.desktop.scydesktop.art.javafx.MoreAssignmentTypeIcon;
 import eu.scy.client.desktop.scydesktop.art.javafx.MoreResourcesTypeIcon;
+import eu.scy.client.desktop.scydesktop.art.javafx.InstructionTypesIcon;
 
 /**
  * @author SikkenJ
@@ -48,7 +47,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    def sceneHeight = bind scene.height on replace { sceneSizeChanged() };
    def instructionWindow: MoreInfoWindow = MoreInfoWindow {
          title: "Instruction"
-         infoTypeIcon: InstructionTypeIcon{}
+         infoTypeIcon: InstructionTypesIcon{}
          closeAction: hideInstructionWindow
          visible:false
       }
