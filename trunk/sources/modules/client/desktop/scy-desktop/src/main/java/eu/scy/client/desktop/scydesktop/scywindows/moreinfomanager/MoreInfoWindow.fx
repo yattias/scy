@@ -24,9 +24,9 @@ import javafx.scene.layout.HBox;
 import javafx.geometry.Insets;
 import javafx.scene.input.MouseEvent;
 import eu.scy.client.desktop.scydesktop.art.javafx.MissionMapWindowIcon;
-import eu.scy.client.desktop.scydesktop.art.javafx.InstructionTypeIcon;
 import eu.scy.client.desktop.scydesktop.art.javafx.MoreAssignmentTypeIcon;
 import eu.scy.client.desktop.scydesktop.art.javafx.MoreResourcesTypeIcon;
+import eu.scy.client.desktop.scydesktop.art.javafx.InstructionTypesIcon;
 
 /**
  * @author SikkenJ
@@ -148,7 +148,7 @@ function run() {
          layoutY: 60
          windowColorScheme: colorScheme
          eloIcon: MissionMapWindowIcon {}
-         infoTypeIcon: InstructionTypeIcon {}
+         infoTypeIcon: InstructionTypesIcon {}
 
          content: Rectangle {
             width: 500
