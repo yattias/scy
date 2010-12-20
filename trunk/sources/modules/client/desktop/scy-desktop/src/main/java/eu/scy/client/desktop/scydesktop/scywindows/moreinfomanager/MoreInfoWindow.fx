@@ -12,7 +12,6 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import javafx.scene.shape.Rectangle;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowContent;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
-import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowClose;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -25,6 +24,9 @@ import javafx.scene.layout.HBox;
 import javafx.geometry.Insets;
 import javafx.scene.input.MouseEvent;
 import eu.scy.client.desktop.scydesktop.art.javafx.MissionMapWindowIcon;
+import eu.scy.client.desktop.scydesktop.art.javafx.InstructionTypeIcon;
+import eu.scy.client.desktop.scydesktop.art.javafx.MoreAssignmentTypeIcon;
+import eu.scy.client.desktop.scydesktop.art.javafx.MoreResourcesTypeIcon;
 
 /**
  * @author SikkenJ
@@ -37,26 +39,26 @@ public class MoreInfoWindow extends CustomNode {
    public var height = 200.0;
    public var title = "Title";
    public var eloIcon: EloIcon on replace { eloIconChanged() };
-   public var infoTypeIcon: EloIcon;
+   public var infoTypeIcon: Node;
    public var content: Node;
    public var closeAction: function(): Void;
    public var environmentColor = Color.color(.90, .90, .90);
-   public var mouseClickedAction: function(:MouseEvent):Void;
+   public var mouseClickedAction: function(: MouseEvent): Void;
    def borderLineWidth = 2.0;
    def borderWidth = 5.0;
-   def infoTypeIconOffset = iconSize - 12;
    def closeSize = 10.0;
    def topBorderWidth = 2 * borderWidth + iconSize;
+   def iconTestWidth = 11.0;
    def titleHeight = 16.0;
    def textInset = 3.0;
    def titleFontsize = 12;
    def textFont = Font.font("Verdana", FontWeight.BOLD, titleFontsize);
    def titleBar = Group {
-         layoutX: iconSize + 2 * borderWidth
+         layoutX: iconSize + borderWidth + iconTestWidth
          layoutY: borderWidth + (iconSize - titleHeight) / 2.0 + 3
          content: [
             Rectangle {
-               width: bind width - iconSize - 3 * borderWidth
+               width: bind width - iconSize - 2 * borderWidth - iconTestWidth
                height: titleHeight
                fill: bind windowColorScheme.mainColor
             }
@@ -82,7 +84,7 @@ public class MoreInfoWindow extends CustomNode {
          height: bind height - topBorderWidth - borderWidth - borderLineWidth
          content: bind content;
          activated: true
-         mouseClickedAction:mouseClickedAction
+         mouseClickedAction: mouseClickedAction
          layoutX: borderWidth + borderLineWidth / 2.0;
          layoutY: topBorderWidth + borderLineWidth / 2.0;
       }
@@ -105,14 +107,11 @@ public class MoreInfoWindow extends CustomNode {
             Group {
                layoutX: borderWidth
                layoutY: borderWidth
-               content: bind eloIcon
+               content: bind [
+                  eloIcon,
+                  infoTypeIcon
+               ]
             }
-            Group {
-               layoutX: borderWidth + infoTypeIconOffset
-               layoutY: borderWidth + infoTypeIconOffset
-               content: bind infoTypeIcon
-            }
-            //            icon,
             titleBar,
             windowClose,
             contentElement
@@ -124,7 +123,6 @@ public class MoreInfoWindow extends CustomNode {
       if (eloIcon != null) {
          def eloIconWidth = eloIcon.boundsInParent.width;
          var scaleFactor = iconSize / eloIconWidth;
-         println("eloIcon.bounds: {eloIcon.boundsInParent}, {eloIcon.boundsInLocal} -> scaleFactor: {scaleFactor}");
          //          scaleFactor = 2.5;
          eloIcon.scaleX *= scaleFactor;
          eloIcon.scaleY *= scaleFactor;
@@ -134,9 +132,11 @@ public class MoreInfoWindow extends CustomNode {
       }
 
    }
+
    public function resizeTheContent() {
       contentElement.resizeTheContent();
    }
+
 }
 
 function run() {
@@ -147,20 +147,8 @@ function run() {
          layoutX: 40
          layoutY: 60
          windowColorScheme: colorScheme
-//         eloIcon: CharacterEloIcon {
-//            //            iconSize: iconSize;
-//            //            fontSize: 32
-//            //            iconGap: 7
-//            color: colorScheme.mainColor
-//            iconCharacter: "E"
-//            selected: true
-//         }
-         eloIcon: MissionMapWindowIcon{}
-         infoTypeIcon: CharacterEloIcon {
-            color: colorScheme.mainColor
-            iconCharacter: "T"
-            selected: false
-         }
+         eloIcon: MissionMapWindowIcon {}
+         infoTypeIcon: InstructionTypeIcon {}
 
          content: Rectangle {
             width: 500
@@ -168,8 +156,9 @@ function run() {
             fill: Color.YELLOW
          }
       }
-//   moreInfoWindow.eloIcon = MissionMapWindowIcon{};
-//   moreInfoWindow.infoTypeIcon = MissionMapWindowIcon{};
+   //   moreInfoWindow.eloIcon = MissionMapWindowIcon{};
+      moreInfoWindow.infoTypeIcon = MoreResourcesTypeIcon{};
+      moreInfoWindow.infoTypeIcon = MoreAssignmentTypeIcon{};
    Stage {
       title: "test more info window"
       onClose: function() {

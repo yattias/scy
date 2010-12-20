@@ -21,6 +21,9 @@ import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.scywindows.ModalDialogLayer;
+import eu.scy.client.desktop.scydesktop.art.javafx.InstructionTypeIcon;
+import eu.scy.client.desktop.scydesktop.art.javafx.MoreAssignmentTypeIcon;
+import eu.scy.client.desktop.scydesktop.art.javafx.MoreResourcesTypeIcon;
 
 /**
  * @author SikkenJ
@@ -45,6 +48,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    def sceneHeight = bind scene.height on replace { sceneSizeChanged() };
    def instructionWindow: MoreInfoWindow = MoreInfoWindow {
          title: "Instruction"
+         infoTypeIcon: InstructionTypeIcon{}
          closeAction: hideInstructionWindow
          visible:false
       }
@@ -93,11 +97,11 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       initInstructionWindow();
       instructionWindow.windowColorScheme = colorScheme;
       instructionWindow.eloIcon = windowStyler.getScyEloIcon(activeLas.mainAnchor.eloUri);
-      instructionWindow.infoTypeIcon = CharacterEloIcon {
-            color: colorScheme.mainColor
-            iconCharacter: "I"
-            selected: false
-         }
+//      instructionWindow.infoTypeIcon = CharacterEloIcon {
+//            color: colorScheme.mainColor
+//            iconCharacter: "I"
+//            selected: false
+//         }
       instructionWindow.title = activeLas.mainAnchor.scyElo.getTitle();
       instructionTool.showInfoUrl(uriLocalizer.localizeUrlwithChecking(activeLas.instructionUri.toURL()));
       instructionWindow.visible = true;
@@ -127,11 +131,12 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       def moreInfoColorScheme = windowStyler.getWindowColorScheme(scyElo.getUri());
       def title = scyElo.getTitle();
       def eloIcon = windowStyler.getScyEloIcon(scyElo.getUri());
-      def infoTypeIcon = CharacterEloIcon {
-            color: colorScheme.mainColor
-            iconCharacter: getMoreInfoTitle(type).substring(0, 1)
-            selected: false
-         }
+//      def infoTypeIcon = CharacterEloIcon {
+//            color: colorScheme.mainColor
+//            iconCharacter: getMoreInfoTitle(type).substring(0, 1)
+//            selected: false
+//         }
+      def infoTypeIcon = getMoreInfoTypeIcon(type);
       showMoreInfoWindow(infoUri, title, eloIcon, infoTypeIcon, moreInfoColorScheme);
    }
 
@@ -145,7 +150,17 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       return ##"Unknonw type"
    }
 
-   function showMoreInfoWindow(infoUri: URI, title: String, eloIcon: EloIcon, infoTypeIcon: EloIcon, moreInfoColorScheme: WindowColorScheme): Void {
+   function getMoreInfoTypeIcon(type: MoreInfoTypes): Node {
+      if (MoreInfoTypes.ASSIGNMENT == type) {
+         return MoreAssignmentTypeIcon{}
+      }
+      if (MoreInfoTypes.RESOURCES == type) {
+         return MoreResourcesTypeIcon{}
+      }
+      return null
+   }
+
+   function showMoreInfoWindow(infoUri: URI, title: String, eloIcon: EloIcon, infoTypeIcon: Node, moreInfoColorScheme: WindowColorScheme): Void {
       initMoreInfoWindow();
       moreInfoWindow.title = title;
       moreInfoWindow.eloIcon = eloIcon;
