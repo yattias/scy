@@ -44,6 +44,7 @@ public def wordType = "scy/doc";
 public def xprocType = "scy/xproc";
 public def generalNew = "general/new";
 public def generalSearch = "general/search";
+public def generalNavigation = "general/navigation";
 // scy colors
 public def scyGreen = Color.web("#8db800");
 public def scyPurple = Color.web("#7243db");

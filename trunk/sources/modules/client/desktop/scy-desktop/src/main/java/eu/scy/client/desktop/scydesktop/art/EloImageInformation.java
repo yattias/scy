@@ -34,6 +34,7 @@ public enum EloImageInformation
    assignment("special/assignment","assignment",ScyColors.brown),
    generalNew("general/new","new",ScyColors.darkRed),
    generalSearch("general/search","search",ScyColors.darkBlue),
+   generalNavigation("general/navigation","search",ScyColors.darkBlue),
    generalLogo("general/logo","logo_gray",ScyColors.darkGray),
    conceptMap2("ard/concept_map","concept_map2",ScyColors.blue),
    assignment2("ard/assignment","assignment2",ScyColors.magenta),

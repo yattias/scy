@@ -34,6 +34,13 @@ import javafx.ext.swing.SwingUtils;
 import eu.scy.client.desktop.scydesktop.art.javafx.NoThumbnailView;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import javafx.util.Math;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.common.scyelo.ScyElo;
+import javafx.util.Sequences;
+import javafx.scene.control.ListCell;
+import eu.scy.client.desktop.scydesktop.corners.elomanagement.ScySearchResult;
+import eu.scy.client.desktop.scydesktop.corners.elomanagement.SimpleScySearchResultCellNode;
+import java.lang.UnsupportedOperationException;
 
 /**
  * @author SikkenJ
@@ -41,8 +48,9 @@ import javafx.util.Math;
 public class LasInfoDisplay extends CustomNode {
 
    def logger = Logger.getLogger(this.getClass());
-   public var las: LasFX;
+   public var las: LasFX on replace { lasChanged() };
    public var colorScheme: WindowColorScheme;
+   public var tbi: ToolBrokerAPI;
    def spacing = 5.0;
    def fontFamily = "Verdana";
    def titleFontSize = 18.0;
@@ -51,13 +59,14 @@ public class LasInfoDisplay extends CustomNode {
    def width = 300.0;
    def lineLength = width - 2 * spacing;
    def lineColor = colorScheme.mainColor;
+   var lastModifiedElosList: ListView;
 
    public override function create(): Node {
-      def progressDisplay: Node = ProgressDisplay{
-         fillColor: colorScheme.titleStartGradientColor
-         borderColor: colorScheme.mainColor
-         progress:Math.random()
-      }
+      def progressDisplay: Node = ProgressDisplay {
+            fillColor: colorScheme.titleStartGradientColor
+            borderColor: colorScheme.mainColor
+            progress: Math.random()
+         }
       var thumbnail: Node;
       def thumbnailImage = las.mainAnchor.scyElo.getThumbnail();
       if (thumbnailImage != null) {
@@ -141,20 +150,22 @@ public class LasInfoDisplay extends CustomNode {
             Label {
                translateX: spacing
                font: Font.font(fontFamily, FontWeight.BOLD, sectionFontSize)
-               text: "My ELO list:"
+               text: "Last modified ELOs (time since):"
             }
-            ListView {
-               layoutInfo: LayoutInfo {
-                  height: 100
+            lastModifiedElosList = ListView {
+                  layoutInfo: LayoutInfo {
+                     height: 100
+                  }
+                  cellFactory: simpleScyEloCellFactory
+                  items: getLastModifiedElos()
+               //                  items: ['first ideas <2 hours ago>', 'last ideas <yesterday>', "CO2 concept map"]
                }
-               items: ['first ideas <2 hours ago>', 'last ideas <yesterday>', "CO2 concept map"]
-            }
          ]
       }
    }
 
    function getTextFromUri(uri: URI): String {
-      logger.debug("retrieving text from uri: {uri}");
+//      logger.debug("retrieving text from uri: {uri}");
       if (uri == null) {
          return ""
       }
@@ -182,6 +193,36 @@ public class LasInfoDisplay extends CustomNode {
          }
       }
       builder.toString();
+   }
+
+   function lasChanged() {
+//      lastModifiedElosList.items = getLastModifiedElos();
+   }
+
+   function getLastModifiedElos(): ScyElo[] {
+      var scyElos: ScyElo[];
+      if (las != null) {
+         insert las.mainAnchor.scyElo into scyElos;
+         for (intermediate in las.intermediateAnchors) {
+            insert intermediate.scyElo into scyElos;
+         }
+         for (eloUri in las.otherEloUris) {
+            def scyElo = ScyElo.loadMetadata(eloUri, tbi);
+            insert scyElo into scyElos;
+         }
+         scyElos = Sequences.sort(scyElos, new ScyEloLastModifiedComparator()) as ScyElo[];
+      }
+//      println("nr of last modified elos: {sizeof scyElos}");
+      return scyElos;
+   }
+
+   public function simpleScyEloCellFactory(): ListCell {
+      var listCell: ListCell;
+      listCell = ListCell {
+            node: LastModifiedScyEloCellView {
+               scyElo: bind listCell.item as ScyElo
+            }
+         }
    }
 
 }

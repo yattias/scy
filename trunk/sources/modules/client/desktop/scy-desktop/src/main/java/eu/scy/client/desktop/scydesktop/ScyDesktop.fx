@@ -306,8 +306,6 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             selectedScale: initializer.missionMapSelectedImageScale
             notSelectedScale: initializer.missionMapNotSelectedImageScale
             positionScale: initializer.missionMapPositionScale
-         //         translateX:40;
-         //         translateY:40;
          }
       def bigMissionMap = BigMissionMap {
             missionModel: missionModelFX
@@ -328,6 +326,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          }
       def bigMissionMapControl = BigMissionMapControl {
             bigMissionMap: bigMissionMap
+            windowStyler: windowStyler
          }
 
       missionMap.scyWindowControl = scyWindowControl;
