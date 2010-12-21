@@ -129,6 +129,8 @@ public class RooloServicesCreator
       IMetadataKey resourcesUriKey = new UriMetadataKey(
                ScyRooloMetadataKeyIds.RESOURCES_URI.getId(), "/lom/resource/resourcesUri",
                I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
+      IMetadataKey obligatoryInPortfolioKey = new StringMetadataKey(ScyRooloMetadataKeyIds.OBLIGATORY_IN_PORTFOLIO.getId(),
+               "/lom/educational/obligatoryInPortfolio", I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
 
       metadataTypeManager.registerMetadataKey(identifierKey);
       metadataTypeManager.registerMetadataKey(titleKey);
@@ -154,6 +156,7 @@ public class RooloServicesCreator
       metadataTypeManager.registerMetadataKey(thumbnailKey);
       metadataTypeManager.registerMetadataKey(assignmentUriKey);
       metadataTypeManager.registerMetadataKey(resourcesUriKey);
+      metadataTypeManager.registerMetadataKey(obligatoryInPortfolioKey);
 
       MockRepository repository = new MockRepository();
       MockExtensionManager extensionManager = new MockExtensionManager();
