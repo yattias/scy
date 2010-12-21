@@ -3,9 +3,11 @@ package eu.scy.external.tester.environmenttester.test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Vector;
 
 import eu.scy.external.tester.environmenttester.Controller;
+import eu.scy.external.tester.environmenttester.TesterConfig;
 
 public class SpeedTest implements ITest {
 
@@ -48,9 +50,11 @@ public class SpeedTest implements ITest {
 		URL url;
 		try {
 			url = new URL("http://188.40.38.84/~pg/scy/5mb");
+			URLConnection urlCon = url.openConnection();
+			urlCon.setConnectTimeout(TesterConfig.TIMEOUT);
+			is = urlCon.getInputStream();
 			int input = 1;
 			input = 1;
-			is = url.openStream();
 			long check = 0;
 			long start = System.currentTimeMillis();
 			while(input != -1) {
