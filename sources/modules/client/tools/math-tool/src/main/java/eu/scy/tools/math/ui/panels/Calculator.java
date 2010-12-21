@@ -303,7 +303,7 @@ public class Calculator extends JXPanel {
 		heightButton.addActionListener(buttonAction);
 		this.modRegularButton(heightButton);
 		
-		JXButton mulButton = new JXButton("<html>x</html>");
+		JXButton mulButton = new JXButton("<html>*</html>");
 		mulButton.setName("*");
 		mulButton.addActionListener(buttonAction);
 		this.modSymbolButton(mulButton);
