@@ -62,7 +62,8 @@ public class UIUtils {
 	"<p>square root: sqrt(r+1)" +
 	"<p>powers : r^2" +
 	"<br><br>" +
-	"<i>example: -5-6/(-2)^2 + sqrt(15+r)</i>" ;
+	"<i>example: -5-6/(-2)^2 + sqrt(15+r)</i>" +
+	"<br><br><p><b>Hint:</b> Inorder to use a variable(r,w,h) a shape must be selected";
 
 	
 	public static String invalidExpressionErrorMessage = startTags +

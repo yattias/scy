@@ -94,6 +94,7 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 		errorLabel = new JXLabel("Needs a Number.");
 		errorLabel.setForeground(UIUtils.NONSHAPE_SHAPE_COLOR);
 		addButton = new JXButton("Add");
+		addButton.setEnabled(false);
 		
 		buttonPanel.setOpaque(false);
 		buttonPanel.add(errorLabel);
@@ -210,10 +211,13 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 	@Override
 	public void setShowCornerPoints(boolean showCornerPoints) {
 		this.showCornerPoints = showCornerPoints;
-		if( showCornerPoints )
+		if( showCornerPoints ) {
 			this.setBorder(new DashBorder(UIUtils.SHAPE_3D_DASH_BORDER_COLOR));
-		else 
+			this.getAddButton().setEnabled(showCornerPoints);
+		} else {
 			this.setBorder(null);
+			this.getAddButton().setEnabled(showCornerPoints);
+		}
 	}
 
 	@Override
