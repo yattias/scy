@@ -6,10 +6,9 @@ import eu.scy.common.mission.EloToolConfig;
 
 public class ApplyEloToolConfigDefaults
 {
+
    private final static Logger logger = Logger.getLogger(ApplyEloToolConfigDefaults.class);
-
    public final static String defaultEloToolConfigType = "defaultEloToolConfig";
-
    private EloToolConfig defaultEloToolConfig;
 
    public void setDefaultEloToolConfig(final EloToolConfig defaultEloToolConfig)
@@ -64,23 +63,23 @@ public class ApplyEloToolConfigDefaults
       }
       final BasicEloToolConfig basicEloConfig = new BasicEloToolConfig(eloToolConfig);
 
-      if (basicEloConfig.getTopDrawerCreatorId() == null)
+      if (isEmpty(basicEloConfig.getTopDrawerCreatorId()))
       {
          basicEloConfig.setTopDrawerCreatorId(defaultEloToolConfig.getTopDrawerCreatorId());
       }
-      if (basicEloConfig.getRightDrawerCreatorId() == null)
+      if (isEmpty(basicEloConfig.getRightDrawerCreatorId()))
       {
          basicEloConfig.setRightDrawerCreatorId(defaultEloToolConfig.getRightDrawerCreatorId());
       }
-      if (basicEloConfig.getBottomDrawerCreatorId() == null)
+      if (isEmpty(basicEloConfig.getBottomDrawerCreatorId()))
       {
          basicEloConfig.setBottomDrawerCreatorId(defaultEloToolConfig.getBottomDrawerCreatorId());
       }
-      if (basicEloConfig.getLeftDrawerCreatorId() == null)
+      if (isEmpty(basicEloConfig.getLeftDrawerCreatorId()))
       {
          basicEloConfig.setLeftDrawerCreatorId(defaultEloToolConfig.getLeftDrawerCreatorId());
       }
-      if (basicEloConfig.getTopDrawerCreatorId() == null)
+      if (isEmpty(basicEloConfig.getTopDrawerCreatorId()))
       {
          basicEloConfig.setTopDrawerCreatorId(defaultEloToolConfig.getTopDrawerCreatorId());
       }
@@ -112,5 +111,10 @@ public class ApplyEloToolConfigDefaults
          basicEloConfig.setContentStatic(defaultEloToolConfig.isContentStatic());
       }
       return basicEloConfig;
+   }
+
+   private boolean isEmpty(String string)
+   {
+      return string == null || string.trim().length() == 0;
    }
 }
