@@ -53,9 +53,10 @@ public class YTDataHandler {
         Result result = new StreamResult(stringWriter);
         TransformerFactory factory = TransformerFactory.newInstance();
         Transformer transformer = factory.newTransformer();
-        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        //transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         transformer.transform(source, result);
+        System.out.println(stringWriter.toString());
         return stringWriter.toString();
     }
     catch(Exception e) {

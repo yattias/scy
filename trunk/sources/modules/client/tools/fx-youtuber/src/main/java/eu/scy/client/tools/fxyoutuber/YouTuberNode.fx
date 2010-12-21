@@ -89,8 +89,12 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML, E
         tooltip: Tooltip {text: "add YouTube Video"}
         graphic: ImageView{ image: Image { url: "{__DIR__}resources/television_add.png" } }
         action: function():Void {
-            showPopup(YouTubeDataEditor{ ytNode: this });
-            showPopup(Text { content: "foobar "});
+            showPopup(YouTubeDataEditor{ 
+                ytNode: this
+                translateX: bind (scyWindow.width/2) - (170);
+                translateY: bind (scyWindow.height/2) - (105);
+            });
+            //showPopup(Text { content: "foobar "});
             //println("added buttons");
         }
 
@@ -166,7 +170,15 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML, E
             sv]
         spacing: 5.0;
     }
-
+   var blocker:Rectangle = Rectangle {
+        blocksMouse: true;
+        height: bind scyWindow.height;
+        width: bind scyWindow.width;
+        translateX: 0;
+        translateY: 0;
+        fill: Color.BLACK;
+        opacity: 0.7;
+    }
 
     postinit {
         insert content into nodes;
@@ -214,18 +226,15 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML, E
             stroke: Color.TRANSPARENT
         }
         into contentList.content;
-
-
-        
     }
 
-
-    
     public function closePopup(item:Node):Void {
         delete item from foreground;
+        delete blocker from foreground;
     }
 
     public function showPopup(item:Node):Void {
+        insert blocker into foreground;
         insert item into foreground;
         //println("inserting {item}");
     }
