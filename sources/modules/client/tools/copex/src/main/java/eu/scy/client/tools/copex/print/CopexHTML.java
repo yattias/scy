@@ -35,7 +35,7 @@ public class CopexHTML {
 
     public  CopexReturn exportProcHTML(ExperimentalProcedure proc, ArrayList v){
         copexHtml = "";
-        addString("<table width='100%'  border='0' cellpadding='0'>");
+        //addString("<table width='100%'  border='0' cellpadding='0'>");
         setItem(proc.getQuestion().getDescription(edp.getLocale()),proc.getQuestion().getComments(edp.getLocale()), "icone_AdT_question.png",  edp.getBundleString("TREE_QUESTION"));
         if(proc.getHypothesis() != null){
             setItem(proc.getHypothesis().getHypothesis(edp.getLocale()), proc.getHypothesis().getComment(edp.getLocale()), "icone_AdT_hypothese.png", edp.getBundleString("TREE_HYPOTHESIS"));
@@ -51,7 +51,7 @@ public class CopexHTML {
         if(proc.getEvaluation() != null){
             setItem(proc.getEvaluation().getEvaluation(edp.getLocale()), proc.getEvaluation().getComment(edp.getLocale()), "icone_AdT_eval.png", edp.getBundleString("TREE_EVALUATION"));
         }
-        addString("</table>");
+        //addString("</table>");
         v.add(copexHtml);
         return new CopexReturn();
     }
@@ -59,6 +59,7 @@ public class CopexHTML {
    private void setItem(String item, String comments, String icon, String title ){
         if(item == null)
             return;
+        addString("<div class='level0'><table width='100%'  border='0' cellpadding='0'>");
         addString("<tr>");
             addString("<td width='3%' valign='top'>");
                 addString("<img src=\"../tool_copex/images/"+icon+"\">");
@@ -85,6 +86,7 @@ public class CopexHTML {
                 addString("</table>");
             addString("</td>");
         addString("</tr>");
+        addString("</table></div>");
     }
 
 
@@ -98,7 +100,7 @@ public class CopexHTML {
             nbRow =nb/2+1;
         }else
             nbRow = nb/2;
-
+        addString("<div class='level0'><table width='100%'  border='0' cellpadding='0'>");
         addString("<tr>");
             addString("<td width='3%' valign='top'>");
                 addString("<img src=\"../tool_copex/images/icone_AdT_material.png\">");
@@ -133,6 +135,7 @@ public class CopexHTML {
                 addString("</table>");
             addString("</td>");
         addString("</tr>");
+        addString("</table></div>");
     }
 
     private void setManipulation(ExperimentalProcedure proc){
@@ -140,6 +143,7 @@ public class CopexHTML {
         if(proc.isTaskProc()){
             icon = "icone_AdT_manip_tasks.png";
         }
+        addString("<div  class='level0'><table width='100%'  border='0' cellpadding='0'>");
         addString("<tr>");
             addString("<td width='3%' valign='top'>");
                 addString("<img src=\"../tool_copex/images/"+icon+"\">");
@@ -151,18 +155,16 @@ public class CopexHTML {
                             addString("<span class='title'>"+edp.getBundleString("TREE_MANIPULATION")+"</span>");
                         addString("</td>");
                     addString("</tr>");
-                    addString("<tr>");
-                        addString("<td>");
-                            addString(getChildTaskTable(proc, proc.getQuestion()));
-                        addString("</td>");
-                    addString("</tr>");
+                            
                 addString("</table>");
             addString("</td>");
         addString("</tr>");
+        addString("</table></div>");
+        addString(getChildTaskTable(proc, proc.getQuestion(), 1));
     }
 
-    private String getChildTaskTable(ExperimentalProcedure proc, CopexTask task){
-        String manip = "<table width='100%'  border='0' cellpadding='0'>\n";
+    private String getChildTaskTable_old(ExperimentalProcedure proc, CopexTask task){
+        String manip = "<table width='100%'  border='0' cellpadding='0' class='level1'>\n";
         ArrayList<CopexTask> childTasks = getTaskListChild(proc, task);
         int nb = childTasks.size();
         for(int i=0; i<nb; i++){
@@ -171,7 +173,7 @@ public class CopexHTML {
                     manip += "<img src=\"../tool_copex/images/"+getTaskIcon(proc, childTasks.get(i))+"\">\n";
                 manip += "</td>\n";
                 manip += "<td>\n";
-                    manip += getTaskTable(proc, childTasks.get(i))+"\n";
+                    manip += getTaskTable_old(proc, childTasks.get(i))+"\n";
                 manip += "</td>\n";
             manip += "</tr>\n";
         }
@@ -179,7 +181,17 @@ public class CopexHTML {
         return manip;
     }
 
-    private String getTaskTable(ExperimentalProcedure proc, CopexTask task){
+    private String getChildTaskTable(ExperimentalProcedure proc, CopexTask task, int level){
+        String manip = "";
+        ArrayList<CopexTask> childTasks = getTaskListChild(proc, task);
+        int nb = childTasks.size();
+        for(int i=0; i<nb; i++){
+            manip += getTaskTable(proc, childTasks.get(i),level)+"\n";
+        }
+        return manip;
+    }
+
+    private String getTaskTable_old(ExperimentalProcedure proc, CopexTask task){
         String descriptionTask = "";
         if(task instanceof CopexAction){
             descriptionTask = ((CopexAction)task).toDescription(edp);
@@ -212,12 +224,63 @@ public class CopexHTML {
         if(hasChildren){
         taskTable += "<tr>\n";
             taskTable += "<td>\n";
-                taskTable += getChildTaskTable(proc, task)+"\n";
+                taskTable += getChildTaskTable_old(proc, task)+"\n";
             taskTable += "</td>\n";
         taskTable += "</tr>\n";
         }
         taskTable += "</table>\n";
         return taskTable;
+    }
+
+    private String getTaskTable(ExperimentalProcedure proc, CopexTask task, int level){
+        String descriptionTask = "";
+        if(task instanceof CopexAction){
+            descriptionTask = ((CopexAction)task).toDescription(edp);
+        }else{
+            descriptionTask = task.getDescription(edp.getLocale());
+        }
+        String comments = task.getComments(edp.getLocale());
+        boolean hasChildren = task.getDbKeyChild() != -1;
+        String manip = "<div class='level"+level+"'><table width='100%'  border='0' cellpadding='0' >\n";
+            manip += "<tr>\n";
+                manip += "<td width='20px' valign='top'>\n";
+                    manip += "<img src=\"../tool_copex/images/"+getTaskIcon(proc, task)+"\">\n";
+                manip += "</td>\n";
+                manip += "<td>\n";
+
+        String taskTable = "<table width='100%'  border='0' cellpadding='0' >\n";
+        taskTable += "<tr>\n";
+            taskTable += "<td><span class='proc'>\n";
+                taskTable += descriptionTask+"\n";
+            taskTable += "</span></td>\n";
+        taskTable += "</tr>\n";
+        if(comments != null && comments.length() > 0){
+            taskTable += "<tr>\n";
+            taskTable += "<td> <span class='comment'>\n";
+            taskTable += comments+"\n";
+            taskTable += "</span></td>\n";
+            taskTable += "</tr>\n";
+        }
+        if(task.getDraw() != null){
+            taskTable += "<tr>\n";
+            taskTable += "<td> <span class='task_draw'>\n";
+            String fileName = "labdoc-task-"+task.getDbKey()+".png";
+            taskTable += "<img src=\"../tools_utilities/InterfaceServer/labdoc/"+fileName+"\" alt=\"Dessin\">\n";
+            taskTable += "</span></td>\n";
+            taskTable += "</tr>\n";
+        }
+        taskTable += "</table>\n";
+        manip += taskTable;
+        manip += "</td>\n";
+            manip += "</tr>\n";
+        manip += "</table></div>\n";
+        if(hasChildren){
+            level++;
+            manip += getChildTaskTable(proc, task, level)+"\n";
+        }
+        //return taskTable;
+        
+        return manip;
     }
 
     private String getTaskIcon(ExperimentalProcedure proc, CopexTask task){
