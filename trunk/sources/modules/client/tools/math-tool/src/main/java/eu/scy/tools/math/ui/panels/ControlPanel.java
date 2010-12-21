@@ -105,7 +105,7 @@ public class ControlPanel extends JXPanel {
 		} else {
 			twoDeeTableModel.addColumn("Calculation");
 			twoDeeTableModel.addColumn("Sum");
-			twoDeeTableModel.addColumn("operation");
+			twoDeeTableModel.addColumn("Operation");
 			twoDeeTableModel.addColumn("shapeId");
 		}
 		
