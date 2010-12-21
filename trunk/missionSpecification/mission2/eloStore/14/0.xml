@@ -52,10 +52,10 @@
 </metadata>
 <content languageIndependent="true" contentType="xml">
 <missionSpeicification>
-  <missionMapModelEloUri>roolo://memory/20040/0/ecoMission.scymissionmapmodel</missionMapModelEloUri>
-  <eloToolConfigsEloUri>roolo://memory/20041/0/ecoMission.scyelotoolconfiguration</eloToolConfigsEloUri>
-  <templateElosEloUri>roolo://memory/20042/0/ecoMission.scytemplateelos</templateElosEloUri>
-  <runtimeSettingsEloUri>roolo://memory/20043/0/ecoMission.runtimesettings</runtimeSettingsEloUri>
+  <missionMapModelEloUri>roolo://memory/20044/0/ecoMission.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/20045/0/ecoMission.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/20046/0/ecoMission.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/20047/0/ecoMission.runtimesettings</runtimeSettingsEloUri>
 </missionSpeicification>
 </content>
 <resources>

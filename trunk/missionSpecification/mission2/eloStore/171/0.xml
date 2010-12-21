@@ -1,31 +1,6 @@
 <elo>
 <metadata>
   <lom>
-    <technical>
-      <format>scy/pds</format>
-      <customElements>
-        <dateCreated>1266920430747</dateCreated>
-        <dateLastModified>1266920430747</dateLastModified>
-      </customElements>
-    </technical>
-    <general>
-      <title>
-        <string language="en">Data from real experiments</string>
-        </title>
-      <description>
-        <string language="en" />
-      </description>
-      <structure>dataset</structure>
-      <mission>ecoMission</mission>
-      <las>experiment_B3</las>
-      <identifier>
-        <catalog>memory</catalog>
-        <entry>roolo://memory/171/0/Data_set.scypds</entry>
-      </identifier>
-    </general>
-    <educational>
-      <learningResourceType>dataset</learningResourceType>
-    </educational>
     <lifecycle>
       <contribute>
         <role>
@@ -34,29 +9,40 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2010-02-23T11:20:30.747+0100</dateTime>
+          <dateTime>2010-02-23T12:20:30.747+0200</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>1</version>
     </lifecycle>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_versioned_by</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
+    <technical>
+      <customElements>
+        <dateCreated>1266920430747</dateCreated>
+        <dateLastModified>1266920430747</dateLastModified>
+      </customElements>
+      <format>scy/pds</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/171/0/Data_set.scypds</entry>
+      </identifier>
+      <las>experiment_B3</las>
+      <structure>dataset</structure>
+      <mission>ecoMission</mission>
+      <title>
+        <string language="en">Data from real experiments</string>
+      </title>
+    </general>
+    <educational>
+      <learningResourceType>dataset</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>scy/dataset</iconType>
+    </annotation>
   </lom>
 </metadata>
 <content languageIndependent="true" contentType="xml">
