@@ -106,6 +106,8 @@ public class YouTubeDataEditor extends CustomNode {
         stroke: Color.BLACK;
     }
 
+
+
     postinit {
         if(dataSetID > -1) {
             dataSet = ytNode.getDataSet(dataSetID);
@@ -115,11 +117,10 @@ public class YouTubeDataEditor extends CustomNode {
         }
 
         insert [backgroundRectangle, content] into nodes;
-        this.translateX = 15;
-        this.translateY = 15;
         this.blocksMouse = true;
     }
 
+    /*
     override var onMousePressed = function(e:MouseEvent):Void {
         oldX = this.translateX;
         oldY = this.translateY;
@@ -129,7 +130,7 @@ public class YouTubeDataEditor extends CustomNode {
         this.translateX = oldX + e.dragX;
         this.translateY = oldY + e.dragY;
     }
-
+    */
 
     function prepareDataSet(inputURL:String, title:String, text:String):YouTuberDataSet {
         var dataSet:YouTuberDataSet = new YouTuberDataSet();
