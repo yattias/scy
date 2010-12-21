@@ -354,7 +354,7 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 
 	@Override
 	public double getScaledHeight() {
-		return this.getScaledHeight() / 10;
+		return this.getHeight() / 10;
 	}
 
 

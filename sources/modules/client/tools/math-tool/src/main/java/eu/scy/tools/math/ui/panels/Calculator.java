@@ -11,6 +11,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,6 +53,11 @@ public class Calculator extends JXPanel {
 	private ArrayList<JXButton> symbolicButtons;
 	private ArrayList<JXButton> adderButtons;
 	private ArrayList<JXButton> numberButtons;
+	
+	private Map<String, ExpressionModel> expModels = new HashMap<String, ExpressionModel>();
+	private Map<String, JXTextField> textFields = new HashMap<String, JXTextField>();
+	
+	
 	private JXTextField sumTextField;
 
 
@@ -148,12 +155,14 @@ public class Calculator extends JXPanel {
 	private void init() {
 		this.setBorder(new RoundedBorder(5));
 		
+		
 		setSumTextField(new JXTextField("Select a shape to start"));
 		getSumTextField().setColumns(15);
 		getSumTextField().setBackground(Color.WHITE);
 		getSumTextField().setOpaque(true);
 		getSumTextField().putClientProperty(UIUtils.TYPE, type);
 		getSumTextField().setEnabled(false);
+		textFields.put(type, getSumTextField());
 		getSumTextField().addKeyListener(new KeyListener() {
 			
 			@Override
@@ -174,13 +183,21 @@ public class Calculator extends JXPanel {
 				 
 				 int key = e.getKeyCode();
 			        
-			        if (key != KeyEvent.VK_ENTER) {
+			        if (key != KeyEvent.VK_ENTER && key != KeyEvent.VK_BACK_SPACE && key != KeyEvent.VK_DELETE) {
 			           JXTextField source = (JXTextField) e.getSource();
 			           expressionModel.replaceExpression(source.getText()+e.getKeyChar());
 			           System.out.println("exp " + expressionModel.getExpressionDisplay());
 			           getResultLabel().setText(_0_00);
 			           getAddButton().setEnabled(false);
-			        }
+			        } else if (key == KeyEvent.VK_BACK_SPACE || key == KeyEvent.VK_DELETE) {
+				           JXTextField source = (JXTextField) e.getSource();
+				           String chop = StringUtils.chop(source.getText());
+				           expressionModel.replaceExpression(chop);
+				           System.out.println("exp " + expressionModel.getExpressionDisplay());
+				           getResultLabel().setText(_0_00);
+				           getAddButton().setEnabled(false);
+				        }
+			        
 				
 			}
 		});
@@ -197,6 +214,7 @@ public class Calculator extends JXPanel {
 //		
 		 setExpressionModel(new ExpressionModel());
 		
+		 expModels.put(type, expressionModel);
 		
 		
 		 eqPanel.add(getSumTextField(),"growx, wrap");
@@ -236,6 +254,7 @@ public class Calculator extends JXPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				sumTextField.setText("");
+				expressionModel.replaceExpression("");
 				getExpressionModel().clear();
 			}
 		});
@@ -250,8 +269,12 @@ public class Calculator extends JXPanel {
 			public void actionPerformed(ActionEvent e) {
 				String text = sumTextField.getText();
 				
-				if( StringUtils.stripToNull(text) != null)
-					sumTextField.setText(StringUtils.chop(text));
+				if( StringUtils.stripToNull(text) != null) {
+					String chop = StringUtils.chop(text);
+					sumTextField.setText(chop);
+					expressionModel.replaceExpression(chop);
+				}
+					
 			}
 		});
 		
