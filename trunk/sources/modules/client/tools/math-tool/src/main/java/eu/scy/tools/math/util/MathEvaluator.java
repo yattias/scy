@@ -170,7 +170,7 @@ public class MathEvaluator
         else if  ( "acos".equals(op) )  res = new Double( Math.acos(f1.doubleValue()) );
         else if  ( "asin".equals(op) )  res = new Double( Math.asin(f1.doubleValue()) );
         else if  ( "atan".equals(op) )  res = new Double( Math.atan(f1.doubleValue()) );
-        else if  ( "sqr".equals(op) )  	res = new Double( f1.doubleValue() * f1.doubleValue() );
+       // else if  ( "sqr".equals(op) )  	res = new Double( f1.doubleValue() * f1.doubleValue() );
         else if  ( "sqrt".equals(op) )  res = new Double( Math.sqrt(f1.doubleValue()) );
         else if  ( "cbrt".equals(op) )  res = new Double( Math.cbrt(f1.doubleValue()) );
         else if  ( "log".equals(op) )  	res = new Double( Math.log(f1.doubleValue()) );
@@ -204,8 +204,8 @@ public class MathEvaluator
         operators[12] = new Operator("asin"	, 1, 20);
         operators[13] = new Operator("atan"	, 1, 20);
         operators[14] = new Operator("sqrt"	, 1, 20);
-        operators[14] = new Operator("cbrt"	, 1, 20);
-        operators[15] = new Operator("sqr" 	, 1, 20);
+        operators[15] = new Operator("cbrt"	, 1, 20);
+//        operators[15] = new Operator("sqr" 	, 1, 20);
         operators[16] = new Operator("log" 	, 1, 20);
         operators[17] = new Operator("min" 	, 2, 0);
         operators[18] = new Operator("max" 	, 2, 0);
