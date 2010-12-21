@@ -29,14 +29,10 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
-import net.sourceforge.jeval.EvaluationException;
-import net.sourceforge.jeval.Evaluator;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXTable;
-import org.jdesktop.swingx.JXTextField;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -74,7 +70,9 @@ public class MathToolController {
 	protected Map<String, ShapeCanvas> shapeCanvases = new HashMap<String, ShapeCanvas>();
 	protected Map<String, Calculator> calculators = new HashMap<String, Calculator>();
 	protected Map<String, JXTable> computationTables = new HashMap<String, JXTable>();
-	protected IMathShape mathShape;
+	protected Map<String, String>  shapeIdToForumla = new HashMap<String, String>();
+	
+ 	protected IMathShape mathShape;
 	Random generator = new Random( 19580427 );
 
 	protected XStream xstream;
@@ -89,10 +87,6 @@ public class MathToolController {
 		xstream.alias("triangle", MathTriangle.class);
 		xstream.alias("ellipse", MathEllipse.class);
 		
-		xstream.alias("irectangle", IMathRectangle.class);
-		xstream.alias("itriangle", IMathTriangle.class);
-		xstream.alias("iellipse", IMathEllipse.class);
-
 		xstream.alias("tableObject", ComputationDataObj.class);
 		xstream.alias("DataStoreObject", DataStoreObj.class);
 	}
@@ -242,11 +236,47 @@ public class MathToolController {
 	}
 
 	public void setSelectedMathShape(IMathShape mathShape) {
+		
+		//save the forumla of the last shape
+		if( this.mathShape != null ) {
+			Calculator calc = getCalculator(this.mathShape);
+
+			String forumla = calc.getSumTextField().getText();
+			shapeIdToForumla.put(this.mathShape.getId(), forumla);
+
+			// now replace the new one
+			// see if there is a forumla
+			String newForumla = shapeIdToForumla.get(mathShape.getId());
+			calc = getCalculator(mathShape);
+			if (newForumla != null) {
+				calc.getSumTextField().setText(newForumla);
+				calc.getExpressionModel().replaceExpression(newForumla);
+			} else {
+				calc.getSumTextField().setText("");
+				calc.getExpressionModel().clear();
+			}
+		}
+		
+		
+		
+		
+		
 		this.mathShape = mathShape;
-		this.highLightShape(mathShape);
+		this.highLightShape(this.mathShape);
 
-		this.selectInTable(mathShape);
+		this.selectInTable(this.mathShape);
 
+	}
+	
+	protected Calculator getCalculator(IMathShape mathShape) {
+		//save the forumla of the last shape
+		Calculator calc = null;
+		if( this.mathShape instanceof I3D ) {
+			calc = calculators.get(UIUtils._3D);
+		} else {
+			calc = calculators.get(UIUtils._2D);
+		}
+		return calc;
 	}
 	
 	protected void highLightShape(IMathShape mathShape) {
@@ -426,8 +456,10 @@ public class MathToolController {
 	public void addComputationTable(String type, JXTable computationTable) {
 		
 //		if( type.equals(UIUtils._2D))
-//			computationTable.getSelectionModel().addListSelectionListener(new TwoDeeTableSelectionListener());
+//		computationTable.getSelectionModel().addListSelectionListener(new TwoDeeTableSelectionListener());
 //		
+		
+//		computationTable.getSelectionModel().addListSelectionListener(new ForumlaTableSelectionListener(type));
 		this.getComputationTables().put(type, computationTable);
 		
 	}
@@ -525,6 +557,40 @@ public class MathToolController {
 		}
 	};
 
+	public class ForumlaTableSelectionListener implements ListSelectionListener {
+
+		private String type;
+
+		public ForumlaTableSelectionListener(String type) {
+			this.type = type;
+		}
+		
+		@Override
+		public void valueChanged(ListSelectionEvent e) {
+			if( e.getValueIsAdjusting() ) {
+				
+				int firstIndex = e.getFirstIndex();
+
+				DefaultTableModel model = (DefaultTableModel) getComputationTables()
+						.get(UIUtils._2D).getModel();
+
+				String shapeId = (String) model.getValueAt(firstIndex, 5);
+				
+				
+				String newForumla = shapeIdToForumla.get(shapeId);
+				Calculator calc = calculators.get(type);
+				
+				if (newForumla != null) {
+					calc.getSumTextField().setText(newForumla);
+					calc.getExpressionModel().replaceExpression(newForumla);
+				} else {
+					calc.getSumTextField().setText("");
+					calc.getExpressionModel().clear();
+				}
+			}
+		}
+
+	}
 	
 	class TwoDeeTableSelectionListener implements ListSelectionListener{
 
