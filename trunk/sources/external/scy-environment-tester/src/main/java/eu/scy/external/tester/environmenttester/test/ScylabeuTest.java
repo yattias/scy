@@ -3,8 +3,10 @@ package eu.scy.external.tester.environmenttester.test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLConnection;
 
 import eu.scy.external.tester.environmenttester.Controller;
+import eu.scy.external.tester.environmenttester.TesterConfig;
 
 public class ScylabeuTest implements ITest {
 	private String name;
@@ -49,7 +51,9 @@ public class ScylabeuTest implements ITest {
 		InputStream is = null;
 		try {
 			URL url = new URL("http", host, 80, path);
-			is = url.openStream();
+			URLConnection urlCon = url.openConnection();
+			urlCon.setConnectTimeout(TesterConfig.TIMEOUT);
+			is = urlCon.getInputStream();
 			rslt.setResultText("Connected to "+host+path);
 		}
 		catch(IOException e) {
