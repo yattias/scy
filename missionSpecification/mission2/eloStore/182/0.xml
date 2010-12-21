@@ -12,7 +12,7 @@
           <dateTime>2010-12-07T11:28:53.195+0200</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>1</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -24,26 +24,21 @@
     <educational>
       <learningResourceType />
     </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>scy/model</iconType>
+    </annotation>
     <general>
       <identifier>
         <catalog>memory</catalog>
         <entry>roolo://memory/182/0/Scy_dynamics.model</entry>
       </identifier>
+      <las>experiment_B1</las>
       <mission>ecoMission</mission>
-	  <las>experiment_B1</las>
       <title>
         <string language="en">SCYDynamics model</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
 </metadata>
 <content languageIndependent="true" contentType="xml">

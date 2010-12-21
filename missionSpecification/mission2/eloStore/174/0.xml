@@ -1,31 +1,6 @@
 <elo>
 <metadata>
   <lom>
-    <technical>
-      <format>scy/xproc</format>
-      <customElements>
-        <dateCreated>1267015164763</dateCreated>
-        <dateLastModified>1267015164767</dateLastModified>
-      </customElements>
-    </technical>
-    <general>
-      <title>
-        <string language="en">Experimental procedure</string>
-	  </title>
-      <description>
-        <string language="en" />
-      </description>
-      <structure>structuredText</structure>
-      <mission>ecoMission</mission>
-      <las>experiment_C1</las>
-      <identifier>
-        <catalog>memory</catalog>
-        <entry>roolo://memory/174/0/Experimental_procedure.scyxproc</entry>
-      </identifier>
-    </general>
-    <educational>
-      <learningResourceType>experimentalDesign</learningResourceType>
-    </educational>
     <lifecycle>
       <contribute>
         <role>
@@ -34,29 +9,40 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2010-02-24T13:39:24.759+0100</dateTime>
+          <dateTime>2010-02-24T14:39:24.759+0200</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>1</version>
     </lifecycle>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_versioned_by</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
+    <technical>
+      <customElements>
+        <dateCreated>1267015164763</dateCreated>
+        <dateLastModified>1267015164767</dateLastModified>
+      </customElements>
+      <format>scy/xproc</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/174/0/Experimental_procedure.scyxproc</entry>
+      </identifier>
+      <las>experiment_C1</las>
+      <structure>structuredText</structure>
+      <mission>ecoMission</mission>
+      <title>
+        <string language="en">Experimental procedure</string>
+      </title>
+    </general>
+    <educational>
+      <learningResourceType>experimentalDesign</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>scy/xproc</iconType>
+    </annotation>
   </lom>
 </metadata>
 <content languageIndependent="true" contentType="xml">
@@ -76,7 +62,7 @@
           <repeat_right>N</repeat_right>
         </task_right>
       </question>
-    <proc_hypothesis>
+      <proc_hypothesis>
         <hypothesis language="en" />
         <comment language="en" />
         <hypothesis_hide>false</hypothesis_hide>
