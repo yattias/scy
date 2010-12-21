@@ -47,7 +47,7 @@ public class XMPPTest implements ITest {
 			ConnectionConfiguration cfg = new ConnectionConfiguration(Configuration.getInstance().getOpenFireHost(), Configuration.getInstance().getOpenFirePort());
 			XMPPConnection con = new XMPPConnection(cfg);
 			con.connect();
-			con.login("pg", "pgtest"); //FIXME: use a "test-only" user :)
+			con.login("tester", "t3st3r"); 
 			rslt.setResultText("XMPP works.");
 			con.disconnect();
 		}
