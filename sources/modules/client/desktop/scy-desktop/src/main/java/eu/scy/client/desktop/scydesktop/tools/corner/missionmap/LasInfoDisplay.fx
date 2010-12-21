@@ -38,9 +38,7 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.common.scyelo.ScyElo;
 import javafx.util.Sequences;
 import javafx.scene.control.ListCell;
-import eu.scy.client.desktop.scydesktop.corners.elomanagement.ScySearchResult;
-import eu.scy.client.desktop.scydesktop.corners.elomanagement.SimpleScySearchResultCellNode;
-import java.lang.UnsupportedOperationException;
+import java.io.FileNotFoundException;
 
 /**
  * @author SikkenJ
@@ -60,6 +58,7 @@ public class LasInfoDisplay extends CustomNode {
    def lineLength = width - 2 * spacing;
    def lineColor = colorScheme.mainColor;
    var lastModifiedElosList: ListView;
+   def selectedLastModifiedElo = bind lastModifiedElosList.selectedItem as ScyElo on replace { lastModifiedEloSelected() }
 
    public override function create(): Node {
       def progressDisplay: Node = ProgressDisplay {
@@ -165,11 +164,23 @@ public class LasInfoDisplay extends CustomNode {
    }
 
    function getTextFromUri(uri: URI): String {
-//      logger.debug("retrieving text from uri: {uri}");
+      //      logger.debug("retrieving text from uri: {uri}");
       if (uri == null) {
-         return ""
+         return "no targetDescriptionUri defined"
       }
-      def reader = new BufferedReader(new InputStreamReader(uri.toURL().openStream()));
+      var reader: BufferedReader;
+      try {
+         reader = new BufferedReader(new InputStreamReader(uri.toURL().openStream()));
+      }
+      catch (e: FileNotFoundException) {
+         logger.warn("cannot find text file: {uri}");
+         return "cannot find text file:\n{uri}";
+      }
+      catch (e: Exception) {
+         logger.warn("failed to open text file: {uri}, {e.getMessage()}");
+         return "failed to open text file:\n{uri},\n{e.getMessage()}";
+      }
+
       def builder = new StringBuilder();
       try {
          var line: String;
@@ -196,7 +207,7 @@ public class LasInfoDisplay extends CustomNode {
    }
 
    function lasChanged() {
-//      lastModifiedElosList.items = getLastModifiedElos();
+   //      lastModifiedElosList.items = getLastModifiedElos();
    }
 
    function getLastModifiedElos(): ScyElo[] {
@@ -212,7 +223,7 @@ public class LasInfoDisplay extends CustomNode {
          }
          scyElos = Sequences.sort(scyElos, new ScyEloLastModifiedComparator()) as ScyElo[];
       }
-//      println("nr of last modified elos: {sizeof scyElos}");
+      //      println("nr of last modified elos: {sizeof scyElos}");
       return scyElos;
    }
 
@@ -223,6 +234,13 @@ public class LasInfoDisplay extends CustomNode {
                scyElo: bind listCell.item as ScyElo
             }
          }
+   }
+
+   function lastModifiedEloSelected() {
+      if (selectedLastModifiedElo != null) {
+         println("now open elo: {selectedLastModifiedElo.getUri()}");
+      }
+
    }
 
 }
