@@ -22,6 +22,7 @@ public class LasInfoTooltipCreator extends TooltipCreator {
          return LasInfoDisplayTooltip{
             las: anchorDisplay.las
             windowStyler:scyDesktop.windowStyler
+            tbi: scyDesktop.config.getToolBrokerAPI()
          }
       }
       return null;

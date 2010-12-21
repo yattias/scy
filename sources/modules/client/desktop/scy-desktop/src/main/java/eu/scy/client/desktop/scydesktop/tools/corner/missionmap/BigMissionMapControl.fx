@@ -12,6 +12,8 @@ import eu.scy.client.desktop.scydesktop.scywindows.ModalDialogLayer;
 import javafx.scene.input.MouseEvent;
 import eu.scy.client.desktop.scydesktop.art.javafx.MissionMapWindowIcon;
 import eu.scy.client.desktop.scydesktop.uicontrols.MultiImageButton;
+import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
+import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 
 /**
  * @author SikkenJ
@@ -19,9 +21,11 @@ import eu.scy.client.desktop.scydesktop.uicontrols.MultiImageButton;
 public class BigMissionMapControl extends CustomNode {
 
    public var bigMissionMap: BigMissionMap;
+   public var windowStyler: WindowStyler;
    def missionMapWindow: MoreInfoWindow = MoreInfoWindow {
          title: ##"Mission navigation"
          eloIcon: MissionMapWindowIcon{}
+         windowColorScheme: windowStyler.getWindowColorScheme(ImageWindowStyler.generalNavigation)
          content: bigMissionMap
          closeAction: hideBigMissionMap
          mouseClickedAction:mouseClickedInMissionWindowWindow

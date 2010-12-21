@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.Stack;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * @author SikkenJ
@@ -17,6 +18,7 @@ public class LasInfoDisplayTooltip extends CustomNode {
 
    public var las: LasFX;
    public var windowStyler: WindowStyler;
+   public var tbi: ToolBrokerAPI;
    def contentBorder = 3;
    def borderWidth = 2;
 
@@ -25,6 +27,7 @@ public class LasInfoDisplayTooltip extends CustomNode {
       def lasInfoDisplay = LasInfoDisplay {
             las: las
             colorScheme: colorScheme
+            tbi: tbi
          }
 
       Stack {
