@@ -26,7 +26,7 @@ public class DataStoreObj {
 		return tablesObjects;
 	}
 	public void setTwoDMathShapes(List<IMathShape> twoDMathShapes) {
-		twoDMathShapes = this.twoDMathShapes;
+		this.twoDMathShapes = twoDMathShapes;
 	}
 	public List<IMathShape> getTwoDMathShapes() {
 		return twoDMathShapes;

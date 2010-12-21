@@ -53,6 +53,7 @@ import eu.scy.tools.math.shapes.IMathEllipse;
 import eu.scy.tools.math.shapes.IMathRectangle;
 import eu.scy.tools.math.shapes.IMathRectangle3D;
 import eu.scy.tools.math.shapes.IMathShape;
+import eu.scy.tools.math.shapes.IMathSphere3D;
 import eu.scy.tools.math.shapes.IMathTriangle;
 import eu.scy.tools.math.shapes.impl.Math3DShape;
 import eu.scy.tools.math.shapes.impl.MathCylinder3D;
@@ -87,6 +88,11 @@ public class MathToolController {
 		xstream.alias("rectangle", MathRectangle.class);
 		xstream.alias("triangle", MathTriangle.class);
 		xstream.alias("ellipse", MathEllipse.class);
+		
+		xstream.alias("irectangle", IMathRectangle.class);
+		xstream.alias("itriangle", IMathTriangle.class);
+		xstream.alias("iellipse", IMathEllipse.class);
+
 		xstream.alias("tableObject", ComputationDataObj.class);
 		xstream.alias("DataStoreObject", DataStoreObj.class);
 	}
@@ -204,14 +210,13 @@ public class MathToolController {
 				mathEvaluator.addVariable(IMathTriangle.HEIGHT, ((IMathTriangle) mathShape).getScaledHeight());
 			}
 			
-		} else if (mathShape instanceof IMathRectangle3D) {
+		
 			
-			if( expression.contains(IMathRectangle3D.WIDTH) ) {
-				mathEvaluator.addVariable(IMathRectangle3D.WIDTH, Double.parseDouble(((IMathRectangle3D) mathShape).getWidthValue()));
-			}
+		} else if (mathShape instanceof IMathSphere3D) {
 			
-			if( expression.contains(IMathRectangle3D.HEIGHT) ) {
-				mathEvaluator.addVariable(IMathRectangle3D.HEIGHT, Double.parseDouble( ((IMathRectangle3D) mathShape).getHeightValue()));
+			
+			if( expression.contains(IMathSphere3D.RADIUS) ) {
+				mathEvaluator.addVariable(IMathSphere3D.RADIUS, Double.parseDouble(((IMathSphere3D) mathShape).getRadiusValue()));
 			}
 			
 		} else if (mathShape instanceof IMathCylinder3D) {
@@ -223,6 +228,15 @@ public class MathToolController {
 			
 			if( expression.contains(IMathCylinder3D.HEIGHT) ) {
 				mathEvaluator.addVariable(IMathCylinder3D.HEIGHT, Double.parseDouble( ((IMathCylinder3D) mathShape).getHeightValue()));
+			}
+		} else if (mathShape instanceof IMathRectangle3D) {
+			
+			if( expression.contains(IMathRectangle3D.WIDTH) ) {
+				mathEvaluator.addVariable(IMathRectangle3D.WIDTH, Double.parseDouble(((IMathRectangle3D) mathShape).getWidthValue()));
+			}
+			
+			if( expression.contains(IMathRectangle3D.HEIGHT) ) {
+				mathEvaluator.addVariable(IMathRectangle3D.HEIGHT, Double.parseDouble( ((IMathRectangle3D) mathShape).getHeightValue()));
 			}
 		}
 	}
@@ -580,10 +594,12 @@ public class MathToolController {
 		
 			DataStoreObj doa = new DataStoreObj();
 			doa.setType(key);
-			if( key.equals(UIUtils._3D))
+			if( key.equals(UIUtils._3D)) {
 				doa.setThreeDMathShapes(this.convertTo3DDataObj(this.getShapeCanvases().get(key).getMathShapes()));
-			else
+			} else {
 				doa.setTwoDMathShapes(this.getShapeCanvases().get(key).getMathShapes());
+			}
+			
 			doa.setTablesObjects(getTableObjects(key));
 			objHashMap.put(key, doa);
 		}
@@ -607,7 +623,9 @@ public class MathToolController {
 	protected List<ComputationDataObj> getTableObjects(String key) {
 		JXTable jxTable = this.computationTables.get(key);
 		DefaultTableModel model = (DefaultTableModel) jxTable.getModel();
+		
 		Vector<Vector> dataVector = model.getDataVector();
+		
 		List<ComputationDataObj> cdos = new ArrayList<ComputationDataObj>();
 		for (Vector data : dataVector) {
 			cdos.add(new ComputationDataObj(data, key));

@@ -12,10 +12,11 @@ import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
 
+import eu.scy.tools.math.shapes.IMathSphere3D;
 import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.images.Images;
 
-public class MathSphere3D extends Math3DShape {
+public class MathSphere3D extends Math3DShape implements IMathSphere3D {
 
 	private JXTextField radiusTextField;
 	private JXLabel radiusLabel;
@@ -107,6 +108,12 @@ public class MathSphere3D extends Math3DShape {
 	@Override
 	public String getType() {
 		return "Sphere";
+	}
+
+
+	@Override
+	public String getRadiusValue() {
+		return getRadiusTextField().getText();
 	}
 
 	public JXTextField getRadiusTextField() {

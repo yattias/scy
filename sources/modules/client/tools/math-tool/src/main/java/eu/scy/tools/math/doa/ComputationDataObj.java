@@ -75,9 +75,9 @@ public class ComputationDataObj {
 	}
 	public Object[] toArray(String type) {
 		if( type.equals(UIUtils._3D)) {
-			return new Object[]{ columnNumber, ratio, surfaceArea, volume};
+			return new Object[]{ columnNumber, name,ratio, surfaceArea, volume, shapeId};
 		}
-		return new Object[]{ columnNumber, name, value, sum};
+		return new Object[]{ columnNumber, name, value, sum,operation,shapeId};
 	}
 	@Override
 	public String toString() {
