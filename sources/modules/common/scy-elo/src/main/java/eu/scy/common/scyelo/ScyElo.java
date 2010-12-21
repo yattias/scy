@@ -68,6 +68,7 @@ public class ScyElo {
     private final static String thumbnailScyPngType = "scy/png";
     private final IMetadataKey socialTagsKey;
     private final IMetadataKey thumbnailKey;
+    private final IMetadataKey obligatoryInPortfolioKey;
 
     private ScyElo(IELO elo, IMetadata metadata, RooloServices rooloServices) {
         assert metadata != null;
@@ -100,6 +101,7 @@ public class ScyElo {
         thumbnailKey = findMetadataKey(CoreRooloMetadataKeyIds.THUMBNAIL);
         assignmentUriKey = findMetadataKey(ScyRooloMetadataKeyIds.ASSIGNMENT_URI);
         resourcesUriKey = findMetadataKey(ScyRooloMetadataKeyIds.RESOURCES_URI);
+        obligatoryInPortfolioKey = findMetadataKey(ScyRooloMetadataKeyIds.OBLIGATORY_IN_PORTFOLIO);
     }
 
     public ScyElo(IELO elo, RooloServices rooloServices) {
@@ -608,4 +610,21 @@ public class ScyElo {
       getMetadataValueContainer(resourcesUriKey).setValue(resourcesUri);
    }
 
+   public Boolean getObligatoryInPortfolio() {
+      // needed to do a little trickery to convert a string to boolesn, because of lack of a boolean metadata key
+      String value = (String) getMetadataValueContainer(obligatoryInPortfolioKey).getValue();
+      if (value==null){
+         return null;
+      }
+      return Boolean.valueOf(value);
+   }
+
+   public void setObligatoryInPortfolio(Boolean obligatoryInPortfolio) {
+     // needed to do a little trickery to convert a boolean to string, because of lack of a boolean metadata key
+     String value = null;
+     if (obligatoryInPortfolio!=null){
+        value = obligatoryInPortfolio.toString();
+     }
+     getMetadataValueContainer(obligatoryInPortfolioKey).setValue(value);
+  }
 }
