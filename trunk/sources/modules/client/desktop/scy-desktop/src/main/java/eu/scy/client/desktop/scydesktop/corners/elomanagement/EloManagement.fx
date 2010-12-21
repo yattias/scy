@@ -312,6 +312,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
             windowStyler: windowStyler
             cancelAction: cancelModalDialog
             searchAction: searchForElos
+            simpleSearchAction: simpleSearchForElos
             openAction: openElo
          }
       var typeNames = scyDesktop.newEloCreationRegistry.getEloTypeNames();
@@ -350,6 +351,19 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
             searchQuery.addQuery(authorQuery);
          }
       }
+      backgroundQuerySearch = new BackgroundQuerySearch(tbi, eloInfoControl, scyDesktop.newEloCreationRegistry, searchQuery, this);
+
+      backgroundQuerySearch.start();
+      searchElos.showSearching();
+   }
+   
+   function simpleSearchForElos(searchElos: SearchElos): Void {
+      if (backgroundQuerySearch != null) {
+         backgroundQuerySearch.abort();
+      }
+
+      searchElos.openButton.disable = true;
+      var searchQuery: BasicMetadataQuery = new BasicMetadataQuery(searchElos.simpleSearchField.text);
       backgroundQuerySearch = new BackgroundQuerySearch(tbi, eloInfoControl, scyDesktop.newEloCreationRegistry, searchQuery, this);
 
       backgroundQuerySearch.start();
