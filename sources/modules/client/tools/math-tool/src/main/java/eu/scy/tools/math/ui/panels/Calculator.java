@@ -41,60 +41,26 @@ import eu.scy.tools.math.ui.paint.RoundedBorder;
 
 public class Calculator extends JXPanel {
 
-
-
-
 	private static final String _0_00 = "0.00";
-
-
 	private static Logger log = Logger.getLogger("Calculator.class"); //$NON-NLS-1$
-
-
 	private ArrayList<JXButton> symbolicButtons;
 	private ArrayList<JXButton> adderButtons;
 	private ArrayList<JXButton> numberButtons;
-	
 	private Map<String, ExpressionModel> expModels = new HashMap<String, ExpressionModel>();
 	private Map<String, JXTextField> textFields = new HashMap<String, JXTextField>();
-	
-	
 	private JXTextField sumTextField;
-
-
 	private JXButton equalsButton;
-
-
 	private JXButton radiusButton;
-
 	private JXButton widthButton;
-
-
 	private JXButton heightButton;
-
-
 	private JXButton addButton;
-
-
 	private JXButton subtractButton;
-
-
 	private JXLabel resultLabel;
-
-
 	private String type;
-
-
 	private JXPanel calcButtonPanel;
-
-
 	private Font buttonFont;
-
-
 	private ExpressionModel expressionModel;
-
-
 	private JXLabel textField;
-	
 	
 	public Calculator(String type) {
 		setLayout(new MigLayout("fill, inset 5 5 5 5"));
@@ -161,20 +127,28 @@ public class Calculator extends JXPanel {
 		getSumTextField().setBackground(Color.WHITE);
 		getSumTextField().setOpaque(true);
 		getSumTextField().putClientProperty(UIUtils.TYPE, type);
-		getSumTextField().setEnabled(false);
+		getSumTextField().setEnabled(true);
 		textFields.put(type, getSumTextField());
 		getSumTextField().addKeyListener(new KeyListener() {
 			
 			@Override
 			public void keyTyped(KeyEvent e) {
 				// TODO Auto-generated method stub
-			
+				System.out
+						.println("Calculator.init().new KeyListener() {...}.keyTyped()");
+//				JXTextField source = (JXTextField) e.getSource();
+//		           System.out.println("key text " + source.getText());
+//		           expressionModel.replaceExpression(source.getText());
 			}
 			
 			@Override
 			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
-				
+				System.out
+						.println("Calculator.init().new KeyListener() {...}.keyReleased()");
+				 JXTextField source = (JXTextField) e.getSource();
+		           System.out.println("text " + source.getText());
+		           expressionModel.replaceExpression(source.getText());
 			}
 			
 			@Override
@@ -189,13 +163,13 @@ public class Calculator extends JXPanel {
 			           System.out.println("exp " + expressionModel.getExpressionDisplay());
 			           getResultLabel().setText(_0_00);
 			           getAddButton().setEnabled(false);
-			        } else if (key == KeyEvent.VK_BACK_SPACE || key == KeyEvent.VK_DELETE) {
-				           JXTextField source = (JXTextField) e.getSource();
-				           String chop = StringUtils.chop(source.getText());
-				           expressionModel.replaceExpression(chop);
-				           System.out.println("exp " + expressionModel.getExpressionDisplay());
-				           getResultLabel().setText(_0_00);
-				           getAddButton().setEnabled(false);
+//			        } else if (key == KeyEvent.VK_BACK_SPACE || key == KeyEvent.VK_DELETE) {
+////				           JXTextField source = (JXTextField) e.getSource();
+////				           String chop = StringUtils.chop(source.getText());
+////				           expressionModel.replaceExpression(chop);
+////				           System.out.println("exp " + expressionModel.getExpressionDisplay());
+////				           getResultLabel().setText(_0_00);
+////				           getAddButton().setEnabled(false);
 				        }
 			        
 				
@@ -582,8 +556,6 @@ public class Calculator extends JXPanel {
 			} else {
 				getExpressionModel().addExpression(button.getName());
 			}
-			
-			Evaluator evaluator = new Evaluator();
 			
 			getSumTextField().setText(getExpressionModel().getExpressionDisplay());
 			
