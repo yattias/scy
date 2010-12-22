@@ -418,8 +418,8 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="videoReport"/>
                <property name="uri" value="roolo://memory/184/0/Video_report.rtf"/>
-               <property name="iconType" value="scy/video"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/anchortargeturl/description_video.html"/>
+               <property name="iconType" value="ard/presentation"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_video.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_video.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/manual_videore.html"/>
                <property name="inputMissionAnchorIds">
@@ -434,7 +434,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="conceptMap"/>
                <property name="uri" value="roolo://memory/282/0/Concept_map"/>
-               <property name="iconType" value="scy/mapping"/>
+               <property name="iconType" value="ard/concept_map"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_conceptmap.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_conceptmap.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/concept_map.html"/>
@@ -560,7 +560,7 @@
 			   <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="hypothesisB1"/>
                <property name="uri" value="roolo://memory/145/0/Hypotheses.rtf"/>
-               <property name="iconType" value="scy/text"/>
+               <property name="iconType" value="ard/idea"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_hypothesis.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_hypothesis.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/quidelines_h.html"/>
@@ -580,7 +580,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="hypothesisB2"/>
                <property name="uri" value="roolo://memory/122/0/Hypotheses.rtf"/>
-               <property name="iconType" value="scy/text"/>
+               <property name="iconType" value="ard/idea"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_hypothesis.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_hypothesis.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/quidelines_h.html"/>
@@ -600,7 +600,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="hypothesisB3"/>
                <property name="uri" value="roolo://memory/305/0/Hypotheses.rtf"/>
-               <property name="iconType" value="scy/text"/>
+               <property name="iconType" value="ard/idea"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_hypothesis.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_hypothesis.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/quidelines_h.html"/>
@@ -620,7 +620,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="hypothesisC1"/>
                <property name="uri" value="roolo://memory/134/0/Hypotheses.rtf"/>
-               <property name="iconType" value="scy/text"/>
+               <property name="iconType" value="ard/idea"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_hypothesis.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_hypothesis.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/quidelines_h.html"/>
@@ -780,7 +780,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="inferencesB1"/>
                <property name="uri" value="roolo://memory/314/0/Inferences.rtf"/>
-               <property name="iconType" value="scy/text"/>
+               <property name="iconType" value="scy/simconfig"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_inferences.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_inferences.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/guidelines_sp.html"/>
@@ -796,7 +796,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="inferencesB2"/>
                <property name="uri" value="roolo://memory/156/0/Inferences.rtf"/>
-               <property name="iconType" value="scy/text"/>
+               <property name="iconType" value="scy/simconfig"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_inferences.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_inferences.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/guidelines_sp.html"/>
@@ -812,7 +812,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="inferencesB3"/>
                <property name="uri" value="roolo://memory/165/0/Inferences.rtf"/>
-               <property name="iconType" value="scy/text"/>
+               <property name="iconType" value="scy/simconfig"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_inferences.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_inferences.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/guidelines_sp.html"/>
@@ -828,7 +828,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="inferencesC1"/>
                <property name="uri" value="roolo://memory/173/0/Inferences.rtf"/>
-               <property name="iconType" value="scy/text"/>
+               <property name="iconType" value="scy/simconfig"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_inferences.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_inferences.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/guidelines_sp.html"/>
@@ -844,7 +844,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="solutionB1"/>
                <property name="uri" value="roolo://memory/147/0/Solution.rtf"/>
-               <property name="iconType" value="scy/text"/>
+               <property name="iconType" value="ard/drawing"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_solution.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_solution.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/topic_b1_taskfsol.html"/>
@@ -862,7 +862,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="solutionB2"/>
                <property name="uri" value="roolo://memory/148/0/Solution.rtf"/>
-               <property name="iconType" value="scy/text"/>
+               <property name="iconType" value="ard/drawing"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_solution.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_solution.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/topic_b2_taskfsol.html"/>
@@ -880,7 +880,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="solutionB3"/>
                <property name="uri" value="roolo://memory/149/0/Solution.rtf"/>
-               <property name="iconType" value="scy/text"/>
+               <property name="iconType" value="ard/drawing"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_solution.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_solution.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/topic_b3_taskfsol.html"/>
@@ -898,7 +898,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="solutionC1"/>
                <property name="uri" value="roolo://memory/150/0/Solution.rtf"/>
-               <property name="iconType" value="scy/text"/>
+               <property name="iconType" value="ard/drawing"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_solution.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_solution.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/topic_c1_taskfsol.html"/>
