@@ -95,7 +95,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/282/0/Concept_map</eloUri>
-        <iconType>scy/mapping</iconType>
+        <iconType>ard/concept_map</iconType>
         <loElos />
         <inputAnchors />
         <relations />
@@ -122,13 +122,13 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/184/0/Video_report.rtf</eloUri>
-        <iconType>scy/video</iconType>
+        <iconType>ard/presentation</iconType>
         <loElos>
           <eloUri>roolo://memory/348/0/manual_videore.url</eloUri>
         </loElos>
         <inputAnchors />
         <relations />
-        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/anchortargeturl/description_video.html</targetDescriptionUri>
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/description_video.html</targetDescriptionUri>
         <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_video.html</assignmentUri>
         <resourcesUri>http://www.scy-lab.eu/content/en/mission2/manual_videore.html</resourcesUri>
         <colorScheme />
@@ -152,7 +152,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/145/0/Hypotheses.rtf</eloUri>
-        <iconType>scy/text</iconType>
+        <iconType>ard/idea</iconType>
         <loElos>
           <eloUri>roolo://memory/142/0/Problem_formulation.url</eloUri>
           <eloUri>roolo://memory/144/0/Research_questions.url</eloUri>
@@ -209,7 +209,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/122/0/Hypotheses.rtf</eloUri>
-        <iconType>scy/text</iconType>
+        <iconType>ard/idea</iconType>
         <loElos>
           <eloUri>roolo://memory/119/0/Problem_formulation.url</eloUri>
           <eloUri>roolo://memory/121/0/Research_questions.url</eloUri>
@@ -266,7 +266,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/305/0/Hypotheses.rtf</eloUri>
-        <iconType>scy/text</iconType>
+        <iconType>ard/idea</iconType>
         <loElos>
           <eloUri>roolo://memory/111/0/Problem_formulation.url</eloUri>
           <eloUri>roolo://memory/304/0/Research_questions.url</eloUri>
@@ -323,7 +323,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/134/0/Hypotheses.rtf</eloUri>
-        <iconType>scy/text</iconType>
+        <iconType>ard/idea</iconType>
         <loElos>
           <eloUri>roolo://memory/131/0/Problem_formulation.url</eloUri>
           <eloUri>roolo://memory/133/0/Research_questions.url</eloUri>
@@ -381,7 +381,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/314/0/Inferences.rtf</eloUri>
-        <iconType>scy/text</iconType>
+        <iconType>scy/simconfig</iconType>
         <loElos>
           <eloUri>roolo://memory/154/0/Adapting_data_processing_tool.url</eloUri>
         </loElos>
@@ -447,7 +447,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/156/0/Inferences.rtf</eloUri>
-        <iconType>scy/text</iconType>
+        <iconType>scy/simconfig</iconType>
         <loElos>
           <eloUri>roolo://memory/164/0/Adapting_data_processing_tool.url</eloUri>
         </loElos>
@@ -502,7 +502,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/165/0/Inferences.rtf</eloUri>
-        <iconType>scy/text</iconType>
+        <iconType>scy/simconfig</iconType>
         <loElos>
           <eloUri>roolo://memory/172/0/Adapting_data_processing_tool.url</eloUri>
         </loElos>
@@ -567,7 +567,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/173/0/Inferences.rtf</eloUri>
-        <iconType>scy/text</iconType>
+        <iconType>scy/simconfig</iconType>
         <loElos>
           <eloUri>roolo://memory/154/0/Adapting_data_processing_tool.url</eloUri>
         </loElos>
@@ -621,7 +621,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/147/0/Solution.rtf</eloUri>
-        <iconType>scy/text</iconType>
+        <iconType>ard/drawing</iconType>
         <loElos>
           <eloUri>roolo://memory/185/0/Formulating_solution.url</eloUri>
           <eloUri>roolo://memory/136/0/List_of_webpages.url</eloUri>
@@ -655,7 +655,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/148/0/Solution.rtf</eloUri>
-        <iconType>scy/text</iconType>
+        <iconType>ard/drawing</iconType>
         <loElos>
           <eloUri>roolo://memory/186/0/Formulating_solution.url</eloUri>
           <eloUri>roolo://memory/113/0/List_of_webpages.url</eloUri>
@@ -689,7 +689,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/149/0/Solution.rtf</eloUri>
-        <iconType>scy/text</iconType>
+        <iconType>ard/drawing</iconType>
         <loElos>
           <eloUri>roolo://memory/187/0/Formulating_solution.url</eloUri>
           <eloUri>roolo://memory/309/0/List_of_webpages.url</eloUri>
@@ -723,7 +723,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/150/0/Solution.rtf</eloUri>
-        <iconType>scy/text</iconType>
+        <iconType>ard/drawing</iconType>
         <loElos>
           <eloUri>roolo://memory/188/0/Formulating_solution.url</eloUri>
           <eloUri>roolo://memory/124/0/List_of_webpages.url</eloUri>
