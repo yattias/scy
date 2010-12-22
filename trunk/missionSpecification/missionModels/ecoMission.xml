@@ -563,7 +563,7 @@
                <property name="iconType" value="ard/idea"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_hypothesis.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_hypothesis.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/quidelines_h.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/guidelines_h.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -583,7 +583,7 @@
                <property name="iconType" value="ard/idea"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_hypothesis.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_hypothesis.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/quidelines_h.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/guidelines_h.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -603,7 +603,7 @@
                <property name="iconType" value="ard/idea"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_hypothesis.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_hypothesis.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/quidelines_h.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/guidelines_h.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -623,7 +623,7 @@
                <property name="iconType" value="ard/idea"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_hypothesis.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_hypothesis.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/quidelines_h.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/guidelines_h.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
