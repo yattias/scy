@@ -51,6 +51,6 @@ public class ExpressionModel {
 		if( expressionToDisplay.length() < 1)
 			return;
 		
-		expressionToDisplay.delete(0, expressionToDisplay.length());
+		expressionToDisplay.setLength(0);
 	}
 }
