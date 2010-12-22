@@ -417,7 +417,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="videoReport"/>
-               <property name="uri" value="roolo://memory/184/0/Video_report.rtf"/>
+               <property name="uri" value="roolo://memory/20048/0/YouTube+video+link.scyyoutuber"/>
                <property name="iconType" value="ard/presentation"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_video.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_video.html"/>
