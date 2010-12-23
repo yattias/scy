@@ -39,6 +39,8 @@ import eu.scy.client.desktop.scydesktop.elofactory.impl.BasicEloToolConfigManage
 import eu.scy.common.mission.EloSystemRole;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import eu.scy.common.scyelo.ScyElo;
+import eu.scy.common.mission.MissionSpecificationElo;
+import eu.scy.common.mission.impl.ApplyEloToolConfigDefaults;
 
 /**
  * @author sikkenj
@@ -149,7 +151,7 @@ public class ScyDesktopCreator {
          var basicConfig = springConfigFactory.getConfig() as BasicConfig;
          if (toolBrokerAPI != null) {
             basicConfig.setToolBrokerAPI(toolBrokerAPI);
-            (toolBrokerAPI as ToolBrokerAPIRuntimeSetting).setMissionRuntimeURI(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUriFirstVersion());   
+            (toolBrokerAPI as ToolBrokerAPIRuntimeSetting).setMissionRuntimeURI(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUriFirstVersion());
          }
          config = basicConfig;
       }
@@ -197,14 +199,13 @@ public class ScyDesktopCreator {
       addEloInformationToMissionModel();
       handleEloToolConfigs();
       handleTemplateElos();
-      logger.info("missionRunConfigs elos:\n"
-         "- mission specification: {missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getTypedContent().getMissionSpecificationEloUri()}\n"
-         "- mission runtime: {missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri()}\n"
-         "- mission map model : {missionRunConfigs.missionMapModel.getMissionModelElo().getUri()}\n"
-         "- elo tool configs: {missionRunConfigs.missionRuntimeModel.getEloToolConfigsElo().getUri()}\n"
-         "- template elos: {missionRunConfigs.missionRuntimeModel.getTemplateElosElo().getUri()}\n"
-         "- runtime settings: {missionRunConfigs.missionRuntimeModel.getRuntimeSettingsElo().getUri()}"
-         );
+      def missionSpecificationEloUri = missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getTypedContent().getMissionSpecificationEloUri();
+      logger.info("missionRunConfigs elos:\n""- mission specification : {missionSpecificationEloUri}\n""- mission runtime       : {missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri()}\n""- mission map model     : {missionRunConfigs.missionMapModel.getMissionModelElo().getUri()}\n""- elo tool configs      : {missionRunConfigs.missionRuntimeModel.getEloToolConfigsElo().getUri()}\n""- template elos         : {missionRunConfigs.missionRuntimeModel.getTemplateElosElo().getUri()}\n""- runtime settings      : {missionRunConfigs.missionRuntimeModel.getRuntimeSettingsElo().getUri()}");
+      if (missionSpecificationEloUri != null) {
+         def missionSpecificationElo = MissionSpecificationElo.loadElo(missionSpecificationEloUri, missionRunConfigs.tbi);
+         def misssionSpecification = missionSpecificationElo.getTypedContent();
+         logger.info("mission specification elos:\n""- mission map model : {misssionSpecification.getMissionMapModelEloUri()}\n""- elo tool configs  : {misssionSpecification.getEloToolConfigsEloUri()}\n""- template elos     : {misssionSpecification.getTemplateElosEloUri()}\n""- runtime settings  : {misssionSpecification.getRuntimeSettingsEloUri()}");
+      }
       if (initializer.debugMode) {
          printConfiguration();
       }
@@ -225,7 +226,7 @@ public class ScyDesktopCreator {
       if (missionAnchor.eloUri != null and missionAnchor.eloUri.toString() != "") {
          missionAnchor.color = windowStyler.getScyColor(missionAnchor.eloUri);
          missionAnchor.scyElo = ScyElo.loadMetadata(missionAnchor.eloUri, config.getToolBrokerAPI());
-//         missionAnchor.metadata = config.getRepository().retrieveMetadata(missionAnchor.eloUri);
+      //         missionAnchor.metadata = config.getRepository().retrieveMetadata(missionAnchor.eloUri);
       } else {
          missionAnchor.color = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray).mainColor;
       }
@@ -238,7 +239,7 @@ public class ScyDesktopCreator {
             var newMetadata = config.getEloFactory().createMetadata();
             newMetadata.getMetadataValueContainer(iconTypeKey).setValue(missionAnchor.iconType);
             config.getRepository().addMetadata(missionAnchor.eloUri, newMetadata);
-//            missionAnchor.metadata = config.getRepository().retrieveMetadata(missionAnchor.eloUri);
+            //            missionAnchor.metadata = config.getRepository().retrieveMetadata(missionAnchor.eloUri);
             missionAnchor.color = windowStyler.getScyColor(missionAnchor.eloUri);
          }
 
@@ -261,7 +262,8 @@ public class ScyDesktopCreator {
       var eloToolConfigs = missionRunConfigs.missionRuntimeModel.getEloToolConfigsElo().getTypedContent().getEloToolConfigs();
       if (eloToolConfigs.size() > 0) {
          for (eloToolConfig in eloToolConfigs) {
-            if (initializer.authorMode or eloToolConfig.getEloSystemRole() == EloSystemRole.USER) {
+            if ((initializer.authorMode or eloToolConfig.getEloSystemRole() == EloSystemRole.USER)
+               and ApplyEloToolConfigDefaults.defaultEloToolConfigType != eloToolConfig.getEloType()) {
                newEloCreationRegistry.registerEloCreation(eloToolConfig.getEloType());
             }
          }
@@ -343,9 +345,9 @@ public class ScyDesktopCreator {
       //scyDesktop.config.getToolBrokerAPI().registerForNotifications(scyDesktop.remoteCommandRegistryFX);
       logger.debug("****************registering ScyDesktopNotificationRouter for notifications***************************");
       def scyDesktopNotificationRouter: ScyDesktopNotificationRouter = ScyDesktopNotificationRouter {
-          scyDesktop: scyDesktop;
-      }
-      
+            scyDesktop: scyDesktop;
+         }
+
       scyDesktop.config.getToolBrokerAPI().registerForNotifications(scyDesktopNotificationRouter);
 
       return scyDesktop;
