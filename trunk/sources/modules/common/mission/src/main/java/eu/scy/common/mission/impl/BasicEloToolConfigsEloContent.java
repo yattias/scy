@@ -42,8 +42,13 @@ public class BasicEloToolConfigsEloContent implements EloToolConfigsEloContent
       {
          eloToolConfigsMap.put(eloToolConfig.getEloType(), eloToolConfig);
       }
-      applyEloToolConfigDefaults.setDefaultEloToolConfig(eloToolConfigsMap
-               .get(ApplyEloToolConfigDefaults.defaultEloToolConfigType));
+      EloToolConfig defaultEloToolConfigs = eloToolConfigsMap
+               .get(ApplyEloToolConfigDefaults.defaultEloToolConfigType);
+      if (defaultEloToolConfigs != null)
+      {
+         eloToolConfigsMap.remove(ApplyEloToolConfigDefaults.defaultEloToolConfigType);
+      }
+      applyEloToolConfigDefaults.setDefaultEloToolConfig(defaultEloToolConfigs);
    }
 
    @Override
