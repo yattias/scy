@@ -9,46 +9,38 @@
 	<artifactId>scy-server</artifactId>
 	<packaging>pom</packaging>
 	<name>SCY Server Bundle</name>
-	
 	<dependencies>
-	
 		<dependency>
 			<!-- javassist necessary for embedded jetty run -->
 			<groupId>javassist</groupId>
 			<artifactId>javassist</artifactId>
 			<version>3.9.0.GA</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>eu.scy</groupId>
 			<artifactId>roolo-ws</artifactId>
 			<version>${pom.version}</version>
 			<type>war</type>
 		</dependency>
-		
 		<dependency>
 			<groupId>eu.scy.server</groupId>
 			<artifactId>server-external-components</artifactId>
-			<version>${pom.version}</version>
+			<version>${pom.version}${version-name}</version>
 			<type>war</type>
 		</dependency>
-		
 		<dependency>
 			<groupId>info.collide</groupId>
 			<artifactId>sqlspaces-server-web</artifactId>
 			<version>${sqlspaces-version}</version>
 			<type>war</type>
 		</dependency>
-		
 		<dependency>
 			<groupId>net.sf.sail</groupId>
 			<artifactId>webapp</artifactId>
 			<version>0.2.0-SNAPSHOT</version>
 			<type>war</type>
 		</dependency>
-		
 	</dependencies>
-	
 	<profiles>
 		<profile>
 			<id>embedded</id>
@@ -172,5 +164,29 @@
 				</plugins>
 			</build>
 		</profile>
+		<profile>
+			<id>default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<version-name></version-name>
+			</properties>
+		</profile>
+		<profile>
+			<id>UDE-Review</id>
+			<properties>
+				<version-name>-review</version-name>
+			</properties>
+		</profile>
 	</profiles>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>eu.scy.common</groupId>
+				<artifactId>configuration</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>
