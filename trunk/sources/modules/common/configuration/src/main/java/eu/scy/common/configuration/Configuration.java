@@ -22,19 +22,20 @@ public class Configuration {
     Will pick up all properties that starts with scyconfig or sqlspaces. If the property starts with scyconofig, the prefix will be removed (not if it starts with sqlspaces - to make it perfectly confusing
      */
     private Configuration() {
+        StringBuilder builder = new StringBuilder();
         try {
-            logger.info("initialising default configuration");
+            builder.append("initialising default configuration\n");
             props = getDefaultProperties();
-            logger.info("loading configuration from file");
+            builder.append("loading configuration from file\n");
             URL url = Configuration.class.getResource("scyconfig.properties");
-            logger.info("configuration file found in " + url.toString());
+            builder.append("configuration file found in " + url.toString() + "\n");
             props.load(url.openStream());
-            logger.info("loaded " + props.size() + " keys");
-            logger.info("parsing system properties for configuration");
+            builder.append("loaded " + props.size() + " keys\n");
+            builder.append("parsing system properties for configuration\n");
             Properties sysprops = System.getProperties();
             int counter = 0;
             for (Object key : sysprops.keySet()) {
-                logger.info("PROP: " + key.toString() + " ----> '" + sysprops.get(key) + "'");
+                builder.append("PROP: " + key.toString() + " ----> '" + sysprops.get(key) + "'\n");
                 if (key.toString().startsWith("scyconfig.")) {
                     counter++;
                     String keyString = key.toString();
@@ -47,10 +48,11 @@ public class Configuration {
                 }
             }
             if (counter > 0) {
-                logger.info("loaded " + counter + " keys from system properties");
+                builder.append("loaded " + counter + " keys from system properties\n");
             } else {
-                logger.info("no keys loaded from system properties");
+                builder.append("no keys loaded from system properties\n");
             }
+            logger.info(builder.toString());
             // check for old configuration items
             if (props.getProperty("communication.client.event.join.session") != null) {
                 System.err.println("Old property values found. You should only have one scyconfig.properties in your classpath!");
