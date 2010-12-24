@@ -33,44 +33,44 @@ public class RoleAreaWindowPositioner extends WindowPositioner {
 //   var anchorWindows:ScyWindow[];
 //   var otherWindows:ScyWindow[];
    var mainWindowArea: Bounds;
+   var fullMainWindowArea: Bounds;
    var assignmentWindowArea: Bounds;
    var anchorWindowArea: Bounds;
    var otherWindowArea: Bounds;
    def anchorWindowPositioner = AreaPositioner {
-      name:"anchor elos"
-      horizontal:true
-         }
+         name: "anchor elos"
+         horizontal: true
+      }
    def otherWindowPositioner = AreaPositioner {
-      name:"other elos"
-      horizontal:false
-         }
-   def areaRectangleStrokeColor = Color.color(0,0,0,0.3);
+         name: "other elos"
+         horizontal: false
+      }
+   def areaRectangleStrokeColor = Color.color(0, 0, 0, 0.3);
    def mainWindowAreaRectangle = Rectangle {
          x: 0, y: 0
          width: 0, height: 0
          fill: Color.color(0, 1, 0, 0.1);
-         stroke:areaRectangleStrokeColor
+         stroke: areaRectangleStrokeColor
       }
    def assignmentWindowAreaRectangle = Rectangle {
          x: 0, y: 0
          width: 0, height: 0
          fill: Color.color(0, 0, 1, 0.1);
-         stroke:areaRectangleStrokeColor
+         stroke: areaRectangleStrokeColor
       }
    def anchorWindowAreaRectangle = Rectangle {
          x: 0, y: 0
          width: 0, height: 0
          fill: Color.color(1, 1, 0, 0.1);
-         stroke:areaRectangleStrokeColor
+         stroke: areaRectangleStrokeColor
       }
    def otherWindowAreaRectangle = Rectangle {
          x: 0, y: 0
          width: 100, height: 100
          fill: Color.color(1, 0, 1, 0.1);
-         stroke:areaRectangleStrokeColor
+         stroke: areaRectangleStrokeColor
       }
    var areaRectsAddedToScene = false;
-
    def containsAssignmentKey = scyDesktop.config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.CONTAINS_ASSIGMENT_ELO.getId());
 
    override public function addGlobalLearningObjectWindow(window: ScyWindow): Boolean {
@@ -97,7 +97,7 @@ public class RoleAreaWindowPositioner extends WindowPositioner {
             // it's a anchor window
             anchorWindowPositioner.ignoreWindow = mainWindow;
             assignmentWindow = findAssignmentWindow(mainWindow);
-            if (assignmentWindow!=null){
+            if (assignmentWindow != null) {
                otherWindowPositioner.ignoreWindow = assignmentWindow;
             }
          } else {
@@ -105,22 +105,21 @@ public class RoleAreaWindowPositioner extends WindowPositioner {
             otherWindowPositioner.ignoreWindow = window;
          }
       }
-      //positionWindows();
+   //positionWindows();
    }
 
-   function findAssignmentWindow(window:ScyWindow):ScyWindow{
+   function findAssignmentWindow(window: ScyWindow): ScyWindow {
       var metadata = scyDesktop.config.getRepository().retrieveMetadata(window.eloUri);
       var assignmentEloUri = metadata.getMetadataValueContainer(containsAssignmentKey).getValue() as URI;
-      if (assignmentEloUri!=null){
-         for (otherWindow in otherWindowPositioner.windows){
-            if (otherWindow.eloUri==assignmentEloUri){
+      if (assignmentEloUri != null) {
+         for (otherWindow in otherWindowPositioner.windows) {
+            if (otherWindow.eloUri == assignmentEloUri) {
                return otherWindow;
             }
          }
       }
       return null;
    }
-
 
    public override function setAnchorWindow(window: ScyWindow): Boolean {
       insert window into anchorWindowPositioner.windows;
@@ -166,11 +165,15 @@ public class RoleAreaWindowPositioner extends WindowPositioner {
 
    public override function positionWindows(): Void {
       setAreas();
-      if (mainWindow != null) {
-         placeWindow(mainWindow, mainWindowArea);
-      }
       if (assignmentWindow != null) {
          placeWindow(assignmentWindow, assignmentWindowArea);
+         if (mainWindow != null) {
+            placeWindow(mainWindow, mainWindowArea);
+         }
+      } else {
+         if (mainWindow != null) {
+            placeWindow(mainWindow, fullMainWindowArea);
+         }
       }
       anchorWindowPositioner.area = anchorWindowArea;
       anchorWindowPositioner.positionWindows();
@@ -184,7 +187,7 @@ public class RoleAreaWindowPositioner extends WindowPositioner {
 
    public override function getWindowPositionsState(): WindowPositionsState {
       WindowPositionsState {
-         }
+      }
    }
 
    def mainHOffsetFactor = 0.4;
@@ -197,38 +200,44 @@ public class RoleAreaWindowPositioner extends WindowPositioner {
    def windowRightMargin = 10;
 
    function setAreas() {
-      var mainHOffset = Math.min(mainHOffsetFactor * width,maximumHOffset);
-      var mainVOffset = Math.min(mainVOffsetFactor * height,maximumVOffset);
+      var mainHOffset = Math.min(mainHOffsetFactor * width, maximumHOffset);
+      var mainVOffset = Math.min(mainVOffsetFactor * height, maximumVOffset);
       mainWindowArea = BoundingBox {
-         minX: mainHOffset+areaSeparation
-         width: mainAssignmentFactor * (width - mainHOffset - 3*areaSeparation)
-         minY: mainVOffset+areaSeparation
-         height: height - mainVOffset - 2*areaSeparation
-      };
+            minX: mainHOffset + areaSeparation
+            width: mainAssignmentFactor * (width - mainHOffset - 3 * areaSeparation)
+            minY: mainVOffset + areaSeparation
+            height: height - mainVOffset - 2 * areaSeparation
+         };
       assignmentWindowArea = BoundingBox {
-         minX: mainWindowArea.maxX + areaSeparation
-         width: width - mainWindowArea.maxX - 2*areaSeparation
-         minY: mainWindowArea.minY
-         height: height - mainVOffset- 2*areaSeparation - scyDesktop.bottomRightCorner.boundsInLocal.height-scyDesktop.bottomRightCorner.boundsInLocal.minY
-      }
-//      println("scyDesktop.topLeftCorner.boundsInLocal: {scyDesktop.topLeftCorner.boundsInLocal}");
-//      println("scyDesktop.topRightCorner.boundsInLocal: {scyDesktop.topRightCorner.boundsInLocal}");
+            minX: mainWindowArea.maxX + areaSeparation
+            width: width - mainWindowArea.maxX - 2 * areaSeparation
+            minY: mainWindowArea.minY
+            height: height - mainVOffset - 2 * areaSeparation - scyDesktop.bottomRightCorner.boundsInLocal.height - scyDesktop.bottomRightCorner.boundsInLocal.minY
+         }
+      fullMainWindowArea = BoundingBox {
+            minX: mainHOffset + areaSeparation
+            width: width - mainHOffset - 2*areaSeparation - scyDesktop.bottomRightCorner.boundsInLocal.width - scyDesktop.bottomRightCorner.boundsInLocal.minX
+            minY: mainVOffset + areaSeparation
+            height: height - mainVOffset - 2 * areaSeparation
+         };
+      //      println("scyDesktop.topLeftCorner.boundsInLocal: {scyDesktop.topLeftCorner.boundsInLocal}");
+      //      println("scyDesktop.topRightCorner.boundsInLocal: {scyDesktop.topRightCorner.boundsInLocal}");
       var anchorAreaLeftOffset = scyDesktop.topLeftCorner.boundsInLocal.width + scyDesktop.topLeftCorner.boundsInLocal.minX;
       var anchorAreaRightOffset = scyDesktop.topRightCorner.boundsInLocal.width;
       anchorWindowArea = BoundingBox {
-         minX: anchorAreaLeftOffset
-         width: width - anchorAreaLeftOffset - anchorAreaRightOffset
-         minY: 0
-         height: mainVOffset
-      }
+            minX: anchorAreaLeftOffset
+            width: width - anchorAreaLeftOffset - anchorAreaRightOffset
+            minY: 0
+            height: mainVOffset
+         }
       var otherAreaTopOffset = Math.max(scyDesktop.topLeftCorner.boundsInLocal.height, anchorWindowArea.maxY);
       var otherAreaBottomOffset = scyDesktop.bottomLeftCorner.boundsInLocal.height;
       otherWindowArea = BoundingBox {
-         minX: 0
-         width: mainHOffset
-         minY: otherAreaTopOffset
-         height: height - otherAreaTopOffset - otherAreaBottomOffset
-      }
+            minX: 0
+            width: mainHOffset
+            minY: otherAreaTopOffset
+            height: height - otherAreaTopOffset - otherAreaBottomOffset
+         }
       if (showAreas) {
          showAreaRects();
          placeRectangleAsArea(mainWindowAreaRectangle, mainWindowArea);
