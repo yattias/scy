@@ -43,8 +43,27 @@
   </lom>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<runtimeSettings />
-</content>
+	<runtimeSettings>
+		<runtimeSetting>
+			<name>missionMap.positionScale</name>
+			<lasId />
+			<eloUri />
+			<value>1.4</value>
+		</runtimeSetting>
+		<runtimeSetting>
+			<name>missionMap.selectedScale</name>
+			<lasId />
+			<eloUri />
+			<value>2.5</value>
+		</runtimeSetting>
+		<runtimeSetting>
+			<name>missionMap.notSelectedScale</name>
+			<lasId />
+			<eloUri />
+			<value>2.0</value>
+		</runtimeSetting>
+	</runtimeSettings>
+</content> 
 <resources>
 </resources>
 </elo>
