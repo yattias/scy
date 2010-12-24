@@ -278,10 +278,11 @@ public class BasicMissionManagement implements MissionManagement
             return loEloUri;
          }
       }
-      if (!missionAnchor.getLoEloUris().isEmpty())
-      {
-         return missionAnchor.getLoEloUris().get(0);
-      }
+      // assignment elo is not specified, use first lo elo
+      // if (!missionAnchor.getLoEloUris().isEmpty())
+      // {
+      // return missionAnchor.getLoEloUris().get(0);
+      // }
       return null;
    }
 
