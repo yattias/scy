@@ -44,7 +44,7 @@
 </metadata>
 <content languageIndependent="true" contentType="xml">
 <missionModel>
-  <activeLas />
+  <activeLas>startPage</activeLas>
   <loElos>
     <eloUri>roolo://memory/37/0/Glossary.url</eloUri>
   </loElos>

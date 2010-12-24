@@ -12,6 +12,7 @@
 
       <property name="basicMissionMap">
          <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionMap">
+            <property name="initialLasId" value="startPage"/>
             <property name="loEloUris">
                <list>
                   <value>roolo://memory/37/0/Glossary.url</value>
