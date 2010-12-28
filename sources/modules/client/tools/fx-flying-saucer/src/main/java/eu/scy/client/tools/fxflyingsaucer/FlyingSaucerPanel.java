@@ -9,11 +9,13 @@ import eu.scy.client.desktop.scydesktop.scywindows.ShowMoreInfo;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.io.StringReader;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
@@ -193,7 +195,14 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       {
          if (isPageLoaded)
          {
-            saveUrlAsHome(browser.getURL());
+            try
+            {
+               saveUrlAsHome(new URL(enteredUrlString));
+            }
+            catch (MalformedURLException ex)
+            {
+               logger.warn("title field (" + urlField.getText() + ") does not contain a valid url, " + ex.getMessage());
+            }
          }
          else
          {
@@ -216,6 +225,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
 //       System.out.println(evt.getKeyCode() + ", " + evt.getKeyText(evt.getKeyCode()) + ", " + (int)evt.getKeyChar());
       if (((int) evt.getKeyChar() == 10) && !urlFieldIsTitle)
       {
+         enteredUrlString = urlField.getText();
          loadUrl(urlField.getText());
       }
    }
@@ -235,6 +245,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
    private boolean urlFieldIsTitle = false;
    private boolean urlFieldIsTitleBeforeLoading = false;
    private boolean errorInPage = false;
+   private String enteredUrlString = null;
 
    public void setHomeUrl(String homeUrl)
    {
@@ -308,7 +319,8 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       nextButton.setEnabled(uriManager.hasNext());
    }
 
-   public void clearHistory(){
+   public void clearHistory()
+   {
       uriManager.clear();
    }
 
@@ -317,7 +329,8 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       browser.setShowMoreInfo(showMoreInfo);
    }
 
-   public void setEloUri(URI eloUri){
+   public void setEloUri(URI eloUri)
+   {
       browser.setEloUri(eloUri);
    }
 
