@@ -161,6 +161,16 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
       }
    }
 
+   @Override
+   public void loadUrl(final String url)
+   {
+      String localizedUrl = url;
+      if (url!=null){
+         localizedUrl = getLocalizedUri(url);
+      }
+      super.loadUrl(localizedUrl);
+   }
+
    private String getLocalizedUri(String urlString)
    {
       try
