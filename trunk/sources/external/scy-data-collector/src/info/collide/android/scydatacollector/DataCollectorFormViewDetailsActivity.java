@@ -452,13 +452,6 @@ public class DataCollectorFormViewDetailsActivity extends Activity implements Ob
                 }
                 table.addView(llExtraData);
             }
-
-            // for (DataFormElementModel el : _dfem.get) {
-            //
-            // // table.removeViewAt(i);
-            // table.addView(new DataFormElement(el, _application, table
-            // .getChildCount()).getView());
-            // }
             TextView tvPos = new TextView(_thisView);
             tvPos.setText(getResources().getString(R.string.Position) + " " + (Integer.valueOf(_viewPos + 1)) + " " + getResources().getString(R.string.of) + " " + _dfem.getDataList().size());
 

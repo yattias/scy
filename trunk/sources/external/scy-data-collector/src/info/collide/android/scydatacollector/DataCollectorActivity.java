@@ -3,59 +3,121 @@ package info.collide.android.scydatacollector;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class DataCollectorActivity extends Activity {
 
-    Button btnLoadConfig;
+    public static final int SETTINGSREQUESTCODE = 1;
 
-    Button btnQuit;
+    private ImageView openFormOverviewButton;
+    
+    private OnClickListener openFormListener;
 
-    Button btnOpenFormOverview;
+    private ImageView openDownloadFormsOverviewButton;
 
-    Button btnOpenDownloadFormsOverview;
+    private ImageView loadConfigButton;
 
-    // Button btnOpenSynchronize;
-    DataCollectorController dcc;
+    private TextView openFormOverviewTitle;
 
-    DataCollectorActivity application;
+    private OnClickListener openDownloadFormsOverviewListener;
+
+    private TextView openDownloadFormsOverviewTitle;
+
+    private OnClickListener loadConfigListener;
+
+    private TextView loadConfigTitle;
+
+    private TextView openFormOverviewText;
+
+    private TextView openDownloadFormsOverviewText;
+
+    private TextView loadConfigText;
 
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        application = this;
         setContentView(R.layout.mainmenu);
 
-        btnOpenDownloadFormsOverview = (Button) findViewById(R.id.btnOpenDownloadForms);
-        btnLoadConfig = (Button) findViewById(R.id.btnOpenConfig);
-        btnQuit = (Button) findViewById(R.id.btnQuit);
-        btnOpenFormOverview = (Button) findViewById(R.id.btnOpenOverview);
+        openFormListener = new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                Intent tki = new Intent();
+                tki.setClass(getApplication(), DataCollectorFormOverviewActivity.class);
+                startActivity(tki);
+            }
+        };
+        
+        openFormOverviewButton = (ImageView) findViewById(R.id.FormsIcon);
+        openFormOverviewTitle = (TextView) findViewById(R.id.SelectFormTitle);
+        openFormOverviewText = (TextView) findViewById(R.id.SelectFormText);
+       
+        openDownloadFormsOverviewListener = new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                if (!new DataCollectorConfiguration(DataCollectorActivity.this).isComplete()) {
+                    Toast.makeText(getApplication(), R.string.notconfiguredyet, Toast.LENGTH_LONG).show();
+                } else {
+                    Intent tki = new Intent();
+                    tki.setClass(getApplication(), DownloadFormsOverviewActivity.class);
+                    startActivity(tki);
+                }            
+            }
+        };
 
-        dcc = new DataCollectorController(this);
+        openDownloadFormsOverviewButton = (ImageView) findViewById(R.id.SyncIcon);
+        openDownloadFormsOverviewTitle = (TextView) findViewById(R.id.SyncFormTitle);
+        openDownloadFormsOverviewText = (TextView) findViewById(R.id.SyncFormText);
+        
+        loadConfigButton = (ImageView) findViewById(R.id.PreferencesIcon);
+        loadConfigTitle = (TextView) findViewById(R.id.PreferencesTitle);
+        loadConfigText = (TextView) findViewById(R.id.PreferencesText);
+        
+        loadConfigListener = new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                Intent tki = new Intent();
+                tki.setClass(getApplication(), DataCollectorConfigurationActivity.class);
+                startActivityForResult(tki, SETTINGSREQUESTCODE);            
+            }
+        };
     }
 
-    public void addbtnQuit(OnClickListener ocl) {
-        btnQuit.setOnClickListener(ocl);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == SETTINGSREQUESTCODE) {
+            if (data != null) {
+                Bundle bundle = data.getExtras();
+                if (bundle != null) {
+                    setTitle(getString(R.string.app_name) + " - User: " + bundle.getString("configUserName"));
+                }
+            }
+        }
     }
-
-    public void addbtnOpenFormOverview(OnClickListener ocl) {
-        btnOpenFormOverview.setOnClickListener(ocl);
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        
+        // register listeners
+        openFormOverviewButton.setOnClickListener(openFormListener);
+        openFormOverviewTitle.setOnClickListener(openFormListener);
+        openFormOverviewText.setOnClickListener(openFormListener);
+        
+        openDownloadFormsOverviewButton.setOnClickListener(openDownloadFormsOverviewListener);
+        openDownloadFormsOverviewTitle.setOnClickListener(openDownloadFormsOverviewListener);
+        openDownloadFormsOverviewText.setOnClickListener(openDownloadFormsOverviewListener);
+        
+        loadConfigButton.setOnClickListener(loadConfigListener);
+        loadConfigTitle.setOnClickListener(loadConfigListener);
+        loadConfigText.setOnClickListener(loadConfigListener);
     }
-
-    public void addbtnLoadConfig(OnClickListener ocl) {
-        btnLoadConfig.setOnClickListener(ocl);
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        dcc.onActivityResult(requestCode, resultCode, data);
-    }
-
-    public void addbtnOpenDownloadFormOverview(OnClickListener ocl) {
-        btnOpenDownloadFormsOverview.setOnClickListener(ocl);
-    }
-
+    
 }

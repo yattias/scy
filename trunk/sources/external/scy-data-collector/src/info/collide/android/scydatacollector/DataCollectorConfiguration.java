@@ -62,4 +62,23 @@ public class DataCollectorConfiguration {
         editor.putString(GROUP_KEY, groupname);
         editor.commit();
     }
+    
+    
+    public boolean isComplete() {
+        boolean complete = true;
+        
+        String serverUrl = getServerUrl();
+        complete &= serverUrl != null && serverUrl.length() > 0;
+        
+        String userName = getUserName();
+        complete &= userName != null && userName.length() > 0;
+        
+        String password = getPassword();
+        complete &= password != null && password.length() > 0;
+        
+        String groupname = getGroupname();
+        complete &= groupname != null && groupname.length() > 0;
+        
+        return complete;
+    }
 }

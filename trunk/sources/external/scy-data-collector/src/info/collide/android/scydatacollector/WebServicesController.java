@@ -124,50 +124,44 @@ public class WebServicesController {
         t.start();
     }
 
-    public ArrayList<DataFormPreviewModel> getEloForms(String ownForms) {
+    public ArrayList<DataFormPreviewModel> getEloForms(String ownForms) throws Exception {
         JSONObject request = new JSONObject();
-        try {
-            request.put("username", config.getUserName());
-            request.put("password", config.getPassword());
-            JSONObject query = new JSONObject();
-            query.put("metadatakey", "technicalFormat");
-            query.put("metadatavalue", "scy/formtemplate");
+        request.put("username", config.getUserName());
+        request.put("password", config.getPassword());
+        JSONObject query = new JSONObject();
+        query.put("metadatakey", "technicalFormat");
+        query.put("metadatavalue", "scy/formtemplate");
 
-            JSONArray metadata = new JSONArray();
-            metadata.put("title");
-            metadata.put("description");
-            metadata.put("author");
-            metadata.put("identifier");
+        JSONArray metadata = new JSONArray();
+        metadata.put("title");
+        metadata.put("description");
+        metadata.put("author");
+        metadata.put("identifier");
 
-            request.put("query", query);
-            request.put("metadata", metadata);
+        request.put("query", query);
+        request.put("metadata", metadata);
 
-            String mUrl = config.getServerUrl() + queryElos;
+        String mUrl = config.getServerUrl() + queryElos;
 
-            JSONArray jsonELOArray = doJSONRequestWithJSONArrayResult(mUrl, request);
+        JSONArray jsonELOArray = doJSONRequestWithJSONArrayResult(mUrl, request);
 
-            ArrayList<DataFormPreviewModel> alDfpm = new ArrayList<DataFormPreviewModel>();
-            for (int i = 0; i < jsonELOArray.length(); i++) {
-                JSONObject jsonForm = jsonELOArray.getJSONObject(i);
+        ArrayList<DataFormPreviewModel> alDfpm = new ArrayList<DataFormPreviewModel>();
+        for (int i = 0; i < jsonELOArray.length(); i++) {
+            JSONObject jsonForm = jsonELOArray.getJSONObject(i);
 
-                String title = jsonForm.getString("title");
-                String description = jsonForm.getString("description");
-//                JSONArray authors = jsonForm.getJSONArray("author");
-                // we are only interested in the first author
-//                String author = authors.getJSONObject(0).getString("vcard");
-                String author = jsonForm.getString("author");
-                String uri = jsonForm.getString("identifier");
+            String title = jsonForm.getString("title");
+            String description = jsonForm.getString("description");
+            // JSONArray authors = jsonForm.getJSONArray("author");
+            // we are only interested in the first author
+            // String author = authors.getJSONObject(0).getString("vcard");
+            String author = jsonForm.getString("author");
+            String uri = jsonForm.getString("identifier");
 
-                DataFormPreviewModel dfpm = new DataFormPreviewModel(title, description, author, uri);
-                alDfpm.add(dfpm);
-            }
-
-            return alDfpm;
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(activity, R.string.connectionError, Toast.LENGTH_SHORT);
+            DataFormPreviewModel dfpm = new DataFormPreviewModel(title, description, author, uri);
+            alDfpm.add(dfpm);
         }
-        return null;
+
+        return alDfpm;
     }
 
     private String makeRequestTextResult(String path, JSONObject params) throws Exception {

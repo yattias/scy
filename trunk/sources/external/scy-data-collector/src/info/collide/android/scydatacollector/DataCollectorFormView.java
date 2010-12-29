@@ -10,7 +10,6 @@ import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
-import android.os.Message;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -60,15 +59,14 @@ public class DataCollectorFormView implements Observer {
              * @param cv
              */
             private void updateDCFM(final ContentValues cv, final Uri uri) {
-                ProgressDialog mypd = ProgressDialog.show(application, activity.getResources().getString(R.string.msgSaveToSQL), activity.getResources().getString(R.string.msgPleaseWait), false);
+                final ProgressDialog mypd = ProgressDialog.show(application, activity.getResources().getString(R.string.msgSaveToSQL), activity.getResources().getString(R.string.msgPleaseWait), false);
 
                 Thread t = new Thread() {
 
                     public void run() {
                         application.getContentResolver().update(uri, cv, null, null);
-                        Message message = new Message();
-                        message.what = application.GUIUPDATEIDENTIFIER;
-                        application.myGUIUpdateHandler.sendMessage(message);
+                        mypd.dismiss();
+                        application.finish();
                     }
                 };
                 t.start();

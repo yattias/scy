@@ -61,18 +61,7 @@ public class LoadFormsDataListAdapter extends BaseAdapter {
         bindListViewListener(listview);
 
         // load some data into the model
-        String exception = getForms();
-        if (exception != null) {
-            MessageDialog md = new MessageDialog(context);
-            android.content.DialogInterface.OnClickListener oclYes = new android.content.DialogInterface.OnClickListener() {
-
-                public void onClick(DialogInterface dialog, int which) {
-                    context.finish();
-                }
-            };
-
-            md.createInfoDialog(context.getResources().getString(R.string.msgNoConnectionToRepository), oclYes);
-        }
+        getForms();
     }
 
     private void bindListViewListener(ListView listview) {
@@ -84,8 +73,7 @@ public class LoadFormsDataListAdapter extends BaseAdapter {
         });
     }
 
-    private String getForms() {
-        String exception = null;
+    private void getForms() {
         try {
             WebServicesController wsc = new WebServicesController(_context);
             if (_ownFormulars == true) {
@@ -101,13 +89,17 @@ public class LoadFormsDataListAdapter extends BaseAdapter {
                 id++;
             }
             notifyDataSetChanged();
-        }
+        } catch (Exception ex) {
+            MessageDialog md = new MessageDialog(_context);
+            android.content.DialogInterface.OnClickListener oclYes = new android.content.DialogInterface.OnClickListener() {
 
-        catch (Exception ex) {
-            exception = ex.getMessage();
+                public void onClick(DialogInterface dialog, int which) {
+                    _context.finish();
+                }
+            };
+
+            md.createInfoDialog(_context.getResources().getString(R.string.msgNoConnectionToRepository), oclYes);
         }
-        ;
-        return exception;
     }
 
     public int getCount() {
@@ -195,79 +187,17 @@ public class LoadFormsDataListAdapter extends BaseAdapter {
 
             // single row that holds icon/flag & name
             TableRow row = new TableRow(_context);
-            // LayoutUtils.Layout.WidthFill_HeightWrap.applyTableLayoutParams(row);
 
             // fill the first row with: icon/flag, name
             {
                 _lblFormTitle = new TextView(_context);
-                // LayoutUtils.Layout.WidthWrap_HeightWrap.applyTableRowParams(_lblName);
-                // _lblName.setPadding(10, 10, 10, 10);
-
-                // _lblIcon = AppUtils.createImageView(_context, -1, -1, -1);
-                // LayoutUtils.Layout.WidthWrap_HeightWrap.applyTableRowParams(_lblIcon);
-                // _lblIcon.setPadding(10, 10, 10, 10);
-
-                // _btnOpenForm = new Button(_context);
-                // _btnOpenForm.setText("…ffnen");
-                //
-                // _btnOpenForm.setOnClickListener(new OnClickListener() {
-
-                // public void onClick(View arg0) {
-                // // TODO Auto-generated method stub
-                //
-                // Intent tki = new Intent();
-                // tki.setClass(_context, DataCollectorFormActivity.class);
-                // long dataform = getItemId(_selectedIndex);
-                //
-                // tki.putExtra("dataform", dataform);
-                // _context.startActivity(tki);
-                //
-                // }
-                // });
-                //
-                // _btnDeleteForm = new Button(_context);
-                // _btnDeleteForm.setText("Lšschen");
-                //
-                // _btnDeleteForm.setOnClickListener(new OnClickListener() {
-                //
-                // public void onClick(View arg0) {
-                // // TODO Auto-generated method stub
-                // // DataCollectorContentProvider cp = new
-                // // DataCollectorContentProvider();
-                // MessageDialog mdDeleteForm = new MessageDialog(_context);
-                // android.content.DialogInterface.OnClickListener oclYes = new
-                // android.content.DialogInterface.OnClickListener() {
-                // public void onClick(DialogInterface dialog,
-                // int which) {
-                // Uri uri = Uri
-                // .parse("content://info.collide.android.scydatacollector.DataCollectorProvider.Forms/forms");
-                // _context
-                // .getContentResolver()
-                // .delete(
-                // uri,
-                // String
-                // .valueOf(getItemId(_selectedIndex)),
-                // null);
-                //
-                // LoadFormsDataListAdapter.this
-                // .notifyDataSetChanged();
-                // }
-                // };
-                // mdDeleteForm.createYesNoDialog("Delete this form",
-                // oclYes, "Yes", null, "No");
-                // }
-                // });
-
-                // row.addView(_lblIcon);
 
                 row.addView(_lblFormTitle);
-                // row.addView(_btnOpenForm);
             }
 
             // create the 2nd row with: description
             {
                 _lblFormDescription = new TextView(_context);
-                // LayoutUtils.Layout.WidthFill_HeightWrap.applyTableLayoutParams(_lblDescription);
                 _lblFormDescription.setPadding(10, 10, 10, 10);
                 _cbDownload = new CheckBox(_context);
                 _cbDownload.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -280,7 +210,6 @@ public class LoadFormsDataListAdapter extends BaseAdapter {
                         }
                     }
                 });
-                // _cbDownload.setChecked(false);
                 _cbDownload.setText(getResources().getString(R.string.chkDownlaod));
                 _btnDownload.setEnabled(false);
             }
@@ -290,49 +219,19 @@ public class LoadFormsDataListAdapter extends BaseAdapter {
                 addView(row);
                 addView(_lblFormDescription);
                 addView(_cbDownload);
-                // addView(_btnOpenForm);
-                // addView(_btnDeleteForm);
             }
-
-            // Log.i(getClass().getSimpleName(), "CellRendererView created");
-
         }
 
         /** update the views with the data corresponding to selection index */
         public void display(int index, boolean selected) {
-
-            // String zip = getItem(index).toString();
-            // Hashtable<String, String> weatherForZip = _data.get(zip);
-
-            // Log.i(getClass().getSimpleName(), "row[" + index + "] = " +
-            // weatherForZip.toString());
-
-            // String temp = weatherForZip.get("temperature");
-
-            // String icon = weatherForZip.get("icon");
-            // int iconId = ResourceUtils.getResourceIdForDrawable(_context,
-            // "com.developerlife", "w" + icon);
-
-            // String humidity = weatherForZip.get("humidity");
-
-            // _lblFormTitle.setText("bla");
-
             DataFormPreviewModel dfpm = ((DataFormPreviewModel) getItem(index));
             if (dfpm.is_download()) {
                 _lblFormTitle.setText(dfpm.getTitle() + " [DOWNLOAD]");
-                // _cbDownload.setChecked(true);
             } else {
                 _lblFormTitle.setText(dfpm.getTitle());
-                // _cbDownload.setChecked(false);
             }
-            // _lblIcon.setImageResource(iconId);
             _lblFormDescription.setText(dfpm.getDescription());
-
-            // Log.i(getClass().getSimpleName(), "rendering index:" + index);
-
             if (selected) {
-                // _lblFormTitle.setText(((DataCollectorFormModel)
-                // getItem(index)).getTitle() + " SELECTED");
                 _lblFormDescription.setVisibility(View.VISIBLE);
                 _cbDownload.setVisibility(View.VISIBLE);
                 if (dfpm.is_download()) {
@@ -341,15 +240,9 @@ public class LoadFormsDataListAdapter extends BaseAdapter {
                     _lblFormTitle.setText(dfpm.getTitle());
                     _cbDownload.setChecked(false);
                 }
-                // Log.i(getClass().getSimpleName(),
-                // _btnDeleteForm.setVisibility(View.VISIBLE);
-                // "hiding descripton for index:" + index);
             } else {
                 _lblFormDescription.setVisibility(View.GONE);
                 _cbDownload.setVisibility(View.GONE);
-                // _btnDeleteForm.setVisibility(View.GONE);
-                // Log.i(getClass().getSimpleName(),
-                // "showing description for index:" + index);
             }
         }
     }

@@ -51,5 +51,5 @@
 	<string name="msgPositionCapturing">Position wird ermittelt</string>
 	<string name="msgShowGPS">Position anzeigen</string>
 	<string name="connectionError">Fehler bei der Verbindung zum Repository!</string>
-	<string name="notconfiguredyet">Die Applikation ist noch nicht konfiguriert. Bitte gehen Sie auf Konfiguration und geben Sie die benötigten Daten an.</string>
+	<string name="notconfiguredyet">Die Applikation ist noch nicht (vollständig) konfiguriert. Bitte gehen Sie auf Konfiguration und geben Sie die benötigten Daten an.</string>
 </resources>

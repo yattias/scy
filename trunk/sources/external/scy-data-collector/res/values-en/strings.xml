@@ -46,5 +46,5 @@
 	<string name="msgPositionCapturing">Finding position</string>
 	<string name="msgShowGPS">Show position</string>
 	<string name="connectionError">Problems occurred during connection to repository!</string>
-	<string name="notconfiguredyet">The application is not configured yet. Please click on Configuration and provide the needed values.</string>
+	<string name="notconfiguredyet">The application is not (completely) configured yet. Please click on Configuration and provide the needed values.</string>
 </resources>

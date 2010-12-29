@@ -21,25 +21,6 @@ public class DataCollectorFormActivity extends Activity {
 
     final private static String DCFM_TITLE = "dcfm";
 
-    protected static final int GUIUPDATEIDENTIFIER = 99822832;
-
-    // Set up the message handler
-    Handler myGUIUpdateHandler = new Handler() {
-
-        // @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case GUIUPDATEIDENTIFIER:
-                    dcfv.invalidate();
-                    break;
-                default:
-                    break;
-            }
-
-            super.handleMessage(msg);
-        }
-    };
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
