@@ -1,6 +1,7 @@
 package info.collide.android.scydatacollector;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,6 +37,9 @@ public class DataCollectorConfigurationActivity extends Activity {
                 config.setGroupname(etGroupname.getText().toString());
                 config.setPassword(etPassword.getText().toString());
 
+                Intent result = new Intent();
+                result.putExtra("configUserName", etUserName.getText().toString());
+                setResult(DataCollectorActivity.SETTINGSREQUESTCODE, result);
                 finish();
             }
         });

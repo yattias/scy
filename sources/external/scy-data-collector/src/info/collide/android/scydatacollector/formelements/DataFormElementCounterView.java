@@ -60,12 +60,9 @@ public class DataFormElementCounterView extends DataFormElementView {
 
         buttonInc.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-
-                // try {
                 String tmp = "0";
                 if (dfem.getStoredData(dfem.getDataList().size() - 1) != null) {
                     tmp = new String(dfem.getStoredData(dfem.getDataList().size() - 1));
-
                 }
 
                 dfec.events(DataFormElementEventTypes.ONBEFORE);

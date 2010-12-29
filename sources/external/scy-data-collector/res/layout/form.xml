@@ -2,7 +2,7 @@
 <ScrollView android:id="@+id/ScrollView01"
 	android:layout_width="fill_parent" android:layout_height="fill_parent"
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:scrollbars="vertical">
+	android:scrollbars="vertical" android:overScrollMode="always">
 	<TableLayout android:id="@+id/formtable"
 		android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingTop="5dp">
 	</TableLayout>

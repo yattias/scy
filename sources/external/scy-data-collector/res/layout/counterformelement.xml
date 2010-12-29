@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_height="wrap_content" android:layout_width="fill_parent"
-	android:orientation="horizontal" android:background="@drawable/gradient" android:paddingRight="3dp">
-	<TextView android:id="@+id/counterformelement_label" android:paddingLeft="3dp"
+	android:orientation="horizontal" android:background="@drawable/gradient" android:paddingRight="3dp"
+	android:paddingTop="3dp">
+	<TextView android:id="@+id/counterformelement_label" android:paddingLeft="3dp" 
 		android:layout_gravity="center_vertical" android:text="Counter"
 		android:layout_height="wrap_content" android:layout_width="wrap_content" />
 	<EditText android:text="0" android:id="@+id/counterformelement_counter_field"
