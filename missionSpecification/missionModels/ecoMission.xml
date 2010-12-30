@@ -15,7 +15,7 @@
             <property name="initialLasId" value="startPage"/>
             <property name="loEloUris">
                <list>
-                  <value>roolo://memory/37/0/Glossary.url</value>
+                  <value>roolo://memory/20006/0/Glossary.url</value>
                </list>
             </property>
             <property name="lasses">
@@ -29,8 +29,8 @@
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/challenge_eco.html"/>
                      <property name="loEloUris">
                         <list>
-                           <value>roolo://memory/281/0/challenge_eco.url</value>
-                           <value>roolo://memory/414/0/welcome.url</value>
+                           <value>roolo://memory/20094/0/challenge_eco.url</value>
+                           <value>roolo://memory/20114/0/welcome.url</value>
                         </list>
                      </property>
                      <property name="nextLasses">
@@ -56,7 +56,7 @@
                      <property name="lasType" value="CONCEPTUALISATION"/>
                      <property name="loEloUris">
                         <list>
-                           <value>roolo://memory/300/0/Concept_map.url</value>
+                           <value>roolo://memory/20096/0/Concept_map.url</value>
                         </list>
                      </property>
                      <property name="nextLasses">
@@ -77,7 +77,7 @@
                      <property name="lasType" value="REPORTING"/>
                      <property name="loEloUris">
                         <list>
-                           <value>roolo://memory/346/0/video_report.url</value>
+                           <value>roolo://memory/20105/0/video_report.url</value>
                         </list>
                      </property>
                      <property name="nextLasses">
@@ -98,8 +98,8 @@
                      <property name="lasType" value="ORIENTATION"/>
                      <property name="loEloUris">
                         <list>
-                           <value>roolo://memory/136/0/List_of_webpages.url</value>
-                           <value>roolo://memory/137/0/Text_of_theory_Phytoplankton_and_primary_production.url</value>
+                           <value>roolo://memory/20042/0/List_of_webpages.url</value>
+                           <value>roolo://memory/20043/0/Text_of_theory_Phytoplankton_and_primary_production.url</value>
                         </list>
                      </property>
                      <property name="nextLasses">
@@ -123,8 +123,8 @@
                      <property name="lasType" value="ORIENTATION"/>
                      <property name="loEloUris">
                         <list>
-                           <value>roolo://memory/113/0/List_of_webpages.url</value>
-                           <value>roolo://memory/114/0/Text_of_theory_Ecosystems.url</value>
+                           <value>roolo://memory/20019/0/List_of_webpages.url</value>
+                           <value>roolo://memory/20020/0/Text_of_theory_Ecosystems.url</value>
                         </list>
                      </property>
                      <property name="nextLasses">
@@ -148,8 +148,8 @@
                      <property name="lasType" value="ORIENTATION"/>
                      <property name="loEloUris">
                         <list>
-                           <value>roolo://memory/309/0/List_of_webpages.url</value>
-                           <value>roolo://memory/101/0/Text_of_theory_Feeding_Source_of_organisms.url</value>
+                           <value>roolo://memory/20101/0/List_of_webpages.url</value>
+                           <value>roolo://memory/20007/0/Text_of_theory_Feeding_Source_of_organisms.url</value>
                         </list>
                      </property>
                      <property name="nextLasses">
@@ -173,8 +173,8 @@
                      <property name="lasType" value="ORIENTATION"/>
                      <property name="loEloUris">
                         <list>
-                           <value>roolo://memory/124/0/List_of_webpages.url</value>
-                           <value>roolo://memory/125/0/Text_of_theory_pH.url</value>
+                           <value>roolo://memory/20030/0/List_of_webpages.url</value>
+                           <value>roolo://memory/20031/0/Text_of_theory_pH.url</value>
                         </list>
                      </property>
                      <property name="nextLasses">
@@ -198,9 +198,9 @@
                      <property name="lasType" value="EXPERIMENT"/>
                      <property name="loEloUris">
                         <list>
-                           <value>roolo://memory/151/0/Experimental_procedure.url</value>
-                           <value>roolo://memory/152/0/Conducting_experiment.url</value>
-                           <value>roolo://memory/153/0/Conducting_experimental_procedure.url</value>
+                           <value>roolo://memory/20057/0/Experimental_procedure.url</value>
+                           <value>roolo://memory/20058/0/Conducting_experiment.url</value>
+                           <value>roolo://memory/20059/0/Conducting_experimental_procedure.url</value>
                         </list>
                      </property>
                      <property name="nextLasses">
@@ -225,10 +225,10 @@
                      <property name="lasType" value="EXPERIMENT"/>
                      <property name="loEloUris">
                         <list>
-                           <value>roolo://memory/158/0/Experimental_procedure.url</value>
-                           <value>roolo://memory/159/0/Conducting_experiment.url</value>
-                           <value>roolo://memory/160/0/Conducting_experimental_procedure.url</value>
-                           <value>roolo://memory/161/0/List_of_equipment.url</value>
+                           <value>roolo://memory/20064/0/Experimental_procedure.url</value>
+                           <value>roolo://memory/20065/0/Conducting_experiment.url</value>
+                           <value>roolo://memory/20066/0/Conducting_experimental_procedure.url</value>
+                           <value>roolo://memory/20067/0/List_of_equipment.url</value>
                         </list>
                      </property>
                      <property name="nextLasses">
@@ -252,10 +252,10 @@
                      <property name="lasType" value="EXPERIMENT"/>
                      <property name="loEloUris">
                         <list>
-                           <value>roolo://memory/167/0/Experimental_procedure.url</value>
-                           <value>roolo://memory/168/0/Conducting_experiment.url</value>
-                           <value>roolo://memory/169/0/Conducting_experimental_procedure.url</value>
-                           <value>roolo://memory/109/0/Game.url</value>
+                           <value>roolo://memory/20073/0/Experimental_procedure.url</value>
+                           <value>roolo://memory/20074/0/Conducting_experiment.url</value>
+                           <value>roolo://memory/20075/0/Conducting_experimental_procedure.url</value>
+                           <value>roolo://memory/20015/0/Game.url</value>
                         </list>
                      </property>
                      <property name="nextLasses">
@@ -280,9 +280,9 @@
                      <property name="lasType" value="EXPERIMENT"/>
                      <property name="loEloUris">
                         <list>
-                           <value>roolo://memory/175/0/Experimental_procedure.url</value>
-                           <value>roolo://memory/176/0/Conducting_experiment.url</value>
-                           <value>roolo://memory/177/0/Conducting_experimental_procedure.url</value>
+                           <value>roolo://memory/20081/0/Experimental_procedure.url</value>
+                           <value>roolo://memory/20082/0/Conducting_experiment.url</value>
+                           <value>roolo://memory/20083/0/Conducting_experimental_procedure.url</value>
                         </list>
                      </property>
                      <property name="nextLasses">
@@ -306,9 +306,9 @@
                      <property name="lasType" value="DESIGN"/>
                      <property name="loEloUris">
                         <list>
-                           <value>roolo://memory/185/0/Formulating_solution.url</value>
-						   <value>roolo://memory/136/0/List_of_webpages.url</value>
-                           <value>roolo://memory/137/0/Text_of_theory_Phytoplankton_and_primary_production.url</value>
+                           <value>roolo://memory/20090/0/Formulating_solution.url</value>
+						   <value>roolo://memory/20042/0/List_of_webpages.url</value>
+                           <value>roolo://memory/20043/0/Text_of_theory_Phytoplankton_and_primary_production.url</value>
                         </list>
                      </property>
                      <property name="nextLasses">
@@ -330,9 +330,9 @@
                      <property name="lasType" value="DESIGN"/>
                      <property name="loEloUris">
                         <list>
-                           <value>roolo://memory/186/0/Formulating_solution.url</value>
-                           <value>roolo://memory/113/0/List_of_webpages.url</value>
-                           <value>roolo://memory/114/0/Text_of_theory_Ecosystems.url</value>
+                           <value>roolo://memory/20091/0/Formulating_solution.url</value>
+                           <value>roolo://memory/20019/0/List_of_webpages.url</value>
+                           <value>roolo://memory/20020/0/Text_of_theory_Ecosystems.url</value>
                         </list>
                      </property>
                      <property name="nextLasses">
@@ -354,9 +354,9 @@
                      <property name="lasType" value="DESIGN"/>
                      <property name="loEloUris">
                         <list>
-                           <value>roolo://memory/187/0/Formulating_solution.url</value>
-                           <value>roolo://memory/309/0/List_of_webpages.url</value>
-                           <value>roolo://memory/101/0/Text_of_theory_Feeding_Source_of_organisms.url</value>
+                           <value>roolo://memory/20092/0/Formulating_solution.url</value>
+                           <value>roolo://memory/20101/0/List_of_webpages.url</value>
+                           <value>roolo://memory/20007/0/Text_of_theory_Feeding_Source_of_organisms.url</value>
                         </list>
                      </property>
                      <property name="nextLasses">
@@ -378,9 +378,9 @@
                      <property name="lasType" value="DESIGN"/>
                      <property name="loEloUris">
                         <list>
-                           <value>roolo://memory/188/0/Formulating_solution.url</value>
-                           <value>roolo://memory/124/0/List_of_webpages.url</value>
-                           <value>roolo://memory/125/0/Text_of_theory_pH.url</value>
+                           <value>roolo://memory/20093/0/Formulating_solution.url</value>
+                           <value>roolo://memory/20030/0/List_of_webpages.url</value>
+                           <value>roolo://memory/20031/0/Text_of_theory_pH.url</value>
                         </list>
                      </property>
                      <property name="nextLasses">
@@ -404,7 +404,7 @@
          <list>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="challengeEco"/>
-               <property name="uri" value="roolo://memory/281/0/challenge_eco.url"/>
+               <property name="uri" value="roolo://memory/20094/0/challenge_eco.url"/>
                <property name="iconType" value="scy/url"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_challenge.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/challenge_eco.html"/>
@@ -418,7 +418,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="videoReport"/>
-               <property name="uri" value="roolo://memory/20048/0/YouTube+video+link.scyyoutuber"/>
+               <property name="uri" value="roolo://memory/20159/0/YouTube+video+link.scyyoutuber"/>
                <property name="iconType" value="ard/presentation"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_video.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_video.html"/>
@@ -428,13 +428,13 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/348/0/manual_videore.url</value>
+                     <value>roolo://memory/20106/0/manual_videore.url</value>
                   </list>
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="conceptMap"/>
-               <property name="uri" value="roolo://memory/282/0/Concept_map"/>
+               <property name="uri" value="roolo://memory/20095/0/Concept_map"/>
                <property name="iconType" value="ard/concept_map"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_conceptmap.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_conceptmap.html"/>
@@ -448,7 +448,7 @@
             </bean>
 			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="questionB1"/>
-               <property name="uri" value="roolo://memory/143/0/Research_questions.rtf"/>
+               <property name="uri" value="roolo://memory/20049/0/Research_questions.rtf"/>
                <property name="iconType" value="scy/text"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_questions.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_questions.html"/>
@@ -462,7 +462,7 @@
             </bean>
 			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="questionB2"/>
-               <property name="uri" value="roolo://memory/120/0/Research_questions.rtf"/>
+               <property name="uri" value="roolo://memory/20026/0/Research_questions.rtf"/>
                <property name="iconType" value="scy/text"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_questions.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_questions.html"/>
@@ -476,7 +476,7 @@
             </bean>
 			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="questionB3"/>
-               <property name="uri" value="roolo://memory/303/0/Research_questions.rtf"/>
+               <property name="uri" value="roolo://memory/20097/0/Research_questions.rtf"/>
                <property name="iconType" value="scy/text"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_questions.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_questions.html"/>
@@ -490,7 +490,7 @@
             </bean>
 			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="questionC1"/>
-               <property name="uri" value="roolo://memory/132/0/Research_questions.rtf"/>
+               <property name="uri" value="roolo://memory/20038/0/Research_questions.rtf"/>
                <property name="iconType" value="scy/text"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_questions.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_questions.html"/>
@@ -504,7 +504,7 @@
             </bean>
 			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="problemB1"/>
-               <property name="uri" value="roolo://memory/141/0/Problem_formulation.rtf"/>
+               <property name="uri" value="roolo://memory/20047/0/Problem_formulation.rtf"/>
                <property name="iconType" value="scy/text"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_problemf.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_problemf.html"/>
@@ -518,7 +518,7 @@
             </bean>
 			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="problemB2"/>
-               <property name="uri" value="roolo://memory/118/0/Problem_formulation.rtf"/>
+               <property name="uri" value="roolo://memory/20024/0/Problem_formulation.rtf"/>
                <property name="iconType" value="scy/text"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_problemf.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_problemf.html"/>
@@ -532,7 +532,7 @@
             </bean>
 			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="problemB3"/>
-               <property name="uri" value="roolo://memory/110/0/Problem_formulation.rtf"/>
+               <property name="uri" value="roolo://memory/20016/0/Problem_formulation.rtf"/>
                <property name="iconType" value="scy/text"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_problemf.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_problemf.html"/>
@@ -546,7 +546,7 @@
             </bean>	
 			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="problemC1"/>
-               <property name="uri" value="roolo://memory/130/0/Problem_formulation.rtf"/>
+               <property name="uri" value="roolo://memory/20036/0/Problem_formulation.rtf"/>
                <property name="iconType" value="scy/text"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_problemf.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_problemf.html"/>
@@ -560,7 +560,7 @@
             </bean>								
 			   <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="hypothesisB1"/>
-               <property name="uri" value="roolo://memory/145/0/Hypotheses.rtf"/>
+               <property name="uri" value="roolo://memory/20051/0/Hypotheses.rtf"/>
                <property name="iconType" value="ard/idea"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_hypothesis.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_hypothesis.html"/>
@@ -570,17 +570,17 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/142/0/Problem_formulation.url</value>
-                     <value>roolo://memory/144/0/Research_questions.url</value>
-                     <value>roolo://memory/146/0/Hypotheses.url</value>
-                     <value>roolo://memory/136/0/List_of_webpages.url</value>
-                     <value>roolo://memory/137/0/Text_of_theory_Phytoplankton_and_primary_production.url</value>
+                     <value>roolo://memory/20048/0/Problem_formulation.url</value>
+                     <value>roolo://memory/20050/0/Research_questions.url</value>
+                     <value>roolo://memory/20052/0/Hypotheses.url</value>
+                     <value>roolo://memory/20042/0/List_of_webpages.url</value>
+                     <value>roolo://memory/20043/0/Text_of_theory_Phytoplankton_and_primary_production.url</value>
                   </list>
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="hypothesisB2"/>
-               <property name="uri" value="roolo://memory/122/0/Hypotheses.rtf"/>
+               <property name="uri" value="roolo://memory/20028/0/Hypotheses.rtf"/>
                <property name="iconType" value="ard/idea"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_hypothesis.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_hypothesis.html"/>
@@ -590,17 +590,17 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/119/0/Problem_formulation.url</value>
-                     <value>roolo://memory/121/0/Research_questions.url</value>
-                     <value>roolo://memory/123/0/Hypotheses.url</value>
-                     <value>roolo://memory/113/0/List_of_webpages.url</value>
-                     <value>roolo://memory/114/0/Text_of_theory_Ecosystems.url</value>
+                     <value>roolo://memory/20025/0/Problem_formulation.url</value>
+                     <value>roolo://memory/20027/0/Research_questions.url</value>
+                     <value>roolo://memory/20029/0/Hypotheses.url</value>
+                     <value>roolo://memory/20019/0/List_of_webpages.url</value>
+                     <value>roolo://memory/20020/0/Text_of_theory_Ecosystems.url</value>
                   </list>
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="hypothesisB3"/>
-               <property name="uri" value="roolo://memory/305/0/Hypotheses.rtf"/>
+               <property name="uri" value="roolo://memory/20099/0/Hypotheses.rtf"/>
                <property name="iconType" value="ard/idea"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_hypothesis.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_hypothesis.html"/>
@@ -610,17 +610,17 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/111/0/Problem_formulation.url</value>
-                     <value>roolo://memory/304/0/Research_questions.url</value>
-                     <value>roolo://memory/306/0/Hypotheses.url</value>
-                     <value>roolo://memory/309/0/List_of_webpages.url</value>
-                     <value>roolo://memory/101/0/Text_of_theory_Feeding_Source_of_organisms.url</value>
+                     <value>roolo://memory/20017/0/Problem_formulation.url</value>
+                     <value>roolo://memory/20098/0/Research_questions.url</value>
+                     <value>roolo://memory/20100/0/Hypotheses.url</value>
+                     <value>roolo://memory/20101/0/List_of_webpages.url</value>
+                     <value>roolo://memory/20007/0/Text_of_theory_Feeding_Source_of_organisms.url</value>
                   </list>
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="hypothesisC1"/>
-               <property name="uri" value="roolo://memory/134/0/Hypotheses.rtf"/>
+               <property name="uri" value="roolo://memory/20040/0/Hypotheses.rtf"/>
                <property name="iconType" value="ard/idea"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_hypothesis.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_hypothesis.html"/>
@@ -630,17 +630,17 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/131/0/Problem_formulation.url</value>
-                     <value>roolo://memory/133/0/Research_questions.url</value>
-                     <value>roolo://memory/135/0/Hypotheses.url</value>
-                     <value>roolo://memory/124/0/List_of_webpages.url</value>
-                     <value>roolo://memory/125/0/Text_of_theory_pH.url</value>
+                     <value>roolo://memory/20037/0/Problem_formulation.url</value>
+                     <value>roolo://memory/20039/0/Research_questions.url</value>
+                     <value>roolo://memory/20041/0/Hypotheses.url</value>
+                     <value>roolo://memory/20030/0/List_of_webpages.url</value>
+                     <value>roolo://memory/20031/0/Text_of_theory_pH.url</value>
                   </list>
                </property>
             </bean>
 			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="experimentalProcedureB1"/>
-               <property name="uri" value="roolo://memory/354/0/Experimental_procedure.scyxproc"/>
+               <property name="uri" value="roolo://memory/20108/0/Experimental_procedure.scyxproc"/>
                <property name="iconType" value="scy/xproc"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_copex.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_copex.html"/>
@@ -654,7 +654,7 @@
             </bean>
 			   <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="scydynamicsB1"/>
-               <property name="uri" value="roolo://memory/182/0/Scy_dynamics.model"/>
+               <property name="uri" value="roolo://memory/20087/0/Scy_dynamics.model"/>
                <property name="iconType" value="scy/model"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_scydynamics.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_scydynamics.html"/>
@@ -668,7 +668,7 @@
             </bean>
 			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="datasetB1"/>
-               <property name="uri" value="roolo://memory/312/0/Data_set.scypds"/>
+               <property name="uri" value="roolo://memory/20102/0/Data_set.scypds"/>
                <property name="iconType" value="scy/dataset"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_fitex.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_fitex.html"/>
@@ -682,7 +682,7 @@
             </bean>
 						<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="experimentalProcedureB2"/>
-               <property name="uri" value="roolo://memory/157/0/Experimental_procedure.scyxproc"/>
+               <property name="uri" value="roolo://memory/20063/0/Experimental_procedure.scyxproc"/>
                <property name="iconType" value="scy/xproc"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_copex.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_copex.html"/>
@@ -696,7 +696,7 @@
             </bean>
 			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="datasetB2"/>
-               <property name="uri" value="roolo://memory/163/0/Data_set.scypds"/>
+               <property name="uri" value="roolo://memory/20069/0/Data_set.scypds"/>
                <property name="iconType" value="scy/dataset"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_fitex.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_fitex.html"/>
@@ -710,7 +710,7 @@
             </bean>
 						<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="experimentalProcedureB3"/>
-               <property name="uri" value="roolo://memory/166/0/Experimental_procedure.scyxproc"/>
+               <property name="uri" value="roolo://memory/20072/0/Experimental_procedure.scyxproc"/>
                <property name="iconType" value="scy/xproc"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_copex.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_copex.html"/>
@@ -724,7 +724,7 @@
             </bean>
 			   <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="scydynamicsB3"/>
-               <property name="uri" value="roolo://memory/183/0/Scy_dynamics.model"/>
+               <property name="uri" value="roolo://memory/20088/0/Scy_dynamics.model"/>
                <property name="iconType" value="scy/model"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_scydynamics.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_scydynamics.html"/>
@@ -738,7 +738,7 @@
             </bean>
 			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="datasetB3"/>
-               <property name="uri" value="roolo://memory/171/0/Data_set.scypds"/>
+               <property name="uri" value="roolo://memory/20077/0/Data_set.scypds"/>
                <property name="iconType" value="scy/dataset"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_fitex.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_fitex.html"/>
@@ -752,7 +752,7 @@
             </bean>
 						<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="experimentalProcedureC1"/>
-               <property name="uri" value="roolo://memory/174/0/Experimental_procedure.scyxproc"/>
+               <property name="uri" value="roolo://memory/20080/0/Experimental_procedure.scyxproc"/>
                <property name="iconType" value="scy/xproc"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_copex.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_copex.html"/>
@@ -766,7 +766,7 @@
             </bean>
 			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="datasetC1"/>
-               <property name="uri" value="roolo://memory/179/0/Data_set.scypds"/>
+               <property name="uri" value="roolo://memory/20085/0/Data_set.scypds"/>
                <property name="iconType" value="scy/dataset"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_fitex.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_fitex.html"/>
@@ -780,7 +780,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="inferencesB1"/>
-               <property name="uri" value="roolo://memory/314/0/Inferences.rtf"/>
+               <property name="uri" value="roolo://memory/20103/0/Inferences.rtf"/>
                <property name="iconType" value="scy/simconfig"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_inferences.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_inferences.html"/>
@@ -790,13 +790,13 @@
                </property>
                <property name="loEloUris">
                   <list>
-				     <value>roolo://memory/154/0/Adapting_data_processing_tool.url</value>
+				     <value>roolo://memory/20060/0/Adapting_data_processing_tool.url</value>
 				  </list>					   
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="inferencesB2"/>
-               <property name="uri" value="roolo://memory/156/0/Inferences.rtf"/>
+               <property name="uri" value="roolo://memory/20062/0/Inferences.rtf"/>
                <property name="iconType" value="scy/simconfig"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_inferences.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_inferences.html"/>
@@ -806,13 +806,13 @@
                </property>
                <property name="loEloUris">
                   <list>
-				     <value>roolo://memory/164/0/Adapting_data_processing_tool.url</value>
+				     <value>roolo://memory/20070/0/Adapting_data_processing_tool.url</value>
                   </list>
 			   </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="inferencesB3"/>
-               <property name="uri" value="roolo://memory/165/0/Inferences.rtf"/>
+               <property name="uri" value="roolo://memory/20071/0/Inferences.rtf"/>
                <property name="iconType" value="scy/simconfig"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_inferences.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_inferences.html"/>
@@ -822,13 +822,13 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/172/0/Adapting_data_processing_tool.url</value>
+                     <value>roolo://memory/20078/0/Adapting_data_processing_tool.url</value>
                   </list>
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="inferencesC1"/>
-               <property name="uri" value="roolo://memory/173/0/Inferences.rtf"/>
+               <property name="uri" value="roolo://memory/20079/0/Inferences.rtf"/>
                <property name="iconType" value="scy/simconfig"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_inferences.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_inferences.html"/>
@@ -838,13 +838,13 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/154/0/Adapting_data_processing_tool.url</value>
+                     <value>roolo://memory/20060/0/Adapting_data_processing_tool.url</value>
                   </list>
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="solutionB1"/>
-               <property name="uri" value="roolo://memory/147/0/Solution.rtf"/>
+               <property name="uri" value="roolo://memory/20053/0/Solution.rtf"/>
                <property name="iconType" value="ard/drawing"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_solution.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_solution.html"/>
@@ -854,15 +854,15 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/185/0/Formulating_solution.url</value>
-					 <value>roolo://memory/136/0/List_of_webpages.url</value>
-                     <value>roolo://memory/137/0/Text_of_theory_Phytoplankton_and_primary_production.url</value>       
+                     <value>roolo://memory/20090/0/Formulating_solution.url</value>
+					 <value>roolo://memory/20042/0/List_of_webpages.url</value>
+                     <value>roolo://memory/20043/0/Text_of_theory_Phytoplankton_and_primary_production.url</value>       
                   </list>
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="solutionB2"/>
-               <property name="uri" value="roolo://memory/148/0/Solution.rtf"/>
+               <property name="uri" value="roolo://memory/20054/0/Solution.rtf"/>
                <property name="iconType" value="ard/drawing"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_solution.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_solution.html"/>
@@ -872,15 +872,15 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/186/0/Formulating_solution.url</value>
-                     <value>roolo://memory/113/0/List_of_webpages.url</value>
-                     <value>roolo://memory/114/0/Text_of_theory_Ecosystems.url</value>
+                     <value>roolo://memory/20091/0/Formulating_solution.url</value>
+                     <value>roolo://memory/20019/0/List_of_webpages.url</value>
+                     <value>roolo://memory/20020/0/Text_of_theory_Ecosystems.url</value>
                   </list>
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="solutionB3"/>
-               <property name="uri" value="roolo://memory/149/0/Solution.rtf"/>
+               <property name="uri" value="roolo://memory/20055/0/Solution.rtf"/>
                <property name="iconType" value="ard/drawing"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_solution.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_solution.html"/>
@@ -890,15 +890,15 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/187/0/Formulating_solution.url</value>
-                     <value>roolo://memory/309/0/List_of_webpages.url</value>
-                     <value>roolo://memory/101/0/Text_of_theory_Feeding_Source_of_organisms.url</value>
+                     <value>roolo://memory/20092/0/Formulating_solution.url</value>
+                     <value>roolo://memory/20101/0/List_of_webpages.url</value>
+                     <value>roolo://memory/20007/0/Text_of_theory_Feeding_Source_of_organisms.url</value>
                   </list>
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="solutionC1"/>
-               <property name="uri" value="roolo://memory/150/0/Solution.rtf"/>
+               <property name="uri" value="roolo://memory/20056/0/Solution.rtf"/>
                <property name="iconType" value="ard/drawing"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/description_solution.html"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_solution.html"/>
@@ -908,9 +908,9 @@
                </property>
                <property name="loEloUris">
                   <list>
-                      <value>roolo://memory/188/0/Formulating_solution.url</value>
-                      <value>roolo://memory/124/0/List_of_webpages.url</value>
-                      <value>roolo://memory/125/0/Text_of_theory_pH.url</value>
+                      <value>roolo://memory/20093/0/Formulating_solution.url</value>
+                      <value>roolo://memory/20030/0/List_of_webpages.url</value>
+                      <value>roolo://memory/20031/0/Text_of_theory_pH.url</value>
                   </list>
                </property>
             </bean>
@@ -920,11 +920,11 @@
 
       <property name="templateEloUris">
          <list>
-            <value>roolo://memory/403/0/Empty_concept_map.scymapping</value>
-            <value>roolo://memory/404/0/Empty_dataset.dataset</value>
-            <value>roolo://memory/406/0/Empty_experimental_procedure.scyxproc</value>
-            <value>roolo://memory/409/0/Empty_plain_text.text</value>
-            <value>roolo://memory/411/0/Empty_rich_text.rtf</value>
+            <value>roolo://memory/20109/0/Empty_concept_map.scymapping</value>
+            <value>roolo://memory/20110/0/Empty_dataset.dataset</value>
+            <value>roolo://memory/20111/0/Empty_experimental_procedure.scyxproc</value>
+            <value>roolo://memory/20112/0/Empty_plain_text.text</value>
+            <value>roolo://memory/20113/0/Empty_rich_text.rtf</value>
          </list>
       </property>
 
