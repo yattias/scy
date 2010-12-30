@@ -1,0 +1,66 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>arle</entity>
+        <date>
+          <dateTime>2010-02-22T14:36:09.329+0200</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>containsAssignment</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20114/0/welcome.url</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <technical>
+      <customElements>
+        <dateCreated>1266836817105</dateCreated>
+        <dateLastModified>1266836817106</dateLastModified>
+      </customElements>
+      <mucId>startPageChat</mucId>
+      <format>scy/url</format>
+    </technical>
+    <general>
+      <description>
+        <string language="en" />
+      </description>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20094/0/challenge_eco.url</entry>
+      </identifier>
+      <las>startPage</las>
+      <structure>information</structure>
+      <mission>ecoMission</mission>
+      <title>
+        <string language="en">Challenge</string>
+      </title>
+    </general>
+    <educational>
+      <learningResourceType>informationAssignment</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>scy/url</iconType>
+    </annotation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<url>http://www.scy-lab.eu/content/en/mission2/challenge_eco.html</url>
+</content>
+<resources>
+</resources>
+</elo>

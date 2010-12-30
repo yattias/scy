@@ -1,0 +1,63 @@
+<elo>
+<metadata>
+  <lom>
+    <technical>
+      <format>scy/missionspecification</format>
+      <customElements>
+        <dateCreated>1283169237394</dateCreated>
+        <dateLastModified>1283169237394</dateLastModified>
+      </customElements>
+    </technical>
+    <general>
+      <title>
+        <string language="nl">SCY ECO mission</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20004/0/ecoMission.scymissionspecification</entry>
+      </identifier>
+    </general>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>arle</entity>
+        <date>
+          <dateTime>2010-08-30T13:53:57.394+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<missionSpeicification>
+  <missionMapModelEloUri>roolo://memory/20155/0/ecoMission.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/20156/0/ecoMission.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/20157/0/ecoMission.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/20158/0/ecoMission.runtimesettings</runtimeSettingsEloUri>
+</missionSpeicification>
+</content>
+<resources>
+</resources>
+</elo>
