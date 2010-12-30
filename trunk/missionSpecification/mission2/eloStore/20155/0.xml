@@ -57,7 +57,6 @@
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/challenge_eco.html</instructionUri>
       <lasType>ORIENTATION</lasType>
       <loElos>
-        <eloUri>roolo://memory/20094/0/challenge_eco.url</eloUri>
         <eloUri>roolo://memory/20114/0/welcome.url</eloUri>
       </loElos>
       <otherElos />
