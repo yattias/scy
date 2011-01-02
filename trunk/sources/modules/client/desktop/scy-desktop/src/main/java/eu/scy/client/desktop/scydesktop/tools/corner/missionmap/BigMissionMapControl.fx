@@ -67,13 +67,15 @@ public class BigMissionMapControl extends CustomNode {
    }
 
    function showBigMissionMap(): Void {
-      bigMissionMapVisible = true;
-      sceneSizeChanged();
-      FX.deferAction(function(): Void {
+      if (not bigMissionMapVisible) {
+         bigMissionMapVisible = true;
+         sceneSizeChanged();
+         FX.deferAction(function(): Void {
 //         bigMissionMap.adjustSize();
-         missionMapWindow.resizeTheContent();
-      });
-      ModalDialogLayer.addModalDialog(missionMapWindow, true);
+            missionMapWindow.resizeTheContent();
+         });
+         ModalDialogLayer.addModalDialog(missionMapWindow, true);
+      }
    }
 
    function hideBigMissionMap(): Void {
@@ -88,7 +90,9 @@ public class BigMissionMapControl extends CustomNode {
       bigMissionMap.tooltipManager.removeTooltip();
    }
 
-   function openElo(scyElo: ScyElo): Void {
+   function openElo(scyElo: ScyElo, las: LasFX): Void {
+      missionModel.selectLas(las);
+
       scyWindowControl.makeMainScyWindow(scyElo.getUri());
       hideBigMissionMap();
    }

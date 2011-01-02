@@ -20,7 +20,7 @@ public class LasInfoDisplayTooltip extends CustomNode {
    public var las: LasFX;
    public var windowStyler: WindowStyler;
    public var tbi: ToolBrokerAPI;
-   public var openElo : function(scyElo: ScyElo):Void;
+   public var openElo : function(scyElo: ScyElo, las: LasFX):Void;
    def contentBorder = 3;
    def borderWidth = 2;
 

@@ -37,7 +37,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    public var tbi: ToolBrokerAPI;
    def noLasColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    var colorScheme = noLasColorScheme;
-   def moreInfoControl:InstructionWindowControl = InstructionWindowControl {
+   def moreInfoControl: InstructionWindowControl = InstructionWindowControl {
          windowColorScheme: bind colorScheme
          clickAction: showInstructionWindow
          layoutY: 0
@@ -47,20 +47,22 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    def sceneHeight = bind scene.height on replace { sceneSizeChanged() };
    def instructionWindow: MoreInfoWindow = MoreInfoWindow {
          title: "Instruction"
-         infoTypeIcon: InstructionTypesIcon{}
+         infoTypeIcon: InstructionTypesIcon {}
          closeAction: hideInstructionWindow
-         visible:false
+         visible: false
       }
    var instructionTool: ShowInfoUrl;
    def moreInfoWindow: MoreInfoWindow = MoreInfoWindow {
          title: "More info"
          closeAction: hideMoreInfoWindow
-         visible:false
+         visible: false
       }
    var moreInfoTool: ShowInfoUrl;
    def uriLocalizer = new UriLocalizer();
+   var runPhase = false;
 
    init {
+      runPhase = true;
       activeLasChanged();
       sceneSizeChanged();
    }
@@ -89,6 +91,12 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
          colorScheme = noLasColorScheme;
       } else {
          colorScheme = windowStyler.getWindowColorScheme(activeLas.mainAnchor.eloUri);
+         println("activeLas.nrOfTimesInstructionShowed: {activeLas.nrOfTimesInstructionShowed} of {activeLas.id}");
+         if (runPhase and activeLas.nrOfTimesInstructionShowed < 1) {
+//            FX.deferAction(showInstructionWindow);
+            showInstructionWindow();
+            ++activeLas.nrOfTimesInstructionShowed;
+         }
       }
    }
 
@@ -96,11 +104,11 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       initInstructionWindow();
       instructionWindow.windowColorScheme = colorScheme;
       instructionWindow.eloIcon = windowStyler.getScyEloIcon(activeLas.mainAnchor.eloUri);
-//      instructionWindow.infoTypeIcon = CharacterEloIcon {
-//            color: colorScheme.mainColor
-//            iconCharacter: "I"
-//            selected: false
-//         }
+      //      instructionWindow.infoTypeIcon = CharacterEloIcon {
+      //            color: colorScheme.mainColor
+      //            iconCharacter: "I"
+      //            selected: false
+      //         }
       instructionWindow.title = activeLas.mainAnchor.scyElo.getTitle();
       instructionTool.showInfoUrl(uriLocalizer.localizeUrlwithChecking(activeLas.instructionUri.toURL()));
       instructionWindow.visible = true;
@@ -130,11 +138,11 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       def moreInfoColorScheme = windowStyler.getWindowColorScheme(scyElo.getUri());
       def title = scyElo.getTitle();
       def eloIcon = windowStyler.getScyEloIcon(scyElo.getUri());
-//      def infoTypeIcon = CharacterEloIcon {
-//            color: colorScheme.mainColor
-//            iconCharacter: getMoreInfoTitle(type).substring(0, 1)
-//            selected: false
-//         }
+      //      def infoTypeIcon = CharacterEloIcon {
+      //            color: colorScheme.mainColor
+      //            iconCharacter: getMoreInfoTitle(type).substring(0, 1)
+      //            selected: false
+      //         }
       def infoTypeIcon = getMoreInfoTypeIcon(type);
       showMoreInfoWindow(infoUri, title, eloIcon, infoTypeIcon, moreInfoColorScheme);
    }
@@ -151,10 +159,10 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
 
    function getMoreInfoTypeIcon(type: MoreInfoTypes): Node {
       if (MoreInfoTypes.ASSIGNMENT == type) {
-         return MoreAssignmentTypeIcon{}
+         return MoreAssignmentTypeIcon {}
       }
       if (MoreInfoTypes.RESOURCES == type) {
-         return MoreResourcesTypeIcon{}
+         return MoreResourcesTypeIcon {}
       }
       return null
    }
