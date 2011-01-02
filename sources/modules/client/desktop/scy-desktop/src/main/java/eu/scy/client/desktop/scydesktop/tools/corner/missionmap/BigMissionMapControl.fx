@@ -36,7 +36,7 @@ public class BigMissionMapControl extends CustomNode {
       }
    def sceneWidth = bind scene.width on replace { sceneSizeChanged() };
    def sceneHeight = bind scene.height on replace { sceneSizeChanged() };
-   def relativeWindowScreenBoder = 0.2;
+   def relativeWindowScreenBoder = 0.0;
    var bigMissionMapVisible = false;
 
    init {
