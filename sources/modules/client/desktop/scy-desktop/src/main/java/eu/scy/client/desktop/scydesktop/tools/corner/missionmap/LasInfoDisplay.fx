@@ -49,7 +49,7 @@ public class LasInfoDisplay extends CustomNode {
    public var las: LasFX on replace { lasChanged() };
    public var colorScheme: WindowColorScheme;
    public var tbi: ToolBrokerAPI;
-   public var openElo : function(scyElo: ScyElo):Void;
+   public var openElo : function(scyElo: ScyElo, las: LasFX):Void;
    def spacing = 5.0;
    def fontFamily = "Verdana";
    def titleFontSize = 18.0;
@@ -239,7 +239,7 @@ public class LasInfoDisplay extends CustomNode {
 
    function lastModifiedEloSelected() {
       if (selectedLastModifiedElo != null) {
-         openElo(selectedLastModifiedElo)
+         openElo(selectedLastModifiedElo,las)
       }
 
    }

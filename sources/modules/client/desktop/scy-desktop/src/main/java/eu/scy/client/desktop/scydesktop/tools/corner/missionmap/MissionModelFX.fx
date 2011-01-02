@@ -18,6 +18,7 @@ import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.common.scyelo.ScyElo;
 
 /**
  * @author SikkenJ
@@ -100,6 +101,15 @@ public class MissionModelFX extends MissionModel {
 
       updateElo();
       scyDesktop.edgesManager.findLinks(null);
+   }
+
+   public function selectLas(las: LasFX): Void {
+      if (las == activeLas) {
+         // nothing changed
+         return;
+      } else {
+         activeLas = las;
+      }
    }
 
    function logLasChange(oldLasId: String, newLasId: String): Void {

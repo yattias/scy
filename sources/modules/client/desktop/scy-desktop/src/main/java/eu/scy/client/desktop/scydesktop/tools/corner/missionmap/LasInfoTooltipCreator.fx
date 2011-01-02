@@ -16,7 +16,7 @@ import eu.scy.common.scyelo.ScyElo;
 public class LasInfoTooltipCreator extends TooltipCreator {
 
    public var scyDesktop:ScyDesktop;
-   public var openElo : function(scyElo: ScyElo):Void;
+   public var openElo : function(scyElo: ScyElo, las: LasFX):Void;
 
    public override function createTooltipNode(sourceNode:Node):Node{
       if (sourceNode instanceof AnchorDisplay){

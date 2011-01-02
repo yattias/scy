@@ -36,6 +36,7 @@ public class LasFX extends Las {
    public var instructionUri: URI;
    public var lasType: LasType;
    public var selectedAnchor: MissionAnchorFX on replace { las.setSelectedMissionAnchor(selectedAnchor.missionAnchor) };
+   public var nrOfTimesInstructionShowed = 0;
 
    public override function toString(): String {
       return "LasFX\{id:{id}\}";

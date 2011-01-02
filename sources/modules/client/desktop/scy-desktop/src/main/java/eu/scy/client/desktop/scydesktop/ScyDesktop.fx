@@ -328,6 +328,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             bigMissionMap: bigMissionMap
             windowStyler: windowStyler
             scyWindowControl:scyWindowControl
+            missionModel: missionModelFX
          }
 
       topLeftCorner = TopLeftCorner {
