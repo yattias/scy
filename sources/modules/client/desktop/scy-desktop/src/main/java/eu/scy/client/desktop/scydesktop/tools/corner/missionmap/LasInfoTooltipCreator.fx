@@ -7,6 +7,7 @@ package eu.scy.client.desktop.scydesktop.tools.corner.missionmap;
 import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
+import eu.scy.common.scyelo.ScyElo;
 
 /**
  * @author SikkenJ
@@ -15,6 +16,7 @@ import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
 public class LasInfoTooltipCreator extends TooltipCreator {
 
    public var scyDesktop:ScyDesktop;
+   public var openElo : function(scyElo: ScyElo):Void;
 
    public override function createTooltipNode(sourceNode:Node):Node{
       if (sourceNode instanceof AnchorDisplay){
@@ -23,6 +25,7 @@ public class LasInfoTooltipCreator extends TooltipCreator {
             las: anchorDisplay.las
             windowStyler:scyDesktop.windowStyler
             tbi: scyDesktop.config.getToolBrokerAPI()
+            openElo: openElo
          }
       }
       return null;

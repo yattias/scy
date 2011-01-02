@@ -22,15 +22,16 @@ public class BigMissionMap extends MissionMap, Resizable {
    def logger = Logger.getLogger(this.getClass());
    public override var width on replace { adjustSize(); }
    public override var height on replace { adjustSize(); }
+   public var anchorClicked: function(): Void;
    var scale = 1.0;
    def relativeBorder = 0.2;
    var missionMapNode: Node;
    var myStack: Stack;
-   def activeLas = bind missionModel.activeLas on replace {};
+   def activeLas = bind missionModel.activeLas on replace { };
 
-   init{
-      tooltipManager = SemiPermanentTooltipManager{
-      }
+   init {
+      tooltipManager = SemiPermanentTooltipManager {
+         }
    }
 
    public override function create(): Node {
@@ -46,10 +47,9 @@ public class BigMissionMap extends MissionMap, Resizable {
             content: [
                missionMapNode
             ]
-            onMouseClicked: function(e: MouseEvent):Void{
+            onMouseClicked: function(e: MouseEvent): Void {
                tooltipManager.removeTooltip();
             }
-
          }
    }
 
@@ -65,10 +65,10 @@ public class BigMissionMap extends MissionMap, Resizable {
       this.scaleY = scale;
       missionMapNode.translateX = -missionMapNode.layoutBounds.minX + (scale - 1) * missionMapNode.layoutBounds.width / 2;
       missionMapNode.translateY = -missionMapNode.layoutBounds.minY + (scale - 1) * missionMapNode.layoutBounds.height / 2;
-//      logger.info("translate: {missionMapNode.translateX},{missionMapNode.translateY}");
+      //      logger.info("translate: {missionMapNode.translateX},{missionMapNode.translateY}");
       var stackX = (width - scale * missionMapNode.layoutBounds.width) / 2;
       var stackY = (height - scale * missionMapNode.layoutBounds.height) / 2;
-//      logger.info("stack pos: {stackX},{stackY}");
+      //      logger.info("stack pos: {stackX},{stackY}");
       Container.positionNode(myStack, stackX, stackY);
    }
 
@@ -78,6 +78,11 @@ public class BigMissionMap extends MissionMap, Resizable {
 
    override function getPrefHeight(height: Number): Number {
       missionMapNode.layoutBounds.height * scale
+   }
+
+   public override function anchorSelected(anchorDisplay: AnchorDisplay, anchor: MissionAnchorFX): Void {
+      anchorClicked();
+      super.anchorSelected(anchorDisplay, anchor);
    }
 
 }
