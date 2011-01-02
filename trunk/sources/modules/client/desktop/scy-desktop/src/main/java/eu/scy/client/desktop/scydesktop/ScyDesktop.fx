@@ -327,9 +327,9 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       def bigMissionMapControl = BigMissionMapControl {
             bigMissionMap: bigMissionMap
             windowStyler: windowStyler
+            scyWindowControl:scyWindowControl
          }
 
-      missionMap.scyWindowControl = scyWindowControl;
       topLeftCorner = TopLeftCorner {
             content: contactList;
             color: Color.RED;
@@ -454,6 +454,8 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             showEloInfoDisplay: initializer.debugMode
             eloConfigManager: eloConfigManager
          }
+      missionMap.scyWindowControl = scyWindowControl;
+      bigMissionMapControl.scyWindowControl = scyWindowControl;
       backgroundUpdater = BackgroundUpdater {
             eloDisplayTypeControl: eloDisplayTypeControl
             background: initializer.background

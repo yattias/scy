@@ -53,6 +53,9 @@ public class MissionMap extends CustomNode {
    public var notSelectedScale = 1.0;
    public var positionScale = 2.0;
    public var bigMissionMap = false;
+   public-read var lasInfoTooltipCreator = LasInfoTooltipCreator {
+         scyDesktop: scyDesktop
+      }
    var maximumLasXpos = -1e6;
    var minimumLasYPos = 1e6;
    var displayGroup = Group {
@@ -97,9 +100,7 @@ public class MissionMap extends CustomNode {
       }
 
       if (bigMissionMap) {
-         tooltipCreator = LasInfoTooltipCreator {
-               scyDesktop: scyDesktop
-            }
+         tooltipCreator = lasInfoTooltipCreator
       } else {
          tooltipCreator = AnchorDisplayTooltipCreator {
             }

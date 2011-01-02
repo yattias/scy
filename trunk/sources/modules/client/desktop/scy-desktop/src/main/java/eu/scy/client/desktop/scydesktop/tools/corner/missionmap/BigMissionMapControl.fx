@@ -14,6 +14,8 @@ import eu.scy.client.desktop.scydesktop.art.javafx.MissionMapWindowIcon;
 import eu.scy.client.desktop.scydesktop.uicontrols.MultiImageButton;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
+import eu.scy.common.scyelo.ScyElo;
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 
 /**
  * @author SikkenJ
@@ -21,24 +23,34 @@ import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 public class BigMissionMapControl extends CustomNode {
 
    public var bigMissionMap: BigMissionMap;
+   public var missionModel: MissionModelFX;
    public var windowStyler: WindowStyler;
+   public var scyWindowControl: ScyWindowControl;
    def missionMapWindow: MoreInfoWindow = MoreInfoWindow {
          title: ##"Mission navigation"
-         eloIcon: MissionMapWindowIcon{}
+         eloIcon: MissionMapWindowIcon {}
          windowColorScheme: windowStyler.getWindowColorScheme(ImageWindowStyler.generalNavigation)
          content: bigMissionMap
          closeAction: hideBigMissionMap
-         mouseClickedAction:mouseClickedInMissionWindowWindow
+         mouseClickedAction: mouseClickedInMissionWindowWindow
       }
    def sceneWidth = bind scene.width on replace { sceneSizeChanged() };
    def sceneHeight = bind scene.height on replace { sceneSizeChanged() };
    def relativeWindowScreenBoder = 0.2;
    var bigMissionMapVisible = false;
 
+   init {
+      FX.deferAction(function(): Void {
+         showBigMissionMap();
+      })
+   }
+
    public override function create(): Node {
+      bigMissionMap.anchorClicked = hideBigMissionMap;
+      bigMissionMap.lasInfoTooltipCreator.openElo = openElo;
       Group {
          content: [
-            MultiImageButton{
+            MultiImageButton {
                imageName: "missionMap"
                action: showBigMissionMap
             }
@@ -54,7 +66,7 @@ public class BigMissionMapControl extends CustomNode {
       }
    }
 
-   function showBigMissionMap():Void {
+   function showBigMissionMap(): Void {
       bigMissionMapVisible = true;
       sceneSizeChanged();
       FX.deferAction(function(): Void {
@@ -65,14 +77,20 @@ public class BigMissionMapControl extends CustomNode {
    }
 
    function hideBigMissionMap(): Void {
-      bigMissionMapVisible = false;
-      ModalDialogLayer.removeModalDialog(missionMapWindow);
+      if (bigMissionMapVisible) {
+         bigMissionMapVisible = false;
+         ModalDialogLayer.removeModalDialog(missionMapWindow);
+         bigMissionMap.tooltipManager.removeTooltip();
+      }
+   }
+
+   function mouseClickedInMissionWindowWindow(e: MouseEvent): Void {
       bigMissionMap.tooltipManager.removeTooltip();
    }
 
-   function mouseClickedInMissionWindowWindow(e:MouseEvent):Void{
-      bigMissionMap.tooltipManager.removeTooltip();
+   function openElo(scyElo: ScyElo): Void {
+      scyWindowControl.makeMainScyWindow(scyElo.getUri());
+      hideBigMissionMap();
    }
-
 
 }

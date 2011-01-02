@@ -10,6 +10,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.Stack;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.common.scyelo.ScyElo;
 
 /**
  * @author SikkenJ
@@ -19,6 +20,7 @@ public class LasInfoDisplayTooltip extends CustomNode {
    public var las: LasFX;
    public var windowStyler: WindowStyler;
    public var tbi: ToolBrokerAPI;
+   public var openElo : function(scyElo: ScyElo):Void;
    def contentBorder = 3;
    def borderWidth = 2;
 
@@ -28,6 +30,7 @@ public class LasInfoDisplayTooltip extends CustomNode {
             las: las
             colorScheme: colorScheme
             tbi: tbi
+            openElo: openElo
          }
 
       Stack {
