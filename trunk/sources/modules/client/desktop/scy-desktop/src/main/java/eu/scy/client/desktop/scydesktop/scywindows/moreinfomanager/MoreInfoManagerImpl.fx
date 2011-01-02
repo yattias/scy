@@ -33,7 +33,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    public override var activeLas on replace { activeLasChanged() };
    public-init var scene: Scene;
    public var windowStyler: WindowStyler;
-   public var moreInfoToolFactory: MoreInfoToolFactory;
+   public var moreInfoToolFactory: MoreInfoToolFactory on replace { moreInfoToolFactoryChanged() };
    public var tbi: ToolBrokerAPI;
    def noLasColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    var colorScheme = noLasColorScheme;
@@ -93,7 +93,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
          colorScheme = windowStyler.getWindowColorScheme(activeLas.mainAnchor.eloUri);
          println("activeLas.nrOfTimesInstructionShowed: {activeLas.nrOfTimesInstructionShowed} of {activeLas.id}");
          if (runPhase and activeLas.nrOfTimesInstructionShowed < 1) {
-//            FX.deferAction(showInstructionWindow);
+            //            FX.deferAction(showInstructionWindow);
             showInstructionWindow();
             ++activeLas.nrOfTimesInstructionShowed;
          }
@@ -111,18 +111,31 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       //         }
       instructionWindow.title = activeLas.mainAnchor.scyElo.getTitle();
       instructionTool.showInfoUrl(uriLocalizer.localizeUrlwithChecking(activeLas.instructionUri.toURL()));
-      instructionWindow.visible = true;
-      sceneSizeChanged();
-      ModalDialogLayer.addModalDialog(instructionWindow);
+      if (not instructionWindow.visible) {
+         instructionWindow.visible = true;
+         sceneSizeChanged();
+         ModalDialogLayer.addModalDialog(instructionWindow);
+      }
    }
 
    function hideInstructionWindow(): Void {
-      ModalDialogLayer.removeModalDialog(instructionWindow);
-      instructionWindow.visible = false;
+      if (instructionWindow.visible) {
+         ModalDialogLayer.removeModalDialog(instructionWindow);
+         instructionWindow.visible = false;
+      }
    }
 
    function initInstructionWindow(): Void {
       if (instructionWindow.content == null) {
+         instructionWindow.content = moreInfoToolFactory.createMoreInfoTool();
+         if (instructionWindow.content instanceof ShowInfoUrl) {
+            instructionTool = instructionWindow.content as ShowInfoUrl
+         }
+      }
+   }
+
+   function moreInfoToolFactoryChanged(){
+      if (instructionWindow.content != null) {
          instructionWindow.content = moreInfoToolFactory.createMoreInfoTool();
          if (instructionWindow.content instanceof ShowInfoUrl) {
             instructionTool = instructionWindow.content as ShowInfoUrl
