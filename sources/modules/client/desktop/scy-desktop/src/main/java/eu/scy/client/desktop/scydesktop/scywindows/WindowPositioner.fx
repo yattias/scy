@@ -28,7 +28,18 @@ import javafx.scene.Node;
  *   this are resource like elos of the current las
  * - other window
  *   this are elos added by the user to the desktop, which are allways stored with the current las
- *   
+ *
+ * Initially all windows will be added, by the add* calls. The windows may be placed immediately or later when positionWindows is called.
+ *
+ * When placeOtherWindow is called, the window should be placed immediately.uld be placed on screen, other wise return false.
+ *
+ * All add* methods should return true if the window sho
+ *
+ * The window positioner may return a WindowState object, which describes the current position and state of the windows.
+ * If a window state object is available it will be passed on to the positionWindows call.
+ * Currently the window state objects are only stored in memory.
+ *
+ * Before the WindowPositionsState can be persist, probably a kind of init WindowPositionsState call has to be added.
  *
  * @author sikkenj
  */
@@ -50,6 +61,11 @@ public mixin class WindowPositioner {
     */
     public abstract function clearWindows():Void;
 
+    /**
+    * make the window the main window
+    *
+    * it is up to the positioner, what main window means. Generally it means open it and place it in the centrel location on screen
+    */
     public abstract function makeMainWindow(window:ScyWindow):Void;
 
     /**
