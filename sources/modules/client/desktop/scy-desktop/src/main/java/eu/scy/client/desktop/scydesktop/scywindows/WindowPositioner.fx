@@ -9,12 +9,26 @@ package eu.scy.client.desktop.scydesktop.scywindows;
 import javafx.scene.Node;
 
 /**
- * The WindowPositioner task is the position (or reposition) the windows on the desktop.
- * It works with three kinds of windows:
- * - active anchor elo window (setCenterWindow)
- * - other anchor windows (addLinkedWindows, direction is calculated from the mission map)
- * - other windows (addOtherWindows)
- * - fixed windows, I don't remember
+ * The WindowPositioner task is the position (or reposition) the windows on the desktop
+ *
+ * It works with the following kind of windows:
+ * - global learning object windows
+ *   this are resource like elos, which are present in all lasses
+ * - anchor window
+ *   the main anchor elo of the current las
+ * - intermediate window
+ *   this are the intermediate elos of the current las
+ * - next anchor window
+ *   the main anchor elos of the next lasses, from the current las
+ * - previous anchor window
+ *   the main anchor elos of the previous lasses, from the current las
+ * - input anchor window
+ *   all the input anchors of the main and intermediate anchor elos of the current las
+ * - learning object windows
+ *   this are resource like elos of the current las
+ * - other window
+ *   this are elos added by the user to the desktop, which are allways stored with the current las
+ *   
  *
  * @author sikkenj
  */
@@ -32,7 +46,7 @@ public mixin class WindowPositioner {
     public abstract function addGlobalLearningObjectWindow(window:ScyWindow):Boolean;
 
     /**
-    * all windows are rmoved from the desktop
+    * all windows are removed from the desktop
     */
     public abstract function clearWindows():Void;
 

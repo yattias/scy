@@ -191,7 +191,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       for (las in activeLas.previousLasses) {
          if (las.exists) {
             var anchorWindow = getScyWindow(las.mainAnchor.eloUri);
-            if (windowPositioner.addNextAnchorWindow(anchorWindow, getAnchorDirection(las))) {
+            if (windowPositioner.addPreviousAnchorWindow(anchorWindow, getAnchorDirection(las))) {
                windowManager.addScyWindow(anchorWindow);
             }
          }
