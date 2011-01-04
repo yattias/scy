@@ -1,7 +1,13 @@
 package eu.scy.agents.conceptmap;
 
 import info.collide.sqlspaces.commons.Field;
+import info.collide.sqlspaces.commons.Tuple;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -10,6 +16,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
+
+import org.xml.sax.SAXException;
 
 import eu.scy.agents.conceptmap.model.EscapeUtils;
 import eu.scy.agents.conceptmap.proposer.Stemmer;
@@ -160,6 +168,27 @@ public class Graph {
         }
     }
 
+    public void saveToFile(String file) throws FileNotFoundException {
+        Field[] edgeFields = getEdgesAsFields();
+        Field[] nodeFields = getNodesAsFields();
+        PrintWriter pw = new PrintWriter(file);
+        pw.println(new Tuple(nodeFields).toXMLString());
+        pw.println(new Tuple(edgeFields).toXMLString());
+        pw.close();
+    }
+    
+    public static Graph loadFromFile(String file) throws IOException, SAXException {
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        String nodesString = br.readLine();
+        String edgesString = br.readLine();
+        br.close();
+        Tuple nodeTuple = Tuple.parseFromXML(nodesString);
+        Tuple edgeTuple = Tuple.parseFromXML(edgesString);
+        Graph g = new Graph();
+        g.fillFromFields(edgeTuple.getFields(), nodeTuple.getFields());
+        return g;
+    }
+    
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
