@@ -22,9 +22,9 @@ import eu.scy.scymapper.impl.SCYMapperPanelCollide;
 
 public class ConceptMapActionLoggerCollide extends ConceptMapActionLogger {
 
-    private static final String SYNONYM_ADDED = "synonym_added";
+	public static final String SYNONYM_ADDED = "synonym_added";
 
-    private static final String LEXICON_SWITCHED = "lexicon_switched";
+	public static final String LEXICON_SWITCHED = "lexicon_switched";
 
     private IConceptMap conceptMap;
 

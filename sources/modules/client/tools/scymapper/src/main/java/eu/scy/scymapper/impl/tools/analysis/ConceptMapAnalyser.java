@@ -21,16 +21,41 @@ public class ConceptMapAnalyser {
 	
 	private static final String DEFAULT_CSV_FILE_NAME = "analysis.csv";
 	
-	private static final String DEFAULT_FILE_PATH = "StudienDaten" + File.separator  + "schueler";
+	private static final String DEFAULT_STUDENT_DIR = File.separator  + "StudienDaten" + File.separator  + "schueler";
+	
+	private static final String DEFAULT_ACTION_LOG_DIR = File.separator + "StudienDaten";
 
-	private String filepath;
+	private String studentDirectory;
+	
+	private String actionLogDirectory;
 
 	private List<Student> studentList;
 	
 	private int maxConceptCount = 0;
 	
-	public ConceptMapAnalyser(String filepath) {
-		this.filepath = filepath;
+	public ConceptMapAnalyser(String studentDir, String actionLogDir) {
+		if(!studentDir.endsWith(File.separator)) {
+			studentDir = studentDir + File.separator;
+		}
+		if(!actionLogDir.endsWith(File.separator)) {
+			actionLogDir = actionLogDir + File.separator;
+		}
+
+		String currentDir;
+		if(new File(studentDir).isAbsolute()) {
+			currentDir = studentDir;
+		}
+		else {
+			currentDir = ".";
+		}
+		
+		try {			
+			currentDir = new File(".").getCanonicalPath();
+		} catch (IOException ex) {
+			System.out.println("Could not determine canonical path");
+		}
+		this.studentDirectory = currentDir + studentDir;
+		this.actionLogDirectory = currentDir + actionLogDir;
 		this.studentList = new ArrayList<Student>();
 	}
 	
@@ -42,11 +67,12 @@ public class ConceptMapAnalyser {
 		return maxConceptCount;
 	}
 	
-	public void readStudentList() {
+	public void readStudentXmlFiles() {
 		List<String> directories = getDirectories();
 		if(directories == null) {
 			return;
 		}
+
 		for(String dir : directories) {
 			String helpMode = getHelpMode(dir);
 			for(File file : getXmlFiles(dir)) {
@@ -56,7 +82,7 @@ public class ConceptMapAnalyser {
 						continue;
 					}
 
-					Student student = new Student(dir, splittedFileName[1], helpMode, xmlToIConceptMap(file));
+					Student student = new Student(new File(dir), splittedFileName[1], helpMode, xmlToIConceptMap(file));
 					this.studentList.add(student);
 					if(this.maxConceptCount < student.getConceptMap().getDiagram().getNodes().size()) {
 						this.maxConceptCount = student.getConceptMap().getDiagram().getNodes().size();
@@ -67,11 +93,24 @@ public class ConceptMapAnalyser {
 			}
 		}		
 	}
+	
+	public void readStudentActionLogs() {
+		for(Student student : studentList) {
+			int actionLogCount = 0;
+			try {
+				actionLogCount = student.readActionLogs(this.actionLogDirectory);
+			} catch(Exception ex) {
+				System.out.println("Could not read action log file for help mode: " + student.getActionLogFile(this.actionLogDirectory));
+				return;
+			}
+			System.out.println("Successfully read " + actionLogCount + " log entries for user " + student.getName());			
+		}
+	}
 
 	private List<String> getDirectories() {
 		List<String> directories = new ArrayList<String>();
 
-		File tempPath = new File(this.filepath);
+		File tempPath = new File(this.studentDirectory);
 		File[] listFiles = tempPath.listFiles();
 		if(listFiles == null) {
 			System.err.println("No directories found");
@@ -86,7 +125,7 @@ public class ConceptMapAnalyser {
 	}
 
 	private File[] getXmlFiles(String userDir) {
-		File tempPath = new File(this.filepath + File.separator + userDir);
+		File tempPath = new File(this.studentDirectory + File.separator + userDir);
 
 		return tempPath.listFiles(new FilenameFilter() {
 			@Override
@@ -97,7 +136,7 @@ public class ConceptMapAnalyser {
 	}
 	
 	private String getHelpMode(String userDir) {
-		File tempPath = new File(this.filepath + File.separator + userDir);
+		File tempPath = new File(this.studentDirectory + File.separator + userDir);
 		
 		File[] listFiles = tempPath.listFiles(new FilenameFilter() {
 			@Override
@@ -153,6 +192,9 @@ public class ConceptMapAnalyser {
 			try {
 				if(csv.canWrite()) {
 					fw = new FileWriter(csv);
+					fw.write("Directory,UserID,HelpMode,#Concepts,#Relations,#Lexicon called,#Concept help requests,#Relation help requests,#Synonyms added");
+					fw.append(System.getProperty("line.separator"));
+
 					for(Student student : studentList) {
 						fw.write(student.getCsvLine());
 						fw.append(System.getProperty("line.separator"));
@@ -168,20 +210,31 @@ public class ConceptMapAnalyser {
 			e.printStackTrace();
 		}
 	}
-		
-	public static void main(String[] args) {
 
-		String filepath;
+	public static void main(String[] args) {
+		String studentDir = "";
+		String actionLogDir = "";
 		if(args == null || args.length == 0) {
 //			filepath = ".";
-			filepath = DEFAULT_FILE_PATH;
+			studentDir = DEFAULT_STUDENT_DIR;
+			actionLogDir = DEFAULT_ACTION_LOG_DIR;
+		} else if(args[0].equals("--help")) {
+			System.out.println("Parameter: command <RelativeStudentDirectory> <ActionLogDirectory>");
+			System.out.println("Default Student Directory: " + DEFAULT_STUDENT_DIR);
+			System.out.println("Default ActionLog Directory: " + DEFAULT_ACTION_LOG_DIR);
+			System.exit(0);
 		} else {
-			filepath = args[0];
+			studentDir = args[0];
+			actionLogDir = args[1];
 		}
 			
-		ConceptMapAnalyser cmAnalyser = new ConceptMapAnalyser(filepath);
-		cmAnalyser.readStudentList();
-		System.out.println("Read " + cmAnalyser.getStudentList().size() + " student concept maps");
+		ConceptMapAnalyser cmAnalyser = new ConceptMapAnalyser(studentDir, actionLogDir);
+		cmAnalyser.readStudentXmlFiles();
+		System.out.println("Read " + cmAnalyser.getStudentList().size() + " student concept maps out of " + cmAnalyser.getDirectories().size() + " directories." );
+
+		System.out.println("Begin reading action logs. This may take some time!");
+		cmAnalyser.readStudentActionLogs();
+		System.out.println("Reading of action logs has been completed.");
 
 		cmAnalyser.writeCsvFile(DEFAULT_CSV_FILE_NAME);
 	}

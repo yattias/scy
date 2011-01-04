@@ -41,15 +41,15 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
     private String toolname = "scymapper";
     protected String eloURI = "n/a";
     private final static Logger syslog = Logger.getLogger(ConceptMapActionLogger.class);
-    private static final String REQUEST_CONCEPT = "concept_help_requested";
-    private static final String REQUEST_RELATION = "relation_help_requested";
-    private static final String NODE_ADDED = "node_added";
-    private static final String LINK_ADDED = "link_added";
-    private static final String NODE_RENAMED = "node_renamed";
-    private static final String LINK_RENAMED = "link_renamed";
-    private static final String LINK_REMOVED = "link_removed";
-    private static final String NODE_REMOVED = "node_removed";
-    private static final String LINK_FLIPPED = "link_flipped";
+    public static final String REQUEST_CONCEPT = "concept_help_requested";
+    public static final String REQUEST_RELATION = "relation_help_requested";
+    public static final String NODE_ADDED = "node_added";
+    public static final String LINK_ADDED = "link_added";
+    public static final String NODE_RENAMED = "node_renamed";
+    public static final String LINK_RENAMED = "link_renamed";
+    public static final String LINK_REMOVED = "link_removed";
+    public static final String NODE_REMOVED = "node_removed";
+    public static final String LINK_FLIPPED = "link_flipped";
 
     public ConceptMapActionLogger(IActionLogger actionLogger, IDiagramModel diagram, String username) {
         this.logger = actionLogger;
