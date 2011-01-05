@@ -33,6 +33,10 @@ import eu.scy.common.mission.EloToolConfig;
 public abstract class ScyWindow extends CustomNode, DropTarget {
    public var title = "???";
 	public var eloType = "?123";
+   public var relativeLayoutCenterX:Number;
+   public var relativeLayoutCenterY:Number;
+   public var relativeWidth:Number;
+   public var relativeHeight:Number;
    public var eloUri:URI;
    public var scyElo:ScyElo;
    public var eloIcon:EloIcon;
