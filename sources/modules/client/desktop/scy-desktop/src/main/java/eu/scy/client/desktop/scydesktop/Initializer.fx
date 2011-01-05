@@ -77,14 +77,14 @@ public class Initializer {
    public-init var eloImagesPath = "{__DIR__}imagewindowstyler/images/";
    public-init var scyServerHost: String;
    public-init var useWebStartHost = true;
-   public-init var windowPositioner = "roleArea";
+   public-init var windowPositioner = "functionalRole";
    public-init var debugMode = false;
    public-init var authorMode = false;
    public-init var indicateOnlineStateByOpacity = true;
    public-init var showEloRelations = true;
 //   public-init var eloImagesPath = "http://www.scy-lab.eu/content/backgrounds/eloIcons/";
    public-init var showOfflineContacts = true;
-   public-init var languageList = "nl,en,et,fr,el";
+   public-init var languageList = "en,nl,et,fr,el";
    public-init var missionMapSelectedImageScale = 1.5;
    public-init var missionMapNotSelectedImageScale = 1.0;
    public-init var missionMapPositionScale = 1.0;
