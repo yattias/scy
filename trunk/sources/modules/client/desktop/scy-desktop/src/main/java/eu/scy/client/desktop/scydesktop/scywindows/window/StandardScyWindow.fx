@@ -371,11 +371,24 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       checkScyContent();
       isClosed = false;
       var useSize = limitSize(openWidth, openHeight);
-      width = useSize.x;
-      height = useSize.y;
-      //        println("useSize: {useSize}, realy used: {width}*{height}");
-      scyToolsList.onOpened();
-   //        (scyToolsList.actionLoggerTool as ScyToolActionLogger).logToolOpened();
+      var openTimeline = Timeline {
+          keyFrames: [
+               KeyFrame {
+                  time: animationDuration;
+                  values: [
+                     width => useSize.x tween Interpolator.EASEBOTH,
+                     height => useSize.y tween Interpolator.EASEBOTH
+                  ]
+                  action: function() {
+                      scyToolsList.onOpened();
+                      updateRelativeBounds();
+                  }
+               }
+           ]
+       };
+       openTimeline.play();
+       //        println("useSize: {useSize}, realy used: {width}*{height}");
+       //        (scyToolsList.actionLoggerTool as ScyToolActionLogger).logToolOpened();
    }
 
    public override function setMinimize(state: Boolean): Void {
@@ -413,6 +426,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
                      }
                      isAnimating = false;
                      scyToolsList.onClosed();
+                     updateRelativeBounds()
                   }
                }
             ]
@@ -431,6 +445,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
                   action: function() {
                      isAnimating = false;
                      scyToolsList.onMinimized();
+                     updateRelativeBounds()
                   }
                }
             ]
@@ -449,6 +464,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
                   action: function() {
                      isAnimating = false;
                      scyToolsList.onUnMinimized();
+                     updateRelativeBounds();
                   }
                }
             ]
@@ -458,6 +474,15 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    public override function close() {
       doClose();
    }
+
+  //update relative values
+   function updateRelativeBounds(): Void {
+      relativeLayoutCenterX = (layoutX + (width / 2)) / scene.width as Number;
+      relativeLayoutCenterY = (layoutY + (height / 2)) / scene.height as Number;
+      relativeLayoutCenterX = (layoutX + (width / 2)) / scene.width as Number;
+      relativeLayoutCenterY = (layoutY + (height / 2)) / scene.height as Number;
+   }
+
 
    function startDragging(e: MouseEvent): Void {
       for (wcl in changesListeners) {
@@ -483,6 +508,9 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       }
       //      contentElement.glassPaneBlocksMouse = false;
       beingDragged = false;
+
+      updateRelativeBounds();
+      
       MouseBlocker.stopMouseBlocking();
    }
 
@@ -539,6 +567,8 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       var newSize = limitSize(originalW + difW, originalH + difH);
       width = newSize.x;
       height = newSize.y;
+
+      updateRelativeBounds();
 
 //      width = originalW + difW;
 //      height = originalH + difH;
