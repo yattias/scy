@@ -98,6 +98,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoToolFactory;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.BigMissionMap;
 import javafx.scene.layout.HBox;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.BigMissionMapControl;
+import eu.scy.client.desktop.scydesktop.scywindows.window_positions.FunctionalRoleWindowPositioner;
 
 /**
  * @author sikkenj
@@ -424,6 +425,10 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                scyDesktop: this
                showAreas: true
             }
+      } else if (initializer.windowPositioner.equalsIgnoreCase("functionalRole")) {
+          windowPositioner = FunctionalRoleWindowPositioner {
+              scyDesktop: this;
+          }
       } else {
          logger.error("unknown windowPositioner specified: {initializer.windowPositioner}");
       }
