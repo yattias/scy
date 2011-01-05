@@ -15,7 +15,8 @@ public enum MissionEloType {
    MISSION_MAP_MODEL("scy/missionmapmodel"),
    ELO_TOOL_CONFIGURATION("scy/elotoolconfiguration"),
    TEMPLATES_ELOS("scy/templateelos"),
-   RUNTIME_SETTINGS("scy/runtimesettings");
+   RUNTIME_SETTINGS("scy/runtimesettings"),
+   EPORTFOLIO("scy/eportfolio");
 
    private final String type;
 
