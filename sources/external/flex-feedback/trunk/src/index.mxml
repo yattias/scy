@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" width="800" height="600" applicationComplete="application1_applicationCompleteHandler(event)" xmlns:local="*">
+	
+	<fx:Declarations>
+		<s:Power id="powerEasing" exponent="4"/>
+		<s:Parallel id="showEffect" >
+			<s:Move id="contentMove" easer="{powerEasing}" duration="1500" />
+			<s:Move id="imageMove" target="{animateImage}" easer="{powerEasing}"  duration="1500" />
+			<s:effectEnd>
+				<![CDATA[
+				animateImage.visible = false;
+				animateImage.includeInLayout = false;
+				
+				switch (mainStack.selectedIndex) {
+					case STACK_INTRO_PANEL:
+						
+					break;
+				}
+				]]>
+			</s:effectEnd>
+		</s:Parallel>
+		
+		<s:Fade id="fadeInIm" alphaFrom="0" alphaTo="1" duration="1000" />
+		<s:Fade id="fadeOutIm" alphaFrom="1" alphaTo="0" duration="1000" />
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import listeners.ToggleEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
+			import mx.effects.easing.Exponential;
+			import mx.events.FlexEvent;
+			import mx.graphics.ImageSnapshot;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.easing.Linear;
+			
+			public static const STACK_INTRO_PANEL:Number = 1;
+			
+			public static const TOGGLE_COMMAND:String = "toggleStack";
+			public static const LEFT_DIRECTION:String = "left";
+			public static const RIGHT_DIRECTION:String = "right";
+			[Bindable] public static var MISSION_NAME:String = "C02 Neutral house";
+			
+			public static const THEME_COL:Number = 0xCC6600;
+			public static const THEME_LIGHT:Number = 0xFF9933;
+			public static const BACK_GRADIENT_TOP:Number = 0x999999;
+			public static const BACK_GRADIENT_BOT:Number = 0xFFFFFF;
+			
+			[Bindable] private var needsRefresh:Boolean = false;
+			[Bindable] private var accordionTarget:Number = 0;
+			[Bindable] private var eloSelectedToSubmit:Boolean = false;
+			
+			private var userName:String;
+			
+			private var so:SharedObject;
+			
+			protected function application1_applicationCompleteHandler(event:FlexEvent):void {
+				resourceManager.localeChain = [ "en_US" ];
+				retrieveUserInfo();
+				this.addEventListener(TOGGLE_COMMAND, ToggleStack);
+				animate(LEFT_DIRECTION, STACK_INTRO_PANEL);
+			}
+			
+			private function ToggleStack(evt:ToggleEvent):void {
+				animate(evt.direction, evt.selecTarget);
+			}
+			
+			private function retrieveUserInfo():void {
+				so = SharedObject.getLocal("scy-feedback");
+				var userInfo:Object = new Object();
+				userInfo.username = FlexGlobals.topLevelApplication.parameters.username;
+				userInfo.firstname = FlexGlobals.topLevelApplication.parameters.firstName;
+				userInfo.lastname = FlexGlobals.topLevelApplication.parameters.lastName;				
+				so.data.userInfo = userInfo;
+				
+				userName = (userInfo.firstname as String).toLowerCase() + " " + (userInfo.lastname as String).toUpperCase();
+				
+				//URLpropertyFile.url = FlexGlobals.topLevelApplication.parameters.toolURLProvider;
+			}
+			
+			
+			private function animate(direction:String, selecIndex:Number):void {
+				animateImage.width = mainStack.width;
+				animateImage.height = mainStack.height;
+				animateImage.source = new Bitmap( ImageSnapshot.captureBitmapData( mainStack ) );
+				animateImage.visible = true;
+				animateImage.includeInLayout = true;
+				
+				switch (direction)
+				{		
+					case LEFT_DIRECTION:
+						contentMove.xFrom = mainStack.width;
+						contentMove.xTo = 0;
+						contentMove.yFrom = 0;
+						contentMove.yTo = 0;
+						
+						imageMove.xFrom = 0;
+						imageMove.xTo = - mainStack.width;
+						imageMove.yFrom = 0;
+						imageMove.yTo = 0;
+						break;
+					
+					case RIGHT_DIRECTION:
+						contentMove.xFrom = - mainStack.width;
+						contentMove.xTo = 0;
+						contentMove.yFrom = 0;
+						contentMove.yTo = 0;
+						
+						imageMove.xFrom = 0;
+						imageMove.xTo = mainStack.width;
+						imageMove.yFrom = 0;
+						imageMove.yTo = 0;
+						break;
+				}
+				
+				mainStack.selectedIndex = selecIndex;
+				contentMove.target = mainStack.selectedChild;
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Metadata>
+		[ResourceBundle("resources")]
+	</fx:Metadata>
+	
+	<s:Group>
+		<s:Line xFrom="0" xTo="{this.width}" yFrom="2" yTo="2">
+			<s:stroke>
+				<s:SolidColorStroke color="{THEME_COL}" weight="4" caps="square"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line xFrom="40" xTo="{this.width}" yFrom="{this.height-2}" yTo="{this.height-2}">
+			<s:stroke>
+				<s:SolidColorStroke color="{THEME_COL}" weight="4" caps="square"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line xFrom="{this.width-2}" xTo="{this.width-2}" yFrom="0" yTo="{this.height}">
+			<s:stroke>
+				<s:SolidColorStroke color="{THEME_COL}" weight="4" caps="square"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line xFrom="2" xTo="2" yFrom="0" yTo="{this.height-40}">
+			<s:stroke>
+				<s:SolidColorStroke color="{THEME_COL}" weight="4" caps="square"/>
+			</s:stroke>
+		</s:Line>
+		<s:Path x="2" y="{this.height-42}" data="Q 5 35 40 40">
+			<s:stroke>
+				<s:SolidColorStroke color="{THEME_COL}" weight="4" caps="square"/>
+			</s:stroke>
+		</s:Path>
+	</s:Group>
+	
+	<s:Group id="genecan" width="{this.width-14}" height="{this.height-14}" x="7" y="7">
+		<mx:ViewStack id="mainStack" width="100%" height="100%" >
+			<s:NavigatorContent />
+			<local:introductionCanvas id="introduction" width="100%" height="100%" showEffect="{showEffect}" />
+		</mx:ViewStack>
+		<s:Image id="animateImage" visible="false" includeInLayout="false" />
+	</s:Group>
+</s:Application>

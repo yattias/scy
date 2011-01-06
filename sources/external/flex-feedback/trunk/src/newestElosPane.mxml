@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					xmlns:s="library://ns.adobe.com/flex/spark" 
+					xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="navigatorcontent1_creationCompleteHandler(event)">
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.managers.CursorManager;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			private var objectsToTile:ArrayCollection;
+			
+			protected function navigatorcontent1_creationCompleteHandler(event:FlexEvent):void {
+				URLpropertyFile.url = "newest.xml";
+				URLpropertyFile.send();
+			}
+			
+			protected function URLpropertyFile_faultHandler(event:FaultEvent):void {
+				Alert.show(resourceManager.getString('resources', 'URL_PROPERTY_FILE_ERROR'), "HTTPService Error");
+			}
+			
+			protected function URLpropertyFile_resultHandler(event:ResultEvent):void {
+				var xml:XML= event.result as XML;
+				var tc:tileCell;
+				objectsToTile = new ArrayCollection();
+				for each (var object:XML in xml.*) {
+					if (object.name() == "elo") {
+						tc = new tileCell();
+						tc.cellTitle = object.catname;
+						tc.imageSource = object.thumbnail;
+						tc.eloid = object.@uri;
+						objectsToTile.addItem(tc);
+					}
+				}
+				
+				buildTile();
+			}
+			
+			private function buildTile():void {
+				for each (var tcell:tileCell in objectsToTile) {
+					dataTile.addElement(tcell);
+				}
+			}
+
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<s:HTTPService id="URLpropertyFile" 
+					   showBusyCursor="true" 
+					   result="URLpropertyFile_resultHandler(event)" 
+					   fault="URLpropertyFile_faultHandler(event)"
+					   resultFormat="e4x"/>
+	</fx:Declarations>
+	
+	<s:Scroller id="scroll" width="100%" height="100%" chromeColor="{index.THEME_COL}">
+		<s:VGroup id="grp" width="100%" height="100%" horizontalAlign="center" gap="0">
+			<mx:Spacer height="5" />
+			<s:TileGroup id="dataTile" width="{grp.width - 10}" horizontalCenter="0" verticalCenter="0"/>
+			<mx:Spacer height="5" />
+		</s:VGroup>
+	</s:Scroller>
+</s:NavigatorContent>
