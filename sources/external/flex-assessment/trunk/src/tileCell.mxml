@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					  xmlns:s="library://ns.adobe.com/flex/spark" 
+					  xmlns:mx="library://ns.adobe.com/flex/mx" width="200" height="80" creationComplete="skinnablecontainer1_creationCompleteHandler(event)" buttonMode="true"
+					  horizontalAlign="center" gap="1">
+	<fx:Script>
+		<![CDATA[
+			import listeners.ToggleEvent;
+			
+			import mx.events.FlexEvent;
+			[Bindable] public var cellTitle:String;
+			[Bindable] public var cellAssess:Boolean;
+			[Bindable] public var cellGrade:String;
+			[Bindable] public var eloid:String;
+			
+			public var studentIndex:Number;
+	
+			protected function skinnablecontainer1_creationCompleteHandler(event:FlexEvent):void {
+				if(cellAssess) {
+					currentState = "assessed";
+				}
+				else {
+					currentState = "notassessed";
+				}
+			}
+
+			protected function bordercontainer1_mouseOverHandler(event:MouseEvent):void {
+				event.target.alpha = .7;
+			}
+
+
+			protected function bordercontainer1_mouseOutHandler(event:MouseEvent):void {
+				event.target.alpha = 1;
+			}
+
+
+			protected function bordercontainer1_mouseDownHandler(event:MouseEvent):void {
+				var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
+				tEvent.sourcePanel = index.STACK_STUDTABLE_PANEL;
+				tEvent.direction = index.LEFT_DIRECTION;
+				if(event.target.id == "cat") {
+					tEvent.selecTarget = index.STACK_CATEGORY_PANEL;
+					tEvent.categoryTitle = titleLabel.text;
+					tEvent.calculateStack = true;
+				}
+				else {
+					tEvent.selecTarget = index.STACK_ELOASSESS_PANEL;
+					tEvent.eloidToAssess = eloid;
+				}
+				dispatchEvent(tEvent);
+			}
+
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="assessed" />
+		<s:State name="notassessed" />
+	</s:states>
+
+	<s:BorderContainer id="cat" width="100%" height="30" backgroundColor="{index.THEME_COL}" borderColor="{index.THEME_LIGHT}" borderWeight="2" toolTip="{resourceManager.getString('resources', 'TOOLTIP_TABLE_CATEGORY')}"
+					   mouseOver="bordercontainer1_mouseOverHandler(event)"
+					   mouseOut="bordercontainer1_mouseOutHandler(event)"
+					   mouseChildren="false"
+					   mouseDown="bordercontainer1_mouseDownHandler(event)">
+		<s:VGroup width="100%" height="100%" verticalAlign="middle" horizontalAlign="center">
+			<s:Label id="titleLabel" text="{cellTitle}" color="#FFFFFF" />
+		</s:VGroup>
+	</s:BorderContainer>
+	<s:BorderContainer id="elo" width="100%" height="50" backgroundColor="{index.THEME_COL}" borderColor="{index.THEME_LIGHT}" borderWeight="2" toolTip="{resourceManager.getString('resources', 'TOOLTIP_TABLE_ELO')}"
+					   mouseOver="bordercontainer1_mouseOverHandler(event)"
+					   mouseOut="bordercontainer1_mouseOutHandler(event)"
+					   mouseChildren="false"
+					   mouseDown="bordercontainer1_mouseDownHandler(event)">
+		<s:VGroup width="100%" height="100%" verticalAlign="middle" horizontalAlign="center">
+			<s:Ellipse width="15" height="15" excludeFrom="notassessed">
+				<s:fill>
+					<s:SolidColor color="#99FF33" />
+				</s:fill>
+			</s:Ellipse>
+			<s:Ellipse width="15" height="15" includeIn="notassessed">
+				<s:fill>
+					<s:SolidColor color="#FF6600" />
+				</s:fill>
+			</s:Ellipse>
+			<s:Label id="scoreLabel" text="{'Score: '+cellGrade}" color="#FFFFFF" excludeFrom="notassessed" />
+		</s:VGroup>
+	</s:BorderContainer>
+</s:VGroup>

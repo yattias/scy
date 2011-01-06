@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" width="800" height="600" applicationComplete="application1_applicationCompleteHandler(event)" xmlns:local="*">
+	
+	<fx:Declarations>
+		<s:Power id="powerEasing" exponent="4"/>
+		<s:Parallel id="showEffect" >
+			<s:Move id="contentMove" easer="{powerEasing}" duration="1500" />
+			<s:Move id="imageMove" target="{animateImage}" easer="{powerEasing}"  duration="1500" />
+			<s:effectEnd>
+				<![CDATA[
+					animateImage.visible = false;
+					animateImage.includeInLayout = false;
+					
+					switch (mainStack.selectedIndex) {
+						case STACK_INTRO_PANEL:
+							(mainStack.selectedChild as introductionCanvas).refreshContent();
+						break;
+						case STACK_STUDTABLE_PANEL:
+							(mainStack.selectedChild as studentsTable).refreshContent();
+						break;
+						case STACK_ELOASSESS_PANEL:
+							(mainStack.selectedChild as eloAssessingCanvas).setOrigin(sourcePanelForEloAssessment);
+							if(eloidToAssess!=null) {
+								(mainStack.selectedChild as eloAssessingCanvas).assessElo(eloidToAssess);
+							}
+						break;
+						case STACK_CATEGORY_PANEL:
+							(mainStack.selectedChild as categoryCanvas).refreshContent(selectedCategoryIndex);
+						break;
+						case STACK_PORTFOLIO_PANEL:
+							if(passedPortfolioStudentName != null) {
+								(mainStack.selectedChild as portfolioAssessingCanvas).processPortfolio(passedPortfolioStudentName);
+							}
+						break;
+						case STACK_ELOCOMPARE_PANEL:
+							if(elosToCompare!=null) {
+								(mainStack.selectedChild as eloComparingCanvas).assessElo(elosToCompare);
+							}
+						break;
+					}
+				]]>
+			</s:effectEnd>
+		</s:Parallel>
+		
+		<s:Fade id="fadeInIm" alphaFrom="0" alphaTo="1" duration="1000" />
+		<s:Fade id="fadeOutIm" alphaFrom="1" alphaTo="0" duration="1000" />
+		
+		<s:HTTPService id="URLpropertyFile" 
+					   showBusyCursor="true" 
+					   result="URLpropertyFile_resultHandler(event)" 
+					   fault="URLpropertyFile_faultHandler(event)"
+					   resultFormat="e4x"/>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import listeners.ImageMagEvent;
+			import listeners.ToggleEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
+			import mx.effects.easing.Exponential;
+			import mx.events.FlexEvent;
+			import mx.graphics.ImageSnapshot;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import spark.effects.easing.Linear;
+			
+			public static const STACK_INTRO_PANEL:Number = 1;
+			public static const STACK_STUDTABLE_PANEL:Number = 2;
+			public static const STACK_ELOASSESS_PANEL:Number = 3;
+			public static const STACK_CATEGORY_PANEL:Number = 4;
+			public static const STACK_PORTFOLIO_PANEL:Number = 5;
+			public static const STACK_ELOCOMPARE_PANEL:Number = 6;
+			
+			public static const SELECT_TO_COMPARE_COMMAND:String = "selectToCompare";
+			public static const IMAGEMAG_COMMAND:String = "toggleImageMag";
+			public static const TOGGLE_COMMAND:String = "toggleStack";
+			public static const LEFT_DIRECTION:String = "left";
+			public static const RIGHT_DIRECTION:String = "right";
+			[Bindable] public static var MISSION_NAME:String = "C02 Neutral house";
+			
+			public static const THEME_COL:Number = 0x666600;
+			public static const THEME_LIGHT:Number = 0x999966;
+			public static const BACK_GRADIENT_TOP:Number = 0x999999;
+			public static const BACK_GRADIENT_BOT:Number = 0xFFFFFF;
+			
+			[Bindable] private var needsRefresh:Boolean = false;
+			[Bindable] private var accordionTarget:Number = 0;
+			[Bindable] private var eloSelectedToSubmit:Boolean = false;
+			
+			public static var obligElos:ArrayCollection = new ArrayCollection([
+				"1st ideas of my design group",
+				"House data"
+			]);
+			
+			private var userName:String;
+			private var selectedCategoryIndex:Number;
+			private var sourcePanelForEloAssessment:Number;
+			private var eloidToAssess:String;
+			private var passedPortfolioStudentName:String;
+			private var elosToCompare:ArrayCollection;
+			
+			private var so:SharedObject;
+			
+			protected function URLpropertyFile_resultHandler(event:ResultEvent):void {
+				var xml:XML= event.result as XML;
+				so.data.retrievedElosFromRoolo = xml;
+				so.flush();
+				animate(LEFT_DIRECTION, STACK_INTRO_PANEL);
+			}
+			
+			
+			protected function URLpropertyFile_faultHandler(event:FaultEvent):void {
+				Alert.show(resourceManager.getString('resources', 'URL_PROPERTY_FILE_ERROR'), "HTTPService Error");
+			}
+			
+			protected function application1_applicationCompleteHandler(event:FlexEvent):void {
+				resourceManager.localeChain = [ "en_US" ];
+				retrieveUserInfo();
+				this.addEventListener(TOGGLE_COMMAND, ToggleStack);
+				this.addEventListener(IMAGEMAG_COMMAND, ToggleImageMag);
+				URLpropertyFile.send();
+			}
+			
+			private function retrieveUserInfo():void {
+				so = SharedObject.getLocal("scy-eportfolio");
+				var userInfo:Object = new Object();
+				userInfo.username = FlexGlobals.topLevelApplication.parameters.username;
+				userInfo.firstname = FlexGlobals.topLevelApplication.parameters.firstName;
+				userInfo.lastname = FlexGlobals.topLevelApplication.parameters.lastName;				
+				so.data.userInfo = userInfo;
+				
+				userName = (userInfo.firstname as String).toLowerCase() + " " + (userInfo.lastname as String).toUpperCase();
+				
+				//URLpropertyFile.url = FlexGlobals.topLevelApplication.parameters.toolURLProvider;
+				URLpropertyFile.url = "eportfolios.xml";
+			}
+			
+			private function ToggleStack(evt:ToggleEvent):void {
+				if(evt.calculateStack) {
+					if(evt.categoryTitle!=null) {
+						selectedCategoryIndex = obligElos.getItemIndex(evt.categoryTitle);
+					}
+				}
+				
+				passedPortfolioStudentName = evt.portfolioToAssess;
+				eloidToAssess = evt.eloidToAssess;
+				sourcePanelForEloAssessment = evt.sourcePanel;
+				elosToCompare = evt.elosToCompare;
+				animate(evt.direction, evt.selecTarget);
+			}
+			
+			private function ToggleImageMag(evt:ImageMagEvent):void {
+				maxImage.visible = evt.showNow;
+				maxImageIm.source = evt.imageSource;
+			}
+			
+			private function animate(direction:String, selecIndex:Number):void {
+				animateImage.width = mainStack.width;
+				animateImage.height = mainStack.height;
+				animateImage.source = new Bitmap( ImageSnapshot.captureBitmapData( mainStack ) );
+				animateImage.visible = true;
+				animateImage.includeInLayout = true;
+				
+				switch (direction)
+				{		
+					case LEFT_DIRECTION:
+						contentMove.xFrom = mainStack.width;
+						contentMove.xTo = 0;
+						contentMove.yFrom = 0;
+						contentMove.yTo = 0;
+						
+						imageMove.xFrom = 0;
+						imageMove.xTo = - mainStack.width;
+						imageMove.yFrom = 0;
+						imageMove.yTo = 0;
+						break;
+					
+					case RIGHT_DIRECTION:
+						contentMove.xFrom = - mainStack.width;
+						contentMove.xTo = 0;
+						contentMove.yFrom = 0;
+						contentMove.yTo = 0;
+						
+						imageMove.xFrom = 0;
+						imageMove.xTo = mainStack.width;
+						imageMove.yFrom = 0;
+						imageMove.yTo = 0;
+						break;
+				}
+				
+				mainStack.selectedIndex = selecIndex;
+				contentMove.target = mainStack.selectedChild;
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Metadata>
+		[ResourceBundle("resources")]
+	</fx:Metadata>
+	
+	<s:Group>
+		<s:Line xFrom="0" xTo="{this.width}" yFrom="2" yTo="2">
+			<s:stroke>
+				<s:SolidColorStroke color="{THEME_COL}" weight="4" caps="square"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line xFrom="40" xTo="{this.width}" yFrom="{this.height-2}" yTo="{this.height-2}">
+			<s:stroke>
+				<s:SolidColorStroke color="{THEME_COL}" weight="4" caps="square"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line xFrom="{this.width-2}" xTo="{this.width-2}" yFrom="0" yTo="{this.height}">
+			<s:stroke>
+				<s:SolidColorStroke color="{THEME_COL}" weight="4" caps="square"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line xFrom="2" xTo="2" yFrom="0" yTo="{this.height-40}">
+			<s:stroke>
+				<s:SolidColorStroke color="{THEME_COL}" weight="4" caps="square"/>
+			</s:stroke>
+		</s:Line>
+		<s:Path x="2" y="{this.height-42}" data="Q 5 35 40 40">
+			<s:stroke>
+				<s:SolidColorStroke color="{THEME_COL}" weight="4" caps="square"/>
+			</s:stroke>
+		</s:Path>
+	</s:Group>
+	
+	<s:Group id="genecan" width="{this.width-14}" height="{this.height-14}" x="7" y="7">
+		<mx:ViewStack id="mainStack" width="100%" height="100%" >
+			<s:NavigatorContent />
+			<local:introductionCanvas id="introduction" width="100%" height="100%" showEffect="{showEffect}" />
+			<local:studentsTable id="studentTable" width="100%" height="100%" showEffect="{showEffect}" />
+			<local:eloAssessingCanvas id="assessing" width="100%" height="100%" showEffect="{showEffect}" />
+			<local:categoryCanvas id="categoryCan" width="100%" height="100%" showEffect="{showEffect}" />
+			<local:portfolioAssessingCanvas id="portfolioCan" width="100%" height="100%" showEffect="{showEffect}" />
+			<local:eloComparingCanvas id="comparing" width="100%" height="100%" showEffect="{showEffect}" />
+		</mx:ViewStack>
+		<s:Image id="animateImage" visible="false" includeInLayout="false" />
+	</s:Group>
+	
+	<s:BorderContainer id="maxImage" visible="false" alpha="0" showEffect="{fadeInIm}" hideEffect="{fadeOutIm}" width="100%" height="100%" backgroundColor="#000000" backgroundAlpha=".7" cornerRadius="0">
+		<s:Image width="90%" height="90%" id="maxImageIm" horizontalCenter="0" verticalCenter="0"/>
+		<s:Button label="{resourceManager.getString('resources', 'CLOSE_BUTTON')}" horizontalCenter="0" bottom="5" click="maxImage.visible=false" />
+	</s:BorderContainer>
+</s:Application>

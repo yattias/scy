@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					xmlns:s="library://ns.adobe.com/flex/spark" 
+					xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="buildLabelsArray()">
+	
+	<fx:Script>
+		<![CDATA[
+			import listeners.ImageMagEvent;
+			import listeners.ToggleEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			
+			import utility.XMLUtilJer;
+			
+			private var originPanel:Number;
+			[Bindable] private var labelsArray:Array;
+			[Bindable] private var descriptionText1:String = "";
+			[Bindable] private var glgText1:String = "";
+			[Bindable] private var slgText1:String = "";
+			[Bindable] private var reflectionText1:String = "";
+			[Bindable] private var inquiryNumber1:Number = 2;
+			[Bindable] private var thumbnailURL1:String = "";
+			[Bindable] private var eloNameText1:String = "";
+			[Bindable] private var createdByText1:String = "";
+			[Bindable] private var createdDateText1:String = "";
+			[Bindable] private var assesslider1Value:Number = 2;
+			[Bindable] private var assessmentArea1Text:String = "";
+			[Bindable] private var commentArea1Text:String = "";
+			[Bindable] private var assesslider1Visible:Boolean;
+			
+			[Bindable] private var descriptionText2:String = "";
+			[Bindable] private var glgText2:String = "";
+			[Bindable] private var slgText2:String = "";
+			[Bindable] private var reflectionText2:String = "";
+			[Bindable] private var inquiryNumber2:Number = 2;
+			[Bindable] private var thumbnailURL2:String = "";
+			[Bindable] private var eloNameText2:String = "";
+			[Bindable] private var createdByText2:String = "";
+			[Bindable] private var createdDateText2:String = "";
+			[Bindable] private var assesslider2Value:Number = 2;
+			[Bindable] private var assessmentArea2Text:String = "";
+			[Bindable] private var commentArea2Text:String = "";
+			[Bindable] private var assesslider2Visible:Boolean;
+			
+			private var eloXML1:XML;
+			private var newEloXML1:XML;
+			private var eloXML2:XML;
+			private var newEloXML2:XML;
+			private var portfolioElo:XML;
+			private var so:SharedObject;
+			
+			private function buildLabelsArray():void {
+				labelsArray = new Array();
+				labelsArray.push(resourceManager.getString('resources', 'TAB_POOR'));
+				labelsArray.push(resourceManager.getString('resources', 'TAB_FAIR'));
+				labelsArray.push(resourceManager.getString('resources', 'TAB_GOOD'));
+				labelsArray.push(resourceManager.getString('resources', 'TAB_EXCELLENT'));
+			}
+			
+			public function setOrigin(origin:Number):void {
+				this.originPanel = origin;
+			}
+			
+			public function assessElo(elosToCompare:ArrayCollection):void {
+				so = SharedObject.getLocal("scy-eportfolio");
+				portfolioElo = so.data.retrievedElosFromRoolo as XML;
+				
+				var myList1:XMLList = portfolioElo.portfolio.elos.elo.(@uri == elosToCompare[0]);
+				var myList2:XMLList = portfolioElo.portfolio.elos.elo.(@uri == elosToCompare[1]);
+				
+				eloXML1 = myList1[0] as XML;
+				eloXML2 = myList2[0] as XML;
+				newEloXML1 = myList1[0] as XML;
+				newEloXML2 = myList2[0] as XML;
+				
+				eloNameText1 = eloXML1.myname;
+				createdByText1 = eloXML1.parent().parent().@student;
+				createdDateText1 = eloXML1.modified;
+				descriptionText1 = eloXML1.studentDescription;
+				glgText1 = eloXML1.studentGLG.goal;
+				slgText1 = eloXML1.studentSLG.goal;
+				reflectionText1 = eloXML1.studentReflection;
+				inquiryNumber1 = new Number(eloXML1.studentInquiry);
+				thumbnailURL1 = eloXML1.thumbnail;
+				
+				eloNameText2 = eloXML2.myname;
+				createdByText2 = eloXML2.parent().parent().@student;
+				createdDateText2 = eloXML2.modified;
+				descriptionText2 = eloXML2.studentDescription;
+				glgText2 = eloXML2.studentGLG.goal;
+				slgText2 = eloXML2.studentSLG.goal;
+				reflectionText2 = eloXML2.studentReflection;
+				inquiryNumber2 = new Number(eloXML2.studentInquiry);
+				thumbnailURL2 = eloXML2.thumbnail;
+				
+				if(eloXML1.assessed == "true") {
+					assesslider1Visible = false;
+					var previousGrade1:String = new String(eloXML1.grade);
+					var gra1:String = (previousGrade1.substring(0,1)).toUpperCase() + (previousGrade1.substring(1)).toLowerCase();
+					assesslider1Value = labelsArray.indexOf(gra1) + 1;
+					assessmentArea1Text = eloXML1.assessmentComment;
+					commentArea1Text = eloXML1.reflectionComment;
+				}
+				else {
+					assesslider1Visible = false;
+				}
+				
+				if(eloXML2.assessed == "true") {
+					assesslider2Visible = false;
+					var previousGrade2:String = new String(eloXML2.grade);
+					var gra2:String = (previousGrade2.substring(0,1)).toUpperCase() + (previousGrade2.substring(1)).toLowerCase();
+					assesslider2Value = labelsArray.indexOf(gra2) + 1;
+					assessmentArea2Text = eloXML2.assessmentComment;
+					commentArea2Text = eloXML2.reflectionComment;
+				}
+				else {
+					assesslider2Visible = false;
+				}
+			}
+			
+			protected function clickHandler(dir:String, stack:Number):void {
+				descriptionText1 = "";
+				glgText1 = "";
+				slgText1 = "";
+				reflectionText1 = "";
+				inquiryNumber1 = 2;
+				thumbnailURL1 = "";
+				eloNameText1 = "";
+				createdByText1 = "";
+				createdDateText1 = "";
+				assesslider1Value = 2;
+				assessmentArea1Text = "";
+				commentArea1Text = "";
+				
+				descriptionText2 = "";
+				glgText2 = "";
+				slgText2 = "";
+				reflectionText2 = "";
+				inquiryNumber2 = 2;
+				thumbnailURL2 = "";
+				eloNameText2 = "";
+				createdByText2 = "";
+				createdDateText2 = "";
+				assesslider2Value = 2;
+				assessmentArea2Text = "";
+				commentArea2Text = "";
+				
+				var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
+				tEvent.direction = dir;
+				tEvent.selecTarget = stack;
+				dispatchEvent(tEvent);
+			}
+			
+			protected function image1_clickHandler(event:MouseEvent):void {
+				var tEvent:ImageMagEvent = new ImageMagEvent(index.IMAGEMAG_COMMAND, true);
+				tEvent.showNow = true;
+				tEvent.imageSource = eloXML1.fullsize;
+				dispatchEvent(tEvent);
+			}
+			
+			protected function image2_clickHandler(event:MouseEvent):void {
+				var tEvent:ImageMagEvent = new ImageMagEvent(index.IMAGEMAG_COMMAND, true);
+				tEvent.showNow = true;
+				tEvent.imageSource = eloXML2.fullsize;
+				dispatchEvent(tEvent);
+			}
+
+		]]>
+	</fx:Script>
+	
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		.whiteFont {
+			color: #FFFFFF;
+		}
+
+		.customAccordionHeadStyles {
+			skin: ClassReference("skins.CustomAccordionHeaderSkin");
+		}
+	</fx:Style>
+
+	<s:VGroup gap="2" width="100%" height="100%" horizontalAlign="center">
+		<s:HGroup width="100%" height="70" horizontalAlign="center" verticalAlign="middle" gap="3">
+			<s:BorderContainer id="headerLogo" width="70" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
+				<s:backgroundFill>
+					<s:LinearGradient rotation="90">
+						<s:GradientEntry color="{index.THEME_COL}" />
+						<s:GradientEntry color="{index.THEME_COL}" />
+					</s:LinearGradient>
+				</s:backgroundFill>
+				
+				<s:Image source="assets/images/assess.png" width="60" height="60" left="5" top="5" />
+			</s:BorderContainer>	
+			<s:BorderContainer id="header" width="100%" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
+				<s:backgroundFill>
+					<s:LinearGradient rotation="90">
+						<s:GradientEntry color="{index.THEME_COL}" />
+						<s:GradientEntry color="{index.THEME_COL}" />
+					</s:LinearGradient>
+				</s:backgroundFill>
+				
+				<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+					<s:Label id="headerText" width="60%" color="{index.BACK_GRADIENT_BOT}" fontSize="15" textAlign="center" text="{resourceManager.getString('resources', 'ELO_COMPARISON')}" />
+				</s:HGroup>
+			</s:BorderContainer>	
+		</s:HGroup>
+		
+		<mx:Spacer height="3" />
+		<s:BorderContainer width="{hbo.width}" minHeight="10" borderColor="{index.THEME_COL}">
+			<s:HGroup left="2" top="2" right="2" bottom="2" verticalAlign="middle">
+				<s:Label id="instruc" width="100%" height="13" text="ELO 1" verticalAlign="middle" />
+				<s:Label id="instruct" width="100%" height="13" text="ELO 2" verticalAlign="middle" textAlign="right" />
+			</s:HGroup>
+		</s:BorderContainer>
+		
+		<s:HGroup id="hbo" width="95%" height="100%" gap="10">
+			<s:BorderContainer width="100%" height="100%" backgroundColor="{index.THEME_LIGHT}" borderColor="{index.THEME_LIGHT}">
+				<s:VGroup width="100%" height="100%" contentBackgroundColor="{index.THEME_LIGHT}">
+					<mx:Spacer height="3"/>
+					<s:HGroup>
+						<mx:Spacer width="3" />
+						<s:Image width="100" height="100" source="{thumbnailURL1}" buttonMode="true" click="image1_clickHandler(event)" toolTip="{resourceManager.getString('resources', 'ELO_SHOW_IMAGE_TTIP')}" />
+						<mx:Spacer width="3" />
+						<s:TileGroup width="100%" height="100" color="#FFFFFF" requestedRowCount="3" >
+							<s:Label text="{resourceManager.getString('resources', 'ELO_NAME')+':'}"  />
+							<s:Label text="{eloNameText1}"/>
+							<s:Label text="{resourceManager.getString('resources', 'CREATED_BY')+':'}" />
+							<s:Label text="{createdByText1}"/>
+							<s:Label text="{resourceManager.getString('resources', 'CREATED_DATE')+':'}" />
+							<s:Label text="{createdDateText1}"/>
+						</s:TileGroup>
+					</s:HGroup>
+					<mx:Accordion width="100%" height="100%" color="#FFFFFF" headerStyleName="customAccordionHeadStyles">
+						<s:NavigatorContent id="descAreaContainer" width="100%" height="100%" label="{resourceManager.getString('resources', 'DESCRIPTION')}">
+							<s:TextArea width="{descAreaContainer.width - 20}" height="{descAreaContainer.height - 20}" 
+										horizontalCenter="0" verticalCenter="0" 
+										color="#FFFFFF" text="{descriptionText1}" 
+										contentBackgroundAlpha="0" borderVisible="true" borderColor="#333333" borderAlpha=".3" editable="false" chromeColor="{index.THEME_LIGHT}"/>
+						</s:NavigatorContent>
+						<s:NavigatorContent id="glgAreaContainer" width="100%" height="100%" label="{resourceManager.getString('resources', 'GLG')}" >
+							<s:TextArea width="{glgAreaContainer.width - 20}" height="{glgAreaContainer.height - 20}" 
+										horizontalCenter="0" verticalCenter="0" 
+										color="#FFFFFF" text="{glgText1}" 
+										contentBackgroundAlpha="0" borderVisible="true" borderColor="#333333" borderAlpha=".3" editable="false" chromeColor="{index.THEME_LIGHT}"/>
+						</s:NavigatorContent>
+						<s:NavigatorContent id="slgAreaContainer" width="100%" height="100%" label="{resourceManager.getString('resources', 'SLG')}">
+							<s:TextArea width="{slgAreaContainer.width - 20}" height="{slgAreaContainer.height - 20}" 
+										horizontalCenter="0" verticalCenter="0" 
+										color="#FFFFFF" text="{slgText1}" 
+										contentBackgroundAlpha="0" borderVisible="true" borderColor="#333333" borderAlpha=".3" editable="false" chromeColor="{index.THEME_LIGHT}"/>
+						</s:NavigatorContent>
+						<s:NavigatorContent id="refAreaContainer" width="100%" height="100%" label="{resourceManager.getString('resources', 'REFLECTION')}" >
+							<s:TextArea width="{refAreaContainer.width - 20}" height="{refAreaContainer.height - 20}" 
+										horizontalCenter="0" verticalCenter="0" 
+										color="#FFFFFF" text="{reflectionText1}" 
+										contentBackgroundAlpha="0" borderVisible="true" borderColor="#333333" borderAlpha=".3" editable="false" chromeColor="{index.THEME_LIGHT}"/>
+						</s:NavigatorContent>
+						<s:NavigatorContent width="100%" height="100%" label="{resourceManager.getString('resources', 'REF_ON_INQ')}">
+							<s:VGroup width="90%" gap="0" horizontalCenter="0">
+								<mx:Spacer height="20" />
+								<s:HGroup width="100%" id="sliderIcon" height="33" gap="{(sliderIcon.width-4*30)/3}">
+									<s:Image source="assets/images/emoticons/1.png" width="30" height="33" />
+									<s:Image source="assets/images/emoticons/2.png" width="30" height="33" />
+									<s:Image source="assets/images/emoticons/3.png" width="30" height="33" />
+									<s:Image source="assets/images/emoticons/4.png" width="30" height="33" /> 
+								</s:HGroup>
+								<mx:HSlider chromeColor="#000000" enabled="false" id="refOnInqTextSlider" minimum="1" maximum="4" value="{inquiryNumber1}" dataTipPlacement="top" tickColor="#000000"
+											snapInterval="1" tickInterval="1" allowTrackClick="false" width="100%" showDataTip="false" />
+							</s:VGroup>
+						</s:NavigatorContent>
+						<s:NavigatorContent width="100%" height="100%" label="Assessment of 1st ideas of my Design Group:">
+							<s:VGroup width="90%" gap="0" horizontalCenter="0" horizontalAlign="center">
+								<mx:Spacer height="5" />
+								<s:TextArea width="300" height="100" id="assessmentArea1" text="{assessmentArea1Text}" color="#FFFFFF" contentBackgroundAlpha="0" editable="false" chromeColor="{index.THEME_LIGHT}"/>
+								<mx:Spacer height="5" />
+								<mx:HSlider id="assesslider1" visible="{assesslider1Visible}" minimum="1" maximum="4" value="{assesslider1Value}" dataTipPlacement="top" tickColor="0xFFFFFF" labels="{labelsArray}"
+											snapInterval="1" tickInterval="1" allowTrackClick="true" width="100%" showDataTip="false" styleName="whiteFont"/>
+							</s:VGroup>
+						</s:NavigatorContent>
+						<s:NavigatorContent width="100%" height="100%" label="Comment on Reflection on 1st ideas of my Design Group:">
+							<s:VGroup id="refTeaAreaContainer1" width="90%" height="90%" gap="0" horizontalCenter="0" verticalCenter="0" horizontalAlign="center">
+								<s:TextArea width="{refTeaAreaContainer1.width}" text="{commentArea1Text}" height="{refTeaAreaContainer1.height}" id="commentArea1" color="#FFFFFF" contentBackgroundAlpha="0" editable="false" chromeColor="{index.THEME_LIGHT}"/>
+							</s:VGroup>
+						</s:NavigatorContent>
+					</mx:Accordion>
+				</s:VGroup>
+			</s:BorderContainer>
+			<s:BorderContainer width="100%" height="100%" backgroundColor="{index.THEME_LIGHT}" borderColor="{index.THEME_LIGHT}">
+				<s:VGroup width="100%" height="100%" contentBackgroundColor="{index.THEME_LIGHT}">
+					<mx:Spacer height="3"/>
+					<s:HGroup>
+						<mx:Spacer width="3" />
+						<s:Image width="100" height="100" source="{thumbnailURL2}" buttonMode="true" click="image2_clickHandler(event)" toolTip="{resourceManager.getString('resources', 'ELO_SHOW_IMAGE_TTIP')}" />
+						<mx:Spacer width="3" />
+						<s:TileGroup width="100%" height="100" color="#FFFFFF" requestedRowCount="3" >
+							<s:Label text="{resourceManager.getString('resources', 'ELO_NAME')+':'}"  />
+							<s:Label text="{eloNameText2}"/>
+							<s:Label text="{resourceManager.getString('resources', 'CREATED_BY')+':'}" />
+							<s:Label text="{createdByText2}"/>
+							<s:Label text="{resourceManager.getString('resources', 'CREATED_DATE')+':'}" />
+							<s:Label text="{createdDateText2}"/>
+						</s:TileGroup>
+					</s:HGroup>
+					<mx:Accordion width="100%" height="100%" color="#FFFFFF" headerStyleName="customAccordionHeadStyles">
+						<s:NavigatorContent id="descAreaContainer2" width="100%" height="100%" label="{resourceManager.getString('resources', 'DESCRIPTION')}">
+							<s:TextArea width="{descAreaContainer2.width - 20}" height="{descAreaContainer2.height - 20}" 
+										horizontalCenter="0" verticalCenter="0" 
+										color="#FFFFFF" text="{descriptionText2}" 
+										contentBackgroundAlpha="0" borderVisible="true" borderColor="#333333" borderAlpha=".3" editable="false" chromeColor="{index.THEME_LIGHT}"/>
+						</s:NavigatorContent>
+						<s:NavigatorContent id="glgAreaContainer2" width="100%" height="100%" label="{resourceManager.getString('resources', 'GLG')}" >
+							<s:TextArea width="{glgAreaContainer2.width - 20}" height="{glgAreaContainer2.height - 20}" 
+										horizontalCenter="0" verticalCenter="0" 
+										color="#FFFFFF" text="{glgText2}" 
+										contentBackgroundAlpha="0" borderVisible="true" borderColor="#333333" borderAlpha=".3" editable="false" chromeColor="{index.THEME_LIGHT}"/>
+						</s:NavigatorContent>
+						<s:NavigatorContent id="slgAreaContainer2" width="100%" height="100%" label="{resourceManager.getString('resources', 'SLG')}">
+							<s:TextArea width="{slgAreaContainer2.width - 20}" height="{slgAreaContainer2.height - 20}" 
+										horizontalCenter="0" verticalCenter="0" 
+										color="#FFFFFF" text="{slgText2}" 
+										contentBackgroundAlpha="0" borderVisible="true" borderColor="#333333" borderAlpha=".3" editable="false" chromeColor="{index.THEME_LIGHT}"/>
+						</s:NavigatorContent>
+						<s:NavigatorContent id="refAreaContainer2" width="100%" height="100%" label="{resourceManager.getString('resources', 'REFLECTION')}" >
+							<s:TextArea width="{refAreaContainer2.width - 20}" height="{refAreaContainer2.height - 20}" 
+										horizontalCenter="0" verticalCenter="0" 
+										color="#FFFFFF" text="{reflectionText2}" 
+										contentBackgroundAlpha="0" borderVisible="true" borderColor="#333333" borderAlpha=".3" editable="false" chromeColor="{index.THEME_LIGHT}"/>
+						</s:NavigatorContent>
+						<s:NavigatorContent width="100%" height="100%" label="{resourceManager.getString('resources', 'REF_ON_INQ')}">
+							<s:VGroup width="90%" gap="0" horizontalCenter="0">
+								<mx:Spacer height="20" />
+								<s:HGroup width="100%" id="sliderIcon2" height="33" gap="{(sliderIcon2.width-4*30)/3}">
+									<s:Image source="assets/images/emoticons/1.png" width="30" height="33" />
+									<s:Image source="assets/images/emoticons/2.png" width="30" height="33" />
+									<s:Image source="assets/images/emoticons/3.png" width="30" height="33" />
+									<s:Image source="assets/images/emoticons/4.png" width="30" height="33" /> 
+								</s:HGroup>
+								<mx:HSlider chromeColor="#000000" enabled="false" id="refOnInqTextSlider2" minimum="1" maximum="4" value="{inquiryNumber2}" dataTipPlacement="top" tickColor="#000000"
+											snapInterval="1" tickInterval="1" allowTrackClick="false" width="100%" showDataTip="false" />
+							</s:VGroup>
+						</s:NavigatorContent>
+						<s:NavigatorContent width="100%" height="100%" label="Assessment of 1st ideas of my Design Group:">
+							<s:VGroup width="90%" gap="0" horizontalCenter="0" horizontalAlign="center">
+								<mx:Spacer height="5" />
+								<s:TextArea width="300" height="100" id="assessmentArea2" text="{assessmentArea2Text}" color="#FFFFFF" contentBackgroundAlpha="0" editable="false" chromeColor="{index.THEME_LIGHT}"/>
+								<mx:Spacer height="5" />
+								<mx:HSlider id="assesslider2" visible="{assesslider2Visible}" minimum="1" maximum="4" value="{assesslider2Value}" dataTipPlacement="top" tickColor="0xFFFFFF" labels="{labelsArray}"
+											snapInterval="1" tickInterval="1" allowTrackClick="true" width="100%" showDataTip="false" styleName="whiteFont"/>
+							</s:VGroup>
+						</s:NavigatorContent>
+						<s:NavigatorContent width="100%" height="100%" label="Comment on Reflection on 1st ideas of my Design Group:">
+							<s:VGroup id="refTeaAreaContainer2" width="90%" height="90%" gap="0" horizontalCenter="0" verticalCenter="0" horizontalAlign="center">
+								<s:TextArea width="{refTeaAreaContainer2.width}" height="{refTeaAreaContainer2.height}" text="{commentArea2Text}" id="commentArea2" color="#FFFFFF" contentBackgroundAlpha="0" editable="false" chromeColor="{index.THEME_LIGHT}"/>
+							</s:VGroup>
+						</s:NavigatorContent>
+					</mx:Accordion>
+				</s:VGroup>
+			</s:BorderContainer>
+		</s:HGroup>
+		
+		<mx:Spacer height="5" />
+		<s:HGroup id="assessFooter" width="100%" height="40" horizontalAlign="center" gap="10" verticalAlign="middle">
+			<s:Button id="cancelButton" label="{resourceManager.getString('resources', 'BACK_BUTTON')}" click="clickHandler(index.RIGHT_DIRECTION, index.STACK_CATEGORY_PANEL)" />
+		</s:HGroup>
+		<mx:Spacer height="15" />
+	</s:VGroup>
+</s:NavigatorContent>

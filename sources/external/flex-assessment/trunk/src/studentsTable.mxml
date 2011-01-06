@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					xmlns:s="library://ns.adobe.com/flex/spark" 
+					xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:reflector="com.rictus.reflector.*" creationPolicy="all">
+	
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		@namespace reflector "com.rictus.reflector.*";
+		
+		.customAccordionHeadStyles {
+			skin: ClassReference("skins.CustomAccordionHeaderSkin");
+		}
+	</fx:Style>
+	<fx:Script>
+		<![CDATA[
+			import flash.utils.clearInterval;
+			import flash.utils.setInterval;
+			
+			import listeners.ToggleEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.collections.Sort;
+			import mx.collections.SortField;
+			import mx.controls.dataGridClasses.DataGridColumn;
+			import mx.events.FlexEvent;
+			
+			import spark.components.supportClasses.GridColumn;
+			import spark.components.supportClasses.ItemRenderer;
+			import spark.events.IndexChangeEvent;
+			
+			private var portfolioElo:XML;
+			private var sortedAC:ArrayCollection;
+			
+			private var so:SharedObject;
+			private var refreshAccTempo:Number;
+			
+			[Bindable] private var selectedPane:Number;
+			
+			public function refreshContent():void {
+				so = SharedObject.getLocal("scy-eportfolio");
+				portfolioElo = so.data.retrievedElosFromRoolo as XML;
+				var unsortedStudentsArray:ArrayCollection = new ArrayCollection();
+				var portfolioXML:XML;
+				for(var i:Number = 0; i < portfolioElo.elements("portfolio").length(); i++) {
+					portfolioXML = portfolioElo.elements("portfolio")[i];
+					unsortedStudentsArray.addItem(portfolioXML);
+				}
+				
+				sortedAC = sortCollection(unsortedStudentsArray);
+				buildAccordion(sortedAC);
+			}
+			
+			private function buildAccordion(array:ArrayCollection):void {
+				var mpi:missionPortfolioItem;
+				students.removeAllElements();
+				students.selectedIndex = -1;
+				for(var i:Number = 0; i < array.length; i++) {
+					mpi = new missionPortfolioItem();
+					var countedElos:Array = mpi.buildEloArray(array[i] as XML, array[i].@student);
+					mpi.label = array[i].@student + " ( " + countedElos[1] + " / " + countedElos[0] + " " + resourceManager.getString('resources', 'ELO_ASSESSED') + " " + getAssessmentStatus(array[i] as XML) + ")";
+					students.addElement(mpi);
+				}
+				
+				refreshAccTempo = setInterval(selectCorrectAcc, 500);
+			}
+			
+			private function selectCorrectAcc():void {
+				clearInterval(refreshAccTempo);
+				students.selectedIndex = selectedPane;
+			}
+			
+			private function getAssessmentStatus(pf:XML):String {
+				if(pf.assessed == "false") {
+					return resourceManager.getString('resources', 'NOT_ASSESSED');
+				}
+				else {
+					return resourceManager.getString('resources', 'ASSESSED');
+				}
+			}
+			
+			private function sortCollection(arrayCollection : ArrayCollection):ArrayCollection {
+				var dataSort:Sort = new Sort();
+				dataSort.fields = [new SortField("@student", true)];
+				arrayCollection.sort = dataSort;
+				arrayCollection.refresh();
+				return arrayCollection;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:VGroup width="100%" height="100%" horizontalAlign="center">
+		<s:HGroup width="100%" height="70" horizontalAlign="center" verticalAlign="middle" gap="3">
+			<s:BorderContainer id="headerLogo" width="70" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
+				<s:backgroundFill>
+					<s:LinearGradient rotation="90">
+						<s:GradientEntry color="{index.THEME_COL}" />
+						<s:GradientEntry color="{index.THEME_COL}" />
+					</s:LinearGradient>
+				</s:backgroundFill>
+				
+				<s:Image source="assets/images/assess.png" width="60" height="60" left="5" top="5" />
+			</s:BorderContainer>	
+			<s:BorderContainer id="header" width="100%" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
+				<s:backgroundFill>
+					<s:LinearGradient rotation="90">
+						<s:GradientEntry color="{index.THEME_COL}" />
+						<s:GradientEntry color="{index.THEME_COL}" />
+					</s:LinearGradient>
+				</s:backgroundFill>
+				
+				<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+					<s:Label id="headerText" width="60%" color="{index.BACK_GRADIENT_BOT}" fontSize="15" textAlign="center" text="{resourceManager.getString('resources', 'HELLO_STUD')}" />
+				</s:HGroup>
+			</s:BorderContainer>	
+		</s:HGroup>
+		
+		<s:HGroup id="selectionBox" width="100%" gap="0">
+			<s:HGroup id="selec" width="50%" height="100%" gap="10" verticalAlign="middle">
+				<mx:Spacer width="10" />
+				<s:Label width="100%" text="{resourceManager.getString('resources', 'MISSION')+': '+index.MISSION_NAME+''}" color="{index.THEME_COL}" />
+			</s:HGroup>
+		</s:HGroup>
+		
+		<s:BorderContainer width="{hbo.width}" minHeight="10" borderColor="{index.THEME_COL}">
+			<s:HGroup left="2" top="2" right="2" bottom="2" verticalAlign="middle">
+				<mx:Image source="assets/images/inf.png" width="10" height="10" />
+				<s:Label id="instruc" width="100%" height="13" text="{resourceManager.getString('resources', 'VIEW_STUDENTS_INSTRUC')}" verticalAlign="middle" color="{index.THEME_COL}" />
+			</s:HGroup>
+		</s:BorderContainer>
+		<mx:Spacer height="3" />
+		<s:VGroup id="hbo" width="95%" height="100%" horizontalCenter="0">
+			<mx:Accordion id="students" width="100%" height="100%" borderAlpha=".5" contentBackgroundAlpha=".3" contentBackgroundColor="{index.THEME_LIGHT}" historyManagementEnabled="true" change="selectedPane=students.selectedIndex" color="#FFFFFF" headerStyleName="customAccordionHeadStyles"/>
+		</s:VGroup>
+		<mx:Spacer height="15" />
+	</s:VGroup>
+</s:NavigatorContent>

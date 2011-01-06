@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					xmlns:s="library://ns.adobe.com/flex/spark" 
+					xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:local="*" creationComplete="navigatorcontent1_creationCompleteHandler(event)">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import listeners.SelectCompareEvent;
+			import listeners.ToggleEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			
+			private var portfolioElo:XML;
+			private var so:SharedObject;
+			
+			private var compareArray:ArrayCollection = new ArrayCollection();
+			private var compareArrayToSend:ArrayCollection;
+			
+			public function refreshContent(selectedCategoryIndex:Number):void {
+				obliEloCanvas.cat = index.obligElos[selectedCategoryIndex];
+				obliEloCanvas.elosArray = getEloArrayByCategory(index.obligElos[selectedCategoryIndex]);
+				obliEloCanvas.refreshView();
+				
+			}
+			
+			private function getEloArrayByCategory(categ:String):ArrayCollection {
+				so = SharedObject.getLocal("scy-eportfolio");
+				portfolioElo = so.data.retrievedElosFromRoolo as XML;
+				var eloArrayByCategory:ArrayCollection = new ArrayCollection();
+				var ob:Object;
+				for each (var object:XML in portfolioElo.portfolio.elos.*) {
+					if (object.name() == "elo") {
+						if(object.catname == categ) {
+							ob = new Object();
+							ob.name = object.catname;
+							ob.thumbnail = object.thumbnail;
+							ob.myname = object.myname;
+							ob.modified = object.modified;
+							ob.assessed = object.assessed;
+							ob.grade = object.grade;
+							ob.createdby = object.parent().parent().@student;
+							ob.eloid = object.@uri;
+							ob.shouldBeSelected = getSelectedState(ob.eloid);
+							eloArrayByCategory.addItem(ob);
+						}
+					}
+				}
+				
+				
+				compareArray = new ArrayCollection();
+				compareArrayToSend = new ArrayCollection();
+				return eloArrayByCategory;
+			}
+			
+			private function getSelectedState(eloid:String):Boolean {
+				if(compareArrayToSend != null) {
+					if(compareArrayToSend.contains(eloid)) {
+						return true;
+					}
+					else {
+						return false;
+					}					
+				}
+				else {
+					return false;
+				}
+			}
+			
+			protected function clickHandler(dir:String, stack:Number):void {
+				var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
+				tEvent.direction = dir;
+				tEvent.selecTarget = stack;
+				
+				compareArrayToSend = new ArrayCollection();
+				for(var i:Number = 0; i < compareArray.length; i++) {
+					compareArrayToSend.addItem((compareArray[i] as subCanvasElo).eloid);
+				}
+				tEvent.elosToCompare = compareArrayToSend;
+				
+				if(stack == index.STACK_ELOCOMPARE_PANEL) {
+					compareEloButton.enabled = false;
+				}
+				dispatchEvent(tEvent);
+			}
+
+			protected function navigatorcontent1_creationCompleteHandler(event:FlexEvent):void {
+				addEventListener(index.SELECT_TO_COMPARE_COMMAND, manageCompareArray);
+			}
+			
+			private function manageCompareArray(evt:SelectCompareEvent):void {
+				if(!evt.cbSelected) {
+					compareArray.removeItemAt(compareArray.getItemIndex(evt.clickedElo));
+				}
+				else {
+					if(compareArray.length < 2) {
+						compareArray.addItem(evt.clickedElo);
+					}
+					else {
+						if(compareArray.getItemAt(0) != evt.clickedElo) {
+							(compareArray.getItemAt(1) as subCanvasElo).compareCb.selected = false;
+							compareArray.removeItemAt(1);
+							compareArray.addItem(evt.clickedElo);
+						}
+					}	
+				}		
+
+				if(compareArray.length == 2) {
+					compareEloButton.enabled = true;
+				}
+				else {
+					compareEloButton.enabled = false;
+				}
+			}
+
+		]]>
+	</fx:Script>
+	
+	<s:VGroup gap="2" width="100%" height="100%" horizontalAlign="center">
+		<s:HGroup width="100%" height="70" horizontalAlign="center" verticalAlign="middle" gap="3">
+			<s:BorderContainer id="headerLogo" width="70" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
+				<s:backgroundFill>
+					<s:LinearGradient rotation="90">
+						<s:GradientEntry color="{index.THEME_COL}" />
+						<s:GradientEntry color="{index.THEME_COL}" />
+					</s:LinearGradient>
+				</s:backgroundFill>
+				
+				<s:Image source="assets/images/assess.png" width="60" height="60" left="5" top="5" />
+			</s:BorderContainer>	
+			<s:BorderContainer id="header" width="100%" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
+				<s:backgroundFill>
+					<s:LinearGradient rotation="90">
+						<s:GradientEntry color="{index.THEME_COL}" />
+						<s:GradientEntry color="{index.THEME_COL}" />
+					</s:LinearGradient>
+				</s:backgroundFill>
+				
+				<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+					<s:Label id="headerText" width="60%" color="{index.BACK_GRADIENT_BOT}" fontSize="15" textAlign="center" text="{resourceManager.getString('resources', 'CAT_VIEW')}" />
+				</s:HGroup>
+			</s:BorderContainer>	
+		</s:HGroup>
+		
+		<mx:Spacer height="3" />
+		<local:introductionSubCanvas width="95%" height="100%" id="obliEloCanvas" />
+		
+		<mx:Spacer height="5" />
+		<s:HGroup id="assessFooter" width="100%" height="40" horizontalAlign="center" gap="10" verticalAlign="middle">
+			<s:Button id="backToStudentTableButton" label="{resourceManager.getString('resources', 'BACK_TO_STUDENT_TABLE')}" click="clickHandler(index.RIGHT_DIRECTION, index.STACK_STUDTABLE_PANEL)" />
+			<s:Button id="compareEloButton" enabled="false" label="{resourceManager.getString('resources', 'COMPARE_ELOS')}" click="clickHandler(index.LEFT_DIRECTION, index.STACK_ELOCOMPARE_PANEL)" />
+		</s:HGroup>
+		<mx:Spacer height="15" />
+	</s:VGroup>
+</s:NavigatorContent>
