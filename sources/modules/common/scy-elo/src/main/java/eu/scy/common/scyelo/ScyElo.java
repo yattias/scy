@@ -509,46 +509,12 @@ public class ScyElo {
         return null;
     }
 
-//    public BufferedImage getThumbnail() {
-//       BinaryMetadataValue binaryMetadataValue = (BinaryMetadataValue)getMetadataValueContainer(thumbnailKey).getValue();
-//       if (binaryMetadataValue==null || binaryMetadataValue.getBinaryValue()==null){
-//          return null;
-//       }
-//       ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(binaryMetadataValue.getBinaryValue());
-//       try {
-//           return ImageIO.read(byteArrayInputStream);
-//       } catch (IOException e) {
-//           throw new ResourceException("problem with ", e);
-//       }
-//   }
-//
-//    public void setThumbnail(BufferedImage thumbnail) {
-//       if (thumbnail == null) {
-//          getMetadataValueContainer(thumbnailKey).setValue(null);
-//          return;
-//       }
-//       ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//       try {
-//           ImageIO.write(thumbnail, thumbnailPngType, byteArrayOutputStream);
-//           byte[] bytes = byteArrayOutputStream.toByteArray();
-//           logger.info("setThumbnail(): nr of bytes: " + bytes.length);
-//           BinaryMetadataValue binaryMetadataValue = new BinaryMetadataValue();
-//           binaryMetadataValue.setBinaryValue(bytes);
-//           binaryMetadataValue.setMimeType(thumbnailPngType);
-//           getMetadataValueContainer(thumbnailKey).setValue(binaryMetadataValue);
-//           logger.info("metadata xml after set thumbnail:\n" + getMetadata().getXml());
-//       } catch (IOException e) {
-//           throw new IllegalArgumentException("problems with thumbnail, " + e.getMessage(), e);
-//       }
-//   }
-
     public BufferedImage getThumbnail() {
-       checkForCompleteElo();
-       IResource thumbnailResource = elo.getResource(thumbnailResourceName);
-       if (thumbnailResource == null) {
-           return null;
+       BinaryMetadataValue binaryMetadataValue = (BinaryMetadataValue)getMetadataValueContainer(thumbnailKey).getValue();
+       if (binaryMetadataValue==null || binaryMetadataValue.getBytes()==null){
+          return null;
        }
-       ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(thumbnailResource.getBytes());
+       ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(binaryMetadataValue.getBytes());
        try {
            return ImageIO.read(byteArrayInputStream);
        } catch (IOException e) {
@@ -557,26 +523,60 @@ public class ScyElo {
    }
 
     public void setThumbnail(BufferedImage thumbnail) {
-        if (thumbnail == null) {
-            checkForCompleteElo();
-            elo.deleteResource(thumbnailResourceName);
-            logger.info("setThumbnail(): nr of bytes: null");
-        }
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        try {
-            ImageIO.write(thumbnail, thumbnailPngType, byteArrayOutputStream);
-            IResource thumbnailResource = rooloServices.getELOFactory().createResource(
-                    thumbnailResourceName);
-            byte[] bytes = byteArrayOutputStream.toByteArray();
-            logger.info("setThumbnail(): nr of bytes: " + bytes.length);
-            thumbnailResource.setBytes(bytes);
-            thumbnailResource.setTechnicalFormat(thumbnailScyPngType);
-            checkForCompleteElo();
-            elo.addResource(thumbnailResource);
-        } catch (IOException e) {
-            throw new IllegalArgumentException("problems with thumbnail, " + e.getMessage(), e);
-        }
-    }
+       if (thumbnail == null) {
+          getMetadataValueContainer(thumbnailKey).setValue(null);
+          return;
+       }
+       ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+       try {
+           ImageIO.write(thumbnail, thumbnailPngType, byteArrayOutputStream);
+           byte[] bytes = byteArrayOutputStream.toByteArray();
+           logger.info("setThumbnail(): nr of bytes: " + bytes.length);
+           BinaryMetadataValue binaryMetadataValue = new BinaryMetadataValue();
+           binaryMetadataValue.setBytes(bytes);
+           binaryMetadataValue.setMimeType(thumbnailPngType);
+           getMetadataValueContainer(thumbnailKey).setValue(binaryMetadataValue);
+           logger.info("metadata xml after set thumbnail:\n" + getMetadata().getXml());
+       } catch (IOException e) {
+           throw new IllegalArgumentException("problems with thumbnail, " + e.getMessage(), e);
+       }
+   }
+
+//    public BufferedImage getThumbnail() {
+//       checkForCompleteElo();
+//       IResource thumbnailResource = elo.getResource(thumbnailResourceName);
+//       if (thumbnailResource == null) {
+//           return null;
+//       }
+//       ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(thumbnailResource.getBytes());
+//       try {
+//           return ImageIO.read(byteArrayInputStream);
+//       } catch (IOException e) {
+//           throw new ResourceException("problem with ", e);
+//       }
+//   }
+//
+//    public void setThumbnail(BufferedImage thumbnail) {
+//        if (thumbnail == null) {
+//            checkForCompleteElo();
+//            elo.deleteResource(thumbnailResourceName);
+//            logger.info("setThumbnail(): nr of bytes: null");
+//        }
+//        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//        try {
+//            ImageIO.write(thumbnail, thumbnailPngType, byteArrayOutputStream);
+//            IResource thumbnailResource = rooloServices.getELOFactory().createResource(
+//                    thumbnailResourceName);
+//            byte[] bytes = byteArrayOutputStream.toByteArray();
+//            logger.info("setThumbnail(): nr of bytes: " + bytes.length);
+//            thumbnailResource.setBytes(bytes);
+//            thumbnailResource.setTechnicalFormat(thumbnailScyPngType);
+//            checkForCompleteElo();
+//            elo.addResource(thumbnailResource);
+//        } catch (IOException e) {
+//            throw new IllegalArgumentException("problems with thumbnail, " + e.getMessage(), e);
+//        }
+//    }
 
     public String getLasId() {
         return (String) getMetadataValueContainer(lasKey).getValue();
