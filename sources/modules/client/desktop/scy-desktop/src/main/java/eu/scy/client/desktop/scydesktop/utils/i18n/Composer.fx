@@ -8,7 +8,8 @@ package eu.scy.client.desktop.scydesktop.utils.i18n;
 import javafx.scene.Node;
 import javafx.scene.control.Labeled;
 import javafx.util.StringLocalizer;
-import java.util.Locale;
+import javafx.scene.Group;
+import javafx.scene.layout.Container;
 
 /**
  * @author sikken
@@ -29,5 +30,14 @@ public function localizeDesign(nodes: Node[]):Void{
             labeled.text = stringLocalizer.localizedString
          }
       }
+      else if (node instanceof Group){
+         def group = node as Group;
+         localizeDesign(group.content)
+      }
+      else if (node instanceof Container){
+         def container = node as Container;
+         localizeDesign(container.content)
+      }
+
    }
 }
