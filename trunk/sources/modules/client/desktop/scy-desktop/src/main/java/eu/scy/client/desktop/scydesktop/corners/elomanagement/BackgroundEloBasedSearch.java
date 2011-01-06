@@ -47,7 +47,9 @@ public class BackgroundEloBasedSearch extends BackgroundSearch
       {
          return;
       }
+      final long startSearchNanos = System.nanoTime();
       final List<ISearchResult> searchResults = doTheSearch();
+      final long realSEarchNanos = System.nanoTime() - startSearchNanos;
       if (isAbort())
       {
          return;
@@ -55,7 +57,7 @@ public class BackgroundEloBasedSearch extends BackgroundSearch
       final List<ScySearchResult> scySearchResults = convertToScySearchResults(searchResults);
       sendScySearchResuls(scySearchResults);
       long nanosUsed = System.nanoTime() - startNanos;
-      logger.info("found " + scySearchResults.size() + " elos in " + nanosUsed / 100000 / 10.0 + " ms");
+      logger.info("found " + scySearchResults.size() + " elos in " + nanosUsed / 100000 / 10.0 + " ms, search it self took " + realSEarchNanos / 100000 / 10.0 + " ms");
    }
 
    private List<ISearchResult> doTheSearch()

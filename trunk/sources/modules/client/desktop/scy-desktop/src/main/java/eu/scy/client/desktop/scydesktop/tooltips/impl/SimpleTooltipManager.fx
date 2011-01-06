@@ -22,6 +22,7 @@ import javafx.util.Math;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Point2D;
 import eu.scy.client.desktop.scydesktop.art.AnimationTiming;
+import java.lang.UnsupportedOperationException;
 
 /**
  * @author sikken
@@ -54,16 +55,17 @@ public class SimpleTooltipManager extends TooltipManager {
             KeyFrame {
                time: 0s
                values: tooltipNode.opacity => 0.0;
-            //               action: function () {
-            //                  println("start time line: {tooltipNode.opacity}, {currentTooltip!=null}");
-            //               }
+//               action: function() {
+//                  println("start time line: {tooltipNode.opacity}, {currentTooltip != null}");
+//               }
             }
             KeyFrame {
                time: startAppearingTime
                values: tooltipNode.opacity => 0.0;
-            //               action: function () {
-            //                  println("start opacity set: {tooltipNode.opacity}");
-            //               }
+               action: function() {
+//                  println("start opacity set: {tooltipNode.opacity}");
+                  positionTooltip();
+               }
             }
             KeyFrame {
                time: fullAppearingTime
@@ -131,19 +133,6 @@ public class SimpleTooltipManager extends TooltipManager {
 
    package function onMouseExited(e: MouseEvent): Void {
       removeTooltip();
-   //      if (currentTooltip != null) {
-   //         if (useAnimation) {
-   //            currentTimeLine.stop();
-   //            currentTimeLine.time = 0s;
-   //         }
-   //         //delete currentTooltip from currentSourceNode.scene.content;
-   //         delete currentTooltip from tooltipGroup.content;
-   //         //         var contentList = currentSourceNode.scene.content;
-   //         //         delete currentTooltip from contentList;
-   //         //         currentSourceNode.scene.content = contentList;
-   //         currentTooltip = null;
-   //         currentSourceNode = null;
-   //      }
    }
 
    public override function removeTooltip(): Void {
@@ -172,17 +161,7 @@ public class SimpleTooltipManager extends TooltipManager {
                currentTooltip = newTooltip;
                currentSourceNode = sourceNode;
                currentTooltip.opacity = 0.0;
-               //insert currentTooltip into currentSourceNode.scene.content;
                insert currentTooltip into tooltipGroup.content;
-               //            var contentList = currentSourceNode.scene.content;
-               //            insert currentTooltip into contentList;
-               //            currentSourceNode.scene.content = contentList;
-
-               positionTooltip();
-
-//               var sourceSceneBounds = currentSourceNode.localToScene(currentSourceNode.layoutBounds);
-//               currentTooltip.layoutX = sourceSceneBounds.minX - currentTooltip.layoutBounds.width - currentTooltip.layoutBounds.minX;
-//               currentTooltip.layoutY = sourceSceneBounds.minY - currentTooltip.layoutBounds.height - currentTooltip.layoutBounds.minY;
             }
          }
          catch (e: Exception) {
@@ -202,16 +181,22 @@ public class SimpleTooltipManager extends TooltipManager {
 
       var outsideArea = Number.MAX_VALUE;
       var toolTipLayout: Point2D;
+//      println("sceneBounds: {sceneBounds}");
       for (positionFunction in positionFunctions) {
          var newTooltipLayout = positionFunction();
          var newOutsideArea = calculateTooltipAreaOutsideScene(currentTooltip, newTooltipLayout, sceneBounds);
+//         println("currentTooltip local bounds: {currentTooltip.localToScene(currentTooltip.layoutBounds)} -> {newOutsideArea}");
          if (newOutsideArea < outsideArea) {
             outsideArea = newOutsideArea;
             toolTipLayout = newTooltipLayout;
          }
       }
+
       currentTooltip.layoutX = toolTipLayout.x;
       currentTooltip.layoutY = toolTipLayout.y;
+      if (outsideArea>0){
+         moveTooltipInside(sceneBounds);
+      }
    }
 
    function calculateTopLeftLayout(): Point2D {
@@ -266,5 +251,34 @@ public class SimpleTooltipManager extends TooltipManager {
    function calculateIntersectionLength(min1: Number, max1: Number, min2: Number, max2: Number): Number {
       return Math.min(max1, max2) - Math.max(min1, min2);
    }
+
+   function moveTooltipInside(sceneBounds: BoundingBox) {
+      realMoveTooltipInside(sceneBounds, true);
+      // do it a second time, in case the top/left is moved out of the window
+      // this can only happen if the window is to small to contain the complete tooltip
+      // in this case, the top/left will be inside the window
+      realMoveTooltipInside(sceneBounds, false);
+   }
+
+   function realMoveTooltipInside(sceneBounds: BoundingBox, alsoBottomRight: Boolean) {
+       def tooltipSceneBounds = currentTooltip.localToScene(currentTooltip.layoutBounds);
+       if (tooltipSceneBounds.minX<sceneBounds.minX){
+          // left side out window
+          currentTooltip.layoutX += sceneBounds.minX-tooltipSceneBounds.minX
+       }
+       else if (alsoBottomRight and tooltipSceneBounds.maxX>sceneBounds.maxX){
+          // right side out window
+          currentTooltip.layoutX += sceneBounds.maxX-tooltipSceneBounds.maxX
+       }
+       if (tooltipSceneBounds.minY<sceneBounds.minY){
+          // top side out window
+          currentTooltip.layoutY += sceneBounds.minY-tooltipSceneBounds.minY
+       }
+       else if (alsoBottomRight and tooltipSceneBounds.maxY>sceneBounds.maxY){
+          // bottom side out window
+          currentTooltip.layoutY += sceneBounds.maxY-tooltipSceneBounds.maxY
+       }
+   }
+
 
 }
