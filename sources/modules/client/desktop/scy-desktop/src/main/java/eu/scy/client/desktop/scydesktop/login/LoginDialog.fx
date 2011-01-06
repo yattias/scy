@@ -95,6 +95,8 @@ public class LoginDialog extends CustomNode, TbiReady {
             allowRotate: false;
             allowMinimize: false;
             opacity: 0.0;
+            layoutX: bind (scene.width / 2 - loginWindow.width / 2);
+            layoutY: bind (scene.height / 2 - loginWindow.height / 2);
          };
       loginWindow.windowColorScheme.mainColor = loginColor;
       loginWindow.activated = true;
@@ -104,28 +106,23 @@ public class LoginDialog extends CustomNode, TbiReady {
          }
 
       loginWindow.openWindow(0, 0);
-      FX.deferAction(placeWindowCenter);
-
+      FX.deferAction(fadeWindowIn);
       return loginWindow;
    }
 
-   function placeWindowCenter(): Void {
-      loginWindow.layoutX = this.scene.stage.width / 2 - loginWindow.width / 2;
-      loginWindow.layoutY = this.scene.stage.height / 2 - loginWindow.height / 2;
+   function fadeWindowIn(): Void {
       def window = loginWindow;
       Timeline {
          repeatCount: 1
          keyFrames: [
-            at (0ms) {
+            at (3s) {
                window.opacity => 0.0
             }
-            at (750ms) {
+            at (4s) {
                window.opacity => 1.0
             }
          ]
       }.play();
-   //      println("placeWindowCenter: {scene.width}, {scene.stage.width}, {loginWindow.width}");
-   //      println("placeWindowCenter: {scene.height}, {scene.stage.height}, {loginWindow.height}");
    }
 
    function loginAction(userName: String, password: String): Void {
