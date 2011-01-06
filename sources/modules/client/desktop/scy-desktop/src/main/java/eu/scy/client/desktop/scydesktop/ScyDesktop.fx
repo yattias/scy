@@ -65,14 +65,12 @@ import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.corners.BottomLeftCorner;
 import eu.scy.client.desktop.scydesktop.corners.BottomRightCorner;
 import eu.scy.client.desktop.scydesktop.corners.TopLeftCorner;
-import eu.scy.client.desktop.scydesktop.corners.TopRightCorner;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.NumberedNewTitleGenerator;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ScyWindowControlImpl;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.Contact;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactList;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.OnlineState;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionMap;
-import eu.scy.client.desktop.scydesktop.uicontrols.MultiImageButton;
 import eu.scy.common.mission.impl.jdom.JDomStringConversion;
 import eu.scy.notification.api.INotification;
 import java.io.Closeable;
@@ -80,8 +78,6 @@ import java.lang.IllegalArgumentException;
 import java.lang.Integer;
 import java.lang.String;
 import org.jdom.Element;
-import roolo.api.search.AndQuery;
-import roolo.api.search.ISearchResult;
 import java.lang.Exception;
 import java.net.URI;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
@@ -91,14 +87,12 @@ import eu.scy.common.scyelo.EloFunctionalRole;
 import eu.scy.common.mission.RuntimeSettingsManager;
 import java.util.StringTokenizer;
 import eu.scy.client.desktop.scydesktop.scywindows.moreinfomanager.MoreInfoManagerImpl;
-import org.roolo.search.BasicMetadataQuery;
-import org.roolo.search.BasicSearchOperations;
 import eu.scy.client.desktop.scydesktop.scywindows.moreinfomanager.TestMoreInfoToolFactory;
 import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoToolFactory;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.BigMissionMap;
-import javafx.scene.layout.HBox;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.BigMissionMapControl;
 import eu.scy.client.desktop.scydesktop.scywindows.window_positions.FunctionalRoleWindowPositioner;
+import eu.scy.client.desktop.scydesktop.utils.ShutdownHook;
 
 /**
  * @author sikkenj
@@ -185,6 +179,11 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          moreInfoToolFactory: bind moreInfoToolFactory
          activeLas: bind missionModelFX.activeLas
       }
+   def shutdownHook = ShutdownHook{
+      stage:scene.stage
+      shutdownFunction:scyDesktopShutdownAction
+   }
+
 
    init {
       if (config.isRedirectSystemStreams() and config.getLoggingDirectory() != null) {
@@ -209,7 +208,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          repositoryWrapper.setMissionRuntimeEloUri(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUriFirstVersion());
          logger.info("Added eloSavedActionHandler as EloSavedListener to the repositoryWrapper");
       }
-      FX.addShutdownAction(scyDesktopShutdownAction);
+//      FX.addShutdownAction(scyDesktopShutdownAction);
       create();
    }
 

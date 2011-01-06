@@ -15,7 +15,7 @@ import java.awt.event.WindowEvent;
 public class ShutdownHook {
 
     public-init var stage: Stage;
-    public-init var shutdownFunction: function();
+    public-init var shutdownFunction: function():Void;
 
     init {
         var window: Window = extractWindow(stage);
