@@ -1,5 +1,10 @@
 package eu.scy.server.eportfolio.xml.utilclasses;
 
+import eu.scy.common.mission.MissionAnchor;
+
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -11,6 +16,7 @@ public class RuntimeEloInfo {
 
     private String missionName;
     private String uri;
+    private List obligatoryElos = new LinkedList();
 
     public String getMissionName() {
         return missionName;
@@ -26,5 +32,17 @@ public class RuntimeEloInfo {
 
     public void setUri(String uri) {
         this.uri = uri;
+    }
+
+    public List getObligatoryElos() {
+        return obligatoryElos;
+    }
+
+    public void setObligatoryElos(List obligatoryElos) {
+        this.obligatoryElos = obligatoryElos;
+    }
+
+    public void addObligatoryElo(MissionAnchor missionAnchor) {
+        obligatoryElos.add(missionAnchor);
     }
 }

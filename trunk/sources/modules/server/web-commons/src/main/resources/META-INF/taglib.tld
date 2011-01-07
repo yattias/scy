@@ -413,6 +413,28 @@
     </tag>
 
     <tag>
+        <name>ajaxELOCheckBox</name>
+        <tagclass>eu.scy.server.taglibs.AjaxELOCheckBox</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax check box</info>
+        <attribute>
+            <name>eloURI</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>rooloServices</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
         <name>ajaxELOSlider</name>
         <tagclass>eu.scy.server.taglibs.AjaxELOSlider</tagclass>
         <bodycontent>empty</bodycontent>

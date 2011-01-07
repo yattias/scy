@@ -9,6 +9,7 @@ import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
+import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -108,6 +109,19 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
 
     }
 
+    @Override
+    public MissionSpecificationElo getMissionSpecificationELO(URI missionSpecificationURI) {
+        if (missionSpecificationURI != null) {
+            MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(missionSpecificationURI, this);
+            ScyElo elo = MissionSpecificationElo.loadElo(missionSpecificationElo.getUri(), this);
+            ScyElo.loadMetadata(elo.getUri(), this);
+        } else {
+            log.info("THE MISSION SPECIFICATION URI IS NULL!");
+        }
+
+        return null;
+    }
+
 
     @Override
     public void setGlobalMissionScaffoldingLevel(ScyElo scyElo, Object value) {
@@ -142,9 +156,9 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
         for (int i = 0; i < lasses.size(); i++) {
             Las las = (Las) lasses.get(i);
             MissionAnchor missionAnchor = las.getMissionAnchor();
-            if(missionAnchor != null) {
+            if (missionAnchor != null) {
                 missionAnchors.add(missionAnchor);
-                if(missionAnchor.getScyElo() != null) {
+                if (missionAnchor.getScyElo() != null) {
                     log.info("MISSION ANCHOR: " + missionAnchor.getScyElo().getTitle());
                 } else {
                     log.info("MISSION SCY ELO IS NULL:" + missionAnchor.getIconType());
