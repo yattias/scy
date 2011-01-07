@@ -11,6 +11,12 @@
 			[Bindable] public var cellTitle:String;
 			[Bindable] public var imageSource:String;
 			[Bindable] public var eloid:String;
+			[Bindable] public var myname:String;
+			[Bindable] public var createdby:String;
+			[Bindable] public var modified:String;
+			[Bindable] public var shown:String;
+			[Bindable] public var eval:String;
+			[Bindable] public var score:String;
 	
 			protected function bordercontainer1_mouseOverHandler(event:MouseEvent):void {
 				event.target.alpha = .7;
@@ -23,10 +29,11 @@
 
 
 			protected function bordercontainer1_mouseDownHandler(event:MouseEvent):void {
-//				var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
-//				tEvent.sourcePanel = index.STACK_STUDTABLE_PANEL;
-//				tEvent.direction = index.LEFT_DIRECTION;
-//				dispatchEvent(tEvent);
+				var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
+				tEvent.direction = index.LEFT_DIRECTION;
+				tEvent.selecTarget = index.STACK_FEEDBACK_PANEL;
+				tEvent.eloidToAssess = eloid;
+				dispatchEvent(tEvent);
 			}
 
 		]]>
@@ -35,8 +42,7 @@
 	<s:BorderContainer id="cat" width="100%" height="25" backgroundColor="{index.THEME_COL}" borderColor="{index.THEME_LIGHT}" borderWeight="2" toolTip="{resourceManager.getString('resources', 'TOOLTIP_TABLE_CATEGORY')}"
 					   mouseOver="bordercontainer1_mouseOverHandler(event)"
 					   mouseOut="bordercontainer1_mouseOutHandler(event)"
-					   mouseChildren="false"
-					   mouseDown="bordercontainer1_mouseDownHandler(event)">
+					   mouseChildren="false">
 		<s:VGroup width="100%" height="100%" verticalAlign="middle" horizontalAlign="center">
 			<s:Label id="titleLabel" text="{cellTitle}" color="#FFFFFF" />
 		</s:VGroup>
@@ -55,6 +61,14 @@
 				</s:Rect>
 				<s:Image source="{imageSource}" width="100" height="100" horizontalCenter="0" verticalCenter="0" />
  			</s:Group>
+			<mx:Spacer height="3" />
+			<s:Label color="#333333" text="{myname}" width="100%" fontWeight="bold" />
+			<mx:Spacer height="3" />
+			<s:Label color="#333333" text="{resourceManager.getString('resources', 'BY')+': '+createdby}" width="100%" />
+			<mx:Spacer height="3" />
+			<s:Label color="#333333" text="{resourceManager.getString('resources', 'DATE')+': '+modified}" width="100%" />
+			<mx:Spacer height="3" />
+			<s:Label color="#333333" text="{resourceManager.getString('resources', 'SHOWN')+': '+shown+' / '+resourceManager.getString('resources', 'EVALUATED')+': '+eval+' / '+resourceManager.getString('resources', 'SCORE')+': '+score}" width="100%" />
 		</s:VGroup>
 	</s:BorderContainer>
 </s:VGroup>

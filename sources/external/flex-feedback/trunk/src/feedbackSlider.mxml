@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx" gap="0" horizontalCenter="0">
+	
+	<fx:Script>
+		<![CDATA[
+			[Bindable] private var inquiryNumber:Number;
+		]]>
+	</fx:Script>
+	
+	<s:HGroup width="100%" id="sliderIcon" height="33" gap="{(sliderIcon.width-4*30)/3}">
+		<s:Image source="assets/images/emoticons/1.png" width="30" height="33" />
+		<s:Image source="assets/images/emoticons/2.png" width="30" height="33" />
+		<s:Image source="assets/images/emoticons/3.png" width="30" height="33" />
+		<s:Image source="assets/images/emoticons/4.png" width="30" height="33" /> 
+	</s:HGroup>
+	<mx:HSlider chromeColor="{index.THEME_LIGHT}" enabled="true" id="refOnInqTextSlider" minimum="1" maximum="4" value="{inquiryNumber}" dataTipPlacement="top" tickColor="{index.THEME_COL}"
+				snapInterval="1" tickInterval="1" allowTrackClick="true" width="100%" showDataTip="false" />
+</s:VGroup>

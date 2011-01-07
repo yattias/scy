@@ -32,6 +32,12 @@
 						tc.cellTitle = object.catname;
 						tc.imageSource = object.thumbnail;
 						tc.eloid = object.@uri;
+						tc.myname = object.myname;
+						tc.createdby = object.createdby;
+						tc.modified = object.modified;
+						tc.shown = "0";
+						tc.eval = "0";
+						tc.score = "0";
 						objectsToTile.addItem(tc);
 					}
 				}
