@@ -12,7 +12,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import eu.scy.client.desktop.scydesktop.art.ArtSource;
-import javafx.scene.layout.Stack;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
@@ -21,6 +20,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.scyelo.EloFunctionalRole;
+import eu.scy.client.desktop.scydesktop.art.javafx.NoThumbnailView;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
 
 /**
  * @author SikkenJ
@@ -29,7 +33,7 @@ public class ExtendedScyEloDisplayNode extends CustomNode {
 
    public var newEloCreationRegistry: NewEloCreationRegistry;
    public var scyElo: ScyElo on replace { newScyElo() };
-   public var eloIcon: EloIcon;
+   public var eloIcon: EloIcon on replace { newEloIcon() };
    def titleDisplay = Label {};
    def authorDisplay = Label {};
    def typeDisplay = Label {};
@@ -37,43 +41,72 @@ public class ExtendedScyEloDisplayNode extends CustomNode {
    def dateDisplay = Label {};
    def uriDisplay = Label {};
    def spacing = 5.0;
+   def eloIconScale = 2.5;
+   def eloIconSize = 16.0;
+   def eloIconOffset = 10.0;
    def thumbnailBorder = 2.0;
    def thumbnailView = ImageView {
-         layoutX: thumbnailBorder
-         layoutY: thumbnailBorder
+         layoutX: eloIconOffset
+         //         layoutY: thumbnailBorder
          fitWidth: ArtSource.thumbnailWidth
          fitHeight: ArtSource.thumbnailHeight
          preserveRatio: true
       }
-   def eloIconScaleWithThumbnail = 2.0;
-   def eloIconScaleWithoutThumbnail = 4.0;
+   def noThumbnailView = NoThumbnailView {
+         layoutX: eloIconOffset
+      //         layoutY: 1.0
+      }
    def dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
 
    public override function create(): Node {
+      newScyElo();
       HBox {
          spacing: spacing
          content: [
-            Stack {
+            Group {
                content: bind [
                   Rectangle {
-                     x: -thumbnailBorder
+                     x: eloIconOffset - thumbnailBorder
                      y: -thumbnailBorder
                      width: ArtSource.thumbnailWidth + 2 * thumbnailBorder
                      height: ArtSource.thumbnailHeight + 2 * thumbnailBorder
-                     fill: Color.GRAY
+                     fill: null
+                     stroke: Color.GRAY
                   }
+                  noThumbnailView,
                   thumbnailView,
-                  eloIcon
+                  Group {
+                     layoutX: 0
+                     layoutY: noThumbnailView.layoutBounds.maxY - eloIconScale*eloIconSize + eloIconOffset
+                     content: [
+                        Rectangle {
+                           x: 0
+                           y: 0
+                           width: eloIconScale*eloIconSize
+                           height: eloIconScale*eloIconSize
+                           fill: Color.TRANSPARENT
+                        }
+                        Group {
+                           layoutX:(eloIconScale-1)*eloIconOffset
+                           layoutY: (eloIconScale-1)*eloIconOffset
+                           scaleX: eloIconScale
+                           scaleY: eloIconScale
+                           content: [
+                              eloIcon
+                           ]
+                        }
+                     ]
+                  }
                ]
             }
             VBox {
-               visible: bind scyElo != null
+//               visible: bind scyElo != null
                spacing: spacing / 2
                content: [
                   titleDisplay,
                   authorDisplay,
                   typeDisplay,
-//                  roleDisplay,
+                  //                  roleDisplay,
                   dateDisplay,
                   uriDisplay
                ]
@@ -82,28 +115,45 @@ public class ExtendedScyEloDisplayNode extends CustomNode {
       }
    }
 
+   def titleLabel = ##"Title";
+   def authorsLabel = ##"Author(s)";
+   def formatLabel = ##"Format";
+   def roleLabel = ##"Role";
+   def dateLabel = ##"Date";
+   def createdAtLabel = ##"created at";
+   def lastModifiedAtLabel = ##"last modified at";
+
    function newScyElo() {
-      titleDisplay.text = "Title: {scyElo.getTitle()}";
-      authorDisplay.text = "Author(s): {getAuthorsText()}";
-      typeDisplay.text = "Format: {newEloCreationRegistry.getEloTypeName(scyElo.getTechnicalFormat())}";
-//      roleDisplay.text = "Role: {getRoleString(scyElo.getFunctionalRole())}";
-      dateDisplay.text = "Date: created at {getDateString(scyElo.getDateCreated())}, last modified at {getDateString(scyElo.getDateLastModified())}";
+      titleDisplay.text = "{titleLabel} : {scyElo.getTitle()}";
+      authorDisplay.text = "{authorsLabel}: {getAuthorsText()}";
+      typeDisplay.text = "{formatLabel}: {newEloCreationRegistry.getEloTypeName(scyElo.getTechnicalFormat())}";
+      //      roleDisplay.text = "{roleLabel}: {getRoleString(scyElo.getFunctionalRole())}";
+      dateDisplay.text = "{dateLabel}: {createdAtLabel} {getDateString(scyElo.getDateCreated())}, {lastModifiedAtLabel} {getDateString(scyElo.getDateLastModified())}";
       uriDisplay.text = "URI: {scyElo.getUri()}";
       def thumbnailImage = scyElo.getThumbnail();
       if (thumbnailImage != null) {
          thumbnailView.image = SwingUtils.toFXImage(scyElo.getThumbnail());
          thumbnailView.visible = true;
-         eloIcon.scaleX = eloIconScaleWithThumbnail;
-         eloIcon.scaleY = eloIconScaleWithThumbnail;
+         noThumbnailView.visible = false;
       } else {
          thumbnailView.image = null;
          thumbnailView.visible = true;
-         eloIcon.scaleX = eloIconScaleWithoutThumbnail;
-         eloIcon.scaleY = eloIconScaleWithoutThumbnail;
+         noThumbnailView.visible = true;
       }
    }
 
+   function newEloIcon(): Void {
+      //      eloIcon.layoutX = 0;
+      //      eloIcon.layoutY = noThumbnailView.layoutBounds.maxY - 20;
+      //      eloIcon.scaleX = eloIconScale;
+      //      eloIcon.scaleY = eloIconScale;
+      println("eloIcon: {eloIcon.layoutBounds}");
+   }
+
    function getAuthorsText(): String {
+      if (scyElo == null) {
+         return ""
+      }
       def authors = scyElo.getAuthors();
       var authorsText = "";
       if (authors.size() > 0) {
@@ -123,6 +173,9 @@ public class ExtendedScyEloDisplayNode extends CustomNode {
    }
 
    function getRoleString(role: EloFunctionalRole): String {
+      if (scyElo == null) {
+         return ""
+      }
       if (role == null) {
          return ##"unknown";
       }
@@ -134,6 +187,31 @@ public class ExtendedScyEloDisplayNode extends CustomNode {
          return ##"unknown"
       }
       dateFormat.format(new Date(millis))
+   }
+
+}
+
+function run() {
+   Stage {
+      title: "ExtendedScyEloDisplayNode test"
+      onClose: function() {
+      }
+      scene: Scene {
+         width: 400
+         height: 400
+         content: [
+            ExtendedScyEloDisplayNode {
+               layoutX: 10
+               layoutY: 10
+               eloIcon: CharacterEloIcon {
+               }
+            }
+            ExtendedScyEloDisplayNode {
+               layoutX: 120
+               layoutY: 10
+            }
+         ]
+      }
    }
 
 }

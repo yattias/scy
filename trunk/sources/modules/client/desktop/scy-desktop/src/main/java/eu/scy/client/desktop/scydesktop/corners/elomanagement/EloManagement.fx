@@ -111,8 +111,8 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       findTemplateEloInformation();
       scyDesktop.dragAndDropManager.addDropTaget(archiver);
       scyDesktop.dragAndDropManager.addDropTaget(searcher);
-      eloBasedSearchers.add(new SameEloSearcher());
-      eloBasedSearchers.add(new FindNothingSearcher());
+//      eloBasedSearchers.add(new SameEloSearcher());
+//      eloBasedSearchers.add(new FindNothingSearcher());
       eloBasedSearchers.add(new SameTechnicalFormatSearcher(tbi));
       eloBasedSearchers.add(new SameAuthorSearcher(tbi));
    }
@@ -442,6 +442,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
             openAction: doEloBasedOpen
          }
       eloBasedSearchDesign.baseElo = scyElo;
+      eloBasedSearchDesign.baseEloIcon = windowStyler.getScyEloIcon(scyElo.getUri());
       if (eloBasedSearchers != null) {
          eloBasedSearchDesign.searchersList.items = for (eloBasedSearcher in eloBasedSearchers) {
                eloBasedSearcher as EloBasedSearcher
