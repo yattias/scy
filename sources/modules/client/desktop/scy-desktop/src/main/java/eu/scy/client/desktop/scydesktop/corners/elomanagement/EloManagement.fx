@@ -70,7 +70,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
    def searcher: Searcher = Searcher {
          tbi: scyDesktop.config.getToolBrokerAPI()
          imageName: "search1"
-         clickAction: searchEloAction
+         clickAction: textQuerySearchAction
          dropAction: eloBasedSearchAction
       }
    def createBlankEloButton: MultiImageButton = MultiImageButton {
@@ -86,6 +86,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
    var eloBasedSearchDesign: GridEloBasedSearch;
    var backgroundEloBasedSearch: BackgroundEloBasedSearch;
    var searchElos: SearchElos;
+   var gridEloSearch: GridEloSearch;
    var backgroundQuerySearch: BackgroundQuerySearch;
 
    init {
@@ -371,7 +372,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
    }
 
    override public function querySearchFinished(scySearchResultList: List): Void {
-      setScySearchResults(scySearchResultList, searchElos);
+      setScySearchResults(scySearchResultList, gridEloSearch);
    }
 
    function setScySearchResults(scySearchResultList: List, showSearching: ShowSearching) {
@@ -429,6 +430,36 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       searcher.turnedOn = false;
    }
 
+   function textQuerySearchAction(): Void {
+      FX.deferAction(function(): Void {
+         searcher.turnedOn = true;
+      });
+      gridEloSearch = GridEloSearch {
+            newEloCreationRegistry: scyDesktop.newEloCreationRegistry
+            windowStyler: windowStyler
+            cancelAction: cancelModalDialog
+            doSearch: doTextQuerySearch
+            openAction: doEloBasedOpen
+         }
+      def eloIcon = windowStyler.getScyEloIcon(ImageWindowStyler.generalSearch);
+      def windowColorScheme = windowStyler.getWindowColorScheme(ImageWindowStyler.generalSearch);
+
+      createModalDialog(windowColorScheme, eloIcon, ##"Search", gridEloSearch);
+   }
+
+   function doTextQuerySearch(gridEloSearch: GridEloSearch): Void {
+      if (backgroundQuerySearch != null) {
+         backgroundQuerySearch.abort();
+      }
+
+      searchElos.openButton.disable = true;
+      var searchQuery: BasicMetadataQuery = new BasicMetadataQuery(gridEloSearch.queryBox.rawText);
+      backgroundQuerySearch = new BackgroundQuerySearch(tbi, eloInfoControl, scyDesktop.newEloCreationRegistry, searchQuery, this);
+
+      backgroundQuerySearch.start();
+      gridEloSearch.showSearching();
+   }
+
    function eloBasedSearchAction(scyElo: ScyElo): Void {
       FX.deferAction(function(): Void {
          searcher.turnedOn = true;
@@ -478,9 +509,9 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       doEloBasedSearch(eloBasedSearchDesign);
    }
 
-   function doEloBasedOpen(eloBasedSearchDesign: GridEloBasedSearch): Void {
-      scyWindowControl.addOtherScyWindow(eloBasedSearchDesign.selectedSearchResult.getScyElo().getUri());
-      cancelModalDialog(eloBasedSearchDesign);
+   function doEloBasedOpen(gridSearchNode: GridSearchNode): Void {
+      scyWindowControl.addOtherScyWindow(gridSearchNode.selectedSearchResult.getScyElo().getUri());
+      cancelModalDialog(gridSearchNode);
    }
 
 }

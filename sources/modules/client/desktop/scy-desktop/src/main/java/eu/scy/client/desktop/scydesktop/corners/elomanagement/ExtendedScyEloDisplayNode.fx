@@ -47,14 +47,12 @@ public class ExtendedScyEloDisplayNode extends CustomNode {
    def thumbnailBorder = 2.0;
    def thumbnailView = ImageView {
          layoutX: eloIconOffset
-         //         layoutY: thumbnailBorder
          fitWidth: ArtSource.thumbnailWidth
          fitHeight: ArtSource.thumbnailHeight
          preserveRatio: true
       }
    def noThumbnailView = NoThumbnailView {
          layoutX: eloIconOffset
-      //         layoutY: 1.0
       }
    def dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
 
@@ -80,14 +78,14 @@ public class ExtendedScyEloDisplayNode extends CustomNode {
                      layoutY: noThumbnailView.layoutBounds.maxY - eloIconScale*eloIconSize + eloIconOffset
                      content: [
                         Rectangle {
-                           x: 0
+                           x: -8
                            y: 0
                            width: eloIconScale*eloIconSize
                            height: eloIconScale*eloIconSize
                            fill: Color.TRANSPARENT
                         }
                         Group {
-                           layoutX:(eloIconScale-1)*eloIconOffset
+                           layoutX:(eloIconScale-1)*eloIconOffset-10
                            layoutY: (eloIconScale-1)*eloIconOffset
                            scaleX: eloIconScale
                            scaleY: eloIconScale
@@ -117,7 +115,7 @@ public class ExtendedScyEloDisplayNode extends CustomNode {
 
    def titleLabel = ##"Title";
    def authorsLabel = ##"Author(s)";
-   def formatLabel = ##"Format";
+   def formatLabel = ##"Type";
    def roleLabel = ##"Role";
    def dateLabel = ##"Date";
    def createdAtLabel = ##"created at";
@@ -126,10 +124,10 @@ public class ExtendedScyEloDisplayNode extends CustomNode {
    function newScyElo() {
       titleDisplay.text = "{titleLabel} : {scyElo.getTitle()}";
       authorDisplay.text = "{authorsLabel}: {getAuthorsText()}";
-      typeDisplay.text = "{formatLabel}: {newEloCreationRegistry.getEloTypeName(scyElo.getTechnicalFormat())}";
-      //      roleDisplay.text = "{roleLabel}: {getRoleString(scyElo.getFunctionalRole())}";
-      dateDisplay.text = "{dateLabel}: {createdAtLabel} {getDateString(scyElo.getDateCreated())}, {lastModifiedAtLabel} {getDateString(scyElo.getDateLastModified())}";
-      uriDisplay.text = "URI: {scyElo.getUri()}";
+      typeDisplay.text = "{formatLabel}: {getTechnicalFormatString()}";
+      //      roleDisplay.text = "{roleLabel}: {getRoleString()}";
+      dateDisplay.text = "{dateLabel}: {getDateString()}";
+      uriDisplay.text = "URI: {getUriString()}";
       def thumbnailImage = scyElo.getThumbnail();
       if (thumbnailImage != null) {
          thumbnailView.image = SwingUtils.toFXImage(scyElo.getThumbnail());
@@ -147,7 +145,7 @@ public class ExtendedScyEloDisplayNode extends CustomNode {
       //      eloIcon.layoutY = noThumbnailView.layoutBounds.maxY - 20;
       //      eloIcon.scaleX = eloIconScale;
       //      eloIcon.scaleY = eloIconScale;
-      println("eloIcon: {eloIcon.layoutBounds}");
+//      println("eloIcon: {eloIcon.layoutBounds}");
    }
 
    function getAuthorsText(): String {
@@ -168,18 +166,18 @@ public class ExtendedScyEloDisplayNode extends CustomNode {
       authorsText
    }
 
-   function getTechnicalFormatString(technicalFormat: String): String {
-      return "{newEloCreationRegistry.getEloTypeName(technicalFormat)} ({technicalFormat})"
-   }
-
-   function getRoleString(role: EloFunctionalRole): String {
+   function getTechnicalFormatString(): String {
       if (scyElo == null) {
          return ""
       }
-      if (role == null) {
-         return ##"unknown";
+      return newEloCreationRegistry.getEloTypeName(scyElo.getTechnicalFormat())
+   }
+
+   function getDateString(): String {
+      if (scyElo == null) {
+         return ""
       }
-      return role.toString();
+      return "{createdAtLabel} {getDateString(scyElo.getDateCreated())}, {lastModifiedAtLabel} {getDateString(scyElo.getDateLastModified())}"
    }
 
    function getDateString(millis: java.lang.Long): String {
@@ -189,6 +187,23 @@ public class ExtendedScyEloDisplayNode extends CustomNode {
       dateFormat.format(new Date(millis))
    }
 
+   function getRoleString(): String {
+      if (scyElo == null) {
+         return ""
+      }
+      def role = scyElo.getFunctionalRole();
+      if (role == null) {
+         return ##"unknown";
+      }
+      return role.toString();
+   }
+
+   function getUriString(): String {
+      if (scyElo == null) {
+         return ""
+      }
+      return "{scyElo.getUri()}"
+   }
 }
 
 function run() {
