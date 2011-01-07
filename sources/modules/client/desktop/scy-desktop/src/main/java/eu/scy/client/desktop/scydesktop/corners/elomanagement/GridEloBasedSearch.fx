@@ -30,6 +30,8 @@ import javafx.scene.layout.Stack;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import eu.scy.client.desktop.scydesktop.utils.multiselectlistview.MultiSelectListView;
 import eu.scy.client.desktop.scydesktop.utils.multiselectlistview.MultiSelectListCell;
+import javafx.scene.shape.Line;
+import javafx.util.Math;
 
 /**
  * @author SikkenJ
@@ -46,15 +48,28 @@ public class GridEloBasedSearch extends CustomNode, Resizable, ScyEloListCellDis
       }
    var grid: Grid;
    def spacing = 5.0;
-   def leftCollumnSpace = 50.0;
+   def leftCollumnSpace = 20.0;
+   def leftCollumnFillerHeight = 5.0;
+   def leftCollumnFillerColor = Color.TRANSPARENT;
+   def separatorlineWidth = 2.0;
+   var separatorLineLength = 10.0;
+   def separatorLineColor = Color.BLACK;
+   def eloInfoLayoutInfo = GridLayoutInfo {
+            width: 300
+            minWidth: 200
+            vfill: true
+            hspan: 2
+         }
+
    def baseEloInfo = ExtendedScyEloDisplayNode {
+         layoutInfo: eloInfoLayoutInfo
          newEloCreationRegistry: newEloCreationRegistry
          scyElo: bind baseElo
          eloIcon: bind baseEloIcon
       }
    public def searchersList: MultiSelectListView = MultiSelectListView {
          layoutInfo: LayoutInfo {
-            height: 100
+            height: 75
             minHeight: 50
             vfill: true
             vgrow: Priority.NEVER
@@ -63,7 +78,7 @@ public class GridEloBasedSearch extends CustomNode, Resizable, ScyEloListCellDis
       };
    def resultsListView: ListView = ListView {
          layoutInfo: LayoutInfo {
-            height: 200
+            height: 125
             minHeight: 100
             width: 250
             vfill: true
@@ -75,6 +90,7 @@ public class GridEloBasedSearch extends CustomNode, Resizable, ScyEloListCellDis
          progress: -1
       }
    def moreEloInfo = ExtendedScyEloDisplayNode {
+         layoutInfo: eloInfoLayoutInfo
          newEloCreationRegistry: newEloCreationRegistry
       }
    def foundLabelText = ##"Found";
@@ -87,7 +103,7 @@ public class GridEloBasedSearch extends CustomNode, Resizable, ScyEloListCellDis
    public var openAction: function(gridEloBasedSearch: GridEloBasedSearch): Void;
    public var cancelAction: function(gridEloBasedSearch: GridEloBasedSearch): Void;
    public var baseElo: ScyElo;
-   public var baseEloIcon:EloIcon;
+   public var baseEloIcon: EloIcon;
    public-read def selectedEloBasedSearchers = bind searchersList.selectedItems as EloBasedSearcher[] on replace {
          doSearch(this);
       };
@@ -123,14 +139,40 @@ public class GridEloBasedSearch extends CustomNode, Resizable, ScyEloListCellDis
             rows: [
                GridRow {
                   cells: [
+                     Rectangle {
+                        x: 0, y: 0, width: leftCollumnSpace, height: leftCollumnFillerHeight
+                        fill: leftCollumnFillerColor
+                     }
                      Label {
                         text: ##"ELO"
                      }
+                  ]
+               }
+               GridRow {
+                  cells: [
                      baseEloInfo
                   ]
                }
                GridRow {
                   cells: [
+                     Rectangle {
+                        x: 0, y: 0, width: leftCollumnSpace, height: leftCollumnFillerHeight
+                        fill: leftCollumnFillerColor
+                     }
+                     Line {
+                        startX: separatorlineWidth, startY: 0
+                        endX:bind separatorLineLength, endY: 0
+                        strokeWidth: separatorlineWidth
+                        stroke: separatorLineColor
+                     }
+                  ]
+               }
+               GridRow {
+                  cells: [
+                     Rectangle {
+                        x: 0, y: 0, width: leftCollumnSpace, height: leftCollumnFillerHeight
+                        fill: leftCollumnFillerColor
+                     }
                      Label {
                         text: ##"Search for"
                         layoutInfo: GridLayoutInfo { hspan: 2 }
@@ -140,14 +182,32 @@ public class GridEloBasedSearch extends CustomNode, Resizable, ScyEloListCellDis
                GridRow {
                   cells: [
                      Rectangle {
-                        x: 0, y: 0, width: leftCollumnSpace, height: 10
-                        fill: Color.TRANSPARENT
+                        x: 0, y: 0, width: leftCollumnSpace, height: leftCollumnFillerHeight
+                        fill: leftCollumnFillerColor
                      }
                      searchersList
                   ]
                }
                GridRow {
                   cells: [
+                     Rectangle {
+                        x: 0, y: 0, width: leftCollumnSpace, height: leftCollumnFillerHeight
+                        fill: leftCollumnFillerColor
+                     }
+                     Line {
+                        startX: separatorlineWidth, startY: 0
+                        endX:bind separatorLineLength, endY: 0
+                        strokeWidth: separatorlineWidth
+                        stroke: separatorLineColor
+                     }
+                  ]
+               }
+               GridRow {
+                  cells: [
+                     Rectangle {
+                        x: 0, y: 0, width: leftCollumnSpace, height: leftCollumnFillerHeight
+                        fill: leftCollumnFillerColor
+                     }
                      foundLabel = Label {
                            text: ""
                            layoutInfo: GridLayoutInfo { hspan: 2 }
@@ -156,8 +216,9 @@ public class GridEloBasedSearch extends CustomNode, Resizable, ScyEloListCellDis
                }
                GridRow {
                   cells: [
-                     Label {
-                        text: ""
+                     Rectangle {
+                        x: 0, y: 0, width: leftCollumnSpace, height: leftCollumnFillerHeight
+                        fill: leftCollumnFillerColor
                      }
                      Stack {
                         content: [
@@ -169,16 +230,14 @@ public class GridEloBasedSearch extends CustomNode, Resizable, ScyEloListCellDis
                }
                GridRow {
                   cells: [
-                     Label {
-                        text: ""
-                     }
                      moreEloInfo
                   ]
                }
                GridRow {
                   cells: [
-                     Label {
-                        text: ""
+                     Rectangle {
+                        x: 0, y: 0, width: leftCollumnSpace, height: leftCollumnFillerHeight
+                        fill: leftCollumnFillerColor
                      }
                      HBox {
                         spacing: spacing
@@ -243,7 +302,7 @@ public class GridEloBasedSearch extends CustomNode, Resizable, ScyEloListCellDis
    }
 
    public override function getPrefWidth(w: Number): Number {
-      grid.getPrefWidth(w);
+      Math.max(grid.getPrefWidth(w),600.0);
    }
 
    public override function getPrefHeight(h: Number): Number {
@@ -259,12 +318,13 @@ public class GridEloBasedSearch extends CustomNode, Resizable, ScyEloListCellDis
    }
 
    public function sizeChanged(): Void {
+      separatorLineLength = width - 3 * spacing - leftCollumnSpace - 3*separatorlineWidth;
       Container.resizeNode(grid, width, height);
    }
 
    function printGridSizes(label: String): Void {
-//      println("grid {label} change: size {grid.width}*{grid.height}, ""pref {grid.getPrefWidth(grid.width)}*{grid.getPrefHeight(grid.height)}, ""min {grid.getMinWidth()}*{grid.getMinHeight()}");
-//      var square = width * height;
+   //      println("grid {label} change: size {grid.width}*{grid.height}, ""pref {grid.getPrefWidth(grid.width)}*{grid.getPrefHeight(grid.height)}, ""min {grid.getMinWidth()}*{grid.getMinHeight()}");
+   //      var square = width * height;
    }
 
    public override function getContentNodes(): Node[] {
