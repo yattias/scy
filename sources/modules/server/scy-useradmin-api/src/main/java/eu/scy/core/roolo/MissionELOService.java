@@ -6,6 +6,7 @@ import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.BaseELOService;
 import eu.scy.core.roolo.RooloAccessor;
 
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -41,4 +42,5 @@ public interface MissionELOService extends BaseELOService {
     List getAssignedUserNamesFor(MissionSpecificationElo missionSpecificationElo);
 
 
+    MissionSpecificationElo getMissionSpecificationELO(URI missionSpecificationURI);
 }
