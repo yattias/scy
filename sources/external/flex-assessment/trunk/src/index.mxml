@@ -138,7 +138,7 @@
 				userName = (userInfo.firstname as String).toLowerCase() + " " + (userInfo.lastname as String).toUpperCase();
 				
 				//URLpropertyFile.url = FlexGlobals.topLevelApplication.parameters.toolURLProvider;
-				URLpropertyFile.url = "eportfolios.xml";
+				URLpropertyFile.url = "assessment.xml";
 			}
 			
 			private function ToggleStack(evt:ToggleEvent):void {
