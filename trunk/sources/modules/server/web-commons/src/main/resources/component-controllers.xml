@@ -57,6 +57,7 @@
                    /components/json/ScenarioDiagramJSON.json=scenarioDiagramJSON
                    /components/json/RuntimeUserInfoJSON.html=runtimeUserInfoJSON
                    /components/xml/UserInfoController.html=userInfoController
+                   /components/xml/UserCredentials.html=userCredentialController
                    /components/resourceservice.html=resourceService
                    /components/roleeditor/RoleEditorContoller.html=roleEditorController
                    /components/runtimemissionselector/RuntimeMissionSelector.html=runtimemissionselector
@@ -152,6 +153,10 @@
     </bean>
 
     <bean id="userInfoController" class="eu.scy.server.controllers.xml.UserInfoController">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="userCredentialController" class="eu.scy.server.controllers.xml.UserCredentialsController">
         <property name="userService" ref="userService"/>
     </bean>
 
