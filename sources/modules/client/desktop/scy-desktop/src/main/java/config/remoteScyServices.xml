@@ -7,7 +7,8 @@
 	<alias name="wrappedRepository" alias="repository" />
 	<alias name="httpInvokerPedagogicalPlanServiceProxy" alias="pedagogicalPlanService" />
 	<alias name="httpInvokerStudentPlanServiceProxy" alias="studentPedagogicalPlanService" />
-	<alias name="httpInvokerMetadataTypeManagerProxy" alias="metadataTypeManager" />
+	<!-- alias name="httpInvokerMetadataTypeManagerProxy" alias="metadataTypeManager" /-->
+	<alias name="cachedMetadataTypeManager" alias="metadataTypeManager" />
 	<alias name="httpInvokerExtensionManagerProxy" alias="extensionManager" />
 	<alias name="httpInvokerSessionManagerProxy" alias="sessionManager" />
 
@@ -22,11 +23,11 @@
 
    <bean name="wrappedRepository" class="eu.scy.client.desktop.scydesktop.hacks.RepositoryWrapper">
       <property name="repository" ref="httpInvokerRepositoryProxy"/>
-      <property name="metadataTypeManager" ref="httpInvokerMetadataTypeManagerProxy"/>
+      <property name="metadataTypeManager" ref="metadataTypeManager"/>
       <property name="sendEloSavedEvents" value="true"/>
    </bean>
 
-<!--
+   <!--
    <bean name="cachedRepository" class="roolo.cms.cache.RepositoryCache">
       <constructor-arg index="0" ref="httpInvokerRepositoryProxy"/>
       <constructor-arg index="1" ref="eloFactory"/>
@@ -57,6 +58,10 @@
 			</property>
 		-->
 	</bean>
+
+   <bean name="cachedMetadataTypeManager" class="roolo.cms.cache.MetadataTypeManagerCache">
+      <constructor-arg index="0" ref="httpInvokerMetadataTypeManagerProxy"/>
+   </bean>
 
 	<!-- Proxy for the HTTP-invoker-exported metadata type manager -->
 	<!-- Spring's HTTP invoker uses Java serialization via HTTP  -->

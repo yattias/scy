@@ -40,24 +40,19 @@ public class BackgroundEloBasedSearch extends BackgroundSearch
    }
 
    @Override
-   public void run()
+   public void doSearch()
    {
-      long startNanos = System.nanoTime();
       if (isAbort())
       {
          return;
       }
-      final long startSearchNanos = System.nanoTime();
       final List<ISearchResult> searchResults = doTheSearch();
-      final long realSEarchNanos = System.nanoTime() - startSearchNanos;
       if (isAbort())
       {
          return;
       }
       final List<ScySearchResult> scySearchResults = convertToScySearchResults(searchResults);
       sendScySearchResuls(scySearchResults);
-      long nanosUsed = System.nanoTime() - startNanos;
-      logger.info("found " + scySearchResults.size() + " elos in " + nanosUsed / 100000 / 10.0 + " ms, search it self took " + realSEarchNanos / 100000 / 10.0 + " ms");
    }
 
    private List<ISearchResult> doTheSearch()
@@ -71,28 +66,31 @@ public class BackgroundEloBasedSearch extends BackgroundSearch
          {
             return null;
          }
-         if (firstQuery)
+         if (querySearchResults != null)
          {
-            for (ISearchResult searchResult : querySearchResults)
+            if (firstQuery)
             {
-               queryResults.put(searchResult.getUri(), searchResult);
-            }
-            firstQuery = false;
-         }
-         else
-         {
-            Map<URI, ISearchResult> newQueryResults = new HashMap<URI, ISearchResult>();
-            for (ISearchResult searchResult : querySearchResults)
-            {
-               ISearchResult previousQueryResult = queryResults.get(searchResult.getUri());
-               if (previousQueryResult != null)
+               for (ISearchResult searchResult : querySearchResults)
                {
-                  newQueryResults.put(searchResult.getUri(), new SimpleSearchResult(
-                     searchResult.getUri(), searchResult.getRelevance()
-                     * previousQueryResult.getRelevance()));
+                  queryResults.put(searchResult.getUri(), searchResult);
                }
+               firstQuery = false;
             }
-            queryResults = newQueryResults;
+            else
+            {
+               Map<URI, ISearchResult> newQueryResults = new HashMap<URI, ISearchResult>();
+               for (ISearchResult searchResult : querySearchResults)
+               {
+                  ISearchResult previousQueryResult = queryResults.get(searchResult.getUri());
+                  if (previousQueryResult != null)
+                  {
+                     newQueryResults.put(searchResult.getUri(), new SimpleSearchResult(
+                        searchResult.getUri(), searchResult.getRelevance()
+                        * previousQueryResult.getRelevance()));
+                  }
+               }
+               queryResults = newQueryResults;
+            }
          }
       }
       List<ISearchResult> searchResults = new ArrayList<ISearchResult>(queryResults.values());

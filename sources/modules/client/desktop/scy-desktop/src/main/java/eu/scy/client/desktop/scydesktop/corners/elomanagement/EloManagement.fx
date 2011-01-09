@@ -34,13 +34,12 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.utils.FpsDisplay;
 import eu.scy.common.scyelo.ScyElo;
 import java.util.ArrayList;
-import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.SameEloSearcher;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.SameTechnicalFormatSearcher;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.SameAuthorSearcher;
 import java.util.List;
-import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.FindNothingSearcher;
 import org.roolo.search.BasicMetadataQuery;
 import org.roolo.search.BasicSearchOperations;
+import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.SameMissionSearcher;
 
 /**
  * @author sikken
@@ -116,6 +115,8 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
 //      eloBasedSearchers.add(new FindNothingSearcher());
       eloBasedSearchers.add(new SameTechnicalFormatSearcher(tbi));
       eloBasedSearchers.add(new SameAuthorSearcher(tbi));
+      eloBasedSearchers.add(new SameMissionSearcher(tbi,true));
+      eloBasedSearchers.add(new SameMissionSearcher(tbi,false));
    }
 
    public override function create(): Node {
