@@ -29,7 +29,6 @@ import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
 import eu.scy.client.desktop.scydesktop.uicontrols.MultiImageButton;
 import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
-import eu.scy.client.desktop.scydesktop.scywindows.EloInfoControl;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.utils.FpsDisplay;
 import eu.scy.common.scyelo.ScyElo;
@@ -57,7 +56,6 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
    public var templateEloUris: URI[];
    public var tooltipManager: TooltipManager;
    public var windowStyler: WindowStyler;
-   public var eloInfoControl: EloInfoControl;
    def showCreateBlankElo = scyDesktop.initializer.authorMode;
    def authorKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
    def userId = scyDesktop.config.getToolBrokerAPI().getLoginUserName();
@@ -104,9 +102,6 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       }
       if (templateEloUris == null) {
          templateEloUris = scyDesktop.templateEloUris;
-      }
-      if (eloInfoControl == null) {
-         eloInfoControl = scyDesktop.eloInfoControl;
       }
       findTemplateEloInformation();
       scyDesktop.dragAndDropManager.addDropTaget(archiver);
@@ -179,14 +174,14 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
                display: ##"Nothing found"
             };
       }
-      var metadata = repository.retrieveMetadata(uri);
-      if (metadata == null) {
+      def scyElo = ScyElo.loadMetadata(uri, tbi);
+      if (scyElo == null) {
          return null;
       }
-      var title = eloInfoControl.getEloTitle(uri);
-      var technicalFormat = metadata.getMetadataValueContainer(technicalFormatKey).getValue() as String;
+      def title = scyElo.getTitle();
+      def technicalFormat = scyElo.getTechnicalFormat();
       //      var author = metadata.getMetadataValueContainer(authorKey).getValue() as Contribute;
-      var typeName = scyDesktop.newEloCreationRegistry.getEloTypeName(technicalFormat);
+      def typeName = scyDesktop.newEloCreationRegistry.getEloTypeName(technicalFormat);
       var authorDisplay = "";
       if (showAuthor) {
       //         var authorName = author.getVCard();
@@ -353,7 +348,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
             searchQuery.addQuery(authorQuery);
          }
       }
-      backgroundQuerySearch = new BackgroundQuerySearch(tbi, eloInfoControl, scyDesktop.newEloCreationRegistry, searchQuery, this);
+      backgroundQuerySearch = new BackgroundQuerySearch(tbi, scyDesktop.newEloCreationRegistry, searchQuery, this);
 
       backgroundQuerySearch.start();
       searchElos.showSearching();
@@ -366,7 +361,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
 
       searchElos.openButton.disable = true;
       var searchQuery: BasicMetadataQuery = new BasicMetadataQuery(searchElos.simpleSearchField.text);
-      backgroundQuerySearch = new BackgroundQuerySearch(tbi, eloInfoControl, scyDesktop.newEloCreationRegistry, searchQuery, this);
+      backgroundQuerySearch = new BackgroundQuerySearch(tbi, scyDesktop.newEloCreationRegistry, searchQuery, this);
 
       backgroundQuerySearch.start();
       searchElos.showSearching();
@@ -455,7 +450,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
 
       searchElos.openButton.disable = true;
       var searchQuery: BasicMetadataQuery = new BasicMetadataQuery(gridEloSearch.queryBox.rawText);
-      backgroundQuerySearch = new BackgroundQuerySearch(tbi, eloInfoControl, scyDesktop.newEloCreationRegistry, searchQuery, this);
+      backgroundQuerySearch = new BackgroundQuerySearch(tbi, scyDesktop.newEloCreationRegistry, searchQuery, this);
 
       backgroundQuerySearch.start();
       gridEloSearch.showSearching();
@@ -495,7 +490,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
          backgroundEloBasedSearch.abort();
       }
       eloBasedSearchDesign.showSearching();
-      backgroundEloBasedSearch = new BackgroundEloBasedSearch(tbi, eloInfoControl, scyDesktop.newEloCreationRegistry, eloBasedSearchDesign.selectedEloBasedSearchers, eloBasedSearchDesign.baseElo, this);
+      backgroundEloBasedSearch = new BackgroundEloBasedSearch(tbi, scyDesktop.newEloCreationRegistry, eloBasedSearchDesign.selectedEloBasedSearchers, eloBasedSearchDesign.baseElo, this);
 
       backgroundEloBasedSearch.start();
    }
