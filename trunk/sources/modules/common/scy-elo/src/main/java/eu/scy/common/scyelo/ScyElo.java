@@ -59,6 +59,7 @@ public class ScyElo {
     private final IMetadataKey learningActivityKey;
     private final IMetadataKey accessKey;
     private final IMetadataKey missionRuntimeKey;
+    private final IMetadataKey missionRunningKey;
     private final IMetadataKey lasKey;
     private final IMetadataKey iconTypeKey;
     private final IMetadataKey assignmentUriKey;
@@ -94,6 +95,7 @@ public class ScyElo {
         learningActivityKey = findMetadataKey(ScyRooloMetadataKeyIds.LEARNING_ACTIVITY);
         accessKey = findMetadataKey(ScyRooloMetadataKeyIds.ACCESS);
         missionRuntimeKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNTIME);
+        missionRunningKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNNING);
         lasKey = findMetadataKey(ScyRooloMetadataKeyIds.LAS);
         iconTypeKey = findMetadataKey(ScyRooloMetadataKeyIds.ICON_TYPE);
         keywordsKey = findMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS);
@@ -309,12 +311,20 @@ public class ScyElo {
     }
 
     public URI getMissionRuntimeEloUri() {
-        return (URI) getMetadataValueContainer(missionRuntimeKey).getValue();
-    }
+       return (URI) getMetadataValueContainer(missionRuntimeKey).getValue();
+   }
 
-    public void setMissionRuntimeEloUri(URI uri) {
-        getMetadataValueContainer(missionRuntimeKey).setValue(uri);
-    }
+   public void setMissionRuntimeEloUri(URI uri) {
+       getMetadataValueContainer(missionRuntimeKey).setValue(uri);
+   }
+
+   public URI getMissionSpecificationEloUri() {
+      return (URI) getMetadataValueContainer(missionRunningKey).getValue();
+   }
+
+   public void setMissionSpecificationEloUri(URI uri) {
+      getMetadataValueContainer(missionRunningKey).setValue(uri);
+   }
 
     public void setLearningActivity(LearningActivity activity) {
         // this is the method to set the LAS in which the elo has been created
