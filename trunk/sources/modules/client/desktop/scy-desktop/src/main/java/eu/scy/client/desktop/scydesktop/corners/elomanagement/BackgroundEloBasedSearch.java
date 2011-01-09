@@ -6,7 +6,6 @@ package eu.scy.client.desktop.scydesktop.corners.elomanagement;
 
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.SimpleSearchResult;
 import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
-import eu.scy.client.desktop.scydesktop.scywindows.EloInfoControl;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.net.URI;
@@ -31,9 +30,9 @@ public class BackgroundEloBasedSearch extends BackgroundSearch
    private final ScyElo scyElo;
    private final EloBasedSearchFinished eloBasedSearchFinished;
 
-   public BackgroundEloBasedSearch(ToolBrokerAPI tbi, EloInfoControl eloInfoControl, NewEloCreationRegistry newEloCreationRegistry, EloBasedSearcher[] eloBasedSearchers, ScyElo scyElo, EloBasedSearchFinished eloBasedSearchFinished)
+   public BackgroundEloBasedSearch(ToolBrokerAPI tbi, NewEloCreationRegistry newEloCreationRegistry, EloBasedSearcher[] eloBasedSearchers, ScyElo scyElo, EloBasedSearchFinished eloBasedSearchFinished)
    {
-      super(tbi, eloInfoControl, newEloCreationRegistry);
+      super(tbi, newEloCreationRegistry);
       this.eloBasedSearchers = eloBasedSearchers;
       this.scyElo = scyElo;
       this.eloBasedSearchFinished = eloBasedSearchFinished;

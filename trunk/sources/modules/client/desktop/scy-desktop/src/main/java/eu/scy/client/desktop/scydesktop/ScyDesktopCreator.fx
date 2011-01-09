@@ -8,7 +8,6 @@ package eu.scy.client.desktop.scydesktop;
 import eu.scy.client.desktop.scydesktop.config.Config;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
-import eu.scy.client.desktop.scydesktop.scywindows.EloInfoControl;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
 import eu.scy.client.desktop.scydesktop.config.SpringConfigFactory;
@@ -29,7 +28,6 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.elofactory.EloConfigManager;
 import eu.scy.client.desktop.scydesktop.elofactory.impl.BasicEloConfigManager;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloInfoControlImpl;
 import eu.scy.client.desktop.scydesktop.scywindows.EloDisplayTypeControl;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloDisplayTypeControlImpl;
 import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
@@ -52,7 +50,6 @@ public class ScyDesktopCreator {
    public-init var missionRunConfigs: MissionRunConfigs;
    public-init var config: Config;
    public-init var missionModelFX: MissionModelFX;
-   public-init var eloInfoControl: EloInfoControl;
    public-init var eloDisplayTypeControl: EloDisplayTypeControl;
    public-init var windowStyler: WindowStyler;
    public-init var scyToolCreatorRegistryFX: ScyToolCreatorRegistryFX;
@@ -75,13 +72,6 @@ public class ScyDesktopCreator {
 
    init {
       findConfig();
-      if (eloInfoControl == null) {
-         eloInfoControl = EloInfoControlImpl {
-               repository: config.getRepository();
-               extensionManager: config.getExtensionManager();
-               metadataTypeManager: config.getMetadataTypeManager();
-            }
-      }
       if (eloDisplayTypeControl == null) {
          eloDisplayTypeControl = EloDisplayTypeControlImpl {
                repository: config.getRepository();
@@ -327,7 +317,6 @@ public class ScyDesktopCreator {
             config: config;
             missionRunConfigs: missionRunConfigs
             missionModelFX: missionModelFX;
-            eloInfoControl: eloInfoControl;
             eloDisplayTypeControl: eloDisplayTypeControl;
             windowStyler: windowStyler;
             scyToolCreatorRegistryFX: scyToolCreatorRegistryFX

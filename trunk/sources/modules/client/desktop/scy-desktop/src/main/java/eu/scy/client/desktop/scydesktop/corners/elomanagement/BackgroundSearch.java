@@ -5,7 +5,6 @@
 package eu.scy.client.desktop.scydesktop.corners.elomanagement;
 
 import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
-import eu.scy.client.desktop.scydesktop.scywindows.EloInfoControl;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.net.URI;
@@ -25,7 +24,6 @@ public abstract class BackgroundSearch implements Runnable
 
    private final static Logger logger = Logger.getLogger(BackgroundSearch.class);
    protected final ToolBrokerAPI tbi;
-   private final EloInfoControl eloInfoControl;
    private final NewEloCreationRegistry newEloCreationRegistry;
    private boolean abort = false;
    private long totalNanos = 0;
@@ -34,10 +32,9 @@ public abstract class BackgroundSearch implements Runnable
    private int nrOfSearchResults = 0;
    private int nrOfSkippedSearchResults = 0;
 
-   public BackgroundSearch(ToolBrokerAPI tbi, EloInfoControl eloInfoControl, NewEloCreationRegistry newEloCreationRegistry)
+   public BackgroundSearch(ToolBrokerAPI tbi, NewEloCreationRegistry newEloCreationRegistry)
    {
       this.tbi = tbi;
-      this.eloInfoControl = eloInfoControl;
       this.newEloCreationRegistry = newEloCreationRegistry;
    }
 
@@ -86,11 +83,7 @@ public abstract class BackgroundSearch implements Runnable
          List<URI> searchResultUris = new ArrayList<URI>();
          for (ISearchResult searchResult : searchResults)
          {
-            final String eloType = eloInfoControl.getEloType(searchResult.getUri());
-            if (newEloCreationRegistry.containsEloType(eloType))
-            {
-               searchResultUris.add(searchResult.getUri());
-            }
+            searchResultUris.add(searchResult.getUri());
          }
          List<IMetadata> metadatas = tbi.getRepository().retrieveMetadatas(searchResultUris);
          cacheMetadataNanos = System.nanoTime() - startNanos;
@@ -98,14 +91,13 @@ public abstract class BackgroundSearch implements Runnable
          int i = 0;
          for (ISearchResult searchResult : searchResults)
          {
-            final String eloType = eloInfoControl.getEloType(searchResult.getUri());
-            if (newEloCreationRegistry.containsEloType(eloType))
+            ScyElo scyElo = new ScyElo(metadatas.get(i), tbi);
+            ++i;
+            if (newEloCreationRegistry.containsEloType(scyElo.getTechnicalFormat()))
             {
-               ScyElo scyElo = new ScyElo(metadatas.get(i), tbi);
                ScySearchResult scySearchResult = new ScySearchResult(scyElo, searchResult.getRelevance());
                scySearchResults.add(scySearchResult);
                ++nrOfSearchResults;
-               ++i;
             }
             else
             {

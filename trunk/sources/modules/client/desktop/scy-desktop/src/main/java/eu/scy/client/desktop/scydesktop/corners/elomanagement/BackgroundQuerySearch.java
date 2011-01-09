@@ -6,7 +6,6 @@
 package eu.scy.client.desktop.scydesktop.corners.elomanagement;
 
 import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
-import eu.scy.client.desktop.scydesktop.scywindows.EloInfoControl;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.util.List;
 import roolo.api.search.IQuery;
@@ -21,9 +20,9 @@ public class BackgroundQuerySearch extends BackgroundSearch {
    private final IQuery query;
    private final QuerySearchFinished querySearchFinished;
 
-   public BackgroundQuerySearch(ToolBrokerAPI tbi, EloInfoControl eloInfoControl, NewEloCreationRegistry newEloCreationRegistry, IQuery query, QuerySearchFinished querySearchFinished)
+   public BackgroundQuerySearch(ToolBrokerAPI tbi, NewEloCreationRegistry newEloCreationRegistry, IQuery query, QuerySearchFinished querySearchFinished)
    {
-      super(tbi, eloInfoControl, newEloCreationRegistry);
+      super(tbi, newEloCreationRegistry);
       this.query = query;
       this.querySearchFinished = querySearchFinished;
    }

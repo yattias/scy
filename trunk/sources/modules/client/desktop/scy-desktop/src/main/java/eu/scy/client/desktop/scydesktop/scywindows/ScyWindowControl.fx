@@ -37,7 +37,6 @@ public mixin class ScyWindowControl {
    public var windowPositioner: WindowPositioner;
    public var edgesManager:IEdgesManager;
    public var stage: Stage;
-   public var eloInfoControl: EloInfoControl;
    public var tbi:ToolBrokerAPI;
    public var tooltipManager:TooltipManager;
    public var dragAndDropManager:DragAndDropManager;

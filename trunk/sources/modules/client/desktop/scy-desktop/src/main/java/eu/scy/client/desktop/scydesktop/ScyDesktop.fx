@@ -9,7 +9,6 @@ import eu.scy.client.desktop.scydesktop.scywindows.WindowManager;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
-import eu.scy.client.desktop.scydesktop.scywindows.EloInfoControl;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.corners.Corner;
 import eu.scy.client.desktop.scydesktop.config.Config;
@@ -40,7 +39,6 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.config.SpringConfigFactory;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
-import eu.scy.client.desktop.scydesktop.dummy.DummyEloInfoControl;
 import eu.scy.client.desktop.scydesktop.dummy.DummyWindowStyler;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ScyToolsList;
@@ -109,7 +107,6 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    public var config: Config;
    public def scene = scyDektopGroup.scene;
    public var missionModelFX: MissionModelFX = MissionModelFX {};
-   public var eloInfoControl: EloInfoControl;
    public var eloDisplayTypeControl: EloDisplayTypeControl;
    public var windowStyler: WindowStyler;
    public var scyToolCreatorRegistryFX: ScyToolCreatorRegistryFX;
@@ -231,7 +228,6 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       var errors = 0;
       errors += checkIfNull(config, "config");
       errors += checkIfNull(missionModelFX, "missionModel");
-      errors += checkIfNull(eloInfoControl, "eloInfoControl");
       errors += checkIfNull(windowStyler, "windowStyler");
       errors += checkIfNull(windowContentCreatorRegistryFX, "windowContentCreatorRegistryFX");
       errors += checkIfNull(newEloCreationRegistry, "newEloCreationRegistry");
@@ -450,7 +446,6 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             windowPositioner: windowPositioner;
             missionModel: missionModelFX;
             missionMap: missionMap;
-            eloInfoControl: eloInfoControl;
             windowStyler: windowStyler;
             tbi: config.getToolBrokerAPI()
             setScyContent: fillNewScyWindow2;
@@ -857,10 +852,6 @@ function run() {
    var scyDesktop: ScyDesktop = ScyDesktop {
          config: config;
          missionModelFX: missionModel;
-         eloInfoControl: DummyEloInfoControl {
-         };
-         windowStyler: DummyWindowStyler {
-         };
       //      windowContentCreatorRegistryFX:windowContentCreatorRegistryFX;
       //      newEloCreationRegistry: NewEloCreationRegistryImpl{};
       //      drawerContentCreatorRegistryFX:drawerContentCreatorRegistryFX;
