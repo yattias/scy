@@ -29,7 +29,7 @@ public class BackgroundQuerySearch extends BackgroundSearch {
    }
 
    @Override
-   public void run()
+   public void doSearch()
    {
       if (isAbort())
       {
