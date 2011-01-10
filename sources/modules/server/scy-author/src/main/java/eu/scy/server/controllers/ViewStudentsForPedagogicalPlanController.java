@@ -127,6 +127,7 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
             StudentUserDetails details = (StudentUserDetails) user.getUserDetails();
             MissionRuntimeModel missionRuntimeModel = missionSpecificationElo.getMissionManagement().createMissionRuntimeModelElos(username);
             logger.info("MISSION RUNTIME: " + missionRuntimeModel.getRuntimeSettingsElo().getDescription());
+            logger.info("MISSION RUNTIME: " + missionRuntimeModel.getRuntimeSettingsElo().getUri());
             RuntimeSettingKey globalMissionScaffoldingLevelKey = new RuntimeSettingKey("globalMissionScaffoldingLevel", null, null);
             String scaffolding = missionRuntimeModel.getRuntimeSettingsElo().getTypedContent().getSetting(globalMissionScaffoldingLevelKey);
             logger.info("SCAFFOLDING: " + scaffolding);
