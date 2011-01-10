@@ -21,7 +21,6 @@ import java.lang.System;
 import eu.scy.client.desktop.scydesktop.config.BasicConfig;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.elofactory.impl.ScyToolCreatorRegistryFXImpl;
-import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
 import eu.scy.toolbrokerapi.ToolBrokerAPIRuntimeSetting;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
@@ -39,6 +38,7 @@ import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.mission.impl.ApplyEloToolConfigDefaults;
+import eu.scy.client.desktop.scydesktop.imagewindowstyler.FxdWindowStyler;
 
 /**
  * @author sikkenj
@@ -81,9 +81,15 @@ public class ScyDesktopCreator {
       }
       findMetadataKeys();
       if (windowStyler == null) {
-         windowStyler = ImageWindowStyler {
+//         windowStyler = ImageWindowStyler {
+//               eloTypeControl: eloDisplayTypeControl;
+//               impagesPath: initializer.eloImagesPath
+//               repository: config.getRepository()
+//               metadataTypeManager: config.getMetadataTypeManager()
+//            };
+         windowStyler = FxdWindowStyler {
                eloTypeControl: eloDisplayTypeControl;
-               impagesPath: initializer.eloImagesPath
+//               impagesPath: initializer.eloImagesPath
                repository: config.getRepository()
                metadataTypeManager: config.getMetadataTypeManager()
             };

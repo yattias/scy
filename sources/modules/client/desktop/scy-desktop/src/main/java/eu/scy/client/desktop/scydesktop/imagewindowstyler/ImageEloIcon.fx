@@ -34,8 +34,10 @@ public class ImageEloIcon extends EloIcon {
 
 
    public override function create(): Node {
-
+      def scale = calculateScale(inactiveImage.width,inactiveImage.height);
       return Group {
+         scaleX:scale
+         scaleY:scale
                  content: [
                         imageView = ImageView {
                             image: getCorrectImage();
@@ -46,6 +48,8 @@ public class ImageEloIcon extends EloIcon {
 
    public override function clone():EloIcon{
       ImageEloIcon{
+         scaleX: scaleX
+         scaleY: scaleY
          activeImage: activeImage
          inactiveImage: inactiveImage
          selected:selected
