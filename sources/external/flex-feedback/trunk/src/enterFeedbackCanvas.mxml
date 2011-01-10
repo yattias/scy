@@ -7,6 +7,7 @@
 		<![CDATA[
 			import listeners.ToggleEvent;
 			
+			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
@@ -24,6 +25,8 @@
 			[Bindable] public var feedbackText:String;
 			[Bindable] public var quality:String;
 			
+			private var objectsToTile:ArrayCollection;
+			
 			protected function clickHandler(dir:String, stack:Number):void {
 				var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
 				tEvent.direction = dir;
@@ -33,15 +36,17 @@
 			
 			public function assessElo(eloid:String):void {
 				this.eloid = eloid;
-				URLpropertyFile.url = "newest.xml";
-				URLpropertyFile.send();
+				eloProperty.url = "newest.xml";
+				eloProperty.send();
+				eloFeedback.url = "eloFeedback.xml";
+				eloFeedback.send();
 			}
 			
-			protected function URLpropertyFile_faultHandler(event:FaultEvent):void {
+			protected function eloProperty_faultHandler(event:FaultEvent):void {
 				Alert.show(resourceManager.getString('resources', 'URL_PROPERTY_FILE_ERROR'), "HTTPService Error");
 			}
 			
-			protected function URLpropertyFile_resultHandler(event:ResultEvent):void {
+			protected function eloProperty_resultHandler(event:ResultEvent):void {
 				var xml:XML= event.result as XML;
 				var myList:XMLList = xml.elo.(@uri == eloid);
 				eloXML = myList[0] as XML;
@@ -55,14 +60,50 @@
 				quality = "-"
 				feedbackText = "I am having problems with the temperature, does any one have any suggestions and I am having problems with the temperature, does any one have any suggestions and I am having problems with the temperature, does any one have any suggestions?";
 			}
+			
+			protected function eloFeedback_faultHandler(event:FaultEvent):void {
+				Alert.show(resourceManager.getString('resources', 'URL_PROPERTY_FILE_ERROR'), "HTTPService Error");
+			}
+			
+			protected function eloFeedback_resultHandler(event:ResultEvent):void {
+				var xml:XML= event.result as XML;
+				objectsToTile = new ArrayCollection();
+				for each (var object:XML in xml.*) {
+					var fbe:feedbackFeedEntry;
+					if (object.name() == "feedback") {
+						fbe = new feedbackFeedEntry();
+						fbe.author = object.createdby;
+						fbe.postTime = object.calendartime;
+						fbe.postContent = object.comment;
+						fbe.postDate = object.calendardate;
+						objectsToTile.addItem(fbe);
+					}
+				}
+				buildTile();
+			}
+			
+			private function buildTile():void {
+				if(objectsToTile.length > 0) {
+					for each (var fbe:feedbackFeedEntry in objectsToTile) {
+						dataTile.addElement(fbe);
+					}
+				}
+			}
+
 		]]>
 	</fx:Script>
 	
 	<fx:Declarations>
-		<s:HTTPService id="URLpropertyFile" 
+		<s:HTTPService id="eloProperty" 
 					   showBusyCursor="true" 
-					   result="URLpropertyFile_resultHandler(event)" 
-					   fault="URLpropertyFile_faultHandler(event)"
+					   result="eloProperty_resultHandler(event)" 
+					   fault="eloProperty_faultHandler(event)"
+					   resultFormat="e4x"/>
+		
+		<s:HTTPService id="eloFeedback" 
+					   showBusyCursor="true" 
+					   result="eloFeedback_resultHandler(event)" 
+					   fault="eloFeedback_faultHandler(event)"
 					   resultFormat="e4x"/>
 	</fx:Declarations>
 	
@@ -152,13 +193,21 @@
 										<local:feedbackSlider width="100%" />
 									</s:HGroup>
 								</s:VGroup>
-								<s:Button chromeColor="{index.THEME_LIGHT}" label="{resourceManager.getString('resources', 'GIVE_FEEDBACK_TITLE')}"/>
+								<s:Button label="{resourceManager.getString('resources', 'GIVE_FEEDBACK_TITLE')}"/>
 							</s:VGroup>
 						</s:Group>
 					</s:Group>
 				</s:HGroup>
 			</s:BorderContainer>
-			<s:BorderContainer id="feedBox" width="100%" height="60%" borderVisible="false"  backgroundAlpha=".3" backgroundColor="{index.THEME_LIGHT}" />
+			<s:BorderContainer id="feedBox" width="100%" height="60%" borderVisible="false"  backgroundAlpha=".3" backgroundColor="{index.THEME_LIGHT}">
+				<s:Scroller width="100%" height="100%" chromeColor="{index.THEME_COL}">
+					<s:VGroup id="grp" width="100%" height="100%" horizontalAlign="center" gap="0">
+						<mx:Spacer height="5" />
+						<s:TileGroup id="dataTile" width="{grp.width - 10}" horizontalCenter="0" verticalCenter="0" verticalGap="15"/>
+						<mx:Spacer height="5" />
+					</s:VGroup>
+				</s:Scroller>
+			</s:BorderContainer>
 		</s:VGroup>
 		<mx:Spacer height="15" />
 	</s:VGroup>

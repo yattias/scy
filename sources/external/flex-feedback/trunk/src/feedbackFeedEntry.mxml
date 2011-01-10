@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx" width="100%">
+	
+	<fx:Script>
+		<![CDATA[
+			[Bindable] public var author:String;
+			[Bindable] public var postTime:String;
+			[Bindable] public var postContent:String;
+			[Bindable] public var postDate:String;
+		]]>
+	</fx:Script>
+	
+	<s:HGroup width="100%" gap="10" verticalAlign="middle">
+		<s:Label color="{index.THEME_COL}" text="{postDate}" fontWeight="bold" />
+		<s:Line width="100%">
+			<s:stroke>
+				<s:SolidColorStroke color="{index.THEME_COL}" weight="2" caps="square"/>
+			</s:stroke>
+		</s:Line>
+	</s:HGroup>  
+	<s:HGroup width="100%">
+		<s:BorderContainer width="200" minHeight="50" borderColor="{index.THEME_COL}" dropShadowVisible="true" backgroundAlpha=".3" backgroundColor="{index.THEME_LIGHT}">
+			<s:Label color="#333333" text="{author}" width="100%" fontWeight="bold" textAlign="center" horizontalCenter="0" verticalCenter="0" />
+		</s:BorderContainer>
+		<s:VGroup width="100%">
+			<s:Label color="#333333" text="{postTime}" width="100%" fontWeight="bold" />
+			<s:Label color="#333333" text="{postContent}" width="100%" />
+		</s:VGroup>
+	</s:HGroup>  
+</s:VGroup>
