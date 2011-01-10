@@ -49,7 +49,7 @@
 			
 			private function editalertListener(event:CloseEvent):void {
 				if(event.detail == Alert.YES) {
-					var so:SharedObject = SharedObject.getLocal("scy-eportfolio");
+					var so:SharedObject = SharedObject.getLocal(Main.SHAREDOBJECT_LOCAL_NAME);
 					so.data.searchSelection = attachedElo;
 					so.flush();
 					

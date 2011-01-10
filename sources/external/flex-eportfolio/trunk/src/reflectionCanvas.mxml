@@ -64,7 +64,7 @@
 						&& slectedGLGs.length > 0
 						&& slectedSLGs.length > 0 ) {
 						
-						var so:SharedObject = SharedObject.getLocal("scy-eportfolio");
+						var so:SharedObject = SharedObject.getLocal(Main.SHAREDOBJECT_LOCAL_NAME);
 						var selectedElo:Object = so.data.searchSelection;
 						selectedElo.rDesc = descriptionArea.text;
 						selectedElo.rGLG = slectedGLGs;
@@ -113,7 +113,7 @@
 			
 			public function refreshContent(edit:Boolean):void {
 				currentState = "newReflection";
-				var so:SharedObject = SharedObject.getLocal("scy-eportfolio");
+				var so:SharedObject = SharedObject.getLocal(Main.SHAREDOBJECT_LOCAL_NAME);
 				var selectedElo:Object = so.data.searchSelection;
 				eloIcon.source = selectedElo.thumbnail;
 				missionText.text = Main.MISSION_NAME + " / " + selectedElo.name;

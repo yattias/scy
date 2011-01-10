@@ -20,6 +20,8 @@
 			
 			import spark.events.IndexChangeEvent;
 			
+			public static const SHAREDOBJECT_LOCAL_NAME:String = "scy-eportfolio";
+			
 			[Bindable] private var infoPanVisi:Boolean = false;
 			
 			public static const STACK_INTRO_PANEL:Number = 1;
@@ -61,22 +63,24 @@
 			
 			public static const ALT_BOX_INIT_X:Number = -450;
 			
+			private var so:SharedObject;
+			
 			private function retrieveUserInfo():void {
-				var so:SharedObject = SharedObject.getLocal("scy-eportfolio");
+				so = SharedObject.getLocal(SHAREDOBJECT_LOCAL_NAME);
 				var userInfo:Object = new Object();
 				userInfo.username = FlexGlobals.topLevelApplication.parameters.username;
 				userInfo.firstname = FlexGlobals.topLevelApplication.parameters.firstName;
 				userInfo.lastname = FlexGlobals.topLevelApplication.parameters.lastName;				
-				URLpropertyFile.url = FlexGlobals.topLevelApplication.parameters.toolURLProvider;
+				//URLpropertyFile.url = FlexGlobals.topLevelApplication.parameters.toolURLProvider;
 				if(FlexGlobals.topLevelApplication.parameters.debug == "true") {
 					infoPanVisi = true;
 				}
+				URLpropertyFile.url = "eportfolio.xml";
 				
 				so.data.userInfo = userInfo;
 				
 				//reset arrays
 				so.data.eportArrays = new ArrayCollection();
-				so.flush();
 			}
 			
 			private function ToggleStack(evt:ToggleEvent):void {
@@ -145,9 +149,14 @@
 
 			protected function URLpropertyFile_resultHandler(event:ResultEvent):void {
 				var xml:XML = event.result as XML;
-				xml1.text = xml.userInfoURL;
-				xml2.text = xml.curentMissionProgressOverview;
-				xml3.text = xml.metaData;
+//				xml1.text = xml.userInfoURL;
+//				xml2.text = xml.curentMissionProgressOverview;
+//				xml3.text = xml.metaData;
+				
+				so.data.retrievedElosFromRoolo = xml;
+				
+				so.flush();
+				
 				animate(LEFT_DIRECTION, STACK_INTRO_PANEL);
 				//animate(LEFT_DIRECTION, STACK_SENDING_PANEL);
 			}
@@ -184,7 +193,7 @@
 			
 			private function getFinalSelectionArray():ArrayCollection {
 				var finalPortfolio:ArrayCollection = new ArrayCollection();
-				var so:SharedObject = SharedObject.getLocal("scy-eportfolio");
+				var so:SharedObject = SharedObject.getLocal(SHAREDOBJECT_LOCAL_NAME);
 				var eportArray:ArrayCollection = so.data.eportArrays;
 				var selectionArray:ArrayCollection;
 				

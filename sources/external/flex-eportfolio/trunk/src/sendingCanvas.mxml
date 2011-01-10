@@ -42,7 +42,7 @@
 				coverflow.selectedIndex = 0;
 				
 				
-				var so:SharedObject = SharedObject.getLocal("scy-eportfolio");
+				var so:SharedObject = SharedObject.getLocal(Main.SHAREDOBJECT_LOCAL_NAME);
 				var currentELO:Object = new Object()
 				currentELO = so.data.currentElo;
 				sendingLabel = resourceManager.getString('resources', 'SENDING_LABEL')+": "+currentELO.obliElo;

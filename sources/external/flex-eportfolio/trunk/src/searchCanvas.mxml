@@ -26,7 +26,7 @@
 			
 			protected function clickHandler(dir:String, stack:Number):void {
 				if(dir == Main.LEFT_DIRECTION) {
-					so = SharedObject.getLocal("scy-eportfolio");
+					so = SharedObject.getLocal(Main.SHAREDOBJECT_LOCAL_NAME);
 					so.data.searchSelection = foundElosArray[rg.selectedValue];
 					so.flush();
 					addEloFlag = false;
@@ -44,7 +44,7 @@
 			}
 			
 			public function refreshContent():void {
-				so = SharedObject.getLocal("scy-eportfolio");
+				so = SharedObject.getLocal(Main.SHAREDOBJECT_LOCAL_NAME);
 				var currentELO:Object = new Object()
 				currentELO = so.data.currentElo;
 				searchString.htmlText = "<u>"+resourceManager.getString('resources', 'SEARCH_LABEL')+"</u>: "+currentELO.obliElo;

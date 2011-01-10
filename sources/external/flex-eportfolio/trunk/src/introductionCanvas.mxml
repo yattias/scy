@@ -79,7 +79,7 @@
 			}
 			
 			private function retrieveUserInfos():String {
-				var so:SharedObject = SharedObject.getLocal("scy-eportfolio");
+				var so:SharedObject = SharedObject.getLocal(Main.SHAREDOBJECT_LOCAL_NAME);
 				var userInfo:Object = so.data.userInfo;
 				return (userInfo.firstname as String).toLowerCase() + " " + (userInfo.lastname as String).toUpperCase() + " ("+userInfo.username+")";
 			}
@@ -89,7 +89,7 @@
 					buildEPortfolioArray();
 				}
 				else {
-					var so:SharedObject = SharedObject.getLocal("scy-eportfolio");
+					var so:SharedObject = SharedObject.getLocal(Main.SHAREDOBJECT_LOCAL_NAME);
 					var currentELO:Object = new Object()
 					currentELO.obliElo = obligEloSelection.selectedItem;
 					so.data.currentElo = currentELO;
@@ -113,7 +113,7 @@
 					epfArray.addItem(ob);
 				}
 				
-				var so:SharedObject = SharedObject.getLocal("scy-eportfolio");
+				var so:SharedObject = SharedObject.getLocal(Main.SHAREDOBJECT_LOCAL_NAME);
 				so.data.eportArrays = epfArray;
 				so.flush();
 			}
@@ -127,7 +127,7 @@
 			public function refreshContent(needsRefreshing:Boolean, eloSelectedToSubmit:Boolean):void {
 				if(needsRefreshing) {
 					if(!eloSelectedToSubmit) {
-						var so:SharedObject = SharedObject.getLocal("scy-eportfolio");
+						var so:SharedObject = SharedObject.getLocal(Main.SHAREDOBJECT_LOCAL_NAME);
 						var selectedElo:Object = so.data.searchSelection;
 						(introStack.selectedChild as introductionSubCanvas).elosArray.addItem(selectedElo);
 					}

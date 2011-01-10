@@ -25,7 +25,7 @@
 			public function refreshView(target:Number):void {
 				submitBox.removeAllChildren();
 				selectedElosNavigators = new ArrayCollection();
-				var so:SharedObject = SharedObject.getLocal("scy-eportfolio");
+				var so:SharedObject = SharedObject.getLocal(Main.SHAREDOBJECT_LOCAL_NAME);
 				var eportArray:ArrayCollection = so.data.eportArrays;
 				
 				for(var i:Number = 0; i < eportArray.length; i++) {
