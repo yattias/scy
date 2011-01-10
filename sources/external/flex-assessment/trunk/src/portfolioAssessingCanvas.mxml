@@ -35,7 +35,7 @@
 			
 			public function processPortfolio(passedPortfolioStudentName:String):void {
 				this.passedPortfolioStudentName = passedPortfolioStudentName;
-				so = SharedObject.getLocal("scy-eportfolio");
+				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 				portfolioElo = so.data.retrievedElosFromRoolo as XML;
 				
 				var myList:XMLList = portfolioElo.portfolio.(@student == passedPortfolioStudentName);

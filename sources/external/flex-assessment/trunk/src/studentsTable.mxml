@@ -38,7 +38,7 @@
 			[Bindable] private var selectedPane:Number;
 			
 			public function refreshContent():void {
-				so = SharedObject.getLocal("scy-eportfolio");
+				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 				portfolioElo = so.data.retrievedElosFromRoolo as XML;
 				var unsortedStudentsArray:ArrayCollection = new ArrayCollection();
 				var portfolioXML:XML;

@@ -63,7 +63,7 @@
 			}
 			
 			public function assessElo(elosToCompare:ArrayCollection):void {
-				so = SharedObject.getLocal("scy-eportfolio");
+				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 				portfolioElo = so.data.retrievedElosFromRoolo as XML;
 				
 				var myList1:XMLList = portfolioElo.portfolio.elos.elo.(@uri == elosToCompare[0]);

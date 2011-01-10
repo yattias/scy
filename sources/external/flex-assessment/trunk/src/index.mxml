@@ -70,6 +70,8 @@
 			
 			import spark.effects.easing.Linear;
 			
+			public static const SHAREDOBJECT_LOCAL_NAME:String = "scy-assessment";
+			
 			public static const STACK_INTRO_PANEL:Number = 1;
 			public static const STACK_STUDTABLE_PANEL:Number = 2;
 			public static const STACK_ELOASSESS_PANEL:Number = 3;
@@ -128,7 +130,7 @@
 			}
 			
 			private function retrieveUserInfo():void {
-				so = SharedObject.getLocal("scy-eportfolio");
+				so = SharedObject.getLocal(SHAREDOBJECT_LOCAL_NAME);
 				var userInfo:Object = new Object();
 				userInfo.username = FlexGlobals.topLevelApplication.parameters.username;
 				userInfo.firstname = FlexGlobals.topLevelApplication.parameters.firstName;

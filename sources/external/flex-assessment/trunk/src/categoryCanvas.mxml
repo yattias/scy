@@ -29,7 +29,7 @@
 			}
 			
 			private function getEloArrayByCategory(categ:String):ArrayCollection {
-				so = SharedObject.getLocal("scy-eportfolio");
+				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 				portfolioElo = so.data.retrievedElosFromRoolo as XML;
 				var eloArrayByCategory:ArrayCollection = new ArrayCollection();
 				var ob:Object;
