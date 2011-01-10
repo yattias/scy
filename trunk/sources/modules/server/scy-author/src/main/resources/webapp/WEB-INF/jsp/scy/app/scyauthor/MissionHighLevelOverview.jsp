@@ -2,34 +2,28 @@
 <tiles:insertDefinition name="default-page">
     <tiles:putAttribute name="main">
 
-        <c:choose>
-            <c:when test="${fn:length(learningActivitySpaces) > 0}">
-                <table>
-
-
-                <c:forEach var="las" items="${learningActivitySpaces}">
-                    <tr class="${oddEven.oddEven}">
-                        <td>
-                            ${las.toolTip}
-                        </td>
-                    </tr>
-
-                </c:forEach>
-                </table>
-            </c:when>
-        </c:choose>
-
-
         <h1>Anchor elos</h1>
         <c:choose>
             <c:when test="${fn:length(anchorElos) > 0}">
                 <table>
 
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Obligatory in portfolio
+                        </th>
+                    </tr>
 
                 <c:forEach var="anchorElo" items="${anchorElos}">
                     <tr class="${oddEven.oddEven}">
                         <td>
-                            ++ ${anchorElo.scyElo.title}
+                            ${anchorElo.scyElo.title}
+                        </td>
+                        <td>
+                            ${anchorElo.obligatoryInPortfolio}
+                            <s:ajaxELOTextField property="title" eloURI="${missionSpecificationTransporter.uri}" rooloServices="${rooloServices}"/>
                         </td>
                     </tr>
 

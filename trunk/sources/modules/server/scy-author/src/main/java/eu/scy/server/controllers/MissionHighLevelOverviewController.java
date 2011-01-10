@@ -38,7 +38,7 @@ public class MissionHighLevelOverviewController extends BaseController{
             URI uri = new URI(missionSpecificationUri);
             MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(uri, getMissionELOService());
             if(missionSpecificationElo != null) {
-                modelAndView.addObject("learningActivitySpaces", getMissionELOService().getLasses(missionSpecificationElo));
+                //modelAndView.addObject("learningActivitySpaces", getMissionELOService().getLasses(missionSpecificationElo));
                 modelAndView.addObject("anchorElos", getMissionELOService().getAnchorELOs(missionSpecificationElo));
             } else {
                 logger.info("DID NOT FIND THE MISSION SPECIFICATION!!!");

@@ -21,7 +21,9 @@ import java.util.List;
 public class AssessmentService extends XMLStreamerController{
     @Override
     protected Object getObjectToStream(HttpServletRequest request, HttpServletResponse httpServletResponse) {
-        PortfolioContainer portfolios = new PortfolioContainer();
+        //PortfolioContainer portfolios = new PortfolioContainer();
+
+        LinkedList portfolios = new LinkedList();
 
         Portfolio portfolio = new Portfolio();
         portfolio.setMissionName("Freaky Styley");
@@ -39,7 +41,7 @@ public class AssessmentService extends XMLStreamerController{
         transferElo.setReflectionComment("Reflect me baby - do it hard!");
 
         portfolio.addElo(transferElo);
-        portfolios.addPortfolio(portfolio);
+        portfolios.add(portfolio);
 
         return portfolios;
     }
@@ -48,6 +50,7 @@ public class AssessmentService extends XMLStreamerController{
     protected void addAliases(XStream xStream) {
         super.addAliases(xStream);    //To change body of overridden methods use File | Settings | File Templates.
         xStream.alias("portfolioContainer", PortfolioContainer.class);
+        xStream.alias("portfolios", LinkedList.class);
         xStream.alias("elo", TransferElo.class);
         xStream.alias("portfolio", Portfolio.class);
         xStream.useAttributeFor(TransferElo.class, "uri");

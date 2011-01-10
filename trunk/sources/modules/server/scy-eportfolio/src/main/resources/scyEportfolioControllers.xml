@@ -41,6 +41,8 @@
                 /app/eportfolio/xml/obligatoryELOsInMission.html=obligatoryELOsInMissionController
                 /app/eportfolio/xml/runtimeElosList.html=runtimeElosListController
                 /app/eportfolio/xml/currentMissionRuntimeInfo.html=currentMissionRuntimeInfo
+
+                /app/assessment/assessmentindex.html=assessmentIndexController
             </value>
         </property>
     </bean>
@@ -49,6 +51,11 @@
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
         <property name="userService" ref="userService"/>
+	</bean>
+
+    <bean id="assessmentIndexController" class="eu.scy.server.assessment.AssessmentIndex">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
 	</bean>
 
     <bean id="toolURLProvider" class="eu.scy.server.eportfolio.xml.ToolURLProvider">
