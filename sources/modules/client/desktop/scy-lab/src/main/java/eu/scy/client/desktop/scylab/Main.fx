@@ -172,6 +172,8 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
 //   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(new ScyToolViewerCreator(), "progress");
    scyDesktopCreator.eloConfigManager.addDebugCreatorId("xmlViewer");
 //   scyDesktopCreator.eloConfigManager.addDebugCreatorId("progress");
+   scyDesktopCreator.eloConfigManager.addDebugCreatorId("testMoreInfoId");
+
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TestMoreInfoNodeCreator{}, testMoreInfoId);
 
    var awarenessService:IAwarenessService = missionRunConfigs.tbi.getAwarenessService();
