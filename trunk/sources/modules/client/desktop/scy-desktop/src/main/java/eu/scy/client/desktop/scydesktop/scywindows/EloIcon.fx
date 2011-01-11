@@ -30,8 +30,8 @@ public abstract class EloIcon extends CustomNode {
    }
 
    protected function calculateScale(width: Number, height: Number): Number {
-      def scaleX = size / width;
-      def scaleY = size / height;
+      def scaleX = (size-borderSize) / width;
+      def scaleY = (size-borderSize) / height;
       return Math.min(scaleX, scaleY);
    }
 
@@ -41,8 +41,8 @@ public abstract class EloIcon extends CustomNode {
       //      println("fxdNode.boundsInParent: {fxdNode.boundsInParent}");
       node.scaleX = scale;
       node.scaleY = scale;
-      node.layoutX = -node.layoutBounds.minX + (scale - 1) * node.layoutBounds.width / 2;
-      node.layoutY = -node.layoutBounds.minY + (scale - 1) * node.layoutBounds.height / 2;
+      node.layoutX = -node.layoutBounds.minX + (scale - 1) * node.layoutBounds.width / 2 + borderSize/2;
+      node.layoutY = -node.layoutBounds.minY + (scale - 1) * node.layoutBounds.height / 2 + borderSize/2;
       //      println("fxdNode.boundsInParent: {fxdNode.boundsInParent}");
       //      println("");
    }

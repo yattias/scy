@@ -34,7 +34,7 @@ public class FxdWindowStyler extends WindowStyler {
    init {
       if (imageLoader==null){
          imageLoader = FxdImageLoader{
-               sourceName: ArtSource.notSelectedIconsPackage
+               sourceName: ArtSource.plainIconsPackage
             };
       }
 

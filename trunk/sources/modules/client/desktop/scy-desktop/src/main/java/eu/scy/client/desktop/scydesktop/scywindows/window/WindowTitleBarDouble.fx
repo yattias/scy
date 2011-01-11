@@ -133,7 +133,8 @@ public class WindowTitleBarDouble extends WindowElement {
             }
 
             eloIconGroup = Group{
-               layoutX:1
+               layoutX:0
+               layoutY:-1
                blocksMouse:startDragIcon!=null
                cursor: if(startDragIcon!=null) Cursor.HAND else null
                content:eloIcon
