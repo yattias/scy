@@ -19,6 +19,7 @@ import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import javafx.animation.Interpolator;
 import javafx.util.Math;
+import javafx.scene.CacheHint;
 
 /**
  * @author giemza
@@ -111,6 +112,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         delete incomingWindows;
         delete centerWindows;
         delete outgoingWindows;
+        delete mainWindows;
     }
 
     public override function makeMainWindow(window:ScyWindow):Void {
@@ -329,6 +331,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
             window.open();
         }
         window.cache = true;
+        window.cacheHint = CacheHint.SCALE_AND_ROTATE;
         var repositionAndResize:Timeline = Timeline {
             repeatCount: 1
             autoReverse: false
@@ -347,6 +350,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
                         window.relativeLayoutCenterX = (window.layoutX + window.width / 2) / desktopWidth;
                         window.relativeLayoutCenterY = (window.layoutY + window.height / 2) / desktopHeight;
                         window.cache = false;
+                        window.cacheHint = CacheHint.SPEED;
                     }
                 }
             ]
@@ -410,7 +414,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
 
     function resetWindowLayoutInArea(windowList:ScyWindow[]) {
         for (window in windowList) {
-            // close might take too long ot too much memory
+            // close might take too long or too much memory
             // maybe set heigth and width manually?
             window.close();
             window.layoutX = 0;
@@ -418,6 +422,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
             window.relativeLayoutCenterX = 0;
             window.relativeLayoutCenterY = 0;
             window.rotate = 0;
+            logger.info("resetting window {window.title} with URI {window.eloUri}");
         }
     }
 
