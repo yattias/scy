@@ -65,6 +65,7 @@ public class WindowTitleBarDouble extends WindowElement {
    def backgroundColor = Color.web("#eaeaea");
 
    var nodeGroup:Group;
+   var eloIconGroup: Group;
    var textBackgroundFillRect:Rectangle;
    var titleText:Text;
    var clipRect:Rectangle;
@@ -75,9 +76,9 @@ public class WindowTitleBarDouble extends WindowElement {
 //   public-read var titleDisplayWidth = bind clipRect.layoutBounds.maxX;
 
    function eloIconChanged(oldEloIcon:EloIcon){
-      delete oldEloIcon from nodeGroup.content;
-      insert eloIcon before nodeGroup.content[0];
       eloIcon.size = iconSize;
+      delete oldEloIcon from eloIconGroup.content;
+      insert eloIcon into eloIconGroup.content;
    }
 
    function activatedChanged(){
@@ -131,7 +132,7 @@ public class WindowTitleBarDouble extends WindowElement {
                stroke: bind windowColorScheme.mainColor
             }
 
-            Group{
+            eloIconGroup = Group{
                layoutX:1
                blocksMouse:startDragIcon!=null
                cursor: if(startDragIcon!=null) Cursor.HAND else null

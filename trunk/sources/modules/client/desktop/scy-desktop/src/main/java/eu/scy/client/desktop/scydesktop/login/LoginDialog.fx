@@ -94,6 +94,7 @@ public class LoginDialog extends CustomNode, TbiReady {
             allowResize: false;
             allowRotate: false;
             allowMinimize: false;
+            allowDragging: false
             opacity: 0.0;
             layoutX: bind (scene.width / 2 - loginWindow.width / 2);
             layoutY: bind (scene.height / 2 - loginWindow.height / 2);
@@ -102,7 +103,7 @@ public class LoginDialog extends CustomNode, TbiReady {
       loginWindow.activated = true;
       loginWindow.eloIcon = LogoEloIcon {
             color: bind loginWindow.windowColorScheme.mainColor
-            selected: false
+            selected: true
          }
 
       loginWindow.openWindow(0, 0);

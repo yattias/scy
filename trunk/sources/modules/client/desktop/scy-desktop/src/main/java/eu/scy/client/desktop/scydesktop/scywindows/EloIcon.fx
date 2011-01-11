@@ -8,6 +8,7 @@ package eu.scy.client.desktop.scydesktop.scywindows;
 import javafx.scene.CustomNode;
 import javafx.geometry.Bounds;
 import javafx.util.Math;
+import javafx.scene.Node;
 
 /**
  * @author sikken
@@ -17,6 +18,8 @@ public abstract class EloIcon extends CustomNode {
 
    public var selected: Boolean = false;
    public var size = 40.0;
+   public def borderSize = 2.0;
+   public def cornerRadius = 7;
 
    public override function clone(): EloIcon {
       null
@@ -31,5 +34,18 @@ public abstract class EloIcon extends CustomNode {
       def scaleY = size / height;
       return Math.min(scaleX, scaleY);
    }
+
+   protected function scaleNode(node: Node){
+      def scale = calculateScale(node.layoutBounds);
+      //      println("fxdNode.layoutBounds: {fxdNode.layoutBounds}, scale: {scale}");
+      //      println("fxdNode.boundsInParent: {fxdNode.boundsInParent}");
+      node.scaleX = scale;
+      node.scaleY = scale;
+      node.layoutX = -node.layoutBounds.minX + (scale - 1) * node.layoutBounds.width / 2;
+      node.layoutY = -node.layoutBounds.minY + (scale - 1) * node.layoutBounds.height / 2;
+      //      println("fxdNode.boundsInParent: {fxdNode.boundsInParent}");
+      //      println("");
+   }
+
 
 }

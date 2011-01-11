@@ -28,9 +28,9 @@ public class FxdEloIcon extends EloIcon {
 
    public var fxdNode: Node;
    public var windowColorScheme: WindowColorScheme;
-   def borderSize = 2.0;
+//   def borderSize = 2.0;
    def backgroundColor = Color.WHITE;
-   def cornerRadius = size / 16.0 * 2.5;
+//   def cornerRadius = size / 16.0 * 2.5;
    def borderColor = bind if (selected) windowColorScheme.mainColor else Color.WHITE;
 
    public override function create(): Node {
