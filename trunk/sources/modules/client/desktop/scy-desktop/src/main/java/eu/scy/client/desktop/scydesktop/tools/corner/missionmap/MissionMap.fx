@@ -99,6 +99,8 @@ public class MissionMap extends CustomNode {
          return;
       }
 
+//      positionScale *= 1.25;
+
       if (bigMissionMap) {
          tooltipCreator = lasInfoTooltipCreator
       } else {

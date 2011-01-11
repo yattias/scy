@@ -46,7 +46,7 @@ public class AnchorDisplay extends CustomNode {
       setColors();
       selectedEloImage.visible = selected;
       notSelectedEloImage.visible = not selected;
-//      eloIcon.selected = selected;
+      eloIcon.selected = selected;
    };
    public var selectionAction: function(AnchorDisplay,MissionAnchorFX):Void;
    public var dragAndDropManager: DragAndDropManager;
@@ -80,6 +80,7 @@ public class AnchorDisplay extends CustomNode {
 
    public override function create(): Node {
       disable = not las.exists;
+      eloIcon.selected = selected;
 
       selectedEloImage.visible = selected;
       selectedEloImage.scaleX = selectedScale;
@@ -101,9 +102,9 @@ public class AnchorDisplay extends CustomNode {
          layoutX: bind positionScale*las.xPos;
          layoutY: bind positionScale*las.yPos;
          content: [
-//            eloIcon,
-            selectedEloImage,
-            notSelectedEloImage
+            eloIcon,
+//            selectedEloImage,
+//            notSelectedEloImage
          ],
          onMouseClicked: function( e: MouseEvent ):Void {
             if (selectionAction != null){
