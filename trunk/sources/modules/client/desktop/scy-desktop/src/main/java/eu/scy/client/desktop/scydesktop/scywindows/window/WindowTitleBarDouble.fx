@@ -20,7 +20,7 @@ import javafx.scene.text.TextOrigin;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.art.EloImageInformation;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
-import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageEloIcon;
+//import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageEloIcon;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import eu.scy.client.desktop.scydesktop.uicontrols.MouseOverDisplay;
 import eu.scy.client.desktop.scydesktop.art.ImageLoader;
@@ -58,10 +58,11 @@ public class WindowTitleBarDouble extends WindowElement {
    def theMainColor = bind windowColorScheme.mainColor on replace {
       activatedChanged()
    }
-   def mouseOverBorderSize = 2.0;
+   def mouseOverBorderSize = 0.0;
 
-   def bodrerWidth = 2.0;
+   def borderWidth = 2.0;
    def borderDistance = 22;
+   def backgroundColor = Color.web("#eaeaea");
 
    var nodeGroup:Group;
    var textBackgroundFillRect:Rectangle;
@@ -85,21 +86,21 @@ public class WindowTitleBarDouble extends WindowElement {
          textBackgroundFillRect.fill = windowColorScheme.mainColor;
       }
       else{
-         textBackgroundFillRect.fill = Color.WHITE;
+         textBackgroundFillRect.fill = backgroundColor;
       }
    }
 
    public override function create(): Node {
       textBackgroundFillRect = Rectangle{
          x: iconSize+textIconSpace
-         y: borderDistance
+         y: borderDistance+borderWidth/2
          width: bind textClipWidth
-         height: iconSize-rectangleAntialiasOffset
+         height: borderDistance - 4*borderWidth/2
        }
       clipRect= Rectangle{
          x: iconSize+textIconSpace
          y: 0
-         width: bind width - iconSize - textIconSpace - closeBoxWidth
+         width: bind width - iconSize - textIconSpace
          height: iconSize
          fill: Color.BLACK
       };
@@ -107,30 +108,44 @@ public class WindowTitleBarDouble extends WindowElement {
       nodeGroup = Group{
          content:[
             Rectangle {
-               x: 0, y: 0
+               x: -0, y: 0
                width: bind width, height: 2*borderDistance
-               fill: Color.ORANGE
+               fill: backgroundColor
             }
             Line {
-               startX: 0, startY: 0
-               endX: bind width, endY: 0
-               strokeWidth: bodrerWidth
+               startX: iconSize+textIconSpace+borderWidth/2, startY: 0
+               endX: bind width-borderWidth/2, endY: 0
+               strokeWidth: borderWidth
                stroke: bind windowColorScheme.mainColor
             }
             Line {
-               startX: 0, startY: borderDistance
-               endX: bind width, endY: borderDistance
-               strokeWidth: bodrerWidth
+               startX: iconSize+textIconSpace+borderWidth/2, startY: borderDistance
+               endX: bind width-borderWidth/2, endY: borderDistance
+               strokeWidth: borderWidth
+               stroke: bind windowColorScheme.mainColor
+            }
+            Line {
+               startX: borderWidth/2, startY: 2*borderDistance
+               endX: bind width-borderWidth/2, endY: 2*borderDistance
+               strokeWidth: borderWidth
                stroke: bind windowColorScheme.mainColor
             }
 
             Group{
+               layoutX:1
                blocksMouse:startDragIcon!=null
                cursor: if(startDragIcon!=null) Cursor.HAND else null
                content:eloIcon
                onMousePressed:function(e: MouseEvent ):Void{
                   startDragIcon(e);
                }
+            }
+            Line {
+               visible: bind not activated
+               startX: borderWidth/2, startY: 0
+               endX: iconSize+textIconSpace+borderWidth/2, endY: 0
+               strokeWidth: borderWidth
+               stroke: bind windowColorScheme.mainColor
             }
             textBackgroundFillRect,
             titleText = Text { // title
@@ -191,21 +206,23 @@ public class WindowTitleBarDouble extends WindowElement {
          rightBorderSize = -2;
       }
       var fullTitleGroup = Group{
+         translateX:1
+         translateY:1
          content:[
-            Rectangle{
-               x:-mouseOverBorderSize
-               y:-mouseOverBorderSize
-               width:titleText.layoutBounds.maxX+mouseOverBorderSize+rightBorderSize+1
-               height:iconSize + 2*mouseOverBorderSize
-               fill:windowColorScheme.backgroundColor
-
-            }
+//            Rectangle{
+//               x:-mouseOverBorderSize
+//               y:-mouseOverBorderSize
+//               width:titleText.layoutBounds.maxX+mouseOverBorderSize+rightBorderSize+1
+//               height:iconSize + 2*mouseOverBorderSize
+//               fill:windowColorScheme.backgroundColor
+//
+//            }
             eloIcon.clone(),
             Rectangle{
                x: iconSize+textIconSpace
-               y: rectangleAntialiasOffset
+               y: borderDistance+borderWidth/2
                width: titleText.layoutBounds.width
-               height: iconSize-rectangleAntialiasOffset
+               height: borderDistance - 4*borderWidth/2
                fill: textBackgroundFillRect.fill
 //               fill: Color.GRAY
              }
@@ -225,13 +242,6 @@ public class WindowTitleBarDouble extends WindowElement {
 
 var imageLoader = ImageLoader.getImageLoader();
 
-function loadEloIcon(type: String):EloIcon{
-   var name = EloImageInformation.getIconName(type);
-   ImageEloIcon{
-      activeImage:imageLoader.getImage("{name}_act.png")
-      inactiveImage:imageLoader.getImage("{name}_inact.png")
-   }
-}
 
 function run(){
    var windowColorScheme = WindowColorScheme{
@@ -254,6 +264,22 @@ function run(){
          windowColorScheme:windowColorScheme
       };
    var eloIcon2 = FxdEloIcon{
+         fxdNode:Circle {
+                     centerX: radius, centerY: radius
+                     radius: radius
+                     fill: Color.GREEN
+                  }
+         windowColorScheme:windowColorScheme
+      };
+   var eloIcon3 = FxdEloIcon{
+         fxdNode:Circle {
+                     centerX: radius, centerY: radius
+                     radius: radius
+                     fill: Color.GREEN
+                  }
+         windowColorScheme:windowColorScheme
+      };
+   var eloIcon4 = FxdEloIcon{
          fxdNode:Circle {
                      centerX: radius, centerY: radius
                      radius: radius
@@ -304,7 +330,7 @@ function run(){
                   translateY: 70;
                }
                WindowTitleBarDouble {
-                  eloIcon: loadEloIcon("scy/drawing")
+                  eloIcon: eloIcon3
                   windowColorScheme: windowColorScheme
                   title:"3: rorated by 15"
                   activated: false
@@ -313,7 +339,7 @@ function run(){
                   rotate:15
                }
                WindowTitleBarDouble {
-                  eloIcon: loadEloIcon("scy/drawing")
+                  eloIcon: eloIcon4
                   windowColorScheme: windowColorScheme
                   activated: false
                   title:"4: rotated by -15"

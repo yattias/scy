@@ -41,8 +41,8 @@ public class ExtendedScyEloDisplayNode extends CustomNode {
    def dateDisplay = Label {};
    def uriDisplay = Label {};
    def spacing = 5.0;
-   def eloIconScale = 2.5;
-   def eloIconSize = 16.0;
+   def eloIconScale = 1.0;
+   def eloIconSize = 40.0;
    def eloIconOffset = 10.0;
    def thumbnailBorder = 2.0;
    def thumbnailView = ImageView {
