@@ -9,28 +9,21 @@ package eu.scy.client.desktop.scydesktop.scywindows.window;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import eu.scy.client.desktop.scydesktop.art.EloImageInformation;
 import eu.scy.client.desktop.scydesktop.art.ImageLoader;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
-import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageEloIcon;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import eu.scy.client.desktop.scydesktop.uicontrols.test.ruler.ResizableRulerRectangle;
 import eu.scy.client.desktop.scydesktop.uicontrols.test.ruler.RulerRectangle;
+import eu.scy.client.desktop.scydesktop.art.ArtSource;
+import eu.scy.client.desktop.scydesktop.art.FxdImageLoader;
+import eu.scy.client.desktop.scydesktop.imagewindowstyler.FxdEloIcon;
 
 /**
  * @author sikken
  */
 
 var imageLoader = ImageLoader.getImageLoader();
-
-function loadEloIcon(type: String):EloIcon{
-   var name = EloImageInformation.getIconName(type);
-   ImageEloIcon{
-      activeImage:imageLoader.getImage("{name}_act.png")
-      inactiveImage:imageLoader.getImage("{name}_inact.png")
-   }
-}
 
 var highcontrastColorScheme = WindowColorScheme{
    mainColor:Color.DARKBLUE
@@ -48,6 +41,17 @@ var windowColorScheme = WindowColorScheme{
 }
 
 windowColorScheme= highcontrastColorScheme;
+
+function loadEloIcon(type: String):EloIcon{
+   def imageLoader = FxdImageLoader{
+               sourceName: ArtSource.notSelectedIconsPackage
+            };
+   var name = EloImageInformation.getIconName(type);
+   FxdEloIcon{
+      fxdNode: imageLoader.getNode(name)
+      windowColorScheme: windowColorScheme
+   }
+}
 
 var openWindow = CombinedWindowElements{
    windowColorScheme:windowColorScheme

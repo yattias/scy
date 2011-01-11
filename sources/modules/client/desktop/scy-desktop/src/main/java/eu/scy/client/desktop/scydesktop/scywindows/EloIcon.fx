@@ -16,7 +16,7 @@ import javafx.util.Math;
 public abstract class EloIcon extends CustomNode {
 
    public var selected: Boolean = false;
-   public var size = 16.0;
+   public var size = 40.0;
 
    public override function clone(): EloIcon {
       null

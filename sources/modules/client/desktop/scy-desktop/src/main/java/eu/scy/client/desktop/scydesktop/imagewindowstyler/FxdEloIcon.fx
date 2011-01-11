@@ -35,7 +35,7 @@ public class FxdEloIcon extends EloIcon {
 
    public override function create(): Node {
       def scale = calculateScale(fxdNode.layoutBounds);
-            println("fxdNode.layoutBounds: {fxdNode.layoutBounds}, scale: {scale}");
+      //      println("fxdNode.layoutBounds: {fxdNode.layoutBounds}, scale: {scale}");
       //      println("fxdNode.boundsInParent: {fxdNode.boundsInParent}");
       fxdNode.scaleX = scale;
       fxdNode.scaleY = scale;

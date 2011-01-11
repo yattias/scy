@@ -112,7 +112,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    def titleBarLeftOffset = borderWidth / 2 + 5;
    def titleBarRightOffset = titleBarLeftOffset;
    def closeBoxSize = 10.0;
-   def iconSize = 40.0;
+   def iconSize = 16.0;
    def separatorLength = 7.0;
 //   def iconSize = 16.0;
 //   def iconGap = 2.0;
@@ -125,7 +125,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 //   def contentTopOffset = titleBarTopOffset+iconSize+borderWidth/2 + 1;
 //   def contentBorder = 2.0;
    def drawerCornerOffset = controlSize + 1.5 * separatorLength;
-   def leftRightDrawerOffset = 24.0;
+//   def drawerBorderGap = secondBorderWidth;
    def drawerBorderOffset = borderWidth;
    def contentSideBorder = 5.0;
    def contentTopOffset = titleBarLeftOffset + iconSize + contentSideBorder;
@@ -723,7 +723,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
                activated: bind activated;
                activate: activate;
                layoutX: bind realWidth;
-               layoutY: drawerCornerOffset + leftRightDrawerOffset
+               layoutY: drawerCornerOffset;
                height: bind realHeight - 2 * drawerCornerOffset
             }
          insert rightDrawer into drawerGroup.content;
@@ -783,7 +783,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
                   activated: bind activated;
                   activate: activate;
                   layoutX: 0;
-                  layoutY: drawerCornerOffset + leftRightDrawerOffset
+                  layoutY: drawerCornerOffset;
                   height: bind realHeight - 2 * drawerCornerOffset
                }
             insert drawer into drawerGroup.content;
@@ -869,7 +869,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 //      }
 //
       windowTitleBar = WindowTitleBarDouble {
-            width: bind realWidth + borderWidth
+            width: bind realWidth - titleBarLeftOffset - titleBarRightOffset
             //         iconSize:iconSize;
             //         iconGap:iconGap;
             closeBoxWidth: bind if (closeElement.visible) closeBoxSize + 2 * borderWidth + 2 else 0.0;
@@ -880,8 +880,8 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
             beingDragged: bind beingDragged
             startDragIcon: startDragIcon
             windowColorScheme: windowColorScheme
-            layoutX: -borderWidth/2;
-            layoutY: 0;
+            layoutX: titleBarLeftOffset;
+            layoutY: titleBarTopOffset;
          }
 
       resizeElement = WindowResize {
@@ -915,10 +915,10 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
             size: closeBoxSize;
             windowColorScheme: windowColorScheme
             activate: activate;
-            activated: false
+            activated: bind activated
             closeAction: doClose;
-            layoutX: bind realWidth + 0.5 * borderWidth - closeBoxSize;
-            layoutY: 1.5*borderWidth;
+            layoutX: bind realWidth - titleBarRightOffset - 1.0 * borderWidth - closeBoxSize - 1;
+            layoutY: borderWidth + closeBoxSize / 2;
          }
 
       minimizeElement = WindowMinimize {
@@ -953,8 +953,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
                   rotateElement,
                   closeElement,
                   Group { // the scy window attributes
-                     layoutX: iconSize + 8
-                     layoutY: 19
+                     translateY: -borderWidth / 2;
                      content: bind scyWindowAttributes,
                   },
                //            draggingLayer,

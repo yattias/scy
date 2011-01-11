@@ -105,14 +105,14 @@ class WindowBorder extends CustomNode {
 					strokeWidth: borderWidth
 					stroke: bind color
 				}
-            Line { // the top border line
-					startX: 0,
-					startY: 0
-					endX: bind width,
-					endY: 0
-					strokeWidth: borderWidth
-					stroke: bind color
-				}
+//            Line { // the top border line
+//					startX: 0,
+//					startY: 0
+//					endX: bind width,
+//					endY: 0
+//					strokeWidth: borderWidth
+//					stroke: bind color
+//				}
             Line { // the right border line
 					startX: bind width,
 					startY: 0
