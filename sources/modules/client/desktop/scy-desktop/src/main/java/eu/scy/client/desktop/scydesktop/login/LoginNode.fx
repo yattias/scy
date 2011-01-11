@@ -179,11 +179,21 @@ public class LoginNode extends CustomNode {
             ]
          }
       vbox.layout();
-      //      quitButton.layoutX = passwordField.boundsInParent.maxX - quitButton.layoutBounds.width;
-      vbox
-   //      EmptyBorderNode{
-   //         content: vbox
-   //      }
+
+      // "dirty" hack to change the focus from the password
+      // field to the username field after initialization
+      Timeline {
+	repeatCount: Timeline.INDEFINITE
+	keyFrames: [
+            KeyFrame {
+                time: 2s;
+                action: function() {
+                    userNameField.requestFocus();
+                }
+            }
+    	];
+      }.play();
+      return vbox;
    }
 
    public function loginFailed(): Void {
