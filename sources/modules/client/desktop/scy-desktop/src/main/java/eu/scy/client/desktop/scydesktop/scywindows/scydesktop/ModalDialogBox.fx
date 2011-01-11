@@ -21,7 +21,6 @@ import eu.scy.client.desktop.scydesktop.scywindows.ModalDialogLayer;
  * @author sikken
  */
 // place your code here
-
 public class ModalDialogBox extends CustomNode {
 
    public var content: Node;
@@ -42,6 +41,7 @@ public class ModalDialogBox extends CustomNode {
       }
 
       dialogWindow = StandardScyWindow {
+            visible: false
             scyContent: content;
             title: title
             eloIcon: eloIcon;
@@ -64,7 +64,10 @@ public class ModalDialogBox extends CustomNode {
 
    public function place(): Void {
       ModalDialogLayer.addModalDialog(this);
-      center();
+      FX.deferAction(function(): Void {
+         center();
+         dialogWindow.visible = true;
+      });
       this.requestFocus();
    }
 
