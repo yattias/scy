@@ -13,6 +13,7 @@ package eu.scy.client.desktop.scydesktop.art;
 public var artSource = "{__DIR__}images/";
 public var selectedIconsPackage = "selectedIcons.fxz";
 public var notSelectedIconsPackage = "notSelectedIcons.fxz";
+public var plainIconsPackage = "plainIcons.fxz";
 
 public var notFoundReplacementName = "logo_gray";
 
