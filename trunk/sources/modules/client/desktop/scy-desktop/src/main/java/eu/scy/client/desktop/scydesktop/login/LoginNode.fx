@@ -183,7 +183,6 @@ public class LoginNode extends CustomNode {
       // "dirty" hack to change the focus from the password
       // field to the username field after initialization
       Timeline {
-	repeatCount: Timeline.INDEFINITE
 	keyFrames: [
             KeyFrame {
                 time: 2s;
