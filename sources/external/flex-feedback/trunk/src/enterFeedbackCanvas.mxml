@@ -179,21 +179,16 @@
 						</s:Rect>
 						<s:Group id="feedbackBoxEnter" width="100%" height="100%">
 							<s:VGroup id="feedbackBoxEnterSub" width="{feedbackBoxEnter.width-10}" height="{feedbackBoxEnter.height-10}" horizontalCenter="0" verticalCenter="0" gap="5" horizontalAlign="center">
-								<s:TextArea color="{index.THEME_COL}" contentBackgroundAlpha="0" borderVisible="true" borderColor="{index.THEME_LIGHT}" borderAlpha=".1" chromeColor="{index.THEME_LIGHT}" width="{feedbackBoxEnterSub.width}" text="{feedbackText}" height="40" fontWeight="bold"/>
-								<s:TextArea id="feedbackArea" width="{feedbackBoxEnterSub.width}" height="50" />
+								<s:TextArea color="{index.THEME_COL}" contentBackgroundAlpha="0" borderVisible="true" borderColor="{index.THEME_LIGHT}" borderAlpha=".1" chromeColor="{index.THEME_LIGHT}" width="{feedbackBoxEnterSub.width}" text="{feedbackText}" height="80" fontWeight="bold"/>
+								<s:TextArea id="feedbackArea" width="{feedbackBoxEnterSub.width}" height="60" />
 								<s:VGroup width="100%" height="100%" >
 									<s:HGroup width="100%" verticalAlign="middle">
 										<s:Label text="Quality:" width="30%" color="#333333" textAlign="right" />
 										<mx:Spacer width="2" />
 										<local:feedbackSlider width="100%" />
 									</s:HGroup>
-									<s:HGroup width="100%" verticalAlign="middle">
-										<s:Label text="Creativity:" width="30%" color="#333333" textAlign="right"/>
-										<mx:Spacer width="2" />
-										<local:feedbackSlider width="100%" />
-									</s:HGroup>
 								</s:VGroup>
-								<s:Button label="{resourceManager.getString('resources', 'GIVE_FEEDBACK_TITLE')}"/>
+								<s:Button enabled="false" label="{resourceManager.getString('resources', 'GIVE_FEEDBACK_TITLE')}"/>
 							</s:VGroup>
 						</s:Group>
 					</s:Group>
@@ -209,6 +204,8 @@
 				</s:Scroller>
 			</s:BorderContainer>
 		</s:VGroup>
-		<mx:Spacer height="15" />
+		<s:HGroup id="searchFooter" width="100%" height="40" horizontalAlign="center" gap="10" verticalAlign="middle">
+			<s:Button id="cancelSearch" label="{resourceManager.getString('resources', 'CANCEL_BUTTON')}" click="clickHandler(index.RIGHT_DIRECTION, index.STACK_INTRO_PANEL)" />
+		</s:HGroup>
 	</s:VGroup>
 </s:NavigatorContent>
