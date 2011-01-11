@@ -33,6 +33,8 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
 
     public-init var debug:Boolean;
 
+    public-init var ignoreResources:Boolean;
+
     var desktopWidth = bind scyDesktop.scene.width on replace {
         updateAreas();
         repositionWindowsOnResize();
@@ -99,6 +101,11 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
 
     public override function addGlobalLearningObjectWindow(window:ScyWindow):Boolean {
         logger.info("addGlobalLearningObjectWindow with title {window.title}");
+        if (ignoreResources) {
+            return false;
+        }
+
+        // lower area
         if (not windowAlreadyAdded(window)) {
             insert window into centerWindows;
             return true;
@@ -171,6 +178,10 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
 
     public override function addLearningObjectWindow(window:ScyWindow):Boolean {
         logger.info("addLearningObjectWindow with title {window.title}");
+        if (ignoreResources) {
+            return false;
+        }
+        // lower area
         if (not windowAlreadyAdded(window)) {
             insert window into centerWindows;
             return true;
@@ -181,6 +192,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
 
     public override function addOtherWindow(window:ScyWindow):Boolean {
         logger.info("addOtherWindow with title {window.title}");
+        // animate opening into lower left center ELO
         if (not windowAlreadyAdded(window)) {
             insert window into centerWindows;
             return true;
@@ -338,7 +350,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
             keyFrames: [
                 KeyFrame {
                     canSkip: false;
-                    time: 0.3s
+                    time: 1s
                     values: [ window.width => newWidth tween Interpolator.EASEOUT,
                     window.height => newHeight tween Interpolator.EASEOUT,
                     window.layoutX => newX tween Interpolator.EASEOUT,

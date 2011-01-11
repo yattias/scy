@@ -425,6 +425,16 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
           windowPositioner = FunctionalRoleWindowPositioner {
               scyDesktop: this;
           }
+      } else if (initializer.windowPositioner.equalsIgnoreCase("functionalRoleDebug")) {
+          windowPositioner = FunctionalRoleWindowPositioner {
+              scyDesktop: this;
+              debug: true;
+          }
+      } else if (initializer.windowPositioner.equalsIgnoreCase("functionalRoleIgnoreResources")) {
+          windowPositioner = FunctionalRoleWindowPositioner {
+              scyDesktop: this;
+              ignoreResources: true;
+          }
       } else {
          logger.error("unknown windowPositioner specified: {initializer.windowPositioner}");
       }
