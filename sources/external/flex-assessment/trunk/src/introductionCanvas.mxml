@@ -21,7 +21,6 @@
 			public function refreshContent():void {
 				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 				portfolioElo = so.data.retrievedElosFromRoolo as XML;
-				
 				portfolioCount = portfolioElo.elements("portfolio").length();
 			}
 		]]>
