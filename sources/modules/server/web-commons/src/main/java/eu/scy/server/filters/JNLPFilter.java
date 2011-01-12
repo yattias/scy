@@ -70,7 +70,7 @@ public class JNLPFilter implements Filter {
 
             if(serverName != null) {
                 jnlpUrl = "http://" + serverName + ":8080/extcomp/scy-lab.jnlp";
-                System.out.println("USING " + jnlpUrl);
+                System.out.println("USING SERVER NAME FROM STARTUP PARAMETER ROOLO.SERVER.NAME " + jnlpUrl);
             } else {
                 jnlpUrl = "http://scy.collide.info:8080/extcomp/scy-lab.jnlp";
                 System.out.println("DEFAULTING TO SCY.COLLIDE.INFO FOR SCY LAB!!");
@@ -100,14 +100,16 @@ public class JNLPFilter implements Filter {
             int index = jnlpContent.indexOf("</application");
             String start = jnlpContent.substring(0, index);
             String end = jnlpContent.substring(index, jnlpContent.length());
-            String middle = "<argument>-username</argument>\n";
+            String middle = "<argument>-defaultUsername</argument>\n";
             middle += "<argument>" + userName + "</argument>\n";
-            middle += "<argument>-password</argument>\n";
+            middle += "<argument> -defaultpassword</argument>\n";
             middle += "<argument>" + password + "</argument>\n";
             if(mission != null) {
-                middle += "<argument>-mission</argument>\n";
-                middle += "<argument>" + mission + "</argument>\n";
+                middle += "<argument> -mission</argument>\n";
+                middle += "<argument>" + mission.trim() + "</argument>\n";
             }
+            middle +="<argument> -autologin</argument>\n";
+            middle +="<argument>true</argument>\n";
             jnlpContent = start + middle + end;
             in.close();
             response.getOutputStream().print(jnlpContent);
