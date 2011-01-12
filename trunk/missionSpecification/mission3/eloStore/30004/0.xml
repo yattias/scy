@@ -1,0 +1,133 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>wouter</entity>
+        <date>
+          <dateTime>2011-01-12T14:01:44.265+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1294837304266</dateCreated>
+        <dateLastModified>1294837304266</dateLastModified>
+      </customElements>
+      <format>scy/missionmapmodel</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30004/0/pizzaMission.scymissionmapmodel</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">pizzaMission</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<missionModel>
+  <activeLas>methodologySteps</activeLas>
+  <loElos />
+  <lasses>
+    <las>
+      <id>methodologySteps</id>
+      <xPos>0.0</xPos>
+      <yPos>0.0</yPos>
+      <toolTip>Methodology Steps</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part7_Goals</instructionUri>
+      <lasType>ORIENTATION</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/30003/0/Methodology+Steps.scyxproc</eloUri>
+        <iconType />
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Methodology_Steps.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.1.1.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+        <colorScheme />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>discussion</las>
+        <las>criteria</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>discussion</id>
+      <xPos>50.0</xPos>
+      <yPos>40.0</yPos>
+      <toolTip>Discussion Notes</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part1_Goals</instructionUri>
+      <lasType>DEBATE</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/30002/0/Discussion+notes.rtf</eloUri>
+        <iconType />
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Discussion_Notes.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.2.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+        <colorScheme />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>methodologySteps</las>
+        <las>criteria</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>criteria</id>
+      <xPos>-50.0</xPos>
+      <yPos>40.0</yPos>
+      <toolTip>Criteria</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part7_Goals</instructionUri>
+      <lasType>REFLECTION</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/30001/0/Criterium+Weight+Table.scypds</eloUri>
+        <iconType />
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+        <colorScheme />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>discussion</las>
+        <las>methodologySteps</las>
+      </nextLasses>
+    </las>
+  </lasses>
+</missionModel>
+</content>
+<resources>
+</resources>
+</elo>

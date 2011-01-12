@@ -1,0 +1,61 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>wouter</entity>
+        <date>
+          <dateTime>2011-01-12T14:02:32.294+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1294837352295</dateCreated>
+        <dateLastModified>1294837352295</dateLastModified>
+      </customElements>
+      <format>scy/missionspecification</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentDesign</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30008/0/Build+your+Pizza.scymissionspecification</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">Build your Pizza</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<missionSpeicification>
+  <missionMapModelEloUri>roolo://memory/30004/0/pizzaMission.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/30005/0/pizzaMission.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/30006/0/pizzaMission.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/30007/0/pizzaMission.runtimesettings</runtimeSettingsEloUri>
+</missionSpeicification>
+</content>
+<resources>
+<resource languageIndependent="true" contentType="binary" name="thumbnail" technicalFormat="scy/png">
+iVBORw0KGgoAAAANSUhEUgAAAFAAAAAyCAYAAADLLVz8AAADOklEQVR42u2XyUqjQRSFfbfsDO7FhSJuHCI4oIgTIgaNC2fBecKFCioqUVCDrlTEJ3BYOM/zPJ7uc6FCG0I3TbfdtH0OlKm/Url16/vrVJUx+Kqjo6N3JVrbj9pvbm4QqfPzc3x2xWxtbWFpaQlDQ0NISEiw+srKChYWFtDT04Pi4mJUV1dbO8XPhoYGpKamor29HYuLi1ZWV1dxcnKCzMxMPD09Wd/p6enwQLm5ufa7TweQf7q7u8Olt7cXkW2ufK/9f1UMpN8DsLKy0qxIFRYWIhAIICkpyZ69Xi/i4+PR2toqYtEANjU1oa6uDlNTU8jPz0dnZ6d9OTw8bHtXTk4Odnd3rW1nZwc1NTVWX1tbw+zsLE5PT23fe3h4QFZWFrKzs1FRUWFxMzIyMDMzY33f3t6wv79v/QsKCixGWloaWlpasL29beOwz+TkJJKTkzE4OGjxqbKyMpSWliIvLw/z8/PWVl9fj6qqKtu7ufVwr2aewWAQHR0dlgdzbW5uxsjICEZHRz+Xhe/v7989E16krq+vfypmtNvAh69AToTJu2RfX19xeXmJs7MzjI+P4/j4GHt7e/bdy8sLDg8PcXt7a89zc3N4fn62N++A8JknMuMwBuu87jDOxcWFjXVwcGBjUKyXl5db/7u7O/s99fj4aCu7sbHRxnOxXB4uB+bGVe20ubkZngvH/HCAbW1t8Pv9KCkpgcfjQXp6OmJjY+0aU1tbi66uLrN4KBQyC7KfO337+voMCN/8xMSEASIAXosGBgZsIkVFRejv7w+f4j6fD4mJiWZ3XocIj3swrcwYfEEuJsdkPtHyY3/mxz2b+bmX/M+cwtEs9yfk7plOXLl/9RDhm+aFmlaiWOfSp2Wurq6s0E7fivajjZzdKfZnIVhamiuRcVgfGxsLW4oWYzzacWNjw+KwjePwkHJ50M4UVxoPKCdn5fX1dbMxc1heXjYbs9AlkZA/DCAnwonyvw+eukyeifFUjIuLs30tJSUlvCdxwpIu0gIogAIoCaAACqAACqAkgAIogAIoCaAACqAASgIogAIogJIACqAACqAkgAIogAIoCaAACqAASgIogAIogFI0gNKv6QsIVELcG9vPtAAAAABJRU5ErkJggg==
+</resource>
+</resources>
+</elo>
