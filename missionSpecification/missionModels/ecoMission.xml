@@ -26,13 +26,11 @@
                      <property name="yPosition" value="0"/>
                      <property name="tooltip" value="Challenge"/>
                      <property name="lasType" value="ORIENTATION"/>
-                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/challenge_eco.html"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_challenge.html"/>
                      <property name="loEloUris">
                         <list>
-								<!--
-                           <value>roolo://memory/20094/0/challenge_eco.url</value>
-						   -->
-                           <value>roolo://memory/20114/0/welcome.url</value>
+							<value>roolo://memory/20094/0/challenge_eco.url</value>
+						    <value>roolo://memory/20114/0/welcome.url</value>
                         </list>
                      </property>
                      <property name="nextLasses">
@@ -56,6 +54,7 @@
                      <property name="yPosition" value="0"/>
                      <property name="tooltip" value="Concept Map"/>
                      <property name="lasType" value="CONCEPTUALISATION"/>
+					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_conceptmap.html"/>
                      <property name="loEloUris">
                         <list>
                            <value>roolo://memory/20096/0/Concept_map.url</value>
@@ -77,6 +76,7 @@
                      <property name="yPosition" value="0"/>
                      <property name="tooltip" value="Video report"/>
                      <property name="lasType" value="REPORTING"/>
+					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_videoreport.html"/>
                      <property name="loEloUris">
                         <list>
                            <value>roolo://memory/20105/0/video_report.url</value>
@@ -98,6 +98,7 @@
                      <property name="yPosition" value="-40"/>
                      <property name="tooltip" value="Hypothesis"/>
                      <property name="lasType" value="ORIENTATION"/>
+					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses.html"/>
                      <property name="loEloUris">
                         <list>
                            <value>roolo://memory/20042/0/List_of_webpages.url</value>
@@ -123,6 +124,7 @@
                      <property name="yPosition" value="40"/>
                      <property name="tooltip" value="Hypothesis"/>
                      <property name="lasType" value="ORIENTATION"/>
+					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses.html"/>
                      <property name="loEloUris">
                         <list>
                            <value>roolo://memory/20019/0/List_of_webpages.url</value>
@@ -148,6 +150,7 @@
                      <property name="yPosition" value="40"/>
                      <property name="tooltip" value="Hypothesis"/>
                      <property name="lasType" value="ORIENTATION"/>
+					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses.html"/>
                      <property name="loEloUris">
                         <list>
                            <value>roolo://memory/20101/0/List_of_webpages.url</value>
@@ -173,6 +176,7 @@
                      <property name="yPosition" value="-40"/>
                      <property name="tooltip" value="Hypothesis"/>
                      <property name="lasType" value="ORIENTATION"/>
+					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses.html"/>
                      <property name="loEloUris">
                         <list>
                            <value>roolo://memory/20030/0/List_of_webpages.url</value>
@@ -198,6 +202,7 @@
                      <property name="yPosition" value="-80"/>
                      <property name="tooltip" value="Inferences"/>
                      <property name="lasType" value="EXPERIMENT"/>
+					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_inferencesB1.html"/>
                      <property name="loEloUris">
                         <list>
                            <value>roolo://memory/20057/0/Experimental_procedure.url</value>
@@ -225,6 +230,7 @@
                      <property name="yPosition" value="80"/>
                      <property name="tooltip" value="Inferences"/>
                      <property name="lasType" value="EXPERIMENT"/>
+					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_inferencesB2B3C1.html"/>
                      <property name="loEloUris">
                         <list>
                            <value>roolo://memory/20064/0/Experimental_procedure.url</value>
@@ -252,6 +258,7 @@
                      <property name="yPosition" value="80"/>
                      <property name="tooltip" value="Inferences"/>
                      <property name="lasType" value="EXPERIMENT"/>
+					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_inferencesB2B3C1.html"/>
                      <property name="loEloUris">
                         <list>
                            <value>roolo://memory/20073/0/Experimental_procedure.url</value>
@@ -280,6 +287,7 @@
                      <property name="yPosition" value="-80"/>
                      <property name="tooltip" value="Inferences"/>
                      <property name="lasType" value="EXPERIMENT"/>
+					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_inferencesB2B3C1.html"/>
                      <property name="loEloUris">
                         <list>
                            <value>roolo://memory/20081/0/Experimental_procedure.url</value>
@@ -306,6 +314,7 @@
                      <property name="yPosition" value="-120"/>
                      <property name="tooltip" value="Solution"/>
                      <property name="lasType" value="DESIGN"/>
+					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_solution.html"/>
                      <property name="loEloUris">
                         <list>
                            <value>roolo://memory/20090/0/Formulating_solution.url</value>
@@ -330,6 +339,7 @@
                      <property name="yPosition" value="120"/>
                      <property name="tooltip" value="First ideas"/>
                      <property name="lasType" value="DESIGN"/>
+					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_solution.html"/>
                      <property name="loEloUris">
                         <list>
                            <value>roolo://memory/20091/0/Formulating_solution.url</value>
@@ -354,6 +364,7 @@
                      <property name="yPosition" value="120"/>
                      <property name="tooltip" value="Solution"/>
                      <property name="lasType" value="DESIGN"/>
+					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_solution.html"/>
                      <property name="loEloUris">
                         <list>
                            <value>roolo://memory/20092/0/Formulating_solution.url</value>
@@ -378,6 +389,7 @@
                      <property name="yPosition" value="-120"/>
                      <property name="tooltip" value="Solution"/>
                      <property name="lasType" value="DESIGN"/>
+					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_solution.html"/>
                      <property name="loEloUris">
                         <list>
                            <value>roolo://memory/20093/0/Formulating_solution.url</value>
