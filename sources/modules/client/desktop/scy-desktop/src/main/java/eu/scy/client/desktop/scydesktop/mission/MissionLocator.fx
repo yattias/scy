@@ -59,12 +59,12 @@ public class MissionLocator {
       }
       if (initializer.defaultMission != "") {
          // a default mission is specified, try to use that
-         def defaultMissionRuntimeElo = missions.findMissionRuntimeEloByTitle(initializer.defaultMission);
+         def defaultMissionRuntimeElo = missions.findMissionRuntimeElo(initializer.defaultMission);
          if (defaultMissionRuntimeElo != null) {
             continueMission(defaultMissionRuntimeElo);
             return;
          }
-         def defaultMissionSpecificationElo = missions.findMissionSpecificationEloByTitle(initializer.defaultMission);
+         def defaultMissionSpecificationElo = missions.findMissionSpecificationElo(initializer.defaultMission);
          if (defaultMissionSpecificationElo != null) {
             startNewMission(defaultMissionSpecificationElo);
             return;
