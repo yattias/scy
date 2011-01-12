@@ -1,0 +1,61 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-01-12T11:24:09.175+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1294827632720</dateCreated>
+        <dateLastModified>1294827849175</dateLastModified>
+      </customElements>
+      <format>scy/missionspecification</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentDesign</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20178/0/ECO+mission.scymissionspecification</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">ECO mission</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<missionSpeicification>
+  <missionMapModelEloUri>roolo://memory/20174/0/ecoMission.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/20175/0/ecoMission.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/20176/0/ecoMission.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/20177/0/ecoMission.runtimesettings</runtimeSettingsEloUri>
+</missionSpeicification>
+</content>
+<resources>
+<resource languageIndependent="true" contentType="binary" name="thumbnail" technicalFormat="scy/png">
+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
+</resource>
+</resources>
+</elo>
