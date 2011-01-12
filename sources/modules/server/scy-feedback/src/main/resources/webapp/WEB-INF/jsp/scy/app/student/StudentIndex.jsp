@@ -7,7 +7,7 @@
         <table>
             <tr class="${oddEven.oddEven}">
                 <td colspan="2">
-                    <a href="/extcomp/scy-lab.jnlp">Start SCYLab</a>
+                    <a href="${jnlpRef}">Start SCYLab</a>
                 </td>
             </tr>
             <tr class="${oddEven.oddEven}">
