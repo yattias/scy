@@ -223,6 +223,11 @@ public class Initializer {
          var lcArg = argument.toLowerCase();
          if (lcArg.startsWith('-')) {
             var option = lcArg.substring(1);
+            // 110112, temporary fix, because henrik uses a wrong option name
+            if ("mission"==option){
+               option = defaultMissionOption.toLowerCase();
+            }
+
             if (option == log4JInitFileOption.toLowerCase()) {
                log4JInitFile = argumentsList.nextStringValue(log4JInitFileOption);
                logger.info("app: {log4JInitFileOption}: {log4JInitFile}");
