@@ -1,0 +1,65 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>wouter</entity>
+        <date>
+          <dateTime>2011-01-12T13:13:18.916+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1294834398916</dateCreated>
+        <dateLastModified>1294834398916</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>interview</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30002/0/Discussion+notes.rtf</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">Discussion notes</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\f1\fs24\i0\b0\cf1 Write your notes here:\par
+\par
+Speaker 1: &lt;note&gt;\par
+\par
+Speaker 2: &lt;note&gt;\par
+}</RichText>
+</content>
+<resources>
+<resource languageIndependent="true" contentType="binary" name="thumbnail" technicalFormat="scy/png">
+iVBORw0KGgoAAAANSUhEUgAAAFAAAAAwCAYAAACG5f33AAABoElEQVR42u3Tz0oCURgF8HmAahkEPUGrlj1C9AYuM0IJEisJol0JERFBtEuQkHRXLRJaFSUILqyFRFBKBsWMgw1YjjpqnboXGv/kQmqTcQ4c5n7cu/rxjWIYBtpbr9fZLqsIMF3X7ebzeYmov7zLtuNalvXtrnmuvcGeNU2zzxfJDIrFYstb0zR7vhJwNWrAH8phZKYBmLi3sBsryXMqlcLa+qYNeBTLoK9/wAYUs6g4F0zLngWg+A4ODWM7fC4Bm9/+h0rAUec1js/Ulg1c2TmQ7bSB7XfNcy5fsGcB+HWe8wclYPNbVVV7vkon1Ww2y3ZZxSyVwf68ymNyH8FgFBNj4xCJbCwBD2Gg9IQ9/yKe0wG4nR54fG4E0gZckx4wjSgkICABexqw8noHr2MavikXQjcVLLi88iKbOJHf02odyw43pbiBBPybgNWygfnZLZS1Q1yhgku9Zl/Gk7eIi1/YF/mcLGpxAwlIQAIyBCQgAQnIEJCABCQgQ0ACEpCABGQISEACEpAhIAEJSECGgAQkIAEZAhKQgARkugBkfpcPBWz4OvTb9oAAAAAASUVORK5CYII=
+</resource>
+</resources>
+</elo>

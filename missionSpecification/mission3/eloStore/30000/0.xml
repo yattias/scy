@@ -1,0 +1,62 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>wouter</entity>
+        <date>
+          <dateTime>2011-01-12T12:38:49.173+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1294832329174</dateCreated>
+        <dateLastModified>1294832329174</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>reportFinal</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30000/0/Letter+to+the+School+management.rtf</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">Letter to the School management</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\f1\fs24\i0\b0\cf1 Write a letter to the school director in which you explain how the new school menu should look, and why it should include the Pizza you have created.\par
+\par
+}</RichText>
+</content>
+<resources>
+<resource languageIndependent="true" contentType="binary" name="thumbnail" technicalFormat="scy/png">
+iVBORw0KGgoAAAANSUhEUgAAAFAAAAAzCAYAAAAAcY9ZAAACwUlEQVR42u2T204TURSG+0p64Z0+gk/AC5h4pxet8RATJEaEAGkQCFwYbZQGSIVUQjQEEkGgTJWGAmo5OBzS89BKSzud8rv3ho4drQniVZP/T/6stfZe+/RlxmUYBrLZrMOWZdHntEsCTCaTDofDYVSrVeXYzp5qrMEtFosq1uZlXigUfvXHYnYu7fP5HLWmaY5aWq5vViuA1x9uiYcAt4fSNsD73giM/An6Rj4qgKkfZYyMjiKXyylol65cRXBBt6HKXFoCLJYsu5YA56MJu5YAZRzwz6goAco7NKsVwMs31pBIlNByK2QD7H45jTuPJ3Cve0QB7A5uIBAIqHkJTc5L1wDWagkwf3Rs1xKgf0qzawmwlktXKhXE4/GmdcNfOBKJYH193bau6w7Xz/2rU6mUozZN84/9m8ku+cXQF7drf9EPxMMoH22jXofljIqZrYiKB/i7NsOfnANVE+eSVbDTk7rh0LsQLqJvy/X3sBBvsDdwemb+rMo22ij/RYWNeM4e0lb0hme6FKQjE0UYSJeB3p6nYiSJ5+PzWBPrjV1NNcot3e4eeDweTERTovqOJyKXWg6+xTO3Gx3942j3vhcAS/DeHUVF3jyziFbRN7O6p3rfDD46vXZuFzAP4R/qQEmfVo9czhXxYd+Ary+AdrFmcnZDnNcKbcKvzm3rfCW6KhgWZykUFjAW3kPtmYvjQfSKuYHhKXgetCImxszjFVTPCC7sZuBuH8TYdBTpszX9rxfES6RK6gycJID0HJYEvLmYyMXunWJ8qK1L5EYDgDsv8PXzNkKhEAriw0lkC9DFIya9XVhZWsLB5umXGV2Nqdhy7Sao375AigAJkAAJkCJAAiRAAqQIkAAJkAApAiRAAiRAigAJkAAJkCJAAiRAAqQIkAAJkAApAiRAAiRAigAJkAAJkCJAAiRAAiRA6r/0E6NPvV1S9I7IAAAAAElFTkSuQmCC
+</resource>
+</resources>
+</elo>
