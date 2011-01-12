@@ -144,6 +144,11 @@ public class MissionMap extends CustomNode {
       def realPositionScale: Number = RuntimeSettingUtils.getFloatValue(runtimeSettingsRetriever.getSetting(positionScaleName), positionScale);
       def realSelectedScale: Number = RuntimeSettingUtils.getFloatValue(runtimeSettingsRetriever.getSetting(selectedScaleName), selectedScale);
       def realNotSelectedScale: Number = RuntimeSettingUtils.getFloatValue(runtimeSettingsRetriever.getSetting(notSelectedScaleName), notSelectedScale);
+      logger.info("mission map runtime settings:\n"
+      " - missionMap.positionScale: {realPositionScale}\n"
+      " - missionMap.selectedScale: {realSelectedScale}\n"
+      " - missionMap.notSelectedScale: {realNotSelectedScale}"
+      );
       for (las in missionModel.lasses) {
          las.xPos *= positionScale;
          las.yPos *= positionScale;

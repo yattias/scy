@@ -23,7 +23,7 @@ public class ArgumentsList {
    }
 
    public function nextArgument(): String {
-      return arguments[index++];
+      return arguments[index++].trim();
    }
 
    public function nextStringValue(valueName: String): String {
