@@ -24,7 +24,7 @@
                      <property name="yPosition" value="0"/>
                      <property name="tooltip" value="Methodology Steps"/>
                      <property name="lasType" value="ORIENTATION"/>
-                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Goals"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Goals.html"/>
                      <property name="loEloUris">
                         <list />
                      </property>
@@ -46,7 +46,7 @@
                      <property name="yPosition" value="40"/>
                      <property name="tooltip" value="Discussion Notes"/>
                      <property name="lasType" value="DEBATE"/>
-                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part1_Goals"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part1_Goals.html"/>
                      <property name="loEloUris">
                         <list />
                      </property>
@@ -68,7 +68,7 @@
                      <property name="yPosition" value="40"/>
                      <property name="tooltip" value="Criteria"/>
                      <property name="lasType" value="REFLECTION"/>
-                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Goals"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Goals.html"/>
                      <property name="loEloUris">
                         <list />
                      </property>
