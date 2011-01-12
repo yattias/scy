@@ -1,0 +1,56 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2010-12-28T20:02:38.382+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1293562958382</dateCreated>
+        <dateLastModified>1293562958382</dateLastModified>
+      </customElements>
+      <format>scy/url</format>
+    </technical>
+    <educational>
+      <learningResourceType>informationHelp</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20000/0/new+Web+page+1.url</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">new Web page 1</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<url>file:/d:/projects/SCY/code/scy-trunk/content/en/mission3/introduction.html</url>
+</content>
+<resources>
+<resource languageIndependent="true" contentType="binary" name="thumbnail" technicalFormat="scy/png">
+iVBORw0KGgoAAAANSUhEUgAAAFAAAAArCAYAAADv9A+vAAAFdklEQVR42u1aXSimWxT+iqSIC3duKBfcDKL83MwdNblwYaY0IdxwIf8loTH+Qn4GISWSToRTSKfjp8ORMyTODEKcwpwhOqNxKDIM+5xnnbN2+3t9hoNxDPup1d7vftde737Xt9bea63vNX3YOxRG6vjhZ9HV1SU+fvxokSzNAU1Mz547576Sae/gSIAqq6oF97//cdRMgUNDQ2aTmG9paUkAfM0KDAgIEO3t7WJwcJD6GBsbGxOLi4vUf/r0qZienhZlZWXfvgLn3/8pjNTS/dMXLZD5gJbv2uU1FDj129aDIlPn8KwwUmVLj2hrayOLMRIUaGkO6EG6cH51s9B0dTIJjSshNzf3HwvUqrga3iy8J9IKvAZ+WfzjbinQyclJ9Pf3U5hjMpkoEggLC6O+VqC2wK+DT58+UbuxsXEhr9ES/2/LfLNyC4dIUVGR8PX1pZctLS2la1BSUpK8Hx8fLwIDA8XBwYGIiYkRPj4+cv7z58+FlZUV8UEGz29paTFTII9jDPK0C2sXvt/4fXOb6MoKrKmpuRd0VchUTtuSVqBWoFbgDUINTTgTQayI8buUkWgL1ArUCtQK1Ar8V4Gc0E9NTVGLklJlZaVwdXWl/BKYnZ2l/0kiIyPpPnB0dETtwMCAHMvLy5PyMIYSFYBcd3V1VS6A+yzv3bt3xBscHCyio6NFSEgIHSIMPEPF/Pw8rQ/PQ74MNDU1ia2tLfnszs5Oksd4+/YtybSxsRFBQUGUozs4ONC9nZ0daldWVszWqS3wtl3Y1tZWeHp6Uv/ly5cXCmLLU1FXVyeam5u/OA8WbUwNgZ6enjPVnOtCTdmePHnyn+bu7e1drECYNIASE9wIFWHVzRhqmYgX9erVK3I5IxITE8XCwgL9uZ6amkourCqktbVVrK+vS364zvb2tnTh8fFxGsfY6ekpjcHNcK0iMzNTuLm5nflBGOyajx8/FnFxcfR8vC+v+fj4WPIeHh5S++jRI7le6ID72oW/lgtnZ2fThotfc39/XzKhAGrJRbHhq5szPtNA0XNubk6OwYUhLz8/X/T29lIf8tCy5VqSvby8fGYMc9hi+KABHB0dxfDwMPX58MBLgZ+fzevDtbo+vC/Lfv36texzW1VVJXnr6+slz6Us8DLl9evCkqLgnpaUquPAhxIHctyWkJBw7qmJ2Itdw9IpDPP//Pkz9VU3N7qAiqioKHm4QB42cS4mGMHrw3MwBy3zq5s+x7QMvKO7uzuR+r6FhYUkA2tgFBQUnIlXVRfXFngbLtzQ0HDuZGzGm5ubFu+h/KRicnLy0osCr5+f37enwOTkZBEREWHGgNgNaQ4+oklLS6MxnKaMmZkZOkk9PDyEv7+/jA29vb1FdXW1WZzY0dFB/ZSUFEqf1JgNYwDzQF5WVpaUB8KWMDExQZ/X2dnZyXsVFRXkqs7OztK9EPjiHuQVFxeLjIwMejdra2u639jYaCYb6xsZGRHl5eW0PbGrYlt48eLFuf+daBe+SQvs6+ujX1M9GOBKnOiDkLAjcceYenigRaLPhQU1FOKNHFYAK0esxvJAKE4g60Hhora2lsawdbBsJP9eXl606fM9IDQ0lOYA4eHhwt7envo5OTkkDzEonqluOSwTazg5OZFx5e7uruju7qbixOjoqDwwYY0oTqC1dACaKTA2NvYMA7vRXcVFufadigPVMMEIlJ1UqLmlJajFATUsMIJDjS/BxcVFlJSU3JhS1tbWLs374e+gH2QyLpaTdW55Q4VZIy7juAixmJpWPXv2TJ7CXJxgt+G40lhfZAVyvKcWEy6q/CDWU+Wxq/J3NhdVcdLT083ek+uVl63+YEvSh8g1MPHrLJHpoX1Vf+Nf6WslXI/+At9rLCoUfG5IAAAAAElFTkSuQmCC
+</resource>
+</resources>
+</elo>
