@@ -13,6 +13,8 @@ import org.tartarus.snowball.SnowballStemmer;
 import org.tartarus.snowball.ext.englishStemmer;
 import org.tartarus.snowball.ext.germanStemmer;
 
+import edu.emory.mathcs.backport.java.util.Arrays;
+
 public class Stemmer {
 
     private static SnowballStemmer stemmer;
@@ -56,6 +58,15 @@ public class Stemmer {
     
     public synchronized static boolean equalStemUnordered(String s1, String s2) {
         return stemWordWise(s1, true, true).equals(stemWordWise(s2, true, true));
+    }
+
+    @SuppressWarnings("unchecked")
+    public synchronized static boolean equalStemUnorderedPartially(String s1, String s2) {
+        String stemmedS1 = stemWordWise(s1, true, true);
+        String stemmedS2 = stemWordWise(s2, true, true);
+        HashSet<String> setS1 = new HashSet<String>(Arrays.asList(stemmedS1.split(" ")));
+        HashSet<String> setS2 = new HashSet<String>(Arrays.asList(stemmedS2.split(" ")));
+        return !Collections.disjoint(setS1, setS2);
     }
     
     public synchronized static String stemWordWise(String string, boolean order, boolean removeStopwords) {
