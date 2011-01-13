@@ -17,7 +17,7 @@
 #end
   <resources>
     <j2se version="$j2seVersion" java-vm-args="-Xms768m -Xmx768m -esa"/>
-    <extension name="JavaFX Runtime" href="http://dl.javafx.com/1.3/javafx-rt.jnlp"/>
+    <extension name="JavaFX Runtime" href="$$site/javafx-libs/javafx-rt.jnlp"/>
     <property name="jnlp.packEnabled" value="true"/>
     <property name="jnlp.versionEnabled" value="true"/>
      $dependencies
