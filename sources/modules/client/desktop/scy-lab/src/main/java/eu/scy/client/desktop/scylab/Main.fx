@@ -64,7 +64,7 @@ var initializer = Initializer {
            createPersonalMissionMap:true
            redirectSystemStream:false
 //           enableLocalLogging:false
-           authorMode:true
+           authorMode:false
 //           redirectSystemStream:true
 //           enableLocalLogging:true
         }
