@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:reflector="com.rictus.reflector.*">
+	
+	<fx:Declarations>
+		<s:ArrayCollection id="eloCanvases" />
+		<s:Sequence id="fadeIn">
+			<s:Fade duration="1000" alphaFrom="0.0" alphaTo="1.0"/>
+		</s:Sequence>
+		<s:Sequence id="zoomOut" >
+			<s:Fade duration="1000" alphaFrom="1.0" alphaTo="0.0"/>
+		</s:Sequence>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import listeners.ToggleEvent;
+			
+			import mx.events.FlexEvent;
+			
+			import spark.events.IndexChangeEvent;
+			
+			import utils.XMLUtilJer;
+			
+			[Bindable] private var uName:String = "";
+			[Bindable] private var obliEloCanvases:ArrayCollection;
+			
+			public function refreshContent():void {
+				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				//trace(so.data.retrievedElosFromRoolo);
+				checkForBuildButtonState(introStack.selectedIndex);
+			}
+			
+			private function retrieveUserInfos():String {
+				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				var userInfo:Object = so.data.userInfo;
+				return (userInfo.firstname as String).toLowerCase() + " " + (userInfo.lastname as String).toUpperCase() + " ("+userInfo.username+")";
+			}
+			
+			protected function obligEloSelection_changeHandler(event:IndexChangeEvent):void {
+				if(event.newIndex > 0) {
+					currentState = "addAvailble";
+					addObliEloButton.enabled = true;
+				}
+				else {
+					currentState = "normal";
+					addObliEloButton.enabled = false;
+				}
+				
+				checkForBuildButtonState(event.newIndex);
+			}
+			
+			private function checkForBuildButtonState(n:Number):void {
+				if(n > 0) {
+					if((introStack.selectedChild as introductionSubCanvas).refreshView() > 0) {
+						viewEport.enabled = true;
+					}
+					else {
+						viewEport.enabled = false;
+					}
+				}
+			}
+			
+			protected function clickHandler(dir:String, stack:Number):void {
+				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				var currentEloCategory:Object = new Object()
+				currentEloCategory.obliElo = obligEloSelection.selectedItem;
+				currentEloCategory.obliEloNum = obligEloSelection.selectedIndex-1;
+				so.data.currentEloCategory = currentEloCategory;
+				so.flush();
+				
+				var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
+				tEvent.selecTarget = stack;
+				tEvent.direction = dir;
+				dispatchEvent(tEvent);
+			}
+
+
+			protected function navigatorcontent1_creationCompleteHandler(event:FlexEvent):void {
+				obligEloSelection.selectedIndex = 0;
+				
+				uName = retrieveUserInfos();
+				obliEloCanvases = new ArrayCollection();
+				var obliEloCanvas:introductionSubCanvas;
+				for(var i:Number = 1; i < index.obligElos.length; i++) {
+					obliEloCanvas = new introductionSubCanvas();
+					obliEloCanvas.percentWidth = 100;
+					obliEloCanvas.percentHeight = 100;
+					obliEloCanvas.catname = index.obligElos[i];
+					introStack.addChild(obliEloCanvas);
+					obliEloCanvases.addItem(obliEloCanvas);
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<s:states>
+		<s:State name="normal"/>
+		<s:State name="addAvailble" />
+	</s:states>
+	
+	<s:VGroup gap="10" width="100%" height="100%" horizontalAlign="center">
+		<s:HGroup width="100%" height="70" horizontalAlign="center" verticalAlign="middle" gap="3">
+			<s:BorderContainer id="headerLogo" width="70" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
+				<s:backgroundFill>
+					<s:LinearGradient rotation="90">
+						<s:GradientEntry color="{index.THEME_COL}" />
+						<s:GradientEntry color="{index.THEME_COL}" />
+					</s:LinearGradient>
+				</s:backgroundFill>
+				
+				<s:Image source="assets/images/folder.png" width="60" height="60" left="5" top="5" />
+			</s:BorderContainer>	
+			<s:BorderContainer id="header" width="100%" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
+				<s:backgroundFill>
+						<s:LinearGradient rotation="90">
+							<s:GradientEntry color="{index.THEME_COL}" />
+							<s:GradientEntry color="{index.THEME_COL}" />
+						</s:LinearGradient>
+					</s:backgroundFill>
+	
+				<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+					<s:Label id="headerText" width="60%" color="{index.BACK_GRADIENT_BOT}" fontSize="15" textAlign="center" text="{uName+resourceManager.getString('resources', 'HELLO')}" />
+				</s:HGroup>
+			</s:BorderContainer>	
+		</s:HGroup>
+
+		<s:HGroup id="selectionBox" width="100%" gap="0">
+			<s:HGroup id="selec" width="50%" height="100%" gap="10" verticalAlign="middle">
+				<mx:Spacer width="10" />
+				<s:Label width="100%" text="{resourceManager.getString('resources', 'MISSION')+': '+index.MISSION_NAME+''}" color="{index.THEME_COL}" />
+			</s:HGroup>
+			<s:HGroup id="statusBox" width="50%" height="100%" horizontalAlign="right" verticalAlign="middle">
+				<s:Label id="statusLabel" text="{resourceManager.getString('resources', 'STATUS')+': '}" textAlign="right" color="{index.THEME_COL}"/>
+				<s:Label id="currentStatus" text="{resourceManager.getString('resources', 'NOT_SUBMITTED')}" textAlign="left" color="#000000"/>
+				<mx:Spacer width="10" />
+			</s:HGroup>
+		</s:HGroup>
+		
+		<s:HGroup width="100%">
+			<mx:Spacer width="10" />
+			<s:DropDownList id="obligEloSelection" width="200" dataProvider="{index.obligElos}" change="obligEloSelection_changeHandler(event)" creationComplete="navigatorcontent1_creationCompleteHandler(event)"/>
+			<s:Button id="addObliEloButton" label="{resourceManager.getString('resources', 'ADD_BUTTON')}" enabled="false" click="clickHandler(index.LEFT_DIRECTION, index.STACK_SEARCH_PANEL)" />
+			<s:Button id="viewEport" label="{resourceManager.getString('resources', 'VIEW_BUTTON')}" enabled="false" click="clickHandler(index.LEFT_DIRECTION, index.STACK_SUBMIT_PANEL)" />
+		</s:HGroup>
+		<mx:ViewStack id="introStack" width="100%" height="100%" selectedIndex="{obligEloSelection.selectedIndex}" resizeToContent="true" creationPolicy="all" historyManagementEnabled="true" >
+			<s:NavigatorContent width="100%" height="100%">
+				<s:VGroup id="introCanvas" width="100%" height="100%" horizontalAlign="center" contentBackgroundColor="#FF0000">
+					<mx:Spacer height="50" />
+					<s:BorderContainer id="introductionBox" width="50%" height="250" backgroundColor="{index.THEME_COL}" borderStyle="inset" cornerRadius="10" borderColor="{index.THEME_COL}">
+						<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle" >
+							<mx:Text id="introductionText" width="95%" color="{index.BACK_GRADIENT_BOT}" fontSize="16" fontAntiAliasType="advanced" textAlign="center" htmlText="{resourceManager.getString('resources', 'INTRODUCTION_TEXT')}"/>
+						</s:HGroup>
+					</s:BorderContainer>
+					<reflector:Reflector target="{introductionBox}" alpha=".6" falloff=".5" y="{introductionBox.y+introductionBox.height}" />
+				</s:VGroup>
+			</s:NavigatorContent>
+		</mx:ViewStack>
+	</s:VGroup>
+</s:NavigatorContent>

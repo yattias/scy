@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" width="800" height="600" xmlns:local="*" applicationComplete="initApp(event)">
+	
+	<fx:Declarations>
+		<s:Power id="powerEasing" exponent="4"/>
+		<s:Parallel id="showEffect" >
+			<s:Move id="contentMove" easer="{powerEasing}" duration="1500" />
+			<s:Move id="imageMove" target="{animateImage}" easer="{powerEasing}"  duration="1500" />
+			<s:effectEnd>
+				<![CDATA[
+					animateImage.visible = false;
+					animateImage.includeInLayout = false;
+					
+					switch (mainStack.selectedIndex) {
+						case STACK_INTRO_PANEL:
+							(mainStack.selectedChild as introductionCanvas).refreshContent();
+						break;
+						case STACK_SEARCH_PANEL:
+							(mainStack.selectedChild as searchCanvas).refreshContent(newSearch);
+						break;
+						case STACK_REFLEC_PANEL:
+							(mainStack.selectedChild as reflectionCanvas).refreshContent(editReflection);
+						break;
+						case STACK_SUBMIT_PANEL:
+							(mainStack.selectedChild as submitCanvas).refreshView();
+						break;
+						case STACK_SENDING_PANEL:
+							(mainStack.selectedChild as sendingCanvas).refreshView();
+						break;
+					}
+				]]>
+			</s:effectEnd>
+		</s:Parallel>
+		
+		<s:Fade id="fadeInIm" alphaFrom="0" alphaTo="1" duration="1000" />
+		<s:Fade id="fadeOutIm" alphaFrom="1" alphaTo="0" duration="1000" />
+		
+		<s:HTTPService id="URLpropertyFile" 
+					   showBusyCursor="true" 
+					   result="URLpropertyFile_resultHandler(event)" 
+					   fault="URLpropertyFile_faultHandler(event)"
+					   resultFormat="e4x"/>
+	</fx:Declarations>
+	
+	<fx:Metadata>
+		[ResourceBundle("resources")]
+	</fx:Metadata>
+	
+	<fx:Script>
+		<![CDATA[
+			import listeners.ToggleEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			import mx.graphics.ImageSnapshot;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			public static const SHAREDOBJECT_LOCAL_NAME:String = "scy-eportfolio";
+			
+			[Bindable] private var infoPanVisi:Boolean = false;
+			
+			public static const STACK_INTRO_PANEL:Number = 1;
+			public static const STACK_SEARCH_PANEL:Number = 2;
+			public static const STACK_REFLEC_PANEL:Number = 3;
+			public static const STACK_SUBMIT_PANEL:Number = 4;
+			public static const STACK_SENDING_PANEL:Number = 5;
+			
+			public static const SELECTION_COMMAND:String = "command";
+			public static const TOGGLE_COMMAND:String = "toggleStack";
+			public static const LEFT_DIRECTION:String = "left";
+			public static const RIGHT_DIRECTION:String = "right";
+			public static const DELETE_COMMAND:String = "deleteELO";
+			
+			[Bindable] public static var MISSION_NAME:String = "C02 Neutral house";
+			[Bindable] public static var REF_ON_INQ_TXT:String = "How helpful was building a concept map in identifying the main concepts related to reducing global CO2 levels?";
+			
+			[Bindable] public static var obligElos:ArrayCollection;
+			
+			public static const THEME_COL:Number = 0x333333;
+			public static const BACK_GRADIENT_TOP:Number = 0x999999;
+			public static const BACK_GRADIENT_BOT:Number = 0xFFFFFF;
+			
+			private var newSearch:Boolean = true;
+			
+			private var editReflection:Boolean;
+			
+			public static const ALT_BOX_INIT_X:Number = -450;
+			
+			private var so:SharedObject;
+			
+			protected function initApp(event:FlexEvent):void {
+				obligElos = new ArrayCollection([
+					resourceManager.getString('resources', 'MISSION_SELECT'),
+					"1st ideas of my design group",
+					"House data"
+				]);
+				
+				
+				resourceManager.localeChain = [ "en_US" ];
+				retrieveUserInfo();
+				this.addEventListener(TOGGLE_COMMAND, ToggleStack);
+				URLpropertyFile.send();
+			}
+			
+			private function animate(direction:String, selecIndex:Number):void {
+				animateImage.width = mainStack.width;
+				animateImage.height = mainStack.height;
+				animateImage.source = new Bitmap( ImageSnapshot.captureBitmapData( mainStack ) );
+				animateImage.visible = true;
+				animateImage.includeInLayout = true;
+				
+				switch (direction)
+				{		
+					case LEFT_DIRECTION:
+						contentMove.xFrom = mainStack.width;
+						contentMove.xTo = 0;
+						contentMove.yFrom = 0;
+						contentMove.yTo = 0;
+						
+						imageMove.xFrom = 0;
+						imageMove.xTo = - mainStack.width;
+						imageMove.yFrom = 0;
+						imageMove.yTo = 0;
+						break;
+					
+					case RIGHT_DIRECTION:
+						contentMove.xFrom = - mainStack.width;
+						contentMove.xTo = 0;
+						contentMove.yFrom = 0;
+						contentMove.yTo = 0;
+						
+						imageMove.xFrom = 0;
+						imageMove.xTo = mainStack.width;
+						imageMove.yFrom = 0;
+						imageMove.yTo = 0;
+						break;
+				}
+				
+				mainStack.selectedIndex = selecIndex;
+				contentMove.target = mainStack.selectedChild;
+			}
+			
+			protected function URLpropertyFile_resultHandler(event:ResultEvent):void {
+				var xml:XML= event.result as XML;
+				so.data.retrievedElosFromRoolo = xml;
+				so.flush();
+				animate(LEFT_DIRECTION, STACK_INTRO_PANEL);
+			}
+			
+			
+			protected function URLpropertyFile_faultHandler(event:FaultEvent):void {
+				Alert.show(resourceManager.getString('resources', 'URL_PROPERTY_FILE_ERROR'), "HTTPService Error");
+			}
+			
+			private function ToggleStack(evt:ToggleEvent):void {
+				editReflection = evt.editReflection;
+				newSearch = evt.newSearch;
+				animate(evt.direction, evt.selecTarget);
+			}
+			
+			private function retrieveUserInfo():void {
+				so = SharedObject.getLocal(SHAREDOBJECT_LOCAL_NAME);
+				var userInfo:Object = new Object();
+				userInfo.username = FlexGlobals.topLevelApplication.parameters.username;
+				userInfo.firstname = FlexGlobals.topLevelApplication.parameters.firstName;
+				userInfo.lastname = FlexGlobals.topLevelApplication.parameters.lastName;				
+			
+				URLpropertyFile.url = "eportfolio.xml";
+				
+				so.data.userInfo = userInfo;
+				so.data.eportArrays = new ArrayCollection();
+			}
+		]]>
+	</fx:Script>
+	
+	<s:Group>
+		<s:Line xFrom="0" xTo="{this.width}" yFrom="2" yTo="2">
+			<s:stroke>
+				<s:SolidColorStroke color="{THEME_COL}" weight="4" caps="square"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line xFrom="40" xTo="{this.width}" yFrom="{this.height-2}" yTo="{this.height-2}">
+			<s:stroke>
+				<s:SolidColorStroke color="{THEME_COL}" weight="4" caps="square"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line xFrom="{this.width-2}" xTo="{this.width-2}" yFrom="0" yTo="{this.height}">
+			<s:stroke>
+				<s:SolidColorStroke color="{THEME_COL}" weight="4" caps="square"/>
+			</s:stroke>
+		</s:Line>
+		<s:Line xFrom="2" xTo="2" yFrom="0" yTo="{this.height-40}">
+			<s:stroke>
+				<s:SolidColorStroke color="{THEME_COL}" weight="4" caps="square"/>
+			</s:stroke>
+		</s:Line>
+		<s:Path x="2" y="{this.height-42}" data="Q 5 35 40 40">
+			<s:stroke>
+				<s:SolidColorStroke color="{THEME_COL}" weight="4" caps="square"/>
+			</s:stroke>
+		</s:Path>
+	</s:Group>
+	
+	<s:Group id="genecan" width="{this.width-14}" height="{this.height-14}" x="7" y="7">
+		<mx:ViewStack id="mainStack" width="100%" height="100%" >
+			<s:NavigatorContent />
+			<local:introductionCanvas id="introduction" width="100%" height="100%" showEffect="{showEffect}" />
+			<local:searchCanvas id="search" width="100%" height="100%" showEffect="{showEffect}" />
+			<local:reflectionCanvas id="reflection" width="100%" height="100%" showEffect="{showEffect}" />
+			<local:submitCanvas id="submit" width="100%" height="100%" showEffect="{showEffect}" />
+			<local:sendingCanvas id="sending" width="100%" creationPolicy="all" height="100%" showEffect="{showEffect}" />
+		</mx:ViewStack>
+		<s:Image id="animateImage" visible="false" includeInLayout="false" />
+	</s:Group>
+</s:Application>

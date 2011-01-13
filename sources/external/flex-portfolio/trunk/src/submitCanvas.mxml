@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx" >
+	
+	<fx:Script>
+		<![CDATA[
+			import listeners.ToggleEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			
+			protected function clickHandler(dir:String, stack:Number):void {
+				var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
+				tEvent.direction = dir;
+				tEvent.selecTarget = stack;
+				dispatchEvent(tEvent);
+			}
+
+			public function refreshView():void {
+				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				submitBox.selectedIndex = so.data.currentEloCategory.obliEloNum;
+				(submitBox.selectedChild as submitCanvasNavigator).refreshView();
+				checkIfSelectionComplete();
+			}
+			
+			
+			private function checkIfSelectionComplete():void {
+				var readyForSubmit:Boolean = true;
+				for(var i:Number = 0; i < selectedElosNavigators.length; i++) {
+					if(!(selectedElosNavigators[i] as submitCanvasNavigator).hasSelectionBeenMade) {
+						readyForSubmit = false;
+					}
+				}
+				
+				if(readyForSubmit) {
+					okSubmit.enabled = true;
+				}
+			}
+
+			private function submitBox_creationCompleteHandler(event:FlexEvent):void {
+				var submitcanvasnav:submitCanvasNavigator;
+				for(var i:Number = 1; i < index.obligElos.length; i++) {
+					submitcanvasnav = new submitCanvasNavigator();
+					submitcanvasnav.percentWidth = 100;
+					submitcanvasnav.percentHeight = 100;
+					submitcanvasnav.catname = index.obligElos[i];
+					submitBox.addChild(submitcanvasnav);
+				}
+			}
+
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<s:ArrayCollection id="selectedElosNavigators" />
+	</fx:Declarations>
+	
+	
+	
+	<s:VGroup width="100%" height="100%">
+		<s:HGroup id="hbo" width="100%" height="70" horizontalAlign="center" verticalAlign="middle" gap="3">
+			<s:BorderContainer id="headerLogo" width="70" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
+				<s:backgroundFill>
+					<s:LinearGradient rotation="90">
+						<s:GradientEntry color="{index.THEME_COL}" />
+						<s:GradientEntry color="{index.THEME_COL}" />
+					</s:LinearGradient>
+				</s:backgroundFill>
+				
+				<s:Image source="assets/images/folder.png" width="60" height="60" left="5" top="5" />
+			</s:BorderContainer>	
+			<s:BorderContainer id="header" width="100%" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
+				<s:backgroundFill>
+					<s:LinearGradient rotation="90">
+						<s:GradientEntry color="{index.THEME_COL}" />
+						<s:GradientEntry color="{index.THEME_COL}" />
+					</s:LinearGradient>
+				</s:backgroundFill>
+				
+				<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+					<s:Label id="headerText" width="60%" color="{index.BACK_GRADIENT_BOT}" fontSize="15" textAlign="center" text="{resourceManager.getString('resources', 'SUBMIT_HEADER')}" />
+				</s:HGroup>
+			</s:BorderContainer>	
+		</s:HGroup>
+		
+		<s:BorderContainer width="{hbo.width}" minHeight="10">
+			<s:HGroup left="2" top="2" right="2" bottom="2" verticalAlign="middle">
+				<s:Image source="assets/images/inf.png" width="10" height="10" />
+				<s:Label id="instruc" width="100%" height="13" text="{resourceManager.getString('resources', 'SUBMIT_INSTRUC')}" verticalAlign="middle" />
+			</s:HGroup>
+		</s:BorderContainer>
+		
+		<mx:Accordion id="submitBox" color="0x323232" width="{hbo.width}" height="100%" creationPolicy="all" creationComplete="submitBox_creationCompleteHandler(event)" />
+		
+		<s:HGroup id="submitFooter" width="100%" height="40" horizontalAlign="center" gap="10" verticalAlign="middle">
+			<s:Button id="okSubmit" label="{resourceManager.getString('resources', 'SUBMIT_BUTTON')}" enabled="false" click="clickHandler(index.LEFT_DIRECTION, index.STACK_SENDING_PANEL)" />
+			<s:Button id="backSubmit" label="{resourceManager.getString('resources', 'BACK_BUTTON')}" click="clickHandler(index.RIGHT_DIRECTION, index.STACK_INTRO_PANEL)" />
+		</s:HGroup>
+	</s:VGroup>	
+</s:NavigatorContent>

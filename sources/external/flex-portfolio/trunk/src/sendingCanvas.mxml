@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:containers="com.dougmccune.containers.*">
+	
+	<fx:Script>
+		<![CDATA[
+			import listeners.ToggleEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			
+			import utils.XMLUtilJer;
+			
+			[Bindable] private var elosArray:ArrayCollection;
+			private var xmlPortfolio:XML;
+			
+			[Bindable] private var sendingLabel:String = "";
+			[Bindable] private var sendButtonEnabled:Boolean = false;
+			
+			[Bindable] private var ref1Txt:String = "";
+			[Bindable] private var ref2Txt:String = "";
+			[Bindable] private var ref3Txt:String = "";
+			
+			private var so:SharedObject;
+
+			protected function clickHandler(dir:String, stack:Number):void {
+				var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
+				tEvent.direction = dir;
+				tEvent.selecTarget = stack;
+				dispatchEvent(tEvent);
+			}
+			
+			public function refreshView():void {
+				coverflow.removeAll();
+				
+				elosArray = new ArrayCollection();
+				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				xmlPortfolio = so.data.retrievedElosFromRoolo;
+				if(xmlPortfolio.reflectionMission != null) {
+					reflectionArea1.text = xmlPortfolio.reflectionMission;
+				}
+				if(xmlPortfolio.reflectionCollaboration != null) {
+					reflectionArea2.text = xmlPortfolio.reflectionCollaboration;
+				}
+				if(xmlPortfolio.reflectionInquiry != null) {
+					reflectionArea3.text = xmlPortfolio.reflectionInquiry;
+				}
+				if(xmlPortfolio.reflectionEffort != null) {
+					refOnInqTextSlider.value = new Number(xmlPortfolio.reflectionEffort);
+				}
+				
+				for each (var object:XML in xmlPortfolio.elos.*) {
+					if (object.name() == "elo" && object.hasBeenSelectedForSubmit == "true") {
+						elosArray.addItem(XMLUtilJer.getEloObjectAsXML(object));
+					}
+				}
+				
+				if(elosArray.length > 0) {
+					for(var i:Number = 0; i < elosArray.length; i++) {
+						var subCE:subCanvasElo = XMLUtilJer.getSubCanvasEloFromObject(elosArray[i]);
+						subCE.addEventListener(MouseEvent.MOUSE_OVER, showInfoBox);
+						subCE.addEventListener(MouseEvent.MOUSE_OUT, hideInfoBox);
+						coverflow.addChild(subCE);
+						subCE.box.setStyle("backgroundColor", index.THEME_COL);
+						subCE.highLightELO(false);
+					}
+					
+					scrollbar.maxScrollPosition = coverflow.numChildren - 1;
+					coverflow.selectedIndex = 0;
+				}
+			}
+			
+			protected function okSubmit_clickHandler(event:MouseEvent):void {
+				trace(xmlPortfolio);
+				Alert.show(resourceManager.getString('resources', 'ALERT_SUBMIT_TEXT'), resourceManager.getString('resources', 'ALERT_SUBMIT_TITLE'));
+			}
+			
+			private function updateCoordinates(event:Event):void {
+				if((mouseX + altBox.width) > this.width) {
+					altBox.x = mouseX - 20 - altBox.width;
+				}
+				else {
+					altBox.x = mouseX + 20;			
+				}
+				
+				if((mouseY + altBox.height) > this.height) {
+					altBox.y = mouseY - 20 - altBox.height;
+				}
+				else {
+					altBox.y = mouseY + 20;
+				}
+			}
+			
+			
+			protected function altBox_mouseOverHandler(event:MouseEvent):void {
+				updateCoordinates(event);
+			}
+			
+			private function showInfoBox(evt:MouseEvent):void {
+				descriptionInfo.htmlText = "<u>"+resourceManager.getString('resources', 'DESCRIPTION') + "</u>: " +(evt.target).studentDescription;
+				
+				var glgString:String = "<u>"+resourceManager.getString('resources', 'GLG') + "</u>: <br>";
+				if((evt.target).studentGLG != null) {
+					for(var i:Number = 0; i<(evt.target).studentGLG.length; i++) {
+						glgString = glgString + "     - " + ((evt.target).studentGLG[i][0]).entry + "<br>";
+					}
+				}
+				glgInfo.htmlText = glgString;
+				
+				var slgString:String = "<u>"+resourceManager.getString('resources', 'SLG') + "</u>: <br>";
+				if((evt.target).studentSLG != null) {
+					for(var i:Number = 0; i<(evt.target).studentSLG.length; i++) {
+						slgString = slgString + "     - " + ((evt.target).studentSLG[i][0]).entry + "<br>";
+					}
+				}
+				slgInfo.htmlText = slgString;
+				
+				reflectionInfo.htmlText = "<u>"+resourceManager.getString('resources', 'REFLECTION') + "</u>: " +(evt.target).studentReflection;
+				reflectionInq.htmlText = "<u>"+resourceManager.getString('resources', 'REF_ON_INQ') + "</u>: " +(evt.target).inquiryQuestion;
+				reflectionInqImg.source = "assets/images/emoticons/"+new String((evt.target).studentInquiry)+".png";
+				altBox.addEventListener(Event.ENTER_FRAME, updateCoordinates);
+			}
+			
+			private function hideInfoBox(evt:MouseEvent):void {
+				altBox.removeEventListener(Event.ENTER_FRAME, updateCoordinates);
+				altBox.x = index.ALT_BOX_INIT_X;
+			}
+			
+			private function validateSubmitButton():void {
+				if(ref1Txt != "" && ref2Txt != "" && ref3Txt != "") {
+					xmlPortfolio.reflectionMission = <reflectionMission>{XMLUtilJer.cdata(ref1Txt)}</reflectionMission>;
+					xmlPortfolio.reflectionCollaboration = <reflectionCollaboration>{XMLUtilJer.cdata(ref2Txt)}</reflectionCollaboration>;
+					xmlPortfolio.reflectionInquiry = <reflectionInquiry>{XMLUtilJer.cdata(ref3Txt)}</reflectionInquiry>;
+					xmlPortfolio.reflectionEffort = <reflectionEffort>{refOnInqTextSlider.value}</reflectionEffort>;
+					so.data.retrievedElosFromRoolo = xmlPortfolio;
+					so.flush();
+					sendButtonEnabled = true;
+				}
+				else {
+					sendButtonEnabled = false;
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<s:VGroup width="100%" height="100%" horizontalAlign="center" >
+		<s:HGroup id="hbo" width="100%" height="70" horizontalAlign="center" verticalAlign="middle" gap="3">
+			<s:BorderContainer id="headerLogo" width="70" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
+				<s:backgroundFill>
+					<s:LinearGradient rotation="90">
+						<s:GradientEntry color="{index.THEME_COL}" />
+						<s:GradientEntry color="{index.THEME_COL}" />
+					</s:LinearGradient>
+				</s:backgroundFill>
+				
+				<s:Image source="assets/images/folder.png" width="60" height="60" left="5" top="5" />
+			</s:BorderContainer>	
+			<s:BorderContainer id="header" width="100%" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
+				<s:backgroundFill>
+					<s:LinearGradient rotation="90">
+						<s:GradientEntry color="{index.THEME_COL}" />
+						<s:GradientEntry color="{index.THEME_COL}" />
+					</s:LinearGradient>
+				</s:backgroundFill>
+				
+				<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+					<s:Label id="headerText" width="60%" color="{index.BACK_GRADIENT_BOT}" fontSize="15" textAlign="center" text="{resourceManager.getString('resources', 'SENDING_HEADER')}" />
+				</s:HGroup>
+			</s:BorderContainer>	
+		</s:HGroup>
+		<s:BorderContainer width="{hbo.width}" minHeight="10">
+			<s:HGroup left="2" top="2" right="2" bottom="2" verticalAlign="middle">
+				<s:Image source="assets/images/inf.png" width="10" height="10" />
+				<s:Label id="instruc" width="100%" height="13" text="{resourceManager.getString('resources', 'SENDING_INSTRUC')}" verticalAlign="middle" />
+			</s:HGroup>
+		</s:BorderContainer>
+		<mx:Spacer height="3" />
+		<s:VGroup width="100%" height="100%" horizontalAlign="center" gap="0">
+			<s:BorderContainer id="blog" height="280" width="{hbo.width}" borderColor="#333333" borderAlpha=".2">
+				<s:VGroup height="285" width="100%" >
+					<containers:CoverFlowContainer id="coverflow" width="100%" height="100%" 
+												   horizontalGap="40" borderStyle="none" backgroundColor="{index.BACK_GRADIENT_BOT}"
+												   segments="10" reflectionEnabled="true" />            
+					<mx:HScrollBar id="scrollbar" width="100%" pageSize="1" styleName="myScrollBar" scrollPosition="{coverflow.selectedIndex}" 
+								   scroll="coverflow.selectedIndex = Math.round(scrollbar.scrollPosition)" />
+				</s:VGroup>
+			</s:BorderContainer>
+			<mx:Spacer height="5" />
+			<s:VGroup id="ref" height="100%" width="{hbo.width}" gap="0">
+				<mx:Spacer height="15" />
+				<s:TabBar id="tabs" dataProvider="{vs}" width="100%" cornerRadius="0"/>
+				<mx:ViewStack id="vs" width="100%" height="100%" borderStyle="solid" borderColor="#999999" dropShadowVisible="true">
+					<s:NavigatorContent label="{resourceManager.getString('resources', 'REFLECTION_TXT1')}" width="100%" height="100%">
+						<s:HGroup width="100%" height="90%" verticalAlign="middle" horizontalAlign="center">
+							<s:FormItem label="{resourceManager.getString('resources', 'REFLECTION_TXT1')+':'}" height="90%">
+								<s:Label text="{resourceManager.getString('resources', 'SENDING_TEXT1')}" width="500" />
+								<s:TextArea width="500" height="50" id="reflectionArea1" color="#000000" change="ref1Txt=reflectionArea1.text;validateSubmitButton()" />
+							</s:FormItem>
+						</s:HGroup>
+					</s:NavigatorContent>
+					<s:NavigatorContent label="{resourceManager.getString('resources', 'REFLECTION_TXT2')}" width="100%" height="100%" >
+						<s:HGroup width="100%" height="90%" verticalAlign="middle" horizontalAlign="center">
+							<s:FormItem label="{resourceManager.getString('resources', 'REFLECTION_TXT2')+':'}" height="90%">
+								<s:Label text="{resourceManager.getString('resources', 'SENDING_TEXT2')}" width="500" />
+								<s:TextArea width="500" height="50" id="reflectionArea2" color="#000000" change="ref2Txt=reflectionArea2.text;validateSubmitButton()" />
+							</s:FormItem>					
+						</s:HGroup>
+					</s:NavigatorContent>
+					<s:NavigatorContent label="{resourceManager.getString('resources', 'REFLECTION_TXT3')}"  width="100%" height="100%">
+						<s:HGroup width="100%" height="90%" verticalAlign="middle" horizontalAlign="center">
+							<s:FormItem label="{resourceManager.getString('resources', 'REFLECTION_TXT3')+':'}" height="90%">
+								<s:Label text="{resourceManager.getString('resources', 'SENDING_TEXT3')}" width="500" />
+								<s:TextArea width="500" height="50" id="reflectionArea3" color="#000000" change="ref3Txt=reflectionArea3.text;validateSubmitButton()"/>
+							</s:FormItem>					
+						</s:HGroup>
+					</s:NavigatorContent>
+					<s:NavigatorContent label="{resourceManager.getString('resources', 'REFLECTION_TXT4')}" width="100%" height="100%" >
+						<s:VGroup width="100%" height="90%" verticalAlign="middle" horizontalAlign="center">
+							<s:VGroup gap="0" horizontalCenter="0">
+								<s:Label id="refOnInqText" text="{index.REF_ON_INQ_TXT}" width="400" />
+								<s:HGroup width="400" height="33" gap="{(400-4*30)/3}">
+									<s:Image source="assets/images/emoticons/1.png" width="30" height="33" />
+									<s:Image source="assets/images/emoticons/2.png" width="30" height="33" />
+									<s:Image source="assets/images/emoticons/3.png" width="30" height="33" />
+									<s:Image source="assets/images/emoticons/4.png" width="30" height="33" />
+								</s:HGroup>
+								<mx:HSlider id="refOnInqTextSlider" minimum="1" maximum="4" value="2" dataTipPlacement="top" tickColor="0x323232"
+											snapInterval="1" tickInterval="1" allowTrackClick="true" width="400" showDataTip="false"/>
+							</s:VGroup>
+						</s:VGroup>
+					</s:NavigatorContent>
+				</mx:ViewStack>
+			</s:VGroup>
+		</s:VGroup>
+		
+		<s:HGroup id="submitFooter" width="100%" height="40" horizontalAlign="center" gap="10" verticalAlign="middle">
+			<s:Button id="okSubmit" label="{resourceManager.getString('resources', 'SEND_BUTTON')}" enabled="{sendButtonEnabled}" click="okSubmit_clickHandler(event)" />
+			<s:Button id="backSubmit" label="{resourceManager.getString('resources', 'BACK_BUTTON')}" click="clickHandler(index.RIGHT_DIRECTION, index.STACK_SUBMIT_PANEL)" />
+		</s:HGroup>
+	</s:VGroup>	
+	
+	<s:BorderContainer id="altBox" width="300" x="{index.ALT_BOX_INIT_X}" cornerRadius="5" borderWeight="2" borderColor="{index.THEME_COL}" dropShadowVisible="true" backgroundColor="{index.BACK_GRADIENT_TOP}" alpha=".9" mouseOver="altBox_mouseOverHandler(event)">
+		<s:VGroup left="3" right="3" height="100%" gap="2" color="#333333">
+			<mx:Text id="descriptionInfo" width="100%" />
+			<mx:Text id="glgInfo" width="100%" />
+			<mx:Text id="slgInfo" width="100%" />
+			<mx:Text id="reflectionInfo" width="100%" />
+			<s:HGroup width="100%" verticalAlign="middle" right="3">
+				<mx:Text id="reflectionInq" width="100%" />
+				<mx:Image id="reflectionInqImg" width="30" height="33" />
+			</s:HGroup>
+		</s:VGroup>
+	</s:BorderContainer>
+	
+</s:NavigatorContent>

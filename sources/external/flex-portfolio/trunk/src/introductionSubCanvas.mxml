@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx" showEffect="{fadeIn}"
+		   hideEffect="{zoomOut}" creationComplete="refreshView()" xmlns:reflector="com.rictus.reflector.*">
+	
+	<fx:Declarations>
+		<s:ArrayCollection id="eloCanvases" />
+		<s:Sequence id="fadeIn">
+			<s:Fade duration="1000" alphaFrom="0.0" alphaTo="1.0"/>
+		</s:Sequence>
+		<s:Sequence id="zoomOut" >
+			<s:Fade duration="1000" alphaFrom="1.0" alphaTo="0.0"/>
+		</s:Sequence>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.controls.Label;
+			import mx.controls.Text;
+			import mx.events.FlexEvent;
+			
+			import utils.XMLUtilJer;
+			
+			[Bindable] private var elosArray:ArrayCollection;
+			[Bindable] public var catname:String;
+			
+			public function refreshView():Number {
+				elosArray = new ArrayCollection();
+				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				var xmlPortfolio:XML = so.data.retrievedElosFromRoolo;
+				for each (var object:XML in xmlPortfolio.elos.*) {
+					if (object.name() == "elo" && object.catname == this.catname) {
+						elosArray.addItem(XMLUtilJer.getEloObjectAsXML(object));
+					}
+				}
+				
+				if(elosArray.length == 0) {
+					var s:Sprite = new Sprite();
+					s.graphics.beginFill(index.BACK_GRADIENT_TOP);
+					s.graphics.drawRoundRect(0, 0, 150, 150, 10, 10);
+					s.graphics.endFill();
+					noElos.addChild(s);
+					currentState = "noeloState";
+				}
+				else {
+					currentState = "withElos";
+					tile.removeAllElements();
+					for(var i:Number = 0; i < elosArray.length; i++) {
+						var subCE:subCanvasElo = XMLUtilJer.getSubCanvasEloFromObject(elosArray[i]);
+						subCE.addEventListener(MouseEvent.MOUSE_OVER, showInfoBox);
+						subCE.addEventListener(MouseEvent.MOUSE_OUT, hideInfoBox);
+						
+						var selecCol:deletableThumb = new deletableThumb();
+						tile.addElement(selecCol);	
+						selecCol.addElementAt(subCE, 0);
+						selecCol.parentCanvas = this;
+						selecCol.originalEloObject = elosArray[i];
+						selecCol.addEventListener(MouseEvent.MOUSE_DOWN, showDeleteBox);
+					}
+				}
+				return elosArray.length;
+			}
+			
+			private function showDeleteBox(evt:MouseEvent):void {
+				if(evt.target.parent.className == "deletableThumb") {
+					(evt.target.parent as deletableThumb).slideDeleteBox();
+				}
+			}
+			
+			private function showInfoBox(evt:MouseEvent):void {
+				descriptionInfo.htmlText = "<u>"+resourceManager.getString('resources', 'DESCRIPTION') + "</u>: " +(evt.target).studentDescription;
+				
+				var glgString:String = "<u>"+resourceManager.getString('resources', 'GLG') + "</u>: <br>";
+				if((evt.target).studentGLG != null) {
+					for(var i:Number = 0; i<(evt.target).studentGLG.length; i++) {
+						glgString = glgString + "     - " + ((evt.target).studentGLG[i][0]).entry + "<br>";
+					}
+				}
+				glgInfo.htmlText = glgString;
+				
+				var slgString:String = "<u>"+resourceManager.getString('resources', 'SLG') + "</u>: <br>";
+				if((evt.target).studentSLG != null) {
+					for(var i:Number = 0; i<(evt.target).studentSLG.length; i++) {
+						slgString = slgString + "     - " + ((evt.target).studentSLG[i][0]).entry + "<br>";
+					}
+				}
+				slgInfo.htmlText = slgString;
+				
+				reflectionInfo.htmlText = "<u>"+resourceManager.getString('resources', 'REFLECTION') + "</u>: " +(evt.target).studentReflection;
+				reflectionInq.htmlText = "<u>"+resourceManager.getString('resources', 'REF_ON_INQ') + "</u>: " +(evt.target).inquiryQuestion;
+				reflectionInqImg.source = "assets/images/emoticons/"+new String((evt.target).studentInquiry)+".png";
+				altBox.addEventListener(Event.ENTER_FRAME, updateCoordinates);
+			}
+			
+			private function hideInfoBox(evt:MouseEvent):void {
+				altBox.removeEventListener(Event.ENTER_FRAME, updateCoordinates);
+				altBox.x = index.ALT_BOX_INIT_X;
+			}
+			
+			private function updateCoordinates(event:Event):void {
+				if((mouseX + altBox.width) > this.width) {
+					altBox.x = mouseX - 20 - altBox.width;
+				}
+				else {
+					altBox.x = mouseX + 20;			
+				}
+				
+				if((mouseY + altBox.height) > this.height) {
+					altBox.y = mouseY - 20 - altBox.height;
+				}
+				else {
+					altBox.y = mouseY + 20;
+				}
+			}
+
+
+			protected function altBox_mouseOverHandler(event:MouseEvent):void {
+				updateCoordinates(event);
+			}
+		]]>
+	</fx:Script>	
+	
+	<s:states>
+		<s:State name="noeloState" />
+		<s:State name="withElos" />		
+	</s:states>
+	
+	<s:BorderContainer id="noEloCan" excludeFrom="withElos" x="20" y="20" width="150" height="150" borderVisible="false">
+		<mx:UIComponent id="noElos"/>
+		<s:Label y="30" text="{resourceManager.getString('resources', 'NO_ELOS_YET')}" width="150" textAlign="center" height="150" color="#FFFFFF" fontSize="14"/>
+	</s:BorderContainer>
+	<reflector:Reflector target="{noEloCan}" alpha=".6" falloff=".5" y="{noEloCan.y+noEloCan.height+10}" excludeFrom="withElos"/>
+	
+	<s:Scroller width="{this.width-20}" height="95%" horizontalCenter="0">
+		<s:VGroup id="grp" width="100%" height="100%" horizontalAlign="center" gap="0">
+			<mx:Spacer height="5" />
+			<s:TileGroup id="tile" width="{grp.width - 10}" horizontalCenter="0" verticalCenter="0" horizontalGap="25" verticalGap="20"/>
+			<mx:Spacer height="5" />
+		</s:VGroup>
+	</s:Scroller>
+
+	<s:BorderContainer id="altBox" width="400" x="{index.ALT_BOX_INIT_X}" cornerRadius="5" borderWeight="2" borderColor="{index.THEME_COL}" dropShadowVisible="true" backgroundColor="{index.BACK_GRADIENT_TOP}" alpha=".9" mouseOver="altBox_mouseOverHandler(event)">
+		<s:VGroup left="3" right="3" height="100%" gap="2" color="#333333">
+			<mx:Text id="descriptionInfo" width="100%" />
+			<mx:Text id="glgInfo" width="100%" />
+			<mx:Text id="slgInfo" width="100%" />
+			<mx:Text id="reflectionInfo" width="100%" />
+			<s:HGroup width="100%" verticalAlign="middle" right="3">
+				<mx:Text id="reflectionInq" width="100%" />
+				<s:Image id="reflectionInqImg" width="30" height="33" />
+			</s:HGroup>
+		</s:VGroup>
+	</s:BorderContainer>
+</s:NavigatorContent>

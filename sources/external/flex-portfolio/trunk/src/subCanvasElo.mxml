@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="200" height="230" backgroundColor="{index.THEME_COL}" buttonMode="true" mouseChildren="false">
+	<fx:Declarations>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import flash.utils.clearInterval;
+			import flash.utils.setInterval;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
+			[Bindable] public var uri:String = "";
+			[Bindable] public var catname:String = "";
+			[Bindable] public var createdby:String = "";
+			[Bindable] public var thumbnail:String = "";
+			[Bindable] public var fullsize:String = "";
+			[Bindable] public var customname:String = "";
+			[Bindable] public var modified:String = "";
+			[Bindable] public var studentDescription:String = "";
+			[Bindable] public var studentGLG:ArrayCollection;
+			[Bindable] public var studentSLG:ArrayCollection;
+			[Bindable] public var studentReflection:String = "";
+			[Bindable] public var hasBeenSelectedForSubmit:Boolean = false;
+			[Bindable] public var hasBeenReflectedOn:Boolean = false;
+			[Bindable] public var studentInquiry:String = "";
+			[Bindable] public var inquiryQuestion:String = "";
+			[Bindable] public var assessed:String = "";
+			[Bindable] public var grade:String = "";
+			[Bindable] public var assessmentComment:String = "";
+			[Bindable] public var reflectionComment:String = "";
+			
+			[Bindable] private var graphicHighlight:Boolean = false;
+			[Bindable] private var alphaValue:Number = .1;
+			[Bindable] private var alphaColor:Number = 0xFFFFFF;
+			
+			public function highLightELO(b:Boolean):void {
+				graphicHighlight = b;
+				if(b) {
+					alphaValue = .2;
+					alphaColor = 0x00FF00;
+				}
+				else {
+					alphaValue = .1;
+					alphaColor = 0xFFFFFF;
+				}
+			}
+		]]>
+	</fx:Script>
+	<s:BorderContainer id="box" top="5" left="5" bottom="5" right="5" borderColor="#00FF00" backgroundAlpha="0" borderStyle="solid" borderVisible="{graphicHighlight}" dropShadowVisible="true">
+		<s:VGroup width="100%" height="100%" gap="5">
+			<s:Image source="{thumbnail}" width="100" height="100"/>
+			<s:Label width="100%" color="#FFFFFF" text="{resourceManager.getString('resources', 'ELO_NAME')+': '+catname}" />
+			<s:Label width="100%" color="#FFFFFF" text="{resourceManager.getString('resources', 'CREATED_BY')+': '+createdby}"/>
+			<s:Label width="100%" color="#FFFFFF" text="{resourceManager.getString('resources', 'CREATED_DATE')+': '+modified}"/>
+		</s:VGroup>
+	</s:BorderContainer>
+	<s:BorderContainer id="highlighter" backgroundColor="{alphaColor}" width="{this.width}" height="{this.height}" backgroundAlpha="{alphaValue}" />
+</s:NavigatorContent>
