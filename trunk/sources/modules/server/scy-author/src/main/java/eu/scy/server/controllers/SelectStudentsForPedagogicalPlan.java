@@ -1,6 +1,9 @@
 package eu.scy.server.controllers;
 
+import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.UserService;
+import eu.scy.core.model.ScyBase;
+import eu.scy.core.roolo.MissionELOService;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,15 +20,13 @@ import java.util.List;
 public class SelectStudentsForPedagogicalPlan extends BaseController{
 
     private UserService userService;
+    private MissionELOService missionELOService;
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-        String eloURI = request.getParameter("eloURI");
-        String version = request.getParameter("eloVersion");
-        modelAndView.addObject("eloURI", eloURI);
-        modelAndView.addObject("eloVersion", eloURI);
         List students = getUserService().getStudents();
         modelAndView.addObject("students", students);
+        modelAndView.addObject("eloURI", getMissionELOService().getWebSafeTransporter(getScyElo()));
     }
 
     public UserService getUserService() {
@@ -34,5 +35,13 @@ public class SelectStudentsForPedagogicalPlan extends BaseController{
 
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    public MissionELOService getMissionELOService() {
+        return missionELOService;
+    }
+
+    public void setMissionELOService(MissionELOService missionELOService) {
+        this.missionELOService = missionELOService;
     }
 }
