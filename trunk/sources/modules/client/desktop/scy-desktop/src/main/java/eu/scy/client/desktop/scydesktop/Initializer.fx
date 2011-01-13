@@ -77,7 +77,7 @@ public class Initializer {
    public-init var eloImagesPath = "{__DIR__}imagewindowstyler/images/";
    public-init var scyServerHost: String;
    public-init var useWebStartHost = true;
-   public-init var windowPositioner = "functionalRole";
+   public-init var windowPositioner = "functionalRoleIgnoreResources";
    public-init var debugMode = false;
    public-init var authorMode = false;
    public-init var indicateOnlineStateByOpacity = true;
