@@ -28,4 +28,6 @@ public interface MissionAnchor
    public void setEloUri(URI eloUri);
    public void setLoEloUris(List<URI> loEloUris);
 
+   public void setObligatoryInPorfolio(Boolean obligatoryInPorfolio);
+   public Boolean getObligatoryInPortfolio();
 }

@@ -157,9 +157,10 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
             Las las = (Las) lasses.get(i);
             MissionAnchor missionAnchor = las.getMissionAnchor();
             if (missionAnchor != null) {
-                missionAnchors.add(missionAnchor);
-                if (missionAnchor.getScyElo() != null) {
-                    log.info("MISSION ANCHOR: " + missionAnchor.getScyElo().getTitle());
+                ScyElo missionScyElo = ScyElo.loadLastVersionElo(missionAnchor.getEloUri(), this);
+                missionAnchors.add(missionScyElo);
+                if (missionScyElo != null) {
+                    log.info("MISSION ANCHOR: " +missionScyElo.getTitle());
                 } else {
                     log.info("MISSION SCY ELO IS NULL:" + missionAnchor.getIconType());
                 }

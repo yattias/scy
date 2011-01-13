@@ -3,6 +3,7 @@ package eu.scy.server.controllers;
 import eu.scy.common.mission.Las;
 import eu.scy.common.mission.MissionModelElo;
 import eu.scy.common.mission.MissionSpecificationElo;
+import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.LASService;
 import eu.scy.core.PedagogicalPlanPersistenceService;
 import eu.scy.core.UserService;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLDecoder;
 
 /**
@@ -22,7 +24,7 @@ import java.net.URLDecoder;
  * Time: 11:15:34
  * To change this template use File | Settings | File Templates.
  */
-public class MissionHighLevelOverviewController extends BaseController{
+public class MissionHighLevelOverviewController extends BaseController {
 
     private LASService lasService;
     private PedagogicalPlanPersistenceService pedagogicalPlanPersistenceService;
@@ -31,20 +33,45 @@ public class MissionHighLevelOverviewController extends BaseController{
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
+
+        String action= request.getParameter("action");
+        if(action != null) {
+            if(action.equals("flipObligatoryInPortfolio")) flipObligatoryInPortfolio(request, modelAndView);
+        }
+
         try {
-            String missionSpecificationUri = request.getParameter("missionSpecificationUri");
-            missionSpecificationUri = URLDecoder.decode(missionSpecificationUri, "UTF-8");
-            logger.info("loading missino specification: " + missionSpecificationUri);
-            URI uri = new URI(missionSpecificationUri);
-            MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(uri, getMissionELOService());
-            if(missionSpecificationElo != null) {
-                //modelAndView.addObject("learningActivitySpaces", getMissionELOService().getLasses(missionSpecificationElo));
-                modelAndView.addObject("anchorElos", getMissionELOService().getAnchorELOs(missionSpecificationElo));
+            MissionSpecificationElo missionSpecificationElo = (MissionSpecificationElo) getScyElo();
+            if (missionSpecificationElo != null) {
+                modelAndView.addObject("anchorElos", getMissionELOService().getWebSafeTransporters(getMissionELOService().getAnchorELOs(missionSpecificationElo)));
+                modelAndView.addObject("eloWrapper", getMissionELOService().getWebSafeTransporter(getScyElo()));
+                modelAndView.addObject("rooloServices", getMissionELOService());
             } else {
                 logger.info("DID NOT FIND THE MISSION SPECIFICATION!!!");
             }
 
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void flipObligatoryInPortfolio(HttpServletRequest request, ModelAndView modelAndView) {
+        logger.info("Flipping anchor elo:" + request.getParameter("anchorElo"));
+        try {
+            URI uri = new URI(request.getParameter("anchorElo"));
+            ScyElo scyElo = ScyElo.loadLastVersionElo(uri, getMissionELOService());
+
+            Boolean currentStatus = scyElo.getObligatoryInPortfolio();
+            if(currentStatus == null) currentStatus = false;
+
+            logger.info("MY CURRENT STATUS IS: " + currentStatus);
+
+            scyElo.setObligatoryInPortfolio(!currentStatus);
+            scyElo.updateElo();
+
+            logger.info("UPDATED MY STATUS TO : " + scyElo.getObligatoryInPortfolio());
+
+
+        } catch (URISyntaxException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }

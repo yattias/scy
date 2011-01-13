@@ -40,7 +40,7 @@
                     </tr>
                     <tr class="${oddEven.oddEven}">
                         <td colspan="2">
-                            <a href="MissionHighLevelOverview.html?missionSpecificationUri=${missionSpecificationTransporter.uri}">More details...</a>
+                            <a href="MissionHighLevelOverview.html?eloURI=${missionSpecificationTransporter.uri}">More details...</a>
 
                         </td>
                     </tr>
