@@ -20,6 +20,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Interpolator;
 import javafx.util.Math;
 import javafx.scene.CacheHint;
+import eu.scy.client.desktop.scydesktop.scywindows.StandardWindowPositionsState;
 
 /**
  * @author giemza
@@ -51,6 +52,8 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
     public var centerWindows: ScyWindow[];
 
     public var outgoingWindows: ScyWindow[];
+
+    public var otherWindows: ScyWindow[];
 
     public var mainWindows: ScyWindow[];
 
@@ -84,6 +87,15 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
             stroke: rectangleColor
     }
 
+    def otherArea: Rectangle = Rectangle {
+            x: 0;
+            y: 0;
+            width: 0;
+            height: 0;
+            fill: Color.color(0.2, 0.4, 0.7, 0.1);
+            stroke: rectangleColor
+    }
+
     def mainArea = Rectangle {
             x: 0;
             y: 0;
@@ -107,7 +119,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
 
         // lower area
         if (not windowAlreadyAdded(window)) {
-            insert window into centerWindows;
+            insert window into otherWindows;
             return true;
         }
         return false;
@@ -119,6 +131,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         delete incomingWindows;
         delete centerWindows;
         delete outgoingWindows;
+        delete otherWindows;
         delete mainWindows;
     }
 
@@ -183,7 +196,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         }
         // lower area
         if (not windowAlreadyAdded(window)) {
-            insert window into centerWindows;
+            insert window into otherWindows;
             return true;
         }
         return false;
@@ -194,7 +207,8 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         logger.info("addOtherWindow with title {window.title}");
         // animate opening into lower left center ELO
         if (not windowAlreadyAdded(window)) {
-            insert window into centerWindows;
+            insert window into otherWindows;
+            positionNewOtherWindow(window);
             return true;
         }
         return false;
@@ -203,7 +217,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
 
     public override function removeOtherWindow(window:ScyWindow):Void {
         logger.info("removeOtherWindow with title {window.title}");
-        delete window from centerWindows;
+        delete window from otherWindows;
     }
 
     public override function placeOtherWindow(window:ScyWindow):Boolean {
@@ -219,8 +233,20 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
 
     public override function positionWindows(windowPositionsState:WindowPositionsState):Void {
         logger.info("positionWindowsWithState");
+        def windowStates: StandardWindowPositionsState = windowPositionsState as StandardWindowPositionsState;
+        for (window in incomingWindows) {
+            windowStates.applyStateForWindow(window);
+        }
+        for (window in centerWindows) {
+            windowStates.applyStateForWindow(window);
+        }
+        for (window in outgoingWindows) {
+            windowStates.applyStateForWindow(window);
+        }
+        for (window in otherWindows) {
+            windowStates.applyStateForWindow(window);
+        }
         positionWindows();
-
     }
 
     function windowAlreadyAdded(window:ScyWindow):Boolean {
@@ -240,6 +266,15 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         return false;
     }
 
+    function positionNewOtherWindow(window:ScyWindow) {
+        updateAreas();
+        if (window.layoutX == 0 and window.layoutY == 0 and window.relativeLayoutCenterX == 0 and window.relativeLayoutCenterY == 0) {
+//            window.layoutX = incomingArea.x;
+//            window.layoutY = incomingArea.y + incomingArea.height;
+            positionWindowsInArea(otherWindows, otherArea, 3); // layout at bottom of window
+        }
+    }
+
 
     public override function positionWindows():Void {
         logger.info("positionWindows");
@@ -255,6 +290,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         positionWindowsInArea(incomingWindows, incomingArea, 1);
         positionWindowsInArea(centerWindows, centerArea, 3);
         positionWindowsInArea(outgoingWindows, outgoingArea, 1);
+        positionWindowsInArea(otherWindows, otherArea, 3);
         
         // only for debug purpose
         if (debug and not debugAreasAdded) {
@@ -266,7 +302,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
     }
 
     function positionWindowsInArea(windowList:ScyWindow[], area:Rectangle, maxColumns:Integer) {
-        var padding = 50;
+        var padding = 60;
         // positioning incoming
         var numberOfWindows = sizeof windowList;
         var columns = maxColumns;
@@ -282,7 +318,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
             } else if (window.layoutX == 0 and window.layoutY == 0 and window.relativeLayoutCenterX == 0 and window.relativeLayoutCenterY == 0) {
                 
                 window.layoutX = area.layoutX + (column * shift) - (window.width / 2);
-                window.layoutY = area.layoutY + (row * padding);
+                window.layoutY = area.layoutY + (row * padding) - 50;
 
                 window.relativeLayoutCenterX = (window.layoutX + window.width / 2) / desktopWidth;
                 window.relativeLayoutCenterY = (window.layoutY + window.height / 2) / desktopHeight;
@@ -306,11 +342,11 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
 
     function positionAsMainWindow(window:ScyWindow):Void {
         var newX = centerArea.layoutX - 5 * offset;
-        var newY = centerArea.layoutY + (0.2 * centerArea.height);
+        var newY = centerArea.layoutY + (0.12 * centerArea.height); // value ist just estimated
         var newWidth = centerArea.width + 10 * offset;
-        var newHeight = 0.7 * centerArea.height;
+        var newHeight = 0.75 * centerArea.height;
 
-        def size = sizeof mainWindows;
+        var size = sizeof mainWindows;
         if (size > 1) {
             for (i in [0 .. size - 2]) {
                 def mainWindow = mainWindows[i];
@@ -327,6 +363,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         mainArea.width = newWidth;
         mainArea.height = newHeight;
         var windowCounter = 0;
+        size = sizeof mainWindows;
         if (size > 1) {
             for (nextWindow in mainWindows) {
                 def angle = ((size - 1) - windowCounter++) * 4;
@@ -369,7 +406,6 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         };
         repositionAndResize.play();
     }
-
     
     def incomingAreaRatio = 0.2;
     def centerAreaRatio = 0.6;
@@ -380,25 +416,27 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         FX.deferAction(function():Void {
             lockUpdate = true;
 
-            repositionWindowsInArea(incomingWindows);
-            repositionWindowsInArea(centerWindows);
-            repositionWindowsInArea(outgoingWindows);
+            repositionWindowsInArea(incomingWindows, false);
+            repositionWindowsInArea(centerWindows, false);
+            repositionWindowsInArea(outgoingWindows, false);
+            repositionWindowsInArea(otherWindows, true);
 
             lockUpdate = false;
         });
     }
 
-    function repositionWindowsInArea(windowList:ScyWindow[]):Void {
+    function repositionWindowsInArea(windowList:ScyWindow[], includeYAxis: Boolean):Void {
         for(window in windowList) {
             if (not window.isClosed) {
                 window.layoutY = (window.relativeLayoutCenterY * desktopHeight) - window.height / 2;
                 window.width = window.relativeWidth * desktopWidth;
                 window.height = window.relativeHeight * desktopHeight;
+            } else if (includeYAxis) {
+                window.layoutY = (window.relativeLayoutCenterY * desktopHeight) - window.height / 2;
             }
             window.layoutX = (window.relativeLayoutCenterX * desktopWidth) - window.width / 2;
         }
     }
-
 
     function updateAreas():Void {
 
@@ -416,12 +454,18 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         outgoingArea.layoutY = offset;
         outgoingArea.width = (outgoingAreaRatio * desktopWidth) - (2 * offset);
         outgoingArea.height = desktopHeight - (2 * offset);
+
+        otherArea.layoutX = centerArea.layoutX;
+        otherArea.layoutY = centerArea.layoutY + 0.9 * centerArea.height;
+        otherArea.width = centerArea.width;
+        otherArea.height = 0.2 * centerArea.height;
     }
 
     function resetLayout() {
         resetWindowLayoutInArea(incomingWindows);
         resetWindowLayoutInArea(centerWindows);
         resetWindowLayoutInArea(outgoingWindows);
+        resetWindowLayoutInArea(otherWindows);
     }
 
     function resetWindowLayoutInArea(windowList:ScyWindow[]) {
@@ -438,10 +482,22 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         }
     }
 
-
-
     public override function getWindowPositionsState():WindowPositionsState {
         logger.info("getWindowPositionsState");
-        return WindowPositionsState {};
+        def windowStates: StandardWindowPositionsState = StandardWindowPositionsState {};
+        for (window in incomingWindows) {
+            windowStates.persistWindowState(window);
+        }
+        for (window in centerWindows) {
+            windowStates.persistWindowState(window);
+        }
+        for (window in outgoingWindows) {
+            windowStates.persistWindowState(window);
+        }
+        for (window in otherWindows) {
+            windowStates.persistWindowState(window);
+        }
+        def xml: String = windowStates.getXml();
+        return windowStates;
     }
 }
