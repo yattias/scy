@@ -97,7 +97,7 @@ public class JNLPFilter implements Filter {
                 jnlpContent += inputLine;
             }
 
-            int index = jnlpContent.indexOf("</application");
+            int index = jnlpContent.indexOf("<argument>");
             String start = jnlpContent.substring(0, index);
             String end = jnlpContent.substring(index, jnlpContent.length());
             String middle = "<argument>-defaultUsername</argument>\n";

@@ -58,6 +58,18 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
             }
             MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(uri, getMissionELOService());
 
+            String action = request.getParameter("action");
+            if (action != null) {
+                if (action.equals("addStudent")) {
+                    String username = request.getParameter("username");
+                    addStudent(missionURI, username, modelAndView, pedagogicalPlan);
+                } else if (action.equals("removeStudent")) {
+                    removeStudent(request.getParameter("username"), modelAndView, pedagogicalPlan);
+                }
+            }
+            
+
+
             List userNames = getMissionELOService().getAssignedUserNamesFor(missionSpecificationElo);
 
 
@@ -83,7 +95,8 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
             }
 
             logger.info("MissionURL: " + missionURI);
-            modelAndView.addObject("eloURI", URLEncoder.encode(missionURI, "UTF-8"));
+            //modelAndView.addObject("eloURI", URLEncoder.encode(missionURI, "UTF-8"));
+            modelAndView.addObject("eloURI", getMissionELOService().getWebSafeTransporter(missionSpecificationElo));
 
             logger.info("DECODED URI: " + missionURI);
             if (missionURI != null && missionURI.length() > 0) {
@@ -97,15 +110,6 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
         }
 
 
-        String action = request.getParameter("action");
-        if (action != null) {
-            if (action.equals("addStudent")) {
-                String username = request.getParameter("username");
-                addStudent(missionURI, username, modelAndView, pedagogicalPlan);
-            } else if (action.equals("removeStudent")) {
-                removeStudent(request.getParameter("username"), modelAndView, pedagogicalPlan);
-            }
-        }
 
         modelAndView.addObject("pedagogicalPlan", pedagogicalPlan);
     }
@@ -132,7 +136,7 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
             String scaffolding = missionRuntimeModel.getRuntimeSettingsElo().getTypedContent().getSetting(globalMissionScaffoldingLevelKey);
             logger.info("SCAFFOLDING: " + scaffolding);
 
-            logger.info("Adding " + details.getUsername() + " " + details.getFirstName() + " " + details.getLastName() + " to ped plan " + pedagogicalPlan.getName() + " " + pedagogicalPlan.getId());
+            //logger.info("Adding " + details.getUsername() + " " + details.getFirstName() + " " + details.getLastName() + " to ped plan " + pedagogicalPlan.getName() + " " + pedagogicalPlan.getId());
 
             //getAssignedPedagogicalPlanService().assignPedagogicalPlanToUser(pedagogicalPlan, user);
 
