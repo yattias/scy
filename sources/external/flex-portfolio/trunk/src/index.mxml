@@ -76,7 +76,8 @@
 			public static const RIGHT_DIRECTION:String = "right";
 			public static const DELETE_COMMAND:String = "deleteELO";
 			
-			[Bindable] public static var MISSION_NAME:String = "C02 Neutral house";
+			[Bindable] public static var MISSION_NAME:String;
+			[Bindable] public static var PORTFOLIO_STATUS:String;
 			[Bindable] public static var REF_ON_INQ_TXT:String = "How helpful was building a concept map in identifying the main concepts related to reducing global CO2 levels?";
 			
 			[Bindable] public static var obligElos:ArrayCollection;
@@ -147,6 +148,8 @@
 			
 			protected function URLpropertyFile_resultHandler(event:ResultEvent):void {
 				var xml:XML= event.result as XML;
+				MISSION_NAME = xml.mission;
+				PORTFOLIO_STATUS = xml.portfolioStatus;
 				so.data.retrievedElosFromRoolo = xml;
 				so.flush();
 				animate(LEFT_DIRECTION, STACK_INTRO_PANEL);
