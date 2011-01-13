@@ -51,6 +51,7 @@ import eu.scy.client.tools.fxflyingsaucer.FlyingSaucerMoreInfoToolFactory;
 import eu.scy.client.tools.fxflyingsaucer.UrlSource;
 import eu.scy.client.tools.fxformauthor.FormAuthorContentCreator;
 import eu.scy.client.tools.fxyoutuber.YouTuberContentCreator;
+import eu.scy.client.desktop.scydesktop.feedbackquestion.FeedbackQuestionNodeCreator;
 
 /**
  * @author sikkenj
@@ -101,6 +102,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def testMoreInfoId = "testMoreInfo";
    def scyFormAuthorId = "formauthor";
    def scyYouTuberID = "youtuber";
+   def feedbackQuestionId = "feedbackQuestion";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -175,6 +177,8 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    scyDesktopCreator.eloConfigManager.addDebugCreatorId("testMoreInfoId");
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TestMoreInfoNodeCreator{}, testMoreInfoId);
+
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(FeedbackQuestionNodeCreator{}, feedbackQuestionId);
 
    var awarenessService:IAwarenessService = missionRunConfigs.tbi.getAwarenessService();
    var chatControllerMap = new HashMap();

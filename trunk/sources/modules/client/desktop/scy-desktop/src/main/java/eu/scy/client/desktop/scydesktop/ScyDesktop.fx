@@ -63,6 +63,7 @@ import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.corners.BottomLeftCorner;
 import eu.scy.client.desktop.scydesktop.corners.BottomRightCorner;
 import eu.scy.client.desktop.scydesktop.corners.TopLeftCorner;
+import eu.scy.client.desktop.scydesktop.corners.TopRightCorner;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.NumberedNewTitleGenerator;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ScyWindowControlImpl;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.Contact;
@@ -91,6 +92,9 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.BigMissionMap;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.BigMissionMapControl;
 import eu.scy.client.desktop.scydesktop.scywindows.window_positions.FunctionalRoleWindowPositioner;
 import eu.scy.client.desktop.scydesktop.utils.ShutdownHook;
+import eu.scy.client.desktop.scydesktop.uicontrols.MultiImageButton;
+import eu.scy.client.desktop.scydesktop.utils.BareBonesBrowserLaunch;
+import javafx.scene.layout.HBox;
 
 /**
  * @author sikkenj
@@ -338,6 +342,46 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       //            color: Color.GREEN;
       //            effect: cornerToolEffect
       //        }
+         var scyFeedbackButton = MultiImageButton {
+             imageName: "scyfeedback";
+             action: function(): Void {
+                 javafx.stage.Alert.inform("This is button for opening SCY feedback tool. Artist is not yet finished icon for SCY feedback, so we use Google icon. SCY feedback tool is currently not ready (integration with Roolo is not yet finished). So we redirect you to www.google.com. Have a nice day!");
+                 try {
+                    var basicService = javax.jnlp.ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
+                    if (basicService != null) {
+                        var url : java.net.URL = new java.net.URL("http://www.google.com/");
+                        basicService.showDocument(url);
+                    }
+                 }
+                 catch (e: javax.jnlp.UnavailableServiceException) {
+                     BareBonesBrowserLaunch.openURL("http://www.google.com");
+                 }
+             }
+         }
+         var eportfolioButton = MultiImageButton {
+             imageName: "eportfolio";
+             action: function(): Void {
+                 javafx.stage.Alert.inform("This is button for opening e-portfolio tool. Artist is not yet finished icon for e-portfolio, so we use Google icon. E-portfolio tool is currently not ready (integration with Roolo is not yet finished). So we redirect you to www.google.com. Have a nice day!");
+                 try {
+                    var basicService = javax.jnlp.ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
+                    if (basicService != null) {
+                        var url : java.net.URL = new java.net.URL("http://www.google.com/");
+                        basicService.showDocument(url);
+                    }
+                 }
+                 catch (e: javax.jnlp.UnavailableServiceException) {
+                     BareBonesBrowserLaunch.openURL("http://www.google.com");
+                 }
+             }
+         }
+      topRightCorner = TopRightCorner {
+            content: HBox {
+                content: [scyFeedbackButton, eportfolioButton]
+                spacing: 10
+            };
+            effect: cornerToolEffect
+         }
+
 //      var SPTButton = MultiImageButton {
 //            imageName: "planning"
 //            disable: initializer.offlineMode
