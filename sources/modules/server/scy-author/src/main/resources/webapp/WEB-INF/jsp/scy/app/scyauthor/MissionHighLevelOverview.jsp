@@ -30,7 +30,9 @@
 
                                 </c:when>
                                 <c:when test="${anchorElo.elo.obligatoryInPortfolio}">
-                                    YES
+                                    <a href="MissionHighLevelOverview.html?eloURI=${eloWrapper.uri}&action=flipObligatoryInPortfolio&anchorElo=${anchorElo.uri}">
+                                        YES
+                                    </a>
                                 </c:when>
                             </c:choose>
                         </td>
