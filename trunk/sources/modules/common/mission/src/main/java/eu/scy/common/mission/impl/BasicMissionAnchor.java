@@ -155,4 +155,15 @@ public class BasicMissionAnchor implements MissionAnchor
       this.iconType = iconType;
    }
 
+    @Override
+    public void setObligatoryInPorfolio(Boolean obligatoryInPorfolio) {
+        getScyElo().setObligatoryInPortfolio(obligatoryInPorfolio);
+    }
+
+    @Override
+    public Boolean getObligatoryInPortfolio() {
+        return getScyElo().getObligatoryInPortfolio();
+    }
+
+
 }

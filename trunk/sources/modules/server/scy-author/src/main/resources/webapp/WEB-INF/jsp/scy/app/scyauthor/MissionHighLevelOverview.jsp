@@ -19,11 +19,20 @@
                 <c:forEach var="anchorElo" items="${anchorElos}">
                     <tr class="${oddEven.oddEven}">
                         <td>
-                            ${anchorElo.scyElo.title}
+                            ${anchorElo.elo.title}
                         </td>
                         <td>
-                            ${anchorElo.obligatoryInPortfolio}
-                            <s:ajaxELOTextField property="title" eloURI="${missionSpecificationTransporter.uri}" rooloServices="${rooloServices}"/>
+                            <c:choose>
+                                <c:when test="${anchorElo.elo.obligatoryInPortfolio == null || anchorElo.elo.obligatoryInPortfolio == false}">
+                                    <a href="MissionHighLevelOverview.html?eloURI=${eloWrapper.uri}&action=flipObligatoryInPortfolio&anchorElo=${anchorElo.uri}">
+                                        NO
+                                    </a>
+
+                                </c:when>
+                                <c:when test="${anchorElo.elo.obligatoryInPortfolio}">
+                                    YES
+                                </c:when>
+                            </c:choose>
                         </td>
                     </tr>
 
