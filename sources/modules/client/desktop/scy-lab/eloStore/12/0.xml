@@ -58,7 +58,7 @@
     <topDrawerCreatorId>presence</topDrawerCreatorId>
     <rightDrawerCreatorId>chat</rightDrawerCreatorId>
     <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>assingmentInfo resourcesInfo testMoreInfo</leftDrawerCreatorId>
+    <leftDrawerCreatorId>assingmentInfo resourcesInfo testMoreInfo feedbackQuestion</leftDrawerCreatorId>
     <isContentCollaboration>false</isContentCollaboration>
     <isTopDrawerCollaboration>true</isTopDrawerCollaboration>
     <isRightDrawerCollaboration>true</isRightDrawerCollaboration>
