@@ -102,13 +102,13 @@ public class JNLPFilter implements Filter {
             String end = jnlpContent.substring(index, jnlpContent.length());
             String middle = "<argument>-defaultUsername</argument>\n";
             middle += "<argument>" + userName + "</argument>\n";
-            middle += "<argument> -defaultpassword</argument>\n";
+            middle += "<argument>-defaultpassword</argument>\n";
             middle += "<argument>" + password + "</argument>\n";
             if(mission != null) {
-                middle += "<argument> -mission</argument>\n";
+                middle += "<argument>-defaultMission</argument>\n";
                 middle += "<argument>" + mission.trim() + "</argument>\n";
             }
-            middle +="<argument> -autologin</argument>\n";
+            middle +="<argument>-autologin</argument>\n";
             middle +="<argument>true</argument>\n";
             jnlpContent = start + middle + end;
             in.close();
