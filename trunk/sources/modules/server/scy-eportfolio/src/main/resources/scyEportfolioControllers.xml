@@ -40,6 +40,7 @@
                 /app/eportfolio/xml/eportfolioELOSearch.html=eportfolioELOSearchController
                 /app/eportfolio/xml/obligatoryELOsInMission.html=obligatoryELOsInMissionController
                 /app/eportfolio/xml/loadPortfolio.html=loadPortfolioController
+                /app/eportfolio/xml/addEloToPortfolio.html=addELOToPortfolioController
                 /app/eportfolio/xml/runtimeElosList.html=runtimeElosListController
                 /app/eportfolio/xml/currentMissionRuntimeInfo.html=currentMissionRuntimeInfo
 
@@ -79,6 +80,11 @@
 
     <bean id="loadPortfolioController" class="eu.scy.server.eportfolio.xml.LoadPortfolioController">
         <property name="userService" ref="userService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+	</bean>
+
+    <bean id="addELOToPortfolioController" class="eu.scy.server.eportfolio.xml.AddELOToPortfolioController">
         <property name="missionELOService" ref="missionELOService"/>
         <property name="urlInspector" ref="urlInspector"/>
 	</bean>
