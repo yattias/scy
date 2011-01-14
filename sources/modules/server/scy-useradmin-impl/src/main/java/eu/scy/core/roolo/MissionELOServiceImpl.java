@@ -92,6 +92,7 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
 
         for (int i = 0; i < runtimeModels.size(); i++) {
             MissionRuntimeElo missionRuntimeElo = new MissionRuntimeElo(runtimeModels.get(i).getElo(), this);
+            log.info(missionRuntimeElo.getContent().getXmlString());
             if (missionRuntimeElo != null) {
                 if (missionRuntimeElo.getTitle().equals(missionSpecificationElo.getTitle())) {
                     String userName = missionRuntimeElo.getMissionRunning();
@@ -108,6 +109,7 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
         return userNames;
 
     }
+
 
     @Override
     public MissionSpecificationElo getMissionSpecificationELO(URI missionSpecificationURI) {
