@@ -12,7 +12,8 @@ import java.util.List;
  */
 public class Portfolio {
 
-    private String student;
+    private String owner;
+    private String portfolioStatus;
     private String missionName;
     private String reflectionMission;
     private String reflectionCollaboration;
@@ -20,18 +21,34 @@ public class Portfolio {
     private String reflectionEffort;
     private Boolean assessed = Boolean.FALSE;
 
+    private static final String CDATA_START = "<![CDATA[";
+    private static final String CDATA_END = "]]>";
+
     private List<TransferElo> elos;
 
-    public String getStudent() {
-        return student;
+
+    private String getCdata(String content) {
+        return CDATA_START + content + CDATA_END;
     }
 
-    public void setStudent(String student) {
-        this.student = student;
+    public String getPortfolioStatus() {
+        return getCdata(portfolioStatus);
+    }
+
+    public void setPortfolioStatus(String portfolioStatus) {
+        this.portfolioStatus = portfolioStatus;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
     public String getMissionName() {
-        return missionName;
+        return getCdata(missionName);
     }
 
     public void setMissionName(String missionName) {
@@ -39,7 +56,7 @@ public class Portfolio {
     }
 
     public String getReflectionMission() {
-        return reflectionMission;
+        return getCdata(reflectionMission);
     }
 
     public void setReflectionMission(String reflectionMission) {
@@ -47,7 +64,7 @@ public class Portfolio {
     }
 
     public String getReflectionCollaboration() {
-        return reflectionCollaboration;
+        return getCdata(reflectionCollaboration);
     }
 
     public void setReflectionCollaboration(String reflectionCollaboration) {
@@ -55,7 +72,7 @@ public class Portfolio {
     }
 
     public String getReflectionInquiry() {
-        return reflectionInquiry;
+        return getCdata(reflectionInquiry);
     }
 
     public void setReflectionInquiry(String reflectionInquiry) {
