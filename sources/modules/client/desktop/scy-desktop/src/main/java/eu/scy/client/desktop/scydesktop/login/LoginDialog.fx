@@ -106,7 +106,7 @@ public class LoginDialog extends CustomNode, TbiReady {
             selected: true
          }
 
-      loginWindow.openWindow(0, 0);
+      loginWindow.openBoundWindow(0, 0);
       FX.deferAction(fadeWindowIn);
       return loginWindow;
    }

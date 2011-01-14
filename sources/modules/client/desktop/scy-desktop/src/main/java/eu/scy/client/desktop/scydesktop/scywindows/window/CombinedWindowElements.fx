@@ -118,10 +118,25 @@ public class CombinedWindowElements extends ScyWindow {
       throw new UnsupportedOperationException('Not implemented yet');
    }
 
+   override public function openBoundWindow(width: Number, height: Number): Void {
+       throw new UnsupportedOperationException('Not implemented yet');
+   }
+
    override public function openWindow(width: Number, height: Number): Void {
+      openWindow(layoutX, layoutY, width, height);
+   }
+
+   override public function openWindow(posX: Number, posY: Number, width: Number, height: Number): Void {
+      openWindow(posX, posY, width, height, rotate);
+   }
+
+   override public function openWindow(posX: Number, posY: Number, width: Number, height: Number, rotation: Number): Void {
       isClosed = false;
+      this.layoutX = posX;
+      this.layoutY = posY;
       this.width = width;
       this.height = height;
+      this.rotate = rotation;
    }
 
    function placeAttributes() {
