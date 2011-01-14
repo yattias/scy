@@ -92,18 +92,19 @@ public class StandardWindowPositionsState extends WindowPositionsState {
     public function applyStateForWindow(window:ScyWindow) {
         def layoutState:WindowLayoutState = windowUriToLayoutMap.get(window.eloUri) as WindowLayoutState;
         if (layoutState != null) {
-            window.layoutX = layoutState.layoutX;
-            window.layoutY = layoutState.layoutY;
-            window.relativeLayoutCenterX = layoutState.relativeLayoutCenterX;
-            window.relativeLayoutCenterY = layoutState.relativeLayoutCenterY;
             if (layoutState.opened) {
-                window.open();
+                window.openWindow(layoutState.layoutX, layoutState.layoutY, layoutState.width, layoutState.height, layoutState.rotate);
+            } else {
+                window.layoutX = layoutState.layoutX;
+                window.layoutY = layoutState.layoutY;
+                window.relativeLayoutCenterX = layoutState.relativeLayoutCenterX;
+                window.relativeLayoutCenterY = layoutState.relativeLayoutCenterY;
+                window.rotate = layoutState.rotate;
+                window.width = layoutState.width;
+                window.height = layoutState.height;
+                window.relativeWidth = layoutState.relativeWidth;
+                window.relativeHeight = layoutState.relativeHeight;
             }
-            window.width = layoutState.width;
-            window.height = layoutState.height;
-            window.relativeWidth = layoutState.relativeWidth;
-            window.relativeHeight = layoutState.relativeHeight;
-            window.rotate = layoutState.rotate;
         }
     }
 

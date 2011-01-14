@@ -49,6 +49,7 @@ import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import javafx.scene.layout.Container;
+import javafx.scene.CacheHint;
 
 /**
  * @author sikkenj
@@ -152,7 +153,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    var maxDifY: Number;
    var sceneTopLeft: Point2D;
    var beingDragged = false;
-   def animationDuration = 200ms;
+   def animationDuration = 300ms;
 //   var resizeHighLighted = false;
 //   var rotateHighLighted = false;
 //   var closeHighLighted = false;
@@ -161,7 +162,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    public override var minimumHeight = 50 on replace {
          minimumHeight = Math.max(minimumHeight, contentTopOffset + 2 * controlSize);
       }
-   public override var minimumWidth = 90 on replace {
+   public override var minimumWidth = 120 on replace {
          minimumWidth = Math.max(minimumWidth, 2 * borderWidth + 3 * controlSize);
       }
    var emptyWindow: EmptyWindow;
@@ -222,13 +223,9 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       } else {
          allowResize = false;
       }
-      //      println("scyContentChanged(): {newContentWidth}*{newContentHeight}");
-      //      println("preffered sizes    : {Container.getNodePrefWidth(scyContent)}*{Container.getNodePrefHeight(scyContent)}");
       FX.deferAction(function(): Void {
          var limittedSize = limitSize(newContentWidth + deltaContentWidth, newContentHeight + deltaContentHeight);
-         //      println("limitted to        : {limittedSize.x-deltaContentWidth}*{limittedSize.y-deltaContentHeight}");
-         width = limittedSize.x;
-         height = limittedSize.y;
+         openBoundWindow(limittedSize.x, limittedSize.y);
       });
       scyToolsList.windowContentTool = scyContent;
    }
@@ -367,29 +364,95 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       openWindow(openWidth + deltaContentWidth, openHeight + deltaContentHeight);
    }
 
-   public override function openWindow(openWidth: Number, openHeight: Number): Void {
+   public override function openBoundWindow(openWidth: Number, openHeight: Number): Void {
       checkScyContent();
       isClosed = false;
       var useSize = limitSize(openWidth, openHeight);
+      cache = true;
+      cacheHint = CacheHint.SCALE_AND_ROTATE;
+      isAnimating = true;
       var openTimeline = Timeline {
           keyFrames: [
                KeyFrame {
+                  canSkip: false;
                   time: animationDuration;
                   values: [
-                     width => useSize.x tween Interpolator.EASEBOTH,
-                     height => useSize.y tween Interpolator.EASEBOTH
+                     width => useSize.x tween Interpolator.EASEOUT,
+                     height => useSize.y tween Interpolator.EASEOUT,
                   ]
                   action: function() {
                       scyToolsList.onOpened();
                       updateRelativeBounds();
+                      cache = false;
+                      cacheHint = CacheHint.SPEED;
+                      isAnimating = false;
                   }
                }
            ]
        };
        openTimeline.play();
-       //        println("useSize: {useSize}, realy used: {width}*{height}");
-       //        (scyToolsList.actionLoggerTool as ScyToolActionLogger).logToolOpened();
+    }
+
+    public override function openWindow(openWidth: Number, openHeight: Number): Void {
+        openWindow(layoutX, layoutY, openWidth, openHeight);
+    }
+    public override function openWindow(posX: Number, posY: Number, openWidth: Number, openHeight: Number): Void {
+        openWindow(posX, posY, openWidth, openHeight, rotate);
+    }
+
+    public override function openWindow(posX: Number, posY: Number, openWidth: Number, openHeight: Number, rotation: Number): Void {
+      checkScyContent();
+      isClosed = false;
+      desiredWidth = openWidth;
+      desiredHeight = openHeight;
+      var useSize: Point2D = limitSize(openWidth, openHeight);
+      logger.info("Setting size of window {title} to {useSize.x} x {useSize.y}");
+      var useLocation: Point2D = limitLocation(posX, posY);
+      cache = true;
+      cacheHint = CacheHint.SCALE_AND_ROTATE;
+      isAnimating = true;
+      var openTimeline = Timeline {
+          keyFrames: [
+               KeyFrame {
+                  canSkip: false;
+                  time: animationDuration;
+                  values: [
+                     layoutX => useLocation.x tween Interpolator.EASEOUT,
+                     layoutY => useLocation.y tween Interpolator.EASEOUT,
+                     width => useSize.x tween Interpolator.EASEOUT,
+                     height => useSize.y tween Interpolator.EASEOUT,
+                     rotate => rotation tween Interpolator.EASEOUT
+                  ]
+                  action: function() {
+                      scyToolsList.onOpened();
+                      updateRelativeBounds();
+                      cache = false;
+                      cacheHint = CacheHint.SPEED;
+                      isAnimating = false;
+                  }
+               }
+           ]
+       };
+       openTimeline.play();
    }
+
+   /**
+    *  this function limits the position not to be negative or bigger
+    *  than the window size, i.e., prevents a location outside the visible area
+    */
+   function limitLocation(posX: Number, posY: Number): Point2D {
+       var newX = Math.max(0, posX);
+       newX = Math.min(newX, scene.width - 30);
+
+       var newY = Math.max(0, posY);
+       newY = Math.min(newY, scene.height - 30);
+
+       return Point2D{
+           x: newX
+           y: newY
+       }
+   }
+
 
    public override function setMinimize(state: Boolean): Void {
       if (isClosed) {
@@ -479,8 +542,8 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    function updateRelativeBounds(): Void {
       relativeLayoutCenterX = (layoutX + (width / 2)) / scene.width as Number;
       relativeLayoutCenterY = (layoutY + (height / 2)) / scene.height as Number;
-      relativeLayoutCenterX = (layoutX + (width / 2)) / scene.width as Number;
-      relativeLayoutCenterY = (layoutY + (height / 2)) / scene.height as Number;
+      relativeWidth = width / scene.width as Number;
+      relativeHeight = height / scene.height as Number;
    }
 
 
@@ -567,6 +630,8 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       var newSize = limitSize(originalW + difW, originalH + difH);
       width = newSize.x;
       height = newSize.y;
+      desiredWidth = newSize.x;
+      desiredHeight = newSize.y;
 
       updateRelativeBounds();
 
@@ -644,9 +709,10 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    }
 
    function handleDoubleClick(e: MouseEvent): Void {
-      if (isClosed) {
-         open();
-      } else if (isMinimized) {
+      //if (isClosed) {
+      //   open();
+      //} else
+      if (isMinimized) {
          setMinimized(not isMinimized);
       } else {
          if (eloUri == null) {

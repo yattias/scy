@@ -15,11 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.Group;
 import javafx.util.Sequences;
 import javafx.lang.FX;
-import javafx.animation.Timeline;
-import javafx.animation.KeyFrame;
-import javafx.animation.Interpolator;
 import javafx.util.Math;
-import javafx.scene.CacheHint;
 import eu.scy.client.desktop.scydesktop.scywindows.StandardWindowPositionsState;
 
 /**
@@ -143,7 +139,6 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
             delete window from mainWindows;
             // insert it again to be the last
             insert window into mainWindows;
-            window.open();
         }
     }
 
@@ -313,7 +308,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         var column = 1;
         def shift = area.width / (columns + 1);
         for (window in windowList) {
-            if (Sequences.indexOf(mainWindows, window) >= 0 and not window.isClosed) {
+            if (Sequences.indexOf(mainWindows, window) >= 0) {
                 positionAsMainWindow(window);
             } else if (window.layoutX == 0 and window.layoutY == 0 and window.relativeLayoutCenterX == 0 and window.relativeLayoutCenterY == 0) {
                 
@@ -367,46 +362,13 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         if (size > 1) {
             for (nextWindow in mainWindows) {
                 def angle = ((size - 1) - windowCounter++) * 4;
-                positionMainWindow(nextWindow, newX, newY, newWidth, newHeight, angle);
+                nextWindow.openWindow(newX, newY, newWidth, newHeight, angle);
             }
         } else {
-            positionMainWindow(mainWindows[0], newX, newY, newWidth, newHeight, 0);
+            mainWindows[0].openWindow(newX, newY, newWidth, newHeight, 0);
         }
     }
 
-    function positionMainWindow(mWindow:ScyWindow, newX:Number, newY:Number, newWidth:Number, newHeight:Number, angle:Number):Void {
-        def window = mWindow;
-        if (window.isClosed) {
-            window.open();
-        }
-        window.cache = true;
-        window.cacheHint = CacheHint.SCALE_AND_ROTATE;
-        var repositionAndResize:Timeline = Timeline {
-            repeatCount: 1
-            autoReverse: false
-            keyFrames: [
-                KeyFrame {
-                    canSkip: false;
-                    time: 1s
-                    values: [ window.width => newWidth tween Interpolator.EASEOUT,
-                    window.height => newHeight tween Interpolator.EASEOUT,
-                    window.layoutX => newX tween Interpolator.EASEOUT,
-                    window.layoutY => newY tween Interpolator.EASEOUT,
-                    window.rotate => angle tween Interpolator.EASEOUT]
-                    action: function() {
-                        window.relativeWidth = window.width / desktopWidth;
-                        window.relativeHeight = window.height / desktopHeight;
-                        window.relativeLayoutCenterX = (window.layoutX + window.width / 2) / desktopWidth;
-                        window.relativeLayoutCenterY = (window.layoutY + window.height / 2) / desktopHeight;
-                        window.cache = false;
-                        window.cacheHint = CacheHint.SPEED;
-                    }
-                }
-            ]
-        };
-        repositionAndResize.play();
-    }
-    
     def incomingAreaRatio = 0.2;
     def centerAreaRatio = 0.6;
     def outgoingAreaRatio = 0.2;
@@ -477,6 +439,10 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
             window.layoutY = 0;
             window.relativeLayoutCenterX = 0;
             window.relativeLayoutCenterY = 0;
+            window.width = 0;
+            window.height = 0;
+            window.relativeWidth = 0;
+            window.relativeHeight = 0;
             window.rotate = 0;
             logger.info("resetting window {window.title} with URI {window.eloUri}");
         }
