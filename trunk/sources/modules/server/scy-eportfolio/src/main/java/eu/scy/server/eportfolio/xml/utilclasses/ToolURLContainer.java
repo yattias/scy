@@ -17,6 +17,8 @@ public class ToolURLContainer {
     private String currentMissionRuntimeInfo = "/webapp/app/eportfolio/xml/currentMissionRuntimeInfo.html";
     private String assessmentService = "/webapp/components/xml/AssessmentService.html";
     private String portfolioLoader = "/webapp/app/eportfolio/xml/loadPortfolio.html";
+    private String savePortfolio = "/webapp/app/eportfolio/xml/savePortfolio.html";
+
 
     private String metaData = "We give a fuck in metadata!";
 
@@ -81,5 +83,21 @@ public class ToolURLContainer {
 
     public void setAssessmentService(String assessmentService) {
         this.assessmentService = assessmentService;
+    }
+
+    public String getPortfolioLoader() {
+        return portfolioLoader;
+    }
+
+    public void setPortfolioLoader(String portfolioLoader) {
+        this.portfolioLoader = portfolioLoader;
+    }
+
+    public String getSavePortfolio() {
+        return savePortfolio;
+    }
+
+    public void setSavePortfolio(String savePortfolio) {
+        this.savePortfolio = savePortfolio;
     }
 }
