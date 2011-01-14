@@ -10,15 +10,12 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.LinearGradient;
-import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextOrigin;
 import javafx.stage.Stage;
-import eu.scy.client.desktop.scydesktop.art.EloImageInformation;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 //import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageEloIcon;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
@@ -27,6 +24,7 @@ import eu.scy.client.desktop.scydesktop.art.ImageLoader;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Circle;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.FxdEloIcon;
+import eu.scy.client.desktop.scydesktop.art.ScyColors;
 
 /**
  * @author SikkenJ
@@ -34,14 +32,15 @@ import eu.scy.client.desktop.scydesktop.imagewindowstyler.FxdEloIcon;
 
 public class WindowTitleBarDouble extends WindowElement {
 
-   public var width = 100.0;
+   public var width = 200.0;
    public var title = "very very long title";
    public var eloIcon:EloIcon on replace oldEloIcon {eloIconChanged(oldEloIcon)};
    public var activated = true on replace{activatedChanged()};
    public var iconSize = 40.0;
    public var iconGap = 2.0;
    public var textIconSpace = 5.0;
-   public var closeBoxWidth = 0.0;
+   public var closeBoxWidth = 10.0;
+   public var closeBoxShown = false;
    public var textInset = 1.0;
    public var rectangleAntialiasOffset = 0.0;
    public var beingDragged = false on replace{
@@ -53,12 +52,14 @@ public class WindowTitleBarDouble extends WindowElement {
    def titleFontsize = 12;
    def textFont = Font.font("Verdana", FontWeight.BOLD, titleFontsize);
    def mainColor = bind if (activated) windowColorScheme.mainColor else windowColorScheme.emptyBackgroundColor;
-   def bgColor = bind if (activated) windowColorScheme.backgroundColor else windowColorScheme.mainColor;
+   def bgColor = bind if (activated) windowColorScheme.emptyBackgroundColor else windowColorScheme.mainColor;
    // make sure the background color of the title bar changes, when the main changes
    def theMainColor = bind windowColorScheme.mainColor on replace {
       activatedChanged()
    }
    def mouseOverBorderSize = 0.0;
+
+   def closeBoxWidthOffset = bind if (closeBoxShown) closeBoxWidth+textIconSpace else 0;
 
    def borderWidth = 2.0;
    def borderDistance = 22;
@@ -72,8 +73,8 @@ public class WindowTitleBarDouble extends WindowElement {
    var textClipWidth = bind width - iconSize - textIconSpace;
    var mouseOverTitleDisplay:MouseOverDisplay;
 
-//   public-read var titleTextWidth = bind titleText.layoutBounds.maxX;
-//   public-read var titleDisplayWidth = bind clipRect.layoutBounds.maxX;
+   var windowStateControls: WindowStateControls;
+
 
    function eloIconChanged(oldEloIcon:EloIcon){
       eloIcon.size = iconSize;
@@ -87,7 +88,7 @@ public class WindowTitleBarDouble extends WindowElement {
          textBackgroundFillRect.fill = windowColorScheme.mainColor;
       }
       else{
-         textBackgroundFillRect.fill = backgroundColor;
+         textBackgroundFillRect.fill = windowColorScheme.backgroundColor;
       }
    }
 
@@ -111,21 +112,21 @@ public class WindowTitleBarDouble extends WindowElement {
             Rectangle {
                x: -0, y: 0
                width: bind width, height: 2*borderDistance
-               fill: backgroundColor
+               fill: bind windowColorScheme.backgroundColor
             }
-            Line {
+            Line { // top line
                startX: iconSize+textIconSpace+borderWidth/2, startY: 0
                endX: bind width-borderWidth/2, endY: 0
                strokeWidth: borderWidth
                stroke: bind windowColorScheme.mainColor
             }
-            Line {
+            Line { // middle line
                startX: iconSize+textIconSpace+borderWidth/2, startY: borderDistance
                endX: bind width-borderWidth/2, endY: borderDistance
                strokeWidth: borderWidth
                stroke: bind windowColorScheme.mainColor
             }
-            Line {
+            Line { // bottom line
                startX: borderWidth/2, startY: 2*borderDistance
                endX: bind width-borderWidth/2, endY: 2*borderDistance
                strokeWidth: borderWidth
@@ -142,13 +143,18 @@ public class WindowTitleBarDouble extends WindowElement {
                   startDragIcon(e);
                }
             }
-            Line {
+            Line { // left top line
                visible: bind not activated
                startX: borderWidth/2, startY: 0
                endX: iconSize+textIconSpace+borderWidth/2, endY: 0
                strokeWidth: borderWidth
                stroke: bind windowColorScheme.mainColor
             }
+//            windowStateControls = WindowStateControls{
+//               layoutX: bind width - windowStateControls.layoutBounds.width-2* borderWidth - closeBoxWidthOffset
+//               layoutY: 2*borderWidth
+//               windowColorScheme:bind windowColorScheme
+//            }
             textBackgroundFillRect,
             titleText = Text { // title
                font: textFont
@@ -254,6 +260,10 @@ function run(){
       emptyBackgroundColor:Color.WHITE
    }
 
+   windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.blue);
+
+   println("windowColorScheme: {windowColorScheme}");
+
    var windowTitleBar1:WindowTitleBarDouble;
 
    def radius = 10.0;
@@ -297,28 +307,29 @@ function run(){
          scene: Scene {
             width: 400
             height: 400
-            fill:LinearGradient {
-               startX : 0.0
-               startY : -0.5
-               endX : 0.0
-               endY : 1.0
-               stops: [
-                  Stop {
-                     color : Color.GREEN
-                     offset: 0.0
-                  },
-                  Stop {
-                     color : Color.WHITE
-                     offset: 1.0
-                  },
-               ]
-            }
+            fill: Color.web("#eaeaea")
+//            fill:LinearGradient {
+//               startX : 0.0
+//               startY : -0.5
+//               endX : 0.0
+//               endY : 1.0
+//               stops: [
+//                  Stop {
+//                     color : Color.GREEN
+//                     offset: 0.0
+//                  },
+//                  Stop {
+//                     color : Color.WHITE
+//                     offset: 1.0
+//                  },
+//               ]
+//            }
 
             content: [
                windowTitleBar1 = WindowTitleBarDouble {
                   eloIcon: eloIcon1
                   windowColorScheme: windowColorScheme
-                  title:"1: no rotation"
+                  title:"1: no rotation, no rotation"
                   translateX: 10;
                   translateY: 10;
                   activated: true;
@@ -326,7 +337,7 @@ function run(){
                windowTitleBar2 =WindowTitleBarDouble {
                   eloIcon: eloIcon2
                   windowColorScheme: windowColorScheme
-                  title:"2: no rotation"
+                  title:"2: no rotation, no rotation"
                   activated: false
                   translateX: 10;
                   translateY: 70;

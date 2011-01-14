@@ -180,11 +180,10 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          moreInfoToolFactory: bind moreInfoToolFactory
          activeLas: bind missionModelFX.activeLas
       }
-   def shutdownHook = ShutdownHook{
-      stage:scene.stage
-      shutdownFunction:scyDesktopShutdownAction
-   }
-
+   def shutdownHook = ShutdownHook {
+         stage: scene.stage
+         shutdownFunction: scyDesktopShutdownAction
+      }
 
    init {
       if (config.isRedirectSystemStreams() and config.getLoggingDirectory() != null) {
@@ -210,7 +209,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          repositoryWrapper.setMissionSpecificationEloUri(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getMissionSpecificationElo());
          logger.info("Added eloSavedActionHandler as EloSavedListener to the repositoryWrapper");
       }
-//      FX.addShutdownAction(scyDesktopShutdownAction);
+      //      FX.addShutdownAction(scyDesktopShutdownAction);
       create();
    }
 
@@ -293,7 +292,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       contactList.height = 250;
       missionMap = MissionMap {
             missionModel: missionModelFX
-            bigMissionMap:false
+            bigMissionMap: false
             tooltipManager: tooltipManager
             dragAndDropManager: dragAndDropManager
             runtimeSettingsRetriever: EloRuntimeSettingsRetriever {
@@ -310,7 +309,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          }
       def bigMissionMap = BigMissionMap {
             missionModel: missionModelFX
-            bigMissionMap:true
+            bigMissionMap: true
             tooltipManager: tooltipManager
             dragAndDropManager: dragAndDropManager
             runtimeSettingsRetriever: EloRuntimeSettingsRetriever {
@@ -328,7 +327,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       def bigMissionMapControl = BigMissionMapControl {
             bigMissionMap: bigMissionMap
             windowStyler: windowStyler
-            scyWindowControl:scyWindowControl
+            scyWindowControl: scyWindowControl
             missionModel: missionModelFX
          }
 
@@ -342,45 +341,49 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       //            color: Color.GREEN;
       //            effect: cornerToolEffect
       //        }
-         var scyFeedbackButton = MultiImageButton {
-             imageName: "scyfeedback";
-             action: function(): Void {
-                 javafx.stage.Alert.inform("This is button for opening SCY feedback tool. Artist is not yet finished icon for SCY feedback, so we use Google icon. SCY feedback tool is currently not ready (integration with Roolo is not yet finished). So we redirect you to www.google.com. Have a nice day!");
-                 try {
-                    var basicService = javax.jnlp.ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
-                    if (basicService != null) {
-                        var url : java.net.URL = new java.net.URL("http://www.google.com/");
-                        basicService.showDocument(url);
-                    }
-                 }
-                 catch (e: javax.jnlp.UnavailableServiceException) {
-                     BareBonesBrowserLaunch.openURL("http://www.google.com");
-                 }
-             }
+      var scyFeedbackButton = MultiImageButton {
+            imageName: "scyfeedback";
+            disable: initializer.offlineMode
+            action: function(): Void {
+               javafx.stage.Alert.inform("This is button for opening SCY feedback tool. Artist is not yet finished icon for SCY feedback, so we use Google icon. SCY feedback tool is currently not ready (integration with Roolo is not yet finished). So we redirect you to www.google.com. Have a nice day!");
+               try {
+                  var basicService = javax.jnlp.ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
+                  if (basicService != null) {
+                     var url: java.net.URL = new java.net.URL("http://www.google.com/");
+                     basicService.showDocument(url);
+                  }
+               }
+               catch (e: javax.jnlp.UnavailableServiceException) {
+                  BareBonesBrowserLaunch.openURL("http://www.google.com");
+               }
+            }
          }
-         var eportfolioButton = MultiImageButton {
-             imageName: "eportfolio";
-             action: function(): Void {
-                 javafx.stage.Alert.inform("This is button for opening e-portfolio tool. Artist is not yet finished icon for e-portfolio, so we use Google icon. E-portfolio tool is currently not ready (integration with Roolo is not yet finished). So we redirect you to www.google.com. Have a nice day!");
-                 try {
-                    var basicService = javax.jnlp.ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
-                    if (basicService != null) {
-                        var url : java.net.URL = new java.net.URL("http://www.google.com/");
-                        basicService.showDocument(url);
-                    }
-                 }
-                 catch (e: javax.jnlp.UnavailableServiceException) {
-                     BareBonesBrowserLaunch.openURL("http://www.google.com");
-                 }
-             }
+      var eportfolioButton = MultiImageButton {
+            imageName: "eportfolio";
+            disable: initializer.offlineMode
+            action: function(): Void {
+               javafx.stage.Alert.inform("This is button for opening e-portfolio tool. Artist is not yet finished icon for e-portfolio, so we use Google icon. E-portfolio tool is currently not ready (integration with Roolo is not yet finished). So we redirect you to www.google.com. Have a nice day!");
+               try {
+                  var basicService = javax.jnlp.ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
+                  if (basicService != null) {
+                     var url: java.net.URL = new java.net.URL("http://www.google.com/");
+                     basicService.showDocument(url);
+                  }
+               }
+               catch (e: javax.jnlp.UnavailableServiceException) {
+                  BareBonesBrowserLaunch.openURL("http://www.google.com");
+               }
+            }
          }
-      topRightCorner = TopRightCorner {
-            content: HBox {
-                content: [scyFeedbackButton, eportfolioButton]
-                spacing: 10
-            };
-            effect: cornerToolEffect
-         }
+      if (not initializer.offlineMode) {
+         topRightCorner = TopRightCorner {
+               content: HBox {
+                  content: [scyFeedbackButton, eportfolioButton]
+                  spacing: 10
+               };
+               effect: cornerToolEffect
+            }
+      }
 
 //      var SPTButton = MultiImageButton {
 //            imageName: "planning"
@@ -433,14 +436,14 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       bottomRightCorner = BottomRightCorner {
             // TODO, replace with specified tool
             content: if (initializer.useBigMissionMap) bigMissionMapControl else missionMap
-//            content:missionMap
-//            content: HBox {
-//               spacing: 5.0
-//               content: [
-//                  missionMap,
-//                  bigMissionMapControl
-//               ]
-//            }
+            //            content:missionMap
+            //            content: HBox {
+            //               spacing: 5.0
+            //               content: [
+            //                  missionMap,
+            //                  bigMissionMapControl
+            //               ]
+            //            }
             color: Color.BLUE;
             effect: cornerToolEffect
          }
@@ -466,19 +469,19 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                showAreas: true
             }
       } else if (initializer.windowPositioner.equalsIgnoreCase("functionalRole")) {
-          windowPositioner = FunctionalRoleWindowPositioner {
-              scyDesktop: this;
-          }
+         windowPositioner = FunctionalRoleWindowPositioner {
+               scyDesktop: this;
+            }
       } else if (initializer.windowPositioner.equalsIgnoreCase("functionalRoleDebug")) {
-          windowPositioner = FunctionalRoleWindowPositioner {
-              scyDesktop: this;
-              debug: true;
-          }
+         windowPositioner = FunctionalRoleWindowPositioner {
+               scyDesktop: this;
+               debug: true;
+            }
       } else if (initializer.windowPositioner.equalsIgnoreCase("functionalRoleIgnoreResources")) {
-          windowPositioner = FunctionalRoleWindowPositioner {
-              scyDesktop: this;
-              ignoreResources: true;
-          }
+         windowPositioner = FunctionalRoleWindowPositioner {
+               scyDesktop: this;
+               ignoreResources: true;
+            }
       } else {
          logger.error("unknown windowPositioner specified: {initializer.windowPositioner}");
       }

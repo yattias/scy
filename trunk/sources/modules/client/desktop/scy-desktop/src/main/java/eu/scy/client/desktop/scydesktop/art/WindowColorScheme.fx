@@ -26,6 +26,11 @@ public class WindowColorScheme {
       emptyBackgroundColor = windowColorScheme.emptyBackgroundColor;
    }
 
+   public override function toString():String{
+      "mainColor: {mainColor}, backgroundColor: {backgroundColor}"
+   }
+
+
 }
 
 public function getWindowColorScheme(scyColors:ScyColors):WindowColorScheme{
