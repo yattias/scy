@@ -46,6 +46,11 @@ public class LoadPortfolioController extends XMLStreamerController {
                 MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadElo(new URI(missionURI), getMissionELOService());
                 URI portfolioELO = missionRuntimeElo.getTypedContent().getEPortfolioEloUri();
                 logger.info("DID I GET A PORTFOLIO NOW??: " + portfolioELO);
+                if(portfolioELO != null) {
+                    ScyElo porElo = ScyElo.loadLastVersionElo(portfolioELO, getMissionELOService());
+                    logger.info("XML: " + porElo.getElo().getContent().getXmlString());
+
+                }
 
                 logger.info("MISSION: " + missionRuntimeElo.getTitle());
 
