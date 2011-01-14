@@ -29,7 +29,7 @@ import eu.scy.agents.impl.AgentProtocol;
 
 public class HypothesisDecisionMakerTest extends AbstractTestFixture {
 
-  private static final String ELO_TYPE = "scy/copex";
+  private static final String ELO_TYPE = "scy/xproc";
 
   private IELO elo;
 

@@ -29,4 +29,6 @@ public interface KeywordExtractor {
 
 	public void setTupleSpace(TupleSpace tupleSpace);
 
+	public void setMission(String mission);
+
 }

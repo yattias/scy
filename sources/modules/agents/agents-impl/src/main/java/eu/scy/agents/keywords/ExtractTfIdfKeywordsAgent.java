@@ -9,7 +9,6 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.Operator;
@@ -54,7 +53,7 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 			port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
 		activationTuple = new Tuple(EXTRACT_TFIDF_KEYWORDS,
-				AgentProtocol.QUERY, String.class, String.class);
+				AgentProtocol.QUERY, String.class, String.class, String.class);
 		storage = new PersistentStorage(host, port);
 		try {
 			listenerId = getCommandSpace().eventRegister(Command.WRITE,
@@ -140,6 +139,7 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 		} else {
 			String queryId = (String) afterTuple.getField(2).getValue();
 			String text = (String) afterTuple.getField(3).getValue();
+			String mission = (String) afterTuple.getField(4).getValue();
 
 			Set<String> keywords = extractKeywords(text);
 

@@ -68,6 +68,7 @@ public class FitexExtractorTest extends AbstractTestFixture {
     elo = createNewElo("TestCopex", "scy/copex");
     elo.setContent(new BasicContent(eloContent));
     fitexExtractor = new FitexExtractor();
+    fitexExtractor.setMission("co2");
     fitexExtractor.setTupleSpace(getCommandSpace());
   }
 

@@ -40,93 +40,102 @@ public class RichTextExtractor implements KeywordExtractor {
 
 	private TupleSpace tupleSpace;
 
-  public static String XMLPATH = "//content/RichText";
+	private String mission;
+
+	public static String XMLPATH = "//content/RichText";
 
 	public RichTextExtractor() {
 	}
 
-  @Override
-  public List<String> getKeywords(IELO elo) {
-    String text = getText(elo);
-    if (!"".equals(text)) {
-      return getKeywords(text);
-    } else {
-      return new ArrayList<String>();
-    }
-  }
+	@Override
+	public List<String> getKeywords(IELO elo) {
+		String text = getText(elo);
+		if (!"".equals(text)) {
+			return getKeywords(text);
+		} else {
+			return new ArrayList<String>();
+		}
+	}
 
-  private String getText(IELO elo) {
-    String text = "";
-    try {
-      text = unRTF(Utilities.getEloText(elo, XMLPATH, logger));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return text;
-  }
+	private String getText(IELO elo) {
+		String text = "";
+		try {
+			text = unRTF(Utilities.getEloText(elo, XMLPATH, logger));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return text;
+	}
 
-  /**
-   * Converts Rich-Text-Format (RTF) to plain text
-   * 
-   * @see javax.swing.text.rtf
-   * @param rtf a String in RTF
-   * @return plain text
-   * @throws IOException
-   */
-  protected static String unRTF(String rtf) throws IOException {
-    RTFEditorKit editor = new RTFEditorKit();
-    JTextPane text = new JTextPane();
-    StringReader sr = new StringReader(rtf);
-    try {
-      editor.read(sr, text.getDocument(), 0);
-    } catch (BadLocationException e1) {
-      e1.printStackTrace();
-    }
-    String txt;
-    try {
-      txt = text.getDocument().getText(0, text.getDocument().getLength());
-      return txt;
-    } catch (BadLocationException e) {
-      e.printStackTrace();
-    }
-    return null;
-  }
+	/**
+	 * Converts Rich-Text-Format (RTF) to plain text
+	 * 
+	 * @see javax.swing.text.rtf
+	 * @param rtf
+	 *            a String in RTF
+	 * @return plain text
+	 * @throws IOException
+	 */
+	protected static String unRTF(String rtf) throws IOException {
+		RTFEditorKit editor = new RTFEditorKit();
+		JTextPane text = new JTextPane();
+		StringReader sr = new StringReader(rtf);
+		try {
+			editor.read(sr, text.getDocument(), 0);
+		} catch (BadLocationException e1) {
+			e1.printStackTrace();
+		}
+		String txt;
+		try {
+			txt = text.getDocument().getText(0, text.getDocument().getLength());
+			return txt;
+		} catch (BadLocationException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
-  private List<String> getKeywords(String text) {
-    try {
-      String queryId = new VMID().toString();
-      Tuple extractKeywordsTriggerTuple = new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS,
-                                                    AgentProtocol.QUERY, queryId, text);
-      extractKeywordsTriggerTuple.setExpiration(7200000);
-      Tuple responseTuple = null;
-      if (this.tupleSpace.isConnected()) {
-        this.tupleSpace.write(extractKeywordsTriggerTuple);
-        responseTuple = this.tupleSpace.waitToTake(new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS,
-                                                             AgentProtocol.RESPONSE, queryId,
-                                                             Field.createWildCardField()));
-      }
-      if (responseTuple != null) {
-        ArrayList<String> keywords = new ArrayList<String>();
-        for (int i = 3; i < responseTuple.getNumberOfFields(); i++) {
-          String keyword = (String) responseTuple.getField(i).getValue();
-          keywords.add(keyword);
-        }
-        return keywords;
-      }
-    } catch (TupleSpaceException e) {
-      e.printStackTrace();
-    }
-    return new ArrayList<String>();
-  }
+	private List<String> getKeywords(String text) {
+		try {
+			String queryId = new VMID().toString();
+			Tuple extractKeywordsTriggerTuple = new Tuple(
+					ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.QUERY,
+					queryId, text, mission);
+			extractKeywordsTriggerTuple.setExpiration(7200000);
+			Tuple responseTuple = null;
+			if (this.tupleSpace.isConnected()) {
+				this.tupleSpace.write(extractKeywordsTriggerTuple);
+				responseTuple = this.tupleSpace.waitToTake(new Tuple(
+						ExtractKeywordsAgent.EXTRACT_KEYWORDS,
+						AgentProtocol.RESPONSE, queryId, Field
+								.createWildCardField()));
+			}
+			if (responseTuple != null) {
+				ArrayList<String> keywords = new ArrayList<String>();
+				for (int i = 3; i < responseTuple.getNumberOfFields(); i++) {
+					String keyword = (String) responseTuple.getField(i)
+							.getValue();
+					keywords.add(keyword);
+				}
+				return keywords;
+			}
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<String>();
+	}
 
-  @Override
-  public TupleSpace getTupleSpace() {
-    return tupleSpace;
-  }
+	@Override
+	public TupleSpace getTupleSpace() {
+		return tupleSpace;
+	}
 
-  @Override
-  public void setTupleSpace(TupleSpace tupleSpace) {
-    this.tupleSpace = tupleSpace;
-  }
+	@Override
+	public void setTupleSpace(TupleSpace tupleSpace) {
+		this.tupleSpace = tupleSpace;
+	}
 
+	public void setMission(String mission) {
+		this.mission = mission;
+	}
 }

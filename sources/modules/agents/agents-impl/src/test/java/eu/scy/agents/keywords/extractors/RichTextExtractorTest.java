@@ -66,6 +66,7 @@ public class RichTextExtractorTest extends AbstractTestFixture {
 		elo = createNewElo("TestCopex", "scy/copex");
 		elo.setContent(new BasicContent(eloContent));
 		textExtractor = new RichTextExtractor();
+		textExtractor.setMission("co2");
 		textExtractor.setTupleSpace(getCommandSpace());
 	}
 

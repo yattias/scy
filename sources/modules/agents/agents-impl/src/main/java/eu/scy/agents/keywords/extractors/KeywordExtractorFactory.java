@@ -2,6 +2,8 @@ package eu.scy.agents.keywords.extractors;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import eu.scy.agents.impl.EloTypes;
+
 /**
  * Provides a keyword extractor for each mimetype. Until now there are
  * extractors defined for
@@ -28,12 +30,14 @@ public class KeywordExtractorFactory {
 	private static final NoneExtractor NONE_EXTRACTOR = new NoneExtractor();
 
 	public KeywordExtractorFactory() {
-		setKeywordExtractor("scy/text", new TextExtractor());
-		setKeywordExtractor("scy/richtext", new RichTextExtractor());
-		setKeywordExtractor("scy/webresourcer", new WebresourceExtractor());
-		setKeywordExtractor("scy/mapping", new ConceptMapExtractor());
-		setKeywordExtractor("scy/copex", new CopexExtractor());
-		setKeywordExtractor("scy/interview", new InterviewToolExtractor());
+		setKeywordExtractor(EloTypes.SCY_TEXT, new TextExtractor());
+		setKeywordExtractor(EloTypes.SCY_RICHTEXT, new RichTextExtractor());
+		setKeywordExtractor(EloTypes.SCY_WEBRESOURCER,
+				new WebresourceExtractor());
+		setKeywordExtractor(EloTypes.SCY_MAPPING, new ConceptMapExtractor());
+		setKeywordExtractor(EloTypes.SCY_XPROC, new CopexExtractor());
+		setKeywordExtractor(EloTypes.SCY_INTERVIEW,
+				new InterviewToolExtractor());
 	}
 
 	/**
@@ -47,9 +51,9 @@ public class KeywordExtractorFactory {
 		if (eloType == null) {
 			return NONE_EXTRACTOR;
 		}
-		
+
 		KeywordExtractor extractor = keywordExtractors.get(eloType);
-		
+
 		if (extractor == null) {
 			return NONE_EXTRACTOR;
 		}

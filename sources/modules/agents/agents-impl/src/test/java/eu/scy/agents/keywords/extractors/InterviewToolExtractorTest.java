@@ -66,6 +66,7 @@ public class InterviewToolExtractorTest extends AbstractTestFixture {
     elo = createNewElo("TestInterview", "scy/interview");
     elo.setContent(new BasicContent(eloContent));
     interviewToolExtractor = new InterviewToolExtractor();
+    interviewToolExtractor.setMission("co2");
     interviewToolExtractor.setTupleSpace(getCommandSpace());
   }
 

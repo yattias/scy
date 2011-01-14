@@ -18,11 +18,14 @@ import eu.scy.agents.util.Utilities;
 
 public class WebresourceExtractor implements KeywordExtractor {
 
-	private final static Logger logger = Logger.getLogger(WebresourceExtractor.class);
+	private final static Logger logger = Logger
+			.getLogger(WebresourceExtractor.class);
 
-	  public static String XMLPATH = "//webresource/annotations";
+	public static String XMLPATH = "//webresource/annotations";
 
 	private TupleSpace tupleSpace;
+
+	private String mission;
 
 	@Override
 	public List<String> getKeywords(IELO elo) {
@@ -45,7 +48,7 @@ public class WebresourceExtractor implements KeywordExtractor {
 	}
 
 	private String getText(IELO elo) {
-	    String text = Utilities.getEloText(elo, XMLPATH, logger);
+		String text = Utilities.getEloText(elo, XMLPATH, logger);
 		return text;
 	}
 
@@ -54,7 +57,7 @@ public class WebresourceExtractor implements KeywordExtractor {
 			String queryId = new VMID().toString();
 			Tuple extractKeywordsTriggerTuple = new Tuple(
 					ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.QUERY,
-					queryId, text);
+					queryId, text, mission);
 			extractKeywordsTriggerTuple.setExpiration(7200000);
 			Tuple responseTuple = null;
 			if (this.tupleSpace.isConnected()) {
@@ -77,6 +80,10 @@ public class WebresourceExtractor implements KeywordExtractor {
 			e.printStackTrace();
 		}
 		return new ArrayList<String>();
+	}
+
+	public void setMission(String mission) {
+		this.mission = mission;
 	}
 
 }
