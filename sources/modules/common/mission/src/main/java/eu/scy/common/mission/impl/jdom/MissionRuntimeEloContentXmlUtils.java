@@ -20,19 +20,21 @@ public class MissionRuntimeEloContentXmlUtils {
 
    static final String missionRuntimeEloName = "missionRuntimeElo";
    static final String missionSpecificationEloUriName = "missionSpecificationEloUri";
+   static final String ePortfolioEloUriName = "ePortfolioEloUri";
 
    private MissionRuntimeEloContentXmlUtils()
    {
    }
 
-   public static String missionRuntimeToXml(MissionRuntimeEloContent missionSpecification)
+   public static String missionRuntimeToXml(MissionRuntimeEloContent missionRuntime)
    {
       Element root = new Element(missionRuntimeEloName);
-      root.addContent(JDomConversionUtils.createElement(missionSpecificationEloUriName, missionSpecification.getMissionSpecificationEloUri()));
-      root.addContent(JDomConversionUtils.createElement(MissionSpecificationEloContentXmlUtils.missionMapModelEloUriName, missionSpecification.getMissionMapModelEloUri()));
-      root.addContent(JDomConversionUtils.createElement(MissionSpecificationEloContentXmlUtils.eloToolConfigsEloUriName, missionSpecification.getEloToolConfigsEloUri()));
-      root.addContent(JDomConversionUtils.createElement(MissionSpecificationEloContentXmlUtils.templateElosEloUriName, missionSpecification.getTemplateElosEloUri()));
-      root.addContent(JDomConversionUtils.createElement(MissionSpecificationEloContentXmlUtils.runtimeSettingsEloUriName, missionSpecification.getRuntimeSettingsEloUri()));
+      root.addContent(JDomConversionUtils.createElement(missionSpecificationEloUriName, missionRuntime.getMissionSpecificationEloUri()));
+      root.addContent(JDomConversionUtils.createElement(MissionSpecificationEloContentXmlUtils.missionMapModelEloUriName, missionRuntime.getMissionMapModelEloUri()));
+      root.addContent(JDomConversionUtils.createElement(MissionSpecificationEloContentXmlUtils.eloToolConfigsEloUriName, missionRuntime.getEloToolConfigsEloUri()));
+      root.addContent(JDomConversionUtils.createElement(MissionSpecificationEloContentXmlUtils.templateElosEloUriName, missionRuntime.getTemplateElosEloUri()));
+      root.addContent(JDomConversionUtils.createElement(MissionSpecificationEloContentXmlUtils.runtimeSettingsEloUriName, missionRuntime.getRuntimeSettingsEloUri()));
+      root.addContent(JDomConversionUtils.createElement(ePortfolioEloUriName, missionRuntime.getEPortfolioEloUri()));
       return new JDomStringConversion().xmlToString(root);
    }
 
@@ -48,6 +50,7 @@ public class MissionRuntimeEloContentXmlUtils {
       missionRuntimeElo.setEloToolConfigsEloUri(JDomConversionUtils.getUriValue(root,MissionSpecificationEloContentXmlUtils.eloToolConfigsEloUriName));
       missionRuntimeElo.setTemplateElosEloUri(JDomConversionUtils.getUriValue(root,MissionSpecificationEloContentXmlUtils.templateElosEloUriName));
       missionRuntimeElo.setRuntimeSettingsEloUri(JDomConversionUtils.getUriValue(root,MissionSpecificationEloContentXmlUtils.runtimeSettingsEloUriName));
+      missionRuntimeElo.setEPortfolioEloUri(JDomConversionUtils.getUriValue(root,ePortfolioEloUriName));
       return missionRuntimeElo;
    }
 

@@ -108,6 +108,7 @@ public class BasicMissionManagement implements MissionManagement
 			missionRuntimeElo.setTitle(missionSpecificationElo.getTitle());
 			missionRuntimeElo.setDescription(missionSpecificationElo.getDescription());
 			missionRuntimeElo.setMissionRunning(userName);
+			missionRuntimeElo.setAuthor(userName);
 			if (!runSpecificationElos)
 			{
 				missionRuntimeElo.saveAsNewElo();
@@ -115,6 +116,7 @@ public class BasicMissionManagement implements MissionManagement
 			// create the elo tool configs
 			EloToolConfigsElo eloToolConfigsElo = EloToolConfigsElo.loadElo(
 						missionSpecification.getEloToolConfigsEloUri(), rooloServices);
+			eloToolConfigsElo.setAuthor(userName);
 			if (!runSpecificationElos)
 			{
 				eloToolConfigsElo.saveAsForkedElo();
@@ -136,6 +138,7 @@ public class BasicMissionManagement implements MissionManagement
 			// create the template elos elo
 			TemplateElosElo templateElosElo = TemplateElosElo.loadElo(
 						missionSpecification.getTemplateElosEloUri(), rooloServices);
+			templateElosElo.setAuthor(userName);
 			if (!runSpecificationElos)
 			{
 				templateElosElo.saveAsForkedElo();
@@ -160,6 +163,7 @@ public class BasicMissionManagement implements MissionManagement
 					runtimeSettingsElo.saveAsNewElo();
 				}
 			}
+			runtimeSettingsElo.setAuthor(userName);
 
 			missionRuntimeElo.setMissionSpecificationElo(missionSpecificationElo.getUri());
 			missionRuntimeElo.getTypedContent().setMissionSpecificationEloUri(
@@ -169,6 +173,15 @@ public class BasicMissionManagement implements MissionManagement
 			missionRuntimeElo.getTypedContent().setEloToolConfigsEloUri(eloToolConfigsElo.getUri());
 			missionRuntimeElo.getTypedContent().setTemplateElosEloUri(templateElosElo.getUri());
 			missionRuntimeElo.getTypedContent().setRuntimeSettingsEloUri(runtimeSettingsElo.getUri());
+			if (!runSpecificationElos)
+			{
+				ScyElo ePortfolioElo = ScyElo.createElo(MissionEloType.EPORTFOLIO.getType(),
+							rooloServices);
+				ePortfolioElo.setTitle(missionSpecificationElo.getTitle());
+				ePortfolioElo.addAuthor(userName);
+				ePortfolioElo.saveAsNewElo();
+				missionRuntimeElo.getTypedContent().setEPortfolioEloUri(ePortfolioElo.getUri());
+			}
 			if (!runSpecificationElos)
 			{
 				missionRuntimeElo.updateElo();
@@ -192,6 +205,7 @@ public class BasicMissionManagement implements MissionManagement
 		missionModel.loadMetadata(rooloServices);
 		makePersonalMissionModel(missionModel, userName, missionRuntimeEloUri,
 					missionSpecificationEloUri, eloToolConfigsElo.getTypedContent());
+		missionModelElo.setAuthor(userName);
 		missionModelElo.saveAsForkedElo();
 		return missionModelElo;
 	}
