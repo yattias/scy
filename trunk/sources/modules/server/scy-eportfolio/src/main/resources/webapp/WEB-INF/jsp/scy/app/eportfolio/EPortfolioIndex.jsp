@@ -3,6 +3,7 @@
     <tiles:putAttribute name="main">
 
         <a href="${toolURLProvider}">ToolURLProvider</a>
+        JEREMY, EXAMPLE: <a href="http://localhost:8080/webapp/app/eportfolio/xml/loadPortfolio.html?missionURI=${missionURI}">Load portfolio</a>
        
        <link rel="stylesheet" type="text/css" href="http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/history/history.css" />
         <script type="text/javascript" src="http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/history/history.js"></script>
