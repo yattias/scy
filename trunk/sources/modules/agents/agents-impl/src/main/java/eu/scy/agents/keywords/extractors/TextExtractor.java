@@ -23,77 +23,86 @@ import eu.scy.agents.keywords.ExtractKeywordsAgent;
 
 public class TextExtractor implements KeywordExtractor {
 
-  private final static Logger logger = Logger.getLogger(TextExtractor.class);
+	private final static Logger logger = Logger.getLogger(TextExtractor.class);
 
-  TupleSpace tupleSpace;
+	TupleSpace tupleSpace;
 
-  public TextExtractor() {
-  }
+	private String mission;
 
-  @Override
-  public List<String> getKeywords(IELO elo) {
-    String text = getEloText(elo);
-    if (!"".equals(text)) {
-      return getKeywords(text);
-    } else {
-      return new ArrayList<String>();
-    }
-  }
+	public TextExtractor() {
+	}
 
-  private String getEloText(IELO elo) {
-    IContent content = elo.getContent();
-    if (content == null) {
-      logger.fatal("Content of elo is null");
-      return "";
-    }
-    String text = "";
-    SAXBuilder builder = new SAXBuilder();
-    try {
-      Element rootElement = builder.build(new StringReader(content.getXml())).getRootElement();
-      text = rootElement.getTextTrim();
-    } catch (JDOMException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+	@Override
+	public List<String> getKeywords(IELO elo) {
+		String text = getEloText(elo);
+		if (!"".equals(text)) {
+			return getKeywords(text);
+		} else {
+			return new ArrayList<String>();
+		}
+	}
 
-    logger.debug("Got text " + text);
-    return text;
-  }
+	private String getEloText(IELO elo) {
+		IContent content = elo.getContent();
+		if (content == null) {
+			logger.fatal("Content of elo is null");
+			return "";
+		}
+		String text = "";
+		SAXBuilder builder = new SAXBuilder();
+		try {
+			Element rootElement = builder.build(
+					new StringReader(content.getXml())).getRootElement();
+			text = rootElement.getTextTrim();
+		} catch (JDOMException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-  private List<String> getKeywords(String text) {
-    try {
-      String queryId = new VMID().toString();
-      Tuple extractKeywordsTriggerTuple = new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS,
-                                                    AgentProtocol.QUERY, queryId, text);
-      extractKeywordsTriggerTuple.setExpiration(7200000);
-      Tuple responseTuple = null;
-      if (this.tupleSpace.isConnected()) {
-        this.tupleSpace.write(extractKeywordsTriggerTuple);
-        responseTuple = this.tupleSpace.waitToTake(new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS,
-                                                             AgentProtocol.RESPONSE, queryId,
-                                                             Field.createWildCardField()));
-      }
-      if (responseTuple != null) {
-        ArrayList<String> keywords = new ArrayList<String>();
-        for (int i = 3; i < responseTuple.getNumberOfFields(); i++) {
-          String keyword = (String) responseTuple.getField(i).getValue();
-          keywords.add(keyword);
-        }
-        return keywords;
-      }
-    } catch (TupleSpaceException e) {
-      e.printStackTrace();
-    }
-    return new ArrayList<String>();
-  }
+		logger.debug("Got text " + text);
+		return text;
+	}
 
-  public TupleSpace getTupleSpace() {
-    return tupleSpace;
-  }
+	private List<String> getKeywords(String text) {
+		try {
+			String queryId = new VMID().toString();
+			Tuple extractKeywordsTriggerTuple = new Tuple(
+					ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.QUERY,
+					queryId, text, mission);
+			extractKeywordsTriggerTuple.setExpiration(7200000);
+			Tuple responseTuple = null;
+			if (this.tupleSpace.isConnected()) {
+				this.tupleSpace.write(extractKeywordsTriggerTuple);
+				responseTuple = this.tupleSpace.waitToTake(new Tuple(
+						ExtractKeywordsAgent.EXTRACT_KEYWORDS,
+						AgentProtocol.RESPONSE, queryId, Field
+								.createWildCardField()));
+			}
+			if (responseTuple != null) {
+				ArrayList<String> keywords = new ArrayList<String>();
+				for (int i = 3; i < responseTuple.getNumberOfFields(); i++) {
+					String keyword = (String) responseTuple.getField(i)
+							.getValue();
+					keywords.add(keyword);
+				}
+				return keywords;
+			}
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
+		}
+		return new ArrayList<String>();
+	}
 
-  public void setTupleSpace(TupleSpace tupleSpace) {
-    this.tupleSpace = tupleSpace;
-  }
+	public TupleSpace getTupleSpace() {
+		return tupleSpace;
+	}
 
+	public void setTupleSpace(TupleSpace tupleSpace) {
+		this.tupleSpace = tupleSpace;
+	}
+
+	public void setMission(String mission) {
+		this.mission = mission;
+	}
 }

@@ -2,11 +2,13 @@ package eu.scy.agents.topics;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,7 @@ import cc.mallet.pipe.TokenSequence2FeatureSequence;
 import cc.mallet.topics.ParallelTopicModel;
 import cc.mallet.types.Instance;
 import cc.mallet.types.InstanceList;
+import eu.scy.agents.impl.PersistentStorage;
 import eu.scy.agents.util.Preprocessor;
 
 public class TopicModelTool {
@@ -125,24 +128,37 @@ public class TopicModelTool {
 		}
 	}
 
+	public void upload(String host, int port, String key,
+			ParallelTopicModel model) throws IOException {
+		PersistentStorage storage = new PersistentStorage(host, port);
+		ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
+		ObjectOutputStream objectOut = new ObjectOutputStream(bytesOut);
+		objectOut.writeObject(model);
+		storage.put(key, bytesOut.toByteArray());
+	}
+
 	public static void main(String[] args) throws IOException {
 		InputStream in = TopicModelTool.class
-//				.getResourceAsStream("/mission1_texts/English/content.txt");
-        .getResourceAsStream("/mission1_texts/Estonian/content.txt");
+				.getResourceAsStream("/mission1_texts/English/content.txt");
+		// .getResourceAsStream("/mission1_texts/Estonian/content.txt");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 		String line = "";
 		List<Reader> inputStreams = new ArrayList<Reader>();
 		while ((line = reader.readLine()) != null) {
 			inputStreams.add(new InputStreamReader(TopicModelTool.class
-//					.getResourceAsStream("/mission1_texts/English/" + line.trim())));
-            .getResourceAsStream("/mission1_texts/Estonian/" + line.trim())));
+					.getResourceAsStream("/mission1_texts/English/"
+							+ line.trim())));
+			// .getResourceAsStream("/mission1_texts/Estonian/"
+			// + line.trim())));
 		}
 
 		TopicModelTool topicModelTool = new TopicModelTool();
 		topicModelTool.createTopicModel(inputStreams.toArray(new Reader[0]),
-//				"en", "co2", 15);
-        "est", "co2", 15);
+				"en", "co2", 15);
+		// "est", "co2", 15);
 
+		topicModelTool.upload("scy.collide.info", 2525, topicModelTool
+				.getName(), topicModelTool.getTopicModel());
 		File file = new File("src/test/resources/models", topicModelTool
 				.getName());
 		System.out.println(file.getAbsolutePath());

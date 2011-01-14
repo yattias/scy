@@ -33,6 +33,8 @@ import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 
 public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 
+	private static final String MISSION1 = "mission1";
+
 	private static final int IDLE_TIME = 2000;
 
 	private IELO elo;
@@ -131,8 +133,8 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		Tuple notificationTuple = this.getCommandSpace().waitToTake(
 				new Tuple(AgentProtocol.NOTIFICATION, String.class,
 						String.class, String.class, String.class, String.class,
-						Field.createWildCardField()));// ,
-		// AgentProtocol.ALIVE_INTERVAL);
+						Field.createWildCardField()),
+				AgentProtocol.ALIVE_INTERVAL);
 		assertNotNull("no notification received", notificationTuple);
 		assertEquals(AgentProtocol.NOTIFICATION, notificationTuple.getField(0)
 				.getValue());
@@ -142,7 +144,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 				.getField(3).getValue());
 		assertEquals(ExtractKeywordsDecisionMakerAgent.class.getName(),
 				notificationTuple.getField(4).getValue());
-		assertEquals("mission1", notificationTuple.getField(5).getValue());
+		assertEquals(MISSION1, notificationTuple.getField(5).getValue());
 		assertEquals("n/a", notificationTuple.getField(6).getValue());
 		assertEquals("type=concept_proposal", notificationTuple.getField(7)
 				.getValue());
@@ -185,8 +187,8 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		Tuple notificationTuple = this.getCommandSpace().waitToTake(
 				new Tuple(AgentProtocol.NOTIFICATION, String.class,
 						String.class, "scymapper", String.class, String.class,
-						Field.createWildCardField()));// ,
-		// AgentProtocol.ALIVE_INTERVAL);
+						Field.createWildCardField()),
+				AgentProtocol.ALIVE_INTERVAL);
 		assertNotNull("no notification received", notificationTuple);
 		assertEquals(AgentProtocol.NOTIFICATION, notificationTuple.getField(0)
 				.getValue());
@@ -196,7 +198,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 				.getField(3).getValue());
 		assertEquals(ExtractKeywordsDecisionMakerAgent.class.getName(),
 				notificationTuple.getField(4).getValue());
-		assertEquals("mission1", notificationTuple.getField(5).getValue());
+		assertEquals(MISSION1, notificationTuple.getField(5).getValue());
 		assertEquals("n/a", notificationTuple.getField(6).getValue());
 		assertEquals("type=concept_proposal", notificationTuple.getField(7)
 				.getValue());
@@ -227,7 +229,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 				.getField(3).getValue());
 		assertEquals(ExtractKeywordsDecisionMakerAgent.class.getName(),
 				notificationTuple.getField(4).getValue());
-		assertEquals("mission1", notificationTuple.getField(5).getValue());
+		assertEquals(MISSION1, notificationTuple.getField(5).getValue());
 		assertEquals("n/a", notificationTuple.getField(6).getValue());
 		assertEquals("type=concept_proposal", notificationTuple.getField(7)
 				.getValue());
@@ -271,7 +273,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		assertEquals(eloPath, notificationTuple.getField(3).getValue());
 		assertEquals(ExtractKeywordsDecisionMakerAgent.class.getName(),
 				notificationTuple.getField(4).getValue());
-		assertEquals("mission1", notificationTuple.getField(5).getValue());
+		assertEquals(MISSION1, notificationTuple.getField(5).getValue());
 		assertEquals("n/a", notificationTuple.getField(6).getValue());
 		assertEquals("type=concept_proposal", notificationTuple.getField(7)
 				.getValue());
@@ -301,7 +303,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		assertEquals(eloPath, notificationTuple.getField(3).getValue());
 		assertEquals(ExtractKeywordsDecisionMakerAgent.class.getName(),
 				notificationTuple.getField(4).getValue());
-		assertEquals("mission1", notificationTuple.getField(5).getValue());
+		assertEquals(MISSION1, notificationTuple.getField(5).getValue());
 		assertEquals("n/a", notificationTuple.getField(6).getValue());
 		assertEquals("type=concept_proposal", notificationTuple.getField(7)
 				.getValue());
@@ -333,7 +335,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 							AgentProtocol.ACTION_ELO_LOADED,
 							"jeremy@scy.collide.info/Smack",
 							ExtractKeywordsDecisionMakerAgent.WEBRESOURCER,
-							"mission1", "n/a", this.eloPath));
+							MISSION1, "n/a", this.eloPath));
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
@@ -347,7 +349,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 							AgentProtocol.ACTION_NODE_ADDED,
 							"jeremy@scy.collide.info/Smack",
 							ExtractKeywordsDecisionMakerAgent.SCYMAPPER,
-							"mission1", "n/a", this.eloPath, "id=111",
+							MISSION1, "n/a", this.eloPath, "id=111",
 							"name=label"));
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
@@ -362,7 +364,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 							AgentProtocol.ACTION_TOOL_STARTED,
 							"jeremy@scy.collide.info/Smack",
 							ExtractKeywordsDecisionMakerAgent.WEBRESOURCER,
-							"mission1", "n/a", this.eloPath));
+							MISSION1, "n/a", this.eloPath));
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
@@ -376,7 +378,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 							AgentProtocol.ACTION_TOOL_STARTED,
 							"jeremy@scy.collide.info/Smack",
 							ExtractKeywordsDecisionMakerAgent.CONCEPTMAP,
-							"mission1", "n/a",
+							MISSION1, "n/a",
 							"roolo://memory/1/0/Test.scymapper"));
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();

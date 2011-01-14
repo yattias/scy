@@ -19,76 +19,83 @@ import java.util.ArrayList;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.KeyValuePair;
 
-public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements IRepositoryAgent {
+public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
+		IRepositoryAgent {
 
-  public final static String NAME = AddKeywordsToMetadataAgent.class.getName();
+	public final static String NAME = AddKeywordsToMetadataAgent.class
+			.getName();
 
-  private IMetadataTypeManager metadataTypeManager;
+	private IMetadataTypeManager metadataTypeManager;
 
-  private IRepository repository;
+	private IRepository repository;
 
-  public AddKeywordsToMetadataAgent(Map<String, Object> params) {
-    super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
-    if (params.containsKey(AgentProtocol.TS_HOST)) {
-      this.host = (String) params.get(AgentProtocol.TS_HOST);
-    }
-    if (params.containsKey(AgentProtocol.TS_PORT)) {
-      this.port = (Integer) params.get(AgentProtocol.TS_PORT);
-    }
-  }
-  
-  @Override
-  public void processELOSavedAction(String actionId, String user, long timeInMillis,
-                                       String tool, String mission, String session, String eloUri,
-                                       String eloType) {
+	public AddKeywordsToMetadataAgent(Map<String, Object> params) {
+		super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
+		if (params.containsKey(AgentProtocol.TS_HOST)) {
+			this.host = (String) params.get(AgentProtocol.TS_HOST);
+		}
+		if (params.containsKey(AgentProtocol.TS_PORT)) {
+			this.port = (Integer) params.get(AgentProtocol.TS_PORT);
+		}
+	}
 
-    IELO elo = getELO(eloUri);
-    if (elo == null) {
-      return;
-    }
+	@Override
+	public void processELOSavedAction(String actionId, String user,
+			long timeInMillis, String tool, String mission, String session,
+			String eloUri, String eloType) {
 
-    KeywordExtractorFactory factory = new KeywordExtractorFactory();
-    KeywordExtractor extractor = factory.getKeywordExtractor(eloType);
-    extractor.setTupleSpace(getCommandSpace());
-    List<String> keywords = extractor.getKeywords(elo);
-    List<KeyValuePair> keywordsWithBoost = new ArrayList<KeyValuePair>();
-      for (String keyword : keywords) {
-          //initially using a default boosting factor
-          keywordsWithBoost.add(new KeyValuePair(keyword, "1.0"));
-      }
+		IELO elo = getELO(eloUri);
+		if (elo == null) {
+			return;
+		}
 
-    addKeywordsToMetadata(elo, keywordsWithBoost);
-  }
+		KeywordExtractorFactory factory = new KeywordExtractorFactory();
+		KeywordExtractor extractor = factory.getKeywordExtractor(eloType);
+		extractor.setMission(mission);
+		extractor.setTupleSpace(getCommandSpace());
+		List<String> keywords = extractor.getKeywords(elo);
+		List<KeyValuePair> keywordsWithBoost = new ArrayList<KeyValuePair>();
+		for (String keyword : keywords) {
+			// initially using a default boosting factor
+			keywordsWithBoost.add(new KeyValuePair(keyword, "1.0"));
+		}
 
-  private void addKeywordsToMetadata(IELO elo, List<KeyValuePair> keywords) {
-    if (keywords.isEmpty()) {
-      return;
-    }
-    IMetadataKey keywordKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS.getId());
-    IMetadataValueContainer agentKeywordsContainer = elo.getMetadata().getMetadataValueContainer(keywordKey);
-    agentKeywordsContainer.setValueList(keywords);
+		addKeywordsToMetadata(elo, keywordsWithBoost);
+	}
 
-//    repository.updateELO(elo); //XXX this is important because an update would change the version number of the elo, which will also change the URI
-    repository.addMetadata(elo.getUri(), elo.getMetadata());
-  }
+	private void addKeywordsToMetadata(IELO elo, List<KeyValuePair> keywords) {
+		if (keywords.isEmpty()) {
+			return;
+		}
+		IMetadataKey keywordKey = metadataTypeManager
+				.getMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS.getId());
+		IMetadataValueContainer agentKeywordsContainer = elo.getMetadata()
+				.getMetadataValueContainer(keywordKey);
+		agentKeywordsContainer.setValueList(keywords);
 
-  private IELO getELO(String eloUri) {
-    try {
-      return repository.retrieveELO(new URI(eloUri));
-    } catch (URISyntaxException e) {
-      e.printStackTrace();
-    }
-    return null;
-  }
+		// repository.updateELO(elo); //XXX this is important because an update
+		// would change the version number of the elo, which will also change
+		// the URI
+		repository.addMetadata(elo.getUri(), elo.getMetadata());
+	}
 
-  @Override
-  public void setMetadataTypeManager(IMetadataTypeManager manager) {
-    metadataTypeManager = manager;
-  }
+	private IELO getELO(String eloUri) {
+		try {
+			return repository.retrieveELO(new URI(eloUri));
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
-  @Override
-  public void setRepository(IRepository rep) {
-    repository = rep;
-  }
+	@Override
+	public void setMetadataTypeManager(IMetadataTypeManager manager) {
+		metadataTypeManager = manager;
+	}
+
+	@Override
+	public void setRepository(IRepository rep) {
+		repository = rep;
+	}
 
 }

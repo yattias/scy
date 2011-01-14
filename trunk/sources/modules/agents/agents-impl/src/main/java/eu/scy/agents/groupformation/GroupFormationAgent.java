@@ -137,13 +137,14 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 						MAX_GROUP_SIZE_PARAMETER));
 		String eloUri = action.getContext(ContextConstants.eloURI);
 		IELO elo = getElo(eloUri);
-		GroupFormationCache groupFormationCache = missionGroupsCache
-				.get(mission);
 		String strategy = "dummy";// action.getAttribute(STRATEGY);
 		GroupFormationScope scope = GroupFormationScope.valueOf(action
 				.getAttribute(SCOPE));
 
-		Set<String> availableUsers = getAvailableUsers(scope, mission, las);
+		GroupFormationCache groupFormationCache = missionGroupsCache
+				.get(mission);
+		Set<String> availableUsers = getAvailableUsers(scope, mission, las,
+				groupFormationCache);
 		if (availableUsers.size() < minGroupSize) {
 			sendWaitNotification(action);
 			return;
@@ -167,20 +168,26 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		missionGroupsCache.put(mission, groupFormationCache);
 		// }
 
-		sendGroupNotification(action, groupFormationCache);
+		sendGroupNotification(action, formedGroups);
 	}
 
 	private Set<String> getAvailableUsers(GroupFormationScope scope,
-			String mission, String las) {
+			String mission, String las, GroupFormationCache cache) {
+		Set<String> availableUsers = new HashSet<String>();
 		switch (scope) {
 		case LAS:
-			return getUsers(UserLocationAgent.METHOD_USERS_IN_LAS, mission, las);
+			availableUsers = getUsers(UserLocationAgent.METHOD_USERS_IN_LAS,
+					mission, las);
 		case MISSION:
-			return getUsers(UserLocationAgent.METHOD_USERS_IN_MISSION, mission,
-					las);
+			availableUsers = getUsers(
+					UserLocationAgent.METHOD_USERS_IN_MISSION, mission, las);
 		}
 
-		return Collections.emptySet();
+		for (Set<String> groups : cache.getGroups()) {
+			availableUsers.removeAll(groups);
+		}
+
+		return availableUsers;
 	}
 
 	private Set<String> getUsers(String method, String mission, String las) {
@@ -216,9 +223,10 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 	// return true;
 	// }
 
-	private void sendGroupNotification(IAction action, GroupFormationCache cache) {
+	private void sendGroupNotification(IAction action,
+			Collection<Set<String>> formedGroups) {
 
-		for (Set<String> group : cache.getGroups()) {
+		for (Set<String> group : formedGroups) {
 			StringBuilder message = new StringBuilder();
 			message
 					.append("textmessage=Please consider collaboration with these students: ");

@@ -31,7 +31,7 @@ import eu.scy.agents.keywords.OntologyKeywordsAgent;
 
 public class HypothesisEvaluationChainTest extends AbstractTestFixture {
 
-  private static final String ELO_TYPE = "scy/copex";
+  private static final String ELO_TYPE = "scy/xproc";
 
   private IELO elo;
 

@@ -30,4 +30,7 @@ public class NoneExtractor implements KeywordExtractor {
 	@Override
 	public void setTupleSpace(TupleSpace tupleSpace) {
 	}
+
+	public void setMission(String mission) {
+	}
 }

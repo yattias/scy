@@ -66,6 +66,7 @@ public class TextExtractorTest extends AbstractTestFixture {
     elo.setContent(new BasicContent(TEXT));
 
     extractor = new TextExtractor();
+    extractor.setMission("co2");
     extractor.setTupleSpace(getCommandSpace());
   }
 

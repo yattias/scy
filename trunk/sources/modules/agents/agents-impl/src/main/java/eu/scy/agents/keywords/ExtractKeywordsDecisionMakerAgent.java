@@ -26,6 +26,7 @@ import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.impl.AbstractDecisionAgent;
 import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.agents.keywords.extractors.KeywordExtractor;
 import eu.scy.agents.keywords.extractors.WebresourceExtractor;
 
 public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
@@ -86,7 +87,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 
 	private IRepository repository;
 
-	private WebresourceExtractor extractor;
+	private KeywordExtractor extractor;
 
 	public ExtractKeywordsDecisionMakerAgent(Map<String, Object> params) {
 		super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
@@ -338,6 +339,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 							+ " was null");
 					return;
 				}
+				extractor.setMission(contextInformation.mission);
 				List<String> keywords = extractor.getKeywords(elo);
 
 				LOGGER.debug("found keywords to send to " + user + ": "

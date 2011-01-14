@@ -24,13 +24,16 @@ import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.agents.impl.EloTypes;
 
 /**
- * Detects topics in text . ("topicDetector":String, <ELOUri>:String) -> ("topicDetector":String, <ELOUri>:String)
+ * Detects topics in text . ("topicDetector":String, <ELOUri>:String) ->
+ * ("topicDetector":String, <ELOUri>:String)
  * 
  * @author Florian Schulz
  */
-public class DetectTopicForElos extends AbstractRequestAgent implements IRepositoryAgent {
+public class DetectTopicForElos extends AbstractRequestAgent implements
+		IRepositoryAgent {
 
 	public static final String NAME = DetectTopicForElos.class.getName();
 
@@ -57,7 +60,8 @@ public class DetectTopicForElos extends AbstractRequestAgent implements IReposit
 		while (status == Status.Running) {
 			Tuple tuple = null;
 			if (getCommandSpace().isConnected()) {
-				tuple = getCommandSpace().waitToTake(getTemplateTuple(), AgentProtocol.COMMAND_EXPIRATION);
+				tuple = getCommandSpace().waitToTake(getTemplateTuple(),
+						AgentProtocol.COMMAND_EXPIRATION);
 			}
 			if (tuple != null) {
 				String uri = "";
@@ -68,20 +72,29 @@ public class DetectTopicForElos extends AbstractRequestAgent implements IReposit
 						String text = new String(elo.getContent().getBytes());
 						String queryID = new VMID().toString();
 						getCommandSpace().write(
-								new Tuple(TopicAgents.TOPIC_DETECTOR, AgentProtocol.QUERY, queryID, modelName, text));
+								new Tuple(TopicAgents.TOPIC_DETECTOR,
+										AgentProtocol.QUERY, queryID,
+										modelName, text));
 						Tuple responseTuple = getCommandSpace().waitToRead(
-								new Tuple(TopicAgents.TOPIC_DETECTOR, AgentProtocol.RESPONSE, queryID, Field
-										.createWildCardField()), 10 * 1000);
+								new Tuple(TopicAgents.TOPIC_DETECTOR,
+										AgentProtocol.RESPONSE, queryID, Field
+												.createWildCardField()),
+								10 * 1000);
 						if (responseTuple != null) {
-							ObjectInputStream bytesIn = new ObjectInputStream(new ByteArrayInputStream(
-									(byte[]) responseTuple.getField(3).getValue()));
-							HashMap<Integer, Double> topicScoresMap = (HashMap<Integer, Double>) bytesIn.readObject();
+							ObjectInputStream bytesIn = new ObjectInputStream(
+									new ByteArrayInputStream(
+											(byte[]) responseTuple.getField(3)
+													.getValue()));
+							HashMap<Integer, Double> topicScoresMap = (HashMap<Integer, Double>) bytesIn
+									.readObject();
 							addTopicMetadata(elo, topicScoresMap);
-							repository.addMetadata(elo.getUri(), elo.getMetadata());
+							repository.addMetadata(elo.getUri(), elo
+									.getMetadata());
 						}
 					}
 				} catch (URISyntaxException e) {
-					throw new AgentLifecycleException("malformed uri: " + uri, e);
+					throw new AgentLifecycleException("malformed uri: " + uri,
+							e);
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (ClassNotFoundException e) {
@@ -94,7 +107,8 @@ public class DetectTopicForElos extends AbstractRequestAgent implements IReposit
 	}
 
 	/**
-	 * Sends ("topicDetector":String, <ELOUri>:String, topicModelScores:byte[](HashMap<Integer,Double>))
+	 * Sends ("topicDetector":String, <ELOUri>:String,
+	 * topicModelScores:byte[](HashMap<Integer,Double>))
 	 * 
 	 * @throws IOException
 	 * @throws TupleSpaceException
@@ -105,17 +119,23 @@ public class DetectTopicForElos extends AbstractRequestAgent implements IReposit
 	}
 
 	private boolean isValidType(IELO elo) {
-		IMetadataValueContainer type = elo.getMetadata().getMetadataValueContainer(
-				metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId()));
-		if ("scy/text".equals(type.getValue())) {
+		IMetadataValueContainer type = elo
+				.getMetadata()
+				.getMetadataValueContainer(
+						metadataTypeManager
+								.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT
+										.getId()));
+		if (EloTypes.SCY_TEXT.equals(type.getValue())) {
 			return true;
 		}
 		return false;
 	}
 
 	private void addTopicMetadata(IELO elo, Map<Integer, Double> topicScores) {
-		IMetadataKey key = metadataTypeManager.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES);
-		IMetadataValueContainer topicScoresContainer = elo.getMetadata().getMetadataValueContainer(key);
+		IMetadataKey key = metadataTypeManager
+				.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES);
+		IMetadataValueContainer topicScoresContainer = elo.getMetadata()
+				.getMetadataValueContainer(key);
 		for (Integer topicId : topicScores.keySet()) {
 			KeyValuePair entry = new KeyValuePair();
 			entry.setKey("" + topicId);
