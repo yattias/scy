@@ -116,20 +116,10 @@
 					"House data"
 				]);
 				
-				FlexGlobals.topLevelApplication.addEventListener(KeyboardEvent.KEY_DOWN, keyDownListener);
-				
 				resourceManager.localeChain = [ "en_US" ];
 				retrieveUserInfo();
 				this.addEventListener(TOGGLE_COMMAND, ToggleStack);
 				URLpropertyFile.send();
-			}
-			
-			private function keyDownListener(e:KeyboardEvent):void {
-				trace(e.charCode);
-				//combinaison cmd/ctrl + shift + "1"
-				if(e.charCode == 49) {
-					infoPanVisi = !infoPanVisi;
-				}
 			}
 			
 			private function animate(direction:String, selecIndex:Number):void {
@@ -312,7 +302,9 @@
 		<s:Image id="animateImage" visible="false" includeInLayout="false" />
 	</s:Group>
 	
-	<s:BorderContainer id="altBox" visible="{infoPanVisi}" width="300" x="{this.width/2 - altBox.width/2}" y="{this.height/2 - altBox.height/2}" cornerRadius="5" borderWeight="2" borderColor="#999999" dropShadowVisible="true" backgroundColor="0x333333" alpha=".9">
+	<s:BorderContainer id="clicker" width="10" height="10" backgroundColor="#FF0000" backgroundAlpha=".1" borderVisible="false" click="infoPanVisi = !infoPanVisi;" />
+	
+	<s:BorderContainer id="altBox" visible="{infoPanVisi}" width="300" horizontalCenter="0" verticalCenter="0" cornerRadius="5" borderWeight="2" borderColor="#999999" dropShadowVisible="true" backgroundColor="0x333333" alpha=".9">
 		<s:VGroup width="100%" height="100%">
 			<s:Label id="urlInfo" width="100%" height="100%" color="#FFFFFF" />
 		</s:VGroup>
