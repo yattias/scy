@@ -9,6 +9,7 @@
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
+			import mx.events.CloseEvent;
 			import mx.events.FlexEvent;
 			
 			import utils.XMLUtilJer;
@@ -70,11 +71,38 @@
 					scrollbar.maxScrollPosition = coverflow.numChildren - 1;
 					coverflow.selectedIndex = 0;
 				}
+				
+				if(new String(so.data.retrievedElosFromRoolo.portfolioStatus) == "PORTFOLIO_SUBMITTED") {
+					reflectionArea1.editable = false;
+					reflectionArea2.editable = false;
+					reflectionArea3.editable = false;
+					refOnInqTextSlider.enabled = false;
+					currentState = "locked";
+				}
+				else {
+					currentState = "unlocked";
+				}
 			}
 			
 			protected function okSubmit_clickHandler(event:MouseEvent):void {
+				xmlPortfolio.portfolioStatus = <portfolioStatus>{XMLUtilJer.cdata("PORTFOLIO_SUBMITTED")}</portfolioStatus>;
+				xmlPortfolio.reflectionMission = <reflectionMission>{XMLUtilJer.cdata(ref1Txt)}</reflectionMission>;
+				xmlPortfolio.reflectionCollaboration = <reflectionCollaboration>{XMLUtilJer.cdata(ref2Txt)}</reflectionCollaboration>;
+				xmlPortfolio.reflectionInquiry = <reflectionInquiry>{XMLUtilJer.cdata(ref3Txt)}</reflectionInquiry>;
+				xmlPortfolio.reflectionEffort = <reflectionEffort>{refOnInqTextSlider.value}</reflectionEffort>;
+				so.data.retrievedElosFromRoolo = xmlPortfolio;
+				so.flush();
 				trace(xmlPortfolio);
-				Alert.show(resourceManager.getString('resources', 'ALERT_SUBMIT_TEXT'), resourceManager.getString('resources', 'ALERT_SUBMIT_TITLE'));
+				Alert.show(resourceManager.getString('resources', 'ALERT_SUBMIT_TEXT'), resourceManager.getString('resources', 'ALERT_SUBMIT_TITLE'), Alert.OK, null, alertListener);
+			}
+			
+			private function alertListener(event:CloseEvent):void {
+				if(event.detail == Alert.OK) {
+					var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
+					tEvent.direction = index.LEFT_DIRECTION;
+					tEvent.selecTarget = index.STACK_INTRO_PANEL;
+					dispatchEvent(tEvent);
+				}
 			}
 			
 			private function updateCoordinates(event:Event):void {
@@ -130,12 +158,6 @@
 			
 			private function validateSubmitButton():void {
 				if(ref1Txt != "" && ref2Txt != "" && ref3Txt != "") {
-					xmlPortfolio.reflectionMission = <reflectionMission>{XMLUtilJer.cdata(ref1Txt)}</reflectionMission>;
-					xmlPortfolio.reflectionCollaboration = <reflectionCollaboration>{XMLUtilJer.cdata(ref2Txt)}</reflectionCollaboration>;
-					xmlPortfolio.reflectionInquiry = <reflectionInquiry>{XMLUtilJer.cdata(ref3Txt)}</reflectionInquiry>;
-					xmlPortfolio.reflectionEffort = <reflectionEffort>{refOnInqTextSlider.value}</reflectionEffort>;
-					so.data.retrievedElosFromRoolo = xmlPortfolio;
-					so.flush();
 					sendButtonEnabled = true;
 				}
 				else {
@@ -144,6 +166,11 @@
 			}
 		]]>
 	</fx:Script>
+	
+	<s:states>
+		<s:State name="unlocked" />
+		<s:State name="locked" />
+	</s:states>
 	
 	<s:VGroup width="100%" height="100%" horizontalAlign="center" >
 		<s:HGroup id="hbo" width="100%" height="70" horizontalAlign="center" verticalAlign="middle" gap="3">
@@ -236,8 +263,9 @@
 		</s:VGroup>
 		
 		<s:HGroup id="submitFooter" width="100%" height="40" horizontalAlign="center" gap="10" verticalAlign="middle">
-			<s:Button id="okSubmit" label="{resourceManager.getString('resources', 'SEND_BUTTON')}" enabled="{sendButtonEnabled}" click="okSubmit_clickHandler(event)" />
-			<s:Button id="backSubmit" label="{resourceManager.getString('resources', 'BACK_BUTTON')}" click="clickHandler(index.RIGHT_DIRECTION, index.STACK_SUBMIT_PANEL)" />
+			<s:Button id="okSubmit" excludeFrom="locked" label="{resourceManager.getString('resources', 'SEND_BUTTON')}" enabled="{sendButtonEnabled}" click="okSubmit_clickHandler(event)" />
+			<s:Button id="backSubmit" excludeFrom="locked" label="{resourceManager.getString('resources', 'BACK_BUTTON')}" click="clickHandler(index.RIGHT_DIRECTION, index.STACK_SUBMIT_PANEL)" />
+			<s:Button id="backtoIntroSubmit" includeIn="locked" label="{resourceManager.getString('resources', 'BACK_BUTTON')}" click="clickHandler(index.RIGHT_DIRECTION, index.STACK_INTRO_PANEL)" />
 		</s:HGroup>
 	</s:VGroup>	
 	

@@ -15,6 +15,7 @@
 					
 					switch (mainStack.selectedIndex) {
 						case STACK_INTRO_PANEL:
+							checkPortfolioStatus();
 							(mainStack.selectedChild as introductionCanvas).refreshContent();
 						break;
 						case STACK_SEARCH_PANEL:
@@ -216,7 +217,7 @@
 			protected function portfolioService_resultHandler(event:ResultEvent):void {
 				var xml:XML= event.result as XML;
 				MISSION_NAME = xml.mission;
-				PORTFOLIO_STATUS = xml.portfolioStatus;
+				checkPortfolioStatus();
 				so.data.retrievedElosFromRoolo = xml;
 				so.flush();
 				
@@ -227,6 +228,10 @@
 					//eloSearchService.url = "";
 					//eloSearchService.send();
 				}
+			}
+			
+			private function checkPortfolioStatus():void {
+				PORTFOLIO_STATUS = so.data.retrievedElosFromRoolo.portfolioStatus;
 			}
 			
 			private function isNormalStart():Boolean {

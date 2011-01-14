@@ -25,10 +25,11 @@
 			
 			[Bindable] private var elosArray:ArrayCollection;
 			[Bindable] public var catname:String;
+			private var so:SharedObject;
 			
 			public function refreshView():Number {
 				elosArray = new ArrayCollection();
-				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 				var xmlPortfolio:XML = so.data.retrievedElosFromRoolo;
 				for each (var object:XML in xmlPortfolio.elos.*) {
 					if (object.name() == "elo" && object.catname == this.catname) {
@@ -57,7 +58,9 @@
 						selecCol.addElementAt(subCE, 0);
 						selecCol.parentCanvas = this;
 						selecCol.originalEloObject = elosArray[i];
-						selecCol.addEventListener(MouseEvent.MOUSE_DOWN, showDeleteBox);
+						if(new String(so.data.retrievedElosFromRoolo.portfolioStatus) != "PORTFOLIO_SUBMITTED") {
+							selecCol.addEventListener(MouseEvent.MOUSE_DOWN, showDeleteBox);
+						}
 					}
 				}
 				return elosArray.length;

@@ -23,12 +23,19 @@
 			
 			import utils.XMLUtilJer;
 			
+			[Bindable] private var PORTFOLIO_LOCKED:Boolean = false;
+			
 			[Bindable] private var uName:String = "";
 			[Bindable] private var obliEloCanvases:ArrayCollection;
 			
-			public function refreshContent():void {
+			public function refreshContent():void { 
 				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
-				//trace(so.data.retrievedElosFromRoolo);
+				if(new String(so.data.retrievedElosFromRoolo.portfolioStatus) == "PORTFOLIO_SUBMITTED") {
+					currentState = "locked";
+				}
+				else {
+					currentState = "unlocked";
+				}
 				checkForBuildButtonState(introStack.selectedIndex);
 			}
 			
@@ -41,11 +48,9 @@
 			
 			protected function obligEloSelection_changeHandler(event:IndexChangeEvent):void {
 				if(event.newIndex > 0) {
-					currentState = "addAvailble";
 					addObliEloButton.enabled = true;
 				}
 				else {
-					currentState = "normal";
 					addObliEloButton.enabled = false;
 				}
 				
@@ -97,8 +102,8 @@
 	</fx:Script>
 	
 	<s:states>
-		<s:State name="normal"/>
-		<s:State name="addAvailble" />
+		<s:State name="unlocked" />
+		<s:State name="locked" />
 	</s:states>
 	
 	<s:VGroup gap="10" width="100%" height="100%" horizontalAlign="center">
@@ -142,8 +147,9 @@
 		<s:HGroup width="100%">
 			<mx:Spacer width="10" />
 			<s:DropDownList id="obligEloSelection" width="200" dataProvider="{index.obligElos}" change="obligEloSelection_changeHandler(event)" creationComplete="navigatorcontent1_creationCompleteHandler(event)"/>
-			<s:Button id="addObliEloButton" label="{resourceManager.getString('resources', 'ADD_BUTTON')}" enabled="false" click="clickHandler(index.LEFT_DIRECTION, index.STACK_SEARCH_PANEL)" />
-			<s:Button id="viewEport" label="{resourceManager.getString('resources', 'VIEW_BUTTON')}" enabled="false" click="clickHandler(index.LEFT_DIRECTION, index.STACK_SUBMIT_PANEL)" />
+			<s:Button id="addObliEloButton" excludeFrom="locked" label="{resourceManager.getString('resources', 'ADD_BUTTON')}" enabled="false" click="clickHandler(index.LEFT_DIRECTION, index.STACK_SEARCH_PANEL)" />
+			<s:Button id="viewEport" excludeFrom="locked" label="{resourceManager.getString('resources', 'VIEW_BUTTON')}" enabled="false" click="clickHandler(index.LEFT_DIRECTION, index.STACK_SUBMIT_PANEL)" />
+			<s:Button id="viewFinishedEport" includeIn="locked" label="{resourceManager.getString('resources', 'VIEW_FINISHED_PF')}" enabled="true" click="clickHandler(index.LEFT_DIRECTION, index.STACK_SENDING_PANEL)" />
 		</s:HGroup>
 		<mx:ViewStack id="introStack" width="100%" height="100%" selectedIndex="{obligEloSelection.selectedIndex}" resizeToContent="true" creationPolicy="all" historyManagementEnabled="true" >
 			<s:NavigatorContent width="100%" height="100%">

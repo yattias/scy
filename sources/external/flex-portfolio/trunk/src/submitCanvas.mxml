@@ -28,8 +28,8 @@
 			
 			private function checkIfSelectionComplete():void {
 				var readyForSubmit:Boolean = true;
-				for(var i:Number = 0; i < selectedElosNavigators.length; i++) {
-					if(!(selectedElosNavigators[i] as submitCanvasNavigator).hasSelectionBeenMade) {
+				for(var i:Number = 0; i < submitBox.numChildren; i++) {
+					if(!(submitBox.getChildAt(i) as submitCanvasNavigator).hasSelectionBeenMade) {
 						readyForSubmit = false;
 					}
 				}
@@ -52,12 +52,6 @@
 
 		]]>
 	</fx:Script>
-	
-	<fx:Declarations>
-		<s:ArrayCollection id="selectedElosNavigators" />
-	</fx:Declarations>
-	
-	
 	
 	<s:VGroup width="100%" height="100%">
 		<s:HGroup id="hbo" width="100%" height="70" horizontalAlign="center" verticalAlign="middle" gap="3">
