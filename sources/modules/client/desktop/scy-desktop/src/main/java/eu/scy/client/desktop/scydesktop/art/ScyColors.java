@@ -12,16 +12,16 @@ import java.awt.Color;
  */
 public enum ScyColors
 {
-   green("#8db800","#c4e000"),
-   purple("#7243db","#b886e0"),
-   orange("#ff5400","#ffa880"),
-   pink("#fb06a2","#ff86cc"),
-   blue("#0042f1","#4080f8"),
-   magenta("#0ea7bf","#90c8e0"),
-   brown("#9F8B55","#c0b899"),
-   darkBlue("#00015F","#000890"),
-   darkRed("#9F1938","#d02070"),
-   darkGray("#474747","#808080");
+   green("#8db800","#c4e000","#e3eee9"),
+   purple("#7243db","#b886e0","#dbd2ee"),
+   orange("#ff5400","#ffa880","#f9f0e3"),
+   pink("#fb06a2","#ff86cc","#eae1e7"),
+   blue("#0042f1","#4080f8","#e1e5ef"),
+   magenta("#0ea7bf","#90c8e0","#d6edf1"),
+   brown("#9F8B55","#c0b899","#faf4e5"),
+   darkBlue("#00015F","#000890","#eeeef7"),
+   darkRed("#9F1938","#d02070","#f0eced"),
+   darkGray("#474747","#808080","#efefef");
 
    public final String mainColorName;
    public final String titleStartGradientColorName;

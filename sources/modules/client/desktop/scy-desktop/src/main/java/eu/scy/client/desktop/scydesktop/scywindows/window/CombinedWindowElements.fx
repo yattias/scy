@@ -24,13 +24,21 @@ import eu.scy.client.desktop.scydesktop.uicontrols.test.ruler.ResizableRulerRect
 import eu.scy.client.desktop.scydesktop.art.ArtSource;
 import eu.scy.client.desktop.scydesktop.art.FxdImageLoader;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.FxdEloIcon;
-import javafx.scene.shape.Circle;
+import org.apache.log4j.Logger;
+import javafx.util.Sequences;
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowAttribute;
+import eu.scy.client.desktop.scydesktop.scywindows.TestAttribute;
 
 /**
  * @author sikken
  */
 public class CombinedWindowElements extends ScyWindow {
 
+   def logger = Logger.getLogger(this.getClass());
+   def scyWindowAttributeDevider = 3.0;
+   public override var scyWindowAttributes on replace {
+         placeAttributes()
+      };
    def drawerGroup: Group = Group {
          visible: bind not isClosed and not isMinimized
       };
@@ -89,16 +97,16 @@ public class CombinedWindowElements extends ScyWindow {
     override public function addChangesListener (wcl : WindowChangesListener) : Void {
         throw new UnsupportedOperationException('Not implemented yet');
     }
-
-    override public function openDrawer (which : String) : Void {
-        throw new UnsupportedOperationException('Not implemented yet');
-    }
-
     override public function acceptDrop (object : Object) : Void {
         throw new UnsupportedOperationException('Not implemented yet');
     }
 
     override public function canAcceptDrop (object : Object) : Boolean {
+        throw new UnsupportedOperationException('Not implemented yet');
+    }
+
+
+    override public function openDrawer (which : String) : Void {
         throw new UnsupportedOperationException('Not implemented yet');
     }
 
@@ -114,6 +122,18 @@ public class CombinedWindowElements extends ScyWindow {
       isClosed = false;
       this.width = width;
       this.height = height;
+   }
+
+   function placeAttributes() {
+      var sortedScyWindowAttributes =
+         Sequences.sort(scyWindowAttributes, null) as ScyWindowAttribute[];
+      var x = 0.0;
+      for (scyWindowAttribute in reverse sortedScyWindowAttributes) {
+         scyWindowAttribute.translateX = x;
+         x += scyWindowAttribute.boundsInLocal.width;
+         x += scyWindowAttributeDevider;
+      }
+
    }
 
    function setTopDrawer() {
@@ -297,7 +317,7 @@ public class CombinedWindowElements extends ScyWindow {
             //         strokeWidth:controlStrokeWidth;
             windowColorScheme: windowColorScheme
             //         activate: activate;
-            activated: bind activated
+            activated: false
             //         closeAction:doClose;
             layoutX: bind width + 0.5 * borderWidth - closeBoxSize// - 1;
             layoutY: 1.5*borderWidth// + closeBoxSize / 2;
@@ -336,7 +356,8 @@ public class CombinedWindowElements extends ScyWindow {
                   rotateElement,
                   closeElement,
                   Group { // the scy window attributes
-                     translateY: -borderWidth / 2;
+                     layoutX: iconSize + 5
+                     layoutY: 19
                      content: bind scyWindowAttributes,
                   },
                //            draggingLayer,
@@ -369,10 +390,10 @@ function loadEloIcon(type: String): EloIcon {
          emptyBackgroundColor: Color.WHITE
       }
    def imageLoader = FxdImageLoader {
-         sourceName: ArtSource.notSelectedIconsPackage
+         sourceName: ArtSource.plainIconsPackage
       };
    var name = EloImageInformation.getIconName(type);
-   println("name: {name}");
+//   println("name: {name}");
    FxdEloIcon {
       selected: true
       fxdNode: imageLoader.getNode(name)
@@ -401,6 +422,11 @@ function run() {
             width: 200, height: 200
             fill: Color.RED
          }
+         scyWindowAttributes: [
+               TestAttribute{
+                  radius: 8
+               }
+            ]
          layoutX: 10
          layoutY: 20
       }

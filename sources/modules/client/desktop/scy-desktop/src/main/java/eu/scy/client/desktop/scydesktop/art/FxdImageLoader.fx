@@ -55,6 +55,7 @@ public class FxdImageLoader extends FXDContent {
       if (node!=null and returnDuplicates){
          node = Duplicator.duplicate(node);
       }
+      node.visible = true;
       node;
    }
 
