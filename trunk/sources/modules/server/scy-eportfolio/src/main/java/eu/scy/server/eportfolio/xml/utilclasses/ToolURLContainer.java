@@ -16,6 +16,7 @@ public class ToolURLContainer {
     private String runtimeElosList = "/webapp/app/eportfolio/xml/runtimeElosList.html";
     private String currentMissionRuntimeInfo = "/webapp/app/eportfolio/xml/currentMissionRuntimeInfo.html";
     private String assessmentService = "/webapp/components/xml/AssessmentService.html";
+    private String portfolioLoader = "/webapp/app/eportfolio/xml/loadPortfolio.html";
 
     private String metaData = "We give a fuck in metadata!";
 

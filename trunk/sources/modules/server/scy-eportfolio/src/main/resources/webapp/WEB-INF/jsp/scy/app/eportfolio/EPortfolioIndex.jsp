@@ -19,6 +19,7 @@
             flashvars.firstName = "${currentUser.userDetails.firstName}";
             flashvars.lastName = "${currentUser.userDetails.lastName}";
             flashvars.toolURLProvider = "${toolURLProvider}";
+            flashvars.missionURI = "${missionURI}";
             var params = {};
             params.quality = "high";
             params.bgcolor = "#ffffff";
