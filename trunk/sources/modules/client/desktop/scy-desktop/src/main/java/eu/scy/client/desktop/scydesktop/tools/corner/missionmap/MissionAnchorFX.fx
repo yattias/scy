@@ -12,6 +12,7 @@ import java.lang.String;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.mission.ColorSchemeId;
 import javafx.scene.paint.Color;
+import java.lang.UnsupportedOperationException;
 
 /**
  * @author SikkenJ
@@ -144,6 +145,14 @@ public class MissionAnchorFX extends MissionAnchor {
 
    override public function getColorSchemeId(): ColorSchemeId {
       return colorScheme;
+   }
+
+   override public function setObligatoryInPorfolio(obligatoryInPorfolio: java.lang.Boolean): Void {
+      missionAnchor.setObligatoryInPorfolio(obligatoryInPorfolio);
+   }
+
+   override public function getObligatoryInPortfolio(): java.lang.Boolean {
+      return missionAnchor.getObligatoryInPortfolio();
    }
 
 }
