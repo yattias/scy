@@ -31,7 +31,7 @@ public class AssessmentService extends XMLStreamerController{
         portfolio.setReflectionEffort("2");
         portfolio.setReflectionInquiry("REF INQ");
         portfolio.setReflectionMission("REFL MIS");
-        portfolio.setStudent("digi");
+        portfolio.setOwner("digi");
 
         TransferElo transferElo = new TransferElo();
         transferElo.setAssessed(Boolean.FALSE);
@@ -54,6 +54,5 @@ public class AssessmentService extends XMLStreamerController{
         xStream.alias("elo", TransferElo.class);
         xStream.alias("portfolio", Portfolio.class);
         xStream.useAttributeFor(TransferElo.class, "uri");
-        xStream.useAttributeFor(Portfolio.class, "student" );
     }
 }

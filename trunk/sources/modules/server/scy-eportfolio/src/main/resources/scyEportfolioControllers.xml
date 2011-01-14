@@ -79,6 +79,8 @@
 
     <bean id="loadPortfolioController" class="eu.scy.server.eportfolio.xml.LoadPortfolioController">
         <property name="userService" ref="userService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="urlInspector" ref="urlInspector"/>
 	</bean>
 
     <bean id="runtimeElosListController" class="eu.scy.server.eportfolio.xml.RuntimeElosController">
