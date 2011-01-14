@@ -38,6 +38,7 @@ public class LoadPortfolioController extends XMLStreamerController {
 
         try {
             String missionURI = request.getParameter("missionURI");
+            logger.info("MIssionURI: " + missionURI);
             if(missionURI != null) {
                 missionURI = URLDecoder.decode(missionURI, "UTF-8");
 
