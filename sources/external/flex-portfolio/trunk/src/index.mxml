@@ -42,6 +42,18 @@
 					   result="URLpropertyFile_resultHandler(event)" 
 					   fault="URLpropertyFile_faultHandler(event)"
 					   resultFormat="e4x"/>
+		
+		<s:HTTPService id="portfolioService" 
+					   showBusyCursor="true" 
+					   result="portfolioService_resultHandler(event)" 
+					   fault="portfolioService_faultHandler(event)"
+					   resultFormat="e4x"/>
+		
+		<s:HTTPService id="eloSearchService" 
+					   showBusyCursor="true" 
+					   result="eloSearchService_resultHandler(event)" 
+					   fault="eloSearchService_faultHandler(event)"
+					   resultFormat="e4x"/>
 	</fx:Declarations>
 	
 	<fx:Metadata>
@@ -57,8 +69,11 @@
 			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
 			import mx.graphics.ImageSnapshot;
+			import mx.managers.BrowserManager;
+			import mx.managers.IBrowserManager;
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
+			import mx.utils.URLUtil;
 			
 			public static const SHAREDOBJECT_LOCAL_NAME:String = "scy-eportfolio";
 			
@@ -87,11 +102,10 @@
 			public static const BACK_GRADIENT_BOT:Number = 0xFFFFFF;
 			
 			private var newSearch:Boolean = true;
-			
 			private var editReflection:Boolean;
 			
 			public static const ALT_BOX_INIT_X:Number = -450;
-			
+			private var bm:IBrowserManager;
 			private var so:SharedObject;
 			
 			protected function initApp(event:FlexEvent):void {
@@ -101,11 +115,20 @@
 					"House data"
 				]);
 				
+				FlexGlobals.topLevelApplication.addEventListener(KeyboardEvent.KEY_DOWN, keyDownListener);
 				
 				resourceManager.localeChain = [ "en_US" ];
 				retrieveUserInfo();
 				this.addEventListener(TOGGLE_COMMAND, ToggleStack);
 				URLpropertyFile.send();
+			}
+			
+			private function keyDownListener(e:KeyboardEvent):void {
+				trace(e.charCode);
+				//combinaison cmd/ctrl + shift + "1"
+				if(e.charCode == 49) {
+					infoPanVisi = !infoPanVisi;
+				}
 			}
 			
 			private function animate(direction:String, selecIndex:Number):void {
@@ -147,12 +170,12 @@
 			}
 			
 			protected function URLpropertyFile_resultHandler(event:ResultEvent):void {
-				var xml:XML= event.result as XML;
-				MISSION_NAME = xml.mission;
-				PORTFOLIO_STATUS = xml.portfolioStatus;
-				so.data.retrievedElosFromRoolo = xml;
-				so.flush();
-				animate(LEFT_DIRECTION, STACK_INTRO_PANEL);
+				//parse 'toolURLProvider.html' first
+				var toolURLProvider:XML= event.result as XML;
+				urlInfo.text = toolURLProvider;
+				
+				portfolioService.url = "eportfolio.xml";
+				portfolioService.send();
 			}
 			
 			
@@ -171,13 +194,76 @@
 				var userInfo:Object = new Object();
 				userInfo.username = FlexGlobals.topLevelApplication.parameters.username;
 				userInfo.firstname = FlexGlobals.topLevelApplication.parameters.firstName;
-				userInfo.lastname = FlexGlobals.topLevelApplication.parameters.lastName;				
+				userInfo.lastname = FlexGlobals.topLevelApplication.parameters.lastName;			
+				
+				//URLpropertyFile.url = FlexGlobals.topLevelApplication.parameters.toolURLProvider;
 			
-				URLpropertyFile.url = "eportfolio.xml";
+				if(FlexGlobals.topLevelApplication.url.indexOf("file") > -1) {
+					URLpropertyFile.url = "xml/toolURLProvider.html";
+				}
+				else if(FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+					URLpropertyFile.url = "xml/toolURLProvider.html";
+				}
 				
 				so.data.userInfo = userInfo;
 				so.data.eportArrays = new ArrayCollection();
 			}
+
+			protected function portfolioService_faultHandler(event:FaultEvent):void {
+				Alert.show(resourceManager.getString('resources', 'URL_PROPERTY_FILE_ERROR'), "HTTPService Error");
+			}
+
+			protected function portfolioService_resultHandler(event:ResultEvent):void {
+				var xml:XML= event.result as XML;
+				MISSION_NAME = xml.mission;
+				PORTFOLIO_STATUS = xml.portfolioStatus;
+				so.data.retrievedElosFromRoolo = xml;
+				so.flush();
+				
+				if(isNormalStart()) {
+					animate(LEFT_DIRECTION, STACK_INTRO_PANEL);
+				}
+				else {
+					//eloSearchService.url = "";
+					//eloSearchService.send();
+				}
+			}
+			
+			private function isNormalStart():Boolean {
+				var normalStart:Boolean = true;
+				bm = BrowserManager.getInstance();   
+				bm.init("", "Welcome!");
+				var urlObject:Object = URLUtil.stringToObject(bm.fragment, "&");     
+				if(urlObject.eloToAdd != undefined) {
+					urlInfo.text = (urlObject.eloToAdd);
+					if(urlObject.eloToAdd != null) {
+						normalStart = false;
+						Alert.show("Let's look for elo: "+urlObject.eloToAdd, "Reflection start ...");
+					}	
+				}
+				
+				return normalStart;
+			}
+			
+			private function retrieveSingleELO(eloURI:String):Object {
+				
+				return null;
+			}
+
+
+			protected function eloSearchService_faultHandler(event:FaultEvent):void {
+				Alert.show(resourceManager.getString('resources', 'URL_PROPERTY_FILE_ERROR'), "HTTPService Error");
+			}
+
+
+			protected function eloSearchService_resultHandler(event:ResultEvent):void {
+				//search for given ELO uri
+				var eloXMLResult:XML= event.result as XML;
+				so.data.searchSelection = null;
+				so.flush();
+				animate(LEFT_DIRECTION, STACK_REFLEC_PANEL);
+			}
+
 		]]>
 	</fx:Script>
 	
@@ -220,4 +306,10 @@
 		</mx:ViewStack>
 		<s:Image id="animateImage" visible="false" includeInLayout="false" />
 	</s:Group>
+	
+	<s:BorderContainer id="altBox" visible="{infoPanVisi}" width="300" x="{this.width/2 - altBox.width/2}" y="{this.height/2 - altBox.height/2}" cornerRadius="5" borderWeight="2" borderColor="#999999" dropShadowVisible="true" backgroundColor="0x333333" alpha=".9">
+		<s:VGroup width="100%" height="100%">
+			<s:Label id="urlInfo" width="100%" height="100%" color="#FFFFFF" />
+		</s:VGroup>
+	</s:BorderContainer>
 </s:Application>
