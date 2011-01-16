@@ -14,59 +14,63 @@ import android.widget.TextView;
 
 public class DataFormElementImageView extends DataFormElementView {
 
-    public DataFormElementImageView(final DataFormElementController dfec, final DataFormElementModel dfem, final DataCollectorFormActivity application, final int id) {
-        super(dfem, application, dfec);
+    private ImageButton imageButton;
+    private ImageButton detailsButton;
+
+    public DataFormElementImageView(final DataFormElementModel elementModel, final DataCollectorFormActivity application, final int id) {
+        super(elementModel, application);
 
         inflate(getApplication(), R.layout.pictureformelement, this);
         
         TextView label = (TextView) findViewById(R.id.pictureformelement_label);
         label.setWidth(super.Column1width);
-        label.setText(dfem.getTitle());
+        label.setText(elementModel.getTitle());
 
         ImageButton btnTakeImage = (ImageButton) findViewById(R.id.pictureformelement_take_picture);
         btnTakeImage.setMinimumWidth(super.Column2width);
         btnTakeImage.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                dfec.events(DataFormElementEventTypes.ONBEFORE);
+                events(DataFormElementEventTypes.ONBEFORE);
                 Intent i = new Intent("android.media.action.IMAGE_CAPTURE");
                 getApplication().startActivityForResult(i, id);
             }
         });
         
-        ImageButton imgButton = (ImageButton) findViewById(R.id.pictureformelement_show_picture);
-        imgButton.setMinimumWidth(Column3width + Column4width);
-        imgButton.setId(id);
-        imgButton.setVisibility(INVISIBLE);
+        imageButton = (ImageButton) findViewById(R.id.pictureformelement_show_picture);
+        imageButton.setMinimumWidth(Column3width + Column4width);
+        imageButton.setVisibility(INVISIBLE);
 
-        ImageButton btnDetails = new ImageButton(application);
-        btnDetails.setId(id);
-        btnDetails.setMinimumWidth(Column5width);
-        btnDetails.setVisibility(INVISIBLE);
-        btnDetails.setOnClickListener(new OnClickListener() {
+        detailsButton = (ImageButton) findViewById(R.id.pictureformelement_show_details);
+        detailsButton.setMinimumWidth(Column5width);
+        detailsButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                dfec.openDetail(application, id);
+                openDetail(application, id);
             }
         });
-        
-        if (dfem.getStoredData(dfem.getDataList().size() - 1) != null) {
+        detailsButton.setVisibility(INVISIBLE);
+        updateView(elementModel);
+    }
 
-            byte[] buf = dfem.getStoredData(dfem.getDataList().size() - 1);
+    @Override
+    protected void updateView(final DataFormElementModel elementModel) {
+        if (elementModel.getStoredData(elementModel.getDataList().size() - 1) != null) {
+
+            byte[] buf = elementModel.getStoredData(elementModel.getDataList().size() - 1);
             Bitmap bm = BitmapFactory.decodeByteArray(buf, 0, buf.length);
 
             Bitmap icon = Bitmap.createScaledBitmap(bm, super.Column3width - 20, super.RowMaxHeight - 20, true);
 
-            imgButton.setImageBitmap(icon);
+            imageButton.setImageBitmap(icon);
 
-            imgButton.setVisibility(View.VISIBLE);
-            btnDetails.setVisibility(VISIBLE);
-            imgButton.setOnClickListener(new OnClickListener() {
+            imageButton.setVisibility(VISIBLE);
+            detailsButton.setVisibility(VISIBLE);
+            imageButton.setOnClickListener(new OnClickListener() {
 
                 public void onClick(View v) {
                     Intent tki = new Intent();
                     tki.setClass(application, DataCollectorShowImageActivity.class);
-                    tki.putExtra("dataimage", dfem.getStoredData(dfem.getDataList().size() - 1));
+                    tki.putExtra("dataimage", elementModel.getStoredData(elementModel.getDataList().size() - 1));
                     application.startActivity(tki);
-
                 }
             });
 

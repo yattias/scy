@@ -6,49 +6,55 @@ import info.collide.android.scydatacollector.R;
 import info.collide.android.scydatacollector.DataFormElementEventModel.DataFormElementEventTypes;
 import android.text.format.Time;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class DataFormElementDateView extends DataFormElementView {
 
-    public DataFormElementDateView(final DataFormElementController dfec, final DataFormElementModel dfem, final DataCollectorFormActivity application, final int id) {
-        super(dfem, application, dfec);
+    private TextView previewView;
+    private ImageButton detailsButton;
+
+    public DataFormElementDateView(final DataFormElementModel elementModel, final DataCollectorFormActivity application, final int id) {
+        super(elementModel, application);
 
         inflate(getApplication(), R.layout.dateformelement, this);
         
         TextView label = (TextView) findViewById(R.id.dateformelement_label);
         label.setWidth(super.Column1width);
-        label.setText(dfem.getTitle());
+        label.setText(elementModel.getTitle());
 
         ImageButton btnGetDate = (ImageButton) findViewById(R.id.dateformelement_capture_date);
         btnGetDate.setOnClickListener(new OnClickListener() {
             
             public void onClick(View v) {
-                dfec.events(DataFormElementEventTypes.ONBEFORE);
+                events(DataFormElementEventTypes.ONBEFORE);
                 Time time = new Time();
                 time.setToNow();
-                dfem.addStoredData(time.format("%d.%m.%Y").getBytes());
+                elementModel.addStoredData(time.format("%d.%m.%Y").getBytes());
             }
         });
 
-        ImageButton buttonDetails = (ImageButton) findViewById(R.id.dateformelement_show_details);
-        buttonDetails.setId(id);
-        buttonDetails.setVisibility(INVISIBLE);
+        detailsButton = (ImageButton) findViewById(R.id.dateformelement_show_details);
+        detailsButton.setVisibility(INVISIBLE);
 
-        buttonDetails.setOnClickListener(new OnClickListener() {
+        detailsButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                dfec.openDetail(application, id);
+                openDetail(application, id);
             }
         });
 
-        TextView preview = (TextView) findViewById(R.id.dateformelement_date);
-        preview.setWidth(super.Column3width + Column4width);
+        previewView = (TextView) findViewById(R.id.dateformelement_date);
+        previewView.setWidth(super.Column3width + Column4width);
 
-        if (dfem.getStoredData(dfem.getDataList().size() - 1) != null) {
-            String tmp = new String(dfem.getStoredData(dfem.getDataList().size() - 1));
-            preview.setText(tmp);
-            buttonDetails.setVisibility(VISIBLE);
+        updateView(elementModel);
+    }
+
+    @Override
+    protected void updateView(DataFormElementModel elementModel) {
+        if (elementModel.getStoredData(elementModel.getDataList().size() - 1) != null) {
+            String tmp = new String(elementModel.getStoredData(elementModel.getDataList().size() - 1));
+            previewView.setText(tmp);
+            detailsButton.setVisibility(VISIBLE);
         }
     }
 }

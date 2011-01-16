@@ -315,7 +315,7 @@ public class DataCollectorContentProvider extends ContentProvider {
     }
 
     private boolean insertFormElements(DataCollectorFormModel dcfm) {
-        for (DataFormElementModel dfem : dcfm.getDfElements()) {
+        for (DataFormElementModel dfem : dcfm.getElementModels()) {
             ContentValues initialValues = new ContentValues();
             initialValues.put(KEY_ELEMENTFORMID, getFormKey(dcfm.getTitle()));
             initialValues.put(KEY_ELEMENTTITLE, dfem.getTitle());
@@ -447,8 +447,8 @@ public class DataCollectorContentProvider extends ContentProvider {
                 formElements.moveToNext();
             }
 
-            dcfm.getDfElements().clear();
-            dcfm.getDfElements().addAll(dfElements);
+            dcfm.getElementModels().clear();
+            dcfm.getElementModels().addAll(dfElements);
 
         }
         return dcfm;

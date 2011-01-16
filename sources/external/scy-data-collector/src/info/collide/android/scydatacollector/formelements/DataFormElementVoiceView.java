@@ -22,8 +22,6 @@ public class DataFormElementVoiceView extends DataFormElementView {
 
     private AudioPlayer ap;
 
-    private DataFormElementController _dfec;
-
     private ImageButton buttonRec;
     
     private RecordButtonListener buttonRecListener; 
@@ -35,17 +33,16 @@ public class DataFormElementVoiceView extends DataFormElementView {
     private ImageButton buttonDetails;
     
 
-    public DataFormElementVoiceView(final DataFormElementController dfec, final DataFormElementModel dfem, final DataCollectorFormActivity application, final int id) {
-        super(dfem, application, dfec);
-        _dfec = dfec;
+    public DataFormElementVoiceView(final DataFormElementModel elementModel, final DataCollectorFormActivity application, final int id) {
+        super(elementModel, application);
 
-        ar = new AudioRecorder(dfem);
+        ar = new AudioRecorder(elementModel);
 
         inflate(getApplication(), R.layout.voiceformelement, this);
         
         TextView label = (TextView) findViewById(R.id.voiceformelement_label);
         label.setWidth(super.Column1width);
-        label.setText(dfem.getTitle());
+        label.setText(elementModel.getTitle());
 
         buttonRec = (ImageButton) findViewById(R.id.voiceformelement_record);
         buttonRec.setMinimumWidth((Column2width + Column3width + Column4width) / 3);
@@ -60,24 +57,14 @@ public class DataFormElementVoiceView extends DataFormElementView {
         buttonDetails = (ImageButton) findViewById(R.id.voiceformelement_details);
         buttonDetails.setId(id);
         buttonDetails.setMinimumWidth(Column5width);
-
-        if (dfem.getDataList().size() < 1) {
-            buttonDetails.setVisibility(INVISIBLE);
-        } else {
-            buttonDetails.setVisibility(VISIBLE);
-        }
+        buttonDetails.setVisibility(INVISIBLE);
 
         buttonDetails.setOnClickListener(new OnClickListener() {
 
             public void onClick(View v) {
-                dfec.openDetail(application, id);
+                openDetail(application, id);
             }
         });
-
-        if (getDfem().getStoredData(dfem.getDataList().size() - 1) == null) {
-            buttonPlay.setEnabled(false);
-        }
-
 
         buttonRecListener = new RecordButtonListener();
         buttonRec.setOnClickListener(buttonRecListener);
@@ -88,8 +75,8 @@ public class DataFormElementVoiceView extends DataFormElementView {
                 try {
                     if (ar.isRecording()) {
                         ar.stop();
-                        dfem.addStoredData(ar.getBytesFromFile());
-                        _dfec.events(DataFormElementEventTypes.ONAFTER);
+                        elementModel.addStoredData(ar.getBytesFromFile());
+                        events(DataFormElementEventTypes.ONAFTER);
                         buttonRec.setEnabled(true);
                         buttonPlay.setEnabled(true);
                         buttonStop.setEnabled(false);
@@ -112,8 +99,8 @@ public class DataFormElementVoiceView extends DataFormElementView {
 
             public void onClick(View v) {
                 try {
-                    if (dfem.getStoredData(dfem.getDataList().size() - 1) != null)
-                        ar.writeBytesToFile(dfem.getStoredData(dfem.getDataList().size() - 1));
+                    if (elementModel.getStoredData(elementModel.getDataList().size() - 1) != null)
+                        ar.writeBytesToFile(elementModel.getStoredData(elementModel.getDataList().size() - 1));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -137,13 +124,14 @@ public class DataFormElementVoiceView extends DataFormElementView {
 
             }
         });
+        updateView(elementModel);
     }
 
     private class RecordButtonListener implements OnClickListener {
         public void onClick(View v) {
             try {
                 if (ar.start()) {
-                    _dfec.events(DataFormElementEventTypes.ONBEFORE);
+                    events(DataFormElementEventTypes.ONBEFORE);
                     Toast.makeText(getApplication(), "Aufnahme gestartet", 100).show();
 
                     buttonStop.setEnabled(true);
@@ -157,4 +145,15 @@ public class DataFormElementVoiceView extends DataFormElementView {
         }
     }
 
+    @Override
+    protected void updateView(DataFormElementModel elementModel) {
+        if (elementModel.getDataList().size() < 1) {
+            buttonDetails.setVisibility(INVISIBLE);
+        } else {
+            buttonDetails.setVisibility(VISIBLE);
+        }
+        if (getDfem().getStoredData(elementModel.getDataList().size() - 1) == null) {
+            buttonPlay.setEnabled(false);
+        }
+    }
 }

@@ -12,8 +12,11 @@ import android.widget.TextView;
 
 public class DataFormElementTextView extends DataFormElementView {
 
-    public DataFormElementTextView(final DataFormElementController dfec, final DataFormElementModel dfem, final DataCollectorFormActivity application, final int id) {
-        super(dfem, application, dfec);
+    private ImageButton detailsButton;
+    private TextView previewText;
+
+    public DataFormElementTextView(final DataFormElementModel dfem, final DataCollectorFormActivity application, final int id) {
+        super(dfem, application);
 
         inflate(getApplication(), R.layout.textformelement, this);
         
@@ -23,40 +26,40 @@ public class DataFormElementTextView extends DataFormElementView {
         
         ImageButton takeText = (ImageButton) findViewById(R.id.textformelement_write_text);
         takeText.setMinimumWidth(super.Column2width);
-        takeText.setId(id);
         takeText.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                dfec.events(DataFormElementEventTypes.ONBEFORE);
+                events(DataFormElementEventTypes.ONBEFORE);
                 Intent tki = new Intent();
                 tki.setClass(application, DataCollectorTakeTextActivity.class);
-                String datatext = "";
+                String datatext = previewText.getText().toString();
                 tki.putExtra("datatext", datatext);
                 application.startActivityForResult(tki, id);
             }
         });
         
-        TextView preview = (TextView) findViewById(R.id.textformelement_preview_text);
-        preview.setWidth(super.Column3width + Column4width);
+        previewText = (TextView) findViewById(R.id.textformelement_preview_text);
+        previewText.setWidth(super.Column3width + Column4width);
         
-        ImageButton btnDetails = new ImageButton(application);
-        btnDetails.setId(id);
-        btnDetails.setMinimumWidth(Column5width);
+        detailsButton = new ImageButton(application);
+        detailsButton.setMinimumWidth(Column5width);
 
-        if (dfem.getDataList().size() < 1) {
-            btnDetails.setVisibility(INVISIBLE);
-        } else {
-            btnDetails.setVisibility(VISIBLE);
-        }
-        
-        btnDetails.setOnClickListener(new OnClickListener() {
+        detailsButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                dfec.openDetail(application, id);
+                openDetail(application, id);
             }
         });
-
-        if (dfem.getStoredData(dfem.getDataList().size() - 1) != null) {
-            String tmp = new String(dfem.getStoredData(dfem.getDataList().size() - 1));
-            preview.setText(tmp);
+        updateView(dfem);
+    }
+    
+    protected final void updateView(DataFormElementModel elementModel) {
+        if (elementModel.getDataList().size() > 0) {
+            detailsButton.setEnabled(true);
+        } else {
+            detailsButton.setEnabled(false);
+        }
+        if (elementModel.getStoredData(elementModel.getDataList().size() - 1) != null) {
+            String tmp = new String(elementModel.getStoredData(elementModel.getDataList().size() - 1));
+            previewText.setText(tmp);
         }
     }
 }

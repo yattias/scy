@@ -11,48 +11,55 @@ import android.widget.TextView;
 
 public class DataFormElementTimeView extends DataFormElementView {
 
-    public DataFormElementTimeView(final DataFormElementController dfec, final DataFormElementModel dfem, final DataCollectorFormActivity application, final int id) {
+    private TextView previewField;
+    private ImageButton detailsButton;
 
-        super(dfem, application, dfec);
+    public DataFormElementTimeView(final DataFormElementModel elementModel, final DataCollectorFormActivity application, final int id) {
+
+        super(elementModel, application);
 
         inflate(getApplication(), R.layout.timeformelement, this);
         
         TextView label = (TextView) findViewById(R.id.timeformelement_label);
         label.setWidth(super.Column1width);
-        label.setText(dfem.getTitle());
+        label.setText(elementModel.getTitle());
 
         ImageButton btnGetDate = (ImageButton) findViewById(R.id.timeformelement_capture_time);
 
-        final ImageButton buttonDetails = (ImageButton) findViewById(R.id.timeformelement_show_details);
-        buttonDetails.setId(id);
-        buttonDetails.setVisibility(INVISIBLE);
-        buttonDetails.setOnClickListener(new OnClickListener() {
+        detailsButton = (ImageButton) findViewById(R.id.timeformelement_show_details);
+        detailsButton.setId(id);
+        detailsButton.setVisibility(INVISIBLE);
+        detailsButton.setOnClickListener(new OnClickListener() {
 
             public void onClick(View v) {
-                dfec.openDetail(application, id);
+                openDetail(application, id);
             }
         });
 
-        final TextView preview = (TextView) findViewById(R.id.timeformelement_time);
-        preview.setWidth(super.Column3width + super.Column4width);
-
-        if (dfem.getStoredData(dfem.getDataList().size() - 1) != null) {
-            String timeString = new String(dfem.getStoredData(dfem.getDataList().size() - 1));
-            preview.setText(timeString);
-            buttonDetails.setVisibility(VISIBLE);
-        }
+        previewField = (TextView) findViewById(R.id.timeformelement_time);
+        previewField.setWidth(super.Column3width + super.Column4width);
 
         btnGetDate.setOnClickListener(new OnClickListener() {
 
             public void onClick(View v) {
-                dfec.events(DataFormElementEventTypes.ONBEFORE);
+                events(DataFormElementEventTypes.ONBEFORE);
                 Time time = new Time();
                 time.setToNow();
-                dfem.addStoredData(time.format("%H:%M:%S").getBytes());
-                dfec.events(DataFormElementEventTypes.ONAFTER);
-                buttonDetails.setVisibility(VISIBLE);
+                elementModel.addStoredData(time.format("%H:%M:%S").getBytes());
+                events(DataFormElementEventTypes.ONAFTER);
+                detailsButton.setVisibility(VISIBLE);
             }
         });
+        updateView(elementModel);
+    }
+
+    @Override
+    protected void updateView(DataFormElementModel elementModel) {
+        if (elementModel.getStoredData(elementModel.getDataList().size() - 1) != null) {
+            String timeString = new String(elementModel.getStoredData(elementModel.getDataList().size() - 1));
+            previewField.setText(timeString);
+            detailsButton.setVisibility(VISIBLE);
+        }
     }
 
 }

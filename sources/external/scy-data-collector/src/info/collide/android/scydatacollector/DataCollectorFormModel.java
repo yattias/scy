@@ -41,7 +41,7 @@ public class DataCollectorFormModel extends Observable implements Observer, Seri
 
     private int version;
 
-    private ArrayList<DataFormElementModel> dfElements = new ArrayList<DataFormElementModel>();
+    private ArrayList<DataFormElementModel> elementModels = new ArrayList<DataFormElementModel>();
 
     public void setTitle(String title) {
         this.title = title;
@@ -60,15 +60,15 @@ public class DataCollectorFormModel extends Observable implements Observer, Seri
     }
 
     public void addDataField() {
-        getDfElements().add(new DataFormElementModel(this));
+        getElementModels().add(new DataFormElementModel(this));
     }
 
-    public ArrayList<DataFormElementModel> getDfElements() {
-        return dfElements;
+    public ArrayList<DataFormElementModel> getElementModels() {
+        return elementModels;
     }
 
-    public void setDfElements(ArrayList<DataFormElementModel> newDFElements) {
-        dfElements = newDFElements;
+    public void setElementModels(ArrayList<DataFormElementModel> elementModels) {
+        this.elementModels = elementModels;
     }
 
     public String toXML() {
@@ -82,7 +82,7 @@ public class DataCollectorFormModel extends Observable implements Observer, Seri
             serializer.attribute("", "description", getDescription());
             serializer.attribute("", "version", String.valueOf(getVersion()));
 
-            for (DataFormElementModel dfem : getDfElements()) {
+            for (DataFormElementModel dfem : getElementModels()) {
                 serializer.startTag("", "field"); // <field>
                 serializer.attribute("", "title", dfem.getTitle());
                 serializer.attribute("", "type", dfem.getType().name());
@@ -151,7 +151,7 @@ public class DataCollectorFormModel extends Observable implements Observer, Seri
     }
 
     public void removeDataField(DataFormElementModel element) {
-        dfElements.remove(element);
+        elementModels.remove(element);
     }
 
     public static DataCollectorFormModel fromString(String xml) throws IOException, ClassNotFoundException {
@@ -218,7 +218,7 @@ public class DataCollectorFormModel extends Observable implements Observer, Seri
                     }
                     dfe.setEvents(events);
                 }
-                this.getDfElements().add(dfe);
+                this.getElementModels().add(dfe);
             }
             setChanged();
             notifyObservers();
@@ -230,7 +230,7 @@ public class DataCollectorFormModel extends Observable implements Observer, Seri
     public boolean isValid() {
         boolean valid;
         valid = true;
-        for (DataFormElementModel element : dfElements) {
+        for (DataFormElementModel element : elementModels) {
             if (element.isValid() != true) {
                 valid = false;
             }
@@ -239,18 +239,18 @@ public class DataCollectorFormModel extends Observable implements Observer, Seri
     }
 
     public void moveElementUp(DataFormElementModel dfem) {
-        int oldIndex = dfElements.indexOf(dfem);
+        int oldIndex = elementModels.indexOf(dfem);
         if (oldIndex > 0) {
-            dfElements.remove(dfem);
-            dfElements.add(oldIndex - 1, dfem);
+            elementModels.remove(dfem);
+            elementModels.add(oldIndex - 1, dfem);
         }
     }
 
     public void moveElementDown(DataFormElementModel dfem) {
-        int oldIndex = dfElements.indexOf(dfem);
-        if (oldIndex < dfElements.size() - 1) {
-            dfElements.remove(dfem);
-            dfElements.add(oldIndex + 1, dfem);
+        int oldIndex = elementModels.indexOf(dfem);
+        if (oldIndex < elementModels.size() - 1) {
+            elementModels.remove(dfem);
+            elementModels.add(oldIndex + 1, dfem);
         }
     }
 
@@ -268,15 +268,15 @@ public class DataCollectorFormModel extends Observable implements Observer, Seri
     }
 
     public void setDfElement(DataFormElementModel newDFEM, int elementPos) {
-        dfElements.remove(elementPos);
+        elementModels.remove(elementPos);
         newDFEM.markChanged();
-        dfElements.add(elementPos, newDFEM);
+        elementModels.add(elementPos, newDFEM);
         setChanged();
         notifyObservers();
     }
 
     public void clear() {
-        dfElements.clear();
+        elementModels.clear();
         title = "";
         description = "";
     }

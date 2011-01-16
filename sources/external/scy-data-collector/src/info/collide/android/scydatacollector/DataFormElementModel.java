@@ -6,10 +6,6 @@ import java.util.Observable;
 
 public class DataFormElementModel extends Observable implements Serializable {
 
-    // public enum CardinalityType {
-    // ONE, MANY
-    // }
-
     public enum DataFormElementTypes {
         TEXT,
         IMAGE,
@@ -21,85 +17,78 @@ public class DataFormElementModel extends Observable implements Serializable {
         TIME
     }
 
-    /**
-	 * 
-	 */
     private static final long serialVersionUID = -6819578854197940163L;
 
-    private String _Title;
+    private String title;
 
-    private DataFormElementTypes _Type;
+    private DataFormElementTypes type;
 
-    private String _Cardinality;
+    private String cardinality;
 
-    private ArrayList<byte[]> _DataList = new ArrayList<byte[]>();
+    private ArrayList<byte[]> dataList = new ArrayList<byte[]>();
 
-    private ArrayList<DataFormElementEventModel> _Events;
+    private ArrayList<DataFormElementEventModel> events;
 
     public DataFormElementModel(DataCollectorFormModel dcfm) {
-        super();
         this.addObserver(dcfm);
         setChanged();
     }
 
     public String getCardinality() {
-        return _Cardinality;
+        return cardinality;
     }
 
     public ArrayList<byte[]> getDataList() {
-        return _DataList;
+        return dataList;
     }
 
     public ArrayList<DataFormElementEventModel> getEvents() {
-        return _Events;
+        return events;
     }
 
     public String getTitle() {
-        return _Title;
+        return title;
     }
 
     public DataFormElementTypes getType() {
-        return _Type;
+        return type;
     }
 
     public boolean isValid() {
-        if (_Title != null & _Type != null) {
+        if (title != null & type != null) {
             return true;
         } else
             return false;
     }
 
     public void setCardinality(String cardinality) {
-        _Cardinality = cardinality;
+        this.cardinality = cardinality;
     }
 
     public void setDataList(ArrayList<byte[]> dataList) {
-        _DataList = dataList;
+        this.dataList = dataList;
         setChanged();
         notifyObservers();
     }
 
     public void setEvents(ArrayList<DataFormElementEventModel> events) {
-        _Events = events;
+        this.events = events;
     }
 
     public void setTitle(String title) {
-        _Title = title;
+        this.title = title;
     }
 
     public void setType(DataFormElementTypes type) {
-        _Type = type;
+        this.type = type;
     }
 
     public byte[] getStoredData(int pos) {
-        // TODO Auto-generated method stub
         byte[] result = null;
-        if (_DataList != null) {
-            if (pos <= _DataList.size() && _DataList.size() > 0) {
-                if (_DataList.get(pos) != null)
-                    result = _DataList.get(pos);
-                // setChanged();
-                // notifyObservers();
+        if (dataList != null) {
+            if (pos <= dataList.size() && dataList.size() > 0) {
+                if (dataList.get(pos) != null)
+                    result = dataList.get(pos);
             }
         }
         return result;
@@ -107,38 +96,31 @@ public class DataFormElementModel extends Observable implements Serializable {
 
     public void markChanged() {
         setChanged();
-        // notifyObservers();
     }
 
     public void setStoredData(byte[] data, int pos) {
-        // TODO erweitern
-        if (pos == 0 && _DataList.size() == 0) {
-            _DataList.add(data);
+        if (pos == 0 && dataList.size() == 0) {
+            dataList.add(data);
         } else
-            _DataList.set(pos, data);
+            dataList.set(pos, data);
         setChanged();
         notifyObservers();
     }
 
-    // public void setChanged(){
-    // setChanged();
-    // notifyObservers();
-    //		
-    // }
     public boolean addStoredData(byte[] data) {
         boolean result = false;
-        int pos = _DataList.size();
-        if (_Cardinality.equalsIgnoreCase("0")) {
-            _DataList.add(data);
+        int pos = dataList.size();
+        if (cardinality.equalsIgnoreCase("0")) {
+            dataList.add(data);
             result = true;
         } else {
-            int count = Integer.valueOf(_Cardinality);
+            int count = Integer.valueOf(cardinality);
             if (pos < count) {
-                _DataList.add(data);
+                dataList.add(data);
                 result = true;
             } else {
                 if (pos == count) {
-                    _DataList.set(pos - 1, data);
+                    dataList.set(pos - 1, data);
                     result = true;
                 }
             }
