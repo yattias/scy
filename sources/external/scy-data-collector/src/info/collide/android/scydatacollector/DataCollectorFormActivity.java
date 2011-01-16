@@ -9,7 +9,6 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.app.Application;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
@@ -19,6 +18,7 @@ import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -39,26 +39,32 @@ public class DataCollectorFormActivity extends Activity {
     
     private DataCollectorConfiguration configuration;
 
+    private TableLayout table;
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.form);
 
-        formModel = new DataCollectorFormModel();
-
-        Bundle extras = getIntent().getExtras();
-        Long formid = extras.getLong("dataform");
-
-        DataCollectorContentProvider dccp = new DataCollectorContentProvider();
-        dccp.getDCFM(this, formid, formModel);
-
+        if (savedInstanceState != null && savedInstanceState.isEmpty()) {
+            formModel = DataCollectorFormModel.fromByteArray(savedInstanceState.getByteArray(DCFM_TITLE));
+            Log.d("DataCollector", "Created form activity with saved instance " + formModel.getTitle());
+        } else {
+            formModel = new DataCollectorFormModel();
+            
+            Bundle extras = getIntent().getExtras();
+            Long formid = extras.getLong("dataform");
+            
+            DataCollectorContentProvider dccp = new DataCollectorContentProvider();
+            dccp.getDCFM(this, formid, formModel);
+            Log.d("DataCollector", "Created form activity with title: " + formModel.getTitle());
+        }
         configuration = new DataCollectorConfiguration(this);
 
         // set title of form
         setTitle(getResources().getString(R.string.formular) + " " + formModel.getTitle());
 
-        TableLayout table = (TableLayout) findViewById(R.id.formtable);
+        table = (TableLayout) findViewById(R.id.formtable);
 
         // filling table with rows
         table.removeAllViews();
@@ -134,13 +140,13 @@ public class DataCollectorFormActivity extends Activity {
     }
 
     protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
+        Log.d("DataCollector", "onResult received requestCode " + requestCode + ", resultCode " + resultCode + " and " + data);
         if (data != null) {
             Bundle bundle = data.getExtras();
             if (bundle != null) {
                 if (bundle.containsKey("fromdetail") == true) {
                     int elementPos = bundle.getInt("elementpos");
                     DataFormElementModel newDFEM = (DataFormElementModel) bundle.getSerializable("dfem");
-
                     newDFEM.addObserver(formModel);
                     formModel.setDfElement(newDFEM, elementPos);
                 } else {
@@ -148,9 +154,8 @@ public class DataCollectorFormActivity extends Activity {
                     DataFormElementModel elementModel = elementModels.get(requestCode);
                     switch (elementModel.getType()) {
                         case IMAGE:
-                            // todo Datensatz lšschen wenn bei Bild Abbruch;
                             Bitmap picture = (Bitmap) bundle.get("data");
-
+                            Log.d("DataCollector", "onResult received image, picture size " + picture.getWidth() + " x " + picture.getHeight());
                             ByteArrayOutputStream bos = new ByteArrayOutputStream();
                             picture.compress(CompressFormat.PNG, 0, bos);
                             byte[] bitmapdata = bos.toByteArray();
@@ -175,11 +180,8 @@ public class DataCollectorFormActivity extends Activity {
                                 e.printStackTrace();
                             }
                             break;
-                        default:
-                            break;
                     }
                     // update on after event
-                    // DataFormElementController dfec = new DataFormElementController(elements.get(requestCode), this);
                     // dfec.events(DataFormElementEventTypes.ONAFTER);
                 }
             }
@@ -190,8 +192,15 @@ public class DataCollectorFormActivity extends Activity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         formModel = DataCollectorFormModel.fromByteArray(savedInstanceState.getByteArray(DCFM_TITLE));
-        // dcfm.notifyObservers();
-        // dcfv = new DataCollectorFormView(dcfm, this);
+        Log.d("DataCollector", "Restored with instance is empty? " + savedInstanceState.isEmpty());
+        int index = 0;
+        for (DataFormElementModel elementModel : formModel.getElementModels()) {
+            View child = table.getChildAt(index++);
+            if (child instanceof DataFormElementView) {
+                DataFormElementView view = (DataFormElementView) child;
+                elementModel.addObserver(view);
+            }
+        }
     }
 
     @Override
