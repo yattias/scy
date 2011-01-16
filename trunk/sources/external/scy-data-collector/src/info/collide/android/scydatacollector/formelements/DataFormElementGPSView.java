@@ -26,6 +26,9 @@ import android.widget.TextView;
 
 public class DataFormElementGPSView extends DataFormElementView {
 
+    private ImageButton takeGPSButton;
+    private Button previewButton;
+
     public static void setGPSCoordinates(String[] coords, Object model) {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -36,12 +39,9 @@ public class DataFormElementGPSView extends DataFormElementView {
             out.close();
             if (model.getClass() == DataFormElementModel.class) {
                 ((DataFormElementModel) model).addStoredData(baos.toByteArray());
-
             } else if (model.getClass() == DataFormElementEventModel.class) {
                 ((DataFormElementEventModel) model).addStoredData(baos.toByteArray());
-
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -51,18 +51,13 @@ public class DataFormElementGPSView extends DataFormElementView {
         String[] coords = null;
         try {
             ByteArrayInputStream baos = new ByteArrayInputStream(dfem.getStoredData(dfem.getDataList().size() - 1));
-
             ObjectInputStream in;
-
             in = new ObjectInputStream(baos);
-
             coords = (String[]) in.readObject();
-
             in.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return coords;
     }
 
@@ -85,82 +80,81 @@ public class DataFormElementGPSView extends DataFormElementView {
         return coords;
     }
 
-    public DataFormElementGPSView(final DataFormElementController dfec, final DataFormElementModel dfem, DataCollectorFormActivity application, final int id) {
-        super(dfem, application, dfec);
+    public DataFormElementGPSView(final DataFormElementModel elementModel, DataCollectorFormActivity application, final int id) {
+        super(elementModel, application);
 
         inflate(getApplication(), R.layout.gpsformelement, this);
         
         TextView label = (TextView) findViewById(R.id.gpsformelement_label);
         label.setWidth(super.Column1width);
-        label.setText(dfem.getTitle());
+        label.setText(elementModel.getTitle());
 
-        ImageButton takeGPS = (ImageButton) findViewById(R.id.gpsformelement_capture_gps);
-        takeGPS.setId(id);
-        
-        final Button preview = (Button) findViewById(R.id.gpsformelement_show_details);
+        takeGPSButton = (ImageButton) findViewById(R.id.gpsformelement_capture_gps);
+        previewButton = (Button) findViewById(R.id.gpsformelement_show_details);
 
-        if (dfem.getStoredData(dfem.getDataList().size() - 1) != null) {
-            preview.setText("Position anzeigen");
-            preview.setEnabled(true);
-            preview.setOnClickListener(new OnClickListener() {
-
-                public void onClick(View v) {
-                    Intent tki = new Intent();
-                    tki.setClass(getApplication(), DataCollectorMapViewActivity.class);
-                    tki.putExtra("datagps", getGPSCoordinates(dfem));
-                    getApplication().startActivityForResult(tki, id);
-                }
-            });
-        }
-
-        takeGPS.setOnClickListener(new OnClickListener() {
-
+        previewButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                dfec.events(DataFormElementEventTypes.ONBEFORE);
-                preview.setText(R.string.msgPositionCapturing);
+                Intent tki = new Intent();
+                tki.setClass(getApplication(), DataCollectorMapViewActivity.class);
+                tki.putExtra("datagps", getGPSCoordinates(elementModel));
+                getApplication().startActivityForResult(tki, id);
+            }
+        });
+
+        takeGPSButton.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                takeGPSButton.setEnabled(false);
+                events(DataFormElementEventTypes.ONBEFORE);
+                previewButton.setText(R.string.msgPositionCapturing);
 
                 final LocationManager lm = (LocationManager) getApplication().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
                 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
 
                     public void onLocationChanged(Location location) {
-                        preview.setEnabled(true);
+                        previewButton.setEnabled(true);
+                        takeGPSButton.setEnabled(true);
                         lm.removeUpdates(this);
 
-                        preview.setText(R.string.msgShowGPS);
+                        previewButton.setText(R.string.msgShowGPS);
                         String[] coords = { String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()) };
 
-                        setGPSCoordinates(coords, dfem);
+                        setGPSCoordinates(coords, elementModel);
 
-                        dfec.events(DataFormElementEventTypes.ONAFTER);
-                        preview.setOnClickListener(new OnClickListener() {
+                        events(DataFormElementEventTypes.ONAFTER);
+                        previewButton.setOnClickListener(new OnClickListener() {
 
                             public void onClick(View v) {
-
                                 Intent tki = new Intent();
                                 tki.setClass(getApplication(), DataCollectorMapViewActivity.class);
-                                tki.putExtra("datagps", getGPSCoordinates(dfem));
+                                tki.putExtra("datagps", getGPSCoordinates(elementModel));
                                 getApplication().startActivityForResult(tki, id);
-
                             }
 
                         });
                     }
 
                     public void onProviderDisabled(String provider) {
-                        preview.setText("provider aus");
+                        previewButton.setText("provider aus");
                     }
 
                     public void onProviderEnabled(String provider) {
-                        preview.setText("provider an");
+                        previewButton.setText("provider an");
                     }
 
                     public void onStatusChanged(String provider, int status, Bundle extras) {
                     }
                 });
-
             }
         });
+        updateView(elementModel);
+    }
 
+    @Override
+    protected void updateView(DataFormElementModel elementModel) {
+        if (elementModel.getStoredData(elementModel.getDataList().size() - 1) != null) {
+            previewButton.setText("Position anzeigen");
+            previewButton.setEnabled(true);
+        }
     }
 
 }
