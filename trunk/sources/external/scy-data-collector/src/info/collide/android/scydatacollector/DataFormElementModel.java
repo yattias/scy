@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
 
+import android.util.Log;
+
 public class DataFormElementModel extends Observable implements Serializable {
 
     public enum DataFormElementTypes {
@@ -126,8 +128,11 @@ public class DataFormElementModel extends Observable implements Serializable {
             }
         }
         if (result) {
+            Log.d("DataCollector", "Stored data in model with title: " + title);
             setChanged();
             notifyObservers();
+        } else {
+            Log.d("DataCollector", "Could not store data in model with title: " + title);
         }
         return result;
     }

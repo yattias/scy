@@ -8,6 +8,7 @@ import info.collide.android.scydatacollector.DataFormElementEventModel.DataFormE
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -54,9 +55,9 @@ public class DataFormElementImageView extends DataFormElementView {
     @Override
     protected void updateView(final DataFormElementModel elementModel) {
         if (elementModel.getStoredData(elementModel.getDataList().size() - 1) != null) {
-
             byte[] buf = elementModel.getStoredData(elementModel.getDataList().size() - 1);
             Bitmap bm = BitmapFactory.decodeByteArray(buf, 0, buf.length);
+            Log.d("DataCollector", "Received update on image view to show picture " + bm.getWidth() + " x " + bm.getHeight());
 
             Bitmap icon = Bitmap.createScaledBitmap(bm, super.Column3width - 20, super.RowMaxHeight - 20, true);
 
