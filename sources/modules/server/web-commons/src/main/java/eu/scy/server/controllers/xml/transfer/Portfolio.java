@@ -19,12 +19,14 @@ public class Portfolio {
     private String reflectionCollaboration;
     private String reflectionInquiry;
     private String reflectionEffort;
+    private String assessmentPortfolioComment;
+    private String assessmentPortfolioRating;
     private Boolean assessed = Boolean.FALSE;
 
     private static final String CDATA_START = "<![CDATA[";
     private static final String CDATA_END = "]]>";
 
-    private List<TransferElo> elos;
+    private List<TransferElo> elos = new LinkedList();
 
 
     private String getCdata(String content) {
@@ -106,5 +108,21 @@ public class Portfolio {
     public void addElo(TransferElo transferElo) {
         if(getElos() == null) setElos(new LinkedList());
         getElos().add(transferElo);
+    }
+
+    public String getAssessmentPortfolioComment() {
+        return assessmentPortfolioComment;
+    }
+
+    public void setAssessmentPortfolioComment(String assessmentPortfolioComment) {
+        this.assessmentPortfolioComment = assessmentPortfolioComment;
+    }
+
+    public String getAssessmentPortfolioRating() {
+        return assessmentPortfolioRating;
+    }
+
+    public void setAssessmentPortfolioRating(String assessmentPortfolioRating) {
+        this.assessmentPortfolioRating = assessmentPortfolioRating;
     }
 }

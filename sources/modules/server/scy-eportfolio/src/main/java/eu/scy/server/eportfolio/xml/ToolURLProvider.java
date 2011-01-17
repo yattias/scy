@@ -1,5 +1,6 @@
 package eu.scy.server.eportfolio.xml;
 
+import com.thoughtworks.xstream.XStream;
 import eu.scy.server.controllers.xml.XMLStreamerController;
 import eu.scy.server.eportfolio.xml.utilclasses.ToolURLContainer;
 import eu.scy.core.roolo.RooloAccessor;
@@ -25,6 +26,25 @@ public class ToolURLProvider extends XMLStreamerController {
     protected Object getObjectToStream(HttpServletRequest request, HttpServletResponse httpServletResponse) {
 
         return new ToolURLContainer(getCurrentUserName(request));
+    }
+
+    @Override
+    protected void addAliases(XStream xStream) {
+        super.addAliases(xStream);  
+        xStream.aliasField("userInfoURL".toLowerCase(), ToolURLContainer.class, "userInfoURL");
+        xStream.aliasField("curentMissionProgressOverview".toLowerCase(), ToolURLContainer.class, "curentMissionProgressOverview");
+        xStream.aliasField("eportfolioELOSearch".toLowerCase(), ToolURLContainer.class, "eportfolioELOSearch");
+        xStream.aliasField("obligatoryELOsInMission".toLowerCase(), ToolURLContainer.class, "obligatoryELOsInMission");
+        xStream.aliasField("runtimeElosList".toLowerCase(), ToolURLContainer.class, "runtimeElosList");
+        xStream.aliasField("currentMissionRuntimeInfo".toLowerCase(), ToolURLContainer.class, "currentMissionRuntimeInfo");
+        xStream.aliasField("assessmentService".toLowerCase(), ToolURLContainer.class, "assessmentService");
+        xStream.aliasField("portfolioLoader".toLowerCase(), ToolURLContainer.class, "portfolioLoader");
+        xStream.aliasField("learningGoalsLoader".toLowerCase(), ToolURLContainer.class, "learningGoalsLoader");
+        xStream.aliasField("savePortfolio".toLowerCase(), ToolURLContainer.class, "savePortfolio");
+        xStream.aliasField("eloSearchService".toLowerCase(), ToolURLContainer.class, "eloSearchService");
+        xStream.aliasField("addEloToPortfolio".toLowerCase(), ToolURLContainer.class, "addEloToPortfolio");
+        xStream.aliasField("userName".toLowerCase(), ToolURLContainer.class, "userName");
+        xStream.aliasField("metaData".toLowerCase(), ToolURLContainer.class, "metaData");
     }
 
     public RooloAccessor getRooloAccessor() {

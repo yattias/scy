@@ -35,13 +35,13 @@ public abstract class XMLStreamerController extends AbstractController {
     }
 
     protected void addAliases(XStream xStream) {
-        xStream.alias("pedagogicalPlan", PedagogicalPlan.class);
-        xStream.alias("pedagogicalPlan", PedagogicalPlanImpl.class);
+        xStream.alias("pedagogicalplan", PedagogicalPlan.class);
+        xStream.alias("pedagogicalplan", PedagogicalPlanImpl.class);
         xStream.alias("las", LearningActivitySpaceImpl.class);
         xStream.alias("las", LearningActivitySpace.class);
 
 
-        xStream.alias("portfolioContainer", PortfolioContainer.class);
+        xStream.alias("portfoliocontainer", PortfolioContainer.class);
         xStream.alias("portfolios", LinkedList.class);
         xStream.alias("elo", TransferElo.class);
         xStream.alias("portfolio", Portfolio.class);

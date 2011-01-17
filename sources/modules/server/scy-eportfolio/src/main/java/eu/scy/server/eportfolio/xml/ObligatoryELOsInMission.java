@@ -1,12 +1,17 @@
 package eu.scy.server.eportfolio.xml;
 
+import eu.scy.common.mission.MissionRuntimeElo;
+import eu.scy.common.mission.MissionSpecificationElo;
+import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.server.controllers.xml.XMLStreamerController;
 import eu.scy.server.controllers.xml.transfer.TransferElo;
+import eu.scy.server.eportfolio.xml.utilclasses.ELOSearchResult;
 import eu.scy.server.url.UrlInspector;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,28 +20,27 @@ import javax.servlet.http.HttpServletResponse;
  * Time: 11:38:20
  * To change this template use File | Settings | File Templates.
  */
-public class ObligatoryELOsInMission extends XMLStreamerController {
+
+public class ObligatoryELOsInMission extends MissionRuntimeEnabledXMLService {
 
     private MissionELOService missionELOService;
     private UrlInspector urlInspector;
 
+
     @Override
-    protected Object getObjectToStream(HttpServletRequest request, HttpServletResponse httpServletResponse) {
+    protected Object getObject(MissionRuntimeElo missionRuntimeElo, HttpServletRequest request, HttpServletResponse response) {
+        MissionSpecificationElo missionSpecificationElo = getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo);
+        List anchorElos = getMissionELOService().getAnchorELOs(missionSpecificationElo);
+        ELOSearchResult eloSearchResult = new ELOSearchResult();
+        for (int i = 0; i < anchorElos.size(); i++) {
+            ScyElo o = (ScyElo) anchorElos.get(i);
+            if(o.getObligatoryInPortfolio() != null && o.getObligatoryInPortfolio()) {
+                eloSearchResult.getElos().add(new TransferElo(o));    
+            }
 
-        return getUrlInspector().instpectRequest(request, httpServletResponse);    
 
-
-    }
-
-    private TransferElo createEloModel(String name, String uri, String thumbnailId, String createdDate) {
-        TransferElo eloModel = new TransferElo();
-
-        eloModel.setMyname(name);
-        eloModel.setUri(uri);
-        eloModel.setThumbnail(thumbnailId);
-        eloModel.setCratedDate(createdDate);
-
-        return eloModel;
+        }
+        return eloSearchResult;
     }
 
     public MissionELOService getMissionELOService() {
