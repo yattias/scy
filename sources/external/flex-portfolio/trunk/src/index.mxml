@@ -199,7 +199,6 @@
 				}
 				
 				so.data.userInfo = userInfo;
-				so.data.eportArrays = new ArrayCollection();
 			}
 
 			protected function portfolioService_faultHandler(event:FaultEvent):void {
@@ -209,9 +208,9 @@
 			protected function portfolioService_resultHandler(event:ResultEvent):void {
 				var xml:XML= event.result as XML;
 				MISSION_NAME = xml.mission;
-				checkPortfolioStatus();
 				so.data.retrievedElosFromRoolo = xml;
 				so.flush();
+				checkPortfolioStatus();
 				
 				if(isNormalStart()) {
 					animate(LEFT_DIRECTION, STACK_INTRO_PANEL);

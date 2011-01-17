@@ -16,6 +16,12 @@
 					   result="goalService_resultHandler(event)" 
 					   fault="goalService_faultHandler(event)"
 					   resultFormat="e4x"/>
+		
+		<s:HTTPService id="URLpropertyFile" 
+					   showBusyCursor="true" 
+					   result="URLpropertyFile_resultHandler(event)" 
+					   fault="URLpropertyFile_faultHandler(event)"
+					   resultFormat="e4x"/>
 	</fx:Declarations>
 	
 	<fx:Script>
@@ -29,6 +35,7 @@
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
 			import mx.events.ValidationResultEvent;
 			import mx.rpc.events.FaultEvent;
@@ -236,13 +243,21 @@
 
 
 			protected function navigatorcontent1_creationCompleteHandler(event:FlexEvent):void {
-				goalService.url = "learningGoals.xml";
-				goalService.send();
+				//goalService.url = "learningGoals.xml";
+				
+				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				
+				URLpropertyFile.url = FlexGlobals.topLevelApplication.parameters.toolURLProvider;
+				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+					URLpropertyFile.url = "xml/toolURLProvider.html";
+				}
+				URLpropertyFile.send();
 			}
 
 
 			protected function goalService_resultHandler(event:ResultEvent):void {
 				var xml:XML= event.result as XML;
+				trace(xml);
 				var xmlObject:Object;
 				GLG = new ArrayCollection();
 				SLG = new ArrayCollection();
@@ -268,6 +283,24 @@
 
 
 			protected function goalService_faultHandler(event:FaultEvent):void {
+				Alert.show(resourceManager.getString('resources', 'URL_PROPERTY_FILE_ERROR'), "HTTPService Error");
+			}
+
+
+			protected function URLpropertyFile_resultHandler(event:ResultEvent):void {
+				//parse 'toolURLProvider.html' first
+				var toolURLProvider:XML= event.result as XML;
+				//portfolioService.url = "eportfolio.xml";
+				goalService.url = new String(toolURLProvider.learninggoalsloader)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
+				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+					goalService.url = new String(toolURLProvider.learninggoalsloader).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "%23");
+				}
+				
+				goalService.send();
+			}
+
+
+			protected function URLpropertyFile_faultHandler(event:FaultEvent):void {
 				Alert.show(resourceManager.getString('resources', 'URL_PROPERTY_FILE_ERROR'), "HTTPService Error");
 			}
 
