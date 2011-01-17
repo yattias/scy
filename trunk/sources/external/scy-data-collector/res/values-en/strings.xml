@@ -47,4 +47,10 @@
 	<string name="msgShowGPS">Show position</string>
 	<string name="connectionError">Problems occurred during connection to repository!</string>
 	<string name="notconfiguredyet">The application is not (completely) configured yet. Please click on Configuration and provide the needed values.</string>
+	<string name="mainSelectForms">Select Forms</string>
+	<string name="mainSelectFormsDescription">Browse and open downloaded forms, upload results and delete old ones</string>
+	<string name="mainDownloadForms">Download Forms</string>
+	<string name="mainDownloadFormsDescription">Browse and download forms from server to your device</string>
+	<string name="mainConfiguration">Configuration</string>
+	<string name="mainConfigurationDescription">Configure your username, your password and the form server address</string>
 </resources>
