@@ -164,14 +164,14 @@
 				//parse 'toolURLProvider.html' first
 				var toolURLProvider:XML= event.result as XML;
 				urlInfo.text = toolURLProvider;
-				
+				urlInfo.text = urlInfo.text + "\ntoolURLProvider.portfolioloader: " + toolURLProvider.portfolioloader;
 				//portfolioService.url = "eportfolio.xml";
-				portfolioService.url = new String(toolURLProvider.portfolioloader)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI);
+				portfolioService.url = new String(toolURLProvider.portfolioloader)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
 				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
-					portfolioService.url = new String(toolURLProvider.portfolioloader).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI);
+					portfolioService.url = new String(toolURLProvider.portfolioloader).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "%23");
 				}
 				
-				urlInfo.text = urlInfo.text + "\n" + portfolioService.url;
+				urlInfo.text = urlInfo.text + "\nportfolioService.url: " + portfolioService.url;
 				portfolioService.send();
 			}
 			
