@@ -86,6 +86,10 @@ public class Configuration {
         props.setProperty("sail.db.username", "root");
         props.setProperty("sail.db.password", "");
         props.setProperty("studentplanningtool.service.url", "");
+        props.setProperty("eportfolio.protocol", "http");
+        props.setProperty("eportfolio.server", "scy.collide.info");
+        props.setProperty("eportfolio.port", "8080");
+        props.setProperty("eportfolio.context", "/webapp/app/eportfolio/xml/");
         return props;
     }
 
@@ -230,5 +234,24 @@ public class Configuration {
 
     public void setRooloPort(String port) {
         props.setProperty("roolo.port", port);
+    }
+
+    public String getEportfolioProtocol() {
+        return props.getProperty("eportfolio.protocol");
+    }
+
+    public String getEportfolioServer() {
+        if (isScyServerHostDefined()) {
+            return scyServerHost;
+        }
+        return props.getProperty("eportfolio.server");
+    }
+
+    public String getEportfolioPort() {
+        return props.getProperty("eportfolio.port");
+    }
+
+    public String getEportfolioContext() {
+        return props.getProperty("eportfolio.context");
     }
 }
