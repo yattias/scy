@@ -36,7 +36,7 @@ public class CurrentMissionProgressOverviewController extends XMLStreamerControl
     @Override
     protected void addAliases(XStream xStream) {
         super.addAliases(xStream);    //To change body of overridden methods use File | Settings | File Templates.
-        xStream.alias("currentMissionProgressOverview", CurrentMissionProgressOverview.class);
+
     }
 
     @Override

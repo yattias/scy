@@ -1,5 +1,8 @@
 package eu.scy.server.eportfolio.xml.utilclasses;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -9,6 +12,13 @@ package eu.scy.server.eportfolio.xml.utilclasses;
  */
 public class ELOSearchResult {
 
-    
+    private List elos = new LinkedList();
 
+    public List getElos() {
+        return elos;
+    }
+
+    public void setElos(List elos) {
+        this.elos = elos;
+    }
 }

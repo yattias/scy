@@ -30,6 +30,14 @@
                     <a href="/webapp/app/eportfolio/xml/loadLearningGoals.html?missionURI=${missionURI}">Load learning goals</a>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    ELOSearch
+                </td>
+                <td>
+                    <a href="/webapp/app/eportfolio/xml/eloSearchService.html?missionURI=${missionURI}">Load elo search</a></td>
+                </td>
+            </tr>
         </table>
        <link rel="stylesheet" type="text/css" href="http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/history/history.css" />
         <script type="text/javascript" src="http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/history/history.js"></script>
