@@ -3,7 +3,7 @@
 	android:versionCode="1" android:versionName="1.0"
 	package="info.collide.android.scydatacollector">
 	<application android:label="@string/app_name"
-		android:debuggable="true" android:theme="@android:style/Theme.Light"
+		android:theme="@android:style/Theme.Light"
 		android:icon="@drawable/ic_launcher">
 		<activity android:label="@string/app_name" android:name=".DataCollectorActivity" android:screenOrientation="portrait">
 			<intent-filter>
@@ -14,7 +14,7 @@
 		<activity android:name=".DataCollectorFormActivity" android:windowSoftInputMode="stateHidden" android:screenOrientation="portrait"/>
 		<activity android:name=".DataCollectorTakeTextActivity" android:screenOrientation="portrait"/>
 		<activity android:name=".DataCollectorShowImageActivity" android:screenOrientation="portrait"/>
-		<activity android:name=".DataCollectorConfigurationActivity" android:screenOrientation="portrait"/>
+		<activity android:name=".DataCollectorConfigurationActivity" android:screenOrientation="portrait" android:windowSoftInputMode="stateHidden"/>
 		<activity android:name=".DataCollectorMapViewActivity" android:screenOrientation="portrait"/>
 		<activity android:name=".DataCollectorFormOverviewActivity" android:screenOrientation="portrait"/>
 		<activity android:name=".DataCollectorFormViewDetailsActivity" android:screenOrientation="portrait"/>
