@@ -17,6 +17,7 @@ public class ToolURLContainer {
     private String currentMissionRuntimeInfo = "/webapp/app/eportfolio/xml/currentMissionRuntimeInfo.html";
     private String assessmentService = "/webapp/components/xml/AssessmentService.html";
     private String portfolioLoader = "/webapp/app/eportfolio/xml/loadPortfolio.html";
+    private String learningGoalsLoader = "/webapp/app/eportfolio/xml/loadLearningGoals.html";
     private String savePortfolio = "/webapp/app/eportfolio/xml/savePortfolio.html";
 
 
@@ -99,5 +100,13 @@ public class ToolURLContainer {
 
     public void setSavePortfolio(String savePortfolio) {
         this.savePortfolio = savePortfolio;
+    }
+
+    public String getLearningGoalsLoader() {
+        return learningGoalsLoader;
+    }
+
+    public void setLearningGoalsLoader(String learningGoalsLoader) {
+        this.learningGoalsLoader = learningGoalsLoader;
     }
 }
