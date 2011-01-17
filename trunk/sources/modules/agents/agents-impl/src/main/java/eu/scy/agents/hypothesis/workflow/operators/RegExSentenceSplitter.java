@@ -120,31 +120,37 @@ public class RegExSentenceSplitter extends DocumentOperatorSpecification {
 
       List<String> sentences = new ArrayList<String>();
 
-      // construct pattern sequences to be matched against sentence
-      // separator patterns:
-      String[] zz = new String[x.length - 2];
-      for (int i = 0; i < zz.length; i++) {
-        zz[i] = x[i] + x[i + 1] + x[i + 2];
-      }
+      if (x.length < 3) {
+        sentences.add(text);
+      } else {
+        // construct pattern sequences to be matched against sentence
+        // separator patterns:
+        String[] zz = new String[x.length - 2];
+        for (int i = 0; i < zz.length; i++) {
+          zz[i] = x[i] + x[i + 1] + x[i + 2];
+        }
 
-      ArrayList<Integer> idx = new ArrayList<Integer>();
-      for (int i = 0; i < zz.length; i++) {
-        if (zz[i].matches(SENTENCE_DELIMITER)) {
-          idx.add(i + 1);
+        ArrayList<Integer> idx = new ArrayList<Integer>();
+        for (int i = 0; i < zz.length; i++) {
+          if (zz[i].matches(SENTENCE_DELIMITER)) {
+            idx.add(i + 1);
+          }
+        }
+
+        int idxStart = 0;
+        for (int i = 0; i < idx.size(); i++) {
+          int idxEnd = idx.get(i);
+          String sent = "";
+          for (int j = idxStart; j <= idxEnd; j++) {
+            sent = sent + " " + s[j];
+          }
+          sentences.add(sent);
+          idxStart = idxEnd + 1;
+        }
+        if(sentences.isEmpty()){
+          sentences.add(text);
         }
       }
-
-      int idxStart = 0;
-      for (int i = 0; i < idx.size(); i++) {
-        int idxEnd = idx.get(i);
-        String sent = "";
-        for (int j = idxStart; j <= idxEnd; j++) {
-          sent = sent + " " + s[j];
-        }
-        sentences.add(sent);
-        idxStart = idxEnd + 1;
-      }
-
       document.setFeature(Features.SENTENCES, sentences);
     }
 
