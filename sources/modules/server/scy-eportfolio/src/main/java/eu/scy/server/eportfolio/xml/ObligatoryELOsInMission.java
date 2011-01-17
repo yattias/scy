@@ -1,21 +1,12 @@
 package eu.scy.server.eportfolio.xml;
 
-import eu.scy.core.AssignedPedagogicalPlanService;
-import eu.scy.core.PedagogicalPlanPersistenceService;
-import eu.scy.core.model.pedagogicalplan.AnchorELO;
-import eu.scy.core.model.pedagogicalplan.AssignedPedagogicalPlan;
-import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.server.controllers.xml.XMLStreamerController;
-import eu.scy.server.eportfolio.xml.utilclasses.ELOModel;
-import eu.scy.server.eportfolio.xml.utilclasses.ELOSearchResult;
-import eu.scy.server.eportfolio.xml.utilclasses.EPortfolioSearchResult;
+import eu.scy.server.controllers.xml.transfer.TransferElo;
 import eu.scy.server.url.UrlInspector;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -37,12 +28,12 @@ public class ObligatoryELOsInMission extends XMLStreamerController {
 
     }
 
-    private ELOModel createEloModel(String name, String uri, String thumbnailId, String createdDate) {
-        ELOModel eloModel = new ELOModel();
+    private TransferElo createEloModel(String name, String uri, String thumbnailId, String createdDate) {
+        TransferElo eloModel = new TransferElo();
 
-        eloModel.setEloName(name);
+        eloModel.setMyname(name);
         eloModel.setUri(uri);
-        eloModel.setThumbnailId(thumbnailId);
+        eloModel.setThumbnail(thumbnailId);
         eloModel.setCratedDate(createdDate);
 
         return eloModel;

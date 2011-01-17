@@ -28,6 +28,8 @@ import java.util.LinkedList;
 public abstract class XMLStreamerController extends AbstractController {
     protected UserService userService;
 
+    protected XStream xstream;
+
     protected int getXStreamMode() {
         return XStream.XPATH_RELATIVE_REFERENCES;
     }
@@ -53,7 +55,7 @@ public abstract class XMLStreamerController extends AbstractController {
 
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
-        XStream xstream = new XStream(new DomDriver());
+        this.xstream = new XStream(new DomDriver());
         httpServletResponse.setContentType("text/xml");
         xstream.setMode(getXStreamMode());
         omitFields(xstream);
@@ -83,4 +85,12 @@ public abstract class XMLStreamerController extends AbstractController {
     public void setUserService(UserService userService) {
        this.userService = userService;
    }
+
+    public XStream getXstream() {
+        return xstream;
+    }
+
+    public void setXstream(XStream xstream) {
+        this.xstream = xstream;
+    }
 }

@@ -20,6 +20,7 @@ public class ToolURLContainer {
     private String learningGoalsLoader = "/webapp/app/eportfolio/xml/loadLearningGoals.html";
     private String savePortfolio = "/webapp/app/eportfolio/xml/savePortfolio.html";
     private String eloSearchService = "/webapp/app/eportfolio/xml/eloSearchService.html";
+    private String addEloToPortfolio = "/webapp/app/eportfolio/xml/addEloToPortfolio.html";
 
 
     private String metaData = "We give a fuck in metadata!";
@@ -117,5 +118,13 @@ public class ToolURLContainer {
 
     public void setEloSearchService(String eloSearchService) {
         this.eloSearchService = eloSearchService;
+    }
+
+    public String getAddEloToPortfolio() {
+        return addEloToPortfolio;
+    }
+
+    public void setAddEloToPortfolio(String addEloToPortfolio) {
+        this.addEloToPortfolio = addEloToPortfolio;
     }
 }
