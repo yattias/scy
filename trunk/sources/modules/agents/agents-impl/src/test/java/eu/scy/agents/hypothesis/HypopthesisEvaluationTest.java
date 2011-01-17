@@ -134,7 +134,7 @@ public class HypopthesisEvaluationTest extends AbstractTestFixture {
 		HashMap<Integer, Integer> histogram = (HashMap<Integer, Integer>) objectIn
 				.readObject();
 		String string = histogram.toString();
-		assertEquals("{0=16, 1=16, 2=7, 3=3, 4=1, 5=1}", string);
+		assertEquals("{0=16, 1=12, 2=7, 3=7, 4=1, 5=1}", string);
 
 	}
 }
