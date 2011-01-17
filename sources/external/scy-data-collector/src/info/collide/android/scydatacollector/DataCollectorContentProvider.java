@@ -278,24 +278,11 @@ public class DataCollectorContentProvider extends ContentProvider {
         return db.query(DATABASE_FORMTABLE, new String[] { KEY_FORMID, KEY_FORMDESCRIPTION, KEY_FORMTITLE, KEY_FORMUSER }, null, null, null, null, null);
     }
 
-    // ---retrieves a particular title---
-    public Cursor getForm(String formtitle) throws SQLException {
-        Cursor mCursor;
-        try {
-            mCursor = db.query(true, DATABASE_FORMTABLE, new String[] { KEY_FORMID, KEY_FORMDESCRIPTION, KEY_FORMTITLE, KEY_FORMUSER }, KEY_FORMTITLE + "=?", new String[] { formtitle }, null, null, null, null);
-            if (mCursor != null) {
-                mCursor.moveToFirst();
-            }
-        } catch (Exception e) {
-            mCursor = null;
-        }
-        return mCursor;
-    }
-
     public long getFormKey(String title) {
         long result = -1;
-        if (getForm(title) != null) {
-            Cursor cursor = getForm(title);
+        Cursor cursor = db.query(true, DATABASE_FORMTABLE, new String[] { KEY_FORMID, KEY_FORMDESCRIPTION, KEY_FORMTITLE, KEY_FORMUSER }, KEY_FORMTITLE + "=?", new String[] { title }, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
             if (cursor.getCount() > 0) {
                 result = cursor.getLong(cursor.getColumnIndex(KEY_FORMID));
             }
@@ -304,9 +291,7 @@ public class DataCollectorContentProvider extends ContentProvider {
         return result;
     }
 
-    public boolean updateFormElements(DataCollectorFormModel dcfm) {
-        long key = getFormKey(dcfm.getTitle());
-
+    public boolean updateFormElements(DataCollectorFormModel dcfm, long key) {
         if (key > -1) {
             deleteElements(key);
             insertFormElements(dcfm);
@@ -343,7 +328,6 @@ public class DataCollectorContentProvider extends ContentProvider {
                             cvEventData.put(KEY_EVENTDATAEVENTID, newEventId);
                             cvEventData.put(KEY_EVENTDATA, bytearray);
                             db.insert(DATABASE_EVENTDATATABLE, null, cvEventData);
-
                         }
                     }
                 }
@@ -373,8 +357,8 @@ public class DataCollectorContentProvider extends ContentProvider {
     }
 
     // ---updates a title---
-    public int updateForm(DataCollectorFormModel dcfm, String username) {
-        updateFormElements(dcfm);
+    public int updateForm(DataCollectorFormModel dcfm, String username, long key) {
+        updateFormElements(dcfm, key);
         ContentValues args = new ContentValues();
         args.put(KEY_FORMDESCRIPTION, dcfm.getDescription());
         args.put(KEY_FORMTITLE, dcfm.getTitle());
@@ -507,10 +491,8 @@ public class DataCollectorContentProvider extends ContentProvider {
     @Override
     public String getType(Uri uri) {
         switch (uriMatcher.match(uri)) {
-            // ---get all books---
             case FORMS:
                 return "vnd.android.cursor.dir/vnd.android.client.forms";
-                // ---get a particular book---
             case FORMS_ID:
                 return "vnd.android.cursor.item/vnd.android.client.forms ";
             default:
@@ -520,7 +502,6 @@ public class DataCollectorContentProvider extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -588,7 +569,6 @@ public class DataCollectorContentProvider extends ContentProvider {
                 break;
             default:
         }
-
         c.setNotificationUri(getContext().getContentResolver(), uri);
         return c;
     }
@@ -600,7 +580,7 @@ public class DataCollectorContentProvider extends ContentProvider {
         if (dcfm != null && username != null) {
             long key = getFormKey(dcfm.getTitle());
             if (key > -1) {
-                updateForm(dcfm, username);
+                updateForm(dcfm, username, key);
             } else {
                 insertForm(dcfm, username);
                 insertFormElements(dcfm);
