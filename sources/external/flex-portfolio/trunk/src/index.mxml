@@ -165,7 +165,13 @@
 				var toolURLProvider:XML= event.result as XML;
 				urlInfo.text = toolURLProvider;
 				
-				portfolioService.url = "eportfolio.xml";
+				//portfolioService.url = "eportfolio.xml";
+				portfolioService.url = new String(toolURLProvider.portfolioloader)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI);
+				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+					portfolioService.url = new String(toolURLProvider.portfolioloader).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI);
+				}
+				
+				urlInfo.text = urlInfo.text + "\n" + portfolioService.url;
 				portfolioService.send();
 			}
 			
@@ -187,12 +193,8 @@
 				userInfo.firstname = FlexGlobals.topLevelApplication.parameters.firstName;
 				userInfo.lastname = FlexGlobals.topLevelApplication.parameters.lastName;			
 				
-				//URLpropertyFile.url = FlexGlobals.topLevelApplication.parameters.toolURLProvider;
-			
-				if(FlexGlobals.topLevelApplication.url.indexOf("file") > -1) {
-					URLpropertyFile.url = "xml/toolURLProvider.html";
-				}
-				else if(FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+				URLpropertyFile.url = FlexGlobals.topLevelApplication.parameters.toolURLProvider;
+				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
 					URLpropertyFile.url = "xml/toolURLProvider.html";
 				}
 				
@@ -221,7 +223,7 @@
 			}
 			
 			private function checkPortfolioStatus():void {
-				PORTFOLIO_STATUS = so.data.retrievedElosFromRoolo.portfolioStatus;
+				PORTFOLIO_STATUS = so.data.retrievedElosFromRoolo.portfoliostatus;
 			}
 			
 			private function isNormalStart():Boolean {

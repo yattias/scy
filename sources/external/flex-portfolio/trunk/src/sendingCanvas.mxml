@@ -39,21 +39,21 @@
 				elosArray = new ArrayCollection();
 				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 				xmlPortfolio = so.data.retrievedElosFromRoolo;
-				if(xmlPortfolio.reflectionMission != null) {
-					reflectionArea1.text = xmlPortfolio.reflectionMission;
+				if(xmlPortfolio.reflectionmission != null) {
+					reflectionArea1.text = xmlPortfolio.reflectionmission;
 				}
-				if(xmlPortfolio.reflectionCollaboration != null) {
-					reflectionArea2.text = xmlPortfolio.reflectionCollaboration;
+				if(xmlPortfolio.reflectioncollaboration != null) {
+					reflectionArea2.text = xmlPortfolio.reflectioncollaboration;
 				}
-				if(xmlPortfolio.reflectionInquiry != null) {
-					reflectionArea3.text = xmlPortfolio.reflectionInquiry;
+				if(xmlPortfolio.reflectioninquiry != null) {
+					reflectionArea3.text = xmlPortfolio.reflectioninquiry;
 				}
-				if(xmlPortfolio.reflectionEffort != null) {
-					refOnInqTextSlider.value = new Number(xmlPortfolio.reflectionEffort);
+				if(xmlPortfolio.reflectioneffort != null) {
+					refOnInqTextSlider.value = new Number(xmlPortfolio.reflectioneffort);
 				}
 				
 				for each (var object:XML in xmlPortfolio.elos.*) {
-					if (object.name() == "elo" && object.hasBeenSelectedForSubmit == "true") {
+					if (object.name() == "elo" && object.hasbeenselectedforsubmit == "true") {
 						elosArray.addItem(XMLUtilJer.getEloObjectAsXML(object));
 					}
 				}
@@ -72,7 +72,7 @@
 					coverflow.selectedIndex = 0;
 				}
 				
-				if(new String(so.data.retrievedElosFromRoolo.portfolioStatus) == "PORTFOLIO_SUBMITTED") {
+				if(new String(so.data.retrievedElosFromRoolo.portfoliostatus) == "PORTFOLIO_SUBMITTED") {
 					reflectionArea1.editable = false;
 					reflectionArea2.editable = false;
 					reflectionArea3.editable = false;
@@ -85,11 +85,11 @@
 			}
 			
 			protected function okSubmit_clickHandler(event:MouseEvent):void {
-				xmlPortfolio.portfolioStatus = <portfolioStatus>{XMLUtilJer.cdata("PORTFOLIO_SUBMITTED")}</portfolioStatus>;
-				xmlPortfolio.reflectionMission = <reflectionMission>{XMLUtilJer.cdata(ref1Txt)}</reflectionMission>;
-				xmlPortfolio.reflectionCollaboration = <reflectionCollaboration>{XMLUtilJer.cdata(ref2Txt)}</reflectionCollaboration>;
-				xmlPortfolio.reflectionInquiry = <reflectionInquiry>{XMLUtilJer.cdata(ref3Txt)}</reflectionInquiry>;
-				xmlPortfolio.reflectionEffort = <reflectionEffort>{refOnInqTextSlider.value}</reflectionEffort>;
+				xmlPortfolio.portfoliostatus = <portfoliostatus>{XMLUtilJer.cdata("PORTFOLIO_SUBMITTED")}</portfoliostatus>;
+				xmlPortfolio.reflectionmission = <reflectionmission>{XMLUtilJer.cdata(ref1Txt)}</reflectionmission>;
+				xmlPortfolio.reflectioncollaboration = <reflectioncollaboration>{XMLUtilJer.cdata(ref2Txt)}</reflectioncollaboration>;
+				xmlPortfolio.reflectioninquiry = <reflectioninquiry>{XMLUtilJer.cdata(ref3Txt)}</reflectioninquiry>;
+				xmlPortfolio.reflectioneffort = <reflectioneffort>{refOnInqTextSlider.value}</reflectioneffort>;
 				so.data.retrievedElosFromRoolo = xmlPortfolio;
 				so.flush();
 				trace(xmlPortfolio);
@@ -127,27 +127,27 @@
 			}
 			
 			private function showInfoBox(evt:MouseEvent):void {
-				descriptionInfo.htmlText = "<u>"+resourceManager.getString('resources', 'DESCRIPTION') + "</u>: " +(evt.target).studentDescription;
+				descriptionInfo.htmlText = "<u>"+resourceManager.getString('resources', 'DESCRIPTION') + "</u>: " +(evt.target).studentdescription;
 				
 				var glgString:String = "<u>"+resourceManager.getString('resources', 'GLG') + "</u>: <br>";
-				if((evt.target).studentGLG != null) {
-					for(var i:Number = 0; i<(evt.target).studentGLG.length; i++) {
-						glgString = glgString + "     - " + ((evt.target).studentGLG[i][0]).entry + "<br>";
+				if((evt.target).studentglg != null) {
+					for(var i:Number = 0; i<(evt.target).studentglg.length; i++) {
+						glgString = glgString + "     - " + ((evt.target).studentglg[i][0]).entry + "<br>";
 					}
 				}
 				glgInfo.htmlText = glgString;
 				
 				var slgString:String = "<u>"+resourceManager.getString('resources', 'SLG') + "</u>: <br>";
-				if((evt.target).studentSLG != null) {
-					for(var i:Number = 0; i<(evt.target).studentSLG.length; i++) {
-						slgString = slgString + "     - " + ((evt.target).studentSLG[i][0]).entry + "<br>";
+				if((evt.target).studentslg != null) {
+					for(var i:Number = 0; i<(evt.target).studentslg.length; i++) {
+						slgString = slgString + "     - " + ((evt.target).studentslg[i][0]).entry + "<br>";
 					}
 				}
 				slgInfo.htmlText = slgString;
 				
-				reflectionInfo.htmlText = "<u>"+resourceManager.getString('resources', 'REFLECTION') + "</u>: " +(evt.target).studentReflection;
-				reflectionInq.htmlText = "<u>"+resourceManager.getString('resources', 'REF_ON_INQ') + "</u>: " +(evt.target).inquiryQuestion;
-				reflectionInqImg.source = "assets/images/emoticons/"+new String((evt.target).studentInquiry)+".png";
+				reflectionInfo.htmlText = "<u>"+resourceManager.getString('resources', 'REFLECTION') + "</u>: " +(evt.target).studentreflection;
+				reflectionInq.htmlText = "<u>"+resourceManager.getString('resources', 'REF_ON_INQ') + "</u>: " +(evt.target).inquiryquestion;
+				reflectionInqImg.source = "assets/images/emoticons/"+new String((evt.target).studentinquiry)+".png";
 				altBox.addEventListener(Event.ENTER_FRAME, updateCoordinates);
 			}
 			

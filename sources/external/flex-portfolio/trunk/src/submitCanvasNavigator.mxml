@@ -70,9 +70,9 @@
 						selecCol.rb.value = i;
 						selecCol.parentCanvas = this;
 						selecCol.originalEloObject = elosArray[i];
-						selecCol.isRBSelected = subCE.hasBeenSelectedForSubmit;
+						selecCol.isRBSelected = subCE.hasbeenselectedforsubmit;
 						
-						if(subCE.hasBeenSelectedForSubmit) {
+						if(subCE.hasbeenselectedforsubmit) {
 							hasSelectionBeenMade = true;
 						}
 					}
@@ -93,7 +93,7 @@
 				var myList:XMLList = portfolioElo.elos.elo.(@uri == elosObject.uri);
 				var eloXML:XML = myList[0] as XML;
 				var newEloXML:XML = myList[0] as XML;
-				newEloXML.hasBeenSelectedForSubmit = <hasBeenSelectedForSubmit>{selectedVal}</hasBeenSelectedForSubmit>;
+				newEloXML.hasbeenselectedforsubmit = <hasbeenselectedforsubmit>{selectedVal}</hasbeenselectedforsubmit>;
 				so.data.retrievedElosFromRoolo = portfolioElo.replace(eloXML, newEloXML);
 				so.flush();
 			}

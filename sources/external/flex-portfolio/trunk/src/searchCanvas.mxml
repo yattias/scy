@@ -78,7 +78,7 @@
 					selecCol.selectableGRP.addElementAt(subCE, 0);
 					selecCol.rb.group = rg;
 					selecCol.rb.value = i;
-					selecCol.rb.visible = !subCE.hasBeenReflectedOn;
+					selecCol.rb.visible = !subCE.hasbeenreflectedon;
 				}
 			}
 

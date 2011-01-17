@@ -19,18 +19,18 @@ package utils
 			xmlObject.fullsize = object.fullsize
 			xmlObject.customname = object.customname;
 			xmlObject.modified = object.modified;
-			xmlObject.studentDescription = object.studentDescription;
-			xmlObject.studentGLG = getArrayFromXML(object.studentGLG);
-			xmlObject.studentSLG = getArrayFromXML(object.studentSLG);
-			xmlObject.studentReflection = object.studentReflection;
-			xmlObject.hasBeenReflectedOn = object.hasBeenReflectedOn;
-			xmlObject.hasBeenSelectedForSubmit = object.hasBeenSelectedForSubmit;
-			xmlObject.inquiryQuestion = object.inquiryQuestion;
-			xmlObject.studentInquiry = object.studentInquiry;
+			xmlObject.studentdescription = object.studentdescription;
+			xmlObject.studentglg = getArrayFromXML(object.studentglg);
+			xmlObject.studentslg = getArrayFromXML(object.studentslg);
+			xmlObject.studentreflection = object.studentreflection;
+			xmlObject.hasbeenreflectedon = object.hasbeenreflectedon;
+			xmlObject.hasbeenselectedforsubmit = object.hasbeenselectedforsubmit;
+			xmlObject.inquiryquestion = object.inquiryquestion;
+			xmlObject.studentinquiry = object.studentinquiry;
 			xmlObject.assessed = object.assessed;
 			xmlObject.grade =object.grade;
-			xmlObject.assessmentComment = object.assessmentComment;
-			xmlObject.reflectionComment = object.reflectionComment;
+			xmlObject.assessmentcomment = object.assessmentcomment;
+			xmlObject.reflectioncomment = object.reflectioncomment;
 			return xmlObject;
 		}
 		
@@ -55,19 +55,19 @@ package utils
 			subCE.fullsize = selectedElo.fullsize;
 			subCE.customname = selectedElo.customname;
 			subCE.modified = selectedElo.modified;
-			subCE.studentDescription = selectedElo.studentDescription;
-			subCE.studentGLG = selectedElo.studentGLG;
-			subCE.studentSLG = selectedElo.studentSLG;
-			subCE.studentReflection = selectedElo.studentReflection;
-			subCE.hasBeenReflectedOn = getBooleanValue(selectedElo.hasBeenReflectedOn);
-			subCE.hasBeenSelectedForSubmit = getBooleanValue(selectedElo.hasBeenSelectedForSubmit);
-			subCE.inquiryQuestion = selectedElo.inquiryQuestion;
-			subCE.studentInquiry = selectedElo.studentInquiry;
+			subCE.studentdescription = selectedElo.studentdescription;
+			subCE.studentglg = selectedElo.studentglg;
+			subCE.studentslg = selectedElo.studentslg;
+			subCE.studentreflection = selectedElo.studentreflection;
+			subCE.hasbeenreflectedon = getBooleanValue(selectedElo.hasbeenreflectedon);
+			subCE.hasbeenselectedforsubmit = getBooleanValue(selectedElo.hasbeenselectedforsubmit);
+			subCE.inquiryquestion = selectedElo.inquiryquestion;
+			subCE.studentinquiry = selectedElo.studentinquiry;
 			subCE.assessed = selectedElo.assessed;
 			subCE.grade =selectedElo.grade;
-			subCE.assessmentComment = selectedElo.assessmentComment;
-			subCE.reflectionComment = selectedElo.reflectionComment;
-			subCE.highLightELO(subCE.hasBeenSelectedForSubmit);
+			subCE.assessmentcomment = selectedElo.assessmentcomment;
+			subCE.reflectioncomment = selectedElo.reflectioncomment;
+			subCE.highLightELO(subCE.hasbeenselectedforsubmit);
 			return subCE;
 		}
 		
@@ -89,28 +89,28 @@ package utils
 			newELO.fullsize = <fullsize>{cdata(ob.fullsize)}</fullsize>;
 			newELO.customname = <myname>{cdata(ob.customname)}</myname>;
 			newELO.modified = <modified>{cdata(ob.modified)}</modified>;
-			newELO.studentDescription = <studentDescription>{cdata(ob.studentDescription)}</studentDescription>;
-			newELO.studentGLG = <studentGLG />;
+			newELO.studentdescription = <studentdescription>{cdata(ob.studentdescription)}</studentdescription>;
+			newELO.studentglg = <studentglg />;
 			for(var i:Number = 0; i<ob.slectedGLGs.length; i++) {
 				var goal:XML = <goal>{cdata(ob.slectedGLGs[i][0].entry)}</goal>
 				goal.@pos = ob.slectedGLGs[i][0].pos;
-				newELO.studentGLG.appendChild(goal);
+				newELO.studentglg.appendChild(goal);
 			}
-			newELO.studentSLG = <studentSLG />;
+			newELO.studentslg = <studentslg />;
 			for(var i:Number = 0; i<ob.slectedSLGs.length; i++) {
 				var goal:XML = <goal>{cdata(ob.slectedSLGs[i][0].entry)}</goal>;
 				goal.@pos = ob.slectedSLGs[i][0].pos;
-				newELO.studentSLG.appendChild(goal);
+				newELO.studentslg.appendChild(goal);
 			}
-			newELO.studentReflection = <studentReflection>{cdata(ob.studentReflection)}</studentReflection>;
-			newELO.hasBeenReflectedOn = <hasBeenReflectedOn>{ob.hasBeenReflectedOn}</hasBeenReflectedOn>;
-			newELO.hasBeenSelectedForSubmit = <hasBeenSelectedForSubmit>{ob.hasBeenSelectedForSubmit}</hasBeenSelectedForSubmit>;
-			newELO.inquiryQuestion = <inquiryQuestion>{cdata(ob.inquiryQuestion)}</inquiryQuestion>;
-			newELO.studentInquiry = <studentInquiry>{ob.studentInquiry}</studentInquiry>;
+			newELO.studentreflection = <studentreflection>{cdata(ob.studentreflection)}</studentreflection>;
+			newELO.hasbeenreflectedon = <hasbeenreflectedon>{ob.hasbeenreflectedon}</hasbeenreflectedon>;
+			newELO.hasbeenselectedforsubmit = <hasbeenselectedforsubmit>{ob.hasbeenselectedforsubmit}</hasbeenselectedforsubmit>;
+			newELO.inquiryquestion = <inquiryquestion>{cdata(ob.inquiryquestion)}</inquiryquestion>;
+			newELO.studentinquiry = <studentinquiry>{ob.studentinquiry}</studentinquiry>;
 			newELO.assessed = <assessed>false</assessed>;
 			newELO.grade = <grade />;
-			newELO.assessmentComment = <assessmentComment />;
-			newELO.reflectionComment = <reflectionComment />;
+			newELO.assessmentcomment = <assessmentcomment />;
+			newELO.reflectioncomment = <reflectioncomment />;
 			
 			return newELO;
 		}

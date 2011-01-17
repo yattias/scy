@@ -81,14 +81,14 @@
 						resultToSave.fullsize = eloIconSource;
 						resultToSave.myname = elonameTextText;
 						resultToSave.modified = createdDateTextText;
-						resultToSave.studentDescription = descriptionArea.text;
+						resultToSave.studentdescription = descriptionArea.text;
 						resultToSave.slectedGLGs = slectedGLGs;
 						resultToSave.slectedSLGs = slectedSLGs;
-						resultToSave.studentReflection = reflectionArea.text;
-						resultToSave.hasBeenReflectedOn = false;
-						resultToSave.hasBeenSelectedForSubmit = false;
-						resultToSave.inquiryQuestion = refOnInqText.text;
-						resultToSave.studentInquiry = new String(refOnInqTextSlider.value);
+						resultToSave.studentreflection = reflectionArea.text;
+						resultToSave.hasbeenreflectedon = false;
+						resultToSave.hasbeenselectedforsubmit = false;
+						resultToSave.inquiryquestion = refOnInqText.text;
+						resultToSave.studentinquiry = new String(refOnInqTextSlider.value);
 						
 						var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 						var retrievedElosFromRoolo:XML = so.data.retrievedElosFromRoolo;
@@ -157,20 +157,20 @@
 					currentState = "updateReflection";
 					descriptionArea.text = selectedElo.studentDescription;
 					
-					for(var i:Number = 0; i<(selectedElo.studentGLG as ArrayCollection).length; i++) {
-						var n:Number = new Number((selectedElo.studentGLG as ArrayCollection)[i][0].pos);
+					for(var i:Number = 0; i<(selectedElo.studentglg as ArrayCollection).length; i++) {
+						var n:Number = new Number((selectedElo.studentglg as ArrayCollection)[i][0].pos);
 						GLG[n].shouldAdd = true;
 					}
 					updateGLGField();
 					
-					for(var j:Number = 0; j<(selectedElo.studentSLG as ArrayCollection).length; j++) {
-						var m:Number = new Number((selectedElo.studentSLG as ArrayCollection)[j][0].pos);
+					for(var j:Number = 0; j<(selectedElo.studentslg as ArrayCollection).length; j++) {
+						var m:Number = new Number((selectedElo.studentslg as ArrayCollection)[j][0].pos);
 						SLG[m].shouldAdd = true;
 					}
 					updateSLGField();
 					
-					reflectionArea.text = selectedElo.studentReflection;
-					refOnInqTextSlider.value = new Number(selectedElo.studentInquiry);
+					reflectionArea.text = selectedElo.studentreflection;
+					refOnInqTextSlider.value = new Number(selectedElo.studentinquiry);
 				}
 				else {
 					eloUri = selectedElo.@uri;

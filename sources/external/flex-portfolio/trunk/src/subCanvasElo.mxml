@@ -20,18 +20,18 @@
 			[Bindable] public var fullsize:String = "";
 			[Bindable] public var customname:String = "";
 			[Bindable] public var modified:String = "";
-			[Bindable] public var studentDescription:String = "";
-			[Bindable] public var studentGLG:ArrayCollection;
-			[Bindable] public var studentSLG:ArrayCollection;
-			[Bindable] public var studentReflection:String = "";
-			[Bindable] public var hasBeenSelectedForSubmit:Boolean = false;
-			[Bindable] public var hasBeenReflectedOn:Boolean = false;
-			[Bindable] public var studentInquiry:String = "";
-			[Bindable] public var inquiryQuestion:String = "";
+			[Bindable] public var studentdescription:String = "";
+			[Bindable] public var studentglg:ArrayCollection;
+			[Bindable] public var studentslg:ArrayCollection;
+			[Bindable] public var studentreflection:String = "";
+			[Bindable] public var hasbeenselectedforsubmit:Boolean = false;
+			[Bindable] public var hasbeenreflectedon:Boolean = false;
+			[Bindable] public var studentinquiry:String = "";
+			[Bindable] public var inquiryquestion:String = "";
 			[Bindable] public var assessed:String = "";
 			[Bindable] public var grade:String = "";
-			[Bindable] public var assessmentComment:String = "";
-			[Bindable] public var reflectionComment:String = "";
+			[Bindable] public var assessmentcomment:String = "";
+			[Bindable] public var reflectioncomment:String = "";
 			
 			[Bindable] private var graphicHighlight:Boolean = false;
 			[Bindable] private var alphaValue:Number = .1;

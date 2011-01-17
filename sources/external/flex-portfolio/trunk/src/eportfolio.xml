@@ -2,13 +2,13 @@
 <portfolio>
     <owner><![CDATA[Jeremy]]></owner>
     <mission><![CDATA[CO2 friendly house]]></mission>
-    <portfolioStatus><![CDATA[NOT_SUBMITTED]]></portfolioStatus>
-    <reflectionMission />
-    <reflectionCollaboration />
-    <reflectionInquiry />
-    <reflectionEffort />
-    <assessmentPortfolioComment></assessmentPortfolioComment>
-    <assessmentPortfolioRating></assessmentPortfolioRating>
+    <portfoliostatus><![CDATA[NOT_SUBMITTED]]></portfoliostatus>
+    <reflectionmission />
+    <reflectioncollaboration />
+    <reflectioninquiry />
+    <reflectioneffort />
+    <assessmentportfoliocomment></assessmentportfoliocomment>
+    <assessmentportfoliorating></assessmentportfoliorating>
     <assessed>false</assessed>
     <elos>
         <elo uri="aaa">
@@ -18,23 +18,23 @@
             <fullsize><![CDATA[assets/images/thumbs/thumb1.jpg]]></fullsize>
             <myname><![CDATA[1st ideas of my design group]]></myname>
             <modified><![CDATA[16.02.2010 14:00]]></modified>
-            <studentDescription><![CDATA[7897897]]></studentDescription>
-            <studentGLG>
+            <studentdescription><![CDATA[7897897]]></studentdescription>
+            <studentglg>
                 <goal pos="1"><![CDATA[Are able to formulate (syntactically correct) hypotheses]]></goal>
                 <goal pos="2"><![CDATA[Are able to write a report individually]]></goal>
-            </studentGLG>
-            <studentSLG>
+            </studentglg>
+            <studentslg>
                 <goal pos="3"><![CDATA[Can explain how the surface area volume ratio (6) (sa/vol) changes with the size and shape of a specific object. Can express that heat cannot spontaneously flow from a material at lower temperature to a material at higher temperature.]]></goal>
-            </studentSLG>
-            <studentReflection><![CDATA[45645465]]></studentReflection>
-            <hasBeenReflectedOn>false</hasBeenReflectedOn>
-            <hasBeenSelectedForSubmit>false</hasBeenSelectedForSubmit>
-            <inquiryQuestion><![CDATA[How helpful was building a concept map in identifying the main concepts related to reducing global CO2 levels?]]></inquiryQuestion>
-            <studentInquiry>4</studentInquiry>
+            </studentslg>
+            <studentreflection><![CDATA[45645465]]></studentreflection>
+            <hasbeenreflectedon>false</hasbeenreflectedon>
+            <hasbeenselectedforsubmit>false</hasbeenselectedforsubmit>
+            <inquiryquestion><![CDATA[How helpful was building a concept map in identifying the main concepts related to reducing global CO2 levels?]]></inquiryquestion>
+            <studentinquiry>4</studentinquiry>
             <assessed>false</assessed>
             <grade/>
-            <assessmentComment/>
-            <reflectionComment/>
+            <assessmentcomment/>
+            <reflectioncomment/>
         </elo>
     </elos>
 </portfolio>
