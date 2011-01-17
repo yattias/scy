@@ -1,1 +1,0 @@
-alter table student_user_details add column `profilePictureUrl` varchar(250) default NULL;
