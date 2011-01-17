@@ -2,9 +2,35 @@
 <tiles:insertDefinition name="default-page">
     <tiles:putAttribute name="main">
 
-        <a href="${toolURLProvider}">ToolURLProvider</a>
-        JEREMY, EXAMPLE: <a href="http://localhost:8080/webapp/app/eportfolio/xml/loadPortfolio.html?missionURI=${missionURI}">Load portfolio</a>
-       
+        <table>
+            <tr>
+                <th colspan="2">These will be removed, used as examples</th>
+            </tr>
+            <tr>
+                <td>
+                    Tool provider
+                </td>
+                <td>
+                    <a href="${toolURLProvider}">ToolURLProvider</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Load portfolio
+                </td>
+                <td>
+                     <a href="/webapp/app/eportfolio/xml/loadPortfolio.html?missionURI=${missionURI}">Load portfolio</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Load learning goals
+                </td>
+                <td>
+                    <a href="/webapp/app/eportfolio/xml/loadLearningGoals.html?missionURI=${missionURI}">Load learning goals</a>
+                </td>
+            </tr>
+        </table>
        <link rel="stylesheet" type="text/css" href="http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/history/history.css" />
         <script type="text/javascript" src="http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/history/history.js"></script>
         <!-- END Browser History required section -->  
