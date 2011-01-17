@@ -45,7 +45,7 @@ public class EloSearchService extends MissionRuntimeEnabledXMLService{
         eloModel.setUri(scyElo.getUri().toString());
         Date createdDate = new Date(scyElo.getDateCreated());
         Date lastModified = new Date(scyElo.getDateLastModified());
-        eloModel.setCratedDate(createdDate.toString());
+        eloModel.setCreatedDate(createdDate.toString());
         eloModel.setLastModified(lastModified.toString());
         eloModel.setMyname(scyElo.getTitle());
         if(scyElo.getThumbnail() != null) {

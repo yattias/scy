@@ -46,6 +46,14 @@
                     <a href="/webapp/app/eportfolio/xml/addEloToPortfolio.html?missionURI=${missionURI}">Add elo to portfolio</a>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    Load obligatory elos
+                </td>
+                <td>
+                <a href="/webapp/app/eportfolio/xml/obligatoryELOsInMission.html?missionURI=${missionURI}">Obligatory elos</a>       
+                </td>
+            </tr>
         </table>
        <link rel="stylesheet" type="text/css" href="http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/history/history.css" />
         <script type="text/javascript" src="http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/history/history.js"></script>
@@ -73,7 +81,7 @@
             attributes.name = "Main";
             attributes.align = "middle";
             swfobject.embedSWF(
-                "/webapp/themes/scy/eportfolio/Main.swf", "flashContent",
+                "/webapp/themes/scy/eportfolio/index.swf", "flashContent",
                 "800", "600", 
                 swfVersionStr, xiSwfUrlStr, 
                 flashvars, params, attributes);
@@ -94,13 +102,13 @@
 	   	
        	<noscript>
             <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="800" height="600" id="Main">
-                <param name="movie" value="/webapp/themes/scy/eportfolio/Main.swf" />
+                <param name="movie" value="/webapp/themes/scy/eportfolio/index.swf" />
                 <param name="quality" value="high" />
                 <param name="bgcolor" value="#ffffff" />
                 <param name="allowScriptAccess" value="always" />
                 <param name="allowFullScreen" value="true" />
                 <!--[if !IE]>-->
-                <object type="application/x-shockwave-flash" data="/webapp/themes/scy/eportfolio/Main.swf" width="800" height="600">
+                <object type="application/x-shockwave-flash" data="/webapp/themes/scy/eportfolio/index.swf" width="800" height="600">
                     <param name="quality" value="high" />
                     <param name="bgcolor" value="#ffffff" />
                     <param name="allowScriptAccess" value="always" />

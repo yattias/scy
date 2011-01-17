@@ -1,6 +1,7 @@
 package eu.scy.core.roolo;
 
 import eu.scy.common.mission.Las;
+import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.BaseELOService;
@@ -43,4 +44,6 @@ public interface MissionELOService extends BaseELOService {
 
 
     MissionSpecificationElo getMissionSpecificationELO(URI missionSpecificationURI);
+
+    MissionSpecificationElo getMissionSpecificationELOForRuntume(MissionRuntimeElo missionRuntimeElo);
 }

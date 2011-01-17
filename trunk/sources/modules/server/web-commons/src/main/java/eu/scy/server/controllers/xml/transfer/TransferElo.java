@@ -1,5 +1,9 @@
 package eu.scy.server.controllers.xml.transfer;
 
+import eu.scy.common.scyelo.ScyElo;
+
+import java.util.Date;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -24,8 +28,27 @@ public class TransferElo {
     private String grade;
     private String assessmentComment;
     private String reflectionComment;
-    private String cratedDate;
-        private String lastModified;
+    private String createdDate;
+    private String lastModified;
+    private String createdBy;
+
+    public TransferElo() {
+    }
+
+    public TransferElo(ScyElo scyElo) {
+        setMyname(scyElo.getTitle());
+        setUri(scyElo.getUri().toString());
+        Date lastModified = new Date(scyElo.getDateLastModified());
+        Date createDate = new Date(scyElo.getDateCreated());
+        setLastModified(lastModified.toString());
+        setModified(lastModified.toString());
+        setCreatedDate(createDate.toString());
+        setCreatedBy("FREAKFACE!");
+        setCatname("House data");
+        setThumbnail("thummy");
+        setFullsize("fully");
+        setStudentDescription("stydentdesc");
+    }
 
 
     public String getUri() {
@@ -148,12 +171,12 @@ public class TransferElo {
         this.reflectionComment = reflectionComment;
     }
 
-    public String getCratedDate() {
-        return cratedDate;
+    public String getCreatedDate() {
+        return createdDate;
     }
 
-    public void setCratedDate(String cratedDate) {
-        this.cratedDate = cratedDate;
+    public void setCreatedDate(String cratedDate) {
+        this.createdDate = cratedDate;
     }
 
     public String getLastModified() {
@@ -162,5 +185,13 @@ public class TransferElo {
 
     public void setLastModified(String lastModified) {
         this.lastModified = lastModified;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 }

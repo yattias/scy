@@ -124,6 +124,19 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
         return null;
     }
 
+    @Override
+    public MissionSpecificationElo getMissionSpecificationELOForRuntume(MissionRuntimeElo missionRuntimeElo) {
+        List missionSpecifications = getMissionSpecifications();
+        for (int i = 0; i < missionSpecifications.size(); i++) {
+            ScyElo missionSpeicification = (ScyElo) missionSpecifications.get(i);
+            if(missionRuntimeElo.getTitle().equals(missionRuntimeElo.getTitle())) {
+                return MissionSpecificationElo.loadElo(missionSpeicification.getUri(),  this);
+            }
+
+        }
+        return null;
+    }
+
 
     @Override
     public void setGlobalMissionScaffoldingLevel(ScyElo scyElo, Object value) {

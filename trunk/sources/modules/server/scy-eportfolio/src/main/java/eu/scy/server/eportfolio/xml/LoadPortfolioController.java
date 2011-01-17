@@ -9,6 +9,7 @@ import eu.scy.server.controllers.xml.XMLStreamerController;
 import eu.scy.server.controllers.xml.transfer.Portfolio;
 import eu.scy.server.controllers.xml.transfer.PortfolioContainer;
 import eu.scy.server.controllers.xml.transfer.TransferElo;
+import eu.scy.server.eportfolio.xml.utilclasses.LearningGoal;
 import eu.scy.server.url.UrlInspector;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,59 +26,52 @@ import java.util.LinkedList;
  * Time: 12:48:46
  * To change this template use File | Settings | File Templates.
  */
-public class LoadPortfolioController extends XMLStreamerController {
+public class LoadPortfolioController extends MissionRuntimeEnabledXMLService {
 
     private UrlInspector urlInspector;
     private MissionELOService missionELOService;
 
 
     @Override
-    protected Object getObjectToStream(HttpServletRequest request, HttpServletResponse httpServletResponse) {
+    protected Object getObject(MissionRuntimeElo missionRuntimeElo, HttpServletRequest request, HttpServletResponse response) {
 
         Object returnObject = null;
 
-        try {
-            String missionURI = request.getParameter("missionURI");
-            logger.info("MIssionURI: " + missionURI);
-            if(missionURI != null) {
-                missionURI = URLDecoder.decode(missionURI, "UTF-8");
+        logger.info("MISSION: " + missionRuntimeElo.getTitle());
 
-                ScyElo scyElo = (ScyElo) getUrlInspector().instpectRequest(request, httpServletResponse);
-                MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadElo(new URI(missionURI), getMissionELOService());
-                URI portfolioELO = missionRuntimeElo.getTypedContent().getEPortfolioEloUri();
-                logger.info("DID I GET A PORTFOLIO NOW??: " + portfolioELO);
-                if(portfolioELO != null) {
-                    ScyElo porElo = ScyElo.loadLastVersionElo(portfolioELO, getMissionELOService());
-                    logger.info("XML: " + porElo.getElo().getContent().getXmlString());
+        Portfolio portfolio = new Portfolio();
+        portfolio.setMissionName(missionRuntimeElo.getTitle());
+        portfolio.setOwner(getCurrentUser(request).getUserDetails().getUsername());
+        portfolio.setPortfolioStatus("NOT_SUBMITTED");
+        portfolio.setAssessed(false);
+        portfolio.setReflectionCollaboration("HUH DUDE; REFLECTION is for professors!");
+        portfolio.setReflectionEffort("NO GOOD MAN!");
+        portfolio.setReflectionInquiry("MUUU");
+        portfolio.setReflectionMission("WOha reflect reflect");
+        portfolio.setAssessmentPortfolioComment("A comment from me");
+        portfolio.setAssessmentPortfolioRating("TOO GOOD TO BE TRUE (6/6)");
 
-                }
+        TransferElo elo = new TransferElo(missionRuntimeElo);
 
-                logger.info("MISSION: " + missionRuntimeElo.getTitle());
+        LearningGoal learningGoal = new LearningGoal();
+        learningGoal.setGoal("A generally considered general goal");
 
-                Portfolio portfolio = new Portfolio();
-                portfolio.setMissionName(missionRuntimeElo.getTitle());
-                portfolio.setOwner(getCurrentUser(request).getUserDetails().getUsername());
-                portfolio.setPortfolioStatus("NOT_SUBMITTED");
-                portfolio.setAssessed(false);
-                portfolio.setReflectionCollaboration("HUH DUDE; REFLECTION is for professors!");
-                portfolio.setReflectionEffort("NO GOOD MAN!");
-                portfolio.setReflectionInquiry("MUUU");
+        //elo.getGeneralLearningGoals().add(learningGoal);
 
-                returnObject = portfolio;
+        portfolio.getElos().add(elo);
 
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        returnObject = portfolio;
         return returnObject;
+
     }
+
 
     @Override
     protected void addAliases(XStream xStream) {
         super.addAliases(xStream);    //To change body of overridden methods use File | Settings | File Templates.
 
     }
+
 
 
     public UrlInspector getUrlInspector() {
