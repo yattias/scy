@@ -24,6 +24,9 @@ public class TransferElo {
     private String grade;
     private String assessmentComment;
     private String reflectionComment;
+    private String cratedDate;
+        private String lastModified;
+
 
     public String getUri() {
         return uri;
@@ -143,5 +146,21 @@ public class TransferElo {
 
     public void setReflectionComment(String reflectionComment) {
         this.reflectionComment = reflectionComment;
+    }
+
+    public String getCratedDate() {
+        return cratedDate;
+    }
+
+    public void setCratedDate(String cratedDate) {
+        this.cratedDate = cratedDate;
+    }
+
+    public String getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(String lastModified) {
+        this.lastModified = lastModified;
     }
 }

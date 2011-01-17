@@ -3,7 +3,7 @@ package eu.scy.server.eportfolio.xml;
 import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.roolo.MissionELOService;
-import eu.scy.server.eportfolio.xml.utilclasses.ELOModel;
+import eu.scy.server.controllers.xml.transfer.TransferElo;
 import eu.scy.server.eportfolio.xml.utilclasses.ELOSearchResult;
 import eu.scy.server.url.UrlInspector;
 
@@ -41,13 +41,13 @@ public class EloSearchService extends MissionRuntimeEnabledXMLService{
     }
 
     private Object createELOModel(ScyElo scyElo) {
-        ELOModel eloModel = new ELOModel();
+        TransferElo eloModel = new TransferElo();
         eloModel.setUri(scyElo.getUri().toString());
         Date createdDate = new Date(scyElo.getDateCreated());
         Date lastModified = new Date(scyElo.getDateLastModified());
         eloModel.setCratedDate(createdDate.toString());
         eloModel.setLastModified(lastModified.toString());
-        eloModel.setEloName(scyElo.getTitle());
+        eloModel.setMyname(scyElo.getTitle());
         if(scyElo.getThumbnail() != null) {
             System.out.println("THIS ELO HAS A THUMBNAIL!");
         } else {

@@ -38,6 +38,14 @@
                     <a href="/webapp/app/eportfolio/xml/eloSearchService.html?missionURI=${missionURI}">Load elo search</a></td>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    Add elo to portfolio
+                </td>
+                <td>
+                    <a href="/webapp/app/eportfolio/xml/addEloToPortfolio.html?missionURI=${missionURI}">Add elo to portfolio</a>
+                </td>
+            </tr>
         </table>
        <link rel="stylesheet" type="text/css" href="http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/history/history.css" />
         <script type="text/javascript" src="http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/history/history.js"></script>

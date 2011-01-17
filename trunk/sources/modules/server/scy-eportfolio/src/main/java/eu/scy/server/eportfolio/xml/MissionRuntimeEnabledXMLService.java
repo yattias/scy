@@ -5,7 +5,7 @@ import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.server.controllers.xml.XMLStreamerController;
-import eu.scy.server.eportfolio.xml.utilclasses.ELOModel;
+import eu.scy.server.controllers.xml.transfer.TransferElo;
 import eu.scy.server.eportfolio.xml.utilclasses.ELOSearchResult;
 import eu.scy.server.eportfolio.xml.utilclasses.ServiceExceptionMessage;
 import eu.scy.server.url.UrlInspector;
@@ -50,7 +50,7 @@ public abstract class MissionRuntimeEnabledXMLService extends XMLStreamerControl
     @Override
     protected void addAliases(XStream xStream) {
         super.addAliases(xStream);    //To change body of overridden methods use File | Settings | File Templates.
-        xStream.alias("elo", ELOModel.class);
+        xStream.alias("elo", TransferElo.class);
         xStream.alias("searchResult", ELOSearchResult.class);
     }
 

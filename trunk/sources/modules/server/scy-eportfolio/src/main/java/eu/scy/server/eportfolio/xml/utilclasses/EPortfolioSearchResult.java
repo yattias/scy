@@ -1,5 +1,7 @@
 package eu.scy.server.eportfolio.xml.utilclasses;
 
+import eu.scy.server.controllers.xml.transfer.TransferElo;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,7 +16,7 @@ public class EPortfolioSearchResult {
 
     private List searchResult = new LinkedList();
 
-    public void addSearchResult(ELOModel eloModel) {
+    public void addSearchResult(TransferElo eloModel) {
         searchResult.add(eloModel);
     }
 
