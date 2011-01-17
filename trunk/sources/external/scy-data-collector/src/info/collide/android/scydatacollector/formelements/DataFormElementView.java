@@ -130,7 +130,8 @@ public abstract class DataFormElementView extends LinearLayout implements Observ
     
     @Override
     public void update(Observable observable, Object data) {
-        updateView((DataFormElementModel) observable);
+        elementModel = (DataFormElementModel) observable;
+        updateView(elementModel);
     }
 
     protected abstract void updateView(DataFormElementModel observable);
