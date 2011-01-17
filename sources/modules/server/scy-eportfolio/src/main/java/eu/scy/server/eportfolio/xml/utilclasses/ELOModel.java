@@ -9,19 +9,21 @@ package eu.scy.server.eportfolio.xml.utilclasses;
  */
 public class ELOModel {
 
-    private String EloURI;
+    private String uri;
     private String thumbnailId;
     private String EloName;
     private String createdByUserId;
     private String createdByGroupId;
     private String cratedDate;
+    private String lastModified;
 
-    public String getEloURI() {
-        return EloURI;
+
+    public String getUri() {
+        return uri;
     }
 
-    public void setEloURI(String eloURI) {
-        EloURI = eloURI;
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 
     public String getThumbnailId() {
@@ -62,5 +64,13 @@ public class ELOModel {
 
     public void setCratedDate(String cratedDate) {
         this.cratedDate = cratedDate;
+    }
+
+    public String getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(String lastModified) {
+        this.lastModified = lastModified;
     }
 }

@@ -8,11 +8,15 @@ import eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceImpl;
 import eu.scy.core.model.impl.pedagogicalplan.PedagogicalPlanImpl;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
+import eu.scy.server.controllers.xml.transfer.Portfolio;
+import eu.scy.server.controllers.xml.transfer.PortfolioContainer;
+import eu.scy.server.controllers.xml.transfer.TransferElo;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.LinkedList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -33,6 +37,15 @@ public abstract class XMLStreamerController extends AbstractController {
         xStream.alias("pedagogicalPlan", PedagogicalPlanImpl.class);
         xStream.alias("las", LearningActivitySpaceImpl.class);
         xStream.alias("las", LearningActivitySpace.class);
+
+
+        xStream.alias("portfolioContainer", PortfolioContainer.class);
+        xStream.alias("portfolios", LinkedList.class);
+        xStream.alias("elo", TransferElo.class);
+        xStream.alias("portfolio", Portfolio.class);
+        xStream.useAttributeFor(TransferElo.class, "uri");
+
+        
     }
 
     protected void omitFields(XStream xStream ) {

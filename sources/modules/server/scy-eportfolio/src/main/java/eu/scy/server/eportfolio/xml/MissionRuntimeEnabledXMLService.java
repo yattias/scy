@@ -1,9 +1,13 @@
 package eu.scy.server.eportfolio.xml;
 
+import com.thoughtworks.xstream.XStream;
 import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.server.controllers.xml.XMLStreamerController;
+import eu.scy.server.eportfolio.xml.utilclasses.ELOModel;
+import eu.scy.server.eportfolio.xml.utilclasses.ELOSearchResult;
+import eu.scy.server.eportfolio.xml.utilclasses.ServiceExceptionMessage;
 import eu.scy.server.url.UrlInspector;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,7 +44,14 @@ public abstract class MissionRuntimeEnabledXMLService extends XMLStreamerControl
             e.printStackTrace();
         }
 
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return new ServiceExceptionMessage("This service requires that you set missionURI parameter in order to load");
+    }
+
+    @Override
+    protected void addAliases(XStream xStream) {
+        super.addAliases(xStream);    //To change body of overridden methods use File | Settings | File Templates.
+        xStream.alias("elo", ELOModel.class);
+        xStream.alias("searchResult", ELOSearchResult.class);
     }
 
     protected abstract Object getObject(MissionRuntimeElo missionRuntimeElo, HttpServletRequest request, HttpServletResponse response);

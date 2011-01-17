@@ -41,7 +41,7 @@ public class ObligatoryELOsInMission extends XMLStreamerController {
         ELOModel eloModel = new ELOModel();
 
         eloModel.setEloName(name);
-        eloModel.setEloURI(uri);
+        eloModel.setUri(uri);
         eloModel.setThumbnailId(thumbnailId);
         eloModel.setCratedDate(createdDate);
 

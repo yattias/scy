@@ -49,10 +49,5 @@ public class AssessmentService extends XMLStreamerController{
     @Override
     protected void addAliases(XStream xStream) {
         super.addAliases(xStream);    //To change body of overridden methods use File | Settings | File Templates.
-        xStream.alias("portfolioContainer", PortfolioContainer.class);
-        xStream.alias("portfolios", LinkedList.class);
-        xStream.alias("elo", TransferElo.class);
-        xStream.alias("portfolio", Portfolio.class);
-        xStream.useAttributeFor(TransferElo.class, "uri");
     }
 }
