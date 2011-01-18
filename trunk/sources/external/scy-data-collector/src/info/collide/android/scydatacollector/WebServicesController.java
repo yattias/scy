@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -109,7 +108,7 @@ public class WebServicesController {
                     jsonobj.put("type", "scy/form");
 
                     String mUrl = config.getServerUrl() + saveElo;
-                    String message = makeRequestTextResult(mUrl, jsonobj);
+                    makeRequestTextResult(mUrl, jsonobj);
 
                 } catch (Exception e) {
                     e.printStackTrace();

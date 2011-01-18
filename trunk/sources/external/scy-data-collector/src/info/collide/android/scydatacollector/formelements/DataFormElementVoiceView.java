@@ -36,7 +36,7 @@ public class DataFormElementVoiceView extends DataFormElementView {
     public DataFormElementVoiceView(final DataFormElementModel elementModel, final DataCollectorFormActivity application, final int id) {
         super(elementModel, application);
 
-        ar = new AudioRecorder(elementModel);
+        ar = new AudioRecorder();
 
         inflate(getApplication(), R.layout.voiceformelement, this);
         

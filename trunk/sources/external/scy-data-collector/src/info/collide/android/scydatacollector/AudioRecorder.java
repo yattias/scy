@@ -18,13 +18,10 @@ public class AudioRecorder {
 
     private boolean _isRecording = false;
 
-    private DataFormElementModel _dfem = null;
-
     /**
      * Creates a new audio recording at the given path (relative to root of SD card).
      */
-    public AudioRecorder(DataFormElementModel dfem) {
-        _dfem = dfem;
+    public AudioRecorder() {
     }
 
     /**
