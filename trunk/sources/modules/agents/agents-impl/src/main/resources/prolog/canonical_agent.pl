@@ -59,7 +59,7 @@ canonical_agent :-
 		       ]),
 	agent_register(InTS,
 		       [ tuple_type(action),
-			 action_type('input_variables'),
+			 action_type('variables_selected'),
 			 callback(process_variables_callback)
 		       ]).
 
@@ -235,7 +235,7 @@ field(data, 8).		% the data itself (arbitrary)
 
 in_space(actions).			% scydynamics_actionlog
 out_space(command).			% scydynamics_actionlog
-host('scy.collide.info').		% localhost
+host('localhost').		% localhost
 port(2525).
 user('sqlspaces').
 
