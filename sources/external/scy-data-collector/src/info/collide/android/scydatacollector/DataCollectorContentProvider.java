@@ -10,7 +10,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
@@ -172,12 +171,6 @@ public class DataCollectorContentProvider extends ContentProvider {
             db.execSQL("DROP TABLE IF EXISTS " + DATABASE_EVENTDATATABLE + ";");
             onCreate(db);
         }
-    }
-
-    // ---opens the database---
-    private DataCollectorContentProvider open() throws SQLException {
-        db = DBHelper.getWritableDatabase();
-        return this;
     }
 
     // ---closes the database---
@@ -475,7 +468,7 @@ public class DataCollectorContentProvider extends ContentProvider {
 
                 long elementDataID = c.getLong(c.getColumnIndex(KEY_ELEMENTDATAID));
 
-                long delElementDataCount = db.delete(DATABASE_ELEMENTDATATABLE, KEY_ELEMENTDATAID + "=" + elementDataID, null);
+                db.delete(DATABASE_ELEMENTDATATABLE, KEY_ELEMENTDATAID + "=" + elementDataID, null);
 
                 break;
             case FORMS:

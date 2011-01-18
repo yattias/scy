@@ -49,8 +49,6 @@ public class DataCollectorFormViewDetailsActivity extends Activity implements Ob
 
     private static int _elementPos;
 
-    private static String _formTitle;
-
     private static DataCollectorFormViewDetailsActivity _thisView;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -62,7 +60,6 @@ public class DataCollectorFormViewDetailsActivity extends Activity implements Ob
 
         DataFormElementModel dfem = (DataFormElementModel) extras.getSerializable("dfem");
         _elementPos = extras.getInt("elementpos");
-        _formTitle = extras.getString("formtitle");
         init(dfem);
     }
 
@@ -267,7 +264,7 @@ public class DataCollectorFormViewDetailsActivity extends Activity implements Ob
                     break;
                 case VOICE:
                     final AudioPlayer ap = new AudioPlayer();
-                    final AudioRecorder ar = new AudioRecorder(_dfem);
+                    final AudioRecorder ar = new AudioRecorder();
 
                     final ImageButton btnRec = new ImageButton(getApplication());
                     final ImageButton btnStp = new ImageButton(getApplication());

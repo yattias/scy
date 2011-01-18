@@ -15,10 +15,7 @@ public class MessageDialog {
     }
 
     public void createYesNoDialog(String msgText, OnClickListener oclYes, String strYes, OnClickListener oclNo, String strNo) {
-        String Text;
-
         // "Answer" callback.
-
         Builder alMsgBox = new AlertDialog.Builder(_application).setMessage(msgText).setPositiveButton(strYes, oclYes);
         if (oclNo != null)
             alMsgBox.setNegativeButton(strNo, oclNo);
@@ -33,9 +30,7 @@ public class MessageDialog {
     }
 
     public void createInfoDialog(String msgText, OnClickListener ocl) {
-
         // "Answer" callback.
-
         Builder alMsgBox = new AlertDialog.Builder(_application).setMessage(msgText).setNeutralButton("OK", ocl);
         alMsgBox.show();
     }

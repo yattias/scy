@@ -59,7 +59,7 @@ public class DataCollectorFormsDataListAdapter extends BaseAdapter {
             if (c.moveToFirst()) {
                 do {
                     DataCollectorFormModel dcfm = new DataCollectorFormModel();
-                    int formid = c.getInt(c.getColumnIndex(dccp.KEY_FORMID));
+                    int formid = c.getInt(c.getColumnIndex(DataCollectorContentProvider.KEY_FORMID));
                     dccp.getDCFM(_context, formid, dcfm);
                     _data.put(formid, dcfm);
                 } while (c.moveToNext());

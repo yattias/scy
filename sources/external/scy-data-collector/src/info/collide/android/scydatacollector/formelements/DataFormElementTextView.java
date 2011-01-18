@@ -40,8 +40,9 @@ public class DataFormElementTextView extends DataFormElementView {
         previewText = (TextView) findViewById(R.id.textformelement_preview_text);
         previewText.setWidth(super.Column3width + Column4width);
         
-        detailsButton = new ImageButton(application);
+        detailsButton = (ImageButton) findViewById(R.id.textformelement_show_details);
         detailsButton.setMinimumWidth(Column5width);
+        detailsButton.setVisibility(INVISIBLE);
 
         detailsButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
@@ -53,9 +54,9 @@ public class DataFormElementTextView extends DataFormElementView {
     
     protected final void updateView(DataFormElementModel elementModel) {
         if (elementModel.getDataList().size() > 0) {
-            detailsButton.setEnabled(true);
+            detailsButton.setVisibility(VISIBLE);
         } else {
-            detailsButton.setEnabled(false);
+            detailsButton.setVisibility(INVISIBLE);
         }
         if (elementModel.getStoredData(elementModel.getDataList().size() - 1) != null) {
             String tmp = new String(elementModel.getStoredData(elementModel.getDataList().size() - 1));
