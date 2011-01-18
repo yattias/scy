@@ -56,8 +56,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="las2"/>
-                     <property name="xPosition" value="20"/>
-                     <property name="yPosition" value="40"/>
+                     <property name="xPosition" value="40"/>
+                     <property name="yPosition" value="80"/>
                      <property name="tooltip" value="A great small las at the bottom"/>
                      <property name="nextLasses">
                         <list>
@@ -69,7 +69,7 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="las3"/>
-                     <property name="xPosition" value="40"/>
+                     <property name="xPosition" value="80"/>
                      <property name="yPosition" value="0"/>
                      <property name="tooltip" value="A great small las to right"/>
                      <property name="nextLasses">
@@ -90,7 +90,7 @@
                <property name="id" value="missionDescription"/>
                <property name="uri" value="roolo://memory/0/0/Mission_description.text"/>
                <property name="iconType" value="scy/drawing"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1/startPage/Welcome.html"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1/dummyLasInstruction.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1/startPage/Welcome.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1/startPage/Welcome.html"/>
                <property name="inputMissionAnchorIds">

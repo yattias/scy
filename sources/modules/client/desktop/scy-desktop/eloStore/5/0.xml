@@ -104,8 +104,8 @@
     </las>
     <las>
       <id>las2</id>
-      <xPos>20.0</xPos>
-      <yPos>40.0</yPos>
+      <xPos>40.0</xPos>
+      <yPos>80.0</yPos>
       <toolTip>A great small las at the bottom</toolTip>
       <loElos />
       <otherElos />
@@ -127,7 +127,7 @@
     </las>
     <las>
       <id>las3</id>
-      <xPos>40.0</xPos>
+      <xPos>80.0</xPos>
       <yPos>0.0</yPos>
       <toolTip>A great small las to right</toolTip>
       <loElos />
