@@ -449,7 +449,16 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       }
 
       searchElos.openButton.disable = true;
-      var searchQuery: BasicMetadataQuery = new BasicMetadataQuery(gridEloSearch.queryBox.rawText);
+      var searchQuery: BasicMetadataQuery = null;
+      if (scyDesktop.initializer.offlineMode){
+         def queryText = gridEloSearch.queryBox.rawText.trim();
+         if (queryText!=""){
+            searchQuery = new BasicMetadataQuery(titleKey, BasicSearchOperations.EQUALS, "{queryText}");
+         }
+      }
+      else{
+         searchQuery = new BasicMetadataQuery(gridEloSearch.queryBox.rawText);
+      }
       backgroundQuerySearch = new BackgroundQuerySearch(tbi, scyDesktop.newEloCreationRegistry, searchQuery, this);
 
       backgroundQuerySearch.start();
