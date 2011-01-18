@@ -49,7 +49,7 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="conceptualisatsionConceptMap"/>
-                     <property name="xPosition" value="40"/>
+                     <property name="xPosition" value="80"/>
                      <property name="yPosition" value="0"/>
                      <property name="tooltip" value="Concept Map"/>
                      <property name="lasType" value="CONCEPTUALISATION"/>
@@ -71,7 +71,7 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="reportingVideo"/>
-                     <property name="xPosition" value="-40"/>
+                     <property name="xPosition" value="-80"/>
                      <property name="yPosition" value="0"/>
                      <property name="tooltip" value="Video report"/>
                      <property name="lasType" value="REPORTING"/>
@@ -93,8 +93,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="orientation_B1"/>
-                     <property name="xPosition" value="-40"/>
-                     <property name="yPosition" value="-40"/>
+                     <property name="xPosition" value="-80"/>
+                     <property name="yPosition" value="-80"/>
                      <property name="tooltip" value="Hypothesis"/>
                      <property name="lasType" value="ORIENTATION"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses.html"/>
@@ -119,8 +119,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="orientation_B2"/>
-                     <property name="xPosition" value="40"/>
-                     <property name="yPosition" value="40"/>
+                     <property name="xPosition" value="80"/>
+                     <property name="yPosition" value="80"/>
                      <property name="tooltip" value="Hypothesis"/>
                      <property name="lasType" value="ORIENTATION"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses.html"/>
@@ -145,8 +145,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="orientation_B3"/>
-                     <property name="xPosition" value="-40"/>
-                     <property name="yPosition" value="40"/>
+                     <property name="xPosition" value="-80"/>
+                     <property name="yPosition" value="80"/>
                      <property name="tooltip" value="Hypothesis"/>
                      <property name="lasType" value="ORIENTATION"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses.html"/>
@@ -171,8 +171,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="orientation_C1"/>
-                     <property name="xPosition" value="40"/>
-                     <property name="yPosition" value="-40"/>
+                     <property name="xPosition" value="80"/>
+                     <property name="yPosition" value="-80"/>
                      <property name="tooltip" value="Hypothesis"/>
                      <property name="lasType" value="ORIENTATION"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses.html"/>
@@ -197,8 +197,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="experiment_B1"/>
-                     <property name="xPosition" value="-80"/>
-                     <property name="yPosition" value="-80"/>
+                     <property name="xPosition" value="-160"/>
+                     <property name="yPosition" value="-160"/>
                      <property name="tooltip" value="Inferences"/>
                      <property name="lasType" value="EXPERIMENT"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_inferencesB1.html"/>
@@ -225,8 +225,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="experiment_B2"/>
-                     <property name="xPosition" value="80"/>
-                     <property name="yPosition" value="80"/>
+                     <property name="xPosition" value="160"/>
+                     <property name="yPosition" value="160"/>
                      <property name="tooltip" value="Inferences"/>
                      <property name="lasType" value="EXPERIMENT"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_inferencesB2B3C1.html"/>
@@ -253,8 +253,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="experiment_B3"/>
-                     <property name="xPosition" value="-80"/>
-                     <property name="yPosition" value="80"/>
+                     <property name="xPosition" value="-160"/>
+                     <property name="yPosition" value="160"/>
                      <property name="tooltip" value="Inferences"/>
                      <property name="lasType" value="EXPERIMENT"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_inferencesB2B3C1.html"/>
@@ -282,8 +282,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="experiment_C1"/>
-                     <property name="xPosition" value="80"/>
-                     <property name="yPosition" value="-80"/>
+                     <property name="xPosition" value="160"/>
+                     <property name="yPosition" value="-160"/>
                      <property name="tooltip" value="Inferences"/>
                      <property name="lasType" value="EXPERIMENT"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_inferencesB2B3C1.html"/>
@@ -309,8 +309,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="design_B1"/>
-                     <property name="xPosition" value="-120"/>
-                     <property name="yPosition" value="-120"/>
+                     <property name="xPosition" value="-240"/>
+                     <property name="yPosition" value="-240"/>
                      <property name="tooltip" value="Solution"/>
                      <property name="lasType" value="DESIGN"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_solution.html"/>
@@ -334,8 +334,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="design_B2"/>
-                     <property name="xPosition" value="120"/>
-                     <property name="yPosition" value="120"/>
+                     <property name="xPosition" value="240"/>
+                     <property name="yPosition" value="240"/>
                      <property name="tooltip" value="First ideas"/>
                      <property name="lasType" value="DESIGN"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_solution.html"/>
@@ -359,8 +359,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="design_B3"/>
-                     <property name="xPosition" value="-120"/>
-                     <property name="yPosition" value="120"/>
+                     <property name="xPosition" value="-240"/>
+                     <property name="yPosition" value="240"/>
                      <property name="tooltip" value="Solution"/>
                      <property name="lasType" value="DESIGN"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_solution.html"/>
@@ -384,8 +384,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="design_C1"/>
-                     <property name="xPosition" value="120"/>
-                     <property name="yPosition" value="-120"/>
+                     <property name="xPosition" value="240"/>
+                     <property name="yPosition" value="-240"/>
                      <property name="tooltip" value="Solution"/>
                      <property name="lasType" value="DESIGN"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_solution.html"/>

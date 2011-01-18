@@ -42,7 +42,7 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="conceptualizationDesign"/>
-                     <property name="xPosition" value="40"/>
+                     <property name="xPosition" value="80"/>
                      <property name="yPosition" value="0"/>
                      <property name="tooltip" value="First ideas of my design group"/>
                      <property name="nextLasses">
@@ -58,7 +58,7 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="conceptualizationExperts"/>
-                     <property name="xPosition" value="80"/>
+                     <property name="xPosition" value="160"/>
                      <property name="yPosition" value="0"/>
                      <property name="tooltip" value="Hypotheses of my expert group"/>
                      <property name="loEloUris">
@@ -82,7 +82,7 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="experimentExperts"/>
-                     <property name="xPosition" value="120"/>
+                     <property name="xPosition" value="240"/>
                      <property name="yPosition" value="0"/>
                      <property name="tooltip" value="Conclusion of expert experiments"/>
                      <property name="loEloUris">
@@ -111,7 +111,7 @@
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="conceptualizationIndividual"/>
                      <property name="xPosition" value="0"/>
-                     <property name="yPosition" value="40"/>
+                     <property name="yPosition" value="80"/>
                      <property name="tooltip" value="Concept Map on CO2 emission"/>
                      <property name="nextLasses">
                         <list>
@@ -121,8 +121,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="construction"/>
-                     <property name="xPosition" value="40"/>
-                     <property name="yPosition" value="40"/>
+                     <property name="xPosition" value="80"/>
+                     <property name="yPosition" value="80"/>
                      <property name="tooltip" value="House drawings"/>
                      <property name="nextLasses">
                         <list>
@@ -136,8 +136,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="design"/>
-                     <property name="xPosition" value="80"/>
-                     <property name="yPosition" value="40"/>
+                     <property name="xPosition" value="160"/>
+                     <property name="yPosition" value="80"/>
                      <property name="tooltip" value="House choices"/>
                      <property name="nextLasses">
                         <list>
@@ -154,8 +154,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="reportingExperts"/>
-                     <property name="xPosition" value="120"/>
-                     <property name="yPosition" value="40"/>
+                     <property name="xPosition" value="240"/>
+                     <property name="yPosition" value="80"/>
                      <property name="tooltip" value="Expert presentation"/>
                      <property name="nextLasses">
                         <list>
@@ -171,8 +171,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="experimentDesign"/>
-                     <property name="xPosition" value="40"/>
-                     <property name="yPosition" value="80"/>
+                     <property name="xPosition" value="80"/>
+                     <property name="yPosition" value="160"/>
                      <property name="tooltip" value="House data"/>
                      <property name="loEloUris">
                         <list>
@@ -195,8 +195,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="reportingDesign"/>
-                     <property name="xPosition" value="80"/>
-                     <property name="yPosition" value="80"/>
+                     <property name="xPosition" value="160"/>
+                     <property name="yPosition" value="160"/>
                      <property name="tooltip" value="Presentation of house design"/>
                      <property name="nextLasses">
                         <list>
@@ -207,8 +207,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="reportingIndividual"/>
-                     <property name="xPosition" value="120"/>
-                     <property name="yPosition" value="80"/>
+                     <property name="xPosition" value="240"/>
+                     <property name="yPosition" value="160"/>
                      <property name="tooltip" value="Individual report"/>
                      <property name="nextLasses">
                         <list>
