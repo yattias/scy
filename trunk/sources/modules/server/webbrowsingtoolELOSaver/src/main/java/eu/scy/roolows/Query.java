@@ -17,12 +17,12 @@ import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.roolo.search.BasicMetadataQuery;
+import org.roolo.search.BasicSearchOperations;
 
 import roolo.api.search.AndQuery;
 import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
-import roolo.cms.repository.mock.BasicMetadataQuery;
-import roolo.cms.repository.search.BasicSearchOperations;
 import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataValueContainer;
@@ -134,12 +134,12 @@ public class Query {
         String value = params.getFirst(keys[0]);
         log.info("value: "+value);
 
-        IQuery query = new BasicMetadataQuery(beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.valueOf(keys[0])), BasicSearchOperations.EQUALS, value, null);
+        IQuery query = new BasicMetadataQuery(beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.valueOf(keys[0])), BasicSearchOperations.EQUALS, value);
 		// Uncomment this line for final deployment with JPA RoOLO
         // IQuery query = new BasicMetadataQuery(beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.valueOf(keys[0])), BasicSearchOperations.EQUALS, value, null);
         List<IQuery> queries = new Vector<IQuery>();
         for (int i = 1; i < keys.length; i++) {
-            IQuery newQuery = new BasicMetadataQuery(beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.valueOf(keys[i])), BasicSearchOperations.EQUALS, params.getFirst(keys[i]), null);
+            IQuery newQuery = new BasicMetadataQuery(beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.valueOf(keys[i])), BasicSearchOperations.EQUALS, params.getFirst(keys[i]));
             // Uncomment this line for final deployment with JPA RoOLO
             // IQuery newQuery = new BasicMetadataQuery(beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.valueOf(keys[i])), BasicSearchOperations.EQUALS, params.getFirst(keys[i]));
             queries.add(newQuery);
@@ -186,7 +186,7 @@ public class Query {
 			
 			if (querykey != null && queryvalue != null) {
 				//query roolo
-				IQuery metadataquery = new BasicMetadataQuery(beans.getTypeManager().getMetadataKey(querykey), BasicSearchOperations.EQUALS, queryvalue, null);
+				IQuery metadataquery = new BasicMetadataQuery(beans.getTypeManager().getMetadataKey(querykey), BasicSearchOperations.EQUALS, queryvalue);
 				// Uncomment this line for final deployment with JPA RoOLO
 				// IQuery metadataquery = new BasicMetadataQuery(beans.getTypeManager().getMetadataKey(querykey), BasicSearchOperations.EQUALS, queryvalue, null);
 				final List<ISearchResult> results = beans.getRepository().search(metadataquery);
