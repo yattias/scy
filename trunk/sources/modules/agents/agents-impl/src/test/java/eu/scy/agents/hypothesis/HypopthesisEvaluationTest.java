@@ -41,9 +41,9 @@ public class HypopthesisEvaluationTest extends AbstractTestFixture {
 
 	private IELO elo;
 
-	String[] expectedKeywords = new String[] { "ingredients", "nontoxic",
-			"binder", "solvent", "labels", "toxic", "chemical", "voc", "paint",
-			"health", "natural", "pigment" };
+//	String[] expectedKeywords = new String[] { "ingredients", "nontoxic",
+//			"binder", "solvent", "labels", "toxic", "chemical", "voc", "paint",
+//			"health", "natural", "pigment" };
 
 	private static final long TIME_IN_MILLIS = 666;
 

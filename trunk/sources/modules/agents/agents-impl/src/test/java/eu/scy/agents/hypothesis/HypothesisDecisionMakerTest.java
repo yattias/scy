@@ -35,7 +35,7 @@ public class HypothesisDecisionMakerTest extends AbstractTestFixture {
 
   private String eloPath;
 
-  private HashMap<Integer, Integer> histogram;
+  private HashMap<Integer, Integer> goodHistogram, badHistogram, mediumHistogram;
 
   @BeforeClass
   public static void startTS() {
@@ -73,13 +73,21 @@ public class HypothesisDecisionMakerTest extends AbstractTestFixture {
 
     System.out.println(eloUri.toString());
 
-    histogram = new HashMap<Integer, Integer>();
-    histogram.put(0, 16);
-    histogram.put(1, 16);
-    histogram.put(2, 7);
-    histogram.put(3, 3);
-    histogram.put(4, 1);
-    histogram.put(5, 1);
+    goodHistogram = new HashMap<Integer, Integer>();
+    goodHistogram.put(0, 16);
+    goodHistogram.put(1, 16);
+    goodHistogram.put(2, 7);
+    goodHistogram.put(3, 3);
+    goodHistogram.put(4, 1);
+    goodHistogram.put(5, 1);
+    
+    badHistogram = new HashMap<Integer, Integer>();
+    badHistogram.put(0, 5);
+    badHistogram.put(1, 2);
+
+    mediumHistogram = new HashMap<Integer, Integer>();
+    mediumHistogram.put(0, 2);
+    mediumHistogram.put(1, 4);
   }
 
   @Override
@@ -97,7 +105,21 @@ public class HypothesisDecisionMakerTest extends AbstractTestFixture {
 
   @Test
   public void testRun() throws InterruptedException, TupleSpaceException, IOException {
+    Tuple response = writeTupleGetResponse(goodHistogram);
+    assertNotNull("no response received", response);
+    String message = (String) response.getField(7).getValue();
+    assertNotNull(message, "message = ok");
+    response = writeTupleGetResponse(badHistogram);
+    assertNotNull("no response received", response);
+    message = (String) response.getField(7).getValue();
+    assertNotNull(message, "message = too few keywords or text too long");
+    response = writeTupleGetResponse(mediumHistogram);
+    assertNotNull("no response received", response);
+    message = (String) response.getField(7).getValue();
+    assertNotNull(message, "message = inter-relation between keywords");
+  }
 
+  private Tuple writeTupleGetResponse(HashMap<Integer, Integer> histogram) throws IOException, TupleSpaceException {
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
     ObjectOutputStream objectOut = new ObjectOutputStream(bytes);
     objectOut.writeObject(histogram);
@@ -112,8 +134,6 @@ public class HypothesisDecisionMakerTest extends AbstractTestFixture {
                                                                  String.class, String.class,
                                                                  Field.createWildCardField()),
                                                        AgentProtocol.ALIVE_INTERVAL * 3);
-    assertNotNull("no response received", response);
-    String message = (String) response.getField(7).getValue();
-    assertNotNull(message, "message = ok");
+    return response;
   }
 }
