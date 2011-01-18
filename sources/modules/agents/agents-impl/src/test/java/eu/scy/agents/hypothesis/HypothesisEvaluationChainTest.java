@@ -33,13 +33,13 @@ public class HypothesisEvaluationChainTest extends AbstractTestFixture {
 
   private static final String ELO_TYPE = "scy/xproc";
 
-  private IELO elo;
+  private IELO elo, smallElo;
 
   private static final long TIME_IN_MILLIS = 666;
 
   private static final String UUID1234 = "uuid1234";
 
-  private String eloPath;
+  private String eloPath, smallEloPath;
 
   @BeforeClass
   public static void startTS() {
@@ -80,6 +80,14 @@ public class HypothesisEvaluationChainTest extends AbstractTestFixture {
     URI eloUri = (URI) metadata.getMetadataValueContainer(this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER)).getValue();
     this.eloPath = eloUri.toString();
 
+    inStream = this.getClass().getResourceAsStream("/copexExampleElo2.xml");
+    eloContent = readFile(inStream);
+    smallElo = createNewElo("TestCopex2", ELO_TYPE);
+    smallElo.setContent(new BasicContent(eloContent));
+    metadata = repository.addNewELO(smallElo);
+    eloUri = (URI) metadata.getMetadataValueContainer(this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER)).getValue();
+    this.smallEloPath = eloUri.toString();
+
     System.out.println(eloUri.toString());
   }
 
@@ -98,6 +106,17 @@ public class HypothesisEvaluationChainTest extends AbstractTestFixture {
 
   @Test
   public void testRun() throws InterruptedException, TupleSpaceException, IOException {
+    Tuple response = writeTupleGetResponse(this.eloPath);
+    assertNotNull("no response received", response);
+    String message = (String) response.getField(7).getValue();
+    assertNotNull(message, "message = ok");
+    response = writeTupleGetResponse(this.smallEloPath);
+    assertNotNull("no response received", response);
+    message = (String) response.getField(7).getValue();
+    assertNotNull(message, "message = too few keywords or text too long");
+  }
+
+  private Tuple writeTupleGetResponse(String eloPath) throws TupleSpaceException {
     Tuple tuple = new Tuple("action", UUID1234, TIME_IN_MILLIS, AgentProtocol.ACTION_ELO_SAVED,
                             "testUser", "copex", "SomeMission", "TestSession", eloPath, "elo_type="
                                                                                         + ELO_TYPE);
@@ -108,8 +127,6 @@ public class HypothesisEvaluationChainTest extends AbstractTestFixture {
                                     Field.createWildCardField());
 
     Tuple response = this.getCommandSpace().waitToTake(responseTuple, AgentProtocol.ALIVE_INTERVAL*10);
-    assertNotNull("no response received", response);
-    String message = (String) response.getField(7).getValue();
-    assertNotNull(message, "message = ok");
+    return response;
   }
 }
