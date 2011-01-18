@@ -1,45 +1,6 @@
-/*
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
- * 
- * Copyright 1997-2007 Sun Microsystems, Inc. All rights reserved.
- * 
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common
- * Development and Distribution License("CDDL") (collectively, the
- * "License"). You may not use this file except in compliance with the
- * License. You can obtain a copy of the License at
- * http://www.netbeans.org/cddl-gplv2.html
- * or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
- * specific language governing permissions and limitations under the
- * License.  When distributing the software, include this License Header
- * Notice in each file and include the License file at
- * nbbuild/licenses/CDDL-GPL-2-CP.  Sun designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Sun in the GPL Version 2 section of the License file that
- * accompanied this code. If applicable, add the following below the
- * License Header, with the fields enclosed by brackets [] replaced by
- * your own identifying information:
- * "Portions Copyrighted [year] [name of copyright owner]"
- * 
- * Contributor(s):
- * 
- * The Original Software is NetBeans. The Initial Developer of the Original
- * Software is Sun Microsystems, Inc. Portions Copyright 1997-2007 Sun
- * Microsystems, Inc. All Rights Reserved.
- * 
- * If you wish your version of this file to be governed by only the CDDL
- * or only the GPL Version 2, indicate your decision by adding
- * "[Contributor] elects to include this software in this distribution
- * under the [CDDL or GPL Version 2] license." If you do not indicate a
- * single choice of license, a recipient has the option to distribute
- * your version of this file under either the CDDL, the GPL Version 2 or
- * to extend the choice of license to its licensees as provided above.
- * However, if you add GPL Version 2 code and therefore, elected the GPL
- * Version 2 license, then the option applies only if the new code is
- * made subject to such option by the copyright holder.
- */
 package eu.scy.roolows;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Vector;
 
@@ -51,22 +12,22 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
+
 import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONArray;
-
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+
 import roolo.api.search.AndQuery;
 import roolo.api.search.IQuery;
 import roolo.api.search.ISearchResult;
-
-
-
-import roolo.elo.api.IELO;
+import roolo.cms.repository.mock.BasicMetadataQuery;
+import roolo.cms.repository.search.BasicSearchOperations;
 import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-
+import roolo.elo.metadata.keys.Contribute;
 
 /**
  * REST Web Service
@@ -77,10 +38,8 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 public class Query {
 
     @Context
-    private UriInfo context;
     private static final Beans beans = Beans.getInstance();
     private final static Logger log = Logger.getLogger(Query.class.getName());
-    private IELO elo;
     private IMetadataKey titleKey;
     private IMetadataKey typeKey;
     private IMetadataKey dateCreatedKey;
@@ -90,6 +49,7 @@ public class Query {
 
     /** Creates a new instance of SaveELO */
     public Query() {
+    	initMetadataKeys();
     }
 
     /**
@@ -156,18 +116,18 @@ public class Query {
                 resultAsJson.put("author", resultMetadata.getMetadataValueContainer(authorKey));
                 resultAsJson.put("description", resultMetadata.getMetadataValueContainer(descriptionKey));
                 resultAsJson.put("relevance", result.getRelevance());
+                resultAsJson.put("dateCreated", resultMetadata.getMetadataValueContainer(dateCreatedKey));
                 queriedURIs.put(resultAsJson);
             }
         } catch (JSONException ex) {
             log.error(ex.getMessage());
-        } finally {
-            return queriedURIs;
         }
+        return queriedURIs;
     }
 
 
     private List<ISearchResult> doAndQuery(UriInfo ui) {
-/*        MultivaluedMap<String, String> params = ui.getQueryParameters();
+        MultivaluedMap<String, String> params = ui.getQueryParameters();
         log.info("params: " + params);
         String[] keys = new String[params.keySet().size()];
         params.keySet().toArray(keys);
@@ -175,9 +135,13 @@ public class Query {
         log.info("value: "+value);
 
         IQuery query = new BasicMetadataQuery(beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.valueOf(keys[0])), BasicSearchOperations.EQUALS, value, null);
+		// Uncomment this line for final deployment with JPA RoOLO
+        // IQuery query = new BasicMetadataQuery(beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.valueOf(keys[0])), BasicSearchOperations.EQUALS, value, null);
         List<IQuery> queries = new Vector<IQuery>();
         for (int i = 1; i < keys.length; i++) {
             IQuery newQuery = new BasicMetadataQuery(beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.valueOf(keys[i])), BasicSearchOperations.EQUALS, params.getFirst(keys[i]), null);
+            // Uncomment this line for final deployment with JPA RoOLO
+            // IQuery newQuery = new BasicMetadataQuery(beans.getTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.valueOf(keys[i])), BasicSearchOperations.EQUALS, params.getFirst(keys[i]));
             queries.add(newQuery);
         }
         IQuery[] queriesArray = new IQuery[queries.size()];
@@ -189,7 +153,7 @@ public class Query {
         andQuery = new AndQuery(query, queriesArray);
 
         return beans.getRepository().search(andQuery);
-*/ return null;
+
     }
 
     /**
@@ -207,32 +171,57 @@ public class Query {
      * </ul>
      */
     @POST
-    @Consumes("text/plain")
+    @Consumes("application/json")
     @Produces("application/json")
-    public JSONArray query(String queryString) {
-/*        JSONArray queriedURIs = new JSONArray();
-        try {
-
-            //query roolo
-            IQuery query = new LuceneQuery(queryString);
-            final List<ISearchResult> results = beans.getRepository().search(query);
-            for (ISearchResult result : results) {
-                JSONObject resultAsJson = new JSONObject();
-                IMetadata resultMetadata = result.getMetadata();
-                resultAsJson.put("uri", resultMetadata.getMetadataValueContainer(identifierKey));
-                resultAsJson.put("title", resultMetadata.getMetadataValueContainer(titleKey));
-                resultAsJson.put("type", resultMetadata.getMetadataValueContainer(typeKey));
-                resultAsJson.put("author", resultMetadata.getMetadataValueContainer(authorKey));
-                resultAsJson.put("description", resultMetadata.getMetadataValueContainer(descriptionKey));
-                resultAsJson.put("relevance", result.getRelevance());
-                queriedURIs.put(resultAsJson);
-            }
-        } catch (JSONException ex) {
-            log.error(ex.getMessage());
-        } finally {
-            return queriedURIs;
-        }
-*/ return null;
+    public JSONArray query(JSONObject params) {
+    	JSONArray queriedURIs = null;
+    	try {
+    		JSONObject query = (JSONObject) params.get("query");
+			String querykey = query.getString("metadatakey");
+			String queryvalue = query.getString("metadatavalue");
+			
+			JSONArray metadataKeys = (JSONArray) params.get("metadata");
+			
+			queriedURIs = new JSONArray();
+			
+			if (querykey != null && queryvalue != null) {
+				//query roolo
+				IQuery metadataquery = new BasicMetadataQuery(beans.getTypeManager().getMetadataKey(querykey), BasicSearchOperations.EQUALS, queryvalue, null);
+				// Uncomment this line for final deployment with JPA RoOLO
+				// IQuery metadataquery = new BasicMetadataQuery(beans.getTypeManager().getMetadataKey(querykey), BasicSearchOperations.EQUALS, queryvalue, null);
+				final List<ISearchResult> results = beans.getRepository().search(metadataquery);
+				for (ISearchResult result : results) {
+					JSONObject resultAsJson = new JSONObject();
+					URI uri = result.getUri();
+					// query for metadata of ELO
+					IMetadata metadata = beans.getRepository().retrieveMetadata(uri);
+					if (metadata != null) {
+						// fill result with requested metadata values
+						for (int i = 0; i < metadataKeys.length(); i++) {
+							String metadataKey = metadataKeys.getString(i);
+							IMetadataKey key = beans.getTypeManager().getMetadataKey(metadataKey);
+							if (key != null) {
+								IMetadataValueContainer valueContainer = metadata.getMetadataValueContainer(key);
+								if (valueContainer != null) {
+									if (key.equals(authorKey)) {
+										resultAsJson.put(metadataKey, ((Contribute) valueContainer.getValue()).getVCard());
+									} else {
+										resultAsJson.put(metadataKey, valueContainer.getValue().toString());
+									}
+								}
+							}
+						}
+					// fallback: just return the uri of the ELO
+					} else {
+						resultAsJson.put("uri", result.getUri());
+					}
+					queriedURIs.put(resultAsJson);
+				}
+			}
+		} catch (JSONException ex) {
+			log.error(ex.getMessage());
+		}
+		return queriedURIs;
     }
 
     private void initMetadataKeys() {
