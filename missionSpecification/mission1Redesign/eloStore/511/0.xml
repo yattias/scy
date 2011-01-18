@@ -1,0 +1,58 @@
+<elo>
+<metadata>
+  <lom>
+    <technical>
+      <format>scy/image</format>
+      <customElements>
+        <dateCreated>1269873668718</dateCreated>
+        <dateLastModified>1269873668718</dateLastModified>
+      </customElements>
+    </technical>
+    <general>
+      <title>
+        <string language="en">Concept map 2</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/511/0/conceptMap2.jpg</entry>
+      </identifier>
+    </general>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2010-03-29T16:41:08.718+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<imageUrl>http://www.scy-lab.eu/content/en/mission1_UT1010/cmaps/conceptMap2.png</imageUrl>
+</content>
+<resources>
+</resources>
+</elo>
