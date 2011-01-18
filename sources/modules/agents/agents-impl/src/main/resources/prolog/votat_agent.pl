@@ -1,4 +1,4 @@
-/*  $Id$
+# vo	/*  $Id$
  *  
  *  File	votat_agent.pl
  *  Author	Stefan Weinbrenner, weinbrenner@collide.info
@@ -41,7 +41,6 @@ models in 50 runs.
 @author	Stefan Weinbrenner
 */
 
-
 votat_agent :-
 	agent_connect(InTS, _, [user('votat')]),
 	agent_register(InTS,
@@ -51,7 +50,7 @@ votat_agent :-
 		       ]),
 	agent_register(InTS,
 		       [ tuple_type(action),
-			 action_type('input_variables'),
+			 action_type('variables_selected'),
 			 callback(process_variables_callback)
 		       ]).
 
@@ -207,7 +206,7 @@ change_variables_feedback(Learner, Tool, Mission, Session, ELOURI, Votat) :-
 
 in_space(actions).			% scydynamics_actionlog
 out_space(command).			% scydynamics_actionlog
-host('scy.collide.info').		% localhost
+host('localhost').		% localhost
 port(2525).
 user('sqlspaces').
 
@@ -243,7 +242,7 @@ log_key_value(Tuple, Key, Value) :-
 /*------------------------------------------------------------
  *  Register a callback
  *------------------------------------------------------------*/
-
+ 
 agent_register(TS, Options) :-
 	(   memberchk(tuple_type(TT), Options)
 	->  tspl_actual_field(string, TT, F0)
@@ -277,7 +276,11 @@ agent_register(TS, Options) :-
 	->  tspl_actual_field(string, Session, F7)
 	;   tspl_formal_field(string, F7)
 	),
-	tspl_wildcard_field(F8),
-	tspl_tuple([F0,F1,F2,F3,F4,F5,F6,F7,F8], Query),
+	(   memberchk(elo(EloURI), Options)
+	->  tspl_actual_field(string, EloURI, F8)
+	;   tspl_formal_field(string, F8)
+	),
+	tspl_wildcard_field(F9),
+	tspl_tuple([F0,F1,F2,F3,F4,F5,F6,F7,F8,F9], Query),
 	memberchk(callback(Call), Options),
 	tspl_event_register(TS, write, Query, Call, _).
