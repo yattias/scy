@@ -171,6 +171,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    var rotateElement: WindowRotate;
    var closeElement: WindowClose;
    var minimizeElement: WindowMinimize;
+   var windowStateControls: WindowStateControls;
    var contentElement: WindowContent;
    def drawerGroup: Group = Group {
          visible: bind not isClosed and not isMinimized
@@ -723,6 +724,14 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       }
    }
 
+   function centerAction():Void{
+      windowControl.makeMainScyWindow(eloUri);
+   }
+
+   function doRotateNormal(): Void{
+      rotate = 0.0;
+   }
+
    function getScyContent(scyCont: Node): Node {
       if (scyCont != null)
          return scyCont;
@@ -934,11 +943,24 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 //         ]
 //      }
 //
+      windowStateControls = WindowStateControls{
+         windowColorScheme:bind windowColorScheme
+         enableRotateNormal:bind rotate!=0.0
+         enableMinimize: bind allowMinimize and not isClosed
+         enableClose:bind allowClose and not isClosed
+         rotateNormalAction:doRotateNormal
+         minimizeAction:doMinimize
+         centerAction:centerAction
+         closeAction:doClose
+
+      }
+
       windowTitleBar = WindowTitleBarDouble {
             width: bind realWidth + borderWidth
             //         iconSize:iconSize;
             //         iconGap:iconGap;
-            closeBoxWidth: bind if (closeElement.visible) closeBoxSize + 2 * borderWidth + 2 else 0.0;
+//            closeBoxWidth: bind if (closeElement.visible) closeBoxSize + 2 * borderWidth + 2 else 0.0;
+            windowStateControls: windowStateControls
             iconSize: iconSize
             title: bind title;
             eloIcon: bind eloIcon;
@@ -1017,7 +1039,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
                   minimizeElement,
                   resizeElement,
                   rotateElement,
-                  closeElement,
+//                  closeElement,
                   Group { // the scy window attributes
                      layoutX: iconSize + 8
                      layoutY: 19

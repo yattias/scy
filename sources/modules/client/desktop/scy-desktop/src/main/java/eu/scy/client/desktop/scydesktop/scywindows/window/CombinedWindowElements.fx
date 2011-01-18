@@ -57,6 +57,7 @@ public class CombinedWindowElements extends ScyWindow {
    var rotateElement: WindowRotate;
    var closeElement: WindowClose;
    var minimizeElement: WindowMinimize;
+   var windowStateControls: WindowStateControls;
    var mainContentGroup: Group;
    def borderWidth = 2.0;
    def controlSize = 10.0;
@@ -286,12 +287,20 @@ public class CombinedWindowElements extends ScyWindow {
             layoutY: contentTopOffset;
          }
 
+      windowStateControls = WindowStateControls{
+         windowColorScheme:bind windowColorScheme
+         enableRotateNormal:bind rotate!=0.0
+         enableMinimize: bind allowMinimize and not isClosed
+         enableClose:bind allowClose and not isClosed
+      }
+
       windowTitleBar = WindowTitleBarDouble {
             width: bind width + borderWidth
             //         iconSize:iconSize;
             //         iconGap:iconGap;
 //            closeBoxWidth: bind if (closeElement.visible) closeBoxSize + 2 * borderWidth else 0.0;
             iconSize: iconSize
+            windowStateControls: windowStateControls
             title: bind title;
             eloIcon: bind eloIcon;
             activated: bind activated
@@ -352,6 +361,7 @@ public class CombinedWindowElements extends ScyWindow {
             layoutY: bind height;
          }
 
+
       // show a filled rect as content for test purposes
 //      scyContent = Rectangle {
 //         x: -100, y: -100
@@ -369,7 +379,7 @@ public class CombinedWindowElements extends ScyWindow {
                   minimizeElement,
                   resizeElement,
                   rotateElement,
-                  closeElement,
+
                   Group { // the scy window attributes
                      layoutX: iconSize + 5
                      layoutY: 19

@@ -50,8 +50,9 @@ public class FxdEloIcon extends EloIcon {
 
    public override function clone(): EloIcon {
       FxdEloIcon {
-         fxdNode: Duplicator.duplicate(fxdNode);
+         fxdNode: Duplicator.duplicate(fxdNode)
          windowColorScheme: windowColorScheme
+         selected:selected
       }
    }
 

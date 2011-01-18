@@ -36,6 +36,7 @@ public class WindowTitleBarDouble extends WindowElement {
    public var title = "very very long title";
    public var eloIcon:EloIcon on replace oldEloIcon {eloIconChanged(oldEloIcon)};
    public var activated = true on replace{activatedChanged()};
+   public var windowStateControls: WindowStateControls;
    public var iconSize = 40.0;
    public var iconGap = 2.0;
    public var textIconSpace = 5.0;
@@ -73,9 +74,6 @@ public class WindowTitleBarDouble extends WindowElement {
    var textClipWidth = bind width - iconSize - textIconSpace;
    var mouseOverTitleDisplay:MouseOverDisplay;
 
-   var windowStateControls: WindowStateControls;
-
-
    function eloIconChanged(oldEloIcon:EloIcon){
       eloIcon.size = iconSize;
       delete oldEloIcon from eloIconGroup.content;
@@ -93,6 +91,15 @@ public class WindowTitleBarDouble extends WindowElement {
    }
 
    public override function create(): Node {
+      if (windowStateControls==null){
+            windowStateControls = WindowStateControls{
+//               layoutX: bind width - windowStateControls.layoutBounds.width-0* borderWidth
+//               layoutY: 2*borderWidth+1
+               windowColorScheme:bind windowColorScheme
+            }
+
+      }
+
       textBackgroundFillRect = Rectangle{
          x: iconSize+textIconSpace
          y: borderDistance+borderWidth/2
@@ -150,11 +157,18 @@ public class WindowTitleBarDouble extends WindowElement {
                strokeWidth: borderWidth
                stroke: bind windowColorScheme.mainColor
             }
+            Group{
+               layoutX: bind width - windowStateControls.layoutBounds.width-0* borderWidth
+               layoutY: 2*borderWidth+1
+               content: windowStateControls;
+            }
+
 //            windowStateControls = WindowStateControls{
-//               layoutX: bind width - windowStateControls.layoutBounds.width-2* borderWidth - closeBoxWidthOffset
-//               layoutY: 2*borderWidth
+//               layoutX: bind width - windowStateControls.layoutBounds.width-0* borderWidth
+//               layoutY: 2*borderWidth+1
 //               windowColorScheme:bind windowColorScheme
 //            }
+
             textBackgroundFillRect,
             titleText = Text { // title
                font: textFont
@@ -214,8 +228,9 @@ public class WindowTitleBarDouble extends WindowElement {
          rightBorderSize = -2;
       }
       var fullTitleGroup = Group{
-         translateX:1
-         translateY:1
+//         translateX:1
+//         translateY:1
+//         layoutX:10
          content:[
 //            Rectangle{
 //               x:-mouseOverBorderSize
