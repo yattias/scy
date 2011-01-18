@@ -85,7 +85,7 @@
     </las>
     <las>
       <id>conceptualizationDesign</id>
-      <xPos>40.0</xPos>
+      <xPos>80.0</xPos>
       <yPos>0.0</yPos>
       <toolTip>First ideas of my design group</toolTip>
       <loElos />
@@ -110,7 +110,7 @@
     </las>
     <las>
       <id>conceptualizationExperts</id>
-      <xPos>80.0</xPos>
+      <xPos>160.0</xPos>
       <yPos>0.0</yPos>
       <toolTip>Hypotheses of my expert group</toolTip>
       <loElos>
@@ -147,7 +147,7 @@
     </las>
     <las>
       <id>experimentExperts</id>
-      <xPos>120.0</xPos>
+      <xPos>240.0</xPos>
       <yPos>0.0</yPos>
       <toolTip>Conclusion of expert experiments</toolTip>
       <loElos>
@@ -217,7 +217,7 @@
     <las>
       <id>conceptualizationIndividual</id>
       <xPos>0.0</xPos>
-      <yPos>40.0</yPos>
+      <yPos>80.0</yPos>
       <toolTip>Concept Map on CO2 emission</toolTip>
       <loElos />
       <otherElos />
@@ -239,8 +239,8 @@
     </las>
     <las>
       <id>construction</id>
-      <xPos>40.0</xPos>
-      <yPos>40.0</yPos>
+      <xPos>80.0</xPos>
+      <yPos>80.0</yPos>
       <toolTip>House drawings</toolTip>
       <loElos />
       <otherElos />
@@ -261,8 +261,8 @@
     </las>
     <las>
       <id>design</id>
-      <xPos>80.0</xPos>
-      <yPos>40.0</yPos>
+      <xPos>160.0</xPos>
+      <yPos>80.0</yPos>
       <toolTip>House choices</toolTip>
       <loElos />
       <otherElos />
@@ -297,8 +297,8 @@
     </las>
     <las>
       <id>reportingExperts</id>
-      <xPos>120.0</xPos>
-      <yPos>40.0</yPos>
+      <xPos>240.0</xPos>
+      <yPos>80.0</yPos>
       <toolTip>Expert presentation</toolTip>
       <loElos />
       <otherElos />
@@ -332,8 +332,8 @@
     </las>
     <las>
       <id>experimentDesign</id>
-      <xPos>40.0</xPos>
-      <yPos>80.0</yPos>
+      <xPos>80.0</xPos>
+      <yPos>160.0</yPos>
       <toolTip>House data</toolTip>
       <loElos>
         <eloUri>roolo://memory/299/0/House_data.url</eloUri>
@@ -370,8 +370,8 @@
     </las>
     <las>
       <id>reportingDesign</id>
-      <xPos>80.0</xPos>
-      <yPos>80.0</yPos>
+      <xPos>160.0</xPos>
+      <yPos>160.0</yPos>
       <toolTip>Presentation of house design</toolTip>
       <loElos />
       <otherElos />
@@ -397,8 +397,8 @@
     </las>
     <las>
       <id>reportingIndividual</id>
-      <xPos>120.0</xPos>
-      <yPos>80.0</yPos>
+      <xPos>240.0</xPos>
+      <yPos>160.0</yPos>
       <toolTip>Individual report</toolTip>
       <loElos />
       <otherElos />
