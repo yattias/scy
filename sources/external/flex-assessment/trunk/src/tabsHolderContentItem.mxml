@@ -8,11 +8,23 @@
 	
 	<fx:Script>
 		<![CDATA[
-			public function addNewElo(elo:subCanvasElo):void {
-				naviContainer.addElement(elo);
+			import mx.collections.ArrayCollection;
+			[Bindable] public var elosArray:ArrayCollection;
+			
+			public function refreshTile(elosArray:ArrayCollection):void {
+				naviContainer.removeAllElements();
+				for(var i:Number = 0; i < elosArray.length; i++) {
+					naviContainer.addElement(elosArray[i]);
+				}
 			}
 		]]>
 	</fx:Script>
 	
-	<s:HGroup id="naviContainer" left="10" right="10" top="10" gap="10"/>
+	<s:Scroller width="{this.width}" height="100%">
+		<s:VGroup id="grp" width="100%" height="100%" horizontalAlign="center" gap="0">
+			<mx:Spacer height="5" />
+			<s:TileGroup id="naviContainer" width="{grp.width - 10}" horizontalCenter="0" verticalCenter="0" horizontalGap="20" verticalGap="20" />
+			<mx:Spacer height="5" />
+		</s:VGroup>
+	</s:Scroller>
 </s:NavigatorContent>

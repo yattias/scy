@@ -57,8 +57,8 @@
 				students.selectedIndex = -1;
 				for(var i:Number = 0; i < array.length; i++) {
 					mpi = new missionPortfolioItem();
-					var countedElos:Array = mpi.buildEloArray(array[i] as XML, array[i].@student);
-					mpi.label = array[i].@student + " ( " + countedElos[1] + " / " + countedElos[0] + " " + resourceManager.getString('resources', 'ELO_ASSESSED') + " " + getAssessmentStatus(array[i] as XML) + ")";
+					var countedElos:Array = mpi.buildEloArray(array[i] as XML, array[i].owner);
+					mpi.label = array[i].owner + " ( " + countedElos[1] + " / " + countedElos[0] + " " + resourceManager.getString('resources', 'ELO_ASSESSED') + " " + getAssessmentStatus(array[i] as XML) + ")";
 					students.addElement(mpi);
 				}
 				
@@ -81,7 +81,7 @@
 			
 			private function sortCollection(arrayCollection : ArrayCollection):ArrayCollection {
 				var dataSort:Sort = new Sort();
-				dataSort.fields = [new SortField("@student", true)];
+				dataSort.fields = [new SortField("owner", true)];
 				arrayCollection.sort = dataSort;
 				arrayCollection.refresh();
 				return arrayCollection;

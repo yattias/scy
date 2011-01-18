@@ -50,21 +50,21 @@
 				newEloXML = myList[0] as XML;
 				
 				eloNameText = eloXML.myname;
-				createdByText = eloXML.parent().parent().@student;
+				createdByText = eloXML.parent().owner;
 				createdDateText = eloXML.modified;
-				descriptionText = eloXML.studentDescription;
-				glgText = eloXML.studentGLG.goal;
-				slgText = eloXML.studentSLG.goal;
-				reflectionText = eloXML.studentReflection;
-				inquiryNumber = new Number(eloXML.studentInquiry);
+				descriptionText = eloXML.studentdescription;
+				glgText = XMLUtilJer.getGoalString(eloXML.studentglg);
+				slgText = XMLUtilJer.getGoalString(eloXML.studentslg);
+				reflectionText = eloXML.studentreflection;
+				inquiryNumber = new Number(eloXML.studentinquiry);
 				thumbnailURL = eloXML.thumbnail;
 				
 				if(eloXML.assessed == "true") {
 					var previousGrade:String = new String(eloXML.grade);
 					var gra:String = (previousGrade.substring(0,1)).toUpperCase() + (previousGrade.substring(1)).toLowerCase();
 					assesslider.value = labelsArray.indexOf(gra) + 1;
-					assessmentArea.text = eloXML.assessmentComment;
-					commentArea.text = eloXML.reflectionComment;
+					assessmentArea.text = eloXML.assessmentcomment;
+					commentArea.text = eloXML.reflectioncomment;
 				}
 			}
 			
@@ -79,8 +79,8 @@
 				if(assessmentArea.text != "" && commentArea.text != "") {
 					newEloXML.assessed = "true";
 					newEloXML.grade = (labelsArray[assesslider.value-1] as String).toLowerCase();
-					newEloXML.assessmentComment = <assessmentComment>{XMLUtilJer.cdata(assessmentArea.text)}</assessmentComment>;
-					newEloXML.reflectionComment = <reflectionComment>{XMLUtilJer.cdata(commentArea.text)}</reflectionComment>;
+					newEloXML.assessmentcomment = <assessmentcomment>{XMLUtilJer.cdata(assessmentArea.text)}</assessmentcomment>;
+					newEloXML.reflectioncomment = <reflectioncomment>{XMLUtilJer.cdata(commentArea.text)}</reflectioncomment>;
 					so.data.retrievedElosFromRoolo = portfolioElo.replace(eloXML, newEloXML);
 					so.flush();
 					clickHandler(index.RIGHT_DIRECTION, originPanel);
@@ -165,12 +165,12 @@
 						<s:Image width="100" height="100" source="{thumbnailURL}" buttonMode="true" click="image1_clickHandler(event)" toolTip="{resourceManager.getString('resources', 'ELO_SHOW_IMAGE_TTIP')}" />
 						<mx:Spacer width="3" />
 						<s:TileGroup width="100%" height="100" color="#FFFFFF" requestedRowCount="3" >
-							<s:Label text="{resourceManager.getString('resources', 'ELO_NAME')+':'}"  />
-							<s:Label text="{eloNameText}"/>
-							<s:Label text="{resourceManager.getString('resources', 'CREATED_BY')+':'}" />
-							<s:Label text="{createdByText}"/>
-							<s:Label text="{resourceManager.getString('resources', 'CREATED_DATE')+':'}" />
-							<s:Label text="{createdDateText}"/>
+							<s:Label width="100" text="{resourceManager.getString('resources', 'ELO_NAME')+':'}"  />
+							<s:Label width="100" text="{eloNameText}"/>
+							<s:Label width="100" text="{resourceManager.getString('resources', 'CREATED_BY')+':'}" />
+							<s:Label width="100" text="{createdByText}"/>
+							<s:Label width="100" text="{resourceManager.getString('resources', 'CREATED_DATE')+':'}" />
+							<s:Label width="100" text="{createdDateText}"/>
 						</s:TileGroup>
 					</s:HGroup>
 					<mx:Accordion width="100%" height="100%" color="#FFFFFF" headerStyleName="customAccordionHeadStyles">

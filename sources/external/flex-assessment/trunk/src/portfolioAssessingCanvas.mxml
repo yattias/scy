@@ -55,7 +55,7 @@
 						subElo = new assessPFElo();
 						subElo.score = object.grade;
 						subElo.thumbnail = object.thumbnail;
-						subElo.refComment = object.reflectionComment;
+						subElo.refcomment = object.reflectioncomment;
 						coverflow.addElement(subElo);
 					}
 				}
@@ -128,7 +128,7 @@
 		<s:HGroup id="selectionBox" width="100%" gap="0">
 			<s:HGroup id="selec" width="50%" height="100%" gap="10" verticalAlign="middle">
 				<mx:Spacer width="10" />
-				<s:Label width="100%" text="{resourceManager.getString('resources', 'MISSION')+': '+index.MISSION_NAME+''}" color="{index.THEME_COL}" />
+				<s:Label width="100%" text="{resourceManager.getString('resources', 'MISSION')+': '+index.MISSION_NAME}" color="{index.THEME_COL}" />
 			</s:HGroup>
 		</s:HGroup>
 		

@@ -75,23 +75,23 @@
 				newEloXML2 = myList2[0] as XML;
 				
 				eloNameText1 = eloXML1.myname;
-				createdByText1 = eloXML1.parent().parent().@student;
+				createdByText1 = eloXML1.parent().owner;
 				createdDateText1 = eloXML1.modified;
-				descriptionText1 = eloXML1.studentDescription;
-				glgText1 = eloXML1.studentGLG.goal;
-				slgText1 = eloXML1.studentSLG.goal;
-				reflectionText1 = eloXML1.studentReflection;
-				inquiryNumber1 = new Number(eloXML1.studentInquiry);
+				descriptionText1 = eloXML1.studentdescription;
+				glgText1 = XMLUtilJer.getGoalString(eloXML1.studentglg);
+				slgText1 = XMLUtilJer.getGoalString(eloXML1.studentslg);
+				reflectionText1 = eloXML1.studentreflection;
+				inquiryNumber1 = new Number(eloXML1.studentinquiry);
 				thumbnailURL1 = eloXML1.thumbnail;
 				
 				eloNameText2 = eloXML2.myname;
-				createdByText2 = eloXML2.parent().parent().@student;
+				createdByText2 = eloXML2.parent().owner;
 				createdDateText2 = eloXML2.modified;
-				descriptionText2 = eloXML2.studentDescription;
-				glgText2 = eloXML2.studentGLG.goal;
-				slgText2 = eloXML2.studentSLG.goal;
-				reflectionText2 = eloXML2.studentReflection;
-				inquiryNumber2 = new Number(eloXML2.studentInquiry);
+				descriptionText2 = eloXML2.studentdescription;
+				glgText2 = XMLUtilJer.getGoalString(eloXML2.studentglg);
+				slgText2 = XMLUtilJer.getGoalString(eloXML2.studentslg);
+				reflectionText2 = eloXML2.studentreflection;
+				inquiryNumber2 = new Number(eloXML2.studentinquiry);
 				thumbnailURL2 = eloXML2.thumbnail;
 				
 				if(eloXML1.assessed == "true") {
@@ -99,8 +99,8 @@
 					var previousGrade1:String = new String(eloXML1.grade);
 					var gra1:String = (previousGrade1.substring(0,1)).toUpperCase() + (previousGrade1.substring(1)).toLowerCase();
 					assesslider1Value = labelsArray.indexOf(gra1) + 1;
-					assessmentArea1Text = eloXML1.assessmentComment;
-					commentArea1Text = eloXML1.reflectionComment;
+					assessmentArea1Text = eloXML1.assessmentcomment;
+					commentArea1Text = eloXML1.reflectioncomment;
 				}
 				else {
 					assesslider1Visible = false;
@@ -111,8 +111,8 @@
 					var previousGrade2:String = new String(eloXML2.grade);
 					var gra2:String = (previousGrade2.substring(0,1)).toUpperCase() + (previousGrade2.substring(1)).toLowerCase();
 					assesslider2Value = labelsArray.indexOf(gra2) + 1;
-					assessmentArea2Text = eloXML2.assessmentComment;
-					commentArea2Text = eloXML2.reflectionComment;
+					assessmentArea2Text = eloXML2.assessmentcomment;
+					commentArea2Text = eloXML2.reflectioncomment;
 				}
 				else {
 					assesslider2Visible = false;

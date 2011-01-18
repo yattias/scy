@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" 
-		   xmlns:mx="library://ns.adobe.com/flex/mx" showEffect="{fadeIn}" hideEffect="{zoomOut}" width="100%" height="100%" xmlns:local="*" creationPolicy="all">
+		   xmlns:mx="library://ns.adobe.com/flex/mx" showEffect="{fadeIn}" hideEffect="{zoomOut}" width="100%" height="100%" xmlns:local="*">
 	<fx:Declarations>
 		<s:Sequence id="fadeIn">
 			<s:Fade duration="1000" alphaFrom="0.0" alphaTo="1.0"/>
@@ -15,12 +15,15 @@
 			import listeners.ToggleEvent;
 			
 			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			
+			import utility.XMLUtilJer;
 			
 			public var elosArray:ArrayCollection;
 			[Bindable] public var cat:String;
 			
-			private var selectedElo:Object;
 			private var subCE:subCanvasElo;
+			private var builtFinished:Boolean = false;
 			
 			[Bindable] private var unassessedElos:Number;
 			[Bindable] private var poorElos:Number;
@@ -28,12 +31,18 @@
 			[Bindable] private var goodElos:Number;
 			[Bindable] private var excellentElos:Number;
 			
+			[Bindable] private var unassessedElosArray:ArrayCollection;
+			[Bindable] private var poorElosArray:ArrayCollection;
+			[Bindable] private var fairElosArray:ArrayCollection;
+			[Bindable] private var goodElosArray:ArrayCollection;
+			[Bindable] private var excellentElosArray:ArrayCollection;
+			
 			public function refreshView():void {
-				unassessedTab.naviContainer.removeAllElements();
-				poorTab.naviContainer.removeAllElements();
-				fairTab.naviContainer.removeAllElements();
-				goodTab.naviContainer.removeAllElements();
-				excellentTab.naviContainer.removeAllElements();
+				unassessedElosArray = new ArrayCollection();
+				poorElosArray = new ArrayCollection();
+				fairElosArray = new ArrayCollection();
+				goodElosArray = new ArrayCollection();
+				excellentElosArray = new ArrayCollection();
 				
 				unassessedElos = 0;
 				poorElos = 0;
@@ -42,59 +51,57 @@
 				excellentElos = 0;
 				
 				for(var i:Number = 0; i < elosArray.length; i++) {
-					selectedElo = elosArray[i];
-					subCE = new subCanvasElo();
-					subCE.eloid = selectedElo.eloid;
-					subCE.type = selectedElo.type;
-					subCE.eloName = selectedElo.name;
-					subCE.thumbnail = selectedElo.thumbnail;
-					subCE.myname = selectedElo.myname;
-					subCE.createdby = selectedElo.createdby;
-					subCE.modified = selectedElo.modified;
-					subCE.description = selectedElo.rDesc;
-					subCE.glg = selectedElo.rGLG;
-					subCE.slg = selectedElo.rSLG;
-					subCE.reflection = selectedElo.rReflec;
-					subCE.hasBeenReflectedOn = selectedElo.hasBeenReflectedOn;
-					subCE.hasBeenSelectedForSubmit = selectedElo.hasBeenSelectedForSubmit;
-					subCE.percentInquiry = selectedElo.percentInquiry;
-					subCE.inquiryPic = selectedElo.inquiryPic;
+					subCE = XMLUtilJer.getSubCanvasEloFromObject(elosArray[i]);
 					
-					if(selectedElo.assessed.toString() == "true") {
-						switch(selectedElo.grade.toString()) {
+					if(subCE.assessed.toString() == "true") {
+						switch(subCE.grade) {
 							case "poor":
-								poorTab.addNewElo(subCE);
+								poorElosArray.addItem(subCE);
 								poorElos++;
 								break;
 							case "fair":
-								fairTab.addNewElo(subCE);
+								fairElosArray.addItem(subCE);
 								fairElos++;
 								break;
 							case "good":
-								goodTab.addNewElo(subCE);
+								goodElosArray.addItem(subCE);
 								goodElos++;
 								break;
 							case "excellent":
-								excellentTab.addNewElo(subCE);
+								excellentElosArray.addItem(subCE);
 								excellentElos++;
 								break;
 						}
 					}
 					else {
-						unassessedTab.addNewElo(subCE);
+						unassessedElosArray.addItem(subCE);
 						unassessedElos++;
 					}
 					
-					if(selectedElo.shouldBeSelected) {
-						subCE.compareCb.selected = selectedElo.shouldBeSelected;
+					if(subCE.shouldBeSelected) {
 						subCE.compareCb_changeHandler(new Event(MouseEvent.CLICK));
 					}
-					else {
-						subCE.compareCb.selected = selectedElo.shouldBeSelected;
-					}
-					
 				}
+				
+				if(builtFinished) {
+					unassessedTab.refreshTile(unassessedElosArray);
+					poorTab.refreshTile(poorElosArray);
+					fairTab.refreshTile(fairElosArray);
+					goodTab.refreshTile(goodElosArray);
+					excellentTab.refreshTile(excellentElosArray);
+				}
+				
 			}
+
+			protected function unassessedTab_creationCompleteHandler(event:FlexEvent):void {
+				unassessedTab.refreshTile(unassessedElosArray);
+				poorTab.refreshTile(poorElosArray);
+				fairTab.refreshTile(fairElosArray);
+				goodTab.refreshTile(goodElosArray);
+				excellentTab.refreshTile(excellentElosArray);
+				builtFinished = true;
+			}
+
 		]]>
 	</fx:Script>
 	
@@ -107,8 +114,8 @@
 		</s:BorderContainer>
 		<mx:Spacer height="5" />
 		<s:TabBar id="tabs" dataProvider="{tabsHolder}" width="100%" cornerRadius="0" color="#FFFFFF" skinClass="skins.CustomSparkTabBarSkin" />
-		<mx:ViewStack id="tabsHolder" width="100%" height="100%" borderStyle="solid" borderColor="#999999" creationPolicy="all" dropShadowVisible="true">
-			<local:tabsHolderContentItem id="unassessedTab" label="{resourceManager.getString('resources', 'TAB_UNASSESSED') +' ('+unassessedElos+')'}" width="100%" height="100%" />
+		<mx:ViewStack id="tabsHolder" width="100%" height="100%" borderStyle="solid" borderColor="#999999" dropShadowVisible="true">
+			<local:tabsHolderContentItem id="unassessedTab" label="{resourceManager.getString('resources', 'TAB_UNASSESSED') +' ('+unassessedElos+')'}" width="100%" height="100%" creationComplete="unassessedTab_creationCompleteHandler(event)"/>
 			<local:tabsHolderContentItem id="poorTab" label="{resourceManager.getString('resources', 'TAB_POOR') +' ('+poorElos+')'}" width="100%" height="100%" />
 			<local:tabsHolderContentItem id="fairTab" label="{resourceManager.getString('resources', 'TAB_FAIR') +' ('+fairElos+')'}"  width="100%" height="100%" />
 			<local:tabsHolderContentItem id="goodTab" label="{resourceManager.getString('resources', 'TAB_GOOD') +' ('+goodElos+')'}"  width="100%" height="100%" />

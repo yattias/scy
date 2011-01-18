@@ -78,7 +78,7 @@
 				
 				compareArrayToSend = new ArrayCollection();
 				for(var i:Number = 0; i < compareArray.length; i++) {
-					compareArrayToSend.addItem((compareArray[i] as subCanvasElo).eloid);
+					compareArrayToSend.addItem((compareArray[i] as subCanvasElo).uri);
 				}
 				tEvent.elosToCompare = compareArrayToSend;
 				
@@ -147,7 +147,7 @@
 		</s:HGroup>
 		
 		<mx:Spacer height="3" />
-		<local:introductionSubCanvas width="95%" height="100%" id="obliEloCanvas" />
+		<local:introductionSubCanvas width="95%" height="100%" id="obliEloCanvas" creationPolicy="all"/>
 		
 		<mx:Spacer height="5" />
 		<s:HGroup id="assessFooter" width="100%" height="40" horizontalAlign="center" gap="10" verticalAlign="middle">
