@@ -344,7 +344,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       //        }
          var scyFeedbackButton = MultiImageButton {
              imageName: "scyfeedback";
-             action: function(): Void {
+/*             action: function(): Void {
                  javafx.stage.Alert.inform("This is button for opening SCY feedback tool. Artist is not yet finished icon for SCY feedback, so we use Google icon. SCY feedback tool is currently not ready (integration with Roolo is not yet finished). So we redirect you to www.google.com. Have a nice day!");
                  try {
                     var basicService = javax.jnlp.ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
@@ -356,7 +356,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  catch (e: javax.jnlp.UnavailableServiceException) {
                      BareBonesBrowserLaunch.openURL("http://www.google.com");
                  }
-             }
+             }*/
          }
          var eportfolioButton = MultiImageButton {
              imageName: "eportfolio";
