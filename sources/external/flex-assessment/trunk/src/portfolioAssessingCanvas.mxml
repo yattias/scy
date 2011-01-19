@@ -38,14 +38,14 @@
 				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 				portfolioElo = so.data.retrievedElosFromRoolo as XML;
 				
-				var myList:XMLList = portfolioElo.portfolio.(@student == passedPortfolioStudentName);
+				var myList:XMLList = portfolioElo.portfolio.(owner == passedPortfolioStudentName);
 				pfXML = myList[0] as XML;
 				newPfXML = myList[0] as XML;
 				
-				refOnMiss = pfXML.reflectionMission;
-				refOnColl = pfXML.reflectionCollaboration;
-				refOnInq = pfXML.reflectionInquiry;
-				refOnEff = new Number(pfXML.reflectionEffort);
+				refOnMiss = pfXML.reflectionmission;
+				refOnColl = pfXML.reflectioncollaboration;
+				refOnInq = pfXML.reflectioninquiry;
+				refOnEff = new Number(pfXML.reflectioneffort);
 
 				coverflow.removeAll();
 				var subElo:assessPFElo;
@@ -64,20 +64,21 @@
 				coverflow.selectedIndex = 0;
 				
 				if(pfXML.assessed == "true") {
-					teaRatingGrp.selectedValue = new Number(pfXML.assessmentPortfolioRating);
-					commentArea.text = pfXML.assessmentPortfolioComment;
+					teaRatingGrp.selectedValue = new Number(pfXML.assessmentportfoliorating);
+					commentArea.text = pfXML.assessmentportfoliocomment;
 				}
 			}
 			
 			private function validateAssessment():void {
 				if(commentArea.text != "" && teaRatingGrp.selectedValue != null) {
 					newPfXML.assessed = "true";
-					newPfXML.assessmentPortfolioRating = teaRatingGrp.selectedValue;
-					newPfXML.assessmentPortfolioComment = <assessmentPortfolioComment>{XMLUtilJer.cdata(commentArea.text)}</assessmentPortfolioComment>;
+					newPfXML.assessmentportfoliorating = teaRatingGrp.selectedValue;
+					newPfXML.assessmentportfoliocomment = <assessmentportfoliocomment>{XMLUtilJer.cdata(commentArea.text)}</assessmentportfoliocomment>;
 					so.data.retrievedElosFromRoolo = portfolioElo.replace(pfXML, newPfXML);
 					so.flush();
 					teaRatingGrp.selectedValue = null;
 					commentArea.text = "";
+					trace(so.data.retrievedElosFromRoolo);
 					clickHandler(index.RIGHT_DIRECTION, index.STACK_STUDTABLE_PANEL);
 				}
 				else {

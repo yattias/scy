@@ -67,7 +67,7 @@
 	</fx:Script>
 	<s:VGroup id="box" top="5" left="5" right="5" gap="5" mouseChildren="false" mouseOver="highLightELO(event)" mouseOut="unhighlightElo(event)" mouseDown="gotoAssessPage(event)">
 		<s:Image source="{thumbnail}" width="100" height="100"/>
-		<s:Label width="100%" color="#FFFFFF" text="{resourceManager.getString('resources', 'ELO_NAME')+': '+catname}" />
+		<s:Label width="100%" color="#FFFFFF" text="{resourceManager.getString('resources', 'ELO_NAME')+': '+customname}" />
 		<s:Label width="100%" color="#FFFFFF" text="{resourceManager.getString('resources', 'CREATED_BY')+': '+createdby}"/>
 		<s:Label width="100%" color="#FFFFFF" text="{resourceManager.getString('resources', 'CREATED_DATE')+': '+modified}"/>
 	</s:VGroup>

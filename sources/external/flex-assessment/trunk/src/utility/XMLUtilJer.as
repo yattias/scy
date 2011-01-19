@@ -9,7 +9,7 @@ package utility
 		}
 		
 		
-		public static function getEloObjectAsXML(object:XML):Object {
+		public static function getEloObjectFromXML(object:XML):Object {
 			var xmlObject:Object;
 			xmlObject = new Object();
 			xmlObject.uri = object.@uri;

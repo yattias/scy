@@ -224,12 +224,12 @@
 						<s:Image width="100" height="100" source="{thumbnailURL1}" buttonMode="true" click="image1_clickHandler(event)" toolTip="{resourceManager.getString('resources', 'ELO_SHOW_IMAGE_TTIP')}" />
 						<mx:Spacer width="3" />
 						<s:TileGroup width="100%" height="100" color="#FFFFFF" requestedRowCount="3" >
-							<s:Label text="{resourceManager.getString('resources', 'ELO_NAME')+':'}"  />
-							<s:Label text="{eloNameText1}"/>
-							<s:Label text="{resourceManager.getString('resources', 'CREATED_BY')+':'}" />
-							<s:Label text="{createdByText1}"/>
-							<s:Label text="{resourceManager.getString('resources', 'CREATED_DATE')+':'}" />
-							<s:Label text="{createdDateText1}"/>
+							<s:Label width="100" text="{resourceManager.getString('resources', 'ELO_NAME')+':'}"  />
+							<s:Label width="100" text="{eloNameText1}"/>
+							<s:Label width="100" text="{resourceManager.getString('resources', 'CREATED_BY')+':'}" />
+							<s:Label width="100" text="{createdByText1}"/>
+							<s:Label width="100" text="{resourceManager.getString('resources', 'CREATED_DATE')+':'}" />
+							<s:Label width="100" text="{createdDateText1}"/>
 						</s:TileGroup>
 					</s:HGroup>
 					<mx:Accordion width="100%" height="100%" color="#FFFFFF" headerStyleName="customAccordionHeadStyles">
@@ -292,15 +292,15 @@
 					<mx:Spacer height="3"/>
 					<s:HGroup>
 						<mx:Spacer width="3" />
-						<s:Image width="100" height="100" source="{thumbnailURL2}" buttonMode="true" click="image2_clickHandler(event)" toolTip="{resourceManager.getString('resources', 'ELO_SHOW_IMAGE_TTIP')}" />
+						<s:Image width="100" height="100" source="{thumbnailURL2}" buttonMode="true" click="image1_clickHandler(event)" toolTip="{resourceManager.getString('resources', 'ELO_SHOW_IMAGE_TTIP')}" />
 						<mx:Spacer width="3" />
 						<s:TileGroup width="100%" height="100" color="#FFFFFF" requestedRowCount="3" >
-							<s:Label text="{resourceManager.getString('resources', 'ELO_NAME')+':'}"  />
-							<s:Label text="{eloNameText2}"/>
-							<s:Label text="{resourceManager.getString('resources', 'CREATED_BY')+':'}" />
-							<s:Label text="{createdByText2}"/>
-							<s:Label text="{resourceManager.getString('resources', 'CREATED_DATE')+':'}" />
-							<s:Label text="{createdDateText2}"/>
+							<s:Label width="100" text="{resourceManager.getString('resources', 'ELO_NAME')+':'}"  />
+							<s:Label width="100" text="{eloNameText2}"/>
+							<s:Label width="100" text="{resourceManager.getString('resources', 'CREATED_BY')+':'}" />
+							<s:Label width="100" text="{createdByText2}"/>
+							<s:Label width="100" text="{resourceManager.getString('resources', 'CREATED_DATE')+':'}" />
+							<s:Label width="100" text="{createdDateText2}"/>
 						</s:TileGroup>
 					</s:HGroup>
 					<mx:Accordion width="100%" height="100%" color="#FFFFFF" headerStyleName="customAccordionHeadStyles">
@@ -352,7 +352,7 @@
 						</s:NavigatorContent>
 						<s:NavigatorContent width="100%" height="100%" label="Comment on Reflection on 1st ideas of my Design Group:">
 							<s:VGroup id="refTeaAreaContainer2" width="90%" height="90%" gap="0" horizontalCenter="0" verticalCenter="0" horizontalAlign="center">
-								<s:TextArea width="{refTeaAreaContainer2.width}" height="{refTeaAreaContainer2.height}" text="{commentArea2Text}" id="commentArea2" color="#FFFFFF" contentBackgroundAlpha="0" editable="false" chromeColor="{index.THEME_LIGHT}"/>
+								<s:TextArea width="{refTeaAreaContainer2.width}" text="{commentArea2Text}" height="{refTeaAreaContainer2.height}" id="commentArea2" color="#FFFFFF" contentBackgroundAlpha="0" editable="false" chromeColor="{index.THEME_LIGHT}"/>
 							</s:VGroup>
 						</s:NavigatorContent>
 					</mx:Accordion>

@@ -114,8 +114,8 @@
 		</s:BorderContainer>
 		<mx:Spacer height="5" />
 		<s:TabBar id="tabs" dataProvider="{tabsHolder}" width="100%" cornerRadius="0" color="#FFFFFF" skinClass="skins.CustomSparkTabBarSkin" />
-		<mx:ViewStack id="tabsHolder" width="100%" height="100%" borderStyle="solid" borderColor="#999999" dropShadowVisible="true">
-			<local:tabsHolderContentItem id="unassessedTab" label="{resourceManager.getString('resources', 'TAB_UNASSESSED') +' ('+unassessedElos+')'}" width="100%" height="100%" creationComplete="unassessedTab_creationCompleteHandler(event)"/>
+		<mx:ViewStack id="tabsHolder" width="100%" height="100%" borderStyle="solid" creationPolicy="all" borderColor="#999999" dropShadowVisible="true" creationComplete="unassessedTab_creationCompleteHandler(event)">
+			<local:tabsHolderContentItem id="unassessedTab" label="{resourceManager.getString('resources', 'TAB_UNASSESSED') +' ('+unassessedElos+')'}" width="100%" height="100%"/>
 			<local:tabsHolderContentItem id="poorTab" label="{resourceManager.getString('resources', 'TAB_POOR') +' ('+poorElos+')'}" width="100%" height="100%" />
 			<local:tabsHolderContentItem id="fairTab" label="{resourceManager.getString('resources', 'TAB_FAIR') +' ('+fairElos+')'}"  width="100%" height="100%" />
 			<local:tabsHolderContentItem id="goodTab" label="{resourceManager.getString('resources', 'TAB_GOOD') +' ('+goodElos+')'}"  width="100%" height="100%" />

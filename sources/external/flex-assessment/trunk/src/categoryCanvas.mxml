@@ -15,6 +15,8 @@
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
 			
+			import utility.XMLUtilJer;
+			
 			private var portfolioElo:XML;
 			private var so:SharedObject;
 			
@@ -36,15 +38,7 @@
 				for each (var object:XML in portfolioElo.portfolio.elos.*) {
 					if (object.name() == "elo") {
 						if(object.catname == categ) {
-							ob = new Object();
-							ob.name = object.catname;
-							ob.thumbnail = object.thumbnail;
-							ob.myname = object.myname;
-							ob.modified = object.modified;
-							ob.assessed = object.assessed;
-							ob.grade = object.grade;
-							ob.createdby = object.parent().parent().@student;
-							ob.eloid = object.@uri;
+							ob = XMLUtilJer.getEloObjectFromXML(object);
 							ob.shouldBeSelected = getSelectedState(ob.eloid);
 							eloArrayByCategory.addItem(ob);
 						}
