@@ -78,7 +78,6 @@
 					so.flush();
 					teaRatingGrp.selectedValue = null;
 					commentArea.text = "";
-					trace(so.data.retrievedElosFromRoolo);
 					clickHandler(index.RIGHT_DIRECTION, index.STACK_STUDTABLE_PANEL);
 				}
 				else {
