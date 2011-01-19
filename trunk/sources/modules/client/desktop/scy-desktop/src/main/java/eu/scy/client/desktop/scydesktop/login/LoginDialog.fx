@@ -95,6 +95,7 @@ public class LoginDialog extends CustomNode, TbiReady {
             allowRotate: false;
             allowMinimize: false;
             allowDragging: false
+            allowCenter: false
             opacity: 0.0;
             layoutX: bind (scene.width / 2 - loginWindow.width / 2);
             layoutY: bind (scene.height / 2 - loginWindow.height / 2);

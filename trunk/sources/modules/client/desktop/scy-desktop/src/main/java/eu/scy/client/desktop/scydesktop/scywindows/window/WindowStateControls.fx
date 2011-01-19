@@ -55,7 +55,7 @@ public class WindowStateControls extends WindowElement {
             createMinimizeNode(),
             createCenterNode(),
             createMaximizeNode(),
-            createCloseNode()
+//            createCloseNode()
          ]
       }
    }

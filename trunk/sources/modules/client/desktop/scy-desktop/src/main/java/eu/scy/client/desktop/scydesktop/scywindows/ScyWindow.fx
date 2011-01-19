@@ -90,6 +90,7 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
    public var allowDragging = true;
    public var allowClose = true;
    public var allowMinimize = true;
+   public var allowCenter = true;
 //   public var closeIsHide = false;
    public var windowManager: WindowManager;
 	public var windowEffect: Effect;

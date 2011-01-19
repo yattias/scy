@@ -946,12 +946,13 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       windowStateControls = WindowStateControls{
          windowColorScheme:bind windowColorScheme
          enableRotateNormal:bind rotate!=0.0
-         enableMinimize: bind allowMinimize and not isClosed
-         enableClose:bind allowClose and not isClosed
+         enableMinimize: bind allowClose and not isClosed
+         enableCenter: bind allowCenter
+//         enableClose:bind allowClose and not isClosed
          rotateNormalAction:doRotateNormal
-         minimizeAction:doMinimize
+         minimizeAction:doClose
          centerAction:centerAction
-         closeAction:doClose
+//         closeAction:doClose
 
       }
 
@@ -1036,7 +1037,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
                   contentElement,
                   drawerGroup,
                   windowTitleBar,
-                  minimizeElement,
+//                  minimizeElement,
                   resizeElement,
                   rotateElement,
 //                  closeElement,
