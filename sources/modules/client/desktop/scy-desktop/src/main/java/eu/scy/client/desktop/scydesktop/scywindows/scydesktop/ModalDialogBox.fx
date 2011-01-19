@@ -50,7 +50,9 @@ public class ModalDialogBox extends CustomNode {
                close();
             }
             allowMinimize: false
+            allowClose: false
             allowResize: content instanceof Resizable
+            allowCenter: false
             activated: true
          }
       dialogWindow.open();
