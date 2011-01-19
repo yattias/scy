@@ -27,7 +27,6 @@ public class DataFormElementTimeView extends DataFormElementView {
         ImageButton btnGetDate = (ImageButton) findViewById(R.id.timeformelement_capture_time);
 
         detailsButton = (ImageButton) findViewById(R.id.timeformelement_show_details);
-        detailsButton.setId(id);
         detailsButton.setVisibility(INVISIBLE);
         detailsButton.setOnClickListener(new OnClickListener() {
 
