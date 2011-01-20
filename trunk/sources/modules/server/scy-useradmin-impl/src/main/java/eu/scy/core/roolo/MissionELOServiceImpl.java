@@ -4,7 +4,9 @@ import eu.scy.common.mission.*;
 import eu.scy.common.scyelo.ScyElo;
 import org.roolo.search.BasicMetadataQuery;
 import org.roolo.search.BasicSearchOperations;
+import roolo.api.search.AndQuery;
 import roolo.api.search.IQuery;
+import roolo.api.search.ISearchResult;
 import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
@@ -204,6 +206,24 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
         IQuery missionSpecificationQuery = new BasicMetadataQuery(authorKey, BasicSearchOperations.EQUALS, author);
         return getELOs(missionSpecificationQuery);
         */
+    }
+
+    @Override
+    public List findElosFor(String mission, String username)  {
+
+        BasicMetadataQuery bmq1 = new BasicMetadataQuery(getMetaDataTypeManager().getMetadataKey("mission"), BasicSearchOperations.EQUALS, "ecomission"); //e.g. mission = "ecoMission"
+        BasicMetadataQuery bmq2 = new BasicMetadataQuery(getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR), BasicSearchOperations.EQUALS, username);   //e.g. author = "jan"
+
+
+        AndQuery q = new AndQuery(bmq1, bmq2);
+        List<ISearchResult> results = getRepository().search(q);
+        List elos = new LinkedList();
+        for (int i = 0; i < results.size(); i++) {
+            ISearchResult searchResult = results.get(i);
+            elos.add(searchResult.getELO());
+        }
+
+        return elos;
     }
 
 }

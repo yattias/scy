@@ -27,11 +27,12 @@ public class LoadLearningGoalsService extends MissionRuntimeEnabledXMLService {
     protected Object getObject(MissionRuntimeElo missionRuntimeElo, HttpServletRequest request, HttpServletResponse response) {
         LearningGoals learningGoals = new LearningGoals();
 
-        addGeneralLearninigGoal("A goal", learningGoals);
-        addGeneralLearninigGoal("Yet a goal", learningGoals);
+        addGeneralLearninigGoal("To do that funky rumba so baad you will never forget it!", learningGoals);
+        addGeneralLearninigGoal("To make sure no uncertainty exists", learningGoals);
+        addGeneralLearninigGoal("Specify the generics correctly in short words", learningGoals);
 
-        addSpecificLearningGoal("Speci" ,learningGoals);
-        addSpecificLearningGoal("Spe ble bla" ,learningGoals);
+        addSpecificLearningGoal("KickAss!" ,learningGoals);
+        addSpecificLearningGoal("Understand the nature of the curious cat" ,learningGoals);
 
 
         return learningGoals;

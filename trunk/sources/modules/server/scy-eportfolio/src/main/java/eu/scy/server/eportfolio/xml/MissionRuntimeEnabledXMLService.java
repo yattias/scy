@@ -7,7 +7,9 @@ import eu.scy.core.roolo.MissionELOService;
 import eu.scy.server.controllers.xml.XMLStreamerController;
 import eu.scy.server.controllers.xml.transfer.Portfolio;
 import eu.scy.server.controllers.xml.transfer.TransferElo;
+import eu.scy.server.eportfolio.xml.converters.LearningGoalConverter;
 import eu.scy.server.eportfolio.xml.utilclasses.ELOSearchResult;
+import eu.scy.server.eportfolio.xml.utilclasses.LearningGoal;
 import eu.scy.server.eportfolio.xml.utilclasses.LearningGoals;
 import eu.scy.server.eportfolio.xml.utilclasses.ServiceExceptionMessage;
 import eu.scy.server.url.UrlInspector;
@@ -84,8 +86,13 @@ public abstract class MissionRuntimeEnabledXMLService extends XMLStreamerControl
         xStream.aliasField("assessmentportfoliorating", Portfolio.class, "assessmentPortfolioRating");
         xStream.aliasField("mission", Portfolio.class, "missionName");
 
+        xStream.aliasField("generalLearningGoals".toLowerCase(), LearningGoals.class, "generalLearningGoals");
+        xStream.aliasField("specificLearningGoals".toLowerCase(), LearningGoals.class, "specificLearningGoals");
+
         xStream.aliasField("generallearninggoals ", LearningGoals.class, "generalLearningGoals ");
         xStream.aliasField("specificlearninggoals  ", LearningGoals.class, "specificLearningGoals ");
+
+        xStream.registerConverter(new LearningGoalConverter());
 
     }
 

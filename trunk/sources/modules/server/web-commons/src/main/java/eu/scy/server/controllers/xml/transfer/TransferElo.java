@@ -3,6 +3,7 @@ package eu.scy.server.controllers.xml.transfer;
 import eu.scy.common.scyelo.ScyElo;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -43,7 +44,14 @@ public class TransferElo {
         setLastModified(lastModified.toString());
         setModified(lastModified.toString());
         setCreatedDate(createDate.toString());
-        setCreatedBy("FREAKFACE!");
+        List authors = scyElo.getAuthors();
+        String authorString = "";
+        for (int i = 0; i < authors.size(); i++) {
+            String s = (String) authors.get(i);
+            authorString += s + " ";
+
+        }
+        setCreatedBy(authorString);
         setCatname("House data");
         setThumbnail("thummy");
         setFullsize("fully");

@@ -18,4 +18,9 @@ public class LearningGoal {
     public void setGoal(String goal) {
         this.goal = goal;
     }
+
+    @Override
+    public String toString() {
+        return getGoal();
+    }
 }
