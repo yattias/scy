@@ -257,7 +257,6 @@
 
 			protected function goalService_resultHandler(event:ResultEvent):void {
 				var xml:XML= event.result as XML;
-				trace(xml);
 				var xmlObject:Object;
 				GLG = new ArrayCollection();
 				SLG = new ArrayCollection();

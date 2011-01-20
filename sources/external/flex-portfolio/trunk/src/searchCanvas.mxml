@@ -17,6 +17,7 @@
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
 			import mx.events.ItemClickEvent;
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
@@ -52,7 +53,7 @@
 				addEloFlag = true;
 			}
 			
-			public function refreshContent(newSearch:Boolean):void {
+			public function refreshContent(newSearch:Boolean, elosearchservice:String):void {
 				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 				currentEloCategory = so.data.currentEloCategory;
 				searchString.htmlText = "<u>"+resourceManager.getString('resources', 'SEARCH_LABEL')+"</u>: "+currentEloCategory.obliElo;
@@ -60,7 +61,13 @@
 				if(newSearch) {
 					addEloFlag = false;
 					eloss = new ArrayCollection();
-					launchSearch.url = "searchElo.xml";
+					
+					launchSearch.url = elosearchservice+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23")+"&searchCategory="+encodeURI(currentEloCategory.obliElo);
+					trace(launchSearch.url);
+					if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+						launchSearch.url = "searchElo.xml";
+					}
+					
 					launchSearch.send();
 				}
 			}

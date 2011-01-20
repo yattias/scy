@@ -19,7 +19,7 @@
 							(mainStack.selectedChild as introductionCanvas).refreshContent();
 						break;
 						case STACK_SEARCH_PANEL:
-							(mainStack.selectedChild as searchCanvas).refreshContent(newSearch);
+							(mainStack.selectedChild as searchCanvas).refreshContent(newSearch, new String(toolURLProvider.elosearchservice));
 						break;
 						case STACK_REFLEC_PANEL:
 							(mainStack.selectedChild as reflectionCanvas).refreshContent(editReflection);
@@ -108,6 +108,7 @@
 			public static const ALT_BOX_INIT_X:Number = -450;
 			private var bm:IBrowserManager;
 			private var so:SharedObject;
+			private var toolURLProvider:XML;
 			
 			protected function initApp(event:FlexEvent):void {
 				obligElos = new ArrayCollection([
@@ -162,7 +163,7 @@
 			
 			protected function URLpropertyFile_resultHandler(event:ResultEvent):void {
 				//parse 'toolURLProvider.html' first
-				var toolURLProvider:XML= event.result as XML;
+				toolURLProvider = event.result as XML;
 				urlInfo.text = toolURLProvider;
 				urlInfo.text = urlInfo.text + "\ntoolURLProvider.portfolioloader: " + toolURLProvider.portfolioloader;
 				//portfolioService.url = "eportfolio.xml";
