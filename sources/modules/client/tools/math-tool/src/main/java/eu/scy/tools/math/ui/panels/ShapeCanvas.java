@@ -100,12 +100,21 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas{
 	
 	@Override
 	public void addShape(IMathShape shape) {
-		
-		
 		getMathShapes().add(shape);
 		if( shape instanceof I3D ) {
 			this.add((JComponent) shape);
 		}
+	}
+	
+	public void selectedAll(boolean isSelected, String type) {
+			for (IMathShape shape : mathShapes) {
+				if(UIUtils._3D.equals(type) && shape instanceof I3D) {
+					shape.setShowCornerPoints(isSelected);
+					shape.repaint();
+				}
+			}
+			this.repaint();
+			this.revalidate();
 	}
 	
 	@Override

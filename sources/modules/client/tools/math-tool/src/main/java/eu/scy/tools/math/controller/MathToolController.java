@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
@@ -386,6 +388,10 @@ public class MathToolController {
 			this.setSelectedMathShape(t);
 		} else if (label.getName().equals(UIUtils.RECTANGLE3D)) {
 			MathRectangle3D t = new MathRectangle3D(dropPoint.x, dropPoint.y);
+			MathShape3DFocusListener mathShape3DFocusListener = new MathShape3DFocusListener(t);
+			t.getSurfaceAreaTextField().addFocusListener(mathShape3DFocusListener);
+			t.getRatioTextField().addFocusListener(mathShape3DFocusListener);
+			t.getLengthTextField().addFocusListener(mathShape3DFocusListener);
 			t.setId(id);
 			t.setName(UIUtils._3D);
 			t.getAddButton().addActionListener(add3dAction);
@@ -393,6 +399,10 @@ public class MathToolController {
 			this.setSelectedMathShape(t);
 		} else if (label.getName().equals(UIUtils.SPHERE3D)) {
 			MathSphere3D t = new MathSphere3D(dropPoint.x, dropPoint.y);
+			MathShape3DFocusListener mathShape3DFocusListener = new MathShape3DFocusListener(t);
+			t.getSurfaceAreaTextField().addFocusListener(mathShape3DFocusListener);
+			t.getRadiusTextField().addFocusListener(mathShape3DFocusListener);
+			t.getRatioTextField().addFocusListener(mathShape3DFocusListener);
 			t.setId(id);
 			t.setName(UIUtils._3D);
 			sc.addShape(t);
@@ -402,6 +412,10 @@ public class MathToolController {
 			this.setSelectedMathShape(t);
 		} else if (label.getName().equals(UIUtils.CYLINDER3D)) {
 			MathCylinder3D t = new MathCylinder3D(dropPoint.x, dropPoint.y);
+			MathShape3DFocusListener mathShape3DFocusListener = new MathShape3DFocusListener(t);
+			t.getSurfaceAreaTextField().addFocusListener(mathShape3DFocusListener);
+			t.getRadiusTextField().addFocusListener(mathShape3DFocusListener);
+			t.getRatioTextField().addFocusListener(mathShape3DFocusListener);
 			t.setId(id);
 			t.setName(UIUtils._3D);
 			t.getAddButton().addActionListener(add3dAction);
@@ -413,6 +427,28 @@ public class MathToolController {
 		sc.repaint();
 	}
 
+	private class MathShape3DFocusListener implements FocusListener {
+
+		private Math3DShape math3DShape;
+
+		public MathShape3DFocusListener(Math3DShape math3DShape) {
+			this.math3DShape = math3DShape;
+		}
+
+		@Override
+		public void focusGained(FocusEvent e) {
+			selectAllShapes(false, UIUtils._3D);
+			this.math3DShape.setShowCornerPoints(true);
+			setSelectedMathShape(this.math3DShape);
+		}
+
+		@Override
+		public void focusLost(FocusEvent e) {
+			
+		}
+	    
+	}
+	
 	Action add3dAction = new AbstractAction() {
 
 		@Override
@@ -500,6 +536,12 @@ public class MathToolController {
 		}
 
 	};
+	
+	public void selectAllShapes(boolean isSelected, String type) {
+		ShapeCanvas shapeCanvas = shapeCanvases.get(type);
+		shapeCanvas.selectedAll(isSelected, type);
+		
+	}
 
 	protected void doOperation(String t, String operation) {
 		Calculator calculator = getCalculators().get(t);
