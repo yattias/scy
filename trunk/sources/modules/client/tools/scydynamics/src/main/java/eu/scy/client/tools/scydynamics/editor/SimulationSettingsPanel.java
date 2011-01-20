@@ -38,7 +38,7 @@ public class SimulationSettingsPanel extends JPanel {
 
 	public void initUI(ActionListener listener) {
 		JPanel northPanel = new JPanel();
-		northPanel.setLayout(new java.awt.GridLayout(5, 2));
+		northPanel.setLayout(new java.awt.GridLayout(6, 2));
 		northPanel.add(new JLabel("start time"));
 		startField = new JTextField(10);
 		startField.setEditable(false);
@@ -52,14 +52,14 @@ public class SimulationSettingsPanel extends JPanel {
 		northPanel.add(new JLabel("method"));
 		methodbox = getMethodBox();
 		northPanel.add(methodbox);
-		JButton run = new JButton("run simulation");
-		run.setActionCommand("run");
-		run.addActionListener(listener);
-		northPanel.add(run);		
-		JButton export = new JButton("export to sqv");
-		export.setActionCommand("export");
-		export.addActionListener(listener);
-		northPanel.add(export);
+		JButton button = new JButton("run simulation");
+		button.setActionCommand("run");
+		button.addActionListener(listener);
+		northPanel.add(button);
+		button = new JButton("export to sqv");
+		button.setActionCommand("export");
+		button.addActionListener(listener);
+		northPanel.add(button);
 		this.add(northPanel, BorderLayout.NORTH);
 	}
 	
