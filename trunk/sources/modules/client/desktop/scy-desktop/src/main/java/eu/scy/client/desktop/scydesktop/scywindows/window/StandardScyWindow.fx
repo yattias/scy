@@ -85,6 +85,9 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    public override var scyContent on replace {
          scyContentChanged();
       };
+   public override var eloIcon on replace {
+         eloIconChanged()
+      };
 //	public override var scyTool;
    public override var scyToolsList = ScyToolsList {};
    public override var activated on replace { activeStateChanged() };
@@ -173,6 +176,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    var minimizeElement: WindowMinimize;
    var windowStateControls: WindowStateControls;
    var contentElement: WindowContent;
+   var closedWindow: ClosedWindow;
    def drawerGroup: Group = Group {
          visible: bind not isClosed and not isMinimized
       };
@@ -356,6 +360,11 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
          x += scyWindowAttributeDevider;
       }
 
+   }
+
+   function eloIconChanged():Void{
+      closedWindow.eloIcon = eloIcon.clone();
+      windowTitleBar.eloIcon = eloIcon;
    }
 
    public override function open(): Void {
@@ -964,7 +973,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
             windowStateControls: windowStateControls
             iconSize: iconSize
             title: bind title;
-            eloIcon: bind eloIcon;
+//            eloIcon: eloIcon
             activated: bind activated
             beingDragged: bind beingDragged
             startDragIcon: startDragIcon
@@ -1029,23 +1038,62 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 //         width: 1000, height: 1000
 //         fill: Color.color(1,.25,.25,.75)
 //      }
-      return mainContentGroup = Group {
-               cursor: Cursor.MOVE;
-               cache: true;
-               content: [
+
+      def closedGroup = Group{
+         visible: bind isClosed
+         content:[
+            closedWindow = ClosedWindow{
+               window: this
+               windowColorScheme: bind windowColorScheme
+               scyElo: bind scyElo
+//               eloIcon: eloIcon
+               activated: bind activated
+               activate: activate;
+               title: bind title
+            }
+         ]
+      }
+
+      def openGroup = Group{
+         visible: bind not isClosed
+         content:[
                   emptyWindow,
                   contentElement,
                   drawerGroup,
                   windowTitleBar,
-//                  minimizeElement,
+                  minimizeElement,
                   resizeElement,
                   rotateElement,
-//                  closeElement,
+
                   Group { // the scy window attributes
-                     layoutX: iconSize + 8
+                     layoutX: iconSize + 5
                      layoutY: 19
                      content: bind scyWindowAttributes,
                   },
+         ]
+      }
+
+      eloIconChanged();
+
+      return mainContentGroup = Group {
+               cursor: Cursor.MOVE;
+               cache: true;
+               content: [
+                  closedGroup,
+                  openGroup
+//                  emptyWindow,
+//                  contentElement,
+//                  drawerGroup,
+//                  windowTitleBar,
+////                  minimizeElement,
+//                  resizeElement,
+//                  rotateElement,
+////                  closeElement,
+//                  Group { // the scy window attributes
+//                     layoutX: iconSize + 8
+//                     layoutY: 19
+//                     content: bind scyWindowAttributes,
+//                  },
                //            draggingLayer,
                //            Group {
                //               content: [circleLayer]

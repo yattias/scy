@@ -39,6 +39,9 @@ public class CombinedWindowElements extends ScyWindow {
    public override var scyWindowAttributes on replace {
          placeAttributes()
       };
+   public override var eloIcon on replace {
+         eloIconChanged()
+      };
    def drawerGroup: Group = Group {
          visible: bind not isClosed and not isMinimized
       };
@@ -58,6 +61,7 @@ public class CombinedWindowElements extends ScyWindow {
    var closeElement: WindowClose;
    var minimizeElement: WindowMinimize;
    var windowStateControls: WindowStateControls;
+   var closedWindow: ClosedWindow;
    var mainContentGroup: Group;
    def borderWidth = 2.0;
    def controlSize = 10.0;
@@ -151,6 +155,12 @@ public class CombinedWindowElements extends ScyWindow {
       }
 
    }
+
+   function eloIconChanged():Void{
+      closedWindow.eloIcon = eloIcon;
+      windowTitleBar.eloIcon = eloIcon.clone();
+   }
+
 
    function setTopDrawer() {
       if (drawerGroup == null) {
@@ -302,7 +312,7 @@ public class CombinedWindowElements extends ScyWindow {
             iconSize: iconSize
             windowStateControls: windowStateControls
             title: bind title;
-            eloIcon: bind eloIcon;
+            eloIcon: eloIcon;
             activated: bind activated
             windowColorScheme: windowColorScheme
             layoutX: -borderWidth / 2;
@@ -368,10 +378,24 @@ public class CombinedWindowElements extends ScyWindow {
 //         width: 1000, height: 1000
 //         fill: Color.color(1,.25,.25,.75)
 //      }
-      return mainContentGroup = Group {
-               cursor: Cursor.MOVE;
-               cache: true;
-               content: [
+
+      def closedGroup = Group{
+         visible: bind isClosed
+         content:[
+            closedWindow = ClosedWindow{
+               window: this
+               windowColorScheme: bind windowColorScheme
+//               scyElo: bind scyElo
+               eloIcon: eloIcon
+               activated: bind activated
+               title: bind title
+            }
+         ]
+      }
+
+      def openGroup = Group{
+         visible: bind not isClosed
+         content:[
                   emptyWindow,
                   contentElement,
                   drawerGroup,
@@ -385,6 +409,29 @@ public class CombinedWindowElements extends ScyWindow {
                      layoutY: 19
                      content: bind scyWindowAttributes,
                   },
+         ]
+      }
+
+      eloIconChanged();
+
+      return mainContentGroup = Group {
+               cursor: Cursor.MOVE;
+               cache: true;
+               content: [
+                  closedGroup,
+                  openGroup
+//                  emptyWindow,
+//                  contentElement,
+//                  drawerGroup,
+//                  windowTitleBar,
+//                  minimizeElement,
+//                  resizeElement,
+//                  rotateElement,
+//                  Group { // the scy window attributes
+//                     layoutX: iconSize + 5
+//                     layoutY: 19
+//                     content: bind scyWindowAttributes,
+//                  },
                //            draggingLayer,
                //            Group {
                //               content: [circleLayer]
@@ -420,7 +467,7 @@ function loadEloIcon(type: String): EloIcon {
    var name = EloImageInformation.getIconName(type);
 //   println("name: {name}");
    FxdEloIcon {
-      selected: true
+      visible: true
       fxdNode: imageLoader.getNode(name)
       windowColorScheme: windowColorScheme
    }
@@ -502,7 +549,7 @@ function run() {
          layoutY: 150
       }
 
-   def minimumWidth = 70;
+   def minimumWidth = 100;
 
    var closedWindow = CombinedWindowElements {
          windowColorScheme: windowColorScheme
@@ -512,18 +559,19 @@ function run() {
          allowClose: true
          height: openWindow.closedHeight
          width: minimumWidth
-         layoutX: 10
+         layoutX: 40
          layoutY: 280
       }
 
    var closedWindow2 = CombinedWindowElements {
          windowColorScheme: windowColorScheme
          eloIcon: loadEloIcon("scy/mapping")
-         title: "closed and not selected"
-         isClosed: false
-         isMinimized: true
+         title: "closed and selected"
+         isClosed: true
+//         isMinimized: false
          allowClose: true
-         allowMinimize: true
+//         allowMinimize: false
+         activated: true
          height: openWindow.closedHeight
          width: minimumWidth
          layoutX: closedWindow.layoutX + minimumWidth + 20
@@ -550,7 +598,7 @@ function run() {
       scene: Scene {
          width: 400
          height: 350
-         fill: Color.LIGHTGRAY
+         fill: Color.web("#eaeaea");
          content: [
             openWindow,
             openWindowSelected,
