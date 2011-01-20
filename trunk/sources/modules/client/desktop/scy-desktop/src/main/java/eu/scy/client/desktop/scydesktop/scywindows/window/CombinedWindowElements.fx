@@ -390,6 +390,19 @@ public class CombinedWindowElements extends ScyWindow {
                activated: bind activated
                title: bind title
             }
+            ClosedWindowResize {
+               //                  visible: bind allowResize or isClosed;
+               size: controlSize;
+               borderWidth: borderWidth;
+               separatorLength: separatorLength
+               windowColorScheme: windowColorScheme
+               //         activate: activate;
+               //         startResize:startResize;
+               //         doResize:doResize;
+               //         stopResize:stopResize;
+               layoutX: ArtSource.thumbnailWidth + ThumbnailView.eloIconOffset
+               layoutY: ArtSource.thumbnailWidth
+            }
          ]
       }
 
