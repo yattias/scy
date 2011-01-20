@@ -50,55 +50,71 @@
   <dataset>
     <header language="en">
       <column>
-        <symbol>data 1</symbol>
+        <symbol>time</symbol>
         <description />
         <type>double</type>
-        <unit>unit</unit>
+        <unit>t</unit>
       </column>
       <column>
-        <symbol>data 2</symbol>
+        <symbol>population of predator</symbol>
         <description />
         <type>double</type>
-        <unit>unit</unit>
+        <unit>N</unit>
       </column>
+      <column>
+        <symbol>population of prey</symbol>
+        <description />
+        <type>double</type>
+        <unit>N</unit>
+      </column>	  
     </header>
     <row>
       <value>NaN</value>
       <value>NaN</value>
+      <value>NaN</value>	  
     </row>
     <row>
       <value>NaN</value>
-      <value>NaN</value>
-    </row>
-    <row>
-      <value>NaN</value>
-      <value>NaN</value>
-    </row>
-    <row>
       <value>NaN</value>
       <value>NaN</value>
     </row>
     <row>
       <value>NaN</value>
       <value>NaN</value>
-    </row>
-    <row>
-      <value>NaN</value>
       <value>NaN</value>
     </row>
     <row>
       <value>NaN</value>
-      <value>NaN</value>
-    </row>
-    <row>
       <value>NaN</value>
       <value>NaN</value>
     </row>
     <row>
       <value>NaN</value>
       <value>NaN</value>
+      <value>NaN</value>
     </row>
     <row>
+      <value>NaN</value>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
       <value>NaN</value>
       <value>NaN</value>
     </row>
