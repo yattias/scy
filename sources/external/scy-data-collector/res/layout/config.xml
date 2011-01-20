@@ -4,7 +4,7 @@
 	xmlns:android="http://schemas.android.com/apk/res/android" android:scrollbars="vertical">
 	<RelativeLayout android:id="@+id/RelativeLayout01"
 		android:layout_width="fill_parent" android:layout_height="fill_parent"
-		xmlns:android="http://schemas.android.com/apk/res/android" android:layout_gravity="center_horizontal" android:layout_margin="10dp">
+		xmlns:android="http://schemas.android.com/apk/res/android" android:layout_gravity="center_horizontal" android:padding="5dp">
 
 		<TextView android:text="@string/groupName" android:id="@+id/tvGroupName"
 			android:layout_width="fill_parent" android:layout_alignParentTop="true"
