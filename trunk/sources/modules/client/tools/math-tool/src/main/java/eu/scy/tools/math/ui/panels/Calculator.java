@@ -263,7 +263,7 @@ public class Calculator extends JXPanel {
 		this.modRegularButton(rightButton);
 		
 		radiusButton = new JXButton("<html>r</html>");
-		radiusButton.setName("x");
+		radiusButton.setName("r");
 		radiusButton.addActionListener(buttonAction);
 		this.modRegularButton(radiusButton);
 		
