@@ -6,6 +6,12 @@ import eu.scy.core.roolo.MissionELOService;
 import eu.scy.server.controllers.xml.transfer.TransferElo;
 import eu.scy.server.eportfolio.xml.utilclasses.ELOSearchResult;
 import eu.scy.server.url.UrlInspector;
+import org.roolo.search.BasicMetadataQuery;
+import org.roolo.search.BasicSearchOperations;
+import roolo.api.search.AndQuery;
+import roolo.api.search.ISearchResult;
+import roolo.elo.BasicELO;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +25,7 @@ import java.util.List;
  * Time: 06:21:45
  * To change this template use File | Settings | File Templates.
  */
-public class EloSearchService extends MissionRuntimeEnabledXMLService{
+public class EloSearchService extends MissionRuntimeEnabledXMLService {
 
     private MissionELOService missionELOService;
     private UrlInspector urlInspector;
@@ -27,12 +33,14 @@ public class EloSearchService extends MissionRuntimeEnabledXMLService{
     @Override
     protected Object getObject(MissionRuntimeElo missionRuntimeElo, HttpServletRequest request, HttpServletResponse response) {
 
+
         String searchParameters = request.getParameter("searchParameters");
 
-        List elos = getMissionELOService().getELOSWithTechnicalFormat("scy/mapping");
+        List elos = getMissionELOService().findElosFor("ecomission", getCurrentUserName(request));
         ELOSearchResult eloSearchResult = new ELOSearchResult();
         for (int i = 0; i < elos.size(); i++) {
-            ScyElo scyElo = (ScyElo) elos.get(i);
+            BasicELO basicELO = (BasicELO) elos.get(i);
+            ScyElo scyElo = ScyElo.loadLastVersionElo(basicELO.getUri(), getMissionELOService());
             eloSearchResult.getElos().add(createELOModel(scyElo));
         }
 
@@ -48,7 +56,7 @@ public class EloSearchService extends MissionRuntimeEnabledXMLService{
         eloModel.setCreatedDate(createdDate.toString());
         eloModel.setLastModified(lastModified.toString());
         eloModel.setMyname(scyElo.getTitle());
-        if(scyElo.getThumbnail() != null) {
+        if (scyElo.getThumbnail() != null) {
             System.out.println("THIS ELO HAS A THUMBNAIL!");
         } else {
             System.out.println("THIS ELO DOES NOT HAVE A THUMBNAIL!!!");
