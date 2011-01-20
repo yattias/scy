@@ -210,14 +210,18 @@ public class MathToolController {
 			
 			
 			if( expression.contains(IMathSphere3D.RADIUS) ) {
-				mathEvaluator.addVariable(IMathSphere3D.RADIUS, Double.parseDouble(((IMathSphere3D) mathShape).getRadiusValue()));
+				String radiusValue = StringUtils.trimToNull(((IMathSphere3D) mathShape).getRadiusValue());
+				if( radiusValue != null )
+					mathEvaluator.addVariable(IMathSphere3D.RADIUS, Double.parseDouble(radiusValue));
 			}
 			
 		} else if (mathShape instanceof IMathCylinder3D) {
 			
 			
 			if( expression.contains(IMathCylinder3D.RADIUS) ) {
-				mathEvaluator.addVariable(IMathCylinder3D.RADIUS, Double.parseDouble(((IMathCylinder3D) mathShape).getRadiusValue()));
+				String radiusValue = StringUtils.trimToNull(((IMathCylinder3D) mathShape).getRadiusValue());
+				if( radiusValue != null )
+					mathEvaluator.addVariable(IMathCylinder3D.RADIUS, Double.parseDouble(radiusValue));
 			}
 			
 			if( expression.contains(IMathCylinder3D.HEIGHT) ) {
