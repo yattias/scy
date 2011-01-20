@@ -5,6 +5,7 @@ import java.util.Hashtable;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -177,6 +178,7 @@ public class LoadFormsDataListAdapter extends BaseAdapter {
 
         /** create the ui components */
         private void _createUI() {
+            setBackgroundResource(R.drawable.gradient);
 
             // make the 2nd col growable/wrappable
             setColumnShrinkable(1, true);
@@ -191,7 +193,7 @@ public class LoadFormsDataListAdapter extends BaseAdapter {
             // fill the first row with: icon/flag, name
             {
                 _lblFormTitle = new TextView(_context);
-
+                _lblFormTitle.setTextSize(20f);
                 row.addView(_lblFormTitle);
             }
 
