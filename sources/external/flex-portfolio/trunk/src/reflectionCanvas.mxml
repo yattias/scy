@@ -162,7 +162,7 @@
 				if(edit) {
 					eloUri = selectedElo.uri;
 					currentState = "updateReflection";
-					descriptionArea.text = selectedElo.studentDescription;
+					descriptionArea.text = selectedElo.studentdescription;
 					
 					for(var i:Number = 0; i<(selectedElo.studentglg as ArrayCollection).length; i++) {
 						var n:Number = new Number((selectedElo.studentglg as ArrayCollection)[i][0].pos);
@@ -278,6 +278,8 @@
 						SLG.addItem(xmlObject);
 					}
 				}
+				
+				trace("reflection service clear");
 			}
 
 

@@ -297,7 +297,7 @@
 			<s:NavigatorContent />
 			<local:introductionCanvas id="introduction" width="100%" height="100%" showEffect="{showEffect}" />
 			<local:searchCanvas id="search" width="100%" height="100%" showEffect="{showEffect}" />
-			<local:reflectionCanvas id="reflection" width="100%" height="100%" showEffect="{showEffect}" />
+			<local:reflectionCanvas creationPolicy="all" id="reflection" width="100%" height="100%" showEffect="{showEffect}" />
 			<local:submitCanvas id="submit" width="100%" height="100%" showEffect="{showEffect}" />
 			<local:sendingCanvas id="sending" width="100%" creationPolicy="all" height="100%" showEffect="{showEffect}" />
 		</mx:ViewStack>
@@ -306,9 +306,11 @@
 	
 	<s:BorderContainer id="clicker" width="10" height="10" backgroundColor="#FF0000" backgroundAlpha=".1" borderVisible="false" click="infoPanVisi = !infoPanVisi;" />
 	
-	<s:BorderContainer id="altBox" visible="{infoPanVisi}" width="300" horizontalCenter="0" verticalCenter="0" cornerRadius="5" borderWeight="2" borderColor="#999999" dropShadowVisible="true" backgroundColor="0x333333" alpha=".9">
-		<s:VGroup width="100%" height="100%">
-			<s:Label id="urlInfo" width="100%" height="100%" color="#FFFFFF" />
+	<s:Scroller id="altBox" visible="{infoPanVisi}" width="400" height="400" horizontalCenter="0" verticalCenter="0" >
+		<s:VGroup width="100%" >
+			<s:BorderContainer width="100%" cornerRadius="5" borderWeight="2" borderColor="#999999" dropShadowVisible="true" backgroundColor="0x333333" alpha=".9">
+				<s:Label id="urlInfo" width="100%" color="#FFFFFF" />
+			</s:BorderContainer>
 		</s:VGroup>
-	</s:BorderContainer>
+	</s:Scroller>
 </s:Application>
