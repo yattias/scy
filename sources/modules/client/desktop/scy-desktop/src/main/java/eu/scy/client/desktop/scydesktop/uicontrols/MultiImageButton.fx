@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import eu.scy.client.desktop.scydesktop.art.ImageLoader;
+import javafx.scene.control.Tooltip;
 
 /**
  * @author sikken
@@ -25,6 +26,7 @@ public class MultiImageButton extends CustomNode {
    public var action:function():Void;
    public-read var errorsLoadingImage=false;
    public var turnedOn = false on replace{newImageState()};
+   public-init var tooltip: Tooltip;
 
    public override var disable on replace{newImageState()};
 
@@ -91,14 +93,16 @@ public class MultiImageButton extends CustomNode {
       }
       newImageState();
       return Group {
-            content: imageView
+            content: [imageView, tooltip]
             onMouseEntered: function (e: MouseEvent): Void {
                mouseOver = true;
                newImageState();
+               tooltip.activate();
             }
             onMouseExited: function (e: MouseEvent): Void {
                mouseOver = false;
                newImageState();
+               tooltip.deactivate();
             }
             onMousePressed: function (e: MouseEvent): Void {
                mousePressed = true;
@@ -111,7 +115,7 @@ public class MultiImageButton extends CustomNode {
                mousePressed = false;
                newImageState();
             }
-      };
+      };;;
    }
 
 }
