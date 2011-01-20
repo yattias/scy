@@ -74,8 +74,7 @@ public class ModalDialogBox extends CustomNode {
    }
 
    function center(): Void {
-      dialogWindow.layoutX = scene.width / 2 - dialogWindow.layoutBounds.width / 2;
-      dialogWindow.layoutY = scene.height / 2 - dialogWindow.layoutBounds.height / 2;
+       dialogWindow.openWindow(scene.width / 2 - dialogWindow.layoutBounds.width / 2, scene.height / 2 - dialogWindow.layoutBounds.height / 2, dialogWindow.layoutBounds.width, dialogWindow.layoutBounds.height);
    }
 
 }
