@@ -8,13 +8,16 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import colab.um.draw.JdFigure;
 import colab.um.draw.JdObject;
@@ -25,16 +28,22 @@ import eu.scy.client.tools.scydynamics.model.Model;
 public class VariableSelectionPanel extends JPanel {
 
 	private Map<String, JCheckBox> variables;
+	private HashSet<JTextField> textFields;
 	private ModelEditor editor;
     private final ResourceBundleWrapper bundle;
 	private boolean showTime;
+	private Model model;
+	private FlowLayout leftFlow;
 
 	public VariableSelectionPanel(ModelEditor editor, ResourceBundleWrapper bundle, boolean showTime) {
 		super();
+		leftFlow = new FlowLayout();
+		leftFlow.setAlignment(FlowLayout.LEFT);
 		this.editor = editor;
 		this.bundle = bundle;
 		this.showTime = showTime;
 		variables = new HashMap<String, JCheckBox>();
+		textFields = new HashSet<JTextField>();
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createTitledBorder(bundle.getString("PANEL_VARIABLESELECTION")));
 		if (editor.getModel() != null) {
@@ -58,7 +67,7 @@ public class VariableSelectionPanel extends JPanel {
 	}
 
 	public void updateVariables() {
-		Model model = editor.getModel();
+		model = editor.getModel();
 		List<String> oldSelection = this.getSelectedVariables();
 		variables.clear();
 		// cleaning the panel
@@ -74,8 +83,6 @@ public class VariableSelectionPanel extends JPanel {
 			// no relevant variables in model
 			this.add(new JLabel(bundle.getString("PANEL_NOVARIABLES")), BorderLayout.NORTH);
 		} else {
-			FlowLayout leftFlow = new FlowLayout();
-			leftFlow.setAlignment(FlowLayout.LEFT);
 			JPanel panel = new JPanel();
 			panel.setLayout(new GridLayout(variablecount, 1));
 			JCheckBox box;
@@ -125,9 +132,40 @@ public class VariableSelectionPanel extends JPanel {
 					variables.put(object.getLabel(), box);
 				}
 			}
+			panel.setBorder(BorderFactory.createTitledBorder(bundle.getString("PANEL_VARIABLESELECTION")));
 			this.add(panel, BorderLayout.NORTH);
+			this.add(getValuesPanel(), BorderLayout.SOUTH);
 		}
-
+	}
+	
+	private JPanel getValuesPanel() {
+		textFields.clear();
+		JPanel panel = new JPanel();
+		panel.setBorder(BorderFactory.createTitledBorder("values"));
+		int variablecount = model.getConstants().size() + model.getStocks().size();
+		panel.setLayout(new GridLayout(variablecount, 2));
+		JdObject object;
+		JPanel vPanel;
+		JLabel colorLabel;
+		JTextField textField;
+		Enumeration<JdObject> objects = model.getNodes().elements();
+		while (objects.hasMoreElements()) {
+			object = objects.nextElement();			
+			if (object.getType() == JdFigure.STOCK || object.getType() == JdFigure.CONSTANT) {
+				vPanel = new JPanel(leftFlow);
+				colorLabel = new JLabel("\u2588");
+				colorLabel.setForeground(object.getLabelColor());
+				vPanel.add(colorLabel);
+				vPanel.add(new JLabel(object.getLabel()));
+				textField = new JTextField(6);
+				textField.setName(object.getLabel());
+				textField.setText(object.getExpr());
+				textFields.add(textField);
+				vPanel.add(textField);
+				panel.add(vPanel);
+			}
+		}
+		return panel;
 	}
 
 	public List<String> getSelectedVariables() {
@@ -138,6 +176,14 @@ public class VariableSelectionPanel extends JPanel {
 			}
 		}
 		return selected;
+	}
+	
+	public HashMap<String, Double> getValues() throws NumberFormatException {
+		HashMap<String, Double> map = new HashMap<String, Double>();
+		for (JTextField field: textFields) {
+			map.put(field.getName(), Double.parseDouble(field.getText()));
+		}
+		return map;
 	}
 
 }

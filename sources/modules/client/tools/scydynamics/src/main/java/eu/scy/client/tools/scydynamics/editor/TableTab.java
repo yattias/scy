@@ -96,26 +96,39 @@ public class TableTab extends JPanel implements ChangeListener, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("run")) {
-            try {
-                injectSimulationSettings();
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, bundle.getString("PANEL_CANNOTPARSE"));
-                return;
-            }
-
+        	editor.checkModel();
+			// can the model be parsed?
+			if (editor.getModelCheckMessages().size() > 0) {
+				String messages = new String(
+						bundle.getString("PANEL_CANNOTEXECUTE") + "\n");
+				for (String msg : editor.getModelCheckMessages()) {
+					messages = messages + msg + "\n";
+				}
+				JOptionPane.showMessageDialog(null, messages);
+				return;
+			}
+			// can the variable values be parsed?
+			try {
+				variablePanel.getValues();
+			} catch (NumberFormatException ex) {
+				JOptionPane.showMessageDialog(null,"The variable values cannot be parsed correctly.\n Please check and try again.");
+				return;
+			}
+			// can the simulation settings be parsed?
+			try {
+				injectSimulationSettings();
+			} catch (NumberFormatException ex) {
+				JOptionPane.showMessageDialog(null,
+						bundle.getString("PANEL_CANNOTPARSE"));
+				return;
+			}
             // create the SimQuest model from the CoLab model
-            sqModel = new SimquestModel(editor.getModel());
+            sqModel = new SimquestModel(editor.getModel(), variablePanel.getValues());
             sqv.Model model = new sqv.Model(sqModel, dataServer);
 
             // building the tablemodel
             ArrayList<ModelVariable> selectedVariables = new ArrayList<ModelVariable>();
             ModelVariable time = new ModelVariable();
-//            for (ModelVariable var : model.getVariables()) {
-//                // getting a reference to the time variable
-//                if (var.getKind() == ModelVariable.VK_TIME) {
-//                    selectedVariables.add(var);
-//                }
-//            }
             for (ModelVariable var : model.getVariables()) {
                 // getting a reference to the time variable
                 if (variablePanel.getSelectedVariables().contains(var.getName())) {

@@ -2,6 +2,7 @@ package eu.scy.client.tools.scydynamics.model;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Vector;
 
 import org.jdom.Element;
@@ -17,17 +18,20 @@ import colab.um.draw.JdObject;
 import colab.um.draw.JdRelation;
 import colab.um.draw.JdStock;
 
+@SuppressWarnings("serial")
 public class SimquestModel extends Element {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3296792249446085803L;
 	private Model model;
+	private HashMap<String, Double> simulationValues;
 
 	public SimquestModel(Model model) {
+		this(model, new HashMap<String, Double>());
+	}
+
+	public SimquestModel(Model model, HashMap<String, Double> simulationValues) {
 		super("model");
 		this.model = model;
+		this.simulationValues = simulationValues;
 		update();
 	}
 
@@ -43,10 +47,8 @@ public class SimquestModel extends Element {
 		header.addContent(new Element("name").setText("name of model"));
 		header.addContent(new Element("format").setText("version1.0"));
 		header.addContent(new Element("creator").setText(System.getProperty("user.name")));
-		header.addContent(new Element("description")
-				.setText("some description"));
-		header.addContent(new Element("timestamp").setText(new Date()
-				.toString()));
+		header.addContent(new Element("description").setText("some description"));
+		header.addContent(new Element("timestamp").setText(new Date().toString()));
 		this.addContent(header);
 	}
 
@@ -56,15 +58,12 @@ public class SimquestModel extends Element {
 		addVariable(variables, "time", "time", "0.0", null);
 		for (JdObject node : model.getNodes().values()) {
 			if (node.getType() == JdFigure.CONSTANT) {
-				addVariable(variables, node.getLabel(), "constant", node
-						.getExpr(), null);
+				addVariable(variables, node.getLabel(), "constant", node.getExpr(), null);
 			} else if (node.getType() == JdFigure.AUX) {
 				addVariable(variables, node.getLabel(), "variable", "0.0", null);
 			} else if (node.getType() == JdFigure.STOCK) {
-				addVariable(variables, node.getLabel(), "state",
-						node.getExpr(), node.getLabel() + "_dot");
-				addVariable(variables, node.getLabel() + "_dot", "rate", "0.0",
-						node.getLabel());
+				addVariable(variables, node.getLabel(), "state", node.getExpr(), node.getLabel() + "_dot");
+				addVariable(variables, node.getLabel() + "_dot", "rate", "0.0",	node.getLabel());
 			}
 		}
 		this.addContent(variables);
@@ -77,7 +76,12 @@ public class SimquestModel extends Element {
 		timevariable.addContent(new Element("externalName").setText(name));
 		timevariable.addContent(new Element("kind").setText(type));
 		timevariable.addContent(new Element("type").setText("real"));
-		timevariable.addContent(new Element("value").setText(value));
+		if (simulationValues.containsKey(name)) {
+			System.out.println("setting variable "+name+" to value "+simulationValues.get(name).toString());
+			timevariable.addContent(new Element("value").setText(simulationValues.get(name).toString()));
+		} else {
+			timevariable.addContent(new Element("value").setText(value));
+		}
 		if (pair != null) {
 			timevariable.addContent(new Element("pair").setText(pair));
 		}
@@ -94,7 +98,12 @@ public class SimquestModel extends Element {
 			if (node.getType() == JdFigure.CONSTANT) {
 				equation = new Element("equation");
 				variable = new Element("variable").setText(node.getLabel());
-				literal = new Element("literal").setText(node.getExpr());
+				if (simulationValues.containsKey(node.getLabel())) {
+					System.out.println("setting constant "+name+" to value "+simulationValues.get(node.getLabel()).toString());
+					literal = new Element("literal").setText(simulationValues.get(node.getLabel()).toString());
+				} else {
+					literal = new Element("literal").setText(node.getExpr());
+				}
 				equation.addContent(variable);
 				equation.addContent(literal);
 				code.addContent(equation);
@@ -108,10 +117,7 @@ public class SimquestModel extends Element {
 				Vector<JdFigure> incomingFigs = getIncomingFigs((JdStock) node);
 				Vector<JdFigure> outgoingFigs = getOutgoingFigs((JdStock) node);
 				equation = new Element("equation");
-				equation.addContent(new Element("variable").setText(node
-						.getLabel()
-						+ "_dot"));
-
+				equation.addContent(new Element("variable").setText(node.getLabel()	+ "_dot"));
 				String expression = new String();
 				for (JdFigure fig : incomingFigs) {
 					// incoming auxs are added to the stock's _dot

@@ -9,13 +9,13 @@ import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -46,6 +46,7 @@ public class GraphTab extends JPanel implements ChangeListener, ActionListener {
 	private SimquestModel sqModel;
 	private final ResourceBundleWrapper bundle;
 	private JComboBox xAxisSelector;
+	private LinkedList<Curve> curves;
 
 	public GraphTab(ModelEditor editor, ResourceBundleWrapper bundle) {
 		super();
@@ -62,8 +63,11 @@ public class GraphTab extends JPanel implements ChangeListener, ActionListener {
 				bundle, false), BorderLayout.NORTH);
 		westPanel.add(simulationPanel = new SimulationSettingsPanel(editor,
 				this), BorderLayout.CENTER);
-		this.add(westPanel, BorderLayout.WEST);
-		this.add(createGraph(), BorderLayout.CENTER);
+		JScrollPane scroller = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scroller.setViewportView(westPanel);
+		this.add(scroller, BorderLayout.WEST);
+		this.add(createGraphPanel(), BorderLayout.CENTER);
+		clearGraph();
 	}
 
 	public void updateXAxisSelector() {
@@ -73,30 +77,43 @@ public class GraphTab extends JPanel implements ChangeListener, ActionListener {
 			xAxisSelector.addItem(varName);
 		}
 	}
-
-	private JPanel createGraph() {
-		graphPanel = new JPanel();
-		graphPanel.setLayout(new BorderLayout());
-		graphPanel.setBorder(BorderFactory.createTitledBorder(bundle
-				.getString("PANEL_GRAPH")));
+	
+	private void prepareGraph() {
 		dataServer = new DataServer();
-		// new ScreenOutputDataClient(dataServer);
-		graph = new GraphWidget();
-		graph.setBasics(true, true);
 		iface = new Interface(dataServer);
 		iface.addWidget(graph);
 		graph.setInterface(iface);
+	}
+	
+	private void clearGraph() {
+		curves = new LinkedList<Curve>();
+		graphPanel.remove(graph.getComponent());
+		graph = new GraphWidget();
+		graph.setBasics(true, true);
 		graphPanel.add(graph.getComponent(), BorderLayout.CENTER);
-
+		graphPanel.updateUI();
+	}
+	
+	private JPanel createGraphPanel() {
+		graphPanel = new JPanel();
+		graphPanel.setLayout(new BorderLayout());
+		graphPanel.setBorder(BorderFactory.createTitledBorder(bundle.getString("PANEL_GRAPH")));
+		curves = new LinkedList<Curve>();
+		graph = new GraphWidget();
+		graph.setBasics(true, true);
+		graphPanel.add(graph.getComponent(), BorderLayout.CENTER);
 		JPanel axisPanel = new JPanel();
 		FlowLayout flow = new FlowLayout();
 		flow.setAlignment(FlowLayout.RIGHT);
 		axisPanel.setLayout(flow);
+		JButton button = new JButton("clear graph");
+		button.setActionCommand("clear");
+		button.addActionListener(this);
+		axisPanel.add(button);
 		xAxisSelector = new JComboBox();
 		updateXAxisSelector();
 		axisPanel.add(xAxisSelector);
 		graphPanel.add(axisPanel, BorderLayout.SOUTH);
-
 		return graphPanel;
 	}
 
@@ -110,8 +127,11 @@ public class GraphTab extends JPanel implements ChangeListener, ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("run")) {
+		if (e.getActionCommand().equals("clear")) {
+			this.clearGraph();
+		} else if (e.getActionCommand().equals("run")) {
 			editor.checkModel();
+			// can the model be parsed?
 			if (editor.getModelCheckMessages().size() > 0) {
 				String messages = new String(
 						bundle.getString("PANEL_CANNOTEXECUTE") + "\n");
@@ -121,6 +141,14 @@ public class GraphTab extends JPanel implements ChangeListener, ActionListener {
 				JOptionPane.showMessageDialog(null, messages);
 				return;
 			}
+			// can the variable values be parsed?
+			try {
+				variablePanel.getValues();
+			} catch (NumberFormatException ex) {
+				JOptionPane.showMessageDialog(null,"The variable values cannot be parsed correctly.\n Please check and try again.");
+				return;
+			}
+			// can the simulation settings be parsed?
 			try {
 				injectSimulationSettings();
 			} catch (NumberFormatException ex) {
@@ -129,70 +157,41 @@ public class GraphTab extends JPanel implements ChangeListener, ActionListener {
 				return;
 			}
 
-			graphPanel.remove(graph.getComponent());
-			iface.removeWidget(graph);
-			graph = new GraphWidget();
-			graph.setBasics(true, true);
-			iface.addWidget(graph);
-			graph.setInterface(iface);
-			graphPanel.add(graph.getComponent(), BorderLayout.CENTER);
-			graphPanel.updateUI();
-
+			prepareGraph();
+			
 			// create the SimQuest model from the CoLab model
-			sqModel = new SimquestModel(editor.getModel());
+			sqModel = new SimquestModel(editor.getModel(), variablePanel.getValues());
 			sqv.Model model = new sqv.Model(sqModel, dataServer);
 
-			// adding the curves
-			// the old way
-			// List<ModelVariable> variables = model.getVariables();
-			// VariableRef timeRef = null;
-			// List<String> selectedIDs = new LinkedList<String>();
-			// for (ModelVariable var : variables) {
-			// // getting a reference to the time variable
-			// if (var.getKind() == ModelVariable.VK_TIME) {
-			// timeRef = new VariableRef(var);
-			// }
-			// }
-			// List<Curve> curves = new LinkedList<Curve>();
-			// for (int i = 0; i < variables.size(); i++) {
-			// // if the variable is one of the selected ones
-			// if
-			// (variablePanel.getSelectedVariables().contains(variables.get(i).getName()))
-			// {
-			// curves.add(new Curve(i, timeRef, new
-			// VariableRef(variables.get(i)),
-			// editor.getModel().getNodes().get(variables.get(i).getName()).getLabelColor(),
-			// (float) 1.5, variables.get(i).getName()));
-			// }
-			// }
-
-			// and the new way
-
+			//fade out existing curves
+			for (Curve curve: curves) {
+				curve.setColor(curve.getColor().brighter());
+				curve.setLineWidth(1);
+			}
+			
+			// adding the new curves
 			// get the x-axis-variable
-			//List<ModelVariable> variables = model.getVariables();
+			// List<ModelVariable> variables = model.getVariables();
 			VariableRef xAxisVariable = null;
 			for (ModelVariable var : model.getVariables()) {
 				if (var.getName().equals(
-					xAxisSelector.getSelectedItem().toString())) {
+						xAxisSelector.getSelectedItem().toString())) {
 					xAxisVariable = new VariableRef(var);
 					break;
 				}
 			}
-			List<Curve> curves = new LinkedList<Curve>();
-			int count = 0;
 			for (ModelVariable var : model.getVariables()) {
 				// if the variable is one of the selected ones
-				if (variablePanel.getSelectedVariables()
-						.contains(var.getName())) {
-					curves.add(new Curve(count++, xAxisVariable, new VariableRef(
-							var), editor.getModel().getNodes()
-							.get(var.getName()).getLabelColor(),
-							(float) 1.5, var.getName()));
+				if (variablePanel.getSelectedVariables().contains(var.getName())) {
+					curves.add(new Curve(curves.size(), xAxisVariable, new VariableRef(var),
+								editor.getModel().getNodes().get(var.getName()).getLabelColor(),
+							(float) 2, null));
 				}
 			}
 
 			graph.setCurvesList(curves);
 			graph.update();
+			graphPanel.updateUI();
 
 			// need the variableIdList for logging
 			String variableIdList = new String();
