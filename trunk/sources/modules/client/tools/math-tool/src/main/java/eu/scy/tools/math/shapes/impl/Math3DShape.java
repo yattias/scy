@@ -76,7 +76,7 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 		labelPanel.add(surfaceAreaLabel);
 		labelPanel.add(getSurfaceAreaTextField(),"wrap");
 		
-		ratioLabel = new JXLabel("Ratio = ");
+		ratioLabel = new JXLabel("SA/V Ratio = ");
 		
 		
 		setRatioTextField(new JXTextField());
