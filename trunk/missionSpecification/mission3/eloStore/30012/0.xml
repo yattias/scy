@@ -1,0 +1,62 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>Caspar</entity>
+        <date>
+          <dateTime>2011-01-19T16:17:49.953+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1295450269953</dateCreated>
+        <dateLastModified>1295450269953</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>argument</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30012/0/Notes+On+Unhealthy+Diet.rtf</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">Notes On Unhealthy Diet</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAAiCAYAAADI+15nAAABlklEQVR42u2VvUrDYBSGv8kLcBEHoZfgDXgJuorXIS5OnUSRONvFyc2puBgzxh+kiG2HukTMEBtotaFBgpSaoyeQ0CRf0mJN2+F94aFJT95y8kATUalUaJL4vg8kCBbY6/Wo0+lI4RmHr5PB88FgICWrMw+ydpyWiQXyp4ysmed5mZ15wPsUQUpg69kix/mWCnwwPCqfNKmsNILj0dnm4S29u1/Rwq7rRp0k4TWznPE+RRAT+Nh0aDgkKm3Xaf+8nxJ4eWfy05A++j4trx7FZlvH99SwhqTrenDuOE7USRLebHguhMic5fVGu+N6vE8RxAS+/crbvfBpaeOFVtZvUgLPqjXa2atT7emV1kpxgYqikKqqpGlacN7tdqMOwzcaHoc3m/w+OcvrjZslf5P3KYKYQE67/UlX1y3pX/jgtBoj7xlo27a0E/ZmPeN9iuBfXiKyWJa1UC8R3qcIIoF5cEzTBBKEYRgE/o4gZKpAIARCIARCIAKBEAiBEIhAIARCIAQiEAiBEAiBCARCIARCIAKBELjg+QGeLB6wZKqgkwAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\f1\fs24\i0\b0\cf1\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>
