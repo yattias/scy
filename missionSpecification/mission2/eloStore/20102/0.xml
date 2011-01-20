@@ -50,16 +50,16 @@
   <dataset>
     <header language="en">
       <column>
-        <symbol>data 1</symbol>
+        <symbol>biomass</symbol>
         <description />
         <type>double</type>
-        <unit>unit</unit>
+        <unit>cells/l</unit>
       </column>
       <column>
-        <symbol>data 2</symbol>
+        <symbol>substance</symbol>
         <description />
         <type>double</type>
-        <unit>unit</unit>
+        <unit>μmol/l</unit>
       </column>
     </header>
     <row>
