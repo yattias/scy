@@ -3,14 +3,26 @@
 		   xmlns:s="library://ns.adobe.com/flex/spark" 
 		   xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:containers="com.dougmccune.containers.*">
 	
+	<fx:Declarations>
+		<s:HTTPService id="portfolioPostService" 
+					   method="POST"
+					   showBusyCursor="true" 
+					   result="portfolioPostService_resultHandler(event)" 
+					   fault="portfolioPostService_faultHandler(event)"
+					   resultFormat="e4x"/>
+	</fx:Declarations>
+	
 	<fx:Script>
 		<![CDATA[
 			import listeners.ToggleEvent;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
 			import mx.events.CloseEvent;
 			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
 			
 			import utils.XMLUtilJer;
 			
@@ -25,6 +37,7 @@
 			[Bindable] private var ref3Txt:String = "";
 			
 			private var so:SharedObject;
+			private var saveportfolio:String;
 
 			protected function clickHandler(dir:String, stack:Number):void {
 				var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
@@ -33,7 +46,9 @@
 				dispatchEvent(tEvent);
 			}
 			
-			public function refreshView():void {
+			public function refreshView(saveportfolio:String):void {
+				this.saveportfolio = saveportfolio;
+				
 				coverflow.removeAll();
 				
 				elosArray = new ArrayCollection();
@@ -92,8 +107,14 @@
 				xmlPortfolio.reflectioneffort = <reflectioneffort>{refOnInqTextSlider.value}</reflectioneffort>;
 				so.data.retrievedElosFromRoolo = xmlPortfolio;
 				so.flush();
-				trace(xmlPortfolio);
-				Alert.show(resourceManager.getString('resources', 'ALERT_SUBMIT_TEXT'), resourceManager.getString('resources', 'ALERT_SUBMIT_TITLE'), Alert.OK, null, alertListener);
+				
+				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+					Alert.show(resourceManager.getString('resources', 'ALERT_SUBMIT_TEXT'), resourceManager.getString('resources', 'ALERT_SUBMIT_TITLE'), Alert.OK, null, alertListener);
+				}
+				else {
+					portfolioPostService.url = saveportfolio+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23")+"&xmlContent="+encodeURI(xmlPortfolio);
+					portfolioPostService.send();					
+				}
 			}
 			
 			private function alertListener(event:CloseEvent):void {
@@ -164,6 +185,18 @@
 					sendButtonEnabled = false;
 				}
 			}
+
+			protected function portfolioPostService_faultHandler(event:FaultEvent):void
+			{
+				// TODO Auto-generated method stub
+			}
+
+
+			protected function portfolioPostService_resultHandler(event:ResultEvent):void
+			{
+				// TODO Auto-generated method stub
+			}
+
 		]]>
 	</fx:Script>
 	

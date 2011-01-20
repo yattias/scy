@@ -5,7 +5,7 @@
         <catname><![CDATA[House data]]></catname>
         <thumbnail><![CDATA[assets/images/thumbs/thumb2.jpg]]></thumbnail>
         <fullsize><![CDATA[assets/images/thumbs/thumb2.jpg]]></fullsize>
-        <myname><![CDATA[My_first_ideas_test]]></myname>
+        <customname><![CDATA[My_first_ideas_test]]></customname>
         <modified><![CDATA[10.02.2010 10:00]]></modified>
     </elo>
     <elo uri="www">
@@ -13,7 +13,7 @@
         <catname><![CDATA[House data]]></catname>
         <thumbnail><![CDATA[assets/images/thumbs/thumb3.jpg]]></thumbnail>
         <fullsize><![CDATA[assets/images/thumbs/thumb3.jpg]]></fullsize>
-        <myname><![CDATA[Concept map CO2]]></myname>
+        <customname><![CDATA[Concept map CO2]]></customname>
         <modified><![CDATA[14.02.2010 12:00]]></modified>
     </elo>
     <elo uri="xxx">
@@ -21,7 +21,7 @@
         <catname><![CDATA[1st ideas of my design group]]></catname>
         <thumbnail><![CDATA[assets/images/thumbs/thumb1.jpg]]></thumbnail>
         <fullsize><![CDATA[assets/images/thumbs/thumb1.jpg]]></fullsize>
-        <myname><![CDATA[1st ideas of my design group]]></myname>
+        <customname><![CDATA[1st ideas of my design group]]></customname>
         <modified><![CDATA[16.02.2010 14:00]]></modified>
     </elo>
     <elo uri="yyy">
@@ -29,7 +29,7 @@
         <catname><![CDATA[1st ideas of my design group]]></catname>
         <thumbnail><![CDATA[assets/images/thumbs/thumb2.jpg]]></thumbnail>
         <fullsize><![CDATA[assets/images/thumbs/thumb2.jpg]]></fullsize>
-        <myname><![CDATA[My_first_ideas_test]]></myname>
+        <customname><![CDATA[My_first_ideas_test]]></customname>
         <modified><![CDATA[10.02.2010 10:00]]></modified>
     </elo>
     <elo uri="zzz">
@@ -37,7 +37,7 @@
         <catname><![CDATA[1st ideas of my design group]]></catname>
         <thumbnail><![CDATA[assets/images/thumbs/thumb3.jpg]]></thumbnail>
         <fullsize><![CDATA[assets/images/thumbs/thumb3.jpg]]></fullsize>
-        <myname><![CDATA[Concept map CO2]]></myname>
+        <customname><![CDATA[Concept map CO2]]></customname>
         <modified><![CDATA[14.02.2010 12:00]]></modified>
     </elo>
 </elosearch>

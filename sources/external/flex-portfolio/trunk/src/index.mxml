@@ -28,7 +28,7 @@
 							(mainStack.selectedChild as submitCanvas).refreshView();
 						break;
 						case STACK_SENDING_PANEL:
-							(mainStack.selectedChild as sendingCanvas).refreshView();
+							(mainStack.selectedChild as sendingCanvas).refreshView(new String(toolURLProvider.saveportfolio));
 						break;
 					}
 				]]>
