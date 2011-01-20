@@ -108,17 +108,19 @@
 				so.data.retrievedElosFromRoolo = xmlPortfolio;
 				so.flush();
 				
-				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
-					Alert.show(resourceManager.getString('resources', 'ALERT_SUBMIT_TEXT'), resourceManager.getString('resources', 'ALERT_SUBMIT_TITLE'), Alert.OK, null, alertListener);
-				}
-				else {
-					portfolioPostService.url = saveportfolio+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23")+"&xmlContent="+encodeURI(xmlPortfolio);
-					portfolioPostService.send();					
-				}
+				Alert.show(resourceManager.getString('resources', 'ALERT_SUBMIT_TEXT'), resourceManager.getString('resources', 'ALERT_SUBMIT_TITLE'), Alert.OK, null, alertListener);
 			}
 			
 			private function alertListener(event:CloseEvent):void {
 				if(event.detail == Alert.OK) {
+					if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+						Alert.show("Local version, nothing submitted, but the idea is there ...", "Portfolio submission");
+					}
+					else {
+						portfolioPostService.url = saveportfolio+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23")+"&xmlContent="+encodeURI(xmlPortfolio);
+						portfolioPostService.send();					
+					}
+					
 					var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
 					tEvent.direction = index.LEFT_DIRECTION;
 					tEvent.selecTarget = index.STACK_INTRO_PANEL;
@@ -188,13 +190,13 @@
 
 			protected function portfolioPostService_faultHandler(event:FaultEvent):void
 			{
-				// TODO Auto-generated method stub
+				trace(event);
 			}
 
 
 			protected function portfolioPostService_resultHandler(event:ResultEvent):void
 			{
-				// TODO Auto-generated method stub
+				trace(event);
 			}
 
 		]]>
