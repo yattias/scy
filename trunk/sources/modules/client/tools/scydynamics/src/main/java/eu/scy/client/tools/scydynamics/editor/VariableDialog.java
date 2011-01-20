@@ -235,11 +235,8 @@ public class VariableDialog extends javax.swing.JDialog implements
             props.put("label", newName);
             props.put("expr", express);
             props.put("unit", unit);
-            // test
-            //props.put("exprType",Integer.valueOf(JdNode.EXPR_QUALITATIVE));
-            //props.put("relType",1);
-            Vector<JdLink> links = editor.getModel().getLinks();
-            
+            // testing qualitative relations
+            /*Vector<JdLink> links = editor.getModel().getLinks();
 			for (JdLink link : links) {
 				try {
 			        if (link.getFigure2().getProperties().get("label").equals(this.label)) {
@@ -249,10 +246,10 @@ public class VariableDialog extends javax.swing.JDialog implements
 			            }
 			        } 
 			    } catch (Exception e) {}
-			}
-			
+			}*/
             // end test
-            editor.setFigureProperties(oldName, props);
+            
+			editor.setFigureProperties(oldName, props);
 
             if (!newColor.equals(editor.getModel().getObjectOfName((String) figure.getProperties().get("label")).getLabelColor()) || !oldName.equals(newName) || !oldExpr.equals(valueField.getText()) || !oldUnit.equals(unitsBox.getSelectedItem())) {
                 // name, expression, unit or color has changed, send a change-specification-logevent
