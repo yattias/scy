@@ -1,0 +1,80 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>Caspar</entity>
+        <date>
+          <dateTime>2011-01-20T17:14:21.906+0100</dateTime>
+        </date>
+      </contribute>
+      <version>2</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1295539978062</dateCreated>
+        <dateLastModified>1295540061906</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>argument</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30022/0/Personal+Comments.rtf</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">Personal Comments</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABHCAYAAACQwsCOAAAEQElEQVR42u2bS0hcZxTHZ2MRQXSnO8FNXBTdidm4dqMIQtBSIZuiAU1gCFEGhUIFDcYiShlQGmoKvggoBOMjBIW2SCuKm86MUUml+KiI1he+e5L/B+fjzp2ZatTADPz/cPge93z3u/O7c++ce+43ntPTU9ne3o6wi4sL2hXMA4Cbm5sRtrS0FAF1Z2fHWn9/v+zv70eF77ShoaFLfXp7eyP6jo6OEsIswAc/bX0sz8IA/hLYlX92/pMvyybsB5v7+1zGfn8vAwMDBiB8Hn/bbkr10b6+N0EDEO1Xvy5H+KgB4OHhoW2XVX0ne3t7CWEW4B9rJ3Lnm3+l/XnIAvz59bwE363K3fu/2Q8+OTkpExMTFiB8nnYNmVJ9kpK+MO3vX7w1AFEvLCwM80H9SZPflAoQ9Xv3HxqAW1tbCWEW4A8v/5KnPwbCvoFfPXpmzX2JKcBoPtqu9D4zAL/2tsX0gQHgn6Fl237ga5e1tbWEME+sH5GVlRXaFcwTCoWEdn3zCHUjEeBtAezr6zPl/Pz8lQbu7u6GtWdmZuT8/PzWDgz3l1haXFwMa4+MjMTPN7C+vl4yMzOlqqpK3HBbWlokKytL/H6/BINB0zc6Oio5OTmSkpJiAkunZmdnpaCgQMrLy23f8fGxKTG+qKhIKioqTB1hDNTU1GTmT09Pt2OGh4dNmZqaKsnJyWZ+CGN1fhwvtnV2dppt1dXVZu7p6Wm7Hxw/fHp6emzf2NiYGY8+5/FHGw9lZGRc/RJ2TkRd8g3EWcVZb25uNmeisrJS8vPz5eTkhJT4I0KABEiAFAESYDwDRID5f0IAHU3FxcU3Poi8vDypqalJXIBtbW3mCQQ2NTUl6+vrkpuba59MGhsbzdNBXV2d7UMyEU8S2dnZMXe+uroa1kZUjziztLTU7EP3pU8SvIR5D6QIkAAJkACpTwSIMAI6OzuzGzSJ+rnk8/nMq1G3EEapkNCMJiQ74wogAlm3BgcHI+oItpEz7O7uNmPQ1gBcy9bW1rCgHC/UMX5jY0MaGhpsP7LQJSUlNhB3jtc5MRbm3lZbW2v6xsfHeQnzHkiAFAESIAESIJSWlha2MVYcdh0584nXyf0hnRa3AJHbcwfSEF6sI38XCASko6PD1GFQV1eXDYTRhzf8biEfqC/nMR6LMyG3r+4Tgo+zrTlFjOclzHsgRYAESIAESDkALiwsmL81OIWFjPpaU3VwcGBDHYQZGvoglPF6vabuTGPpokr46gJJvBbF0rm5uTnrpwskVe4FjQhjNIxCiIP5NR/oDKOwT2cYhj4NgXR+DY8QRkULw5AuQ90ZMmnoBtNjg6/u61a/gc5Vpbcp/K0s7i9hJC6RqIR0/bP7SQRnHv8rga8u8XWeLWzH2dHx8ZQ55j2QAAmQIkACJEACpAiQAAmQACkCJEACJECKAAmQAAmQACkCJEACJEDqWgCpm+kDxo4vo24z3e4AAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Arial;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+\margl1417\margr1417\margt1417\margb1417\widowctrl
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0\par
+I. Diet-related health problems such as obesity, diabetes and cardiovascular diseases are a major threat to our society.\par
+\par
+\par
+\par
+II. Eating healthy is entirely your own responsibility.\par
+\par
+\par
+\par
+III. Soft drinks (such as coke or lemonade) fit well in a healthy diet.\par
+\par
+\par
+\par
+IV. School canteens should not sell fast food products at all.\par
+\par
+\par
+\par
+V. Fast food restaurants (such as McDonalds) should provide customers with more information about the nutritional value of their products.\par
+\li0\ri0\fi0\f1\ul0\cf1\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>
