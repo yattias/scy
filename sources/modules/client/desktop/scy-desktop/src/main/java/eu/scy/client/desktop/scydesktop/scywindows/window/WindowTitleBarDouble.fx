@@ -25,6 +25,9 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Circle;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.FxdEloIcon;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
+import eu.scy.client.desktop.scydesktop.art.ArtSource;
+import eu.scy.client.desktop.scydesktop.art.EloImageInformation;
+import eu.scy.client.desktop.scydesktop.art.FxdImageLoader;
 
 /**
  * @author SikkenJ
@@ -145,7 +148,7 @@ public class WindowTitleBarDouble extends WindowElement {
                layoutY:-1
                blocksMouse:startDragIcon!=null
                cursor: if(startDragIcon!=null) Cursor.HAND else null
-               content:eloIcon
+               content: eloIcon
                onMousePressed:function(e: MouseEvent ):Void{
                   startDragIcon(e);
                }
@@ -265,6 +268,26 @@ public class WindowTitleBarDouble extends WindowElement {
 
 var imageLoader = ImageLoader.getImageLoader();
 
+function loadEloIcon(type: String): EloIcon {
+   def windowColorScheme = WindowColorScheme {
+         mainColor: Color.web("#0042f1")
+         backgroundColor: Color.web("#f0f8db")
+         titleStartGradientColor: Color.web("#4080f8")
+         titleEndGradientColor: Color.WHITE
+         emptyBackgroundColor: Color.WHITE
+      }
+   def imageLoader = FxdImageLoader {
+         sourceName: ArtSource.plainIconsPackage
+         returnDuplicates:true
+      };
+   var name = EloImageInformation.getIconName(type);
+//   println("name: {name}");
+   FxdEloIcon {
+      visible: true
+      fxdNode: imageLoader.getNode(name)
+      windowColorScheme: windowColorScheme
+   }
+}
 
 function run(){
    var windowColorScheme = WindowColorScheme{
@@ -358,7 +381,7 @@ function run(){
                   translateY: 70;
                }
                WindowTitleBarDouble {
-                  eloIcon: eloIcon3
+                  eloIcon: loadEloIcon("scy/mapping")
                   windowColorScheme: windowColorScheme
                   title:"3: rorated by 15"
                   activated: false
@@ -367,7 +390,7 @@ function run(){
                   rotate:15
                }
                WindowTitleBarDouble {
-                  eloIcon: eloIcon4
+                  eloIcon: loadEloIcon("scy/mapping")
                   windowColorScheme: windowColorScheme
                   activated: false
                   title:"4: rotated by -15"

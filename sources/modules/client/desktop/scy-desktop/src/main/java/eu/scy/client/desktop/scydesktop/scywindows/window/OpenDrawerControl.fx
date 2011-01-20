@@ -38,9 +38,10 @@ public class OpenDrawerControl extends WindowActiveElement {
          cursor: Cursor.HAND
          content: [
             Rectangle {
-               x: 0, y: -borderWidth/2
-               width: mainSeparation+mainRadius-borderWidth/2, height: size+borderWidth
+               x: borderWidth/2, y: -borderWidth/2
+               width: mainSeparation+mainRadius-borderWidth, height: size+borderWidth
                fill: transparentColor
+//               fill: windowColorScheme.backgroundColor
             }
 
             Arc {

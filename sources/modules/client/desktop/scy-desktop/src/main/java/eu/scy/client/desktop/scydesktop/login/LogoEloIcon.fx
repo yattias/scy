@@ -45,4 +45,13 @@ public class LogoEloIcon extends EloIcon {
       }
    }
 
+   public override function clone(): EloIcon {
+      LogoEloIcon {
+         color: color
+         selected:selected
+         size:size
+      }
+   }
+
+
 }

@@ -14,10 +14,13 @@ import javafx.scene.Node;
  * @author sikken
  */
 // place your code here
+
+public def defaultEloIconSize = 40.0;
+
 public abstract class EloIcon extends CustomNode {
 
    public var selected: Boolean = false;
-   public var size = 40.0;
+   public var size = defaultEloIconSize;
    public def borderSize = 2.0;
    public def cornerRadius = 7;
 
