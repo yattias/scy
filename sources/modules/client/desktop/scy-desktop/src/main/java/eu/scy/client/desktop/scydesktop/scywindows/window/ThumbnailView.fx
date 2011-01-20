@@ -25,11 +25,14 @@ import javafx.ext.swing.SwingUtils;
 /**
  * @author SikkenJ
  */
+
+public def eloIconOffset = 10.0;
+
 public class ThumbnailView extends WindowElement {
 
    public var scyElo: ScyElo on replace { newScyElo() };
    public var eloIcon:EloIcon on replace oldEloIcon {eloIconChanged(oldEloIcon)};
-   def eloIconOffset = 10.0;
+//   def eloIconOffset = 10.0;
    def thumbnailBorder = 2.0;
    def eloIconSize = EloIcon.defaultEloIconSize;
    def thumbnailView = ImageView {

@@ -44,12 +44,11 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.WindowContent;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowMinimize;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowResize;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowRotate;
-import eu.scy.client.desktop.scydesktop.scywindows.window.WindowTitleBar;
-import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import javafx.scene.layout.Container;
 import javafx.scene.CacheHint;
+import eu.scy.client.desktop.scydesktop.art.ArtSource;
 
 /**
  * @author sikkenj
@@ -1050,6 +1049,19 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
                activated: bind activated
                activate: activate;
                title: bind title
+            }
+            ClosedWindowResize {
+               //                  visible: bind allowResize or isClosed;
+               size: controlSize;
+               borderWidth: borderWidth;
+               separatorLength: separatorLength
+               windowColorScheme: windowColorScheme
+               activate: activate;
+               startResize:startResize;
+               doResize:doResize;
+               stopResize:stopResize;
+               layoutX: ArtSource.thumbnailWidth + ThumbnailView.eloIconOffset
+               layoutY: ArtSource.thumbnailWidth
             }
          ]
       }
