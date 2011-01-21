@@ -67,6 +67,7 @@ public class ModalDialogBox extends CustomNode {
    public function place(): Void {
       ModalDialogLayer.addModalDialog(this);
       FX.deferAction(function(): Void {
+         dialogWindow.layoutY = scene.height;
          center();
          dialogWindow.visible = true;
       });
