@@ -86,8 +86,8 @@ public class SaveELO {
      */
     @POST
     @Consumes("application/json")
-    @Produces("text/plain")
-    public String saveELO(JSONObject jsonData) {
+    @Produces("application/json")
+    public JSONObject saveELO(JSONObject jsonData) {
         initMetadataKeys();
 
         String content = null;
@@ -140,6 +140,7 @@ public class SaveELO {
                     log.info("Saved ELO with uri: " + uri);
                     logSavedELOAction(username, uri, "elo_save",type);
                 }
+                return new JSONObject(uri);
             } else {
                 log.error("authentication of user " + username + " failed.");
             }
@@ -152,10 +153,8 @@ public class SaveELO {
         } catch (Exception ex) {
             //uncaught Exceptions, for example from Spring
             log.error(ex);
-        } finally {
-            //uri is null if the whole thing isnt working
-            return uri;
         }
+        return new JSONObject();
     }
 
     private void initMetadataKeys() {
