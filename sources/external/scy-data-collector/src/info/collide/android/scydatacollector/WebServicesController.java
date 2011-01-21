@@ -8,16 +8,18 @@ import java.util.ArrayList;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpVersion;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.CoreProtocolPNames;
+import org.apache.http.params.HttpParams;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.os.Handler;
-import android.os.Message;
 import android.widget.Toast;
 
 public class WebServicesController {
@@ -35,29 +37,6 @@ public class WebServicesController {
     protected static final int GUIUPDATEIDENTIFIER = 99822832;
 
     ProgressDialog mypd;
-
-    // Set up the message handler
-    Handler myGUIUpdateHandler = new Handler() {
-
-        // @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case GUIUPDATEIDENTIFIER:
-                    invalidate();
-                    break;
-                default:
-                    break;
-            }
-
-            super.handleMessage(msg);
-        }
-
-        private void invalidate() {
-            if (mypd != null)
-                mypd.dismiss();
-
-        }
-    };
 
     public WebServicesController(Activity activity) {
         this.activity = activity;
@@ -89,38 +68,20 @@ public class WebServicesController {
         return sb.toString();
     }
 
-    public void postFormJSON(final DataCollectorFormModel form) {
-        mypd = ProgressDialog.show(activity, activity.getResources().getString(R.string.msgSaveToRepository), activity.getResources().getString(R.string.msgPleaseWait), false);
+    public void postFormJSON(final DataCollectorFormModel form) throws Exception {
+        JSONObject jsonobj = new JSONObject();
+        // TODO ENCODING
+        jsonobj.put("content", form.toXML());
+        jsonobj.put("username", config.getGroupname());
+        jsonobj.put("password", config.getPassword());
+        jsonobj.put("language", "de");
+        jsonobj.put("country", "de");
+        jsonobj.put("title", form.getTitle());
+        jsonobj.put("description", form.getDescription());
+        jsonobj.put("type", "scy/form");
 
-        Thread t = new Thread() {
-
-            public void run() {
-                try {
-                    JSONObject jsonobj = new JSONObject();
-                    // TODO ENCODING
-                    jsonobj.put("content", form.toXML());
-                    jsonobj.put("username", config.getGroupname());
-                    jsonobj.put("password", config.getPassword());
-                    jsonobj.put("language", "de");
-                    jsonobj.put("country", "de");
-                    jsonobj.put("title", form.getTitle());
-                    jsonobj.put("description", form.getDescription());
-                    jsonobj.put("type", "scy/form");
-
-                    String mUrl = config.getServerUrl() + saveElo;
-                    makeRequestTextResult(mUrl, jsonobj);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                Message message = new Message();
-                message.what = GUIUPDATEIDENTIFIER;
-                myGUIUpdateHandler.sendMessage(message);
-            }
-        };
-
-        t.start();
+        String mUrl = config.getServerUrl() + saveElo;
+        makeRequestTextResult(mUrl, jsonobj);
     }
 
     public ArrayList<DataFormPreviewModel> getEloForms(String ownForms) throws Exception {
@@ -188,7 +149,9 @@ public class WebServicesController {
     }
 
     private HttpEntity doRequest(String path, HttpEntity requestEntity, String acceptHeader, String contentHeader) throws Exception {
-        DefaultHttpClient httpclient = new DefaultHttpClient();
+        HttpParams params = new BasicHttpParams();
+        params.setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
+        DefaultHttpClient httpclient = new DefaultHttpClient(params);
         HttpPost httpost = new HttpPost(path);
         httpost.setEntity(requestEntity);
         httpost.setHeader("Accept", acceptHeader);
