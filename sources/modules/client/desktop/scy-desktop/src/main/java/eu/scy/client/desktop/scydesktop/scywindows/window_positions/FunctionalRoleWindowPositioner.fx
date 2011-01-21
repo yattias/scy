@@ -285,7 +285,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         positionWindowsInArea(incomingWindows, incomingArea, 1);
         positionWindowsInArea(centerWindows, centerArea, 3);
         positionWindowsInArea(outgoingWindows, outgoingArea, 1);
-        positionWindowsInArea(otherWindows, otherArea, 3);
+        positionWindowsInArea(otherWindows, otherArea, sizeof otherWindows);
         
         // only for debug purpose
         if (debug and not debugAreasAdded) {
@@ -297,14 +297,15 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
     }
 
     function positionWindowsInArea(windowList:ScyWindow[], area:Rectangle, maxColumns:Integer) {
-        var padding = 60;
+        var topOffset = 60;
+        var padding = 100;
         // positioning incoming
         var numberOfWindows = sizeof windowList;
         var columns = maxColumns;
         if (numberOfWindows < columns) {
             columns = numberOfWindows;
         }
-        var row = 1;
+        var row = 0;
         var column = 1;
         def shift = area.width / (columns + 1);
         for (window in windowList) {
@@ -313,7 +314,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
             } else if (window.layoutX == 0 and window.layoutY == 0 and window.relativeLayoutCenterX == 0 and window.relativeLayoutCenterY == 0) {
                 
                 window.layoutX = area.layoutX + (column * shift) - (window.width / 2);
-                window.layoutY = area.layoutY + (row * padding) - 50;
+                window.layoutY = area.layoutY + topOffset + (row * padding);
 
                 window.relativeLayoutCenterX = (window.layoutX + window.width / 2) / desktopWidth;
                 window.relativeLayoutCenterY = (window.layoutY + window.height / 2) / desktopHeight;
@@ -418,9 +419,9 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         outgoingArea.height = desktopHeight - (2 * offset);
 
         otherArea.layoutX = centerArea.layoutX;
-        otherArea.layoutY = centerArea.layoutY + 0.9 * centerArea.height;
-        otherArea.width = centerArea.width;
-        otherArea.height = 0.2 * centerArea.height;
+        otherArea.layoutY = centerArea.layoutY + 0.80 * centerArea.height;
+        otherArea.width = desktopWidth - (2 * offset);
+        otherArea.height = 0.3 * centerArea.height;
     }
 
     function resetLayout() {
