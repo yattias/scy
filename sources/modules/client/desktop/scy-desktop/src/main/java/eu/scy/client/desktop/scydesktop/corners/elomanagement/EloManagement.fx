@@ -269,6 +269,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
    }
 
    function createModalDialog(windowColorScheme: WindowColorScheme, eloIcon: EloIcon, title: String, modalDialogNode: ModalDialogNode): Void {
+      eloIcon.selected = true;
       Composer.localizeDesign(modalDialogNode.getContentNodes());
       modalDialogNode.modalDialogBox = ModalDialogBox {
             //            content: EmptyBorderNode {

@@ -32,7 +32,7 @@ public enum EloImageInformation
    video("scy/video","info",ScyColors.magenta),
    xproc("scy/xproc","exp_design",ScyColors.orange),
    assignment("special/assignment","assignment",ScyColors.brown),
-   generalNew("general/new","new",ScyColors.darkRed),
+   generalNew("general/new","new",ScyColors.darkBlue),
    generalSearch("general/search","search",ScyColors.darkBlue),
    generalNavigation("general/navigation","search",ScyColors.darkBlue),
    generalLogo("general/logo","logo_gray",ScyColors.darkGray),
