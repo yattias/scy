@@ -408,7 +408,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
              content: [scyFeedbackGetButton, scyFeedbackGiveButton]
          }
 
-      if (not initializer.offlineMode) {
+     // if (not initializer.offlineMode) {
          topRightCorner = TopRightCorner {
                content: HBox {
                   content: [feedbackButtons, eportfolioButton]
@@ -416,7 +416,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                };
                effect: cornerToolEffect
             }
-      }
+      //}
 
 //      var SPTButton = MultiImageButton {
 //            imageName: "planning"
