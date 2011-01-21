@@ -13,13 +13,44 @@ import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
+import javafx.animation.Interpolator;
 
 /**
  * @author sikkenj
  */
 public class TopRightCorner extends Corner {
 
+    var fadeIn: Timeline = Timeline {
+          keyFrames: [
+              KeyFrame {
+                  time: 300ms
+                  values: [opacity => 1.0 tween Interpolator.EASEIN]
+              }
+          ]
+      }
+      
+      var delayer: Timeline = Timeline {
+          keyFrames: [
+              KeyFrame {
+                  time: 1s
+                  action: function() { fadeOut.playFromStart(); }
+              }
+          ]
+      }
+
+      var fadeOut: Timeline = Timeline {
+          keyFrames: [
+              KeyFrame {
+                  time: 300ms
+                  values: [opacity => 0.3 tween Interpolator.EASEOUT]
+              }
+          ]
+      }
+
    init {
+      opacity = 0.3;
       border.content = [
             Line {
                startX: 0, startY: 0
@@ -68,6 +99,19 @@ public class TopRightCorner extends Corner {
                fill: bind backgroundColor;
             }
          ];
+      content.onMouseEntered = function(e) {
+          if (delayer.running) {
+              delayer.stop();
+          } else if (fadeOut.running) {
+              fadeOut.stop();
+              fadeIn.playFromStart();
+          } else {
+            fadeIn.playFromStart();
+          }
+      }
+      content.onMouseExited = function(e) {
+          delayer.playFromStart();
+      }
    }
 
    protected override function resizeContent() {
