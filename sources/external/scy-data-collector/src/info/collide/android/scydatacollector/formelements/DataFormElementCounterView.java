@@ -38,7 +38,7 @@ public class DataFormElementCounterView extends DataFormElementView {
         ImageButton buttonDec = (ImageButton) findViewById(R.id.counterformelement_decrease);
         buttonDec.setMinimumWidth(Column4width);
 
-        buttonDetails = new ImageButton(application);
+        buttonDetails = (ImageButton) findViewById(R.id.counterformelement_show_details);
         buttonDetails.setMinimumWidth(Column5width);
         
         buttonDetails.setOnClickListener(new OnClickListener() {
