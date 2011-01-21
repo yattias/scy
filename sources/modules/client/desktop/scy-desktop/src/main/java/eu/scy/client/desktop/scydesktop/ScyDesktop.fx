@@ -351,7 +351,8 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
              }
              action: function(): Void {
                  def conf:Configuration=Configuration.getInstance();
-                 def feedbackURL = "{conf.getEportfolioProtocol()}://{conf.getEportfolioServer()}:{conf.getEportfolioPort()}/webapp/app/feedback/ScyFeedbackIndex.html";
+//                 def feedbackURL = "{conf.getFeedbackProtocol()}://{conf.getFeedbackServer()}:{conf.getFeedbackPort()}{conf.getFeedbackContext()}FeedbackToolIndex.html?missionURL={missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri()}";
+                 def feedbackURL = "{conf.getFeedbackProtocol()}://{conf.getFeedbackServer()}:{conf.getFeedbackPort()}{conf.getFeedbackContext()}FeedbackToolIndex.html?eloURI={missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri()}";
                  try {
                     var basicService = javax.jnlp.ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
                     if (basicService != null) {
@@ -371,7 +372,8 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
              }
              action: function(): Void {
                  def conf:Configuration=Configuration.getInstance();
-                 def feedbackURL = "{conf.getEportfolioProtocol()}://{conf.getEportfolioServer()}:{conf.getEportfolioPort()}/webapp/app/feedback/ScyFeedbackIndex.html";
+//                 def feedbackURL = "{conf.getFeedbackProtocol()}://{conf.getFeedbackServer()}:{conf.getFeedbackPort()}{conf.getFeedbackContext()}FeedbackToolIndex.html?missionURL={missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri()}";
+                 def feedbackURL = "{conf.getFeedbackProtocol()}://{conf.getFeedbackServer()}:{conf.getFeedbackPort()}{conf.getFeedbackContext()}FeedbackToolIndex.html?eloURI={missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri()}";
                  try {
                     var basicService = javax.jnlp.ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
                     if (basicService != null) {
