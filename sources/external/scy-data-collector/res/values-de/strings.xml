@@ -40,10 +40,11 @@
 	<string name="Events">Events</string>
 	<string name="GPS">GPS:</string>
 	<string name="noGPS">GPS war nicht verfügbar</string>
+	<string name="gpsProviderOff">GPS ausgeschaltet</string>
+	<string name="gpsProviderOn">GPS verfügbar</string>
 	<string name="Position">Position</string>
 	<string name="of">von</string>
 	<string name="msgLoadFormRepo">Formular aus Repository laden</string>
-	<string name="msgDownloadForms">Ausgewählte Formulare laden?</string>
 	<string name="msgNoConnectionToRepository">Keine Verbindung zum Repository!</string>
 	<string name="chkDownlaod">herunterladen</string>
 	<string name="msgSaveToRepository">Im Repository speichern</string>
@@ -62,4 +63,6 @@
 	<string name="mainConfiguration">Einstellungen</string>
 	<string name="mainConfigurationDescription">Stelle deinen Benutzernamen, dein Passwort und die
 		Adresse des Servers ein</string>
+	<string name="storeFormResultMessagePositive">Formular erfolgreich gespeichert</string>
+	<string name="storeFormResultMessageNegative">Formular konnte leider nicht gespeichert werden</string>
 </resources>
