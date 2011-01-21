@@ -67,9 +67,7 @@ public class DataFormElementGPSView extends DataFormElementView {
             ByteArrayInputStream baos = new ByteArrayInputStream(dfeem.getStoredData(pos));
 
             ObjectInputStream in;
-
             in = new ObjectInputStream(baos);
-
             coords = (String[]) in.readObject();
 
             in.close();
@@ -100,10 +98,11 @@ public class DataFormElementGPSView extends DataFormElementView {
                 getApplication().startActivityForResult(tki, id);
             }
         });
-
+        
         takeGPSButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 takeGPSButton.setEnabled(false);
+                previewButton.setEnabled(false);
                 events(DataFormElementEventTypes.ONBEFORE);
                 previewButton.setText(R.string.msgPositionCapturing);
 
@@ -117,28 +116,16 @@ public class DataFormElementGPSView extends DataFormElementView {
 
                         previewButton.setText(R.string.msgShowGPS);
                         String[] coords = { String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()) };
-
                         setGPSCoordinates(coords, elementModel);
-
                         events(DataFormElementEventTypes.ONAFTER);
-                        previewButton.setOnClickListener(new OnClickListener() {
-
-                            public void onClick(View v) {
-                                Intent tki = new Intent();
-                                tki.setClass(getApplication(), DataCollectorMapViewActivity.class);
-                                tki.putExtra("datagps", getGPSCoordinates(elementModel));
-                                getApplication().startActivityForResult(tki, id);
-                            }
-
-                        });
                     }
 
                     public void onProviderDisabled(String provider) {
-                        previewButton.setText("provider aus");
+                        previewButton.setText(R.string.gpsProviderOff);
                     }
 
                     public void onProviderEnabled(String provider) {
-                        previewButton.setText("provider an");
+                        previewButton.setText(R.string.gpsProviderOn);
                     }
 
                     public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -152,7 +139,7 @@ public class DataFormElementGPSView extends DataFormElementView {
     @Override
     protected void updateView(DataFormElementModel elementModel) {
         if (elementModel.getStoredData(elementModel.getDataList().size() - 1) != null) {
-            previewButton.setText("Position anzeigen");
+            previewButton.setText(R.string.msgShowGPS);
             previewButton.setEnabled(true);
         }
     }
