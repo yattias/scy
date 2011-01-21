@@ -27,20 +27,21 @@
 	<string name="msgPleaseWait">Please wait...</string>
 	<string name="btnDone">done</string>
 	<string name="msgDeleteDataSet">Delete this Dataset?</string>
-	<string name="tstRecordStart">Start recording</string>
-	<string name="tstRecordStop">Stop recording</string>
-	<string name="tstPlaybackStart">Start playback</string>
-	<string name="tstPlaybackStop">Stop playback</string>
+	<string name="tstRecordStart">Started ecording</string>
+	<string name="tstRecordStop">Stopped recording</string>
+	<string name="tstPlaybackStart">Started playback</string>
+	<string name="tstPlaybackStop">Stopped playback</string>
 	<string name="tstPlay">Play</string>
 	<string name="tstPlayDONE">Playback done</string>
-	<string name="tstCantStartRecording">can not start recording</string>
+	<string name="tstCantStartRecording">Can not start recording</string>
 	<string name="Events">Events</string>
 	<string name="GPS">GPS:</string>
 	<string name="noGPS">GPS was not available:</string>
+	<string name="gpsProviderOff">GPS not available</string>
+	<string name="gpsProviderOn">GPS available</string>
 	<string name="Position">Position</string>
 	<string name="of">of</string>
 	<string name="msgLoadFormRepo">Loading Form from Repository</string>
-	<string name="msgDownloadForms">Download selected Forms?</string>
 	<string name="msgNoConnectionToRepository">No connection to Repository!</string>
 	<string name="chkDownlaod">download</string>
 	<string name="msgSaveToRepository">Save to Repository</string>
@@ -54,4 +55,6 @@
 	<string name="mainDownloadFormsDescription">Browse and download forms from server to your device</string>
 	<string name="mainConfiguration">Configuration</string>
 	<string name="mainConfigurationDescription">Configure your username, your password and the form server address</string>
+	<string name="storeFormResultMessagePositive">Form successfully saved</string>
+	<string name="storeFormResultMessageNegative">Form could not be saved</string>
 </resources>
