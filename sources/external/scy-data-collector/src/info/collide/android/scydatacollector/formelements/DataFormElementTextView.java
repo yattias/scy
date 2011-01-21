@@ -41,7 +41,6 @@ public class DataFormElementTextView extends DataFormElementView {
         previewText.setWidth(super.Column3width + Column4width);
         
         detailsButton = (ImageButton) findViewById(R.id.textformelement_show_details);
-//        detailsButton.setMinimumWidth(Column5width);
         detailsButton.setVisibility(INVISIBLE);
 
         detailsButton.setOnClickListener(new OnClickListener() {
