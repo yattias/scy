@@ -202,7 +202,8 @@ public class ScyWindowControlImpl extends ScyWindowControl {
             windowManager.addScyWindow(otherEloWindow);
          }
       }
-      windowPositioner.makeMainWindow(mainWindow);
+      // anchor window woll not be opened, it will remain closed on the left side
+      // windowPositioner.makeMainWindow(mainWindow);
       if (desktopState != null) {
          // add the user elos
          for (eloUri in desktopState.eloUris) {
