@@ -167,15 +167,14 @@ public class DataCollectorFormActivity extends Activity {
                             break;
                         case GPS:
                             final String[] coords = bundle.getStringArray("datagps");
-
                             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
                             ObjectOutputStream out;
                             try {
                                 out = new ObjectOutputStream(baos);
                                 out.writeObject(coords);
                                 out.flush();
                                 out.close();
+                                elementModel.addStoredData(baos.toByteArray());
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
