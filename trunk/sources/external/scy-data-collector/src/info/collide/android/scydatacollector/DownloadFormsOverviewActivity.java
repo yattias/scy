@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
-import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -21,32 +21,15 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class DownloadFormsOverviewActivity extends ListActivity {
 
+    private static final int DOWNLOAD_PROGRESS = 0;
+    
     private Activity activity = this;
-
-    ProgressDialog mypd;
 
     private CheckBox ownForms;
 
-    protected static final int GUIUPDATEIDENTIFIER = 99822832;
-
-    // Set up the message handler
-    Handler myGUIUpdateHandler = new Handler() {
-
-        // @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case GUIUPDATEIDENTIFIER:
-                    invalidate();
-                    break;
-                default:
-                    break;
-            }
-
-            super.handleMessage(msg);
-        }
-    };
-
     private WebServicesController wsc;
+
+    private ProgressDialog progressDialog;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,67 +53,76 @@ public class DownloadFormsOverviewActivity extends ListActivity {
         btnDownload.setOnClickListener(new OnClickListener() {
 
             public void onClick(View v) {
-                DownloadFormsOverviewActivity.this.downloadForms(lfdla.getAlDfpm());
+                downloadForms(lfdla.getAlDfpm());
             }
 
         });
         setListAdapter(lfdla);
     }
-
-    private void downloadForms(final ArrayList<DataFormPreviewModel> alDfpm) {
-        int i = 0;
-        for (DataFormPreviewModel dfpm : alDfpm) {
-            if (dfpm.is_download())
-                i++;
+    
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        if (id == DOWNLOAD_PROGRESS) {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle(R.string.msgPleaseWait);
+            progressDialog.setMessage(getString(R.string.msgLoadFormRepo));
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            return progressDialog;
         }
-        MessageDialog mdDownload = new MessageDialog(this);
-        android.content.DialogInterface.OnClickListener oclYes = new android.content.DialogInterface.OnClickListener() {
-
-            public void onClick(DialogInterface dialog, int which) {
-                final ProgressDialog mypd = ProgressDialog.show(activity, getResources().getString(R.string.msgLoadFormRepo), getResources().getString(R.string.msgPleaseWait), false);
-                Thread t = new Thread() {
-
-                    public void run() {
-                        for (DataFormPreviewModel dfpm : alDfpm) {
-                            if (dfpm.is_download()) {
-                                DataCollectorFormModel dcfm = wsc.fetchDCFMFromServer(dfpm.getURI());
-                                if (dcfm != null) {
-                                    final ContentValues cv = new ContentValues();
-                                    String username = new DataCollectorConfiguration(activity).getUserName();
-                                    try {
-                                        cv.put("dcfm", dcfm.toByteArray());
-                                        cv.put("username", username);
-
-                                        // Uri uri = Uri.parse("content://info.collide.android.scydatacollector.DataCollectorProvider.Forms/forms");
-                                        activity.getContentResolver().update(DataCollectorContentProvider.CONTENT_URI, cv, null, null);
-                                        activity.runOnUiThread(new Runnable() {
-                                            
-                                            @Override
-                                            public void run() {
-                                                mypd.dismiss();
-                                            }
-                                        });
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                };
-                t.start();
-            }
-
-        };
-        // TODO: i18n
-        mdDownload.createYesNoDialog(getResources().getString(R.string.msgDownloadForms), oclYes, "Ja", null, "Nein");
-
+        return super.onCreateDialog(id);
     }
 
-    public void invalidate() {
-        if (mypd != null)
-            mypd.dismiss();
-        activity.finish();
+    private void downloadForms(final ArrayList<DataFormPreviewModel> alDfpm) {
+        ArrayList<String> uris = new ArrayList<String>();
+        for (DataFormPreviewModel dfpm : alDfpm) {
+            if (dfpm.is_download()) {
+                uris.add(dfpm.getURI());
+            }
+        }
+        new AsyncTask<String, Integer, Void>() {
 
+            protected void onPreExecute() {
+                showDialog(DOWNLOAD_PROGRESS);
+            };
+            
+            @Override
+            protected Void doInBackground(String... uris) {
+                int countForms = uris.length;
+                String username = new DataCollectorConfiguration(activity).getUserName();
+                
+                for (int i = 0; i < uris.length; i++) {
+                    publishProgress((int) ((i / (float) countForms) * 100));
+                    DataCollectorFormModel dcfm = wsc.fetchDCFMFromServer(uris[i]);
+                    if (dcfm != null) {
+                        final ContentValues cv = new ContentValues();
+                        try {
+                            cv.put("dcfm", dcfm.toByteArray());
+                            cv.put("username", username);
+                            activity.getContentResolver().update(DataCollectorContentProvider.CONTENT_URI, cv, null, null);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                publishProgress(100);
+                return null;
+            }
+            
+            protected void onProgressUpdate(final Integer... progress) {
+                Log.d("DataCollector", "Changing progress to " + progress[0]);
+                runOnUiThread(new Runnable() {
+                    
+                    @Override
+                    public void run() {
+                        progressDialog.setProgress(progress[0]);
+                    }
+                });
+            };
+            
+            protected void onPostExecute(Void result) {
+                dismissDialog(DOWNLOAD_PROGRESS);
+                finish();
+            };
+        }.execute(uris.toArray(new String[] {}));
     }
 }
