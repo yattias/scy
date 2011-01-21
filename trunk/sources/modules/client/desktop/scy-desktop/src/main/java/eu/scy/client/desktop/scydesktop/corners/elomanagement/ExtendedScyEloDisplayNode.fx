@@ -113,21 +113,13 @@ public class ExtendedScyEloDisplayNode extends CustomNode {
       }
    }
 
-   def titleLabel = ##"Title";
-   def authorsLabel = ##"Author(s)";
-   def formatLabel = ##"Type";
-   def roleLabel = ##"Role";
-   def dateLabel = ##"Date";
-   def createdAtLabel = ##"created at";
-   def lastModifiedAtLabel = ##"last modified at";
-
    function newScyElo() {
-      titleDisplay.text = "{titleLabel} : {scyElo.getTitle()}";
-      authorDisplay.text = "{authorsLabel}: {getAuthorsText()}";
-      typeDisplay.text = "{formatLabel}: {getTechnicalFormatString()}";
+      titleDisplay.text = "{ScyEloDisplayProperties.titleLabel} : {scyElo.getTitle()}";
+      authorDisplay.text = "{ScyEloDisplayProperties.authorsLabel}: {ScyEloDisplayProperties.getAuthorsText(scyElo)}";
+      typeDisplay.text = "{ScyEloDisplayProperties.formatLabel}: {ScyEloDisplayProperties.getTechnicalFormatString(scyElo,newEloCreationRegistry)}";
       //      roleDisplay.text = "{roleLabel}: {getRoleString()}";
-      dateDisplay.text = "{dateLabel}: {getDateString()}";
-      uriDisplay.text = "URI: {getUriString()}";
+      dateDisplay.text = "{ScyEloDisplayProperties.dateLabel}: {ScyEloDisplayProperties.getDateString(scyElo)}";
+      uriDisplay.text = "URI: {ScyEloDisplayProperties.getUriString(scyElo)}";
       def thumbnailImage = scyElo.getThumbnail();
       if (thumbnailImage != null) {
          thumbnailView.image = SwingUtils.toFXImage(scyElo.getThumbnail());
@@ -148,62 +140,6 @@ public class ExtendedScyEloDisplayNode extends CustomNode {
 //      println("eloIcon: {eloIcon.layoutBounds}");
    }
 
-   function getAuthorsText(): String {
-      if (scyElo == null) {
-         return ""
-      }
-      def authors = scyElo.getAuthors();
-      var authorsText = "";
-      if (authors.size() > 0) {
-         authorsText = "";
-         for (author in authors) {
-            if (indexof author > 0) {
-               authorsText = "{authorsText}, ";
-            }
-            authorsText = "{authorsText}{author}";
-         }
-      }
-      authorsText
-   }
-
-   function getTechnicalFormatString(): String {
-      if (scyElo == null) {
-         return ""
-      }
-      return newEloCreationRegistry.getEloTypeName(scyElo.getTechnicalFormat())
-   }
-
-   function getDateString(): String {
-      if (scyElo == null) {
-         return ""
-      }
-      return "{createdAtLabel} {getDateString(scyElo.getDateCreated())}, {lastModifiedAtLabel} {getDateString(scyElo.getDateLastModified())}"
-   }
-
-   function getDateString(millis: java.lang.Long): String {
-      if (millis == null) {
-         return ##"unknown"
-      }
-      dateFormat.format(new Date(millis))
-   }
-
-   function getRoleString(): String {
-      if (scyElo == null) {
-         return ""
-      }
-      def role = scyElo.getFunctionalRole();
-      if (role == null) {
-         return ##"unknown";
-      }
-      return role.toString();
-   }
-
-   function getUriString(): String {
-      if (scyElo == null) {
-         return ""
-      }
-      return "{scyElo.getUri()}"
-   }
 }
 
 function run() {
