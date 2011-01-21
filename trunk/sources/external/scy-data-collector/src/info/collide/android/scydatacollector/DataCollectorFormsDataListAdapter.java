@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DataCollectorFormsDataListAdapter extends BaseAdapter {
 
@@ -161,17 +163,8 @@ public class DataCollectorFormsDataListAdapter extends BaseAdapter {
 
             // single row that holds icon/flag & name
             TableRow row = new TableRow(_context);
-            // LayoutUtils.Layout.WidthFill_HeightWrap.applyTableLayoutParams(row);
-
-            // fill the first row with: icon/flag, name
             {
                 _lblFormTitle = new TextView(_context);
-                // LayoutUtils.Layout.WidthWrap_HeightWrap.applyTableRowParams(_lblName);
-                // _lblName.setPadding(10, 10, 10, 10);
-
-                // _lblIcon = AppUtils.createImageView(_context, -1, -1, -1);
-                // LayoutUtils.Layout.WidthWrap_HeightWrap.applyTableRowParams(_lblIcon);
-                // _lblIcon.setPadding(10, 10, 10, 10);
 
                 // zum testen
                 _btnSaveElo = new Button(_context);
@@ -180,10 +173,35 @@ public class DataCollectorFormsDataListAdapter extends BaseAdapter {
                 _btnSaveElo.setOnClickListener(new OnClickListener() {
 
                     public void onClick(View arg0) {
-                        // TODO Auto-generated method stub
-                        WebServicesController dcwc = new WebServicesController(_context);
-                        dcwc.postFormJSON((DataCollectorFormModel) getItem(_selectedIndex));
+                        new AsyncTask<Void, Void, Boolean>() {
 
+                            @Override
+                            protected void onPreExecute() {
+                                _context.showDialog(DataCollectorFormOverviewActivity.PROGRESS_DIALOG);
+                            }
+                            
+                            @Override
+                            protected Boolean doInBackground(Void... params) {
+                                WebServicesController dcwc = new WebServicesController(_context);
+                                try {
+                                    dcwc.postFormJSON((DataCollectorFormModel) getItem(_selectedIndex));
+                                    return true;
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                return false;
+                            }
+                            
+                            @Override
+                            protected void onPostExecute(Boolean result) {
+                                _context.dismissDialog(DataCollectorFormOverviewActivity.PROGRESS_DIALOG);
+                                if (result) {
+                                    Toast.makeText(_context, R.string.storeFormResultMessagePositive, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(_context, R.string.storeFormResultMessageNegative, Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }.execute();
                     }
                 });
                 _btnOpenForm = new Button(_context);
