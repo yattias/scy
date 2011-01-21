@@ -161,7 +161,7 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
 			HashMap<Integer, Integer> hist = docResult
 					.getFeature(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM);
 
-			addSentenceHistogramToMetadata(elo, hist);
+			// addSentenceHistogramToMetadata(elo, hist);
 
 			// write HashMap histogram as a ByteArray object
 			ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
@@ -194,29 +194,29 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
 		repository = rep;
 	}
 
-	private void addSentenceHistogramToMetadata(IELO elo,
-			HashMap<Integer, Integer> histogram) {
-		if (histogram.isEmpty()) {
-			return;
-		}
-		IMetadataKey keywordSentenceHistogramKey = metadataTypeManager
-				.getMetadataKey(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM);
-		IMetadataValueContainer keywordSentenceHistogramContainer = elo
-				.getMetadata().getMetadataValueContainer(
-						keywordSentenceHistogramKey);
-
-		// add key-value pairs of HashMap to elo one by one:
-		for (Integer keywordFrequency : histogram.keySet()) {
-			KeyValuePair entry = new KeyValuePair();
-			entry.setKey("" + keywordFrequency);
-			entry.setValue("" + histogram.get(keywordFrequency));
-			keywordSentenceHistogramContainer.addValue(entry);
-		}
-		// repository.updateELO(elo); //XXX this is important because an update
-		// would change the version
-		// number of the elo, which will also change the URI
-		repository.addMetadata(elo.getUri(), elo.getMetadata());
-	}
+	// private void addSentenceHistogramToMetadata(IELO elo,
+	// HashMap<Integer, Integer> histogram) {
+	// if (histogram.isEmpty()) {
+	// return;
+	// }
+	// IMetadataKey keywordSentenceHistogramKey = metadataTypeManager
+	// .getMetadataKey(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM);
+	// IMetadataValueContainer keywordSentenceHistogramContainer = elo
+	// .getMetadata().getMetadataValueContainer(
+	// keywordSentenceHistogramKey);
+	//
+	// // add key-value pairs of HashMap to elo one by one:
+	// for (Integer keywordFrequency : histogram.keySet()) {
+	// KeyValuePair entry = new KeyValuePair();
+	// entry.setKey("" + keywordFrequency);
+	// entry.setValue("" + histogram.get(keywordFrequency));
+	// keywordSentenceHistogramContainer.addValue(entry);
+	// }
+	// // repository.updateELO(elo); //XXX this is important because an update
+	// // would change the version
+	// // number of the elo, which will also change the URI
+	// repository.addMetadata(elo.getUri(), elo.getMetadata());
+	// }
 
 	private IMetadata addKeywordsToMetadata(IELO elo, List<String> keywords) {
 		if (keywords.isEmpty()) {
