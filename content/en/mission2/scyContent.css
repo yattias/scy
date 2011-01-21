@@ -1,5 +1,5 @@
 @charset "utf-8";
-/* Mission 1 SCY CSS styles */
+/* Mission 2 SCY CSS styles */
 
 body{
 	font-family:Verdana, Geneva, sans-serif;
@@ -8,6 +8,8 @@ body{
 	padding:0 10px 0 10px;;
 	margin:0;	
 	color:#00004a;
+	background-image:url(bgImage.png);
+	background-repeat:repeat-x;
 }
 
 h1,.mainTitle{
