@@ -90,6 +90,10 @@ public class Configuration {
         props.setProperty("eportfolio.server", "scy.collide.info");
         props.setProperty("eportfolio.port", "8080");
         props.setProperty("eportfolio.context", "/webapp/app/eportfolio/xml/");
+        props.setProperty("feedback.protocol", "http");
+        props.setProperty("feedback.server", "scy.collide.info");
+        props.setProperty("feedback.port", "8080");
+        props.setProperty("feedback.context", "/webapp/app/feedback/");
         return props;
     }
 
@@ -253,5 +257,24 @@ public class Configuration {
 
     public String getEportfolioContext() {
         return props.getProperty("eportfolio.context");
+    }
+
+    public String getFeedbackProtocol() {
+        return props.getProperty("feedback.protocol");
+    }
+
+    public String getFeedbackServer() {
+        if (isScyServerHostDefined()) {
+            return scyServerHost;
+        }
+        return props.getProperty("feedback.server");
+    }
+
+    public String getFeedbackPort() {
+        return props.getProperty("feedback.port");
+    }
+
+    public String getFeedbackContext() {
+        return props.getProperty("feedback.context");
     }
 }
