@@ -81,10 +81,10 @@ public class DataFormElementVoiceView extends DataFormElementView {
                         buttonPlay.setEnabled(true);
                         buttonStop.setEnabled(false);
                         // ap.refresh();
-                        Toast.makeText(getApplication(), "Aufnahme gestoppt", 10).show();
+                        Toast.makeText(getApplication(), R.string.tstRecordStop, 10).show();
 
                     } else if (ap != null && ap.isPlaying()) {
-                        Toast.makeText(getApplication(), "Abspielen gestoppt", 10).show();
+                        Toast.makeText(getApplication(), R.string.tstPlaybackStop, 10).show();
                         ap.stop();
                         buttonPlay.setEnabled(true);
 
@@ -109,12 +109,12 @@ public class DataFormElementVoiceView extends DataFormElementView {
                 buttonPlay.setEnabled(false);
                 buttonRec.setEnabled(false);
                 buttonStop.setEnabled(true);
-                Toast.makeText(getApplication(), "Abspielen", 10).show();
+                Toast.makeText(getApplication(), R.string.tstPlay, 10).show();
 
                 ap.setOnCompletitionListener(new OnCompletionListener() {
 
                     public void onCompletion(MediaPlayer mp) {
-                        Toast.makeText(getApplication(), "Abspielen fertig", 10).show();
+                        Toast.makeText(getApplication(), R.string.tstPlayDONE, 10).show();
                         buttonPlay.setEnabled(true);
                         buttonRec.setEnabled(true);
                         buttonStop.setEnabled(false);
@@ -132,12 +132,12 @@ public class DataFormElementVoiceView extends DataFormElementView {
             try {
                 if (ar.start()) {
                     events(DataFormElementEventTypes.ONBEFORE);
-                    Toast.makeText(getApplication(), "Aufnahme gestartet", 100).show();
+                    Toast.makeText(getApplication(), R.string.tstRecordStart, 100).show();
 
                     buttonStop.setEnabled(true);
                     buttonRec.setEnabled(false);
                 } else {
-                    Toast.makeText(getApplication(), "Aufnahme konnte nicht gestartet werden", 100).show();
+                    Toast.makeText(getApplication(), R.string.tstCantStartRecording, 100).show();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
