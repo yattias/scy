@@ -22,6 +22,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextOrigin;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.input.MouseEvent;
 
 /**
  * @author SikkenJ
@@ -33,6 +34,7 @@ public class ClosedWindow extends WindowElement {
    public var eloIcon: EloIcon;
    public var title = "elo title";
    public var activated = false on replace { activatedChanged() };
+   public-init var startDragIcon: function(e: MouseEvent ):Void;
    def titleFontsize = 11;
    def textFont = Font.font("Verdana", FontWeight.REGULAR, titleFontsize);
    def bgColor = bind if (activated) windowColorScheme.emptyBackgroundColor else windowColorScheme.mainColor;
@@ -41,6 +43,7 @@ public class ClosedWindow extends WindowElement {
          windowColorScheme: windowColorScheme
          scyElo: bind scyElo
          eloIcon: bind eloIcon
+         startDragIcon:startDragIcon
       }
    var textBackgroundFillRect: Rectangle;
    var titleText: Text;
