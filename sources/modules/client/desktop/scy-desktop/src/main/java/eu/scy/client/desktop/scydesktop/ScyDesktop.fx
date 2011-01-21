@@ -350,16 +350,17 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  text: "Give feedback!";
              }
              action: function(): Void {
-                 //javafx.stage.Alert.inform("This is button for opening SCY feedback tool. Artist is not yet finished icon for SCY feedback, so we use Google icon. SCY feedback tool is currently not ready (integration with Roolo is not yet finished). So we redirect you to www.google.com. Have a nice day!");
+                 def conf:Configuration=Configuration.getInstance();
+                 def feedbackURL = "{conf.getEportfolioProtocol()}://{conf.getEportfolioServer()}:{conf.getEportfolioPort()}/webapp/app/feedback/ScyFeedbackIndex.html";
                  try {
                     var basicService = javax.jnlp.ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
                     if (basicService != null) {
-                        var url : java.net.URL = new java.net.URL("http://www.google.com/");
+                        var url : java.net.URL = new java.net.URL(feedbackURL);
                         basicService.showDocument(url);
                     }
                  }
                  catch (e: javax.jnlp.UnavailableServiceException) {
-                     BareBonesBrowserLaunch.openURL("http://www.google.com");
+                     BareBonesBrowserLaunch.openURL(feedbackURL);
                  }
              }
          }
@@ -369,16 +370,17 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  text: "Get feedback!";
              }
              action: function(): Void {
-                 //javafx.stage.Alert.inform("This is button for opening SCY feedback tool. Artist is not yet finished icon for SCY feedback, so we use Google icon. SCY feedback tool is currently not ready (integration with Roolo is not yet finished). So we redirect you to www.google.com. Have a nice day!");
+                 def conf:Configuration=Configuration.getInstance();
+                 def feedbackURL = "{conf.getEportfolioProtocol()}://{conf.getEportfolioServer()}:{conf.getEportfolioPort()}/webapp/app/feedback/ScyFeedbackIndex.html";
                  try {
                     var basicService = javax.jnlp.ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
                     if (basicService != null) {
-                        var url : java.net.URL = new java.net.URL("http://www.google.com/");
+                        var url : java.net.URL = new java.net.URL(feedbackURL);
                         basicService.showDocument(url);
                     }
                  }
                  catch (e: javax.jnlp.UnavailableServiceException) {
-                     BareBonesBrowserLaunch.openURL("http://www.google.com");
+                     BareBonesBrowserLaunch.openURL(feedbackURL);
                  }
              }
          }
