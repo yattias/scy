@@ -1045,7 +1045,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
                window: this
                windowColorScheme: bind windowColorScheme
                scyElo: bind scyElo
-//               eloIcon: eloIcon
+               startDragIcon: startDragIcon
                activated: bind activated
                activate: activate;
                title: bind title

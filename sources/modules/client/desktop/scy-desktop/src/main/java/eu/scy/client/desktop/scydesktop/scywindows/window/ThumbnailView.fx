@@ -21,18 +21,19 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.FxdEloIcon;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
 import javafx.ext.swing.SwingUtils;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.Cursor;
 
 /**
  * @author SikkenJ
  */
-
 public def eloIconOffset = 10.0;
 
 public class ThumbnailView extends WindowElement {
 
    public var scyElo: ScyElo on replace { newScyElo() };
-   public var eloIcon:EloIcon on replace oldEloIcon {eloIconChanged(oldEloIcon)};
-//   def eloIconOffset = 10.0;
+   public var eloIcon: EloIcon on replace oldEloIcon { eloIconChanged(oldEloIcon) };
+   public-init var startDragIcon: function(e: MouseEvent): Void;
    def thumbnailBorder = 2.0;
    def eloIconSize = EloIcon.defaultEloIconSize;
    def thumbnailView = ImageView {
@@ -73,12 +74,17 @@ public class ThumbnailView extends WindowElement {
                      fill: Color.TRANSPARENT
                   }
                   eloIconGroup = Group {
-                     layoutX: 0
-                     layoutY: 0
-                     content: [
-                        eloIcon
-                     ]
-                  }
+                        layoutX: 0
+                        layoutY: 0
+                        blocksMouse: startDragIcon != null
+                        cursor: if (startDragIcon != null) Cursor.HAND else null
+                        content: [
+                           eloIcon
+                        ]
+                        onMousePressed: function(e: MouseEvent): Void {
+                           startDragIcon(e);
+                        }
+                     }
                ]
             }
          ]
@@ -98,7 +104,7 @@ public class ThumbnailView extends WindowElement {
       }
    }
 
-   function eloIconChanged(oldEloIcon:EloIcon) {
+   function eloIconChanged(oldEloIcon: EloIcon) {
       eloIcon.size = eloIconSize;
       delete oldEloIcon from eloIconGroup.content;
       insert eloIcon into eloIconGroup.content;
