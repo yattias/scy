@@ -17,6 +17,7 @@ import javafx.util.Sequences;
 import javafx.lang.FX;
 import javafx.util.Math;
 import eu.scy.client.desktop.scydesktop.scywindows.StandardWindowPositionsState;
+import javafx.geometry.Point2D;
 
 /**
  * @author giemza
@@ -258,6 +259,10 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
             //logger.info("#!?WTF!?# Window with title {window.title} already in outgoingWindows");
             return true;
         }
+        if(Sequences.indexOf(otherWindows, window) >= 0) {
+            //logger.info("#!?WTF!?# Window with title {window.title} already in outgoingWindows");
+            return true;
+        }
         return false;
     }
 
@@ -266,7 +271,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         if (window.layoutX == 0 and window.layoutY == 0 and window.relativeLayoutCenterX == 0 and window.relativeLayoutCenterY == 0) {
 //            window.layoutX = incomingArea.x;
 //            window.layoutY = incomingArea.y + incomingArea.height;
-            positionWindowsInArea(otherWindows, otherArea, 3); // layout at bottom of window
+            positionWindowsInArea(otherWindows, otherArea, sizeof otherWindows); // layout at bottom of window
         }
     }
 
@@ -315,6 +320,10 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
                 
                 window.layoutX = area.layoutX + (column * shift) - (window.width / 2);
                 window.layoutY = area.layoutY + topOffset + (row * padding);
+                window.closedPosition = Point2D {
+                    x: window.layoutX;
+                    y: window.layoutY;
+                }
 
                 window.relativeLayoutCenterX = (window.layoutX + window.width / 2) / desktopWidth;
                 window.relativeLayoutCenterY = (window.layoutY + window.height / 2) / desktopHeight;
@@ -418,8 +427,8 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         outgoingArea.width = (outgoingAreaRatio * desktopWidth) - (2 * offset);
         outgoingArea.height = desktopHeight - (2 * offset);
 
-        otherArea.layoutX = centerArea.layoutX;
-        otherArea.layoutY = centerArea.layoutY + 0.80 * centerArea.height;
+        otherArea.layoutX = offset;
+        otherArea.layoutY = centerArea.layoutY + 0.70 * centerArea.height;
         otherArea.width = desktopWidth - (2 * offset);
         otherArea.height = 0.3 * centerArea.height;
     }

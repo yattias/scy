@@ -81,6 +81,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       //      println("after height from {oldHeight} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
       };
    public override var widthHeightProportion = -1.0;
+
    public override var scyContent on replace {
          scyContentChanged();
       };
@@ -176,8 +177,9 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    var windowStateControls: WindowStateControls;
    var contentElement: WindowContent;
    var closedWindow: ClosedWindow;
+   var hideDrawers: Boolean;
    def drawerGroup: Group = Group {
-         visible: bind not isClosed and not isMinimized
+         visible: bind not isClosed and not isMinimized and not hideDrawers;
       };
    var topDrawer: TopDrawer;
    var rightDrawer: RightDrawer;
@@ -374,8 +376,13 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    }
 
    public override function openBoundWindow(openWidth: Number, openHeight: Number): Void {
+      if (isClosed) {
+          closedPosition = Point2D {
+             x: layoutX;
+             y: layoutY;
+          }
+      }
       checkScyContent();
-      isClosed = false;
       var useSize = limitSize(openWidth, openHeight);
       cache = true;
       cacheHint = CacheHint.SCALE_AND_ROTATE;
@@ -390,6 +397,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
                      height => useSize.y tween Interpolator.EASEOUT,
                   ]
                   action: function() {
+                      isClosed = false;
                       scyToolsList.onOpened();
                       updateRelativeBounds();
                       cache = false;
@@ -410,8 +418,14 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
     }
 
     public override function openWindow(posX: Number, posY: Number, openWidth: Number, openHeight: Number, rotation: Number): Void {
+      if (isClosed) {
+          closedPosition = Point2D {
+             x: layoutX;
+             y: layoutY;
+          }
+          logger.info("Stored closed position of window {title} to {closedPosition.x} x {closedPosition.y}");
+      }
       checkScyContent();
-      isClosed = false;
       desiredWidth = openWidth;
       desiredHeight = openHeight;
       var useSize: Point2D = limitSize(openWidth, openHeight);
@@ -420,6 +434,8 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       cache = true;
       cacheHint = CacheHint.SCALE_AND_ROTATE;
       isAnimating = true;
+      hideDrawers = true;
+      isClosed = false;
       var openTimeline = Timeline {
           keyFrames: [
                KeyFrame {
@@ -433,6 +449,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
                      rotate => rotation tween Interpolator.EASEOUT
                   ]
                   action: function() {
+                      hideDrawers = false;
                       scyToolsList.onOpened();
                       updateRelativeBounds();
                       cache = false;
@@ -490,9 +507,13 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
                   time: animationDuration;
                   values: [
                      width => minimumWidth tween Interpolator.EASEBOTH,
-                     height => closedHeight tween Interpolator.EASEBOTH
+                     height => closedHeight tween Interpolator.EASEBOTH,
+                     layoutX => closedPosition.x tween Interpolator.EASEOUT,
+                     layoutY => closedPosition.y tween Interpolator.EASEOUT
                   ]
                   action: function() {
+                     isClosed = true;
+                     hideDrawers = false;
                      if (closedAction != null) {
                         closedAction(this);
                      }
@@ -515,6 +536,8 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
                      height => closedHeight tween Interpolator.EASEBOTH
                   ]
                   action: function() {
+                     layoutX = closedPosition.x;
+                     layoutY = closedPosition.y;
                      isAnimating = false;
                      scyToolsList.onMinimized();
                      updateRelativeBounds()
@@ -668,11 +691,11 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
             return;
          }
       }
-      isClosed = true;
       var closeTimeline = getCloseTimeline();
 
       if (closeTimeline != null) {
          isAnimating = true;
+         hideDrawers = true;
          closeTimeline.play();
       }
 
@@ -737,7 +760,14 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    }
 
    function doRotateNormal(): Void{
-      rotate = 0.0;
+       Timeline {
+           keyFrames: [
+               KeyFrame {
+                   time: 300ms
+                   values: [rotate => 0.0 tween Interpolator.EASEOUT]
+               }
+           ]
+       }.playFromStart();
    }
 
    function getScyContent(scyCont: Node): Node {
