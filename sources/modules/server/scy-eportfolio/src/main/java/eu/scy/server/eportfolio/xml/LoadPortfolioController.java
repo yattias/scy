@@ -11,6 +11,7 @@ import eu.scy.server.controllers.xml.transfer.PortfolioContainer;
 import eu.scy.server.controllers.xml.transfer.TransferElo;
 import eu.scy.server.eportfolio.xml.utilclasses.LearningGoal;
 import eu.scy.server.url.UrlInspector;
+import roolo.elo.api.IELO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +19,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -51,14 +53,29 @@ public class LoadPortfolioController extends MissionRuntimeEnabledXMLService {
         portfolio.setAssessmentPortfolioComment("A comment from me");
         portfolio.setAssessmentPortfolioRating("TOO GOOD TO BE TRUE (6/6)");
 
-        TransferElo elo = new TransferElo(missionRuntimeElo);
+
+
+        List elos = getMissionELOService().findElosFor(missionRuntimeElo.getUri().toString(), getCurrentUserName(request));
+        List searchResult = new LinkedList();
+
+        for (int i = 0; i < elos.size(); i++) {
+            IELO elo = (IELO) elos.get(i);
+            ScyElo scyElo = ScyElo.loadLastVersionElo(elo.getUri(), getMissionELOService());
+            TransferElo telo = new TransferElo(scyElo);
+            portfolio.getElos().add(telo);
+
+
+        }
+
+
+
 
         LearningGoal learningGoal = new LearningGoal();
         learningGoal.setGoal("A generally considered general goal");
 
         //elo.getGeneralLearningGoals().add(learningGoal);
 
-        portfolio.getElos().add(elo);
+        //portfolio.getElos().add(elo);
 
         returnObject = portfolio;
         return returnObject;

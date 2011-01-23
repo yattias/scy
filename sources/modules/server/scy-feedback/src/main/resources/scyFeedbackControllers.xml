@@ -36,6 +36,7 @@
             <value>
                 /app/student/StudentIndex.html=studentIndexController
                 /app/feedback/ScyFeedbackIndex.html=scyFeedbackIndexController
+                /app/feedback/FeedbackToolIndex.html=feedbackToolIndexController
                 /app/feedback/studentEloRefViewer.html=studentEloRefViewerController
                 /app/feedback/studentFeedbackForm.html=studentFeedbackFormController
                 /app/feedback/uploadELOForFeedbackForm.html=uploadELOForFeedbackFormController
@@ -60,6 +61,11 @@
         <property name="playfulAssessmentService" ref="playfulAssessmentService"/>
         <property name="rooloAccessor" ref="rooloAccessor"/>
         <property name="authorKey" ref="authorKey"/>
+    </bean>
+
+    <bean id="feedbackToolIndexController" class="eu.scy.server.controllers.scyfeedback.FeedbackToolIndex">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
     </bean>
 
     <bean id="studentEloRefViewerController"

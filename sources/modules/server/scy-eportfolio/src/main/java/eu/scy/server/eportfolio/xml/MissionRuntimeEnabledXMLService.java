@@ -57,12 +57,12 @@ public abstract class MissionRuntimeEnabledXMLService extends XMLStreamerControl
         xStream.alias("elo", TransferElo.class);
         xStream.alias("searchresult", ELOSearchResult.class);
         xStream.aliasField("createddate", TransferElo.class, "createdDate");
-        xStream.aliasField("lastmodified", TransferElo.class, "lastModified");
+        xStream.aliasField("modified", TransferElo.class, "lastModified");
         xStream.aliasField("uri".toLowerCase(), TransferElo.class, "uri");
         xStream.aliasField("catname".toLowerCase(), TransferElo.class, "catname");
         xStream.aliasField("thumbnail".toLowerCase(), TransferElo.class, "thumbnail");
         xStream.aliasField("fullsize".toLowerCase(), TransferElo.class, "fullsize");
-        xStream.aliasField("myname".toLowerCase(), TransferElo.class, "myname");
+        xStream.aliasField("customname".toLowerCase(), TransferElo.class, "myname");
         xStream.aliasField("modified".toLowerCase(), TransferElo.class, "modified");
         xStream.aliasField("studentDescription".toLowerCase(), TransferElo.class, "studentDescription");
         xStream.aliasField("studentReflection".toLowerCase(), TransferElo.class, "studentReflection");

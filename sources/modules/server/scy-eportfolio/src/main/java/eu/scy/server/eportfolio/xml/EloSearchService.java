@@ -1,5 +1,6 @@
 package eu.scy.server.eportfolio.xml;
 
+import com.thoughtworks.xstream.XStream;
 import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.roolo.MissionELOService;
@@ -48,14 +49,20 @@ public class EloSearchService extends MissionRuntimeEnabledXMLService {
 
     }
 
+    @Override
+    protected void addAliases(XStream xStream) {
+        super.addAliases(xStream);    //To change body of overridden methods use File | Settings | File Templates.
+        xstream.addImplicitCollection(ELOSearchResult.class, "elos");
+    }
+
     private Object createELOModel(ScyElo scyElo) {
-        TransferElo eloModel = new TransferElo();
-        eloModel.setUri(scyElo.getUri().toString());
+        TransferElo eloModel = new TransferElo(scyElo);
+        /*eloModel.setUri(scyElo.getUri().toString());
         Date createdDate = new Date(scyElo.getDateCreated());
         Date lastModified = new Date(scyElo.getDateLastModified());
         eloModel.setCreatedDate(createdDate.toString());
         eloModel.setLastModified(lastModified.toString());
-        eloModel.setMyname(scyElo.getTitle());
+        eloModel.setMyname(scyElo.getTitle()); */
         if (scyElo.getThumbnail() != null) {
             System.out.println("THIS ELO HAS A THUMBNAIL!");
         } else {
