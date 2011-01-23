@@ -28,7 +28,7 @@
             </tr>
             <tr  class="${oddEven.oddEven}">
                 <td>
-                    <a href="/webapp/app/feedback/ScyFeedbackIndex.html?eloURI=${missionSpecificationTransporter.uri}">View Feedback</a>
+                    <a href="/webapp/app/feedback/FeedbackToolIndex.html?eloURI=${missionSpecificationTransporter.uri}">View Feedback</a>
                 </td>
                 <td>
                     Your work has gotten feedback from <strong>3</strong> others

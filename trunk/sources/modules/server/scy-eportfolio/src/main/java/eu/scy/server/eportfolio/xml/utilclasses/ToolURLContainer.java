@@ -21,6 +21,7 @@ public class ToolURLContainer {
     private String savePortfolio = "/webapp/app/eportfolio/xml/savePortfolio.html";
     private String eloSearchService = "/webapp/app/eportfolio/xml/eloSearchService.html";
     private String addEloToPortfolio = "/webapp/app/eportfolio/xml/addEloToPortfolio.html";
+    private String feedbackToolIndex = "/webapp/app/feedback/FeedbackToolIndex.html";
 
 
     private String metaData = "We give a fuck in metadata!";
@@ -126,5 +127,13 @@ public class ToolURLContainer {
 
     public void setAddEloToPortfolio(String addEloToPortfolio) {
         this.addEloToPortfolio = addEloToPortfolio;
+    }
+
+    public String getFeedbackToolIndex() {
+        return feedbackToolIndex;
+    }
+
+    public void setFeedbackToolIndex(String feedbackToolIndex) {
+        this.feedbackToolIndex = feedbackToolIndex;
     }
 }

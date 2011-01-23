@@ -52,7 +52,7 @@ public class TransferElo {
 
         }
         setCreatedBy(authorString);
-        setCatname("House data");
+        setCatname(scyElo.getTitle());
         setThumbnail("thummy");
         setFullsize("fully");
         setStudentDescription("stydentdesc");
