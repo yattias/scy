@@ -717,6 +717,12 @@ public class MathToolController {
 			}
 			
 			doa.setTablesObjects(getTableObjects(key));
+			
+			String padText = StringUtils.stripToNull(scratchPadPanels.get(key).getEditor().getText());
+			
+			if( padText != null ) {
+				doa.setScratchPadText(padText);
+			}
 			objHashMap.put(key, doa);
 		}
 		
@@ -812,6 +818,11 @@ public class MathToolController {
 				sc.revalidate();
 				
 				DataStoreObj dataStoreObj = objHashMap.get(key);
+				
+				String scratchPadText = dataStoreObj.getScratchPadText();
+				if( scratchPadText != null ) {
+					scratchPadPanels.get(key).getEditor().setText(scratchPadText);
+				}
 				
 				if( key.equals(UIUtils._3D) ) {
 					List<ThreeDObj> threeObjects = dataStoreObj.getThreeDMathShapes();
