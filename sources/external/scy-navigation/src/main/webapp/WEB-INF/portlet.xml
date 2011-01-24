@@ -17,7 +17,7 @@
 	    <supported-locale>en_US</supported-locale>
 		<resource-bundle>messages</resource-bundle>
 		<portlet-info>
-			<title>Communities</title>
+			<title>Projects</title>
 			<short-title>Communities</short-title>
 			<keywords>Communities Community Listing Links Link</keywords>
 		</portlet-info>
