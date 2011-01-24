@@ -36,6 +36,7 @@ import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXTable;
 
+import com.jhlabs.composite.ScreenComposite;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
@@ -62,6 +63,7 @@ import eu.scy.tools.math.shapes.impl.MathSphere3D;
 import eu.scy.tools.math.shapes.impl.MathTriangle;
 import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.panels.Calculator;
+import eu.scy.tools.math.ui.panels.ScratchPanel;
 import eu.scy.tools.math.ui.panels.ShapeCanvas;
 import eu.scy.tools.math.util.MathEvaluator;
 
@@ -70,6 +72,8 @@ public class MathToolController {
 	protected static Logger log = Logger.getLogger("MathToolController.class"); //$NON-NLS-1$
 
 	protected Map<String, ShapeCanvas> shapeCanvases = new HashMap<String, ShapeCanvas>();
+	protected Map<String, ScratchPanel> scratchPadPanels = new HashMap<String, ScratchPanel>();
+
 	protected Map<String, Calculator> calculators = new HashMap<String, Calculator>();
 	protected Map<String, JXTable> computationTables = new HashMap<String, JXTable>();
 	protected Map<String, String>  shapeIdToForumla = new HashMap<String, String>();
@@ -93,15 +97,15 @@ public class MathToolController {
 		xstream.alias("DataStoreObject", DataStoreObj.class);
 	}
 
-	public void addCanvas(String type, ShapeCanvas shapeCanvas) {
+	public void addCanvas(ShapeCanvas shapeCanvas) {
 
-		getShapeCanvases().put(type, shapeCanvas);
+		getShapeCanvases().put(shapeCanvas.getType(), shapeCanvas);
 
-		ShapeMoverAdapter shapeMoverAdapter = new ShapeMoverAdapter(this, type);
-		AdjustSizeAdapter adjustSizeAdapter = new AdjustSizeAdapter(this, type);
+		ShapeMoverAdapter shapeMoverAdapter = new ShapeMoverAdapter(this, shapeCanvas.getType());
+		AdjustSizeAdapter adjustSizeAdapter = new AdjustSizeAdapter(this,  shapeCanvas.getType());
 
 		shapeCanvas.setDropTarget(new DropTarget(shapeCanvas,
-				new ShapeJXLabelDropTargetListener(this, type)));
+				new ShapeJXLabelDropTargetListener(this,  shapeCanvas.getType())));
 
 	}
 
@@ -963,6 +967,10 @@ public class MathToolController {
 			}
 		}
 		
+	}
+
+	public void addScratchPanel(ScratchPanel scratchPanel) {
+		scratchPadPanels.put(scratchPanel.getType(), scratchPanel);
 	}
 
 }

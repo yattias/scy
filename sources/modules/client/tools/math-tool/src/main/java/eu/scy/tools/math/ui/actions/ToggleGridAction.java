@@ -7,6 +7,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JTabbedPane;
 
+import eu.scy.tools.math.controller.MathToolController;
 import eu.scy.tools.math.ui.MathTool;
 import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.images.Images;
@@ -14,10 +15,13 @@ import eu.scy.tools.math.ui.panels.ShapeCanvas;
 
 public class ToggleGridAction extends AbstractAction {
 
-	public ToggleGridAction() {
+	private MathToolController mathController;
+
+	public ToggleGridAction(MathToolController mathController) {
 		putValue(Action.NAME, "Toggle Grid");
 		putValue(Action.SMALL_ICON, Images.Grid.getIcon());
 		putValue(Action.SHORT_DESCRIPTION, "Toggles the Grid on and off");
+		this.mathController = mathController;
 	}
 
 	@Override
@@ -33,9 +37,16 @@ public class ToggleGridAction extends AbstractAction {
 		
 		
 		int selectedIndex = tabs.getSelectedIndex();
-		Component tabComponentAt = tabs.getSelectedComponent();
-		ShapeCanvas shapeCanvas = (ShapeCanvas) UIUtils.findComponentAt(
-				UIUtils.SHAPE_CANVAS,tabComponentAt);
+		
+		ShapeCanvas shapeCanvas = null;
+		if( selectedIndex == 0 ) {
+			shapeCanvas  = mathController.getShapeCanvases().get(UIUtils._2D);
+		} else {
+			shapeCanvas  =  mathController.getShapeCanvases().get(UIUtils._3D);
+		}
+//		Component tabComponentAt = tabs.getSelectedComponent();
+//		ShapeCanvas shapeCanvas = (ShapeCanvas) UIUtils.findComponentAt(
+//				UIUtils.SHAPE_CANVAS,tabComponentAt);
 
 		shapeCanvas.setShowGrid(!shapeCanvas.isShowGrid());
 		shapeCanvas.repaint();
