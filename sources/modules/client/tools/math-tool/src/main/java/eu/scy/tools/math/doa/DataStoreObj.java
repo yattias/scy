@@ -8,6 +8,7 @@ import eu.scy.tools.math.shapes.IMathShape;
 public class DataStoreObj {
 	
 	private String type;
+	private String scratchPadText;
 	private List<IMathShape> twoDMathShapes = new ArrayList<IMathShape> ();
 	private List<ThreeDObj> threeDMathShapes = new ArrayList<ThreeDObj> ();
 	
@@ -36,6 +37,12 @@ public class DataStoreObj {
 	}
 	public List<ThreeDObj> getThreeDMathShapes() {
 		return threeDMathShapes;
+	}
+	public void setScratchPadText(String scratchPadText) {
+		this.scratchPadText = scratchPadText;
+	}
+	public String getScratchPadText() {
+		return scratchPadText;
 	}
 
 }
