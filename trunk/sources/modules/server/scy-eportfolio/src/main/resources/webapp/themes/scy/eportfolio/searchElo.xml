@@ -3,40 +3,40 @@
     <elo uri="vvv">
         <createdby><![CDATA[Me]]></createdby>
         <catname><![CDATA[House data]]></catname>
-        <thumbnail><![CDATA[assets/images/thumbs/thumb2.jpg]]></thumbnail>
-        <fullsize><![CDATA[assets/images/thumbs/thumb2.jpg]]></fullsize>
+        <thumbnail><![CDATA[http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/thumbs/thumb2.jpg]]></thumbnail>
+        <fullsize><![CDATA[http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/thumbs/thumb2.jpg]]></fullsize>
         <customname><![CDATA[My_first_ideas_test]]></customname>
         <modified><![CDATA[10.02.2010 10:00]]></modified>
     </elo>
     <elo uri="www">
         <createdby><![CDATA[Group1]]></createdby>
         <catname><![CDATA[House data]]></catname>
-        <thumbnail><![CDATA[assets/images/thumbs/thumb3.jpg]]></thumbnail>
-        <fullsize><![CDATA[assets/images/thumbs/thumb3.jpg]]></fullsize>
+        <thumbnail><![CDATA[http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/thumbs/thumb3.jpg]]></thumbnail>
+        <fullsize><![CDATA[http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/thumbs/thumb3.jpg]]></fullsize>
         <customname><![CDATA[Concept map CO2]]></customname>
         <modified><![CDATA[14.02.2010 12:00]]></modified>
     </elo>
     <elo uri="xxx">
         <createdby><![CDATA[Group1]]></createdby>
         <catname><![CDATA[1st ideas of my design group]]></catname>
-        <thumbnail><![CDATA[assets/images/thumbs/thumb1.jpg]]></thumbnail>
-        <fullsize><![CDATA[assets/images/thumbs/thumb1.jpg]]></fullsize>
+        <thumbnail><![CDATA[http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/thumbs/thumb1.jpg]]></thumbnail>
+        <fullsize><![CDATA[http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/thumbs/thumb1.jpg]]></fullsize>
         <customname><![CDATA[1st ideas of my design group]]></customname>
         <modified><![CDATA[16.02.2010 14:00]]></modified>
     </elo>
     <elo uri="yyy">
         <createdby><![CDATA[Me]]></createdby>
         <catname><![CDATA[1st ideas of my design group]]></catname>
-        <thumbnail><![CDATA[assets/images/thumbs/thumb2.jpg]]></thumbnail>
-        <fullsize><![CDATA[assets/images/thumbs/thumb2.jpg]]></fullsize>
+        <thumbnail><![CDATA[http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/thumbs/thumb2.jpg]]></thumbnail>
+        <fullsize><![CDATA[http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/thumbs/thumb2.jpg]]></fullsize>
         <customname><![CDATA[My_first_ideas_test]]></customname>
         <modified><![CDATA[10.02.2010 10:00]]></modified>
     </elo>
     <elo uri="zzz">
         <createdby><![CDATA[Group1]]></createdby>
         <catname><![CDATA[1st ideas of my design group]]></catname>
-        <thumbnail><![CDATA[assets/images/thumbs/thumb3.jpg]]></thumbnail>
-        <fullsize><![CDATA[assets/images/thumbs/thumb3.jpg]]></fullsize>
+        <thumbnail><![CDATA[http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/thumbs/thumb3.jpg]]></thumbnail>
+        <fullsize><![CDATA[http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/thumbs/thumb3.jpg]]></fullsize>
         <customname><![CDATA[Concept map CO2]]></customname>
         <modified><![CDATA[14.02.2010 12:00]]></modified>
     </elo>
