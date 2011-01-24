@@ -170,7 +170,7 @@
 				
 				reflectionInfo.htmlText = "<u>"+resourceManager.getString('resources', 'REFLECTION') + "</u>: " +(evt.target).studentreflection;
 				reflectionInq.htmlText = "<u>"+resourceManager.getString('resources', 'REF_ON_INQ') + "</u>: " +(evt.target).inquiryquestion;
-				reflectionInqImg.source = "assets/images/emoticons/"+new String((evt.target).studentinquiry)+".png";
+				reflectionInqImg.source = "http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/emoticons/"+new String((evt.target).studentinquiry)+".png";
 				altBox.addEventListener(Event.ENTER_FRAME, updateCoordinates);
 			}
 			
@@ -217,7 +217,7 @@
 					</s:LinearGradient>
 				</s:backgroundFill>
 				
-				<s:Image source="assets/images/folder.png" width="60" height="60" left="5" top="5" />
+				<s:Image source="http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/folder.png" width="60" height="60" left="5" top="5" />
 			</s:BorderContainer>	
 			<s:BorderContainer id="header" width="100%" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
 				<s:backgroundFill>
@@ -234,7 +234,7 @@
 		</s:HGroup>
 		<s:BorderContainer width="{hbo.width}" minHeight="10">
 			<s:HGroup left="2" top="2" right="2" bottom="2" verticalAlign="middle">
-				<s:Image source="assets/images/inf.png" width="10" height="10" />
+				<s:Image source="http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/inf.png" width="10" height="10" />
 				<s:Label id="instruc" width="100%" height="13" text="{resourceManager.getString('resources', 'SENDING_INSTRUC')}" verticalAlign="middle" />
 			</s:HGroup>
 		</s:BorderContainer>
@@ -283,10 +283,10 @@
 							<s:VGroup gap="0" horizontalCenter="0">
 								<s:Label id="refOnInqText" text="{index.REF_ON_INQ_TXT}" width="400" />
 								<s:HGroup width="400" height="33" gap="{(400-4*30)/3}">
-									<s:Image source="assets/images/emoticons/1.png" width="30" height="33" />
-									<s:Image source="assets/images/emoticons/2.png" width="30" height="33" />
-									<s:Image source="assets/images/emoticons/3.png" width="30" height="33" />
-									<s:Image source="assets/images/emoticons/4.png" width="30" height="33" />
+									<s:Image source="http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/emoticons/1.png" width="30" height="33" />
+									<s:Image source="http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/emoticons/2.png" width="30" height="33" />
+									<s:Image source="http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/emoticons/3.png" width="30" height="33" />
+									<s:Image source="http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/emoticons/4.png" width="30" height="33" />
 								</s:HGroup>
 								<mx:HSlider id="refOnInqTextSlider" minimum="1" maximum="4" value="2" dataTipPlacement="top" tickColor="0x323232"
 											snapInterval="1" tickInterval="1" allowTrackClick="true" width="400" showDataTip="false"/>

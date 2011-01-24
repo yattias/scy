@@ -13,10 +13,10 @@
     <elos>
         <elo uri="aaa">
             <createdby><![CDATA[Group1]]></createdby>
-            <catname><![CDATA[1st ideas of my design group]]></catname>
-            <thumbnail><![CDATA[assets/images/thumbs/thumb1.jpg]]></thumbnail>
-            <fullsize><![CDATA[assets/images/thumbs/thumb1.jpg]]></fullsize>
-            <myname><![CDATA[1st ideas of my design group]]></myname>
+            <catname><![CDATA[Research questions]]></catname>
+            <thumbnail><![CDATA[http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/thumbs/thumb1.jpg]]></thumbnail>
+            <fullsize><![CDATA[http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/thumbs/thumb1.jpg]]></fullsize>
+            <customname><![CDATA[1st ideas of my design group]]></customname>
             <modified><![CDATA[16.02.2010 14:00]]></modified>
             <studentdescription><![CDATA[7897897]]></studentdescription>
             <studentglg>

@@ -33,6 +33,7 @@
 				var xmlPortfolio:XML = so.data.retrievedElosFromRoolo;
 				for each (var object:XML in xmlPortfolio.elos.*) {
 					if (object.name() == "elo" && object.catname == this.catname) {
+						
 						elosArray.addItem(XMLUtilJer.getEloObjectAsXML(object));
 					}
 				}
@@ -93,7 +94,7 @@
 				
 				reflectionInfo.htmlText = "<u>"+resourceManager.getString('resources', 'REFLECTION') + "</u>: " +(evt.target).studentreflection;
 				reflectionInq.htmlText = "<u>"+resourceManager.getString('resources', 'REF_ON_INQ') + "</u>: " +(evt.target).inquiryquestion;
-				reflectionInqImg.source = "assets/images/emoticons/"+new String((evt.target).studentinquiry)+".png";
+				reflectionInqImg.source = "http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/emoticons/"+new String((evt.target).studentinquiry)+".png";
 				altBox.addEventListener(Event.ENTER_FRAME, updateCoordinates);
 			}
 			

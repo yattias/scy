@@ -78,6 +78,8 @@
 			
 			public static const SHAREDOBJECT_LOCAL_NAME:String = "scy-eportfolio";
 			
+			public static const IMAGE_BASE_URL:String = "http://www.intermedia.uio.no/www-data-public/app-scy/ep/";
+			
 			[Bindable] private var infoPanVisi:Boolean = false;
 			
 			public static const STACK_INTRO_PANEL:Number = 1;
@@ -110,11 +112,13 @@
 			private var so:SharedObject;
 			private var toolURLProvider:XML;
 			
+			private var eloToAddURL:String = "";
+			
 			protected function initApp(event:FlexEvent):void {
 				obligElos = new ArrayCollection([
 					resourceManager.getString('resources', 'MISSION_SELECT'),
-					"1st ideas of my design group",
-					"House data"
+					"Concept map",
+					"Research questions"
 				]);
 				
 				resourceManager.localeChain = [ "en_US" ];
@@ -216,10 +220,6 @@
 				if(isNormalStart()) {
 					animate(LEFT_DIRECTION, STACK_INTRO_PANEL);
 				}
-				else {
-					//eloSearchService.url = "";
-					//eloSearchService.send();
-				}
 			}
 			
 			private function checkPortfolioStatus():void {
@@ -235,19 +235,20 @@
 					urlInfo.text = (urlObject.eloToAdd);
 					if(urlObject.eloToAdd != null) {
 						normalStart = false;
-						Alert.show("Let's look for elo: "+urlObject.eloToAdd, "Reflection start ...");
+						
+						eloSearchService.url = toolURLProvider.elosearchservice+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23")+"&searchELO="+encodeURI(urlObject.eloToAdd);
+						if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+							eloSearchService.url = "searchElo.xml";
+							eloToAddURL = urlObject.eloToAdd;
+						}
+						
+						eloSearchService.send();
 					}	
 				}
 				
 				return normalStart;
 			}
 			
-			private function retrieveSingleELO(eloURI:String):Object {
-				
-				return null;
-			}
-
-
 			protected function eloSearchService_faultHandler(event:FaultEvent):void {
 				Alert.show(resourceManager.getString('resources', 'URL_PROPERTY_FILE_ERROR'), "HTTPService Error");
 			}
@@ -255,8 +256,17 @@
 
 			protected function eloSearchService_resultHandler(event:ResultEvent):void {
 				//search for given ELO uri
-				var eloXMLResult:XML= event.result as XML;
-				so.data.searchSelection = null;
+				var xmlResult:XML = event.result as XML;
+				
+				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+					var searchForExistingList:XMLList = xmlResult.elo.(@uri == eloToAddURL);
+					so.data.searchSelection = searchForExistingList[0] as XML;
+					
+				}
+				else {
+					so.data.searchSelection = xmlResult;
+				}
+				
 				so.flush();
 				animate(LEFT_DIRECTION, STACK_REFLEC_PANEL);
 			}
@@ -294,7 +304,11 @@
 	
 	<s:Group id="genecan" width="{this.width-14}" height="{this.height-14}" x="7" y="7">
 		<mx:ViewStack id="mainStack" width="100%" height="100%" >
-			<s:NavigatorContent />
+			<s:NavigatorContent width="100%" height="100%">
+				<s:Label horizontalCenter="0" verticalCenter="0" fontSize="20" color="#333333" width="70%" textAlign="center">
+					<s:text>Please be patient while configuration is being fetched from the server ....</s:text>
+				</s:Label>
+			</s:NavigatorContent>
 			<local:introductionCanvas id="introduction" width="100%" height="100%" showEffect="{showEffect}" />
 			<local:searchCanvas id="search" width="100%" height="100%" showEffect="{showEffect}" />
 			<local:reflectionCanvas creationPolicy="all" id="reflection" width="100%" height="100%" showEffect="{showEffect}" />

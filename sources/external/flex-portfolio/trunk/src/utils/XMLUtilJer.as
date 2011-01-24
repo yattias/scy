@@ -87,7 +87,7 @@ package utils
 			newELO.createdby = <createdby>{cdata(ob.createdby)}</createdby>;
 			newELO.thumbnail = <thumbnail>{cdata(ob.thumbnail)}</thumbnail>;
 			newELO.fullsize = <fullsize>{cdata(ob.fullsize)}</fullsize>;
-			newELO.customname = <myname>{cdata(ob.customname)}</myname>;
+			newELO.customname = <customname>{cdata(ob.customname)}</customname>;
 			newELO.modified = <modified>{cdata(ob.modified)}</modified>;
 			newELO.studentdescription = <studentdescription>{cdata(ob.studentdescription)}</studentdescription>;
 			newELO.studentglg = <studentglg />;
