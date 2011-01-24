@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -16,12 +18,16 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
 import javax.swing.ToolTipManager;
 import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.text.DefaultEditorKit;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -40,6 +46,7 @@ import eu.scy.tools.math.ui.actions.SaveShapesAction;
 import eu.scy.tools.math.ui.actions.ToggleGridAction;
 import eu.scy.tools.math.ui.images.Images;
 import eu.scy.tools.math.ui.panels.ControlPanel;
+import eu.scy.tools.math.ui.panels.ScratchPanel;
 import eu.scy.tools.math.ui.panels.ShapeCanvas;
 
 public class MathTool {
@@ -60,6 +67,8 @@ public class MathTool {
 		
 		UIUtils.componentLookup = new HashMap<String, Object>();
 		UIUtils.componentLookup.put(UIUtils.MATH_TOOL_PANEL, this);
+		
+		 
 		try {
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) { //$NON-NLS-1$
@@ -83,7 +92,7 @@ public class MathTool {
 		ToolTipManager.sharedInstance().setInitialDelay(initialDelay);
 		ToolTipManager.sharedInstance().setDismissDelay(initialDelay * 4);
 		
-		 
+	
 	}
 	
 	public JComponent createMathTool(int width, int height) {
@@ -118,10 +127,11 @@ public class MathTool {
 		exportToGoogleSketchUpAction.putValue(Action.NAME, null);
 		toolBar.add(new JXButton(exportToGoogleSketchUpAction));
 		
-		ToggleGridAction toggleGridAction = new ToggleGridAction();
+		ToggleGridAction toggleGridAction = new ToggleGridAction(mathToolController);
 		toggleGridAction.putValue(Action.NAME, null);
 		toolBar.add(new JXButton(toggleGridAction));
 		toolBar.setOpaque(true);
+		
 		return toolBar;
 	}
 	
@@ -158,7 +168,7 @@ public class MathTool {
 //		JXPanel allPanel = new JXPanel(new MigLayout("inset 3 3 3 3"));
 //		allPanel.setBackgroundPainter(UIUtils.getSubPanelBackgroundPainter());
 
-		JXPanel labelPanel = new JXPanel(new GridLayout(3, 1, 1, 1));
+		JXPanel labelPanel = new JXPanel(new GridLayout(3, 1, 1, 3));
 		labelPanel.setOpaque(false);
 		List<Images> shapes = getShapes(type);
 		for (Images image : shapes) {
@@ -181,9 +191,10 @@ public class MathTool {
 			
 		}
 		
+		labelPanel.setBorder(BorderFactory.createEmptyBorder(6, 0, 0, 0));
 		
 		
-		JXPanel outerPanel = new JXPanel(new BorderLayout(0,0));
+		JXPanel outerPanel = new JXPanel(new BorderLayout(0,3));
 		outerPanel.add(labelPanel,BorderLayout.NORTH);
 		outerPanel.setOpaque(false);
 		
@@ -225,7 +236,9 @@ public class MathTool {
 
 	}
 
-	private JXTitledPanel createWorkAreaPanel(String type, ControlPanel controlPanel) {
+	private JComponent createWorkAreaPanel(String type, ControlPanel controlPanel) {
+		
+		
 		JXTitledPanel workAreaPanel = new JXTitledPanel("Work Area");
 		UIUtils.setModTitlePanel(workAreaPanel);
 		
@@ -236,13 +249,37 @@ public class MathTool {
 		shapeCanvas.setBackground(Color.WHITE);
 		
 		
-	getMathToolController().addCanvas(type, shapeCanvas);
+	getMathToolController().addCanvas(shapeCanvas);
 		
 		workAreaPanel.add(shapeCanvas);
 		
+		JXTitledPanel sPadPanel = new JXTitledPanel("Scratch Pad");
+		UIUtils.setModTitlePanel(sPadPanel);
+		ScratchPanel sp = new ScratchPanel(type);
+		
+		getMathToolController().addScratchPanel(sp);
+		sPadPanel.add(sp);
+		
+		
+		
+//		
+//		JXPanel mPanel = new JXPanel(new BorderLayout(0,2));
+//		mPanel.add(shapeCanvas,BorderLayout.CENTER);
+//		mPanel.add(sPadPanel,BorderLayout.SOUTH);
+//		
+		
+		
+
+		
+		
+		
 //		shapeCanvas.add(new MathToolRectangle(new java.awt.Rectangle(100, 200)));
 //		UIUtils.componentLookup.put(UIUtils.SHAPE_CANVAS, shapeCanvas);
-		return workAreaPanel;
+		
+		JSplitPane s = new JSplitPane(JSplitPane.VERTICAL_SPLIT, workAreaPanel, sPadPanel);
+		s.setResizeWeight(.9);
+		
+		return s;
 	}
 	
 	public JMenuBar createMenuBar() {
@@ -254,10 +291,31 @@ public class MathTool {
 		
 		menuBar.add(fileMenu);
 		
+		JMenu editMenu = new JMenu("Edit"); //$NON-NLS-1$
+
+		
+		
+		JMenuItem jc = new JMenuItem(new DefaultEditorKit.CopyAction());
+		jc.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
+		    Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		
+		JMenuItem jp = new JMenuItem(new DefaultEditorKit.PasteAction());
+		jp.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V,
+		    Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		
+		JMenuItem jx = new JMenuItem(new DefaultEditorKit.CutAction());
+		jx.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,
+		    Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+		
+		editMenu.add(jc);
+		editMenu.add(jp);
+		editMenu.add(jx);
+		
+		menuBar.add(editMenu);
 		JMenu actionsMenu = new JMenu("Actions");
 		
 		actionsMenu.add(new ExportToGoogleSketchUpAction());
-		actionsMenu.add(new ToggleGridAction());
+		actionsMenu.add(new ToggleGridAction(mathToolController));
 		
 		menuBar.add(actionsMenu);
 		

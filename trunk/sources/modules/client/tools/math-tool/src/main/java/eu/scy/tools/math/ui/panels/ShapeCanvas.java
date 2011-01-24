@@ -137,6 +137,9 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas{
 		this.type = type;
 	}
 
+	public String getType() {
+		return type;
+	}
 
 	public void removeAllShapes() {
 		this.mathShapes.removeAll(mathShapes);
