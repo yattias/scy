@@ -10,12 +10,15 @@ import java.awt.RenderingHints;
 import java.awt.font.TextAttribute;
 import java.awt.geom.Rectangle2D;
 import java.text.AttributedString;
+import java.text.DecimalFormat;
 
 import eu.scy.tools.math.shapes.IMathRectangle;
 import eu.scy.tools.math.ui.UIUtils;
 
 public class MathRectangle extends Rectangle implements IMathRectangle {
 
+	
+	private DecimalFormat twoDForm = new DecimalFormat(UIUtils.PATTERN);
 	private Rectangle bounds;
 	private Point[] points = new Point[2];
 	private boolean showCornerPoints = true;
@@ -73,7 +76,7 @@ public class MathRectangle extends Rectangle implements IMathRectangle {
 				g2.fill(cornerPointRectangles[0]);
 		}	
 				//text height
-				String s = "h = " + ( this.getHeight() / 10 ) + " " + UIUtils.METERS;
+				String s = "h = " + twoDForm.format(( this.getHeight() / UIUtils._PIXEL )) + " " + UIUtils.METERS;
 
 			    AttributedString heightText = new AttributedString(s);
 			    heightText.addAttribute(TextAttribute.FONT, UIUtils.plainFont);
@@ -84,7 +87,9 @@ public class MathRectangle extends Rectangle implements IMathRectangle {
 				g2.drawString(heightText.getIterator(), x,y);
 				
 				//text height
-				s = "w = " + ( this.getWidth() / 10 ) + " " + UIUtils.METERS;
+				
+				
+				s = "w = " + twoDForm.format(( this.getWidth() / UIUtils._PIXEL )) + " " + UIUtils.METERS;
 
 			    AttributedString widthText = new AttributedString(s);
 			    widthText.addAttribute(TextAttribute.FONT, UIUtils.plainFont);
@@ -229,13 +234,13 @@ public class MathRectangle extends Rectangle implements IMathRectangle {
 	}
 
 	@Override
-	public double getScaledHeight() {
-		return this.getHeight() / 10;
+	public double getScaledHeight() {	
+		return java.lang.Double.valueOf(twoDForm.format(this.getHeight() / UIUtils._PIXEL));
 	}
 
 	@Override
 	public double getScaledWidth() {
-		return this.getWidth() / 10;
+		return java.lang.Double.valueOf(twoDForm.format(this.getWidth() / UIUtils._PIXEL));
 	}
 
 

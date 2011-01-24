@@ -15,6 +15,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.AttributedString;
+import java.text.DecimalFormat;
 
 import eu.scy.tools.math.shapes.IMathTriangle;
 import eu.scy.tools.math.ui.DrawingUtils;
@@ -22,6 +23,9 @@ import eu.scy.tools.math.ui.UIUtils;
 
 public class MathTriangle extends Rectangle implements IMathTriangle {
 
+	private DecimalFormat twoDForm = new DecimalFormat(UIUtils.PATTERN);
+
+	
 	private Color fillColor  = new Color(0xff9999);
 	private Rectangle[] cornerPointRectangles = new Rectangle[2];
 	private Point[] points = new Point[2];
@@ -181,7 +185,7 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 				
 				 
 				//text height
-				String s = "h = " + ( height / 10 ) + " " + UIUtils.METERS;
+				String s = "h = " + twoDForm.format( height / UIUtils._PIXEL ) + " " + UIUtils.METERS;
 				
 				this.setHeight(height);
 				
@@ -203,7 +207,7 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 				
 				this.setWidth(width);
 				
-				String ws = "w = " + ( width / 10 ) + " " + UIUtils.METERS;
+				String ws = "w = " + twoDForm.format( width / UIUtils._PIXEL ) + " " + UIUtils.METERS;
 
 				    widthText = new AttributedString(ws);
 				    widthText.addAttribute(TextAttribute.FONT, UIUtils.plainFont);
@@ -354,13 +358,13 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 
 	@Override
 	public double getScaledHeight() {
-		return this.getHeight() / 10;
+		return java.lang.Double.valueOf(twoDForm.format(this.getHeight() / UIUtils._PIXEL));
 	}
 
 
 	@Override
 	public double getScaledWidth() {
-		return this.getWidth() / 10;
+		return java.lang.Double.valueOf(twoDForm.format(this.getWidth() / UIUtils._PIXEL));
 	}
 
 }
