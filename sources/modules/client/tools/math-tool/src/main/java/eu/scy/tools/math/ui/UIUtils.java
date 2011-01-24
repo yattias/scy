@@ -24,6 +24,8 @@ import eu.scy.tools.math.ui.paint.RoundedBorder;
 
 public class UIUtils {
 
+	public static final String PATTERN = "#.#";
+	public static final int _PIXEL = 30;
 	public static HashMap<String, Object> componentLookup;
 	public static final String _3D = "3D"; //$NON-NLS-1$
 	public static final String _2D = "2D"; //$NON-NLS-1$

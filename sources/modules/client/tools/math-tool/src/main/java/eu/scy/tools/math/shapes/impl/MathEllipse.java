@@ -14,13 +14,15 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.text.AttributedString;
+import java.text.DecimalFormat;
 
 import eu.scy.tools.math.shapes.IMathEllipse;
 import eu.scy.tools.math.ui.UIUtils;
 
 public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 
-	
+	private DecimalFormat twoDForm = new DecimalFormat(UIUtils.PATTERN);
+
 	private String id;
 	private boolean isShowCornerPoints = true;
 	private Point[] points  = new Point[1];
@@ -65,7 +67,7 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 				g2.fill(cornerPointRectangles[0]);
 		}
 				//text height
-				String s = "r = " + ( getRadius() / 10 ) + " " + UIUtils.METERS;;
+				String s = "r = " + twoDForm.format( getRadius() / UIUtils._PIXEL ) + " " + UIUtils.METERS;;
 
 			    AttributedString widthText = new AttributedString(s);
 			    widthText.addAttribute(TextAttribute.FONT, UIUtils.plainFont);
@@ -223,7 +225,7 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 
 	@Override
 	public double getScaledRadius() {
-		return getRadius() / 10 ;
+		return java.lang.Double.valueOf(twoDForm.format( getRadius() / UIUtils._PIXEL ));
 	}
 
 
