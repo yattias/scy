@@ -46,30 +46,6 @@
         <string language="en">Eco factors</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier>
-          <catalog>memory</catalog>
-          <entry>roolo://memory/20180/0/Concept_map</entry>
-        </identifier>
-      </resource>
-    </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>isbasedon</value>
-      </kind>
-      <resource>
-        <identifier>
-          <catalog>memory</catalog>
-          <entry>roolo://memory/20005/0/ecoMission.runtimesettings</entry>
-        </identifier>
-      </resource>
-    </relation>
   </lom>
   <thumbnail>
     <mime>png</mime>
