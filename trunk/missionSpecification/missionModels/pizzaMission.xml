@@ -12,60 +12,207 @@
 
       <property name="basicMissionMap">
          <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionMap">
-            <property name="initialLasId" value="methodologySteps"/>
+            <property name="initialLasId" value="design"/>
             <property name="loEloUris">
                <list />
             </property>
             <property name="lasses">
                <list>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
-                     <property name="id" value="methodologySteps"/>
-                     <property name="xPosition" value="0"/>
-                     <property name="yPosition" value="0"/>
-                     <property name="tooltip" value="Methodology Steps"/>
-                     <property name="lasType" value="ORIENTATION"/>
-                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Goals.html"/>
-                     <property name="loEloUris">
-                        <list />
-                     </property>
-                     <property name="nextLasses">
-                        <list>
-                           <value>discussion</value>
-                           <value>criteria</value>
-                        </list>
-                     </property>
-                     <property name="anchorEloId" value="methodologySteps"/>
-                     <property name="intermediateEloIds">
-                        <list />
-                     </property>
-                  </bean>
-                  
-				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
-                     <property name="id" value="discussion"/>
-                     <property name="xPosition" value="50"/>
-                     <property name="yPosition" value="40"/>
-                     <property name="tooltip" value="Discussion Notes"/>
-                     <property name="lasType" value="DEBATE"/>
+                     <property name="id" value="design"/>
+                     <property name="xPosition" value="-30"/>
+                     <property name="yPosition" value="-30"/>
+                     <property name="tooltip" value="????"/>
+                     <property name="lasType" value="DESIGN"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part1_Goals.html"/>
                      <property name="loEloUris">
                         <list />
                      </property>
                      <property name="nextLasses">
                         <list>
-                           <value>methodologySteps</value>
-                           <value>criteria</value>
+                           <value>information</value>
                         </list>
                      </property>
-                     <property name="anchorEloId" value="discussionNotes"/>
+                     <property name="anchorEloId" value="myOptimizedHealthyPizza"/>
+                     <property name="intermediateEloIds">
+                        <list>
+								<value>myFavouritePizza</value>
+								<value>myFirstHealthyPizza</value>
+							</list>
+                     </property>
+                  </bean>
+
+                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="experiment"/>
+                     <property name="xPosition" value="30"/>
+                     <property name="yPosition" value="30"/>
+                     <property name="tooltip" value="????"/>
+                     <property name="lasType" value="INFORMATION"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part1_Goals.html"/>
+                     <property name="loEloUris">
+                        <list />
+                     </property>
+                     <property name="nextLasses">
+                        <list>
+                           <value>information</value>
+                           <value>conceptualization2</value>
+                           <value>conceptualization3</value>
+                           <value>reflection1</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="healthPassport"/>
+                     <property name="intermediateEloIds">
+                        <list>
+								<value>foodAndExercideDiary</value>
+								<value>dailyCalorieIntake</value>
+								<value>estimatedEnergyRequirements</value>
+							</list>
+                     </property>
+                  </bean>
+
+                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="information"/>
+                     <property name="xPosition" value="40"/>
+                     <property name="yPosition" value="-100"/>
+                     <property name="tooltip" value="????"/>
+                     <property name="lasType" value="INFORMATION"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part1_Goals.html"/>
+                     <property name="loEloUris">
+                        <list />
+                     </property>
+                     <property name="nextLasses">
+                        <list>
+                           <value>experiment</value>
+                           <value>conceptualization1</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="questionsAboutPizzaBenefits"/>
+                     <property name="intermediateEloIds">
+                        <list>
+								<value>notesOnUnhealthyDiet</value>
+							</list>
+                     </property>
+                  </bean>
+                  
+				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="conceptualization1"/>
+                     <property name="xPosition" value="100"/>
+                     <property name="yPosition" value="-40"/>
+                     <property name="tooltip" value="Discussion Notes"/>
+                     <property name="lasType" value="CONCEPTUALISATION"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part2_Goals.html"/>
+                     <property name="loEloUris">
+                        <list />
+                     </property>
+                     <property name="nextLasses">
+                        <list>
+                           <value>conceptualization2</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="nutrientAndEnergyCalculations"/>
+                     <property name="intermediateEloIds">
+                        <list>
+                           <value>nutritionTable</value>
+                           <value>pizzaIngredientTable</value>
+                        </list>
+                     </property>
+                  </bean>
+				  
+				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="conceptualization2"/>
+                     <property name="xPosition" value="100"/>
+                     <property name="yPosition" value="40"/>
+                     <property name="tooltip" value="Discussion Notes"/>
+                     <property name="lasType" value="CONCEPTUALISATION"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part3_Goals.html"/>
+                     <property name="loEloUris">
+                        <list />
+                     </property>
+                     <property name="nextLasses">
+                        <list>
+                           <value>experiment</value>
+                           <value>conceptualization3</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="constructionOfTheFoodPyramid"/>
+                     <property name="intermediateEloIds">
+                        <list>
+                           <value>questionsAboutTheFoodPyramid</value>
+                        </list>
+                     </property>
+                  </bean>
+				  
+				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="conceptualization3"/>
+                     <property name="xPosition" value="40"/>
+                     <property name="yPosition" value="100"/>
+                     <property name="tooltip" value="Discussion Notes"/>
+                     <property name="lasType" value="CONCEPTUALISATION"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part4_Goals.html"/>
+                     <property name="loEloUris">
+                        <list />
+                     </property>
+                     <property name="nextLasses">
+                        <list>
+                           <value>experiment</value>
+                           <value>conceptualization4</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="energyFactSheet"/>
                      <property name="intermediateEloIds">
                         <list />
                      </property>
                   </bean>
 				  
 				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
-                     <property name="id" value="criteria"/>
-                     <property name="xPosition" value="-50"/>
+                     <property name="id" value="conceptualization4"/>
+                     <property name="xPosition" value="-40"/>
+                     <property name="yPosition" value="100"/>
+                     <property name="tooltip" value="Discussion Notes"/>
+                     <property name="lasType" value="CONCEPTUALISATION"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part5_Goals.html"/>
+                     <property name="loEloUris">
+                        <list />
+                     </property>
+                     <property name="nextLasses">
+                        <list>
+                           <value>reflection1</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="mapOfTheDigestiveSystem"/>
+                     <property name="intermediateEloIds">
+                        <list>
+                           <value>factSheetOfOneOrgan</value>
+                        </list>
+                     </property>
+                  </bean>
+				  
+				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="reflection1"/>
+                     <property name="xPosition" value="-100"/>
                      <property name="yPosition" value="40"/>
+                     <property name="tooltip" value="Criteria"/>
+                     <property name="lasType" value="REFLECTION"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part6_Goals.html"/>
+                     <property name="loEloUris">
+                        <list />
+                     </property>
+                     <property name="nextLasses">
+                        <list>
+                           <value>experiment</value>
+                           <value>reflection2</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="personalComments"/>
+                     <property name="intermediateEloIds">
+                        <list />
+                     </property>
+                  </bean>
+
+				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="reflection2"/>
+                     <property name="xPosition" value="-100"/>
+                     <property name="yPosition" value="-40"/>
                      <property name="tooltip" value="Criteria"/>
                      <property name="lasType" value="REFLECTION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Goals.html"/>
@@ -74,13 +221,42 @@
                      </property>
                      <property name="nextLasses">
                         <list>
-                           <value>discussion</value>
-                           <value>methodologySteps</value>
+                           <value>design</value>
+                           <value>evaluation</value>
                         </list>
                      </property>
-                     <property name="anchorEloId" value="criteriumWeightTable"/>
+                     <property name="anchorEloId" value="criteriaWeightTable"/>
                      <property name="intermediateEloIds">
+                        <list>
+                           <value>methodologySteps</value>
+                           <value>reflectionOnImportanceOfCriteria</value>
+                           <value>criteriaTable</value>
+                        </list>
+                     </property>
+                  </bean>
+				  
+				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="evaluation"/>
+                     <property name="xPosition" value="-40"/>
+                     <property name="yPosition" value="-100"/>
+                     <property name="tooltip" value="Criteria"/>
+                     <property name="lasType" value="REFLECTION"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part8_Goals.html"/>
+                     <property name="loEloUris">
                         <list />
+                     </property>
+                     <property name="nextLasses">
+                        <list>
+                           <value>design</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="letterToSchoolCanteen"/>
+                     <property name="intermediateEloIds">
+                        <list>
+                           <value>individualReport</value>
+                           <value>groupReport</value>
+                           <value>realPizzaGrading</value>
+                        </list>
                      </property>
                   </bean>
                </list>
@@ -92,8 +268,8 @@
       <property name="basicMissionAnchors">
          <list>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="methodologySteps"/>
-               <property name="uri" value="roolo://memory/30003/0/Methodology+Steps.scyxproc"/>
+               <property name="id" value="myOptimizedHealthyPizza"/>
+               <property name="uri" value="roolo://memory/30003/0/My+Optimized+Healthy+Pizza+%28Pizza+3%29.scymodel"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Methodology_Steps.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.1.1.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
@@ -106,8 +282,8 @@
             </bean>
 
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="discussionNotes"/>
-               <property name="uri" value="roolo://memory/30002/0/Discussion+notes.rtf"/>
+               <property name="id" value="myFavouritePizza"/>
+               <property name="uri" value="roolo://memory/30001/0/My+Favourite+Pizza+%28Pizza+1%29.scymodel"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Discussion_Notes.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
@@ -120,7 +296,259 @@
             </bean>
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="criteriumWeightTable"/>
+               <property name="id" value="myFirstHealthyPizza"/>
+               <property name="uri" value="roolo://memory/30002/0/My+First+Healthy+Pizza+%28Pizza+2%29.scymodel"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="healthPassport"/>
+               <property name="uri" value="roolo://memory/30011/0/Health+Passport.scydraw"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="foodAndExercideDiary"/>
+               <property name="uri" value="roolo://memory/30004/0/Food+And+Exercise+Diary.scypds"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="dailyCalorieIntake"/>
+               <property name="uri" value="roolo://memory/30005/0/Daily+Calorie+Intake.scypds"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="estimatedEnergyRequirements"/>
+               <property name="uri" value="roolo://memory/30008/0/Estimated+Energy+Requirements+%28Health+Passport%29.scypds"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="questionsAboutPizzaBenefits"/>
+               <property name="uri" value="roolo://memory/30013/0/Questions+About+Pizza+Benefits.rtf"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="individualReport"/>
+               <property name="uri" value="roolo://memory/30001/0/Questions+About+Pizza+Benefits.rtf"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="realPizzaGrading"/>
+               <property name="uri" value="roolo://memory/30001/0/Questions+About+Pizza+Benefits.rtf"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="notesOnUnhealthyDiet"/>
+               <property name="uri" value="roolo://memory/30012/0/Notes+On+Unhealthy+Diet.rtf"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part1_ELO2.html"/>
+               <property name="resourcesUri" value=""/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="nutrientAndEnergyCalculations"/>
+               <property name="uri" value="roolo://memory/30015/0/Nutrient+And+Energy+Calculations.scymodel"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="nutritionTable"/>
+               <property name="uri" value="roolo://memory/30014/0/Nutrition+Table.scypds"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="pizzaIngredientTable"/>
+               <property name="uri" value="roolo://memory/30016/0/Pizza+Ingredient+Table.scypds"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="constructionOfTheFoodPyramid"/>
+               <property name="uri" value="roolo://memory/30018/0/Construction+Of+The+Food+Pyramid.scymodel"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="questionsAboutTheFoodPyramid"/>
+               <property name="uri" value="roolo://memory/30017/0/Questions+About+The+Food+Pyramid.rtf"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="energyFactSheet"/>
+               <property name="uri" value="roolo://memory/30019/0/Energy+Fact+Sheet.scymapping"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="mapOfTheDigestiveSystem"/>
+               <property name="uri" value="roolo://memory/30020/0/Map+Of+The+Digestive+System.scydraw"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="factSheetOfOneOrgan"/>
+               <property name="uri" value="roolo://memory/30021/0/Fact+Sheet+Of+One+Organ.rtf"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="personalComments"/>
+               <property name="uri" value="roolo://memory/30022/0/Personal+Comments.rtf"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="criteriaWeightTable"/>
                <property name="uri" value="roolo://memory/30001/0/Criterium+Weight+Table.scypds"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
@@ -132,6 +560,77 @@
                   <list />
                </property>
             </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="methodologySteps"/>
+               <property name="uri" value="roolo://memory/30023/0/Methodology+Steps.scyxproc"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="reflectionOnImportanceOfCriteria"/>
+               <property name="uri" value="roolo://memory/30024/0/Reflection+On+Importance+Of+Criteria.rtf"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="criteriaTable"/>
+               <property name="uri" value="roolo://memory/30001/0/Criterium+Weight+Table.scypds"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="letterToSchoolCanteen"/>
+               <property name="uri" value="roolo://memory/30001/0/Criterium+Weight+Table.scypds"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="groupReport"/>
+               <property name="uri" value="roolo://memory/30001/0/Criterium+Weight+Table.scypds"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
 		</list>
 			
       </property>
