@@ -24,8 +24,8 @@ public class DataSet implements Serializable {
 	@JcrName private String name = "DataSet"; // name of the node set by Jcrom
 	@JcrPath private String path; // mandatory attribute -- requested by Jcrom
 
-    @JcrChildNode private List<DataSetHeader> headers;
-    @JcrChildNode private List<DataSetRow> rows;
+    @JcrChildNode private List<DataSetHeader> headers = null;
+    @JcrChildNode private List<DataSetRow> rows = null;
 
     private Element element;
     @JcrProperty  private String elementStr;
@@ -121,11 +121,15 @@ public class DataSet implements Serializable {
 
         if (element == null) {
             element = new Element("dataset");
-            for (Iterator<DataSetHeader> header = headers.iterator(); header.hasNext();) {
-                element.addContent(header.next().toXML());
-            }
-            for (Iterator<DataSetRow> row = rows.iterator(); row.hasNext();) {
-                element.addContent(row.next().toXML());
+            if (headers != null) {
+            	for (Iterator<DataSetHeader> header = headers.iterator(); header.hasNext();) {
+            		element.addContent(header.next().toXML());
+            	}
+            	if (rows != null) {
+            		for (Iterator<DataSetRow> row = rows.iterator(); row.hasNext();) {
+            				element.addContent(row.next().toXML());
+            		}
+            	}
             }
         }
         //elementStr = SerializationHelper.serializeValue(elementStr);
