@@ -90,7 +90,7 @@
 			protected function updateXMLWithSelectedELO(elosObject:Object, selectedVal:Boolean):void {
 				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 				var portfolioElo:XML = so.data.retrievedElosFromRoolo as XML;
-				var myList:XMLList = portfolioElo.elos.elo.(@uri == elosObject.uri);
+				var myList:XMLList = portfolioElo.elos.elo.(uri == elosObject.uri);
 				var eloXML:XML = myList[0] as XML;
 				var newEloXML:XML = myList[0] as XML;
 				newEloXML.hasbeenselectedforsubmit = <hasbeenselectedforsubmit>{selectedVal}</hasbeenselectedforsubmit>;

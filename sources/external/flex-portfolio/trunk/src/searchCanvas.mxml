@@ -126,7 +126,7 @@
 						</s:LinearGradient>
 					</s:backgroundFill>
 					
-					<s:Image source="http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/folder.png" width="60" height="60" left="5" top="5" />
+					<s:Image source="{index.IMAGE_BASE_URL+'assets/images/folder.png'}" width="60" height="60" left="5" top="5" />
 				</s:BorderContainer>	
 				<s:BorderContainer id="header" width="100%" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
 					<s:backgroundFill>
@@ -144,7 +144,7 @@
 			
 			<s:BorderContainer width="{hbo.width}" minHeight="10">
 				<s:HGroup left="2" top="2" right="2" bottom="2" verticalAlign="middle">
-					<s:Image source="http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/inf.png" width="10" height="10" />
+					<s:Image source="{index.IMAGE_BASE_URL+'assets/images/inf.png'}" width="10" height="10" />
 					<s:Label id="instruc" width="100%" height="13" text="{resourceManager.getString('resources', 'SEARCH_RESULT_INSTRUC')}" verticalAlign="middle" />
 				</s:HGroup>
 			</s:BorderContainer>

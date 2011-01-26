@@ -33,7 +33,7 @@
 				if(event.detail == Alert.YES) {
 					var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 					var retrievedElosFromRoolo:XML = so.data.retrievedElosFromRoolo;
-					var myList:XMLList = retrievedElosFromRoolo.elos.elo.(@uri == (this.getElementAt(0) as subCanvasElo).uri);
+					var myList:XMLList = retrievedElosFromRoolo.elos.elo.(uri == (this.getElementAt(0) as subCanvasElo).uri);
 					delete myList[0];
 					so.data.retrievedElosFromRoolo = retrievedElosFromRoolo;
 					so.flush();
@@ -68,10 +68,10 @@
 	
 	<s:VGroup width="20" alpha="0" id="optionsCanvas">
 		<s:BorderContainer width="100%" height="20" click="deleteCanvas_clickHandler(event)" borderVisible="false" mouseChildren="false" buttonMode="true">
-			<s:Image source="http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/del.png" width="20" height="20" />
+			<s:Image source="{index.IMAGE_BASE_URL+'assets/images/del.png'}" width="20" height="20" />
 		</s:BorderContainer>
 		<s:BorderContainer width="100%" height="20" click="editHandler(event)" borderVisible="false" mouseChildren="false" buttonMode="true">
-			<s:Image source="http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/edit.png" width="20" height="20" />
+			<s:Image source="{index.IMAGE_BASE_URL+'assets/images/edit.png'}" width="20" height="20" />
 		</s:BorderContainer>
 	</s:VGroup>
 </s:HGroup>

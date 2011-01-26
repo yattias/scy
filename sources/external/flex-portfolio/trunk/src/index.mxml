@@ -76,6 +76,8 @@
 			import mx.rpc.events.ResultEvent;
 			import mx.utils.URLUtil;
 			
+			import utils.GraphicOperation;
+			
 			public static const SHAREDOBJECT_LOCAL_NAME:String = "scy-eportfolio";
 			
 			public static const IMAGE_BASE_URL:String = "http://www.intermedia.uio.no/www-data-public/app-scy/ep/";
@@ -259,7 +261,7 @@
 				var xmlResult:XML = event.result as XML;
 				
 				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
-					var searchForExistingList:XMLList = xmlResult.elo.(@uri == eloToAddURL);
+					var searchForExistingList:XMLList = xmlResult.elo.(uri == eloToAddURL);
 					so.data.searchSelection = searchForExistingList[0] as XML;
 					
 				}
@@ -269,6 +271,11 @@
 				
 				so.flush();
 				animate(LEFT_DIRECTION, STACK_REFLEC_PANEL);
+			}
+
+
+			protected function thumbCreator_clickHandler(event:MouseEvent):void {
+				thumbCont.source = GraphicOperation.getBitmap(mainStack.selectedChild);
 			}
 
 		]]>
@@ -319,7 +326,9 @@
 	</s:Group>
 	
 	<s:BorderContainer id="clicker" width="10" height="10" backgroundColor="#FF0000" backgroundAlpha=".1" borderVisible="false" click="infoPanVisi = !infoPanVisi;" />
-	
+
+	<s:BorderContainer id="thumbCreator" width="10" height="10" right="0" backgroundColor="#00FF00" backgroundAlpha=".1" borderVisible="false" click="thumbCreator_clickHandler(event)" />
+
 	<s:Scroller id="altBox" visible="{infoPanVisi}" width="400" height="400" horizontalCenter="0" verticalCenter="0" >
 		<s:VGroup width="100%" >
 			<s:BorderContainer width="100%" cornerRadius="5" borderWeight="2" borderColor="#999999" dropShadowVisible="true" backgroundColor="0x333333" alpha=".9">
@@ -327,4 +336,6 @@
 			</s:BorderContainer>
 		</s:VGroup>
 	</s:Scroller>
+	
+	<s:BitmapImage id="thumbCont" width="80" height="80"/>
 </s:Application>

@@ -12,7 +12,7 @@ package utils
 		public static function getEloObjectAsXML(object:XML):Object {
 			var xmlObject:Object;
 			xmlObject = new Object();
-			xmlObject.uri = object.@uri;
+			xmlObject.uri = object.uri;
 			xmlObject.catname = object.catname;
 			xmlObject.createdby = object.createdby;
 			xmlObject.thumbnail = object.thumbnail;
@@ -82,7 +82,7 @@ package utils
 		
 		public static function getXMLFormattedELO(ob:Object):XML {
 			var newELO:XML = <elo />;
-			newELO.@uri = ob.uri;
+			newELO.uri = <uri>{cdata(ob.uri)}</uri>;
 			newELO.catname = <catname>{cdata(ob.catname)}</catname>;
 			newELO.createdby = <createdby>{cdata(ob.createdby)}</createdby>;
 			newELO.thumbnail = <thumbnail>{cdata(ob.thumbnail)}</thumbnail>;

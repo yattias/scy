@@ -11,7 +11,8 @@
     <assessmentportfoliorating></assessmentportfoliorating>
     <assessed>false</assessed>
     <elos>
-        <elo uri="aaa">
+        <elo>
+            <uri><![CDATA[aaa]]></uri>
             <createdby><![CDATA[Group1]]></createdby>
             <catname><![CDATA[Research questions]]></catname>
             <thumbnail><![CDATA[http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/thumbs/thumb1.jpg]]></thumbnail>
