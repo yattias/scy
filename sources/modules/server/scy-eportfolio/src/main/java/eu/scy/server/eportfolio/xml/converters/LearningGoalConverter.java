@@ -23,6 +23,7 @@ public class LearningGoalConverter extends AbstractSingleValueConverter  {
 
     @Override
     public Object fromString(String s) {
+        System.out.println("CONVERTING LEARNING GOAL FROM STRING : " +s );
         LearningGoal learningGoal = new LearningGoal();
         learningGoal.setGoal(s);
         return learningGoal;

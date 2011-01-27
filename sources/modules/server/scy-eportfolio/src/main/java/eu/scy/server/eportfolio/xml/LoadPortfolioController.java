@@ -41,33 +41,43 @@ public class LoadPortfolioController extends MissionRuntimeEnabledXMLService {
 
         logger.info("MISSION: " + missionRuntimeElo.getTitle());
 
-        Portfolio portfolio = new Portfolio();
-        portfolio.setMissionName(missionRuntimeElo.getTitle());
-        portfolio.setOwner(getCurrentUser(request).getUserDetails().getUsername());
-        portfolio.setPortfolioStatus("NOT_SUBMITTED");
-        portfolio.setAssessed(false);
-        portfolio.setReflectionCollaboration("HUH DUDE; REFLECTION is for professors!");
-        portfolio.setReflectionEffort("NO GOOD MAN!");
-        portfolio.setReflectionInquiry("MUUU");
-        portfolio.setReflectionMission("WOha reflect reflect");
-        portfolio.setAssessmentPortfolioComment("A comment from me");
-        portfolio.setAssessmentPortfolioRating("TOO GOOD TO BE TRUE (6/6)");
 
+        URI portfolioURI = missionRuntimeElo.getTypedContent().getEPortfolioEloUri();
+        Portfolio portfolio = null;
+        if (portfolioURI != null) {
+            ScyElo ePortfolioElo = ScyElo.loadLastVersionElo(portfolioURI, getMissionELOService());
+            String portfolioString = ePortfolioElo.getContent().getXmlString();
+            logger.info("PORTFOLIO: " + portfolioString);
+            if (portfolioString != null) {
+                portfolio = (Portfolio) xstream.fromXML(portfolioString);
+            }
+        }
+       if (portfolio == null) {
+            portfolio = new Portfolio();
+            portfolio.setMissionName(missionRuntimeElo.getTitle());
+            portfolio.setOwner(getCurrentUser(request).getUserDetails().getUsername());
+            portfolio.setPortfolioStatus("NOT_SUBMITTED");
+            //portfolio.setAssessed(false);
+            //portfolio.setReflectionCollaboration("HUH DUDE; REFLECTION is for professors!");
+            //portfolio.setReflectionEffort("NO GOOD MAN!");
+            //portfolio.setReflectionInquiry("MUUU");
+            //portfolio.setReflectionMission("WOha reflect reflect");
+            //portfolio.setAssessmentPortfolioComment("A comment from me");
+            //portfolio.setAssessmentPortfolioRating("TOO GOOD TO BE TRUE (6/6)");
+        }
 
 
         List elos = getMissionELOService().findElosFor(missionRuntimeElo.getUri().toString(), getCurrentUserName(request));
         List searchResult = new LinkedList();
-
-        for (int i = 0; i < elos.size(); i++) {
-            IELO elo = (IELO) elos.get(i);
-            ScyElo scyElo = ScyElo.loadLastVersionElo(elo.getUri(), getMissionELOService());
-            TransferElo telo = new TransferElo(scyElo);
-            portfolio.getElos().add(telo);
-
-
-        }
+        /**
+         for (int i = 0; i < elos.size(); i++) {
+         IELO elo = (IELO) elos.get(i);
+         ScyElo scyElo = ScyElo.loadLastVersionElo(elo.getUri(), getMissionELOService());
+         TransferElo telo = new TransferElo(scyElo);
+         portfolio.getElos().add(telo);
 
 
+         }  */
 
 
         LearningGoal learningGoal = new LearningGoal();
@@ -88,7 +98,6 @@ public class LoadPortfolioController extends MissionRuntimeEnabledXMLService {
         super.addAliases(xStream);    //To change body of overridden methods use File | Settings | File Templates.
 
     }
-
 
 
     public UrlInspector getUrlInspector() {

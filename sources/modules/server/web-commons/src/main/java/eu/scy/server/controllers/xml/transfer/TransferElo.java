@@ -3,7 +3,9 @@ package eu.scy.server.controllers.xml.transfer;
 import eu.scy.common.scyelo.ScyElo;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,7 +14,7 @@ import java.util.List;
  * Time: 19:49:17
  * To change this template use File | Settings | File Templates.
  */
-public class TransferElo {
+public class TransferElo extends BaseXMLTransfer{
 
     private String uri;
     private String catname;
@@ -21,22 +23,34 @@ public class TransferElo {
     private String myname;
     private String modified;
     private String studentDescription;
-    private LearningGoal generalLearningGoal;
-    private LearningGoal specificLearningGoal;
+
+    private List generalLearningGoals = new LinkedList();
+    private List specificLearningGoals = new LinkedList();
+
     private String studentReflection;
     private String studentInquiry;
     private Boolean assessed = Boolean.FALSE;
-    private String grade;
-    private String assessmentComment;
-    private String reflectionComment;
     private String createdDate;
     private String lastModified;
     private String createdBy;
+    private String eloId;
+
+    private String assessmentComment;
+    private String reflectionComment;
+
+    private Boolean hasBeenReflectedOn = Boolean.FALSE;
+    private Boolean hasBeenSelectedForSubmit = Boolean.FALSE;
+    private String inquiryQuestion;
+
+    private String grade;
+
+
 
     public TransferElo() {
     }
 
     public TransferElo(ScyElo scyElo) {
+        super();
         setMyname(scyElo.getTitle());
         setUri(scyElo.getUri().toString());
         Date lastModified = new Date(scyElo.getDateLastModified());
@@ -56,6 +70,8 @@ public class TransferElo {
         setThumbnail("thummy");
         setFullsize("fully");
         setStudentDescription("stydentdesc");
+
+
     }
 
 
@@ -115,20 +131,29 @@ public class TransferElo {
         this.studentDescription = studentDescription;
     }
 
-    public LearningGoal getGeneralLearningGoal() {
-        return generalLearningGoal;
+
+    public void addGeneralLearningGoal(LearningGoal learningGoal) {
+        getGeneralLearningGoals().add(learningGoal);
     }
 
-    public void setGeneralLearningGoal(LearningGoal generalLearningGoal) {
-        this.generalLearningGoal = generalLearningGoal;
+    public List getGeneralLearningGoals() {
+        return generalLearningGoals;
     }
 
-    public LearningGoal getSpecificLearningGoal() {
-        return specificLearningGoal;
+    public void setGeneralLearningGoals(List generalLearningGoals) {
+        this.generalLearningGoals = generalLearningGoals;
     }
 
-    public void setSpecificLearningGoal(LearningGoal specificLearningGoal) {
-        this.specificLearningGoal = specificLearningGoal;
+    public void addSpecificLearningGoal(LearningGoal learningGoal) {
+        getSpecificLearningGoals().add(learningGoal);
+    }
+
+    public List getSpecificLearningGoals() {
+        return specificLearningGoals;
+    }
+
+    public void setSpecificLearningGoals(List specificLearningGoals) {
+        this.specificLearningGoals = specificLearningGoals;
     }
 
     public String getStudentReflection() {
@@ -201,5 +226,33 @@ public class TransferElo {
 
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public String getEloId() {
+        return getId();
+    }
+
+    public Boolean getHasBeenReflectedOn() {
+        return hasBeenReflectedOn;
+    }
+
+    public void setHasBeenReflectedOn(Boolean hasBeenReflectedOn) {
+        this.hasBeenReflectedOn = hasBeenReflectedOn;
+    }
+
+    public Boolean getHasBeenSelectedForSubmit() {
+        return hasBeenSelectedForSubmit;
+    }
+
+    public void setHasBeenSelectedForSubmit(Boolean hasBeenSelectedForSubmit) {
+        this.hasBeenSelectedForSubmit = hasBeenSelectedForSubmit;
+    }
+
+    public String getInquiryQuestion() {
+        return inquiryQuestion;
+    }
+
+    public void setInquiryQuestion(String inquiryQuestion) {
+        this.inquiryQuestion = inquiryQuestion;
     }
 }
