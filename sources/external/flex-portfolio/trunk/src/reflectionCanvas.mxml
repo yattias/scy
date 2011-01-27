@@ -232,7 +232,7 @@
 					slgLiveText = "";	
 				}
 				
-				//SLG.refresh();
+				SLG.refresh();
 				slgResultGrid.validateNow();
 			}
 			
@@ -251,7 +251,7 @@
 					glgLiveText = "";	
 				}
 				
-				//GLG.refresh();
+				GLG.refresh();
 				glgResultGrid.validateNow();
 			}
 

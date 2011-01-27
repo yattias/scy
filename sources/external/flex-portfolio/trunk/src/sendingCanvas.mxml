@@ -96,6 +96,7 @@
 				xmlPortfolio.reflectioneffort = <reflectioneffort>{refOnInqTextSlider.value}</reflectioneffort>;
 				so.data.retrievedElosFromRoolo = xmlPortfolio;
 				so.flush();
+				trace(so.data.retrievedElosFromRoolo);
 				Alert.show(resourceManager.getString('resources', 'ALERT_SUBMIT_TEXT'), resourceManager.getString('resources', 'ALERT_SUBMIT_TITLE'), Alert.OK, null, alertListener);
 			}
 			
@@ -283,7 +284,7 @@
 		</s:HGroup>
 	</s:VGroup>	
 	
-	<s:BorderContainer id="altBox" width="300" x="{index.ALT_BOX_INIT_X}" cornerRadius="5" borderWeight="2" borderColor="{index.THEME_COL}" dropShadowVisible="true" backgroundColor="{index.BACK_GRADIENT_TOP}" alpha=".9" mouseOver="altBox_mouseOverHandler(event)">
+	<s:BorderContainer id="altBox" width="300" x="{index.ALT_BOX_INIT_X}" y="{index.ALT_BOX_INIT_X}" cornerRadius="5" borderWeight="2" borderColor="{index.THEME_COL}" dropShadowVisible="true" backgroundColor="{index.BACK_GRADIENT_TOP}" alpha=".9" mouseOver="altBox_mouseOverHandler(event)">
 		<s:VGroup left="3" right="3" height="100%" gap="2" color="#333333">
 			<mx:Text id="descriptionInfo" width="100%" />
 			<mx:Text id="glgInfo" width="100%" />
