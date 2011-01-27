@@ -45,7 +45,7 @@ public abstract class XMLStreamerController extends AbstractController {
         xStream.alias("portfolios", LinkedList.class);
         xStream.alias("elo", TransferElo.class);
         xStream.alias("portfolio", Portfolio.class);
-        xStream.useAttributeFor(TransferElo.class, "uri");
+        //xStream.useAttributeFor(TransferElo.class, "uri");
 
         
     }
