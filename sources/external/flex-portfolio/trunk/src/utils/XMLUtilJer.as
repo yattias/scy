@@ -82,7 +82,7 @@ package utils
 		
 		public static function getXMLFormattedELO(ob:Object):XML {
 			var newELO:XML = <elo />;
-			newELO.uri = <uri>{cdata(ob.uri)}</uri>;
+			newELO.uri = <uri>{cdata((ob.uri).replace("#", "%23"))}</uri>;
 			newELO.catname = <catname>{cdata(ob.catname)}</catname>;
 			newELO.createdby = <createdby>{cdata(ob.createdby)}</createdby>;
 			newELO.thumbnail = <thumbnail>{cdata(ob.thumbnail)}</thumbnail>;

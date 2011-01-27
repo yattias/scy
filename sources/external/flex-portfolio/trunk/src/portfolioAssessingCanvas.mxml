@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					xmlns:s="library://ns.adobe.com/flex/spark" 
+					xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:containers="com.dougmccune.containers.*">
+	
+	<fx:Script>
+		<![CDATA[
+			import listeners.ToggleEvent;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
+			import mx.events.CloseEvent;
+			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			
+			import utils.XMLUtilJer;
+			
+			[Bindable] private var elosArray:ArrayCollection;
+			private var xmlPortfolio:XML;
+			
+			[Bindable] private var sendingLabel:String = "";
+			[Bindable] private var sendButtonEnabled:Boolean = false;
+			[Bindable] private var labelsArray:Array;
+			
+			[Bindable] private var ref1Txt:String = "";
+			[Bindable] private var ref2Txt:String = "";
+			[Bindable] private var ref3Txt:String = "";
+			
+			private var so:SharedObject;
+			
+			private var tabsHeader:ArrayCollection = new ArrayCollection(["Assessed ELOs", "Assessed Portfolio"]);
+			
+			protected function clickHandler(dir:String, stack:Number):void {
+				var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
+				tEvent.direction = dir;
+				tEvent.selecTarget = stack;
+				dispatchEvent(tEvent);
+			}
+			
+			public function refreshView():void {
+				labelsArray = new Array();
+				labelsArray.push(resourceManager.getString('resources', 'TAB_POOR'));
+				labelsArray.push(resourceManager.getString('resources', 'TAB_FAIR'));
+				labelsArray.push(resourceManager.getString('resources', 'TAB_GOOD'));
+				labelsArray.push(resourceManager.getString('resources', 'TAB_EXCELLENT'));
+				
+				coverflow.removeAll();
+				
+				elosArray = new ArrayCollection();
+				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				
+				currentStatus.text = resourceManager.getString('resources', so.data.retrievedElosFromRoolo.portfoliostatus);
+				
+				xmlPortfolio = so.data.retrievedElosFromRoolo;
+				if(xmlPortfolio.reflectionmission != null) {
+					reflectionArea1.text = xmlPortfolio.reflectionmission;
+				}
+				if(xmlPortfolio.reflectioncollaboration != null) {
+					reflectionArea2.text = xmlPortfolio.reflectioncollaboration;
+				}
+				if(xmlPortfolio.reflectioninquiry != null) {
+					reflectionArea3.text = xmlPortfolio.reflectioninquiry;
+				}
+				if(xmlPortfolio.reflectioneffort != null) {
+					refOnInqTextSlider.value = new Number(xmlPortfolio.reflectioneffort);
+				}
+				if(xmlPortfolio.assessmentportfoliocomment != null) {
+					teaReflectionArea1.text =  xmlPortfolio.assessmentportfoliocomment;
+				}
+				if(xmlPortfolio.assessmentportfoliorating != null) {
+					teaReflectionLabel1.text = teaReflectionLabel1.text + xmlPortfolio.assessmentportfoliorating;
+				}
+				
+				for each (var object:XML in xmlPortfolio.elos.*) {
+					if (object.name() == "elo" && object.hasbeenselectedforsubmit == "true") {
+						elosArray.addItem(XMLUtilJer.getEloObjectAsXML(object));
+					}
+				}
+				
+				if(elosArray.length > 0) {
+					for(var i:Number = 0; i < elosArray.length; i++) {
+						var subCE:subCanvasElo = XMLUtilJer.getSubCanvasEloFromObject(elosArray[i]);
+						subCE.addEventListener(MouseEvent.MOUSE_OVER, showInfoBox);
+						subCE.addEventListener(MouseEvent.MOUSE_OUT, hideInfoBox);
+						coverflow.addChild(subCE);
+						subCE.box.setStyle("backgroundColor", index.THEME_COL);
+						subCE.highLightELO(false);
+					}
+					
+					scrollbar.maxScrollPosition = coverflow.numChildren - 1;
+					coverflow.selectedIndex = 0;
+				}
+			}
+			
+			protected function okSubmit_clickHandler(event:MouseEvent):void {
+				xmlPortfolio.portfoliostatus = <portfoliostatus>{XMLUtilJer.cdata(index.PORTFOLIO_SUBMITTED)}</portfoliostatus>;
+				xmlPortfolio.reflectionmission = <reflectionmission>{XMLUtilJer.cdata(ref1Txt)}</reflectionmission>;
+				xmlPortfolio.reflectioncollaboration = <reflectioncollaboration>{XMLUtilJer.cdata(ref2Txt)}</reflectioncollaboration>;
+				xmlPortfolio.reflectioninquiry = <reflectioninquiry>{XMLUtilJer.cdata(ref3Txt)}</reflectioninquiry>;
+				xmlPortfolio.reflectioneffort = <reflectioneffort>{refOnInqTextSlider.value}</reflectioneffort>;
+				so.data.retrievedElosFromRoolo = xmlPortfolio;
+				so.flush();
+			}
+			
+			private function updateCoordinates(event:Event):void {
+				if((mouseX + altBox.width) > this.width) {
+					altBox.x = mouseX - 20 - altBox.width;
+				}
+				else {
+					altBox.x = mouseX + 20;			
+				}
+				
+				if((mouseY + altBox.height) > this.height) {
+					altBox.y = mouseY - 20 - altBox.height;
+				}
+				else {
+					altBox.y = mouseY + 20;
+				}
+			}
+			
+			
+			protected function altBox_mouseOverHandler(event:MouseEvent):void {
+				updateCoordinates(event);
+			}
+			
+			private function showInfoBox(evt:MouseEvent):void {
+				descriptionInfo.htmlText = "<u>"+resourceManager.getString('resources', 'DESCRIPTION') + "</u>: " +(evt.target).studentdescription;
+				
+				var glgString:String = "<u>"+resourceManager.getString('resources', 'GLG') + "</u>: <br>";
+				if((evt.target).studentglg != null) {
+					for(var i:Number = 0; i<(evt.target).studentglg.length; i++) {
+						glgString = glgString + "     - " + ((evt.target).studentglg[i][0]).entry + "<br>";
+					}
+				}
+				glgInfo.htmlText = glgString;
+				
+				var slgString:String = "<u>"+resourceManager.getString('resources', 'SLG') + "</u>: <br>";
+				if((evt.target).studentslg != null) {
+					for(var i:Number = 0; i<(evt.target).studentslg.length; i++) {
+						slgString = slgString + "     - " + ((evt.target).studentslg[i][0]).entry + "<br>";
+					}
+				}
+				slgInfo.htmlText = slgString;
+				
+				reflectionInfo.htmlText = "<u>"+resourceManager.getString('resources', 'REFLECTION') + "</u>: " +(evt.target).studentreflection;
+				reflectionInq.htmlText = "<u>"+resourceManager.getString('resources', 'REF_ON_INQ') + "</u>: " +(evt.target).inquiryquestion;
+				reflectionInqImg.source = index.IMAGE_BASE_URL+"assets/images/emoticons/"+new String((evt.target).studentinquiry)+".png";
+				altBox.addEventListener(Event.ENTER_FRAME, updateCoordinates);
+			}
+			
+			private function hideInfoBox(evt:MouseEvent):void {
+				altBox.removeEventListener(Event.ENTER_FRAME, updateCoordinates);
+				altBox.x = index.ALT_BOX_INIT_X;
+			}
+			
+			private function validateSubmitButton():void {
+				if(ref1Txt != "" && ref2Txt != "" && ref3Txt != "") {
+					sendButtonEnabled = true;
+				}
+				else {
+					sendButtonEnabled = false;
+				}
+			}
+		]]>
+	</fx:Script>
+	
+	<s:VGroup width="100%" height="100%" horizontalAlign="center" gap="0" >
+		<s:HGroup id="hbo" width="100%" height="70" horizontalAlign="center" verticalAlign="middle" gap="3">
+			<s:BorderContainer id="headerLogo" width="70" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
+				<s:backgroundFill>
+					<s:LinearGradient rotation="90">
+						<s:GradientEntry color="{index.THEME_COL}" />
+						<s:GradientEntry color="{index.THEME_COL}" />
+					</s:LinearGradient>
+				</s:backgroundFill>
+				
+				<s:Image source="{index.IMAGE_BASE_URL+'assets/images/folder.png'}" width="60" height="60" left="5" top="5" />
+			</s:BorderContainer>	
+			<s:BorderContainer id="header" width="100%" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
+				<s:backgroundFill>
+					<s:LinearGradient rotation="90">
+						<s:GradientEntry color="{index.THEME_COL}" />
+						<s:GradientEntry color="{index.THEME_COL}" />
+					</s:LinearGradient>
+				</s:backgroundFill>
+				
+				<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
+					<s:Label id="headerText" width="60%" color="{index.BACK_GRADIENT_BOT}" fontSize="15" textAlign="center" text="{resourceManager.getString('resources', 'ASSESSED_HEADER')}" />
+				</s:HGroup>
+			</s:BorderContainer>	
+		</s:HGroup>
+		<mx:Spacer height="5" />
+		<s:HGroup id="selectionBox" width="100%" gap="0">
+			<s:HGroup id="selec" width="50%" height="100%" />
+			<s:HGroup id="statusBox" width="50%" height="100%" horizontalAlign="right" verticalAlign="middle">
+				<s:Label id="statusLabel" text="{resourceManager.getString('resources', 'STATUS')+': '}" textAlign="right" color="{index.THEME_COL}"/>
+				<s:Label id="currentStatus" text="{resourceManager.getString('resources', index.PORTFOLIO_STATUS)}" textAlign="left" color="#000000"/>
+				<mx:Spacer width="10" />
+			</s:HGroup>
+		</s:HGroup>
+		
+		<s:TabBar id="tabs" dataProvider="{tabsHolder}" cornerRadius="0" color="#FFFFFF" skinClass="skins.CustomSparkTabBarSkin" />
+		<mx:ViewStack id="tabsHolder" width="100%" height="100%" creationPolicy="all">
+			<s:NavigatorContent width="100%" height="100%" label="Assessed ELOs">
+				<s:VGroup left="10" right="10" top="10" bottom="15" >
+					<s:BorderContainer id="blog" height="280" width="100%" borderColor="#333333" borderAlpha=".2">
+						<s:VGroup height="285" width="100%" >
+							<containers:CoverFlowContainer id="coverflow" width="100%" height="100%" 
+														   horizontalGap="40" borderStyle="none" backgroundColor="{index.BACK_GRADIENT_BOT}"
+														   segments="10" reflectionEnabled="true" />            
+							<mx:HScrollBar id="scrollbar" width="100%" pageSize="1" styleName="myScrollBar" scrollPosition="{coverflow.selectedIndex}" 
+										   scroll="coverflow.selectedIndex = Math.round(scrollbar.scrollPosition)" />
+						</s:VGroup>
+					</s:BorderContainer>
+					<mx:Spacer height="10" />
+					<s:VGroup width="100%" height="100%">
+						<s:HGroup width="100%" gap="5">
+							<s:Label width="200" text="Score:" color="#555555"/>
+							<s:Label text="{(coverflow.selectedChild as subCanvasElo).grade}" width="550" />
+						</s:HGroup>  
+						<s:HGroup width="100%" gap="5">
+							<s:Label width="200" text="Assessment of 1st ideas of my Design Group:" color="#555555"/>
+							<s:TextArea id="teaRefOnInqText" text="{(coverflow.selectedChild as subCanvasElo).assessmentcomment}" width="550" height="50" borderAlpha=".1"/>
+						</s:HGroup>  
+						<s:HGroup width="100%" gap="5">
+							<s:Label width="200" text="Comment on Reflection on 1st ideas of my Design Group:" color="#555555" />
+							<s:TextArea id="teaReflectionAreaText" text="{(coverflow.selectedChild as subCanvasElo).reflectioncomment}" width="550" height="50" borderAlpha=".1" />
+						</s:HGroup>  
+
+					</s:VGroup>
+				</s:VGroup>
+			</s:NavigatorContent>
+			<s:NavigatorContent width="100%" height="100%" label="Assessed Portfolio">
+				<s:VGroup left="10" right="10" top="10" bottom="15" >
+					<s:BorderContainer width="100%" minHeight="10" borderColor="{index.THEME_COL}">
+						<s:HGroup left="2" top="2" right="2" bottom="2" verticalAlign="middle">
+							<s:Label id="instruc" width="100%" height="13" text="Student" verticalAlign="middle" />
+							<s:Label id="instruct" width="100%" height="13" text="Teacher" verticalAlign="middle" textAlign="right" />
+						</s:HGroup>
+					</s:BorderContainer>
+					<s:HGroup width="100%" height="100%" gap="20" >
+						<mx:Accordion width="100%" height="100%" color="#333333" headerStyleName="customAccordionHeadStyles">
+							<s:NavigatorContent id="refTxt1" width="100%" height="100%" label="{resourceManager.getString('resources', 'REFLECTION_TXT1')}">
+								<s:TextArea id="reflectionArea1" width="{refTxt1.width - 20}" height="{refTxt1.height - 20}" 
+											horizontalCenter="0" verticalCenter="0" 
+											color="#333333"
+											contentBackgroundAlpha="0" borderVisible="true" borderColor="#333333" borderAlpha=".3" editable="false" chromeColor="{index.THEME_LIGHT}"/>
+							</s:NavigatorContent>
+							<s:NavigatorContent id="refTxt2" width="100%" height="100%" label="{resourceManager.getString('resources', 'REFLECTION_TXT2')}">
+								<s:TextArea id="reflectionArea2" width="{refTxt2.width - 20}" height="{refTxt2.height - 20}" 
+											horizontalCenter="0" verticalCenter="0" 
+											color="#333333"
+											contentBackgroundAlpha="0" borderVisible="true" borderColor="#333333" borderAlpha=".3" editable="false" chromeColor="{index.THEME_LIGHT}"/>
+							</s:NavigatorContent>
+							<s:NavigatorContent id="refTxt3" width="100%" height="100%" label="{resourceManager.getString('resources', 'REFLECTION_TXT3')}">
+								<s:TextArea id="reflectionArea3" width="{refTxt3.width - 20}" height="{refTxt3.height - 20}" 
+											horizontalCenter="0" verticalCenter="0" 
+											color="#333333"
+											contentBackgroundAlpha="0" borderVisible="true" borderColor="#333333" borderAlpha=".3" editable="false" chromeColor="{index.THEME_LIGHT}"/>
+							</s:NavigatorContent>
+							<s:NavigatorContent id="refTxt4" width="100%" height="100%" label="{resourceManager.getString('resources', 'REFLECTION_TXT4')}">
+								<s:VGroup width="90%" gap="0" horizontalCenter="0">
+									<mx:Spacer height="20" />
+									<s:HGroup width="100%" id="sliderIcon" height="33" gap="{(sliderIcon.width-4*30)/3}">
+										<s:Image source="assets/images/emoticons/1.png" width="30" height="33" />
+										<s:Image source="assets/images/emoticons/2.png" width="30" height="33" />
+										<s:Image source="assets/images/emoticons/3.png" width="30" height="33" />
+										<s:Image source="assets/images/emoticons/4.png" width="30" height="33" /> 
+									</s:HGroup>
+									<mx:HSlider chromeColor="#000000" enabled="false" id="refOnInqTextSlider" minimum="1" maximum="4" value="{new Number(xmlPortfolio.reflectioneffort)}" dataTipPlacement="top" tickColor="#000000"
+												snapInterval="1" tickInterval="1" allowTrackClick="false" width="100%" showDataTip="false" />
+								</s:VGroup>
+							</s:NavigatorContent>
+						</mx:Accordion>
+						<s:VGroup width="100%" height="100%"  gap="20" id="teaAssessArea">
+							<s:VGroup left="0" right="0" gap="0" horizontalAlign="center">
+								<s:Label text="{resourceManager.getString('resources', 'COMMENT_ON_PORTFOLIO')+':'}" width="{teaAssessArea.width}" color="#333333" />
+								<s:TextArea id="teaReflectionArea1" width="{teaAssessArea.width}" horizontalCenter="0" height="300" color="#000000" contentBackgroundColor="#FFFFFF"/>
+							</s:VGroup>
+							<s:VGroup left="0" right="0"  horizontalCenter="0" horizontalAlign="center">
+								<s:Label id="teaReflectionLabel1" text="{resourceManager.getString('resources', 'RATING_OF_PORTFOLIO')+': '}" width="100%" color="#333333" />
+							</s:VGroup>
+						</s:VGroup>
+					</s:HGroup>
+				</s:VGroup>
+			</s:NavigatorContent>
+		</mx:ViewStack>
+	</s:VGroup>	
+	
+	<s:BorderContainer id="altBox" width="300" x="{index.ALT_BOX_INIT_X}" y="{index.ALT_BOX_INIT_X}" cornerRadius="5" borderWeight="2" borderColor="{index.THEME_COL}" dropShadowVisible="true" backgroundColor="{index.BACK_GRADIENT_TOP}" alpha=".9" mouseOver="altBox_mouseOverHandler(event)">
+		<s:VGroup left="3" right="3" height="100%" gap="2" color="#333333">
+			<mx:Text id="descriptionInfo" width="100%" />
+			<mx:Text id="glgInfo" width="100%" />
+			<mx:Text id="slgInfo" width="100%" />
+			<mx:Text id="reflectionInfo" width="100%" />
+			<s:HGroup width="100%" verticalAlign="middle" right="3">
+				<mx:Text id="reflectionInq" width="100%" />
+				<mx:Image id="reflectionInqImg" width="30" height="33" />
+			</s:HGroup>
+		</s:VGroup>
+	</s:BorderContainer>
+	
+</s:NavigatorContent>

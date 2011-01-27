@@ -30,7 +30,8 @@
 			
 			public function refreshContent():void { 
 				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
-				if(new String(so.data.retrievedElosFromRoolo.portfoliostatus) == "PORTFOLIO_SUBMITTED") {
+				
+				if(new String(so.data.retrievedElosFromRoolo.portfoliostatus) == index.PORTFOLIO_SUBMITTED) {
 					currentState = "locked";
 				}
 				else {

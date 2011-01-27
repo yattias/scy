@@ -102,13 +102,12 @@
 						
 						var searchForExistingList:XMLList = retrievedElosFromRoolo.elos.elo.(uri == eloUri);
 						var eloXML:XML = searchForExistingList[0] as XML;
+						
 						if(searchForExistingList.length() > 0) {
-							trace("we are updating");
 							retrievedElosFromRoolo.elos.insertChildBefore(eloXML, XMLUtilJer.getXMLFormattedELO(resultToSave));
 							delete searchForExistingList[0];
 						}
 						else {
-							trace("we are saving");
 							retrievedElosFromRoolo.elos.appendChild(XMLUtilJer.getXMLFormattedELO(resultToSave));
 						}
 						
@@ -152,36 +151,42 @@
 				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 				var selectedElo:Object = so.data.searchSelection;
 				
-				selectedEloCatname = selectedElo.catname;
-				missionTextText = index.MISSION_NAME + " / " + selectedEloCatname;
-				createdTextText = selectedElo.createdby;
-				eloIconSource = selectedElo.thumbnail;
-				elonameTextText = selectedElo.customname;
-				createdDateTextText = selectedElo.modified;
-				
-				if(edit) {
-					eloUri = selectedElo.uri;
-					currentState = "updateReflection";
-					descriptionArea.text = selectedElo.studentdescription;
+				if(selectedElo != null) {
+					selectedEloCatname = selectedElo.catname;
+					missionTextText = index.MISSION_NAME + " / " + selectedEloCatname;
+					createdTextText = selectedElo.createdby;
+					eloIconSource = selectedElo.thumbnail;
+					elonameTextText = selectedElo.customname;
+					createdDateTextText = selectedElo.modified;
 					
-					for(var i:Number = 0; i<(selectedElo.studentglg as ArrayCollection).length; i++) {
-						var n:Number = new Number((selectedElo.studentglg as ArrayCollection)[i][0].pos);
-						GLG[n].shouldAdd = true;
+					if(edit) {
+						eloUri = (selectedElo.uri).replace("#", "%23");
+						currentState = "updateReflection";
+						descriptionArea.text = selectedElo.studentdescription;
+						
+						for(var i:Number = 0; i<(selectedElo.studentglg as ArrayCollection).length; i++) {
+							var n:Number = new Number((selectedElo.studentglg as ArrayCollection)[i][0].pos);
+							GLG[n].shouldAdd = true;
+						}
+						updateGLGField();
+						
+						for(var j:Number = 0; j<(selectedElo.studentslg as ArrayCollection).length; j++) {
+							var m:Number = new Number((selectedElo.studentslg as ArrayCollection)[j][0].pos);
+							SLG[m].shouldAdd = true;
+						}
+						updateSLGField();
+						
+						reflectionArea.text = selectedElo.studentreflection;
+						refOnInqTextSlider.value = new Number(selectedElo.studentinquiry);
 					}
-					updateGLGField();
-					
-					for(var j:Number = 0; j<(selectedElo.studentslg as ArrayCollection).length; j++) {
-						var m:Number = new Number((selectedElo.studentslg as ArrayCollection)[j][0].pos);
-						SLG[m].shouldAdd = true;
+					else {
+						eloUri = (selectedElo.uri).replace("#", "%23");
 					}
-					updateSLGField();
-					
-					reflectionArea.text = selectedElo.studentreflection;
-					refOnInqTextSlider.value = new Number(selectedElo.studentinquiry);
 				}
 				else {
-					eloUri = selectedElo.uri;
+					Alert.show("The specified ELO could not be found", "Search ELO error");
 				}
+				
 			}
 
 

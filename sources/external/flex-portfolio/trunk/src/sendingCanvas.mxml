@@ -87,7 +87,7 @@
 					coverflow.selectedIndex = 0;
 				}
 				
-				if(new String(so.data.retrievedElosFromRoolo.portfoliostatus) == "PORTFOLIO_SUBMITTED") {
+				if(new String(so.data.retrievedElosFromRoolo.portfoliostatus) == index.PORTFOLIO_SUBMITTED) {
 					reflectionArea1.editable = false;
 					reflectionArea2.editable = false;
 					reflectionArea3.editable = false;
@@ -100,14 +100,15 @@
 			}
 			
 			protected function okSubmit_clickHandler(event:MouseEvent):void {
-				xmlPortfolio.portfoliostatus = <portfoliostatus>{XMLUtilJer.cdata("PORTFOLIO_SUBMITTED")}</portfoliostatus>;
+				xmlPortfolio.portfoliostatus = <portfoliostatus>{XMLUtilJer.cdata(index.PORTFOLIO_SUBMITTED)}</portfoliostatus>;
 				xmlPortfolio.reflectionmission = <reflectionmission>{XMLUtilJer.cdata(ref1Txt)}</reflectionmission>;
 				xmlPortfolio.reflectioncollaboration = <reflectioncollaboration>{XMLUtilJer.cdata(ref2Txt)}</reflectioncollaboration>;
 				xmlPortfolio.reflectioninquiry = <reflectioninquiry>{XMLUtilJer.cdata(ref3Txt)}</reflectioninquiry>;
 				xmlPortfolio.reflectioneffort = <reflectioneffort>{refOnInqTextSlider.value}</reflectioneffort>;
 				so.data.retrievedElosFromRoolo = xmlPortfolio;
 				so.flush();
-				trace(xmlPortfolio);
+				trace(so.data.retrievedElosFromRoolo);
+				Alert.show(xmlPortfolio.elos.elo[0].uri, "uri of 0");
 				Alert.show(resourceManager.getString('resources', 'ALERT_SUBMIT_TEXT'), resourceManager.getString('resources', 'ALERT_SUBMIT_TITLE'), Alert.OK, null, alertListener);
 			}
 			

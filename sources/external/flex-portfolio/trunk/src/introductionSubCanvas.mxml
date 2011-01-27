@@ -30,10 +30,10 @@
 			public function refreshView():Number {
 				elosArray = new ArrayCollection();
 				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				tile.removeAllElements();
 				var xmlPortfolio:XML = so.data.retrievedElosFromRoolo;
 				for each (var object:XML in xmlPortfolio.elos.*) {
 					if (object.name() == "elo" && object.catname == this.catname) {
-						
 						elosArray.addItem(XMLUtilJer.getEloObjectAsXML(object));
 					}
 				}
@@ -48,7 +48,6 @@
 				}
 				else {
 					currentState = "withElos";
-					tile.removeAllElements();
 					for(var i:Number = 0; i < elosArray.length; i++) {
 						var subCE:subCanvasElo = XMLUtilJer.getSubCanvasEloFromObject(elosArray[i]);
 						subCE.addEventListener(MouseEvent.MOUSE_OVER, showInfoBox);
@@ -59,7 +58,7 @@
 						selecCol.addElementAt(subCE, 0);
 						selecCol.parentCanvas = this;
 						selecCol.originalEloObject = elosArray[i];
-						if(new String(so.data.retrievedElosFromRoolo.portfoliostatus) != "PORTFOLIO_SUBMITTED") {
+						if(new String(so.data.retrievedElosFromRoolo.portfoliostatus) != index.PORTFOLIO_SUBMITTED) {
 							selecCol.addEventListener(MouseEvent.MOUSE_DOWN, showDeleteBox);
 						}
 					}
