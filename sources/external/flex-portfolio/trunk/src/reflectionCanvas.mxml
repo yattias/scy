@@ -34,6 +34,7 @@
 			import listeners.ToggleEvent;
 			
 			import mx.collections.ArrayCollection;
+			import mx.collections.ArrayList;
 			import mx.controls.Alert;
 			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
@@ -223,7 +224,7 @@
 					slgLiveText = "";	
 				}
 				
-				SLG.refresh();
+				//SLG.refresh();
 				slgResultGrid.validateNow();
 			}
 			
@@ -242,7 +243,7 @@
 					glgLiveText = "";	
 				}
 				
-				GLG.refresh();
+				//GLG.refresh();
 				glgResultGrid.validateNow();
 			}
 
@@ -397,55 +398,55 @@
 		</s:HGroup>
 	</s:VGroup>
 	<s:BorderContainer id="glgSelect" y="{refForm.y}" visible="{glgSelectVisible}" top="20" left="20" right="20" bottom="20" backgroundColor="{index.BACK_GRADIENT_TOP}" borderColor="{index.THEME_COL}" backgroundAlpha=".9" cornerRadius="10" borderWeight="2">
-		<s:VGroup width="100%" height="100%" top="20" left="20" right="20" bottom="20">
-			<mx:DataGrid id="glgResultGrid" width="100%" height="100%" dataProvider="{GLG}" variableRowHeight="true">
-				<mx:columns>
-					<mx:DataGridColumn dataField="goal" headerText="{resourceManager.getString('resources', 'GLG')}" wordWrap="true" />
-					<mx:DataGridColumn id="gcol2"
-									   editorDataField="selected"
-									   rendererIsEditor="true"
-									   dataField="data.shouldAdd"
-									   headerText="Selection"
-									   width="80">
-						<mx:itemRenderer>
-							<fx:Component>
-								<mx:CheckBox selected="{data.shouldAdd}"
-											 change="data.shouldAdd=selected" textAlign="center"/>
-							</fx:Component>
-						</mx:itemRenderer>
-					</mx:DataGridColumn>
-					
-				</mx:columns>
-			</mx:DataGrid>
-			<s:HGroup id="glgSelectFooter" width="100%" height="40" horizontalAlign="center" gap="10" verticalAlign="middle">
-				<s:Button id="okglgSelect" label="{resourceManager.getString('resources', 'OK_BUTTON')}" click="button2_clickHandler(true)" />
-			</s:HGroup>
-		</s:VGroup>
+		<s:Scroller top="20" left="20" right="20" bottom="40">
+			<s:VGroup width="100%" height="100%">
+				<mx:DataGrid id="glgResultGrid" width="100%" height="100%" dataProvider="{GLG}" variableRowHeight="true">
+					<mx:columns>
+						<mx:DataGridColumn dataField="goal" headerText="{resourceManager.getString('resources', 'GLG')}" wordWrap="true" width="450" />
+						<mx:DataGridColumn id="gcol2"
+										   editorDataField="selected"
+										   rendererIsEditor="true"
+										   dataField="data.shouldAdd"
+										   headerText="Selection">
+							<mx:itemRenderer>
+								<fx:Component>
+									<mx:CheckBox selected="{data.shouldAdd}"
+												 change="data.shouldAdd=selected" textAlign="center"/>
+								</fx:Component>
+							</mx:itemRenderer>
+						</mx:DataGridColumn>
+					</mx:columns>
+				</mx:DataGrid>
+			</s:VGroup>
+		</s:Scroller>
+		<s:HGroup id="glgSelectFooter" width="100%" height="40" bottom="0" horizontalAlign="center" gap="10" verticalAlign="middle">
+			<s:Button id="okglgSelect" label="{resourceManager.getString('resources', 'OK_BUTTON')}" click="button2_clickHandler(true)" />
+		</s:HGroup>
 	</s:BorderContainer>
 	<s:BorderContainer id="slgSelect" y="{refForm.y}" visible="{slgSelectVisible}" top="20" left="20" right="20" bottom="20" backgroundColor="{index.BACK_GRADIENT_TOP}" borderColor="{index.THEME_COL}" backgroundAlpha=".9" cornerRadius="10" borderWeight="2">
-		<s:VGroup width="100%" height="100%" top="20" left="20" right="20" bottom="20">
-			<mx:DataGrid id="slgResultGrid" width="100%" height="100%" dataProvider="{SLG}" variableRowHeight="true">
-				<mx:columns>
-					<mx:DataGridColumn dataField="goal" headerText="{resourceManager.getString('resources', 'SLG')}" wordWrap="true" />
-					<mx:DataGridColumn id="scol2"
-									   editorDataField="selected"
-									   rendererIsEditor="true"
-									   dataField="data.shouldAdd"
-									   headerText="Selection"
-									   width="80">
-						<mx:itemRenderer>
-							<fx:Component>
-								<mx:CheckBox selected="{data.shouldAdd}"
-											 change="data.shouldAdd=selected" textAlign="center"/>
-							</fx:Component>
-						</mx:itemRenderer>
-					</mx:DataGridColumn>
-	
-				</mx:columns>
-			</mx:DataGrid>
-			<s:HGroup id="slgSelectFooter" width="100%" height="40" horizontalAlign="center" gap="10" verticalAlign="middle">
-				<s:Button id="okslgSelect" label="{resourceManager.getString('resources', 'OK_BUTTON')}" click="button1_clickHandler(true)" />
-			</s:HGroup>
-		</s:VGroup>
+		<s:Scroller top="20" left="20" right="20" bottom="40">
+			<s:VGroup width="100%" height="100%">
+				<mx:DataGrid id="slgResultGrid" width="100%" height="100%" dataProvider="{SLG}" variableRowHeight="true">
+					<mx:columns>
+						<mx:DataGridColumn dataField="goal" headerText="{resourceManager.getString('resources', 'SLG')}" wordWrap="true" width="450" />
+						<mx:DataGridColumn id="scol2"
+										   editorDataField="selected"
+										   rendererIsEditor="true"
+										   dataField="data.shouldAdd"
+										   headerText="Selection">
+							<mx:itemRenderer>
+								<fx:Component>
+									<mx:CheckBox selected="{data.shouldAdd}"
+												 change="data.shouldAdd=selected" textAlign="center"/>
+								</fx:Component>
+							</mx:itemRenderer>
+						</mx:DataGridColumn>
+					</mx:columns>
+				</mx:DataGrid>
+			</s:VGroup>
+		</s:Scroller>
+		<s:HGroup id="slgSelectFooter" width="100%" height="40" bottom="0" horizontalAlign="center" gap="10" verticalAlign="middle">
+			<s:Button id="okslgSelect" label="{resourceManager.getString('resources', 'OK_BUTTON')}" click="button1_clickHandler(true)" />
+		</s:HGroup>
 	</s:BorderContainer>
 </s:NavigatorContent>

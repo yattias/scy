@@ -86,8 +86,8 @@
 			public static const NOT_SUBMITTED:String = "NOT_SUBMITTED";
 			public static const SHAREDOBJECT_LOCAL_NAME:String = "scy-eportfolio";
 			
-			public static const IMAGE_BASE_URL:String = "http://www.intermedia.uio.no/www-data-public/app-scy/ep/";
-			//public static const IMAGE_BASE_URL:String = "";
+			//public static const IMAGE_BASE_URL:String = "http://www.intermedia.uio.no/www-data-public/app-scy/ep/";
+			public static const IMAGE_BASE_URL:String = "";
 			
 			[Bindable] private var infoPanVisi:Boolean = false;
 			
@@ -227,6 +227,9 @@
 				so.data.retrievedElosFromRoolo = xml;
 				so.flush();
 				
+				bm = BrowserManager.getInstance();   
+				bm.init("", "SCY Eportfolio");
+				
 				if(checkPortfolioStatus() == PORTFOLIO_SUBMITTED) {
 					animate(LEFT_DIRECTION, STACK_INTRO_PANEL);
 				}
@@ -248,8 +251,7 @@
 			
 			private function isNormalStart():Boolean {
 				var normalStart:Boolean = true;
-				bm = BrowserManager.getInstance();   
-				bm.init("", "Welcome!");
+				
 				var urlObject:Object = URLUtil.stringToObject(bm.fragment, "&");     
 				if(urlObject.eloToAdd != undefined) {
 					urlInfo.text = (urlObject.eloToAdd);
@@ -258,7 +260,8 @@
 						
 						eloSearchService.url = toolURLProvider.elosearchservice+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23")+"&searchELO="+encodeURI(urlObject.eloToAdd);
 						if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
-							eloSearchService.url = "searchElo.xml";
+							//eloSearchService.url = "searchElo.xml";
+							eloSearchService.url = new String(toolURLProvider.elosearchservice).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "%23");
 							eloToAddURL = urlObject.eloToAdd;
 						}
 						
