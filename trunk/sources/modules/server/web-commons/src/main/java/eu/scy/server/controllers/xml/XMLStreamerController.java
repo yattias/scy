@@ -1,7 +1,11 @@
 package eu.scy.server.controllers.xml;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.core.util.QuickWriter;
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
+import com.thoughtworks.xstream.io.xml.XppDriver;
 import eu.scy.core.UserService;
 import eu.scy.core.model.User;
 import eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceImpl;
@@ -16,6 +20,7 @@ import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.Writer;
 import java.util.LinkedList;
 
 /**
@@ -47,15 +52,41 @@ public abstract class XMLStreamerController extends AbstractController {
         xStream.alias("portfolio", Portfolio.class);
         //xStream.useAttributeFor(TransferElo.class, "uri");
 
-        
+
     }
 
-    protected void omitFields(XStream xStream ) {
+    protected void omitFields(XStream xStream) {
     }
 
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
-        this.xstream = new XStream(new DomDriver());
+        //this.xstream = new XStream(new DomDriver());
+        this.xstream = new XStream(new XppDriver() {
+
+            public HierarchicalStreamWriter createWriter(Writer out) {
+
+                return new PrettyPrintWriter(out) {
+
+                    boolean cdata = false;
+
+                    public void startNode(String name, Class clazz) {
+                        super.startNode(name, clazz);
+                        cdata = true;//(name.equals("mission") || name.equals("name"));
+                    }
+
+                    protected void writeText(QuickWriter writer, String text) {
+                        if (cdata) {
+                            writer.write("<![CDATA[");
+                            writer.write(text);
+                            writer.write("]]>");
+                        } else {
+                            writer.write(text);
+                        }
+                    }
+                };
+            }
+        }
+        );
         httpServletResponse.setContentType("text/xml");
         xstream.setMode(getXStreamMode());
         omitFields(xstream);
@@ -70,21 +101,21 @@ public abstract class XMLStreamerController extends AbstractController {
     protected abstract Object getObjectToStream(HttpServletRequest request, HttpServletResponse httpServletResponse);
 
     public User getCurrentUser(HttpServletRequest request) {
-       return getUserService().getUser(getCurrentUserName(request));
-   }
+        return getUserService().getUser(getCurrentUserName(request));
+    }
 
     public String getCurrentUserName(HttpServletRequest request) {
-      org.springframework.security.userdetails.User user = (org.springframework.security.userdetails.User) request.getSession().getAttribute("CURRENT_USER");
-      return user.getUsername();
-  }
+        org.springframework.security.userdetails.User user = (org.springframework.security.userdetails.User) request.getSession().getAttribute("CURRENT_USER");
+        return user.getUsername();
+    }
 
     public UserService getUserService() {
-       return userService;
-   }
+        return userService;
+    }
 
     public void setUserService(UserService userService) {
-       this.userService = userService;
-   }
+        this.userService = userService;
+    }
 
     public XStream getXstream() {
         return xstream;

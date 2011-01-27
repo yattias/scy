@@ -32,6 +32,10 @@ public abstract class MissionRuntimeEnabledXMLService extends XMLStreamerControl
     private UrlInspector urlInspector;
 
 
+    protected Object getDeserializedObject(String xml) {
+        return xstream.fromXML(xml);
+    }
+
     @Override
     protected final Object getObjectToStream(HttpServletRequest request, HttpServletResponse httpServletResponse) {
         try {
@@ -53,9 +57,12 @@ public abstract class MissionRuntimeEnabledXMLService extends XMLStreamerControl
 
     @Override
     protected void addAliases(XStream xStream) {
-        super.addAliases(xStream);    //To change body of overridden methods use File | Settings | File Templates.
+        super.addAliases(xStream);
+        
         xStream.alias("elo", TransferElo.class);
+        xStream.alias("goal", LearningGoal.class);
         xStream.alias("searchresult", ELOSearchResult.class);
+
         xStream.aliasField("createddate", TransferElo.class, "createdDate");
         xStream.aliasField("modified", TransferElo.class, "lastModified");
         xStream.aliasField("uri".toLowerCase(), TransferElo.class, "uri");
@@ -74,6 +81,17 @@ public abstract class MissionRuntimeEnabledXMLService extends XMLStreamerControl
         xStream.aliasField("createdDate".toLowerCase(), TransferElo.class, "createdDate");
         xStream.aliasField("lastModified".toLowerCase(), TransferElo.class, "lastModified");
         xStream.aliasField("createdBy".toLowerCase(), TransferElo.class, "createdBy");
+        xStream.aliasField("eloId".toLowerCase(), TransferElo.class, "eloId");
+        xStream.aliasField("studentglg", TransferElo.class, "generalLearningGoals");
+        xStream.aliasField("assessmentComment".toLowerCase(), TransferElo.class, "assessmentComment");
+        xStream.aliasField("reflectionComment".toLowerCase(), TransferElo.class, "reflectionComment");
+        xStream.aliasField("hasBeenReflectedOn".toLowerCase(), TransferElo.class, "hasBeenReflectedOn");
+        xStream.aliasField("inquiryQuestion".toLowerCase(), TransferElo.class, "inquiryQuestion");
+        xStream.aliasField("hasBeenSelectedForSubmit".toLowerCase(), TransferElo.class, "hasBeenSelectedForSubmit");
+        xStream.aliasField("studentslg", TransferElo.class, "specificLearningGoals");
+
+        xStream.addImplicitCollection(TransferElo.class, "generalLearningGoals", LearningGoal.class);
+        xStream.addImplicitCollection(TransferElo.class, "specificLearningGoals", LearningGoal.class);
 
 
         xStream.aliasField("portfoliostatus", Portfolio.class, "portfolioStatus");
@@ -89,8 +107,10 @@ public abstract class MissionRuntimeEnabledXMLService extends XMLStreamerControl
         xStream.aliasField("generalLearningGoals".toLowerCase(), LearningGoals.class, "generalLearningGoals");
         xStream.aliasField("specificLearningGoals".toLowerCase(), LearningGoals.class, "specificLearningGoals");
 
-        xStream.aliasField("generallearninggoals ", LearningGoals.class, "generalLearningGoals ");
-        xStream.aliasField("specificlearninggoals  ", LearningGoals.class, "specificLearningGoals ");
+        xStream.aliasField("generallearninggoals", LearningGoals.class, "generalLearningGoals ");
+        xStream.aliasField("specificlearninggoals", LearningGoals.class, "specificLearningGoals ");
+
+
 
         xStream.registerConverter(new LearningGoalConverter());
 

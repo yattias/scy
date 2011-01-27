@@ -22,7 +22,6 @@ public class Portfolio {
     private String assessmentPortfolioComment;
     private String assessmentPortfolioRating;
     private Boolean assessed = Boolean.FALSE;
-
     private static final String CDATA_START = "<![CDATA[";
     private static final String CDATA_END = "]]>";
 
@@ -89,13 +88,13 @@ public class Portfolio {
         this.reflectionEffort = reflectionEffort;
     }
 
-    public Boolean getAssessed() {
+    /*public Boolean getAssessed() {
         return assessed;
     }
 
     public void setAssessed(Boolean assessed) {
         this.assessed = assessed;
-    }
+    } */
 
     public List<TransferElo> getElos() {
         return elos;
