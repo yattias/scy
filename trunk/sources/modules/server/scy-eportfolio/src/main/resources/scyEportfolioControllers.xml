@@ -48,6 +48,8 @@
                 /app/eportfolio/xml/currentMissionRuntimeInfo.html=currentMissionRuntimeInfo
 
                 /app/assessment/assessmentindex.html=assessmentIndexController
+
+                /app/feedback/feedbackindex.html=feedbackIndexController
             </value>
         </property>
     </bean>
@@ -59,6 +61,11 @@
 	</bean>
 
     <bean id="assessmentIndexController" class="eu.scy.server.assessment.AssessmentIndex">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+	</bean>
+
+    <bean id="feedbackIndexController" class="eu.scy.server.feedback.FeedbackIndexController">
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
 	</bean>
