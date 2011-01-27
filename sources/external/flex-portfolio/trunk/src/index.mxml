@@ -28,7 +28,7 @@
 							(mainStack.selectedChild as submitCanvas).refreshView();
 						break;
 						case STACK_SENDING_PANEL:
-							(mainStack.selectedChild as sendingCanvas).refreshView(new String(toolURLProvider.saveportfolio));
+							(mainStack.selectedChild as sendingCanvas).refreshView();
 						break;
 						case STACK_PORTFOLIO_PANEL:
 							(mainStack.selectedChild as portfolioAssessingCanvas).refreshView();
@@ -179,15 +179,15 @@
 			protected function URLpropertyFile_resultHandler(event:ResultEvent):void {
 				//parse 'toolURLProvider.html' first
 				toolURLProvider = event.result as XML;
-				urlInfo.text = toolURLProvider;
-				urlInfo.text = urlInfo.text + "\ntoolURLProvider.portfolioloader: " + toolURLProvider.portfolioloader;
-				//portfolioService.url = "eportfolio.xml";
+				
+				so.data.saveportfolio = new String(toolURLProvider.saveportfolio)
+				so.flush();
+					
 				portfolioService.url = new String(toolURLProvider.portfolioloader)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
 				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
 					portfolioService.url = new String(toolURLProvider.portfolioloader).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "%23");
 				}
 				
-				urlInfo.text = urlInfo.text + "\nportfolioService.url: " + portfolioService.url;
 				portfolioService.send();
 			}
 			

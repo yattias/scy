@@ -42,6 +42,7 @@
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
 			
+			import utils.AutoSaveService;
 			import utils.XMLUtilJer;
 			
 			[Bindable] private var slgSelectVisible:Boolean = false;
@@ -112,7 +113,14 @@
 							retrievedElosFromRoolo.elos.appendChild(XMLUtilJer.getXMLFormattedELO(resultToSave));
 						}
 						
-						so.data.retrievedElosFromRoolo;
+						so.data.retrievedElosFromRoolo = retrievedElosFromRoolo;
+						so.flush();
+						
+						var params:Object = new Object();
+						params.missionURI = decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
+						params.xmlContent = encodeURI(so.data.retrievedElosFromRoolo);
+						new AutoSaveService(so.data.saveportfolio, params);	
+						
 						resetForm();
 						dispatchEvent(tEvent);
 					}
