@@ -115,10 +115,12 @@ public class EdgesManager extends IEdgesManager {
                 }
             }
         };
-        var t = BackgroundTask {
-            backgroundFunction: f;
-            };
-        t.start();
+        // as we don't want to have version / fork-edges anymore, we
+        // don't call function f anymore
+//        var t = BackgroundTask {
+//            backgroundFunction: f;
+//            };
+//        t.start();
     }
 
     protected function insertDatasyncNodes() {
