@@ -28,6 +28,22 @@ public class Portfolio {
 
     private List<TransferElo> elos = new LinkedList();
 
+    public void unCdatify() {
+        setPortfolioStatus(replaceCdata(getPortfolioStatus()));
+
+    }
+
+    private String replaceCdata(String inputString) {
+        if(inputString == null) return null;
+        String thing = "\\[";
+        String cdata = "<!CDATA";
+        String end = "\\]";
+
+        inputString = inputString.replaceAll(thing, "");
+        inputString = inputString.replaceAll(cdata, "");
+        inputString = inputString.replaceAll(end, "");
+        return inputString;
+    }
 
     private String getCdata(String content) {
         return CDATA_START + content + CDATA_END;
@@ -106,7 +122,7 @@ public class Portfolio {
     }
 
     public void addElo(TransferElo transferElo) {
-        if(getElos() == null) setElos(new LinkedList());
+        if (getElos() == null) setElos(new LinkedList());
         getElos().add(transferElo);
     }
 
