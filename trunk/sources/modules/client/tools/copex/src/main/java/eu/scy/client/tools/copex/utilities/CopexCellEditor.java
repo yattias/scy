@@ -215,7 +215,7 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
 
     public TextTable getMaterialTable(){
         if(materialTable == null){
-            materialTable = new TextTable(new LinkedList(), 2);
+            materialTable = new TextTable(new LinkedList(),4);
             materialTable.setName("materialTable");
             this.panelNode.add(materialTable);
         }
@@ -283,7 +283,7 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
                 if(materialTable == null)
                     getMaterialTable();
                 materialTable.setTextList(listMaterial);
-                materialTable.setNbCol(2);
+                materialTable.setNbCol(4);
                 materialTable.setBounds(0, labelNode.getHeight()+labelNode.getY(),materialTable.getWidth(), materialTable.getHeight());
             }else{
                 if(materialTable != null){

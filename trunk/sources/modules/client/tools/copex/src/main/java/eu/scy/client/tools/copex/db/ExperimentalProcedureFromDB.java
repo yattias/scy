@@ -2018,7 +2018,7 @@ public class ExperimentalProcedureFromDB {
             draw = CopexUtilities.xmlToString(principle.getDrawing());
         }
         String query = "INSERT INTO GENERAL_PRINCIPLE (ID_PRINCIPLE, GENERAL_PRINCIPLE, PRINCIPLE_COMMENT,PRINC_HIDE, PRINCIPLE_DRAWING) " +
-                    " VALUES (NULL,'"+gp+"' , "+hide+",'"+comment+"', '"+draw+"'); ";
+                    " VALUES (NULL,'"+gp+"' , '"+comment+"', "+hide+", '"+draw+"'); ";
         String queryID = "SELECT max(last_insert_id(`ID_PRINCIPLE`))   FROM GENERAL_PRINCIPLE ;";
         ArrayList v2 = new ArrayList();
         CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);

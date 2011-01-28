@@ -63,8 +63,8 @@ public class EditProcDialog extends javax.swing.JDialog {
         // mission : nom + description 
         CopexMission mission = proc.getMission();
         String m = mission.getName();
-        if (mission.getSumUp() != null && mission.getSumUp().length() != 0)
-            m += "\n"+mission.getSumUp();
+        if (mission.getDescription() != null && mission.getDescription().length() != 0)
+            m += "\n"+mission.getDescription();
         textAreaMission.setText(m);
         textAreaMission.setLineWrap(true);
         textAreaMission.setWrapStyleWord(true);

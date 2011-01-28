@@ -18,6 +18,7 @@ import eu.scy.client.tools.copex.utilities.CopexUtilities;
 import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.awt.Cursor;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * ouverture editeur de proc, si aucun proc dans la mission et si plusieurs proc initiaux
@@ -35,7 +36,7 @@ public class CreateProcDialog extends javax.swing.JDialog {
     /* liste des proc initiaux */
     private List<InitialProcedure> listInitialProc;
 
-    private boolean setDefaultProcName = false;
+    private boolean setDefaultProcName = true;
 
     // CONSTRUCTOR
     public CreateProcDialog(CopexPanel edP, ControllerInterface controller, List<InitialProcedure> listInitialProc) {
@@ -64,7 +65,8 @@ public class CreateProcDialog extends javax.swing.JDialog {
         int nb = this.listInitialProc.size();
         for (int i=0; i<nb; i++){
             InitialProcedure initProc = listInitialProc.get(i);
-            cbInitialProc.addItem(initProc.getCode());
+            //cbInitialProc.addItem(initProc.getCode());
+            cbInitialProc.addItem(initProc.getName(edP.getLocale()));
         }
         if (nb > 0){
             cbInitialProc.setSelectedIndex(0);

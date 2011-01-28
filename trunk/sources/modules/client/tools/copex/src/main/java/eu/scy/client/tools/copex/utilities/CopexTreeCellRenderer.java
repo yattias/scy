@@ -216,7 +216,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
                 if(materialTable == null)
                     getMaterialTable();
                 materialTable.setTextList(listMaterial);
-                materialTable.setNbCol(2);
+                materialTable.setNbCol(4);
                 materialTable.setBounds(0, labelNode.getHeight()+labelNode.getY(),materialTable.getWidth(), materialTable.getHeight());
             }else{
                 if(materialTable != null){
@@ -252,18 +252,22 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
             int nbL = textNode.getLineCount() ;
             int widthTree = ((CopexTree)tree).getTextWidth(value, row) - icon.getWidth();
             boolean oneLine = false;
+            //System.out.println("widthTree, textWidth "+widthTree+", "+textWidth);
             if (textWidth < widthTree){
                 widthTree = textWidth ;
                 oneLine = true;
             }
+            //System.out.println("oneLine "+oneLine);
             int w = Math.max(widthTree, TEXT_AREA_MIN_WIDTH);
             int heightText = (int)((((float)(textWidth / w))+1)*hl) ;
             if (oneLine)
                 heightText = hl;
             heightText = Math.max(nbL*hl, heightText);
             textNode.setSize(w, heightText);
+            //System.out.println("heightText "+heightText);
             nbL = getNbLine(text, w-5, textNode.getFontMetrics(textNode.getFont()));
-            textNode.setSize(w, nbL*hl+5);
+            //System.out.println("nbL "+nbL);
+            //textNode.setSize(w, nbL*hl+5);
             //textNode.setSize(w, nbL*hl);
             textNode.setBounds(0, labelNode.getHeight()+labelNode.getY(), textNode.getWidth(), textNode.getHeight());
         }
@@ -291,7 +295,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
             heightComment = Math.max(nbLC*HEIGHT_ONE_LINE_COMMENT, heightComment);
             commentNode.setSize(cw, heightComment);
             nbLC = getNbLine(comment, cw-5, getFontMetrics(textNode.getFont()));
-            commentNode.setSize(cw, nbLC*HEIGHT_ONE_LINE_COMMENT+5);
+            //commentNode.setSize(cw, nbLC*HEIGHT_ONE_LINE_COMMENT+5);
         }
         if (commentNode != null){
             this.commentNode.setBounds(0, this.textNode.getY()+this.textNode.getHeight(), this.commentNode.getWidth(), this.commentNode.getHeight());
@@ -373,7 +377,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
         if(id2 != -1){
             nbL += (int)(((float)(CopexUtilities.lenghtOfString(text.substring(id2, text.length()), fm) / width))+1);
         }
-        if(nbL == 1){
+        if(nbL == 1 ){
             nbL = (int)(((float)(CopexUtilities.lenghtOfString(t, fm) / width))+1);
         }
         return nbL;
@@ -411,7 +415,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
 
     public TextTable getMaterialTable(){
         if(materialTable == null){
-            materialTable = new TextTable(new LinkedList(), 2);
+            materialTable = new TextTable(new LinkedList(), 4);
             materialTable.setName("materialTable");
             this.panelNode.add(materialTable);
         }

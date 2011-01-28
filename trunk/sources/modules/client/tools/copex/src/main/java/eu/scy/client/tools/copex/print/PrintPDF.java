@@ -115,11 +115,6 @@ public class PrintPDF {
         }
     }
 
-   
-
-
-   
-
     private Font getNormalFont(){
         BaseFont baseFont;
         try {
@@ -362,22 +357,22 @@ public class PrintPDF {
 
     private CopexReturn setList(List<String> list){
        try{
-           Table table = new Table(3);
+           Table table = new Table(5);
            table.setBorderWidth(0);
            table.setAlignment(Element.ALIGN_LEFT);
            
            int nb = list.size();
            int nbRow = 0;
            if(nb%2 == 1){
-               nbRow =nb/2+1;
+               nbRow =nb/4+1;
            }else
-               nbRow = nb/2;
+               nbRow = nb/4;
 
            for(int i=0; i<nbRow; i++){
                Cell indentCell=  new Cell("");
                 indentCell.setBorder(0);
                 table.addCell(indentCell);
-               for (int j=1; j<3; j++){
+               for (int j=1; j<5; j++){
                        int k = i+(j-1)*nbRow;
                        Chunk c;
                        if(k < nb){
@@ -392,10 +387,12 @@ public class PrintPDF {
                        table.addCell(aCell);
                }
            }
-           float[] widths = new float[3];
+           float[] widths = new float[5];
            widths[0] = 13;
            widths[1] = 85;
            widths[2] =85;
+           widths[3] = 85;
+           widths[4] =85;
            table.setWidths(widths);
            table.setWidth(90);
            Paragraph p = new Paragraph();

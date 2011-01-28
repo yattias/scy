@@ -879,6 +879,9 @@ public class CopexTree extends JTree implements MouseListener, KeyListener, Mous
     }
 
 
+    public boolean canEdit(){
+        return selCanBeEdit();
+    }
     /*
      * can cut
      *
@@ -1846,6 +1849,26 @@ public class CopexTree extends JTree implements MouseListener, KeyListener, Mous
         return true;
     }
 
+    /* retourne vrai si les elements selectionnes peuvent etre edites */
+    public  boolean selCanBeEdit(){
+        TreePath[] tabPaths = this.getSelectionPaths();
+        if (tabPaths == null || tabPaths.length == 0 )
+          return false;
+        tabPaths = sortTabPath(tabPaths);
+        for (int i=0; i<tabPaths.length; i++){
+            CopexNode node = (CopexNode) tabPaths[i].getLastPathComponent() ;
+            if (!node.canEdit())
+                return false;
+            // on regarde egalement les enfants
+            for (int k=0; k<node.getChildCount(); k++){
+                CopexNode n = (CopexNode)node.getChildAt(k);
+                if (!n.canEdit())
+                    return false;
+            }
+        }
+        return true;
+    }
+
     /* retourne vrai si les elements selectionnes peuvent etre deplaces */
     public  boolean selCanBeMove(){
         TreePath[] tabPaths = this.getSelectionPaths();
@@ -2485,7 +2508,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener, Mous
         popUpMenu.setCopyItemEnabled(canCopy());
         popUpMenu.setPasteItemEnabled(canPaste());
         popUpMenu.setSupprItemEnabled(canSuppr());
-        popUpMenu.setEditItemEnabled(isOnlyOneElementIsSel());
+        popUpMenu.setEditItemEnabled(canEdit() && isOnlyOneElementIsSel());
         popUpMenu.init();
         double w = popUpMenu.getPreferredSize().getWidth();
         double h = popUpMenu.getPreferredSize().getHeight();
