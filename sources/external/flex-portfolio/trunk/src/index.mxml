@@ -88,7 +88,7 @@
 			
 			public static const IMAGE_BASE_URL:String = "http://www.intermedia.uio.no/www-data-public/app-scy/ep/";
 			//public static const IMAGE_BASE_URL:String = "";
-			public static const NOTHUMB:String = IMAGE_BASE_URL+"assets/images/thumbs/nothumb.png";
+			public static const NOTHUMB:String = "http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/thumbs/nothumb.png";
 			
 			[Bindable] private var infoPanVisi:Boolean = false;
 			
@@ -354,6 +354,7 @@
 			<local:portfolioAssessingCanvas id="pfassess" width="100%" creationPolicy="all" height="100%" showEffect="{showEffect}" />
 		</mx:ViewStack>
 		<s:Image id="animateImage" visible="false" includeInLayout="false" />
+		<s:Label fontSize="8" right="0" bottom="0" text="v.1.2" />
 	</s:Group>
 	
 	<s:BorderContainer id="clicker" width="10" height="10" backgroundColor="#FF0000" backgroundAlpha=".1" borderVisible="false" click="infoPanVisi = !infoPanVisi;" />

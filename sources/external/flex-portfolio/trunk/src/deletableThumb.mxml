@@ -41,10 +41,7 @@
 					so.data.retrievedElosFromRoolo = retrievedElosFromRoolo;
 					so.flush();
 
-					var params:Object = new Object();
-					params.missionURI = decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
-					params.xmlContent = encodeURI(so.data.retrievedElosFromRoolo);
-					new AutoSaveService(so.data.saveportfolio, params);	
+					new AutoSaveService(so.data.saveportfolio+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23")+"&xmlContent="+encodeURI(so.data.retrievedElosFromRoolo));
 					
 					parentCanvas.refreshView();
 				}
