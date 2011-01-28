@@ -29,11 +29,20 @@ import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
+import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
+import eu.scy.client.desktop.scydesktop.corners.elomanagement.ModalDialogNode;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
+import eu.scy.elo.contenttype.dataset.DataSet;
 
 public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
 
+    var infoDialog: SCYDynamicsInfoDialog;
     def logger = Logger.getLogger(this.getClass());
     def scyDynamicsType = "scy/model";
+    def datasetType = "scy/dataset";
     def jdomStringConversion = new JDomStringConversion();
     public-init var modelEditor: ModelEditor;
     public-init var scyWindow: ScyWindow;
@@ -46,7 +55,8 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
     public override var height on replace {resizeContent()};
     var wrappedModelEditor: Node;
     var technicalFormatKey: IMetadataKey;
-    var elo: IELO;
+    var eloModel: IELO;
+    var eloDataset: IELO;
     def spacing = 5.0;
 
     public override function initialize(windowContent: Boolean): Void {
@@ -81,41 +91,52 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
         // e.g., use the initialize(..) method
         wrappedModelEditor = ScySwingWrapper.wrap(modelEditor);
         return Group {
-                    blocksMouse: true;
+            blocksMouse: true;
+            content: [
+                VBox {
+                    translateY: spacing;
+                    spacing: spacing;
                     content: [
-                        VBox {
-                            translateY: spacing;
+                        HBox {
+                            translateX: spacing;
                             spacing: spacing;
                             content: [
-                                HBox {
-                                    translateX: spacing;
-                                    spacing: spacing;
-                                    content: [
-                                        Button {
-                                            text: "Save"
-                                            action: function() {
-                                                doSaveElo();
-                                            }
-                                        }
-                                        Button {
-                                            text: "Save as"
-                                            action: function() {
-                                                doSaveAsElo();
-                                            }
-                                        }
-                                        /*Button {
-                                            text: "test thumbnail"
-                                            action: function() {
-                                                testThumbnail();
-                                            }
-                                        }*/
-                                    ]
+                                Button {
+                                    text: "Save model"
+                                    action: function() {
+                                        doSaveElo();
+                                    }
                                 }
-                                wrappedModelEditor
+                                Button {
+                                    text: "Save as model"
+                                    action: function() {
+                                        doSaveAsElo();
+                                    }
+                                }
+                                Button {
+                                    text: "Save as dataset"
+                                    action: function() {
+                                        var dataset:DataSet = modelEditor.getDataSet();
+                                        if (dataset.getValues() == null or dataset.getValues().size() == 0) {
+                                            showEmptyDatasetInfobox();
+                                        } else {
+                                            eloSaver.otherEloSaveAs(getDataset(), this);
+                                        }
+                                    }
+                                }
+//                                Button {
+//                                text: "test thumbnail"
+//                                action: function() {
+//                                    testThumbnail();
+//                                }
+//                            }
                             ]
                         }
+                        wrappedModelEditor
                     ]
-                };
+                }
+            ]
+        };
     }
 
     function doLoadElo(eloUri: URI) {
@@ -125,7 +146,7 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
             modelEditor.setNewModel();
             modelEditor.setXmModel(JxmModel.readStringXML(newElo.getContent().getXmlString()));
             logger.info("elo loaded");
-            elo = newElo;
+            eloModel = newElo;
         }
     }
 
@@ -138,23 +159,60 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
     }
 
     function getElo(): IELO {
-        if (elo == null) {
-            elo = eloFactory.createELO();
-            elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(scyDynamicsType);
+        if (eloModel == null) {
+            eloModel = eloFactory.createELO();
+            eloModel.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(scyDynamicsType);
         }
         var xmlString = modelEditor.getModelXML();
         if (xmlString.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?>")) {
             xmlString = xmlString.substring(39);
         }
-        elo.getContent().setXmlString(xmlString);
-        return elo;
+        eloModel.getContent().setXmlString(xmlString);
+        return eloModel;
+    }
+
+    function getDataset(): IELO {
+        if (eloDataset == null) {
+            eloDataset = eloFactory.createELO();
+            eloDataset.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(datasetType);
+        }
+        eloDataset.getContent().setXmlString(jdomStringConversion.xmlToString(modelEditor.getDataSet().toXML()));
+        return eloDataset;
+    }
+
+    function showEmptyDatasetInfobox(): Void {
+        infoDialog = SCYDynamicsInfoDialog {
+                    okayAction: cancelDialog
+                }
+        createModalDialog(scyWindow.windowManager.scyDesktop.windowStyler.getWindowColorScheme(ImageWindowStyler.generalNew), "Info", infoDialog);
+    }
+
+    function createModalDialog(windowColorScheme: WindowColorScheme, title: String, modalDialogNode: ModalDialogNode): Void {
+        Composer.localizeDesign(modalDialogNode.getContentNodes());
+        modalDialogNode.modalDialogBox = ModalDialogBox {
+                    content: EmptyBorderNode {
+                        content: Group {
+                            content: modalDialogNode.getContentNodes();
+                        }
+                    }
+                    targetScene: scyWindow.windowManager.scyDesktop.scene
+                    title: title
+                    eloIcon: scyWindow.windowManager.scyDesktop.windowStyler.getScyEloIcon(scyWindow.eloType)
+                    windowColorScheme: windowColorScheme
+                    closeAction: function(): Void {
+                    }
+                }
+    }
+
+    function cancelDialog(): Void {
+        infoDialog.modalDialogBox.close();
     }
 
     override public function eloSaveCancelled(elo: IELO): Void {
     }
 
     override public function eloSaved(elo: IELO): Void {
-        this.elo = elo;
+        this.eloModel = elo;
     }
 
     function resizeContent() {
@@ -170,11 +228,11 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
     }
 
     public override function getMinHeight(): Number {
-        return 140;
+        return 300;
     }
 
     public override function getMinWidth(): Number {
-        return 140;
+        return 300;
     }
 
 }
