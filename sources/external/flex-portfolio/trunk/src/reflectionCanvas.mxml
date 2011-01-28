@@ -171,6 +171,7 @@
 						eloIconSource = index.NOTHUMB;
 					}
 					
+					trace(eloIconSource);
 					
 					elonameTextText = selectedElo.customname;
 					createdDateTextText = selectedElo.modified;

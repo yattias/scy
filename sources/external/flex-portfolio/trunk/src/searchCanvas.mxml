@@ -79,10 +79,6 @@
 				searchTile.removeAllElements();
 				for(var i:Number = 0;i < eloss.length; i++) {
 					var subCE:subCanvasElo = XMLUtilJer.getSubCanvasEloFromObject(eloss[i]);
-					if(subCE.thumbnail == null || subCE.thumbnail == "") {
-						subCE.thumbnail = index.NOTHUMB;
-					}
-					
 					var selecCol:selectableThumb = new selectableThumb();
 					searchTile.addElement(selecCol);	
 					
@@ -103,6 +99,12 @@
 					if (object.name() == "elo" && object.catname == currentEloCategory.obliElo) {
 						xmlObject = XMLUtilJer.getEloObjectAsXML(object);
 						xmlObject.isSelected = false;
+						
+						if(xmlObject.thumbnail == null || xmlObject.thumbnail == "") {
+							xmlObject.thumbnail = index.NOTHUMB;
+							object.thumbnail = index.NOTHUMB;
+						}
+						
 						eloss.addItem(xmlObject);
 						foundElosArray.addItem(object);
 					}
