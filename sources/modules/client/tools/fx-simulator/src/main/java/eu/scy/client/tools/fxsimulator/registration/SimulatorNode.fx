@@ -61,18 +61,7 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 
 public class SimulatorNode
-
-    extends
-    ISynchronizable  ,
-    CustomNode
-
-
-
-
-
-
-
-    , Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
+    extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
 
     var simquestViewer: SimQuestViewer;
     def logger = Logger.getLogger(this.getClass());
@@ -261,8 +250,6 @@ public class SimulatorNode
     public override function actionPerformed(evt: ActionEvent) {
         if (evt.getActionCommand().equals("loadsimulation")) {
             logger.info("load {newSimulationPanel.getSimulationURI()}");
-            //            newSimulationPanel.remove(newSimulationPanel.load);
-            //            newSimulationPanel.add(new JLabel(##"Please wait while the simulation is loaded, this may take some seconds."));
             switchSwingDisplayComponent(new JLabel(##"Please wait while the simulation is loaded, this may take some seconds."));
             FX.deferAction(function(): Void {
                 loadSimulation(newSimulationPanel.getSimulationURI());
@@ -287,16 +274,17 @@ public class SimulatorNode
         return success;
     }
 
-    public override function  loadElo(    uri :   URI) {   doLoadElo    ( uri   )
-                    ;
-                }    public override  function  create ( ): Node {
+    public override function  loadElo(uri:URI) {
+        doLoadElo(uri);
+    }
 
-            switchSwingDisplayComponent(simquestPanel);
-         return Group {
-        blocksMouse:true;
-        // cache: bind scyWindow.cache
-        content  : [
-         VBox {
+    public override  function  create ( ): Node {
+        switchSwingDisplayComponent(simquestPanel);
+        return Group {
+            blocksMouse:true;
+            // cache: bind scyWindow.cache
+            content  : [
+            VBox {
                     translateY:  spacing    ;
                             spacing: spacing;
                             content: [
@@ -334,7 +322,7 @@ public class SimulatorNode
                             ]
                         }
                     ]
-                };
+                };;
     }
 
     function switchSwingDisplayComponent(newComponent: JComponent): Void {
@@ -421,22 +409,19 @@ public class SimulatorNode
         }
     }
 
-    function doSaveSimconfig() {
-        eloSaver.eloUpdate(getSimconfig(), this);
+    function doSaveSimconfig(): Void {
+        eloSaver.eloUpdate(createNewSimconfigElo(), this);
     }
 
-    function doSaveAsSimconfig() {
-        eloSaver.eloSaveAs(getSimconfig(), this);
+    function doSaveAsSimconfig(): Void {
+        eloSaver.eloSaveAs(createNewSimconfigElo(), this);
     }
 
-    //function doSaveDataset() {
-    //eloSaver.eloUpdate(getDataset(), this);
-    //}
-    function doSaveAsDataset() {
-        eloSaver.otherEloSaveAs(getDataset(), this);
+    function doSaveAsDataset(): Void {
+        eloSaver.otherEloSaveAs(createNewDatasetElo(), this);
     }
 
-    function getSimconfig(): IELO {
+    function createNewSimconfigElo(): IELO {
         if (eloSimconfig == null) {
             eloSimconfig = eloFactory.createELO();
             eloSimconfig.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(simconfigType);
@@ -445,18 +430,16 @@ public class SimulatorNode
         return eloSimconfig;
     }
 
-    function getDataset(): IELO {
+    function createNewDatasetElo(): IELO {
         if (eloDataset == null) {
             eloDataset = eloFactory.createELO();
             eloDataset.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(datasetType);
-        //eloDataset.getMetadata().getMetadataValueContainer()
         }
         eloDataset.getContent().setXmlString(jdomStringConversion.xmlToString(dataCollector.getDataSet().toXML()));
         return eloDataset;
     }
 
-    override public function eloSaveCancelled(elo: IELO): Void {
-    }
+    override public function eloSaveCancelled(elo: IELO): Void {}
 
     override public function eloSaved(elo: IELO): Void {
         if (elo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue().equals(simconfigType)) {
