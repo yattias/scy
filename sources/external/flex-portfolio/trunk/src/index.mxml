@@ -284,13 +284,21 @@
 				
 				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
 					var searchForExistingList:XMLList = xmlResult.elo.(uri == eloToAddURL);
-					so.data.searchSelection = searchForExistingList[0] as XML;
-					
-				}
-				else {
-					so.data.searchSelection = xmlResult;
+					if(searchForExistingList.length() == 0) {
+						Alert.show("The specified ELO could not be retrieved", "HTTPService Error");
+//						var urlRequest:URLRequest = new URLRequest(FlexGlobals.topLevelApplication.url);
+//						navigateToURL(urlRequest,"_self");
+					}
+					else {
+						xmlResult = searchForExistingList[0] as XML;
+					}
 				}
 				
+				if(xmlResult.thumbnail == null || xmlResult.thumbnail == "") {
+					xmlResult.thumbnail = index.NOTHUMB;
+				}
+				
+				so.data.searchSelection = xmlResult;
 				so.flush();
 				animate(LEFT_DIRECTION, STACK_REFLEC_PANEL);
 			}
