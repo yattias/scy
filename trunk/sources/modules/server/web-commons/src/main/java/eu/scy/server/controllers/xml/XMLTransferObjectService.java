@@ -62,6 +62,44 @@ public class XMLTransferObjectService {
 
     }
 
+    public XStream getToObjectXStream() {
+        this.xstream = new XStream(new XppDriver() {
+
+            
+
+            public HierarchicalStreamWriter createWriter(Writer out) {
+
+                return new PrettyPrintWriter(out) {
+
+                    boolean cdata = false;
+
+                    public void startNode(String name, Class clazz) {
+                        super.startNode(name, clazz);
+                        cdata = true;//(name.equals("mission") || name.equals("name"));
+                    }
+
+                    protected void writeText(QuickWriter writer, String text) {
+
+                        String thing = "\\[";
+                        String cdata = "<!CDATA";
+                        String end = "\\]";
+                        System.out.println("TEXT IS: " + text);
+                        text = text.replaceAll(thing, "");
+                        text = text.replaceAll(cdata, "");
+                        text = text.replace(end, "");
+                        System.out.println("TEXT_ NOW: " + text);
+                        writer.write(text);
+                    }
+                };
+            }
+        }
+        );
+        xstream.setMode(getXStreamMode());
+        addAliases(xstream);
+
+        return xstream;
+    }
+
     public Object getObject(String xml){
 
         String thing = "\\[";
@@ -75,7 +113,7 @@ public class XMLTransferObjectService {
 
         System.out.println("xml" + xml);
 
-        return getXStreamInstance().fromXML(xml);
+        return getToObjectXStream().fromXML(xml);
     }
 
     private void addAliases(XStream xStream) {

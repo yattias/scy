@@ -37,6 +37,7 @@ public class StudentIndexController extends BaseController {
             if (xmlContent != null) {
                 Portfolio portfolio = (Portfolio) getXmlTransferObjectService().getObject(xmlContent);
                 if (portfolio != null) {
+                    portfolio.unCdatify();
                     modelAndView.addObject("portfolio", portfolio);
                     logger.info("SET PORTFOLIO: " + portfolio.getPortfolioStatus());
                 } else {
