@@ -276,11 +276,7 @@ public class ImportDialog extends JDialog{
 
     private void buttonExplImport(){
         JFileChooser aFileChooser = new JFileChooser();
-        if(owner.canImportGMBLFile()){
-            aFileChooser.setFileFilter(new MyFileFilterCSV_GMBL());
-        }else{
-            aFileChooser.setFileFilter(new MyFileFilterCSV());
-        }
+        aFileChooser.setFileFilter(new MyFileFilterCSV_GMBL());
         if (lastUsedFileImport != null){
             aFileChooser.setCurrentDirectory(lastUsedFileImport.getParentFile());
             aFileChooser.setSelectedFile(lastUsedFileImport);
@@ -289,8 +285,8 @@ public class ImportDialog extends JDialog{
         if (userResponse == JFileChooser.APPROVE_OPTION){
             File file = aFileChooser.getSelectedFile();
             //if(!MyUtilities.isCSVFile(file)){
-            if( (owner.canImportGMBLFile() && (!MyUtilities.isCSVFile(file) && !MyUtilities.isGMBLFile(file)) ) || (!owner.canImportGMBLFile() && !MyUtilities.isCSVFile(file))){
-                owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_FILE_CSV"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
+            if( !MyUtilities.isCSVFile(file) && !MyUtilities.isGMBLFile(file)){
+                owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_FILE"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
                 return;
             }
             lastUsedFileImport = file;
@@ -298,7 +294,7 @@ public class ImportDialog extends JDialog{
                 owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_IMPORT_DATASET") ,false), owner.getBundleString("TITLE_DIALOG_ERROR"));
                 return;
             }
-            actionData.importELO(lastUsedFileImport);
+            actionData.importELO(lastUsedFileImport, false);
             this.dispose();
             return;
         }

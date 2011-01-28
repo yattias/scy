@@ -1127,6 +1127,7 @@ public class DatasetFromDB {
         return cr;
     }
 
+    
     /* suppression de header d'un dataset */
     public static CopexReturn deleteDataHeaderFromDB(DataBaseCommunication dbC, ArrayList<DataHeader> listDataHeader){
         int nbDataH =listDataHeader.size();

@@ -139,6 +139,7 @@ public class FitexTabbedPane extends JTabbedPane implements ActionCloseTab{
             }else
                 this.listCloseTab.get(k).setSelected(false);
         }
+        owner.setActivFitex(fitexActiv);
     }
 
     @Override

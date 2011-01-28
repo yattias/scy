@@ -276,7 +276,7 @@ public class FitexHTML {
         }catch(IOException ioex){
             Logger.getLogger(FitexHTML.class.getName()).log(Level.SEVERE, null, ioex);
         }
-        String preview = "<img src=\"../tools_utilities/InterfaceServer/labdoc/"+fileName+"\" alt=\"Graphe\">";
+        String preview = "<img src=\"../tools_utilities/InterfaceServer/labdoc/"+fileName+"\" alt=\"Graphe\" style=\"width: 100%;\">";
         addString(preview);
     }
 
@@ -312,7 +312,7 @@ public class FitexHTML {
         }catch(IOException ioex){
             Logger.getLogger(FitexHTML.class.getName()).log(Level.SEVERE, null, ioex);
         }
-        String preview = "<img src=\"../tools_utilities/InterfaceServer/labdoc/"+fileName+"\" alt=\"Graphe\">";
+        String preview = "<img src=\"../tools_utilities/InterfaceServer/labdoc/"+fileName+"\" alt=\"Graphe\" style=\"width: 100%;\">";
         addString(preview);
     }
 }

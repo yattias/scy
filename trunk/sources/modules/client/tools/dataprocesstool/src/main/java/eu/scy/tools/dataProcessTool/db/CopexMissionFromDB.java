@@ -19,7 +19,7 @@ public class CopexMissionFromDB {
     public static CopexReturn loadMissionFromDB(DataBaseCommunication dbC, long dbKeyMission, ArrayList v){
         dbC.updateDb(DataConstants.DB_LABBOOK);
         Mission mission = null;
-        String query = "SELECT ID_MISSION, CODE, NAME, SUM_UP " +
+        String query = "SELECT ID_MISSION, CODE, NAME, DESCRIPTION " +
                 "FROM MISSION   " +
                 "WHERE ID_MISSION = "+dbKeyMission +" ;";
         ArrayList v2 = new ArrayList();
@@ -27,7 +27,7 @@ public class CopexMissionFromDB {
         listFields.add("ID_MISSION");
         listFields.add("CODE");
         listFields.add("NAME");
-        listFields.add("SUM_UP");
+        listFields.add("DESCRIPTION");
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError()){
             dbC.updateDb(DataConstants.DB_LABBOOK_FITEX);
@@ -41,8 +41,8 @@ public class CopexMissionFromDB {
             long dbKey = Long.parseLong(s);
             String code = rs.getColumnData("CODE");
             String mission_name = rs.getColumnData("NAME");
-            String sumUp = rs.getColumnData("SUM_UP");
-            mission = new Mission(dbKey,  mission_name,code,sumUp);
+            String desc = rs.getColumnData("DESCRIPTION");
+            mission = new Mission(dbKey,  mission_name,code,desc);
         }
         dbC.updateDb(DataConstants.DB_LABBOOK_FITEX);
         v.add(mission);
@@ -52,7 +52,7 @@ public class CopexMissionFromDB {
     public static CopexReturn getAllMissionFromDB(DataBaseCommunication dbC, long dbKeyUser, long dbKeyMission, ArrayList v){
         dbC.updateDb(DataConstants.DB_LABBOOK);
         ArrayList<Mission> listMission = new ArrayList();
-        String query = "SELECT M.ID_MISSION, M.CODE, M.NAME, M.SUM_UP " +
+        String query = "SELECT M.ID_MISSION, M.CODE, M.NAME, M.DESCRIPTION " +
                 "FROM MISSION M, MISSION_CONF C " +
                 "WHERE M.ID_MISSION != "+dbKeyMission +" AND  M.ID_MISSION = C.ID_MISSION " +
                 "AND C.ID_LEARNER_GROUP IN (SELECT ID_LEARNER_GROUP FROM LINK_GROUP_LEARNER WHERE ID_LEARNER =  "+dbKeyUser+" );";
@@ -62,7 +62,7 @@ public class CopexMissionFromDB {
         listFields.add("M.ID_MISSION");
         listFields.add("M.CODE");
         listFields.add("M.NAME");
-        listFields.add("M.SUM_UP");
+        listFields.add("M.DESCRIPTION");
 
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError()){
@@ -83,7 +83,7 @@ public class CopexMissionFromDB {
             String mission_name = rs.getColumnData("M.NAME");
             if (mission_name == null)
                 continue;
-            String description = rs.getColumnData("M.SUM_UP");
+            String description = rs.getColumnData("M.DESCRIPTION");
             if (description == null)
                 continue;
             Mission m = new Mission(dbKey, mission_name,code,  description);

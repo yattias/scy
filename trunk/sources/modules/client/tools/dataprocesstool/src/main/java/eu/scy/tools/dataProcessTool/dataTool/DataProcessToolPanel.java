@@ -25,6 +25,7 @@ import eu.scy.tools.dataProcessTool.undoRedo.DataUndoRedo;
 import eu.scy.tools.dataProcessTool.utilities.ActionDataProcessTool;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
+import eu.scy.tools.dataProcessTool.utilities.MyFileFilter;
 import eu.scy.tools.dataProcessTool.utilities.MyFileFilterCSV;
 import eu.scy.tools.dataProcessTool.utilities.MyFileFilterCSV_GMBL;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
@@ -85,7 +86,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     private ResourceBundleWrapper bundle;
     //private ResourceBundle bundle;
     /* version */
-    private String version = "3.6";
+    private String version = "3.8";
     /* number format */
     private NumberFormat numberFormat;
 
@@ -418,7 +419,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     }
 
     public void openDialogImport(){
-        if(scyMode){
+        if(!dbMode){
             openImportChooseFile();
             return;
         }
@@ -605,24 +606,28 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     //load/openELO
     @Override
     public void openELO(File file){
-        InputStreamReader fileReader = null;
-        try{
-            lastUsedFileOpen = file;
-            fileReader = new InputStreamReader(new FileInputStream(file), "utf-8");
-            Document doc = builder.build(fileReader, file.getAbsolutePath());
-            loadELO(new JDomStringConversion().xmlToString(doc.getRootElement()));
-        }catch (Exception e){
-            e.printStackTrace();
-            displayError(new CopexReturn("Erreur durant le chargement "+e, false), getBundleString("TITLE_DIALOG_ERROR"));
-        }
-        finally{
-            if (fileReader != null)
+        if(MyUtilities.isCSVFile(file)|| MyUtilities.isGMBLFile(file)){
+            importELO(file, true);
+        }else{
+            InputStreamReader fileReader = null;
             try{
-                fileReader.close();
-            }catch (IOException e){
-                displayError(new CopexReturn("Erreur durant le chargement, fermeture fichier "+e, false), getBundleString("TITLE_DIALOG_ERROR"));
+                lastUsedFileOpen = file;
+                fileReader = new InputStreamReader(new FileInputStream(file), "utf-8");
+                Document doc = builder.build(fileReader, file.getAbsolutePath());
+                loadELO(new JDomStringConversion().xmlToString(doc.getRootElement()));
+            }catch (Exception e){
+                e.printStackTrace();
+                displayError(new CopexReturn("Erreur durant le chargement "+e, false), getBundleString("TITLE_DIALOG_ERROR"));
             }
-       }
+            finally{
+                if (fileReader != null)
+                try{
+                    fileReader.close();
+                }catch (IOException e){
+                    displayError(new CopexReturn("Erreur durant le chargement, fermeture fichier "+e, false), getBundleString("TITLE_DIALOG_ERROR"));
+                }
+            }
+        }
     }
 
     //load/openELO
@@ -637,7 +642,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
 
     // IMPORT CSV SCY
     /* lecture de fichier cvs => elo ds */
-    public eu.scy.elo.contenttype.dataset.DataSet importCSVFile(File file){
+    public eu.scy.elo.contenttype.dataset.DataSet importCSVFile(File file, boolean createNew){
         ImportCsvDialog aDialog = new ImportCsvDialog(activFitex);
         aDialog.setVisible(true);
         if(sepField == null && sepText == null && charEncoding == null)
@@ -656,15 +661,21 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
                 if(id != -1)
                     fileName = fileName.substring(0, id);
             }
-            if(dbMode){
-                cr = this.controller.deleteDataset(activFitex.getDataset());
-                if(cr.isError()){
-                    displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
-                    return null;
+            if(createNew){
+                // import and load
+                if(dbMode){
+                    cr = this.controller.deleteDataset(activFitex.getDataset());
+                    if(cr.isError()){
+                        displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+                        return null;
+                    }
+                    activFitex.deleteAll();
                 }
-                activFitex.deleteAll();
+                loadELO(new JDomStringConversion().xmlToString(elo.toXML()), fileName);
+            }else{
+                //import & merge
+                activFitex.mergeELO(elo.toXML());
             }
-            loadELO(new JDomStringConversion().xmlToString(elo.toXML()), fileName);
         }
         logImportCsvFile(file.getPath(), activFitex.getDataset());
         return elo;
@@ -677,13 +688,17 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     }
 
     @Override
-    public void importELO(File file) {
+    public void importELO(File file, boolean createNew) {
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
         lastUsedFileImport = file;
         if(MyUtilities.isGMBLFile(file)){
-            eu.scy.elo.contenttype.dataset.DataSet dsElo = importGMBLFile(file);
+            eu.scy.elo.contenttype.dataset.DataSet dsElo = importGMBLFile(file, createNew);
+        }else if(MyUtilities.isCSVFile(file)){
+            eu.scy.elo.contenttype.dataset.DataSet dsElo = importCSVFile(file, createNew);
         }else{
-            eu.scy.elo.contenttype.dataset.DataSet dsElo = importCSVFile(file);
+            mergeELO(file);
         }
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 //        if(dsElo != null && !scyMode){
 //            loadELO(new JDomStringConversion().xmlToString(dsElo.toXML()));
 //        }
@@ -1015,10 +1030,10 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
 
     private void openImportChooseFile(){
         JFileChooser aFileChooser = new JFileChooser();
-        if(canImportGMBLFile()){
-            aFileChooser.setFileFilter(new MyFileFilterCSV_GMBL());
+        if(canImportXML()){
+            aFileChooser.setFileFilter(new MyFileFilter());
         }else{
-            aFileChooser.setFileFilter(new MyFileFilterCSV());
+            aFileChooser.setFileFilter(new MyFileFilterCSV_GMBL());
         }
         if (lastUsedFileImport != null){
             aFileChooser.setCurrentDirectory(lastUsedFileImport.getParentFile());
@@ -1027,9 +1042,9 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         int userResponse = aFileChooser.showOpenDialog(this);
         if (userResponse == JFileChooser.APPROVE_OPTION){
             File file = aFileChooser.getSelectedFile();
-            if( (canImportGMBLFile() && (!MyUtilities.isCSVFile(file) && !MyUtilities.isGMBLFile(file)) ) || (!canImportGMBLFile() && !MyUtilities.isCSVFile(file)))
-            if(!MyUtilities.isCSVFile(file)){
-                displayError(new CopexReturn(getBundleString("MSG_ERROR_FILE_CSV"), false), getBundleString("TITLE_DIALOG_ERROR"));
+            if( (canImportXML() && (!MyUtilities.isCSVFile(file) && !MyUtilities.isGMBLFile(file)&& !MyUtilities.isXMLFile(file)) )
+                    || (!canImportXML() && (!MyUtilities.isCSVFile(file) && !MyUtilities.isGMBLFile(file)) )){
+                displayError(new CopexReturn(getBundleString("MSG_ERROR_FILE"), false), getBundleString("TITLE_DIALOG_ERROR"));
                 return;
             }
             lastUsedFileImport = file;
@@ -1037,18 +1052,23 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
                 displayError(new CopexReturn(getBundleString("MSG_ERROR_IMPORT_DATASET") ,false), getBundleString("TITLE_DIALOG_ERROR"));
                 return;
             }
-            importELO(lastUsedFileImport);
+            importELO(lastUsedFileImport, false);
             return;
         }
     }
 
+    public boolean canImportXML(){
+        return !dbMode && !scyMode;
+    }
+
     /* return true if can import gmbl file*/
     public boolean canImportGMBLFile(){
-        return this.scyMode || !this.dbMode;
+        //return this.scyMode || !this.dbMode;
+        return true;
     }
 
     /* import a gmbli file => get the dataset elo */
-    public eu.scy.elo.contenttype.dataset.DataSet importGMBLFile(File file){
+    public eu.scy.elo.contenttype.dataset.DataSet importGMBLFile(File file, boolean createNew){
         ArrayList v = new ArrayList();
         CopexReturn cr = this.controller.importGMBLFile(file, v);
         if (cr.isError()){
@@ -1063,15 +1083,21 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
                 if(id != -1)
                     fileName = fileName.substring(0, id);
             }
-            if(dbMode){
-                cr = this.controller.deleteDataset(activFitex.getDataset());
-                if(cr.isError()){
-                    displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
-                    return null;
+            if(createNew){
+                // import and load
+                if(dbMode){
+                    cr = this.controller.deleteDataset(activFitex.getDataset());
+                    if(cr.isError()){
+                        displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+                        return null;
+                    }
+                    activFitex.deleteAll();
                 }
-                activFitex.deleteAll();
+                loadELO(new JDomStringConversion().xmlToString(elo.toXML()), fileName);
+            }else{
+                //import & merge
+                activFitex.mergeELO(elo.toXML());
             }
-            loadELO(new JDomStringConversion().xmlToString(elo.toXML()), fileName);
         }
         logImportGMBLFile(file.getPath(), activFitex.getDataset());
         return elo;
@@ -1083,5 +1109,9 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
        else if(activFitex != null)
            return activFitex.getDataTableModel();
        else return null;
+    }
+
+    public void setActivFitex(FitexToolPanel activFitex){
+        this.activFitex = activFitex;
     }
 }

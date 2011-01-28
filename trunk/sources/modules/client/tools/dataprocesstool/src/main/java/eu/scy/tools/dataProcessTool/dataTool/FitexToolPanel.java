@@ -1146,10 +1146,11 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     public void setDataset(Dataset ds){
         dataset = ds;
         datasetTable.updateDataset(ds, true);
-        int n = ds.getListVisualization().size() ;
-       for (int i=0; i<n; i++){
-           createInternalGraphFrame(ds.getListVisualization().get(i));
-       }
+//        int n = ds.getListVisualization().size() ;
+//       for (int i=0; i<n; i++){
+//           createInternalGraphFrame(ds.getListVisualization().get(i));
+//       }
+        updateGraphs(ds, true);
         updateMenuData();
     }
 
@@ -1369,9 +1370,11 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
     /* copie de donnees */
     public boolean paste(CopyDataset copyDs, int[] selCell){
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
         ArrayList v = new ArrayList();
         CopexReturn cr = this.controller.paste(dataset.getDbKey(), copyDs, selCell, v);
         if(cr.isError()){
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return false;
         }
@@ -1385,6 +1388,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
         datasetTable.addUndo(new PasteUndoRedo(datasetTable, this, controller, copyDs, selCell, listData, listDataHeader, listRowAndCol));
         dataProcessToolPanel.logPaste(dataset, selCell, copyDs);
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         return true;
     }
 

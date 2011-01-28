@@ -298,7 +298,7 @@ public class DataTableModel extends AbstractTableModel {
             }else
                 this.tabData[noR][1+i] = "-" ;
         }
-       /* for (int i=0; i<s; i++){
+       /* for (int i=0; i<s; i++){getOperationValue
             ArrayList<Double> listValue = getListValueCol(listNo.get(i));
             if (listValue.size() == 0)
                 this.tabData[noR][1+listNo.get(i)] = "-";
