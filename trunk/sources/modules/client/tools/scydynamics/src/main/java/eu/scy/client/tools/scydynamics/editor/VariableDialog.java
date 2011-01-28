@@ -35,6 +35,7 @@ public class VariableDialog extends javax.swing.JDialog implements
     private ModelEditor editor;
     private String label;
     String[] units = {"?", "items", "m", "m/s", "kg", "kg*m/s", "s", "A", "V", "W", "K", "C", "mol", "cd", "J", "Hz", "N", "N*m", "Pa"};
+    String[] relations = {"-", "/", "\\", "(", ")"};
     private JComboBox unitsBox;
     private JLabel colorLabel;
     private JButton colorButton;
@@ -54,7 +55,11 @@ public class VariableDialog extends javax.swing.JDialog implements
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(getSpecsPanel(), BorderLayout.NORTH);
         getContentPane().add(getOkayCancelPanel(), BorderLayout.SOUTH);
-        getContentPane().add(getVariablePanel(), BorderLayout.CENTER);
+        if (editor.isQualitative()) {
+        	getContentPane().add(getQualitativeVariablePanel(), BorderLayout.CENTER);
+        } else {
+        	getContentPane().add(getQuantitativeVariablePanel(), BorderLayout.CENTER);
+        }
         getContentPane().add(getCalculatorPanel(), BorderLayout.EAST);
         this.setPreferredSize(new Dimension(440, 300));
         updateView();
@@ -63,8 +68,8 @@ public class VariableDialog extends javax.swing.JDialog implements
         setVisible(true);
     }
 
-    private Vector<String> getListItems() {
-        // gets the name of all JdFigures that are linked to this.figure
+    private Vector<String> getInputVariableNames() {
+        // gets the name of all JdFigures that are linked to (input-wise) this.figure
         Vector<String> listItems = new Vector<String>();
         Vector<JdLink> links = editor.getModel().getLinks();
         for (JdLink link : links) {
@@ -84,19 +89,39 @@ public class VariableDialog extends javax.swing.JDialog implements
 
     private JButton makeButton(String s) {
         JButton b = new JButton(s);
+        b.setEnabled(!editor.isQualitative());
         b.setActionCommand(s);
         b.addActionListener(this);
         return b;
     }
 
-    private JPanel getVariablePanel() {
+    private JPanel getQuantitativeVariablePanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("VARIABLEDIALOG_VARIABLES")));
-        infoList = new javax.swing.JList(getListItems());
+        infoList = new javax.swing.JList(getInputVariableNames());
         infoList.addMouseListener(this);
         javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(
                 infoList);
+        panel.add(scrollPane);
+        return panel;
+    }
+    
+    private JPanel getQualitativeVariablePanel() {
+        JPanel panel = new JPanel();
+        JPanel listPanel = new JPanel();
+        panel.setBorder(javax.swing.BorderFactory.createTitledBorder(bundle.getString("VARIABLEDIALOG_VARIABLES")));
+        Vector<String> inputVariableNames = this.getInputVariableNames();        
+        listPanel.setLayout(new GridLayout(0,3));
+        for (String varName: inputVariableNames) {
+        	listPanel.add(new JLabel(varName));
+        	listPanel.add(new JComboBox(relations));
+        	listPanel.add(new JLabel(props.get("label")+""));
+        }
+        
+        //infoList = new javax.swing.JList(getListItems());
+        //infoList.addMouseListener(this);
+        javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(listPanel);
         panel.add(scrollPane);
         return panel;
     }
@@ -125,6 +150,10 @@ public class VariableDialog extends javax.swing.JDialog implements
         panel.add(nameLabel);
         panel.add(nameField);
         panel.add(valueLabel);
+        if (editor.isQualitative()) {
+        	valueField.setText("qualitative");
+        	valueField.setEnabled(false);
+        }
         panel.add(valueField);
 
         JLabel unitLabel = new javax.swing.JLabel(bundle.getString("VARIABLEDIALOG_UNIT")+": ");
@@ -185,7 +214,11 @@ public class VariableDialog extends javax.swing.JDialog implements
         panel.add(makeButton("0"));
         panel.add(makeButton("."));
         panel.add(makeButton("C"));
-        panel.setBorder(new TitledBorder(bundle.getString("VARIABLEDIALOG_INPUTPAD")));
+        if (editor.isQualitative()) {
+        	panel.setBorder(new TitledBorder(bundle.getString("VARIABLEDIALOG_INPUTPAD")+" (disabled/qualitative)"));        	
+        } else {
+        	panel.setBorder(new TitledBorder(bundle.getString("VARIABLEDIALOG_INPUTPAD")));
+        }
         return panel;
     }
 

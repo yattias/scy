@@ -45,6 +45,32 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		
+		<dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>scy-commons</artifactId>
+            <version>${pom.version}</version>
+            <exclusions>
+                <!--
+                <exclusion>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
+                </exclusion>
+                -->
+                <exclusion>
+                    <artifactId>jcrom</artifactId>
+                    <groupId>org.jcrom</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>spring-tx</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 
 		<dependency>
 			<groupId>eu.scy.common</groupId>

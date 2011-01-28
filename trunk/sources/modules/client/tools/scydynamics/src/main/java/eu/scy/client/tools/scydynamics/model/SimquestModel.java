@@ -77,7 +77,6 @@ public class SimquestModel extends Element {
 		timevariable.addContent(new Element("kind").setText(type));
 		timevariable.addContent(new Element("type").setText("real"));
 		if (simulationValues.containsKey(name)) {
-			System.out.println("setting variable "+name+" to value "+simulationValues.get(name).toString());
 			timevariable.addContent(new Element("value").setText(simulationValues.get(name).toString()));
 		} else {
 			timevariable.addContent(new Element("value").setText(value));
@@ -99,7 +98,6 @@ public class SimquestModel extends Element {
 				equation = new Element("equation");
 				variable = new Element("variable").setText(node.getLabel());
 				if (simulationValues.containsKey(node.getLabel())) {
-					System.out.println("setting constant "+name+" to value "+simulationValues.get(node.getLabel()).toString());
 					literal = new Element("literal").setText(simulationValues.get(node.getLabel()).toString());
 				} else {
 					literal = new Element("literal").setText(node.getExpr());

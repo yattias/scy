@@ -33,6 +33,10 @@ class SimulationTableModel extends AbstractTableModel implements IDataClient {
 		// register
 		dataAgent.register();
 	}
+	
+	public ArrayList<ModelVariable> getVariables() {
+		return variables;
+	}
 
 	private void setColumnNames(ArrayList<ModelVariable> variables) {
 		columnNames = new String[variables.size()];

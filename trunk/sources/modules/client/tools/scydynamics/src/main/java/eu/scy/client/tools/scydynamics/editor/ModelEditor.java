@@ -46,6 +46,7 @@ import eu.scy.client.tools.scydynamics.listeners.EditorMouseListener;
 import eu.scy.client.tools.scydynamics.logging.IModellingLogger;
 import eu.scy.client.tools.scydynamics.logging.ModellingLogger;
 import eu.scy.client.tools.scydynamics.model.Model;
+import eu.scy.elo.contenttype.dataset.DataSet;
 
 public class ModelEditor extends JPanel implements AdjustmentListener {
 
@@ -97,6 +98,22 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
         initComponents();
         setNewModel();
     }
+    
+   public boolean isQualitative() {
+	   if (properties.getProperty("editor.qualitative").equals("true")) {
+		   return true;
+	   } else {
+		   return false;
+	   }
+   }
+   
+   public DataSet getDataSet() {
+	   return tableTab.getDataSet();
+   }
+   
+   public void setQualitative(boolean q) {
+	   properties.put("editor.qualitative", q);
+   }
 
     public void setActionLogger(IActionLogger newLogger, String username) {
         this.actionLogger = new ModellingLogger(newLogger, username);
@@ -114,6 +131,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
         props.put("show.filetoolbar", "true");
         props.put("editor.fixedcalculationmethod", "false");
         props.put("show.popouttabs", "false");
+        props.put("editor.qualitative", "false");
         return props;
     }
 
