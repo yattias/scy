@@ -1063,6 +1063,8 @@ public class Dataset implements Cloneable{
                     if (s.startsWith("-"))
                         s = s.substring(1);
                     l1 = s.indexOf(".");
+                    if(l1 == -1)
+                        l1 = s.length();
                     l2 = s.length()-l1-1;
                 }
                 maxlenght1 = Math.max(maxlenght1, l1);

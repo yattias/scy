@@ -17,15 +17,15 @@ public class Mission implements Cloneable {
     private String code;
     /* nom */
     private String name;
-    /* sum - up */
-    private String sumUp;
+    /* description */
+    private String description;
 
     // CONSTRUCTOR
-    public Mission(long dbKey, String code, String name, String sumUp) {
+    public Mission(long dbKey, String code, String name, String description) {
         this.dbKey = dbKey;
         this.code = code;
         this.name = name;
-        this.sumUp = sumUp;
+        this.description = description;
     }
 
     // GETTTER AND SETTER
@@ -53,13 +53,15 @@ public class Mission implements Cloneable {
         this.name = name;
     }
 
-    public String getSumUp() {
-        return sumUp;
+    public String getDescription() {
+        return description;
     }
 
-    public void setSumUp(String sumUp) {
-        this.sumUp = sumUp;
+    public void setDescription(String description) {
+        this.description = description;
     }
+
+    
     
     // CLONE
      @Override
@@ -71,13 +73,13 @@ public class Mission implements Cloneable {
             String codeC = "";
             if (this.code != null)
                 codeC = new String(this.code);
-            String sumUpC = "";
-            if (this.sumUp != null)
-                sumUpC = new String(sumUp);
+            String descC = "";
+            if (this.description != null)
+                descC = new String(description);
             mission.setDbKey(dbKeyC);
             mission.setName(nameC);
             mission.setCode(codeC);
-            mission.setSumUp(sumUpC);
+            mission.setDescription(descC);
             return mission;
         } catch (CloneNotSupportedException e) { 
 	    // this shouldn't happen, since we are Cloneable

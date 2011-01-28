@@ -119,6 +119,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         addMouseListener(this);
         addMouseMotionListener(this);
         addKeyListener(this);
+        this.setSurrendersFocusOnKeystroke(true);
         // DRAG AND DROP
         /*setDragEnabled(true);
         transferHandler  = new SubDataTransfertHandler();
@@ -255,6 +256,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     }
 
     private void mouseSimpleClick(MouseEvent e){
+        //System.out.println("mouseSimpleClick");
         Point p = e.getPoint();
         int c = columnAtPoint(p);
         int r = rowAtPoint(p);
@@ -264,6 +266,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     }
 
     private void mouseDoubleClick(MouseEvent e){
+        //System.out.println("mouseDoubleClick");
         Point p = e.getPoint();
         doubleClickOnCell = true;
         int c = columnAtPoint(p);
@@ -891,6 +894,9 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     private Vector buildKeyForSort(Dataset ds, Vector elementsToSort, int col, int order) {
         int nb = ds.getNbRows() ;
         int nbCol = ds.getNbCol();
+        int maxSize = ds.getValueMaxSizeIn(col);
+        int maxSize1 = ds.getValueMaxDoubleSizeIn(col)[0];
+        int maxSize2 = ds.getValueMaxDoubleSizeIn(col)[1];
         for(int i=0; i<nb; i++){
             String element="";
             boolean isDouble = true;
@@ -919,11 +925,10 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 //                return null;
 //            }
             //System.out.println("***ELEMENT : "+element+" ****");
-            int maxSize = ds.getValueMaxSizeIn(col);
+            
             boolean invers = order==0;
             if(isDouble){
-                int maxSize1 = ds.getValueMaxDoubleSizeIn(col)[0];
-                int maxSize2 = ds.getValueMaxDoubleSizeIn(col)[1];
+                
                 // si chaine est plus courte, on complete avec des blancs
            
                 boolean neg = false;
@@ -932,6 +937,8 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
                     element = element.substring(1);
                 }
                 int lg1 = element.indexOf(".");
+                if(lg1 == -1)
+                    lg1 = element.length();
                 int lg2 = element.length() - lg1 - 1;
                 if (lg1 < maxSize1 ){
                     for(int j=lg1; j < maxSize1; j++)

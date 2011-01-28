@@ -7,7 +7,7 @@ package eu.scy.tools.dataProcessTool.controller;
 
 
 
-import eu.scy.elo.contenttype.dataset.DataSet;
+//import eu.scy.elo.contenttype.dataset.DataSet;
 import eu.scy.elo.contenttype.dataset.DataSetColumn;
 import eu.scy.elo.contenttype.dataset.DataSetHeader;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
@@ -20,6 +20,8 @@ import eu.scy.tools.dataProcessTool.common.*;
 import eu.scy.tools.dataProcessTool.db.*;
 import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import eu.scy.tools.dataProcessTool.dataTool.DataTableModel;
+import eu.scy.tools.dataProcessTool.gmbl.GmblColumn;
+import eu.scy.tools.dataProcessTool.gmbl.GmblDataset;
 import eu.scy.tools.dataProcessTool.logger.FitexProperty;
 import eu.scy.tools.dataProcessTool.pdsELO.BarVisualization;
 import eu.scy.tools.dataProcessTool.pdsELO.GraphVisualization;
@@ -200,7 +202,7 @@ public class DataControllerDB implements ControllerInterface{
         }
         listUserDatasetMission = (ArrayList<ArrayList<Dataset>>)v.get(0);
         // si pas de dataset, on en cree un par dedaut
-        if(listDataset.size()==0 && !allDatasetLocked){
+        if(listDataset.isEmpty() && !allDatasetLocked){
             v = new ArrayList();
             cr = createTable(dataToolPanel.getBundleString("DEFAULT_DATASET_NAME"), v);
             if(cr.isError())
@@ -342,7 +344,7 @@ public class DataControllerDB implements ControllerInterface{
     }
 
     /* retourne un dataset construit a partir d'un ELO dataset */
-    private CopexReturn getDataset(DataSet eloDs, String name, ArrayList v){
+    private CopexReturn getDataset(eu.scy.elo.contenttype.dataset.DataSet eloDs, String name, ArrayList v){
         Dataset ds = null;
         CopexReturn cr = new CopexReturn();
         // pas d'operations, pas de visualization
@@ -424,7 +426,7 @@ public class DataControllerDB implements ControllerInterface{
         ArrayList<DataOperation> listOperation = new ArrayList();
         ArrayList<Visualization> listVisualization = new ArrayList();
         // header
-        DataSet eloDs = eloPDS.getDataset();
+        eu.scy.elo.contenttype.dataset.DataSet eloDs = eloPDS.getDataset();
         DataSetHeader header =  eloDs.getHeader(getLocale()) ;
         if (header == null)
             header = eloDs.getHeaders().get(0);
@@ -642,6 +644,7 @@ public class DataControllerDB implements ControllerInterface{
         if (cr.isError())
             return cr;
         dbKey = (Long)v2.get(0);
+        operation.setDbKey(dbKey);
         // creation en memoire
         dataset.addOperation(operation);
         // en v[0] le nouveau dataset clone et en v[1] le dataOperation
@@ -1191,15 +1194,23 @@ public class DataControllerDB implements ControllerInterface{
             ArrayList[] tabDel = dataset.removeRows(listNoDataRow);
             // supression des colonnes
             ArrayList<DataHeader> listDataHeader = new ArrayList();
+            ArrayList<Data> listDataFromHeader = new ArrayList();
+            int nbRows = dataset.getNbRows();
             for(Iterator<Integer> i = listNoDataCol.iterator();i.hasNext();){
                 int id = i.next();
                 if(dataset.getDataHeader(id) != null)
                     listDataHeader.add(dataset.getDataHeader(id));
+                for(int r=0; r<nbRows; r++){
+                    if(dataset.getData(r, id) != null){
+                        listDataFromHeader.add(dataset.getData(r, id));
+                    }
+                }
             }
             ArrayList[] tabDel2 = dataset.removeCols(listNoDataCol);
             cr = DatasetFromDB.deleteDataHeaderFromDB(dbC, listDataHeader);
             if(cr.isError())
                 return cr;
+            cr = DatasetFromDB.deleteDataFromDB(dbC, listDataFromHeader);
             ArrayList<DataOperation> listOpToDel = (ArrayList<DataOperation>)tabDel[1];
             ArrayList<Visualization> listVisToDel = (ArrayList<Visualization>)tabDel[3];
             ArrayList<DataOperation> listOpToUpdate = (ArrayList<DataOperation>)tabDel[0];
@@ -1910,9 +1921,9 @@ public class DataControllerDB implements ControllerInterface{
     private CopexReturn getElo(String xmlContent,ArrayList v){
         Dataset ds = null;
         if(isDatasetType(xmlContent)){
-            DataSet eloDs ;
+            eu.scy.elo.contenttype.dataset.DataSet eloDs ;
             try{
-                eloDs = new DataSet(xmlContent) ;
+                eloDs = new eu.scy.elo.contenttype.dataset.DataSet(xmlContent) ;
             }catch(JDOMException e){
                 return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_LOAD_DATA"), false) ;
             }
@@ -1966,6 +1977,7 @@ public class DataControllerDB implements ControllerInterface{
             nbColsToPaste = copyDs.getListHeader().size();
         int nbR = dataset.getNbRows() ;
         int nbC = dataset.getNbCol() ;
+        Dataset cloneDs = (Dataset)dataset.clone();
         
         if(idC == nbC){
             dataset.insertCol(nbColsToPaste, idC);
@@ -2031,6 +2043,29 @@ public class DataControllerDB implements ControllerInterface{
                    headers[1] = header;
                    listDataHeader.add(headers);
                }
+               if(header != null && (dataset.getDataHeader(idC+j) == null || dataset.getDataHeader(idC+j).getDbKey() == -1 ) ){
+                   //creation
+                   ArrayList v2 = new ArrayList();
+                   cr = DatasetFromDB.createDataHeaderInDB(dbC, header.getValue(), header.getUnit(), header.getNoCol(),
+                           header.getType(), header.getDescription(), header.getFormulaValue(), header.isScientificNotation(),
+                           header.getNbShownDecimals(), header.getNbSignificantDigits(), dataset.getDbKey(), v2);
+                   if(cr.isError())
+                        return cr;
+                  long dbKeyH = (Long)v2.get(0);
+                  header.setDbKey(dbKeyH);
+               }else if(header != null){
+                   cr = DatasetFromDB.updateDataHeaderInDB(dbC, dataset.getDataHeader(idC+j).getDbKey(), header.getValue(), header.getUnit(), header.getDescription(),
+                           header.getType(), header.getFormulaValue(), header.isScientificNotation(),
+                           header.getNbShownDecimals(), header.getNbSignificantDigits());
+                    if(cr.isError())
+                        return cr;
+               }else if(header == null && dataset.getDataHeader(idC+j) != null && dataset.getDataHeader(idC+j).getDbKey() != -1){
+                   cr = DatasetFromDB.updateDataHeaderInDB(dbC, dataset.getDataHeader(idC+j).getDbKey(), "", "", "",
+                           DataConstants.TYPE_DOUBLE, "", false,
+                           DataConstants.NB_DECIMAL_UNDEFINED,DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED);
+                    if(cr.isError())
+                        return cr;
+               }
                dataset.setDataHeader(header, idC+j);
            }
         }
@@ -2047,6 +2082,11 @@ public class DataControllerDB implements ControllerInterface{
                 }
                 Data nd = null;
                 if (d != null){
+                    if(!dataset.getDataHeader(d.getNoCol()).isDouble() && dataset.getDataHeader(idC) != null && dataset.getDataHeader(idC).isDouble()){
+                        dataset = cloneDs;
+                        cr = new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_PASTE_COHERENCE"), false);
+                            return cr;
+                    }
                     nd = new Data(-1, d.getValue(), idR, idC, d.isIgnoredData()) ;
                     Data[] datas = new Data[2];
                    datas[0] = null;
@@ -2055,6 +2095,26 @@ public class DataControllerDB implements ControllerInterface{
                    }
                    datas[1] = nd;
                    listData.add(datas);
+                }
+                if(nd != null){
+                    if(dataset.getData(idR, idC) == null || dataset.getData(idR, idC).getDbKey() == -1){
+                        ArrayList v2 = new ArrayList();
+                        cr = DatasetFromDB.createDataInDB(dbC, nd.getValue(), idR, idC, dataset.getDbKey(), v2);
+                        if(cr.isError())
+                            return cr;
+                        long dbKeyData = (Long)v2.get(0);
+                        nd.setDbKey(dbKeyData);
+                    }else{
+                        cr = DatasetFromDB.updateDataInDB(dbC, dataset.getData(idR, idC).getDbKey(), nd.getValue());
+                        if(cr.isError())
+                            return cr;
+                    }
+                }else{
+                    if(dataset.getData(idR, idC) != null && dataset.getData(idR, idC).getDbKey() > -1){
+                        cr = DatasetFromDB.updateDataInDB(dbC, dataset.getData(idR, idC).getDbKey(), "");
+                        if(cr.isError())
+                            return cr;
+                    }
                 }
                 dataset.setData(nd, idR, idC);
 
@@ -2086,13 +2146,45 @@ public class DataControllerDB implements ControllerInterface{
                         listNoCol.add(dataset.getNbCol());
                         DataHeader header = new DataHeader(-1, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_NAME")+(idC+j-j0+1), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_UNIT"), idC+j-j0,DataConstants.DEFAULT_TYPE_COLUMN, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_DESCRIPTION"), null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED);
                         DataHeader[] headers = new DataHeader[2];
+                        
+                        dataset.setDataHeader(header, idC+j);
+                        ArrayList v2 = new ArrayList();
+                        cr = DatasetFromDB.createDataHeaderInDB(dbC, header.getValue(), header.getUnit(), header.getNoCol(),
+                           header.getType(), header.getDescription(), header.getFormulaValue(), header.isScientificNotation(),
+                           header.getNbShownDecimals(), header.getNbSignificantDigits(), dataset.getDbKey(), v2);
+                        if(cr.isError())
+                            return cr;
+                        long dbKeyH = (Long)v2.get(0);
+                        header.setDbKey(dbKeyH);
                         headers[0] = null;
                         headers[1] = header;
                         listDataHeader.add(headers);
-                        dataset.setDataHeader(header, idC+j);
+                    }
+                    if(nd != null){
+                        if(dataset.getData(idR+i-i0, idC+j-j0) == null || dataset.getData(idR+i-i0, idC+j-j0).getDbKey() == -1){
+                            ArrayList v2 = new ArrayList();
+                            cr = DatasetFromDB.createDataInDB(dbC, nd.getValue(), idR+i-i0, idC+j-j0, dataset.getDbKey(), v2);
+                            if(cr.isError())
+                                return cr;
+                            long dbKeyData = (Long)v2.get(0);
+                            nd.setDbKey(dbKeyData);
+                        }else{
+                            cr = DatasetFromDB.updateDataInDB(dbC, dataset.getData(idR+i-i0, idC+j-j0).getDbKey(), nd.getValue());
+                            if(cr.isError())
+                                return cr;
+                        }
+                    }else{
+                        if(dataset.getData(idR+i-i0, idC+j-j0) != null && dataset.getData(idR+i-i0, idC+j-j0).getDbKey() > -1){
+                            cr = DatasetFromDB.updateDataInDB(dbC, dataset.getData(idR+i-i0, idC+j-j0).getDbKey(), "");
+                            if(cr.isError())
+                                return cr;
+                        }
                     }
                     dataset.setData(nd, idR+i-i0, idC+j-j0);
                 }
+                cr = DatasetFromDB.updateDatasetMatriceInDB(dbC, dataset.getDbKey(), dataset.getNbRows(), dataset.getNbCol());
+                if(cr.isError())
+                    return cr;
             }
         }
         cr = computeAllData(dataset);
@@ -2434,6 +2526,11 @@ public class DataControllerDB implements ControllerInterface{
     /* arret de fitex */
     @Override
     public CopexReturn stopFitex(){
+        for(Iterator<Dataset> d = listDataset.iterator();d.hasNext();){
+            CopexReturn cr = exportHTML(d.next());
+            if(cr.isError())
+                return cr;
+        }
         // deverouille les feuilles de donnnees
         unsetLockers(this.listDataset);
         this.locker.stop();
@@ -2533,12 +2630,51 @@ public class DataControllerDB implements ControllerInterface{
     /** import a GMBL file, return v[0] the dataset elo */
      @Override
     public CopexReturn importGMBLFile(File file,ArrayList v){
-        String g="\"";
         if (file == null) {
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_FILE_EXIST"), false);
         }
         if(!file.getName().substring(file.getName().length()-4).equals("gmbl")){
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_FILE_GMBL"), false);
+        }
+        InputStreamReader fileReader = null;
+        SAXBuilder builder = new SAXBuilder(false);
+        try{
+            fileReader = new InputStreamReader(new FileInputStream(file), "utf-8");
+            Document doc = builder.build(fileReader, file.getAbsolutePath());
+            Element element = doc.getRootElement();
+            GmblDataset gmblDataset = new GmblDataset(element);
+            List<DataSetHeader> headers = new LinkedList<DataSetHeader>();
+            DataSetHeader header;
+            List<DataSetColumn> listC = new LinkedList<DataSetColumn>();
+            int nbBMaxRow = 0;
+            for(Iterator<GmblColumn> col = gmblDataset.getColumns().iterator(); col.hasNext();){
+                GmblColumn gmblColumn = col.next();
+                DataSetColumn c = new DataSetColumn(gmblColumn.getColumnTitle(), "", gmblColumn.getType(), gmblColumn.getUnit());
+                listC.add(c);
+                nbBMaxRow = Math.max(nbBMaxRow, gmblColumn.getCellValues().size());
+            }
+            header = new DataSetHeader(listC, dataToolPanel.getLocale());
+            headers.add(header);
+            eu.scy.elo.contenttype.dataset.DataSet ds = new eu.scy.elo.contenttype.dataset.DataSet(headers);
+            for(int i=0; i<nbBMaxRow; i++){
+                List<String> values = new LinkedList<String>();
+                for(Iterator<GmblColumn> col = gmblDataset.getColumns().iterator(); col.hasNext();){
+                    GmblColumn gmblColumn = col.next();
+                    List<String> cellsValues = gmblColumn.getCellValues();
+                    if(i<cellsValues.size() && cellsValues.get(i) != null){
+                        values.add(cellsValues.get(i));
+                    }else{
+                        values.add("");
+                    }
+                }
+                DataSetRow datasetRow = new DataSetRow(values);
+                ds.addRow(datasetRow);
+            }
+            v.add(ds);
+        }catch(IOException e1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_IMPORT_FILE")+" "+e1, false);
+        }catch(JDOMException e2){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_IMPORT_FILE")+" "+e2, false);
         }
         return new CopexReturn();
     }

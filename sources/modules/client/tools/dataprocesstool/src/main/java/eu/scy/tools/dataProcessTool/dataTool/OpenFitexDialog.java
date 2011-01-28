@@ -9,6 +9,7 @@ import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.common.Mission;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
+import eu.scy.tools.dataProcessTool.utilities.MyFileFilter;
 import eu.scy.tools.dataProcessTool.utilities.MyFileFilterXML;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.event.ItemEvent;
@@ -347,7 +348,7 @@ public class OpenFitexDialog extends JDialog {
     }
     private void buttonExplOpen(){
         JFileChooser aFileChooser = new JFileChooser();
-        aFileChooser.setFileFilter(new MyFileFilterXML());
+        aFileChooser.setFileFilter(new MyFileFilter());
         if (lastUsedFileOpen != null){
             aFileChooser.setCurrentDirectory(lastUsedFileOpen.getParentFile());
             aFileChooser.setSelectedFile(lastUsedFileOpen);
@@ -355,8 +356,8 @@ public class OpenFitexDialog extends JDialog {
         int userResponse = aFileChooser.showOpenDialog(this);
         if (userResponse == JFileChooser.APPROVE_OPTION){
             File file = aFileChooser.getSelectedFile();
-            if(!MyUtilities.isXMLFile(file)){
-                owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_FILE_XML"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
+            if(!MyUtilities.isXMLFile(file) && !MyUtilities.isCSVFile(file) && !MyUtilities.isGMBLFile(file)){
+                owner.displayError(new CopexReturn(owner.getBundleString("MSG_ERROR_FILE"), false), owner.getBundleString("TITLE_DIALOG_ERROR"));
                 return;
             }
             lastUsedFileOpen = file;

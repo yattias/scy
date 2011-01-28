@@ -1579,7 +1579,9 @@ public class DataController implements ControllerInterface{
             nbColsToPaste = copyDs.getListHeader().size();
         int nbR = dataset.getNbRows() ;
         int nbC = dataset.getNbCol() ;
-        
+
+        Dataset cloneDs = (Dataset)dataset.clone();
+
         if(idC == nbC){
             dataset.insertCol(nbColsToPaste, idC);
             for (int i=0; i<nbColsToPaste; i++){
@@ -1657,6 +1659,11 @@ public class DataController implements ControllerInterface{
                 }
                 Data nd = null;
                 if (d != null){
+                    if(!dataset.getDataHeader(d.getNoCol()).isDouble() && dataset.getDataHeader(idC) != null && dataset.getDataHeader(idC).isDouble()){
+                        CopexReturn cr = new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_PASTE_COHERENCE"), false);
+                        dataset = cloneDs;
+                        return cr;
+                    }
                     nd = new Data(idData++, d.getValue(), idR, idC, d.isIgnoredData()) ;
                     Data[] datas = new Data[2];
                    datas[0] = null;

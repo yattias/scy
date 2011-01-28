@@ -19,7 +19,7 @@ public interface OpenDataAction {
     public void openELO(File file);
     public void openDataset(Mission mission, Dataset dataset);
     /* import a csv file */
-    public void importELO(File file);
+    public void importELO(File file, boolean createNew);
     /* merge a ds into the current ds */
     public void mergeELO(File file );
     public void mergeDataset(Mission mission, Dataset dataset);
