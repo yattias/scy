@@ -8,9 +8,12 @@
 			import listeners.ToggleEvent;
 			
 			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
 			
+			import utility.AutoSaveService;
 			import utility.XMLUtilJer;
+			
 			
 			private var passedPortfolioStudentName:String;
 			
@@ -63,7 +66,7 @@
 				scrollbar.maxScrollPosition = coverflow.numChildren - 1;
 				coverflow.selectedIndex = 0;
 				
-				if(pfXML.assessed == "true") {
+				if(pfXML.portfoliostatus == "PORTFOLIO_ASSESSED") {
 					teaRatingGrp.selectedValue = new Number(pfXML.assessmentportfoliorating);
 					commentArea.text = pfXML.assessmentportfoliocomment;
 				}
@@ -71,11 +74,18 @@
 			
 			private function validateAssessment():void {
 				if(commentArea.text != "" && teaRatingGrp.selectedValue != null) {
-					newPfXML.assessed = "true";
+					newPfXML.portfoliostatus = <portfoliostatus>{XMLUtilJer.cdata("PORTFOLIO_ASSESSED")}</portfoliostatus>;
 					newPfXML.assessmentportfoliorating = teaRatingGrp.selectedValue;
 					newPfXML.assessmentportfoliocomment = <assessmentportfoliocomment>{XMLUtilJer.cdata(commentArea.text)}</assessmentportfoliocomment>;
 					so.data.retrievedElosFromRoolo = portfolioElo.replace(pfXML, newPfXML);
 					so.flush();
+					
+					var params:Object = new Object();
+					params.missionURI = decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
+					params.xmlContent = encodeURI(so.data.retrievedElosFromRoolo);
+					new AutoSaveService(so.data.saveportfolio, params);
+					
+					trace(so.data.retrievedElosFromRoolo);
 					teaRatingGrp.selectedValue = null;
 					commentArea.text = "";
 					clickHandler(index.RIGHT_DIRECTION, index.STACK_STUDTABLE_PANEL);

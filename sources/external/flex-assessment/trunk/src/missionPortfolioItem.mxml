@@ -37,7 +37,7 @@
 							allGood = false;							
 						}
 						tc.cellGrade = object.grade;
-						tc.eloid = object.@uri;
+						tc.eloid = object.uri;
 						objectsToTile.addItem(tc);
 					}
 				}

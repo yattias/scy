@@ -120,6 +120,9 @@
 					portfolioService.url = new String(toolURLProvider.assessmentservice).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "%23");
 				}
 				
+				so.data.saveportfolio = new String(toolURLProvider.saveportfolio)
+				so.flush();
+				
 				portfolioService.send();
 			}
 			

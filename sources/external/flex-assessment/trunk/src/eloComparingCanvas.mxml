@@ -66,8 +66,8 @@
 				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 				portfolioElo = so.data.retrievedElosFromRoolo as XML;
 				
-				var myList1:XMLList = portfolioElo.portfolio.elos.elo.(@uri == elosToCompare[0]);
-				var myList2:XMLList = portfolioElo.portfolio.elos.elo.(@uri == elosToCompare[1]);
+				var myList1:XMLList = portfolioElo.portfolio.elos.elo.(uri == elosToCompare[0]);
+				var myList2:XMLList = portfolioElo.portfolio.elos.elo.(uri == elosToCompare[1]);
 				
 				eloXML1 = myList1[0] as XML;
 				eloXML2 = myList2[0] as XML;

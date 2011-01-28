@@ -71,11 +71,11 @@
 			}
 			
 			private function getAssessmentStatus(pf:XML):String {
-				if(pf.assessed == "false") {
-					return resourceManager.getString('resources', 'NOT_ASSESSED');
+				if(pf.portfoliostatus == "PORTFOLIO_ASSESSED") {
+					return resourceManager.getString('resources', 'ASSESSED');
 				}
 				else {
-					return resourceManager.getString('resources', 'ASSESSED');
+					return resourceManager.getString('resources', 'NOT_ASSESSED');
 				}
 			}
 			
