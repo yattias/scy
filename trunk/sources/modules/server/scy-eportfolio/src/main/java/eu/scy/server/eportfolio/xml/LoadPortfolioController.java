@@ -2,22 +2,17 @@ package eu.scy.server.eportfolio.xml;
 
 import com.thoughtworks.xstream.XStream;
 import eu.scy.common.mission.MissionRuntimeElo;
-import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.roolo.MissionELOService;
-import eu.scy.server.controllers.xml.XMLStreamerController;
+import eu.scy.server.controllers.xml.transfer.LearningGoal;
 import eu.scy.server.controllers.xml.transfer.Portfolio;
-import eu.scy.server.controllers.xml.transfer.PortfolioContainer;
-import eu.scy.server.controllers.xml.transfer.TransferElo;
-import eu.scy.server.eportfolio.xml.utilclasses.LearningGoal;
 import eu.scy.server.url.UrlInspector;
-import roolo.elo.api.IELO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -52,18 +47,17 @@ public class LoadPortfolioController extends MissionRuntimeEnabledXMLService {
                 portfolio = (Portfolio) xstream.fromXML(portfolioString);
             }
         }
-       if (portfolio == null) {
+        if (portfolio == null) {
             portfolio = new Portfolio();
             portfolio.setMissionName(missionRuntimeElo.getTitle());
             portfolio.setOwner(getCurrentUser(request).getUserDetails().getUsername());
             portfolio.setPortfolioStatus("NOT_SUBMITTED");
-            //portfolio.setAssessed(false);
-            //portfolio.setReflectionCollaboration("HUH DUDE; REFLECTION is for professors!");
-            //portfolio.setReflectionEffort("NO GOOD MAN!");
-            //portfolio.setReflectionInquiry("MUUU");
-            //portfolio.setReflectionMission("WOha reflect reflect");
-            //portfolio.setAssessmentPortfolioComment("A comment from me");
-            //portfolio.setAssessmentPortfolioRating("TOO GOOD TO BE TRUE (6/6)");
+            portfolio.setMissionRuntimeURI(missionRuntimeElo.getUri().toString());
+            //try {
+            //portfolio.setMissionRuntimeURI(URLEncoder.encode(missionRuntimeElo.getUri().toString(), "UTF-8"));
+            //} catch (UnsupportedEncodingException e) {
+            //    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            //}
         }
 
 

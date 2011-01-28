@@ -1,12 +1,7 @@
-package eu.scy.server.eportfolio.xml.converters;
+package eu.scy.server.controllers.xml.converters;
 
-import com.thoughtworks.xstream.converters.Converter;
-import com.thoughtworks.xstream.converters.MarshallingContext;
-import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.converters.basic.AbstractSingleValueConverter;
-import com.thoughtworks.xstream.io.HierarchicalStreamReader;
-import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
-import eu.scy.server.eportfolio.xml.utilclasses.LearningGoal;
+import eu.scy.server.controllers.xml.transfer.LearningGoal;
 
 /**
  * Created by IntelliJ IDEA.

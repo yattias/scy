@@ -1,4 +1,4 @@
-package eu.scy.server.eportfolio.xml.utilclasses;
+package eu.scy.server.controllers.xml.transfer;
 
 import java.util.LinkedList;
 import java.util.List;
