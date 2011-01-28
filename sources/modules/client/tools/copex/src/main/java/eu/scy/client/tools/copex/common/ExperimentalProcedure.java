@@ -389,7 +389,8 @@ public class ExperimentalProcedure implements Cloneable {
             }
         }
         //element.addContent(new Element(TAG_EXP_PROC_RIGHT).setText(Character.toString(right)));
-        element.addContent(question.toXML());
+        if(question != null)
+            element.addContent(question.toXML());
         if(hypothesis != null)
             element.addContent(hypothesis.toXML());
         if(generalPrinciple != null)

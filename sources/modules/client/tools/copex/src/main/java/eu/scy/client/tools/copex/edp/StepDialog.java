@@ -15,6 +15,7 @@ import eu.scy.client.tools.copex.utilities.CommentsPanel;
 import eu.scy.client.tools.copex.utilities.CopexReturn;
 import eu.scy.client.tools.copex.utilities.CopexUtilities;
 import eu.scy.client.tools.copex.utilities.MyConstants;
+import java.awt.Cursor;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -271,6 +272,7 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
    }
    
    private void validDialog(){
+       setCursor(new Cursor(Cursor.WAIT_CURSOR));
        String champ = edP.getBundleString("LABEL_NAME_STEP");
        if(!stepMode)
            champ = edP.getBundleString("LABEL_NAME_TASK");
@@ -281,12 +283,14 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
             String msg = edP.getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, champ);
             msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_DESCRIPTION);
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             edP.displayError(new CopexReturn(msg, false), edP.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
         if (d.length() == 0){
             String msg = edP.getBundleString("MSG_ERROR_FIELD_NULL");
             msg  = CopexUtilities.replace(msg, 0, champ);
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             edP.displayError(new CopexReturn(msg ,false), edP.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
@@ -295,6 +299,7 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
             String msg = edP.getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_COMMENTS"));
             msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_COMMENTS);
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             edP.displayError(new CopexReturn(msg, false) , edP.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
@@ -315,6 +320,7 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
             // Cree l'etpae
             CopexReturn cr = edP.addStep(newStep, insertIn);
             if (cr.isError()){
+                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 edP.displayError( cr , edP.getBundleString("TITLE_DIALOG_ERROR"));
                 return;
             }
@@ -322,11 +328,12 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
             // mode modification
             CopexReturn cr = edP.updateStep(newStep);
             if (cr.isError()){
+                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
                 return;
             }
         }
-  
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         this.dispose();
    }
 

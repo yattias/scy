@@ -29,8 +29,8 @@ public class CopexMission implements Cloneable{
     private String name;
     /** code of the mission */
     private String code;
-    /** sum up of the mission*/
-    private String sumUp;
+    /** description of the mission*/
+    private String description;
     /** current mission */
     private boolean activ;
    
@@ -41,17 +41,17 @@ public class CopexMission implements Cloneable{
     private List<Material> listMaterial;
     private List<InitialNamedAction> listNamedAction;
 
-    public CopexMission(long dbKey, String name, String code, String sumUp){
+    public CopexMission(long dbKey, String name, String code, String description){
         this.dbKey = dbKey;
         this.name = name;
         this.code = code;
-        this.sumUp = sumUp;
+        this.description = description;
         this.activ = true;
     }
-   public CopexMission(String code, String name, String sumUp){
+   public CopexMission(String code, String name, String description){
        this.name = name;
        this.code = code;
-       this.sumUp = sumUp;
+       this.description = description;
        this.dbKey = -1;
        this.activ = true;
        this.listInitialProc = null;
@@ -91,7 +91,7 @@ public class CopexMission implements Cloneable{
 
             this.name = "";
             this.code = "";
-            this.sumUp = "";
+            this.description = "";
             this.dbKey = dbKeyMission;
             this.activ = true;
             } else {
@@ -147,9 +147,9 @@ public class CopexMission implements Cloneable{
             String codeC = "";
             if (this.code != null)
                 codeC = new String(this.code);
-            String sumUpC = "";
-            if (this.sumUp != null)
-                sumUpC = new String(sumUp);
+            String descC = "";
+            if (this.description != null)
+                descC = new String(description);
             boolean activC = this.activ;
             List<InitialProcedure> listIP = null;
             if(listInitialProc != null){
@@ -179,7 +179,7 @@ public class CopexMission implements Cloneable{
             mission.setDbKey(dbKeyC);
             mission.setName(nameC);
             mission.setCode(codeC);
-            mission.setSumUp(sumUpC);
+            mission.setDescription(descC);
             mission.setActiv(activC);
             mission.setListInitialProc(listIP);
             return mission;
@@ -203,11 +203,10 @@ public class CopexMission implements Cloneable{
         return code;
     }
 
-    public String getSumUp() {
-        return sumUp;
+    public String getDescription() {
+        return description;
     }
 
-    
     public void setActiv(boolean activ) {
         this.activ = activ;
     }
@@ -220,10 +219,11 @@ public class CopexMission implements Cloneable{
         this.dbKey = dbKey;
     }
 
-    public void setSumUp(String sumUp) {
-        this.sumUp = sumUp;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
+    
     public void setName(String name) {
         this.name = name;
     }

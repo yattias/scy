@@ -31,7 +31,11 @@ public class TextTableModel extends AbstractTableModel{
         nbCol = 2*nbDataCol-1;
         // nbrows ?
         int nbD = textList.size();
-        nbRow = (nbD / nbDataCol)+1;
+        if(nbD % nbDataCol == 0){
+            nbRow = (nbD / nbDataCol);
+        }else{
+            nbRow = (nbD / nbDataCol)+1;
+        }
         textData = new String[nbRow][nbCol];
         // initialization
         for(int j=0; j<nbDataCol; j++){

@@ -14,8 +14,11 @@ import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.FontMetrics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -171,6 +174,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
             this.setTitle(edP.getBundleString("TITLE_DIALOG_ACTION"));
         setLayout(null);
         addComponentListener(new java.awt.event.ComponentAdapter() {
+            @Override
             public void componentResized(java.awt.event.ComponentEvent evt) {
                 resizeDialog();
             }
@@ -200,6 +204,8 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
                 this.cbActionName.addItem(this.listInitialNamedAction.get(i).getLibelle(edP.getLocale()));
             }
             this.cbActionName.setSelectedIndex(0);
+            int max = getMaxWidth(listAction, cbActionName.getFontMetrics(cbActionName.getFont()));
+            cbActionName.setSize(max, cbActionName.getHeight());
         }
         // comments
         getContentPane().add(getPanelComments());
@@ -251,6 +257,13 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
         resizeActionDialog();
     }
 
+    private int getMaxWidth(ArrayList<String> list, FontMetrics fm){
+         int max = 0;
+         for(Iterator<String> s = list.iterator();s.hasNext();){
+             max = Math.max(max,CopexUtilities.lenghtOfString(s.next(), fm));
+         }
+         return max+40;
+     }
 
     /* nom des actions */
     private void initActionName(){
@@ -647,7 +660,10 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
         }
         // calcule de la nouvelle width de la fenetre
         int newWidth = 2*posx+areaW;
-        if(panelSetting != null)
+        if(cbActionName != null){
+            newWidth = Math.max(newWidth, cbActionName.getWidth()+ cbActionName.getX()+posx);
+        }
+        if (panelSetting != null)
                 newWidth = Math.max(newWidth, panelSetting.getWidth()+2*posx);
         if(taskImg != null){
             newWidth = Math.max(newWidth, taskImg.getIconWidth()+2*posx);
@@ -664,6 +680,10 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
         }else if (labelImage != null){
             y = labelImage.getY()+labelImage.getHeight()+30;
         }
+        if(panelSetting != null)
+            panelSetting.setSize(newWidth -(2*posx), panelSetting.getHeight());
+        if(panelComments != null)
+            panelComments.setSize(newWidth -(2*posx), panelComments.getHeight());
         if (buttonOk != null){
             buttonOk.setBounds(newWidth / 8, y, buttonOk.getWidth(), buttonOk.getHeight());
         }
@@ -697,7 +717,8 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
 
     /* action sur le OK */
    private void validDialog(){
-       this.panelComments.setPanelDetailsShown();
+       if(panelComments != null)
+        this.panelComments.setPanelDetailsShown();
        // recupere les donnees :
        InitialNamedAction a = null;
        Object[] tabP = null;
@@ -744,7 +765,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
                     ArrayList<ActionParam> l = null;
                     if(taskRepeat != null)
                         l = taskRepeat.getListActionParam(initActionParam);
-                    if(l == null || l.size() == 0){
+                    if(l == null || l.isEmpty()){
                     if(initActionParam instanceof InitialParamQuantity){
                         // param de type quantite
                         ArrayList param = (ArrayList)listComponent.get(i);
@@ -1087,9 +1108,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
            setPanelDraw(a.isDraw());
            ArrayList<InitialActionParam> listAllParams = new ArrayList();
            if(a.getVariable() != null){
-                for (int i=0; i<a.getVariable().getTabParam().length; i++){
-                    listAllParams.add(a.getVariable().getTabParam()[i]);
-                }
+                listAllParams.addAll(Arrays.asList(a.getVariable().getTabParam()));
            }
            ArrayList<InitialOutput> listOutput = new ArrayList();
            if(a instanceof InitialActionManipulation){
@@ -1208,7 +1227,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
        if (t.length() > 0){
              JLabel label = new JLabel(t);
              label.setFont(new java.awt.Font("Tahoma", 1, 11));
-             label.setSize(CopexUtilities.lenghtOfString(label.getText(), getFontMetrics(label.getFont())), 20);
+             label.setSize(5+CopexUtilities.lenghtOfString(label.getText(), getFontMetrics(label.getFont())), 20);
              maxWidthLabel = Math.max(maxWidthLabel, label.getWidth());
              panelSetting.add(label);
        }
@@ -1275,9 +1294,9 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
            }
        }
        if((maxWidthLabel+20) > this.getWidth()){
-            this.panelSetting.setSize(maxWidthLabel+20,190);
+            this.panelSetting.setSize(maxWidthLabel+40,190);
        }else{
-           this.panelSetting.setSize(325,190);
+           this.panelSetting.setSize(this.getWidth() -10,190);
        }
        //this.panelSetting.setSize(325,125);
        this.panelSetting.revalidate();

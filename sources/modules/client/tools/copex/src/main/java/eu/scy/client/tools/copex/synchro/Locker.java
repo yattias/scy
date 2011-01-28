@@ -23,9 +23,9 @@ import java.util.ArrayList;
 public class Locker {
     // CONSTANTES
     /** Le delai de validite d'un verrou (en secondes). */
-    public static final int LOCKER_VALIDITY = 600;
+    public static final int LOCKER_VALIDITY = 300;
     /** Le delai de replacement d'un verrou (en secondes). */
-    public static final int LOCKER_DELAY = 300;
+    public static final int LOCKER_DELAY = 150;
 
 
     /* editeur de protocoles */

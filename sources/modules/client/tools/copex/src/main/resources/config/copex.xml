@@ -433,6 +433,31 @@
                 <name language="fr">Conteneur</name>
                 <name language="en">Container</name>
             </type>
+            <type>
+                <id>TYPE_USTENSILE</id>
+                <name language="fr">Ustensile</name>
+                <name language="en">Ustensil</name>
+            </type>
+            <type>
+                <id>TYPE_INGREDIENT</id>
+                <name language="fr">Ingrédient</name>
+                <name language="en">Ingredient</name>
+            </type>
+            <type>
+                <id>TYPE_CHAUFFANT</id>
+                <name language="fr">Chauffant</name>
+                <name language="en">Chauffant</name>
+            </type>
+            <type>
+                <id>TYPE_HOMOGENEISATEUR</id>
+                <name language="fr">Homogénéisateur</name>
+                <name language="en">Homogénéisateur</name>
+            </type>
+            <type>
+                <id>TYPE_SOLUTION</id>
+                <name language="fr">Solution</name>
+                <name language="en">Solution</name>
+            </type>
     </materials>
     <actions_prestructured>
         <initial_action_manipulation>

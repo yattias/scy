@@ -74,7 +74,7 @@ public class CopexPanel extends JPanel {
     public final static int PANEL_HEIGHT = 350;
 
     /* version */
-    private String version = "2.2";
+    private String version = "2.3";
     protected ControllerInterface controller;
     public final static Color backgroundColor = SystemColor.control;
     /* locale */
@@ -243,7 +243,10 @@ public class CopexPanel extends JPanel {
       //String logFileName = "logFile"+CopexUtilities.getCurrentDate()+"-"+dbKeyMission+"-"+idUser+".xml";
       //String fileMission = "copexMission_SCI121.xml";
       //String fileMission = "copexMission_simple.xml";
+      //String fileMission = "copexMission_TEA_FR.xml";
+      //String fileMission = "copexMission_TEA_JP.xml";
       String fileMission = "copexMission_SCY1_CO2.xml";
+      //String fileMission = "copexMission_PKA.xml";
       CopexReturn cr = this.controller.initEdP(locale, idUser, dbKeyMission,dbKeyGroup, dbKeyLabDoc, labDocName, fileMission);
       if (cr.isError()){
           setCursor(new Cursor(Cursor.DEFAULT_CURSOR));

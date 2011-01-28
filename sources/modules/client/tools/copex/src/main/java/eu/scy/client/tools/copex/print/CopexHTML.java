@@ -52,6 +52,7 @@ public class CopexHTML {
             setItem(proc.getEvaluation().getEvaluation(edp.getLocale()), proc.getEvaluation().getComment(edp.getLocale()), "icone_AdT_eval.png", edp.getBundleString("TREE_EVALUATION"));
         }
         //addString("</table>");
+        //System.out.println(copexHtml);
         v.add(copexHtml);
         return new CopexReturn();
     }
@@ -97,9 +98,9 @@ public class CopexHTML {
         int nb = listMaterial.size();
         int nbRow = 0;
         if(nb%2 == 1){
-            nbRow =nb/2+1;
+            nbRow =nb/4+1;
         }else
-            nbRow = nb/2;
+            nbRow = nb/4;
         addString("<table width='100%'  border='0' cellpadding='0'>");
         addString("<tr>");
             addString("<td width='3%' valign='top'>");
@@ -114,10 +115,10 @@ public class CopexHTML {
                     addString("</tr>");
                     addString("<tr>");
                         addString("<td>");
-                            addString("<table border='0' cellpadding='0'>");
+                            addString("<table border='0' cellpadding='0' width='100%'>");
                             for(int i=0; i<nbRow; i++){
                                 addString("<tr>");
-                                for(int j=1; j<3; j++){
+                                for(int j=1; j<5; j++){
                                     addString("<td>");
                                     int k = i+(j-1)*nbRow;
                                     if(k < nb){
@@ -266,7 +267,7 @@ public class CopexHTML {
             taskTable += "<tr>\n";
             taskTable += "<td> <span class='task_draw'>\n";
             String fileName = "labdoc-task-"+task.getDbKey()+".png";
-            taskTable += "<img src=\"../tools_utilities/InterfaceServer/labdoc/"+fileName+"\" alt=\"Dessin\">\n";
+            taskTable += "<img src=\"../tools_utilities/InterfaceServer/labdoc/"+fileName+"\" alt=\"Dessin\" style=\"width: 100%;\">\n";
             taskTable += "</span></td>\n";
             taskTable += "</tr>\n";
         }

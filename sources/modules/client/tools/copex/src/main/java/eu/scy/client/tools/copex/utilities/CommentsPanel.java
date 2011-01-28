@@ -109,7 +109,7 @@ public class CommentsPanel extends CopexPanelHideShow {
             areaComments.setEnabled(enabled);
         setButtonEnabled(enabled);
     }
-    
+
     private JScrollPane getScrollPaneComments(){
         if (this.scrollPaneComments == null){
             scrollPaneComments = new JScrollPane();

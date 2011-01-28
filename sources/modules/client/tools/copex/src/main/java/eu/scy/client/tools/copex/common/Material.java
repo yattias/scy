@@ -120,7 +120,7 @@ public class Material implements Cloneable {
 		} else {
 			throw(new JDOMException("Material expects <"+TAG_MATERIAL+"> as root element, but found <"+xmlElem.getName()+">."));
 		}
-            materialSource = new MaterialSourceUser();
+            materialSource = new MaterialSourceCopex();
             if(xmlElem.getChild(TAG_MATERIAL_SOURCE_TEACHER) != null){
                 materialSource = new MaterialSourceTeacher(-1);
             }else if(xmlElem.getChild(TAG_MATERIAL_SOURCE_ACTION) != null){

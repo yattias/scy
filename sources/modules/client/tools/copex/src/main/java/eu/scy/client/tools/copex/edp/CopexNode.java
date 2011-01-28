@@ -105,6 +105,15 @@ public class CopexNode extends DefaultMutableTreeNode {
             return task.getParentRight() == MyConstants.EXECUTE_RIGHT;
     }
 
+    /* retourne vrai si peut etre edites */
+    public boolean canEdit(){
+        CopexTask task = getTask();
+        if(task == null)
+            return false;
+        else
+            return task.getEditRight() == MyConstants.EXECUTE_RIGHT;
+    }
+
     public String getDebug(Locale locale){
         //locale = new Locale("en", "GB");
         if(isQuestion())
