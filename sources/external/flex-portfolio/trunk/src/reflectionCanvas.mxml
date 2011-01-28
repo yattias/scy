@@ -164,7 +164,14 @@
 					selectedEloCatname = selectedElo.catname;
 					missionTextText = index.MISSION_NAME + " / " + selectedEloCatname;
 					createdTextText = selectedElo.createdby;
-					eloIconSource = selectedElo.thumbnail;
+					if(selectedElo.thumbnail != null || selectedElo.thumbnail != "") {
+						eloIconSource = selectedElo.thumbnail;
+					}
+					else {
+						eloIconSource = index.NOTHUMB;
+					}
+					
+					
 					elonameTextText = selectedElo.customname;
 					createdDateTextText = selectedElo.modified;
 					
