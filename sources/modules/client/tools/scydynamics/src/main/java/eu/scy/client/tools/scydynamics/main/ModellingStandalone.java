@@ -45,6 +45,8 @@ public class ModellingStandalone extends JFrame {
 			e.printStackTrace();
 		}
 		props.put("show.popouttabs", "true");
+		System.out.println("current props:");
+		System.out.println(props);
 		return props;
 	}
 

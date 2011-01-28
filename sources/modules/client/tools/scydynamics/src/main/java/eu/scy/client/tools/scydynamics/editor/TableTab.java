@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -28,6 +29,10 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
 import eu.scy.client.tools.scydynamics.model.SimquestModel;
+import eu.scy.elo.contenttype.dataset.DataSet;
+import eu.scy.elo.contenttype.dataset.DataSetColumn;
+import eu.scy.elo.contenttype.dataset.DataSetHeader;
+import eu.scy.elo.contenttype.dataset.DataSetRow;
 
 
 import sqv.Interface;
@@ -68,7 +73,9 @@ public class TableTab extends JPanel implements ChangeListener, ActionListener {
         westPanel.setLayout(new BorderLayout());
         westPanel.add(variablePanel = new VariableSelectionPanel(editor, bundle, true), BorderLayout.NORTH);
         westPanel.add(simulationPanel = new SimulationSettingsPanel(editor, this), BorderLayout.CENTER);
-        this.add(westPanel, BorderLayout.WEST);
+        JScrollPane scroller = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scroller.setViewportView(westPanel);
+		this.add(scroller, BorderLayout.WEST);
         this.add(createTable(), BorderLayout.CENTER);
     }
 
@@ -223,4 +230,26 @@ public class TableTab extends JPanel implements ChangeListener, ActionListener {
         editor.getModel().setStep(Double.parseDouble(simulationPanel.getStep()));
         editor.getModel().setMethod(simulationPanel.getMethod());
     }
+
+	public DataSet getDataSet() {
+		ArrayList<DataSetColumn> columns = new ArrayList<DataSetColumn>();
+		for (String varName: variablePanel.getSelectedVariables()) {
+			columns.add(new DataSetColumn(varName, "", "double"));
+		}
+		ArrayList<DataSetHeader> headers = new ArrayList<DataSetHeader>();
+		headers.add(new DataSetHeader(columns, Locale.ENGLISH));
+		DataSet dataset = new DataSet(headers);
+		DataSetRow datarow;
+		if (tableModel != null) {
+			for (int row=0; row<tableModel.getRowCount(); row++) {
+				ArrayList<String> values = new ArrayList<String>();
+				for (int col=0; col<tableModel.getColumnCount(); col++) {
+					values.add(tableModel.getValueAt(row, col).toString());
+				}
+				datarow = new DataSetRow(values);
+				dataset.addRow(datarow);
+			}
+		}
+		return dataset;
+	}
 }

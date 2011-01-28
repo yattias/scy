@@ -12,7 +12,9 @@ import java.util.LinkedList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -47,6 +49,7 @@ public class GraphTab extends JPanel implements ChangeListener, ActionListener {
 	private final ResourceBundleWrapper bundle;
 	private JComboBox xAxisSelector;
 	private LinkedList<Curve> curves;
+	private JCheckBox multiPlotsCheckBox;
 
 	public GraphTab(ModelEditor editor, ResourceBundleWrapper bundle) {
 		super();
@@ -106,6 +109,9 @@ public class GraphTab extends JPanel implements ChangeListener, ActionListener {
 		FlowLayout flow = new FlowLayout();
 		flow.setAlignment(FlowLayout.RIGHT);
 		axisPanel.setLayout(flow);
+		multiPlotsCheckBox = new JCheckBox();
+		axisPanel.add(new JLabel("multiple plots"));
+		axisPanel.add(multiPlotsCheckBox);
 		JButton button = new JButton("clear graph");
 		button.setActionCommand("clear");
 		button.addActionListener(this);
@@ -157,6 +163,9 @@ public class GraphTab extends JPanel implements ChangeListener, ActionListener {
 				return;
 			}
 
+			if (!multiPlotsCheckBox.isSelected()) {
+				clearGraph();
+			}
 			prepareGraph();
 			
 			// create the SimQuest model from the CoLab model
