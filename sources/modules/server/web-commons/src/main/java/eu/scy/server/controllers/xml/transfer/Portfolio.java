@@ -14,6 +14,7 @@ public class Portfolio {
 
     private String owner;
     private String portfolioStatus;
+    private String missionRuntimeURI;
     private String missionName;
     private String reflectionMission;
     private String reflectionCollaboration;
@@ -123,5 +124,13 @@ public class Portfolio {
 
     public void setAssessmentPortfolioRating(String assessmentPortfolioRating) {
         this.assessmentPortfolioRating = assessmentPortfolioRating;
+    }
+
+    public String getMissionRuntimeURI() {
+        return missionRuntimeURI;
+    }
+
+    public void setMissionRuntimeURI(String missionRuntimeURI) {
+        this.missionRuntimeURI = missionRuntimeURI;
     }
 }

@@ -163,6 +163,8 @@
 
     <bean id="assessmentServiceController" class="eu.scy.server.controllers.xml.AssessmentService">
         <property name="userService" ref="userService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="missionELOService" ref="missionELOService"/>
     </bean>
 
     <bean id="resourceService" class="eu.scy.server.controllers.ResourceService">
@@ -174,6 +176,10 @@
     </bean>
 
     <bean id="runtimemissionselector" class="eu.scy.server.controllers.components.runtimemissionselector.RuntimeMissionSelector">
+    </bean>
+
+    <bean id="xmlTransferObjectService" class="eu.scy.server.controllers.xml.XMLTransferObjectService">
+
     </bean>
 
     <bean name="jsonView" class="eu.scy.server.controllers.json.AbstractJSonView"/>

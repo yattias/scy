@@ -15,7 +15,9 @@
                     <a href="/webapp/app/eportfolio/EPortfolioIndex.html?eloURI=${missionSpecificationTransporter.uri}">Open my portfolio</a>
                 </td>
                 <td>
-                    Portfolio contains <strong>2</strong> pieces of work. You need to complete <strong>4</strong> more! 
+                        THIS IS THE PORTFOLIO STATUS: ${portfolio}
+
+                    <!--Portfolio contains <strong>2</strong> pieces of work. You need to complete <strong>4</strong> more!-->
                 </td>
             </tr>
             <tr class="${oddEven.oddEven}">

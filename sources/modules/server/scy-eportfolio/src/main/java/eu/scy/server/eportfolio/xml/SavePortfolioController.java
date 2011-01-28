@@ -34,6 +34,8 @@ public class SavePortfolioController extends BaseController {
             logger.info("MIssionURI: " + missionURI);
             if (missionURI != null) {
                 missionURI = URLDecoder.decode(missionURI, "UTF-8");
+                missionURI = missionURI.replaceAll(">", "");
+                missionURI = missionURI.replaceAll("<", "");
 
                 ScyElo scyElo = (ScyElo) getUrlInspector().instpectRequest(request, response);
                 MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadElo(new URI(missionURI), getMissionELOService());

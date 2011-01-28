@@ -4,9 +4,8 @@ import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.roolo.MissionELOService;
-import eu.scy.server.controllers.xml.XMLStreamerController;
+import eu.scy.server.controllers.xml.transfer.ELOSearchResult;
 import eu.scy.server.controllers.xml.transfer.TransferElo;
-import eu.scy.server.eportfolio.xml.utilclasses.ELOSearchResult;
 import eu.scy.server.url.UrlInspector;
 
 import javax.servlet.http.HttpServletRequest;

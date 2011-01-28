@@ -33,6 +33,8 @@ import java.util.LinkedList;
 public abstract class XMLStreamerController extends AbstractController {
     protected UserService userService;
 
+    private XMLTransferObjectService xmlTransferObjectService;
+
     protected XStream xstream;
 
     protected int getXStreamMode() {
@@ -60,35 +62,7 @@ public abstract class XMLStreamerController extends AbstractController {
 
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
-        //this.xstream = new XStream(new DomDriver());
-        this.xstream = new XStream(new XppDriver() {
-
-            public HierarchicalStreamWriter createWriter(Writer out) {
-
-                return new PrettyPrintWriter(out) {
-
-                    boolean cdata = false;
-
-                    public void startNode(String name, Class clazz) {
-                        super.startNode(name, clazz);
-                        cdata = true;//(name.equals("mission") || name.equals("name"));
-                    }
-
-                    protected void writeText(QuickWriter writer, String text) {
-                        if (cdata) {
-                            writer.write("<![CDATA[");
-                            writer.write(text);
-                            writer.write("]]>");
-                        } else {
-                            writer.write(text);
-                        }
-                    }
-                };
-            }
-        }
-        );
-        httpServletResponse.setContentType("text/xml");
-        xstream.setMode(getXStreamMode());
+        this.xstream = getXmlTransferObjectService().getXStreamInstance();
         omitFields(xstream);
         addAliases(xstream);
 
@@ -123,5 +97,13 @@ public abstract class XMLStreamerController extends AbstractController {
 
     public void setXstream(XStream xstream) {
         this.xstream = xstream;
+    }
+
+    public XMLTransferObjectService getXmlTransferObjectService() {
+        return xmlTransferObjectService;
+    }
+
+    public void setXmlTransferObjectService(XMLTransferObjectService xmlTransferObjectService) {
+        this.xmlTransferObjectService = xmlTransferObjectService;
     }
 }

@@ -4,19 +4,13 @@ import com.thoughtworks.xstream.XStream;
 import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.roolo.MissionELOService;
+import eu.scy.server.controllers.xml.transfer.ELOSearchResult;
 import eu.scy.server.controllers.xml.transfer.TransferElo;
-import eu.scy.server.eportfolio.xml.utilclasses.ELOSearchResult;
 import eu.scy.server.url.UrlInspector;
-import org.roolo.search.BasicMetadataQuery;
-import org.roolo.search.BasicSearchOperations;
-import roolo.api.search.AndQuery;
-import roolo.api.search.ISearchResult;
 import roolo.elo.BasicELO;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
 import java.util.List;
 
 /**
