@@ -128,4 +128,16 @@ public class Data implements Cloneable {
          return e;
 
      }
+
+     public void addToValue(double d){
+         if(isDoubleValue()){
+             setValue(d+getDoubleValue());
+         }
+     }
+
+     public void multiplyToValue(double d){
+         if(isDoubleValue()){
+             setValue(d*getDoubleValue());
+         }
+     }
 }

@@ -119,7 +119,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         addMouseListener(this);
         addMouseMotionListener(this);
         addKeyListener(this);
-        this.setSurrendersFocusOnKeystroke(true);
+        this.setSurrendersFocusOnKeystroke(false);
         // DRAG AND DROP
         /*setDragEnabled(true);
         transferHandler  = new SubDataTransfertHandler();
