@@ -36,9 +36,9 @@ public class KMeansAlgorithmTest extends KMeansAlgorithm {
 			cluster.calculateCenter();
 		}
 
-		assertArrayEquals(new double[] { 1, 0 }, clusters[0].getCenter(),
+		assertArrayEquals(new double[] { 1.0, 0.0 }, clusters[0].getCenter(),
 				0.000001);
-		assertArrayEquals(new double[] { 0, 0 }, clusters[1].getCenter(),
+		assertArrayEquals(new double[] { 0.0, 0.0 }, clusters[1].getCenter(),
 				0.000001);
 	}
 
