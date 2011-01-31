@@ -34,6 +34,8 @@
 							(mainStack.selectedChild as portfolioAssessingCanvas).refreshView();
 						break;
 					}
+				
+					waiter.gotoAndStop(0);
 				]]>
 			</s:effectEnd>
 		</s:Parallel>
@@ -179,7 +181,6 @@
 			}
 			
 			protected function URLpropertyFile_resultHandler(event:ResultEvent):void {
-				//parse 'toolURLProvider.html' first
 				toolURLProvider = event.result as XML;
 				
 				so.data.saveportfolio = new String(toolURLProvider.saveportfolio)
@@ -266,7 +267,6 @@
 						
 						eloSearchService.url = toolURLProvider.elosearchservice+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23")+"&searchELO="+encodeURI(urlObject.eloToAdd);
 						if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
-							//eloSearchService.url = "searchElo.xml";
 							eloSearchService.url = new String(toolURLProvider.elosearchservice).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "%23");
 							eloToAddURL = urlObject.eloToAdd;
 						}
@@ -284,7 +284,6 @@
 
 
 			protected function eloSearchService_resultHandler(event:ResultEvent):void {
-				//search for given ELO uri
 				var xmlResult:XML = event.result as XML;
 				
 				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
@@ -373,9 +372,8 @@
 	<s:Group id="genecan" width="{this.width-14}" height="{this.height-14}" x="7" y="7">
 		<mx:ViewStack id="mainStack" width="100%" height="100%" >
 			<s:NavigatorContent width="100%" height="100%">
-				<s:Label horizontalCenter="0" verticalCenter="0" fontSize="20" color="#333333" width="70%" textAlign="center">
-					<s:text>Please be patient while the portfolio is being retrieved from the server ....</s:text>
-				</s:Label>
+				<s:Label horizontalCenter="0" verticalCenter="0" fontSize="20" color="#333333" width="70%" textAlign="center" text="{resourceManager.getString('resources', 'WAIT_MESSAGE')+' ....'}" />
+				<local:Waiter id="waiter" horizontalCenter="0" verticalCenter="0" />
 			</s:NavigatorContent>
 			<local:introductionCanvas id="introduction" width="100%" height="100%" showEffect="{showEffect}" />
 			<local:searchCanvas id="search" width="100%" height="100%" showEffect="{showEffect}" />
