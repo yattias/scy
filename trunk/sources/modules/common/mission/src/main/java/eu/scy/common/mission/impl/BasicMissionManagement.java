@@ -184,6 +184,15 @@ public class BasicMissionManagement implements MissionManagement
 			}
 			if (!runSpecificationElos)
 			{
+				ScyElo pedagogicalPlanSettings = ScyElo.createElo(MissionEloType.PADAGOGICAL_PLAN_SETTINGS.getType(),
+							rooloServices);
+				pedagogicalPlanSettings.setTitle(missionSpecificationElo.getTitle());
+				pedagogicalPlanSettings.addAuthor(userName);
+				pedagogicalPlanSettings.saveAsNewElo();
+				missionRuntimeElo.getTypedContent().setPedagogicalPlanSettingsEloUri(pedagogicalPlanSettings.getUri());
+			}
+			if (!runSpecificationElos)
+			{
 				missionRuntimeElo.updateElo();
 			}
 			missionRuntimeModel = new BasicMissionRuntimeModel(missionRuntimeElo,

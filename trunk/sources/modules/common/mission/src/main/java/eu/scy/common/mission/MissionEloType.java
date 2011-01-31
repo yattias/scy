@@ -16,7 +16,9 @@ public enum MissionEloType {
    ELO_TOOL_CONFIGURATION("scy/elotoolconfiguration"),
    TEMPLATES_ELOS("scy/templateelos"),
    RUNTIME_SETTINGS("scy/runtimesettings"),
-   EPORTFOLIO("scy/eportfolio");
+   EPORTFOLIO("scy/eportfolio"),
+   AGENT_MODELS("scy/agentModels"),
+   PADAGOGICAL_PLAN_SETTINGS("scy/pedagogicalplansettings");
 
    private final String type;
 
