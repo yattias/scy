@@ -46,6 +46,7 @@
                 /app/eportfolio/xml/savePortfolio.html=savePortfolioController
                 /app/eportfolio/xml/runtimeElosList.html=runtimeElosListController
                 /app/eportfolio/xml/currentMissionRuntimeInfo.html=currentMissionRuntimeInfo
+                /app/eportfolio/xml/portfolioConfigService.html=portfolioConfigController
 
                 /app/assessment/assessmentindex.html=assessmentIndexController
 
@@ -123,6 +124,12 @@
     <bean id="savePortfolioController" class="eu.scy.server.eportfolio.xml.SavePortfolioController">
         <property name="missionELOService" ref="missionELOService"/>
         <property name="urlInspector" ref="urlInspector"/>
+	</bean>
+
+    <bean id="portfolioConfigController" class="eu.scy.server.eportfolio.xml.PortfolioConfigController">
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
 	</bean>
 
     <bean id="runtimeElosListController" class="eu.scy.server.eportfolio.xml.RuntimeElosController">

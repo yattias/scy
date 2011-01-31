@@ -54,6 +54,14 @@
                 <a href="/webapp/app/eportfolio/xml/obligatoryELOsInMission.html?missionURI=${missionURI}">Obligatory elos</a>
                 </td>
             </tr>
+            <tr>
+                <td>
+                    PortfolioConfig
+                </td>
+                <td>
+                <a href="/webapp/app/eportfolio/xml/portfolioConfigService.html?missionURI=${missionURI}">Portfolio Configah</a>
+                </td>
+            </tr>
         </table>
 
 
