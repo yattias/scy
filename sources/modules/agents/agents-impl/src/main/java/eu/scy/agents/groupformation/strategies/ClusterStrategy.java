@@ -71,20 +71,29 @@ public class ClusterStrategy extends AbstractGroupFormationStrategy {
 
 	private Map<String, FeatureVector> buildFeatureVectors(
 			Set<String> availableUsers) {
+		Map<String, FeatureVector> featureVectors = initFeatureVectors(availableUsers);
+		fillFeatureVectors(availableUsers, featureVectors);
+		return featureVectors;
+	}
+
+	private void fillFeatureVectors(Set<String> availableUsers,
+			Map<String, FeatureVector> featureVectors) {
+		for (FeatureExtractor extractor : extractors) {
+			Map<String, double[]> features = extractor.getFeatures(
+					availableUsers, getMission());
+			for (String user : features.keySet()) {
+				FeatureVector featureVector = featureVectors.get(user);
+				featureVector.add(features.get(user));
+			}
+		}
+	}
+
+	private Map<String, FeatureVector> initFeatureVectors(
+			Set<String> availableUsers) {
 		Map<String, FeatureVector> featureVectors = new HashMap<String, FeatureVector>();
 		for (String user : availableUsers) {
 			featureVectors.put(user, new FeatureVector(user,
 					new double[extractors.size()]));
-		}
-		int featureVectorIndex = 0;
-		for (FeatureExtractor extractor : extractors) {
-			Map<String, Double> features = extractor.getFeatures(
-					availableUsers, getMission());
-			for (String user : features.keySet()) {
-				FeatureVector featureVector = featureVectors.get(user);
-				featureVector.set(featureVectorIndex, features.get(user));
-			}
-			featureVectorIndex++;
 		}
 		return featureVectors;
 	}

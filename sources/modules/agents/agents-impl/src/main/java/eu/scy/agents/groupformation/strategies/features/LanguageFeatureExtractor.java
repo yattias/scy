@@ -34,16 +34,17 @@ public class LanguageFeatureExtractor implements FeatureExtractor {
 	}
 
 	@Override
-	public Map<String, Double> getFeatures(Set<String> availableUsers,
+	public Map<String, double[]> getFeatures(Set<String> availableUsers,
 			String mission) {
 		Map<String, Integer> languageAlphabet = new HashMap<String, Integer>();
-		Map<String, Double> results = new LinkedHashMap<String, Double>();
+		Map<String, double[]> results = new LinkedHashMap<String, double[]>();
 		for (String user : availableUsers) {
 			String language = getLanguage(mission, user);
 			if (!languageAlphabet.containsKey(language)) {
 				languageAlphabet.put(language, languageAlphabet.size());
 			}
-			results.put(user, (double) languageAlphabet.get(language));
+			results.put(user, new double[] { languageAlphabet
+					.get(language) });
 		}
 		return results;
 	}
