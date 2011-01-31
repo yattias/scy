@@ -9,10 +9,10 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2010-12-22T15:37:27.522+0200</dateTime>
+          <dateTime>2010-12-22T14:37:27.522+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>1</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -24,6 +24,10 @@
     <educational>
       <learningResourceType />
     </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>ard/presentation</iconType>
+    </annotation>
     <general>
       <identifier>
         <catalog>memory</catalog>
@@ -34,19 +38,10 @@
         <string language="en">YouTube video link</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<youtuber/>
+<youtuber />
 </content>
 <resources>
 <resource languageIndependent="true" contentType="binary" name="thumbnail" technicalFormat="scy/png">

@@ -47,7 +47,7 @@
                      <property name="xPosition" value="30"/>
                      <property name="yPosition" value="30"/>
                      <property name="tooltip" value="????"/>
-                     <property name="lasType" value="INFORMATION"/>
+                     <property name="lasType" value="EXPERIMENT"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part1_Goals.html"/>
                      <property name="loEloUris">
                         <list />
@@ -225,12 +225,13 @@
                            <value>evaluation</value>
                         </list>
                      </property>
-                     <property name="anchorEloId" value="criteriaWeightTable"/>
+                     <property name="anchorEloId" value="criteriaFinalTable"/>
                      <property name="intermediateEloIds">
                         <list>
                            <value>methodologySteps</value>
                            <value>reflectionOnImportanceOfCriteria</value>
                            <value>criteriaTable</value>
+						   <value>criteriaWeightTable</value>
                         </list>
                      </property>
                   </bean>
@@ -255,7 +256,7 @@
                         <list>
                            <value>individualReport</value>
                            <value>groupReport</value>
-                           <value>realPizzaGrading</value>
+                           <value>tasteScores</value>
                         </list>
                      </property>
                   </bean>
