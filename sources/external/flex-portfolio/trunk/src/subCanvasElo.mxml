@@ -53,6 +53,7 @@
 	<s:BorderContainer id="box" top="5" left="5" bottom="5" right="5" borderColor="#00FF00" backgroundAlpha="0" borderStyle="solid" borderVisible="{graphicHighlight}" dropShadowVisible="true">
 		<s:VGroup width="100%" height="100%" gap="5">
 			<s:Image source="{thumbnail}" width="100" height="100"/>
+			<s:Label width="100%" color="#FFFFFF" text="{resourceManager.getString('resources', 'ELO_FILENAME')+': '+customname}" />
 			<s:Label width="100%" color="#FFFFFF" text="{resourceManager.getString('resources', 'ELO_NAME')+': '+catname}" />
 			<s:Label width="100%" color="#FFFFFF" text="{resourceManager.getString('resources', 'CREATED_BY')+': '+createdby}"/>
 			<s:Label width="100%" color="#FFFFFF" text="{resourceManager.getString('resources', 'CREATED_DATE')+': '+modified}"/>

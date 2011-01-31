@@ -48,11 +48,11 @@
 			}
 			
 			protected function deleteCanvas_clickHandler(event:MouseEvent):void {
-				Alert.show("Do you really want to delete this ELO", "Delete ELO", 3, null, alertListener);
+				Alert.show(resourceManager.getString('resources', 'ELO_DELETE'), resourceManager.getString('resources', 'DELETE_ELO_HEADER'), 3, null, alertListener);
 			}
 
 			protected function editHandler(event:MouseEvent):void {
-				Alert.show("Do you want to edit this ELO", "Edit ELO", 3, null, editalertListener);
+				Alert.show(resourceManager.getString('resources', 'ELO_EDIT'), resourceManager.getString('resources', 'EDIT_ELO_HEADER'), 3, null, editalertListener);
 			}
 			
 			private function editalertListener(event:CloseEvent):void {

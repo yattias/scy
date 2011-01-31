@@ -30,7 +30,7 @@
 			
 			private var so:SharedObject;
 			
-			private var tabsHeader:ArrayCollection = new ArrayCollection(["Assessed ELOs", "Assessed Portfolio"]);
+			private var tabsHeader:ArrayCollection;
 			
 			protected function clickHandler(dir:String, stack:Number):void {
 				var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
@@ -40,6 +40,8 @@
 			}
 			
 			public function refreshView():void {
+				tabsHeader = new ArrayCollection([resourceManager.getString('resources', 'ASSESSED_ELOS'), resourceManager.getString('resources', 'ASSESSED_PORTFOLIO')]);
+				
 				labelsArray = new Array();
 				labelsArray.push(resourceManager.getString('resources', 'TAB_POOR'));
 				labelsArray.push(resourceManager.getString('resources', 'TAB_FAIR'));
@@ -264,10 +266,10 @@
 								<s:VGroup width="90%" gap="0" horizontalCenter="0">
 									<mx:Spacer height="20" />
 									<s:HGroup width="100%" id="sliderIcon" height="33" gap="{(sliderIcon.width-4*30)/3}">
-										<s:Image source="assets/images/emoticons/1.png" width="30" height="33" />
-										<s:Image source="assets/images/emoticons/2.png" width="30" height="33" />
-										<s:Image source="assets/images/emoticons/3.png" width="30" height="33" />
-										<s:Image source="assets/images/emoticons/4.png" width="30" height="33" /> 
+										<s:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/1.png'}" width="30" height="33" />
+										<s:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/2.png'}" width="30" height="33" />
+										<s:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/3.png'}" width="30" height="33" />
+										<s:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/4.png'}" width="30" height="33" />
 									</s:HGroup>
 									<mx:HSlider chromeColor="#000000" enabled="false" id="refOnInqTextSlider" minimum="1" maximum="4" value="{new Number(xmlPortfolio.reflectioneffort)}" dataTipPlacement="top" tickColor="#000000"
 												snapInterval="1" tickInterval="1" allowTrackClick="false" width="100%" showDataTip="false" />

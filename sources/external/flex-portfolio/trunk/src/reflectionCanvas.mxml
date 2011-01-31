@@ -168,8 +168,6 @@
 						eloIconSource = index.NOTHUMB;
 					}
 					
-					trace(eloIconSource);
-					
 					elonameTextText = selectedElo.customname;
 					createdDateTextText = selectedElo.modified;
 					
@@ -198,7 +196,7 @@
 					}
 				}
 				else {
-					Alert.show("The specified ELO could not be found", "Search ELO error");
+					Alert.show(resourceManager.getString('resources', 'SEARCH_PROPERTY_FILE_ERROR'), resourceManager.getString('resources', 'HTTP_SERVICE_ERROR'));
 				}
 				
 			}
@@ -295,13 +293,11 @@
 						SLG.addItem(xmlObject);
 					}
 				}
-				
-				trace("reflection service clear");
 			}
 
 
 			protected function goalService_faultHandler(event:FaultEvent):void {
-				Alert.show(resourceManager.getString('resources', 'URL_PROPERTY_FILE_ERROR'), "HTTPService Error");
+				Alert.show(resourceManager.getString('resources', 'GOAL_PROPERTY_FILE_ERROR'), resourceManager.getString('resources', 'HTTP_SERVICE_ERROR'));
 			}
 
 
@@ -319,7 +315,7 @@
 
 
 			protected function URLpropertyFile_faultHandler(event:FaultEvent):void {
-				Alert.show(resourceManager.getString('resources', 'URL_PROPERTY_FILE_ERROR'), "HTTPService Error");
+				Alert.show(resourceManager.getString('resources', 'URL_PROPERTY_FILE_ERROR'), resourceManager.getString('resources', 'HTTP_SERVICE_ERROR'));
 			}
 
 		]]>
