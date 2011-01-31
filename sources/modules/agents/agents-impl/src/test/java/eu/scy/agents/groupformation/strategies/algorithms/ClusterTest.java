@@ -17,8 +17,8 @@ public class ClusterTest {
 
 	@Test
 	public void testCalculateCenter2D() {
-		cluster.addFeatureVector(new FeatureVector("0", new double[] { 1, 0 }));
-		cluster.addFeatureVector(new FeatureVector("1", new double[] { 0, 1 }));
+		cluster.addFeatureVector(new FeatureVector("0", new double[] { 1.0, 0.0 }));
+		cluster.addFeatureVector(new FeatureVector("1", new double[] { 0.0, 1.0 }));
 		cluster.calculateCenter();
 
 		double[] center = cluster.getCenter();
@@ -30,11 +30,11 @@ public class ClusterTest {
 	@Test
 	public void testCalculateCenter3D() {
 		cluster.addFeatureVector(new FeatureVector("0",
-				new double[] { 1, 0, 0 }));
+				new double[] { 1.0, 0.0, 0.0 }));
 		cluster.addFeatureVector(new FeatureVector("1",
-				new double[] { 0, 0, 1 }));
+				new double[] { 0.0, 0.0, 1.0 }));
 		cluster.addFeatureVector(new FeatureVector("2",
-				new double[] { 0, 1, 0 }));
+				new double[] { 0.0, 1.0, 0.0 }));
 		cluster.calculateCenter();
 
 		double[] center = cluster.getCenter();
