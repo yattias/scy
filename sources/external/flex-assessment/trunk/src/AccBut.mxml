@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<code:CanvasButtonAccordionHeader xmlns:fx="http://ns.adobe.com/mxml/2009" 
+								  xmlns:s="library://ns.adobe.com/flex/spark" 
+								  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:code="http://code.google.com/p/flexlib/" minHeight="20">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		
+		<![CDATA[ 
+		
+			[Bindable] private var lab1:String;
+			[Bindable] private var lab2:String;
+			[Bindable] private var labColor:Number = 0xFF0000;
+			
+			override public function set label(value:String):void { 
+				super.label = "";
+				var labelArray:Array = value.split("#####");
+				lab1 = labelArray[0];
+
+				if(labelArray[1] == "PORTFOLIO_ASSESSED") {
+					lab2 = "Portfolio: " + resourceManager.getString('resources', 'ASSESSED');
+					labColor = 0x00FF00;
+				}
+				else {
+					lab2 = "Portfolio: " + resourceManager.getString('resources', 'NOT_ASSESSED');
+					labColor = 0xFF0000;
+				}
+			}
+		]]> 
+	</fx:Script> 
+	
+	<s:HGroup right="3" left="3" top="0" bottom="0" verticalAlign="middle" horizontalAlign="left">
+		<s:Label text="{lab1}" width="100%" textAlign="left" />
+		<s:Label id="label2" text="{lab2}" width="100%" textAlign="right" color="{labColor}" />
+	</s:HGroup>
+	
+</code:CanvasButtonAccordionHeader>

@@ -9,7 +9,9 @@
 			import listeners.ToggleEvent;
 			
 			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
 			
+			import utility.AutoSaveService;
 			import utility.XMLUtilJer;
 			
 			private var originPanel:Number;
@@ -83,6 +85,13 @@
 					newEloXML.reflectioncomment = <reflectioncomment>{XMLUtilJer.cdata(commentArea.text)}</reflectioncomment>;
 					so.data.retrievedElosFromRoolo = portfolioElo.replace(eloXML, newEloXML);
 					so.flush();
+					
+					var portXML:XML = newEloXML.parent().parent();
+					var s:String = new String(portXML.missionruntimeuri).replace('#', '%23');
+					portXML.missionruntimeuri = <missionruntimeuri>{XMLUtilJer.cdata(s)}</missionruntimeuri>;
+					
+					new AutoSaveService(so.data.saveportfolio+"?missionURI="+decodeURI(s)+"&xmlContent="+encodeURI(portXML));
+					
 					clickHandler(index.RIGHT_DIRECTION, originPanel);
 					assesslider.value = 1;
 					assessmentArea.text = "";

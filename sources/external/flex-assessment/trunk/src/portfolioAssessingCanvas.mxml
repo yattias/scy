@@ -79,11 +79,13 @@
 					newPfXML.assessmentportfoliocomment = <assessmentportfoliocomment>{XMLUtilJer.cdata(commentArea.text)}</assessmentportfoliocomment>;
 					so.data.retrievedElosFromRoolo = portfolioElo.replace(pfXML, newPfXML);
 					so.flush();
+					trace(newPfXML);
 					
-					var params:Object = new Object();
-					params.missionURI = decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
-					params.xmlContent = encodeURI(so.data.retrievedElosFromRoolo);
-					new AutoSaveService(so.data.saveportfolio, params);
+					var s:String = new String(newPfXML.missionruntimeuri).replace('#', '%23');
+					newPfXML.missionruntimeuri = <missionruntimeuri>{XMLUtilJer.cdata(s)}</missionruntimeuri>;
+					
+					new AutoSaveService(so.data.saveportfolio+"?missionURI="+decodeURI(s)+"&xmlContent="+encodeURI(newPfXML));
+					trace("SAVED");
 					
 					trace(so.data.retrievedElosFromRoolo);
 					teaRatingGrp.selectedValue = null;
