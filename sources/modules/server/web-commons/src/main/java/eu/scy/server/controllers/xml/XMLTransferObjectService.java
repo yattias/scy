@@ -128,7 +128,7 @@ public class XMLTransferObjectService {
         xStream.alias("elo", TransferElo.class);
         xStream.alias("portfolio", Portfolio.class);
         xStream.alias("portfolioconfig", PortfolioConfig.class);
-        xStream.alias("portfolioeffortscale", PortfolioEffortScale.class);
+        xStream.alias("portfolioeffort", PortfolioEffortScale.class);
 
         xStream.aliasField("createddate", TransferElo.class, "createdDate");
         xStream.aliasField("modified", TransferElo.class, "lastModified");
@@ -164,7 +164,7 @@ public class XMLTransferObjectService {
         xStream.aliasField("reflectionOnCollaborationQuestion".toLowerCase(), PortfolioConfig.class, "reflectionOnCollaborationQuestion");
         xStream.aliasField("reflectionOnInquiryQuestion".toLowerCase(), PortfolioConfig.class, "reflectionOnInquiryQuestion");
         xStream.aliasField("reflectionOnEffortQuestion".toLowerCase(), PortfolioConfig.class, "reflectionOnEffortQuestion");
-        xStream.aliasField("portfolioEffortScale".toLowerCase(), PortfolioConfig.class, "portfolioEffortScale");
+        xStream.aliasField("portfolioEffortScaleItems".toLowerCase(), PortfolioConfig.class, "portfolioEffortScale");
 
         xStream.aliasField("score".toLowerCase(), PortfolioEffortScale.class, "score");
         xStream.aliasField("text".toLowerCase(), PortfolioEffortScale.class, "text");
