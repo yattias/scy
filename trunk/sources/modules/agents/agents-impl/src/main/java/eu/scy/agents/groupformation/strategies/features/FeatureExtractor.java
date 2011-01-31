@@ -11,6 +11,6 @@ public interface FeatureExtractor {
 
 	public TupleSpace getCommandSpace();
 
-	public Map<String, Double> getFeatures(Set<String> availableUsers,
+	public Map<String, double[]> getFeatures(Set<String> availableUsers,
 			String mission);
 }

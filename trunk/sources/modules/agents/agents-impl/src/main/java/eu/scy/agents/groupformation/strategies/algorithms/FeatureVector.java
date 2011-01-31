@@ -3,9 +3,12 @@
  */
 package eu.scy.agents.groupformation.strategies.algorithms;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FeatureVector {
 
-	private double[] vector;
+	private List<Double> vector;
 	private String id;
 
 	public FeatureVector() {
@@ -14,15 +17,22 @@ public class FeatureVector {
 
 	public FeatureVector(String i, double[] ds) {
 		id = i;
-		vector = ds;
+		vector = new ArrayList<Double>();
+		setVector(ds);
 	}
 
 	public double[] getVector() {
-		return vector;
+		double[] result = new double[vector.size()];
+		for (int i = 0; i < vector.size(); i++) {
+			result[i] = vector.get(i);
+		}
+		return result;
 	}
 
 	public void setVector(double[] vector) {
-		this.vector = vector;
+		for (double element : vector) {
+			this.vector.add(element);
+		}
 	}
 
 	public String getId() {
@@ -38,10 +48,10 @@ public class FeatureVector {
 		StringBuilder stringRepresentation = new StringBuilder();
 		stringRepresentation.append(id);
 		stringRepresentation.append("(");
-		stringRepresentation.append(vector[0]);
-		for (int i = 1; i < vector.length; i++) {
+		stringRepresentation.append(vector.get(0));
+		for (int i = 1; i < vector.size(); i++) {
 			stringRepresentation.append(", ");
-			stringRepresentation.append(vector[i]);
+			stringRepresentation.append(vector.get(i));
 		}
 		stringRepresentation.append(")");
 		return stringRepresentation.toString();
@@ -56,7 +66,13 @@ public class FeatureVector {
 	}
 
 	public void set(int featureVectorIndex, double value) {
-		vector[featureVectorIndex] = value;
+		vector.set(featureVectorIndex, value);
+	}
+
+	public void add(double[] values) {
+		for (double value : values) {
+			vector.add(value);
+		}
 	}
 
 }
