@@ -38,7 +38,8 @@ public class XMLTransferObjectService {
 
                     public void startNode(String name, Class clazz) {
                         super.startNode(name, clazz);
-                        cdata = true;//(name.equals("mission") || name.equals("name"));
+                        if(name.equals("id")) cdata=false;
+                        else cdata = true;
                     }
 
                     protected void writeText(QuickWriter writer, String text) {
@@ -75,7 +76,8 @@ public class XMLTransferObjectService {
 
                     public void startNode(String name, Class clazz) {
                         super.startNode(name, clazz);
-                        cdata = true;//(name.equals("mission") || name.equals("name"));
+                        if(name.equals("id")) cdata = false;
+                        else cdata = true;
                     }
 
                     protected void writeText(QuickWriter writer, String text) {
@@ -125,7 +127,9 @@ public class XMLTransferObjectService {
         xStream.alias("portfolios", LinkedList.class);
         xStream.alias("elo", TransferElo.class);
         xStream.alias("portfolio", Portfolio.class);
-        
+        xStream.alias("portfolioconfig", PortfolioConfig.class);
+        xStream.alias("portfolioeffortscale", PortfolioEffortScale.class);
+
         xStream.aliasField("createddate", TransferElo.class, "createdDate");
         xStream.aliasField("modified", TransferElo.class, "lastModified");
         xStream.aliasField("uri".toLowerCase(), TransferElo.class, "uri");
@@ -156,6 +160,15 @@ public class XMLTransferObjectService {
         xStream.addImplicitCollection(TransferElo.class, "generalLearningGoals", LearningGoal.class);
         xStream.addImplicitCollection(TransferElo.class, "specificLearningGoals", LearningGoal.class);
 
+        xStream.aliasField("reflectionOnMissionQuestion".toLowerCase(), PortfolioConfig.class, "reflectionOnMissionQuestion");
+        xStream.aliasField("reflectionOnCollaborationQuestion".toLowerCase(), PortfolioConfig.class, "reflectionOnCollaborationQuestion");
+        xStream.aliasField("reflectionOnInquiryQuestion".toLowerCase(), PortfolioConfig.class, "reflectionOnInquiryQuestion");
+        xStream.aliasField("reflectionOnEffortQuestion".toLowerCase(), PortfolioConfig.class, "reflectionOnEffortQuestion");
+        xStream.aliasField("portfolioEffortScale".toLowerCase(), PortfolioConfig.class, "portfolioEffortScale");
+
+        xStream.aliasField("score".toLowerCase(), PortfolioEffortScale.class, "score");
+        xStream.aliasField("text".toLowerCase(), PortfolioEffortScale.class, "text");
+        xStream.aliasField("url".toLowerCase(), PortfolioEffortScale.class, "url");
 
         xStream.aliasField("portfoliostatus", Portfolio.class, "portfolioStatus");
         xStream.aliasField("missionname", Portfolio.class, "missionName");
