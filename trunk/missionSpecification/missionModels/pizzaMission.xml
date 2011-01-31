@@ -241,7 +241,7 @@
                      <property name="xPosition" value="-40"/>
                      <property name="yPosition" value="-100"/>
                      <property name="tooltip" value="Criteria"/>
-                     <property name="lasType" value="REFLECTION"/>
+                     <property name="lasType" value="EVALUATION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part8_Goals.html"/>
                      <property name="loEloUris">
                         <list />
@@ -272,7 +272,7 @@
                <property name="id" value="myOptimizedHealthyPizza"/>
                <property name="uri" value="roolo://memory/30003/0/My+Optimized+Healthy+Pizza+%28Pizza+3%29.scymodel"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Methodology_Steps.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.1.1.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.1.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
@@ -286,7 +286,7 @@
                <property name="id" value="myFavouritePizza"/>
                <property name="uri" value="roolo://memory/30001/0/My+Favourite+Pizza+%28Pizza+1%29.scymodel"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Discussion_Notes.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.2.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part1_ELO1.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
@@ -675,8 +675,7 @@
                </property>
             </bean>
 	
-	
-		</list>
+			</list>
 			
       </property>
 
