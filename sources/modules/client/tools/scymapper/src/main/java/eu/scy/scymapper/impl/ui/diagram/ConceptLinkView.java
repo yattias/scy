@@ -16,6 +16,12 @@ import org.apache.commons.lang.StringUtils;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.font.FontRenderContext;
@@ -31,7 +37,7 @@ import java.text.AttributedString;
  */
 public class ConceptLinkView extends LinkView implements INodeModelListener {
 
-	private JTextArea labelTextarea;
+	private JTextPane labelTextarea;
 	private JScrollPane labelScroller;
 	private boolean isEditing;
 
@@ -49,11 +55,20 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 		if (model.getFromNode() != null) model.getFromNode().addListener(this);
 		if (model.getToNode() != null) model.getToNode().addListener(this);
 
-		labelTextarea = new JTextArea(getModel().getLabel());
-		//labelTextarea.setHorizontalAlignment(JTextField.CENTER);
-		//labelTextarea.setForeground(getModel().getStyle().getColor());
-		labelTextarea.setWrapStyleWord(true);
-		labelTextarea.setLineWrap(true);
+		DefaultStyledDocument doc = new DefaultStyledDocument();
+                labelTextarea = new JTextPane(doc);
+		try {
+		    SimpleAttributeSet set = new SimpleAttributeSet();
+		    set.addAttribute(StyleConstants.ParagraphConstants.Alignment, StyleConstants.ParagraphConstants.ALIGN_CENTER);
+                    doc.setParagraphAttributes(0, 1, set, true);
+                    doc.insertString(0, getModel().getLabel(), set);
+                } catch (BadLocationException e1) {
+                    e1.printStackTrace();
+                }
+//		labelTextarea.setHorizontalAlignment(JTextField.CENTER);
+//		labelTextarea.setForeground(getModel().getStyle().getColor());
+//		labelTextarea.setWrapStyleWord(true);
+//		labelTextarea.setLineWrap(true);
 		labelTextarea.setCursor(new Cursor(Cursor.TEXT_CURSOR));
 
 		labelScroller = new JScrollPane(labelTextarea);
@@ -212,7 +227,7 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 		setLabelEditable(editable, false);
 	}
 
-	public Dimension calculateStringBounds(JTextArea textComponent, int breakWidth) {
+	public Dimension calculateStringBounds(JTextComponent textComponent, int breakWidth) {
 		FontMetrics fm = textComponent.getFontMetrics(textComponent.getFont());
 		FontRenderContext frc = fm.getFontRenderContext();
 		String text = textComponent.getText();
@@ -332,6 +347,18 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 
 		if (!link.getLabel().equals(labelTextarea.getText())) {
 			labelTextarea.setText(link.getLabel());
+			
+			SimpleAttributeSet set = new SimpleAttributeSet();
+			set.addAttribute(StyleConstants.ParagraphConstants.Alignment, new Integer(StyleConstants.ParagraphConstants.ALIGN_CENTER));
+			
+	                    try {
+                            labelTextarea.getStyledDocument().remove(0, labelTextarea.getDocument().getLength());
+                            labelTextarea.getStyledDocument().insertString(0, link.getLabel(), set);
+                            labelTextarea.getStyledDocument().setParagraphAttributes(0, 1, set, true);
+                        } catch (BadLocationException e) {
+                            e.printStackTrace();
+                        }
+			
 		}
 		if (conf.isDebug()) {
 			labelPos = Math.min(Integer.parseInt(labelTextarea.getText()), 100) / 100d;
