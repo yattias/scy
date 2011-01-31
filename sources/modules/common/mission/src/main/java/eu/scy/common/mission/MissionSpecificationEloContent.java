@@ -28,4 +28,12 @@ public interface MissionSpecificationEloContent
    public URI getRuntimeSettingsEloUri();
 
    public void setRuntimeSettingsEloUri(URI runtimeSettingsEloUri);
+   
+	public URI getAgentModelsEloUri();
+
+	public void setAgentModelsEloUri(URI agentModelsEloUri);
+
+	public URI getPedagogicalPlanSettingsEloUri();
+
+	public void setPedagogicalPlanSettingsEloUri(URI pedagogicalPlanSettingsEloUri);
 }

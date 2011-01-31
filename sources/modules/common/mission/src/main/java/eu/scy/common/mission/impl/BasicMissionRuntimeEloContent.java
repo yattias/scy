@@ -7,7 +7,6 @@ package eu.scy.common.mission.impl;
 import java.net.URI;
 
 import eu.scy.common.mission.MissionRuntimeEloContent;
-import eu.scy.common.mission.RuntimeSettingsElo;
 
 /**
  * 
@@ -22,6 +21,7 @@ public class BasicMissionRuntimeEloContent implements MissionRuntimeEloContent
 	private URI templateElosEloUri;
 	private URI runtimeSettingsEloUri;
 	private URI ePortfolioEloUri;
+	private URI pedagogicalPlanSettingsEloUri;
 
 	@Override
 	public String toString()
@@ -30,7 +30,8 @@ public class BasicMissionRuntimeEloContent implements MissionRuntimeEloContent
 					+ missionSpecificationEloUri + ",missionMapModelEloUri=" + missionMapModelEloUri
 					+ ",eloToolConfigsEloUri=" + eloToolConfigsEloUri + ",templateElosEloUri="
 					+ templateElosEloUri + ",runtimeSettingsEloUri=" + runtimeSettingsEloUri
-					+ ",ePortfolioEloUri=" + ePortfolioEloUri + '}';
+					+ ",ePortfolioEloUri=" + ePortfolioEloUri + ",pedagogicalPlanSettingsEloUri="
+					+ pedagogicalPlanSettingsEloUri + '}';
 	}
 
 	@Override
@@ -105,4 +106,15 @@ public class BasicMissionRuntimeEloContent implements MissionRuntimeEloContent
 		this.ePortfolioEloUri = ePortfolioEloUri;
 	}
 
+	@Override
+	public URI getPedagogicalPlanSettingsEloUri()
+	{
+		return pedagogicalPlanSettingsEloUri;
+	}
+
+	@Override
+	public void setPedagogicalPlanSettingsEloUri(URI pedagogicalPlanSettingsEloUri)
+	{
+		this.pedagogicalPlanSettingsEloUri = pedagogicalPlanSettingsEloUri;
+	}
 }

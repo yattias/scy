@@ -36,4 +36,8 @@ public interface MissionRuntimeEloContent
 	public URI getEPortfolioEloUri();
 
 	public void setEPortfolioEloUri(URI ePortfolioEloUri);
+
+	public URI getPedagogicalPlanSettingsEloUri();
+
+	public void setPedagogicalPlanSettingsEloUri(URI pedagogicalPlanSettingsEloUri);
 }
