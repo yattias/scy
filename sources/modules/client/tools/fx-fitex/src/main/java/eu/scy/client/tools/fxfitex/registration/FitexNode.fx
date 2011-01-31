@@ -102,23 +102,26 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
                     }
                 createModalDialog(scyWindow.windowManager.scyDesktop.windowStyler.getWindowColorScheme(ImageWindowStyler.generalNew), ##"Synchronise?", acceptDialog);
             }else if(isDnDFitex(object as ISynchronizable)){
-//                    var yesNoOptions = [getBundleString("FX-FITEX.YES"), getBundleString("FX-FITEX.NO")];
-//                    var n = -1;
-//                    var question = getBundleString("FX-FITEX.MSG_MERGE_DATASET");
-//                    if(isSynchronizing()){
-//                        question = getBundleString("FX-FITEX.MSG_STOP_SYNC_BEFORE_MERGE");
-//                    }
-//
-//                     n = JOptionPane.showOptionDialog( null,
-//                        question,               // question
-//                        getBundleString("FX-FITEX.TITLE_DIALOG_MERGE"),           // title
-//                        JOptionPane.YES_NO_CANCEL_OPTION,
-//                        JOptionPane.QUESTION_MESSAGE,  // icon
-//                        null, yesNoOptions,yesNoOptions[0] );
-//                    if (n == 0) {
-                        leave(null);
+                    var yesNoOptions = [getBundleString("FX-FITEX.YES"), getBundleString("FX-FITEX.NO")];
+                    var n = -1;
+                    //var question = getBundleString("FX-FITEX.MSG_MERGE_DATASET");
+                    if(isSynchronizing()){
+                        var question = getBundleString("FX-FITEX.MSG_STOP_SYNC_BEFORE_MERGE");
+                        n = JOptionPane.showOptionDialog( null,
+                            question,               // question
+                            getBundleString("FX-FITEX.TITLE_DIALOG_MERGE"),           // title
+                            JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,  // icon
+                            null, yesNoOptions,yesNoOptions[0] );
+                        if (n == 0) {
+                            leave(null);
+                            mergeDataset(object as ISynchronizable);
+                        }
+                    }else{
+                        //leave(null);
                         mergeDataset(object as ISynchronizable);
-//                    }
+                    }
+
            }
         }
     }
