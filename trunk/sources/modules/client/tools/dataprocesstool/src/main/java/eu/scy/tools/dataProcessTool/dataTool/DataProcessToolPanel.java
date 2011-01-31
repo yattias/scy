@@ -674,7 +674,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
                 loadELO(new JDomStringConversion().xmlToString(elo.toXML()), fileName);
             }else{
                 //import & merge
-                activFitex.mergeELO(elo.toXML());
+                activFitex.mergeELO(elo.toXML(), false);
             }
         }
         logImportCsvFile(file.getPath(), activFitex.getDataset());
@@ -707,7 +707,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     // merge SCY ou autre
     public void mergeELO(Element elo){
         Dataset ds = (Dataset)(activFitex.getDataset().clone());
-        this.activFitex.mergeELO(elo);
+        this.activFitex.mergeELO(elo, true);
         logMergeDataset(ds,"", activFitex.getDataset());
     }
 
@@ -1096,7 +1096,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
                 loadELO(new JDomStringConversion().xmlToString(elo.toXML()), fileName);
             }else{
                 //import & merge
-                activFitex.mergeELO(elo.toXML());
+                activFitex.mergeELO(elo.toXML(), false);
             }
         }
         logImportGMBLFile(file.getPath(), activFitex.getDataset());
@@ -1113,5 +1113,52 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
 
     public void setActivFitex(FitexToolPanel activFitex){
         this.activFitex = activFitex;
+    }
+
+    /* ask the user / merge 1 row */
+    public void askForMergeType(Dataset ds1, Dataset ds2, Element elo,  boolean isMatrix){
+        MergeDialog mergeDialog = new MergeDialog(this, ds1, ds2, elo, isMatrix);
+        mergeDialog.setVisible(true);
+    }
+
+    public boolean mergeDatasets(Dataset ds1, Dataset ds2, Element elo, String mergeAction){
+        if(mergeAction.equals(DataConstants.actionMerge)){
+            CopexReturn cr = this.controller.mergeELO(ds1, elo, false);
+            if (cr.isError()){
+                displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+                return false;
+            }else if(cr.isWarning()){
+                displayError(cr, getBundleString("TITLE_DIALOG_WARNING"));
+                return false;
+            }
+        }else if (mergeAction.equals(DataConstants.actionMergeRow)){
+            CopexReturn cr = this.controller.mergeRowELO(ds1, ds2);
+            if (cr.isError()){
+                displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+                return false;
+            }else if(cr.isWarning()){
+                displayError(cr, getBundleString("TITLE_DIALOG_WARNING"));
+                return false;
+            }
+        }else if (mergeAction.equals(DataConstants.actionMatrixAddOperation)){
+            CopexReturn cr = this.controller.mergeMatrixAddOperation(ds1, ds2);
+            if (cr.isError()){
+                displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+                return false;
+            }else if(cr.isWarning()){
+                displayError(cr, getBundleString("TITLE_DIALOG_WARNING"));
+                return false;
+            }
+        }else if (mergeAction.equals(DataConstants.actionMatrixMultiplyOperation)){
+            CopexReturn cr = this.controller.mergeMatrixMultiplyOperation(ds1, ds2);
+            if (cr.isError()){
+                displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+                return false;
+            }else if(cr.isWarning()){
+                displayError(cr, getBundleString("TITLE_DIALOG_WARNING"));
+                return false;
+            }
+        }
+        return true;
     }
 }

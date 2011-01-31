@@ -1839,7 +1839,7 @@ public class DataControllerDB implements ControllerInterface{
 
    /*merge un ELO avec l'ELO courant*/
     @Override
-    public CopexReturn mergeELO(Dataset d, Element elo){
+    public CopexReturn mergeELO(Dataset d, Element elo, boolean confirm){
         int idDs = getIdDataset(d.getDbKey());
         if(idDs ==-1){
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
@@ -1852,24 +1852,57 @@ public class DataControllerDB implements ControllerInterface{
         if(v.size() > 0)
             ds = (Dataset)v.get(0);
         if(ds != null){
+            // if ds contains only 1 numerical row &  nb of columns fits to dataset => ask the user
+            // - add as a new row ?
+            // - merge ?
+            // - add the values of ds to every row of dataset (kind of a matrix-add-operation) ?
+            // - multiply the values of ds with every row of datast (kind of a matrix-multipy-operation)
+
+            // if nb of columns &  types fits to dataset   => ask the user
+            // - merge?
+            //- add new rows?
+            
             //merge dataset et ds
             int nbRows1 = dataset.getNbRows() ;
             int nbCols1 = dataset.getNbCol() ;
             int nbRows2 = ds.getNbRows();
             int nbCols2 = ds.getNbCol();
+
+            if(confirm && nbRows2 == 1 && nbCols1 == nbCols2 && dataset.isAllColumnDouble() && ds.isAllColumnDouble()){
+                dataToolPanel.askForMergeType(dataset, ds,elo,  true);
+                return new CopexReturn();
+            }
+            if(confirm && nbCols1 == nbCols2 && dataset.isFitTypeColumn(ds)){
+                dataToolPanel.askForMergeType(dataset, ds,elo,  false);
+                return new CopexReturn();
+            }
             if(nbRows2 > nbRows1){
                 //on ajoute des lignes
                 dataset.insertRow(nbRows2-nbRows1, nbRows1);
             }
             dataset.insertCol(nbCols2, nbCols1);
+            cr = DatasetFromDB.updateDatasetMatriceInDB(dbC, dataset.getDbKey(), dataset.getNbRows(), dataset.getNbCol());
+            if(cr.isError())
+                return cr;
             for (int j=0; j<nbCols2; j++){
                 if (ds.getDataHeader(j) != null){
-                    dataset.setDataHeader(new DataHeader(-1,ds.getDataHeader(j).getValue() , ds.getDataHeader(j).getUnit(), j+nbCols1, ds.getDataHeader(j).getType(), ds.getDataHeader(j).getDescription(), ds.getDataHeader(j).getFormulaValue(), ds.getDataHeader(j).isScientificNotation(), ds.getDataHeader(j).getNbShownDecimals(), ds.getDataHeader(j).getNbSignificantDigits()), j+nbCols1);
+                    ArrayList v2 = new ArrayList();
+                    cr = DatasetFromDB.createDataHeaderInDB(dbC, ds.getDataHeader(j).getValue(),ds.getDataHeader(j).getUnit(),  j+nbCols1, ds.getDataHeader(j).getType(), ds.getDataHeader(j).getDescription(), ds.getDataHeader(j).getFormulaValue(), ds.getDataHeader(j).isScientificNotation(), ds.getDataHeader(j).getNbShownDecimals(), ds.getDataHeader(j).getNbSignificantDigits(), dataset.getDbKey(),v2);
+                    if (cr.isError())
+                        return cr;
+                    long dbKeyHeader = (Long)v2.get(0);
+                    dataset.setDataHeader(new DataHeader(dbKeyHeader,ds.getDataHeader(j).getValue() , ds.getDataHeader(j).getUnit(), j+nbCols1, ds.getDataHeader(j).getType(), ds.getDataHeader(j).getDescription(), ds.getDataHeader(j).getFormulaValue(), ds.getDataHeader(j).isScientificNotation(), ds.getDataHeader(j).getNbShownDecimals(), ds.getDataHeader(j).getNbSignificantDigits()), j+nbCols1);
                 }
                 for (int i=0; i<nbRows2; i++){
                     Data nd = null;
                     if (ds.getData(i, j) != null){
                         nd = new Data(-1, ds.getData(i, j).getValue(), i,j+nbCols1, ds.getData(i, j).isIgnoredData() );
+                        ArrayList v2 = new ArrayList();
+                        cr = DatasetFromDB.createDataInDB(dbC,ds.getData(i, j).getValue(), i, j+nbCols1, dataset.getDbKey(), v2);
+                        if(cr.isError())
+                            return cr;
+                        long dbKeyData = (Long)v2.get(0);
+                        nd.setDbKey(dbKeyData);
                     }
                     dataset.setData(nd, i, j+nbCols1);
                 }
@@ -1884,7 +1917,14 @@ public class DataControllerDB implements ControllerInterface{
                 for (int j=0; j<n; j++){
                     listNo.add(op.getListNo().get(j)+nbCols1);
                 }
-                dataset.addOperation(new DataOperation(-1, op.getName(), op.getTypeOperation(), op.isOnCol(), listNo));
+                ArrayList v2 = new ArrayList();
+                DataOperation operation = new DataOperation(-1, op.getName(), op.getTypeOperation(), op.isOnCol(), listNo);
+                cr = OperationFromDB.createOperationInDB(dbC, ds.getDbKey(), operation, v2);
+                if (cr.isError())
+                    return cr;
+                long dbKeyOp = (Long)v2.get(0);
+                operation.setDbKey(dbKeyOp);
+                dataset.addOperation(operation);
             }
             // merge des vis
             ArrayList<Visualization> listVis = ds.getListVisualization();
@@ -1910,11 +1950,159 @@ public class DataControllerDB implements ControllerInterface{
                     Graph g = new Graph(-1, vis.getName(), vis.getType(),pg,((Graph)vis).getListFunctionModel());
                     dataset.addVisualization(g);
                 }
+                ArrayList v2 = new ArrayList();
+                cr = createVisualization(dataset, vis,false, v2);
+                if(cr.isError())
+                    return cr;
             }
             //mise a jour graphique
             this.dataToolPanel.setDataset((Dataset)dataset.clone(), true);
         }
         return cr;
+    }
+
+    /** merge the rows of the datasets */
+    @Override
+    public CopexReturn mergeRowELO(Dataset ds1, Dataset ds2){
+        int idDs = getIdDataset(ds1.getDbKey());
+        if(idDs ==-1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset1 = listDataset.get(idDs);
+        int nbRows1 = dataset1.getNbRows() ;
+        int nbCols1 = dataset1.getNbCol() ;
+        int nbRows2 = ds2.getNbRows();
+        int nbCols2 = ds2.getNbCol();
+        if(nbCols1 != nbCols2){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        // control types
+        for (int j=0; j<nbCols1; j++){
+            if(dataset1.getDataHeader(j) != null && ds2.getDataHeader(j) != null && !dataset1.getDataHeader(j).getType().equals(ds2.getDataHeader(j).getType())){
+                return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+            }
+        }
+        // insert the news rows
+        dataset1.insertRow(nbRows2, nbRows1);
+        CopexReturn cr = DatasetFromDB.updateDatasetMatriceInDB(dbC, dataset1.getDbKey(), dataset1.getNbRows(), dataset1.getNbCol());
+        if(cr.isError())
+            return cr;
+        // add as new rows
+        for(int i=0; i<nbRows2; i++){
+           for(int j=0; j<nbCols2; j++){
+               dataset1.setData(ds2.getData(i, j), i+nbRows1, j);
+               ArrayList v2 = new ArrayList();
+               cr = updateData(dataset1,i+nbRows1, j, ds2.getData(i, j) == null ?"":ds2.getData(i, j).getValue() , v2);
+               if(cr.isError())
+                   return cr;
+           }
+        }
+        cr = computeAllData(dataset1);
+        if(cr.isError())
+            return cr;
+        // recalcule des operations
+        dataset1.calculateOperation();
+        //mise a jour graphique
+        this.dataToolPanel.setDataset((Dataset)dataset1.clone(), true);
+        return new CopexReturn();
+    }
+    /** add the values of ds to every row of dataset (kind of a matrix-add-operation)  */
+    @Override
+    public CopexReturn mergeMatrixAddOperation(Dataset ds1, Dataset ds2){
+        int idDs = getIdDataset(ds1.getDbKey());
+        if(idDs ==-1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset1 = listDataset.get(idDs);
+        int nbRows1 = dataset1.getNbRows() ;
+        int nbCols1 = dataset1.getNbCol() ;
+        int nbRows2 = ds2.getNbRows();
+        int nbCols2 = ds2.getNbCol();
+        if(nbCols1 != nbCols2){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        if(nbRows2 != 1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        // control types
+        for (int j=0; j<nbCols1; j++){
+            if(dataset1.getDataHeader(j) != null && ds2.getDataHeader(j) != null && !dataset1.getDataHeader(j).getType().equals(ds2.getDataHeader(j).getType())){
+                return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+            }
+            if(dataset1.getDataHeader(j) != null && !dataset1.getDataHeader(j).isDouble()){
+                return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+            }
+        }
+        for(int i=0; i<nbRows1; i++){
+            for (int j=0; j<nbCols1; j++){
+                if(dataset1.getData(i, j) == null){
+                    dataset1.setData(new Data(-1, ds2.getData(0, j) == null ? "" :ds2.getData(0, j).getValue() , i, j, false), i, j);
+                }else{
+                    dataset1.getData(i, j).addToValue(ds2.getData(0, j) == null ? 0 :ds2.getData(0, j).getDoubleValue());
+                }
+                ArrayList v2 = new ArrayList();
+                CopexReturn cr = updateData(dataset1,i, j, dataset1.getData(i, j).getValue() , v2);
+                if(cr.isError())
+                   return cr;
+            }
+        }
+        CopexReturn cr = computeAllData(dataset1);
+        if(cr.isError())
+            return cr;
+        // recalcule des operations
+        dataset1.calculateOperation();
+        //mise a jour graphique
+        this.dataToolPanel.setDataset((Dataset)dataset1.clone(), true);
+        return new CopexReturn();
+    }
+    /** multiply the values of ds to every row of dataset (kind of a matrix-multiply-operation) */
+    @Override
+    public CopexReturn mergeMatrixMultiplyOperation(Dataset ds1, Dataset ds2){
+        int idDs = getIdDataset(ds1.getDbKey());
+        if(idDs ==-1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset1 = listDataset.get(idDs);
+        int nbRows1 = dataset1.getNbRows() ;
+        int nbCols1 = dataset1.getNbCol() ;
+        int nbRows2 = ds2.getNbRows();
+        int nbCols2 = ds2.getNbCol();
+        if(nbCols1 != nbCols2){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        if(nbRows2 != 1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        // control types
+        for (int j=0; j<nbCols1; j++){
+            if(dataset1.getDataHeader(j) != null && ds2.getDataHeader(j) != null && !dataset1.getDataHeader(j).getType().equals(ds2.getDataHeader(j).getType())){
+                return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+            }
+            if(dataset1.getDataHeader(j) != null && !dataset1.getDataHeader(j).isDouble()){
+                return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+            }
+        }
+        for(int i=0; i<nbRows1; i++){
+            for (int j=0; j<nbCols1; j++){
+                if(dataset1.getData(i, j) == null){
+                    dataset1.setData(new Data(-1, ds2.getData(0, j) == null ? "" :"0" , i, j, false), i, j);
+                }else{
+                    dataset1.getData(i, j).multiplyToValue(ds2.getData(0, j) == null ? 0 :ds2.getData(0, j).getDoubleValue());
+                }
+                ArrayList v2 = new ArrayList();
+                CopexReturn cr = updateData(dataset1,i, j, dataset1.getData(i, j).getValue() , v2);
+                if(cr.isError())
+                   return cr;
+            }
+        }
+        CopexReturn cr = computeAllData(dataset1);
+        if(cr.isError())
+            return cr;
+        // recalcule des operations
+        dataset1.calculateOperation();
+        //mise a jour graphique
+        this.dataToolPanel.setDataset((Dataset)dataset1.clone(), true);
+        return new CopexReturn();
     }
 
     /* convertir un elo au format xml en dataset*/

@@ -36,7 +36,7 @@ public interface ControllerInterface {
     /*save an elo*/
     public Element getPDS(Dataset ds);
     /** merge an elo with the current elo */
-    public CopexReturn mergeELO(Dataset ds, Element elo);
+    public CopexReturn mergeELO(Dataset ds, Element elo, boolean confirm);
     /** merge a dataset with the current dataset*/
     public CopexReturn mergeDataset(Dataset currentDs, Mission m, Dataset dsToMerge, ArrayList v);
     /** update the statut of a data: ignored or not */
@@ -103,4 +103,10 @@ public interface ControllerInterface {
     public CopexReturn isLabDocDataset(Dataset ds, ArrayList v);
     /** log a user action in the db*/
     public CopexReturn logUserActionInDB(String type, List<FitexProperty> attribute);
+    /** merge the rows of the datasets */
+    public CopexReturn mergeRowELO(Dataset ds1, Dataset ds2);
+    /** add the values of ds to every row of dataset (kind of a matrix-add-operation)  */
+    public CopexReturn mergeMatrixAddOperation(Dataset ds1, Dataset ds2);
+    /** multiply the values of ds to every row of dataset (kind of a matrix-multiply-operation) */
+    public CopexReturn mergeMatrixMultiplyOperation(Dataset ds1, Dataset ds2);
 }

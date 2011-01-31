@@ -135,5 +135,10 @@ public class DataConstants {
     public final static String LOG_TYPE_UPDATE_VISUALIZATION = "graph_updated";
     public final static String LOG_TYPE_GRAPH_MODE = "graph_mode_updated";
     public final static String LOG_TYPE_GRAPH_FUNCTION = "graph_function_updated";
+
+    public static String actionMerge="merge";
+    public static String actionMergeRow = "mergeRow";
+    public static String actionMatrixAddOperation = "matrixAddOperation";
+    public static String actionMatrixMultiplyOperation = "matrixMultiplyOperation";
     
 }

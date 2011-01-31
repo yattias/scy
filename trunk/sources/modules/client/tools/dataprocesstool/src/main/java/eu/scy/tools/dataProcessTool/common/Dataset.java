@@ -1371,4 +1371,27 @@ public class Dataset implements Cloneable{
         Collections.sort(words);
         return words;
     }
+
+    /* return true if all columns are of type double */
+    public boolean isAllColumnDouble(){
+        for(int j=0; j<listDataHeader.length; j++){
+            if(!listDataHeader[j].isDouble())
+                return false;
+        }
+        return true;
+    }
+
+    public boolean isFitTypeColumn(Dataset ds){
+        if(ds != null && ds.getNbCol() == getNbCol()){
+            for(int j=0; j<nbCol; j++){
+                if((getDataHeader(j) != null && ds.getDataHeader(j) != null && !getDataHeader(j).getType().equals(ds.getDataHeader(j).getType())) ||
+                        (getDataHeader(j) != null && ds.getDataHeader(j) == null && !getDataHeader(j).isDouble()) ||
+                        (getDataHeader(j) == null && ds.getDataHeader(j) != null && !ds.getDataHeader(j).isDouble()) ){
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
 }

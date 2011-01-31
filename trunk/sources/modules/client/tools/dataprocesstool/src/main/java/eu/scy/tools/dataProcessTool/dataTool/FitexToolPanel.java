@@ -1157,13 +1157,25 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
    
 
     /*merge d'un ELO avec le courant */
-    public void mergeELO(Element elo){
-        CopexReturn cr = this.controller.mergeELO(dataset, elo);
+    public void mergeELO(Element elo, boolean confirm){
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        CopexReturn cr = this.controller.mergeELO(dataset, elo, confirm);
         if (cr.isError()){
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
         }else if(cr.isWarning()){
-            displayError(cr, getBundleString("TITLE_DIALOG_WARNING"));
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            boolean isok = displayError(cr, getBundleString("TITLE_DIALOG_WARNING"));
+            if(isok){
+                setCursor(new Cursor(Cursor.WAIT_CURSOR));
+                cr = this.controller.mergeELO(dataset, elo, false);
+                if(cr.isError()){
+                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+                }
+            }
         }
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
 
     public Element getPDS(){

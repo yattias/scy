@@ -39,7 +39,6 @@ public class MyTableEditor extends DefaultCellEditor{
             // keep the value of the cell
             //((JTextField)component).setText("");
            if(table instanceof DataTable && (((DataTable)table).isEditAfterOneClick()) ){
-               System.out.println("reinit");
                ((JTextField)component).setText("");
            }else{
                //((JTextField)component).setCaretPosition(((JTextField)component).getSelectionEnd());
