@@ -50,7 +50,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 
     private static final String RESIZEHANDLE_FILENAME = "resize.png";
 
-    protected static final int MAX_TEXTLENGTH = 30;
+    protected static final int MAX_TEXTLENGTH = 100;
 
     protected JTextArea labelTextarea;
 
