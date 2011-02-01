@@ -55,7 +55,7 @@ public class AdjustSizeAdapter extends MouseAdapter {
 				int i = shape.isHitOnEndPoints(event.getPoint());
 				if (i != -1) {
 					// System.out.println("adjust contains found it!! "
-							+ foundShape);
+					//		+ foundShape);
 					foundShape = shape;
 					
 					if( mathToolController != null)
