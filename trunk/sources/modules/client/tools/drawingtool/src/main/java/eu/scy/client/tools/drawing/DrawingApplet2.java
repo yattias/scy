@@ -193,14 +193,14 @@ public class DrawingApplet2 extends javax.swing.JApplet implements
 		catch (AccessControlException e)
 		{
 			// System.out.println("Could not access file " + CONTEXT_CONFIG_FILE_LOCATION
-						+ ", trying on class path");
+			//			+ ", trying on class path");
 		}
 		catch (BeanDefinitionStoreException e)
 		{
 			if (!(e.getRootCause() instanceof FileNotFoundException))
 				throw e;
 			// System.out.println("Could not find file " + CONTEXT_CONFIG_FILE_LOCATION
-						+ ", trying on class path");
+			//			+ ", trying on class path");
 		}
 		if (springContext == null)
 			springContext = new ClassPathXmlApplicationContext(CONTEXT_CONFIG_CLASS_PATH_LOCATION);

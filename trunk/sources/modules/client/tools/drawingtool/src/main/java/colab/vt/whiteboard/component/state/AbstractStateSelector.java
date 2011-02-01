@@ -117,7 +117,7 @@ public abstract class AbstractStateSelector extends JComponent implements MouseL
 
 	private void printMouseEvent(String label, MouseEvent mouseEvent)
 	{
-		if (printMouseActions)
+		// if (printMouseActions)
 			// System.out.println(label + ": " + mouseEvent);
 
 	}

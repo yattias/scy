@@ -337,7 +337,7 @@ public class WhiteboardPanel extends javax.swing.JPanel implements MouseMotionLi
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e)
 	{
-		if (printEvents)
+		// if (printEvents)
 			// System.out.println("mouseWheelMoved: " + e);
 		if (currentWhiteboardAction instanceof MouseWheelListener)
 			((MouseWheelListener) currentWhiteboardAction).mouseWheelMoved(e);
@@ -345,7 +345,7 @@ public class WhiteboardPanel extends javax.swing.JPanel implements MouseMotionLi
 
 	private void printMouseEvent(String label, MouseEvent mouseEvent)
 	{
-		if (printEvents)
+		// if (printEvents)
 			// System.out.println(label + ": " + mouseEvent);
 	}
 
@@ -375,7 +375,7 @@ public class WhiteboardPanel extends javax.swing.JPanel implements MouseMotionLi
 
 	private void printKeyEvent(String label, KeyEvent keyEvent)
 	{
-		if (printEvents)
+		 // if (printEvents)
 			// System.out.println(label + ": " + keyEvent);
 	}
 
