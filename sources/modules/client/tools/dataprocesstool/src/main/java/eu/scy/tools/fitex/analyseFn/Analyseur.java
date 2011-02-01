@@ -99,11 +99,11 @@ public class Analyseur
                 getBundleString("MSG_ERROR_LIST_FUNCTION_5")+"\n" +
                 getBundleString("MSG_ERROR_LIST_CST")+"\n" +
                 getBundleString("MSG_ERROR_LIST_CST_2")+"\n\n" ;
-        if(Function.DEBUG_ANALYSEUR)
+        // if(Function.DEBUG_ANALYSEUR)
             // System.out.println("fonction analyser");
         lexical.nextToken();
         Expression resultat = analyserExpression();
-        if(Function.DEBUG_ANALYSEUR)
+        // if(Function.DEBUG_ANALYSEUR)
             // System.out.println(lexical.ttype) ;
         if (lexical.ttype != StreamTokenizer.TT_EOF) {
             throw new ErreurDeSyntaxe(err) ;
@@ -114,7 +114,7 @@ public class Analyseur
     
     private Expression analyserExpression() throws IOException, ErreurDeSyntaxe
     {
-        if(Function.DEBUG_ANALYSEUR)
+        // if(Function.DEBUG_ANALYSEUR)
             // System.out.println("Analyse d'une expression");
                     
         Expression resultat = analyserTerme();
@@ -139,7 +139,7 @@ public class Analyseur
 
     private Expression analyserTerme() throws IOException, ErreurDeSyntaxe
     {
-        if(Function.DEBUG_ANALYSEUR)
+        // if(Function.DEBUG_ANALYSEUR)
             // System.out.println("fonction analyserTerme");
         
         Expression resultat = analyserTermeDePow();
@@ -150,7 +150,7 @@ public class Analyseur
 		throw new ErreurDeSyntaxe(getBundleString("MSG_ERROR_LEFT_FACT_ZERO"));
             boolean estUnProduit = (lexical.ttype == '*');
             lexical.nextToken();
-            if(Function.DEBUG_ANALYSEUR)
+           // if(Function.DEBUG_ANALYSEUR)
                 // System.out.println(lexical.sval) ;
             Expression termeDePow = analyserTermeDePow();
             if (termeDePow == null)
@@ -181,7 +181,7 @@ public class Analyseur
         Expression resultat = analyserFacteur();
         while (lexical.ttype == '^' || lexical.ttype == 'E')
         {
-            if(Function.DEBUG_ANALYSEUR)
+            // if(Function.DEBUG_ANALYSEUR)
                 // System.out.println("detection d'une puissance");
             if (resultat == null)
 		throw new ErreurDeSyntaxe(getBundleString("MSG_ERROR_LEFT_FACT_PUISS"));
@@ -202,7 +202,7 @@ public class Analyseur
     {
         Expression resultat=null ;
         
-        if(Function.DEBUG_ANALYSEUR){
+         if(Function.DEBUG_ANALYSEUR){
             // System.out.println("fonction analyserFacteur");
             // System.out.println(lexical.ttype);
             // System.out.println("**"+lexical.sval+"**");
