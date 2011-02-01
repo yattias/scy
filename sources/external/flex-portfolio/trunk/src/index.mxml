@@ -66,6 +66,12 @@
 					   result="eloCategoryService_resultHandler(event)" 
 					   fault="eloCategoryService_faultHandler(event)"
 					   resultFormat="e4x"/>
+		
+		<s:HTTPService id="portfolioConfigService" 
+					   showBusyCursor="true" 
+					   result="portfolioConfigService_resultHandler(event)" 
+					   fault="portfolioConfigService_faultHandler(event)"
+					   resultFormat="e4x"/>
 	</fx:Declarations>
 	
 	<fx:Metadata>
@@ -186,12 +192,12 @@
 				so.data.saveportfolio = new String(toolURLProvider.saveportfolio)
 				so.flush();
 				
-				eloCategoryService.url = new String(toolURLProvider.obligatoryelosinmission)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
+				portfolioConfigService.url = new String(toolURLProvider.portfolioconfigservice)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
 				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
-					eloCategoryService.url = new String(toolURLProvider.obligatoryelosinmission).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "%23");
+					portfolioConfigService.url = new String(toolURLProvider.portfolioconfigservice).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "%23");
 				}
 				
-				eloCategoryService.send();
+				portfolioConfigService.send();
 			}
 			
 			
@@ -338,6 +344,28 @@
 				portfolioService.send();
 			}
 
+
+			protected function portfolioConfigService_resultHandler(event:ResultEvent):void {
+				var pfXmlConfig:XML = event.result as XML;
+				
+				so.data.portfolioreflectiontabs = pfXmlConfig.portfolioreflectiontabs;
+				so.flush();
+				
+				REF_ON_INQ_TXT = new String(pfXmlConfig.eloreflection.eloreflectioninquiryquestion);
+				
+				eloCategoryService.url = new String(toolURLProvider.obligatoryelosinmission)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
+				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+					eloCategoryService.url = new String(toolURLProvider.obligatoryelosinmission).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "%23");
+				}
+				
+				eloCategoryService.send();
+			}
+
+
+			protected function portfolioConfigService_faultHandler(event:FaultEvent):void {
+				Alert.show(resourceManager.getString('resources', 'PFCONF_PROPERTY_FILE_ERROR'), resourceManager.getString('resources', 'HTTP_SERVICE_ERROR'));
+			}
+
 		]]>
 	</fx:Script>
 	
@@ -372,8 +400,10 @@
 	<s:Group id="genecan" width="{this.width-14}" height="{this.height-14}" x="7" y="7">
 		<mx:ViewStack id="mainStack" width="100%" height="100%" >
 			<s:NavigatorContent width="100%" height="100%">
-				<s:Label horizontalCenter="0" verticalCenter="0" fontSize="20" color="#333333" width="70%" textAlign="center" text="{resourceManager.getString('resources', 'WAIT_MESSAGE')+' ....'}" />
-				<local:Waiter id="waiter" horizontalCenter="0" verticalCenter="0" />
+				<s:VGroup width="70%" horizontalAlign="center" horizontalCenter="0" verticalCenter="0" verticalAlign="middle">
+					<s:Label fontSize="20" color="#333333" width="100%" textAlign="center" text="{resourceManager.getString('resources', 'WAIT_MESSAGE')+' ....'}" />
+					<local:Waiter id="waiter" />
+				</s:VGroup>
 			</s:NavigatorContent>
 			<local:introductionCanvas id="introduction" width="100%" height="100%" showEffect="{showEffect}" />
 			<local:searchCanvas id="search" width="100%" height="100%" showEffect="{showEffect}" />

@@ -129,7 +129,7 @@
 					</s:backgroundFill>
 	
 				<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
-					<s:Label id="headerText" width="60%" color="{index.BACK_GRADIENT_BOT}" fontSize="15" textAlign="center" text="{uName+resourceManager.getString('resources', 'HELLO')}" />
+					<s:Label id="headerText" width="60%" color="{index.BACK_GRADIENT_BOT}" fontSize="15" textAlign="center" text="{uName+' '+resourceManager.getString('resources', 'HELLO')}" />
 				</s:HGroup>
 			</s:BorderContainer>	
 		</s:HGroup>

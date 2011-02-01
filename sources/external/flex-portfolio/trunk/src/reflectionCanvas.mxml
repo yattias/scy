@@ -329,7 +329,7 @@
 	<s:VGroup width="100%" height="100%">
 		<s:BorderContainer id="reflectionHeader" width="100%" height="140" backgroundColor="{index.THEME_COL}" borderStyle="solid" borderColor="{index.THEME_COL}">
 			<s:BorderContainer width="100" height="100" x="15" y="20" borderVisible="false" dropShadowVisible="true">
-				<s:Image id="eloIcon" source="{eloIconSource}" width="100" height="100"/>
+				<s:Image id="eloIcon" source="{eloIconSource}" width="100" height="100" />
 			</s:BorderContainer>
 			
 			<mx:Form x="{eloIcon.x+eloIcon.width+30}" y="0" verticalGap="0" color="{index.BACK_GRADIENT_BOT}" fontSize="13">

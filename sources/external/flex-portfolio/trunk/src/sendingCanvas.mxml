@@ -28,6 +28,15 @@
 			[Bindable] private var ref2Txt:String = "";
 			[Bindable] private var ref3Txt:String = "";
 			
+			[Bindable] private var REFLECTION_TXT1:String = "Reflection on Mission";
+			[Bindable] private var REFLECTION_TXT2:String = "Reflection on Collaboration";
+			[Bindable] private var REFLECTION_TXT3:String = "Reflection on Inquiry";
+			[Bindable] private var REFLECTION_TXT4:String = "Reflection on Effort";
+			[Bindable] private var SENDING_TEXT1:String = "The most important things I learned about CO2 neural houses are...";
+			[Bindable] private var SENDING_TEXT2:String = "Did your group agreed about how to work before you started and were there any problems during the work?";
+			[Bindable] private var SENDING_TEXT3:String = "Did you keep the hypotheses that you created early in the inquiry or did you change it? ";
+			[Bindable] private var SENDING_TEXT4:String = "Are you satisfied with your own work on this Mission?";
+			
 			private var so:SharedObject;
 			
 			protected function clickHandler(dir:String, stack:Number):void {
@@ -86,6 +95,24 @@
 				else {
 					currentState = "unlocked";
 				}
+				
+				 var pfXmlConfig:XMLList = so.data.portfolioreflectiontabs;
+				 if(pfXmlConfig.tab[0].title != null && pfXmlConfig.tab[0].question != null) {
+					 REFLECTION_TXT1 = pfXmlConfig.tab[0].title;
+					 SENDING_TEXT1 = pfXmlConfig.tab[0].question;
+				 }
+				 if(pfXmlConfig.tab[1].title != null && pfXmlConfig.tab[1].question != null) {
+					 REFLECTION_TXT2 = pfXmlConfig.tab[1].title;
+					 SENDING_TEXT2 = pfXmlConfig.tab[1].question;
+				 }
+				 if(pfXmlConfig.tab[2].title != null && pfXmlConfig.tab[2].question != null) {
+					 REFLECTION_TXT3 = pfXmlConfig.tab[2].title;
+					 SENDING_TEXT3 = pfXmlConfig.tab[2].question;
+				 }
+				 if(pfXmlConfig.tab[3].title != null && pfXmlConfig.tab[3].question != null) {
+					 REFLECTION_TXT4 = pfXmlConfig.tab[3].title;
+					 SENDING_TEXT4 = pfXmlConfig.tab[3].question;
+				 }
 			}
 			
 			protected function okSubmit_clickHandler(event:MouseEvent):void {
@@ -231,34 +258,34 @@
 				<mx:Spacer height="15" />
 				<s:TabBar id="tabs" dataProvider="{vs}" width="100%" cornerRadius="0"/>
 				<mx:ViewStack id="vs" width="100%" height="100%" borderStyle="solid" borderColor="#999999" dropShadowVisible="true">
-					<s:NavigatorContent label="{resourceManager.getString('resources', 'REFLECTION_TXT1')}" width="100%" height="100%">
+					<s:NavigatorContent label="{REFLECTION_TXT1}" width="100%" height="100%">
 						<s:HGroup width="100%" height="90%" verticalAlign="middle" horizontalAlign="center">
-							<s:FormItem label="{resourceManager.getString('resources', 'REFLECTION_TXT1')+':'}" height="90%">
-								<s:Label text="{resourceManager.getString('resources', 'SENDING_TEXT1')}" width="500" />
+							<s:FormItem label="{REFLECTION_TXT1+':'}" height="90%">
+								<s:Label text="{SENDING_TEXT1}" width="500" />
 								<s:TextArea width="500" height="50" id="reflectionArea1" color="#000000" change="ref1Txt=reflectionArea1.text;validateSubmitButton()" />
 							</s:FormItem>
 						</s:HGroup>
 					</s:NavigatorContent>
-					<s:NavigatorContent label="{resourceManager.getString('resources', 'REFLECTION_TXT2')}" width="100%" height="100%" >
+					<s:NavigatorContent label="{REFLECTION_TXT2}" width="100%" height="100%" >
 						<s:HGroup width="100%" height="90%" verticalAlign="middle" horizontalAlign="center">
-							<s:FormItem label="{resourceManager.getString('resources', 'REFLECTION_TXT2')+':'}" height="90%">
-								<s:Label text="{resourceManager.getString('resources', 'SENDING_TEXT2')}" width="500" />
+							<s:FormItem label="{REFLECTION_TXT2+':'}" height="90%">
+								<s:Label text="{SENDING_TEXT2}" width="500" />
 								<s:TextArea width="500" height="50" id="reflectionArea2" color="#000000" change="ref2Txt=reflectionArea2.text;validateSubmitButton()" />
 							</s:FormItem>					
 						</s:HGroup>
 					</s:NavigatorContent>
-					<s:NavigatorContent label="{resourceManager.getString('resources', 'REFLECTION_TXT3')}"  width="100%" height="100%">
+					<s:NavigatorContent label="{REFLECTION_TXT3}"  width="100%" height="100%">
 						<s:HGroup width="100%" height="90%" verticalAlign="middle" horizontalAlign="center">
-							<s:FormItem label="{resourceManager.getString('resources', 'REFLECTION_TXT3')+':'}" height="90%">
-								<s:Label text="{resourceManager.getString('resources', 'SENDING_TEXT3')}" width="500" />
+							<s:FormItem label="{REFLECTION_TXT3+':'}" height="90%">
+								<s:Label text="{SENDING_TEXT3}" width="500" />
 								<s:TextArea width="500" height="50" id="reflectionArea3" color="#000000" change="ref3Txt=reflectionArea3.text;validateSubmitButton()"/>
 							</s:FormItem>					
 						</s:HGroup>
 					</s:NavigatorContent>
-					<s:NavigatorContent label="{resourceManager.getString('resources', 'REFLECTION_TXT4')}" width="100%" height="100%" >
+					<s:NavigatorContent label="{REFLECTION_TXT4}" width="100%" height="100%" >
 						<s:VGroup width="100%" height="90%" verticalAlign="middle" horizontalAlign="center">
 							<s:VGroup gap="0" horizontalCenter="0">
-								<s:Label id="refOnInqText" text="{index.REF_ON_INQ_TXT}" width="400" />
+								<s:Label id="refOnInqText" text="{SENDING_TEXT4}" width="400" />
 								<s:HGroup width="400" height="33" gap="{(400-4*30)/3}">
 									<s:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/1.png'}" width="30" height="33" />
 									<s:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/2.png'}" width="30" height="33" />
