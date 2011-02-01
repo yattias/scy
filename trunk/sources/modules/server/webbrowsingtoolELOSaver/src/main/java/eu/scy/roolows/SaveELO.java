@@ -212,6 +212,7 @@ public class SaveELO {
         action.addContext(ContextConstants.eloURI, eloUri);
         action.addContext(ContextConstants.tool, "roolo-ws");
         action.addAttribute("elo_type", elo_type);
+        action.addAttribute("elo_uri", eloUri);
         beans.getActionLogger().log(action);
     }
 
