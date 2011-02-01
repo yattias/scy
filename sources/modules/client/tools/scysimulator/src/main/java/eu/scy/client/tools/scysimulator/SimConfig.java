@@ -30,8 +30,8 @@ public class SimConfig {
         }
         simulationName = datacollector.getSimQuestViewer().getApplication().getTopic(0).getName();
         simulationUri = datacollector.getSimQuestViewer().getFile().toString();
-        System.out.println("SimConfig.simulationName: "+simulationName);
-        System.out.println("SimConfig.simulationUri: "+simulationUri);
+        // System.out.println("SimConfig.simulationName: "+simulationName);
+        // System.out.println("SimConfig.simulationUri: "+simulationUri);
     }
 
     public SimConfig(String xmlString) throws JDOMException {

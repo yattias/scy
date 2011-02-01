@@ -57,7 +57,7 @@ public class DatasetFromDB {
             try{
                 nbCol = Integer.parseInt(s);
             }catch(NumberFormatException e){
-                System.out.println(e);
+                // System.out.println(e);
             }
             s = rs.getColumnData("D.NB_ROW");
             if (s == null)
@@ -66,7 +66,7 @@ public class DatasetFromDB {
             try{
                 nbRow = Integer.parseInt(s);
             }catch(NumberFormatException e){
-                System.out.println(e);
+                // System.out.println(e);
             }
             // MBO dataset lockes
             if (locker.isLocked(dbKey)){
@@ -97,7 +97,7 @@ public class DatasetFromDB {
                 if (cr.isError())
                     return cr;
                 ArrayList<Visualization> listVis = (ArrayList<Visualization>)v3.get(0);
-                System.out.println("chargement dataset, nbVis : "+listVis.size());
+                // System.out.println("chargement dataset, nbVis : "+listVis.size());
                 //creation du dataset
                 Dataset ds= new Dataset(dbKey, mission,dbKeyLabDoc, name, nbCol, nbRow, tabDataHeader, data, listOp, listVis, DataConstants.EXECUTIVE_RIGHT);
                 listDataset.add(ds);
@@ -137,7 +137,7 @@ public class DatasetFromDB {
             try{
                 nbCol = Integer.parseInt(s);
             }catch(NumberFormatException e){
-                System.out.println(e);
+                // System.out.println(e);
             }
             s = rs.getColumnData("D.NB_ROW");
             if (s == null)
@@ -146,7 +146,7 @@ public class DatasetFromDB {
             try{
                 nbRow = Integer.parseInt(s);
             }catch(NumberFormatException e){
-                System.out.println(e);
+                // System.out.println(e);
             }
             // chargement header
             ArrayList v3 = new ArrayList();
@@ -172,7 +172,7 @@ public class DatasetFromDB {
             if (cr.isError())
                 return cr;
             ArrayList<Visualization> listVis = (ArrayList<Visualization>)v3.get(0);
-            System.out.println("chargement dataset, nbVis : "+listVis.size());
+            // System.out.println("chargement dataset, nbVis : "+listVis.size());
             //creation du dataset
             ds= new Dataset(dbKey, mission,-1, name, nbCol, nbRow, tabDataHeader, data, listOp, listVis, DataConstants.NONE_RIGHT);
         }
@@ -305,7 +305,7 @@ public class DatasetFromDB {
             try{
                 noCol = Integer.parseInt(s);
             }catch(NumberFormatException e){
-                System.out.println(e);
+                // System.out.println(e);
             }
             String type = rs.getColumnData("D.TYPE");
             if (type == null)
@@ -375,7 +375,7 @@ public class DatasetFromDB {
             try{
                 n = Integer.parseInt(s);
             }catch(NumberFormatException e){
-                System.out.println(e);
+                // System.out.println(e);
             }
             boolean isOnCol = n==1;
             s = rs.getColumnData("T.ID_TYPE_OPERATION");
@@ -428,7 +428,7 @@ public class DatasetFromDB {
                 try{
                     no = Integer.parseInt(s);
                 }catch(NumberFormatException e){
-                    System.out.println(e);
+                    // System.out.println(e);
                 }
                 listNo.add(no);
             }
@@ -469,7 +469,7 @@ public class DatasetFromDB {
             try{
                 noCol = Integer.parseInt(s);
             }catch(NumberFormatException e){
-                System.out.println(e);
+                // System.out.println(e);
             }
             s = rs.getColumnData("D.NO_ROW");
             if (s == null)
@@ -478,7 +478,7 @@ public class DatasetFromDB {
             try{
                 noRow = Integer.parseInt(s);
             }catch(NumberFormatException e){
-                System.out.println(e);
+                // System.out.println(e);
             }
             s = rs.getColumnData("D.IS_IGNORED");
             if (s == null)
@@ -487,7 +487,7 @@ public class DatasetFromDB {
             try{
                 val = Integer.parseInt(s);
             }catch(NumberFormatException e){
-                System.out.println(e);
+                // System.out.println(e);
             }
             boolean isIgnored = val == 1;
             Data d = new Data(dbKey, value, noRow, noCol, isIgnored);
@@ -625,18 +625,18 @@ public class DatasetFromDB {
         if(nbSignificantDigits != DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED)
             nbSigDig = Integer.toString(nbSignificantDigits);
         String query = "INSERT INTO DATA_HEADER (ID_HEADER, VALUE, UNIT,NO_COL, TYPE, DESCRIPTION, FORMULA_VALUE, SCIENTIFIC_NOTATION, NB_SHOWN_DECIMALS, NB_SIGNIFICANT_DIGITS) VALUES (NULL, '"+value+"', '"+unit+"', "+noCol+", '"+type+"', '"+description+"', "+s+", "+sn+", "+nbShDec+", "+nbSigDig+") ;";
-        System.out.println("createDataHeaderInDB : "+query);
+        // System.out.println("createDataHeaderInDB : "+query);
         String queryID = "SELECT max(last_insert_id(`ID_HEADER`))   FROM DATA_HEADER ;";
-        System.out.println("createDataHeaderInDB : "+queryID);
+        // System.out.println("createDataHeaderInDB : "+queryID);
         ArrayList v2 = new ArrayList();
         CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
         if (cr.isError())
             return cr;
         long dbKey = (Long)v2.get(0);
-        System.out.println("==> dbKey : "+dbKey);
+        // System.out.println("==> dbKey : "+dbKey);
         // lien dataset / header
         query = "INSERT INTO LINK_DATASET_HEADER (ID_DATASET, ID_HEADER) VALUES ("+dbKeyDs+", "+dbKey+") ;";
-        System.out.println("cree lien : "+query);
+        // System.out.println("cree lien : "+query);
         String[] querys = new String[1];
         querys[0] = query;
         v2 = new ArrayList();
@@ -944,7 +944,7 @@ public class DatasetFromDB {
                 int d = Integer.parseInt(s);
                 if(d==1)
                     deltaFixedAutoscale = true;
-                System.out.println("d ... "+d);
+                // System.out.println("d ... "+d);
             }catch(NumberFormatException e){
                 
             }

@@ -39,14 +39,14 @@ public class AjaxTimePickerController extends AbstractAjaxController {
 
        if(property == null || value == null) return null;
         value = value.replace(".", ":") + ":00";
-        System.out.println("VVVAAAALLUUUE: " + value);
+        // System.out.println("VVVAAAALLUUUE: " + value);
        try {
            String firstLetter = property.substring(0,1);
            firstLetter = firstLetter.toUpperCase();
            property = firstLetter + property.substring(1, property.length());
            Method method = object.getClass().getMethod("set" + property, Time.class);
 
-           System.out.println(method.getName() + String.valueOf(value) + " TIME: " + Time.valueOf(value.substring(1, value.length())));
+           // System.out.println(method.getName() + String.valueOf(value) + " TIME: " + Time.valueOf(value.substring(1, value.length())));
            
            Boolean returnValue =  (Boolean) method.invoke(object, Time.valueOf(value.substring(1, value.length())));
 

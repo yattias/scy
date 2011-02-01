@@ -274,7 +274,7 @@ public class VariableDialog extends javax.swing.JDialog implements
 				try {
 			        if (link.getFigure2().getProperties().get("label").equals(this.label)) {
 			            if (link instanceof JdRelation){
-			            	System.out.println("got you!");
+			            	// System.out.println("got you!");
 			            	((JdRelation)link).setRelationType(4);
 			            }
 			        } 

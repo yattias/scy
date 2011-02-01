@@ -193,10 +193,10 @@ public class CopexController implements ControllerInterface {
         // MBo le 27/02/2009 : si ts les proc de la mission sont lockes on n'en cree pas d'autres
         boolean askForInitProc = false;
         if (listProc.isEmpty() && !allProcLocked){
-            //System.out.println("*****pas de proc ") ;
-            //System.out.println("Nombre de proc initiaux : "+nbIP);
+            //// System.out.println("*****pas de proc ") ;
+            //// System.out.println("Nombre de proc initiaux : "+nbIP);
             if (nbIP == 1){
-                //System.out.println("   => creation d'un proc ");
+                //// System.out.println("   => creation d'un proc ");
                 cr = createProc(listInitialProc.get(0).getName(getLocale()), listInitialProc.get(0), false );
                 if (cr.isError()){
                     msgError += cr.getText();
@@ -503,7 +503,7 @@ public class CopexController implements ControllerInterface {
         }
         updateQuestion(proc);
         // mise a jour des donnees
-        //System.out.println("maj donnees");
+        //// System.out.println("maj donnees");
         boolean isOk = expProc.deleteTasks(listTask);
         if (!isOk){
             return new CopexReturn(copex.getBundleString("MSG_ERROR_DELETE_TASK"), false);
@@ -636,8 +636,8 @@ public class CopexController implements ControllerInterface {
             Profiler.end("addTaskInTrace");
         }
         Profiler.end("addTask");
-        System.out.println("Resultat :\n"+Profiler.display());
-        System.out.println("\nStats  :\n"+Profiler.getStats());
+        // System.out.println("Resultat :\n"+Profiler.display());
+        // System.out.println("\nStats  :\n"+Profiler.getStats());
         Profiler.reset();
         return cr;
     }
@@ -1025,7 +1025,7 @@ public class CopexController implements ControllerInterface {
         
         // en v[0] le protocole mis a jour 
         v.add((LearnerProcedure)expProc.clone());
-        //System.out.println("fin update question controller : "+expProc.getMaterials().getListMaterialUsed().size());
+        //// System.out.println("fin update question controller : "+expProc.getMaterials().getListMaterialUsed().size());
         return new CopexReturn();
     }
 
@@ -1203,7 +1203,7 @@ public class CopexController implements ControllerInterface {
     /* ouverture d'un protocole existant */
     @Override
     public CopexReturn openProc(CopexMission missionToOpen, LearnerProcedure procToOpen) {
-        //System.out.println("controller : openProc");
+        //// System.out.println("controller : openProc");
         int idM = -1;
         /*int nbM = this.listMissionsUser.size();
         for (int i=0; i<nbM; i++){
@@ -1430,13 +1430,13 @@ public class CopexController implements ControllerInterface {
     /* drag and drop */
     @Override
     public CopexReturn move(TaskSelected taskSel, SubTree subTree, char undoRedo) {
-//        System.out.println("***MOVE CONTROLLER***");
-//        System.out.println(" => taskSel : "+taskSel.getSelectedTask().getDescription(getLocale()));
-//        System.out.println(" => subTree : "+subTree.getFirstTask().getDescription(getLocale()));
+//        // System.out.println("***MOVE CONTROLLER***");
+//        // System.out.println(" => taskSel : "+taskSel.getSelectedTask().getDescription(getLocale()));
+//        // System.out.println(" => subTree : "+subTree.getFirstTask().getDescription(getLocale()));
 //        if (taskSel.getTaskBrother() != null){
-//            System.out.println(" => branche frere : "+taskSel.getTaskBrother().getDescription(getLocale()));
+//            // System.out.println(" => branche frere : "+taskSel.getTaskBrother().getDescription(getLocale()));
 //        }else if (taskSel.getTaskParent() != null){
-//            System.out.println(" => branche parent : "+taskSel.getTaskParent().getDescription(getLocale()));
+//            // System.out.println(" => branche parent : "+taskSel.getTaskParent().getDescription(getLocale()));
 //        }
         ExperimentalProcedure proc = taskSel.getProc();
         int idP = getIdProc(proc.getDbKey());
@@ -1455,7 +1455,7 @@ public class CopexController implements ControllerInterface {
         }
         List<TaskTreePosition> listPosition = getTaskPosition(expProc, listTask);
         // on branche le sous arbre au protocole, en reconnectant eventuellement les liens de la tache selectionnee
-        //System.out.println("on branche le sous arbre au protocole, en reconnectant eventuellement les liens de la tache selectionnee");
+        //// System.out.println("on branche le sous arbre au protocole, en reconnectant eventuellement les liens de la tache selectionnee");
         CopexTask taskBranch = listTask.get(0);
         int idTaskBranch = getId(expProc.getListTask(), taskBranch.getDbKey());
         CopexTask lastTaskBranch = listTask.get(subTree.getIdLastTask());
@@ -1466,13 +1466,13 @@ public class CopexController implements ControllerInterface {
         long dbKeyT ;
         boolean b = taskBrother == null;
         boolean p = taskParent == null;
-        //System.out.println("est null ?"+b+", "+p);
+        //// System.out.println("est null ?"+b+", "+p);
         if (taskBrother == null){
             dbKeyT = taskParent.getDbKey();
-            //System.out.println("tache parent : "+taskParent.getDescription(getLocale()));
+            //// System.out.println("tache parent : "+taskParent.getDescription(getLocale()));
         }else{
             dbKeyT = taskBrother.getDbKey();
-            //System.out.println("tache frere : "+taskBrother.getDescription(getLocale()));
+            //// System.out.println("tache frere : "+taskBrother.getDescription(getLocale()));
         }
         
         idB = getId(expProc.getListTask(), dbKeyT);
@@ -1513,7 +1513,7 @@ public class CopexController implements ControllerInterface {
         expProc.getListTask().get(idLastTaskBranch).setDbKeyBrother(-1);
         printRecap(expProc);
         // le sous arbre est deconnecte => on l'insere au bon endroit
-        //System.out.println("le sous arbre est deconnecte => on l'insere au bon endroit ");
+        //// System.out.println("le sous arbre est deconnecte => on l'insere au bon endroit ");
         if (taskBrother == null){
             // branche en parent
             long firstChild = expProc.getListTask().get(idB).getDbKeyChild();
@@ -1543,7 +1543,7 @@ public class CopexController implements ControllerInterface {
         subTree.setLastBrother(lastTaskBranch.getDbKeyBrother());
         updateDatasheetProd(expProc);
         expProc.lockMaterialUsed();
-        //System.out.println("*** FIN MOVE CONTROLLER***");
+        //// System.out.println("*** FIN MOVE CONTROLLER***");
         // trace 
         if (setTrace()){
             TaskTreePosition insertPosition = expProc.getTaskTreePosition(taskBranch);
@@ -1906,7 +1906,7 @@ public class CopexController implements ControllerInterface {
             if(setTrace())
                 copex.logLoadELO(proc);
         } catch (JDOMException ex) {
-            //System.out.println("loadElo: "+ex);
+            //// System.out.println("loadElo: "+ex);
             return new CopexReturn(copex.getBundleString("MSG_ERROR_OPEN_PROC"), false);
         }
         return new CopexReturn();
@@ -2269,7 +2269,7 @@ public class CopexController implements ControllerInterface {
             listC.add((MaterialUsed)listProc.get(idP).getListMaterialUsed().get(i).clone());
         }
         v.add(listC);
-        //System.out.println("fin setMaterialUsed controller : "+listProc.get(idP).getMaterials().getListMaterialUsed().size());
+        //// System.out.println("fin setMaterialUsed controller : "+listProc.get(idP).getMaterials().getListMaterialUsed().size());
         return new CopexReturn();
     }
 

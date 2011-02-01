@@ -58,9 +58,9 @@ public class EloSearchService extends MissionRuntimeEnabledXMLService {
         eloModel.setLastModified(lastModified.toString());
         eloModel.setMyname(scyElo.getTitle()); */
         if (scyElo.getThumbnail() != null) {
-            System.out.println("THIS ELO HAS A THUMBNAIL!");
+            // System.out.println("THIS ELO HAS A THUMBNAIL!");
         } else {
-            System.out.println("THIS ELO DOES NOT HAVE A THUMBNAIL!!!");
+            // System.out.println("THIS ELO DOES NOT HAVE A THUMBNAIL!!!");
         }
 
         return eloModel;

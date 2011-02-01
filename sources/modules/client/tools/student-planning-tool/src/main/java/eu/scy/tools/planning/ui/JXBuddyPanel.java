@@ -55,7 +55,7 @@ public class JXBuddyPanel extends JXPanel {
     }
 	
 	public void addBuddy(IAwarenessUser user) {
-        System.out.println("ADDING BUDDY : " + user.getNickName());
+        // System.out.println("ADDING BUDDY : " + user.getNickName());
 		getBuddies().add(user);
 		this.createBuddyIcon(user);
 	}

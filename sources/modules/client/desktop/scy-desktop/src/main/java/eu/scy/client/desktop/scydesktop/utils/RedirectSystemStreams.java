@@ -38,11 +38,11 @@ public class RedirectSystemStreams
       {
          PrintStream printStream = createPrintStream(directory, outFileName);
          System.setOut(printStream);
-         System.out.println("\nRedirected the System.out to this file, on " + new Date().toString() + "\n");
+         // System.out.println("\nRedirected the System.out to this file, on " + new Date().toString() + "\n");
       }
       catch (IOException e)
       {
-         System.out.println("Failed to direct System.out, " + e.getMessage());
+         // System.out.println("Failed to direct System.out, " + e.getMessage());
       }
       try
       {
@@ -52,7 +52,7 @@ public class RedirectSystemStreams
       }
       catch (IOException e)
       {
-         System.out.println("Failed to direct System.err, " + e.getMessage());
+         // System.out.println("Failed to direct System.err, " + e.getMessage());
       }
    }
 

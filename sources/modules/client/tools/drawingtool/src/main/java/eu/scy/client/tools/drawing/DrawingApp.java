@@ -126,7 +126,7 @@ public class DrawingApp extends SingleFrameApplication implements
 //		}
 //		catch (UnavailableServiceException e)
 //		{
-//			System.out.println("BasicService not available, " + e.getMessage());
+//			// System.out.println("BasicService not available, " + e.getMessage());
 //		}
 //		return null;
 //	}
@@ -137,16 +137,16 @@ public class DrawingApp extends SingleFrameApplication implements
 //		if (webStartServiceNames != null)
 //		{
 //			for (String name : webStartServiceNames)
-//				System.out.println("Web start service name: " + name);
+//				// System.out.println("Web start service name: " + name);
 //			BasicService basicService;
 //			try
 //			{
 //				basicService = (BasicService) ServiceManager.lookup(BasicService.class.getName());
-//				System.out.println("getCodeBase" + basicService.getCodeBase());
+//				// System.out.println("getCodeBase" + basicService.getCodeBase());
 //			}
 //			catch (UnavailableServiceException e)
 //			{
-//				System.out.println("BasicService not available, " + e.getMessage());
+//				// System.out.println("BasicService not available, " + e.getMessage());
 //			}
 //		}
 //	}
@@ -222,7 +222,7 @@ public class DrawingApp extends SingleFrameApplication implements
 		}
 		catch (AccessControlException e)
 		{
-			System.out.println("Access denied in setupJavaLogging " + e.getMessage());
+			// System.out.println("Access denied in setupJavaLogging " + e.getMessage());
 		}
 	}
 
@@ -234,7 +234,7 @@ public class DrawingApp extends SingleFrameApplication implements
 		}
 		catch (AccessControlException e)
 		{
-			System.out.println("Failed to set level of " + logger.getName() + " to " + level.getName()
+			// System.out.println("Failed to set level of " + logger.getName() + " to " + level.getName()
 						+ ": " + e.getMessage());
 		}
 	}
@@ -253,7 +253,7 @@ public class DrawingApp extends SingleFrameApplication implements
 		}
 		catch (AccessControlException e)
 		{
-			System.out.println("Failed to set level of  handler to " + level.getName() + ": "
+			// System.out.println("Failed to set level of  handler to " + level.getName() + ": "
 						+ e.getMessage());
 		}
 	}

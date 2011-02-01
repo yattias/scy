@@ -30,21 +30,21 @@ public class TextForTopicSaved extends AbstractELOSavedAgent {
 	}
 
 	private void writeELOSavedTuple(String eloUri) {
-		System.out.println("writing tuple");
+		// System.out.println("writing tuple");
 		try {
 			getCommandSpace().write(new Tuple(TopicAgents.TOPIC_DETECTOR, eloUri));
 		} catch (TupleSpaceException e) {
-			System.out.println("error");
+			// System.out.println("error");
 			e.printStackTrace();
 		}
-		System.out.println("tuple written");
+		// System.out.println("tuple written");
 	}
 
 	@Override
   public void processELOSavedAction(String actionId, String user, long timeInMillis, String tool,
                                     String mission, String session, String eloUri, String eloType) {
-		System.out.println(eloUri);
-		System.out.println(eloType);
+		// System.out.println(eloUri);
+		// System.out.println(eloType);
 		if (isValidType(eloType)) {
 			writeELOSavedTuple(eloUri);
 		}

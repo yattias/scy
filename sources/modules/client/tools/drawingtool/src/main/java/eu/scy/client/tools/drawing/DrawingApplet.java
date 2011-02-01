@@ -193,26 +193,26 @@ public class DrawingApplet extends javax.swing.JApplet
 	 */
 	public static void writePropertiesForApplet()
 	{
-		System.out.println("System properties");
-		System.out.println("java.version      : " + System.getProperty("java.version"));
-		System.out.println("java.vendor       : " + System.getProperty("java.vendor"));
-		System.out.println("java.vendor.url   : " + System.getProperty("java.vendor.url"));
-		System.out.println("java.class.version: " + System.getProperty("java.class.version"));
-		System.out.println("os.name           : " + System.getProperty("os.name"));
-		System.out.println("os.arch           : " + System.getProperty("os.arch"));
-		System.out.println("os.version        : " + System.getProperty("os.version"));
-		System.out.println("file.separator    : " + System.getProperty("file.separator"));
-		System.out.println("path.separator    : " + System.getProperty("path.separator"));
-		System.out.println("line.separator    : " + System.getProperty("line.separator"));
-		System.out.println();
+		// System.out.println("System properties");
+		// System.out.println("java.version      : " + System.getProperty("java.version"));
+		// System.out.println("java.vendor       : " + System.getProperty("java.vendor"));
+		// System.out.println("java.vendor.url   : " + System.getProperty("java.vendor.url"));
+		// System.out.println("java.class.version: " + System.getProperty("java.class.version"));
+		// System.out.println("os.name           : " + System.getProperty("os.name"));
+		// System.out.println("os.arch           : " + System.getProperty("os.arch"));
+		// System.out.println("os.version        : " + System.getProperty("os.version"));
+		// System.out.println("file.separator    : " + System.getProperty("file.separator"));
+		// System.out.println("path.separator    : " + System.getProperty("path.separator"));
+		// System.out.println("line.separator    : " + System.getProperty("line.separator"));
+		// System.out.println();
 	}
 
 	public void writeParametersForApplet()
 	{
-		System.out.println("Parameters");
+		// System.out.println("Parameters");
 		try
 		{
-			System.out.println("codeBase          : " + getCodeBase());
+			// System.out.println("codeBase          : " + getCodeBase());
 		}
 		catch (Exception e)
 		{
@@ -220,13 +220,13 @@ public class DrawingApplet extends javax.swing.JApplet
 		}
 		try
 		{
-			System.out.println("documentBase      : " + getDocumentBase());
+			// System.out.println("documentBase      : " + getDocumentBase());
 		}
 		catch (Exception e)
 		{
 			logger.info("problems during documentBase:" + e.getMessage());
 		}
-		System.out.println();
+		// System.out.println();
 	}
 
 }

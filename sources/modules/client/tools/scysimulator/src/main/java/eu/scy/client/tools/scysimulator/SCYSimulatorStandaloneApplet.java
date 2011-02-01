@@ -139,7 +139,7 @@ public class SCYSimulatorStandaloneApplet extends JApplet {
 				
 				 //Set the file (URI)
 				 sqv.setFile(fileURI);
-				 System.out.println("File : " + file);
+				 // System.out.println("File : " + file);
 			 } 
 			 catch (URISyntaxException e) 
 			 {

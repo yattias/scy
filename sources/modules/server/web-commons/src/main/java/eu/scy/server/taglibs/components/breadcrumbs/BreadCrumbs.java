@@ -62,10 +62,10 @@ public class BreadCrumbs extends TagSupport {
         HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
         instpectRequest(req, (HttpServletResponse) pageContext.getResponse());
         Enumeration enumeration = pageContext.getRequest().getParameterNames();
-        System.out.println("ENCODING: " + pageContext.getRequest().getCharacterEncoding());
+        // System.out.println("ENCODING: " + pageContext.getRequest().getCharacterEncoding());
         while (enumeration.hasMoreElements()) {
             String param = (String) enumeration.nextElement();
-            System.out.println("       " + param + " ::: " + pageContext.getRequest().getParameter(param));
+            // System.out.println("       " + param + " ::: " + pageContext.getRequest().getParameter(param));
         }
 
 

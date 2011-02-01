@@ -38,7 +38,7 @@ public class DataProcessToolFrame extends JFrame implements ActionDataProcessToo
 //            String myLookAndFeel=UIManager.getSystemLookAndFeelClassName();
 //            UIManager.setLookAndFeel(myLookAndFeel);
 //        }catch(Exception e){
-//            System.out.println("ERREUR dans l'initialisation du lookAndFeel : "+e) ;
+//            // System.out.println("ERREUR dans l'initialisation du lookAndFeel : "+e) ;
 //            //JOptionPane.showMessageDialog(this , "ERREUR ans l'initialisation du lookAndFeel : "+e, "ERROR",JOptionPane.ERROR_MESSAGE);
 //        }
         for (UIManager.LookAndFeelInfo laf :UIManager.getInstalledLookAndFeels() ){
@@ -47,7 +47,7 @@ public class DataProcessToolFrame extends JFrame implements ActionDataProcessToo
                     UIManager.setLookAndFeel(laf.getClassName());
 
                 } catch (Exception e) {
-                    System.out.println("ERREUR dans l'initialisation du lookAndFeel : "+e) ;
+                    // System.out.println("ERREUR dans l'initialisation du lookAndFeel : "+e) ;
                 }
             }
         }

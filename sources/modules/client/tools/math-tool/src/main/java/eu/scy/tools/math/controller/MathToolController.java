@@ -368,7 +368,7 @@ public class MathToolController {
 	}
 
 	public void addShape(JLabel label, Point dropPoint, String type) {
-		System.out.println("ShapeCanvas.addShape()" + label.getName());
+		// System.out.println("ShapeCanvas.addShape()" + label.getName());
 
 		ShapeCanvas sc = getShapeCanvases().get(type);
 

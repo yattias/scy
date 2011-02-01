@@ -53,7 +53,7 @@ public class WhiteboardFreehand extends WhiteboardSimpleShape
 			addPoint(x, y);
 			createBounds();
 			createDrawArrays();
-			System.out.println("total points " + points.size() + ",saved " + pointsSaved);
+			// System.out.println("total points " + points.size() + ",saved " + pointsSaved);
 		}
 	}
 

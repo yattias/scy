@@ -131,7 +131,7 @@ public class MUCChatController implements ChatController {
 
 						SwingUtilities.invokeLater(new Runnable() {
 							public void run() {
-								System.out.println( "Checking room id" );
+								// System.out.println( "Checking room id" );
 								
 								
 								String awarenessEventRoomId = awarenessEvent.getRoomId();

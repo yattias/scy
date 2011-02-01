@@ -52,7 +52,7 @@ public class MathRectangle extends Rectangle implements IMathRectangle {
 	@Override
 	public void paintComponent(Graphics g) {
 
-		System.out.println("repainting rectangle");
+		// System.out.println("repainting rectangle");
 
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
@@ -128,7 +128,7 @@ public class MathRectangle extends Rectangle implements IMathRectangle {
 
 		for (int i = 0; i < cornerPointRectangles.length; i++) {
 			if (cornerPointRectangles[i].getBounds2D().contains(eventPoint)) {
-				System.out.println("mouse pressed found at position " + 1);
+				// System.out.println("mouse pressed found at position " + 1);
 				return i;
 			}
 		}

@@ -28,7 +28,7 @@ public class ModelLink extends AbstractLink {
     }
 
     private String getConvertedParameterValue(Object model) {
-        System.out.println("converting: " +model.getClass().getName());
+        // System.out.println("converting: " +model.getClass().getName());
         if (model instanceof ScyBase) {
             String convertedParameter = model.getClass().getName() + "_" + ((ScyBase) model).getId();
             return convertedParameter;
@@ -46,8 +46,8 @@ public class ModelLink extends AbstractLink {
     }
 
     public void setModel(Object model) {
-        System.out.println("MODEL: " + model);
-        System.out.println("MODEL TYPE: " + model.getClass().getName());
+        // System.out.println("MODEL: " + model);
+        // System.out.println("MODEL TYPE: " + model.getClass().getName());
         this.model = model;
     }
 
@@ -56,8 +56,8 @@ public class ModelLink extends AbstractLink {
     }
 
     public void setParameters(Object parameters) {
-        System.out.println("PARAMETERS: " + parameters);
-        System.out.println("PARAMERTER TYP: " + parameters.getClass().getName());
+        // System.out.println("PARAMETERS: " + parameters);
+        // System.out.println("PARAMERTER TYP: " + parameters.getClass().getName());
         this.parameters = parameters;
     }
 

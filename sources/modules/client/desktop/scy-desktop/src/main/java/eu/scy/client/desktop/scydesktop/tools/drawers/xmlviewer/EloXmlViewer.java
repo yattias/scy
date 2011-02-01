@@ -100,7 +100,7 @@ public class EloXmlViewer extends javax.swing.JPanel implements ScyTool, ScyTool
    }
 
    public void setAuthorMode(Boolean authorMode){
-      System.out.println("setAuthorMode(): " + authorMode);
+      // System.out.println("setAuthorMode(): " + authorMode);
    }
 
    public void setEloUri(URI eloUri)

@@ -120,7 +120,7 @@ public class StudyAdminAgent implements Callback {
             } catch (TupleSpaceException e) {
                 e.printStackTrace();
             }
-            System.out.println(agentName + " stopped");
+            // System.out.println(agentName + " stopped");
         } else {
             System.err.println("Agent named '" + agentName + "' not found!");
         }
@@ -134,7 +134,7 @@ public class StudyAdminAgent implements Callback {
         } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
-        System.out.println(agent.getId() + " (" + agentType.name().toLowerCase() + ") started");
+        // System.out.println(agent.getId() + " (" + agentType.name().toLowerCase() + ") started");
         return agent.getId();
     }
 

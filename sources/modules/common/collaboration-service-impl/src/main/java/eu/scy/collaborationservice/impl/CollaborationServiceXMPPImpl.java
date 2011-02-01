@@ -91,31 +91,31 @@ public class CollaborationServiceXMPPImpl implements ICollaborationService {
                 
                 @Override
                 public void connectionClosed() {
-                    System.out.println("collaboration server closed;");
+                    // System.out.println("collaboration server closed;");
                     try {
                         xmppConnection.connect();
                     } catch (XMPPException e) {
                         e.printStackTrace();
                     }
-                    System.out.println("collaboration server trying to reconnect;");
+                    // System.out.println("collaboration server trying to reconnect;");
                 }
                 
                 @Override
                 public void connectionClosedOnError(Exception arg0) {
-                    System.out.println("collaboration server error closed;");
+                    // System.out.println("collaboration server error closed;");
                 }
                 
                 @Override
                 public void reconnectingIn(int arg0) {
-                    System.out.println("collaboration server reconnecting;");
+                    // System.out.println("collaboration server reconnecting;");
                 }
                 @Override
                 public void reconnectionFailed(Exception arg0) {
-                    System.out.println("collaboration server reconnecting failed");
+                    // System.out.println("collaboration server reconnecting failed");
                 }
                 @Override
                 public void reconnectionSuccessful() {
-                    System.out.println("collaboration server reconnectings success");
+                    // System.out.println("collaboration server reconnectings success");
                 }
             });
 
@@ -125,10 +125,10 @@ public class CollaborationServiceXMPPImpl implements ICollaborationService {
 //
 //                @Override
 //                public void processPacket(Packet packet) {
-//                    System.out.println("packet; " + packet);
+//                    // System.out.println("packet; " + packet);
 //                    org.jivesoftware.smack.packet.PacketExtension extension = packet.getExtension(ScyObjectPacketExtension.ELEMENT_NAME,ScyObjectPacketExtension.NAMESPACE);
 //                    if( extension instanceof ScyObjectPacketExtension ) {
-//                        System.out.println("got it");
+//                        // System.out.println("got it");
 //                    }
 //                    
 //                }}, null);
@@ -191,22 +191,22 @@ public class CollaborationServiceXMPPImpl implements ICollaborationService {
                 
                 @Override
                 public void entriesAdded(Collection<String> arg0) {
-                    System.out.println("entriesAdded " + arg0);
+                    // System.out.println("entriesAdded " + arg0);
                 }
                 
                 @Override
                 public void entriesDeleted(Collection<String> arg0) {
-                    System.out.println("entriesDeleted " + arg0);
+                    // System.out.println("entriesDeleted " + arg0);
                 }
                 
                 @Override
                 public void entriesUpdated(Collection<String> arg0) {
-                    System.out.println("entriesUpdated " + arg0);
+                    // System.out.println("entriesUpdated " + arg0);
                 }
                 
                 @Override
                 public void presenceChanged(Presence arg0) {
-                    System.out.println("presenceChanged " + arg0);
+                    // System.out.println("presenceChanged " + arg0);
                 }
             });
         }
@@ -222,7 +222,7 @@ public class CollaborationServiceXMPPImpl implements ICollaborationService {
                 
                 @Override
                 public void processMessage(Chat chat, org.jivesoftware.smack.packet.Message message) {
-                    System.out.println("chat; " + message + " message; " + message);
+                    // System.out.println("chat; " + message + " message; " + message);
                 }
             });
         } else {

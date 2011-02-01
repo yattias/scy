@@ -85,11 +85,11 @@ public class XMLTransferObjectService {
                         String thing = "\\[";
                         String cdata = "<!CDATA";
                         String end = "\\]";
-                        System.out.println("TEXT IS: " + text);
+                        // System.out.println("TEXT IS: " + text);
                         text = text.replaceAll(thing, "");
                         text = text.replaceAll(cdata, "");
                         text = text.replace(end, "");
-                        System.out.println("TEXT_ NOW: " + text);
+                        // System.out.println("TEXT_ NOW: " + text);
                         writer.write(text);
                     }
                 };
@@ -113,7 +113,7 @@ public class XMLTransferObjectService {
         xml = xml.replaceAll(cdata,"");
         xml = xml.replaceAll(end, "");
 
-        System.out.println("xml" + xml);
+        // System.out.println("xml" + xml);
 
         return getToObjectXStream().fromXML(xml);
     }

@@ -87,7 +87,7 @@ public class NutpadDataSyncTestClient extends JFrame{
     
     public NutpadDataSyncTestClient() {
         
-    	System.out.println(Configuration.getInstance());
+    	// System.out.println(Configuration.getInstance());
     	
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BorderLayout(0, 0));
@@ -148,7 +148,7 @@ public class NutpadDataSyncTestClient extends JFrame{
 //
 //            @Override
 //            public void handleDataSyncEvent(IDataSyncEvent e) {
-//            	System.out.println("handlesyncevent");
+//            	// System.out.println("handlesyncevent");
 //                ISyncMessage syncMessage = e.getSyncMessage();
 //                Date date = new java.util.Date(System.currentTimeMillis());
 //                java.sql.Timestamp ts = new java.sql.Timestamp(date.getTime());
@@ -232,7 +232,7 @@ public class NutpadDataSyncTestClient extends JFrame{
         }
         
         public void actionPerformed(ActionEvent e) {
-        	System.out.println("create session");
+        	// System.out.println("create session");
             try {
 				syncSession = dataSyncService.createSession(listener);
 				if(syncSession == null) {
@@ -275,7 +275,7 @@ public class NutpadDataSyncTestClient extends JFrame{
 				actionLogger.log(action);
 			}
 			catch(DataSyncException dse) {
-				System.out.println("DataSyncException: "+dse);
+				// System.out.println("DataSyncException: "+dse);
 			}
 		}
     	

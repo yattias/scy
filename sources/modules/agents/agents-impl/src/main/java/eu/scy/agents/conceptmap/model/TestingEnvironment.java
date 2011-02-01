@@ -15,7 +15,7 @@ public class TestingEnvironment {
 	TupleSpace actionSpace;
 	
 	private TestingEnvironment() {
-		System.out.println("Test running");
+		// System.out.println("Test running");
 
 		try {
 //			commandSpace = new TupleSpace("127.0.0.1", 2525, AgentProtocol.COMMAND_SPACE_NAME);
@@ -129,7 +129,7 @@ public class TestingEnvironment {
 //			actionSpace.write(printGraph);
 
 		} catch (TupleSpaceException e) {
-			System.out.println("Error connecting to TupleSpace");
+			// System.out.println("Error connecting to TupleSpace");
 		}
 
 	}
@@ -143,15 +143,15 @@ public class TestingEnvironment {
 			m.put(AgentProtocol.TS_PORT, 2525);
 			UserConceptMapAgent agent = new UserConceptMapAgent(m);
 			agent.start();
-			System.out.println("Agent started");
+			// System.out.println("Agent started");
 			
 			Thread.sleep(1000);
 			new TestingEnvironment();
 				
 		} catch (AgentLifecycleException e) {
-			System.out.println("Error in AgentLifecycle");
+			// System.out.println("Error in AgentLifecycle");
 		} catch (InterruptedException e) {
-			System.out.println("Interrupted!");
+			// System.out.println("Interrupted!");
 			e.printStackTrace();
 		}
 	}

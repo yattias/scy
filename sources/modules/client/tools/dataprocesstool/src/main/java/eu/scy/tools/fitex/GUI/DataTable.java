@@ -204,7 +204,7 @@ public class DataTable extends javax.swing.JFrame
             }
             catch(IOException e){
                 e.printStackTrace() ;
-                System.out.println("Le fichier ne peut pas etre enregistre");
+                // System.out.println("Le fichier ne peut pas etre enregistre");
             }
         }
     }//GEN-LAST:event_enregistrerActionPerformed
@@ -267,7 +267,7 @@ public class DataTable extends javax.swing.JFrame
             }
             catch(IOException e) {
                 e.printStackTrace() ;
-                System.out.println("Le fichier ne peut pas ietre ouvert");
+                // System.out.println("Le fichier ne peut pas ietre ouvert");
             }
         }
         fp.calculTousK();

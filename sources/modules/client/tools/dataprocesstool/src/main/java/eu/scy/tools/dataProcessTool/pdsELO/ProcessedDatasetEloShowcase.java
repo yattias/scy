@@ -146,38 +146,38 @@ String xmlString = "<processDataset>"
 		fmt.output(pds.toXML(), System.out);
 
 		// show some of the content of the pds
-                System.out.println("\nDataset : ");
+                // System.out.println("\nDataset : ");
 		String symbol = pds.getDataset().getHeader(Locale.ENGLISH).getColumns().get(0).getSymbol();
 		String type = pds.getDataset().getHeader(Locale.ENGLISH).getColumns().get(0).getType();
-		System.out.println("\n\nsymbol / type of first variable : "+symbol+" / "+type);
+		// System.out.println("\n\nsymbol / type of first variable : "+symbol+" / "+type);
 
 		// show all values of first variable
 		List<DataSetRow> rows = pds.getDataset().getValues();
 		for (Iterator<DataSetRow> row = rows.iterator(); row.hasNext();) {
-                    System.out.println(row.next().getValues().get(0));
+                    // System.out.println(row.next().getValues().get(0));
 		}
 
             // processed Dataset
-            System.out.println("\nProcessed Dataset : ");
+            // System.out.println("\nProcessed Dataset : ");
             IgnoredData id = pds.getProcessedData().getIgnoredData();
             if (id != null){
-                System.out.println("Ignored Data : ");
+                // System.out.println("Ignored Data : ");
                 List<Data> idatas = id.getListIgnoredData() ;
                 if (idatas != null){
                     for (Iterator<Data> d=idatas.iterator(); d.hasNext();){
-                        System.out.println("("+d.next().getRowId()+", "+d.next().getColumnId()+")");
+                        // System.out.println("("+d.next().getRowId()+", "+d.next().getColumnId()+")");
                     }
                 }
             }
             List<Operation> operations = pds.getProcessedData().getListOperations();
             if (operations != null){
-                System.out.println("Operations : ");
+                // System.out.println("Operations : ");
                 for (Iterator<Operation> op = operations.iterator(); op.hasNext();){
                     Operation o = op.next() ;
-                    System.out.println(o.getName()+"("+(o.isIsOnCol() ? "onCol" : "OnRow")+")");
+                    // System.out.println(o.getName()+"("+(o.isIsOnCol() ? "onCol" : "OnRow")+")");
                     List<String> res = o.getResults() ;
                     for (Iterator<String> r=res.iterator(); r.hasNext();){
-                        System.out.println(r.next());
+                        // System.out.println(r.next());
                     }
                 }
             }

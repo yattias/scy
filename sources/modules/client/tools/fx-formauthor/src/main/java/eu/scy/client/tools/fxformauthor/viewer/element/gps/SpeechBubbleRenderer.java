@@ -34,8 +34,8 @@ public class SpeechBubbleRenderer implements WaypointRenderer {
         try {
             img = ImageIO.read(getClass().getResource("speechbubble.png"));
         } catch (Exception ex) {
-            System.out.println("couldn't read speechbubble.png");
-            System.out.println(ex.getMessage());
+            // System.out.println("couldn't read speechbubble.png");
+            // System.out.println(ex.getMessage());
             ex.printStackTrace();
         }
          * 
@@ -104,7 +104,7 @@ public class SpeechBubbleRenderer implements WaypointRenderer {
         content = content + "\n";
         String[] foo = content.split("\n");
         for(int i = 0; i < foo.length; i++) {
-            System.out.println(foo[i]);
+            // System.out.println(foo[i]);
         }
 
     }

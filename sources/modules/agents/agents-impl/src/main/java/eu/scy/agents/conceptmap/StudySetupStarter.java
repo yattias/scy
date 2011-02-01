@@ -33,11 +33,11 @@ public class StudySetupStarter {
         ts.deleteAll(new Tuple());
         ts.disconnect();
         if (args.length > 0) {
-            System.out.print("Importing tuples ...");
+            // System.out.print("Importing tuples ...");
             ts = new TupleSpace("http://www.scy.eu/co2house#");
             ts.importTuples(args[0]);
             ts.disconnect();
-            System.out.println(" Done!");
+            // System.out.println(" Done!");
         }
     }
 

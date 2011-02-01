@@ -148,7 +148,7 @@ public class DataBaseCommunication {
 
     // connection au serveur
     private CopexReturn openConnectionServer(int mode, long lenght) {
-        //System.out.println("openConnectionServer");
+        //// System.out.println("openConnectionServer");
         String file = "";
         if (mode == MODE_SELECT)
             file = "sendQuerySelect.php" ;
@@ -170,21 +170,21 @@ public class DataBaseCommunication {
             return new CopexReturn();
 
         }catch(IOException ioe){
-            System.out.println("IOException in HTMLFile : "+ioe.getMessage());
-            System.out.println(ioe);
+            // System.out.println("IOException in HTMLFile : "+ioe.getMessage());
+            // System.out.println(ioe);
             return new CopexReturn(ioe.getMessage(), false);
         }
     }
 
     // envoi des donnees
     private CopexReturn sendData(){
-        //System.out.println("sendData");
+        //// System.out.println("sendData");
         try{
            this.out.writeObject(this.dataBD);
            BufferedReader reader = new BufferedReader(new InputStreamReader(this.urlCon.getInputStream(), "utf-8"));
            String ligne;
            while ((ligne = reader.readLine()) != null) {
-              // System.out.println(ligne);
+              // // System.out.println(ligne);
            }
            reader.close();
            this.out.flush();
@@ -192,7 +192,7 @@ public class DataBaseCommunication {
            this.urlCon.disconnect();
            return new CopexReturn();
        }catch(IOException e){
-           System.out.println("ERROR lors de l'ecriture du fichier : "+e);
+           // System.out.println("ERROR lors de l'ecriture du fichier : "+e);
            return new CopexReturn(e.getMessage(), false);
        }
     }
@@ -217,7 +217,7 @@ public class DataBaseCommunication {
             String name = "";
             String value = "";
            while ((ligne = reader.readLine()) != null) {
-               //System.out.println("ligne lue : "+ligne);
+               //// System.out.println("ligne lue : "+ligne);
                if (ligne.equals("<res>")){
                     rs = new ResultSetXML();
                }else if (ligne.equals("</res>")){
@@ -257,9 +257,9 @@ public class DataBaseCommunication {
     }
     private String getData(String ligne, String balise){
         String s = ligne.substring(balise.length()+2);
-        //System.out.println("getData : "+s);
+        //// System.out.println("getData : "+s);
         s = s.substring(0, s.length() - (balise.length()+3));
-        //System.out.println("fin getData : "+s);
+        //// System.out.println("fin getData : "+s);
         return s;
     }
 

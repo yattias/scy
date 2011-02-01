@@ -62,7 +62,7 @@ public class EloPictureActionWrapper {
 
     public EloPictureActionWrapper(ILoadPicture target) {
         this.target = target;
-        //System.out.println("LOADING TARGET!");
+        //// System.out.println("LOADING TARGET!");
     }
 
 
@@ -128,9 +128,9 @@ public class EloPictureActionWrapper {
 
     public void loadPictureAction()
     {
-        //System.out.println("loadWebAction();");
-        //System.out.println(technicalFormatKey);
-        //System.out.println(scyWebType);
+        //// System.out.println("loadWebAction();");
+        //// System.out.println(technicalFormatKey);
+        //// System.out.println(scyWebType);
         IQuery query = null;
         IMetadataQuery metadataQuery = new BasicMetadataQuery(technicalFormatKey, BasicSearchOperations.EQUALS, scyPictureType, null);
         query = metadataQuery;
@@ -146,29 +146,29 @@ public class EloPictureActionWrapper {
         try {
             pictureUri = new URI(myNewUri);
         } catch (URISyntaxException ex) {
-            System.out.println("URI failed.");
+            // System.out.println("URI failed.");
         }
         if (pictureUri != null)
         {
-            //System.out.println(webUri);
+            //// System.out.println(webUri);
             loadElo(pictureUri);
         }
         else {
-            System.out.println("you should never read this.");
+            // System.out.println("you should never read this.");
         }
     }
 
 
     public void loadElo(URI eloUri) {
         logger.info("Trying to load elo " + eloUri);
-        //System.out.println("loading: "+eloUri);
-        //System.out.println(repository);
-        //System.out.println(repository.retrieveELO(eloUri));
+        //// System.out.println("loading: "+eloUri);
+        //// System.out.println(repository);
+        //// System.out.println(repository.retrieveELO(eloUri));
         IELO newElo = repository.retrieveELO(eloUri);
-        //System.out.println("newElo: "+newElo);
-        //System.out.println(newElo.getMetadata());
-        //System.out.println("technicalFormatKey: "+technicalFormatKey);
-        //System.out.println(newElo.getMetadata().getMetadataValueContainer(technicalFormatKey));
+        //// System.out.println("newElo: "+newElo);
+        //// System.out.println(newElo.getMetadata());
+        //// System.out.println("technicalFormatKey: "+technicalFormatKey);
+        //// System.out.println(newElo.getMetadata().getMetadataValueContainer(technicalFormatKey));
         if (newElo != null)
         {
             String eloType = newElo.getMetadata().getMetadataValueContainer(technicalFormatKey).getValue().toString();
@@ -183,23 +183,23 @@ public class EloPictureActionWrapper {
             Object titleObject3 = metadataValueContainer.getValue(Locale.ENGLISH);
             setDocName(titleObject3.toString());
             //this.webPanel.loadElo(newElo.getContent().getXmlString());
-            //System.out.println("loading..");
+            //// System.out.println("loading..");
             try {
                 BufferedImage img = ImageIO.read(new ByteArrayInputStream(newElo.getContent().getBytes()));
                 target.loadPicture(img);
             }
             catch(Exception e) {
-                System.out.println(e.getMessage());
+                // System.out.println(e.getMessage());
 
             }
-            //System.out.println(newElo.getContent().getXmlString());
+            //// System.out.println(newElo.getContent().getXmlString());
             //this.target.loadPicture(newElo.getContent().getXmlString());
             //this.target.loadPicture(new BufferedImage());
             elo = newElo;
             //sendEloLoadedChangedListener();
         }
         else {
-            System.out.println("loadElo() - you should never read this. oops.");
+            // System.out.println("loadElo() - you should never read this. oops.");
         }
     }
 

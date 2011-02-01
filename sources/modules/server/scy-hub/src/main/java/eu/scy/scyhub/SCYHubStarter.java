@@ -39,15 +39,15 @@ public class SCYHubStarter {
     private void initialize(ExternalComponentManager manager) {
         manager.setSecretKey(Configuration.getInstance().getSCYHubName(), Configuration.getInstance().getOpenFireExternalComponentSecretKey());
         manager.setMultipleAllowed("scyhub", true);
-        System.out.println("SETTING UP SCY HUB");
+        // System.out.println("SETTING UP SCY HUB");
         try {
             if(getScyHubComponent() == null) {
-                System.out.println("SCY HUB COMPOMENT IS NULL!");
+                // System.out.println("SCY HUB COMPOMENT IS NULL!");
             }
             if(manager != null) {
             manager.addComponent(Configuration.getInstance().getSCYHubName(), getScyHubComponent());
             } else {
-                System.out.println("MANAGER IS NULLL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                // System.out.println("MANAGER IS NULLL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             }
 
         } catch (ComponentException e) {

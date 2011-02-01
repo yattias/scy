@@ -222,9 +222,9 @@ public class ConceptMapAnalyser {
 			studentDir = DEFAULT_STUDENT_DIR;
 			actionLogDir = DEFAULT_ACTION_LOG_DIR;
 		} else if(args[0].equals("--help")) {
-			System.out.println("Parameter: command <RelativeStudentDirectory> <ActionLogDirectory>");
-			System.out.println("Default Student Directory: " + DEFAULT_STUDENT_DIR);
-			System.out.println("Default ActionLog Directory: " + DEFAULT_ACTION_LOG_DIR);
+			// System.out.println("Parameter: command <RelativeStudentDirectory> <ActionLogDirectory>");
+			// System.out.println("Default Student Directory: " + DEFAULT_STUDENT_DIR);
+			// System.out.println("Default ActionLog Directory: " + DEFAULT_ACTION_LOG_DIR);
 			System.exit(0);
 		} else {
 			studentDir = args[0];

@@ -163,7 +163,7 @@ public class SortDialog extends javax.swing.JDialog {
 		keyPanel.add(vPane);
 		
 	} catch (java.lang.Throwable t) {
-            System.out.println(t);
+            // System.out.println(t);
 	}
 	return keyPanel;
     }
@@ -184,7 +184,7 @@ public class SortDialog extends javax.swing.JDialog {
             croi.setFont(new Font("Dialog",1,12));
         }
         catch (Throwable t) {
-            System.out.println(t);
+            // System.out.println(t);
         }
         return croi;
     }
@@ -241,7 +241,7 @@ public class SortDialog extends javax.swing.JDialog {
 		return comboBox;
 	}
 	catch (java.lang.Throwable t) {
-		System.out.println(t);
+		// System.out.println(t);
 	}
 	return null;
     }
@@ -290,7 +290,7 @@ private JButton getJButton(int x, int y, String texte) {
 
 
 	} catch (java.lang.Throwable e){
-		System.out.println("Error construction button "+e);
+		// System.out.println("Error construction button "+e);
 	}
 	return button;
 }

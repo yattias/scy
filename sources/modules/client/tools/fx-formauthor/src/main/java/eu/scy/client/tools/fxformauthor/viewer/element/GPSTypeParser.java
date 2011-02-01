@@ -23,7 +23,7 @@ public class GPSTypeParser {
             gpsData[1] = Float.parseFloat((String) temp[1]);
         }
         catch(Exception e) {
-            System.out.println("whoops.. failure");
+            // System.out.println("whoops.. failure");
             e.printStackTrace();
             
         }

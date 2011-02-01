@@ -37,7 +37,7 @@ public class OntologyAgentConnection implements OntologyConnection {
             public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
                 String string = cmd + ": " + afterTuple + " / " + beforeTuple;
                 if (!string.contains("alive")) {
-                    System.out.println(string);
+                    // System.out.println(string);
                 }
             }
         };
@@ -64,7 +64,7 @@ public class OntologyAgentConnection implements OntologyConnection {
         for (String param : params) {
             t.add(param);
         }
-        System.out.println("Querying onto for " + service + " with tuple: " + t);
+        // System.out.println("Querying onto for " + service + " with tuple: " + t);
         ts.write(t);
         Tuple result = ts.waitToTake(new Tuple(id, "response", Field.createWildCardField()), 10 * 1000);
         if (result == null) {

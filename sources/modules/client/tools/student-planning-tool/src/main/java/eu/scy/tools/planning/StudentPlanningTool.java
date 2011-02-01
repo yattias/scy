@@ -262,7 +262,7 @@ public class StudentPlanningTool {
 	
 			
 			for (StudentPlannedActivity studentPlannedActivity : studentPlannedActivities) {
-                System.out.println("ABOUT TO CREATE ANCHOR ELO PANEL FOR ACTIVITY: " + studentPlannedActivity.getId());
+                // System.out.println("ABOUT TO CREATE ANCHOR ELO PANEL FOR ACTIVITY: " + studentPlannedActivity.getId());
 				this.addTaskPane(createAnchorELOPanel(studentPlannedActivity));
 			}
 		} else {
@@ -328,7 +328,7 @@ public class StudentPlanningTool {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JTextField source = (JTextField) e.getSource();
-				System.out.println("TEST IS " +source.getText()); //$NON-NLS-1$
+				// System.out.println("TEST IS " +source.getText()); //$NON-NLS-1$
 				
 				String eloId = source.getText();
 				//StudentPlannedActivity studentPlannedIdFromEloId = studentPlanningController.getStudentPlannedIdFromEloId(eloId);
@@ -355,7 +355,7 @@ public class StudentPlanningTool {
 			public void keyPressed(KeyEvent e) {
 				if( e.getKeyChar() == 'b') {
 					JTextField source = (JTextField) e.getSource();
-					System.out.println("make buddy " +source.getText()); //$NON-NLS-1$
+					// System.out.println("make buddy " +source.getText()); //$NON-NLS-1$
 					
 					IAwarenessUser a = new AwarenessUser();
 					a.setNickName(source.getText());
@@ -522,7 +522,7 @@ public class StudentPlanningTool {
 	public JXTaskPane createAnchorELOPanel(
 			StudentPlannedActivity studentPlannedActivity) {
 
-        System.out.println("CREATING ANCHOR ELO PANEL: " + studentPlannedActivity.getId());
+        // System.out.println("CREATING ANCHOR ELO PANEL: " + studentPlannedActivity.getId());
 		
 		AnchorELO assoicatedELO = studentPlannedActivity.getAssoicatedELO();
 		//Activity activity = assoicatedELO.getProducedBy();
@@ -569,7 +569,7 @@ public class StudentPlanningTool {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("clicked !!"); //$NON-NLS-1$
+				// System.out.println("clicked !!"); //$NON-NLS-1$
 
 				JXTaskPane source = (JXTaskPane) e.getSource();
 				studentPlanningController.collapseAllExcept(source.getName());
@@ -624,7 +624,7 @@ public class StudentPlanningTool {
 		}
 
 		Collections.sort((List<Date>) sortDates);
-		System.out.println("dates: " + sortDates.toString()); //$NON-NLS-1$
+		// System.out.println("dates: " + sortDates.toString()); //$NON-NLS-1$
 		// TODO Auto-generated method stub
 		return sortDates;
 	}
@@ -709,7 +709,7 @@ public class StudentPlanningTool {
 		noteTextArea.putClientProperty(STUDENT_PLANNED_ACTIVITY,
 				studentPlannedActivity);
 
-        System.out.println("Set client property::::::: " + studentPlannedActivity.getId());
+        // System.out.println("Set client property::::::: " + studentPlannedActivity.getId());
 
 		noteTextArea.addFocusListener(new FocusListener() {
 
@@ -726,7 +726,7 @@ public class StudentPlanningTool {
 
 					@Override
 					public void run() {
-						System.out.println("updating " + stp.getName() + " " + stp.getId());
+						// System.out.println("updating " + stp.getName() + " " + stp.getId());
                         studentPlanningController.saveStudentActivity(stp);
 						messageLabel.setText(Messages.getString("StudentPlanningTool.3")); //$NON-NLS-1$
                         getStudentPlanningController().updateCurrenteELOWithContent();
@@ -861,7 +861,7 @@ public class StudentPlanningTool {
 				endDateMap.put(activityName, endDate);
 				lasTaskPane.putClientProperty(END_DATE_MAP, endDateMap);
 
-				// System.out.println("client "+ activityName);
+				// // System.out.println("client "+ activityName);
 				String title = lasTaskPane.getTitle();
 
 				final StudentPlannedActivity stp = (StudentPlannedActivity) endDatePicker
@@ -1019,7 +1019,7 @@ public class StudentPlanningTool {
 				List<User> members = studentPlannedActivity.getMembers();
 				for (User user : members) {
 					UserDetails userDetails = user.getUserDetails();
-                    System.out.println("create MEMBERS panel, adding buddies: " + userDetails.getUsername());
+                    // System.out.println("create MEMBERS panel, adding buddies: " + userDetails.getUsername());
 					String nickName = nickName = userDetails.getUsername();
 
 					IAwarenessUser aw = new AwarenessUser();

@@ -16,7 +16,7 @@ public class FileUploadBean {
     private String model;
 
     public MultipartFile getFile() {
-        System.out.println("returning file: " + file);
+        // System.out.println("returning file: " + file);
         return file;
     }
 

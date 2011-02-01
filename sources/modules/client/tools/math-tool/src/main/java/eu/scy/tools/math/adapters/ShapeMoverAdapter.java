@@ -54,7 +54,7 @@ public class ShapeMoverAdapter extends MouseAdapter {
 	}
 
 	public void mousePressed(MouseEvent e) {
-		System.out.println("ShapeMoverAdapter.mousePressed()");
+		// System.out.println("ShapeMoverAdapter.mousePressed()");
 		x = e.getX();
 		y = e.getY();
 
@@ -68,7 +68,7 @@ public class ShapeMoverAdapter extends MouseAdapter {
 			Point point = new Point(x, y);
 			int hitOnEndPoints = shape.isHitOnEndPoints(point);
 			if ( hitOnEndPoints != -1 || shape.contains(point) ) {
-				System.out.println(shape.toString());
+				// System.out.println(shape.toString());
 				foundShape = shape;
 				foundShape.setShowCornerPoints(true);
 				
@@ -76,14 +76,14 @@ public class ShapeMoverAdapter extends MouseAdapter {
 					mathToolController.setSelectedMathShape(foundShape);
 				
 					if (hitOnEndPoints == -1) {
-						System.out.println("moving adapter found shape  off corner" +shape.toString());
+						// System.out.println("moving adapter found shape  off corner" +shape.toString());
 						
 						
 						
 						isMoving = true;
 						break;
 					} else {
-						System.out.println("moving adapter found shape ON corner" +shape.toString());
+						// System.out.println("moving adapter found shape ON corner" +shape.toString());
 						isMoving = false;
 						break;
 					}
@@ -100,7 +100,7 @@ public class ShapeMoverAdapter extends MouseAdapter {
 			// bump it up
 			int i = mathShapes.indexOf(foundShape);
 			mathShapes.remove(i);
-			System.out.println("removing shape.............................");
+			// System.out.println("removing shape.............................");
 			mathShapes.add(foundShape);
 			((JComponent) this.shapeCanvas).repaint();
 		}
@@ -109,7 +109,7 @@ public class ShapeMoverAdapter extends MouseAdapter {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		System.out.println("ShapeMoverAdapter.mouseReleased()");
+		// System.out.println("ShapeMoverAdapter.mouseReleased()");
 		foundShape = null;
 //		if( foundShape != null ) {
 //			foundShape.setShowCornerPoints(false);
@@ -119,7 +119,7 @@ public class ShapeMoverAdapter extends MouseAdapter {
 //		}
 	}
 	public void mouseDragged(MouseEvent e) {
-		System.out.println("ShapeMoverAdapter.mouseDragged()");
+		// System.out.println("ShapeMoverAdapter.mouseDragged()");
 		if( !isMoving )
 			return;
 		
@@ -134,7 +134,7 @@ public class ShapeMoverAdapter extends MouseAdapter {
 			((JComponent) this.shapeCanvas).repaint();
 		} else if( foundShape != null && foundShape instanceof IMathTriangle ) {
 			((IMathTriangle)foundShape).moveXY(dx, dy);
-			System.out.println("TRIANGLE MOVING TOOOOOO dx,dy " + dx + " " + dy);
+			// System.out.println("TRIANGLE MOVING TOOOOOO dx,dy " + dx + " " + dy);
 			foundShape.repaint();
 			((JComponent) this.shapeCanvas).repaint();
 			

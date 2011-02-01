@@ -103,7 +103,7 @@ public class EloImporterApplication extends JFrame {
 
 		this.setSize(600, 400);
 		// this.pack();
-		System.out.println(this.getSize());
+		// System.out.println(this.getSize());
 	}
 
 	public void setElo(IELO<IMetadataKey> importedElo) {

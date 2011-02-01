@@ -84,10 +84,10 @@ public class Action extends ScyBaseObject implements IAction {
 			doc.getRootElement();
 			addAttribute(name, value, doc.getRootElement().detach());
 		} catch (JDOMException e) {
-			System.out.println("Action.addAttribute. JDomException caught when adding sub-element.");
+			// System.out.println("Action.addAttribute. JDomException caught when adding sub-element.");
 			//e.printStackTrace();
 		} catch (IOException e) {
-			System.out.println("Action.addAttribute. IOException caught when adding sub-element.");
+			// System.out.println("Action.addAttribute. IOException caught when adding sub-element.");
 			//e.printStackTrace();
 		}
     }

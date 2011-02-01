@@ -18,12 +18,12 @@ public class InitLog4j
    {
       try
       {
-         System.out.println("reading log4j config from " + configUrl);
+         // System.out.println("reading log4j config from " + configUrl);
          DOMConfigurator.configure(configUrl);
       }
       catch (Exception e)
       {
-         System.out.println("Problems with loading log4j config, from " + configUrl);
+         // System.out.println("Problems with loading log4j config, from " + configUrl);
          e.printStackTrace();
       }
 

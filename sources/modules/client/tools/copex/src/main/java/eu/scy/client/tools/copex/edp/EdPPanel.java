@@ -801,7 +801,7 @@ public class EdPPanel extends JPanel {
             BufferedReader reader = new BufferedReader(new InputStreamReader(urlCon.getInputStream(), "utf8"));
             String ligne;
             while ((ligne = reader.readLine()) != null) {
-               System.out.println(ligne);
+               // System.out.println(ligne);
             }
             out.flush();
             out.close();

@@ -48,7 +48,7 @@ public class DataProcessApplication extends JFrame implements  ActionDataProcess
             dbKeyGroup = Long.parseLong(idGroup);
             dbKeyLabDoc = Long.parseLong(idLabDoc);
         }catch(Throwable t){
-            System.out.println(t);
+            // System.out.println(t);
             this.stop();
         }
         
@@ -92,7 +92,7 @@ public class DataProcessApplication extends JFrame implements  ActionDataProcess
                     UIManager.setLookAndFeel(laf.getClassName());
 
                 } catch (Exception e) {
-                    System.out.println("ERREUR dans l'initialisation du lookAndFeel : "+e) ;
+                    // System.out.println("ERREUR dans l'initialisation du lookAndFeel : "+e) ;
                 }
             }
         }
@@ -116,11 +116,11 @@ public class DataProcessApplication extends JFrame implements  ActionDataProcess
         }else{
             // recuperation des parametres de l'application :
             try{
-                System.out.println("fitex url : "+args[0]);
+                // System.out.println("fitex url : "+args[0]);
                 fitexURL = new URL(args[0]);
-                System.out.println("fitexURL : "+fitexURL.getHost());
+                // System.out.println("fitexURL : "+fitexURL.getHost());
             }catch(MalformedURLException e){
-                System.out.println("Fitex Application : "+e);
+                // System.out.println("Fitex Application : "+e);
                 return;
             }
             idUser = args[1];

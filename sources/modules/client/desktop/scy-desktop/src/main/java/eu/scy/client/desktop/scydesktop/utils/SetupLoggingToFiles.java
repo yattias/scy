@@ -63,7 +63,7 @@ public class SetupLoggingToFiles
       {
          PrintStream printStream = createPrintStream(directory, outFileName);
          System.setOut(printStream);
-         System.out.println("\nRedirected the System.out to this file, on " + new Date().toString() + "\n");
+         // System.out.println("\nRedirected the System.out to this file, on " + new Date().toString() + "\n");
       }
       catch (IOException e)
       {
@@ -101,7 +101,7 @@ public class SetupLoggingToFiles
          fileHandler.setFormatter(new java.util.logging.SimpleFormatter());
          fileHandler.setLevel(java.util.logging.Level.ALL);
          setupLogger.addHandler(fileHandler);
-         System.out.println("Java utillLogging setup to log to " + logFile.getAbsolutePath());
+         // System.out.println("Java utillLogging setup to log to " + logFile.getAbsolutePath());
       }
       catch (Exception ex)
       {
@@ -122,7 +122,7 @@ public class SetupLoggingToFiles
         FileOutputStream filename= new FileOutputStream(logFile);
         org.apache.log4j.WriterAppender writeappender = new org.apache.log4j.WriterAppender(new org.apache.log4j.PatternLayout("%d [%t] %c.%M:%L%n %-5p: %m%n"),filename);
         logger.addAppender(writeappender);
-         System.out.println("Log4J setup to log to " + logFile.getAbsolutePath());
+         // System.out.println("Log4J setup to log to " + logFile.getAbsolutePath());
       }
       catch (Exception ex)
       {

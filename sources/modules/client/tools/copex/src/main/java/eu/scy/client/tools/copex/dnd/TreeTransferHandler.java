@@ -77,40 +77,40 @@ public class TreeTransferHandler extends TransferHandler {
                         // si le noeud insertion appartient au sous arbre => on refuse le drag and drop
                         if (subTreeToMove.containNode(insertNode)){
                             if(debug)
-                                System.out.println("containNode");
+                                // System.out.println("containNode");
                             return false;
                         }
                         if (subTreeToMove.isQuestion() && !insertNode.isQuestion()){
                             if(debug)
-                                System.out.println("is question");
+                                // System.out.println("is question");
                             return false;
                         }
                         boolean nodeCanBeParent = (insertNode.isManipulation() &&subTreeToMove.getProc().getQuestion().getParentRight() == MyConstants.EXECUTE_RIGHT  ) ||
                                 (!insertNode.isManipulation() && insertNode.canBeParent());
                         if(debug)
-                            System.out.println("nodeCanBeParent : "+nodeCanBeParent);
+                            // System.out.println("nodeCanBeParent : "+nodeCanBeParent);
                         boolean parentNodeCanBeParent = insertNode.getParent() != null &&
                             ( ((CopexNode)insertNode.getParent()).isManipulation() && subTreeToMove.getProc().getQuestion().getParentRight() == MyConstants.EXECUTE_RIGHT)
                             || (! ((CopexNode)insertNode.getParent()).isManipulation() && ((CopexNode)insertNode.getParent()).canBeParent());
                         if(debug)
-                            System.out.println("parentNodeCanBeParent : "+parentNodeCanBeParent);
+                            // System.out.println("parentNodeCanBeParent : "+parentNodeCanBeParent);
                         // si le noeud d'insertion ne peut avoir d'enfants => on refuse
                         //if ((! brother && !insertNode.canBeParent() ) || (brother && insertNode.getParent() != null && !((CopexNode)insertNode.getParent()).canBeParent()))
                         if((!brother && !nodeCanBeParent) || (brother && !parentNodeCanBeParent)){
                             if(debug)
-                                System.out.println("pbl parent");
+                                // System.out.println("pbl parent");
                             return false;
                         }
                         // si on deplace des taches qui contiennent des materials produits apres => on refuse
                         if (isProblemWithMaterialProd(insertNode, subTreeToMove)){
                             if(debug)
-                                System.out.println("pbl with material");
+                                // System.out.println("pbl with material");
                             return false;
                         }
                         // si on deplace des taches qui contiennent des data produits apres => on refuse
                         if (isProblemWithDataProd(insertNode, subTreeToMove)){
                             if(debug)
-                                System.out.println("pbl with data");
+                                // System.out.println("pbl with data");
                             return false;
                         }
                         // on entoure le noeud parent, uniquement lorsqu'on met la tache dans une action
@@ -133,15 +133,15 @@ public class TreeTransferHandler extends TransferHandler {
 
             }
             }catch(UnsupportedFlavorException e1){
-                System.out.println("ERROR DRAG AND DROP :"+e1);
+                // System.out.println("ERROR DRAG AND DROP :"+e1);
                 return false;
             }catch(IOException e2){
-                System.out.println("ERROR DRAG AND DROP :"+e2);
+                // System.out.println("ERROR DRAG AND DROP :"+e2);
                 return false;
             }
             return true;
         }else {
-            System.out.println("non transferable ");
+            // System.out.println("non transferable ");
             return false;
         }
     }
@@ -171,12 +171,12 @@ public class TreeTransferHandler extends TransferHandler {
 //        if (id  > 0)
 //            insertNode = (CopexNode)node.getChildAt(id-1);
 //        if(debug)
-//            System.out.println("*****insertNode : "+insertNode.getDebug(tree.getLocale()));
+//            // System.out.println("*****insertNode : "+insertNode.getDebug(tree.getLocale()));
 //        TreePath path = tree.getPathForLocation((int)point.getX(), (int)point.getY());
 //        boolean markNode = false;
 ////        if (path != null){
 ////            CopexTreeNode realNode = (CopexTreeNode)path.getLastPathComponent();
-////            System.out.println("realNode : "+realNode.getTask().getDescription());
+////            // System.out.println("realNode : "+realNode.getTask().getDescription());
 ////            // cas d'ajout en fin d'une etape / ss question
 ////            if (!insertNode.isAction() && insertNode.getChildCount() > 0 && insertNode.getChildAt(insertNode.getChildCount() -1).equals(realNode)){
 ////                insertNode = (CopexTreeNode)insertNode.getChildAt(insertNode.getChildCount() -1);
@@ -198,7 +198,7 @@ public class TreeTransferHandler extends TransferHandler {
 ////                brother = true;
 ////
 ////        }else{
-////                //System.out.println("path null");
+////                //// System.out.println("path null");
 ////                if (!insertNode.isAction())
 ////                    brother = true;
 ////
@@ -211,7 +211,7 @@ public class TreeTransferHandler extends TransferHandler {
 //            }else{
 //                CopexNode realNode = (CopexNode)path.getLastPathComponent();
 //                if(debug)
-//                    System.out.println("realNode : "+realNode.getDebug(tree.getLocale()));
+//                    // System.out.println("realNode : "+realNode.getDebug(tree.getLocale()));
 //                // si node =realNode => sur dossier => a la fin de node
 //                if(realNode.equals(insertNode)){
 //                    if(insertNode.getChildCount() != 0){
@@ -234,11 +234,11 @@ public class TreeTransferHandler extends TransferHandler {
 //                }
 //            }
 //         }
-//          //System.out.println("brother : "+brother);
+//          //// System.out.println("brother : "+brother);
 //          v.add(brother);
 //          v.add(markNode);
 //          if(debug)
-//            System.out.println("INSERTION EN "+brother+" au noeud "+insertNode.getDebug(tree.getLocale()));
+//            // System.out.println("INSERTION EN "+brother+" au noeud "+insertNode.getDebug(tree.getLocale()));
 //          return insertNode;
         boolean markNode = false;
         if(id==-1 || id > insertNode.getChildCount()){
@@ -266,7 +266,7 @@ public class TreeTransferHandler extends TransferHandler {
 
         v.add(brother);
         v.add(markNode);
-        //System.out.println("INSERTION EN "+brother+" au noeud "+insertNode.getDebug(tree.getLocale()));
+        //// System.out.println("INSERTION EN "+brother+" au noeud "+insertNode.getDebug(tree.getLocale()));
         return insertNode;
 
     }
@@ -290,10 +290,10 @@ public class TreeTransferHandler extends TransferHandler {
             }
             return true;
         }catch(UnsupportedFlavorException e1){
-            System.out.println("ERROR DRAG AND DROP :"+e1);
+            // System.out.println("ERROR DRAG AND DROP :"+e1);
             return false;
         }catch(IOException e2){
-            System.out.println("ERROR DRAG AND DROP :"+e2);
+            // System.out.println("ERROR DRAG AND DROP :"+e2);
             return false;
         }
     }

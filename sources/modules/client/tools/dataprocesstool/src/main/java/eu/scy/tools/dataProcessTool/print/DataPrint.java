@@ -106,7 +106,7 @@ public class DataPrint {
 
             File temp;
             temp = File.createTempFile(fileName, ".pdf", new File(System.getProperty("java.io.tmpdir")));
-            //System.out.println("fichier temporaire : "+temp.getPath());
+            //// System.out.println("fichier temporaire : "+temp.getPath());
             String printDate = new java.sql.Date(Calendar.getInstance().getTimeInMillis()).toString();
             writer = PdfWriter.getInstance(document, new FileOutputStream(temp));
             writer.setPageEvent(new MyPDFEvent(writer, printDate ));
@@ -273,9 +273,9 @@ public class DataPrint {
             File outFiletemp = File.createTempFile("out", ".png", new File(System.getProperty("java.io.tmpdir")));
             try {
                 if (!ImageIO.write(outImage,"png",outFiletemp))
-                    System.out.println("Format d'ecriture non pris en charge" );
+                    // System.out.println("Format d'ecriture non pris en charge" );
             } catch (Exception e) {
-                System.out.println("erreur dans l'enregistrement de l'image :" );
+                // System.out.println("erreur dans l'enregistrement de l'image :" );
                 e.printStackTrace();
             }
 

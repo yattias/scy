@@ -40,7 +40,7 @@ public class PrologAgent extends AbstractForeignAgent {
     private static File findExecutable(String... exeNames) {
         HashSet<String> exes = new HashSet<String>(Arrays.asList(exeNames));
         String pathVar = System.getenv("PATH");
-        System.out.println(pathVar);
+        // System.out.println(pathVar);
         String[] pathComps = pathVar.split(File.pathSeparator);
         for (String p : pathComps) {
             File f = new File(p);
@@ -101,7 +101,7 @@ public class PrologAgent extends AbstractForeignAgent {
                     fw.write(prologSources.get(fileName));
                     fw.close();
                 }
-                System.out.println("Prologdir is " + prologTmpDir);
+                // System.out.println("Prologdir is " + prologTmpDir);
                 return prologTmpDir;
             }
         } catch (MalformedURLException e) {

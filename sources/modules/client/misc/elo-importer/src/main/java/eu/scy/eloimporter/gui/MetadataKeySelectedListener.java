@@ -114,7 +114,7 @@ public final class MetadataKeySelectedListener implements TreeSelectionListener 
 			this.splitPane.setRightComponent(functionalRolePanel);
 			this.splitPane.setDividerLocation(dividerLocation);
 		} else {
-			System.out.println(e.getPath().getLastPathComponent());
+			// System.out.println(e.getPath().getLastPathComponent());
 		}
 	}
 }

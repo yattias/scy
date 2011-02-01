@@ -29,7 +29,7 @@ public class SCYPlannerDiagramModel implements IDiagramModel {
         while (it.hasNext()) {
             DefaultNode defaultNode = (DefaultNode) it.next();
             if (defaultNode.getObject().equals(modelObject)) {
-                System.out.println("WARNING: " + modelObject + " has already been added to plan!");
+                // System.out.println("WARNING: " + modelObject + " has already been added to plan!");
                 return true;
             }
         }

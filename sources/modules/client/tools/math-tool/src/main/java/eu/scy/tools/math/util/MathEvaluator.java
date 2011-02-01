@@ -11,7 +11,7 @@ import java.lang.Double;
  * Sample:
  * MathEvaluator m = new MathEvaluator("-5-6/(-2) + sqr(15+x)");
  * m.addVariable("x", 15.1d);
- * System.out.println( m.getValue() );
+ * // System.out.println( m.getValue() );
  * </pre>
  * @version 1.1
  * @author 	The-Son LAI, <a href="mailto:Lts@writeme.com">Lts@writeme.com</a>
@@ -40,7 +40,7 @@ public class MathEvaluator
     	try
         {
 		   	MathEvaluator m = new MathEvaluator(args[0]);
-            System.out.println( m.getValue() );
+            // System.out.println( m.getValue() );
         }
         catch (Exception e)
         {
@@ -542,7 +542,7 @@ public class MathEvaluator
         {
         	String nbSpaces = "";
             for (int i=0; i<nLevel; i++) nbSpaces += "  ";
-            System.out.println(nbSpaces + "|" + s);
+            // System.out.println(nbSpaces + "|" + s);
         }
     }
 

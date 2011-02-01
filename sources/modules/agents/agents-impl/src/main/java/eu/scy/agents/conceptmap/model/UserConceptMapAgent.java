@@ -183,19 +183,19 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
                 }
             } else if (type.equals("print_graph")) {
                 // TODO only for testing purposes
-                System.out.println(currentModel.getGraph().toString());
+                // System.out.println(currentModel.getGraph().toString());
             }
 
         } catch (MissingModelException e) {
             // worst case, no error recovery!
             // TODO changed for testing purposes
             // logger.severe("Unable to open concept map model for ELO "+ eloUri);
-            System.out.println("Unable to open concept map model for ELO " + eloUri);
+            // System.out.println("Unable to open concept map model for ELO " + eloUri);
         } catch (TupleSpaceException e) {
             // worst case, no error recovery!
             // TODO changed for testing purposes
             // logger.info("Error in TupleSpace while reconstructing model");
-            System.out.println("Error in TupleSpace while reconstruction model");
+            // System.out.println("Error in TupleSpace while reconstruction model");
         } finally {
             if (myLock.isHeldByCurrentThread()) {
                 myLock.unlock();

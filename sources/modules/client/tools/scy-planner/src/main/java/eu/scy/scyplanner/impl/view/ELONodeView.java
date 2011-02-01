@@ -20,7 +20,7 @@ public class ELONodeView extends NodeViewComponent {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D)g.create();
 
-		System.out.println("getModel().getLabel() = " + getModel().getLabel());
+		// System.out.println("getModel().getLabel() = " + getModel().getLabel());
 		g2.drawString(getModel().getLabel(), 0, 0);
 	}
 }

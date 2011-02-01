@@ -373,8 +373,8 @@ public class CopexControllerDB implements ControllerInterface {
         Profiler.end("initEdp");
 
         Profiler.end("loadData");
-        System.out.println("Resultat :\n"+Profiler.display());
-        System.out.println("\nStats  :\n"+Profiler.getStats());
+        // System.out.println("Resultat :\n"+Profiler.display());
+        // System.out.println("\nStats  :\n"+Profiler.getStats());
         Profiler.reset();
         if (listProc.size() > 0)
             printRecap(listProc.get(0));
@@ -669,8 +669,8 @@ public class CopexControllerDB implements ControllerInterface {
             return cr;
         Profiler.end("trace");
         Profiler.end("suppr");
-        System.out.println("Resultat :\n"+Profiler.display());
-        System.out.println("\nStats  :\n"+Profiler.getStats());
+        // System.out.println("Resultat :\n"+Profiler.display());
+        // System.out.println("\nStats  :\n"+Profiler.getStats());
         Profiler.reset();
         printRecap(expProc);
         v.add(expProc.clone());
@@ -783,8 +783,8 @@ public class CopexControllerDB implements ControllerInterface {
             Profiler.end("addTaskInTrace");
         }
         Profiler.end("addTask");
-        System.out.println("Resultat :\n"+Profiler.display());
-        System.out.println("\nStats  :\n"+Profiler.getStats());
+        // System.out.println("Resultat :\n"+Profiler.display());
+        // System.out.println("\nStats  :\n"+Profiler.getStats());
         Profiler.reset();
         return cr;
     }
@@ -1508,13 +1508,13 @@ public class CopexControllerDB implements ControllerInterface {
     /* drag and drop */
     @Override
     public CopexReturn move(TaskSelected taskSel, SubTree subTree, char undoRedo) {
-//        System.out.println("***MOVE CONTROLLER***");
-//        System.out.println(" => taskSel : "+taskSel.getSelectedTask().getDescription(getLocale()));
-//        System.out.println(" => subTree : "+subTree.getFirstTask().getDescription(getLocale()));
+//        // System.out.println("***MOVE CONTROLLER***");
+//        // System.out.println(" => taskSel : "+taskSel.getSelectedTask().getDescription(getLocale()));
+//        // System.out.println(" => subTree : "+subTree.getFirstTask().getDescription(getLocale()));
 //        if (taskSel.getTaskBrother() != null){
-//            System.out.println(" => branche frere : "+taskSel.getTaskBrother().getDescription(getLocale()));
+//            // System.out.println(" => branche frere : "+taskSel.getTaskBrother().getDescription(getLocale()));
 //        }else{
-//            System.out.println(" => branche parent : "+taskSel.getTaskParent().getDescription(getLocale()));
+//            // System.out.println(" => branche parent : "+taskSel.getTaskParent().getDescription(getLocale()));
 //        }
         ExperimentalProcedure proc = taskSel.getProc();
         int idP = getIdProc(proc.getDbKey());
@@ -1543,10 +1543,10 @@ public class CopexControllerDB implements ControllerInterface {
         long dbKeyT ;
         if (taskBrother == null){
             dbKeyT = taskParent.getDbKey();
-            //System.out.println("tache parent : "+taskParent.getDescription(getLocale()));
+            //// System.out.println("tache parent : "+taskParent.getDescription(getLocale()));
         }else{
             dbKeyT = taskBrother.getDbKey();
-            //System.out.println("tache frere : "+taskBrother.getDescription(getLocale()));
+            //// System.out.println("tache frere : "+taskBrother.getDescription(getLocale()));
         }
         
         idB = getId(expProc.getListTask(), dbKeyT);
@@ -1671,7 +1671,7 @@ public class CopexControllerDB implements ControllerInterface {
         cr = updateLabdocStatus();
         if(cr.isError())
             return cr;
-//        System.out.println("*** FIN MOVE CONTROLLER***");
+//        // System.out.println("*** FIN MOVE CONTROLLER***");
         // trace 
         if (setTrace()){
             TaskTreePosition insertPosition = expProc.getTaskTreePosition(taskBranch);
