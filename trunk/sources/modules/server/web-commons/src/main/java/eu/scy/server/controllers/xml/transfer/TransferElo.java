@@ -67,8 +67,9 @@ public class TransferElo extends BaseXMLTransfer{
         }
         setCreatedBy(authorString);
         setCatname(scyElo.getTitle());
-        //setThumbnail("thummy");
-        //setFullsize("fully");
+        if(scyElo.getThumbnail() != null) {
+            setThumbnail("/webapp/components/resourceservice.html?eloURI=" + getUri());
+        }
         setStudentDescription("stydentdesc");
 
 
