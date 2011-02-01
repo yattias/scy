@@ -24,13 +24,16 @@ public class EloShowCommand extends ScyDesktopRemoteCommand {
         logger.debug("*****************elo_save*Notification*********************");
         def uri = new URI(notification.getFirstProperty("elo_uri"));
         var toolWindow: ScyWindow = scyDesktop.scyWindowControl.windowManager.findScyWindow(uri);
+        logger.debug("elo_uri: {uri}");
         if (toolWindow == null) {
+            logger.debug("creating new ELO/tool.");
             //the ELO is not opened yet
             toolWindow = scyDesktop.scyWindowControl.addOtherScyWindow(uri);
-            logger.debug("Placed externally saved ELO.");
+            //logger.debug("Placed externally saved ELO.");
             //fillNewScyWindow2(toolWindow);
         } else {
             //The ELO is already opened
+            logger.debug("updating existing ELO/tool.");
             scyDesktop.fillNewScyWindow2(toolWindow);
         }
         scyDesktop.scyWindowControl.makeMainScyWindow(uri);
