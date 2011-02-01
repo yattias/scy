@@ -48,7 +48,6 @@ import eu.scy.client.desktop.scydesktop.art.ScyColors;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import javafx.scene.layout.Container;
 import javafx.scene.CacheHint;
-import eu.scy.client.desktop.scydesktop.art.ArtSource;
 
 /**
  * @author sikkenj
@@ -401,7 +400,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
                       scyToolsList.onOpened();
                       updateRelativeBounds();
                       cache = false;
-                      cacheHint = CacheHint.SPEED;
+                      cacheHint = CacheHint.DEFAULT;
                       isAnimating = false;
                   }
                }
@@ -453,7 +452,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
                       scyToolsList.onOpened();
                       updateRelativeBounds();
                       cache = false;
-                      cacheHint = CacheHint.SPEED;
+                      cacheHint = CacheHint.DEFAULT;
                       isAnimating = false;
                   }
                }
@@ -509,7 +508,8 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
                      width => minimumWidth tween Interpolator.EASEBOTH,
                      height => closedHeight tween Interpolator.EASEBOTH,
                      layoutX => closedPosition.x tween Interpolator.EASEOUT,
-                     layoutY => closedPosition.y tween Interpolator.EASEOUT
+                     layoutY => closedPosition.y tween Interpolator.EASEOUT,
+                     rotate => 0
                   ]
                   action: function() {
                      isClosed = true;
@@ -533,12 +533,16 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
                   time: animationDuration;
                   values: [
                      width => minimumWidth tween Interpolator.EASEBOTH,
-                     height => closedHeight tween Interpolator.EASEBOTH
+                     height => closedHeight tween Interpolator.EASEBOTH,
+                     rotate => 0
                   ]
                   action: function() {
                      layoutX = closedPosition.x;
                      layoutY = closedPosition.y;
                      isAnimating = false;
+                     isMinimized = true;
+                     cache = false;
+                     cacheHint = cacheHint = CacheHint.DEFAULT;
                      scyToolsList.onMinimized();
                      updateRelativeBounds()
                   }
@@ -709,12 +713,19 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       else {
          originalWidth = width;
          originalHeight = height;
-         isMinimized = true;
+         cache = true;
+         cacheHint = CacheHint.SCALE_AND_ROTATE;
          var minimizeTimeline = getMinimizeTimeline();
+         hideDrawers = true;
          isAnimating = true;
          minimizeTimeline.play();
       }
       logger.debug("minimized {title}");
+   }
+
+   function doMaximize() {
+       // TODO: needs to call window positioning code
+        openWindow(10, 10, scene.width - 20, scene.height - 20, 0);
    }
 
    function doUnminimize() {
@@ -760,11 +771,17 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    }
 
    function doRotateNormal(): Void{
+       cache = true;
+       cacheHint = CacheHint.ROTATE;
        Timeline {
            keyFrames: [
                KeyFrame {
                    time: 300ms
                    values: [rotate => 0.0 tween Interpolator.EASEOUT]
+                   action: function() {
+                       cache = false;
+                       cacheHint = CacheHint.DEFAULT;
+                   }
                }
            ]
        }.playFromStart();
@@ -986,10 +1003,12 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
          enableRotateNormal:bind rotate!=0.0
          enableMinimize: bind allowClose and not isClosed
          enableCenter: bind allowCenter
+         enableMaximize: true
 //         enableClose:bind allowClose and not isClosed
          rotateNormalAction:doRotateNormal
          minimizeAction:doClose
          centerAction:centerAction
+         maximizeAction:doMaximize
 //         closeAction:doClose
 
       }
@@ -1080,19 +1099,19 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
                activate: activate;
                title: bind title
             }
-            ClosedWindowResize {
-               //                  visible: bind allowResize or isClosed;
-               size: controlSize;
-               borderWidth: borderWidth;
-               separatorLength: separatorLength
-               windowColorScheme: windowColorScheme
-               activate: activate;
-               startResize:startResize;
-               doResize:doResize;
-               stopResize:stopResize;
-               layoutX: ArtSource.thumbnailWidth + ThumbnailView.eloIconOffset
-               layoutY: ArtSource.thumbnailWidth
-            }
+//            ClosedWindowResize {
+//               //                  visible: bind allowResize or isClosed;
+//               size: controlSize;
+//               borderWidth: borderWidth;
+//               separatorLength: separatorLength
+//               windowColorScheme: windowColorScheme
+//               activate: activate;
+//               startResize:startResize;
+//               doResize:doResize;
+//               stopResize:stopResize;
+//               layoutX: ArtSource.thumbnailWidth + ThumbnailView.eloIconOffset
+//               layoutY: ArtSource.thumbnailWidth
+//            }
          ]
       }
 

@@ -243,4 +243,9 @@ public class SimpleWindowPositioner extends WindowPositioner {
    function calculateIntersectionLength(min1:Number,max1:Number,min2:Number,max2:Number):Number{
       return Math.min(max1, max2) - Math.max(min1,min2);
    }
+
+   override function makeWindowFullScreen(window:ScyWindow):Void {
+       logger.debug("Full screen not implemented");
+   }
+
 }

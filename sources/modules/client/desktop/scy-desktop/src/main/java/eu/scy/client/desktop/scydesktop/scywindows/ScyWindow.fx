@@ -44,6 +44,7 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
 //	public var backgroundColor = color.WHITE;
     public-init var windowColorScheme: WindowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
     public var activated = false; // TODO, make only changeable from (sub) package
+    public var centered = false;
     public var width: Number = 150;
     public var height: Number = 100;
     public var closedPosition: Point2D;

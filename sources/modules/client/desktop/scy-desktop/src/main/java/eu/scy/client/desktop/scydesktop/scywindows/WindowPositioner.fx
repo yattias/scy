@@ -125,6 +125,11 @@ public mixin class WindowPositioner {
     public abstract function removeOtherWindow(window:ScyWindow):Void;
 
     /**
+    * makes the window fullscreen
+    */
+    public abstract function makeWindowFullScreen(window:ScyWindow):Void;
+
+    /**
     * adds an other window.
     *
     * The window should be positioned immediately
