@@ -129,9 +129,7 @@ public class ScySimLogger implements ActionListener, IDataClient {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        //// System.out.println("ScyDynamics.Logger actionPerformed.");
-    }
+    public void actionPerformed(ActionEvent e) {}
 
     @Override
     public void updateClient() {
@@ -224,10 +222,8 @@ public class ScySimLogger implements ActionListener, IDataClient {
         if (action.getType() != null && action.getType().equals(VALUE_CHANGED) && action.getAttribute("name") != null && action.getAttribute("name").trim().toLowerCase().equals("mtot")) {
             // no evil mtot logging ...
         } else {
-            // System.out.println(action.toString());
             actionLogger.log(action);
         }
-        // outputter.output(action.getXML(), System.out);
     }
 
     public String getToolName() {

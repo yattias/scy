@@ -63,8 +63,8 @@ import javax.swing.JTable;
  */
 public class DataCollector extends JPanel implements INotifiable, ActionListener, IDataClient {
 
+    private final static Logger LOGGER = Logger.getLogger(DataCollector.class.getName());
     private ModelVariable rotationVariable = null;
-
     private final ResourceBundleWrapper bundle;
 
     public enum SCAFFOLD {
@@ -78,57 +78,36 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
     }
 
     private JScrollPane pane;
-
     private JTable table;
-
     private ISimQuestViewer simquestViewer;
-
     private SCYDataAgent dataAgent;
-
     private List<ModelVariable> simulationVariables;
-
     private List<ModelVariable> selectedVariables;
-
     private JCheckBox checkbox;
-
     private DataSet dataset;
-
     private DatasetTableModel tableModel;
-
     private DatasetSandbox sandbox = null;
-
     private BalanceSlider balanceSlider = null;
-
     private ScySimLogger logger;
-
-    private Logger debugLogger;
-
     private ToolBrokerAPI tbi;
-
     private JButton notifyButton;
-
     private String notificationMessage;
-
     protected boolean notify;
-
     private boolean notThreadRunning = false;
-
     private Vector<String> shownMessages;
-
     private String notificationSender;
 
     public DataCollector(ISimQuestViewer simquestViewer, ToolBrokerAPI tbi, String eloURI) {
         this.bundle = new ResourceBundleWrapper(this);
         // initialize the logger(s)
-        debugLogger = Logger.getLogger(DataCollector.class.getName());
         shownMessages = new Vector<String>();
         this.tbi = tbi;
         if (tbi != null) {
-            debugLogger.info("setting action logger to " + tbi.getActionLogger());
+            LOGGER.info("setting action logger to " + tbi.getActionLogger());
             logger = new ScySimLogger(simquestViewer.getDataServer(), tbi.getActionLogger(), eloURI);
             logger.setUsername(tbi.getLoginUserName());
         } else {
-            debugLogger.info("setting action logger to DevNullActionLogger");
+            LOGGER.info("setting action logger to DevNullActionLogger");
             logger = new ScySimLogger(simquestViewer.getDataServer(), new SystemOutActionLogger(), eloURI);
         }
         logger.logListOfVariables(ScySimLogger.VARIABLES_CONTAINED, logger.getInputVariables());
@@ -149,12 +128,12 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
         for (ModelVariable var : simquestViewer.getDataServer().getVariables("name is not relevant")) {
             if (var.getName().equals("rotation")) {
                 rotationVariable = var;
-                debugLogger.info("rotation variable found.");
+                LOGGER.info("rotation variable found.");
             }
         }
         if (simquestViewer.getApplication().getHeader().getDescription().equals("balance")) {
             balanceSlider = new BalanceSlider(simquestViewer.getDataServer());
-            debugLogger.info("balance simulation found.");
+            LOGGER.info("balance simulation found.");
         }
     }
 
@@ -529,7 +508,7 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
                 jd.setVisible(true);
 
             } else {
-                // System.out.println("message without popup received...");
+                LOGGER.info("message without popup received");
                 notificationSender = notification.getSender();
                 notificationMessage = message;
                 if (SwingUtilities.isEventDispatchThread()) {

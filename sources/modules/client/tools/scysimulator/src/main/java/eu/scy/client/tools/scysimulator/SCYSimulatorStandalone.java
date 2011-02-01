@@ -1,70 +1,27 @@
 package eu.scy.client.tools.scysimulator;
 
 import info.collide.sqlspaces.client.TupleSpace;
-import info.collide.sqlspaces.commons.Tuple;
-import info.collide.sqlspaces.commons.TupleID;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
-import info.collide.sqlspaces.commons.util.Base64;
-
-import java.awt.BasicStroke;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.Frame;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
-import java.awt.Stroke;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.StringReader;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Map;
-
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
 import javax.swing.JTextArea;
-import javax.swing.JTextPane;
-import javax.swing.SwingConstants;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyleContext;
-
-import org.jdesktop.jxlayer.JXLayer;
-import org.jdesktop.jxlayer.plaf.AbstractLayerUI;
-
 import sqv.SimQuestViewer;
-import utils.FileName;
-import eu.scy.actionlogging.TimeFormatHelper;
 import eu.scy.notification.api.INotifiable;
 import eu.scy.notification.api.INotification;
-import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import java.util.logging.Logger;
 
 public class SCYSimulatorStandalone implements INotifiable {
 
+    private final static Logger LOGGER = Logger.getLogger(SCYSimulatorStandalone.class.getName());
     private TupleSpace toolAliveSpace;
-
     private JPanel simquestPanel;
-
     private ToolBrokerAPI tbi = null;
-
     private JFrame mainFrame;
-
     private DataCollector dataCollector;
 
     public SCYSimulatorStandalone() throws URISyntaxException, InterruptedException, TupleSpaceException {
@@ -78,7 +35,7 @@ public class SCYSimulatorStandalone implements INotifiable {
         //FileName fileName = new FileName("D:/temp/sqzx/co2-converter/co2_converter.sqzx");
         //FileName fileName = new FileName("D:/temp/sqzx/co2-house/co2_house.sqzx");
         //URI fileUri = fileName.toURI();
-        // System.out.println("SimQuestNode.createSimQuestNode(). trying to load: " + fileUri.toString());
+        LOGGER.info("SimQuestNode.createSimQuestNode(). trying to load: " + fileUri.toString());
         simquestViewer.setFile(fileUri);
         simquestViewer.createFrame(false);
         // TODO remove hardcoded username/pass
@@ -95,7 +52,7 @@ public class SCYSimulatorStandalone implements INotifiable {
             dataCollector = new DataCollector(simquestViewer, tbi, "n/a");
             simquestPanel.add(dataCollector, BorderLayout.SOUTH);
         } catch (java.lang.Exception e) {
-            // System.out.println("SimQuestNode.createSimQuestNode(). exception caught:");
+            LOGGER.warning("SimQuestNode.createSimQuestNode(). exception caught:");
             e.printStackTrace();
             JTextArea info = new JTextArea(4, 42);
             info.append("Simulation could not be loaded.\n");
@@ -150,11 +107,9 @@ public class SCYSimulatorStandalone implements INotifiable {
 //            }
 //        });
 //        t.start();
-
     }
 
-        public static void main(String[] args) throws URISyntaxException, InterruptedException, TupleSpaceException {
-       // // System.out.println(System.currentTimeMillis());
+    public static void main(String[] args) throws URISyntaxException, InterruptedException, TupleSpaceException {
             new SCYSimulatorStandalone();
     }
 
@@ -163,5 +118,4 @@ public class SCYSimulatorStandalone implements INotifiable {
         return dataCollector.processNotification(notification);
     }
 
-   
 }
