@@ -132,7 +132,7 @@ public class DrawingToolFrame extends javax.swing.JFrame implements
 		catch (AccessControlException e)
 		{
 			// System.out.println("Failed to set level of " + logger.getName() + " to " + level.getName()
-						+ ": " + e.getMessage());
+			//			+ ": " + e.getMessage());
 		}
 	}
 
@@ -145,7 +145,7 @@ public class DrawingToolFrame extends javax.swing.JFrame implements
 		catch (AccessControlException e)
 		{
 			// System.out.println("Failed to set level of  handler to " + level.getName() + ": "
-						+ e.getMessage());
+			//			+ e.getMessage());
 		}
 	}
 
