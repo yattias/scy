@@ -1,7 +1,6 @@
 package eu.scy.client.tools.scysimulator;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.URI;
@@ -9,25 +8,21 @@ import java.net.URISyntaxException;
 import javax.swing.JApplet;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-
 import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
-
 import eu.scy.toolbroker.ToolBrokerImpl;
-
+import java.util.logging.Logger;
 import sqv.SimQuestViewer;
 
 public class SCYSimulatorStandaloneApplet extends JApplet {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6054788019795975680L;
-	private SimQuestViewer sqv;
+	private final static Logger LOGGER = Logger.getLogger(DataCollector.class.getName());
+        private SimQuestViewer sqv;
 	private DataCollector dataCollector;
 	private ToolBrokerImpl tbi;
 
+        @Override
 	public void init() {	
 		JPanel simquestPanel = new JPanel();
 		createSimQuestViewer();
@@ -50,10 +45,8 @@ public class SCYSimulatorStandaloneApplet extends JApplet {
 			simquestPanel.add(new StandAloneMenu(dataCollector), BorderLayout.NORTH);
 
 		} catch (java.lang.Exception e) {
-			System.out
-			.println("SimQuestNode.createSimQuestNode(). exception caught:");
+			LOGGER.warning("exception caught:");
 			e.printStackTrace();
-
 			JTextArea info = new JTextArea(4, 42);
 			info.append(e.getMessage());
 			simquestPanel.add(info);
@@ -139,11 +132,10 @@ public class SCYSimulatorStandaloneApplet extends JApplet {
 				
 				 //Set the file (URI)
 				 sqv.setFile(fileURI);
-				 // System.out.println("File : " + file);
 			 } 
 			 catch (URISyntaxException e) 
 			 {
-				e.printStackTrace();
+                            e.printStackTrace();
 			    System.err.println("No valid file URI could be created");
 			    System.exit(ERROR);
 			 }
