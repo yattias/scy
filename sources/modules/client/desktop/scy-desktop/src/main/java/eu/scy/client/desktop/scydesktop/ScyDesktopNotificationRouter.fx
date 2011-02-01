@@ -27,12 +27,6 @@ public class ScyDesktopNotificationRouter extends INotifiable {
 
     override public function processNotification(notification: INotification): Boolean {
         logger.debug("received notification for {notification.getToolId()} from {notification.getSender()}");
-        if (notification.getToolId().equals("scylab") and (notification.getFirstProperty("type") != null) and notification.getFirstProperty("type").equals("collaboration_response")) {
-            // special case, handled by ToolBrokerImpl itself
-            logger.debug("received collaboration_response notification (which is handled elsewhere).");
-            return true;
-        }
-
         var success: Boolean = false;
 
         // is this notification handled by the commandregistry?
@@ -40,6 +34,12 @@ public class ScyDesktopNotificationRouter extends INotifiable {
         if (success) {
             // yep, has been handled by commandregistry
             logger.debug("notification successfully handled by RemoteCommandRegistry");
+            return true;
+        }
+
+        if (notification.getToolId().equals("scylab") and (notification.getFirstProperty("type") != null) and notification.getFirstProperty("type").equals("collaboration_response")) {
+            // special case, handled by ToolBrokerImpl itself
+            logger.debug("received collaboration_response notification (which is handled elsewhere).");
             return true;
         }
 
