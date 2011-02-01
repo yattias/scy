@@ -103,7 +103,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
     }
 
     def debugAreas = Group {
-            content: [incomingArea, centerArea, outgoingArea, mainArea]
+            content: [incomingArea, centerArea, outgoingArea, mainArea, otherArea]
     };
 
     var debugAreasAdded = false;
@@ -204,6 +204,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         // animate opening into lower left center ELO
         if (not windowAlreadyAdded(window)) {
             insert window into otherWindows;
+            makeMainWindow(window);
             positionNewOtherWindow(window);
             return true;
         }
@@ -301,9 +302,18 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         lockUpdate = false;
     }
 
+    public override function makeWindowFullScreen(window:ScyWindow):Void {
+        var newX = offset;
+        var newY = offset;
+        var newWidth = desktopWidth - 2 * offset;
+        var newHeight = desktopHeight - 2 * offset;
+
+        window.openWindow(newX, newY, newWidth, newHeight, 0);
+    }
+
     function positionWindowsInArea(windowList:ScyWindow[], area:Rectangle, maxColumns:Integer) {
-        var topOffset = 60;
-        var padding = 100;
+        var topOffset = 0;
+        var padding = 0;
         // positioning incoming
         var numberOfWindows = sizeof windowList;
         var columns = maxColumns;
@@ -327,6 +337,8 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
 
                 window.relativeLayoutCenterX = (window.layoutX + window.width / 2) / desktopWidth;
                 window.relativeLayoutCenterY = (window.layoutY + window.height / 2) / desktopHeight;
+
+                padding = Math.max(padding, window.height);
 
                 if (column mod columns != 0) {
                     column++;
@@ -383,6 +395,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
     def centerAreaRatio = 0.6;
     def outgoingAreaRatio = 0.2;
     def offset = 10;
+    def margin = 60;
 
     function repositionWindowsOnResize():Void {
         FX.deferAction(function():Void {
@@ -411,15 +424,19 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
     }
 
     function updateAreas():Void {
+        // good link for bounds of nodes http://weblogs.java.net/blog/2009/07/09/javafx12-understanding-bounds
+        //def topLeftX = Math.max(scyDesktop.topLeftCorner.boundsInParent.maxX, scyDesktop.bottomLeftCorner.boundsInParent.maxX);
+        //def topRightX = Math.min(scyDesktop.topRightCorner.boundsInParent.minX, scyDesktop.bottomRightCorner.boundsInParent.minX);
+        //def layoutWidth = topRightX - topLeftX;
 
-        incomingArea.layoutX = offset;
+        incomingArea.layoutX = offset + margin;
         incomingArea.layoutY = offset;
         incomingArea.width = (incomingAreaRatio * desktopWidth) - (2 * offset);
         incomingArea.height = desktopHeight - (2 * offset);
 
         centerArea.layoutX = incomingArea.layoutX + incomingArea.width + (2 * offset);
         centerArea.layoutY = offset;
-        centerArea.width = (centerAreaRatio * desktopWidth) - (2 * offset);
+        centerArea.width = (centerAreaRatio * desktopWidth) - (2 * offset) - (2 * margin);
         centerArea.height = desktopHeight - (2 * offset);
 
         outgoingArea.layoutX = centerArea.layoutX + centerArea.width + (2 * offset);
@@ -454,7 +471,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
             window.relativeWidth = 0;
             window.relativeHeight = 0;
             window.rotate = 0;
-            logger.info("resetting window {window.title} with URI {window.eloUri}");
+            logger.debug("resetting window {window.title} with URI {window.eloUri}");
         }
     }
 

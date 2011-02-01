@@ -284,4 +284,8 @@ public class RoleAreaWindowPositioner extends WindowPositioner {
       }
    }
 
+   override function makeWindowFullScreen(window:ScyWindow):Void {
+       logger.debug("Full screen not implemented");
+   }
+
 }
