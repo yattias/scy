@@ -106,9 +106,12 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 					.getTimeInMillis(), action
 					.getContext(ContextConstants.tool), action
 					.getContext(ContextConstants.mission), action
-					.getContext(ContextConstants.session), action
-					.getContext(ContextConstants.eloURI), action
-					.getAttribute(AgentProtocol.ACTIONLOG_ELO_TYPE));
+					.getContext(ContextConstants.session),
+                                        //action.getContext(ContextConstants.eloURI),
+                                        // getting the eloUri from the properties, not from the
+                                        // context-constants
+                                        action.getAttribute(AgentProtocol.ACTIONLOG_ELO_URI),
+                                        action.getAttribute(AgentProtocol.ACTIONLOG_ELO_TYPE));
 		}
 	}
 
