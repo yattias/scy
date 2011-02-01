@@ -45,6 +45,8 @@ import eu.scy.scymapper.impl.ui.diagram.modes.IDiagramMode;
  */
 public class ConceptDiagramView extends JLayeredPane implements IDiagramListener {
 
+	private final static Logger logger = Logger.getLogger(ConceptDiagramView.class);
+	
     private IDiagramMode mode = new DragMode(this);
 
     private IDiagramModel model;
@@ -58,9 +60,7 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
     private KeyListener deleteKeyListener = new DeleteKeyListener();
 
     private int nodeCount = 0;
-
-    private final static Logger logger = Logger.getLogger(ConceptDiagramView.class);
-
+    
     public ConceptDiagramView(IDiagramController controller, IDiagramModel model, final IDiagramSelectionModel selectionModel) {
         this.controller = controller;
         this.model = model;
@@ -186,7 +186,7 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
 
                 @Override
                 public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-                    System.out.println(3);
+                    logger.debug(3);
                 }
 
                 @Override
@@ -243,12 +243,12 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
 
     @Override
     public void updated(IDiagramModel diagramModel) {
-        System.out.println("ConceptDiagramView.updated");
+        logger.debug("ConceptDiagramView.updated");
     }
 
     @Override
     public void nodeSelected(INodeModel n) {
-        System.out.println("ConceptDiagramView.nodeSelected");
+        logger.debug("ConceptDiagramView.nodeSelected");
     }
 
     @Override

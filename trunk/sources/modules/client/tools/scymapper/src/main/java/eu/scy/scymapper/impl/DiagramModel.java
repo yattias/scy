@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.swing.SwingUtilities;
+import org.apache.log4j.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,6 +18,8 @@ import javax.swing.SwingUtilities;
  * Time: 12:53:40
  */
 public class DiagramModel implements IDiagramModel {
+
+    private final static Logger logger = Logger.getLogger(DiagramModel.class);
 
     private String name;
     private Set<INodeModel> nodes = new HashSet<INodeModel>();
@@ -84,7 +87,7 @@ public class DiagramModel implements IDiagramModel {
     @Override
     public synchronized void removeNode(INodeModel n) {
         nodes.remove(n);
-        System.out.println("#######################REMOVED NOW NOTIFYING LISTENERS = " + n);
+        logger.debug("removed node, now notifying listeners = " + n);
         notifyNodeRemoved(n);
     }
 

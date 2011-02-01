@@ -30,12 +30,15 @@ import java.awt.font.TextLayout;
 import java.awt.geom.Point2D;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
+import org.apache.log4j.Logger;
 
 /**
  * @author bjoerge
  * @created 11.jun.2009 11:24:47
  */
 public class ConceptLinkView extends LinkView implements INodeModelListener {
+
+	private final static Logger logger = Logger.getLogger(ConceptLinkView.class);
 
 	private JTextPane labelTextarea;
 	private JScrollPane labelScroller;
@@ -175,10 +178,10 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 				JSlider source = (JSlider) e.getSource();
 				ILinkShape linkShape = getModel().getShape();
 				if (linkShape instanceof QuadCurvedLine) {
-					System.out.println("source.getValue() = " + source.getValue());
+					logger.debug("source.getValue() = " + source.getValue());
 					double curving = ((double) source.getValue()) / 100d;
 					((QuadCurvedLine) linkShape).setCurving(curving);
-					System.out.println("curving = " + curving);
+					logger.debug("curving = " + curving);
 					repaint();
 				}
 			}

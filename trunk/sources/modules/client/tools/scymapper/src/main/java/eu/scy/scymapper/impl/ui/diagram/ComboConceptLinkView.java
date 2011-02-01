@@ -39,9 +39,12 @@ import eu.scy.scymapper.impl.shapes.links.Arrow;
 import eu.scy.scymapper.impl.shapes.links.Arrowhead;
 import eu.scy.scymapper.impl.shapes.links.QuadCurvedLine;
 import eu.scy.scymapper.impl.ui.Localization;
+import org.apache.log4j.Logger;
 
 public class ComboConceptLinkView extends LinkView implements INodeModelListener {
 
+    private final static Logger logger = Logger.getLogger(ComboConceptLinkView.class);
+	
     private JComboBox comboBox;
 
     JPanel debugPanel;
@@ -166,10 +169,10 @@ public class ComboConceptLinkView extends LinkView implements INodeModelListener
                 JSlider source = (JSlider) e.getSource();
                 ILinkShape linkShape = getModel().getShape();
                 if (linkShape instanceof QuadCurvedLine) {
-                    System.out.println("source.getValue() = " + source.getValue());
+                    logger.debug("source.getValue() = " + source.getValue());
                     double curving = ((double) source.getValue()) / 100d;
                     ((QuadCurvedLine) linkShape).setCurving(curving);
-                    System.out.println("curving = " + curving);
+                    logger.debug("curving = " + curving);
                     repaint();
                 }
             }
@@ -326,7 +329,7 @@ public class ComboConceptLinkView extends LinkView implements INodeModelListener
 
     @Override
     public void labelChanged(INodeModel node) {
-        System.out.println("label changed");
+        logger.debug("label changed");
     }
 
     @Override
