@@ -23,6 +23,7 @@ public class TransferElo extends BaseXMLTransfer{
     private String myname;
     private String modified;
     private String studentDescription;
+    private String technicalFormat;
 
     private List generalLearningGoals = new LinkedList();
     private List specificLearningGoals = new LinkedList();
@@ -70,6 +71,11 @@ public class TransferElo extends BaseXMLTransfer{
         if(scyElo.getThumbnail() != null) {
             setThumbnail("/webapp/components/resourceservice.html?eloURI=" + getUri());
         }
+
+        setTechnicalFormat(scyElo.getTechnicalFormat());
+
+        
+
         setStudentDescription("stydentdesc");
 
 
@@ -255,5 +261,13 @@ public class TransferElo extends BaseXMLTransfer{
 
     public void setInquiryQuestion(String inquiryQuestion) {
         this.inquiryQuestion = inquiryQuestion;
+    }
+
+    public String getTechnicalFormat() {
+        return technicalFormat;
+    }
+
+    public void setTechnicalFormat(String technicalFormat) {
+        this.technicalFormat = technicalFormat;
     }
 }
