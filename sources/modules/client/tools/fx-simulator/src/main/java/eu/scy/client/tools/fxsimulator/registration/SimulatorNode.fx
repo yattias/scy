@@ -12,7 +12,6 @@ import java.awt.Dimension;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import roolo.api.IRepository;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import roolo.elo.api.IELOFactory;
@@ -49,22 +48,17 @@ import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
 import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import eu.scy.client.common.scyi18n.UriLocalizer;
-import java.net.URL;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.RenderingHints;
 import javafx.animation.Timeline;
-import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
+import java.util.logging.Logger;
 
 public class SimulatorNode
     extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
 
     var simquestViewer: SimQuestViewer;
-    def logger = Logger.getLogger(this.getClass());
+    def logger = Logger.getLogger(SimulatorNode.class.getName());
     def simconfigType = "scy/simconfig";
     def datasetType = "scy/dataset";
     public-init var simquestPanel: JPanel;
@@ -114,7 +108,7 @@ public class SimulatorNode
     }
 
     public override function acceptDrop(object: Object) {
-        logger.debug("drop accepted.");
+        logger.info("drop accepted");
         var isSync = isSynchronizingWith(object as ISynchronizable);
         if (isSync) {
             removeDatasync(object as ISynchronizable);
@@ -149,7 +143,7 @@ public class SimulatorNode
     }
 
     public function acceptDrop_(object: Object) {
-        logger.debug("drop accepted.");
+        logger.info("drop accepted");
         var isSync = isSynchronizingWith(object as ISynchronizable);
         if (isSync) {
             removeDatasync(object as ISynchronizable);
@@ -333,7 +327,7 @@ public class SimulatorNode
     }
 
     function doLoadElo(eloUri: URI) {
-        logger.info("Trying to load elo {eloUri}");
+        logger.info("trying to load elo {eloUri}");
         var newElo = repository.retrieveELO(eloUri);
         if (newElo != null) {
             var simConfig: SimConfig = new SimConfig(newElo.getContent().getXmlString());
