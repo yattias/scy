@@ -1,6 +1,8 @@
 package eu.scy.client.tools.scydynamics.editor;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -11,10 +13,8 @@ import sqv.data.IDataClient;
 
 class SimulationTableModel extends AbstractTableModel implements IDataClient {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 9087138748912498161L;
+	private final static Logger LOGGER = Logger.getLogger(SimulationTableModel.class.getName());
+
 	private static final boolean DEBUG = false;
 	private String[] columnNames;
 	private ArrayList<Double[]> data;
@@ -70,16 +70,15 @@ class SimulationTableModel extends AbstractTableModel implements IDataClient {
 	}
 
 	public void setValueAt(Double value, int row, int col) {
-//		if (DEBUG) {
-			// System.out.println("Setting value at " + row + "," + col + " to "
-//					+ value + " (an instance of " + value.getClass() + ")");
-//		}
+		if (DEBUG) {
+			LOGGER.log(Level.INFO, "Setting value at {0},{1} to {2} (an instance of {3})", new Object[]{row, col, value, value.getClass()});
+		}
 
 		data.get(row)[col] = value;
 		fireTableCellUpdated(row, col);
 
 		if (DEBUG) {
-			// System.out.println("New value of data:");
+			LOGGER.info("new value of data:");
 			printDebugData();
 		}
 	}
@@ -89,13 +88,11 @@ class SimulationTableModel extends AbstractTableModel implements IDataClient {
 		int numCols = getColumnCount();
 
 		for (int i = 0; i < numRows; i++) {
-			// System.out.print("    row " + i + ":");
+			LOGGER.log(Level.INFO, "    row {0}:", i);
 			for (int j = 0; j < numCols; j++) {
-				// System.out.print("  " + data.get(i)[j]);
+				LOGGER.log(Level.INFO, "  {0}", data.get(i)[j]);
 			}
-			// System.out.println();
 		}
-		// System.out.println("--------------------------");
 	}
 
 	@Override

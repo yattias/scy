@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
@@ -22,10 +23,13 @@ import javax.swing.JTextField;
 import colab.um.draw.JdFigure;
 import colab.um.draw.JdObject;
 import eu.scy.client.tools.scydynamics.model.Model;
+import java.util.logging.Logger;
 
 
 @SuppressWarnings("serial")
 public class VariableSelectionPanel extends JPanel {
+
+    private final static Logger LOGGER = Logger.getLogger(VariableSelectionPanel.class.getName());
 
 	private Map<String, JCheckBox> variables;
 	private HashSet<JTextField> textFields;
@@ -57,7 +61,7 @@ public class VariableSelectionPanel extends JPanel {
 		while (objects.hasMoreElements()) {
 			object = objects.nextElement();		
 			if (!object.isSpecified()) {
-				// System.out.println("VariableSelectionPanel.checkModel: "+object.getLabel()+" is not specified!");
+				LOGGER.log(Level.INFO, "{0} is not specified", object.getLabel());
 			}
 		}	
 	}

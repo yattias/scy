@@ -19,6 +19,7 @@ import org.jdom.output.XMLOutputter;
 
 import eu.scy.client.tools.scydynamics.model.Model;
 import eu.scy.client.tools.scydynamics.model.SimquestModel;
+import java.util.logging.Logger;
 
 import sqv.Interface;
 import sqv.ModelVariable;
@@ -31,10 +32,7 @@ import sqv.widgets.VariableRef;
 
 public class SimulationToolbar extends JToolBar implements ActionListener {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5071178017935714682L;
+        private final static Logger LOGGER = Logger.getLogger(SimulationToolbar.class.getName());
 	private ModelEditor editor;
 	private SimquestModel sqModel;
 
@@ -58,12 +56,12 @@ public class SimulationToolbar extends JToolBar implements ActionListener {
 			java.awt.Frame frame = javax.swing.JOptionPane.getFrameForComponent(this);
 			SimulationDialog simdialog = new SimulationDialog(frame, editor.getModel());
 		} else if (evt.getActionCommand().equals("run")) {
-			// System.out.println(editor.getModel());
+			// LOGGER.info(editor.getModel());
 			sqModel = new SimquestModel(editor.getModel());
-			// System.out.println(new XMLOutputter(Format.getPrettyFormat()).outputString(sqModel));
+			// LOGGER.info(new XMLOutputter(Format.getPrettyFormat()).outputString(sqModel));
 			DataServer dataServer = new DataServer();
 			sqv.Model model = new sqv.Model(sqModel, dataServer);
-			new ScreenOutputDataClient(dataServer);
+			//new ScreenOutputDataClient(dataServer);
 						
 			JFrame graphFrame = new JFrame("graph");
 			graphFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -87,7 +85,7 @@ public class SimulationToolbar extends JToolBar implements ActionListener {
 			for (int i=0; i<variables.size(); i++){
 				if (variables.get(i).getKind()==ModelVariable.VK_STATE) {
 					// adding curves for the state variables in the model
-					// System.out.println("SimulationToolbar.actionPerformed. adding curve for "+variables.get(i).getName());
+					// LOGGER.info("SimulationToolbar.actionPerformed. adding curve for "+variables.get(i).getName());
 					graph.addCurve(new Curve(i, timeRef, new VariableRef(variables.get(i)), Color.RED, (float) 5.0, variables.get(i).getName()));
 				}
 			}	

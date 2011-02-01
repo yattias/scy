@@ -47,10 +47,11 @@ import eu.scy.client.tools.scydynamics.logging.IModellingLogger;
 import eu.scy.client.tools.scydynamics.logging.ModellingLogger;
 import eu.scy.client.tools.scydynamics.model.Model;
 import eu.scy.elo.contenttype.dataset.DataSet;
+import java.util.logging.Logger;
 
 public class ModelEditor extends JPanel implements AdjustmentListener {
 
-    static final long serialVersionUID = -8181842250058665865L;
+    private final static Logger LOGGER = Logger.getLogger(ModelEditor.class.getName());
     public final static String DEFAULT_ACTION = "cursor";
     public final static int LNK_DRAG_POINT = 0;
     public final static int LNK_LOOP = 1;
@@ -334,26 +335,26 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
     // TODO
     // public void clearStatusMsg() { aEditorVT.showStatusMsg("",false); }
     // public void clearStatusMsg() {
-    // // System.out.println("JdEditorStandalone.showStatusMsg().");
+    // // LOGGER.info("JdEditorStandalone.showStatusMsg().");
     // }
     //
     // // public void showStatusMsg(int i) {
     // // aEditorVT.showStatusMsg(lnkMsg[i],false); }
     // public void showStatusMsg(int i) {
-    // // System.out.println("JdEditorStandalone.showStatusMsg(): " + i);
+    // // LOGGER.info("JdEditorStandalone.showStatusMsg(): " + i);
     // }
     //
     // // public void showStatusMsg(int i, boolean b) {
     // // aEditorVT.showStatusMsg(lnkMsg[i],b); }
     // public void showStatusMsg(int i, boolean b) {
-    // // System.out.println("JdEditorStandalone.showStatusMsg(): " + i + " / "
+    // // LOGGER.info("JdEditorStandalone.showStatusMsg(): " + i + " / "
     // + b);
     // }
     //
     // // public void showStatusMsg(String s, boolean b) {
     // // aEditorVT.showStatusMsg(s,b); }
     // public void showStatusMsg(String s, boolean b) {
-    // // System.out.println("JdEditorStandalone.showStatusMsg(): " + s + " / "
+    // // LOGGER.info("JdEditorStandalone.showStatusMsg(): " + s + " / "
     // + b);
     // }
     // -------------------------------------------------------------------------
@@ -387,7 +388,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
     // if (JTools.hasValue(tip)) {
     // int x = (int) o.getBounds().getCenterX();
     // int y = o.getBounds().y;
-    // // // System.out.println("showRuntimeValue " + tip + ", x=" +
+    // // // LOGGER.info("showRuntimeValue " + tip + ", x=" +
     // // String.valueOf(x) + ", y=" + String.valueOf(y));
     // aCanvas.setTip(tip, x, y); // -8: move up a bit
     // }
@@ -409,20 +410,20 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
         if (name == null) {
             // userMessage =
             // JTools.getAppResourceString("editorMsgYouMustIntroduceVariableName");
-            // System.out.println("ModelEditor.isValidName(). invalid variable name.");
+            LOGGER.info("invalid variable name: null");
         } else if (name.length() < 1) {
             // userMessage =
             // JTools.getAppResourceString("editorMsgYouMustIntroduceVariableName");
-            // System.out.println("ModelEditor.isValidName(). invalid variable name.");
+            LOGGER.info("invalid variable name: length < 1");
         } else if (aModel.hasObjectOfName(name)) {
             // userMessage =
             // JTools.getAppResourceString("editorMsgDuplicateVariableName",
             // name);
-            // System.out.println("ModelEditor.isValidName(). invalid variable name.");
+            LOGGER.info("invalid variable name: duplicate name");
         } else if (JParserExpr.isToken(name)) {
             // userMessage =
             // JTools.getAppResourceString("editorMsgReservedWord",name);
-            // System.out.println("ModelEditor.isValidName(). invalid variable name.");
+            LOGGER.info("invalid variable name: expression token");
         } else {
             b = true;
         }
@@ -615,7 +616,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
                 // userMessage =
                 // JTools.getAppResourceString("editorMsgYouMustUseAllLinkedVariables");
                 // showStatusMsg(userMessage, true);
-                // System.out.println("ModelEditor.checkExpr(): not all linked variables used. 1");
+                LOGGER.info("not all linked variables used (1)");
                 return false;
             }
             // create vector of linked variables in lowercase
@@ -635,7 +636,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
                     // userMessage =
                     // JTools.getAppResourceString("editorMsgYouMustUseAllLinkedVariables");
                     // showStatusMsg(userMessage, true);
-                    // System.out.println("ModelEditor.checkExpr(): not all linked variables used. 2");
+                    LOGGER.info("not all linked variables used (2)");
                     return false;
                 }
             }
@@ -647,7 +648,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
                     // userMessage =
                     // JTools.getAppResourceString("editorMsgYouMustUseAllLinkedVariables");
                     // showStatusMsg(userMessage, true);
-                    // System.out.println("ModelEditor.checkExpr(): not all linked variables used. 3");
+                    LOGGER.info("not all linked variables used (3)");
                     return false;
                 }
             }
@@ -827,7 +828,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
     // public void setModelChanged() { aEditorVT.setModelChecked(false); }
     // TODO
     public void setModelChanged() {
-        // // System.out.println("JdEditorStandalone.setModelChanged() called.");
+        // // LOGGER.info("JdEditorStandalone.setModelChanged() called.");
     }
 
     // TODO
@@ -875,9 +876,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 
     // ---------------------------------------------------------------------------
     // public void showSpecDialog() { aEditorVT.showSpecDialog(); }
-    // TODO
     public void showSpecDialog(JdFigure figure, java.awt.Point position) {
-        // // System.out.println("JdEditorStandalone.showSpecDialog() called. doing nothing...");
         java.awt.Frame frame = javax.swing.JOptionPane.getFrameForComponent(this);
         VariableDialog vdialog = new VariableDialog(frame, position, figure,
                 this, bundle);
@@ -889,7 +888,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
     // aEditorVT.updateSpecDialog(bCheck); }
     // TODO
     public void updateSpecDialog(boolean bCheck) {
-        // // System.out.println("JdEditorStandalone.updateSpecDialog() called.");
+        // // LOGGER.info("JdEditorStandalone.updateSpecDialog() called.");
         // String noSpecMsg =
         // JTools.getAppResourceString("EditorSpecMsgSelNone");
         // if (aModel==null) { wSpec.loadProperties(null,noSpecMsg); return; }
