@@ -30,7 +30,7 @@ public class DnDUtils {
 
 	public static void debugPrintln(String s) {
 		if (debugEnabled) {
-			System.out.println(s);
+			// System.out.println(s);
 		}
 	}
 

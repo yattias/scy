@@ -66,7 +66,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
          @Override
          public void documentStarted()
          {
-//            System.out.println("Start loading document: " + browser.getURL());
+//            // System.out.println("Start loading document: " + browser.getURL());
             startNanos = System.nanoTime();
          }
 
@@ -76,7 +76,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
             long usedNanos = System.nanoTime() - startNanos;
             long usedMillis = usedNanos / 1000000;
             logger.info("Loaded page in " + usedMillis + " msec, url: " + browser.getURL());
-//            System.out.println("Loaded document: \n- url:" + browser.getURL() + "\n- title:" + browser.getDocumentTitle());
+//            // System.out.println("Loaded document: \n- url:" + browser.getURL() + "\n- title:" + browser.getDocumentTitle());
             if (urlFieldIsTitle)
             {
                urlField.setText(browser.getDocumentTitle());
@@ -222,7 +222,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
 
    private void urlFieldKeyTyped(java.awt.event.KeyEvent evt)
    {
-//       System.out.println(evt.getKeyCode() + ", " + evt.getKeyText(evt.getKeyCode()) + ", " + (int)evt.getKeyChar());
+//       // System.out.println(evt.getKeyCode() + ", " + evt.getKeyText(evt.getKeyCode()) + ", " + (int)evt.getKeyChar());
       if (((int) evt.getKeyChar() == 10) && !urlFieldIsTitle)
       {
          enteredUrlString = urlField.getText();
@@ -453,7 +453,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
          Map<String, List<String>> headerFields = urlLConnection.getHeaderFields();
          for (Map.Entry<String, List<String>> entry : headerFields.entrySet())
          {
-            System.out.println(entry.getKey() + " -> " + entry.getValue());
+            // System.out.println(entry.getKey() + " -> " + entry.getValue());
          }
       }
       catch (IOException ex1)
@@ -486,7 +486,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
          final char c = _text.charAt(i);
          if (needBreak && Character.isWhitespace(c))
          {
-            System.out.println("Breaking: " + broken.toString());
+            // System.out.println("Breaking: " + broken.toString());
             needBreak = false;
             broken.append('\n');
          }
@@ -495,7 +495,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
             broken.append(c);
          }
       }
-//      System.out.println("Broken! " + broken.toString());
+//      // System.out.println("Broken! " + broken.toString());
       return broken.toString();
    }
 

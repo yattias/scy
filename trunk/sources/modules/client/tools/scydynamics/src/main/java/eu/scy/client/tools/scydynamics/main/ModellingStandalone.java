@@ -38,15 +38,15 @@ public class ModellingStandalone extends JFrame {
 		File confFile = new File("scydynamics.properties");
 		Properties props = ModelEditor.getDefaultProperties();
 		try {
-			System.out.println("ModellingStandalone.getProperties(). expecting file at "+confFile.getAbsolutePath());
+			// System.out.println("ModellingStandalone.getProperties(). expecting file at "+confFile.getAbsolutePath());
 			if (confFile.exists())
 				props.load(new FileInputStream(confFile));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		props.put("show.popouttabs", "true");
-		System.out.println("current props:");
-		System.out.println(props);
+		// System.out.println("current props:");
+		// System.out.println(props);
 		return props;
 	}
 

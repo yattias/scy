@@ -169,14 +169,14 @@ public static void main(String[] args) {
 	end("main");
 	
 
-	System.out.println("Resultat :\n"+display());
-	System.out.println("\nStats  :\n"+getStats());
-	System.out.println("Intersection 1 :\n"+getProfile("main").intersection(getProfile("Boucle 2")).getStats());
-	System.out.println("Intersection 2 :\n"+getProfile("Boucle 1").intersection(getProfile("Boucle 2")).getStats());
+	// System.out.println("Resultat :\n"+display());
+	// System.out.println("\nStats  :\n"+getStats());
+	// System.out.println("Intersection 1 :\n"+getProfile("main").intersection(getProfile("Boucle 2")).getStats());
+	// System.out.println("Intersection 2 :\n"+getProfile("Boucle 1").intersection(getProfile("Boucle 2")).getStats());
 	reset();
 	start();
 	start("test");
 	end("test");
-	System.out.println("\nStats  :\n"+getStats());
+	// System.out.println("\nStats  :\n"+getStats());
     }
 }

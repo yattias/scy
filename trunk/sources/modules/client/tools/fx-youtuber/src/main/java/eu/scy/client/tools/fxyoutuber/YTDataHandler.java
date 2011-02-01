@@ -56,7 +56,7 @@ public class YTDataHandler {
         //transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
         transformer.transform(source, result);
-        System.out.println(stringWriter.toString());
+        // System.out.println(stringWriter.toString());
         return stringWriter.toString();
     }
     catch(Exception e) {

@@ -52,7 +52,7 @@ public class CopexHTML {
             setItem(proc.getEvaluation().getEvaluation(edp.getLocale()), proc.getEvaluation().getComment(edp.getLocale()), "icone_AdT_eval.png", edp.getBundleString("TREE_EVALUATION"));
         }
         //addString("</table>");
-        //System.out.println(copexHtml);
+        //// System.out.println(copexHtml);
         v.add(copexHtml);
         return new CopexReturn();
     }
@@ -288,7 +288,7 @@ public class CopexHTML {
     private String getTaskIcon(ExperimentalProcedure proc, CopexTask task){
         String img = "";
         if (task == null){
-            System.out.println("ATTENTION TACHE NULL");
+            // System.out.println("ATTENTION TACHE NULL");
             return "";
         }
         if (task.isStep()){

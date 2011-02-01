@@ -62,7 +62,7 @@ public class LocalFreakinStudentPedagogicalPlanService implements StudentPedagog
     @Override
     public void save(ScyBaseObject scyBase) {
         //wee wee - save me to roolo please
-        System.out.println("SAVING: " + scyBase + " " + scyBase.getClass().getName());
+        // System.out.println("SAVING: " + scyBase + " " + scyBase.getClass().getName());
     }
 
     @Override
@@ -81,7 +81,7 @@ public class LocalFreakinStudentPedagogicalPlanService implements StudentPedagog
 
     @Override
     public void removeMember(StudentPlannedActivity studentPlannedActivity, String user) {
-        System.out.println("REMOVING USER WITH NICK NAME: " + user);
+        // System.out.println("REMOVING USER WITH NICK NAME: " + user);
         List members = studentPlannedActivity.getMembers();
         SCYUserImpl userToRemove = null;
         for (int i = 0; i < members.size(); i++) {
@@ -90,7 +90,7 @@ public class LocalFreakinStudentPedagogicalPlanService implements StudentPedagog
         }
 
         studentPlannedActivity.getMembers().remove(userToRemove);
-        System.out.println("REMOVED " + userToRemove);
+        // System.out.println("REMOVED " + userToRemove);
     }
 
     @Override
@@ -107,11 +107,11 @@ public class LocalFreakinStudentPedagogicalPlanService implements StudentPedagog
 
     @Override
     public StudentPlannedActivity getStudentPlannedActivity(String userName, String achorELOId, String studentPlanId) {
-        System.out.println("************************************");
-        System.out.println("USERNAME: " + userName);
-        System.out.println("AnchorELOId: " + achorELOId);
-        System.out.println("studentPlanID: " + studentPlanId);
-        System.out.println("************************************");
+        // System.out.println("************************************");
+        // System.out.println("USERNAME: " + userName);
+        // System.out.println("AnchorELOId: " + achorELOId);
+        // System.out.println("studentPlanID: " + studentPlanId);
+        // System.out.println("************************************");
 
         if(getCurrentStudentPlanELO() != null) {
             StudentPlanELO elo = getCurrentStudentPlanELO();
@@ -119,7 +119,7 @@ public class LocalFreakinStudentPedagogicalPlanService implements StudentPedagog
             for (int i = 0; i < activities.size(); i++) {
                 StudentPlannedActivity activity = (StudentPlannedActivity) activities.get(i);
                 if(activity != null && activity.getId().equals(achorELOId)) {
-                    System.out.println("Found existing activity: " + activity);
+                    // System.out.println("Found existing activity: " + activity);
                     return activity;
                 }
             }
@@ -130,7 +130,7 @@ public class LocalFreakinStudentPedagogicalPlanService implements StudentPedagog
     }
 
     private StudentPlannedActivity createStudentPlannedActivity(String userName, String anchorELOIde, String studentPlanId) {
-        System.out.println("DID NOT FIND EXISTING ACTIVITY FOR " + anchorELOIde + " creating new");
+        // System.out.println("DID NOT FIND EXISTING ACTIVITY FOR " + anchorELOIde + " creating new");
 
         StudentPlannedActivity studentPlannedActivity = new StudentPlannedActivityImpl();
         studentPlannedActivity.setId(anchorELOIde);

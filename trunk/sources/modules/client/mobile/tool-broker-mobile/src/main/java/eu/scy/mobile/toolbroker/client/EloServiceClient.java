@@ -19,7 +19,7 @@ public class EloServiceClient implements IELOService {
         client = new JSONServiceClient(baseUrl);
 	}
 	public IELO getELO(int i) {
-    	System.out.println("Looking for ELO with ID = " + i);
+    	// System.out.println("Looking for ELO with ID = " + i);
         Serializer serializer = Serializers.getByRemoteType(REMOTE_TYPE);
 
         if (serializer == null) System.err.println("Warning:  no serializer found for type "+ REMOTE_TYPE);

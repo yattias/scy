@@ -137,7 +137,7 @@ public class Calculator extends JXPanel {
 				System.out
 						.println("Calculator.init().new KeyListener() {...}.keyTyped()");
 //				JXTextField source = (JXTextField) e.getSource();
-//		           System.out.println("key text " + source.getText());
+//		           // System.out.println("key text " + source.getText());
 //		           expressionModel.replaceExpression(source.getText());
 			}
 			
@@ -147,27 +147,27 @@ public class Calculator extends JXPanel {
 				System.out
 						.println("Calculator.init().new KeyListener() {...}.keyReleased()");
 				 JXTextField source = (JXTextField) e.getSource();
-		           System.out.println("text " + source.getText());
+		           // System.out.println("text " + source.getText());
 		           expressionModel.replaceExpression(source.getText());
 			}
 			
 			@Override
 			public void keyPressed(KeyEvent e) {
-				System.out.println(e.getKeyChar());
+				// System.out.println(e.getKeyChar());
 				 
 				 int key = e.getKeyCode();
 			        
 			        if (key != KeyEvent.VK_ENTER && key != KeyEvent.VK_BACK_SPACE && key != KeyEvent.VK_DELETE) {
 			           JXTextField source = (JXTextField) e.getSource();
 			           expressionModel.replaceExpression(source.getText()+e.getKeyChar());
-			           System.out.println("exp " + expressionModel.getExpressionDisplay());
+			           // System.out.println("exp " + expressionModel.getExpressionDisplay());
 			           getResultLabel().setText(_0_00);
 			           getAddButton().setEnabled(false);
 //			        } else if (key == KeyEvent.VK_BACK_SPACE || key == KeyEvent.VK_DELETE) {
 ////				           JXTextField source = (JXTextField) e.getSource();
 ////				           String chop = StringUtils.chop(source.getText());
 ////				           expressionModel.replaceExpression(chop);
-////				           System.out.println("exp " + expressionModel.getExpressionDisplay());
+////				           // System.out.println("exp " + expressionModel.getExpressionDisplay());
 ////				           getResultLabel().setText(_0_00);
 ////				           getAddButton().setEnabled(false);
 				        }

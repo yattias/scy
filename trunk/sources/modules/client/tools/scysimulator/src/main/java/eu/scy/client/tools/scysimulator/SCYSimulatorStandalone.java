@@ -78,7 +78,7 @@ public class SCYSimulatorStandalone implements INotifiable {
         //FileName fileName = new FileName("D:/temp/sqzx/co2-converter/co2_converter.sqzx");
         //FileName fileName = new FileName("D:/temp/sqzx/co2-house/co2_house.sqzx");
         //URI fileUri = fileName.toURI();
-        System.out.println("SimQuestNode.createSimQuestNode(). trying to load: " + fileUri.toString());
+        // System.out.println("SimQuestNode.createSimQuestNode(). trying to load: " + fileUri.toString());
         simquestViewer.setFile(fileUri);
         simquestViewer.createFrame(false);
         // TODO remove hardcoded username/pass
@@ -95,7 +95,7 @@ public class SCYSimulatorStandalone implements INotifiable {
             dataCollector = new DataCollector(simquestViewer, tbi, "n/a");
             simquestPanel.add(dataCollector, BorderLayout.SOUTH);
         } catch (java.lang.Exception e) {
-            System.out.println("SimQuestNode.createSimQuestNode(). exception caught:");
+            // System.out.println("SimQuestNode.createSimQuestNode(). exception caught:");
             e.printStackTrace();
             JTextArea info = new JTextArea(4, 42);
             info.append("Simulation could not be loaded.\n");
@@ -154,7 +154,7 @@ public class SCYSimulatorStandalone implements INotifiable {
     }
 
         public static void main(String[] args) throws URISyntaxException, InterruptedException, TupleSpaceException {
-       // System.out.println(System.currentTimeMillis());
+       // // System.out.println(System.currentTimeMillis());
             new SCYSimulatorStandalone();
     }
 

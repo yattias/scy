@@ -76,7 +76,7 @@ public class SQLSpacesActionListener implements Callback {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        System.out.println((String)x.getField(3).getValue());
+        // System.out.println((String)x.getField(3).getValue());
     }
     
 }

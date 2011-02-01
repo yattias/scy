@@ -69,7 +69,7 @@ public class DataHandler {
             docToFile(doc, filename);
         }
         catch(Exception e) {
-            System.out.println("AHH IM AN ERROR! PLEASE TAKE CARE OF ME OR ILL CRY :-(");
+            // System.out.println("AHH IM AN ERROR! PLEASE TAKE CARE OF ME OR ILL CRY :-(");
             e.printStackTrace();
         }
         return true;
@@ -80,7 +80,7 @@ public class DataHandler {
             return docToString(createXMLDocumentFromFDM(fdm));
         }
         catch(Exception e) {
-            System.out.println("AHH IM AN ERROR! PLEASE TAKE CARE OF ME OR ILL CRY :-(");
+            // System.out.println("AHH IM AN ERROR! PLEASE TAKE CARE OF ME OR ILL CRY :-(");
             e.printStackTrace();
         }
         return null;
@@ -100,7 +100,7 @@ public class DataHandler {
             return stringWriter.toString();
         }
         catch(Exception e) {
-            System.out.println("AHH IM AN ERROR! PLEASE TAKE CARE OF ME OR ILL CRY :-(");
+            // System.out.println("AHH IM AN ERROR! PLEASE TAKE CARE OF ME OR ILL CRY :-(");
             e.printStackTrace();
         }
         return null;
@@ -119,7 +119,7 @@ public class DataHandler {
             xformer.transform(source, result);
         }
         catch(Exception e) {
-             System.out.println("AHH IM AN ERROR! PLEASE TAKE CARE OF ME OR ILL CRY :-(");
+             // System.out.println("AHH IM AN ERROR! PLEASE TAKE CARE OF ME OR ILL CRY :-(");
             e.printStackTrace();
         }
 
@@ -172,26 +172,26 @@ public class DataHandler {
     }
 
     private FormDataModel createFDMfromXML(Document doc) {
-        System.out.println("createFDMfromXML");
+        // System.out.println("createFDMfromXML");
         FormDataModel fdm = new FormDataModel();
         NodeList nl;
         nl = doc.getElementsByTagName("form");
         for (int i = 0; i < nl.getLength(); i++) {
             //why a loop? a valid xml file should have only one <form> tag..
             fdm.setTitle(((Element) nl.item(i)).getAttribute("title"));
-            System.out.println(fdm.getTitle());
+            // System.out.println(fdm.getTitle());
             fdm.setDescription(((Element) nl.item(i)).getAttribute("description"));
-            System.out.println(fdm.getDescription());
+            // System.out.println(fdm.getDescription());
             fdm.setVersion(Integer.parseInt(((Element) nl.item(i)).getAttribute("version")));
         }
         nl = doc.getElementsByTagName("field");
         for (int i = 0; i < nl.getLength(); i++) {
             String title = ((Element) nl.item(i)).getAttribute("title");
-            System.out.println("Element: "+title);
+            // System.out.println("Element: "+title);
             //int to type
-            System.out.println(((Element) nl.item(i)).getAttribute("type").toString());
+            // System.out.println(((Element) nl.item(i)).getAttribute("type").toString());
             FormElementDataType type = FormElementDataType.valueOf(((Element) nl.item(i)).getAttribute("type").toString());
-            System.out.println("Type: "+type);
+            // System.out.println("Type: "+type);
 
             int card;
             if(((Element) nl.item(i)).getAttribute("cardinality").equals("")) {
@@ -245,7 +245,7 @@ public class DataHandler {
             }
             fdm.addElement(fde);
         }
-        System.out.println("returning fdm");
+        // System.out.println("returning fdm");
         this.fdm = fdm;
         return fdm;
     }

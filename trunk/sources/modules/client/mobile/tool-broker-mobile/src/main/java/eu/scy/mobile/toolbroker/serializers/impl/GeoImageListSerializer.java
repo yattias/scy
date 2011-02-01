@@ -44,7 +44,7 @@ public class GeoImageListSerializer implements Serializer {
 	}
 
 	public Object serialize(Object o) {
-        System.out.println("o = " + o.getClass());
+        // System.out.println("o = " + o.getClass());
         IGeoImageList gic = (IGeoImageList) o;
         JSONObject jsonObj = new JSONObject();
         /**/

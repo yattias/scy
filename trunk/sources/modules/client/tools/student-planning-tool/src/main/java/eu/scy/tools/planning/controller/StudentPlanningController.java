@@ -114,7 +114,7 @@ public class StudentPlanningController {
         this.setStudentPlanELO(studentPlanELO);
         this.setUserName(getToolbrokerApi().getLoginUserName());
         if (studentPedagogicalPlanService == null)
-            System.out.println("STUDENT PLANNING SERVICE IS NULL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            // System.out.println("STUDENT PLANNING SERVICE IS NULL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         this.studentPedagogicalPlanService = studentPedagogicalPlanService;
 
         log.severe("SPT GOT USERNAME GO BUDDY GO: " + getUserName());
@@ -135,14 +135,14 @@ public class StudentPlanningController {
             IELO ielo = (IELO) elos.get(i);
             this.elo = ielo;
 
-            System.out.println("WOOOOO : REMOVE ME WHEN RETRIEVE LAST ELO VERSION IS WORKING!!!!");
-            System.out.println("WOOOOO : REMOVE ME WHEN RETRIEVE LAST ELO VERSION IS WORKING!!!!");
-            System.out.println("WOOOOO : REMOVE ME WHEN RETRIEVE LAST ELO VERSION IS WORKING!!!!");
+            // System.out.println("WOOOOO : REMOVE ME WHEN RETRIEVE LAST ELO VERSION IS WORKING!!!!");
+            // System.out.println("WOOOOO : REMOVE ME WHEN RETRIEVE LAST ELO VERSION IS WORKING!!!!");
+            // System.out.println("WOOOOO : REMOVE ME WHEN RETRIEVE LAST ELO VERSION IS WORKING!!!!");
 
         }
 
         //this.elo = getToolbrokerApi().getRepository().retrieveELOLastVersion(elo.getUri());
-        System.out.println("ELO URI: " + elo.getUri());
+        // System.out.println("ELO URI: " + elo.getUri());
         this.elo.getContent().setXmlString(xmlContent);
         getToolbrokerApi().getRepository().updateELO(this.elo);
     }
@@ -193,7 +193,7 @@ public class StudentPlanningController {
 
         if (studentPlans != null && studentPlans.size() > 0) {
             setStudentPlanELO(studentPlans.get(0));
-            System.out.println("PLAN:" + getStudentPlanELO());
+            // System.out.println("PLAN:" + getStudentPlanELO());
 
             for (StudentPlanELO studentPlanELO : studentPlans) {
                 this.dumpStudentPlan(studentPlanELO);
@@ -275,7 +275,7 @@ public class StudentPlanningController {
     }
 
     public void collapseAllExcept(String name) {
-        System.out.println("COLLAPSING ALL EXCEPT: " + name);
+        // System.out.println("COLLAPSING ALL EXCEPT: " + name);
         if (name != null) {
             for (JXTaskPane tpane : taskPanes) {
                 JXEntryPanel entryPanel = (JXEntryPanel) tpane.getParent();
@@ -288,7 +288,7 @@ public class StudentPlanningController {
 
             }
         } else {
-            System.out.println("NAME WAS NULL, DID NOTHING");
+            // System.out.println("NAME WAS NULL, DID NOTHING");
         }
 
     }
@@ -315,11 +315,11 @@ public class StudentPlanningController {
 
     public void dumpStudentPlan(StudentPlanELO studentPlan) {
 
-        System.out.println("Dumping student plan");
-        System.out.println("id:" + studentPlan.getId());
-        System.out.println("description:" + studentPlan.getDescription());
-        System.out.println("name " + studentPlan.getName());
-        System.out.println("number of activities: "
+        // System.out.println("Dumping student plan");
+        // System.out.println("id:" + studentPlan.getId());
+        // System.out.println("description:" + studentPlan.getDescription());
+        // System.out.println("name " + studentPlan.getName());
+        // System.out.println("number of activities: "
                 + studentPlan.getStudentPlannedActivities().size());
         for (StudentPlannedActivity activity : studentPlan
                 .getStudentPlannedActivities()) {
@@ -328,17 +328,17 @@ public class StudentPlanningController {
     }
 
     public void dumpStudentActivity(StudentPlannedActivity studentActivity) {
-        System.out.println("Dumping activity");
-        System.out.println("id: " + studentActivity.getId());
-        // System.out.println("start date: " +
+        // System.out.println("Dumping activity");
+        // System.out.println("id: " + studentActivity.getId());
+        // // System.out.println("start date: " +
         // studentActivity.getStartDate().toString());
-        // System.out.println("end date: " +
+        // // System.out.println("end date: " +
         // studentActivity.getEndDate().toString());
-        // System.out.println("name: " + studentActivity.getName());
-        // System.out.println("note: " + studentActivity.getNote());
-        // System.out.println("members: " +
+        // // System.out.println("name: " + studentActivity.getName());
+        // // System.out.println("note: " + studentActivity.getNote());
+        // // System.out.println("members: " +
         // studentActivity.getMembers().toString());
-        System.out.println("anchor elo: "
+        // System.out.println("anchor elo: "
                 + studentActivity.getAssoicatedELO().toString());
 
     }
@@ -425,7 +425,7 @@ public class StudentPlanningController {
 
             StudentPlannedActivity spa = null;
             try {
-                if (getStudentPlanService() == null) System.out.println("STUDENTPLAN SERVICE IS NULL!!");
+                if (getStudentPlanService() == null) // System.out.println("STUDENTPLAN SERVICE IS NULL!!");
                 spa = this.getStudentPlanService().getStudentPlannedActivity(getUserName(), eloId, id);
                 /*this.elo = getToolbrokerApi().getRepository().retrieveELOLastVersion(elo.getUri());
                 this.elo.getContent().setXmlString(StudentPlanELOParser.parseToXML(getStudentPlanService().getCurrentStudentPlanELO()));

@@ -127,7 +127,7 @@ public class OOOChatController implements ChatController {
 			@Override
 			public void handleAwarenessMessageEvent(final IAwarenessEvent awarenessEvent) {
 			
-				System.out.println("calling message event");
+				// System.out.println("calling message event");
 				
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {

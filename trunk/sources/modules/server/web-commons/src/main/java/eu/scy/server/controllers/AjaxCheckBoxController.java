@@ -60,7 +60,7 @@ public class AjaxCheckBoxController extends AbstractAjaxController {
             Method method = object.getClass().getMethod("set" + property, Boolean.class);
 
             Boolean returnValue =  (Boolean) method.invoke(object, value);
-            System.out.println(method.getName() + " " + returnValue);
+            // System.out.println(method.getName() + " " + returnValue);
             return returnValue;
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

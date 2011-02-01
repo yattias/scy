@@ -41,7 +41,7 @@ public class AjaxTimePicker extends AjaxBaseComponent{
             Method method = object.getClass().getMethod("get" + property);
 
             Time returnValue =  (Time) method.invoke(object, null);
-            System.out.println(method.getName() + " " + returnValue);
+            // System.out.println(method.getName() + " " + returnValue);
 
             if (returnValue == null) {
                 return "Edit";

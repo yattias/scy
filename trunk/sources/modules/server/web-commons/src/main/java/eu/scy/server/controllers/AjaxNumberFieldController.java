@@ -40,7 +40,7 @@ public class AjaxNumberFieldController extends AbstractAjaxController {
            Method method = object.getClass().getMethod("set" + property, Integer.class);
 
            Boolean returnValue =  (Boolean) method.invoke(object, Integer.parseInt(value));
-           System.out.println(method.getName() + " " + returnValue);
+           // System.out.println(method.getName() + " " + returnValue);
            return returnValue;
        } catch (Exception e) {
            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

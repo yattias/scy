@@ -51,7 +51,7 @@ public class RooloAccessorImpl implements RooloAccessor {
     @Override
     public ScyElo getElo(URI uri) {
         ScyElo elo =ScyElo.loadElo(uri, this);
-        System.out.println("LOADED ELO: " + elo.getTitle() + " (" + elo.getUri() + ")");
+        // System.out.println("LOADED ELO: " + elo.getTitle() + " (" + elo.getUri() + ")");
         return   elo;
     }
 

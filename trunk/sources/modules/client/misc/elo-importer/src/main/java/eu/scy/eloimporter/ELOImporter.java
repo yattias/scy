@@ -106,7 +106,7 @@ public class ELOImporter {
 						this.typeManager.getMetadataKey("keyword"));
 		List<String> keywords = Arrays.asList(new String[] { "keyword1",
 				"keyword2", "keyword3", "keyword4" });
-		System.out.println(keywords);
+		// System.out.println(keywords);
 		keywordContainer.setValueList(keywords);
 		keywordContainer.setValueList(keywords, this
 				.getNearestLocale(Locale.GERMAN));
@@ -222,7 +222,7 @@ public class ELOImporter {
 		// GraphConverterAgent<IELO<IMetadataKey>, IMetadataKey> agent = new
 		// GraphConverterAgent<IELO<IMetadataKey>, IMetadataKey>();
 		for (final File file : xmlFiles) {
-			System.out.println("elo #" + updateCounter() + " saved");
+			// System.out.println("elo #" + updateCounter() + " saved");
 			IELO<IMetadataKey> elo = importer.importFile(file);
 			// agent.processElo(elo);
 			importer.saveElo(elo);

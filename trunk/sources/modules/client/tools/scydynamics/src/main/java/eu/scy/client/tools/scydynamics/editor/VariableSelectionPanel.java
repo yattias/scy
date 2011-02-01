@@ -57,7 +57,7 @@ public class VariableSelectionPanel extends JPanel {
 		while (objects.hasMoreElements()) {
 			object = objects.nextElement();		
 			if (!object.isSpecified()) {
-				System.out.println("VariableSelectionPanel.checkModel: "+object.getLabel()+" is not specified!");
+				// System.out.println("VariableSelectionPanel.checkModel: "+object.getLabel()+" is not specified!");
 			}
 		}	
 	}

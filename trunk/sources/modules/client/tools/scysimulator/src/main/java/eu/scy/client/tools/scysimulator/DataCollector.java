@@ -529,7 +529,7 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
                 jd.setVisible(true);
 
             } else {
-                System.out.println("message without popup received...");
+                // System.out.println("message without popup received...");
                 notificationSender = notification.getSender();
                 notificationMessage = message;
                 if (SwingUtilities.isEventDispatchThread()) {

@@ -152,7 +152,7 @@ public class CopexUtilities {
 			return doc.getRootElement();
 		}
 		catch (Exception e){
-			System.out.println("problems converting string status to jdom "+ e);
+			// System.out.println("problems converting string status to jdom "+ e);
 			return null;
 		}
 	}
@@ -164,7 +164,7 @@ public class CopexUtilities {
             xmlOutputter.output(element, stringWriter);
 		}
 		catch (IOException e){
-			System.out.println("problems converting jdom status to string"+ e);
+			// System.out.println("problems converting jdom status to string"+ e);
 		}
 		return stringWriter.toString();
 	}

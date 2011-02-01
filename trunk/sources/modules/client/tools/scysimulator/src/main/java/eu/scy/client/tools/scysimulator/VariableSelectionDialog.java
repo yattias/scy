@@ -127,10 +127,10 @@ public class VariableSelectionDialog extends JDialog implements ActionListener {
 				ComparableJCheckBox box = boxes.next();
 				if (box.isSelected()) {
 					selectedVariables.add(variables.get(box));
-					// System.out.println("VariableSelectionDialog.actionPerformed(). add variable "+variables.get(box).getExternalName());
+					// // System.out.println("VariableSelectionDialog.actionPerformed(). add variable "+variables.get(box).getExternalName());
 				}
 			}
-			// System.out.println("VariableSelectionDialog.actionPerformed(). added "+selectedVariables.size()+" variables");
+			// // System.out.println("VariableSelectionDialog.actionPerformed(). added "+selectedVariables.size()+" variables");
 			collector.setSelectedVariables(selectedVariables);
 			dispose();
 		} else if (evt.getActionCommand().equals("cancel")) {
@@ -174,13 +174,13 @@ public class VariableSelectionDialog extends JDialog implements ActionListener {
 			} else if (var.getDescription().equals("")) {
 				// description is empty
 				checkbox = new ComparableJCheckBox(var.getExternalName() + ": "	+ var.getName());
-                                System.out.println(var.getExternalName() + ": "	+ var.getName());
+                                // System.out.println(var.getExternalName() + ": "	+ var.getName());
 			} else if ( (var.getDescription().equals("n/a") || (var.getKind() == ModelVariable.VK_SPECIAL) || (var.getKind() == ModelVariable.VK_TIME))) {
 				// description is "n/a" or it's a special variable, doing nothing
 			} else {
 				// description has some meaningful content
 				checkbox = new ComparableJCheckBox(var.getExternalName() + ": " + var.getDescription());
-                                 System.out.println(var.getExternalName() + ": " + var.getDescription());
+                                 // System.out.println(var.getExternalName() + ": " + var.getDescription());
                         }
 			
 			if (checkbox != null) {

@@ -94,7 +94,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
         for (Tuple t : tuples) {
             String s = t.getField(3).getValue().toString();
             s = s.substring(0, s.length() - "^^http://www.w3.org/2001/XMLSchema#string".length());
-            System.out.println(s);
+            // System.out.println(s);
             t.getField(3).setValue(s);
             ts.update(t.getTupleID(), t);
         }
@@ -103,14 +103,14 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             String s = t.getField(3).getValue().toString();
             if (!s.startsWith("\"")) {
                 s = "\"" + s.substring(0, s.length() - "^^http://www.w3.org/2001/XMLSchema#string".length()) + "\"^^http://www.w3.org/2001/XMLSchema#string";
-                System.out.println(s);
+                // System.out.println(s);
                 t.getField(3).setValue(s);
                 ts.update(t.getTupleID(), t);
             }
         }
         tuples = ts.readAll(new Tuple(Field.createWildCardField(), Field.createSemiformalField("*de")));
         for (Tuple t : tuples) {
-            System.out.println(t);
+            // System.out.println(t);
         }
         ts.disconnect();
         // HashMap<String, Object> map = new HashMap<String, Object>();
@@ -405,14 +405,14 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             if (ontologyClouds.containsKey(stemmed)) {
                 for (String keyword : ontologyClouds.get(stemmed)) {
                     keywords.put(keyword.toLowerCase(), 0.2);
-                    // System.out.println("cloud: " + keyword);
+                    // // System.out.println("cloud: " + keyword);
                     observer.foundTextKeyword(term);
                 }
             }
             if (ontologySingleTerms.containsKey(stemmed)) {
                 for (String keyword : ontologySingleTerms.get(stemmed)) {
                     keywords.put(keyword.toLowerCase(), 0.6);
-                    // System.out.println("ontology-stemmed: " + keyword);
+                    // // System.out.println("ontology-stemmed: " + keyword);
                 }
                 observer.foundTextKeyword(term);
             }
@@ -421,7 +421,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             if (text.toLowerCase().contains(oTerm.toLowerCase())) {
                 keywords.put(oTerm.toLowerCase(), 1.0);
                 observer.foundTextKeyword(oTerm.toLowerCase());
-                // System.out.println("ontology-full: " + oTerm);
+                // // System.out.println("ontology-full: " + oTerm);
             }
         }
 

@@ -44,16 +44,16 @@ public class AjaxComboboxController extends AbstractAjaxController {
 
             try {
                 Boolean returnValue = (Boolean) method.invoke(object, value);
-                System.out.println(method.getName() + " " + returnValue);
+                // System.out.println(method.getName() + " " + returnValue);
                 return returnValue;
             } catch (IllegalArgumentException iae) {
                 if (setterCl.isEnum()) {
                     Object objects[] = setterCl.getEnumConstants();
                     for (Object o : objects) {
-                        System.out.println(o);
+                        // System.out.println(o);
                         if (o.toString().equals(value)) {
                             Boolean returnValue = (Boolean) method.invoke(object, o);
-                            System.out.println(method.getName() + " " + returnValue);
+                            // System.out.println(method.getName() + " " + returnValue);
                             return returnValue;
                         }
                     }

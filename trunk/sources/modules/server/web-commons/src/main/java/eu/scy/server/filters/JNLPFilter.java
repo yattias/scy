@@ -33,7 +33,7 @@ public class JNLPFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        //System.out.println("==== DO LOCAL FILE FILTER");
+        //// System.out.println("==== DO LOCAL FILE FILTER");
         if (request.getRequestURL().indexOf(".jnlp") >= 0) {
 
             String userName = servletRequest.getParameter("username");
@@ -59,22 +59,22 @@ public class JNLPFilter implements Filter {
 
 
             } else {
-                System.out.println("SHIT - USER SERVICE IS NULL!!");
+                // System.out.println("SHIT - USER SERVICE IS NULL!!");
             }
 
 
-            System.out.println("LOADING JNLP FILE! " + request.getRequestURL());
+            // System.out.println("LOADING JNLP FILE! " + request.getRequestURL());
             response.setContentType("application/x-java-jnlp-file");
 
             String jnlpUrl = "";
 
             if(serverName != null) {
                 jnlpUrl = "http://" + serverName + ":8080/extcomp/scy-lab.jnlp";
-                System.out.println("USING SERVER NAME FROM STARTUP PARAMETER ROOLO.SERVER.NAME " + jnlpUrl);
+                // System.out.println("USING SERVER NAME FROM STARTUP PARAMETER ROOLO.SERVER.NAME " + jnlpUrl);
             } else {
                 jnlpUrl = "http://scy.collide.info:8080/extcomp/scy-lab.jnlp";
-                System.out.println("DEFAULTING TO SCY.COLLIDE.INFO FOR SCY LAB!!");
-                System.out.println("USING " + jnlpUrl);
+                // System.out.println("DEFAULTING TO SCY.COLLIDE.INFO FOR SCY LAB!!");
+                // System.out.println("USING " + jnlpUrl);
 
             }
             URL url = new URL(jnlpUrl);
@@ -89,10 +89,10 @@ public class JNLPFilter implements Filter {
 
             while ((inputLine = in.readLine()) != null) {
                 if (inputLine.contains("/application") && !extraArgumentsAdded) {
-                    System.out.println("ADDDING EXTRA ARGUMENTS!");
+                    // System.out.println("ADDDING EXTRA ARGUMENTS!");
                     extraArgumentsAdded = true;
                 } else {
-                    System.out.println("NOT APPLICATION");
+                    // System.out.println("NOT APPLICATION");
                 }
                 jnlpContent += inputLine;
             }
@@ -114,7 +114,7 @@ public class JNLPFilter implements Filter {
             in.close();
             response.getOutputStream().print(jnlpContent);
         } else {
-            //System.out.println("NOT JNLP");
+            //// System.out.println("NOT JNLP");
             filterChain.doFilter(servletRequest, servletResponse);
         }
     }

@@ -135,10 +135,10 @@ public class DefaultPedagogicalPlanInformationPanel extends JPanel {
 
         @Override
         protected void doActionPerformed(ActionEvent actionEvent) {
-            System.out.println("Searching for plan for: " + mission + " and " + scenario);
+            // System.out.println("Searching for plan for: " + mission + " and " + scenario);
             long start = System.currentTimeMillis();
             PedagogicalPlan plan = SCYPlannerApplicationManager.getApplicationManager().getPedagogicalPlanService().getPedagogicalPlan(mission, scenario);
-            System.out.println("USED : " + (System.currentTimeMillis() - start) + " to load pedagogical plan!");
+            // System.out.println("USED : " + (System.currentTimeMillis() - start) + " to load pedagogical plan!");
             if (plan != null) {
                 PedagogicalPlanPanel panel = new PedagogicalPlanPanel(plan);
 

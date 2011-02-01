@@ -41,7 +41,7 @@ public class GroupDAOHibernate extends ScyBaseDAOHibernate implements GroupDAO {
     }
 
     public SCYGroup getRootGroup(SCYProject project) {
-        System.out.println("GETTING ROOT GROUPS!!");
+        // System.out.println("GETTING ROOT GROUPS!!");
         return (SCYGroup) getSession().createQuery("From SCYGroupImpl where parentGroup is null and project = :project")
                 .setEntity("project", project)
                 .setMaxResults(1)

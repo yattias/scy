@@ -44,7 +44,7 @@ public class AjaxCheckBox extends AjaxBaseComponent{
             Method method = object.getClass().getMethod("get" + property);
 
             Boolean returnValue =  (Boolean) method.invoke(object, null);
-            System.out.println(method.getName() + " " + returnValue);
+            // System.out.println(method.getName() + " " + returnValue);
             return returnValue;
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

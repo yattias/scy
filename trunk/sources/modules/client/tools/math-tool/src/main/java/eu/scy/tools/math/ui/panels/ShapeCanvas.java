@@ -48,7 +48,7 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas{
 
 	public void paintComponent(Graphics g) {
     	super.paintComponent(g);
-    	System.out.println("repaint canvas show grid " + showGrid);
+    	// System.out.println("repaint canvas show grid " + showGrid);
     	
 		if (isShowGrid()) {
 			double xInc, yInc;
@@ -85,7 +85,7 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas{
 				ms.paintComponent(g);
 			}
 		}
-		System.out.println("LAYOUT: "+getLayout());
+		// System.out.println("LAYOUT: "+getLayout());
 	        
     }
 

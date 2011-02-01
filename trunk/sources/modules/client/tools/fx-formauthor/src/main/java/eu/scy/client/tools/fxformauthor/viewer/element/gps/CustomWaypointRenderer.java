@@ -25,8 +25,8 @@ public class CustomWaypointRenderer implements WaypointRenderer {
         try {
             img = ImageIO.read(getClass().getResource("pin.png"));
         } catch (Exception ex) {
-            System.out.println("couldn't read pin.png");
-            System.out.println(ex.getMessage());
+            // System.out.println("couldn't read pin.png");
+            // System.out.println(ex.getMessage());
             ex.printStackTrace();
         }
     }

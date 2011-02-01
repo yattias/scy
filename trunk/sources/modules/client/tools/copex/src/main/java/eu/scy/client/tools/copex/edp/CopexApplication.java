@@ -56,7 +56,7 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
             dbKeyGroup = Long.parseLong(group);
             dbKeyLabDoc = Long.parseLong(labDoc);
         }catch(Throwable t){
-            System.out.println(t);
+            // System.out.println(t);
             this.stop();
         }
         // i18n
@@ -115,7 +115,7 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
                     UIManager.setLookAndFeel(laf.getClassName());
 
                 } catch (Exception e) {
-                    System.out.println("ERREUR dans l'initialisation du lookAndFeel : "+e) ;
+                    // System.out.println("ERREUR dans l'initialisation du lookAndFeel : "+e) ;
                 }
             }
         }
@@ -139,11 +139,11 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
         }else{
             // gets the parameters of the application
             try{
-                System.out.println("copex url : "+args[0]);
+                // System.out.println("copex url : "+args[0]);
                 copexURL = new URL(args[0]);
-                System.out.println("copexURL : "+copexURL.getHost());
+                // System.out.println("copexURL : "+copexURL.getHost());
             }catch(MalformedURLException e){
-                System.out.println("Copex Application : "+e);
+                // System.out.println("Copex Application : "+e);
                 return;
             }
             idUser = args[1];

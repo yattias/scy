@@ -27,11 +27,11 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
     private List<IAwarenessUser> buddies = new ArrayList<IAwarenessUser>();
     
     public AwarenessServiceMockImpl() {
-        System.out.println("AwarenessServiceMockImpl.AwarenessServiceMockImpl()");
+        // System.out.println("AwarenessServiceMockImpl.AwarenessServiceMockImpl()");
     }
     
     public void closeAwarenessService() {
-        System.out.println("AwarenessServiceMockImpl.closeAwarenessService()");
+        // System.out.println("AwarenessServiceMockImpl.closeAwarenessService()");
     }
     
     @Override

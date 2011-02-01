@@ -118,7 +118,7 @@ public class SyncSession implements ISyncSession {
 		
 		if (fetchState) {
 			List<ISyncObject> syncObjects = getAllSyncObjects();
-			System.out.println(syncObjects);
+			// System.out.println(syncObjects);
 			Collections.sort(syncObjects, new Comparator<ISyncObject>() {
 				@Override
 				public int compare(ISyncObject o1, ISyncObject o2) {

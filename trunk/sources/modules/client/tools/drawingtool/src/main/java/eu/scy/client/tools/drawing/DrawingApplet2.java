@@ -192,14 +192,14 @@ public class DrawingApplet2 extends javax.swing.JApplet implements
 		}
 		catch (AccessControlException e)
 		{
-			System.out.println("Could not access file " + CONTEXT_CONFIG_FILE_LOCATION
+			// System.out.println("Could not access file " + CONTEXT_CONFIG_FILE_LOCATION
 						+ ", trying on class path");
 		}
 		catch (BeanDefinitionStoreException e)
 		{
 			if (!(e.getRootCause() instanceof FileNotFoundException))
 				throw e;
-			System.out.println("Could not find file " + CONTEXT_CONFIG_FILE_LOCATION
+			// System.out.println("Could not find file " + CONTEXT_CONFIG_FILE_LOCATION
 						+ ", trying on class path");
 		}
 		if (springContext == null)
@@ -368,33 +368,33 @@ public class DrawingApplet2 extends javax.swing.JApplet implements
 	*/
 	public static void writePropertiesForApplet()
 	{
-		System.out.println("System properties");
-		System.out.println("java.version      : " + System.getProperty("java.version"));
-		System.out.println("java.vendor       : " + System.getProperty("java.vendor"));
-		System.out.println("java.vendor.url   : " + System.getProperty("java.vendor.url"));
-		System.out.println("java.class.version: " + System.getProperty("java.class.version"));
-		System.out.println("os.name           : " + System.getProperty("os.name"));
-		System.out.println("os.arch           : " + System.getProperty("os.arch"));
-		System.out.println("os.version        : " + System.getProperty("os.version"));
-		System.out.println("file.separator    : " + System.getProperty("file.separator"));
-		System.out.println("path.separator    : " + System.getProperty("path.separator"));
-		System.out.println("line.separator    : " + System.getProperty("line.separator"));
-		System.out.println();
+		// System.out.println("System properties");
+		// System.out.println("java.version      : " + System.getProperty("java.version"));
+		// System.out.println("java.vendor       : " + System.getProperty("java.vendor"));
+		// System.out.println("java.vendor.url   : " + System.getProperty("java.vendor.url"));
+		// System.out.println("java.class.version: " + System.getProperty("java.class.version"));
+		// System.out.println("os.name           : " + System.getProperty("os.name"));
+		// System.out.println("os.arch           : " + System.getProperty("os.arch"));
+		// System.out.println("os.version        : " + System.getProperty("os.version"));
+		// System.out.println("file.separator    : " + System.getProperty("file.separator"));
+		// System.out.println("path.separator    : " + System.getProperty("path.separator"));
+		// System.out.println("line.separator    : " + System.getProperty("line.separator"));
+		// System.out.println();
 	}  
 
 	public void writeParametersForApplet()
 	{
-		System.out.println("Parameters");
+		// System.out.println("Parameters");
 		try
 		{
-			System.out.println("codeBase          : " + getCodeBase());
-			System.out.println("documentBase      : " + getDocumentBase());
+			// System.out.println("codeBase          : " + getCodeBase());
+			// System.out.println("documentBase      : " + getDocumentBase());
 		}
 		catch (Exception e)
 		{
 			logger.info("problems during getting applet info:" + e.getMessage());
 		}
-		System.out.println();
+		// System.out.println();
 	}
 	
 

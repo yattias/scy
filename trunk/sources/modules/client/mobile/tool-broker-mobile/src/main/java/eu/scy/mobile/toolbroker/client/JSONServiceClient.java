@@ -51,12 +51,12 @@ public class JSONServiceClient implements RequestListener {
 
 	public void done(Object o, Response response) throws Exception {
 		if (isError(response)) {
-			System.out.println("Error: response = " + response.getResult());
+			// System.out.println("Error: response = " + response.getResult());
 			return;
 		}
 
 		final Result result = response.getResult();
-		System.out.println("message = " + result.getAsString("message"));
+		// System.out.println("message = " + result.getAsString("message"));
 	}
 
 	public void readProgress(Object o, int i, int i1) {
@@ -70,7 +70,7 @@ public class JSONServiceClient implements RequestListener {
 			http = (HttpConnection) Connector.open(baseUrl+path);
 			http.setRequestProperty("Accept", "application/json");
 			http.setRequestMethod(HttpConnection.GET);
-			System.out.println("Requesting response from " + http.getURL());
+			// System.out.println("Requesting response from " + http.getURL());
 
 			InputStream iStrm = http.openInputStream();
 			int length = (int) http.getLength();
@@ -88,10 +88,10 @@ public class JSONServiceClient implements RequestListener {
 					bStrm.write(ch);
 
 				str = new String(bStrm.toByteArray());
-				System.out.println("str = " + str);
+				// System.out.println("str = " + str);
 				return new JSONObject(str);
 			}
-			System.out.println("Response is -1");
+			// System.out.println("Response is -1");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (JSONException e) {
@@ -119,7 +119,7 @@ public class JSONServiceClient implements RequestListener {
 
 			// Obtain a DataOutputStream object for the existing HTTP connection.
 			os = http.openDataOutputStream();
-            System.out.println("Posting content to "+http.getURL()+": " + obj);
+            // System.out.println("Posting content to "+http.getURL()+": " + obj);
 
 			byte[] request_body = obj.toString().getBytes();
 
@@ -135,7 +135,7 @@ public class JSONServiceClient implements RequestListener {
 				responseMessage.append( (char)ch );
 			}
 
-            System.out.println("Response from post: "+responseMessage.toString());
+            // System.out.println("Response from post: "+responseMessage.toString());
 
 		} catch (IOException e) {
 			e.printStackTrace();

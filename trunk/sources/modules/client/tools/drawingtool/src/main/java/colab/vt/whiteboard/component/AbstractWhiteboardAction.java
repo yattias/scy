@@ -152,13 +152,13 @@ public abstract class AbstractWhiteboardAction extends AbstractAction implements
 	public void mouseWheelMoved(MouseWheelEvent e)
 	{
 		if (printEvents)
-			System.out.println("mouseWheelMoved: " + e);
+			// System.out.println("mouseWheelMoved: " + e);
 	}
 
 	private void printMouseEvent(String label, MouseEvent mouseEvent)
 	{
 		if (printEvents)
-			System.out.println(label + ": " + mouseEvent);
+			// System.out.println(label + ": " + mouseEvent);
 
 	}
 
@@ -183,7 +183,7 @@ public abstract class AbstractWhiteboardAction extends AbstractAction implements
 	private void printKeyEvent(String label, KeyEvent keyEvent)
 	{
 		if (printEvents)
-			System.out.println(label + ": " + keyEvent);
+			// System.out.println(label + ": " + keyEvent);
 	}
 
 }

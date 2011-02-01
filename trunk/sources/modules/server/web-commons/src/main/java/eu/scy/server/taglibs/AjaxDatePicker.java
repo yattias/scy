@@ -43,7 +43,7 @@ public class AjaxDatePicker extends AjaxBaseComponent {
             Method method = object.getClass().getMethod("get" + property);
 
             Date returnValue = (Date) method.invoke(object, null);
-            System.out.println(method.getName() + " " + returnValue);
+            // System.out.println(method.getName() + " " + returnValue);
 
             try {
                 return dayMontYearformat.format(returnValue);

@@ -119,7 +119,7 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 	public int isHitOnEndPoints(Point eventPoint) {
 		for (int i = 0; i < cornerPointRectangles.length; i++) {
 			if (cornerPointRectangles[i].getBounds2D().contains(eventPoint)) {
-				System.out.println("mouse pressed found at position " + 1);
+				// System.out.println("mouse pressed found at position " + 1);
 				return i;
 			}
 		}
@@ -130,7 +130,7 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 	@Override
 	public void paintComponent(Graphics g) {
 	
-		System.out.println("repainting triangle");
+		// System.out.println("repainting triangle");
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
@@ -162,8 +162,8 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 				
 			   Line2D.Double baseLine = new Line2D.Double(pointQ, pointR);
 			   
-			   System.out.println("baseline " + baseLine);
-			   System.out.println("CenterLine " + centerLine);
+			   // System.out.println("baseline " + baseLine);
+			   // System.out.println("CenterLine " + centerLine);
 			   
 //			   if( centerLine.intersectsLine(baseLine)) {
 				
@@ -194,7 +194,7 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 			    
 			    Point2D centerPoint = DrawingUtils.getCenterPoint(centerLine.getBounds2D());
 			    
-//			    System.out.println("------ new Point " + centerPoint);
+//			    // System.out.println("------ new Point " + centerPoint);
 			    g2.setPaint(Color.black);
 			    g2.drawString(widthText.getIterator(), (int)centerPoint.getX() + 5,(int)centerPoint.getY());
 				
@@ -212,7 +212,7 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 				    widthText = new AttributedString(ws);
 				    widthText.addAttribute(TextAttribute.FONT, UIUtils.plainFont);
 			    
-//			    System.out.println("------ new Point " + centerPoint);
+//			    // System.out.println("------ new Point " + centerPoint);
 			    g2.setPaint(Color.black);
 			     centerPoint = DrawingUtils.getCenterPoint(baseLine.getBounds2D());
 

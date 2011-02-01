@@ -38,12 +38,12 @@ public class DataSetShowcase {
 			// show some of the content of the dataset
 			String symbol = dataset.getHeader(Locale.ENGLISH).getColumns().get(0).getSymbol();
 			String type = dataset.getHeader(Locale.ENGLISH).getColumns().get(0).getType();
-			System.out.println("\n\nsymbol / type of first variable : "+symbol+" / "+type);
+			// System.out.println("\n\nsymbol / type of first variable : "+symbol+" / "+type);
 			
 			// show all values of first variable
 			List<DataSetRow> rows = dataset.getValues();
 			for (Iterator<DataSetRow> row = rows.iterator(); row.hasNext();) {
-				System.out.println(row.next().getValues().get(0));
+				// System.out.println(row.next().getValues().get(0));
 			}	
 			
 		} catch (JDOMException e) {

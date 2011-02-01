@@ -119,7 +119,7 @@ public class DrawingToolFrame extends javax.swing.JFrame implements
 		}
 		catch (AccessControlException e)
 		{
-			System.out.println("Access denied in setupJavaLogging " + e.getMessage());
+			// System.out.println("Access denied in setupJavaLogging " + e.getMessage());
 		}
 	}
 
@@ -131,7 +131,7 @@ public class DrawingToolFrame extends javax.swing.JFrame implements
 		}
 		catch (AccessControlException e)
 		{
-			System.out.println("Failed to set level of " + logger.getName() + " to " + level.getName()
+			// System.out.println("Failed to set level of " + logger.getName() + " to " + level.getName()
 						+ ": " + e.getMessage());
 		}
 	}
@@ -144,7 +144,7 @@ public class DrawingToolFrame extends javax.swing.JFrame implements
 		}
 		catch (AccessControlException e)
 		{
-			System.out.println("Failed to set level of  handler to " + level.getName() + ": "
+			// System.out.println("Failed to set level of  handler to " + level.getName() + ": "
 						+ e.getMessage());
 		}
 	}
@@ -181,7 +181,7 @@ public class DrawingToolFrame extends javax.swing.JFrame implements
 	// Handler fileHandler = new FileHandler(fileName);
 	// fileHandler.setLevel(Level.ALL);
 	// setupLogger.addHandler(fileHandler);
-	// System.out.println("Java Logging setup to log to " + fileName);
+	// // System.out.println("Java Logging setup to log to " + fileName);
 	// }
 	public DrawingToolFrame()
 	{

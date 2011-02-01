@@ -632,7 +632,7 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
     public void calculTousK() {
         for (Color coul:mapDesFonctions.keySet()) {
             if (mapDesFonctions.get(coul)!=null) {
-                System.out.print("calculTousK ->");
+                // System.out.print("calculTousK ->");
                 mapDesFonctions.get(coul).majRF();
             }
         }

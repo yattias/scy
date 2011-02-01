@@ -163,7 +163,7 @@ public class ControlPanel extends JXPanel {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			int selectedRow = ControlPanel.this.getComputationTable().getSelectedRow();
-			System.out.println(selectedRow);
+			// System.out.println(selectedRow);
 			if (selectedRow != -1) {
 				DefaultTableModel model = (DefaultTableModel) getComputationTable()
 						.getModel();

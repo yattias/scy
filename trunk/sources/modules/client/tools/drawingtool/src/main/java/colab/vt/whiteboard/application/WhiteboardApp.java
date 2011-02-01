@@ -105,7 +105,7 @@ public class WhiteboardApp extends javax.swing.JFrame implements
 		}
 		catch (AccessControlException e)
 		{
-			System.out.println("Access denied in setupJavaLogging " + e.getMessage());
+			// System.out.println("Access denied in setupJavaLogging " + e.getMessage());
 		}
 	}
 
@@ -117,7 +117,7 @@ public class WhiteboardApp extends javax.swing.JFrame implements
 		}
 		catch (AccessControlException e)
 		{
-			System.out.println("Failed to set level of " + logger.getName() + " to " + level.getName()
+			// System.out.println("Failed to set level of " + logger.getName() + " to " + level.getName()
 						+ ": " + e.getMessage());
 		}
 	}
@@ -130,7 +130,7 @@ public class WhiteboardApp extends javax.swing.JFrame implements
 		}
 		catch (AccessControlException e)
 		{
-			System.out.println("Failed to set level of  handler to " + level.getName() + ": "
+			// System.out.println("Failed to set level of  handler to " + level.getName() + ": "
 						+ e.getMessage());
 		}
 	}
@@ -463,7 +463,7 @@ public class WhiteboardApp extends javax.swing.JFrame implements
 //		long dataCompactMillis = dataCompactTime - statusTime;
 //		long dataPrettyMillis = dataPrettyTime - dataCompactTime;
 //		long dataRawMillis = dataRawTime - dataPrettyTime;
-//		System.out.println("status:" + statusMillis + ", dataCompact(" + compactLength + "):"
+//		// System.out.println("status:" + statusMillis + ", dataCompact(" + compactLength + "):"
 //					+ dataCompactMillis + ", dataPretty(" + prettyLength + "):" + dataPrettyMillis
 //					+ ", dataRaw(" + rawLength + "):" + dataRawMillis);
 	}

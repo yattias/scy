@@ -18,7 +18,7 @@ public class ToolBrokerMobileAPIImplTest extends MIDlet {
 
 	public void testGetELO() {
 		IELO elo = eloClient.getELO(1);
-		System.out.println("elo = " + elo);
+		// System.out.println("elo = " + elo);
 	}
 /*
 	public void testGetUser() {

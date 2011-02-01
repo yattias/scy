@@ -42,7 +42,7 @@ public class ActivatorThread  extends Thread {
             try {
                 sleep(1000 * Locker.LOCKER_DELAY);
             } catch (InterruptedException e) {
-                System.out.println("ActivatorThread interrompu !!");
+                // System.out.println("ActivatorThread interrompu !!");
             }
             // Pour chaque elements de l.lockers, rechercher l'enregistrement correspondant.
             // S'il n'existe pas: ATTENTION ERREUR: le verrou a saute (comment signaler l'erreur)

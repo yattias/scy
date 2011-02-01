@@ -43,7 +43,7 @@ public class ActivatorThread extends Thread{
             try {
                 sleep(1000 * Locker.LOCKER_DELAY);
             } catch (InterruptedException e) {
-                System.out.println("ActivatorThread interrompu !!");
+                // System.out.println("ActivatorThread interrompu !!");
 //                if(edP.isAppletVisible())
 //                    edP.displayError(new CopexReturn(edP.getBundleString("MSG_ERROR_THREAD_INTERRUPT")+ e, false), edP.getBundleString("TITLE_DIALOG_ERROR"));
             }

@@ -71,7 +71,7 @@ class SimulationTableModel extends AbstractTableModel implements IDataClient {
 
 	public void setValueAt(Double value, int row, int col) {
 		if (DEBUG) {
-			System.out.println("Setting value at " + row + "," + col + " to "
+			// System.out.println("Setting value at " + row + "," + col + " to "
 					+ value + " (an instance of " + value.getClass() + ")");
 		}
 
@@ -79,7 +79,7 @@ class SimulationTableModel extends AbstractTableModel implements IDataClient {
 		fireTableCellUpdated(row, col);
 
 		if (DEBUG) {
-			System.out.println("New value of data:");
+			// System.out.println("New value of data:");
 			printDebugData();
 		}
 	}
@@ -89,13 +89,13 @@ class SimulationTableModel extends AbstractTableModel implements IDataClient {
 		int numCols = getColumnCount();
 
 		for (int i = 0; i < numRows; i++) {
-			System.out.print("    row " + i + ":");
+			// System.out.print("    row " + i + ":");
 			for (int j = 0; j < numCols; j++) {
-				System.out.print("  " + data.get(i)[j]);
+				// System.out.print("  " + data.get(i)[j]);
 			}
-			System.out.println();
+			// System.out.println();
 		}
-		System.out.println("--------------------------");
+		// System.out.println("--------------------------");
 	}
 
 	@Override

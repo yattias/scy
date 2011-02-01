@@ -110,7 +110,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 			
 			try {
 				muc.sendMessage(createMessage);
-				System.out.println("message sent for MUC: " + ELOUri);
+				// System.out.println("message sent for MUC: " + ELOUri);
 			} catch (XMPPException e) {
 				logger.error("sendMessage: XMPPException MUC: " + e);
 				e.printStackTrace();
@@ -120,7 +120,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 	}
 
 	private void processPresence(Presence presence) {
-		System.out.println("presence of " + presence.toString());
+		// System.out.println("presence of " + presence.toString());
 		for (IAwarenessPresenceListener presenceListener : presenceListeners) {
 			if (presenceListener != null) {
 				
@@ -132,7 +132,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 				aw.setJid(presence.getTo());
 				aw.setPresence(presence.getType().toString());
 
-				System.out.println("awareness user: " + aw);
+				// System.out.println("awareness user: " + aw);
 				IAwarePresenceEvent presenceEvent = new AwarenessPresenceEvent(
 						AwarenessServiceXMPPImpl.this, aw,
 						"updated from awareness service", presence.getType()
@@ -573,7 +573,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 					user.setNickName(affiliate.getJid());
 					users.add(user);
 				}
-				System.out.println();
+				// System.out.println();
 			} catch (XMPPException e) {
 				e.printStackTrace();
 			}
@@ -635,7 +635,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 		}
 
 		public void joined(String participant) {
-			System.out.println("AwarenessServiceXMPPImpl.AwarenessParticipantListener.joined() " + participant);
+			// System.out.println("AwarenessServiceXMPPImpl.AwarenessParticipantListener.joined() " + participant);
 			String roomId = StringUtils.parseName(participant);			
 			participant = participant.substring(participant.indexOf("/") + 1);
 			
@@ -665,7 +665,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 		}
 
 		private void removeParticipant(String participant) {
-			System.out.println("AwarenessServiceXMPPImpl.AwarenessParticipantListener.removeParticipant() " + participant);
+			// System.out.println("AwarenessServiceXMPPImpl.AwarenessParticipantListener.removeParticipant() " + participant);
 			String roomId = StringUtils.parseName(participant);			
 			
 			participant = participant.substring(participant.indexOf("/") + 1);

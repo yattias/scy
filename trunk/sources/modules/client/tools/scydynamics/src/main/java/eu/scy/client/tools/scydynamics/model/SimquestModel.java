@@ -175,14 +175,14 @@ public class SimquestModel extends Element {
 			}
 			traverse(equation, parser.getTopNode());
 		} catch (ParseException ex) {
-			System.out.println(ex.getMessage());
-			System.out.println(parser.getErrorInfo());
+			// System.out.println(ex.getMessage());
+			// System.out.println(parser.getErrorInfo());
 		}
 	}
 
 	private void traverse(Element element, Node node) throws ParseException {
 		String fragment = new String(node.toString());
-		System.out.println(fragment);
+		// System.out.println(fragment);
 		// handle this node
 		if (fragment.startsWith("Function")) {
 			Element operator = null;

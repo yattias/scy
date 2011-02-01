@@ -15,7 +15,7 @@ public class TestRun {
         action.addAttribute("Hallo!!", "FOOBAR!!");
         action.addContext(/*"omg"*/ /*Commendted out by Oyvind because of compile error*/null, "hi2u");
         al.log("test", "tool", action);
-        System.out.println("SENT!!!!");        
+        // System.out.println("SENT!!!!");        
     }
     
 }

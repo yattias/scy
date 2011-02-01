@@ -86,18 +86,18 @@ public class SCYPlannerDiagramView extends JPanel implements IDiagramListener {
 
     @Override
     public void nodeRemoved(INodeModel n) {
-        System.out.println("ConceptDiagramView.nodeRemoved");
+        // System.out.println("ConceptDiagramView.nodeRemoved");
     }
 
 
     @Override
     public void updated(IDiagramModel diagramModel) {
-        System.out.println("ConceptDiagramView.updated");
+        // System.out.println("ConceptDiagramView.updated");
     }
 
     @Override
     public void nodeSelected(INodeModel n) {
-        System.out.println("SCYPlannerDiagramView.nodeSelected");
+        // System.out.println("SCYPlannerDiagramView.nodeSelected");
     }
 
     @Override
@@ -112,7 +112,7 @@ public class SCYPlannerDiagramView extends JPanel implements IDiagramListener {
 
     @Override
     public void linkRemoved(ILinkModel link) {
-        System.out.println("ConceptDiagramView.linkRemoved");
+        // System.out.println("ConceptDiagramView.linkRemoved");
     }
 
     private class ObservableView extends Observable {

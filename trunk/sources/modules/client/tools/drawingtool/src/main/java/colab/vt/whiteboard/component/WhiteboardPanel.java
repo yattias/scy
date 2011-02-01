@@ -338,7 +338,7 @@ public class WhiteboardPanel extends javax.swing.JPanel implements MouseMotionLi
 	public void mouseWheelMoved(MouseWheelEvent e)
 	{
 		if (printEvents)
-			System.out.println("mouseWheelMoved: " + e);
+			// System.out.println("mouseWheelMoved: " + e);
 		if (currentWhiteboardAction instanceof MouseWheelListener)
 			((MouseWheelListener) currentWhiteboardAction).mouseWheelMoved(e);
 	}
@@ -346,7 +346,7 @@ public class WhiteboardPanel extends javax.swing.JPanel implements MouseMotionLi
 	private void printMouseEvent(String label, MouseEvent mouseEvent)
 	{
 		if (printEvents)
-			System.out.println(label + ": " + mouseEvent);
+			// System.out.println(label + ": " + mouseEvent);
 	}
 
 	@Override
@@ -376,7 +376,7 @@ public class WhiteboardPanel extends javax.swing.JPanel implements MouseMotionLi
 	private void printKeyEvent(String label, KeyEvent keyEvent)
 	{
 		if (printEvents)
-			System.out.println(label + ": " + keyEvent);
+			// System.out.println(label + ": " + keyEvent);
 	}
 
 	protected void deleteWhiteboardActions()
@@ -582,7 +582,7 @@ public class WhiteboardPanel extends javax.swing.JPanel implements MouseMotionLi
 	protected void paintComponent(Graphics g)
 	{
       ++paintCounter;
-//      System.out.println("WhiteboardPanel.paintComponent " + paintCounter);
+//      // System.out.println("WhiteboardPanel.paintComponent " + paintCounter);
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

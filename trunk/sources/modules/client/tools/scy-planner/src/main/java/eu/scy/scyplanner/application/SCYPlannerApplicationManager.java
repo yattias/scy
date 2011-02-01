@@ -59,15 +59,15 @@ public class SCYPlannerApplicationManager {
             /*List pedagogicalPlans = service.getPedagogicalPlanTemplates();
             for (Object pedagogicalPlan : pedagogicalPlans) {
                 PedagogicalPlanTemplate pedagogicalPlanTemplate = (PedagogicalPlanTemplate) pedagogicalPlan;
-                System.out.println("TEMPLATE:" + pedagogicalPlanTemplate.getName());
+                // System.out.println("TEMPLATE:" + pedagogicalPlanTemplate.getName());
             }
 
 
             List scenarios = service.getScenarios();
-            System.out.println("SECARIO COUNT: " + scenarios.size());
+            // System.out.println("SECARIO COUNT: " + scenarios.size());
             for (Object scenario1 : scenarios) {
                 Scenario scenario = (Scenario) scenario1;
-                System.out.println("SCENARIO: " + scenario.getName());
+                // System.out.println("SCENARIO: " + scenario.getName());
             }
             */                                                               
             this.pedagogicalPlanService = service;

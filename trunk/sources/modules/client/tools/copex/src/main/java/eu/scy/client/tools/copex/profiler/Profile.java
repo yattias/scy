@@ -33,7 +33,7 @@ public class Profile {
             intervals.addElement(new Interval(currentStart,System.currentTimeMillis()));
             currentStart=-1;
 	} else {
-            System.out.println(""+getName()+" not started");		
+            // System.out.println(""+getName()+" not started");		
 	}
     }
     
@@ -159,7 +159,7 @@ public Profile intersection(Profile pro) {
 
     public void start() {
 	if(currentStart!=-1)	{
-		System.out.println("An end must have been forgotten for "+getName());
+		// System.out.println("An end must have been forgotten for "+getName());
 	}
 	
 	currentStart = System.currentTimeMillis();

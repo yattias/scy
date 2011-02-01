@@ -161,7 +161,7 @@ public class TopicModelTool {
 				.getName(), topicModelTool.getTopicModel());
 		File file = new File("src/test/resources/models", topicModelTool
 				.getName());
-		System.out.println(file.getAbsolutePath());
+		// System.out.println(file.getAbsolutePath());
 		topicModelTool.getTopicModel().write(file);
 
 		BufferedWriter writer = new BufferedWriter(new FileWriter(

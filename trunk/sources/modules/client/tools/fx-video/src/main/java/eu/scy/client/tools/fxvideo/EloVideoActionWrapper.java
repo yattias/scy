@@ -118,9 +118,9 @@ public class EloVideoActionWrapper {
 
     public void loadVideoAction()
     {
-        //System.out.println("loadVideoAction();");
-        //System.out.println(technicalFormatKey);
-        //System.out.println(scyVideoType);
+        //// System.out.println("loadVideoAction();");
+        //// System.out.println(technicalFormatKey);
+        //// System.out.println(scyVideoType);
         IQuery query = null;
         IMetadataQuery metadataQuery = new BasicMetadataQuery(technicalFormatKey, BasicSearchOperations.EQUALS, scyVideoType);
         query = metadataQuery;
@@ -134,11 +134,11 @@ public class EloVideoActionWrapper {
         URI videoUri = (URI) JOptionPane.showInputDialog(null, "Select piece of Information", "Select piece of Information", JOptionPane.QUESTION_MESSAGE, null, drawingUris, null);
         if (videoUri != null)
         {
-            //System.out.println(videoUri);
+            //// System.out.println(videoUri);
             loadElo(videoUri);
         }
         else {
-            System.out.println("you should never read this.");
+            // System.out.println("you should never read this.");
         }
     }
 
@@ -160,14 +160,14 @@ public class EloVideoActionWrapper {
             Object titleObject3 = metadataValueContainer.getValue(Locale.ENGLISH);
             setDocName(titleObject3.toString());
             //this.VideoPanel.loadElo(newElo.getContent().getXmlString());
-            //System.out.println("loading..");
-            //System.out.println(newElo.getContent().getXmlString());
+            //// System.out.println("loading..");
+            //// System.out.println(newElo.getContent().getXmlString());
             this.target.loadXML(newElo.getContent().getXmlString());
             elo = newElo;
             //sendEloLoadedChangedListener();
         }
         else {
-            System.out.println("loadElo() - you should never read this. oops.");
+            // System.out.println("loadElo() - you should never read this. oops.");
         }
     }
 

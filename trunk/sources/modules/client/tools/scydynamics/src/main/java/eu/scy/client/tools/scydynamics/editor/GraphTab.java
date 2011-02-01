@@ -212,7 +212,7 @@ public class GraphTab extends JPanel implements ChangeListener, ActionListener {
 
 			if (variableIdList.length() > 0) {
 				// simulate
-				System.out.println("simulating...");
+				// System.out.println("simulating...");
 				model.getSimulation().Simulate();
 				// log
 				editor.getActionLogger().logSimpleAction("run_model",

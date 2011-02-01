@@ -57,7 +57,7 @@ public class StudentPlanELOParser {
             Element studentPlannedActivityElement = createElement("studentPlannedActivity", "");
 
             studentPlannedActivityElement.setAttribute(ID, activity.getId());
-            System.out.println("ACTIVITY ID:  " + activity.getId());
+            // System.out.println("ACTIVITY ID:  " + activity.getId());
             studentPlannedActivityElement.getChildren().add(createElement(NAME, activity.getName()));
             if (activity.getStartDate() != null)
                 studentPlannedActivityElement.getChildren().add(createElement(START_DATE, dateFormat.format(activity.getStartDate())));
