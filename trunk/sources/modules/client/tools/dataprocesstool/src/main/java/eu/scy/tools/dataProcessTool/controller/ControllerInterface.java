@@ -109,4 +109,6 @@ public interface ControllerInterface {
     public CopexReturn mergeMatrixAddOperation(Dataset ds1, Dataset ds2);
     /** multiply the values of ds to every row of dataset (kind of a matrix-multiply-operation) */
     public CopexReturn mergeMatrixMultiplyOperation(Dataset ds1, Dataset ds2);
+    /** export a html version */
+    public CopexReturn exportHTML();
 }

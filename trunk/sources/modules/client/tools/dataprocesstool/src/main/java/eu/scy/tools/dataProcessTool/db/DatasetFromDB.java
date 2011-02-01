@@ -1024,7 +1024,7 @@ public class DatasetFromDB {
         ArrayList<FunctionParam> listFunctionParam = new ArrayList();
         String query = "SELECT P.ID_FUNCTION_PARAM, P.PARAM_NAME, P.PARAM_VALUE " +
                 "FROM FUNCTION_PARAM P, LINK_FUNCTION_PARAM L " +
-                "WHERE L.ID_FUNCTION_MODEL = "+dbKeyFunction+" AND L.ID_FUNCTION_PARAM = L.ID_FUNCTION_PARAM ;";
+                "WHERE L.ID_FUNCTION_MODEL = "+dbKeyFunction+" AND L.ID_FUNCTION_PARAM = P.ID_FUNCTION_PARAM ;";
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("P.ID_FUNCTION_PARAM");
@@ -1063,7 +1063,7 @@ public class DatasetFromDB {
         ArrayList<FunctionModel> listFunctionModel = new ArrayList();
         String query = "SELECT F.ID_FUNCTION_MODEL, F.DESCRIPTION, F.F_TYPE, F.ID_FUNCTION_COLOR, F.ID_PREDEF_FUNCTION " +
                 "FROM FUNCTION_MODEL F, LINK_GRAPH_FUNCTION_MODEL  L " +
-                "WHERE L.ID_DATA_VISUALIZATION = "+dbKeyGraph+" AND L.ID_FUNCTION_MODEL = L.ID_FUNCTION_MODEL ;";
+                "WHERE L.ID_DATA_VISUALIZATION = "+dbKeyGraph+" AND L.ID_FUNCTION_MODEL = F.ID_FUNCTION_MODEL ;";
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("F.ID_FUNCTION_MODEL");

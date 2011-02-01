@@ -338,7 +338,7 @@ public class VisualizationFromDB {
         if(idPredefFunction != null && idPredefFunction.length()> 0 && !idPredefFunction.equals("NULL")){
             predef = "'"+idPredefFunction+"'";
         }
-        String query = "UPDATE FUNCTION_MODEL SET DESCRIPTION = '"+desc+"' , F_TYPE = "+type+", F.ID_PREDEF_FUNCTION = "+predef+" WHERE ID_FUNCTION_MODEL = "+dbKey+" ;";
+        String query = "UPDATE FUNCTION_MODEL SET DESCRIPTION = '"+desc+"' , F_TYPE = '"+type+"', ID_PREDEF_FUNCTION = "+predef+" WHERE ID_FUNCTION_MODEL = "+dbKey+" ;";
         String[] querys = new String[1];
         querys[0] = query ;
         ArrayList v2 = new ArrayList();

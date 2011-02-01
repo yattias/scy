@@ -2198,4 +2198,10 @@ public class DataController implements ControllerInterface{
     public CopexReturn logUserActionInDB(String type, List<FitexProperty> attribute) {
         return new CopexReturn();
     }
+
+    /** export a html version */
+    @Override
+    public CopexReturn exportHTML(){
+        return new CopexReturn();
+    }
 }
