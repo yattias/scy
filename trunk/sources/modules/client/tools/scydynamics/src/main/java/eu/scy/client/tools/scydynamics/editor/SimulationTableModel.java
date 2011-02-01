@@ -70,10 +70,10 @@ class SimulationTableModel extends AbstractTableModel implements IDataClient {
 	}
 
 	public void setValueAt(Double value, int row, int col) {
-		if (DEBUG) {
+//		if (DEBUG) {
 			// System.out.println("Setting value at " + row + "," + col + " to "
-					+ value + " (an instance of " + value.getClass() + ")");
-		}
+//					+ value + " (an instance of " + value.getClass() + ")");
+//		}
 
 		data.get(row)[col] = value;
 		fireTableCellUpdated(row, col);
