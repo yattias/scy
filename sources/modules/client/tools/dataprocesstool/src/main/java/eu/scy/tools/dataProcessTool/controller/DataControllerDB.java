@@ -1332,10 +1332,10 @@ public class DataControllerDB implements ControllerInterface{
                 fm.setIdPredefFunction(idPredefFunction);
             }
         }
-        CopexReturn cr = exportHTML(dataset);
-        if(cr.isError())
-            return cr;
-        cr = updateLabdocStatus();
+//        CopexReturn cr = exportHTML(dataset);
+//        if(cr.isError())
+//            return cr;
+        CopexReturn cr = updateLabdocStatus();
         if(cr.isError())
             return cr;
         listDataset.set(idDs, dataset);
@@ -1584,10 +1584,10 @@ public class DataControllerDB implements ControllerInterface{
             //maj memoire
             ((Graph)vis).setParamGraph(paramGraph);
         }
-        CopexReturn cr = exportHTML(dataset);
-        if(cr.isError())
-            return cr;
-        cr = updateLabdocStatus();
+//        CopexReturn cr = exportHTML(dataset);
+//        if(cr.isError())
+//            return cr;
+        CopexReturn cr = updateLabdocStatus();
         if(cr.isError())
             return cr;
         listDataset.set(idDs, dataset);
@@ -2871,5 +2871,13 @@ public class DataControllerDB implements ControllerInterface{
     @Override
     public CopexReturn logUserActionInDB(String type, List<FitexProperty> attribute) {
         return TraceFromDB.logUserActionInDB(dbC, mission.getDbKey(), dbKeyUser, dbKeyTrace, type, attribute);
+    }
+
+     /** export a html version */
+    @Override
+    public CopexReturn exportHTML(){
+        if(listDataset.size() > 0)
+            return exportHTML(listDataset.get(0));
+        return new CopexReturn();
     }
 }

@@ -105,11 +105,11 @@ public class DataProcessApplication extends JFrame implements  ActionDataProcess
                 idLabDoc = "10035";
                 labDocName = "fitex";
 //                fitexURL = new URL("http://labbook.imag.fr/pages/");
-//                idUser = "1";
-//                mission= "1";
-//                idGroup = "1";
-//                idLabDoc = "519";
-//                labDocName = "t° de l'eau au cours du temps";
+//                idUser = "3";
+//                mission= "5";
+//                idGroup = "2";
+//                idLabDoc = "628";
+//                labDocName = "Modele";
             } catch (MalformedURLException ex) {
 
             }

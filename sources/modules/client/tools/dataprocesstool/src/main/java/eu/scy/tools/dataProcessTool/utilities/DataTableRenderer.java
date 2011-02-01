@@ -55,7 +55,11 @@ public class DataTableRenderer extends DefaultTableCellRenderer{
         cell.setForeground(fontColor);
         cell.setBackground(backgroundColor);
         cell.setFont(dataFont);
-        setAlignmentX(LEFT_ALIGNMENT);
+        //setAlignmentX(LEFT_ALIGNMENT);
+        if(cell instanceof JLabel){
+            ((JLabel)cell).setAlignmentX(JLabel.LEFT);
+            ((JLabel)cell).setHorizontalAlignment(LEFT);
+        }
         Border border = null;
         if (table instanceof DataTable){
             // numerotation des lignes
@@ -69,8 +73,10 @@ public class DataTableRenderer extends DefaultTableCellRenderer{
                 if (!((DataTable)table).isValueDoubleHeader(row, column)){
                     cell.setBackground(headerTextBackgroundColor);
                 }
-                setAlignmentX(CENTER_ALIGNMENT);
+                setAlignmentX(JLabel.CENTER_ALIGNMENT);
                 if(cell instanceof JLabel && value != null && (value instanceof String[]) && (((String[])value).length ==2) ){
+                        ((JLabel)cell).setAlignmentX(JLabel.CENTER);
+                        ((JLabel)cell).setHorizontalAlignment(CENTER);
                 //if(cell instanceof JLabel){
                     String text = ((String[])value)[0];
                     if (((String[])value)[1] != null && ((String[])value)[1].length() > 0 && !((String[])value)[1].equals("null"))
@@ -81,7 +87,8 @@ public class DataTableRenderer extends DefaultTableCellRenderer{
                 // titre d'operations
                 cell.setFont(titleFont);
                 cell.setBackground(((DataTable)table).getOperationColor(row, column));
-                setAlignmentX(CENTER_ALIGNMENT);
+                ((JLabel)cell).setAlignmentX(JLabel.CENTER);
+                ((JLabel)cell).setHorizontalAlignment(CENTER);
             }else if (((DataTable)table).isValueOperation(row, column)){
                 // operations
                 cell.setBackground(((DataTable)table).getOperationColor(row, column));

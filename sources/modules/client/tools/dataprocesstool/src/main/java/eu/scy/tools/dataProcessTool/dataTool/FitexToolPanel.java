@@ -1761,4 +1761,9 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     public DataTableModel getDataTableModel(){
         return this.datasetTable.getTableModel();
     }
+
+
+    public void exportHTML(){
+        controller.exportHTML();
+    }
 }

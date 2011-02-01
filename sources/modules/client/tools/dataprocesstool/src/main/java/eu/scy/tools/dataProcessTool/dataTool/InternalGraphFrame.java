@@ -21,6 +21,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenuBar;
@@ -41,7 +43,7 @@ import org.jfree.data.general.DefaultPieDataset;
  * internal frame which contains a graph
  * @author Marjolaine
  */
-public class InternalGraphFrame extends JInternalFrame implements ActionMenu, InternalFrameListener, ComponentListener{
+public class InternalGraphFrame extends JInternalFrame implements ActionMenu, InternalFrameListener, ComponentListener, FocusListener{
     private FitexToolPanel fitex;
     private Dataset dataset;
     private Visualization visualization;
@@ -483,5 +485,15 @@ public class InternalGraphFrame extends JInternalFrame implements ActionMenu, In
     @Override
     public void componentHidden(ComponentEvent e) {
 
+    }
+
+    @Override
+    public void focusGained(FocusEvent e) {
+
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+        fitex.exportHTML();
     }
 }

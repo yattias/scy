@@ -75,7 +75,6 @@ public class MergeDialog extends JDialog implements ActionListener {
             height = getRbMatrixMultiplyOperation().getHeight()+getRbMatrixMultiplyOperation().getY();
         }
         width = width+getRbMerge().getX()*2;
-        System.out.println("width : "+width);
         width = Math.max(MIN_WIDTH_MERGE_DIALOG, width);
         height += 80;
         setSize(width, height);

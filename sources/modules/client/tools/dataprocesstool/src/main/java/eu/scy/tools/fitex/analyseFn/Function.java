@@ -326,6 +326,7 @@ public class Function
     }
     
     public void setValeurParametre (String nomParam, double valeur) {
+       if(mapDesParametres.get(nomParam) != null)
         mapDesParametres.get(nomParam).setValeur(valeur) ;
     }
     

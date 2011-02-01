@@ -108,7 +108,7 @@ public class CloseTab extends JPanel implements MouseListener, ActionCopexButton
         int l = MyUtilities.lenghtOfString(title, getFontMetrics(labelTitle.getFont()));
         this.labelTitle.setSize(l+5, this.labelTitle.getHeight());
         labelIcon.setBounds(labelTitle.getX()+labelTitle.getWidth()+5, 2, 20, labelTitle.getHeight());
-        Dimension d = new Dimension(labelTitle.getWidth()+25, 15);
+        Dimension d = new Dimension(labelTitle.getWidth()+25, 19);
         setSize(d);
         setPreferredSize(d);
         revalidate();
