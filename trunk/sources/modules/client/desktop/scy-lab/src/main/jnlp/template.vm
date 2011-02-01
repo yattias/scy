@@ -1,5 +1,5 @@
 <jnlp
-    spec="$jnlpspec"
+    spec="1.6+"
     codebase="$$codebase"
     href="$outputFile">
   <information>
@@ -16,7 +16,7 @@
   </security>
 #end
   <resources>
-    <j2se version="$j2seVersion" java-vm-args="-Xms768m -Xmx768m -esa"/>
+    <j2se version="$j2seVersion" java-vm-args="-Xms768m -Xmx768m"/>
     <extension name="JavaFX Runtime" href="$$site/javafx-libs/javafx-rt.jnlp"/>
     <property name="jnlp.packEnabled" value="true"/>
     <property name="jnlp.versionEnabled" value="true"/>
