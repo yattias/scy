@@ -1,4 +1,5 @@
 package eu.scy.client.tools.scydynamics.editor;
+
 import colab.um.draw.JdObject;
 import colab.um.tools.JTools;
 import java.awt.Color;
@@ -14,11 +15,13 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 import eu.scy.client.tools.scydynamics.model.Model;
+import java.util.logging.Logger;
 
 
 public class EditorPanel extends JPanel {
-  
-	private static final long serialVersionUID = -1203178692128313488L;
+
+    private final static Logger LOGGER = Logger.getLogger(EditorPanel.class.getName());
+
 	private Model dModel;
   private Rectangle rDrag = null;
   private int startX, startY;   // The starting position of the mouse.
@@ -85,7 +88,7 @@ public void paintComponent(Graphics g) {
       FontMetrics fm = g2d.getFontMetrics();;
       int w = fm.stringWidth(tip) + 8;
       int h = fm.getHeight() + 4;
-      //System.out.println("drawTip " + tip + "x=" + String.valueOf(tip_x) + ", y=" + String.valueOf(tip_y));
+      //LOGGER.info("drawTip " + tip + "x=" + String.valueOf(tip_x) + ", y=" + String.valueOf(tip_y));
       g2d.setColor(Color.black);
       g2d.setBackground(new Color(255, 255, 224));  // light yellow
       g2d.clearRect(tip_x - w/2, tip_y - h/2, w, h);
@@ -157,7 +160,7 @@ public void paintComponent(Graphics g) {
       tip = s;
       tip_x = x;
       tip_y = y;
-      //System.out.println("setTip " + tip + "x=" + String.valueOf(tip_x) + ", y=" + String.valueOf(tip_y));
+      //LOGGER.info("setTip " + tip + "x=" + String.valueOf(tip_x) + ", y=" + String.valueOf(tip_y));
       this.repaint();
       //rtimer.start();
     }
@@ -165,7 +168,7 @@ public void paintComponent(Graphics g) {
   //-------------------------------------------------------------------------
   public void clearTip() {
     if (tip==null) return;
-    //System.out.println("clearTip " + tip + "x=" + String.valueOf(tip_x) + ", y=" + String.valueOf(tip_y));
+    //LOGGER.info("clearTip " + tip + "x=" + String.valueOf(tip_x) + ", y=" + String.valueOf(tip_y));
     tip = null;
     tip_x = -1;
     tip_y = -1;

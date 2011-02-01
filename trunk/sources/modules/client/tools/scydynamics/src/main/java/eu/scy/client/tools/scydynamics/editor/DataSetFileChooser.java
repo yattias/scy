@@ -3,13 +3,17 @@ package eu.scy.client.tools.scydynamics.editor;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
 @SuppressWarnings("serial")
 public class DataSetFileChooser extends JFileChooser implements PropertyChangeListener {
-	
+
+        private final static Logger LOGGER = Logger.getLogger(DataSetFileChooser.class.getName());
+
 	public DataSetFileChooser() {
 		this.addChoosableFileFilter(new CSVFileFilter());
 		this.addChoosableFileFilter(new XMLFileFilter());
@@ -17,7 +21,7 @@ public class DataSetFileChooser extends JFileChooser implements PropertyChangeLi
 
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
-		// System.out.println(evt);
+		LOGGER.log(Level.INFO, "{0}", evt);
 	}
 
 	public class CSVFileFilter extends FileFilter {

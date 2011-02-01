@@ -8,18 +8,16 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
-
+import java.util.logging.Level;
 import javax.swing.*;
 import colab.um.JColab;
 import colab.um.tools.JTools;
 import eu.scy.client.tools.scydynamics.editor.ModelEditor;
+import java.util.logging.Logger;
 
 public class ModellingStandalone extends JFrame {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3066655673856117223L;
+        private final static Logger LOGGER = Logger.getLogger(ModellingStandalone.class.getName());
 	private ModelEditor editor;
 
 	public ModellingStandalone() {
@@ -38,15 +36,15 @@ public class ModellingStandalone extends JFrame {
 		File confFile = new File("scydynamics.properties");
 		Properties props = ModelEditor.getDefaultProperties();
 		try {
-			// System.out.println("ModellingStandalone.getProperties(). expecting file at "+confFile.getAbsolutePath());
+			LOGGER.log(Level.INFO, "ModellingStandalone.getProperties(). expecting file at {0}", confFile.getAbsolutePath());
 			if (confFile.exists())
 				props.load(new FileInputStream(confFile));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		props.put("show.popouttabs", "true");
-		// System.out.println("current props:");
-		// System.out.println(props);
+		LOGGER.info("current props:");
+		LOGGER.log(Level.INFO, "{0}", props);
 		return props;
 	}
 

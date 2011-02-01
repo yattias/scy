@@ -17,9 +17,12 @@ import colab.um.draw.JdFlowCtr;
 import colab.um.draw.JdObject;
 import colab.um.draw.JdRelation;
 import colab.um.draw.JdStock;
+import java.util.logging.Logger;
 
 @SuppressWarnings("serial")
 public class SimquestModel extends Element {
+
+        private final static Logger LOGGER = Logger.getLogger(SimquestModel.class.getName());
 
 	private Model model;
 	private HashMap<String, Double> simulationValues;
@@ -175,14 +178,14 @@ public class SimquestModel extends Element {
 			}
 			traverse(equation, parser.getTopNode());
 		} catch (ParseException ex) {
-			// System.out.println(ex.getMessage());
-			// System.out.println(parser.getErrorInfo());
+			LOGGER.info(ex.getMessage());
+			LOGGER.info(parser.getErrorInfo());
 		}
 	}
 
 	private void traverse(Element element, Node node) throws ParseException {
 		String fragment = new String(node.toString());
-		// System.out.println(fragment);
+		// LOGGER.info(fragment);
 		// handle this node
 		if (fragment.startsWith("Function")) {
 			Element operator = null;

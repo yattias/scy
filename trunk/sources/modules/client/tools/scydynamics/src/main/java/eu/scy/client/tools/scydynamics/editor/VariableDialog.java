@@ -20,9 +20,12 @@ import colab.um.draw.JdNode;
 import colab.um.draw.JdRelation;
 import eu.scy.client.tools.scydynamics.model.Model;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
+import java.util.logging.Logger;
 
 public class VariableDialog extends javax.swing.JDialog implements
         java.awt.event.ActionListener, java.awt.event.MouseListener {
+
+    private final static Logger LOGGER = Logger.getLogger(VariableDialog.class.getName());
 
     private final ResourceBundleWrapper bundle;
     private static final long serialVersionUID = 7666973675681502332L;
@@ -274,7 +277,7 @@ public class VariableDialog extends javax.swing.JDialog implements
 				try {
 			        if (link.getFigure2().getProperties().get("label").equals(this.label)) {
 			            if (link instanceof JdRelation){
-			            	// System.out.println("got you!");
+			            	// LOGGER.info("got you!");
 			            	((JdRelation)link).setRelationType(4);
 			            }
 			        } 
