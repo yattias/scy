@@ -76,40 +76,40 @@ public class TreeTransferHandler extends TransferHandler {
                             return false;
                         // si le noeud insertion appartient au sous arbre => on refuse le drag and drop
                         if (subTreeToMove.containNode(insertNode)){
-                            if(debug)
+                            // if(debug)
                                 // System.out.println("containNode");
                             return false;
                         }
                         if (subTreeToMove.isQuestion() && !insertNode.isQuestion()){
-                            if(debug)
+                            // if(debug)
                                 // System.out.println("is question");
                             return false;
                         }
                         boolean nodeCanBeParent = (insertNode.isManipulation() &&subTreeToMove.getProc().getQuestion().getParentRight() == MyConstants.EXECUTE_RIGHT  ) ||
                                 (!insertNode.isManipulation() && insertNode.canBeParent());
-                        if(debug)
+                       // if(debug)
                             // System.out.println("nodeCanBeParent : "+nodeCanBeParent);
                         boolean parentNodeCanBeParent = insertNode.getParent() != null &&
                             ( ((CopexNode)insertNode.getParent()).isManipulation() && subTreeToMove.getProc().getQuestion().getParentRight() == MyConstants.EXECUTE_RIGHT)
                             || (! ((CopexNode)insertNode.getParent()).isManipulation() && ((CopexNode)insertNode.getParent()).canBeParent());
-                        if(debug)
+                        // if(debug)
                             // System.out.println("parentNodeCanBeParent : "+parentNodeCanBeParent);
                         // si le noeud d'insertion ne peut avoir d'enfants => on refuse
                         //if ((! brother && !insertNode.canBeParent() ) || (brother && insertNode.getParent() != null && !((CopexNode)insertNode.getParent()).canBeParent()))
                         if((!brother && !nodeCanBeParent) || (brother && !parentNodeCanBeParent)){
-                            if(debug)
+                            // if(debug)
                                 // System.out.println("pbl parent");
                             return false;
                         }
                         // si on deplace des taches qui contiennent des materials produits apres => on refuse
                         if (isProblemWithMaterialProd(insertNode, subTreeToMove)){
-                            if(debug)
+                            // if(debug)
                                 // System.out.println("pbl with material");
                             return false;
                         }
                         // si on deplace des taches qui contiennent des data produits apres => on refuse
                         if (isProblemWithDataProd(insertNode, subTreeToMove)){
-                            if(debug)
+                            // if(debug)
                                 // System.out.println("pbl with data");
                             return false;
                         }

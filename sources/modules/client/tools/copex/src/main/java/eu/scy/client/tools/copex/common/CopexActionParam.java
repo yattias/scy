@@ -95,10 +95,11 @@ public abstract class CopexActionParam extends CopexActionNamed implements Clone
                 repeatParam = true;
                 s += " ("+this.namedAction.getVariable().getTabParam()[i].getParamName(locale)+") ";
             }else{
-                if(tabParam[i] == null)
+                if(tabParam[i] == null) {
                     // System.out.println("toDescription, null");
-                else
+		} else {
                     // System.out.println("toDescription : "+tabParam[i].getClass());
+		}
             }
          }
          s += " "+ namedAction.getVariable().getTextLibelle(edP.getLocale(), -1);
@@ -140,10 +141,11 @@ public abstract class CopexActionParam extends CopexActionNamed implements Clone
                 repeatParam = true;
                 s += " ("+this.namedAction.getVariable().getTabParam()[i].getParamName(locale)+") ";
             }else{
-                if(tabParam[i] == null)
+                if(tabParam[i] == null) {
                     // System.out.println("toDescription, null");
-                else
+                } else {
                     // System.out.println("toDescription : "+tabParam[i].getClass());
+		}
             }
          }
          s += " "+ namedAction.getVariable().getTextLibelle(locale, -1);
