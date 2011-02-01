@@ -169,6 +169,7 @@
 
     <bean id="resourceService" class="eu.scy.server.controllers.ResourceService">
         <property name="fileService" ref="fileService"/>
+        <property name="missionELOService" ref="missionELOService"/>
     </bean>
 
     <bean id="roleEditorController" class="eu.scy.server.controllers.components.roleeditor.RoleEditorController">
