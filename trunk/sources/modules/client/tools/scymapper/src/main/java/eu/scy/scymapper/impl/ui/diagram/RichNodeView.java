@@ -24,12 +24,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.PlainDocument;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 
 import org.apache.log4j.Logger;
 
@@ -52,7 +54,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 
     protected static final int MAX_TEXTLENGTH = 100;
 
-    protected JTextArea labelTextarea;
+    protected JTextPane labelTextPane;
 
     protected JComponent resizeHandle;
 
@@ -80,7 +82,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
         setFocusable(true);
 
         @SuppressWarnings("serial")
-        PlainDocument document = new PlainDocument() {
+        DefaultStyledDocument document = new DefaultStyledDocument() {
 
             @Override
             public void insertString(int offs, String str, AttributeSet a)
@@ -91,8 +93,8 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
                 SwingUtilities.invokeLater(new Runnable() {
 
                     public void run() {
-                        if (labelTextarea!=null){
-                            labelTextarea.setBackground(Color.RED);
+                        if (labelTextPane!=null){
+                            labelTextPane.setBackground(Color.RED);
                         }
                     }
                 });
@@ -108,15 +110,20 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
         } catch (BadLocationException e1) {
             e1.printStackTrace();
         }
-        labelTextarea = new JTextArea(document);
-        // labelTextarea.setHorizontalAlignment(JTextField.CENTER);
-        labelTextarea.setForeground(getModel().getStyle().getForeground());
-        labelTextarea.setWrapStyleWord(true);
-        labelTextarea.setLineWrap(true);
-        labelTextarea.setCursor(new Cursor(Cursor.TEXT_CURSOR));
-        labelScroller = new JScrollPane(labelTextarea);
-        labelTextarea.setMargin(new Insets(0, 0, 0, 0));
-        labelTextarea.setBorder(BorderFactory.createEmptyBorder());
+        labelTextPane = new JTextPane(document);
+        try {
+            SimpleAttributeSet set = new SimpleAttributeSet();
+            set.addAttribute(StyleConstants.ParagraphConstants.Alignment, StyleConstants.ParagraphConstants.ALIGN_CENTER);
+            document.setParagraphAttributes(0, 1, set, true);
+            document.insertString(0, getModel().getLabel(), set);
+        } catch (BadLocationException e1) {
+            e1.printStackTrace();
+        }
+        labelTextPane.setForeground(getModel().getStyle().getForeground());
+        labelTextPane.setCursor(new Cursor(Cursor.TEXT_CURSOR));
+        labelScroller = new JScrollPane(labelTextPane);
+        labelTextPane.setMargin(new Insets(0, 0, 0, 0));
+        labelTextPane.setBorder(BorderFactory.createEmptyBorder());
         labelScroller.getViewport().setOpaque(false);
         labelScroller.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
@@ -135,7 +142,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
         };
         addMouseListener(dblClickListener);
 
-        labelTextarea.addMouseListener(new MouseAdapter() {
+        labelTextPane.addMouseListener(new MouseAdapter() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -143,18 +150,18 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
             }
         });
 
-        labelTextarea.addFocusListener(new FocusAdapter() {
+        labelTextPane.addFocusListener(new FocusAdapter() {
 
             @Override
             public synchronized void focusLost(FocusEvent e) {
                 setLabelEditable(false);
-                labelTextarea.setText(labelTextarea.getText().trim());
-                if (!labelTextarea.getText().equals(getModel().getLabel())) {
-                    getController().setLabel(labelTextarea.getText());
+                labelTextPane.setText(labelTextPane.getText().trim());
+                if (!labelTextPane.getText().equals(getModel().getLabel())) {
+                    getController().setLabel(labelTextPane.getText());
                 }
             }
         });
-        labelTextarea.addKeyListener(new KeyAdapter() {
+        labelTextPane.addKeyListener(new KeyAdapter() {
 
             @Override
             public void keyPressed(KeyEvent e) {
@@ -169,7 +176,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
                 //Back to original foreground color....
                 SwingUtilities.invokeLater(new Runnable() {
                     public void run() {
-                        labelTextarea.setBackground(Color.WHITE);
+                        labelTextPane.setBackground(Color.WHITE);
                     }
                 });
 
@@ -212,7 +219,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 
         // setToolTipText(model.getId());
 
-        labelTextarea.addMouseListener(new MouseAdapter() {
+        labelTextPane.addMouseListener(new MouseAdapter() {
 
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -228,7 +235,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
                     labelScroller.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
             }
         });
-        labelTextarea.setToolTipText(Localization.getString("Mainframe.ConceptMap.NodeLabel.Tooptip"));
+        labelTextPane.setToolTipText(Localization.getString("Mainframe.ConceptMap.NodeLabel.Tooptip"));
 
         layoutComponents();
     }
@@ -242,12 +249,12 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
         labelScroller.getViewport().setOpaque(editable);
         labelScroller.setBorder(editable ? BorderFactory.createEtchedBorder() : BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
-        labelTextarea.setFocusable(editable);
-        labelTextarea.setEditable(editable);
-        labelTextarea.setOpaque(editable);
+        labelTextPane.setFocusable(editable);
+        labelTextPane.setEditable(editable);
+        labelTextPane.setOpaque(editable);
 
-        labelTextarea.setForeground(editable ? Color.BLACK : getModel().getStyle().getForeground());
-        labelTextarea.setBackground(editable ? Color.WHITE : getModel().getStyle().getBackground());
+        labelTextPane.setForeground(editable ? Color.BLACK : getModel().getStyle().getForeground());
+        labelTextPane.setBackground(editable ? Color.WHITE : getModel().getStyle().getBackground());
 
         // labelTextarea.setCaretPosition(caretPos);
         if (editable) {
@@ -255,14 +262,14 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 
                 @Override
                 public void run() {
-                    labelTextarea.requestFocus();
+                    labelTextPane.requestFocus();
                     if (selected)
-                        labelTextarea.selectAll();
+                        labelTextPane.selectAll();
                 }
             });
         }
         if (!editable)
-            labelTextarea.select(0, 0);
+            labelTextPane.select(0, 0);
 
         isEditing = editable;
     }
@@ -272,7 +279,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
     }
 
     public String getLabel() {
-        return this.labelTextarea.getText();
+        return this.labelTextPane.getText();
     }
 
     private JComponent createResizeHandle() {
@@ -299,8 +306,8 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 
     void layoutComponents() {
 
-        FontMetrics f = labelTextarea.getFontMetrics(labelTextarea.getFont());
-        int width = f.stringWidth(labelTextarea.getText()) + 10;
+        FontMetrics f = labelTextPane.getFontMetrics(labelTextPane.getFont());
+        int width = f.stringWidth(labelTextPane.getText()) + 10;
 
         int maxHeight = getHeight() - 20; // 10 px spacing on each side
         int maxWidth = getWidth() - 20; // 10 px spacing on each side
@@ -311,7 +318,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
         else
             width = (width + 10 > maxWidth) ? maxWidth : width + 10;
 
-        int height = labelTextarea.getPreferredScrollableViewportSize().height + 10;
+        int height = labelTextPane.getPreferredScrollableViewportSize().height + 10;
 
         if (height > maxHeight) {
             height = maxHeight;
@@ -321,7 +328,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
         }
 
         // labelTextarea.setSize(width, height);
-        labelTextarea.setVisible(!getModel().isLabelHidden());
+        labelTextPane.setVisible(!getModel().isLabelHidden());
 
         double x = ((maxWidth / 2) - (width / 2)) + 10;
         double y = ((maxHeight / 2d) - (height / 2d)) + 10;
@@ -350,7 +357,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 
     @Override
     public void labelChanged(INodeModel node) {
-        labelTextarea.setText(node.getLabel());
+        labelTextPane.setText(node.getLabel());
         layoutComponents();
     }
 
@@ -361,8 +368,8 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 
     @Override
     public void styleChanged(INodeModel node) {
-        labelTextarea.setForeground(node.getStyle().getForeground());
-        labelTextarea.setBackground(node.getStyle().getBackground());
+        labelTextPane.setForeground(node.getStyle().getForeground());
+        labelTextPane.setBackground(node.getStyle().getBackground());
         labelScroller.setOpaque(false);
         labelScroller.getViewport().setOpaque(false);
         repaint();
@@ -390,8 +397,8 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 
     @Override
     public void styleChanged(INodeStyle s) {
-        labelTextarea.setForeground(s.getForeground());
-        labelTextarea.setBackground(s.getBackground());
+        labelTextPane.setForeground(s.getForeground());
+        labelTextPane.setBackground(s.getBackground());
         labelScroller.setOpaque(false);
         labelScroller.getViewport().setOpaque(false);
         repaint();
