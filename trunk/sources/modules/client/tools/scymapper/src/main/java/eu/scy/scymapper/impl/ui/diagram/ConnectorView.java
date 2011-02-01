@@ -25,8 +25,8 @@ public class ConnectorView extends RichNodeView {
 
 		labelScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
-		labelTextarea.setSize(labelTextarea.getPreferredScrollableViewportSize());
-		labelTextarea.setVisible(!getModel().isLabelHidden());
+		labelTextPane.setSize(labelTextPane.getPreferredScrollableViewportSize());
+		labelTextPane.setVisible(!getModel().isLabelHidden());
 
 		labelScroller.setBounds(8, 8, width, height);
 		labelScroller.revalidate();
