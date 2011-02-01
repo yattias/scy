@@ -19,6 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
+import org.apache.log4j.Logger;
 
 /**
  * User: Bjoerge Naess
@@ -26,6 +27,9 @@ import java.net.URL;
  * Time: 15:09:32
  */
 public class DiagramDemo extends JFrame implements IDiagramListener {
+
+	private final static Logger logger = Logger.getLogger(DiagramDemo.class);
+
 	private IDiagramModel diagramModel;
 
 	private INodeModel selectedNode;
@@ -90,11 +94,11 @@ public class DiagramDemo extends JFrame implements IDiagramListener {
 
 		URL url = getClass().getResource("shapes/egg.svg");
 		try {
-			System.out.println("DiagramImplTest.testAddNodes1");
+			logger.debug("DiagramImplTest.testAddNodes1");
 			INodeShape s = new SVGShape(url);
 			svgNode.setShape(s);
 		} catch (IOException e) {
-			System.err.println("File not found: " + url);
+			logger.debug("File not found: " + url);
 		}
 
 		svgNode.setLocation(new Point(100, 50));
@@ -131,7 +135,7 @@ public class DiagramDemo extends JFrame implements IDiagramListener {
 
 	@Override
 	public void nodeSelected(INodeModel n) {
-		System.out.println("DiagramDemo.nodeSelected");
+		logger.debug("DiagramDemo.nodeSelected");
 	}
 
 	void simpleExample() {

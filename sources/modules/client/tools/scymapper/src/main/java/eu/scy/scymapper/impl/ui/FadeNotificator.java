@@ -26,9 +26,12 @@ import org.jdesktop.animation.timing.Animator;
 import org.jdesktop.animation.timing.Animator.Direction;
 import org.jdesktop.animation.timing.TimingTarget;
 import org.jdesktop.animation.timing.interpolation.SplineInterpolator;
+import org.apache.log4j.Logger;
 
 public class FadeNotificator implements ComponentListener, TimingTarget, Notificator {
 
+    private final static Logger logger = Logger.getLogger(FadeNotificator.class);
+	
     private int duration = 400;
 
     public enum Position {
@@ -243,7 +246,7 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Notific
             setToInvisible = false;
             animator.start();
             } catch (IllegalStateException ise) {
-                System.out.println("You cannot perform the show() operation during an animation");
+                logger.debug("You cannot perform the show() operation during an animation");
             }
         }
     }
@@ -256,7 +259,7 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Notific
                 setToInvisible = true;
                 animator.start();
             } catch (IllegalStateException ise) {
-                System.out.println("You cannot perform the hide() operation during an animation");
+                logger.debug("You cannot perform the hide() operation during an animation");
             }
         }
     }

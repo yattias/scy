@@ -189,12 +189,12 @@ public class SCYMapperStandaloneConfig {
     // Only for testing purposes
     public static void main(String[] args) throws CloneNotSupportedException {
         SCYMapperStandaloneConfig config = new SCYMapperStandaloneConfig();
-        System.out.println(config.getHelpMode());
-        System.out.println(config.getContinuousHelpWaitTime());
+        logger.debug(config.getHelpMode());
+        logger.debug(config.getContinuousHelpWaitTime());
         List<String> relations = config.getRelations();
-        System.out.println("Relations:");
+        logger.debug("Relations:");
         for (String string : relations) {
-            System.out.println("/" + string + "/");
+            logger.debug("/" + string + "/");
         }
     }
 }

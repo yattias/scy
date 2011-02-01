@@ -16,8 +16,11 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import eu.scy.scymapper.api.IConceptMap;
 import eu.scy.scymapper.impl.configuration.SCYMapperStandaloneConfig;
+import org.apache.log4j.Logger;
 
 public class ConceptMapAnalyser {
+
+	private final static Logger logger = Logger.getLogger(ConceptMapAnalyser.class);
 	
 	private static final String DEFAULT_CSV_FILE_NAME = "analysis.csv";
 	
@@ -52,7 +55,7 @@ public class ConceptMapAnalyser {
 		try {			
 			currentDir = new File(".").getCanonicalPath();
 		} catch (IOException ex) {
-			System.out.println("Could not determine canonical path");
+			logger.debug("Could not determine canonical path");
 		}
 		this.studentDirectory = currentDir + studentDir;
 		this.actionLogDirectory = currentDir + actionLogDir;
@@ -100,10 +103,10 @@ public class ConceptMapAnalyser {
 			try {
 				actionLogCount = student.readActionLogs(this.actionLogDirectory);
 			} catch(Exception ex) {
-				System.out.println("Could not read action log file for help mode: " + student.getActionLogFile(this.actionLogDirectory));
+				logger.debug("Could not read action log file for help mode: " + student.getActionLogFile(this.actionLogDirectory));
 				return;
 			}
-			System.out.println("Successfully read " + actionLogCount + " log entries for user " + student.getName());			
+			logger.debug("Successfully read " + actionLogCount + " log entries for user " + student.getName());			
 		}
 	}
 
@@ -180,7 +183,7 @@ public class ConceptMapAnalyser {
 	
 	private void writeCsvFile(String filename) {
 		if(studentList.size() == 0) {
-			System.out.println("No student data loaded");
+			logger.debug("No student data loaded");
 			return;
 		}
 		File csv = new File(filename);
@@ -230,11 +233,11 @@ public class ConceptMapAnalyser {
 			
 		ConceptMapAnalyser cmAnalyser = new ConceptMapAnalyser(studentDir, actionLogDir);
 		cmAnalyser.readStudentXmlFiles();
-		System.out.println("Read " + cmAnalyser.getStudentList().size() + " student concept maps out of " + cmAnalyser.getDirectories().size() + " directories." );
+		logger.debug("Read " + cmAnalyser.getStudentList().size() + " student concept maps out of " + cmAnalyser.getDirectories().size() + " directories." );
 
-		System.out.println("Begin reading action logs. This may take some time!");
+		logger.debug("Begin reading action logs. This may take some time!");
 		cmAnalyser.readStudentActionLogs();
-		System.out.println("Reading of action logs has been completed.");
+		logger.debug("Reading of action logs has been completed.");
 
 		cmAnalyser.writeCsvFile(DEFAULT_CSV_FILE_NAME);
 	}
