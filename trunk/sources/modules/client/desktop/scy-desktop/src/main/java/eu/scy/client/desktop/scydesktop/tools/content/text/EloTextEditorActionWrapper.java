@@ -12,13 +12,14 @@ import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
 import org.jdom.Element;
-import org.roolo.search.BasicMetadataQuery;
-import org.roolo.search.BasicSearchOperations;
 import org.springframework.util.StringUtils;
 import roolo.api.IRepository;
-import roolo.api.search.IMetadataQuery;
-import roolo.api.search.IQuery;
-import roolo.api.search.ISearchResult;
+import roolo.search.SearchOperation;
+import roolo.search.MetadataQueryComponent;
+import roolo.search.IQuery;
+import roolo.search.IQueryComponent;
+import roolo.search.Query;
+import roolo.search.ISearchResult;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
@@ -134,10 +135,9 @@ public class EloTextEditorActionWrapper
 
    public void loadTextAction()
    {
-      IQuery query = null;
-      IMetadataQuery metadataQuery = new BasicMetadataQuery(technicalFormatKey,
-         BasicSearchOperations.EQUALS, scyTextType);
-      query = metadataQuery;
+      IQueryComponent metadataQuery = new MetadataQueryComponent(technicalFormatKey,
+         SearchOperation.EQUALS, scyTextType);
+      IQuery query = new Query(metadataQuery);
       List<ISearchResult> searchResults = repository.search(query);
       URI[] drawingUris = new URI[searchResults.size()];
       int i = 0;

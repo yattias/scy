@@ -9,10 +9,12 @@ import eu.scy.client.desktop.scydesktop.corners.elomanagement.EloBasedSearcher;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.util.List;
-import roolo.api.search.IQuery;
-import roolo.api.search.ISearchResult;
-import org.roolo.search.BasicMetadataQuery;
-import org.roolo.search.BasicSearchOperations;
+import roolo.search.IQuery;
+import roolo.search.Query;
+import roolo.search.ISearchResult;
+import roolo.search.IQueryComponent;
+import roolo.search.MetadataQueryComponent;
+import roolo.search.SearchOperation;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
@@ -46,7 +48,7 @@ public class SameTechnicalFormatSearcher implements EloBasedSearcher {
    @Override
    public List<ISearchResult> findElos(ScyElo scyElo)
    {
-      final IQuery query =  new BasicMetadataQuery(technicalFormatKey, BasicSearchOperations.EQUALS, scyElo.getTechnicalFormat());
+      final IQuery query =  new Query(new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, scyElo.getTechnicalFormat()));
       return tbi.getRepository().search(query);
    }
 

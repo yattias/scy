@@ -5,6 +5,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
@@ -13,9 +14,6 @@ import javax.swing.JPanel;
 import org.springframework.util.StringUtils;
 
 import roolo.api.IRepository;
-import roolo.api.search.IMetadataQuery;
-import roolo.api.search.IQuery;
-import roolo.api.search.ISearchResult;
 import roolo.elo.JDomStringConversion;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
@@ -29,8 +27,11 @@ import roolo.elo.metadata.keys.Contribute;
 import colab.vt.whiteboard.component.WhiteboardPanel;
 import colab.vt.whiteboard.component.events.WhiteboardContainerChangedEvent;
 import colab.vt.whiteboard.component.events.WhiteboardContainerListChangedEvent;
-import org.roolo.search.BasicMetadataQuery;
-import org.roolo.search.BasicSearchOperations;
+import roolo.search.IQuery;
+import roolo.search.ISearchResult;
+import roolo.search.MetadataQueryComponent;
+import roolo.search.Query;
+import roolo.search.SearchOperation;
 
 public class EloDrawingPanel extends JPanel
 {
@@ -102,17 +103,17 @@ public class EloDrawingPanel extends JPanel
 	{
 		this.metadataTypeManager = metadataTypeManager;
 		uriKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
-		logger.info("retrieved key " + uriKey.getId());
+		logger.log(Level.INFO, "retrieved key {0}", uriKey.getId());
 		titleKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE.getId());
-		logger.info("retrieved key " + titleKey.getId());
+		logger.log(Level.INFO, "retrieved key {0}", titleKey.getId());
 		typeKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
-		logger.info("retrieved key " + typeKey.getId());
+		logger.log(Level.INFO, "retrieved key {0}", typeKey.getId());
 		dateCreatedKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.DATE_CREATED.getId());
-		logger.info("retrieved key " + dateCreatedKey.getId());
+		logger.log(Level.INFO, "retrieved key {0}", dateCreatedKey.getId());
 //		missionKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.MISSION.getId());
 //		logger.info("retrieved key " + missionKey.getId());
 		authorKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
-		logger.info("retrieved key " + authorKey.getId());
+		logger.log(Level.INFO, "retrieved key {0}", authorKey.getId());
 	}
 
 	public void setEloFactory(IELOFactory eloFactory)
@@ -145,10 +146,9 @@ public class EloDrawingPanel extends JPanel
 
 	public void loadDrawingAction()
 	{
-		IQuery query = null;
-		IMetadataQuery metadataQuery = new BasicMetadataQuery(typeKey,
-					BasicSearchOperations.EQUALS, scyDrawType);
-		query = metadataQuery;
+		MetadataQueryComponent metadataQueryComp = new MetadataQueryComponent(typeKey,
+					SearchOperation.EQUALS, scyDrawType);
+		IQuery query = new Query(metadataQueryComp);
 		List<ISearchResult> searchResults = repository.search(query);
 		URI[] drawingUris = new URI[searchResults.size()];
 		int i = 0;
@@ -164,7 +164,7 @@ public class EloDrawingPanel extends JPanel
 
 	public void loadElo(URI eloUri)
 	{
-		logger.info("Trying to load elo " + eloUri);
+		logger.log(Level.INFO, "Trying to load elo {0}", eloUri);
 		IELO newElo = repository.retrieveELO(eloUri);
 		if (newElo != null)
 		{

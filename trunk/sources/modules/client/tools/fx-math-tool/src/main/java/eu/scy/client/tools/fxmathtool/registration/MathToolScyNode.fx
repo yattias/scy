@@ -26,8 +26,9 @@ import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import java.net.URI;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
-import roolo.api.search.IQuery;
-import roolo.api.search.ISearchResult;
+import roolo.search.IQuery;
+import roolo.search.Query;
+import roolo.search.ISearchResult;
 import javax.swing.JOptionPane;
 import java.util.List;
 import eu.scy.actionlogging.DevNullActionLogger;
@@ -36,8 +37,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
-import org.roolo.search.BasicMetadataQuery;
-import org.roolo.search.BasicSearchOperations;
+import roolo.search.MetadataQueryComponent;
+import roolo.search.IQueryComponent;
+import roolo.search.SearchOperation;
 import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import eu.scy.tools.math.ui.MathTool;
@@ -110,8 +112,9 @@ public class MathToolScyNode extends MathToolNode, ScyToolFX, EloSaverCallBack {
    }
 
    function openElo() {
-      var query:IQuery = new BasicMetadataQuery(technicalFormatKey,
-         BasicSearchOperations.EQUALS, scyMathToolType);
+      var metadataQueryComponent:IQueryComponent = new MetadataQueryComponent(technicalFormatKey,
+         SearchOperation.EQUALS, scyMathToolType);
+      var query:IQuery = new Query(metadataQueryComponent);
       var searchResults:List = repository.search(query);
       var mathToolTextUris:URI[];
       for (searchResult in searchResults)

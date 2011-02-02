@@ -9,14 +9,16 @@ import eu.scy.client.desktop.scydesktop.utils.StringUtils;
 import java.net.URI;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import roolo.api.IRepository;
-import roolo.api.search.IMetadataQuery;
-import roolo.api.search.IQuery;
-import roolo.api.search.ISearchResult;
-import roolo.cms.repository.mock.BasicMetadataQuery;
-import roolo.cms.repository.search.BasicSearchOperations;
+import roolo.search.IQuery;
+import roolo.search.Query;
+import roolo.search.ISearchResult;
+import roolo.search.MetadataQueryComponent;
+import roolo.search.IQueryComponent;
+import roolo.search.SearchOperation;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
@@ -86,8 +88,8 @@ public class FormAuthorRepositoryWrapper {
     public void loadFormAction()
     {
         IQuery query = null;
-        IMetadataQuery metadataQuery = new BasicMetadataQuery(technicalFormatKey, BasicSearchOperations.EQUALS, scyFormAuthorType, null);
-        query = metadataQuery;
+        IQueryComponent metadataQuery = new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, scyFormAuthorType);
+        query = new Query(metadataQuery);
         List<ISearchResult> searchResults = repository.search(query);
         URI[] drawingUris = new URI[searchResults.size()];
         int i = 0;

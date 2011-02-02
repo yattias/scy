@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.SwingUtilities;
 import org.apache.log4j.Logger;
-import roolo.api.search.ISearchResult;
+import roolo.search.ISearchResult;
 import roolo.elo.api.IMetadata;
 
 /**
@@ -83,6 +83,8 @@ public abstract class BackgroundSearch implements Runnable
          List<URI> searchResultUris = new ArrayList<URI>();
          for (ISearchResult searchResult : searchResults)
          {
+            //FIXME No! Just make an ELO of a result if needed. Needed means, when it is retrieved and *just* a searchresult
+             ScySearchResult scySearchResult = new ScySearchResult(null, startNanos);
             searchResultUris.add(searchResult.getUri());
          }
          List<IMetadata> metadatas = tbi.getRepository().retrieveMetadatas(searchResultUris);

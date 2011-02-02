@@ -6,7 +6,7 @@ package eu.scy.client.desktop.scydesktop.corners.elomanagement;
 
 import eu.scy.common.scyelo.ScyElo;
 import java.util.List;
-import roolo.api.search.ISearchResult;
+import roolo.search.ISearchResult;
 
 /**
  *

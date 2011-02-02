@@ -19,11 +19,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import javax.swing.JOptionPane;
 import java.util.logging.Logger;
 import roolo.api.IRepository;
-import roolo.api.search.IMetadataQuery;
-import roolo.api.search.IQuery;
-import roolo.api.search.ISearchResult;
-import org.roolo.search.BasicMetadataQuery;
-import org.roolo.search.BasicSearchOperations;
+import roolo.search.MetadataQueryComponent;
+import roolo.search.IQuery;
+import roolo.search.Query;
+import roolo.search.IQueryComponent;
+import roolo.search.ISearchResult;
+import roolo.search.SearchOperation;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
@@ -169,9 +170,9 @@ public class EloChatActionWrapper {
    public void loadDrawingAction()
    {
       IQuery query = null;
-      IMetadataQuery metadataQuery = new BasicMetadataQuery(technicalFormatKey,
-         BasicSearchOperations.EQUALS, scyDrawType);
-      query = metadataQuery;
+      IQueryComponent metadataQuery = new MetadataQueryComponent(technicalFormatKey,
+         SearchOperation.EQUALS, scyDrawType);
+      query = new Query(metadataQuery);
       List<ISearchResult> searchResults = repository.search(query);
       URI[] drawingUris = new URI[searchResults.size()];
       int i = 0;

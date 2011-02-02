@@ -37,8 +37,6 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import roolo.api.search.IQuery;
-import roolo.api.search.ISearchResult;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadata;
@@ -66,6 +64,11 @@ import eu.scy.scymapper.impl.model.DefaultConceptMap;
 import eu.scy.scymapper.impl.ui.Localization;
 import eu.scy.toolbroker.ToolBrokerImpl;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import roolo.search.IQuery;
+import roolo.search.IQueryComponent;
+import roolo.search.ISearchResult;
+import roolo.search.MetadataQueryComponent;
+import roolo.search.Query;
 
 /**
  * User: Bjoerge Naess
@@ -373,7 +376,10 @@ public class SCYMapperStandalone extends JFrame {
 				JOptionPane.showMessageDialog(SCYMapperStandalone.this, Localization.getString("Dialog.Message.LoginFirst.Text"), Localization.getString("Dialog.Message.LoginFirst.Title"), JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			IQuery query = null;
+                        //maybe better to retrieve all URIs in standalone?
+                        //List<IELO> allElos = toolBroker.getRepository().retrieveAllElos();
+                        IQueryComponent queryComponent = new MetadataQueryComponent(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId(), "scy/mapping");
+			IQuery query = new Query(queryComponent);
 			List<ISearchResult> searchResults = toolBroker.getRepository().search(query);
 			URI[] uris = new URI[searchResults.size()];
 			int i = 0;

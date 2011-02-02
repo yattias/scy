@@ -109,7 +109,7 @@ class Resizer extends MouseAdapter {
                     r.setRect(r.x, r.y+dy, width, height);
                     break;
                 default:
-                    System.out.println("unexpected type: " + type);
+                    
             }
             component.repaint();
         }

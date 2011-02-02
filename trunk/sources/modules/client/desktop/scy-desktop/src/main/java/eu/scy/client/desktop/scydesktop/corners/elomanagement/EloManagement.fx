@@ -21,8 +21,12 @@ import javafx.util.Sequences;
 import java.net.URI;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import roolo.api.search.IQuery;
-import roolo.api.search.AndQuery;
+import roolo.search.IQuery;
+import roolo.search.Query;
+import roolo.search.IQueryComponent;
+import roolo.search.AndQuery;
+import roolo.search.MetadataQueryComponent;
+import roolo.search.SearchOperation;
 import java.lang.System;
 import roolo.elo.metadata.keys.Contribute;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
@@ -36,8 +40,6 @@ import java.util.ArrayList;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.SameTechnicalFormatSearcher;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.SameAuthorSearcher;
 import java.util.List;
-import org.roolo.search.BasicMetadataQuery;
-import org.roolo.search.BasicSearchOperations;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.SameMissionSearcher;
 
 /**
@@ -160,6 +162,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
    }
 
    function createScySearchResult(uri: URI): ScySearchResult {
+       //FIXME change this.... dont load metadata into search results
       def scyElo = ScyElo.loadMetadata(uri, tbi);
       def eloIcon: EloIcon = windowStyler.getScyEloIcon(uri);
       def scySearchResult = new ScySearchResult(scyElo, 1.0);
@@ -339,17 +342,18 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
          if (searchQuery == null) {
             searchQuery = new AndQuery(titleQuery);
          } else {
-            searchQuery.addQuery(titleQuery);
+            searchQuery.addQueryComponent(titleQuery);
          }
       }
       if (authorQuery != null) {
          if (searchQuery == null) {
             searchQuery = new AndQuery(authorQuery);
          } else {
-            searchQuery.addQuery(authorQuery);
+            searchQuery.addQueryComponent(authorQuery);
          }
       }
-      backgroundQuerySearch = new BackgroundQuerySearch(tbi, scyDesktop.newEloCreationRegistry, searchQuery, this);
+      def query = new Query(searchQuery);
+      backgroundQuerySearch = new BackgroundQuerySearch(tbi, scyDesktop.newEloCreationRegistry, query, this);
 
       backgroundQuerySearch.start();
       searchElos.showSearching();
@@ -361,8 +365,9 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       }
 
       searchElos.openButton.disable = true;
-      var searchQuery: BasicMetadataQuery = new BasicMetadataQuery(searchElos.simpleSearchField.text);
-      backgroundQuerySearch = new BackgroundQuerySearch(tbi, scyDesktop.newEloCreationRegistry, searchQuery, this);
+      var searchQuery: MetadataQueryComponent = new MetadataQueryComponent(searchElos.simpleSearchField.text);
+      def query = new Query(searchQuery);
+      backgroundQuerySearch = new BackgroundQuerySearch(tbi, scyDesktop.newEloCreationRegistry, query, this);
 
       backgroundQuerySearch.start();
       searchElos.showSearching();
@@ -383,34 +388,34 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       showSearching.showSearchResult(results);
    }
 
-   function createTypeQuery(searchElos: SearchElos): IQuery {
+   function createTypeQuery(searchElos: SearchElos): IQueryComponent {
       var eloTypeName = searchElos.typesListView.selectedItem as String;
       if (not searchElos.allTypesCheckBox.selected and eloTypeName != null) {
          var eloType = scyDesktop.newEloCreationRegistry.getEloType(eloTypeName);
-         return new BasicMetadataQuery(technicalFormatKey, BasicSearchOperations.EQUALS, eloType);
+         return new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, eloType);
       }
       return null;
    }
 
-   function createTitleQuery(searchElos: SearchElos): IQuery {
+   function createTitleQuery(searchElos: SearchElos): IQueryComponent {
       var searchTitle = searchElos.nameTextbox.rawText.trim();
       if (searchTitle.length() > 0) {
-         return new BasicMetadataQuery(titleKey, BasicSearchOperations.REGULAR_EXPRESSIONS, ".*{searchTitle}.*");
+         return new MetadataQueryComponent(titleKey, SearchOperation.REGULAR_EXPRESSIONS, ".*{searchTitle}.*");
       }
       return null;
    }
 
-   function createAuthorQuery(searchElos: SearchElos): IQuery {
+   function createAuthorQuery(searchElos: SearchElos): IQueryComponent {
       // if both mine and others and checked or unchecked, nothing to do
       if (searchElos.mineCheckBox.selected or searchElos.othersCheckBox.selected) {
          if (not (searchElos.mineCheckBox.selected and searchElos.othersCheckBox.selected)) {
             if (searchElos.mineCheckBox.selected) {
                var authorValue = new Contribute(userId, System.currentTimeMillis());
-               return new BasicMetadataQuery(authorKey, BasicSearchOperations.EQUALS, authorValue);
+               return new MetadataQueryComponent(authorKey, SearchOperation.EQUALS, authorValue);
             }
             if (searchElos.othersCheckBox.selected) {
                var authorValue = new Contribute(userId, System.currentTimeMillis());
-               return new BasicMetadataQuery(authorKey, BasicSearchOperations.NOT_EQUALS, authorValue);
+               return new MetadataQueryComponent(authorKey,SearchOperation.NOT_EQUALS, authorValue);
             }
          }
       }
@@ -450,15 +455,15 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       }
 
       searchElos.openButton.disable = true;
-      var searchQuery: BasicMetadataQuery = null;
+      var searchQuery: IQuery = null;
       if (scyDesktop.initializer.offlineMode){
          def queryText = gridEloSearch.queryBox.rawText.trim();
          if (queryText!=""){
-            searchQuery = new BasicMetadataQuery(titleKey, BasicSearchOperations.EQUALS, "{queryText}");
+            searchQuery = new Query(new MetadataQueryComponent(titleKey, SearchOperation.EQUALS, "{queryText}"));
          }
       }
       else{
-         searchQuery = new BasicMetadataQuery(gridEloSearch.queryBox.rawText);
+         searchQuery = new Query(new MetadataQueryComponent(gridEloSearch.queryBox.rawText));
       }
       backgroundQuerySearch = new BackgroundQuerySearch(tbi, scyDesktop.newEloCreationRegistry, searchQuery, this);
 

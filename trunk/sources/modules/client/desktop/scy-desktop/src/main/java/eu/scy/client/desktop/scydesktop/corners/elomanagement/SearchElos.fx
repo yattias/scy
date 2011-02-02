@@ -305,13 +305,16 @@ public class SearchElos extends ModalDialogNode, ScyEloListCellDisplay, ShowSear
         simpleSearchGroup.visible = true;
         advancedSearchGroup.visible = false;
         simpleSearchLink.action = hyperlinkSimpleSearchAction;
-        simpleSearchField.action = function():Void{simpleSearchAction(this)};
+        simpleSearchField.action = function(): Void {
+                    simpleSearchAction(this)
+                };
         advancedSearchLink.action = hyperlinkAdvancedSearchAction;
     }
 
     function hyperlinkSimpleSearchAction(): Void {
         delete  resultsListView.items;
         simpleSearchGroup.visible = true;
+        simpleSearchField.requestFocus();
         Timeline {
             keyFrames: [
                 KeyFrame {
@@ -329,6 +332,7 @@ public class SearchElos extends ModalDialogNode, ScyEloListCellDisplay, ShowSear
     function hyperlinkAdvancedSearchAction(): Void {
         delete  resultsListView.items;
         advancedSearchGroup.visible = true;
+        nameTextbox.requestFocus();
         Timeline {
             keyFrames: [
                 KeyFrame {
@@ -360,6 +364,8 @@ public class SearchElos extends ModalDialogNode, ScyEloListCellDisplay, ShowSear
         progressIndicator.visible = false;
         setNumberOfResults("{sizeof resultsListView.items}");
     }
+
+    postinit{}
 
     function setNumberOfResults(nr: String): Void {
         if (foundLabelText == "") {

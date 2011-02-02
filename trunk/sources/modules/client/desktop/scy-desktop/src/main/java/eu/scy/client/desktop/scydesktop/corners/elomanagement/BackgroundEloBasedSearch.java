@@ -15,8 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.log4j.Logger;
-import roolo.api.search.ISearchResult;
-import roolo.cms.repository.search.SearchResultRelevanceComparator;
+import roolo.search.ISearchResult;
 
 /**
  *
@@ -93,7 +92,7 @@ public class BackgroundEloBasedSearch extends BackgroundSearch
          }
       }
       List<ISearchResult> searchResults = new ArrayList<ISearchResult>(queryResults.values());
-      Collections.sort(searchResults, new SearchResultRelevanceComparator());
+//      Collections.sort(searchResults, new SearchResultRelevanceComparator());
       return searchResults;
 
    }

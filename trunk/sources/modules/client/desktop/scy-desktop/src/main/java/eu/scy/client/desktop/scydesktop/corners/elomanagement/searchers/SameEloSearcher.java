@@ -9,7 +9,7 @@ import eu.scy.client.desktop.scydesktop.corners.elomanagement.EloBasedSearcher;
 import eu.scy.common.scyelo.ScyElo;
 import java.util.ArrayList;
 import java.util.List;
-import roolo.api.search.ISearchResult;
+import roolo.search.ISearchResult;
 
 /**
  *

@@ -3,12 +3,14 @@ package eu.scy.core.roolo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.roolo.ELOWebSafeTransporter;
 import eu.scy.core.roolo.RooloAccessor;
-import org.roolo.search.BasicMetadataQuery;
-import org.roolo.search.BasicSearchOperations;
-import org.roolo.search.SearchResult;
 import roolo.api.IExtensionManager;
 import roolo.api.IRepository;
-import roolo.api.search.IQuery;
+import roolo.search.IQueryComponent;
+import roolo.search.MetadataQueryComponent;
+import roolo.search.IQuery;
+import roolo.search.Query;
+import roolo.search.ISearchResult;
+import roolo.search.SearchOperation;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataKey;
@@ -35,14 +37,16 @@ public class RooloAccessorImpl implements RooloAccessor {
 
     public void findMissionSpecifications() {
         final IMetadataKey technicalFormatKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
-        IQuery missionSpecificationQuery = new BasicMetadataQuery(technicalFormatKey, BasicSearchOperations.EQUALS, "scy/missionspecification");
+        IQueryComponent missionSpecificationQueryComponent = new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, "scy/missionspecification");
+        IQuery missionSpecificationQuery = new Query(missionSpecificationQueryComponent);
         List result = getELOs(missionSpecificationQuery);
     }
 
     @Override
     public <ScyElo> List getELOSWithTechnicalFormat(String technicalFormat) {
         IMetadataKey technicalFormatKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
-        IQuery interviewQuery = new BasicMetadataQuery(technicalFormatKey, BasicSearchOperations.EQUALS, technicalFormat);
+        IQueryComponent interviewQueryComponent = new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, technicalFormat);
+        IQuery interviewQuery = new Query(interviewQueryComponent);
         List result = getELOs(interviewQuery);
 
         return result;
@@ -59,9 +63,11 @@ public class RooloAccessorImpl implements RooloAccessor {
         List eloSearchResult = getRepository().search(interviewQuery);
         List result = new LinkedList();
         for (int i = 0; i < eloSearchResult.size(); i++) {
-            SearchResult searchResult = (SearchResult) eloSearchResult.get(i);
-            IELO elo = searchResult.getELO();
-            ScyElo scyELO = getElo(elo.getUri());
+            ISearchResult searchResult = (ISearchResult) eloSearchResult.get(i);
+            //FIXME this wont work anymore!!!
+//            IELO elo = searchResult.getELO();
+            //and this isnt the good way, but compiling
+            ScyElo scyELO = getElo(searchResult.getUri());
             result.add(scyELO);
         }
         return result;

@@ -23,8 +23,6 @@ import org.jdesktop.application.ApplicationActionMap;
 import org.springframework.util.StringUtils;
 
 import roolo.api.IRepository;
-import roolo.api.search.IQuery;
-import roolo.api.search.ISearchResult;
 import roolo.elo.JDomStringConversion;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
@@ -39,6 +37,8 @@ import colab.vt.whiteboard.component.events.WhiteboardContainerChangedEvent;
 import colab.vt.whiteboard.component.events.WhiteboardContainerChangedListener;
 import colab.vt.whiteboard.component.events.WhiteboardContainerListChangedEvent;
 import colab.vt.whiteboard.component.events.WhiteboardContainerListChangedListener;
+import roolo.search.IQuery;
+import roolo.search.ISearchResult;
 
 /**
  * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI Builder, which is free
@@ -273,6 +273,7 @@ public class DrawingToolFrame extends javax.swing.JFrame implements
 	@Action
 	public void loadDrawingAction()
 	{
+
 		IQuery query = null;
 //		IMetadataQuery<IMetadataKey> metadataQuery = new BasicMetadataQuery<IMetadataKey>(titleKey,
 //					BasicSearchOperations.LESS, "n", null);
