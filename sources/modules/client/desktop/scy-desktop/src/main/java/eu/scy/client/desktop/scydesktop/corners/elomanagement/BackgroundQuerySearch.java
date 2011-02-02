@@ -8,8 +8,8 @@ package eu.scy.client.desktop.scydesktop.corners.elomanagement;
 import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.util.List;
-import roolo.api.search.IQuery;
-import roolo.api.search.ISearchResult;
+import roolo.search.IQuery;
+import roolo.search.ISearchResult;
 
 /**
  *

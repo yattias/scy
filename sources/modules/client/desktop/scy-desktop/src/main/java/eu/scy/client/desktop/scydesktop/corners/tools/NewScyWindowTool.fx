@@ -19,21 +19,22 @@ import javafx.scene.layout.VBox;
 import roolo.api.IRepository;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IELOFactory;
-
+import roolo.search.ISearchResult;
+import roolo.search.SearchOperation;
+import roolo.search.Query;
+import roolo.search.IQuery;
+import roolo.search.IQueryComponent;
+import roolo.search.MetadataQueryComponent;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 
 import java.net.URI;
 
 import java.util.List;
 
-import roolo.api.search.ISearchResult;
-
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import javafx.scene.control.Button;
-import org.roolo.search.BasicMetadataQuery;
-import org.roolo.search.BasicSearchOperations;
 
 /**
  * @author sikkenj
@@ -144,9 +145,10 @@ public class NewScyWindowTool extends CustomNode {
       if (not checkStatus()) return;
       var eloTypeName = getNewEloTypeName("Search for ELOs");
       if (eloTypeName!=null){
-         var eloType = scyDesktop.newEloCreationRegistry.getEloType(eloTypeName);
+         def eloType = scyDesktop.newEloCreationRegistry.getEloType(eloTypeName);
          if (eloType!=null){
-            var typeQuery = new BasicMetadataQuery(technicalFormatKey,BasicSearchOperations.EQUALS,eloType);
+            def typeQueryComponent:IQueryComponent = new MetadataQueryComponent(technicalFormatKey,SearchOperation.EQUALS,eloType);
+            def typeQuery:IQuery = new Query(typeQueryComponent);
             var results = repository.search(typeQuery);
             logger.info("Nr of elos found: {results.size()}");
             if (results!=null and results.size()>0){
@@ -159,7 +161,6 @@ public class NewScyWindowTool extends CustomNode {
             else{
                JOptionPane.showMessageDialog(null, "No ELOs found","Search for ELOs",JOptionPane.PLAIN_MESSAGE);
             }
-
          }
       }
    }

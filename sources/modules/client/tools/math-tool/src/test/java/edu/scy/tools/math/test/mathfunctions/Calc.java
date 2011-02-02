@@ -19,7 +19,7 @@ public class Calc {
 		do {
 			stringInput=JOptionPane.showInputDialog("Please Enter a Mathematical Expression:");
 			if ("".equalsIgnoreCase(stringInput)||null==stringInput) {
-				System.out.println("Terminating Program!");
+				
 				stringInput = "0";
 				break mainLoop;
 			} else {
@@ -49,16 +49,16 @@ public class Calc {
 	}
 	//Output Method
 	public void showOutput()throws Exception {
-		System.out.println("Extracting Substrings:");
+		
 		for(int j=0;j<tokenMax;j++) {
 			System.out.print("Substring #" + (j+1) + ":\t");
-			System.out.println(subString[j]);
+			
 		}
-		System.out.println("Building Postfix Form:");
+		
 		myTree=getTree();
 		postOrder(myTree);
-		System.out.println("Final Postfix Form:\t" + postFixForm);
-		System.out.println("Evaluation: \t" + myStack.pop());
+		
+		
 	}
 	//Tree Creator	
 	public ExpressionTree getTree() {
@@ -125,7 +125,7 @@ public class Calc {
 			myStack.push(node.getData());
 			postFixForm+=node.getData();
 			test = test + postFixForm;
-			System.out.println(test);
+			
 		} else {		
 			postFixForm+=node.getOperator();		
 			double op2=myStack.pop();
@@ -181,13 +181,13 @@ public class Calc {
 
 class ErrorHandler {
 	public static boolean syntaxCheck(String args) {
-		System.out.println("Initiating Syntax Check!");
+		
 		if (checkWild(args)) {
 			if (checkPrecedence(args)) {
 				if (checkLocation(args)) {
 					if (checkPair(args)) {
 						if (isBinary(args)) {
-							System.out.println("NO ERRORS DETECTED!");
+							
 							return(true);
 						} else {
 							return(false);
@@ -251,7 +251,7 @@ class ErrorHandler {
 		}
 		properPrecedence = ((firstOperator>firstDigit) && ((lastOperator<lastDigit)||(lastDigit==0)))?true:false;
 		if (!properPrecedence) {
-			System.out.println("ERROR:Invalid Operator Location!");
+			
 		}
 		return(properPrecedence);
 	}
@@ -261,7 +261,7 @@ class ErrorHandler {
 		String q = "\"";
 		for (int i=0; i<(charArray.length-1); i++) {
 			if ((charArray[i] == '(' )&& (charArray[i+1] == ')')) {
-				System.out.println("ERROR:Empty Arguments Inside " + q + "(" + q + " and " + q + ")" + q);
+				
 				clearedEmpty = false;
 				break;
 			}
@@ -286,12 +286,12 @@ class ErrorHandler {
 				}
 			}
 			if (output == false) {
-				System.out.println("Character \"" + inputArray[i] + "\" is not allowed!" );
+				
 				break mainLoop;
 			}
 		}
 		if (!output) {
-			System.out.println("ERROR:Invalid Characters Included!");
+			
 		}
 		return(output);
 		
@@ -318,7 +318,7 @@ class ErrorHandler {
 		boolean output = (openingBrace<closingBrace)?true:false;
 		output = checkEmptyPar(inputArray);
 		if (!output) {
-			System.out.println("ERROR:Invalid Brace Position!");
+			
 		}
 		return(output);
 	}
@@ -339,7 +339,7 @@ class ErrorHandler {
 		
 		boolean output = (countOpen == countClose)?true:false;
 		if (!output) {
-			System.out.println("ERROR:Unpaired Braces");
+			
 		}
 		return(output);
 	}
@@ -365,7 +365,7 @@ class ErrorHandler {
 			}
 		}
 		if (!isBinary) {
-			System.out.println("ERROR: All Operations MUST be Binary!");
+			
 		}
 		return(isBinary);
 	}
@@ -517,7 +517,7 @@ class FormatReviser {
 		output = addPreAsterisk(output);
 		//EXPERIMENTAL SECTION1: See Bottom for Details and Explanation.
 		//output = appZero(output);
-		System.out.println("AUTOCORRECTION:" + input + " ==> " + output);
+		
 		return(output);
 	}
 	private static String addAsterisk(String input) {
@@ -641,28 +641,28 @@ class Instruct {
 	}
 	
 	private final static void rules() {
-		System.out.println("RULES: To Avoid Errors");
-		System.out.println("1. Use only the six binary mathematical operators:");
-		System.out.println(" % -> Remainder Extractor");
-		System.out.println(" ^ -> Exponent Operator");
-		System.out.println(" * -> Multiplication");
-		System.out.println(" / -> Division");
-		System.out.println(" + -> Addition");
-		System.out.println(" - -> Subtraction");
-		System.out.println("2. Position your parenthesis in the correct order.");
-		System.out.println("3. Use single points for every decimal numbers.");
-		System.out.println("4. Don't MESS UP by tring to use letter characters.");
-		System.out.println("5. Don't even dare to use unary operators like ++ and -- 'coz it aint gonna work.");
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 	
 	private final static void allowed() {
-		System.out.println("SPECIAL OPERATIONS:This makes this calcu better than my older versions");
-		System.out.println("1. Multiplying without the use of '*' sign: ");
-		System.out.println("  Example: (2)(2)");
-		System.out.println("          = 4");
-		System.out.println("2. Using decimal points:");
-		System.out.println("  Example: 2.3454 - 4234.56");
-		System.out.println("          = -4232.2146");
+		
+		
+		
+		
+		
+		
+		
 	}
 }
 

@@ -31,14 +31,16 @@ import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import java.net.URI;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
-import roolo.api.search.IQuery;
-import roolo.api.search.ISearchResult;
+import roolo.search.IQuery;
+import roolo.search.Query;
+import roolo.search.ISearchResult;
 
 import javax.swing.JOptionPane;
 import java.util.List;
 import javafx.scene.layout.Resizable;
-import org.roolo.search.BasicMetadataQuery;
-import org.roolo.search.BasicSearchOperations;
+import roolo.search.MetadataQueryComponent;
+import roolo.search.IQueryComponent;
+import roolo.search.SearchOperation;
 import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import javafx.geometry.Bounds;
@@ -129,8 +131,8 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
    }
 
    function openElo() {
-      var query:IQuery = new BasicMetadataQuery(technicalFormatKey,
-         BasicSearchOperations.EQUALS, scyInterviewType);
+      var metadataQuery:IQueryComponent = new MetadataQueryComponent(technicalFormatKey,SearchOperation.EQUALS, scyInterviewType);
+      var query:IQuery = new Query(metadataQuery);
       var searchResults:List = repository.search(query);
       var interviewUris:URI[];
       for (searchResult in searchResults)

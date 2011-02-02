@@ -9,11 +9,13 @@ import eu.scy.client.desktop.scydesktop.corners.elomanagement.EloBasedSearcher;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.util.List;
-import roolo.api.search.IQuery;
-import roolo.api.search.ISearchResult;
-import roolo.api.search.OrQuery;
-import org.roolo.search.BasicMetadataQuery;
-import org.roolo.search.BasicSearchOperations;
+import roolo.search.IQuery;
+import roolo.search.IQueryComponent;
+import roolo.search.Query;
+import roolo.search.ISearchResult;
+import roolo.search.OrQuery;
+import roolo.search.MetadataQueryComponent;
+import roolo.search.SearchOperation;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.Contribute;
@@ -52,14 +54,16 @@ public class SameAuthorSearcher implements EloBasedSearcher {
       if (authors == null || authors.isEmpty()){
          return null;
       }
-      IQuery query = new BasicMetadataQuery(authorKey, BasicSearchOperations.EQUALS, new Contribute(authors.get(0),System.currentTimeMillis()));
+      IQueryComponent queryComponent = new MetadataQueryComponent(authorKey, SearchOperation.EQUALS, new Contribute(authors.get(0),System.currentTimeMillis()));
+      IQuery query = new Query(queryComponent);
       if (authors.size()>1){
-         IQuery[] queries = new IQuery[authors.size()-1];
+         IQueryComponent[] queryComponents = new IQueryComponent[authors.size()-1];
          for (int i = 1; i<authors.size();i++){
-            queries[i-1] = new BasicMetadataQuery(authorKey, BasicSearchOperations.EQUALS, new Contribute(authors.get(i),System.currentTimeMillis()));
+             IQueryComponent newQueryComponent = new MetadataQueryComponent(authorKey, SearchOperation.EQUALS, new Contribute(authors.get(i),System.currentTimeMillis()));
+            queryComponents[i-1] = newQueryComponent;
          }
-         query = new OrQuery(query,queries);
-      }
+         query = new Query(new OrQuery(queryComponent,queryComponents));
+      } 
       return tbi.getRepository().search(query);
    }
 

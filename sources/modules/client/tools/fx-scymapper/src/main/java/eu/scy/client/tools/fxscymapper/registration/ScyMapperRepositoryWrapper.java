@@ -12,8 +12,12 @@ import eu.scy.scymapper.impl.DiagramModel;
 import eu.scy.scymapper.impl.model.DefaultConceptMap;
 import org.springframework.util.StringUtils;
 import roolo.api.IRepository;
-import roolo.api.search.IMetadataQuery;
-import roolo.api.search.ISearchResult;
+import roolo.search.IQuery;
+import roolo.search.Query;
+import roolo.search.MetadataQueryComponent;
+import roolo.search.IQueryComponent;
+import roolo.search.ISearchResult;
+import roolo.search.SearchOperation;
 import roolo.elo.api.*;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.Contribute;
@@ -22,15 +26,12 @@ import java.net.URI;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Logger;
-import org.roolo.search.BasicMetadataQuery;
-import org.roolo.search.BasicSearchOperations;
 
 public class ScyMapperRepositoryWrapper {
 
     private static final Logger logger = Logger.getLogger(ScyMapperRepositoryWrapper.class.getName());
     public static final String scyMapperType = "scy/mapping";
     public static final String untitledDocName = "Untitled";
-
     private IRepository repository;
     private IMetadataTypeManager metadataTypeManager;
     private IELOFactory eloFactory;
@@ -69,11 +70,8 @@ public class ScyMapperRepositoryWrapper {
     }
 
     public URI[] findElos() {
-        IMetadataQuery metadataQuery = new BasicMetadataQuery(
-                technicalFormatKey,
-                BasicSearchOperations.EQUALS,
-                scyMapperType);
-
+        IQueryComponent metadataQueryComponent = new MetadataQueryComponent(technicalFormatKey,SearchOperation.EQUALS,scyMapperType);
+        IQuery metadataQuery = new Query(metadataQueryComponent);
         List<ISearchResult> searchResults = repository.search(metadataQuery);
         URI[] uris = new URI[searchResults.size()];
         int i = 0;
@@ -96,8 +94,8 @@ public class ScyMapperRepositoryWrapper {
             IMetadataValueContainer metadataValueContainer = metadata.getMetadataValueContainer(titleKey);
             // TODO fixe the locale problem!!!
             Object titleObject = metadataValueContainer.getValue(Locale.getDefault());
-            if (titleObject==null){
-               titleObject = metadataValueContainer.getValue();
+            if (titleObject == null) {
+                titleObject = metadataValueContainer.getValue();
             }
 
             setDocName(titleObject.toString());
@@ -122,7 +120,9 @@ public class ScyMapperRepositoryWrapper {
     }
 
     public IELO updateELO(IELO elo) {
-        if (elo.getUri() == null) return saveELO(elo);
+        if (elo.getUri() == null) {
+            return saveELO(elo);
+        }
 
 
         // TODO: This should be cached
@@ -193,5 +193,4 @@ public class ScyMapperRepositoryWrapper {
     public void setEloFactory(IELOFactory eloFactory) {
         this.eloFactory = eloFactory;
     }
-
 }

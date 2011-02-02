@@ -2,11 +2,13 @@ package eu.scy.core.roolo;
 
 import eu.scy.common.mission.*;
 import eu.scy.common.scyelo.ScyElo;
-import org.roolo.search.BasicMetadataQuery;
-import org.roolo.search.BasicSearchOperations;
-import roolo.api.search.AndQuery;
-import roolo.api.search.IQuery;
-import roolo.api.search.ISearchResult;
+import roolo.search.IQueryComponent;
+import roolo.search.MetadataQueryComponent;
+import roolo.search.AndQuery;
+import roolo.search.IQuery;
+import roolo.search.Query;
+import roolo.search.ISearchResult;
+import roolo.search.SearchOperation;
 import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
@@ -196,7 +198,8 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
     @Override
     public List getMissionSpecifications() {
         final IMetadataKey technicalFormatKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
-        IQuery missionSpecificationQuery = new BasicMetadataQuery(technicalFormatKey, BasicSearchOperations.EQUALS, MissionEloType.MISSION_SPECIFICATIOM.getType());
+        IQueryComponent missionSpecificationQueryComponent = new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, MissionEloType.MISSION_SPECIFICATIOM.getType());
+        IQuery missionSpecificationQuery = new Query(missionSpecificationQueryComponent);
         return getELOs(missionSpecificationQuery);
     }
 
@@ -211,16 +214,17 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
     @Override
     public List findElosFor(String mission, String username)  {
 
-        BasicMetadataQuery bmq1 = new BasicMetadataQuery(getMetaDataTypeManager().getMetadataKey("mission"), BasicSearchOperations.EQUALS, "ecomission"); //e.g. mission = "ecoMission"
-        BasicMetadataQuery bmq2 = new BasicMetadataQuery(getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR), BasicSearchOperations.EQUALS, username);   //e.g. author = "jan"
+        IQueryComponent bmq1 = new MetadataQueryComponent(getMetaDataTypeManager().getMetadataKey("mission"), SearchOperation.EQUALS, "ecomission"); //e.g. mission = "ecoMission"
+        IQueryComponent bmq2 = new MetadataQueryComponent(getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR), SearchOperation.EQUALS, username);   //e.g. author = "jan"
 
 
-        AndQuery q = new AndQuery(bmq1, bmq2);
+        AndQuery aq = new AndQuery(bmq1, bmq2);
+		IQuery q = new Query(aq);
         List<ISearchResult> results = getRepository().search(q);
         List elos = new LinkedList();
         for (int i = 0; i < results.size(); i++) {
             ISearchResult searchResult = results.get(i);
-            elos.add(searchResult.getELO());
+            elos.add(getRepository().retrieveELO(searchResult.getUri()));
         }
 
         return elos;

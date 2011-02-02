@@ -344,7 +344,6 @@ public class ScyDesktopCreator {
          }
 
       scyDesktop.config.getToolBrokerAPI().registerForNotifications(scyDesktopNotificationRouter);
-
       return scyDesktop;
    }
 

@@ -11,13 +11,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import org.roolo.search.BasicMetadataQuery;
-import org.roolo.search.BasicSearchOperations;
+
+import roolo.search.IQueryComponent;
+import roolo.search.MetadataQueryComponent;
+import roolo.search.IQuery;
+import roolo.search.Query;
+import roolo.search.ISearchResult;
+import roolo.search.SearchOperation;
+
 import org.springframework.util.StringUtils;
 import roolo.api.IRepository;
-import roolo.api.search.IMetadataQuery;
-import roolo.api.search.IQuery;
-import roolo.api.search.ISearchResult;
 import roolo.elo.JDomStringConversion;
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
@@ -151,8 +154,8 @@ public class EloWebResourceActionWrapper {
         //System.out.println(technicalFormatKey);
         //System.out.println(scyWebType);
         IQuery query = null;
-        IMetadataQuery metadataQuery = new BasicMetadataQuery(technicalFormatKey, BasicSearchOperations.EQUALS, scyWebType);
-        query = metadataQuery;
+        IQueryComponent metadataQuery = new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, scyWebType);
+        query = new Query(metadataQuery);
         List<ISearchResult> searchResults = repository.search(query);
         URI[] drawingUris = new URI[searchResults.size()];
         int i = 0;

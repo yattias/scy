@@ -10,10 +10,12 @@ import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.net.URI;
 import java.util.List;
-import org.roolo.search.BasicMetadataQuery;
-import org.roolo.search.BasicSearchOperations;
-import roolo.api.search.IQuery;
-import roolo.api.search.ISearchResult;
+import roolo.search.MetadataQueryComponent;
+import roolo.search.SearchOperation;
+import roolo.search.IQuery;
+import roolo.search.IQueryComponent;
+import roolo.search.Query;
+import roolo.search.ISearchResult;
 import roolo.elo.api.IMetadataKey;
 
 /**
@@ -60,16 +62,17 @@ public class SameMissionSearcher implements EloBasedSearcher
       if (missionSpecificationEloUri==null){
          return null;
       }
-      BasicSearchOperations searchOperation;
+      SearchOperation searchOperation;
       if (findSame)
       {
-         searchOperation = BasicSearchOperations.EQUALS;
+         searchOperation = SearchOperation.EQUALS;
       }
       else
       {
-         searchOperation = BasicSearchOperations.NOT_EQUALS;
+         searchOperation = SearchOperation.NOT_EQUALS;
       }
-      final IQuery query = new BasicMetadataQuery(missionRunningKey, searchOperation, missionSpecificationEloUri);
+      final IQueryComponent queryComponent = new MetadataQueryComponent(missionRunningKey, searchOperation, missionSpecificationEloUri);
+      final IQuery query = new Query(queryComponent);
       return tbi.getRepository().search(query);
    }
 }

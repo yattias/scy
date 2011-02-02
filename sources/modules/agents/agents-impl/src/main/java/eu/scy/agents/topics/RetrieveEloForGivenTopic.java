@@ -8,12 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.roolo.search.BasicMetadataQuery;
-import org.roolo.search.BasicSearchOperations;
-
 import roolo.api.IRepository;
-import roolo.api.search.IQuery;
-import roolo.api.search.ISearchResult;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
@@ -22,6 +17,12 @@ import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;
+import roolo.search.IQuery;
+import roolo.search.IQueryComponent;
+import roolo.search.ISearchResult;
+import roolo.search.MetadataQueryComponent;
+import roolo.search.Query;
+import roolo.search.SearchOperation;
 
 /**
  * Retrieves ELOs that contain a certain topic. ("getTopicElos",
@@ -61,10 +62,10 @@ public class RetrieveEloForGivenTopic extends AbstractRequestAgent implements
 				KeyValuePair topicQuery = new KeyValuePair();
 				topicQuery.setKey("" + topicId);
 				topicQuery.setValue("" + topicProbability);
-				IQuery query = new BasicMetadataQuery(typeManager
+				IQueryComponent queryComponent = new MetadataQueryComponent(typeManager
 						.getMetadataKey(TopicAgents.KEY_TOPIC_SCORES),
-						BasicSearchOperations.HAS, topicQuery);
-
+						SearchOperation.HAS, topicQuery.toLuceneString());
+                                IQuery query = new Query(queryComponent);
 				List<ISearchResult> hits = repository.search(query);
 
 				List<URI> resultURIs = collectResults(topicId,
