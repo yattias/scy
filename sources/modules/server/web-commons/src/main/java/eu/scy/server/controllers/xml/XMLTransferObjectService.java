@@ -129,6 +129,10 @@ public class XMLTransferObjectService {
         xStream.alias("portfolio", Portfolio.class);
         xStream.alias("portfolioconfig", PortfolioConfig.class);
         xStream.alias("portfolioeffort", PortfolioEffortScale.class);
+        xStream.alias("tab", Tab.class);
+        xStream.alias("action", ActionLogEntry.class);
+        xStream.alias("attribute", ActionLogEntryAttribute.class);
+        xStream.alias("serviceMessage", ServiceMessage.class);
 
         xStream.aliasField("createddate", TransferElo.class, "createdDate");
         xStream.aliasField("modified", TransferElo.class, "lastModified");
@@ -156,6 +160,7 @@ public class XMLTransferObjectService {
         xStream.aliasField("inquiryQuestion".toLowerCase(), TransferElo.class, "inquiryQuestion");
         xStream.aliasField("hasBeenSelectedForSubmit".toLowerCase(), TransferElo.class, "hasBeenSelectedForSubmit");
         xStream.aliasField("studentslg", TransferElo.class, "specificLearningGoals");
+        xStream.aliasField("eloURI".toLowerCase(), ActionLogEntry.class, "eloURI");
 
         xStream.addImplicitCollection(TransferElo.class, "generalLearningGoals", LearningGoal.class);
         xStream.addImplicitCollection(TransferElo.class, "specificLearningGoals", LearningGoal.class);
@@ -165,6 +170,8 @@ public class XMLTransferObjectService {
         xStream.aliasField("reflectionOnInquiryQuestion".toLowerCase(), PortfolioConfig.class, "reflectionOnInquiryQuestion");
         xStream.aliasField("reflectionOnEffortQuestion".toLowerCase(), PortfolioConfig.class, "reflectionOnEffortQuestion");
         xStream.aliasField("portfolioEffortScaleItems".toLowerCase(), PortfolioConfig.class, "portfolioEffortScale");
+        xStream.aliasField("portfolioReflectionTabs".toLowerCase(), PortfolioConfig.class, "portfolioReflectionTabs");
+        xStream.aliasField("setEloReflection".toLowerCase(), PortfolioConfig.class, "setEloReflection");
 
         xStream.aliasField("score".toLowerCase(), PortfolioEffortScale.class, "score");
         xStream.aliasField("text".toLowerCase(), PortfolioEffortScale.class, "text");

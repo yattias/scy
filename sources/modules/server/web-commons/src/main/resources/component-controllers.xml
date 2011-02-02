@@ -59,12 +59,25 @@
                    /components/xml/UserInfoController.html=userInfoController
                    /components/xml/UserCredentials.html=userCredentialController
                    /components/xml/AssessmentService.html=assessmentServiceController
+                   /components/xml/ActionLogger.html=actionLoggingService
                    /components/resourceservice.html=resourceService
                    /components/roleeditor/RoleEditorContoller.html=roleEditorController
                    /components/runtimemissionselector/RuntimeMissionSelector.html=runtimemissionselector
                </value>
            </property>
        </bean>
+
+    <bean name="myConfiguration" class="eu.scy.server.util.SQLSpacesConfigUtil"></bean>
+
+    <bean name="actionLogger" class="eu.scy.actionlogging.SQLSpacesActionLogger">
+        <constructor-arg index="0">
+            <util:property-path path="myConfiguration.ip"/>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <util:property-path path="myConfiguration.port"/>
+        </constructor-arg>
+        <constructor-arg index="2" value="actions"/>
+    </bean>
 
     <bean id="ajaxCheckBoxController" class="eu.scy.server.controllers.AjaxCheckBoxController">
         <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
@@ -165,6 +178,12 @@
         <property name="userService" ref="userService"/>
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
         <property name="missionELOService" ref="missionELOService"/>
+    </bean>
+
+    <bean id="actionLoggingService" class="eu.scy.server.controllers.xml.ActionLoggingService">
+        <property name="userService" ref="userService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="sqlSpacesActionLogger" ref="actionLogger"/>
     </bean>
 
     <bean id="resourceService" class="eu.scy.server.controllers.ResourceService">
