@@ -28,9 +28,31 @@ public class TextTableModel extends AbstractTableModel{
 
     private void loadData(){
         // nbCol
-        nbCol = 2*nbDataCol-1;
-        // nbrows ?
+//        nbCol = 2*nbDataCol-1;
+//        // nbrows ?
+//        int nbD = textList.size();
+//        if(nbD % nbDataCol == 0){
+//            nbRow = (nbD / nbDataCol);
+//        }else{
+//            nbRow = (nbD / nbDataCol)+1;
+//        }
+//        textData = new String[nbRow][nbCol];
+//        // initialization
+//        for(int j=0; j<nbDataCol; j++){
+//            for (int i=0; i<nbRow; i++){
+//                int k = i+(j*nbRow);
+//                if((2*j+1) < nbCol)
+//                    textData[i][2*j+1] = "";
+//                if(k < nbD)
+//                    textData[i][2*j] = textList.get(i+(j*nbRow));
+//                else
+//                    textData[i][2*j] = "";
+//            }
+//        }
         int nbD = textList.size();
+        // nbCol
+        nbCol = nbDataCol;
+        // nbrows ?
         if(nbD % nbDataCol == 0){
             nbRow = (nbD / nbDataCol);
         }else{
@@ -38,15 +60,13 @@ public class TextTableModel extends AbstractTableModel{
         }
         textData = new String[nbRow][nbCol];
         // initialization
-        for(int j=0; j<nbDataCol; j++){
-            for (int i=0; i<nbRow; i++){
-                int k = i+(j*nbRow);
-                if((2*j+1) < nbCol)
-                    textData[i][2*j+1] = "";
-                if(k < nbD)
-                    textData[i][2*j] = textList.get(i+(j*nbRow));
+        for(int i=0; i<nbRow; i++){
+            for(int j=0; j<nbCol; j++){
+                int k = j+(i*nbCol);
+                if(k<nbD)
+                    textData[i][j] = textList.get(k);
                 else
-                    textData[i][2*j] = "";
+                    textData[i][j] = "";
             }
         }
     }

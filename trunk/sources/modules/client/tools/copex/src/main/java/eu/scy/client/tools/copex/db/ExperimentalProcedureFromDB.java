@@ -1149,7 +1149,7 @@ public class ExperimentalProcedureFromDB {
         }
         list += ")";
         String queryInit = "SELECT E.ID_PROC, E.PROC_NAME, E.DATE_LAST_MODIFICATION, E.ACTIV, E.PROC_RIGHT, " +
-                "I.IS_FREE_ACTION,I.IS_TASK, I.IS_TASK_REPEAT, I.CODE_PROC, I.HYPOTHESIS_MODE, I.PRINCIPLE_MODE, I.DRAW_PRINCIPLE, I.EVALUATION_MODE " +
+                "I.IS_FREE_ACTION,I.IS_TASK, I.IS_TASK_REPEAT, I.CODE_PROC, I.HYPOTHESIS_MODE, I.PRINCIPLE_MODE, I.DRAW_PRINCIPLE, I.EVALUATION_MODE, I.IS_TASK_DRAW " +
            " FROM EXPERIMENTAL_PROCEDURE E, LINK_MISSION_INITIAL_PROC L, INITIAL_PROC I " +
                    "WHERE L.ID_MISSION = "+dbKeyMission+ " AND "+
                    "L.ID_INIT_PROC IN "+list+" AND "+
@@ -1171,6 +1171,7 @@ public class ExperimentalProcedureFromDB {
         listFields.add("I.PRINCIPLE_MODE");
         listFields.add("I.DRAW_PRINCIPLE");
         listFields.add("I.EVALUATION_MODE");
+        listFields.add("I.IS_TASK_DRAW");
 
         CopexReturn cr = dbC.sendQuery(queryInit, listFields, v2);
         if (cr.isError())
@@ -1269,8 +1270,18 @@ public class ExperimentalProcedureFromDB {
             if (cr.isError())
                 return cr;
             ArrayList<InitialNamedAction> listAction = (ArrayList<InitialNamedAction>)v3.get(0);
+            s = rs.getColumnData("I.IS_TASK_DRAW");
+            if (s == null)
+                continue;
+            f = 0;
+            try{
+                f = Integer.parseInt(s);
+            }catch(NumberFormatException e){
+
+            }
+            boolean isTaskDraw = (f == 1);
             // initial proc
-            InitialProcedure initProc = new InitialProcedure(dbKey, CopexUtilities.getLocalText(name, locale), dateLastModif, isActiv, r, code, isFreeAction,isTaskMode, isTaskRepeat,  listAction, hypothesisMode, principleMode, drawPrinciple, evaluationMode, materialStrategy);
+            InitialProcedure initProc = new InitialProcedure(dbKey, CopexUtilities.getLocalText(name, locale), dateLastModif, isActiv, r, code, isFreeAction,isTaskMode, isTaskRepeat,  listAction, hypothesisMode, principleMode, drawPrinciple, evaluationMode, materialStrategy, isTaskDraw);
             
             initProc.setListMaterial(listMaterial);
                     
@@ -1795,7 +1806,7 @@ public class ExperimentalProcedureFromDB {
         }
         list += ")";
         String queryInit = "SELECT E.ID_PROC, E.PROC_NAME, E.DATE_LAST_MODIFICATION, E.ACTIV, E.PROC_RIGHT, " +
-                "I.IS_FREE_ACTION, I.IS_TASK, I.IS_TASK_REPEAT, I.CODE_PROC, I.HYPOTHESIS_MODE, I.PRINCIPLE_MODE, I.DRAW_PRINCIPLE, I.EVALUATION_MODE  " +
+                "I.IS_FREE_ACTION, I.IS_TASK, I.IS_TASK_REPEAT, I.CODE_PROC, I.HYPOTHESIS_MODE, I.PRINCIPLE_MODE, I.DRAW_PRINCIPLE, I.EVALUATION_MODE, I.IS_TASK_DRAW  " +
            " FROM EXPERIMENTAL_PROCEDURE E, LINK_MISSION_INITIAL_PROC L, INITIAL_PROC I " +
                    "WHERE L.ID_MISSION = "+dbKeyMission+"  AND "+
                    "L.ID_INIT_PROC IN "+list+" AND "+
@@ -1817,6 +1828,7 @@ public class ExperimentalProcedureFromDB {
         listFields.add("I.PRINCIPLE_MODE");
         listFields.add("I.DRAW_PRINCIPLE");
         listFields.add("I.EVALUATION_MODE");
+        listFields.add("I.IS_TASK_DRAW");
 
         CopexReturn cr = dbC.sendQuery(queryInit, listFields, v2);
         if (cr.isError())
@@ -1896,8 +1908,18 @@ public class ExperimentalProcedureFromDB {
             boolean drawPrinciple = (d == 1);
             s = rs.getColumnData("I.EVALUATION_MODE");
             char evaluationMode = s.charAt(0);
+            s = rs.getColumnData("I.IS_TASK_DRAW");
+            if (s == null)
+                continue;
+            f = 0;
+            try{
+                f = Integer.parseInt(s);
+            }catch(NumberFormatException e){
+
+            }
+            boolean isTaskDraw = (f == 1);
             // initial proc
-            InitialProcedure initProc = new InitialProcedure(dbKey,CopexUtilities.getLocalText(name, locale), dateLastModif, isActiv, r, code, isFreeAction, isTaskMode, isTaskRepeat, null, hypothesisMode, principleMode, drawPrinciple, evaluationMode, null);
+            InitialProcedure initProc = new InitialProcedure(dbKey,CopexUtilities.getLocalText(name, locale), dateLastModif, isActiv, r, code, isFreeAction, isTaskMode, isTaskRepeat, null, hypothesisMode, principleMode, drawPrinciple, evaluationMode, null, isTaskDraw);
 
 
             listInitProc.add(initProc);

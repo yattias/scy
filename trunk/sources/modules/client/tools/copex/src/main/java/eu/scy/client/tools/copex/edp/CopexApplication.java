@@ -36,6 +36,7 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
     private static String labDoc;
     private static String labDocName;
 
+
     
     /** Creates new form CopexApplication */
     public CopexApplication() {
@@ -126,7 +127,7 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
                 mission= "10003";
                 group = "1";
                 labDoc = "10031";
-                labDocName = "Le thé  à la française";
+                labDocName = "Le thé à la française";
 //                copexURL = new URL("http://labbook.imag.fr/pages/");
 //                idUser = "1";
 //                mission= "9";

@@ -31,6 +31,7 @@ public class InitialProcedure extends ExperimentalProcedure {
     private final static String TAG_INITIAL_PROC_TASK_REPEAT = "is_task_repeat";
     private final static String TAG_INITIAL_PROC_FREE_ACTION = "is_free_action";
     private final static String TAG_INITIAL_PROC_TASK = "is_task";
+     private final static String TAG_INITIAL_PROC_TASK_DRAW = "is_task_draw";
 
 
     /*code */
@@ -42,6 +43,8 @@ public class InitialProcedure extends ExperimentalProcedure {
     private boolean taskMode;
     /* tache repeat */
     private boolean isTaskRepeat;
+    /* tache draw */
+    private boolean isTaskDraw;
      /* liste du materiel disponible associe */
     private ArrayList<Material> listMaterial ;
 
@@ -57,7 +60,7 @@ public class InitialProcedure extends ExperimentalProcedure {
 
     // CONSTRUCTOR
     public InitialProcedure(long dbKey, List<LocalText> listName, Date dateLastModification, boolean isActiv, char right, String code, boolean isFreeAction, boolean isTaskMode, boolean isTaskRepeat, ArrayList<InitialNamedAction> listNamedAction,
-            char hypothesisMode, char principleMode, boolean drawPrinciple, char evaluationMode, MaterialStrategy materialStrategy) {
+            char hypothesisMode, char principleMode, boolean drawPrinciple, char evaluationMode, MaterialStrategy materialStrategy, boolean isTaskDraw) {
         super(dbKey, listName, dateLastModification, isActiv, right);
         this.isFreeAction = isFreeAction ;
         this.taskMode = isTaskMode;
@@ -69,6 +72,7 @@ public class InitialProcedure extends ExperimentalProcedure {
         this.drawPrinciple = drawPrinciple;
         this.evaluationMode = evaluationMode;
         this.materialStrategy = materialStrategy;
+        this.isTaskDraw = isTaskDraw;
     }
 
 
@@ -194,6 +198,10 @@ public class InitialProcedure extends ExperimentalProcedure {
                 }
             }
             materials = new MaterialProc(listMaterialUsed);
+            isTaskDraw = false;
+            if(xmlElem.getChild(TAG_INITIAL_PROC_TASK_DRAW) != null){
+                isTaskDraw = xmlElem.getChild(TAG_INITIAL_PROC_TASK_DRAW).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
+            }
 	} else {
             throw(new JDOMException("Initial proc expects <"+TAG_INITIAL_PROC+"> as root element, but found <"+xmlElem.getName()+">."));
 	}
@@ -225,6 +233,7 @@ public class InitialProcedure extends ExperimentalProcedure {
                     this.manipulation = proc.getManipulation();
                     this.dataSheet = proc.getDataSheet();
                     this.evaluation = proc.getEvaluation();
+                    this.isTaskDraw = proc.isTaskDraw();
                 }
             }
         } else {
@@ -242,6 +251,14 @@ public class InitialProcedure extends ExperimentalProcedure {
 
     public boolean isTaskMode() {
         return taskMode;
+    }
+
+    public boolean isTaskDraw() {
+        return isTaskDraw;
+    }
+
+    public void setTaskDraw(boolean isTaskDraw) {
+        this.isTaskDraw = isTaskDraw;
     }
 
     public void setTaskMode(boolean taskMode) {
@@ -372,6 +389,7 @@ public class InitialProcedure extends ExperimentalProcedure {
             if(materialStrategy != null)
                 s = (MaterialStrategy)materialStrategy.clone();
             p.setMaterialStrategy(s);
+            p.setTaskDraw(this.isTaskDraw);
             return p;
         
     }
@@ -503,7 +521,7 @@ public class InitialProcedure extends ExperimentalProcedure {
         for(Iterator<InitialNamedAction> a = listNamedAction.iterator();a.hasNext();){
             element.addContent(a.next().toXML());
         }
-        
+        element.addContent(new Element(TAG_INITIAL_PROC_TASK_DRAW).setText(isTaskDraw ? MyConstants.XML_BOOLEAN_TRUE : MyConstants.XML_BOOLEAN_FALSE));
         return element;
     }
 
