@@ -39,6 +39,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import eu.scy.actionlogging.DevNullActionLogger;
+import eu.scy.actionlogging.SystemOutActionLogger;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import eu.scy.client.tools.scydynamics.listeners.EditorActionListener;
@@ -81,18 +82,19 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
     private GraphTab graphTab;
     private TableTab tableTab;
     private final ResourceBundleWrapper bundle;
+    private String eloUri = "n/a";
 
-    // -------------------------------------------------------------------------
     public ModelEditor() {
         this(ModelEditor.getDefaultProperties());
     }
 
     public ModelEditor(Properties newProps) {
         this.setName("Model Editor");
-        this.properties = getDefaultProperties();
         this.bundle = new ResourceBundleWrapper(this);
+        this.properties = getDefaultProperties();
         properties.putAll(newProps);
-        actionLogger = new ModellingLogger(new DevNullActionLogger(), "obama");
+        //actionLogger = new ModellingLogger(new DevNullActionLogger(), "username");
+        actionLogger = new ModellingLogger(new SystemOutActionLogger(), "username");
         jtools = new JTools(JColab.JCOLABAPP_RESOURCES,
                 JColab.JCOLABSYS_RESOURCES);
         aSelection = new ModelSelection();
@@ -118,6 +120,11 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 
     public void setActionLogger(IActionLogger newLogger, String username) {
         this.actionLogger = new ModellingLogger(newLogger, username);
+    }
+
+    public void setEloUri(String eloUri) {
+	this.eloUri = eloUri;
+	this.actionLogger.setEloUri(eloUri);
     }
 
     public static Properties getDefaultProperties() {

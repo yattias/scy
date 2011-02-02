@@ -36,6 +36,7 @@ import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.ModalDialogNode;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 import eu.scy.elo.contenttype.dataset.DataSet;
+import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 
 public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
 
@@ -89,6 +90,11 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
     public override function create(): Node {
         // note: the injected services are not yet available here
         // e.g., use the initialize(..) method
+	if (eloModel.getUri() == null) {
+            modelEditor.setEloUri((scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
+        } else {
+            modelEditor.setEloUri(eloModel.getUri().toString());
+        }
         wrappedModelEditor = ScySwingWrapper.wrap(modelEditor);
         return Group {
             blocksMouse: true;

@@ -54,7 +54,7 @@ public class ModellingStandalone extends JFrame {
 
 	class WindowEventHandler extends WindowAdapter {
 		public void windowClosing(WindowEvent evt) {
-			editor.getActionLogger().logSimpleAction("exit_application");
+			//editor.getActionLogger().logSimpleAction("exit_application");
 			editor.getActionLogger().close();
 			System.exit(0);
 		}
