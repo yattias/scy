@@ -1,18 +1,9 @@
 package eu.scy.common.mission.impl;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
-
-import roolo.api.search.AndQuery;
-import roolo.api.search.IQuery;
-import roolo.api.search.ISearchResult;
-
 import org.apache.log4j.Logger;
-import org.roolo.search.BasicMetadataQuery;
-import org.roolo.search.BasicSearchOperations;
-
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.api.metadata.IMetadataKeyIdDefinition;
@@ -36,6 +27,9 @@ import eu.scy.common.scyelo.EloFunctionalRole;
 import eu.scy.common.scyelo.RooloServices;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
+import eu.scy.common.scyelo.QueryFactory;
+import roolo.search.IQuery;
+import roolo.search.ISearchResult;
 
 public class BasicMissionManagement implements MissionManagement
 {
@@ -326,11 +320,7 @@ public class BasicMissionManagement implements MissionManagement
 	@Override
 	public MissionRuntimeModel getMissionRuntimeModel(String userName)
 	{
-		IQuery missionRuntimeQuery = new BasicMetadataQuery(technicalFormatKey,
-					BasicSearchOperations.EQUALS, MissionEloType.MISSION_RUNTIME.getType());
-		IQuery titleQuery = new BasicMetadataQuery(missionRunningKey, BasicSearchOperations.EQUALS,
-					userName);
-		IQuery myMissionRuntimeQuery = new AndQuery(missionRuntimeQuery, titleQuery);
+                IQuery myMissionRuntimeQuery = QueryFactory.createMissionRuntimeQuery(MissionEloType.MISSION_RUNTIME.getType(),userName);
 		List<ISearchResult> missionRuntimeResults = rooloServices.getRepository().search(
 					myMissionRuntimeQuery);
 		if (missionRuntimeResults != null)
@@ -353,13 +343,9 @@ public class BasicMissionManagement implements MissionManagement
 	@Override
 	public List<MissionRuntimeModel> getAllMissionRuntimeModels()
 	{
-		IQuery missionRuntimeQuery = new BasicMetadataQuery(technicalFormatKey,
-					BasicSearchOperations.EQUALS, MissionEloType.MISSION_RUNTIME.getType());
-		IQuery missionSpecifiactionQuery = new BasicMetadataQuery(missionSpecificationEloKey,
-					BasicSearchOperations.EQUALS, missionSpecificationElo.getUri());
-		IQuery allMissionRuntimesQuery = new AndQuery(missionRuntimeQuery, missionSpecifiactionQuery);
+                IQuery allMissionRuntimeQuery = QueryFactory.createAllMissionRuntimesQuery(MissionEloType.MISSION_RUNTIME.getType(), missionSpecificationElo.getUri());
 		List<ISearchResult> missionRuntimeResults = rooloServices.getRepository().search(
-					allMissionRuntimesQuery);
+					allMissionRuntimeQuery);
 		List<MissionRuntimeModel> allMissionRuntimeModels = new ArrayList<MissionRuntimeModel>();
 		for (ISearchResult searchResult : missionRuntimeResults)
 		{
