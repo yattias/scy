@@ -38,10 +38,6 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
     public var scyElo: ScyElo;
     public var eloIcon: EloIcon;
     public var eloToolConfig: EloToolConfig;
-//   public var iconCharacter = "?";
-//	public var color = Color.GREEN;
-//	public var drawerColor = Color.LIGHTGREEN;
-//	public var backgroundColor = color.WHITE;
     public-init var windowColorScheme: WindowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
     public var activated = false; // TODO, make only changeable from (sub) package
     public var centered = false;
@@ -65,7 +61,6 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
     public var closedBoundsHeight: Number;
     public var widthHeightProportion: Number = -1.0;
     public var scyContent: Node;
-//	public var scyTool: ScyTool;
     public var topDrawerTool: Node;
     public var rightDrawerTool: Node;
     public var bottomDrawerTool: Node;
@@ -78,7 +73,6 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
     public var allowClose = true;
     public var allowMinimize = true;
     public var allowCenter = true;
-//   public var closeIsHide = false;
     public var windowManager: WindowManager;
     public var windowEffect: Effect;
     public var minimizeAction: function(ScyWindow): Void;
@@ -95,13 +89,6 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
     public-read protected var isClosed = true;
 
     public function open(): Void {
-        //      var openWidth = minimumWidth;
-        //      var openHeight = minimumHeight;
-        //      if (scyContent instanceof Resizable){
-        //         var resizableContent = scyContent as Resizable;
-        //         openWidth = resizableContent.getPrefWidth(openWidth);
-        //         openHeight = resizableContent.getPrefHeight(openHeight);
-        //      }
         openWindow(minimumWidth, minimumHeight)
     }
 
@@ -121,8 +108,6 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
 
     public abstract function removeChangesListener(wcl: WindowChangesListener): Void;
 
-//   public abstract function canAcceptDrop(object:Object):Boolean;
-//   public abstract function acceptDrop(object:Object):Void;
     // this is probably not the best way to handle it
     public abstract function openDrawer(which: String): Void;
 
