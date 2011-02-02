@@ -51,18 +51,6 @@ public class EloSearchService extends MissionRuntimeEnabledXMLService {
 
     private Object createELOModel(ScyElo scyElo) {
         TransferElo eloModel = new TransferElo(scyElo);
-        /*eloModel.setUri(scyElo.getUri().toString());
-        Date createdDate = new Date(scyElo.getDateCreated());
-        Date lastModified = new Date(scyElo.getDateLastModified());
-        eloModel.setCreatedDate(createdDate.toString());
-        eloModel.setLastModified(lastModified.toString());
-        eloModel.setMyname(scyElo.getTitle()); */
-        if (scyElo.getThumbnail() != null) {
-            // System.out.println("THIS ELO HAS A THUMBNAIL!");
-        } else {
-            // System.out.println("THIS ELO DOES NOT HAVE A THUMBNAIL!!!");
-        }
-
         return eloModel;
     }
 

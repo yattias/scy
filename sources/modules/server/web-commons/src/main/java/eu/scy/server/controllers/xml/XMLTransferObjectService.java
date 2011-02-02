@@ -133,6 +133,15 @@ public class XMLTransferObjectService {
         xStream.alias("action", ActionLogEntry.class);
         xStream.alias("attribute", ActionLogEntryAttribute.class);
         xStream.alias("serviceMessage", ServiceMessage.class);
+        xStream.alias("rawdata", RawData.class);
+
+
+
+        xStream.aliasField("portfolioConfigService".toLowerCase(), ToolURLContainer.class, "portfolioConfigService");
+        xStream.aliasField("actionLogger".toLowerCase(), ToolURLContainer.class, "actionLogger");
+
+        xStream.aliasField("fullScreen".toLowerCase(), RawData.class, "fullScreen");
+        xStream.aliasField("dataSet".toLowerCase(), RawData.class, "dataSet");
 
         xStream.aliasField("createddate", TransferElo.class, "createdDate");
         xStream.aliasField("modified", TransferElo.class, "lastModified");
