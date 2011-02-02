@@ -105,11 +105,6 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 
 
         };
-        try {
-            document.insertString(0, getModel().getLabel(), null);
-        } catch (BadLocationException e1) {
-            e1.printStackTrace();
-        }
         labelTextPane = new JTextPane(document);
         try {
             SimpleAttributeSet set = new SimpleAttributeSet();
