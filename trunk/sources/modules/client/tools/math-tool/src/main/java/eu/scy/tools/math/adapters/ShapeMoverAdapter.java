@@ -54,7 +54,7 @@ public class ShapeMoverAdapter extends MouseAdapter {
 	}
 
 	public void mousePressed(MouseEvent e) {
-		// System.out.println("ShapeMoverAdapter.mousePressed()");
+		// // System.out.println("ShapeMoverAdapter.mousePressed()");
 		x = e.getX();
 		y = e.getY();
 
@@ -74,7 +74,7 @@ public class ShapeMoverAdapter extends MouseAdapter {
 				
 				if( mathToolController != null )
 					mathToolController.setSelectedMathShape(foundShape);
-				
+					// System.out.println("ShapeMoverAdapter.mousePressed() SELCTED");
 					if (hitOnEndPoints == -1) {
 						// System.out.println("moving adapter found shape  off corner" +shape.toString());
 						
@@ -109,7 +109,7 @@ public class ShapeMoverAdapter extends MouseAdapter {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// System.out.println("ShapeMoverAdapter.mouseReleased()");
+//		// System.out.println("ShapeMoverAdapter.mouseReleased()");
 		foundShape = null;
 //		if( foundShape != null ) {
 //			foundShape.setShowCornerPoints(false);

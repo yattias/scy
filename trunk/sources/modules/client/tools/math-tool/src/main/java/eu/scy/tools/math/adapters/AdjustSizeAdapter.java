@@ -45,7 +45,7 @@ public class AdjustSizeAdapter extends MouseAdapter {
 
 	@Override
 	public void mousePressed(MouseEvent event) {
-		// System.out.println("AdjustSizeAdapter.mousePressed()");
+//		System.out.println("AdjustSizeAdapter.mousePressed()");
 		Point eventPoint = event.getPoint();
 		x = eventPoint.x;
 		y = eventPoint.y;
@@ -54,13 +54,14 @@ public class AdjustSizeAdapter extends MouseAdapter {
 		for (IMathShape shape : mathShapes) {
 				int i = shape.isHitOnEndPoints(event.getPoint());
 				if (i != -1) {
-					// System.out.println("adjust contains found it!! "
-					//		+ foundShape);
+//					System.out.println("adjust contains found it!! "
+//							+ foundShape);
 					foundShape = shape;
 					
-					if( mathToolController != null)
+					if( mathToolController != null) {
 						mathToolController.setSelectedMathShape(foundShape);
-					
+//						System.out.println("AdjustSizeAdapter.mousePressed() SELECTED");
+					}
 					position = i;
 					return;
 			}
@@ -75,8 +76,8 @@ public class AdjustSizeAdapter extends MouseAdapter {
 	public void mouseDragged(MouseEvent event) {
 		if (foundShape == null)
 			return;
-		// System.out.println("AdjustSizeAdapter.mouseDragged()");
-		// System.out.println("changing position " + position);
+//		System.out.println("AdjustSizeAdapter.mouseDragged()");
+//		System.out.println("changing position " + position);
 		if (position == -1)
 			return;
 
@@ -85,13 +86,13 @@ public class AdjustSizeAdapter extends MouseAdapter {
 		if( foundShape instanceof IMathEllipse) {
 			Point[] points = foundShape.getPoints();		
 			points[position] = event.getPoint();
-			// System.out.println("position dragging " + position);
+//			System.out.println("position dragging " + position);
 			
 			 int dx = event.getX() - x;
 	         int dy = event.getY() - y;
 	         ((IMathEllipse) foundShape).addHeight(dx);
 	         ((IMathEllipse) foundShape).addWidth(dx);
-	         // System.out.println(foundShape.toString());
+//	         System.out.println(foundShape.toString());
 	         x += dx;
 	         y += dy;
 		} else if( foundShape instanceof IMathTriangle) {
@@ -99,7 +100,7 @@ public class AdjustSizeAdapter extends MouseAdapter {
 		} else if( foundShape instanceof IMathRectangle ) {
 			Point[] points = foundShape.getPoints();		
 			points[position] = event.getPoint();
-			// System.out.println("position dragging " + position);
+//			System.out.println("position dragging " + position);
 			
 		}
 		foundShape.repaint();
@@ -110,14 +111,14 @@ public class AdjustSizeAdapter extends MouseAdapter {
 	@Override
 	public void mouseMoved(MouseEvent event) {
 
-		// System.out.println("AdjustSizeAdapter.mouseMoved()");
+//		System.out.println("AdjustSizeAdapter.mouseMoved()");
 		// if( !foundShape.isShowCornerPoints() )
 		// return;
 
 		Point p = event.getPoint();
 		
 		if (foundShape == null) {
-			// System.out.println("no shape found reset cursor");
+//			System.out.println("no shape found reset cursor");
 			// If cursor is not over rect reset it to the default.
 			((JComponent) this.shapeCanvas).setCursor(Cursor
 					.getDefaultCursor());

@@ -134,20 +134,23 @@ public class Calculator extends JXPanel {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				// TODO Auto-generated method stub
-				System.out
-						.println("Calculator.init().new KeyListener() {...}.keyTyped()");
-//				JXTextField source = (JXTextField) e.getSource();
-//		           // System.out.println("key text " + source.getText());
-//		           expressionModel.replaceExpression(source.getText());
+				// System.out
+//						.println("Calculator.init().new KeyListener() {...}.keyTyped()");
+				 JXTextField source = (JXTextField) e.getSource();
+		           // System.out.println("text " + source.getText());
+				expressionModel.replaceExpression(source.getText());
 			}
 			
 			@Override
 			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
-				System.out
-						.println("Calculator.init().new KeyListener() {...}.keyReleased()");
+				// System.out
+//						.println("Calculator.init().new KeyListener() {...}.keyReleased()");
 				 JXTextField source = (JXTextField) e.getSource();
-		           // System.out.println("text " + source.getText());
+				 
+				 int key = e.getKeyCode();
+				 
+		           // System.out.println("key " + key);
 		           expressionModel.replaceExpression(source.getText());
 			}
 			
@@ -227,9 +230,7 @@ public class Calculator extends JXPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				sumTextField.setText("");
-				expressionModel.replaceExpression("");
-				getExpressionModel().clear();
+				clearForumla();
 			}
 		});
 		
@@ -557,7 +558,7 @@ public class Calculator extends JXPanel {
 				getExpressionModel().addExpression(button.getName());
 			}
 			
-			getSumTextField().setText(getExpressionModel().getExpressionDisplay());
+			setForumla(getExpressionModel().getExpressionDisplay());
 			
 		}
 	};
@@ -577,6 +578,20 @@ public class Calculator extends JXPanel {
 		return expressionModel;
 	}
 	
+	public void setForumla(String forumla) {
+		this.getSumTextField().setText(forumla);
+		this.getExpressionModel().replaceExpression(forumla);
+	}
+	
+	public String getForumla() {
+		return this.getSumTextField().getText();
+		
+	}
+	
+	public void clearForumla() {
+		this.getSumTextField().setText("");
+		this.getExpressionModel().clear();
+	}
 
 	
 	
