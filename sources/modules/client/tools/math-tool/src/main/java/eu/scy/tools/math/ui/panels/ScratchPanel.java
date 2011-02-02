@@ -22,6 +22,7 @@ public class ScratchPanel extends JXPanel {
 	private JXEditorPane editor;
 	private MathToolController mathToolController;
 	private String calculation;
+	private String result;
 
 	public ScratchPanel(String type, MathToolController mathToolController) {
 		super(new MigLayout("fill, inset 0 0 0 0"));
@@ -58,6 +59,7 @@ public class ScratchPanel extends JXPanel {
 				calculator.clearForumla();
 				calculator.setForumla(getExpression());
 				mathToolController.setSelectedShape(type);
+				calculator.setResultValue(getResult());
 //				mathToolController.selectAllShapes(false, type);
 //				
 //				mathToolController.setSelectedMathShape(null);
@@ -94,6 +96,14 @@ public class ScratchPanel extends JXPanel {
 
 	public String getExpression() {
 		return calculation;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
+	}
+	
+	public String getResult() {
+		return this.result;
 	}
 
 }

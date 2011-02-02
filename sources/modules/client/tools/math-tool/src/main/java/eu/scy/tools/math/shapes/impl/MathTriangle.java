@@ -41,6 +41,9 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 
 	private String formula;
 
+
+	private String oldResult;
+
 	public MathTriangle(int x, int y, int length) {
 		setPointP(new Point(x,y)); //top
 		setPointQ(new Point(x-length,y+length)); //left
@@ -379,6 +382,16 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 	@Override
 	public String getFormula() {
 		return this.formula;
+	}
+	
+	@Override
+	public String getResult() {
+		return this.oldResult;
+	}
+
+	@Override
+	public void setResult(String result) {
+		this.oldResult = result;
 	}
 
 

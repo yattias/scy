@@ -155,6 +155,8 @@ public class MathToolController {
 				.getClientProperty(UIUtils.TYPE);
 		Calculator c = getCalculators().get(calcType);
 
+		ScratchPanel scratchPanel = scratchPadPanels.get(calcType);
+		
 		String expression = c.getForumla();
 
 		if (expression != null
@@ -163,7 +165,7 @@ public class MathToolController {
 			if( mathShape != null) {
 				mathShape.setFormula(expression);
 			} else {
-				ScratchPanel scratchPanel = scratchPadPanels.get(calcType);
+				
 				scratchPanel.setExpression(expression);
 			}
 			
@@ -173,12 +175,21 @@ public class MathToolController {
 
 				Double value = m.getValue();
 				if( value == null) {
+					value = 0.00;
 					JOptionPane.showMessageDialog(null, UIUtils.invalidExpressionErrorMessage, "Math Expression Problem", JOptionPane.ERROR_MESSAGE, null);
-					c.getResultLabel().setText("0.00");
+					c.getResultLabel().setText(""+value);
 					c.getAddButton().setEnabled(false);
 				} else {
 					c.getResultLabel().setText(""+value);
+					
+					
 					c.getAddButton().setEnabled(true);
+				}
+				
+				if( mathShape != null ) {
+					mathShape.setResult(""+value);
+				} else {
+					scratchPanel.setResult(""+value);
 				}
 		}
 		
@@ -362,6 +373,7 @@ public class MathToolController {
 		Calculator calculator = calculators.get(type);
 		calculator.getSumTextField().setEnabled(true);
 		calculator.setForumla(mathShape.getFormula());
+		calculator.setResultValue(mathShape.getResult());
 		mathShape.setShowCornerPoints(true);
 		mathShape.repaint();
 	}
