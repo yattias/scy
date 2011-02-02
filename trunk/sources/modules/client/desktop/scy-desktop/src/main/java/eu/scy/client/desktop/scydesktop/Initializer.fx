@@ -36,7 +36,6 @@ import java.util.StringTokenizer;
 import javafx.util.Sequences;
 import javafx.util.StringLocalizer;
 import eu.scy.client.desktop.scydesktop.utils.FilteringExceptionCatcher;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.SimpleTooltipManager;
 import eu.scy.client.common.scyi18n.UriLocalizer;
@@ -46,6 +45,7 @@ import eu.scy.client.desktop.localtoolbroker.LocalMultiUserToolBrokerLogin;
 import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
 import eu.scy.client.desktop.scydesktop.tools.mission.EloXmlEditor;
 import eu.scy.client.desktop.scydesktop.scywindows.ModalDialogLayer;
+import eu.scy.client.desktop.scydesktop.scywindows.window.ShowWorking;
 //import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
@@ -522,7 +522,8 @@ public class Initializer {
             ScyDesktop.scyDektopGroup,
             ModalDialogLayer.layer,
             SimpleTooltipManager.tooltipGroup,
-            MouseBlocker.mouseBlockNode
+            MouseBlocker.mouseBlockNode,
+            ShowWorking.showProgressNode
          ];
 //      scene.stylesheets = "{__DIR__}css/scy-desktop.css";
       scene
@@ -627,12 +628,6 @@ public class Initializer {
 
    function createPrintStream(fileName: String): PrintStream// throws IOException
    {
-      //      var fileCount = 0;
-      //      var streamFile = new File(loggingDirectory, "{fileName}_{fileCount}.txt");
-      //      while (streamFile.exists()) {
-      //         ++fileCount;
-      //         streamFile = new File(loggingDirectory, "{fileName}_{fileCount}.txt");
-      //      }
       var outputStream = new FileOutputStream(RedirectSystemStreams.getLogFile(localLoggingDirectory, fileName, ".txt"), false);
       return new PrintStream(outputStream, true);
    }

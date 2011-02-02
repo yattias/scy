@@ -39,7 +39,6 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.config.SpringConfigFactory;
 import eu.scy.client.desktop.scydesktop.corners.tools.NewScyWindowTool;
-import eu.scy.client.desktop.scydesktop.dummy.DummyWindowStyler;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ScyToolsList;
 import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
@@ -98,6 +97,7 @@ import javafx.scene.layout.HBox;
 import eu.scy.common.configuration.Configuration;
 import javafx.scene.layout.Panel;
 import javafx.scene.control.Tooltip;
+import eu.scy.client.desktop.scydesktop.scywindows.window.ShowWorking;
 
 /**
  * @author sikkenj
@@ -223,6 +223,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          FX.deferAction(initMouseBlocker);
       } else {
          MouseBlocker.initMouseBlocker(scene.stage);
+         ShowWorking.initShowWorking(scene.stage);
       }
    }
 
