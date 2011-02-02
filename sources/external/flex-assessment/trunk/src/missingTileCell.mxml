@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					  xmlns:s="library://ns.adobe.com/flex/spark" 
+					  xmlns:mx="library://ns.adobe.com/flex/mx" width="200" height="80" buttonMode="true" horizontalAlign="center" gap="1">
+	<fx:Script>
+		<![CDATA[
+			import listeners.ToggleEvent;
+			
+			import mx.events.FlexEvent;
+			[Bindable] public var cellTitle:String;
+			
+			public var studentIndex:Number;
+	
+			protected function bordercontainer1_mouseOverHandler(event:MouseEvent):void {
+				event.target.alpha = .7;
+			}
+
+
+			protected function bordercontainer1_mouseOutHandler(event:MouseEvent):void {
+				event.target.alpha = 1;
+			}
+
+
+			protected function bordercontainer1_mouseDownHandler(event:MouseEvent):void {
+				var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
+				tEvent.sourcePanel = index.STACK_STUDTABLE_PANEL;
+				tEvent.direction = index.LEFT_DIRECTION;
+				tEvent.selecTarget = index.STACK_CATEGORY_PANEL;
+				tEvent.categoryTitle = titleLabel.text;
+				tEvent.calculateStack = true;
+				dispatchEvent(tEvent);
+			}
+
+		]]>
+	</fx:Script>
+
+	<s:BorderContainer id="cat" width="100%" height="30" backgroundColor="{index.THEME_COL}" borderColor="{index.THEME_LIGHT}" borderWeight="2" toolTip="{resourceManager.getString('resources', 'TOOLTIP_TABLE_CATEGORY')}"
+					   mouseOver="bordercontainer1_mouseOverHandler(event)"
+					   mouseOut="bordercontainer1_mouseOutHandler(event)"
+					   mouseChildren="false"
+					   mouseDown="bordercontainer1_mouseDownHandler(event)">
+		<s:VGroup width="100%" height="100%" verticalAlign="middle" horizontalAlign="center">
+			<s:Label id="titleLabel" text="{cellTitle}" color="#FFFFFF" />
+		</s:VGroup>
+	</s:BorderContainer>
+	<s:BorderContainer id="elo" width="100%" height="50" backgroundColor="#999999" borderColor="{index.THEME_LIGHT}" borderWeight="2" mouseChildren="false">
+		<s:VGroup width="100%" height="100%" verticalAlign="middle" horizontalAlign="center">
+			<s:Label text="{resourceManager.getString('resources', 'NO_ELO_SUBMITTED')}" color="#FFFFFF" />
+		</s:VGroup>
+	</s:BorderContainer>
+</s:VGroup>

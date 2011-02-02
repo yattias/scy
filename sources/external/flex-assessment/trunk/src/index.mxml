@@ -58,6 +58,12 @@
 					   result="portfolioService_resultHandler(event)" 
 					   fault="portfolioService_faultHandler(event)"
 					   resultFormat="e4x"/>
+		
+		<s:HTTPService id="eloCategoryService" 
+					   showBusyCursor="true" 
+					   result="eloCategoryService_resultHandler(event)" 
+					   fault="eloCategoryService_faultHandler(event)"
+					   resultFormat="e4x"/>
 	</fx:Declarations>
 	
 	<fx:Script>
@@ -111,10 +117,11 @@
 			private var elosToCompare:ArrayCollection;
 			
 			private var so:SharedObject;
+			private var toolURLProvider:XML;
 			
 			protected function URLpropertyFile_resultHandler(event:ResultEvent):void {
 				//parse 'toolURLProvider.html' first
-				var toolURLProvider:XML= event.result as XML;
+				toolURLProvider = event.result as XML;
 				portfolioService.url = new String(toolURLProvider.assessmentservice)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
 				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
 					portfolioService.url = new String(toolURLProvider.assessmentservice).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "%23");
@@ -132,12 +139,6 @@
 			}
 			
 			protected function application1_applicationCompleteHandler(event:FlexEvent):void {
-				obligElos = new ArrayCollection([
-					resourceManager.getString('resources', 'MISSION_SELECT'),
-					"1st ideas of my design group",
-					"House data"
-				]);
-				
 				resourceManager.localeChain = [ "en_US" ];
 				retrieveUserInfo();
 				this.addEventListener(TOGGLE_COMMAND, ToggleStack);
@@ -169,6 +170,32 @@
 				MISSION_NAME = xml.portfolio[0].mission;
 				so.data.retrievedElosFromRoolo = xml;
 				so.flush();
+				
+				eloCategoryService.url = new String(toolURLProvider.obligatoryelosinmission)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
+				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+					eloCategoryService.url = new String(toolURLProvider.obligatoryelosinmission).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "%23");
+				}
+				
+				eloCategoryService.send();
+			}
+			
+			protected function eloCategoryService_faultHandler(event:FaultEvent):void {
+				Alert.show(resourceManager.getString('resources', 'ELOCAT_PROPERTY_FILE_ERROR'), resourceManager.getString('resources', 'HTTP_SERVICE_ERROR'));
+			}
+			
+			
+			protected function eloCategoryService_resultHandler(event:ResultEvent):void {
+				
+				obligElos = new ArrayCollection([
+					resourceManager.getString('resources', 'MISSION_SELECT'),
+				]);
+				
+				for each (var object:XML in (event.result as XML).elos[0].*) {
+					if (object.name() == "elo") {
+						obligElos.addItem(object.customname.toString());
+					}
+				}
+				
 				animate(LEFT_DIRECTION, STACK_INTRO_PANEL);
 			}
 			

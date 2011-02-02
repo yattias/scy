@@ -22,24 +22,53 @@
 				var unassessedElos:Number = 0;
 				var totElos:Number = 0;
 				objectsToTile = new ArrayCollection();
-				var tc:tileCell;
-				for each (var object:XML in xmlData.elos.*) {
-					if (object.name() == "elo") {
+				
+//				for each (var object:XML in xmlData.elos.*) {
+//					if (object.name() == "elo") {
+//						totElos++;
+//						tc = new tileCell();
+//						tc.studentIndex = studentIndex;
+//						tc.cellTitle = object.catname;
+//						tc.cellAssess = parseStringToBool(object.assessed);
+//						if(tc.cellAssess) {
+//							unassessedElos++;
+//						}
+//						else {
+//							allGood = false;							
+//						}
+//						tc.cellGrade = object.grade;
+//						tc.eloid = object.uri;
+//						objectsToTile.addItem(tc);
+//					}
+//				}
+				
+				var eloForCategory:XMLList;
+				for(var i:Number = 1; i < index.obligElos.length; i++) {
+					eloForCategory = xmlData.elos.elo.(catname == index.obligElos[i]);
+					var eloXML:XML = eloForCategory[0] as XML;
+					if(eloXML != null) {
 						totElos++;
-						tc = new tileCell();
+						var tc:tileCell = new tileCell();
 						tc.studentIndex = studentIndex;
-						tc.cellTitle = object.catname;
-						tc.cellAssess = parseStringToBool(object.assessed);
+						tc.cellTitle = index.obligElos[i];
+						tc.cellAssess = parseStringToBool(eloXML.assessed);
 						if(tc.cellAssess) {
 							unassessedElos++;
 						}
 						else {
 							allGood = false;							
 						}
-						tc.cellGrade = object.grade;
-						tc.eloid = object.uri;
+						tc.cellGrade = eloXML.grade;
+						tc.eloid = eloXML.uri;
 						objectsToTile.addItem(tc);
 					}
+					else {
+						var mtc:missingTileCell = new missingTileCell();
+						mtc.studentIndex = studentIndex;
+						mtc.cellTitle = index.obligElos[i];
+						objectsToTile.addItem(mtc);
+					}
+					
 				}
 				
 				counts.push(totElos);
@@ -49,7 +78,7 @@
 			}
 			
 			private function buildTile():void {
-				for each (var tcell:tileCell in objectsToTile) {
+				for each (var tcell:VGroup in objectsToTile) {
 					dataTile.addElement(tcell);
 				}
 			}
