@@ -15,9 +15,6 @@ import java.lang.IllegalStateException;
 import javafx.scene.input.MouseEvent;
 import java.lang.System;
 import java.lang.IllegalArgumentException;
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.control.ProgressIndicator;
 
 /**
  * @author sikkenj
@@ -29,13 +26,7 @@ var mouseBlockingActive = false;
 
 def testBorder = 2.0;
 
-def progressIndicator = ProgressIndicator  {
-	progress: -1
-   visible: false
-}
-
-
-def mouseBlockRectangle:Rectangle = Rectangle {
+def mouseBlockNode:Rectangle = Rectangle {
    blocksMouse:true;
    visible:bind mouseBlockingActive
    x: testBorder, y: testBorder
@@ -60,11 +51,6 @@ def mouseBlockRectangle:Rectangle = Rectangle {
       }
    }
 
-}
-
-public var mouseBlockNode:Node = Group {
-   content:[
-      ]
 }
 
 
@@ -94,8 +80,8 @@ public function startMouseBlocking():Void{
       return;
    }
    mouseBlockingActive = true;
-   mouseBlockRectangle.width = theStage.scene.width-2*testBorder;
-   mouseBlockRectangle.height = theStage.scene.height-2*testBorder;
+   mouseBlockNode.width = theStage.scene.width-2*testBorder;
+   mouseBlockNode.height = theStage.scene.height-2*testBorder;
    //insert mouseBlockNode into theStage.scene.content;
 //   var sceneContent = theStage.scene.content;
 //   insert mouseBlockNode into sceneContent;
@@ -120,14 +106,3 @@ function checkInitialisation(){
       throw new IllegalStateException("Please call MouseBlocker.initMouseBlocker before use");
    }
 }
-
-public function startShowWaiting():Void{
-   mouseBlockingActive = true;
-   mouseBlockRectangle.width = theStage.scene.width-2*testBorder;
-   mouseBlockRectangle.height = theStage.scene.height-2*testBorder;
-}
-
-public function stopShowWaiting():Void{
-
-}
-
