@@ -234,6 +234,10 @@ public class BasicMissionManagement implements MissionManagement
 			}
 		}
 	}
+	
+	private boolean isEmpty(String string){
+		return string==null || string.length()==0;
+	}
 
 	private void makePersonalMissionAnchor(MissionAnchor missionAnchor, String userName,
 				URI missionRuntimeEloUri, URI missionSpecificationEloUri,
@@ -246,6 +250,9 @@ public class BasicMissionManagement implements MissionManagement
 			if (!eloConfig.isContentStatic())
 			{
 				missionAnchor.getScyElo().setLasId(missionAnchor.getLas().getId());
+				if (!isEmpty(missionAnchor.getIconType())){
+					missionAnchor.getScyElo().setIconType(missionAnchor.getIconType());
+				}
 				URI assignmentEloUri = findAssignmentEloUri(missionAnchor);
 				if (assignmentEloUri != null)
 				{
