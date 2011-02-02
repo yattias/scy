@@ -72,7 +72,7 @@ public class MathToolController {
 	protected static Logger log = Logger.getLogger("MathToolController.class"); //$NON-NLS-1$
 
 	protected Map<String, ShapeCanvas> shapeCanvases = new HashMap<String, ShapeCanvas>();
-	protected Map<String, ScratchPanel> scratchPadPanels = new HashMap<String, ScratchPanel>();
+	private Map<String, ScratchPanel> scratchPadPanels = new HashMap<String, ScratchPanel>();
 
 	protected Map<String, Calculator> calculators = new HashMap<String, Calculator>();
 	protected Map<String, JXTable> computationTables = new HashMap<String, JXTable>();
@@ -155,11 +155,17 @@ public class MathToolController {
 				.getClientProperty(UIUtils.TYPE);
 		Calculator c = getCalculators().get(calcType);
 
-		String expression = c.getSumTextField().getText();
+		String expression = c.getForumla();
 
 		if (expression != null
 				&& StringUtils.stripToNull(expression) != null) {
 			
+			if( mathShape != null) {
+				mathShape.setFormula(expression);
+			} else {
+				ScratchPanel scratchPanel = scratchPadPanels.get(calcType);
+				scratchPanel.setExpression(expression);
+			}
 			
 			 MathEvaluator m = new MathEvaluator(StringUtils.lowerCase(expression));
 			
@@ -244,38 +250,59 @@ public class MathToolController {
 			}
 		}
 	}
+	
+
+	public void setSelectedShape(String type) {
+		this.selectAllShapes(false, type);
+		this.setSelectedMathShape(null);
+	}
 
 	public void setSelectedMathShape(IMathShape mathShape) {
+		IMathShape oldMathShape = this.mathShape;
+		this.mathShape = mathShape;
+		Calculator calc = null;
 		
 		//save the forumla of the last shape
-		if( this.mathShape != null ) {
-			Calculator calc = getCalculator(this.mathShape);
+//		if( oldMathShape != null ) {
+//			calc = getCalculator(oldMathShape);
+//
+//			String forumla = calc.getForumla();
+//			shapeIdToForumla.put(oldMathShape.getId(), forumla);
+//			if( this.mathShape == null)
+//				calc.clearForumla();
+//				return;
+//
+//		}
+		
+		if( this.mathShape != null) {
+//			
+//			ScratchPanel scratchPad = getScratchPad(this.mathShape);
+//			scratchPad.transferFocus();
+			
+			//deselect the pad
+			ShapeCanvas shapeCanvas = this.getShapeCanvas(this.mathShape);
+			shapeCanvas.requestFocusInWindow();
 
-			String forumla = calc.getSumTextField().getText();
-			shapeIdToForumla.put(this.mathShape.getId(), forumla);
-
-			// now replace the new one
-			// see if there is a forumla
-			String newForumla = shapeIdToForumla.get(mathShape.getId());
-			calc = getCalculator(mathShape);
-			if (newForumla != null) {
-				calc.getSumTextField().setText(newForumla);
-				calc.getExpressionModel().replaceExpression(newForumla);
-			} else {
-				calc.getSumTextField().setText("");
-				calc.getExpressionModel().clear();
-			}
+			
+			this.highLightShape(this.mathShape);
+			this.selectInTable(this.mathShape);
+		} else {
+			
 		}
 		
-		
-		
-		
-		
-		this.mathShape = mathShape;
-		this.highLightShape(this.mathShape);
 
-		this.selectInTable(this.mathShape);
-
+	}
+	
+	
+	protected ScratchPanel getScratchPad(IMathShape mathShape) {
+		//save the forumla of the last shape
+		ScratchPanel sc = null;
+		if( this.mathShape instanceof I3D ) {
+			sc = getScratchPadPanels().get(UIUtils._3D);
+		} else {
+			sc = getScratchPadPanels().get(UIUtils._2D);
+		}
+		return sc;
 	}
 	
 	protected Calculator getCalculator(IMathShape mathShape) {
@@ -287,6 +314,17 @@ public class MathToolController {
 			calc = calculators.get(UIUtils._2D);
 		}
 		return calc;
+	}
+	
+	protected ShapeCanvas getShapeCanvas(IMathShape mathShape) {
+		//save the forumla of the last shape
+		ShapeCanvas shapeCanvas = null;
+		if( this.mathShape instanceof I3D ) {
+			shapeCanvas = shapeCanvases.get(UIUtils._3D);
+		} else {
+			shapeCanvas = shapeCanvases.get(UIUtils._2D);
+		}
+		return shapeCanvas;
 	}
 	
 	protected void highLightShape(IMathShape mathShape) {
@@ -323,6 +361,7 @@ public class MathToolController {
 
 		Calculator calculator = calculators.get(type);
 		calculator.getSumTextField().setEnabled(true);
+		calculator.setForumla(mathShape.getFormula());
 		mathShape.setShowCornerPoints(true);
 		mathShape.repaint();
 	}
@@ -368,7 +407,7 @@ public class MathToolController {
 	}
 
 	public void addShape(JLabel label, Point dropPoint, String type) {
-		// System.out.println("ShapeCanvas.addShape()" + label.getName());
+		//  System.out.println("ShapeCanvas.addShape()" + label.getName());
 
 		ShapeCanvas sc = getShapeCanvases().get(type);
 
@@ -543,7 +582,27 @@ public class MathToolController {
 	
 	public void selectAllShapes(boolean isSelected, String type) {
 		ShapeCanvas shapeCanvas = shapeCanvases.get(type);
-		shapeCanvas.selectedAll(isSelected, type);
+		
+		Calculator calculator = calculators.get(type);
+		
+		for (IMathShape shape : shapeCanvas.getMathShapes()) {
+			if(UIUtils._3D.equals(type) && shape instanceof I3D) {
+				shape.setShowCornerPoints(isSelected);
+				shape.repaint();
+			} else if( UIUtils._2D.equals(type)) {
+				shape.setShowCornerPoints(isSelected);
+				shape.repaint();
+			}
+			
+			if( isSelected == false ) {
+				shapeIdToForumla.put(shape.getId(), calculator.getForumla());
+
+			}
+		}
+		shapeCanvas.repaint();
+		shapeCanvas.revalidate();
+		
+//		shapeCanvas.selectAll(isSelected, type);
 		
 	}
 
@@ -631,11 +690,9 @@ public class MathToolController {
 				Calculator calc = calculators.get(type);
 				
 				if (newForumla != null) {
-					calc.getSumTextField().setText(newForumla);
-					calc.getExpressionModel().replaceExpression(newForumla);
+					calc.setForumla(newForumla);
 				} else {
-					calc.getSumTextField().setText("");
-					calc.getExpressionModel().clear();
+					calc.clearForumla();
 				}
 			}
 		}
@@ -718,7 +775,7 @@ public class MathToolController {
 			
 			doa.setTablesObjects(getTableObjects(key));
 			
-			String padText = StringUtils.stripToNull(scratchPadPanels.get(key).getEditor().getText());
+			String padText = StringUtils.stripToNull(getScratchPadPanels().get(key).getEditor().getText());
 			
 			if( padText != null ) {
 				doa.setScratchPadText(padText);
@@ -821,7 +878,7 @@ public class MathToolController {
 				
 				String scratchPadText = dataStoreObj.getScratchPadText();
 				if( scratchPadText != null ) {
-					scratchPadPanels.get(key).getEditor().setText(scratchPadText);
+					getScratchPadPanels().get(key).getEditor().setText(scratchPadText);
 				}
 				
 				if( key.equals(UIUtils._3D) ) {
@@ -981,7 +1038,16 @@ public class MathToolController {
 	}
 
 	public void addScratchPanel(ScratchPanel scratchPanel) {
-		scratchPadPanels.put(scratchPanel.getType(), scratchPanel);
+		getScratchPadPanels().put(scratchPanel.getType(), scratchPanel);
 	}
+
+	public void setScratchPadPanels(Map<String, ScratchPanel> scratchPadPanels) {
+		this.scratchPadPanels = scratchPadPanels;
+	}
+
+	public Map<String, ScratchPanel> getScratchPadPanels() {
+		return scratchPadPanels;
+	}
+
 
 }

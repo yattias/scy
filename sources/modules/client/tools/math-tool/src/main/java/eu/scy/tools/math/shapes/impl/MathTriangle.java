@@ -38,6 +38,9 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 	private double triHeight;
 	private double triWidth;
 
+
+	private String formula;
+
 	public MathTriangle(int x, int y, int length) {
 		setPointP(new Point(x,y)); //top
 		setPointQ(new Point(x-length,y+length)); //left
@@ -366,5 +369,17 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 	public double getScaledWidth() {
 		return java.lang.Double.valueOf(twoDForm.format(this.getWidth() / UIUtils._PIXEL));
 	}
+	
+	@Override
+	public void setFormula(String formula) {
+		this.formula = formula;
+		
+	}
+
+	@Override
+	public String getFormula() {
+		return this.formula;
+	}
+
 
 }

@@ -106,9 +106,12 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas{
 		}
 	}
 	
-	public void selectedAll(boolean isSelected, String type) {
+	public void selectAll(boolean isSelected, String type) {
 			for (IMathShape shape : mathShapes) {
 				if(UIUtils._3D.equals(type) && shape instanceof I3D) {
+					shape.setShowCornerPoints(isSelected);
+					shape.repaint();
+				} else if( UIUtils._2D.equals(type)) {
 					shape.setShowCornerPoints(isSelected);
 					shape.repaint();
 				}

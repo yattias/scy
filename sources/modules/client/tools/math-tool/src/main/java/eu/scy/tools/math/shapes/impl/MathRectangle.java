@@ -25,6 +25,7 @@ public class MathRectangle extends Rectangle implements IMathRectangle {
 	private String id; 
 	private Color fillColor = new Color(0x9999ff);
 	private Rectangle[] cornerPointRectangles = new Rectangle[1];
+	private String formula;
 
 	public MathRectangle(double x,double y, double w, double h) {
 		this.setFrame(x, y, w, h);
@@ -242,6 +243,18 @@ public class MathRectangle extends Rectangle implements IMathRectangle {
 	public double getScaledWidth() {
 		return java.lang.Double.valueOf(twoDForm.format(this.getWidth() / UIUtils._PIXEL));
 	}
+	
+	@Override
+	public void setFormula(String formula) {
+		this.formula = formula;
+		
+	}
+
+	@Override
+	public String getFormula() {
+		return this.formula;
+	}
+
 
 
 }
