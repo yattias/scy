@@ -380,34 +380,8 @@
                </property>
             </bean>
 		
-            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="individualReport"/>
-               <property name="uri" value="roolo://memory/30001/0/Questions+About+Pizza+Benefits.rtf"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
-               <property name="inputMissionAnchorIds">
-                  <list />
-               </property>
-               <property name="loEloUris">
-                  <list />
-               </property>
-            </bean>
-		
-            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="realPizzaGrading"/>
-               <property name="uri" value="roolo://memory/30001/0/Questions+About+Pizza+Benefits.rtf"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
-               <property name="inputMissionAnchorIds">
-                  <list />
-               </property>
-               <property name="loEloUris">
-                  <list />
-               </property>
-            </bean>
-		
+
+	
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="notesOnUnhealthyDiet"/>
                <property name="uri" value="roolo://memory/30012/0/Notes+On+Unhealthy+Diet.rtf"/>
@@ -607,7 +581,7 @@
 				
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="criteriaFinalTable"/>
-               <property name="uri" value="roolo://memory/30040/0/Criteria+Final+Table.scypd"/>
+               <property name="uri" value="roolo://memory/30040/0/Criteria+Final+Table.scypds"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
