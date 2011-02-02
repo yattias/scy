@@ -42,6 +42,8 @@ public interface IMathShape {
 	public void setCornerPointRectangles(Rectangle[] cornerPointRectangles);
 
 	public Rectangle[] getCornerPointRectangles();
-
 	
+	public void setFormula(String formula);
+
+	public String getFormula();
 }

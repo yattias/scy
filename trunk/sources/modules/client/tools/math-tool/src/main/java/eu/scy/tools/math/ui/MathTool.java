@@ -255,7 +255,7 @@ public class MathTool {
 		
 		JXTitledPanel sPadPanel = new JXTitledPanel("Scratch Pad");
 		UIUtils.setModTitlePanel(sPadPanel);
-		ScratchPanel sp = new ScratchPanel(type);
+		ScratchPanel sp = new ScratchPanel(type, mathToolController);
 		
 		getMathToolController().addScratchPanel(sp);
 		sPadPanel.add(sp);

@@ -34,28 +34,28 @@ public class ShapeJXLabelDropTargetListener implements DropTargetListener {
 
 	@Override
 	public void dragEnter(DropTargetDragEvent dtde) {
-		DnDUtils.debugPrintln("dragEnter, drop action = "
-				+ DnDUtils.showActions(dtde.getDropAction()));
+//		DnDUtils.debugPrintln("dragEnter, drop action = "
+//				+ DnDUtils.showActions(dtde.getDropAction()));
 
 	}
 
 	@Override
 	public void dragExit(DropTargetEvent arg0) {
-		DnDUtils.debugPrintln("DropTarget dragExit");
+//		DnDUtils.debugPrintln("DropTarget dragExit");
 
 	}
 
 	@Override
 	public void dragOver(DropTargetDragEvent dtde) {
-		DnDUtils.debugPrintln("DropTarget dragOver, drop action = "
-				+ DnDUtils.showActions(dtde.getDropAction()));
+//		DnDUtils.debugPrintln("DropTarget dragOver, drop action = "
+//				+ DnDUtils.showActions(dtde.getDropAction()));
 
 	}
 
 	@Override
 	public void drop(DropTargetDropEvent dtde) {
-		DnDUtils.debugPrintln("DropTarget dropActionChanged, drop action = "
-				+ DnDUtils.showActions(dtde.getDropAction()));
+//		DnDUtils.debugPrintln("DropTarget dropActionChanged, drop action = "
+//				+ DnDUtils.showActions(dtde.getDropAction()));
 		
 		Transferable transferable = dtde.getTransferable();
 		try {
@@ -74,8 +74,8 @@ public class ShapeJXLabelDropTargetListener implements DropTargetListener {
 
 	@Override
 	public void dropActionChanged(DropTargetDragEvent dtde) {
-		DnDUtils.debugPrintln("DropTarget DropTargetDragEvent, drop action = "
-				+ DnDUtils.showActions(dtde.getDropAction()));
+//		DnDUtils.debugPrintln("DropTarget DropTargetDragEvent, drop action = "
+//				+ DnDUtils.showActions(dtde.getDropAction()));
 
 	}
 
@@ -83,8 +83,8 @@ public class ShapeJXLabelDropTargetListener implements DropTargetListener {
 			throws IOException, UnsupportedFlavorException {
 		Object o = transferable.getTransferData(transferable.getTransferDataFlavors()[0]);
 		if (o instanceof Component) {
-			DnDUtils.debugPrintln("Dragged component class is "
-					+ o.getClass().getName());
+//			DnDUtils.debugPrintln("Dragged component class is "
+//					+ o.getClass().getName());
 			
 			if( o instanceof JLabel) {
 				mathToolController.addShape((JLabel)o, dropPoint,type);

@@ -29,7 +29,8 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 	private Color fillColor = new Color(0x99cc99);
 	private double radius;
 	private Rectangle[] cornerPointRectangles = new Rectangle[1];
-
+	private String formula;
+	
 	public MathEllipse(double x, double y, double width, double height) {
         setFrame(x, y, width, height);
         this.createCornerPoints();
@@ -40,7 +41,7 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 	@Override
 	public void paintComponent(Graphics g) {
 		
-		// System.out.println("repainting ellipse");
+		// // System.out.println("repainting ellipse");
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
@@ -165,7 +166,7 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 	public int isHitOnEndPoints(Point eventPoint) {
 		for (int i = 0; i < cornerPointRectangles.length; i++) {
 			if (cornerPointRectangles[i].getBounds2D().contains(eventPoint)) {
-				// System.out.println("mouse pressed found at position " + 0);
+				// // System.out.println("mouse pressed found at position " + 0);
 				return i;
 			}
 		}
@@ -250,6 +251,19 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 	@Override
 	public Rectangle[] getCornerPointRectangles() {
 		return cornerPointRectangles;
+	}
+
+
+
+	@Override
+	public void setFormula(String formula) {
+		this.formula = formula;
+		
+	}
+
+	@Override
+	public String getFormula() {
+		return this.formula;
 	}
 
 
