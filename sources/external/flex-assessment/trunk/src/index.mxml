@@ -102,6 +102,8 @@
 			public static const THEME_LIGHT:Number = 0x999966;
 			public static const BACK_GRADIENT_TOP:Number = 0x999999;
 			public static const BACK_GRADIENT_BOT:Number = 0xFFFFFF;
+			public static const GREEN_OK:Number = 0x99FF33;
+			public static const ORANGE_NOTOK:Number = 0xFF6600;
 			
 			[Bindable] private var needsRefresh:Boolean = false;
 			[Bindable] private var accordionTarget:Number = 0;

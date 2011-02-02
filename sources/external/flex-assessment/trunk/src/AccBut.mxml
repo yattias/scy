@@ -21,7 +21,7 @@
 
 				if(labelArray[1] == "PORTFOLIO_ASSESSED") {
 					lab2 = "Portfolio: " + resourceManager.getString('resources', 'ASSESSED');
-					labColor = 0x00FF00;
+					labColor = index.GREEN_OK;
 				}
 				else {
 					lab2 = "Portfolio: " + resourceManager.getString('resources', 'NOT_ASSESSED');

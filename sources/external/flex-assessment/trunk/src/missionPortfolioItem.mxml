@@ -22,26 +22,7 @@
 				var unassessedElos:Number = 0;
 				var totElos:Number = 0;
 				objectsToTile = new ArrayCollection();
-				
-//				for each (var object:XML in xmlData.elos.*) {
-//					if (object.name() == "elo") {
-//						totElos++;
-//						tc = new tileCell();
-//						tc.studentIndex = studentIndex;
-//						tc.cellTitle = object.catname;
-//						tc.cellAssess = parseStringToBool(object.assessed);
-//						if(tc.cellAssess) {
-//							unassessedElos++;
-//						}
-//						else {
-//							allGood = false;							
-//						}
-//						tc.cellGrade = object.grade;
-//						tc.eloid = object.uri;
-//						objectsToTile.addItem(tc);
-//					}
-//				}
-				
+
 				var eloForCategory:XMLList;
 				for(var i:Number = 1; i < index.obligElos.length; i++) {
 					eloForCategory = xmlData.elos.elo.(catname == index.obligElos[i]);
