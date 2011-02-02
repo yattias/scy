@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-autowire="byName">
+
+	<alias name="wrappedRepository" alias="repository" />
+	<alias name="httpInvokerPedagogicalPlanServiceProxy" alias="pedagogicalPlanService" />
+	<alias name="httpInvokerStudentPlanServiceProxy" alias="studentPedagogicalPlanService" />
+	<!-- alias name="httpInvokerMetadataTypeManagerProxy" alias="metadataTypeManager" /-->
+	<alias name="cachedMetadataTypeManager" alias="metadataTypeManager" />
+	<alias name="httpInvokerExtensionManagerProxy" alias="extensionManager" />
+	<alias name="httpInvokerSessionManagerProxy" alias="sessionManager" />
+
+	<!-- Resolves ${...} placeholders from client.properties -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesMode" value="2"/>
+		<property name="location">
+			<value>/config/client.properties</value>
+		</property>
+	</bean>
+
+   <bean name="wrappedRepository" class="eu.scy.client.desktop.scydesktop.hacks.RepositoryWrapper">
+      <property name="repository" ref="httpInvokerRepositoryProxy"/>
+      <property name="metadataTypeManager" ref="metadataTypeManager"/>
+      <property name="sendEloSavedEvents" value="true"/>
+   </bean>
+
+   <!--
+   <bean name="cachedRepository" class="roolo.cms.cache.RepositoryCache">
+      <constructor-arg index="0" ref="httpInvokerRepositoryProxy"/>
+      <constructor-arg index="1" ref="eloFactory"/>
+      <constructor-arg index="2" ref="metadataTypeManager"/>
+   </bean>
+   -->
+
+	<!-- Proxy for the HTTP-invoker-exported repository -->
+	<!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
+	<bean id="httpInvokerRepositoryProxy"
+		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>
+				http://${serverName}:${httpPort}/${contextPath}/remoting/repository-httpinvoker
+			</value>
+		</property>
+		<property name="serviceInterface">
+			<value>roolo.api.IRepository</value>
+		</property>
+		<!--
+			Comment the following in to use Apache Commons HttpClient instead of
+			the JDK's standard HttpURLConnection (as used by the default
+			SimpleHttpInvokerRequestExecutor).
+		-->
+		<!--
+			<property name="httpInvokerRequestExecutor"> <bean
+			class="org.springframework.remoting.httpinvoker.CommonsHttpInvokerRequestExecutor"/>
+			</property>
+		-->
+	</bean>
+
+   <bean name="cachedMetadataTypeManager" class="roolo.cms.cache.MetadataTypeManagerCache">
+      <constructor-arg index="0" ref="httpInvokerMetadataTypeManagerProxy"/>
+   </bean>
+
+	<!-- Proxy for the HTTP-invoker-exported metadata type manager -->
+	<!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
+	<bean id="httpInvokerMetadataTypeManagerProxy"
+		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>
+				http://${serverName}:${httpPort}/${contextPath}/remoting/metadataTypeManager-httpinvoker
+			</value>
+		</property>
+		<property name="serviceInterface">
+			<value>roolo.elo.api.IMetadataTypeManager
+			</value>
+		</property>
+		<!--
+			Comment the following in to use Apache Commons HttpClient instead of
+			the JDK's standard HttpURLConnection (as used by the default
+			SimpleHttpInvokerRequestExecutor).
+		-->
+		<!--
+			<property name="httpInvokerRequestExecutor"> <bean
+			class="org.springframework.remoting.httpinvoker.CommonsHttpInvokerRequestExecutor"/>
+			</property>
+		-->
+	</bean>
+
+	<!-- Proxy for the HTTP-invoker-exported extension manager -->
+	<!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
+	<bean id="httpInvokerExtensionManagerProxy"
+		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>
+				http://${serverName}:${httpPort}/${contextPath}/remoting/extensionManager-httpinvoker
+			</value>
+		</property>
+		<property name="serviceInterface">
+			<value>roolo.api.IExtensionManager</value>
+		</property>
+		<!--
+			Comment the following in to use Apache Commons HttpClient instead of
+			the JDK's standard HttpURLConnection (as used by the default
+			SimpleHttpInvokerRequestExecutor).
+		-->
+		<!--
+			<property name="httpInvokerRequestExecutor"> <bean
+			class="org.springframework.remoting.httpinvoker.CommonsHttpInvokerRequestExecutor"/>
+			</property>
+		-->
+	</bean>
+
+   <bean name="eloFactory" class="roolo.elo.JDomBasicELOFactory">
+      <constructor-arg index="0" ref="metadataTypeManager"/>
+   </bean>
+
+   <!-- Proxy for the HTTP-invoker-exported session manager -->
+	<!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
+	<bean id="httpInvokerSessionManagerProxy"
+		class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>
+				http://${serverName}:${httpPort}/${contextPath}/remoting/sessionManager-httpinvoker
+			</value>
+		</property>
+		<property name="serviceInterface">
+			<value>eu.scy.sessionmanager.SessionManager</value>
+		</property>
+		<!--
+			Comment the following in to use Apache Commons HttpClient instead of
+			the JDK's standard HttpURLConnection (as used by the default
+			SimpleHttpInvokerRequestExecutor).
+		-->
+		<!--
+			<property name="httpInvokerRequestExecutor"> <bean
+			class="org.springframework.remoting.httpinvoker.CommonsHttpInvokerRequestExecutor"/>
+			</property>
+		-->
+	</bean>
+	<bean id="actionlogger" class="eu.scy.actionlogging.CompletingActionLogger">
+		<constructor-arg index="0">
+			<ref bean="contextservice" />
+		</constructor-arg>
+		<constructor-arg index="1">
+			<bean class="eu.scy.actionlogging.MultiActionLogger">
+				<constructor-arg>
+					<list>
+						<bean class="eu.scy.actionlogging.logger.ActionLogger" />
+						<ref bean="contextservice" />
+					</list>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<bean id="contextservice" class="eu.scy.actionlogging.ContextService"/>
+
+	<bean id="awarenessService" class="eu.scy.awareness.impl.AwarenessServiceXMPPImpl"/>
+
+	<bean id="dataSyncService" class="eu.scy.client.common.datasync.DataSyncService"/>
+
+	<bean id="notificationReceiver" class="eu.scy.client.notification.NotificationReceiver"/>
+
+    <bean id="httpInvokerPedagogicalPlanServiceProxy"
+        class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>
+                http://${serverName}:${httpPort}/${contextPath}/remoting/pedagogicalPlan-httpinvoker
+            </value>
+        </property>
+        <property name="serviceInterface">
+            <value>eu.scy.server.pedagogicalplan.PedagogicalPlanService</value>
+        </property>
+    </bean>
+
+    <bean id="httpInvokerStudentPlanServiceProxy"
+        class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>
+                http://${serverName}:${httpPort}/${contextPath}/remoting/studentPlan-httpinvoker
+            </value>
+        </property>
+        <property name="serviceInterface">
+            <value>eu.scy.server.pedagogicalplan.StudentPedagogicalPlanService</value>
+        </property>
+    </bean>
+
+</beans>

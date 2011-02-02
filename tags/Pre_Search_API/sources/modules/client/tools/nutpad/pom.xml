@@ -1,0 +1,85 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>eu.scy.client.tools</groupId>
+		<version>21-SNAPSHOT</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>nutpad</artifactId>
+	<name>nutpad</name>
+
+	<dependencies>
+		<!-- unsused <dependency> <groupId>eu.scy</groupId> <artifactId>data-synchronizer</artifactId> 
+			<version>${pom.version}</version> <scope>compile</scope> </dependency> <dependency> 
+			<groupId>jivesoftware</groupId> <artifactId>smack</artifactId> <version>3.1.0</version> 
+			</dependency> -->
+
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>configuration</artifactId>
+			<version>${pom.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>notification-api</artifactId>
+			<version>${pom.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.scy.client.desktop</groupId>
+			<artifactId>tool-broker</artifactId>
+			<version>${pom.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>action-logging-commons</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.client.desktop</groupId>
+			<artifactId>action-logging-client</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>action-logging-api</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.miglayout</groupId>
+			<artifactId>miglayout</artifactId>
+			<version>3.6.3</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.client.client-common</groupId>
+			<artifactId>data-sync-api</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.15</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>data-sync-common</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+
+	</dependencies>
+
+</project>

@@ -1,0 +1,68 @@
+<elo>
+<metadata>
+  <lom>
+    <technical>
+      <format>scy/url</format>
+      <customElements>
+        <dateCreated>1267017505069</dateCreated>
+        <dateLastModified>1267017505069</dateLastModified>
+      </customElements>
+    </technical>
+    <general>
+      <title>
+        <string language="en">Welcome to SCY-Lab!</string>
+        <string language="fr">Bienvenue dans SCY-Lab!</string>
+      </title>
+      <description>
+        <string language="en" />
+      </description>
+      <structure>information</structure>
+      <mission>co2Mission</mission>
+      <las>startPage</las>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/714/0/Welcome_to_SCY-Lab_.url</entry>
+      </identifier>
+    </general>
+    <educational>
+      <learningResourceType>informationAssignment</learningResourceType>
+    </educational>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2010-02-24T14:18:25.069+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<url>http://www.scy-lab.eu/content/en/mission1_UT1004/startPage/Welcome.html</url>
+</content>
+<resources>
+</resources>
+</elo>

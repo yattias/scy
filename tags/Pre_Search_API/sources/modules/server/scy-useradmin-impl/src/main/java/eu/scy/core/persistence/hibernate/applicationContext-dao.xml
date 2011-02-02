@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+		"http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<bean id="sharedTransactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+		<property name="transactionManager">
+			<ref bean="transactionManager"/>
+		</property>
+	</bean>
+
+
+        <bean id="imageConverter" class="eu.scy.core.media.ImageConverterImpl"/>
+
+	<bean id="scenarioDAO" class="eu.scy.core.persistence.hibernate.ScenarioDAOHibernate">
+		<property name="sessionFactory" ref="sessionFactory"/>
+		<property name="transactionTemplate" ref="sharedTransactionTemplate"/>
+	</bean>
+
+	<bean id="pedagogicalPlanPersistenceDAO"
+		  class="eu.scy.core.persistence.hibernate.PedagogicalPlanPersistenceDAOHibernate">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+	<bean id="studentPedagogicalPlanPersistenceDAO"
+		  class="eu.scy.core.persistence.hibernate.StudentPedagogicalPlanPersistenceDAOHibernate">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+	<bean id="userDAO" class="eu.scy.core.persistence.hibernate.UserDAOHibernate">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+    <bean id="groupDAO" class="eu.scy.core.persistence.hibernate.GroupDAOHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+	<bean id="toolDAO" class="eu.scy.core.persistence.hibernate.ToolDAOHibernate">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+	<bean id="lasDAO" class="eu.scy.core.persistence.hibernate.LASDAOHibernate">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+	<bean id="assessmentDAO" class="eu.scy.core.persistence.hibernate.AssessmentDAOHibernate">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+	<bean id="missionDAO" class="eu.scy.core.persistence.hibernate.MissionDAOHibernate">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+	<bean id="agentDAO" class="eu.scy.core.persistence.hibernate.AgentDAOHibernate">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+	<bean id="playfulAssessmentDAO" class="eu.scy.core.persistence.hibernate.PlayfulAssessmentDAOHibernate">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+	<bean id="eloRefDAO" class="eu.scy.core.persistence.hibernate.ELORefDAOHibernate">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+	<bean id="serverDAO" class="eu.scy.core.persistence.hibernate.ServerDAOHibernate">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+	<bean id="activityDAO" class="eu.scy.core.persistence.hibernate.ActivityDAOHibernate">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+	<bean id="anchorELODAO" class="eu.scy.core.persistence.hibernate.AnchorELODAOHibernate">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+	<bean id="ajaxPersistenceDAO" class="eu.scy.core.persistence.hibernate.AjaxPersistenceDAOHibernate">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+	<bean id="assignedPedagogicalPlanDAO" class="eu.scy.core.persistence.hibernate.AssignedPedagogicalPlanDAOHibernate">
+		<property name="sessionFactory" ref="sessionFactory"/>
+        <property name="buddyService" ref="buddyService"/>
+        <property name="studentPedagogicalPlanPersistenceService" ref="studentPedagogicalPlanService"/>
+	</bean>
+
+	<bean id="setupDAO" class="eu.scy.core.persistence.hibernate.SetupDAOHibernate">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+    <bean id="fileDAO" class="eu.scy.core.persistence.hibernate.FileDAOHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="imageConverter" ref="imageConverter"/>
+    </bean>
+
+    <bean id="runtimeDAO" class="eu.scy.core.persistence.hibernate.RuntimeDAOHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+        <property name="userDAO" ref="userDAO"/>
+        <!--property name="repository" ref="repository"/-->
+        <property name="toolService" ref="toolService"/>
+    </bean>
+
+    <bean id="learningMaterialDAO" class="eu.scy.core.persistence.hibernate.LearningMaterialDAOHibernate">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="buddyService" class="eu.scy.core.openfire.BuddyServiceImpl"/>
+
+</beans>

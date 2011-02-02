@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+	   default-autowire="byName">
+
+	<import resource="collideShapes.xml"/>
+
+	<alias name="simpleConfiguration" alias="configuration"/>
+	
+	<bean id="simpleConfiguration" class="eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration"
+		  factory-method="getInstance">
+		<property name="debug" value="false"/>
+		<property name="viewShadow" value="true"/>
+		<property name="nodeFactories">
+			<list>
+				<!--<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
+					<property name="name" value=""/>
+					<property name="width" value="120"/>
+					<property name="height" value="46"/>
+					<property name="nodeShape">
+						<bean class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle">
+
+						</bean>
+					</property>
+				</bean>
+				--><!-- bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
+					<property name="name" value=""/>
+					<property name="nodeShape">
+						<bean class="eu.scy.scymapper.impl.shapes.nodes.Star"/>
+					</property>
+					<property name="nodeStyle">
+						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+						</bean>
+					</property>
+				</bean-->
+				<!-- bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
+					<property name="name" value=""/>
+					<property name="nodeShape">
+						<bean class="eu.scy.scymapper.impl.shapes.nodes.Triangle">
+						</bean>
+					</property>
+					<property name="nodeStyle">
+						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+						</bean>
+					</property>
+				</bean--><!--
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
+					<property name="name" value=""/>
+					<property name="nodeShape">
+						<bean class="eu.scy.scymapper.impl.shapes.nodes.Diamond">
+						</bean>
+					</property>
+					<property name="nodeStyle">
+						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+						</bean>
+					</property>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
+					<property name="name" value=""/>
+					<property name="nodeShape">
+						<bean class="eu.scy.scymapper.impl.shapes.nodes.Hexagon">
+						</bean>
+					</property>
+					<property name="nodeStyle">
+						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+						</bean>
+					</property>
+				</bean>
+				--><bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
+					<property name="name" value=""/>
+					<property name="nodeShape">
+						<bean class="eu.scy.scymapper.impl.shapes.nodes.Ellipse">
+						</bean>
+					</property>
+					<property name="nodeStyle">
+						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+							<property name="background" ref="blue"/>
+						</bean>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="connectorFactories">
+			<list>
+				<!--bean class="eu.scy.scymapper.impl.configuration.ConnectorFactory">
+					<property name="name" value=""/>
+					<property name="width" value="150"/>
+					<property name="height" value="40"/>
+					<property name="nodeStyle">
+						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+							<property name="minWidth" value="40"/>
+							<property name="minHeight" value="40"/>
+							<property name="background" ref="white"/>
+							<property name="paintShadow" value="false"/>
+						</bean>
+					</property>
+				</bean-->
+			</list>
+		</property>
+		<property name="linkFactories">
+			<list>
+				<bean class="eu.scy.scymapper.impl.configuration.CollideLinkFactory">
+					<property name="label" value=""/>
+					<property name="linkShape" ref="arrow"/>
+				</bean>
+				<!--bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
+					<property name="label" value=""/>
+					<property name="linkShape" ref="quadCurvedArrow"/>
+				</bean--><!--
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
+					<property name="label" value=""/>
+					<property name="linkShape" ref="cubicCurvedArrow"/>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.configuration.CollideLinkFactory">
+					<property name="label" value=""/>
+					<property name="linkShape" ref="bidirectional_arrow"/>
+				</bean>
+				-->
+				<!--bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
+					<property name="label" value=""/>
+					<property name="linkShape" ref="quadCurvedBiDirArrow"/>
+				</bean--><!--
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
+					<property name="label" value=""/>
+					<property name="linkShape" ref="cubicCurvedBiDirArrow"/>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
+					<property name="label" value=""/>
+					<property name="linkShape" ref="line"/>
+				</bean>
+				--><!--bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
+					<property name="label" value=""/>
+					<property name="linkShape" ref="quadCurvedLine"/>
+				</bean-->
+				<!--<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
+					<property name="label" value=""/>
+					<property name="linkShape" ref="cubicCurvedLine"/>
+				</bean>
+				--><!--bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
+					<property name="label" value=""/>
+					<property name="linkShape" ref="quadCurvedLine2"/>
+				</bean-->
+				<!--bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
+					<property name="label" value=""/>
+					<property name="linkShape" ref="quadCurvedBiDirArrow2"/>
+				</bean-->
+				<!--bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
+					<property name="label" value=""/>
+					<property name="linkShape" ref="quadCurvedArrow2"/>
+				</bean-->
+			</list>
+		</property>
+	</bean>
+</beans>

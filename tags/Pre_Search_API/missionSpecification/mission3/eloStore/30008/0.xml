@@ -1,0 +1,125 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>Caspar</entity>
+        <date>
+          <dateTime>2011-01-18T16:07:41.937+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1295363261937</dateCreated>
+        <dateLastModified>1295363261937</dateLastModified>
+      </customElements>
+      <format>scy/pds</format>
+    </technical>
+    <educational>
+      <learningResourceType>datasetProcessed</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30008/0/Estimated+Energy+Requirements+%28Health+Passport%29.scypds</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">Estimated Energy Requirements (Health Passport)</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAADlElEQVR42u2cPU8CQRCG6SwsLDD0VAR+BbZAQY0NUBLRUnujQoJYWGBCAiQkxESNltqoCdHCghgtiH+DP7D6bjKX9TgU7rjgyUsy4T5nZ5/bmf2625Ca8ff4+KiazWag5Pj42DfdITcAPz4+AiWXl5e+6SbARQN8enqau1GDwWCu95oA397e1HA4/DsAI5GIo2LEnZ8S3tnZcTyezWbV7e3tVMYjjZeXF3VxcWEdK5fLPwI8OztT/X7fMd1J6WxsbGjZ3t6eD8D393dtCGRtbc0yDILtdrutMpmMarVaY+eQYTHIbszz87NKpVJ6W+4VfXd3d1a6Agygq9WqKpVK1jFANe8VgGIDrgVA6MM+PAjpIh9io1yP0moWBCf4rgDGYjGtCLK+vq4VyT6eJIwqFAqWe8u53d3db0/VDtA00CzZ2EbJknRPTk607q2tLXVzc6MqlYp+MJO8Ip1OWzYAOP7h6vjHAwMo5EPShi5sI71J9nkCaM+cuA5EwCBzpltBzGNuANqvgz78S8mZBDCZTI7d2+12tc5oNDp2D0odzq2urlpxFftOYckTQHlyZubsAE1QbgA6peEFoJRAu31yj6kPxwAvHo/PtxKBCyHhzc1NHTsQTySuiUHIMNwZ8USOw2iJgeFweAyiGQPtaUwCiLiIa6RScoqBtVrNskFioHiLhCDEWeyLPmyvrKxY14mYoeJPtgNnqYWd5LdaeCka0n62A9kT+Ws9kf39fR1Yp5WDgwMdZ4Ikh4eHvukOYURhFuJXV1cqaL+HhwffdBMgARJg8AFKv5IAXQJEK5wAPbowARLg4gDu7e059iEJkLUwARLgfwfIwQQOJtCFCZAACdA1wHw+r6fvzElvAnRRAtkT8TicxRLoEiBKHiaxGQM9AJz0thQBshYmQAL87wDxcuIsr/XX63XV6/UCJaenp77pZgmkCxMgAbIh/dWI/u27DgLkYIJ/ABOJBCfWWQIXBJADqqyFCZAAlxkg2n+AMq00Gg39rUiQpNPp+KabJZAuTIAESIBfYPAFNwG6BIiJdfm8nQBdDGdhYp19YY/jgVh84ae1UwiQozGshQmQAAlwDCBm7e/v76cWfNnJRSeMRSewiM3r6+vUcn5+rkajUaAECwP5pZsuzBhIgMEGeHR09G2BRAKcEWAul1PX19eOy2IS4JQAi8Uih7PYF17waAzfjWEtTIAEuIwA2Rf22BfmaIw3+QReefxuk6cSowAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<processDataset>
+  <dataset>
+    <header language="en">
+      <column>
+        <symbol>data1</symbol>
+        <description />
+        <type>double</type>
+        <unit>unit</unit>
+      </column>
+      <column>
+        <symbol>data2</symbol>
+        <description />
+        <type>double</type>
+        <unit>unit</unit>
+      </column>
+    </header>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+  </dataset>
+  <processed_dataset>
+    <name>Datasheet</name>
+    <processed_hedaer>
+      <column>0</column>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>1</column>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+  </processed_dataset>
+</processDataset>
+</content>
+<resources>
+</resources>
+</elo>

@@ -1,0 +1,1174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : copexMission_SCI131.xml
+    Created on : 16 octobre 2009, 16:03
+    Author     : Marjolaine
+    Description:
+        mission configuration file, specifies:
+        - mission options,
+        - list initial procedure
+-->
+
+<mission>
+    <initial_proc>
+        <code>SCI121</code>
+        <name language="fr">Dosage du fer total</name>
+        <name language="en">Dosage du fer total</name>
+        <hypothesis_mode>M</hypothesis_mode>
+        <principle_mode>M</principle_mode>
+        <evaluation_mode>M</evaluation_mode>
+        <draw_principle>false</draw_principle>
+        <is_task_repeat>false</is_task_repeat>
+        <is_task_draw>false</is_task_draw>
+        <is_free_action>false</is_free_action>
+        <is_task>false</is_task>
+        <strategy_ref>
+            <code>S2</code>
+        </strategy_ref>
+        <question>
+            <description language="fr">Dosage du fer total dans des eaux ferrugineuses</description>
+            <description language="en">Dosage du fer total dans des eaux ferrugineuses</description>
+            <task_right>
+                <edit_right>X</edit_right>
+                <delete_right>N</delete_right>
+                <move_right>N</move_right>
+                <parent_right>X</parent_right>
+                <copy_right>N</copy_right>
+                <draw_right>N</draw_right>
+                <repeat_right>N</repeat_right>
+            </task_right>
+        </question>
+        <material>
+            <id>MATERIAL_EAU_DISTILLEE</id>
+            <name  language="fr">Eau distillée</name>
+            <name  language="en">Distilled water</name>
+            <type_ref>
+                <id>TYPE_LIQUIDE</id>
+            </type_ref>
+            <type_ref>
+                <id>TYPE_PROD_CHIM</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_SOL_FELL</id>
+            <name  language="fr">Solution de Fell</name>
+            <name  language="en">Solution de Fell</name>
+            <type_ref>
+                <id>TYPE_LIQUIDE</id>
+            </type_ref>
+            <type_ref>
+                <id>TYPE_PROD_CHIM</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_SOL_FELL</id>
+                <name language="fr">C</name>
+                <name language="en">C</name>
+                <value>0.002</value>
+                <unit_ref>
+                    <id>UNIT_MOL_LITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_HH</id>
+            <name  language="fr">HH</name>
+            <name  language="en">HH</name>
+            <info language="fr">Hydroxylamine hydantoïne</info>
+            <info language="en">Hydroxylamine hydantoïne</info>
+            <type_ref>
+                <id>TYPE_LIQUIDE</id>
+            </type_ref>
+            <type_ref>
+                <id>TYPE_PROD_CHIM</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_HH</id>
+                <name language="fr">C</name>
+                <name language="en">C</name>
+                <value>0.144</value>
+                <unit_ref>
+                    <id>UNIT_MOL_LITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_TAMPON_PH4</id>
+            <name  language="fr">Tampon pH4</name>
+            <name  language="en">Tampon pH4</name>
+            <info language="fr">Tampon acétique</info>
+            <info language="en">Tampon acétique</info>
+            <type_ref>
+                <id>TYPE_LIQUIDE</id>
+            </type_ref>
+            <type_ref>
+                <id>TYPE_PROD_CHIM</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_TAMPON_PH4</id>
+                <name language="fr">C</name>
+                <name language="en">C</name>
+                <value>3</value>
+                <unit_ref>
+                    <id>UNIT_MOL_LITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_OP</id>
+            <name  language="fr">oP</name>
+            <name  language="en">oP</name>
+            <info language="fr">Ortho-phénanthroline</info>
+            <info language="en">Ortho-phénanthroline</info>
+            <type_ref>
+                <id>TYPE_LIQUIDE</id>
+            </type_ref>
+            <type_ref>
+                <id>TYPE_PROD_CHIM</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_OP</id>
+                <name language="fr">C</name>
+                <name language="en">C</name>
+                <value>0.005</value>
+                <unit_ref>
+                    <id>UNIT_MOL_LITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_EAU_FERRUGINEUSE</id>
+            <name  language="fr">Eau ferrugineuse</name>
+            <name  language="en">Eau ferrugineuse</name>
+            <type_ref>
+                <id>TYPE_LIQUIDE</id>
+            </type_ref>
+            <type_ref>
+                <id>TYPE_PROD_CHIM</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_SPECTRO</id>
+            <name  language="fr">Spectrophotomètre UV-visible</name>
+            <name  language="en">Spectrophotomètre UV-visible</name>
+            <info language="fr">Gamme de mesure = 190 nm à 1100 nm</info>
+            <info language="en">Gamme de mesure = 190 nm à 1100 nm</info>
+            <type_ref>
+                <id>TYPE_MESUREUR</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_PIPETTE1</id>
+            <name  language="fr">Pipette automatique de 200 microL</name>
+            <name  language="en">Pipette automatique de 200 microL</name>
+            <info language="fr">V délivré = 20 microL à 200 microL</info>
+            <info language="en">V délivré = 20 microL à 200 microL</info>
+            <type_ref>
+                <id>TYPE_DELIVREUR</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_PIPETTE2</id>
+            <name  language="fr">Pipette automatique de 1 mL</name>
+            <name  language="en">Pipette automatique de 1 mL</name>
+            <info language="fr">V délivré = 100 microL à 1 mL</info>
+            <info language="en">V délivré = 100 microL à 1 mL</info>
+            <type_ref>
+                <id>TYPE_DELIVREUR</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_FIOLE</id>
+            <name  language="fr">Fiole jaugée de 10 mL</name>
+            <name  language="en">Fiole jaugée de 10 mL</name>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+            <type_ref>
+                <id>TYPE_MESUREUR</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_CUVE</id>
+            <name  language="fr">Cuve plastique</name>
+            <name  language="en">Cuve plastique</name>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_CUVE_OPT</id>
+                <name language="fr">Trajet optique</name>
+                <name language="en">Trajet optique</name>
+                <value>1</value>
+                <unit_ref>
+                    <id>UNIT_CM</id>
+                </unit_ref>
+            </quantity>
+            <quantity>
+                <id>Q_MAT_CUVE_VOL</id>
+                <name language="fr">Volume</name>
+                <name language="en">Volume</name>
+                <value>2</value>
+                <unit_ref>
+                    <id>UNIT_MLITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_TUBE1</id>
+            <name  language="fr">Tube 1</name>
+            <name  language="en">Tube 1</name>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_TUBE1</id>
+                <name language="fr">V</name>
+                <name language="en">V</name>
+                <value>10</value>
+                <unit_ref>
+                    <id>UNIT_MLITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_TUBE2</id>
+            <name  language="fr">Tube 2</name>
+            <name  language="en">Tube 2</name>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_TUBE2</id>
+                <name language="fr">V</name>
+                <name language="en">V</name>
+                <value>10</value>
+                <unit_ref>
+                    <id>UNIT_MLITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_TUBE3</id>
+            <name  language="fr">Tube 3</name>
+            <name  language="en">Tube 3</name>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_TUBE3</id>
+                <name language="fr">V</name>
+                <name language="en">V</name>
+                <value>10</value>
+                <unit_ref>
+                    <id>UNIT_MLITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_TUBE4</id>
+            <name  language="fr">Tube 4</name>
+            <name  language="en">Tube 4</name>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_TUBE4</id>
+                <name language="fr">V</name>
+                <name language="en">V</name>
+                <value>10</value>
+                <unit_ref>
+                    <id>UNIT_MLITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_TUBE5</id>
+            <name  language="fr">Tube 5</name>
+            <name  language="en">Tube 5</name>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_TUBE5</id>
+                <name language="fr">V</name>
+                <name language="en">V</name>
+                <value>10</value>
+                <unit_ref>
+                    <id>UNIT_MLITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_TUBE6</id>
+            <name  language="fr">Tube 6</name>
+            <name  language="en">Tube 6</name>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_TUBE6</id>
+                <name language="fr">V</name>
+                <name language="en">V</name>
+                <value>10</value>
+                <unit_ref>
+                    <id>UNIT_MLITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_TUBE7</id>
+            <name  language="fr">Tube 7</name>
+            <name  language="en">Tube 7</name>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_TUBE7</id>
+                <name language="fr">V</name>
+                <name language="en">V</name>
+                <value>10</value>
+                <unit_ref>
+                    <id>UNIT_MLITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_TUBE8</id>
+            <name  language="fr">Tube 8</name>
+            <name  language="en">Tube 8</name>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_TUBE8</id>
+                <name language="fr">V</name>
+                <name language="en">V</name>
+                <value>10</value>
+                <unit_ref>
+                    <id>UNIT_MLITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <initial_action_manipulation_ref>
+            <id>INITIAL_ACTION_MANIP_WAIT</id>
+        </initial_action_manipulation_ref>
+        <initial_action_manipulation>
+            <id>INITIAL_ACTION_MANIP_INTRO_VOL_LIQUIDE</id>
+            <libelle language="fr">Introduire un volume précis de liquide</libelle>
+            <libelle language="en">Introduire un volume précis de liquide</libelle>
+            <is_setting>true</is_setting>
+            <draw>false</draw>
+            <repeat>true</repeat>
+            <initial_action_variable>
+                <id>VAR_INTRO_VOL_LIQUIDE</id>
+                <nb_param>4</nb_param>
+                <libelle language="fr">Dans {0}, introduire {1} de {2} avec {3}.</libelle>
+                <libelle language="en">Dans {0}, introduire {1} de {2} avec {3}.</libelle>
+                <initial_param_material>
+                    <code>0</code>
+                    <name language="fr">Conteneur</name>
+                    <name language="en">conteneur</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_CONTENEUR</id>
+                    </type_ref>
+                </initial_param_material>
+                <initial_param_quantity>
+                    <code>1</code>
+                    <name language="fr">volume</name>
+                    <name language="en">volume</name>
+                    <quantity_name language="fr">volume</quantity_name>
+                    <quantity_name language="en">volume</quantity_name>
+                    <quantity_ref>
+                        <id>QUANTITY_VOLUME</id>
+                    </quantity_ref>
+                </initial_param_quantity>
+                <initial_param_material>
+                    <code>2</code>
+                    <name language="fr">Liquide</name>
+                    <name language="en">liquide</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_LIQUIDE</id>
+                    </type_ref>
+                </initial_param_material>
+                <initial_param_material>
+                    <code>3</code>
+                    <name language="fr">Délivreur</name>
+                    <name language="en">Délivreur</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_DELIVREUR</id>
+                    </type_ref>
+                </initial_param_material>
+            </initial_action_variable>
+            <nb_material_prod>1</nb_material_prod>
+            <initial_manipulation_output>
+                <code_output>OUTPUT_SOL_PROD</code_output>
+                <param_name language="fr">Solution</param_name>
+                <param_name language="en">Solution</param_name>
+                <text_prod language="fr">Nom de la nouvelle solution</text_prod>
+                <text_prod language="en">Nom de la nouvelle solution</text_prod>
+                <type_ref>
+                    <id>TYPE_LIQUIDE</id>
+                </type_ref>
+                <type_ref>
+                    <id>TYPE_PROD_CHIM</id>
+                </type_ref>
+            </initial_manipulation_output>
+        </initial_action_manipulation>
+        <initial_action_manipulation>
+            <id>INITIAL_ACTION_MANIP_COMPLETER_VOL</id>
+            <libelle language="fr">Compléter à un volume</libelle>
+            <libelle language="en">Compléter à un volume</libelle>
+            <is_setting>true</is_setting>
+            <draw>false</draw>
+            <repeat>true</repeat>
+            <initial_action_variable>
+                <id>VAR_COMPLETER_VOL</id>
+                <nb_param>3</nb_param>
+                <libelle language="fr">Compléter le volume dans {6} à {7} avec {8}.</libelle>
+                <libelle language="en">Compléter le volume dans {6} à {7} avec {8}.</libelle>
+                <initial_param_material>
+                    <code>6</code>
+                    <name language="fr">Conteneur</name>
+                    <name language="en">conteneur</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_CONTENEUR</id>
+                    </type_ref>
+                    <type2>
+                       <type_ref>
+                        <id>TYPE_MESUREUR</id>
+                    </type_ref>
+                    </type2>
+                </initial_param_material>
+                <initial_param_quantity>
+                    <code>7</code>
+                    <name language="fr">volume</name>
+                    <name language="en">volume</name>
+                    <quantity_name language="fr">volume</quantity_name>
+                    <quantity_name language="en">volume</quantity_name>
+                    <quantity_ref>
+                        <id>QUANTITY_VOLUME</id>
+                    </quantity_ref>
+                </initial_param_quantity>
+                <initial_param_material>
+                    <code>8</code>
+                    <name language="fr">Liquide</name>
+                    <name language="en">liquide</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_LIQUIDE</id>
+                    </type_ref>
+                </initial_param_material>
+            </initial_action_variable>
+            <nb_material_prod>1</nb_material_prod>
+            <initial_manipulation_output>
+                <code_output>OUTPUT_SOL_PROD</code_output>
+                <param_name language="fr">Solution</param_name>
+                <param_name language="en">Solution</param_name>
+                <text_prod language="fr">Nom de la nouvelle solution</text_prod>
+                <text_prod language="en">Nom de la nouvelle solution</text_prod>
+                <type_ref>
+                    <id>TYPE_LIQUIDE</id>
+                </type_ref>
+                <type_ref>
+                    <id>TYPE_PROD_CHIM</id>
+                </type_ref>
+            </initial_manipulation_output>
+        </initial_action_manipulation>
+        <initial_action_manipulation>
+            <id>INITIAL_ACTION_MANIP_TRANSFERER_CONTENU</id>
+            <libelle language="fr">Transférer un contenu</libelle>
+            <libelle language="en">Transférer un contenu</libelle>
+            <is_setting>true</is_setting>
+            <draw>false</draw>
+            <repeat>true</repeat>
+            <initial_action_variable>
+                <id>VAR_TRANSFERER_CONTENU</id>
+                <nb_param>2</nb_param>
+                <libelle language="fr">Transférer {9} dans {10}.</libelle>
+                <libelle language="en">Transférer {9} dans {10}.</libelle>
+                <initial_param_material>
+                    <code>9</code>
+                    <name language="fr">produit chimique</name>
+                    <name language="en">produit chimique</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_PROD_CHIM</id>
+                    </type_ref>
+                </initial_param_material>
+                <initial_param_material>
+                    <code>10</code>
+                    <name language="fr">conteneur</name>
+                    <name language="en">conteneur</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_CONTENEUR</id>
+                    </type_ref>
+                </initial_param_material>
+            </initial_action_variable>
+            <nb_material_prod>0</nb_material_prod>
+        </initial_action_manipulation>
+        <initial_action_manipulation>
+            <id>INITIAL_ACTION_MANIP_ENREGISTRER_REF</id>
+            <libelle language="fr">Enregistrer une référence (faire le blanc)</libelle>
+            <libelle language="en">Enregistrer une référence (faire le blanc)</libelle>
+            <is_setting>true</is_setting>
+            <draw>false</draw>
+            <repeat>true</repeat>
+            <initial_action_variable>
+                <id>VAR_ENREGISTRER_REF</id>
+                <nb_param>3</nb_param>
+                <libelle language="fr">Enregistrer la référence de {11} avec la solution {12} contenue dans {13}.</libelle>
+                <libelle language="en">Enregistrer la référence de {11} avec la solution {12} contenue dans {13}.</libelle>
+                <initial_param_material>
+                    <code>11</code>
+                    <name language="fr">mesureur</name>
+                    <name language="en">mesureur</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_MESUREUR</id>
+                    </type_ref>
+                </initial_param_material>
+                <initial_param_material>
+                    <code>12</code>
+                    <name language="fr">Liquide</name>
+                    <name language="en">liquide</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_LIQUIDE</id>
+                    </type_ref>
+                </initial_param_material>
+                <initial_param_material>
+                    <code>13</code>
+                    <name language="fr">conteneur</name>
+                    <name language="en">conteneur</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_CONTENEUR</id>
+                    </type_ref>
+                </initial_param_material>
+            </initial_action_variable>
+            <nb_material_prod>0</nb_material_prod>
+        </initial_action_manipulation>
+        <initial_action_acquisition>
+            <id>INITIAL_ACTION_ACQ_MESURER_SPECTRE</id>
+            <libelle language="fr">Mesurer un spectre</libelle>
+            <libelle language="en">Mesurer un spectre</libelle>
+            <is_setting>true</is_setting>
+            <draw>false</draw>
+            <repeat>true</repeat>
+            <initial_action_variable>
+                <id>VAR_MESURER_SPECTRE</id>
+                <nb_param>5</nb_param>
+                <libelle language="fr">Faire un spectre avec {14} sur la gamme {15} - {16} de la solution {17} contenue dans {18}.</libelle>
+                <libelle language="en">Faire un spectre avec {14} sur la gamme {15} - {16} de la solution {17} contenue dans {18}.</libelle>
+                <initial_param_material>
+                    <code>14</code>
+                    <name language="fr">mesureur</name>
+                    <name language="en">mesureur</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_MESUREUR</id>
+                    </type_ref>
+                </initial_param_material>
+                <initial_param_quantity>
+                    <code>15</code>
+                    <name language="fr">longueur onde</name>
+                    <name language="en">longueur onde</name>
+                    <quantity_name language="fr">longueur onde</quantity_name>
+                    <quantity_name language="en">longueur onde</quantity_name>
+                    <quantity_ref>
+                        <id>QUANTITY_LG</id>
+                    </quantity_ref>
+                </initial_param_quantity>
+                <initial_param_quantity>
+                    <code>16</code>
+                    <name language="fr">longueur onde</name>
+                    <name language="en">longueur onde</name>
+                    <quantity_name language="fr">longueur onde</quantity_name>
+                    <quantity_name language="en">longueur onde</quantity_name>
+                    <quantity_ref>
+                        <id>QUANTITY_LG</id>
+                    </quantity_ref>
+                </initial_param_quantity>
+                <initial_param_material>
+                    <code>17</code>
+                    <name language="fr">liquide</name>
+                    <name language="en">liquide</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_LIQUIDE</id>
+                    </type_ref>
+                </initial_param_material>
+                <initial_param_material>
+                    <code>18</code>
+                    <name language="fr">conteneur</name>
+                    <name language="en">conteneur</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_CONTENEUR</id>
+                    </type_ref>
+                </initial_param_material>
+            </initial_action_variable>
+            <nb_data_prod>1</nb_data_prod>
+            <initial_acquisition_output>
+                <code_output>OUTPUT_SPECTRE_PROD</code_output>
+                <param_name language="fr">spectre</param_name>
+                <param_name language="en">spectre</param_name>
+                <text_prod language="fr">Nom du spectre</text_prod>
+                <text_prod language="en">Nom du spectre</text_prod>
+                <unit_ref>
+                    <id>UNIT_NM</id>
+                </unit_ref>
+            </initial_acquisition_output>
+        </initial_action_acquisition>
+        <initial_action_acquisition>
+            <id>INITIAL_ACTION_ACQ_FAIRE_MESURE_ABS</id>
+            <libelle language="fr">Faire une mesure d'absorbance</libelle>
+            <libelle language="en">Faire une mesure d'absorbance</libelle>
+            <is_setting>true</is_setting>
+            <draw>false</draw>
+            <repeat>true</repeat>
+            <initial_action_variable>
+                <id>VAR_FIARE_MESURE_ABSORBANCE</id>
+                <nb_param>4</nb_param>
+                <libelle language="fr">Mesurer l'absorbance à {20} avec {21} de la solution {22} contenue dans {23}.</libelle>
+                <libelle language="en">Mesurer l'absorbance à {20} avec {21} de la solution {22} contenue dans {23}.</libelle>
+                <initial_param_data>
+                    <code>20</code>
+                    <name language="fr">absorbance</name>
+                    <name language="en">absorbance</name>
+                </initial_param_data>
+                <initial_param_material>
+                    <code>21</code>
+                    <name language="fr">mesureur</name>
+                    <name language="en">mesureur</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_MESUREUR</id>
+                    </type_ref>
+                </initial_param_material>
+                <initial_param_material>
+                    <code>22</code>
+                    <name language="fr">liquide</name>
+                    <name language="en">liquide</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_LIQUIDE</id>
+                    </type_ref>
+                </initial_param_material>
+                <initial_param_material>
+                    <code>23</code>
+                    <name language="fr">conteneur</name>
+                    <name language="en">conteneur</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_CONTENEUR</id>
+                    </type_ref>
+                </initial_param_material>
+            </initial_action_variable>
+            <nb_data_prod>0</nb_data_prod>
+        </initial_action_acquisition>
+        <initial_action_treatment>
+            <id>INITIAL_ACTION_TREAT_DET_LG_ONDE</id>
+            <libelle language="fr">Déterminer la longueur d'onde correspondant au maximum d'absorbance</libelle>
+            <libelle language="en">Déterminer la longueur d'onde correspondant au maximum d'absorbance</libelle>
+            <is_setting>true</is_setting>
+            <draw>false</draw>
+            <repeat>true</repeat>
+            <initial_action_variable>
+                <id>VAR_DET_LG_ONDE</id>
+                <nb_param>1</nb_param>
+                <libelle language="fr">Déterminer la longueur d'onde qui correspond au maximum d'absorbance de {19}.</libelle>
+                <libelle language="en">Déterminer la longueur d'onde qui correspond au maximum d'absorbance de {19}.</libelle>
+                <initial_param_data>
+                    <code>19</code>
+                    <name language="fr">courbe</name>
+                    <name language="en">courbe</name>
+                </initial_param_data>
+            </initial_action_variable>
+            <nb_data_prod>0</nb_data_prod>
+        </initial_action_treatment>
+        <material_prod>
+            <material>
+                <id>mat_sol0</id>
+                <name language="fr">Sol0</name>
+                <name language="en">Sol0</name>
+                <type_ref>
+                    <id>TYPE_LIQUIDE</id>
+                </type_ref>
+                <type_ref>
+                    <id>TYPE_PROD_CHIM</id>
+                </type_ref>
+            </material>
+            <material>
+                <id>mat_sol1</id>
+                <name language="fr">Sol1</name>
+                <name language="en">Sol1</name>
+                <type_ref>
+                    <id>TYPE_LIQUIDE</id>
+                </type_ref>
+                <type_ref>
+                    <id>TYPE_PROD_CHIM</id>
+                </type_ref>
+            </material>
+        </material_prod>
+        <manipulation>
+            <step>
+                <description language="fr">Préparation des solutions de la gamme étalon</description>
+                <description language="en">Préparation des solutions de la gamme étalon</description>
+                <task_right>
+                    <edit_right>N</edit_right>
+                    <delete_right>N</delete_right>
+                    <copy_right>X</copy_right>
+                    <move_right>N</move_right>
+                    <parent_right>X</parent_right>
+                    <draw_right>N</draw_right>
+                    <repeat_right>N</repeat_right>
+                </task_right>
+                <step>
+                    <description language="fr">Préparation d'une solution de concentration XXX</description>
+                    <description language="en">Préparation d'une solution de concentration XXX</description>
+                    <task_right>
+                        <edit_right>X</edit_right>
+                        <delete_right>X</delete_right>
+                        <copy_right>X</copy_right>
+                        <move_right>X</move_right>
+                        <parent_right>X</parent_right>
+                        <draw_right>N</draw_right>
+                        <repeat_right>N</repeat_right>
+                    </task_right>
+                    <action_manipulation>
+                        <task_name language="fr">Introduire un volume précis de liquide</task_name>
+                        <task_name language="en">Introduire un volume précis de liquide</task_name>
+                        <description language="fr"></description>
+                        <description language="en"></description>
+                        <task_right>
+                            <edit_right>X</edit_right>
+                            <delete_right>X</delete_right>
+                            <copy_right>X</copy_right>
+                            <move_right>X</move_right>
+                            <parent_right>X</parent_right>
+                            <draw_right>N</draw_right>
+                            <repeat_right>X</repeat_right>
+                        </task_right>
+                        <initial_action_manipulation_ref>
+                            <id>INITIAL_ACTION_MANIP_INTRO_VOL_LIQUIDE</id>
+                        </initial_action_manipulation_ref>
+                        <action_param_material>
+                            <initial_param_material_ref>
+                                <code>0</code>
+                            </initial_param_material_ref>
+                            <material_ref>
+                                <id>MATERIAL_FIOLE</id>
+                            </material_ref>
+                        </action_param_material>
+                        <action_param_quantity>
+                            <code>ACTION_PARAM_QTT_VOL</code>
+                            <initial_param_quantity_ref>
+                                <code>1</code>
+                            </initial_param_quantity_ref>
+                            <quantity>
+                                <id>QTT_VOL</id>
+                                <name language="fr">volume</name>
+                                <name language="fr">volume</name>
+                                <type language="fr"></type>
+                                <type language="en"></type>
+                                <value>0</value>
+                                <uncertainty language="fr"></uncertainty>
+                                <uncertainty language="en"></uncertainty>
+                                <unit_ref>
+                                    <id>UNIT_MICROLITRE</id>
+                                </unit_ref>
+                            </quantity>
+                        </action_param_quantity>
+                        <action_param_material>
+                            <initial_param_material_ref>
+                                <code>2</code>
+                            </initial_param_material_ref>
+                            <material_ref>
+                                <id>MATERIAL_SOL_FELL</id>
+                            </material_ref>
+                        </action_param_material>
+                        <action_param_material>
+                            <initial_param_material_ref>
+                                <code>3</code>
+                            </initial_param_material_ref>
+                            <material_ref>
+                                <id>MATERIAL_PIPETTE1</id>
+                            </material_ref>
+                        </action_param_material>
+                        <material_ref>
+                            <id>mat_sol0</id>
+                        </material_ref>
+                    </action_manipulation>
+                    <action_manipulation>
+                        <task_name language="fr">Introduire un volume précis de liquide</task_name>
+                        <task_name language="en">Introduire un volume précis de liquide</task_name>
+                        <description language="fr"></description>
+                        <description language="en"></description>
+                        <task_right>
+                            <edit_right>X</edit_right>
+                            <delete_right>X</delete_right>
+                            <copy_right>X</copy_right>
+                            <move_right>X</move_right>
+                            <parent_right>X</parent_right>
+                            <draw_right>N</draw_right>
+                            <repeat_right>X</repeat_right>
+                        </task_right>
+                        <initial_action_manipulation_ref>
+                            <id>INITIAL_ACTION_MANIP_INTRO_VOL_LIQUIDE</id>
+                        </initial_action_manipulation_ref>
+                        <action_param_material>
+                            <initial_param_material_ref>
+                                <code>0</code>
+                            </initial_param_material_ref>
+                            <material_ref>
+                                <id>MATERIAL_FIOLE</id>
+                            </material_ref>
+                        </action_param_material>
+                        <action_param_quantity>
+                            <code>ACTION_PARAM_QTT_VOL</code>
+                            <initial_param_quantity_ref>
+                                <code>1</code>
+                            </initial_param_quantity_ref>
+                            <quantity>
+                                <id>QTT_VOL</id>
+                                <name language="fr">volume</name>
+                                <name language="fr">volume</name>
+                                <type language="fr"></type>
+                                <type language="en"></type>
+                                <value>1</value>
+                                <uncertainty language="fr"></uncertainty>
+                                <uncertainty language="en"></uncertainty>
+                                <unit_ref>
+                                    <id>UNIT_MLITRE</id>
+                                </unit_ref>
+                            </quantity>
+                        </action_param_quantity>
+                        <action_param_material>
+                            <initial_param_material_ref>
+                                <code>2</code>
+                            </initial_param_material_ref>
+                            <material_ref>
+                                <id>MATERIAL_HH</id>
+                            </material_ref>
+                        </action_param_material>
+                        <action_param_material>
+                            <initial_param_material_ref>
+                                <code>3</code>
+                            </initial_param_material_ref>
+                            <material_ref>
+                                <id>MATERIAL_PIPETTE2</id>
+                            </material_ref>
+                        </action_param_material>
+                        <material_ref>
+                            <id>mat_sol1</id>
+                        </material_ref>
+                    </action_manipulation>
+                    <action_manipulation>
+                        <task_name language="fr">Attendre</task_name>
+                        <task_name language="en">Attendre</task_name>
+                        <description language="fr"></description>
+                        <description language="en"></description>
+                        <task_right>
+                            <edit_right>X</edit_right>
+                            <delete_right>X</delete_right>
+                            <copy_right>X</copy_right>
+                            <move_right>X</move_right>
+                            <parent_right>X</parent_right>
+                            <draw_right>N</draw_right>
+                            <repeat_right>X</repeat_right>
+                        </task_right>
+                        <initial_action_manipulation_ref>
+                            <id>INITIAL_ACTION_MANIP_WAIT</id>
+                        </initial_action_manipulation_ref>
+                        <action_param_quantity>
+                            <code>ACTION_PARAM_QTT_VOL</code>
+                            <initial_param_quantity_ref>
+                                <code>0</code>
+                            </initial_param_quantity_ref>
+                            <quantity>
+                                <id>QTT_TPS</id>
+                                <name language="fr">temps</name>
+                                <name language="fr">time</name>
+                                <type language="fr"></type>
+                                <type language="en"></type>
+                                <value>1</value>
+                                <uncertainty language="fr"></uncertainty>
+                                <uncertainty language="en"></uncertainty>
+                                <unit_ref>
+                                    <id>UNIT_MIN</id>
+                                </unit_ref>
+                            </quantity>
+                        </action_param_quantity>
+                    </action_manipulation>
+                    <action_manipulation>
+                        <task_name language="fr">Introduire un volume précis de liquide</task_name>
+                        <task_name language="en">Introduire un volume précis de liquide</task_name>
+                        <description language="fr"></description>
+                        <description language="en"></description>
+                        <task_right>
+                            <edit_right>X</edit_right>
+                            <delete_right>X</delete_right>
+                            <copy_right>X</copy_right>
+                            <move_right>X</move_right>
+                            <parent_right>X</parent_right>
+                            <draw_right>N</draw_right>
+                            <repeat_right>X</repeat_right>
+                        </task_right>
+                        <initial_action_manipulation_ref>
+                            <id>INITIAL_ACTION_MANIP_INTRO_VOL_LIQUIDE</id>
+                        </initial_action_manipulation_ref>
+                        <action_param_material>
+                            <initial_param_material_ref>
+                                <code>0</code>
+                            </initial_param_material_ref>
+                            <material_ref>
+                                <id>MATERIAL_FIOLE</id>
+                            </material_ref>
+                        </action_param_material>
+                        <action_param_quantity>
+                            <code>ACTION_PARAM_QTT_VOL</code>
+                            <initial_param_quantity_ref>
+                                <code>1</code>
+                            </initial_param_quantity_ref>
+                            <quantity>
+                                <id>QTT_VOL</id>
+                                <name language="fr">volume</name>
+                                <name language="fr">volume</name>
+                                <type language="fr"></type>
+                                <type language="en"></type>
+                                <value>1</value>
+                                <uncertainty language="fr"></uncertainty>
+                                <uncertainty language="en"></uncertainty>
+                                <unit_ref>
+                                    <id>UNIT_MLITRE</id>
+                                </unit_ref>
+                            </quantity>
+                        </action_param_quantity>
+                        <action_param_material>
+                            <initial_param_material_ref>
+                                <code>2</code>
+                            </initial_param_material_ref>
+                            <material_ref>
+                                <id>MATERIAL_TAMPON_PH4</id>
+                            </material_ref>
+                        </action_param_material>
+                        <action_param_material>
+                            <initial_param_material_ref>
+                                <code>3</code>
+                            </initial_param_material_ref>
+                            <material_ref>
+                                <id>MATERIAL_PIPETTE2</id>
+                            </material_ref>
+                        </action_param_material>
+                        <material_ref>
+                            <id>mat_sol1</id>
+                        </material_ref>
+                    </action_manipulation>
+                    <action_manipulation>
+                        <task_name language="fr">Introduire un volume précis de liquide</task_name>
+                        <task_name language="en">Introduire un volume précis de liquide</task_name>
+                        <description language="fr"></description>
+                        <description language="en"></description>
+                        <task_right>
+                            <edit_right>X</edit_right>
+                            <delete_right>X</delete_right>
+                            <copy_right>X</copy_right>
+                            <move_right>X</move_right>
+                            <parent_right>X</parent_right>
+                            <draw_right>N</draw_right>
+                            <repeat_right>X</repeat_right>
+                        </task_right>
+                        <initial_action_manipulation_ref>
+                            <id>INITIAL_ACTION_MANIP_INTRO_VOL_LIQUIDE</id>
+                        </initial_action_manipulation_ref>
+                        <action_param_material>
+                            <initial_param_material_ref>
+                                <code>0</code>
+                            </initial_param_material_ref>
+                            <material_ref>
+                                <id>MATERIAL_FIOLE</id>
+                            </material_ref>
+                        </action_param_material>
+                        <action_param_quantity>
+                            <code>ACTION_PARAM_QTT_VOL</code>
+                            <initial_param_quantity_ref>
+                                <code>1</code>
+                            </initial_param_quantity_ref>
+                            <quantity>
+                                <id>QTT_VOL</id>
+                                <name language="fr">volume</name>
+                                <name language="fr">volume</name>
+                                <type language="fr"></type>
+                                <type language="en"></type>
+                                <value>1</value>
+                                <uncertainty language="fr"></uncertainty>
+                                <uncertainty language="en"></uncertainty>
+                                <unit_ref>
+                                    <id>UNIT_MLITRE</id>
+                                </unit_ref>
+                            </quantity>
+                        </action_param_quantity>
+                        <action_param_material>
+                            <initial_param_material_ref>
+                                <code>2</code>
+                            </initial_param_material_ref>
+                            <material_ref>
+                                <id>MATERIAL_OP</id>
+                            </material_ref>
+                        </action_param_material>
+                        <action_param_material>
+                            <initial_param_material_ref>
+                                <code>3</code>
+                            </initial_param_material_ref>
+                            <material_ref>
+                                <id>MATERIAL_PIPETTE2</id>
+                            </material_ref>
+                        </action_param_material>
+                        <material_ref>
+                            <id>mat_sol1</id>
+                        </material_ref>
+                    </action_manipulation>
+                    <action_manipulation>
+                        <task_name language="fr">Compléter à un volume</task_name>
+                        <task_name language="en">Compléter à un volume</task_name>
+                        <description language="fr"></description>
+                        <description language="en"></description>
+                        <task_right>
+                            <edit_right>X</edit_right>
+                            <delete_right>X</delete_right>
+                            <copy_right>X</copy_right>
+                            <move_right>X</move_right>
+                            <parent_right>X</parent_right>
+                            <draw_right>N</draw_right>
+                            <repeat_right>X</repeat_right>
+                        </task_right>
+                        <initial_action_manipulation_ref>
+                            <id>INITIAL_ACTION_MANIP_COMPLETER_VOL</id>
+                        </initial_action_manipulation_ref>
+                        <action_param_material>
+                            <initial_param_material_ref>
+                                <code>6</code>
+                            </initial_param_material_ref>
+                            <material_ref>
+                                <id>MATERIAL_FIOLE</id>
+                            </material_ref>
+                        </action_param_material>
+                        <action_param_quantity>
+                            <code>ACTION_PARAM_QTT_VOL</code>
+                            <initial_param_quantity_ref>
+                                <code>7</code>
+                            </initial_param_quantity_ref>
+                            <quantity>
+                                <id>QTT_VOL</id>
+                                <name language="fr">volume</name>
+                                <name language="fr">volume</name>
+                                <type language="fr"></type>
+                                <type language="en"></type>
+                                <value>10</value>
+                                <uncertainty language="fr"></uncertainty>
+                                <uncertainty language="en"></uncertainty>
+                                <unit_ref>
+                                    <id>UNIT_MLITRE</id>
+                                </unit_ref>
+                            </quantity>
+                        </action_param_quantity>
+                        <action_param_material>
+                            <initial_param_material_ref>
+                                <code>8</code>
+                            </initial_param_material_ref>
+                            <material_ref>
+                                <id>MATERIAL_EAU_DISTILLEE</id>
+                            </material_ref>
+                        </action_param_material>
+                        <material_ref>
+                            <id>mat_sol1</id>
+                        </material_ref>
+                    </action_manipulation>
+                    <action_manipulation>
+                        <task_name language="fr">Transférer un contenu</task_name>
+                        <task_name language="en">Transférer un contenu</task_name>
+                        <description language="fr"></description>
+                        <description language="en"></description>
+                        <task_right>
+                            <edit_right>X</edit_right>
+                            <delete_right>X</delete_right>
+                            <copy_right>X</copy_right>
+                            <move_right>X</move_right>
+                            <parent_right>X</parent_right>
+                            <draw_right>N</draw_right>
+                            <repeat_right>X</repeat_right>
+                        </task_right>
+                        <initial_action_manipulation_ref>
+                            <id>INITIAL_ACTION_MANIP_TRANSFERER_CONTENU</id>
+                        </initial_action_manipulation_ref>
+                        <action_param_material>
+                            <initial_param_material_ref>
+                                <code>9</code>
+                            </initial_param_material_ref>
+                            <material_ref>
+                                <id>mat_sol1</id>
+                            </material_ref>
+                        </action_param_material>
+                        <action_param_material>
+                            <initial_param_material_ref>
+                                <code>10</code>
+                            </initial_param_material_ref>
+                            <material_ref>
+                                <id>MATERIAL_TUBE1</id>
+                            </material_ref>
+                        </action_param_material>
+                    </action_manipulation>
+                </step>
+            </step>
+            <step>
+                <description language="fr">Obtention des points de la gamme étalon</description>
+                <description language="en">Obtention des points de la gamme étalon</description>
+                <task_right>
+                    <edit_right>N</edit_right>
+                    <delete_right>N</delete_right>
+                    <copy_right>X</copy_right>
+                    <move_right>N</move_right>
+                    <parent_right>X</parent_right>
+                    <draw_right>N</draw_right>
+                    <repeat_right>N</repeat_right>
+                </task_right>
+            </step>
+            <step>
+                <description language="fr">Détermination de la concentration en fer dans l'eau ferrugineuse</description>
+                <description language="en">Détermination de la concentration en fer dans l'eau ferrugineuse</description>
+                <task_right>
+                    <edit_right>N</edit_right>
+                    <delete_right>N</delete_right>
+                    <copy_right>X</copy_right>
+                    <move_right>N</move_right>
+                    <parent_right>X</parent_right>
+                    <draw_right>N</draw_right>
+                    <repeat_right>N</repeat_right>
+                </task_right>
+            </step>
+        </manipulation>
+    </initial_proc>
+</mission>

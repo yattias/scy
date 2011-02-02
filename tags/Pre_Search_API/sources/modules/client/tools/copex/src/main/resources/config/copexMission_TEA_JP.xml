@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : copexMission_TEA_JP.xml
+    Created on : 18 janvier 2011, 10:52
+    Author     : Marjolaine
+    Description:
+        mission configuration file, specifies:
+        - mission options,
+        - list initial procedure
+-->
+
+<mission>
+    <initial_proc>
+        <code>TEA_JP</code>
+        <name language="fr">Le thé à la japonaise</name>
+        <name language="en">Le thé à la japonaise</name>
+        <hypothesis_mode>N</hypothesis_mode>
+        <principle_mode>M</principle_mode>
+        <evaluation_mode>N</evaluation_mode>
+        <draw_principle>false</draw_principle>
+        <is_task_repeat>false</is_task_repeat>
+        <is_task_draw>false</is_task_draw>
+        <is_free_action>true</is_free_action>
+        <is_task>true</is_task>
+        <strategy_ref>
+            <code>S1</code>
+        </strategy_ref>
+        <question>
+            <description language="fr"></description>
+            <description language="en"></description>
+            <task_right>
+                <edit_right>X</edit_right>
+                <delete_right>N</delete_right>
+                <move_right>N</move_right>
+                <parent_right>X</parent_right>
+                <copy_right>N</copy_right>
+                <draw_right>N</draw_right>
+                <repeat_right>N</repeat_right>
+            </task_right>
+        </question>
+        <material>
+            <id>MATERIAL_KETTLE</id>
+            <name  language="fr">Bouilloire</name>
+            <name  language="en">Kettle</name>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_CUP</id>
+            <name  language="fr">Tasse</name>
+            <name  language="en">Cup</name>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_THEIERE</id>
+            <name  language="fr">Théière en porcelaine</name>
+            <name  language="en">Théière en porcelaine</name>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_PLATEAU</id>
+            <name  language="fr">Plateau</name>
+            <name  language="en">Plateau</name>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_CUISINIERE</id>
+            <name  language="fr">Cuisinière</name>
+            <name  language="en">Cuisinière</name>
+            <type_ref>
+                <id>TYPE_CHAUFFANT</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_EAU</id>
+            <name  language="fr">Eau du robinet</name>
+            <name  language="en">Eau du robinet</name>
+            <type_ref>
+                <id>TYPE_PROD_CHIM</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_TEA</id>
+            <name  language="fr">Thé</name>
+            <name  language="en">Tea</name>
+            <type_ref>
+                <id>TYPE_PROD_CHIM</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_THERMOMETRE</id>
+            <name  language="fr">Thermomètre</name>
+            <name  language="en">Thermomètre</name>
+            <type_ref>
+                <id>TYPE_MESUREUR</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_CHRONOMETRE</id>
+            <name  language="fr">Chronomètre</name>
+            <name  language="en">Chronomètre</name>
+            <type_ref>
+                <id>TYPE_MESUREUR</id>
+            </type_ref>
+        </material>
+        <manipulation>
+        </manipulation>
+    </initial_proc>
+</mission>

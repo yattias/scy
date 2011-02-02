@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+        "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+    <bean id="pedagogicalPlanService" class="eu.scy.server.pedagogicalplan.PedagogicalPlanServiceImpl">
+        <property name="scenarioService" ref="scenarioService"/>
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="userService" ref="userService"/>
+        <property name="lasService" ref="lasService"/>
+
+    </bean>
+
+    <bean id="studentPpedagogicalPlanService" class="eu.scy.server.pedagogicalplan.StudentPedagogicalPlanServiceImpl">
+        <property name="studentPedagogicalPlanPersistenceService" ref="studentPedagogicalPlanService"/>
+    </bean>
+
+</beans>

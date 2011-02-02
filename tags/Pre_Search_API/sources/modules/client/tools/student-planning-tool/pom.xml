@@ -1,0 +1,115 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>eu.scy.client.tools</groupId>
+        <version>28-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>student-planning-tool</artifactId>
+    <packaging>jar</packaging>
+    <name>student-planning-tool</name>
+
+    <developers>
+        <developer>
+            <id>anthony</id>
+            <name>Anthony Perritano</name>
+            <email>aperritano@gmail.com</email>
+            <url>www.utwente.nl</url>
+            <organization>University of Oslo, InterMedia</organization>
+            <organizationUrl>www.intermedia.uio.no</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+    </developers>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-remoting</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>scy-model-impl</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>awareness-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+        
+		<dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>awareness-impl</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.swinglabs</groupId>
+            <artifactId>swingx</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.miglayout</groupId>
+            <artifactId>miglayout</artifactId>
+            <version>3.7.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>pedagogical-plan-service-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>tool-broker-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.9.0.GA</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+        </dependency>
+        
+        <dependency>
+        	<groupId>eu.scy.client.desktop</groupId>
+        	<artifactId>tool-broker</artifactId>
+        	<version>${pom.version}</version>
+        </dependency>
+        
+        <dependency>
+    		<groupId>eu.scy.client.client-common</groupId>
+    		<artifactId>scy-i18n</artifactId>
+    		<version>${pom.version}</version>
+		</dependency>
+		
+		<dependency>
+            <groupId>org.roolo</groupId>
+            <artifactId>elo-impl</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>

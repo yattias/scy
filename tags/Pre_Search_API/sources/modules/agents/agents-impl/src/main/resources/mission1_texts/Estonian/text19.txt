@@ -1,0 +1,78 @@
+Energiaarvestus sinu kodus
+
+VAHENDID paber ja pliiats ÜLESANNE/TAVANÄDAL Sinu ülesanne on nädala aja
+jooksul iga päev üles märkida kodune elektriarvesti näit. Nii saad teada,
+kui palju elektrit te kodus tarbite. Alusta näitude ülesmärkimist
+esmaspäeva õhtul. Järgmine näit vaata teisipäeval samal ajal jne.
+ÜLESANNE/SÄÄSTUNÄDAL Säästunädalal on sul taas vaja läbi teha eelnenud
+ülesanne, kuid selle tingimusega, et püüate järgmise nädala jooksul elada
+nii säästlikult, kui saate. Tulemused kirjuta jällegi tabelisse.  Kui
+leiate perega, et tarbite liiga palju elektrit, oleks mõistlik alustada
+energia säästmist. Kirjuta üles kõik võimalused, kuidas elektri tarbimist
+oma kodus vähendada.  MÄRKSÕNAD elektrikasutus, säästmine
+
+Soojuskadude detektiiv
+
+Vähemalt 30% tarbitavast energiast kasutame oma kodu
+kütmiseks. Energiatarbimine on veelgi suurem, kui maja on halvasti
+soojustatud.  Talvel on soojuskadude allikat lihtne leida toaosade
+temperatuuri erinevuste põhjal. Alati on soojem kuuma radiaatori või
+soojapuhuri läheduses ning küttekehadest eemaldudes muutub õhk
+jahedamaks. Temperatuur põrandapinnal ja lae all on samuti erinev, sest soe
+õhk tõuseb üles.  VAHENDID termomeeter või termistor toa temperatuuri
+mõõtmiseks (termistor on monoliitne temperatuuriandur) ÜLESANNE 1. Mõõda
+termomeetriga temperatuuri toa erinevates osades nii põrandal kui ka
+peakõrgusel.  2. Mõõda välistemperatuuri ning võrdle sise- ja
+välistemperatuure omavahel.  3. Leia soojuse lekkimise kohad.  4. Soovita,
+mida saaks ette võtta soojuskadude vähendamiseks.  5. Mida peaks tegema
+hubase toasooja saamiseks?  6. Arutle oma ettepanekuid teistega grupis.
+MÄRKUSED Selle ülesande võib täita klassi- või mõnes teises kooliruumis
+(saalis või sööklas), samuti kodus. Ülesande täitmisel koolis on oma eelis:
+mõõtmistulemused võib anda kooli juhtkonnale, kes loodetavasti võtab midagi
+ette koolimaja soojuspidavuse parandamiseks, näiteks teatab sellest ehitus-
+ja remonditeenuste osutajale.  MÄRKSÕNAD ehitise soojuskadu, temperatuur
+
+Ülevaade pere energiakasutusest
+
+VAHENDID
+paber ja pliiats
+ÜLESANNE
+Vii kodus läbi inventuur ning kirjuta tabelisse kõik seadmed ja aparaadid, mis tarbivad elektrit. Vaata üle kõik kodus elektrit tarbivad lambid ning kirjuta, milline on nende võimsus kokku (vattides).
+ARVUTA
+Korteri valgustamiseks 100 W lampidega kulus aasta jooksul 500 kWh elektrienergiat. Perekond otsustas aasta lõpus vahetada 100 W hõõglambid 20 W säästulampidega arvestades, et 20 W säästulamp annab valgust sama palju kui 100 W hõõglamp. Kui suur on energiakulu järgmise aasta lõpuks?
+Kui palju hoiti kokku valgustusele kulunud energiat?
+Säästulambid annavad sama palju valgust, kuid kulutavad vähem energiat. Hõõglamp annab 95% soojust ja 5% valgust.
+MÄRKUSED
+NB! Säästulamp ei talu ülepinget (voolu kõikumist)! Ta sobib eelkõige valgustisse, mida sageli sisse-välja ei lülitata. Sagedane lülitamine vähendab säästulambi tööiga.
+MÄRKSÕNAD
+elektrikasutus, säästmine, säästulamp
+
+Globaalse soojenemise tagajärjed
+
+VAHENDID artiklid, pildid, papp, värvipliiatsid, liim, käärid ÜLESANNE
+Arutage rühmades, milliseid artikleid ja pilte te oma plakati koostamisel
+kasutaksite. Ka õpetaja võib anda teile täiendavat informatsiooni. Iga
+õpilane peaks välja valima kaks-kolm pilti või artiklit. Asetage need
+plakatile jättes ruumi ka kirjutamiseks ja oma joonistuste tegemiseks. Ärge
+hakake kohe pilte ja kirjutisi liimima, vaid paigutage need alguses
+plakatile ning alles seejärel liimige. Võite ise otsustada, kuidas plakatit
+teete ja kujundate, aga ärge unustage, et teema peaks kajastama globaalset
+soojenemist mõjutavaid tegureid.  MÄRKUS Tähtis on, et igaüks ise
+väljendaks oma ideid ja kujundaks joonistusi ja pealkirju.  MÄRKSÕNAD
+Globaalse soojenemise mõjud, veetaseme tõus, põuad, temperatuuri tõus,
+kuumalained, jääkatte sulamine
+
+Passiivse päikeseenergia kasutamise võimalused sinu kodus
+
+VAHENDID:
+kirjutusvahend ja paber
+ÜLESANNE
+1. Pane kirja kõige soojem koht suvel oma kodus. Millisel päeva ajal on see kõige kuumem ning kuidas sa seda seletaksid?
+2. Pane kirja kõige külmem koht talvel oma kodus. Millisel päeva ajal on see kõige külmem ja kuidas sa seda seletaksid?
+3. Märgi üles kõik abinõud, mis talvisel ajal sinu arvates parandaksid passiivse päikeseenergia kasumlikkust sinu kodus.
+4. Märgi üles kõik abinõud, mis vähendaksid ülekuumenemist sinu kodus suvisel ajal.
+5. Küsi oma vanavanemate või mõne muu vanema perekonnaliikme või tuttava käest, kuidas nende noorusajal kasutati nende kodus ära päikeseenergiat. Kirjelda mõningaid huvitavaid või tavapäratuid vastuseid. Kas neid abinõusid oleks võimalik rakendada ka tänapäeval?
+6. Mõtle järele, kust sa leiaksid rohkem informatsiooni passiivse päikeseenergia kohta, mis võiks muuta su kodu mugavamaks.
+MÄRKSÕNAD 
+passiivne päikeseenergia, temperatuur, jahenemine, soojenemine, mugavus
+

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+	   default-autowire="byName">
+
+
+	<bean id="roundRectangle" class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle"/>
+	<bean id="starshape" class="eu.scy.scymapper.impl.shapes.nodes.Star"/>
+	<bean id="diamondshape" class="eu.scy.scymapper.impl.shapes.nodes.Diamond"/>
+	<bean id="hexagon" class="eu.scy.scymapper.impl.shapes.nodes.Hexagon"/>
+	<bean id="triangle" class="eu.scy.scymapper.impl.shapes.nodes.Triangle"/>
+	<bean id="ellipse" class="eu.scy.scymapper.impl.shapes.nodes.Ellipse"/>
+
+	<bean id="line" class="eu.scy.scymapper.impl.shapes.links.Line"/>
+	<bean id="cubicCurvedLine" class="eu.scy.scymapper.impl.shapes.links.CubicCurvedLine"/>
+	<bean id="quadCurvedLine2" class="eu.scy.scymapper.impl.shapes.links.QuadCurvedLine">
+		<property name="curving" value="0.25"/>
+	</bean>
+	<bean id="quadCurvedLine" class="eu.scy.scymapper.impl.shapes.links.QuadCurvedLine"/>
+	<bean id="arrow" class="eu.scy.scymapper.impl.shapes.links.Arrow">
+		<property name="head">
+			<bean class="eu.scy.scymapper.impl.shapes.links.Arrowhead">
+				<property name="fixedSize" value="true"/>
+				<property name="length" value="10"/>
+			</bean>
+		</property>
+	</bean>
+	<bean id="bidirectional_arrow" parent="arrow">
+		<property name="tail">
+			<bean class="eu.scy.scymapper.impl.shapes.links.Arrowhead">
+				<property name="fixedSize" value="true"/>
+				<property name="length" value="10"/>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="cubicCurvedArrow" parent="arrow">
+		<property name="lineShape" ref="cubicCurvedLine"/>
+	</bean>
+	<bean id="quadCurvedArrow2" parent="arrow">
+		<property name="lineShape" ref="quadCurvedLine2"/>
+	</bean>
+	<bean id="quadCurvedArrow" parent="arrow">
+		<property name="lineShape" ref="quadCurvedLine"/>
+	</bean>
+
+	<bean id="cubicCurvedBiDirArrow" parent="bidirectional_arrow">
+		<property name="lineShape" ref="cubicCurvedLine"/>
+	</bean>
+	<bean id="quadCurvedBiDirArrow" parent="bidirectional_arrow">
+		<property name="lineShape" ref="quadCurvedLine"/>
+	</bean>
+
+	<bean id="quadCurvedBiDirArrow2" parent="bidirectional_arrow">
+		<property name="lineShape" ref="quadCurvedLine2"/>
+	</bean>
+
+	<bean id="white" class="java.awt.Color">
+		<constructor-arg value="0xffffff"/>
+	</bean>
+	<bean id="blue" class="java.awt.Color">
+		<constructor-arg value="0x6badff"/>
+	</bean>
+	<bean id="red" class="java.awt.Color">
+		<constructor-arg value="0xff5555"/>
+	</bean>
+	<bean id="black" class="java.awt.Color">
+		<constructor-arg value="0x000000"/>
+	</bean>
+	<bean id="gold" class="java.awt.Color">
+		<constructor-arg value="0xFFD700"/>
+	</bean>
+	<bean id="green" class="java.awt.Color">
+		<constructor-arg value="0x2E8B57"/>
+	</bean>
+</beans>

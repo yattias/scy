@@ -1,0 +1,6 @@
+var ApplicationController = {
+    init: function(){
+        
+    }
+}
+

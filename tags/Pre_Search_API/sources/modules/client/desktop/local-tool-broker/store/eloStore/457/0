@@ -1,0 +1,74 @@
+<elo>
+<metadata>
+  <lom>
+    <technical>
+      <format>scy/drawing</format>
+      <customElements>
+        <dateCreated>1267436238493</dateCreated>
+        <dateLastModified>1280928764477</dateLastModified>
+      </customElements>
+    </technical>
+    <general>
+      <title>
+        <string language="nl">nieuwe Empty drawing 1</string>
+      </title>
+      <mission>co2Mission</mission>
+      <las>startPage</las>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/457/0/nieuwe+Empty+drawing+1.scydraw</entry>
+      </identifier>
+    </general>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>j</entity>
+        <date>
+          <dateTime>2010-08-04T15:32:44.476+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/405/0/Empty_drawing.scydraw</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<whiteboard>
+  <whiteboardContainers />
+</whiteboard>
+</content>
+<resources>
+</resources>
+</elo>
