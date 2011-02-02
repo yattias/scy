@@ -124,11 +124,18 @@
 				so.data.retrievedElosFromRoolo = xmlPortfolio;
 				so.flush();
 				//trace(so.data.retrievedElosFromRoolo);
-				Alert.show(resourceManager.getString('resources', 'ALERT_SUBMIT_TEXT'), resourceManager.getString('resources', 'ALERT_SUBMIT_TITLE'), Alert.OK, null, alertListener);
+				
+				if(coverflow.numChildren == index.obligElos.length-1) {
+					Alert.show(resourceManager.getString('resources', 'ALERT_SUBMIT_TEXT'), resourceManager.getString('resources', 'ALERT_SUBMIT_TITLE'), Alert.OK, null, alertListener);
+				}
+				else {
+					Alert.show(resourceManager.getString('resources', 'INCOMPLETE_PORTFOLIO_BODY'), resourceManager.getString('resources', 'INCOMPLETE_PORTFOLIO_TITLE'), Alert.YES | Alert.NO, null, alertListener);
+				}
+				
 			}
 			
 			private function alertListener(event:CloseEvent):void {
-				if(event.detail == Alert.OK) {
+				if(event.detail == Alert.OK || event.detail == Alert.YES) {
 					if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
 						trace("Local version, nothing submitted, but the idea is there ...");
 					}

@@ -413,7 +413,7 @@
 			<local:portfolioAssessingCanvas id="pfassess" width="100%" creationPolicy="all" height="100%" showEffect="{showEffect}" />
 		</mx:ViewStack>
 		<s:Image id="animateImage" visible="false" includeInLayout="false" />
-		<s:Label fontSize="8" right="0" bottom="0" text="v.1.4" />
+		<s:Label fontSize="8" right="0" bottom="0" text="v.1.5" />
 	</s:Group>
 	
 	<s:BorderContainer id="clicker" width="10" height="10" backgroundColor="#FF0000" backgroundAlpha=".1" borderVisible="false" click="infoPanVisi = !infoPanVisi;" />
@@ -429,12 +429,12 @@
 	</s:Scroller>
 	
 	<s:BitmapImage id="thumbCont" width="80" height="80"/>
-	
+<!--	
 	<s:HGroup width="100%" horizontalAlign="right" y="5" gap="0">
 		<mx:LinkButton label="en" width="35" click="resourceManager.localeChain = [ 'en_US' ]" textDecoration="underline" color="#FFFFFF" />
-		<mx:LinkButton label="no" width="35" click="resourceManager.localeChain = [ 'nb_NO' ]" textDecoration="underline" color="#FFFFFF" />
 		<mx:LinkButton label="fr" width="35" click="resourceManager.localeChain = [ 'fr_FR' ]" textDecoration="underline" color="#FFFFFF" />
 		<mx:LinkButton label="gr" width="35" click="resourceManager.localeChain = [ 'el_CY' ]" textDecoration="underline" color="#FFFFFF" />
 		<mx:LinkButton label="nl" width="35" click="resourceManager.localeChain = [ 'nl_NL' ]" textDecoration="underline" color="#FFFFFF" />
 	</s:HGroup>
+-->
 </s:Application>
