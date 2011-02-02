@@ -189,7 +189,8 @@
 			protected function URLpropertyFile_resultHandler(event:ResultEvent):void {
 				toolURLProvider = event.result as XML;
 				
-				so.data.saveportfolio = new String(toolURLProvider.saveportfolio)
+				so.data.saveportfolio = new String(toolURLProvider.saveportfolio);
+				so.data.actionlogger = new String(toolURLProvider.actionlogger);
 				so.flush();
 				
 				portfolioConfigService.url = new String(toolURLProvider.portfolioconfigservice)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");

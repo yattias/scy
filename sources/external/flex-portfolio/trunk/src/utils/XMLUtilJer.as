@@ -1,5 +1,7 @@
 package utils
 {
+	import flash.utils.Dictionary;
+	
 	import mx.collections.ArrayCollection;
 
 	public class XMLUtilJer
@@ -92,7 +94,7 @@ package utils
 			newELO.studentdescription = <studentdescription>{cdata(ob.studentdescription)}</studentdescription>;
 			newELO.studentglg = <studentglg />;
 			for(var i:Number = 0; i<ob.slectedGLGs.length; i++) {
-				var goal:XML = <goal>{cdata(ob.slectedGLGs[i][0].entry)}</goal>
+				var goal:XML = <goal>{cdata(ob.slectedGLGs[i][0].entry)}</goal>;
 				goal.@pos = ob.slectedGLGs[i][0].pos;
 				newELO.studentglg.appendChild(goal);
 			}
@@ -113,6 +115,24 @@ package utils
 			newELO.reflectioncomment = <reflectioncomment />;
 			
 			return newELO;
+		}
+		
+		
+		public static function getXMLActionLoggerObject(meta:Dictionary, attribs:ArrayCollection):XML {
+			var XMLaction:XML = <action />;
+			XMLaction.tool = <tool>{cdata(meta["tool"])}</tool>;
+			XMLaction.type = <type>{cdata(meta["type"])}</type>;
+			XMLaction.elouri = <elouri>{cdata(meta["elouri"])}</elouri>;
+			XMLaction.attributes = <attributes />;
+			
+			for each (var object:Object in attribs) {
+				var attr:XML = <attribute />;
+				attr.name = <name>{cdata(object.oName)}</name>;
+				attr.value = <value>{cdata(object.oVal)}</value>;
+				XMLaction.attributes.appendChild(attr);
+			}
+			
+			return XMLaction;
 		}
 	}
 }

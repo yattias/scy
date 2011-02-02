@@ -17,10 +17,12 @@
 		<![CDATA[
 			import listeners.ToggleEvent;
 			
+			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
 			
 			import spark.events.IndexChangeEvent;
 			
+			import utils.AutoSaveService;
 			import utils.XMLUtilJer;
 			
 			[Bindable] private var PORTFOLIO_LOCKED:Boolean = false;
@@ -28,8 +30,10 @@
 			[Bindable] private var uName:String = "";
 			[Bindable] private var obliEloCanvases:ArrayCollection;
 			
+			private var so:SharedObject;
+			
 			public function refreshContent():void { 
-				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 				
 				if(new String(so.data.retrievedElosFromRoolo.portfoliostatus) == index.PORTFOLIO_SUBMITTED) {
 					currentState = "locked";
@@ -55,6 +59,21 @@
 					addObliEloButton.enabled = false;
 					viewEport.enabled = false;
 				}
+				
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["type"] = "portfolio_category_changed";
+				sLogger["elouri"] = decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
+				var attribs:ArrayCollection = new ArrayCollection();
+				var ob:Object = new Object();
+				ob.oName = "oldValue";
+				ob.oVal = index.obligElos[event.oldIndex];
+				attribs.addItem(ob);
+				ob = new Object();
+				ob.oName = "newValue";
+				ob.oVal = index.obligElos[event.newIndex];
+				attribs.addItem(ob);
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
 				
 				checkForBuildButtonState(event.newIndex);
 			}
@@ -82,6 +101,20 @@
 				tEvent.selecTarget = stack;
 				tEvent.direction = dir;
 				dispatchEvent(tEvent);
+				
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				if(stack == index.STACK_SEARCH_PANEL) {
+					sLogger["type"] = "add_elo_button_clicked";
+				}
+				else if(stack == index.STACK_SUBMIT_PANEL) {
+					sLogger["type"] = "build_portfolio_button_clicked";
+				}
+				else if(stack == index.STACK_SENDING_PANEL) {
+					sLogger["type"] = "view_finished_portfolio_button_clicked";
+				}
+				sLogger["elouri"] = decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 			}
 
 
