@@ -14,7 +14,6 @@ import eu.scy.client.tools.fxdrawingtool.registration.DrawingToolCreatorFX;
 import eu.scy.client.tools.fxsimulator.registration.SimulatorContentCreator;
 import eu.scy.client.tools.fxfitex.registration.FitexToolCreatorFX;
 import eu.scy.client.tools.fxcopex.registration.CopexToolCreatorFX;
-import eu.scy.client.tools.studentplanningtool.registration.StudentPlanningToolContentCreator;
 import eu.scy.client.tools.fxscydynamics.registration.ScyDynamicsContentCreator;
 
 
@@ -65,6 +64,7 @@ var initializer = Initializer {
            redirectSystemStream:false
 //           enableLocalLogging:false
            authorMode:false
+           debugMode: true
 //           redirectSystemStream:true
 //           enableLocalLogging:true
         }
@@ -111,8 +111,6 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
 
 //   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(StudentPlanningToolContentCreator {}, scyStudentPlanningTool);
    //scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(StudentPlanningToolContentCreator {}, scyStudentPlanningTool);
-
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(StudentPlanningToolContentCreator {},scyStudentPlanningTool);
 
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(MathToolContentCreatorFX{},mathToolId);
 
