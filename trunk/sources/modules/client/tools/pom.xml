@@ -18,7 +18,7 @@
 		<module>scydynamics</module>
 		<module>scymapper</module>
 		<module>scysimulator</module>
-		<module>student-planning-tool</module>
+		<!--<module>student-planning-tool</module>-->
     	<module>chat-tool</module>
 		<module>chat-presence-tool</module>
 		<module>colemo-model</module>
