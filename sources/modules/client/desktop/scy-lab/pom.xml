@@ -82,11 +82,6 @@
 		</dependency>
 		<dependency>
 			<groupId>eu.scy.client.tools</groupId>
-			<artifactId>fx-studentplanningtool</artifactId>
-			<version>${parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>eu.scy.client.tools</groupId>
 			<artifactId>fx-scydynamics</artifactId>
 			<version>${parent.version}</version>
 		</dependency>
