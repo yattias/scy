@@ -26,7 +26,7 @@ var mouseBlockingActive = false;
 
 def testBorder = 2.0;
 
-def mouseBlockNode:Rectangle = Rectangle {
+public def mouseBlockNode:Rectangle = Rectangle {
    blocksMouse:true;
    visible:bind mouseBlockingActive
    x: testBorder, y: testBorder

@@ -18,6 +18,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import eu.scy.client.desktop.scydesktop.uicontrols.test.ruler.RulerRectangle;
 import eu.scy.client.desktop.scydesktop.uicontrols.test.ruler.ResizableRulerRectangle;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
+import eu.scy.client.desktop.scydesktop.scywindows.window.ShowWorking;
 
 /**
  * @author sikken
@@ -125,3 +126,4 @@ var stage = Stage {
 }
 
 MouseBlocker.initMouseBlocker(stage);
+ShowWorking.initShowWorking(stage);

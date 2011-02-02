@@ -34,6 +34,7 @@ import eu.scy.client.desktop.scydesktop.LoginType;
 import eu.scy.client.desktop.scydesktop.mission.Missions;
 import eu.scy.client.desktop.scydesktop.utils.InjectObjectsUtils;
 import java.net.URI;
+import eu.scy.client.desktop.scydesktop.scywindows.window.ShowWorking;
 
 /**
  * @author sikken
@@ -66,6 +67,7 @@ public class LoginDialog extends CustomNode, TbiReady {
          FX.deferAction(initMouseBlocker);
       } else {
          MouseBlocker.initMouseBlocker(scene.stage);
+         ShowWorking.initShowWorking(scene.stage);
       }
    }
 

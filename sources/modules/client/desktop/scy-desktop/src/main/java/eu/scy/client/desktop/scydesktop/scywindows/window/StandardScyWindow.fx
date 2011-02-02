@@ -13,7 +13,6 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.control.Button;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
-import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -22,7 +21,6 @@ import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Effect;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Resizable;
@@ -39,7 +37,6 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.RightDrawer;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ScyToolsList;
 import eu.scy.client.desktop.scydesktop.scywindows.window.TopDrawer;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowChangesListener;
-import eu.scy.client.desktop.scydesktop.scywindows.window.WindowClose;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowContent;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowMinimize;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowResize;
@@ -52,7 +49,7 @@ import javafx.scene.CacheHint;
 /**
  * @author sikkenj
  */
-public class StandardScyWindow extends ScyWindow, TooltipCreator {
+public class StandardScyWindow extends ScyWindow {
 
    def logger = Logger.getLogger(this.getClass());
    def scyWindowAttributeDevider = 3.0;
@@ -87,7 +84,6 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    public override var eloIcon on replace {
          eloIconChanged()
       };
-//	public override var scyTool;
    public override var scyToolsList = ScyToolsList {};
    public override var activated on replace { activeStateChanged() };
    public override var scyWindowAttributes on replace {
@@ -98,13 +94,7 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    public override var allowDragging = true;
    public override var allowClose = true;
    public override var allowMinimize = true;
-//   public override var closeIsHide = false;
    public override var windowEffect;
-   //	public var closeAction:function(ScyWindow):Void;
-//	public var minimizeAction: function(ScyWindow):Void;
-//	public var setScyContent: function(ScyWindow):Void;
-//	public var aboutToCloseAction: function(ScyWindow):Boolean;
-//	public var closedAction: function(ScyWindow):Void;
    // status variables
    var isAnimating = false;
    // layout constants
@@ -113,23 +103,11 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    def cornerRadius = 10.0;
    def titleBarTopOffset = borderWidth / 2 + 3;
    def titleBarLeftOffset = borderWidth / 2 + 5;
-   def titleBarRightOffset = titleBarLeftOffset;
-   def closeBoxSize = 10.0;
    def iconSize = 40.0;
    def separatorLength = 7.0;
-//   def iconSize = 16.0;
-//   def iconGap = 2.0;
-//	def borderWidth = 1.0;
-//   def secondBorderWidth = 2.0;
-//   def controlBorderOffset = (borderWidth+secondBorderWidth)/2;
-//   def titleBarTopOffset = borderWidth/2 + 3;
-//   def titleBarLeftOffset = 12.0;
    def closedHeight = titleBarTopOffset + iconSize + borderWidth + 1;
-//   def contentTopOffset = titleBarTopOffset+iconSize+borderWidth/2 + 1;
-//   def contentBorder = 2.0;
    def drawerCornerOffset = controlSize + 1.5 * separatorLength;
    def leftRightDrawerOffset = 24.0;
-   def drawerBorderOffset = borderWidth;
    def contentSideBorder = 5.0;
    def contentTopOffset = titleBarLeftOffset + iconSize + contentSideBorder;
    def deltaContentWidth = borderWidth + 2 * contentSideBorder + 1;
@@ -138,29 +116,15 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    def contentHeight = bind realHeight - deltaContentHeight;
    var realWidth: Number;
    var realHeight: Number;
-   def activeWindowEffect: Effect = DropShadow {
-         offsetX: 6,
-         offsetY: 6,
-         color: Color.color(0.25, .25, .25)
-      }
-   def inactiveWindowEffect: Effect = null;
    var originalX: Number;
    var originalY: Number;
    var originalW: Number;
    var originalH: Number;
-//	var rotateCenterX: Number;
-//	var rotateCenterY: Number;
-//	var initialRotation: Number;
    var maxDifX: Number;
    var maxDifY: Number;
    var sceneTopLeft: Point2D;
    var beingDragged = false;
    def animationDuration = 300ms;
-//   var resizeHighLighted = false;
-//   var rotateHighLighted = false;
-//   var closeHighLighted = false;
-//   var minimizeHighLighted = false;
-//   var unminimizeHighLighted = false;
    public override var minimumHeight = 50 on replace {
          minimumHeight = Math.max(minimumHeight, contentTopOffset + 2 * controlSize);
       }
@@ -171,7 +135,6 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    var windowTitleBar: WindowTitleBarDouble;
    var resizeElement: WindowResize;
    var rotateElement: WindowRotate;
-   var closeElement: WindowClose;
    var minimizeElement: WindowMinimize;
    var windowStateControls: WindowStateControls;
    var contentElement: WindowContent;
@@ -274,13 +237,9 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 
       if (activated) {
          scyToolsList.onGotFocus();
-         //this.effect = activeWindowEffect;
-         //display edges if on screen
          windowManager.scyDesktop.edgesManager.findLinks(this);
       } else {
          scyToolsList.onLostFocus();
-      //this.effect = inactiveWindowEffect;
-      //hide edges
       }
    }
 
@@ -290,26 +249,6 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 
    public override function acceptDrop(object: Object): Void {
       scyToolsList.acceptDrop(object);
-   }
-
-   public override function createTooltipNode(sourceNode: Node): Node {
-      var tooltip: Node;
-      //      if (isClosed or isMinimized){
-      //         var titleTextWidth = windowTitleBar.titleTextWidth;
-      //         var titleDisplayWidth = windowTitleBar.titleDisplayWidth;
-      //         if (closeElement.visible){
-      //            titleDisplayWidth -= closeElement.layoutBounds.width;
-      //         }
-      //         //println("titleTextWidth:{titleTextWidth}, titleDisplayWidth:{titleDisplayWidth}, closeElement.visible:{closeElement.visible}");
-      //         if (titleTextWidth>titleDisplayWidth){
-      //            tooltip = ColoredTextTooltip{
-      //               content:title
-      //               color:windowColorScheme.mainColor
-      //            }
-      //         }
-      //      }
-
-      return tooltip;
    }
 
    override function addChangesListener(wcl: WindowChangesListener) {
@@ -597,7 +536,6 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       maxDifY = 0;
       sceneTopLeft = localToScene(0, 0);
       beingDragged = true;
-      //      contentElement.glassPaneBlocksMouse = true;
       MouseBlocker.startMouseBlocking();
    }
 
@@ -605,7 +543,6 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       for (wcl in changesListeners) {
          wcl.draggingFinished();
       }
-      //      contentElement.glassPaneBlocksMouse = false;
       beingDragged = false;
 
       updateRelativeBounds();
@@ -618,19 +555,8 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 
    }
 
-   function isInvalidMousePos(e: MouseEvent) {
-      def maxScreenCoordinate = 1e4;
-      var invalid = Math.abs(e.screenX) > maxScreenCoordinate or Math.abs(e.screenY) > maxScreenCoordinate;
-      if (invalid) {
-         println("unreasonable mouse position, will ignore it");
-      }
-      return invalid;
-   }
-
-   function doDrag(e: MouseEvent) {
+   function doDrag(e: MouseEvent): Void {
       printMousePos("drag", e);
-      if (isInvalidMousePos(e))
-         return;
       var mouseEventInScene = MouseEventInScene { mouseEvent: e };
       var difX = mouseEventInScene.dragX;
       var difY = mouseEventInScene.dragY;
@@ -641,10 +567,8 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       layoutY = originalY + difY;
    }
 
-   function doResize(e: MouseEvent) {
+   function doResize(e: MouseEvent):Void {
       printMousePos("resize", e);
-      if (isInvalidMousePos(e))
-         return;
       if (isClosed) {
          isClosed = false;
       }
@@ -660,8 +584,6 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       var difY: Number;
       difX = (1 - Math.cos(angle)) * difW / 2;
       difY = (1 - Math.cos(angle)) * difH / 2;
-      //difX = (1 - Math.cos(angle)) * e.dragX/2;// + (1 - Math.sin(angle)) * e.dragY/2;
-      //difY = (1 - Math.cos(angle)) * e.dragY/2;// + (1 - Math.sin(angle)) * e.dragX/2;
 
       var newSize = limitSize(originalW + difW, originalH + difH);
       width = newSize.x;
@@ -671,8 +593,6 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
 
       updateRelativeBounds();
 
-//      width = originalW + difW;
-//      height = originalH + difH;
       layoutX = originalX - difX;
       layoutY = originalY - difY;
    //      for(edge in edges) {
@@ -752,9 +672,6 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
    }
 
    function handleDoubleClick(e: MouseEvent): Void {
-      //if (isClosed) {
-      //   open();
-      //} else
       if (isMinimized) {
          setMinimized(not isMinimized);
       } else {
@@ -817,10 +734,6 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       if (topDrawerTool != null) {
          topDrawer = TopDrawer {
                windowColorScheme: windowColorScheme
-               //            color:bind drawerColor;
-               //            highliteColor:controlColor;
-               //            closedSize:bind width-2*drawerCornerOffset;
-               //            closedStrokeWidth:controlStrokeWidth;
                content: topDrawerTool;
                activated: bind activated;
                activate: activate;
@@ -845,10 +758,6 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
       if (rightDrawerTool != null) {
          rightDrawer = RightDrawer {
                windowColorScheme: windowColorScheme
-               //            color:bind drawerColor;
-               //            highliteColor:controlColor;
-               //            closedStrokeWidth:controlStrokeWidth;
-               //            closedSize:bind height-2*drawerCornerOffset;
                content: rightDrawerTool;
                activated: bind activated;
                activate: activate;
@@ -874,10 +783,6 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
          //println("new BottomDrawer with color {drawerColor}");
          bottomDrawer = BottomDrawer {
                windowColorScheme: windowColorScheme
-               //            color:bind drawerColor;
-               //            highliteColor:controlColor;
-               //            closedSize:bind width-2*drawerCornerOffset;
-               //            closedStrokeWidth:controlStrokeWidth;
                content: bottomDrawerTool;
                activated: bind activated;
                activate: activate;
@@ -988,40 +893,23 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
             layoutY: contentTopOffset;
          }
 
-//      drawerGroup = Group{
-//         content:[
-//            Rectangle {
-//               x: 0, y: 0
-//               width: 10, height: 10
-//               fill: Color.BLACK
-//            }
-//         ]
-//      }
-//
       windowStateControls = WindowStateControls{
          windowColorScheme:bind windowColorScheme
          enableRotateNormal:bind rotate!=0.0
          enableMinimize: bind allowClose and not isClosed
          enableCenter: bind allowCenter
          enableMaximize: true
-//         enableClose:bind allowClose and not isClosed
          rotateNormalAction:doRotateNormal
          minimizeAction:doClose
          centerAction:centerAction
          maximizeAction:doMaximize
-//         closeAction:doClose
-
       }
 
       windowTitleBar = WindowTitleBarDouble {
             width: bind realWidth + borderWidth
-            //         iconSize:iconSize;
-            //         iconGap:iconGap;
-//            closeBoxWidth: bind if (closeElement.visible) closeBoxSize + 2 * borderWidth + 2 else 0.0;
             windowStateControls: windowStateControls
             iconSize: iconSize
             title: bind title;
-//            eloIcon: eloIcon
             activated: bind activated
             beingDragged: bind beingDragged
             startDragIcon: startDragIcon
@@ -1056,17 +944,6 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
             layoutY: bind realHeight;
          }
 
-      closeElement = WindowClose {
-            visible: bind allowClose and not isClosed;
-            size: closeBoxSize;
-            windowColorScheme: windowColorScheme
-            activate: activate;
-            activated: false
-            closeAction: doClose;
-            layoutX: bind realWidth + 0.5 * borderWidth - closeBoxSize;
-            layoutY: 1.5*borderWidth;
-         }
-
       minimizeElement = WindowMinimize {
             visible: bind allowMinimize and not isClosed;
             size: controlSize;
@@ -1099,19 +976,6 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
                activate: activate;
                title: bind title
             }
-//            ClosedWindowResize {
-//               //                  visible: bind allowResize or isClosed;
-//               size: controlSize;
-//               borderWidth: borderWidth;
-//               separatorLength: separatorLength
-//               windowColorScheme: windowColorScheme
-//               activate: activate;
-//               startResize:startResize;
-//               doResize:doResize;
-//               stopResize:stopResize;
-//               layoutX: ArtSource.thumbnailWidth + ThumbnailView.eloIconOffset
-//               layoutY: ArtSource.thumbnailWidth
-//            }
          ]
       }
 
@@ -1142,33 +1006,6 @@ public class StandardScyWindow extends ScyWindow, TooltipCreator {
                content: [
                   closedGroup,
                   openGroup
-//                  emptyWindow,
-//                  contentElement,
-//                  drawerGroup,
-//                  windowTitleBar,
-////                  minimizeElement,
-//                  resizeElement,
-//                  rotateElement,
-////                  closeElement,
-//                  Group { // the scy window attributes
-//                     layoutX: iconSize + 8
-//                     layoutY: 19
-//                     content: bind scyWindowAttributes,
-//                  },
-               //            draggingLayer,
-               //            Group {
-               //               content: [circleLayer]
-               //               effect: DropShadow {
-               //                  offsetX: 3
-               //                  offsetY: 3
-               //                  color: Color.BLACK
-               //                  radius: 10
-               //               }
-               //               onMouseReleased: function( e: MouseEvent ):Void {
-               //                  println("G entered");
-               //               }
-               //            }
-
                ]
                onMouseClicked: function(e: MouseEvent): Void {
                   if (e.clickCount == 2) {
@@ -1465,6 +1302,7 @@ function run() {
    var stage: Stage;
    FX.deferAction(function() {
       MouseBlocker.initMouseBlocker(stage);
+      ShowWorking.initShowWorking(stage);
    });
 
    stage = Stage {
