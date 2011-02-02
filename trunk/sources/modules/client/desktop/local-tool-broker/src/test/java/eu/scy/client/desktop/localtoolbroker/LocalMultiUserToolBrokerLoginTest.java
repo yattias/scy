@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import roolo.api.search.ISearchResult;
+import roolo.search.ISearchResult;
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
