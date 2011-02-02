@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 
@@ -24,6 +26,7 @@ public abstract class CopexActionParam extends CopexActionNamed implements Clone
 
     /* liste des parametres s'il s'agit d'une action parametree, si repetition => tableau de parametres */
     protected Object[] tabParam;
+    private final Logger logger = Logger.getLogger(CopexActionParam.class.getName());
 
     // CONSTRUCTOR
     public CopexActionParam(long dbKey, List<LocalText> listName, List<LocalText> listDescription, List<LocalText> listComments, String taskImage,Element draw,  boolean isVisible, TaskRight taskRight, InitialNamedAction namedAction, Object[] tabParam, TaskRepeat taskRepeat) {
@@ -96,9 +99,9 @@ public abstract class CopexActionParam extends CopexActionNamed implements Clone
                 s += " ("+this.namedAction.getVariable().getTabParam()[i].getParamName(locale)+") ";
             }else{
                 if(tabParam[i] == null) {
-                    // System.out.println("toDescription, null");
+                    logger.log(Level.SEVERE, "CopexActionParam.toDescription, null param");
 		} else {
-                    // System.out.println("toDescription : "+tabParam[i].getClass());
+                    logger.log(Level.SEVERE, "CopexActionParam.toDescription, param "+tabParam[i].getClass());
 		}
             }
          }
@@ -143,8 +146,10 @@ public abstract class CopexActionParam extends CopexActionNamed implements Clone
             }else{
                 if(tabParam[i] == null) {
                     // System.out.println("toDescription, null");
+                    logger.log(Level.SEVERE, "CopexActionParam.toDescription, null param");
                 } else {
                     // System.out.println("toDescription : "+tabParam[i].getClass());
+                    logger.log(Level.SEVERE, "CopexActionParam.toDescription, param "+tabParam[i].getClass());
 		}
             }
          }
@@ -165,7 +170,6 @@ public abstract class CopexActionParam extends CopexActionNamed implements Clone
          return s;
     }
 
-    // OVERRIDE
     @Override
     public Object clone() {
         CopexActionParam a = (CopexActionParam) super.clone() ;

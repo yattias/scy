@@ -1007,22 +1007,25 @@ public class CopexTree extends JTree implements MouseListener, KeyListener, Mous
        }
        boolean isFreeAction = true;
        boolean isTaskRepeat = false;
+       boolean isProcDraw = false;
        ArrayList<InitialNamedAction> listNamedAction = new ArrayList();
        if(proc instanceof LearnerProcedure){
            isFreeAction = ((LearnerProcedure)this.proc).getInitialProc().isFreeAction();
            isTaskRepeat=  ((LearnerProcedure)this.proc).getInitialProc().isTaskRepeat();
            listNamedAction = ((LearnerProcedure)this.proc).getInitialProc().getListNamedAction();
+           isProcDraw = ((LearnerProcedure)this.proc).getInitialProc().isTaskDraw();
        }else if(proc instanceof InitialProcedure){
            isFreeAction = ((InitialProcedure)this.proc).isFreeAction();
            isTaskRepeat = ((InitialProcedure)this.proc).isTaskRepeat();
            listNamedAction = ((InitialProcedure)this.proc).getListNamedAction();
+           isProcDraw = ((InitialProcedure)this.proc).isTaskDraw();
        }
        ActionDialog actionD = new ActionDialog(owner, false, currentNode.getTask().getDescription(owner.getLocale()),
                currentNode.getTask().getComments(owner.getLocale()), img ,currentNode.getTask().getDraw(), actionNamed,
                currentNode.getTask().getEditRight(),  this.proc.getRight(),
                isFreeAction, listNamedAction,
                owner.getListPhysicalQuantity(), tabParam, materialProd, dataProd,
-               isTaskRepeat, currentNode.getTask().getTaskRepeat());
+               isTaskRepeat, currentNode.getTask().getTaskRepeat(), isProcDraw);
        actionD.setVisible(true);
    }
 

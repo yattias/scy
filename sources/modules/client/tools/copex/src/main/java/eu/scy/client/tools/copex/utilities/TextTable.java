@@ -29,7 +29,7 @@ public class TextTable extends JTable{
         this.setTableHeader(null);
         this.setModel(this.textModel);
         this.setDefaultRenderer(Object.class, textRenderer);
-        this.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        this.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         this.setShowGrid(false);
         this.setIntercellSpacing(new Dimension(0,0));
         this.setBackground(Color.WHITE);
@@ -63,6 +63,8 @@ public class TextTable extends JTable{
                 max = Math.max(taille, max);
             }
             getColumnModel().getColumn(j).setPreferredWidth(max);
+            getColumnModel().getColumn(j).setWidth(max);
+            getColumnModel().getColumn(j).setMinWidth(max);
             widthTot += (max);
         }
          int height = (this.textModel.getRowCount())*getRowHeight();

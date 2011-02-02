@@ -20,6 +20,7 @@
         <evaluation_mode>M</evaluation_mode>
         <draw_principle>false</draw_principle>
         <is_task_repeat>false</is_task_repeat>
+        <is_task_draw>false</is_task_draw>
         <is_free_action>false</is_free_action>
         <is_task>false</is_task>
         <strategy_ref>

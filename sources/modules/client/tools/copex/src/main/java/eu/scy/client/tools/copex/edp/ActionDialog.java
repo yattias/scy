@@ -64,6 +64,8 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
     private boolean isActionRepeat;
      /* repetition */
     private TaskRepeat taskRepeat;
+    /* init proc draw */
+    private boolean isInitProcDraw;
 
     /* liste des libelles des noms pour la comboBox */
     private ArrayList<String> listAction ;
@@ -115,7 +117,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
     private static final Logger logger = Logger.getLogger(ActionDialog.class.getName());
 
     /* Constructeur de la fenetre d'ajout d'une action */
-    public ActionDialog(EdPPanel edP, boolean isFreeAction, ArrayList<InitialNamedAction> listInitialNamedActions, ArrayList<PhysicalQuantity> listPhysicalQuantity, boolean isActionRepeat, char insertIn) {
+    public ActionDialog(EdPPanel edP, boolean isFreeAction, ArrayList<InitialNamedAction> listInitialNamedActions, ArrayList<PhysicalQuantity> listPhysicalQuantity, boolean isActionRepeat, char insertIn, boolean isInitProcDraw) {
         super(edP.getOwnerFrame());
         this.edP = edP;
         this.modeAdd = true;
@@ -128,6 +130,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
         this.taskRepeat = null;
         this.isActionRepeat = isActionRepeat ;
         this.insertIn = insertIn;
+        this.isInitProcDraw = isInitProcDraw;
         setModal(true);
         setLocation(edP.getLocationDialog());
         initGUI();
@@ -135,7 +138,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
     }
 
     /* constructeur de la fenetre d'edition de l'action */
-    public ActionDialog(EdPPanel edP, boolean modeAdd, String description, String comments, ImageIcon taskImage, Element taskDraw, InitialNamedAction actionNamed, char right, char procRight, boolean isFreeAction, ArrayList<InitialNamedAction> listInitialNamedActions, ArrayList<PhysicalQuantity> listPhysicalQuantity, Object[] tabParam, ArrayList<Object> materialsProd, ArrayList<Object> datasProd, boolean isActionRepeat, TaskRepeat tr ) {
+    public ActionDialog(EdPPanel edP, boolean modeAdd, String description, String comments, ImageIcon taskImage, Element taskDraw, InitialNamedAction actionNamed, char right, char procRight, boolean isFreeAction, ArrayList<InitialNamedAction> listInitialNamedActions, ArrayList<PhysicalQuantity> listPhysicalQuantity, Object[] tabParam, ArrayList<Object> materialsProd, ArrayList<Object> datasProd, boolean isActionRepeat, TaskRepeat tr, boolean isInitProcDraw ) {
         super(edP.getOwnerFrame());
         this.edP = edP;
         this.modeAdd = modeAdd;
@@ -152,6 +155,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
         this.listPhysicalQuantity = listPhysicalQuantity ;
         this.tabParam = tabParam ;
         this.materialsProd = materialsProd ;
+        this.isInitProcDraw = isInitProcDraw;
         this.datasProd = datasProd ;
         this.comment = "";
         this.isActionRepeat = isActionRepeat ;
@@ -214,6 +218,8 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
             getContentPane().add(getLabelImage());
         }
         // dessin ?
+        if(nb == 0 && isInitProcDraw)
+            setPanelDraw(true);
         // repetition
         if(setTaskRepeat)
             setPanelTaskRepeat(true, new ArrayList(), new ArrayList());

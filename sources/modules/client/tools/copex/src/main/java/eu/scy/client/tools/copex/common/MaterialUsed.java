@@ -64,7 +64,7 @@ public class MaterialUsed implements Cloneable{
                 material = new Material(xmlElem.getChild(Material.TAG_MATERIAL_REF), listMaterial);
             }
             used = xmlElem.getChild(TAG_MATERIAL_USED_USED).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
-            boolean userMat = false;
+            boolean userMat = true;
             if(xmlElem.getChild(TAG_MATERIAL_USED_USERMATERIAL) != null ){
                 userMat = xmlElem.getChild(TAG_MATERIAL_USED_USERMATERIAL).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
             }

@@ -685,7 +685,7 @@ public class EdPPanel extends JPanel {
         }else if(proc instanceof InitialProcedure){
             initProc = (InitialProcedure)proc;
         }
-        ActionDialog addA = new ActionDialog(this, initProc.isFreeAction(), initProc.getListNamedAction(), this.listPhysicalQuantity, initProc.isTaskRepeat(), insertIn);
+        ActionDialog addA = new ActionDialog(this, initProc.isFreeAction(), initProc.getListNamedAction(), this.listPhysicalQuantity, initProc.isTaskRepeat(), insertIn, initProc.isTaskDraw());
         addA.setVisible(true);
     }
 
@@ -801,7 +801,7 @@ public class EdPPanel extends JPanel {
             BufferedReader reader = new BufferedReader(new InputStreamReader(urlCon.getInputStream(), "utf8"));
             String ligne;
             while ((ligne = reader.readLine()) != null) {
-               // System.out.println(ligne);
+                System.out.println(ligne);
             }
             out.flush();
             out.close();

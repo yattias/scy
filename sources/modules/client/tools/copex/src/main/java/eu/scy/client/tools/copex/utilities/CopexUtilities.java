@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -25,9 +27,7 @@ import org.jdom.output.Format;
  * @author MBO
  */
 public class CopexUtilities {
-    // CONSTANTES
-    
-    // METHODES
+    private static final Logger logger = Logger.getLogger(CopexUtilities.class.getName());
     /* retourne la longueur pixel d'un texte */
     static public int lenghtOfString(String s, FontMetrics fm) {
        if (fm == null || s == null)
@@ -153,6 +153,7 @@ public class CopexUtilities {
 		}
 		catch (Exception e){
 			// System.out.println("problems converting string status to jdom "+ e);
+                    logger.log(Level.SEVERE, "problems converting string status to jdom");
 			return null;
 		}
 	}
@@ -165,6 +166,7 @@ public class CopexUtilities {
 		}
 		catch (IOException e){
 			// System.out.println("problems converting jdom status to string"+ e);
+                    logger.log(Level.SEVERE, "problems converting jdom status to string");
 		}
 		return stringWriter.toString();
 	}

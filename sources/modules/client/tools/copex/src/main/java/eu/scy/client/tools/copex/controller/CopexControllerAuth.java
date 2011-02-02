@@ -15,12 +15,17 @@ import eu.scy.client.tools.copex.print.PrintPDF;
 import eu.scy.client.tools.copex.utilities.CopexReturn;
 import eu.scy.client.tools.copex.utilities.CopexUtilities;
 import eu.scy.client.tools.copex.utilities.MyConstants;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import org.jdom.Element;
 import java.net.URL;
+import org.jdom.Document;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
 
 /**
  * copex controller for copex authoring
@@ -56,14 +61,29 @@ public class CopexControllerAuth implements ControllerInterface{
     /**dbC */
     private DataBaseCommunication dbC;
 
+    private CopexConfig config;
+    private String copexConfigFileName = "copex.xml";
+
     //id
+    private long idMission = 1 ;
+    private long idProc= 1 ;
     private long idTask= 1 ;
     private long idParam= 1 ;
     private long idMaterial= 1 ;
     private long idQuantity= 1 ;
+    private long idTypeMaterial= 1 ;
     private long idHypothesis= 1 ;
     private long idGeneralPrinciple= 1 ;
     private long idEvaluation= 1 ;
+    private long idMaterialStrategy= 1 ;
+    private long idPhysicalQtt= 1  ;
+    private long idUnit= 1 ;
+    private long idRepeat= 1 ;
+    private long idValue= 1 ;
+    private long idActionParam= 1 ;
+    private long idInitialAction= 1 ;
+    private long idAction= 1 ;
+    private long idOutput= 1 ;
 
     public CopexControllerAuth(CopexPanel copex, ArrayList<PhysicalQuantity> listPhysicalQuantity, ArrayList<MaterialStrategy> listMaterialStrategy, TypeMaterial defaultTypeMaterial, InitialProcedure initProc, CopexTeacher teacher, CopexMission mission, DataBaseCommunication dbC) {
         this.copex = copex;
@@ -918,98 +938,156 @@ public class CopexControllerAuth implements ControllerInterface{
         return this.locale;
     }
 
+    // lecture du fichier de config copex
+    private CopexReturn loadCopexConfig(){
+        InputStreamReader fileReader = null;
+        SAXBuilder builder = new SAXBuilder(false);
+        //File file = new File((getClass().getResource( "/" +copexConfigFileName)).getFile());
+        try{
+            InputStream s = this.getClass().getClassLoader().getResourceAsStream("config/"+copexConfigFileName);
+            //fileReader = new InputStreamReader(new FileInputStream(file), "utf-8");
+            fileReader = new InputStreamReader(s, "utf-8");
+            //Document doc = builder.build(fileReader, file.getAbsolutePath());
+            Document doc = builder.build(fileReader);
+            Element copexConfig = doc.getRootElement();
+            config = new CopexConfig(copexConfig, getLocale(), idMaterialStrategy, idPhysicalQtt, idUnit, idTypeMaterial, idMaterial, idQuantity, idAction, idActionParam, idOutput);
+            //dbKeyProblem();
+            // grandeurs physiques
+            //listPhysicalQuantity = config.getListQuantities();
+            // strategies du materiel
+            //listMaterialStrategy = config.getListMaterialStrategy();
+        }catch(IOException e1){
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_LOAD_COPEX_CONFIG")+" "+e1, false);
+        }catch(JDOMException e2){
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_LOAD_COPEX_CONFIG")+" "+e2, false);
+        }
+        return new CopexReturn();
+    }
+
     /*help procedure  */
     private CopexReturn loadHelpProc(){
-        // mission
-        helpMission = new CopexMission(copex.getBundleString("HELP_MISSION_CODE"), copex.getBundleString("HELP_MISSION_NAME"), "");
-        helpMission.setDbKey(-2);
-        //protocole
-        MaterialStrategy helpMaterialStrategy = listMaterialStrategy.get(0);
-        int nb = listMaterialStrategy.size();
-        for (int i=0; i<nb; i++){
-            if(listMaterialStrategy.get(i).getCode().equals("S1")){
-                helpMaterialStrategy = listMaterialStrategy.get(i);
-                break;
-            }
+        CopexReturn cr = loadCopexConfig();
+        if(cr.isError())
+            return cr;
+        InputStreamReader fileReader = null;
+        SAXBuilder builder = new SAXBuilder(false);
+        //File file = new File((getClass().getResource( "/" +fileMission)).getFile());
+        try{
+            //fileReader = new InputStreamReader(new FileInputStream(file), "utf-8");
+            //Document doc = builder.build(fileReader, file.getAbsolutePath());
+            InputStream s = this.getClass().getClassLoader().getResourceAsStream("languages/copexHelpProc.xml");
+            fileReader = new InputStreamReader(s, "utf-8");
+            Document doc = builder.build(fileReader);
+            Element element = doc.getRootElement();
+            helpMission = new CopexMission(element.getChild(CopexMission.TAG_MISSION), getLocale(), idMission++, idProc++, idRepeat++, idParam++, idValue++,idAction++,idActionParam++, idQuantity++, idMaterial++, idTask++, idHypothesis++, idGeneralPrinciple++, idEvaluation++, idTypeMaterial++, idInitialAction++,idOutput++,
+                  config.getListMaterial(), config.getListTypeMaterial(), listPhysicalQuantity, config.getListInitialNamedAction(), config.getListMaterialStrategy() );
+            helpMission.setDbKey(-2);
+            // chargement du proc
+            helpProc = new LearnerProcedure(element.getChild(LearnerProcedure.TAG_LEARNER_PROC), helpMission,
+                    idProc++, idRepeat++, idParam++, idValue++, idActionParam++, idQuantity++, idMaterial++, idTask++,
+                    idHypothesis++, idGeneralPrinciple++, idEvaluation++,
+                    helpMission.getListInitialProc(), helpMission.getListMaterial(),helpMission.getListType(),  listPhysicalQuantity);
+            //dbKeyProblem();
+            helpProc.setRight(MyConstants.NONE_RIGHT);
+            helpProc.setDbKey(-2);
+            listHelpMaterial = helpProc.getInitialProc().getListMaterial();
+        }catch(IOException e1){
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_LOAD_COPEX_MISSION")+" "+e1, false);
+        }catch(JDOMException e2){
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_LOAD_COPEX_MISSION")+" "+e2, false);
         }
+        return new CopexReturn();
 
-        InitialProcedure initP = new InitialProcedure(-2, CopexUtilities.getLocalText("help proc", getLocale()), null, false,MyConstants.NONE_RIGHT, "help proc", true,false,false, null,
-                MyConstants.MODE_MENU_NO, MyConstants.MODE_MENU_NO, false, MyConstants.MODE_MENU_NO, helpMaterialStrategy);
-        // type de materiel
-        TypeMaterial typeUstensil = new TypeMaterial(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_TYPE_MATERIAL_USTENSIL"), getLocale()));
-        TypeMaterial typeIngredient = new TypeMaterial(2, CopexUtilities.getLocalText(copex.getBundleString("HELP_TYPE_MATERIAL_INGREDIENT"), getLocale()));
-        // material
-        listHelpMaterial = new ArrayList();
-        Material m = new Material(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_CUP"), getLocale()), CopexUtilities.getLocalText("", getLocale()), null, new MaterialSourceCopex());
-        m.addType(typeUstensil);
-        listHelpMaterial.add(m);
-        m = new Material(2, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_BAG"), getLocale()), CopexUtilities.getLocalText("", getLocale()), null, new MaterialSourceCopex());
-        m.addType(typeIngredient);
-        listHelpMaterial.add(m);
-        m = new Material(3,CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_SPOON"), getLocale()),  CopexUtilities.getLocalText("", getLocale()), null, new MaterialSourceCopex());
-        m.addType(typeUstensil);
-        listHelpMaterial.add(m);
-        m = new Material(4,CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_SUGAR"), getLocale()),   CopexUtilities.getLocalText("", getLocale()), null, new MaterialSourceCopex());
-        m.addType(typeIngredient);
-        listHelpMaterial.add(m);
-        m = new Material(5, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_WATER"), getLocale()),  CopexUtilities.getLocalText("", getLocale()), null, new MaterialSourceCopex());
-        m.addType(typeIngredient);
-        listHelpMaterial.add(m);
-        m = new Material(6, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_KETTLE"), getLocale()),  CopexUtilities.getLocalText("", getLocale()), null, new MaterialSourceCopex());
-        m.addType(typeUstensil);
-        listHelpMaterial.add(m);
-        m = new Material(7, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_GAZ_COOKER"), getLocale()), CopexUtilities.getLocalText("", getLocale()), null, new MaterialSourceCopex());
-        m.addType(typeUstensil);
-        listHelpMaterial.add(m);
-        initP.setListMaterial(listHelpMaterial);
-        helpProc = new LearnerProcedure(CopexUtilities.getLocalText(copex.getBundleString("PROC_HELP_PROC_NAME"), getLocale()), helpMission, CopexUtilities.getCurrentDate(), initP, null);
-        ArrayList<MaterialUsed> listMaterialUsed = getListMaterialUsed(helpProc);
-        helpProc.setListMaterialUsed(listMaterialUsed);
-        helpProc.setRight(MyConstants.NONE_RIGHT);
-        helpProc.setDbKey(-2);
-        // liste des taches
-        ArrayList<CopexTask> listTask = new ArrayList();
-        TaskRight tr = new TaskRight(MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT);
-        Question question = new Question(1, getLocale(),"question", copex.getBundleString("PROC_HELP_QUESTION"), "",  null, null,true, tr, true, -1, 2);
-        listTask.add(question);
-        helpProc.setQuestion(question);
-        Step step1 = new Step(2, getLocale(), "step1", copex.getBundleString("PROC_HELP_STEP_1"), "", null, null,true, tr, 9, 3, null);
-        listTask.add(step1);
-        CopexAction action1_1 = new CopexAction(3,getLocale(), "action1-1", copex.getBundleString("PROC_HELP_ACTION_1_1"), "", null,  null,true, tr, 4, -1, null);
-        listTask.add(action1_1);
-        CopexAction action1_2 = new CopexAction(4, getLocale(),"action1-2", copex.getBundleString("PROC_HELP_ACTION_1_2"), "", null, null,true, tr, 5, -1, null);
-        listTask.add(action1_2);
-        CopexAction action1_3 = new CopexAction(5,getLocale(), "action1-3", copex.getBundleString("PROC_HELP_ACTION_1_3"), "", null,null,true, tr, 6, -1, null);
-        listTask.add(action1_3);
-        CopexAction action1_4 = new CopexAction(6, getLocale(),"action1-4", copex.getBundleString("PROC_HELP_ACTION_1_4"), "", null, null,true, tr, 7, -1, null);
-        listTask.add(action1_4);
-        CopexAction action1_5 = new CopexAction(7, getLocale(),"action1-5", copex.getBundleString("PROC_HELP_ACTION_1_5"), "", null, null,true, tr, 8, -1, null);
-        listTask.add(action1_5);
-        CopexAction action1_6 = new CopexAction(8,getLocale(), "action1-6", copex.getBundleString("PROC_HELP_ACTION_1_6"), "", null, null,true, tr, -1, -1, null);
-        listTask.add(action1_6);
-        Step step2 = new Step(9, getLocale(), "step2", copex.getBundleString("PROC_HELP_STEP_2"), "", null, null,true, tr, 14, 10, null);
-        listTask.add(step2);
-        CopexAction action2_1 = new CopexAction(10, getLocale(),"action2-1", copex.getBundleString("PROC_HELP_ACTION_2_1"), "", null, null,true, tr, 11, -1, null);
-        listTask.add(action2_1);
-        CopexAction action2_2 = new CopexAction(11,getLocale(), "action2-2", copex.getBundleString("PROC_HELP_ACTION_2_2"), "", null, null,true, tr, 12, -1, null);
-        listTask.add(action2_2);
-        CopexAction action2_3 = new CopexAction(12, getLocale(),"action2-3", copex.getBundleString("PROC_HELP_ACTION_2_3"), "", null, null,true, tr, 13, -1, null);
-        listTask.add(action2_3);
-        CopexAction action2_4 = new CopexAction(13,getLocale(), "action2-4", copex.getBundleString("PROC_HELP_ACTION_2_4"), "", null, null,true, tr, -1, -1, null);
-        listTask.add(action2_4);
-        CopexAction action_3 = new CopexAction(14, getLocale(),"action_3", copex.getBundleString("PROC_HELP_ACTION_3"), "", null,null,true, tr, 15, -1, null);
-        listTask.add(action_3);
-        CopexAction action_4 = new CopexAction(15,getLocale(), "action_4", copex.getBundleString("PROC_HELP_ACTION_4"), "", null, null,true, tr, -1, -1, null);
-        listTask.add(action_4);
-        helpProc.setListTask(listTask);
-
-
-        //helpProc.setHypothesis(new Hypothesis(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_HYPOTHESIS"), getLocale()),new LinkedList(), false));
-        helpProc.setGeneralPrinciple(new GeneralPrinciple(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_GENERAL_PRINCIPLE"), getLocale()),new LinkedList(), null, false));
-        helpProc.setMaterials(new MaterialProc(listMaterialUsed));
-        helpProc.setDataSheet(null);
-        helpProc.setEvaluation(new Evaluation(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_EVALUATION"), getLocale()),new LinkedList(), false));
-       return new CopexReturn();
+        // mission
+//        helpMission = new CopexMission(copex.getBundleString("HELP_MISSION_CODE"), copex.getBundleString("HELP_MISSION_NAME"), "");
+//        helpMission.setDbKey(-2);
+//        //protocole
+//        MaterialStrategy helpMaterialStrategy = listMaterialStrategy.get(0);
+//        int nb = listMaterialStrategy.size();
+//        for (int i=0; i<nb; i++){
+//            if(listMaterialStrategy.get(i).getCode().equals("S1")){
+//                helpMaterialStrategy = listMaterialStrategy.get(i);
+//                break;
+//            }
+//        }
+//
+//        InitialProcedure initP = new InitialProcedure(-2, CopexUtilities.getLocalText("help proc", getLocale()), null, false,MyConstants.NONE_RIGHT, "help proc", true,false,false, null,
+//                MyConstants.MODE_MENU_NO, MyConstants.MODE_MENU_NO, false, MyConstants.MODE_MENU_NO, helpMaterialStrategy);
+//        // type de materiel
+//        TypeMaterial typeUstensil = new TypeMaterial(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_TYPE_MATERIAL_USTENSIL"), getLocale()));
+//        TypeMaterial typeIngredient = new TypeMaterial(2, CopexUtilities.getLocalText(copex.getBundleString("HELP_TYPE_MATERIAL_INGREDIENT"), getLocale()));
+//        // material
+//        listHelpMaterial = new ArrayList();
+//        Material m = new Material(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_CUP"), getLocale()), CopexUtilities.getLocalText("", getLocale()), null, new MaterialSourceCopex());
+//        m.addType(typeUstensil);
+//        listHelpMaterial.add(m);
+//        m = new Material(2, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_BAG"), getLocale()), CopexUtilities.getLocalText("", getLocale()), null, new MaterialSourceCopex());
+//        m.addType(typeIngredient);
+//        listHelpMaterial.add(m);
+//        m = new Material(3,CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_SPOON"), getLocale()),  CopexUtilities.getLocalText("", getLocale()), null, new MaterialSourceCopex());
+//        m.addType(typeUstensil);
+//        listHelpMaterial.add(m);
+//        m = new Material(4,CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_SUGAR"), getLocale()),   CopexUtilities.getLocalText("", getLocale()), null, new MaterialSourceCopex());
+//        m.addType(typeIngredient);
+//        listHelpMaterial.add(m);
+//        m = new Material(5, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_WATER"), getLocale()),  CopexUtilities.getLocalText("", getLocale()), null, new MaterialSourceCopex());
+//        m.addType(typeIngredient);
+//        listHelpMaterial.add(m);
+//        m = new Material(6, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_KETTLE"), getLocale()),  CopexUtilities.getLocalText("", getLocale()), null, new MaterialSourceCopex());
+//        m.addType(typeUstensil);
+//        listHelpMaterial.add(m);
+//        m = new Material(7, CopexUtilities.getLocalText(copex.getBundleString("HELP_MATERIAL_GAZ_COOKER"), getLocale()), CopexUtilities.getLocalText("", getLocale()), null, new MaterialSourceCopex());
+//        m.addType(typeUstensil);
+//        listHelpMaterial.add(m);
+//        initP.setListMaterial(listHelpMaterial);
+//        helpProc = new LearnerProcedure(CopexUtilities.getLocalText(copex.getBundleString("PROC_HELP_PROC_NAME"), getLocale()), helpMission, CopexUtilities.getCurrentDate(), initP, null);
+//        ArrayList<MaterialUsed> listMaterialUsed = getListMaterialUsed(helpProc);
+//        helpProc.setListMaterialUsed(listMaterialUsed);
+//        helpProc.setRight(MyConstants.NONE_RIGHT);
+//        helpProc.setDbKey(-2);
+//        // liste des taches
+//        ArrayList<CopexTask> listTask = new ArrayList();
+//        TaskRight tr = new TaskRight(MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT);
+//        Question question = new Question(1, getLocale(),"question", copex.getBundleString("PROC_HELP_QUESTION"), "",  null, null,true, tr, true, -1, 2);
+//        listTask.add(question);
+//        helpProc.setQuestion(question);
+//        Step step1 = new Step(2, getLocale(), "step1", copex.getBundleString("PROC_HELP_STEP_1"), "", null, null,true, tr, 9, 3, null);
+//        listTask.add(step1);
+//        CopexAction action1_1 = new CopexAction(3,getLocale(), "action1-1", copex.getBundleString("PROC_HELP_ACTION_1_1"), "", null,  null,true, tr, 4, -1, null);
+//        listTask.add(action1_1);
+//        CopexAction action1_2 = new CopexAction(4, getLocale(),"action1-2", copex.getBundleString("PROC_HELP_ACTION_1_2"), "", null, null,true, tr, 5, -1, null);
+//        listTask.add(action1_2);
+//        CopexAction action1_3 = new CopexAction(5,getLocale(), "action1-3", copex.getBundleString("PROC_HELP_ACTION_1_3"), "", null,null,true, tr, 6, -1, null);
+//        listTask.add(action1_3);
+//        CopexAction action1_4 = new CopexAction(6, getLocale(),"action1-4", copex.getBundleString("PROC_HELP_ACTION_1_4"), "", null, null,true, tr, 7, -1, null);
+//        listTask.add(action1_4);
+//        CopexAction action1_5 = new CopexAction(7, getLocale(),"action1-5", copex.getBundleString("PROC_HELP_ACTION_1_5"), "", null, null,true, tr, 8, -1, null);
+//        listTask.add(action1_5);
+//        CopexAction action1_6 = new CopexAction(8,getLocale(), "action1-6", copex.getBundleString("PROC_HELP_ACTION_1_6"), "", null, null,true, tr, -1, -1, null);
+//        listTask.add(action1_6);
+//        Step step2 = new Step(9, getLocale(), "step2", copex.getBundleString("PROC_HELP_STEP_2"), "", null, null,true, tr, 14, 10, null);
+//        listTask.add(step2);
+//        CopexAction action2_1 = new CopexAction(10, getLocale(),"action2-1", copex.getBundleString("PROC_HELP_ACTION_2_1"), "", null, null,true, tr, 11, -1, null);
+//        listTask.add(action2_1);
+//        CopexAction action2_2 = new CopexAction(11,getLocale(), "action2-2", copex.getBundleString("PROC_HELP_ACTION_2_2"), "", null, null,true, tr, 12, -1, null);
+//        listTask.add(action2_2);
+//        CopexAction action2_3 = new CopexAction(12, getLocale(),"action2-3", copex.getBundleString("PROC_HELP_ACTION_2_3"), "", null, null,true, tr, 13, -1, null);
+//        listTask.add(action2_3);
+//        CopexAction action2_4 = new CopexAction(13,getLocale(), "action2-4", copex.getBundleString("PROC_HELP_ACTION_2_4"), "", null, null,true, tr, -1, -1, null);
+//        listTask.add(action2_4);
+//        CopexAction action_3 = new CopexAction(14, getLocale(),"action_3", copex.getBundleString("PROC_HELP_ACTION_3"), "", null,null,true, tr, 15, -1, null);
+//        listTask.add(action_3);
+//        CopexAction action_4 = new CopexAction(15,getLocale(), "action_4", copex.getBundleString("PROC_HELP_ACTION_4"), "", null, null,true, tr, -1, -1, null);
+//        listTask.add(action_4);
+//        helpProc.setListTask(listTask);
+//
+//
+//        //helpProc.setHypothesis(new Hypothesis(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_HYPOTHESIS"), getLocale()),new LinkedList(), false));
+//        helpProc.setGeneralPrinciple(new GeneralPrinciple(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_GENERAL_PRINCIPLE"), getLocale()),new LinkedList(), null, false));
+//        helpProc.setMaterials(new MaterialProc(listMaterialUsed));
+//        helpProc.setDataSheet(null);
+//        helpProc.setEvaluation(new Evaluation(1, CopexUtilities.getLocalText(copex.getBundleString("HELP_EVALUATION"), getLocale()),new LinkedList(), false));
+//       return new CopexReturn();
     }
 
     private ArrayList<MaterialUsed> getListMaterialUsed(LearnerProcedure proc){
