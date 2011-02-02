@@ -68,7 +68,7 @@ public class FileToolbar extends JToolBar implements ActionListener {
                 xmlModel = JxmModel.readStringXML(new XMLOutputter(Format.getPrettyFormat()).outputString(modelElement));
                 editor.setXmModel(xmlModel);
                 this.setFilename(filename);
-                editor.getActionLogger().logLoadAction(editor.getXmModel().getXML("", true));
+                //editor.getActionLogger().logLoadAction(editor.getXmModel().getXML("", true));
             } else {
                 throw new JDOMException(
                         "Couldn't find <model> element in file " + filename);
@@ -95,7 +95,7 @@ public class FileToolbar extends JToolBar implements ActionListener {
     }
 
     private void save(String file) {
-        editor.getActionLogger().logSimpleAction("save_model", editor.getXmModel().getXML("", true));
+        //editor.getActionLogger().logSimpleAction("save_model", editor.getXmModel().getXML("", true));
         this.setFilename(file);
         SAXBuilder builder = new SAXBuilder();
         try {
@@ -186,7 +186,7 @@ public class FileToolbar extends JToolBar implements ActionListener {
     public void actionPerformed(ActionEvent evt) {
         if (evt.getActionCommand().equals("new")) {
             editor.setNewModel();
-            editor.getActionLogger().logSimpleAction("new_model");
+            //editor.getActionLogger().logSimpleAction("new_model");
             this.setFilename(null);
         } else if (evt.getActionCommand().equals("saveas")) {
             saveas();

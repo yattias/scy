@@ -1,6 +1,7 @@
 package eu.scy.client.tools.scydynamics.editor;
 
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
+import eu.scy.client.tools.scydynamics.logging.ModellingLogger;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FileDialog;
@@ -167,8 +168,12 @@ public class TableTab extends JPanel implements ChangeListener, ActionListener {
                 tableModel.deleteFirstAndLast();
                 tablePanel.updateUI();
                 // log
-                editor.getActionLogger().logSimpleAction("run_model", editor.getXmModel().getXML("", true));
-                editor.getActionLogger().logInspectVariablesAction("inspect_table", variableIdList.substring(0, variableIdList.length() - 2));
+		String injectedVariables = "";
+		for (String varName: variablePanel.getValues().keySet()) {
+		    injectedVariables = injectedVariables + editor.getModel().getObjectOfName(varName).getID() + "=" + variablePanel.getValues().get(varName)+"; ";
+		}
+		editor.getActionLogger().logModelRan(editor.getXmModel().getXML("", true), injectedVariables.substring(0, injectedVariables.length()-2));
+                editor.getActionLogger().logInspectVariablesAction(ModellingLogger.TABLE_VIEWED, variableIdList.substring(0, variableIdList.length()-2));
             } else {
                 JOptionPane.showMessageDialog(null, bundle.getString("PANEL_SELECTVARIABLE"));
             }
