@@ -16,6 +16,7 @@ public class ToolURLContainer {
     private String runtimeElosList = "/webapp/app/eportfolio/xml/runtimeElosList.html";
     private String currentMissionRuntimeInfo = "/webapp/app/eportfolio/xml/currentMissionRuntimeInfo.html";
     private String assessmentService = "/webapp/components/xml/AssessmentService.html";
+    private String actionLogger = "/webapp//components/xml/ActionLogger.html";
     private String portfolioLoader = "/webapp/app/eportfolio/xml/loadPortfolio.html";
     private String learningGoalsLoader = "/webapp/app/eportfolio/xml/loadLearningGoals.html";
     private String savePortfolio = "/webapp/app/eportfolio/xml/savePortfolio.html";
@@ -144,5 +145,13 @@ public class ToolURLContainer {
 
     public void setPortfolioConfigService(String portfolioConfigService) {
         this.portfolioConfigService = portfolioConfigService;
+    }
+
+    public String getActionLogger() {
+        return actionLogger;
+    }
+
+    public void setActionLogger(String actionLogger) {
+        this.actionLogger = actionLogger;
     }
 }

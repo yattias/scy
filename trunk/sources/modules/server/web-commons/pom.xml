@@ -16,6 +16,12 @@
     <dependencies>
 
         <dependency>
+            <artifactId>action-logging-commons</artifactId>
+            <groupId>eu.scy.common</groupId>
+            <version>${pom.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>eu.scy.server</groupId>
             <artifactId>scy-useradmin-api</artifactId>
             <version>${pom.version}</version>

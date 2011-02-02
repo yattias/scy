@@ -12,55 +12,26 @@ import java.util.List;
  */
 public class PortfolioConfig extends BaseXMLTransfer{
 
-    private String reflectionOnMissionQuestion;
-    private String reflectionOnCollaborationQuestion;
-    private String reflectionOnInquiryQuestion;
-    private String reflectionOnEffortQuestion;
+    private List portfolioReflectionTabs = new LinkedList();
+    private EloReflection eloReflection;
 
-    private List portfolioEffortScale = new LinkedList();
-
-    public String getReflectionOnMissionQuestion() {
-        return reflectionOnMissionQuestion;
+    public List getPortfolioReflectionTabs() {
+        return portfolioReflectionTabs;
     }
 
-    public void setReflectionOnMissionQuestion(String reflectionOnMissionQuestion) {
-        this.reflectionOnMissionQuestion = reflectionOnMissionQuestion;
+    public void setPortfolioReflectionTabs(List portfolioReflectionTabs) {
+        this.portfolioReflectionTabs = portfolioReflectionTabs;
     }
 
-    public String getReflectionOnCollaborationQuestion() {
-        return reflectionOnCollaborationQuestion;
+    public void addPortfolioReflectionTab(Tab tab) {
+        getPortfolioReflectionTabs().add(tab);
     }
 
-    public void setReflectionOnCollaborationQuestion(String reflectionOnCollaborationQuestion) {
-        this.reflectionOnCollaborationQuestion = reflectionOnCollaborationQuestion;
+    public EloReflection getEloReflection() {
+        return eloReflection;
     }
 
-    public String getReflectionOnInquiryQuestion() {
-        return reflectionOnInquiryQuestion;
+    public void setEloReflection(EloReflection eloReflection) {
+        this.eloReflection = eloReflection;
     }
-
-    public void setReflectionOnInquiryQuestion(String reflectionOnInquiryQuestion) {
-        this.reflectionOnInquiryQuestion = reflectionOnInquiryQuestion;
-    }
-
-    public String getReflectionOnEffortQuestion() {
-        return reflectionOnEffortQuestion;
-    }
-
-    public void setReflectionOnEffortQuestion(String reflectionOnEffortQuestion) {
-        this.reflectionOnEffortQuestion = reflectionOnEffortQuestion;
-    }
-
-    public List getPortfolioEffortScale() {
-        return portfolioEffortScale;
-    }
-
-    public void setPortfolioEffortScale(List portfolioEffortScale) {
-        this.portfolioEffortScale = portfolioEffortScale;
-    }
-
-    public void addPortfolioEffortScalePoint(PortfolioEffortScale portfolioEffortScale) {
-        getPortfolioEffortScale().add(portfolioEffortScale);        
-    }
-
 }

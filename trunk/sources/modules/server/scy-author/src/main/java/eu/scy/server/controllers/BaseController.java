@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Locale;
 
 /**
  * Created by IntelliJ IDEA.
@@ -56,6 +57,8 @@ public abstract class BaseController extends AbstractController {
         modelAndView.addObject("model", getModel());
         modelAndView.addObject("oddEven", new OddEven());
         modelAndView.addObject("baseUrl", request.getScheme() + "://" + request.getServerName()+ ":" + request.getServerPort() +  request.getContextPath());
+        Locale locale = request.getLocale();
+        modelAndView.addObject("language", locale.getLanguage());
         if(getServer() != null) modelAndView.addObject("css", getServer().getServerCSS());
     }
 
