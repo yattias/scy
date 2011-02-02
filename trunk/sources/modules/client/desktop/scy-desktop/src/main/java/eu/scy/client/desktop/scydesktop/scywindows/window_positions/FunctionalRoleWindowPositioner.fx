@@ -312,8 +312,8 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
     }
 
     function positionWindowsInArea(windowList:ScyWindow[], area:Rectangle, maxColumns:Integer) {
-        var topOffset = 0;
-        var padding = 0;
+        var topOffset = 0.0;
+        var padding = 0.0;
         // positioning incoming
         var numberOfWindows = sizeof windowList;
         var columns = maxColumns;
