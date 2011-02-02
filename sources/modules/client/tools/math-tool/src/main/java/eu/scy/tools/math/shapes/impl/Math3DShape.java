@@ -48,6 +48,7 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 	private boolean error = false;
 	private List<Action> shapeListeners = new ArrayList<Action>();
 	private boolean showCornerPoints;
+	private String formula;
 	
 	
 	public Math3DShape(int x, int y) {
@@ -323,5 +324,14 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 
 	public List<Action> getShapeListeners() {
 		return shapeListeners;
+	}
+	
+	@Override
+	public String getFormula() {
+		return this.formula;
+	}
+
+	public void setFormula(String formula) {
+		this.formula = formula;
 	}
 }
