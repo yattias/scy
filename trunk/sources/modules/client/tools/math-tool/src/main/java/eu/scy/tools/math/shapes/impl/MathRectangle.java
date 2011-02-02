@@ -26,6 +26,7 @@ public class MathRectangle extends Rectangle implements IMathRectangle {
 	private Color fillColor = new Color(0x9999ff);
 	private Rectangle[] cornerPointRectangles = new Rectangle[1];
 	private String formula;
+	private String oldResult;
 
 	public MathRectangle(double x,double y, double w, double h) {
 		this.setFrame(x, y, w, h);
@@ -255,6 +256,15 @@ public class MathRectangle extends Rectangle implements IMathRectangle {
 		return this.formula;
 	}
 
+	@Override
+	public String getResult() {
+		return this.oldResult;
+	}
+
+	@Override
+	public void setResult(String result) {
+		this.oldResult = result;
+	}
 
 
 }

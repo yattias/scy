@@ -30,6 +30,8 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 	private double radius;
 	private Rectangle[] cornerPointRectangles = new Rectangle[1];
 	private String formula;
+
+	private String oldResult;
 	
 	public MathEllipse(double x, double y, double width, double height) {
         setFrame(x, y, width, height);
@@ -266,6 +268,15 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 		return this.formula;
 	}
 
+	@Override
+	public String getResult() {
+		return this.oldResult;
+	}
+
+	@Override
+	public void setResult(String result) {
+		this.oldResult = result;
+	}
 
 
 	

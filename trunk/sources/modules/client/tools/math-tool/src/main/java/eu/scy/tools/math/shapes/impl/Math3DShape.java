@@ -34,6 +34,8 @@ import eu.scy.tools.math.ui.border.DashBorder;
 public class Math3DShape extends JXPanel implements IMathShape, I3D{
 
 
+	protected String oldResult;
+	
 	protected static final int TEXTFIELD_LENGTH = 4;
 	private String id;
 	protected JXLabel surfaceAreaLabel;
@@ -333,5 +335,15 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 
 	public void setFormula(String formula) {
 		this.formula = formula;
+	}
+
+	@Override
+	public String getResult() {
+		return this.oldResult;
+	}
+
+	@Override
+	public void setResult(String result) {
+		this.oldResult = result;
 	}
 }

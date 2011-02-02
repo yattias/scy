@@ -46,4 +46,8 @@ public interface IMathShape {
 	public void setFormula(String formula);
 
 	public String getFormula();
+	
+	public String getResult();
+	
+	public void setResult(String result);
 }

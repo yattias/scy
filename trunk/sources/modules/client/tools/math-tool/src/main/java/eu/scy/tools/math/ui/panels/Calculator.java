@@ -536,6 +536,9 @@ public class Calculator extends JXPanel {
 	}
 
 
+	public void setResultValue(String result) {
+		this.resultLabel.setText(result);
+	}
 	public JXLabel getResultLabel() {
 		return resultLabel;
 	}
