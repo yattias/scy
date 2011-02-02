@@ -2,6 +2,8 @@ package eu.scy.server.controllers.xml.transfer;
 
 import eu.scy.common.scyelo.ScyElo;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,7 +16,7 @@ import java.util.UUID;
  * Time: 19:49:17
  * To change this template use File | Settings | File Templates.
  */
-public class TransferElo extends BaseXMLTransfer{
+public class TransferElo extends BaseXMLTransfer {
 
     private String uri;
     private String catname;
@@ -45,6 +47,7 @@ public class TransferElo extends BaseXMLTransfer{
 
     private String grade;
 
+    private RawData rawData;
 
 
     public TransferElo() {
@@ -68,13 +71,23 @@ public class TransferElo extends BaseXMLTransfer{
         }
         setCreatedBy(authorString);
         setCatname(scyElo.getTitle());
-        if(scyElo.getThumbnail() != null) {
-            setThumbnail("/webapp/components/resourceservice.html?eloURI=" + getUri());
+
+        if (getRawData() == null) {
+            setRawData(new RawData());
         }
 
         setTechnicalFormat(scyElo.getTechnicalFormat());
+        setThumbnail("/webapp/components/resourceservice.html?eloURI=" + getUri());
 
-        
+        getRawData().setThumbnail("/webapp/components/resourceservice.html?eloURI=" + getUri());//Why go for less when you can have the double?
+        getRawData().setFullScreen("/webapp/components/resourceservice.html?eloURI=" + getUri());
+        if (getTechnicalFormat() != null) {
+            if (getTechnicalFormat().contains("text") ||
+                    getTechnicalFormat().contains("rtf")) {
+                getRawData().setText(scyElo.getContent().getXmlString());
+            }
+        }
+
 
         setStudentDescription("stydentdesc");
 
@@ -83,7 +96,13 @@ public class TransferElo extends BaseXMLTransfer{
 
 
     public String getUri() {
-        return uri;
+        try {
+            return URLEncoder.encode(uri, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } finally {
+            return uri;
+        }
     }
 
     public void setUri(String uri) {
@@ -99,7 +118,13 @@ public class TransferElo extends BaseXMLTransfer{
     }
 
     public String getThumbnail() {
-        return thumbnail;
+         try {
+            return URLEncoder.encode(thumbnail, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } finally {
+            return thumbnail;
+        }
     }
 
     public void setThumbnail(String thumbnail) {
@@ -107,7 +132,13 @@ public class TransferElo extends BaseXMLTransfer{
     }
 
     public String getFullsize() {
-        return fullsize;
+         try {
+            return URLEncoder.encode(fullsize, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } finally {
+            return fullsize;
+        }
     }
 
     public void setFullsize(String fullsize) {
@@ -269,5 +300,13 @@ public class TransferElo extends BaseXMLTransfer{
 
     public void setTechnicalFormat(String technicalFormat) {
         this.technicalFormat = technicalFormat;
+    }
+
+    public RawData getRawData() {
+        return rawData;
+    }
+
+    public void setRawData(RawData rawData) {
+        this.rawData = rawData;
     }
 }

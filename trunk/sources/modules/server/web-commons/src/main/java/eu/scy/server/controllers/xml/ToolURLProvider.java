@@ -1,12 +1,9 @@
-package eu.scy.server.eportfolio.xml;
+package eu.scy.server.controllers.xml;
 
 import com.thoughtworks.xstream.XStream;
+import eu.scy.server.controllers.xml.ToolURLContainer;
 import eu.scy.server.controllers.xml.XMLStreamerController;
-import eu.scy.server.eportfolio.xml.utilclasses.ToolURLContainer;
 import eu.scy.core.roolo.RooloAccessor;
-import org.roolo.search.BasicMetadataQuery;
-import org.roolo.search.BasicSearchOperations;
-import org.roolo.search.SearchResult;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

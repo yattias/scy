@@ -72,7 +72,7 @@
         <property name="urlInspector" ref="urlInspector"/>
 	</bean>
 
-    <bean id="toolURLProvider" class="eu.scy.server.eportfolio.xml.ToolURLProvider">
+    <bean id="toolURLProvider" class="eu.scy.server.controllers.xml.ToolURLProvider">
         <property name="rooloAccessor" ref="rooloAccessor"/>
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
 	</bean>
