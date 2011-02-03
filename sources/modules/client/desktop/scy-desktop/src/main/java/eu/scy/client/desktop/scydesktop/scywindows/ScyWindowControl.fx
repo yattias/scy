@@ -59,6 +59,8 @@ public mixin class ScyWindowControl {
 
    public abstract function makeMainScyWindow(eloUri:URI): Void;
 
+   public abstract function makeMainScyWindow(window: ScyWindow): Void;
+
    public abstract function newEloSaved(eloUri:URI):Void;
 
 //   public function positionWindows():Void{
