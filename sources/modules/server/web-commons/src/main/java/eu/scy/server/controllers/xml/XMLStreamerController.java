@@ -1,26 +1,21 @@
 package eu.scy.server.controllers.xml;
 
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.core.util.QuickWriter;
-import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
-import com.thoughtworks.xstream.io.xml.DomDriver;
-import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
-import com.thoughtworks.xstream.io.xml.XppDriver;
 import eu.scy.core.UserService;
+import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.model.User;
 import eu.scy.core.model.impl.pedagogicalplan.LearningActivitySpaceImpl;
 import eu.scy.core.model.impl.pedagogicalplan.PedagogicalPlanImpl;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.core.model.pedagogicalplan.PedagogicalPlan;
-import eu.scy.server.controllers.xml.transfer.Portfolio;
-import eu.scy.server.controllers.xml.transfer.PortfolioContainer;
-import eu.scy.server.controllers.xml.transfer.TransferElo;
+import eu.scy.core.model.transfer.Portfolio;
+import eu.scy.core.model.transfer.PortfolioContainer;
+import eu.scy.core.model.transfer.TransferElo;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.Writer;
 import java.util.LinkedList;
 
 /**

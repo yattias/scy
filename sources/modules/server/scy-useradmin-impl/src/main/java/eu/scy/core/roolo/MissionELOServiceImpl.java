@@ -2,6 +2,8 @@ package eu.scy.core.roolo;
 
 import eu.scy.common.mission.*;
 import eu.scy.common.scyelo.ScyElo;
+import eu.scy.core.XMLTransferObjectService;
+import eu.scy.core.model.transfer.Portfolio;
 import roolo.search.IQueryComponent;
 import roolo.search.MetadataQueryComponent;
 import roolo.search.AndQuery;
@@ -33,6 +35,7 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
 
     private static final RuntimeSettingKey globalMissionScaffoldingLevelKey = new RuntimeSettingKey(GLOBAL_MISSION_SCAFFOLDING_LEVEL, null, null);
 
+    private XMLTransferObjectService xmlTransferObjectService;
 
     @Override
     public MissionSpecificationElo createMissionSpecification(String title, String description, String author) {
@@ -133,8 +136,8 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
         List missionSpecifications = getMissionSpecifications();
         for (int i = 0; i < missionSpecifications.size(); i++) {
             ScyElo missionSpeicification = (ScyElo) missionSpecifications.get(i);
-            if(missionRuntimeElo.getTitle().equals(missionRuntimeElo.getTitle())) {
-                return MissionSpecificationElo.loadElo(missionSpeicification.getUri(),  this);
+            if (missionRuntimeElo.getTitle().equals(missionRuntimeElo.getTitle())) {
+                return MissionSpecificationElo.loadElo(missionSpeicification.getUri(), this);
             }
 
         }
@@ -179,7 +182,7 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
                 ScyElo missionScyElo = ScyElo.loadLastVersionElo(missionAnchor.getEloUri(), this);
                 missionAnchors.add(missionScyElo);
                 if (missionScyElo != null) {
-                    log.info("MISSION ANCHOR: " +missionScyElo.getTitle());
+                    log.info("MISSION ANCHOR: " + missionScyElo.getTitle());
                 } else {
                     log.info("MISSION SCY ELO IS NULL:" + missionAnchor.getIconType());
                 }
@@ -212,14 +215,14 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
     }
 
     @Override
-    public List findElosFor(String mission, String username)  {
+    public List findElosFor(String mission, String username) {
 
         IQueryComponent bmq1 = new MetadataQueryComponent(getMetaDataTypeManager().getMetadataKey("mission"), SearchOperation.EQUALS, "ecomission"); //e.g. mission = "ecoMission"
         IQueryComponent bmq2 = new MetadataQueryComponent(getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR), SearchOperation.EQUALS, username);   //e.g. author = "jan"
 
 
         AndQuery aq = new AndQuery(bmq1, bmq2);
-		IQuery q = new Query(aq);
+        IQuery q = new Query(aq);
         List<ISearchResult> results = getRepository().search(q);
         List elos = new LinkedList();
         for (int i = 0; i < results.size(); i++) {
@@ -230,4 +233,32 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
         return elos;
     }
 
+    @Override
+    public List getPortfoliosThatAreReadyForAssessment(MissionSpecificationElo missionSpecificationElo) {
+        List runtimeElos = getRuntimeElos(missionSpecificationElo);
+        List returnList = new LinkedList();
+        for (int i = 0; i < runtimeElos.size(); i++) {
+            ScyElo shittyElo = (ScyElo) runtimeElos.get(i);
+            MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(shittyElo.getUri(), this);
+            URI portfolioURI = missionRuntimeElo.getTypedContent().getEPortfolioEloUri();
+            if (portfolioURI != null) {
+                ScyElo scyElo = ScyElo.loadLastVersionElo(portfolioURI, this);
+                String xml = scyElo.getContent().getXmlString();
+                if (xml != null) {
+                    Portfolio portfolio = (Portfolio) getXmlTransferObjectService().getObject(xml);
+                    portfolio.setMissionRuntimeURI(missionRuntimeElo.getUri().toString());
+                    returnList.add(portfolio);
+                }
+            }
+        }
+        return returnList;
+    }
+
+    public XMLTransferObjectService getXmlTransferObjectService() {
+        return xmlTransferObjectService;
+    }
+
+    public void setXmlTransferObjectService(XMLTransferObjectService xmlTransferObjectService) {
+        this.xmlTransferObjectService = xmlTransferObjectService;
+    }
 }

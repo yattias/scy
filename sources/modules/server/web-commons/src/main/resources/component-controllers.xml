@@ -79,6 +79,16 @@
         <constructor-arg index="2" value="actions"/>
     </bean>
 
+    <bean name="portfolioTupleSpace" class="info.collide.sqlspaces.client.TupleSpace">
+        <constructor-arg index="0">
+            <util:property-path path="myConfiguration.ip"/>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <util:property-path path="myConfiguration.port"/>
+        </constructor-arg>
+        <constructor-arg index="2" value="eportfolio"/>
+    </bean>
+
     <bean id="ajaxCheckBoxController" class="eu.scy.server.controllers.AjaxCheckBoxController">
         <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
 	</bean>
@@ -198,7 +208,7 @@
     <bean id="runtimemissionselector" class="eu.scy.server.controllers.components.runtimemissionselector.RuntimeMissionSelector">
     </bean>
 
-    <bean id="xmlTransferObjectService" class="eu.scy.server.controllers.xml.XMLTransferObjectService">
+    <bean id="xmlTransferObjectService" class="eu.scy.server.controllers.xml.XMLTransferObjectServiceImpl">
 
     </bean>
 
@@ -217,6 +227,7 @@
         <property name="repository" ref="repository"/>
         <property name="eloFactory" ref="eloFactory"/>
         <property name="authorKey" ref="authorKey"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
     </bean>
 
     <bean name="runtimeELOService" class="eu.scy.core.roolo.RuntimeELOServiceImpl">

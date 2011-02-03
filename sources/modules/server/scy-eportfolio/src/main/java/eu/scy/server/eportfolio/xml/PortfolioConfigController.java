@@ -1,10 +1,10 @@
 package eu.scy.server.eportfolio.xml;
 
 import eu.scy.common.mission.MissionRuntimeElo;
-import eu.scy.server.controllers.xml.transfer.EloReflection;
-import eu.scy.server.controllers.xml.transfer.PortfolioConfig;
-import eu.scy.server.controllers.xml.transfer.PortfolioEffortScale;
-import eu.scy.server.controllers.xml.transfer.Tab;
+import eu.scy.core.model.transfer.EloReflection;
+import eu.scy.core.model.transfer.PortfolioConfig;
+import eu.scy.core.model.transfer.PortfolioEffortScale;
+import eu.scy.core.model.transfer.Tab;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

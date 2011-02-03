@@ -2,7 +2,7 @@ package eu.scy.server.controllers.xml;
 
 import com.thoughtworks.xstream.XStream;
 import eu.scy.core.model.User;
-import eu.scy.server.controllers.xml.transfer.UserCredentials;
+import eu.scy.core.model.transfer.UserCredentials;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,7 +29,7 @@ public class UserCredentialsController extends XMLStreamerController{
     @Override
     protected void addAliases(XStream xStream) {
         super.addAliases(xStream);    //To change body of overridden methods use File | Settings | File Templates.
-        xStream.aliasPackage("eu.scy.server.controllers.xml.transfer", "");
+        xStream.aliasPackage("eu.scy.core.model.transfer", "");
         xStream.alias("usercredentials", UserCredentials.class);
     }
 }

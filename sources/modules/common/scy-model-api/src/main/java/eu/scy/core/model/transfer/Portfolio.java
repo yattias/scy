@@ -1,4 +1,4 @@
-package eu.scy.server.controllers.xml.transfer;
+package eu.scy.core.model.transfer;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -28,8 +28,9 @@ public class Portfolio {
 
     private List<TransferElo> elos = new LinkedList();
 
+
     public void unCdatify() {
-        setPortfolioStatus(replaceCdata(getPortfolioStatus()));
+        //setPortfolioStatus(replaceCdata(getPortfolioStatus()));
 
     }
 

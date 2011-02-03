@@ -57,7 +57,7 @@
                             <strong>Portfolios</strong>
                         </td>
                         <td>
-                            <strong>3</strong> portfolios are ready to be assessed
+                            <strong><a href="/webapp/app/assessment/assessmentindex.html?eloURI=${missionSpecificationTransporter.uri}">3</a></strong> portfolios are ready to be assessed
                         </td>
                     </tr>
                 </table>

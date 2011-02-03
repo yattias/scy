@@ -4,12 +4,15 @@ import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.roolo.MissionELOService;
-import eu.scy.server.controllers.xml.transfer.ELOSearchResult;
-import eu.scy.server.controllers.xml.transfer.TransferElo;
+import eu.scy.core.model.transfer.ELOSearchResult;
+import eu.scy.core.model.transfer.TransferElo;
+import eu.scy.server.eportfolio.xml.utilclasses.ServiceExceptionMessage;
 import eu.scy.server.url.UrlInspector;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -28,13 +31,44 @@ public class ObligatoryELOsInMission extends MissionRuntimeEnabledXMLService {
 
     @Override
     protected Object getObject(MissionRuntimeElo missionRuntimeElo, HttpServletRequest request, HttpServletResponse response) {
-        MissionSpecificationElo missionSpecificationElo = getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo);
+        MissionSpecificationElo missionSpecificationElo = null;
+
+
+        ScyElo scyElo = null;
+        if (missionRuntimeElo == null) {
+            String missionURI = request.getParameter("missionURI");
+            try {
+                scyElo = ScyElo.loadLastVersionElo(new URI(missionURI), getMissionELOService());
+                if(scyElo.getTechnicalFormat().equals("scy/missionspecification")) {
+                    missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(new URI(missionURI), getMissionELOService());
+                } else {
+                    missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(new URI(missionURI),  getMissionELOService());
+                    missionSpecificationElo = getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo);
+                }
+
+            } catch (URISyntaxException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+
+        } else {
+            scyElo = ScyElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getEPortfolioEloUri(), getMissionELOService());
+        }
+
+        if (missionSpecificationElo == null) {
+            if (scyElo.getTechnicalFormat().equals("scy/missionruntime")) {
+                missionSpecificationElo = getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo);
+            } else {
+                missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(missionRuntimeElo.getUri(), getMissionELOService());
+            }
+        }
+
+
         List anchorElos = getMissionELOService().getAnchorELOs(missionSpecificationElo);
         ELOSearchResult eloSearchResult = new ELOSearchResult();
         for (int i = 0; i < anchorElos.size(); i++) {
             ScyElo o = (ScyElo) anchorElos.get(i);
-            if(o.getObligatoryInPortfolio() != null && o.getObligatoryInPortfolio()) {
-                eloSearchResult.getElos().add(new TransferElo(o));    
+            if (o.getObligatoryInPortfolio() != null && o.getObligatoryInPortfolio()) {
+                eloSearchResult.getElos().add(new TransferElo(o));
             }
 
 

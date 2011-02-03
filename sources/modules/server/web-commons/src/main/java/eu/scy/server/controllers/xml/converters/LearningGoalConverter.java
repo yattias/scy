@@ -1,7 +1,7 @@
 package eu.scy.server.controllers.xml.converters;
 
 import com.thoughtworks.xstream.converters.basic.AbstractSingleValueConverter;
-import eu.scy.server.controllers.xml.transfer.LearningGoal;
+import eu.scy.core.model.transfer.LearningGoal;
 
 /**
  * Created by IntelliJ IDEA.

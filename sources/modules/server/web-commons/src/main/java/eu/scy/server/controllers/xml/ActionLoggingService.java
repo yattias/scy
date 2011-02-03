@@ -4,9 +4,9 @@ import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.SQLSpacesActionLogger;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
-import eu.scy.server.controllers.xml.transfer.ActionLogEntry;
-import eu.scy.server.controllers.xml.transfer.ActionLogEntryAttribute;
-import eu.scy.server.controllers.xml.transfer.ServiceMessage;
+import eu.scy.core.model.transfer.ActionLogEntry;
+import eu.scy.core.model.transfer.ActionLogEntryAttribute;
+import eu.scy.core.model.transfer.ServiceMessage;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

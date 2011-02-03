@@ -1,5 +1,6 @@
 package eu.scy.server.controllers;
 
+import eu.scy.actionlogging.SQLSpacesActionLogger;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.AssignedPedagogicalPlanService;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import eu.scy.core.roolo.MissionELOService;
+import info.collide.sqlspaces.client.TupleSpace;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -31,11 +33,17 @@ public class ViewPedagogicalPlanController extends BaseController {
     private UserService userService;
     private GroupService groupService = null;
     private MissionELOService missionELOService;
+    private TupleSpace eportfolioTupleSpace;
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
 
         try {
+
+            if(getEportfolioTupleSpace().isConnected()) {
+                logger.info("CONNECTED TO THE EPORTFOLIO TUPLE SPACE");
+            };
+            
 
             String uriParam = request.getParameter("uri");
             logger.info("URI IS : " + uriParam);
@@ -161,5 +169,13 @@ public class ViewPedagogicalPlanController extends BaseController {
 
     public void setMissionELOService(MissionELOService missionELOService) {
         this.missionELOService = missionELOService;
+    }
+
+    public TupleSpace getEportfolioTupleSpace() {
+        return eportfolioTupleSpace;
+    }
+
+    public void setEportfolioTupleSpace(TupleSpace eportfolioTupleSpace) {
+        this.eportfolioTupleSpace = eportfolioTupleSpace;
     }
 }

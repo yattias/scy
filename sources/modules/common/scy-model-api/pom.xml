@@ -14,6 +14,13 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>scy-elo</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+
         <!-- SAIL PORTAL -->
 
         <!--dependency>

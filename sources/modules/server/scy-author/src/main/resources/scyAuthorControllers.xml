@@ -94,6 +94,7 @@
         <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
         <property name="urlInspector" ref="urlInspector"/>
         <property name="missionELOService" ref="missionELOService"/>
+        <property name="eportfolioTupleSpace" ref="portfolioTupleSpace"/>
     </bean>
 
     <bean id="viewStudentsForPedagogicalPlanController" class="eu.scy.server.controllers.ViewStudentsForPedagogicalPlanController">

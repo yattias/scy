@@ -1,4 +1,4 @@
-package eu.scy.server.controllers.xml.transfer;
+package eu.scy.core.model.transfer;
 
 import eu.scy.common.scyelo.ScyElo;
 
@@ -7,7 +7,6 @@ import java.net.URLEncoder;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by IntelliJ IDEA.

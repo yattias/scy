@@ -1,4 +1,4 @@
-package eu.scy.server.controllers.xml.transfer;
+package eu.scy.core.model.transfer;
 
 import java.util.UUID;
 

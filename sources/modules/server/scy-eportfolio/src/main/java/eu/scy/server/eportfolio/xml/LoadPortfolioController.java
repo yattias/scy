@@ -4,15 +4,14 @@ import com.thoughtworks.xstream.XStream;
 import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.roolo.MissionELOService;
-import eu.scy.server.controllers.xml.transfer.LearningGoal;
-import eu.scy.server.controllers.xml.transfer.Portfolio;
+import eu.scy.core.model.transfer.LearningGoal;
+import eu.scy.core.model.transfer.Portfolio;
 import eu.scy.server.url.UrlInspector;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.net.URLEncoder;
+import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,6 +32,18 @@ public class LoadPortfolioController extends MissionRuntimeEnabledXMLService {
     protected Object getObject(MissionRuntimeElo missionRuntimeElo, HttpServletRequest request, HttpServletResponse response) {
 
         Object returnObject = null;
+        if(missionRuntimeElo == null) {
+            String missionURI = request.getParameter("missionURI");
+            URI uri = null;
+            try {
+                uri = new URI(missionURI);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+
+            missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(uri, getMissionELOService());
+
+        }
 
         logger.info("MISSION: " + missionRuntimeElo.getTitle());
 
