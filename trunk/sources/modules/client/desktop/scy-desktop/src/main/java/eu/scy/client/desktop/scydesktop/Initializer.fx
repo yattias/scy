@@ -36,7 +36,6 @@ import java.util.StringTokenizer;
 import javafx.util.Sequences;
 import javafx.util.StringLocalizer;
 import eu.scy.client.desktop.scydesktop.utils.FilteringExceptionCatcher;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.SimpleTooltipManager;
 import eu.scy.client.common.scyi18n.UriLocalizer;
@@ -47,6 +46,7 @@ import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
 import eu.scy.client.desktop.scydesktop.tools.mission.EloXmlEditor;
 import eu.scy.client.desktop.scydesktop.scywindows.ModalDialogLayer;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
+import eu.scy.client.desktop.scydesktop.utils.ActivityTimer;
 //import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
@@ -56,6 +56,8 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 public class Initializer {
 
    def logger = Logger.getLogger(this.getClass());
+   public-read def launchTimer = new ActivityTimer("launching","startup");
+   public-read def loadTimer = new ActivityTimer("loading");
    public-init var log4JInitFile = "";
    public-init var javaUtilLoggingInitFile = "";
    public-init var backgroundImageUrl = "{__DIR__}images/bckgrnd2l.jpg";

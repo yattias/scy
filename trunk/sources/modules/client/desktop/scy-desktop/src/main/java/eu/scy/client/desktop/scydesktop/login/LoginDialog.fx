@@ -71,6 +71,7 @@ public class LoginDialog extends CustomNode, TbiReady {
          MouseBlocker.initMouseBlocker(scene.stage);
          ProgressOverlay.initOverlay(scene.stage);
       }
+      initializer.launchTimer.endActivity();
    }
 
    public override function create(): Node {
@@ -224,6 +225,8 @@ public class LoginDialog extends CustomNode, TbiReady {
 
    function startMission(missionRunConfigs: MissionRunConfigs): Void {
       logger.info("start mission with {missionRunConfigs}");
+      initializer.loadTimer.reset();
+      initializer.loadTimer.startActivity("prepare mission loading");
       loginWindow.scyContent = WelcomeNode {
             name: missionRunConfigs.tbi.getLoginUserName();
          }
