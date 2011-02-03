@@ -19,7 +19,7 @@ public final class ActivityTimer
    private static final int valueLength = 7;
    private long startMillis = System.currentTimeMillis();
    private long startNanos = System.nanoTime();
-   private static ArrayList<TimeInfo> timeInfos = new ArrayList<TimeInfo>();
+   private ArrayList<TimeInfo> timeInfos = new ArrayList<TimeInfo>();
 
    private class TimeInfo
    {
@@ -80,7 +80,8 @@ public final class ActivityTimer
       startActivity(activity);
    }
 
-   public void reset(){
+   public void reset()
+   {
       startMillis = System.currentTimeMillis();
       startNanos = System.nanoTime();
       timeInfos.clear();
@@ -151,6 +152,11 @@ public final class ActivityTimer
          addLong(builder, timeInfo.getUsed());
          builder.append(" ");
          builder.append(timeInfo.getLabel());
+         builder.append("\n");
+      }
+      if (timeInfos.size() > 0)
+      {
+         addLong(builder, timeInfos.get(timeInfos.size() - 1).ended);
          builder.append("\n");
       }
       return builder.toString();

@@ -16,6 +16,7 @@ import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
+import eu.scy.client.desktop.scydesktop.Initializer;
 
 /**
  * @author SikkenJ
@@ -26,6 +27,7 @@ public class BigMissionMapControl extends CustomNode {
    public var missionModel: MissionModelFX;
    public var windowStyler: WindowStyler;
    public var scyWindowControl: ScyWindowControl;
+   public var initializer: Initializer;
    def missionMapWindow: MoreInfoWindow = MoreInfoWindow {
          title: ##"Mission navigation"
          eloIcon: MissionMapWindowIcon {}
@@ -38,9 +40,11 @@ public class BigMissionMapControl extends CustomNode {
    def sceneHeight = bind scene.height on replace { sceneSizeChanged() };
    def relativeWindowScreenBoder = 0.0;
    var bigMissionMapVisible = false;
+   var initPhase = true;
 
    init {
       FX.deferAction(function(): Void {
+         initializer.loadTimer.startActivity("show big mission map");
          showBigMissionMap();
       })
    }
@@ -73,6 +77,11 @@ public class BigMissionMapControl extends CustomNode {
          FX.deferAction(function(): Void {
 //         bigMissionMap.adjustSize();
             missionMapWindow.resizeTheContent();
+            if (initPhase){
+               initializer.loadTimer.endActivity();
+               initPhase = false;
+            }
+
          });
          ModalDialogLayer.addModalDialog(missionMapWindow, true);
       }

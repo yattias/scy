@@ -59,7 +59,7 @@ public class BigMissionMap extends MissionMap, Resizable {
       def scaleY = height / ((1 + 2 * relativeBorder) * missionMapNode.layoutBounds.height);
       scale = Math.min(scaleX, scaleY);
       //      scale = 1.0;
-      logger.info("layoutBounds: {missionMapNode.layoutBounds} + ({width},{height}) -> scale: {scale}");
+//      logger.info("layoutBounds: {missionMapNode.layoutBounds} + ({width},{height}) -> scale: {scale}");
       //      logger.info("boundsInLocal: {missionMapNode.boundsInLocal}");
       this.scaleX = scale;
       this.scaleY = scale;

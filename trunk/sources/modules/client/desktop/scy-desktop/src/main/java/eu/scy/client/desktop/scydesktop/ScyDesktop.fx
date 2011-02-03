@@ -333,6 +333,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             windowStyler: windowStyler
             scyWindowControl: scyWindowControl
             missionModel: missionModelFX
+            initializer: initializer
          }
 
       topLeftCorner = TopLeftCorner {
@@ -423,54 +424,6 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             }
       //}
 
-//      var SPTButton = MultiImageButton {
-//            imageName: "planning"
-//            disable: initializer.offlineMode
-//            //                    toolTip: "Open the Student Planning Tool!";
-//            //                    tooltipManager: tooltipManager;
-//            //                    normalImage: Image { url: "{__DIR__}planningtoolicon.png" };
-//            //                    selectImage: Image { url: "{__DIR__}planningtooliconhighlight.png" };
-//            action: function(): Void {
-//
-//               var userName = config.getToolBrokerAPI().getLoginUserName();
-//               var missionSpecificationURI = config.getToolBrokerAPI().getMissionSpecificationURI();
-//               var typeQuery = new BasicMetadataQuery(config.getTechnicalFormatKey(), BasicSearchOperations.EQUALS, "scy/studentplanningtool");
-//               var titleQuery = new BasicMetadataQuery(config.getTitleKey(), BasicSearchOperations.EQUALS, userName);
-//               var andQuery = new AndQuery(typeQuery, titleQuery);
-//               //var missionId = config.getBasicMissionMap().getId();
-//               if (missionId != null) {
-//                  var missionIdQuery = new BasicMetadataQuery(config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MISSION.getId()), BasicSearchOperations.EQUALS, missionId);
-//                  andQuery.addQuery(missionIdQuery);
-//               }
-//               var results = config.getRepository().search(andQuery);
-//               logger.info("NUMBER OF SPT elos found: {results.size()}");
-//               var sptELO;
-//               if (results.size() == 1) {
-//                  var searchResult = results.get(0) as ISearchResult;
-//                  sptELO = config.getRepository().retrieveELO(searchResult.getUri());
-//
-//               } else {
-//                  logger.info("OK, let's create a new one");
-//                  //we need to create a new one
-//                  sptELO = config.getEloFactory().createELO();
-//
-//                  sptELO.getMetadata().getMetadataValueContainer(config.getTitleKey()).setValue(userName);
-//                  sptELO.getMetadata().getMetadataValueContainer(config.getTechnicalFormatKey()).setValue("scy/studentplanningtool");
-//                  var missionIdKy = config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MISSION.getId());
-//                  sptELO.getMetadata().getMetadataValueContainer(missionIdKy).setValue(missionId);
-//
-//                  var sptMetadata = config.getRepository().addNewELO(sptELO);
-//                  config.getEloFactory().updateELOWithResult(sptELO, sptMetadata);
-//
-//               }
-//               def newWindow = scyWindowControl.addOtherScyWindow(sptELO.getUri());
-//               newWindow.openWindow(700, 600);
-//            }
-//         }
-//      topRightCorner = TopRightCorner {
-//            content: SPTButton;
-//            effect: cornerToolEffect
-//         }
       bottomRightCorner = BottomRightCorner {
             // TODO, replace with specified tool
             content: if (initializer.useBigMissionMap) bigMissionMapControl else missionMap
@@ -561,45 +514,6 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 
    def jdomStringConversion = new JDomStringConversion();
 
-   function textToEloContentXml(text: String): String {
-      var textElement = new Element("SPTString");
-      textElement.setText(text);
-      return jdomStringConversion.xmlToString(textElement);
-   }
-
-//    public override function create(): Node {
-//        logger.info("create");
-//        checkProperties();
-//        createElements();
-//        Group {
-//            content: [
-//                ///Testing only
-//                //            Rectangle{width:bind boundsInLocal.width,
-//                //                height:bind boundsInLocal.height,
-//                //                fill:Color.BLACK
-//                //            },
-//                //backgroundImageView,
-//                lowDebugGroup,
-//                edgesManager,
-//                windows.scyWindows,
-//                topLeftCorner,
-//                topRightCorner,
-//                bottomRightCorner,
-//                bottomLeftCorner,
-//                highDebugGroup,
-//                Rectangle { fill: Color.BLACK, x: 100, y: 100, width: boundsInLocal.width, height: boundsInLocal.height },
-//            /*
-//            Button {
-//            text: "add an edge ";
-//            translateX: 210;
-//            action: function() {
-//            edgesManager.addEdge((windows.scyWindows.content[0] as ScyWindow), (windows.scyWindows.content[1] as ScyWindow));
-//            }
-//            }
-//             */
-//            ]
-//        }
-//    }
    function create(): Void {
       logger.info("create");
       checkProperties();
@@ -620,16 +534,6 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             bottomLeftCorner,
             moreInfoManager.getControlNode(),
             highDebugGroup,
-         //                Rectangle { fill: Color.BLACK, x: 100, y: 100, width: boundsInLocal.width, height: boundsInLocal.height },
-         /*
-         Button {
-         text: "add an edge ";
-         translateX: 210;
-         action: function() {
-         edgesManager.addEdge((windows.scyWindows.content[0] as ScyWindow), (windows.scyWindows.content[1] as ScyWindow));
-         }
-         }
-          */
          ]
    }
 

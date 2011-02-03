@@ -92,7 +92,7 @@ public class Initializer {
    public-init var missionMapNotSelectedImageScale = 1.0;
    public-init var missionMapPositionScale = 1.0;
    public-init var localUriReplacements = "";
-   public-init var usingRooloCache = true;
+   public-init var usingRooloCache = false;
    public-init var defaultMission = "";
    public-init var minimumRooloNewVersionListId = "";
    public-init var localAuthorRootPath = "";
