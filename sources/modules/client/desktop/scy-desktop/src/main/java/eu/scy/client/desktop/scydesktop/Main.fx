@@ -108,7 +108,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
       technicalFormatKey: scyDesktopCreator.config.getTechnicalFormatKey();
    }
 
-   initializer.loadTimer.endActivity();
+   initializer.loadTimer.startActivity("after creeate EloManagement");
 
    return scyDesktop;
 }
