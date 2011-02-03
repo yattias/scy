@@ -25,7 +25,7 @@ public class MathematicalOperationsSample {
 		 */
 		Evaluator evaluator = new Evaluator();
 
-		try {
+		//try {
 			/*
 			 * This sample shows basic addition.
 			 * 
@@ -52,8 +52,8 @@ public class MathematicalOperationsSample {
 			System.out.println("An exception is expected in the "
 					+ "next evaluation.");
 			
-		} catch (EvaluationException ee) {
+		//} catch (EvaluationException ee) {
 			
-		}
+		//}
 	}
 }
