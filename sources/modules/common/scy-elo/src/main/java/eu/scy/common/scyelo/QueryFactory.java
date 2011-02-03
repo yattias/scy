@@ -24,6 +24,8 @@ public class QueryFactory {
     public static IQuery createSimpleQuery(String queryPhrase) {
         AbstractQueryComponent queryComponent = new MetadataQueryComponent(queryPhrase, SearchOperation.HAS);
         IQuery query = new Query(queryComponent);
+        query.setFindDeleted(false);
+        query.setFindHidden(false);
         return query;
     }
 

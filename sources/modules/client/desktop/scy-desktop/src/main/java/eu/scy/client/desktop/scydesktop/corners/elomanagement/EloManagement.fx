@@ -41,6 +41,7 @@ import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.SameTech
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.SameAuthorSearcher;
 import java.util.List;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.SameMissionSearcher;
+import eu.scy.common.scyelo.QueryFactory;
 
 /**
  * @author sikken
@@ -365,8 +366,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       }
 
       searchElos.openButton.disable = true;
-      var searchQuery: MetadataQueryComponent = new MetadataQueryComponent(searchElos.simpleSearchField.text);
-      def query = new Query(searchQuery);
+      def query = QueryFactory.createSimpleQuery(searchElos.simpleSearchField.text);
       backgroundQuerySearch = new BackgroundQuerySearch(tbi, scyDesktop.newEloCreationRegistry, query, this);
 
       backgroundQuerySearch.start();
