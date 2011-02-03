@@ -11,8 +11,8 @@ import java.net.URI;
 import java.lang.String;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.mission.ColorSchemeId;
-import javafx.scene.paint.Color;
-import java.lang.UnsupportedOperationException;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.scydesktop.art.ScyColors;
 
 /**
  * @author SikkenJ
@@ -28,15 +28,14 @@ public class MissionAnchorFX extends MissionAnchor {
    public var inputAnchors: MissionAnchorFX[];
    public var relationNames: String[];
    public var exists = false;
-   public var color = Color.LIGHTGRAY;
    public var iconCharacter = "?";
    public var title = "?";
    public var loEloUris: URI[] on replace { missionAnchor.setLoEloUris(missionUtils.getUriList(loEloUris)) };
-//   public var metadata: IMetadata;
    public var las: LasFX;
    public var targetDescriptionUri: URI;
    public var assignmentUri: URI;
    public var resourcesUri: URI;
+   public var windowColorScheme: WindowColorScheme =WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    public var colorScheme: ColorSchemeId;
 
    public override function toString(): String {

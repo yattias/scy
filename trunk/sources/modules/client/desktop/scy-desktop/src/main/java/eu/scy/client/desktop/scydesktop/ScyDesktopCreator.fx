@@ -220,29 +220,20 @@ public class ScyDesktopCreator {
 
    function addEloInformationToMissionAnchor(missionAnchor: MissionAnchorFX): Void {
       if (missionAnchor.eloUri != null and missionAnchor.eloUri.toString() != "") {
-         missionAnchor.color = windowStyler.getScyColor(missionAnchor.eloUri);
+         missionAnchor.windowColorScheme = windowStyler.getWindowColorScheme(missionAnchor.eloUri);
          missionAnchor.scyElo = ScyElo.loadMetadata(missionAnchor.eloUri, config.getToolBrokerAPI());
       //         missionAnchor.metadata = config.getRepository().retrieveMetadata(missionAnchor.eloUri);
       } else {
-         missionAnchor.color = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray).mainColor;
+         missionAnchor.windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
       }
 
       if (missionAnchor.scyElo != null) {
          missionAnchor.exists = true;
          missionAnchor.title = missionAnchor.scyElo.getTitle();
-         if (missionAnchor.iconType.length() > 0) {
-            // add the icon type name as metadata
-            var newMetadata = config.getEloFactory().createMetadata();
-            newMetadata.getMetadataValueContainer(iconTypeKey).setValue(missionAnchor.iconType);
-            config.getRepository().addMetadata(missionAnchor.eloUri, newMetadata);
-            //            missionAnchor.metadata = config.getRepository().retrieveMetadata(missionAnchor.eloUri);
-            missionAnchor.color = windowStyler.getScyColor(missionAnchor.eloUri);
-         }
-
       } else {
          missionAnchor.exists = false;
          // change the color, to show the elo does not exists
-         missionAnchor.color = getNotExistingColor(missionAnchor.color);
+         missionAnchor.windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
       }
    }
 

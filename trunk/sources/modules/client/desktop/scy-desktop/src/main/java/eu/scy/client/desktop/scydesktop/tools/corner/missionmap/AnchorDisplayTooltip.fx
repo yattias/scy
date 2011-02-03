@@ -63,9 +63,9 @@ public class AnchorDisplayTooltip extends CustomNode {
       };
       content.layout();
       var backgroundColor = Color{
-         red:anchor.color.red
-         green:anchor.color.green
-         blue:anchor.color.blue
+         red:anchor.windowColorScheme.mainColor.red
+         green:anchor.windowColorScheme.mainColor.green
+         blue:anchor.windowColorScheme.mainColor.blue
          opacity:0.9
       }
       return Group{
@@ -88,7 +88,7 @@ public class AnchorDisplayTooltip extends CustomNode {
 
 function run(){
    var anchor = MissionAnchorFX{
-      color:Color.AQUAMARINE
+//      color:Color.AQUAMARINE
       title:"tesing"
    }
 
