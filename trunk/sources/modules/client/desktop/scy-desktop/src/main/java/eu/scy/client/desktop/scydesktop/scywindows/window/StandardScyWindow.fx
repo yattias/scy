@@ -453,6 +453,7 @@ public class StandardScyWindow extends ScyWindow {
                   action: function() {
                      isClosed = true;
                      hideDrawers = false;
+                     isCentered = false;
                      if (closedAction != null) {
                         closedAction(this);
                      }
@@ -544,7 +545,9 @@ public class StandardScyWindow extends ScyWindow {
          wcl.draggingFinished();
       }
       beingDragged = false;
-
+      // if window is being dragged after being centered, it loses the centered status
+      isCentered = false;
+      // now after dragging we update the relative bounds for relative repositioning
       updateRelativeBounds();
       
       MouseBlocker.stopMouseBlocking();
@@ -678,7 +681,7 @@ public class StandardScyWindow extends ScyWindow {
 //         if (eloUri == null) {
 //            setMinimized(not isMinimized);
 //         } else {
-            windowControl.makeMainScyWindow(eloUri);
+            windowControl.makeMainScyWindow(this);
 //         }
 //      }
    }

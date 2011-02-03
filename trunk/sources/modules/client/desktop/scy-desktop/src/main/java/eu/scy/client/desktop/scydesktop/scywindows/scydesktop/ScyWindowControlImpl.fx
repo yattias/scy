@@ -119,6 +119,11 @@ public class ScyWindowControlImpl extends ScyWindowControl {
        windowPositioner.positionWindows();
     }
 
+    override public function makeMainScyWindow (window: ScyWindow) : Void {
+       windowPositioner.makeMainWindow(window);
+       windowPositioner.positionWindows();
+    }
+
    function activeLasChanged(oldActiveLas: LasFX) {
       logger.info("new active las: {activeLas.id}");
       repositoryWrapper.setLasId(activeLas.id);

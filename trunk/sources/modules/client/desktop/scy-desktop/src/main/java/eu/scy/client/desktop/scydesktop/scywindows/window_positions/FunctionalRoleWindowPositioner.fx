@@ -140,6 +140,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
             delete window from mainWindows;
             // insert it again to be the last
             insert window into mainWindows;
+            window.isCentered = true;
         }
     }
 
@@ -292,6 +293,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         positionWindowsInArea(centerWindows, centerArea, 3);
         positionWindowsInArea(outgoingWindows, outgoingArea, 1);
         positionWindowsInArea(otherWindows, otherArea, sizeof otherWindows);
+        positionMainWindows();
         
         // only for debug purpose
         if (debug and not debugAreasAdded) {
@@ -324,9 +326,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         var column = 1;
         def shift = area.width / (columns + 1);
         for (window in windowList) {
-            if (Sequences.indexOf(mainWindows, window) >= 0) {
-                positionAsMainWindow(window);
-            } else if (window.layoutX == 0 and window.layoutY == 0 and window.relativeLayoutCenterX == 0 and window.relativeLayoutCenterY == 0) {
+            if (not window.isCentered and window.layoutX == 0 and window.layoutY == 0 and window.relativeLayoutCenterX == 0 and window.relativeLayoutCenterY == 0) {
                 
                 window.layoutX = area.layoutX + (column * shift) - (window.width / 2);
                 window.layoutY = area.layoutY + topOffset + (row * padding);
@@ -357,23 +357,29 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         }
     }
 
-    function positionAsMainWindow(window:ScyWindow):Void {
+    function positionMainWindows():Void {
+        if (sizeof mainWindows == 0) {
+            return;
+        }
+
         var newX = centerArea.layoutX - 5 * offset;
         var newY = centerArea.layoutY + (0.12 * centerArea.height); // value ist just estimated
         var newWidth = centerArea.width + 10 * offset;
         var newHeight = 0.75 * centerArea.height;
 
+        def wins = mainWindows;
+
         var size = sizeof mainWindows;
-        if (size > 1) {
-            for (i in [0 .. size - 2]) {
-                def mainWindow = mainWindows[i];
-                var xDiff = Math.abs(mainWindow.layoutX - newX);
-                var yDiff = Math.abs(mainWindow.layoutY - newY);
-                if (xDiff > 4 * offset or yDiff > 4 * offset) {
-                    delete mainWindow from mainWindows;
-                }
-            }
-        }
+//        if (size > 1) {
+//            for (i in [0 .. size - 2]) {
+//                def mainWindow = mainWindows[i];
+//                var xDiff = Math.abs(mainWindow.layoutX - newX);
+//                var yDiff = Math.abs(mainWindow.layoutY - newY);
+//                if (xDiff > 4 * offset or yDiff > 4 * offset) {
+//                    delete mainWindow from mainWindows;
+//                }
+//            }
+//        }
 
         mainArea.layoutX = newX;
         mainArea.layoutY = newY;
@@ -381,14 +387,20 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         mainArea.height = newHeight;
         var windowCounter = 0;
         size = sizeof mainWindows;
-        if (size > 1) {
+        //if (size > 1) {
             for (nextWindow in mainWindows) {
-                def angle = ((size - 1) - windowCounter++) * 4;
-                nextWindow.openWindow(newX, newY, newWidth, newHeight, angle);
+                if (not nextWindow.isCentered) {
+                    delete nextWindow from mainWindows;
+                    size--;
+                } else {
+                    nextWindow.toFront();
+                    def angle = ((size - 1) - windowCounter++) * 4;
+                    nextWindow.openWindow(newX, newY, newWidth, newHeight, angle);
+                }
             }
-        } else {
-            mainWindows[0].openWindow(newX, newY, newWidth, newHeight, 0);
-        }
+//        } else {
+//            mainWindows[0].openWindow(newX, newY, newWidth, newHeight, 0);
+//        }
     }
 
     def incomingAreaRatio = 0.2;
@@ -471,6 +483,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
             window.relativeWidth = 0;
             window.relativeHeight = 0;
             window.rotate = 0;
+            window.isCentered = false;
             logger.debug("resetting window {window.title} with URI {window.eloUri}");
         }
     }
