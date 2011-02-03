@@ -34,7 +34,9 @@ import eu.scy.client.desktop.scydesktop.LoginType;
 import eu.scy.client.desktop.scydesktop.mission.Missions;
 import eu.scy.client.desktop.scydesktop.utils.InjectObjectsUtils;
 import java.net.URI;
-import eu.scy.client.desktop.scydesktop.scywindows.window.ShowWorking;
+import javafx.scene.Cursor;
+import javafx.scene.control.ProgressIndicator;
+import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 
 /**
  * @author sikken
@@ -67,7 +69,7 @@ public class LoginDialog extends CustomNode, TbiReady {
          FX.deferAction(initMouseBlocker);
       } else {
          MouseBlocker.initMouseBlocker(scene.stage);
-         ShowWorking.initShowWorking(scene.stage);
+         ProgressOverlay.initOverlay(scene.stage);
       }
    }
 
@@ -164,9 +166,6 @@ public class LoginDialog extends CustomNode, TbiReady {
                KeyFrame {
                   time: 750ms
                   values: windowColorScheme.mainColor => successColor tween Interpolator.LINEAR;
-                  action: function() {
-//                     getReadyForUser(loginResult);
-                  }
                }
             ]
          }.play();
@@ -194,18 +193,16 @@ public class LoginDialog extends CustomNode, TbiReady {
       if (LoginType.LOCAL_MULTI_USER == initializer.loginTypeEnum){
          initializer.setupLogging(userName);
       }
+      ProgressOverlay.startShowWorking();
       def backgroundGetReadyForUser = new BackgroundGetReadyForUser(initializer.toolBrokerLogin,loginResult,this);
       backgroundGetReadyForUser.start();
-//      var toolBrokerAPI = initializer.toolBrokerLogin.getReadyForUser(loginResult);
-//      logger.info(
-//      "tbi.getLoginUserName() : {toolBrokerAPI.getLoginUserName()}\n""tbi.getMission() : {toolBrokerAPI.getMission()}\n""tbi.getRepository() : {toolBrokerAPI.getRepository()}\n""tbi.getMetaDataTypeManager() : {toolBrokerAPI.getMetaDataTypeManager()}\n""tbi.getExtensionManager() : {toolBrokerAPI.getExtensionManager()}\n""tbi.getELOFactory() : {toolBrokerAPI.getELOFactory()}\n""tbi.getActionLogger() : {toolBrokerAPI.getActionLogger()}\n""tbi.getAwarenessService() : {toolBrokerAPI.getAwarenessService()}\n""tbi.getDataSyncService() : {toolBrokerAPI.getDataSyncService()}\n""tbi.getPedagogicalPlanService() : {toolBrokerAPI.getPedagogicalPlanService()}\n""tbi.getStudentPedagogicalPlanService() : {toolBrokerAPI.getStudentPedagogicalPlanService()}");
-//      findMission(toolBrokerAPI);
    }
 
    public override function tbiReady(toolBrokerAPI: ToolBrokerAPI, missions: Missions): Void{
       logger.info(
       "tbi.getLoginUserName() : {toolBrokerAPI.getLoginUserName()}\n""tbi.getMissionSpecificationURI() ) : {toolBrokerAPI.getMissionSpecificationURI()}\n""tbi.getRepository() : {toolBrokerAPI.getRepository()}\n""tbi.getMetaDataTypeManager() : {toolBrokerAPI.getMetaDataTypeManager()}\n""tbi.getExtensionManager() : {toolBrokerAPI.getExtensionManager()}\n""tbi.getELOFactory() : {toolBrokerAPI.getELOFactory()}\n""tbi.getActionLogger() : {toolBrokerAPI.getActionLogger()}\n""tbi.getAwarenessService() : {toolBrokerAPI.getAwarenessService()}\n""tbi.getDataSyncService() : {toolBrokerAPI.getDataSyncService()}\n""tbi.getPedagogicalPlanService() : {toolBrokerAPI.getPedagogicalPlanService()}\n""tbi.getStudentPedagogicalPlanService() : {toolBrokerAPI.getStudentPedagogicalPlanService()}");
       findMission(toolBrokerAPI,missions);
+      ProgressOverlay.stopShowWorking();
    }
 
    function findMission(toolBrokerAPI: ToolBrokerAPI, missions: Missions) {
@@ -240,7 +237,7 @@ public class LoginDialog extends CustomNode, TbiReady {
          stage.title = "{stageTitle} : {userName} in {missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getTitle()}";
          FX.deferAction(function():Void{
                finishTbi(missionRunConfigs);
-               var scyDesktop = placeScyDescktop(missionRunConfigs);
+               var scyDesktop = placeScyDesktop(missionRunConfigs);
             });
       });
    }
@@ -250,7 +247,7 @@ public class LoginDialog extends CustomNode, TbiReady {
       InjectObjectsUtils.injectObjectIfWantedJava(missionRunConfigs.tbi,URI.class,"missionSpecificationURI",missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getTypedContent().getMissionSpecificationEloUri());
    }
 
-   function placeScyDescktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
+   function placeScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
       // either place the components "static" in the scene in initializer.getScene
       // or do it here "dynamic" (meaning after a succesfull login)
       //     insert ScyDesktop.scyDektopGroup into scene.content;

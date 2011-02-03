@@ -672,15 +672,15 @@ public class StandardScyWindow extends ScyWindow {
    }
 
    function handleDoubleClick(e: MouseEvent): Void {
-      if (isMinimized) {
-         setMinimized(not isMinimized);
-      } else {
-         if (eloUri == null) {
-            setMinimized(not isMinimized);
-         } else {
+//      if (isMinimized) {
+//         setMinimized(not isMinimized);
+//      } else {
+//         if (eloUri == null) {
+//            setMinimized(not isMinimized);
+//         } else {
             windowControl.makeMainScyWindow(eloUri);
-         }
-      }
+//         }
+//      }
    }
 
    function centerAction():Void{
@@ -1302,7 +1302,7 @@ function run() {
    var stage: Stage;
    FX.deferAction(function() {
       MouseBlocker.initMouseBlocker(stage);
-      ShowWorking.initShowWorking(stage);
+      ProgressOverlay.initOverlay(stage);
    });
 
    stage = Stage {

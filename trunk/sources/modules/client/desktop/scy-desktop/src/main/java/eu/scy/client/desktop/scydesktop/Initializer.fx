@@ -36,6 +36,7 @@ import java.util.StringTokenizer;
 import javafx.util.Sequences;
 import javafx.util.StringLocalizer;
 import eu.scy.client.desktop.scydesktop.utils.FilteringExceptionCatcher;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.SimpleTooltipManager;
 import eu.scy.client.common.scyi18n.UriLocalizer;
@@ -45,7 +46,7 @@ import eu.scy.client.desktop.localtoolbroker.LocalMultiUserToolBrokerLogin;
 import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
 import eu.scy.client.desktop.scydesktop.tools.mission.EloXmlEditor;
 import eu.scy.client.desktop.scydesktop.scywindows.ModalDialogLayer;
-import eu.scy.client.desktop.scydesktop.scywindows.window.ShowWorking;
+import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 //import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
@@ -523,7 +524,7 @@ public class Initializer {
             ModalDialogLayer.layer,
             SimpleTooltipManager.tooltipGroup,
             MouseBlocker.mouseBlockNode,
-            ShowWorking.showProgressNode
+            ProgressOverlay.showProgressNode
          ];
 //      scene.stylesheets = "{__DIR__}css/scy-desktop.css";
       scene

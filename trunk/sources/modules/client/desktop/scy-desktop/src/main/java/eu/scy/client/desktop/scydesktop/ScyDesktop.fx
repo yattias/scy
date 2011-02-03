@@ -97,7 +97,7 @@ import javafx.scene.layout.HBox;
 import eu.scy.common.configuration.Configuration;
 import javafx.scene.layout.Panel;
 import javafx.scene.control.Tooltip;
-import eu.scy.client.desktop.scydesktop.scywindows.window.ShowWorking;
+import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 
 /**
  * @author sikkenj
@@ -223,7 +223,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          FX.deferAction(initMouseBlocker);
       } else {
          MouseBlocker.initMouseBlocker(scene.stage);
-         ShowWorking.initShowWorking(scene.stage);
+         ProgressOverlay.initOverlay(scene.stage);
       }
    }
 
