@@ -5,8 +5,9 @@ import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 import com.thoughtworks.xstream.io.xml.XppDriver;
+import eu.scy.core.XMLTransferObjectService;
 import eu.scy.server.controllers.xml.converters.LearningGoalConverter;
-import eu.scy.server.controllers.xml.transfer.*;
+import eu.scy.core.model.transfer.*;
 
 import java.io.Writer;
 import java.util.LinkedList;
@@ -18,7 +19,7 @@ import java.util.LinkedList;
  * Time: 11:59:13
  * To change this template use File | Settings | File Templates.
  */
-public class XMLTransferObjectService {
+public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
 
     private XStream xstream;
 
@@ -27,6 +28,7 @@ public class XMLTransferObjectService {
     }
 
 
+    @Override
     public XStream getXStreamInstance() {
         this.xstream = new XStream(new XppDriver() {
 
@@ -63,6 +65,7 @@ public class XMLTransferObjectService {
 
     }
 
+    @Override
     public XStream getToObjectXStream() {
         this.xstream = new XStream(new XppDriver() {
 
@@ -82,7 +85,7 @@ public class XMLTransferObjectService {
 
                     protected void writeText(QuickWriter writer, String text) {
 
-                        String thing = "\\[";
+                        /*String thing = "\\[";
                         String cdata = "<!CDATA";
                         String end = "\\]";
                         // System.out.println("TEXT IS: " + text);
@@ -90,6 +93,7 @@ public class XMLTransferObjectService {
                         text = text.replaceAll(cdata, "");
                         text = text.replace(end, "");
                         // System.out.println("TEXT_ NOW: " + text);
+                        */
                         writer.write(text);
                     }
                 };
@@ -102,8 +106,9 @@ public class XMLTransferObjectService {
         return xstream;
     }
 
+    @Override
     public Object getObject(String xml){
-
+        /*
         String thing = "\\[";
         String cdata = "<!CDATA";
         //String cdata = "<!\\[CDATA\\[";
@@ -114,7 +119,7 @@ public class XMLTransferObjectService {
         xml = xml.replaceAll(end, "");
 
         // System.out.println("xml" + xml);
-
+        */
         return getToObjectXStream().fromXML(xml);
     }
 
@@ -170,6 +175,8 @@ public class XMLTransferObjectService {
         xStream.aliasField("hasBeenSelectedForSubmit".toLowerCase(), TransferElo.class, "hasBeenSelectedForSubmit");
         xStream.aliasField("studentslg", TransferElo.class, "specificLearningGoals");
         xStream.aliasField("eloURI".toLowerCase(), ActionLogEntry.class, "eloURI");
+        xStream.aliasField("technicalformat".toLowerCase(), ActionLogEntry.class, "technicalformat");
+        xStream.aliasField("rawData".toLowerCase(), ActionLogEntry.class, "rawData");
 
         xStream.addImplicitCollection(TransferElo.class, "generalLearningGoals", LearningGoal.class);
         xStream.addImplicitCollection(TransferElo.class, "specificLearningGoals", LearningGoal.class);

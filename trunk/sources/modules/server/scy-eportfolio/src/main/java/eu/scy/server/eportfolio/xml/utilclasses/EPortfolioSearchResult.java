@@ -1,6 +1,6 @@
 package eu.scy.server.eportfolio.xml.utilclasses;
 
-import eu.scy.server.controllers.xml.transfer.TransferElo;
+import eu.scy.core.model.transfer.TransferElo;
 
 import java.util.LinkedList;
 import java.util.List;

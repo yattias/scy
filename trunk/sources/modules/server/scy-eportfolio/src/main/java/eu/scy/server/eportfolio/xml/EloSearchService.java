@@ -4,8 +4,8 @@ import com.thoughtworks.xstream.XStream;
 import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.roolo.MissionELOService;
-import eu.scy.server.controllers.xml.transfer.ELOSearchResult;
-import eu.scy.server.controllers.xml.transfer.TransferElo;
+import eu.scy.core.model.transfer.ELOSearchResult;
+import eu.scy.core.model.transfer.TransferElo;
 import eu.scy.server.url.UrlInspector;
 import roolo.elo.BasicELO;
 

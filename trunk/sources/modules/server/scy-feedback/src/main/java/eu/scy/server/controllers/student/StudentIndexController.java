@@ -1,12 +1,11 @@
 package eu.scy.server.controllers.student;
 
 import eu.scy.common.mission.MissionRuntimeElo;
-import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
+import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.server.controllers.BaseController;
-import eu.scy.server.controllers.xml.XMLTransferObjectService;
-import eu.scy.server.controllers.xml.transfer.Portfolio;
+import eu.scy.core.model.transfer.Portfolio;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;

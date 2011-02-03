@@ -34,13 +34,17 @@ public abstract class MissionRuntimeEnabledXMLService extends XMLStreamerControl
     protected final Object getObjectToStream(HttpServletRequest request, HttpServletResponse httpServletResponse) {
         try {
             String missionURI = request.getParameter("missionURI");
-            logger.info("MIssionURI: " + missionURI);
+            logger.info("MIssionURI: " + missionURI + " from service: " + getClass().getName());
             if (missionURI != null) {
                 missionURI = URLDecoder.decode(missionURI, "UTF-8");
 
                 ScyElo scyElo = (ScyElo) getUrlInspector().instpectRequest(request, httpServletResponse);
-                MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadElo(new URI(missionURI), getMissionELOService());
-                return getObject(missionRuntimeElo, request, httpServletResponse);
+                if (scyElo != null && scyElo.getTechnicalFormat().equals("scy/missionruntime")) {
+                    MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadElo(new URI(missionURI), getMissionELOService());
+                    return getObject(missionRuntimeElo, request, httpServletResponse);
+                } else {
+                    return getObject(null, request, httpServletResponse);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

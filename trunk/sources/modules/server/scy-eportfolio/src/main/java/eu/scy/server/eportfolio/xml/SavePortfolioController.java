@@ -31,7 +31,7 @@ public class SavePortfolioController extends BaseController {
 
 
         try {
-            logger.info("MIssionURI: " + missionURI);
+            logger.info("MIssionURI: " + missionURI + " from service: " +getClass().getName());
             if (missionURI != null) {
                 missionURI = URLDecoder.decode(missionURI, "UTF-8");
                 missionURI = missionURI.replaceAll(">", "");

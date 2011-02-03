@@ -2,8 +2,8 @@ package eu.scy.server.eportfolio.xml;
 
 import com.thoughtworks.xstream.XStream;
 import eu.scy.common.mission.MissionRuntimeElo;
-import eu.scy.server.controllers.xml.transfer.LearningGoal;
-import eu.scy.server.controllers.xml.transfer.LearningGoals;
+import eu.scy.core.model.transfer.LearningGoal;
+import eu.scy.core.model.transfer.LearningGoals;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

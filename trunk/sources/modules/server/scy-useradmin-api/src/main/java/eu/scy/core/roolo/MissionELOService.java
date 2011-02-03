@@ -48,4 +48,6 @@ public interface MissionELOService extends BaseELOService {
     MissionSpecificationElo getMissionSpecificationELOForRuntume(MissionRuntimeElo missionRuntimeElo);
 
     List findElosFor(String mission, String username);
+
+    List getPortfoliosThatAreReadyForAssessment(MissionSpecificationElo missionSpecificationElo);
 }
