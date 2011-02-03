@@ -70,7 +70,7 @@ public class AnchorDisplay extends CustomNode {
          contentColor = defaultTitleColor;
       }
       else {
-         contentColor = las.mainAnchor.color;
+         contentColor = las.mainAnchor.windowColorScheme.mainColor;
       }
    }
 

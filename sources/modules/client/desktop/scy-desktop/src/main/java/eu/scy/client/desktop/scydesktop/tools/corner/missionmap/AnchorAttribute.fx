@@ -48,10 +48,10 @@ public class AnchorAttribute extends ScyWindowAttribute {
    function setColors(){
       if (selected){
          titleColor = defaultTitleColor;
-         contentColor = missionAnchor.color;
+         contentColor = missionAnchor.windowColorScheme.mainColor;
       }
       else {
-         titleColor = missionAnchor.color;
+         titleColor = missionAnchor.windowColorScheme.mainColor;
          contentColor = defaultTitleColor;
       }
    }
@@ -82,7 +82,7 @@ public class AnchorAttribute extends ScyWindowAttribute {
                endX: size / 2,
                endY: size
                strokeWidth: mainStrokeWidth
-               stroke: missionAnchor.color
+               stroke: missionAnchor.windowColorScheme.mainColor
             }
             Arc {
                centerX: size / 2,
@@ -93,7 +93,7 @@ public class AnchorAttribute extends ScyWindowAttribute {
                length: mainAngleWidth
                type: ArcType.OPEN
                fill: Color.TRANSPARENT
-               stroke: missionAnchor.color
+               stroke: missionAnchor.windowColorScheme.mainColor
                strokeWidth: mainStrokeWidth
             }
             if (mainAnchor){
@@ -106,7 +106,7 @@ public class AnchorAttribute extends ScyWindowAttribute {
                   length: secondAngleWidth
                   type: ArcType.OPEN
                   fill: Color.TRANSPARENT
-                  stroke: missionAnchor.color
+                  stroke: missionAnchor.windowColorScheme.mainColor
                   strokeWidth: secondStrokeWidth
                }
             }
@@ -125,7 +125,7 @@ public class AnchorAttribute extends ScyWindowAttribute {
 
 function run() {
    var missionAnchor = MissionAnchorFX{
-         color: Color.RED
+//         color: Color.RED
       };
    var anchor1 = AnchorDisplay{
 //      anchor: MissionAnchorFX{

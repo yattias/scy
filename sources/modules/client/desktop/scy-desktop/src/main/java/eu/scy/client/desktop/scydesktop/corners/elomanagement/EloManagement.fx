@@ -455,16 +455,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       }
 
       searchElos.openButton.disable = true;
-      var searchQuery: IQuery = null;
-      if (scyDesktop.initializer.offlineMode){
-         def queryText = gridEloSearch.queryBox.rawText.trim();
-         if (queryText!=""){
-            searchQuery = new Query(new MetadataQueryComponent(titleKey, SearchOperation.EQUALS, "{queryText}"));
-         }
-      }
-      else{
-         searchQuery = new Query(new MetadataQueryComponent(gridEloSearch.queryBox.rawText));
-      }
+      def searchQuery = new Query(new MetadataQueryComponent(gridEloSearch.queryBox.rawText));
       backgroundQuerySearch = new BackgroundQuerySearch(tbi, scyDesktop.newEloCreationRegistry, searchQuery, this);
 
       backgroundQuerySearch.start();
