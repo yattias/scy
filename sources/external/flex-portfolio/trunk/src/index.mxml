@@ -102,8 +102,8 @@
 			public static const NOT_SUBMITTED:String = "NOT_SUBMITTED";
 			public static const SHAREDOBJECT_LOCAL_NAME:String = "scy-eportfolio";
 			
-			public static const IMAGE_BASE_URL:String = "http://www.intermedia.uio.no/www-data-public/app-scy/ep/webapp/themes/scy/eportfolio/";
-			public static const NOTHUMB:String = "http://www.intermedia.uio.no/www-data-public/app-scy/ep/webapp/themes/scy/eportfolio/assets/images/thumbs/nothumb.png#";
+			public static const IMAGE_BASE_URL:String = "http://www.intermedia.uio.no/www-data-public/app-scy/ep/";
+			public static const NOTHUMB:String = "http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/thumbs/nothumb.png";
 			
 			[Bindable] private var infoPanVisi:Boolean = false;
 			
