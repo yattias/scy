@@ -25,6 +25,7 @@
 			import spark.components.RadioButtonGroup;
 			import spark.primitives.Ellipse;
 			
+			import utils.AutoSaveService;
 			import utils.XMLUtilJer;
 			
 			[Bindable] private var addEloFlag:Boolean = false;
@@ -37,16 +38,31 @@
 			[Bindable] private var eloss:ArrayCollection;
 			
 			protected function clickHandler(dir:String, stack:Number):void {
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				var attribs:ArrayCollection = new ArrayCollection();
 				if(dir == index.LEFT_DIRECTION) {
 					so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 					so.data.searchSelection = foundElosArray[rg.selectedValue];
 					so.flush();
+					sLogger["type"] = "add_elo_to_portfolio_button_pressed";
+					var ob:Object = new Object();
+					ob.oName = "eloSelected";
+					ob.oVal = foundElosArray[rg.selectedValue].uri.toString();
+					attribs.addItem(ob);
+				}
+				else {
+					sLogger["type"] = "cancel_button_pressed";
 				}
 				
 				var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
 				tEvent.direction = dir;
 				tEvent.selecTarget = stack;
 				dispatchEvent(tEvent);
+				
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
+				
 			}
 
 			protected function radioGroup_itemClickHandler(event:ItemClickEvent):void {
@@ -55,6 +71,13 @@
 			
 			public function refreshContent(newSearch:Boolean, elosearchservice:String):void {
 				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["type"] = "search_for_elos_started";
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				
 				currentEloCategory = so.data.currentEloCategory;
 				searchString.htmlText = "<u>"+resourceManager.getString('resources', 'SEARCH_LABEL')+"</u>: "+currentEloCategory.obliElo;
 				

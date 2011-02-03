@@ -51,6 +51,13 @@
 				
 				elosArray = new ArrayCollection();
 				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["type"] = "sending_eportfolio_view_started";
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				
 				xmlPortfolio = so.data.retrievedElosFromRoolo;
 				if(xmlPortfolio.reflectionmission != null) {
 					reflectionArea1.text = xmlPortfolio.reflectionmission;
@@ -140,13 +147,16 @@
 						trace("Local version, nothing submitted, but the idea is there ...");
 					}
 					else {
-						new AutoSaveService(so.data.saveportfolio+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23")+"&xmlContent="+encodeURI(so.data.retrievedElosFromRoolo));				
+						new AutoSaveService(so.data.saveportfolio+"?missionURI="+FlexGlobals.topLevelApplication.parameters.missionURI+"&xmlContent="+encodeURI(so.data.retrievedElosFromRoolo));
+						
+						var sLogger:Dictionary = new Dictionary();
+						sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+						sLogger["type"] = "eportfolio_submitted_for_assessment";
+						sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+						new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 					}
 					
-					var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
-					tEvent.direction = index.LEFT_DIRECTION;
-					tEvent.selecTarget = index.STACK_INTRO_PANEL;
-					dispatchEvent(tEvent);
+					clickHandler(index.LEFT_DIRECTION, index.STACK_INTRO_PANEL);
 				}
 			}
 			

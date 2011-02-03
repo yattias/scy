@@ -116,10 +116,21 @@
 						so.data.retrievedElosFromRoolo = retrievedElosFromRoolo;
 						so.flush();
 						
-						new AutoSaveService(so.data.saveportfolio+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23")+"&xmlContent="+encodeURI(so.data.retrievedElosFromRoolo));	
+						new AutoSaveService(so.data.saveportfolio+"?missionURI="+FlexGlobals.topLevelApplication.parameters.missionURI+"&xmlContent="+encodeURI(so.data.retrievedElosFromRoolo));	
 						
 						resetForm();
 						dispatchEvent(tEvent);
+						
+						var sLogger:Dictionary = new Dictionary();
+						sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+						sLogger["type"] = "reflection_on_elo_finished";
+						sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+						var attribs:ArrayCollection = new ArrayCollection();
+						var ob:Object = new Object();
+						ob.oName = "eloReflectedOn";
+						ob.oVal = eloUri;
+						attribs.addItem(ob);
+						new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
 					}
 					else if(slectedGLGs.length == 0) {
 						Alert.show(resourceManager.getString('resources', 'GLG_SELECT_ERROR'), resourceManager.getString('resources', 'GLG_SELECT_ERROR_TITLE'));
@@ -131,6 +142,11 @@
 				else {
 					tEvent.newSearch = false;
 					dispatchEvent(tEvent);
+					var sLogger:Dictionary = new Dictionary();
+					sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+					sLogger["type"] = "reflection_on_elo_canceled";
+					sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+					new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 				}
 			}
 
@@ -156,6 +172,17 @@
 				currentState = "newReflection";
 				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 				var selectedElo:Object = so.data.searchSelection;
+				
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["type"] = "reflection_on_elo_started";
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				var attribs:ArrayCollection = new ArrayCollection();
+				var ob:Object = new Object();
+				ob.oName = "eloReflectedOn";
+				ob.oVal = selectedElo.uri;
+				attribs.addItem(ob);
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
 				
 				if(selectedElo != null) {
 					selectedEloCatname = selectedElo.catname;
@@ -389,7 +416,7 @@
 					<mx:VBox width="100%" verticalGap="0">
 						<mx:Text id="refOnInqText" text="{index.REF_ON_INQ_TXT}" width="400" />
 						<mx:HBox width="400" height="33" horizontalGap="{(400-4*30)/3}">
-							<mx:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/1.png'}" width="30" height="33" />
+							<mx:Image id="thummmmmm1" source="{index.IMAGE_BASE_URL+'assets/images/emoticons/1.png'}" width="30" height="33" />
 							<mx:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/2.png'}" width="30" height="33" />
 							<mx:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/3.png'}" width="30" height="33" />
 							<mx:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/4.png'}" width="30" height="33" />

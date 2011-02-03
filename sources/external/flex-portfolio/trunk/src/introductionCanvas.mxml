@@ -17,6 +17,7 @@
 		<![CDATA[
 			import listeners.ToggleEvent;
 			
+			import mx.controls.Alert;
 			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
 			
@@ -151,7 +152,7 @@
 					</s:LinearGradient>
 				</s:backgroundFill>
 				
-				<s:Image source="{index.IMAGE_BASE_URL+'assets/images/folder.png'}" width="60" height="60" left="5" top="5" />
+				<s:Image source="{index.IMAGE_BASE_URL+'assets/images/folder.png'}" width="60" height="60" left="5" top="5"/>
 			</s:BorderContainer>	
 			<s:BorderContainer id="header" width="100%" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
 				<s:backgroundFill>

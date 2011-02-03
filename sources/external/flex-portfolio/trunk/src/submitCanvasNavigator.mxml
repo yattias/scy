@@ -16,7 +16,6 @@
 			import spark.components.TileGroup;
 			import spark.components.VGroup;
 			
-			import utils.AutoSaveService;
 			import utils.XMLUtilJer;
 			
 			[Bindable] private var elosArray:ArrayCollection;

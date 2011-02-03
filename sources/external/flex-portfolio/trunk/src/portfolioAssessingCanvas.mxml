@@ -15,6 +15,7 @@
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
 			
+			import utils.AutoSaveService;
 			import utils.XMLUtilJer;
 			
 			[Bindable] private var elosArray:ArrayCollection;
@@ -42,6 +43,12 @@
 				tEvent.direction = dir;
 				tEvent.selecTarget = stack;
 				dispatchEvent(tEvent);
+				
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["type"] = "review_assessed_eportfolio_view_finished";
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 			}
 			
 			public function refreshView():void {
@@ -57,6 +64,12 @@
 				
 				elosArray = new ArrayCollection();
 				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["type"] = "review_assessed_eportfolio_view_started";
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 				
 				currentStatus.text = resourceManager.getString('resources', so.data.retrievedElosFromRoolo.portfoliostatus);
 				

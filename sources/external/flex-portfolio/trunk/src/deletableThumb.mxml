@@ -11,11 +11,13 @@
 		<![CDATA[
 			import listeners.ToggleEvent;
 			
+			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.core.FlexGlobals;
 			import mx.events.CloseEvent;
 			
 			import utils.AutoSaveService;
+			import utils.XMLUtilJer;
 			
 			private var hideInter:Number;
 			public var parentCanvas:introductionSubCanvas;
@@ -41,9 +43,21 @@
 					so.data.retrievedElosFromRoolo = retrievedElosFromRoolo;
 					so.flush();
 
-					new AutoSaveService(so.data.saveportfolio+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23")+"&xmlContent="+encodeURI(so.data.retrievedElosFromRoolo));
+					var sLogger:Dictionary = new Dictionary();
+					sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+					sLogger["type"] = "delete_elo_from_portfolio";
+					sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+					var attribs:ArrayCollection = new ArrayCollection();
+					var ob:Object = new Object();
+					ob.oName = "deletedElo";
+					ob.oVal = (this.getElementAt(0) as subCanvasElo).uri;
+					attribs.addItem(ob);
+					new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
+					
+					new AutoSaveService(so.data.saveportfolio+"?missionURI="+FlexGlobals.topLevelApplication.parameters.missionURI+"&xmlContent="+encodeURI(so.data.retrievedElosFromRoolo));
 					
 					parentCanvas.refreshView();
+					
 				}
 			}
 			
@@ -60,6 +74,17 @@
 					var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 					so.data.searchSelection = originalEloObject;
 					so.flush();
+					
+					var sLogger:Dictionary = new Dictionary();
+					sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+					sLogger["type"] = "edit_elo";
+					sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+					var attribs:ArrayCollection = new ArrayCollection();
+					var ob:Object = new Object();
+					ob.oName = "editElo";
+					ob.oVal = (this.getElementAt(0) as subCanvasElo).uri;
+					attribs.addItem(ob);
+					new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
 					
 					var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
 					tEvent.direction = index.LEFT_DIRECTION;

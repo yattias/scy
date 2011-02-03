@@ -13,6 +13,7 @@
 			import mx.events.FlexEvent;
 			
 			import utils.AutoSaveService;
+			import utils.XMLUtilJer;
 			
 			protected function clickHandler(dir:String, stack:Number):void {
 				var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
@@ -20,13 +21,27 @@
 				tEvent.selecTarget = stack;
 				
 				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
-				new AutoSaveService(so.data.saveportfolio+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23")+"&xmlContent="+encodeURI(so.data.retrievedElosFromRoolo));
+				
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["type"] = "build_eportfolio_view_finished";
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				
+				new AutoSaveService(so.data.saveportfolio+"?missionURI="+FlexGlobals.topLevelApplication.parameters.missionURI+"&xmlContent="+encodeURI(so.data.retrievedElosFromRoolo));
 				
 				dispatchEvent(tEvent);
 			}
 
 			public function refreshView():void {
 				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["type"] = "build_eportfolio_view_started";
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				
 				submitBox.selectedIndex = so.data.currentEloCategory.obliEloNum;
 				(submitBox.selectedChild as submitCanvasNavigator).refreshView();
 			}

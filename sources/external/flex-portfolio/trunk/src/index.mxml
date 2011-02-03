@@ -93,6 +93,7 @@
 			import mx.rpc.events.ResultEvent;
 			import mx.utils.URLUtil;
 			
+			import utils.AutoSaveService;
 			import utils.GraphicOperation;
 			import utils.XMLUtilJer;
 			
@@ -101,9 +102,8 @@
 			public static const NOT_SUBMITTED:String = "NOT_SUBMITTED";
 			public static const SHAREDOBJECT_LOCAL_NAME:String = "scy-eportfolio";
 			
-			public static const IMAGE_BASE_URL:String = "http://www.intermedia.uio.no/www-data-public/app-scy/ep/";
-			//public static const IMAGE_BASE_URL:String = "";
-			public static const NOTHUMB:String = "http://www.intermedia.uio.no/www-data-public/app-scy/ep/assets/images/thumbs/nothumb.png";
+			public static const IMAGE_BASE_URL:String = "http://www.intermedia.uio.no/www-data-public/app-scy/ep/webapp/themes/scy/eportfolio/";
+			public static const NOTHUMB:String = "http://www.intermedia.uio.no/www-data-public/app-scy/ep/webapp/themes/scy/eportfolio/assets/images/thumbs/nothumb.png#";
 			
 			[Bindable] private var infoPanVisi:Boolean = false;
 			
@@ -192,6 +192,12 @@
 				so.data.saveportfolio = new String(toolURLProvider.saveportfolio);
 				so.data.actionlogger = new String(toolURLProvider.actionlogger);
 				so.flush();
+				
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["type"] = "tool_start";
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 				
 				portfolioConfigService.url = new String(toolURLProvider.portfolioconfigservice)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
 				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
@@ -414,13 +420,14 @@
 			<local:portfolioAssessingCanvas id="pfassess" width="100%" creationPolicy="all" height="100%" showEffect="{showEffect}" />
 		</mx:ViewStack>
 		<s:Image id="animateImage" visible="false" includeInLayout="false" />
-		<s:Label fontSize="8" right="0" bottom="0" text="v.1.5" />
+		<s:Label fontSize="8" right="0" bottom="0" text="v.1.6" />
 	</s:Group>
-	
+
+<!--
 	<s:BorderContainer id="clicker" width="10" height="10" backgroundColor="#FF0000" backgroundAlpha=".1" borderVisible="false" click="infoPanVisi = !infoPanVisi;" />
-
 	<s:BorderContainer id="thumbCreator" width="10" height="10" right="0" backgroundColor="#00FF00" backgroundAlpha=".1" borderVisible="false" click="thumbCreator_clickHandler(event)" />
-
+-->
+	
 	<s:Scroller id="altBox" visible="{infoPanVisi}" width="400" height="400" horizontalCenter="0" verticalCenter="0" >
 		<s:VGroup width="100%" >
 			<s:BorderContainer width="100%" cornerRadius="5" borderWeight="2" borderColor="#999999" dropShadowVisible="true" backgroundColor="0x333333" alpha=".9">
@@ -430,12 +437,12 @@
 	</s:Scroller>
 	
 	<s:BitmapImage id="thumbCont" width="80" height="80"/>
-<!--	
+
 	<s:HGroup width="100%" horizontalAlign="right" y="5" gap="0">
 		<mx:LinkButton label="en" width="35" click="resourceManager.localeChain = [ 'en_US' ]" textDecoration="underline" color="#FFFFFF" />
 		<mx:LinkButton label="fr" width="35" click="resourceManager.localeChain = [ 'fr_FR' ]" textDecoration="underline" color="#FFFFFF" />
+		<mx:LinkButton label="no" width="35" click="resourceManager.localeChain = [ 'nb_NO' ]" textDecoration="underline" color="#FFFFFF" />
 		<mx:LinkButton label="gr" width="35" click="resourceManager.localeChain = [ 'el_CY' ]" textDecoration="underline" color="#FFFFFF" />
 		<mx:LinkButton label="nl" width="35" click="resourceManager.localeChain = [ 'nl_NL' ]" textDecoration="underline" color="#FFFFFF" />
 	</s:HGroup>
--->
 </s:Application>
