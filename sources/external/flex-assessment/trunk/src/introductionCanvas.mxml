@@ -7,6 +7,11 @@
 		<![CDATA[
 			import listeners.ToggleEvent;
 			
+			import mx.core.FlexGlobals;
+			
+			import utility.AutoSaveService;
+			import utility.XMLUtilJer;
+			
 			private var so:SharedObject;
 			private var portfolioElo:XML;
 			[Bindable] private var portfolioCount:Number;
@@ -16,10 +21,28 @@
 				tEvent.direction = dir;
 				tEvent.selecTarget = stack;
 				dispatchEvent(tEvent);
+				
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["type"] = "view_student_table_button_pressed";
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["type"] = "introduction_view_finished";
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 			}
 			
 			public function refreshContent():void {
 				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["type"] = "introduction_view_started";
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				
 				portfolioElo = so.data.retrievedElosFromRoolo as XML;
 				portfolioCount = portfolioElo.elements("portfolio").length();
 			}
@@ -46,7 +69,7 @@
 					</s:LinearGradient>
 				</s:backgroundFill>
 				
-				<s:Image source="assets/images/assess.png" width="60" height="60" left="5" top="5" />
+				<s:Image source="{index.IMAGE_BASE_URL+'assets/images/assess.png'}" width="60" height="60" left="5" top="5" />
 			</s:BorderContainer>	
 			<s:BorderContainer id="header" width="100%" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
 				<s:backgroundFill>

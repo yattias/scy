@@ -7,7 +7,12 @@
 		<![CDATA[
 			import listeners.ToggleEvent;
 			
+			import mx.collections.ArrayCollection;
+			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
+			
+			import utility.AutoSaveService;
+			import utility.XMLUtilJer;
 			[Bindable] public var cellTitle:String;
 			[Bindable] public var cellAssess:Boolean;
 			[Bindable] public var cellGrade:String;
@@ -38,15 +43,37 @@
 				var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
 				tEvent.sourcePanel = index.STACK_STUDTABLE_PANEL;
 				tEvent.direction = index.LEFT_DIRECTION;
+				
+				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				var attribs:ArrayCollection = new ArrayCollection();
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				
 				if(event.target.id == "cat") {
 					tEvent.selecTarget = index.STACK_CATEGORY_PANEL;
 					tEvent.categoryTitle = titleLabel.text;
 					tEvent.calculateStack = true;
+					
+					sLogger["type"] = "assess_category_button_clicked";
+					var ob:Object = new Object();
+					ob.oName = "category";
+					ob.oVal = titleLabel.text;
+					attribs.addItem(ob);
 				}
 				else {
 					tEvent.selecTarget = index.STACK_ELOASSESS_PANEL;
 					tEvent.eloidToAssess = eloid;
+					
+					sLogger["type"] = "assess_elo_button_clicked";
+					var ob:Object = new Object();
+					ob.oName = "elo_uri";
+					ob.oVal = eloid;
+					attribs.addItem(ob);
 				}
+				
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
+
 				dispatchEvent(tEvent);
 			}
 

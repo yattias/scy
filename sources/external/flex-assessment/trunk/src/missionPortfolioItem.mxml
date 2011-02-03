@@ -8,6 +8,10 @@
 			import listeners.ToggleEvent;
 			
 			import mx.collections.ArrayCollection;
+			import mx.core.FlexGlobals;
+			
+			import utility.AutoSaveService;
+			import utility.XMLUtilJer;
 			
 			[Bindable] public var allGood:Boolean = true;
 			
@@ -74,6 +78,13 @@
 				tEvent.selecTarget = stack;
 				tEvent.portfolioToAssess = studentName;
 				dispatchEvent(tEvent);
+				
+				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["type"] = "assess_portfolio_button_clicked";
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 			}
 		]]>
 	</fx:Script>

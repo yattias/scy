@@ -10,7 +10,9 @@
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
 			
+			import utility.AutoSaveService;
 			import utility.XMLUtilJer;
 			
 			private var originPanel:Number;
@@ -64,6 +66,13 @@
 			
 			public function assessElo(elosToCompare:ArrayCollection):void {
 				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				sLogger["type"] = "elo_compare_view_started";
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				
 				portfolioElo = so.data.retrievedElosFromRoolo as XML;
 				
 				var myList1:XMLList = portfolioElo.portfolio.elos.elo.(uri == elosToCompare[0]);
@@ -150,6 +159,12 @@
 				tEvent.direction = dir;
 				tEvent.selecTarget = stack;
 				dispatchEvent(tEvent);
+				
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				sLogger["type"] = "elo_compare_view_finished";
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 			}
 			
 			protected function image1_clickHandler(event:MouseEvent):void {
@@ -191,7 +206,7 @@
 					</s:LinearGradient>
 				</s:backgroundFill>
 				
-				<s:Image source="assets/images/assess.png" width="60" height="60" left="5" top="5" />
+				<s:Image source="{index.IMAGE_BASE_URL+'assets/images/assess.png'}" width="60" height="60" left="5" top="5" />
 			</s:BorderContainer>	
 			<s:BorderContainer id="header" width="100%" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
 				<s:backgroundFill>
@@ -261,10 +276,10 @@
 							<s:VGroup width="90%" gap="0" horizontalCenter="0">
 								<mx:Spacer height="20" />
 								<s:HGroup width="100%" id="sliderIcon" height="33" gap="{(sliderIcon.width-4*30)/3}">
-									<s:Image source="assets/images/emoticons/1.png" width="30" height="33" />
-									<s:Image source="assets/images/emoticons/2.png" width="30" height="33" />
-									<s:Image source="assets/images/emoticons/3.png" width="30" height="33" />
-									<s:Image source="assets/images/emoticons/4.png" width="30" height="33" /> 
+									<s:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/1.png'}" width="30" height="33" />
+									<s:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/2.png'}" width="30" height="33" />
+									<s:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/3.png'}" width="30" height="33" />
+									<s:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/4.png'}" width="30" height="33" /> 
 								</s:HGroup>
 								<mx:HSlider chromeColor="#000000" enabled="false" id="refOnInqTextSlider" minimum="1" maximum="4" value="{inquiryNumber1}" dataTipPlacement="top" tickColor="#000000"
 											snapInterval="1" tickInterval="1" allowTrackClick="false" width="100%" showDataTip="false" />
@@ -332,10 +347,10 @@
 							<s:VGroup width="90%" gap="0" horizontalCenter="0">
 								<mx:Spacer height="20" />
 								<s:HGroup width="100%" id="sliderIcon2" height="33" gap="{(sliderIcon2.width-4*30)/3}">
-									<s:Image source="assets/images/emoticons/1.png" width="30" height="33" />
-									<s:Image source="assets/images/emoticons/2.png" width="30" height="33" />
-									<s:Image source="assets/images/emoticons/3.png" width="30" height="33" />
-									<s:Image source="assets/images/emoticons/4.png" width="30" height="33" /> 
+									<s:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/1.png'}" width="30" height="33" />
+									<s:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/2.png'}" width="30" height="33" />
+									<s:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/3.png'}" width="30" height="33" />
+									<s:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/4.png'}" width="30" height="33" /> 
 								</s:HGroup>
 								<mx:HSlider chromeColor="#000000" enabled="false" id="refOnInqTextSlider2" minimum="1" maximum="4" value="{inquiryNumber2}" dataTipPlacement="top" tickColor="#000000"
 											snapInterval="1" tickInterval="1" allowTrackClick="false" width="100%" showDataTip="false" />

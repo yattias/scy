@@ -82,7 +82,12 @@
 			
 			import spark.effects.easing.Linear;
 			
+			import utility.AutoSaveService;
+			import utility.XMLUtilJer;
+			
 			public static const SHAREDOBJECT_LOCAL_NAME:String = "scy-assessment";
+			public static const IMAGE_BASE_URL:String = "http://www.intermedia.uio.no/www-data-public/app-scy/assessment/";
+			public static const NOTHUMB:String = "http://www.intermedia.uio.no/www-data-public/app-scy/assessment/assets/images/thumbs/nothumb.png";
 			
 			public static const STACK_INTRO_PANEL:Number = 1;
 			public static const STACK_STUDTABLE_PANEL:Number = 2;
@@ -129,8 +134,15 @@
 					portfolioService.url = new String(toolURLProvider.assessmentservice).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "%23");
 				}
 				
-				so.data.saveportfolio = new String(toolURLProvider.saveportfolio)
+				so.data.saveportfolio = new String(toolURLProvider.saveportfolio);
+				so.data.actionlogger = new String(toolURLProvider.actionlogger);
 				so.flush();
+				
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["type"] = "tool_start";
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 				
 				portfolioService.send();
 			}

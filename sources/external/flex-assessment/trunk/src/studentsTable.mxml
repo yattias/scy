@@ -23,11 +23,15 @@
 			import mx.collections.Sort;
 			import mx.collections.SortField;
 			import mx.controls.dataGridClasses.DataGridColumn;
+			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
 			
 			import spark.components.supportClasses.GridColumn;
 			import spark.components.supportClasses.ItemRenderer;
 			import spark.events.IndexChangeEvent;
+			
+			import utility.AutoSaveService;
+			import utility.XMLUtilJer;
 			
 			private var portfolioElo:XML;
 			private var sortedAC:ArrayCollection;
@@ -39,6 +43,14 @@
 			
 			public function refreshContent():void {
 				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["type"] = "student_table_view_started";
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				
+				
 				portfolioElo = so.data.retrievedElosFromRoolo as XML;
 				var unsortedStudentsArray:ArrayCollection = new ArrayCollection();
 				var portfolioXML:XML;
@@ -79,6 +91,25 @@
 				return arrayCollection;
 			}
 			
+			private function logit():void {
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["type"] = "student_table_view_started";
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				var attribs:ArrayCollection = new ArrayCollection();
+				var ob:Object = new Object();
+				ob.oName = "oldSelectedTab";
+				ob.oVal = (students.getChildAt(selectedPane) as missionPortfolioItem).label;
+				attribs.addItem(ob);
+				ob = new Object();
+				ob.oName = "newSelectedTab";
+				ob.oVal = (students.getChildAt(students.selectedIndex) as missionPortfolioItem).label;
+				attribs.addItem(ob);
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
+				
+				selectedPane=students.selectedIndex;
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -92,7 +123,7 @@
 					</s:LinearGradient>
 				</s:backgroundFill>
 				
-				<s:Image source="assets/images/assess.png" width="60" height="60" left="5" top="5" />
+				<s:Image source="{index.IMAGE_BASE_URL+'assets/images/assess.png'}" width="60" height="60" left="5" top="5" />
 			</s:BorderContainer>	
 			<s:BorderContainer id="header" width="100%" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
 				<s:backgroundFill>
@@ -117,13 +148,13 @@
 		
 		<s:BorderContainer width="{hbo.width}" minHeight="10" borderColor="{index.THEME_COL}">
 			<s:HGroup left="2" top="2" right="2" bottom="2" verticalAlign="middle">
-				<mx:Image source="assets/images/inf.png" width="10" height="10" />
+				<mx:Image source="{index.IMAGE_BASE_URL+'assets/images/inf.png'}" width="10" height="10" />
 				<s:Label id="instruc" width="100%" height="13" text="{resourceManager.getString('resources', 'VIEW_STUDENTS_INSTRUC')}" verticalAlign="middle" color="{index.THEME_COL}" />
 			</s:HGroup>
 		</s:BorderContainer>
 		<mx:Spacer height="3" />
 		<s:VGroup id="hbo" width="95%" height="100%" horizontalCenter="0">
-			<mx:Accordion id="students" width="100%" height="100%" borderAlpha=".5" contentBackgroundAlpha=".3" contentBackgroundColor="{index.THEME_LIGHT}" historyManagementEnabled="true" change="selectedPane=students.selectedIndex" color="#FFFFFF" headerStyleName="customAccordionHeadStyles">
+			<mx:Accordion id="students" width="100%" height="100%" borderAlpha=".5" contentBackgroundAlpha=".3" contentBackgroundColor="{index.THEME_LIGHT}" historyManagementEnabled="true" change="logit()" color="#FFFFFF" headerStyleName="customAccordionHeadStyles">
 				<mx:headerRenderer>  
 					<fx:Component>  
 						<local:AccBut />  

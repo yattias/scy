@@ -13,8 +13,10 @@
 			import listeners.ToggleEvent;
 			
 			import mx.collections.ArrayCollection;
+			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
 			
+			import utility.AutoSaveService;
 			import utility.XMLUtilJer;
 			
 			private var portfolioElo:XML;
@@ -32,6 +34,14 @@
 			
 			private function getEloArrayByCategory(categ:String):ArrayCollection {
 				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				sLogger["type"] = "elo_category_view_started";
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				
+				
 				portfolioElo = so.data.retrievedElosFromRoolo as XML;
 				var eloArrayByCategory:ArrayCollection = new ArrayCollection();
 				var ob:Object;
@@ -80,6 +90,12 @@
 					compareEloButton.enabled = false;
 				}
 				dispatchEvent(tEvent);
+				
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				sLogger["type"] = "elo_category_view_finished";
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 			}
 
 			protected function navigatorcontent1_creationCompleteHandler(event:FlexEvent):void {
@@ -124,7 +140,7 @@
 					</s:LinearGradient>
 				</s:backgroundFill>
 				
-				<s:Image source="assets/images/assess.png" width="60" height="60" left="5" top="5" />
+				<s:Image source="{index.IMAGE_BASE_URL+'assets/images/assess.png'}" width="60" height="60" left="5" top="5" />
 			</s:BorderContainer>	
 			<s:BorderContainer id="header" width="100%" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
 				<s:backgroundFill>

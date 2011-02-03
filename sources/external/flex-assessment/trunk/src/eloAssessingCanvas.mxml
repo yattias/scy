@@ -45,6 +45,13 @@
 			
 			public function assessElo(elo:String):void {
 				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["type"] = "elo_assess_view_started";
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				
 				portfolioElo = so.data.retrievedElosFromRoolo as XML;
 				
 				var myList:XMLList = portfolioElo.portfolio.elos.elo.(uri == elo);
@@ -75,6 +82,12 @@
 				tEvent.direction = dir;
 				tEvent.selecTarget = stack;
 				dispatchEvent(tEvent);
+				
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				sLogger["type"] = "elo_assess_view_finished";
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 			}
 			
 			private function validateAssessment():void {
@@ -87,10 +100,9 @@
 					so.flush();
 					
 					var portXML:XML = newEloXML.parent().parent();
-					var s:String = new String(portXML.missionruntimeuri).replace('#', '%23');
-					portXML.missionruntimeuri = <missionruntimeuri>{XMLUtilJer.cdata(s)}</missionruntimeuri>;
+					portXML.missionruntimeuri = <missionruntimeuri>{XMLUtilJer.cdata(portXML.missionruntimeuri)}</missionruntimeuri>;
 					
-					new AutoSaveService(so.data.saveportfolio+"?missionURI="+decodeURI(s)+"&xmlContent="+encodeURI(portXML));
+					new AutoSaveService(so.data.saveportfolio+"?missionURI="+decodeURI(portXML.missionruntimeuri)+"&xmlContent="+encodeURI(portXML));
 					
 					clickHandler(index.RIGHT_DIRECTION, originPanel);
 					assesslider.value = 1;
@@ -141,7 +153,7 @@
 					</s:LinearGradient>
 				</s:backgroundFill>
 				
-				<s:Image source="assets/images/assess.png" width="60" height="60" left="5" top="5" />
+				<s:Image source="{index.IMAGE_BASE_URL+'assets/images/assess.png'}" width="60" height="60" left="5" top="5" />
 			</s:BorderContainer>	
 			<s:BorderContainer id="header" width="100%" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
 				<s:backgroundFill>
@@ -211,10 +223,10 @@
 							<s:VGroup width="90%" gap="0" horizontalCenter="0">
 								<mx:Spacer height="20" />
 								<s:HGroup width="100%" id="sliderIcon" height="33" gap="{(sliderIcon.width-4*30)/3}">
-									<s:Image source="assets/images/emoticons/1.png" width="30" height="33" />
-									<s:Image source="assets/images/emoticons/2.png" width="30" height="33" />
-									<s:Image source="assets/images/emoticons/3.png" width="30" height="33" />
-									<s:Image source="assets/images/emoticons/4.png" width="30" height="33" /> 
+									<s:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/1.png'}" width="30" height="33" />
+									<s:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/2.png'}" width="30" height="33" />
+									<s:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/3.png'}" width="30" height="33" />
+									<s:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/4.png'}" width="30" height="33" /> 
 								</s:HGroup>
 								<mx:HSlider chromeColor="#000000" enabled="false" id="refOnInqTextSlider" minimum="1" maximum="4" value="{inquiryNumber}" dataTipPlacement="top" tickColor="#000000"
 											snapInterval="1" tickInterval="1" allowTrackClick="false" width="100%" showDataTip="false" />
@@ -227,7 +239,7 @@
 				<s:VGroup width="100%" height="100%" contentBackgroundColor="{index.THEME_COL}" horizontalAlign="right">
 					<mx:Spacer height="3"/>
 					<s:HGroup>
-						<s:Image width="100" height="100" source="assets/images/thumbs/thumb3.jpg" />
+						<s:Image width="100" height="100" source="{index.IMAGE_BASE_URL+'assets/images/thumbs/thumb3.jpg'}" />
 						<mx:Spacer width="3" />
 					</s:HGroup>
 					<mx:Accordion width="100%" height="100%" creationPolicy="all" color="#FFFFFF" headerStyleName="customAccordionHeadStyles">
