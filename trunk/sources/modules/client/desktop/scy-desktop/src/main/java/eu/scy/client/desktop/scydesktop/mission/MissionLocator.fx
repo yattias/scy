@@ -141,7 +141,7 @@ public class MissionLocator {
                content: eloSaveAsPanel.getDesignRootNodes()
             }
             title: ##"Enter title"
-            eloIcon: window.eloIcon
+            eloIcon: window.eloIcon.clone()
             windowColorScheme: window.windowColorScheme
          }
    }
