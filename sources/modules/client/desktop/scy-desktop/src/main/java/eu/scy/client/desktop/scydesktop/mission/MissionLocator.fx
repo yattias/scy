@@ -27,6 +27,10 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.design.EloSaveAsMi
 import eu.scy.common.mission.MissionModelElo;
 import eu.scy.common.mission.MissionRuntimeModel;
 import eu.scy.common.mission.impl.BasicMissionRuntimeModel;
+import javafx.scene.Cursor;
+import eu.scy.client.desktop.scydesktop.utils.JavaFXBackgroundRunner;
+import eu.scy.common.mission.MissionModel;
+import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 
 /**
  * @author SikkenJ
@@ -108,20 +112,31 @@ public class MissionLocator {
 
    function continueMission(missionRuntimeElo: MissionRuntimeElo) {
       injectMissionRuntimeEloInRepository(missionRuntimeElo.getUriFirstVersion());
-      def missionRuntimeModel = missionRuntimeElo.getMissionRuntimeModel();
-      def missionModel = missionRuntimeModel.getMissionModel();
-      missionModel.loadMetadata(tbi);
-      missionMapModel = MissionModelFX {
-            tbi: tbi
-            missionModel: missionModel
-            saveUpdatedModel: true
-         }
+        ProgressOverlay.startShowWorking();
+        var missionRuntimeModel: MissionRuntimeModel;
+        JavaFXBackgroundRunner {
+          runner: function(): Object {
+             missionRuntimeModel = missionRuntimeElo.getMissionRuntimeModel();
+             def missionModel = missionRuntimeModel.getMissionModel();
+             missionModel.loadMetadata(tbi);
+             return missionModel;
+          }
+          finished: function(missionModel): Void {
+               missionMapModel = MissionModelFX {
+                tbi: tbi
+                missionModel: missionModel as MissionModel
+                saveUpdatedModel: true
+             }
 
-      startMission(MissionRunConfigs {
-         tbi: tbi
-         missionRuntimeModel: missionRuntimeModel
-         missionMapModel: missionMapModel
-      });
+              startMission(MissionRunConfigs {
+                 tbi: tbi
+                 missionRuntimeModel: missionRuntimeModel
+                 missionMapModel: missionMapModel
+              });
+              ProgressOverlay.stopShowWorking();
+          }
+        }.start();
+
    }
 
    function startBlankMission(): Void {
