@@ -22,7 +22,7 @@
                      <property name="id" value="design"/>
                      <property name="xPosition" value="-30"/>
                      <property name="yPosition" value="-30"/>
-                     <property name="tooltip" value="????"/>
+                     <property name="tooltip" value="tip_LAS_A"/>
                      <property name="lasType" value="DESIGN"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part1_Goals.html"/>
                      <property name="loEloUris">
@@ -46,7 +46,7 @@
                      <property name="id" value="experiment"/>
                      <property name="xPosition" value="30"/>
                      <property name="yPosition" value="30"/>
-                     <property name="tooltip" value="????"/>
+                     <property name="tooltip" value="tip_LAS_B"/>
                      <property name="lasType" value="EXPERIMENT"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part1_Goals.html"/>
                      <property name="loEloUris">
@@ -74,7 +74,7 @@
                      <property name="id" value="information"/>
                      <property name="xPosition" value="40"/>
                      <property name="yPosition" value="-100"/>
-                     <property name="tooltip" value="????"/>
+                     <property name="tooltip" value="tip_LAS_C"/>
                      <property name="lasType" value="INFORMATION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part1_Goals.html"/>
                      <property name="loEloUris">
@@ -98,7 +98,7 @@
                      <property name="id" value="conceptualization1"/>
                      <property name="xPosition" value="100"/>
                      <property name="yPosition" value="-40"/>
-                     <property name="tooltip" value="Discussion Notes"/>
+                     <property name="tooltip" value="tip_LAS_D"/>
                      <property name="lasType" value="CONCEPTUALISATION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part2_Goals.html"/>
                      <property name="loEloUris">
@@ -122,7 +122,7 @@
                      <property name="id" value="conceptualization2"/>
                      <property name="xPosition" value="100"/>
                      <property name="yPosition" value="40"/>
-                     <property name="tooltip" value="Discussion Notes"/>
+                     <property name="tooltip" value="tip_LAS_E"/>
                      <property name="lasType" value="CONCEPTUALISATION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part3_Goals.html"/>
                      <property name="loEloUris">
@@ -146,7 +146,7 @@
                      <property name="id" value="conceptualization3"/>
                      <property name="xPosition" value="40"/>
                      <property name="yPosition" value="100"/>
-                     <property name="tooltip" value="Discussion Notes"/>
+                     <property name="tooltip" value="tip_LAS_F"/>
                      <property name="lasType" value="CONCEPTUALISATION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part4_Goals.html"/>
                      <property name="loEloUris">
@@ -168,7 +168,7 @@
                      <property name="id" value="conceptualization4"/>
                      <property name="xPosition" value="-40"/>
                      <property name="yPosition" value="100"/>
-                     <property name="tooltip" value="Discussion Notes"/>
+                     <property name="tooltip" value="tip_LAS_G"/>
                      <property name="lasType" value="CONCEPTUALISATION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part5_Goals.html"/>
                      <property name="loEloUris">
@@ -191,7 +191,7 @@
                      <property name="id" value="reflection1"/>
                      <property name="xPosition" value="-100"/>
                      <property name="yPosition" value="40"/>
-                     <property name="tooltip" value="Criteria"/>
+                     <property name="tooltip" value="tip_LAS_H"/>
                      <property name="lasType" value="REFLECTION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part6_Goals.html"/>
                      <property name="loEloUris">
@@ -213,7 +213,7 @@
                      <property name="id" value="reflection2"/>
                      <property name="xPosition" value="-100"/>
                      <property name="yPosition" value="-40"/>
-                     <property name="tooltip" value="Criteria"/>
+                     <property name="tooltip" value="tip_LAS_I"/>
                      <property name="lasType" value="REFLECTION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Goals.html"/>
                      <property name="loEloUris">
@@ -240,7 +240,7 @@
                      <property name="id" value="evaluation"/>
                      <property name="xPosition" value="-40"/>
                      <property name="yPosition" value="-100"/>
-                     <property name="tooltip" value="Criteria"/>
+                     <property name="tooltip" value="tip_LAS_J"/>
                      <property name="lasType" value="EVALUATION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/Part8_Goals.html"/>
                      <property name="loEloUris">
@@ -271,7 +271,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="myOptimizedHealthyPizza"/>
                <property name="uri" value="roolo://memory/30003/0/My+Optimized+Healthy+Pizza+%28Pizza+3%29.scymodel"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Methodology_Steps.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_A.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.1.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
@@ -285,7 +285,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="myFavouritePizza"/>
                <property name="uri" value="roolo://memory/30001/0/My+Favourite+Pizza+%28Pizza+1%29.scymodel"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Discussion_Notes.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_A.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part1_ELO1.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
