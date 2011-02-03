@@ -24,6 +24,7 @@ import eu.scy.client.desktop.scydesktop.tools.mission.TemplateElosEloEditorCreat
 import eu.scy.client.desktop.scydesktop.tools.mission.RuntimeSettingsEditorCreator;
 import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreatorFX;
 import eu.scy.client.desktop.scydesktop.scywindows.moreinfomanager.TestMoreInfoNodeCreator;
+import java.lang.System;
 
 /**
  * @author sikkenj
@@ -65,11 +66,16 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def runtimeSettingsId = "runtimeSettings";
    def testMoreInfoId = "testMoreInfo";
 
+   def startNanos = System.nanoTime();
+
+   initializer.loadTimer.startActivity("creeate ScyDesktopCreator");
+
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
               missionRunConfigs: missionRunConfigs;
            }
 
+   initializer.loadTimer.startActivity("registering tool creators");
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ScyToolViewerCreator{}, scyToolViewerId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TextEditorScyToolContentCreator {}, scyTextId);
 //   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), eloXmlViewerId);
@@ -88,7 +94,11 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
 
    scyDesktopCreator.eloConfigManager.addDebugCreatorId(scyToolViewerId);
    
+   initializer.loadTimer.startActivity("creeate ScyDesktop");
+
    var scyDesktop = scyDesktopCreator.createScyDesktop();
+
+   initializer.loadTimer.startActivity("creeate EloManagement");
 
    scyDesktop.bottomLeftCornerTool = EloManagement {
       scyDesktop: scyDesktop;
@@ -97,6 +107,9 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
       titleKey: scyDesktopCreator.config.getTitleKey();
       technicalFormatKey: scyDesktopCreator.config.getTechnicalFormatKey();
    }
+
+   initializer.loadTimer.endActivity();
+
    return scyDesktop;
 }
 

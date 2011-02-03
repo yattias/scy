@@ -12,7 +12,11 @@
    </appender>
 
    <logger name="org.scy">
-      <level value="error" />
+      <level value="warn" />
+   </logger>
+
+   <logger name="eu.scy.client.desktop.scydesktop">
+      <level value="debug" />
    </logger>
 
    <logger name="eu.scy.client.desktop.scydesktop.scywindows">
@@ -20,7 +24,7 @@
    </logger>
 
    <logger name="eu.scy.client.desktop.scydesktop.scywindows.scydesktop">
-      <level value="error" />
+      <level value="debug" />
    </logger>
 
    <logger name="eu.scy.client.desktop.scydesktop.scywindows.window_positions">
