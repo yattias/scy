@@ -40,6 +40,9 @@ import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.mission.impl.ApplyEloToolConfigDefaults;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.FxdWindowStyler;
 import eu.scy.client.desktop.scydesktop.utils.ActivityTimer;
+import roolo.elo.api.IMetadata;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * @author sikkenj
@@ -296,25 +299,32 @@ public class ScyDesktopCreator {
 
    function printConfiguration(): Void {
       println("\nThe list of all elo uris, used in mission map runtime");
-      for (uri in missionModelFX.getEloUris(false)) {
-         printEloUri(uri as URI);
-      }
+      printEloInfos(missionModelFX.getEloUris(false));
       println("\nThe list of template elo uris");
+      def eloUris = new ArrayList();
       for (uri in templateEloUris) {
-         printEloUri(uri);
+         eloUris.add(uri)
       }
+      printEloInfos(eloUris);
       println("");
    }
 
-   function printEloUri(uri: URI): Void {
+   function printEloInfos(eloUris: List){
+      def metadatas = config.getRepository().retrieveMetadatas(eloUris);
+      for (uri in eloUris) {
+         printEloInfoFromMetadata(uri as URI, metadatas.get(indexof uri));
+      }
+   }
+
+   function printEloInfoFromMetadata(uri: URI, metadata: IMetadata): Void {
       var title = "?";
       var technicalType = "?";
       var functionalType = "?";
-      var metadata = config.getRepository().retrieveMetadata(uri);
       if (metadata != null) {
-         title = metadata.getMetadataValueContainer(titleKey).getValue() as String;
-         technicalType = metadata.getMetadataValueContainer(technicalFormatKey).getValue() as String;
-         functionalType = metadata.getMetadataValueContainer(functionalTypeKey).getValue() as String;
+      def scyElo = new ScyElo(metadata,config.getToolBrokerAPI());
+         title = scyElo.getTitle();
+         technicalType = scyElo.getTechnicalFormat();
+         functionalType = "{scyElo.getFunctionalRole()}";
       }
       println("{uri}^t^{title}^t^{technicalType}^t^{functionalType}");
    }
