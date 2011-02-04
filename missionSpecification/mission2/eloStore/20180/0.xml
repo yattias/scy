@@ -39,37 +39,13 @@
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/25/3/eco+factors.scymapping</entry>
+        <entry>roolo://memory/20180/0/eco+factors.scymapping</entry>
       </identifier>
       <las />
       <title>
         <string language="en">eco factors</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier>
-          <catalog>memory</catalog>
-          <entry>roolo://memory/25/2/eco+factors.scymapping</entry>
-        </identifier>
-      </resource>
-    </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_versioned_by</value>
-      </kind>
-      <resource>
-        <identifier>
-          <catalog>memory</catalog>
-          <entry>roolo://memory/25/4/eco+factors.scymapping</entry>
-        </identifier>
-      </resource>
-    </relation>
   </lom>
   <thumbnail>
     <mime>png</mime>
