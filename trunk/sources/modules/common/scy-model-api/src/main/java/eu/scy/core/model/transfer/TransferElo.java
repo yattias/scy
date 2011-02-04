@@ -324,7 +324,7 @@ public class TransferElo extends BaseXMLTransfer {
     }
 
     public static String convertRtfToHtml(final String txt) {
-        System.out.println("CONVERTING RICH TEXT TO HTML!");
+        //System.out.println("CONVERTING RICH TEXT TO HTML!");
         try {
             final RTFEditorKit rtf_edit = new RTFEditorKit();
             final JTextPane jtp_rtf = new JTextPane();
@@ -354,7 +354,7 @@ public class TransferElo extends BaseXMLTransfer {
             StringWriter writer = new StringWriter();
             final HTMLEditorKit html_edit = new HTMLEditorKit();
             html_edit.write(writer, html_doc, 0, html_doc.getLength());
-            System.out.println("PRODUCED HTML: " + writer.toString());
+            //System.out.println("PRODUCED HTML: " + writer.toString());
             return writer.toString();
         } catch (Exception ex) {
             return txt;

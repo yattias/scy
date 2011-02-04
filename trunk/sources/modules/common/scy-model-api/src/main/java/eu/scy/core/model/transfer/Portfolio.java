@@ -51,7 +51,17 @@ public class Portfolio {
     }
 
     public String getPortfolioStatus() {
-        return getCdata(portfolioStatus);
+        return portfolioStatus;
+    }
+
+    public Boolean getIsPortfolioSubmitted() {
+        if(getPortfolioStatus().equals("PORTFOLIO_SUBMITTED")) return true;
+        return false;
+    }
+
+    public Boolean getIsPortfolioAssessed() {
+        if(getPortfolioStatus().equals("PORTFOLIO_ASSESSSED")) return true;
+        return false;
     }
 
     public void setPortfolioStatus(String portfolioStatus) {
@@ -106,13 +116,13 @@ public class Portfolio {
         this.reflectionEffort = reflectionEffort;
     }
 
-    /*public Boolean getAssessed() {
+    public Boolean getAssessed() {
         return assessed;
     }
 
     public void setAssessed(Boolean assessed) {
         this.assessed = assessed;
-    } */
+    } 
 
     public List<TransferElo> getElos() {
         return elos;
