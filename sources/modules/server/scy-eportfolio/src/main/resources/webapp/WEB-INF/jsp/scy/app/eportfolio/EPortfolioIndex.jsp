@@ -2,7 +2,6 @@
 <tiles:insertDefinition name="default-page">
     <tiles:putAttribute name="main">
 
-
        <link rel="stylesheet" type="text/css" href="http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/history/history.css" />
         <script type="text/javascript" src="http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/history/history.js"></script>
         <!-- END Browser History required section -->  

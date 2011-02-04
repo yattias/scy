@@ -2,6 +2,13 @@ package eu.scy.core.model.transfer;
 
 import eu.scy.common.scyelo.ScyElo;
 
+import javax.swing.*;
+import javax.swing.text.*;
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.rtf.RTFEditorKit;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Date;
@@ -83,7 +90,14 @@ public class TransferElo extends BaseXMLTransfer {
         if (getTechnicalFormat() != null) {
             if (getTechnicalFormat().contains("text") ||
                     getTechnicalFormat().contains("rtf")) {
-                getRawData().setText(scyElo.getContent().getXmlString());
+                String rtfString = scyElo.getContent().getXmlString();
+                if (rtfString != null && rtfString.length() > 0) {
+                    rtfString = rtfString.replaceAll("<RichText>", "");
+                    rtfString = rtfString.replaceAll("</RichText>", "");
+                    rtfString = convertRtfToHtml(rtfString);
+                }
+
+                getRawData().setText(rtfString);
             }
         }
 
@@ -117,7 +131,7 @@ public class TransferElo extends BaseXMLTransfer {
     }
 
     public String getThumbnail() {
-         try {
+        try {
             return URLEncoder.encode(thumbnail, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -131,7 +145,7 @@ public class TransferElo extends BaseXMLTransfer {
     }
 
     public String getFullsize() {
-         try {
+        try {
             return URLEncoder.encode(fullsize, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -307,5 +321,43 @@ public class TransferElo extends BaseXMLTransfer {
 
     public void setRawData(RawData rawData) {
         this.rawData = rawData;
+    }
+
+    public static String convertRtfToHtml(final String txt) {
+        System.out.println("CONVERTING RICH TEXT TO HTML!");
+        try {
+            final RTFEditorKit rtf_edit = new RTFEditorKit();
+            final JTextPane jtp_rtf = new JTextPane();
+            final JTextPane jtp_html = new JTextPane();
+            final StyleContext rtf_context = new StyleContext();
+            final DefaultStyledDocument rtf_doc = new DefaultStyledDocument(rtf_context);
+            jtp_rtf.setEditorKit(rtf_edit);
+            jtp_rtf.setContentType("text/rtf");
+            jtp_html.setContentType("text/html");
+
+            rtf_edit.read(new StringReader(txt), rtf_doc, 0);
+            jtp_rtf.setDocument(rtf_doc);
+            jtp_html.setText(rtf_doc.getText(0, rtf_doc.getLength()));
+            HTMLDocument html_doc = null;
+            for (int i = 0; i < rtf_doc.getLength(); i++) {
+                AttributeSet a = rtf_doc.getCharacterElement(i).getAttributes();
+                AttributeSet p = rtf_doc.getParagraphElement(i).getAttributes();
+                String s = jtp_rtf.getText(i, 1);
+                jtp_html.select(i, i + 1);
+                jtp_html.replaceSelection(s);
+                html_doc = (HTMLDocument) jtp_html.getDocument();
+                html_doc.putProperty("", "");
+                html_doc.setCharacterAttributes(i, 1, a, false);
+                MutableAttributeSet attr = new SimpleAttributeSet(p);
+                html_doc.setParagraphAttributes(i, 1, attr, false);
+            }
+            StringWriter writer = new StringWriter();
+            final HTMLEditorKit html_edit = new HTMLEditorKit();
+            html_edit.write(writer, html_doc, 0, html_doc.getLength());
+            System.out.println("PRODUCED HTML: " + writer.toString());
+            return writer.toString();
+        } catch (Exception ex) {
+            return txt;
+        }
     }
 }
