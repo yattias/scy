@@ -90,7 +90,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       if (activeLas == null) {
          colorScheme = noLasColorScheme;
       } else {
-         colorScheme = windowStyler.getWindowColorScheme(activeLas.mainAnchor.eloUri);
+         colorScheme = windowStyler.getWindowColorScheme(activeLas.mainAnchor.scyElo);
          println("activeLas.nrOfTimesInstructionShowed: {activeLas.nrOfTimesInstructionShowed} of {activeLas.id}");
          if (runPhase and activeLas.nrOfTimesInstructionShowed < 1) {
             //            FX.deferAction(showInstructionWindow);
@@ -103,7 +103,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    function showInstructionWindow(): Void {
       initInstructionWindow();
       instructionWindow.windowColorScheme = colorScheme;
-      instructionWindow.eloIcon = windowStyler.getScyEloIcon(activeLas.mainAnchor.eloUri);
+      instructionWindow.eloIcon = windowStyler.getScyEloIcon(activeLas.mainAnchor.scyElo);
       //      instructionWindow.infoTypeIcon = CharacterEloIcon {
       //            color: colorScheme.mainColor
       //            iconCharacter: "I"
@@ -148,9 +148,9 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    }
 
    public override function showMoreInfo(infoUri: URI, type: MoreInfoTypes, scyElo: ScyElo): Void {
-      def moreInfoColorScheme = windowStyler.getWindowColorScheme(scyElo.getUri());
+      def moreInfoColorScheme = windowStyler.getWindowColorScheme(scyElo);
       def title = scyElo.getTitle();
-      def eloIcon = windowStyler.getScyEloIcon(scyElo.getUri());
+      def eloIcon = windowStyler.getScyEloIcon(scyElo);
       //      def infoTypeIcon = CharacterEloIcon {
       //            color: colorScheme.mainColor
       //            iconCharacter: getMoreInfoTitle(type).substring(0, 1)

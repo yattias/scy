@@ -857,9 +857,9 @@ public class StandardScyWindow extends ScyWindow {
    function startDragIcon(e: MouseEvent): Void {
       var dragNode: Node;
       var dragObject: Object;
-      if (eloUri != null) {
-         dragNode = windowControl.windowStyler.getScyEloIcon(eloUri);
-         dragObject = tbi.getRepository().retrieveMetadata(eloUri);
+      if (scyElo != null) {
+         dragNode = windowControl.windowStyler.getScyEloIcon(scyElo);
+         dragObject = scyElo.getMetadata();
       }
       else {
          dragNode = windowControl.windowStyler.getScyEloIcon(eloType);

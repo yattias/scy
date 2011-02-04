@@ -76,9 +76,9 @@ public class BigMissionMapControl extends CustomNode {
          bigMissionMapVisible = true;
          sceneSizeChanged();
          FX.deferAction(function(): Void {
-//         bigMissionMap.adjustSize();
             missionMapWindow.resizeTheContent();
             if (initPhase) {
+               FX.deferAction(missionMapWindow.resizeTheContent);
                deferLoadTimer();
                initPhase = false;
             }
