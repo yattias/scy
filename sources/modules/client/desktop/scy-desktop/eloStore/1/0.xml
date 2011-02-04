@@ -35,6 +35,10 @@
       </resource>
     </relation>
   </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA8CAYAAADxJz2MAAAA8klEQVR42u3SMYqDQBSA4VzNA3iE3EVES9uARY5gk2MIniA2NlZCBPu8JQMLWwSyJLCw8v0woKNO8fkOoY86IAAIECBAAQT4TwGv1yuFNxvHMQ7TNMXlcnn6wrqubx18v9/T2nsPuwTYdV2cTqe0uW1b3G63KMsyvqfzeDxG0zTpep7nGIYhsixL93Vdx7Isked5+iOPb/q+T8/O53MURbF/wJ+T82qyntW2bVRV9etzdgsogAABAhRAgAABCiBAgAAFECBAgAIIECBAAQQIEKAAAgQIUAABAgQIECBAgAABkgAIECBAAQQIEKAA/jGgPusL61pAMhuG25wAAAAASUVORK5CYII=</base64>
+  </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
 <text>Mission background</text>
