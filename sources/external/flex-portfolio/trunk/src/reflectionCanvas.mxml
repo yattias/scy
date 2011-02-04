@@ -155,7 +155,6 @@
 				}
 				else {
 					tEvent.newSearch = false;
-					dispatchEvent(tEvent);
 					var sLogger:Dictionary = new Dictionary();
 					sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
 					sLogger["type"] = "reflection_on_elo_canceled";
@@ -167,6 +166,7 @@
 					catch(errObject:Error) {
 						trace(errObject.message);
 					}
+					dispatchEvent(tEvent);
 				}
 			}
 
