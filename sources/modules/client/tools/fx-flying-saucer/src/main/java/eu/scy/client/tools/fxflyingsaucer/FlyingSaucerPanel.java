@@ -22,7 +22,6 @@ import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.xhtmlrenderer.event.DocumentListener;
 import org.xhtmlrenderer.resource.XMLResource;
-import org.xhtmlrenderer.simple.FSScrollPane;
 import org.xhtmlrenderer.util.GeneralUtil;
 
 /**
@@ -54,7 +53,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       homeButton = new javax.swing.JButton();
       urlField = new javax.swing.JTextField();
       loadButton = new javax.swing.JButton();
-      browserScrollPane = new FSScrollPane();
+//      browserScrollPane = new FSScrollPane();
       browserScrollPane = new JScrollPane();
       System.getProperties().setProperty("xr.use.listeners", "false");
       uriManager = new UriManager(this);
@@ -63,7 +62,7 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       browser.addDocumentListener(new DocumentListener()
       {
 
-         long startNanos;
+         long startNanos = -1;
 
          @Override
          public void documentStarted()
@@ -75,9 +74,13 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
          @Override
          public void documentLoaded()
          {
-            long usedNanos = System.nanoTime() - startNanos;
-            long usedMillis = usedNanos / 1000000;
-            logger.info("Loaded page in " + usedMillis + " msec, url: " + browser.getURL());
+            if (startNanos > 0)
+            {
+               long usedNanos = System.nanoTime() - startNanos;
+               long usedMillis = usedNanos / 1000000;
+               logger.info("Loaded page in " + usedMillis + " msec, url: " + browser.getURL());
+               startNanos = -1;
+            }
 //            // System.out.println("Loaded document: \n- url:" + browser.getURL() + "\n- title:" + browser.getDocumentTitle());
             if (urlFieldIsTitle)
             {
@@ -177,10 +180,10 @@ public class FlyingSaucerPanel extends javax.swing.JPanel
       {
          org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
          this.setLayout(layout);
-            layout.setHorizontalGroup(
-               layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup().add(previousButton).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(nextButton).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(homeButton).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(urlField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)).add(browserScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE));
-            layout.setVerticalGroup(
-               layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(layout.createSequentialGroup().add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE).add(previousButton).add(nextButton).add(homeButton).add(urlField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(browserScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)));
+         layout.setHorizontalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup().add(previousButton).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(nextButton).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(homeButton).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(urlField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)).add(browserScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE));
+         layout.setVerticalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING).add(layout.createSequentialGroup().add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE).add(previousButton).add(nextButton).add(homeButton).add(urlField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)).addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED).add(browserScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)));
       }
       else
       {
