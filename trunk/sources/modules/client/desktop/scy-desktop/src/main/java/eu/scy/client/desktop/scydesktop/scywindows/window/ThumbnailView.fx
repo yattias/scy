@@ -49,6 +49,7 @@ public class ThumbnailView extends WindowElement {
    var eloIconGroup: Group;
 
    public override function create(): Node {
+      newScyElo();
       eloIconChanged(eloIcon);
       Group {
          content: [
