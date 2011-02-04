@@ -104,11 +104,10 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas{
 			if( !(ms instanceof I3D)) {
 				
 				if( isScreenCaptureMode ) {
-					ms.setHasDecorations(false);
 					ms.setShowCornerPoints(false);
-				} else {
-					ms.setHasDecorations(true);
-				}
+				} 
+					
+				ms.setHasDecorations(true);
 				ms.paintComponent(g);
 			}
 		}
