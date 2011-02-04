@@ -11,7 +11,6 @@ import java.awt.event.FocusListener;
 import java.util.EventObject;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -175,8 +174,9 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
                 @Override
                 public void focusGained(FocusEvent e) {
                     if(isDefaultText){
-                        textNode.setText("");
+                       textNode.setText("");
                        textNode.setFont(CopexTreeCellRenderer.FONT_NODE);
+                       isDefaultText = false;
                     }
                 }
 
@@ -572,7 +572,7 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
         //int height = labelNodeD.height + commentNodeD.height+5;
 
         int width = labelNodeD.width < commentNodeD.width ? commentNodeD.width : labelNodeD.width;
-         width = width < labelCommentD.width ? labelCommentD.width : width ;
+        width = width < labelCommentD.width ? labelCommentD.width : width ;
         width = width < taskImageD.width ? taskImageD.width : width ;
         width = width < textNodeD.width ? textNodeD.width : width ;
         width = width < materialTableD.width ? materialTableD.width : width ;

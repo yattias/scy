@@ -48,56 +48,70 @@
         </proc_general_principle>
         <material>
             <id>MATERIAL_KETTLE</id>
-            <name  language="fr">Bouilloire</name>
-            <name  language="en">Kettle</name>
+            <name  language="fr">bouilloire</name>
+            <name  language="en">kettle</name>
             <type_ref>
                 <id>TYPE_CONTENEUR</id>
             </type_ref>
         </material>
         <material>
             <id>MATERIAL_CUP</id>
-            <name  language="fr">Tasse</name>
-            <name  language="en">Cup</name>
+            <name  language="fr">tasse</name>
+            <name  language="en">cup</name>
             <type_ref>
                 <id>TYPE_CONTENEUR</id>
             </type_ref>
         </material>
         <material>
             <id>MATERIAL_CUISINIERE</id>
-            <name  language="fr">Cuisinière</name>
-            <name  language="en">Cuisinière</name>
+            <name  language="fr">cuisinière</name>
+            <name  language="en">cuisinière</name>
             <type_ref>
                 <id>TYPE_CHAUFFANT</id>
             </type_ref>
         </material>
         <material>
             <id>MATERIAL_EAU</id>
-            <name  language="fr">Eau du robinet</name>
-            <name  language="en">Eau du robinet</name>
+            <name  language="fr">eau du robinet</name>
+            <name  language="en">eau du robinet</name>
             <type_ref>
                 <id>TYPE_PROD_CHIM</id>
+            </type_ref>
+            <type_ref>
+                <id>TYPE_LIQUIDE</id>
             </type_ref>
         </material>
         <material>
             <id>MATERIAL_TEA_BAG</id>
-            <name  language="fr">Sachet de thé</name>
-            <name  language="en">Tea bag</name>
+            <name  language="fr">sachet de thé</name>
+            <name  language="en">tea bag</name>
             <type_ref>
-                <id>TYPE_PROD_CHIM</id>
+                <id>TYPE_OBJET</id>
             </type_ref>
         </material>
         <material>
             <id>MATERIAL_SUGAR</id>
-            <name  language="fr">Sucre</name>
-            <name  language="en">Sugar</name>
+            <name  language="fr">sucre</name>
+            <name  language="en">sugar</name>
             <type_ref>
                 <id>TYPE_PROD_CHIM</id>
+            </type_ref>
+            <type_ref>
+                <id>TYPE_SOLIDE</id>
             </type_ref>
         </material>
         <material>
             <id>MATERIAL_SPOON</id>
-            <name  language="fr">Cuillère</name>
-            <name  language="en">Spoon</name>
+            <name  language="fr">cuillère</name>
+            <name  language="en">spoon</name>
+            <type_ref>
+                <id>TYPE_HOMOGENEISATEUR</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_FINGER</id>
+            <name  language="fr">doigt</name>
+            <name  language="en">finger</name>
             <type_ref>
                 <id>TYPE_HOMOGENEISATEUR</id>
             </type_ref>
@@ -112,8 +126,8 @@
             <initial_action_variable>
                 <id>VAR_VIDER</id>
                 <nb_param>1</nb_param>
-                <libelle language="fr">Vider {1}.</libelle>
-                <libelle language="en">Vider {1}.</libelle>
+                <libelle language="fr">Vider le/la {1}</libelle>
+                <libelle language="en">Vider le/la {1}</libelle>
                 <initial_param_material>
                     <code>1</code>
                     <name language="fr">Conteneur</name>
@@ -137,8 +151,8 @@
             <initial_action_variable>
                 <id>VAR_AJOUTER_QTT</id>
                 <nb_param>3</nb_param>
-                <libelle language="fr">Ajouter {2} de {3} dans {4}.</libelle>
-                <libelle language="en">Ajouter {2} de {3} dans {4}.</libelle>
+                <libelle language="fr">Ajouter {2} de {3} dans le/la {4}</libelle>
+                <libelle language="en">Ajouter {2} de {3} dans le/la {4}</libelle>
                 <initial_param_quantity>
                     <code>2</code>
                     <name language="fr">volume</name>
@@ -192,7 +206,7 @@
             <initial_action_variable>
                 <id>VAR_CHAUFFER</id>
                 <nb_param>3</nb_param>
-                <libelle language="fr">Chauffer {5} avec {6} jusqu'à une température de {7}.</libelle>
+                <libelle language="fr">Chauffer le/la {5} avec le/la {6} jusqu'à une température de {7}</libelle>
                 <libelle language="en">Chauffer {5} avec {6} jusqu'à une température de {7}.</libelle>
                 <initial_param_material>
                     <code>5</code>
@@ -237,7 +251,7 @@
             <initial_action_variable>
                 <id>VAR_AJOUTER</id>
                 <nb_param>2</nb_param>
-                <libelle language="fr">Ajouter {8} dans  {9}.</libelle>
+                <libelle language="fr">Ajouter un(e){8} du/de la {9}</libelle>
                 <libelle language="en">Ajouter {8} dans  {9}.</libelle>
                 <initial_param_material>
                     <code>8</code>
@@ -246,7 +260,7 @@
                     <and_type>true</and_type>
                     <allType>false</allType>
                     <type_ref>
-                        <id>TYPE_PROD_CHIM</id>
+                        <id>TYPE_OBJET</id>
                     </type_ref>
                 </initial_param_material>
                 <initial_param_material>
@@ -274,7 +288,7 @@
         </initial_action_manipulation>
         <initial_action_manipulation>
             <id>INITIAL_ACTION_MANIP_ENLEVER</id>
-            <libelle language="fr">Enlever</libelle>
+            <libelle language="fr">Retirer</libelle>
             <libelle language="en">Enlever</libelle>
             <is_setting>true</is_setting>
             <draw>false</draw>
@@ -282,7 +296,7 @@
             <initial_action_variable>
                 <id>VAR_ENLEVER</id>
                 <nb_param>2</nb_param>
-                <libelle language="fr">Enlever {10} du {11}.</libelle>
+                <libelle language="fr">Retirer le/la {10} du/de la {11}.</libelle>
                 <libelle language="en">Enlever {10} du {11}.</libelle>
                 <initial_param_material>
                     <code>10</code>
@@ -291,7 +305,7 @@
                     <and_type>true</and_type>
                     <allType>false</allType>
                     <type_ref>
-                        <id>TYPE_PROD_CHIM</id>
+                        <id>TYPE_OBJET</id>
                     </type_ref>
                 </initial_param_material>
                 <initial_param_material>
@@ -305,17 +319,7 @@
                     </type_ref>
                 </initial_param_material>
             </initial_action_variable>
-            <nb_material_prod>1</nb_material_prod>
-            <initial_manipulation_output>
-                <code_output>OUTPUT_SOL_PROD</code_output>
-                <param_name language="fr">Solution</param_name>
-                <param_name language="en">Solution</param_name>
-                <text_prod language="fr">Nom du contenu</text_prod>
-                <text_prod language="en">Nom du contenu</text_prod>
-                <type_ref>
-                    <id>TYPE_PROD_CHIM</id>
-                </type_ref>
-            </initial_manipulation_output>
+            <nb_material_prod>0</nb_material_prod>
         </initial_action_manipulation>
         <initial_action_manipulation>
             <id>INITIAL_ACTION_MANIP_ATTENDRE</id>
@@ -352,7 +356,7 @@
             <initial_action_variable>
                 <id>VAR_HOMOGENEISER</id>
                 <nb_param>2</nb_param>
-                <libelle language="fr">Homogénéiser {13} avec {14}.</libelle>
+                <libelle language="fr">Homogénéiser le/la {13} avec le/la {14}.</libelle>
                 <libelle language="en">Homogénéiser {13} avec {14}.</libelle>
                 <initial_param_material>
                     <code>13</code>

@@ -1430,13 +1430,13 @@ public class CopexController implements ControllerInterface {
     /* drag and drop */
     @Override
     public CopexReturn move(TaskSelected taskSel, SubTree subTree, char undoRedo) {
-//        // System.out.println("***MOVE CONTROLLER***");
-//        // System.out.println(" => taskSel : "+taskSel.getSelectedTask().getDescription(getLocale()));
-//        // System.out.println(" => subTree : "+subTree.getFirstTask().getDescription(getLocale()));
+//        System.out.println("***MOVE CONTROLLER***");
+//        System.out.println(" => taskSel : "+taskSel.getSelectedTask().getDescription(getLocale()));
+//        System.out.println(" => subTree : "+subTree.getFirstTask().getDescription(getLocale()));
 //        if (taskSel.getTaskBrother() != null){
-//            // System.out.println(" => branche frere : "+taskSel.getTaskBrother().getDescription(getLocale()));
+//            System.out.println(" => branche frere : "+taskSel.getTaskBrother().getDescription(getLocale()));
 //        }else if (taskSel.getTaskParent() != null){
-//            // System.out.println(" => branche parent : "+taskSel.getTaskParent().getDescription(getLocale()));
+//            System.out.println(" => branche parent : "+taskSel.getTaskParent().getDescription(getLocale()));
 //        }
         ExperimentalProcedure proc = taskSel.getProc();
         int idP = getIdProc(proc.getDbKey());
@@ -1498,16 +1498,16 @@ public class CopexController implements ControllerInterface {
              expProc.getListTask().get(idParent).setDbKeyChild(-1);
             // on branche le premier petit frere 
             if (subTree.getLastBrother() != -1 && subTree.getLastBrother() != expProc.getListTask().get(idParent).getDbKey()){
-                //expProc.getListTask().get(idParent).setDbKeyChild(subTree.getLastBrother());
-                expProc.getListTask().get(idParent).setDbKeyChild(lastTaskBranch.getDbKeyBrother());
+                expProc.getListTask().get(idParent).setDbKeyChild(subTree.getLastBrother());
+                //expProc.getListTask().get(idParent).setDbKeyChild(lastTaskBranch.getDbKeyBrother());
             }
         }
         // on rebranche eventuellement les freres
         if (oldBrother != null){
             expProc.getListTask().get(idOldBrother).setDbKeyBrother(-1);
             if (subTree.getLastBrother() != -1 && subTree.getLastBrother() != expProc.getListTask().get(idOldBrother).getDbKey()){
-                //expProc.getListTask().get(idOldBrother).setDbKeyBrother(subTree.getLastBrother());
-                expProc.getListTask().get(idOldBrother).setDbKeyBrother(lastTaskBranch.getDbKeyBrother());
+                expProc.getListTask().get(idOldBrother).setDbKeyBrother(subTree.getLastBrother());
+                //expProc.getListTask().get(idOldBrother).setDbKeyBrother(lastTaskBranch.getDbKeyBrother());
             }
         }
         expProc.getListTask().get(idLastTaskBranch).setDbKeyBrother(-1);
@@ -1543,7 +1543,7 @@ public class CopexController implements ControllerInterface {
         subTree.setLastBrother(lastTaskBranch.getDbKeyBrother());
         updateDatasheetProd(expProc);
         expProc.lockMaterialUsed();
-        //// System.out.println("*** FIN MOVE CONTROLLER***");
+        //System.out.println("*** FIN MOVE CONTROLLER***");
         // trace 
         if (setTrace()){
             TaskTreePosition insertPosition = expProc.getTaskTreePosition(taskBranch);

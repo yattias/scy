@@ -145,6 +145,8 @@ public class CopexUtilities {
     }
 
     public static Element stringToXml(String string){
+        if(string == null)
+                return null;
 		StringReader stringReader = new StringReader(string);
 		try{
 			SAXBuilder builder = new SAXBuilder(false);
@@ -159,6 +161,8 @@ public class CopexUtilities {
 	}
 
     public static String xmlToString(Element element){
+        if(element == null)
+                return null;
 		StringWriter stringWriter = new StringWriter();
 		try{
 			XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());

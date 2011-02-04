@@ -13,6 +13,8 @@ import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.jdom.Element;
+import roolo.elo.JDomStringConversion;
 
 /**
  * enregistrement de la trace en base
@@ -44,7 +46,11 @@ public class TraceFromDB {
             if(prop.getName().equals(CopexLog.TAG_PROC_MODEL)){
                 queryParam ="INSERT INTO ACTION_ATTRIBUTE (ID_ATTRIBUTE, ID_ACTION, ATTRIBUTE_NAME, ATTRIBUTE_VALUE_BLOB) VALUES (NULL, "+dbKeyAction+", '"+prop.getName()+"', '"+b+"') ;" ;
             }else{
-                queryParam = "INSERT INTO ACTION_ATTRIBUTE (ID_ATTRIBUTE, ID_ACTION, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) VALUES (NULL, "+dbKeyAction+", '"+prop.getName()+"', '"+prop.getValue()+"') ;" ;
+                if(prop.getSubElement() != null && prop.getSubElement() instanceof Element){
+                    queryParam ="INSERT INTO ACTION_ATTRIBUTE (ID_ATTRIBUTE, ID_ACTION, ATTRIBUTE_NAME, ATTRIBUTE_VALUE_BLOB) VALUES (NULL, "+dbKeyAction+", '"+prop.getName()+"', '"+AccesDB.replace("\'",new JDomStringConversion().xmlToString((Element)prop.getSubElement()),"''")+"') ;" ;
+                }else{
+                    queryParam = "INSERT INTO ACTION_ATTRIBUTE (ID_ATTRIBUTE, ID_ACTION, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) VALUES (NULL, "+dbKeyAction+", '"+prop.getName()+"', '"+prop.getValue()+"') ;" ;
+                }
             }
             queryID = "SELECT max(last_insert_id(`ID_ATTRIBUTE`))   FROM ACTION_ATTRIBUTE ;";
             v2 = new ArrayList();

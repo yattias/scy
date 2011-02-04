@@ -110,7 +110,7 @@ public class CopexLog {
         list.add(new CopexProperty(TAG_PROC_ID, Long.toString(proc.getDbKey()), null));
         list.add(new CopexProperty(TAG_PROC_NAME, proc.getName(locale), null));
         list.add(new CopexProperty(TAG_TASK, "", task.toXML()));
-        list.add(new CopexProperty(TAG_TASK_POSITION, "task_position", position.toXML()));
+        list.add(new CopexProperty(TAG_TASK_POSITION, "task_position", null));
         list.add(new CopexProperty(TAG_PROC_MODEL, getModel(proc), null));
         return list;
     }

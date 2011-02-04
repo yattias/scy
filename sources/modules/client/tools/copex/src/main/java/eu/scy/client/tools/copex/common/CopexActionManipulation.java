@@ -216,10 +216,10 @@ public class CopexActionManipulation extends CopexActionParam implements Cloneab
         int nbMatProd = listMaterialProd.size();
         for (int i=0; i<nbMatProd; i++){
             if (this.listMaterialProd.get(i) instanceof Material){
-                s += "\n"+((InitialActionManipulation)this.namedAction).getListOutput().get(i).getTextProd(locale)+" : "+((Material)listMaterialProd.get(i)).getName(locale);
+                s += " - "+((InitialActionManipulation)this.namedAction).getListOutput().get(i).getTextProd(locale)+" : "+((Material)listMaterialProd.get(i)).getName(locale);
             }else if (this.listMaterialProd.get(i) instanceof ArrayList){
                 int n = ((ArrayList)this.listMaterialProd.get(i)).size();
-                s += "\n"+((InitialActionManipulation)this.namedAction).getListOutput().get(i).getTextProd(locale)+" : ";
+                s += " - "+((InitialActionManipulation)this.namedAction).getListOutput().get(i).getTextProd(locale)+" : ";
                 for (int j=0; j<n; j++){
                     s += ((ArrayList<Material>)this.listMaterialProd.get(i)).get(j).getName(locale)+" | ";
                 }
