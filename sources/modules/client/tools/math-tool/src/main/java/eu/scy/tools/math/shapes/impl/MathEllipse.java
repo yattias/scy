@@ -24,7 +24,6 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 	private DecimalFormat twoDForm = new DecimalFormat(UIUtils.PATTERN);
 
 	private String id;
-	private boolean isShowCornerPoints = true;
 	private Point[] points  = new Point[1];
 	private Color fillColor = new Color(0x99cc99);
 	private double radius;
@@ -32,14 +31,16 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 	private String formula;
 
 	private String oldResult;
+
+	private boolean hasDecorations;
+
+	private boolean showCornerPoints = true;
 	
 	public MathEllipse(double x, double y, double width, double height) {
         setFrame(x, y, width, height);
         this.createCornerPoints();
     }
 	
-
-
 	@Override
 	public void paintComponent(Graphics g) {
 		
@@ -69,7 +70,11 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 			    cornerPointRectangles[0] = new Rectangle(points[0].x,points[0].y,UIUtils.SHAPE_END_POINT_SIZE, UIUtils.SHAPE_END_POINT_SIZE);
 				g2.fill(cornerPointRectangles[0]);
 		}
-				//text height
+		
+		
+		if( hasDecorations ) {
+			
+			//text height
 				String s = "r = " + twoDForm.format( getRadius() / UIUtils._PIXEL ) + " " + UIUtils.METERS;;
 
 			    AttributedString widthText = new AttributedString(s);
@@ -100,7 +105,7 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 				g2.setPaint(UIUtils.dottedShapeLine);
 				g2.draw(centerLine);
 				g2.setStroke(oldStroke);
-		
+		}
 
 	}
 	
@@ -145,12 +150,12 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 
 	@Override
 	public boolean isShowCornerPoints() {
-		return isShowCornerPoints;
+		return showCornerPoints;
 	}
 
 	@Override
 	public void setShowCornerPoints(boolean showCornerPoints) {
-		this.isShowCornerPoints = showCornerPoints;
+		this.showCornerPoints = showCornerPoints;
 		
 	}
 
@@ -166,6 +171,7 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 
 	@Override
 	public int isHitOnEndPoints(Point eventPoint) {
+		
 		for (int i = 0; i < cornerPointRectangles.length; i++) {
 			if (cornerPointRectangles[i].getBounds2D().contains(eventPoint)) {
 				// // System.out.println("mouse pressed found at position " + 0);
@@ -278,9 +284,9 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 		this.oldResult = result;
 	}
 
-
-	
-
-	
+	@Override
+	public void setHasDecorations(boolean hasDecorations) {
+		this.hasDecorations = hasDecorations;
+	}
 
 }

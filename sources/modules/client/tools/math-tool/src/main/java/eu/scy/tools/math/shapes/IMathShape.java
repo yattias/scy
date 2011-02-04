@@ -50,4 +50,6 @@ public interface IMathShape {
 	public String getResult();
 	
 	public void setResult(String result);
+	
+	public void setHasDecorations(boolean hasDecorations);
 }

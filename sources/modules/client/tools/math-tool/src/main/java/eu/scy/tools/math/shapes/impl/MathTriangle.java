@@ -44,6 +44,9 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 
 	private String oldResult;
 
+
+	private boolean hasDecorations;
+
 	public MathTriangle(int x, int y, int length) {
 		setPointP(new Point(x,y)); //top
 		setPointQ(new Point(x-length,y+length)); //left
@@ -123,6 +126,7 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 
 	@Override
 	public int isHitOnEndPoints(Point eventPoint) {
+		
 		for (int i = 0; i < cornerPointRectangles.length; i++) {
 			if (cornerPointRectangles[i].getBounds2D().contains(eventPoint)) {
 				// System.out.println("mouse pressed found at position " + 1);
@@ -160,6 +164,8 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 					UIUtils.SHAPE_END_POINT_SIZE);
 			g2.fill(cornerPointRectangles[1]);
 		}
+		
+		if( hasDecorations ) {
 			int dy = getPointR().y;
 			
 				Line2D.Double centerLine = new Line2D.Double(getPointP().x,
@@ -223,10 +229,7 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 			     centerPoint = DrawingUtils.getCenterPoint(baseLine.getBounds2D());
 
 			    g2.drawString(widthText.getIterator(), (int)centerPoint.getX() + 5,(int)centerPoint.getY() - 5);
-		
-//		}
-
-		
+		}
 			
 	}
 
@@ -392,6 +395,12 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 	@Override
 	public void setResult(String result) {
 		this.oldResult = result;
+	}
+
+
+	@Override
+	public void setHasDecorations(boolean hasDecorations) {
+		this.hasDecorations = hasDecorations;
 	}
 
 

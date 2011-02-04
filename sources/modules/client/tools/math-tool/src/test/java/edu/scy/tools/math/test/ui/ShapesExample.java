@@ -1,16 +1,26 @@
 package edu.scy.tools.math.test.ui;
 
+import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Robot;
+import java.awt.Shape;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -49,18 +59,20 @@ public class ShapesExample {
 		frame.setPreferredSize(new Dimension(width,height));
 		
 		final MathTriangle t = new MathTriangle(200, 100,103);
-		final MathRectangle mtr = new MathRectangle(20, 40, 100, 100);
-		final MathEllipse me = new MathEllipse(200, 200, 200, 200);
-
-		final ShapeCanvas shapeCanvas = new ShapeCanvas(true);
+		t.setHasDecorations(true);
+		final MathRectangle mtr = new MathRectangle(250, 100, 100, 100);
+		mtr.setHasDecorations(true);
+		final MathEllipse me = new MathEllipse(300, 100, 200, 200);
+		me.setHasDecorations(true);
+		final ShapeCanvas shapeCanvas = new ShapeCanvas(false);
 		
 		
 		new ShapeMoverAdapter(shapeCanvas);
 		new AdjustSizeAdapter(shapeCanvas);
 		
-//		shapeCanvas.addShape(t);
-//		shapeCanvas.addShape(mtr);
-//		shapeCanvas.addShape(me);
+		shapeCanvas.addShape(t);
+		shapeCanvas.addShape(mtr);
+		shapeCanvas.addShape(me);
 		
 //		new ShapeMoverAdapter(r);
 //		new AdjustSizeAdapter(r);
@@ -73,8 +85,8 @@ public class ShapesExample {
 //		
 //		r.add(b);
 		
-		MathRectangle3D mr3 = new MathRectangle3D(100, 200);
-		shapeCanvas.addShape(mr3);
+//		MathRectangle3D mr3 = new MathRectangle3D(100, 200);
+//		shapeCanvas.addShape(mr3);
 //		r.setBackground(Color.white);
 		
 //		new ShapeMoverAdapter(r);
@@ -127,10 +139,58 @@ public class ShapesExample {
 				
 			}});		
 		JXButton saveButton = new JXButton("Save");
+		JXButton exportButton = new JXButton("Export");
 		JXPanel p = new JXPanel();
 		p.setLayout(new FlowLayout(FlowLayout.LEFT));
 		p.add(openButton);
 		p.add(saveButton);
+		p.add(exportButton);
+		exportButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+//				shapeCanvas.getGraphics().
+				JFileChooser fc = new JFileChooser();
+				
+				fc.setSelectedFile(new File("importgooglesketchup.png"));
+				 FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG", new String[] { "PNG" });
+				 fc.setFileFilter(filter);
+				int returnVal = fc.showSaveDialog(frame);
+				
+				
+				 
+	            if (returnVal == JFileChooser.APPROVE_OPTION) {
+	            	
+	            	BufferedImage bimage = new BufferedImage(800, 600, BufferedImage.TRANSLUCENT);
+	            	
+					if (bimage != null) {
+						
+						File file = fc.getSelectedFile();
+					    // The component is not visible on the screen
+						
+						shapeCanvas.setScreenCaptureMode(true);
+						shapeCanvas.repaint();
+						shapeCanvas.revalidate();
+						
+						Graphics2D g2g = (Graphics2D) bimage.getGraphics();
+						g2g.setColor(Color.RED);
+						
+						shapeCanvas.paint(g2g);
+							try {
+								ImageIO.write( bimage, "PNG" /* format desired */ , file /* target */ );
+								shapeCanvas.setScreenCaptureMode(false);
+								shapeCanvas.repaint();
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							}
+					}
+					
+	            	
+	            	
+	            }
+				
+				
+			}});
 		saveButton.addActionListener(new ActionListener(){
 
 			@Override

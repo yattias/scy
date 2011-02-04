@@ -346,4 +346,10 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 	public void setResult(String result) {
 		this.oldResult = result;
 	}
+
+	@Override
+	public void setHasDecorations(boolean hasDecorations) {
+		// TODO Auto-generated method stub
+		
+	}
 }
