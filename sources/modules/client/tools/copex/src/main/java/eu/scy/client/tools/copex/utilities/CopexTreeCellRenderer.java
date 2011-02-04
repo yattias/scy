@@ -310,6 +310,11 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
         }
         Element taskDrawElement = ((CopexTree)tree).getTaskDraw(value);
         if(taskDrawElement != null && taskDrawElement.getChildren() != null && taskDrawElement.getChildren().size() > 0){
+            if(drawPanel != null){
+                drawPanel.removeAll();
+                panelNode.remove(drawPanel);
+                drawPanel = null;
+            }
             panelNode.add(getDrawPanel()) ;
             drawPanel.getWhiteBoardPanel().setContentStatus(taskDrawElement);
             Rectangle2D r = drawPanel.getWhiteBoardPanel().getEnclosingScreenRectangle();
@@ -319,8 +324,10 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
             if(commentNode != null)
                 y = commentNode.getY()+commentNode.getHeight();
             drawPanel.setBounds(0, y, (int)(r.getBounds().getWidth()+r.getBounds().getX())+30, (int)(r.getBounds().getHeight()+r.getBounds().getY()) + 30);
+            drawPanel.repaint();
         }else{
             if(drawPanel != null){
+                drawPanel.removeAll();
                 panelNode.remove(drawPanel);
                 drawPanel = null;
             }

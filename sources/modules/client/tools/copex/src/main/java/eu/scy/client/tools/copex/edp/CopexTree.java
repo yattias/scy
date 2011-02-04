@@ -459,7 +459,15 @@ public class CopexTree extends JTree implements MouseListener, KeyListener, Mous
             TaskTreeNode node =  (TaskTreeNode)value;
             if (node == null || node.getTask() == null  )
                     return null;
-            return node.getTask().getDraw() ;
+            if(node.getTask().getDraw() == null){
+                return null;
+            }else{
+                if(node.getTask().getDraw().getChild("whiteboardContainers") == null || (node.getTask().getDraw().getChild("whiteboardContainers") != null && node.getTask().getDraw().getChild("whiteboardContainers").getContentSize() > 0)){
+                    return node.getTask().getDraw();
+                }else{
+                    return null;
+                }
+            }
        }else
         return null;
    }
