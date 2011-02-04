@@ -135,7 +135,6 @@ public class StandardScyWindow extends ScyWindow {
    var windowTitleBar: WindowTitleBarDouble;
    var resizeElement: WindowResize;
    var rotateElement: WindowRotate;
-   var minimizeElement: WindowMinimize;
    var windowStateControls: WindowStateControls;
    var contentElement: WindowContent;
    var closedWindow: ClosedWindow;
@@ -947,19 +946,6 @@ public class StandardScyWindow extends ScyWindow {
             layoutY: bind realHeight;
          }
 
-      minimizeElement = WindowMinimize {
-            visible: bind allowMinimize and not isClosed;
-            size: controlSize;
-            separatorLength: separatorLength
-            windowColorScheme: windowColorScheme
-            activate: activate;
-            minimizeAction: doMinimize;
-            unminimizeAction: doUnminimize;
-            minimized: bind isMinimized;
-            layoutX: bind realWidth / 2;
-            layoutY: bind height;
-         }
-
       // show a filled rect as content for test purposes
 //      scyContent = Rectangle {
 //         x: -100, y: -100
@@ -989,7 +975,6 @@ public class StandardScyWindow extends ScyWindow {
                   contentElement,
                   drawerGroup,
                   windowTitleBar,
-                  minimizeElement,
                   resizeElement,
                   rotateElement,
 
