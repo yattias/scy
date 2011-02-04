@@ -27,8 +27,6 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.elofactory.EloConfigManager;
 import eu.scy.client.desktop.scydesktop.elofactory.impl.BasicEloConfigManager;
-import eu.scy.client.desktop.scydesktop.scywindows.EloDisplayTypeControl;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.EloDisplayTypeControlImpl;
 import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
@@ -55,7 +53,6 @@ public class ScyDesktopCreator {
    public-init var missionRunConfigs: MissionRunConfigs;
    public-init var config: Config;
    public-init var missionModelFX: MissionModelFX;
-   public-init var eloDisplayTypeControl: EloDisplayTypeControl;
    public-init var windowStyler: WindowStyler;
    public-init var scyToolCreatorRegistryFX: ScyToolCreatorRegistryFX;
    public-init var newEloCreationRegistry: NewEloCreationRegistry;
@@ -78,13 +75,6 @@ public class ScyDesktopCreator {
    init {
       activityTimer.startActivity("findConfig");
       findConfig();
-      if (eloDisplayTypeControl == null) {
-         eloDisplayTypeControl = EloDisplayTypeControlImpl {
-               repository: config.getRepository();
-               extensionManager: config.getExtensionManager();
-               metadataTypeManager: config.getMetadataTypeManager();
-            }
-      }
       activityTimer.startActivity("findMetadataKeys");
       findMetadataKeys();
       activityTimer.startActivity("creating components");
@@ -96,7 +86,6 @@ public class ScyDesktopCreator {
          //               metadataTypeManager: config.getMetadataTypeManager()
          //            };
          windowStyler = FxdWindowStyler {
-               eloTypeControl: eloDisplayTypeControl;
                //               impagesPath: initializer.eloImagesPath
                repository: config.getRepository()
                metadataTypeManager: config.getMetadataTypeManager()
@@ -237,7 +226,7 @@ public class ScyDesktopCreator {
 
    function addEloInformationToMissionAnchor(missionAnchor: MissionAnchorFX): Void {
       if (missionAnchor.eloUri != null and missionAnchor.eloUri.toString() != "") {
-         missionAnchor.windowColorScheme = windowStyler.getWindowColorScheme(missionAnchor.eloUri);
+         missionAnchor.windowColorScheme = windowStyler.getWindowColorScheme(missionAnchor.scyElo);
       } else {
          missionAnchor.windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
       }
@@ -336,7 +325,6 @@ public class ScyDesktopCreator {
             config: config;
             missionRunConfigs: missionRunConfigs
             missionModelFX: missionModelFX;
-            eloDisplayTypeControl: eloDisplayTypeControl;
             windowStyler: windowStyler;
             scyToolCreatorRegistryFX: scyToolCreatorRegistryFX
             newEloCreationRegistry: newEloCreationRegistry;

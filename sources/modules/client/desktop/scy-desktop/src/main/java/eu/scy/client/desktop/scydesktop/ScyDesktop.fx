@@ -54,7 +54,6 @@ import eu.scy.client.desktop.scydesktop.edges.IEdgesManager;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleMyEloChanged;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleScyDesktopEloSaver;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.WindowManagerImpl;
-import eu.scy.client.desktop.scydesktop.scywindows.EloDisplayTypeControl;
 import javafx.scene.effect.Effect;
 import java.lang.System;
 import eu.scy.client.desktop.scydesktop.remotecontrol.RemoteCommandRegistryFX;
@@ -75,7 +74,6 @@ import java.io.Closeable;
 import java.lang.IllegalArgumentException;
 import java.lang.Integer;
 import java.lang.String;
-import org.jdom.Element;
 import java.lang.Exception;
 import java.net.URI;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
@@ -114,7 +112,6 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    public var config: Config;
    public def scene = scyDektopGroup.scene;
    public var missionModelFX: MissionModelFX = MissionModelFX {};
-   public var eloDisplayTypeControl: EloDisplayTypeControl;
    public var windowStyler: WindowStyler;
    public var scyToolCreatorRegistryFX: ScyToolCreatorRegistryFX;
    public var newEloCreationRegistry: NewEloCreationRegistry;
@@ -306,7 +303,6 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             scyDesktop: this
             metadataTypeManager: config.getMetadataTypeManager()
             showLasId: initializer.debugMode
-            eloDisplayTypeControl: eloDisplayTypeControl
             selectedScale: initializer.missionMapSelectedImageScale
             notSelectedScale: initializer.missionMapNotSelectedImageScale
             positionScale: initializer.missionMapPositionScale
@@ -323,7 +319,6 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             scyDesktop: this
             metadataTypeManager: config.getMetadataTypeManager()
             showLasId: initializer.debugMode
-            eloDisplayTypeControl: eloDisplayTypeControl
             selectedScale: initializer.missionMapSelectedImageScale
             notSelectedScale: initializer.missionMapNotSelectedImageScale
             positionScale: initializer.missionMapPositionScale
@@ -506,7 +501,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       missionMap.scyWindowControl = scyWindowControl;
       bigMissionMapControl.scyWindowControl = scyWindowControl;
       backgroundUpdater = BackgroundUpdater {
-            eloDisplayTypeControl: eloDisplayTypeControl
+            windowStyler: windowStyler;
             background: initializer.background
             activeLas: bind missionModelFX.activeLas
          }

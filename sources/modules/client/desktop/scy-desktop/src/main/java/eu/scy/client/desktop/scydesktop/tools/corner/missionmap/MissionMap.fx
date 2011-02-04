@@ -23,9 +23,6 @@ import javafx.util.Math;
 import javafx.scene.text.TextOrigin;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import eu.scy.client.desktop.scydesktop.art.FxdImageLoader;
-import eu.scy.client.desktop.scydesktop.scywindows.EloDisplayTypeControl;
-import eu.scy.client.desktop.scydesktop.art.ArtSource;
 import javafx.util.Sequences;
 import eu.scy.client.desktop.scydesktop.tools.RuntimeSettingsRetriever;
 import eu.scy.common.mission.RuntimeSettingUtils;
@@ -48,7 +45,6 @@ public class MissionMap extends CustomNode {
    public var metadataTypeManager: IMetadataTypeManager;
    public var runtimeSettingsRetriever: RuntimeSettingsRetriever;
    public var showLasId = false;
-   public var eloDisplayTypeControl: EloDisplayTypeControl;
    public var selectedScale = 1.5;
    public var notSelectedScale = 1.0;
    public var positionScale = 2.0;
@@ -64,23 +60,6 @@ public class MissionMap extends CustomNode {
    var anchorDisplays: AnchorDisplay[];
    var anchorMap = new HashMap();
    var anchorLinks: AnchorLink[];
-//   def anchorDisplayTooltipCreator = AnchorDisplayTooltipCreator {
-//         scyDesktop: scyDesktop
-//         metadataTypeManager: metadataTypeManager
-//      }
-//   def lasInfoTooltipCreator = LasInfoTooltipCreator {
-//         scyDesktop: scyDesktop
-//      }
-   def selectedFxdImageLoader: FxdImageLoader = FxdImageLoader {
-         sourceName: ArtSource.selectedIconsPackage
-         backgroundLoading: false;
-         loadedAction: fillDisplayGroup
-      }
-   def notSelectedFxdImageLoader: FxdImageLoader = FxdImageLoader {
-         sourceName: ArtSource.notSelectedIconsPackage
-         backgroundLoading: false;
-         loadedAction: fillDisplayGroup
-      }
    var tooltipCreator: TooltipCreator;
 
    postinit {
@@ -90,17 +69,11 @@ public class MissionMap extends CustomNode {
    }
 
    public override function create(): Node {
+      fillDisplayGroup();
       displayGroup
    }
 
    function fillDisplayGroup(): Void {
-      if (not selectedFxdImageLoader.loaded or not notSelectedFxdImageLoader.loaded) {
-         // one the image loaders is not ready
-         return;
-      }
-
-//      positionScale *= 1.25;
-
       if (bigMissionMap) {
          tooltipCreator = lasInfoTooltipCreator
       } else {
@@ -158,9 +131,6 @@ public class MissionMap extends CustomNode {
                selectionAction: anchorSelected;
                dragAndDropManager: dragAndDropManager
                windowStyler: scyDesktop.windowStyler
-               selectedFxdImageLoader: selectedFxdImageLoader
-               notSelectedFxdImageLoader: notSelectedFxdImageLoader
-               eloDisplayTypeControl: eloDisplayTypeControl
                selectedScale: realSelectedScale
                notSelectedScale: realNotSelectedScale
             //               positionScale:positionScale

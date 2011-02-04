@@ -25,7 +25,7 @@ public class LasInfoDisplayTooltip extends CustomNode {
    def borderWidth = 2;
 
    public override function create(): Node {
-      def colorScheme = windowStyler.getWindowColorScheme(las.mainAnchor.eloUri);
+      def colorScheme = windowStyler.getWindowColorScheme(las.mainAnchor.scyElo);
       def lasInfoDisplay = LasInfoDisplay {
             las: las
             colorScheme: colorScheme

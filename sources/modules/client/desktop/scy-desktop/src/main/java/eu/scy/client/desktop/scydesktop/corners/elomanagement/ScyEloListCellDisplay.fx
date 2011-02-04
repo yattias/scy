@@ -71,7 +71,7 @@ public mixin class ScyEloListCellDisplay {
       if (item instanceof ScySearchResult) {
          scySearchResult = item as ScySearchResult;
       }
-      var eloIcon: EloIcon = windowStyler.getScyEloIcon(scySearchResult.getScyElo().getUri());
+      var eloIcon: EloIcon = windowStyler.getScyEloIcon(scySearchResult.getScyElo());
       eloIcon.visible = scySearchResult != null;
       //      println("creating cell display for {item}, eloIcon: {eloIcon}");
       HBox {

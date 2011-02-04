@@ -277,8 +277,8 @@ public class ScyWindowControlImpl extends ScyWindowControl {
             eloType: scyElo.getTechnicalFormat()
             eloToolConfig: eloConfigManager.getEloToolConfig(scyElo.getTechnicalFormat())
             title: scyElo.getTitle()
-            windowColorScheme:windowStyler.getWindowColorScheme(eloUri)
-            eloIcon:windowStyler.getScyEloIcon(eloUri)
+            windowColorScheme:windowStyler.getWindowColorScheme(scyElo)
+            eloIcon:windowStyler.getScyEloIcon(scyElo)
             setScyContent: setScyContent;
             missionModelFX: missionModel
             tooltipManager: tooltipManager

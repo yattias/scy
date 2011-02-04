@@ -165,7 +165,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
    function createScySearchResult(uri: URI): ScySearchResult {
        //FIXME change this.... dont load metadata into search results
       def scyElo = ScyElo.loadMetadata(uri, tbi);
-      def eloIcon: EloIcon = windowStyler.getScyEloIcon(uri);
+      def eloIcon: EloIcon = windowStyler.getScyEloIcon(scyElo);
       def scySearchResult = new ScySearchResult(scyElo, 1.0);
       scySearchResult.setEloIcon(eloIcon);
       scySearchResult
@@ -381,7 +381,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       def results =
          for (scySearchResultObject in scySearchResultList) {
             def scySearchResult = scySearchResultObject as ScySearchResult;
-            def eloIcon: EloIcon = windowStyler.getScyEloIcon(scySearchResult.getScyElo().getUri());
+            def eloIcon: EloIcon = windowStyler.getScyEloIcon(scySearchResult.getScyElo());
             scySearchResult.setEloIcon(eloIcon);
             scySearchResult
          }
@@ -475,7 +475,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
             openAction: doEloBasedOpen
          }
       eloBasedSearchDesign.baseElo = scyElo;
-      eloBasedSearchDesign.baseEloIcon = windowStyler.getScyEloIcon(scyElo.getUri());
+      eloBasedSearchDesign.baseEloIcon = windowStyler.getScyEloIcon(scyElo);
       if (eloBasedSearchers != null) {
          eloBasedSearchDesign.searchersList.items = for (eloBasedSearcher in eloBasedSearchers) {
                eloBasedSearcher as EloBasedSearcher

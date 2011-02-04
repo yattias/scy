@@ -82,44 +82,12 @@ public class ImageWindowStyler extends WindowStyler {
       }
    }
 
-   public override function getScyColor(type:String):Color{
-      var scyColors = EloImageInformation.getScyColors(type);
-      var colorName = ScyColors.darkGray.mainColorName;
-      if (scyColors != null) {
-         colorName = scyColors.mainColorName;
-      }
-      return Color.web(colorName);
-   }
-
-   public override function getScyColors(type:String):ScyColors{
-      var scyColors = EloImageInformation.getScyColors(type);
-      return scyColors;
-   }
-
    public override function getWindowColorScheme(type:String):WindowColorScheme{
       var scyColors = EloImageInformation.getScyColors(type);
       if (scyColors==null){
          scyColors = ScyColors.darkGray;
       }
       return WindowColorScheme.getWindowColorScheme(scyColors);
-   }
-
-   public override function getScyIconCharacter(type: String): String {
-      var iconChar = "?";
-      if (type == drawingType)
-         iconChar = "D" else if (type == datasetType)
-         iconChar = "V" else if (type == simulationConfigType)
-         iconChar = "S" else if (type == datasetProcessingType)
-         iconChar = "P" else if (type == textType)
-         iconChar = "T" else if (type == imageType)
-         iconChar = "I" else if (type == meloType)
-         iconChar = "I" else if (type == mappingType)
-         iconChar = "M" else if (type == urlType)
-         iconChar = "W" else if (type == videoType)
-         iconChar = "V" else if (type == interviewType)
-         iconChar = "I" else if (type == xprocType)
-         iconChar = "X";
-      return iconChar;
    }
 
    public override function getScyEloIcon(type: String): EloIcon {
@@ -129,22 +97,9 @@ public class ImageWindowStyler extends WindowStyler {
       }
       CharacterEloIcon {
          iconCharacter: getScyIconCharacter(type);
-         color: getScyColor(type)
+         color: getWindowColorScheme(type).mainColor
       };
    }
-
-//   public override function style(window: ScyWindow, uri: URI)  {
-//      var type = eloTypeControl.getEloType(uri);
-//      var windowColorScheme = getWindowColorScheme(type);
-//      var eloIcon = getScyEloIcon(type);
-//      window.windowColorScheme = windowColorScheme;
-//      window.eloIcon = eloIcon;
-//   }
-//
-//   public override function getScyEloIcon(uri: URI): EloIcon {
-//      var type = eloTypeControl.getEloType(uri);
-//      return getScyEloIcon(type);
-//   }
 
    function createEloIcon(eloImageSet: EloImageSet): EloIcon {
       ImageEloIcon {

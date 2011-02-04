@@ -133,7 +133,7 @@ public class MoreInfoWindow extends CustomNode {
 
    }
 
-   public function resizeTheContent() {
+   public function resizeTheContent():Void {
       contentElement.resizeTheContent();
    }
 

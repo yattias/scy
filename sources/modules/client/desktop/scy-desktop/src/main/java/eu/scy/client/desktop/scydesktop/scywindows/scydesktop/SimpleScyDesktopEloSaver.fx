@@ -124,9 +124,9 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       eloSaveAsPanel.setFunctionalRole(scyElo.getFunctionalRole());
       var eloIcon: EloIcon;
       var windowColorScheme: WindowColorScheme;
-      if (window.eloUri != null) {
-         eloIcon = windowStyler.getScyEloIcon(window.eloUri);
-         windowColorScheme = windowStyler.getWindowColorScheme(window.eloUri);
+      if (window.scyElo != null) {
+         eloIcon = windowStyler.getScyEloIcon(window.scyElo);
+         windowColorScheme = windowStyler.getWindowColorScheme(window.scyElo);
       }
       else {
          eloIcon = windowStyler.getScyEloIcon(window.eloType);

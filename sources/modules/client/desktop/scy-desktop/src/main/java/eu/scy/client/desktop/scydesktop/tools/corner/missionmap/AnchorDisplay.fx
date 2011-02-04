@@ -20,9 +20,6 @@ import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseEventInScene;
 import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
-import eu.scy.client.desktop.scydesktop.art.FxdImageLoader;
-import eu.scy.client.desktop.scydesktop.art.EloImageInformation;
-import eu.scy.client.desktop.scydesktop.scywindows.EloDisplayTypeControl;
 
 /**
  * @author sikkenj
@@ -44,22 +41,13 @@ public class AnchorDisplay extends CustomNode {
    public-read var yCenter = bind positionScale*las.yPos + size / 2;
    public var selected = false on replace {
       setColors();
-      selectedEloImage.visible = selected;
-      notSelectedEloImage.visible = not selected;
       eloIcon.selected = selected;
    };
    public var selectionAction: function(AnchorDisplay,MissionAnchorFX):Void;
    public var dragAndDropManager: DragAndDropManager;
-   public-init var selectedFxdImageLoader: FxdImageLoader;
-   public-init var notSelectedFxdImageLoader: FxdImageLoader;
-   public var eloDisplayTypeControl: EloDisplayTypeControl;
-
-   def eloIcon = windowStyler.getScyEloIcon(las.mainAnchor.eloUri);
-   def anchorColor = windowStyler.getScyColor(las.mainAnchor.eloUri);
+   def eloIcon = windowStyler.getScyEloIcon(las.mainAnchor.scyElo);
+   def anchorColor = las.mainAnchor.windowColorScheme.mainColor;
    var contentColor = defaultContentColor;
-   def imageName = EloImageInformation.getIconName(eloDisplayTypeControl.getEloType(las.mainAnchor.eloUri));
-   def selectedEloImage = selectedFxdImageLoader.getNode(imageName);
-   def notSelectedEloImage = notSelectedFxdImageLoader.getNode(imageName);
 
    init{
       las.color = anchorColor;
@@ -81,30 +69,17 @@ public class AnchorDisplay extends CustomNode {
    public override function create(): Node {
       disable = not las.exists;
       eloIcon.selected = selected;
-
-      selectedEloImage.visible = selected;
-      selectedEloImage.scaleX = selectedScale;
-      selectedEloImage.scaleY = selectedScale;
-      notSelectedEloImage.visible = not selected;
-      notSelectedEloImage.scaleX = notSelectedScale;
-      notSelectedEloImage.scaleY = notSelectedScale;
       centerNode(eloIcon);
-      centerNode(selectedEloImage);
-      centerNode(notSelectedEloImage);
       if (las.exists){
          cursor = Cursor.HAND;
       } else{
          eloIcon.opacity = notExistsOpacity;
-         selectedEloImage.opacity = notExistsOpacity;
-         notSelectedEloImage.opacity = notExistsOpacity;
       }
       Group {
          layoutX: bind positionScale*las.xPos;
          layoutY: bind positionScale*las.yPos;
          content: [
             eloIcon,
-//            selectedEloImage,
-//            notSelectedEloImage
          ],
          onMouseClicked: function( e: MouseEvent ):Void {
             if (selectionAction != null){
@@ -134,26 +109,9 @@ public class AnchorDisplay extends CustomNode {
    function mousePressed( e: MouseEvent ):Void{
 //      println("anchorDisplay.onMousePressed");
       if (not e.controlDown){
-         var dragEloIcon:Node;
-         if (selected){
-            dragEloIcon= selectedFxdImageLoader.getNode(imageName);
-            dragEloIcon.visible = true;
-            dragEloIcon.scaleX = selectedScale;
-            dragEloIcon.scaleY = selectedScale;
-            dragEloIcon.layoutX = selectedEloImage.layoutX;
-            dragEloIcon.layoutY = selectedEloImage.layoutY;
-         }
-         else{
-            dragEloIcon= notSelectedFxdImageLoader.getNode(imageName);
-            dragEloIcon.visible = true;
-            dragEloIcon.scaleX = notSelectedScale;
-            dragEloIcon.scaleY = notSelectedScale;
-            dragEloIcon.layoutX = notSelectedEloImage.layoutX;
-            dragEloIcon.layoutY = notSelectedEloImage.layoutY;
-//            dragEloIcon = windowStyler.getScyEloIcon(las.mainAnchor.eloUri);
-//            dragEloIcon.layoutX = eloIcon.layoutX;
-//            dragEloIcon.layoutY = eloIcon.layoutY;
-         }
+         var dragEloIcon = eloIcon.clone();
+         dragEloIcon.layoutX = eloIcon.layoutX;
+         dragEloIcon.layoutY = eloIcon.layoutY;
          dragAndDropManager.startDrag(dragEloIcon, las.mainAnchor.scyElo,this,e);
          return;
       }
