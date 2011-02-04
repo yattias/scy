@@ -1,7 +1,25 @@
 package eu.scy.scymapper.impl.demo;
 
-import eu.scy.scymapper.api.diagram.model.*;
-import eu.scy.scymapper.api.shapes.INodeShape;
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.URL;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+import org.apache.log4j.Logger;
+
+import eu.scy.scymapper.api.diagram.model.IDiagramListener;
+import eu.scy.scymapper.api.diagram.model.IDiagramModel;
+import eu.scy.scymapper.api.diagram.model.ILinkModel;
+import eu.scy.scymapper.api.diagram.model.INodeLinkModel;
+import eu.scy.scymapper.api.diagram.model.INodeModel;
 import eu.scy.scymapper.impl.DiagramModel;
 import eu.scy.scymapper.impl.controller.DiagramController;
 import eu.scy.scymapper.impl.model.DefaultDiagramSelectionModel;
@@ -9,17 +27,8 @@ import eu.scy.scymapper.impl.model.NodeLinkModel;
 import eu.scy.scymapper.impl.model.NodeModel;
 import eu.scy.scymapper.impl.shapes.links.Arrow;
 import eu.scy.scymapper.impl.shapes.nodes.RoundRectangle;
-import eu.scy.scymapper.impl.shapes.nodes.SVGShape;
 import eu.scy.scymapper.impl.shapes.nodes.Star;
 import eu.scy.scymapper.impl.ui.diagram.ConceptDiagramView;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.URL;
-import org.apache.log4j.Logger;
 
 /**
  * User: Bjoerge Naess
@@ -93,13 +102,13 @@ public class DiagramDemo extends JFrame implements IDiagramListener {
 		svgNode.setLabel("I'm a fried SVG egg");
 
 		URL url = getClass().getResource("shapes/egg.svg");
-		try {
-			logger.debug("DiagramImplTest.testAddNodes1");
-			INodeShape s = new SVGShape(url);
-			svgNode.setShape(s);
-		} catch (IOException e) {
-			logger.debug("File not found: " + url);
-		}
+//		try {
+//			logger.debug("DiagramImplTest.testAddNodes1");
+//			INodeShape s = new SVGShape(url);
+//			svgNode.setShape(s);
+//		} catch (IOException e) {
+//			logger.debug("File not found: " + url);
+//		}
 
 		svgNode.setLocation(new Point(100, 50));
 		svgNode.setSize(new Dimension(101, 101));
@@ -157,12 +166,12 @@ public class DiagramDemo extends JFrame implements IDiagramListener {
 		INodeModel egg = new NodeModel();
 		egg.setLabel("I'm a fried SVG egg");
 		URL url = getClass().getResource("egg.svg");
-		try {
-			INodeShape s = new SVGShape(url);
-			egg.setShape(s);
-		} catch (IOException e) {
-			System.err.println("File not found: " + url);
-		}
+//		try {
+//			INodeShape s = new SVGShape(url);
+//			egg.setShape(s);
+//		} catch (IOException e) {
+//			System.err.println("File not found: " + url);
+//		}
 		egg.setLocation(new Point(100, 50));
 		egg.setSize(new Dimension(101, 101));
 		addNode(egg);
@@ -181,13 +190,13 @@ public class DiagramDemo extends JFrame implements IDiagramListener {
 	@Override
 	public void linkAdded(ILinkModel link, boolean focused) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void nodeAdded(INodeModel n, boolean focused) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
 

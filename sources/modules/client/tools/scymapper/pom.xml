@@ -127,41 +127,8 @@
 			<version>2.2.1</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.apache.xmlgraphics</groupId>
-			<artifactId>batik-bridge</artifactId>
-			<version>1.7</version>
-			<exclusions>
-				<exclusion>
-					<groupId>xalan</groupId>
-					<artifactId>xalan</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
 
-		<dependency>
-			<groupId>org.apache.xmlgraphics</groupId>
-			<artifactId>batik-svg-dom</artifactId>
-			<version>1.7</version>
-			<exclusions>
-				<exclusion>
-					<groupId>xalan</groupId>
-					<artifactId>xalan</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
 
-		<dependency>
-			<groupId>org.apache.xmlgraphics</groupId>
-			<artifactId>batik-gvt</artifactId>
-			<version>1.7</version>
-			<exclusions>
-				<exclusion>
-					<groupId>xalan</groupId>
-					<artifactId>xalan</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
 
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
