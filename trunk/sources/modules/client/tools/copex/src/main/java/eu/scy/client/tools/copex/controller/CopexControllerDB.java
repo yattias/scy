@@ -1091,9 +1091,12 @@ public class CopexControllerDB implements ControllerInterface {
         newTask.setVisible(oldTask.isVisible());
         newTask.setRoot(oldTask.isQuestionRoot());
         if (newTask instanceof CopexActionNamed){
-            if ( expProc.getListTask().get(idOld) instanceof CopexActionNamed)
+            if ( expProc.getListTask().get(idOld) instanceof CopexActionNamed){
                 ((CopexActionNamed)expProc.getListTask().get(idOld)).setNamedAction(((CopexActionNamed)newTask).getNamedAction());
-            else{
+            if(expProc.getListTask().get(idOld) instanceof CopexActionParam){
+                ((CopexActionParam)expProc.getListTask().get(idOld)).setTabParam(((CopexActionParam)newTask).getTabParam());
+            }
+            } else {
                 CopexTask ot = expProc.getListTask().get(idOld) ;
                 CopexActionNamed an = new CopexActionNamed(ot.getDbKey(), getLocale(), ot.getName(getLocale()), ot.getDescription(getLocale()), ot.getComments(getLocale()), ot.getTaskImage(),ot.getDraw(),  ot.isVisible(), ot.getTaskRight(),((CopexActionNamed)newTask).getNamedAction(), ot.getTaskRepeat() );
                 expProc.getListTask().set(idOld, an);

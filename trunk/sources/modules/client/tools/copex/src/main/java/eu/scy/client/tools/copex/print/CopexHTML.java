@@ -52,7 +52,7 @@ public class CopexHTML {
             setItem(proc.getEvaluation().getEvaluation(edp.getLocale()), proc.getEvaluation().getComment(edp.getLocale()), "icone_AdT_eval.png", edp.getBundleString("TREE_EVALUATION"));
         }
         //addString("</table>");
-        //// System.out.println(copexHtml);
+         System.out.println(copexHtml);
         v.add(copexHtml);
         return new CopexReturn();
     }
@@ -237,7 +237,7 @@ public class CopexHTML {
     private String getTaskTable(ExperimentalProcedure proc, CopexTask task, int level){
         String descriptionTask = "";
         if(task instanceof CopexAction){
-            descriptionTask = ((CopexAction)task).toDescription(edp);
+            descriptionTask = ((CopexAction)task).toDescription(edp) ;
         }else{
             descriptionTask = task.getDescription(edp.getLocale());
         }
@@ -264,12 +264,14 @@ public class CopexHTML {
             taskTable += "</tr>\n";
         }
         if(task.getDraw() != null){
+            if(task.getDraw() .getChild("whiteboardContainers") == null || (task.getDraw() .getChild("whiteboardContainers") != null && task.getDraw() .getChild("whiteboardContainers").getContentSize() > 0)){
             taskTable += "<tr>\n";
             taskTable += "<td> <span class='task_draw'>\n";
             String fileName = "labdoc-task-"+task.getDbKey()+".png";
-            taskTable += "<img src=\"../tools_utilities/InterfaceServer/labdoc/"+fileName+"\" alt=\"Dessin\" style=\"width: 100%;\">\n";
+            taskTable += "<img src=\"../tools_utilities/InterfaceServer/labdoc/"+fileName+"\" alt=\"Dessin\" >\n";
             taskTable += "</span></td>\n";
             taskTable += "</tr>\n";
+            }
         }
         taskTable += "</table>\n";
         manip += taskTable;

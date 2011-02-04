@@ -911,7 +911,11 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
         }
         if(drawPanel != null){
             // sauvegarde du dessin
-            newAction.setDraw(drawPanel.getWhiteBoardPanel().getStatus());
+            if(drawPanel.getWhiteBoardPanel().getStatus().getChild("whiteboardContainers") == null || (drawPanel.getWhiteBoardPanel().getStatus().getChild("whiteboardContainers") != null && drawPanel.getWhiteBoardPanel().getStatus().getChild("whiteboardContainers").getContentSize() > 0)){
+                newAction.setDraw(drawPanel.getWhiteBoardPanel().getStatus());
+            }else{
+                newAction.setDraw(null);
+            }
         }
 
         newAction.setTaskRepeat(taskRepeat);
