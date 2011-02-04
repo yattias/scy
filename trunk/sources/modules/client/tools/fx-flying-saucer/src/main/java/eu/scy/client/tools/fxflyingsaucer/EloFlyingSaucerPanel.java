@@ -57,7 +57,7 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
 
    public EloFlyingSaucerPanel(UrlSource urlSource)
    {
-      super();
+      super(!(UrlSource.ASSIGNMENT == urlSource || UrlSource.RESOURCES == urlSource));
       this.urlSource = urlSource;
       if (UrlSource.ASSIGNMENT == urlSource || UrlSource.RESOURCES == urlSource)
       {

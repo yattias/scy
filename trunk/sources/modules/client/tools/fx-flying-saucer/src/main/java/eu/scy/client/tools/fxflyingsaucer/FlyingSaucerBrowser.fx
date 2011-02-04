@@ -33,7 +33,7 @@ public class FlyingSaucerBrowser extends CustomNode, Resizable {
    public override var width on replace{ resizeBrowser() };
    public override var height on replace{ resizeBrowser() };
 
-   def browser = new FlyingSaucerPanel();
+   def browser = new FlyingSaucerPanel(true);
 
    function resizeBrowser(){
       browser.setPreferredSize(new Dimension(width,height));

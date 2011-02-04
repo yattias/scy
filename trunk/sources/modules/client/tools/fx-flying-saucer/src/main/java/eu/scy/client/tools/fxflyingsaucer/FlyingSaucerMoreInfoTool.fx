@@ -20,7 +20,7 @@ public class FlyingSaucerMoreInfoTool extends CustomNode, Resizable, ShowInfoUrl
 
    public override var width on replace { resizeContent() };
    public override var height on replace { resizeContent() };
-   def flyingSaucerPanel = new FlyingSaucerPanel();
+   def flyingSaucerPanel = new FlyingSaucerPanel(false);
    def swingComponent = ScySwingWrapper.wrap(flyingSaucerPanel);
 
    public override function create(): Node {
