@@ -83,8 +83,8 @@
 				newEloXML1 = myList1[0] as XML;
 				newEloXML2 = myList2[0] as XML;
 				
-				eloNameText1 = eloXML1.myname;
-				createdByText1 = eloXML1.parent().owner;
+				eloNameText1 = eloXML1.customname;
+				createdByText1 = eloXML1.parent().parent().owner;
 				createdDateText1 = eloXML1.modified;
 				descriptionText1 = eloXML1.studentdescription;
 				glgText1 = XMLUtilJer.getGoalString(eloXML1.studentglg);
@@ -93,8 +93,8 @@
 				inquiryNumber1 = new Number(eloXML1.studentinquiry);
 				thumbnailURL1 = eloXML1.thumbnail;
 				
-				eloNameText2 = eloXML2.myname;
-				createdByText2 = eloXML2.parent().owner;
+				eloNameText2 = eloXML2.customname;
+				createdByText2 = eloXML2.parent().parent().owner;
 				createdDateText2 = eloXML2.modified;
 				descriptionText2 = eloXML2.studentdescription;
 				glgText2 = XMLUtilJer.getGoalString(eloXML2.studentglg);
@@ -167,20 +167,20 @@
 				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 			}
 			
-			protected function image1_clickHandler(event:MouseEvent):void {
+			protected function image1_clickHandler(elo:XML):void {
 				var tEvent:ImageMagEvent = new ImageMagEvent(index.IMAGEMAG_COMMAND, true);
 				tEvent.showNow = true;
-				tEvent.imageSource = eloXML1.fullsize;
+				if(elo.technicalformat == "scy/rtf") {
+					tEvent.evtType = index.ZOOM_TYPE_RICHTEXT;
+					tEvent.rtf = elo.rawdata.text.toString();
+				}
+				else {
+					tEvent.evtType = index.ZOOM_TYPE_IMAGE;
+					tEvent.imageSource = elo.rawdata.fullscreen.toString();
+				}
+				
 				dispatchEvent(tEvent);
 			}
-			
-			protected function image2_clickHandler(event:MouseEvent):void {
-				var tEvent:ImageMagEvent = new ImageMagEvent(index.IMAGEMAG_COMMAND, true);
-				tEvent.showNow = true;
-				tEvent.imageSource = eloXML2.fullsize;
-				dispatchEvent(tEvent);
-			}
-
 		]]>
 	</fx:Script>
 	
@@ -236,16 +236,22 @@
 					<mx:Spacer height="3"/>
 					<s:HGroup>
 						<mx:Spacer width="3" />
-						<s:Image width="100" height="100" source="{thumbnailURL1}" buttonMode="true" click="image1_clickHandler(event)" toolTip="{resourceManager.getString('resources', 'ELO_SHOW_IMAGE_TTIP')}" />
+						<s:Image width="100" height="100" source="{thumbnailURL1}" buttonMode="true" click="image1_clickHandler(eloXML1)" toolTip="{resourceManager.getString('resources', 'ELO_SHOW_IMAGE_TTIP')}" />
 						<mx:Spacer width="3" />
-						<s:TileGroup width="100%" height="100" color="#FFFFFF" requestedRowCount="3" >
-							<s:Label width="100" text="{resourceManager.getString('resources', 'ELO_NAME')+':'}"  />
-							<s:Label width="100" text="{eloNameText1}"/>
-							<s:Label width="100" text="{resourceManager.getString('resources', 'CREATED_BY')+':'}" />
-							<s:Label width="100" text="{createdByText1}"/>
-							<s:Label width="100" text="{resourceManager.getString('resources', 'CREATED_DATE')+':'}" />
-							<s:Label width="100" text="{createdDateText1}"/>
-						</s:TileGroup>
+						<s:VGroup width="100%" height="100%" gap="3" color="#FFFFFF">
+							<s:HGroup width="100%" >
+								<s:Label id="lab1" width="70" text="{resourceManager.getString('resources', 'ELO_NAME')+':'}"  />
+								<s:Label y="{lab1.y}" width="150" text="{eloNameText1}"/>
+							</s:HGroup>
+							<s:HGroup width="100%" >
+								<s:Label id="lab2" width="70" text="{resourceManager.getString('resources', 'CREATED_BY')+':'}" />
+								<s:Label y="{lab2.y}" width="150" text="{createdByText1}"/>
+							</s:HGroup>
+							<s:HGroup width="100%" >
+								<s:Label id="lab3" width="70" text="{resourceManager.getString('resources', 'CREATED_DATE')+':'}" />
+								<s:Label y="{lab3.y}" width="150" text="{createdDateText1}"/>
+							</s:HGroup>
+						</s:VGroup>
 					</s:HGroup>
 					<mx:Accordion width="100%" height="100%" color="#FFFFFF" headerStyleName="customAccordionHeadStyles">
 						<s:NavigatorContent id="descAreaContainer" width="100%" height="100%" label="{resourceManager.getString('resources', 'DESCRIPTION')}">
@@ -307,16 +313,22 @@
 					<mx:Spacer height="3"/>
 					<s:HGroup>
 						<mx:Spacer width="3" />
-						<s:Image width="100" height="100" source="{thumbnailURL2}" buttonMode="true" click="image1_clickHandler(event)" toolTip="{resourceManager.getString('resources', 'ELO_SHOW_IMAGE_TTIP')}" />
+						<s:Image width="100" height="100" source="{thumbnailURL2}" buttonMode="true" click="image1_clickHandler(eloXML2)" toolTip="{resourceManager.getString('resources', 'ELO_SHOW_IMAGE_TTIP')}" />
 						<mx:Spacer width="3" />
-						<s:TileGroup width="100%" height="100" color="#FFFFFF" requestedRowCount="3" >
-							<s:Label width="100" text="{resourceManager.getString('resources', 'ELO_NAME')+':'}"  />
-							<s:Label width="100" text="{eloNameText2}"/>
-							<s:Label width="100" text="{resourceManager.getString('resources', 'CREATED_BY')+':'}" />
-							<s:Label width="100" text="{createdByText2}"/>
-							<s:Label width="100" text="{resourceManager.getString('resources', 'CREATED_DATE')+':'}" />
-							<s:Label width="100" text="{createdDateText2}"/>
-						</s:TileGroup>
+						<s:VGroup width="100%" height="100%" gap="3" color="#FFFFFF">
+							<s:HGroup width="100%" >
+								<s:Label id="lab21" width="70" text="{resourceManager.getString('resources', 'ELO_NAME')+':'}"  />
+								<s:Label y="{lab21.y}" width="150" text="{eloNameText2}"/>
+							</s:HGroup>
+							<s:HGroup width="100%" >
+								<s:Label id="lab22" width="70" text="{resourceManager.getString('resources', 'CREATED_BY')+':'}" />
+								<s:Label y="{lab22.y}" width="150" text="{createdByText2}"/>
+							</s:HGroup>
+							<s:HGroup width="100%" >
+								<s:Label id="lab23" width="70" text="{resourceManager.getString('resources', 'CREATED_DATE')+':'}" />
+								<s:Label y="{lab23.y}" width="150" text="{createdDateText2}"/>
+							</s:HGroup>
+						</s:VGroup>
 					</s:HGroup>
 					<mx:Accordion width="100%" height="100%" color="#FFFFFF" headerStyleName="customAccordionHeadStyles">
 						<s:NavigatorContent id="descAreaContainer2" width="100%" height="100%" label="{resourceManager.getString('resources', 'DESCRIPTION')}">

@@ -6,6 +6,8 @@ package listeners
 	{
 		public var imageSource:String;
 		public var showNow:Boolean;
+		public var evtType:String;
+		public var rtf:String;
 		
 		public function ImageMagEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{

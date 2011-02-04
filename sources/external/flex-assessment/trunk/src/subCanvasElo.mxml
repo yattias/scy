@@ -34,6 +34,12 @@
 			[Bindable] public var assessmentcomment:String = "";
 			[Bindable] public var reflectioncomment:String = "";
 			[Bindable] public var shouldBeSelected:Boolean = false;
+			[Bindable] public var technicalformat:String = "";
+			[Bindable] public var rawdataid:String = "";
+			[Bindable] public var rawdatatext:String = "";
+			[Bindable] public var rawdatathumb:String = "";
+			[Bindable] public var rawdatafull:String = "";
+			[Bindable] public var rawdatadataset:String = "";
 			
 			[Bindable] private var graphicHighlight:Boolean = false;
 			[Bindable] private var alphaValue:Number = .1;

@@ -89,13 +89,14 @@
 				if(stack == index.STACK_ELOCOMPARE_PANEL) {
 					compareEloButton.enabled = false;
 				}
-				dispatchEvent(tEvent);
 				
 				var sLogger:Dictionary = new Dictionary();
 				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
 				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
 				sLogger["type"] = "elo_category_view_finished";
 				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+
+				dispatchEvent(tEvent);
 			}
 
 			protected function navigatorcontent1_creationCompleteHandler(event:FlexEvent):void {
@@ -117,6 +118,7 @@
 							compareArray.addItem(evt.clickedElo);
 						}
 					}	
+					
 				}		
 
 				if(compareArray.length == 2) {

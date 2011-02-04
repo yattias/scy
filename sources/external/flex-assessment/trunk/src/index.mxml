@@ -103,6 +103,10 @@
 			public static const RIGHT_DIRECTION:String = "right";
 			[Bindable] public static var MISSION_NAME:String = "";
 			
+			public static const ZOOM_TYPE_IMAGE:String = "image";
+			public static const ZOOM_TYPE_RICHTEXT:String = "text";
+			public static const ZOOM_TYPE_DATASET:String = "dataset";
+			
 			public static const THEME_COL:Number = 0x666600;
 			public static const THEME_LIGHT:Number = 0x999966;
 			public static const BACK_GRADIENT_TOP:Number = 0x999999;
@@ -153,7 +157,6 @@
 			}
 			
 			protected function application1_applicationCompleteHandler(event:FlexEvent):void {
-				resourceManager.localeChain = [ "en_US" ];
 				retrieveUserInfo();
 				this.addEventListener(TOGGLE_COMMAND, ToggleStack);
 				this.addEventListener(IMAGEMAG_COMMAND, ToggleImageMag);
@@ -165,7 +168,9 @@
 				var userInfo:Object = new Object();
 				userInfo.username = FlexGlobals.topLevelApplication.parameters.username;
 				userInfo.firstname = FlexGlobals.topLevelApplication.parameters.firstName;
-				userInfo.lastname = FlexGlobals.topLevelApplication.parameters.lastName;			
+				userInfo.lastname = FlexGlobals.topLevelApplication.parameters.lastName;	
+				
+				resourceManager.localeChain = [ getCorrectLanguage(new String(FlexGlobals.topLevelApplication.parameters.language)) ];
 				
 				URLpropertyFile.url = FlexGlobals.topLevelApplication.parameters.toolURLProvider;
 				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
@@ -173,6 +178,15 @@
 				}
 				
 				so.data.userInfo = userInfo;
+			}
+			
+			private function getCorrectLanguage(lang:String):String {
+				if(lang == "en_US" || lang == "fr_FR" || lang == "nb_NO" || lang == "el_CY" || lang == "nl_NL") {
+					return lang;
+				}
+				else {
+					return "en_US";
+				}
 			}
 			
 			protected function portfolioService_faultHandler(event:FaultEvent):void {
@@ -229,7 +243,15 @@
 			
 			private function ToggleImageMag(evt:ImageMagEvent):void {
 				maxImage.visible = evt.showNow;
-				maxImageIm.source = evt.imageSource;
+				
+				if(evt.evtType == ZOOM_TYPE_RICHTEXT) {
+					currentState = "rtOnly";
+					maxImageRt.htmlText = evt.rtf;
+				}
+				else {
+					currentState = "imageOnly";
+					maxImageIm.source = evt.imageSource;
+				}
 			}
 			
 			private function animate(direction:String, selecIndex:Number):void {
@@ -275,6 +297,12 @@
 	<fx:Metadata>
 		[ResourceBundle("resources")]
 	</fx:Metadata>
+	
+	<s:states>
+		<s:State name="imageOnly" />
+		<s:State name="rtOnly" />
+		<s:State name="datasetOnly" />
+	</s:states>
 	
 	<s:Group>
 		<s:Line xFrom="0" xTo="{this.width}" yFrom="2" yTo="2">
@@ -324,7 +352,8 @@
 	</s:Group>
 	
 	<s:BorderContainer id="maxImage" visible="false" alpha="0" showEffect="{fadeInIm}" hideEffect="{fadeOutIm}" width="100%" height="100%" backgroundColor="#000000" backgroundAlpha=".7" cornerRadius="0">
-		<s:Image width="90%" height="90%" id="maxImageIm" horizontalCenter="0" verticalCenter="0"/>
+		<s:Image width="90%" height="90%" id="maxImageIm" horizontalCenter="0" verticalCenter="0" includeIn="imageOnly"/>
+		<mx:Text width="90%" height="90%" id="maxImageRt" horizontalCenter="0" verticalCenter="0" includeIn="rtOnly" color="#FFFFFF"/>
 		<s:Button label="{resourceManager.getString('resources', 'CLOSE_BUTTON')}" horizontalCenter="0" bottom="5" click="maxImage.visible=false" />
 	</s:BorderContainer>
 </s:Application>

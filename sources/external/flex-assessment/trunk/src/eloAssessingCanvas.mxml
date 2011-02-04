@@ -58,8 +58,8 @@
 				eloXML = myList[0] as XML;
 				newEloXML = myList[0] as XML;
 				
-				eloNameText = eloXML.myname;
-				createdByText = eloXML.parent().owner;
+				eloNameText = eloXML.customname;
+				createdByText = eloXML.parent().parent().owner;
 				createdDateText = eloXML.modified;
 				descriptionText = eloXML.studentdescription;
 				glgText = XMLUtilJer.getGoalString(eloXML.studentglg);
@@ -124,7 +124,15 @@
 			protected function image1_clickHandler(event:MouseEvent):void {
 				var tEvent:ImageMagEvent = new ImageMagEvent(index.IMAGEMAG_COMMAND, true);
 				tEvent.showNow = true;
-				tEvent.imageSource = eloXML.fullsize;
+				if(eloXML.technicalformat == "scy/rtf") {
+					tEvent.evtType = index.ZOOM_TYPE_RICHTEXT;
+					tEvent.rtf = eloXML.rawdata.text.toString();
+				}
+				else {
+					tEvent.evtType = index.ZOOM_TYPE_IMAGE;
+					tEvent.imageSource = eloXML.rawdata.fullscreen.toString();
+				}
+				
 				dispatchEvent(tEvent);
 			}
 
@@ -185,14 +193,20 @@
 						<mx:Spacer width="3" />
 						<s:Image width="100" height="100" source="{thumbnailURL}" buttonMode="true" click="image1_clickHandler(event)" toolTip="{resourceManager.getString('resources', 'ELO_SHOW_IMAGE_TTIP')}" />
 						<mx:Spacer width="3" />
-						<s:TileGroup width="100%" height="100" color="#FFFFFF" requestedRowCount="3" >
-							<s:Label width="100" text="{resourceManager.getString('resources', 'ELO_NAME')+':'}"  />
-							<s:Label width="100" text="{eloNameText}"/>
-							<s:Label width="100" text="{resourceManager.getString('resources', 'CREATED_BY')+':'}" />
-							<s:Label width="100" text="{createdByText}"/>
-							<s:Label width="100" text="{resourceManager.getString('resources', 'CREATED_DATE')+':'}" />
-							<s:Label width="100" text="{createdDateText}"/>
-						</s:TileGroup>
+						<s:VGroup width="100%" height="100%" gap="3" color="#FFFFFF">
+							<s:HGroup width="100%" >
+								<s:Label id="lab1" width="70" text="{resourceManager.getString('resources', 'ELO_NAME')+':'}"  />
+								<s:Label y="{lab1.y}" width="150" text="{eloNameText}"/>
+							</s:HGroup>
+							<s:HGroup width="100%" >
+								<s:Label id="lab2" width="70" text="{resourceManager.getString('resources', 'CREATED_BY')+':'}" />
+								<s:Label y="{lab2.y}" width="150" text="{createdByText}"/>
+							</s:HGroup>
+							<s:HGroup width="100%" >
+								<s:Label id="lab3" width="70" text="{resourceManager.getString('resources', 'CREATED_DATE')+':'}" />
+								<s:Label y="{lab3.y}" width="150" text="{createdDateText}"/>
+							</s:HGroup>
+						</s:VGroup>
 					</s:HGroup>
 					<mx:Accordion width="100%" height="100%" color="#FFFFFF" headerStyleName="customAccordionHeadStyles">
 						<s:NavigatorContent id="descAreaContainer" width="100%" height="100%" label="{resourceManager.getString('resources', 'DESCRIPTION')}">
