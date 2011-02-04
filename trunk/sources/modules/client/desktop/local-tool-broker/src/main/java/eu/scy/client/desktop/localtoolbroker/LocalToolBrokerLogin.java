@@ -157,7 +157,7 @@ public class LocalToolBrokerLogin implements ToolBrokerLogin
       catch (BeansException e)
       {
          throw new IllegalStateException("cannot load LocalToolBrokerLogin spring config file: "
-                  + springConfigFile + "\nError: " + e.getMessage());
+                  + springConfigFile + "\nError: " + e.getMessage(), e);
       }
       ToolBrokerAPI tbi = (ToolBrokerAPI) context.getBean(tbiBeanName);
       if (tbi == null)
