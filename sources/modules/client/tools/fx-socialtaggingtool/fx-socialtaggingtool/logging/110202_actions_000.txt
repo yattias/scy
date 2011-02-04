@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<actions>
-<action id="3d6b5028-35b7-469f-b8e1-8a42f18dfe15" user="scy" type="las_changed" timemillis="1296655277670"><context><tool>scy-lab</tool><mission>n/a</mission><session>n/a</session><eloURI>n/a</eloURI></context><attributes><property name="newLasId"><![CDATA[]]></property><property name="oldLasId"><![CDATA[]]></property></attributes></action>
