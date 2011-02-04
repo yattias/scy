@@ -399,7 +399,7 @@
 				
 				if(evt.evtType == ZOOM_TYPE_RICHTEXT) {
 					currentState = "rtOnly";
-					maxImageRt.htmlText = evt.rtf;
+					maxImageRt.text = XMLUtilJer.cleanHTML(evt.rtf);
 				}
 				else {
 					currentState = "imageOnly";
@@ -489,7 +489,7 @@
 	
 	<s:BorderContainer id="maxImage" visible="false" alpha="0" showEffect="{fadeInIm}" hideEffect="{fadeOutIm}" width="100%" height="100%" backgroundColor="#000000" backgroundAlpha=".7" cornerRadius="0">
 		<s:Image width="90%" height="90%" id="maxImageIm" horizontalCenter="0" verticalCenter="0" includeIn="imageOnly"/>
-		<mx:Text width="90%" height="90%" id="maxImageRt" horizontalCenter="0" verticalCenter="0" includeIn="rtOnly" color="#FFFFFF"/>
+		<s:TextArea horizontalScrollPolicy="off" contentBackgroundAlpha="0" borderVisible="true" borderColor="#FFFFFF" borderAlpha=".1" editable="false" width="90%" height="80%" id="maxImageRt" horizontalCenter="0" verticalCenter="0" includeIn="rtOnly" color="#FFFFFF"/>
 		<s:Button label="{resourceManager.getString('resources', 'CLOSE_BUTTON')}" horizontalCenter="0" bottom="5" click="maxImage.visible=false" />
 	</s:BorderContainer>
 </s:Application>
