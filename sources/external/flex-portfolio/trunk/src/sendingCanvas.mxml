@@ -143,6 +143,8 @@
 			
 			private function alertListener(event:CloseEvent):void {
 				if(event.detail == Alert.OK || event.detail == Alert.YES) {
+					
+					trace(so.data.retrievedElosFromRoolo);
 					if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
 						trace("Local version, nothing submitted, but the idea is there ...");
 					}
