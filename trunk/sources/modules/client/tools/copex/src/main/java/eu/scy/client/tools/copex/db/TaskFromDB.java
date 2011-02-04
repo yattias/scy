@@ -1150,7 +1150,8 @@ public class TaskFromDB {
             
             // creation du nouveau lien 
             long dbKeyParent = parentTask.getDbKey();
-             String queryLink = "INSERT INTO LINK_CHILD (ID_TASK, ID_TASK_CHILD)" +
+            deleteLinkChildInDB(dbC, dbKeyParent);
+            String queryLink = "INSERT INTO LINK_CHILD (ID_TASK, ID_TASK_CHILD)" +
                     " VALUES ("+dbKeyParent+", "+dbKey+") ;";
             querys[q] = queryLink;
             

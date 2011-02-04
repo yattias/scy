@@ -30,7 +30,7 @@ public class MyConstants {
     public static final int MAX_LENGHT_JUSTIFICATION = 1024;
     public static final int MAX_LENGHT_UNIT=12;
     public static final int MAX_LENGHT_MATERIAL_NAME=64;
-    public static final int MAX_LENGHT_MATERIAL_DESCRIPTION = 500;
+    public static final int MAX_LENGHT_MATERIAL_DESCRIPTION = 1024;
     public static final int MAX_LENGHT_MATERIAL_COMMENTS = 1024;
     public static final int MAX_LENGHT_QUANTITY_NAME=32;
     

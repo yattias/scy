@@ -2109,7 +2109,7 @@ public class ExperimentalProcedureFromDB {
             s = rs.getColumnData("P.PRINC_HIDE");
             boolean hide = s.equals("1");
             s = rs.getColumnData("P.PRINCIPLE_DRAWING");
-            Element drawing = CopexUtilities.getElement(s);
+            Element drawing = s == null|| s.equals("null") ? null : CopexUtilities.getElement(s);
             principle = new GeneralPrinciple(dbKey, CopexUtilities.getLocalText(p, locale),CopexUtilities.getLocalText(comment, locale), drawing, hide);
         }
         v.add(principle);

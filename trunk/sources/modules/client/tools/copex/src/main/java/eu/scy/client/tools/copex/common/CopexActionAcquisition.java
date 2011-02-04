@@ -206,10 +206,10 @@ public class CopexActionAcquisition extends CopexActionParam{
         int nbDataProd = listDataProd.size();
         for (int i=0; i<nbDataProd; i++){
             if (this.listDataProd.get(i) instanceof QData){
-                s += "\n"+((InitialActionAcquisition)this.namedAction).getListOutput().get(i).getTextProd(locale)+" : "+((QData)listDataProd.get(i)).getName(locale);
+                s += " - "+((InitialActionAcquisition)this.namedAction).getListOutput().get(i).getTextProd(locale)+" : "+((QData)listDataProd.get(i)).getName(locale);
             }else if (this.listDataProd.get(i) instanceof ArrayList){
                 int n = ((ArrayList)this.listDataProd.get(i)).size();
-                s += "\n"+((InitialActionAcquisition)this.namedAction).getListOutput().get(i).getTextProd(locale)+" : ";
+                s += " - "+((InitialActionAcquisition)this.namedAction).getListOutput().get(i).getTextProd(locale)+" : ";
                 for (int j=0; j<n; j++){
                     s += ((ArrayList<QData>)this.listDataProd.get(i)).get(j).getName(locale)+" | ";
                 }

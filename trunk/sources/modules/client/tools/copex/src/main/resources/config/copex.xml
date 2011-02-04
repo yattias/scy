@@ -458,6 +458,16 @@
                 <name language="fr">Solution</name>
                 <name language="en">Solution</name>
             </type>
+            <type>
+                <id>TYPE_OBJET</id>
+                <name language="fr">Objet</name>
+                <name language="en">Object</name>
+            </type>
+            <type>
+                <id>TYPE_SOLIDE</id>
+                <name language="fr">Solide</name>
+                <name language="en">Solide</name>
+            </type>
     </materials>
     <actions_prestructured>
         <initial_action_manipulation>

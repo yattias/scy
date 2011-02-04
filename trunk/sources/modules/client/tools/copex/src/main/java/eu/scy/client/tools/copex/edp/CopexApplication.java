@@ -124,16 +124,16 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
             try {
                 copexURL = new URL("http://localhost/LabBook/pages/");
                 idUser = "2";
-                mission= "10003";
+                mission= "1";
                 group = "1";
-                labDoc = "10031";
-                labDocName = "Le thé à la française";
+                labDoc = "10097";
+                labDocName = "copex";
 //                copexURL = new URL("http://labbook.imag.fr/pages/");
 //                idUser = "1";
-//                mission= "9";
+//                mission= "5";
 //                group = "1";
-//                labDoc = "515";
-//                labDocName = "Le thé à la française";
+//                labDoc = "508";
+//                labDocName = "Détermination du pKa du BBT";
             } catch (MalformedURLException ex) {
 
             }
