@@ -27,7 +27,7 @@ public class TestFlyingSaucerPanel extends javax.swing.JFrame
    private void initComponents()
    {
       setTitle("Flying Saucer test window");
-      FlyingSaucerPanel browser = new FlyingSaucerPanel();
+      FlyingSaucerPanel browser = new FlyingSaucerPanel(true);
 
       setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
