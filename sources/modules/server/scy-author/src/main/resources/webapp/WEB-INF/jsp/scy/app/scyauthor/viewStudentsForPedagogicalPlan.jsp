@@ -35,5 +35,8 @@
                 <br>
             </c:when>
         </c:choose>
+
+        <a href="/webapp/app/scyauthor/viewStudentsForPedagogicalPlan.html?eloURI=${eloURI.uri}&action=addMultipleUsers">30 new users</a>
+
     </tiles:putAttribute>
 </tiles:insertDefinition>

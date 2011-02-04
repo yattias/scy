@@ -65,6 +65,8 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
                     addStudent(missionURI, username, modelAndView, pedagogicalPlan);
                 } else if (action.equals("removeStudent")) {
                     removeStudent(request.getParameter("username"), modelAndView, pedagogicalPlan);
+                } else if(action.equals("addMultipleUsers")) {
+                    addMultipleStudents(missionURI);
                 }
             }
             
@@ -112,6 +114,19 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
 
 
         modelAndView.addObject("pedagogicalPlan", pedagogicalPlan);
+    }
+
+    private void addMultipleStudents(String missionURI) {
+        logger.info("ADDING MULTIPLE STUDENTS!");
+        for(int counter = 0; counter < 30; counter++) {
+            String userName = "uib" + counter;
+            User user = getUserService().createUser(userName, userName, "ROLE_STUDENT");
+            if(user != null) {
+                addStudent(missionURI, user.getUserDetails().getUsername(), null, null);
+            }
+            logger.info("ADDED STUDENT: " + user.getUserDetails().getUsername());
+        }
+
     }
 
     private void removeStudent(String username, ModelAndView modelAndView, PedagogicalPlan plan) {

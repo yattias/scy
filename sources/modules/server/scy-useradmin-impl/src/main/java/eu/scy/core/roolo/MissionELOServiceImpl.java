@@ -247,7 +247,12 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
                 if (xml != null) {
                     Portfolio portfolio = (Portfolio) getXmlTransferObjectService().getObject(xml);
                     portfolio.setMissionRuntimeURI(missionRuntimeElo.getUri().toString());
-                    returnList.add(portfolio);
+                    if(portfolio.getIsPortfolioSubmitted() && portfolio.getIsPortfolioAssessed() == false) {
+                        returnList.add(portfolio);
+                    } else {
+                        log.info("PORTFOLIO " + portfolio.getOwner() + " STATUS: " + portfolio.getPortfolioStatus() + " :: " + portfolio.getIsPortfolioSubmitted());
+                    }
+
                 }
             }
         }
