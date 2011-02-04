@@ -10,8 +10,8 @@
    </parent>
  
    <modelVersion>4.0.0</modelVersion>
-   <artifactId>fx-drawingtool</artifactId>
-   <name>FX drawingtool</name>
+   <artifactId>fx-socialtaggingtool</artifactId>
+   <name>FX Social-Tagging-Tool</name>
    <packaging>jar</packaging>
 
    <licenses>
@@ -30,12 +30,6 @@
 			<scope>provided</scope>
 		</dependency>
 		
-      <dependency>
-         <groupId>eu.scy.client.tools</groupId>
-         <artifactId>drawingtool</artifactId>
-         <version>${pom.version}</version>
-      </dependency>
-
       <dependency>
          <groupId>eu.scy.client.desktop</groupId>
          <artifactId>scy-desktop</artifactId>
