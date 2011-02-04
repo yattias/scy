@@ -2,68 +2,6 @@
 <tiles:insertDefinition name="default-page">
     <tiles:putAttribute name="main">
 
-        <table>
-            <tr>
-                <th colspan="2">These will be removed, used as examples</th>
-            </tr>
-            <tr>
-                <td>
-                    Tool provider
-                </td>
-                <td>
-                    <a href="${toolURLProvider}">ToolURLProvider</a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Load portfolio
-                </td>
-                <td>
-                     <a href="/webapp/app/eportfolio/xml/loadPortfolio.html?missionURI=${missionURI}">Load portfolio</a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Load learning goals
-                </td>
-                <td>
-                    <a href="/webapp/app/eportfolio/xml/loadLearningGoals.html?missionURI=${missionURI}">Load learning goals</a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    ELOSearch
-                </td>
-                <td>
-                    <a href="/webapp/app/eportfolio/xml/eloSearchService.html?missionURI=${missionURI}">Load elo search</a></td>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Add elo to portfolio
-                </td>
-                <td>
-                    <a href="/webapp/app/eportfolio/xml/addEloToPortfolio.html?missionURI=${missionURI}">Add elo to portfolio</a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Load obligatory elos
-                </td>
-                <td>
-                <a href="/webapp/app/eportfolio/xml/obligatoryELOsInMission.html?missionURI=${missionURI}">Obligatory elos</a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    PortfolioConfig
-                </td>
-                <td>
-                <a href="/webapp/app/eportfolio/xml/portfolioConfigService.html?missionURI=${missionURI}">Portfolio Configah</a>
-                </td>
-            </tr>
-        </table>
-
 
        <link rel="stylesheet" type="text/css" href="http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/history/history.css" />
         <script type="text/javascript" src="http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/history/history.js"></script>
