@@ -4,6 +4,7 @@ import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
+import java.rmi.dgc.VMID;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -23,14 +24,13 @@ import eu.scy.agents.impl.AgentProtocol;
  * <li>ELO is assessed</li>
  * <li>ELO assessment has been finished</li>
  * </ol>
- * it writes following tuples respectively
+ * it writes following tuples respectively sends a notification
  * <ol>
  * <li>("elo_added_to_portfolio":String, <Mission>:String, <User>:String,
  * <EloURI>:String)</li>
  * <li>("elo_is_assessed":String, <Mission>:String, <User>:String,
  * <EloURI>:String)</li>
- * <li>("elo_assessment_finished":String, <Mission>:String, <User>:String,
- * <EloURI>:String)</li>
+ * <li>notification with type=elo_assessment_finished</li>
  * </ol>
  * 
  * @author fschulz
@@ -227,11 +227,29 @@ public class PortfolioNotificator extends AbstractThreadedAgent {
 				LOGGER.info("tuple " + eloIsAssessedTuple
 						+ " could not be deleted.");
 			}
-			Tuple eloAssessmentFinishedTuple = createAssessmentNotificationTuple(
-					ELO_ASSESSMENT_FINISHED, action);
-			getCommandSpace().write(eloAssessmentFinishedTuple);
+			sendNotification(action);
 		} catch (TupleSpaceException e) {
 			LOGGER.warn("could not write elo added to portfolio tuple");
+			e.printStackTrace();
+		}
+	}
+
+	private void sendNotification(IAction action) {
+		Tuple notificationTuple = new Tuple();
+		notificationTuple.add(AgentProtocol.NOTIFICATION);
+		notificationTuple.add(new VMID().toString());
+		notificationTuple.add(action.getUser());
+		notificationTuple.add(action.getContext(ContextConstants.eloURI));
+		notificationTuple.add(NAME);
+		notificationTuple.add(action.getContext(ContextConstants.mission));
+		notificationTuple.add(action.getContext(ContextConstants.session));
+
+		notificationTuple.add("type=" + ELO_ASSESSMENT_FINISHED);
+		try {
+			if (this.getCommandSpace().isConnected()) {
+				this.getCommandSpace().write(notificationTuple);
+			}
+		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
 	}
