@@ -163,5 +163,15 @@ package utility
 			
 			return XMLaction;
 		}
+		
+		public static function cleanHTML(s:String):String {
+			var myPattern:RegExp = /<.+>/gi; 
+			s = s.replace(myPattern, "");
+			myPattern = /\t\n/gi;
+			s = s.replace(myPattern, "");
+			myPattern = /&amp;#xD;/gi; 
+			s = s.replace(myPattern, "");
+			return s;
+		}
 	}
 }
