@@ -49,6 +49,7 @@ public class UIUtils {
 	public final static Color SHAPE_3D_DASH_BORDER_COLOR = Color.BLACK;
 	public final static String METERS = "m";
 	public static final String SHAPE_ID = "SHAPE_ID";
+	public static final int ALPHA = 140;
     
 	public static Dimension frameDimension;
 	public static Color NONSHAPE_SHAPE_COLOR = Color.white;

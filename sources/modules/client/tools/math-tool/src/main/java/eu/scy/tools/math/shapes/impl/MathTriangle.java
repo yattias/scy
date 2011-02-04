@@ -26,7 +26,7 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 	private DecimalFormat twoDForm = new DecimalFormat(UIUtils.PATTERN);
 
 	
-	private Color fillColor  = new Color(0xff9999);
+	private Color fillColor  = new Color(253,153,153,UIUtils.ALPHA);
 	private Rectangle[] cornerPointRectangles = new Rectangle[2];
 	private Point[] points = new Point[2];
 	private boolean showCornerPoints = true;
