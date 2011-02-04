@@ -53,7 +53,7 @@
 				var xmlPortfolio:XML = so.data.retrievedElosFromRoolo;
 				for each (var object:XML in xmlPortfolio.elos.*) {
 					if (object.name() == "elo" && object.catname == this.catname) {
-						elosArray.addItem(XMLUtilJer.getEloObjectAsXML(object));
+						elosArray.addItem(XMLUtilJer.getXMLAsEloObject(object));
 					}
 				}
 				

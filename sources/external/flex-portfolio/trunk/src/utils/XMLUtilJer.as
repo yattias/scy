@@ -11,7 +11,7 @@ package utils
 		}
 		
 		
-		public static function getEloObjectAsXML(object:XML):Object {
+		public static function getXMLAsEloObject(object:XML):Object {
 			var xmlObject:Object;
 			xmlObject = new Object();
 			xmlObject.uri = object.uri;
@@ -33,6 +33,12 @@ package utils
 			xmlObject.grade =object.grade;
 			xmlObject.assessmentcomment = object.assessmentcomment;
 			xmlObject.reflectioncomment = object.reflectioncomment;
+			xmlObject.technicalformat = object.technicalformat;
+			xmlObject.rawdataid = object.rawdata.id;
+			xmlObject.rawdatatext = object.rawdata.text;
+			xmlObject.rawdatathumb = object.rawdata.thumbnail;
+			xmlObject.rawdatafull = object.rawdata.fullscreen;
+			xmlObject.rawdatadataset = object.rawdata.dataset;
 			return xmlObject;
 		}
 		
@@ -70,6 +76,12 @@ package utils
 			subCE.assessmentcomment = selectedElo.assessmentcomment;
 			subCE.reflectioncomment = selectedElo.reflectioncomment;
 			subCE.highLightELO(subCE.hasbeenselectedforsubmit);
+			subCE.technicalformat = selectedElo.technicalformat;
+			subCE.rawdataid = selectedElo.rawdataid;
+			subCE.rawdatatext = selectedElo.rawdatatext;
+			subCE.rawdatathumb = selectedElo.rawdatathumb;
+			subCE.rawdatafull = selectedElo.rawdatafull;
+			subCE.rawdatadataset = selectedElo.rawdatadataset;
 			return subCE;
 		}
 		
@@ -107,6 +119,13 @@ package utils
 			newELO.studentreflection = <studentreflection>{cdata(ob.studentreflection)}</studentreflection>;
 			newELO.hasbeenreflectedon = <hasbeenreflectedon>{ob.hasbeenreflectedon}</hasbeenreflectedon>;
 			newELO.hasbeenselectedforsubmit = <hasbeenselectedforsubmit>{ob.hasbeenselectedforsubmit}</hasbeenselectedforsubmit>;
+			newELO.technicalformat = <technicalformat>{cdata(ob.technicalformat)}</technicalformat>;
+			newELO.rawdata = <rawdata />;
+			newELO.rawdata.id = <id>{cdata(ob.rawdataid)}</id>;
+			newELO.rawdata.text = <text>{cdata(ob.rawdatatext)}</text>;
+			newELO.rawdata.thumbnail = <thumbnail>{cdata(ob.rawdatathumb)}</thumbnail>;
+			newELO.rawdata.fullscreen = <fullscreen>{cdata(ob.rawdatafull)}</fullscreen>;
+			newELO.rawdata.dataset = <dataset>{cdata(ob.rawdatadataset)}</dataset>;
 			newELO.inquiryquestion = <inquiryquestion>{cdata(ob.inquiryquestion)}</inquiryquestion>;
 			newELO.studentinquiry = <studentinquiry>{ob.studentinquiry}</studentinquiry>;
 			newELO.assessed = <assessed>false</assessed>;

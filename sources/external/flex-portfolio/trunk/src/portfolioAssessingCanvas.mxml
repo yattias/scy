@@ -95,7 +95,7 @@
 				
 				for each (var object:XML in xmlPortfolio.elos.*) {
 					if (object.name() == "elo" && object.hasbeenselectedforsubmit == "true") {
-						elosArray.addItem(XMLUtilJer.getEloObjectAsXML(object));
+						elosArray.addItem(XMLUtilJer.getXMLAsEloObject(object));
 					}
 				}
 				

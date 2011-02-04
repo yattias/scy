@@ -4,6 +4,9 @@
 		   xmlns:mx="library://ns.adobe.com/flex/mx" creationComplete="navigatorcontent1_creationCompleteHandler(event)">
 	
 	<fx:Declarations>
+		<s:Fade id="fadeInIm" alphaFrom="0" alphaTo="1" duration="1000" />
+		<s:Fade id="fadeOutIm" alphaFrom="1" alphaTo="0" duration="1000" />
+		
 		<mx:StringValidator id="validateDescription" source="{descriptionArea}" property="text" triggerEvent=""
 							minLength="5" tooShortError="{resourceManager.getString('resources', 'VALIDATOR_TOO_SHORT_ERROR')}"
 							requiredFieldError="{resourceManager.getString('resources', 'REQUIRED_DESCRIPTION_ERROR')}"/>
@@ -31,6 +34,7 @@
 			import flash.utils.clearInterval;
 			import flash.utils.setInterval;
 			
+			import listeners.ImageMagEvent;
 			import listeners.ToggleEvent;
 			
 			import mx.collections.ArrayCollection;
@@ -67,6 +71,8 @@
 			private var slectedSLGs:ArrayCollection = new ArrayCollection();
 			private var slectedGLGs:ArrayCollection = new ArrayCollection();
 			
+			private var so:SharedObject;
+			
 			protected function clickHandler(dir:String, stack:Number, but:Boolean):void {
 				var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
 				tEvent.direction = dir;
@@ -98,6 +104,12 @@
 						resultToSave.hasbeenselectedforsubmit = false;
 						resultToSave.inquiryquestion = refOnInqText.text;
 						resultToSave.studentinquiry = new String(refOnInqTextSlider.value);
+						resultToSave.technicalformat = selectedElo.technicalformat;
+						resultToSave.rawdataid = selectedElo.rawdataid;
+						resultToSave.rawdatatext = selectedElo.rawdatatext;
+						resultToSave.rawdatathumb = selectedElo.rawdatathumb;
+						resultToSave.rawdatafull = selectedElo.rawdatafull;
+						resultToSave.rawdatadataset = selectedElo.rawdatadataset;
 						
 						var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 						var retrievedElosFromRoolo:XML = so.data.retrievedElosFromRoolo;
@@ -115,6 +127,8 @@
 						
 						so.data.retrievedElosFromRoolo = retrievedElosFromRoolo;
 						so.flush();
+						
+						trace("SAVED:\n"+retrievedElosFromRoolo);
 						
 						new AutoSaveService(so.data.saveportfolio+"?missionURI="+FlexGlobals.topLevelApplication.parameters.missionURI+"&xmlContent="+encodeURI(so.data.retrievedElosFromRoolo));	
 						
@@ -146,7 +160,13 @@
 					sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
 					sLogger["type"] = "reflection_on_elo_canceled";
 					sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
-					new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+					
+					try {
+						new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+					}
+					catch(errObject:Error) {
+						trace(errObject.message);
+					}
 				}
 			}
 
@@ -168,10 +188,12 @@
 				updateGLGField();
 			}
 			
+			private var selectedElo:Object;
+			
 			public function refreshContent(edit:Boolean):void {
 				currentState = "newReflection";
-				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
-				var selectedElo:Object = so.data.searchSelection;
+				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				selectedElo = so.data.searchSelection;
 				
 				var sLogger:Dictionary = new Dictionary();
 				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
@@ -219,6 +241,7 @@
 						refOnInqTextSlider.value = new Number(selectedElo.studentinquiry);
 					}
 					else {
+						selectedElo = XMLUtilJer.getXMLAsEloObject(selectedElo as XML);
 						eloUri = (selectedElo.uri).replace("#", "%23");
 					}
 				}
@@ -231,18 +254,18 @@
 
 			protected function button1_clickHandler(b:Boolean):void
 			{
-				slgSelectVisible = !slgSelectVisible;
+				slgSelect.visible = b;
 				
-				if(b) {
+				if(!b) {
 					updateSLGField();
 				}
 			}
 			
 			protected function button2_clickHandler(b:Boolean):void
 			{
-				glgSelectVisible = !glgSelectVisible;
+				glgSelect.visible = b;
 				
-				if(b) {
+				if(!b) {
 					updateGLGField();
 				}
 			}
@@ -329,9 +352,7 @@
 
 
 			protected function URLpropertyFile_resultHandler(event:ResultEvent):void {
-				//parse 'toolURLProvider.html' first
 				var toolURLProvider:XML= event.result as XML;
-				//portfolioService.url = "eportfolio.xml";
 				goalService.url = new String(toolURLProvider.learninggoalsloader)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
 				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
 					goalService.url = new String(toolURLProvider.learninggoalsloader).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "%23");
@@ -343,6 +364,21 @@
 
 			protected function URLpropertyFile_faultHandler(event:FaultEvent):void {
 				Alert.show(resourceManager.getString('resources', 'URL_PROPERTY_FILE_ERROR'), resourceManager.getString('resources', 'HTTP_SERVICE_ERROR'));
+			}
+			
+			protected function image1_clickHandler(event:MouseEvent):void {
+				var tEvent:ImageMagEvent = new ImageMagEvent(index.IMAGEMAG_COMMAND, true);
+				tEvent.showNow = true;
+				if((so.data.searchSelection as XML).technicalformat == "scy/rtf") {
+					tEvent.evtType = index.ZOOM_TYPE_RICHTEXT;
+					tEvent.rtf = ((so.data.searchSelection as XML).rawdata.text).toString();
+				}
+				else {
+					tEvent.evtType = index.ZOOM_TYPE_IMAGE;
+					tEvent.imageSource = ((so.data.searchSelection as XML).rawdata.fullscreen).toString();
+				}
+				
+				dispatchEvent(tEvent);
 			}
 
 		]]>
@@ -356,7 +392,7 @@
 	<s:VGroup width="100%" height="100%">
 		<s:BorderContainer id="reflectionHeader" width="100%" height="140" backgroundColor="{index.THEME_COL}" borderStyle="solid" borderColor="{index.THEME_COL}">
 			<s:BorderContainer width="100" height="100" x="15" y="20" borderVisible="false" dropShadowVisible="true">
-				<s:Image id="eloIcon" source="{eloIconSource}" width="100" height="100" />
+				<s:Image id="eloIcon" source="{eloIconSource}" width="100" height="100" buttonMode="true" toolTip="{resourceManager.getString('resources', 'DISPLAY_ZOOM')}" click="image1_clickHandler(event)" />
 			</s:BorderContainer>
 			
 			<mx:Form x="{eloIcon.x+eloIcon.width+30}" y="0" verticalGap="0" color="{index.BACK_GRADIENT_BOT}" fontSize="13">
@@ -395,14 +431,14 @@
 				
 				<mx:FormItem label="{resourceManager.getString('resources', 'GLG')+':'}" required="true">
 					<mx:HBox width="100%">
-						<s:Button click="button2_clickHandler(false)" color="#000000" label="{resourceManager.getString('resources', 'GLG_SELECT')}"/>
+						<s:Button click="button2_clickHandler(true)" color="#000000" label="{resourceManager.getString('resources', 'GLG_SELECT')}"/>
 						<mx:Text id="glgLive" color="{index.THEME_COL}" text="{glgLiveText}" fontSize="11" />
 					</mx:HBox>
 				</mx:FormItem>
 				
 				<mx:FormItem label="{resourceManager.getString('resources', 'SLG')+':'}" required="true">
 					<mx:HBox width="100%">
-						<s:Button click="button1_clickHandler(false)" color="#000000" label="{resourceManager.getString('resources', 'SLG_SELECT')}"/>
+						<s:Button click="button1_clickHandler(true)" color="#000000" label="{resourceManager.getString('resources', 'SLG_SELECT')}"/>
 						<mx:Text id="slgLive" color="{index.THEME_COL}" text="{slgLiveText}" fontSize="11" />
 					</mx:HBox>
 				</mx:FormItem>
@@ -433,56 +469,60 @@
 			<s:Button id="updateReflect" label="{resourceManager.getString('resources', 'UPDATE_BUTTON')}" click="clickHandler(index.RIGHT_DIRECTION, index.STACK_INTRO_PANEL, true)" excludeFrom="newReflection"/>
 		</s:HGroup>
 	</s:VGroup>
-	<s:BorderContainer id="glgSelect" y="{refForm.y}" visible="{glgSelectVisible}" top="20" left="20" right="20" bottom="20" backgroundColor="{index.BACK_GRADIENT_TOP}" borderColor="{index.THEME_COL}" backgroundAlpha=".9" cornerRadius="10" borderWeight="2">
-		<s:Scroller top="20" left="20" right="20" bottom="40">
-			<s:VGroup width="100%" height="100%">
-				<mx:DataGrid id="glgResultGrid" width="100%" height="100%" dataProvider="{GLG}" variableRowHeight="true">
-					<mx:columns>
-						<mx:DataGridColumn dataField="goal" headerText="{resourceManager.getString('resources', 'GLG')}" wordWrap="true" width="450" />
-						<mx:DataGridColumn id="gcol2"
-										   editorDataField="selected"
-										   rendererIsEditor="true"
-										   dataField="data.shouldAdd"
-										   headerText="Selection">
-							<mx:itemRenderer>
-								<fx:Component>
-									<mx:CheckBox selected="{data.shouldAdd}"
-												 change="data.shouldAdd=selected" textAlign="center"/>
-								</fx:Component>
-							</mx:itemRenderer>
-						</mx:DataGridColumn>
-					</mx:columns>
-				</mx:DataGrid>
-			</s:VGroup>
-		</s:Scroller>
-		<s:HGroup id="glgSelectFooter" width="100%" height="40" bottom="0" horizontalAlign="center" gap="10" verticalAlign="middle">
-			<s:Button id="okglgSelect" label="{resourceManager.getString('resources', 'OK_BUTTON')}" click="button2_clickHandler(true)" />
-		</s:HGroup>
+	<s:BorderContainer id="glgSelect" visible="false" alpha="0" showEffect="{fadeInIm}" hideEffect="{fadeOutIm}" width="100%" height="100%" backgroundColor="#000000" backgroundAlpha=".7" cornerRadius="0">
+		<s:BorderContainer id="glgSelect1" y="{refForm.y}" top="20" left="20" right="20" bottom="20" backgroundColor="{index.BACK_GRADIENT_TOP}" borderColor="{index.THEME_COL}" backgroundAlpha=".9" cornerRadius="10" borderWeight="2">
+			<s:Scroller top="20" left="20" right="20" bottom="40">
+				<s:VGroup width="100%" height="100%">
+					<mx:DataGrid id="glgResultGrid" width="100%" height="100%" dataProvider="{GLG}" variableRowHeight="true">
+						<mx:columns>
+							<mx:DataGridColumn dataField="goal" headerText="{resourceManager.getString('resources', 'GLG')}" wordWrap="true" width="450" />
+							<mx:DataGridColumn id="gcol2"
+											   editorDataField="selected"
+											   rendererIsEditor="true"
+											   dataField="data.shouldAdd"
+											   headerText="Selection">
+								<mx:itemRenderer>
+									<fx:Component>
+										<mx:CheckBox selected="{data.shouldAdd}"
+													 change="data.shouldAdd=selected" textAlign="center"/>
+									</fx:Component>
+								</mx:itemRenderer>
+							</mx:DataGridColumn>
+						</mx:columns>
+					</mx:DataGrid>
+				</s:VGroup>
+			</s:Scroller>
+			<s:HGroup id="glgSelectFooter" width="100%" height="40" bottom="0" horizontalAlign="center" gap="10" verticalAlign="middle">
+				<s:Button id="okglgSelect" label="{resourceManager.getString('resources', 'OK_BUTTON')}" click="button2_clickHandler(false)" />
+			</s:HGroup>
+		</s:BorderContainer>
 	</s:BorderContainer>
-	<s:BorderContainer id="slgSelect" y="{refForm.y}" visible="{slgSelectVisible}" top="20" left="20" right="20" bottom="20" backgroundColor="{index.BACK_GRADIENT_TOP}" borderColor="{index.THEME_COL}" backgroundAlpha=".9" cornerRadius="10" borderWeight="2">
-		<s:Scroller top="20" left="20" right="20" bottom="40">
-			<s:VGroup width="100%" height="100%">
-				<mx:DataGrid id="slgResultGrid" width="100%" height="100%" dataProvider="{SLG}" variableRowHeight="true">
-					<mx:columns>
-						<mx:DataGridColumn dataField="goal" headerText="{resourceManager.getString('resources', 'SLG')}" wordWrap="true" width="450" />
-						<mx:DataGridColumn id="scol2"
-										   editorDataField="selected"
-										   rendererIsEditor="true"
-										   dataField="data.shouldAdd"
-										   headerText="Selection">
-							<mx:itemRenderer>
-								<fx:Component>
-									<mx:CheckBox selected="{data.shouldAdd}"
-												 change="data.shouldAdd=selected" textAlign="center"/>
-								</fx:Component>
-							</mx:itemRenderer>
-						</mx:DataGridColumn>
-					</mx:columns>
-				</mx:DataGrid>
-			</s:VGroup>
-		</s:Scroller>
-		<s:HGroup id="slgSelectFooter" width="100%" height="40" bottom="0" horizontalAlign="center" gap="10" verticalAlign="middle">
-			<s:Button id="okslgSelect" label="{resourceManager.getString('resources', 'OK_BUTTON')}" click="button1_clickHandler(true)" />
-		</s:HGroup>
+	<s:BorderContainer id="slgSelect" visible="false" alpha="0" showEffect="{fadeInIm}" hideEffect="{fadeOutIm}" width="100%" height="100%" backgroundColor="#000000" backgroundAlpha=".7" cornerRadius="0">
+		<s:BorderContainer id="slgSelect1" y="{refForm.y}" top="10" left="20" right="20" bottom="20" backgroundColor="{index.BACK_GRADIENT_TOP}" borderColor="{index.THEME_COL}" backgroundAlpha=".9" cornerRadius="10" borderWeight="2">
+			<s:Scroller top="20" left="20" right="20" bottom="40">
+				<s:VGroup width="100%" height="100%">
+					<mx:DataGrid id="slgResultGrid" width="100%" height="100%" dataProvider="{SLG}" variableRowHeight="true">
+						<mx:columns>
+							<mx:DataGridColumn dataField="goal" headerText="{resourceManager.getString('resources', 'SLG')}" wordWrap="true" width="450" />
+							<mx:DataGridColumn id="scol2"
+											   editorDataField="selected"
+											   rendererIsEditor="true"
+											   dataField="data.shouldAdd"
+											   headerText="Selection">
+								<mx:itemRenderer>
+									<fx:Component>
+										<mx:CheckBox selected="{data.shouldAdd}"
+													 change="data.shouldAdd=selected" textAlign="center"/>
+									</fx:Component>
+								</mx:itemRenderer>
+							</mx:DataGridColumn>
+						</mx:columns>
+					</mx:DataGrid>
+				</s:VGroup>
+			</s:Scroller>
+			<s:HGroup id="slgSelectFooter" width="100%" height="40" bottom="0" horizontalAlign="center" gap="10" verticalAlign="middle">
+				<s:Button id="okslgSelect" label="{resourceManager.getString('resources', 'OK_BUTTON')}" click="button1_clickHandler(false)" />
+			</s:HGroup>
+		</s:BorderContainer>
 	</s:BorderContainer>
 </s:NavigatorContent>

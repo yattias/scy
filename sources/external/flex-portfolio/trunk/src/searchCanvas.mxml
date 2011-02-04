@@ -119,7 +119,7 @@
 				
 				for each (var object:XML in xml.*) {
 					if (object.name() == "elo" && object.catname == currentEloCategory.obliElo) {
-						xmlObject = XMLUtilJer.getEloObjectAsXML(object);
+						xmlObject = XMLUtilJer.getXMLAsEloObject(object);
 						xmlObject.isSelected = false;
 						
 						if(xmlObject.thumbnail == null || xmlObject.thumbnail == "") {

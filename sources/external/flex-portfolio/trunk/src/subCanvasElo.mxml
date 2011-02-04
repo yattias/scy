@@ -10,6 +10,8 @@
 			import flash.utils.clearInterval;
 			import flash.utils.setInterval;
 			
+			import listeners.ImageMagEvent;
+			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.events.CloseEvent;
@@ -32,6 +34,12 @@
 			[Bindable] public var grade:String = "";
 			[Bindable] public var assessmentcomment:String = "";
 			[Bindable] public var reflectioncomment:String = "";
+			[Bindable] public var technicalformat:String = "";
+			[Bindable] public var rawdataid:String = "";
+			[Bindable] public var rawdatatext:String = "";
+			[Bindable] public var rawdatathumb:String = "";
+			[Bindable] public var rawdatafull:String = "";
+			[Bindable] public var rawdatadataset:String = "";
 			
 			[Bindable] private var graphicHighlight:Boolean = false;
 			[Bindable] private var alphaValue:Number = .1;

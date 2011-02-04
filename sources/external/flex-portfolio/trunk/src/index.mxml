@@ -80,6 +80,9 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import flashx.textLayout.conversion.TextConverter;
+			
+			import listeners.ImageMagEvent;
 			import listeners.ToggleEvent;
 			
 			import mx.collections.ArrayCollection;
@@ -92,6 +95,8 @@
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
 			import mx.utils.URLUtil;
+			
+			import spark.utils.TextFlowUtil;
 			
 			import utils.AutoSaveService;
 			import utils.GraphicOperation;
@@ -116,9 +121,14 @@
 			
 			public static const SELECTION_COMMAND:String = "command";
 			public static const TOGGLE_COMMAND:String = "toggleStack";
+			public static const IMAGEMAG_COMMAND:String = "toggleImageMag";
 			public static const LEFT_DIRECTION:String = "left";
 			public static const RIGHT_DIRECTION:String = "right";
 			public static const DELETE_COMMAND:String = "deleteELO";
+			
+			public static const ZOOM_TYPE_IMAGE:String = "image";
+			public static const ZOOM_TYPE_RICHTEXT:String = "text";
+			public static const ZOOM_TYPE_DATASET:String = "dataset";
 			
 			[Bindable] public static var MISSION_NAME:String;
 			[Bindable] public static var PORTFOLIO_STATUS:String;
@@ -142,9 +152,9 @@
 			private var eloToAddURL:String = "";
 			
 			protected function initApp(event:FlexEvent):void {
-				resourceManager.localeChain = [ "en_US" ];
 				retrieveUserInfo();
 				this.addEventListener(TOGGLE_COMMAND, ToggleStack);
+				this.addEventListener(IMAGEMAG_COMMAND, ToggleImageMag);
 				URLpropertyFile.send();
 			}
 			
@@ -223,7 +233,9 @@
 				var userInfo:Object = new Object();
 				userInfo.username = FlexGlobals.topLevelApplication.parameters.username;
 				userInfo.firstname = FlexGlobals.topLevelApplication.parameters.firstName;
-				userInfo.lastname = FlexGlobals.topLevelApplication.parameters.lastName;			
+				userInfo.lastname = FlexGlobals.topLevelApplication.parameters.lastName;	
+				
+				resourceManager.localeChain = [ getCorrectLanguage(new String(FlexGlobals.topLevelApplication.parameters.language)) ];
 				
 				URLpropertyFile.url = FlexGlobals.topLevelApplication.parameters.toolURLProvider;
 				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
@@ -231,6 +243,15 @@
 				}
 				
 				so.data.userInfo = userInfo;
+			}
+			
+			private function getCorrectLanguage(lang:String):String {
+				if(lang == "en_US" || lang == "fr_FR" || lang == "nb_NO" || lang == "el_CY" || lang == "nl_NL") {
+					return lang;
+				}
+				else {
+					return "en_US";
+				}
 			}
 
 			protected function portfolioService_faultHandler(event:FaultEvent):void {
@@ -372,9 +393,28 @@
 			protected function portfolioConfigService_faultHandler(event:FaultEvent):void {
 				Alert.show(resourceManager.getString('resources', 'PFCONF_PROPERTY_FILE_ERROR'), resourceManager.getString('resources', 'HTTP_SERVICE_ERROR'));
 			}
+			
+			private function ToggleImageMag(evt:ImageMagEvent):void {
+				maxImage.visible = evt.showNow;
+				
+				if(evt.evtType == ZOOM_TYPE_RICHTEXT) {
+					currentState = "rtOnly";
+					maxImageRt.htmlText = evt.rtf;
+				}
+				else {
+					currentState = "imageOnly";
+					maxImageIm.source = evt.imageSource;
+				}
+			}
 
 		]]>
 	</fx:Script>
+	
+	<s:states>
+		<s:State name="imageOnly" />
+		<s:State name="rtOnly" />
+		<s:State name="datasetOnly" />
+	</s:states>
 	
 	<s:Group>
 		<s:Line xFrom="0" xTo="{this.width}" yFrom="2" yTo="2">
@@ -437,7 +477,7 @@
 	</s:Scroller>
 	
 	<s:BitmapImage id="thumbCont" width="80" height="80"/>
-
+<!--
 	<s:HGroup width="100%" horizontalAlign="right" y="5" gap="0">
 		<mx:LinkButton label="en" width="35" click="resourceManager.localeChain = [ 'en_US' ]" textDecoration="underline" color="#FFFFFF" />
 		<mx:LinkButton label="fr" width="35" click="resourceManager.localeChain = [ 'fr_FR' ]" textDecoration="underline" color="#FFFFFF" />
@@ -445,4 +485,11 @@
 		<mx:LinkButton label="gr" width="35" click="resourceManager.localeChain = [ 'el_CY' ]" textDecoration="underline" color="#FFFFFF" />
 		<mx:LinkButton label="nl" width="35" click="resourceManager.localeChain = [ 'nl_NL' ]" textDecoration="underline" color="#FFFFFF" />
 	</s:HGroup>
+-->
+	
+	<s:BorderContainer id="maxImage" visible="false" alpha="0" showEffect="{fadeInIm}" hideEffect="{fadeOutIm}" width="100%" height="100%" backgroundColor="#000000" backgroundAlpha=".7" cornerRadius="0">
+		<s:Image width="90%" height="90%" id="maxImageIm" horizontalCenter="0" verticalCenter="0" includeIn="imageOnly"/>
+		<mx:Text width="90%" height="90%" id="maxImageRt" horizontalCenter="0" verticalCenter="0" includeIn="rtOnly" color="#FFFFFF"/>
+		<s:Button label="{resourceManager.getString('resources', 'CLOSE_BUTTON')}" horizontalCenter="0" bottom="5" click="maxImage.visible=false" />
+	</s:BorderContainer>
 </s:Application>
