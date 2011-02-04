@@ -41,6 +41,7 @@ public class BigMissionMapControl extends CustomNode {
    def relativeWindowScreenBoder = 0.0;
    var bigMissionMapVisible = false;
    var initPhase = true;
+   var deferLoadTimerCount = 5;
 
    init {
       FX.deferAction(function(): Void {
@@ -77,13 +78,24 @@ public class BigMissionMapControl extends CustomNode {
          FX.deferAction(function(): Void {
 //         bigMissionMap.adjustSize();
             missionMapWindow.resizeTheContent();
-            if (initPhase){
-               initializer.loadTimer.endActivity();
+            if (initPhase) {
+               deferLoadTimer();
                initPhase = false;
             }
 
          });
          ModalDialogLayer.addModalDialog(missionMapWindow, true);
+      }
+   }
+
+   function deferLoadTimer(): Void {
+      if (deferLoadTimerCount <= 0) {
+         initializer.loadTimer.endActivity();
+      }
+      else {
+         initializer.loadTimer.startActivity("deferLoadTimer {deferLoadTimerCount}");
+         --deferLoadTimerCount;
+         FX.deferAction(deferLoadTimer);
       }
    }
 
