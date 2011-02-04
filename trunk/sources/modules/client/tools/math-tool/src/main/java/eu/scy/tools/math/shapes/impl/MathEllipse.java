@@ -25,7 +25,7 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 
 	private String id;
 	private Point[] points  = new Point[1];
-	private Color fillColor = new Color(0x99cc99);
+	private Color fillColor = new Color(153,204,153, UIUtils.ALPHA);
 	private double radius;
 	private Rectangle[] cornerPointRectangles = new Rectangle[1];
 	private String formula;

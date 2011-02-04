@@ -1,5 +1,6 @@
 package eu.scy.tools.math.shapes.impl;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -23,7 +24,7 @@ public class MathRectangle extends Rectangle implements IMathRectangle {
 	private Point[] points = new Point[2];
 	private boolean showCornerPoints = true;
 	private String id; 
-	private Color fillColor = new Color(0x9999ff);
+	private Color fillColor = new Color(153,153,255, UIUtils.ALPHA);
 	private Rectangle[] cornerPointRectangles = new Rectangle[1];
 	private String formula;
 	private String oldResult;
@@ -62,7 +63,10 @@ public class MathRectangle extends Rectangle implements IMathRectangle {
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
 
-		
+//		float alpha = 0.50f;
+//		AlphaComposite composite = 
+//		  AlphaComposite.getInstance( AlphaComposite.SRC_OVER, alpha);
+//		g2.setComposite(composite);
 
 		g2.setPaint(fillColor);
 		this.setFrameFromDiagonal(points[0], points[1]);
