@@ -6,7 +6,7 @@ public class MathEval {
 	
 	public static void main(String[] args) {
 		MathEvaluator eval = new MathEvaluator("10*3.14^2");
-		
+//		System.out.println("eval " + eval.getValue());
 	}
 
 }

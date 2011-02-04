@@ -28,6 +28,15 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas{
 	private ArrayList<IMathShape> mathShapes = new ArrayList<IMathShape>();
 	private ControlPanel controlPanel;
 	private String type;
+
+
+	private boolean hasDecorations;
+
+
+	private boolean hasCornerPoints;
+
+
+	private boolean isScreenCaptureMode;
 	
 
 	public ShapeCanvas() {
@@ -44,6 +53,17 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas{
 
 	private void init() {
 		setDoubleBuffered(true);
+	}
+	
+	public void setEnabledShapeDecorations(boolean  hasDecorations) {
+		this.hasDecorations = hasDecorations;
+	}
+	public void setEndabledShapeCornerPoints(boolean hasCornerPoints) {
+		this.hasCornerPoints = hasCornerPoints;
+	}
+	
+	public void setScreenCaptureMode(boolean isScreenCaptureMode) {
+		this.isScreenCaptureMode = isScreenCaptureMode;
 	}
 
 	public void paintComponent(Graphics g) {
@@ -82,6 +102,13 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas{
 		
 		for (IMathShape ms : getMathShapes()) {
 			if( !(ms instanceof I3D)) {
+				
+				if( isScreenCaptureMode ) {
+					ms.setHasDecorations(false);
+					ms.setShowCornerPoints(false);
+				} else {
+					ms.setHasDecorations(true);
+				}
 				ms.paintComponent(g);
 			}
 		}

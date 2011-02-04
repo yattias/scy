@@ -27,6 +27,7 @@ public class MathRectangle extends Rectangle implements IMathRectangle {
 	private Rectangle[] cornerPointRectangles = new Rectangle[1];
 	private String formula;
 	private String oldResult;
+	private boolean hasDecorations;
 
 	public MathRectangle(double x,double y, double w, double h) {
 		this.setFrame(x, y, w, h);
@@ -77,6 +78,8 @@ public class MathRectangle extends Rectangle implements IMathRectangle {
 				cornerPointRectangles[0] = new Rectangle(points[0].x - UIUtils.SHAPE_END_POINT_SIZE,points[0].y - UIUtils.SHAPE_END_POINT_SIZE,UIUtils.SHAPE_END_POINT_SIZE, UIUtils.SHAPE_END_POINT_SIZE); 
 				g2.fill(cornerPointRectangles[0]);
 		}	
+		
+		if( hasDecorations ) {
 				//text height
 				String s = "h = " + twoDForm.format(( this.getHeight() / UIUtils._PIXEL )) + " " + UIUtils.METERS;
 
@@ -110,7 +113,7 @@ public class MathRectangle extends Rectangle implements IMathRectangle {
 			    g2.setPaint(Color.black);
 			    g2.drawString(widthText.getIterator(), x,y);
 		
-		
+		}
 
 		
 		
@@ -266,5 +269,11 @@ public class MathRectangle extends Rectangle implements IMathRectangle {
 		this.oldResult = result;
 	}
 
+	@Override
+	public void setHasDecorations(boolean hasDecorations) {
+		this.hasDecorations = hasDecorations;
+	}
+
+	
 
 }

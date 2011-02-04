@@ -25,35 +25,35 @@ public class MathematicalOperationsSample {
 		 */
 		Evaluator evaluator = new Evaluator();
 
-		//try {
+//		try {
 			/*
 			 * This sample shows basic addition.
 			 * 
 			 * Note: The output will contain at least one decimal place, since
 			 * the results of math operations are treated like doubles.
 			 */
-			
+			//System.out.println(evaluator.evaluate("4 + 1"));
 
 			/**
 			 * This sample shows basic division
 			 */
-			
+			//System.out.println(evaluator.evaluate("1 / 3"));
 
 			/**
 			 * This sample shows a more complex expression involving
 			 * parentheses.
 			 */
-			
+			//System.out.println(evaluator.evaluate("6 + 7 * 8"));
 
 			/**
 			 * This sample shows an invalid expression. There is no operand to
 			 * the right of the plus addition operator.
 			 */
-			System.out.println("An exception is expected in the "
-					+ "next evaluation.");
-			
-		//} catch (EvaluationException ee) {
-			
-		//}
+			//System.out.println("An exception is expected in the "
+//					+ "next evaluation.");
+			//System.out.println(evaluator.evaluate("4 + "));
+//		} catch (EvaluationException ee) {
+//			//System.out.println(ee);
+//		}
 	}
 }

@@ -428,17 +428,20 @@ public class MathToolController {
 		if (label.getName().equals(UIUtils.CIRCLE)) {
 			MathEllipse t = new MathEllipse(dropPoint.x, dropPoint.y, 200, 200);
 			t.setId(id);
+			t.setHasDecorations(true);
 			sc.addShape(t);
 			this.setSelectedMathShape(t);
 		} else if (label.getName().equals(UIUtils.RECTANGLE)) {
 			MathRectangle t = new MathRectangle(dropPoint.x, dropPoint.y, 100,
 					100);
+			t.setHasDecorations(true);
 			t.setId(id);
 			sc.addShape(t);
 			this.setSelectedMathShape(t);
 		} else if (label.getName().equals(UIUtils.TRIANGLE)) {
 			MathTriangle t = new MathTriangle(dropPoint.x, dropPoint.y, 200);
 			t.setId(id);
+			t.setHasDecorations(true);
 			sc.addShape(t);
 			this.setSelectedMathShape(t);
 		} else if (label.getName().equals(UIUtils.RECTANGLE3D)) {
