@@ -1,8 +1,0 @@
-2011-02-04 04:48:41,309 [Thread-2] eu.scy.client.desktop.scydesktop.utils.ExceptionCatcher.uncaughtException:46
- ERROR: An uncatched exception occurred in thread Thread-2
-java.lang.IllegalStateException: cannot load LocalToolBrokerLogin spring config file: /config/localScyServices.xml
-Error: Error creating bean with name 'wrappedRepository' defined in class path resource [config/localWrappedRooloConfig.xml]: Initialization of bean failed; nested exception is java.lang.NoClassDefFoundError: roolo/search/IQuery
-	at eu.scy.client.desktop.localtoolbroker.LocalToolBrokerLogin.readTbiFromSpringConfig(LocalToolBrokerLogin.java:159)
-	at eu.scy.client.desktop.localtoolbroker.LocalToolBrokerLogin.getReadyForUser(LocalToolBrokerLogin.java:144)
-	at eu.scy.client.desktop.scydesktop.login.BackgroundGetReadyForUser.run(BackgroundGetReadyForUser.java:39)
-	at java.lang.Thread.run(Thread.java:680)
