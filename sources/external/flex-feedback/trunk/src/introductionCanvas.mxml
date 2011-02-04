@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		   xmlns:s="library://ns.adobe.com/flex/spark" 
-		   xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:local="*" >
+		   xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:local="*" creationComplete="navigatorcontent1_creationCompleteHandler(event)">
 	
 	<fx:Script>
 		<![CDATA[
 			import listeners.ToggleEvent;
+			
+			import mx.events.FlexEvent;
+			
+			[Bindable] private var uName:String = "";
 			
 			protected function clickHandler(dir:String, stack:Number):void {
 				var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
@@ -13,6 +17,17 @@
 				tEvent.selecTarget = stack;
 				dispatchEvent(tEvent);
 			}
+
+			protected function navigatorcontent1_creationCompleteHandler(event:FlexEvent):void {
+				uName = retrieveUserInfos();
+			}
+			
+			private function retrieveUserInfos():String {
+				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				var userInfo:Object = so.data.userInfo;
+				return (userInfo.firstname as String).toLowerCase();
+			}
+
 		]]>
 	</fx:Script>
 	
@@ -26,7 +41,7 @@
 		}
 	</fx:Style>
 	
-	<s:VGroup gap="5" width="100%" height="100%" horizontalAlign="center">
+	<s:VGroup gap="10" width="100%" height="100%" horizontalAlign="center">
 		<s:HGroup width="100%" height="70" horizontalAlign="center" verticalAlign="middle" gap="3">
 			<s:BorderContainer id="headerLogo" width="70" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
 				<s:backgroundFill>
@@ -36,7 +51,7 @@
 					</s:LinearGradient>
 				</s:backgroundFill>
 				
-				<s:Image source="assets/images/feed.png" alpha=".7" width="60" height="60" left="5" top="5" />
+				<s:Image source="{index.IMAGE_BASE_URL+'assets/images/feed.png'}" width="60" height="60" left="5" top="5" />
 			</s:BorderContainer>	
 			<s:BorderContainer id="header" width="100%" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
 				<s:backgroundFill>
@@ -45,17 +60,17 @@
 						<s:GradientEntry color="{index.THEME_COL}" />
 					</s:LinearGradient>
 				</s:backgroundFill>
-	
+				
 				<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
-					<s:Label id="headerText" width="60%" color="{index.BACK_GRADIENT_BOT}" fontSize="15" textAlign="center" text="{resourceManager.getString('resources', 'HELLO')}" />
+					<s:Label id="headerText" width="60%" color="{index.BACK_GRADIENT_BOT}" fontSize="15" textAlign="center" text="{uName+' '+resourceManager.getString('resources', 'HELLO')}" />
 				</s:HGroup>
 			</s:BorderContainer>	
 		</s:HGroup>
-
+		
 		<s:HGroup id="selectionBox" width="100%" gap="0">
 			<s:HGroup id="selec" width="50%" height="100%" gap="10" verticalAlign="middle">
 				<mx:Spacer width="10" />
-				<s:Label width="100%" text="{resourceManager.getString('resources', 'MISSION')+': '+index.MISSION_NAME+''}" color="{index.THEME_COL}" />
+				<s:Label width="100%" text="{resourceManager.getString('resources', 'MISSION')+': '+index.MISSION_NAME}" color="{index.THEME_COL}" />
 			</s:HGroup>
 		</s:HGroup>
 

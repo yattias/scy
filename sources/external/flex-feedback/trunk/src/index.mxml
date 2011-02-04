@@ -28,10 +28,17 @@
 		
 		<s:Fade id="fadeInIm" alphaFrom="0" alphaTo="1" duration="1000" />
 		<s:Fade id="fadeOutIm" alphaFrom="1" alphaTo="0" duration="1000" />
+		
+		<s:HTTPService id="URLpropertyFile" 
+					   showBusyCursor="true" 
+					   result="URLpropertyFile_resultHandler(event)" 
+					   fault="URLpropertyFile_faultHandler(event)"
+					   resultFormat="e4x"/>
 	</fx:Declarations>
 	
 	<fx:Script>
 		<![CDATA[
+			import listeners.ImageMagEvent;
 			import listeners.ToggleEvent;
 			
 			import mx.collections.ArrayCollection;
@@ -45,9 +52,17 @@
 			
 			import spark.effects.easing.Linear;
 			
+			import utility.AutoSaveService;
+			import utility.XMLUtilJer;
+			
+			public static const SHAREDOBJECT_LOCAL_NAME:String = "scy-feedback";
+			public static const IMAGE_BASE_URL:String = "http://www.intermedia.uio.no/www-data-public/app-scy/feedback/";
+			public static const NOTHUMB:String = "http://www.intermedia.uio.no/www-data-public/app-scy/feedback/assets/images/thumbs/nothumb.png";
+			
 			public static const STACK_INTRO_PANEL:Number = 1;
 			public static const STACK_FEEDBACK_PANEL:Number = 2;
 			
+			public static const IMAGEMAG_COMMAND:String = "toggleImageMag";
 			public static const TOGGLE_COMMAND:String = "toggleStack";
 			public static const LEFT_DIRECTION:String = "left";
 			public static const RIGHT_DIRECTION:String = "right";
@@ -58,20 +73,40 @@
 			public static const BACK_GRADIENT_TOP:Number = 0x999999;
 			public static const BACK_GRADIENT_BOT:Number = 0xFFFFFF;
 			
+			public static const ZOOM_TYPE_IMAGE:String = "image";
+			public static const ZOOM_TYPE_RICHTEXT:String = "text";
+			public static const ZOOM_TYPE_DATASET:String = "dataset";
+			
 			[Bindable] private var needsRefresh:Boolean = false;
 			[Bindable] private var accordionTarget:Number = 0;
 			[Bindable] private var eloSelectedToSubmit:Boolean = false;
+			
+			public static var obligElos:ArrayCollection;
 			
 			private var userName:String;
 			private var eloidToAssess:String;
 			
 			private var so:SharedObject;
+			private var toolURLProvider:XML;
 			
 			protected function application1_applicationCompleteHandler(event:FlexEvent):void {
-				resourceManager.localeChain = [ "en_US" ];
 				retrieveUserInfo();
 				this.addEventListener(TOGGLE_COMMAND, ToggleStack);
-				animate(LEFT_DIRECTION, STACK_INTRO_PANEL);
+				this.addEventListener(IMAGEMAG_COMMAND, ToggleImageMag);
+				URLpropertyFile.send();
+			}
+			
+			private function ToggleImageMag(evt:ImageMagEvent):void {
+				maxImage.visible = evt.showNow;
+				
+				if(evt.evtType == ZOOM_TYPE_RICHTEXT) {
+					currentState = "rtOnly";
+					maxImageRt.text = XMLUtilJer.cleanHTML(evt.rtf);
+				}
+				else {
+					currentState = "imageOnly";
+					maxImageIm.source = evt.imageSource;
+				}
 			}
 			
 			private function ToggleStack(evt:ToggleEvent):void {
@@ -80,16 +115,29 @@
 			}
 			
 			private function retrieveUserInfo():void {
-				so = SharedObject.getLocal("scy-feedback");
+				so = SharedObject.getLocal(SHAREDOBJECT_LOCAL_NAME);
 				var userInfo:Object = new Object();
 				userInfo.username = FlexGlobals.topLevelApplication.parameters.username;
 				userInfo.firstname = FlexGlobals.topLevelApplication.parameters.firstName;
-				userInfo.lastname = FlexGlobals.topLevelApplication.parameters.lastName;				
+				userInfo.lastname = FlexGlobals.topLevelApplication.parameters.lastName;	
+				
+				resourceManager.localeChain = [ getCorrectLanguage(new String(FlexGlobals.topLevelApplication.parameters.language)) ];
+				
+				URLpropertyFile.url = FlexGlobals.topLevelApplication.parameters.toolURLProvider;
+				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+					URLpropertyFile.url = "xml/toolURLProvider.html";
+				}
+				
 				so.data.userInfo = userInfo;
-				
-				userName = (userInfo.firstname as String).toLowerCase() + " " + (userInfo.lastname as String).toUpperCase();
-				
-				//URLpropertyFile.url = FlexGlobals.topLevelApplication.parameters.toolURLProvider;
+			}
+			
+			private function getCorrectLanguage(lang:String):String {
+				if(lang == "en_US" || lang == "fr_FR" || lang == "nb_NO" || lang == "el_CY" || lang == "nl_NL") {
+					return lang;
+				}
+				else {
+					return "en_US";
+				}
 			}
 			
 			
@@ -130,12 +178,40 @@
 				mainStack.selectedIndex = selecIndex;
 				contentMove.target = mainStack.selectedChild;
 			}
+			
+			protected function URLpropertyFile_faultHandler(event:FaultEvent):void {
+				Alert.show(resourceManager.getString('resources', 'URL_PROPERTY_FILE_ERROR'), "HTTPService Error");
+			}
+			
+			protected function URLpropertyFile_resultHandler(event:ResultEvent):void {
+				toolURLProvider = event.result as XML;
+				
+				so.data.saveportfolio = new String(toolURLProvider.saveportfolio);
+				so.data.actionlogger = new String(toolURLProvider.actionlogger);
+				so.data.newestelosfeedbackservice = new String(toolURLProvider.newestelosfeedbackservice);
+				so.flush();
+				
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["type"] = "tool_start";
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				
+				animate(LEFT_DIRECTION, STACK_INTRO_PANEL);
+			}
+
 		]]>
 	</fx:Script>
 	
 	<fx:Metadata>
 		[ResourceBundle("resources")]
 	</fx:Metadata>
+	
+	<s:states>
+		<s:State name="imageOnly" />
+		<s:State name="rtOnly" />
+		<s:State name="datasetOnly" />
+	</s:states>
 	
 	<s:Group>
 		<s:Line xFrom="0" xTo="{this.width}" yFrom="2" yTo="2">
@@ -167,10 +243,21 @@
 	
 	<s:Group id="genecan" width="{this.width-14}" height="{this.height-14}" x="7" y="7">
 		<mx:ViewStack id="mainStack" width="100%" height="100%" >
-			<s:NavigatorContent />
+			<s:NavigatorContent width="100%" height="100%">
+				<s:VGroup width="70%" horizontalAlign="center" horizontalCenter="0" verticalCenter="0" verticalAlign="middle">
+					<s:Label fontSize="20" color="{THEME_COL}" width="100%" textAlign="center" text="{resourceManager.getString('resources', 'WAIT_MESSAGE')+' ....'}" />
+					<local:Waiter id="waiter" />
+				</s:VGroup>
+			</s:NavigatorContent>
 			<local:introductionCanvas id="introduction" width="100%" height="100%" showEffect="{showEffect}" />
 			<local:enterFeedbackCanvas id="enterFeedback" width="100%" height="100%" showEffect="{showEffect}" />
 		</mx:ViewStack>
 		<s:Image id="animateImage" visible="false" includeInLayout="false" />
 	</s:Group>
+	
+	<s:BorderContainer id="maxImage" visible="false" alpha="0" showEffect="{fadeInIm}" hideEffect="{fadeOutIm}" width="100%" height="100%" backgroundColor="#000000" backgroundAlpha=".7" cornerRadius="0">
+		<s:Image width="90%" height="90%" id="maxImageIm" horizontalCenter="0" verticalCenter="0" includeIn="imageOnly"/>
+		<s:TextArea horizontalScrollPolicy="off" contentBackgroundAlpha="0" borderVisible="true" borderColor="#FFFFFF" borderAlpha=".1" editable="false" width="90%" height="80%" id="maxImageRt" horizontalCenter="0" verticalCenter="0" includeIn="rtOnly" color="#FFFFFF"/>
+		<s:Button label="{resourceManager.getString('resources', 'CLOSE_BUTTON')}" horizontalCenter="0" bottom="5" click="maxImage.visible=false" />
+	</s:BorderContainer>
 </s:Application>

@@ -332,8 +332,8 @@
 					}
 				}
 				
-				if(xmlResult.thumbnail == null || xmlResult.thumbnail == "") {
-					xmlResult.thumbnail = index.NOTHUMB;
+				if(xmlResult.rawdata.thumbnail == null || xmlResult.rawdata.thumbnail == "") {
+					xmlResult.rawdata.thumbnail = index.NOTHUMB;
 				}
 				
 				so.data.searchSelection = xmlResult;

@@ -7,13 +7,34 @@
 		<![CDATA[
 			import listeners.ToggleEvent;
 			
+			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
-			[Bindable] public var cellTitle:String;
-			[Bindable] public var imageSource:String;
-			[Bindable] public var eloid:String;
-			[Bindable] public var myname:String;
-			[Bindable] public var createdby:String;
-			[Bindable] public var modified:String;
+			[Bindable] public var uri:String = "";
+			[Bindable] public var catname:String = "";
+			[Bindable] public var createdby:String = "";
+			[Bindable] public var thumbnail:String = "";
+			[Bindable] public var fullsize:String = "";
+			[Bindable] public var customname:String = "";
+			[Bindable] public var modified:String = "";
+			[Bindable] public var studentdescription:String = "";
+			[Bindable] public var studentglg:ArrayCollection;
+			[Bindable] public var studentslg:ArrayCollection;
+			[Bindable] public var studentreflection:String = "";
+			[Bindable] public var hasbeenselectedforsubmit:Boolean = false;
+			[Bindable] public var hasbeenreflectedon:Boolean = false;
+			[Bindable] public var studentinquiry:String = "";
+			[Bindable] public var inquiryquestion:String = "";
+			[Bindable] public var assessed:String = "";
+			[Bindable] public var grade:String = "";
+			[Bindable] public var assessmentcomment:String = "";
+			[Bindable] public var reflectioncomment:String = "";
+			[Bindable] public var shouldBeSelected:Boolean = false;
+			[Bindable] public var technicalformat:String = "";
+			[Bindable] public var rawdataid:String = "";
+			[Bindable] public var rawdatatext:String = "";
+			[Bindable] public var rawdatathumb:String = "";
+			[Bindable] public var rawdatafull:String = "";
+			[Bindable] public var rawdatadataset:String = "";
 			[Bindable] public var shown:String;
 			[Bindable] public var eval:String;
 			[Bindable] public var score:String;
@@ -32,8 +53,19 @@
 				var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
 				tEvent.direction = index.LEFT_DIRECTION;
 				tEvent.selecTarget = index.STACK_FEEDBACK_PANEL;
-				tEvent.eloidToAssess = eloid;
+				tEvent.eloidToAssess = uri;
 				dispatchEvent(tEvent);
+			}
+
+
+			protected function thumb_ioErrorHandler(event:IOErrorEvent):void {
+				trace("could not load the image, let's get a default thumb instead");
+				
+				switch(event.errorID) {
+					case 0:
+						rawdatathumb = index.NOTHUMB;
+						break;
+				}
 			}
 
 		]]>
@@ -44,7 +76,7 @@
 					   mouseOut="bordercontainer1_mouseOutHandler(event)"
 					   mouseChildren="false">
 		<s:VGroup width="100%" height="100%" verticalAlign="middle" horizontalAlign="center">
-			<s:Label id="titleLabel" text="{cellTitle}" color="#FFFFFF" />
+			<s:Label id="titleLabel" text="{catname}" color="#FFFFFF" />
 		</s:VGroup>
 	</s:BorderContainer>
 	<s:BorderContainer id="elo" width="100%" height="100%" backgroundColor="{index.THEME_COL}" borderColor="{index.THEME_LIGHT}" borderWeight="2" toolTip="{resourceManager.getString('resources', 'TOOLTIP_TABLE_ELO')}"
@@ -59,10 +91,10 @@
 						<s:SolidColor color="#FFCC99" alpha=".5" />
 					</s:fill>
 				</s:Rect>
-				<s:Image source="{imageSource}" width="100" height="100" horizontalCenter="0" verticalCenter="0" />
+				<s:Image id="thumb" source="{rawdatathumb}" width="100" height="100" horizontalCenter="0" verticalCenter="0" ioError="thumb_ioErrorHandler(event)" />
  			</s:Group>
 			<mx:Spacer height="3" />
-			<s:Label color="#333333" text="{myname}" width="100%" fontWeight="bold" />
+			<s:Label color="#333333" text="{customname}" width="100%" fontWeight="bold" />
 			<mx:Spacer height="3" />
 			<s:Label color="#333333" text="{resourceManager.getString('resources', 'BY')+': '+createdby}" width="100%" />
 			<mx:Spacer height="3" />

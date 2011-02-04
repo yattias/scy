@@ -6,35 +6,48 @@
 		<![CDATA[
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
 			import mx.managers.CursorManager;
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
 			
+			import utility.XMLUtilJer;
+			
 			private var objectsToTile:ArrayCollection;
+			private var so:SharedObject;
 			
 			protected function navigatorcontent1_creationCompleteHandler(event:FlexEvent):void {
-				URLpropertyFile.url = "newest.xml";
-				URLpropertyFile.send();
+				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				
+				feedbackService.url = new String(so.data.newestelosfeedbackservice)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
+				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+					feedbackService.url = new String(so.data.newestelosfeedbackservice).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "%23");
+				}
+				
+				feedbackService.send();
 			}
 			
-			protected function URLpropertyFile_faultHandler(event:FaultEvent):void {
-				Alert.show(resourceManager.getString('resources', 'URL_PROPERTY_FILE_ERROR'), "HTTPService Error");
+			private function buildTile():void {
+				dataTile.removeAllElements();
+				for each (var tcell:tileCell in objectsToTile) {
+					dataTile.addElement(tcell);
+				}
 			}
 			
-			protected function URLpropertyFile_resultHandler(event:ResultEvent):void {
+			protected function feedbackService_resultHandler(event:ResultEvent):void {
 				var xml:XML= event.result as XML;
 				var tc:tileCell;
 				objectsToTile = new ArrayCollection();
 				for each (var object:XML in xml.*) {
 					if (object.name() == "elo") {
-						tc = new tileCell();
-						tc.cellTitle = object.catname;
-						tc.imageSource = object.thumbnail;
-						tc.eloid = object.@uri;
-						tc.myname = object.myname;
-						tc.createdby = object.createdby;
-						tc.modified = object.modified;
+						var eloObj:Object = XMLUtilJer.getEloObjectFromXML(object);
+						tc = XMLUtilJer.getTileCellEloFromObject(eloObj);
+						
+						if(tc.rawdatathumb == "") {
+							tc.rawdatathumb = index.NOTHUMB;
+						}
+						
 						tc.shown = "0";
 						tc.eval = "0";
 						tc.score = "0";
@@ -45,19 +58,20 @@
 				buildTile();
 			}
 			
-			private function buildTile():void {
-				for each (var tcell:tileCell in objectsToTile) {
-					dataTile.addElement(tcell);
-				}
+			
+			protected function feedbackService_faultHandler(event:FaultEvent):void {
+				Alert.show(resourceManager.getString('resources', 'URL_PROPERTY_FILE_ERROR'), "HTTPService Error");
 			}
+			
 
 		]]>
 	</fx:Script>
+	
 	<fx:Declarations>
-		<s:HTTPService id="URLpropertyFile" 
+		<s:HTTPService id="feedbackService" 
 					   showBusyCursor="true" 
-					   result="URLpropertyFile_resultHandler(event)" 
-					   fault="URLpropertyFile_faultHandler(event)"
+					   result="feedbackService_resultHandler(event)" 
+					   fault="feedbackService_faultHandler(event)"
 					   resultFormat="e4x"/>
 	</fx:Declarations>
 	

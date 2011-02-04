@@ -181,6 +181,16 @@
 				
 				dispatchEvent(tEvent);
 			}
+			
+			protected function image1_ioErrorHandler(event:IOErrorEvent):void {
+				trace("could not load the image, let's get a default thumb instead");
+				
+				switch(event.errorID) {
+					case 0:
+						event.currentTarget.source = index.NOTHUMB;
+						break;
+				}
+			}
 		]]>
 	</fx:Script>
 	
@@ -236,7 +246,7 @@
 					<mx:Spacer height="3"/>
 					<s:HGroup>
 						<mx:Spacer width="3" />
-						<s:Image width="100" height="100" source="{thumbnailURL1}" buttonMode="true" click="image1_clickHandler(eloXML1)" toolTip="{resourceManager.getString('resources', 'ELO_SHOW_IMAGE_TTIP')}" />
+						<s:Image width="100" height="100" source="{thumbnailURL1}" buttonMode="true" ioError="image1_ioErrorHandler(event)" click="image1_clickHandler(eloXML1)" toolTip="{resourceManager.getString('resources', 'ELO_SHOW_IMAGE_TTIP')}" />
 						<mx:Spacer width="3" />
 						<s:VGroup width="100%" height="100%" gap="3" color="#FFFFFF">
 							<s:HGroup width="100%" >
@@ -313,7 +323,7 @@
 					<mx:Spacer height="3"/>
 					<s:HGroup>
 						<mx:Spacer width="3" />
-						<s:Image width="100" height="100" source="{thumbnailURL2}" buttonMode="true" click="image1_clickHandler(eloXML2)" toolTip="{resourceManager.getString('resources', 'ELO_SHOW_IMAGE_TTIP')}" />
+						<s:Image width="100" height="100" source="{thumbnailURL2}" ioError="image1_ioErrorHandler(event)" buttonMode="true" click="image1_clickHandler(eloXML2)" toolTip="{resourceManager.getString('resources', 'ELO_SHOW_IMAGE_TTIP')}" />
 						<mx:Spacer width="3" />
 						<s:VGroup width="100%" height="100%" gap="3" color="#FFFFFF">
 							<s:HGroup width="100%" >
