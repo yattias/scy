@@ -35,6 +35,10 @@
       </resource>
     </relation>
   </lom>
+ <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA2CAYAAABQvB7qAAAA40lEQVR42u3XQQqDMBBG4VzSveDpvI4eQNeC3kBTFJQiNa1tFy1+D7JoSYo+/plMQ8RHBAoIJJBAAvG2wKqqYtu222qaJvn52b6j/fs969qfeeV86rdS6+gZz77juuq6jmGaptj3/UO7WZaJWILZXRjHMXZdF4uiWL4sy3LbkOd5HIaBqQNmd0sC75ll4kQC9wJBIIEEXu0WxhdvYShhAvVAPRASKIEuEQJBIIEEEggCDdI/PEgTSKC/cnqgBMIYo4SVsBIGgQQSSCCMMcYYJayEoYQl8C8SSCCBeqAeeOUE4jNuCWza6r9wKeQAAAAASUVORK5CYII=</base64>
+  </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
 <text>help elo 1</text>
