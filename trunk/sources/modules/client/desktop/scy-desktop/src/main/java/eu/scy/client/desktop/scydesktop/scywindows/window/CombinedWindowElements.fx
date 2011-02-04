@@ -301,7 +301,6 @@ public class CombinedWindowElements extends ScyWindow {
          windowColorScheme:bind windowColorScheme
          enableRotateNormal:bind rotate!=0.0
          enableMinimize: bind allowMinimize and not isClosed
-         enableClose:bind allowClose and not isClosed
       }
 
       windowTitleBar = WindowTitleBarDouble {

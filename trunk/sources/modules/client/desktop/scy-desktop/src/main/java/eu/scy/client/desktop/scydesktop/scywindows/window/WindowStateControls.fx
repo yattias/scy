@@ -28,23 +28,20 @@ public class WindowStateControls extends WindowElement {
    public var minimizeAction: function(): Void;
    public var centerAction: function(): Void;
    public var maximizeAction: function(): Void;
-   public var closeAction: function(): Void;
    public var enableRotateNormal = true;
    public var enableMinimize = true;
    public var enableCenter = true;
    public var enableMaximize = false;
-   public var enableClose= true;
    def elementWidth = 10.0;
    def elementHeight = 10.0;
    def lineWidth = 2.0;
-   def elementSpacing = 5.0;
+   def elementSpacing = 7.0;
    def backgroundColor = Color.TRANSPARENT;
    def disabledColor = Color.LIGHTGREY;
    def rotateNormalColor = bind if (enableRotateNormal) windowColorScheme.mainColor else disabledColor;
    def minmizeColor = bind if (enableMinimize) windowColorScheme.mainColor else disabledColor;
    def centerColor = bind if (enableCenter) windowColorScheme.mainColor else disabledColor;
    def maximizeColor = bind if (enableMaximize) windowColorScheme.mainColor else disabledColor;
-   def closeColor = bind if (enableClose) windowColorScheme.mainColor else disabledColor;
 
    public override function create(): Node {
       HBox {
@@ -55,7 +52,6 @@ public class WindowStateControls extends WindowElement {
             createMinimizeNode(),
             createCenterNode(),
             createMaximizeNode(),
-//            createCloseNode()
          ]
       }
    }
@@ -139,13 +135,12 @@ public class WindowStateControls extends WindowElement {
          disable:bind not enableMaximize
          content: [
             createElementBackground(),
-            for (y in [elementHeight..0 step -3]) {
-               Line {
-                  startX: 0, startY: y
-                  endX: elementWidth, endY: y
-                  strokeWidth: lineWidth
-                  stroke: bind maximizeColor
-               }
+            Rectangle {
+               x: 0, y: 0
+               width: elementWidth, height: elementHeight
+               fill: null
+               strokeWidth: lineWidth
+               stroke: bind centerColor
             }
          ]
          onMouseClicked: function(m: MouseEvent): Void {
@@ -154,41 +149,8 @@ public class WindowStateControls extends WindowElement {
       }
    }
 
-   function createCloseNode(): Node {
-      Group {
-         cursor: bind if (enableClose) Cursor.HAND else null
-         disable:bind not enableClose
-         content: [
-            createElementBackground(),
-            Rectangle {
-               x: 0, y: 0
-               width: elementWidth, height: elementHeight
-               fill: null
-               strokeWidth: lineWidth
-               stroke: bind closeColor
-            }
-            Line {
-               startX: 0, startY: 0
-               endX: elementWidth, endY: elementHeight
-               strokeWidth: lineWidth
-               stroke: bind closeColor
-            }
-            Line {
-               startX: elementWidth, startY: 0
-               endX: 0, endY: elementHeight
-               strokeWidth: lineWidth
-               stroke: bind closeColor
-            }
-         ]
-         onMouseClicked: function(m: MouseEvent): Void {
-            closeAction();
-         }
-      }
-   }
-
    function createElementBackground(): Node {
       Rectangle {
-//         cursor: Cursor.HAND
          x: -lineWidth/2, y: -lineWidth/2
          width: elementWidth+lineWidth, height: elementHeight+lineWidth
          fill: backgroundColor
@@ -219,7 +181,6 @@ function run() {
                enableMinimize: false
                enableCenter: false
                enableMaximize: false
-               enableClose: false
             }
          ]
       }
