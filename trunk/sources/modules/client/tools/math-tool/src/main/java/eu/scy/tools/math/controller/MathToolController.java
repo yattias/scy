@@ -1,5 +1,7 @@
 package eu.scy.tools.math.controller;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
@@ -8,6 +10,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,6 +23,7 @@ import java.util.Set;
 import java.util.Vector;
 import java.util.logging.Logger;
 
+import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JComponent;
@@ -1062,6 +1066,57 @@ public class MathToolController {
 
 	public Map<String, ScratchPanel> getScratchPadPanels() {
 		return scratchPadPanels;
+	}
+
+	public String export2DCanvasPNG() {
+		
+		JFileChooser fc = new JFileChooser();
+
+		File savedFile = null; 
+		
+		fc.setSelectedFile(new File("googleSketchupFloorPlan.png"));
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG",
+				new String[] { "PNG" });
+		fc.setDialogTitle("Save your Floor plan for Google Sketchup");
+		fc.setFileFilter(filter);
+		int returnVal = fc.showSaveDialog(null);
+		
+		 
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+        	
+        	BufferedImage bimage = new BufferedImage(800, 600, BufferedImage.TRANSLUCENT);
+        	
+			if (bimage != null) {
+				savedFile = fc.getSelectedFile();
+			    // The component is not visible on the screen
+				
+				
+				ShapeCanvas shapeCanvas = getShapeCanvases().get(UIUtils._2D);
+				
+				shapeCanvas.setScreenCaptureMode(true);
+				shapeCanvas.repaint();
+				shapeCanvas.revalidate();
+				
+				Graphics2D g2g = (Graphics2D) bimage.getGraphics();
+				
+				shapeCanvas.paint(g2g);
+					try {
+						ImageIO.write( bimage, "PNG" , savedFile );
+						shapeCanvas.setScreenCaptureMode(false);
+						shapeCanvas.repaint();
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+			}
+			
+        	
+        	
+        }
+        
+        if( savedFile != null)
+        	return savedFile.getPath();
+        
+        return null;
 	}
 
 
