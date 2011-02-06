@@ -123,7 +123,7 @@ public class MathTool {
 		JToolBar toolBar = new JToolBar("Still draggable"); //$NON-NLS-1$
 		toolBar.setFloatable(false);
 		toolBar.setRollover(false);
-		ExportToGoogleSketchUpAction exportToGoogleSketchUpAction = new ExportToGoogleSketchUpAction();
+		ExportToGoogleSketchUpAction exportToGoogleSketchUpAction = new ExportToGoogleSketchUpAction(mathToolController);
 		exportToGoogleSketchUpAction.putValue(Action.NAME, null);
 		toolBar.add(new JXButton(exportToGoogleSketchUpAction));
 		
@@ -314,7 +314,7 @@ public class MathTool {
 		menuBar.add(editMenu);
 		JMenu actionsMenu = new JMenu("Actions");
 		
-		actionsMenu.add(new ExportToGoogleSketchUpAction());
+		actionsMenu.add(new ExportToGoogleSketchUpAction(mathToolController));
 		actionsMenu.add(new ToggleGridAction(mathToolController));
 		
 		menuBar.add(actionsMenu);

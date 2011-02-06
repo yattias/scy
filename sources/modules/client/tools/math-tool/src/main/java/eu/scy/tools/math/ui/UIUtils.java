@@ -50,6 +50,7 @@ public class UIUtils {
 	public final static String METERS = "m";
 	public static final String SHAPE_ID = "SHAPE_ID";
 	public static final int ALPHA = 140;
+	public static final String SKETCHUP_FILE = "googlesketchup.html";
     
 	public static Dimension frameDimension;
 	public static Color NONSHAPE_SHAPE_COLOR = Color.white;
