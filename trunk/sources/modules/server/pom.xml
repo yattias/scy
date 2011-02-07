@@ -4,7 +4,7 @@
     <parent>
         <artifactId>parent</artifactId>
         <groupId>eu.scy</groupId>
-        <version>28-SNAPSHOT</version>
+        <version>31-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -13,10 +13,6 @@
     <packaging>pom</packaging>
     <name>scy-server</name>
     <url>http://www.scy-net.eu</url>
-
-
-    <dependencies>
-    </dependencies>
 
     <build>
         <plugins>
