@@ -9,10 +9,10 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2010-02-24T13:39:24.759+0100</dateTime>
+          <dateTime>2010-02-24T14:39:24.759+0200</dateTime>
         </date>
       </contribute>
-      <version>2</version>
+      <version>8</version>
     </lifecycle>
     <technical>
       <customElements>
