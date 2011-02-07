@@ -16,7 +16,9 @@ import java.util.List;
  */
 public interface MissionConfigInput {
 
-   MissionModelEloContent getMissionModelEloContent();
+   public URI getMissionDescriptionUri();
+   
+   public MissionModelEloContent getMissionModelEloContent();
 
    public List<EloToolConfig> getEloToolConfigs();
 

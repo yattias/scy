@@ -38,6 +38,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
    private List<eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor> basicMissionAnchors = new ArrayList<eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor>();
    private List<URI> templateEloUris = new ArrayList<URI>();
    private List<String> errors = new ArrayList<String>();
+   private URI missionDescriptionUri;
 
    public void parseEloConfigs(ToolBrokerAPI tbi)
    {
@@ -56,6 +57,17 @@ public class BasicMissionConfigInput implements MissionConfigInput
       }
       templateEloUris.clear();
       templateEloUris.addAll(templateEloUriSet);
+   }
+
+   @Override
+   public URI getMissionDescriptionUri()
+   {
+      return missionDescriptionUri;
+   }
+
+   public void setMissionDescriptionUri(URI missionDescriptionUri)
+   {
+      this.missionDescriptionUri = missionDescriptionUri;
    }
 
    public void setEloToolConfigs(List<EloToolConfig> eloConfigList)

@@ -56,6 +56,7 @@ public class MissionSpecificationEditor extends EloXmlEditor {
       missionSpecification.setEloToolConfigsEloUri(eloToolConfigsElo.getUri());
       missionSpecification.setTemplateElosEloUri(templateElosElo.getUri());
       missionSpecification.setRuntimeSettingsEloUri(runtimeSettingsElo.getUri());
+      missionSpecification.setMissionDescriptionUri(springConfigFileImporter.missionDescriptionUri);
       setContent(MissionSpecificationEloContentXmlUtils.missionSpecificationToXml(missionSpecification), springConfigFileImporter.errors);
    }
 
