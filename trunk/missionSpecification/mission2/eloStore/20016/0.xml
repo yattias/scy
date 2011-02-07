@@ -12,7 +12,7 @@
           <dateTime>2010-02-22T17:35:35.874+0200</dateTime>
         </date>
       </contribute>
-      <version>1</version>
+      <version>8</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -46,11 +46,11 @@
   </lom>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil sansserif;}&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red0\green0\blue0;}&#xD;&#xD;
-&#xD;&#xD;
-\f1\fs24\i0\b0\cf1 Write here what is the main problem of this situation.\par&#xD;&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil sansserif;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red0\green0\blue0;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+\f1\fs24\i0\b0\cf1 Write here what is the main problem of this situation.\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
 }</RichText>
 </content>
 <resources>
