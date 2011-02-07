@@ -8,8 +8,10 @@
 			import listeners.ToggleEvent;
 			
 			import mx.events.FlexEvent;
+			import mx.events.IndexChangedEvent;
 			
 			[Bindable] private var uName:String = "";
+			private var currentlySelectedTab:Number = 0;
 			
 			protected function clickHandler(dir:String, stack:Number):void {
 				var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
@@ -26,6 +28,17 @@
 				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 				var userInfo:Object = so.data.userInfo;
 				return (userInfo.firstname as String).toLowerCase();
+			}
+			
+			public function refresh():void {
+				(gallery.getChildAt(currentlySelectedTab) as elosPane).refresh();
+				
+			}
+
+
+			protected function gallery_changeHandler(event:IndexChangedEvent):void {
+				currentlySelectedTab = event.newIndex;
+				refresh();
 			}
 
 		]]>
@@ -81,10 +94,10 @@
 			</s:HGroup>
 		</s:BorderContainer>
 		<s:VGroup id="hbo" width="95%" height="100%" horizontalCenter="0">
-			<mx:Accordion id="gallery" width="100%" height="100%" borderAlpha=".5" borderColor="{index.THEME_COL}" contentBackgroundAlpha=".3" contentBackgroundColor="{index.THEME_LIGHT}" historyManagementEnabled="true" color="#FFFFFF" headerStyleName="customAccordionHeadStyles">
-				<local:newestElosPane label="{resourceManager.getString('resources', 'ACCORD_CAT1')}" width="100%" height="100%"/>
-				<s:NavigatorContent label="{resourceManager.getString('resources', 'ACCORD_CAT2')}" />
-				<s:NavigatorContent label="{resourceManager.getString('resources', 'ACCORD_CAT3')}" />
+			<mx:Accordion id="gallery" width="100%" height="100%" borderAlpha=".5" change="gallery_changeHandler(event)" borderColor="{index.THEME_COL}" creationPolicy="all" contentBackgroundAlpha=".3" contentBackgroundColor="{index.THEME_LIGHT}" historyManagementEnabled="true" color="#FFFFFF" headerStyleName="customAccordionHeadStyles">
+				<local:elosPane label="{resourceManager.getString('resources', 'ACCORD_CAT1')}" width="100%" height="100%" category="{index.CAT1}"/>
+				<local:elosPane label="{resourceManager.getString('resources', 'ACCORD_CAT2')}" width="100%" height="100%" category="{index.CAT2}"/>
+				<local:elosPane label="{resourceManager.getString('resources', 'ACCORD_CAT3')}" width="100%" height="100%" category="{index.CAT3}"/>
 			</mx:Accordion>
 		</s:VGroup>
 		<mx:Spacer height="15" />

@@ -39,6 +39,7 @@ package utility
 			xmlObject.rawdatathumb = object.rawdata.thumbnail;
 			xmlObject.rawdatafull = object.rawdata.fullscreen;
 			xmlObject.rawdatadataset = object.rawdata.dataset;
+			xmlObject.feedbackelourl = object.feedbackelourl;
 			return xmlObject;
 		}
 		
@@ -93,6 +94,7 @@ package utility
 			subCE.rawdatathumb = selectedElo.rawdatathumb;
 			subCE.rawdatafull = selectedElo.rawdatafull;
 			subCE.rawdatadataset = selectedElo.rawdatadataset;
+			subCE.feedbackelourl = selectedElo.feedbackelourl;
 			return subCE;
 		}
 		

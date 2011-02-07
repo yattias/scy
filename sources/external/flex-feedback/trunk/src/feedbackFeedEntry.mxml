@@ -9,8 +9,35 @@
 			[Bindable] public var postTime:String;
 			[Bindable] public var postContent:String;
 			[Bindable] public var postDate:String;
-		]]>
+			[Bindable] public var repliesXML:XML;
+			
+			public function buildReplies():void {
+				if(repliesXML != null) {
+					for each (var object:XML in repliesXML.*) {
+						var srep:subReply;
+						if (object.name() == "reply") {
+							srep = new subReply();
+							srep.author = object.createdby;
+							srep.postTime = object.calendartime;
+							srep.postContent = object.comment;
+							srep.postDate = object.calendardate;
+							textGroup.addElement(srep);
+						}
+					}
+				}
+			}
+
+			protected function button1_clickHandler(event:MouseEvent):void {
+				// TODO Auto-generated method stub
+			}
+
+ 		]]>
 	</fx:Script>
+	
+	<s:states>
+		<s:State name="viewState" />
+		<s:State name="replyState" />
+	</s:states>
 	
 	<s:HGroup width="100%" gap="10" verticalAlign="middle">
 		<s:Label color="{index.THEME_COL}" text="{postDate}" fontWeight="bold" />
@@ -20,16 +47,28 @@
 			</s:stroke>
 		</s:Line>
 	</s:HGroup> 
-	<s:VGroup width="100%" height="100%">
+	<s:VGroup width="100%">
 		<s:HGroup width="100%">
 			<s:BorderContainer width="200" minHeight="50" borderColor="{index.THEME_COL}" dropShadowVisible="true" backgroundAlpha=".3" backgroundColor="{index.THEME_LIGHT}">
 				<s:Label color="#333333" text="{author}" width="100%" fontWeight="bold" textAlign="center" horizontalCenter="0" verticalCenter="0" />
 			</s:BorderContainer>
-			<s:VGroup width="100%">
-				<s:Label color="#333333" text="{postTime}" width="100%" fontWeight="bold" />
-				<s:Label color="#333333" text="{postContent}" width="100%" />
+			<s:VGroup width="100%" id="textGroup">
+				<s:VGroup width="100%" >
+					<s:Label color="#333333" text="{postTime}" width="100%" fontWeight="bold" />
+					<s:Label color="#333333" text="{postContent}" width="100%" />
+				</s:VGroup>
 			</s:VGroup>
 		</s:HGroup>  
-		<s:Label width="100%" textAlign="right" color="{index.THEME_COL}" fontWeight="bold" textDecoration="underline" text="{resourceManager.getString('resources', 'REPLY_TO_FEED')}" />
+		<s:Label id="replyLabel" width="100%" textAlign="right" color="{index.THEME_COL}" fontWeight="bold" textDecoration="underline" buttonMode="true" 
+				 text="{resourceManager.getString('resources', 'REPLY_TO_FEED')}" excludeFrom="replyState" click="currentState='replyState'"
+				 mouseOver="replyLabel.setStyle('color', index.THEME_LIGHT)"
+				 mouseOut="replyLabel.setStyle('color', index.THEME_COL)"/>
+		<s:VGroup width="100%" horizontalAlign="right" includeIn="replyState">
+			<s:TextArea width="{textGroup.width}" id="replyArea" height="40"/>
+			<s:HGroup>
+				<s:Button label="{resourceManager.getString('resources', 'REPLY_BUTTON')}" click="button1_clickHandler(event)"/>
+				<s:Button label="{resourceManager.getString('resources', 'CANCEL_BUTTON')}" click="currentState='viewState';replyArea.text=''" />
+			</s:HGroup>  
+		</s:VGroup>
 	</s:VGroup>
 </s:VGroup>

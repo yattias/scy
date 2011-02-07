@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  paddingLeft="20" width="100%" >
+	
+	<fx:Script>
+		<![CDATA[
+			[Bindable] public var author:String;
+			[Bindable] public var postTime:String;
+			[Bindable] public var postContent:String;
+			[Bindable] public var postDate:String;
+		]]>
+	</fx:Script>
+	
+	<mx:Spacer height="5" />
+	<s:Line width="100%">
+		<s:stroke>
+			<s:SolidColorStroke color="{index.THEME_COL}" weight="1" caps="square"/>
+		</s:stroke>
+	</s:Line>
+	<s:Label color="#333333" text="{postDate + ' @ ' + postTime + ' by ' +author}" width="100%" fontWeight="bold" />
+	<s:Label color="#333333" text="{postContent}" width="100%" />
+</s:VGroup>

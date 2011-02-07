@@ -15,10 +15,11 @@
 				
 				switch (mainStack.selectedIndex) {
 					case STACK_INTRO_PANEL:
+						(mainStack.selectedChild as introductionCanvas).refresh();
 					break;
 					case STACK_FEEDBACK_PANEL:
-						if(eloidToAssess!=null) {
-							(mainStack.selectedChild as enterFeedbackCanvas).assessElo(eloidToAssess);
+						if(eloToAssess!=null) {
+							(mainStack.selectedChild as enterFeedbackCanvas).assessElo(eloToAssess);
 						}
 					break;
 				}
@@ -34,6 +35,24 @@
 					   result="URLpropertyFile_resultHandler(event)" 
 					   fault="URLpropertyFile_faultHandler(event)"
 					   resultFormat="e4x"/>
+		
+		<s:HTTPService id="feedbackService" 
+					   showBusyCursor="true" 
+					   result="feedbackService_resultHandler(event)" 
+					   fault="feedbackService_faultHandler(event)"
+					   resultFormat="e4x"/>
+		
+		<s:HTTPService id="myfeedbackService" 
+					   showBusyCursor="true" 
+					   result="myfeedbackService_resultHandler(event)" 
+					   fault="myfeedbackService_faultHandler(event)"
+					   resultFormat="e4x"/>
+		
+		<s:HTTPService id="mycontrifeedbackService" 
+					   showBusyCursor="true" 
+					   result="mycontrifeedbackService_resultHandler(event)" 
+					   fault="mycontrifeedbackService_faultHandler(event)"
+					   resultFormat="e4x"/>
 	</fx:Declarations>
 	
 	<fx:Script>
@@ -47,6 +66,8 @@
 			import mx.effects.easing.Exponential;
 			import mx.events.FlexEvent;
 			import mx.graphics.ImageSnapshot;
+			import mx.printing.FlexPrintJob;
+			import mx.printing.FlexPrintJobScaleType;
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
 			
@@ -77,14 +98,20 @@
 			public static const ZOOM_TYPE_RICHTEXT:String = "text";
 			public static const ZOOM_TYPE_DATASET:String = "dataset";
 			
+			public static const CAT1:String = "newestElos";
+			public static const CAT2:String = "myNewestElos";
+			public static const CAT3:String = "myContributionElos";
+			
 			[Bindable] private var needsRefresh:Boolean = false;
 			[Bindable] private var accordionTarget:Number = 0;
 			[Bindable] private var eloSelectedToSubmit:Boolean = false;
 			
+			private var firstBoot:Boolean = true;
+			
 			public static var obligElos:ArrayCollection;
 			
 			private var userName:String;
-			private var eloidToAssess:String;
+			private var eloToAssess:Object;
 			
 			private var so:SharedObject;
 			private var toolURLProvider:XML;
@@ -110,7 +137,7 @@
 			}
 			
 			private function ToggleStack(evt:ToggleEvent):void {
-				eloidToAssess = evt.eloidToAssess;
+				eloToAssess = evt.eloToAssess;
 				animate(evt.direction, evt.selecTarget);
 			}
 			
@@ -189,6 +216,8 @@
 				so.data.saveportfolio = new String(toolURLProvider.saveportfolio);
 				so.data.actionlogger = new String(toolURLProvider.actionlogger);
 				so.data.newestelosfeedbackservice = new String(toolURLProvider.newestelosfeedbackservice);
+				so.data.myelosfeedbackservice = new String(toolURLProvider.myelosfeedbackservice);
+				so.data.mycontributionelosfeedbackservice = new String(toolURLProvider.mycontributionelosfeedbackservice);
 				so.flush();
 				
 				var sLogger:Dictionary = new Dictionary();
@@ -197,7 +226,87 @@
 				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
 				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 				
-				animate(LEFT_DIRECTION, STACK_INTRO_PANEL);
+				if(firstBoot) {
+					feedbackService.url = new String(so.data.newestelosfeedbackservice)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
+					if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+						feedbackService.url = new String(so.data.newestelosfeedbackservice).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "%23");
+					}
+					
+					feedbackService.send();
+				}
+			}
+
+
+			protected function feedbackService_resultHandler(event:ResultEvent):void {
+				so.data.newestfeedbackelos = event.result as XML;
+				so.flush();
+				
+				if(firstBoot) {
+					myfeedbackService.url = new String(so.data.myelosfeedbackservice)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
+					if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+						myfeedbackService.url = new String(so.data.myelosfeedbackservice).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "%23");
+					}
+					
+					myfeedbackService.send();	
+				}
+			}
+
+
+			protected function feedbackService_faultHandler(event:FaultEvent):void {
+				Alert.show(resourceManager.getString('resources', 'URL_PROPERTY_FILE_ERROR'), "HTTPService Error");
+			}
+
+
+			protected function myfeedbackService_resultHandler(event:ResultEvent):void {
+				so.data.myelosfeedback = event.result as XML;
+				so.flush();
+				
+				if(firstBoot) {
+					mycontrifeedbackService.url = new String(so.data.mycontributionelosfeedbackservice)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
+					if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+						mycontrifeedbackService.url = new String(so.data.mycontributionelosfeedbackservice).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "%23");
+					}
+					
+					mycontrifeedbackService.send();
+				}
+			}
+
+
+			protected function myfeedbackService_faultHandler(event:FaultEvent):void {
+				Alert.show(resourceManager.getString('resources', 'URL_PROPERTY_FILE_ERROR'), "HTTPService Error");
+			}
+
+
+			protected function mycontrifeedbackService_faultHandler(event:FaultEvent):void {
+				Alert.show(resourceManager.getString('resources', 'URL_PROPERTY_FILE_ERROR'), "HTTPService Error");
+			}
+
+
+			protected function mycontrifeedbackService_resultHandler(event:ResultEvent):void {
+				so.data.mycontributionelosfeedback = event.result as XML;
+				so.flush();
+				
+				if(firstBoot) {
+					firstBoot = false;
+					animate(LEFT_DIRECTION, STACK_INTRO_PANEL);
+				}
+			}
+
+
+			protected function button1_clickHandler(event:MouseEvent):void {
+				var printJob:FlexPrintJob = new FlexPrintJob();
+				if (printJob.start()) {
+					printJob.addObject(maxImageIm, FlexPrintJobScaleType.MATCH_WIDTH);
+					printJob.send();	
+				}
+			}
+			
+			protected function maxImageIm_ioErrorHandler(event:IOErrorEvent):void {
+				switch(event.errorID) {
+					case 0:
+						maxImageIm.source = index.NOTHUMB;
+						break;
+				}
 			}
 
 		]]>
@@ -249,15 +358,18 @@
 					<local:Waiter id="waiter" />
 				</s:VGroup>
 			</s:NavigatorContent>
-			<local:introductionCanvas id="introduction" width="100%" height="100%" showEffect="{showEffect}" />
+			<local:introductionCanvas id="introduction" width="100%" height="100%" showEffect="{showEffect}" creationPolicy="all" />
 			<local:enterFeedbackCanvas id="enterFeedback" width="100%" height="100%" showEffect="{showEffect}" />
 		</mx:ViewStack>
 		<s:Image id="animateImage" visible="false" includeInLayout="false" />
 	</s:Group>
 	
 	<s:BorderContainer id="maxImage" visible="false" alpha="0" showEffect="{fadeInIm}" hideEffect="{fadeOutIm}" width="100%" height="100%" backgroundColor="#000000" backgroundAlpha=".7" cornerRadius="0">
-		<s:Image width="90%" height="90%" id="maxImageIm" horizontalCenter="0" verticalCenter="0" includeIn="imageOnly"/>
+		<s:Image width="90%" height="90%" id="maxImageIm" horizontalCenter="0" verticalCenter="0" includeIn="imageOnly" ioError="maxImageIm_ioErrorHandler(event)"/>
 		<s:TextArea horizontalScrollPolicy="off" contentBackgroundAlpha="0" borderVisible="true" borderColor="#FFFFFF" borderAlpha=".1" editable="false" width="90%" height="80%" id="maxImageRt" horizontalCenter="0" verticalCenter="0" includeIn="rtOnly" color="#FFFFFF"/>
-		<s:Button label="{resourceManager.getString('resources', 'CLOSE_BUTTON')}" horizontalCenter="0" bottom="5" click="maxImage.visible=false" />
+		<s:HGroup horizontalAlign="center" horizontalCenter="0" bottom="5" >
+			<s:Button label="{resourceManager.getString('resources', 'CLOSE_BUTTON')}" click="maxImage.visible=false" />
+			<s:Button label="{resourceManager.getString('resources', 'PRINT_BUTTON')}" click="button1_clickHandler(event)" includeIn="imageOnly" />
+		</s:HGroup>  
 	</s:BorderContainer>
 </s:Application>

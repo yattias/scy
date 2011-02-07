@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feedbackelo>
+    <uri><![CDATA[123456]]></uri>
+    <question><![CDATA[I am having problems with the temperature, does any one have any suggestions and I am having problems with the temperature, does any one have any suggestions and I am having problems with the temperature, does any one have any suggestions?]]></question>
+    <shown><![CDATA[0]]></shown>
+    <evaluation><![CDATA[0]]></evaluation>
+    <score><![CDATA[0]]></score>
+    <quality><![CDATA[-]]></quality>
+    <feedbacks>
+        <feedback>
+            <createdby><![CDATA[Vibeke]]></createdby>
+            <createdbypicture></createdbypicture>
+            <calendardate><![CDATA[06/01/2011]]></calendardate>
+            <calendartime><![CDATA[12:12]]></calendartime>
+            <comment><![CDATA[I think that it is a bit cold to have only 19 degrees inside the house!!]]></comment>
+            <replies>
+                <reply>
+                    <createdby><![CDATA[Isabelle]]></createdby>
+                    <createdbypicture></createdbypicture>
+                    <calendardate><![CDATA[06/01/2011]]></calendardate>
+                    <calendartime><![CDATA[15:12]]></calendartime>
+                    <comment><![CDATA[Nah, 19 is just fine!!]]></comment>
+                </reply>
+            </replies>
+        </feedback>
+        <feedback>
+            <createdby><![CDATA[Barbara]]></createdby>
+            <createdbypicture></createdbypicture>
+            <calendardate><![CDATA[02/01/2011]]></calendardate>
+            <calendartime><![CDATA[18:21]]></calendartime>
+            <comment><![CDATA[If you change the inside temperature to 23 degrees then the power consumption goes up …]]></comment>
+            <replies />
+        </feedback>
+        <feedback>
+            <createdby><![CDATA[Henrik]]></createdby>
+            <createdbypicture></createdbypicture>
+            <calendardate><![CDATA[01/01/2011]]></calendardate>
+            <calendartime><![CDATA[04:23]]></calendartime>
+            <comment><![CDATA[What a crappy design !!!]]></comment>
+            <replies />
+        </feedback>
+    </feedbacks>
+</feedbackelo>
