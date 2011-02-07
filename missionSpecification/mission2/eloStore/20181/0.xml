@@ -31,12 +31,12 @@
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/20088/0/Scy_dynamics.model</entry>
+        <entry>roolo://memory/20182/0/Introductory_model_for_scydynamics</entry>
       </identifier>
-      <las>experiment_B3</las>
+      <las />
       <mission>ecoMission</mission>
       <title>
-        <string language="en">SCYDynamics model</string>
+        <string language="en">Intrococtory model for scydynamics</string>
       </title>
     </general>
   </lom>

@@ -9,10 +9,10 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2010-02-23T11:20:30.747+0100</dateTime>
+          <dateTime>2010-02-23T12:20:30.747+0200</dateTime>
         </date>
       </contribute>
-      <version>2</version>
+      <version>8</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -50,55 +50,71 @@
   <dataset>
     <header language="en">
       <column>
+        <symbol>N</symbol>
+        <description />
+        <type>double</type>
+        <unit>microMol/l</unit>
+      </column>
+      <column>
+        <symbol>P</symbol>
+        <description />
+        <type>double</type>
+        <unit>microMol/l</unit>
+      </column>
+      <column>
         <symbol>biomass</symbol>
         <description />
         <type>double</type>
         <unit>cells/l</unit>
       </column>
-      <column>
-        <symbol>substance</symbol>
-        <description />
-        <type>double</type>
-        <unit>μmol/l</unit>
-      </column>
     </header>
     <row>
       <value>NaN</value>
       <value>NaN</value>
-    </row>
-    <row>
-      <value>NaN</value>
       <value>NaN</value>
     </row>
     <row>
       <value>NaN</value>
-      <value>NaN</value>
-    </row>
-    <row>
       <value>NaN</value>
       <value>NaN</value>
     </row>
     <row>
       <value>NaN</value>
       <value>NaN</value>
-    </row>
-    <row>
-      <value>NaN</value>
       <value>NaN</value>
     </row>
     <row>
       <value>NaN</value>
-      <value>NaN</value>
-    </row>
-    <row>
       <value>NaN</value>
       <value>NaN</value>
     </row>
     <row>
       <value>NaN</value>
       <value>NaN</value>
+      <value>NaN</value>
     </row>
     <row>
+      <value>NaN</value>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
       <value>NaN</value>
       <value>NaN</value>
     </row>

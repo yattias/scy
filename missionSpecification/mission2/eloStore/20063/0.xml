@@ -110,6 +110,150 @@
       <principle_hide>false</principle_hide>
     </proc_general_principle>
     <manipulation />
+	<material_used>
+      <material>
+        <id />
+        <name language="en">PC or Laptop</name>
+        <info language="en" />
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id />
+        <name language="en">Vernier computer interface</name>
+        <info language="en" />
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id />
+        <name language="en">Vernier Dissolved Oxygen Probe</name>
+        <info language="en" />
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id />
+        <name language="en">Vernier Teperature Probe</name>
+        <info language="en" />
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id />
+        <name language="en">Vernier Light Sensor</name>
+        <info language="en" />
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id />
+        <name language="en">Logger Pro</name>
+        <info language="en" />
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id />
+        <name language="en">Scales</name>
+        <info language="en" />
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id />
+        <name language="en">Beaker</name>
+        <info language="en">250ml</info>
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id />
+        <name language="en">Transparent beaker</name>
+        <info language="en">750ml</info>
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id />
+        <name language="en">Halogen lamp</name>
+        <info language="en">240W</info>
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id />
+        <name language="en">Tap water</name>
+        <info language="en" />
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id />
+        <name language="en">Canadian waterweed</name>
+        <info language="en">20g Canadian waterweed (Elodea canadensis)</info>
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
     <initial_proc_ref>
       <code>TEST</code>
     </initial_proc_ref>

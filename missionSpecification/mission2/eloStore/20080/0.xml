@@ -110,6 +110,115 @@
       <principle_hide>false</principle_hide>
     </proc_general_principle>
     <manipulation />
+<material_used>
+      <material>
+        <id />
+        <name language="en">PC</name>
+        <info language="en" />
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id />
+        <name language="en">Vernier pH sensor</name>
+        <info language="en" />
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id />
+        <name language="en">Distilled water</name>
+        <info language="en">3 litres</info>
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id />
+        <name language="en">Samples of ground</name>
+        <info language="en">limestone, granite, sand, peat</info>
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id />
+        <name language="en">Vessels</name>
+        <info language="en">250 ml</info>
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id />
+        <name language="en">Scales</name>
+        <info language="en" />
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id />
+        <name language="en">Sulphuric acid solutions</name>
+        <info language="en">Solution A - 0,0001M
+Solution B - 0,01 M</info>
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id />
+        <name language="en">Syringes</name>
+        <info language="en">2ml and 10ml</info>
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id />
+        <name language="en">Paper towel</name>
+        <info language="en" />
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>	
     <initial_proc_ref>
       <code>TEST</code>
     </initial_proc_ref>
