@@ -13,6 +13,7 @@ import java.awt.geom.Rectangle2D;
 import java.text.AttributedString;
 import java.text.DecimalFormat;
 
+import eu.scy.tools.math.doa.json.IRectangleToolbarShape;
 import eu.scy.tools.math.shapes.IMathRectangle;
 import eu.scy.tools.math.ui.UIUtils;
 
@@ -29,6 +30,7 @@ public class MathRectangle extends Rectangle implements IMathRectangle {
 	private String formula;
 	private String oldResult;
 	private boolean hasDecorations;
+	private IRectangleToolbarShape shape;
 
 	public MathRectangle(double x,double y, double w, double h) {
 		this.setFrame(x, y, w, h);
@@ -38,6 +40,12 @@ public class MathRectangle extends Rectangle implements IMathRectangle {
 		
 	}
 	
+	public MathRectangle(IRectangleToolbarShape shape, int x, int y,
+			int i, int j) {
+		this(x, y, Integer.valueOf(shape.getWidth()), Integer.valueOf(shape.getHeight()));
+		this.shape = shape;
+	}
+
 	public void createCornerPoints() {
 		
 	
@@ -228,7 +236,7 @@ public class MathRectangle extends Rectangle implements IMathRectangle {
 	
 	@Override
 	public String getType() {
-		return "rectangle";
+		return "Rectanglar Prism";
 	}
 
 	@Override

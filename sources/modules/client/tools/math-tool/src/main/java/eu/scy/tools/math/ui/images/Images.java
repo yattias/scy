@@ -31,6 +31,7 @@ public enum Images {
 		imagefilename = fileName;
 		imageName = StringUtils.upperCase(StringUtils.remove(imagefilename, ".png"));
 	}
+	
 
 	public String getName() {
 		return imageName;
@@ -41,6 +42,14 @@ public enum Images {
 	public BufferedImage getImage() {
 		try {
 			return ImageIO.read(Images.class.getResource(imagefilename));
+		} catch (IOException e) {
+			return null;
+		}
+	}
+
+	public static Icon getIcon(String iconName) {
+		try {
+			return new ImageIcon(ImageIO.read(Images.class.getResource(iconName)));
 		} catch (IOException e) {
 			return null;
 		}

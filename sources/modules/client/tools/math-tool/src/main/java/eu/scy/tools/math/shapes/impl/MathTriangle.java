@@ -17,6 +17,7 @@ import java.awt.geom.Rectangle2D;
 import java.text.AttributedString;
 import java.text.DecimalFormat;
 
+import eu.scy.tools.math.doa.json.ITriangleToolbarShape;
 import eu.scy.tools.math.shapes.IMathTriangle;
 import eu.scy.tools.math.ui.DrawingUtils;
 import eu.scy.tools.math.ui.UIUtils;
@@ -47,6 +48,9 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 
 	private boolean hasDecorations;
 
+
+	private ITriangleToolbarShape shape;
+
 	public MathTriangle(int x, int y, int length) {
 		setPointP(new Point(x,y)); //top
 		setPointQ(new Point(x-length,y+length)); //left
@@ -69,6 +73,14 @@ public class MathTriangle extends Rectangle implements IMathTriangle {
 	}
 
 	
+	public MathTriangle(ITriangleToolbarShape shape, int x, int y,
+			int i) {
+		this(x, y, Integer.valueOf(shape.getLength()));
+		this.shape = shape;
+		
+	}
+
+
 	@Override
 	public void moveXY(int x, int y) {
 		polygon.translate(x, y);

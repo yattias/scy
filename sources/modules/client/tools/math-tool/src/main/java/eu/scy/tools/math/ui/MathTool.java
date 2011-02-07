@@ -37,6 +37,8 @@ import org.jdesktop.swingx.JXTitledPanel;
 
 import eu.scy.tools.math.controller.MathToolController;
 import eu.scy.tools.math.dnd.JLabelSelection;
+import eu.scy.tools.math.doa.json.IMathToolbarShape;
+import eu.scy.tools.math.doa.json.ToolbarShape;
 import eu.scy.tools.math.ui.actions.ExportToGoogleSketchUpAction;
 import eu.scy.tools.math.ui.actions.NotationHelpAction;
 import eu.scy.tools.math.ui.actions.OpenShapesAction;
@@ -168,31 +170,56 @@ public class MathTool {
 //		JXPanel allPanel = new JXPanel(new MigLayout("inset 3 3 3 3"));
 //		allPanel.setBackgroundPainter(UIUtils.getSubPanelBackgroundPainter());
 
-		JXPanel labelPanel = new JXPanel(new GridLayout(3, 1, 1, 3));
+//		JXPanel labelPanel = new JXPanel(new GridLayout(3, 1, 1, 3));
+		
+		JXPanel labelPanel = new JXPanel(new MigLayout("inset 2 2 2 2, center"));
 		labelPanel.setOpaque(false);
-		List<Images> shapes = getShapes(type);
-		for (Images image : shapes) {
+//		List<Images> shapes = getShapes(type);
+//		for (Images image : shapes) {
+//			
+//			JLabel label = new JLabel(image.getIcon());
+//			label.setOpaque(false);
+//			label.setName(image.getName());
+//			label.setToolTipText(UIUtils.dragAndDropShapeTip);
+//			label.setTransferHandler(new JLabelSelection());
+//			
+//			label.addMouseListener(new MouseAdapter(){
+//			      public void mousePressed(MouseEvent e){
+//			    	 
+//			        JComponent jc = (JComponent)e.getSource();
+//			        TransferHandler th = jc.getTransferHandler();
+//			        th.exportAsDrag(jc, e, TransferHandler.COPY);
+//			      }
+//			    });
+//			labelPanel.add(label,"wrap, center");
+//			
+//		}
+		
+		List<IMathToolbarShape> shapeList = UIUtils.getShapeList();
+		for (IMathToolbarShape toolbarShape : shapeList) {
 			
-			JLabel label = new JLabel(image.getIcon());
-			label.setOpaque(false);
-			label.setName(image.getName());
-			label.setToolTipText(UIUtils.dragAndDropShapeTip);
-			label.setTransferHandler(new JLabelSelection());
-			
-			label.addMouseListener(new MouseAdapter(){
-			      public void mousePressed(MouseEvent e){
-			    	 
-			        JComponent jc = (JComponent)e.getSource();
-			        TransferHandler th = jc.getTransferHandler();
-			        th.exportAsDrag(jc, e, TransferHandler.COPY);
-			      }
-			    });
-			labelPanel.add(label);
-			
+			if( toolbarShape.getSurfaceType().equals(type)) {
+				JLabel label = new JLabel(Images.getIcon(toolbarShape.getToolbarIcon()));
+				label.setOpaque(false);
+				label.setToolTipText(UIUtils.dragAndDropShapeTip);
+				label.putClientProperty(UIUtils.SHAPE_OBJ, toolbarShape);
+				label.setName(toolbarShape.getType());
+				
+				label.setTransferHandler(new JLabelSelection());
+				
+				label.addMouseListener(new MouseAdapter(){
+				      public void mousePressed(MouseEvent e){
+				    	 
+				        JComponent jc = (JComponent)e.getSource();
+				        TransferHandler th = jc.getTransferHandler();
+				        th.exportAsDrag(jc, e, TransferHandler.COPY);
+				      }
+				    });
+				labelPanel.add(label,"wrap");
+			}
 		}
 		
 		labelPanel.setBorder(BorderFactory.createEmptyBorder(6, 0, 0, 0));
-		
 		
 		JXPanel outerPanel = new JXPanel(new BorderLayout(0,3));
 		outerPanel.add(labelPanel,BorderLayout.NORTH);

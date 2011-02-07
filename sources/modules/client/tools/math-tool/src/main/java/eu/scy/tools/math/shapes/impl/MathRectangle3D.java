@@ -13,6 +13,7 @@ import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
 
+import eu.scy.tools.math.doa.json.IRectanglarPrismToolbarShape;
 import eu.scy.tools.math.shapes.IMathRectangle3D;
 import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.images.Images;
@@ -26,6 +27,8 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 	protected JXLabel widthLabel;
 	private JXLabel heightValueLabel;
 	private JXLabel widthValueLabel;
+	private  IRectanglarPrismToolbarShape shape;
+	private JXLabel iconLabel;
 
 
 
@@ -38,6 +41,17 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 		// TODO Auto-generated constructor stub
 	}
 
+	public MathRectangle3D(IRectanglarPrismToolbarShape shape, int x, int y) {
+		super(x,y);
+		this.shape = shape;
+		
+		getVolumeValueLabel().setText(this.shape.getVolume());
+		heightValueLabel.setText(this.shape.getHeight());
+		widthValueLabel.setText(this.shape.getWidth());
+		iconLabel.setIcon(Images.getIcon(this.shape.getCanvasIcon()));
+		// TODO Auto-generated constructor stub
+	}
+
 	protected void init() {
 		super.init();
 		
@@ -46,7 +60,7 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 		allPanel.setOpaque(false);
 		ImageIcon icon = (ImageIcon) Images.Rectangle3dLarge.getIcon();
 		
-		JXLabel iconLabel = new JXLabel(icon);
+		iconLabel = new JXLabel(icon);
 //		iconLabel.setSize(iconLabel.getSize());
 		allPanel.add(iconLabel,BorderLayout.CENTER);
 		

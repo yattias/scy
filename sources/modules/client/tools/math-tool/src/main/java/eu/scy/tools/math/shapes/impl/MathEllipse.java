@@ -16,6 +16,7 @@ import java.awt.geom.Rectangle2D;
 import java.text.AttributedString;
 import java.text.DecimalFormat;
 
+import eu.scy.tools.math.doa.json.ICircleToolbarShape;
 import eu.scy.tools.math.shapes.IMathEllipse;
 import eu.scy.tools.math.ui.UIUtils;
 
@@ -35,12 +36,19 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 	private boolean hasDecorations;
 
 	private boolean showCornerPoints = true;
+
+	private ICircleToolbarShape shape;
 	
 	public MathEllipse(double x, double y, double width, double height) {
         setFrame(x, y, width, height);
         this.createCornerPoints();
     }
 	
+	public MathEllipse(ICircleToolbarShape shape, int x, int y, int width, int height) {
+		this(x, y,java.lang.Double.valueOf(shape.getRadius())*2, java.lang.Double.valueOf(shape.getRadius())*2);
+		this.shape = shape;
+	}
+
 	@Override
 	public void paintComponent(Graphics g) {
 		
@@ -219,7 +227,7 @@ public class MathEllipse extends Ellipse2D.Double implements IMathEllipse {
 
 	@Override
 	public String getType() {
-		return "ellipse";
+		return "Circle";
 	}
 
 	@Override
