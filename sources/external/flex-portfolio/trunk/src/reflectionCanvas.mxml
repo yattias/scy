@@ -279,7 +279,7 @@
 				}
 				
 				if(slectedSLGs.length > 0) {
-					slgLiveText = slectedSLGs.length + " " + resourceManager.getString('resources', 'SLG') + "(s) " + resourceManager.getString('resources', 'SELECTED');
+					slgLiveText = slectedSLGs.length + " " + resourceManager.getString('resources', 'SLG').toLowerCase() + " " + (resourceManager.getString('resources', 'SELECTED')).toLowerCase();
 				}
 				else {
 					slgLiveText = "";	
@@ -298,7 +298,7 @@
 				}
 				
 				if(slectedGLGs.length > 0) {
-					glgLiveText = slectedGLGs.length + " " + resourceManager.getString('resources', 'GLG') + "(s) " + resourceManager.getString('resources', 'SELECTED');
+					glgLiveText = slectedGLGs.length + " " + resourceManager.getString('resources', 'GLG').toLowerCase() + " " + (resourceManager.getString('resources', 'SELECTED')).toLowerCase();
 				}
 				else {
 					glgLiveText = "";	

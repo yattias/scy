@@ -40,10 +40,10 @@
 			
 			private function setLabel():void {
 				if(hasSelectionBeenMade) {
-					this.label = catname + " ("+elosArray.length+" ELOs - 1 "+resourceManager.getString('resources', 'SELECTED')+")";
+					this.label = catname + " ("+elosArray.length+" ELO(s) - 1 "+resourceManager.getString('resources', 'SELECTED')+")";
 				}
 				else {
-					this.label = catname + " ("+elosArray.length+" ELOs - 0 "+resourceManager.getString('resources', 'SELECTED')+")";
+					this.label = catname + " ("+elosArray.length+" ELO(s) - 0 "+resourceManager.getString('resources', 'SELECTED')+")";
 				}
 			}
 

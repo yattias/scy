@@ -92,6 +92,8 @@
 			import mx.graphics.ImageSnapshot;
 			import mx.managers.BrowserManager;
 			import mx.managers.IBrowserManager;
+			import mx.printing.FlexPrintJob;
+			import mx.printing.FlexPrintJobScaleType;
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
 			import mx.utils.URLUtil;
@@ -407,6 +409,22 @@
 				}
 			}
 
+
+			protected function button1_clickHandler(event:MouseEvent):void {
+				var printJob:FlexPrintJob = new FlexPrintJob();
+				printJob.start();
+				printJob.addObject(maxImageIm, FlexPrintJobScaleType.MATCH_WIDTH);
+				printJob.send(); 
+			}
+			
+			protected function maxImageIm_ioErrorHandler(event:IOErrorEvent):void {
+				switch(event.errorID) {
+					case 0:
+						maxImageIm.source = index.NOTHUMB;
+						break;
+				}
+			}
+
 		]]>
 	</fx:Script>
 	
@@ -489,8 +507,11 @@
 -->
 	
 	<s:BorderContainer id="maxImage" visible="false" alpha="0" showEffect="{fadeInIm}" hideEffect="{fadeOutIm}" width="100%" height="100%" backgroundColor="#000000" backgroundAlpha=".7" cornerRadius="0">
-		<s:Image width="90%" height="90%" id="maxImageIm" horizontalCenter="0" verticalCenter="0" includeIn="imageOnly"/>
+		<s:Image width="90%" height="90%" id="maxImageIm" horizontalCenter="0" verticalCenter="0" includeIn="imageOnly" ioError="maxImageIm_ioErrorHandler(event)"/>
 		<s:TextArea horizontalScrollPolicy="off" contentBackgroundAlpha="0" borderVisible="true" borderColor="#FFFFFF" borderAlpha=".1" editable="false" width="90%" height="80%" id="maxImageRt" horizontalCenter="0" verticalCenter="0" includeIn="rtOnly" color="#FFFFFF"/>
-		<s:Button label="{resourceManager.getString('resources', 'CLOSE_BUTTON')}" horizontalCenter="0" bottom="5" click="maxImage.visible=false" />
+		<s:HGroup horizontalAlign="center" horizontalCenter="0" bottom="5" >
+			<s:Button label="{resourceManager.getString('resources', 'CLOSE_BUTTON')}" click="maxImage.visible=false" />
+			<s:Button label="{resourceManager.getString('resources', 'PRINT_BUTTON')}" click="button1_clickHandler(event)" includeIn="imageOnly" />
+		</s:HGroup>  
 	</s:BorderContainer>
 </s:Application>
