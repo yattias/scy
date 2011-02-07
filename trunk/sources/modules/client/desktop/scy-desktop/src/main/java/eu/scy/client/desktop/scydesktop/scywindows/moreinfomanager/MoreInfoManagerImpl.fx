@@ -140,7 +140,10 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       if (instructionWindow.content != null) {
          instructionWindow.content = moreInfoToolFactory.createMoreInfoTool();
          if (instructionWindow.content instanceof ShowInfoUrl) {
-            instructionTool = instructionWindow.content as ShowInfoUrl
+            instructionTool = instructionWindow.content as ShowInfoUrl;
+         }
+         if (instructionWindow.visible){
+            showInstructionWindow()
          }
       }
    }
