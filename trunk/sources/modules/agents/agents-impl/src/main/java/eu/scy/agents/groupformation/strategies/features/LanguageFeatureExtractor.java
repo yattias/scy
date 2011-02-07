@@ -10,6 +10,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import roolo.elo.api.IELO;
+
 import eu.scy.agents.impl.AgentProtocol;
 
 public class LanguageFeatureExtractor implements FeatureExtractor {
@@ -35,7 +37,7 @@ public class LanguageFeatureExtractor implements FeatureExtractor {
 
 	@Override
 	public Map<String, double[]> getFeatures(Set<String> availableUsers,
-			String mission) {
+			String mission, IELO elo) {
 		Map<String, Integer> languageAlphabet = new HashMap<String, Integer>();
 		Map<String, double[]> results = new LinkedHashMap<String, double[]>();
 		for (String user : availableUsers) {
@@ -43,8 +45,7 @@ public class LanguageFeatureExtractor implements FeatureExtractor {
 			if (!languageAlphabet.containsKey(language)) {
 				languageAlphabet.put(language, languageAlphabet.size());
 			}
-			results.put(user, new double[] { languageAlphabet
-					.get(language) });
+			results.put(user, new double[] { languageAlphabet.get(language) });
 		}
 		return results;
 	}
@@ -57,6 +58,11 @@ public class LanguageFeatureExtractor implements FeatureExtractor {
 	@Override
 	public void setCommandSpace(TupleSpace commandSpace) {
 		this.commandSpace = commandSpace;
+	}
+
+	@Override
+	public boolean canRun(IELO elo) {
+		return true;
 	}
 
 }
