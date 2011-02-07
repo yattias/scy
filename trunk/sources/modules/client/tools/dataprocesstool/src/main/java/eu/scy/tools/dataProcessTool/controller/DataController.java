@@ -1469,8 +1469,9 @@ public class DataController implements ControllerInterface{
             int nbCols1 = dataset.getNbCol() ;
             int nbRows2 = ds.getNbRows();
             int nbCols2 = ds.getNbCol();
+            boolean oneRow = ds.getNbRowsData() == 1;
 
-            if(confirm && nbRows2 == 1 && nbCols1 == nbCols2 && dataset.isAllColumnDouble() && ds.isAllColumnDouble()){
+            if(confirm && oneRow && nbCols1 == nbCols2 && dataset.isAllColumnDouble() && ds.isAllColumnDouble()){
                 dataToolPanel.askForMergeType(dataset, ds,elo,  true);
                 return new CopexReturn();
             }
@@ -1596,7 +1597,7 @@ public class DataController implements ControllerInterface{
         if(nbCols1 != nbCols2){
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
         }
-        if(nbRows2 != 1){
+        if(ds2.getNbRowsData() != 1){
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
         }
         // control types
@@ -1608,12 +1609,16 @@ public class DataController implements ControllerInterface{
                 return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
             }
         }
+        int idR = ds2.getFirstRowData();
+        if(idR == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
         for(int i=0; i<nbRows1; i++){
             for (int j=0; j<nbCols1; j++){
                 if(dataset1.getData(i, j) == null){
-                    dataset1.setData(new Data(idData++, ds2.getData(0, j) == null ? "" :ds2.getData(0, j).getValue() , i, j, false), i, j);
+                    dataset1.setData(new Data(idData++, ds2.getData(idR, j) == null ? "" :ds2.getData(idR, j).getValue() , i, j, false), i, j);
                 }else{
-                    dataset1.getData(i, j).addToValue(ds2.getData(0, j) == null ? 0 :ds2.getData(0, j).getDoubleValue());
+                    dataset1.getData(i, j).addToValue(ds2.getData(idR, j) == null ? 0 :ds2.getData(idR, j).getDoubleValue());
                 }
             }
         }
@@ -1641,7 +1646,7 @@ public class DataController implements ControllerInterface{
         if(nbCols1 != nbCols2){
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
         }
-        if(nbRows2 != 1){
+        if(ds2.getNbRowsData() != 1){
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
         }
         // control types
@@ -1653,12 +1658,16 @@ public class DataController implements ControllerInterface{
                 return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
             }
         }
+         int idR = ds2.getFirstRowData();
+        if(idR == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
         for(int i=0; i<nbRows1; i++){
             for (int j=0; j<nbCols1; j++){
                 if(dataset1.getData(i, j) == null){
-                    dataset1.setData(new Data(idData++, ds2.getData(0, j) == null ? "" :"0" , i, j, false), i, j);
+                    dataset1.setData(new Data(idData++, ds2.getData(idR, j) == null ? "" :"0" , i, j, false), i, j);
                 }else{
-                    dataset1.getData(i, j).multiplyToValue(ds2.getData(0, j) == null ? 0 :ds2.getData(0, j).getDoubleValue());
+                    dataset1.getData(i, j).multiplyToValue(ds2.getData(idR, j) == null ? 0 :ds2.getData(idR, j).getDoubleValue());
                 }
             }
         }

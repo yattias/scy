@@ -20,13 +20,15 @@ import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * utilitaires
  * @author Marjolaine Bodin
  */
 public class MyUtilities {
-    // METHODES
+    private static final Logger logger = Logger.getLogger(MyUtilities.class.getName());
     /* retourne la longueur pixel d'un texte */
     static public int lenghtOfString(String s, FontMetrics fm) {
        if (fm == null || s == null)
@@ -90,6 +92,7 @@ public class MyUtilities {
 		}
 		catch (Exception e){
 			// System.out.println("problems converting string status to jdom "+ e);
+                    logger.log(Level.SEVERE, "problems converting string status to jdom");
 			return null;
 		}
 	}
@@ -102,6 +105,7 @@ public class MyUtilities {
 		}
 		catch (IOException e){
 			// System.out.println("problems converting jdom status to string"+ e);
+                    logger.log(Level.SEVERE, "problems converting jdom status to string");
 		}
 		return stringWriter.toString();
 	}

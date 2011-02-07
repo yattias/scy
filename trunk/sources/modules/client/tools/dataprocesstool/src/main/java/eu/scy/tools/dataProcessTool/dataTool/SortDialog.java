@@ -16,14 +16,15 @@ import javax.swing.*;
 import eu.scy.tools.dataProcessTool.utilities.ElementToSort;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * sort dialog : 3 keys  max
  * @author  Marjolaine Bodin
  */
 public class SortDialog extends javax.swing.JDialog {
-
-    // PROPERTY 
+    private final Logger logger = Logger.getLogger(SortDialog.class.getName());
     /* owner */
     private FitexToolPanel owner ;
     /* liste des cles a trier */
@@ -164,6 +165,7 @@ public class SortDialog extends javax.swing.JDialog {
 		
 	} catch (java.lang.Throwable t) {
             // System.out.println(t);
+            logger.log(Level.SEVERE, "SortDialog getKeyJPanel error"+t);
 	}
 	return keyPanel;
     }
@@ -185,6 +187,7 @@ public class SortDialog extends javax.swing.JDialog {
         }
         catch (Throwable t) {
             // System.out.println(t);
+            logger.log(Level.SEVERE, "SortDialog getJRadioButton error"+t);
         }
         return croi;
     }
@@ -242,6 +245,7 @@ public class SortDialog extends javax.swing.JDialog {
 	}
 	catch (java.lang.Throwable t) {
 		// System.out.println(t);
+            logger.log(Level.SEVERE, "SortDialog getJComboBox error"+t);
 	}
 	return null;
     }
@@ -291,6 +295,7 @@ private JButton getJButton(int x, int y, String texte) {
 
 	} catch (java.lang.Throwable e){
 		// System.out.println("Error construction button "+e);
+            logger.log(Level.SEVERE, "SortDialog getJCombogetJButtonBox error"+e);
 	}
 	return button;
 }
