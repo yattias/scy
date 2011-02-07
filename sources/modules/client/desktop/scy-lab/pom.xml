@@ -6,13 +6,14 @@
 	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy.client.desktop</groupId>
-		<version>28-SNAPSHOT</version>
+		<version>31-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>scy-lab</artifactId>
 	<name>scy-lab</name>
-	<packaging>jar</packaging>
-	<version>${parent.version}${version-name}</version>
+	<!--<packaging>jar</packaging>-->
+	<!--<version>${parent.version}${version-name}</version>-->
+	
 	<licenses>
 		<license>
 			<name>lgpl</name>
