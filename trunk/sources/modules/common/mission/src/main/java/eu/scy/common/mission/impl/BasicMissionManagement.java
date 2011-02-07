@@ -247,40 +247,9 @@ public class BasicMissionManagement implements MissionManagement
 				if (!isEmpty(missionAnchor.getIconType())){
 					missionAnchor.getScyElo().setIconType(missionAnchor.getIconType());
 				}
-				URI assignmentEloUri = findAssignmentEloUri(missionAnchor);
-				if (assignmentEloUri != null)
-				{
-					missionAnchor.getScyElo().getMetadata()
-								.getMetadataValueContainer(containsAssignmentEloKey)
-								.setValue(assignmentEloUri);
-				}
 				if (missionAnchor.getAssignmentUri() != null)
 				{
 					missionAnchor.getScyElo().setAssignmentUri(missionAnchor.getAssignmentUri());
-				}
-				else if (assignmentEloUri != null)
-				{
-					// use the content of assignment elo as assignmentUri
-					ScyElo scyElo = ScyElo.loadElo(assignmentEloUri, rooloServices);
-					if (urlTechnicalFormat.equals(scyElo.getTechnicalFormat()))
-					{
-						String content = scyElo.getContent().getXmlString();
-						try
-						{
-							String uriString = content.substring("<url>".length(), content.length()
-										- "</url>".length());
-							URI uri = new URI(uriString);
-							missionAnchor.getScyElo().setAssignmentUri(uri);
-							logger.debug("found elo (" + assignmentEloUri
-										+ ") to be used as assignment source (" + uri + ") for anchor "
-										+ missionAnchor.getEloUri());
-						}
-						catch (Exception e)
-						{
-							logger.warn("problems with extracting url from content: " + content
-										+ "\nError: " + e.getMessage());
-						}
-					}
 				}
 				if (missionAnchor.getResourcesUri() != null)
 				{
