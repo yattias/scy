@@ -23,6 +23,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ModalDialogLayer;
 import eu.scy.client.desktop.scydesktop.art.javafx.MoreAssignmentTypeIcon;
 import eu.scy.client.desktop.scydesktop.art.javafx.MoreResourcesTypeIcon;
 import eu.scy.client.desktop.scydesktop.art.javafx.InstructionTypesIcon;
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 
 /**
  * @author SikkenJ
@@ -58,6 +59,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
          visible: false
       }
    var moreInfoTool: ShowInfoUrl;
+   def resourceBundleWrapper = new ResourceBundleWrapper(this.getClass());
    def uriLocalizer = new UriLocalizer();
    var runPhase = false;
 
@@ -109,7 +111,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       //            iconCharacter: "I"
       //            selected: false
       //         }
-      instructionWindow.title = activeLas.mainAnchor.scyElo.getTitle();
+      instructionWindow.title = resourceBundleWrapper.getString(if (activeLas.lasType!=null) activeLas.lasType.toString() else "lasTypeNotDefined");
       instructionTool.showInfoUrl(uriLocalizer.localizeUrlwithChecking(activeLas.instructionUri.toURL()));
       if (not instructionWindow.visible) {
          instructionWindow.visible = true;
