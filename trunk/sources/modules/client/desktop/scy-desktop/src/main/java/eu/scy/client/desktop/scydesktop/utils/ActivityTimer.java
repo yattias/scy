@@ -109,16 +109,13 @@ public final class ActivityTimer
 
    public void startActivity(String activity)
    {
+      long started = getMillis();
       if (activityRunning)
       {
          endActivity();
-      }
-      activityRunning = true;
-      long started = 0;
-      if (!timeInfos.isEmpty())
-      {
          started = timeInfos.get(timeInfos.size() - 1).ended;
       }
+      activityRunning = true;
       TimeInfo timeInfo = new TimeInfo(activity, started);
 
       timeInfos.add(timeInfo);
@@ -145,18 +142,20 @@ public final class ActivityTimer
       builder.append("Time used for ");
       builder.append(name);
       builder.append("\n");
+      long totalMillis = 0;
       for (TimeInfo timeInfo : timeInfos)
       {
-         addLong(builder, timeInfo.getStarted());
+         addLong(builder, totalMillis);
          builder.append(" ");
          addLong(builder, timeInfo.getUsed());
          builder.append(" ");
          builder.append(timeInfo.getLabel());
          builder.append("\n");
+         totalMillis += timeInfo.getUsed();
       }
       if (timeInfos.size() > 0)
       {
-         addLong(builder, timeInfos.get(timeInfos.size() - 1).ended);
+         addLong(builder, totalMillis);
          builder.append("\n");
       }
       return builder.toString();

@@ -135,6 +135,7 @@ public class LoginDialog extends CustomNode, TbiReady {
    function loginAction(userName: String, password: String): Void {
       println("userName: {userName}, password: {password}");
       try {
+         initializer.launchTimer.startActivity("login tbi");
          def loginResult = initializer.toolBrokerLogin.login(userName, password);
          //         var toolBrokerAPI = initializer.toolBrokerLogin.login(userName, password);
          //         logger.info(
@@ -157,6 +158,7 @@ public class LoginDialog extends CustomNode, TbiReady {
       def windowColorScheme = window.windowColorScheme;
       if (loginResult != null) {
          // successfull login
+         initializer.launchTimer.startActivity("finish tbi creation");
          this.userName = userName;
          getReadyForUser(loginResult);
          windowTitle = ##"Welcome to SCY-Lab";
@@ -200,8 +202,9 @@ public class LoginDialog extends CustomNode, TbiReady {
    }
 
    public override function tbiReady(toolBrokerAPI: ToolBrokerAPI, missions: Missions): Void{
-      logger.info(
+     logger.info(
       "tbi.getLoginUserName() : {toolBrokerAPI.getLoginUserName()}\n""tbi.getMissionSpecificationURI() ) : {toolBrokerAPI.getMissionSpecificationURI()}\n""tbi.getRepository() : {toolBrokerAPI.getRepository()}\n""tbi.getMetaDataTypeManager() : {toolBrokerAPI.getMetaDataTypeManager()}\n""tbi.getExtensionManager() : {toolBrokerAPI.getExtensionManager()}\n""tbi.getELOFactory() : {toolBrokerAPI.getELOFactory()}\n""tbi.getActionLogger() : {toolBrokerAPI.getActionLogger()}\n""tbi.getAwarenessService() : {toolBrokerAPI.getAwarenessService()}\n""tbi.getDataSyncService() : {toolBrokerAPI.getDataSyncService()}\n""tbi.getPedagogicalPlanService() : {toolBrokerAPI.getPedagogicalPlanService()}\n""tbi.getStudentPedagogicalPlanService() : {toolBrokerAPI.getStudentPedagogicalPlanService()}");
+      initializer.launchTimer.startActivity("start find mission");
       findMission(toolBrokerAPI,missions);
       ProgressOverlay.stopShowWorking();
    }
@@ -225,6 +228,7 @@ public class LoginDialog extends CustomNode, TbiReady {
 
    function startMission(missionRunConfigs: MissionRunConfigs): Void {
       logger.info("start mission with {missionRunConfigs}");
+      initializer.launchTimer.endActivity();
       initializer.loadTimer.reset();
       initializer.loadTimer.startActivity("prepare mission loading");
       loginWindow.scyContent = WelcomeNode {
