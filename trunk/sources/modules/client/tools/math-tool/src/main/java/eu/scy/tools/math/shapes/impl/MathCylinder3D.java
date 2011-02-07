@@ -15,6 +15,7 @@ import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
 
+import eu.scy.tools.math.doa.json.ICylinderToolbarShape;
 import eu.scy.tools.math.shapes.IMathCylinder3D;
 import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.images.Images;
@@ -25,6 +26,8 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 	private JXLabel radiusLabel;
 	private Component heightLabel;
 	private JXLabel heightValueLabel;
+	private ICylinderToolbarShape shape;
+	private JXLabel iconLabel;
 
 
 	public MathCylinder3D(int x, int y) {
@@ -36,6 +39,14 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 	}
 
 
+	public MathCylinder3D(ICylinderToolbarShape shape, int x, int y) {
+		super(x,y);
+		this.shape = shape;
+		this.getVolumeValueLabel().setText(this.shape.getVolume());
+		this.getHeightValueLabel().setText(this.shape.getHeight());
+		this.getIconLabel().setIcon(Images.getIcon(this.shape.getCanvasIcon()));
+	}
+
 	protected void init() {
 
 		super.init();
@@ -44,9 +55,9 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 		allPanel.setOpaque(false);
 		ImageIcon icon = (ImageIcon) Images.Cylinder3dLarge.getIcon();
 
-		JXLabel iconLabel = new JXLabel(icon);
+		setIconLabel(new JXLabel(icon));
 		// iconLabel.setSize(iconLabel.getSize());
-		allPanel.add(iconLabel, BorderLayout.CENTER);
+		allPanel.add(getIconLabel(), BorderLayout.CENTER);
 
 	    labelPanel = new JXPanel(new MigLayout("insets 0 0 0 0"));
 		labelPanel.setOpaque(false);
@@ -58,9 +69,9 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 		heightLabel = new JXLabel("H = ");
 		labelPanel.add(heightLabel);
 		
-		heightValueLabel = new JXLabel("10");
+		setHeightValueLabel(new JXLabel("10"));
 		
-		labelPanel.add(heightValueLabel,"wrap");
+		labelPanel.add(getHeightValueLabel(),"wrap");
 		
 		radiusLabel = new JXLabel("R = ");
 		labelPanel.add(radiusLabel);
@@ -133,7 +144,7 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 
 	@Override
 	public String getHeightValue() {
-		return heightValueLabel.getText();
+		return getHeightValueLabel().getText();
 	}
 
 	@Override
@@ -149,6 +160,22 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 
 	public JXTextField getRadiusTextField() {
 		return radiusTextField;
+	}
+
+	public void setHeightValueLabel(JXLabel heightValueLabel) {
+		this.heightValueLabel = heightValueLabel;
+	}
+
+	public JXLabel getHeightValueLabel() {
+		return heightValueLabel;
+	}
+
+	public void setIconLabel(JXLabel iconLabel) {
+		this.iconLabel = iconLabel;
+	}
+
+	public JXLabel getIconLabel() {
+		return iconLabel;
 	}
 	
 }

@@ -6,6 +6,12 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.LinearGradientPaint;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,11 +25,26 @@ import org.jdesktop.swingx.painter.GlossPainter;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.jdesktop.swingx.painter.Painter;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
+import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
+
+import eu.scy.tools.math.doa.json.CircleToolbarShape;
+import eu.scy.tools.math.doa.json.CylinderToolbarShape;
+import eu.scy.tools.math.doa.json.IRectanglarPrismToolbarShape;
+import eu.scy.tools.math.doa.json.IToolbarShape;
+import eu.scy.tools.math.doa.json.MathToolbarShape;
+import eu.scy.tools.math.doa.json.RectanglarPrismToolbarShape;
+import eu.scy.tools.math.doa.json.RectangleToolbarShape;
+import eu.scy.tools.math.doa.json.SphereToolbarShape;
+import eu.scy.tools.math.doa.json.ToolbarShape;
+import eu.scy.tools.math.doa.json.TriangleToolbarShape;
 import eu.scy.tools.math.ui.paint.Colors;
 import eu.scy.tools.math.ui.paint.RoundedBorder;
 
 public class UIUtils {
 
+	public static final String JSON_CONFIG = "shapeconfiguration.json";
 	public static final String PATTERN = "#.#";
 	public static final int _PIXEL = 30;
 	public static HashMap<String, Object> componentLookup;
@@ -45,12 +66,19 @@ public class UIUtils {
 	public static final String TYPE = "TYPE";
 	public final static String SHAPE = "SHAPE";
 
+	public static final String RECTANGLURAL_PRISM_NAME = "Rectanglural Prism";
+	public static final String CLYINDER_NAME = "Clyinder";
+	public static final String SPHERE_NAME = "Sphere";
+	public static final String CIRCLE_NAME = "Circle";
+	public static final String TRIANGLE_NAME = "Triangle";
+	public static final String RECTANGLE_NAME = "Rectangle";
 	
 	public final static Color SHAPE_3D_DASH_BORDER_COLOR = Color.BLACK;
 	public final static String METERS = "m";
 	public static final String SHAPE_ID = "SHAPE_ID";
 	public static final int ALPHA = 140;
 	public static final String SKETCHUP_FILE = "googlesketchup.html";
+	public static final Object SHAPE_OBJ = "SHAPE_OBJ";
     
 	public static Dimension frameDimension;
 	public static Color NONSHAPE_SHAPE_COLOR = Color.white;
@@ -81,7 +109,50 @@ public class UIUtils {
 			"							  <i>ie: 28, 4+pi, w+2</i></html>";
 														
 	public static String dragAndDropShapeTip = "Drag and Drop a shape on the canvas";
-										
+						
+	
+	public static List getShapeList() {
+		URL resource = UIUtils.class.getResource(JSON_CONFIG);
+		
+		try {
+			String json = readFileAsString(new File(resource.toURI()));
+			
+	        XStream xstream = new XStream(new JettisonMappedXmlDriver());
+	        xstream.alias("MathToolbarShape",
+					MathToolbarShape.class);	
+	        xstream.alias("RectanglarPrismToolbarShape", RectanglarPrismToolbarShape.class);
+	        xstream.alias("CylinderToolbarShape", CylinderToolbarShape.class);
+	        xstream.alias("SphereToolbarShape", SphereToolbarShape.class);   
+			xstream.alias("CircleToolbarShape", CircleToolbarShape.class);
+			xstream.alias("TriangleToolbarShape", TriangleToolbarShape.class);
+			xstream.alias("RectangleToolbarShape", RectangleToolbarShape.class);
+			
+	        return (List) xstream.fromXML(json);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+    private static String readFileAsString(File file)
+    throws java.io.IOException{
+        StringBuffer fileData = new StringBuffer(1000);
+        BufferedReader reader = new BufferedReader(
+                new FileReader(file));
+        char[] buf = new char[1024];
+        int numRead=0;
+        while((numRead=reader.read(buf)) != -1){
+            String readData = String.valueOf(buf, 0, numRead);
+            fileData.append(readData);
+            buf = new char[1024];
+        }
+        reader.close();
+        return fileData.toString();
+    }
+    
 
 	public static List<Component> getAllComponents(final Container c) {
 		Component[] comps = c.getComponents();
