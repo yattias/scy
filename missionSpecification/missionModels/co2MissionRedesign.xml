@@ -24,6 +24,7 @@
                      <property name="xPosition" value="0"/>
                      <property name="yPosition" value="0"/>
                      <property name="tooltip" value="Challenge"/>
+                     <property name="lasType" value="ORIENTATION"/>
                      <property name="loEloUris">
                         <list>
                         </list>
@@ -45,6 +46,8 @@
                      <property name="xPosition" value="80"/>
                      <property name="yPosition" value="0"/>
                      <property name="tooltip" value="First ideas of my design group"/>
+                     <property name="lasType" value="CONCEPTUALISATION"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_design/LAS_Instruction.html"/>
                      <property name="nextLasses">
                         <list>
                            <value>conceptualizationExperts</value>
@@ -61,6 +64,8 @@
                      <property name="xPosition" value="160"/>
                      <property name="yPosition" value="0"/>
                      <property name="tooltip" value="Hypotheses of my expert group"/>
+                     <property name="lasType" value="CONCEPTUALISATION"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_expert/LAS_Instruction.html"/>
                      <property name="loEloUris">
                         <list>
                            <value>roolo://memory/309/0/Becoming_an_expert.url</value>
@@ -85,6 +90,8 @@
                      <property name="xPosition" value="240"/>
                      <property name="yPosition" value="0"/>
                      <property name="tooltip" value="Conclusion of expert experiments"/>
+                     <property name="lasType" value="EXPERIMENT"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/LAS_Instruction.html"/>
                      <property name="loEloUris">
                         <list>
                            <value>roolo://memory/309/0/Becoming_an_expert.url</value>
@@ -113,6 +120,8 @@
                      <property name="xPosition" value="0"/>
                      <property name="yPosition" value="80"/>
                      <property name="tooltip" value="Concept Map on CO2 emission"/>
+                     <property name="lasType" value="CONCEPTUALISATION"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_individual/LAS_Instruction.html"/>
                      <property name="nextLasses">
                         <list>
                         </list>
@@ -124,6 +133,8 @@
                      <property name="xPosition" value="80"/>
                      <property name="yPosition" value="80"/>
                      <property name="tooltip" value="House drawings"/>
+                     <property name="lasType" value="DESIGN"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Build_design/LAS_Instruction.html"/>
                      <property name="nextLasses">
                         <list>
                         </list>
@@ -139,6 +150,8 @@
                      <property name="xPosition" value="160"/>
                      <property name="yPosition" value="80"/>
                      <property name="tooltip" value="House choices"/>
+                     <property name="lasType" value="DESIGN"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Design_design/LAS_Instruction.html"/>
                      <property name="nextLasses">
                         <list>
                            <value>construction</value>
@@ -157,6 +170,8 @@
                      <property name="xPosition" value="240"/>
                      <property name="yPosition" value="80"/>
                      <property name="tooltip" value="Expert presentation"/>
+                     <property name="lasType" value="REPORTING"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_expert/LAS_Instruction.html"/>
                      <property name="nextLasses">
                         <list>
                            <value>design</value>
@@ -174,6 +189,8 @@
                      <property name="xPosition" value="80"/>
                      <property name="yPosition" value="160"/>
                      <property name="tooltip" value="House data"/>
+                     <property name="lasType" value="DESIGN"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_design/LAS_Instruction.html"/>
                      <property name="loEloUris">
                         <list>
                            <value>roolo://memory/299/0/House_data.url</value>
@@ -198,6 +215,8 @@
                      <property name="xPosition" value="160"/>
                      <property name="yPosition" value="160"/>
                      <property name="tooltip" value="Presentation of house design"/>
+                     <property name="lasType" value="REPORTING"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_design/LAS_Instruction.html"/>
                      <property name="nextLasses">
                         <list>
                            <value>reportingIndividual</value>
@@ -210,6 +229,8 @@
                      <property name="xPosition" value="240"/>
                      <property name="yPosition" value="160"/>
                      <property name="tooltip" value="Individual report"/>
+                     <property name="lasType" value="REPORTING"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_individual/LAS_Instruction.html"/>
                      <property name="nextLasses">
                         <list>
                         </list>
@@ -228,6 +249,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="start"/>
                <property name="uri" value="roolo://memory/281/0/Challenge.url"/>
+               <property name="iconType" value="ard/assignment"/>
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
@@ -242,6 +264,10 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="conceptMap"/>
                <property name="uri" value="roolo://memory/282/0/Concept_map_on_CO2_emission.scymapping"/>
+               <property name="iconType" value="ard/concept_map"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_individual/targetDescription.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_individual/Assignments/A_CMap_CO2_emission.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_individual/Resources/R_CMap_CO2_emission.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
@@ -258,6 +284,10 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="firstIdeas"/>
                <property name="uri" value="roolo://memory/301/0/First_ideas_of_my_design_group.scymapping"/>
+               <property name="iconType" value="ard/idea"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_design/targetDescription.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_design/Assignments/A_First_ideas.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_design/Resources/R_First_ideas.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
@@ -274,6 +304,10 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="researchQuestions"/>
                <property name="uri" value="roolo://memory/303/0/Research_questions_of_my_expert_group.rtf"/>
+               <property name="iconType" value="ard/hypothese"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_expert/targetDescription.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_expert/Assignments/A_Research_questions.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_expert/Resources/R_Research_questions.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
@@ -287,6 +321,9 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="hypothesis"/>
                <property name="uri" value="roolo://memory/305/0/Hypotheses_of_my_expert_group.rtf"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_expert/targetDescription.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_expert/Assignments/A_Hypothesis.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_expert/Resources/R_Hypothesis.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
@@ -300,6 +337,9 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="experimentalProcedure"/>
                <property name="uri" value="roolo://memory/354/0/Experimental_procedure.scyxproc"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/targetDescription.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/Assignments/A_Experimental_procedure.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/Resources/R_Experimental_procedure.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                      <value>hypothesis</value>
@@ -314,6 +354,9 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="simulatorExpertThermal"/>
                <property name="uri" value="roolo://memory/311/0/Data_from_the_Thermal_simulation.scysimconfig"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/targetDescription.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/Assignments/A_Data_thermal_simulation.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/Resources/R_Data_thermal_simulation.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
@@ -327,6 +370,9 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="simulatorExpertConverter"/>
                <property name="uri" value="roolo://memory/401/0/Data_from_the_Converter.scysimconfig"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/targetDescription.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/Assignments/A_Data_converter.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/Resources/R_Data_converter.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
@@ -352,6 +398,9 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="dataExpertReal"/>
                <property name="uri" value="roolo://memory/312/0/Data_from_real_experiments.scypds"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/targetDescription.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/Assignments/A_Data.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/Resources/R_Data.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
@@ -365,6 +414,9 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="conclusion"/>
                <property name="uri" value="roolo://memory/314/0/Conclusion_of_expert_experiments.rtf"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/targetDescription.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/Assignments/A_Conclusion_experiments.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/Resources/R_Conclusion_experiments.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
@@ -378,6 +430,10 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="expertConceptMap"/>
                <property name="uri" value="roolo://memory/316/0/Expert_concept_map.scymapping"/>
+               <property name="iconType" value="ard/concept_map"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_expert/targetDescription.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_expert/Assignments/A_Expert_cmap.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_expert/Resources/R_Expert_cmap.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                      <value>conclusion</value>
@@ -392,6 +448,10 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="expertPresentation"/>
                <property name="uri" value="roolo://memory/318/0/Expert_presentation.ppt"/>
+               <property name="iconType" value="ard/presentation"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_expert/targetDescription.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_expert/Assignments/A_Expert_presentation.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_expert/Resources/R_Expert_presentation.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
@@ -405,6 +465,10 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="inventorySolution"/>
                <property name="uri" value="roolo://memory/320/0/Inventory_of_expert_solutions.scymapping"/>
+               <property name="iconType" value="ard/choices"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Design_design/targetDescription.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Design_design/Assignments/A_Inventory_solutions.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Design_design/Resources/R_Inventory_solutions.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                      <value>expertPresentation</value>
@@ -419,6 +483,9 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="firstChoices"/>
                <property name="uri" value="roolo://memory/322/0/House_choices.scymapping"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Design_design/targetDescription.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Design_design/Assignments/A_House_choices.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Design_design/Resources/R_House_choices.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
@@ -432,6 +499,9 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="simulatorDesignThermal"/>
                <property name="uri" value="roolo://memory/340/0/House_data_from_the_Thermal_simulation.scysimconfig"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_design/targetDescription.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_design/Assignments/A_House_data_Thermal_simulation.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_design/Resources/R_House_data_Thermal_simulation.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                      <value>firstChoices</value>
@@ -446,6 +516,10 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="simulatorDesignConverter"/>
                <property name="uri" value="roolo://memory/402/0/House_data_from_the_Converter.scysimconfig"/>
+               <property name="iconType" value="ard/house"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_design/targetDescription.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_design/Assignments/A_House_data_Converter.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_design/Resources/R_House_data_Converter.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
@@ -471,6 +545,10 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="houseDrawing"/>
                <property name="uri" value="roolo://memory/341/0/House_drawings.skp"/>
+               <property name="iconType" value="ard/drawing"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Build_design/targetDescription.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Build_design/Assignments/A_House_drawings.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Build_design/Resources/R_House_drawings.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                      <value>firstChoices</value>
@@ -485,6 +563,10 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="presentationDesign"/>
                <property name="uri" value="roolo://memory/343/0/Presentation_of_house_design.ppt"/>
+               <property name="iconType" value="ard/presentation"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_design/targetDescription.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_design/Assignments/A_Presentation_design.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_design/Resources/R_Presentation_design.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                      <value>houseDrawing</value>
@@ -503,6 +585,9 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="report"/>
                <property name="uri" value="roolo://memory/345/0/Individual_report.doc"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_individual/targetDescription.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_individual/Assignments/A_Individual_report.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_individual/Resources/R_Individual_report.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
