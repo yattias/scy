@@ -385,7 +385,7 @@
                <property name="iconType" value="ard/presentation"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/videoreport.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_video.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_video.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_video.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -399,7 +399,7 @@
                <property name="iconType" value="ard/concept_map"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/conceptmap.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_conceptmap.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_conceptmap.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_conceptmap.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -413,7 +413,7 @@
                <property name="iconType" value="scy/text"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/b1lasori.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_questions_b1.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_orientation_b1.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_orientation_b1.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -427,7 +427,7 @@
                <property name="iconType" value="scy/text"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/b2lasori.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_questions_b2.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_orientation_b2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_orientation_b2.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -441,7 +441,7 @@
                <property name="iconType" value="scy/text"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/b3lasori.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_questions_b3.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_orientation_b3.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_orientation_b3.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -455,7 +455,7 @@
                <property name="iconType" value="scy/text"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/c1lasori.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_questions_c1.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_orientation_c1.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_orientation_c1.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -469,7 +469,7 @@
                <property name="iconType" value="scy/text"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/b1lasori.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_problemf_b1.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_orientation_b1.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_orientation_b1.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -483,7 +483,7 @@
                <property name="iconType" value="scy/text"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/b2lasori.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_problemf_b2.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_orientation_b2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_orientation_b2.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -497,7 +497,7 @@
                <property name="iconType" value="scy/text"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/b3lasori.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_problemf_b3.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_orientation_b3.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_orientation_b3.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -511,7 +511,7 @@
                <property name="iconType" value="scy/text"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/c1lasori.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_problemf_c1.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_orientation_c1.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_orientation_c1.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -525,7 +525,7 @@
                <property name="iconType" value="ard/idea"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/b1lasori.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_hypothesis_b1.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_orientation_b1.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_orientation_b1.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -539,7 +539,7 @@
                <property name="iconType" value="ard/idea"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/b2lasori.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_hypothesis_b2.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_orientation_b2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_orientation_b2.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -553,7 +553,7 @@
                <property name="iconType" value="ard/idea"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/b3lasori.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_hypothesis_b3.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_orientation_b3.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_orientation_b3.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -567,7 +567,7 @@
                <property name="iconType" value="ard/idea"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/c1lasori.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_hypothesis_c1.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_orientation_c1.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_orientation_c1.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -580,8 +580,8 @@
                <property name="uri" value="roolo://memory/20108/0/Experimental_procedure.scyxproc"/>
                <property name="iconType" value="scy/xproc"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/b1lasexp.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_copex.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_experiment_b1.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_copex_b1.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_experiment_b1.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -594,8 +594,8 @@
                <property name="uri" value="roolo://memory/20087/0/Scy_dynamics.model"/>
                <property name="iconType" value="scy/model"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/b1lasexp.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_scydynamics.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_experiment_b1.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_scydynamics_b1.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_experiment_b1.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -608,8 +608,8 @@
                <property name="uri" value="roolo://memory/20102/0/Data_set.scypds"/>
                <property name="iconType" value="scy/dataset"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/b1lasexp.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_fitex.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_experiment_b1.html.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_fitex_b1.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_experiment_b1.html.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -622,8 +622,8 @@
                <property name="uri" value="roolo://memory/20063/0/Experimental_procedure.scyxproc"/>
                <property name="iconType" value="scy/xproc"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/b2lasexp.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_copex.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_experiment_b2.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_copex_b2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_experiment_b2.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -636,8 +636,8 @@
                <property name="uri" value="roolo://memory/20069/0/Data_set.scypds"/>
                <property name="iconType" value="scy/dataset"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/b2lasexp.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_fitex.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_experiment_b2.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_fitex_b2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_experiment_b2.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -650,8 +650,8 @@
                <property name="uri" value="roolo://memory/20072/0/Experimental_procedure.scyxproc"/>
                <property name="iconType" value="scy/xproc"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/b3lasexp.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_copex.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_experiment_b3.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_copex_b3.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_experiment_b3.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -664,8 +664,8 @@
                <property name="uri" value="roolo://memory/20088/0/Scy_dynamics.model"/>
                <property name="iconType" value="scy/model"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/b3lasexp.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_scydynamics.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_experiment_b3.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_scydynamics_b3.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_experiment_b3.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -678,8 +678,8 @@
                <property name="uri" value="roolo://memory/20077/0/Data_set.scypds"/>
                <property name="iconType" value="scy/dataset"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/b3lasexp.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_fitex.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_experiment_b3.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_fitex_b3.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_experiment_b3.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -692,8 +692,8 @@
                <property name="uri" value="roolo://memory/20080/0/Experimental_procedure.scyxproc"/>
                <property name="iconType" value="scy/xproc"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/c1lasexp.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_copex.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_experiment_c1.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_copex_c1.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_experiment_c1.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -706,8 +706,8 @@
                <property name="uri" value="roolo://memory/20085/0/Data_set.scypds"/>
                <property name="iconType" value="scy/dataset"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/c1lasexp.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_fitex.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_experiment_c1.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_fitex_c1.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_experiment_c1.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -721,7 +721,7 @@
                <property name="iconType" value="scy/simconfig"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/b1lasexp.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_inferences_b1.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_experiment_b1.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_experiment_b1.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -739,7 +739,7 @@
                <property name="iconType" value="scy/simconfig"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/b2lasexp.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_inferences_b2.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_experiment_b2.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_experiment_b2.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -757,7 +757,7 @@
                <property name="iconType" value="scy/simconfig"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/b3lasexp.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_inferences_b3.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_experiment_b3.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_experiment_b3.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -775,7 +775,7 @@
                <property name="iconType" value="scy/simconfig"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/c1lasexp.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_inferences_c1.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resource_experiment_c1.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_experiment_c1.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
