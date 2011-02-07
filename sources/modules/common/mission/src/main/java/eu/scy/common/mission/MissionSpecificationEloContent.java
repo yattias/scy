@@ -36,4 +36,8 @@ public interface MissionSpecificationEloContent
 	public URI getPedagogicalPlanSettingsEloUri();
 
 	public void setPedagogicalPlanSettingsEloUri(URI pedagogicalPlanSettingsEloUri);
+	
+	public URI getMissionDescriptionUri();
+
+	public void setMissionDescriptionUri(URI missionDescriptionUri);
 }
