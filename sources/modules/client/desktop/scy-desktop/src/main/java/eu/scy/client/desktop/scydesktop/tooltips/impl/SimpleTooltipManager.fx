@@ -64,7 +64,8 @@ public class SimpleTooltipManager extends TooltipManager {
                values: tooltipNode.opacity => 0.0;
                action: function() {
 //                  println("start opacity set: {tooltipNode.opacity}");
-                  positionTooltip();
+                  insert currentTooltip into tooltipGroup.content;
+                  FX.deferAction(positionTooltip);
                }
             }
             KeyFrame {
@@ -161,7 +162,7 @@ public class SimpleTooltipManager extends TooltipManager {
                currentTooltip = newTooltip;
                currentSourceNode = sourceNode;
                currentTooltip.opacity = 0.0;
-               insert currentTooltip into tooltipGroup.content;
+//               insert currentTooltip into tooltipGroup.content;
             }
          }
          catch (e: Exception) {
@@ -170,7 +171,7 @@ public class SimpleTooltipManager extends TooltipManager {
       }
    }
 
-   function positionTooltip() {
+   function positionTooltip():Void {
       var sceneBounds = BoundingBox {
             width: currentSourceNode.scene.width;
             height: currentSourceNode.scene.height
