@@ -14,6 +14,7 @@ import eu.scy.common.mission.impl.jdom.TemplateElosEloContentXmlUtils;
 import eu.scy.common.mission.impl.jdom.MissionModelEloContentXmlUtils;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.lang.StringBuilder;
+import java.net.URI;
 
 /**
  * @author SikkenJ
@@ -24,6 +25,7 @@ public class SpringConfigFileImporter {
    def logger = Logger.getLogger(this.getClass());
    public-init var file: String;
    public-init var tbi: ToolBrokerAPI;
+   public-read var missionDescriptionUri: URI;
    public-read var missionMapXml: String;
    public-read var eloToolConfigsXml: String;
    public-read var templateElosXml: String;
@@ -33,6 +35,7 @@ public class SpringConfigFileImporter {
 
    init {
       missionConfigInput = readSpringConfig();
+      missionDescriptionUri = missionConfigInput.getMissionDescriptionUri();
       def missionModel = missionConfigInput.getMissionModelEloContent();
       missionMapXml = MissionModelEloContentXmlUtils.missionModelToXml(missionModel);
       def eloToolConfigsEloContent = new BasicEloToolConfigsEloContent();
@@ -42,6 +45,9 @@ public class SpringConfigFileImporter {
       templateElosEloContent.setTemplateEloUris(missionConfigInput.getTemplateEloUris());
       templateElosXml = TemplateElosEloContentXmlUtils.templateElosEloContentToXml(templateElosEloContent);
       def builder = new StringBuilder();
+      if (missionDescriptionUri==null){
+         builder.append("Mission description uri is not defined\n");
+      }
       for (error in missionConfigInput.getErrors()){
          builder.append("{error}\n");
       }
