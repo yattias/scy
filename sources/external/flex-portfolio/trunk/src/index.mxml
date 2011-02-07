@@ -412,9 +412,10 @@
 
 			protected function button1_clickHandler(event:MouseEvent):void {
 				var printJob:FlexPrintJob = new FlexPrintJob();
-				printJob.start();
-				printJob.addObject(maxImageIm, FlexPrintJobScaleType.MATCH_WIDTH);
-				printJob.send(); 
+				if (printJob.start()) {
+					printJob.addObject(maxImageIm, FlexPrintJobScaleType.MATCH_WIDTH);
+					printJob.send();	
+				}
 			}
 			
 			protected function maxImageIm_ioErrorHandler(event:IOErrorEvent):void {
