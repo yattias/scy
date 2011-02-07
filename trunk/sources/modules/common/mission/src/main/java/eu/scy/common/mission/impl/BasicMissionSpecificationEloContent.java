@@ -21,6 +21,7 @@ public class BasicMissionSpecificationEloContent implements MissionSpecification
 	private URI runtimeSettingsEloUri;
 	private URI agentModelsEloUri;
 	private URI pedagogicalPlanSettingsEloUri;
+	private URI missionDescriptionUri;
 
 	@Override
 	public String toString()
@@ -29,7 +30,8 @@ public class BasicMissionSpecificationEloContent implements MissionSpecification
 					+ missionMapModelEloUri + ",eloToolConfigsEloUri=" + eloToolConfigsEloUri
 					+ ",templateElosEloUri=" + templateElosEloUri + ",runtimeSettingsEloUri="
 					+ runtimeSettingsEloUri + ",agentModelsEloUri=" + agentModelsEloUri
-					+ ",pedagogicalPlanSettingsEloUri=" + pedagogicalPlanSettingsEloUri + '}';
+					+ ",pedagogicalPlanSettingsEloUri=" + pedagogicalPlanSettingsEloUri
+					+ ",missionDescriptionUri=" + missionDescriptionUri + '}';
 	}
 
 	@Override
@@ -102,6 +104,18 @@ public class BasicMissionSpecificationEloContent implements MissionSpecification
 	public void setPedagogicalPlanSettingsEloUri(URI pedagogicalPlanSettingsEloUri)
 	{
 		this.pedagogicalPlanSettingsEloUri = pedagogicalPlanSettingsEloUri;
+	}
+
+	@Override
+	public URI getMissionDescriptionUri()
+	{
+		return missionDescriptionUri;
+	}
+
+	@Override
+	public void setMissionDescriptionUri(URI missionDescriptionUri)
+	{
+		this.missionDescriptionUri = missionDescriptionUri;
 	}
 
 }
