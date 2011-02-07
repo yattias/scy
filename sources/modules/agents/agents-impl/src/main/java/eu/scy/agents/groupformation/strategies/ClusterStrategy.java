@@ -39,7 +39,8 @@ public class ClusterStrategy extends AbstractGroupFormationStrategy {
 
 		clusterAlgorithm = new KMeansAlgorithm(numberOfClusters);
 
-		Map<String, FeatureVector> featureVectors = buildFeatureVectors(getAvailableUsers());
+		Map<String, FeatureVector> featureVectors = buildFeatureVectors(
+				getAvailableUsers(), elo);
 
 		List<Cluster> clusters = runClusterAlgorithm(featureVectors);
 
@@ -70,20 +71,22 @@ public class ClusterStrategy extends AbstractGroupFormationStrategy {
 	}
 
 	private Map<String, FeatureVector> buildFeatureVectors(
-			Set<String> availableUsers) {
+			Set<String> availableUsers, IELO elo) {
 		Map<String, FeatureVector> featureVectors = initFeatureVectors(availableUsers);
-		fillFeatureVectors(availableUsers, featureVectors);
+		fillFeatureVectors(availableUsers, featureVectors, elo);
 		return featureVectors;
 	}
 
 	private void fillFeatureVectors(Set<String> availableUsers,
-			Map<String, FeatureVector> featureVectors) {
+			Map<String, FeatureVector> featureVectors, IELO elo) {
 		for (FeatureExtractor extractor : extractors) {
-			Map<String, double[]> features = extractor.getFeatures(
-					availableUsers, getMission());
-			for (String user : features.keySet()) {
-				FeatureVector featureVector = featureVectors.get(user);
-				featureVector.add(features.get(user));
+			if (extractor.canRun(elo)) {
+				Map<String, double[]> features = extractor.getFeatures(
+						availableUsers, getMission(), elo);
+				for (String user : features.keySet()) {
+					FeatureVector featureVector = featureVectors.get(user);
+					featureVector.add(features.get(user));
+				}
 			}
 		}
 	}

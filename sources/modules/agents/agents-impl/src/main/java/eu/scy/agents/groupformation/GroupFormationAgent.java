@@ -135,6 +135,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		int maxGroupSize = (Integer) configuration
 				.getParameter(new AgentParameter(mission,
 						MAX_GROUP_SIZE_PARAMETER));
+		
 		String eloUri = action.getContext(ContextConstants.eloURI);
 		IELO elo = getElo(eloUri);
 		String strategy = "dummy";// action.getAttribute(STRATEGY);
