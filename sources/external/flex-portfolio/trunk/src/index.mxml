@@ -483,6 +483,7 @@
 		<mx:LinkButton label="fr" width="35" click="resourceManager.localeChain = [ 'fr_FR' ]" textDecoration="underline" color="#FFFFFF" />
 		<mx:LinkButton label="no" width="35" click="resourceManager.localeChain = [ 'nb_NO' ]" textDecoration="underline" color="#FFFFFF" />
 		<mx:LinkButton label="gr" width="35" click="resourceManager.localeChain = [ 'el_CY' ]" textDecoration="underline" color="#FFFFFF" />
+		<mx:LinkButton label="ee" width="35" click="resourceManager.localeChain = [ 'et_EE' ]" textDecoration="underline" color="#FFFFFF" />
 		<mx:LinkButton label="nl" width="35" click="resourceManager.localeChain = [ 'nl_NL' ]" textDecoration="underline" color="#FFFFFF" />
 	</s:HGroup>
 -->
