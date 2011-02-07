@@ -1394,4 +1394,31 @@ public class Dataset implements Cloneable{
         }
         return false;
     }
+
+    /* return the nb rows that contains some data */
+    public int getNbRowsData(){
+        int nbR = 0;
+        for(int i=0; i<nbRows; i++){
+            if(isDataInRow(i)){
+                nbR++;
+            }
+        }
+        return nbR;
+    }
+
+    public int getFirstRowData(){
+        for(int i=0; i<nbRows; i++){
+            if(isDataInRow(i)){
+                return i;
+            }
+        }
+        return -1;
+    }
+    private boolean isDataInRow(int row){
+        for(int j=0; j<nbCol; j++){
+            if(getData(row, j) != null && getData(row, j).getValue() != null && !getData(row, j).getValue().equals(""))
+                return true;
+        }
+        return false;
+    }
 }
