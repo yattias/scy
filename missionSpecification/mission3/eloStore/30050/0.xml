@@ -9,25 +9,24 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-02-01T14:44:56.015+0100</dateTime>
+          <dateTime>2011-02-02T13:42:29.062+0100</dateTime>
         </date>
       </contribute>
       <version>0</version>
     </lifecycle>
     <technical>
       <customElements>
-        <dateCreated>1296567896015</dateCreated>
-        <dateLastModified>1296567896015</dateLastModified>
+        <dateCreated>1296650549062</dateCreated>
+        <dateLastModified>1296650549062</dateLastModified>
       </customElements>
       <format>scy/missionmapmodel</format>
     </technical>
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/30045/0/pizzaMission.scymissionmapmodel</entry>
+        <entry>roolo://memory/30050/0/pizzaMission.scymissionmapmodel</entry>
       </identifier>
-      <las>design</las>
-      <missionRunning>roolo://memory/30029/0/A+Healthy+Pizza.scymissionspecification</missionRunning>
+      <las />
       <title>
         <string language="en">pizzaMission</string>
       </title>
@@ -381,7 +380,7 @@
       <loElos />
       <otherElos />
       <mainAnchor>
-        <eloUri>roolo://memory/30040/0/Criteria+Final+Table.scypd</eloUri>
+        <eloUri>roolo://memory/30040/0/Criteria+Final+Table.scypds</eloUri>
         <iconType />
         <loElos />
         <inputAnchors />
@@ -464,7 +463,7 @@
       </mainAnchor>
       <intermediateAnchors>
         <intermediateAnchor>
-          <eloUri>roolo://memory/30001/0/Questions+About+Pizza+Benefits.rtf</eloUri>
+          <eloUri>roolo://memory/30041/0/Individual+Report.rtf</eloUri>
           <iconType />
           <loElos />
           <inputAnchors />

@@ -1,0 +1,62 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>Caspar</entity>
+        <date>
+          <dateTime>2011-02-03T17:39:32.656+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1296751172656</dateCreated>
+        <dateLastModified>1296751172656</dateLastModified>
+      </customElements>
+      <format>scy/missionspecification</format>
+    </technical>
+    <educational>
+      <learningResourceType>sourceData</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30064/0/A+Healthy+Pizza+5.scymissionspecification</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">A Healthy Pizza 5</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<missionSpeicification>
+  <missionMapModelEloUri>roolo://memory/30060/0/pizzaMission.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/30061/0/pizzaMission.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/30062/0/pizzaMission.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/30063/0/pizzaMission.runtimesettings</runtimeSettingsEloUri>
+</missionSpeicification>
+</content>
+<resources>
+</resources>
+</elo>

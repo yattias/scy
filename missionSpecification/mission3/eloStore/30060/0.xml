@@ -9,25 +9,24 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-02-01T14:44:56.015+0100</dateTime>
+          <dateTime>2011-02-03T17:39:16.734+0100</dateTime>
         </date>
       </contribute>
       <version>0</version>
     </lifecycle>
     <technical>
       <customElements>
-        <dateCreated>1296567896015</dateCreated>
-        <dateLastModified>1296567896015</dateLastModified>
+        <dateCreated>1296751156734</dateCreated>
+        <dateLastModified>1296751156734</dateLastModified>
       </customElements>
       <format>scy/missionmapmodel</format>
     </technical>
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/30045/0/pizzaMission.scymissionmapmodel</entry>
+        <entry>roolo://memory/30060/0/pizzaMission.scymissionmapmodel</entry>
       </identifier>
-      <las>design</las>
-      <missionRunning>roolo://memory/30029/0/A+Healthy+Pizza.scymissionspecification</missionRunning>
+      <las />
       <title>
         <string language="en">pizzaMission</string>
       </title>
@@ -52,8 +51,8 @@
       <id>design</id>
       <xPos>-30.0</xPos>
       <yPos>-30.0</yPos>
-      <toolTip>????</toolTip>
-      <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part1_Goals.html</instructionUri>
+      <toolTip>tip_LAS_A</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_DESIGN.html</instructionUri>
       <lasType>DESIGN</lasType>
       <loElos />
       <otherElos />
@@ -63,7 +62,7 @@
         <loElos />
         <inputAnchors />
         <relations />
-        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Methodology_Steps.txt</targetDescriptionUri>
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_A.txt</targetDescriptionUri>
         <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.1.html</assignmentUri>
         <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
         <colorScheme />
@@ -75,7 +74,7 @@
           <loElos />
           <inputAnchors />
           <relations />
-          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Discussion_Notes.txt</targetDescriptionUri>
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_A.txt</targetDescriptionUri>
           <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part1_ELO1.html</assignmentUri>
           <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
           <colorScheme />
@@ -100,8 +99,8 @@
       <id>experiment</id>
       <xPos>30.0</xPos>
       <yPos>30.0</yPos>
-      <toolTip>????</toolTip>
-      <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part1_Goals.html</instructionUri>
+      <toolTip>tip_LAS_B</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_EXPERIMENT.html</instructionUri>
       <lasType>EXPERIMENT</lasType>
       <loElos />
       <otherElos />
@@ -162,8 +161,8 @@
       <id>information</id>
       <xPos>40.0</xPos>
       <yPos>-100.0</yPos>
-      <toolTip>????</toolTip>
-      <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part1_Goals.html</instructionUri>
+      <toolTip>tip_LAS_C</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_INFORMATION.html</instructionUri>
       <lasType>INFORMATION</lasType>
       <loElos />
       <otherElos />
@@ -200,8 +199,8 @@
       <id>conceptualization1</id>
       <xPos>100.0</xPos>
       <yPos>-40.0</yPos>
-      <toolTip>Discussion Notes</toolTip>
-      <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part2_Goals.html</instructionUri>
+      <toolTip>tip_LAS_D</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_CONCEPTUALISATION1.html</instructionUri>
       <lasType>CONCEPTUALISATION</lasType>
       <loElos />
       <otherElos />
@@ -248,8 +247,8 @@
       <id>conceptualization2</id>
       <xPos>100.0</xPos>
       <yPos>40.0</yPos>
-      <toolTip>Discussion Notes</toolTip>
-      <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part3_Goals.html</instructionUri>
+      <toolTip>tip_LAS_E</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_CONCEPTUALISATION2.html</instructionUri>
       <lasType>CONCEPTUALISATION</lasType>
       <loElos />
       <otherElos />
@@ -286,8 +285,8 @@
       <id>conceptualization3</id>
       <xPos>40.0</xPos>
       <yPos>100.0</yPos>
-      <toolTip>Discussion Notes</toolTip>
-      <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part4_Goals.html</instructionUri>
+      <toolTip>tip_LAS_F</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_CONCEPTUALISATION3.html</instructionUri>
       <lasType>CONCEPTUALISATION</lasType>
       <loElos />
       <otherElos />
@@ -312,8 +311,8 @@
       <id>conceptualization4</id>
       <xPos>-40.0</xPos>
       <yPos>100.0</yPos>
-      <toolTip>Discussion Notes</toolTip>
-      <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part5_Goals.html</instructionUri>
+      <toolTip>tip_LAS_G</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_CONCEPTUALISATION4.html</instructionUri>
       <lasType>CONCEPTUALISATION</lasType>
       <loElos />
       <otherElos />
@@ -349,8 +348,8 @@
       <id>reflection1</id>
       <xPos>-100.0</xPos>
       <yPos>40.0</yPos>
-      <toolTip>Criteria</toolTip>
-      <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part6_Goals.html</instructionUri>
+      <toolTip>tip_LAS_H</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_REFLECTION1.html</instructionUri>
       <lasType>REFLECTION</lasType>
       <loElos />
       <otherElos />
@@ -375,13 +374,13 @@
       <id>reflection2</id>
       <xPos>-100.0</xPos>
       <yPos>-40.0</yPos>
-      <toolTip>Criteria</toolTip>
-      <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part7_Goals.html</instructionUri>
+      <toolTip>tip_LAS_I</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_REFLECTION2.html</instructionUri>
       <lasType>REFLECTION</lasType>
       <loElos />
       <otherElos />
       <mainAnchor>
-        <eloUri>roolo://memory/30040/0/Criteria+Final+Table.scypd</eloUri>
+        <eloUri>roolo://memory/30040/0/Criteria+Final+Table.scypds</eloUri>
         <iconType />
         <loElos />
         <inputAnchors />
@@ -446,8 +445,8 @@
       <id>evaluation</id>
       <xPos>-40.0</xPos>
       <yPos>-100.0</yPos>
-      <toolTip>Criteria</toolTip>
-      <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part8_Goals.html</instructionUri>
+      <toolTip>tip_LAS_J</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_EVALUATION.html</instructionUri>
       <lasType>EVALUATION</lasType>
       <loElos />
       <otherElos />
@@ -464,7 +463,7 @@
       </mainAnchor>
       <intermediateAnchors>
         <intermediateAnchor>
-          <eloUri>roolo://memory/30001/0/Questions+About+Pizza+Benefits.rtf</eloUri>
+          <eloUri>roolo://memory/30041/0/Individual+Report.rtf</eloUri>
           <iconType />
           <loElos />
           <inputAnchors />
