@@ -61,14 +61,14 @@ public class NewSimulationPanel extends JPanel implements ActionListener {
         this.add(panel);
 
         radio = new JRadioButton();
-        radio.setName("http://www.scy-lab.eu/sqzx/HouseNew.sqzx");
+        radio.setName("http://www.scy-lab.eu/sqzx/pizza.sqzx");
         radio.setActionCommand("setsimulation");
         radio.addActionListener(this);
         radios.add(radio);
         panel = new JPanel();
         panel.setLayout(flow);
         panel.add(radio);
-        panel.add(new JLabel("old CO2-House simulation (slow loading)"));
+        panel.add(new JLabel("pizza simulation"));
         this.add(panel);
 
         radio = new JRadioButton();
