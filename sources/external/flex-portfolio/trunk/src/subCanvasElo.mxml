@@ -58,8 +58,6 @@
 			}
 
 			protected function image1_ioErrorHandler(event:IOErrorEvent):void {
-				trace("could not load the image, let's get a default thumb instead");
-				
 				switch(event.errorID) {
 					case 0:
 						rawdatathumb = index.NOTHUMB;

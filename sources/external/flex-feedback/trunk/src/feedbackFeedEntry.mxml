@@ -42,7 +42,9 @@
 					dico["comment"] = replyArea.text;
 					
 					trace(XMLUtilJer.getReplyFeedBackXML(dico));
-					//new AutoSaveService(so.data.savereplyfeedback+"?replyfeedbackURI="+uri+"&feedbackURI="+feedbackURI+"&xmlContent="+encodeURI(XMLUtilJer.getReplyFeedBackXML(dico)));	
+					//new AutoSaveService(so.data.savereplyfeedback+"?replyfeedbackURI="+uri+"&feedbackURI="+feedbackURI+"&xmlContent="+encodeURI(XMLUtilJer.getReplyFeedBackXML(dico)));
+					
+					
 				}
 			}
 

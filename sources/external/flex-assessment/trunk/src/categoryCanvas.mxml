@@ -29,7 +29,6 @@
 				obliEloCanvas.cat = index.obligElos[selectedCategoryIndex];
 				obliEloCanvas.elosArray = getEloArrayByCategory(index.obligElos[selectedCategoryIndex]);
 				obliEloCanvas.refreshView();
-				
 			}
 			
 			private function getEloArrayByCategory(categ:String):ArrayCollection {
@@ -40,7 +39,6 @@
 				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
 				sLogger["type"] = "elo_category_view_started";
 				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
-				
 				
 				portfolioElo = so.data.retrievedElosFromRoolo as XML;
 				var eloArrayByCategory:ArrayCollection = new ArrayCollection();

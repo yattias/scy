@@ -12,6 +12,9 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import flash.utils.clearInterval;
+			import flash.utils.setInterval;
+			
 			import listeners.ToggleEvent;
 			
 			import mx.collections.ArrayCollection;
@@ -36,6 +39,8 @@
 			[Bindable] private var fairElosArray:ArrayCollection;
 			[Bindable] private var goodElosArray:ArrayCollection;
 			[Bindable] private var excellentElosArray:ArrayCollection;
+			
+			private var refreshTimer:Number;
 			
 			public function refreshView():void {
 				unassessedElosArray = new ArrayCollection();
@@ -83,23 +88,17 @@
 					}
 				}
 				
-				if(builtFinished) {
-					unassessedTab.refreshTile(unassessedElosArray);
-					poorTab.refreshTile(poorElosArray);
-					fairTab.refreshTile(fairElosArray);
-					goodTab.refreshTile(goodElosArray);
-					excellentTab.refreshTile(excellentElosArray);
-				}
+				refreshTimer = setInterval(refreshViewDisplay, 500);
 				
 			}
 
-			protected function unassessedTab_creationCompleteHandler(event:FlexEvent):void {
+			protected function refreshViewDisplay():void {
+				clearInterval(refreshTimer);
 				unassessedTab.refreshTile(unassessedElosArray);
 				poorTab.refreshTile(poorElosArray);
 				fairTab.refreshTile(fairElosArray);
 				goodTab.refreshTile(goodElosArray);
 				excellentTab.refreshTile(excellentElosArray);
-				builtFinished = true;
 			}
 
 		]]>
@@ -114,7 +113,7 @@
 		</s:BorderContainer>
 		<mx:Spacer height="5" />
 		<s:TabBar id="tabs" dataProvider="{tabsHolder}" width="100%" cornerRadius="0" color="#FFFFFF" skinClass="skins.CustomSparkTabBarSkin" />
-		<mx:ViewStack id="tabsHolder" width="100%" height="100%" borderStyle="solid" creationPolicy="all" borderColor="#999999" dropShadowVisible="true" creationComplete="unassessedTab_creationCompleteHandler(event)">
+		<mx:ViewStack id="tabsHolder" width="100%" height="100%" borderStyle="solid" creationPolicy="all" borderColor="#999999" dropShadowVisible="true">
 			<local:tabsHolderContentItem id="unassessedTab" label="{resourceManager.getString('resources', 'TAB_UNASSESSED') +' ('+unassessedElos+')'}" width="100%" height="100%"/>
 			<local:tabsHolderContentItem id="poorTab" label="{resourceManager.getString('resources', 'TAB_POOR') +' ('+poorElos+')'}" width="100%" height="100%" />
 			<local:tabsHolderContentItem id="fairTab" label="{resourceManager.getString('resources', 'TAB_FAIR') +' ('+fairElos+')'}"  width="100%" height="100%" />
