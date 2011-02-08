@@ -96,6 +96,7 @@ import eu.scy.common.configuration.Configuration;
 import javafx.scene.layout.Panel;
 import javafx.scene.control.Tooltip;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
+import java.net.URLEncoder;
 
 /**
  * @author sikkenj
@@ -349,7 +350,8 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
              action: function(): Void {
                  def conf:Configuration=Configuration.getInstance();
 //                 def feedbackURL = "{conf.getFeedbackProtocol()}://{conf.getFeedbackServer()}:{conf.getFeedbackPort()}{conf.getFeedbackContext()}FeedbackToolIndex.html?missionURL={missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri()}";
-                 def feedbackURL = "{conf.getFeedbackProtocol()}://{conf.getFeedbackServer()}:{conf.getFeedbackPort()}{conf.getFeedbackContext()}FeedbackToolIndex.html?eloURI={missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri()}";
+                 def eloUriEncoded = URLEncoder.encode(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString(),"UTF-8");
+                 def feedbackURL = "{conf.getFeedbackProtocol()}://{conf.getFeedbackServer()}:{conf.getFeedbackPort()}{conf.getFeedbackContext()}FeedbackToolIndex.html?eloURI={eloUriEncoded}";
                  try {
                     var basicService = javax.jnlp.ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
                     if (basicService != null) {
@@ -370,7 +372,8 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
              action: function(): Void {
                  def conf:Configuration=Configuration.getInstance();
 //                 def feedbackURL = "{conf.getFeedbackProtocol()}://{conf.getFeedbackServer()}:{conf.getFeedbackPort()}{conf.getFeedbackContext()}FeedbackToolIndex.html?missionURL={missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri()}";
-                 def feedbackURL = "{conf.getFeedbackProtocol()}://{conf.getFeedbackServer()}:{conf.getFeedbackPort()}{conf.getFeedbackContext()}FeedbackToolIndex.html?eloURI={missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri()}";
+                 def eloUriEncoded = URLEncoder.encode(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString(),"UTF-8");
+                 def feedbackURL = "{conf.getFeedbackProtocol()}://{conf.getFeedbackServer()}:{conf.getFeedbackPort()}{conf.getFeedbackContext()}FeedbackToolIndex.html?eloURI={eloUriEncoded}";
                  try {
                     var basicService = javax.jnlp.ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
                     if (basicService != null) {
@@ -390,8 +393,8 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
              //}
              action: function(): Void {
                  def conf:Configuration=Configuration.getInstance();
-                 def eportfolioURL = "{conf.getEportfolioProtocol()}://{conf.getEportfolioServer()}:{conf.getEportfolioPort()}{conf.getEportfolioContext()}loadPortfolio.html?missionURI={missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri()}";
-//                 javafx.stage.Alert.inform("This is button for opening e-portfolio tool. Artist is not yet finished icon for e-portfolio, so we use Google icon. E-portfolio tool is currently not ready (integration with Roolo is not yet finished). So we redirect you to www.google.com. Have a nice day!");
+                 def eloUriEncoded = URLEncoder.encode(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString(),"UTF-8");
+                 def eportfolioURL = "{conf.getEportfolioProtocol()}://{conf.getEportfolioServer()}:{conf.getEportfolioPort()}{conf.getEportfolioContext()}EPortfolioIndex.html?eloURI={eloUriEncoded}";
                  try {
                     var basicService = javax.jnlp.ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
                     if (basicService != null) {
