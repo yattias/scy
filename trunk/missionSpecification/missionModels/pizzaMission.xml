@@ -299,7 +299,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="myFirstHealthyPizza"/>
                <property name="uri" value="roolo://memory/30002/0/My+First+Healthy+Pizza+%28Pizza+2%29.scymodel"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_A.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
@@ -313,7 +313,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="healthPassport"/>
                <property name="uri" value="roolo://memory/30011/0/Health+Passport.scydraw"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
@@ -327,7 +327,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="foodAndExercideDiary"/>
                <property name="uri" value="roolo://memory/30004/0/Food+And+Exercise+Diary.scypds"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
@@ -341,7 +341,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="dailyCalorieIntake"/>
                <property name="uri" value="roolo://memory/30005/0/Daily+Calorie+Intake.scypds"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
@@ -355,7 +355,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="estimatedEnergyRequirements"/>
                <property name="uri" value="roolo://memory/30008/0/Estimated+Energy+Requirements+%28Health+Passport%29.scypds"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
@@ -369,7 +369,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="questionsAboutPizzaBenefits"/>
                <property name="uri" value="roolo://memory/30013/0/Questions+About+Pizza+Benefits.rtf"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_C.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
@@ -385,7 +385,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="notesOnUnhealthyDiet"/>
                <property name="uri" value="roolo://memory/30012/0/Notes+On+Unhealthy+Diet.rtf"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_C.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part1_ELO2.html"/>
                <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
@@ -399,7 +399,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="nutrientAndEnergyCalculations"/>
                <property name="uri" value="roolo://memory/30015/0/Nutrient+And+Energy+Calculations.scymodel"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_D.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
@@ -413,7 +413,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="nutritionTable"/>
                <property name="uri" value="roolo://memory/30014/0/Nutrition+Table.scypds"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_D.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
@@ -427,7 +427,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="pizzaIngredientTable"/>
                <property name="uri" value="roolo://memory/30016/0/Pizza+Ingredient+Table.scypds"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_D.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
@@ -441,7 +441,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="constructionOfTheFoodPyramid"/>
                <property name="uri" value="roolo://memory/30018/0/Construction+Of+The+Food+Pyramid.scymodel"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_E.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
@@ -455,7 +455,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="questionsAboutTheFoodPyramid"/>
                <property name="uri" value="roolo://memory/30017/0/Questions+About+The+Food+Pyramid.rtf"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_E.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
@@ -469,7 +469,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="energyFactSheet"/>
                <property name="uri" value="roolo://memory/30019/0/Energy+Fact+Sheet.scymapping"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_F.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
@@ -483,7 +483,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="mapOfTheDigestiveSystem"/>
                <property name="uri" value="roolo://memory/30020/0/Map+Of+The+Digestive+System.scydraw"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_G.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
@@ -497,7 +497,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="factSheetOfOneOrgan"/>
                <property name="uri" value="roolo://memory/30021/0/Fact+Sheet+Of+One+Organ.rtf"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_G.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
@@ -511,7 +511,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="personalComments"/>
                <property name="uri" value="roolo://memory/30022/0/Personal+Comments.rtf"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_H.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
@@ -526,7 +526,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="methodologySteps"/>
                <property name="uri" value="roolo://memory/30023/0/Methodology+Steps.scyxproc"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_I.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
@@ -540,7 +540,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="reflectionOnImportanceOfCriteria"/>
                <property name="uri" value="roolo://memory/30024/0/Reflection+On+Importance+Of+Criteria.rtf"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_I.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
@@ -554,7 +554,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="criteriaTable"/>
                <property name="uri" value="roolo://memory/30038/0/Criteria+Table.scypds"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_I.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
@@ -568,7 +568,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="criteriaWeightTable"/>
                <property name="uri" value="roolo://memory/30039/0/Criteria+Weight+Table.scypds"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_I.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
@@ -582,7 +582,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="criteriaFinalTable"/>
                <property name="uri" value="roolo://memory/30040/0/Criteria+Final+Table.scypds"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_I.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
@@ -596,7 +596,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="individualReport"/>
                <property name="uri" value="roolo://memory/30041/0/Individual+Report.rtf"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_J.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
@@ -610,7 +610,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="groupReport"/>
                <property name="uri" value="roolo://memory/30042/0/Group+Report.rtf"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_J.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
@@ -624,7 +624,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="tasteScores"/>
                <property name="uri" value="roolo://memory/30043/0/Taste+Scores.scypds"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_J.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
@@ -638,7 +638,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="letterToSchoolCanteen"/>
                <property name="uri" value="roolo://memory/30044/0/Letter+To+School+Canteen.rtf"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_J.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
                <property name="inputMissionAnchorIds">
