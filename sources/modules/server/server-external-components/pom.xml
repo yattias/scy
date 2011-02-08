@@ -9,7 +9,10 @@
 	<groupId>eu.scy.server</groupId>
 	<artifactId>server-external-components</artifactId>
 	<packaging>war</packaging>
+
+	<!-- dear Lars, please don't remove this line again ;) -->
 	<version>${parent.version}${version-name}</version>
+
 	<name>server-external-components</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
