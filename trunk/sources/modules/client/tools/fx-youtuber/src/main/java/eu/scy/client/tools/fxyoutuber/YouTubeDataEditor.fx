@@ -16,7 +16,6 @@ import com.javafx.preview.layout.GridRow;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.geometry.HPos;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -167,9 +166,7 @@ public class YouTubeDataEditor extends CustomNode {
 
     function validateAndInsertData():Void {
             if(ytID.equalsIgnoreCase("")) {
-                //JOptionPane.showMessageDialog(null, "Please enter a valid Youtube URL or ID.");
-                DialogBox.showMessageDialog("Please enter a valid Youtube URL or ID.","Error", ytNode.scyWindow.windowManager.scyDesktop , function(){});
-
+                DialogBox.showMessageDialog("Please enter a valid Youtube URL or ID.","Error", ytNode.scyDesktop , function(){});
                 return;
             }
             var myYtID = YouTubeSplitter.split(ytID);

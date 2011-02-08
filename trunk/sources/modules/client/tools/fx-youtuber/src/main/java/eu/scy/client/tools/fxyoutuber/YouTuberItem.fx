@@ -52,7 +52,7 @@ public class YouTuberItem extends CustomNode {
     var titleText:Text = Text {
         content: bind title;
         font: ytNode.titleFont;
-        wrappingWidth: bind ytNode.scyWindow.width - 265;
+        wrappingWidth: bind ytNode.width - 265;
         /*
         layoutInfo: LayoutInfo {
             maxWidth: bind ytNode.scyWindow.width - 200;
@@ -62,7 +62,7 @@ public class YouTuberItem extends CustomNode {
 
     var textText:Text = Text {
         content: bind text;
-        wrappingWidth: bind ytNode.scyWindow.width - 55;
+        wrappingWidth: bind ytNode.width - 55;
         font: ytNode.textFont;
     }
 
@@ -100,7 +100,7 @@ public class YouTuberItem extends CustomNode {
 
     var backgroundRectangle:Rectangle = Rectangle {
         height: bind content.layoutBounds.height+20;
-        width: bind ytNode.scyWindow.width - 30;
+        width: bind ytNode.width - 30;
         fill: Color.WHITE;
         //arcWidth: 8;
         //arcHeight: 8;
