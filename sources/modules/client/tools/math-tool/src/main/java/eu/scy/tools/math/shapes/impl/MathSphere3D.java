@@ -64,8 +64,9 @@ public class MathSphere3D extends Math3DShape implements IMathSphere3D {
 		radiusTextField = new JXTextField();
 		getRadiusTextField().setColumns(TEXTFIELD_LENGTH);
 		
-		labelPanel.add(getRadiusTextField(),"wrap");
-		
+		labelPanel.add(getRadiusTextField());
+		labelPanel.add(new JXLabel(UIUtils.unitsGeneral),"wrap");
+
 		setupCommonInputs();
 		
 		addButtonPanel();

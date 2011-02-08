@@ -83,6 +83,10 @@ public class UIUtils {
 	public static Dimension frameDimension;
 	public static Color NONSHAPE_SHAPE_COLOR = Color.white;
 	
+	public static String unitsVolume = "<html><body>m<sup>3</sup><html><body>";
+	public static String unitsGeneral = "<html><body>m<html><body>";
+	public static String unitsSurfaceArea = "<html><body>m<sup>2</sup><html><body>";
+	
 	private static String startTags = "<html><body>";
 	
 	private static String endTags = "</body></html>";
