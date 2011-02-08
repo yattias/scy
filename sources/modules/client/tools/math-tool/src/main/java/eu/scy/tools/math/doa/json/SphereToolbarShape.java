@@ -23,6 +23,16 @@ public class SphereToolbarShape extends ToolbarShape implements
 	}
 
 	@Override
+	public String getRadiusMinValue() {
+		return this.radiusMinValue;
+	}
+	
+	@Override 
+	public String getRadiusMaxValue() {
+		return this.radiusMaxValue;
+	}
+	
+	@Override
 	public void setRadiusMaxValue(String radiusMaxValue) {
 		this.radiusMaxValue = radiusMaxValue;
 	}

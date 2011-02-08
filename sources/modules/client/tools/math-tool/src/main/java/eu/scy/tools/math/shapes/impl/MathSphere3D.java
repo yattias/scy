@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberRange;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
@@ -21,7 +22,6 @@ public class MathSphere3D extends Math3DShape implements IMathSphere3D {
 
 	private JXTextField radiusTextField;
 	private JXLabel radiusLabel;
-	private ISphereToolbarShape shape;
 	private JXLabel iconLabel;
 
 	public MathSphere3D(int x, int y) {
@@ -105,10 +105,25 @@ public class MathSphere3D extends Math3DShape implements IMathSphere3D {
 		
 		}
 		
+	
 		
 		if(checkForError == true) {
 			setError(true);
 			errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
+			return getError();
+		}
+		
+		if( radiusStripped != null ) {
+			NumberRange radiusRange = new NumberRange(new Double(((ISphereToolbarShape) shape).getRadiusMinValue()), new Double(((ISphereToolbarShape) shape).getRadiusMaxValue()));
+			
+			boolean containsRadius = radiusRange.containsDouble(new Double(radiusStripped));
+			
+			if( !containsRadius ) {
+				getRadiusTextField().setBackground(UIUtils.ERROR_SHAPE_COLOR);
+				errorLabel.setText(WRONG_VALUE);
+				errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
+				setError(true);
+			}
 		}
 		
 		return getError();

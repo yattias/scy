@@ -10,4 +10,8 @@ public interface ISphereToolbarShape extends IToolbarShape {
 
 	public void setRadiusMaxValue(String radiusMaxValue);
 
+	public String getRadiusMinValue();
+
+	public String getRadiusMaxValue();
+
 }

@@ -28,6 +28,9 @@ public class JSONExample {
 
 	
 
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		
 		ArrayList<IMathToolbarShape> l = new ArrayList<IMathToolbarShape>();
@@ -42,10 +45,10 @@ public class JSONExample {
 		  prism.setVolume("100.0");
 		  prism.setHeight("5.0");
 		  prism.setWidth("5.0");
-		  prism.setLength("4.0");
-		  prism.setSurfaceArea("130.0");
-		  prism.setSurfaceAreaMinValue("130.0");
-		  prism.setSurfaceAreaMaxValue("130.0");
+		  prism.setLength("4");
+		  prism.setSurfaceArea("130");
+		  prism.setSurfaceAreaMinValue("130");
+		  prism.setSurfaceAreaMaxValue("130");
 		  prism.setSurfaceAreaRatio("1.3");
 		  prism.setSurfaceAreaRatioMinValue("1.3");
 		  prism.setSurfaceAreaRatioMaxValue("1.3");
@@ -61,10 +64,10 @@ public class JSONExample {
 		  prism.setVolume("200.0");
 		  prism.setHeight("5.0");
 		  prism.setWidth("5.0");
-		  prism.setLength("8.0");
-		  prism.setSurfaceArea("210.0");
-		  prism.setSurfaceAreaMinValue("210.0");
-		  prism.setSurfaceAreaMaxValue("210.0");
+		  prism.setLength("8");
+		  prism.setSurfaceArea("210");
+		  prism.setSurfaceAreaMinValue("210");
+		  prism.setSurfaceAreaMaxValue("210");
 		  prism.setSurfaceAreaRatio("1.05");
 		  prism.setSurfaceAreaRatioMinValue("1.05");
 		  prism.setSurfaceAreaRatioMaxValue("1.05");
