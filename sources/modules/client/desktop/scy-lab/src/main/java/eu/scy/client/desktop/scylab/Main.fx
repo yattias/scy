@@ -158,7 +158,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(RichTextEditorContentCreatorFX{},scyRichTextId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ImageViewerCreator{}, scyImageId);
    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(FormAuthorContentCreator {}, scyFormAuthorId);
-   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(YouTuberContentCreator {}, scyYouTuberID);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(YouTuberContentCreator {}, scyYouTuberID);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new SpeedTestPanelCreator(), speedTestPanelId);
 
