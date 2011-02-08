@@ -1,8 +1,3 @@
-/*
- * DrawingToolCreatorFX.fx
- *
- * Created on 13-jan-2010, 14:12:17
- */
 package eu.scy.client.tools.fxsocialtaggingtool.registration;
 
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
@@ -19,7 +14,6 @@ import javafx.scene.control.ListView;
 public class SocialTaggingToolCreatorFX extends ScyToolCreatorFX {
 
    override public function createScyToolNode(eloType: String, creatorId: String, scyWindow: ScyWindow, windowContent: Boolean): Node {
-      StringLocalizer.associate("languages.fxdrawingtool", "eu.scy.client.tools.fxdrawingtool");
       scyWindow.desiredContentWidth = 310;
       scyWindow.desiredContentHeight = 200;
       var whiteboardPanel = new WhiteboardPanel();
