@@ -399,17 +399,18 @@ public class Calculator extends JXPanel {
 		buttonPanel.add(widthButton);
 		buttonPanel.add(heightButton,"wrap");
 		
-		buttonPanel.add(nineButton);
-		buttonPanel.add(eightButton);
-		buttonPanel.add(sevenButton);
+		buttonPanel.add(fiveButton);
 		buttonPanel.add(sixButton); 
-		buttonPanel.add(fiveButton,"wrap");
+		buttonPanel.add(sevenButton);
+		buttonPanel.add(eightButton);
+		buttonPanel.add(nineButton,"wrap");
 		
-		buttonPanel.add(fourButton);
-		buttonPanel.add(threeButton);
-		buttonPanel.add(twoButton);
+		buttonPanel.add(zeroButton);
 		buttonPanel.add(oneButton);
-		buttonPanel.add(zeroButton, "wrap");
+		buttonPanel.add(twoButton);
+		buttonPanel.add(threeButton);
+		buttonPanel.add(fourButton,"wrap");
+		
 		
 		buttonPanel.add(pointButton);
 //		eb.addActionListener(new ActionListener() {
