@@ -10,8 +10,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,17 +31,13 @@ import org.jdesktop.swingx.painter.Painter;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
-import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
 
 import eu.scy.tools.math.doa.json.CircleToolbarShape;
 import eu.scy.tools.math.doa.json.CylinderToolbarShape;
-import eu.scy.tools.math.doa.json.IRectanglarPrismToolbarShape;
-import eu.scy.tools.math.doa.json.IToolbarShape;
 import eu.scy.tools.math.doa.json.MathToolbarShape;
 import eu.scy.tools.math.doa.json.RectanglarPrismToolbarShape;
 import eu.scy.tools.math.doa.json.RectangleToolbarShape;
 import eu.scy.tools.math.doa.json.SphereToolbarShape;
-import eu.scy.tools.math.doa.json.ToolbarShape;
 import eu.scy.tools.math.doa.json.TriangleToolbarShape;
 import eu.scy.tools.math.ui.paint.Colors;
 import eu.scy.tools.math.ui.paint.RoundedBorder;
@@ -89,17 +89,17 @@ public class UIUtils {
 	
 	public static String notationHtml = "<b>Notation Guide:</b><br>"+
 	"<br>" +
-	"<p>operators: 2*(h+2)+(1/2)" +
-	"<p>cube root: cbrt(r+1)" +
-	"<p>square root: sqrt(r+1)" +
-	"<p>powers : r^2" +
+	"<p>Operators: 2*(h+2)+(1/2)" +
+	"<p>Cube root: cbrt(r+1)" +
+	"<p>Square root: sqrt(r+1)" +
+	"<p>Powers : r^2" +
 	"<br><br>" +
-	"<i>example: -5-6/(-2)^2 + sqrt(15+r)</i>" +
-	"<br><br><p><b>Hint:</b> Inorder to use a variable(r,w,h) a shape must be selected";
+	"<i>Example: -5-6/(-2)^2 + sqrt(15+r)</i>" +
+	"<br><br><p><b>Hint:</b> Inorder to use a variable (r, w, h) a shape must be selected.";
 
 	
 	public static String invalidExpressionErrorMessage = startTags +
-														"Formula was invaild check its notation.<br><br>" +
+														"Formula was invaild. Please check its notation.<br><br>" +
 														notationHtml + endTags;
 														
 	public static String notationHelpMessage = startTags + notationHtml +
@@ -112,10 +112,10 @@ public class UIUtils {
 						
 	
 	public static List getShapeList() {
-		URL resource = UIUtils.class.getResource(JSON_CONFIG);
+		InputStream resource = UIUtils.class.getResourceAsStream(JSON_CONFIG);
 		
 		try {
-			String json = readFileAsString(new File(resource.toURI()));
+			String json = convertStreamToString(resource);
 			
 	        XStream xstream = new XStream(new JettisonMappedXmlDriver());
 	        xstream.alias("MathToolbarShape",
@@ -131,10 +131,51 @@ public class UIUtils {
 			
 		} catch (IOException e) {
 			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static String convertStreamToString(InputStream is) throws IOException {
+
+		/*
+		 * To convert the InputStream to String we use the Reader.read(char[]
+		 * buffer) method. We iterate until the Reader return -1 which means
+		 * there's no more data to read. We use the StringWriter class to
+		 * produce the string.
+		 */
+		if (is != null) {
+			Writer writer = new StringWriter();
+
+			char[] buffer = new char[1024];
+
+			try {
+
+				Reader reader = new BufferedReader(
+
+				new InputStreamReader(is, "UTF-8"));
+
+				int n;
+
+				while ((n = reader.read(buffer)) != -1) {
+
+					writer.write(buffer, 0, n);
+
+				}
+
+			} finally {
+
+				is.close();
+
+			}
+
+			return writer.toString();
+
+		} else {
+
+			return "";
+
+		}
+
 	}
 	
     private static String readFileAsString(File file)
