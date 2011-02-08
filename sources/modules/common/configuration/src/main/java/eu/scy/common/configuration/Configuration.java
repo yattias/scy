@@ -89,7 +89,7 @@ public class Configuration {
         props.setProperty("eportfolio.protocol", "http");
         props.setProperty("eportfolio.server", "scy.collide.info");
         props.setProperty("eportfolio.port", "8080");
-        props.setProperty("eportfolio.context", "/webapp/app/eportfolio/xml/");
+        props.setProperty("eportfolio.context", "/webapp/app/eportfolio/");
         props.setProperty("feedback.protocol", "http");
         props.setProperty("feedback.server", "scy.collide.info");
         props.setProperty("feedback.port", "8080");
