@@ -8,6 +8,7 @@
     <quality><![CDATA[-]]></quality>
     <feedbacks>
         <feedback>
+            <uri><![CDATA[12]]></uri>
             <createdby><![CDATA[Vibeke]]></createdby>
             <createdbypicture></createdbypicture>
             <calendardate><![CDATA[06/01/2011]]></calendardate>
@@ -24,6 +25,7 @@
             </replies>
         </feedback>
         <feedback>
+            <uri><![CDATA[34]]></uri>
             <createdby><![CDATA[Barbara]]></createdby>
             <createdbypicture></createdbypicture>
             <calendardate><![CDATA[02/01/2011]]></calendardate>
@@ -32,6 +34,7 @@
             <replies />
         </feedback>
         <feedback>
+            <uri><![CDATA[45]]></uri>
             <createdby><![CDATA[Henrik]]></createdby>
             <createdbypicture></createdbypicture>
             <calendardate><![CDATA[01/01/2011]]></calendardate>

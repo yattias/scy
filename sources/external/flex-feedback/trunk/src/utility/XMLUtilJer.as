@@ -175,5 +175,47 @@ package utility
 			s = s.replace(myPattern, "");
 			return s;
 		}
+		
+		public static function getFeedBackXML(dic:Dictionary):XML {
+			var my_date:Date = new Date();
+			var XMLfeed:XML = <feedback />;
+			XMLfeed.createdby = <createdby>{cdata(dic["author"])}</createdby>;
+			XMLfeed.createdbypicture = <createdbypicture />;
+			XMLfeed.calendardate = <calendardate>{cdata(getFormattedDate(my_date))}</calendardate>;
+			XMLfeed.calendartime = <calendartime>{cdata(getFormattedTime(my_date))}</calendartime>;
+			XMLfeed.comment = <comment>{cdata(dic["comment"])}</comment>;
+			XMLfeed.replies = <replies />;
+			
+			return XMLfeed;
+		}
+		
+		public static function getReplyFeedBackXML(dic:Dictionary):XML {
+			var my_date:Date = new Date();
+			var XMLfeed:XML = <reply />;
+			XMLfeed.createdby = <createdby>{cdata(dic["author"])}</createdby>;
+			XMLfeed.createdbypicture = <createdbypicture />;
+			XMLfeed.calendardate = <calendardate>{cdata(getFormattedDate(my_date))}</calendardate>;
+			XMLfeed.calendartime = <calendartime>{cdata(getFormattedTime(my_date))}</calendartime>;
+			XMLfeed.comment = <comment>{cdata(dic["comment"])}</comment>;
+			
+			return XMLfeed;
+		}
+		
+		private static function getFormattedDate(my_date:Date):String {
+			return getFullDigit(my_date.date.toString()) + "/" + getFullDigit((my_date.month+1).toString()) + "/" + getFullDigit(my_date.fullYear.toString());
+		}
+		
+		private static function getFormattedTime(my_date:Date):String {
+			return getFullDigit(my_date.hours.toString()) + ":" + getFullDigit(my_date.minutes.toString()) + ":" + getFullDigit(my_date.seconds.toString());
+		}
+		
+		private static function getFullDigit(s:String):String {
+			if(s.length == 1) {
+				return "0"+s;
+			}
+			else {
+				return s;
+			}
+		}
 	}
 }

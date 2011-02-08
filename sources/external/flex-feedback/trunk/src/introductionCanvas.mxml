@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		   xmlns:s="library://ns.adobe.com/flex/spark" 
-		   xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:local="*" creationComplete="navigatorcontent1_creationCompleteHandler(event)">
+		   xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:local="*">
 	
 	<fx:Script>
 		<![CDATA[
@@ -10,7 +10,6 @@
 			import mx.events.FlexEvent;
 			import mx.events.IndexChangedEvent;
 			
-			[Bindable] private var uName:String = "";
 			private var currentlySelectedTab:Number = 0;
 			
 			protected function clickHandler(dir:String, stack:Number):void {
@@ -20,10 +19,6 @@
 				dispatchEvent(tEvent);
 			}
 
-			protected function navigatorcontent1_creationCompleteHandler(event:FlexEvent):void {
-				uName = retrieveUserInfos();
-			}
-			
 			private function retrieveUserInfos():String {
 				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 				var userInfo:Object = so.data.userInfo;
@@ -75,7 +70,7 @@
 				</s:backgroundFill>
 				
 				<s:HGroup width="100%" height="100%" horizontalAlign="center" verticalAlign="middle">
-					<s:Label id="headerText" width="60%" color="{index.BACK_GRADIENT_BOT}" fontSize="15" textAlign="center" text="{uName+' '+resourceManager.getString('resources', 'HELLO')}" />
+					<s:Label id="headerText" width="60%" color="{index.BACK_GRADIENT_BOT}" fontSize="15" textAlign="center" text="{resourceManager.getString('resources', 'HELLO')}" />
 				</s:HGroup>
 			</s:BorderContainer>	
 		</s:HGroup>

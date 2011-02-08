@@ -5,6 +5,12 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import mx.core.FlexGlobals;
+			import mx.events.ValidationResultEvent;
+			
+			import utility.XMLUtilJer;
+			[Bindable] public var feedbackURI:String;
+			[Bindable] public var uri:String;
 			[Bindable] public var author:String;
 			[Bindable] public var postTime:String;
 			[Bindable] public var postContent:String;
@@ -28,11 +34,26 @@
 			}
 
 			protected function button1_clickHandler(event:MouseEvent):void {
-				// TODO Auto-generated method stub
+				var feedValidation:ValidationResultEvent = validateFeedback.validate();
+				
+				if (feedValidation.type == ValidationResultEvent.VALID) {
+					var dico:Dictionary = new Dictionary();
+					dico["author"] = FlexGlobals.topLevelApplication.parameters.username;
+					dico["comment"] = replyArea.text;
+					
+					trace(XMLUtilJer.getReplyFeedBackXML(dico));
+					//new AutoSaveService(so.data.savereplyfeedback+"?replyfeedbackURI="+uri+"&feedbackURI="+feedbackURI+"&xmlContent="+encodeURI(XMLUtilJer.getReplyFeedBackXML(dico)));	
+				}
 			}
 
  		]]>
 	</fx:Script>
+	
+	<fx:Declarations>
+		<mx:StringValidator id="validateFeedback" source="{replyArea}" property="text" triggerEvent=""
+							minLength="5" tooShortError="{resourceManager.getString('resources', 'VALIDATOR_TOO_SHORT_ERROR')}"
+							requiredFieldError="{resourceManager.getString('resources', 'REQUIRED_FEEDBACK_ERROR')}"/>
+	</fx:Declarations>
 	
 	<s:states>
 		<s:State name="viewState" />

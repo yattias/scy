@@ -214,6 +214,8 @@
 				toolURLProvider = event.result as XML;
 				
 				so.data.saveportfolio = new String(toolURLProvider.saveportfolio);
+				//so.data.savefeedback = so.data.savefeedback;
+				//so.data.savereplyfeedback = so.data.savereplyfeedback;
 				so.data.actionlogger = new String(toolURLProvider.actionlogger);
 				so.data.newestelosfeedbackservice = new String(toolURLProvider.newestelosfeedbackservice);
 				so.data.myelosfeedbackservice = new String(toolURLProvider.myelosfeedbackservice);
