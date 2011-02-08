@@ -11,8 +11,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>scy-lab</artifactId>
 	<name>scy-lab</name>
-	<!--<packaging>jar</packaging>-->
-	<!--<version>${parent.version}${version-name}</version>-->
+	
+	<!-- dear Lars, please don't remove this line again ;) -->
+	<version>${parent.version}${version-name}</version>
 	
 	<licenses>
 		<license>

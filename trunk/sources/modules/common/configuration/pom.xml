@@ -3,7 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>eu.scy.common</groupId>
     <artifactId>configuration</artifactId>
-    <version>31-SNAPSHOT</version>
+    
+    <!-- dear Lars, please don't remove this line again ;) -->
+    <version>31-SNAPSHOT${version-name}</version>
     <name>Configuration</name>
     <packaging>jar</packaging>
 
@@ -199,7 +201,7 @@
         <profile>
             <id>UT</id>
             <properties>
-            	<version-name></version-name>
+            	<version-name>-ut</version-name>
                 <serverfilter.db.username>root</serverfilter.db.username>
                 <serverfilter.db.password>root</serverfilter.db.password>
                 <serverfilter.db.url>java:comp/env/jdbc/scy</serverfilter.db.url>
