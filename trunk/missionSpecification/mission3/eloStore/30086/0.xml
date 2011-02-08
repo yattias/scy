@@ -9,22 +9,22 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-02-08T16:17:22.234+0100</dateTime>
+          <dateTime>2011-02-08T16:36:46.625+0100</dateTime>
         </date>
       </contribute>
       <version>0</version>
     </lifecycle>
     <technical>
       <customElements>
-        <dateCreated>1297178242234</dateCreated>
-        <dateLastModified>1297178242234</dateLastModified>
+        <dateCreated>1297179406625</dateCreated>
+        <dateLastModified>1297179406625</dateLastModified>
       </customElements>
       <format>scy/elotoolconfiguration</format>
     </technical>
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/30081/0/pizzaMission.scyelotoolconfiguration</entry>
+        <entry>roolo://memory/30086/0/pizzaMission.scyelotoolconfiguration</entry>
       </identifier>
       <las />
       <title>
