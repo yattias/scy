@@ -100,13 +100,13 @@ public class AgentFrameworkComponent implements IExternalComponent, ApplicationC
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        log.info("INITIALIZING AGENT DATABASE. CHECKING FOR UNREGISTERED AGENTS!!");
-        AgentService agentService = (AgentService) applicationContext.getBean("agentService");
-        Iterator it = initialAgents.iterator();
-        while(it.hasNext()) {
-            AgentStartConfiguration component = (AgentStartConfiguration) it.next();
-            agentService.registerAgent(component.getClassName());
-        }
+        // log.info("INITIALIZING AGENT DATABASE. CHECKING FOR UNREGISTERED AGENTS!!");
+        // AgentService agentService = (AgentService) applicationContext.getBean("agentService");
+        // Iterator it = initialAgents.iterator();
+        // while(it.hasNext()) {
+        //     AgentStartConfiguration component = (AgentStartConfiguration) it.next();
+        //     agentService.registerAgent(component.getClassName());
+        // }
     }
 
     @Override
