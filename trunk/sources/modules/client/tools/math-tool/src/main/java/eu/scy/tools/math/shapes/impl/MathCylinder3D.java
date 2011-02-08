@@ -11,11 +11,13 @@ import javax.swing.ImageIcon;
 import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberRange;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
 
 import eu.scy.tools.math.doa.json.ICylinderToolbarShape;
+import eu.scy.tools.math.doa.json.ISphereToolbarShape;
 import eu.scy.tools.math.shapes.IMathCylinder3D;
 import eu.scy.tools.math.ui.UIUtils;
 import eu.scy.tools.math.ui.images.Images;
@@ -26,7 +28,7 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 	private JXLabel radiusLabel;
 	private Component heightLabel;
 	private JXLabel heightValueLabel;
-	private ICylinderToolbarShape shape;
+	
 	private JXLabel iconLabel;
 
 
@@ -43,7 +45,7 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 		super(x,y);
 		this.shape = shape;
 		this.getVolumeValueLabel().setText(this.shape.getVolume());
-		this.getHeightValueLabel().setText(this.shape.getHeight());
+		this.getHeightValueLabel().setText(((ICylinderToolbarShape) this.shape).getHeight());
 		this.getIconLabel().setIcon(Images.getIcon(this.shape.getCanvasIcon()));
 	}
 
@@ -105,16 +107,16 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 		boolean checkForError = super.checkForError();
 		
 		String radius = getRadiusTextField().getText();
-		String radiusStrip = StringUtils.stripToNull(radius);
+		String radiusStripped = StringUtils.stripToNull(radius);
 		
-		if( radiusStrip == null || StringUtils.isAlpha(radiusStrip) ) {
+		if( radiusStripped == null || StringUtils.isAlpha(radiusStripped) ) {
 			getRadiusTextField().setBackground(UIUtils.ERROR_SHAPE_COLOR);
 			errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
 			setError(true);
 		} else {
 			
 			try {
-				Double.parseDouble(radiusStrip);
+				Double.parseDouble(radiusStripped);
 				getRadiusTextField().setBackground(UIUtils.NONSHAPE_SHAPE_COLOR);
 				errorLabel.setForeground(UIUtils.NONSHAPE_SHAPE_COLOR);
 				setError(false);
@@ -126,13 +128,28 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 			
 		}
 		
-		
+		if( radiusStripped != null ) {
+			NumberRange radiusRange = new NumberRange(new Double(((ICylinderToolbarShape) shape).getRadiusMinValue()), new Double(((ICylinderToolbarShape) shape).getRadiusMaxValue()));
+			
+			boolean containsRadius = radiusRange.containsDouble(new Double(radiusStripped));
+			
+			if( !containsRadius ) {
+				getRadiusTextField().setBackground(UIUtils.ERROR_SHAPE_COLOR);
+				errorLabel.setText(WRONG_VALUE);
+				errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
+				setError(true);
+			}
+		}
 		
 		
 		if(checkForError == true) {
 			setError(true);
 			errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
+			return getError();
 		}
+		
+	
+		
 		
 		return getError();
 	}

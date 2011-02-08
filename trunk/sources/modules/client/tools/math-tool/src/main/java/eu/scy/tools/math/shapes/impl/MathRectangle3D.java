@@ -27,7 +27,6 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 	protected JXLabel widthLabel;
 	private JXLabel heightValueLabel;
 	private JXLabel widthValueLabel;
-	private  IRectanglarPrismToolbarShape shape;
 	private JXLabel iconLabel;
 
 
@@ -46,10 +45,9 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 		this.shape = shape;
 		
 		getVolumeValueLabel().setText(this.shape.getVolume());
-		heightValueLabel.setText(this.shape.getHeight());
-		widthValueLabel.setText(this.shape.getWidth());
+		heightValueLabel.setText(((IRectanglarPrismToolbarShape) this.shape).getHeight());
+		widthValueLabel.setText(((IRectanglarPrismToolbarShape) this.shape).getWidth());
 		iconLabel.setIcon(Images.getIcon(this.shape.getCanvasIcon()));
-		// TODO Auto-generated constructor stub
 	}
 
 	protected void init() {
@@ -115,6 +113,7 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 		
 		if( lenghtStripped == null || StringUtils.isAlpha(lenghtStripped) ) {
 			getLengthTextField().setBackground(UIUtils.ERROR_SHAPE_COLOR);
+			errorLabel.setText(NEEDS_A_NUMBER);
 			errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
 			setError(true);
 		} else {
@@ -126,15 +125,30 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 				setError(false);
 			} catch (NumberFormatException e) {
 				getLengthTextField().setBackground(UIUtils.ERROR_SHAPE_COLOR);
+				errorLabel.setText(NEEDS_A_NUMBER);
 				errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
 				setError(true);
 			}
 		}
 		
+		if( lenghtStripped != null && !lenghtStripped.equals(((IRectanglarPrismToolbarShape) shape).getLength())) {
+			getLengthTextField().setBackground(UIUtils.ERROR_SHAPE_COLOR);
+			errorLabel.setText(WRONG_VALUE);
+			errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
+			setError(true);
+		}
+		
+		
 		if(checkForError == true) {
 			setError(true);
 			errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
+			return getError();
 		}
+		
+		
+		
+	
+		
 		return getError();
 	}
 
@@ -144,7 +158,7 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 
 	@Override
 	public String getType() {
-		return "Rectangle";
+		return "Rectanglar Prism";
 	}
 
 	@Override

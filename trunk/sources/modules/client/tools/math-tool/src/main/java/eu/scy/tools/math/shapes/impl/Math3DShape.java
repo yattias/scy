@@ -20,11 +20,14 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberRange;
 import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
 
+import eu.scy.tools.math.doa.json.ICylinderToolbarShape;
+import eu.scy.tools.math.doa.json.IToolbarShape;
 import eu.scy.tools.math.shapes.I3D;
 import eu.scy.tools.math.shapes.IMathShape;
 import eu.scy.tools.math.ui.UIUtils;
@@ -34,6 +37,9 @@ import eu.scy.tools.math.ui.border.DashBorder;
 public class Math3DShape extends JXPanel implements IMathShape, I3D{
 
 
+	protected static final String NEEDS_A_NUMBER = "Needs a Number.";
+	protected static final String WRONG_VALUE = "Incorrect Calculation.";
+	
 	protected String oldResult;
 	
 	protected static final int TEXTFIELD_LENGTH = 4;
@@ -51,6 +57,7 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 	private List<Action> shapeListeners = new ArrayList<Action>();
 	private boolean showCornerPoints;
 	private String formula;
+	protected IToolbarShape shape;
 	
 	
 	public Math3DShape(int x, int y) {
@@ -98,7 +105,7 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 	protected void addButtonPanel() {
 		JXPanel buttonPanel = new JXPanel(new GridLayout(2,1, 1,1));
 //		buttonPanel.setBackground(Color.yellow);
-		errorLabel = new JXLabel("Needs a Number.");
+		errorLabel = new JXLabel(NEEDS_A_NUMBER);
 		errorLabel.setForeground(UIUtils.NONSHAPE_SHAPE_COLOR);
 		addButton = new JXButton("Add");
 		addButton.setEnabled(false);
@@ -140,7 +147,7 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 				
 			}
 			
-		
+			
 			
 			String ratio = getRatioTextField().getText();
 			
@@ -171,6 +178,28 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 				setError(false);
 			}
 			
+			if( surfaceAreaStripped != null) {
+				
+				NumberRange saRange = new NumberRange(new Double(shape.getSurfaceAreaMinValue()), new Double(shape.getSurfaceAreaMaxValue()));
+				if( !saRange.containsNumber(new Double(surfaceAreaStripped))) {
+					getSurfaceAreaTextField().setBackground(UIUtils.ERROR_SHAPE_COLOR);
+					errorLabel.setText(WRONG_VALUE);
+					errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
+					setError(true);
+				}
+			}
+			
+		
+			if( ratioStripped != null ) {
+				NumberRange raRange = new NumberRange(new Double(shape.getSurfaceAreaRatioMinValue()), new Double(shape.getSurfaceAreaRatioMaxValue()));
+				if( !raRange.containsNumber(new Double(ratioStripped))) {
+					getRatioTextField().setBackground(UIUtils.ERROR_SHAPE_COLOR);
+					errorLabel.setText(WRONG_VALUE);
+					errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
+					setError(true);
+				}
+			}
+	
 			return getError();
 			
 		}
