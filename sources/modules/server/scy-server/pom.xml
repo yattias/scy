@@ -184,6 +184,12 @@
                 <version-name>-review</version-name>
             </properties>
         </profile>
+        <profile>
+            <id>UT</id>
+            <properties>
+                <version-name>-ut</version-name>
+            </properties>
+        </profile>
     </profiles>
     <dependencyManagement>
         <dependencies>
