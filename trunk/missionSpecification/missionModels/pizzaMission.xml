@@ -682,6 +682,20 @@
             </bean>
 
 			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="heartRate"/>
+               <property name="uri" value="roolo://memory/30078/0/Heart+Rate+%28Health+Passport%29.rtf"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_19_heartRate.html"/>
+               <property name="resourcesUri" value=""/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+			
+			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="bodyMassIndex"/>
                <property name="uri" value="roolo://memory/30077/0/Body+Mass+Index+%28Health+Passport%29.rtf"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt"/>
@@ -695,19 +709,7 @@
                </property>
             </bean>
 
-			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="heartRate"/>
-               <property name="uri" value="roolo://memory/30078/0/Heart+Rate+%28Health+Passport%29.rtf"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_19_heartRate.html"/>
-               <property name="resourcesUri" value=""/>
-               <property name="inputMissionAnchorIds">
-                  <list />
-               </property>
-               <property name="loEloUris">
-                  <list />
-               </property>
-            </bean>
+
 			
 			</list>
 			
