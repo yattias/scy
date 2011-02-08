@@ -29,7 +29,12 @@
 			<type>pom</type>
 			<scope>provided</scope>
 		</dependency>
-		
+      <dependency>
+         <groupId>eu.scy.client.tools</groupId>
+         <artifactId>socialtaggingtool</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
+
       <dependency>
          <groupId>eu.scy.client.desktop</groupId>
          <artifactId>scy-desktop</artifactId>
