@@ -988,6 +988,7 @@ public class MathToolController {
 			if( mathShapes.isEmpty() ) {
 				calculator.getSumTextField().setEnabled(false);
 				calculator.getSumTextField().setText(null);
+				calculator.getResultLabel().setText("0.00");
 				return;
 			}
 			
@@ -995,10 +996,12 @@ public class MathToolController {
 				if( ms.isShowCornerPoints() ) {
 					calculator.getSumTextField().setEnabled(true);
 					calculator.getSumTextField().setText(null);
+					calculator.getResultLabel().setText("0.00");
 					return;
 				} else {
 					calculator.getSumTextField().setEnabled(false);
 					calculator.getSumTextField().setText(null);
+					calculator.getResultLabel().setText("0.00");
 				}
 			}
 		
