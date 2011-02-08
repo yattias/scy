@@ -273,7 +273,7 @@
                <property name="uri" value="roolo://memory/30003/0/My+Optimized+Healthy+Pizza+%28Pizza+3%29.scymodel"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_A.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.1.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -287,7 +287,7 @@
                <property name="uri" value="roolo://memory/30001/0/My+Favourite+Pizza+%28Pizza+1%29.scymodel"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_A.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part1_ELO1.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -300,8 +300,8 @@
                <property name="id" value="myFirstHealthyPizza"/>
                <property name="uri" value="roolo://memory/30002/0/My+First+Healthy+Pizza+%28Pizza+2%29.scymodel"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_A.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_01_myFavouritePizza.html"/>
+               <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -315,7 +315,7 @@
                <property name="uri" value="roolo://memory/30011/0/Health+Passport.scydraw"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -328,8 +328,8 @@
                <property name="id" value="foodAndExercideDiary"/>
                <property name="uri" value="roolo://memory/30004/0/Food+And+Exercise+Diary.scypds"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_04_foodAndExerciseDiary.html"/>
+               <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -342,8 +342,8 @@
                <property name="id" value="dailyCalorieIntake"/>
                <property name="uri" value="roolo://memory/30005/0/Daily+Calorie+Intake.scypds"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_10_dailyCalorieIntake.html"/>
+               <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -370,8 +370,8 @@
                <property name="id" value="questionsAboutPizzaBenefits"/>
                <property name="uri" value="roolo://memory/30013/0/Questions+About+Pizza+Benefits.rtf"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_C.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_03_questionsOnPizzaBenefits.html"/>
+               <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -386,7 +386,7 @@
                <property name="id" value="notesOnUnhealthyDiet"/>
                <property name="uri" value="roolo://memory/30012/0/Notes+On+Unhealthy+Diet.rtf"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_C.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part1_ELO2.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_02_notesOnUnhealthyDiet.html"/>
                <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
                   <list />
@@ -400,8 +400,8 @@
                <property name="id" value="nutrientAndEnergyCalculations"/>
                <property name="uri" value="roolo://memory/30015/0/Nutrient+And+Energy+Calculations.scymodel"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_D.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_06_nutrientAndEnergyCalculations.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/resource_06_labelsOfIngredients.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -414,8 +414,8 @@
                <property name="id" value="nutritionTable"/>
                <property name="uri" value="roolo://memory/30014/0/Nutrition+Table.scypds"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_D.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_05_nutrientsTable.html"/>
+               <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -428,8 +428,8 @@
                <property name="id" value="pizzaIngredientTable"/>
                <property name="uri" value="roolo://memory/30016/0/Pizza+Ingredient+Table.scypds"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_D.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_07_pizzaIngredientTable"/>
+               <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -442,8 +442,8 @@
                <property name="id" value="constructionOfTheFoodPyramid"/>
                <property name="uri" value="roolo://memory/30018/0/Construction+Of+The+Food+Pyramid.scymodel"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_E.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_09_constructionOfTheFoodPyramid"/>
+               <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -456,8 +456,8 @@
                <property name="id" value="questionsAboutTheFoodPyramid"/>
                <property name="uri" value="roolo://memory/30017/0/Questions+About+The+Food+Pyramid.rtf"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_E.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_08_questionsAboutTheFoodPyramid"/>
+               <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
