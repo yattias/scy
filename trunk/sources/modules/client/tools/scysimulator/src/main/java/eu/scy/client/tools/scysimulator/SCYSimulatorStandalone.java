@@ -6,6 +6,7 @@ import info.collide.sqlspaces.commons.User;
 import java.awt.BorderLayout;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.logging.Level;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -14,6 +15,8 @@ import eu.scy.notification.api.INotifiable;
 import eu.scy.notification.api.INotification;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.util.logging.Logger;
+import javax.swing.JScrollPane;
+import utils.FileName;
 
 public class SCYSimulatorStandalone implements INotifiable {
 
@@ -25,22 +28,23 @@ public class SCYSimulatorStandalone implements INotifiable {
     private DataCollector dataCollector;
 
     public SCYSimulatorStandalone() throws URISyntaxException, InterruptedException, TupleSpaceException {
-        //URI fileUri = new URI("http://www.scy-lab.eu/sqzx/RotatingPendulum.sqzx");
+        SimQuestViewer simquestViewer = new SimQuestViewer(false);
+
+	//URI fileUri = new URI("http://www.scy-lab.eu/sqzx/RotatingPendulum.sqzx");
     	//URI fileUri = new URI("http://www.scy-lab.eu/sqzx/balance.sqzx");
     	//URI fileUri = new URI("http://localhost/co2_house.sqzx");
-    	URI fileUri = new URI("http://www.scy-lab.eu/sqzx/co2_house.sqzx");
+    	//URI fileUri = new URI("http://www.scy-lab.eu/sqzx/co2_house.sqzx");
+    	URI fileUri = new URI("http://www.scy-lab.eu/sqzx/pizza.sqzx");
     	//URI fileUri = new URI("http://alephnull.de/co2_house.sqzx");
     	
-    	SimQuestViewer simquestViewer = new SimQuestViewer(false);
-        //FileName fileName = new FileName("D:/temp/sqzx/co2-converter/co2_converter.sqzx");
+    	//FileName fileName = new FileName("D:/projects/scy/sqzx/co2-converter/co2_converter.sqzx");
+	//FileName fileName = new FileName("D:/projects/scy/sqzx/pizza/PizzaSimulation/pizza.sqx");
         //FileName fileName = new FileName("D:/temp/sqzx/co2-house/co2_house.sqzx");
         //URI fileUri = fileName.toURI();
-        LOGGER.info("SimQuestNode.createSimQuestNode(). trying to load: " + fileUri.toString());
+
+	LOGGER.log(Level.INFO, "SimQuestNode.createSimQuestNode(). trying to load: {0}", fileUri.toString());
         simquestViewer.setFile(fileUri);
         simquestViewer.createFrame(false);
-        // TODO remove hardcoded username/pass
-        //tbi = new ToolBrokerImpl("Jan", "jan");
-        //tbi.registerForNotifications(this);
         simquestPanel = new JPanel();
         dataCollector = null;
 
@@ -48,7 +52,10 @@ public class SCYSimulatorStandalone implements INotifiable {
             simquestViewer.run();
             simquestPanel.setLayout(new BorderLayout());
             simquestViewer.getInterfacePanel().setMinimumSize(simquestViewer.getRealSize());
-            simquestPanel.add(simquestViewer.getInterfacePanel(), BorderLayout.CENTER);
+	    JScrollPane scroller = new JScrollPane();
+	    scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+	    scroller.setViewportView(simquestViewer.getInterfacePanel());
+            simquestPanel.add(scroller, BorderLayout.CENTER);
             dataCollector = new DataCollector(simquestViewer, tbi, "n/a");
             simquestPanel.add(dataCollector, BorderLayout.SOUTH);
         } catch (java.lang.Exception e) {
