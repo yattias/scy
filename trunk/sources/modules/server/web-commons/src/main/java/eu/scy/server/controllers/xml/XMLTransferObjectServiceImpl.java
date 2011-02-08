@@ -139,6 +139,7 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
         xStream.alias("attribute", ActionLogEntryAttribute.class);
         xStream.alias("serviceMessage", ServiceMessage.class);
         xStream.alias("rawdata", RawData.class);
+        xStream.alias("newestelos", NewestElos.class);
 
 
 
@@ -180,6 +181,7 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
 
         xStream.addImplicitCollection(TransferElo.class, "generalLearningGoals", LearningGoal.class);
         xStream.addImplicitCollection(TransferElo.class, "specificLearningGoals", LearningGoal.class);
+        xStream.addImplicitCollection(NewestElos.class, "elos", TransferElo.class);
 
         xStream.aliasField("reflectionOnMissionQuestion".toLowerCase(), PortfolioConfig.class, "reflectionOnMissionQuestion");
         xStream.aliasField("reflectionOnCollaborationQuestion".toLowerCase(), PortfolioConfig.class, "reflectionOnCollaborationQuestion");

@@ -46,10 +46,16 @@ public class ViewPedagogicalPlanController extends BaseController {
             
 
             String uriParam = request.getParameter("uri");
-            logger.info("URI IS : " + uriParam);
+            logger.info("*** **** URI IS : " + uriParam);
             URI uri = new URI(uriParam);
 
             MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(uri, getMissionELOService());
+            try {
+                URI pedagogicalPlanUri = missionSpecificationElo.getTypedContent().getPedagogicalPlanSettingsEloUri();
+                logger.info("**** PEDAGOGICAL PLAN URI: " + pedagogicalPlanUri);
+            } catch (Exception e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
 
 
             Integer globalScaffoldingLevel = getMissionELOService().getGlobalMissionScaffoldingLevel(missionSpecificationElo);
@@ -81,39 +87,6 @@ public class ViewPedagogicalPlanController extends BaseController {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-
-        /*String pedPlanId = request.getParameter("id");
-         PedagogicalPlan plan = null;
-         if(pedPlanId != null) {
-             logger.info("PED PLAN ID: " + pedPlanId);
-             plan = getPedagogicalPlanPersistenceService().getPedagogicalPlan(pedPlanId);
-         } else {
-             logger.info("PEDAGOGICAL PLAN IS NULL!!");
-         }
-         if(getModel() != null) {
-             plan = (PedagogicalPlan) getModel();
-         }
-
-         if (plan!= null)  {
-             List agentLevels = new LinkedList();
-             agentLevels.add("Low");
-             agentLevels.add("Medium");
-             agentLevels.add("High");
-
-             List contentLevels = new LinkedList();
-             contentLevels.add("Low");
-             contentLevels.add("Medium");
-             contentLevels.add("High");
-             modelAndView.addObject("agentLevels", agentLevels);
-             modelAndView.addObject("contentLevels", contentLevels);
-
-             modelAndView.addObject("pedagogicalPlan", plan);
-             modelAndView.addObject("assignedPedagogicalPlansCount", getAssignedPedagogicalPlanService().getAssignedPedagogicalPlansCount(plan));
-             modelAndView.addObject("pedagogicalPlanGroupsCount", getGroupService().getPedagogicalPlanGroupsCount(plan));
-             modelAndView.addObject("anchorElos", getPedagogicalPlanPersistenceService().getAnchorELOs(plan));
-             modelAndView.addObject("author", getCurrentUser(request).getUserDetails().hasGrantedAuthority("ROLE_AUTHOR"));
-         }
-        */
     }
 
     private void increaseScaffoldingLevel(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView, ScyElo elo) {
