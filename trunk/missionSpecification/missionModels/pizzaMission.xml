@@ -652,7 +652,63 @@
                   <list />
                </property>
             </bean>
-	
+
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="evaluateDiet"/>
+               <property name="uri" value="roolo://memory/30079/0/Evaluate+Your+Diet+%28Health+Passport%29.rtf"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_11_evaluateDiet.html"/>
+               <property name="resourcesUri" value=""/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+			
+			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="basalMetabolicRate"/>
+               <property name="uri" value="roolo://memory/30076/0/Basal+Metabolic+Rate+%28Health+Passport%29.rtf"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_13_basalMetabolicRate.html"/>
+               <property name="resourcesUri" value=""/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+
+			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="bodyMassIndex"/>
+               <property name="uri" value="roolo://memory/30077/0/Body+Mass+Index+%28Health+Passport%29.rtf"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_18_bodyMassIndex.html"/>
+               <property name="resourcesUri" value=""/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+
+			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="heartRate"/>
+               <property name="uri" value="roolo://memory/30078/0/Heart+Rate+%28Health+Passport%29.rtf"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_19_heartRate.html"/>
+               <property name="resourcesUri" value=""/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+			
 			</list>
 			
       </property>
@@ -660,11 +716,11 @@
 
       <property name="templateEloUris">
          <list>
-            <value>roolo://memory/20109/0/Empty_concept_map.scymapping</value>
-            <value>roolo://memory/20110/0/Empty_dataset.dataset</value>
-            <value>roolo://memory/20111/0/Empty_experimental_procedure.scyxproc</value>
-            <value>roolo://memory/20112/0/Empty_plain_text.text</value>
-            <value>roolo://memory/20113/0/Empty_rich_text.rtf</value>
+            <value>roolo://memory/30109/0/Empty_concept_map.scymapping</value>
+            <value>roolo://memory/30110/0/Empty_dataset.dataset</value>
+            <value>roolo://memory/30111/0/Empty_experimental_procedure.scyxproc</value>
+            <value>roolo://memory/30112/0/Empty_plain_text.text</value>
+            <value>roolo://memory/30113/0/Empty_rich_text.rtf</value>
          </list>
       </property>
 
