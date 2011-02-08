@@ -21,7 +21,7 @@ public class MissionSpecificationEditor extends EloXmlEditor {
 
    override protected function getEloType(): String {
       MissionEloType.MISSION_SPECIFICATIOM.getType()
-   }
+       }
 
    override protected function doImport(): Void {
       var fileChooser = new JFileChooser();
@@ -31,15 +31,15 @@ public class MissionSpecificationEditor extends EloXmlEditor {
          //getting the file from the fileChooser
          lastUsedDirectory = fileChooser.getCurrentDirectory();
          doImport(fileChooser.getSelectedFile());
-      }
-   }
+          }
+       }
 
    function doImport(file: File) {
       var name = file.getName();
       def lastPointIndex = name.lastIndexOf(".");
       if (lastPointIndex >= 0) {
          name = name.substring(0, lastPointIndex);
-      }
+          }
 
       def springConfigFileImporter = SpringConfigFileImporter {
             file: file.getAbsolutePath()
@@ -57,6 +57,11 @@ public class MissionSpecificationEditor extends EloXmlEditor {
       missionSpecification.setTemplateElosEloUri(templateElosElo.getUri());
       missionSpecification.setRuntimeSettingsEloUri(runtimeSettingsElo.getUri());
       missionSpecification.setMissionDescriptionUri(springConfigFileImporter.missionDescriptionUri);
+      def pedagogicalPlanSettings = ScyElo.createElo(MissionEloType.PADAGOGICAL_PLAN_SETTINGS.getType(),
+         toolBrokerAPI);
+      pedagogicalPlanSettings.setTitle(missionMapModelElo.getTitle());
+      pedagogicalPlanSettings.saveAsNewElo();
+      missionSpecification.setPedagogicalPlanSettingsEloUri(pedagogicalPlanSettings.getUri());
       setContent(MissionSpecificationEloContentXmlUtils.missionSpecificationToXml(missionSpecification), springConfigFileImporter.errors);
    }
 
@@ -74,9 +79,9 @@ public class MissionSpecificationEditor extends EloXmlEditor {
          def missionSpecification = MissionSpecificationEloContentXmlUtils.missionSpecificationFromXml(xml);
          if (missionSpecification == null) {
             errors = "The xml is not valid for mission specification";
-         }
-      }
+             }
+          }
       errors
-   }
+       }
 
 }
