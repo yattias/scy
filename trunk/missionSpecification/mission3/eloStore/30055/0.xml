@@ -9,25 +9,25 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-02-01T14:44:56.015+0100</dateTime>
+          <dateTime>2011-02-03T12:14:37.921+0100</dateTime>
         </date>
       </contribute>
       <version>0</version>
     </lifecycle>
     <technical>
       <customElements>
-        <dateCreated>1296567896015</dateCreated>
-        <dateLastModified>1296567896015</dateLastModified>
+        <dateCreated>1296731677921</dateCreated>
+        <dateLastModified>1296731677921</dateLastModified>
       </customElements>
       <format>scy/missionmapmodel</format>
     </technical>
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/30045/0/pizzaMission.scymissionmapmodel</entry>
+        <entry>roolo://memory/30055/0/pizzaMission.scymissionmapmodel</entry>
       </identifier>
-      <las>design</las>
-      <missionRunning>roolo://memory/30029/0/A+Healthy+Pizza.scymissionspecification</missionRunning>
+      <las>evaluation</las>
+      <missionRunning>roolo://memory/30054/0/A+Healthy+Pizza+3.scymissionspecification</missionRunning>
       <title>
         <string language="en">pizzaMission</string>
       </title>
@@ -52,7 +52,7 @@
       <id>design</id>
       <xPos>-30.0</xPos>
       <yPos>-30.0</yPos>
-      <toolTip>????</toolTip>
+      <toolTip>tip_LAS_A</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part1_Goals.html</instructionUri>
       <lasType>DESIGN</lasType>
       <loElos />
@@ -63,7 +63,7 @@
         <loElos />
         <inputAnchors />
         <relations />
-        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Methodology_Steps.txt</targetDescriptionUri>
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_A.txt</targetDescriptionUri>
         <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.1.html</assignmentUri>
         <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
         <colorScheme />
@@ -75,7 +75,7 @@
           <loElos />
           <inputAnchors />
           <relations />
-          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Discussion_Notes.txt</targetDescriptionUri>
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_A.txt</targetDescriptionUri>
           <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part1_ELO1.html</assignmentUri>
           <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
           <colorScheme />
@@ -100,7 +100,7 @@
       <id>experiment</id>
       <xPos>30.0</xPos>
       <yPos>30.0</yPos>
-      <toolTip>????</toolTip>
+      <toolTip>tip_LAS_B</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part1_Goals.html</instructionUri>
       <lasType>EXPERIMENT</lasType>
       <loElos />
@@ -162,7 +162,7 @@
       <id>information</id>
       <xPos>40.0</xPos>
       <yPos>-100.0</yPos>
-      <toolTip>????</toolTip>
+      <toolTip>tip_LAS_C</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part1_Goals.html</instructionUri>
       <lasType>INFORMATION</lasType>
       <loElos />
@@ -200,7 +200,7 @@
       <id>conceptualization1</id>
       <xPos>100.0</xPos>
       <yPos>-40.0</yPos>
-      <toolTip>Discussion Notes</toolTip>
+      <toolTip>tip_LAS_D</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part2_Goals.html</instructionUri>
       <lasType>CONCEPTUALISATION</lasType>
       <loElos />
@@ -248,7 +248,7 @@
       <id>conceptualization2</id>
       <xPos>100.0</xPos>
       <yPos>40.0</yPos>
-      <toolTip>Discussion Notes</toolTip>
+      <toolTip>tip_LAS_E</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part3_Goals.html</instructionUri>
       <lasType>CONCEPTUALISATION</lasType>
       <loElos />
@@ -286,7 +286,7 @@
       <id>conceptualization3</id>
       <xPos>40.0</xPos>
       <yPos>100.0</yPos>
-      <toolTip>Discussion Notes</toolTip>
+      <toolTip>tip_LAS_F</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part4_Goals.html</instructionUri>
       <lasType>CONCEPTUALISATION</lasType>
       <loElos />
@@ -312,7 +312,7 @@
       <id>conceptualization4</id>
       <xPos>-40.0</xPos>
       <yPos>100.0</yPos>
-      <toolTip>Discussion Notes</toolTip>
+      <toolTip>tip_LAS_G</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part5_Goals.html</instructionUri>
       <lasType>CONCEPTUALISATION</lasType>
       <loElos />
@@ -349,7 +349,7 @@
       <id>reflection1</id>
       <xPos>-100.0</xPos>
       <yPos>40.0</yPos>
-      <toolTip>Criteria</toolTip>
+      <toolTip>tip_LAS_H</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part6_Goals.html</instructionUri>
       <lasType>REFLECTION</lasType>
       <loElos />
@@ -375,13 +375,13 @@
       <id>reflection2</id>
       <xPos>-100.0</xPos>
       <yPos>-40.0</yPos>
-      <toolTip>Criteria</toolTip>
+      <toolTip>tip_LAS_I</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part7_Goals.html</instructionUri>
       <lasType>REFLECTION</lasType>
       <loElos />
       <otherElos />
       <mainAnchor>
-        <eloUri>roolo://memory/30040/0/Criteria+Final+Table.scypd</eloUri>
+        <eloUri>roolo://memory/30040/0/Criteria+Final+Table.scypds</eloUri>
         <iconType />
         <loElos />
         <inputAnchors />
@@ -446,7 +446,7 @@
       <id>evaluation</id>
       <xPos>-40.0</xPos>
       <yPos>-100.0</yPos>
-      <toolTip>Criteria</toolTip>
+      <toolTip>tip_LAS_J</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part8_Goals.html</instructionUri>
       <lasType>EVALUATION</lasType>
       <loElos />
@@ -464,7 +464,7 @@
       </mainAnchor>
       <intermediateAnchors>
         <intermediateAnchor>
-          <eloUri>roolo://memory/30001/0/Questions+About+Pizza+Benefits.rtf</eloUri>
+          <eloUri>roolo://memory/30041/0/Individual+Report.rtf</eloUri>
           <iconType />
           <loElos />
           <inputAnchors />

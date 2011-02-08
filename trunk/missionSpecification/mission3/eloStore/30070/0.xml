@@ -9,25 +9,24 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-02-01T14:44:56.015+0100</dateTime>
+          <dateTime>2011-02-08T15:09:23.484+0100</dateTime>
         </date>
       </contribute>
       <version>0</version>
     </lifecycle>
     <technical>
       <customElements>
-        <dateCreated>1296567896015</dateCreated>
-        <dateLastModified>1296567896015</dateLastModified>
+        <dateCreated>1297174163484</dateCreated>
+        <dateLastModified>1297174163484</dateLastModified>
       </customElements>
       <format>scy/missionmapmodel</format>
     </technical>
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/30045/0/pizzaMission.scymissionmapmodel</entry>
+        <entry>roolo://memory/30070/0/pizzaMission.scymissionmapmodel</entry>
       </identifier>
-      <las>design</las>
-      <missionRunning>roolo://memory/30029/0/A+Healthy+Pizza.scymissionspecification</missionRunning>
+      <las />
       <title>
         <string language="en">pizzaMission</string>
       </title>
@@ -52,8 +51,8 @@
       <id>design</id>
       <xPos>-30.0</xPos>
       <yPos>-30.0</yPos>
-      <toolTip>????</toolTip>
-      <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part1_Goals.html</instructionUri>
+      <toolTip>tip_LAS_A</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_DESIGN.html</instructionUri>
       <lasType>DESIGN</lasType>
       <loElos />
       <otherElos />
@@ -63,9 +62,9 @@
         <loElos />
         <inputAnchors />
         <relations />
-        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Methodology_Steps.txt</targetDescriptionUri>
-        <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.1.html</assignmentUri>
-        <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_A.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_27_myOptimizedHealthyPizza.html</assignmentUri>
+        <resourcesUri />
         <colorScheme />
       </mainAnchor>
       <intermediateAnchors>
@@ -75,9 +74,9 @@
           <loElos />
           <inputAnchors />
           <relations />
-          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Discussion_Notes.txt</targetDescriptionUri>
-          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part1_ELO1.html</assignmentUri>
-          <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_A.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_01_myFavouritePizza.html</assignmentUri>
+          <resourcesUri />
           <colorScheme />
         </intermediateAnchor>
         <intermediateAnchor>
@@ -86,9 +85,9 @@
           <loElos />
           <inputAnchors />
           <relations />
-          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
-          <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_A.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_21_myFirstHealthyPizza.html</assignmentUri>
+          <resourcesUri />
           <colorScheme />
         </intermediateAnchor>
       </intermediateAnchors>
@@ -100,8 +99,8 @@
       <id>experiment</id>
       <xPos>30.0</xPos>
       <yPos>30.0</yPos>
-      <toolTip>????</toolTip>
-      <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part1_Goals.html</instructionUri>
+      <toolTip>tip_LAS_B</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_EXPERIMENT.html</instructionUri>
       <lasType>EXPERIMENT</lasType>
       <loElos />
       <otherElos />
@@ -111,9 +110,9 @@
         <loElos />
         <inputAnchors />
         <relations />
-        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-        <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
-        <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_20_healthPassport.html</assignmentUri>
+        <resourcesUri />
         <colorScheme />
       </mainAnchor>
       <intermediateAnchors>
@@ -123,9 +122,9 @@
           <loElos />
           <inputAnchors />
           <relations />
-          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
-          <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_04_foodAndExerciseDiary.html</assignmentUri>
+          <resourcesUri />
           <colorScheme />
         </intermediateAnchor>
         <intermediateAnchor>
@@ -134,9 +133,9 @@
           <loElos />
           <inputAnchors />
           <relations />
-          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
-          <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_10_dailyCalorieIntake.html</assignmentUri>
+          <resourcesUri />
           <colorScheme />
         </intermediateAnchor>
         <intermediateAnchor>
@@ -145,9 +144,9 @@
           <loElos />
           <inputAnchors />
           <relations />
-          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
-          <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_14-estimatedEnergyRequirements.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission3/resource_14_activityList.html</resourcesUri>
           <colorScheme />
         </intermediateAnchor>
       </intermediateAnchors>
@@ -162,8 +161,8 @@
       <id>information</id>
       <xPos>40.0</xPos>
       <yPos>-100.0</yPos>
-      <toolTip>????</toolTip>
-      <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part1_Goals.html</instructionUri>
+      <toolTip>tip_LAS_C</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_INFORMATION.html</instructionUri>
       <lasType>INFORMATION</lasType>
       <loElos />
       <otherElos />
@@ -173,9 +172,9 @@
         <loElos />
         <inputAnchors />
         <relations />
-        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-        <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
-        <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_C.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_03_questionsOnPizzaBenefits.html</assignmentUri>
+        <resourcesUri />
         <colorScheme />
       </mainAnchor>
       <intermediateAnchors>
@@ -185,8 +184,8 @@
           <loElos />
           <inputAnchors />
           <relations />
-          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part1_ELO2.html</assignmentUri>
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_C.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_02_notesOnUnhealthyDiet.html</assignmentUri>
           <resourcesUri />
           <colorScheme />
         </intermediateAnchor>
@@ -200,8 +199,8 @@
       <id>conceptualization1</id>
       <xPos>100.0</xPos>
       <yPos>-40.0</yPos>
-      <toolTip>Discussion Notes</toolTip>
-      <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part2_Goals.html</instructionUri>
+      <toolTip>tip_LAS_D</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_CONCEPTUALISATION1.html</instructionUri>
       <lasType>CONCEPTUALISATION</lasType>
       <loElos />
       <otherElos />
@@ -211,9 +210,9 @@
         <loElos />
         <inputAnchors />
         <relations />
-        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-        <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
-        <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_D.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_06_nutrientAndEnergyCalculations.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission3/resource_06_labelsOfIngredients.html</resourcesUri>
         <colorScheme />
       </mainAnchor>
       <intermediateAnchors>
@@ -223,9 +222,9 @@
           <loElos />
           <inputAnchors />
           <relations />
-          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
-          <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_D.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_05_nutrientsTable.html</assignmentUri>
+          <resourcesUri />
           <colorScheme />
         </intermediateAnchor>
         <intermediateAnchor>
@@ -234,9 +233,9 @@
           <loElos />
           <inputAnchors />
           <relations />
-          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
-          <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_D.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_07_pizzaIngredientTable.html</assignmentUri>
+          <resourcesUri />
           <colorScheme />
         </intermediateAnchor>
       </intermediateAnchors>
@@ -248,8 +247,8 @@
       <id>conceptualization2</id>
       <xPos>100.0</xPos>
       <yPos>40.0</yPos>
-      <toolTip>Discussion Notes</toolTip>
-      <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part3_Goals.html</instructionUri>
+      <toolTip>tip_LAS_E</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_CONCEPTUALISATION2.html</instructionUri>
       <lasType>CONCEPTUALISATION</lasType>
       <loElos />
       <otherElos />
@@ -259,9 +258,9 @@
         <loElos />
         <inputAnchors />
         <relations />
-        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-        <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
-        <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_E.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_09_constructionOfTheFoodPyramid.html</assignmentUri>
+        <resourcesUri />
         <colorScheme />
       </mainAnchor>
       <intermediateAnchors>
@@ -271,9 +270,9 @@
           <loElos />
           <inputAnchors />
           <relations />
-          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
-          <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_E.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_08_questionsAboutTheFoodPyramid.html</assignmentUri>
+          <resourcesUri />
           <colorScheme />
         </intermediateAnchor>
       </intermediateAnchors>
@@ -286,8 +285,8 @@
       <id>conceptualization3</id>
       <xPos>40.0</xPos>
       <yPos>100.0</yPos>
-      <toolTip>Discussion Notes</toolTip>
-      <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part4_Goals.html</instructionUri>
+      <toolTip>tip_LAS_F</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_CONCEPTUALISATION3.html</instructionUri>
       <lasType>CONCEPTUALISATION</lasType>
       <loElos />
       <otherElos />
@@ -297,9 +296,9 @@
         <loElos />
         <inputAnchors />
         <relations />
-        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-        <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
-        <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_F.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_12_energyFactSheet.html</assignmentUri>
+        <resourcesUri />
         <colorScheme />
       </mainAnchor>
       <intermediateAnchors />
@@ -312,8 +311,8 @@
       <id>conceptualization4</id>
       <xPos>-40.0</xPos>
       <yPos>100.0</yPos>
-      <toolTip>Discussion Notes</toolTip>
-      <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part5_Goals.html</instructionUri>
+      <toolTip>tip_LAS_G</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_CONCEPTUALISATION4.html</instructionUri>
       <lasType>CONCEPTUALISATION</lasType>
       <loElos />
       <otherElos />
@@ -323,9 +322,9 @@
         <loElos />
         <inputAnchors />
         <relations />
-        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-        <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
-        <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_G.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_15_mapOfTheDigestiveSystem.html</assignmentUri>
+        <resourcesUri />
         <colorScheme />
       </mainAnchor>
       <intermediateAnchors>
@@ -335,9 +334,9 @@
           <loElos />
           <inputAnchors />
           <relations />
-          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
-          <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_G.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_16_factSheetOfOneOrgan.html</assignmentUri>
+          <resourcesUri />
           <colorScheme />
         </intermediateAnchor>
       </intermediateAnchors>
@@ -349,8 +348,8 @@
       <id>reflection1</id>
       <xPos>-100.0</xPos>
       <yPos>40.0</yPos>
-      <toolTip>Criteria</toolTip>
-      <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part6_Goals.html</instructionUri>
+      <toolTip>tip_LAS_H</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_REFLECTION1.html</instructionUri>
       <lasType>REFLECTION</lasType>
       <loElos />
       <otherElos />
@@ -360,9 +359,9 @@
         <loElos />
         <inputAnchors />
         <relations />
-        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-        <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
-        <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_H.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_17_personalComments.html</assignmentUri>
+        <resourcesUri />
         <colorScheme />
       </mainAnchor>
       <intermediateAnchors />
@@ -375,20 +374,20 @@
       <id>reflection2</id>
       <xPos>-100.0</xPos>
       <yPos>-40.0</yPos>
-      <toolTip>Criteria</toolTip>
-      <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part7_Goals.html</instructionUri>
+      <toolTip>tip_LAS_I</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_REFLECTION2.html</instructionUri>
       <lasType>REFLECTION</lasType>
       <loElos />
       <otherElos />
       <mainAnchor>
-        <eloUri>roolo://memory/30040/0/Criteria+Final+Table.scypd</eloUri>
+        <eloUri>roolo://memory/30040/0/Criteria+Final+Table.scypds</eloUri>
         <iconType />
         <loElos />
         <inputAnchors />
         <relations />
-        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-        <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
-        <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_I.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_26_criteriaFinalTable.html</assignmentUri>
+        <resourcesUri />
         <colorScheme />
       </mainAnchor>
       <intermediateAnchors>
@@ -398,9 +397,9 @@
           <loElos />
           <inputAnchors />
           <relations />
-          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
-          <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_I.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_22_methodologySteps.html</assignmentUri>
+          <resourcesUri />
           <colorScheme />
         </intermediateAnchor>
         <intermediateAnchor>
@@ -409,9 +408,9 @@
           <loElos />
           <inputAnchors />
           <relations />
-          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
-          <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_I.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_23_reflectionOnImportanceOfCriteria.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission3/resource_23_optimizationStrategy.html</resourcesUri>
           <colorScheme />
         </intermediateAnchor>
         <intermediateAnchor>
@@ -420,9 +419,9 @@
           <loElos />
           <inputAnchors />
           <relations />
-          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
-          <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_I.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_24_criteriaTable.html</assignmentUri>
+          <resourcesUri />
           <colorScheme />
         </intermediateAnchor>
         <intermediateAnchor>
@@ -431,9 +430,9 @@
           <loElos />
           <inputAnchors />
           <relations />
-          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
-          <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_I.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_25_criteriaWeightTable.html</assignmentUri>
+          <resourcesUri />
           <colorScheme />
         </intermediateAnchor>
       </intermediateAnchors>
@@ -446,8 +445,8 @@
       <id>evaluation</id>
       <xPos>-40.0</xPos>
       <yPos>-100.0</yPos>
-      <toolTip>Criteria</toolTip>
-      <instructionUri>http://www.scy-lab.eu/content/en/mission3/Part8_Goals.html</instructionUri>
+      <toolTip>tip_LAS_J</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_EVALUATION.html</instructionUri>
       <lasType>EVALUATION</lasType>
       <loElos />
       <otherElos />
@@ -457,21 +456,21 @@
         <loElos />
         <inputAnchors />
         <relations />
-        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-        <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
-        <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_J.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_31_letterToSchoolCanteen.html</assignmentUri>
+        <resourcesUri />
         <colorScheme />
       </mainAnchor>
       <intermediateAnchors>
         <intermediateAnchor>
-          <eloUri>roolo://memory/30001/0/Questions+About+Pizza+Benefits.rtf</eloUri>
+          <eloUri>roolo://memory/30041/0/Individual+Report.rtf</eloUri>
           <iconType />
           <loElos />
           <inputAnchors />
           <relations />
-          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
-          <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_J.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_28_individualReport.html</assignmentUri>
+          <resourcesUri />
           <colorScheme />
         </intermediateAnchor>
         <intermediateAnchor>
@@ -480,9 +479,9 @@
           <loElos />
           <inputAnchors />
           <relations />
-          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
-          <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_J.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_29_groupReport.html</assignmentUri>
+          <resourcesUri />
           <colorScheme />
         </intermediateAnchor>
         <intermediateAnchor>
@@ -491,9 +490,9 @@
           <loElos />
           <inputAnchors />
           <relations />
-          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/Criterium_Weight_Table.txt</targetDescriptionUri>
-          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/Part7_ELO7.2.3.2.html</assignmentUri>
-          <resourcesUri>http://www.scy-lab.eu/content/en/mission3/Part7_Optimization7.2.html</resourcesUri>
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission3/tip_LAS_J.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission3/instruction_30_tasteScores.html</assignmentUri>
+          <resourcesUri />
           <colorScheme />
         </intermediateAnchor>
       </intermediateAnchors>
