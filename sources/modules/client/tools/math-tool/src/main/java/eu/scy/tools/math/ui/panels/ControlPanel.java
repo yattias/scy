@@ -171,7 +171,8 @@ public class ControlPanel extends JXPanel {
 			if (selectedRow != -1) {
 				DefaultTableModel model = (DefaultTableModel) getComputationTable()
 						.getModel();
-				model.removeRow(selectedRow);
+				int convertRowIndexToModel = ControlPanel.this.getComputationTable().convertRowIndexToModel(selectedRow);
+				model.removeRow(convertRowIndexToModel);
 
 				if (type.equals(UIUtils._2D)) {
 					// recalc the sums
