@@ -12,7 +12,7 @@ public class ExpressionModel {
 //	List<String> expressionToEval = new ArrayList<String>();
 //	List<String> expressionToDisplay = new ArrayList<String>();
 //	
-	StringBuilder expressionToDisplay = new StringBuilder();
+	
 	
 	static final String PI = "pi";
 	static final String cubedsym = "^2";
@@ -22,13 +22,26 @@ public class ExpressionModel {
 	static String sqRoot = "&#8730";
 	static String cubed = "<sup>2</sup>";
 	boolean needsReplacement = false;
+
+	private StringBuilder expressionToDisplay;
+	
+	
+	public ExpressionModel() {
+		expressionToDisplay = new StringBuilder();
+		expressionToDisplay.append(" ");
+	}
 	
 	public void addExpression(String exp) {
 		expressionToDisplay.append(exp);
 	}
 	
 	public void replaceExpression(String exp) {
+	
 		this.clear();
+		
+		if( exp == null)
+			return;
+		
 		this.addExpression(exp);
 	}
 	
@@ -36,7 +49,7 @@ public class ExpressionModel {
 		
 		//strip spaces
 		
-		String stripToNull = StringUtils.stripToNull(expressionToDisplay.toString());
+		String stripToNull = StringUtils.stripToEmpty(expressionToDisplay.toString());
 		
 		
 		return stripToNull;
