@@ -89,7 +89,11 @@ public class ControlPanel extends JXPanel {
 	private JXPanel createTable() {
 	    // boilerplate table-setup; this would be the same for a JTable
 //	    ComputationTableModel model = new ComputationTableModel(6, new String[] {"Shape", "Computation"});
-		twoDeeTableModel = new DefaultTableModel();
+		twoDeeTableModel = new DefaultTableModel() {
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			};
+		};
 		twoDeeTableModel.addColumn("#");
 		twoDeeTableModel.addColumn("Shape");
 		
