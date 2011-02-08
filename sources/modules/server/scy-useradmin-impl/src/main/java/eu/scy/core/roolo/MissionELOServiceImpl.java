@@ -3,7 +3,10 @@ package eu.scy.core.roolo;
 import eu.scy.common.mission.*;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
+import eu.scy.core.model.transfer.NewestElos;
 import eu.scy.core.model.transfer.Portfolio;
+import eu.scy.core.model.transfer.TransferElo;
+import roolo.elo.BasicELO;
 import roolo.search.IQueryComponent;
 import roolo.search.MetadataQueryComponent;
 import roolo.search.AndQuery;
@@ -257,6 +260,19 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
             }
         }
         return returnList;
+    }
+
+    @Override
+    public NewestElos getNewestElosForFeedback(MissionRuntimeElo missionRuntimeElo, String username) {
+        NewestElos newestElos = new NewestElos();
+        List elos = findElosFor("", username);
+        for (int i = 0; i < elos.size(); i++) {
+            BasicELO basicElo = (BasicELO) elos.get(i);
+            ScyElo scyElo = ScyElo.loadLastVersionElo(basicElo.getUri(), this);
+            TransferElo transferElo = new TransferElo(scyElo);
+            newestElos.addElo(transferElo);
+        }
+        return newestElos;
     }
 
     public XMLTransferObjectService getXmlTransferObjectService() {

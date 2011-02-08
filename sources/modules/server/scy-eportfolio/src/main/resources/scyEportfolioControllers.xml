@@ -50,6 +50,8 @@
 
                 /app/assessment/assessmentindex.html=assessmentIndexController
 
+                /app/feedback/newElosForFeedbackService.html=newElosForFeedbackService
+
                 /app/feedback/feedbackindex.html=feedbackIndexController
             </value>
         </property>
@@ -136,6 +138,12 @@
         <property name="runtimeELOService" ref="runtimeELOService"/>
         <property name="missionELOService" ref="missionELOService"/>
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+	</bean>
+
+    <bean id="newElosForFeedbackService" class="eu.scy.server.feedback.NewElosForFeedbackController">
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="urlInspector" ref="urlInspector"/>
 	</bean>
 
     <bean id="currentMissionRuntimeInfo" class="eu.scy.server.eportfolio.xml.CurrentMissionRuntimeInfoController">

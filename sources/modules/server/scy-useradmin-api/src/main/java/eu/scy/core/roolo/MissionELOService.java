@@ -5,6 +5,7 @@ import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.BaseELOService;
+import eu.scy.core.model.transfer.NewestElos;
 import eu.scy.core.roolo.RooloAccessor;
 
 import java.net.URI;
@@ -50,4 +51,6 @@ public interface MissionELOService extends BaseELOService {
     List findElosFor(String mission, String username);
 
     List getPortfoliosThatAreReadyForAssessment(MissionSpecificationElo missionSpecificationElo);
+
+    NewestElos getNewestElosForFeedback(MissionRuntimeElo missionRuntimeElo, String username);
 }
