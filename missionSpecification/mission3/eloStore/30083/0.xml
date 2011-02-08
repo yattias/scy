@@ -9,22 +9,22 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-02-08T16:17:22.265+0100</dateTime>
+          <dateTime>2011-02-08T16:17:22.296+0100</dateTime>
         </date>
       </contribute>
       <version>0</version>
     </lifecycle>
     <technical>
       <customElements>
-        <dateCreated>1297178242265</dateCreated>
-        <dateLastModified>1297178242265</dateLastModified>
+        <dateCreated>1297178242296</dateCreated>
+        <dateLastModified>1297178242296</dateLastModified>
       </customElements>
-      <format>scy/templateelos</format>
+      <format>scy/runtimesettings</format>
     </technical>
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/30082/0/pizzaMission.scytemplateelos</entry>
+        <entry>roolo://memory/30083/0/pizzaMission.runtimesettings</entry>
       </identifier>
       <las />
       <title>
@@ -43,13 +43,7 @@
   </lom>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<templateElosEloUris>
-  <templateElosEloUri>roolo://memory/30111/0/Empty_experimental_procedure.scyxproc</templateElosEloUri>
-  <templateElosEloUri>roolo://memory/30113/0/Empty_rich_text.rtf</templateElosEloUri>
-  <templateElosEloUri>roolo://memory/30110/0/Empty_dataset.dataset</templateElosEloUri>
-  <templateElosEloUri>roolo://memory/30112/0/Empty_plain_text.text</templateElosEloUri>
-  <templateElosEloUri>roolo://memory/30109/0/Empty_concept_map.scymapping</templateElosEloUri>
-</templateElosEloUris>
+<runtimeSettings />
 </content>
 <resources>
 </resources>
