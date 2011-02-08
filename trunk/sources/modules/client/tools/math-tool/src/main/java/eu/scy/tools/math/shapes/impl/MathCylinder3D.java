@@ -70,10 +70,10 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 	
 		heightLabel = new JXLabel("H = ");
 		labelPanel.add(heightLabel);
-		
 		setHeightValueLabel(new JXLabel("10"));
 		
-		labelPanel.add(getHeightValueLabel(),"wrap");
+		labelPanel.add(getHeightValueLabel());
+		labelPanel.add(new JXLabel(UIUtils.unitsGeneral),"wrap");
 		
 		radiusLabel = new JXLabel("R = ");
 		labelPanel.add(radiusLabel);
@@ -81,8 +81,9 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 		radiusTextField = new JXTextField();
 		getRadiusTextField().setColumns(TEXTFIELD_LENGTH);
 		
-		labelPanel.add(getRadiusTextField(),"wrap");
-		
+		labelPanel.add(getRadiusTextField());
+		labelPanel.add(new JXLabel(UIUtils.unitsGeneral),"wrap");
+
 		setupCommonInputs();
 		
 		addButtonPanel();

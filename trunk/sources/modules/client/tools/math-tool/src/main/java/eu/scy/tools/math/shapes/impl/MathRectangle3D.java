@@ -72,13 +72,16 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 		heightLabel = new JXLabel("H = ");
 		labelPanel.add(heightLabel);
 		 heightValueLabel = new JXLabel("5.0");
-		labelPanel.add(heightValueLabel,"wrap");
-		
+		labelPanel.add(heightValueLabel);
+		labelPanel.add(new JXLabel(UIUtils.unitsGeneral),"wrap");
+
 		
 		widthLabel = new JXLabel("W = ");
 		labelPanel.add(widthLabel);
 		 widthValueLabel = new JXLabel("5.0");
-		labelPanel.add(widthValueLabel,"wrap");
+		labelPanel.add(widthValueLabel);
+		labelPanel.add(new JXLabel(UIUtils.unitsGeneral),"wrap");
+
 		
 		lengthLabel = new JXLabel("L = ");
 		labelPanel.add(lengthLabel);
@@ -86,8 +89,9 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 		lengthTextField = new JXTextField();
 		getLengthTextField().setColumns(TEXTFIELD_LENGTH);
 		
-		labelPanel.add(getLengthTextField(),"wrap");
-		
+		labelPanel.add(getLengthTextField());
+		labelPanel.add(new JXLabel(UIUtils.unitsGeneral),"wrap");
+
 
 		setupCommonInputs();
 		

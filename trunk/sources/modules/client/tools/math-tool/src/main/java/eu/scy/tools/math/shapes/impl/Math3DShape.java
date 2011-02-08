@@ -76,7 +76,8 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 		volumeLabel = new JXLabel("V = ");
 		setVolumeValueLabel(new JXLabel("100.0"));
 		labelPanel.add(volumeLabel);
-		labelPanel.add(getVolumeValueLabel(), "wrap");
+		labelPanel.add(getVolumeValueLabel());
+		labelPanel.add(new JXLabel(UIUtils.unitsVolume), "wrap");
 	}
 	protected void setupCommonInputs() {
 		
@@ -88,7 +89,8 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 		getSurfaceAreaTextField().setColumns(4);
 		
 		labelPanel.add(surfaceAreaLabel);
-		labelPanel.add(getSurfaceAreaTextField(),"wrap");
+		labelPanel.add(getSurfaceAreaTextField());
+		labelPanel.add(new JXLabel(UIUtils.unitsSurfaceArea),"wrap");
 		
 		ratioLabel = new JXLabel("SA/V Ratio = ");
 		
