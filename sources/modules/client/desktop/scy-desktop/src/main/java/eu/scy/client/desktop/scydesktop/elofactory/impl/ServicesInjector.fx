@@ -23,8 +23,9 @@ import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.utils.InjectObjectsUtils;
-import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoManager;
 import eu.scy.client.desktop.scydesktop.scywindows.ShowMoreInfo;
+import java.lang.System;
+import eu.scy.client.desktop.scydesktop.utils.ActivityTimer;
 
 
 /**
@@ -40,6 +41,7 @@ public class ServicesInjector {
 
    public function injectServices(object: Object) {
       if (object != null) {
+         def activityTimer = new ActivityTimer("injectServices({object})","injecting");
          injectServiceIfWanted(object, Config.class, "config", config);
 
          if (config.getToolBrokerAPI() != null) {
@@ -77,6 +79,7 @@ public class ServicesInjector {
          }
          injectServiceIfWanted(object,Boolean.class,"authorMode",initializer.authorMode);
          injectServiceIfWanted(object,ShowMoreInfo.class,"showMoreInfo",showMoreInfo);
+         activityTimer.endActivity();
       }
    }
 
