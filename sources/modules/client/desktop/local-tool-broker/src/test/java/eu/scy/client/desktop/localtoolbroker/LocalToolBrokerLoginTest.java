@@ -15,6 +15,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import roolo.elo.api.IELO;
 import roolo.search.ISearchResult;
 import eu.scy.toolbrokerapi.LoginFailedException;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
@@ -92,8 +93,8 @@ public class LocalToolBrokerLoginTest extends CommonToolBrokerLoginTest
       TestUtils.testToolBrokerAPI(tbi);
       Assert.assertEquals(userName,tbi.getLoginUserName());
       Assert.assertTrue(localToolBrokerLogin.loggingDirectory.listFiles().length>0);
-      List<ISearchResult> searchResults = tbi.getRepository().search(null);
-      Assert.assertFalse(searchResults.isEmpty());
+      List<IELO> allElos = tbi.getRepository().retrieveAllELOs();
+      Assert.assertFalse(allElos.isEmpty());
    }
    
 }
