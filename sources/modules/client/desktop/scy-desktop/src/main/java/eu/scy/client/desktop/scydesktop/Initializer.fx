@@ -660,6 +660,9 @@ public class Initializer {
                logger.info("webstart codeBase: {codeBase}");
                newScyServerHost = codeBase.getHost();
                newScyServerPort = codeBase.getPort();
+               if (newScyServerPort<0){
+                  newScyServerPort = 80;
+               }
                logger.info("newScyServerHost: {newScyServerHost}, newScyServerPort: {newScyServerPort}");
             }
          }
