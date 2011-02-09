@@ -97,6 +97,7 @@ import javafx.scene.layout.Panel;
 import javafx.scene.control.Tooltip;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import java.net.URLEncoder;
+import eu.scy.client.desktop.scydesktop.utils.XFX;
 
 /**
  * @author sikkenj
@@ -544,14 +545,14 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          }
       }
 
-      var pleaseWait = PleaseWait {};
-      window.scyContent = pleaseWait;
-      FX.deferAction(function() {
-         // one defer does not seem to be enough to show the please wait content
-         FX.deferAction(function() {
+      //var pleaseWait = PleaseWait {};
+      //window.scyContent = pleaseWait;
             fillScyWindowNow(window);
-         });
-      });
+//      FX.deferAction(function() {
+//         // one defer does not seem to be enough to show the please wait content
+//         FX.deferAction(function() {
+//         });
+//      });
    }
 
    function fillScyWindowNow(window: ScyWindow): Void {
@@ -671,34 +672,36 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       scyToolsList.setRuntimeSettingsRetriever(runtimeSettingsRetriever);
       scyToolsList.initialize();
       scyToolsList.postInitialize();
-      // place the tools in the window
-      if (scyToolsList.windowContentTool != null) {
-         window.scyContent = scyToolsList.windowContentTool;
-      }
-      if (scyToolsList.topDrawerTool != null) {
-         window.topDrawerTool = scyToolsList.topDrawerTool;
-         if (collaboration) {
-            window.openDrawer("top");
-         }
-      }
-      if (scyToolsList.rightDrawerTool != null) {
-         window.rightDrawerTool = scyToolsList.rightDrawerTool;
-         if (collaboration) {
-            window.openDrawer("right");
-         }
-      }
-      if (scyToolsList.bottomDrawerTool != null) {
-         window.bottomDrawerTool = scyToolsList.bottomDrawerTool;
-         if (collaboration) {
-            window.openDrawer("bottom");
-         }
-      }
-      if (scyToolsList.leftDrawerTools != null) {
-         window.leftDrawerTools = scyToolsList.leftDrawerTools;
-         if (collaboration) {
-            window.openDrawer("left");
-         }
-      }
+      XFX.deferActionAndWait(function() {
+          // place the tools in the window
+          if (scyToolsList.windowContentTool != null) {
+             window.scyContent = scyToolsList.windowContentTool;
+          }
+          if (scyToolsList.topDrawerTool != null) {
+             window.topDrawerTool = scyToolsList.topDrawerTool;
+             if (collaboration) {
+                window.openDrawer("top");
+             }
+          }
+          if (scyToolsList.rightDrawerTool != null) {
+             window.rightDrawerTool = scyToolsList.rightDrawerTool;
+             if (collaboration) {
+                window.openDrawer("right");
+             }
+          }
+          if (scyToolsList.bottomDrawerTool != null) {
+             window.bottomDrawerTool = scyToolsList.bottomDrawerTool;
+             if (collaboration) {
+                window.openDrawer("bottom");
+             }
+          }
+          if (scyToolsList.leftDrawerTools != null) {
+             window.leftDrawerTools = scyToolsList.leftDrawerTools;
+             if (collaboration) {
+                window.openDrawer("left");
+             }
+          }
+      });
       // if the window content tool is defined, meaning a new or existing elo is loaded, report this
       if (window.scyContent != null) {
          // make sure that the tool itself in the scene graph
