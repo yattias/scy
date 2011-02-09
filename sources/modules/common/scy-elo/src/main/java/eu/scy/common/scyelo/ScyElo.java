@@ -70,6 +70,7 @@ public class ScyElo {
     private final IMetadataKey socialTagsKey;
     private final IMetadataKey thumbnailKey;
     private final IMetadataKey obligatoryInPortfolioKey;
+    private final IMetadataKey feedbackOnKey;
 
     private ScyElo(IELO elo, IMetadata metadata, RooloServices rooloServices) {
         assert metadata != null;
@@ -104,6 +105,7 @@ public class ScyElo {
         assignmentUriKey = findMetadataKey(ScyRooloMetadataKeyIds.ASSIGNMENT_URI);
         resourcesUriKey = findMetadataKey(ScyRooloMetadataKeyIds.RESOURCES_URI);
         obligatoryInPortfolioKey = findMetadataKey(ScyRooloMetadataKeyIds.OBLIGATORY_IN_PORTFOLIO);
+        feedbackOnKey = findMetadataKey(ScyRooloMetadataKeyIds.FEEDBACK_ON);
     }
 
     public ScyElo(IELO elo, RooloServices rooloServices) {
@@ -637,4 +639,12 @@ public class ScyElo {
      }
      getMetadataValueContainer(obligatoryInPortfolioKey).setValue(value);
   }
+   
+   public URI getFeedbackOnEloUri() {
+      return (URI) getMetadataValueContainer(feedbackOnKey).getValue();
+  }
+
+  public void setFeedbackOnEloUri(URI uri) {
+      getMetadataValueContainer(feedbackOnKey).setValue(uri);
+  } 
 }

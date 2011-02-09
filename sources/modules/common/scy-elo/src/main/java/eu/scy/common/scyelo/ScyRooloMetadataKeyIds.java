@@ -30,7 +30,8 @@ public enum ScyRooloMetadataKeyIds implements IMetadataKeyIdDefinition
    MUC_ID("mucId"),
    ASSIGNMENT_URI("assignmentUri"),
    RESOURCES_URI("resourcesUri"),
-   OBLIGATORY_IN_PORTFOLIO("obligatoryInPortfolio");
+   OBLIGATORY_IN_PORTFOLIO("obligatoryInPortfolio"),
+   FEEDBACK_ON("feedbackOn");
 
    private final String id;
 
