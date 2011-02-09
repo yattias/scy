@@ -58,6 +58,7 @@ public class BoxSpinner extends javax.swing.JPanel {
         next = new javax.swing.JButton();
         previous = new javax.swing.JButton();
 
+        setMinimumSize(new java.awt.Dimension(24, 25));
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
 
         label.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -83,8 +84,8 @@ public class BoxSpinner extends javax.swing.JPanel {
 
         champValeur.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         champValeur.setText("jTextField1");
-        champValeur.setMinimumSize(new java.awt.Dimension(6, 18));
-        champValeur.setPreferredSize(new java.awt.Dimension(70, 25));
+        champValeur.setMinimumSize(new java.awt.Dimension(6, 25));
+        champValeur.setPreferredSize(new java.awt.Dimension(70, 27));
         champValeur.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 champValeurActionPerformed(evt);
@@ -155,13 +156,16 @@ public class BoxSpinner extends javax.swing.JPanel {
     public void majParametre (boolean update){
         NumberFormat nfE = NumberFormat.getNumberInstance(owner.getLocale());
         DecimalFormat formatE = (DecimalFormat)nfE;
+        //beurk!! but i don't find any other solution
+        String test = formatE.format(1.1);
+        boolean isCommaSep = test!= null && test.indexOf(",") !=-1;
         formatE.applyPattern("0.######E0");
         NumberFormat nf = NumberFormat.getNumberInstance(owner.getLocale());
         DecimalFormat format = (DecimalFormat)nf;
         format.applyPattern("###.#####");
         if (value>-1E-16 && value<1E-16) champValeur.setText("0");
         else if ((value>-0.09999 && value<0.099999) || value>=1E6 || value<=-1E6)
-            champValeur.setText(formatE.format(value));
+            champValeur.setText(replaceDecimalSeparator(isCommaSep, formatE.format(value)));
         else if(isInteger(value)){
              champValeur.setText(""+value.intValue());
         }else{
@@ -177,10 +181,17 @@ public class BoxSpinner extends javax.swing.JPanel {
                 int nb = s.length()-id-1;
                 format.setMinimumFractionDigits(nb);
             }
-            champValeur.setText(format.format(value));
+            champValeur.setText(replaceDecimalSeparator(isCommaSep, format.format(value)));
         }
         if(update)
             owner.maJParametreDansFonction(label.getText(), value);
+    }
+
+    private String replaceDecimalSeparator(boolean isCommaSep, String s){
+        if(isCommaSep)
+            return s.replace('.', ',');
+        else
+            return s;
     }
 
     private boolean isInteger(Double d){
@@ -229,7 +240,7 @@ public class BoxSpinner extends javax.swing.JPanel {
     public int getHauteur(){
         // impossible de trouver le moyen d'obtenir automatiquement la hauteur de ce JSpinner
         // donc je la fixe a la main => problemes possibles d'affichage suivant les config...
-        int height = 23 ;
+        int height = 25 ;
         //height=champValeur.getHeight() ;
         //System.out.println("height = "+ height);
         return height ;

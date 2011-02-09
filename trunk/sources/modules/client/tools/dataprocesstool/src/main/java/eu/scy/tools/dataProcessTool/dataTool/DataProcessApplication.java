@@ -102,8 +102,8 @@ public class DataProcessApplication extends JFrame implements  ActionDataProcess
                 idUser = "2";
                 mission= "1";
                 idGroup = "1";
-                idLabDoc = "10035";
-                labDocName = "fitex";
+                idLabDoc = "10093";
+                labDocName = "fitex2";
 //                fitexURL = new URL("http://labbook.imag.fr/pages/");
 //                idUser = "3";
 //                mission= "5";

@@ -146,6 +146,9 @@ public class DataControllerDB implements ControllerInterface{
         // LOCKER
         DataBaseCommunication dbLabBook = new DataBaseCommunication(dataURL, DataConstants.DB_LABBOOK, dbKeyMission, ""+dbKeyUser);
         this.locker = new Locker(dataToolPanel, dbLabBook, dbKeyUser);
+        if(locker.isLocked(dbKeyLabDoc)){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_LOCKED"), false);
+        }
         // chargement des donnees
         // chargement des types d'operation
         v = new ArrayList();
@@ -1321,11 +1324,22 @@ public class DataControllerDB implements ControllerInterface{
                     return cr;
                 ((Graph)dataset.getListVisualization().get(idVis)).deleteFunctionModel(fColor);
             }else{
-                // modification
-                ArrayList v2 = new ArrayList();
-                CopexReturn cr = VisualizationFromDB.updateFunctionModelInDB(dbC, fm.getDbKey(), description,type,  listParam, idPredefFunction, v2);
-                if (cr.isError())
-                    return cr;
+                if(fm.getDescription() != null && fm.getDescription().equals(description) && fm.getType() == type  && sameParam(listParam, fm.getListParam())){
+                    int nbP = listParam.size();
+                    for(int i=0; i<nbP; i++){
+                        listParam.get(i).setDbKey(fm.getListParam().get(i).getDbKey());
+                    }
+                    CopexReturn cr = VisualizationFromDB.updateFunctionModelParamInDB(dbC, listParam);
+                    if (cr.isError())
+                        return cr;
+                }else{
+                    // modification
+                    ArrayList v2 = new ArrayList();
+                    CopexReturn cr = VisualizationFromDB.updateFunctionModelInDB(dbC, fm.getDbKey(), description,type,  listParam, idPredefFunction, v2);
+                    if (cr.isError())
+                        return cr;
+                    listParam = (ArrayList<FunctionParam>)v2.get(0);
+                }
                 fm.setType(type);
                 fm.setDescription(description);
                 fm.setListParam(listParam);
@@ -1350,6 +1364,20 @@ public class DataControllerDB implements ControllerInterface{
         }
         return -1;
     }
+
+    private static boolean sameParam(ArrayList<FunctionParam> p1, ArrayList<FunctionParam> p2){
+        if(p1 != null  && p2 != null && p1.size()==p2.size()){
+            int n = p1.size();
+            for(int i=0; i<n; i++){
+                if(!p1.get(i).getParam().equals(p2.get(i).getParam()))
+                    return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+
     /* insertion de lignes ou de colonnes */
     @Override
     public CopexReturn  insertData(Dataset ds,  boolean isOnCol, int nb, int idBefore, ArrayList v){

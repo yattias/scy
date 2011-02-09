@@ -159,7 +159,7 @@ public class FitexHTML {
                     String o = "";
                     if (id != -1 && !isIgnoredRow(i)){
                         //o= fitex.getNumberFormat().format(dataset.getListOperationResult(listOperationsOnRows.get(j)).get(id));
-                        o= dataTableModel.getOperationValue(listOperationsOnRows.get(j), i, dataTableModel.getStringListValueCol(i), ""+dataset.getListOperationResult(listOperationsOnRows.get(j)).get(id));
+                        o= dataTableModel.getOperationValue(listOperationsOnRows.get(j), i, dataTableModel.getStringListValueRow(i), ""+dataset.getListOperationResult(listOperationsOnRows.get(j)).get(id));
                     }else{
                         o = "-";
                     }
@@ -182,7 +182,7 @@ public class FitexHTML {
                     String o = "";
                     if (id != -1 && !isIgnoredRow(j)){
                         //o= fitex.getNumberFormat().format(dataset.getListOperationResult(listOperationsOnCols.get(i)).get(id));
-                        o= dataTableModel.getOperationValue(listOperationsOnCols.get(i), i, dataTableModel.getStringListValueRow(i), ""+dataset.getListOperationResult(listOperationsOnCols.get(i)).get(id));
+                        o= dataTableModel.getOperationValue(listOperationsOnCols.get(i), j, dataTableModel.getStringListValueCol(j), ""+dataset.getListOperationResult(listOperationsOnCols.get(i)).get(id));
                     }else{
                         o = "-";
                     }
