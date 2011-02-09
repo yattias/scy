@@ -7,10 +7,8 @@ package eu.scy.client.tools.fxyoutuber;
 import javafx.scene.Node;
 import javafx.util.Properties;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import roolo.api.IRepository;
-import roolo.elo.api.IELOFactory;
-import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * @author pg
@@ -18,9 +16,7 @@ import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
 
 public class YouTuberContentCreator extends ScyToolCreatorFX {
 
-    public var eloFactory:IELOFactory;
-    public var metadataTypeManager: IMetadataTypeManager;
-    public var repository:IRepository;
+    public var toolBokerAPI:ToolBrokerAPI;
 
     init {
         println("youtuber content creator");
@@ -32,9 +28,9 @@ public class YouTuberContentCreator extends ScyToolCreatorFX {
         props.put("show.filetoolbar", "false");
         var ytNode:YouTuberNode = YouTuberNode{scyDesktop: scyWindow.windowManager.scyDesktop};
         var youTuberRepositoryWrapper:YouTuberRepositoryWrapper = new YouTuberRepositoryWrapper(ytNode);
-        youTuberRepositoryWrapper.setRepository(repository);
-        youTuberRepositoryWrapper.setMetadataTypeManager(metadataTypeManager);
-        youTuberRepositoryWrapper.setEloFactory(eloFactory);
+        youTuberRepositoryWrapper.setRepository(toolBokerAPI.getRepository());
+        youTuberRepositoryWrapper.setMetadataTypeManager(toolBokerAPI.getMetaDataTypeManager());
+        youTuberRepositoryWrapper.setEloFactory(toolBokerAPI.getELOFactory());
         youTuberRepositoryWrapper.setDocName(scyWindow.title);
         ytNode.setFormAuthorRepositoryWrapper(youTuberRepositoryWrapper);
         return ytNode;
