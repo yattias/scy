@@ -139,6 +139,7 @@ public class StandardScyWindow extends ScyWindow {
    var resizeElement: WindowResize;
    var rotateElement: WindowRotate;
    var windowStateControls: WindowStateControls;
+   var titleBarBuddies: TitleBarBuddies;
    var contentElement: WindowContent;
    var closedWindow: ClosedWindow;
    var hideDrawers: Boolean;
@@ -914,9 +915,15 @@ public class StandardScyWindow extends ScyWindow {
          maximizeAction:doMaximize
       }
 
+      titleBarBuddies = TitleBarBuddies{
+         windowColorScheme:bind windowColorScheme
+         window: this
+      }
+
       windowTitleBar = WindowTitleBarDouble {
             width: bind realWidth + borderWidth
             windowStateControls: windowStateControls
+            titleBarBuddies: titleBarBuddies
             iconSize: iconSize
             title: bind title;
             activated: bind activated

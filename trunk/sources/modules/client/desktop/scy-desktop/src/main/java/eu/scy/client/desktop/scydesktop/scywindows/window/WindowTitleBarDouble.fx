@@ -42,6 +42,7 @@ public class WindowTitleBarDouble extends WindowElement {
    public var activated = true on replace { activatedChanged()
           };
    public var windowStateControls: WindowStateControls;
+   public var titleBarBuddies: TitleBarBuddies;
    public var iconSize = 40.0;
    public var iconGap = 2.0;
    public var textIconSpace = 5.0;
@@ -156,6 +157,11 @@ public class WindowTitleBarDouble extends WindowElement {
                   endX: iconSize + textIconSpace + borderWidth / 2, endY: 0
                   strokeWidth: borderWidth
                   stroke: bind windowColorScheme.mainColor
+               }
+               Group {
+                  layoutX: bind width/2
+                  layoutY: 2 * borderWidth + 1
+                  content: titleBarBuddies;
                }
                Group {
                   layoutX: bind width - windowStateControls.layoutBounds.width - 0 * borderWidth
