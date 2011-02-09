@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -13,29 +12,23 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.Action;
 import javax.swing.JOptionPane;
 import javax.swing.border.LineBorder;
 import javax.swing.plaf.FontUIResource;
 
 import net.miginfocom.swing.MigLayout;
-import net.sourceforge.jeval.EvaluationException;
-import net.sourceforge.jeval.Evaluator;
-import net.sourceforge.jeval.function.Function;
 
 import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXButton;
-import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.JXHyperlink;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTextField;
-import org.jdesktop.swingx.error.ErrorInfo;
 
 import eu.scy.tools.math.ui.UIUtils;
+import eu.scy.tools.math.ui.actions.FormulaHelpAction;
 import eu.scy.tools.math.ui.actions.NotationHelpAction;
 import eu.scy.tools.math.ui.paint.RoundedBorder;
 
@@ -439,7 +432,10 @@ public class Calculator extends JXPanel {
 		JXPanel nPanel = new JXPanel(new MigLayout());
 		nPanel.setOpaque(false);
 		 JXHyperlink notationHelpLink = new JXHyperlink(new NotationHelpAction());
-		nPanel.add(notationHelpLink);
+		nPanel.add(notationHelpLink,"wrap");
+		
+		nPanel.add(new JXHyperlink(new FormulaHelpAction(type)));
+				
 		this.add(nPanel, "top");
 	}
 
