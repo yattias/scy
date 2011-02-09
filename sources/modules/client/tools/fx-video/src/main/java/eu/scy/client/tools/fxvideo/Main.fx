@@ -34,7 +34,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
               missionRunConfigs: missionRunConfigs;
            }
 
-   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(VideoContentCreator {}, scyVideoId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(VideoContentCreator {}, scyVideoId);
 // scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyWebType, "webressource");
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
