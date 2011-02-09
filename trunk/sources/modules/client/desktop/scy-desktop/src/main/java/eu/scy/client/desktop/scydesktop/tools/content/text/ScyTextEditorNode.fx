@@ -32,6 +32,7 @@ import javafx.geometry.Insets;
 import java.awt.image.BufferedImage;
 import javafx.geometry.BoundingBox;
 import eu.scy.client.desktop.scydesktop.utils.ImageUtils;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * @author sikken
@@ -42,6 +43,7 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
    def scyTextType = "scy/text";
    def textTagName = "text";
    def jdomStringConversion = new JDomStringConversion();
+   public var toolBrokerAPI: ToolBrokerAPI;
    public var eloFactory: IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository: IRepository;
@@ -64,6 +66,9 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
 
    public override function initialize(windowContent: Boolean): Void {
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+      eloFactory = toolBrokerAPI.getELOFactory();
+      metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+      repository = toolBrokerAPI.getRepository();
    }
 
    public override function loadElo(uri: URI) {
