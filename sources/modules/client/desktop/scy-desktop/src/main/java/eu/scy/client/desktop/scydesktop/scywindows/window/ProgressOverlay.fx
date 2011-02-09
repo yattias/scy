@@ -108,6 +108,6 @@ public function stopShowWorking(): Void {
 
 function checkInitialisation() {
    if (theStage == null) {
-      throw new IllegalStateException("Please call ShowWorking.initShowWorking before use");
+      throw new IllegalStateException("Please call ProgressOverlay.initOverlay before use");
    }
 }

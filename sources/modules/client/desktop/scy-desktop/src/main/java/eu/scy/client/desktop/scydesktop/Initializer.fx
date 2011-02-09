@@ -660,6 +660,7 @@ public class Initializer {
                logger.info("webstart codeBase: {codeBase}");
                newScyServerHost = codeBase.getHost();
                newScyServerPort = codeBase.getPort();
+               logger.info("newScyServerHost: {newScyServerHost}, newScyServerPort: {newScyServerPort}");
             }
          }
          catch (e: javax.jnlp.UnavailableServiceException) {
