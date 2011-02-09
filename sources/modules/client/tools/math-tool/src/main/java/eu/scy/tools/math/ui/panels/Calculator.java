@@ -434,6 +434,8 @@ public class Calculator extends JXPanel {
 		 JXHyperlink notationHelpLink = new JXHyperlink(new NotationHelpAction());
 		nPanel.add(notationHelpLink,"wrap");
 		
+		nPanel.add(new JXLabel(),"wrap");
+		
 		nPanel.add(new JXHyperlink(new FormulaHelpAction(type)));
 				
 		this.add(nPanel, "top");

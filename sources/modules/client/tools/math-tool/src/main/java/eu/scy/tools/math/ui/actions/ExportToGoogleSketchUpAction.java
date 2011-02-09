@@ -15,6 +15,7 @@ import java.net.URL;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 
 import org.apache.commons.lang.StringUtils;
@@ -41,10 +42,11 @@ public class ExportToGoogleSketchUpAction extends AbstractAction {
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
+
+		JComponent source = (JComponent) e.getSource();
 		String path = mathToolController.export2DCanvasPNG();
 //		System.out.println("ExportToGoogleSketchUpAction.actionPerformed()");
 		final JDialog jd = new JDialog();
-		
 		jd.setTitle("Google Sketchup Import");
 		jd.setResizable(false);
 		jd.setModal(true);

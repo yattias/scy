@@ -179,5 +179,10 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 		return lengthTextField;
 	}
 
+	@Override
+	public String getLengthValue() {
+		return this.lengthTextField.getText();
+	}
+
 
 }
