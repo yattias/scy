@@ -345,7 +345,21 @@ public class VisualizationFromDB {
         cr = dbC.executeQuery(querys, v2);
         if(cr.isError())
             return cr;
+        v.add(listParam);
         return new CopexReturn();
+    }
+
+     /* mise a jour d'une fonction modele : liste des param*/
+    public static CopexReturn updateFunctionModelParamInDB(DataBaseCommunication dbC,ArrayList<FunctionParam> listParam){
+        int nbP = listParam.size();
+        String[] querys = new String[nbP];
+        for(int k=0; k<nbP; k++){
+            String query = "UPDATE FUNCTION_PARAM SET PARAM_VALUE = "+listParam.get(k).getValue()+"  WHERE ID_FUNCTION_PARAM = "+listParam.get(k).getDbKey()+" ;";
+            querys[k] = query;
+        }
+        ArrayList v2 = new ArrayList();
+        CopexReturn cr = dbC.executeQuery(querys, v2);
+        return cr;
     }
 
     /* suppression de plusieurs visualizations */

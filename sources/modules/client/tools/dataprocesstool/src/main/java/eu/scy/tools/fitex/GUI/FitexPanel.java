@@ -557,7 +557,7 @@ public class FitexPanel extends javax.swing.JPanel implements ActionCopexButton{
                 mapDesSpinners.get(param).setValue(valParam) ;
                 // on etire le panel qui accueille le box
                 heightPanel = mapDesSpinners.get(param).getHauteur() ;
-                heightPanel = 35;
+                heightPanel = 40;
             }
         }
         if(parametresFn.getPreferredSize().getWidth() > getWidth())
