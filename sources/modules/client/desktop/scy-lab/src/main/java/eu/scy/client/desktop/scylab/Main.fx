@@ -109,10 +109,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
               missionRunConfigs: missionRunConfigs;
            }
 
-//   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(StudentPlanningToolContentCreator {}, scyStudentPlanningTool);
-   //scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(StudentPlanningToolContentCreator {}, scyStudentPlanningTool);
-
-   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(MathToolContentCreatorFX{},mathToolId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(MathToolContentCreatorFX{},mathToolId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(DrawingToolCreatorFX{}, scyDrawingId);
 
@@ -132,11 +129,11 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TextEditorScyToolContentCreator {}, scyTextId);
 
-   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(InterviewToolContentCreator{},scyInterviewId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(InterviewToolContentCreator{},scyInterviewId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(VideoContentCreator {}, scyVideoId);
 
-   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(WebResourceContentCreator {}, scyWebresourceId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(WebResourceContentCreator {}, scyWebresourceId);
 
    var presentationExternalDocCreator = ExternalDocCreator{
       extensions: ["ppt","pptx"]
@@ -154,9 +151,9 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    }
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(wordExternalDocCreator, wordUploadId);
 
-   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(RichTextEditorContentCreatorFX{},scyRichTextId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(RichTextEditorContentCreatorFX{},scyRichTextId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ImageViewerCreator{}, scyImageId);
-   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(FormAuthorContentCreator {}, scyFormAuthorId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(FormAuthorContentCreator {}, scyFormAuthorId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(YouTuberContentCreator {}, scyYouTuberID);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new SpeedTestPanelCreator(), speedTestPanelId);
@@ -192,9 +189,6 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
                 chatControllerMap: chatControllerMap;
             },
             scychatpresenceId);
-
-//scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolDrawerContentCreatorFX {}, scychatId);
-//   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(ChattoolPresenceDrawerContentCreatorFX {}, scychatpresenceId);
 
    var scyDesktop = scyDesktopCreator.createScyDesktop();
 
