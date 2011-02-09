@@ -125,9 +125,11 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
       if (newElo != null) {
          var metadata = newElo.getMetadata();
          var text = eloContentXmlToText(newElo.getContent().getXmlString());
-         textBox.text = text;
          logger.info("elo text loaded");
          elo = newElo;
+         FX.deferAction(function(): Void {
+            textBox.text = text;
+         });
       }
    }
 
