@@ -23,7 +23,7 @@ public class FormulaHelpAction extends AbstractAction {
 	public void actionPerformed(ActionEvent evt) {
 		
 		
-		String title = type + " Forumla Guide";
+		String title = type + " Formula Guide";
 		String info; 
 			if( type.equals(UIUtils._2D))
 				info = UIUtils.notation2DHelpMessage;
