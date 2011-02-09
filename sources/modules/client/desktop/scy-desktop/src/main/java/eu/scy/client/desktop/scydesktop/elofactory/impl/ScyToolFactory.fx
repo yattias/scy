@@ -9,19 +9,20 @@ import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.scywindows.NewTitleGenerator;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import javafx.scene.Node;
-import java.io.CharArrayWriter;
-import java.io.PrintWriter;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFX;
+import java.lang.System;
+import eu.scy.client.desktop.scydesktop.utils.XFX;
+import javafx.scene.control.TextBox;
+import javafx.scene.layout.Container;
+import javafx.scene.layout.LayoutInfo;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolWindowContentCreatorFX;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolGetter;
+import java.io.CharArrayWriter;
+import java.io.PrintWriter;
 import java.lang.Exception;
-import java.lang.System;
-import javafx.scene.layout.Container;
-import javafx.scene.control.TextBox;
-import javafx.scene.layout.LayoutInfo;
 
 /**
  * @author sikken
@@ -47,12 +48,15 @@ public class ScyToolFactory extends ContentFactory {
       if (scyToolCreator != null) {
          try {
             checkIfServicesInjected(scyToolCreator);
-            toolNode = scyToolCreator.createScyToolNode(type,id,scyWindow, not drawer);
-            if (not drawer){
-               scyWindow.desiredContentWidth = Container.getNodePrefWidth(toolNode);
-               scyWindow.desiredContentHeight = Container.getNodePrefHeight(toolNode);
-//               println("desired content size set to {scyWindow.desiredContentWidth}*{scyWindow.desiredContentHeight}");
-            }
+            XFX.deferActionAndWait(function() {
+                    toolNode = scyToolCreator.createScyToolNode(type,id,scyWindow, not drawer);
+                    if (not drawer){
+                       scyWindow.desiredContentWidth = Container.getNodePrefWidth(toolNode);
+                       scyWindow.desiredContentHeight = Container.getNodePrefHeight(toolNode);
+        //               println("desired content size set to {scyWindow.desiredContentWidth}*{scyWindow.desiredContentHeight}");
+                    }
+                }
+            );
             toolTypeCreated = "ScyTool";
          } catch (e: Exception) {
             toolNode = createErrorNode(getErrorMessage(e, eloUri, id, type, drawer, scyToolCreator),scyWindow);
@@ -65,8 +69,10 @@ public class ScyToolFactory extends ContentFactory {
             if (drawerContentCreator != null) {
                checkIfServicesInjected(drawerContentCreator);
                try {
-                  toolNode = drawerContentCreator.getDrawerContent(eloUri, scyWindow);
-                  toolTypeCreated = "DrawerTool";
+                  XFX.deferActionAndWait(function(): Void {
+                      toolNode = drawerContentCreator.getDrawerContent(eloUri, scyWindow);
+                      toolTypeCreated = "DrawerTool";
+                  });
                } catch (e: Exception) {
                   toolNode = createErrorNode(getErrorMessage(e, eloUri, id, type, true, drawerContentCreator),scyWindow);
                   toolTypeCreated = "ErrorDrawerTool";
@@ -77,18 +83,20 @@ public class ScyToolFactory extends ContentFactory {
             if (windowContentCreator != null) {
                checkIfServicesInjected(windowContentCreator);
                try {
-                  if (windowContentCreator instanceof ScyToolWindowContentCreatorFX) {
-                     toolNode = (windowContentCreator as ScyToolWindowContentCreatorFX).createScyToolWindowContent();
-                     toolTypeCreated = "ScyToolWindow";
-                  } else {
-                     if (eloUri != null) {
-                        toolNode = windowContentCreator.getScyWindowContent(eloUri, scyWindow);
-                        toolTypeCreated = "WindowToolExisting";
-                     } else {
-                        toolNode = windowContentCreator.getScyWindowContentNew(scyWindow);
-                        toolTypeCreated = "WindowToolNew";
-                     }
-                  }
+                   XFX.deferActionAndWait(function(): Void {
+                      if (windowContentCreator instanceof ScyToolWindowContentCreatorFX) {
+                             toolNode = (windowContentCreator as ScyToolWindowContentCreatorFX).createScyToolWindowContent();
+                             toolTypeCreated = "ScyToolWindow";
+                      } else {
+                         if (eloUri != null) {
+                            toolNode = windowContentCreator.getScyWindowContent(eloUri, scyWindow);
+                            toolTypeCreated = "WindowToolExisting";
+                         } else {
+                            toolNode = windowContentCreator.getScyWindowContentNew(scyWindow);
+                            toolTypeCreated = "WindowToolNew";
+                         }
+                      }
+                   });
                } catch (e: Exception) {
                   toolNode = createErrorNode(getErrorMessage(e, eloUri, id, type, false, windowContentCreator),scyWindow);
                   toolTypeCreated = "ErrorWindowTool";
@@ -117,15 +125,19 @@ public class ScyToolFactory extends ContentFactory {
    }
 
    function createErrorNode(errorMessage: String, window:ScyWindow): Node {
-      var textBox:TextBox = TextBox{
-         text:errorMessage
-         multiline:true
-         editable:false
-         layoutInfo: LayoutInfo {
-            height: bind textBox.height
-            width: bind textBox.width
-         }
-      }
+       var textBox:TextBox;
+       XFX.deferActionAndWait(function(): Void {
+          textBox = TextBox{
+             text:errorMessage
+             multiline:true
+             editable:false
+             layoutInfo: LayoutInfo {
+                height: bind textBox.height
+                width: bind textBox.width
+             }
+          }
+       });
+       return textBox;
    }
 
    function getErrorMessage(e: Exception, eloUri: URI, id: String, type: String, drawer: Boolean, creator: Object): String {
