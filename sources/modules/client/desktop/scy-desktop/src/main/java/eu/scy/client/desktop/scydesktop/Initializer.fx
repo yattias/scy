@@ -5,8 +5,6 @@
  */
 package eu.scy.client.desktop.scydesktop;
 
-import javafx.scene.image.Image;
-import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 import eu.scy.client.desktop.scydesktop.utils.InitJavaUtilLogging;
 import java.io.File;
@@ -17,7 +15,6 @@ import java.io.PrintStream;
 import java.lang.Thread;
 import java.lang.Exception;
 import javax.swing.UIManager;
-import javafx.scene.image.ImageView;
 import javafx.scene.Scene;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.login.RemoteToolBrokerLogin;
@@ -60,8 +57,6 @@ public class Initializer {
    public-read def loadTimer = new ActivityTimer("loading");
    public-init var log4JInitFile = "";
    public-init var javaUtilLoggingInitFile = "";
-   public-init var backgroundImageUrl = "{__DIR__}images/bckgrnd2l.jpg";
-//   public-init var backgroundImageUrl = "http://www.scy-lab.eu/content/backgrounds/bckgrnd2.jpg"; // "{__DIR__}images/bckgrnd2.jpg";
    public-init var enableLocalLogging = true;
    public-init var loggingDirectoryName = "logging";
    public-init var redirectSystemStream = false;
@@ -100,7 +95,6 @@ public class Initializer {
    public-init var dontUseMissionRuntimeElos = false;
    public-init var useBigMissionMap = true;
    public-read var languages: String[];
-   public-read var backgroundImage: Image;
    public-read var localLoggingDirectory: File = null;
    public-read var toolBrokerLogin: ToolBrokerLogin;
    public-read var usingWebStart = false;
@@ -116,7 +110,6 @@ public class Initializer {
    def disableRooloVersioningKey = "disableRooloVersioning";
    // parameter option names
    def log4JInitFileOption = "log4JInitFile";
-   def backgroundImageUrlOption = "backgroundImageUrl";
    def enableLocalLoggingOption = "enableLocalLogging";
    def loggingDirectoryNameOption = "loggingDirectoryName";
    def redirectSystemStreamOption = "redirectSystemStream";
@@ -163,7 +156,6 @@ public class Initializer {
       Thread.setDefaultUncaughtExceptionHandler(new FilteringExceptionCatcher("SCY-Lab"));
       parseApplicationParameters();
       parseWebstartParameters();
-      setupBackgroundImage();
       loginTypeEnum = LoginType.convertToLoginType(loginType);
       usingWebStart = System.getProperty("javawebstart.version") != null;
       offlineMode = loginType.toLowerCase().startsWith("local");
@@ -234,9 +226,6 @@ public class Initializer {
             if (option == log4JInitFileOption.toLowerCase()) {
                log4JInitFile = argumentsList.nextStringValue(log4JInitFileOption);
                logger.info("app: {log4JInitFileOption}: {log4JInitFile}");
-            } else if (option == backgroundImageUrlOption.toLowerCase()) {
-               backgroundImageUrl = argumentsList.nextStringValue(backgroundImageUrlOption);
-               logger.info("app: {backgroundImageUrlOption}: {backgroundImageUrl}");
             } else if (option == enableLocalLoggingOption.toLowerCase()) {
                enableLocalLogging = argumentsList.nextBooleanValue(enableLocalLoggingOption);
                logger.info("app: {enableLocalLoggingOption}: {enableLocalLogging}");
@@ -356,7 +345,6 @@ public class Initializer {
 
    function parseWebstartParameters() {
       log4JInitFile = getWebstartParameterStringValue(log4JInitFileOption, log4JInitFile);
-      backgroundImageUrl = getWebstartParameterStringValue(backgroundImageUrlOption, backgroundImageUrl);
       enableLocalLogging = getWebstartParameterBooleanValue(enableLocalLoggingOption, enableLocalLogging);
       loggingDirectoryName = getWebstartParameterStringValue(loggingDirectoryNameOption, loggingDirectoryName);
       redirectSystemStream = getWebstartParameterBooleanValue(redirectSystemStreamOption, redirectSystemStream);
@@ -438,7 +426,6 @@ public class Initializer {
       printWriter.println("Initializer properties:");
       printWriter.println("- log4JInitFile: {log4JInitFile}");
       printWriter.println("- javaUtilLoggingInitFile: {javaUtilLoggingInitFile}");
-      printWriter.println("- backgroundImageUrl: {backgroundImageUrl}");
       printWriter.println("- enableLocalLogging: {enableLocalLogging}");
       printWriter.println("- loggingDirectoryName: {loggingDirectoryName}");
       printWriter.println("- redirectSystemStream: {redirectSystemStream}");
@@ -481,33 +468,6 @@ public class Initializer {
 
    public function isEmpty(string: String): Boolean {
       return string == null or string.length() == 0;
-   }
-
-   public function getBackgroundImageView(scene: Scene): ImageView {
-      var backgroundImageView: ImageView;
-      if (backgroundImage != null) {
-         backgroundImageView = ImageView {
-               image: backgroundImage
-               fitWidth: bind scene.width
-               fitHeight: bind scene.height
-               preserveRatio: false
-               cache: true
-            }
-      }
-      return backgroundImageView;
-   }
-
-   public function getBackground(scene: Scene): Node {
-      if (backgroundImage != null) {
-         println("scene: {scene}");
-         return Background {
-               defaultBackgroundImage: backgroundImage;
-               displayWith: bind scene.width;
-               displayHeight: bind scene.height;
-               useScene: scene;
-            }
-      }
-      return null;
    }
 
    public function getScene(createScyDesktop: function(missionRunConfigs: MissionRunConfigs): ScyDesktop): Scene {
@@ -560,18 +520,6 @@ public class Initializer {
          setupLoggingToFiles.setuplog4JLogFile();
       }
 
-   }
-
-   function setupBackgroundImage() {
-      if (backgroundImageUrl.length() > 0) {
-         logger.info("loading background image: {backgroundImageUrl}");
-         backgroundImage = Image {
-               url: backgroundImageUrl
-            }
-         logger.info("background image, error: {backgroundImage.error}, progress: {backgroundImage.progress}");
-      } else {
-         logger.info("no background image specified");
-      }
    }
 
    function findLocalLoggingDirectory(userName: String): File {
