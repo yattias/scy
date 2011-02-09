@@ -7,8 +7,9 @@
 package eu.scy.client.tools.interviewtool;
 
 import javafx.scene.Node;
-import eu.scy.client.desktop.scydesktop.elofactory.ScyToolWindowContentCreatorFX;
 import javafx.util.StringLocalizer;
+import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 /**
  * @author kaido
@@ -17,8 +18,9 @@ import javafx.util.StringLocalizer;
 /**
 * Standard SCY Tool creator class for Interview Tool
 */
-public class InterviewToolContentCreator extends ScyToolWindowContentCreatorFX {
-   public override function createScyToolWindowContent():Node{
+public class InterviewToolContentCreator extends ScyToolCreatorFX {
+    
+   public override function createScyToolNode(eloType:String, creatorId:String, scyWindow:ScyWindow, windowContent: Boolean):Node {
       StringLocalizer.associate("eu.scy.client.tools.interviewtool.resources.InterviewTool", "eu.scy.client.tools.interviewtool");
       return InterviewToolScyNode{};
    }
