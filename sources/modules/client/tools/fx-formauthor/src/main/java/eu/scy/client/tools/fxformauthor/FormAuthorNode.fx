@@ -20,6 +20,7 @@ import java.net.URI;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * @author pg
@@ -27,6 +28,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
 public class FormAuthorNode extends CustomNode, Resizable, ScyToolFX, ILoadXML, EloSaverCallBack  {
     public-init var formAuthorRepositoryWrapper:FormAuthorRepositoryWrapper;
+    public var toolBrokerAPI:ToolBrokerAPI;
     public var repository:IRepository;
     public var eloFactory:IELOFactory;
     public var metadataTypeManager:IMetadataTypeManager;
@@ -123,6 +125,9 @@ public class FormAuthorNode extends CustomNode, Resizable, ScyToolFX, ILoadXML, 
 
 
     public override function initialize(windowContent: Boolean):Void {
+        repository = toolBrokerAPI.getRepository();
+        metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+        eloFactory = toolBrokerAPI.getELOFactory();
         technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
     }
     

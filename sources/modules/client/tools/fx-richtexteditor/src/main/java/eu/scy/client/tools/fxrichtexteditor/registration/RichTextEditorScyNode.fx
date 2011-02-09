@@ -6,9 +6,7 @@
 
 package eu.scy.client.tools.fxrichtexteditor.registration;
 
-import javafx.scene.CustomNode;
 import javafx.scene.Node;
-import javafx.scene.layout.Resizable;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import org.apache.log4j.Logger;
@@ -41,7 +39,6 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.Container;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 import roolo.search.MetadataQueryComponent;
 import roolo.search.IQueryComponent;
@@ -64,9 +61,6 @@ public class RichTextEditorScyNode extends RichTextEditorNode, ScyToolFX, EloSav
    public var toolBrokerAPI:ToolBrokerAPI;
    public var extensionManager:IExtensionManager;
    public var actionLogger:IActionLogger;
-   public var awarenessService:IAwarenessService;
-   public var dataSyncService:IDataSyncService;
-   public var pedagogicalPlanService:PedagogicalPlanService;
    public var scyWindow:ScyWindow;
    public var authorMode:Boolean;
    // interval in milliseconds after what typed text is wrote
@@ -88,6 +82,9 @@ public class RichTextEditorScyNode extends RichTextEditorNode, ScyToolFX, EloSav
    }
 
    public override function initialize(windowContent:Boolean):Void{
+       metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+       repository = toolBrokerAPI.getRepository();
+       actionLogger = toolBrokerAPI.getActionLogger();
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       if (actionLogger==null) {
          actionLogger = new DevNullActionLogger();

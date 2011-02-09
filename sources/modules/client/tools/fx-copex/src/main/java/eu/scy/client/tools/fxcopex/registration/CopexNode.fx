@@ -100,6 +100,10 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
 
 
    public override function initialize(windowContent: Boolean):Void{
+       metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+       repository = toolBrokerAPI.getRepository();
+       eloFactory = toolBrokerAPI.getELOFactory();
+
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       scyCopexPanel.setTBI(toolBrokerAPI);
       scyCopexPanel.setEloUri((scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
