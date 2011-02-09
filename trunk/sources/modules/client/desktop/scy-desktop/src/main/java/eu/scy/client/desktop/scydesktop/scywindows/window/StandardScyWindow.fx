@@ -916,6 +916,7 @@ public class StandardScyWindow extends ScyWindow {
       }
 
       titleBarBuddies = TitleBarBuddies{
+         tooltipManager:tooltipManager
          windowColorScheme:bind windowColorScheme
          window: this
       }
