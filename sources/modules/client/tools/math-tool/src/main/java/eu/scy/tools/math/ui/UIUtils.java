@@ -99,9 +99,9 @@ public class UIUtils {
 	
 
 	public static String forumla2dHtml = "<b>2D Forumla Guide:</b><br>"+
-	"<p><b>Square:</b> SA=w*h" +
-	"<p><b>Rectangle:</b> SA = w*h/2" +
-	"<p><b>Circle:</b> SA=p*r^2";
+	"<p><b>Square:</b> Surface Area (SA) =w*h" +
+	"<p><b>Rectangle:</b>Surface Area (SA) = w*h/2" +
+	"<p><b>Circle:</b>Surface Area (SA) =p*r^2";
 	
 	public static final String notation2DHelpMessage = startTags + forumla2dHtml + endTags;
 	
