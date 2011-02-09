@@ -120,7 +120,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(CopexToolCreatorFX{}, scyCopexId);
 
-   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(SCYMapperContentCreator {}, scyMapperId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(SCYMapperContentCreator {}, scyMapperId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(SimulatorContentCreator {}, scySimulatorId);
 
