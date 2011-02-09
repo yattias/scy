@@ -74,6 +74,7 @@ public class Initializer {
    public-init var createPersonalMissionMap = true;
    public-init var eloImagesPath = "{__DIR__}imagewindowstyler/images/";
    public-init var scyServerHost: String;
+   public-init var scyServerPort: Integer;
    public-init var useWebStartHost = true;
    public-init var windowPositioner = "functionalRole";
    public-init var debugMode = false;
@@ -104,6 +105,7 @@ public class Initializer {
    def enableLocalLoggingKey = "enableLocalLogging";
    def loggingDirectoryKey = "loggingDirectory";
    def storeElosOnDiskKey = "storeElosOnDisk";
+   def scyServerPortKey = "httpPort";
    def scyServerNameKey = "serverName";
    def sqlspacesServerKey = "sqlspacesServer";
    def minimumRooloNewVersionListIdKey = "minimumRooloNewVersionListId";
@@ -127,6 +129,7 @@ public class Initializer {
    def createPersonalMissionMapOption = "createPersonalMissionMap";
    def eloImagesPathOption = "eloImagesPath";
    def scyServerHostOption = "scyServerHost";
+   def scyServerPortOption = "scyServerPort";
    def useWebStartHostOption = "useWebStartHost";
    def windowPositionerOption = "windowPositioner";
    def debugModeOption = "debugMode";
@@ -277,6 +280,9 @@ public class Initializer {
             } else if (option == scyServerHostOption.toLowerCase()) {
                scyServerHost = argumentsList.nextStringValue(scyServerHostOption);
                logger.info("app: {scyServerHostOption}: {scyServerHost}");
+            } else if (option == scyServerPortOption.toLowerCase()) {
+               scyServerPort = argumentsList.nextIntegerValue(scyServerPortOption);
+               logger.info("app: {scyServerPortOption}: {scyServerPort}");
             } else if (option == useWebStartHostOption.toLowerCase()) {
                useWebStartHost = argumentsList.nextBooleanValue(useWebStartHostOption);
                logger.info("app: {useWebStartHostOption}: {useWebStartHost}");
@@ -362,6 +368,7 @@ public class Initializer {
       createPersonalMissionMap = getWebstartParameterBooleanValue(createPersonalMissionMapOption, createPersonalMissionMap);
       eloImagesPath = getWebstartParameterStringValue(eloImagesPathOption, eloImagesPath);
       scyServerHost = getWebstartParameterStringValue(scyServerHostOption, scyServerHost);
+      scyServerPort = getWebstartParameterIntegerValue(scyServerPortOption, scyServerPort);
       useWebStartHost = getWebstartParameterBooleanValue(useWebStartHostOption, useWebStartHost);
       windowPositioner = getWebstartParameterStringValue(windowPositionerOption, windowPositioner);
       debugMode = getWebstartParameterBooleanValue(debugModeOption, debugMode);
@@ -412,6 +419,16 @@ public class Initializer {
       return numberValue;
    }
 
+   function getWebstartParameterIntegerValue(name: String, default: Integer): Integer {
+      var webstartValue = FX.getArgument(name) as String;
+      if (isEmpty(webstartValue)) {
+         return default;
+      }
+      var integerValue = Integer.parseInt(webstartValue);
+      logger.info("ws: {name}: {integerValue}");
+      return integerValue;
+   }
+
    function getWebstartParameterIntegerValueAsString(name: String, default: String): String {
       var webstartValue = FX.getArgument(name) as String;
       if (isEmpty(webstartValue)) {
@@ -444,6 +461,7 @@ public class Initializer {
       printWriter.println("- createPersonalMissionMap: {createPersonalMissionMap}");
       printWriter.println("- eloImagesPath: {eloImagesPath}");
       printWriter.println("- scyServerHost: {scyServerHost}");
+      printWriter.println("- scyServerPort: {scyServerPort}");
       printWriter.println("- useWebStartHost: {useWebStartHost}");
       printWriter.println("- windowPositioner: {windowPositioner}");
       printWriter.println("- debugMode: {debugMode}");
@@ -631,9 +649,8 @@ public class Initializer {
 
    function setupScyServerHost() {
       var newScyServerHost: String;
-      if (scyServerHost.length() > 0) {
-         newScyServerHost = scyServerHost;
-      } else if (useWebStartHost) {
+      var newScyServerPort: Integer = -1;
+      if (useWebStartHost){
          try {
             var basicService = ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
             var webstartServiceNames = javax.jnlp.ServiceManager.getServiceNames();
@@ -642,17 +659,29 @@ public class Initializer {
                var codeBase = basicService.getCodeBase();
                logger.info("webstart codeBase: {codeBase}");
                newScyServerHost = codeBase.getHost();
+               newScyServerPort = codeBase.getPort();
             }
          }
          catch (e: javax.jnlp.UnavailableServiceException) {
             logger.info("cannot get scy server host from web start, as web start is not being used: {e}");
          }
       }
+      if (scyServerHost.length() > 0) {
+         newScyServerHost = scyServerHost;
+      }
+      if (scyServerPort > 0) {
+         newScyServerPort = scyServerPort;
+      }
       if (newScyServerHost.length() > 0) {
          logger.info("setting scy server host to {newScyServerHost}");
          System.setProperty(scyServerNameKey, newScyServerHost);
          System.setProperty(sqlspacesServerKey, newScyServerHost);
          Configuration.getInstance().setScyServerHost(newScyServerHost);
+      }
+      if (newScyServerPort>0) {
+         logger.info("setting scy server port to {newScyServerPort}");
+         System.setProperty(scyServerPortKey, "{newScyServerPort}");
+         Configuration.getInstance().setScyServerPort(newScyServerPort);
       }
    }
 
