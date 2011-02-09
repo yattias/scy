@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import roolo.elo.api.IELO;
 import roolo.search.ISearchResult;
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.api.ContextConstants;
@@ -76,8 +77,8 @@ public class LocalMultiUserToolBrokerLoginTest extends CommonToolBrokerLoginTest
       Assert.assertEquals(userNameA, tbi.getLoginUserName());
       checkDirectoryCopies(true);
       Assert.assertEquals(1, localMultiUserToolBrokerLogin.loggingDirectory.listFiles().length);
-      List<ISearchResult> searchResults = tbi.getRepository().search(null);
-      Assert.assertFalse(searchResults.isEmpty());
+      List<IELO> allElos = tbi.getRepository().retrieveAllELOs();
+      Assert.assertFalse(allElos.isEmpty());
       // simulate some actions
       TestUtils.deleteDirectory(localMultiUserToolBrokerLogin.eloStoreDirectory.listFiles()[0],
                true);
@@ -95,8 +96,8 @@ public class LocalMultiUserToolBrokerLoginTest extends CommonToolBrokerLoginTest
       Assert.assertEquals(userNameA, tbi.getLoginUserName());
       checkDirectoryCopies(false);
       Assert.assertEquals(2, localMultiUserToolBrokerLogin.loggingDirectory.listFiles().length);
-      searchResults = tbi.getRepository().search(null);
-      Assert.assertFalse(searchResults.isEmpty());
+      allElos = tbi.getRepository().retrieveAllELOs();
+      Assert.assertFalse(allElos.isEmpty());
       closeTbi();
       // login under a different name
       object = localMultiUserToolBrokerLogin.login(userNameB, userNameB);
@@ -104,8 +105,8 @@ public class LocalMultiUserToolBrokerLoginTest extends CommonToolBrokerLoginTest
       Assert.assertEquals(userNameB, tbi.getLoginUserName());
       checkDirectoryCopies(true);
       Assert.assertEquals(1, localMultiUserToolBrokerLogin.loggingDirectory.listFiles().length);
-      searchResults = tbi.getRepository().search(null);
-      Assert.assertFalse(searchResults.isEmpty());
+      allElos = tbi.getRepository().retrieveAllELOs();
+      Assert.assertFalse(allElos.isEmpty());
    }
 
    private void checkDirectoryCopies(boolean identical)
