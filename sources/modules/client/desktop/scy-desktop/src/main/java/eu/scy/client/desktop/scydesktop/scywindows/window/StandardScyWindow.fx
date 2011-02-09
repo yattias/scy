@@ -45,6 +45,9 @@ import eu.scy.client.desktop.scydesktop.art.ScyColors;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import javafx.scene.layout.Container;
 import javafx.scene.CacheHint;
+import eu.scy.client.desktop.scydesktop.utils.JavaFXBackgroundRunner;
+import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
+import eu.scy.client.desktop.scydesktop.utils.XFX;
 
 /**
  * @author sikkenj
@@ -362,41 +365,45 @@ public class StandardScyWindow extends ScyWindow {
           }
           logger.info("Stored closed position of window {title} to {closedPosition.x} x {closedPosition.y}");
       }
-      checkScyContent();
-      desiredWidth = openWidth;
-      desiredHeight = openHeight;
-      var useSize: Point2D = limitSize(openWidth, openHeight);
-      logger.info("Setting size of window {title} to {useSize.x} x {useSize.y}");
-      var useLocation: Point2D = limitLocation(posX, posY);
-      cache = true;
-      cacheHint = CacheHint.SCALE_AND_ROTATE;
-      isAnimating = true;
-      hideDrawers = true;
-      isClosed = false;
-      var openTimeline = Timeline {
-          keyFrames: [
-               KeyFrame {
-                  canSkip: false;
-                  time: animationDuration;
-                  values: [
-                     layoutX => useLocation.x tween Interpolator.EASEOUT,
-                     layoutY => useLocation.y tween Interpolator.EASEOUT,
-                     width => useSize.x tween Interpolator.EASEOUT,
-                     height => useSize.y tween Interpolator.EASEOUT,
-                     rotate => rotation tween Interpolator.EASEOUT
-                  ]
-                  action: function() {
-                      hideDrawers = false;
-                      scyToolsList.onOpened();
-                      updateRelativeBounds();
-                      cache = false;
-                      cacheHint = CacheHint.DEFAULT;
-                      isAnimating = false;
-                  }
-               }
-           ]
-       };
-       openTimeline.play();
+      ProgressOverlay.startShowWorking();
+      XFX.runActionInBackgroundAndCallBack(checkScyContent, function(result) {
+              ProgressOverlay.stopShowWorking();
+              desiredWidth = openWidth;
+              desiredHeight = openHeight;
+              var useSize: Point2D = limitSize(openWidth, openHeight);
+              logger.info("Setting size of window {title} to {useSize.x} x {useSize.y}");
+              var useLocation: Point2D = limitLocation(posX, posY);
+              cache = true;
+              cacheHint = CacheHint.SCALE_AND_ROTATE;
+              isAnimating = true;
+              hideDrawers = true;
+              isClosed = false;
+              var openTimeline = Timeline {
+                  keyFrames: [
+                       KeyFrame {
+                          canSkip: false;
+                          time: animationDuration;
+                          values: [
+                             layoutX => useLocation.x tween Interpolator.EASEOUT,
+                             layoutY => useLocation.y tween Interpolator.EASEOUT,
+                             width => useSize.x tween Interpolator.EASEOUT,
+                             height => useSize.y tween Interpolator.EASEOUT,
+                             rotate => rotation tween Interpolator.EASEOUT
+                          ]
+                          action: function() {
+                              hideDrawers = false;
+                              scyToolsList.onOpened();
+                              updateRelativeBounds();
+                              cache = false;
+                              cacheHint = CacheHint.DEFAULT;
+                              isAnimating = false;
+                          }
+                       }
+                   ]
+               };
+               openTimeline.play();
+          }
+      );
    }
 
    /**
