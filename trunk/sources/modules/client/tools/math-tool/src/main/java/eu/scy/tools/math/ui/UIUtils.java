@@ -98,7 +98,7 @@ public class UIUtils {
 	
 	
 
-	public static String forumla2dHtml = "<b>2D Forumla Guide:</b><br>"+
+	public static String forumla2dHtml = "<b>2D Formula Guide:</b><br>"+
 	"<p><b>Square:</b> Surface Area (SA) = w*h" +
 	"<p><b>Rectangle:</b> Surface Area (SA) = w*h/2" +
 	"<p><b>Circle:</b> Surface Area (SA) = p*r^2" +
@@ -111,7 +111,7 @@ public class UIUtils {
 		
 		
 		
-	public static String forumla3dHtml = "<b>3D Forumla Guide:</b><br>"+
+	public static String forumla3dHtml = "<b>3D Formula Guide:</b><br>"+
 	"<p><b>Sphere:</b>" +
 	"<br>Volume (V) = (4/3)*pi*r^3" +
 	"<br>Surface Area (SA) = 4*pi*r^2"+
