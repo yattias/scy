@@ -10,54 +10,17 @@ package eu.scy.client.tools.fxwebresourcer;
 import javafx.scene.Node;
 
 
-import eu.scy.client.desktop.scydesktop.elofactory.ScyToolWindowContentCreatorFX;
 import javafx.util.StringLocalizer;
+import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
  
 /**
  * @author pg
  */
 
-//public class WebResourceContentCreator extends WindowContentCreatorFX {
-public class WebResourceContentCreator extends ScyToolWindowContentCreatorFX {
-    override function createScyToolWindowContent():Node {
+public class WebResourceContentCreator extends ScyToolCreatorFX {
+    public override function createScyToolNode(eloType:String, creatorId:String, scyWindow:ScyWindow, windowContent: Boolean):Node {
         StringLocalizer.associate("eu.scy.client.tools.fxwebresourcer.resources.WebResourcer", "eu.scy.client.tools.fxwebresourcer");
         return WebResourceNode{};
     }
- /*
-   public var eloFactory:IELOFactory;
-   public var metadataTypeManager: IMetadataTypeManager;
-   public var repository:IRepository;
-
-   public override function getScyWindowContent(eloUri: URI, scyWindow:ScyWindow):Node {
-            var webNode = createWebResourceNode(scyWindow);
-            webNode.loadElo(eloUri);
-            return webNode;
-    }
-
-    public override function getScyWindowContentNew(scyWindow:ScyWindow):Node {
-            return createWebResourceNode(scyWindow);
-    }
-
-    function createWebResourceNode(scyWindow:ScyWindow):WebResourceNode {
-        setWindowProperties(scyWindow);
-        var props:Properties = new Properties();
-        props.put("show.filetoolbar", "false");
-        //var modelEditor = new ModelEditor(props);
-        var webNode:WebResourceNode = WebResourceNode {
-                scyWindow: scyWindow};
-//        var eloWebResourceActionWrapper = new EloWebResourceActionWrapper(webPanel);
-        var eloWebResourceActionWrapper = new EloWebResourceActionWrapper(webNode);
-        eloWebResourceActionWrapper.setRepository(repository);
-        eloWebResourceActionWrapper.setMetadataTypeManager(metadataTypeManager);
-        eloWebResourceActionWrapper.setEloFactory(eloFactory);
-        eloWebResourceActionWrapper.setDocName(scyWindow.title);
-        webNode.eloWebResourceActionWrapper = eloWebResourceActionWrapper;
-        return webNode;
-    }
-
-        function setWindowProperties(scyWindow:ScyWindow) {
-            scyWindow.minimumWidth = 320;
-            scyWindow.minimumHeight = 100;
-        }
-  */
 }
