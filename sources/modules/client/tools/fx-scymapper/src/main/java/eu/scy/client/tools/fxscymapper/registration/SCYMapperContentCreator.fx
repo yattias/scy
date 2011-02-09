@@ -5,25 +5,18 @@
  */
 package eu.scy.client.tools.fxscymapper.registration;
 
-import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorFX;
 import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import java.net.URI;
-import roolo.api.IRepository;
-import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.scymapper.impl.SCYMapperPanel;
 import eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import roolo.elo.api.IELOFactory;
 import org.apache.log4j.Logger;
 import roolo.elo.api.IELO;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
 
-public class SCYMapperContentCreator extends WindowContentCreatorFX {
+public class SCYMapperContentCreator extends ScyToolCreatorFX {
 
-    public var eloFactory: IELOFactory;
-    public var metadataTypeManager: IMetadataTypeManager;
-    public var repository: IRepository;
     public var toolBrokerAPI: ToolBrokerAPI;
     public var userName: String;
     var repositoryWrapper;
@@ -32,24 +25,18 @@ public class SCYMapperContentCreator extends WindowContentCreatorFX {
     function initRepositoryWrapper() {
         if (repositoryWrapper == null) {
             repositoryWrapper = new ScyMapperRepositoryWrapper();
-            repositoryWrapper.setRepository(repository);
-            repositoryWrapper.setMetadataTypeManager(metadataTypeManager);
-            repositoryWrapper.setEloFactory(eloFactory);
+            repositoryWrapper.setRepository(toolBrokerAPI.getRepository());
+            repositoryWrapper.setMetadataTypeManager(toolBrokerAPI.getMetaDataTypeManager());
+            repositoryWrapper.setEloFactory(toolBrokerAPI.getELOFactory());
         }
     }
 
-    public override function getScyWindowContent(eloUri: URI, scyWindow: ScyWindow): Node {
-        initRepositoryWrapper();
-        var elo = repositoryWrapper.loadELO(eloUri);
-        var scyMapperNode = createScyMapperNode(scyWindow, elo);
-        return scyMapperNode;
-    }
-
-    public override function getScyWindowContentNew(scyWindow: ScyWindow): Node {
+    public override function createScyToolNode(eloType:String, creatorId:String, scyWindow:ScyWindow, windowContent: Boolean):Node {
         initRepositoryWrapper();
         var elo = repositoryWrapper.createELO();
         return createScyMapperNode(scyWindow, elo);
     }
+
 
     function createScyMapperNode(scyWindow: ScyWindow, elo: IELO): SCYMapperNode {
         setWindowProperties(scyWindow);
@@ -66,11 +53,11 @@ public class SCYMapperContentCreator extends WindowContentCreatorFX {
         scymapperPanel.setToolBroker(toolBrokerAPI, userName);
 
         return SCYMapperNode {
-                    scyMapperPanel: scymapperPanel;
-                    repositoryWrapper: repositoryWrapper;
-                    currentELO: elo;
-                    scyWindow: scyWindow;
-                }
+            scyMapperPanel: scymapperPanel;
+            repositoryWrapper: repositoryWrapper;
+            currentELO: elo;
+            scyWindow: scyWindow;
+        }
     }
 
     function setWindowProperties(scyWindow: ScyWindow) {

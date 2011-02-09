@@ -36,7 +36,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def scyMapperId = "conceptmap";
 
    
-   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(SCYMapperContentCreator {userName: missionRunConfigs.tbi.getLoginUserName()}, scyMapperId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(SCYMapperContentCreator {userName: missionRunConfigs.tbi.getLoginUserName()}, scyMapperId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
 
