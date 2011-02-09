@@ -34,12 +34,9 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
               missionRunConfigs: missionRunConfigs;
            }
 
-   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(WebResourceContentCreator {}, scyWebresourceId);
-// scyDesktopCreator.newEloCreationRegistry.registerEloCreation(scyWebType, "webresource");
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(WebResourceContentCreator {}, scyWebresourceId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
-
-
 
    var scyDesktop = scyDesktopCreator.createScyDesktop();
    scyDesktop.bottomLeftCornerTool = EloManagement {
