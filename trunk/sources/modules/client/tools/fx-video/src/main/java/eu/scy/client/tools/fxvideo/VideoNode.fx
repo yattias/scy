@@ -29,7 +29,7 @@ import eu.scy.client.common.scyi18n.UriLocalizer;
 
 import javafx.scene.layout.Resizable;
 
-import java.net.URL;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 
 
@@ -48,6 +48,8 @@ public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener, ScyT
         setScyWindowTitle();
     };
     def spacing = 5.0;
+
+    public var toolBrokerAPI:ToolBrokerAPI;
     public var repository:IRepository;
     public var eloFactory:IELOFactory;
     public var metadataTypeManager:IMetadataTypeManager;
@@ -143,6 +145,9 @@ public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener, ScyT
     */
     override function postInitialize():Void {
             this.eloVideoActionWrapper = new EloVideoActionWrapper(this);
+            repository = toolBrokerAPI.getRepository();
+            metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+            eloFactory = toolBrokerAPI.getELOFactory();
             eloVideoActionWrapper.setRepository(repository);
             eloVideoActionWrapper.setMetadataTypeManager(metadataTypeManager);
             eloVideoActionWrapper.setEloFactory(eloFactory);
