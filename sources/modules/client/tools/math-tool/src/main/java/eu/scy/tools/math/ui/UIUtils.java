@@ -99,9 +99,11 @@ public class UIUtils {
 	
 
 	public static String forumla2dHtml = "<b>2D Forumla Guide:</b><br>"+
-	"<p><b>Square:</b> Surface Area (SA) =w*h" +
-	"<p><b>Rectangle:</b>Surface Area (SA) = w*h/2" +
-	"<p><b>Circle:</b>Surface Area (SA) =p*r^2";
+	"<p><b>Square:</b> Surface Area (SA) = w*h" +
+	"<p><b>Rectangle:</b> Surface Area (SA) = w*h/2" +
+	"<p><b>Circle:</b> Surface Area (SA) = p*r^2" +
+	"<br>" +
+	"<br>Use ctrl+c and ctrl+v to copy and paste into Scratch Pad.";
 	
 	public static final String notation2DHelpMessage = startTags + forumla2dHtml + endTags;
 	
@@ -118,7 +120,10 @@ public class UIUtils {
 	"<br>Surface Area (SA) = 2*pi*r^2+2*pi*r*height"+
 	"<p><b>Rectangular Prism:</b>" +
 	"<br>Volume (V) = length*width*height" +
-	"<br>Surface Area (SA) = 2*(width*height + length*width + length*height)";
+	"<br>Surface Area (SA) = 2*(width*height + length*width + length*height)" +
+	"<br>" +
+	"<br>Use ctrl+c and ctrl+v to copy and paste into Scratch Pad.";
+	
 	
 	public static final String notation3DHelpMessage = startTags + forumla3dHtml + endTags;
 	
