@@ -106,14 +106,6 @@ public class MathSphere3D extends Math3DShape implements IMathSphere3D {
 		
 		}
 		
-	
-		
-		if(checkForError == true) {
-			setError(true);
-			errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
-			return getError();
-		}
-		
 		if( radiusStripped != null ) {
 			NumberRange radiusRange = new NumberRange(new Double(((ISphereToolbarShape) shape).getRadiusMinValue()), new Double(((ISphereToolbarShape) shape).getRadiusMaxValue()));
 			
@@ -126,6 +118,15 @@ public class MathSphere3D extends Math3DShape implements IMathSphere3D {
 				setError(true);
 			}
 		}
+	
+		
+		if(checkForError == true) {
+			setError(true);
+			errorLabel.setForeground(UIUtils.ERROR_SHAPE_COLOR);
+			return getError();
+		}
+		
+
 		
 		return getError();
 	}
