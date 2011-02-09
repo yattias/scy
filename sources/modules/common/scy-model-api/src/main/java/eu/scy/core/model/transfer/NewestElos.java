@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class NewestElos extends BaseXMLTransfer{
 
+    // bla bla
     private List elos = new LinkedList();
 
     public List getElos() {
