@@ -40,6 +40,7 @@ import eu.scy.tools.math.dnd.JLabelSelection;
 import eu.scy.tools.math.doa.json.IMathToolbarShape;
 import eu.scy.tools.math.doa.json.ToolbarShape;
 import eu.scy.tools.math.ui.actions.ExportToGoogleSketchUpAction;
+import eu.scy.tools.math.ui.actions.FormulaHelpAction;
 import eu.scy.tools.math.ui.actions.NotationHelpAction;
 import eu.scy.tools.math.ui.actions.OpenShapesAction;
 import eu.scy.tools.math.ui.actions.QuitAction;
@@ -82,6 +83,17 @@ public class MathTool {
 			// If Nimbus is not available, you can set the GUI to another look
 			// and feel.
 		}
+		
+//		if(UIUtils.isWindows()){
+//			System.out.println("This is Windows");
+//		}else if(UIUtils.isMac()){
+//			System.out.println("This is Mac");
+//		}else if(UIUtils.isUnix()){
+//			System.out.println("This is Unix or Linux");
+//		}else{
+//			System.out.println("Your OS is not support!!");
+//		}
+		
 
 		// Get current delay
 		int initialDelay = ToolTipManager.sharedInstance().getInitialDelay();
@@ -349,7 +361,8 @@ public class MathTool {
 		JMenu helpMenu = new JMenu("Help");
 		
 		helpMenu.add(new NotationHelpAction());
-
+		helpMenu.add(new FormulaHelpAction(UIUtils._2D));
+		helpMenu.add(new FormulaHelpAction(UIUtils._3D));
 		menuBar.add(helpMenu);
 		return menuBar;
 	}

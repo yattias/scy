@@ -195,5 +195,11 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 	public JXLabel getIconLabel() {
 		return iconLabel;
 	}
+
+	@Override
+	public String getLengthValue() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

@@ -271,6 +271,11 @@ public class MathToolController {
 			if( expression.contains(IMathRectangle3D.HEIGHT) ) {
 				mathEvaluator.addVariable(IMathRectangle3D.HEIGHT, Double.parseDouble( ((IMathRectangle3D) mathShape).getHeightValue()));
 			}
+			
+			if( expression.contains(IMathRectangle3D.LENGTH) ) {
+				mathEvaluator.addVariable(IMathRectangle3D.LENGTH, Double.parseDouble( ((IMathRectangle3D) mathShape).getLengthValue()));
+			}
+			
 		}
 	}
 	
