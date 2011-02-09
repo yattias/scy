@@ -111,9 +111,9 @@ public class LasInfoDisplay extends CustomNode {
                      font: Font.font(fontFamily, FontWeight.BOLD, titleFontSize)
                      text: las.mainAnchor.title
                   }
-                  Group {
-                     content: progressDisplay
-                  }
+//                  Group {
+//                     content: progressDisplay
+//                  }
                ]
             }
             Line {
