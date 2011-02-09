@@ -211,6 +211,9 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
     }
 
     public override function initialize(windowContent: Boolean):Void{
+        metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+        repository = toolBrokerAPI.getRepository();
+        eloFactory = toolBrokerAPI.getELOFactory();
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       fitexPanel.setTBI(toolBrokerAPI);
       fitexPanel.setEloUri((scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());

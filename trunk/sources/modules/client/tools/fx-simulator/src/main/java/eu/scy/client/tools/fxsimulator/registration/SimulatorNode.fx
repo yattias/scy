@@ -232,6 +232,9 @@ public class SimulatorNode
     }
 
     public override function initialize(windowContent: Boolean): Void {
+        repository = toolBrokerAPI.getRepository();
+        metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+        eloFactory = toolBrokerAPI.getELOFactory();
         technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
     }
 

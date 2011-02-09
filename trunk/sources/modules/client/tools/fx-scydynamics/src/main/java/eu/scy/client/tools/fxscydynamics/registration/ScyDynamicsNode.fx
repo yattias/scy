@@ -61,6 +61,10 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
     def spacing = 5.0;
 
     public override function initialize(windowContent: Boolean): Void {
+        repository = toolBrokerAPI.getRepository();
+        metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+        eloFactory = toolBrokerAPI.getELOFactory();
+        actionLogger = toolBrokerAPI.getActionLogger();
         technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
         modelEditor.setActionLogger(toolBrokerAPI.getActionLogger(), "dummy_user");
     }

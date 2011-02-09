@@ -136,7 +136,9 @@ public class VideoNode extends CustomNode, ILoadXML, WindowChangesListener, ScyT
     * ScyTool methods
     */
     override function initialize(windowContent:Boolean):Void {
-
+       repository = toolBrokerAPI.getRepository();
+       metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+       eloFactory = toolBrokerAPI.getELOFactory();
     }
 
     /**

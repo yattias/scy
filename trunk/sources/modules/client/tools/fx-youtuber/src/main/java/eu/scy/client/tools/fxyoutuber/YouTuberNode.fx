@@ -31,6 +31,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * @author pg
@@ -39,6 +40,7 @@ import eu.scy.client.desktop.scydesktop.ScyDesktop;
 public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML, EloSaverCallBack {
     public-init var youTuberRepositoryWrapper:YouTuberRepositoryWrapper;
     public-init var scyDesktop: ScyDesktop;
+    public var toolBrokerAPI:ToolBrokerAPI;
     public var repository:IRepository;
     public var eloFactory:IELOFactory;
     public var metadataTypeManager:IMetadataTypeManager;
@@ -219,6 +221,9 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML, E
     }
 
     public override function initialize(windowContent: Boolean):Void {
+        repository = toolBrokerAPI.getRepository();
+        metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+        eloFactory = toolBrokerAPI.getELOFactory();
         technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
     }
 

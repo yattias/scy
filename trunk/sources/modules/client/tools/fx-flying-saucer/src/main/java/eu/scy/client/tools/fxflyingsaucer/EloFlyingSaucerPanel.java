@@ -231,6 +231,9 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
    @Override
    public void initialize(boolean windowContent)
    {
+       repository = toolBrokerAPI.getRepository();
+       eloFactory = toolBrokerAPI.getELOFactory();
+       metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
    }
 
    @Override

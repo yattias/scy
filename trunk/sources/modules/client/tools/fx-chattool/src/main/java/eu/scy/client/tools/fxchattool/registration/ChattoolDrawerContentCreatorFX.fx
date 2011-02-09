@@ -16,20 +16,13 @@ import eu.scy.client.tools.chattool.ChatPanel;
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorFX;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.chat.controller.ChatController;
-import org.apache.log4j.Logger;
 import java.util.*;
 import eu.scy.chat.controller.*;
 import org.apache.commons.lang.StringUtils;
 import roolo.api.IRepository;
-import roolo.elo.api.IContent;
-import roolo.elo.api.IELO;
-import roolo.elo.api.IELOFactory;
-import roolo.elo.api.IMetadata;
-import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
-import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import roolo.elo.metadata.keys.Contribute;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 
 /**
@@ -39,6 +32,9 @@ import roolo.elo.metadata.keys.Contribute;
 public class ChattoolDrawerContentCreatorFX extends DrawerContentCreatorFX {
 
     override public function getDrawerContent (eloUri:URI, scyWindow:ScyWindow) : Node {
+        repository = toolBrokerAPI.getRepository();
+        awarenessService = toolBrokerAPI.getAwarenessService();
+        metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
          println("ChattoolDrawerContentCreatorFX ELOURI: {eloUri}");
          println("ChattoolDrawerContentCreatorFX ELO ID: {eloId}");
          return createChatToolNode(scyWindow,eloUri);
@@ -51,8 +47,7 @@ public class ChattoolDrawerContentCreatorFX extends DrawerContentCreatorFX {
     public var chatControllerMap:HashMap;
     public var repository:IRepository;
     public var metadataTypeManager: IMetadataTypeManager;
-   //public var metadataTypeManager: IMetadataTypeManager;
-   // public var repository:IRepository;
+    public var toolBrokerAPI: ToolBrokerAPI;
 
     function createChatToolNode(scyWindow:ScyWindow,eloUri:URI):ChatToolNode {
         

@@ -33,10 +33,9 @@ import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
 
 import javafx.scene.layout.Resizable;
 
-import java.lang.System;
-import java.lang.Thread;
 
 import eu.scy.client.tools.fxwebresourcer.highlighter.XMLData;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * @author pg
@@ -47,6 +46,7 @@ public class WebResourceNode extends CustomNode, ILoadXML, ScyToolFX, Resizable 
     public var scyWindow: ScyWindow on replace {
         setScyWindowTitle();
     };
+    public var toolBrokerAPI:ToolBrokerAPI;
     public var repository:IRepository;
     public var eloFactory:IELOFactory;
     public var metadataTypeManager:IMetadataTypeManager;
@@ -132,7 +132,9 @@ public class WebResourceNode extends CustomNode, ILoadXML, ScyToolFX, Resizable 
     * ScyTool methods
     */
     override function initialize(windowContent: Boolean):Void {
-
+       repository = toolBrokerAPI.getRepository();
+       metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+       eloFactory = toolBrokerAPI.getELOFactory();
     }
 
     override function postInitialize():Void {

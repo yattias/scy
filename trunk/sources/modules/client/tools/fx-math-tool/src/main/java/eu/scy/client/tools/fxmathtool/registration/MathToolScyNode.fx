@@ -60,9 +60,6 @@ public class MathToolScyNode extends MathToolNode, ScyToolFX, EloSaverCallBack {
    public var toolBrokerAPI:ToolBrokerAPI;
    public var extensionManager:IExtensionManager;
    public var actionLogger:IActionLogger;
-   public var awarenessService:IAwarenessService;
-   public var dataSyncService:IDataSyncService;
-   public var pedagogicalPlanService:PedagogicalPlanService;
    public var scyWindow:ScyWindow;
    public var authorMode:Boolean;
    // interval in milliseconds after what typed text is wrote
@@ -85,6 +82,11 @@ public class MathToolScyNode extends MathToolNode, ScyToolFX, EloSaverCallBack {
    }
 
    public override function initialize(windowContent:Boolean):Void{
+       repository = toolBrokerAPI.getRepository();
+       metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+       eloFactory = toolBrokerAPI.getELOFactory();
+       extensionManager = toolBrokerAPI.getExtensionManager();
+       actionLogger = toolBrokerAPI.getActionLogger();
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       if(actionLogger == null){
          actionLogger = new DevNullActionLogger();

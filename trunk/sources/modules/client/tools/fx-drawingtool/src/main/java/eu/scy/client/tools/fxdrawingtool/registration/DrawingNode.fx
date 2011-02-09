@@ -30,6 +30,7 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.LayoutInfo;
 import javafx.scene.layout.Priority;
 import javafx.util.Math;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * @author sikkenj
@@ -42,6 +43,7 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
    def jdomStringConversion = new JDomStringConversion();
    public-init var whiteboardPanel: WhiteboardPanel;
    public-init var scyWindow: ScyWindow;
+   public var toolBrokerAPI: ToolBrokerAPI;
    public var eloFactory: IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository: IRepository;
@@ -59,6 +61,10 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
 //         println("changed wrappedWhiteboardPanel.cache to {wrappedWhiteboardPanel.cache}");
 //      }
    public override function initialize(windowContent: Boolean): Void {
+       metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+       repository = toolBrokerAPI.getRepository();
+       eloFactory = toolBrokerAPI.getELOFactory();
+
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
    }
 

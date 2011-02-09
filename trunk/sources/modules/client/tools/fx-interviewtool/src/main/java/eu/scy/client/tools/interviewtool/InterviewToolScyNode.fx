@@ -77,9 +77,6 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
    public var repository:IRepository;
    public var extensionManager:IExtensionManager;
    public var actionLogger:IActionLogger;
-   public var awarenessService:IAwarenessService;
-   public var dataSyncService:IDataSyncService;
-   public var pedagogicalPlanService:PedagogicalPlanService;
    public var scyWindow:ScyWindow;
    public var metadataTypeManager: IMetadataTypeManager;
    public var toolBrokerAPI:ToolBrokerAPI;
@@ -98,6 +95,12 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
    }
 
    public override function initialize(windowContent:Boolean):Void{
+       repository = toolBrokerAPI.getRepository();
+       metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+       eloFactory = toolBrokerAPI.getELOFactory();
+       extensionManager = toolBrokerAPI.getExtensionManager();
+       actionLogger = toolBrokerAPI.getActionLogger();
+
       var username:String = toolBrokerAPI.getLoginUserName();
       var toolname:String = "interviewtool";
       var missionname:String = toolBrokerAPI.getMission();

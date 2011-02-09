@@ -30,6 +30,7 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.LayoutInfo;
 import javafx.scene.layout.Priority;
 import javafx.util.Math;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * @author sikkenj
@@ -45,6 +46,7 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
    public var eloFactory: IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository: IRepository;
+   public var toolBrokerAPI: ToolBrokerAPI;
    public override var width on replace {sizeChanged()};
    public override var height on replace {sizeChanged()};
    var wrappedWhiteboardPanel: Node;
@@ -59,7 +61,10 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
 //         println("changed wrappedWhiteboardPanel.cache to {wrappedWhiteboardPanel.cache}");
 //      }
    public override function initialize(windowContent: Boolean): Void {
-      technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+       repository = toolBrokerAPI.getRepository();
+       metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+       eloFactory = toolBrokerAPI.getELOFactory();
+       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
    }
 
    public override function loadElo(uri: URI) {
