@@ -132,7 +132,7 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
 //                idUser = "1";
 //                mission= "5";
 //                group = "1";
-//                labDoc = "687";
+//                labDoc = "508";
 //                labDocName = "Détermination du pKa du BBT";
             } catch (MalformedURLException ex) {
 

@@ -43,7 +43,7 @@ public class ActivatorThread extends Thread{
             try {
                 sleep(1000 * Locker.LOCKER_DELAY);
             } catch (InterruptedException e) {
-                // System.out.println("ActivatorThread interrompu !!");
+                //System.out.println("ActivatorThread interrompu !!"+e);
 //                if(edP.isAppletVisible())
 //                    edP.displayError(new CopexReturn(edP.getBundleString("MSG_ERROR_THREAD_INTERRUPT")+ e, false), edP.getBundleString("TITLE_DIALOG_ERROR"));
             }
@@ -59,8 +59,7 @@ public class ActivatorThread extends Thread{
                 //long lockedProc = (Long) this.locker.getLockers().get(i);
                 long lockedLabdoc = (Long) this.locker.getLockers().get(i);
                 //String query = "UPDATE VERROU SET DAT_VER=NOW() WHERE ID_PROC=" + lockedProc +" ;";
-                String query = "UPDATE LABDOC SET LABDOC_STATUS=NOW() WHERE ID_LABDOC=" + lockedLabdoc +" AND LABDOC_STATUS = '"+MyConstants.LABDOC_STATUS_LOCK+"' ;";
-
+                String query = "UPDATE LABDOC_STATUS SET LOCK_DATE=NOW() WHERE ID_LABDOC=" + lockedLabdoc +" AND LABDOC_STATUS = '"+MyConstants.LABDOC_STATUS_LOCK+"' ;";
                 ArrayList v = new ArrayList();
                 String[] querys = new String[1];
                 querys[0] = query ;

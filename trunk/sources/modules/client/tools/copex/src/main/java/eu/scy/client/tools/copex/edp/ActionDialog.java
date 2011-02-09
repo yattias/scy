@@ -16,6 +16,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.FontMetrics;
 import java.awt.event.KeyEvent;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -1182,7 +1183,10 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
                tf.setToolTipText(edP.getBundleString("TOOLTIPTEXT_ACTION_PARAM_VALUE"));
                panelSetting.add(tf);
                if (!modeAdd && tabParam != null && tabParam[i] != null && tabParam[i] instanceof ActionParamQuantity){
-                   tf.setText(Double.toString(((ActionParamQuantity)tabParam[i]).getParameter().getValue()));
+                   NumberFormat numberFormat = NumberFormat.getNumberInstance(getLocale());
+                   numberFormat.setMaximumFractionDigits(Integer.MAX_VALUE);
+                   numberFormat.setGroupingUsed(false);
+                   tf.setText(numberFormat.format(((ActionParamQuantity)tabParam[i]).getParameter().getValue()));
                }
                // combo box unites
                JComboBox cb = new JComboBox();
