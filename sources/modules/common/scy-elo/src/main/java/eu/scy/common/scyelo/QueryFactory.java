@@ -87,4 +87,15 @@ public class QueryFactory {
          q.setMaxResults(300);
         return q;
     }
+
+     public static IQuery createFeedbackEloQuery(URI feedbackParentURI, String technicalFormat){
+         IQueryComponent feedbackQC = new MetadataQueryComponent(ScyRooloMetadataKeyIds.FEEDBACK_ON.getId(),SearchOperation.EQUALS,feedbackParentURI);
+         IQueryComponent typeQC = new MetadataQueryComponent(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId(),SearchOperation.EQUALS,technicalFormat);
+         IQueryComponent andQuery = new AndQuery(typeQC, feedbackQC);
+         Query q = new Query(andQuery);
+         q.setFindDeleted(false);
+         q.setFindHidden(true);
+         q.setLatestOnly(true);
+         return q;
+     }
 }
