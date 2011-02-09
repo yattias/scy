@@ -42,43 +42,37 @@ public class ServicesInjector {
    public function injectServices(object: Object) {
       if (object != null) {
          def activityTimer = new ActivityTimer("injectServices({object})","injecting");
-         injectServiceIfWanted(object, Config.class, "config", config);
+//         injectServiceIfWanted(object, Config.class, "config", config);
 
          if (config.getToolBrokerAPI() != null) {
             injectServiceIfWanted(object, ToolBrokerAPI.class, "toolBrokerAPI", config.getToolBrokerAPI());
-            if (config.getToolBrokerAPI().getRepository() != null) {
-               injectServiceIfWanted(object, IRepository.class, "repository", config.getToolBrokerAPI().getRepository());
-            }
-            if (config.getToolBrokerAPI().getExtensionManager() != null) {
-               injectServiceIfWanted(object, IExtensionManager.class, "extensionManager", config.getToolBrokerAPI().getExtensionManager());
-            }
-            if (config.getToolBrokerAPI().getMetaDataTypeManager() != null) {
-               injectServiceIfWanted(object, IMetadataTypeManager.class, "metadataTypeManager", config.getToolBrokerAPI().getMetaDataTypeManager());
-            }
-            if (config.getToolBrokerAPI().getELOFactory() != null) {
-               injectServiceIfWanted(object, IELOFactory.class, "eloFactory", config.getToolBrokerAPI().getELOFactory());
-            }
-            if (config.getToolBrokerAPI().getActionLogger() != null) {
-               injectServiceIfWanted(object, IActionLogger.class, "actionLogger", config.getToolBrokerAPI().getActionLogger());
-            }
-            if (config.getToolBrokerAPI().getAwarenessService() != null) {
-               injectServiceIfWanted(object, IAwarenessService.class, "awarenessService", config.getToolBrokerAPI().getAwarenessService());
-            }
-            if (config.getToolBrokerAPI().getDataSyncService() != null) {
-               injectServiceIfWanted(object, IDataSyncService.class, "dataSyncService", config.getToolBrokerAPI().getDataSyncService());
-            }
-            if (config.getToolBrokerAPI().getPedagogicalPlanService() != null) {
-               injectServiceIfWanted(object, PedagogicalPlanService.class, "pedagogicalPlanService", config.getToolBrokerAPI().getPedagogicalPlanService());
-            }
-         } else {
-            // TODO: remove this and the properties from Config, when the toolBrokerAPI is used every where
-            injectServiceIfWanted(object, IELOFactory.class, "eloFactory", config.getEloFactory());
-            injectServiceIfWanted(object, IMetadataTypeManager.class, "metadataTypeManager", config.getMetadataTypeManager());
-            injectServiceIfWanted(object, IExtensionManager.class, "extensionManager", config.getExtensionManager());
-            injectServiceIfWanted(object, IRepository.class, "repository", config.getRepository());
+//            if (config.getToolBrokerAPI().getRepository() != null) {
+//               injectServiceIfWanted(object, IRepository.class, "repository", config.getToolBrokerAPI().getRepository());
+//            }
+//            if (config.getToolBrokerAPI().getExtensionManager() != null) {
+//               injectServiceIfWanted(object, IExtensionManager.class, "extensionManager", config.getToolBrokerAPI().getExtensionManager());
+//            }
+//            if (config.getToolBrokerAPI().getMetaDataTypeManager() != null) {
+//               injectServiceIfWanted(object, IMetadataTypeManager.class, "metadataTypeManager", config.getToolBrokerAPI().getMetaDataTypeManager());
+//            }
+//            if (config.getToolBrokerAPI().getELOFactory() != null) {
+//               injectServiceIfWanted(object, IELOFactory.class, "eloFactory", config.getToolBrokerAPI().getELOFactory());
+//            }
+//            if (config.getToolBrokerAPI().getActionLogger() != null) {
+//               injectServiceIfWanted(object, IActionLogger.class, "actionLogger", config.getToolBrokerAPI().getActionLogger());
+//            }
+//            if (config.getToolBrokerAPI().getAwarenessService() != null) {
+//               injectServiceIfWanted(object, IAwarenessService.class, "awarenessService", config.getToolBrokerAPI().getAwarenessService());
+//            }
+//            if (config.getToolBrokerAPI().getDataSyncService() != null) {
+//               injectServiceIfWanted(object, IDataSyncService.class, "dataSyncService", config.getToolBrokerAPI().getDataSyncService());
+//            }
+//            if (config.getToolBrokerAPI().getPedagogicalPlanService() != null) {
+//               injectServiceIfWanted(object, PedagogicalPlanService.class, "pedagogicalPlanService", config.getToolBrokerAPI().getPedagogicalPlanService());
+//            }
          }
-         injectServiceIfWanted(object,Boolean.class,"authorMode",initializer.authorMode);
-         injectServiceIfWanted(object,ShowMoreInfo.class,"showMoreInfo",showMoreInfo);
+//         injectServiceIfWanted(object,Boolean.class,"authorMode",initializer.authorMode);
+//         injectServiceIfWanted(object,ShowMoreInfo.class,"showMoreInfo",showMoreInfo);
          activityTimer.endActivity();
       }
    }
