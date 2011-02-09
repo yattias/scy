@@ -26,7 +26,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
               initializer: initializer;
               missionRunConfigs: missionRunConfigs;
            }
-   scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(InterviewToolContentCreator{},scyInterviewId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(InterviewToolContentCreator{},scyInterviewId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
    var scyDesktop = scyDesktopCreator.createScyDesktop();
    scyDesktop.bottomLeftCornerTool = EloManagement {
