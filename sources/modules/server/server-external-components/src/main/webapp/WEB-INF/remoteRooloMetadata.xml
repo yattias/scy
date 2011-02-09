@@ -39,6 +39,7 @@
 				<ref bean="iconTypeAnnotationKey" />
 				<ref bean="mucIdKey" />
 				<ref bean="obligatoryInPortfolioKey" />
+				<ref bean="feedbackOnKey" />
 
 				<ref bean="lineCountKey" />
 				<ref bean="rectangleCountKey" />
@@ -295,6 +296,13 @@
 		<constructor-arg index="2" value="UNIVERSAL" />
 		<constructor-arg index="3" value="SINGLE" />
 		<constructor-arg index="4" ref="defaultStringValidator" />
+	</bean>
+	<bean name="feedbackOnKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
+		<constructor-arg index="0" value='feedbackOn' />
+		<constructor-arg index="1" value='/lom/relation/[kind="feedbackOn"]' />
+		<constructor-arg index="2" value="UNIVERSAL" />
+		<constructor-arg index="3" value="SINGLE" />
+		<constructor-arg index="4" ref="defaultUriValidator" />
 	</bean>
 	<bean name="testStringListKey" class="roolo.elo.metadata.keys.StringMetadataKey">
 		<constructor-arg index="0" value='testStringList' />
