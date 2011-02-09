@@ -74,7 +74,7 @@ public class Initializer {
    public-init var createPersonalMissionMap = true;
    public-init var eloImagesPath = "{__DIR__}imagewindowstyler/images/";
    public-init var scyServerHost: String;
-   public-init var scyServerPort: Integer;
+   public-init var scyServerPort: Integer = -1;
    public-init var useWebStartHost = true;
    public-init var windowPositioner = "functionalRole";
    public-init var debugMode = false;
@@ -105,7 +105,7 @@ public class Initializer {
    def enableLocalLoggingKey = "enableLocalLogging";
    def loggingDirectoryKey = "loggingDirectory";
    def storeElosOnDiskKey = "storeElosOnDisk";
-   def scyServerPortKey = "httpPort";
+    def scyServerPortKey = "httpPort";
    def scyServerNameKey = "serverName";
    def sqlspacesServerKey = "sqlspacesServer";
    def minimumRooloNewVersionListIdKey = "minimumRooloNewVersionListId";
