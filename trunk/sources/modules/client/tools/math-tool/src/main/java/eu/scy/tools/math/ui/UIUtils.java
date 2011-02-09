@@ -20,10 +20,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.JEditorPane;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.plaf.FontUIResource;
 
+import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTitledPanel;
 import org.jdesktop.swingx.painter.GlossPainter;
 import org.jdesktop.swingx.painter.MattePainter;
@@ -79,6 +83,7 @@ public class UIUtils {
 	public static final int ALPHA = 140;
 	public static final String SKETCHUP_FILE = "googlesketchup.html";
 	public static final Object SHAPE_OBJ = "SHAPE_OBJ";
+	
     
 	public static Dimension frameDimension;
 	public static Color NONSHAPE_SHAPE_COLOR = Color.white;
@@ -91,15 +96,34 @@ public class UIUtils {
 	
 	private static String endTags = "</body></html>";
 	
+	
+
+	public static String forumla2dHtml = "<b>2D Forumla Guide:</b><br>"+
+	"<p>Square: SA=w*h" +
+	"<p>Rectangle: SA = w*h/2" +
+	"<p>Circle: SA=p*r^2";
+	
+	public static final String notation2DHelpMessage = startTags + forumla2dHtml + endTags;
+	
+		
+		
+		
+		
+	public static String forumla3dHtml = "<b>3D Forumla Guide:</b><br>"+
+	"<p>Sphere: V = (4/3)*pi*r^3,  SA = 4*pi*r^2"+
+	"<p>Cylinder: V= pi*r^2*height , SA=2*pi*r^2+2*pi*r*height"+
+	"<p>Rectangular Prism: V=length*width*height, SA=2(width*height + length*width + length*height)";
+	
+	public static final String notation3DHelpMessage = startTags + forumla3dHtml + endTags;
+	
 	public static String notationHtml = "<b>Notation Guide:</b><br>"+
-	"<br>" +
 	"<p>Operators: 2*(h+2)+(1/2)" +
 	"<p>Cube root: cbrt(r+1)" +
 	"<p>Square root: sqrt(r+1)" +
 	"<p>Power: r^2" +
 	"<br><br>" +
 	"<i>Example: -5-6/(-2)^2 + sqrt(15+r)</i>" +
-	"<br><br><p><b>Hint:</b> In order to use a variable (r, w, h) a shape must be selected.";
+	"<br><p><b>Hint:</b> In order to use a variable (r, w, h) a shape must be selected.";
 
 	
 	public static String invalidExpressionErrorMessage = startTags +
@@ -354,4 +378,22 @@ public class UIUtils {
 		return mp;
 	}
 
+	public static void showInformation(String message, String title) {
+		JEditorPane editor = new JEditorPane();
+		editor.setOpaque(false);
+		editor.setContentType("text/html");
+		editor.setEditable(false);
+		editor.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.black), BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+		editor.setText(message);
+		JXPanel p = new JXPanel();
+		p.setOpaque(false);
+		p.add(editor);
+		
+	
+		
+		JOptionPane.showMessageDialog(null, p, title, JOptionPane.INFORMATION_MESSAGE);
+		
+	}
+
+	
 }
