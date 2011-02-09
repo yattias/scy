@@ -30,6 +30,7 @@ import roolo.search.AndQuery;
 import roolo.search.MetadataQueryComponent;
 import roolo.search.Query;
 import roolo.search.SearchOperation;
+import eu.scy.common.scyelo.QueryFactory;
 
 public class FeedbackQuestionNode extends CustomNode, ScyToolFX {
 
@@ -118,15 +119,7 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX {
       if (eloUri != null) {
          logger.debug("eloUri is changing, new eloUri: {eloUri.toString()}");
          scyElo = ScyElo.loadMetadata(eloUri, toolBrokerAPI);
-         var typeQuery = new MetadataQueryComponent(
-            metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT),
-            SearchOperation.EQUALS, technicalType);
-         var feedbackOnQuery = new MetadataQueryComponent(
-            metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.FEEDBACK_ON),
-            SearchOperation.EQUALS, eloUri);
-         var searchQuery:AndQuery = new AndQuery(typeQuery);
-         searchQuery.addQueryComponent(feedbackOnQuery);
-         def query = new Query(searchQuery);
+         def query = QueryFactory.createFeedbackEloQuery(eloUri, technicalType);
          var searchResults:List = toolBrokerAPI.getRepository().search(query);
          if (searchResults.size()==0) {
              submitButton.disable=false;
