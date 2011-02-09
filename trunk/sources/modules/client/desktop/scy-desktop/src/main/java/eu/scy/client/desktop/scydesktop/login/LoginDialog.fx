@@ -28,15 +28,14 @@ import java.lang.System;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
 import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
-import eu.scy.client.desktop.scydesktop.mission.MissionLocator;
 import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
 import eu.scy.client.desktop.scydesktop.LoginType;
 import eu.scy.client.desktop.scydesktop.mission.Missions;
 import eu.scy.client.desktop.scydesktop.utils.InjectObjectsUtils;
 import java.net.URI;
-import javafx.scene.Cursor;
-import javafx.scene.control.ProgressIndicator;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
+import eu.scy.client.desktop.scydesktop.utils.XFX;
+import eu.scy.client.desktop.scydesktop.mission.MissionLocator;
 
 /**
  * @author sikken
@@ -210,7 +209,7 @@ public class LoginDialog extends CustomNode, TbiReady {
    }
 
    function findMission(toolBrokerAPI: ToolBrokerAPI, missions: Missions) {
-      MissionLocator {
+      def missionLocator: MissionLocator = MissionLocator {
          tbi: toolBrokerAPI
          userName: userName
          initializer: initializer
@@ -218,8 +217,8 @@ public class LoginDialog extends CustomNode, TbiReady {
          window: loginWindow
          startMission: startMission
          cancelMission: cancelMission
-      }.locateMission();
-
+      }
+      missionLocator.locateMission();
    }
 
    function cancelMission(): Void {
