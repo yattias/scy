@@ -17,6 +17,7 @@ public class Configuration {
     private final static Logger logger = Logger.getLogger(Configuration.class.getName());
     private Properties props;
     private String scyServerHost;
+    private Integer scyServerPort;
 
     /*
     Will pick up all properties that starts with scyconfig or sqlspaces. If the property starts with scyconofig, the prefix will be removed (not if it starts with sqlspaces - to make it perfectly confusing
@@ -112,7 +113,16 @@ public class Configuration {
         return scyServerHost != null && scyServerHost.length() > 0;
     }
 
-    public String get(String key) {
+    public void setScyServerPort(Integer scyServerPort)
+	{
+		this.scyServerPort = scyServerPort;
+	}
+
+    private boolean isScyServerPortDefined() {
+       return scyServerPort != null && scyServerPort > 0;
+   }
+
+	public String get(String key) {
         return props.getProperty(key);
     }
 
@@ -197,6 +207,9 @@ public class Configuration {
     }
 
     public String getFilestreamerPort() {
+   	 if (isScyServerPortDefined()){
+   		 return "" + scyServerPort;
+   	 }
         return props.getProperty("filestreamer.port");
     }
 
@@ -225,6 +238,9 @@ public class Configuration {
     }
 
     public String getRooloPort() {
+   	 if (isScyServerPortDefined()){
+   		 return "" + scyServerPort;
+   	 }
         return props.getProperty("roolo.port");
     }
 
@@ -252,6 +268,9 @@ public class Configuration {
     }
 
     public String getEportfolioPort() {
+   	 if (isScyServerPortDefined()){
+   		 return "" + scyServerPort;
+   	 }
         return props.getProperty("eportfolio.port");
     }
 
@@ -271,6 +290,9 @@ public class Configuration {
     }
 
     public String getFeedbackPort() {
+   	 if (isScyServerPortDefined()){
+   		 return "" + scyServerPort;
+   	 }
         return props.getProperty("feedback.port");
     }
 
