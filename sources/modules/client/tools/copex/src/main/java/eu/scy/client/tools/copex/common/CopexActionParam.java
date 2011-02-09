@@ -7,6 +7,7 @@ package eu.scy.client.tools.copex.common;
 
 import eu.scy.client.tools.copex.edp.CopexPanel;
 import eu.scy.client.tools.copex.utilities.CopexUtilities;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -76,6 +77,9 @@ public abstract class CopexActionParam extends CopexActionNamed implements Clone
     
     @Override
      public String toDescription(CopexPanel edP){
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(edP.getLocale());
+        numberFormat.setMaximumFractionDigits(Integer.MAX_VALUE);
+        numberFormat.setGroupingUsed(false);
         Locale locale = edP.getLocale();
          String s = "";
          int nbParam = tabParam.length ;
@@ -87,7 +91,7 @@ public abstract class CopexActionParam extends CopexActionNamed implements Clone
                 ActionParam param = (ActionParam)tabParam[i] ;
                 if (param instanceof ActionParamQuantity){
                     String txt = CopexUtilities.getText(((ActionParamQuantity)param).getParameter().getUnit().getListSymbol(), locale);
-                    s += " " +Double.toString(((ActionParamQuantity)param).getParameter().getValue())+" "+txt+" ";
+                    s += " " +numberFormat.format(((ActionParamQuantity)param).getParameter().getValue())+" "+txt+" ";
                 }else if (param instanceof ActionParamMaterial){ // material
                     s += " "+CopexUtilities.getText(((ActionParamMaterial)param).getMaterial().getListName(), locale)+" ";
                 }else if (param instanceof ActionParamData){
@@ -123,6 +127,9 @@ public abstract class CopexActionParam extends CopexActionNamed implements Clone
 
     @Override
     public String toDescription(Locale locale){
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
+        numberFormat.setMaximumFractionDigits(Integer.MAX_VALUE);
+        numberFormat.setGroupingUsed(false);
          String s = "";
          int nbParam = tabParam.length ;
          boolean repeatParam = false;
@@ -133,7 +140,7 @@ public abstract class CopexActionParam extends CopexActionNamed implements Clone
                 ActionParam param = (ActionParam)tabParam[i] ;
                 if (param instanceof ActionParamQuantity){
                     String txt = CopexUtilities.getText(((ActionParamQuantity)param).getParameter().getUnit().getListSymbol(), locale);
-                    s += " " +Double.toString(((ActionParamQuantity)param).getParameter().getValue())+" "+txt+" ";
+                    s += " " +numberFormat.format(((ActionParamQuantity)param).getParameter().getValue())+" "+txt+" ";
                 }else if (param instanceof ActionParamMaterial){ // material
                     s += " "+CopexUtilities.getText(((ActionParamMaterial)param).getMaterial().getListName(), locale)+" ";
                 }else if (param instanceof ActionParamData){

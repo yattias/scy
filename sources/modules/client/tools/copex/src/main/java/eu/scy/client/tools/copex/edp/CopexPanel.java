@@ -243,7 +243,7 @@ public class CopexPanel extends JPanel {
       //String logFileName = "logFile"+CopexUtilities.getCurrentDate()+"-"+dbKeyMission+"-"+idUser+".xml";
       //String fileMission = "copexMission_SCI121.xml";
       //String fileMission = "copexMission_simple.xml";
-     //String fileMission = "copexMission_TEA_FR.xml";
+      //String fileMission = "copexMission_TEA_FR.xml";
       //String fileMission = "copexMission_TEA_JP.xml";
       String fileMission = "copexMission_SCY1_CO2.xml";
       //String fileMission = "copexMission_PKA.xml";

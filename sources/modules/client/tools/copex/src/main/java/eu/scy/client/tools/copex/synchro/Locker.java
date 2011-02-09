@@ -135,7 +135,7 @@ public class Locker {
         if (cr.isError()){
             copex.displayError(cr, copex.getBundleString("TITLE_DIALOG_ERROR"));
         }
-        String query = "SELECT * FROM VERROU WHERE ID_LABDOC = "+idLabdoc+" AND LABDOC_STATUS = '"+MyConstants.LABDOC_STATUS_LOCK+"';";
+        String query = "SELECT * FROM LABDOC_STATUS WHERE ID_LABDOC = "+idLabdoc+" AND LABDOC_STATUS = '"+MyConstants.LABDOC_STATUS_LOCK+"';";
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("DAT_VER");
