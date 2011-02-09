@@ -35,7 +35,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
               missionRunConfigs: missionRunConfigs;
    }
 
-    scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(FormAuthorContentCreator {}, scyFormAuthorId);
+    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(FormAuthorContentCreator {}, scyFormAuthorId);
     //scyDesktopCreator.windowContentCreatorRegistryFX.registerWindowContentCreatorFX(FormAuthorViewContentCreator {}, scyFormAuthorId);
     scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
 

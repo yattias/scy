@@ -4,25 +4,25 @@
  */
 
 package eu.scy.client.tools.fxformauthor;
-import eu.scy.client.desktop.scydesktop.elofactory.ScyToolWindowContentCreatorFX;
 import javafx.scene.Node;
 import javafx.util.StringLocalizer;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import java.net.URI;
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
 import javafx.util.Properties;
+import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
 
 /**
  * @author pg
  */
 
-public class FormAuthorContentCreator extends ScyToolWindowContentCreatorFX {
-    override function createScyToolWindowContent():Node {
+public class FormAuthorContentCreator extends ScyToolCreatorFX {
+    
+    public override function createScyToolNode(eloType:String, creatorId:String, scyWindow:ScyWindow, windowContent: Boolean):Node {
         StringLocalizer.associate("eu.scy.client.tools.fxformauthor.resources.FormAuthor", "eu.scy.client.tools.fxformauthor");
         println("createscytoolwindowcontent");
-        return FormAuthorNode{};
+        return createFormAuthorNode(scyWindow);
     }
 
     public var eloFactory:IELOFactory;
@@ -32,14 +32,6 @@ public class FormAuthorContentCreator extends ScyToolWindowContentCreatorFX {
         println("formauthor content creator");
     }
 
-
-    public override function getScyWindowContent(eloUri: URI, scyWindow:ScyWindow):Node {
-            var formNode = createFormAuthorNode(scyWindow);
-            return formNode;
-    }
-    public override function getScyWindowContentNew(scyWindow:ScyWindow):Node {
-            return createFormAuthorNode(scyWindow);
-    }
     function createFormAuthorNode(scyWindow:ScyWindow):FormAuthorNode {
         println("formauithornodebla");
         setWindowProperties(scyWindow);
