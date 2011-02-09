@@ -11,18 +11,16 @@ import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import javafx.scene.Node;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFX;
-import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFX;
 import java.lang.System;
 import eu.scy.client.desktop.scydesktop.utils.XFX;
 import javafx.scene.control.TextBox;
 import javafx.scene.layout.Container;
 import javafx.scene.layout.LayoutInfo;
-import eu.scy.client.desktop.scydesktop.elofactory.ScyToolWindowContentCreatorFX;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolGetter;
 import java.io.CharArrayWriter;
 import java.io.PrintWriter;
 import java.lang.Exception;
+import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorRegistryFX;
 
 /**
  * @author sikken
@@ -32,7 +30,6 @@ public class ScyToolFactory extends ContentFactory {
    def logger = Logger.getLogger(this.getClass());
    public var scyToolCreatorRegistryFX: ScyToolCreatorRegistryFX;
    public var drawerContentCreatorRegistryFX: DrawerContentCreatorRegistryFX;
-   public var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;
    public var newTitleGenerator: NewTitleGenerator;
 
    public function createNewScyToolNode(id: String, type: String, eloUri: URI, scyWindow: ScyWindow, drawer: Boolean): Node {
@@ -78,31 +75,31 @@ public class ScyToolFactory extends ContentFactory {
                   toolTypeCreated = "ErrorDrawerTool";
                }
             }
-         } else {
-            var windowContentCreator = windowContentCreatorRegistryFX.getWindowContentCreatorFX(id);
-            if (windowContentCreator != null) {
-               checkIfServicesInjected(windowContentCreator);
-               try {
-                   XFX.deferActionAndWait(function(): Void {
-                      if (windowContentCreator instanceof ScyToolWindowContentCreatorFX) {
-                             toolNode = (windowContentCreator as ScyToolWindowContentCreatorFX).createScyToolWindowContent();
-                             toolTypeCreated = "ScyToolWindow";
-                      } else {
-                         if (eloUri != null) {
-                            toolNode = windowContentCreator.getScyWindowContent(eloUri, scyWindow);
-                            toolTypeCreated = "WindowToolExisting";
-                         } else {
-                            toolNode = windowContentCreator.getScyWindowContentNew(scyWindow);
-                            toolTypeCreated = "WindowToolNew";
-                         }
-                      }
-                   });
-               } catch (e: Exception) {
-                  toolNode = createErrorNode(getErrorMessage(e, eloUri, id, type, false, windowContentCreator),scyWindow);
-                  toolTypeCreated = "ErrorWindowTool";
-               }
-            }
-         }
+         }// else {
+//            var windowContentCreator = windowContentCreatorRegistryFX.getWindowContentCreatorFX(id);
+//            if (windowContentCreator != null) {
+//               checkIfServicesInjected(windowContentCreator);
+//               try {
+//                   XFX.deferActionAndWait(function(): Void {
+//                      if (windowContentCreator instanceof ScyToolWindowContentCreatorFX) {
+//                             toolNode = (windowContentCreator as ScyToolWindowContentCreatorFX).createScyToolWindowContent();
+//                             toolTypeCreated = "ScyToolWindow";
+//                      } else {
+//                         if (eloUri != null) {
+//                            toolNode = windowContentCreator.getScyWindowContent(eloUri, scyWindow);
+//                            toolTypeCreated = "WindowToolExisting";
+//                         } else {
+//                            toolNode = windowContentCreator.getScyWindowContentNew(scyWindow);
+//                            toolTypeCreated = "WindowToolNew";
+//                         }
+//                      }
+//                   });
+//               } catch (e: Exception) {
+//                  toolNode = createErrorNode(getErrorMessage(e, eloUri, id, type, false, windowContentCreator),scyWindow);
+//                  toolTypeCreated = "ErrorWindowTool";
+//               }
+//            }
+//         }
       }
 
       if (toolNode == null) {

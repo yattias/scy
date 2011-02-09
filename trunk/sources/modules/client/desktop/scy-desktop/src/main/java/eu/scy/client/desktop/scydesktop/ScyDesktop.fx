@@ -117,7 +117,6 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    public var windowStyler: WindowStyler;
    public var scyToolCreatorRegistryFX: ScyToolCreatorRegistryFX;
    public var newEloCreationRegistry: NewEloCreationRegistry;
-   public var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;
    public var drawerContentCreatorRegistryFX: DrawerContentCreatorRegistryFX;
    public var eloConfigManager: EloConfigManager;
    public var templateEloUris: URI[];
@@ -149,8 +148,6 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          windowManager: windows;
       };
    var scyToolFactory: ScyToolFactory;
-//   var windowContentFactory: WindowContentFactory;
-//   var drawerContentFactory: DrawerContentFactory;
    var windowPositioner: WindowPositioner;
    public-read var scyWindowControl: ScyWindowControl;
    public-read var newTitleGenerator: NewTitleGenerator;
@@ -235,7 +232,6 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       errors += checkIfNull(config, "config");
       errors += checkIfNull(missionModelFX, "missionModel");
       errors += checkIfNull(windowStyler, "windowStyler");
-      errors += checkIfNull(windowContentCreatorRegistryFX, "windowContentCreatorRegistryFX");
       errors += checkIfNull(newEloCreationRegistry, "newEloCreationRegistry");
       if (errors > 0) {
          throw new IllegalArgumentException("One or more properties of ScyDesktop are null");
@@ -255,7 +251,6 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       newTitleGenerator = new NumberedNewTitleGenerator(newEloCreationRegistry);
       scyToolFactory = ScyToolFactory {
             scyToolCreatorRegistryFX: scyToolCreatorRegistryFX;
-            windowContentCreatorRegistryFX: windowContentCreatorRegistryFX;
             drawerContentCreatorRegistryFX: drawerContentCreatorRegistryFX;
             config: config;
             initializer: initializer

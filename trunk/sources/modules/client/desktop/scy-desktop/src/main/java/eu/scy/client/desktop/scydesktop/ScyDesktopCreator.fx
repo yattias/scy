@@ -56,7 +56,6 @@ public class ScyDesktopCreator {
    public-init var windowStyler: WindowStyler;
    public-init var scyToolCreatorRegistryFX: ScyToolCreatorRegistryFX;
    public-init var newEloCreationRegistry: NewEloCreationRegistry;
-   public-init var windowContentCreatorRegistryFX: WindowContentCreatorRegistryFX;
    public-init var drawerContentCreatorRegistryFX: DrawerContentCreatorRegistryFX;
    public-init var eloConfigManager: EloConfigManager;
    var templateEloUris: URI[];
@@ -100,12 +99,12 @@ public class ScyDesktopCreator {
       if (newEloCreationRegistry == null) {
          newEloCreationRegistry = NewEloCreationRegistryImpl {};
       }
-      if (windowContentCreatorRegistryFX == null) {
-         windowContentCreatorRegistryFX = scyToolCreatorRegistryFXImpl;
-      }
-      if (drawerContentCreatorRegistryFX == null) {
-         drawerContentCreatorRegistryFX = scyToolCreatorRegistryFXImpl;
-      }
+//      if (windowContentCreatorRegistryFX == null) {
+//         windowContentCreatorRegistryFX = scyToolCreatorRegistryFXImpl;
+//      }
+//      if (drawerContentCreatorRegistryFX == null) {
+//         drawerContentCreatorRegistryFX = scyToolCreatorRegistryFXImpl;
+//      }
       if (eloConfigManager == null) {
          def eloToolConfigs = missionRunConfigs.missionRuntimeModel.getEloToolConfigsElo().getTypedContent().getEloToolConfigs();
          if (eloToolConfigs.size() > 0) {
@@ -328,7 +327,6 @@ public class ScyDesktopCreator {
             windowStyler: windowStyler;
             scyToolCreatorRegistryFX: scyToolCreatorRegistryFX
             newEloCreationRegistry: newEloCreationRegistry;
-            windowContentCreatorRegistryFX: windowContentCreatorRegistryFX;
             drawerContentCreatorRegistryFX: drawerContentCreatorRegistryFX;
             eloConfigManager: eloConfigManager;
             templateEloUris: templateEloUris
