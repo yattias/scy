@@ -8,7 +8,8 @@ import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 
 /**
  * @author SikkenJ
@@ -16,8 +17,9 @@ import javafx.scene.layout.VBox;
 public class TitleBarBuddies extends WindowElement {
 
    public var window: ScyWindow;
-   def buddySpacing = 7.0;
-   def displayVBox = VBox {
+   public-init var tooltipManager: TooltipManager;
+   def buddySpacing = 5.0;
+   def displayBox = HBox {
          spacing: buddySpacing
       }
 
@@ -27,16 +29,17 @@ public class TitleBarBuddies extends WindowElement {
 
    public override function create(): Node {
       updateBuddies();
-      displayVBox
+      displayBox
    }
 
    function updateBuddies() {
-      delete  displayVBox.content;
+      delete  displayBox.content;
       def authors = window.scyElo.getAuthors();
       if (authors != null) {
-         displayVBox.content =
+         displayBox.content =
             for (author in authors) {
                Buddy {
+                  tooltipManager:tooltipManager
                   windowColorScheme: windowColorScheme
                   name: author
                }

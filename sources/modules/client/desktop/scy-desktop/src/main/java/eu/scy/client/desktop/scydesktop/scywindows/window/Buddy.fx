@@ -7,19 +7,23 @@ package eu.scy.client.desktop.scydesktop.scywindows.window;
 import javafx.scene.CustomNode;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import javafx.scene.shape.Circle;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
+import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import eu.scy.client.desktop.scydesktop.tooltips.impl.ColoredTextTooltip;
 
 /**
  * @author SikkenJ
  */
-public class Buddy extends CustomNode {
+public class Buddy extends CustomNode, TooltipCreator {
 
+   public-init var tooltipManager: TooltipManager;
    public var windowColorScheme: WindowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    public var name: String;
    def size = 10.0;
@@ -27,6 +31,7 @@ public class Buddy extends CustomNode {
    def lineWidth = 2.0;
 
    public override function create(): Node {
+      tooltipManager.registerNode(this, this);
       Group {
          content: [
             Polyline {
@@ -35,7 +40,6 @@ public class Buddy extends CustomNode {
                stroke: bind windowColorScheme.mainColor
                fill: Color.WHITE
             }
-
             Circle {
                centerX: size / 2, centerY: circleSize
                radius: circleSize
@@ -45,6 +49,14 @@ public class Buddy extends CustomNode {
             }
          ]
       }
+   }
+
+   public override function createTooltipNode(sourceNode: Node): Node {
+      ColoredTextTooltip{
+         content: name
+         color:windowColorScheme.mainColor
+      }
+
    }
 
 }
