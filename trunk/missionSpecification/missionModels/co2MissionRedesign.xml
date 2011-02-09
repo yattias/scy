@@ -8,6 +8,8 @@
 
    <bean name="missionConfigInput" class="eu.scy.client.desktop.scydesktop.tools.mission.springimport.BasicMissionConfigInput">
 
+      <property name="missionDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/startPage/A_Challenge.html"/>
+
       <property name="eloToolConfigs" ref="eloToolConfigs"/>
 
       <property name="basicMissionMap">
