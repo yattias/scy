@@ -96,14 +96,14 @@ public class UIUtils {
 	"<p>Operators: 2*(h+2)+(1/2)" +
 	"<p>Cube root: cbrt(r+1)" +
 	"<p>Square root: sqrt(r+1)" +
-	"<p>Powers : r^2" +
+	"<p>Power: r^2" +
 	"<br><br>" +
 	"<i>Example: -5-6/(-2)^2 + sqrt(15+r)</i>" +
-	"<br><br><p><b>Hint:</b> Inorder to use a variable (r, w, h) a shape must be selected.";
+	"<br><br><p><b>Hint:</b> In order to use a variable (r, w, h) a shape must be selected.";
 
 	
 	public static String invalidExpressionErrorMessage = startTags +
-														"Formula was invaild. Please check its notation.<br><br>" +
+														"Formula was invalid. Please check its notation.<br><br>" +
 														notationHtml + endTags;
 														
 	public static String notationHelpMessage = startTags + notationHtml +
