@@ -274,7 +274,7 @@
          <list>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="myOptimizedHealthyPizza"/>
-               <property name="uri" value="roolo://memory/30082/0/My+Optimized+Healthy+Pizza.scysimconfig"/>
+               <property name="uri" value="roolo://memory/30091/0/My+Optimized+Healthy+Pizza.scysimconfig"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_A.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_27_myOptimizedHealthyPizza.html"/>
                <property name="resourcesUri" value=""/>
@@ -288,7 +288,7 @@
 
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="myFavouritePizza"/>
-               <property name="uri" value="roolo://memory/30080/0/My+Favourite+Pizza.scysimconfig"/>
+               <property name="uri" value="roolo://memory/30089/0/My+Favourite+Pizza.scysimconfig"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_A.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_01_myFavouritePizza.html"/>
                <property name="resourcesUri" value=""/>
@@ -302,7 +302,7 @@
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="myFirstHealthyPizza"/>
-               <property name="uri" value="roolo://memory/30081/0/My+First+Healthy+Pizza.scysimconfig"/>
+               <property name="uri" value="roolo://memory/30090/0/My+First+Healthy+Pizza.scysimconfig"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_A.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_21_myFirstHealthyPizza.html"/>
                <property name="resourcesUri" value=""/>
