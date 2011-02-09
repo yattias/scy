@@ -12,7 +12,6 @@ import javafx.reflect.FXLocal;
 import javafx.reflect.FXType;
 import javafx.reflect.FXVarMember;
 import java.lang.Exception;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * @author SikkenJ
@@ -33,7 +32,7 @@ public function injectObjectIfWantedJava(object: Object, serviceClass: Class, pr
       // no service setter method
       logger.info("object ({object.getClass().getName()}) does not have method {setterName}");
    }
-   catch (e: InvocationTargetException) {
+   catch (e: Exception) {
       logger.error("problems during calling method {setterName} of object ({object.getClass().getName()}), with value {value} ({value.getClass().getName()}) ", e);
    }
 }
