@@ -57,7 +57,7 @@
       <loElos />
       <otherElos />
       <mainAnchor>
-        <eloUri>roolo://memory/30082/0/My+Optimized+Healthy+Pizza.scysimconfig</eloUri>
+        <eloUri>roolo://memory/30091/0/My+Optimized+Healthy+Pizza.scysimconfig</eloUri>
         <iconType />
         <loElos />
         <inputAnchors />
@@ -69,7 +69,7 @@
       </mainAnchor>
       <intermediateAnchors>
         <intermediateAnchor>
-          <eloUri>roolo://memory/30080/0/My+Favourite+Pizza.scysimconfig</eloUri>
+          <eloUri>roolo://memory/30089/0/My+Favourite+Pizza.scysimconfig</eloUri>
           <iconType />
           <loElos />
           <inputAnchors />
@@ -80,7 +80,7 @@
           <colorScheme />
         </intermediateAnchor>
         <intermediateAnchor>
-          <eloUri>roolo://memory/30081/0/My+First+Healthy+Pizza.scysimconfig</eloUri>
+          <eloUri>roolo://memory/30090/0/My+First+Healthy+Pizza.scysimconfig</eloUri>
           <iconType />
           <loElos />
           <inputAnchors />
