@@ -90,7 +90,7 @@
 					teaReflectionArea1.text =  xmlPortfolio.assessmentportfoliocomment;
 				}
 				if(xmlPortfolio.assessmentportfoliorating != null) {
-					teaReflectionLabel1.text = teaReflectionLabel1.text + xmlPortfolio.assessmentportfoliorating;
+					teaReflectionLabel1.text = teaReflectionLabel1.text + labelsArray[new Number(xmlPortfolio.assessmentportfoliorating)-1];
 				}
 				
 				for each (var object:XML in xmlPortfolio.elos.*) {
@@ -113,7 +113,9 @@
 					coverflow.selectedIndex = 0;
 				}
 				
-				var pfXmlConfig:XML = so.data.portfolioreflectiontabs;
+				var pfXmlConfig:XMLList = so.data.portfolioreflectiontabs;
+				
+				
 				if(pfXmlConfig.tab[0].title != null && pfXmlConfig.tab[0].question != null) {
 					REFLECTION_TXT1 = pfXmlConfig.tab[0].title;
 				}

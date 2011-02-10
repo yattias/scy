@@ -128,8 +128,6 @@
 						so.data.retrievedElosFromRoolo = retrievedElosFromRoolo;
 						so.flush();
 						
-						trace("SAVED:\n"+retrievedElosFromRoolo);
-						
 						new AutoSaveService(so.data.saveportfolio+"?missionURI="+FlexGlobals.topLevelApplication.parameters.missionURI+"&xmlContent="+encodeURI(so.data.retrievedElosFromRoolo));	
 						
 						resetForm();
@@ -372,6 +370,22 @@
 				if((so.data.searchSelection as XML).technicalformat == "scy/rtf") {
 					tEvent.evtType = index.ZOOM_TYPE_RICHTEXT;
 					tEvent.rtf = ((so.data.searchSelection as XML).rawdata.text).toString();
+				}
+				else if((so.data.searchSelection as XML).technicalformat == "scy/model") {
+					tEvent.evtType = index.ZOOM_TYPE_IMAGE;
+					tEvent.imageSource = ((so.data.searchSelection as XML).rawdata.fullscreen).toString();
+				}
+				else if((so.data.searchSelection as XML).technicalformat == "scy/pds") {
+					tEvent.evtType = index.ZOOM_TYPE_IMAGE;
+					tEvent.imageSource = ((so.data.searchSelection as XML).rawdata.fullscreen).toString();
+				}
+				else if((so.data.searchSelection as XML).technicalformat == "scy/xproc") {
+					tEvent.evtType = index.ZOOM_TYPE_IMAGE;
+					tEvent.imageSource = ((so.data.searchSelection as XML).rawdata.fullscreen).toString();
+				}
+				else if((so.data.searchSelection as XML).technicalformat == "scy/xproc") {
+					tEvent.evtType = index.ZOOM_TYPE_IMAGE;
+					tEvent.imageSource = ((so.data.searchSelection as XML).rawdata.fullscreen).toString();
 				}
 				else {
 					tEvent.evtType = index.ZOOM_TYPE_IMAGE;
