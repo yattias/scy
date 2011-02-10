@@ -28,7 +28,7 @@ public class LasInfoDisplayTooltip extends CustomNode {
       def colorScheme = windowStyler.getWindowColorScheme(las.mainAnchor.scyElo);
       def lasInfoDisplay = LasInfoDisplay {
             las: las
-            colorScheme: colorScheme
+            windowColorScheme: colorScheme
             tbi: tbi
             openElo: openElo
          }

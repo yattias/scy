@@ -47,7 +47,7 @@ public class LasInfoDisplay extends CustomNode {
 
    def logger = Logger.getLogger(this.getClass());
    public var las: LasFX on replace { lasChanged() };
-   public var colorScheme: WindowColorScheme;
+   public var windowColorScheme: WindowColorScheme;
    public var tbi: ToolBrokerAPI;
    public var openElo : function(scyElo: ScyElo, las: LasFX):Void;
    def spacing = 5.0;
@@ -57,14 +57,14 @@ public class LasInfoDisplay extends CustomNode {
    def contentFontSize = 11.0;
    def width = 300.0;
    def lineLength = width - 2 * spacing;
-   def lineColor = colorScheme.mainColor;
+   def lineColor = windowColorScheme.mainColor;
    var lastModifiedElosList: ListView;
    def selectedLastModifiedElo = bind lastModifiedElosList.selectedItem as ScyElo on replace { lastModifiedEloSelected() }
 
    public override function create(): Node {
       def progressDisplay: Node = ProgressDisplay {
-            fillColor: colorScheme.mainColorlLight
-            borderColor: colorScheme.mainColor
+            fillColor: windowColorScheme.mainColorlLight
+            borderColor: windowColorScheme.mainColor
             progress: Math.random()
          }
       var thumbnail: Node;
@@ -78,7 +78,7 @@ public class LasInfoDisplay extends CustomNode {
             }
       } else {
          thumbnail = NoThumbnailView {
-               color: colorScheme.mainColor
+               windowColorScheme: windowColorScheme
             }
       }
       VBox {

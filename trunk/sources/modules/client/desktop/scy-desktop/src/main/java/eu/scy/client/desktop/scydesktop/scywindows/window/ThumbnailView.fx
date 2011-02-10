@@ -44,7 +44,7 @@ public class ThumbnailView extends WindowElement {
       }
    def noThumbnailView = NoThumbnailView {
          layoutX: eloIconOffset
-         color: bind windowColorScheme.mainColor
+         windowColorScheme: bind windowColorScheme
       }
    var eloIconGroup: Group;
 
