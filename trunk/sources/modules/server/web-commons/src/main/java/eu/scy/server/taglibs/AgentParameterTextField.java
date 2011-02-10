@@ -5,6 +5,8 @@ import eu.scy.agents.api.parameter.AgentParameterAPI;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 /**
  * Created by IntelliJ IDEA.
@@ -44,10 +46,16 @@ public class AgentParameterTextField extends TagSupport {
 
     public String executeGetter() {
         AgentParameter agentParameter = new AgentParameter();
-        agentParameter.setMission(getMissionURI());
+        try {
+            agentParameter.setMission(URLDecoder.decode(getMissionURI(), "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         agentParameter.setParameterName(getParameterName());
-        //getAgentParameterAPI().getParameter(getAgentId(), agentParameter);
-        return getAgentId() + " :: " + getParameterName() + " :: FOR MISSION: " + getMissionURI();
+        System.out.println("GEtting value for " + agentParameter.getParameterName()  +  " For mission: " + agentParameter.getMission());
+        Object value = getAgentParameterAPI().getParameter(getAgentId(), agentParameter);
+        return String.valueOf(value);
+
     }
 
     public String getMissionURI() {
