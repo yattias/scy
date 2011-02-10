@@ -58,7 +58,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
 
     protected JComponent resizeHandle;
 
-    protected JScrollPane labelScroller;
+    //protected JScrollPane labelScroller;
 
     private boolean isEditing;
 
@@ -116,15 +116,17 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
         }
         labelTextPane.setForeground(getModel().getStyle().getForeground());
         labelTextPane.setCursor(new Cursor(Cursor.TEXT_CURSOR));
-        labelScroller = new JScrollPane(labelTextPane);
+        //labelScroller = new JScrollPane(labelTextPane);
         labelTextPane.setMargin(new Insets(0, 0, 0, 0));
         labelTextPane.setBorder(BorderFactory.createEmptyBorder());
-        labelScroller.getViewport().setOpaque(false);
-        labelScroller.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        //labelScroller.getViewport().setOpaque(false);
+        //labelScroller.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+	labelTextPane.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         setLabelEditable(false, true);
 
-        add(labelScroller);
+        //add(labelScroller);
+	add(labelTextPane);
 
         MouseListener dblClickListener = new MouseAdapter() {
 
@@ -220,19 +222,24 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
             public void mouseEntered(MouseEvent e) {
                 // Create a border using the inverted background color
                 int c = getModel().getStyle().getBackground().getRGB() ^ 0xFFFFFF;
-                if (!isEditing)
-                    labelScroller.setBorder(BorderFactory.createLineBorder(new Color(c), 1));
+                if (!isEditing) {
+                    //labelScroller.setBorder(BorderFactory.createLineBorder(new Color(c), 1));
+                    labelTextPane.setBorder(BorderFactory.createLineBorder(new Color(c), 1));
+		}
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                if (!isEditing)
-                    labelScroller.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+                if (!isEditing) {
+                    //labelScroller.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+                    labelTextPane.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+		}
             }
         });
         labelTextPane.setToolTipText(Localization.getString("Mainframe.ConceptMap.NodeLabel.Tooptip"));
-
         layoutComponents();
+	model.setSize(model.getSize());
+	this.revalidate();
     }
 
     void setLabelEditable(boolean editable, final boolean selected) {
@@ -240,9 +247,10 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
         if (!getModel().getConstraints().getCanEditLabel())
             editable = false;
 
-        labelScroller.setOpaque(editable);
-        labelScroller.getViewport().setOpaque(editable);
-        labelScroller.setBorder(editable ? BorderFactory.createEtchedBorder() : BorderFactory.createEmptyBorder(1, 1, 1, 1));
+//        labelScroller.setOpaque(editable);
+//        labelScroller.getViewport().setOpaque(editable);
+//        labelScroller.setBorder(editable ? BorderFactory.createEtchedBorder() : BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        labelTextPane.setBorder(editable ? BorderFactory.createEtchedBorder() : BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         labelTextPane.setFocusable(editable);
         labelTextPane.setEditable(editable);
@@ -314,22 +322,25 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
             width = (width + 10 > maxWidth) ? maxWidth : width + 10;
 
         int height = labelTextPane.getPreferredScrollableViewportSize().height + 10;
+	//int height = labelTextPane.getPreferredSize().height + 10;
 
         if (height > maxHeight) {
             height = maxHeight;
-            labelScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+//            labelScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         } else {
-            labelScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+//  /          labelScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         }
 
-        // labelTextarea.setSize(width, height);
+        //labelTextPane.setSize(width, height);
         labelTextPane.setVisible(!getModel().isLabelHidden());
 
         double x = ((maxWidth / 2) - (width / 2)) + 10;
         double y = ((maxHeight / 2d) - (height / 2d)) + 10;
 
-        labelScroller.setBounds((int) x, (int) y, width - 2, height - 2);
-        labelScroller.revalidate();
+        labelTextPane.setBounds((int) x, (int) y, width - 2, height-2);
+//        labelScroller.setBounds((int) x, (int) y, width - 2, height-2);
+//	labelScroller.revalidate();
+	labelTextPane.revalidate();
 
         if (resizeHandle != null) {
             resizeHandle.setBounds(getWidth() - resizeHandle.getWidth() - 2, getHeight() - resizeHandle.getHeight() - 2, resizeHandle.getWidth(), resizeHandle.getHeight());
@@ -365,8 +376,8 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
     public void styleChanged(INodeModel node) {
         labelTextPane.setForeground(node.getStyle().getForeground());
         labelTextPane.setBackground(node.getStyle().getBackground());
-        labelScroller.setOpaque(false);
-        labelScroller.getViewport().setOpaque(false);
+        //labelScroller.setOpaque(false);
+        //labelScroller.getViewport().setOpaque(false);
         repaint();
     }
 
@@ -394,8 +405,8 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
     public void styleChanged(INodeStyle s) {
         labelTextPane.setForeground(s.getForeground());
         labelTextPane.setBackground(s.getBackground());
-        labelScroller.setOpaque(false);
-        labelScroller.getViewport().setOpaque(false);
+//        labelScroller.setOpaque(false);
+//        labelScroller.getViewport().setOpaque(false);
         repaint();
     }
 }
