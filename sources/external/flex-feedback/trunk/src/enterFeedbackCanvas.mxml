@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?> 
 <s:NavigatorContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		   xmlns:s="library://ns.adobe.com/flex/spark" 
-		   xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:local="*" >
+		   xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:local="*" creationComplete="navigatorcontent1_creationCompleteHandler(event)">
 	
 	<fx:Script>
 		<![CDATA[
 			import listeners.ImageMagEvent;
+			import listeners.RefreshEvent;
 			import listeners.ToggleEvent;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
 			import mx.events.ValidationResultEvent;
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
@@ -42,7 +44,7 @@
 				dispatchEvent(tEvent);
 			}
 			
-			public function assessElo(elo:Object):void {
+			public function assessElo(elourl:String):void {
 				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 				var sLogger:Dictionary = new Dictionary();
 				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
@@ -50,6 +52,12 @@
 				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
 				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 				
+				var tEvent:RefreshEvent = new RefreshEvent(index.REFRESH_COMMAND, true);
+				tEvent.eloURI = elourl;
+				dispatchEvent(tEvent);
+			}
+			
+			private function fillValues(elo:Object):void {
 				imageSource = elo.rawdatathumb;
 				customname = elo.customname;
 				createdby = elo.createdby;
@@ -57,7 +65,7 @@
 				technicalformat = elo.technicalformat;
 				rawdatatext = elo.rawdatatext;
 				rawdatafull = elo.rawdatafull;
-
+				
 				eloFeedback.url = new String(elo.feedbackelourl);
 				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
 					eloFeedback.url = new String(elo.feedbackelourl).substring(1);
@@ -138,9 +146,42 @@
 					var dico:Dictionary = new Dictionary();
 					dico["author"] = FlexGlobals.topLevelApplication.parameters.username;
 					dico["comment"] = feedbackArea.text;
-					
+					var ELOnewURL:String = feedbackURI;
 					trace(XMLUtilJer.getFeedBackXML(dico));
-					//new AutoSaveService(so.data.savefeedback+"?feedbackURI="+feedbackURI+"&xmlContent="+encodeURI(XMLUtilJer.getFeedBackXML(dico)));	
+					//ELOnewURL = new AutoSaveService(so.data.savefeedback+"?feedbackURI="+feedbackURI+"&xmlContent="+encodeURI(XMLUtilJer.getFeedBackXML(dico)));
+					
+					feedbackArea.text = "";
+					var tEvent:RefreshEvent = new RefreshEvent(index.REFRESH_COMMAND, true);
+					tEvent.eloURI = ELOnewURL;
+					dispatchEvent(tEvent);
+				}
+			}
+
+
+			protected function navigatorcontent1_creationCompleteHandler(event:FlexEvent):void {
+				this.addEventListener(index.REFRESH_COMMAND, refreshDisplay);
+			}
+			
+			private function refreshDisplay(evt:RefreshEvent):void {
+				evt.stopImmediatePropagation();
+				retrieveSingleELOService.url = new String(so.data.retrievesingleeloservice)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23")+"&singleELO="+evt.eloURI;
+				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+					retrieveSingleELOService.url = new String(so.data.newestelosfeedbackservice).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "%23");
+				}
+				retrieveSingleELOService.send();
+			}
+			
+			protected function retrieveSingleELOService_faultHandler(event:FaultEvent):void {
+				Alert.show(resourceManager.getString('resources', 'URL_PROPERTY_FILE_ERROR'), "HTTPService Error");
+			}
+			
+			protected function retrieveSingleELOService_resultHandler(event:ResultEvent):void {
+				var xmlres:XML = event.result as XML;
+				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+					fillValues(xmlres.elo[1]);
+				}
+				else {
+					fillValues(xmlres);
 				}
 			}
 
@@ -156,6 +197,12 @@
 					   showBusyCursor="true" 
 					   result="eloFeedback_resultHandler(event)" 
 					   fault="eloFeedback_faultHandler(event)"
+					   resultFormat="e4x"/>
+		
+		<s:HTTPService id="retrieveSingleELOService" 
+					   showBusyCursor="true" 
+					   result="retrieveSingleELOService_resultHandler(event)" 
+					   fault="retrieveSingleELOService_faultHandler(event)"
 					   resultFormat="e4x"/>
 	</fx:Declarations>
 	

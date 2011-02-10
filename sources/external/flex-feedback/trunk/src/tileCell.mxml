@@ -43,7 +43,6 @@
 			[Bindable] public var eval:String;
 			[Bindable] public var score:String;
 			[Bindable] public var feedbackelourl:String;
-			[Bindable] public var rawObject:Object;
 	
 			protected function bordercontainer1_mouseOverHandler(event:MouseEvent):void {
 				event.target.alpha = .7;
@@ -57,7 +56,7 @@
 				var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
 				tEvent.direction = index.LEFT_DIRECTION;
 				tEvent.selecTarget = index.STACK_FEEDBACK_PANEL;
-				tEvent.eloToAssess = rawObject;
+				tEvent.eloToAssess = uri;
 				dispatchEvent(tEvent);
 				
 				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);

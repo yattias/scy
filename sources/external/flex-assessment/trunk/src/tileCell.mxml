@@ -110,7 +110,7 @@
 					<s:SolidColor color="{index.ORANGE_NOTOK}" />
 				</s:fill>
 			</s:Ellipse>
-			<s:Label id="scoreLabel" text="{'Score: '+cellGrade}" color="#FFFFFF" excludeFrom="notassessed" />
+			<s:Label id="scoreLabel" text="{resourceManager.getString('resources', 'SCORE')+': '+cellGrade}" color="#FFFFFF" excludeFrom="notassessed" />
 		</s:VGroup>
 	</s:BorderContainer>
 </s:VGroup>

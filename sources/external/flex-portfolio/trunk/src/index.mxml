@@ -248,7 +248,7 @@
 			}
 			
 			private function getCorrectLanguage(lang:String):String {
-				if(lang == "en_US" || lang == "fr_FR" || lang == "nb_NO" || lang == "el_CY" || lang == "nl_NL") {
+				if(lang == "en_US" || lang == "fr_FR" || lang == "nb_NO" || lang == "el_CY" || lang == "nl_NL" || lang == "et_EE") {
 					return lang;
 				}
 				else {

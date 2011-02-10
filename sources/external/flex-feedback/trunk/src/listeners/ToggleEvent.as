@@ -8,7 +8,7 @@ package listeners
 	{
 		public var selecTarget:Number;
 		public var direction:String = null;
-		public var eloToAssess:Object = null; 
+		public var eloToAssess:String = null;
 		
 		public function ToggleEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
 		{

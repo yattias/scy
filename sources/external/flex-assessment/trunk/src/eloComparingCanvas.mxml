@@ -24,6 +24,7 @@
 			[Bindable] private var inquiryNumber1:Number = 2;
 			[Bindable] private var thumbnailURL1:String = "";
 			[Bindable] private var eloNameText1:String = "";
+			[Bindable] private var eloCatNameText1:String = "";
 			[Bindable] private var createdByText1:String = "";
 			[Bindable] private var createdDateText1:String = "";
 			[Bindable] private var assesslider1Value:Number = 2;
@@ -38,6 +39,7 @@
 			[Bindable] private var inquiryNumber2:Number = 2;
 			[Bindable] private var thumbnailURL2:String = "";
 			[Bindable] private var eloNameText2:String = "";
+			[Bindable] private var eloCatNameText2:String = "";
 			[Bindable] private var createdByText2:String = "";
 			[Bindable] private var createdDateText2:String = "";
 			[Bindable] private var assesslider2Value:Number = 2;
@@ -84,6 +86,7 @@
 				newEloXML2 = myList2[0] as XML;
 				
 				eloNameText1 = eloXML1.customname;
+				eloCatNameText1 = eloXML1.catname;
 				createdByText1 = eloXML1.parent().parent().owner;
 				createdDateText1 = eloXML1.modified;
 				descriptionText1 = eloXML1.studentdescription;
@@ -94,6 +97,7 @@
 				thumbnailURL1 = eloXML1.thumbnail;
 				
 				eloNameText2 = eloXML2.customname;
+				eloCatNameText2 = eloXML2.catname;
 				createdByText2 = eloXML2.parent().parent().owner;
 				createdDateText2 = eloXML2.modified;
 				descriptionText2 = eloXML2.studentdescription;
@@ -183,8 +187,6 @@
 			}
 			
 			protected function image1_ioErrorHandler(event:IOErrorEvent):void {
-				trace("could not load the image, let's get a default thumb instead");
-				
 				switch(event.errorID) {
 					case 0:
 						event.currentTarget.source = index.NOTHUMB;
@@ -301,7 +303,7 @@
 											snapInterval="1" tickInterval="1" allowTrackClick="false" width="100%" showDataTip="false" />
 							</s:VGroup>
 						</s:NavigatorContent>
-						<s:NavigatorContent width="100%" height="100%" label="Assessment of 1st ideas of my Design Group:">
+						<s:NavigatorContent width="100%" height="100%" label="{resourceManager.getString('resources', 'ASSESSMENT')+' : '+eloCatNameText1}">
 							<s:VGroup width="90%" gap="0" horizontalCenter="0" horizontalAlign="center">
 								<mx:Spacer height="5" />
 								<s:TextArea width="300" height="100" id="assessmentArea1" text="{assessmentArea1Text}" color="#FFFFFF" contentBackgroundAlpha="0" editable="false" chromeColor="{index.THEME_LIGHT}"/>
@@ -310,7 +312,7 @@
 											snapInterval="1" tickInterval="1" allowTrackClick="true" width="100%" showDataTip="false" styleName="whiteFont"/>
 							</s:VGroup>
 						</s:NavigatorContent>
-						<s:NavigatorContent width="100%" height="100%" label="Comment on Reflection on 1st ideas of my Design Group:">
+						<s:NavigatorContent width="100%" height="100%" label="{resourceManager.getString('resources', 'COMMENT')+' : '+eloCatNameText1}">
 							<s:VGroup id="refTeaAreaContainer1" width="90%" height="90%" gap="0" horizontalCenter="0" verticalCenter="0" horizontalAlign="center">
 								<s:TextArea width="{refTeaAreaContainer1.width}" text="{commentArea1Text}" height="{refTeaAreaContainer1.height}" id="commentArea1" color="#FFFFFF" contentBackgroundAlpha="0" editable="false" chromeColor="{index.THEME_LIGHT}"/>
 							</s:VGroup>
@@ -378,7 +380,7 @@
 											snapInterval="1" tickInterval="1" allowTrackClick="false" width="100%" showDataTip="false" />
 							</s:VGroup>
 						</s:NavigatorContent>
-						<s:NavigatorContent width="100%" height="100%" label="Assessment of 1st ideas of my Design Group:">
+						<s:NavigatorContent width="100%" height="100%" label="{resourceManager.getString('resources', 'ASSESSMENT')+' : '+eloCatNameText2}">
 							<s:VGroup width="90%" gap="0" horizontalCenter="0" horizontalAlign="center">
 								<mx:Spacer height="5" />
 								<s:TextArea width="300" height="100" id="assessmentArea2" text="{assessmentArea2Text}" color="#FFFFFF" contentBackgroundAlpha="0" editable="false" chromeColor="{index.THEME_LIGHT}"/>
@@ -387,7 +389,7 @@
 											snapInterval="1" tickInterval="1" allowTrackClick="true" width="100%" showDataTip="false" styleName="whiteFont"/>
 							</s:VGroup>
 						</s:NavigatorContent>
-						<s:NavigatorContent width="100%" height="100%" label="Comment on Reflection on 1st ideas of my Design Group:">
+						<s:NavigatorContent width="100%" height="100%" label="{resourceManager.getString('resources', 'COMMENT')+' : '+eloCatNameText2}">
 							<s:VGroup id="refTeaAreaContainer2" width="90%" height="90%" gap="0" horizontalCenter="0" verticalCenter="0" horizontalAlign="center">
 								<s:TextArea width="{refTeaAreaContainer2.width}" text="{commentArea2Text}" height="{refTeaAreaContainer2.height}" id="commentArea2" color="#FFFFFF" contentBackgroundAlpha="0" editable="false" chromeColor="{index.THEME_LIGHT}"/>
 							</s:VGroup>

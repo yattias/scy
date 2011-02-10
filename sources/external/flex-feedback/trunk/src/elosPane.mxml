@@ -32,7 +32,6 @@
 							tc.rawdatathumb = index.NOTHUMB;
 						}
 						
-						tc.rawObject = eloObj;
 						tc.shown = "0";
 						tc.eval = "0";
 						tc.score = "0";

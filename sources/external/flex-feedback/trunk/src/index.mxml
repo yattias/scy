@@ -57,6 +57,8 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import flash.utils.setInterval;
+			
 			import listeners.ImageMagEvent;
 			import listeners.ToggleEvent;
 			
@@ -83,6 +85,7 @@
 			public static const STACK_INTRO_PANEL:Number = 1;
 			public static const STACK_FEEDBACK_PANEL:Number = 2;
 			
+			public static const REFRESH_COMMAND:String = "refreshevent";
 			public static const IMAGEMAG_COMMAND:String = "toggleImageMag";
 			public static const TOGGLE_COMMAND:String = "toggleStack";
 			public static const LEFT_DIRECTION:String = "left";
@@ -111,7 +114,7 @@
 			public static var obligElos:ArrayCollection;
 			
 			private var userName:String;
-			private var eloToAssess:Object;
+			private var eloToAssess:String;
 			
 			private var so:SharedObject;
 			private var toolURLProvider:XML;
@@ -124,6 +127,7 @@
 			}
 			
 			private function ToggleImageMag(evt:ImageMagEvent):void {
+				evt.stopImmediatePropagation();
 				maxImage.visible = evt.showNow;
 				
 				if(evt.evtType == ZOOM_TYPE_RICHTEXT) {
@@ -137,6 +141,7 @@
 			}
 			
 			private function ToggleStack(evt:ToggleEvent):void {
+				evt.stopImmediatePropagation();
 				eloToAssess = evt.eloToAssess;
 				animate(evt.direction, evt.selecTarget);
 			}
@@ -159,7 +164,7 @@
 			}
 			
 			private function getCorrectLanguage(lang:String):String {
-				if(lang == "en_US" || lang == "fr_FR" || lang == "nb_NO" || lang == "el_CY" || lang == "nl_NL") {
+				if(lang == "en_US" || lang == "fr_FR" || lang == "nb_NO" || lang == "el_CY" || lang == "nl_NL" || lang == "et_EE") {
 					return lang;
 				}
 				else {
@@ -216,6 +221,7 @@
 				so.data.saveportfolio = new String(toolURLProvider.saveportfolio);
 				//so.data.savefeedback = so.data.savefeedback;
 				//so.data.savereplyfeedback = so.data.savereplyfeedback;
+				//so.data.retrievesingleeloservice = so.data.retrievesingleeloservice;
 				so.data.actionlogger = new String(toolURLProvider.actionlogger);
 				so.data.newestelosfeedbackservice = new String(toolURLProvider.newestelosfeedbackservice);
 				so.data.myelosfeedbackservice = new String(toolURLProvider.myelosfeedbackservice);
@@ -310,7 +316,6 @@
 						break;
 				}
 			}
-
 		]]>
 	</fx:Script>
 	

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feedbackelo>
     <uri><![CDATA[123456]]></uri>
-    <question><![CDATA[I am having problems with the temperature, does any one have any suggestions and I am having problems with the temperature, does any one have any suggestions and I am having problems with the temperature, does any one have any suggestions?]]></question>
+    <elouri><![CDATA[123456]]></elouri>
+    <question><![CDATA[some text]]></question>
     <shown><![CDATA[0]]></shown>
     <evaluation><![CDATA[0]]></evaluation>
     <score><![CDATA[0]]></score>

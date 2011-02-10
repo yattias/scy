@@ -5,6 +5,9 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import listeners.RefreshEvent;
+			import listeners.ToggleEvent;
+			
 			import mx.core.FlexGlobals;
 			import mx.events.ValidationResultEvent;
 			
@@ -40,11 +43,13 @@
 					var dico:Dictionary = new Dictionary();
 					dico["author"] = FlexGlobals.topLevelApplication.parameters.username;
 					dico["comment"] = replyArea.text;
-					
+					var ELOnewURL:String = ELOnewURL;
 					trace(XMLUtilJer.getReplyFeedBackXML(dico));
-					//new AutoSaveService(so.data.savereplyfeedback+"?replyfeedbackURI="+uri+"&feedbackURI="+feedbackURI+"&xmlContent="+encodeURI(XMLUtilJer.getReplyFeedBackXML(dico)));
+					//ELOnewURL = new AutoSaveService(so.data.savereplyfeedback+"?replyfeedbackURI="+uri+"&feedbackURI="+feedbackURI+"&xmlContent="+encodeURI(XMLUtilJer.getReplyFeedBackXML(dico)));
 					
-					
+					var tEvent:RefreshEvent = new RefreshEvent(index.REFRESH_COMMAND, true);
+					tEvent.eloURI = ELOnewURL;
+					dispatchEvent(tEvent);
 				}
 			}
 
