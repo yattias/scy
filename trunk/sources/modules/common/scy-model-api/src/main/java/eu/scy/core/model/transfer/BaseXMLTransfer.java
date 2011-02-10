@@ -23,4 +23,6 @@ public class BaseXMLTransfer {
     public String getId() {
         return id;
     }
+
+
 }

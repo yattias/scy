@@ -97,6 +97,12 @@
         </dependency>
 
         <dependency>
+            <groupId>eu.scy.server</groupId>
+            <artifactId>scy-server-utils</artifactId>
+            <version>31-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>eu.scy.common</groupId>
             <artifactId>action-logging-commons</artifactId>
             <version>31-SNAPSHOT</version>

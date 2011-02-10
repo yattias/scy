@@ -40,7 +40,7 @@ public class ActionLoggingService extends XMLStreamerController {
                 action.addAttribute(actionLogEntryAttribute.getName(), actionLogEntryAttribute.getValue());
             }
 
-            getSqlSpacesActionLogger().log(action);
+            logAction(action);
         }
 
         ServiceMessage serviceMessage = new ServiceMessage();
@@ -49,6 +49,11 @@ public class ActionLoggingService extends XMLStreamerController {
         return serviceMessage;
 
 
+    }
+
+    public void logAction(IAction action) {
+        getSqlSpacesActionLogger().log(action);
+        logger.info("LOGGED: " + action);
     }
 
     public SQLSpacesActionLogger getSqlSpacesActionLogger() {

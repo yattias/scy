@@ -486,6 +486,39 @@
 
     </tag>
 
+    <tag>
+        <name>agentParameterTextField</name>
+        <tagclass>eu.scy.server.taglibs.AgentParameterTextField</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax text field</info>
+        <attribute>
+            <name>missionURI</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>agentId</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>parameterName</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>las</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>agentParameterAPI</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+
 
 
 </taglib>
