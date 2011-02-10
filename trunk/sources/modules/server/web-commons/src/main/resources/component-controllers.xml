@@ -158,6 +158,8 @@
     <bean id="currentStudentActivityController" class="eu.scy.server.controllers.components.realtime.CurrentStudentActivityController">
         <property name="runtimeService" ref="runtimeService"/>
         <property name="userService" ref="userService"/>
+        <property name="runtimeELOService" ref="runtimeELOService"/>
+        <property name="missionELOService" ref="missionELOService"/>
     </bean>
 
     <bean id="myCurrentActivity" class="eu.scy.server.controllers.components.realtime.MyCurrentActivity">

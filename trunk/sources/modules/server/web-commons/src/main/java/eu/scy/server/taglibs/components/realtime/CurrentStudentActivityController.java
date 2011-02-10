@@ -13,6 +13,7 @@ import javax.servlet.jsp.tagext.TagSupport;
 public class CurrentStudentActivityController extends TagSupport {
 
     private String username;
+    private String missionURI;
 
     public int doEndTag() throws JspException {
         double id = Math.random() ;
@@ -22,7 +23,7 @@ public class CurrentStudentActivityController extends TagSupport {
 
                pageContext.getOut().write("<span id=\"activityStatus" + id + "\"><i>Initializing...</i></span>");
                pageContext.getOut().write("<script type=\"text/javascript\" language=\"javascript\">" +
-                       "setInterval(\"updateActivityStatus('activityStatus" + id + "', '" + getUsername() + "');\", 5000);" +
+                       "setInterval(\"updateActivityStatus('activityStatus" + id + "', '" + getUsername() + "', '" + getMissionURI() + "');\", 5000);" +
                        "</script>");
            } catch (Exception e) {
                e.printStackTrace();
@@ -36,5 +37,13 @@ public class CurrentStudentActivityController extends TagSupport {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getMissionURI() {
+        return missionURI;
+    }
+
+    public void setMissionURI(String missionURI) {
+        this.missionURI = missionURI;
     }
 }
