@@ -15,6 +15,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ShowMoreInfo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import javafx.scene.control.Label;
+import roolo.api.IRepository;
 
 /**
  * @author SikkenJ
@@ -22,7 +23,8 @@ import javafx.scene.control.Label;
 public class TestMoreInfoNode extends CustomNode, ScyToolFX {
 
    public var showMoreInfo: ShowMoreInfo;
-   public var toolBrokerAPI: ToolBrokerAPI;
+   public var repository: IRepository;
+   public var toolBrokerAPI: ToolBrokerAPI on replace { repository = toolBrokerAPI.getRepository() };
    def spacing = 5.0;
    var eloUri: URI;
    var scyElo: ScyElo;

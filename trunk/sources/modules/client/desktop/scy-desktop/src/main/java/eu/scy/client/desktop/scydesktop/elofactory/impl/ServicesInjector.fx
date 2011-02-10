@@ -71,8 +71,8 @@ public class ServicesInjector {
 //               injectServiceIfWanted(object, PedagogicalPlanService.class, "pedagogicalPlanService", config.getToolBrokerAPI().getPedagogicalPlanService());
 //            }
          }
-//         injectServiceIfWanted(object,Boolean.class,"authorMode",initializer.authorMode);
-//         injectServiceIfWanted(object,ShowMoreInfo.class,"showMoreInfo",showMoreInfo);
+         injectServiceIfWanted(object,Boolean.class,"authorMode",initializer.authorMode);
+         injectServiceIfWanted(object,ShowMoreInfo.class,"showMoreInfo",showMoreInfo);
          activityTimer.endActivity();
       }
    }
