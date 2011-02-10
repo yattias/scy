@@ -20,29 +20,24 @@ import java.util.*;
 import eu.scy.chat.controller.*;
 import org.apache.commons.lang.StringUtils;
 import roolo.api.IRepository;
-import roolo.elo.api.IContent;
-import roolo.elo.api.IELO;
-import roolo.elo.api.IELOFactory;
-import roolo.elo.api.IMetadata;
-import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
-import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.Contribute;
 
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.awareness.AwarenessUser;
 import eu.scy.presence.IPresenceEvent;
-import roolo.elo.metadata.keys.Contribute;
 /**
  * @author jeremyt
  */
 
 public class ChattoolPresenceDrawerContentCreatorFX extends DrawerContentCreatorFX {
+
     override public function getDrawerContent (eloUri:URI, scyWindow:ScyWindow) : Node {
-
-
-         return createChatPresenceToolNode(scyWindow,eloUri);
+        awarenessService = toolBrokerAPI.getAwarenessService();
+        repository = toolBrokerAPI.getRepository();
+        metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+        return createChatPresenceToolNode(scyWindow,eloUri);
     }
 
     public var node:Node;
