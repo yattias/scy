@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.scydesktop.art.ScyColors;
 
 /**
  * @author sikkenj
@@ -50,13 +51,7 @@ class DrawerTest extends CustomNode {
 }
 
 Stage {
-   var highcontrastColorScheme = WindowColorScheme {
-         mainColor: Color.BLUE
-         backgroundColor: Color.ORANGE
-         titleStartGradientColor: Color.LIGHTBLUE
-         titleEndGradientColor: Color.WHITE
-         emptyBackgroundColor: Color.WHITE
-      }
+   var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    def width = 100.0;
    def height = 100.0;
    def borderWidth = 2.0;
@@ -67,7 +62,7 @@ Stage {
          height: bind height;
          controlSize: cornerRadius;
          borderWidth: borderWidth;
-         windowColorScheme: highcontrastColorScheme
+         windowColorScheme: windowColorScheme
          layoutX:100;
          layoutY:100
       }
@@ -79,26 +74,26 @@ Stage {
       content: [
          emptyWindow,
          TopDrawer{
-            windowColorScheme: highcontrastColorScheme
+            windowColorScheme: windowColorScheme
             closedSize:60;
             layoutX:120;
             layoutY:100-borderOffset;
          }
          RightDrawer{
-            windowColorScheme: highcontrastColorScheme
+            windowColorScheme: windowColorScheme
             closedSize:60;
            layoutX:200+borderOffset;
             layoutY:120;
          }
          BottomDrawer{
-            windowColorScheme: highcontrastColorScheme
+            windowColorScheme: windowColorScheme
             closedSize:60;
             layoutX:120;
             layoutY:200+borderOffset;
             opened:true
          }
          LeftDrawer{
-            windowColorScheme: highcontrastColorScheme
+            windowColorScheme: windowColorScheme
             layoutX:100-borderOffset;
             layoutY:120;
          }

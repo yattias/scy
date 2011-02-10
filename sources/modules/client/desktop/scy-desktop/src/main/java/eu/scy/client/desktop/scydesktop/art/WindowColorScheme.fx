@@ -13,21 +13,29 @@ import javafx.scene.paint.Color;
 
 public class WindowColorScheme {
    public var mainColor:Color;
+   public var mainColorlLight:Color;
+   public var secondColor:Color;
+   public var secondColorLight:Color;
    public var backgroundColor:Color;
-   public var titleStartGradientColor:Color;
-   public var titleEndGradientColor:Color;
    public var emptyBackgroundColor:Color;
+
+//   public var titleStartGradientColor:Color;
+//   public var titleEndGradientColor:Color;
 
    public function assign(windowColorScheme: WindowColorScheme):Void{
       mainColor = windowColorScheme.mainColor;
+      mainColorlLight = windowColorScheme.mainColorlLight;
+      secondColor = windowColorScheme.secondColor;
+      secondColorLight = windowColorScheme.secondColorLight;
       backgroundColor = windowColorScheme.backgroundColor;
-      titleStartGradientColor = windowColorScheme.titleStartGradientColor;
-      titleEndGradientColor = windowColorScheme.titleEndGradientColor;
       emptyBackgroundColor = windowColorScheme.emptyBackgroundColor;
+
+//      titleStartGradientColor = windowColorScheme.titleStartGradientColor;
+//      titleEndGradientColor = windowColorScheme.titleEndGradientColor;
    }
 
    public override function toString():String{
-      "mainColor: {mainColor}, backgroundColor: {backgroundColor}"
+      "mainColor: {mainColor}, secondColor: {secondColor}, backgroundColor: {backgroundColor}"
    }
 
 
@@ -36,9 +44,12 @@ public class WindowColorScheme {
 public function getWindowColorScheme(scyColors:ScyColors):WindowColorScheme{
    WindowColorScheme{
       mainColor: Color.web(scyColors.mainColorName)
+      mainColorlLight: Color.web(scyColors.mainColorLightName)
+      secondColor: Color.web(scyColors.secondColorName)
+      secondColorLight: Color.web(scyColors.secondColorLightName)
       backgroundColor: Color.web(scyColors.backgroundColorName)
-      titleStartGradientColor: Color.web(scyColors.titleStartGradientColorName)
-      titleEndGradientColor: Color.web(scyColors.titleEndGradientColorName)
+//      titleStartGradientColor: Color.web(scyColors.titleStartGradientColorName)
+//      titleEndGradientColor: Color.web(scyColors.titleEndGradientColorName)
       emptyBackgroundColor: Color.web(scyColors.emptyBackgroundColorName)
    }
 

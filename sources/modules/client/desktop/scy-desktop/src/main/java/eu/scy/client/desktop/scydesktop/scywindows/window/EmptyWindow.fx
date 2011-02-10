@@ -18,6 +18,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.scydesktop.art.ScyColors;
 
 /**
  * @author sikkenj
@@ -149,13 +150,7 @@ class WindowBorder extends CustomNode {
 
 
 public function run(){
-   var windowColorScheme = WindowColorScheme{
-      mainColor:Color.web("#0042f1")
-      backgroundColor:Color.web("#f0f8db")
-      titleStartGradientColor:Color.web("#4080f8")
-      titleEndGradientColor:Color.WHITE
-      emptyBackgroundColor:Color.WHITE
-   }
+   var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
 
       Stage {
       title : "test empty window"

@@ -27,6 +27,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.window.EmptyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 import javafx.scene.shape.Rectangle;
+import eu.scy.client.desktop.scydesktop.art.ScyColors;
 
 /**
  * @author sikkenj
@@ -204,13 +205,7 @@ public class WindowRotate extends WindowActiveElement {
 }
 
 function run(){
-   var highcontrastColorScheme = WindowColorScheme{
-      mainColor:Color.BLUE
-      backgroundColor:Color.ORANGE
-      titleStartGradientColor:Color.LIGHTBLUE
-      titleEndGradientColor:Color.WHITE
-      emptyBackgroundColor:Color.WHITE
-   }
+   var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    def width = 50.0;
    def height = 50.0;
    def borderWidth = 2.0;
@@ -221,12 +216,12 @@ function run(){
       height:bind height;
       controlSize:cornerRadius;
       borderWidth:borderWidth;
-      windowColorScheme:highcontrastColorScheme
+      windowColorScheme:windowColorScheme
    }
    var rotateElement = WindowRotate{
       size:controlLength;
       borderWidth:borderWidth;
-      windowColorScheme:highcontrastColorScheme
+      windowColorScheme:windowColorScheme
 //         activate: activate;
 //      rotateWindow:this;
       layoutX: 0;

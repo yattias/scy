@@ -63,7 +63,7 @@ public class LasInfoDisplay extends CustomNode {
 
    public override function create(): Node {
       def progressDisplay: Node = ProgressDisplay {
-            fillColor: colorScheme.titleStartGradientColor
+            fillColor: colorScheme.mainColorlLight
             borderColor: colorScheme.mainColor
             progress: Math.random()
          }

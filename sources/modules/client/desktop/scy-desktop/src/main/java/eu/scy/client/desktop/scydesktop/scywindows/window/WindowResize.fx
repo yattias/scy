@@ -17,6 +17,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.scydesktop.art.ScyColors;
 
 
 /**
@@ -111,13 +112,7 @@ public class WindowResize extends WindowActiveElement {
 }
 
 function run(){
-   var highcontrastColorScheme = WindowColorScheme{
-      mainColor:Color.BLUE
-      backgroundColor:Color.ORANGE
-      titleStartGradientColor:Color.LIGHTBLUE
-      titleEndGradientColor:Color.WHITE
-      emptyBackgroundColor:Color.WHITE
-   }
+   var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    def width = 50.0;
    def height = 50.0;
    def borderWidth = 2.0;
@@ -128,12 +123,12 @@ function run(){
       height:bind height;
       controlSize:cornerRadius;
       borderWidth:borderWidth;
-      windowColorScheme:highcontrastColorScheme
+      windowColorScheme:windowColorScheme
    }
    var resizeElement = WindowResize{
       size:controlLength;
       borderWidth:borderWidth;
-      windowColorScheme:highcontrastColorScheme
+      windowColorScheme:windowColorScheme
 //         activate: activate;
 //      rotateWindow:this;
       layoutX: bind width

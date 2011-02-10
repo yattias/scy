@@ -19,6 +19,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.scydesktop.art.ScyColors;
 
 /**
  * @author sikkenj
@@ -156,13 +157,7 @@ public class WindowMinimize extends WindowActiveElement {
 }
 
 function run(){
-   var highcontrastColorScheme = WindowColorScheme{
-      mainColor:Color.BLUE
-      backgroundColor:Color.ORANGE
-      titleStartGradientColor:Color.LIGHTBLUE
-      titleEndGradientColor:Color.WHITE
-      emptyBackgroundColor:Color.WHITE
-   }
+   var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    def width = 90.0;
    def height = 50.0;
    def borderWidth = 2.0;
@@ -174,12 +169,12 @@ function run(){
       height:bind height;
       controlSize:cornerRadius;
       borderWidth:borderWidth;
-      windowColorScheme:highcontrastColorScheme
+      windowColorScheme:windowColorScheme
    }
    var minimizeElement = WindowMinimize{
       size:controlLength;
       borderWidth:borderWidth;
-      windowColorScheme:highcontrastColorScheme
+      windowColorScheme:windowColorScheme
 //         activate: activate;
 //      rotateWindow:this;
       layoutX: bind width / 4;
@@ -189,7 +184,7 @@ function run(){
       minimized:true
       size:controlLength;
       borderWidth:borderWidth;
-      windowColorScheme:highcontrastColorScheme
+      windowColorScheme:windowColorScheme
 //         activate: activate;
 //      rotateWindow:this;
       layoutX: bind 3*width / 4;

@@ -28,6 +28,7 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import javafx.scene.input.MouseEvent;
 import eu.scy.client.desktop.scydesktop.uicontrols.MouseOverDisplay;
 import javafx.scene.Cursor;
+import eu.scy.client.desktop.scydesktop.art.ScyColors;
 
 /**
  * @author sikkenj
@@ -55,22 +56,6 @@ public class WindowTitleBar extends WindowElement {
    def textFont = Font.font("Verdana", FontWeight.BOLD, titleFontsize);
    def mainColor = bind if (activated) windowColorScheme.mainColor else windowColorScheme.emptyBackgroundColor;
    def bgColor = bind if (activated) windowColorScheme.backgroundColor else windowColorScheme.mainColor;
-   def textBackgroundGradient = bind LinearGradient {
-      startX : 0.0
-      startY : 0.0
-      endX : 0.0
-      endY : 1.0
-      stops: [
-         Stop {
-            color : windowColorScheme.titleStartGradientColor
-            offset: 0.0
-         },
-         Stop {
-            color : windowColorScheme.titleEndGradientColor
-            offset: 1.0
-         },
-      ]
-   }
    // make sure the background color of the title bar changes, when the main changes
    def theMainColor = bind windowColorScheme.mainColor on replace {
       activatedChanged()
@@ -98,7 +83,7 @@ public class WindowTitleBar extends WindowElement {
          textBackgroundFillRect.fill = windowColorScheme.mainColor;
       }
       else{
-         textBackgroundFillRect.fill = textBackgroundGradient;
+         textBackgroundFillRect.fill = Color.WHITE;
       }
    }
 
@@ -229,13 +214,7 @@ function loadEloIcon(type: String):EloIcon{
 }
 
 function run(){
-   var windowColorScheme = WindowColorScheme{
-      mainColor:Color.web("#0042f1")
-      backgroundColor:Color.web("#f0f8db")
-      titleStartGradientColor:Color.web("#4080f8")
-      titleEndGradientColor:Color.WHITE
-      emptyBackgroundColor:Color.WHITE
-   }
+   var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
 
    var windowTitleBar1:WindowTitleBar;
 
