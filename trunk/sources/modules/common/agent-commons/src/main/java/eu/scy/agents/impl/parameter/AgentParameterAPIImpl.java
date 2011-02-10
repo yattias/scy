@@ -20,19 +20,12 @@ public class AgentParameterAPIImpl implements AgentParameterAPI {
 
 	private TupleSpace tupleSpace;
 
-    public AgentParameterAPIImpl() {
-        int tsPort = Configuration.getInstance().getSQLSpacesServerPort();
-        String tsHost = Configuration.getInstance().getSQLSpacesServerHost();
-        try {
-            tupleSpace = new TupleSpace(new User(TS_USER), tsHost, tsPort,
-                    true, false, AgentProtocol.COMMAND_SPACE_NAME);
-        } catch (TupleSpaceException e) {
-            e.printStackTrace();
-        }
+	public AgentParameterAPIImpl() {
+		this(Configuration.getInstance().getSQLSpacesServerHost(),
+				Configuration.getInstance().getSQLSpacesServerPort());
+	}
 
-    }
-
-    public AgentParameterAPIImpl(String tsHost, int tsPort) {
+	public AgentParameterAPIImpl(String tsHost, int tsPort) {
 		try {
 			tupleSpace = new TupleSpace(new User(TS_USER), tsHost, tsPort,
 					true, false, AgentProtocol.COMMAND_SPACE_NAME);
@@ -72,7 +65,8 @@ public class AgentParameterAPIImpl implements AgentParameterAPI {
 		try {
 			tupleSpace.write(getParameterTuple);
 			Tuple getParameterResponse = tupleSpace.waitToRead(AgentProtocol
-					.getParameterGetResponseTupleTemplate(agentName));
+					.getParameterGetResponseTupleTemplate(agentName),
+					AgentProtocol.MINUTE);
 			if (getParameterResponse == null) {
 				return null;
 			}
