@@ -120,10 +120,6 @@ public class CombinedWindowElements extends ScyWindow {
       throw new UnsupportedOperationException('Not implemented yet');
    }
 
-   override public function setMinimize(state: Boolean): Void {
-      throw new UnsupportedOperationException('Not implemented yet');
-   }
-
    override public function openBoundWindow(width: Number, height: Number): Void {
        throw new UnsupportedOperationException('Not implemented yet');
    }

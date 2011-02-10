@@ -104,8 +104,6 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
 
     public abstract function openWindow(layoutX: Number, layoutY: Number, width: Number, height: Number, rotation: Number): Void;
 
-    public abstract function setMinimize(state: Boolean): Void;
-
     public abstract function addChangesListener(wcl: WindowChangesListener): Void;
 
     public abstract function removeChangesListener(wcl: WindowChangesListener): Void;

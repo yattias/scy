@@ -11,7 +11,6 @@ import javafx.scene.Group;
 
 import java.net.URI;
 
-import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 
 /**
@@ -24,6 +23,7 @@ public mixin class WindowManager {
 
    public var scyWindows:Group;
    public var scyDesktop:ScyDesktop;
+   public var activeWindow: ScyWindow;
 
 //   public-read protected var activeWindow:ScyWindow;
 
