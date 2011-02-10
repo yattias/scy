@@ -1,6 +1,5 @@
 package eu.scy.client.desktop.scydesktop.utils;
 
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -8,17 +7,26 @@ import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author lars
  */
 public class UiUtils {
-   private final static Logger logger = Logger.getLogger(UiUtils.class);
+   private final static Logger LOGGER = Logger.getLogger(UiUtils.class.getName());
 
     public static BufferedImage createThumbnail(Container container, Dimension originalSize, Dimension targetSize) {
         try {
-            BufferedImage bi = new BufferedImage(originalSize.width, originalSize.height, BufferedImage.TYPE_INT_RGB);
+	    Dimension newSize;
+	    if (originalSize.height < originalSize.width) {
+		newSize = new Dimension(originalSize.height, originalSize.height);
+	    } else {
+		newSize = new Dimension(originalSize.width, originalSize.width);
+	    }
+	    LOGGER.log(Level.INFO, "creating thumbnail, size {0}, will be {1}", new Object[]{originalSize, newSize});
+            BufferedImage bi = new BufferedImage(newSize.width, newSize.height, BufferedImage.TYPE_INT_RGB);
             Graphics2D g2d = bi.createGraphics();
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
             container.paint(g2d);
@@ -26,7 +34,7 @@ public class UiUtils {
             return resizeBufferedImage(bi,targetSize);
         } catch (Exception ex) {
             // something went wrong...
-            logger.warn(ex.getMessage());
+            LOGGER.warning(ex.getMessage());
             return null;
         }
     }
@@ -49,7 +57,7 @@ public class UiUtils {
             return image;
         } catch (Exception ex) {
             // something went wrong...
-            logger.warn(ex.getMessage());
+            LOGGER.warning(ex.getMessage());
             return null;
         }
     }
