@@ -15,6 +15,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.art.ArtSource;
+import eu.scy.client.desktop.scydesktop.art.ScyColors;
 
 /**
  * @author SikkenJ
@@ -80,25 +81,19 @@ public class ClosedWindowResize extends WindowActiveElement {
 }
 
 function run(){
-   var highcontrastColorScheme = WindowColorScheme{
-      mainColor:Color.BLUE
-      backgroundColor:Color.ORANGE
-      titleStartGradientColor:Color.LIGHTBLUE
-      titleEndGradientColor:Color.WHITE
-      emptyBackgroundColor:Color.WHITE
-   }
+   var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    def width = 50.0;
    def height = 50.0;
    def borderWidth = 2.0;
    def controlLength = 10.0;
    def cornerRadius = 10;
    var closedWindow = ClosedWindow{
-      windowColorScheme:highcontrastColorScheme
+      windowColorScheme:windowColorScheme
    }
    var resizeElement = ClosedWindowResize{
       size:controlLength;
       borderWidth:borderWidth;
-      windowColorScheme:highcontrastColorScheme
+      windowColorScheme:windowColorScheme
 //         activate: activate;
 //      rotateWindow:this;
       layoutX: ArtSource.thumbnailWidth+ThumbnailView.eloIconOffset

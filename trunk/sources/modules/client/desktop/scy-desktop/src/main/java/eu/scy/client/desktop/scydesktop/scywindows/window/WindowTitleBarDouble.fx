@@ -294,13 +294,7 @@ public class WindowTitleBarDouble extends WindowElement {
 var imageLoader = ImageLoader.getImageLoader();
 
 function loadEloIcon(type: String): EloIcon {
-   def windowColorScheme = WindowColorScheme {
-         mainColor: Color.web("#0042f1")
-         backgroundColor: Color.web("#f0f8db")
-         titleStartGradientColor: Color.web("#4080f8")
-         titleEndGradientColor: Color.WHITE
-         emptyBackgroundColor: Color.WHITE
-      }
+   def windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    def imageLoader = FxdImageLoader {
          sourceName: ArtSource.plainIconsPackage
          returnDuplicates: true
@@ -317,13 +311,7 @@ function loadEloIcon(type: String): EloIcon {
     }
 
 function run() {
-   var windowColorScheme = WindowColorScheme {
-         mainColor: Color.web("#0042f1")
-         backgroundColor: Color.web("#f0f8db")
-         titleStartGradientColor: Color.web("#4080f8")
-         titleEndGradientColor: Color.WHITE
-         emptyBackgroundColor: Color.WHITE
-      }
+   var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
 
    windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.blue);
 

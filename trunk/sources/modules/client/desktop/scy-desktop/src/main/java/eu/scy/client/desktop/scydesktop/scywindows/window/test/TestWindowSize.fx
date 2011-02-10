@@ -19,6 +19,7 @@ import eu.scy.client.desktop.scydesktop.uicontrols.test.ruler.RulerRectangle;
 import eu.scy.client.desktop.scydesktop.uicontrols.test.ruler.ResizableRulerRectangle;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
+import eu.scy.client.desktop.scydesktop.art.ScyColors;
 
 /**
  * @author sikken
@@ -33,16 +34,10 @@ function loadEloIcon(type: String):EloIcon{
    }
 }
 
-var highcontrastColorScheme = WindowColorScheme{
-   mainColor:Color.BLUE
-   backgroundColor:Color.ORANGE
-   titleStartGradientColor:Color.LIGHTBLUE
-   titleEndGradientColor:Color.WHITE
-   emptyBackgroundColor:Color.WHITE
-}
+var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
 
 var window1 = StandardScyWindow{
-   windowColorScheme:highcontrastColorScheme
+   windowColorScheme:windowColorScheme
    eloIcon:loadEloIcon("scy/mapping")
    title:"Fixed size"
    scyContent:RulerRectangle {
@@ -73,7 +68,7 @@ window1.open();
 def preferredDrawerWidth = 125;
 def preferredDrawerHeight = 150;
 var window2 = StandardScyWindow{
-   windowColorScheme:highcontrastColorScheme
+   windowColorScheme:windowColorScheme
    eloIcon:loadEloIcon("scy/mapping")
    title:"Variable size"
    scyContent:ResizableRulerRectangle {

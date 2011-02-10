@@ -8,7 +8,6 @@ package eu.scy.client.desktop.scydesktop.scywindows.window;
 
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.art.EloImageInformation;
 import eu.scy.client.desktop.scydesktop.art.ImageLoader;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
@@ -18,6 +17,7 @@ import eu.scy.client.desktop.scydesktop.uicontrols.test.ruler.RulerRectangle;
 import eu.scy.client.desktop.scydesktop.art.ArtSource;
 import eu.scy.client.desktop.scydesktop.art.FxdImageLoader;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.FxdEloIcon;
+import eu.scy.client.desktop.scydesktop.art.ScyColors;
 
 /**
  * @author sikken
@@ -25,22 +25,7 @@ import eu.scy.client.desktop.scydesktop.imagewindowstyler.FxdEloIcon;
 
 var imageLoader = ImageLoader.getImageLoader();
 
-var highcontrastColorScheme = WindowColorScheme{
-   mainColor:Color.DARKBLUE
-   backgroundColor:Color.ORANGE
-   titleStartGradientColor:Color.LIGHTBLUE
-   titleEndGradientColor:Color.WHITE
-   emptyBackgroundColor:Color.WHITE
-}
-var windowColorScheme = WindowColorScheme{
-   mainColor:Color.web("#0042f1")
-   backgroundColor:Color.web("#f0f8db")
-   titleStartGradientColor:Color.web("#4080f8")
-   titleEndGradientColor:Color.WHITE
-   emptyBackgroundColor:Color.WHITE
-}
-
-windowColorScheme= highcontrastColorScheme;
+var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
 
 function loadEloIcon(type: String):EloIcon{
    def imageLoader = FxdImageLoader{

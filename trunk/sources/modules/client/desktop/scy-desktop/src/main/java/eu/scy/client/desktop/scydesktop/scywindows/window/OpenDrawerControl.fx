@@ -17,6 +17,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Cursor;
+import eu.scy.client.desktop.scydesktop.art.ScyColors;
 
 /**
  * @author sikken
@@ -105,13 +106,7 @@ public class OpenDrawerControl extends WindowActiveElement {
 }
 
 function run() {
-   var highcontrastColorScheme = WindowColorScheme {
-         mainColor: Color.BLUE
-         backgroundColor: Color.ORANGE
-         titleStartGradientColor: Color.LIGHTBLUE
-         titleEndGradientColor: Color.WHITE
-         emptyBackgroundColor: Color.WHITE
-      }
+   var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    def width = 50.0;
    def height = 50.0;
    def borderWidth = 2.0;
@@ -122,12 +117,12 @@ function run() {
          height: bind height;
          controlSize: cornerRadius;
          borderWidth: borderWidth;
-         windowColorScheme: highcontrastColorScheme
+         windowColorScheme: windowColorScheme
       }
    var openDrawerControl = OpenDrawerControl {
          size: 30;
          borderWidth: borderWidth;
-         windowColorScheme: highcontrastColorScheme
+         windowColorScheme: windowColorScheme
          //         activate: activate;
          //      rotateWindow:this;
          layoutX: bind width;

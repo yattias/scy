@@ -24,38 +24,41 @@ public enum ScyColors
    darkGray("#474747","#808080","#efefef");
 
    public final String mainColorName;
-   public final String titleStartGradientColorName;
+   public final String mainColorLightName;
+   public final String secondColorName;
+   public final String secondColorLightName;
    public final String backgroundColorName;
-   public final String titleEndGradientColorName;
    public final String emptyBackgroundColorName;
 
-   private final static String defaultTitleEndGradientColorName = "#FFFFFF";
+   private final static String defaultMainColorLightName = "#FFFFFF";
+   private final static String defaultSecondColorName = "#FFFFFF";
+   private final static String defaultSecondColorLightName = "#FFFFFF";
    private final static String defaultBackgroundColorName = "#f0ffed";
    private final static String defaultEmptyBackgroundColor = "#FFFFFF";
 
-   private ScyColors(String mainColorName, String titleStartGradientColorName, String backgroundColorName, String titleEndGradientColorName, String emptyBackgroundColorName)
+   private ScyColors(String mainColorName, String mainColorLightName, String secondColorName, String secondColorLightName, String backgroundColorName, String emptyBackgroundColorName)
    {
       this.mainColorName = mainColorName;
-      this.titleStartGradientColorName = titleStartGradientColorName;
+      this.mainColorLightName = mainColorLightName;
+      this.secondColorName = secondColorName;
+      this.secondColorLightName = secondColorLightName;
       this.backgroundColorName = backgroundColorName;
-      this.titleEndGradientColorName = titleEndGradientColorName;
       this.emptyBackgroundColorName = emptyBackgroundColorName;
    }
 
    private ScyColors(String mainColorName)
    {
-      this(mainColorName,mainColorName,defaultBackgroundColorName,defaultTitleEndGradientColorName,defaultEmptyBackgroundColor);
-//      this(mainColorName,calculateTitleStartGradientColorName(mainColorName),defaultBackgroundColorName,defaultTitleEndGradientColorName,defaultEmptyBackgroundColor);
+      this(mainColorName,defaultMainColorLightName,defaultSecondColorName,defaultSecondColorLightName,defaultBackgroundColorName,defaultEmptyBackgroundColor);
    }
 
-   private ScyColors(String mainColorName, String titleStartGradientColorName)
+   private ScyColors(String mainColorName, String mainColorLightName)
    {
-      this(mainColorName,titleStartGradientColorName,defaultBackgroundColorName,defaultTitleEndGradientColorName,defaultEmptyBackgroundColor);
+      this(mainColorName,mainColorLightName,defaultSecondColorName,defaultSecondColorLightName,defaultBackgroundColorName,defaultEmptyBackgroundColor);
    }
 
-   private ScyColors(String mainColorName, String titleStartGradientColorName, String defaultBackgroundColorName)
+   private ScyColors(String mainColorName, String mainColorLightName, String defaultBackgroundColorName)
    {
-      this(mainColorName,titleStartGradientColorName,defaultBackgroundColorName,defaultTitleEndGradientColorName,defaultEmptyBackgroundColor);
+      this(mainColorName,mainColorLightName,defaultSecondColorName,defaultSecondColorLightName,defaultBackgroundColorName,defaultEmptyBackgroundColor);
    }
 
    private static String calculateTitleStartGradientColorName(String colorName){

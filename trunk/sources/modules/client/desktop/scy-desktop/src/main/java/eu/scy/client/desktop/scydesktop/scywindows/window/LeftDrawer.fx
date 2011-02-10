@@ -8,8 +8,8 @@ package eu.scy.client.desktop.scydesktop.scywindows.window;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.scydesktop.art.ScyColors;
 
 /**
  * @author sikkenj
@@ -51,13 +51,7 @@ public class LeftDrawer extends Drawer{
 
 
 function run(){
-   var highcontrastColorScheme = WindowColorScheme {
-         mainColor: Color.BLUE
-         backgroundColor: Color.ORANGE
-         titleStartGradientColor: Color.LIGHTBLUE
-         titleEndGradientColor: Color.WHITE
-         emptyBackgroundColor: Color.WHITE
-      }
+   var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    def width = 100.0;
    def height = 100.0;
    def borderWidth = 2.0;
@@ -68,7 +62,7 @@ function run(){
          height: bind height;
          controlSize: cornerRadius;
          borderWidth: borderWidth;
-         windowColorScheme: highcontrastColorScheme
+         windowColorScheme: windowColorScheme
          layoutX:100;
          layoutY:100
       }
@@ -81,7 +75,7 @@ function run(){
          content: [
             emptyWindow,
             LeftDrawer{
-               windowColorScheme: highcontrastColorScheme
+               windowColorScheme: windowColorScheme
                closedSize:40;
                height:height-2*controlLength
                layoutX:emptyWindow.boundsInParent.minX+borderWidth

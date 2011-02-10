@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 import javafx.util.Sequences;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowAttribute;
 import eu.scy.client.desktop.scydesktop.scywindows.TestAttribute;
+import eu.scy.client.desktop.scydesktop.art.ScyColors;
 
 /**
  * @author sikken
@@ -466,13 +467,7 @@ public class CombinedWindowElements extends ScyWindow {
 var imageLoader = ImageLoader.getImageLoader();
 
 function loadEloIcon(type: String): EloIcon {
-   def windowColorScheme = WindowColorScheme {
-         mainColor: Color.web("#0042f1")
-         backgroundColor: Color.web("#f0f8db")
-         titleStartGradientColor: Color.web("#4080f8")
-         titleEndGradientColor: Color.WHITE
-         emptyBackgroundColor: Color.WHITE
-      }
+   def windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    def imageLoader = FxdImageLoader {
          sourceName: ArtSource.plainIconsPackage
       };
@@ -488,13 +483,7 @@ function loadEloIcon(type: String): EloIcon {
 function run() {
    //   windowColorScheme= highcontrastColorScheme;
 
-   var windowColorScheme = WindowColorScheme {
-         mainColor: Color.web("#0042f1")
-         backgroundColor: Color.web("#f0f8db")
-         titleStartGradientColor: Color.web("#4080f8")
-         titleEndGradientColor: Color.WHITE
-         emptyBackgroundColor: Color.WHITE
-      }
+   var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    var openWindow = CombinedWindowElements {
          windowColorScheme: windowColorScheme
          eloIcon: loadEloIcon("scy/mapping")
