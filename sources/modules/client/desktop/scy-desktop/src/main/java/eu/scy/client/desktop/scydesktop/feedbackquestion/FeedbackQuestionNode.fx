@@ -16,7 +16,6 @@ import javafx.scene.text.Font;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import eu.scy.common.scyelo.ScyElo;
-import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 import org.apache.log4j.Logger;
@@ -24,12 +23,7 @@ import org.apache.log4j.Logger;
 import org.jdom.Element;
 
 import roolo.elo.api.IMetadataTypeManager;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
-import roolo.search.AndQuery;
-import roolo.search.MetadataQueryComponent;
-import roolo.search.Query;
-import roolo.search.SearchOperation;
 import eu.scy.common.scyelo.QueryFactory;
 
 public class FeedbackQuestionNode extends CustomNode, ScyToolFX {
@@ -123,6 +117,12 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX {
          var searchResults:List = toolBrokerAPI.getRepository().search(query);
          if (searchResults.size()==0) {
              submitButton.disable=false;
+         } else {
+            logger.debug("found {searchResults.size()} feedback ELO-s");
+            for (r in searchResults) {
+                var result:roolo.search.ISearchResult = r as roolo.search.ISearchResult;
+                logger.debug("found feedback ELO, eloUri: {result.getUri().toString()}, title: {result.getTitle()}, author: {result.getAuthors().toString()}, createDate: {new Date(result.getDateCreated()).toString()}");
+            }
          }
       } else {
          scyElo = null;
