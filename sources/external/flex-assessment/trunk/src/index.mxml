@@ -64,6 +64,12 @@
 					   result="eloCategoryService_resultHandler(event)" 
 					   fault="eloCategoryService_faultHandler(event)"
 					   resultFormat="e4x"/>
+		
+		<s:HTTPService id="portfolioConfigService" 
+					   showBusyCursor="true" 
+					   result="portfolioConfigService_resultHandler(event)" 
+					   fault="portfolioConfigService_faultHandler(event)"
+					   resultFormat="e4x"/>
 	</fx:Declarations>
 	
 	<fx:Script>
@@ -90,6 +96,7 @@
 			public static const SHAREDOBJECT_LOCAL_NAME:String = "scy-assessment";
 			public static const IMAGE_BASE_URL:String = "http://www.intermedia.uio.no/www-data-public/app-scy/assessment/";
 			public static const NOTHUMB:String = "http://www.intermedia.uio.no/www-data-public/app-scy/assessment/assets/images/thumbs/nothumb.png";
+			[Bindable] public static var REF_ON_INQ_TXT:String = "How helpful was building a concept map in identifying the main concepts related to reducing global CO2 levels?";
 			
 			public static const STACK_INTRO_PANEL:Number = 1;
 			public static const STACK_STUDTABLE_PANEL:Number = 2;
@@ -135,14 +142,17 @@
 			protected function URLpropertyFile_resultHandler(event:ResultEvent):void {
 				//parse 'toolURLProvider.html' first
 				toolURLProvider = event.result as XML;
-				portfolioService.url = new String(toolURLProvider.assessmentservice)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
-				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
-					portfolioService.url = new String(toolURLProvider.assessmentservice).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "%23");
-				}
 				
 				so.data.saveportfolio = new String(toolURLProvider.saveportfolio);
 				so.data.actionlogger = new String(toolURLProvider.actionlogger);
 				so.flush();
+				
+				portfolioConfigService.url = new String(toolURLProvider.portfolioconfigservice)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
+				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+					portfolioConfigService.url = new String(toolURLProvider.portfolioconfigservice).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "%23");
+				}
+				
+				portfolioConfigService.send();
 				
 				var sLogger:Dictionary = new Dictionary();
 				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
@@ -150,7 +160,6 @@
 				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
 				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 				
-				portfolioService.send();
 			}
 			
 			
@@ -199,14 +208,17 @@
 				var xml:XML= event.result as XML;
 				MISSION_NAME = xml.portfolio[0].mission;
 				so.data.retrievedElosFromRoolo = xml;
+				so.data.portfolioreflectiontabs = xml.portfolioreflectiontabs;
 				so.flush();
 				
-				eloCategoryService.url = new String(toolURLProvider.obligatoryelosinmission)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
-				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
-					eloCategoryService.url = new String(toolURLProvider.obligatoryelosinmission).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "%23");
-				}
+				animate(LEFT_DIRECTION, STACK_INTRO_PANEL);
 				
-				eloCategoryService.send();
+//				eloCategoryService.url = new String(toolURLProvider.obligatoryelosinmission)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
+//				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+//					eloCategoryService.url = new String(toolURLProvider.obligatoryelosinmission).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "%23");
+//				}
+//				
+//				eloCategoryService.send();
 			}
 			
 			protected function eloCategoryService_faultHandler(event:FaultEvent):void {
@@ -226,7 +238,11 @@
 					}
 				}
 				
-				animate(LEFT_DIRECTION, STACK_INTRO_PANEL);
+				portfolioService.url = new String(toolURLProvider.assessmentservice)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
+				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+					portfolioService.url = new String(toolURLProvider.assessmentservice).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "%23");
+				}
+				portfolioService.send();
 			}
 			
 			private function ToggleStack(evt:ToggleEvent):void {
@@ -309,6 +325,28 @@
 						break;
 				}
 			}
+
+			protected function portfolioConfigService_resultHandler(event:ResultEvent):void {
+				var pfXmlConfig:XML = event.result as XML;
+				
+				so.data.pfrt = pfXmlConfig.portfolioreflectiontabs;
+				so.flush();
+				
+				REF_ON_INQ_TXT = new String(pfXmlConfig.eloreflection.eloreflectioninquiryquestion);
+				
+				eloCategoryService.url = new String(toolURLProvider.obligatoryelosinmission)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
+				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+					eloCategoryService.url = new String(toolURLProvider.obligatoryelosinmission).substring(1)+"?missionURI="+decodeURI(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "%23");
+				}
+				
+				eloCategoryService.send();
+			}
+			
+			
+			protected function portfolioConfigService_faultHandler(event:FaultEvent):void {
+				Alert.show(resourceManager.getString('resources', 'PFCONF_PROPERTY_FILE_ERROR'), resourceManager.getString('resources', 'HTTP_SERVICE_ERROR'));
+			}
+
 		]]>
 	</fx:Script>
 	
@@ -366,7 +404,7 @@
 			<local:eloComparingCanvas id="comparing" width="100%" height="100%" showEffect="{showEffect}" creationPolicy="all" />
 		</mx:ViewStack>
 		<s:Image id="animateImage" visible="false" includeInLayout="false" />
-		<s:Label fontSize="8" right="0" bottom="0" text="v.1.8" />
+		<s:Label fontSize="8" right="0" bottom="0" text="v.1.9" />
 	</s:Group>
 	
 	<s:BorderContainer id="maxImage" visible="false" alpha="0" showEffect="{fadeInIm}" hideEffect="{fadeOutIm}" width="100%" height="100%" backgroundColor="#000000" backgroundAlpha=".7" cornerRadius="0">

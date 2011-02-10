@@ -113,9 +113,7 @@
 					coverflow.selectedIndex = 0;
 				}
 				
-				var pfXmlConfig:XMLList = so.data.portfolioreflectiontabs;
-				
-				
+				var pfXmlConfig:XMLList = so.data.pfrt;
 				if(pfXmlConfig.tab[0].title != null && pfXmlConfig.tab[0].question != null) {
 					REFLECTION_TXT1 = pfXmlConfig.tab[0].title;
 				}
