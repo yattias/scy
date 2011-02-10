@@ -3,10 +3,13 @@ package eu.scy.common.mission.impl;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.log4j.Logger;
+
 import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.api.metadata.IMetadataKeyIdDefinition;
+import roolo.search.IQuery;
+import roolo.search.ISearchResult;
 import eu.scy.common.mission.EloToolConfig;
 import eu.scy.common.mission.EloToolConfigsElo;
 import eu.scy.common.mission.EloToolConfigsEloContent;
@@ -24,25 +27,16 @@ import eu.scy.common.mission.MissionSpecificationEloContent;
 import eu.scy.common.mission.RuntimeSettingsElo;
 import eu.scy.common.mission.TemplateElosElo;
 import eu.scy.common.scyelo.EloFunctionalRole;
+import eu.scy.common.scyelo.QueryFactory;
 import eu.scy.common.scyelo.RooloServices;
 import eu.scy.common.scyelo.ScyElo;
-import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
-import eu.scy.common.scyelo.QueryFactory;
-import roolo.search.IQuery;
-import roolo.search.ISearchResult;
 
 public class BasicMissionManagement implements MissionManagement
 {
 	private final static Logger logger = Logger.getLogger(BasicMissionManagement.class);
 
-	private final static String urlTechnicalFormat = "scy/url";
-
 	private final MissionSpecificationElo missionSpecificationElo;
 	private final RooloServices rooloServices;
-	private final IMetadataKey technicalFormatKey;
-	private final IMetadataKey missionRunningKey;
-	private final IMetadataKey containsAssignmentEloKey;
-	private final IMetadataKey missionSpecificationEloKey;
 
 	public BasicMissionManagement(MissionSpecificationElo missionSpecificationElo,
 				RooloServices rooloServices)
@@ -50,10 +44,6 @@ public class BasicMissionManagement implements MissionManagement
 		super();
 		this.missionSpecificationElo = missionSpecificationElo;
 		this.rooloServices = rooloServices;
-		technicalFormatKey = findMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
-		missionRunningKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNNING);
-		containsAssignmentEloKey = findMetadataKey(ScyRooloMetadataKeyIds.CONTAINS_ASSIGMENT_ELO);
-		missionSpecificationEloKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION_SPECIFICATION_ELO);
 	}
 
 	private final IMetadataKey findMetadataKey(IMetadataKeyIdDefinition id)
@@ -219,6 +209,9 @@ public class BasicMissionManagement implements MissionManagement
 	{
 		for (Las las : missionModel.getLasses())
 		{
+			if (las.getMissionAnchor().isExisting()){
+				las.setTitle(las.getMissionAnchor().getScyElo().getTitle());
+			}
 			makePersonalMissionAnchor(las.getMissionAnchor(), userName, missionRuntimeEloUri,
 						missionSpecificationEloUri, eloToolConfigs);
 			for (MissionAnchor anchor : las.getIntermediateAnchors())
