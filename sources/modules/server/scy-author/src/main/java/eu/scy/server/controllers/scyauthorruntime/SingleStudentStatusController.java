@@ -7,6 +7,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 /**
  * Created by IntelliJ IDEA.
@@ -27,6 +29,11 @@ public class SingleStudentStatusController extends BaseController {
 
         User user = getUserService().getUser(userName);
         modelAndView.addObject("user", user);
+        try {
+            modelAndView.addObject("missionURI", URLEncoder.encode(missionURI, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 
         logger.info("USER: " + userName + " MISSION: " + missionURI);
     }
