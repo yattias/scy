@@ -14,6 +14,7 @@ import eu.scy.notification.api.INotifiable;
 import eu.scy.notification.api.INotification;
 import eu.scy.client.desktop.scydesktop.remotecontrol.impl.MessageDialogShowCommand;
 import eu.scy.client.desktop.scydesktop.remotecontrol.impl.OptionDialogShowCommand;
+import eu.scy.client.desktop.scydesktop.remotecontrol.impl.EloAssessmentFinishedCommand;
 
 /** This JavaFX class wraps the Registry for RemoteCommands and makes JavaFX-RemoteCommands possible
  * (for example these Commands accessing ScyDesktop)
@@ -30,7 +31,8 @@ public class RemoteCommandRegistryFX extends INotifiable {
         def eloShowCommand = EloShowCommand { scyDesktop: scyDesktop };
         def messageDialogShowCommand = MessageDialogShowCommand { scyDesktop: scyDesktop };
         def optionDialogShowCommand = OptionDialogShowCommand { scyDesktop: scyDesktop };
-        remoteCommandRegistry.registerRemoteCommands(collaborationRequestCommand, collaborationResponseCommand, eloShowCommand, messageDialogShowCommand, optionDialogShowCommand);
+        def eloAssessmentFinishedCommand = EloAssessmentFinishedCommand { scyDesktop: scyDesktop };
+        remoteCommandRegistry.registerRemoteCommands(collaborationRequestCommand, collaborationResponseCommand, eloShowCommand, messageDialogShowCommand, optionDialogShowCommand, eloAssessmentFinishedCommand);
         }
 
    postinit{

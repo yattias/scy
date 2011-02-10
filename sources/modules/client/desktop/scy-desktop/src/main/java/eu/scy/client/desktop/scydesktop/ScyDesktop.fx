@@ -186,6 +186,9 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    def buddyManager = BuddyManagerImpl{
       tbi: missionRunConfigs.tbi
    }
+   public var scyFeedbackGiveButton:MultiImageButton;
+   public var scyFeedbackGetButton:MultiImageButton;
+   public var eportfolioButton:MultiImageButton;
 
 
    init {
@@ -342,7 +345,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       //            color: Color.GREEN;
       //            effect: cornerToolEffect
       //        }
-         var scyFeedbackGiveButton = MultiImageButton {
+         scyFeedbackGiveButton = MultiImageButton {
              imageName: "feedback_give";
              tooltip: Tooltip {
                  text: "Give feedback!";
@@ -362,9 +365,10 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  catch (e: javax.jnlp.UnavailableServiceException) {
                      BareBonesBrowserLaunch.openURL(feedbackURL);
                  }
+                 scyFeedbackGiveButton.imageName = "feedback_give";
              }
          }
-         var scyFeedbackGetButton = MultiImageButton {
+         scyFeedbackGetButton = MultiImageButton {
              imageName: "feedback_get";
              tooltip: Tooltip {
                  text: "Get feedback!";
@@ -384,9 +388,10 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  catch (e: javax.jnlp.UnavailableServiceException) {
                      BareBonesBrowserLaunch.openURL(feedbackURL);
                  }
+                 scyFeedbackGetButton.imageName = "feedback_get";
              }
          }
-         var eportfolioButton = MultiImageButton {
+         eportfolioButton = MultiImageButton {
              imageName: "eportfolio";
              //tooltip: Tooltip {
                //  text: "ePortfolio!";
@@ -405,6 +410,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  catch (e: javax.jnlp.UnavailableServiceException) {
                      BareBonesBrowserLaunch.openURL(eportfolioURL);
                  }
+                 eportfolioButton.imageName = "eportfolio";
              }
          }
          scyFeedbackGiveButton.layoutX = 5;
