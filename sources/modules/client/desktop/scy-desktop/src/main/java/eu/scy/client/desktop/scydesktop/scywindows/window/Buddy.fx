@@ -17,6 +17,7 @@ import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.ColoredTextTooltip;
+import eu.scy.client.desktop.scydesktop.awareness.BuddyModel;
 
 /**
  * @author SikkenJ
@@ -24,8 +25,8 @@ import eu.scy.client.desktop.scydesktop.tooltips.impl.ColoredTextTooltip;
 public class Buddy extends CustomNode, TooltipCreator {
 
    public-init var tooltipManager: TooltipManager;
+   public-init var buddyModel: BuddyModel;
    public var windowColorScheme: WindowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
-   public var name: String;
    def size = 10.0;
    def circleSize = 4.0;
    def lineWidth = 2.0;
@@ -38,14 +39,14 @@ public class Buddy extends CustomNode, TooltipCreator {
                points: [0, size, size / 2, size / 2, size, size, 0, size]
                strokeWidth: lineWidth
                stroke: bind windowColorScheme.mainColor
-               fill: Color.WHITE
+               fill: bind windowColorScheme.mainColor
             }
             Circle {
                centerX: size / 2, centerY: circleSize
                radius: circleSize
                strokeWidth: lineWidth
                stroke: bind windowColorScheme.mainColor
-               fill: Color.WHITE
+               fill: bind if (buddyModel.isMe) windowColorScheme.mainColor else Color.WHITE
             }
          ]
       }
@@ -53,10 +54,9 @@ public class Buddy extends CustomNode, TooltipCreator {
 
    public override function createTooltipNode(sourceNode: Node): Node {
       ColoredTextTooltip{
-         content: name
+         content: buddyModel.name
          color:windowColorScheme.mainColor
       }
-
    }
 
 }

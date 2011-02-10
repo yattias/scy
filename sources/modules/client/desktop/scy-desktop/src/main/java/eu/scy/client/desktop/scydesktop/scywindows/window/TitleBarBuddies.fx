@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
+import eu.scy.client.desktop.scydesktop.awareness.BuddyManager;
 
 /**
  * @author SikkenJ
@@ -18,6 +19,7 @@ public class TitleBarBuddies extends WindowElement {
 
    public var window: ScyWindow;
    public-init var tooltipManager: TooltipManager;
+   public-init var buddyManager: BuddyManager;
    def buddySpacing = 5.0;
    def displayBox = HBox {
          spacing: buddySpacing
@@ -41,7 +43,7 @@ public class TitleBarBuddies extends WindowElement {
                Buddy {
                   tooltipManager:tooltipManager
                   windowColorScheme: windowColorScheme
-                  name: author
+                  buddyModel: buddyManager.getBuddyModel(author)
                }
             }
       }
