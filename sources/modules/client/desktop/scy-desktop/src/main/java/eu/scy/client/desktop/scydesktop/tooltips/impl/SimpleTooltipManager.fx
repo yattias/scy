@@ -55,17 +55,15 @@ public class SimpleTooltipManager extends TooltipManager {
             KeyFrame {
                time: 0s
                values: tooltipNode.opacity => 0.0;
-//               action: function() {
-//                  println("start time line: {tooltipNode.opacity}, {currentTooltip != null}");
-//               }
+            //               action: function() {
+            //                  println("start time line: {tooltipNode.opacity}, {currentTooltip != null}");
+            //               }
             }
             KeyFrame {
                time: startAppearingTime
                values: tooltipNode.opacity => 0.0;
                action: function() {
 //                  println("start opacity set: {tooltipNode.opacity}");
-                  insert currentTooltip into tooltipGroup.content;
-                  FX.deferAction(positionTooltip);
                }
             }
             KeyFrame {
@@ -126,6 +124,8 @@ public class SimpleTooltipManager extends TooltipManager {
       setTooltipNode(e.node);
       if (currentTooltip != null) {
          if (useAnimation) {
+            insert currentTooltip into tooltipGroup.content;
+            FX.deferAction(positionTooltip);
             currentTimeLine = getTimeLine();
             currentTimeLine.play();
          }
@@ -162,7 +162,10 @@ public class SimpleTooltipManager extends TooltipManager {
                currentTooltip = newTooltip;
                currentSourceNode = sourceNode;
                currentTooltip.opacity = 0.0;
-//               insert currentTooltip into tooltipGroup.content;
+               // move it far away, so it does not intercept any mouseevents
+               currentTooltip.layoutX = 1e6;
+               currentTooltip.layoutY = 1e6;
+            //               insert currentTooltip into tooltipGroup.content;
             }
          }
          catch (e: Exception) {
@@ -171,7 +174,7 @@ public class SimpleTooltipManager extends TooltipManager {
       }
    }
 
-   function positionTooltip():Void {
+   function positionTooltip(): Void {
       var sceneBounds = BoundingBox {
             width: currentSourceNode.scene.width;
             height: currentSourceNode.scene.height
@@ -182,11 +185,11 @@ public class SimpleTooltipManager extends TooltipManager {
 
       var outsideArea = Number.MAX_VALUE;
       var toolTipLayout: Point2D;
-//      println("sceneBounds: {sceneBounds}");
+      //      println("sceneBounds: {sceneBounds}");
       for (positionFunction in positionFunctions) {
          var newTooltipLayout = positionFunction();
          var newOutsideArea = calculateTooltipAreaOutsideScene(currentTooltip, newTooltipLayout, sceneBounds);
-//         println("currentTooltip local bounds: {currentTooltip.localToScene(currentTooltip.layoutBounds)} -> {newOutsideArea}");
+         //         println("currentTooltip local bounds: {currentTooltip.localToScene(currentTooltip.layoutBounds)} -> {newOutsideArea}");
          if (newOutsideArea < outsideArea) {
             outsideArea = newOutsideArea;
             toolTipLayout = newTooltipLayout;
@@ -195,7 +198,7 @@ public class SimpleTooltipManager extends TooltipManager {
 
       currentTooltip.layoutX = toolTipLayout.x;
       currentTooltip.layoutY = toolTipLayout.y;
-      if (outsideArea>0){
+      if (outsideArea > 0) {
          moveTooltipInside(sceneBounds);
       }
    }
@@ -262,24 +265,21 @@ public class SimpleTooltipManager extends TooltipManager {
    }
 
    function realMoveTooltipInside(sceneBounds: BoundingBox, alsoBottomRight: Boolean) {
-       def tooltipSceneBounds = currentTooltip.localToScene(currentTooltip.layoutBounds);
-       if (tooltipSceneBounds.minX<sceneBounds.minX){
-          // left side out window
-          currentTooltip.layoutX += sceneBounds.minX-tooltipSceneBounds.minX
-       }
-       else if (alsoBottomRight and tooltipSceneBounds.maxX>sceneBounds.maxX){
-          // right side out window
-          currentTooltip.layoutX += sceneBounds.maxX-tooltipSceneBounds.maxX
-       }
-       if (tooltipSceneBounds.minY<sceneBounds.minY){
-          // top side out window
-          currentTooltip.layoutY += sceneBounds.minY-tooltipSceneBounds.minY
-       }
-       else if (alsoBottomRight and tooltipSceneBounds.maxY>sceneBounds.maxY){
-          // bottom side out window
-          currentTooltip.layoutY += sceneBounds.maxY-tooltipSceneBounds.maxY
-       }
+      def tooltipSceneBounds = currentTooltip.localToScene(currentTooltip.layoutBounds);
+      if (tooltipSceneBounds.minX < sceneBounds.minX) {
+         // left side out window
+         currentTooltip.layoutX += sceneBounds.minX - tooltipSceneBounds.minX
+      } else if (alsoBottomRight and tooltipSceneBounds.maxX > sceneBounds.maxX) {
+         // right side out window
+         currentTooltip.layoutX += sceneBounds.maxX - tooltipSceneBounds.maxX
+      }
+      if (tooltipSceneBounds.minY < sceneBounds.minY) {
+         // top side out window
+         currentTooltip.layoutY += sceneBounds.minY - tooltipSceneBounds.minY
+      } else if (alsoBottomRight and tooltipSceneBounds.maxY > sceneBounds.maxY) {
+         // bottom side out window
+         currentTooltip.layoutY += sceneBounds.maxY - tooltipSceneBounds.maxY
+      }
    }
-
 
 }
