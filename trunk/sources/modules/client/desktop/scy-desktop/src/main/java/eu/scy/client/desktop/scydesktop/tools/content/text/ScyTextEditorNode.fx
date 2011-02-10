@@ -202,7 +202,7 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
             width: width
             height: height
          }
-      def thumbnailImage = ImageUtils.nodeToImage(textBox, bounds);
+      def thumbnailImage = ImageUtils.nodeToSquareImage(textBox, bounds);
 //      sizeChanged();
       thumbnailImage
    }

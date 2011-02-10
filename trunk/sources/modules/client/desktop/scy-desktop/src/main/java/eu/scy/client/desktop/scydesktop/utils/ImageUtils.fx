@@ -166,6 +166,31 @@ public function nodeToImage(node: Node, bounds: Bounds): BufferedImage {
    return resizedImage;
 }
 
+public function nodeToSquareImage(node: Node, bounds: Bounds): BufferedImage {
+   var g2: Graphics2D;
+   def nodeBounds = node.layoutBounds;
+   def sgNode = (getFXNode.invoke(context.mirrorOf(node)) as FXLocal.ObjectValue).asObject();
+   def g2dClass = (context.findClass("java.awt.Graphics2D") as FXLocal.ClassType).getJavaImplementationClass();
+   def boundsClass = (context.findClass("com.sun.javafx.geom.Bounds2D") as FXLocal.ClassType).getJavaImplementationClass();
+   def affineClass = (context.findClass("com.sun.javafx.geom.transform.BaseTransform") as FXLocal.ClassType).getJavaImplementationClass();
+   def getBounds = sgNode.getClass().getMethod("getContentBounds", boundsClass, affineClass);
+   def bounds2D = getBounds.invoke(sgNode, new com.sun.javafx.geom.Bounds2D(), new com.sun.javafx.geom.transform.Affine2D());
+   var paintMethod = sgNode.getClass().getMethod("render", g2dClass, boundsClass, affineClass);
+   var bufferedImage;
+   if (nodeBounds.width < nodeBounds.height) {
+       bufferedImage = new java.awt.image.BufferedImage(nodeBounds.width, nodeBounds.width, java.awt.image.BufferedImage.TYPE_INT_ARGB);
+   } else {
+       bufferedImage = new java.awt.image.BufferedImage(nodeBounds.height, nodeBounds.height, java.awt.image.BufferedImage.TYPE_INT_ARGB);
+   }
+   g2 = (bufferedImage.getGraphics() as Graphics2D);
+   g2.setPaint(java.awt.Color.WHITE);
+   g2.fillRect(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight());
+   paintMethod.invoke(sgNode, g2, bounds2D, new com.sun.javafx.geom.transform.Affine2D());
+   g2.dispose();
+   def resizedImage = UiUtils.resizeBufferedImage(bufferedImage, new Dimension(bounds.width,bounds.height));
+   return resizedImage;
+}
+
 public function saveAsImage(node: Node, file: File): Void {
    if (file == null) { return; }
    def image = nodeToImage(node, BoundingBox {
