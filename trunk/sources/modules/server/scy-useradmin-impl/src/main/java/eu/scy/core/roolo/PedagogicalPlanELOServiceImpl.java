@@ -1,7 +1,6 @@
 package eu.scy.core.roolo;
 
 import eu.scy.core.XMLTransferObjectService;
-import eu.scy.server.externalcomponents.agentframework.AgentFrameworkComponent;
 
 import java.util.logging.Logger;
 
