@@ -23,13 +23,13 @@ public class ConnectorView extends RichNodeView {
 		int height = maxHeight - 16;
 		int width = maxWidth - 16;
 
-		labelScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		//labelScroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
 		labelTextPane.setSize(labelTextPane.getPreferredScrollableViewportSize());
 		labelTextPane.setVisible(!getModel().isLabelHidden());
 
-		labelScroller.setBounds(8, 8, width, height);
-		labelScroller.revalidate();
+//		labelScroller.setBounds(8, 8, width, height);
+//		labelScroller.revalidate();
 
 		if (resizeHandle != null) {
 			resizeHandle.setBounds(getWidth() - resizeHandle.getWidth(), getHeight() - resizeHandle.getHeight(), resizeHandle.getWidth(), resizeHandle.getHeight());
