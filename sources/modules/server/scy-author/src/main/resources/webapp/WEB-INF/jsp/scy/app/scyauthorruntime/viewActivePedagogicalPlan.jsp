@@ -11,7 +11,9 @@
                     <c:forEach var="user" items="${users}">
                         <tr>
                             <td>
-                                ${user.userDetails.username}
+                                <a href="viewSingleStudentStatus.html?missionURI=${missionURI}&user=${user.userDetails.username}">
+                                    ${user.userDetails.username}
+                                </a>
                             </td>
                         </tr>
                     </c:forEach>

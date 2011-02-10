@@ -6,6 +6,8 @@ import eu.scy.core.model.User;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.server.controllers.BaseController;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.LinkedList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +44,12 @@ public class ViewActivePedagogicalPlanController extends BaseController {
 
         }
         modelAndView.addObject("users", users);
+        String missionURI = request.getParameter("eloURI");
+        try {
+            modelAndView.addObject("missionURI", URLEncoder.encode(missionURI, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
     }
 
     public MissionELOService getMissionELOService() {

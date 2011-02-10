@@ -73,6 +73,7 @@
                    /app/scyauthorruntime/viewActivePedagogicalPlan.html=viewActivePedagogicalPlanController
                    /app/scyauthorruntime/viewStudentPlan.html=viewStudentPlanController
                    /app/scyauthorruntime/viewLASRuntimeInfo.html=viewLASRuntimeInfoController
+                   /app/scyauthorruntime/viewSingleStudentStatus.html=viewSingleStudentStatusController
 
                    /app/scyauthor/scenarioJsonView.html=scenarioJsonView
                </value>
@@ -144,6 +145,7 @@
         <property name="urlInspector" ref="urlInspector"/>
         <property name="agentParameterAPI" ref="agentParameterAPI"/>
         <property name="missionELOService" ref="missionELOService"/>
+        <property name="portfolioTupleSpace" ref="portfolioTupleSpace"/>
     </bean>
 
     <bean id="viewScenarioController" class="eu.scy.server.controllers.ViewScenarioController">
@@ -218,6 +220,12 @@
         <property name="lasService" ref="lasService"/>
         <property name="userService" ref="userService"/>
         <property name="runtimeService" ref="runtimeService"/>
+    </bean>
+
+    <bean id="viewSingleStudentStatusController" class="eu.scy.server.controllers.scyauthorruntime.SingleStudentStatusController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="userService" ref="userService"/>
     </bean>
 
     <bean id="viewStudentPlanController" class="eu.scy.server.controllers.scyauthorruntime.ViewStudentPlanController">

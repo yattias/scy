@@ -6,49 +6,43 @@
 
 
         <fieldset>
-            <legend>Votat Agent</legend>
 
-            <table width="95%">
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <c:choose>
-                        <c:when test="${fn:length(anchorElos) > 0}">
-                            <c:forEach var="anchorElo" items="${anchorElos}">
-                                <th>
-                                    ${anchorElo.elo.title}
-                                </th>
-                            </c:forEach>
-                        </c:when>
-                    </c:choose>
-                </tr>
-                <tr  class="${oddEven.oddEven}">
-                    <td width="20%">
-                        Sleep time
-                    </td>
-                    <td>
-                        <s:agentParameterTextField agentId="votat" parameterName="sleepMillis" agentParameterAPI="${agentParameterAPI}" missionURI="${missionSpecificationTransporter.uri}"/>
-                    </td>
-                    <c:choose>
-                        <c:when test="${fn:length(anchorElos) > 0}">
-                            <c:forEach var="anchorElo" items="${anchorElos}">
-                                <td>
-                                    <s:agentParameterTextField agentId="votat" parameterName="sleepMillis" agentParameterAPI="${agentParameterAPI}" missionURI="${missionSpecificationTransporter.uri}" las="${anchorElo.elo.title}"/>
-                                </td>
-                            </c:forEach>
-                        </c:when>
-                    </c:choose>
-                </tr>
-                <tr  class="${oddEven.oddEven}">
-                    <td>
-                        Sleep time
-                    </td>
-                    <td>
-                        <s:agentParameterTextField agentId="votat" parameterName="stopOnCrash" agentParameterAPI="${agentParameterAPI}" missionURI="${missionSpecificationTransporter.uri}"/>            
-                    </td>
-                </tr>
-            </table>
+             <c:choose>
+                    <c:when test="${fn:length(agentConfigurationWrappers) > 0}">
+                        <c:forEach var="agentConfigurationWrapper" items="${agentConfigurationWrappers}">
+                            <div>
+                                <h2>${agentConfigurationWrapper.name} (${agentConfigurationWrapper.status})</h2>
 
+                                <c:choose>
+                                    <c:when test="${fn:length(agentConfigurationWrapper.agentParameters) > 0}">
+                                        <table>
+                                            <tr>
+                                                <th>
+                                                    Parametere
+                                                </th>
+                                                <th>
+                                                    Value
+                                                </th>
+                                            </tr>
+                                        <c:forEach var="parameter" items="${agentConfigurationWrapper.agentParameters}">
+                                            <tr  class="${oddEven.oddEven}">
+                                                <td width="20%">
+                                                    ${parameter.parameterName}
+                                                </td>
+                                                <td>
+                                                    <s:agentParameterTextField agentId="${agentConfigurationWrapper.name}" parameterName="${parameter.parameterName}" agentParameterAPI="${agentParameterAPI}" missionURI="${missionSpecificationTransporter.uri}"/>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                        </table>
+                                    </c:when>
+                                </c:choose>
+                            </div>
+                        </c:forEach>
+
+                    </c:when>
+
+            </c:choose>
 
         </fieldset>
 
