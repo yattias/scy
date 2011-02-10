@@ -20,6 +20,7 @@ import roolo.api.IRepository;
 import javafx.scene.Group;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * @author SikkenJ
@@ -30,6 +31,7 @@ public class EloXmlViewerNode extends CustomNode, Resizable, ScyToolFX {
    public override var width on replace {sizeChanged()};
    public override var height on replace {sizeChanged()};
    public var repository: IRepository;
+   public var toolBrokerAPI: ToolBrokerAPI on replace { repository = toolBrokerAPI.getRepository() };
    def spacing = 5.0;
    def minimumWidth = 150;
    def minimumHeight = 100;

@@ -9,7 +9,6 @@ import eu.scy.client.desktop.scydesktop.scywindows.WindowManager;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
-import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.corners.Corner;
 import eu.scy.client.desktop.scydesktop.config.Config;
 import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
@@ -98,6 +97,7 @@ import javafx.scene.control.Tooltip;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import java.net.URLEncoder;
 import eu.scy.client.desktop.scydesktop.utils.XFX;
+import eu.scy.client.desktop.scydesktop.awareness.impl.BuddyManagerImpl;
 
 /**
  * @author sikkenj
@@ -183,6 +183,10 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          stage: scene.stage
          shutdownFunction: scyDesktopShutdownAction
       }
+   def buddyManager = BuddyManagerImpl{
+      tbi: missionRunConfigs.tbi
+   }
+
 
    init {
       if (config.isRedirectSystemStreams() and config.getLoggingDirectory() != null) {
@@ -496,6 +500,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             repositoryWrapper: if (config.getRepository() instanceof RepositoryWrapper) config.getRepository() as RepositoryWrapper else null;
             showEloInfoDisplay: initializer.debugMode
             eloConfigManager: eloConfigManager
+            buddyManager: buddyManager
          }
       missionMap.scyWindowControl = scyWindowControl;
       bigMissionMapControl.scyWindowControl = scyWindowControl;
