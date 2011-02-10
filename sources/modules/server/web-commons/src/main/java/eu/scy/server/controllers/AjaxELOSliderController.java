@@ -1,5 +1,8 @@
 package eu.scy.server.controllers;
 
+import eu.scy.actionlogging.Action;
+import eu.scy.actionlogging.api.ContextConstants;
+import eu.scy.actionlogging.api.IAction;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +26,17 @@ public class AjaxELOSliderController extends AbstractAjaxELOController {
         logger.info("PROPERTY: " + property);
 
         executeSetter(uri, property, value);
+
+        IAction action = new Action();
+        action.setType("value_set_from_slider");
+        action.setTimeInMillis(System.currentTimeMillis());
+        action.setUser(getCurrentUserName(request));
+        action.addContext(ContextConstants.tool, "portal");
+        action.addContext(ContextConstants.eloURI, uri);
+        action.addAttribute("property", property);
+        action.addAttribute("value", value);
+
+        getActionLoggingService().logAction(action);
 
         ModelAndView modelAndView = new ModelAndView();
         return modelAndView;

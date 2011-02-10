@@ -3,6 +3,7 @@ package eu.scy.server.controllers;
 import eu.scy.common.scyelo.ContentTypedScyElo;
 import eu.scy.common.scyelo.RooloServices;
 import eu.scy.common.scyelo.ScyElo;
+import eu.scy.server.controllers.xml.ActionLoggingService;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 import roolo.elo.api.IELO;
@@ -28,6 +29,9 @@ public abstract class AbstractAjaxELOController extends AbstractController {
     public final static String URI = "uri";
 
     private RooloServices rooloServices;
+
+    private ActionLoggingService actionLoggingService;
+
 
     protected void executeSetter(String uriValue, String property, String value) {
         try {
@@ -67,4 +71,18 @@ public abstract class AbstractAjaxELOController extends AbstractController {
     public void setRooloServices(RooloServices rooloServices) {
         this.rooloServices = rooloServices;
     }
+
+    public ActionLoggingService getActionLoggingService() {
+        return actionLoggingService;
+    }
+
+    public void setActionLoggingService(ActionLoggingService actionLoggingService) {
+        this.actionLoggingService = actionLoggingService;
+    }
+
+    public String getCurrentUserName(HttpServletRequest request) {
+       org.springframework.security.userdetails.User user = (org.springframework.security.userdetails.User) request.getSession().getAttribute("CURRENT_USER");
+       return user.getUsername();
+   }
+    
 }

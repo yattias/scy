@@ -44,6 +44,12 @@
 
                         </td>
                     </tr>
+                    <tr class="${oddEven.oddEven}">
+                        <td colspan="2">
+                            <a href="viewAgentConfiguration.html?eloURI=${missionSpecificationTransporter.uri}">Agent configuration</a>
+
+                        </td>
+                    </tr>
                 </table>
             </fieldset>
             <br/>

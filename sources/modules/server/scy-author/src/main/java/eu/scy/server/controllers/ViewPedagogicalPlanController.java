@@ -18,6 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import eu.scy.core.roolo.MissionELOService;
 import info.collide.sqlspaces.client.TupleSpace;
+import info.collide.sqlspaces.commons.Field;
+import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleSpaceException;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -42,6 +45,22 @@ public class ViewPedagogicalPlanController extends BaseController {
 
             if(getEportfolioTupleSpace().isConnected()) {
                 logger.info("CONNECTED TO THE EPORTFOLIO TUPLE SPACE");
+                /*Tuple tuple = new Tuple(String.class, String.class, String.class, String.class);
+
+                try {
+                    Tuple [] tuples = getEportfolioTupleSpace().readAll(tuple);
+                    logger.info("TUPLES:" + tuples.length);
+                    for (int i = 0; i < tuples.length; i++) {
+                        Tuple tuple1 = tuples[i];
+                        Field[] fields = tuple1.getFields();
+                        for (int j = 0; j < fields.length; j++) {
+                            Field field = fields[j];
+                            logger.info("----> " + field.toString());
+                        }
+                    }
+                } catch (TupleSpaceException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }    */
             };
             
 
@@ -50,6 +69,9 @@ public class ViewPedagogicalPlanController extends BaseController {
             URI uri = new URI(uriParam);
 
             MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(uri, getMissionELOService());
+            //URI descriptionURI = missionSpecificationElo.getTypedContent().getMissionDescriptionUri();
+            //logger.info("DESCRIPTION: " + descriptionURI); // HAHAHA I laugh myself to death!
+
             try {
                 URI pedagogicalPlanUri = missionSpecificationElo.getTypedContent().getPedagogicalPlanSettingsEloUri();
                 logger.info("**** PEDAGOGICAL PLAN URI: " + pedagogicalPlanUri);

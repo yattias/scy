@@ -45,6 +45,7 @@
 
                    /components/ajaxELOTextField.html=ajaxELOTextFieldController
                    /components/ajaxELOSlider.html=ajaxELOSliderController
+                   /components/agentParameterTextFieldController.html=agentParameterTextFieldController
 
 
 
@@ -86,7 +87,7 @@
         <constructor-arg index="1">
             <util:property-path path="myConfiguration.port"/>
         </constructor-arg>
-        <constructor-arg index="2" value="eportfolio"/>
+        <constructor-arg index="2" value="command"/>
     </bean>
 
     <bean id="ajaxCheckBoxController" class="eu.scy.server.controllers.AjaxCheckBoxController">
@@ -119,10 +120,17 @@
 
     <bean id="ajaxELOTextFieldController" class="eu.scy.server.controllers.AjaxELOTextFieldController">
         <property name="rooloServices" ref="missionELOService"/>
+        <property name="actionLoggingService" ref="actionLoggingService"/>
 	</bean>
 
     <bean id="ajaxELOSliderController" class="eu.scy.server.controllers.AjaxELOSliderController">
         <property name="rooloServices" ref="missionELOService"/>
+        <property name="actionLoggingService" ref="actionLoggingService"/>
+	</bean>
+
+    <bean id="agentParameterTextFieldController" class="eu.scy.server.controllers.AgentParameterTextFieldController">
+        <property name="agentParameterAPI" ref="agentParameterAPI"/>
+        <property name="actionLoggingService" ref="actionLoggingService"/>
 	</bean>
 
 
@@ -214,6 +222,10 @@
 
     <bean name="jsonView" class="eu.scy.server.controllers.json.AbstractJSonView"/>
 
+    <bean name="agentParameterAPI" class="eu.scy.agents.impl.parameter.AgentParameterAPIImpl">
+
+    </bean>
+
     <bean name="rooloAccessor" class="eu.scy.core.roolo.RooloAccessorImpl">
         <property name="metaDataTypeManager" ref="metadataTypeManager"/>
         <property name="extensionManager" ref="extensionManager"/>
@@ -222,6 +234,15 @@
     </bean>
 
     <bean name="missionELOService" class="eu.scy.core.roolo.MissionELOServiceImpl">
+        <property name="metaDataTypeManager" ref="metadataTypeManager"/>
+        <property name="extensionManager" ref="extensionManager"/>
+        <property name="repository" ref="repository"/>
+        <property name="eloFactory" ref="eloFactory"/>
+        <property name="authorKey" ref="authorKey"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+    </bean>
+
+    <bean name="pedagogicalPlanELOService" class="eu.scy.core.roolo.PedagogicalPlanELOServiceImpl">
         <property name="metaDataTypeManager" ref="metadataTypeManager"/>
         <property name="extensionManager" ref="extensionManager"/>
         <property name="repository" ref="repository"/>

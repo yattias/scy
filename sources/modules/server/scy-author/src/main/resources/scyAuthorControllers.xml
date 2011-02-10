@@ -43,6 +43,7 @@
                    /app/scyauthor/viewAllScenarioActivities.html=viewAllScenarioActivitiesController
                    /app/scyauthor/viewActivity.html=viewActivityController
                    /app/scyauthor/viewAgents.html=viewAgentsController
+                   /app/scyauthor/viewAgentConfiguration.html=agentConfigurationController
                    /app/scyauthor/selectToolForActivity.html=selectToolsForActivityController
                    /app/scyauthor/viewScenario.html=viewScenarioController
                    /app/scyauthor/viewScenarioGraphically.html=viewScenarioGraphicallyController
@@ -136,6 +137,13 @@
     <bean id="viewAgentsController" class="eu.scy.server.controllers.ViewAgentsController">
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
+    </bean>
+
+    <bean id="agentConfigurationController" class="eu.scy.server.controllers.AgentConfigurationController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="agentParameterAPI" ref="agentParameterAPI"/>
+        <property name="missionELOService" ref="missionELOService"/>
     </bean>
 
     <bean id="viewScenarioController" class="eu.scy.server.controllers.ViewScenarioController">

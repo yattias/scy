@@ -82,7 +82,7 @@ public class TransferElo extends BaseXMLTransfer {
             setRawData(new RawData());
         }
 
-        setTechnicalFormat(scyElo.getTechnicalFormat());
+        setTechnicalFormat(String.valueOf(scyElo.getTechnicalFormat()));
         setThumbnail("/webapp/components/resourceservice.html?eloURI=" + getUri());
 
         getRawData().setThumbnail("/webapp/components/resourceservice.html?eloURI=" + getUri());//Why go for less when you can have the double?
