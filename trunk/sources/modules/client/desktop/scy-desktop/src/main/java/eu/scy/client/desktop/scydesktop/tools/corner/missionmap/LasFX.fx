@@ -32,6 +32,7 @@ public class LasFX extends Las {
       };
    public var color = Color.LIGHTGRAY;
    public var toolTip: String;
+   public var title: String;
    public var exists = false;
    public var instructionUri: URI;
    public var lasType: LasType;
@@ -53,6 +54,7 @@ public class LasFX extends Las {
       intermediateAnchors = missionUtils.getMissionAnchorFXSequence(las.getIntermediateAnchors());
       otherEloUris = missionUtils.getUriSequence(las.getOtherEloUris());
       toolTip = las.getToolTip();
+      title = las.getTitle();
       exists = las.isExisting();
       instructionUri = las.getInstructionUri();
       lasType = las.getLasType();
@@ -65,6 +67,14 @@ public class LasFX extends Las {
 
    override public function getToolTip(): String {
       return toolTip;
+   }
+
+   override public function getTitle(): String {
+      return title;
+   }
+
+   override public function setTitle(title: String): Void {
+      las.setTitle(title);
    }
 
    override public function getXPos(): Number {

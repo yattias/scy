@@ -37,7 +37,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
 
     var activeWindow = bind scyDesktop.windows.activeWindow on replace {
         XFX.runActionInBackgroundAndCallBack(function() {
-            if(windowInArea(activeWindow, mainWindows)) {
+            if(activeWindow!=null and windowInArea(activeWindow, mainWindows)) {
                 delete activeWindow from mainWindows;
                 insert activeWindow into mainWindows;
             }
@@ -330,7 +330,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
 
     function positionWindowsInArea(windowList:ScyWindow[], area:Rectangle, maxColumns:Integer) {
         var topOffset = 0.0;
-        var padding = 90;
+        var padding = 90.0;
         // positioning incoming
         var numberOfWindows = sizeof windowList;
         var columns = maxColumns;
