@@ -20,8 +20,8 @@
                <list>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="design"/>
-                     <property name="xPosition" value="-30"/>
-                     <property name="yPosition" value="-30"/>
+                     <property name="xPosition" value="-34"/>
+                     <property name="yPosition" value="-34"/>
                      <property name="tooltip" value="tip_LAS_A"/>
                      <property name="lasType" value="DESIGN"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_DESIGN.html"/>
@@ -44,8 +44,8 @@
 
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="experiment"/>
-                     <property name="xPosition" value="30"/>
-                     <property name="yPosition" value="30"/>
+                     <property name="xPosition" value="34"/>
+                     <property name="yPosition" value="34"/>
                      <property name="tooltip" value="tip_LAS_B"/>
                      <property name="lasType" value="EXPERIMENT"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_EXPERIMENT.html"/>
@@ -260,10 +260,33 @@
                         <list>
                            <value>individualReport</value>
                            <value>groupReport</value>
-                           <value>tasteScores</value>
                         </list>
                      </property>
                   </bean>
+				  
+				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="build"/>
+                     <property name="xPosition" value="-34"/>
+                     <property name="yPosition" value="00"/>
+                     <property name="tooltip" value="tip_LAS_K"/>
+                     <property name="lasType" value="BUILD"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_BUILD.html"/>
+                     <property name="loEloUris">
+                        <list />
+                     </property>
+                     <property name="nextLasses">
+                        <list>
+                           <value>design</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="tasteScores"/>
+                     <property name="intermediateEloIds">
+                        <list>
+						</list>
+                     </property>
+                  </bean>
+				  
+				  
                </list>
             </property>
          </bean>
@@ -628,7 +651,7 @@
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="tasteScores"/>
                <property name="uri" value="roolo://memory/30043/0/Taste+Scores.scypds"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_J.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_K.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_30_tasteScores.html"/>
                <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
