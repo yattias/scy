@@ -45,7 +45,6 @@ import eu.scy.client.desktop.scydesktop.art.ScyColors;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import javafx.scene.layout.Container;
 import javafx.scene.CacheHint;
-import eu.scy.client.desktop.scydesktop.utils.JavaFXBackgroundRunner;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import eu.scy.client.desktop.scydesktop.utils.XFX;
 
@@ -127,6 +126,7 @@ public class StandardScyWindow extends ScyWindow {
    var maxDifY: Number;
    var sceneTopLeft: Point2D;
    var beingDragged = false;
+   var hasBeenDragged = false;
    def animationDuration = 300ms;
    public override var minimumHeight = 50 on replace {
          minimumHeight = Math.max(minimumHeight, contentTopOffset + 2 * controlSize);
@@ -344,12 +344,15 @@ public class StandardScyWindow extends ScyWindow {
                       cache = false;
                       cacheHint = CacheHint.DEFAULT;
                       isAnimating = false;
+                      finishedOpeningWindow();
                   }
                }
            ]
        };
        openTimeline.play();
     }
+
+    public var finishedOpeningWindow: function(): Void;
 
     public override function openWindow(openWidth: Number, openHeight: Number): Void {
         openWindow(layoutX, layoutY, openWidth, openHeight);
@@ -377,7 +380,7 @@ public class StandardScyWindow extends ScyWindow {
               cache = true;
               cacheHint = CacheHint.SCALE_AND_ROTATE;
               isAnimating = true;
-              hideDrawers = true;
+              hideDrawers = isClosed ;
               isClosed = false;
               var openTimeline = Timeline {
                   keyFrames: [
@@ -398,6 +401,7 @@ public class StandardScyWindow extends ScyWindow {
                               cache = false;
                               cacheHint = CacheHint.DEFAULT;
                               isAnimating = false;
+                              finishedOpeningWindow();
                           }
                        }
                    ]
@@ -422,20 +426,6 @@ public class StandardScyWindow extends ScyWindow {
            x: newX
            y: newY
        }
-   }
-
-
-   public override function setMinimize(state: Boolean): Void {
-      if (isClosed) {
-         return;
-      }
-      if (isMinimized != state) {
-         if (state) {
-            doMinimize();
-         } else {
-            doUnminimize();
-         }
-      }
    }
 
    function checkScyContent() {
@@ -466,51 +456,8 @@ public class StandardScyWindow extends ScyWindow {
                      }
                      isAnimating = false;
                      scyToolsList.onClosed();
-                     updateRelativeBounds()
-                  }
-               }
-            ]
-         }
-   }
-
-   function getMinimizeTimeline(): Timeline {
-      return Timeline {
-            keyFrames: [
-               KeyFrame {
-                  time: animationDuration;
-                  values: [
-                     width => minimumWidth tween Interpolator.EASEBOTH,
-                     height => closedHeight tween Interpolator.EASEBOTH,
-                     rotate => 0
-                  ]
-                  action: function() {
-                     layoutX = closedPosition.x;
-                     layoutY = closedPosition.y;
-                     isAnimating = false;
-                     isMinimized = true;
-                     cache = false;
-                     cacheHint = cacheHint = CacheHint.DEFAULT;
-                     scyToolsList.onMinimized();
-                     updateRelativeBounds()
-                  }
-               }
-            ]
-         }
-   }
-
-   function getUnminimizeTimeline(endWidth: Number, endHeight: Number): Timeline {
-      return Timeline {
-            keyFrames: [
-               KeyFrame {
-                  time: animationDuration;
-                  values: [
-                     width => endWidth tween Interpolator.EASEBOTH,
-                     height => endHeight tween Interpolator.EASEBOTH
-                  ]
-                  action: function() {
-                     isAnimating = false;
-                     scyToolsList.onUnMinimized();
                      updateRelativeBounds();
+                     reorganizeOtherMainWindows();
                   }
                }
             ]
@@ -547,17 +494,26 @@ public class StandardScyWindow extends ScyWindow {
       MouseBlocker.startMouseBlocking();
    }
 
+   // set from FunctionalRoleWindowPositioner.makeMainWindow to re-rotate windows in center
+   public var reorganizeOtherMainWindows: function();
+
    function stopDragging(e: MouseEvent): Void {
       for (wcl in changesListeners) {
          wcl.draggingFinished();
       }
-      beingDragged = false;
-      // if window is being dragged after being centered, it loses the centered status
-      isCentered = false;
-      // now after dragging we update the relative bounds for relative repositioning
-      updateRelativeBounds();
+
+      if (hasBeenDragged) {
+          // if window is being dragged after being centered, it loses the centered status
+          isCentered = false;
+          // now after dragging we update the relative bounds for relative repositioning
+          updateRelativeBounds();
+          // re-rotate centered windows after this window is draged out/away
+          reorganizeOtherMainWindows();
+          hasBeenDragged = false;
+      }
       
       MouseBlocker.stopMouseBlocking();
+      beingDragged = false;
    }
 
    function printMousePos(label: String, e: MouseEvent) {
@@ -575,6 +531,7 @@ public class StandardScyWindow extends ScyWindow {
       //System.out.println("difX: {e.x}-{e.dragAnchorX} {difX}, difY: {e.y}-{e.dragAnchorY} {difY}");
       layoutX = originalX + difX;
       layoutY = originalY + difY;
+      hasBeenDragged = true;
    }
 
    function doResize(e: MouseEvent):Void {
@@ -605,13 +562,6 @@ public class StandardScyWindow extends ScyWindow {
 
       layoutX = originalX - difX;
       layoutY = originalY - difY;
-   //      for(edge in edges) {
-   //         edge.repaint();
-   //      }
-
-   //		var newSceneTopLeft = localToScene(0,0);
-   //		System.out.println("resized {title}, angle: {rotate}, difW: {difW}, difH: {difH}, difX: {difX}, difY: {difY}, dtlX:{sceneTopLeft.x-newSceneTopLeft.x}, dtlY:{sceneTopLeft.y-newSceneTopLeft.y}");
-
    }
 
    function doClose(): Void {
@@ -636,61 +586,13 @@ public class StandardScyWindow extends ScyWindow {
       logger.debug("closed {title}");
    }
 
-   function doMinimize() {
-      if (minimizeAction != null) {
-         minimizeAction(this)
-      }
-      else {
-         originalWidth = width;
-         originalHeight = height;
-         cache = true;
-         cacheHint = CacheHint.SCALE_AND_ROTATE;
-         var minimizeTimeline = getMinimizeTimeline();
-         hideDrawers = true;
-         isAnimating = true;
-         minimizeTimeline.play();
-      }
-      logger.debug("minimized {title}");
-   }
-
    function doMaximize() {
        // TODO: needs to call window positioning code
         openWindow(10, 10, scene.width - 20, scene.height - 20, 0);
    }
 
-   function doUnminimize() {
-      if (minimizeAction != null) {
-         minimizeAction(this)
-      }
-      else {
-         isMinimized = false;
-         var unminimizedTimeline = getUnminimizeTimeline(originalWidth, originalHeight);
-         isAnimating = true;
-         unminimizedTimeline.play();
-      }
-      logger.debug("unminimized {title}");
-   }
-
-   public function setMinimized(newMinimized: Boolean) {
-      if (newMinimized != isMinimized) {
-         if (newMinimized) {
-            doMinimize();
-         } else {
-            doUnminimize();
-         }
-      }
-   }
-
    function handleDoubleClick(e: MouseEvent): Void {
-//      if (isMinimized) {
-//         setMinimized(not isMinimized);
-//      } else {
-//         if (eloUri == null) {
-//            setMinimized(not isMinimized);
-//         } else {
-            windowControl.makeMainScyWindow(this);
-//         }
-//      }
+        windowControl.makeMainScyWindow(this);
    }
 
    function centerAction():Void{
@@ -708,6 +610,9 @@ public class StandardScyWindow extends ScyWindow {
                    action: function() {
                        cache = false;
                        cacheHint = CacheHint.DEFAULT;
+                       if (isCentered) {
+                           reorganizeOtherMainWindows();
+                       }
                    }
                }
            ]

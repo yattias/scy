@@ -18,6 +18,8 @@ import javafx.lang.FX;
 import javafx.util.Math;
 import eu.scy.client.desktop.scydesktop.scywindows.StandardWindowPositionsState;
 import javafx.geometry.Point2D;
+import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
+import eu.scy.client.desktop.scydesktop.utils.XFX;
 
 /**
  * @author giemza
@@ -32,6 +34,15 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
     public-init var debug:Boolean;
 
     public-init var ignoreResources:Boolean;
+
+    var activeWindow = bind scyDesktop.windows.activeWindow on replace {
+        XFX.runActionInBackgroundAndCallBack(function() {
+            if(windowInArea(activeWindow, mainWindows)) {
+                delete activeWindow from mainWindows;
+                insert activeWindow into mainWindows;
+            }
+        }, null);
+    }
 
     var desktopWidth = bind scyDesktop.scene.width on replace {
         updateAreas();
@@ -141,6 +152,11 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
             // insert it again to be the last
             insert window into mainWindows;
             window.isCentered = true;
+            (window as StandardScyWindow).reorganizeOtherMainWindows = function() {
+                // defere to next UI cycle
+                FX.deferAction(positionMainWindows);
+                (window as StandardScyWindow).reorganizeOtherMainWindows = null;
+            }
         }
     }
 
@@ -249,30 +265,28 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
 
     function windowAlreadyAdded(window:ScyWindow):Boolean {
         // checks if window is already in any of the window lists
-        if(Sequences.indexOf(incomingWindows, window) >= 0) {
-            //logger.info("#!?WTF!?# Window with title {window.title} already in incomingWindows");
+        if(windowInArea(window, incomingWindows)) {
             return true;
         }
-        if(Sequences.indexOf(centerWindows, window) >= 0) {
-            //logger.info("#!?WTF!?# Window with title {window.title} already in centerWindows");
+        if(windowInArea(window, centerWindows)) {
             return true;
         }
-        if(Sequences.indexOf(outgoingWindows, window) >= 0) {
-            //logger.info("#!?WTF!?# Window with title {window.title} already in outgoingWindows");
+        if(windowInArea(window, outgoingWindows)) {
             return true;
         }
-        if(Sequences.indexOf(otherWindows, window) >= 0) {
-            //logger.info("#!?WTF!?# Window with title {window.title} already in outgoingWindows");
+        if(windowInArea(window, otherWindows)) {
             return true;
         }
         return false;
     }
 
+    function windowInArea(window:ScyWindow, area:ScyWindow[]): Boolean {
+        return Sequences.indexOf(area, window) >= 0;
+    }
+
     function positionNewOtherWindow(window:ScyWindow) {
         updateAreas();
         if (window.layoutX == 0 and window.layoutY == 0 and window.relativeLayoutCenterX == 0 and window.relativeLayoutCenterY == 0) {
-//            window.layoutX = incomingArea.x;
-//            window.layoutY = incomingArea.y + incomingArea.height;
             positionWindowsInArea(otherWindows, otherArea, sizeof otherWindows); // layout at bottom of window
         }
     }
@@ -311,11 +325,12 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         var newHeight = desktopHeight - 2 * offset;
 
         window.openWindow(newX, newY, newWidth, newHeight, 0);
+//        window.windowManager.scyDesktop.
     }
 
     function positionWindowsInArea(windowList:ScyWindow[], area:Rectangle, maxColumns:Integer) {
         var topOffset = 0.0;
-        var padding = 0.0;
+        var padding = 90;
         // positioning incoming
         var numberOfWindows = sizeof windowList;
         var columns = maxColumns;
@@ -367,40 +382,35 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         var newWidth = centerArea.width + 10 * offset;
         var newHeight = 0.75 * centerArea.height;
 
-        def wins = mainWindows;
-
-        var size = sizeof mainWindows;
-//        if (size > 1) {
-//            for (i in [0 .. size - 2]) {
-//                def mainWindow = mainWindows[i];
-//                var xDiff = Math.abs(mainWindow.layoutX - newX);
-//                var yDiff = Math.abs(mainWindow.layoutY - newY);
-//                if (xDiff > 4 * offset or yDiff > 4 * offset) {
-//                    delete mainWindow from mainWindows;
-//                }
-//            }
-//        }
+        
 
         mainArea.layoutX = newX;
         mainArea.layoutY = newY;
         mainArea.width = newWidth;
         mainArea.height = newHeight;
-        var windowCounter = 0;
-        size = sizeof mainWindows;
-        //if (size > 1) {
-            for (nextWindow in mainWindows) {
-                if (not nextWindow.isCentered) {
-                    delete nextWindow from mainWindows;
-                    size--;
-                } else {
-                    nextWindow.toFront();
-                    def angle = ((size - 1) - windowCounter++) * 4;
-                    nextWindow.openWindow(newX, newY, newWidth, newHeight, angle);
-                }
+
+        // remove non centered windows
+        for (nextWindow in mainWindows) {
+            if (not nextWindow.isCentered) {
+                delete nextWindow from mainWindows;
             }
-//        } else {
-//            mainWindows[0].openWindow(newX, newY, newWidth, newHeight, 0);
-//        }
+        }
+
+        def topWindow: StandardScyWindow = mainWindows[sizeof mainWindows - 1] as StandardScyWindow;
+        // first we register the function to rotate all the others...
+        topWindow.finishedOpeningWindow = function() {
+            delete topWindow from mainWindows;
+            var size = sizeof mainWindows;
+            var windowCounter = 0;
+            for (nextWindow in mainWindows) {
+                def angle = (size - windowCounter++) * 4;
+                (nextWindow as StandardScyWindow).finishedOpeningWindow = null;
+                nextWindow.openWindow(newX, newY, newWidth, newHeight, angle);
+            }
+            insert topWindow into mainWindows;
+        }
+        // then we open the last (latest) mainWindow
+        topWindow.openWindow(newX, newY, newWidth, newHeight, 0);
     }
 
     def incomingAreaRatio = 0.2;
