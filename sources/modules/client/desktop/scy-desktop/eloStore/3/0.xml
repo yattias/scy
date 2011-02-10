@@ -1,6 +1,16 @@
 <elo>
 <metadata>
   <lom>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>sikken</entity>
+        <date>
+          <dateTime>2011-02-10T13:25:13.272+0100</dateTime>
+        </date>
+      </contribute>
     <general>
       <title>
         <string language="en">help elo 2</string>
