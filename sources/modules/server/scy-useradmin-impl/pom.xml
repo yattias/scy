@@ -96,11 +96,11 @@
             <version>31-SNAPSHOT</version>
         </dependency>
 
-        <dependency>
+        <!--dependency>
             <groupId>eu.scy.server</groupId>
             <artifactId>scy-server-utils</artifactId>
             <version>31-SNAPSHOT</version>
-        </dependency>
+        </dependency-->
 
         <dependency>
             <groupId>eu.scy.common</groupId>
