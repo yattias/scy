@@ -111,7 +111,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       //            iconCharacter: "I"
       //            selected: false
       //         }
-      instructionWindow.title = resourceBundleWrapper.getString(if (activeLas.lasType!=null) activeLas.lasType.toString() else "lasTypeNotDefined");
+      instructionWindow.title = activeLas.title;
       instructionTool.showInfoUrl(uriLocalizer.localizeUrlwithChecking(activeLas.instructionUri.toURL()));
       if (not instructionWindow.visible) {
          instructionWindow.visible = true;
