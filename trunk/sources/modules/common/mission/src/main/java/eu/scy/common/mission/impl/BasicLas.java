@@ -23,6 +23,7 @@ public class BasicLas implements Las
    private boolean existing;
    private LasType lasType;
    private String toolTip;
+   private String title;
    
    private MissionAnchor selectedMissionAnchor;
 
@@ -162,7 +163,17 @@ public class BasicLas implements Las
       this.toolTip = toolTip;
    }
 
-   public MissionAnchor getSelectedMissionAnchor()
+   public String getTitle()
+	{
+		return title;
+	}
+
+	public void setTitle(String title)
+	{
+		this.title = title;
+	}
+
+	public MissionAnchor getSelectedMissionAnchor()
    {
       return selectedMissionAnchor;
    }

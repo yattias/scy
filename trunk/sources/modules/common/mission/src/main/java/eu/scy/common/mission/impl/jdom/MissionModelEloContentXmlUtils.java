@@ -40,6 +40,7 @@ public class MissionModelEloContentXmlUtils
    private final static String iconTypeName = "iconType";
    private final static String mainAnchorName = "mainAnchor";
    private final static String toolTipName = "toolTip";
+   private final static String titleName = "title";
    private final static String nextAnchorsName = "nextAnchors";
    private final static String inputAnchorsName = "inputAnchors";
    private final static String resourceElosName = "resourceElos";
@@ -86,6 +87,7 @@ public class MissionModelEloContentXmlUtils
       lasRoot.addContent(createElement(xPosName, las.getXPos()));
       lasRoot.addContent(createElement(yPosName, las.getYPos()));
       lasRoot.addContent(createElement(toolTipName, las.getToolTip()));
+      lasRoot.addContent(createElement(titleName, las.getTitle()));
       lasRoot.addContent(createElement(instructionUriName, las.getInstructionUri()));
       lasRoot.addContent(createElement(lasTypeName, las.getLasType()));
       lasRoot.addContent(createElement(loElosName, eloUriName, las.getLoEloUris()));
@@ -186,6 +188,7 @@ public class MissionModelEloContentXmlUtils
       las.setXPos(Float.parseFloat(root.getChildTextTrim(xPosName)));
       las.setYPos(Float.parseFloat(root.getChildTextTrim(yPosName)));
       las.setToolTip(root.getChildTextTrim(toolTipName));
+      las.setTitle(root.getChildTextTrim(titleName));
       las.setLoEloUris(getUriListValue(root.getChild(loElosName), eloUriName));
       las.setOtherEloUris(getUriListValue(root.getChild(otherElosName), eloUriName));
       las.setMissionAnchor(createMissionAnchor(root.getChild(mainAnchorName)));

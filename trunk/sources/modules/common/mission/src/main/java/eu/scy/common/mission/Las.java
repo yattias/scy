@@ -19,6 +19,7 @@ public interface Las
    public boolean isExisting();
    public LasType getLasType();
    public String getToolTip();
+   public String getTitle();
    
    public MissionAnchor getSelectedMissionAnchor();
    public void setSelectedMissionAnchor(MissionAnchor missionAnchor);
@@ -29,5 +30,6 @@ public interface Las
    public void setXPos(float x);
    public void setYPos(float y);
    public void setExisting(boolean existing);
+   public void setTitle(String title);
    
 }
