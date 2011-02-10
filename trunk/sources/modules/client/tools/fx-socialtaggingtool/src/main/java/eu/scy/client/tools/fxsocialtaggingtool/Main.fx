@@ -4,6 +4,8 @@
  */
 package eu.scy.client.tools.fxsocialtaggingtool;
 
+
+
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
@@ -37,6 +39,11 @@ import eu.scy.client.desktop.scydesktop.tools.propertiesviewer.PropertiesViewerC
 import eu.scy.client.desktop.scydesktop.tools.scytoolviewer.ScyToolViewerCreator;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.EloManagement;
 import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
+import javafx.scene.CustomNode;
+import javafx.scene.layout.Resizable;
+import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
+import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
+import roolo.elo.api.IELO;
 
 
 /**
@@ -44,11 +51,14 @@ import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
  */
 
  var initializer = Initializer {
-           scyDesktopConfigFile: "config/scyDesktopDrawingTestConfig.xml"
+           scyDesktopConfigFile: "config/scyDesktopTaggingTestConfig.xml"
            storeElosOnDisk:false;
            loginType:"local"
            authorMode:true
         }
+
+
+
 
 function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def scyDrawingId = "drawing";
@@ -57,9 +67,14 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def propertiesViewerId = "propertiesViewer";
 
    var scyDesktopCreator = ScyDesktopCreator {
-              initializer: initializer;
-              missionRunConfigs: missionRunConfigs;
-           }
+              initializer: Initializer {
+           scyDesktopConfigFile: "config/scyDesktopTaggingTestConfig.xml"
+           storeElosOnDisk:false;
+           loginType:"local"
+           authorMode:true
+        }
+        missionRunConfigs: missionRunConfigs;
+   }
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(SocialTaggingToolCreatorFX{}, scyDrawingId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), eloXmlViewerId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ScyToolViewerCreator{}, scyToolViewerId);
@@ -429,7 +444,7 @@ var stage: Stage;
 var scene: Scene;
 
 stage = Stage {
-   title: "SCY desktop with drawing tool"
+   title: "SCY desktop with social tagging tool demo"
    width: 400
    height: 300
 	scene: initializer.getScene(createScyDesktop);

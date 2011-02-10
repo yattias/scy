@@ -2,8 +2,8 @@
 <!-- You may freely edit this file. See commented blocks below for -->
 <!-- some examples of how to customize the build. -->
 <!-- (If you delete it and reopen the project it will be recreated.) -->
-<project name="fx-drawingtool" default="default" basedir="." xmlns:artifact="urn:maven-artifact-ant">
-    <description>Builds, tests, and runs the project fx-drawingtool.</description>
+<project name="fx-socialtaggingtool" default="default" basedir="." xmlns:artifact="urn:maven-artifact-ant">
+    <description>Builds, tests, and runs the project fx-socialtaggingtool.</description>
     <import file="nbproject/build-impl.xml"/>
 
     <path id="maven-ant-tasks.classpath" path="nbproject/maven-ant-tasks-2.0.10.jar" />
@@ -83,7 +83,7 @@
 
     An example of overriding the target for project execution could look like this:
 
-        <target name="run" depends="fx-drawingtool-impl.jar">
+        <target name="run" depends="fx-socialtaggingtool-impl.jar">
             <exec dir="bin" executable="launcher.exe">
                 <arg file="${dist.jar}"/>
             </exec>
