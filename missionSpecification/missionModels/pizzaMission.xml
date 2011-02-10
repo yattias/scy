@@ -269,7 +269,7 @@
                      <property name="xPosition" value="-34"/>
                      <property name="yPosition" value="00"/>
                      <property name="tooltip" value="tip_LAS_K"/>
-                     <property name="lasType" value="BUILD"/>
+                     <property name="lasType" value="CONSTRUCTION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_BUILD.html"/>
                      <property name="loEloUris">
                         <list />
