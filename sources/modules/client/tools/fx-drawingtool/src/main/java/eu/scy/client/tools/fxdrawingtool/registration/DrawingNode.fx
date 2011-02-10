@@ -30,6 +30,9 @@ import javafx.geometry.Insets;
 import javafx.scene.layout.LayoutInfo;
 import javafx.scene.layout.Priority;
 import javafx.util.Math;
+import java.awt.Dimension;
+import eu.scy.client.desktop.scydesktop.utils.UiUtils;
+import java.awt.image.BufferedImage;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
@@ -83,6 +86,10 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
       }
       doSaveElo();
    }
+
+   public override function getThumbnail(width: Integer, height: Integer): BufferedImage {
+        return UiUtils.createThumbnail(whiteboardPanel, whiteboardPanel.getSize(), new Dimension(width, height));
+    }
 
    public override function create(): Node {
       wrappedWhiteboardPanel = ScySwingWrapper.wrap(whiteboardPanel);
