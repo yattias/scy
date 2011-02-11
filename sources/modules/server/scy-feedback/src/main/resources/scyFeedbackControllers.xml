@@ -47,6 +47,7 @@
                 /app/feedback/xml/feedbackEloService.html=feedbackEloService
                 /app/feedback/xml/myElosFeedbackService.html=myElosFeedbackService
                 /app/feedback/xml/myContributionElosFeedbackService.html=myContributionElosFeedbackService
+                /app/feedback/xml/savefeedback.html=saveFeedbackService
             </value>
         </property>
     </bean>
@@ -75,6 +76,12 @@
     </bean>
 
     <bean id="feedbackEloService" class="eu.scy.server.controllers.scyfeedback.xml.FeedbackEloService">
+        <property name="userService" ref="userService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+    </bean>
+
+    <bean id="saveFeedbackService" class="eu.scy.server.controllers.scyfeedback.xml.SaveFeedbackService">
         <property name="userService" ref="userService"/>
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
         <property name="missionELOService" ref="missionELOService"/>

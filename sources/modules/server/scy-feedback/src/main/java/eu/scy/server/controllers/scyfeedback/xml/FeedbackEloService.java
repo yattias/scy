@@ -29,18 +29,30 @@ public class FeedbackEloService extends XMLStreamerController {
     protected Object getObjectToStream(HttpServletRequest request, HttpServletResponse httpServletResponse) {
 
         String fURI = request.getParameter("feedbackURI");
-        if(fURI != null) {
+        if (fURI != null) {
             try {
                 URI feedbackUri = new URI(fURI);
                 ScyElo feedbackElo = ScyElo.loadLastVersionElo(feedbackUri, getMissionELOService());
                 String feedbackRepresentation = feedbackElo.getContent().getXmlString();
 
                 //need to do some cleanup to make this model compatible with the rest:
+                if (feedbackRepresentation.trim().startsWith("<feedback>")) {
+                    feedbackRepresentation = feedbackRepresentation.replaceFirst("<feedback>", "<feedbackelo>");
+                    int lastIndex = feedbackRepresentation.lastIndexOf("</feedback");
+                    feedbackRepresentation = feedbackRepresentation.substring(0, lastIndex);
+                    feedbackRepresentation += "</feedbackelo>";
+                }
 
-                feedbackRepresentation = feedbackRepresentation.replaceAll("<feedback>", "<feedbackelo>");
-                feedbackRepresentation = feedbackRepresentation.replaceAll("</feedback>", "</feedbackelo>");
-                feedbackRepresentation = feedbackRepresentation.replaceAll("<comment>", "<question>");
-                feedbackRepresentation = feedbackRepresentation.replaceAll("</comment>", "</question>");
+
+                int feedbacksIndex = feedbackRepresentation.indexOf("<feedbacks");
+                String end = feedbackRepresentation.substring(feedbacksIndex, feedbackRepresentation.length());
+                String start = feedbackRepresentation.substring(0, feedbacksIndex);
+
+                //feedbackRepresentation = feedbackRepresentation.replace("</feedback>", "</feedbackelo>");
+                start = start.replaceAll("<comment>", "<question>");
+                start = start.replaceAll("</comment>", "</question>");
+
+                feedbackRepresentation = start + end;
 
                 logger.info("WASHED ELOSTRING: " + feedbackRepresentation);
 
@@ -51,7 +63,7 @@ public class FeedbackEloService extends XMLStreamerController {
                 feedbackEloTransfer.setShown("0");
                 feedbackEloTransfer.setEvaluation("0");
 
-                FeedbackTransfer feedbackTransfer = new FeedbackTransfer();
+                /*FeedbackTransfer feedbackTransfer = new FeedbackTransfer();
                 feedbackTransfer.setCreatedBy("wouter");
                 SimpleDateFormat format = new SimpleDateFormat("DD.MM.yyyy");
                 feedbackTransfer.setCalendarDate(format.format(new Date()));
@@ -68,7 +80,7 @@ public class FeedbackEloService extends XMLStreamerController {
 
 
                 feedbackEloTransfer.addFeedback(feedbackTransfer);
-
+                 */
                 return feedbackEloTransfer;
 
             } catch (URISyntaxException e) {

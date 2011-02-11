@@ -56,6 +56,7 @@ public class TransferElo extends BaseXMLTransfer {
     private RawData rawData;
 
     private String feedbackEloUrl;
+    private String feedbackEloURI;
 
 
     public TransferElo() {
@@ -124,6 +125,7 @@ public class TransferElo extends BaseXMLTransfer {
         }
         System.out.println("SET FEEDBACK ELO: " + scyElo + " URI: " + uri);
         setFeedbackEloUrl("/webapp/app/feedback/xml/feedbackEloService.html?feedbackURI=" + uri);
+        setFeedbackEloURI(uri);
     }
 
 
@@ -348,6 +350,14 @@ public class TransferElo extends BaseXMLTransfer {
 
     public void setFeedbackEloUrl(String feedbackEloUrl) {
         this.feedbackEloUrl = feedbackEloUrl;
+    }
+
+    public String getFeedbackEloURI() {
+        return feedbackEloURI;
+    }
+
+    public void setFeedbackEloURI(String feedbackEloURI) {
+        this.feedbackEloURI = feedbackEloURI;
     }
 
     public static String convertRtfToHtml(final String txt) {
