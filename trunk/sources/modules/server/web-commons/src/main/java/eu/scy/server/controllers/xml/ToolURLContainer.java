@@ -26,6 +26,8 @@ public class ToolURLContainer {
     private String portfolioConfigService = "/webapp/app/eportfolio/xml/portfolioConfigService.html";
     private String newestElosFeedbackService = "/webapp/app/feedback/newElosForFeedbackService.html";
     private String feedbackEloService = "/webapp/app/feedback/xml/feedbackEloService.html";
+    private String myelosfeedbackservice = "/webapp/app/feedback/xml/myElosFeedbackService.html";
+    private String mycontributionelosfeedbackservice = "/webapp/app/feedback/xml/myContributionElosFeedbackService.html";
 
 
     private String metaData = "We give a fuck in metadata!";
@@ -171,5 +173,21 @@ public class ToolURLContainer {
 
     public void setFeedbackEloService(String feedbackEloService) {
         this.feedbackEloService = feedbackEloService;
+    }
+
+    public String getMyelosfeedbackservice() {
+        return myelosfeedbackservice;
+    }
+
+    public void setMyelosfeedbackservice(String myelosfeedbackservice) {
+        this.myelosfeedbackservice = myelosfeedbackservice;
+    }
+
+    public String getMycontributionelosfeedbackservice() {
+        return mycontributionelosfeedbackservice;
+    }
+
+    public void setMycontributionelosfeedbackservice(String mycontributionelosfeedbackservice) {
+        this.mycontributionelosfeedbackservice = mycontributionelosfeedbackservice;
     }
 }
