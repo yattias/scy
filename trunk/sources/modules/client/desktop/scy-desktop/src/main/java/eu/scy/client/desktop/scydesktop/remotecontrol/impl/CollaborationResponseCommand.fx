@@ -27,7 +27,7 @@ public class CollaborationResponseCommand extends ScyDesktopRemoteCommand {
         def eloUri: String = notification.getFirstProperty("proposed_elo");
         if (accepted == "true" and eloUri != null) {
             def messageDialogText = "{##"Starting collaboration on"} {eloUri}";
-            DialogBox.showMessageDialog(messageDialogText, ##"Your Collaboration Request", scyDesktop, function(){});
+            DialogBox.showMessageDialog(messageDialogText, ##"Your Collaboration Request", scyDesktop, function(){}, "{eloUri}");
             def mucid: String = notification.getFirstProperty("mucid");
             var uri = new URI(eloUri);
             var collaborationWindow: ScyWindow = scyDesktop.scyWindowControl.windowManager.findScyWindow(uri);
@@ -40,9 +40,12 @@ public class CollaborationResponseCommand extends ScyDesktopRemoteCommand {
             }
             scyDesktop.scyWindowControl.makeMainScyWindow(uri);
         } else {
-            def messageDialogText = "{##"Your request for Collaboration on"} {eloUri} {##"was not accepted!"}";
-            DialogBox.showMessageDialog(messageDialogText, ##"Your Collaboration Request", scyDesktop, function(){});
-            logger.debug("collaboration not accepted");
+            def closed = DialogBox.closeDialog("{eloUri}");
+            if (not closed) {
+                def messageDialogText = "{##"Your request for Collaboration on"} {eloUri} {##"was not accepted!"}";
+                DialogBox.showMessageDialog(messageDialogText, ##"Your Collaboration Request", scyDesktop, function(){}, "{eloUri}");
+                logger.debug("collaboration not accepted");
+            }
         }
     }
 

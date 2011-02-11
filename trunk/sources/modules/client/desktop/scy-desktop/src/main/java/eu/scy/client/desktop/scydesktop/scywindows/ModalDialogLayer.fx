@@ -42,6 +42,11 @@ public function removeModalDialog(node: Node, animated:Boolean, reallyRemove: Bo
    modalDialogLayer.removeModalDialogNode(node, animated, reallyRemove);
 }
 
+public function resize() {
+    modalDialogLayer.sceneSizeChanged();
+}
+
+
 public class ModalDialogLayer extends CustomNode {
 
    def sceneWidth = bind scene.width on replace { sceneSizeChanged() };
@@ -63,10 +68,10 @@ public class ModalDialogLayer extends CustomNode {
       }
    var centeredNodes: Node[];
 
-   function sceneSizeChanged() {
+   public function sceneSizeChanged() {
+      backgroundBlocker.width = scene.width;
+      backgroundBlocker.height = scene.height;
       if (backgroundBlocker.visible) {
-         backgroundBlocker.width = scene.width;
-         backgroundBlocker.height = scene.height;
          for (node in centeredNodes) {
             node.layoutX = -node.layoutBounds.minX + scene.width / 2 - node.layoutBounds.width / 2;
             node.layoutY = -node.layoutBounds.minY + scene.height / 2 - node.layoutBounds.height / 2;

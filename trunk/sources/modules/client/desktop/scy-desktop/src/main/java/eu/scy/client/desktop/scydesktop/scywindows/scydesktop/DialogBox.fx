@@ -31,6 +31,7 @@ import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageEloIcon;
 import javafx.animation.Timeline;
 import javafx.animation.Interpolator;
 import javafx.scene.effect.DropShadow;
+import java.util.HashMap;
 
 /**
  * @author sven
@@ -39,6 +40,8 @@ public static def DEFAULT_WIDTH: Double = 400;
 public static def HGAP: Double = 15;
 public static def VGAP: Double = 15;
 def imageLoader = ImageLoader.getImageLoader();
+public static def openDialogs: HashMap = new HashMap();
+
 
 static  function getDialogBoxContent(dialogWidth: Integer, dialogBox: DialogBox, dialogType: DialogType, text: String, action1: function(),  action2: function (),action3:function ()): Group{
 
@@ -139,7 +142,7 @@ static  function getDialogBoxContent(dialogWidth: Integer, dialogBox: DialogBox,
         return buttonBar
     }
 
-public static function showMessageDialog(text:String,dialogTitle:String, dialogWidth:Integer, scyDesktop:ScyDesktop, modal:Boolean, indicateFocus:Boolean, okAction:function()):Void{
+public static function showMessageDialog(text:String,dialogTitle:String, dialogWidth:Integer, scyDesktop:ScyDesktop, modal:Boolean, indicateFocus:Boolean, okAction:function(), id:String):Void{
    
         def dialogBox: DialogBox = DialogBox {
 //                    content: getDialogBoxContent(dialogWidth,dialogBox, DialogType.OK_DIALOG,text, okAction, function(){}, function(){})
@@ -149,6 +152,7 @@ public static function showMessageDialog(text:String,dialogTitle:String, dialogW
                             inactiveImage:imageLoader.getImage("info_red_inactive_x16.png");
                             }
                     title: dialogTitle
+                    dialogid: id
                     modal: modal
                     indicateFocus: indicateFocus
                     scyDesktop:scyDesktop
@@ -161,16 +165,16 @@ public static function showMessageDialog(text:String,dialogTitle:String, dialogW
         dialogBox.place();
 }
 
-public static function showMessageDialog(text:String,dialogTitle:String, scyDesktop:ScyDesktop, okAction:function()):Void{
-    showMessageDialog(text,dialogTitle, DEFAULT_WIDTH, scyDesktop, true,true,  okAction);
+public static function showMessageDialog(text:String,dialogTitle:String, scyDesktop:ScyDesktop, okAction:function(), id: String):Void{
+    showMessageDialog(text,dialogTitle, DEFAULT_WIDTH, scyDesktop, true, true, okAction, id);
 }
 
-public static function showMessageDialog(params:DialogBoxParams):Void{
-    showMessageDialog(params.text,params.title, params.dialogWidth, params.scyDesktop, params.modal,params.indicateFocus, params.okAction);
+public static function showMessageDialog(params:DialogBoxParams, id:String):Void{
+    showMessageDialog(params.text,params.title, params.dialogWidth, params.scyDesktop, params.modal,params.indicateFocus, params.okAction, id);
 }
 
 
-public static function showOptionDialog(dialogType:DialogType,text:String,dialogTitle:String, dialogWidth:Integer, scyDesktop:ScyDesktop, modal:Boolean,indicateFocus:Boolean, okAction:function(), cancelAction:function()):Void{
+public static function showOptionDialog(dialogType:DialogType,text:String,dialogTitle:String, dialogWidth:Integer, scyDesktop:ScyDesktop, modal:Boolean,indicateFocus:Boolean, okAction:function(), cancelAction:function(), id:String):Void{
         def supportedOptionTypes = [DialogType.OK_CANCEL_DIALOG, DialogType.YES_NO_DIALOG];
         def dialogBox: DialogBox = DialogBox {
 //                    content: if (sizeof supportedOptionTypes[n|n==dialogType] > 0) {
@@ -184,6 +188,7 @@ public static function showOptionDialog(dialogType:DialogType,text:String,dialog
                             inactiveImage:imageLoader.getImage("question_blue_inactive_x16.png");
                             }
                     title: dialogTitle
+                    dialogid: id
                     modal: modal
                     indicateFocus: indicateFocus
                     scyDesktop:scyDesktop
@@ -200,15 +205,23 @@ public static function showOptionDialog(dialogType:DialogType,text:String,dialog
         dialogBox.place();
 }
 
-public static function showOptionDialog(text:String,dialogTitle:String, scyDesktop:ScyDesktop, yesAction:function(), noAction:function()):Void{
-    showOptionDialog(DialogType.YES_NO_DIALOG,text,dialogTitle, DEFAULT_WIDTH, scyDesktop, true, true, yesAction, noAction);
+public static function showOptionDialog(text:String,dialogTitle:String, scyDesktop:ScyDesktop, yesAction:function(), noAction:function(), id: String):Void{
+    showOptionDialog(DialogType.YES_NO_DIALOG,text,dialogTitle, DEFAULT_WIDTH, scyDesktop, true, true, yesAction, noAction, id);
 } 
 
-public static function showOptionDialog(params:DialogBoxParams):Void{
-    showOptionDialog(params.dialogType,params.text,params.title, params.dialogWidth, params.scyDesktop, params.modal, params.indicateFocus, params.okAction, params.noAction);
+public static function showOptionDialog(params:DialogBoxParams, id:String):Void{
+    showOptionDialog(params.dialogType,params.text,params.title, params.dialogWidth, params.scyDesktop, params.modal, params.indicateFocus, params.okAction, params.noAction, id);
 }
 
-
+public static function closeDialog(id:String):Boolean{
+        def dialog : DialogBox = openDialogs.get(id) as DialogBox;
+        if (dialog != null) {
+            dialog.close();
+            return true;
+        } else {
+            return false;
+        }
+}
 
 public class DialogBox extends CustomNode {
 
@@ -224,9 +237,10 @@ public class DialogBox extends CustomNode {
     public-init var indicateFocus: Boolean = true;
     public-init var dialogType: Integer = JOptionPane.OK_OPTION;
     public-init var scyDesktop:ScyDesktop;
+    public-init var dialogid:String;
     var dialogWindow: ScyWindow;
 
-    init {
+    postinit {
        if (content!=null){
          FX.deferAction(place);
        }
@@ -278,7 +292,7 @@ public class DialogBox extends CustomNode {
                                 blocksMouse: true
                                 x: 0, y: 0
                                 width: bind scene.width, height: bind scene.height
-                                fill: Color.color(1.0, 1.0, 1.0, 0.5)
+                                fill: Color.color(0.0, 0.0, 0.0, 0.3)
                                 onKeyPressed: function (e: KeyEvent): Void {
                                 }
                                 onKeyReleased: function (e: KeyEvent): Void {
@@ -302,6 +316,7 @@ public class DialogBox extends CustomNode {
             scyDesktop.windows.removeScyWindow(dialogWindow);
             closeAction();
         }
+        openDialogs.remove(dialogid);
     }
 
     public function place(): Void {
@@ -319,6 +334,7 @@ public class DialogBox extends CustomNode {
                 addedAsScyWindow = true;
             }
         }
+        openDialogs.put(dialogid, this);
         center();
     }
 

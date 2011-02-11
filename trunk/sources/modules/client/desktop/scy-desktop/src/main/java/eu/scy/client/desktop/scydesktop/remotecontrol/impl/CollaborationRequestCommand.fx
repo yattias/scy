@@ -35,7 +35,7 @@ public class CollaborationRequestCommand extends ScyDesktopRemoteCommand {
             scyDesktop.config.getToolBrokerAPI().answerCollaborationProposal(false, user, eloUri);
         }
         def text = "{userNickname} {##"wants to start a collaboration with you on the ELO"} {eloUri}. {##"Accept?"}";
-        DialogBox.showOptionDialog(text, ##"Collaboration Request", scyDesktop, yesAction, noAction);
+        DialogBox.showOptionDialog(text, ##"Collaboration Request", scyDesktop, yesAction, noAction, "{eloUri}");
 
         
     }
