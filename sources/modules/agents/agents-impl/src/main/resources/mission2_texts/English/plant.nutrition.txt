@@ -1,0 +1,137 @@
+Plant nutrition
+
+Plant nutrition is the study of the chemical elements that are necessary for growth. In 1972, E. Epstein defined 2 criteria for an element to be essential for plant growth: (1) in its absence the plant is unable to complete a normal life cycle or (2) that the element is part of some essential plant constituent or metabolite, this is all in accordance with Liebig's law of the minimum.  There are 17 essential plant nutrients. Carbon and oxygen are absorbed from the air, while other nutrients including water are obtained from the soil. Plants must obtain the following mineral nutrients from the growing media: 
+
+    * the three primary macronutrients: nitrogen (N), phosphorus (P), and potassium (K).
+    * the three secondary macronutrients such as calcium (Ca), sulphur (S), magnesium (Mg).
+    * the macronutrient Silicon (Si)
+    * and micronutrients or trace minerals: boron (B), chlorine (Cl), manganese (Mn), iron (Fe), zinc (Zn), copper (Cu), molybdenum (Mo), nickel (Ni), selenium (Se), and sodium (Na).
+
+The macronutrients are consumed in larger quantities and are present in plant tissue in quantities from 0.2% to 4.0% (on a dry matter weight basis). Micronutrients are present in plant tissue in quantities measured in parts per million, ranging from 5 to 200 ppm, or less than 0.02% dry weight. 
+
+Most soil conditions across the world can provide plants with adequate nutrition and do not require fertilizer for a complete life cycle. However, man can artificially modify soil through the addition of fertilizer to promote vigorous growth and increase yield. The plants are able to obtain their required nutrients from the fertilizer added to the soil. A colloidal carbonaceous residue, known as humus, can serve as a nutrient reservoir.  Besides lack of water and sunshine, nutrient deficiency is a major growth limiting factor.
+
+Nutrient uptake in the soil is achieved by cation exchange, where in root hairs pump hydrogen ions (H+) into the soil through proton pumps. These hydrogen ions displace cations attached to negatively charged soil particles so that the cations are available for uptake by the root.
+
+Plant nutrition is a difficult subject to understand completely, partially because of the variation between different plants and even between different species or individuals of a given clone. An element present at a low level may cause deficiency symptoms, while the same element at a higher level may cause toxicity. Further, deficiency of one element may present as symptoms of toxicity from another element. An abundance of one nutrient may cause a deficiency of another nutrient. Also a lowered availability of a given nutrient, such as SO2–4 can affect the uptake of another nutrient, such as NO3–. Also, K+ uptake can be influenced by the amount NH4+ available. 
+
+The root, especially the root hair, is the most essential organ for the uptake of nutrients. The structure and architecture of the root can alter the rate of nutrient uptake. Nutrient ions are transported to the center of the root, the stele in order for the nutrients to reach the conducting tissues, xylem and phloem.  The Casparian strip, a cell wall outside of the stele but within the root, prevents passive flow of water and nutrients to help regulate the uptake of nutrients and water.  Xylem moves water and inorganic molecules within the plant and phloem counts organic molecule transportation. Water potential plays a key role in a plants nutrient uptake. If the water potential is more negative within the plant than the surrounding soils, the nutrients will move from the more higher solute (soil) concentration to lower solute concentration (plant).
+
+There are 3 fundamental ways plants uptake nutrients through the root: 1.) simple diffusion, occurs when a nonpolar molecule, such as O2, CO2, and NH3 that follow a concentration gradient, can passively move through the lipid bilayer membrane without the use of transport proteins. 2.) facilitated diffusion, is the rapid movement of solutes or ions following a concentration gradient, facilitated by transport proteins. 3.) Active transport, is the active transport of ions or molecules against a concentration gradient that requires an energy source, usually ATP, to pump the ions or molecules through the membrane. 
+
+Nutrients are moved inside a plant to where they are most needed. For example, a plant will try to supply more nutrients to its younger leaves than its older ones. So when nutrients are mobile, the lack of nutrients is first visible on older leaves. However, not all nutrients are equally mobile. When a less mobile nutrient is lacking, the younger leaves suffer because the nutrient does not move up to them but stays lower in the older leaves. Nitrogen, phosphorus, and potassium are mobile nutrients, while the others have varying degrees of mobility. This phenomenon is helpful in determining what nutrients a plant may be lacking.
+
+A symbiotic relationship may exist with 1.) Nitrogen-fixing bacteria, like rhizobia which are involved with nitrogen fixation, and 2.) mycorrhiza, which help to create a larger root surface area. Both of these mutualistic relationships enhance nutrient uptake. 
+
+Though nitrogen is plentiful in the earth's atmosphere, relatively few plants engage in nitrogen fixation (conversion of atmospheric nitrogen to a biologically useful form). Most plants therefore require nitrogen compounds to be present in the soil in which they grow. These can either be supplied by decaying matter, nitrogen fixing bacteria, animal waste, or through the agricultural application of purpose made fertilizers.
+
+Hydroponics, is growing plants in a water-nutrient solution without the use of nutrient-rich soil. It allows researchers and home gardeners to grow their plants in a controlled environment. The most common solution, is the Hoaglund Solution, developed by D. R. Hoaglund in 1933, the solution consists of all the essential nutrients in the correct proportions necessary for most plant growth.  An aerator is used to prevent an anoxic event or hypoxia. Hypoxia can affect nutrient uptake of a plant because without oxygen present, respiration becomes inhibited within the root cells. The Nutrient film technique is a variation of hydroponic technique. The roots are not fully submerged which allows for adequate aeration of the roots, while a "film" thin layer of nutrient rich water is pumped through the system to provide nutrients and water to the plant.
+Contents
+ 
+
+    * 1 Processes important to plant nutrition
+    * 2 Functions of nutrients
+          o 2.1 Macro nutrients
+          o 2.2 Micronutrients
+    * 3 Other
+    * 4 See also
+    * 5 References
+    * 6 External links
+
+  Processes important to plant nutrition
+
+Plants uptake essential elements from the soil through their roots and from the air (mainly consisting of carbon and oxygen) through their leaves.
+
+In the leaves, transpiration occurs, where stomata open to take in carbon dioxide and expel oxygen that drives the movement of water and nutrients to the plant  Green plants obtain their carbohydrate supply from the carbon dioxide in the air by the process of photosynthesis.
+  Functions of nutrients
+
+Each of these nutrients is used in a different place for a different essential function. 
+  Macro nutrients
+
+Carbon
+
+    Carbon forms the backbone of many plants biomolecules, including starches and cellulose. Carbon is fixed through photosynthesis from the carbon dioxide in the air and is a part of the carbohydrates that store energy in the plant.
+
+Hydrogen
+
+    Hydrogen also is necessary for building sugars and building the plant. It is obtained almost entirely from water. Hydrogen ions are imperative for a proton gradient to help drive the electron transport chain in photosynthesis and for respiration. 
+
+Oxygen
+
+    Oxygen is necessary for cellular respiration. Cellular respiration is the process of generating energy-rich adenosine triphosphate (ATP) via the consumption of sugars made in photosynthesis. Plants produce oxygen gas during photosynthesis to produce glucose but then require oxygen to undergo aerobic cellular respiration and break down this glucose and produce ATP.
+
+Phosphorus
+
+    Phosphorus is important in plant bioenergetics. As a component of ATP, phosphorus is needed for the conversion of light energy to chemical energy (ATP) during photosynthesis. Phosphorus can also be used to modify the activity of various enzymes by phosphorylation, and can be used for cell signalling. Since ATP can be used for the biosynthesis of many plant biomolecules, phosphorus is important for plant growth and flower/seed formation. Phosphate esters make up DNA, RNA, and phospholipids. Most common in the form of polyprotic phosphoric acid (H3PO4) in soil, but it is taken up most readily in the form of H2PO4. Phosphorus is limited in most soils because it is released very slowly from insoluble phosphates. Under most environmental conditions it is the limiting element because of its small concentration in soil and high demand by plants and microorganisms. Plants can increase phosphorus uptake by a mutualism with mycorrhiza. 
+    A Phosphorus deficiency in plants is characterized by an intense green coloration in leaves. If the plant is experiencing high phosphorus deficiencies the leaves may become denatured and show signs of necrosis. Occasionally the leaves may appear purple from an accumulation of anthocyanin. Because phosphorus is a mobile nutrient, older leaves will show the first signs of deficiency.
+    High phosphorus content fertilizers, such as bone meal, is useful to apply to perennials to help with successful root formation. 
+
+Potassium
+
+    Potassium regulates the opening and closing of the stomata by a potassium ion pump. Since stomata are important in water regulation, potassium reduces water loss from the leaves and increases drought tolerance. Potassium deficiency may cause necrosis or interveinal chlorosis. K+ is highly mobile and can aid in balancing the anion charges within the plant. It also has high solubility in water and leaches out of soils that rocky or sandy that can result in potassium deficiency. It serves as an activator of enzymes used in photosynthesis and respiration  Potassium is used to build cellulose and aids in photosynthesis by the formation of a chlorophyll precursor.
+    Potassium deficiency may result in higher risk of pathogens, wilting, chlorosis, brown spotting, and higher chances of damage from frost and heat.
+
+
+Nitrogen
+
+    Nitrogen is an essential component of all proteins. Nitrogen deficiency most often results in stunted growth, slow growth, and chlorsis. Nitrogen deficient plants will also exhibit a purple appearance on the stems, petioles and underside of leaves from an accumulation of anthocyanin pigements 
+    Most of the nitrogen taken up by plants is from the soil in the forms of NO3–. Amino acids and proteins can only be built from NH4+ so NO3– must be reduced. Under many agricultural settings, nitrogen is the limiting nutrient of high growth. Some plants require more nitrogen than others, such as corn (Zea mays). Because nitrogen is mobile, the older leaves exhibit chlorosis and necrosis earlier than the younger leaves. Soluble forms of nitrogen are transported as amines and amides 
+
+Sulphur
+
+    Sulphur is a structural component of some amino acids and vitamins, and is essential in the manufacturing of chloroplasts.
+
+Calcium
+
+    Calcium regulates transport of other nutrients into the plant and is also involved in the activation of certain plant enzymes. Calcium deficiency results in stunting.
+
+Magnesium
+
+    Magnesium is an important part of chlorophyll, a critical plant pigment important in photosynthesis. It is important in the production of ATP through its role as an enzyme cofactor. There are many other biological roles for magnesium—see Magnesium in biological systems for more information. Magnesium deficiency can result in interveinal chlorosis.
+
+Silicon
+
+    Silicon is deposited in cell walls and contributes to its mechanical properties including rigidity and elasticity 
+
+  Micronutrients
+
+Iron
+
+    Iron is necessary for photosynthesis and is present as an enzyme cofactor in plants. Iron deficiency can result in interveinal chlorosis and necrosis.
+
+Molybdenum
+
+    Molybdenum is a cofactor to enzymes important in building amino acids.
+
+Boron
+
+    Boron is important for binding of pectins in the RGII region of the primary cell wall, secondary roles may be in sugar transport, cell division, and synthesizing certain enzymes. Boron deficiency causes necrosis in young leaves and stunting.
+
+Copper
+
+    Copper is important for photosynthesis. Symptoms for copper deficiency include chlorosis. Involved in many enzyme processes. Necessary for proper photosythesis. Involved in the manufacture of lignin (cell walls). Involved in grain production.
+
+Manganese
+
+    Manganese is necessary for building the chloroplasts. Manganese deficiency may result in coloration abnormalities, such as discolored spots on the foliage.
+
+Sodium
+
+    Sodium is involved in the regeneration of phosphoenolpyruvate in CAM and C4 plants. It can also substitute for potassium in some circumstances.
+
+Zinc
+
+    Zinc is required in a large number of enzymes and plays an essential role in DNA transcription. A typical symptom of zinc deficiency is the stunted growth of leaves, commonly known as "little leaf" and is caused by the oxidative degradation of the growth hormone auxin.
+
+Nickel
+
+    In higher plants, Nickel is essential for activation of urease, an enzyme involved with nitrogen metabolism that is required to process urea. Without Nickel, toxic levels of urea accumulate, leading to the formation of necrotic lesions. In lower plants, Nickel activates several enzymes involved in a variety of processes, and can substitute for Zinc and Iron as a cofactor in some enzymes. 
+
+Chlorine
+
+    Chlorine is necessary for osmosis and ionic balance; it also plays a role in photosynthesis.
+
+Cobalt has proven to be beneficial to at least some plants, but is essential in others, such as legumes where it is required for nitrogen fixation for the symbiotic relationship it has with nitrogen-fixing bacteria. Vanadium may be required by some plants, but at very low concentrations. It may also be substituting for molybdenum. Selenium and sodium may also be beneficial. Sodium can replace potassium's regulation of stomatal opening and closing 
+  Other
+
+Some elements are directly involved in plant metabolism (Arnon and Stout, 1939).  However, this principle does not account for the so-called beneficial elements, whose presence, while not required, has clear positive effects on plant growth.
