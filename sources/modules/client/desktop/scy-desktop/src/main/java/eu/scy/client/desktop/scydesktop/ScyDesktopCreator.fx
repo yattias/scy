@@ -6,7 +6,6 @@
 package eu.scy.client.desktop.scydesktop;
 
 import eu.scy.client.desktop.scydesktop.config.Config;
-import eu.scy.client.desktop.scydesktop.elofactory.WindowContentCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
@@ -99,12 +98,9 @@ public class ScyDesktopCreator {
       if (newEloCreationRegistry == null) {
          newEloCreationRegistry = NewEloCreationRegistryImpl {};
       }
-//      if (windowContentCreatorRegistryFX == null) {
-//         windowContentCreatorRegistryFX = scyToolCreatorRegistryFXImpl;
-//      }
-//      if (drawerContentCreatorRegistryFX == null) {
-//         drawerContentCreatorRegistryFX = scyToolCreatorRegistryFXImpl;
-//      }
+      if (drawerContentCreatorRegistryFX == null) {
+         drawerContentCreatorRegistryFX = scyToolCreatorRegistryFXImpl;
+      }
       if (eloConfigManager == null) {
          def eloToolConfigs = missionRunConfigs.missionRuntimeModel.getEloToolConfigsElo().getTypedContent().getEloToolConfigs();
          if (eloToolConfigs.size() > 0) {
