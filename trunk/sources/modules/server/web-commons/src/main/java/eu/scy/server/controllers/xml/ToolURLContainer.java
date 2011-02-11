@@ -25,6 +25,7 @@ public class ToolURLContainer {
     private String feedbackToolIndex = "/webapp/app/feedback/FeedbackToolIndex.html";
     private String portfolioConfigService = "/webapp/app/eportfolio/xml/portfolioConfigService.html";
     private String newestElosFeedbackService = "/webapp/app/feedback/newElosForFeedbackService.html";
+    private String feedbackEloService = "/webapp/app/feedback/xml/feedbackEloService.html";
 
 
     private String metaData = "We give a fuck in metadata!";
@@ -162,5 +163,13 @@ public class ToolURLContainer {
 
     public void setNewestElosFeedbackService(String newestElosFeedbackService) {
         this.newestElosFeedbackService = newestElosFeedbackService;
+    }
+
+    public String getFeedbackEloService() {
+        return feedbackEloService;
+    }
+
+    public void setFeedbackEloService(String feedbackEloService) {
+        this.feedbackEloService = feedbackEloService;
     }
 }

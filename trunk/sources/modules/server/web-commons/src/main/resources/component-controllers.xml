@@ -160,6 +160,7 @@
         <property name="userService" ref="userService"/>
         <property name="runtimeELOService" ref="runtimeELOService"/>
         <property name="missionELOService" ref="missionELOService"/>
+        <property name="tupleSpace" ref="portfolioTupleSpace"/>
     </bean>
 
     <bean id="myCurrentActivity" class="eu.scy.server.controllers.components.realtime.MyCurrentActivity">
