@@ -38,7 +38,6 @@ public class ClosedWindow extends WindowElement {
    def titleFontsize = 11;
    def textFont = Font.font("Verdana", FontWeight.REGULAR, titleFontsize);
    def bgColor = bind if (activated) windowColorScheme.emptyBackgroundColor else windowColorScheme.mainColor;
-   def textBarHeight = 15.0;
    def thumbnailView = ThumbnailView {
          windowColorScheme: windowColorScheme
          scyElo: bind scyElo
@@ -64,13 +63,14 @@ public class ClosedWindow extends WindowElement {
             x: 0
             y: 0
             width: bind titleText.layoutBounds.width
-            height: textBarHeight
+            height: bind titleText.layoutBounds.height
          }
       titleText = Text {
             font: textFont
             textOrigin: TextOrigin.TOP;
             x: 0
             y: 0
+            wrappingWidth: bind thumbnailView.layoutBounds.width;
             content: bind title;
          }
       activatedChanged();
