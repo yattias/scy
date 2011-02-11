@@ -3,6 +3,7 @@ package eu.scy.server.controllers.scyauthorruntime;
 import eu.scy.core.UserService;
 import eu.scy.core.model.User;
 import eu.scy.server.controllers.BaseController;
+import info.collide.sqlspaces.client.TupleSpace;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ public class SingleStudentStatusController extends BaseController {
 
 
     private UserService userService;
+    private TupleSpace tupleSpace;
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
@@ -32,7 +34,7 @@ public class SingleStudentStatusController extends BaseController {
         try {
             modelAndView.addObject("missionURI", URLEncoder.encode(missionURI, "UTF-8"));
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
 
         logger.info("USER: " + userName + " MISSION: " + missionURI);
@@ -44,5 +46,13 @@ public class SingleStudentStatusController extends BaseController {
 
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    public TupleSpace getTupleSpace() {
+        return tupleSpace;
+    }
+
+    public void setTupleSpace(TupleSpace tupleSpace) {
+        this.tupleSpace = tupleSpace;
     }
 }

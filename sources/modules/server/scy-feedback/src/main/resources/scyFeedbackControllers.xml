@@ -43,6 +43,8 @@
                 /app/feedback/CriteriaBasedEvaluation.html=criteriaBasedEvaluationController
                 /app/feedback/storeCriteriaBasedEvaluation.html=storeNewCriteriaBasedEvaluationController
                 /app/feedback/storeELORefComment.html=storeELORefCommentController
+
+                /app/feedback/xml/feedbackEloService.html=feedbackEloService
             </value>
         </property>
     </bean>
@@ -67,6 +69,13 @@
     <bean id="feedbackToolIndexController" class="eu.scy.server.controllers.scyfeedback.FeedbackToolIndex">
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
+        <property name="missionELOService" ref="missionELOService"/>
+    </bean>
+
+    <bean id="feedbackEloService" class="eu.scy.server.controllers.scyfeedback.xml.FeedbackEloService">
+        <property name="userService" ref="userService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="missionELOService" ref="missionELOService"/>
     </bean>
 
     <bean id="studentEloRefViewerController"

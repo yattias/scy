@@ -19,8 +19,10 @@ import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
 import java.net.URI;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -264,15 +266,50 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
 
     @Override
     public NewestElos getNewestElosForFeedback(MissionRuntimeElo missionRuntimeElo, String username) {
+
         NewestElos newestElos = new NewestElos();
-        List elos = findElosFor("", username);
-        for (int i = 0; i < elos.size(); i++) {
-            BasicELO basicElo = (BasicELO) elos.get(i);
-            ScyElo scyElo = ScyElo.loadLastVersionElo(basicElo.getUri(), this);
-            TransferElo transferElo = new TransferElo(scyElo);
+
+        List feedbackList = getFeedback();
+        for (int i = 0; i < feedbackList.size(); i++) {
+            ScyElo feedbackElo = (ScyElo) feedbackList.get(i);
+            URI uri = feedbackElo.getFeedbackOnEloUri();
+            ScyElo commentedOn = ScyElo.loadLastVersionElo(uri, this);
+
+            TransferElo transferElo = new TransferElo(commentedOn);
+            transferElo.setFeedbackELO(feedbackElo);
             newestElos.addElo(transferElo);
+
         }
+
         return newestElos;
+    }
+
+    @Override
+    public List getFeedback() {
+
+        final IMetadataKey technicalFormatKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+        IQueryComponent feedbackComponent = new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, "scy/feedback");
+        IQuery feedbackQuery = new Query(feedbackComponent);
+
+        List<ISearchResult> results = getRepository().search(feedbackQuery);
+
+        for (int i = 0; i < results.size(); i++) {
+            ISearchResult searchResult = (ISearchResult) results.get(i);
+            ScyElo scyELO = getElo(searchResult.getUri());
+            log.info("***************** FEEDBACK: " + scyELO.getElo().getContent().getXmlString());
+            log.info("***************** FEEDBACK METADATA: ");
+            Set set = scyELO.getMetadata().getAllMetadataKeys();
+            Iterator it = set.iterator();
+            log.info("THIS IS FEEDBACK ON  " + scyELO.getFeedbackOnEloUri());
+            /*while (it.hasNext()) {
+                IMetadataKey iMetadataKey = (IMetadataKey) it.next();
+                log.info("METADATA: " + iMetadataKey.toString());
+            } */
+
+            //result.add(scyELO);
+        }
+
+        return getELOs(feedbackQuery);
     }
 
     public XMLTransferObjectService getXmlTransferObjectService() {

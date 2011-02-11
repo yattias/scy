@@ -11,6 +11,9 @@ import eu.scy.core.model.runtime.ToolRuntimeAction;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.roolo.RuntimeELOService;
 import eu.scy.core.runtime.RuntimeService;
+import info.collide.sqlspaces.client.TupleSpace;
+import info.collide.sqlspaces.commons.Field;
+import info.collide.sqlspaces.commons.Tuple;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -18,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.rmi.dgc.VMID;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,6 +39,7 @@ public class CurrentStudentActivityController extends AbstractController {
     private UserService userService;
     private RuntimeELOService runtimeELOService;
     private MissionELOService missionELOService;
+    private TupleSpace tupleSpace;
 
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
@@ -64,6 +69,27 @@ public class CurrentStudentActivityController extends AbstractController {
                 missionRuntimeElo  = mre;
             }
         }
+
+        Tuple template = new Tuple(String.class ,String.class, String.class, missionSpecificationElo.getUri().toString(), "lasOfUser", String.class);
+        Tuple [] tuples = getTupleSpace().readAll(template);
+        logger.info("NUMBER OF HITS: " + tuples.length);
+
+        for (int i = 0; i < tuples.length; i++) {
+            Tuple tuple = tuples[i];
+            Field [] fi = tuple.getFields();
+            for (int j = 0; j < fi.length; j++) {
+                Field field = fi[j];
+                logger.info("FIELDS: " + field.getValue());
+            }
+        }
+
+        /*Tuple t = getTupleSpace().read(template);
+        Field[] fields = t.getFields();
+        for (int i = 0; i < fields.length; i++) {
+            Field field = fields[i];
+            logger.info("FIELD: " + field.getValue());
+            status += field + " " ;
+        } */
 
         modelAndView.addObject("status", status);
 
@@ -101,5 +127,13 @@ public class CurrentStudentActivityController extends AbstractController {
 
     public void setMissionELOService(MissionELOService missionELOService) {
         this.missionELOService = missionELOService;
+    }
+
+    public TupleSpace getTupleSpace() {
+        return tupleSpace;
+    }
+
+    public void setTupleSpace(TupleSpace tupleSpace) {
+        this.tupleSpace = tupleSpace;
     }
 }

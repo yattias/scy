@@ -7,6 +7,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.logging.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,6 +23,8 @@ public class AgentParameterTextField extends TagSupport {
     private AgentParameterAPI agentParameterAPI;
     private String parameterName;
     private String las;
+
+    private static Logger log = Logger.getLogger("AgentParameterTextField.class");
 
     public int doEndTag() throws JspException {
         try {
@@ -47,7 +50,9 @@ public class AgentParameterTextField extends TagSupport {
     public String executeGetter() {
         AgentParameter agentParameter = new AgentParameter();
         try {
-            agentParameter.setMission(URLDecoder.decode(getMissionURI(), "UTF-8"));
+            String missionURI = URLDecoder.decode(getMissionURI(), "UTF-8");
+            log.info("GETTING : " + missionURI + " AGENT: " + getAgentId() + " parameter: " + agentParameter.getParameterName());
+            agentParameter.setMission(missionURI);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

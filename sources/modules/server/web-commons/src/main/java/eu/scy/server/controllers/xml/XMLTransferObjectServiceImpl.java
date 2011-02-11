@@ -140,6 +140,9 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
         xStream.alias("serviceMessage", ServiceMessage.class);
         xStream.alias("rawdata", RawData.class);
         xStream.alias("newestelos", NewestElos.class);
+        xStream.alias("feedbackelo", FeedbackEloTransfer.class);
+        xStream.alias("feedback", FeedbackTransfer.class);
+        xStream.alias("reply", FeedbackReplyTransfer.class);
 
 
 
@@ -177,7 +180,26 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
         xStream.aliasField("rawData".toLowerCase(), TransferElo.class, "rawData");
         xStream.aliasField("hasBeenSelectedForSubmit".toLowerCase(), TransferElo.class, "hasBeenSelectedForSubmit");
         xStream.aliasField("studentslg", TransferElo.class, "specificLearningGoals");
-        
+        xStream.aliasField("feedbackEloUrl".toLowerCase(), TransferElo.class, "feedbackEloUrl");
+
+        xStream.aliasField("createdBy".toLowerCase(), FeedbackEloTransfer.class, "createdBy");
+        xStream.aliasField("createdByPicture".toLowerCase(), FeedbackEloTransfer.class, "createdByPicture");
+        xStream.aliasField("calendarDate".toLowerCase(), FeedbackEloTransfer.class, "calendarDate");
+        xStream.aliasField("calendarTime".toLowerCase(), FeedbackEloTransfer.class, "calendarTime");
+        xStream.aliasField("comment".toLowerCase(), FeedbackEloTransfer.class, "comment");
+
+        xStream.aliasField("comment".toLowerCase(), FeedbackTransfer.class, "comment");
+        xStream.aliasField("createdBy".toLowerCase(), FeedbackTransfer.class, "createdBy");
+        xStream.aliasField("createdByPicture".toLowerCase(), FeedbackTransfer.class, "createdByPicture");
+        xStream.aliasField("calendarDate".toLowerCase(), FeedbackTransfer.class, "calendarDate");
+        xStream.aliasField("calendarTime".toLowerCase(), FeedbackTransfer.class, "calendarTime");
+
+        xStream.aliasField("comment".toLowerCase(), FeedbackReplyTransfer.class, "comment");
+        xStream.aliasField("createdBy".toLowerCase(), FeedbackReplyTransfer.class, "createdBy");
+        xStream.aliasField("createdByPicture".toLowerCase(), FeedbackReplyTransfer.class, "createdByPicture");
+        xStream.aliasField("calendarDate".toLowerCase(), FeedbackReplyTransfer.class, "calendarDate");
+        xStream.aliasField("calendarTime".toLowerCase(), FeedbackReplyTransfer.class, "calendarTime");
+
         xStream.aliasField("eloURI".toLowerCase(), ActionLogEntry.class, "eloURI");
         xStream.aliasField("technicalformat".toLowerCase(), ActionLogEntry.class, "technicalformat");
         xStream.aliasField("rawData".toLowerCase(), ActionLogEntry.class, "rawData");

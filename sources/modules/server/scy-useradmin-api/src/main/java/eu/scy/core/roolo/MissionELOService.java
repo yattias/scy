@@ -53,4 +53,6 @@ public interface MissionELOService extends BaseELOService {
     List getPortfoliosThatAreReadyForAssessment(MissionSpecificationElo missionSpecificationElo);
 
     NewestElos getNewestElosForFeedback(MissionRuntimeElo missionRuntimeElo, String username);
+
+    List getFeedback();
 }

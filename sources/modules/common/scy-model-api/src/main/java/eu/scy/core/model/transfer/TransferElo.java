@@ -55,6 +55,8 @@ public class TransferElo extends BaseXMLTransfer {
 
     private RawData rawData;
 
+    private String feedbackEloUrl;
+
 
     public TransferElo() {
     }
@@ -63,11 +65,16 @@ public class TransferElo extends BaseXMLTransfer {
         super();
         setMyname(scyElo.getTitle());
         setUri(scyElo.getUri().toString());
-        Date lastModified = new Date(scyElo.getDateLastModified());
-        Date createDate = new Date(scyElo.getDateCreated());
-        setLastModified(lastModified.toString());
-        setModified(lastModified.toString());
-        setCreatedDate(createDate.toString());
+        if (scyElo.getDateLastModified() != null) {
+            Date lastModified = new Date(scyElo.getDateLastModified());
+            setLastModified(lastModified.toString());
+            setModified(lastModified.toString());
+        }
+        if (scyElo.getDateCreated() != null) {
+            Date createDate = new Date(scyElo.getDateCreated());
+            setCreatedDate(createDate.toString());
+        }
+
         List authors = scyElo.getAuthors();
         String authorString = "";
         for (int i = 0; i < authors.size(); i++) {
@@ -105,6 +112,18 @@ public class TransferElo extends BaseXMLTransfer {
         setStudentDescription("stydentdesc");
 
 
+    }
+
+    public void setFeedbackELO(ScyElo scyElo) {
+
+        String uri = scyElo.getUri().toString();
+        try {
+            uri = URLEncoder.encode(uri, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        System.out.println("SET FEEDBACK ELO: " + scyElo + " URI: " + uri);
+        setFeedbackEloUrl("/webapp/app/feedback/xml/feedbackEloService.html?feedbackURI=" + uri);
     }
 
 
@@ -321,6 +340,14 @@ public class TransferElo extends BaseXMLTransfer {
 
     public void setRawData(RawData rawData) {
         this.rawData = rawData;
+    }
+
+    public String getFeedbackEloUrl() {
+        return feedbackEloUrl;
+    }
+
+    public void setFeedbackEloUrl(String feedbackEloUrl) {
+        this.feedbackEloUrl = feedbackEloUrl;
     }
 
     public static String convertRtfToHtml(final String txt) {
