@@ -19,7 +19,8 @@ import org.apache.log4j.Logger;
 import eu.scy.agents.api.IPersistentStorage;
 
 /**
- * The implementation of {@link IPersistentStorage}. Saves things in the TupleSpace.
+ * The implementation of {@link IPersistentStorage}. Saves things in the
+ * TupleSpace.
  * 
  * @author Florian Schulz
  */
@@ -44,8 +45,16 @@ public class PersistentStorage implements IPersistentStorage {
 
 	public PersistentStorage(String host, int port) {
 		try {
-			// TODO Configuration
-			tupleSpace = new TupleSpace(new User(PERSISTENT_STORAGE), host, port, PERSISTENT_STORAGE);
+			tupleSpace = new TupleSpace(new User(PERSISTENT_STORAGE), host,
+					port, PERSISTENT_STORAGE);
+			Tuple[] allTuples = tupleSpace.readAll(new Tuple(
+					PERSISTENT_STORAGE, String.class, Field
+							.createWildCardField()));
+			key2TupleId.clear();
+			for (Tuple tuple : allTuples) {
+				String key = (String) tuple.getField(1).getValue();
+				key2TupleId.put(key, tuple.getTupleID());
+			}
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
@@ -55,7 +64,8 @@ public class PersistentStorage implements IPersistentStorage {
 	@Override
 	public <T> T get(String key) {
 		try {
-			Tuple t = tupleSpace.read(new Tuple(PERSISTENT_STORAGE, key, Field.createWildCardField()));
+			Tuple t = tupleSpace.read(new Tuple(PERSISTENT_STORAGE, key, Field
+					.createWildCardField()));
 			if (t == null) {
 				logger.info("Tuple for key " + key + " is null.");
 				return null;
@@ -84,7 +94,8 @@ public class PersistentStorage implements IPersistentStorage {
 				ObjectOutputStream objectOut = new ObjectOutputStream(byteArray);
 				objectOut.writeObject(value);
 				objectOut.close();
-				TupleID id = tupleSpace.write(new Tuple(PERSISTENT_STORAGE, key, byteArray.toByteArray()));
+				TupleID id = tupleSpace.write(new Tuple(PERSISTENT_STORAGE,
+						key, byteArray.toByteArray()));
 				key2TupleId.put(key, id);
 			} catch (TupleSpaceException e) {
 				throw new RuntimeException(e);
@@ -99,7 +110,8 @@ public class PersistentStorage implements IPersistentStorage {
 				objectOut = new ObjectOutputStream(byteArray);
 				objectOut.writeObject(value);
 				objectOut.close();
-				tupleSpace.update(tupleId, new Tuple(PERSISTENT_STORAGE, key, byteArray.toByteArray()));
+				tupleSpace.update(tupleId, new Tuple(PERSISTENT_STORAGE, key,
+						byteArray.toByteArray()));
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (TupleSpaceException e) {
