@@ -24,6 +24,14 @@
                     </tr>
                     <tr class="${oddEven.oddEven}">
                         <td>
+                            <strong>Mission description</strong>
+                        </td>
+                        <td>
+                            <a href="${descriptionUrl}" target="_blank">${missionSpecificationTransporter.elo.title}</a> 
+                        </td>
+                    </tr>
+                    <tr class="${oddEven.oddEven}">
+                        <td>
                             <strong>Assigned students</strong>
                         </td>
                         <td>

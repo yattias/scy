@@ -1,6 +1,7 @@
 package eu.scy.server.controllers.student;
 
 import eu.scy.common.mission.MissionRuntimeElo;
+import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.roolo.MissionELOService;
@@ -49,6 +50,10 @@ public class StudentIndexController extends BaseController {
         } else {
             logger.info("NO PORTFOLIO URI!");
         }
+        MissionSpecificationElo missionSpecificationElo = getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo);
+        URI descriptionURI = missionSpecificationElo.getTypedContent().getMissionDescriptionUri();
+        modelAndView.addObject("descriptionUrl", descriptionURI);
+
         modelAndView.addObject("missionSpecificationTransporter", getMissionELOService().getWebSafeTransporter(missionRuntimeElo));
         try {
             modelAndView.addObject("jnlpRef", "/webapp/scy-lab.jnlp?username=" + getCurrentUserName(request) + "&mission=" + URLEncoder.encode(missionRuntimeElo.getUri().toString(), "UTF-8"));

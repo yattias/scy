@@ -69,8 +69,9 @@ public class ViewPedagogicalPlanController extends BaseController {
             URI uri = new URI(uriParam);
 
             MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(uri, getMissionELOService());
-            //URI descriptionURI = missionSpecificationElo.getTypedContent().getMissionDescriptionUri();
-            //logger.info("DESCRIPTION: " + descriptionURI); // HAHAHA I laugh myself to death!
+            URI descriptionURI = missionSpecificationElo.getTypedContent().getMissionDescriptionUri();
+            modelAndView.addObject("descriptionUrl", descriptionURI);
+            logger.info("DESCRIPTION: " + descriptionURI); // HAHAHA I laugh myself to death!
 
             try {
                 URI pedagogicalPlanUri = missionSpecificationElo.getTypedContent().getPedagogicalPlanSettingsEloUri();
