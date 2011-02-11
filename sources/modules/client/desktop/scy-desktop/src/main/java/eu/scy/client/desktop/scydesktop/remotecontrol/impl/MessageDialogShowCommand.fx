@@ -12,6 +12,7 @@ import eu.scy.client.desktop.scydesktop.remotecontrol.api.ScyDesktopRemoteComman
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBox;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogType;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBoxParams;
+import java.rmi.dgc.VMID;
 
 /**
  * @author sven
@@ -43,7 +44,7 @@ public class MessageDialogShowCommand extends ScyDesktopRemoteCommand {
                 okAction: okAction;
                 }
 
-        DialogBox.showMessageDialog(params);
+        DialogBox.showMessageDialog(params, new VMID().toString());
 
     }
 

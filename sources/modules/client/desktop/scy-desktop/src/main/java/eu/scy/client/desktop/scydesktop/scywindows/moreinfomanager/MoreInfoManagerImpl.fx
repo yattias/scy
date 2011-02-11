@@ -75,10 +75,12 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
          instructionWindow.layoutY = 0.0;
          instructionWindow.curtainControl.layoutX = instructionWindow.width / 2.0;
          instructionWindow.curtainControl.layoutY = instructionWindow.height + 8;
+         ModalDialogLayer.resize();
       }
       if (moreInfoWindow.visible) {
          moreInfoWindow.width = (1 - 2 * relativeWindowScreenBoder) * scene.width;
          moreInfoWindow.height = (1 - 2 * relativeWindowScreenBoder) * scene.height;
+         ModalDialogLayer.resize();
       }
    }
 

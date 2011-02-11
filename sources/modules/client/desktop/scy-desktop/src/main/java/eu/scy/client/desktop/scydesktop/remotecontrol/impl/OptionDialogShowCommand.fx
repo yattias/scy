@@ -68,7 +68,7 @@ public class OptionDialogShowCommand extends ScyDesktopRemoteCommand {
                 noAction: noAction;
                 }
 
-        DialogBox.showOptionDialog(params);
+        DialogBox.showOptionDialog(params, optionDialogId);
     }
 
 }
