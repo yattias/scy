@@ -23,6 +23,10 @@ import javafx.scene.text.TextOrigin;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.layout.Stack;
+import javafx.geometry.VPos;
+import javafx.geometry.HPos;
 
 /**
  * @author SikkenJ
@@ -39,11 +43,11 @@ public class ClosedWindow extends WindowElement {
    def textFont = Font.font("Verdana", FontWeight.REGULAR, titleFontsize);
    def bgColor = bind if (activated) windowColorScheme.emptyBackgroundColor else windowColorScheme.mainColor;
    def thumbnailView = ThumbnailView {
-         windowColorScheme: windowColorScheme
-         scyElo: bind scyElo
-         eloIcon: bind eloIcon
-         startDragIcon:startDragIcon
-      }
+      windowColorScheme: windowColorScheme
+      scyElo: bind scyElo
+      eloIcon: bind eloIcon
+      startDragIcon:startDragIcon
+   }
    var textBackgroundFillRect: Rectangle;
    var titleText: Text;
 
@@ -67,19 +71,22 @@ public class ClosedWindow extends WindowElement {
          }
       titleText = Text {
             font: textFont
-            textOrigin: TextOrigin.TOP;
+            textOrigin: TextOrigin.TOP
+            textAlignment: TextAlignment.CENTER
             x: 0
             y: 0
-            wrappingWidth: bind thumbnailView.layoutBounds.width;
+//            wrappingWidth: bind thumbnailView.layoutBounds.width;
             content: bind title;
          }
       activatedChanged();
+
       Group {
          content: [
             thumbnailView,
-            Group {
+            Stack {
                layoutX: bind thumbnailView.layoutBounds.width/2 - titleText.layoutBounds.width/2
-               layoutY: thumbnailView.layoutBounds.height
+               layoutY: thumbnailView.layoutBounds.height + 2
+               nodeHPos: HPos.CENTER
                content: [
                   textBackgroundFillRect,
                   titleText
@@ -119,6 +126,7 @@ function run() {
                layoutY: 10
                windowColorScheme:windowColorScheme
                eloIcon: loadEloIcon("scy/mapping")
+               title: "Mission Description"
             }
             ClosedWindow {
                layoutX: 150
