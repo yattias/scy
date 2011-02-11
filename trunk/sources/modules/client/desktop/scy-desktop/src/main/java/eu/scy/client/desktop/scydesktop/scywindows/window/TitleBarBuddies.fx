@@ -37,7 +37,6 @@ public class TitleBarBuddies extends WindowElement {
    function updateBuddies() {
       delete  displayBox.content;
       def authors = window.scyElo.getAuthors();
-      println("authors: {authors}, eloUri: {window.eloUri}, scyEloUri: {window.scyElo.getUri()}");
       if (authors != null) {
          displayBox.content =
             for (author in authors) {
