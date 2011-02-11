@@ -6,8 +6,10 @@ import java.util.List;
 import java.text.SimpleDateFormat;
 
 import javafx.scene.CustomNode;
+import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.LayoutInfo;
+import javafx.scene.layout.Resizable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextBox;
@@ -15,6 +17,7 @@ import javafx.scene.text.Font;
 
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
+import eu.scy.common.scyelo.QueryFactory;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
@@ -24,9 +27,7 @@ import org.jdom.Element;
 
 import roolo.elo.api.IMetadataTypeManager;
 
-import eu.scy.common.scyelo.QueryFactory;
-
-public class FeedbackQuestionNode extends CustomNode, ScyToolFX {
+public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
 
    def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.feedbackquestion.FeedbackQuestionNode");
    public var toolBrokerAPI: ToolBrokerAPI;
@@ -40,63 +41,66 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX {
    def calendardateTagName:String = "calendardate";
    def calendartimeTagName:String = "calendartime";
    def jdomStringConversion = new JDomStringConversion();
-   def spacing = 5.0;
    var comment:String = "";
    var eloUri: URI;
    var scyElo: ScyElo;
+   def spacing = 5.0;
+   def titleLabel = Label {
+           text: "Ask for Feedback"
+           font: Font{size:18}
+       };
+   var textBox = TextBox {
+           text: bind comment with inverse
+           multiline: true
+           selectOnFocus: true
+           columns: 20
+       };
    var submitButton:Button = Button {
-               text: "Submit"
-               disable: true
-               action: function() {
-                  if (eloUri==null) {
-                      javafx.stage.Alert.inform("ELO not in Roolo.");
-                      return;
-                  }
-                  var feedbackElement = new Element(feedbackTagName);
-                  var createdbyElement = new Element(createdbyTagName);
-                  createdbyElement.setText(toolBrokerAPI.getLoginUserName());
-                  feedbackElement.addContent(createdbyElement);
-                  var createdbypictureElement = new Element(createdbypictureTagName);
-                  feedbackElement.addContent(createdbypictureElement);
-                  def datetime = new Date();
-                  def dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                  var calendardateElement = new Element(calendardateTagName);
-                  calendardateElement.setText(dateFormat.format(datetime));
-                  feedbackElement.addContent(calendardateElement);
-                  def timeFormat = new SimpleDateFormat("HH:mm");
-                  var calendartimeElement = new Element(calendartimeTagName);
-                  calendartimeElement.setText(timeFormat.format(datetime));
-                  feedbackElement.addContent(calendartimeElement);
-                  var commentElement = new Element(commentTagName);
-                  commentElement.setText(comment);
-                  feedbackElement.addContent(commentElement);
-                  def fbScyElo = ScyElo.createElo(technicalType, toolBrokerAPI);
-                  fbScyElo.setTitle(title);
-                  fbScyElo.setFeedbackOnEloUri(eloUri);
-                  fbScyElo.getContent().setXmlString(jdomStringConversion.xmlToString(feedbackElement));
-                  fbScyElo.saveAsNewElo();
-                  submitButton.disable = true;
+           text: "Submit"
+           disable: true
+           action: function() {
+              if (eloUri==null) {
+                  javafx.stage.Alert.inform("ELO not in Roolo.");
+                  return;
               }
+              var feedbackElement = new Element(feedbackTagName);
+              var createdbyElement = new Element(createdbyTagName);
+              createdbyElement.setText(toolBrokerAPI.getLoginUserName());
+              feedbackElement.addContent(createdbyElement);
+              var createdbypictureElement = new Element(createdbypictureTagName);
+              feedbackElement.addContent(createdbypictureElement);
+              def datetime = new Date();
+              def dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+              var calendardateElement = new Element(calendardateTagName);
+              calendardateElement.setText(dateFormat.format(datetime));
+              feedbackElement.addContent(calendardateElement);
+              def timeFormat = new SimpleDateFormat("HH:mm");
+              var calendartimeElement = new Element(calendartimeTagName);
+              calendartimeElement.setText(timeFormat.format(datetime));
+              feedbackElement.addContent(calendartimeElement);
+              var commentElement = new Element(commentTagName);
+              commentElement.setText(comment);
+              feedbackElement.addContent(commentElement);
+              def fbScyElo = ScyElo.createElo(technicalType, toolBrokerAPI);
+              fbScyElo.setTitle(title);
+              fbScyElo.setFeedbackOnEloUri(eloUri);
+              fbScyElo.getContent().setXmlString(jdomStringConversion.xmlToString(feedbackElement));
+              fbScyElo.saveAsNewElo();
+              submitButton.disable = true;
+          }
    }
 
+   var node = Group {content: [
+       titleLabel,
+       Group {content: bind textBox},
+       Group {content: bind submitButton}
+   ]};
+
    public override function create(): Node {
-      VBox {
-         spacing: spacing
-         content: [
-            Label {
-               text: "Ask for Feedback"
-               font: Font{size:18}
-            }
-            TextBox {
-                text: bind comment with inverse
-                columns: 10
-                lines: 20
-                multiline: true
-                selectOnFocus: true
-            }
-            submitButton
-         ]
-      }
+      var myNode = Group {content: bind node}
+      resizeContent();
+      FX.deferAction(resizeContent);
+      return myNode;
    }
 
    public override function loadElo(eloUri: URI): Void {
@@ -128,6 +132,42 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX {
       } else {
          scyElo = null;
       }
+   }
+   function resizeContent(): Void{
+      textBox.height = height-titleLabel.height-submitButton.height-2*spacing;
+      textBox.width = width;
+      textBox.layoutInfo = LayoutInfo{
+            height: height-titleLabel.height-submitButton.height-2*spacing
+            width: width
+      };
+      textBox.translateY = titleLabel.height+spacing;
+      submitButton.translateY = titleLabel.height+textBox.height+2*spacing;
+   }
+   public override var height on replace {
+       resizeContent();
+   }
+   public override var width on replace {
+       resizeContent();
+   }
+
+   public override function getPrefHeight(width: Number) : Number{
+      if (height<getMinHeight())
+          return getMinHeight();
+      return height;
+   }
+
+   public override function getPrefWidth(height: Number) : Number{
+      if (width<getMinWidth())
+          return getMinWidth();
+      return width;
+   }
+
+   public override function getMinHeight() : Number {
+       return 10;
+   }
+
+   public override function getMinWidth() : Number {
+       return titleLabel.width+10;
    }
 
 }
