@@ -28,6 +28,7 @@ public class ToolURLContainer {
     private String feedbackEloService = "/webapp/app/feedback/xml/feedbackEloService.html";
     private String retrieveSingleELOService = "/webapp/components/xml/RetrieveSingleEloService.html";
     private String savefeedback = "/webapp/app/feedback/xml/savefeedback.html";
+    private String savereplyfeedback = "/webapp/app/feedback/xml/saveReplyTofeedback.html";
     private String myelosfeedbackservice = "/webapp/app/feedback/xml/myElosFeedbackService.html";
     private String mycontributionelosfeedbackservice = "/webapp/app/feedback/xml/myContributionElosFeedbackService.html";
 
@@ -207,5 +208,13 @@ public class ToolURLContainer {
 
     public void setSavefeedback(String savefeedback) {
         this.savefeedback = savefeedback;
+    }
+
+    public String getSavereplyfeedback() {
+        return savereplyfeedback;
+    }
+
+    public void setSavereplyfeedback(String savereplyfeedback) {
+        this.savereplyfeedback = savereplyfeedback;
     }
 }

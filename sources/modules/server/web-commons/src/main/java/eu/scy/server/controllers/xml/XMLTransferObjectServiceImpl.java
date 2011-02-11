@@ -108,18 +108,18 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
 
     @Override
     public Object getObject(String xml){
-        /*
-        String thing = "\\[";
-        String cdata = "<!CDATA";
-        //String cdata = "<!\\[CDATA\\[";
-        String end = "\\]";
 
-        xml = xml.replaceAll(thing,"");
-        xml = xml.replaceAll(cdata,"");
-        xml = xml.replaceAll(end, "");
+        if(xml.contains("<content")) {
+            Integer end = xml.indexOf(">");
+            xml = xml.substring(end + 1, xml.length());
+            if(xml.indexOf("</content") > 0) {
+                xml = xml.replaceAll("</content>", "");
+            }
+        }
 
-        // System.out.println("xml" + xml);
-        */
+        System.out.println("THIS IS THE PARSED SHITTY XML: " + xml);
+
+
         return getToObjectXStream().fromXML(xml);
     }
 
@@ -240,8 +240,6 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
 
         xStream.aliasField("generallearninggoals", LearningGoals.class, "generalLearningGoals ");
         xStream.aliasField("specificlearninggoals", LearningGoals.class, "specificLearningGoals ");
-
-
 
         xStream.registerConverter(new LearningGoalConverter());
 

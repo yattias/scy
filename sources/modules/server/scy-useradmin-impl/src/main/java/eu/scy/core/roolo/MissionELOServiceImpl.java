@@ -296,20 +296,31 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
         for (int i = 0; i < results.size(); i++) {
             ISearchResult searchResult = (ISearchResult) results.get(i);
             ScyElo scyELO = getElo(searchResult.getUri());
-            log.info("***************** FEEDBACK: " + scyELO.getElo().getContent().getXmlString());
-            log.info("***************** FEEDBACK METADATA: ");
-            Set set = scyELO.getMetadata().getAllMetadataKeys();
-            Iterator it = set.iterator();
-            log.info("THIS IS FEEDBACK ON  " + scyELO.getFeedbackOnEloUri());
-            /*while (it.hasNext()) {
-                IMetadataKey iMetadataKey = (IMetadataKey) it.next();
-                log.info("METADATA: " + iMetadataKey.toString());
-            } */
 
-            //result.add(scyELO);
+            String xmlString = scyELO.getElo().getContent().getXmlString();
+
+            log.info("***************** FEEDBACK: " + xmlString);
+
+            if(xmlString.startsWith("<feedback>")) xmlString = fixXml(xmlString, scyELO);
         }
 
         return getELOs(feedbackQuery);
+    }
+
+    private String fixXml(String xmlString, ScyElo scyElo) {
+
+        String feedback = "<feedback>";
+        String feedbackEnd = "</feedback>";
+        xmlString = xmlString.substring(feedback.length(), xmlString.length());
+        xmlString = xmlString.substring(0, xmlString.length() - feedbackEnd.length());
+
+        xmlString = "<feedbackelo>" + xmlString + "</feedbackelo>";
+
+        scyElo.getElo().getContent().setXmlString(xmlString);
+        scyElo.updateElo();
+        log.info("FIXED ELO!");
+
+        return xmlString;
     }
 
     public XMLTransferObjectService getXmlTransferObjectService() {

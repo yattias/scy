@@ -45,14 +45,19 @@ public class FeedbackEloService extends XMLStreamerController {
 
 
                 int feedbacksIndex = feedbackRepresentation.indexOf("<feedbacks");
-                String end = feedbackRepresentation.substring(feedbacksIndex, feedbackRepresentation.length());
-                String start = feedbackRepresentation.substring(0, feedbacksIndex);
+                if (feedbacksIndex > 0) {
+                    String end = feedbackRepresentation.substring(feedbacksIndex, feedbackRepresentation.length());
+                    String start = feedbackRepresentation.substring(0, feedbacksIndex);
 
-                //feedbackRepresentation = feedbackRepresentation.replace("</feedback>", "</feedbackelo>");
-                start = start.replaceAll("<comment>", "<question>");
-                start = start.replaceAll("</comment>", "</question>");
+                    //feedbackRepresentation = feedbackRepresentation.replace("</feedback>", "</feedbackelo>");
+                    //start = start.replaceAll("<comment>", "<question>");
+                    //start = start.replaceAll("</comment>", "</question>");
+                    feedbackRepresentation = start + end;
+                }
+                
 
-                feedbackRepresentation = start + end;
+
+
 
                 logger.info("WASHED ELOSTRING: " + feedbackRepresentation);
 
