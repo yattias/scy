@@ -1,7 +1,10 @@
 package eu.scy.server.eportfolio;
 
+import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.UserService;
 import eu.scy.core.model.User;
+import eu.scy.core.roolo.MissionELOService;
+import eu.scy.core.roolo.RuntimeELOService;
 import eu.scy.server.controllers.BaseController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -9,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,6 +24,8 @@ import java.net.URLEncoder;
 public class EPortfolioIndex extends BaseController {
 
     private UserService userService;
+    private MissionELOService missionELOService;
+    private RuntimeELOService runtimeELOService;
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
@@ -29,7 +35,19 @@ public class EPortfolioIndex extends BaseController {
         modelAndView.addObject("author", getCurrentUser(request).getUserDetails().hasGrantedAuthority("ROLE_AUTHOR"));
         modelAndView.addObject("toolURLProvider", "/webapp/app/eportfolio/xml/toolURLProvider.html");
         try {
-            modelAndView.addObject("missionURI", URLEncoder.encode(getScyElo().getUri().toString(), "UTF-8"));
+            if(getScyElo() != null) {
+                modelAndView.addObject("missionURI", URLEncoder.encode(getScyElo().getUri().toString(), "UTF-8"));
+            } else {
+                List runtimeElos = getRuntimeELOService().getRuntimeElosForUser(getCurrentUserName(request));
+                if(runtimeElos != null && runtimeElos.size() > 0) {
+                    //select default
+                    ScyElo scyElo = (ScyElo) runtimeElos.get(0);
+                    modelAndView.addObject("missionURI", URLEncoder.encode(scyElo.getUri().toString(), "UTF-8"));
+
+                }
+
+            }
+
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
@@ -51,5 +69,21 @@ public class EPortfolioIndex extends BaseController {
 
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    public MissionELOService getMissionELOService() {
+        return missionELOService;
+    }
+
+    public void setMissionELOService(MissionELOService missionELOService) {
+        this.missionELOService = missionELOService;
+    }
+
+    public RuntimeELOService getRuntimeELOService() {
+        return runtimeELOService;
+    }
+
+    public void setRuntimeELOService(RuntimeELOService runtimeELOService) {
+        this.runtimeELOService = runtimeELOService;
     }
 }

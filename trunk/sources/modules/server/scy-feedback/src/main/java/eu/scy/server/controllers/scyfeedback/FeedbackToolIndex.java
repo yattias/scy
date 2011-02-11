@@ -21,8 +21,9 @@ public class FeedbackToolIndex extends BaseController {
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-        List feedback = getMissionELOService().getFeedback();
-        logger.info("FOUND " + feedback.size() + " FEEDBACKS!");
+        //List feedback = getMissionELOService().getFeedback();
+        //logger.info("FOUND " + feedback.size() + " FEEDBACKS!");
+        modelAndView.setViewName("forward:feedbackindex.html");
 
     }
 
