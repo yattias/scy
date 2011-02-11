@@ -10,7 +10,7 @@ package eu.scy.client.desktop.scydesktop.art;
  * @author sikken
  */
 
-def startShowTime = 1.0s;
+def startShowTime = 500ms;
 def appearTime = 500ms;
 def showTime = 5s;
 def disappearTime = 1000ms;
