@@ -22,7 +22,6 @@ import javafx.util.Math;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Point2D;
 import eu.scy.client.desktop.scydesktop.art.AnimationTiming;
-import java.lang.UnsupportedOperationException;
 
 /**
  * @author sikken
@@ -41,7 +40,7 @@ public class SimpleTooltipManager extends TooltipManager {
 //   def startShowTime = 1.0s;
 //   def appearTime = 250ms;
 //   def showTime = 10s;
-   def finalOpacity = 0.85;
+   def finalOpacity = 0.95;
    def useAnimation = true;
    protected var startAppearingTime = AnimationTiming.startAppearingTime;
    protected var fullAppearingTime = AnimationTiming.fullAppearingTime;
