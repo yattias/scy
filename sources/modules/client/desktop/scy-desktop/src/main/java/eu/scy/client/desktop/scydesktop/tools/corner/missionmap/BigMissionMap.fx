@@ -13,6 +13,8 @@ import javafx.scene.layout.Container;
 import javafx.geometry.Insets;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.SemiPermanentTooltipManager;
 import javafx.scene.input.MouseEvent;
+import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
+import eu.scy.client.desktop.scydesktop.utils.XFX;
 
 /**
  * @author SikkenJ
@@ -27,7 +29,7 @@ public class BigMissionMap extends MissionMap, Resizable {
    def relativeBorder = 0.2;
    var missionMapNode: Node;
    var myStack: Stack;
-   def activeLas = bind missionModel.activeLas on replace { };
+   def activeLas = bind missionModel.activeLas;
 
    init {
       tooltipManager = SemiPermanentTooltipManager {
@@ -81,8 +83,16 @@ public class BigMissionMap extends MissionMap, Resizable {
    }
 
    public override function anchorSelected(anchorDisplay: AnchorDisplay, anchor: MissionAnchorFX): Void {
-      anchorClicked();
-      super.anchorSelected(anchorDisplay, anchor);
+      ProgressOverlay.startShowWorking();
+      XFX.runActionInBackgroundAndCallBack(function() : Object {
+        super.anchorSelected(anchorDisplay, anchor);
+        return null;
+      }, function(obj) {
+          FX.deferAction(function() {
+            anchorClicked();
+            ProgressOverlay.stopShowWorking();
+          });
+      });
    }
 
 }

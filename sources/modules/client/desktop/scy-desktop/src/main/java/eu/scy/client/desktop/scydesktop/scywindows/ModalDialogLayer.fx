@@ -10,6 +10,11 @@ import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.animation.Timeline;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.util.Sequences;
+import javafx.scene.CacheHint;
 
 /**
  * @author SikkenJ
@@ -17,16 +22,24 @@ import javafx.scene.shape.Rectangle;
 def modalDialogLayer = ModalDialogLayer {};
 public def layer: Node = modalDialogLayer;
 
+public function addModalDialog(node: Node, center: Boolean, animated: Boolean): Void {
+   modalDialogLayer.addModalDialogNode(node, center, animated);
+}
+
 public function addModalDialog(node: Node, center: Boolean): Void {
-   modalDialogLayer.addModalDialogNode(node, center);
+   modalDialogLayer.addModalDialogNode(node, center, false);
 }
 
 public function addModalDialog(node: Node): Void {
-   modalDialogLayer.addModalDialogNode(node, false);
+   modalDialogLayer.addModalDialogNode(node, false, false);
 }
 
 public function removeModalDialog(node: Node): Void {
-   modalDialogLayer.removeModalDialogNode(node);
+    removeModalDialog(node, false, false);
+}
+
+public function removeModalDialog(node: Node, animated:Boolean, reallyRemove: Boolean): Void {
+   modalDialogLayer.removeModalDialogNode(node, animated, reallyRemove);
 }
 
 public class ModalDialogLayer extends CustomNode {
@@ -40,7 +53,7 @@ public class ModalDialogLayer extends CustomNode {
          blocksMouse: true
          x: 0, y: 0
          width: 100, height: 100
-         fill: Color.color(1.0, 1.0, 1.0, 0.5)
+         fill: Color.color(0.0, 0.0, 0.0, 0.3)
          onKeyPressed: function(e: KeyEvent): Void {
          }
          onKeyReleased: function(e: KeyEvent): Void {
@@ -66,21 +79,108 @@ public class ModalDialogLayer extends CustomNode {
       modalDialogGroup
    }
 
-   function addModalDialogNode(node: Node, center: Boolean): Void {
+   function addModalDialogNode(node: Node, center: Boolean, animated: Boolean): Void {
       if (center) {
          insert node into centeredNodes;
          sceneSizeChanged();
       }
-      node.visible = true;
-      insert node into modalDialogGroup.content;
+      if (Sequences.indexOf(modalDialogGroup.content, backgroundBlocker) < 0) {
+         insert backgroundBlocker into modalDialogGroup.content;
+      }
+      if (Sequences.indexOf(modalDialogGroup.content, node) < 0) {
+         insert node into modalDialogGroup.content;
+      }
       modalDialogGroup.visible = true;
+      node.visible = true;
+      backgroundBlocker.opacity = 0.0;
+      backgroundBlocker.visible = true;
+      if (animated) {
+        node.translateY = -node.layoutBounds.height + 26;
+        def nodeTemp = node;
+        nodeTemp.cache = true;
+        nodeTemp.cacheHint = CacheHint.SPEED;
+        def addDialogTimeline1 = Timeline {
+            keyFrames: [
+                KeyFrame {
+                    time: 100ms
+                    values: [
+                        backgroundBlocker.opacity => 1.0 tween Interpolator.LINEAR
+                    ]
+                    action: function() {
+                        addDialogTimeline2.playFromStart();
+                    }
+                }
+            ];
+        };
+        def addDialogTimeline2 = Timeline {
+            keyFrames: [
+                KeyFrame {
+                    time: 400ms
+                    values: [
+                        nodeTemp.translateY => 2.0 tween Interpolator.EASEBOTH,
+                    ]
+                    action: function() {
+                        nodeTemp.cache = false;
+                    }
+                }
+            ];
+        };
+        addDialogTimeline1.playFromStart();
+      } else {
+        backgroundBlocker.visible = true;
+      }
+
    }
 
    function removeModalDialogNode(node: Node): Void {
-      delete node from modalDialogGroup.content;
-      delete node from centeredNodes;
-      node.visible = false;
-      modalDialogGroup.visible = sizeof modalDialogGroup.content > 1;
+       removeModalDialogNode(node, false, false);
+   }
+
+   function removeModalDialogNode(node: Node, animated: Boolean, reallyRemove: Boolean): Void {
+      if (animated) {
+       def nodeTemp = node;
+       nodeTemp.cache = true;
+       nodeTemp.cacheHint = CacheHint.SPEED;
+       def removeDialogTimeline1 = Timeline {
+                keyFrames: [
+                    KeyFrame {
+                        time: 400ms
+                        values: [
+                            nodeTemp.translateY => -nodeTemp.layoutBounds.height + 26 tween Interpolator.EASEBOTH,
+                        ]
+                        action: function() {
+                            removeDialogTimeline2.playFromStart();
+                        }
+                    }
+                ]
+            };
+        def removeDialogTimeline2 = Timeline {
+            keyFrames: [
+                KeyFrame {
+                    time: 100ms
+                    values: [
+                        backgroundBlocker.opacity => 0.0 tween Interpolator.LINEAR
+                    ]
+                    action: function() {
+                        if (reallyRemove) {
+                                node.visible = false;
+                                delete node from centeredNodes;
+                                delete node from modalDialogGroup.content;
+                                modalDialogGroup.visible = sizeof modalDialogGroup.content > 1;
+                        }
+                        backgroundBlocker.visible = false;
+                        nodeTemp.cache = false;
+                    }
+                }
+            ];
+        };
+        removeDialogTimeline1.playFromStart();
+       } else {
+            delete node from modalDialogGroup.content;
+            delete node from centeredNodes;
+            node.visible = false;
+            modalDialogGroup.visible = sizeof modalDialogGroup.content > 1;
+       }
    }
 
 }
