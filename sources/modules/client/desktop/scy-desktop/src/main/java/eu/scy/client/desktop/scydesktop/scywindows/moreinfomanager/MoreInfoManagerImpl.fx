@@ -67,7 +67,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       sceneSizeChanged();
    }
 
-   function sceneSizeChanged() {
+   function sceneSizeChanged() : Void {
       if (instructionWindow.visible) {
          instructionWindow.width = (1 - 2 * relativeWindowScreenBoder) * scene.width;
          instructionWindow.height = (1 - 1 * relativeWindowScreenBoder) * scene.height;
