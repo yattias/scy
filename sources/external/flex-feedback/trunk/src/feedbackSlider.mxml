@@ -10,10 +10,10 @@
 	</fx:Script>
 	
 	<s:HGroup width="100%" id="sliderIcon" height="20" gap="{(sliderIcon.width-4*18)/3}">
-		<s:Image source="assets/images/emoticons/1.png" width="18" height="20" />
-		<s:Image source="assets/images/emoticons/2.png" width="18" height="20" />
-		<s:Image source="assets/images/emoticons/3.png" width="18" height="20" />
-		<s:Image source="assets/images/emoticons/4.png" width="18" height="20" /> 
+		<s:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/1.png'}" width="18" height="20" />
+		<s:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/2.png'}" width="18" height="20" />
+		<s:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/3.png'}" width="18" height="20" />
+		<s:Image source="{index.IMAGE_BASE_URL+'assets/images/emoticons/4.png'}" width="18" height="20" /> 
 	</s:HGroup>
 	<mx:HSlider chromeColor="{index.THEME_LIGHT}" enabled="true" id="refOnInqTextSlider" minimum="1" maximum="4" value="{inquiryNumber}" dataTipPlacement="top" tickColor="{index.THEME_COL}"
 				snapInterval="1" tickInterval="1" allowTrackClick="true" width="100%" showDataTip="false" />

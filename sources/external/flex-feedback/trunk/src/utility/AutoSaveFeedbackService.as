@@ -1,13 +1,17 @@
 package utility
 {
+	import listeners.RefreshEvent;
+	
 	import mx.rpc.events.ResultEvent;
 	import mx.rpc.http.HTTPService;
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
 
-	public final class AutoSaveService
+	public final class AutoSaveFeedbackService
 	{
-		private var httpService:HTTPService = null;
+		public var httpService:HTTPService = null;
 		
-		public function AutoSaveService(serviceURL:String):void {
+		public function AutoSaveFeedbackService(serviceURL:String):void {
 			httpService = new HTTPService();
 			httpService.method = "POST";
 			httpService.showBusyCursor = true;

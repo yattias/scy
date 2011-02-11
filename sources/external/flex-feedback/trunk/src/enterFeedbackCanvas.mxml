@@ -17,6 +17,7 @@
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
 			
+			import utility.AutoSaveFeedbackService;
 			import utility.AutoSaveService;
 			import utility.XMLUtilJer;
 			
@@ -65,6 +66,7 @@
 				technicalformat = elo.technicalformat;
 				rawdatatext = elo.rawdatatext;
 				rawdatafull = elo.rawdatafull;
+				
 				
 				eloFeedback.url = new String(elo.feedbackelourl);
 				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
@@ -147,14 +149,16 @@
 					dico["author"] = FlexGlobals.topLevelApplication.parameters.username;
 					dico["comment"] = feedbackArea.text;
 					var ELOnewURL:String = feedbackURI;
-					trace(XMLUtilJer.getFeedBackXML(dico));
-					//ELOnewURL = new AutoSaveService(so.data.savefeedback+"?feedbackURI="+feedbackURI+"&xmlContent="+encodeURI(XMLUtilJer.getFeedBackXML(dico)));
 					
-					feedbackArea.text = "";
-					var tEvent:RefreshEvent = new RefreshEvent(index.REFRESH_COMMAND, true);
-					tEvent.eloURI = ELOnewURL;
-					dispatchEvent(tEvent);
+					var ass:AutoSaveFeedbackService = new AutoSaveFeedbackService(so.data.savefeedback+"?feedbackURI="+feedbackURI+"&xmlContent="+encodeURI(XMLUtilJer.getFeedBackXML(dico)));
+					ass.httpService.addEventListener(ResultEvent.RESULT, AutoSaveService_resultHandler);
+					
 				}
+			}
+			
+			private function AutoSaveService_resultHandler(evt:ResultEvent):void {
+				feedbackArea.text = "";
+				fillValues(evt.result as XML);
 			}
 
 

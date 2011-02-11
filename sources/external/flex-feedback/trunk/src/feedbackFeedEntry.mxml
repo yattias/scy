@@ -45,7 +45,7 @@
 					dico["comment"] = replyArea.text;
 					var ELOnewURL:String = ELOnewURL;
 					trace(XMLUtilJer.getReplyFeedBackXML(dico));
-					//ELOnewURL = new AutoSaveService(so.data.savereplyfeedback+"?replyfeedbackURI="+uri+"&feedbackURI="+feedbackURI+"&xmlContent="+encodeURI(XMLUtilJer.getReplyFeedBackXML(dico)));
+					//ELOnewURL = new AutoSavefeService(so.data.savereplyfeedback+"?replyfeedbackURI="+uri+"&feedbackURI="+feedbackURI+"&xmlContent="+encodeURI(XMLUtilJer.getReplyFeedBackXML(dico)));
 					
 					var tEvent:RefreshEvent = new RefreshEvent(index.REFRESH_COMMAND, true);
 					tEvent.eloURI = ELOnewURL;
