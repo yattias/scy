@@ -38,7 +38,6 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.ScyToolsList;
 import eu.scy.client.desktop.scydesktop.scywindows.window.TopDrawer;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowChangesListener;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowContent;
-import eu.scy.client.desktop.scydesktop.scywindows.window.WindowMinimize;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowResize;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowRotate;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
@@ -192,7 +191,6 @@ public class StandardScyWindow extends ScyWindow {
             newContentWidth = desiredContentWidth;
             newContentHeight = desiredContentHeight;
          }
-
          allowResize = true;
       } else {
          allowResize = false;
@@ -586,6 +584,7 @@ public class StandardScyWindow extends ScyWindow {
          closeTimeline.play();
       }
 
+      toBack();
       logger.debug("closed {title}");
    }
 
