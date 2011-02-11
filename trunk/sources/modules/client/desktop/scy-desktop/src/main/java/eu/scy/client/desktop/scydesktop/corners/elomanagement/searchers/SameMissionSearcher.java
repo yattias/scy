@@ -47,11 +47,11 @@ public class SameMissionSearcher implements EloBasedSearcher
    {
       if (findSame)
       {
-         return "findSameMission";
+         return "Find same mission";
       }
       else
       {
-         return "findOtherMission";
+         return "Find other mission";
       }
    }
 

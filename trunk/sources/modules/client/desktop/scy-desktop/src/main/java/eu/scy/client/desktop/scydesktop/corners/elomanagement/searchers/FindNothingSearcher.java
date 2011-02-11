@@ -26,7 +26,7 @@ public class FindNothingSearcher implements EloBasedSearcher {
    @Override
    public String getDisplayId()
    {
-      return "findNothing";
+      return "Find nothing";
    }
 
    @Override

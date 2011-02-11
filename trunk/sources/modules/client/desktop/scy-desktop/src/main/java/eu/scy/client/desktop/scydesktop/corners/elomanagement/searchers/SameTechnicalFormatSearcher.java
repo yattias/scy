@@ -42,7 +42,7 @@ public class SameTechnicalFormatSearcher implements EloBasedSearcher {
    @Override
    public String getDisplayId()
    {
-      return "findSameTechnicalFormat";
+      return "Find same technical format";
    }
 
    @Override
