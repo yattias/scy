@@ -192,4 +192,8 @@ public class LinkViewComponent extends JComponent {
 	public ILinkController getController() {
 		return controller;
 	}
+
+        public void setController(ILinkController controller) {
+            this.controller = controller;
+        }
 }
