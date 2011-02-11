@@ -37,6 +37,7 @@ public abstract class Drawer extends CustomNode {
    public var activate: function(): Void;
    public var handleNumber = 0;
    public var otherDrawers:Drawer[];
+   public var controlLetter = "";
    def sideContentBorder = 5.0;
    def topContentBorder = 5.0;
    def bottomContentBorder = 5.0;
@@ -149,6 +150,7 @@ public abstract class Drawer extends CustomNode {
    function createElements(): Void {
       openCloseControl = OpenDrawerControl {
             windowColorScheme: windowColorScheme
+            controlLetter:controlLetter
             size: closedSize
             onMouseClicked: function(e: MouseEvent): Void {
                opened = not opened;

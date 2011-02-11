@@ -18,6 +18,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Cursor;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
+import javafx.scene.text.Text;
+import javafx.scene.text.Font;
 
 /**
  * @author sikken
@@ -27,24 +29,45 @@ public class OpenDrawerControl extends WindowActiveElement {
    public-init var mainRadius = 5.0;
    public-init var secondRadius = 3.0;
    public-init var secondRadiusOffset = 6.5;
+   public var controlLetter = "R";
+   public var textRotate = 0;
 
    protected override var scaledTranslateXCorrection2 = 0;
    protected override var scaledTranslateYCorrection2 = 0;
 
    override public function create(): Node {
       def mainLineLength = size - 2 * mainRadius;
-      def mainSeparation = borderWidth+2.0;
-      def secondSeparation = borderWidth-0;
+      def mainSeparation = borderWidth+4.0;
+      def secondSeparation = borderWidth+2.0;
       Group {
          cursor: Cursor.HAND
          content: [
             Rectangle {
                x: borderWidth/2, y: -borderWidth/2
-               width: mainSeparation+mainRadius-borderWidth, height: size+borderWidth
-               fill: transparentColor
-//               fill: windowColorScheme.backgroundColor
+               width: mainSeparation, height: size+borderWidth
+               fill: bind windowColorScheme.backgroundColor
             }
-
+            Arc {
+               centerX: mainSeparation, centerY: mainRadius
+               radiusX: mainRadius, radiusY: mainRadius
+               startAngle: 0, length: 90
+               type: ArcType.ROUND
+               fill: bind windowColorScheme.backgroundColor
+               stroke: null
+            }
+             Rectangle {
+               x: mainSeparation, y: mainRadius
+               width: mainRadius, height: mainLineLength
+               fill: bind windowColorScheme.backgroundColor
+            }
+           Arc {
+               centerX: mainSeparation, centerY: mainRadius+mainLineLength
+               radiusX: mainRadius, radiusY: mainRadius
+               startAngle: 270, length: 90
+               type: ArcType.ROUND
+               fill: bind windowColorScheme.backgroundColor
+               stroke: null
+            }
             Arc {
                centerX: mainSeparation, centerY: mainRadius
                radiusX: mainRadius, radiusY: mainRadius
@@ -69,30 +92,46 @@ public class OpenDrawerControl extends WindowActiveElement {
                stroke: bind windowColorScheme.mainColor
                strokeWidth: borderWidth
             }
-            Arc {
-               centerX: secondSeparation, centerY: secondRadiusOffset
-               radiusX: secondRadius, radiusY: secondRadius
-               startAngle: 00, length: 60
-               type: ArcType.OPEN
-               fill: null
-               stroke: bind windowColorScheme.mainColor
-               strokeWidth: borderWidthSecondLine
+            Text {
+               rotate: bind textRotate
+               font:Font{
+                  size: 14
+               }
+               x: 1.5, y: size/2+4
+               content: controlLetter
+               fill: bind windowColorScheme.mainColor
             }
-            Line {
-               startX: secondRadius+secondSeparation, startY: secondRadiusOffset
-               endX: secondRadius+secondSeparation, endY: size-secondRadiusOffset
-               stroke: bind windowColorScheme.mainColor
-               strokeWidth: borderWidthSecondLine
+            Group{
+               visible: controlLetter==""
+               content:[
+                     Arc {
+                        centerX: secondSeparation, centerY: secondRadiusOffset
+                        radiusX: secondRadius, radiusY: secondRadius
+                        startAngle: 00, length: 60
+                        type: ArcType.OPEN
+                        fill: null
+                        stroke: bind windowColorScheme.mainColor
+                        strokeWidth: borderWidthSecondLine
+                     }
+                     Line {
+                        startX: secondRadius+secondSeparation, startY: secondRadiusOffset
+                        endX: secondRadius+secondSeparation, endY: size-secondRadiusOffset
+                        stroke: bind windowColorScheme.mainColor
+                        strokeWidth: borderWidthSecondLine
+                     }
+                     Arc {
+                        centerX: secondSeparation, centerY: size-secondRadiusOffset
+                        radiusX: secondRadius, radiusY: secondRadius
+                        startAngle: 300, length: 60
+                        type: ArcType.OPEN
+                        fill: null
+                        stroke: bind windowColorScheme.mainColor
+                        strokeWidth: borderWidthSecondLine
+                     }
+                  ]
             }
-            Arc {
-               centerX: secondSeparation, centerY: size-secondRadiusOffset
-               radiusX: secondRadius, radiusY: secondRadius
-               startAngle: 300, length: 60
-               type: ArcType.OPEN
-               fill: null
-               stroke: bind windowColorScheme.mainColor
-               strokeWidth: borderWidthSecondLine
-            }
+
+
          ]
          onMouseEntered: function (e: MouseEvent): Void {
             highLighted = true;
@@ -127,7 +166,9 @@ function run() {
          //      rotateWindow:this;
          layoutX: bind width;
          layoutY: 10;
+         textRotate:90
       }
+   openDrawerControl.textRotate = 180;
    def scale = 4.0;
    Stage {
       title: "Test open drawer control"

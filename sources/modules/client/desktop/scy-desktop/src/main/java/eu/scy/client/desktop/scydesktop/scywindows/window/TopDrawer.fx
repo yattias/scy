@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
+import javafx.scene.paint.Color;
 
 /**
  * @author sikkenj
@@ -49,7 +50,7 @@ public class TopDrawer extends Drawer{
 
 
 function run(){
-   var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
+   var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkBlue);
    def width = 100.0;
    def height = 100.0;
    def borderWidth = 2.0;
@@ -64,12 +65,22 @@ function run(){
          layoutX:100;
          layoutY:100
       }
+   var emptyWindow2 = EmptyWindow {
+         width: bind width;
+         height: bind height;
+         controlSize: cornerRadius;
+         borderWidth: borderWidth;
+         windowColorScheme: windowColorScheme
+         layoutX:250;
+         layoutY:100
+      }
 
       Stage {
       title : "Test bottom drawer"
       scene: Scene {
-         width: 300
-         height: 300
+         width: 400
+         height: 400
+         fill: Color.ORANGE
          content: [
              emptyWindow,
            TopDrawer{
@@ -79,6 +90,15 @@ function run(){
                layoutX:emptyWindow.layoutX+controlLength;
                layoutY:emptyWindow.boundsInParent.minY+borderWidth
                opened:true
+            }
+             emptyWindow2,
+           TopDrawer{
+               windowColorScheme: windowColorScheme
+               closedSize:30;
+               width:width-2*controlLength
+               layoutX:emptyWindow2.layoutX+controlLength;
+               layoutY:emptyWindow2.boundsInParent.minY+borderWidth
+               opened:false
             }
 
          ]
