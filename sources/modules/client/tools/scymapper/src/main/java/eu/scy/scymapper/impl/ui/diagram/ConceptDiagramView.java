@@ -30,6 +30,8 @@ import eu.scy.scymapper.api.diagram.model.IDiagramSelectionModel;
 import eu.scy.scymapper.api.diagram.model.ILinkModel;
 import eu.scy.scymapper.api.diagram.model.INodeLinkModel;
 import eu.scy.scymapper.api.diagram.model.INodeModel;
+import eu.scy.scymapper.api.diagram.view.LinkViewComponent;
+import eu.scy.scymapper.api.diagram.view.NodeViewComponent;
 import eu.scy.scymapper.impl.controller.DefaultElementControllerFactory;
 import eu.scy.scymapper.impl.controller.IElementControllerFactory;
 import eu.scy.scymapper.impl.model.ComboNodeLinkModel;
@@ -39,6 +41,7 @@ import eu.scy.scymapper.impl.ui.Localization;
 import eu.scy.scymapper.impl.ui.diagram.modes.ConnectMode;
 import eu.scy.scymapper.impl.ui.diagram.modes.DragMode;
 import eu.scy.scymapper.impl.ui.diagram.modes.IDiagramMode;
+import org.dom4j.util.NodeComparator;
 
 /**
  * Created by IntelliJ IDEA. User: Henrik Date: 23.jan.2009 Time: 06:40:09
@@ -99,6 +102,17 @@ public class ConceptDiagramView extends JLayeredPane implements IDiagramListener
 
     public void setElementControllerFactory(IElementControllerFactory factory) {
         elementControllerFactory = factory;
+        // Adapt controller for previously created nodes and links
+        for (int i = 0; i < getComponentCount(); i++) {
+            Component c = getComponent(i);
+            if (c instanceof NodeViewComponent) {
+                 NodeViewComponent nvc = (NodeViewComponent) c;
+                 nvc.setController(factory.createNodeController(nvc.getModel()));
+            } else if (c instanceof LinkViewComponent) {
+                 LinkViewComponent lvc = (LinkViewComponent) c;
+                 lvc.setController(factory.createLinkController(lvc.getModel()));
+            }
+        }
     }
 
     private void initializeGUI() {

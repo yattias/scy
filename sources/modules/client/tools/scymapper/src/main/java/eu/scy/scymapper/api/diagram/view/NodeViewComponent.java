@@ -50,6 +50,10 @@ public class NodeViewComponent extends JComponent {
 		return controller;
 	}
 
+        public void setController(INodeController controller) {
+            this.controller = controller;
+        }
+
 	public INodeModel getModel() {
 		return model;
 	}
