@@ -139,14 +139,14 @@ public class TopicModelTool {
 
 	public static void main(String[] args) throws IOException {
 		InputStream in = TopicModelTool.class
-				.getResourceAsStream("/mission1_texts/English/content.txt");
+				.getResourceAsStream("/mission2_texts/English/content.txt");
 		// .getResourceAsStream("/mission1_texts/Estonian/content.txt");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 		String line = "";
 		List<Reader> inputStreams = new ArrayList<Reader>();
 		while ((line = reader.readLine()) != null) {
 			inputStreams.add(new InputStreamReader(TopicModelTool.class
-					.getResourceAsStream("/mission1_texts/English/"
+					.getResourceAsStream("/mission2_texts/English/"
 							+ line.trim())));
 			// .getResourceAsStream("/mission1_texts/Estonian/"
 			// + line.trim())));
@@ -154,11 +154,11 @@ public class TopicModelTool {
 
 		TopicModelTool topicModelTool = new TopicModelTool();
 		topicModelTool.createTopicModel(inputStreams.toArray(new Reader[0]),
-				"en", "co2", 15);
+				"en", "eco", 15);
 		// "est", "co2", 15);
 
-		topicModelTool.upload("scy.collide.info", 2525, topicModelTool
-				.getName(), topicModelTool.getTopicModel());
+//		topicModelTool.upload("scy.collide.info", 2525, topicModelTool
+//				.getName(), topicModelTool.getTopicModel());
 		File file = new File("src/test/resources/models", topicModelTool
 				.getName());
 		// System.out.println(file.getAbsolutePath());
