@@ -14,7 +14,7 @@ public class BaseXMLTransfer {
     private String id;
 
     public BaseXMLTransfer() {
-        if(getId() == null) {
+        if(getId() == null || getId().equals("")) {
             this.id = UUID.randomUUID().toString();
         }
 

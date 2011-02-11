@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,35 +23,28 @@ import java.net.URISyntaxException;
  * Time: 13:15:01
  * To change this template use File | Settings | File Templates.
  */
-public class SaveFeedbackService extends XMLStreamerController {
+public class  SaveFeedbackService extends XMLStreamerController {
 
     private MissionELOService missionELOService;
 
     @Override
     protected Object getObjectToStream(HttpServletRequest request, HttpServletResponse httpServletResponse) {
         String feedbackURI = request.getParameter("feedbackURI");
-        String xmlContent = request.getParameter("xmlContent");
+        String xmlContentFromFlash = request.getParameter("xmlContent");
 
         logger.info("FeedbackURI " + feedbackURI);
-        logger.info("XML: " + xmlContent);
+        logger.info("XML FROM FLASH: " + xmlContentFromFlash);
 
-        FeedbackTransfer feedbackTransfer = (FeedbackTransfer) getXmlTransferObjectService().getObject(xmlContent);
+        FeedbackTransfer feedbackTransfer = (FeedbackTransfer) getXmlTransferObjectService().getObject(xmlContentFromFlash);
 
         try {
             URI uri = new URI(feedbackURI);
             ScyElo scyFeedbackElo = ScyElo.loadLastVersionElo(uri, getMissionELOService());
-            String originalXML = scyFeedbackElo.getContent().getXml();
+            String originalXMLFromFeedbackEloInRoolo = scyFeedbackElo.getContent().getXml();
 
-            logger.info("ORIGINAL XML: " + originalXML);
-            int firstIndex = originalXML.indexOf("<feedbackelo>");
-            int lastIndex = originalXML.indexOf("</content>");
-            if(firstIndex >= 0 && lastIndex >= 0) {
-                originalXML = originalXML.substring(firstIndex, lastIndex);
-            }
+            logger.info("ORIGINAL XML FROM FEEDBACK ELO (FROM ROOLO): " + originalXMLFromFeedbackEloInRoolo);
 
-            logger.info("CUT XML: " + originalXML);
-
-            FeedbackEloTransfer feedbackEloTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(originalXML);
+            FeedbackEloTransfer feedbackEloTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(originalXMLFromFeedbackEloInRoolo);
             feedbackEloTransfer.addFeedback(feedbackTransfer);
 
             String newXML = getXmlTransferObjectService().getXStreamInstance().toXML(feedbackEloTransfer);
@@ -77,4 +74,38 @@ public class SaveFeedbackService extends XMLStreamerController {
     public void setMissionELOService(MissionELOService missionELOService) {
         this.missionELOService = missionELOService;
     }
+
+    public String stripTags(String text, List<String> ignoreList) {
+        if (text == null) throw new IllegalArgumentException("StringUtil.stripTags called with null text");
+        String patternStr;
+        if ((ignoreList == null) || (ignoreList.size() == 0)) {
+            patternStr = "<[\\s\\S]+?>";
+        } else {
+            patternStr = "<(?!\\/?(";
+            for (int i = 0; i < ignoreList.size(); i++) {
+                if (i > 0)
+                    patternStr += "|";
+                String tag = ignoreList.get(i);
+                patternStr += "(?:" + tag + ")";
+            }
+            patternStr += ")\\b)[\\s\\S]+?>";
+        }
+        String replaceStr = "";
+        Pattern pattern = Pattern.compile(patternStr);
+        Matcher matcher = pattern.matcher(text);
+        String completedString = matcher.replaceAll(replaceStr);
+        completedString = removeAllTagAttributes(completedString);
+        //completedString = replaceWhitespaceProducedByIE60(completedString);
+        return completedString;
+    }
+
+    private String removeAllTagAttributes(String inputString) {
+        String patternString = "\\w+\\s*=\\s*\"[^\"]*\"";
+        String replaceString = "";
+        Pattern pattern = Pattern.compile(patternString);
+        Matcher matcher = pattern.matcher(inputString);
+        return matcher.replaceAll(replaceString);
+    }
+
+
 }

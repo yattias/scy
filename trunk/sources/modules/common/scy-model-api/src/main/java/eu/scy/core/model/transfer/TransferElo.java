@@ -391,8 +391,8 @@ public class TransferElo extends BaseXMLTransfer {
             StringWriter writer = new StringWriter();
             final HTMLEditorKit html_edit = new HTMLEditorKit();
             html_edit.write(writer, html_doc, 0, html_doc.getLength());
-            //System.out.println("PRODUCED HTML: " + writer.toString());
-            return writer.toString();
+            String raw =  writer.toString();
+            return URLEncoder.encode(raw, "UTF-8");
         } catch (Exception ex) {
             return txt;
         }
