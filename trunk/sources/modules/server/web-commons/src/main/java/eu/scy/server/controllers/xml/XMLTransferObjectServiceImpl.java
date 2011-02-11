@@ -148,6 +148,10 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
 
         xStream.aliasField("portfolioConfigService".toLowerCase(), ToolURLContainer.class, "portfolioConfigService");
         xStream.aliasField("actionLogger".toLowerCase(), ToolURLContainer.class, "actionLogger");
+        xStream.aliasField("newestElosFeedbackService".toLowerCase(), ToolURLContainer.class, "newestElosFeedbackService");
+        xStream.aliasField("feedbackEloService".toLowerCase(), ToolURLContainer.class, "feedbackEloService");
+        xStream.aliasField("retrieveSingleELOService".toLowerCase(), ToolURLContainer.class, "retrieveSingleELOService");
+        xStream.aliasField("AutoSaveService.as".toLowerCase(), ToolURLContainer.class, "AutoSaveService.as");
 
         xStream.aliasField("fullScreen".toLowerCase(), RawData.class, "fullScreen");
         xStream.aliasField("dataSet".toLowerCase(), RawData.class, "dataSet");

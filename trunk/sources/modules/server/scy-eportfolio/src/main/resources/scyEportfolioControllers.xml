@@ -72,6 +72,7 @@
     <bean id="feedbackIndexController" class="eu.scy.server.feedback.FeedbackIndexController">
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
+        <property name="userService" ref="userService"/>
 	</bean>
 
     <bean id="toolURLProvider" class="eu.scy.server.controllers.xml.ToolURLProvider">
