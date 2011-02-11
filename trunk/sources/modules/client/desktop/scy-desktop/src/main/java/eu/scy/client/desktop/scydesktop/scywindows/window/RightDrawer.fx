@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
+import javafx.scene.paint.Color;
 
 
 
@@ -47,7 +48,7 @@ public class RightDrawer extends Drawer{
 
 
 function run(){
-   var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
+   var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkBlue);
    def width = 100.0;
    def height = 100.0;
    def borderWidth = 2.0;
@@ -62,12 +63,22 @@ function run(){
          layoutX:100;
          layoutY:100
       }
+   var emptyWindow2 = EmptyWindow {
+         width: bind width;
+         height: bind height;
+         controlSize: cornerRadius;
+         borderWidth: borderWidth;
+         windowColorScheme: windowColorScheme
+         layoutX:100;
+         layoutY:250
+      }
 
       Stage {
       title : "Test right drawer"
       scene: Scene {
-         width: 300
-         height: 300
+         width: 400
+         height: 400
+         fill: Color.ORANGE
          content: [
             emptyWindow,
             RightDrawer{
@@ -83,6 +94,21 @@ function run(){
                layoutX:emptyWindow.boundsInParent.maxX-borderWidth/2
                layoutY:emptyWindow.boundsInParent.minY+borderWidth+controlLength
                opened:true
+            }
+            emptyWindow2,
+            RightDrawer{
+               windowColorScheme: windowColorScheme
+               closedSize:40;
+               content:Button {
+                     text: "Button"
+                     action: function() {
+
+                     }
+                  }
+               height:height-2*controlLength
+               layoutX:emptyWindow2.boundsInParent.maxX-borderWidth/2
+               layoutY:emptyWindow2.boundsInParent.minY+borderWidth+controlLength
+               opened:false
             }
 
          ]

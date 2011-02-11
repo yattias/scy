@@ -45,7 +45,7 @@ public class BottomDrawer extends Drawer{
 
 
 function run(){
-   var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
+   var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkBlue);
    def width = 100.0;
    def height = 100.0;
    def borderWidth = 2.0;
@@ -60,12 +60,22 @@ function run(){
          layoutX:100;
          layoutY:100
       }
+   var emptyWindow2 = EmptyWindow {
+         width: bind width;
+         height: bind height;
+         controlSize: cornerRadius;
+         borderWidth: borderWidth;
+         windowColorScheme: windowColorScheme
+         layoutX:250;
+         layoutY:100
+      }
 
       Stage {
       title : "Test bottom drawer"
       scene: Scene {
-         width: 300
-         height: 300
+         width: 400
+         height: 400
+         fill: Color.ORANGE
          content: [
             emptyWindow,
             BottomDrawer{
@@ -75,6 +85,21 @@ function run(){
                layoutX:emptyWindow.layoutX+controlLength;
                layoutY:emptyWindow.boundsInParent.maxY-borderWidth/2
                opened:true
+               content:Rectangle {
+                  x: 0, y: 0
+                  width: 60, height: 60
+                  fill: Color.RED
+               }
+
+            }
+            emptyWindow2,
+            BottomDrawer{
+               windowColorScheme: windowColorScheme
+               closedSize:20;
+               width:width-2*controlLength
+               layoutX:emptyWindow2.layoutX+controlLength;
+               layoutY:emptyWindow2.boundsInParent.maxY-borderWidth/2
+               opened:false
                content:Rectangle {
                   x: 0, y: 0
                   width: 60, height: 60
