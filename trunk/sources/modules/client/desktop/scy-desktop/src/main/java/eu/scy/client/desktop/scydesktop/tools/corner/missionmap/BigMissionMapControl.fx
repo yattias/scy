@@ -17,6 +17,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 import eu.scy.client.desktop.scydesktop.Initializer;
+import javafx.scene.control.Tooltip;
 
 /**
  * @author SikkenJ
@@ -57,6 +58,9 @@ public class BigMissionMapControl extends CustomNode {
          content: [
             MultiImageButton {
                imageName: "missionMap"
+               tooltip: Tooltip {
+                  text: bind missionModel.activeLas.title
+               }
                action: showBigMissionMap
             }
          ]
