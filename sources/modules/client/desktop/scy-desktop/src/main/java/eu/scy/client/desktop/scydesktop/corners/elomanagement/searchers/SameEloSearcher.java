@@ -26,7 +26,7 @@ public class SameEloSearcher implements EloBasedSearcher {
    @Override
    public String getDisplayId()
    {
-      return "findSameElo";
+      return "Find same ELO";
    }
 
    @Override

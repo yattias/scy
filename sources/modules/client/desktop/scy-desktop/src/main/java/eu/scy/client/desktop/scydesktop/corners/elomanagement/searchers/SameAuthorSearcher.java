@@ -44,7 +44,7 @@ public class SameAuthorSearcher implements EloBasedSearcher {
    @Override
    public String getDisplayId()
    {
-      return "findSameAuthor";
+      return "Find same author";
    }
 
    @Override
