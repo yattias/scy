@@ -7,6 +7,7 @@
 		<![CDATA[
 			import listeners.ImageMagEvent;
 			import listeners.RefreshEvent;
+			import listeners.SaveFeedbackEvent;
 			import listeners.ToggleEvent;
 			
 			import mx.collections.ArrayCollection;
@@ -17,7 +18,6 @@
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
 			
-			import utility.AutoSaveFeedbackService;
 			import utility.AutoSaveService;
 			import utility.XMLUtilJer;
 			
@@ -34,6 +34,7 @@
 			private var technicalformat:String;
 			private var rawdatatext:String;
 			private var rawdatafull:String;
+			private var xmlres:XML;
 			
 			private var objectsToTile:ArrayCollection;
 			private var so:SharedObject;
@@ -150,7 +151,7 @@
 					dico["comment"] = feedbackArea.text;
 					var ELOnewURL:String = feedbackURI;
 					
-					var ass:AutoSaveFeedbackService = new AutoSaveFeedbackService(so.data.savefeedback+"?feedbackURI="+feedbackURI+"&xmlContent="+encodeURI(XMLUtilJer.getFeedBackXML(dico)));
+					var ass:AutoSaveService = new AutoSaveService(so.data.savefeedback+"?feedbackURI="+feedbackURI+"&xmlContent="+encodeURI(XMLUtilJer.getFeedBackXML(dico)));
 					ass.httpService.addEventListener(ResultEvent.RESULT, AutoSaveService_resultHandler);
 					
 				}
@@ -158,12 +159,64 @@
 			
 			private function AutoSaveService_resultHandler(evt:ResultEvent):void {
 				feedbackArea.text = "";
-				fillValues(evt.result as XML);
+				var xml:XML= evt.result as XML;
+				feedbackText = xml.question;
+				shown = xml.shown;
+				eval = xml.evaluation;
+				score = xml.scor;
+				quality = xml.quality;
+				feedbackURI = xml.uri;
+				
+				objectsToTile = new ArrayCollection();
+				for each (var object:XML in xml.feedbacks.*) {
+					var fbe:feedbackFeedEntry;
+					if (object.name() == "feedback") {
+						fbe = new feedbackFeedEntry();
+						fbe.feedbackURI = feedbackURI;
+						fbe.uri = object.uri;
+						fbe.author = object.createdby;
+						fbe.postTime = object.calendartime;
+						fbe.postContent = object.comment;
+						fbe.postDate = object.calendardate;
+						fbe.repliesXML = new XML(object.replies);
+						objectsToTile.addItem(fbe);
+					}
+				}
+				buildTile();
 			}
 
 
 			protected function navigatorcontent1_creationCompleteHandler(event:FlexEvent):void {
 				this.addEventListener(index.REFRESH_COMMAND, refreshDisplay);
+				this.addEventListener(index.SAVEFEEDBACK_COMMAND, refreshReply);
+			}
+			
+			private function refreshReply(evt:SaveFeedbackEvent):void {
+				var xml:XML= evt.eloXML;
+				feedbackText = xml.question;
+				shown = xml.shown;
+				eval = xml.evaluation;
+				score = xml.scor;
+				quality = xml.quality;
+				feedbackURI = xml.uri;
+				
+				objectsToTile = new ArrayCollection();
+				for each (var object:XML in xml.feedbacks.*) {
+					var fbe:feedbackFeedEntry;
+					if (object.name() == "feedback") {
+						fbe = new feedbackFeedEntry();
+						fbe.feedbackURI = feedbackURI;
+						fbe.uri = object.uri;
+						fbe.author = object.createdby;
+						fbe.postTime = object.calendartime;
+						fbe.postContent = object.comment;
+						fbe.postDate = object.calendardate;
+						fbe.repliesXML = new XML(object.replies);
+						objectsToTile.addItem(fbe);
+					}
+				}
+
+				buildTile();
 			}
 			
 			private function refreshDisplay(evt:RefreshEvent):void {
@@ -180,7 +233,7 @@
 			}
 			
 			protected function retrieveSingleELOService_resultHandler(event:ResultEvent):void {
-				var xmlres:XML = event.result as XML;
+				xmlres = event.result as XML;
 				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
 					fillValues(xmlres.elo[1]);
 				}

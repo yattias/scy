@@ -6,6 +6,7 @@ package listeners
 	
 	public class RefreshEvent extends Event
 	{
+		public var eloXML:XML = null;
 		public var eloURI:String = null;
 		
 		public function RefreshEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)

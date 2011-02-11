@@ -175,23 +175,23 @@
 				var tEvent:ImageMagEvent = new ImageMagEvent(index.IMAGEMAG_COMMAND, true);
 				tEvent.showNow = true;
 				
-				if((so.data.searchSelection as XML).technicalformat == "scy/rtf") {
+				if(elo.technicalformat == "scy/rtf") {
 					tEvent.evtType = index.ZOOM_TYPE_RICHTEXT;
 					tEvent.rtf = elo.rawdata.text.toString();
 				}
-				else if((so.data.searchSelection as XML).technicalformat == "scy/model") {
+				else if(elo.technicalformat == "scy/model") {
 					tEvent.evtType = index.ZOOM_TYPE_IMAGE;
 					tEvent.imageSource = elo.rawdata.fullscreen.toString();
 				}
-				else if((so.data.searchSelection as XML).technicalformat == "scy/pds") {
+				else if(elo.technicalformat == "scy/pds") {
 					tEvent.evtType = index.ZOOM_TYPE_IMAGE;
 					tEvent.imageSource = elo.rawdata.fullscreen.toString();
 				}
-				else if((so.data.searchSelection as XML).technicalformat == "scy/xproc") {
+				else if(elo.technicalformat == "scy/xproc") {
 					tEvent.evtType = index.ZOOM_TYPE_IMAGE;
 					tEvent.imageSource = elo.rawdata.fullscreen.toString();
 				}
-				else if((so.data.searchSelection as XML).technicalformat == "scy/xproc") {
+				else if(elo.technicalformat == "scy/xproc") {
 					tEvent.evtType = index.ZOOM_TYPE_IMAGE;
 					tEvent.imageSource = elo.rawdata.fullscreen.toString();
 				}

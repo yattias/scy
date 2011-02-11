@@ -85,6 +85,7 @@
 			public static const STACK_INTRO_PANEL:Number = 1;
 			public static const STACK_FEEDBACK_PANEL:Number = 2;
 			
+			public static const SAVEFEEDBACK_COMMAND:String = "refreshreplyevent";
 			public static const REFRESH_COMMAND:String = "refreshevent";
 			public static const IMAGEMAG_COMMAND:String = "toggleImageMag";
 			public static const TOGGLE_COMMAND:String = "toggleStack";
@@ -369,7 +370,7 @@
 			<local:enterFeedbackCanvas id="enterFeedback" width="100%" height="100%" showEffect="{showEffect}" />
 		</mx:ViewStack>
 		<s:Image id="animateImage" visible="false" includeInLayout="false" />
-		<s:Label fontSize="8" right="0" bottom="0" text="v.2.0" />
+		<s:Label fontSize="8" right="0" bottom="0" text="v.2.1" />
 	</s:Group>
 	
 	<s:BorderContainer id="maxImage" visible="false" alpha="0" showEffect="{fadeInIm}" hideEffect="{fadeOutIm}" width="100%" height="100%" backgroundColor="#000000" backgroundAlpha=".7" cornerRadius="0">

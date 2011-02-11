@@ -126,23 +126,24 @@
 			protected function image1_clickHandler(event:MouseEvent):void {
 				var tEvent:ImageMagEvent = new ImageMagEvent(index.IMAGEMAG_COMMAND, true);
 				tEvent.showNow = true;
-				if((so.data.searchSelection as XML).technicalformat == "scy/rtf") {
+				var ob:Object = so.data.searchSelection;
+				if(eloXML.technicalformat == "scy/rtf") {
 					tEvent.evtType = index.ZOOM_TYPE_RICHTEXT;
 					tEvent.rtf = eloXML.rawdata.text.toString();
 				}
-				else if((so.data.searchSelection as XML).technicalformat == "scy/model") {
+				else if(eloXML.technicalformat == "scy/model") {
 					tEvent.evtType = index.ZOOM_TYPE_IMAGE;
 					tEvent.imageSource = eloXML.rawdata.fullscreen.toString();
 				}
-				else if((so.data.searchSelection as XML).technicalformat == "scy/pds") {
+				else if(eloXML.technicalformat == "scy/pds") {
 					tEvent.evtType = index.ZOOM_TYPE_IMAGE;
 					tEvent.imageSource = eloXML.rawdata.fullscreen.toString();
 				}
-				else if((so.data.searchSelection as XML).technicalformat == "scy/xproc") {
+				else if(eloXML.technicalformat == "scy/xproc") {
 					tEvent.evtType = index.ZOOM_TYPE_IMAGE;
 					tEvent.imageSource = eloXML.rawdata.fullscreen.toString();
 				}
-				else if((so.data.searchSelection as XML).technicalformat == "scy/xproc") {
+				else if(eloXML.technicalformat == "scy/xproc") {
 					tEvent.evtType = index.ZOOM_TYPE_IMAGE;
 					tEvent.imageSource = eloXML.rawdata.fullscreen.toString();
 				}

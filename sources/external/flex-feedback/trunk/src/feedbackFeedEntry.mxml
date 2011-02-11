@@ -10,7 +10,9 @@
 			
 			import mx.core.FlexGlobals;
 			import mx.events.ValidationResultEvent;
+			import mx.rpc.events.ResultEvent;
 			
+			import utility.AutoSaveService;
 			import utility.XMLUtilJer;
 			[Bindable] public var feedbackURI:String;
 			[Bindable] public var uri:String;
@@ -44,13 +46,18 @@
 					dico["author"] = FlexGlobals.topLevelApplication.parameters.username;
 					dico["comment"] = replyArea.text;
 					var ELOnewURL:String = ELOnewURL;
-					trace(XMLUtilJer.getReplyFeedBackXML(dico));
-					//ELOnewURL = new AutoSavefeService(so.data.savereplyfeedback+"?replyfeedbackURI="+uri+"&feedbackURI="+feedbackURI+"&xmlContent="+encodeURI(XMLUtilJer.getReplyFeedBackXML(dico)));
 					
-					var tEvent:RefreshEvent = new RefreshEvent(index.REFRESH_COMMAND, true);
-					tEvent.eloURI = ELOnewURL;
-					dispatchEvent(tEvent);
+					var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+					var ass:AutoSaveService = new AutoSaveService(so.data.savereplyfeedback+"?replyfeedbackURI="+uri+"&feedbackURI="+feedbackURI+"&xmlContent="+encodeURI(XMLUtilJer.getReplyFeedBackXML(dico)));
+					ass.httpService.addEventListener(ResultEvent.RESULT, AutoSaveService_resultHandler);
 				}
+			}
+			
+			private function AutoSaveService_resultHandler(evt:ResultEvent):void {
+				replyArea.text = "";
+				var tEvent:RefreshEvent = new RefreshEvent(index.SAVEFEEDBACK_COMMAND, true);
+				tEvent.eloXML = evt.result as XML;
+				dispatchEvent(tEvent);
 			}
 
  		]]>
