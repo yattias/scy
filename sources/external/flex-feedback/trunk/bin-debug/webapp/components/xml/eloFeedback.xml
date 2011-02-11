@@ -1,47 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feedbackelo>
-    <uri><![CDATA[123456]]></uri>
-    <elouri><![CDATA[123456]]></elouri>
-    <question><![CDATA[some text]]></question>
+    <createdby><![CDATA[digital]]></createdby>
+    <createdbypicture><![CDATA[]]></createdbypicture>
+    <calendardate><![CDATA[11/02/2011]]></calendardate>
+    <calendartime><![CDATA[04:52]]></calendartime>
+    <uri><![CDATA[roolo://scy.collide.info/scy-collide-server/33210.33210#0]]></uri>
     <shown><![CDATA[0]]></shown>
     <evaluation><![CDATA[0]]></evaluation>
     <score><![CDATA[0]]></score>
-    <quality><![CDATA[-]]></quality>
-    <feedbacks>
-        <feedback>
-            <uri><![CDATA[12]]></uri>
-            <createdby><![CDATA[Vibeke]]></createdby>
-            <createdbypicture></createdbypicture>
-            <calendardate><![CDATA[06/01/2011]]></calendardate>
-            <calendartime><![CDATA[12:12]]></calendartime>
-            <comment><![CDATA[I think that it is a bit cold to have only 19 degrees inside the house!!]]></comment>
-            <replies>
-                <reply>
-                    <createdby><![CDATA[Isabelle]]></createdby>
-                    <createdbypicture></createdbypicture>
-                    <calendardate><![CDATA[06/01/2011]]></calendardate>
-                    <calendartime><![CDATA[15:12]]></calendartime>
-                    <comment><![CDATA[Nah, 19 is just fine!!]]></comment>
-                </reply>
+    <quality><![CDATA[3]]></quality>
+    <question><![CDATA[Henrik really rocks!]]></question>
+    <feedbacks class="portfolios">  
+        <feedback>      
+            <id>f5f1ce25-9711-4506-9afc-12ff7748388c</id>    
+            <createdby><![CDATA[wouter]]></createdby>    
+            <calendardate><![CDATA[42.02.2011]]></calendardate>    
+            <calendartime><![CDATA[12:13]]></calendartime>    
+            <comment><![CDATA[A COMMENT MAN!]]></comment>
+            <replies class="portfolios">    
+                <reply>          
+                    <id>529d29a4-2d2d-445c-b7e6-ef836c1295e9</id>        
+                    <createdby><![CDATA[adam]]></createdby>        
+                    <calendardate><![CDATA[42.02.2011]]></calendardate>        
+                    <calendartime><![CDATA[15:30]]></calendartime>        
+                    <comment><![CDATA[This is totally bull!]]></comment>        
+                </reply>    
             </replies>
-        </feedback>
-        <feedback>
-            <uri><![CDATA[34]]></uri>
-            <createdby><![CDATA[Barbara]]></createdby>
-            <createdbypicture></createdbypicture>
-            <calendardate><![CDATA[02/01/2011]]></calendardate>
-            <calendartime><![CDATA[18:21]]></calendartime>
-            <comment><![CDATA[If you change the inside temperature to 23 degrees then the power consumption goes up …]]></comment>
-            <replies />
-        </feedback>
-        <feedback>
-            <uri><![CDATA[45]]></uri>
-            <createdby><![CDATA[Henrik]]></createdby>
-            <createdbypicture></createdbypicture>
-            <calendardate><![CDATA[01/01/2011]]></calendardate>
-            <calendartime><![CDATA[04:23]]></calendartime>
-            <comment><![CDATA[What a crappy design !!!]]></comment>
-            <replies />
         </feedback>
     </feedbacks>
 </feedbackelo>
