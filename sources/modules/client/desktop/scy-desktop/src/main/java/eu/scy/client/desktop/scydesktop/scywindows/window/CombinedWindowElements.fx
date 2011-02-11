@@ -60,7 +60,6 @@ public class CombinedWindowElements extends ScyWindow {
    var resizeElement: WindowResize;
    var rotateElement: WindowRotate;
    var closeElement: WindowClose;
-   var minimizeElement: WindowMinimize;
    var windowStateControls: WindowStateControls;
    var closedWindow: ClosedWindow;
    var mainContentGroup: Group;
@@ -353,28 +352,6 @@ public class CombinedWindowElements extends ScyWindow {
             layoutY: 1.5*borderWidth// + closeBoxSize / 2;
          }
 
-      minimizeElement = WindowMinimize {
-            visible: bind allowMinimize and not isClosed;
-            size: controlSize;
-            separatorLength: separatorLength
-            //         strokeWidth:controlStrokeWidth/2;
-            windowColorScheme: windowColorScheme
-            //         activate: activate;
-            //         minimizeAction:doMinimize;
-            //         unminimizeAction:doUnminimize;
-            minimized: bind isMinimized;
-            layoutX: bind width / 2;
-            layoutY: bind height;
-         }
-
-
-      // show a filled rect as content for test purposes
-//      scyContent = Rectangle {
-//         x: -100, y: -100
-//         width: 1000, height: 1000
-//         fill: Color.color(1,.25,.25,.75)
-//      }
-
       def closedGroup = Group{
          visible: bind isClosed
          content:[
@@ -409,7 +386,6 @@ public class CombinedWindowElements extends ScyWindow {
                   contentElement,
                   drawerGroup,
                   windowTitleBar,
-                  minimizeElement,
                   resizeElement,
                   rotateElement,
 
