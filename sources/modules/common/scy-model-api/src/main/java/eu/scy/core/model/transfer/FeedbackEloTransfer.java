@@ -24,6 +24,7 @@ public class FeedbackEloTransfer extends BaseXMLTransfer {
     private String evaluation;
     private String score;
     private String quality;
+    private String question;
 
     private List feedbacks = new LinkedList();
 
@@ -120,5 +121,13 @@ public class FeedbackEloTransfer extends BaseXMLTransfer {
     public void addFeedback(FeedbackTransfer feedback) {
         getFeedbacks().add(feedback);
         
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
     }
 }

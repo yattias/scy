@@ -11,6 +11,11 @@
                 </td>
             </tr>
             <tr class="${oddEven.oddEven}">
+                <td colspan="2">
+                    <a href="${descriptionUrl}" target="_blank">Read the mission description</a>
+                </td>
+            </tr>
+            <tr class="${oddEven.oddEven}">
                 <td>
                     <a href="/webapp/app/eportfolio/EPortfolioIndex.html?eloURI=${missionSpecificationTransporter.uri}">Open my portfolio</a>
                 </td>

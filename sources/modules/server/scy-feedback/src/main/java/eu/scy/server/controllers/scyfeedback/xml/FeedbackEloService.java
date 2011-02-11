@@ -39,16 +39,23 @@ public class FeedbackEloService extends XMLStreamerController {
 
                 feedbackRepresentation = feedbackRepresentation.replaceAll("<feedback>", "<feedbackelo>");
                 feedbackRepresentation = feedbackRepresentation.replaceAll("</feedback>", "</feedbackelo>");
+                feedbackRepresentation = feedbackRepresentation.replaceAll("<comment>", "<question>");
+                feedbackRepresentation = feedbackRepresentation.replaceAll("</comment>", "</question>");
 
                 logger.info("WASHED ELOSTRING: " + feedbackRepresentation);
 
                 FeedbackEloTransfer feedbackEloTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(feedbackRepresentation);
                 feedbackEloTransfer.setUri(fURI);
+                feedbackEloTransfer.setScore("0");
+                feedbackEloTransfer.setQuality("0");
+                feedbackEloTransfer.setShown("0");
+                feedbackEloTransfer.setEvaluation("0");
 
                 FeedbackTransfer feedbackTransfer = new FeedbackTransfer();
                 feedbackTransfer.setCreatedBy("wouter");
                 SimpleDateFormat format = new SimpleDateFormat("DD.MM.yyyy");
                 feedbackTransfer.setCalendarDate(format.format(new Date()));
+                feedbackTransfer.setCalendarTime("12:13");
                 feedbackTransfer.setComment("A COMMENT MAN!");
 
                 FeedbackReplyTransfer reply = new FeedbackReplyTransfer();
@@ -56,7 +63,9 @@ public class FeedbackEloService extends XMLStreamerController {
                 reply.setComment("This is totally bull!");
                 reply.setComment("This is totally bull!");
                 reply.setCalendarDate(format.format(new Date()));
+                reply.setCalendarTime("15:30");
                 feedbackTransfer.addReply(reply);
+
 
                 feedbackEloTransfer.addFeedback(feedbackTransfer);
 
