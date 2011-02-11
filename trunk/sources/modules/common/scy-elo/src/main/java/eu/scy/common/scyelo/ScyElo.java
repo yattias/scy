@@ -548,47 +548,11 @@ public class ScyElo {
            binaryMetadataValue.setBytes(bytes);
            binaryMetadataValue.setMimeType(thumbnailPngType);
            getMetadataValueContainer(thumbnailKey).setValue(binaryMetadataValue);
-           logger.info("metadata xml after set thumbnail:\n" + getMetadata().getXml());
+//           logger.info("metadata xml after set thumbnail:\n" + getMetadata().getXml());
        } catch (IOException e) {
            throw new IllegalArgumentException("problems with thumbnail, " + e.getMessage(), e);
        }
    }
-
-//    public BufferedImage getThumbnail() {
-//       checkForCompleteElo();
-//       IResource thumbnailResource = elo.getResource(thumbnailResourceName);
-//       if (thumbnailResource == null) {
-//           return null;
-//       }
-//       ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(thumbnailResource.getBytes());
-//       try {
-//           return ImageIO.read(byteArrayInputStream);
-//       } catch (IOException e) {
-//           throw new ResourceException("problem with ", e);
-//       }
-//   }
-//
-//    public void setThumbnail(BufferedImage thumbnail) {
-//        if (thumbnail == null) {
-//            checkForCompleteElo();
-//            elo.deleteResource(thumbnailResourceName);
-//            logger.info("setThumbnail(): nr of bytes: null");
-//        }
-//        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-//        try {
-//            ImageIO.write(thumbnail, thumbnailPngType, byteArrayOutputStream);
-//            IResource thumbnailResource = rooloServices.getELOFactory().createResource(
-//                    thumbnailResourceName);
-//            byte[] bytes = byteArrayOutputStream.toByteArray();
-//            logger.info("setThumbnail(): nr of bytes: " + bytes.length);
-//            thumbnailResource.setBytes(bytes);
-//            thumbnailResource.setTechnicalFormat(thumbnailScyPngType);
-//            checkForCompleteElo();
-//            elo.addResource(thumbnailResource);
-//        } catch (IOException e) {
-//            throw new IllegalArgumentException("problems with thumbnail, " + e.getMessage(), e);
-//        }
-//    }
 
     public String getLasId() {
         return (String) getMetadataValueContainer(lasKey).getValue();
