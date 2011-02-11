@@ -330,7 +330,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
 
     function positionWindowsInArea(windowList:ScyWindow[], area:Rectangle, maxColumns:Integer) {
         var topOffset = 0.0;
-        var padding = 90.0;
+        var padding = 110.0;
         // positioning incoming
         var numberOfWindows = sizeof windowList;
         var columns = maxColumns;
@@ -513,7 +513,6 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         for (window in otherWindows) {
             windowStates.persistWindowState(window);
         }
-        def xml: String = windowStates.getXml();
         return windowStates;
     }
 }
