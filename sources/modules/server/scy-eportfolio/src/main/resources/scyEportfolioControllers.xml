@@ -61,6 +61,8 @@
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
         <property name="userService" ref="userService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="runtimeELOService" ref="runtimeELOService"/> 
 	</bean>
 
     <bean id="assessmentIndexController" class="eu.scy.server.assessment.AssessmentIndex">

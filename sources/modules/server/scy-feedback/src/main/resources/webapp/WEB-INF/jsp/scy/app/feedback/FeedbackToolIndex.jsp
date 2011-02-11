@@ -2,7 +2,6 @@
 <tiles:insertDefinition name="default-page">
     <tiles:putAttribute name="main">
 
-        <a href="${toolURLProvider}">ToolURLProvider</a>
         <link rel="stylesheet" type="text/css" href="http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/history/history.css" />
         <script type="text/javascript" src="http://www.intermedia.uio.no/www-data-public/app-scy/eportfolio/history/history.js"></script>
         <!-- END Browser History required section -->
@@ -19,7 +18,7 @@
             flashvars.lastName = "${currentUser.userDetails.lastName}";
             flashvars.toolURLProvider = "${toolURLProvider}";
             flashvars.missionURI = "${missionURI}";
-            flashvars.language = "${language''}";
+            flashvars.language = "${language}";
             var params = {};
             params.quality = "high";
             params.bgcolor = "#ffffff";
