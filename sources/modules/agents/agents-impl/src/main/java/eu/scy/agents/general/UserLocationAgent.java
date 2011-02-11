@@ -104,7 +104,7 @@ public class UserLocationAgent extends AbstractRequestAgent {
 			try {
 				Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 3);
 			} catch (InterruptedException e) {
-				throw new AgentLifecycleException(e.getMessage());
+				throw new AgentLifecycleException(e.getMessage(), e);
 			}
 		}
 	}
@@ -193,9 +193,7 @@ public class UserLocationAgent extends AbstractRequestAgent {
 			String user) {
 		UserLocationInfoMap userLocationInfoMap = getUserLocationInfoMap(mission);
 		if (userLocationInfoMap == null) {
-			LOGGER
-					.debug("did not find any information for mission: "
-							+ mission);
+			LOGGER.debug("did not find any information for mission: " + mission);
 			return;
 		}
 		UserLocationInfo userInfo = userLocationInfoMap.getUserInfo(user);
@@ -220,9 +218,7 @@ public class UserLocationAgent extends AbstractRequestAgent {
 			String parameter) {
 		UserLocationInfoMap userLocationInfoMap = getUserLocationInfoMap(mission);
 		if (userLocationInfoMap == null) {
-			LOGGER
-					.debug("did not find any information for mission: "
-							+ mission);
+			LOGGER.debug("did not find any information for mission: " + mission);
 			return;
 		}
 		List<String> usersInLas = userLocationInfoMap.getUserInLas(parameter);

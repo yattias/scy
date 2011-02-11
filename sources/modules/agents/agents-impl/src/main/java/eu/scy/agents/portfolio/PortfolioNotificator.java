@@ -125,13 +125,12 @@ public class PortfolioNotificator extends AbstractThreadedAgent {
 				Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 2);
 			}
 		} catch (Exception e) {
-			LOGGER.fatal("*************** " + e.getMessage());
+			LOGGER.fatal("*************** " + e.getMessage(), e);
 			e.printStackTrace();
 			throw new AgentLifecycleException(e.getMessage(), e);
 		}
 		if (this.status != Status.Stopping) {
-			LOGGER
-					.warn("************** Agent not stopped but run loop terminated *****************1");
+			LOGGER.warn("************** Agent not stopped but run loop terminated *****************1");
 		}
 	}
 
@@ -149,8 +148,9 @@ public class PortfolioNotificator extends AbstractThreadedAgent {
 			this.getActionSpace().eventDeRegister(this.eloIsAssessedlistenerId);
 			this.eloIsAssessedlistenerId = -1;
 		} catch (TupleSpaceException e) {
-			LOGGER.fatal("Could not deregister tuple space listener: "
-					+ e.getMessage());
+			LOGGER.fatal(
+					"Could not deregister tuple space listener: "
+							+ e.getMessage(), e);
 		}
 	}
 
@@ -205,9 +205,7 @@ public class PortfolioNotificator extends AbstractThreadedAgent {
 				ELO_ADDED_TO_PORTFOLIO, action);
 		try {
 			if (!getCommandSpace().delete(eloAddedTuple)) {
-				LOGGER
-						.info("tuple " + eloAddedTuple
-								+ " could not be deleted.");
+				LOGGER.info("tuple " + eloAddedTuple + " could not be deleted.");
 			}
 			Tuple eloIsAssessedTuple = createAssessmentNotificationTuple(
 					ELO_IS_ASSESSED, action);

@@ -86,8 +86,8 @@ public class ExtractKeyphrasesAgent extends AbstractRequestAgent {
 		workflowProperties.setProperty(WikiParameters.MIN_TOKEN_LENGTH,
 				new Integer(1).toString());
 		/** indicator of whether the tokens should be transformed to lower case */
-		workflowProperties.setProperty(WikiParameters.TO_LOWER, Boolean.FALSE
-				.toString());
+		workflowProperties.setProperty(WikiParameters.TO_LOWER,
+				Boolean.FALSE.toString());
 
 		/** minimum number of tokens that a n-gram must have */
 		workflowProperties.setProperty(WikiParameters.MIN_NGRAM_TOKENS,
@@ -129,8 +129,8 @@ public class ExtractKeyphrasesAgent extends AbstractRequestAgent {
 				0.0f).toString());
 		/** normalize all informativeness values */
 		workflowProperties.setProperty(
-				WikiParameters.NORMALIZE_INFORMATIVENESS, Boolean.FALSE
-						.toString());
+				WikiParameters.NORMALIZE_INFORMATIVENESS,
+				Boolean.FALSE.toString());
 		/** square informativeness values to avoid negative values */
 		workflowProperties.setProperty(WikiParameters.SQUARE_INFORMATIVENESS,
 				Boolean.FALSE.toString());
@@ -153,7 +153,7 @@ public class ExtractKeyphrasesAgent extends AbstractRequestAgent {
 			try {
 				Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 3);
 			} catch (InterruptedException e) {
-				throw new AgentLifecycleException(e.getMessage());
+				throw new AgentLifecycleException(e.getMessage(), e);
 			}
 		}
 	}

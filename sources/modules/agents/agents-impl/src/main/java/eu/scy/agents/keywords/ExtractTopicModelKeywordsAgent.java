@@ -67,7 +67,7 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 			try {
 				Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 3);
 			} catch (InterruptedException e) {
-				throw new AgentLifecycleException(e.getMessage());
+				throw new AgentLifecycleException(e.getMessage(), e);
 			}
 		}
 	}
@@ -110,7 +110,7 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 			Document doc = (Document) result.get(ObjectIdentifiers.DOCUMENT);
 			return doc.getFeature(KeywordWorkflowConstants.TM_KEYWORDS);
 		} catch (RuntimeException e) {
-			logger.fatal(e.getMessage());
+			logger.fatal(e.getMessage(), e);
 			e.printStackTrace();
 			return new HashSet<String>();
 		}
