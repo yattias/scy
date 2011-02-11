@@ -20,8 +20,8 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 	// <User>:String, <Tool>:String,
 	// <Mission>:String, <Session>:String, <Key=Value>:String*)
 	private Tuple eloSavedTupleTemplate = new Tuple(AgentProtocol.ACTION,
-			String.class, Long.class, AgentProtocol.ACTION_ELO_SAVED, Field
-					.createWildCardField());
+			String.class, Long.class, AgentProtocol.ACTION_ELO_SAVED,
+			Field.createWildCardField());
 
 	private static final Logger logger = Logger
 			.getLogger(AbstractELOSavedAgent.class.getName());
@@ -68,7 +68,8 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 			try {
 				this.getActionSpace().eventDeRegister(this.listenerId);
 			} catch (TupleSpaceException e) {
-				logger.log(Level.SEVERE, e.getMessage());
+				e.printStackTrace();
+				logger.severe(e.getMessage());
 			}
 		}
 		logger.log(Level.FINE, this.name + " stopped");
@@ -87,7 +88,6 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 	@Override
 	public void call(Command command, int seq, Tuple afterTuple,
 			Tuple beforeTuple) {
-		System.err.println("Processing tuple");
 		if (this.listenerId != seq) {
 			// If a callback arrives here that wasn't registered from this class
 			// it is passed to the
@@ -98,20 +98,21 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 		}
 		IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
 		if (!AgentProtocol.ACTION_ELO_SAVED.equals(action.getType())) {
-			logger
-					.warning("Trying to process action log that does not match elo_save signature. Type: "
-							+ action.getType());
+			logger.warning("Trying to process action log that does not match elo_save signature. Type: "
+					+ action.getType());
 		} else {
-			this.processELOSavedAction(action.getId(), action.getUser(), action
-					.getTimeInMillis(), action
-					.getContext(ContextConstants.tool), action
-					.getContext(ContextConstants.mission), action
-					.getContext(ContextConstants.session),
-                                        //action.getContext(ContextConstants.eloURI),
-                                        // getting the eloUri from the properties, not from the
-                                        // context-constants
-                                        action.getAttribute(AgentProtocol.ACTIONLOG_ELO_URI),
-                                        action.getAttribute(AgentProtocol.ACTIONLOG_ELO_TYPE));
+			this.processELOSavedAction(
+					action.getId(),
+					action.getUser(),
+					action.getTimeInMillis(),
+					action.getContext(ContextConstants.tool),
+					action.getContext(ContextConstants.mission),
+					action.getContext(ContextConstants.session),
+					// action.getContext(ContextConstants.eloURI),
+					// getting the eloUri from the properties, not from the
+					// context-constants
+					action.getAttribute(AgentProtocol.ACTIONLOG_ELO_URI),
+					action.getAttribute(AgentProtocol.ACTIONLOG_ELO_TYPE));
 		}
 	}
 
