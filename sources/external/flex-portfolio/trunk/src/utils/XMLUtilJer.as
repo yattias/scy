@@ -122,7 +122,7 @@ package utils
 			newELO.technicalformat = <technicalformat>{cdata(ob.technicalformat)}</technicalformat>;
 			newELO.rawdata = <rawdata />;
 			newELO.rawdata.id = <id>{cdata(ob.rawdataid)}</id>;
-			newELO.rawdata.text = <text>{cdata(ob.rawdatatext)}</text>;
+			newELO.rawdata.text = <text>{cdata(cleanHTML(ob.rawdatatext))}</text>;
 			newELO.rawdata.thumbnail = <thumbnail>{cdata(ob.rawdatathumb)}</thumbnail>;
 			newELO.rawdata.fullscreen = <fullscreen>{cdata(ob.rawdatafull)}</fullscreen>;
 			newELO.rawdata.dataset = <dataset>{cdata(ob.rawdatadataset)}</dataset>;

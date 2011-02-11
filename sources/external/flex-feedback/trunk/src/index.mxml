@@ -121,6 +121,7 @@
 			private var toolURLProvider:XML;
 			
 			protected function application1_applicationCompleteHandler(event:FlexEvent):void {
+				trace("fucking awesome shizzle");
 				retrieveUserInfo();
 				this.addEventListener(TOGGLE_COMMAND, ToggleStack);
 				this.addEventListener(IMAGEMAG_COMMAND, ToggleImageMag);

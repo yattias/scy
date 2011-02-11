@@ -15,7 +15,7 @@
 			import utility.AutoSaveService;
 			import utility.XMLUtilJer;
 			[Bindable] public var feedbackURI:String;
-			[Bindable] public var uri:String;
+			[Bindable] public var idd:String;
 			[Bindable] public var author:String;
 			[Bindable] public var postTime:String;
 			[Bindable] public var postContent:String;
@@ -48,7 +48,7 @@
 					var ELOnewURL:String = ELOnewURL;
 					
 					var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
-					var ass:AutoSaveService = new AutoSaveService(so.data.savereplyfeedback+"?replyfeedbackURI="+uri+"&feedbackURI="+feedbackURI+"&xmlContent="+encodeURI(XMLUtilJer.getReplyFeedBackXML(dico)));
+					var ass:AutoSaveService = new AutoSaveService(so.data.savereplyfeedback+"?replyfeedbackID="+idd+"&feedbackURI="+feedbackURI+"&xmlContent="+encodeURI(XMLUtilJer.getReplyFeedBackXML(dico)));
 					ass.httpService.addEventListener(ResultEvent.RESULT, AutoSaveService_resultHandler);
 				}
 			}

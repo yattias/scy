@@ -3,6 +3,7 @@ package utility
 	import flash.utils.Dictionary;
 	
 	import mx.collections.ArrayCollection;
+	import mx.utils.UIDUtil;
 
 	public class XMLUtilJer
 	{
@@ -178,7 +179,9 @@ package utility
 		
 		public static function getFeedBackXML(dic:Dictionary):XML {
 			var my_date:Date = new Date();
+			var uuid:String = UIDUtil.createUID(); 
 			var XMLfeed:XML = <feedback />;
+			XMLfeed.id = <id>{uuid}</id>
 			XMLfeed.createdby = <createdby>{cdata(dic["author"])}</createdby>;
 			XMLfeed.createdbypicture = <createdbypicture />;
 			XMLfeed.calendardate = <calendardate>{cdata(getFormattedDate(my_date))}</calendardate>;

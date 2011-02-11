@@ -83,29 +83,7 @@
 			
 			protected function eloFeedback_resultHandler(event:ResultEvent):void {
 				var xml:XML= event.result as XML;
-				feedbackText = xml.question;
-				shown = xml.shown;
-				eval = xml.evaluation;
-				score = xml.scor;
-				quality = xml.quality;
-				feedbackURI = xml.uri;
-				
-				objectsToTile = new ArrayCollection();
-				for each (var object:XML in xml.feedbacks.*) {
-					var fbe:feedbackFeedEntry;
-					if (object.name() == "feedback") {
-						fbe = new feedbackFeedEntry();
-						fbe.feedbackURI = feedbackURI;
-						fbe.uri = object.uri;
-						fbe.author = object.createdby;
-						fbe.postTime = object.calendartime;
-						fbe.postContent = object.comment;
-						fbe.postDate = object.calendardate;
-						fbe.repliesXML = new XML(object.replies);
-						objectsToTile.addItem(fbe);
-					}
-				}
-				buildTile();
+				refreshOverallDisplay(xml);
 			}
 			
 			private function buildTile():void {
@@ -160,6 +138,10 @@
 			private function AutoSaveService_resultHandler(evt:ResultEvent):void {
 				feedbackArea.text = "";
 				var xml:XML= evt.result as XML;
+				refreshOverallDisplay(xml);
+			}
+			
+			private function refreshOverallDisplay(xml):void {
 				feedbackText = xml.question;
 				shown = xml.shown;
 				eval = xml.evaluation;
@@ -173,7 +155,7 @@
 					if (object.name() == "feedback") {
 						fbe = new feedbackFeedEntry();
 						fbe.feedbackURI = feedbackURI;
-						fbe.uri = object.uri;
+						fbe.idd = object.id;
 						fbe.author = object.createdby;
 						fbe.postTime = object.calendartime;
 						fbe.postContent = object.comment;
@@ -193,30 +175,7 @@
 			
 			private function refreshReply(evt:SaveFeedbackEvent):void {
 				var xml:XML= evt.eloXML;
-				feedbackText = xml.question;
-				shown = xml.shown;
-				eval = xml.evaluation;
-				score = xml.scor;
-				quality = xml.quality;
-				feedbackURI = xml.uri;
-				
-				objectsToTile = new ArrayCollection();
-				for each (var object:XML in xml.feedbacks.*) {
-					var fbe:feedbackFeedEntry;
-					if (object.name() == "feedback") {
-						fbe = new feedbackFeedEntry();
-						fbe.feedbackURI = feedbackURI;
-						fbe.uri = object.uri;
-						fbe.author = object.createdby;
-						fbe.postTime = object.calendartime;
-						fbe.postContent = object.comment;
-						fbe.postDate = object.calendardate;
-						fbe.repliesXML = new XML(object.replies);
-						objectsToTile.addItem(fbe);
-					}
-				}
-
-				buildTile();
+				refreshOverallDisplay(xml);
 			}
 			
 			private function refreshDisplay(evt:RefreshEvent):void {
@@ -273,7 +232,7 @@
 					</s:LinearGradient>
 				</s:backgroundFill>
 				
-				<s:Image source="assets/images/feed.png" alpha=".7" width="60" height="60" left="5" top="5" />
+				<s:Image source="{index.IMAGE_BASE_URL+'assets/images/feed.png'}" alpha=".7" width="60" height="60" left="5" top="5" />
 			</s:BorderContainer>	
 			<s:BorderContainer id="header" width="100%" height="70" borderStyle="solid" borderColor="{index.THEME_COL}">
 				<s:backgroundFill>
