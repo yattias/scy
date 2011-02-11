@@ -2,6 +2,7 @@ package eu.scy.roolows;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Locale;
 import java.util.Vector;
 
 import javax.ws.rs.Consumes;
@@ -73,18 +74,24 @@ public class QueryELO {
     public String andQueryAsXML(@Context UriInfo ui) {
         initMetadataKeys();
 
-        StringBuffer xmlString = new StringBuffer();
+        StringBuilder xmlString = new StringBuilder();
         List<ISearchResult> results = doAndQuery(ui);
         log.info("found " + results.size() + " hits");
         xmlString.append("<results count=\"" + results.size() + "\">");
         for (ISearchResult result : results) {
             xmlString.append("<elo>");
             xmlString.append("<uri>" + result.getUri() + "</uri>");
-            xmlString.append("<title>" + result.getTitle() + "</title>");
-            xmlString.append("<type>" + result.getType() + "</type>");
+            //FIXME hack!!!!111!1 introduce json fields to get the locale
+            String title = result.getTitle(result.getTitles().keySet().iterator().next());
+            xmlString.append("<title>" + title + "</title>");
+//            xmlString.append("<title>" + result.getTitle() + "</title>");
+            xmlString.append("<type>" + result.getTechnicalFormat() + "</type>");
             //FIXME not just returning the first author!!!
             xmlString.append("<author>" + result.getAuthors().get(0) + "</author>");
-            xmlString.append("<description>" + result.getDescription() + "</description>");
+            //FIXME hack!!!!111!1 introduce json fields to get the locale
+            String description = result.getDescription(result.getDescriptions().keySet().iterator().next());
+            xmlString.append("<description>" + description + "</description>");
+//            xmlString.append("<description>" + result.getDescription() + "</description>");
             xmlString.append("<relevance>" + result.getRelevance() + "</relevance>");
             xmlString.append("</elo>");
         }
@@ -114,11 +121,17 @@ public class QueryELO {
             for (ISearchResult result : results) {
                 JSONObject resultAsJson = new JSONObject();
                 resultAsJson.put("uri", result.getUri());
-                resultAsJson.put("title", result.getTitle());
-                resultAsJson.put("type", result.getType());
+                 //FIXME hack!!!!111!1 introduce json fields to get the locale
+                String title = result.getTitle(result.getTitles().keySet().iterator().next());
+                resultAsJson.put("title", title);
+//                resultAsJson.put("title", result.getTitle());
+                resultAsJson.put("type", result.getTechnicalFormat());
                 //FIXME Authors: not everytime just one!!!
                 resultAsJson.put("author", result.getAuthors().get(0));
-                resultAsJson.put("description", result.getDescription());
+                //FIXME hack!!!!111!1 introduce json fields to get the locale
+                String description = result.getDescription(result.getDescriptions().keySet().iterator().next());
+                resultAsJson.put("description", description);
+//                resultAsJson.put("description", result.getDescription());
                 resultAsJson.put("relevance", result.getRelevance());
                 resultAsJson.put("dateCreated", result.getDateCreated());
                 queriedURIs.put(resultAsJson);
