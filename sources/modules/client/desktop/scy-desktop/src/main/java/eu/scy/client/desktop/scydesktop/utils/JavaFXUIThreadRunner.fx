@@ -19,6 +19,10 @@ public class JavaFXUIThreadRunner extends Runnable {
     }
 
     public function start() {
-        SwingUtilities.invokeAndWait(this);
+        if (not SwingUtilities.isEventDispatchThread()) {
+            SwingUtilities.invokeAndWait(this);
+        } else {
+            run();
+        }
     }
 }
