@@ -45,6 +45,8 @@
                 /app/feedback/storeELORefComment.html=storeELORefCommentController
 
                 /app/feedback/xml/feedbackEloService.html=feedbackEloService
+                /app/feedback/xml/myElosFeedbackService.html=myElosFeedbackService
+                /app/feedback/xml/myContributionElosFeedbackService.html=myContributionElosFeedbackService
             </value>
         </property>
     </bean>
@@ -76,6 +78,16 @@
         <property name="userService" ref="userService"/>
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
         <property name="missionELOService" ref="missionELOService"/>
+    </bean>
+
+    <bean id="myElosFeedbackService" class="eu.scy.server.controllers.scyfeedback.xml.MyElosFeedbackService">
+        <property name="userService" ref="userService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+    </bean>
+
+    <bean id="myContributionElosFeedbackService" class="eu.scy.server.controllers.scyfeedback.xml.MyContributionElosFeedbackService">
+        <property name="userService" ref="userService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
     </bean>
 
     <bean id="studentEloRefViewerController"
