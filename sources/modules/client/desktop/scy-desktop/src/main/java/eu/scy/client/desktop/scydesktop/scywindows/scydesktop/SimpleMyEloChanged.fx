@@ -19,12 +19,10 @@ public class SimpleMyEloChanged extends MyEloChanged {
    public var window: ScyWindow;
 
    public override function myEloChanged(scyElo: ScyElo): Void {
-      window.eloUri = scyElo.getUri();
       window.scyElo = scyElo;
-      var title = scyElo.getTitle();
-      window.title = title;
-      var eloType = scyElo.getTechnicalFormat();
-      window.eloType = eloType;
+      window.title = scyElo.getTitle();
+      window.eloType = scyElo.getTechnicalFormat();
+      window.eloUri = scyElo.getUri();
       window.scyToolsList.loadedEloChanged(window.eloUri);
       logger.info("set title and uri of window: {scyElo.getUri()}");
    }

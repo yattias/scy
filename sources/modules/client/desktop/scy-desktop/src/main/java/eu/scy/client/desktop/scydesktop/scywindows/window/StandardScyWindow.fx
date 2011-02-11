@@ -57,7 +57,10 @@ public class StandardScyWindow extends ScyWindow {
    def scyWindowAttributeDevider = 3.0;
    public override var title = "???";
    public override var eloType = "?123";
-   public override var eloUri on replace oldEloUri { missionModelFX.eloUriChanged(oldEloUri, eloUri); };
+   public override var eloUri on replace oldEloUri {
+      missionModelFX.eloUriChanged(oldEloUri, eloUri);
+      titleBarBuddies.buddiesChanged();
+   };
    public override var width = 150 on replace oldWidth {
          //      println("before width from {oldWidth} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
          if (not isAnimating) {

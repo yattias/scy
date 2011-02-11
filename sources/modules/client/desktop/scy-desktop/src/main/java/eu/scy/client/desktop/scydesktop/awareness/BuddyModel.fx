@@ -14,4 +14,9 @@ public class BuddyModel extends Contact {
 
    public-init var loginName: String;
    public-init var isMe:Boolean;
+
+   public override function toString():String{
+      "\{loginName:{loginName},onlineState:{onlineState},isMe:{isMe}\}"
+   }
+
 }
