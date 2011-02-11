@@ -27,6 +27,7 @@ import eu.scy.client.desktop.scydesktop.art.javafx.MissionMapWindowIcon;
 import eu.scy.client.desktop.scydesktop.art.javafx.MoreAssignmentTypeIcon;
 import eu.scy.client.desktop.scydesktop.art.javafx.MoreResourcesTypeIcon;
 import eu.scy.client.desktop.scydesktop.art.javafx.InstructionTypesIcon;
+import javafx.scene.effect.DropShadow;
 
 /**
  * @author SikkenJ
@@ -42,8 +43,10 @@ public class MoreInfoWindow extends CustomNode {
    public var infoTypeIcon: Node;
    public var content: Node;
    public var closeAction: function(): Void;
+   public var openAction: function(): Void;
    public var environmentColor = Color.color(.90, .90, .90);
    public var mouseClickedAction: function(: MouseEvent): Void;
+   public-init var hideCloseButton: Boolean = false;
    def borderLineWidth = 2.0;
    def borderWidth = 5.0;
    def closeSize = 10.0;
@@ -70,6 +73,12 @@ public class MoreInfoWindow extends CustomNode {
             }
          ]
       }
+   public-read def curtainControl = InstructionWindowControl {
+         windowColorScheme: bind windowColorScheme
+         clickAction: closeAction
+         layoutY: height - 10;
+         layoutX: width / 2;
+      }
    def windowClose = WindowClose {
          windowColorScheme: windowColorScheme
          layoutX: bind width - borderWidth - closeSize
@@ -90,19 +99,49 @@ public class MoreInfoWindow extends CustomNode {
       }
 
    public override function create(): Node {
-      Group {
-         content: [
-            SteppedBorder {
-               width: bind width
-               height: bind height
-               color: environmentColor
-            }
+       if (hideCloseButton) {
+           Group {
+          content: [
             Rectangle {
                x: 0, y: 0
                width: bind width, height: bind height
                fill: bind windowColorScheme.backgroundColor
                stroke: bind windowColorScheme.mainColor
                strokeWidth: borderLineWidth
+               effect: DropShadow {
+                        offsetX: 0
+                        offsetY: 0
+                        color: Color.BLACK
+                        radius: 13
+               }
+            }
+            Group {
+               layoutX: borderWidth
+               layoutY: borderWidth
+               content: bind [
+                  eloIcon,
+                  infoTypeIcon
+               ]
+            }
+            titleBar,
+            contentElement,
+            curtainControl
+         ] }
+       } else {
+        Group {
+            content: [
+            Rectangle {
+               x: 0, y: 0
+               width: bind width, height: bind height
+               fill: bind windowColorScheme.backgroundColor
+               stroke: bind windowColorScheme.mainColor
+               strokeWidth: borderLineWidth
+               effect: DropShadow {
+                        offsetX: 0
+                        offsetY: 0
+                        color: Color.BLACK
+                        radius: 13
+               }
             }
             Group {
                layoutX: borderWidth
@@ -116,7 +155,8 @@ public class MoreInfoWindow extends CustomNode {
             windowClose,
             contentElement
          ]
-      }
+       }
+     }
    }
 
    function eloIconChanged() {
@@ -137,6 +177,16 @@ public class MoreInfoWindow extends CustomNode {
       contentElement.resizeTheContent();
    }
 
+   public function setControlFunctionClose():Void {
+      curtainControl.clickAction = closeAction;
+      curtainControl.rotate = 0;
+   }
+
+   public function setControlFunctionOpen():Void {
+      curtainControl.clickAction = openAction;
+      curtainControl.rotate = 180;
+   }
+
 }
 
 function run() {
@@ -147,6 +197,7 @@ function run() {
          layoutX: 40
          layoutY: 60
          windowColorScheme: colorScheme
+         hideCloseButton:true
          eloIcon: MissionMapWindowIcon {}
          infoTypeIcon: InstructionTypesIcon {}
 

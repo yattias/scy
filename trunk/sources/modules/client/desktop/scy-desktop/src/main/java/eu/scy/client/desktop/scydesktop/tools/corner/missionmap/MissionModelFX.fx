@@ -18,7 +18,7 @@ import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
-import eu.scy.common.scyelo.ScyElo;
+import eu.scy.client.desktop.scydesktop.utils.XFX;
 
 /**
  * @author SikkenJ
@@ -36,12 +36,7 @@ public class MissionModelFX extends MissionModel {
    public var missionModel: MissionModel on replace { newMissionModel() };
    public var loEloUris: URI[];
    public var lasses: LasFX[];
-   public-read var activeLas: LasFX on replace previousLas {
-         logger.debug("new activeLas {activeLas}");
-         missionModel.setSelectedLas(activeLas);
-         logLasChange(previousLas.id, activeLas.id);
-         updateElo();
-      }
+   public-read var activeLas: LasFX;
    public var saveUpdatedModel = false;
    public var scyDesktop: ScyDesktop;
 //   public var elo: IELO;
@@ -59,7 +54,12 @@ public class MissionModelFX extends MissionModel {
                missionUtils.getLasFX(lasObject as Las)
             }
       }
+      def previousId = activeLas.id;
       activeLas = missionUtils.getLasFX(missionModel.getSelectedLas());
+      logger.debug("new activeLas {activeLas}");
+      missionModel.setSelectedLas(activeLas);
+      logLasChange(previousId, activeLas.id);
+      updateElo();
    }
 
    function createAllFxVersions() {
@@ -85,22 +85,25 @@ public class MissionModelFX extends MissionModel {
    }
 
    public function anchorSelected(las: LasFX, anchor: MissionAnchorFX): Void {
-      if (las == activeLas) {
-         if (las.selectedAnchor == anchor) {
-            // nothing changed
-            return;
-         }
+      if (las == activeLas and las.selectedAnchor == anchor) {
+        // nothing changed
+        return;
       } else {
-         activeLas = las;
+          if (anchor == null) {
+             las.selectedAnchor = las.mainAnchor;
+          } else {
+             las.selectedAnchor = anchor;
+          }
+          def previousId = activeLas.id;
+          XFX.deferActionAndWait(function():Void {
+               activeLas = las;
+          });
+          logger.debug("new activeLas {activeLas}");
+          missionModel.setSelectedLas(activeLas);
+          logLasChange(previousId, activeLas.id);
+          updateElo();
+          scyDesktop.edgesManager.findLinks(null);
       }
-      if (anchor == null) {
-         las.selectedAnchor = las.mainAnchor;
-      } else {
-         las.selectedAnchor = anchor;
-      }
-
-      updateElo();
-      scyDesktop.edgesManager.findLinks(null);
    }
 
    public function selectLas(las: LasFX): Void {
@@ -108,7 +111,12 @@ public class MissionModelFX extends MissionModel {
          // nothing changed
          return;
       } else {
+         def previousId = activeLas.id;
          activeLas = las;
+         logger.debug("new activeLas {activeLas}");
+         missionModel.setSelectedLas(activeLas);
+         logLasChange(previousId, activeLas.id);
+         updateElo();
       }
    }
 
@@ -206,8 +214,13 @@ public class MissionModelFX extends MissionModel {
    }
 
    override public function setSelectedLas(selectedLas: Las): Void {
+      def previousId = activeLas.id;
       missionModel.setSelectedLas(selectedLas);
-      this.activeLas = missionUtils.getLasFX(selectedLas)
+      this.activeLas = missionUtils.getLasFX(selectedLas);
+      logger.debug("new activeLas {activeLas}");
+      missionModel.setSelectedLas(activeLas);
+      logLasChange(previousId, activeLas.id);
+      updateElo();
    }
 
    override public function getEloUris(allElos: Boolean): List {

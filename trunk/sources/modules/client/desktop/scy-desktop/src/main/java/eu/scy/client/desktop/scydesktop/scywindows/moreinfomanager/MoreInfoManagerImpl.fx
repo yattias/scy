@@ -38,24 +38,22 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    public var tbi: ToolBrokerAPI;
    def noLasColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    var colorScheme = noLasColorScheme;
-   def moreInfoControl: InstructionWindowControl = InstructionWindowControl {
-         windowColorScheme: bind colorScheme
-         clickAction: showInstructionWindow
-         layoutY: 0
-      }
    def relativeWindowScreenBoder = 0.2;
    def sceneWidth = bind scene.width on replace { sceneSizeChanged() };
    def sceneHeight = bind scene.height on replace { sceneSizeChanged() };
    def instructionWindow: MoreInfoWindow = MoreInfoWindow {
          title: "Instruction"
          infoTypeIcon: InstructionTypesIcon {}
-         closeAction: hideInstructionWindow
+         openAction: showInstructionWindow;
+         closeAction: hideInstructionWindow;
+         hideCloseButton: true
          visible: false
       }
    var instructionTool: ShowInfoUrl;
    def moreInfoWindow: MoreInfoWindow = MoreInfoWindow {
          title: "More info"
          closeAction: hideMoreInfoWindow
+         hideCloseButton: false
          visible: false
       }
    var moreInfoTool: ShowInfoUrl;
@@ -70,12 +68,13 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    }
 
    function sceneSizeChanged() {
-      moreInfoControl.layoutX = scene.width / 2.0;
       if (instructionWindow.visible) {
          instructionWindow.width = (1 - 2 * relativeWindowScreenBoder) * scene.width;
          instructionWindow.height = (1 - 1 * relativeWindowScreenBoder) * scene.height;
          instructionWindow.layoutX = relativeWindowScreenBoder * scene.width;
          instructionWindow.layoutY = 0.0;
+         instructionWindow.curtainControl.layoutX = instructionWindow.width / 2.0;
+         instructionWindow.curtainControl.layoutY = instructionWindow.height + 8;
       }
       if (moreInfoWindow.visible) {
          moreInfoWindow.width = (1 - 2 * relativeWindowScreenBoder) * scene.width;
@@ -84,7 +83,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    }
 
    public override function getControlNode(): Node {
-      return moreInfoControl
+      return null;
    }
 
    function activeLasChanged() {
@@ -93,7 +92,6 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
          colorScheme = noLasColorScheme;
       } else {
          colorScheme = windowStyler.getWindowColorScheme(activeLas.mainAnchor.scyElo);
-         println("activeLas.nrOfTimesInstructionShowed: {activeLas.nrOfTimesInstructionShowed} of {activeLas.id}");
          if (runPhase and activeLas.nrOfTimesInstructionShowed < 1) {
             //            FX.deferAction(showInstructionWindow);
             showInstructionWindow();
@@ -113,17 +111,16 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       //         }
       instructionWindow.title = activeLas.title;
       instructionTool.showInfoUrl(uriLocalizer.localizeUrlwithChecking(activeLas.instructionUri.toURL()));
-      if (not instructionWindow.visible) {
-         instructionWindow.visible = true;
-         sceneSizeChanged();
-         ModalDialogLayer.addModalDialog(instructionWindow);
-      }
+      instructionWindow.visible = true;
+      instructionWindow.setControlFunctionClose();
+      sceneSizeChanged();
+      ModalDialogLayer.addModalDialog(instructionWindow, false, true);
    }
 
    function hideInstructionWindow(): Void {
       if (instructionWindow.visible) {
-         ModalDialogLayer.removeModalDialog(instructionWindow);
-         instructionWindow.visible = false;
+         instructionWindow.setControlFunctionOpen();
+         ModalDialogLayer.removeModalDialog(instructionWindow, true, false);
       }
    }
 
@@ -193,7 +190,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       moreInfoWindow.windowColorScheme = moreInfoColorScheme;
       moreInfoTool.showInfoUrl(uriLocalizer.localizeUrlwithChecking(infoUri.toURL()));
       sceneSizeChanged();
-      ModalDialogLayer.addModalDialog(moreInfoWindow, true);
+      ModalDialogLayer.addModalDialog(moreInfoWindow, true, true);
    }
 
    function hideMoreInfoWindow(): Void {
