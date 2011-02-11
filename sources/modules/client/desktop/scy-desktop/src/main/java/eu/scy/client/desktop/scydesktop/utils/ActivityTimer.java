@@ -112,7 +112,7 @@ public final class ActivityTimer
       long started = getMillis();
       if (activityRunning)
       {
-         endActivity();
+         endActivity(false);
          started = timeInfos.get(timeInfos.size() - 1).ended;
       }
       activityRunning = true;
@@ -124,11 +124,16 @@ public final class ActivityTimer
 
    public void endActivity()
    {
+      endActivity(true);
+   }
+
+   public void endActivity(boolean logIt)
+   {
       if (activityRunning)
       {
          timeInfos.get(timeInfos.size() - 1).ended = getMillis();
          activityRunning = false;
-         if (autoLog)
+         if (autoLog && logIt)
          {
             logger.info(getTimeList());
          }
@@ -143,20 +148,28 @@ public final class ActivityTimer
       builder.append(name);
       builder.append("\n");
       long totalMillis = 0;
+      boolean firstTime = true;
       for (TimeInfo timeInfo : timeInfos)
       {
+         if (firstTime)
+         {
+            firstTime = false;
+         }
+         else
+         {
+            builder.append("\n");
+         }
          addLong(builder, totalMillis);
          builder.append(" ");
          addLong(builder, timeInfo.getUsed());
          builder.append(" ");
          builder.append(timeInfo.getLabel());
-         builder.append("\n");
          totalMillis += timeInfo.getUsed();
       }
-      if (timeInfos.size() > 0)
+      if (timeInfos.size() > 1)
       {
-         addLong(builder, totalMillis);
          builder.append("\n");
+         addLong(builder, totalMillis);
       }
       return builder.toString();
    }
