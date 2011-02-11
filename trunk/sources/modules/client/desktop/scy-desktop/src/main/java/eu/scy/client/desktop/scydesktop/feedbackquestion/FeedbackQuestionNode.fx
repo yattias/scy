@@ -121,7 +121,8 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX {
             logger.debug("found {searchResults.size()} feedback ELO-s");
             for (r in searchResults) {
                 var result:roolo.search.ISearchResult = r as roolo.search.ISearchResult;
-                logger.debug("found feedback ELO, eloUri: {result.getUri().toString()}, title: {result.getTitle()}, author: {result.getAuthors().toString()}, createDate: {new Date(result.getDateCreated()).toString()}");
+//                not working with current ISearchResult
+//                logger.debug("found feedback ELO, eloUri: {result.getUri().toString()}, title: {result.getTitle()}, author: {result.getAuthors().toString()}, createDate: {new Date(result.getDateCreated()).toString()}");
             }
          }
       } else {
