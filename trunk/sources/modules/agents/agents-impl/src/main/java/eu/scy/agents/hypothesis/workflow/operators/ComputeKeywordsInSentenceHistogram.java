@@ -24,60 +24,69 @@ import eu.scy.agents.util.Utilities;
  */
 public class ComputeKeywordsInSentenceHistogram extends OperatorSpecification {
 
-  private final static Logger logger = Logger.getLogger(ComputeKeywordsInSentenceHistogram.class);
+	private final static Logger logger = Logger
+			.getLogger(ComputeKeywordsInSentenceHistogram.class);
 
-  private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-  /**
-   * Should documents really be updated. true, false
-   */
-  public static final String UPDATE = "update";
+	/**
+	 * Should documents really be updated. true, false
+	 */
+	public static final String UPDATE = "update";
 
-  /**
-   * Construct new Operator that spots keywords in sentences and computes a keyword-in-sentence
-   * ratio.
-   */
-  public ComputeKeywordsInSentenceHistogram() {
-    super();
-    this.addParameterType(UPDATE, JavaClasses.BOOLEAN, false, Boolean.TRUE);
-    this.addInputType(ObjectIdentifiers.DOCUMENT, Document.class);
-    this.addOutputType(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM, HashMap.class);
-  }
+	/**
+	 * Construct new Operator that spots keywords in sentences and computes a
+	 * keyword-in-sentence ratio.
+	 */
+	public ComputeKeywordsInSentenceHistogram() {
+		super();
+		this.addParameterType(UPDATE, JavaClasses.BOOLEAN, false, Boolean.TRUE);
+		this.addInputType(ObjectIdentifiers.DOCUMENT, Document.class);
+		this.addOutputType(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM,
+				HashMap.class);
+	}
 
-  @Override
-  public Container run(Container inputParameters) {
+	@SuppressWarnings("unchecked")
+	@Override
+	public Container run(Container inputParameters) {
 
-    Document document = (Document) inputParameters.getObject(ObjectIdentifiers.DOCUMENT);
-    if (!Features.getInstance().isFeature(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM)) {
-      Features.getInstance().addFeature(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM, Map.class);
-    }
-    ArrayList<String> sentences = (ArrayList<String>) document.getFeature(Features.SENTENCES);
-    ArrayList<String> keywords = (ArrayList<String>) document.getFeature(Features.WORDS);
+		Document document = (Document) inputParameters
+				.getObject(ObjectIdentifiers.DOCUMENT);
+		if (!Features.getInstance().isFeature(
+				KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM)) {
+			Features.getInstance().addFeature(
+					KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM, Map.class);
+		}
+		ArrayList<String> sentences = (ArrayList<String>) document
+				.getFeature(Features.SENTENCES);
+		ArrayList<String> keywords = (ArrayList<String>) document
+				.getFeature(Features.WORDS);
 
-    Iterator<String> it = sentences.iterator();
-    HashMap<Integer, Integer> histogram = new HashMap<Integer, Integer>();
-    while (it.hasNext()) {
-      String sentString = (String) it.next();
-      String[] sentence = Utilities.tokenize(sentString);
-      int count = 0;
-      for (int i = 0; i < sentence.length; i++) {
-        String term = sentence[i];
-        if (keywords.contains(term)) {
-          count += 1;
-        }
-      }
-      if (histogram.containsKey(count)) {
-        histogram.put(count, histogram.get(count) + 1);
-      } else {
-        histogram.put(count, 1);
-      }
-    }
-    logger.info(histogram.toString());
-    document.setFeature(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM, histogram);
-    Container output = new Container(getOutputSignature());
-    output.setObject(ObjectIdentifiers.DOCUMENT, document);
+		Iterator<String> it = sentences.iterator();
+		HashMap<Integer, Integer> histogram = new HashMap<Integer, Integer>();
+		while (it.hasNext()) {
+			String sentString = (String) it.next();
+			String[] sentence = Utilities.tokenize(sentString);
+			int count = 0;
+			for (int i = 0; i < sentence.length; i++) {
+				String term = sentence[i];
+				if (keywords.contains(term)) {
+					count += 1;
+				}
+			}
+			if (histogram.containsKey(count)) {
+				histogram.put(count, histogram.get(count) + 1);
+			} else {
+				histogram.put(count, 1);
+			}
+		}
+		logger.info(histogram.toString());
+		document.setFeature(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM,
+				histogram);
+		Container output = new Container(getOutputSignature());
+		output.setObject(ObjectIdentifiers.DOCUMENT, document);
 
-    return output;
-  }
+		return output;
+	}
 
 }

@@ -25,10 +25,12 @@ public class ScySimAgent extends AbstractThreadedAgent implements Callback {
 
 	private static final String NAME = ScySimAgent.class.getName();
 
-	private final Tuple scySimTemplate = new Tuple(String.class, String.class, String.class, String.class,
-			"scysimulator", String.class, Document.class);
+	private final Tuple scySimTemplate = new Tuple(String.class, String.class,
+			String.class, String.class, "scysimulator", String.class,
+			Document.class);
 
-	private static final Logger LOGGER = Logger.getLogger(ScySimAgent.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(ScySimAgent.class
+			.getName());
 
 	private static final Level DEBUGLEVEL = Level.ALL;
 
@@ -66,7 +68,8 @@ public class ScySimAgent extends AbstractThreadedAgent implements Callback {
 		examinedVarName = "Mtot";
 		initLogger();
 		try {
-			cbSeq = getCommandSpace().eventRegister(Command.WRITE, scySimTemplate, this, true);
+			cbSeq = getCommandSpace().eventRegister(Command.WRITE,
+					scySimTemplate, this, true);
 			LOGGER.log(Level.FINEST, "Callback registered");
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
@@ -76,7 +79,8 @@ public class ScySimAgent extends AbstractThreadedAgent implements Callback {
 	}
 
 	@Override
-	protected void doRun() throws TupleSpaceException, AgentLifecycleException, InterruptedException {
+	protected void doRun() throws TupleSpaceException, AgentLifecycleException,
+			InterruptedException {
 		while (status == Status.Running) {
 			sendAliveUpdate();
 			Thread.sleep(AgentProtocol.COMMAND_EXPIRATION);
@@ -90,6 +94,7 @@ public class ScySimAgent extends AbstractThreadedAgent implements Callback {
 			try {
 				getCommandSpace().eventDeRegister(cbSeq);
 			} catch (TupleSpaceException e) {
+				e.printStackTrace();
 				LOGGER.log(Level.SEVERE, e.getMessage());
 			}
 		}
@@ -98,8 +103,8 @@ public class ScySimAgent extends AbstractThreadedAgent implements Callback {
 
 	@Override
 	protected Tuple getIdentifyTuple(String queryId) {
-		Tuple t = new Tuple(AgentProtocol.RESPONSE, queryId, getId(), getName(), AgentProtocol.MESSAGE_IDENTIFY,
-				tupleDoc);
+		Tuple t = new Tuple(AgentProtocol.RESPONSE, queryId, getId(),
+				getName(), AgentProtocol.MESSAGE_IDENTIFY, tupleDoc);
 		return t;
 	}
 
@@ -109,17 +114,20 @@ public class ScySimAgent extends AbstractThreadedAgent implements Callback {
 	}
 
 	@Override
-	public void call(Command command, int seq, Tuple afterTuple, Tuple beforeTuple) {
+	public void call(Command command, int seq, Tuple afterTuple,
+			Tuple beforeTuple) {
 		LOGGER.log(Level.FINEST, "Callback arrived");
 		if (cbSeq != seq) {
-			// If a callback arrives here that wasn't registered from this class it is passed to the
+			// If a callback arrives here that wasn't registered from this class
+			// it is passed to the
 			// AbstractThreadedAgent.
 			LOGGER.log(Level.FINEST, "Callback passed to Superclass.");
 			super.call(command, seq, afterTuple, beforeTuple);
 			return;
 		}
 		// TODO Look up if this is working.....
-		IAction action = new ActionXMLTransformer((Element) afterTuple.getField(7).getValue()).getActionAsPojo();
+		IAction action = new ActionXMLTransformer((Element) afterTuple
+				.getField(7).getValue()).getActionAsPojo();
 		// If selected vars changed
 		String actionID = afterTuple.getField(0).getValue().toString().trim();
 		String time = afterTuple.getField(1).getValue().toString().trim();
@@ -134,15 +142,17 @@ public class ScySimAgent extends AbstractThreadedAgent implements Callback {
 
 		if (type.trim().equals(Type.VARS_SELECTED.toString())) {
 			selection = action.getAttribute("selected_variables");
-			LOGGER.log(Level.FINEST, "Selected Vars (User:" + user + "): " + selection);
+			LOGGER.log(Level.FINEST, "Selected Vars (User:" + user + "): "
+					+ selection);
 
 			// if a value of a selected variable changed
 		} else if (type.equals(Type.VALUE_CHANGED.toString())) {
 			variableName = action.getAttribute("name");
 			oldValue = action.getAttribute("oldValue");
 			newValue = action.getAttribute("newValue");
-			LOGGER.log(Level.FINEST, "Value changed (User: " + user + ", Variable: " + variableName + "): From "
-					+ oldValue + " to " + newValue);
+			LOGGER.log(Level.FINEST, "Value changed (User: " + user
+					+ ", Variable: " + variableName + "): From " + oldValue
+					+ " to " + newValue);
 			if (variableName.trim().equals(examinedVarName.trim())) {
 				if (Math.abs(Double.parseDouble(newValue)) <= tolerance) {
 					diff.clear();
@@ -150,10 +160,11 @@ public class ScySimAgent extends AbstractThreadedAgent implements Callback {
 				if (diff.size() >= 10 && diff.size() < 20) {
 					VMID qid = new VMID();
 					// TODO retrieve user experience from another agent
-					Tuple scaffoldQuery = new Tuple(AgentProtocol.QUERY, qid, String.class, "simquest actuator",
+					Tuple scaffoldQuery = new Tuple(AgentProtocol.QUERY, qid,
+							String.class, "simquest actuator",
 							"first level scaffold", 50);
-					Tuple scaffoldResponse = new Tuple(AgentProtocol.RESPONSE, qid, String.class,
-							AgentProtocol.ResonseType.OK);
+					Tuple scaffoldResponse = new Tuple(AgentProtocol.RESPONSE,
+							qid, String.class, AgentProtocol.ResonseType.OK);
 					try {
 						getCommandSpace().write(scaffoldQuery);
 						getCommandSpace().waitToTake(scaffoldResponse, 1000);
@@ -163,10 +174,11 @@ public class ScySimAgent extends AbstractThreadedAgent implements Callback {
 					LOGGER.log(Level.FINEST, "First scaffold");
 				} else if (diff.size() >= 20 && diff.size() < 30) {
 					VMID qid = new VMID();
-					Tuple scaffoldQuery = new Tuple(AgentProtocol.QUERY, qid, String.class, "simquest actuator",
+					Tuple scaffoldQuery = new Tuple(AgentProtocol.QUERY, qid,
+							String.class, "simquest actuator",
 							"second level scaffold", 50);
-					Tuple scaffoldResponse = new Tuple(AgentProtocol.RESPONSE, qid, String.class,
-							AgentProtocol.ResonseType.OK);
+					Tuple scaffoldResponse = new Tuple(AgentProtocol.RESPONSE,
+							qid, String.class, AgentProtocol.ResonseType.OK);
 					try {
 						getCommandSpace().write(scaffoldQuery);
 						getCommandSpace().waitToTake(scaffoldResponse, 1000);
@@ -176,10 +188,11 @@ public class ScySimAgent extends AbstractThreadedAgent implements Callback {
 					LOGGER.log(Level.FINEST, "Second scaffold");
 				} else if (diff.size() >= 30) {
 					VMID qid = new VMID();
-					Tuple scaffoldQuery = new Tuple(AgentProtocol.QUERY, qid, String.class, "simquest actuator",
+					Tuple scaffoldQuery = new Tuple(AgentProtocol.QUERY, qid,
+							String.class, "simquest actuator",
 							"second level scaffold", 50);
-					Tuple scaffoldResponse = new Tuple(AgentProtocol.RESPONSE, qid, String.class,
-							AgentProtocol.ResonseType.OK);
+					Tuple scaffoldResponse = new Tuple(AgentProtocol.RESPONSE,
+							qid, String.class, AgentProtocol.ResonseType.OK);
 					try {
 						getCommandSpace().write(scaffoldQuery);
 						getCommandSpace().waitToTake(scaffoldResponse, 1000);

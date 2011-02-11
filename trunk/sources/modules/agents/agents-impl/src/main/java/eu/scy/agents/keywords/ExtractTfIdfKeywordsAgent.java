@@ -71,7 +71,7 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 			try {
 				Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 3);
 			} catch (InterruptedException e) {
-				throw new AgentLifecycleException(e.getMessage());
+				throw new AgentLifecycleException(e.getMessage(), e);
 			}
 		}
 	}

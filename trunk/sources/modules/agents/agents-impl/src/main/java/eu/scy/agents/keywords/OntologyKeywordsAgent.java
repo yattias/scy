@@ -122,7 +122,7 @@ public class OntologyKeywordsAgent extends AbstractRequestAgent {
 			}
 			logger.info("found " + ontologyKeywords + " in the ontology");
 		} catch (TupleSpaceException e) {
-			logger.warn("No ontology keywords found: " + e.getMessage());
+			logger.warn("No ontology keywords found: " + e.getMessage(), e);
 		}
 		return ontologyKeywords;
 	}
@@ -157,7 +157,7 @@ public class OntologyKeywordsAgent extends AbstractRequestAgent {
 			try {
 				Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 3);
 			} catch (InterruptedException e) {
-				throw new AgentLifecycleException(e.getMessage());
+				throw new AgentLifecycleException(e.getMessage(), e);
 			}
 		}
 	}

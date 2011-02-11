@@ -85,7 +85,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 			try {
 				Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 3);
 			} catch (InterruptedException e) {
-				throw new AgentLifecycleException(e.getMessage());
+				throw new AgentLifecycleException(e.getMessage(), e);
 			}
 		}
 	}
@@ -135,7 +135,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		int maxGroupSize = (Integer) configuration
 				.getParameter(new AgentParameter(mission,
 						MAX_GROUP_SIZE_PARAMETER));
-		
+
 		String eloUri = action.getContext(ContextConstants.eloURI);
 		IELO elo = getElo(eloUri);
 		String strategy = "dummy";// action.getAttribute(STRATEGY);
@@ -199,8 +199,8 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 			getCommandSpace().write(request);
 			Tuple response = getCommandSpace().waitToTake(
 					new Tuple(UserLocationAgent.USER_INFO_REQUEST,
-							AgentProtocol.RESPONSE, String.class, Field
-									.createWildCardField()),
+							AgentProtocol.RESPONSE, String.class,
+							Field.createWildCardField()),
 					AgentProtocol.ALIVE_INTERVAL);
 			Set<String> availableUsers = new HashSet<String>();
 			for (int i = 3; i < response.getNumberOfFields(); i++) {
@@ -229,8 +229,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 
 		for (Set<String> group : formedGroups) {
 			StringBuilder message = new StringBuilder();
-			message
-					.append("textmessage=Please consider collaboration with these students: ");
+			message.append("textmessage=Please consider collaboration with these students: ");
 
 			String userListString = createUserListString(group);
 			message.append(userListString);

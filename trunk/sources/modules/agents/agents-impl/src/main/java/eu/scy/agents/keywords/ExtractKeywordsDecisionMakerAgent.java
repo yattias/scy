@@ -59,8 +59,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 		@Override
 		public String toString() {
 			String webresourcerURL = this.webresourcerELO != null ? this.webresourcerELO
-					.toString()
-					: "null";
+					.toString() : "null";
 			return this.user + "|web:" + this.webresourcerStarted + "|map:"
 					+ this.scyMapperStarted + "|url:" + webresourcerURL + "|"
 					+ new Date(this.lastAction).toString() + "|"
@@ -137,8 +136,9 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 			this.getActionSpace().eventDeRegister(this.listenerId);
 			this.listenerId = -1;
 		} catch (TupleSpaceException e) {
-			LOGGER.fatal("Could not deregister tuple space listener: "
-					+ e.getMessage());
+			LOGGER.fatal(
+					"Could not deregister tuple space listener: "
+							+ e.getMessage(), e);
 		}
 	}
 
@@ -245,8 +245,8 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 					+ ". Recognized by ExtractKeywordsDecisionAgent");
 			contextInfo.scyMapperStarted = true;
 			try {
-				contextInfo.scyMapperElo = new URI(action
-						.getContext(ContextConstants.eloURI));
+				contextInfo.scyMapperElo = new URI(
+						action.getContext(ContextConstants.eloURI));
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
 			}
@@ -255,8 +255,8 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 			LOGGER.debug(WEBRESOURCER + " started  by " + action.getUser()
 					+ ". Recognized by ExtractKeywordsDecisionAgent");
 			try {
-				contextInfo.webresourcerELO = new URI(action
-						.getContext(ContextConstants.eloURI));
+				contextInfo.webresourcerELO = new URI(
+						action.getContext(ContextConstants.eloURI));
 				contextInfo.webresourcerStarted = true;
 			} catch (URISyntaxException e) {
 				e.printStackTrace();
@@ -286,8 +286,8 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 			while (this.status == Status.Running) {
 				toRemove.clear();
 				long currentTime = System.currentTimeMillis();
-				HashSet<String> users = new HashSet<String>(this.user2Context
-						.keySet());
+				HashSet<String> users = new HashSet<String>(
+						this.user2Context.keySet());
 				for (String user : users) {
 					ContextInformation contextInformation = this.user2Context
 							.get(user);
@@ -307,13 +307,12 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 				Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 2);
 			}
 		} catch (Exception e) {
-			LOGGER.fatal("*************** " + e.getMessage());
+			LOGGER.fatal("*************** " + e.getMessage(), e);
 			e.printStackTrace();
 			throw new AgentLifecycleException(e.getMessage(), e);
 		}
 		if (this.status != Status.Stopping) {
-			LOGGER
-					.warn("************** Agent not stopped but run loop terminated *****************1");
+			LOGGER.warn("************** Agent not stopped but run loop terminated *****************1");
 		}
 	}
 
@@ -354,8 +353,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 					LOGGER.fatal("repository is null");
 					return null;
 				}
-				IELO elo = ExtractKeywordsDecisionMakerAgent.this.repository
-						.retrieveELO(contextInformation.webresourcerELO);
+				IELO elo = ExtractKeywordsDecisionMakerAgent.this.repository.retrieveELO(contextInformation.webresourcerELO);
 				return elo;
 			}
 		}, "NotifyUser").start();

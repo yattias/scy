@@ -90,7 +90,7 @@ public class UserLanguageAgent extends AbstractRequestAgent {
 			try {
 				Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 3);
 			} catch (InterruptedException e) {
-				throw new AgentLifecycleException(e.getMessage());
+				throw new AgentLifecycleException(e.getMessage(), e);
 			}
 		}
 	}
@@ -120,8 +120,8 @@ public class UserLanguageAgent extends AbstractRequestAgent {
 		} else {
 			if (afterTuple.getField(0).getValue().equals(LANGUAGE)) {
 				handleRequest(afterTuple);
-			} else if (afterTuple.getField(0).getValue().equals(
-					AgentProtocol.ACTION)) {
+			} else if (afterTuple.getField(0).getValue()
+					.equals(AgentProtocol.ACTION)) {
 				handleUserLoggedInAction(ActionTupleTransformer
 						.getActionFromTuple(afterTuple));
 			} else {
