@@ -46,7 +46,11 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
    public var eloFactory: IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository: IRepository;
-   public var toolBrokerAPI: ToolBrokerAPI;
+   public var toolBrokerAPI: ToolBrokerAPI on replace {
+         eloFactory = toolBrokerAPI.getELOFactory();
+         metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+         repository = toolBrokerAPI.getRepository();
+      };
    public var window: ScyWindow;
    public override var width on replace { sizeChanged() };
    public override var height on replace { sizeChanged() };
