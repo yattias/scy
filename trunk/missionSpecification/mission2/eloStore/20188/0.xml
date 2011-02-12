@@ -44,6 +44,7 @@
 </metadata>
 <content languageIndependent="true" contentType="xml">
 <missionModel>
+  <missionMapBackgroundImageUri>http://www.scy-lab.eu/content/en/mission2/ecoBackground.fxz</missionMapBackgroundImageUri>
   <activeLas>startPage</activeLas>
   <loElos>
     <eloUri>roolo://memory/20006/0/Glossary.url</eloUri>
