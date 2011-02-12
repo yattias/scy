@@ -29,6 +29,7 @@ import javafx.scene.Group;
 import javafx.scene.layout.Resizable;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import java.io.File;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * @author sikken
@@ -38,6 +39,11 @@ var lastUsedDirectory: File;
 public class ImageViewer extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
 
    def logger = Logger.getLogger(this.getClass());
+   public var toolBrokerAPI: ToolBrokerAPI on replace {
+         eloFactory = toolBrokerAPI.getELOFactory();
+         metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+         repository = toolBrokerAPI.getRepository();
+      };
    public var eloFactory: IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository: IRepository;

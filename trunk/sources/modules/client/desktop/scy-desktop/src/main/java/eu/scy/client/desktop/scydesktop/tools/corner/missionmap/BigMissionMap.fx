@@ -80,12 +80,12 @@ public class BigMissionMap extends MissionMap, Resizable {
    }
 
    function placeNodeOn00(node: Node) {
-      println(" before : layoutBounds :{node.layoutBounds}");
-      println(" before : boundsInLocal:{node.boundsInLocal}");
-      node.layoutX = -node.layoutBounds.minX;
+//      println(" before : layoutBounds :{node.layoutBounds}");
+//      println(" before : boundsInLocal:{node.boundsInLocal}");
+      node.translateX = -node.layoutBounds.minX;
       node.translateY = -node.layoutBounds.minY;
-      println(" after  : layoutBounds :{node.layoutBounds}");
-      println(" after  : boundsInLocal:{node.boundsInLocal}");
+//      println(" after  : layoutBounds :{node.layoutBounds}");
+//      println(" after  : boundsInLocal:{node.boundsInLocal}");
    }
 
    package function adjustSize() {
@@ -107,6 +107,7 @@ public class BigMissionMap extends MissionMap, Resizable {
       def scaleX = desiredWidth / node.layoutBounds.width;
       def scaleY = desiredHeight / node.layoutBounds.height;
       def scale = Math.min(scaleX, scaleY);
+      node.scaleX = scale;
       node.scaleY = scale;
       node.layoutX -= node.boundsInParent.minX;
       node.layoutY -= node.boundsInParent.minY;

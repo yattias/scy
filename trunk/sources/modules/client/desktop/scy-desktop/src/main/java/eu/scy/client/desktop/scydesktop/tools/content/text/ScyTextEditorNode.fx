@@ -43,7 +43,11 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
    def scyTextType = "scy/text";
    def textTagName = "text";
    def jdomStringConversion = new JDomStringConversion();
-   public var toolBrokerAPI: ToolBrokerAPI;
+   public var toolBrokerAPI: ToolBrokerAPI on replace {
+         eloFactory = toolBrokerAPI.getELOFactory();
+         metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+         repository = toolBrokerAPI.getRepository();
+      };
    public var eloFactory: IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository: IRepository;
