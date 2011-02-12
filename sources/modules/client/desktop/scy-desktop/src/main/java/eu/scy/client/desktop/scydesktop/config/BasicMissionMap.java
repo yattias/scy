@@ -20,6 +20,7 @@ public class BasicMissionMap
    private List<URI> loEloUris = new ArrayList<URI>();
    private List<BasicLas> lasses = new ArrayList<BasicLas>();
    private String initialLasId;
+   private URI missionMapBackgroundImageUri;
 
    public String getId()
    {
@@ -75,5 +76,15 @@ public class BasicMissionMap
    public void setInitialLasId(String initialLasId)
    {
       this.initialLasId = initialLasId;
+   }
+
+   public URI getMissionMapBackgroundImageUri()
+   {
+      return missionMapBackgroundImageUri;
+   }
+
+   public void setMissionMapBackgroundImageUri(URI missionMapBackgroundImageUri)
+   {
+      this.missionMapBackgroundImageUri = missionMapBackgroundImageUri;
    }
 }
