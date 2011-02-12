@@ -166,7 +166,7 @@ public class YouTubeDataEditor extends CustomNode {
 
     function validateAndInsertData():Void {
             if(ytID.equalsIgnoreCase("")) {
-                DialogBox.showMessageDialog("Please enter a valid Youtube URL or ID.","Error", ytNode.scyDesktop , function(){});
+                DialogBox.showMessageDialog("Please enter a valid Youtube URL or ID.","Error", ytNode.scyDesktop , function(){}, "youtuber");
                 return;
             }
             var myYtID = YouTubeSplitter.split(ytID);
