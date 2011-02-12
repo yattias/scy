@@ -14,6 +14,7 @@
 
       <property name="basicMissionMap">
          <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionMap">
+            <property name="missionMapBackgroundImageUri" value="http://www.scy-lab.eu/content/en/mission2/ecoBackground.fxz"/>
             <property name="initialLasId" value="startPage"/>
             <property name="loEloUris">
                <list>
