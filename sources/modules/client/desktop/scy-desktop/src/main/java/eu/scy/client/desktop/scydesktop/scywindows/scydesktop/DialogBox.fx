@@ -43,7 +43,7 @@ def imageLoader = ImageLoader.getImageLoader();
 public static def openDialogs: HashMap = new HashMap();
 
 
-static  function getDialogBoxContent(dialogWidth: Integer, dialogBox: DialogBox, dialogType: DialogType, text: String, action1: function(),  action2: function (),action3:function ()): Group{
+static  function getDialogBoxContent(dialogWidth: Integer, dialogBox: DialogBox, dialogType: DialogType, text: String, action1: function():Void,  action2: function ():Void,action3:function ():Void): Group{
 
         def indicatorImage    : ImageView = getIndicatorImage(dialogType);
         def group: Group = Group {
@@ -91,7 +91,7 @@ static  function getDialogBoxContent(dialogWidth: Integer, dialogBox: DialogBox,
         }
     }
 
-    static function getButtonBar(dialogBox:DialogBox, dialogType:DialogType, action1:function(), action2:function(), action3:function()):HBox{
+    static function getButtonBar(dialogBox:DialogBox, dialogType:DialogType, action1:function():Void, action2:function():Void, action3:function():Void):HBox{
         if (dialogType==DialogType.OK_DIALOG){
             return getOkButtonBar(dialogBox, action1) 
         } else if (dialogType==DialogType.YES_NO_DIALOG){
@@ -101,7 +101,7 @@ static  function getDialogBoxContent(dialogWidth: Integer, dialogBox: DialogBox,
         }
     }
 
-    static function getOkButtonBar(dialogBox:DialogBox, okAction:function()):HBox{
+    static function getOkButtonBar(dialogBox:DialogBox, okAction:function():Void):HBox{
         def buttonBar:HBox = HBox{
             hpos:HPos.CENTER
             spacing:HGAP
@@ -118,7 +118,7 @@ static  function getDialogBoxContent(dialogWidth: Integer, dialogBox: DialogBox,
         return buttonBar
     }
 
-        static function getYesNoButtonBar(dialogBox:DialogBox,yesAction:function(), noAction:function()):HBox{
+        static function getYesNoButtonBar(dialogBox:DialogBox,yesAction:function():Void, noAction:function():Void):HBox{
         def buttonBar:HBox = HBox{
             hpos:HPos.CENTER
             spacing:HGAP
@@ -142,7 +142,7 @@ static  function getDialogBoxContent(dialogWidth: Integer, dialogBox: DialogBox,
         return buttonBar
     }
 
-public static function showMessageDialog(text:String,dialogTitle:String, dialogWidth:Integer, scyDesktop:ScyDesktop, modal:Boolean, indicateFocus:Boolean, okAction:function(), id:String):Void{
+public static function showMessageDialog(text:String,dialogTitle:String, dialogWidth:Integer, scyDesktop:ScyDesktop, modal:Boolean, indicateFocus:Boolean, okAction:function():Void, id:String):Void{
    
         def dialogBox: DialogBox = DialogBox {
 //                    content: getDialogBoxContent(dialogWidth,dialogBox, DialogType.OK_DIALOG,text, okAction, function(){}, function(){})
@@ -165,7 +165,7 @@ public static function showMessageDialog(text:String,dialogTitle:String, dialogW
         dialogBox.place();
 }
 
-public static function showMessageDialog(text:String,dialogTitle:String, scyDesktop:ScyDesktop, okAction:function(), id: String):Void{
+public static function showMessageDialog(text:String,dialogTitle:String, scyDesktop:ScyDesktop, okAction:function():Void, id: String):Void{
     showMessageDialog(text,dialogTitle, DEFAULT_WIDTH, scyDesktop, true, true, okAction, id);
 }
 
@@ -174,7 +174,7 @@ public static function showMessageDialog(params:DialogBoxParams, id:String):Void
 }
 
 
-public static function showOptionDialog(dialogType:DialogType,text:String,dialogTitle:String, dialogWidth:Integer, scyDesktop:ScyDesktop, modal:Boolean,indicateFocus:Boolean, okAction:function(), cancelAction:function(), id:String):Void{
+public static function showOptionDialog(dialogType:DialogType,text:String,dialogTitle:String, dialogWidth:Integer, scyDesktop:ScyDesktop, modal:Boolean,indicateFocus:Boolean, okAction:function():Void, cancelAction:function():Void, id:String):Void{
         def supportedOptionTypes = [DialogType.OK_CANCEL_DIALOG, DialogType.YES_NO_DIALOG];
         def dialogBox: DialogBox = DialogBox {
 //                    content: if (sizeof supportedOptionTypes[n|n==dialogType] > 0) {
@@ -205,7 +205,7 @@ public static function showOptionDialog(dialogType:DialogType,text:String,dialog
         dialogBox.place();
 }
 
-public static function showOptionDialog(text:String,dialogTitle:String, scyDesktop:ScyDesktop, yesAction:function(), noAction:function(), id: String):Void{
+public static function showOptionDialog(text:String,dialogTitle:String, scyDesktop:ScyDesktop, yesAction:function():Void, noAction:function():Void, id: String):Void{
     showOptionDialog(DialogType.YES_NO_DIALOG,text,dialogTitle, DEFAULT_WIDTH, scyDesktop, true, true, yesAction, noAction, id);
 } 
 
