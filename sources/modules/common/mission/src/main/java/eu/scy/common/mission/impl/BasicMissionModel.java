@@ -57,6 +57,12 @@ public class BasicMissionModel implements MissionModel
 	}
 
 	@Override
+	public URI getMissionMapBackgroundImageUri()
+	{
+		return missionModelEloContent.getMissionMapBackgroundImageUri();
+	}
+
+	@Override
 	public List<URI> getEloUris(boolean allElos)
 	{
 		Set<URI> allEloUris = new HashSet<URI>();

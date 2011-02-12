@@ -12,6 +12,7 @@ public class BasicMissionModelEloContent implements MissionModelEloContent
    private List<URI> loEloUris = new ArrayList<URI>();
    private List<Las> lasses = new ArrayList<Las>();
    private Las selectedLas;
+   private URI missionMapBackgroundImageUri;
 
    @Override
    public List<URI> getLoEloUris()
@@ -48,5 +49,16 @@ public class BasicMissionModelEloContent implements MissionModelEloContent
       assert lasses!=null;
       this.lasses = lasses;
    }
+
+   @Override
+	public URI getMissionMapBackgroundImageUri()
+	{
+		return missionMapBackgroundImageUri;
+	}
+
+	public void setMissionMapBackgroundImageUri(URI missionMapBackgroundImageUri)
+	{
+		this.missionMapBackgroundImageUri = missionMapBackgroundImageUri;
+	}
 
 }
