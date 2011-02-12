@@ -19,6 +19,7 @@ import eu.scy.actionlogging.api.IAction;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.utils.XFX;
+import java.lang.UnsupportedOperationException;
 
 /**
  * @author SikkenJ
@@ -37,6 +38,7 @@ public class MissionModelFX extends MissionModel {
    public var loEloUris: URI[];
    public var lasses: LasFX[];
    public-read var activeLas: LasFX;
+   public-read var missionMapBackgroundImageUri: URI;
    public var saveUpdatedModel = false;
    public var scyDesktop: ScyDesktop;
 //   public var elo: IELO;
@@ -55,6 +57,7 @@ public class MissionModelFX extends MissionModel {
             }
       }
       def previousId = activeLas.id;
+      missionMapBackgroundImageUri = missionModel.getMissionMapBackgroundImageUri();
       activeLas = missionUtils.getLasFX(missionModel.getSelectedLas());
       logger.debug("new activeLas {activeLas}");
       missionModel.setSelectedLas(activeLas);
@@ -230,5 +233,9 @@ public class MissionModelFX extends MissionModel {
    override public function getLasses(): List {
       return missionModel.getLasses();
    }
+
+    override public function getMissionMapBackgroundImageUri () : URI {
+        return missionModel.getMissionMapBackgroundImageUri();
+    }
 
 }
