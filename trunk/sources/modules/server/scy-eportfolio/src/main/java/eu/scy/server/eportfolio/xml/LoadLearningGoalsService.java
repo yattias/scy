@@ -59,12 +59,6 @@ public class LoadLearningGoalsService extends MissionRuntimeEnabledXMLService {
         return learningGoals;
     }
 
-    @Override
-    protected void addAliases(XStream xStream) {
-        super.addAliases(xStream);    
-        xStream.alias("learninggoals", LearningGoals.class);
-        xStream.alias("goal", LearningGoal.class);
-    }
 
 
     private void addSpecificLearningGoal(String s, LearningGoals learningGoals) {

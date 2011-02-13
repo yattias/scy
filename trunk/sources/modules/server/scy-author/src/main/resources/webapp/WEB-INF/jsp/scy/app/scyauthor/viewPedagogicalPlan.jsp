@@ -32,10 +32,10 @@
                     </tr>
                     <tr class="${oddEven.oddEven}">
                         <td>
-                            <strong>Assigned students</strong>
+                            <strong>${numberOfStudentsAssigned} assigned students</strong>
                         </td>
                         <td>
-                            <a href="viewStudentsForPedagogicalPlan.html?eloURI=${missionSpecificationTransporter.uri}" >${numberOfStudentsAssigned}</a>
+                            <a href="viewStudentsForPedagogicalPlan.html?eloURI=${missionSpecificationTransporter.uri}" >Click to assign students to mission</a>
                         </td>
                     </tr>
                     <tr class="${oddEven.oddEven}">
@@ -56,6 +56,11 @@
                         <td colspan="2">
                             <a href="viewAgentConfiguration.html?eloURI=${missionSpecificationTransporter.uri}">Agent configuration</a>
 
+                        </td>
+                    </tr>
+                    <tr class="${oddEven.oddEven}">
+                        <td colspan="2">
+                            Finetune pedagogical plan: ${pedagogicalPlan.name}
                         </td>
                     </tr>
                 </table>

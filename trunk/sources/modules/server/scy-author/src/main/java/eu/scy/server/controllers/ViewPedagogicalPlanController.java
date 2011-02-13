@@ -3,10 +3,7 @@ package eu.scy.server.controllers;
 import eu.scy.actionlogging.SQLSpacesActionLogger;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
-import eu.scy.core.AssignedPedagogicalPlanService;
-import eu.scy.core.GroupService;
-import eu.scy.core.PedagogicalPlanPersistenceService;
-import eu.scy.core.UserService;
+import eu.scy.core.*;
 import eu.scy.core.model.User;
 
 import java.net.URI;
@@ -16,6 +13,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
 import eu.scy.core.roolo.MissionELOService;
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Field;
@@ -37,6 +35,7 @@ public class ViewPedagogicalPlanController extends BaseController {
     private GroupService groupService = null;
     private MissionELOService missionELOService;
     private TupleSpace eportfolioTupleSpace;
+    private XMLTransferObjectService xmlTransferObjectService;
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
@@ -73,9 +72,23 @@ public class ViewPedagogicalPlanController extends BaseController {
             modelAndView.addObject("descriptionUrl", descriptionURI);
             logger.info("DESCRIPTION: " + descriptionURI); // HAHAHA I laugh myself to death!
 
+            PedagogicalPlanTransfer pedagogicalPlanTransfer = null;
+
             try {
                 URI pedagogicalPlanUri = missionSpecificationElo.getTypedContent().getPedagogicalPlanSettingsEloUri();
                 logger.info("**** PEDAGOGICAL PLAN URI: " + pedagogicalPlanUri);
+
+                ScyElo pedagogicalPlanELO = ScyElo.loadLastVersionElo(pedagogicalPlanUri, getMissionELOService());
+                String pedagogicalPlanXML = pedagogicalPlanELO.getContent().getXmlString();
+                if(pedagogicalPlanXML != null && pedagogicalPlanXML.length() > 0) {
+                    pedagogicalPlanTransfer = (PedagogicalPlanTransfer) getXmlTransferObjectService().getObject(pedagogicalPlanXML);
+                }else {
+                    pedagogicalPlanTransfer = new PedagogicalPlanTransfer();
+                    pedagogicalPlanTransfer.setName(missionSpecificationElo.getTitle());
+                    //getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer);
+                }
+
+
             } catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
@@ -89,6 +102,7 @@ public class ViewPedagogicalPlanController extends BaseController {
             modelAndView.addObject("numberOfPortfoliosReadyForAssessment", portfoliosReadyForAssessment.size());
             modelAndView.addObject("missionSpecificationTransporter", getMissionELOService().getWebSafeTransporter(missionSpecificationElo));
             modelAndView.addObject("missionGlobalScaffoldingLevel", globalScaffoldingLevel);
+            modelAndView.addObject("pedagogicalPlan", pedagogicalPlanTransfer);
 
             String action = request.getParameter("action");
             if (action != null) {
@@ -177,5 +191,13 @@ public class ViewPedagogicalPlanController extends BaseController {
 
     public void setEportfolioTupleSpace(TupleSpace eportfolioTupleSpace) {
         this.eportfolioTupleSpace = eportfolioTupleSpace;
+    }
+
+    public XMLTransferObjectService getXmlTransferObjectService() {
+        return xmlTransferObjectService;
+    }
+
+    public void setXmlTransferObjectService(XMLTransferObjectService xmlTransferObjectService) {
+        this.xmlTransferObjectService = xmlTransferObjectService;
     }
 }

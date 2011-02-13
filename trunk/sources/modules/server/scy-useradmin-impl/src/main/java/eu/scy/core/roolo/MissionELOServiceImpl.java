@@ -182,10 +182,10 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
             Las las = (Las) lasses.get(i);
             MissionAnchor missionAnchor = las.getMissionAnchor();
             if (missionAnchor != null) {
-                ScyElo missionScyElo = ScyElo.loadLastVersionElo(missionAnchor.getEloUri(), this);
-                missionAnchors.add(missionScyElo);
-                if (missionScyElo != null) {
-                    log.info("MISSION ANCHOR: " + missionScyElo.getTitle());
+                ScyElo missionAnchorElo = ScyElo.loadLastVersionElo(missionAnchor.getEloUri(), this);
+                missionAnchors.add(missionAnchorElo);
+                if (missionAnchorElo != null) {
+                    log.info("MISSION ANCHOR: " + missionAnchorElo.getTitle());
                 } else {
                     log.info("MISSION SCY ELO IS NULL:" + missionAnchor.getIconType());
                 }
@@ -348,6 +348,21 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
         }
 
         return returnList;
+    }
+
+    @Override
+    public void clearAllPortfolios() {
+        List runtimeElos = getRuntimeElos(null);
+        for (int i = 0; i < runtimeElos.size(); i++) {
+            ScyElo shittyElo = (ScyElo) runtimeElos.get(i);
+            MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(shittyElo.getUri(), this);
+            URI portfolioURI = missionRuntimeElo.getTypedContent().getEPortfolioEloUri();
+            if (portfolioURI != null) {
+                ScyElo scyElo = ScyElo.loadLastVersionElo(portfolioURI, this);
+                scyElo.getContent().setXmlString(null);
+                scyElo.updateElo();
+            }
+        }
     }
 
     private String fixXml(String xmlString, ScyElo scyElo) {
