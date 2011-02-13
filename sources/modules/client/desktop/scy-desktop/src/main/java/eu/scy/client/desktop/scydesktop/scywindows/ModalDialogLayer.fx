@@ -185,6 +185,7 @@ public class ModalDialogLayer extends CustomNode {
             delete node from centeredNodes;
             node.visible = false;
             modalDialogGroup.visible = sizeof modalDialogGroup.content > 1;
+            backgroundBlocker.visible = false;
        }
    }
 
