@@ -1,4 +1,4 @@
-package eu.scy.server.eportfolio.xml.utilclasses;
+package eu.scy.server.controllers.xml;
 
 /**
  * Created by IntelliJ IDEA.

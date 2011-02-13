@@ -4,8 +4,9 @@ import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.model.transfer.Portfolio;
-import eu.scy.server.eportfolio.xml.utilclasses.ServiceExceptionMessage;
-import eu.scy.server.eportfolio.xml.utilclasses.ServiceStatusMessage;
+import eu.scy.server.controllers.xml.MissionRuntimeEnabledXMLService;
+import eu.scy.server.controllers.xml.ServiceStatusMessage;
+import eu.scy.server.controllers.xml.ServiceExceptionMessage;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

@@ -1,7 +1,7 @@
 package eu.scy.server.feedback;
 
 import eu.scy.common.mission.MissionRuntimeElo;
-import eu.scy.server.eportfolio.xml.MissionRuntimeEnabledXMLService;
+import eu.scy.server.controllers.xml.MissionRuntimeEnabledXMLService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

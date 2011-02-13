@@ -4,6 +4,7 @@ import com.thoughtworks.xstream.XStream;
 import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.core.model.transfer.LearningGoal;
 import eu.scy.core.model.transfer.LearningGoals;
+import eu.scy.server.controllers.xml.MissionRuntimeEnabledXMLService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

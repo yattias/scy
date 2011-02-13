@@ -97,11 +97,13 @@
     <bean id="myElosFeedbackService" class="eu.scy.server.controllers.scyfeedback.xml.MyElosFeedbackService">
         <property name="userService" ref="userService"/>
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="missionELOService" ref="missionELOService"/>
     </bean>
 
     <bean id="myContributionElosFeedbackService" class="eu.scy.server.controllers.scyfeedback.xml.MyContributionElosFeedbackService">
         <property name="userService" ref="userService"/>
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="missionELOService" ref="missionELOService"/>
     </bean>
 
     <bean id="studentEloRefViewerController"

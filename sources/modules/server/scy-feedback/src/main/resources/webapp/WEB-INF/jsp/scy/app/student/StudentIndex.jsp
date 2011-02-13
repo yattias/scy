@@ -34,10 +34,10 @@
             </tr>
             <tr class="${oddEven.oddEven}">
                 <td>
-                    <a href="/webapp/app/feedback/ScyFeedbackIndex.html?eloURI=${missionSpecificationTransporter.uri}">Give Feedback</a>
+                    <a href="/webapp/app/feedback/FeedbackToolIndex.html?eloURI=${missionSpecificationTransporter.uri}">Give Feedback</a>
                 </td>
                 <td>
-                    <strong>4</strong> others have requested you to give feedback to their work
+                    You have contributed with feedback to ${elosWhereIHaveProvidedFeedback} elos.
                 </td>
             </tr>
             <tr  class="${oddEven.oddEven}">
@@ -45,7 +45,7 @@
                     <a href="/webapp/app/feedback/FeedbackToolIndex.html?eloURI=${missionSpecificationTransporter.uri}">View Feedback</a>
                 </td>
                 <td>
-                    Your work has gotten feedback from <strong>3</strong> others
+                    Your work has gotten feedback from <strong>${numberOfFeedbacksToMyElos}</strong> others
                 </td>
             </tr>
 

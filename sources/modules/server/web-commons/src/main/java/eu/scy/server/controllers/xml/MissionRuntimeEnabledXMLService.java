@@ -1,11 +1,9 @@
-package eu.scy.server.eportfolio.xml;
+package eu.scy.server.controllers.xml;
 
 import com.thoughtworks.xstream.XStream;
 import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.roolo.MissionELOService;
-import eu.scy.server.controllers.xml.XMLStreamerController;
-import eu.scy.server.eportfolio.xml.utilclasses.ServiceExceptionMessage;
 import eu.scy.server.url.UrlInspector;
 
 import javax.servlet.http.HttpServletRequest;
