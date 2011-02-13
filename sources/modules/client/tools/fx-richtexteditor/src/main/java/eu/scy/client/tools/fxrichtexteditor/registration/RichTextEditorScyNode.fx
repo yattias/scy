@@ -59,7 +59,7 @@ public class RichTextEditorScyNode extends RichTextEditorNode, ScyToolFX, EloSav
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository:IRepository;
    public var toolBrokerAPI:ToolBrokerAPI;
-   public var extensionManager:IExtensionManager;
+//   public var extensionManager:IExtensionManager;
    public var actionLogger:IActionLogger;
    public var scyWindow:ScyWindow;
    public var authorMode:Boolean;
@@ -84,6 +84,7 @@ public class RichTextEditorScyNode extends RichTextEditorNode, ScyToolFX, EloSav
    public override function initialize(windowContent:Boolean):Void{
        metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
        repository = toolBrokerAPI.getRepository();
+       eloFactory = toolBrokerAPI.getELOFactory();
        actionLogger = toolBrokerAPI.getActionLogger();
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       if (actionLogger==null) {
