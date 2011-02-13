@@ -117,9 +117,6 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
             }
         }
 
-        System.out.println("THIS IS THE PARSED SHITTY XML: " + xml);
-
-
         return getToObjectXStream().fromXML(xml);
     }
 
