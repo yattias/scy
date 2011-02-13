@@ -34,6 +34,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.design.EloSaveAsMi
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.design.SimpleAuthorSaveAsNodeDesign;
 import eu.scy.common.scyelo.EloFunctionalRole;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
+import java.lang.IllegalArgumentException;
 
 /**
  * @author sikken
@@ -170,6 +171,9 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
    }
 
    public override function eloUpdate(elo: IELO, eloSaverCallBack: EloSaverCallBack): Void {
+      if (elo==null){
+         throw new IllegalArgumentException("elo may not be null");
+      }
       if (elo.getUri() != null) {
          def scyElo = new ScyElo(elo, config.getToolBrokerAPI());
          addThumbnail(scyElo);
@@ -188,6 +192,9 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
    }
 
    public override function otherEloSaveAs(elo: IELO, eloSaverCallBack: EloSaverCallBack): Void {
+      if (elo==null){
+         throw new IllegalArgumentException("elo may not be null");
+      }
       var forking = elo.getUri() != null;
       var currentEloTitle = elo.getMetadata().getMetadataValueContainer(titleKey).getValue() as String;
       var suggestedEloTitle = currentEloTitle;
