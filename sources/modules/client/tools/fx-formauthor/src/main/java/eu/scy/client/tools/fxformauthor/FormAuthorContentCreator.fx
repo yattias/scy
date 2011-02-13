@@ -12,6 +12,7 @@ import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
 import javafx.util.Properties;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * @author pg
@@ -25,6 +26,7 @@ public class FormAuthorContentCreator extends ScyToolCreatorFX {
         return createFormAuthorNode(scyWindow);
     }
 
+    public var toolBrokerAPI:ToolBrokerAPI;
     public var eloFactory:IELOFactory;
     public var metadataTypeManager: IMetadataTypeManager;
     public var repository:IRepository;
@@ -33,7 +35,9 @@ public class FormAuthorContentCreator extends ScyToolCreatorFX {
     }
 
     function createFormAuthorNode(scyWindow:ScyWindow):FormAuthorNode {
-        println("formauithornodebla");
+        repository = toolBrokerAPI.getRepository();
+        metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+        eloFactory = toolBrokerAPI.getELOFactory();
         setWindowProperties(scyWindow);
         var props:Properties = new Properties();
         props.put("show.filetoolbar", "false"); 
