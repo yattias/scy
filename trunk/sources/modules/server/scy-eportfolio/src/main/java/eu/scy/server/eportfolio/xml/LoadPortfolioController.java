@@ -6,6 +6,7 @@ import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.model.transfer.LearningGoal;
 import eu.scy.core.model.transfer.Portfolio;
+import eu.scy.server.controllers.xml.MissionRuntimeEnabledXMLService;
 import eu.scy.server.url.UrlInspector;
 
 import javax.servlet.http.HttpServletRequest;

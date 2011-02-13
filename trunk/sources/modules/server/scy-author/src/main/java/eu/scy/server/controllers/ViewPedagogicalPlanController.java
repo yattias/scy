@@ -83,7 +83,9 @@ public class ViewPedagogicalPlanController extends BaseController {
 
             Integer globalScaffoldingLevel = getMissionELOService().getGlobalMissionScaffoldingLevel(missionSpecificationElo);
             List portfoliosReadyForAssessment = getMissionELOService().getPortfoliosThatAreReadyForAssessment(missionSpecificationElo);
+            List assignedUsernames = getMissionELOService().getAssignedUserNamesFor(missionSpecificationElo);
 
+            modelAndView.addObject("numberOfStudentsAssigned" , assignedUsernames.size());
             modelAndView.addObject("numberOfPortfoliosReadyForAssessment", portfoliosReadyForAssessment.size());
             modelAndView.addObject("missionSpecificationTransporter", getMissionELOService().getWebSafeTransporter(missionSpecificationElo));
             modelAndView.addObject("missionGlobalScaffoldingLevel", globalScaffoldingLevel);

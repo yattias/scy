@@ -1,6 +1,8 @@
 package eu.scy.server.controllers.scyfeedback.xml;
 
+import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.core.model.transfer.FeedbackEloTransfer;
+import eu.scy.server.controllers.xml.MissionRuntimeEnabledXMLService;
 import eu.scy.server.controllers.xml.XMLStreamerController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,9 +15,10 @@ import javax.servlet.http.HttpServletResponse;
  * Time: 07:26:38
  * To change this template use File | Settings | File Templates.
  */
-public class MyContributionElosFeedbackService extends XMLStreamerController {
+public class MyContributionElosFeedbackService extends MissionRuntimeEnabledXMLService {
+
     @Override
-    protected Object getObjectToStream(HttpServletRequest request, HttpServletResponse httpServletResponse) {
-        return new FeedbackEloTransfer();
+    protected Object getObject(MissionRuntimeElo missionRuntimeElo, HttpServletRequest request, HttpServletResponse response) {
+        return getMissionELOService().getFeedbackElosWhereIHaveContributed(missionRuntimeElo, getCurrentUserName(request));
     }
 }

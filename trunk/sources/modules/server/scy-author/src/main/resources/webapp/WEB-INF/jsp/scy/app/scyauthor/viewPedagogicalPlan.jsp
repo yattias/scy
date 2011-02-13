@@ -35,7 +35,7 @@
                             <strong>Assigned students</strong>
                         </td>
                         <td>
-                            <a href="viewStudentsForPedagogicalPlan.html?eloURI=${missionSpecificationTransporter.uri}" >20</a>
+                            <a href="viewStudentsForPedagogicalPlan.html?eloURI=${missionSpecificationTransporter.uri}" >${numberOfStudentsAssigned}</a>
                         </td>
                     </tr>
                     <tr class="${oddEven.oddEven}">
@@ -71,7 +71,7 @@
                             <strong>Portfolios</strong>
                         </td>
                         <td>
-                            <strong><a href="/webapp/app/assessment/assessmentindex.html?eloURI=${missionSpecificationTransporter.uri}">${numberOfPortfoliosReadyForAssessment}</a></strong> portfolios are ready to be assessed
+                            <strong><a href="/webapp/app/assessment/assessmentindex.html?eloURI=${missionSpecificationTransporter.uri}">${numberOfPortfoliosReadyForAssessment}  portfolios are ready to be assessed</a></strong>
                         </td>
                     </tr>
                 </table>

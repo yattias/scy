@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLEncoder;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -50,11 +51,18 @@ public class StudentIndexController extends BaseController {
         } else {
             logger.info("NO PORTFOLIO URI!");
         }
+
+
+        List myElosWithFeedback = getMissionELOService().getMyElosWithFeedback(missionRuntimeElo, getCurrentUserName(request));
+        List elosWhereIHaveProvidedFeedback = getMissionELOService().getFeedbackElosWhereIHaveContributed(missionRuntimeElo, getCurrentUserName(request));
+
         MissionSpecificationElo missionSpecificationElo = getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo);
         URI descriptionURI = missionSpecificationElo.getTypedContent().getMissionDescriptionUri();
-        modelAndView.addObject("descriptionUrl", descriptionURI);
 
+        modelAndView.addObject("descriptionUrl", descriptionURI);
         modelAndView.addObject("missionSpecificationTransporter", getMissionELOService().getWebSafeTransporter(missionRuntimeElo));
+        modelAndView.addObject("numberOfFeedbacksToMyElos", myElosWithFeedback.size());
+        modelAndView.addObject("elosWhereIHaveProvidedFeedback", elosWhereIHaveProvidedFeedback.size());
         try {
             modelAndView.addObject("jnlpRef", "/webapp/scy-lab.jnlp?username=" + getCurrentUserName(request) + "&mission=" + URLEncoder.encode(missionRuntimeElo.getUri().toString(), "UTF-8"));
         } catch (UnsupportedEncodingException e) {

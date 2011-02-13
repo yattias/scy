@@ -46,7 +46,6 @@ public class RetrieveSingleEloService extends XMLStreamerController{
                     if(feedbackURK != null) {
                         URI feedbackURI = new URI(feedbackURK);
                         ScyElo scyFeedbackElo = ScyElo.loadLastVersionElo(feedbackURI, getMissionELOService());
-                        logger.info("LOADED ELO BASED ON URK: " + scyFeedbackElo);
                         transferElo.setFeedbackELO(scyFeedbackElo);
                     }
                 }

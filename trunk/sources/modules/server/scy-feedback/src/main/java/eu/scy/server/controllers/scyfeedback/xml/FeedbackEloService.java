@@ -48,44 +48,18 @@ public class FeedbackEloService extends XMLStreamerController {
                 if (feedbacksIndex > 0) {
                     String end = feedbackRepresentation.substring(feedbacksIndex, feedbackRepresentation.length());
                     String start = feedbackRepresentation.substring(0, feedbacksIndex);
-
-                    //feedbackRepresentation = feedbackRepresentation.replace("</feedback>", "</feedbackelo>");
-                    //start = start.replaceAll("<comment>", "<question>");
-                    //start = start.replaceAll("</comment>", "</question>");
                     feedbackRepresentation = start + end;
                 }
-                
-
-
-
-
-                logger.info("WASHED ELOSTRING: " + feedbackRepresentation);
 
                 FeedbackEloTransfer feedbackEloTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(feedbackRepresentation);
                 feedbackEloTransfer.setUri(fURI);
                 feedbackEloTransfer.setScore("0");
                 feedbackEloTransfer.setQuality("0");
-                feedbackEloTransfer.setShown("0");
+                //feedbackEloTransfer.setShown("0");
                 feedbackEloTransfer.setEvaluation("0");
 
-                /*FeedbackTransfer feedbackTransfer = new FeedbackTransfer();
-                feedbackTransfer.setCreatedBy("wouter");
-                SimpleDateFormat format = new SimpleDateFormat("DD.MM.yyyy");
-                feedbackTransfer.setCalendarDate(format.format(new Date()));
-                feedbackTransfer.setCalendarTime("12:13");
-                feedbackTransfer.setComment("A COMMENT MAN!");
+                feedbackEloTransfer = updateNumberOfViews(feedbackEloTransfer, feedbackElo);
 
-                FeedbackReplyTransfer reply = new FeedbackReplyTransfer();
-                reply.setCreatedBy("adam");
-                reply.setComment("This is totally bull!");
-                reply.setComment("This is totally bull!");
-                reply.setCalendarDate(format.format(new Date()));
-                reply.setCalendarTime("15:30");
-                feedbackTransfer.addReply(reply);
-
-
-                feedbackEloTransfer.addFeedback(feedbackTransfer);
-                 */
                 return feedbackEloTransfer;
 
             } catch (URISyntaxException e) {
@@ -95,6 +69,33 @@ public class FeedbackEloService extends XMLStreamerController {
 
         return null;
 
+
+    }
+
+    private FeedbackEloTransfer updateNumberOfViews(FeedbackEloTransfer feedbackEloTransfer, ScyElo feedbackElo) {
+        logger.info("**************************************************************** UPDATING NUMBER OF VIEWS for " + feedbackEloTransfer.getComment());
+
+        logger.info("SHOWN: " + feedbackEloTransfer.getShown());
+
+        if (feedbackEloTransfer.getShown() != null) {
+            try {
+                Integer shown =Integer.parseInt(feedbackEloTransfer.getShown());
+                shown ++;
+                feedbackEloTransfer.setShown(String.valueOf(shown));
+            } catch (NumberFormatException e) {
+                logger.warn("shown was invalid, setting to 1");
+                feedbackEloTransfer.setShown("1");
+            }
+        } else {
+            feedbackEloTransfer.setShown("1");
+        }
+
+        feedbackElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(feedbackEloTransfer));
+        feedbackElo.updateElo();
+
+        logger.info("New SHOWN: " + feedbackEloTransfer.getShown());
+
+        return feedbackEloTransfer;
 
     }
 

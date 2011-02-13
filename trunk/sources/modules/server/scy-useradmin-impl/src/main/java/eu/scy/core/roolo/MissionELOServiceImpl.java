@@ -3,9 +3,7 @@ package eu.scy.core.roolo;
 import eu.scy.common.mission.*;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
-import eu.scy.core.model.transfer.NewestElos;
-import eu.scy.core.model.transfer.Portfolio;
-import eu.scy.core.model.transfer.TransferElo;
+import eu.scy.core.model.transfer.*;
 import roolo.elo.BasicELO;
 import roolo.search.IQueryComponent;
 import roolo.search.MetadataQueryComponent;
@@ -299,12 +297,57 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
 
             String xmlString = scyELO.getElo().getContent().getXmlString();
 
-            log.info("***************** FEEDBACK: " + xmlString);
+            //log.info("***************** FEEDBACK: " + xmlString);
 
             if(xmlString.startsWith("<feedback>")) xmlString = fixXml(xmlString, scyELO);
         }
 
         return getELOs(feedbackQuery);
+    }
+
+    @Override
+    public List getMyElosWithFeedback(MissionRuntimeElo missionRuntimeElo, String currentUserName) {
+        List feedback = getFeedback();
+        List returnList = new LinkedList();
+
+        for (int i = 0; i < feedback.size(); i++) {
+            ScyElo scyElo = (ScyElo) feedback.get(i);
+            FeedbackEloTransfer feedbackEloTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(scyElo.getContent().getXml());
+            if(feedbackEloTransfer.getCreatedBy() != null && feedbackEloTransfer.getCreatedBy().equals(currentUserName)) returnList.add(feedbackEloTransfer);
+        }
+
+        return returnList;
+
+    }
+
+    @Override
+    public List getFeedbackElosWhereIHaveContributed(MissionRuntimeElo missionRuntimeElo, String currentUserName) {
+        List feedbackElos = getFeedback();
+        List returnList = new LinkedList();
+        for (int i = 0; i < feedbackElos.size(); i++) {
+            ScyElo scyElo = (ScyElo) feedbackElos.get(i);
+            FeedbackEloTransfer feedbackEloTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(scyElo.getContent().getXml());
+            if(feedbackEloTransfer != null) {
+                List givenFeedback = feedbackEloTransfer.getFeedbacks();
+                for (int j = 0; j < givenFeedback.size(); j++) {
+                    FeedbackTransfer feedbackTransfer = (FeedbackTransfer) givenFeedback.get(j);
+                    if(feedbackTransfer.getCreatedBy().equals(currentUserName)) {
+                        if(!returnList.contains(feedbackEloTransfer)) returnList.add(feedbackEloTransfer);
+                    } else {
+                        List replies = feedbackTransfer.getReplies();
+                        for (int k = 0; k < replies.size(); k++) {
+                            FeedbackReplyTransfer replyTransfer = (FeedbackReplyTransfer) replies.get(k);
+                            if(replyTransfer.getCreatedBy().equals(currentUserName)) {
+                                if(!returnList.contains(feedbackEloTransfer)) returnList.add(feedbackEloTransfer);
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
+        return returnList;
     }
 
     private String fixXml(String xmlString, ScyElo scyElo) {

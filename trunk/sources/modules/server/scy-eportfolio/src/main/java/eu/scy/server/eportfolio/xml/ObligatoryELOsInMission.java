@@ -6,7 +6,7 @@ import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.model.transfer.ELOSearchResult;
 import eu.scy.core.model.transfer.TransferElo;
-import eu.scy.server.eportfolio.xml.utilclasses.ServiceExceptionMessage;
+import eu.scy.server.controllers.xml.MissionRuntimeEnabledXMLService;
 import eu.scy.server.url.UrlInspector;
 
 import javax.servlet.http.HttpServletRequest;

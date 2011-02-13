@@ -5,6 +5,7 @@ import eu.scy.core.model.transfer.EloReflection;
 import eu.scy.core.model.transfer.PortfolioConfig;
 import eu.scy.core.model.transfer.PortfolioEffortScale;
 import eu.scy.core.model.transfer.Tab;
+import eu.scy.server.controllers.xml.MissionRuntimeEnabledXMLService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  * Time: 11:10:25
  * To change this template use File | Settings | File Templates.
  */
-public class PortfolioConfigController extends MissionRuntimeEnabledXMLService{
+public class PortfolioConfigController extends MissionRuntimeEnabledXMLService {
     @Override
     protected Object getObject(MissionRuntimeElo missionRuntimeElo, HttpServletRequest request, HttpServletResponse response) {
         PortfolioConfig portfolioConfig = new PortfolioConfig();
