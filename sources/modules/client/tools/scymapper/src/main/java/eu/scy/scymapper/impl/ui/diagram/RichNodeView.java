@@ -119,7 +119,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
         //labelScroller = new JScrollPane(labelTextPane);
         labelTextPane.setMargin(new Insets(0, 0, 0, 0));
         labelTextPane.setBorder(BorderFactory.createEmptyBorder());
-        //labelScroller.getViewport().setOpaque(false);
+        labelTextPane.setOpaque(false);
         //labelScroller.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 	labelTextPane.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
@@ -248,7 +248,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
             editable = false;
 
 //        labelScroller.setOpaque(editable);
-//        labelScroller.getViewport().setOpaque(editable);
+	labelTextPane.setOpaque(editable);
 //        labelScroller.setBorder(editable ? BorderFactory.createEtchedBorder() : BorderFactory.createEmptyBorder(1, 1, 1, 1));
         labelTextPane.setBorder(editable ? BorderFactory.createEtchedBorder() : BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
@@ -376,7 +376,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
     public void styleChanged(INodeModel node) {
         labelTextPane.setForeground(node.getStyle().getForeground());
         labelTextPane.setBackground(node.getStyle().getBackground());
-        //labelScroller.setOpaque(false);
+        labelTextPane.setOpaque(false);
         //labelScroller.getViewport().setOpaque(false);
         repaint();
     }
@@ -405,7 +405,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
     public void styleChanged(INodeStyle s) {
         labelTextPane.setForeground(s.getForeground());
         labelTextPane.setBackground(s.getBackground());
-//        labelScroller.setOpaque(false);
+	labelTextPane.setOpaque(false);
 //        labelScroller.getViewport().setOpaque(false);
         repaint();
     }
