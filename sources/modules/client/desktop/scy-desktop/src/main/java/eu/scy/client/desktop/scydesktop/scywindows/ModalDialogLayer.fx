@@ -58,7 +58,7 @@ public class ModalDialogLayer extends CustomNode {
          blocksMouse: true
          x: 0, y: 0
          width: 100, height: 100
-         fill: Color.color(0.0, 0.0, 0.0, 0.3)
+         fill: Color.color(1.0, 1.0, 1.0, 0.5)
          onKeyPressed: function(e: KeyEvent): Void {
          }
          onKeyReleased: function(e: KeyEvent): Void {
@@ -132,6 +132,7 @@ public class ModalDialogLayer extends CustomNode {
         };
         addDialogTimeline1.playFromStart();
       } else {
+         backgroundBlocker.opacity = 1.0;
         backgroundBlocker.visible = true;
       }
 
@@ -184,7 +185,8 @@ public class ModalDialogLayer extends CustomNode {
             delete node from modalDialogGroup.content;
             delete node from centeredNodes;
             node.visible = false;
-            modalDialogGroup.visible = sizeof modalDialogGroup.content > 1;
+            // TODO, fix the situation when multiple dialog boxes are visible
+            backgroundBlocker.visible = sizeof modalDialogGroup.content > 1;
             backgroundBlocker.visible = false;
        }
    }
