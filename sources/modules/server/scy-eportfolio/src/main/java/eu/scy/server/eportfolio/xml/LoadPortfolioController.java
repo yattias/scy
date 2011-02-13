@@ -32,7 +32,6 @@ public class LoadPortfolioController extends MissionRuntimeEnabledXMLService {
     @Override
     protected Object getObject(MissionRuntimeElo missionRuntimeElo, HttpServletRequest request, HttpServletResponse response) {
 
-        Object returnObject = null;
         if(missionRuntimeElo == null) {
             String missionURI = request.getParameter("missionURI");
             URI uri = null;
@@ -56,54 +55,26 @@ public class LoadPortfolioController extends MissionRuntimeEnabledXMLService {
             String portfolioString = ePortfolioElo.getContent().getXmlString();
             logger.info("PORTFOLIO: " + portfolioString);
             if (portfolioString != null) {
-                portfolio = (Portfolio) xstream.fromXML(portfolioString);
+                logger.info("Now returning the freakin portfolio object");
+                return getXmlTransferObjectService().getObject(portfolioString);
+                //return xstream.fromXML(portfolioString);
             }
         }
+
         if (portfolio == null) {
             portfolio = new Portfolio();
             portfolio.setMissionName(missionRuntimeElo.getTitle());
             portfolio.setOwner(getCurrentUser(request).getUserDetails().getUsername());
             portfolio.setPortfolioStatus("NOT_SUBMITTED");
             portfolio.setMissionRuntimeURI(missionRuntimeElo.getUri().toString());
-            //try {
-            //portfolio.setMissionRuntimeURI(URLEncoder.encode(missionRuntimeElo.getUri().toString(), "UTF-8"));
-            //} catch (UnsupportedEncodingException e) {
-            //    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            //}
         }
 
+        logger.info("NO SHITTY WAY! THIS IS NOT GOING TO HAPPEN!");
 
-        List elos = getMissionELOService().findElosFor(missionRuntimeElo.getUri().toString(), getCurrentUserName(request));
-        List searchResult = new LinkedList();
-        /**
-         for (int i = 0; i < elos.size(); i++) {
-         IELO elo = (IELO) elos.get(i);
-         ScyElo scyElo = ScyElo.loadLastVersionElo(elo.getUri(), getMissionELOService());
-         TransferElo telo = new TransferElo(scyElo);
-         portfolio.getElos().add(telo);
-
-
-         }  */
-
-
-        LearningGoal learningGoal = new LearningGoal();
-        learningGoal.setGoal("A generally considered general goal");
-
-        //elo.getGeneralLearningGoals().add(learningGoal);
-
-        //portfolio.getElos().add(elo);
-
-        returnObject = portfolio;
-        return returnObject;
+        return portfolio;
 
     }
 
-
-    @Override
-    protected void addAliases(XStream xStream) {
-        super.addAliases(xStream);    //To change body of overridden methods use File | Settings | File Templates.
-
-    }
 
 
     public UrlInspector getUrlInspector() {

@@ -33,6 +33,14 @@ public class BaseELOServiceImpl extends RooloAccessorImpl implements BaseELOServ
         return getELOs(missionRuntimeQuery);
     }
 
+    public List getAllRuntimes() {
+        final IMetadataKey technicalFormatKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+        IQueryComponent missionRuntimeQueryComponent = new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, MissionEloType.MISSION_RUNTIME.getType());
+        IQuery missionRuntimeQuery = new Query(missionRuntimeQueryComponent);
+        return getELOs(missionRuntimeQuery);
+
+    }
+
     public IMetadataKey getAuthorKey() {
         return authorKey;
     }

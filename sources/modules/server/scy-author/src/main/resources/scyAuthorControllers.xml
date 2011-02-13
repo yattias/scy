@@ -37,6 +37,7 @@
                <value>
                    /app/scyauthor/ScyAuthorIndex.html=scyauthorIndexController
                    /app/scyauthor/viewPedagogicalPlan.html=viewPedagogicalPlanController
+                   /app/scyauthor/clearAllPortfolios.html=clearAllPortfolios
                    /app/scyauthor/viewStudentsForPedagogicalPlan.html=viewStudentsForPedagogicalPlanController
                    /app/scyauthor/viewGroupsForPedagogicalPlan.html=viewGroupsForPedagogicalPlanController
                    /app/scyauthor/viewLAS.html=viewLASController
@@ -97,6 +98,13 @@
         <property name="urlInspector" ref="urlInspector"/>
         <property name="missionELOService" ref="missionELOService"/>
         <property name="eportfolioTupleSpace" ref="portfolioTupleSpace"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+    </bean>
+
+    <bean id="clearAllPortfolios" class="eu.scy.server.controllers.ClearAllPortfolios">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="missionELOService" ref="missionELOService"/>
     </bean>
 
     <bean id="viewStudentsForPedagogicalPlanController" class="eu.scy.server.controllers.ViewStudentsForPedagogicalPlanController">

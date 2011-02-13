@@ -3,6 +3,8 @@ package eu.scy.server.controllers.xml.converters;
 import com.thoughtworks.xstream.converters.basic.AbstractSingleValueConverter;
 import eu.scy.core.model.transfer.LearningGoal;
 
+import java.util.logging.Logger;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -11,6 +13,9 @@ import eu.scy.core.model.transfer.LearningGoal;
  * To change this template use File | Settings | File Templates.
  */
 public class LearningGoalConverter extends AbstractSingleValueConverter  {
+
+    private static Logger log = Logger.getLogger("LearningGoalConverter.class");
+
     @Override
     public boolean canConvert(Class aClass) {
         return aClass.equals(LearningGoal.class);
@@ -18,29 +23,12 @@ public class LearningGoalConverter extends AbstractSingleValueConverter  {
 
     @Override
     public Object fromString(String s) {
-        // System.out.println("CONVERTING LEARNING GOAL FROM STRING : " +s );
+
+        log.info("Converting string to learning goal: " + s);
+
         LearningGoal learningGoal = new LearningGoal();
         learningGoal.setGoal(s);
         return learningGoal;
     }
 
-/*
-    @Override
-    public void marshal(Object value, HierarchicalStreamWriter writer, MarshallingContext context) {
-        LearningGoal leaeLearningGoal = (LearningGoal) value;
-        writer.startNode("goal");
-        writer.setValue(leaeLearningGoal.getGoal());
-        writer.endNode();
-        
-    }
-
-    @Override
-    public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext unmarshallingContext) {
-        LearningGoal learningGoal = new LearningGoal();
-        reader.moveDown();
-        learningGoal.setGoal(reader.getValue());
-        reader.moveDown();
-        return learningGoal;
-    }
-    */
 }

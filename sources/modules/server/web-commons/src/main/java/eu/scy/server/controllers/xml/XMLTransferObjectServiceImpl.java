@@ -11,6 +11,7 @@ import eu.scy.core.model.transfer.*;
 
 import java.io.Writer;
 import java.util.LinkedList;
+import java.util.logging.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,6 +21,8 @@ import java.util.LinkedList;
  * To change this template use File | Settings | File Templates.
  */
 public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
+
+    private static Logger log = Logger.getLogger("XMLTransferObjectServiceImpl.class");
 
     private XStream xstream;
 
@@ -117,13 +120,34 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
             }
         }
 
+        //yet another cleanup:
+
+        log.info("CHECKING FOR LEARNING GOALS");
+        log.info(xml);
+
+        if(xml.contains("<studentglg>")) {
+            String start = xml.substring(0, xml.indexOf("<studentglg>"));
+            String end = xml.substring(xml.indexOf("</studentglg>") + "</studentglg>".length(), xml.length());
+            xml = start + end;//FUCK!
+        }
+
+        if(xml.contains("<studentslg>")) {
+            String start = xml.substring(0, xml.indexOf("<studentslg>"));
+            String end = xml.substring(xml.indexOf("</studentslg>") + "</studentslg>".length(), xml.length());
+            xml = start + end;//FUCK!
+        }
+
+        xml = xml.replaceAll("<goal />", ""); 
+
+        log.info("XML AFTER WASH: " + xml);
+
         return getToObjectXStream().fromXML(xml);
     }
 
     private void addAliases(XStream xStream) {
 
         xStream.alias("elo", TransferElo.class);
-        xStream.alias("goal", LearningGoal.class);
+        xStream.alias("learninggoal", LearningGoal.class);
         xStream.alias("searchresult", ELOSearchResult.class);
         xStream.alias("portfoliocontainer", PortfolioContainer.class);
         xStream.alias("portfolios", LinkedList.class);
@@ -140,6 +164,7 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
         xStream.alias("feedbackelo", FeedbackEloTransfer.class);
         xStream.alias("feedback", FeedbackTransfer.class);
         xStream.alias("reply", FeedbackReplyTransfer.class);
+        xStream.alias("learninggoals", LearningGoals.class);
 
 
 
@@ -172,7 +197,7 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
         xStream.aliasField("lastModified".toLowerCase(), TransferElo.class, "lastModified");
         xStream.aliasField("createdBy".toLowerCase(), TransferElo.class, "createdBy");
         xStream.aliasField("eloId".toLowerCase(), TransferElo.class, "eloId");
-        xStream.aliasField("studentglg", TransferElo.class, "generalLearningGoals");
+        xStream.aliasField("studentgenerallearninggoals", TransferElo.class, "generalLearningGoals");
         xStream.aliasField("assessmentComment".toLowerCase(), TransferElo.class, "assessmentComment");
         xStream.aliasField("reflectionComment".toLowerCase(), TransferElo.class, "reflectionComment");
         xStream.aliasField("hasBeenReflectedOn".toLowerCase(), TransferElo.class, "hasBeenReflectedOn");
@@ -180,7 +205,7 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
         xStream.aliasField("technicalformat".toLowerCase(), TransferElo.class, "technicalFormat");
         xStream.aliasField("rawData".toLowerCase(), TransferElo.class, "rawData");
         xStream.aliasField("hasBeenSelectedForSubmit".toLowerCase(), TransferElo.class, "hasBeenSelectedForSubmit");
-        xStream.aliasField("studentslg", TransferElo.class, "specificLearningGoals");
+        xStream.aliasField("studentspecificlearninggoals", TransferElo.class, "specificLearningGoals");
         xStream.aliasField("feedbackEloUrl".toLowerCase(), TransferElo.class, "feedbackEloUrl");
 
         xStream.aliasField("createdBy".toLowerCase(), FeedbackEloTransfer.class, "createdBy");
@@ -205,8 +230,8 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
         xStream.aliasField("technicalformat".toLowerCase(), ActionLogEntry.class, "technicalformat");
         xStream.aliasField("rawData".toLowerCase(), ActionLogEntry.class, "rawData");
 
-        xStream.addImplicitCollection(TransferElo.class, "generalLearningGoals", LearningGoal.class);
-        xStream.addImplicitCollection(TransferElo.class, "specificLearningGoals", LearningGoal.class);
+        //xStream.addImplicitCollection(TransferElo.class, "generalLearningGoals", LearningGoal.class);
+        //xStream.addImplicitCollection(TransferElo.class, "specificLearningGoals", LearningGoal.class);
         xStream.addImplicitCollection(NewestElos.class, "elos", TransferElo.class);
 
         xStream.aliasField("reflectionOnMissionQuestion".toLowerCase(), PortfolioConfig.class, "reflectionOnMissionQuestion");
@@ -221,6 +246,9 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
         xStream.aliasField("text".toLowerCase(), PortfolioEffortScale.class, "text");
         xStream.aliasField("url".toLowerCase(), PortfolioEffortScale.class, "url");
 
+        xStream.aliasField("generalLearningGoals ".toLowerCase(), LearningGoals.class, "generalLearningGoals ");
+        xStream.aliasField("specificLearningGoals ".toLowerCase(), LearningGoals.class, "specificLearningGoals ");
+
         xStream.aliasField("portfoliostatus", Portfolio.class, "portfolioStatus");
         xStream.aliasField("missionname", Portfolio.class, "missionName");
         xStream.aliasField("reflectioncollaboration", Portfolio.class, "reflectionCollaboration");
@@ -232,13 +260,10 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
         xStream.aliasField("mission", Portfolio.class, "missionName");
         xStream.aliasField("missionruntimeuri", Portfolio.class, "missionRuntimeURI");
 
-        xStream.aliasField("generalLearningGoals".toLowerCase(), LearningGoals.class, "generalLearningGoals");
-        xStream.aliasField("specificLearningGoals".toLowerCase(), LearningGoals.class, "specificLearningGoals");
+        //xStream.aliasField("generalLearningGoals".toLowerCase(), LearningGoals.class, "generalLearningGoals");
+        //xStream.aliasField("specificLearningGoals".toLowerCase(), LearningGoals.class, "specificLearningGoals");
 
-        xStream.aliasField("generallearninggoals", LearningGoals.class, "generalLearningGoals ");
-        xStream.aliasField("specificlearninggoals", LearningGoals.class, "specificLearningGoals ");
-
-        xStream.registerConverter(new LearningGoalConverter());
+        //xStream.registerConverter(new LearningGoalConverter());
 
     }
 
