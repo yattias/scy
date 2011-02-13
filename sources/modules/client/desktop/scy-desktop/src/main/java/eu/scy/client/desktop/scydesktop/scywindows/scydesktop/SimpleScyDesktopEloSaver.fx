@@ -133,6 +133,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
          eloIcon = windowStyler.getScyEloIcon(window.eloType);
          windowColorScheme = windowStyler.getWindowColorScheme(window.eloType);
       }
+      eloIcon.selected = true;
       Composer.localizeDesign(eloSaveAsPanel.getDesignNodes());
       eloSaveAsPanel.modalDialogBox = ModalDialogBox {
             content: Group {

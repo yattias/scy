@@ -25,7 +25,7 @@ public class BigMissionMap extends MissionMap, Resizable {
    public override var height on replace { adjustSize(); }
    public var anchorClicked: function(): Void;
    var scale = 1.0;
-   def relativeMapBorder = 0.15;
+   def relativeMapBorder = 0.2;
    def relativeBackgroundImageBorder = 0.075;
    var missionMapNode: Node;
    var missionBackgroundImageNode: Node;
