@@ -2,5 +2,5 @@ package eu.scy.common.mission;
 
 public enum ColorSchemeId
 {
-   ONE, TWO, THREE, FOUR, FIVE, SIX;
+   ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE;
 }
