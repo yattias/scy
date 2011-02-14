@@ -523,6 +523,38 @@
         </attribute>
     </tag>
 
+    <tag>
+        <name>ajaxTransferObjectTextField</name>
+        <tagclass>eu.scy.server.taglibs.AjaxTransferObjectTextField</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax text field</info>
+        <attribute>
+            <name>transferObject</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>transferEloURI</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>id</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>transferObjectServiceCollection</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
 
 
 

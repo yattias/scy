@@ -46,6 +46,7 @@
                    /components/ajaxELOTextField.html=ajaxELOTextFieldController
                    /components/ajaxELOSlider.html=ajaxELOSliderController
                    /components/agentParameterTextFieldController.html=agentParameterTextFieldController
+                   /components/ajaxTransferObjectTextFieldController.html=ajaxTransferObjectTextFieldController
 
 
 
@@ -132,6 +133,18 @@
     <bean id="agentParameterTextFieldController" class="eu.scy.server.controllers.AgentParameterTextFieldController">
         <property name="agentParameterAPI" ref="agentParameterAPI"/>
         <property name="actionLoggingService" ref="actionLoggingService"/>
+	</bean>
+
+    <bean id="ajaxTransferObjectTextFieldController" class="eu.scy.server.controllers.AjaxTransferObjectTextFieldController">
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="transferObjectMapService" ref="transferObjectMapService"/>
+	</bean>
+
+    <bean id="transferObjectServiceCollection" class="eu.scy.server.util.TransferObjectServiceCollection">
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="transferObjectMapService" ref="transferObjectMapService"/>
 	</bean>
 
 
@@ -227,8 +240,8 @@
     </bean>
 
     <bean id="xmlTransferObjectService" class="eu.scy.server.controllers.xml.XMLTransferObjectServiceImpl">
-
     </bean>
+    <bean id="transferObjectMapService" class="eu.scy.server.util.TransferObjectMapService"/>
 
     <bean name="jsonView" class="eu.scy.server.controllers.json.AbstractJSonView"/>
 
