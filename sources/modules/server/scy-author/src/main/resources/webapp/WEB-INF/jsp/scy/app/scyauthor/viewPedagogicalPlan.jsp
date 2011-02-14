@@ -58,11 +58,11 @@
 
                         </td>
                     </tr>
-                    <tr class="${oddEven.oddEven}">
+                    <!--tr class="${oddEven.oddEven}">
                         <td colspan="2">
                             <a href="ConfigureAssessment.html?eloURI=${missionSpecificationTransporter.uri}">Configure assessment</a>
                         </td>
-                    </tr>
+                    </tr-->
                 </table>
             </fieldset>
             <br/>

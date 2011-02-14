@@ -15,6 +15,30 @@
             </tr>
         </table>
 
+        <h2>Learning goals URI: ${missionSpecificationEloURI}</h2>
+
+        <c:choose>
+
+
+            <c:when test="${fn:length(pedagogicalPlan.assessmentSetup.generalLearningGoals) > 0}">
+                <table>
+                    <c:forEach var="learningGoal" items="${pedagogicalPlan.assessmentSetup.generalLearningGoals}">
+                        <tr>
+                            <td>
+                                Learning goal here
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </c:when>
+            <c:when test="${fn:length(pedagogicalPlan.assessmentSetup.generalLearningGoals) == 0}">
+                <a href="ConfigureAssessment.html?action=addGeneralLearningGoal&eloURI=${missionSpecificationEloURI}">Add general learning goal</a>
+            </c:when>
+
+        </c:choose>
+
+
+
 
     </tiles:putAttribute>
 </tiles:insertDefinition>
