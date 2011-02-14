@@ -122,8 +122,8 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
 
         //yet another cleanup:
 
-        log.info("CHECKING FOR LEARNING GOALS");
-        log.info(xml);
+        //log.info("CHECKING FOR LEARNING GOALS");
+        //log.info(xml);
 
         if(xml.contains("<studentglg>")) {
             String start = xml.substring(0, xml.indexOf("<studentglg>"));
@@ -139,7 +139,7 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
 
         xml = xml.replaceAll("<goal />", ""); 
 
-        log.info("XML AFTER WASH: " + xml);
+        //log.info("XML AFTER WASH: " + xml);
 
         return getToObjectXStream().fromXML(xml);
     }

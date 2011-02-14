@@ -81,11 +81,16 @@ public class ViewPedagogicalPlanController extends BaseController {
                 ScyElo pedagogicalPlanELO = ScyElo.loadLastVersionElo(pedagogicalPlanUri, getMissionELOService());
                 String pedagogicalPlanXML = pedagogicalPlanELO.getContent().getXmlString();
                 if(pedagogicalPlanXML != null && pedagogicalPlanXML.length() > 0) {
+                    logger.info("Found existing pedagigical plan!");
                     pedagogicalPlanTransfer = (PedagogicalPlanTransfer) getXmlTransferObjectService().getObject(pedagogicalPlanXML);
                 }else {
+                    logger.info("Did not find pedagogical plan - creating one....");
                     pedagogicalPlanTransfer = new PedagogicalPlanTransfer();
                     pedagogicalPlanTransfer.setName(missionSpecificationElo.getTitle());
-                    //getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer);
+                    pedagogicalPlanTransfer.setPedagogicalPlanURI(pedagogicalPlanUri.toString());
+
+                    pedagogicalPlanELO.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer));
+                    pedagogicalPlanELO.updateElo();
                 }
 
 

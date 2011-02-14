@@ -60,7 +60,7 @@
                     </tr>
                     <tr class="${oddEven.oddEven}">
                         <td colspan="2">
-                            Finetune pedagogical plan: ${pedagogicalPlan.name}
+                            <a href="ConfigureAssessment.html?eloURI=${missionSpecificationTransporter.uri}">Configure assessment</a>
                         </td>
                     </tr>
                 </table>
