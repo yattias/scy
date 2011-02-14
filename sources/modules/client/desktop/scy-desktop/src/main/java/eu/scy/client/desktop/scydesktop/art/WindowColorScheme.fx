@@ -16,22 +16,20 @@ public class WindowColorScheme {
    public var mainColorlLight:Color;
    public var secondColor:Color;
    public var secondColorLight:Color;
+   public var thirdColor:Color;
+   public var thirdColorLight:Color;
    public var backgroundColor:Color;
    public var emptyBackgroundColor:Color;
-
-//   public var titleStartGradientColor:Color;
-//   public var titleEndGradientColor:Color;
 
    public function assign(windowColorScheme: WindowColorScheme):Void{
       mainColor = windowColorScheme.mainColor;
       mainColorlLight = windowColorScheme.mainColorlLight;
       secondColor = windowColorScheme.secondColor;
       secondColorLight = windowColorScheme.secondColorLight;
+      thirdColor = windowColorScheme.thirdColor;
+      thirdColorLight = windowColorScheme.thirdColorLight;
       backgroundColor = windowColorScheme.backgroundColor;
       emptyBackgroundColor = windowColorScheme.emptyBackgroundColor;
-
-//      titleStartGradientColor = windowColorScheme.titleStartGradientColor;
-//      titleEndGradientColor = windowColorScheme.titleEndGradientColor;
    }
 
    public override function toString():String{
@@ -47,9 +45,9 @@ public function getWindowColorScheme(scyColors:ScyColors):WindowColorScheme{
       mainColorlLight: Color.web(scyColors.mainColorLightName)
       secondColor: Color.web(scyColors.secondColorName)
       secondColorLight: Color.web(scyColors.secondColorLightName)
+      thirdColor: Color.web(scyColors.thirdColorName)
+      thirdColorLight: Color.web(scyColors.thirdColorLightName)
       backgroundColor: Color.web(scyColors.backgroundColorName)
-//      titleStartGradientColor: Color.web(scyColors.titleStartGradientColorName)
-//      titleEndGradientColor: Color.web(scyColors.titleEndGradientColorName)
       emptyBackgroundColor: Color.web(scyColors.emptyBackgroundColorName)
    }
 

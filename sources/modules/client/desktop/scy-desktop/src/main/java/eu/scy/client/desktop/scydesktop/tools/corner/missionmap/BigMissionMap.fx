@@ -14,6 +14,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import eu.scy.client.desktop.scydesktop.utils.XFX;
 import javafx.fxd.FXDNode;
 import javafx.scene.Group;
+import eu.scy.client.common.scyi18n.UriLocalizer;
 
 /**
  * @author SikkenJ
@@ -27,6 +28,7 @@ public class BigMissionMap extends MissionMap, Resizable {
    var scale = 1.0;
    def relativeMapBorder = 0.2;
    def relativeBackgroundImageBorder = 0.075;
+   def uriLocalizer = new UriLocalizer();
    var missionMapNode: Node;
    var missionBackgroundImageNode: Node;
    var missionMapGroup: Group;
@@ -69,7 +71,7 @@ public class BigMissionMap extends MissionMap, Resizable {
    function getBackgroundImageNode(): Node {
       if (missionModel.missionMapBackgroundImageUri != null and missionModel.missionMapBackgroundImageUri.toString().length() > 0) {
          def missionMapBackgroundImageNode = FXDNode {
-               url: missionModel.missionMapBackgroundImageUri.toString()
+               url: uriLocalizer.localizeUriWithChecking(missionModel.missionMapBackgroundImageUri.toString())
                backgroundLoading: false
             }
          def node = missionMapBackgroundImageNode.getNode("missionBackground");

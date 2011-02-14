@@ -27,38 +27,44 @@ public enum ScyColors
    public final String mainColorLightName;
    public final String secondColorName;
    public final String secondColorLightName;
+   public final String thirdColorName;
+   public final String thirdColorLightName;
    public final String backgroundColorName;
    public final String emptyBackgroundColorName;
 
    private final static String defaultMainColorLightName = "#FFFFFF";
    private final static String defaultSecondColorName = "#FFFFFF";
    private final static String defaultSecondColorLightName = "#FFFFFF";
+   private final static String defaultThirdColorName = "#FFFFFF";
+   private final static String defaultThirdColorLightName = "#FFFFFF";
    private final static String defaultBackgroundColorName = "#f0ffed";
    private final static String defaultEmptyBackgroundColor = "#FFFFFF";
 
-   private ScyColors(String mainColorName, String mainColorLightName, String secondColorName, String secondColorLightName, String backgroundColorName, String emptyBackgroundColorName)
+   private ScyColors(String mainColorName, String mainColorLightName, String secondColorName, String secondColorLightName, String thirdColorName, String thirdColorLightName, String backgroundColorName, String emptyBackgroundColorName)
    {
       this.mainColorName = mainColorName;
       this.mainColorLightName = mainColorLightName;
       this.secondColorName = secondColorName;
       this.secondColorLightName = secondColorLightName;
+      this.thirdColorName = thirdColorName;
+      this.thirdColorLightName = thirdColorLightName;
       this.backgroundColorName = backgroundColorName;
       this.emptyBackgroundColorName = emptyBackgroundColorName;
    }
 
    private ScyColors(String mainColorName)
    {
-      this(mainColorName,defaultMainColorLightName,defaultSecondColorName,defaultSecondColorLightName,defaultBackgroundColorName,defaultEmptyBackgroundColor);
+      this(mainColorName,defaultMainColorLightName,defaultSecondColorName,defaultSecondColorLightName,defaultThirdColorName,defaultThirdColorLightName,defaultBackgroundColorName,defaultEmptyBackgroundColor);
    }
 
    private ScyColors(String mainColorName, String mainColorLightName)
    {
-      this(mainColorName,mainColorLightName,defaultSecondColorName,defaultSecondColorLightName,defaultBackgroundColorName,defaultEmptyBackgroundColor);
+      this(mainColorName,mainColorLightName,defaultSecondColorName,defaultSecondColorLightName,defaultThirdColorName,defaultThirdColorLightName,defaultBackgroundColorName,defaultEmptyBackgroundColor);
    }
 
    private ScyColors(String mainColorName, String mainColorLightName, String defaultBackgroundColorName)
    {
-      this(mainColorName,mainColorLightName,defaultSecondColorName,defaultSecondColorLightName,defaultBackgroundColorName,defaultEmptyBackgroundColor);
+      this(mainColorName,mainColorLightName,defaultSecondColorName,defaultSecondColorLightName,defaultThirdColorName,defaultThirdColorLightName,defaultBackgroundColorName,defaultEmptyBackgroundColor);
    }
 
    private static String calculateTitleStartGradientColorName(String colorName){
