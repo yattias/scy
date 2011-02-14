@@ -11,6 +11,7 @@ public class PedagogicalPlanTransfer extends BaseXMLTransfer {
 
     private AssessmentSetupTransfer assessmentSetup;
     private String name;
+    private String pedagogicalPlanURI;
 
     public AssessmentSetupTransfer getAssessmentSetup() {
         return assessmentSetup;
@@ -26,5 +27,13 @@ public class PedagogicalPlanTransfer extends BaseXMLTransfer {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPedagogicalPlanURI() {
+        return pedagogicalPlanURI;
+    }
+
+    public void setPedagogicalPlanURI(String pedagogicalPlanURI) {
+        this.pedagogicalPlanURI = pedagogicalPlanURI;
     }
 }
