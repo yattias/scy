@@ -1,5 +1,8 @@
 package eu.scy.core.model.transfer;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
@@ -35,5 +38,20 @@ public class PedagogicalPlanTransfer extends BaseXMLTransfer {
 
     public void setPedagogicalPlanURI(String pedagogicalPlanURI) {
         this.pedagogicalPlanURI = pedagogicalPlanURI;
+    }
+
+    public void setEncodedPedagogicalPlanURI(String boo) {
+        
+    }
+
+    public String getEncodedPedagogicalPlanURI() {
+        try {
+            return URLEncoder.encode(getPedagogicalPlanURI(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
+        return getPedagogicalPlanURI();
+        
     }
 }
