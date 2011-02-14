@@ -6,6 +6,7 @@ import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.server.controllers.xml.XMLTransferObjectServiceImpl;
+import eu.scy.server.util.TransferObjectServiceCollection;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ public class ConfigureAssessmentController extends BaseController {
 
     private MissionELOService missionELOService;
     private XMLTransferObjectService xmlTransferObjectService;
+    private TransferObjectServiceCollection transferObjectServiceCollection;
 
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
@@ -34,6 +36,7 @@ public class ConfigureAssessmentController extends BaseController {
 
             PedagogicalPlanTransfer pedagogicalPlanTransfer = getPedagogicalPlanTransfer(missionSpecificationElo);
             modelAndView.addObject("pedagogicalPlan", pedagogicalPlanTransfer);
+            modelAndView.addObject("transferObjectServiceCollection", getTransferObjectServiceCollection());
 
 
         } catch (URISyntaxException e) {
@@ -65,5 +68,13 @@ public class ConfigureAssessmentController extends BaseController {
 
     public void setXmlTransferObjectService(XMLTransferObjectService xmlTransferObjectService) {
         this.xmlTransferObjectService = xmlTransferObjectService;
+    }
+
+    public TransferObjectServiceCollection getTransferObjectServiceCollection() {
+        return transferObjectServiceCollection;
+    }
+
+    public void setTransferObjectServiceCollection(TransferObjectServiceCollection transferObjectServiceCollection) {
+        this.transferObjectServiceCollection = transferObjectServiceCollection;
     }
 }
