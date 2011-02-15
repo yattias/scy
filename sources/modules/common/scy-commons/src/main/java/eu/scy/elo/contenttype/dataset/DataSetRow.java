@@ -5,9 +5,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.jcrom.annotations.JcrName;
-import org.jcrom.annotations.JcrPath;
-import org.jcrom.annotations.JcrProperty;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 
@@ -18,11 +15,11 @@ public class DataSetRow implements Serializable {
 	 *
 	 */
 	private static final long serialVersionUID = 5519169485396027650L;
-	@JcrName private String name = "DataSetRow"; // name of the node set by Jcrom
-	@JcrPath private String path; // mandatory attribute -- requested by Jcrom
-	@JcrProperty private List<String> values;
+	private String name = "DataSetRow"; // name of the node set by Jcrom
+	private String path; // mandatory attribute -- requested by Jcrom
+	private List<String> values;
 
-	@JcrProperty private String elementStr;
+	private String elementStr;
 	private Element element;
 
 	// This constructor is only used by jcrom for persistance purposes
