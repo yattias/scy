@@ -20,12 +20,6 @@
 		</dependency>
 		-->
 		
-		<dependency>
-			<groupId>org.jcrom</groupId>
-			<artifactId>jcrom</artifactId>
-			<version>1.3.2</version>
-		</dependency>
-		
 		<!-- unused
 		<dependency>
 			<groupId>org.springframework</groupId>
