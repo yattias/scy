@@ -64,7 +64,7 @@ var initializer = Initializer {
            redirectSystemStream:false
 //           enableLocalLogging:false
            authorMode:false
-           debugMode: true
+           debugMode: false
 //           redirectSystemStream:true
 //           enableLocalLogging:true
         }
