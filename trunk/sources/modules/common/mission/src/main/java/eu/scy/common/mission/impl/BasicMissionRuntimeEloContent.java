@@ -22,6 +22,7 @@ public class BasicMissionRuntimeEloContent implements MissionRuntimeEloContent
 	private URI runtimeSettingsEloUri;
 	private URI ePortfolioEloUri;
 	private URI pedagogicalPlanSettingsEloUri;
+	private URI colorSchemesEloUri;
 
 	@Override
 	public String toString()
@@ -31,7 +32,8 @@ public class BasicMissionRuntimeEloContent implements MissionRuntimeEloContent
 					+ ",eloToolConfigsEloUri=" + eloToolConfigsEloUri + ",templateElosEloUri="
 					+ templateElosEloUri + ",runtimeSettingsEloUri=" + runtimeSettingsEloUri
 					+ ",ePortfolioEloUri=" + ePortfolioEloUri + ",pedagogicalPlanSettingsEloUri="
-					+ pedagogicalPlanSettingsEloUri + '}';
+					+ pedagogicalPlanSettingsEloUri + ",colorSchemesEloUri="
+					+ colorSchemesEloUri + '}';
 	}
 
 	@Override
@@ -116,5 +118,17 @@ public class BasicMissionRuntimeEloContent implements MissionRuntimeEloContent
 	public void setPedagogicalPlanSettingsEloUri(URI pedagogicalPlanSettingsEloUri)
 	{
 		this.pedagogicalPlanSettingsEloUri = pedagogicalPlanSettingsEloUri;
+	}
+
+	@Override
+	public URI getColorSchemesEloUri()
+	{
+		return colorSchemesEloUri;
+	}
+
+	@Override
+	public void setColorSchemesEloUri(URI colorSchemesEloUri)
+	{
+		this.colorSchemesEloUri = colorSchemesEloUri;
 	}
 }

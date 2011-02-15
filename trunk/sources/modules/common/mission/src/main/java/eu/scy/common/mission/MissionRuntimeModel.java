@@ -17,4 +17,6 @@ public interface MissionRuntimeModel
    public MissionModel getMissionModel();
    
    public RuntimeSettingsManager getRuntimeSettingsManager() throws URISyntaxException;
+
+   public ColorSchemesElo getColorSchemesElo();
 }

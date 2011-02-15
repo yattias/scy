@@ -25,133 +25,143 @@ import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 public class MissionRuntimeElo extends ContentTypedScyElo<MissionRuntimeEloContent>
 {
 
-   private static class MissionRuntimeEloContentCreator implements
-            ScyEloContentCreator<MissionRuntimeEloContent>
-   {
+	private static class MissionRuntimeEloContentCreator implements
+				ScyEloContentCreator<MissionRuntimeEloContent>
+	{
 
-      @Override
-      public MissionRuntimeEloContent createScyEloContent(ScyElo scyElo)
-      {
-         String xml = scyElo.getElo().getContent().getXmlString();
-         if (xml == null || xml.length() == 0)
-         {
-            return new BasicMissionRuntimeEloContent();
-         }
-         try
-         {
-            return MissionRuntimeEloContentXmlUtils.missionRuntimeFromXml(xml);
-         }
-         catch (URISyntaxException ex)
-         {
-            throw new IllegalArgumentException("problems with the xml of the elo, uri: "
-                     + scyElo.getUri(), ex);
-         }
-      }
+		@Override
+		public MissionRuntimeEloContent createScyEloContent(ScyElo scyElo)
+		{
+			String xml = scyElo.getElo().getContent().getXmlString();
+			if (xml == null || xml.length() == 0)
+			{
+				return new BasicMissionRuntimeEloContent();
+			}
+			try
+			{
+				return MissionRuntimeEloContentXmlUtils.missionRuntimeFromXml(xml);
+			}
+			catch (URISyntaxException ex)
+			{
+				throw new IllegalArgumentException("problems with the xml of the elo, uri: "
+							+ scyElo.getUri(), ex);
+			}
+		}
 
-      @Override
-      public void updateEloContent(ContentTypedScyElo<MissionRuntimeEloContent> scyElo)
-      {
-         scyElo.getElo().getContent().setXmlString(
-                  MissionRuntimeEloContentXmlUtils.missionRuntimeToXml(scyElo.getTypedContent()));
-      }
-   }
+		@Override
+		public void updateEloContent(ContentTypedScyElo<MissionRuntimeEloContent> scyElo)
+		{
+			scyElo.getElo()
+						.getContent()
+						.setXmlString(
+									MissionRuntimeEloContentXmlUtils.missionRuntimeToXml(scyElo
+												.getTypedContent()));
+		}
+	}
 
-   private static final MissionRuntimeEloContentCreator missionRuntimeEloContentCreator = new MissionRuntimeEloContentCreator();
-   private final IMetadataKey missionRunningKey;
-   private final IMetadataKey missionSpecificationEloKey;
+	private static final MissionRuntimeEloContentCreator missionRuntimeEloContentCreator = new MissionRuntimeEloContentCreator();
+	private final IMetadataKey missionRunningKey;
+	private final IMetadataKey missionSpecificationEloKey;
 
-   public MissionRuntimeElo(IELO elo, RooloServices rooloServices)
-   {
-      super(elo, rooloServices, missionRuntimeEloContentCreator, MissionEloType.MISSION_RUNTIME
-               .getType());
-      missionRunningKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNNING);
-      missionSpecificationEloKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION_SPECIFICATION_ELO);
-   }
+	public MissionRuntimeElo(IELO elo, RooloServices rooloServices)
+	{
+		super(elo, rooloServices, missionRuntimeEloContentCreator, MissionEloType.MISSION_RUNTIME
+					.getType());
+		missionRunningKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNNING);
+		missionSpecificationEloKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION_SPECIFICATION_ELO);
+	}
 
-   public static MissionRuntimeElo loadElo(URI uri, RooloServices rooloServices)
-   {
-      IELO elo = rooloServices.getRepository().retrieveELO(uri);
-      if (elo == null)
-      {
-         return null;
-      }
-      return new MissionRuntimeElo(elo, rooloServices);
-   }
+	public static MissionRuntimeElo loadElo(URI uri, RooloServices rooloServices)
+	{
+		IELO elo = rooloServices.getRepository().retrieveELO(uri);
+		if (elo == null)
+		{
+			return null;
+		}
+		return new MissionRuntimeElo(elo, rooloServices);
+	}
 
-   public static MissionRuntimeElo loadLastVersionElo(URI uri, RooloServices rooloServices)
-   {
-      IELO elo = rooloServices.getRepository().retrieveELOLastVersion(uri);
-      if (elo == null)
-      {
-         return null;
-      }
-      return new MissionRuntimeElo(elo, rooloServices);
-   }
+	public static MissionRuntimeElo loadLastVersionElo(URI uri, RooloServices rooloServices)
+	{
+		IELO elo = rooloServices.getRepository().retrieveELOLastVersion(uri);
+		if (elo == null)
+		{
+			return null;
+		}
+		return new MissionRuntimeElo(elo, rooloServices);
+	}
 
-   public static MissionRuntimeElo createElo(RooloServices rooloServices)
-   {
-      IELO elo = rooloServices.getELOFactory().createELO();
-      elo.getMetadata().getMetadataValueContainer(ScyElo.getTechnicalFormatKey(rooloServices))
-               .setValue(MissionEloType.MISSION_RUNTIME.getType());
-      MissionRuntimeElo scyElo = new MissionRuntimeElo(elo, rooloServices);
-      return scyElo;
-   }
+	public static MissionRuntimeElo createElo(RooloServices rooloServices)
+	{
+		IELO elo = rooloServices.getELOFactory().createELO();
+		elo.getMetadata().getMetadataValueContainer(ScyElo.getTechnicalFormatKey(rooloServices))
+					.setValue(MissionEloType.MISSION_RUNTIME.getType());
+		MissionRuntimeElo scyElo = new MissionRuntimeElo(elo, rooloServices);
+		return scyElo;
+	}
 
-   public void setMissionRunning(String userName)
-   {
-      getMetadata().getMetadataValueContainer(missionRunningKey).setValue(userName);
-   }
+	public void setMissionRunning(String userName)
+	{
+		getMetadata().getMetadataValueContainer(missionRunningKey).setValue(userName);
+	}
 
-   public String getMissionRunning()
-   {
-      return (String) getMetadata().getMetadataValueContainer(missionRunningKey).getValue();
-   }
+	public String getMissionRunning()
+	{
+		return (String) getMetadata().getMetadataValueContainer(missionRunningKey).getValue();
+	}
 
-   public void setMissionSpecificationElo(URI uri)
-   {
-      getMetadata().getMetadataValueContainer(missionSpecificationEloKey).setValue(uri);
-   }
+	public void setMissionSpecificationElo(URI uri)
+	{
+		getMetadata().getMetadataValueContainer(missionSpecificationEloKey).setValue(uri);
+	}
 
-   public URI getMissionSpecificationElo()
-   {
-      return (URI) getMetadata().getMetadataValueContainer(missionSpecificationEloKey).getValue();
-   }
+	public URI getMissionSpecificationElo()
+	{
+		return (URI) getMetadata().getMetadataValueContainer(missionSpecificationEloKey).getValue();
+	}
 
-   public MissionRuntimeModel getMissionRuntimeModel()
-   {
-      MissionRuntimeEloContent missionRuntime = getTypedContent();
-      MissionSpecificationElo missionSpecificationElo = null;
-      if (missionRuntime.getMissionSpecificationEloUri() != null)
-      {
-         missionSpecificationElo = MissionSpecificationElo.loadElo(missionRuntime
-                  .getMissionSpecificationEloUri(), getRooloServices());
-      }
-      MissionModelElo missionModelElo = null;
-      if (missionRuntime.getMissionMapModelEloUri() != null)
-      {
-         missionModelElo = MissionModelElo.loadLastVersionElo(missionRuntime.getMissionMapModelEloUri(),
-                  getRooloServices());
-      }
-      EloToolConfigsElo eloToolConfigsElo = null;
-      if (missionRuntime.getEloToolConfigsEloUri() != null)
-      {
-         eloToolConfigsElo = EloToolConfigsElo.loadLastVersionElo(missionRuntime.getEloToolConfigsEloUri(),
-                  getRooloServices());
-      }
-      TemplateElosElo templateElosElo = null;
-      if (missionRuntime.getTemplateElosEloUri() != null)
-      {
-         templateElosElo = TemplateElosElo.loadLastVersionElo(missionRuntime.getTemplateElosEloUri(),
-                  getRooloServices());
-      }
-      RuntimeSettingsElo runtimeSettingsElo = null;
-      if (missionRuntime.getRuntimeSettingsEloUri() != null)
-      {
-         runtimeSettingsElo = RuntimeSettingsElo.loadLastVersionElo(missionRuntime.getRuntimeSettingsEloUri(),
-                  getRooloServices());
-      }
-      return new BasicMissionRuntimeModel(this, missionSpecificationElo, getRooloServices(),
-               missionModelElo, eloToolConfigsElo, templateElosElo, runtimeSettingsElo);
-   }
+	public MissionRuntimeModel getMissionRuntimeModel()
+	{
+		MissionRuntimeEloContent missionRuntime = getTypedContent();
+		MissionSpecificationElo missionSpecificationElo = null;
+		if (missionRuntime.getMissionSpecificationEloUri() != null)
+		{
+			missionSpecificationElo = MissionSpecificationElo.loadElo(
+						missionRuntime.getMissionSpecificationEloUri(), getRooloServices());
+		}
+		MissionModelElo missionModelElo = null;
+		if (missionRuntime.getMissionMapModelEloUri() != null)
+		{
+			missionModelElo = MissionModelElo.loadLastVersionElo(
+						missionRuntime.getMissionMapModelEloUri(), getRooloServices());
+		}
+		EloToolConfigsElo eloToolConfigsElo = null;
+		if (missionRuntime.getEloToolConfigsEloUri() != null)
+		{
+			eloToolConfigsElo = EloToolConfigsElo.loadLastVersionElo(
+						missionRuntime.getEloToolConfigsEloUri(), getRooloServices());
+		}
+		TemplateElosElo templateElosElo = null;
+		if (missionRuntime.getTemplateElosEloUri() != null)
+		{
+			templateElosElo = TemplateElosElo.loadLastVersionElo(
+						missionRuntime.getTemplateElosEloUri(), getRooloServices());
+		}
+		RuntimeSettingsElo runtimeSettingsElo = null;
+		if (missionRuntime.getRuntimeSettingsEloUri() != null)
+		{
+			runtimeSettingsElo = RuntimeSettingsElo.loadLastVersionElo(
+						missionRuntime.getRuntimeSettingsEloUri(), getRooloServices());
+		}
+		ColorSchemesElo colorSchemesElo = null;
+		if (missionRuntime.getColorSchemesEloUri() != null)
+		{
+			colorSchemesElo = ColorSchemesElo.loadLastVersionElo(
+						missionRuntime.getColorSchemesEloUri(), getRooloServices());
+		}
+		return new BasicMissionRuntimeModel(this, missionSpecificationElo, getRooloServices(),
+					missionModelElo, eloToolConfigsElo, templateElosElo, runtimeSettingsElo,
+					colorSchemesElo);
+	}
 
 }

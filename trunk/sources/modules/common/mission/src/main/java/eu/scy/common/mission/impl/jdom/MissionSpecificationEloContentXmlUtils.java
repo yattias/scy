@@ -25,6 +25,7 @@ public class MissionSpecificationEloContentXmlUtils
    static final String runtimeSettingsEloUriName = "runtimeSettingsEloUri";
    static final String agentModelsEloUriName = "agentModelsEloUri";
    static final String pedagogicalPlanSettingsEloUriName = "pedagogicalPlanSettingsEloUri";
+   static final String colorSchemesEloUriName = "colorSchemesEloUri";
    static final String missionDescriptionUriName = "missionDescriptionUri";
 
    private MissionSpecificationEloContentXmlUtils()
@@ -40,6 +41,7 @@ public class MissionSpecificationEloContentXmlUtils
       root.addContent(JDomConversionUtils.createElement(runtimeSettingsEloUriName, missionSpecification.getRuntimeSettingsEloUri()));
       root.addContent(JDomConversionUtils.createElement(agentModelsEloUriName, missionSpecification.getAgentModelsEloUri()));
       root.addContent(JDomConversionUtils.createElement(pedagogicalPlanSettingsEloUriName, missionSpecification.getPedagogicalPlanSettingsEloUri()));
+      root.addContent(JDomConversionUtils.createElement(colorSchemesEloUriName, missionSpecification.getColorSchemesEloUri()));
       root.addContent(JDomConversionUtils.createElement(missionDescriptionUriName, missionSpecification.getMissionDescriptionUri()));
       return new JDomStringConversion().xmlToString(root);
    }
@@ -57,6 +59,7 @@ public class MissionSpecificationEloContentXmlUtils
       missionSpecification.setRuntimeSettingsEloUri(JDomConversionUtils.getUriValue(root, runtimeSettingsEloUriName));
       missionSpecification.setAgentModelsEloUri(JDomConversionUtils.getUriValue(root, agentModelsEloUriName));
       missionSpecification.setPedagogicalPlanSettingsEloUri(JDomConversionUtils.getUriValue(root, pedagogicalPlanSettingsEloUriName));
+      missionSpecification.setColorSchemesEloUri(JDomConversionUtils.getUriValue(root, colorSchemesEloUriName));
       missionSpecification.setMissionDescriptionUri(JDomConversionUtils.getUriValue(root, missionDescriptionUriName));
       return missionSpecification;
    }

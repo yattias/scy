@@ -29,6 +29,13 @@ public class JDomConversionUtils
       return element;
    }
 
+   public static Element createElement(String tag, int value)
+   {
+      Element element = new Element(tag);
+      element.setText(Integer.toString(value));
+      return element;
+   }
+
    public static Element createElement(String tag, URI uri)
    {
       Element element = new Element(tag);
@@ -84,6 +91,25 @@ public class JDomConversionUtils
    private static boolean isEmpty(String string)
    {
       return string == null || string.length() == 0;
+   }
+
+   public static int getIntValue(Element element)
+   {
+      if (element == null)
+      {
+         return -1;
+      }
+      String value = element.getTextTrim();
+      if (isEmpty(value))
+      {
+         return -1;
+      }
+      return Integer.parseInt(value);
+   }
+
+   public static int getIntValue(Element element, String childName)
+   {
+      return getIntValue(element.getChild(childName));
    }
 
    public static URI getUriValue(Element element) throws URISyntaxException

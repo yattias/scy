@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Set;
 
+import eu.scy.common.mission.ColorSchemesElo;
 import eu.scy.common.mission.EloToolConfigsElo;
 import eu.scy.common.mission.MissionModel;
 import eu.scy.common.mission.MissionModelElo;
@@ -26,6 +27,7 @@ public class BasicMissionRuntimeModel implements MissionRuntimeModel
    private final EloToolConfigsElo eloToolConfigsElo;
    private final TemplateElosElo templateElosElo;
    private final RuntimeSettingsElo runtimeSettingsElo;
+   private final ColorSchemesElo colorSchemesElo;
 
    private final MissionSpecificationElo missionSpecificationElo;
 
@@ -45,12 +47,15 @@ public class BasicMissionRuntimeModel implements MissionRuntimeModel
                .getTemplateElosEloUri(), rooloServices);
       runtimeSettingsElo = RuntimeSettingsElo.loadLastVersionElo(missionRuntimeEloContent
                .getRuntimeSettingsEloUri(), rooloServices);
+      colorSchemesElo = ColorSchemesElo.loadLastVersionElo(missionRuntimeEloContent
+               .getRuntimeSettingsEloUri(), rooloServices);
    }
 
    public BasicMissionRuntimeModel(MissionRuntimeElo missionRuntimeElo,
             MissionSpecificationElo missionSpecificationElo, RooloServices rooloServices,
             MissionModelElo missionModelElo, EloToolConfigsElo eloToolConfigsElo,
-            TemplateElosElo templateElosElo, RuntimeSettingsElo runtimeSettingsElo)
+            TemplateElosElo templateElosElo, RuntimeSettingsElo runtimeSettingsElo,
+            ColorSchemesElo colorSchemesElo)
    {
       super();
       this.missionRuntimeElo = missionRuntimeElo;
@@ -60,6 +65,7 @@ public class BasicMissionRuntimeModel implements MissionRuntimeModel
       this.eloToolConfigsElo = eloToolConfigsElo;
       this.templateElosElo = templateElosElo;
       this.runtimeSettingsElo = runtimeSettingsElo;
+      this.colorSchemesElo = colorSchemesElo;
    }
 
    @Override
@@ -156,5 +162,11 @@ public class BasicMissionRuntimeModel implements MissionRuntimeModel
       return new MissionRuntimeSettingsManager(specificationRuntimeSettingsElo, runtimeSettingsElo,
                specificationMissionMapModelEloUriSet, rooloServices);
    }
+
+	@Override
+	public ColorSchemesElo getColorSchemesElo()
+	{
+		return colorSchemesElo;
+	}
 
 }
