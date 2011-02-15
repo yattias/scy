@@ -4,6 +4,7 @@ import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
 import javafx.scene.Node;
 //import colab.vt.whiteboard.component.WhiteboardPanel;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
+import javafx.util.StringLocalizer;
 
 /**
  * @author sikken
@@ -12,15 +13,16 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 public class SocialTaggingToolCreatorFX extends ScyToolCreatorFX {
 
    override public function createScyToolNode(eloType: String, creatorId: String, scyWindow: ScyWindow, windowContent: Boolean): Node {
-      //scyWindow.desiredContentWidth = 310;
-      //scyWindow.desiredContentHeight = 200;
+      StringLocalizer.associate("languages.fxsocialtaggingtool", "eu.scy.client.tools.fxsocialtaggingtool");
+      scyWindow.desiredContentWidth = 310;
+      scyWindow.desiredContentHeight = 200;
       //var whiteboardPanel = new WhiteboardPanel();
       //DrawingNode {
       //   whiteboardPanel: whiteboardPanel
       //   scyWindow: scyWindow
-      //
-       //TaggingToolNode{scyWindow: scyWindow}
-       TaggingToolNode {}
+      //}
+
+       SocialTaggingToolNode {}
    }
 
  
