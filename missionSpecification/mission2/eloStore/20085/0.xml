@@ -33,7 +33,7 @@
       <structure>dataset</structure>
       <mission>ecoMission</mission>
       <title>
-        <string language="en">Data from real experiments</string>
+        <string language="en">Data from experiments</string>
       </title>
     </general>
     <educational>
