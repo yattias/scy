@@ -16,7 +16,8 @@
                <property name="contentCreatorId" value="taggable"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="scyToolViewer"/>
-               <property name="rightDrawerCreatorId" value="propertiesViewer"/>
+               <!-- property name="rightDrawerCreatorId" value="propertiesViewer"/ -->
+               <property name="rightDrawerCreatorId" value="tagViewer"/>
             </bean>
          </list>
       </property>
