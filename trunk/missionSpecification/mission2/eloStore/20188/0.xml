@@ -45,47 +45,15 @@
 <content languageIndependent="true" contentType="xml">
 <missionModel>
   <missionMapBackgroundImageUri>http://www.scy-lab.eu/content/en/mission2/ecoBackground.fxz</missionMapBackgroundImageUri>
-  <activeLas>startPage</activeLas>
+  <activeLas>conceptualisatsionConceptMap</activeLas>
   <loElos>
     <eloUri>roolo://memory/20006/0/Glossary.url</eloUri>
   </loElos>
   <lasses>
     <las>
-      <id>startPage</id>
-      <xPos>0.0</xPos>
-      <yPos>0.0</yPos>
-      <toolTip>Challenge</toolTip>
-      <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_challenge.html</instructionUri>
-      <lasType>ORIENTATION</lasType>
-      <loElos>
-        <eloUri>roolo://memory/20114/0/welcome.url</eloUri>
-      </loElos>
-      <otherElos />
-      <mainAnchor>
-        <eloUri>roolo://memory/20094/0/challenge_eco.url</eloUri>
-        <iconType>scy/url</iconType>
-        <loElos />
-        <inputAnchors />
-        <relations />
-        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/challenge.txt</targetDescriptionUri>
-        <assignmentUri>http://www.scy-lab.eu/content/en/mission2/challenge_eco.html</assignmentUri>
-        <resourcesUri>http://www.scy-lab.eu/content/en/mission2/glossary_eco.html</resourcesUri>
-        <colorScheme />
-      </mainAnchor>
-      <intermediateAnchors />
-      <nextLasses>
-        <las>conceptualisatsionConceptMap</las>
-        <las>orientation_B1</las>
-        <las>orientation_B2</las>
-        <las>orientation_B3</las>
-        <las>orientation_C1</las>
-        <las>reportingVideo</las>
-      </nextLasses>
-    </las>
-    <las>
       <id>conceptualisatsionConceptMap</id>
-      <xPos>80.0</xPos>
-      <yPos>0.0</yPos>
+      <xPos>-40.0</xPos>
+      <yPos>-10.0</yPos>
       <toolTip>Concept Map</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_conceptmap.html</instructionUri>
       <lasType>CONCEPTUALISATION</lasType>
@@ -103,14 +71,12 @@
         <colorScheme />
       </mainAnchor>
       <intermediateAnchors />
-      <nextLasses>
-        <las>startPage</las>
-      </nextLasses>
+      <nextLasses />
     </las>
     <las>
       <id>reportingVideo</id>
-      <xPos>-80.0</xPos>
-      <yPos>0.0</yPos>
+      <xPos>40.0</xPos>
+      <yPos>-10.0</yPos>
       <toolTip>Video report</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_videoreport.html</instructionUri>
       <lasType>REPORTING</lasType>
@@ -128,14 +94,12 @@
         <colorScheme />
       </mainAnchor>
       <intermediateAnchors />
-      <nextLasses>
-        <las>startPage</las>
-      </nextLasses>
+      <nextLasses />
     </las>
     <las>
       <id>orientation_B1</id>
-      <xPos>-80.0</xPos>
-      <yPos>-80.0</yPos>
+      <xPos>85.0</xPos>
+      <yPos>-90.0</yPos>
       <toolTip>Hypothesis</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses_b1.html</instructionUri>
       <lasType>ORIENTATION</lasType>
@@ -176,13 +140,11 @@
           <colorScheme />
         </intermediateAnchor>
       </intermediateAnchors>
-      <nextLasses>
-        <las>experiment_B1</las>
-      </nextLasses>
+      <nextLasses />
     </las>
     <las>
       <id>orientation_B2</id>
-      <xPos>80.0</xPos>
+      <xPos>85.0</xPos>
       <yPos>80.0</yPos>
       <toolTip>Hypothesis</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses_b2.html</instructionUri>
@@ -224,13 +186,11 @@
           <colorScheme />
         </intermediateAnchor>
       </intermediateAnchors>
-      <nextLasses>
-        <las>experiment_B2</las>
-      </nextLasses>
+      <nextLasses />
     </las>
     <las>
       <id>orientation_B3</id>
-      <xPos>-80.0</xPos>
+      <xPos>-85.0</xPos>
       <yPos>80.0</yPos>
       <toolTip>Hypothesis</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses_b3.html</instructionUri>
@@ -272,14 +232,12 @@
           <colorScheme />
         </intermediateAnchor>
       </intermediateAnchors>
-      <nextLasses>
-        <las>experiment_B3</las>
-      </nextLasses>
+      <nextLasses />
     </las>
     <las>
       <id>orientation_C1</id>
-      <xPos>80.0</xPos>
-      <yPos>-80.0</yPos>
+      <xPos>-85.0</xPos>
+      <yPos>-90.0</yPos>
       <toolTip>Hypothesis</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses_c1.html</instructionUri>
       <lasType>ORIENTATION</lasType>
@@ -320,14 +278,12 @@
           <colorScheme />
         </intermediateAnchor>
       </intermediateAnchors>
-      <nextLasses>
-        <las>experiment_C1</las>
-      </nextLasses>
+      <nextLasses />
     </las>
     <las>
       <id>experiment_B1</id>
-      <xPos>-160.0</xPos>
-      <yPos>-160.0</yPos>
+      <xPos>165.0</xPos>
+      <yPos>-170.0</yPos>
       <toolTip>Inferences</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_inferences_b1.html</instructionUri>
       <lasType>EXPERIMENT</lasType>
@@ -383,14 +339,12 @@
           <colorScheme />
         </intermediateAnchor>
       </intermediateAnchors>
-      <nextLasses>
-        <las>design_B1</las>
-      </nextLasses>
+      <nextLasses />
     </las>
     <las>
       <id>experiment_B2</id>
-      <xPos>160.0</xPos>
-      <yPos>160.0</yPos>
+      <xPos>165.0</xPos>
+      <yPos>165.0</yPos>
       <toolTip>Inferences</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_inferences_b2.html</instructionUri>
       <lasType>EXPERIMENT</lasType>
@@ -435,13 +389,11 @@
           <colorScheme />
         </intermediateAnchor>
       </intermediateAnchors>
-      <nextLasses>
-        <las>design_B2</las>
-      </nextLasses>
+      <nextLasses />
     </las>
     <las>
       <id>experiment_B3</id>
-      <xPos>-160.0</xPos>
+      <xPos>-165.0</xPos>
       <yPos>160.0</yPos>
       <toolTip>Inferences</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_inferences_b3.html</instructionUri>
@@ -498,14 +450,12 @@
           <colorScheme />
         </intermediateAnchor>
       </intermediateAnchors>
-      <nextLasses>
-        <las>design_B3</las>
-      </nextLasses>
+      <nextLasses />
     </las>
     <las>
       <id>experiment_C1</id>
-      <xPos>160.0</xPos>
-      <yPos>-160.0</yPos>
+      <xPos>-165.0</xPos>
+      <yPos>-170.0</yPos>
       <toolTip>Inferences</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_inferences_c1.html</instructionUri>
       <lasType>EXPERIMENT</lasType>
@@ -550,14 +500,12 @@
           <colorScheme />
         </intermediateAnchor>
       </intermediateAnchors>
-      <nextLasses>
-        <las>design_C1</las>
-      </nextLasses>
+      <nextLasses />
     </las>
     <las>
       <id>design_B1</id>
-      <xPos>-240.0</xPos>
-      <yPos>-240.0</yPos>
+      <xPos>245.0</xPos>
+      <yPos>-250.0</yPos>
       <toolTip>Solution</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_solution_b1.html</instructionUri>
       <lasType>DESIGN</lasType>
@@ -578,15 +526,12 @@
         <colorScheme />
       </mainAnchor>
       <intermediateAnchors />
-      <nextLasses>
-        <las>reportingVideo</las>
-        <las>conceptualisatsionConceptMap</las>
-      </nextLasses>
+      <nextLasses />
     </las>
     <las>
       <id>design_B2</id>
-      <xPos>240.0</xPos>
-      <yPos>240.0</yPos>
+      <xPos>245.0</xPos>
+      <yPos>245.0</yPos>
       <toolTip>First ideas</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_solution_b2.html</instructionUri>
       <lasType>DESIGN</lasType>
@@ -607,14 +552,11 @@
         <colorScheme />
       </mainAnchor>
       <intermediateAnchors />
-      <nextLasses>
-        <las>reportingVideo</las>
-        <las>conceptualisatsionConceptMap</las>
-      </nextLasses>
+      <nextLasses />
     </las>
     <las>
       <id>design_B3</id>
-      <xPos>-240.0</xPos>
+      <xPos>-245.0</xPos>
       <yPos>240.0</yPos>
       <toolTip>Solution</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_solution_b3.html</instructionUri>
@@ -636,15 +578,12 @@
         <colorScheme />
       </mainAnchor>
       <intermediateAnchors />
-      <nextLasses>
-        <las>reportingVideo</las>
-        <las>conceptualisatsionConceptMap</las>
-      </nextLasses>
+      <nextLasses />
     </las>
     <las>
       <id>design_C1</id>
-      <xPos>240.0</xPos>
-      <yPos>-240.0</yPos>
+      <xPos>-245.0</xPos>
+      <yPos>-250.0</yPos>
       <toolTip>Solution</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_solution_c1.html</instructionUri>
       <lasType>DESIGN</lasType>
@@ -665,10 +604,7 @@
         <colorScheme />
       </mainAnchor>
       <intermediateAnchors />
-      <nextLasses>
-        <las>reportingVideo</las>
-        <las>conceptualisatsionConceptMap</las>
-      </nextLasses>
+      <nextLasses />
     </las>
   </lasses>
 </missionModel>
