@@ -17,6 +17,7 @@ public class PedagogicalPlanTransfer extends BaseXMLTransfer {
     private String pedagogicalPlanURI;
 
     public AssessmentSetupTransfer getAssessmentSetup() {
+        if(assessmentSetup == null) setAssessmentSetup(new AssessmentSetupTransfer());
         return assessmentSetup;
     }
 

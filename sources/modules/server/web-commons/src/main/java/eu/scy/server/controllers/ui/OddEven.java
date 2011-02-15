@@ -1,4 +1,4 @@
-package eu.scy.server.common;
+package eu.scy.server.controllers.ui;
 
 /**
  * Created by IntelliJ IDEA.

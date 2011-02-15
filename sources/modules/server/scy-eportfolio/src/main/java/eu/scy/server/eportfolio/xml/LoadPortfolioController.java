@@ -38,7 +38,7 @@ public class LoadPortfolioController extends MissionRuntimeEnabledXMLService {
             try {
                 uri = new URI(missionURI);
             } catch (URISyntaxException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                e.printStackTrace();  
             }
 
             missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(uri, getMissionELOService());
@@ -69,7 +69,7 @@ public class LoadPortfolioController extends MissionRuntimeEnabledXMLService {
             portfolio.setMissionRuntimeURI(missionRuntimeElo.getUri().toString());
         }
 
-        logger.info("NO SHITTY WAY! THIS IS NOT GOING TO HAPPEN!");
+        //logger.info("NO SHITTY WAY! THIS IS NOT GOING TO HAPPEN!");
 
         return portfolio;
 

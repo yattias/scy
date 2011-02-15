@@ -14,13 +14,18 @@ public class BaseXMLTransfer {
     private String id;
 
     public BaseXMLTransfer() {
-        if(getId() == null || getId().equals("")) {
-            this.id = UUID.randomUUID().toString();
-        }
+        generateId();
 
     }
 
+    private void generateId() {
+        if(id == null || id.equals("")) {
+            this.id = UUID.randomUUID().toString();
+        }
+    }
+
     public String getId() {
+        if(this.id == null) generateId();
         return id;
     }
 

@@ -37,6 +37,7 @@
                <value>
                    /components/ajaxCheckBox.html=ajaxCheckBoxController
                    /components/ajaxTextField.html=ajaxTextFieldController
+                   /components/ajaxTextFieldForUsers.html=ajaxTextFieldForUsersController
                    /components/ajaxNumberField.html=ajaxNumberFieldController
                    /components/ajaxCombobox.html=ajaxComboboxController
                    /components/ajaxSlider.html=ajaxSliderController
@@ -47,10 +48,11 @@
                    /components/ajaxELOSlider.html=ajaxELOSliderController
                    /components/agentParameterTextFieldController.html=agentParameterTextFieldController
                    /components/ajaxTransferObjectTextFieldController.html=ajaxTransferObjectTextFieldController
+                   /components/profilePictureUploadController.html=profilePictureUploadController
 
 
 
-                   /editors/studentEditor.html=editSCYStudentUserController
+                   /editors/userProfileEditor.html=userProfileEditor
                    /components/fileupload/fileupload.html=fileUploadController
                    /components/links/help.html=helpController
                    /components/realtime/currentStudentActivity.html=currentStudentActivityController
@@ -98,6 +100,11 @@
 
     <bean id="ajaxTextFieldController" class="eu.scy.server.controllers.AjaxTextFieldController">
         <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
+	</bean>
+
+    <bean id="ajaxTextFieldForUsersController" class="eu.scy.server.controllers.AjaxTextFieldForUsersController">
+        <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
+        <property name="userService" ref="userService"/>
 	</bean>
 
     <bean id="ajaxNumberFieldController" class="eu.scy.server.controllers.AjaxNumberFieldController">
@@ -156,8 +163,17 @@
         <!--property name="formView" value="fileuploadform"/-->
 	</bean>
 
+    <bean id="profilePictureUploadController" class="eu.scy.server.controllers.components.fileupload.UserProfileUploadController">
+        <property name="commandClass" value="eu.scy.server.controllers.components.fileupload.FileUploadBean"/>
+        <property name="formView" value="fileuploadform"/>
+        <property name="successView" value="student/profile"/>
+        <property name="userService" ref="userService"/>
+        <property name="fileService" ref="fileService"/>
+    </bean>
+    
 
-    <bean id="editSCYStudentUserController" class="eu.scy.server.controllers.editors.EditSCYStudentController">
+
+    <bean id="userProfileEditor" class="eu.scy.server.controllers.UserProfileController">
         <property name="userService" ref="userService"/>
 	</bean>
 
