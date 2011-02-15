@@ -204,7 +204,7 @@ public class MissionLocator {
           if (not initializer.dontUseMissionRuntimeElos) {
              missionRuntimeElo.updateElo();
           }
-          return new BasicMissionRuntimeModel(missionRuntimeElo, null, tbi, missionMapModelElo, null, null, runtimeSettingsElo);
+          return new BasicMissionRuntimeModel(missionRuntimeElo, null, tbi, missionMapModelElo, null, null, runtimeSettingsElo,null);
       },  function(missionRuntimeModel): Void {
           startMission(MissionRunConfigs {
              tbi: tbi

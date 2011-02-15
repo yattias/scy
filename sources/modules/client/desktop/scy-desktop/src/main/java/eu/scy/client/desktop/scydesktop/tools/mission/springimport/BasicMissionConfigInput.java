@@ -10,6 +10,7 @@ import eu.scy.client.desktop.scydesktop.config.BasicMissionMap;
 import eu.scy.common.mission.Las;
 import eu.scy.common.mission.MissionAnchor;
 import eu.scy.common.mission.MissionModelEloContent;
+import eu.scy.common.mission.ColorSchemesElo;
 import eu.scy.common.mission.impl.BasicLas;
 import eu.scy.common.mission.impl.BasicMissionAnchor;
 import eu.scy.common.mission.impl.BasicMissionModelEloContent;
@@ -39,6 +40,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
    private List<URI> templateEloUris = new ArrayList<URI>();
    private List<String> errors = new ArrayList<String>();
    private URI missionDescriptionUri;
+   private URI colorSchemesEloUri;
 
    public void parseEloConfigs(ToolBrokerAPI tbi)
    {
@@ -68,6 +70,21 @@ public class BasicMissionConfigInput implements MissionConfigInput
    public void setMissionDescriptionUri(URI missionDescriptionUri)
    {
       this.missionDescriptionUri = missionDescriptionUri;
+   }
+
+   @Override
+   public URI getColorSchemesEloUri()
+   {
+      ColorSchemesElo colorSchemesElo = ColorSchemesElo.loadElo(colorSchemesEloUri,tbi);
+      if (colorSchemesElo==null){
+         logger.warn(addError("could not find ColorSchemeElo with uri: " + colorSchemesEloUri));
+      }
+      return colorSchemesEloUri;
+   }
+
+   public void setColorSchemesEloUri(URI colorSchemesEloUri)
+   {
+      this.colorSchemesEloUri = colorSchemesEloUri;
    }
 
    public void setEloToolConfigs(List<EloToolConfig> eloConfigList)
