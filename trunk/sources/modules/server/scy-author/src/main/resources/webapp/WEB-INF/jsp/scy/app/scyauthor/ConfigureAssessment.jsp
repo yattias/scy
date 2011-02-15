@@ -14,8 +14,9 @@
                 </td>
             </tr>
         </table>
-
-        <h2>Learning goals URI: ${missionSpecificationEloURI}</h2>
+        <br/>
+        <br/>
+        <h2>General Learning goals</h2>
 
         <c:choose>
 
@@ -25,17 +26,34 @@
                     <c:forEach var="learningGoal" items="${pedagogicalPlan.assessmentSetup.generalLearningGoals}">
                         <tr>
                             <td>
-                                Learning goal here
+                                <s:ajaxTransferObjectTextField transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${learningGoal}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${learningGoal.id}" property="goal"/>
                             </td>
                         </tr>
                     </c:forEach>
                 </table>
             </c:when>
-            <c:when test="${fn:length(pedagogicalPlan.assessmentSetup.generalLearningGoals) == 0}">
-                <a href="ConfigureAssessment.html?action=addGeneralLearningGoal&eloURI=${missionSpecificationEloURI}">Add general learning goal</a>
-            </c:when>
-
         </c:choose>
+        <a href="ConfigureAssessment.html?action=addGeneralLearningGoal&eloURI=${missionSpecificationEloURI}">Add general learning goal</a>
+        <br/>
+        <br/>
+        <h2>Specific Learning goals</h2>
+
+        <c:choose>
+
+
+            <c:when test="${fn:length(pedagogicalPlan.assessmentSetup.specificLearningGoals) > 0}">
+                <table>
+                    <c:forEach var="learningGoal" items="${pedagogicalPlan.assessmentSetup.specificLearningGoals}">
+                        <tr>
+                            <td>
+                                <s:ajaxTransferObjectTextField transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${learningGoal}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${learningGoal.id}" property="goal"/>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </c:when>
+        </c:choose>
+        <a href="ConfigureAssessment.html?action=addSpecificLearningGoal&eloURI=${missionSpecificationEloURI}">Add specific learning goal</a>
 
 
 

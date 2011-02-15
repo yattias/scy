@@ -7,7 +7,7 @@ package eu.scy.core.model.transfer;
  * Time: 19:51:56
  * To change this template use File | Settings | File Templates.
  */
-public class LearningGoal {
+public class LearningGoal extends BaseXMLTransfer{
 
     private String goal;
 

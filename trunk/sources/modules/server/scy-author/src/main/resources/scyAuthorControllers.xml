@@ -108,6 +108,7 @@
         <property name="missionELOService" ref="missionELOService"/>
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
         <property name="transferObjectServiceCollection" ref="transferObjectServiceCollection"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
     </bean>
 
     <bean id="clearAllPortfolios" class="eu.scy.server.controllers.ClearAllPortfolios">

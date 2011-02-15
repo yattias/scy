@@ -1,5 +1,6 @@
 package eu.scy.core.model.transfer;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -11,8 +12,8 @@ import java.util.List;
  */
 public class AssessmentSetupTransfer extends BaseXMLTransfer{
 
-    private List generalLearningGoals;
-    private List specificLearningGoals;
+    private List generalLearningGoals = new LinkedList();
+    private List specificLearningGoals = new LinkedList();
 
     public List getGeneralLearningGoals() {
         return generalLearningGoals;

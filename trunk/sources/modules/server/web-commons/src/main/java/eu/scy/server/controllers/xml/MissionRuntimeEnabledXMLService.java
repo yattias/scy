@@ -2,7 +2,9 @@ package eu.scy.server.controllers.xml;
 
 import com.thoughtworks.xstream.XStream;
 import eu.scy.common.mission.MissionRuntimeElo;
+import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
+import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.server.url.UrlInspector;
 
@@ -56,6 +58,16 @@ public abstract class MissionRuntimeEnabledXMLService extends XMLStreamerControl
         super.addAliases(xStream);
 
     }
+
+    protected PedagogicalPlanTransfer getPedagogicalPlanTransfer(MissionSpecificationElo missionSpecificationElo) {
+        URI pedagogicalPlanUri = missionSpecificationElo.getTypedContent().getPedagogicalPlanSettingsEloUri();
+        logger.info("**** PEDAGOGICAL PLAN URI: " + pedagogicalPlanUri);
+
+        ScyElo pedagogicalPlanELO = ScyElo.loadLastVersionElo(pedagogicalPlanUri, getMissionELOService());
+        String pedagogicalPlanXML = pedagogicalPlanELO.getContent().getXmlString();
+        return (PedagogicalPlanTransfer) getXmlTransferObjectService().getObject(pedagogicalPlanXML);
+    }
+
 
     protected abstract Object getObject(MissionRuntimeElo missionRuntimeElo, HttpServletRequest request, HttpServletResponse response);
 
