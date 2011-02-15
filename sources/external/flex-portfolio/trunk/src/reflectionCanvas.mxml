@@ -72,9 +72,10 @@
 			private var slectedGLGs:ArrayCollection = new ArrayCollection();
 			
 			private var so:SharedObject;
+			private var tEvent:ToggleEvent;
 			
 			protected function clickHandler(dir:String, stack:Number, but:Boolean):void {
-				var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
+				tEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
 				tEvent.direction = dir;
 				tEvent.selecTarget = stack;
 				
@@ -128,23 +129,15 @@
 						so.data.retrievedElosFromRoolo = retrievedElosFromRoolo;
 						so.flush();
 						
-						trace(so.data.retrievedElosFromRoolo);
-						
-						new AutoSaveService(so.data.saveportfolio+"?missionURI="+FlexGlobals.topLevelApplication.parameters.missionURI+"&xmlContent="+encodeURI(so.data.retrievedElosFromRoolo));	
-						
-						resetForm();
-						dispatchEvent(tEvent);
-						
-						var sLogger:Dictionary = new Dictionary();
-						sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
-						sLogger["type"] = "reflection_on_elo_finished";
-						sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
-						var attribs:ArrayCollection = new ArrayCollection();
-						var ob:Object = new Object();
-						ob.oName = "eloReflectedOn";
-						ob.oVal = eloUri;
-						attribs.addItem(ob);
-						new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
+						if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+							resetForm();
+							dispatchEvent(tEvent);
+						}
+						else {
+							var ass:AutoSaveService = new AutoSaveService(so.data.saveportfolio+"?missionURI="+FlexGlobals.topLevelApplication.parameters.missionURI+"&xmlContent="+encodeURI(so.data.retrievedElosFromRoolo));	
+							ass.httpService.addEventListener(ResultEvent.RESULT, assResult);
+							ass.httpService.addEventListener(FaultEvent.FAULT, assFault);
+						}
 					}
 					else if(slectedGLGs.length == 0) {
 						Alert.show(resourceManager.getString('resources', 'GLG_SELECT_ERROR'), resourceManager.getString('resources', 'GLG_SELECT_ERROR_TITLE'));
@@ -168,6 +161,26 @@
 					}
 					dispatchEvent(tEvent);
 				}
+			}
+			
+			private function assResult(evt:ResultEvent):void {
+				resetForm();
+				dispatchEvent(tEvent);
+				
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["type"] = "reflection_on_elo_finished";
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				var attribs:ArrayCollection = new ArrayCollection();
+				var ob:Object = new Object();
+				ob.oName = "eloReflectedOn";
+				ob.oVal = eloUri;
+				attribs.addItem(ob);
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
+			}
+			
+			private function assFault(evt:FaultEvent):void {
+				Alert.show("something f**ked up when posting the portfolio", "Portfolio post error");
 			}
 
 

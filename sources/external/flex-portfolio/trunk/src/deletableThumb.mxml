@@ -15,6 +15,8 @@
 			import mx.controls.Alert;
 			import mx.core.FlexGlobals;
 			import mx.events.CloseEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
 			
 			import utils.AutoSaveService;
 			import utils.XMLUtilJer;
@@ -22,6 +24,7 @@
 			private var hideInter:Number;
 			public var parentCanvas:introductionSubCanvas;
 			public var originalEloObject:Object;
+			private var so:SharedObject;
 			
 			public function slideDeleteBox():void {
 				clearInterval(hideInter);
@@ -36,29 +39,40 @@
 			
 			private function alertListener(event:CloseEvent):void {
 				if(event.detail == Alert.YES) {
-					var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+					so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 					var retrievedElosFromRoolo:XML = so.data.retrievedElosFromRoolo;
 					var myList:XMLList = retrievedElosFromRoolo.elos.elo.(uri == (this.getElementAt(0) as subCanvasElo).uri);
 					delete myList[0];
 					so.data.retrievedElosFromRoolo = retrievedElosFromRoolo;
 					so.flush();
 
-					var sLogger:Dictionary = new Dictionary();
-					sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
-					sLogger["type"] = "delete_elo_from_portfolio";
-					sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
-					var attribs:ArrayCollection = new ArrayCollection();
-					var ob:Object = new Object();
-					ob.oName = "deletedElo";
-					ob.oVal = (this.getElementAt(0) as subCanvasElo).uri;
-					attribs.addItem(ob);
-					new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
-					
-					new AutoSaveService(so.data.saveportfolio+"?missionURI="+FlexGlobals.topLevelApplication.parameters.missionURI+"&xmlContent="+encodeURI(so.data.retrievedElosFromRoolo));
-					
-					parentCanvas.refreshView();
-					
+					if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+						parentCanvas.refreshView();
+					}
+					else {
+						var ass:AutoSaveService = new AutoSaveService(so.data.saveportfolio+"?missionURI="+FlexGlobals.topLevelApplication.parameters.missionURI+"&xmlContent="+encodeURI(retrievedElosFromRoolo));
+						ass.httpService.addEventListener(ResultEvent.RESULT, assResult);
+						ass.httpService.addEventListener(FaultEvent.FAULT, assFault);
+					}
 				}
+			}
+			
+			private function assResult(evt:ResultEvent):void {
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["type"] = "delete_elo_from_portfolio";
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				var attribs:ArrayCollection = new ArrayCollection();
+				var ob:Object = new Object();
+				ob.oName = "deletedElo";
+				ob.oVal = (this.getElementAt(0) as subCanvasElo).uri;
+				attribs.addItem(ob);
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
+				parentCanvas.refreshView();
+			}
+			
+			private function assFault(evt:FaultEvent):void {
+				Alert.show("something f**ked up when posting the portfolio", "Portfolio post error");
 			}
 			
 			protected function deleteCanvas_clickHandler(event:MouseEvent):void {

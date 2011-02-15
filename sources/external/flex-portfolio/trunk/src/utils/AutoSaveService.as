@@ -4,7 +4,7 @@ package utils
 
 	public final class AutoSaveService
 	{
-		private var httpService:HTTPService = null;
+		public var httpService:HTTPService = null;
 		
 		public function AutoSaveService(serviceURL:String):void {
 			httpService = new HTTPService();

@@ -148,19 +148,29 @@
 					trace(so.data.retrievedElosFromRoolo);
 					if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
 						trace("Local version, nothing submitted, but the idea is there ...");
+						clickHandler(index.LEFT_DIRECTION, index.STACK_INTRO_PANEL);
 					}
 					else {
-						new AutoSaveService(so.data.saveportfolio+"?missionURI="+FlexGlobals.topLevelApplication.parameters.missionURI+"&xmlContent="+encodeURI(so.data.retrievedElosFromRoolo));
+						var ass:AutoSaveService = new AutoSaveService(so.data.saveportfolio+"?missionURI="+FlexGlobals.topLevelApplication.parameters.missionURI+"&xmlContent="+encodeURI(xmlPortfolio));
+						ass.httpService.addEventListener(ResultEvent.RESULT, assResult);
+						ass.httpService.addEventListener(FaultEvent.FAULT, assFault);
 						
-						var sLogger:Dictionary = new Dictionary();
-						sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
-						sLogger["type"] = "eportfolio_submitted_for_assessment";
-						sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
-						new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 					}
-					sendEmail();
-					clickHandler(index.LEFT_DIRECTION, index.STACK_INTRO_PANEL);
 				}
+			}
+			
+			private function assResult(evt:ResultEvent):void {
+				sendEmail();
+				var sLogger:Dictionary = new Dictionary();
+				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
+				sLogger["type"] = "eportfolio_submitted_for_assessment";
+				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
+				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				clickHandler(index.LEFT_DIRECTION, index.STACK_INTRO_PANEL);
+			}
+			
+			private function assFault(evt:FaultEvent):void {
+				Alert.show("something f**ked up when posting the portfolio", "Portfolio post error");
 			}
 			
 			private function updateCoordinates(event:Event):void {

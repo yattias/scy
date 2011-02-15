@@ -11,26 +11,43 @@
 			import mx.controls.Alert;
 			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
 			
 			import utils.AutoSaveService;
 			import utils.XMLUtilJer;
 			
+			private var so:SharedObject;
+			private var tEvent:ToggleEvent;
+			
 			protected function clickHandler(dir:String, stack:Number):void {
-				var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
+				tEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);
 				tEvent.direction = dir;
 				tEvent.selecTarget = stack;
 				
-				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 				
+				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+					dispatchEvent(tEvent);
+				}
+				else {
+					var ass:AutoSaveService = new AutoSaveService(so.data.saveportfolio+"?missionURI="+FlexGlobals.topLevelApplication.parameters.missionURI+"&xmlContent="+encodeURI(so.data.retrievedElosFromRoolo));
+					ass.httpService.addEventListener(ResultEvent.RESULT, assResult);
+					ass.httpService.addEventListener(FaultEvent.FAULT, assFault);
+				}
+			}
+			
+			private function assResult(evt:ResultEvent):void {
 				var sLogger:Dictionary = new Dictionary();
 				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
 				sLogger["type"] = "build_eportfolio_view_finished";
 				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
 				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
-				
-				new AutoSaveService(so.data.saveportfolio+"?missionURI="+FlexGlobals.topLevelApplication.parameters.missionURI+"&xmlContent="+encodeURI(so.data.retrievedElosFromRoolo));
-				
 				dispatchEvent(tEvent);
+			}
+			
+			private function assFault(evt:FaultEvent):void {
+				Alert.show("something f**ked up when posting the portfolio", "Portfolio post error");
 			}
 
 			public function refreshView():void {
