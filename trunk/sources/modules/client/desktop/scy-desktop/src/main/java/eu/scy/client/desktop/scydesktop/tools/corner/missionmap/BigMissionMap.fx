@@ -22,6 +22,7 @@ import eu.scy.client.common.scyi18n.UriLocalizer;
 public class BigMissionMap extends MissionMap, Resizable {
 
    def logger = Logger.getLogger(this.getClass());
+   def missionBackgroundImageName = "missionBackground";
    public override var width on replace { adjustSize(); }
    public override var height on replace { adjustSize(); }
    public var anchorClicked: function(): Void;
@@ -74,7 +75,11 @@ public class BigMissionMap extends MissionMap, Resizable {
                url: uriLocalizer.localizeUriWithChecking(missionModel.missionMapBackgroundImageUri.toString())
                backgroundLoading: false
             }
-         def node = missionMapBackgroundImageNode.getNode("missionBackground");
+         def node = missionMapBackgroundImageNode.getNode(missionBackgroundImageName);
+         if (node==null){
+            logger.warn("Could not find node named {missionBackgroundImageName} in {missionModel.missionMapBackgroundImageUri}");
+            return null;
+         }
          node.visible = true;
          return node;
       }
