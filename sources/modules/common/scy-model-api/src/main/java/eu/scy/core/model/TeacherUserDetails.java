@@ -8,4 +8,10 @@ package eu.scy.core.model;
  * To change this template use File | Settings | File Templates.
  */
 public interface TeacherUserDetails extends UserDetails{
+
+    ImageRef getProfilePicture();
+
+    void setProfilePicture(ImageRef profilePicture);
+
+
 }

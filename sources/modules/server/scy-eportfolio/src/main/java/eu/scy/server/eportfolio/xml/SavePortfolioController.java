@@ -27,6 +27,14 @@ public class SavePortfolioController extends BaseController {
         String missionURI = request.getParameter("missionURI");
         String xmlContent = request.getParameter("xmlContent");
 
+        logger.info("*********************************************SAVE PORTFOLIOSAVING FOR MISSION:" + missionURI);
+        logger.info("*********************************************SAVE PORTFOLIOSAVING FOR MISSION:" + missionURI);
+        logger.info("*********************************************SAVE PORTFOLIOSAVING FOR MISSION:" + missionURI);
+        logger.info("*********************************************SAVE PORTFOLIOSAVING FOR MISSION:" + missionURI);
+        logger.info("*********************************************SAVE PORTFOLIOSAVING FOR MISSION:" + missionURI);
+        logger.info("*********************************************SAVE PORTFOLIOSAVING FOR MISSION:" + missionURI);
+        logger.info("SAVING XML:" + xmlContent);
+
         logger.info("THE MISSION :" + missionURI + " will be updated with: " + xmlContent);
 
 
@@ -34,8 +42,8 @@ public class SavePortfolioController extends BaseController {
             logger.info("MIssionURI: " + missionURI + " from service: " +getClass().getName());
             if (missionURI != null) {
                 missionURI = URLDecoder.decode(missionURI, "UTF-8");
-                missionURI = missionURI.replaceAll(">", "");
-                missionURI = missionURI.replaceAll("<", "");
+                //missionURI = missionURI.replaceAll(">", "");
+                //missionURI = missionURI.replaceAll("<", "");
 
                 ScyElo scyElo = (ScyElo) getUrlInspector().instpectRequest(request, response);
                 MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadElo(new URI(missionURI), getMissionELOService());
@@ -49,6 +57,7 @@ public class SavePortfolioController extends BaseController {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            logger.error(e);
         }
 
     }

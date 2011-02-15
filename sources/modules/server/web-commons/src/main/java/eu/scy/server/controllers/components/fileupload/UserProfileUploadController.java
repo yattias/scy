@@ -2,10 +2,7 @@ package eu.scy.server.controllers.components.fileupload;
 
 import eu.scy.core.FileService;
 import eu.scy.core.UserService;
-import eu.scy.core.model.FileRef;
-import eu.scy.core.model.ImageRef;
-import eu.scy.core.model.StudentUserDetails;
-import eu.scy.core.model.User;
+import eu.scy.core.model.*;
 import org.springframework.validation.BindException;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -52,7 +49,7 @@ public class UserProfileUploadController extends SimpleFormController {
         Map<Object, Object> dataMap = new HashMap<Object, Object>();
 
         User user = getUserService().getUser(getCurrentUserName(request));
-        StudentUserDetails details = (StudentUserDetails) user.getUserDetails();
+        UserDetails details = user.getUserDetails();
 
         dataMap.put("userDetails", details);
         dataMap.put("hei", "Hei");
@@ -65,7 +62,7 @@ public class UserProfileUploadController extends SimpleFormController {
         modelAndView.addObject("username", getCurrentUserName(request));
 
         User user = getUserService().getUser(getCurrentUserName(request));
-        StudentUserDetails details = (StudentUserDetails) user.getUserDetails();
+        UserDetails details = user.getUserDetails();
 
         modelAndView.addObject("userDetails", details);
 
@@ -84,7 +81,7 @@ public class UserProfileUploadController extends SimpleFormController {
         FileUploadBean bean = (FileUploadBean) command;
 
         User user = getUserService().getUser(getCurrentUserName(request));
-        StudentUserDetails details = (StudentUserDetails) user.getUserDetails();
+        UserDetails details = user.getUserDetails();
 
 
         MultipartFile file = bean.getFile();
@@ -94,7 +91,13 @@ public class UserProfileUploadController extends SimpleFormController {
 
         if(file.getContentType().contains("image")) {
             ImageRef fileRef = (ImageRef) getFileService().saveFile(tmpFile);
-            details.setProfilePicture(fileRef);
+            if(details instanceof StudentUserDetails) {
+                ((StudentUserDetails)details).setProfilePicture(fileRef);
+            } else if(details instanceof TeacherUserDetails) {
+                log.info("Saving profile picture for teacher!");
+                ((TeacherUserDetails)details).setProfilePicture(fileRef);
+            }
+
             log.info("saved image!");
         } else {
             FileRef fileRef = getFileService().saveFile(tmpFile);
