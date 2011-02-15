@@ -76,19 +76,17 @@
             <artifactId>scy-commons</artifactId>
             <version>${pom.version}</version>
             <exclusions>
-                <!--
-                <exclusion>
-                    <artifactId>log4j</artifactId>
-                    <groupId>log4j</groupId>
-                </exclusion>
-                -->
-                <exclusion>
-                    <artifactId>jcrom</artifactId>
-                    <groupId>org.jcrom</groupId>
-                </exclusion>
                 <exclusion>
                     <artifactId>spring-tx</artifactId>
                     <groupId>org.springframework</groupId>
+                </exclusion>
+                <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-dao</artifactId>
+                </exclusion>
+                <exclusion>
+                   <groupId>org.springframework</groupId>
+                   <artifactId>spring-hibernate</artifactId>
                 </exclusion>
                 <exclusion>
                     <artifactId>commons-logging</artifactId>
