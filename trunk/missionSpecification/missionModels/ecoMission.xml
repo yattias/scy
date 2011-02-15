@@ -63,7 +63,7 @@
                      <property name="id" value="orientation_B1"/>
                      <property name="xPosition" value="85"/>
                      <property name="yPosition" value="-110"/>
-                     <property name="tooltip" value="Hypothesis"/>
+                     <property name="tooltip" value="Hypotheses"/>
                      <property name="lasType" value="ORIENTATION"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses_b1.html"/>
                      <property name="loEloUris">
@@ -84,7 +84,7 @@
                      <property name="id" value="orientation_B2"/>
                      <property name="xPosition" value="85"/>
                      <property name="yPosition" value="80"/>
-                     <property name="tooltip" value="Hypothesis"/>
+                     <property name="tooltip" value="Hypotheses"/>
                      <property name="lasType" value="ORIENTATION"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses_b2.html"/>
                      <property name="loEloUris">
@@ -105,7 +105,7 @@
                      <property name="id" value="orientation_B3"/>
                      <property name="xPosition" value="-105"/>
                      <property name="yPosition" value="80"/>
-                     <property name="tooltip" value="Hypothesis"/>
+                     <property name="tooltip" value="Hypotheses"/>
                      <property name="lasType" value="ORIENTATION"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses_b3.html"/>
                      <property name="loEloUris">
@@ -126,7 +126,7 @@
                      <property name="id" value="orientation_C1"/>
                      <property name="xPosition" value="-105"/>
                      <property name="yPosition" value="-110"/>
-                     <property name="tooltip" value="Hypothesis"/>
+                     <property name="tooltip" value="Hypotheses"/>
                      <property name="lasType" value="ORIENTATION"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses_c1.html"/>
                      <property name="loEloUris">
@@ -147,7 +147,7 @@
                      <property name="id" value="experiment_B1"/>
                      <property name="xPosition" value="165"/>
                      <property name="yPosition" value="-190"/>
-                     <property name="tooltip" value="Inferences"/>
+                     <property name="tooltip" value="Experiment"/>
                      <property name="lasType" value="EXPERIMENT"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_inferences_b1.html"/>
                      <property name="loEloUris">
@@ -169,7 +169,7 @@
                      <property name="id" value="experiment_B2"/>
                      <property name="xPosition" value="165"/>
                      <property name="yPosition" value="165"/>
-                     <property name="tooltip" value="Inferences"/>
+                     <property name="tooltip" value="Experiment"/>
                      <property name="lasType" value="EXPERIMENT"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_inferences_b2.html"/>
                      <property name="loEloUris">
@@ -190,7 +190,7 @@
                      <property name="id" value="experiment_B3"/>
                      <property name="xPosition" value="-185"/>
                      <property name="yPosition" value="160"/>
-                     <property name="tooltip" value="Inferences"/>
+                     <property name="tooltip" value="Experiment"/>
                      <property name="lasType" value="EXPERIMENT"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_inferences_b3.html"/>
                      <property name="loEloUris">
@@ -212,7 +212,7 @@
                      <property name="id" value="experiment_C1"/>
                      <property name="xPosition" value="-185"/>
                      <property name="yPosition" value="-190"/>
-                     <property name="tooltip" value="Inferences"/>
+                     <property name="tooltip" value="Experiment"/>
                      <property name="lasType" value="EXPERIMENT"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_inferences_c1.html"/>
                      <property name="loEloUris">
@@ -233,7 +233,7 @@
                      <property name="id" value="design_B1"/>
                      <property name="xPosition" value="245"/>
                      <property name="yPosition" value="-270"/>
-                     <property name="tooltip" value="Solution"/>
+                     <property name="tooltip" value="Problem solution"/>
                      <property name="lasType" value="DESIGN"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_solution_b1.html"/>
                      <property name="loEloUris">
@@ -251,7 +251,7 @@
                      <property name="id" value="design_B2"/>
                      <property name="xPosition" value="245"/>
                      <property name="yPosition" value="245"/>
-                     <property name="tooltip" value="First ideas"/>
+                     <property name="tooltip" value="Problem solution"/>
                      <property name="lasType" value="DESIGN"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_solution_b2.html"/>
                      <property name="loEloUris">
@@ -269,7 +269,7 @@
                      <property name="id" value="design_B3"/>
                      <property name="xPosition" value="-265"/>
                      <property name="yPosition" value="240"/>
-                     <property name="tooltip" value="Solution"/>
+                     <property name="tooltip" value="Problem solution"/>
                      <property name="lasType" value="DESIGN"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_solution_b3.html"/>
                      <property name="loEloUris">
@@ -287,7 +287,7 @@
                      <property name="id" value="design_C1"/>
                      <property name="xPosition" value="-265"/>
                      <property name="yPosition" value="-270"/>
-                     <property name="tooltip" value="Solution"/>
+                     <property name="tooltip" value="Problem solution"/>
                      <property name="lasType" value="DESIGN"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_solution_c1.html"/>
                      <property name="loEloUris">
