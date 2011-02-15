@@ -310,20 +310,6 @@
       <property name="basicMissionAnchors">
          <list>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="challengeEco"/>
-               <property name="uri" value="roolo://memory/20094/0/challenge_eco.url"/>
-               <property name="iconType" value="scy/url"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/challenge.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/challenge_eco.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/glossary_eco.html"/>
-               <property name="inputMissionAnchorIds">
-                  <list />
-               </property>
-               <property name="loEloUris">
-                  <list />
-               </property>
-            </bean>
-            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="videoReport"/>
                <property name="uri" value="roolo://memory/20159/0/YouTube+video+link.scyyoutuber"/>
                <property name="iconType" value="ard/presentation"/>
