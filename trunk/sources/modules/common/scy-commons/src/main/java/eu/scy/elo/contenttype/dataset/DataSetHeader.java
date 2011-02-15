@@ -6,10 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-import org.jcrom.annotations.JcrChildNode;
-import org.jcrom.annotations.JcrName;
-import org.jcrom.annotations.JcrPath;
-import org.jcrom.annotations.JcrProperty;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 
@@ -21,14 +17,14 @@ public class DataSetHeader implements Serializable {
 	 *
 	 */
 	private static final long serialVersionUID = 7291313935532912820L;
-	@JcrName private String name = "DataSetHeader"; // name of the node set by Jcrom
-	@JcrPath private String path; // mandatory attribute -- requested by Jcrom
+	private String name = "DataSetHeader"; // name of the node set by Jcrom
+	private String path; // mandatory attribute -- requested by Jcrom
 
-    @JcrChildNode private List<DataSetColumn> variables;
-    @JcrProperty private Locale locale;
+    private List<DataSetColumn> variables;
+    private Locale locale;
 
     private Element element;
-    @JcrProperty private String elementStr;
+    private String elementStr;
 
     // This constructor is only used by jcrom for persistance purposes
     public DataSetHeader(){
