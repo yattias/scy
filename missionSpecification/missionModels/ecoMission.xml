@@ -15,7 +15,7 @@
       <property name="basicMissionMap">
          <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionMap">
             <property name="missionMapBackgroundImageUri" value="http://www.scy-lab.eu/content/en/mission2/ecoBackground.fxz"/>
-            <property name="initialLasId" value="startPage"/>
+            <property name="initialLasId" value="conceptualisatsionConceptMap"/>
             <property name="loEloUris">
                <list>
                   <value>roolo://memory/20006/0/Glossary.url</value>
@@ -24,36 +24,9 @@
             <property name="lasses">
                <list>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
-                     <property name="id" value="startPage"/>
-                     <property name="xPosition" value="0"/>
-                     <property name="yPosition" value="0"/>
-                     <property name="tooltip" value="Challenge"/>
-                     <property name="lasType" value="ORIENTATION"/>
-                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_challenge.html"/>
-                     <property name="loEloUris">
-                        <list>
-								<value>roolo://memory/20114/0/welcome.url</value>
-                        </list>
-                     </property>
-                     <property name="nextLasses">
-                        <list>
-                           <value>conceptualisatsionConceptMap</value>
-                           <value>orientation_B1</value>
-                           <value>orientation_B2</value>
-                           <value>orientation_B3</value>
-                           <value>orientation_C1</value>
-                           <value>reportingVideo</value>
-                        </list>
-                     </property>
-                     <property name="anchorEloId" value="challengeEco"/>
-                     <property name="intermediateEloIds">
-                        <list />
-                     </property>
-                  </bean>
-                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="conceptualisatsionConceptMap"/>
-                     <property name="xPosition" value="80"/>
-                     <property name="yPosition" value="0"/>
+                     <property name="xPosition" value="40"/>
+                     <property name="yPosition" value="-10"/>
                      <property name="tooltip" value="Concept Map"/>
                      <property name="lasType" value="CONCEPTUALISATION"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_conceptmap.html"/>
@@ -61,9 +34,7 @@
                         <list />
                      </property>
                      <property name="nextLasses">
-                        <list>
-                           <value>startPage</value>
-                        </list>
+                        <list />
                      </property>
                      <property name="anchorEloId" value="conceptMap"/>
                      <property name="intermediateEloIds">
@@ -72,8 +43,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="reportingVideo"/>
-                     <property name="xPosition" value="-80"/>
-                     <property name="yPosition" value="0"/>
+                     <property name="xPosition" value="-40"/>
+                     <property name="yPosition" value="-10"/>
                      <property name="tooltip" value="Video report"/>
                      <property name="lasType" value="REPORTING"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_videoreport.html"/>
@@ -81,9 +52,7 @@
                         <list />
                      </property>
                      <property name="nextLasses">
-                        <list>
-                           <value>startPage</value>
-                        </list>
+                        <list />
                      </property>
                      <property name="anchorEloId" value="videoReport"/>
                      <property name="intermediateEloIds">
@@ -92,8 +61,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="orientation_B1"/>
-                     <property name="xPosition" value="-80"/>
-                     <property name="yPosition" value="-80"/>
+                     <property name="xPosition" value="85"/>
+                     <property name="yPosition" value="-90"/>
                      <property name="tooltip" value="Hypothesis"/>
                      <property name="lasType" value="ORIENTATION"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses_b1.html"/>
@@ -101,9 +70,7 @@
                         <list />
                      </property>
                      <property name="nextLasses">
-                        <list>
-                           <value>experiment_B1</value>
-                        </list>
+                        <list />
                      </property>
                      <property name="anchorEloId" value="hypothesisB1"/>
                      <property name="intermediateEloIds">
@@ -115,7 +82,7 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="orientation_B2"/>
-                     <property name="xPosition" value="80"/>
+                     <property name="xPosition" value="85"/>
                      <property name="yPosition" value="80"/>
                      <property name="tooltip" value="Hypothesis"/>
                      <property name="lasType" value="ORIENTATION"/>
@@ -124,9 +91,7 @@
                         <list />
                      </property>
                      <property name="nextLasses">
-                        <list>
-                           <value>experiment_B2</value>
-                        </list>
+                        <list />
                      </property>
                      <property name="anchorEloId" value="hypothesisB2"/>
                      <property name="intermediateEloIds">
@@ -138,7 +103,7 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="orientation_B3"/>
-                     <property name="xPosition" value="-80"/>
+                     <property name="xPosition" value="-85"/>
                      <property name="yPosition" value="80"/>
                      <property name="tooltip" value="Hypothesis"/>
                      <property name="lasType" value="ORIENTATION"/>
@@ -147,9 +112,7 @@
                         <list />
                      </property>
                      <property name="nextLasses">
-                        <list>
-                           <value>experiment_B3</value>
-                        </list>
+                        <list />
                      </property>
                      <property name="anchorEloId" value="hypothesisB3"/>
                      <property name="intermediateEloIds">
@@ -161,8 +124,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="orientation_C1"/>
-                     <property name="xPosition" value="80"/>
-                     <property name="yPosition" value="-80"/>
+                     <property name="xPosition" value="-85"/>
+                     <property name="yPosition" value="-90"/>
                      <property name="tooltip" value="Hypothesis"/>
                      <property name="lasType" value="ORIENTATION"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses_c1.html"/>
@@ -170,9 +133,7 @@
                         <list />
                      </property>
                      <property name="nextLasses">
-                        <list>
-                           <value>experiment_C1</value>
-                        </list>
+                        <list />
                      </property>
                      <property name="anchorEloId" value="hypothesisC1"/>
                      <property name="intermediateEloIds">
@@ -184,8 +145,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="experiment_B1"/>
-                     <property name="xPosition" value="-160"/>
-                     <property name="yPosition" value="-160"/>
+                     <property name="xPosition" value="165"/>
+                     <property name="yPosition" value="-170"/>
                      <property name="tooltip" value="Inferences"/>
                      <property name="lasType" value="EXPERIMENT"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_inferences_b1.html"/>
@@ -193,9 +154,7 @@
                         <list />
                      </property>
                      <property name="nextLasses">
-                        <list>
-                           <value>design_B1</value>
-                        </list>
+                        <list />
                      </property>
                      <property name="anchorEloId" value="inferencesB1"/>
                      <property name="intermediateEloIds">
@@ -208,8 +167,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="experiment_B2"/>
-                     <property name="xPosition" value="160"/>
-                     <property name="yPosition" value="160"/>
+                     <property name="xPosition" value="165"/>
+                     <property name="yPosition" value="165"/>
                      <property name="tooltip" value="Inferences"/>
                      <property name="lasType" value="EXPERIMENT"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_inferences_b2.html"/>
@@ -217,9 +176,7 @@
                         <list />
                      </property>
                      <property name="nextLasses">
-                        <list>
-                           <value>design_B2</value>
-                        </list>
+                        <list />
                      </property>
                      <property name="anchorEloId" value="inferencesB2"/>
                      <property name="intermediateEloIds">
@@ -231,7 +188,7 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="experiment_B3"/>
-                     <property name="xPosition" value="-160"/>
+                     <property name="xPosition" value="-165"/>
                      <property name="yPosition" value="160"/>
                      <property name="tooltip" value="Inferences"/>
                      <property name="lasType" value="EXPERIMENT"/>
@@ -240,9 +197,7 @@
                         <list />
                      </property>
                      <property name="nextLasses">
-                        <list>
-                           <value>design_B3</value>
-                        </list>
+                        <list />
                      </property>
                      <property name="anchorEloId" value="inferencesB3"/>
                      <property name="intermediateEloIds">
@@ -255,8 +210,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="experiment_C1"/>
-                     <property name="xPosition" value="160"/>
-                     <property name="yPosition" value="-160"/>
+                     <property name="xPosition" value="-165"/>
+                     <property name="yPosition" value="-170"/>
                      <property name="tooltip" value="Inferences"/>
                      <property name="lasType" value="EXPERIMENT"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_inferences_c1.html"/>
@@ -264,9 +219,7 @@
                         <list />
                      </property>
                      <property name="nextLasses">
-                        <list>
-                           <value>design_C1</value>
-                        </list>
+                        <list />
                      </property>
                      <property name="anchorEloId" value="inferencesC1"/>
                      <property name="intermediateEloIds">
@@ -278,8 +231,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="design_B1"/>
-                     <property name="xPosition" value="-240"/>
-                     <property name="yPosition" value="-240"/>
+                     <property name="xPosition" value="245"/>
+                     <property name="yPosition" value="-250"/>
                      <property name="tooltip" value="Solution"/>
                      <property name="lasType" value="DESIGN"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_solution_b1.html"/>
@@ -287,10 +240,7 @@
                         <list />
                      </property>
                      <property name="nextLasses">
-                        <list>
-                           <value>reportingVideo</value>
-                           <value>conceptualisatsionConceptMap</value>
-                        </list>
+                        <list />
                      </property>
                      <property name="anchorEloId" value="solutionB1"/>
                      <property name="intermediateEloIds">
@@ -299,8 +249,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="design_B2"/>
-                     <property name="xPosition" value="240"/>
-                     <property name="yPosition" value="240"/>
+                     <property name="xPosition" value="245"/>
+                     <property name="yPosition" value="245"/>
                      <property name="tooltip" value="First ideas"/>
                      <property name="lasType" value="DESIGN"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_solution_b2.html"/>
@@ -308,10 +258,7 @@
                         <list />
                      </property>
                      <property name="nextLasses">
-                        <list>
-                           <value>reportingVideo</value>
-                           <value>conceptualisatsionConceptMap</value>
-                        </list>
+                        <list />
                      </property>
                      <property name="anchorEloId" value="solutionB2"/>
                      <property name="intermediateEloIds">
@@ -320,7 +267,7 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="design_B3"/>
-                     <property name="xPosition" value="-240"/>
+                     <property name="xPosition" value="-245"/>
                      <property name="yPosition" value="240"/>
                      <property name="tooltip" value="Solution"/>
                      <property name="lasType" value="DESIGN"/>
@@ -329,10 +276,7 @@
                         <list />
                      </property>
                      <property name="nextLasses">
-                        <list>
-                           <value>reportingVideo</value>
-                           <value>conceptualisatsionConceptMap</value>
-                        </list>
+                        <list />
                      </property>
                      <property name="anchorEloId" value="solutionB3"/>
                      <property name="intermediateEloIds">
@@ -341,8 +285,8 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="design_C1"/>
-                     <property name="xPosition" value="240"/>
-                     <property name="yPosition" value="-240"/>
+                     <property name="xPosition" value="-245"/>
+                     <property name="yPosition" value="-250"/>
                      <property name="tooltip" value="Solution"/>
                      <property name="lasType" value="DESIGN"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_solution_c1.html"/>
@@ -350,10 +294,7 @@
                         <list />
                      </property>
                      <property name="nextLasses">
-                        <list>
-                           <value>reportingVideo</value>
-                           <value>conceptualisatsionConceptMap</value>
-                        </list>
+                        <list />
                      </property>
                      <property name="anchorEloId" value="solutionC1"/>
                      <property name="intermediateEloIds">
