@@ -190,9 +190,9 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX {
                     } }
 
         def tagCloud = Flow {
-                    layoutInfo: LayoutInfo {
-                        width: 300
-                    }
+//                    layoutInfo: LayoutInfo {
+//                        width: 300
+//                    }
                     hgap: 10
                     content: for (tag in testTags) {
                         Hyperlink { text: tag.tagname
@@ -215,7 +215,15 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX {
         def tagCloudPanel = VBox {
                     content: [tagCloud]
                 }
-
+//        Stage {
+//            title: "Tag Cloud for SCY ELOs"
+//            scene: Scene {
+//                content: VBox {
+//                    content: [
+//                        tagCloudPanel]
+//                }
+//            }
+//        }
         VBox {
             spacing: spacing
             layoutX: valueOffset
@@ -231,9 +239,9 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX {
                             y: 30
                         // content: "SCY Tagging Tool"
                         }] }
-                HBox {
+                VBox {
                     content: [
-                        taggingPanel
+                        tagCloudPanel,taggingPanel
                     ]
                 }]
         }
@@ -268,18 +276,10 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX {
 //                ]
 //            }
 //        }
-//        Stage {
-//            title: "Tag Cloud for SCY ELOs"
-//            scene: Scene {
-//                content: VBox {
-//                    content: [
-//                        tagCloudPanel]
-//                }
-//            }
-//        }
     }
 
     function createPropertiesDisplay(): Node {
+
         def window = scyWindow;
         println("window: {window}");
         VBox {
@@ -342,8 +342,9 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX {
 }
 
 function run() {
+
     Stage {
-        title: "Test properties viewer"
+        title: "Social Tagging"
         scene: Scene {
             width: 200
             height: 200
