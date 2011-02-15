@@ -40,8 +40,6 @@ public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX, INot
 
     var tempUsers:Vector = new Vector();
 
-    public-init var eloChatActionWrapper:EloChatActionWrapper;
-
     def spacing = 5.0;
 
     public var wrappedSPTPanel:Node;
@@ -51,7 +49,8 @@ public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX, INot
     };
 
     public override function loadElo(uri:URI){
-        eloChatActionWrapper.loadElo(uri);
+        // is never called
+        println("WARNING: someone loaded a chat elo, not implemented yet");
     }
 
     public override function create(): Node {
