@@ -18,7 +18,8 @@ public enum MissionEloType {
    RUNTIME_SETTINGS("scy/runtimesettings"),
    EPORTFOLIO("scy/eportfolio"),
    AGENT_MODELS("scy/agentModels"),
-   PADAGOGICAL_PLAN_SETTINGS("scy/pedagogicalplansettings");
+   PADAGOGICAL_PLAN_SETTINGS("scy/pedagogicalplansettings"),
+   COLOR_SCHEMES("scy/colorschemes");
 
    private final String type;
 

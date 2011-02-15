@@ -40,4 +40,9 @@ public interface MissionRuntimeEloContent
 	public URI getPedagogicalPlanSettingsEloUri();
 
 	public void setPedagogicalPlanSettingsEloUri(URI pedagogicalPlanSettingsEloUri);
+
+	public URI getColorSchemesEloUri();
+
+	public void setColorSchemesEloUri(URI colorSchemesEloUri);
+	
 }

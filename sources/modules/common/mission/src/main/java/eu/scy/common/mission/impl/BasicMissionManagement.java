@@ -6,10 +6,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.metadata.IMetadataKeyIdDefinition;
 import roolo.search.IQuery;
 import roolo.search.ISearchResult;
+import eu.scy.common.mission.ColorSchemesElo;
 import eu.scy.common.mission.EloToolConfig;
 import eu.scy.common.mission.EloToolConfigsElo;
 import eu.scy.common.mission.EloToolConfigsEloContent;
@@ -26,7 +25,6 @@ import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.mission.MissionSpecificationEloContent;
 import eu.scy.common.mission.RuntimeSettingsElo;
 import eu.scy.common.mission.TemplateElosElo;
-import eu.scy.common.scyelo.EloFunctionalRole;
 import eu.scy.common.scyelo.QueryFactory;
 import eu.scy.common.scyelo.RooloServices;
 import eu.scy.common.scyelo.ScyElo;
@@ -44,16 +42,6 @@ public class BasicMissionManagement implements MissionManagement
 		super();
 		this.missionSpecificationElo = missionSpecificationElo;
 		this.rooloServices = rooloServices;
-	}
-
-	private final IMetadataKey findMetadataKey(IMetadataKeyIdDefinition id)
-	{
-		IMetadataKey key = rooloServices.getMetaDataTypeManager().getMetadataKey(id);
-		if (key == null)
-		{
-			throw new IllegalStateException("the metadata key cannot be found, id: " + id);
-		}
-		return key;
 	}
 
 	@Override
@@ -148,6 +136,17 @@ public class BasicMissionManagement implements MissionManagement
 				}
 			}
 			runtimeSettingsElo.setAuthor(userName);
+			ColorSchemesElo colorSchemesElo = null;
+			if (missionSpecification.getColorSchemesEloUri() != null)
+			{
+				if (!runSpecificationElos)
+				{
+					colorSchemesElo = ColorSchemesElo.loadElo(
+								missionSpecification.getColorSchemesEloUri(), rooloServices);
+					colorSchemesElo.setAuthor(userName);
+					colorSchemesElo.saveAsForkedElo();
+				}
+			}
 
 			missionRuntimeElo.setMissionSpecificationElo(missionSpecificationElo.getUri());
 			missionRuntimeElo.getTypedContent().setMissionSpecificationEloUri(
@@ -157,6 +156,10 @@ public class BasicMissionManagement implements MissionManagement
 			missionRuntimeElo.getTypedContent().setEloToolConfigsEloUri(eloToolConfigsElo.getUri());
 			missionRuntimeElo.getTypedContent().setTemplateElosEloUri(templateElosElo.getUri());
 			missionRuntimeElo.getTypedContent().setRuntimeSettingsEloUri(runtimeSettingsElo.getUri());
+			if (colorSchemesElo != null)
+			{
+				missionRuntimeElo.getTypedContent().setColorSchemesEloUri(colorSchemesElo.getUri());
+			}
 			if (!runSpecificationElos)
 			{
 				ScyElo ePortfolioElo = ScyElo.createElo(MissionEloType.EPORTFOLIO.getType(),
@@ -168,12 +171,13 @@ public class BasicMissionManagement implements MissionManagement
 			}
 			if (!runSpecificationElos)
 			{
-				ScyElo pedagogicalPlanSettings = ScyElo.createElo(MissionEloType.PADAGOGICAL_PLAN_SETTINGS.getType(),
-							rooloServices);
+				ScyElo pedagogicalPlanSettings = ScyElo.createElo(
+							MissionEloType.PADAGOGICAL_PLAN_SETTINGS.getType(), rooloServices);
 				pedagogicalPlanSettings.setTitle(missionSpecificationElo.getTitle());
 				pedagogicalPlanSettings.addAuthor(userName);
 				pedagogicalPlanSettings.saveAsNewElo();
-				missionRuntimeElo.getTypedContent().setPedagogicalPlanSettingsEloUri(pedagogicalPlanSettings.getUri());
+				missionRuntimeElo.getTypedContent().setPedagogicalPlanSettingsEloUri(
+							pedagogicalPlanSettings.getUri());
 			}
 			if (!runSpecificationElos)
 			{
@@ -181,7 +185,7 @@ public class BasicMissionManagement implements MissionManagement
 			}
 			missionRuntimeModel = new BasicMissionRuntimeModel(missionRuntimeElo,
 						missionSpecificationElo, rooloServices, personalMissionMapModelElo,
-						eloToolConfigsElo, templateElosElo, runtimeSettingsElo);
+						eloToolConfigsElo, templateElosElo, runtimeSettingsElo, colorSchemesElo);
 		}
 		return missionRuntimeModel;
 	}
@@ -209,7 +213,8 @@ public class BasicMissionManagement implements MissionManagement
 	{
 		for (Las las : missionModel.getLasses())
 		{
-			if (las.getMissionAnchor().isExisting()){
+			if (las.getMissionAnchor().isExisting())
+			{
 				las.setTitle(las.getMissionAnchor().getScyElo().getTitle());
 			}
 			makePersonalMissionAnchor(las.getMissionAnchor(), userName, missionRuntimeEloUri,
@@ -221,9 +226,10 @@ public class BasicMissionManagement implements MissionManagement
 			}
 		}
 	}
-	
-	private boolean isEmpty(String string){
-		return string==null || string.length()==0;
+
+	private boolean isEmpty(String string)
+	{
+		return string == null || string.length() == 0;
 	}
 
 	private void makePersonalMissionAnchor(MissionAnchor missionAnchor, String userName,
@@ -237,7 +243,8 @@ public class BasicMissionManagement implements MissionManagement
 			if (!eloConfig.isContentStatic())
 			{
 				missionAnchor.getScyElo().setLasId(missionAnchor.getLas().getId());
-				if (!isEmpty(missionAnchor.getIconType())){
+				if (!isEmpty(missionAnchor.getIconType()))
+				{
 					missionAnchor.getScyElo().setIconType(missionAnchor.getIconType());
 				}
 				if (missionAnchor.getAssignmentUri() != null)
@@ -261,28 +268,11 @@ public class BasicMissionManagement implements MissionManagement
 		}
 	}
 
-	private URI findAssignmentEloUri(MissionAnchor missionAnchor)
-	{
-		for (URI loEloUri : missionAnchor.getLoEloUris())
-		{
-			ScyElo scyElo = ScyElo.loadMetadata(loEloUri, rooloServices);
-			if (EloFunctionalRole.INFORMATION_ASSIGNMENT.equals(scyElo.getFunctionalRole()))
-			{
-				return loEloUri;
-			}
-		}
-		// assignment elo is not specified, use first lo elo
-		// if (!missionAnchor.getLoEloUris().isEmpty())
-		// {
-		// return missionAnchor.getLoEloUris().get(0);
-		// }
-		return null;
-	}
-
 	@Override
 	public MissionRuntimeModel getMissionRuntimeModel(String userName)
 	{
-                IQuery myMissionRuntimeQuery = QueryFactory.createMissionRuntimeQuery(MissionEloType.MISSION_RUNTIME.getType(),userName);
+		IQuery myMissionRuntimeQuery = QueryFactory.createMissionRuntimeQuery(
+					MissionEloType.MISSION_RUNTIME.getType(), userName);
 		List<ISearchResult> missionRuntimeResults = rooloServices.getRepository().search(
 					myMissionRuntimeQuery);
 		if (missionRuntimeResults != null)
@@ -305,7 +295,8 @@ public class BasicMissionManagement implements MissionManagement
 	@Override
 	public List<MissionRuntimeModel> getAllMissionRuntimeModels()
 	{
-                IQuery allMissionRuntimeQuery = QueryFactory.createAllMissionRuntimesQuery(MissionEloType.MISSION_RUNTIME.getType(), missionSpecificationElo.getUri());
+		IQuery allMissionRuntimeQuery = QueryFactory.createAllMissionRuntimesQuery(
+					MissionEloType.MISSION_RUNTIME.getType(), missionSpecificationElo.getUri());
 		List<ISearchResult> missionRuntimeResults = rooloServices.getRepository().search(
 					allMissionRuntimeQuery);
 		List<MissionRuntimeModel> allMissionRuntimeModels = new ArrayList<MissionRuntimeModel>();

@@ -21,6 +21,7 @@ public class BasicMissionSpecificationEloContent implements MissionSpecification
 	private URI runtimeSettingsEloUri;
 	private URI agentModelsEloUri;
 	private URI pedagogicalPlanSettingsEloUri;
+	private URI colorSchemesEloUri;
 	private URI missionDescriptionUri;
 
 	@Override
@@ -31,6 +32,7 @@ public class BasicMissionSpecificationEloContent implements MissionSpecification
 					+ ",templateElosEloUri=" + templateElosEloUri + ",runtimeSettingsEloUri="
 					+ runtimeSettingsEloUri + ",agentModelsEloUri=" + agentModelsEloUri
 					+ ",pedagogicalPlanSettingsEloUri=" + pedagogicalPlanSettingsEloUri
+					+ ",colorSchemesEloUri=" + colorSchemesEloUri
 					+ ",missionDescriptionUri=" + missionDescriptionUri + '}';
 	}
 
@@ -104,6 +106,18 @@ public class BasicMissionSpecificationEloContent implements MissionSpecification
 	public void setPedagogicalPlanSettingsEloUri(URI pedagogicalPlanSettingsEloUri)
 	{
 		this.pedagogicalPlanSettingsEloUri = pedagogicalPlanSettingsEloUri;
+	}
+
+	@Override
+	public URI getColorSchemesEloUri()
+	{
+		return colorSchemesEloUri;
+	}
+
+	@Override
+	public void setColorSchemesEloUri(URI colorSchemesEloUri)
+	{
+		this.colorSchemesEloUri = colorSchemesEloUri;
 	}
 
 	@Override
