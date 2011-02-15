@@ -23,6 +23,7 @@
 						case STACK_ELOASSESS_PANEL:
 							(mainStack.selectedChild as eloAssessingCanvas).setOrigin(sourcePanelForEloAssessment);
 							if(eloidToAssess!=null) {
+								trace("eloidToAssess: "+eloidToAssess);
 								(mainStack.selectedChild as eloAssessingCanvas).assessElo(eloidToAssess);
 							}
 						break;
@@ -176,6 +177,7 @@
 			
 			private function retrieveUserInfo():void {
 				so = SharedObject.getLocal(SHAREDOBJECT_LOCAL_NAME);
+				so.clear();
 				var userInfo:Object = new Object();
 				userInfo.username = FlexGlobals.topLevelApplication.parameters.username;
 				userInfo.firstname = FlexGlobals.topLevelApplication.parameters.firstName;
@@ -207,7 +209,7 @@
 			protected function portfolioService_resultHandler(event:ResultEvent):void {
 				var xml:XML= event.result as XML;
 				MISSION_NAME = xml.portfolio[0].mission;
-				so.data.retrievedElosFromRoolo = xml;
+				so.data.refr = xml;
 				so.data.portfolioreflectiontabs = xml.portfolioreflectiontabs;
 				so.flush();
 				

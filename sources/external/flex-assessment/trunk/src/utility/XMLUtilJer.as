@@ -22,8 +22,8 @@ package utility
 			xmlObject.customname = object.customname;
 			xmlObject.modified = object.modified;
 			xmlObject.studentdescription = object.studentdescription;
-			xmlObject.studentglg = getArrayFromXML(object.studentglg);
-			xmlObject.studentslg = getArrayFromXML(object.studentslg);
+			xmlObject.studentglg = getArrayFromXML(object.studentgenerallearninggoals.learninggoal);
+			xmlObject.studentslg = getArrayFromXML(object.studentspecificlearninggoals.learninggoal);
 			xmlObject.studentreflection = object.studentreflection;
 			xmlObject.hasbeenreflectedon = object.hasbeenreflectedon;
 			xmlObject.hasbeenselectedforsubmit = object.hasbeenselectedforsubmit;
@@ -115,17 +115,21 @@ package utility
 			newELO.customname = <customname>{cdata(ob.customname)}</customname>;
 			newELO.modified = <modified>{cdata(ob.modified)}</modified>;
 			newELO.studentdescription = <studentdescription>{cdata(ob.studentdescription)}</studentdescription>;
-			newELO.studentglg = <studentglg />;
+			newELO.studentgenerallearninggoals = <studentgenerallearninggoals />;
 			for(var i:Number = 0; i<ob.slectedGLGs.length; i++) {
-				var goal:XML = <goal>{cdata(ob.slectedGLGs[i][0].entry)}</goal>
+				var learninggoal:XML = <learninggoal />;
+				var goal:XML = <goal>{cdata(ob.slectedGLGs[i][0].entry)}</goal>;
 				goal.@pos = ob.slectedGLGs[i][0].pos;
-				newELO.studentglg.appendChild(goal);
+				learninggoal.appendChild(goal);
+				newELO.studentgenerallearninggoals.appendChild(learninggoal);
 			}
-			newELO.studentslg = <studentslg />;
+			newELO.studentspecificlearninggoals = <studentspecificlearninggoals />;
 			for(var i:Number = 0; i<ob.slectedSLGs.length; i++) {
+				var learninggoal:XML = <learninggoal />;
 				var goal:XML = <goal>{cdata(ob.slectedSLGs[i][0].entry)}</goal>;
 				goal.@pos = ob.slectedSLGs[i][0].pos;
-				newELO.studentslg.appendChild(goal);
+				learninggoal.appendChild(goal);
+				newELO.studentspecificlearninggoals.appendChild(learninggoal);
 			}
 			newELO.studentreflection = <studentreflection>{cdata(ob.studentreflection)}</studentreflection>;
 			newELO.hasbeenreflectedon = <hasbeenreflectedon>{ob.hasbeenreflectedon}</hasbeenreflectedon>;

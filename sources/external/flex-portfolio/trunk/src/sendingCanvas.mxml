@@ -158,7 +158,7 @@
 						sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
 						new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 					}
-					
+					sendEmail();
 					clickHandler(index.LEFT_DIRECTION, index.STACK_INTRO_PANEL);
 				}
 			}
@@ -221,6 +221,22 @@
 				else {
 					sendButtonEnabled = false;
 				}
+			}
+			
+			private function sendEmail():void {
+				var req:URLRequest = new URLRequest("http://www.intermedia.uio.no/www-data-public/app-scy/sendmail.php");
+				var vars:URLVariables = new URLVariables();
+				var loader:URLLoader = new URLLoader();
+				
+				vars.sender = "no-reply@uio.no";
+				vars.target = "jeremy.toussaint@intermedia.uio.no";
+				vars.subject = "Submitted Mission portfolio";
+				vars.message = so.data.retrievedElosFromRoolo.toString();
+				req.method = URLRequestMethod.POST;
+				req.data = vars;
+				
+				trace("Sending email .... ");
+				loader.load(req);
 			}
 
 		]]>

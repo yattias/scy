@@ -6,8 +6,10 @@
 	<fx:Script>
 		<![CDATA[
 			import listeners.RefreshEvent;
+			import listeners.SaveFeedbackEvent;
 			import listeners.ToggleEvent;
 			
+			import mx.controls.Alert;
 			import mx.core.FlexGlobals;
 			import mx.events.ValidationResultEvent;
 			import mx.rpc.events.ResultEvent;
@@ -55,7 +57,7 @@
 			
 			private function AutoSaveService_resultHandler(evt:ResultEvent):void {
 				replyArea.text = "";
-				var tEvent:RefreshEvent = new RefreshEvent(index.SAVEFEEDBACK_COMMAND, true);
+				var tEvent:SaveFeedbackEvent = new SaveFeedbackEvent(index.SAVEFEEDBACK_COMMAND, true);
 				tEvent.eloXML = evt.result as XML;
 				dispatchEvent(tEvent);
 			}

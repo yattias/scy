@@ -43,7 +43,7 @@
 				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
 				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 				
-				portfolioElo = so.data.retrievedElosFromRoolo as XML;
+				portfolioElo = so.data.refr as XML;
 				portfolioCount = portfolioElo.elements("portfolio").length();
 			}
 		]]>

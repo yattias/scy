@@ -58,7 +58,7 @@
 				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 				
 				
-				portfolioElo = so.data.retrievedElosFromRoolo as XML;
+				portfolioElo = so.data.refr as XML;
 				
 				var myList:XMLList = portfolioElo.portfolio.(owner == passedPortfolioStudentName);
 				pfXML = myList[0] as XML;
@@ -111,7 +111,7 @@
 					newPfXML.portfoliostatus = <portfoliostatus>{XMLUtilJer.cdata("PORTFOLIO_ASSESSED")}</portfoliostatus>;
 					newPfXML.assessmentportfoliorating = teaRatingGrp.selectedValue;
 					newPfXML.assessmentportfoliocomment = <assessmentportfoliocomment>{XMLUtilJer.cdata(commentArea.text)}</assessmentportfoliocomment>;
-					so.data.retrievedElosFromRoolo = portfolioElo.replace(pfXML, newPfXML);
+					so.data.refr = portfolioElo.replace(pfXML, newPfXML);
 					so.flush();
 					newPfXML.missionruntimeuri = <missionruntimeuri>{XMLUtilJer.cdata(newPfXML.missionruntimeuri)}</missionruntimeuri>;
 					new AutoSaveService(so.data.saveportfolio+"?missionURI="+decodeURI(newPfXML.missionruntimeuri)+"&xmlContent="+encodeURI(newPfXML));

@@ -51,7 +51,7 @@
 				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 				
 				
-				portfolioElo = so.data.retrievedElosFromRoolo as XML;
+				portfolioElo = so.data.refr as XML;
 				var unsortedStudentsArray:ArrayCollection = new ArrayCollection();
 				var portfolioXML:XML;
 				for(var i:Number = 0; i < portfolioElo.elements("portfolio").length(); i++) {

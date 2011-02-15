@@ -142,7 +142,7 @@
 			}
 			
 			private function refreshOverallDisplay(xml):void {
-				feedbackText = xml.question;
+				feedbackText = xml.comment;
 				shown = xml.shown;
 				eval = xml.evaluation;
 				score = xml.scor;
@@ -174,8 +174,7 @@
 			}
 			
 			private function refreshReply(evt:SaveFeedbackEvent):void {
-				var xml:XML= evt.eloXML;
-				refreshOverallDisplay(xml);
+				refreshOverallDisplay(evt.eloXML);
 			}
 			
 			private function refreshDisplay(evt:RefreshEvent):void {

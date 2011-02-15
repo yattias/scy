@@ -232,6 +232,7 @@
 			
 			private function retrieveUserInfo():void {
 				so = SharedObject.getLocal(SHAREDOBJECT_LOCAL_NAME);
+				so.clear();
 				var userInfo:Object = new Object();
 				userInfo.username = FlexGlobals.topLevelApplication.parameters.username;
 				userInfo.firstname = FlexGlobals.topLevelApplication.parameters.firstName;

@@ -75,7 +75,7 @@
 				sLogger["type"] = "elo_compare_view_started";
 				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 				
-				portfolioElo = so.data.retrievedElosFromRoolo as XML;
+				portfolioElo = so.data.refr as XML;
 				
 				var myList1:XMLList = portfolioElo.portfolio.elos.elo.(uri == elosToCompare[0]);
 				var myList2:XMLList = portfolioElo.portfolio.elos.elo.(uri == elosToCompare[1]);

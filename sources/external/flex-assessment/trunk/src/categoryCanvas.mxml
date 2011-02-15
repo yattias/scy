@@ -40,7 +40,7 @@
 				sLogger["type"] = "elo_category_view_started";
 				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
 				
-				portfolioElo = so.data.retrievedElosFromRoolo as XML;
+				portfolioElo = so.data.refr as XML;
 				var eloArrayByCategory:ArrayCollection = new ArrayCollection();
 				var ob:Object;
 				for each (var object:XML in portfolioElo.portfolio.elos.*) {
