@@ -27,8 +27,6 @@ public class ChatToolNode extends CustomNode, Resizable {
     public override var width on replace {resizeContent()};
     public override var height on replace {resizeContent()};
 
-    public-init var eloChatActionWrapper:EloChatActionWrapper;
-
     def spacing = 5.0;
 
 
@@ -38,7 +36,8 @@ public class ChatToolNode extends CustomNode, Resizable {
     };
 
     public function loadElo(uri:URI){
-        eloChatActionWrapper.loadElo(uri);
+        // is never called
+        println("WARNING: someone loaded a chat elo, not implemented yet");
     }
 
    public override function create(): Node {
