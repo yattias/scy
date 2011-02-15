@@ -25,6 +25,7 @@ import eu.scy.client.desktop.scydesktop.tools.mission.RuntimeSettingsEditorCreat
 import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreatorFX;
 import eu.scy.client.desktop.scydesktop.scywindows.moreinfomanager.TestMoreInfoNodeCreator;
 import java.lang.System;
+import eu.scy.client.desktop.scydesktop.tools.colorscheme.ColorSchemeEditorCreator;
 
 /**
  * @author sikkenj
@@ -65,6 +66,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def templateElosId = "templateElos";
    def runtimeSettingsId = "runtimeSettings";
    def testMoreInfoId = "testMoreInfo";
+   def colorSchemesId = "colorSchemes";
 
    def startNanos = System.nanoTime();
 
@@ -91,6 +93,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TemplateElosEloEditorCreator{}, templateElosId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(RuntimeSettingsEditorCreator{}, runtimeSettingsId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TestMoreInfoNodeCreator{}, testMoreInfoId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ColorSchemeEditorCreator{}, colorSchemesId);
 
    scyDesktopCreator.eloConfigManager.addDebugCreatorId(scyToolViewerId);
    

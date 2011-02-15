@@ -37,7 +37,7 @@ public class NoThumbnailView extends CustomNode {
             },
             SVGPath {
                opacity: 0.33
-               fill: bind windowColorScheme.mainColorlLight
+               fill: bind windowColorScheme.mainColorLight
                stroke: null
                strokeLineCap: StrokeLineCap.BUTT
                content: "M57.01,45.94 L12.47,68.27 C19.63,75.29 29.45,79.62 40.30,79.62 C60.22,79.62 76.71,65.00 79.54,45.94 Z M79.41,33.54 C76.26,14.85 59.95,0.62 40.30,0.62 C29.51,0.62 19.73,4.91 12.58,11.87 L57.15,33.49 Z M5.13,21.84 C2.26,27.31 0.62,33.52 0.62,40.12 C0.62,46.59 2.19,52.68 4.95,58.07 L41.59,39.79 Z "

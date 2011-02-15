@@ -51,6 +51,12 @@
             </entry>
             <entry>
                <key>
+                  <value>scy/colorschemes</value>
+               </key>
+               <value>.colorschemes</value>
+            </entry>
+            <entry>
+               <key>
                   <value>scy/drawing</value>
                </key>
                <value>.scydraw</value>

@@ -31,7 +31,7 @@ public class Buddy extends CustomNode, TooltipCreator {
    def size = 10.0;
    def circleSize = 4.0;
    def lineWidth = 2.0;
-   def color = bind if (OnlineState.ONLINE == buddyModel.onlineState) windowColorScheme.mainColor else windowColorScheme.mainColorlLight;
+   def color = bind if (OnlineState.ONLINE == buddyModel.onlineState) windowColorScheme.mainColor else windowColorScheme.mainColorLight;
 
    public override function create(): Node {
       tooltipManager.registerNode(this, this);

@@ -16,6 +16,8 @@ import java.util.List;
  */
 public interface MissionConfigInput {
 
+   public URI getColorSchemesEloUri();
+
    public URI getMissionDescriptionUri();
    
    public MissionModelEloContent getMissionModelEloContent();
