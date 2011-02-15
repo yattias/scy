@@ -61,7 +61,7 @@ import roolo.elo.api.IELO;
 
 
 function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
-   def scyDrawingId = "drawing";
+   def scyDrawingId = "taggable";
    def eloXmlViewerId = "xmlViewer";
    def scyToolViewerId = "scyToolViewer";
    def propertiesViewerId = "propertiesViewer";
