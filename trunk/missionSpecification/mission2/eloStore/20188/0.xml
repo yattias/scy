@@ -53,7 +53,7 @@
     <las>
       <id>conceptualisatsionConceptMap</id>
       <xPos>-40.0</xPos>
-      <yPos>-10.0</yPos>
+      <yPos>-20.0</yPos>
       <toolTip>Concept Map</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_conceptmap.html</instructionUri>
       <lasType>CONCEPTUALISATION</lasType>
@@ -75,8 +75,8 @@
     </las>
     <las>
       <id>reportingVideo</id>
-      <xPos>40.0</xPos>
-      <yPos>-10.0</yPos>
+      <xPos>30.0</xPos>
+      <yPos>-20.0</yPos>
       <toolTip>Video report</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_videoreport.html</instructionUri>
       <lasType>REPORTING</lasType>
@@ -99,7 +99,7 @@
     <las>
       <id>orientation_B1</id>
       <xPos>85.0</xPos>
-      <yPos>-90.0</yPos>
+      <yPos>-110.0</yPos>
       <toolTip>Hypothesis</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses_b1.html</instructionUri>
       <lasType>ORIENTATION</lasType>
@@ -190,7 +190,7 @@
     </las>
     <las>
       <id>orientation_B3</id>
-      <xPos>-85.0</xPos>
+      <xPos>-105.0</xPos>
       <yPos>80.0</yPos>
       <toolTip>Hypothesis</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses_b3.html</instructionUri>
@@ -236,8 +236,8 @@
     </las>
     <las>
       <id>orientation_C1</id>
-      <xPos>-85.0</xPos>
-      <yPos>-90.0</yPos>
+      <xPos>-105.0</xPos>
+      <yPos>-110.0</yPos>
       <toolTip>Hypothesis</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses_c1.html</instructionUri>
       <lasType>ORIENTATION</lasType>
@@ -283,7 +283,7 @@
     <las>
       <id>experiment_B1</id>
       <xPos>165.0</xPos>
-      <yPos>-170.0</yPos>
+      <yPos>-190.0</yPos>
       <toolTip>Inferences</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_inferences_b1.html</instructionUri>
       <lasType>EXPERIMENT</lasType>
@@ -393,7 +393,7 @@
     </las>
     <las>
       <id>experiment_B3</id>
-      <xPos>-165.0</xPos>
+      <xPos>-185.0</xPos>
       <yPos>160.0</yPos>
       <toolTip>Inferences</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_inferences_b3.html</instructionUri>
@@ -454,8 +454,8 @@
     </las>
     <las>
       <id>experiment_C1</id>
-      <xPos>-165.0</xPos>
-      <yPos>-170.0</yPos>
+      <xPos>-185.0</xPos>
+      <yPos>-190.0</yPos>
       <toolTip>Inferences</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_inferences_c1.html</instructionUri>
       <lasType>EXPERIMENT</lasType>
@@ -505,7 +505,7 @@
     <las>
       <id>design_B1</id>
       <xPos>245.0</xPos>
-      <yPos>-250.0</yPos>
+      <yPos>-270.0</yPos>
       <toolTip>Solution</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_solution_b1.html</instructionUri>
       <lasType>DESIGN</lasType>
@@ -556,7 +556,7 @@
     </las>
     <las>
       <id>design_B3</id>
-      <xPos>-245.0</xPos>
+      <xPos>-265.0</xPos>
       <yPos>240.0</yPos>
       <toolTip>Solution</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_solution_b3.html</instructionUri>
@@ -582,8 +582,8 @@
     </las>
     <las>
       <id>design_C1</id>
-      <xPos>-245.0</xPos>
-      <yPos>-250.0</yPos>
+      <xPos>-265.0</xPos>
+      <yPos>-270.0</yPos>
       <toolTip>Solution</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_solution_c1.html</instructionUri>
       <lasType>DESIGN</lasType>
