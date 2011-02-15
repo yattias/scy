@@ -1,10 +1,9 @@
 package eu.scy.core.model.impl;
 
+import eu.scy.core.model.ImageRef;
 import eu.scy.core.model.TeacherUserDetails;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -32,7 +31,7 @@ public class SCYTeacherUserDetails extends SCYUserDetails implements TeacherUser
     private String schoolName;
     private Date signupDate;
     private String state;
-
+    private ImageRef profilePicture;
 
     @Column(name="city")
     public String getCity() {
@@ -141,5 +140,17 @@ public class SCYTeacherUserDetails extends SCYUserDetails implements TeacherUser
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    @Override
+    @OneToOne(targetEntity = ImageRefImpl.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "profilePicture")
+    public ImageRef getProfilePicture() {
+        return profilePicture;
+    }
+
+    @Override
+    public void setProfilePicture(ImageRef profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }
