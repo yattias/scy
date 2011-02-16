@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import org.hibernate.annotations.Cascade;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,7 +15,6 @@ import org.hibernate.annotations.Cascade;
  * Time: 06:00:11
  */
 @Entity
-@org.hibernate.annotations.Proxy (proxyClass = SCYGroup.class )
 @DiscriminatorValue(value = "SCYGroup")
 public class SCYGroupImpl extends GroupImpl implements SCYGroup {
 
@@ -24,7 +22,6 @@ public class SCYGroupImpl extends GroupImpl implements SCYGroup {
 
     @Override
     @ManyToOne(targetEntity = SCYGroupImpl.class, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @Cascade( { org.hibernate.annotations.CascadeType.SAVE_UPDATE })
     @JoinColumn(name = "parent_fk")
     public SCYGroup getParent() {
         return parent;

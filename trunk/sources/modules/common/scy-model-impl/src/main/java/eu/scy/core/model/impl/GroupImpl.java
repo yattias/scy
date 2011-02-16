@@ -25,7 +25,6 @@ import javax.persistence.Table;
 @Table(name = "groups")
 @DiscriminatorColumn(name = "type")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@org.hibernate.annotations.Proxy (proxyClass = Group.class )
 public class GroupImpl extends ScyBaseObject implements Group {
 
     private Set<User> members = new HashSet<User>();

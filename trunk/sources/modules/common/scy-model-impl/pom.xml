@@ -59,12 +59,12 @@
             </exclusions>
         </dependency-->
 
-        <dependency>
+        <!--dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-annotations</artifactId>
             <version>3.5.4-Final</version>
             <scope>compile</scope>
-        </dependency>
+        </dependency-->
 
 		<!-- unused
         <dependency>
