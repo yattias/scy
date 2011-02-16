@@ -5,7 +5,6 @@
 
 package eu.scy.client.tools.fxvideo;
 
-import eu.scy.client.tools.drawing.ELOLoadedChangedListener;
 import java.io.File;
 import java.net.URI;
 import java.util.List;
@@ -53,7 +52,6 @@ public class EloVideoActionWrapper {
     private File lastUsedFile = null;
     private String docName = untitledDocName;
     private IELO elo = null;
-    private CopyOnWriteArrayList<ELOLoadedChangedListener> eloLoadedChangedListeners = new CopyOnWriteArrayList<ELOLoadedChangedListener>();
     private ILoadXML target;
     public EloVideoActionWrapper(ILoadXML target) {
         this.target = target;
