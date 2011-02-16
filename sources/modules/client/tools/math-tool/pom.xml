@@ -151,19 +151,6 @@
 			<artifactId>jeval</artifactId>
 			<version>0.9.4</version>
 		</dependency>
-		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20090211</version>
-		</dependency>
-
-	<dependency>
-		<groupId>org.codehaus.jettison</groupId>
-		<artifactId>jettison</artifactId>
-		<version>1.2</version>
-	</dependency>
-		
-	
 		
 	</dependencies>
 </project>	
