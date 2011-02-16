@@ -36,9 +36,9 @@ import javafx.scene.control.Hyperlink;
 public class SocialTaggingDrawer extends CustomNode, ScyToolFX {
 
     public var scyWindow: ScyWindow;
-    def valueOffset = 70.0;
+    def valueOffset = 0.0; //70.0;
     def spacing = 3.0;
-    def border = 5.0;
+    def border = 0.0; //5.0;
     var cacheCheckbox: CheckBox;
     var layoutXValue: TextBox;
     var layoutYValue: TextBox;
