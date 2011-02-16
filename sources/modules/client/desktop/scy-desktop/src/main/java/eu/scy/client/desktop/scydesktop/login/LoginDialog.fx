@@ -36,6 +36,7 @@ import java.net.URI;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import eu.scy.client.desktop.scydesktop.utils.XFX;
 import eu.scy.client.desktop.scydesktop.mission.MissionLocator;
+import eu.scy.client.desktop.scydesktop.art.javafx.LogoEloIcon;
 
 /**
  * @author sikken

@@ -24,7 +24,6 @@ import javafx.scene.layout.Stack;
 public class FxdEloIcon extends EloIcon {
 
    public var fxdNode: Node;
-   public var windowColorScheme: WindowColorScheme;
 
    public override function create(): Node {
       scaleNode(fxdNode);
