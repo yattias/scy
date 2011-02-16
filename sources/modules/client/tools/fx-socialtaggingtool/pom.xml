@@ -3,97 +3,105 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
  
-   <parent>
-      <artifactId>parent</artifactId>
-      <groupId>eu.scy.client.tools</groupId>
-      <version>28-SNAPSHOT</version>
-   </parent>
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>eu.scy.client.tools</groupId>
+        <version>28-SNAPSHOT</version>
+    </parent>
  
-   <modelVersion>4.0.0</modelVersion>
-   <artifactId>fx-socialtaggingtool</artifactId>
-   <name>FX Social-Tagging-Tool</name>
-   <packaging>jar</packaging>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>fx-socialtaggingtool</artifactId>
+    <name>FX Social-Tagging-Tool</name>
+    <packaging>jar</packaging>
 
-   <licenses>
-      <license>
-         <name>lgpl</name>
-      </license>
-   </licenses>
+    <licenses>
+        <license>
+            <name>lgpl</name>
+        </license>
+    </licenses>
  
-   <dependencies>
+    <dependencies>
    
-		<dependency>
-			<groupId>info.collide</groupId>
-			<artifactId>javafx-deps</artifactId>
-			<version>${javafx-version}</version>
-			<type>pom</type>
-			<scope>provided</scope>
-		</dependency>
+        <dependency>
+            <groupId>info.collide</groupId>
+            <artifactId>javafx-deps</artifactId>
+            <version>${javafx-version}</version>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
       <!-- dependency>
          <groupId>eu.scy.client.tools</groupId>
          <artifactId>socialtaggingtool</artifactId>
          <version>${pom.version}</version>
       </dependency -->
 
-      <dependency>
-         <groupId>eu.scy.client.desktop</groupId>
-         <artifactId>scy-desktop</artifactId>
-         <version>${pom.version}</version>
-      </dependency>
+        <dependency>
+            <groupId>eu.scy.client.desktop</groupId>
+            <artifactId>scy-desktop</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
 
-   </dependencies>
+    </dependencies>
 
-   <build>
-      <resources>
-         <resource>
-            <directory>src/main/resources</directory>
-         </resource>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
          <!--
          <resource>
             <targetPath>config</targetPath>
             <directory>src/main/java/config</directory>
          </resource>
           -->
-         <resource>
-            <directory>src/main/java</directory>
-            <includes>
-               <include>**/*</include>
-            </includes>
-         </resource>
-      </resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.png</include>
+                    <include>**/*.jpg</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.fxproperties</include>
+                    <include>**/*.fxc</include>
+                    <include>**/*.fxz</include>
+                    <include>**/*.form</include>
+                    <include>**/*.css</include>
+                </includes>
+            </resource>
+        </resources>
 
-      <plugins>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <configuration>
-               <source>1.6</source>
-               <target>1.6</target>
-               <optimize>true</optimize>
-            </configuration>
-         </plugin>
-         <plugin>
-            <artifactId>maven-antrun-plugin</artifactId>
-            <executions>
-               <execution>
-                  <phase>compile</phase>
-                  <configuration>
-                     <tasks>
-                        <echo>Compiling JavaFX sources</echo>
-                        <taskdef classname="com.sun.tools.javafx.ant.JavaFxAntTask" classpathref="maven.compile.classpath" name="javafxc"/>
-                        <mkdir dir="target/classes"/>
-                        <javafxc debug="true" destdir="target/classes" compilerclasspathref="maven.compile.classpath">
-                           <src path="src/main/java"/>
-                           <classpath refid="maven.compile.classpath"/>
-                        </javafxc>
-                     </tasks>
-                  </configuration>
-                  <goals>
-                     <goal>run</goal>
-                  </goals>
-               </execution>
-            </executions>
-         </plugin>
-      </plugins>
-   </build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <optimize>true</optimize>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <configuration>
+                            <tasks>
+                                <echo>Compiling JavaFX sources</echo>
+                                <taskdef classname="com.sun.tools.javafx.ant.JavaFxAntTask" classpathref="maven.compile.classpath" name="javafxc"/>
+                                <mkdir dir="target/classes"/>
+                                <javafxc debug="true" destdir="target/classes" compilerclasspathref="maven.compile.classpath">
+                                    <src path="src/main/java"/>
+                                    <classpath refid="maven.compile.classpath"/>
+                                </javafxc>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

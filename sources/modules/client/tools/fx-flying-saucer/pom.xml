@@ -69,7 +69,15 @@
          <resource>
             <directory>src/main/java</directory>
             <includes>
-               <include>**/*</include>
+                <include>**/*.png</include>
+                <include>**/*.jpg</include>
+                <include>**/*.xml</include>
+                <include>**/*.properties</include>
+                <include>**/*.fxproperties</include>
+                <include>**/*.fxc</include>
+                <include>**/*.fxz</include>
+                <include>**/*.form</include>
+                <include>**/*.css</include>
             </includes>
          </resource>
       </resources>
