@@ -265,27 +265,10 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             showMoreInfo: moreInfoManager
          }
       missionRuntimeSettingsManager = missionRunConfigs.missionRuntimeModel.getRuntimeSettingsManager();
-      //TODO remove contacts and connect to user management
-      def contact1 = Contact {
-            currentMission: "Testmission";
-            imageURL: "img/buddyicon.png";
-            name: "Sven Manske";
-            onlineState: OnlineState.ONLINE;
-            progress: 1.0;
-         };
-      def contact2 = Contact {
-            currentMission: "Another Mission";
-            imageURL: "img/buddyicon.png";
-            name: "Adam G";
-            onlineState: OnlineState.AWAY;
-            progress: 0.1;
-         };
-      //The contact list (users)
-      def contactContent = [contact1, contact2];
       //The frontend to thecontact list
       def contactList: ContactList = ContactList {
             columns: 2
-            contacts: contactContent
+            contacts: []
             dragAndDropManager: dragAndDropManager
             tooltipManager: tooltipManager
             scyDesktop: this
