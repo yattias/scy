@@ -15,7 +15,6 @@ import javax.persistence.ManyToOne;
  * Time: 06:00:11
  */
 @Entity
-@org.hibernate.annotations.Proxy (proxyClass = PedagogicalPlanGroup.class )
 @DiscriminatorValue(value = "PedagogicalPlanGroup")
 public class PedagogicalPlanGroupImpl extends GroupImpl implements PedagogicalPlanGroup {
 

@@ -6,17 +6,9 @@ import eu.scy.actionlogging.api.IContext;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.persistence.JoinTable;
 
-import org.jdom.Content;
-import org.jdom.Element;
-import org.jdom.JDOMException;
-import org.hibernate.annotations.CollectionOfElements;
 
-import java.io.IOException;
 import java.util.Map;
-import java.util.HashMap;
 
 /**
  * Created by IntelliJ IDEA.
