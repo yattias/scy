@@ -1,0 +1,29 @@
+#!/bin/bash
+STOREPASS=scylab
+KEYPASS=scylab
+ALIAS=scykeystore
+
+cd lib
+
+wget http://scy.googlecode.com/svn/trunk/sources/modules/client/desktop/scy-lab/scykeystore.jks -q
+
+for FILE in *.jar; do
+	echo "Processing file $FILE"
+	#unsign
+	zip -d $FILE META-INF/*.RSA > /dev/null
+	zip -d $FILE META-INF/*.DSA > /dev/null
+	zip -d $FILE META-INF/*.SF > /dev/null
+	#repack
+	pack200 --repack $FILE
+	#sign
+	jarsigner -keystore scykeystore.jks -storepass $STOREPASS -keypass $KEYPASS $FILE $ALIAS > /dev/null
+	#pack200
+	pack200 $FILE.pack.gz $FILE
+done
+
+mkdir oldjars
+mv *.jar oldjars
+
+rm scykeystore.jks
+
+cd ..
