@@ -6,8 +6,10 @@ package eu.scy.client.tools.fxflyingsaucer;
 
 import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoTypes;
 import eu.scy.client.desktop.scydesktop.scywindows.ShowMoreInfo;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.logging.Level;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Element;
@@ -30,6 +32,7 @@ public class MyLinkListener extends LinkListener
    private final static String EXTERNAL_CSS = "external";
    private ShowMoreInfo showMoreInfo;
    private URI eloUri;
+   private String baseUrl;
 
    public void setShowMoreInfo(ShowMoreInfo showMoreInfo)
    {
@@ -39,6 +42,19 @@ public class MyLinkListener extends LinkListener
    public void setEloUri(URI eloUri)
    {
       this.eloUri = eloUri;
+   }
+
+   public void setBaseUrl(String baseUrl)
+   {
+      int lastSlashPos = baseUrl.lastIndexOf('/');
+      if (lastSlashPos >= 0)
+      {
+         this.baseUrl = baseUrl.substring(0, lastSlashPos + 1);
+      }
+      else
+      {
+         this.baseUrl = baseUrl;
+      }
    }
 
    @Override
@@ -85,7 +101,7 @@ public class MyLinkListener extends LinkListener
          {
             try
             {
-               URI realUri = new URI(uri);
+               URI linkUri = getLinkUri(uri);
                String target = panel.getSharedContext().getNamespaceHandler().getAttributeValue((Element) node, "target");
                logger.debug("link target: " + target);
                if (EXTERNAL_TARGET.equalsIgnoreCase(target))
@@ -99,7 +115,7 @@ public class MyLinkListener extends LinkListener
                   if (showMoreInfo != null)
                   {
                      logger.info("show more assignment with " + uri);
-                     showMoreInfo.showMoreInfo(realUri, MoreInfoTypes.ASSIGNMENT, eloUri);
+                     showMoreInfo.showMoreInfo(linkUri, MoreInfoTypes.ASSIGNMENT, eloUri);
                   }
                   else
                   {
@@ -112,7 +128,7 @@ public class MyLinkListener extends LinkListener
                   if (showMoreInfo != null)
                   {
                      logger.info("show more resources with " + uri);
-                     showMoreInfo.showMoreInfo(realUri, MoreInfoTypes.RESOURCES, eloUri);
+                     showMoreInfo.showMoreInfo(linkUri, MoreInfoTypes.RESOURCES, eloUri);
                   }
                   else
                   {
@@ -130,5 +146,22 @@ public class MyLinkListener extends LinkListener
       }
 
       return uri;
+   }
+
+   private URI getLinkUri(String uri) throws URISyntaxException
+   {
+      URI linkUri = new URI(uri);
+      try
+      {
+         // check if the linkUri is a complete uri, including http:// and so
+         URL linkUrl = linkUri.toURL();
+         return linkUri;
+      }
+      catch (Exception ex)
+      {
+         logger.debug("uri (" + uri + ") is not complete: " + ex.getMessage());
+      }
+      linkUri = new URI(baseUrl + uri);
+      return linkUri;
    }
 }

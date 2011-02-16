@@ -65,7 +65,10 @@ public class MyXhtmlPanel extends XHTMLPanel
       XMLResource localXmlResource = sharedContext.getUac().getXMLResource(uri);
       if (localXmlResource != null)
       {
-         return super.loadDocument(uri);
+         Document doc =  super.loadDocument(uri);
+//         System.out.println("uri: " + uri + "\nbase url: " + getSharedContext().getUac().getBaseURL());
+         myLinkListener.setBaseUrl(getSharedContext().getUac().getBaseURL());
+         return doc;
       }
       return null;
    }
