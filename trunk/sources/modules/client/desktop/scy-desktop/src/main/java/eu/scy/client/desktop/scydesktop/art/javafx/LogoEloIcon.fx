@@ -3,13 +3,12 @@
  *
  * Created on 10-mei-2010, 15:46:48
  */
-package eu.scy.client.desktop.scydesktop.login;
+package eu.scy.client.desktop.scydesktop.art.javafx;
 
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import javafx.scene.Node;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import eu.scy.client.desktop.scydesktop.art.javafx.NotSelectedLogo;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.EloIconBackground;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.EloIconBorder;
 

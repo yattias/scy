@@ -9,8 +9,6 @@ import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 
 public abstract class AbstractEloIcon extends EloIcon {
 
-    public var windowColorScheme: WindowColorScheme;
-
     public override function clone(): EloIcon {
       null
    }

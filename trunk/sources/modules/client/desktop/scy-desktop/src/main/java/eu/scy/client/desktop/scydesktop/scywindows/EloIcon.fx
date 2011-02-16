@@ -9,6 +9,7 @@ import javafx.scene.CustomNode;
 import javafx.geometry.Bounds;
 import javafx.util.Math;
 import javafx.scene.Node;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 
 /**
  * @author sikken
@@ -21,6 +22,7 @@ public abstract class EloIcon extends CustomNode {
 
    public var selected: Boolean = false;
    public var size = defaultEloIconSize;
+   public var windowColorScheme: WindowColorScheme;
    public def borderSize = 2.0;
    public def cornerRadius = 7;
 
