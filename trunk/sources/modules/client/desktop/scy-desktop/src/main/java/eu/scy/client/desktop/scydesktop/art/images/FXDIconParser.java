@@ -8,13 +8,26 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FXDIconParser {
+
+    HashMap<String, String> replaceMap = new HashMap<String, String>();
 
     public FXDIconParser() {
 	File file = new File("..\\..\\src\\main\\java\\eu\\scy\\client\\desktop\\scydesktop\\art\\images\\content.fxd");
 	ArrayList<String> group = null;
 	BufferedReader reader = null;
+	ArrayList<String> names = new ArrayList<String>();
+
+	replaceMap.put("Color.rgb(0x26,0x2f,0x66)", "bind windowColorScheme.mainColor");
+	replaceMap.put("Color.rgb(0xb5,0xd5,0xf0)", "bind windowColorScheme.mainColorlLight");
+	replaceMap.put("Color.rgb(0x0,0xb2,0x59)", "bind windowColorScheme.secondColor");
+	replaceMap.put("Color.rgb(0xcc,0xf0,0xde)", "bind windowColorScheme.secondColorLight");
+	replaceMap.put("Color.rgb(0xe9,0x5a,0xc)", "bind windowColorScheme.thirdColor");
+	replaceMap.put("Color.rgb(0xf2,0xd5,0xc7)", "bind windowColorScheme.thirdColorLight");
 
 	try {
 	    reader = new BufferedReader(new FileReader(file));
@@ -25,18 +38,23 @@ public class FXDIconParser {
 		if (text.contains("Group {")) {
 		    text = reader.readLine();
 		    group = new ArrayList<String>();
-		    name = text.substring(8, text.length()-1);
+		    name = text.substring(8, text.length() - 1);
 		    name = name.replace(" ", "_");
-		    name = name.substring(0,1).toUpperCase()+name.substring(1)+"Icon";
+		    name = name.replace("-", "_");
+		    name = name.substring(0, 1).toUpperCase() + name.substring(1);
 		    System.out.println("parsing: " + name);
 		    while (!(text.contains("]") && text.contains("},"))) {
 			group.add(text);
 			text = reader.readLine();
 		    }
 		    group.add("},");
-		    createClass(group, name);
+		    if (!name.startsWith("_")) {
+			createClass(group, name);
+			names.add(name);
+		    }
 		}
 	    }
+	    createFactory(names);
 	} catch (FileNotFoundException e) {
 	    e.printStackTrace();
 	} catch (IOException e) {
@@ -56,20 +74,75 @@ public class FXDIconParser {
 	FXDIconParser fXDIconParser = new FXDIconParser();
     }
 
+    private void createFactory(ArrayList<String> names) {
+	FileWriter outFile;
+	try {
+	    outFile = new FileWriter("..\\..\\src\\main\\java\\eu\\scy\\client\\desktop\\scydesktop\\art\\eloicons\\EloIconFactory.fx");
+	    PrintWriter out = new PrintWriter(outFile);
+	    out.println("package eu.scy.client.desktop.scydesktop.art.eloicons;");
+	    out.println("");
+	    out.println("import eu.scy.client.desktop.scydesktop.art.javafx.LogoEloIcon;");
+	    out.println("import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;");
+	    out.println("/**");
+	    out.println("* @author lars");
+	    out.println("*/");
+	    out.println();
+	    out.println("public class EloIconFactory {");
+	    out.println();
+	    
+	    out.print("def names = [");
+	    String allNames = new String();
+	    for (String name: names) {
+		allNames = allNames.concat("\""+name+"\",");
+	    }
+	    out.print(allNames.substring(0, allNames.length()-1));
+	    out.println("];");
+	    out.println();
+
+	    out.println("public function getNames(): String[] {");
+	    out.println("return names;");
+	    out.println("}");
+	    out.println();
+
+	    out.println("public function createEloIcon(name: String): EloIcon {");
+	    out.println("if (name.equalsIgnoreCase(\"dummy\")) {");
+	    out.println("return null;");
+	    for (String name: names) {
+		out.println("} else if (name.equalsIgnoreCase(\""+name+"\")) {");
+		out.println("return new "+name+"Icon();");
+	    }
+	    out.println("} else {");
+	    out.println("return new LogoEloIcon();");
+	    out.println("}");
+	    out.println("}");
+	    out.println("}");
+	    out.close();
+	} catch (IOException ex) {
+	    Logger.getLogger(FXDIconParser.class.getName()).log(Level.SEVERE, null, ex);
+	}
+    }
+
     private void createClass(ArrayList<String> group, String name) {
 	try {
-	    FileWriter outFile = new FileWriter("..\\..\\src\\main\\java\\eu\\scy\\client\\desktop\\scydesktop\\art\\eloicons\\"+name+".fx");
+	    FileWriter outFile = new FileWriter("..\\..\\src\\main\\java\\eu\\scy\\client\\desktop\\scydesktop\\art\\eloicons\\" + name + "Icon.fx");
 	    PrintWriter out = new PrintWriter(outFile);
 	    writeHeader(out, name);
 	    for (String s : group) {
 		if (s.contains("id:") || s.contains("visible:")) {
 		    // doing nothing, skip these lines
 		} else {
+		    for (String find : replaceMap.keySet()) {
+			if (s.contains(find)) {
+			    System.out.println("replacing '" + find + "' with '" + replaceMap.get(find) + "'.");
+			    s = s.replace(find, replaceMap.get(find));
+			}
+		    }
 		    out.println(s);
 		}
 	    }
 	    writeFooter(out);
 	    out.close();
+	    System.out.println("*** " + name + " finished. ***");
 	} catch (IOException e) {
 	    e.printStackTrace();
 	}
@@ -88,9 +161,7 @@ public class FXDIconParser {
 	out.println("/**");
 	out.println(" * @author lars");
 	out.println(" */");
-	out.println("public class "+name+" extends CustomNode {");
-	out.println();
-	out.println("public var windowColorScheme: WindowColorScheme;");
+	out.println("public class " + name + "Icon extends AbstractEloIcon {");
 	out.println();
 	out.println("public function createNode(): Node {");
 	out.println();
