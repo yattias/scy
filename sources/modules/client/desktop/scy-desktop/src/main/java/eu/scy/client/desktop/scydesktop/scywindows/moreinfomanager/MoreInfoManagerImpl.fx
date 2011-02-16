@@ -44,8 +44,8 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
          layoutY: 0
       }
    def relativeWindowScreenBoder = 0.2;
-   def sceneWidth = bind scene.width on replace { sceneSizeChanged() };
-   def sceneHeight = bind scene.height on replace { sceneSizeChanged() };
+   def sceneWidth = bind scene.width on replace { sceneSizeChanged(false) };
+   def sceneHeight = bind scene.height on replace { sceneSizeChanged(false) };
    def instructionWindow: MoreInfoWindow = MoreInfoWindow {
          title: "Instruction"
          infoTypeIcon: InstructionTypesIcon {}
@@ -66,18 +66,18 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    init {
       runPhase = true;
       activeLasChanged();
-      sceneSizeChanged();
+      sceneSizeChanged(false);
    }
 
-   function sceneSizeChanged() {
+   function sceneSizeChanged(forcePositioning: Boolean) {
       moreInfoControl.layoutX = scene.width / 2.0;
-      if (instructionWindow.visible) {
+      if (instructionWindow.visible or forcePositioning) {
          instructionWindow.width = (1 - 2 * relativeWindowScreenBoder) * scene.width;
          instructionWindow.height = (1 - 1 * relativeWindowScreenBoder) * scene.height;
          instructionWindow.layoutX = relativeWindowScreenBoder * scene.width;
          instructionWindow.layoutY = 0.0;
       }
-      if (moreInfoWindow.visible) {
+      if (moreInfoWindow.visible or forcePositioning) {
          moreInfoWindow.width = (1 - 2 * relativeWindowScreenBoder) * scene.width;
          moreInfoWindow.height = (1 - 2 * relativeWindowScreenBoder) * scene.height;
       }
@@ -109,7 +109,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       instructionTool.showInfoUrl(uriLocalizer.localizeUrlwithChecking(activeLas.instructionUri.toURL()));
       if (not instructionWindow.visible) {
          instructionWindow.visible = true;
-         sceneSizeChanged();
+         sceneSizeChanged(true);
          ModalDialogLayer.addModalDialog(instructionWindow);
       }
    }
@@ -181,7 +181,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       moreInfoWindow.infoTypeIcon = infoTypeIcon;
       moreInfoWindow.windowColorScheme = moreInfoColorScheme;
       moreInfoTool.showInfoUrl(uriLocalizer.localizeUrlwithChecking(infoUri.toURL()));
-      sceneSizeChanged();
+      sceneSizeChanged(true);
       ModalDialogLayer.addModalDialog(moreInfoWindow, true);
    }
 

@@ -35,22 +35,21 @@ public function addModalDialog(node: Node): Void {
 }
 
 public function removeModalDialog(node: Node): Void {
-    removeModalDialog(node, false, false);
+   removeModalDialog(node, false, false);
 }
 
-public function removeModalDialog(node: Node, animated:Boolean, reallyRemove: Boolean): Void {
+public function removeModalDialog(node: Node, animated: Boolean, reallyRemove: Boolean): Void {
    modalDialogLayer.removeModalDialogNode(node, animated, reallyRemove);
 }
 
 public function resize() {
-    modalDialogLayer.sceneSizeChanged();
+   modalDialogLayer.sceneSizeChanged(false);
 }
-
 
 public class ModalDialogLayer extends CustomNode {
 
-   def sceneWidth = bind scene.width on replace { sceneSizeChanged() };
-   def sceneHeight = bind scene.height on replace { sceneSizeChanged() };
+   def sceneWidth = bind scene.width on replace { sceneSizeChanged(false) };
+   def sceneHeight = bind scene.height on replace { sceneSizeChanged(false) };
    def modalDialogGroup = Group {
          visible: false
       }
@@ -68,10 +67,10 @@ public class ModalDialogLayer extends CustomNode {
       }
    var centeredNodes: Node[];
 
-   public function sceneSizeChanged() {
+   public function sceneSizeChanged(forcePositioning: Boolean) {
       backgroundBlocker.width = scene.width;
       backgroundBlocker.height = scene.height;
-      if (backgroundBlocker.visible) {
+      if (backgroundBlocker.visible or forcePositioning) {
          for (node in centeredNodes) {
             node.layoutX = -node.layoutBounds.minX + scene.width / 2 - node.layoutBounds.width / 2;
             node.layoutY = -node.layoutBounds.minY + scene.height / 2 - node.layoutBounds.height / 2;
@@ -87,7 +86,7 @@ public class ModalDialogLayer extends CustomNode {
    function addModalDialogNode(node: Node, center: Boolean, animated: Boolean): Void {
       if (center) {
          insert node into centeredNodes;
-         sceneSizeChanged();
+         sceneSizeChanged(true);
       }
       if (Sequences.indexOf(modalDialogGroup.content, backgroundBlocker) < 0) {
          insert backgroundBlocker into modalDialogGroup.content;
@@ -100,95 +99,97 @@ public class ModalDialogLayer extends CustomNode {
       backgroundBlocker.opacity = 0.0;
       backgroundBlocker.visible = true;
       if (animated) {
-        node.translateY = -node.layoutBounds.height + 26;
-        def nodeTemp = node;
-        nodeTemp.cache = true;
-        nodeTemp.cacheHint = CacheHint.SPEED;
-        def addDialogTimeline1 = Timeline {
-            keyFrames: [
-                KeyFrame {
-                    time: 100ms
-                    values: [
+         node.translateY = -node.layoutBounds.height + 26;
+         def nodeTemp = node;
+         nodeTemp.cache = true;
+         nodeTemp.cacheHint = CacheHint.SPEED;
+         def addDialogTimeline1 = Timeline {
+               keyFrames: [
+                  KeyFrame {
+                     time: 100ms
+                     values: [
                         backgroundBlocker.opacity => 1.0 tween Interpolator.LINEAR
-                    ]
-                    action: function() {
+                     ]
+                     action: function() {
                         addDialogTimeline2.playFromStart();
-                    }
-                }
-            ];
-        };
-        def addDialogTimeline2 = Timeline {
-            keyFrames: [
-                KeyFrame {
-                    time: 400ms
-                    values: [
+                     }
+                  }
+               ];
+            };
+         def addDialogTimeline2 = Timeline {
+               keyFrames: [
+                  KeyFrame {
+                     time: 400ms
+                     values: [
                         nodeTemp.translateY => 2.0 tween Interpolator.EASEBOTH,
-                    ]
-                    action: function() {
+                     ]
+                     action: function() {
                         nodeTemp.cache = false;
-                    }
-                }
-            ];
-        };
-        addDialogTimeline1.playFromStart();
+                     }
+                  }
+               ];
+            };
+         addDialogTimeline1.playFromStart();
       } else {
          backgroundBlocker.opacity = 1.0;
-        backgroundBlocker.visible = true;
+         backgroundBlocker.visible = true;
       }
 
    }
 
    function removeModalDialogNode(node: Node): Void {
-       removeModalDialogNode(node, false, false);
+      removeModalDialogNode(node, false, false);
    }
 
    function removeModalDialogNode(node: Node, animated: Boolean, reallyRemove: Boolean): Void {
       if (animated) {
-       def nodeTemp = node;
-       nodeTemp.cache = true;
-       nodeTemp.cacheHint = CacheHint.SPEED;
-       def removeDialogTimeline1 = Timeline {
-                keyFrames: [
-                    KeyFrame {
-                        time: 400ms
-                        values: [
-                            nodeTemp.translateY => -nodeTemp.layoutBounds.height + 26 tween Interpolator.EASEBOTH,
-                        ]
-                        action: function() {
-                            removeDialogTimeline2.playFromStart();
-                        }
-                    }
-                ]
+         def nodeTemp = node;
+         nodeTemp.cache = true;
+         nodeTemp.cacheHint = CacheHint.SPEED;
+         def removeDialogTimeline1 = Timeline {
+               keyFrames: [
+                  KeyFrame {
+                     time: 400ms
+                     values: [
+                        nodeTemp.translateY => -nodeTemp.layoutBounds.height + 26 tween Interpolator.EASEBOTH,
+                     ]
+                     action: function() {
+                        removeDialogTimeline2.playFromStart();
+                     }
+                  }
+               ]
             };
-        def removeDialogTimeline2 = Timeline {
-            keyFrames: [
-                KeyFrame {
-                    time: 100ms
-                    values: [
+         def removeDialogTimeline2 = Timeline {
+               keyFrames: [
+                  KeyFrame {
+                     time: 100ms
+                     values: [
                         backgroundBlocker.opacity => 0.0 tween Interpolator.LINEAR
-                    ]
-                    action: function() {
+                     ]
+                     action: function() {
                         if (reallyRemove) {
-                                node.visible = false;
-                                delete node from centeredNodes;
-                                delete node from modalDialogGroup.content;
-                                modalDialogGroup.visible = sizeof modalDialogGroup.content > 1;
+                           node.visible = false;
+                           delete node from centeredNodes;
+                           delete node from modalDialogGroup.content;
+                           modalDialogGroup.visible = sizeof modalDialogGroup.content > 1;
                         }
                         backgroundBlocker.visible = false;
                         nodeTemp.cache = false;
-                    }
-                }
-            ];
-        };
-        removeDialogTimeline1.playFromStart();
-       } else {
+                     }
+                  }
+               ];
+            };
+         removeDialogTimeline1.playFromStart();
+      } else {
+         FX.deferAction(function(): Void {
             delete node from modalDialogGroup.content;
             delete node from centeredNodes;
             node.visible = false;
             // TODO, fix the situation when multiple dialog boxes are visible
             backgroundBlocker.visible = sizeof modalDialogGroup.content > 1;
             backgroundBlocker.visible = false;
-       }
+         });
+      }
    }
 
 }
