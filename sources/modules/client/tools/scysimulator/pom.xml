@@ -147,22 +147,6 @@
             <scope>compile</scope>
         </dependency>
 
-        <!-- <dependency>
-                        <groupId>eu.scy.client.client-common</groupId>
-                        <artifactId>data-sync-api</artifactId>
-                        <version>${pom.version}</version>
-                        <scope>compile</scope>
-                </dependency>
-                -->
-
-        <dependency>
-            <groupId>org.swinglabs</groupId>
-            <artifactId>jxlayer</artifactId>
-            <version>3.0.3</version>
-            <type>jar</type>
-            <scope>compile</scope>
-        </dependency>
-
     </dependencies>
 
     <build>
