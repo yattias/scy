@@ -39,7 +39,7 @@ public class ContactTooltip extends CustomNode {
     }
 
     def dragInfo: Text = Text{
-        content: "Drag me over a window to start collaboration!"
+        content: ##"Drag me over a window to start collaboration!"
     }
 
     def infoBox:VBox = VBox{
