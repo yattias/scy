@@ -1,5 +1,7 @@
 package eu.scy.tools.math.controller;
 
+import java.util.logging.Logger;
+
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
@@ -11,8 +13,11 @@ import eu.scy.tools.math.ui.panels.ShapeCanvas;
 
 public class SCYMathToolController extends MathToolController {
 
-	protected static final String MATH_TOOL_END = "</MathTool>";
-	protected static final String MATH_TOOL_START = "<MathTool>";
+	protected static Logger log = Logger.getLogger("MathToolController.class"); //$NON-NLS-1$
+
+	
+		protected static final String MATH_TOOL_END = "</MathTool>";
+		protected static final String MATH_TOOL_START = "<MathTool>";
 
         protected final static String OPEN = "open file";
         protected final static String SAVE = "save file";
@@ -58,12 +63,11 @@ public class SCYMathToolController extends MathToolController {
         }
 
 	public String save() {
-		ShapeCanvas sc = shapeCanvases.get(UIUtils._2D);
-	      
-		String xml = xstream.toXML(sc.getMathShapes());
+		String xml = this.writeXML();
 		
 		xml = MATH_TOOL_START + xml + MATH_TOOL_END;
 
+//		log.severe("xml: " + xml);
 		return xml;
 	}
 	
