@@ -113,7 +113,7 @@
 			<map />
 		</constructor-arg>
 	</bean>
-	
+
 	<bean id="notifyUserAgent" class="eu.scy.agents.impl.AgentStartConfiguration">
 		<constructor-arg index="0"
 			value="eu.scy.agents.authoring.NotifyUserAgent" />
@@ -121,7 +121,7 @@
 			<map />
 		</constructor-arg>
 	</bean>
-	
+
 	<bean id="hypothesisDecisionAgent" class="eu.scy.agents.impl.AgentStartConfiguration">
 		<constructor-arg index="0"
 			value="eu.scy.agents.hypothesis.HypothesisDecisionMakerAgent" />
@@ -129,7 +129,7 @@
 			<map />
 		</constructor-arg>
 	</bean>
-	
+
 	<bean id="hypothesisEvalAgent" class="eu.scy.agents.impl.AgentStartConfiguration">
 		<constructor-arg index="0"
 			value="eu.scy.agents.hypothesis.HypothesisEvaluationAgent" />
@@ -137,10 +137,18 @@
 			<map />
 		</constructor-arg>
 	</bean>
-	
+
 	<bean id="userLocationAgent" class="eu.scy.agents.impl.AgentStartConfiguration">
 		<constructor-arg index="0"
 			value="eu.scy.agents.general.UserLocationAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+
+	<bean id="portfolioNotificator" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.portfolio.PortfolioNotificator" />
 		<constructor-arg index="1">
 			<map />
 		</constructor-arg>
