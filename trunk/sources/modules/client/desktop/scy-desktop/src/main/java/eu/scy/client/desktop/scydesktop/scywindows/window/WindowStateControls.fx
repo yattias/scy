@@ -31,7 +31,7 @@ public class WindowStateControls extends WindowElement {
    public var enableRotateNormal = true;
    public var enableMinimize = true;
    public var enableCenter = true;
-   public var enableMaximize = false;
+   public var enableMaximize = true;
    def elementWidth = 10.0;
    def elementHeight = 10.0;
    def lineWidth = 2.0;
@@ -140,7 +140,7 @@ public class WindowStateControls extends WindowElement {
                width: elementWidth, height: elementHeight
                fill: null
                strokeWidth: lineWidth
-               stroke: bind centerColor
+               stroke: bind maximizeColor
             }
          ]
          onMouseClicked: function(m: MouseEvent): Void {
