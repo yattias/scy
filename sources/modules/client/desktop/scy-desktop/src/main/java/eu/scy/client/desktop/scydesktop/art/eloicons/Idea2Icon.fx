@@ -10,7 +10,15 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 /**
  * @author lars
  */
-public class IdeaIcon extends AbstractEloIcon {
+public class Idea2Icon extends AbstractEloIcon {
+
+public function clone(): Idea2Icon {
+Idea2Icon {
+selected: selected
+size: size
+windowColorScheme: windowColorScheme
+}
+}
 
 public function createNode(): Node {
 
@@ -18,7 +26,7 @@ return Group {
 
 			content: [
 				SVGPath {
-					fill: Color.rgb(0xd3,0xe6,0xf6)
+					fill: bind windowColorScheme.mainColorLight
 					stroke: null
 					content: "M229.99,37.68 C227.68,33.51 223.81,31.14 219.11,30.37 C218.75,30.17 218.34,30.00 217.88,29.86 C211.20,27.91 206.30,28.89 200.40,32.05 C196.05,34.38 191.22,39.16 192.22,43.93 C192.69,46.19 193.44,48.20 194.85,50.17 C195.63,51.26 200.86,56.32 200.16,57.53 C197.60,61.95 202.49,65.60 206.40,67.59 C210.78,69.83 216.66,69.64 219.68,65.86 C220.92,64.31 221.41,62.51 221.93,60.71 C222.84,57.54 226.53,55.37 228.75,52.90 C232.81,48.39 232.74,42.64 229.99,37.68 Z M215.29,52.06 C213.52,53.79 212.63,54.62 211.94,56.81 C211.84,57.11 211.97,56.63 211.88,56.94 C212.85,54.68 211.04,56.30 210.94,56.31 C212.17,52.41 208.92,51.37 206.35,48.35 C204.69,46.40 201.78,43.81 203.91,41.45 C205.51,39.69 208.23,38.18 210.93,37.99 C211.91,38.86 213.31,39.40 215.11,39.28 C219.00,39.04 221.45,41.73 221.30,45.05 C221.18,47.74 217.19,50.21 215.29,52.06 Z "
 				},

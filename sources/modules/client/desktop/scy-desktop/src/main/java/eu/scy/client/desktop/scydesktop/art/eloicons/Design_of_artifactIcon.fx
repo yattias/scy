@@ -10,7 +10,15 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 /**
  * @author lars
  */
-public class Design_of_artifacrIcon extends AbstractEloIcon {
+public class Design_of_artifactIcon extends AbstractEloIcon {
+
+public function clone(): Design_of_artifactIcon {
+Design_of_artifactIcon {
+selected: selected
+size: size
+windowColorScheme: windowColorScheme
+}
+}
 
 public function createNode(): Node {
 
@@ -18,7 +26,7 @@ return Group {
 
 			content: [
 				SVGPath {
-					fill: Color.rgb(0xd3,0xe6,0xf6)
+					fill: bind windowColorScheme.mainColorLight
 					stroke: null
 					content: "M230.36,55.50 C227.37,53.51 225.01,50.94 222.42,48.50 C220.19,46.39 217.36,45.02 214.95,43.11 C212.35,41.05 210.43,38.24 208.55,35.58 C206.81,33.13 203.45,31.73 201.15,29.88 C199.58,28.63 197.93,29.04 196.86,30.14 C194.43,29.46 191.13,31.93 192.25,35.12 C194.24,40.76 194.59,46.77 195.46,52.64 C195.91,55.68 196.24,58.64 196.00,61.72 C195.84,63.90 196.17,65.14 197.46,66.86 C199.85,70.07 207.34,68.76 210.68,68.60 C216.73,68.32 222.84,67.61 228.80,66.55 C231.94,65.99 232.37,62.56 230.88,60.67 C232.18,59.24 232.46,56.89 230.36,55.50 Z M209.46,61.56 C209.06,61.59 205.03,61.93 203.24,61.71 C203.14,53.96 202.52,45.93 200.68,38.33 C202.08,39.39 203.39,40.52 204.45,42.10 C206.19,44.69 208.56,46.83 210.88,48.89 C213.56,51.27 216.74,52.76 219.31,55.30 C220.99,56.96 222.67,58.57 224.53,60.00 C221.44,60.46 218.34,60.80 215.22,61.07 C213.30,61.25 211.38,61.42 209.46,61.56 Z "
 				},
