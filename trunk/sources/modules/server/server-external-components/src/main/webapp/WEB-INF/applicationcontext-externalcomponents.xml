@@ -80,6 +80,7 @@
 				<ref bean="hypothesisDecisionAgent" />
 				<ref bean="hypothesisEvalAgent" />
 				<ref bean="userLocationAgent" />
+				<ref bean="portfolioNotificator" />
 			</set>
 		</property>
 		<property name="repository">
