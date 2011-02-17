@@ -75,9 +75,13 @@ public class BasicMissionConfigInput implements MissionConfigInput
    @Override
    public URI getColorSchemesEloUri()
    {
-      ColorSchemesElo colorSchemesElo = ColorSchemesElo.loadElo(colorSchemesEloUri,tbi);
-      if (colorSchemesElo==null){
-         logger.warn(addError("could not find ColorSchemeElo with uri: " + colorSchemesEloUri));
+      if (colorSchemesEloUri != null)
+      {
+         ColorSchemesElo colorSchemesElo = ColorSchemesElo.loadElo(colorSchemesEloUri, tbi);
+         if (colorSchemesElo == null)
+         {
+            logger.warn(addError("could not find ColorSchemeElo with uri: " + colorSchemesEloUri));
+         }
       }
       return colorSchemesEloUri;
    }
@@ -161,7 +165,8 @@ public class BasicMissionConfigInput implements MissionConfigInput
    {
       final BasicMissionModelEloContent missionModelEloContent = new BasicMissionModelEloContent();
       missionModelEloContent.setMissionMapBackgroundImageUri(getBasicMissionMap().getMissionMapBackgroundImageUri());
-      if (missionModelEloContent.getMissionMapBackgroundImageUri()==null || missionModelEloContent.getMissionMapBackgroundImageUri().toString().length()==0){
+      if (missionModelEloContent.getMissionMapBackgroundImageUri() == null || missionModelEloContent.getMissionMapBackgroundImageUri().toString().length() == 0)
+      {
          logger.info(addError("MissionMapBackgroundImageUri is not defined"));
       }
       missionModelEloContent.setLoEloUris(getBasicMissionMap().getLoEloUris());
