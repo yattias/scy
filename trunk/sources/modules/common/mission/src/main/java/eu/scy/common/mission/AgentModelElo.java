@@ -34,9 +34,11 @@ public class AgentModelElo extends ContentTypedScyElo<AgentModelEloContent> {
 		@Override
 		public void updateEloContent(
 				ContentTypedScyElo<AgentModelEloContent> scyElo) {
-			scyElo.getElo().getContent().setXmlString(
-					AgentModelEloContentXmlUtils.agentModelToXml(scyElo
-							.getTypedContent()));
+			scyElo.getElo()
+					.getContent()
+					.setXmlString(
+							AgentModelEloContentXmlUtils.agentModelToXml(scyElo
+									.getTypedContent()));
 		}
 	}
 
@@ -66,9 +68,10 @@ public class AgentModelElo extends ContentTypedScyElo<AgentModelEloContent> {
 
 	public static AgentModelElo createElo(RooloServices rooloServices) {
 		IELO elo = rooloServices.getELOFactory().createELO();
-		elo.getMetadata().getMetadataValueContainer(
-				ScyElo.getTechnicalFormatKey(rooloServices)).setValue(
-				MissionEloType.MISSION_SPECIFICATIOM.getType());
+		elo.getMetadata()
+				.getMetadataValueContainer(
+						ScyElo.getTechnicalFormatKey(rooloServices))
+				.setValue(MissionEloType.AGENT_MODELS.getType());
 		AgentModelElo scyElo = new AgentModelElo(elo, rooloServices);
 		return scyElo;
 	}

@@ -17,7 +17,7 @@ public enum MissionEloType {
    TEMPLATES_ELOS("scy/templateelos"),
    RUNTIME_SETTINGS("scy/runtimesettings"),
    EPORTFOLIO("scy/eportfolio"),
-   AGENT_MODELS("scy/agentModels"),
+   AGENT_MODELS("scy/agentmodels"),
    PADAGOGICAL_PLAN_SETTINGS("scy/pedagogicalplansettings"),
    COLOR_SCHEMES("scy/colorschemes");
 
