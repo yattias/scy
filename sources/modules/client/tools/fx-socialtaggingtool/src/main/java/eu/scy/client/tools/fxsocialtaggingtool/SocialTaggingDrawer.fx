@@ -15,13 +15,10 @@ import javafx.scene.control.TextBox;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.paint.Color;
 import javafx.scene.control.Button;
 import java.lang.Runtime;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
-import javafx.scene.layout.Stack;
 import javafx.scene.layout.HBox;
 import eu.scy.client.tools.fxsocialtaggingtool.UIElements.*;
 import javafx.scene.layout.LayoutInfo;
@@ -30,6 +27,7 @@ import javafx.geometry.VPos;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.Flow;
 import javafx.scene.control.Hyperlink;
+import javafx.util.Math;
 //import eu.scy.client.tools.fxsocialtaggingtool.Tag;
 //import eu.scy.client.tools.fxsocialtaggingtool.UIElements;
 
@@ -46,13 +44,14 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX {
     public override function create(): Node {
         var taggingDisplay = createSocialTaggingDisplay();
         return Group {
-                    content: [
-                        Rectangle {
-                            x: 0, y: 0
-                            width: taggingDisplay.layoutBounds.width + 2 * border,
-                            height: taggingDisplay.layoutBounds.height + 2 * border - spacing
-                            fill: Color.YELLOW
-                        }
+                   content: [
+//                        Rectangle {
+//                            x: 0, y: 0
+//                            //width: taggingDisplay.layoutBounds.width + 2 * border,
+//                            //width: 100
+//                            //height: taggingDisplay.layoutBounds.height + 2 * border - spacing
+//                            fill: Color.YELLOW
+//                        }
                         taggingDisplay
                     ]
                 };
@@ -194,16 +193,17 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX {
                     //                        width: 300
                     //                    }
                     hgap: 10
-                    content: for (tag in testTags) {
-                        Hyperlink { text: tag.tagname
-                            font: Font {
-                                //size:Math.max(8, (8 * (tag.ayevoters.size() - tag.nayvoters.size())))
-                                size: 12 * (tag.ayevoters.size())
-                            }
-                        }
 
+                    content: for (tag in testTags)
+                            Hyperlink { text: tag.tagname
+                                font: Font {
+                                    //size:Math.max(8, (8 * (tag.ayevoters.size() - tag.nayvoters.size())))
+                                    size: 12 * (Math.max (0, (tag.ayevoters.size() - tag.nayvoters.size())))
+                                }
+                            }
+                     
                     }
-                }
+                
 
         def taggingPanel = VBox {
                     layoutX: border;
@@ -346,8 +346,8 @@ function run() {
     Stage {
         title: "Social Tagging"
         scene: Scene {
-            width: 200
-            height: 200
+            width: 400
+            height: 300
             content: [
                 SocialTaggingDrawer {
                 }

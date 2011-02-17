@@ -8,24 +8,7 @@ package eu.scy.client.tools.fxsocialtaggingtool;
 
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.text.Text;
-import javafx.scene.text.Font;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.HBox;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.control.Label;
-import javafx.scene.paint.Color;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.Stack;
-import javafx.scene.shape.Circle;
 
-import javafx.scene.input.TextInput;
-import javafx.scene.control.TextBox;
-import javafx.scene.control.Hyperlink;
-import javafx.util.Math;
-import javafx.scene.layout.Tile;
-import javafx.scene.layout.Panel;
-import javafx.scene.layout.Flow;
 
 import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
 import eu.scy.client.tools.fxsocialtaggingtool.registration.SocialTaggingToolCreatorFX;
@@ -37,11 +20,6 @@ import eu.scy.client.desktop.scydesktop.tools.propertiesviewer.PropertiesViewerC
 import eu.scy.client.desktop.scydesktop.tools.scytoolviewer.ScyToolViewerCreator;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.EloManagement;
 import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
-import javafx.scene.CustomNode;
-import javafx.scene.layout.Resizable;
-import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
-import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
-import roolo.elo.api.IELO;
 
 
 /**
