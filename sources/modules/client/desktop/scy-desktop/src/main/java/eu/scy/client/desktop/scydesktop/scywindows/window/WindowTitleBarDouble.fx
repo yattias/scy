@@ -164,7 +164,7 @@ public class WindowTitleBarDouble extends WindowElement {
                   content: titleBarBuddies;
                }
                Group {
-                  layoutX: bind width - windowStateControls.layoutBounds.width - 0 * borderWidth
+                  layoutX: bind width - windowStateControls.layoutBounds.width - 2 * borderWidth
                   layoutY: 2 * borderWidth + 1
                   content: windowStateControls;
                }
