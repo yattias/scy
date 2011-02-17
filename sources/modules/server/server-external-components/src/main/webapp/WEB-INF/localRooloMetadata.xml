@@ -394,6 +394,13 @@
 		<constructor-arg index="3" value="SINGLE" />
 		<constructor-arg index="4" ref="defaultUriValidator" />
 	</bean>
+	<bean name="keywordSentenceHistogram" class="roolo.elo.metadata.keys.KeyValueMetadataKey">
+		<constructor-arg index="0" value='keywordSentenceHistogram' />
+		<constructor-arg index="1" value='/agentData/keywordSentenceHistogram' />
+		<constructor-arg index="2" value="UNIVERSAL" />
+		<constructor-arg index="3" value="LIST" />
+		<constructor-arg index="4" ref="defaultStringValidator" />
+	</bean>
 
    <bean name="defaultStringValidator" class="roolo.elo.metadata.value.validators.StringValidator"></bean>
 	<bean name="defaultLongValidator" class="roolo.elo.metadata.value.validators.LongValidator"></bean>
