@@ -16,7 +16,7 @@
                <property name="rightDrawerCollaboration" value="true"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="bottomDrawerCollaboration" value="false"/>
-               <property name="leftDrawerCreatorId" value="assingmentInfo resourcesInfo feedbackQuestion"/>
+               <property name="leftDrawerCreatorId" value="assingmentInfo resourcesInfo feedbackQuestion socialtagging"/>
                <property name="leftDrawerCollaboration" value="false"/>
             </bean>
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
