@@ -104,35 +104,40 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX {
 
         def tagLines = for (tag in testTags) {
                     def ayevoterslist = for (voter in tag.ayevoters)
-                                HBox { content: [SmallPlus {}, HBox { content: [Text { content: voter
+                                Flow { content: [SmallPlus {}, HBox { content: [Text { content: voter
                                                     layoutInfo: LayoutInfo {
-                                                        width: 50
+                                                        //width: 50
                                                         vpos: VPos.CENTER
                                                         hpos: HPos.LEFT } }]
                                             layoutInfo: LayoutInfo {
-                                                width: 100
+                                                //width: 100
                                                 hpos: HPos.LEFT }
                                         }] }
                     def nayvoterslist = for (voter in tag.nayvoters)
-                                HBox { content: [SmallMinus {}, HBox { content: [Text { content: voter
+                                Flow { content: [SmallMinus {}, HBox { content: [Text { content: voter
                                                     layoutInfo: LayoutInfo {
-                                                        width: 50
+                                                        //width: 50
                                                         vpos: VPos.CENTER
                                                         hpos: HPos.LEFT } }]
                                             layoutInfo: LayoutInfo {
-                                                width: 100
+                                                //width: 100
                                                 hpos: HPos.LEFT }
                                         }] }
                     def winning = bind if (tag.ayevoters.size() < tag.nayvoters.size())
-                                Minus {} else Plus {};
+                                Minus {tag:tag} else Plus {tag:tag};
 
                     VBox {
                         content: [
-                            HBox {
-                                width: 50
+                            Flow {
+                                //width: 50
                                 nodeVPos: VPos.TOP
+                                hgap: 5
                                 content: [
+                                    winning,
 
+                                    ThumbsUp {tag:tag},
+
+                                    ThumbsDown {tag:tag},
                                     Label {
                                         layoutInfo: LayoutInfo {
                                             width: labelWidth
@@ -145,18 +150,14 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX {
                                         text: tag.tagname
                                     },
 
-                                    winning,
-
-                                    ThumbsUp {},
-
-                                    ThumbsDown {}] }
-                            VBox { layoutInfo: LayoutInfo { height: bind if (winning.hover) then 100 else -1 }
+] }
+                            VBox { layoutInfo: LayoutInfo { height: bind if (winning.hover) then 100 else 0 }
                                 content: [HBox {
                                         content: [
-                                            HBox {
-                                                layoutInfo: LayoutInfo {
-                                                    width: labelWidth
-                                                } },
+//                                            HBox {
+//                                                layoutInfo: LayoutInfo {
+//                                                    width: labelWidth
+//                                                } },
                                             VBox {
                                                 layoutInfo: LayoutInfo {
                                                     hpos: HPos.LEFT
@@ -166,10 +167,10 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX {
                                             hpos: HPos.LEFT
                                         } },
                                     HBox { content: [
-                                            HBox {
-                                                layoutInfo: LayoutInfo {
-                                                    width: labelWidth
-                                                } },
+//                                            HBox {
+//                                                layoutInfo: LayoutInfo {
+//                                                    width: labelWidth
+//                                                } },
                                             VBox {
                                                 layoutInfo: LayoutInfo {
                                                     hpos: HPos.LEFT

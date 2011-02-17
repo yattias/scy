@@ -20,6 +20,7 @@ def iconFontSize = 32;
 public def labelWidth = 100;
 
 public class Plus extends Stack {
+    public var tag;
     override var content = [
                 Circle {
                     radius: iconRadius
@@ -37,6 +38,7 @@ public class Plus extends Stack {
 
 public class Minus extends Stack {
 
+    public var tag;
     override var content = [
                 Circle {
                     radius: iconRadius
@@ -53,7 +55,7 @@ public class Minus extends Stack {
 }
 
 public class SmallPlus extends Stack {
-
+    public var tag;
     override var content = [
                 Circle {
                     radius: iconRadius / 2
@@ -87,7 +89,9 @@ public class SmallMinus extends Stack {
 }
 
 public class ThumbsUp extends Stack {
-
+    public var tag;
+    override var layoutX = iconRadius * 2 + 4;
+    override var layoutY = iconRadius * 2 + 4;
     override var content = [
                 Circle {
                     radius: iconRadius
@@ -105,8 +109,9 @@ public class ThumbsUp extends Stack {
 }
 
 public class ThumbsDown extends Stack {
-
-
+    public var tag;
+    override var layoutX = iconRadius * 2 + 4;
+    override var layoutY = iconRadius * 2 + 4;
     override var content = [
                 Circle {
                     radius: iconRadius
