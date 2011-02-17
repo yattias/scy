@@ -28,10 +28,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.Flow;
 import javafx.scene.control.Hyperlink;
 import javafx.util.Math;
+import javafx.scene.layout.Resizable;
 //import eu.scy.client.tools.fxsocialtaggingtool.Tag;
 //import eu.scy.client.tools.fxsocialtaggingtool.UIElements;
 
-public class SocialTaggingDrawer extends CustomNode, ScyToolFX {
+public class SocialTaggingDrawer extends CustomNode, ScyToolFX, Resizable {
 
     public var scyWindow: ScyWindow;
     def valueOffset = 0.0; //70.0;
@@ -44,14 +45,14 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX {
     public override function create(): Node {
         var taggingDisplay = createSocialTaggingDisplay();
         return Group {
-                   content: [
-//                        Rectangle {
-//                            x: 0, y: 0
-//                            //width: taggingDisplay.layoutBounds.width + 2 * border,
-//                            //width: 100
-//                            //height: taggingDisplay.layoutBounds.height + 2 * border - spacing
-//                            fill: Color.YELLOW
-//                        }
+                    content: [
+                        //                        Rectangle {
+                        //                            x: 0, y: 0
+                        //                            //width: taggingDisplay.layoutBounds.width + 2 * border,
+                        //                            //width: 100
+                        //                            //height: taggingDisplay.layoutBounds.height + 2 * border - spacing
+                        //                            fill: Color.YELLOW
+                        //                        }
                         taggingDisplay
                     ]
                 };
@@ -60,7 +61,7 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX {
     function createSocialTaggingDisplay(): Node {
 
         def headingFont = Font {
-                    size: 24
+                    size: 22
                 }
 
 //        def taggingPanelDescription = Text {
@@ -124,7 +125,7 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX {
                                                 hpos: HPos.LEFT }
                                         }] }
                     def winning = bind if (tag.ayevoters.size() < tag.nayvoters.size())
-                                Minus {tag:tag} else Plus {tag:tag};
+                                Minus { tag: tag } else Plus { tag: tag };
 
                     VBox {
                         content: [
@@ -135,9 +136,9 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX {
                                 content: [
                                     winning,
 
-                                    ThumbsUp {tag:tag},
+                                    ThumbsUp { tag: tag },
 
-                                    ThumbsDown {tag:tag},
+                                    ThumbsDown { tag: tag },
                                     Label {
                                         layoutInfo: LayoutInfo {
                                             width: labelWidth
@@ -149,15 +150,14 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX {
 
                                         text: tag.tagname
                                     },
-
-] }
+                                ] }
                             VBox { layoutInfo: LayoutInfo { height: bind if (winning.hover) then 100 else 0 }
                                 content: [HBox {
                                         content: [
-//                                            HBox {
-//                                                layoutInfo: LayoutInfo {
-//                                                    width: labelWidth
-//                                                } },
+                                            //                                            HBox {
+                                            //                                                layoutInfo: LayoutInfo {
+                                            //                                                    width: labelWidth
+                                            //                                                } },
                                             VBox {
                                                 layoutInfo: LayoutInfo {
                                                     hpos: HPos.LEFT
@@ -167,10 +167,10 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX {
                                             hpos: HPos.LEFT
                                         } },
                                     HBox { content: [
-//                                            HBox {
-//                                                layoutInfo: LayoutInfo {
-//                                                    width: labelWidth
-//                                                } },
+                                            //                                            HBox {
+                                            //                                                layoutInfo: LayoutInfo {
+                                            //                                                    width: labelWidth
+                                            //                                                } },
                                             VBox {
                                                 layoutInfo: LayoutInfo {
                                                     hpos: HPos.LEFT
@@ -196,15 +196,13 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX {
                     hgap: 10
 
                     content: for (tag in testTags)
-                            Hyperlink { text: tag.tagname
-                                font: Font {
-                                    //size:Math.max(8, (8 * (tag.ayevoters.size() - tag.nayvoters.size())))
-                                    size: 12 * (Math.max (0, (tag.ayevoters.size() - tag.nayvoters.size())))
-                                }
+                        Hyperlink { text: tag.tagname
+                            font: Font {
+                                //size:Math.max(8, (8 * (tag.ayevoters.size() - tag.nayvoters.size())))
+                                size: 12 * (Math.max(0, (tag.ayevoters.size() - tag.nayvoters.size())))
                             }
-                     
-                    }
-                
+                        }
+                }
 
         def taggingPanel = VBox {
                     layoutX: border;
@@ -277,6 +275,14 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX {
 //                ]
 //            }
 //        }
+    }
+
+    public override function getPrefHeight(height: Number): Number {
+        return 200;
+    }
+
+    public override function getPrefWidth(width: Number): Number {
+        return 200;
     }
 
     function createPropertiesDisplay(): Node {
