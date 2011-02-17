@@ -91,7 +91,7 @@ public class ThumbsUp extends Stack {
     override var content = [
                 Circle {
                     radius: iconRadius
-                    fill: Color.GREEN
+                    fill: bind if (hover) Color.GREEN else Color.GREY
                 },
                 Text {
                     font: Font {
@@ -106,10 +106,11 @@ public class ThumbsUp extends Stack {
 
 public class ThumbsDown extends Stack {
 
+
     override var content = [
                 Circle {
                     radius: iconRadius
-                    fill: Color.RED
+                    fill: bind if (hover) Color.RED else Color.GREY
                 },
                 Text {
                     font: Font {
