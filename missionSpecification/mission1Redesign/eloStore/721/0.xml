@@ -1,0 +1,448 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-02-17T13:10:27.624+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1297944627624</dateCreated>
+        <dateLastModified>1297944627624</dateLastModified>
+      </customElements>
+      <format>scy/missionmapmodel</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/721/0/co2MissionRedesign.scymissionmapmodel</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">co2MissionRedesign</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<missionModel>
+  <activeLas>startPage</activeLas>
+  <missionMapBackgroundImageUri />
+  <loElos />
+  <lasses>
+    <las>
+      <id>startPage</id>
+      <xPos>0.0</xPos>
+      <yPos>0.0</yPos>
+      <toolTip>Challenge</toolTip>
+      <title />
+      <instructionUri />
+      <lasType>ORIENTATION</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/281/0/Challenge.url</eloUri>
+        <iconType>ard/assignment</iconType>
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri />
+        <assignmentUri />
+        <resourcesUri />
+        <colorScheme />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>conceptualizationDesign</las>
+        <las>conceptualizationIndividual</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>conceptualizationDesign</id>
+      <xPos>80.0</xPos>
+      <yPos>0.0</yPos>
+      <toolTip>First ideas of my design group</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_design/LAS_Instruction.html</instructionUri>
+      <lasType>CONCEPTUALISATION</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/301/0/First_ideas_of_my_design_group.scymapping</eloUri>
+        <iconType>ard/idea</iconType>
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_design/targetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_design/Assignments/A_First_ideas.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_design/Resources/R_First_ideas.html</resourcesUri>
+        <colorScheme />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>conceptualizationExperts</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>conceptualizationExperts</id>
+      <xPos>160.0</xPos>
+      <yPos>0.0</yPos>
+      <toolTip>Hypotheses of my expert group</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_expert/LAS_Instruction.html</instructionUri>
+      <lasType>CONCEPTUALISATION</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/305/0/Hypotheses_of_my_expert_group.rtf</eloUri>
+        <iconType />
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_expert/targetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_expert/Assignments/A_Hypothesis.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_expert/Resources/R_Hypothesis.html</resourcesUri>
+        <colorScheme />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/303/0/Research_questions_of_my_expert_group.rtf</eloUri>
+          <iconType>ard/hypothese</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_expert/targetDescription.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_expert/Assignments/A_Research_questions.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_expert/Resources/R_Research_questions.html</resourcesUri>
+          <colorScheme />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses>
+        <las>experimentExperts</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>experimentExperts</id>
+      <xPos>240.0</xPos>
+      <yPos>0.0</yPos>
+      <toolTip>Conclusion of expert experiments</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/LAS_Instruction.html</instructionUri>
+      <lasType>EXPERIMENT</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/314/0/Conclusion_of_expert_experiments.rtf</eloUri>
+        <iconType />
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/targetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/Assignments/A_Conclusion_experiments.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/Resources/R_Conclusion_experiments.html</resourcesUri>
+        <colorScheme />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/354/0/Experimental_procedure.scyxproc</eloUri>
+          <iconType />
+          <loElos />
+          <inputAnchors>
+            <anchor>roolo://memory/305/0/Hypotheses_of_my_expert_group.rtf</anchor>
+          </inputAnchors>
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/targetDescription.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/Assignments/A_Experimental_procedure.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/Resources/R_Experimental_procedure.html</resourcesUri>
+          <colorScheme />
+        </intermediateAnchor>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/311/0/Data_from_the_Thermal_simulation.scysimconfig</eloUri>
+          <iconType />
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/targetDescription.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/Assignments/A_Data_thermal_simulation.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/Resources/R_Data_thermal_simulation.html</resourcesUri>
+          <colorScheme />
+        </intermediateAnchor>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/401/0/Data_from_the_Converter.scysimconfig</eloUri>
+          <iconType />
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/targetDescription.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/Assignments/A_Data_converter.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/Resources/R_Data_converter.html</resourcesUri>
+          <colorScheme />
+        </intermediateAnchor>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/312/0/Data_from_real_experiments.scypds</eloUri>
+          <iconType />
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/targetDescription.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/Assignments/A_Data.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/Resources/R_Data.html</resourcesUri>
+          <colorScheme />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses>
+        <las>conceptualizationExperts</las>
+        <las>reportingExperts</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>conceptualizationIndividual</id>
+      <xPos>0.0</xPos>
+      <yPos>80.0</yPos>
+      <toolTip>Concept Map on CO2 emission</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_individual/LAS_Instruction.html</instructionUri>
+      <lasType>CONCEPTUALISATION</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/282/0/Concept_map_on_CO2_emission.scymapping</eloUri>
+        <iconType>ard/concept_map</iconType>
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_individual/targetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_individual/Assignments/A_CMap_CO2_emission.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_individual/Resources/R_CMap_CO2_emission.html</resourcesUri>
+        <colorScheme />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses />
+    </las>
+    <las>
+      <id>construction</id>
+      <xPos>80.0</xPos>
+      <yPos>80.0</yPos>
+      <toolTip>House drawings</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Build_design/LAS_Instruction.html</instructionUri>
+      <lasType>DESIGN</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/341/0/House_drawings.skp</eloUri>
+        <iconType>ard/drawing</iconType>
+        <loElos />
+        <inputAnchors>
+          <anchor>roolo://memory/322/0/House_choices.scymapping</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Build_design/targetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Build_design/Assignments/A_House_drawings.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Build_design/Resources/R_House_drawings.html</resourcesUri>
+        <colorScheme />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses />
+    </las>
+    <las>
+      <id>design</id>
+      <xPos>160.0</xPos>
+      <yPos>80.0</yPos>
+      <toolTip>House choices</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Design_design/LAS_Instruction.html</instructionUri>
+      <lasType>DESIGN</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/322/0/House_choices.scymapping</eloUri>
+        <iconType />
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Design_design/targetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Design_design/Assignments/A_House_choices.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Design_design/Resources/R_House_choices.html</resourcesUri>
+        <colorScheme />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/320/0/Inventory_of_expert_solutions.scymapping</eloUri>
+          <iconType>ard/choices</iconType>
+          <loElos />
+          <inputAnchors>
+            <anchor>roolo://memory/318/0/Expert_presentation.ppt</anchor>
+          </inputAnchors>
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Design_design/targetDescription.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Design_design/Assignments/A_Inventory_solutions.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Design_design/Resources/R_Inventory_solutions.html</resourcesUri>
+          <colorScheme />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses>
+        <las>construction</las>
+        <las>experimentDesign</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>reportingExperts</id>
+      <xPos>240.0</xPos>
+      <yPos>80.0</yPos>
+      <toolTip>Expert presentation</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_expert/LAS_Instruction.html</instructionUri>
+      <lasType>REPORTING</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/318/0/Expert_presentation.ppt</eloUri>
+        <iconType>ard/presentation</iconType>
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_expert/targetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_expert/Assignments/A_Expert_presentation.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_expert/Resources/R_Expert_presentation.html</resourcesUri>
+        <colorScheme />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/316/0/Expert_concept_map.scymapping</eloUri>
+          <iconType>ard/concept_map</iconType>
+          <loElos />
+          <inputAnchors>
+            <anchor>roolo://memory/314/0/Conclusion_of_expert_experiments.rtf</anchor>
+          </inputAnchors>
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_expert/targetDescription.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_expert/Assignments/A_Expert_cmap.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_expert/Resources/R_Expert_cmap.html</resourcesUri>
+          <colorScheme />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses>
+        <las>design</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>experimentDesign</id>
+      <xPos>80.0</xPos>
+      <yPos>160.0</yPos>
+      <toolTip>House data</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_design/LAS_Instruction.html</instructionUri>
+      <lasType>DESIGN</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/402/0/House_data_from_the_Converter.scysimconfig</eloUri>
+        <iconType>ard/house</iconType>
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_design/targetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_design/Assignments/A_House_data_Converter.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_design/Resources/R_House_data_Converter.html</resourcesUri>
+        <colorScheme />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/340/0/House_data_from_the_Thermal_simulation.scysimconfig</eloUri>
+          <iconType />
+          <loElos />
+          <inputAnchors>
+            <anchor>roolo://memory/322/0/House_choices.scymapping</anchor>
+          </inputAnchors>
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_design/targetDescription.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_design/Assignments/A_House_data_Thermal_simulation.html</assignmentUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_design/Resources/R_House_data_Thermal_simulation.html</resourcesUri>
+          <colorScheme />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses>
+        <las>reportingDesign</las>
+        <las>design</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>reportingDesign</id>
+      <xPos>160.0</xPos>
+      <yPos>160.0</yPos>
+      <toolTip>Presentation of house design</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_design/LAS_Instruction.html</instructionUri>
+      <lasType>REPORTING</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/343/0/Presentation_of_house_design.ppt</eloUri>
+        <iconType>ard/presentation</iconType>
+        <loElos />
+        <inputAnchors>
+          <anchor>roolo://memory/341/0/House_drawings.skp</anchor>
+          <anchor>roolo://memory/402/0/House_data_from_the_Converter.scysimconfig</anchor>
+          <anchor>roolo://memory/340/0/House_data_from_the_Thermal_simulation.scysimconfig</anchor>
+          <anchor>roolo://memory/322/0/House_choices.scymapping</anchor>
+        </inputAnchors>
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_design/targetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_design/Assignments/A_Presentation_design.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_design/Resources/R_Presentation_design.html</resourcesUri>
+        <colorScheme />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>reportingIndividual</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>reportingIndividual</id>
+      <xPos>240.0</xPos>
+      <yPos>160.0</yPos>
+      <toolTip>Individual report</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_individual/LAS_Instruction.html</instructionUri>
+      <lasType>REPORTING</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/345/0/Individual_report.doc</eloUri>
+        <iconType />
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_individual/targetDescription.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_individual/Assignments/A_Individual_report.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_individual/Resources/R_Individual_report.html</resourcesUri>
+        <colorScheme />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses />
+    </las>
+  </lasses>
+</missionModel>
+</content>
+<resources>
+</resources>
+</elo>
