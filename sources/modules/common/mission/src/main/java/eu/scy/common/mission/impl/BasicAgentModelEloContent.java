@@ -3,6 +3,7 @@ package eu.scy.common.mission.impl;
 import java.net.URI;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -48,6 +49,11 @@ public class BasicAgentModelEloContent implements AgentModelEloContent {
 			}
 			languageMap.put(language, modelEloUri);
 		}
+	}
+
+	@Override
+	public URI getModelEloUri(String key, Locale language) {
+		return getModelEloUri(key, language.getLanguage());
 	}
 
 }
