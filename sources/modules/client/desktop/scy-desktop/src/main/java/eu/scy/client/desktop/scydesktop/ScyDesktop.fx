@@ -63,9 +63,7 @@ import eu.scy.client.desktop.scydesktop.corners.TopLeftCorner;
 import eu.scy.client.desktop.scydesktop.corners.TopRightCorner;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.NumberedNewTitleGenerator;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ScyWindowControlImpl;
-import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.Contact;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactList;
-import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.OnlineState;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionMap;
 import eu.scy.common.mission.impl.jdom.JDomStringConversion;
 import eu.scy.notification.api.INotification;
@@ -98,6 +96,8 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import java.net.URLEncoder;
 import eu.scy.client.desktop.scydesktop.utils.XFX;
 import eu.scy.client.desktop.scydesktop.awareness.impl.BuddyManagerImpl;
+import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
 
 /**
  * @author sikkenj
@@ -143,6 +143,64 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          scyDesktop: this
       //       activeAnchor: bind missionModelFX.activeAnchor;
       };
+   public var fullscreenWindow: ScyWindow = bind windows.fullscreenWindow on replace {
+       if (fullscreenWindow != null) {
+           FX.deferAction(function() {
+               def tempEdgesManager = edgesManager;
+               def tempTopLeftCorner = topLeftCorner;
+               def tempTopRightCorner = topRightCorner;
+               def tempBottomRightCorner = bottomRightCorner;
+               def tempBottomLeftCorner = bottomLeftCorner;
+               Timeline {
+                   keyFrames: [KeyFrame {
+                        time: 300ms
+                        values: [
+                           tempEdgesManager.opacity => 0,
+                           tempTopLeftCorner.opacity => 0,
+                           tempTopRightCorner.opacity => 0,
+                           tempBottomRightCorner.opacity => 0,
+                           tempBottomLeftCorner.opacity => 0
+                        ]
+                        action: function() {
+                           tempEdgesManager.visible = false;
+                           tempTopLeftCorner.visible = false;
+                           tempTopRightCorner.visible = false;
+                           tempBottomRightCorner.visible = false;
+                           tempBottomLeftCorner.visible = false;
+                        }
+                      }
+                   ]
+               }.playFromStart();
+           });
+       } else {
+           FX.deferAction(function() {
+               def tempEdgesManager = edgesManager;
+               def tempTopLeftCorner = topLeftCorner;
+               def tempTopRightCorner = topRightCorner;
+               def tempBottomRightCorner = bottomRightCorner;
+               def tempBottomLeftCorner = bottomLeftCorner;
+               tempEdgesManager.visible = true;
+               tempTopLeftCorner.visible = true;
+               tempTopRightCorner.visible = true;
+               tempBottomRightCorner.visible = true;
+               tempBottomLeftCorner.visible = true;
+               Timeline {
+                   keyFrames: [KeyFrame {
+                        time: 300ms
+                        values: [
+                           tempEdgesManager.opacity => 1,
+                           tempTopLeftCorner.opacity => 1,
+                           tempTopRightCorner.opacity => 1,
+                           tempBottomRightCorner.opacity => 1,
+                           tempBottomLeftCorner.opacity => 1
+                        ]
+                      }
+                   ]
+               }.playFromStart();
+           });
+       }
+   }
+
    public def tooltipManager: TooltipManager = SimpleTooltipManager {};
    public def dragAndDropManager: DragAndDropManager = SimpleDragAndDropManager {
          windowManager: windows;
