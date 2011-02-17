@@ -40,6 +40,7 @@
 		<module>fx-scydynamics</module>
 		<module>fx-scymapper</module>
 		<module>fx-simulator</module>
+		<module>fx-socialtaggingtool</module>
 		<!--<module>fx-student-planning-tool</module>-->
 		<module>fx-video</module>
 		<module>fx-webresourcer</module>
