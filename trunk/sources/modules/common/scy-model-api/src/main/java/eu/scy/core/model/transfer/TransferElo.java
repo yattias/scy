@@ -361,7 +361,8 @@ public class TransferElo extends BaseXMLTransfer {
     }
 
     public static String convertRtfToHtml(final String txt) {
-        //System.out.println("CONVERTING RICH TEXT TO HTML!");
+        return "";
+        /*//System.out.println("CONVERTING RICH TEXT TO HTML!");
         try {
             final RTFEditorKit rtf_edit = new RTFEditorKit();
             final JTextPane jtp_rtf = new JTextPane();
@@ -392,9 +393,12 @@ public class TransferElo extends BaseXMLTransfer {
             final HTMLEditorKit html_edit = new HTMLEditorKit();
             html_edit.write(writer, html_doc, 0, html_doc.getLength());
             String raw =  writer.toString();
-            return URLEncoder.encode(raw, "UTF-8");
+            //return URLEncoder.encode(raw, "UTF-8");
+            System.out.println("RAW: " + raw);
+            
+            return raw;
         } catch (Exception ex) {
             return txt;
-        }
+        }  */
     }
 }

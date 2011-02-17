@@ -53,6 +53,7 @@
 
 
                    /editors/userProfileEditor.html=userProfileEditor
+                   /useradmin/manageAssignedStudent.html=manageAssignedStudentController
                    /components/fileupload/fileupload.html=fileUploadController
                    /components/links/help.html=helpController
                    /components/realtime/currentStudentActivity.html=currentStudentActivityController
@@ -174,6 +175,10 @@
 
 
     <bean id="userProfileEditor" class="eu.scy.server.controllers.UserProfileController">
+        <property name="userService" ref="userService"/>
+	</bean>
+
+    <bean id="manageAssignedStudentController" class="eu.scy.server.controllers.ManageAssignedStudentController">
         <property name="userService" ref="userService"/>
 	</bean>
 

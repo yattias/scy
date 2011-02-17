@@ -36,6 +36,8 @@ public class SavePortfolioController extends BaseController {
         logger.info("SAVING XML:" + xmlContent);
 
         logger.info("THE MISSION :" + missionURI + " will be updated with: " + xmlContent);
+        missionURI = missionURI.replaceAll("@", "#");
+        logger.info("MODIFIED MISSION URI: " + missionURI);
 
 
         try {
@@ -51,6 +53,7 @@ public class SavePortfolioController extends BaseController {
                 logger.info("DID I GET A PORTFOLIO NOW??: " + portfolioELO);
 
                 ScyElo portfolioElo = ScyElo.loadLastVersionElo(portfolioELO, getMissionELOService());
+                portfolioElo.loadMetadata(portfolioElo.getElo().getUri(), getMissionELOService());
                 portfolioElo.getContent().setXmlString(xmlContent);
                 portfolioElo.updateElo();
 

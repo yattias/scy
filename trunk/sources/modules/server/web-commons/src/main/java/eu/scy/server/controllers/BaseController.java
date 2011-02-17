@@ -11,6 +11,8 @@ import org.springframework.web.servlet.mvc.AbstractController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.Locale;
 
 /**
@@ -63,6 +65,15 @@ public abstract class BaseController extends AbstractController {
 
     @Override
     protected final ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
+        logger.info("NEW REQUEST ARRIVED:");
+
+        Enumeration parameEnumeration = request.getParameterNames();
+        while(parameEnumeration.hasMoreElements()) {
+            String param = (String) parameEnumeration.nextElement();
+            logger.info("** ** ** RECEIVED PARAM: " + param + " " + request.getParameter(param));
+            
+        }
+
         ModelAndView modelAndView = new ModelAndView();
 
         instpectRequest(request, httpServletResponse);
@@ -73,7 +84,7 @@ public abstract class BaseController extends AbstractController {
     }
 
     protected void instpectRequest(HttpServletRequest request, HttpServletResponse httpServletResponse) {
-        logger.info("-----------------------------------------------------");
+        logger.info("----------------------------------------------------- " + getClass().getName());
         if(getUrlInspector() != null) {
             Object model = getUrlInspector().instpectRequest(request, httpServletResponse);
             if(model instanceof ScyElo) {
@@ -84,7 +95,7 @@ public abstract class BaseController extends AbstractController {
             }
 
         }
-        logger.info("*******************************************************");
+        logger.info("*******************************************************" + getClass().getName());
     }
 
     protected abstract void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView);
