@@ -24,6 +24,7 @@ public mixin class WindowManager {
    public var scyWindows:Group;
    public var scyDesktop:ScyDesktop;
    public var activeWindow: ScyWindow;
+   public var fullscreenWindow: ScyWindow;
 
 //   public-read protected var activeWindow:ScyWindow;
 

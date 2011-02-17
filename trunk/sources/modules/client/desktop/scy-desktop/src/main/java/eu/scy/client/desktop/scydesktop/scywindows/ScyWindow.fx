@@ -41,7 +41,6 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
     public var eloToolConfig: EloToolConfig;
     public-init var windowColorScheme: WindowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
     public var activated = false; // TODO, make only changeable from (sub) package
-    public var isCentered = false;
     public var width: Number = 150;
     public var height: Number = 100;
     public var closedPosition: Point2D;
@@ -73,6 +72,7 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
     public var allowDragging = true;
     public var allowClose = true;
     public var allowMinimize = true;
+    public var allowMaximize = true;
     public var allowCenter = true;
     public var windowManager: WindowManager;
     public var windowEffect: Effect;
@@ -89,6 +89,8 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
     // status variables
     public-read protected var isMinimized = false;
     public-read protected var isClosed = true;
+    public public var isCentered = false;
+    public-read protected var isMaximized = false;
 
     public function open(): Void {
         openWindow(minimumWidth, minimumHeight)
@@ -103,6 +105,8 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
     public abstract function openWindow(layoutX: Number, layoutY: Number, width: Number, height: Number): Void;
 
     public abstract function openWindow(layoutX: Number, layoutY: Number, width: Number, height: Number, rotation: Number): Void;
+
+    public abstract function openWindow(posX: Number, posY: Number, openWidth: Number, openHeight: Number, rotation: Number, hideDrawersAfterOpenning: Boolean): Void;
 
     public abstract function addChangesListener(wcl: WindowChangesListener): Void;
 

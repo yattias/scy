@@ -363,6 +363,10 @@ public class StandardScyWindow extends ScyWindow {
     }
 
     public override function openWindow(posX: Number, posY: Number, openWidth: Number, openHeight: Number, rotation: Number): Void {
+        openWindow(posX, posY, openWidth, openHeight, rotate, false)
+    }
+
+    public override function openWindow(posX: Number, posY: Number, openWidth: Number, openHeight: Number, rotation: Number, hideDrawersAfterOpenning: Boolean): Void {
       if (isClosed) {
           closedPosition = Point2D {
              x: layoutX;
@@ -396,7 +400,7 @@ public class StandardScyWindow extends ScyWindow {
                              rotate => rotation tween Interpolator.EASEOUT
                           ]
                           action: function() {
-                              hideDrawers = false;
+                              hideDrawers = hideDrawersAfterOpenning;
                               scyToolsList.onOpened();
                               updateRelativeBounds();
                               cache = false;
@@ -418,10 +422,10 @@ public class StandardScyWindow extends ScyWindow {
     */
    function limitLocation(posX: Number, posY: Number): Point2D {
        var newX = Math.max(0, posX);
-       newX = Math.min(newX, scene.width - 30);
+       newX = Math.min(newX, scene.width - 10);
 
        var newY = Math.max(0, posY);
-       newY = Math.min(newY, scene.height - 30);
+       newY = Math.min(newY, scene.height - 10);
 
        return Point2D{
            x: newX
@@ -566,6 +570,9 @@ public class StandardScyWindow extends ScyWindow {
    }
 
    function doClose(): Void {
+      if (isMaximized) {
+         resetMaximizedState();
+      }
       if (not scyToolsList.aboutToClose()) {
          // abort close action
          return;
@@ -588,16 +595,37 @@ public class StandardScyWindow extends ScyWindow {
       logger.debug("closed {title}");
    }
 
-   function doMaximize() {
+   function doMaximize(): Void {
        // TODO: needs to call window positioning code
-        openWindow(10, 10, scene.width - 20, scene.height - 20, 0);
+        isMaximized = true;
+        openWindow(5, 5, scene.width - 10, scene.height - 10, 0, true);
+        windowManager.fullscreenWindow = this;
+        allowDragging = false;
+        allowResize = false;
+        allowRotate = false;
+        isCentered = false;
    }
+
+   function resetMaximizedState(): Void {
+        windowManager.fullscreenWindow = null;
+        hideDrawers = true;
+        allowDragging = true;
+        allowResize = true;
+        allowRotate = true;
+        isMaximized = false;
+    }
 
    function handleDoubleClick(e: MouseEvent): Void {
-        windowControl.makeMainScyWindow(this);
+       if (isMaximized) {
+          resetMaximizedState();
+       }
+       windowControl.makeMainScyWindow(this);
    }
 
-   function centerAction():Void{
+   function centerAction():Void {
+      if (isMaximized) {
+          resetMaximizedState();
+      }
       windowControl.makeMainScyWindow(eloUri);
    }
 
@@ -814,8 +842,8 @@ public class StandardScyWindow extends ScyWindow {
          windowColorScheme:bind windowColorScheme
          enableRotateNormal:bind rotate!=0.0
          enableMinimize: bind allowClose and not isClosed
-         enableCenter: bind allowCenter
-         enableMaximize: true
+         enableCenter: bind allowCenter and not isCentered
+         enableMaximize: bind allowMaximize and not isMaximized
          rotateNormalAction:doRotateNormal
          minimizeAction:doClose
          centerAction:centerAction

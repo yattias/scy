@@ -132,6 +132,10 @@ public class CombinedWindowElements extends ScyWindow {
    }
 
    override public function openWindow(posX: Number, posY: Number, width: Number, height: Number, rotation: Number): Void {
+        openWindow(posX, posY, width, height, rotate, false);
+   }
+
+   override function openWindow(posX: Number, posY: Number, openWidth: Number, openHeight: Number, rotation: Number, hideDrawersAfterOpenning: Boolean): Void {
       isClosed = false;
       this.layoutX = posX;
       this.layoutY = posY;
