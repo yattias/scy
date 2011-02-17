@@ -51,7 +51,7 @@
     <topDrawerCreatorId>presence</topDrawerCreatorId>
     <rightDrawerCreatorId>chat</rightDrawerCreatorId>
     <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>assingmentInfo resourcesInfo feedbackQuestion</leftDrawerCreatorId>
+    <leftDrawerCreatorId>assingmentInfo resourcesInfo feedbackQuestion socialtagging</leftDrawerCreatorId>
     <isContentCollaboration />
     <isTopDrawerCollaboration>true</isTopDrawerCollaboration>
     <isRightDrawerCollaboration>true</isRightDrawerCollaboration>
