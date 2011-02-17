@@ -3,8 +3,6 @@ package eu.scy.core.model.impl.pedagogicalplan;
 import eu.scy.core.model.pedagogicalplan.Scenario;
 import eu.scy.core.model.pedagogicalplan.LearningActivitySpace;
 import eu.scy.core.model.pedagogicalplan.LearningGoal;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.util.List;

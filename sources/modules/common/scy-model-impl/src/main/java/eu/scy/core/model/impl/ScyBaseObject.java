@@ -42,8 +42,8 @@ public class ScyBaseObject implements ScyBase, Serializable {
     }
 
     @Id
-    @GeneratedValue(generator = "nboid")
-    @org.hibernate.annotations.GenericGenerator(name = "nboid", strategy = "uuid")
+    @GeneratedValue
+    //GenericGenerator(name = "nboid", strategy = "uuid")
     @Column(name = "primKey", length = 55)
     public String getId() {
         return id;

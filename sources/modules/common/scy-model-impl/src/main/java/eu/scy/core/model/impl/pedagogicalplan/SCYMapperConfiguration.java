@@ -1,7 +1,5 @@
 package eu.scy.core.model.impl.pedagogicalplan;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;

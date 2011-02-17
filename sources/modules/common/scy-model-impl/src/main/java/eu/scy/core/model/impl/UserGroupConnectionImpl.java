@@ -18,7 +18,7 @@ import javax.persistence.CascadeType;
  */
 @Entity
 @Table(name = "usergroupconnection")
-@org.hibernate.annotations.Proxy (proxyClass = UserGroupConnection.class )
+//org.hibernate.annotations.Proxy (proxyClass = UserGroupConnection.class )
 public class UserGroupConnectionImpl extends ScyBaseObject implements UserGroupConnection {
 
     private User user;
