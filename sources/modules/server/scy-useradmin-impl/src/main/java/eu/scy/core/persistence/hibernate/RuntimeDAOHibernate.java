@@ -171,7 +171,7 @@ public class RuntimeDAOHibernate extends ScyBaseDAOHibernate implements RuntimeD
                 runtimeAction.setMission(mission);
                 runtimeAction.setSession(session);
                
-                save(runtimeAction);
+                //save(runtimeAction);
 
 
             } else {
