@@ -22,6 +22,7 @@ import eu.scy.client.tools.fxscymapper.registration.SCYMapperContentCreator;
 import eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer.EloXmlViewerCreatorFX;
 
 import eu.scy.client.tools.fxflyingsaucer.registration.FlyingSaucerCreator;
+import eu.scy.client.tools.fxsocialtaggingtool.SocialTaggingDrawerCreator;
 
 import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentCreatorFX;
 import eu.scy.client.tools.fxchattool.registration.ChattoolPresenceDrawerContentCreatorFX;
@@ -103,6 +104,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def scyFormAuthorId = "formauthor";
    def scyYouTuberID = "youtuber";
    def feedbackQuestionId = "feedbackQuestion";
+   def socialtaggingId = "socialtagging";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -173,6 +175,8 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TestMoreInfoNodeCreator{}, testMoreInfoId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(FeedbackQuestionNodeCreator{}, feedbackQuestionId);
+   
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(SocialTaggingDrawerCreator{}, socialtaggingId);
 
    var awarenessService:IAwarenessService = missionRunConfigs.tbi.getAwarenessService();
    var chatControllerMap = new HashMap();
