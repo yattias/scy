@@ -22,12 +22,55 @@ public class FXDIconParser {
 	BufferedReader reader = null;
 	ArrayList<String> names = new ArrayList<String>();
 
+	// very dark blue
 	replaceMap.put("Color.rgb(0x26,0x2f,0x66)", "bind windowColorScheme.mainColor");
-	replaceMap.put("Color.rgb(0xb5,0xd5,0xf0)", "bind windowColorScheme.mainColorlLight");
+	// very dark blue
+	replaceMap.put("Color.rgb(0x1a,0x1e,0x5d)", "bind windowColorScheme.mainColor");
+	// dark blue
+	replaceMap.put("Color.rgb(0x68,0x4d,0x9a)", "bind windowColorScheme.mainColor");
+	// dark blue
+	replaceMap.put("Color.rgb(0x0,0x51,0xf4)", "bind windowColorScheme.mainColor");
+	// dark blue
+	replaceMap.put("Color.rgb(0xe9,0x5a,0xc)", "bind windowColorScheme.mainColor");
+	// light blue
+	replaceMap.put("Color.rgb(0xb5,0xd5,0xf0)", "bind windowColorScheme.mainColorLight");
+	// light blue
+	replaceMap.put("Color.rgb(0xd3,0xe6,0xf6)", "bind windowColorScheme.mainColorLight");
+	// green
 	replaceMap.put("Color.rgb(0x0,0xb2,0x59)", "bind windowColorScheme.secondColor");
+	// light green
 	replaceMap.put("Color.rgb(0xcc,0xf0,0xde)", "bind windowColorScheme.secondColorLight");
-	replaceMap.put("Color.rgb(0xe9,0x5a,0xc)", "bind windowColorScheme.thirdColor");
+	// dark orange/red
+	replaceMap.put("Color.rgb(0xff,0x40,0x0)", "bind windowColorScheme.thirdColor");
+	// pink
+	replaceMap.put("Color.rgb(0xff,0x0,0x97)", "bind windowColorScheme.thirdColor");
+	// light red
 	replaceMap.put("Color.rgb(0xf2,0xd5,0xc7)", "bind windowColorScheme.thirdColorLight");
+	// light orange
+	replaceMap.put("Color.rgb(0xff,0xea,0x9e)", "bind windowColorScheme.thirdColorLight");
+
+	// medium grey
+	// replaceMap.put("Color.rgb(0x9a,0x99,0x99)", "bind windowColorScheme.thirdColor");
+	// dark grey
+	// replaceMap.put("Color.rgb(0x47,0x46,0x46)", "bind windowColorScheme.thirdColor");
+	// light grey
+	// replaceMap.put("Color.rgb(0xf1,0xf1,0xef)", "bind windowColorScheme.thirdColor");
+	
+
+	//	// green
+//	replaceMap.put("Color.rgb(0x6a,0xb3,0x30)", "bind windowColorScheme.secondColor");
+//	// pink
+//	replaceMap.put("Color.rgb(0xff,0x0,0x97)", "bind windowColorScheme.thirdColor");
+//	// light pink
+//	replaceMap.put("Color.rgb(0xff,0x5f,0xd7)", "bind windowColorScheme.thirdColorLight");
+//	
+//	// medium grey
+//	replaceMap.put("Color.rgb(0x9a,0x99,0x99)", "bind windowColorScheme.thirdColor");
+//	// dark grey
+//	replaceMap.put("Color.rgb(0x47,0x46,0x46)", "bind windowColorScheme.thirdColor");
+//	// light grey
+//	replaceMap.put("Color.rgb(0xf1,0xf1,0xef)", "bind windowColorScheme.thirdColor");
+//	
 
 	try {
 	    reader = new BufferedReader(new FileReader(file));
@@ -89,13 +132,13 @@ public class FXDIconParser {
 	    out.println();
 	    out.println("public class EloIconFactory {");
 	    out.println();
-	    
+
 	    out.print("def names = [");
 	    String allNames = new String();
-	    for (String name: names) {
-		allNames = allNames.concat("\""+name+"\",");
+	    for (String name : names) {
+		allNames = allNames.concat("\"" + name + "\",");
 	    }
-	    out.print(allNames.substring(0, allNames.length()-1));
+	    out.print(allNames.substring(0, allNames.length() - 1));
 	    out.println("];");
 	    out.println();
 
@@ -107,9 +150,9 @@ public class FXDIconParser {
 	    out.println("public function createEloIcon(name: String): EloIcon {");
 	    out.println("if (name.equalsIgnoreCase(\"dummy\")) {");
 	    out.println("return null;");
-	    for (String name: names) {
-		out.println("} else if (name.equalsIgnoreCase(\""+name+"\")) {");
-		out.println("return new "+name+"Icon();");
+	    for (String name : names) {
+		out.println("} else if (name.equalsIgnoreCase(\"" + name + "\")) {");
+		out.println("return new " + name + "Icon();");
 	    }
 	    out.println("} else {");
 	    out.println("return new LogoEloIcon();");
@@ -162,6 +205,14 @@ public class FXDIconParser {
 	out.println(" * @author lars");
 	out.println(" */");
 	out.println("public class " + name + "Icon extends AbstractEloIcon {");
+	out.println();
+	out.println("public function clone(): " + name + "Icon {");
+	out.println(name + "Icon {");
+	out.println("selected: selected");
+	out.println("size: size");
+	out.println("windowColorScheme: windowColorScheme");
+	out.println("}");
+	out.println("}");
 	out.println();
 	out.println("public function createNode(): Node {");
 	out.println();

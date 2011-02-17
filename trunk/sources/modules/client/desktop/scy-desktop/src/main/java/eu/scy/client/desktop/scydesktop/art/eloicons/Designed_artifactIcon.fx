@@ -10,7 +10,15 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 /**
  * @author lars
  */
-public class Designed_artefactIcon extends AbstractEloIcon {
+public class Designed_artifactIcon extends AbstractEloIcon {
+
+public function clone(): Designed_artifactIcon {
+Designed_artifactIcon {
+selected: selected
+size: size
+windowColorScheme: windowColorScheme
+}
+}
 
 public function createNode(): Node {
 
@@ -18,8 +26,9 @@ return Group {
 
 			content: [
 				SVGPath {
-					fill: Color.rgb(0xd3,0xe6,0xf6)
+					fill: bind windowColorScheme.mainColorLight
 					stroke: null
+					opacity: 0.99
 					content: "M222.19,29.86 C218.32,33.79 213.90,35.19 209.46,36.33 C204.77,37.53 199.56,36.10 195.06,38.38 C188.47,41.74 193.81,72.13 200.44,68.76 C204.93,66.48 210.13,67.85 214.84,66.71 C220.21,65.41 225.40,63.09 230.07,58.36 C236.09,52.26 228.16,23.82 222.19,29.86 Z "
 				},
 				Polygon {
@@ -51,8 +60,8 @@ return Group {
 					strokeLineCap: StrokeLineCap.BUTT
 				},
 				Polyline {
-					fill: Color.rgb(0xff,0xea,0x9e)
-					stroke: Color.rgb(0x68,0x4d,0x9a)
+					fill: bind windowColorScheme.thirdColorLight
+					stroke: bind windowColorScheme.mainColor
 					strokeWidth: 0.19
 					strokeLineCap: StrokeLineCap.BUTT
 					points: [231.51,54.08]
