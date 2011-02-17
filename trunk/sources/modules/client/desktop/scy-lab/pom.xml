@@ -137,6 +137,12 @@
 			<artifactId>fx-youtuber</artifactId>
 			<version>${parent.version}</version>
 		</dependency>
+                <dependency>
+                        <groupId>org.hibernate</groupId>
+                        <artifactId>hibernate-core</artifactId>
+                        <version>3.5.4-Final</version>
+                        <scope>compile</scope>
+                </dependency>
 	</dependencies>
 	<build>
 		<plugins>
