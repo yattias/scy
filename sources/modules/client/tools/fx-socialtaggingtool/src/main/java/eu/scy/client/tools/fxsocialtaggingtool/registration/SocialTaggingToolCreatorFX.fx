@@ -14,7 +14,7 @@ public class SocialTaggingToolCreatorFX extends ScyToolCreatorFX {
 
    override public function createScyToolNode(eloType: String, creatorId: String, scyWindow: ScyWindow, windowContent: Boolean): Node {
       StringLocalizer.associate("languages.fxsocialtaggingtool", "eu.scy.client.tools.fxsocialtaggingtool");
-      scyWindow.desiredContentWidth = 310;
+      scyWindow.desiredContentWidth = 200;
       scyWindow.desiredContentHeight = 200;
       //var whiteboardPanel = new WhiteboardPanel();
       //DrawingNode {
