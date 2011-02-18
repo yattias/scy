@@ -23,7 +23,7 @@ public class EloIconDisplay extends CustomNode {
    public-init var eloIconFactory: EloIconFactory;
    public var eloIconName: String on replace { updateEloIcon(true) }
    public var windowColorScheme: WindowColorScheme on replace { updateEloIcon(false) };
-   public var eloIcon: EloIcon;
+   var eloIcon: EloIcon;
    def eloIconsMap = new HashMap();
 
    def eloIconGroup = Group{};
@@ -32,14 +32,11 @@ public class EloIconDisplay extends CustomNode {
    function updateEloIcon(eloIconNameChanged: Boolean): Void {
       if (needToUpdateEloIcon) {
          if (eloIconNameChanged) {
-//            eloIcon = eloIconFactory.createEloIcon(eloIconName);
             eloIcon = eloIconsMap.get(eloIconName) as EloIcon;
-//            delete eloIconGroup.content;
-//            eloIconGroup.content = eloIcon;
+            eloIconGroup.content = eloIcon;
             eloIconNameLabel.text = eloIconName;
          }
          eloIcon.windowColorScheme = windowColorScheme;
-         println("updateEloIcon({eloIconNameChanged}): eloIconName: {eloIconName}, eloIcon: {eloIcon} with wcs: {windowColorScheme.colorSchemeId}");
       }
    }
 
@@ -51,7 +48,6 @@ public class EloIconDisplay extends CustomNode {
    }
 
    public override function create(): Node {
-      println("creating EloIconDisplay");
       createEloIcons();
       needToUpdateEloIcon = true;
       updateEloIcon(true);
@@ -59,12 +55,6 @@ public class EloIconDisplay extends CustomNode {
          content: [
             eloIconGroup,
             eloIconNameLabel
-//            Group {
-//               content: bind eloIcon
-//            }
-//            Label {
-//               text: eloIconName
-//            }
          ]
       }
    }

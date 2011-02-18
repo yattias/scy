@@ -161,6 +161,23 @@ public class CombinedWindowElements extends ScyWindow {
       windowTitleBar.eloIcon = eloIcon.clone();
    }
 
+   public override function copyWindowColorSchemeColors(newColors: WindowColorScheme):Void {
+      topDrawer.windowColorScheme.assign(windowColorScheme);
+//      for (drawer in leftDrawers) {
+//         drawer.windowColorScheme.assign(windowColorScheme);
+//      }
+      rightDrawer.windowColorScheme.assign(windowColorScheme);
+      bottomDrawer.windowColorScheme.assign(windowColorScheme);
+      eloIcon.windowColorScheme.assign(windowColorScheme);
+      emptyWindow.windowColorScheme.assign(windowColorScheme);
+      contentElement.windowColorScheme.assign(windowColorScheme);
+      windowStateControls.windowColorScheme.assign(windowColorScheme);
+      windowTitleBar.windowColorScheme.assign(windowColorScheme);
+//      titleBarBuddies.windowColorScheme.assign(windowColorScheme);
+      resizeElement.windowColorScheme.assign(windowColorScheme);
+      rotateElement.windowColorScheme.assign(windowColorScheme);
+      closedWindow.windowColorScheme.assign(windowColorScheme);
+   }
 
    function setTopDrawer() {
       if (drawerGroup == null) {

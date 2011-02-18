@@ -57,10 +57,9 @@ public class StandardScyWindow extends ScyWindow {
    public override var title = "???";
    public override var eloType = "?123";
    public override var eloUri on replace oldEloUri {
-      missionModelFX.eloUriChanged(oldEloUri, eloUri);
-      titleBarBuddies.buddiesChanged();
-   };
-   public override var windowColorScheme on replace { windowColorSchemeChanged() }
+         missionModelFX.eloUriChanged(oldEloUri, eloUri);
+         titleBarBuddies.buddiesChanged();
+      };
    public override var width = 150 on replace oldWidth {
          //      println("before width from {oldWidth} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
          if (not isAnimating) {
@@ -82,7 +81,6 @@ public class StandardScyWindow extends ScyWindow {
       //      println("after height from {oldHeight} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
       };
    public override var widthHeightProportion = -1.0;
-
    public override var scyContent on replace {
          scyContentChanged();
       };
@@ -306,7 +304,7 @@ public class StandardScyWindow extends ScyWindow {
 
    }
 
-   function eloIconChanged():Void{
+   function eloIconChanged(): Void {
       closedWindow.eloIcon = eloIcon.clone();
       windowTitleBar.eloIcon = eloIcon;
    }
@@ -320,10 +318,10 @@ public class StandardScyWindow extends ScyWindow {
 
    public override function openBoundWindow(openWidth: Number, openHeight: Number): Void {
       if (isClosed) {
-          closedPosition = Point2D {
-             x: layoutX;
-             y: layoutY;
-          }
+         closedPosition = Point2D {
+               x: layoutX;
+               y: layoutY;
+            }
       }
       checkScyContent();
       var useSize = limitSize(openWidth, openHeight);
@@ -331,7 +329,7 @@ public class StandardScyWindow extends ScyWindow {
       cacheHint = CacheHint.SCALE_AND_ROTATE;
       isAnimating = true;
       var openTimeline = Timeline {
-          keyFrames: [
+            keyFrames: [
                KeyFrame {
                   canSkip: false;
                   time: animationDuration;
@@ -340,81 +338,81 @@ public class StandardScyWindow extends ScyWindow {
                      height => useSize.y tween Interpolator.EASEOUT,
                   ]
                   action: function() {
-                      isClosed = false;
-                      scyToolsList.onOpened();
-                      updateRelativeBounds();
-                      cache = false;
-                      cacheHint = CacheHint.DEFAULT;
-                      isAnimating = false;
-                      finishedOpeningWindow();
+                     isClosed = false;
+                     scyToolsList.onOpened();
+                     updateRelativeBounds();
+                     cache = false;
+                     cacheHint = CacheHint.DEFAULT;
+                     isAnimating = false;
+                     finishedOpeningWindow();
                   }
                }
-           ]
-       };
-       openTimeline.play();
-    }
+            ]
+         };
+      openTimeline.play();
+   }
 
-    public var finishedOpeningWindow: function(): Void;
+   public var finishedOpeningWindow: function(): Void;
 
-    public override function openWindow(openWidth: Number, openHeight: Number): Void {
-        openWindow(layoutX, layoutY, openWidth, openHeight);
-    }
-    public override function openWindow(posX: Number, posY: Number, openWidth: Number, openHeight: Number): Void {
-        openWindow(posX, posY, openWidth, openHeight, rotate);
-    }
+   public override function openWindow(openWidth: Number, openHeight: Number): Void {
+      openWindow(layoutX, layoutY, openWidth, openHeight);
+   }
 
-    public override function openWindow(posX: Number, posY: Number, openWidth: Number, openHeight: Number, rotation: Number): Void {
-        openWindow(posX, posY, openWidth, openHeight, rotate, false)
-    }
+   public override function openWindow(posX: Number, posY: Number, openWidth: Number, openHeight: Number): Void {
+      openWindow(posX, posY, openWidth, openHeight, rotate);
+   }
 
-    public override function openWindow(posX: Number, posY: Number, openWidth: Number, openHeight: Number, rotation: Number, hideDrawersAfterOpenning: Boolean): Void {
+   public override function openWindow(posX: Number, posY: Number, openWidth: Number, openHeight: Number, rotation: Number): Void {
+      openWindow(posX, posY, openWidth, openHeight, rotate, false)
+   }
+
+   public override function openWindow(posX: Number, posY: Number, openWidth: Number, openHeight: Number, rotation: Number, hideDrawersAfterOpenning: Boolean): Void {
       if (isClosed) {
-          closedPosition = Point2D {
-             x: layoutX;
-             y: layoutY;
-          }
-          logger.info("Stored closed position of window {title} to {closedPosition.x} x {closedPosition.y}");
+         closedPosition = Point2D {
+               x: layoutX;
+               y: layoutY;
+            }
+         logger.info("Stored closed position of window {title} to {closedPosition.x} x {closedPosition.y}");
       }
       ProgressOverlay.startShowWorking();
       XFX.runActionInBackgroundAndCallBack(checkScyContent, function(result) {
-              ProgressOverlay.stopShowWorking();
-              desiredWidth = openWidth;
-              desiredHeight = openHeight;
-              var useSize: Point2D = limitSize(openWidth, openHeight);
-              logger.info("Setting size of window {title} to {useSize.x} x {useSize.y}");
-              var useLocation: Point2D = limitLocation(posX, posY);
-              cache = true;
-              cacheHint = CacheHint.SCALE_AND_ROTATE;
-              isAnimating = true;
-              hideDrawers = isClosed ;
-              isClosed = false;
-              var openTimeline = Timeline {
-                  keyFrames: [
-                       KeyFrame {
-                          canSkip: false;
-                          time: animationDuration;
-                          values: [
-                             layoutX => useLocation.x tween Interpolator.EASEOUT,
-                             layoutY => useLocation.y tween Interpolator.EASEOUT,
-                             width => useSize.x tween Interpolator.EASEOUT,
-                             height => useSize.y tween Interpolator.EASEOUT,
-                             rotate => rotation tween Interpolator.EASEOUT
-                          ]
-                          action: function() {
-                              hideDrawers = hideDrawersAfterOpenning;
-                              scyToolsList.onOpened();
-                              updateRelativeBounds();
-                              cache = false;
-                              cacheHint = CacheHint.DEFAULT;
-                              isAnimating = false;
-                              finishedOpeningWindow();
-                          }
-                       }
-                   ]
-               };
-               openTimeline.play();
-          }
-      );
+         ProgressOverlay.stopShowWorking();
+         desiredWidth = openWidth;
+         desiredHeight = openHeight;
+         var useSize: Point2D = limitSize(openWidth, openHeight);
+         logger.info("Setting size of window {title} to {useSize.x} x {useSize.y}");
+         var useLocation: Point2D = limitLocation(posX, posY);
+         cache = true;
+         cacheHint = CacheHint.SCALE_AND_ROTATE;
+         isAnimating = true;
+         hideDrawers = isClosed;
+         isClosed = false;
+         var openTimeline = Timeline {
+               keyFrames: [
+                  KeyFrame {
+                     canSkip: false;
+                     time: animationDuration;
+                     values: [
+                        layoutX => useLocation.x tween Interpolator.EASEOUT,
+                        layoutY => useLocation.y tween Interpolator.EASEOUT,
+                        width => useSize.x tween Interpolator.EASEOUT,
+                        height => useSize.y tween Interpolator.EASEOUT,
+                        rotate => rotation tween Interpolator.EASEOUT
+                     ]
+                     action: function() {
+                        hideDrawers = hideDrawersAfterOpenning;
+                        scyToolsList.onOpened();
+                        updateRelativeBounds();
+                        cache = false;
+                        cacheHint = CacheHint.DEFAULT;
+                        isAnimating = false;
+                        finishedOpeningWindow();
+                     }
+                  }
+               ]
+            };
+         openTimeline.play();
+      });
    }
 
    /**
@@ -422,16 +420,16 @@ public class StandardScyWindow extends ScyWindow {
     *  than the window size, i.e., prevents a location outside the visible area
     */
    function limitLocation(posX: Number, posY: Number): Point2D {
-       var newX = Math.max(0, posX);
-       newX = Math.min(newX, scene.width - 10);
+      var newX = Math.max(0, posX);
+      newX = Math.min(newX, scene.width - 10);
 
-       var newY = Math.max(0, posY);
-       newY = Math.min(newY, scene.height - 10);
+      var newY = Math.max(0, posY);
+      newY = Math.min(newY, scene.height - 10);
 
-       return Point2D{
-           x: newX
-           y: newY
-       }
+      return Point2D {
+            x: newX
+            y: newY
+         }
    }
 
    function checkScyContent() {
@@ -474,14 +472,13 @@ public class StandardScyWindow extends ScyWindow {
       doClose();
    }
 
-  //update relative values
+   //update relative values
    function updateRelativeBounds(): Void {
       relativeLayoutCenterX = (layoutX + (width / 2)) / scene.width as Number;
       relativeLayoutCenterY = (layoutY + (height / 2)) / scene.height as Number;
       relativeWidth = width / scene.width as Number;
       relativeHeight = height / scene.height as Number;
    }
-
 
    function startDragging(e: MouseEvent): Void {
       for (wcl in changesListeners) {
@@ -509,15 +506,15 @@ public class StandardScyWindow extends ScyWindow {
       }
 
       if (hasBeenDragged) {
-          // if window is being dragged after being centered, it loses the centered status
-          isCentered = false;
-          // now after dragging we update the relative bounds for relative repositioning
-          updateRelativeBounds();
-          // re-rotate centered windows after this window is draged out/away
-          reorganizeOtherMainWindows();
-          hasBeenDragged = false;
+         // if window is being dragged after being centered, it loses the centered status
+         isCentered = false;
+         // now after dragging we update the relative bounds for relative repositioning
+         updateRelativeBounds();
+         // re-rotate centered windows after this window is draged out/away
+         reorganizeOtherMainWindows();
+         hasBeenDragged = false;
       }
-      
+
       MouseBlocker.stopMouseBlocking();
       beingDragged = false;
    }
@@ -540,7 +537,7 @@ public class StandardScyWindow extends ScyWindow {
       hasBeenDragged = true;
    }
 
-   function doResize(e: MouseEvent):Void {
+   function doResize(e: MouseEvent): Void {
       printMousePos("resize", e);
       if (isClosed) {
          isClosed = false;
@@ -597,57 +594,57 @@ public class StandardScyWindow extends ScyWindow {
    }
 
    function doMaximize(): Void {
-       // TODO: needs to call window positioning code
-        isMaximized = true;
-        openWindow(5, 5, scene.width - 10, scene.height - 10, 0, true);
-        windowManager.fullscreenWindow = this;
-        allowDragging = false;
-        allowResize = false;
-        allowRotate = false;
-        isCentered = false;
+      // TODO: needs to call window positioning code
+      isMaximized = true;
+      openWindow(5, 5, scene.width - 10, scene.height - 10, 0, true);
+      windowManager.fullscreenWindow = this;
+      allowDragging = false;
+      allowResize = false;
+      allowRotate = false;
+      isCentered = false;
    }
 
    function resetMaximizedState(): Void {
-        windowManager.fullscreenWindow = null;
-        hideDrawers = true;
-        allowDragging = true;
-        allowResize = true;
-        allowRotate = true;
-        isMaximized = false;
-    }
-
-   function handleDoubleClick(e: MouseEvent): Void {
-       if (isMaximized) {
-          resetMaximizedState();
-       }
-       windowControl.makeMainScyWindow(this);
+      windowManager.fullscreenWindow = null;
+      hideDrawers = true;
+      allowDragging = true;
+      allowResize = true;
+      allowRotate = true;
+      isMaximized = false;
    }
 
-   function centerAction():Void {
+   function handleDoubleClick(e: MouseEvent): Void {
       if (isMaximized) {
-          resetMaximizedState();
+         resetMaximizedState();
+      }
+      windowControl.makeMainScyWindow(this);
+   }
+
+   function centerAction(): Void {
+      if (isMaximized) {
+         resetMaximizedState();
       }
       windowControl.makeMainScyWindow(eloUri);
    }
 
-   function doRotateNormal(): Void{
-       cache = true;
-       cacheHint = CacheHint.ROTATE;
-       Timeline {
-           keyFrames: [
-               KeyFrame {
-                   time: 300ms
-                   values: [rotate => 0.0 tween Interpolator.EASEOUT]
-                   action: function() {
-                       cache = false;
-                       cacheHint = CacheHint.DEFAULT;
-                       if (isCentered) {
-                           reorganizeOtherMainWindows();
-                       }
-                   }
+   function doRotateNormal(): Void {
+      cache = true;
+      cacheHint = CacheHint.ROTATE;
+      Timeline {
+         keyFrames: [
+            KeyFrame {
+               time: 300ms
+               values: [rotate => 0.0 tween Interpolator.EASEOUT]
+               action: function() {
+                  cache = false;
+                  cacheHint = CacheHint.DEFAULT;
+                  if (isCentered) {
+                     reorganizeOtherMainWindows();
+                  }
                }
-           ]
-       }.playFromStart();
+            }
+         ]
+      }.playFromStart();
    }
 
    function getScyContent(scyCont: Node): Node {
@@ -668,24 +665,23 @@ public class StandardScyWindow extends ScyWindow {
       }
    }
 
-   function windowColorSchemeChanged():Void{
-      topDrawer.windowColorScheme = windowColorScheme;
-      for (drawer in leftDrawers){
-         drawer.windowColorScheme = windowColorScheme;
+   public override function copyWindowColorSchemeColors(newColors: WindowColorScheme):Void {
+      topDrawer.windowColorScheme.assign(windowColorScheme);
+      for (drawer in leftDrawers) {
+         drawer.windowColorScheme.assign(windowColorScheme);
       }
-      rightDrawer.windowColorScheme = windowColorScheme;
-      bottomDrawer.windowColorScheme = windowColorScheme;
-      eloIcon.windowColorScheme = windowColorScheme;
-      emptyWindow.windowColorScheme = windowColorScheme;
-      contentElement.windowColorScheme = windowColorScheme;
-      windowStateControls.windowColorScheme = windowColorScheme;
-      windowTitleBar.windowColorScheme = windowColorScheme;
-      titleBarBuddies.windowColorScheme = windowColorScheme;
-      resizeElement.windowColorScheme = windowColorScheme;
-      rotateElement.windowColorScheme = windowColorScheme;
-      closedWindow.windowColorScheme = windowColorScheme;
+      rightDrawer.windowColorScheme.assign(windowColorScheme);
+      bottomDrawer.windowColorScheme.assign(windowColorScheme);
+      eloIcon.windowColorScheme.assign(windowColorScheme);
+      emptyWindow.windowColorScheme.assign(windowColorScheme);
+      contentElement.windowColorScheme.assign(windowColorScheme);
+      windowStateControls.windowColorScheme.assign(windowColorScheme);
+      windowTitleBar.windowColorScheme.assign(windowColorScheme);
+      titleBarBuddies.windowColorScheme.assign(windowColorScheme);
+      resizeElement.windowColorScheme.assign(windowColorScheme);
+      rotateElement.windowColorScheme.assign(windowColorScheme);
+      closedWindow.windowColorScheme.assign(windowColorScheme);
    }
-
 
    function setTopDrawer() {
       if (drawerGroup == null) {
@@ -767,7 +763,7 @@ public class StandardScyWindow extends ScyWindow {
       }
       var newLeftDrawers: LeftDrawer[];
       for (drawerTool in leftDrawerTools) {
-         var drawer:LeftDrawer;
+         var drawer: LeftDrawer;
          def previousIndex = Sequences.indexOf(oldDrawerTools, drawerTool);
          if (previousIndex >= 0) {
             // tool was already there
@@ -776,7 +772,7 @@ public class StandardScyWindow extends ScyWindow {
          else {
             // new drawer tool
             drawer = LeftDrawer {
-//                  visible: bind scyElo.getAssignmentUri() != null
+                  //                  visible: bind scyElo.getAssignmentUri() != null
                   windowColorScheme: windowColorScheme
                   content: drawerTool;
                   handleNumber: indexof drawerTool
@@ -799,7 +795,7 @@ public class StandardScyWindow extends ScyWindow {
          }
       }
       leftDrawers = newLeftDrawers;
-      for (drawer in leftDrawers){
+      for (drawer in leftDrawers) {
          drawer.otherDrawers = leftDrawers;
       }
       scyToolsList.leftDrawerTools = leftDrawerTools;
@@ -813,7 +809,7 @@ public class StandardScyWindow extends ScyWindow {
       } else if ("bottom".equalsIgnoreCase(which)) {
          bottomDrawer.opened = true;
       } else if ("left".equalsIgnoreCase(which)) {
-//         leftDrawer.opened = true;
+      //         leftDrawer.opened = true;
       }
    }
 
@@ -858,24 +854,24 @@ public class StandardScyWindow extends ScyWindow {
             layoutY: contentTopOffset;
          }
 
-      windowStateControls = WindowStateControls{
-         windowColorScheme: windowColorScheme
-         enableRotateNormal:bind rotate!=0.0
-         enableMinimize: bind allowClose and not isClosed
-         enableCenter: bind allowCenter and not isCentered
-         enableMaximize: bind allowMaximize and not isMaximized
-         rotateNormalAction:doRotateNormal
-         minimizeAction:doClose
-         centerAction:centerAction
-         maximizeAction:doMaximize
-      }
+      windowStateControls = WindowStateControls {
+            windowColorScheme: windowColorScheme
+            enableRotateNormal: bind rotate != 0.0
+            enableMinimize: bind allowClose and not isClosed
+            enableCenter: bind allowCenter and not isCentered
+            enableMaximize: bind allowMaximize and not isMaximized
+            rotateNormalAction: doRotateNormal
+            minimizeAction: doClose
+            centerAction: centerAction
+            maximizeAction: doMaximize
+         }
 
-      titleBarBuddies = TitleBarBuddies{
-         tooltipManager:tooltipManager
-         windowColorScheme: windowColorScheme
-         window: this
-         buddyManager: buddyManager
-      }
+      titleBarBuddies = TitleBarBuddies {
+            tooltipManager: tooltipManager
+            windowColorScheme: windowColorScheme
+            window: this
+            buddyManager: buddyManager
+         }
 
       windowTitleBar = WindowTitleBarDouble {
             width: bind realWidth + borderWidth
@@ -887,7 +883,7 @@ public class StandardScyWindow extends ScyWindow {
             beingDragged: bind beingDragged
             startDragIcon: startDragIcon
             windowColorScheme: windowColorScheme
-            layoutX: -borderWidth/2;
+            layoutX: -borderWidth / 2;
             layoutY: 0;
          }
 
@@ -923,39 +919,38 @@ public class StandardScyWindow extends ScyWindow {
 //         width: 1000, height: 1000
 //         fill: Color.color(1,.25,.25,.75)
 //      }
+      def closedGroup = Group {
+            visible: bind isClosed
+            content: [
+               closedWindow = ClosedWindow {
+                     window: this
+                     windowColorScheme: windowColorScheme
+                     scyElo: bind scyElo
+                     startDragIcon: startDragIcon
+                     activated: bind activated
+                     activate: activate;
+                     title: bind title
+                  }
+            ]
+         }
 
-      def closedGroup = Group{
-         visible: bind isClosed
-         content:[
-            closedWindow = ClosedWindow{
-               window: this
-               windowColorScheme: windowColorScheme
-               scyElo: bind scyElo
-               startDragIcon: startDragIcon
-               activated: bind activated
-               activate: activate;
-               title: bind title
-            }
-         ]
-      }
+      def openGroup = Group {
+            visible: bind not isClosed
+            content: [
+               emptyWindow,
+               contentElement,
+               drawerGroup,
+               windowTitleBar,
+               resizeElement,
+               rotateElement,
 
-      def openGroup = Group{
-         visible: bind not isClosed
-         content:[
-                  emptyWindow,
-                  contentElement,
-                  drawerGroup,
-                  windowTitleBar,
-                  resizeElement,
-                  rotateElement,
-
-                  Group { // the scy window attributes
-                     layoutX: iconSize + 5
-                     layoutY: 19
-                     content: bind scyWindowAttributes,
-                  },
-         ]
-      }
+               Group { // the scy window attributes
+                  layoutX: iconSize + 5
+                  layoutY: 19
+                  content: bind scyWindowAttributes,
+               },
+            ]
+         }
 
       eloIconChanged();
 

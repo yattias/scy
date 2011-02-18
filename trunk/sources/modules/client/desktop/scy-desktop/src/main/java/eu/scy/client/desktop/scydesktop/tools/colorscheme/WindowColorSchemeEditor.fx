@@ -321,11 +321,23 @@ public class WindowColorSchemeEditor {
         value: "main"
     }
     
+    public-read def color: javafx.scene.paint.Color = javafx.scene.paint.Color {
+        opacity: 0.08627451
+    }
+    
+    public-read def rectangle: javafx.scene.shape.Rectangle = javafx.scene.shape.Rectangle {
+        layoutX: 468.0
+        layoutY: 335.0
+        fill: color
+        width: 10.0
+        height: 10.0
+    }
+    
     public-read def currentState: org.netbeans.javafx.design.DesignState = org.netbeans.javafx.design.DesignState {
     }
     
     public function getDesignRootNodes (): javafx.scene.Node[] {
-        [ label, eloIconListview, label2, colorSchemeListview, label3, mainColorRadioButton, mainColorLightRadioButton, secondColorRadioButton, thirdColorRadioButton, BackgroundColorRadioButton, secondColorLightRadioButton, thirdColorLightRadioButton, emptyBackgroundColorRadioButton, label4, label5, label6, label7, redSlider, redValue, greenSlider, greenValue, blueSlider, blueValue, alphaSlider, alphaValue, redDisplay, greenDisplay, blueDisplay, colorDisplay, alphaDisplay, mainDisplay, mainLightDisplay, secondDisplay, thirdDisplay, backgroundDisplay, secondLightDisplay, thirdLightDisplay, emptyBackgroundDisplay, ]
+        [ label, eloIconListview, label2, colorSchemeListview, label3, mainColorRadioButton, mainColorLightRadioButton, secondColorRadioButton, thirdColorRadioButton, BackgroundColorRadioButton, secondColorLightRadioButton, thirdColorLightRadioButton, emptyBackgroundColorRadioButton, label4, label5, label6, label7, redSlider, redValue, greenSlider, greenValue, blueSlider, blueValue, alphaSlider, alphaValue, redDisplay, greenDisplay, blueDisplay, colorDisplay, alphaDisplay, mainDisplay, mainLightDisplay, secondDisplay, thirdDisplay, backgroundDisplay, secondLightDisplay, thirdLightDisplay, emptyBackgroundDisplay, rectangle, ]
     }
     
     public function getDesignScene (): javafx.scene.Scene {

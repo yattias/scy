@@ -96,6 +96,8 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
         openWindow(minimumWidth, minimumHeight)
     }
 
+    public abstract function copyWindowColorSchemeColors(newColors: WindowColorScheme): Void;
+
     public abstract function close(): Void;
 
     public abstract function openBoundWindow(openWidth: Number, openHeight: Number): Void;
