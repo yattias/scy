@@ -12,7 +12,7 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
  */
 public class AssignmentIcon extends AbstractEloIcon {
 
-public function clone(): AssignmentIcon {
+public override function clone(): AssignmentIcon {
 AssignmentIcon {
 selected: selected
 size: size
@@ -20,7 +20,7 @@ windowColorScheme: windowColorScheme
 }
 }
 
-public function createNode(): Node {
+public override function createNode(): Node {
 
 return Group {
 

@@ -12,7 +12,7 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
  */
 public class Research_questionIcon extends AbstractEloIcon {
 
-public function clone(): Research_questionIcon {
+public override function clone(): Research_questionIcon {
 Research_questionIcon {
 selected: selected
 size: size
@@ -20,7 +20,7 @@ windowColorScheme: windowColorScheme
 }
 }
 
-public function createNode(): Node {
+public override function createNode(): Node {
 
 return Group {
 

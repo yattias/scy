@@ -12,7 +12,7 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
  */
 public class Dataset_processingIcon extends AbstractEloIcon {
 
-public function clone(): Dataset_processingIcon {
+public override function clone(): Dataset_processingIcon {
 Dataset_processingIcon {
 selected: selected
 size: size
@@ -20,7 +20,7 @@ windowColorScheme: windowColorScheme
 }
 }
 
-public function createNode(): Node {
+public override function createNode(): Node {
 
 return Group {
 

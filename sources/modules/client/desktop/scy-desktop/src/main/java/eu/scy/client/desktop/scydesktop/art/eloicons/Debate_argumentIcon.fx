@@ -12,7 +12,7 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
  */
 public class Debate_argumentIcon extends AbstractEloIcon {
 
-public function clone(): Debate_argumentIcon {
+public override function clone(): Debate_argumentIcon {
 Debate_argumentIcon {
 selected: selected
 size: size
@@ -20,7 +20,7 @@ windowColorScheme: windowColorScheme
 }
 }
 
-public function createNode(): Node {
+public override function createNode(): Node {
 
 return Group {
 

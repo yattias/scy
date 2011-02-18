@@ -12,7 +12,7 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
  */
 public class Exp_designIcon extends AbstractEloIcon {
 
-public function clone(): Exp_designIcon {
+public override function clone(): Exp_designIcon {
 Exp_designIcon {
 selected: selected
 size: size
@@ -20,7 +20,7 @@ windowColorScheme: windowColorScheme
 }
 }
 
-public function createNode(): Node {
+public override function createNode(): Node {
 
 return Group {
 
