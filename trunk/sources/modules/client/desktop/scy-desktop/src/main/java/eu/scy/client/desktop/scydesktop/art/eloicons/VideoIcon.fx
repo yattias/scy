@@ -12,7 +12,7 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
  */
 public class VideoIcon extends AbstractEloIcon {
 
-public function clone(): VideoIcon {
+public override function clone(): VideoIcon {
 VideoIcon {
 selected: selected
 size: size
@@ -20,7 +20,7 @@ windowColorScheme: windowColorScheme
 }
 }
 
-public function createNode(): Node {
+public override function createNode(): Node {
 
 return Group {
 

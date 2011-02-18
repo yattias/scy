@@ -12,7 +12,7 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
  */
 public class House2Icon extends AbstractEloIcon {
 
-public function clone(): House2Icon {
+public override function clone(): House2Icon {
 House2Icon {
 selected: selected
 size: size
@@ -20,7 +20,7 @@ windowColorScheme: windowColorScheme
 }
 }
 
-public function createNode(): Node {
+public override function createNode(): Node {
 
 return Group {
 

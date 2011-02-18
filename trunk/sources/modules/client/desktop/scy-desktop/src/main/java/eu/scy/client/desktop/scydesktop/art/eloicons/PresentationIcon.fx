@@ -12,7 +12,7 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
  */
 public class PresentationIcon extends AbstractEloIcon {
 
-public function clone(): PresentationIcon {
+public override function clone(): PresentationIcon {
 PresentationIcon {
 selected: selected
 size: size
@@ -20,7 +20,7 @@ windowColorScheme: windowColorScheme
 }
 }
 
-public function createNode(): Node {
+public override function createNode(): Node {
 
 return Group {
 

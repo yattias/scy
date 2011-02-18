@@ -7,14 +7,12 @@ import javafx.scene.shape.*;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Transform;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
 /**
  * @author lars
  */
 public class AnalyseIcon extends AbstractEloIcon {
 
-public function clone(): AnalyseIcon {
+public override function clone(): AnalyseIcon {
 AnalyseIcon {
 selected: selected
 size: size
@@ -22,7 +20,7 @@ windowColorScheme: windowColorScheme
 }
 }
 
-public function createNode(): Node {
+public override function createNode(): Node {
 
 return Group {
 

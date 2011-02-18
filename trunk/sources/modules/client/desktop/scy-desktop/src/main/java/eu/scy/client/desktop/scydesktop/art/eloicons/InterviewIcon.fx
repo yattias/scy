@@ -12,7 +12,7 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
  */
 public class InterviewIcon extends AbstractEloIcon {
 
-public function clone(): InterviewIcon {
+public override function clone(): InterviewIcon {
 InterviewIcon {
 selected: selected
 size: size
@@ -20,7 +20,7 @@ windowColorScheme: windowColorScheme
 }
 }
 
-public function createNode(): Node {
+public override function createNode(): Node {
 
 return Group {
 

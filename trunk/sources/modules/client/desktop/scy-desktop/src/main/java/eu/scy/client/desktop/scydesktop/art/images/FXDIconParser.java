@@ -206,7 +206,7 @@ public class FXDIconParser {
 	out.println(" */");
 	out.println("public class " + name + "Icon extends AbstractEloIcon {");
 	out.println();
-	out.println("public function clone(): " + name + "Icon {");
+	out.println("public override function clone(): " + name + "Icon {");
 	out.println(name + "Icon {");
 	out.println("selected: selected");
 	out.println("size: size");
@@ -214,7 +214,7 @@ public class FXDIconParser {
 	out.println("}");
 	out.println("}");
 	out.println();
-	out.println("public function createNode(): Node {");
+	out.println("public override function createNode(): Node {");
 	out.println();
 	out.println("return Group {");
 	out.println();

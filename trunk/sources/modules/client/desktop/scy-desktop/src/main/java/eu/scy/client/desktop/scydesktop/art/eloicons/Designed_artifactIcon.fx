@@ -12,7 +12,7 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
  */
 public class Designed_artifactIcon extends AbstractEloIcon {
 
-public function clone(): Designed_artifactIcon {
+public override function clone(): Designed_artifactIcon {
 Designed_artifactIcon {
 selected: selected
 size: size
@@ -20,7 +20,7 @@ windowColorScheme: windowColorScheme
 }
 }
 
-public function createNode(): Node {
+public override function createNode(): Node {
 
 return Group {
 

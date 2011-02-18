@@ -12,7 +12,7 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
  */
 public class Evaluation_reportIcon extends AbstractEloIcon {
 
-public function clone(): Evaluation_reportIcon {
+public override function clone(): Evaluation_reportIcon {
 Evaluation_reportIcon {
 selected: selected
 size: size
@@ -20,7 +20,7 @@ windowColorScheme: windowColorScheme
 }
 }
 
-public function createNode(): Node {
+public override function createNode(): Node {
 
 return Group {
 

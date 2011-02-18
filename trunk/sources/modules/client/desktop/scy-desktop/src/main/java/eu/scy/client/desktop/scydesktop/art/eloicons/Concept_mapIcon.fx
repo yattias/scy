@@ -12,7 +12,7 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
  */
 public class Concept_mapIcon extends AbstractEloIcon {
 
-public function clone(): Concept_mapIcon {
+public override function clone(): Concept_mapIcon {
 Concept_mapIcon {
 selected: selected
 size: size
@@ -20,7 +20,7 @@ windowColorScheme: windowColorScheme
 }
 }
 
-public function createNode(): Node {
+public override function createNode(): Node {
 
 return Group {
 
