@@ -16,7 +16,7 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 public class YouTuberContentCreator extends ScyToolCreatorFX {
 
-    public var toolBokerAPI:ToolBrokerAPI;
+    public var toolBrokerAPI:ToolBrokerAPI;
 
     init {
         println("youtuber content creator");
@@ -28,9 +28,9 @@ public class YouTuberContentCreator extends ScyToolCreatorFX {
         props.put("show.filetoolbar", "false");
         var ytNode:YouTuberNode = YouTuberNode{scyDesktop: scyWindow.windowManager.scyDesktop};
         var youTuberRepositoryWrapper:YouTuberRepositoryWrapper = new YouTuberRepositoryWrapper(ytNode);
-        youTuberRepositoryWrapper.setRepository(toolBokerAPI.getRepository());
-        youTuberRepositoryWrapper.setMetadataTypeManager(toolBokerAPI.getMetaDataTypeManager());
-        youTuberRepositoryWrapper.setEloFactory(toolBokerAPI.getELOFactory());
+        youTuberRepositoryWrapper.setRepository(toolBrokerAPI.getRepository());
+        youTuberRepositoryWrapper.setMetadataTypeManager(toolBrokerAPI.getMetaDataTypeManager());
+        youTuberRepositoryWrapper.setEloFactory(toolBrokerAPI.getELOFactory());
         youTuberRepositoryWrapper.setDocName(scyWindow.title);
         ytNode.setFormAuthorRepositoryWrapper(youTuberRepositoryWrapper);
         return ytNode;
