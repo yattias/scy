@@ -24,6 +24,7 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorSchemes;
 import eu.scy.common.mission.ColorSchemesElo;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import roolo.elo.api.IELO;
+import eu.scy.client.desktop.scydesktop.art.eloicons.EloIconFactory;
 
 /**
  * @author SikkenJ
@@ -40,20 +41,33 @@ public class ColorSchemeEditorNode extends CustomNode, ScyToolFX, EloSaverCallBa
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository: IRepository;
    public var window: ScyWindow;
+   public var eloIconFactory: EloIconFactory;
    def spacing = 5.0;
    var buttonBox: HBox;
    var eloUri: URI;
    var colorSchemesElo: ColorSchemesElo;
    def windowColorSchemeEditorNode = WindowColorSchemeEditorNode {
+         eloIconFactory: eloIconFactory
       }
    var technicalFormatKey: IMetadataKey;
+   def eloIconName = bind windowColorSchemeEditorNode.selectedEloIconNamne as String on replace { eloIconNameChanged() };
 
    public override function initialize(windowContent: Boolean): Void {
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       eloFactory = toolBrokerAPI.getELOFactory();
       metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
       repository = toolBrokerAPI.getRepository();
+      window.windowColorScheme = windowColorSchemeEditorNode.selectedWindowColorScheme;
    }
+
+   function eloIconNameChanged():Void{
+      if (eloIconName!=""){
+         def eloIcon = eloIconFactory.createEloIcon(eloIconName);
+         eloIcon.windowColorScheme = windowColorSchemeEditorNode.selectedWindowColorScheme;
+         window.eloIcon = eloIcon;
+      }
+   }
+
 
    public override function loadElo(uri: URI) {
       doLoadElo(uri);

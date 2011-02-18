@@ -60,6 +60,7 @@ public class StandardScyWindow extends ScyWindow {
       missionModelFX.eloUriChanged(oldEloUri, eloUri);
       titleBarBuddies.buddiesChanged();
    };
+   public override var windowColorScheme on replace { windowColorSchemeChanged() }
    public override var width = 150 on replace oldWidth {
          //      println("before width from {oldWidth} size: {width}*{height}, content: {contentWidth}*{contentHeight} of {eloUri}");
          if (not isAnimating) {
@@ -667,6 +668,25 @@ public class StandardScyWindow extends ScyWindow {
       }
    }
 
+   function windowColorSchemeChanged():Void{
+      topDrawer.windowColorScheme = windowColorScheme;
+      for (drawer in leftDrawers){
+         drawer.windowColorScheme = windowColorScheme;
+      }
+      rightDrawer.windowColorScheme = windowColorScheme;
+      bottomDrawer.windowColorScheme = windowColorScheme;
+      eloIcon.windowColorScheme = windowColorScheme;
+      emptyWindow.windowColorScheme = windowColorScheme;
+      contentElement.windowColorScheme = windowColorScheme;
+      windowStateControls.windowColorScheme = windowColorScheme;
+      windowTitleBar.windowColorScheme = windowColorScheme;
+      titleBarBuddies.windowColorScheme = windowColorScheme;
+      resizeElement.windowColorScheme = windowColorScheme;
+      rotateElement.windowColorScheme = windowColorScheme;
+      closedWindow.windowColorScheme = windowColorScheme;
+   }
+
+
    function setTopDrawer() {
       if (drawerGroup == null) {
          // initialisation not yet ready, a call from postinit will be done again
@@ -839,7 +859,7 @@ public class StandardScyWindow extends ScyWindow {
          }
 
       windowStateControls = WindowStateControls{
-         windowColorScheme:bind windowColorScheme
+         windowColorScheme: windowColorScheme
          enableRotateNormal:bind rotate!=0.0
          enableMinimize: bind allowClose and not isClosed
          enableCenter: bind allowCenter and not isCentered
@@ -852,7 +872,7 @@ public class StandardScyWindow extends ScyWindow {
 
       titleBarBuddies = TitleBarBuddies{
          tooltipManager:tooltipManager
-         windowColorScheme:bind windowColorScheme
+         windowColorScheme: windowColorScheme
          window: this
          buddyManager: buddyManager
       }
@@ -909,7 +929,7 @@ public class StandardScyWindow extends ScyWindow {
          content:[
             closedWindow = ClosedWindow{
                window: this
-               windowColorScheme: bind windowColorScheme
+               windowColorScheme: windowColorScheme
                scyElo: bind scyElo
                startDragIcon: startDragIcon
                activated: bind activated
