@@ -362,7 +362,7 @@
           <relations />
           <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b1lasexp.txt</targetDescriptionUri>
           <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_fitex_b1.html</assignmentUri>
-          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_experiment_b1.html.html</resourcesUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_experiment_b1.html</resourcesUri>
           <colorScheme />
         </intermediateAnchor>
       </intermediateAnchors>
