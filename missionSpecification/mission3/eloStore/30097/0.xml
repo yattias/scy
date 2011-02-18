@@ -1,0 +1,65 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-02-13T12:21:07.240+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1297596067240</dateCreated>
+        <dateLastModified>1297596067240</dateLastModified>
+      </customElements>
+      <format>scy/missionspecification</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentDesign</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30097/0/Healthy+Pizza.scymissionspecification</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">Healthy Pizza</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<missionSpeicification>
+  <missionMapModelEloUri>roolo://memory/30092/0/pizzaMission.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/30093/0/pizzaMission.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/30094/0/pizzaMission.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/30095/0/pizzaMission.runtimesettings</runtimeSettingsEloUri>
+  <agentModelsEloUri />
+  <pedagogicalPlanSettingsEloUri>roolo://memory/30096/0/pizzaMission.scy</pedagogicalPlanSettingsEloUri>
+  <missionDescriptionUri />
+</missionSpeicification>
+</content>
+<resources>
+</resources>
+</elo>

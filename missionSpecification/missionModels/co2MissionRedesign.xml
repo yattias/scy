@@ -16,7 +16,6 @@
          <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionMap">
             <property name="loEloUris">
                <list>
-                  <value>roolo://memory/37/0/Glossary.url</value>
                </list>
             </property>
             <property name="lasses">
@@ -70,10 +69,7 @@
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_expert/LAS_Instruction.html"/>
                      <property name="loEloUris">
                         <list>
-                           <value>roolo://memory/309/0/Becoming_an_expert.url</value>
-                           <value>roolo://memory/310/0/Browse_for_information.url</value>
-                           <value>roolo://memory/353/0/Websites_about_expert_domains.url</value>
-                        </list>
+                         </list>
                      </property>
                      <property name="nextLasses">
                         <list>
@@ -96,9 +92,7 @@
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/LAS_Instruction.html"/>
                      <property name="loEloUris">
                         <list>
-                           <value>roolo://memory/309/0/Becoming_an_expert.url</value>
-                           <value>roolo://memory/415/0/Data_from_the_energy_consumption_simulation.url</value>
-                        </list>
+                         </list>
                      </property>
                      <property name="nextLasses">
                         <list>
@@ -195,7 +189,6 @@
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_design/LAS_Instruction.html"/>
                      <property name="loEloUris">
                         <list>
-                           <value>roolo://memory/299/0/House_data.url</value>
                         </list>
                      </property>
                      <property name="nextLasses">
@@ -258,8 +251,6 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/414/0/Welcome_to_SCY-Lab_.url</value>
-                     <value>roolo://memory/413/0/Challenge_video.video</value>
                   </list>
                </property>
             </bean>
@@ -276,10 +267,6 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/300/0/My_concept_map_on_a_CO2_level.url</value>
-                     <value>roolo://memory/349/0/Texts_about_global_warming.url</value>
-                     <value>roolo://memory/348/0/Websites_about_global_warming.url</value>
-                     <value>roolo://memory/347/0/Videos_about_global_warming.url</value>
                   </list>
                </property>
             </bean>
@@ -296,10 +283,6 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/302/0/First_ideas_of_my_design_group.url</value>
-                     <value>roolo://memory/350/0/Texts_about_CO2-friendly_houses.url</value>
-                     <value>roolo://memory/351/0/Videos_about_CO2-friendly_houses.url</value>
-                     <value>roolo://memory/352/0/Websites_about_CO2-friendly_houses.url</value>
                   </list>
                </property>
             </bean>
@@ -316,7 +299,6 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/304/0/Research_questions_of_my_expert_group.url</value>
                   </list>
                </property>
             </bean>
@@ -332,7 +314,6 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/306/0/Hypotheses_of_my_expert_group.url</value>
                   </list>
                </property>
             </bean>
@@ -349,7 +330,6 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/308/0/Experimental_procedure.url</value>
                   </list>
                </property>
             </bean>
@@ -365,7 +345,6 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/417/0/Data_from_the_thermal_simulation.url</value>
                   </list>
                </property>
             </bean>
@@ -381,7 +360,6 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/416/0/Data_from_the_converter.url</value>
                   </list>
                </property>
             </bean>
@@ -409,7 +387,6 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/313/0/Data_from_real_experiments.url</value>
                   </list>
                </property>
             </bean>
@@ -425,7 +402,6 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/315/0/Conclusion_of_expert_experiments.url</value>
                   </list>
                </property>
             </bean>
@@ -443,7 +419,6 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/317/0/Expert_concept_map.url</value>
                   </list>
                </property>
             </bean>
@@ -460,7 +435,6 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/319/0/Expert_presentation.url</value>
                   </list>
                </property>
             </bean>
@@ -478,7 +452,6 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/321/0/Inventory_of_expert_solutions.url</value>
                   </list>
                </property>
             </bean>
@@ -494,7 +467,6 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/323/0/House_choices.url</value>
                   </list>
                </property>
             </bean>
@@ -511,7 +483,6 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/356/0/Thermal_simulation_manual.url</value>
                   </list>
                </property>
             </bean>
@@ -528,7 +499,6 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/355/0/Manual_for_converter.url</value>
                   </list>
                </property>
             </bean>
@@ -558,7 +528,6 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/342/0/House_drawings.url</value>
                   </list>
                </property>
             </bean>
@@ -580,7 +549,6 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/344/0/Presentation_of_house_design.url</value>
                   </list>
                </property>
             </bean>
@@ -596,7 +564,6 @@
                </property>
                <property name="loEloUris">
                   <list>
-                     <value>roolo://memory/346/0/Individual_report.url</value>
                   </list>
                </property>
             </bean>
