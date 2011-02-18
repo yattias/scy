@@ -45,11 +45,34 @@
 <content languageIndependent="true" contentType="xml">
 <missionModel>
   <missionMapBackgroundImageUri>http://www.scy-lab.eu/content/en/mission2/ecoBackground.fxz</missionMapBackgroundImageUri>
-  <activeLas>conceptualisatsionConceptMap</activeLas>
+  <activeLas>startPage</activeLas>
   <loElos>
     <eloUri>roolo://memory/20006/0/Glossary.url</eloUri>
   </loElos>
   <lasses>
+    <las>
+      <id>startPage</id>
+      <xPos>-20.0</xPos>
+      <yPos>-70.0</yPos>
+      <toolTip>Challenge</toolTip>
+      <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_challenge.html</instructionUri>
+      <lasType>ORIENTATION</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/20094/0/challenge_eco.url</eloUri>
+        <iconType>scy/url</iconType>
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/challenge.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission2/challenge_eco.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission2/glossary_eco.html</resourcesUri>
+        <colorScheme />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses />
+    </las>
     <las>
       <id>conceptualisatsionConceptMap</id>
       <xPos>-40.0</xPos>
