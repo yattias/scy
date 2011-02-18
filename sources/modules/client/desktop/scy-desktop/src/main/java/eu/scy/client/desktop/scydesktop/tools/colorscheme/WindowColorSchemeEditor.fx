@@ -15,16 +15,16 @@ public class WindowColorSchemeEditor {
     public-read def label: javafx.scene.control.Label = javafx.scene.control.Label {
         layoutX: 13.0
         layoutY: 12.0
-        text: "Elo Icon"
+        text: "Elo Icons"
     }
     
     def __layoutInfo_eloIconListview: javafx.scene.layout.LayoutInfo = javafx.scene.layout.LayoutInfo {
         width: 379.0
-        height: 70.0
+        height: 82.0
     }
     public-read def eloIconListview: javafx.scene.control.ListView = javafx.scene.control.ListView {
         layoutX: 89.0
-        layoutY: 6.0
+        layoutY: 0.0
         layoutInfo: __layoutInfo_eloIconListview
         items: [ "Item 1", "Item 2", "Item 3", ]
         vertical: false

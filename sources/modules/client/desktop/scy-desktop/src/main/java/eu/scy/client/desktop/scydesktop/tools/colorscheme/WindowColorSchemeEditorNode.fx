@@ -24,7 +24,7 @@ public class WindowColorSchemeEditorNode extends CustomNode {
 
    def windowColorSchemeEditor = WindowColorSchemeEditor {
       }
-   public var windowColorSchemes = WindowColorSchemes.getStandardWindowColorSchemes() on replace {windowColorSchemesChanged()};
+   public var windowColorSchemes = WindowColorSchemes.getStandardWindowColorSchemes() on replace { windowColorSchemesChanged() };
    public var eloIconFactory: EloIconFactory;
    public def selectedEloIconNamne = bind windowColorSchemeEditor.eloIconListview.selectedItem;
    public def selectedWindowColorScheme = bind windowColorSchemeEditor.colorSchemeListview.selectedItem as WindowColorScheme on replace { selectedWindowColorSchemeChanged() };
@@ -50,11 +50,11 @@ public class WindowColorSchemeEditorNode extends CustomNode {
       }
    }
 
-   function selectDefaults():Void{
-      if (selectedWindowColorScheme==null){
+   function selectDefaults(): Void {
+      if (selectedWindowColorScheme == null) {
          windowColorSchemeEditor.colorSchemeListview.select(0);
       }
-      if (selectedColorPart==null){
+      if (selectedColorPart == null) {
          windowColorSchemeEditor.mainColorRadioButton.selected = true;
       }
    }
@@ -64,14 +64,14 @@ public class WindowColorSchemeEditorNode extends CustomNode {
       windowColorSchemeEditor.colorSchemeListview.cellFactory = windowColorSchemeCellFactory;
       windowColorSchemeEditor.eloIconListview.items = eloIconFactory.getNames();
       windowColorSchemeEditor.eloIconListview.cellFactory = eloIconCellFactory;
-      for (eloIconName in eloIconFactory.getNames()){
-         def eloIcondisplay = EloIconDisplay{
-               eloIconFactory: eloIconFactory
-               eloIconName: eloIconName
-               windowColorScheme: bind selectedWindowColorScheme
-         }
-         eloIconDisplayMap.put(eloIconName,eloIcondisplay);
-      }
+   //      for (eloIconName in eloIconFactory.getNames()){
+   //         def eloIcondisplay = EloIconDisplay{
+   //               eloIconFactory: eloIconFactory
+   //               eloIconName: eloIconName
+   //               windowColorScheme: bind selectedWindowColorScheme
+   //         }
+   //         eloIconDisplayMap.put(eloIconName,eloIcondisplay);
+   //      }
    }
 
    public function windowColorSchemeCellFactory(): ListCell {
@@ -83,17 +83,27 @@ public class WindowColorSchemeEditorNode extends CustomNode {
          }
    }
 
-   public function eloIconCellFactory(): ListCell {
+   public function eloIconCellFactory2(): ListCell {
       var listCell: ListCell;
       listCell = ListCell {
             node: bind eloIconDisplayMap.get(listCell.item as String) as Node
          }
    }
 
-   function windowColorSchemesChanged(){
-      setupWindowColorSchemeEditor();
+   public function eloIconCellFactory(): ListCell {
+      var listCell: ListCell;
+      listCell = ListCell {
+            node: EloIconDisplay {
+               eloIconFactory: eloIconFactory
+               eloIconName: bind listCell.item as String
+               windowColorScheme: bind selectedWindowColorScheme
+            }
+         }
    }
 
+   function windowColorSchemesChanged() {
+      setupWindowColorSchemeEditor();
+   }
 
    function selectedColorChanged() {
       selectedColor = Color.rgb(redValue, greenValue, blueValue, alphaValue / 255.0);

@@ -126,11 +126,14 @@ public class FXDIconParser {
 	    out.println("");
 	    out.println("import eu.scy.client.desktop.scydesktop.art.javafx.LogoEloIcon;");
 	    out.println("import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;");
+       out.println("import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;");
+       out.println("import eu.scy.client.desktop.scydesktop.art.ScyColors;");
 	    out.println("/**");
 	    out.println("* @author lars");
 	    out.println("*/");
 	    out.println();
 	    out.println("public class EloIconFactory {");
+       out.println(" def windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);");
 	    out.println();
 
 	    out.print("def names = [");
@@ -152,7 +155,7 @@ public class FXDIconParser {
 	    out.println("return null;");
 	    for (String name : names) {
 		out.println("} else if (name.equalsIgnoreCase(\"" + name + "\")) {");
-		out.println("return new " + name + "Icon();");
+		out.println("return " + name + "Icon{windowColorScheme:windowColorScheme};");
 	    }
 	    out.println("} else {");
 	    out.println("return new LogoEloIcon();");
@@ -183,7 +186,7 @@ public class FXDIconParser {
 		    out.println(s);
 		}
 	    }
-	    writeFooter(out);
+	    writeFooter(out,name);
 	    out.close();
 	    System.out.println("*** " + name + " finished. ***");
 	} catch (IOException e) {
@@ -194,7 +197,9 @@ public class FXDIconParser {
     private void writeHeader(PrintWriter out, String name) {
 	out.println("package eu.scy.client.desktop.scydesktop.art.eloicons;");
 	out.println();
-	out.println("import javafx.scene.CustomNode;");
+	out.println("import javafx.scene.Scene;");
+	out.println("import javafx.stage.Stage;");
+	out.println("import eu.scy.client.desktop.scydesktop.art.ScyColors;");
 	out.println("import javafx.scene.Node;");
 	out.println("import javafx.scene.Group;");
 	out.println("import javafx.scene.shape.*;");
@@ -220,10 +225,37 @@ public class FXDIconParser {
 	out.println();
     }
 
-    private void writeFooter(PrintWriter out) {
+    private void writeFooter(PrintWriter out, String name) {
 	out.println("]");
 	out.println("}");
 	out.println("}");
 	out.println("}");
-    }
-}
+	out.println("function run(){");
+	out.println("   def windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);");
+	out.println("   Stage {");
+	out.println("	title: 'MyApp'");
+	out.println("	onClose: function () {  }");
+	out.println("	scene: Scene {");
+	out.println("		width: 200");
+	out.println("		height: 200");
+	out.println("      fill: Color.YELLOW");
+	out.println("		content: [");
+	out.println("         " + name + "Icon{");
+	out.println("            windowColorScheme: windowColorScheme");
+ 	out.println("           layoutX: 25");
+	out.println("            layoutY: 25");
+	out.println("         }");
+	out.println("         " + name + "Icon{");
+	out.println("            windowColorScheme: windowColorScheme");
+	out.println("            layoutX: 75");
+	out.println("            layoutY: 25");
+	out.println("            selected: true");
+	out.println("         }");
+
+	out.println("      ]");
+	out.println("	}");
+	out.println("}");
+	out.println("}");
+	    }
+	}
+
