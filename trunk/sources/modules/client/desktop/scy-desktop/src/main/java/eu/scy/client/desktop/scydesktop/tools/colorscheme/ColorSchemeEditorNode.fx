@@ -64,6 +64,7 @@ public class ColorSchemeEditorNode extends CustomNode, ScyToolFX, EloSaverCallBa
       if (eloIconName!=""){
          def eloIcon = eloIconFactory.createEloIcon(eloIconName);
          eloIcon.windowColorScheme = windowColorSchemeEditorNode.selectedWindowColorScheme;
+         eloIcon.selected = true;
          window.eloIcon = eloIcon;
       }
    }
