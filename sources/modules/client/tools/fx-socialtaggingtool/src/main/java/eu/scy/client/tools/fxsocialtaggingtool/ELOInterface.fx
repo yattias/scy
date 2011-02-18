@@ -40,19 +40,22 @@ public class ELOInterface {
     }
 
     function addTag(elo: IELO, tag: Tag): Tag {
+        // TODO: inspect existing tags and update by calling setTag
         return tag;
     }
 
-    function removeTag(elo: IELO, tag: Tag): Tag {
-        // TODO connect to ELO
+    function removeTag(elo: IELO, tag: Tag): Tag {   
+        // TODO: inspect existing tags and update by calling setTag
         return tag;
     }
 
     public function addVoteForTag(elo: IELO, tag: Tag, user): Tag {
+        // TODO: inspect existing tags and update by calling setTag
         return tag;
     }
 
     public function removeVoteForTag(elo: IELO, tag: Tag): Tag {
+        // TODO: inspect existing tags and update by calling setTag
         return tag;
     }
 
