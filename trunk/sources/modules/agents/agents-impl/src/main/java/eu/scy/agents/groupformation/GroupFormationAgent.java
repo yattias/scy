@@ -10,6 +10,7 @@ import java.rmi.dgc.VMID;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -71,6 +72,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
+		missionGroupsCache = new HashMap<String, GroupFormationCache>();
 	}
 
 	/* activated by action log */
