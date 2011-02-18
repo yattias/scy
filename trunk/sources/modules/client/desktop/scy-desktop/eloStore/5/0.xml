@@ -56,6 +56,7 @@
   <id>testMap</id>
   <name>test mission</name>
 -->
+  <missionMapBackgroundImageUri>http://www.scy-lab.eu/content/en/mission2/ecoBackground.fxz</missionMapBackgroundImageUri>
   <activeLas>las1</activeLas>
   <loElos>
     <eloUri>roolo://memory/2/0/help_elo_1.text</eloUri>
