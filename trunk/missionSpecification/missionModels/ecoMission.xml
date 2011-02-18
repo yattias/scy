@@ -15,7 +15,7 @@
       <property name="basicMissionMap">
          <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionMap">
             <property name="missionMapBackgroundImageUri" value="http://www.scy-lab.eu/content/en/mission2/ecoBackground.fxz"/>
-            <property name="initialLasId" value="conceptualisatsionConceptMap"/>
+            <property name="initialLasId" value="startPage"/>
             <property name="loEloUris">
                <list>
                   <value>roolo://memory/20006/0/Glossary.url</value>
@@ -23,6 +23,26 @@
             </property>
             <property name="lasses">
                <list>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="startPage"/>
+                     <property name="xPosition" value="-20"/>
+                     <property name="yPosition" value="-70"/>
+                     <property name="tooltip" value="Challenge"/>
+                     <property name="lasType" value="ORIENTATION"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_challenge.html"/>
+                     <property name="loEloUris">
+                        <list>
+						   <value>roolo://memory/20114/0/welcome.url</value>
+                        </list>
+                     </property>
+                     <property name="nextLasses">
+                        <list />
+                     </property>
+                     <property name="anchorEloId" value="challengeEco"/>
+                     <property name="intermediateEloIds">
+                        <list />
+                     </property>
+                  </bean>			   
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="conceptualisatsionConceptMap"/>
                      <property name="xPosition" value="40"/>
@@ -314,6 +334,20 @@
       <property name="basicMissionAnchors">
          <list>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="challengeEco"/>
+               <property name="uri" value="roolo://memory/20094/0/challenge_eco.url"/>
+               <property name="iconType" value="scy/url"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/challenge.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/challenge_eco.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/glossary_eco.html"/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>            
+			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="videoReport"/>
                <property name="uri" value="roolo://memory/20159/0/YouTube+video+link.scyyoutuber"/>
                <property name="iconType" value="ard/presentation"/>
