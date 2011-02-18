@@ -289,6 +289,23 @@
     <eloLogicalRoles />
     <eloFunctionalRoles />
   </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/colorschemes</eloType>
+    <eloSystemRole>SYSTEM</eloSystemRole>
+    <contentCreatorId>colorSchemes</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
+    <leftDrawerCreatorId>scyToolViewer</leftDrawerCreatorId>
+    <isContentCollaboration>false</isContentCollaboration>
+    <isTopDrawerCollaboration>false</isTopDrawerCollaboration>
+    <isRightDrawerCollaboration>false</isRightDrawerCollaboration>
+    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
+    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
+    <isContentStatic>false</isContentStatic>
+    <eloLogicalRoles />
+    <eloFunctionalRoles />
+  </eloToolConfig>
 </eloToolConfigs></content>
 <resources>
 </resources>
