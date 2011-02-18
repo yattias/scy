@@ -577,7 +577,7 @@
                <property name="iconType" value="scy/dataset"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/b1lasexp.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_fitex_b1.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_experiment_b1.html.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_experiment_b1.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
