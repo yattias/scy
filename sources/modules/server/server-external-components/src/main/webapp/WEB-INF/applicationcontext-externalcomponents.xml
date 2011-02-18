@@ -40,7 +40,7 @@
 		<property name="externalComponents">
 			<list>
 				<ref local="sqlSpacesComponent" />
-				<!-- ref local="swatComponent"/-->
+				<!-- ref local="swatComponent"/ -->
 				<ref local="scyHubExternalComponent" />
 				<ref local="agentFrameworkComponent" />
 			</list>
@@ -62,7 +62,7 @@
 		singleton="true">
 		<property name="initialAgents">
 			<set>
-				<!-- ref bean="supervisor" /-->
+				<!-- ref bean="supervisor" / -->
 				<ref bean="canonical" />
 				<ref bean="ontologylookup" />
 				<ref bean="generalELOSavedAgent" />
@@ -81,6 +81,7 @@
 				<ref bean="hypothesisEvalAgent" />
 				<ref bean="userLocationAgent" />
 				<ref bean="portfolioNotificator" />
+				<ref bean="groupFormation" />
 			</set>
 		</property>
 		<property name="repository">
