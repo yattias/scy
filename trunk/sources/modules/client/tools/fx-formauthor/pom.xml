@@ -1,91 +1,52 @@
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
 
-	<parent>
-		<artifactId>parent</artifactId>
-		<groupId>eu.scy.client.tools</groupId>
-		<version>31-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>eu.scy.client.tools</groupId>
+        <version>31-SNAPSHOT</version>
+    </parent>
 
-	<modelVersion>4.0.0</modelVersion>
-	<artifactId>fx-formauthor</artifactId>
-	<name>FX-Form-Author</name>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>fx-formauthor</artifactId>
+    <name>FX-Form-Author</name>
 
-	<dependencies>
+    <dependencies>
 	
-		<dependency>
-			<groupId>org.swinglabs</groupId>
-			<artifactId>swingx-ws</artifactId>
-			<version>2008_01_06</version>
-		</dependency>
+        <dependency>
+            <groupId>org.swinglabs</groupId>
+            <artifactId>swingx-ws</artifactId>
+            <version>2008_01_06</version>
+        </dependency>
 		
-		<dependency>
-			<groupId>org.swinglabs</groupId>
-			<artifactId>swingx</artifactId>
-			<version>1.6.1</version>
-		</dependency>
+        <dependency>
+            <groupId>org.swinglabs</groupId>
+            <artifactId>swingx</artifactId>
+            <version>1.6.1</version>
+        </dependency>
 		
-		<dependency>
-			<groupId>info.collide</groupId>
-			<artifactId>javafx-deps</artifactId>
-			<version>${javafx-version}</version>
-			<type>pom</type>
-			<scope>provided</scope>
-		</dependency>
+        <dependency>
+            <groupId>info.collide</groupId>
+            <artifactId>javafx-deps</artifactId>
+            <version>${javafx-version}</version>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>eu.scy.client.desktop</groupId>
-			<artifactId>scy-desktop</artifactId>
-			<version>${pom.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>eu.scy.client.desktop</groupId>
+            <artifactId>scy-desktop</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
 		
-	</dependencies>
+    </dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-					<optimize>true</optimize>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>compile</phase>
-						<configuration>
-							<tasks>
-								<echo>Compiling JavaFX test sources</echo>
-								<taskdef classname="com.sun.tools.javafx.ant.JavaFxAntTask"
-									classpathref="maven.compile.classpath" name="javafxc" />
-								<mkdir dir="target/classes" />
-								<javafxc debug="true" destdir="target/classes" compilerclasspathref="maven.compile.classpath">
-									<src path="src/main/java" />
-									<classpath refid="maven.compile.classpath" />
-								</javafxc>
-							</tasks>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
-
-   <profiles>
-      <profile>
-         <id>local</id>
-         <build>
-            <resources>
-               <resource>
-                  <directory>src/main/java</directory>
-                  <includes>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
                     <include>**/*.png</include>
                     <include>**/*.jpg</include>
                     <include>**/*.xml</include>
@@ -95,83 +56,118 @@
                     <include>**/*.fxz</include>
                     <include>**/*.form</include>
                     <include>**/*.css</include>
-                  </includes>
-               </resource>
-            </resources>
-         </build>
-      </profile>
-      <profile>
-         <id>webstart</id>
-         <build>
-            <resources>
-               <resource>
-                  <targetPath>config</targetPath>
-                  <directory>src/main/java/config</directory>
-               </resource>
-               <resource>
-                  <directory>src/main/java</directory>
-                  <includes>
-                     <include>client.properties</include>
-                  </includes>
-               </resource>
-            </resources>
-            <plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo.webstart</groupId>
-				<artifactId>webstart-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>jnlp</goal> <!-- use jnlp, jnlp-inline or jnlp-single as appropriate -->
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
+                </includes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <optimize>true</optimize>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <configuration>
+                            <tasks>
+                                <echo>Compiling JavaFX test sources</echo>
+                                <taskdef classname="com.sun.tools.javafx.ant.JavaFxAntTask"
+									classpathref="maven.compile.classpath" name="javafxc" />
+                                <mkdir dir="target/classes" />
+                                <javafxc debug="true" destdir="target/classes" compilerclasspathref="maven.compile.classpath">
+                                    <src path="src/main/java" />
+                                    <classpath refid="maven.compile.classpath" />
+                                </javafxc>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>webstart</id>
+            <build>
+                <resources>
+                    <resource>
+                        <targetPath>config</targetPath>
+                        <directory>src/main/java/config</directory>
+                    </resource>
+                    <resource>
+                        <directory>src/main/java</directory>
+                        <includes>
+                            <include>client.properties</include>
+                        </includes>
+                    </resource>
+                </resources>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo.webstart</groupId>
+                        <artifactId>webstart-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jnlp</goal> <!-- use jnlp, jnlp-inline or jnlp-single as appropriate -->
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
 					<!--outputDirectory></outputDirectory --> <!-- not required?? -->
 
 					<!-- Set to true to exclude all transitive dependencies. Default is 
 						false. -->
-					<excludeTransitive>false</excludeTransitive>
+                            <excludeTransitive>false</excludeTransitive>
 
 					<!-- The path where the libraries are stored within the jnlp structure. 
 						not required. by default the libraries are within the working directory -->
 					<!--<libPath>lib</libPath> -->
 
 					<!-- JNLP generation -->
-					<jnlp>
+                            <jnlp>
 						<!-- default values -->
 						<!--inputTemplateResourcePath>${project.basedir}</inputTemplateResourcePath -->
 						<!-- <inputTemplate>src/main/jnlp/template.vm</inputTemplate> --> <!-- relative to inputTemplateResourcePath -->
-						<outputFile>mavenisedformauthor</outputFile> <!-- defaults to launch.jnlp -->
+                                <outputFile>mavenisedformauthor</outputFile> <!-- defaults to launch.jnlp -->
 						<!-- used to automatically identify the jar containing the main class. -->
 						<!-- this is perhaps going to change -->
-						<mainClass>eu.scy.client.tools.fxformauthor.Main</mainClass>
-					</jnlp>
+                                <mainClass>eu.scy.client.tools.fxformauthor.Main</mainClass>
+                            </jnlp>
 
 					<!-- <sign> <keypass>scylab</keypass> <storepass>scylab</storepass> 
 						<alias>scykeystore</alias> <keystore>${project.build.directory}/../scykeystore.jks</keystore> 
 						<verify>true</verify> <keystoreConfig> <delete>false</delete> <gen>false</gen> 
 						</keystoreConfig> </sign> -->
-					<unsign>false</unsign>
+                            <unsign>false</unsign>
 
 					<!-- BUILDING PROCESS -->
 
-					<pack200>false</pack200>
-					<gzip>false</gzip> <!-- default force when pack200 false, true when pack200 selected ?? -->
+                            <pack200>false</pack200>
+                            <gzip>false</gzip> <!-- default force when pack200 false, true when pack200 selected ?? -->
 
 					<!-- causes a version attribute to be output in each jar resource element, 
 						optional, default is false -->
-					<outputJarVersions>false</outputJarVersions>
+                            <outputJarVersions>false</outputJarVersions>
 
 					<!--install>false</install --> <!-- not yet supported -->
-					<verbose>false</verbose>
+                            <verbose>false</verbose>
 
-				</configuration>
-			</plugin>
-            </plugins>
-         </build>
-      </profile>
-   </profiles>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 	
 </project>
