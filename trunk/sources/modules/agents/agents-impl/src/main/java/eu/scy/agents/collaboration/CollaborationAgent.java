@@ -182,6 +182,7 @@ public class CollaborationAgent extends AbstractThreadedAgent {
                             sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=false", "proposed_user=" + user, "proposing_user=" + proposingUser, "proposed_elo=" + elouri);
                             sendNotification(user, mission, session, "type=collaboration_response", "accepted=false", "proposed_user=" + user, "proposing_user=" + proposingUser, "proposed_elo=" + elouri);
                             t.stop();
+                            timeoutTimer.remove(user);
                         }
 
                     });
@@ -199,6 +200,7 @@ public class CollaborationAgent extends AbstractThreadedAgent {
                         sendNotification(proposedUser, mission, session, "type=collaboration_response", "accepted=false", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "proposed_elo=" + elouri);
                         sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=false", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "proposed_elo=" + elouri);
                         t.stop();
+                        timeoutTimer.remove(proposedUser);
                     }
 
                 });
