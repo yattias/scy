@@ -39,7 +39,7 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
     public var scyElo: ScyElo;
     public var eloIcon: EloIcon;
     public var eloToolConfig: EloToolConfig;
-    public-init var windowColorScheme: WindowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
+    public var windowColorScheme: WindowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
     public var activated = false; // TODO, make only changeable from (sub) package
     public var width: Number = 150;
     public var height: Number = 100;

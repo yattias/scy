@@ -14,6 +14,8 @@ import javafx.util.Math;
 import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import javafx.scene.control.ListCell;
+import eu.scy.client.desktop.scydesktop.art.eloicons.EloIconFactory;
+import java.util.HashMap;
 
 /**
  * @author SikkenJ
@@ -23,7 +25,9 @@ public class WindowColorSchemeEditorNode extends CustomNode {
    def windowColorSchemeEditor = WindowColorSchemeEditor {
       }
    public var windowColorSchemes = WindowColorSchemes.getStandardWindowColorSchemes() on replace {windowColorSchemesChanged()};
-   def selectedWindowColorScheme = bind windowColorSchemeEditor.colorSchemeListview.selectedItem as WindowColorScheme on replace { selectedWindowColorSchemeChanged() };
+   public var eloIconFactory: EloIconFactory;
+   public def selectedEloIconNamne = bind windowColorSchemeEditor.eloIconListview.selectedItem;
+   public def selectedWindowColorScheme = bind windowColorSchemeEditor.colorSchemeListview.selectedItem as WindowColorScheme on replace { selectedWindowColorSchemeChanged() };
    def selectedColorPart = bind windowColorSchemeEditor.toggleGroup.selectedToggle.value as String on replace { selectedColorPartChanged() };
    def rawRedValue = bind windowColorSchemeEditor.redSlider.value on replace { redValueChanged() };
    def rawGreenValue = bind windowColorSchemeEditor.greenSlider.value on replace { greenValueChanged() };
@@ -34,6 +38,7 @@ public class WindowColorSchemeEditorNode extends CustomNode {
    var blueValue: Integer;
    var alphaValue: Integer;
    var selectedColor: Color;
+   def eloIconDisplayMap = new HashMap();
 
    public override function create(): Node {
       setupWindowColorSchemeEditor();
@@ -54,10 +59,19 @@ public class WindowColorSchemeEditorNode extends CustomNode {
       }
    }
 
-
    function setupWindowColorSchemeEditor() {
       windowColorSchemeEditor.colorSchemeListview.items = windowColorSchemes.getAllWindowColorSchemes();
-      windowColorSchemeEditor.colorSchemeListview.cellFactory = windowColorSchemeCellFactory
+      windowColorSchemeEditor.colorSchemeListview.cellFactory = windowColorSchemeCellFactory;
+      windowColorSchemeEditor.eloIconListview.items = eloIconFactory.getNames();
+      windowColorSchemeEditor.eloIconListview.cellFactory = eloIconCellFactory;
+      for (eloIconName in eloIconFactory.getNames()){
+         def eloIcondisplay = EloIconDisplay{
+               eloIconFactory: eloIconFactory
+               eloIconName: eloIconName
+               windowColorScheme: bind selectedWindowColorScheme
+         }
+         eloIconDisplayMap.put(eloIconName,eloIcondisplay);
+      }
    }
 
    public function windowColorSchemeCellFactory(): ListCell {
@@ -66,6 +80,13 @@ public class WindowColorSchemeEditorNode extends CustomNode {
             node: WindowColorSchemeDisplay {
                windowColorScheme: bind listCell.item as WindowColorScheme
             }
+         }
+   }
+
+   public function eloIconCellFactory(): ListCell {
+      var listCell: ListCell;
+      listCell = ListCell {
+            node: bind eloIconDisplayMap.get(listCell.item as String) as Node
          }
    }
 
