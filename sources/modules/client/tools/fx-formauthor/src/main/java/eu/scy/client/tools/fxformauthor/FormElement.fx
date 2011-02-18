@@ -68,7 +68,7 @@ public class FormElement extends CustomNode {
     }
 
     public-init var caption:String = "";
-    public-init var cardinality:String = "0";
+    public-init var cardinality:String = "1";
     var eventButton:Button = Button {
         graphic: ImageView{ image: Image { url: "{__DIR__}resources/note.png" } }
         tooltip: Tooltip { text: "view events" }
@@ -85,7 +85,7 @@ public class FormElement extends CustomNode {
     
     //create content
     postinit {
-        content.content = [captionLabel, captionBox, typeLabel, typeChoice, cardinalityLabel, cardinalityBox, eventButton];
+        content.content = [captionLabel, captionBox, typeLabel, typeChoice, cardinalityLabel, cardinalityBox/*, eventButton*/];
     }
 
     public function addEventItem(type:String, datatype:String):Void {
