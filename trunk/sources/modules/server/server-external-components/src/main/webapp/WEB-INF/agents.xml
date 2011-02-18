@@ -153,4 +153,12 @@
 			<map />
 		</constructor-arg>
 	</bean>
+	
+	<bean id="groupFormation" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.groupformation.GroupFormationAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
 </beans>
