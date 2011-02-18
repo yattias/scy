@@ -46,8 +46,9 @@ public class ColorSchemeEditorNode extends CustomNode, ScyToolFX, EloSaverCallBa
    var buttonBox: HBox;
    var eloUri: URI;
    var colorSchemesElo: ColorSchemesElo;
-   def windowColorSchemeEditorNode = WindowColorSchemeEditorNode {
+   def windowColorSchemeEditorNode: WindowColorSchemeEditorNode = WindowColorSchemeEditorNode {
          eloIconFactory: eloIconFactory
+         colorChanged: colorChanged
       }
    var technicalFormatKey: IMetadataKey;
    def eloIconName = bind windowColorSchemeEditorNode.selectedEloIconNamne as String on replace { eloIconNameChanged() };
@@ -57,18 +58,26 @@ public class ColorSchemeEditorNode extends CustomNode, ScyToolFX, EloSaverCallBa
       eloFactory = toolBrokerAPI.getELOFactory();
       metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
       repository = toolBrokerAPI.getRepository();
-      window.windowColorScheme = windowColorSchemeEditorNode.selectedWindowColorScheme;
+      FX.deferAction(function():Void{
+         windowColorSchemeEditorNode.selectDefaults();
+         colorChanged();
+
+      });
+
    }
 
-   function eloIconNameChanged():Void{
-      if (eloIconName!=""){
+   function eloIconNameChanged(): Void {
+      if (eloIconName != "") {
          def eloIcon = eloIconFactory.createEloIcon(eloIconName);
-         eloIcon.windowColorScheme = windowColorSchemeEditorNode.selectedWindowColorScheme;
+         eloIcon.windowColorScheme = window.windowColorScheme;
          eloIcon.selected = true;
          window.eloIcon = eloIcon;
       }
    }
 
+   function colorChanged(): Void {
+      window.windowColorScheme.assign(windowColorSchemeEditorNode.selectedWindowColorScheme);
+   }
 
    public override function loadElo(uri: URI) {
       doLoadElo(uri);

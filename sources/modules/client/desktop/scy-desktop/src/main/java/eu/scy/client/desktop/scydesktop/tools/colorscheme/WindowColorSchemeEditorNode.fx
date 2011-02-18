@@ -28,6 +28,7 @@ public class WindowColorSchemeEditorNode extends CustomNode {
    public var eloIconFactory: EloIconFactory;
    public def selectedEloIconNamne = bind windowColorSchemeEditor.eloIconListview.selectedItem;
    public def selectedWindowColorScheme = bind windowColorSchemeEditor.colorSchemeListview.selectedItem as WindowColorScheme on replace { selectedWindowColorSchemeChanged() };
+   public var colorChanged: function():Void;
    def selectedColorPart = bind windowColorSchemeEditor.toggleGroup.selectedToggle.value as String on replace { selectedColorPartChanged() };
    def rawRedValue = bind windowColorSchemeEditor.redSlider.value on replace { redValueChanged() };
    def rawGreenValue = bind windowColorSchemeEditor.greenSlider.value on replace { greenValueChanged() };
@@ -38,7 +39,6 @@ public class WindowColorSchemeEditorNode extends CustomNode {
    var blueValue: Integer;
    var alphaValue: Integer;
    var selectedColor: Color;
-   def eloIconDisplayMap = new HashMap();
 
    public override function create(): Node {
       setupWindowColorSchemeEditor();
@@ -50,8 +50,9 @@ public class WindowColorSchemeEditorNode extends CustomNode {
       }
    }
 
-   function selectDefaults(): Void {
+   public function selectDefaults(): Void {
       if (selectedWindowColorScheme == null) {
+         println("selecting 0 of {sizeof windowColorSchemeEditor.colorSchemeListview.items} items");
          windowColorSchemeEditor.colorSchemeListview.select(0);
       }
       if (selectedColorPart == null) {
@@ -64,14 +65,6 @@ public class WindowColorSchemeEditorNode extends CustomNode {
       windowColorSchemeEditor.colorSchemeListview.cellFactory = windowColorSchemeCellFactory;
       windowColorSchemeEditor.eloIconListview.items = eloIconFactory.getNames();
       windowColorSchemeEditor.eloIconListview.cellFactory = eloIconCellFactory;
-   //      for (eloIconName in eloIconFactory.getNames()){
-   //         def eloIcondisplay = EloIconDisplay{
-   //               eloIconFactory: eloIconFactory
-   //               eloIconName: eloIconName
-   //               windowColorScheme: bind selectedWindowColorScheme
-   //         }
-   //         eloIconDisplayMap.put(eloIconName,eloIcondisplay);
-   //      }
    }
 
    public function windowColorSchemeCellFactory(): ListCell {
@@ -80,13 +73,6 @@ public class WindowColorSchemeEditorNode extends CustomNode {
             node: WindowColorSchemeDisplay {
                windowColorScheme: bind listCell.item as WindowColorScheme
             }
-         }
-   }
-
-   public function eloIconCellFactory2(): ListCell {
-      var listCell: ListCell;
-      listCell = ListCell {
-            node: bind eloIconDisplayMap.get(listCell.item as String) as Node
          }
    }
 
@@ -133,7 +119,7 @@ public class WindowColorSchemeEditorNode extends CustomNode {
          selectedWindowColorScheme.emptyBackgroundColor = selectedColor;
          windowColorSchemeEditor.emptyBackgroundDisplay.fill = selectedColor;
       }
-
+      colorChanged();
    }
 
    function selectedWindowColorSchemeChanged() {
