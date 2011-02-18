@@ -37,7 +37,8 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 	private static final Logger LOGGER = Logger
 			.getLogger(GroupFormationAgent.class);
 
-	private static final String LAS = "las";
+	// private static final String LAS = "las";
+	private static final String LAS = "newLasId";
 	private static final String STRATEGY = "strategy";
 	private static final String FORM_GROUP = "form_group";
 	private static final String NAME = GroupFormationAgent.class.getName();
@@ -62,6 +63,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		}
 		params.put(MIN_GROUP_SIZE_PARAMETER, 2);
 		params.put(MAX_GROUP_SIZE_PARAMETER, 10);
+		configuration.addAllParameter(params);
 		factory = new GroupFormationStrategyFactory();
 		try {
 			listenerId = getActionSpace().eventRegister(Command.WRITE,
@@ -73,8 +75,12 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 
 	/* activated by action log */
 	private Tuple getActivationTuple() {
+		/*
+		 * return new Tuple(AgentProtocol.ACTION, String.class, Long.class,
+		 * FORM_GROUP, Field.createWildCardField());
+		 */
 		return new Tuple(AgentProtocol.ACTION, String.class, Long.class,
-				FORM_GROUP, Field.createWildCardField());
+				AgentProtocol.ACTION_LAS_CHANGED, Field.createWildCardField());
 	}
 
 	@Override
@@ -120,12 +126,16 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 			super.call(command, seq, afterTuple, beforeTuple);
 			return;
 		} else {
-			runGroupFormation(afterTuple);
+			IAction action = ActionTupleTransformer
+					.getActionFromTuple(afterTuple);
+			String las = action.getAttribute(LAS);
+			if ("conceptualisatsionConceptMap".equals(las)) {
+				runGroupFormation(action);
+			}
 		}
 	}
 
-	private void runGroupFormation(Tuple afterTuple) {
-		IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
+	private void runGroupFormation(IAction action) {
 		String mission = action.getContext(ContextConstants.mission);
 		String las = action.getAttribute(LAS);
 
@@ -139,8 +149,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		String eloUri = action.getContext(ContextConstants.eloURI);
 		IELO elo = getElo(eloUri);
 		String strategy = "dummy";// action.getAttribute(STRATEGY);
-		GroupFormationScope scope = GroupFormationScope.valueOf(action
-				.getAttribute(SCOPE));
+		GroupFormationScope scope = GroupFormationScope.LAS;// valueOf(action.getAttribute(SCOPE));
 
 		GroupFormationCache groupFormationCache = missionGroupsCache
 				.get(mission);
