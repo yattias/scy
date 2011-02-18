@@ -174,12 +174,14 @@ public class CollaborationAgent extends AbstractThreadedAgent {
                 for (final String user : proposedUser.split(",")) {
                     logger.debug("Got a collaboration request from user " + proposingUser + " to " + user + " for elo " + elouri);
                     sendNotification(user, mission, session, "type=collaboration_request", "proposing_user=" + proposingUser, "proposed_elo=" + elouri);
-                    Timer t = new Timer(COLLABORATION_REQUEST_TIMEOUT, new ActionListener() {
+                    final Timer t = new Timer(COLLABORATION_REQUEST_TIMEOUT, null);
+                    t.addActionListener(new ActionListener() {
 
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=false", "proposed_user=" + user, "proposing_user=" + proposingUser, "proposed_elo=" + elouri);
                             sendNotification(user, mission, session, "type=collaboration_response", "accepted=false", "proposed_user=" + user, "proposing_user=" + proposingUser, "proposed_elo=" + elouri);
+                            t.stop();
                         }
 
                     });
@@ -189,12 +191,14 @@ public class CollaborationAgent extends AbstractThreadedAgent {
             } else {
                 logger.debug("Got a collaboration request from user " + proposingUser + " to " + proposedUser + " for elo " + elouri);
                 sendNotification(proposedUser, mission, session, "type=collaboration_request", "proposing_user=" + proposingUser, "proposed_elo=" + elouri);
-                Timer t = new Timer(COLLABORATION_REQUEST_TIMEOUT, new ActionListener() {
+                final Timer t = new Timer(COLLABORATION_REQUEST_TIMEOUT, null);
+                t.addActionListener(new ActionListener() {
 
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         sendNotification(proposedUser, mission, session, "type=collaboration_response", "accepted=false", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "proposed_elo=" + elouri);
                         sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=false", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "proposed_elo=" + elouri);
+                        t.stop();
                     }
 
                 });
