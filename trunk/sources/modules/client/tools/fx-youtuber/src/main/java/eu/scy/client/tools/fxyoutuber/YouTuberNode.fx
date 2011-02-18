@@ -234,7 +234,6 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML, E
     }
 
     override function getXML():String {
-        //println(YTDataHandler.createXMLDocument(dataSets));
         return YTDataHandler.createXMLDocument(dataSets);
     }
 
