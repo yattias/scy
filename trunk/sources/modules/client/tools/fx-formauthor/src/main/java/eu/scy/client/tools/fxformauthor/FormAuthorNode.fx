@@ -38,9 +38,11 @@ public class FormAuthorNode extends CustomNode, Resizable, ScyToolFX, ILoadXML, 
         formList.setScyWindow(scyWindow);
     };
     public var spacing:Number on replace { requestLayout() }
-    var nodes:Node[];
-    override var children = bind nodes;
-    var formList:FormList = FormList{formNode: this};
+
+    public override var width = bind scyWindow.width;
+    public override var height = bind scyWindow.height;
+
+    var formList:FormList;
     var viewer:FormViewer;
 
     var scyFormAuthorType = "scy/formauthor";
@@ -49,12 +51,13 @@ public class FormAuthorNode extends CustomNode, Resizable, ScyToolFX, ILoadXML, 
 
     public var windowTitle:String;
 
-    postinit {
-        insert formList into nodes;
+    public override function create() : Node {
+        formList = FormList{formNode: this};
+        return formList;
     }
 
     public function loadViewer():Void {
-        delete formList from nodes;
+        delete formList from children;
         viewer = FormViewer {
             scyWindow: scyWindow;
             repository: repository;
@@ -72,16 +75,14 @@ public class FormAuthorNode extends CustomNode, Resizable, ScyToolFX, ILoadXML, 
         }
 
         //viewer.loadFDM(DataHandler.getInstance().getLastFDM());
-        insert viewer into nodes;
+        insert viewer into children;
     }
 
     public function loadAuthor():Void {
-        delete viewer from nodes;
-        insert formList into nodes;
+        delete viewer from children;
+        insert formList into children;
         //formList.loadFDM(DataHandler.getInstance().getLastFDM());
     }
-
-
 
     override function getPrefWidth(height:Number):Number {
         return 600;
