@@ -39,19 +39,7 @@ public class ELOInterface {
             }]
     }
 
-    function getTag(elo: IELO, string: String): Number {
-        /**
-         * This function might be superfluous, as the @see getAllTags retrieves the same information, but might for some use cases be more efficient if implemented depending on how the underlying data storage works
-         *
-         * @param elo The IELO to get the tag from
-         * @string The String to check if there is a tag for
-         * @return A Tag object
-         */
-        return 0; // TODO maybe connect to ELO
-    }
-
     function addTag(elo: IELO, tag: Tag): Tag {
-        // TODO connect to ELO
         return tag;
     }
 
