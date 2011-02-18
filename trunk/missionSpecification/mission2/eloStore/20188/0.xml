@@ -103,7 +103,9 @@
       <toolTip>Hypotheses</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses_b1.html</instructionUri>
       <lasType>ORIENTATION</lasType>
-      <loElos />
+      <loElos>
+         <eloUri>roolo://memory/20181/0/Introductory_model_for_scydynamics</eloUri>
+       </loElos>
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/20051/0/Hypotheses.rtf</eloUri>
@@ -195,7 +197,9 @@
       <toolTip>Hypotheses</toolTip>
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses_b3.html</instructionUri>
       <lasType>ORIENTATION</lasType>
-      <loElos />
+      <loElos>
+         <eloUri>roolo://memory/20181/0/Introductory_model_for_scydynamics</eloUri>
+       </loElos>
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/20099/0/Hypotheses.rtf</eloUri>
