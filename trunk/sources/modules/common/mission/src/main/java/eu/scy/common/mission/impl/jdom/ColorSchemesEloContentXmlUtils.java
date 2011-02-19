@@ -7,9 +7,9 @@ import java.util.List;
 import org.jdom.Element;
 
 import eu.scy.common.mission.ColorScheme;
-import eu.scy.common.mission.ColorSchemeId;
 import eu.scy.common.mission.ColorSchemesEloContent;
 import eu.scy.common.mission.impl.BasicColorSchemesEloContent;
+import eu.scy.common.scyelo.ColorSchemeId;
 
 public class ColorSchemesEloContentXmlUtils
 {

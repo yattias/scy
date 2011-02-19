@@ -62,6 +62,7 @@ public class ScyElo {
     private final IMetadataKey missionRunningKey;
     private final IMetadataKey lasKey;
     private final IMetadataKey iconTypeKey;
+    private final IMetadataKey colorSchemeIdKey;
     private final IMetadataKey assignmentUriKey;
     private final IMetadataKey resourcesUriKey;
     private static final String thumbnailResourceName = "thumbnail";
@@ -99,6 +100,7 @@ public class ScyElo {
         missionRunningKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNNING);
         lasKey = findMetadataKey(ScyRooloMetadataKeyIds.LAS);
         iconTypeKey = findMetadataKey(ScyRooloMetadataKeyIds.ICON_TYPE);
+        colorSchemeIdKey = findMetadataKey(ScyRooloMetadataKeyIds.COLOR_SCHEME_ID);
         keywordsKey = findMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS);
         socialTagsKey = findMetadataKey(CoreRooloMetadataKeyIds.SOCIAL_TAGS);
         thumbnailKey = findMetadataKey(CoreRooloMetadataKeyIds.THUMBNAIL);
@@ -563,13 +565,32 @@ public class ScyElo {
     }
 
     public String getIconType() {
-        return (String) getMetadataValueContainer(iconTypeKey).getValue();
-    }
+       return (String) getMetadataValueContainer(iconTypeKey).getValue();
+   }
 
-    public void setIconType(String iconType) {
-        getMetadataValueContainer(iconTypeKey).setValue(iconType);
-    }
-    
+   public void setIconType(String iconType) {
+       getMetadataValueContainer(iconTypeKey).setValue(iconType);
+   }
+   
+   public ColorSchemeId getColorSchemeId() {
+      String colorSchemeIdString = (String) getMetadataValueContainer(colorSchemeIdKey).getValue();
+      if (colorSchemeIdString!=null && colorSchemeIdString.length()>00){
+      	try
+			{
+				return ColorSchemeId.valueOf(colorSchemeIdString.toUpperCase());
+			}
+			catch (Exception e)
+			{
+				logger.warn("unknown value for colorSchemeId: " + colorSchemeIdString + " in elo " + getUri() + ", " + e.getMessage());
+			}
+      }
+      return null;
+  }
+
+  public void setColorSchemeId(ColorSchemeId colorSchemeId) {
+      getMetadataValueContainer(colorSchemeIdKey).setValue(colorSchemeId==null?null:colorSchemeId.toString());
+  }
+  
     public URI getAssignmentUri() {
        return (URI) getMetadataValueContainer(assignmentUriKey).getValue();
    }

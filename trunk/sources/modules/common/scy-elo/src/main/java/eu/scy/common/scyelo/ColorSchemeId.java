@@ -1,4 +1,4 @@
-package eu.scy.common.mission;
+package eu.scy.common.scyelo;
 
 public enum ColorSchemeId
 {

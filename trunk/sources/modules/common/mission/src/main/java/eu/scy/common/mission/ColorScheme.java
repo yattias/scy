@@ -2,6 +2,8 @@ package eu.scy.common.mission;
 
 import java.awt.Color;
 
+import eu.scy.common.scyelo.ColorSchemeId;
+
 public class ColorScheme implements Comparable<ColorScheme>
 {
 	private ColorSchemeId colorSchemeId;

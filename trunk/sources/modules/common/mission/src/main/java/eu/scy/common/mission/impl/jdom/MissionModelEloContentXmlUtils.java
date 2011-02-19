@@ -9,7 +9,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.jdom.Element;
 
-import eu.scy.common.mission.ColorSchemeId;
 import eu.scy.common.mission.Las;
 import eu.scy.common.mission.LasType;
 import eu.scy.common.mission.MissionAnchor;
@@ -17,6 +16,7 @@ import eu.scy.common.mission.MissionModelEloContent;
 import eu.scy.common.mission.impl.BasicLas;
 import eu.scy.common.mission.impl.BasicMissionAnchor;
 import eu.scy.common.mission.impl.BasicMissionModelEloContent;
+import eu.scy.common.scyelo.ColorSchemeId;
 
 import static eu.scy.common.mission.impl.jdom.JDomConversionUtils.*;
 
