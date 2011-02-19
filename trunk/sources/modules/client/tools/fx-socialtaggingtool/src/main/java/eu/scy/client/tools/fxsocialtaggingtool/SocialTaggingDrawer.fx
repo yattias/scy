@@ -4,18 +4,15 @@
  */
 package eu.scy.client.tools.fxsocialtaggingtool;
 
+import javafx.scene.control.*;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.CustomNode;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import javafx.scene.layout.VBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.TextBox;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import java.lang.Runtime;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
@@ -24,13 +21,9 @@ import eu.scy.client.tools.fxsocialtaggingtool.UIElements.*;
 import javafx.scene.layout.LayoutInfo;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
-import javafx.scene.control.ListView;
 import javafx.scene.layout.Flow;
-import javafx.scene.control.Hyperlink;
 import javafx.util.Math;
 import javafx.scene.layout.Resizable;
-//import eu.scy.client.tools.fxsocialtaggingtool.Tag;
-//import eu.scy.client.tools.fxsocialtaggingtool.UIElements;
 
 public class SocialTaggingDrawer extends CustomNode, ScyToolFX, Resizable {
 
@@ -203,12 +196,12 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX, Resizable {
                         }
                 }
 
-        def taggingPanel = VBox {
-                    layoutX: border;
-                    layoutY: border;
-                    spacing: spacing
-                    content: [tagGroup, newTagBox]
-                }
+        def taggingPanel = 
+                ScrollView {
+                        hbarPolicy: ScrollBarPolicy.NEVER
+                        vbarPolicy: ScrollBarPolicy.ALWAYS
+                        node:VBox{content:[tagGroup, newTagBox]}}
+                
 
         def tagCloudPanel = VBox {
                     content: [tagCloud]
