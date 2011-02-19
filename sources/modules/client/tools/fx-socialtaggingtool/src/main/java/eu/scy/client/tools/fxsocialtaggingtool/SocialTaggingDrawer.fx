@@ -39,13 +39,6 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX, Resizable {
         var taggingDisplay = createSocialTaggingDisplay();
         return Group {
                     content: [
-                        //                        Rectangle {
-                        //                            x: 0, y: 0
-                        //                            //width: taggingDisplay.layoutBounds.width + 2 * border,
-                        //                            //width: 100
-                        //                            //height: taggingDisplay.layoutBounds.height + 2 * border - spacing
-                        //                            fill: Color.YELLOW
-                        //                        }
                         taggingDisplay
                     ]
                 };
@@ -54,13 +47,9 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX, Resizable {
     function createSocialTaggingDisplay(): Node {
 
         def headingFont = Font {
-                   // size: 22
+                // size: 22
                 }
 
-//        def taggingPanelDescription = Text {
-//                    font: headingFont
-//                    content: "Tagging drawer:"
-//                }
         def tagCloudDescription = Text {
                     font: headingFont
                     content: "Tag cloud:"
@@ -136,13 +125,13 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX, Resizable {
                                             vpos: VPos.CENTER
                                         }
                                         font: Font {
-                                            //size: 16
+                                        //size: 16
                                         }
 
                                         text: tag.tagname
                                     },
-                                ]}
-                      def taglinedetails = VBox { // Detailed tag view
+                                ] }
+                    def taglinedetails = VBox { // Detailed tag view
                                 //layoutInfo: LayoutInfo { height: bind if (winning.hover) 10000 else 0 }
                                 content: [HBox {
                                         content: [
@@ -171,14 +160,14 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX, Resizable {
                                         layoutInfo: LayoutInfo {
                                             hpos: HPos.LEFT
                                         } }] }
-                            VBox {content: bind if (winning.hover) [tagline, taglinedetails] else [tagline]}}
+                    VBox { content: bind if (winning.hover) [tagline, taglinedetails] else [tagline] } }
 
         def tagGroup = ListView {
                     items: tagLines
                 }
         def newTagBox = TextBox { text: "New tags here"
                     font: Font {
-                        //size: 16
+                    //size: 16
                     } }
 
         def tagCloud = Flow {
@@ -196,85 +185,33 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX, Resizable {
                         }
                 }
 
-        def taggingPanel = 
-                ScrollView {
-                        hbarPolicy: ScrollBarPolicy.NEVER
-                        vbarPolicy: ScrollBarPolicy.ALWAYS
-                        node:VBox{content:[tagGroup, newTagBox]}}
-                
+        def taggingPanel = VBox {
+                    content: [tagGroup, newTagBox]
+                }
 
         def tagCloudPanel = VBox {
                     content: [tagCloud]
                 }
-        //        Stage {
-        //            title: "Tag Cloud for SCY ELOs"
-        //            scene: Scene {
-        //                content: VBox {
-        //                    content: [
-        //                        tagCloudPanel]
-        //                }
-        //            }
-        //        }
-        VBox {
-            spacing: spacing
-            layoutX: valueOffset
-            //layoutY: layoutY
-            content: [
-                HBox {
-                    content: [
-                        Text {
-                            font: Font {
-                               // size: 16
-                            }
-                            x: 10
-                            y: 30
-                        // content: "SCY Tagging Tool"
-                        }] }
-                VBox {
-                    content: [
-                        tagCloudPanel, taggingPanel
-                    ]
-                }]
-        }
 
-//        Stage {
-//            title: "SCY Tagging Tool"
-//            scene: Scene {
-//                width: 1000
-//                height: 600
-//                content: [
-//                    VBox {
-//                        spacing: 30
-//                        layoutX: 50
-//                        layoutY: 50
-//                        content: [
-//                            HBox {
-//                                content: [
-//                                    Text {
-//                                        font: Font {
-//                                            size: 16
-//                                        }
-//                                        x: 10
-//                                        y: 30
-//                                    // content: "SCY Tagging Tool"
-//                                    }] }
-//                            HBox {
-//                                content: [
-//                                    ELO, taggingPanel
-//                                ]
-//                            }]
-//                    }
-//                ]
-//            }
-//        }
+        ScrollView {
+            hbarPolicy: ScrollBarPolicy.NEVER
+            vbarPolicy: ScrollBarPolicy.ALWAYS
+            fitToHeight: true
+            fitToWidth: true
+            node: VBox {
+                content: [
+                    tagCloudPanel, taggingPanel
+                ]
+            }
+        }
     }
 
     public override function getPrefHeight(height: Number): Number {
-        return 200;
+        return 1000;
     }
 
     public override function getPrefWidth(width: Number): Number {
-        return 200;
+        return 1000;
     }
 
     function createPropertiesDisplay(): Node {
