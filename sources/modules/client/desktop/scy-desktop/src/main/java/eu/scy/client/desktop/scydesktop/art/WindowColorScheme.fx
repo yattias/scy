@@ -6,7 +6,7 @@
 
 package eu.scy.client.desktop.scydesktop.art;
 import javafx.scene.paint.Color;
-import eu.scy.common.mission.ColorSchemeId;
+import eu.scy.common.scyelo.ColorSchemeId;
 import eu.scy.common.mission.ColorScheme;
 import javafx.util.Math;
 

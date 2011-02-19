@@ -24,7 +24,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
 import eu.scy.client.desktop.scydesktop.art.ImageLoader;
-import eu.scy.client.desktop.scydesktop.art.EloImageInformation;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageEloIcon;
@@ -32,6 +31,7 @@ import javafx.animation.Timeline;
 import javafx.animation.Interpolator;
 import javafx.scene.effect.DropShadow;
 import java.util.HashMap;
+import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 
 /**
  * @author sven
@@ -41,6 +41,7 @@ public static def HGAP: Double = 15;
 public static def VGAP: Double = 15;
 def imageLoader = ImageLoader.getImageLoader();
 public static def openDialogs: HashMap = new HashMap();
+public static var windowStyler: WindowStyler;
 
 
 static  function getDialogBoxContent(dialogWidth: Integer, dialogBox: DialogBox, dialogType: DialogType, text: String, action1: function():Void,  action2: function ():Void,action3:function ():Void): Group{
@@ -159,7 +160,7 @@ public static function showMessageDialog(text:String,dialogTitle:String, dialogW
                     closeAction: function () {
 
                     }
-                    windowColorScheme: WindowColorScheme.getWindowColorScheme(EloImageInformation.getScyColors("general/new"));
+                    windowColorScheme: windowStyler.getWindowColorScheme("general/new")
                 };
         dialogBox.content= getDialogBoxContent(dialogWidth,dialogBox, DialogType.OK_DIALOG,text, okAction, function(){}, function(){});
         dialogBox.place();
@@ -195,7 +196,7 @@ public static function showOptionDialog(dialogType:DialogType,text:String,dialog
                     closeAction: function () {
 
                     }
-                    windowColorScheme: WindowColorScheme.getWindowColorScheme(EloImageInformation.getScyColors("general/search"));
+                    windowColorScheme: windowStyler.getWindowColorScheme("general/search")
                 };
         dialogBox.content= if (sizeof supportedOptionTypes[n|n==dialogType] > 0) {
                                 getDialogBoxContent(dialogWidth, dialogBox, dialogType,text, okAction, cancelAction, function(){})

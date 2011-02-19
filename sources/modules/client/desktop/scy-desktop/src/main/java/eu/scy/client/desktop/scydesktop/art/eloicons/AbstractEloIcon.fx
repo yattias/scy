@@ -37,7 +37,5 @@ public abstract class AbstractEloIcon extends EloIcon {
    }
 
    public abstract function createNode():Node;
-
-   public abstract function clone(): EloIcon;
 }
 

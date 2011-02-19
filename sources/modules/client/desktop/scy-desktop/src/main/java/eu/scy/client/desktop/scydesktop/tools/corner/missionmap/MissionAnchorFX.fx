@@ -10,7 +10,7 @@ import eu.scy.common.mission.Las;
 import java.net.URI;
 import java.lang.String;
 import eu.scy.common.scyelo.ScyElo;
-import eu.scy.common.mission.ColorSchemeId;
+import eu.scy.common.scyelo.ColorSchemeId;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
 
