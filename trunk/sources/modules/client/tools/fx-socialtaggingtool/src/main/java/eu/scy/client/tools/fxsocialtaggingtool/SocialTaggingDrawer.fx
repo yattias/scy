@@ -25,11 +25,22 @@ import javafx.scene.layout.Flow;
 import javafx.util.Math;
 import javafx.scene.layout.Resizable;
 
-public class SocialTaggingDrawer extends CustomNode, ScyToolFX, Resizable {
+public class SocialTaggingDrawer
 
-    public var scyWindow: ScyWindow;
-    def valueOffset = 0.0; //70.0;
-    def spacing = 3.0;
+    extends
+    CustomNode
+
+
+
+
+
+
+             ,
+
+     ScyToolFX           , Resizable      {
+                        public  var   scyWindow:    ScyWindow   ;
+                        def    valueOffset                                   =                          0.0; //70.0;
+                    def spacing     =              3.0;
     def border = 0.0; //5.0;
     var cacheCheckbox: CheckBox;
     var layoutXValue: TextBox;
@@ -192,31 +203,34 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX, Resizable {
         def tagCloudPanel = VBox {
                     content: [tagCloud]
                 }
-        ScrollView {
+
+        VBox {content:
+            [ScrollView {
             layoutInfo: LayoutInfo {
-                //    height: 1000 //this.height;
-                //    width: 1000 //bind this.width;
-                hfill: true
-                vfill: true
+                height: bind this.height;
+                width: bind this.width;
+                hfill: true;
+                vfill: true;
             }
-            //
-            //            hbarPolicy: ScrollBarPolicy.NEVER
-            //            vbarPolicy: ScrollBarPolicy.ALWAYS
+            node: {
 
-            node: VBox {
-                content: [
-                    tagCloudPanel, taggingPanel
-                ]
-            }
-        }
+                VBox {
+                    //
+                    //            hbarPolicy: ScrollBarPolicy.NEVER
+                    //            vbarPolicy: ScrollBarPolicy.ALWAYS
 
-    }
+                    content: VBox {
+                        content: [
+                            tagCloudPanel, taggingPanel
+                            ]}}}}]}}
+            
 
-    public override function getPrefHeight(height: Number): Number {
-        return 200;
-    }
+    public override function getPrefHeight (height: Number
+                 ):  Number {
+         return 200;
+    }public  override function getPrefWidth
 
-    public override function getPrefWidth(width: Number): Number {
+     (width: Number): Number {
         return 200;
     }
 
