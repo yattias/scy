@@ -87,12 +87,12 @@ public class SocialTaggingToolNode extends CustomNode, Resizable, ScyToolFX, Elo
     public override function create(): Node {
         //wrappedWhiteboardPanel = ScySwingWrapper.wrap(whiteboardPanel);
         //wrappedWhiteboardPanel.cache = true;
-        LayoutInfo {
-                    hfill: true
-                    vfill: true
-                    hgrow: Priority.ALWAYS
-                    vgrow: Priority.ALWAYS
-        }
+//        LayoutInfo {
+//                    hfill: true
+//                    vfill: true
+//                       hgrow: Priority.ALWAYS
+//                    vgrow: Priority.ALWAYS
+//        }
 
         nodeBox = VBox {
                     managed: false
