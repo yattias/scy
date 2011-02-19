@@ -11,9 +11,6 @@ import javafx.scene.CustomNode;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import javafx.scene.layout.VBox;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import java.lang.Runtime;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.scene.layout.HBox;
@@ -26,22 +23,13 @@ import javafx.util.Math;
 import javafx.scene.layout.Resizable;
 
 public class SocialTaggingDrawer
+        extends
+        CustomNode, ScyToolFX, Resizable {
 
-    extends
-    CustomNode
-
-
-
-
-
-
-             ,
-
-     ScyToolFX           , Resizable      {
-                        public  var   scyWindow:    ScyWindow   ;
-                        def    valueOffset                                   =                          0.0; //70.0;
-                    def spacing     =              3.0;
-    def border = 0.0; //5.0;
+    public var scyWindow: ScyWindow;
+    def valueOffset = 0.0;
+    def spacing = 3.0;
+    def border = 0.0;
     var cacheCheckbox: CheckBox;
     var layoutXValue: TextBox;
     var layoutYValue: TextBox;
@@ -159,10 +147,6 @@ public class SocialTaggingDrawer
                                             hpos: HPos.LEFT
                                         } },
                                     HBox { content: [
-                                            //                                            HBox {
-                                            //                                                layoutInfo: LayoutInfo {
-                                            //                                                    width: labelWidth
-                                            //                                                } },
                                             VBox {
                                                 layoutInfo: LayoutInfo {
                                                     hpos: HPos.LEFT
@@ -178,13 +162,9 @@ public class SocialTaggingDrawer
                 }
         def newTagBox = TextBox { text: "New tags here"
                     font: Font {
-                    //size: 16
                     } }
 
         def tagCloud = Flow {
-                    //                    layoutInfo: LayoutInfo {
-                    //                        width: 300
-                    //                    }
                     hgap: 10
 
                     content: for (tag in testTags)
@@ -204,33 +184,24 @@ public class SocialTaggingDrawer
                     content: [tagCloud]
                 }
 
-        VBox {content:
-            [ScrollView {
-            layoutInfo: LayoutInfo {
-                height: bind this.height;
-                width: bind this.width;
-                hfill: true;
-                vfill: true;
-            }
+        ScrollView {
+            width: bind scene.width
+            height: bind scene.height
             node: {
-
                 VBox {
-                    //
-                    //            hbarPolicy: ScrollBarPolicy.NEVER
-                    //            vbarPolicy: ScrollBarPolicy.ALWAYS
-
                     content: VBox {
                         content: [
                             tagCloudPanel, taggingPanel
-                            ]}}}}]}}
-            
+                        ] } }
+            } }}
 
-    public override function getPrefHeight (height: Number
-                 ):  Number {
-         return 200;
-    }public  override function getPrefWidth
+    
 
-     (width: Number): Number {
+    public override function getPrefHeight(height: Number): Number {
+        return 200;
+    }
+
+    public override function getPrefWidth(width: Number): Number {
         return 200;
     }
 
