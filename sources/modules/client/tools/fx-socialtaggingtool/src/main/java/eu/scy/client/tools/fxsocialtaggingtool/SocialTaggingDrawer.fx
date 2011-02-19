@@ -192,88 +192,94 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX, Resizable {
         def tagCloudPanel = VBox {
                     content: [tagCloud]
                 }
-
         ScrollView {
-            hbarPolicy: ScrollBarPolicy.NEVER
-            vbarPolicy: ScrollBarPolicy.ALWAYS
-            fitToHeight: true
-            fitToWidth: true
+            layoutInfo: LayoutInfo {
+            //    height: 1000 //this.height;
+            //    width: 1000 //bind this.width;
+                hfill:true
+                vfill:true
+            }
+            //
+            //            hbarPolicy: ScrollBarPolicy.NEVER
+            //            vbarPolicy: ScrollBarPolicy.ALWAYS
+
             node: VBox {
-                content: [
+                    content: [
                     tagCloudPanel, taggingPanel
                 ]
             }
         }
-    }
 
-    public override function getPrefHeight(height: Number): Number {
-        return 1000;
-    }
+}
 
-    public override function getPrefWidth(width: Number): Number {
-        return 1000;
-    }
+public override function getPrefHeight(height: Number): Number {
+    return 200;
+}
 
-    function createPropertiesDisplay(): Node {
+public override function getPrefWidth(width: Number): Number {
+    return 200;
+}
 
-        def window = scyWindow;
-        println("window: {window}");
-        VBox {
-            layoutX: border;
-            layoutY: border;
-            spacing: spacing
-            content: [
-                Group {
-                    content: [
-                        Label {
-                            text: "cache"
-                        }
-                        cacheCheckbox = CheckBox {
-                                    layoutX: valueOffset;
-                                    text: ""
-                                    allowTriState: false
-                                    selected: bind window.cache with inverse
-                                }
-                    ]
-                }
-                Group {
-                    content: [
-                        Label {
-                            text: "layoutX"
-                        }
-                        layoutXValue = TextBox {
-                                    layoutX: valueOffset;
-                                    text: bind "{window.layoutX}"
-                                    columns: 12
-                                    selectOnFocus: true
-                                    editable: false
-                                }
-                    ]
-                }
-                Group {
-                    content: [
-                        Label {
-                            text: "layoutY"
-                        }
-                        layoutYValue = TextBox {
-                                    layoutX: valueOffset;
-                                    text: bind "{window.layoutY}"
-                                    columns: 12
-                                    selectOnFocus: true
-                                    editable: false
-                                }
-                    ]
-                }
-                Button {
-                    text: "GC"
-                    action: function() {
-                        Runtime.getRuntime().gc();
+function createPropertiesDisplay(): Node {
+
+    def window = scyWindow;
+    println("window: {window}");
+    VBox {
+        layoutX: border;
+        layoutY: border;
+        spacing: spacing
+        content: [
+            Group {
+                content: [
+                    Label {
+                        text: "cache"
                     }
+                    cacheCheckbox = CheckBox {
+                                layoutX: valueOffset;
+                                text: ""
+                                allowTriState: false
+                                selected: bind window.cache with inverse
+                            }
+                ]
+            }
+            Group {
+                content: [
+                    Label {
+                        text: "layoutX"
+                    }
+                    layoutXValue = TextBox {
+                                layoutX: valueOffset;
+                                text: bind "{window.layoutX}"
+                                columns: 12
+                                selectOnFocus: true
+                                editable: false
+                            }
+                ]
+            }
+            Group {
+                content: [
+                    Label {
+                        text: "layoutY"
+                    }
+                    layoutYValue = TextBox {
+                                layoutX: valueOffset;
+                                text: bind "{window.layoutY}"
+                                columns: 12
+                                selectOnFocus: true
+                                editable: false
+                            }
+                ]
+            }
+            Button {
+                text: "GC"
+                action: function() {
+                    Runtime.getRuntime().gc();
                 }
-            ]
-        }
-
+            }
+        ]
     }
+
+}
 
 }
 
