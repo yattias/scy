@@ -27,6 +27,8 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import javafx.geometry.Insets;
 import javafx.util.Math;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import javafx.scene.layout.LayoutInfo;
+import javafx.scene.layout.Priority;
 
 /**
  * @author sikkenj
@@ -85,12 +87,12 @@ public class SocialTaggingToolNode extends CustomNode, Resizable, ScyToolFX, Elo
     public override function create(): Node {
         //wrappedWhiteboardPanel = ScySwingWrapper.wrap(whiteboardPanel);
         //wrappedWhiteboardPanel.cache = true;
-        //      wrappedWhiteboardPanel.layoutInfo = LayoutInfo {
-        //            hfill: true
-        //            vfill: true
-        //            hgrow: Priority.ALWAYS
-        //            vgrow: Priority.ALWAYS
-        //         }
+        LayoutInfo {
+                    hfill: true
+                    vfill: true
+                    hgrow: Priority.ALWAYS
+                    vgrow: Priority.ALWAYS
+        }
 
         nodeBox = VBox {
                     managed: false
