@@ -61,7 +61,7 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX, Resizable {
     function createSocialTaggingDisplay(): Node {
 
         def headingFont = Font {
-                    size: 22
+                   // size: 22
                 }
 
 //        def taggingPanelDescription = Text {
@@ -145,7 +145,7 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX, Resizable {
                                             vpos: VPos.CENTER
                                         }
                                         font: Font {
-                                            size: 16
+                                            //size: 16
                                         }
 
                                         text: tag.tagname
@@ -186,7 +186,7 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX, Resizable {
                 }
         def newTagBox = TextBox { text: "New tags here"
                     font: Font {
-                        size: 16
+                        //size: 16
                     } }
 
         def tagCloud = Flow {
@@ -232,7 +232,7 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX, Resizable {
                     content: [
                         Text {
                             font: Font {
-                                size: 16
+                               // size: 16
                             }
                             x: 10
                             y: 30
