@@ -3,6 +3,7 @@ package eu.scy.common.mission;
 import java.net.URI;
 import java.util.List;
 
+import eu.scy.common.scyelo.ColorSchemeId;
 import eu.scy.common.scyelo.ScyElo;
 
 public interface MissionAnchor

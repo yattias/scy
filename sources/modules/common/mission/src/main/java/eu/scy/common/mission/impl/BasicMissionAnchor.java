@@ -4,9 +4,9 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import eu.scy.common.mission.ColorSchemeId;
 import eu.scy.common.mission.Las;
 import eu.scy.common.mission.MissionAnchor;
+import eu.scy.common.scyelo.ColorSchemeId;
 import eu.scy.common.scyelo.ScyElo;
 
 public class BasicMissionAnchor implements MissionAnchor

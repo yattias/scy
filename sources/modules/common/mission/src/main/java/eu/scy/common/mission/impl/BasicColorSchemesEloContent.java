@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import eu.scy.common.mission.ColorScheme;
-import eu.scy.common.mission.ColorSchemeId;
 import eu.scy.common.mission.ColorSchemesEloContent;
+import eu.scy.common.scyelo.ColorSchemeId;
 
 public class BasicColorSchemesEloContent implements ColorSchemesEloContent
 {

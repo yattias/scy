@@ -27,6 +27,7 @@ public enum ScyRooloMetadataKeyIds implements IMetadataKeyIdDefinition
    FUNCTIONAL_TYPE("functionalType"),
    EXTERNAL_DOC("externalDoc"),
    ICON_TYPE("iconType"),
+   COLOR_SCHEME_ID("colorSchemeId"),
    MUC_ID("mucId"),
    ASSIGNMENT_URI("assignmentUri"),
    RESOURCES_URI("resourcesUri"),

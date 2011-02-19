@@ -247,6 +247,10 @@ public class BasicMissionManagement implements MissionManagement
 				{
 					missionAnchor.getScyElo().setIconType(missionAnchor.getIconType());
 				}
+				if (missionAnchor.getColorSchemeId()!=null)
+				{
+					missionAnchor.getScyElo().setColorSchemeId(missionAnchor.getColorSchemeId());
+				}
 				if (missionAnchor.getAssignmentUri() != null)
 				{
 					missionAnchor.getScyElo().setAssignmentUri(missionAnchor.getAssignmentUri());

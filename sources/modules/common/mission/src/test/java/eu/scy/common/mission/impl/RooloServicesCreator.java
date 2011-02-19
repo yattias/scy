@@ -131,6 +131,9 @@ public class RooloServicesCreator
 		IMetadataKey iconTypeKey = new roolo.elo.metadata.keys.IconTypeAnnotationKey(
 					ScyRooloMetadataKeyIds.ICON_TYPE.getId(), "/lom/annotation/[entity=\"icon\"]",
 					I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
+		IMetadataKey colorSchemeIdKey = new roolo.elo.metadata.keys.ColorSchemeIdAnnotationKey(
+					ScyRooloMetadataKeyIds.COLOR_SCHEME_ID.getId(), "/lom/annotation/[entity=\"colorId\"]",
+					I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
 		IMetadataKey thumbnailKey = new BinaryKey(CoreRooloMetadataKeyIds.THUMBNAIL.getId(),
 					"/thumbnail", I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
 		IMetadataKey assignmentUriKey = new UriMetadataKey(
@@ -170,6 +173,7 @@ public class RooloServicesCreator
 		metadataTypeManager.registerMetadataKey(missionRunningKey);
 		metadataTypeManager.registerMetadataKey(lasKey);
 		metadataTypeManager.registerMetadataKey(iconTypeKey);
+		metadataTypeManager.registerMetadataKey(colorSchemeIdKey);
 		metadataTypeManager.registerMetadataKey(thumbnailKey);
 		metadataTypeManager.registerMetadataKey(assignmentUriKey);
 		metadataTypeManager.registerMetadataKey(resourcesUriKey);
