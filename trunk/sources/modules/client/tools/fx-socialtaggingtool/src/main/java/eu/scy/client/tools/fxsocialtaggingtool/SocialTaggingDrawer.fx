@@ -126,9 +126,7 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX, Resizable {
                                         }] }
                     def winning = bind if (tag.ayevoters.size() < tag.nayvoters.size())
                                 Minus { tag: tag } else Plus { tag: tag };
-
-                    VBox {
-                        content: [
+                    def tagline =
                             Flow {
                                 //width: 50
                                 nodeVPos: VPos.TOP
@@ -150,8 +148,9 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX, Resizable {
 
                                         text: tag.tagname
                                     },
-                                ] }
-                            VBox { layoutInfo: LayoutInfo { height: bind if (winning.hover) then 100 else 0 }
+                                ]}
+                      def taglinedetails = VBox { // Detailed tag view
+                                //layoutInfo: LayoutInfo { height: bind if (winning.hover) 10000 else 0 }
                                 content: [HBox {
                                         content: [
                                             //                                            HBox {
@@ -179,8 +178,8 @@ public class SocialTaggingDrawer extends CustomNode, ScyToolFX, Resizable {
                                         layoutInfo: LayoutInfo {
                                             hpos: HPos.LEFT
                                         } }] }
-                        //VBox { content: nayvoterslist }
-                        ] } }
+                            VBox {content: bind if (winning.hover) [tagline, taglinedetails] else [tagline]}}
+
         def tagGroup = ListView {
                     items: tagLines
                 }
