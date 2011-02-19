@@ -4,7 +4,7 @@
  */
 package eu.scy.client.desktop.scydesktop.config;
 
-import eu.scy.common.mission.ColorSchemeId;
+import eu.scy.common.scyelo.ColorSchemeId;
 import eu.scy.common.scyelo.ScyElo;
 import java.net.URI;
 import java.util.ArrayList;

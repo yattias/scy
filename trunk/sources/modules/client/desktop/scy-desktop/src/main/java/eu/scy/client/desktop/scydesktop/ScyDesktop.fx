@@ -17,8 +17,6 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 import eu.scy.client.desktop.scydesktop.scywindows.EloSavedActionHandler;
 import javafx.scene.Node;
 import java.lang.Object;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import eu.scy.client.desktop.scydesktop.utils.RedirectSystemStreams;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowPositioner;
 import eu.scy.client.desktop.scydesktop.scywindows.window_positions.SimpleWindowPositioner;
@@ -98,6 +96,7 @@ import eu.scy.client.desktop.scydesktop.utils.XFX;
 import eu.scy.client.desktop.scydesktop.awareness.impl.BuddyManagerImpl;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBox;
 
 /**
  * @author sikkenj
@@ -214,8 +213,6 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    public-read var topRightCorner: Corner;
    public-read var bottomRightCorner: Corner;
    public-read var bottomLeftCorner: Corner;
-   var backgroundImage: Image;
-   var backgroundImageView: ImageView;
    public-read var lowDebugGroup = Group {};
    public-read var highDebugGroup = Group {};
    var missionRuntimeSettingsManager: RuntimeSettingsManager;
@@ -228,7 +225,6 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 //      }
    def mucIdKey = config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MUC_ID.getId());
    var backgroundUpdater: BackgroundUpdater;
-   def missionId = "missionId is deprecated";
    public var moreInfoToolFactory: MoreInfoToolFactory = TestMoreInfoToolFactory {};
    def moreInfoManager = MoreInfoManagerImpl {
          scene: scene
@@ -253,14 +249,10 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       if (config.isRedirectSystemStreams() and config.getLoggingDirectory() != null) {
          RedirectSystemStreams.redirect(config.getLoggingDirectory());
       }
-      //      missionMap.missionModel = missionModelFX;
-
+      DialogBox.windowStyler = windowStyler;
       scyWindowControl.missionModel = missionModelFX;
       FX.deferAction(initialWindowPositioning);
       FX.deferAction(initMouseBlocker);
-      //        FX.deferAction(function () {
-      //            MouseBlocker.initMouseBlocker(scene.stage);
-      //        });
       logger.info("repository class: {config.getRepository().getClass()}");
       if (config.getRepository() instanceof RepositoryWrapper) {
          var repositoryWrapper = config.getRepository() as RepositoryWrapper;

@@ -37,6 +37,7 @@
 				<ref bean="missionSpecificationEloKey" />
 				<ref bean="externalDocAnnotationKey" />
 				<ref bean="iconTypeAnnotationKey" />
+				<ref bean="colorSchemeIdAnnotationKey" />
 				<ref bean="mucIdKey" />
 				<ref bean="obligatoryInPortfolioKey" />
 				<ref bean="feedbackOnKey" />
@@ -279,6 +280,14 @@
 		<constructor-arg index="0" value="iconType" />
 		<constructor-arg index="1"
 			value='/lom/annotation/[entity="icon"]' />
+		<constructor-arg index="2" value="UNIVERSAL" />
+		<constructor-arg index="3" value="SINGLE" />
+		<constructor-arg index="4" ref="defaultStringValidator" />
+	</bean>
+	<bean name="colorSchemeIdAnnotationKey" class="roolo.elo.metadata.keys.ColorSchemeIdAnnotationKey">
+		<constructor-arg index="0" value="colorSchemeId" />
+		<constructor-arg index="1"
+			value='/lom/annotation/[entity="colorId"]' />
 		<constructor-arg index="2" value="UNIVERSAL" />
 		<constructor-arg index="3" value="SINGLE" />
 		<constructor-arg index="4" ref="defaultStringValidator" />

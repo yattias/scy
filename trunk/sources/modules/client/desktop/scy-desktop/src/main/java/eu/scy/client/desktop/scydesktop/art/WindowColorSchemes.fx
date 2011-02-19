@@ -4,7 +4,7 @@
  */
 package eu.scy.client.desktop.scydesktop.art;
 
-import eu.scy.common.mission.ColorSchemeId;
+import eu.scy.common.scyelo.ColorSchemeId;
 import eu.scy.common.mission.ColorScheme;
 import java.util.HashMap;
 import javafx.util.Sequences;

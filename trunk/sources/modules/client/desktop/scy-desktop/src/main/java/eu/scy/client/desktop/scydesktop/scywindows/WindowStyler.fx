@@ -43,7 +43,7 @@ public mixin class WindowStyler {
       return windowColorScheme;
    }
 
-   public function style(window: ScyWindow) {
+   public function style(window: ScyWindow): Void {
       var windowColorScheme: WindowColorScheme;
       var eloIcon: EloIcon;
       if (window.scyElo != null) {
@@ -58,7 +58,7 @@ public mixin class WindowStyler {
       window.eloIcon = eloIcon;
    }
 
-   public function getDisplayIconType(scyElo: ScyElo) {
+   public function getDisplayIconType(scyElo: ScyElo):String {
       var displayIconType = scyElo.getIconType();
       if (displayIconType == "") {
          displayIconType = scyElo.getTechnicalFormat();
