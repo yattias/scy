@@ -18,6 +18,18 @@ public class WindowColorSchemes {
 
    def windowColorSchemeMap = new HashMap();
 
+   init {
+      addWindowColorScheme(ColorSchemeId.ONE, WindowColorScheme.getWindowColorScheme(ScyColors.green));
+      addWindowColorScheme(ColorSchemeId.TWO, WindowColorScheme.getWindowColorScheme(ScyColors.purple));
+      addWindowColorScheme(ColorSchemeId.THREE, WindowColorScheme.getWindowColorScheme(ScyColors.orange));
+      addWindowColorScheme(ColorSchemeId.FOUR, WindowColorScheme.getWindowColorScheme(ScyColors.pink));
+      addWindowColorScheme(ColorSchemeId.FIVE, WindowColorScheme.getWindowColorScheme(ScyColors.blue));
+      addWindowColorScheme(ColorSchemeId.SIX, WindowColorScheme.getWindowColorScheme(ScyColors.magenta));
+      addWindowColorScheme(ColorSchemeId.SEVEN, WindowColorScheme.getWindowColorScheme(ScyColors.brown));
+      addWindowColorScheme(ColorSchemeId.EIGHT, WindowColorScheme.getWindowColorScheme(ScyColors.darkBlue));
+      addWindowColorScheme(ColorSchemeId.NINE, WindowColorScheme.getWindowColorScheme(ScyColors.darkGray));
+   }
+
    public function getWindowColorScheme(colorSchemeId: ColorSchemeId): WindowColorScheme {
       return windowColorSchemeMap.get(colorSchemeId) as WindowColorScheme
    }
@@ -29,30 +41,29 @@ public class WindowColorSchemes {
 
    public function getAllWindowColorSchemes(): WindowColorScheme[] {
       var colorSchemeIds = for (key in windowColorSchemeMap.keySet()) {
-         key as ColorSchemeId
-      }
+            key as ColorSchemeId
+         }
       colorSchemeIds = Sequences.sort(colorSchemeIds) as ColorSchemeId[];
-      for (colorSchemeId in colorSchemeIds){
+      for (colorSchemeId in colorSchemeIds) {
          getWindowColorScheme(colorSchemeId)
       }
    }
 
-   public function getColorSchemes():List{
+   public function getColorSchemes(): List {
       def windowColorSchemeList = new ArrayList();
-      for (windowColorScheme in getAllWindowColorSchemes()){
+      for (windowColorScheme in getAllWindowColorSchemes()) {
          windowColorSchemeList.add(windowColorScheme.getColorScheme())
       }
       windowColorSchemeList
    }
 
-   public function setColorSchemes(colorSchemes: List):Void{
+   public function setColorSchemes(colorSchemes: List): Void {
       windowColorSchemeMap.clear();
-      for (colorSchemeObject in colorSchemes){
-         def windowColorScheme = WindowColorScheme{
-
-         }
+      for (colorSchemeObject in colorSchemes) {
+         def windowColorScheme = WindowColorScheme {
+            }
          windowColorScheme.setColorScheme(colorSchemeObject as ColorScheme);
-         addWindowColorScheme(windowColorScheme.colorSchemeId,windowColorScheme)
+         addWindowColorScheme(windowColorScheme.colorSchemeId, windowColorScheme)
       }
    }
 
