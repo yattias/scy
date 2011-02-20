@@ -40,6 +40,8 @@ import eu.scy.client.desktop.scydesktop.utils.ActivityTimer;
 import roolo.elo.api.IMetadata;
 import java.util.List;
 import java.util.ArrayList;
+import eu.scy.client.desktop.scydesktop.imagewindowstyler.JavaFxWindowStyler;
+import eu.scy.client.desktop.scydesktop.art.eloicons.EloIconFactory;
 
 /**
  * @author sikkenj
@@ -88,6 +90,9 @@ public class ScyDesktopCreator {
                repository: config.getRepository()
                metadataTypeManager: config.getMetadataTypeManager()
             };
+//         windowStyler = JavaFxWindowStyler{
+//            eloIconFactory: EloIconFactory{}
+//         }
       }
       var scyToolCreatorRegistryFXImpl = ScyToolCreatorRegistryFXImpl {
             config: config;
@@ -171,6 +176,11 @@ public class ScyDesktopCreator {
 
    function handleMissionRunConfigs(): Void {
       activityTimer.startActivity("create MissionModelFX");
+      if (windowStyler instanceof JavaFxWindowStyler){
+         def javaFxWindowStyler = windowStyler as JavaFxWindowStyler;
+         javaFxWindowStyler.colorSchemesElo = missionRunConfigs.missionRuntimeModel.getColorSchemesElo();
+      }
+
       missionModelFX = missionRunConfigs.missionMapModel;
       if (missionModelFX == null) {
          missionModelFX = MissionModelFX {

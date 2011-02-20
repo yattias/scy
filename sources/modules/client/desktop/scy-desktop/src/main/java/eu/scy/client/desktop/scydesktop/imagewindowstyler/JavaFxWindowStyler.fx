@@ -20,10 +20,13 @@ import eu.scy.common.scyelo.ColorSchemeId;
 public class JavaFxWindowStyler extends WindowStyler {
 
    public var eloIconFactory: EloIconFactory;
-   public var colorSchmesElo: ColorSchemesElo on replace {
+   public var colorSchemesElo: ColorSchemesElo on replace {
          windowColorSchemes = WindowColorSchemes {
             }
-         windowColorSchemes.setColorSchemes(colorSchmesElo.getTypedContent().getColorSchemes());
+         if (colorSchemesElo != null) {
+
+            windowColorSchemes.setColorSchemes(colorSchemesElo.getTypedContent().getColorSchemes());
+         }
       }
    var windowColorSchemes: WindowColorSchemes;
 
@@ -33,17 +36,20 @@ public class JavaFxWindowStyler extends WindowStyler {
    }
 
    public override function getWindowColorScheme(scyElo: ScyElo): WindowColorScheme {
-      var colorSchemeId = scyElo.getColorSchemeId();
-      if (colorSchemeId==null){
-         def functionalRole = scyElo.getFunctionalRole();
-         if (functionalRole != null) {
-            colorSchemeId = StyleMappings.getColorSchemeId(functionalRole.toString());
+      var colorSchemeId: ColorSchemeId = null;
+      if (scyElo != null) {
+         colorSchemeId = scyElo.getColorSchemeId();
+         if (colorSchemeId == null) {
+            def functionalRole = scyElo.getFunctionalRole();
+            if (functionalRole != null) {
+               colorSchemeId = StyleMappings.getColorSchemeId(functionalRole.toString());
+            }
+         }
+         if (colorSchemeId == null) {
+            colorSchemeId = StyleMappings.getColorSchemeId(scyElo.getTechnicalFormat());
          }
       }
       if (colorSchemeId == null) {
-         colorSchemeId = StyleMappings.getColorSchemeId(scyElo.getTechnicalFormat());
-      }
-      if (colorSchemeId==null){
          colorSchemeId = ColorSchemeId.NINE;
       }
       return windowColorSchemes.getWindowColorScheme(colorSchemeId);
@@ -51,7 +57,10 @@ public class JavaFxWindowStyler extends WindowStyler {
 
    public override function getScyEloIcon(type: String): EloIcon {
       def eloIconName = StyleMappings.getEloIconName(type);
-      return eloIconFactory.createEloIcon(eloIconName);
+      def eloIcon = eloIconFactory.createEloIcon(eloIconName);
+//      println("getScyEloIcon({type}) -> {eloIconName} -> {eloIcon}");
+      eloIcon.windowColorScheme = getWindowColorScheme(type);
+      return eloIcon
    }
 
    public override function getDisplayIconType(scyElo: ScyElo): String {

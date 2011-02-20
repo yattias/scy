@@ -54,8 +54,12 @@ public mixin class WindowStyler {
          windowColorScheme = getWindowColorScheme(window.eloType);
          eloIcon = getScyEloIcon(window.eloType);
       }
-      window.windowColorScheme.assign(windowColorScheme);
       window.eloIcon = eloIcon;
+      if (window.windowColorScheme==null){
+         window.windowColorScheme = windowColorScheme;
+      }
+
+      window.windowColorScheme.assign(windowColorScheme);
    }
 
    public function getDisplayIconType(scyElo: ScyElo):String {

@@ -15,13 +15,13 @@ import java.util.Map;
  */
 public class StyleMappings
 {
-   private static StyleMappings styleMappings;
 
+   private static StyleMappings styleMappings;
    private final Map<String, String> typeNamesMap = new HashMap<String, String>();
    private final Map<String, ColorSchemeId> colorSchemeIdMap = new HashMap<String, ColorSchemeId>();
 
 
-   {
+   static {
       styleMappings = new StyleMappings();
       // type based mappings
       styleMappings.addStyleMapping("scy/drawing", "drawing2", ColorSchemeId.SIX);
@@ -91,21 +91,27 @@ public class StyleMappings
       styleMappings.addStyleMapping("ard/report", "report2", ColorSchemeId.SIX);
    }
 
-   private StyleMappings(){
-
+   private StyleMappings()
+   {
    }
 
-   private void addStyleMapping(String type, String eloIconName, ColorSchemeId colorSchemeId){
-         typeNamesMap.put(type, eloIconName);
-         colorSchemeIdMap.put(type, colorSchemeId);
+   private void addStyleMapping(String type, String eloIconName, ColorSchemeId colorSchemeId)
+   {
+      typeNamesMap.put(type, eloIconName);
+      colorSchemeIdMap.put(type, colorSchemeId);
    }
 
-   private void addStyleMapping(EloFunctionalRole functionalRole, String eloIconName, ColorSchemeId colorSchemeId){
-      addStyleMapping(functionalRole,eloIconName,colorSchemeId);
+   private void addStyleMapping(EloFunctionalRole functionalRole, String eloIconName, ColorSchemeId colorSchemeId)
+   {
+      addStyleMapping(functionalRole.toString(), eloIconName, colorSchemeId);
    }
 
    public static String getEloIconName(String type)
    {
+      if (type == null)
+      {
+         return null;
+      }
       final String name = styleMappings.typeNamesMap.get(type);
       if (name != null)
       {
@@ -116,6 +122,10 @@ public class StyleMappings
 
    public static ColorSchemeId getColorSchemeId(String type)
    {
+      if (type == null)
+      {
+         return null;
+      }
       final ColorSchemeId scyColors = styleMappings.colorSchemeIdMap.get(type);
       if (scyColors != null)
       {
