@@ -48,7 +48,7 @@ public class BasicMissionRuntimeModel implements MissionRuntimeModel
       runtimeSettingsElo = RuntimeSettingsElo.loadLastVersionElo(missionRuntimeEloContent
                .getRuntimeSettingsEloUri(), rooloServices);
       colorSchemesElo = ColorSchemesElo.loadLastVersionElo(missionRuntimeEloContent
-               .getRuntimeSettingsEloUri(), rooloServices);
+               .getColorSchemesEloUri(), rooloServices);
    }
 
    public BasicMissionRuntimeModel(MissionRuntimeElo missionRuntimeElo,
