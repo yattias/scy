@@ -240,7 +240,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 
         for (Set<String> group : formedGroups) {
             StringBuilder message = new StringBuilder();
-            message.append("textmessage=Please consider collaboration with these students: ");
+            message.append("Please consider collaboration with these students: ");
 
             String userListString = createUserListString(group);
             message.append(userListString);
@@ -292,7 +292,11 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
         notificationTuple.add(NAME);
         notificationTuple.add(action.getContext(ContextConstants.mission));
         notificationTuple.add(action.getContext(ContextConstants.session));
-        notificationTuple.add("message=" + message.toString());
+        notificationTuple.add("text=" + message.toString());
+        notificationTuple.add("title=Groupformation");
+        notificationTuple.add("type=message_dialog_show");
+        notificationTuple.add("modal=false");
+        notificationTuple.add("dialogType=OK_DIALOG");
         return notificationTuple;
     }
 
