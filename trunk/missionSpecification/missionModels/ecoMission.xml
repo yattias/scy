@@ -87,9 +87,7 @@
                      <property name="lasType" value="ORIENTATION"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses_b1.html"/>
                      <property name="loEloUris">
-                        <list>
-						  <value>roolo://memory/20181/0/Introductory_model_for_scydynamics</value>
-						</list>  
+                        <list />
                      </property>
                      <property name="nextLasses">
                         <list />
@@ -131,9 +129,7 @@
                      <property name="lasType" value="ORIENTATION"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_hypotheses_b3.html"/>
                      <property name="loEloUris">
-                        <list>
-						  <value>roolo://memory/20181/0/Introductory_model_for_scydynamics</value>
-						</list>  						
+                        <list />
                      </property>
                      <property name="nextLasses">
                         <list />
@@ -175,7 +171,9 @@
                      <property name="lasType" value="EXPERIMENT"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_inferences_b1.html"/>
                      <property name="loEloUris">
-                        <list />
+                        <list>
+						  <value>roolo://memory/20181/0/Introductory_model_for_scydynamics</value>
+						</list>
                      </property>
                      <property name="nextLasses">
                         <list />
@@ -218,7 +216,9 @@
                      <property name="lasType" value="EXPERIMENT"/>
 					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_inferences_b3.html"/>
                      <property name="loEloUris">
-                        <list />
+                        <list>
+						  <value>roolo://memory/20181/0/Introductory_model_for_scydynamics</value>
+						</list>
                      </property>
                      <property name="nextLasses">
                         <list />
