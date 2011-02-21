@@ -316,6 +316,13 @@
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="scyToolViewer"/>
             </bean>
+            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
+               <property name="eloType" value="scy/colorschemes"/>
+               <property name="eloSystemRole" value="SYSTEM"/>
+               <property name="contentCreatorId" value="colorschemes"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
+            </bean>
          </list>
       </constructor-arg>
    </bean>
