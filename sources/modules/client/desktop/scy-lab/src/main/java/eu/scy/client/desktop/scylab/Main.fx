@@ -52,6 +52,7 @@ import eu.scy.client.tools.fxflyingsaucer.UrlSource;
 import eu.scy.client.tools.fxformauthor.FormAuthorContentCreator;
 import eu.scy.client.tools.fxyoutuber.YouTuberContentCreator;
 import eu.scy.client.desktop.scydesktop.feedbackquestion.FeedbackQuestionNodeCreator;
+import eu.scy.client.desktop.scydesktop.tools.colorscheme.ColorSchemeEditorCreator;
 
 /**
  * @author sikkenj
@@ -97,6 +98,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def eloToolConfigurationId = "eloToolConfiguration";
    def missionRuntimeId = "missionRuntime";
    def templateElosId = "templateElos";
+   def colorSchemesId = "colorSchemes";
    def scyImageId = "image";
    def scyFlyingSaucerAssignmentId = "assingmentInfo";
    def scyFlyingSaucerResourcesId = "resourcesInfo";
@@ -165,6 +167,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(EloToolConfigurationEditorCreator{}, eloToolConfigurationId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(MissionRuntimeEditorCreator{}, missionRuntimeId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TemplateElosEloEditorCreator{}, templateElosId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ColorSchemeEditorCreator{}, colorSchemesId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(EloXmlViewerCreatorFX{}, "xmlViewer");
 //   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(new ScyToolViewerCreator(), "progress");
