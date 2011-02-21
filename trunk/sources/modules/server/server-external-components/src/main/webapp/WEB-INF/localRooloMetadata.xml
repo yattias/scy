@@ -37,8 +37,10 @@
 				<ref bean="missionSpecificationEloKey" />
 				<ref bean="externalDocAnnotationKey" />
 				<ref bean="iconTypeAnnotationKey" />
+				<ref bean="colorSchemeIdAnnotationKey" />
 				<ref bean="mucIdKey" />
 				<ref bean="obligatoryInPortfolioKey" />
+				<ref bean="feedbackOnKey" />
 
 				<ref bean="lineCountKey" />
 				<ref bean="rectangleCountKey" />
@@ -261,7 +263,7 @@
 	<bean name="missionSpecificationEloKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
 		<constructor-arg index="0" value='missionSpecificationElo' />
 		<constructor-arg index="1"
-			value='/lom/relation/[kind="isbasedon",type="scy/missionSpecification"]' />
+			value='/lom/XXXrelation/[kind="isbasedon",type="scy/missionSpecification"]' />
 		<constructor-arg index="2" value="UNIVERSAL" />
 		<constructor-arg index="3" value="SINGLE" />
 		<constructor-arg index="4" ref="defaultUriValidator" />
@@ -282,6 +284,14 @@
 		<constructor-arg index="3" value="SINGLE" />
 		<constructor-arg index="4" ref="defaultStringValidator" />
 	</bean>
+	<bean name="colorSchemeIdAnnotationKey" class="roolo.elo.metadata.keys.ColorSchemeIdAnnotationKey">
+		<constructor-arg index="0" value="colorSchemeId" />
+		<constructor-arg index="1"
+			value='/lom/annotation/[entity="colorId"]' />
+		<constructor-arg index="2" value="UNIVERSAL" />
+		<constructor-arg index="3" value="SINGLE" />
+		<constructor-arg index="4" ref="defaultStringValidator" />
+	</bean>
 	<bean name="mucIdKey" class="roolo.elo.metadata.keys.StringMetadataKey">
 		<constructor-arg index="0" value='mucId' />
 		<constructor-arg index="1" value='/lom/technical/mucId' />
@@ -295,6 +305,13 @@
 		<constructor-arg index="2" value="UNIVERSAL" />
 		<constructor-arg index="3" value="SINGLE" />
 		<constructor-arg index="4" ref="defaultStringValidator" />
+	</bean>
+	<bean name="feedbackOnKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
+		<constructor-arg index="0" value='feedbackOn' />
+		<constructor-arg index="1" value='/lom/relation/[kind="feedbackOn"]' />
+		<constructor-arg index="2" value="UNIVERSAL" />
+		<constructor-arg index="3" value="SINGLE" />
+		<constructor-arg index="4" ref="defaultUriValidator" />
 	</bean>
 	<bean name="testStringListKey" class="roolo.elo.metadata.keys.StringMetadataKey">
 		<constructor-arg index="0" value='testStringList' />
@@ -393,13 +410,6 @@
 		<constructor-arg index="2" value="UNIVERSAL" />
 		<constructor-arg index="3" value="SINGLE" />
 		<constructor-arg index="4" ref="defaultUriValidator" />
-	</bean>
-	<bean name="keywordSentenceHistogram" class="roolo.elo.metadata.keys.KeyValueMetadataKey">
-		<constructor-arg index="0" value='keywordSentenceHistogram' />
-		<constructor-arg index="1" value='/agentData/keywordSentenceHistogram' />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="LIST" />
-		<constructor-arg index="4" ref="defaultStringValidator" />
 	</bean>
 
    <bean name="defaultStringValidator" class="roolo.elo.metadata.value.validators.StringValidator"></bean>
