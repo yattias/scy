@@ -109,7 +109,7 @@ public class LoginDialog extends CustomNode, TbiReady {
       loginWindow.windowColorScheme.mainColor = loginColor;
       loginWindow.activated = true;
       loginWindow.eloIcon = LogoEloIcon {
-            color: bind loginWindow.windowColorScheme.mainColor
+            windowColorScheme: bind loginWindow.windowColorScheme
             selected: true
          }
 

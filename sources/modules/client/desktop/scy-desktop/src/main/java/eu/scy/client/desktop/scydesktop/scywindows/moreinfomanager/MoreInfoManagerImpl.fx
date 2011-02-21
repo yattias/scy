@@ -105,6 +105,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       initInstructionWindow();
       instructionWindow.windowColorScheme = colorScheme;
       instructionWindow.eloIcon = windowStyler.getScyEloIcon(activeLas.mainAnchor.scyElo);
+      instructionWindow.eloIcon.windowColorScheme = colorScheme;
       instructionWindow.title = activeLas.title;
       instructionTool.showInfoUrl(uriLocalizer.localizeUrlwithChecking(activeLas.instructionUri.toURL()));
       if (not instructionWindow.visible) {

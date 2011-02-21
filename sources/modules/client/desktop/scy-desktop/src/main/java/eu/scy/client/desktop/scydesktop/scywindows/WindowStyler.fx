@@ -54,6 +54,7 @@ public mixin class WindowStyler {
          windowColorScheme = getWindowColorScheme(window.eloType);
          eloIcon = getScyEloIcon(window.eloType);
       }
+      eloIcon.windowColorScheme = windowColorScheme;
       window.eloIcon = eloIcon;
       if (window.windowColorScheme==null){
          window.windowColorScheme = windowColorScheme;

@@ -289,6 +289,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
             windowControl:this
             buddyManager: buddyManager
          }
+      windowStyler.style(scyWindow);
       var anchorAttribute = missionMap.getAnchorAttribute(eloUri);
       if (anchorAttribute != null) {
          anchorAttribute.scyWindow = scyWindow;
@@ -324,6 +325,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
             windowControl:this
             buddyManager: buddyManager
          }
+      windowStyler.style(scyWindow);
       if (showEloInfoDisplay){
          insert getEloInfoDisplayAttribute(scyWindow) into scyWindow.scyWindowAttributes
       }

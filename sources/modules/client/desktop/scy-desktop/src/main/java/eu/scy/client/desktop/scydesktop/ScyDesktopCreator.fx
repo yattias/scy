@@ -85,14 +85,14 @@ public class ScyDesktopCreator {
          //               repository: config.getRepository()
          //               metadataTypeManager: config.getMetadataTypeManager()
          //            };
-         windowStyler = FxdWindowStyler {
-               //               impagesPath: initializer.eloImagesPath
-               repository: config.getRepository()
-               metadataTypeManager: config.getMetadataTypeManager()
-            };
-//         windowStyler = JavaFxWindowStyler{
-//            eloIconFactory: EloIconFactory{}
-//         }
+//         windowStyler = FxdWindowStyler {
+//               //               impagesPath: initializer.eloImagesPath
+//               repository: config.getRepository()
+//               metadataTypeManager: config.getMetadataTypeManager()
+//            };
+         windowStyler = JavaFxWindowStyler{
+            eloIconFactory: EloIconFactory{}
+         }
       }
       var scyToolCreatorRegistryFXImpl = ScyToolCreatorRegistryFXImpl {
             config: config;

@@ -60,9 +60,20 @@ public class JavaFxWindowStyler extends WindowStyler {
          }
       }
       if (colorSchemeId == null) {
+         logger.warn("failed to find colorSchemeId for scyElo:uri:{scyElo.getUri()}, type:{scyElo.getTechnicalFormat()}, role:{scyElo.getFunctionalRole()}, colorSChemeId:{scyElo.getColorSchemeId()}");
          colorSchemeId = ColorSchemeId.NINE;
       }
       return windowColorSchemes.getWindowColorScheme(colorSchemeId);
+   }
+
+   public override function getScyEloIcon(scyElo: ScyElo): EloIcon {
+      def displayIconType = getDisplayIconType(scyElo);
+      def eloIcon = getScyEloIcon(displayIconType);
+      eloIcon.windowColorScheme = getWindowColorScheme(scyElo);
+      if (eloIcon instanceof LogoEloIcon){
+         logger.warn("failed to find eloIcon for scyElo:uri:{scyElo.getUri()}, type:{scyElo.getTechnicalFormat()}, role:{scyElo.getFunctionalRole()}, iconTYpe:{scyElo.getIconType()}");
+      }
+      return eloIcon;
    }
 
    public override function getScyEloIcon(type: String): EloIcon {
