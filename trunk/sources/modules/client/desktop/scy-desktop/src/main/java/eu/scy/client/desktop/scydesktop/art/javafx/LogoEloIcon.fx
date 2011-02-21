@@ -17,11 +17,9 @@ import eu.scy.client.desktop.scydesktop.imagewindowstyler.EloIconBorder;
  */
 public class LogoEloIcon extends EloIcon {
 
-   public var color = Color.GRAY;
-
    override protected function create(): Node {
       def logo = NotSelectedLogo {
-            color: bind color
+            color: bind windowColorScheme.mainColor
          }
       scaleNode(logo);
       Group {
@@ -38,7 +36,7 @@ public class LogoEloIcon extends EloIcon {
                size: bind size
                cornerRadius: cornerRadius
                borderSize: borderSize
-               borderColor: bind color
+               borderColor: bind windowColorScheme.mainColor
             }
          ]
       }
@@ -46,11 +44,10 @@ public class LogoEloIcon extends EloIcon {
 
    public override function clone(): EloIcon {
       LogoEloIcon {
-         color: color
-         selected:selected
-         size:size
+         windowColorScheme: windowColorScheme
+         selected: selected
+         size: size
       }
    }
-
 
 }
