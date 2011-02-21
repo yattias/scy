@@ -1,13 +1,13 @@
 package eu.scy.agents.roolo.elo.elobrowsernotification;
 
+import eu.scy.agents.impl.AbstractELOSavedAgent;
+import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.agents.impl.EloTypes;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.rmi.dgc.VMID;
 import java.util.Map;
-
-import eu.scy.agents.impl.AbstractELOSavedAgent;
-import eu.scy.agents.impl.AgentProtocol;
 
 /**
  * Notifies tools that an elo has been saved. ELO is saved ->
@@ -25,7 +25,7 @@ public class ELOHasBeenSavedAgent extends AbstractELOSavedAgent {
 	 * <code>map</code> is used to initialize special parameters. Never used
 	 * here.
 	 * 
-	 * @param map
+	 * @param params
 	 *            Parameters needed to initialize the agent.
 	 */
 	public ELOHasBeenSavedAgent(Map<String, Object> params) {
@@ -42,6 +42,9 @@ public class ELOHasBeenSavedAgent extends AbstractELOSavedAgent {
 	public void processELOSavedAction(String actionId, String user,
 			long timeInMillis, String tool, String mission, String session,
 			String eloUri, String eloType) {
+        if(!EloTypes.SCY_WEBRESOURCER.equals(eloType)) {
+            return;
+        }
 
 		Tuple notificationTuple = new Tuple(AgentProtocol.NOTIFICATION,
 				new VMID().toString(), user, tool, NAME, mission, session,
