@@ -64,7 +64,7 @@ public class PersistentStorage implements IPersistentStorage {
             objectIn.close();
             return object;
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         return null;
     }
