@@ -12,10 +12,10 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 /**
  * @author lars
  */
-public class Info2Icon extends AbstractEloIcon {
+public class Information2Icon extends AbstractEloIcon {
 
-public override function clone(): Info2Icon {
-Info2Icon {
+public override function clone(): Information2Icon {
+Information2Icon {
 selected: selected
 size: size
 windowColorScheme: windowColorScheme
@@ -74,12 +74,12 @@ function run(){
 		height: 200
       fill: Color.YELLOW
 		content: [
-         Info2Icon{
+         Information2Icon{
             windowColorScheme: windowColorScheme
            layoutX: 25
             layoutY: 25
          }
-         Info2Icon{
+         Information2Icon{
             windowColorScheme: windowColorScheme
             layoutX: 75
             layoutY: 25
