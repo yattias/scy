@@ -26,7 +26,7 @@ import java.io.File;
 public class ShowEloIcons extends CustomNode {
 
    def eloIconFactory = EloIconFactory {};
-   def iconSpacingX = 100;
+   def iconSpacingX = 120;
    def maxX = 500;
    def iconSpacingY = 80;
    def spacing = 5.0;

@@ -12,10 +12,10 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 /**
  * @author lars
  */
-public class Dataset_processingIcon extends AbstractEloIcon {
+public class Dataset_processedIcon extends AbstractEloIcon {
 
-public override function clone(): Dataset_processingIcon {
-Dataset_processingIcon {
+public override function clone(): Dataset_processedIcon {
+Dataset_processedIcon {
 selected: selected
 size: size
 windowColorScheme: windowColorScheme
@@ -186,12 +186,12 @@ function run(){
 		height: 200
       fill: Color.YELLOW
 		content: [
-         Dataset_processingIcon{
+         Dataset_processedIcon{
             windowColorScheme: windowColorScheme
            layoutX: 25
             layoutY: 25
          }
-         Dataset_processingIcon{
+         Dataset_processedIcon{
             windowColorScheme: windowColorScheme
             layoutX: 75
             layoutY: 25

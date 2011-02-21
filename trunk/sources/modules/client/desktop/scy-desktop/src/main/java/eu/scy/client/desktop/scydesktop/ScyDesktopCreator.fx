@@ -301,6 +301,8 @@ public class ScyDesktopCreator {
       }
       printEloInfos(eloUris);
       println("");
+      println("Nr of anchor elos: {missionModelFX.getEloUris(false).size()}");
+      println("Nr of all elos: {missionModelFX.getEloUris(true).size()}");
    }
 
    function printEloInfos(eloUris: List){

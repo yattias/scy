@@ -13,12 +13,18 @@ import java.lang.String;
 import eu.scy.common.mission.ColorSchemesElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.scyelo.ColorSchemeId;
+import eu.scy.client.desktop.scydesktop.art.javafx.LogoEloIcon;
+import eu.scy.client.desktop.scydesktop.imagewindowstyler.StyleMappings;
+import eu.scy.common.scyelo.ScyElo;
+import java.lang.String;
+import org.apache.log4j.Logger;
 
 /**
  * @author SikkenJ
  */
 public class JavaFxWindowStyler extends WindowStyler {
 
+   def logger = Logger.getLogger(JavaFxWindowStyler.getClass());
    public var eloIconFactory: EloIconFactory;
    public var colorSchemesElo: ColorSchemesElo on replace {
          windowColorSchemes = WindowColorSchemes {
@@ -29,6 +35,10 @@ public class JavaFxWindowStyler extends WindowStyler {
          }
       }
    var windowColorSchemes: WindowColorSchemes;
+
+   init{
+      StyleMappings.validateEloIconNames(eloIconFactory.getNames());
+   }
 
    public override function getWindowColorScheme(type: String): WindowColorScheme {
       def colorSchemeId = StyleMappings.getColorSchemeId(type);
@@ -60,6 +70,9 @@ public class JavaFxWindowStyler extends WindowStyler {
       def eloIcon = eloIconFactory.createEloIcon(eloIconName);
 //      println("getScyEloIcon({type}) -> {eloIconName} -> {eloIcon}");
       eloIcon.windowColorScheme = getWindowColorScheme(type);
+      if (eloIcon instanceof LogoEloIcon){
+         logger.warn("failed to find elo icon for type: {type} -> eloIconName: {eloIconName}");
+      }
       return eloIcon
    }
 
