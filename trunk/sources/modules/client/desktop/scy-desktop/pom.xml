@@ -3,271 +3,278 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
 
-    <parent>
-        <artifactId>parent</artifactId>
-        <groupId>eu.scy.client.desktop</groupId>
-        <version>31-SNAPSHOT</version>
-    </parent>
+   <parent>
+      <artifactId>parent</artifactId>
+      <groupId>eu.scy.client.desktop</groupId>
+      <version>31-SNAPSHOT</version>
+   </parent>
 
-    <modelVersion>4.0.0</modelVersion>
-    <artifactId>scy-desktop</artifactId>
-    <name>scy-desktop</name>
-    <packaging>jar</packaging>
+   <modelVersion>4.0.0</modelVersion>
+   <artifactId>scy-desktop</artifactId>
+   <name>scy-desktop</name>
+   <packaging>jar</packaging>
 
-    <licenses>
-        <license>
-            <name>lgpl</name>
-        </license>
-    </licenses>
+   <licenses>
+      <license>
+         <name>lgpl</name>
+      </license>
+   </licenses>
 
-    <dependencies>
+   <dependencies>
 
-        <dependency>
-            <groupId>info.collide</groupId>
-            <artifactId>javafx-deps</artifactId>
-            <version>${javafx-version}</version>
-            <type>pom</type>
-            <scope>provided</scope>
-        </dependency>
+      <dependency>
+         <groupId>info.collide</groupId>
+         <artifactId>javafx-deps</artifactId>
+         <version>${javafx-version}</version>
+         <type>pom</type>
+         <scope>provided</scope>
+      </dependency>
 
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-        </dependency>
+      <dependency>
+         <groupId>log4j</groupId>
+         <artifactId>log4j</artifactId>
+      </dependency>
 
-        <dependency>
-            <groupId>org.jdom</groupId>
-            <artifactId>jdom</artifactId>
-        </dependency>
+      <dependency>
+         <groupId>org.jdom</groupId>
+         <artifactId>jdom</artifactId>
+      </dependency>
 
-        <dependency>
-            <groupId>net.java.dev.swing-layout</groupId>
-            <artifactId>swing-layout</artifactId>
-            <version>1.0.2</version>
-        </dependency>
+      <dependency>
+         <groupId>net.java.dev.swing-layout</groupId>
+         <artifactId>swing-layout</artifactId>
+         <version>1.0.2</version>
+      </dependency>
 
-        <dependency>
-            <groupId>org.roolo</groupId>
-            <artifactId>elo-api</artifactId>
-        </dependency>
+      <dependency>
+         <groupId>org.roolo</groupId>
+         <artifactId>elo-api</artifactId>
+      </dependency>
 
-        <dependency>
-            <groupId>org.roolo</groupId>
-            <artifactId>elo-impl</artifactId>
-        </dependency>
+      <dependency>
+         <groupId>org.roolo</groupId>
+         <artifactId>elo-impl</artifactId>
+      </dependency>
 
-        <dependency>
-            <groupId>org.roolo</groupId>
-            <artifactId>roolo-api</artifactId>
-            <version>0.6.0-SNAPSHOT</version>
-        </dependency>
+      <dependency>
+         <groupId>org.roolo</groupId>
+         <artifactId>roolo-api</artifactId>
+         <version>0.6.0-SNAPSHOT</version>
+      </dependency>
 
-        <dependency>
-            <groupId>org.roolo</groupId>
-            <artifactId>roolo-lucene</artifactId>
-            <version>0.7.0-SNAPSHOT</version>
-        </dependency>
+      <dependency>
+         <groupId>org.roolo</groupId>
+         <artifactId>roolo-lucene</artifactId>
+         <version>0.7.0-SNAPSHOT</version>
+      </dependency>
 
-        <dependency>
-            <groupId>org.roolo</groupId>
-            <artifactId>roolo-mock</artifactId>
-            <version>0.6.0-SNAPSHOT</version>
-        </dependency>
+      <dependency>
+         <groupId>org.roolo</groupId>
+         <artifactId>roolo-mock</artifactId>
+         <version>0.6.0-SNAPSHOT</version>
+      </dependency>
 
-        <dependency>
-            <groupId>eu.scy.common</groupId>
-            <artifactId>scy-elo</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+      <dependency>
+         <groupId>eu.scy.common</groupId>
+         <artifactId>scy-elo</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 
-        <dependency>
-            <groupId>org.roolo</groupId>
-            <artifactId>search-impl</artifactId>
-        </dependency>
+      <dependency>
+         <groupId>org.roolo</groupId>
+         <artifactId>search-impl</artifactId>
+      </dependency>
 
-        <dependency>
-            <groupId>eu.scy.common</groupId>
-            <artifactId>mission</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+      <dependency>
+         <groupId>eu.scy.common</groupId>
+         <artifactId>mission</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 
-        <dependency>
-            <groupId>eu.scy.common</groupId>
-            <artifactId>tool-broker-api</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+      <dependency>
+         <groupId>eu.scy.common</groupId>
+         <artifactId>tool-broker-api</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 
-        <dependency>
-            <groupId>eu.scy.common</groupId>
-            <artifactId>data-sync-common</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+      <dependency>
+         <groupId>eu.scy.common</groupId>
+         <artifactId>data-sync-common</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 	  
-        <dependency>
-            <groupId>eu.scy.common</groupId>
-            <artifactId>action-logging-api</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+      <dependency>
+         <groupId>eu.scy.common</groupId>
+         <artifactId>action-logging-api</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 	  
-        <dependency>
-            <groupId>eu.scy.common</groupId>
-            <artifactId>awareness-api</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+      <dependency>
+         <groupId>eu.scy.common</groupId>
+         <artifactId>awareness-api</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 	  
-        <dependency>
-            <groupId>eu.scy.common</groupId>
-            <artifactId>notification-api</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+      <dependency>
+         <groupId>eu.scy.common</groupId>
+         <artifactId>notification-api</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 	  
-        <dependency>
-            <groupId>eu.scy.common</groupId>
-            <artifactId>pedagogical-plan-service-api</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+      <dependency>
+         <groupId>eu.scy.common</groupId>
+         <artifactId>pedagogical-plan-service-api</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 	  
-        <dependency>
-            <groupId>eu.scy.common</groupId>
-            <artifactId>action-logging-commons</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+      <dependency>
+         <groupId>eu.scy.common</groupId>
+         <artifactId>action-logging-commons</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 
-        <dependency>
-            <groupId>eu.scy.client.desktop</groupId>
-            <artifactId>tool-broker</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+      <dependency>
+         <groupId>eu.scy.client.desktop</groupId>
+         <artifactId>tool-broker</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 
-        <dependency>
-            <groupId>eu.scy.client.desktop</groupId>
-            <artifactId>local-tool-broker</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+      <dependency>
+         <groupId>eu.scy.client.desktop</groupId>
+         <artifactId>local-tool-broker</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 
-        <dependency>
-            <groupId>eu.scy.common</groupId>
-            <artifactId>configuration</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+      <dependency>
+         <groupId>eu.scy.common</groupId>
+         <artifactId>configuration</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 
-        <dependency>
-            <groupId>eu.scy.common</groupId>
-            <artifactId>scy-sessionmanager-api</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+      <dependency>
+         <groupId>eu.scy.common</groupId>
+         <artifactId>scy-sessionmanager-api</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 
-        <dependency>
-            <groupId>eu.scy.common</groupId>
-            <artifactId>awareness-impl</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+      <dependency>
+         <groupId>eu.scy.common</groupId>
+         <artifactId>awareness-impl</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 
-        <dependency>
-            <groupId>eu.scy.client.client-common</groupId>
-            <artifactId>scy-i18n</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+      <dependency>
+         <groupId>eu.scy.client.client-common</groupId>
+         <artifactId>scy-i18n</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 	  
-        <dependency>
-            <groupId>eu.scy.common</groupId>
-            <artifactId>data-sync-api</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+      <dependency>
+         <groupId>eu.scy.common</groupId>
+         <artifactId>data-sync-api</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
 
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>jnlp</artifactId>
-            <version>0.1</version>
-        </dependency>
+      <dependency>
+         <groupId>javax</groupId>
+         <artifactId>jnlp</artifactId>
+         <version>0.1</version>
+      </dependency>
 
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-        </dependency>
+      <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-context</artifactId>
+      </dependency>
 
-        <dependency>
-            <groupId>jivesoftware</groupId>
-            <artifactId>smack</artifactId>
-            <version>3.1.0</version>
-        </dependency>
+      <dependency>
+         <groupId>jivesoftware</groupId>
+         <artifactId>smack</artifactId>
+         <version>3.1.0</version>
+      </dependency>
 
-        <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>1.3</version>
-        </dependency>
+      <dependency>
+         <groupId>commons-codec</groupId>
+         <artifactId>commons-codec</artifactId>
+         <version>1.3</version>
+      </dependency>
 
-        <dependency>
-            <groupId>jivesoftware</groupId>
-            <artifactId>smackx</artifactId>
-            <version>3.1.0</version>
-        </dependency>
+      <dependency>
+         <groupId>jivesoftware</groupId>
+         <artifactId>smackx</artifactId>
+         <version>3.1.0</version>
+      </dependency>
 
-        <dependency>
-            <groupId>org.roolo</groupId>
-            <artifactId>roolo-cache</artifactId>
-            <version>0.6.0-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
+      <dependency>
+         <groupId>org.roolo</groupId>
+         <artifactId>roolo-cache</artifactId>
+         <version>0.6.0-SNAPSHOT</version>
+      </dependency>
+      
+      <dependency>
+         <groupId>org.hibernate</groupId>
+         <artifactId>hibernate-core</artifactId>
+         <version>3.5.4-Final</version>
+         <scope>compile</scope>
+      </dependency>
+   </dependencies>
 
-    <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-            <resource>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*.png</include>
-                    <include>**/*.jpg</include>
-                    <include>**/*.xml</include>
-                    <include>**/*.properties</include>
-                    <include>**/*.fxproperties</include>
-                    <include>**/*.fxc</include>
-                    <include>**/*.fxz</include>
-                    <include>**/*.form</include>
-                    <include>**/*.css</include>
-                </includes>
-            </resource>
-        </resources>
+   <build>
+      <resources>
+         <resource>
+            <directory>src/main/resources</directory>
+         </resource>
+         <resource>
+            <directory>src/main/java</directory>
+            <includes>
+               <include>**/*.png</include>
+               <include>**/*.jpg</include>
+               <include>**/*.xml</include>
+               <include>**/*.properties</include>
+               <include>**/*.fxproperties</include>
+               <include>**/*.fxc</include>
+               <include>**/*.fxz</include>
+               <include>**/*.form</include>
+               <include>**/*.css</include>
+            </includes>
+         </resource>
+      </resources>
 
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                    <optimize>true</optimize>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <configuration>
-                            <tasks>
-                                <condition else="" property="binary.extension" value=".exe">
-                                    <os family="windows"/>
-                                </condition>
-                                <echo>Compiling JavaFX sources with ${binary.extension}</echo>
-                                <taskdef classname="com.sun.tools.javafx.ant.JavaFxAntTask" classpathref="maven.compile.classpath" name="javafxc"/>
-                                <mkdir dir="target/classes"/>
-                                <javafxc debug="true" verbose="false" destdir="target/classes" executable="javafxc${binary.extension}">
-                                    <src path="src/main/java"/>
-                                    <classpath refid="maven.compile.classpath"/>
-                                    <compilerarg value="-J-Xmx512m" />
-                                </javafxc>
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+               <source>1.6</source>
+               <target>1.6</target>
+               <optimize>true</optimize>
+            </configuration>
+         </plugin>
+         <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+               <execution>
+                  <phase>compile</phase>
+                  <configuration>
+                     <tasks>
+                        <condition else="" property="binary.extension" value=".exe">
+                           <os family="windows"/>
+                        </condition>
+                        <echo>Compiling JavaFX sources with ${binary.extension}</echo>
+                        <taskdef classname="com.sun.tools.javafx.ant.JavaFxAntTask" classpathref="maven.compile.classpath" name="javafxc"/>
+                        <mkdir dir="target/classes"/>
+                        <javafxc debug="true" verbose="false" destdir="target/classes" executable="javafxc${binary.extension}">
+                           <src path="src/main/java"/>
+                           <classpath refid="maven.compile.classpath"/>
+                           <compilerarg value="-J-Xmx512m" />
+                        </javafxc>
+                     </tasks>
+                  </configuration>
+                  <goals>
+                     <goal>run</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+      </plugins>
+   </build>
 </project>
