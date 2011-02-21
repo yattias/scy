@@ -15,6 +15,13 @@ public class ELOInterface {
      *
      * @author sindre
      */
+
+     public function getCurrentUser(): String {
+         // Should probably be something else than String
+         return "John";
+     }
+
+
     function setTag(elo: IELO, tag: Tag): Tag {
         /**
          * Sets a tag from the tagging interface in the ELO object
