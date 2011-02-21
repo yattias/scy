@@ -30,6 +30,8 @@ public class SocialTaggingDrawer
     def valueOffset = 0.0;
     def spacing = 3.0;
     def border = 0.0;
+    def eloInterface = ELOInterface {}
+    def currentUser = bind eloInterface.getCurrentUser();
     var cacheCheckbox: CheckBox;
     var layoutXValue: TextBox;
     var layoutYValue: TextBox;
@@ -41,6 +43,14 @@ public class SocialTaggingDrawer
                         taggingDisplay
                     ]
                 };
+    }
+
+    function addTag(textBox: TextBox, toTagSet: Tag[]): Tag {
+        def tag = Tag {
+                    tagname: textBox.text
+                    ayevoters: ["John"] // Change this when real data is available
+                }
+        return tag;
     }
 
     function createSocialTaggingDisplay(): Node {
@@ -107,6 +117,9 @@ public class SocialTaggingDrawer
                                         }] }
                     def winning = bind if (tag.ayevoters.size() < tag.nayvoters.size())
                                 Minus { tag: tag } else Plus { tag: tag };
+                    def ayeVoter = (tag.ayevoters[v | v.equals(currentUser)]).size() > 0;
+                    def nayVoter = (tag.nayvoters[v | v.equals(currentUser)]).size() > 0;
+
                     def tagline =
                             Flow {
                                 //width: 50
@@ -115,9 +128,12 @@ public class SocialTaggingDrawer
                                 content: [
                                     winning,
 
-                                    ThumbsUp { tag: tag },
+                                    ThumbsUp { tag: tag
+                                        alwaysOn: bind ayeVoter
+                                    }
 
-                                    ThumbsDown { tag: tag },
+                                    ThumbsDown { tag: tag
+                                        alwaysOn: bind nayVoter },
                                     Label {
                                         layoutInfo: LayoutInfo {
                                             width: labelWidth
@@ -126,7 +142,6 @@ public class SocialTaggingDrawer
                                         font: Font {
                                         //size: 16
                                         }
-
                                         text: tag.tagname
                                     },
                                 ] }
@@ -160,9 +175,25 @@ public class SocialTaggingDrawer
         def tagGroup = ListView {
                     items: tagLines
                 }
-        def newTagBox = TextBox { text: "New tags here"
+        def newTagBox = TextBox {
+                    text: ""
+                    selectOnFocus: true
                     font: Font {
-                    } }
+                    }
+                    tooltip: Tooltip {
+                        text: "New tags can be entered here"
+                    }
+                }
+
+        def newTagButton = Button {
+                    text: "Add"
+                    tooltip: Tooltip {
+                        text: "Adds a tag, and your vote for that tag"
+                    }
+                    action: function() {
+                        this.addTag(newTagBox, testTags);
+                    }
+                }
 
         def tagCloud = Flow {
                     hgap: 10
@@ -175,34 +206,38 @@ public class SocialTaggingDrawer
                             }
                         }
                 }
-
         def taggingPanel = VBox {
-                    content: [tagGroup, newTagBox]
+                    content: [tagGroup, HBox {
+                            content: [newTagBox, newTagButton] }]
                 }
 
-        def tagCloudPanel = VBox {
-                    content: [tagCloud]
-                }
-
-        ScrollView {
-            width: bind scene.width
-            height: bind scene.height
+ScrollView {
+            //width: bind scene.width
+            //width: 300
+            //height: bind scene.height
+            width: bind this.width
+            height: bind this.height
+            //layoutInfo:LayoutInfo {width:300
+            //                        height: bind this.height}
             node: {
                 VBox {
                     content: VBox {
                         content: [
-                            tagCloudPanel, taggingPanel
-                        ] } }
-            } }}
-
-    
+                            tagCloud, taggingPanel
+                        ]
+                    } }
+            } } }
 
     public override function getPrefHeight(height: Number): Number {
-        return 200;
+        //return this.height;
+        return this.height;
     }
 
     public override function getPrefWidth(width: Number): Number {
-        return 200;
+        //return taggingPanel.width
+        //return 300;
+        return this.width;
+
     }
 
 }

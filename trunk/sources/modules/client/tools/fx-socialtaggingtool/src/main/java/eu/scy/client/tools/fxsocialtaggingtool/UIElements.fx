@@ -90,12 +90,13 @@ public class SmallMinus extends Stack {
 
 public class ThumbsUp extends Stack {
     public var tag;
+    public var alwaysOn;
     override var layoutX = iconRadius * 2 + 4;
     override var layoutY = iconRadius * 2 + 4;
     override var content = [
                 Circle {
                     radius: iconRadius
-                    fill: bind if (hover) Color.GREEN else Color.GREY
+                    fill: bind if (alwaysOn or hover) Color.GREEN else Color.GREY
                 },
                 Text {
                     font: Font {
@@ -110,12 +111,13 @@ public class ThumbsUp extends Stack {
 
 public class ThumbsDown extends Stack {
     public var tag;
+    public var alwaysOn;
     override var layoutX = iconRadius * 2 + 4;
     override var layoutY = iconRadius * 2 + 4;
     override var content = [
                 Circle {
                     radius: iconRadius
-                    fill: bind if (hover) Color.RED else Color.GREY
+                    fill: bind if (alwaysOn or hover) Color.RED else Color.GREY
                 },
                 Text {
                     font: Font {
@@ -127,3 +129,4 @@ public class ThumbsDown extends Stack {
                 }
             ]
 }
+
