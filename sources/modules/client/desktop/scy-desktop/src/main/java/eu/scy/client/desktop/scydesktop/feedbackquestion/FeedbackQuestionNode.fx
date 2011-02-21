@@ -26,12 +26,14 @@ import org.apache.log4j.Logger;
 import org.jdom.Element;
 
 import roolo.elo.api.IMetadataTypeManager;
+import eu.scy.client.desktop.scydesktop.ScyDesktop;
 
 public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
 
    def logger = Logger.getLogger("eu.scy.client.desktop.scydesktop.feedbackquestion.FeedbackQuestionNode");
    public var toolBrokerAPI: ToolBrokerAPI;
    public var metadataTypeManager: IMetadataTypeManager;
+   public var scyDesktop:ScyDesktop;
    def technicalType:String = "scy/feedback";
    def title:String = "Feedback ELO";
    def feedbackTagName:String = "feedback";
@@ -114,6 +116,11 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
    function eloUriChanged(eloUri: URI) {
       this.eloUri = eloUri;
       submitButton.disable=true;
+      if (not scyDesktop.missionModelFX.getEloUris(false).contains(eloUri)) {
+          titleLabel.visible = false;
+          textBox.visible = false;
+          submitButton.visible = false;
+     }
       if (eloUri != null) {
          logger.debug("eloUri is changing, new eloUri: {eloUri.toString()}");
          scyElo = ScyElo.loadMetadata(eloUri, toolBrokerAPI);

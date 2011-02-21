@@ -174,7 +174,8 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TestMoreInfoNodeCreator{}, testMoreInfoId);
 
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(FeedbackQuestionNodeCreator{}, feedbackQuestionId);
+   var feedbackQuestionNodeCreator = FeedbackQuestionNodeCreator{};
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(feedbackQuestionNodeCreator, feedbackQuestionId);
    
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(SocialTaggingDrawerCreator{}, socialtaggingId);
 
@@ -204,6 +205,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
       technicalFormatKey: scyDesktopCreator.config.getTechnicalFormatKey();
    }
    scyDesktop.moreInfoToolFactory = new FlyingSaucerMoreInfoToolFactory();
+   feedbackQuestionNodeCreator.scyDesktop = scyDesktop;
    return scyDesktop;
 }
 var scene: Scene;

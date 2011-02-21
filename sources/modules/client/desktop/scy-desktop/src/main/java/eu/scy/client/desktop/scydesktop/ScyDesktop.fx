@@ -662,8 +662,11 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          if (eloConfig.getLeftDrawerCreatorId() != null) {
             def creatorTokenizer = new StringTokenizer(eloConfig.getLeftDrawerCreatorId());
             while (creatorTokenizer.hasMoreTokens()) {
-               insert scyToolFactory.createNewScyToolNode(creatorTokenizer.nextToken(), window.eloType, window.eloUri, window, true) into scyToolsList.leftDrawerTools;
-
+//               insert scyToolFactory.createNewScyToolNode(creatorTokenizer.nextToken(), window.eloType, window.eloUri, window, true) into scyToolsList.leftDrawerTools;
+               var leftDrawerCreatorId = creatorTokenizer.nextToken();
+               if (not leftDrawerCreatorId.equals("feedbackQuestion") or
+                   missionModelFX.getEloUris(false).contains(window.eloUri))
+                  insert scyToolFactory.createNewScyToolNode(leftDrawerCreatorId, window.eloType, window.eloUri, window, true) into scyToolsList.leftDrawerTools;
             };
          }
       }
