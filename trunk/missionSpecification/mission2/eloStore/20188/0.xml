@@ -320,8 +320,6 @@
         <eloUri>roolo://memory/20103/0/Inferences.rtf</eloUri>
         <iconType>scy/simconfig</iconType>
         <loElos>
-          <eloUri>roolo://memory/20047/0/Problem_formulation.rtf</eloUri>
-          <eloUri>roolo://memory/20049/0/Research_questions.rtf</eloUri>
           <eloUri>roolo://memory/20051/0/Hypotheses.rtf</eloUri>
         </loElos>
         <inputAnchors />
@@ -381,8 +379,6 @@
         <eloUri>roolo://memory/20062/0/Inferences.rtf</eloUri>
         <iconType>scy/simconfig</iconType>
         <loElos>
-          <eloUri>roolo://memory/20024/0/Problem_formulation.rtf</eloUri>
-          <eloUri>roolo://memory/20026/0/Research_questions.rtf</eloUri>
           <eloUri>roolo://memory/20028/0/Hypotheses.rtf</eloUri>
         </loElos>
         <inputAnchors />
@@ -431,8 +427,6 @@
         <eloUri>roolo://memory/20071/0/Inferences.rtf</eloUri>
         <iconType>scy/simconfig</iconType>
         <loElos>
-          <eloUri>roolo://memory/20016/0/Problem_formulation.rtf</eloUri>
-          <eloUri>roolo://memory/20097/0/Research_questions.rtf</eloUri>
           <eloUri>roolo://memory/20099/0/Hypotheses.rtf</eloUri>
         </loElos>
         <inputAnchors />
@@ -492,8 +486,6 @@
         <eloUri>roolo://memory/20079/0/Inferences.rtf</eloUri>
         <iconType>scy/simconfig</iconType>
         <loElos>
-          <eloUri>roolo://memory/20036/0/Problem_formulation.rtf</eloUri>
-          <eloUri>roolo://memory/20038/0/Research_questions.rtf</eloUri>
           <eloUri>roolo://memory/20040/0/Hypotheses.rtf</eloUri>
         </loElos>
         <inputAnchors />
@@ -542,7 +534,6 @@
         <eloUri>roolo://memory/20053/0/Solution.rtf</eloUri>
         <iconType>ard/drawing</iconType>
         <loElos>
-          <eloUri>roolo://memory/20047/0/Problem_formulation.rtf</eloUri>
           <eloUri>roolo://memory/20103/0/Inferences.rtf</eloUri>
         </loElos>
         <inputAnchors />
@@ -568,7 +559,6 @@
         <eloUri>roolo://memory/20054/0/Solution.rtf</eloUri>
         <iconType>ard/drawing</iconType>
         <loElos>
-          <eloUri>roolo://memory/20024/0/Problem_formulation.rtf</eloUri>
           <eloUri>roolo://memory/20062/0/Inferences.rtf</eloUri>
         </loElos>
         <inputAnchors />
@@ -594,7 +584,6 @@
         <eloUri>roolo://memory/20055/0/Solution.rtf</eloUri>
         <iconType>ard/drawing</iconType>
         <loElos>
-          <eloUri>roolo://memory/20016/0/Problem_formulation.rtf</eloUri>
           <eloUri>roolo://memory/20071/0/Inferences.rtf</eloUri>
         </loElos>
         <inputAnchors />
@@ -620,7 +609,6 @@
         <eloUri>roolo://memory/20056/0/Solution.rtf</eloUri>
         <iconType>ard/drawing</iconType>
         <loElos>
-          <eloUri>roolo://memory/20036/0/Problem_formulation.rtf</eloUri>
           <eloUri>roolo://memory/20079/0/Inferences.rtf</eloUri>
         </loElos>
         <inputAnchors />
