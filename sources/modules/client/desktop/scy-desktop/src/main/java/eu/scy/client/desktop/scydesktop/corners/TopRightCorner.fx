@@ -50,7 +50,7 @@ public class TopRightCorner extends Corner {
       }
 
    init {
-      opacity = 0.3;
+//      opacity = 0.3;
       border.content = [
             Line {
                startX: 0, startY: 0
@@ -99,19 +99,19 @@ public class TopRightCorner extends Corner {
                fill: bind backgroundColor;
             }
          ];
-      content.onMouseEntered = function(e) {
-          if (delayer.running) {
-              delayer.stop();
-          } else if (fadeOut.running) {
-              fadeOut.stop();
-              fadeIn.playFromStart();
-          } else {
-            fadeIn.playFromStart();
-          }
-      }
-      content.onMouseExited = function(e) {
-          delayer.playFromStart();
-      }
+//      content.onMouseEntered = function(e) {
+//          if (delayer.running) {
+//              delayer.stop();
+//          } else if (fadeOut.running) {
+//              fadeOut.stop();
+//              fadeIn.playFromStart();
+//          } else {
+//            fadeIn.playFromStart();
+//          }
+//      }
+//      content.onMouseExited = function(e) {
+//          delayer.playFromStart();
+//      }
    }
 
    protected override function resizeContent() {

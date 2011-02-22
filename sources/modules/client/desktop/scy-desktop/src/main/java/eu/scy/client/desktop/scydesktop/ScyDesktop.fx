@@ -86,9 +86,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.window_positions.FunctionalRo
 import eu.scy.client.desktop.scydesktop.utils.ShutdownHook;
 import eu.scy.client.desktop.scydesktop.uicontrols.MultiImageButton;
 import eu.scy.client.desktop.scydesktop.utils.BareBonesBrowserLaunch;
-import javafx.scene.layout.HBox;
 import eu.scy.common.configuration.Configuration;
-import javafx.scene.layout.Panel;
 import javafx.scene.control.Tooltip;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import java.net.URLEncoder;
@@ -97,6 +95,8 @@ import eu.scy.client.desktop.scydesktop.awareness.impl.BuddyManagerImpl;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 
 /**
  * @author sikkenj
@@ -379,10 +379,10 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       //            effect: cornerToolEffect
       //        }
          scyFeedbackGiveButton = MultiImageButton {
-             imageName: "feedback_give";
-             tooltip: Tooltip {
-                 text: "Give feedback!";
-             }
+             imageName: "giveFeedback";
+//             tooltip: Tooltip {
+//                 text: "Give feedback!";
+//             }
              action: function(): Void {
                  def conf:Configuration=Configuration.getInstance();
 //                 def feedbackURL = "{conf.getFeedbackProtocol()}://{conf.getFeedbackServer()}:{conf.getFeedbackPort()}{conf.getFeedbackContext()}FeedbackToolIndex.html?missionURL={missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri()}";
@@ -402,10 +402,10 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
              }
          }
          scyFeedbackGetButton = MultiImageButton {
-             imageName: "feedback_get";
-             tooltip: Tooltip {
-                 text: "Get feedback!";
-             }
+             imageName: "getFeedback";
+//             tooltip: Tooltip {
+//                 text: "Get feedback!";
+//             }
              action: function(): Void {
                  def conf:Configuration=Configuration.getInstance();
 //                 def feedbackURL = "{conf.getFeedbackProtocol()}://{conf.getFeedbackServer()}:{conf.getFeedbackPort()}{conf.getFeedbackContext()}FeedbackToolIndex.html?missionURL={missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri()}";
@@ -446,18 +446,29 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  eportfolioButton.imageName = "eportfolio";
              }
          }
-         scyFeedbackGiveButton.layoutX = 5;
-         var feedbackButtons = Panel {
-             content: [scyFeedbackGetButton, scyFeedbackGiveButton]
-         }
+//         scyFeedbackGiveButton.layoutX = 5;
+//         var feedbackButtons = Panel {
+//             content: [scyFeedbackGetButton, scyFeedbackGiveButton]
+//         }
 
      // if (not initializer.offlineMode) {
+        def ePortfolioSpacer = Rectangle {
+            x: 0, y: 0
+            width: 1, height: 5
+            fill: Color.TRANSPARENT
+         }
+
          topRightCorner = TopRightCorner {
-               content: HBox {
-                  content: [feedbackButtons, eportfolioButton]
-                  spacing: 10
+               content: VBox {
+                  content: [
+                     scyFeedbackGetButton,
+                     scyFeedbackGiveButton,
+                     ePortfolioSpacer,
+                     eportfolioButton
+                  ]
+                  spacing: 0
                };
-               effect: cornerToolEffect
+//               effect: cornerToolEffect
             }
       //}
 

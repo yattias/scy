@@ -11,6 +11,6 @@ import javafx.scene.Node;
  */
 public mixin class MoreInfoToolFactory {
 
-   public abstract function createMoreInfoTool(): Node;
+   public abstract function createMoreInfoTool(showMoreInfo: ShowMoreInfo): Node;
 
 }

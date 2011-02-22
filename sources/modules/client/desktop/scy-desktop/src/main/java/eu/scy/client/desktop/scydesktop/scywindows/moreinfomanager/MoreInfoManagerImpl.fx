@@ -23,7 +23,6 @@ import eu.scy.client.desktop.scydesktop.scywindows.ModalDialogLayer;
 import eu.scy.client.desktop.scydesktop.art.javafx.MoreAssignmentTypeIcon;
 import eu.scy.client.desktop.scydesktop.art.javafx.MoreResourcesTypeIcon;
 import eu.scy.client.desktop.scydesktop.art.javafx.InstructionTypesIcon;
-import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 
 /**
  * @author SikkenJ
@@ -38,7 +37,8 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    public var tbi: ToolBrokerAPI;
    def noLasColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    var colorScheme = noLasColorScheme;
-   def relativeWindowScreenBoder = 0.2;
+   def relativInstructioneWindowScreenBoder = 0.2;
+   def relativeMoreInfoWindowScreenBoder = 0.15;
    def sceneWidth = bind scene.width on replace { sceneSizeChanged() };
    def sceneHeight = bind scene.height on replace { sceneSizeChanged() };
    def instructionWindow: MoreInfoWindow = MoreInfoWindow {
@@ -57,7 +57,6 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
          visible: false
       }
    var moreInfoTool: ShowInfoUrl;
-   def resourceBundleWrapper = new ResourceBundleWrapper(this.getClass());
    def uriLocalizer = new UriLocalizer();
    var runPhase = false;
 
@@ -69,16 +68,16 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
 
    function sceneSizeChanged() : Void {
       if (instructionWindow.visible) {
-         instructionWindow.width = (1 - 2 * relativeWindowScreenBoder) * scene.width;
-         instructionWindow.height = (1 - 1 * relativeWindowScreenBoder) * scene.height;
-         instructionWindow.layoutX = relativeWindowScreenBoder * scene.width;
+         instructionWindow.width = (1 - 2 * relativInstructioneWindowScreenBoder) * scene.width;
+         instructionWindow.height = (1 - 1 * relativInstructioneWindowScreenBoder) * scene.height;
+         instructionWindow.layoutX = relativInstructioneWindowScreenBoder * scene.width;
          instructionWindow.layoutY = 0.0;
          instructionWindow.curtainControl.layoutX = instructionWindow.width / 2.0;
          instructionWindow.curtainControl.layoutY = instructionWindow.height + 8;
       }
       if (moreInfoWindow.visible) {
-         moreInfoWindow.width = (1 - 2 * relativeWindowScreenBoder) * scene.width;
-         moreInfoWindow.height = (1 - 2 * relativeWindowScreenBoder) * scene.height;
+         moreInfoWindow.width = (1 - 2 * relativeMoreInfoWindowScreenBoder) * scene.width;
+         moreInfoWindow.height = (1 - 2 * relativeMoreInfoWindowScreenBoder) * scene.height;
       }
    }
 
@@ -122,7 +121,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
 
    function initInstructionWindow(): Void {
       if (instructionWindow.content == null) {
-         instructionWindow.content = moreInfoToolFactory.createMoreInfoTool();
+         instructionWindow.content = moreInfoToolFactory.createMoreInfoTool(this);
          if (instructionWindow.content instanceof ShowInfoUrl) {
             instructionTool = instructionWindow.content as ShowInfoUrl
          }
@@ -131,7 +130,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
 
    function moreInfoToolFactoryChanged(){
       if (instructionWindow.content != null) {
-         instructionWindow.content = moreInfoToolFactory.createMoreInfoTool();
+         instructionWindow.content = moreInfoToolFactory.createMoreInfoTool(this);
          if (instructionWindow.content instanceof ShowInfoUrl) {
             instructionTool = instructionWindow.content as ShowInfoUrl;
          }
@@ -142,7 +141,11 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    }
 
    public override function showMoreInfo(infoUri: URI, type: MoreInfoTypes, eloUri: URI): Void {
-      showMoreInfo(infoUri, type, ScyElo.loadMetadata(eloUri, tbi));
+      var scyElo = activeLas.mainAnchor.scyElo;
+      if (eloUri!=null){
+         scyElo = ScyElo.loadMetadata(eloUri, tbi);
+      }
+      showMoreInfo(infoUri, type, scyElo);
    }
 
    public override function showMoreInfo(infoUri: URI, type: MoreInfoTypes, scyElo: ScyElo): Void {
@@ -190,7 +193,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
 
    function initMoreInfoWindow(): Void {
       if (moreInfoWindow.content == null) {
-         moreInfoWindow.content = moreInfoToolFactory.createMoreInfoTool();
+         moreInfoWindow.content = moreInfoToolFactory.createMoreInfoTool(this);
          if (moreInfoWindow.content instanceof ShowInfoUrl) {
             moreInfoTool = moreInfoWindow.content as ShowInfoUrl
          }
