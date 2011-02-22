@@ -5,14 +5,13 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="scylighter@sven.manske"
                    em:name="Scylighter"
-                   em:version="1.4.5"
+                   em:version="1.4.7"
                    em:creator="Sven Manske"
                    em:type="2"
                    em:description="Highlight selections in the HTML Document"
                    em:optionsURL="chrome://highlighter/content/options.xul"
                    em:iconURL="chrome://highlighter/skin/icons/Logo32x32.png"
-                   em:updateURL="http://scy.collide.info/scylighter/update.rdf"
-                   em:updateKey="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCzDCzRtne0xZ/5v6cGB51u400vA17KVG0OKHUHntbNrsV40hjMwEqiOtxYWnJpFcr5X/9fJOWz86Ozlwf5kH0+2sWOO9MrMxX33OD4onhzBWTJMDNU9wBFRu9plNJhQOlXMWLc+ga5OrlxDYClE02BwFRIfixPizFUgzXaOkOSjwIDAQAB">
+                   >
     <em:targetApplication RDF:resource="rdf:#$PfHRq2"/>
   </RDF:Description>
   <RDF:Description RDF:about="rdf:#$PfHRq2"

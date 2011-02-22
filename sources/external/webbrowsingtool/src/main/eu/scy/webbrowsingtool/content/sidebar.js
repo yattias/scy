@@ -34,10 +34,6 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-//const serverURL="http://localhost:8080/ELOSaver/resources/saveELO";
-//const serverURL="http://localhost:33604/ELOSaver/resources/saveELO";
-
-
 var count = 0;
 var updateURI = "";
 var sidebar = top.window.document.getElementById("sidebar");
@@ -55,7 +51,6 @@ var highlighter = {
 
     onLoad: function(e) {
         //this.sidebarExists();
-        //window.alert();
         // initialization code
         updateURI = "";
         this.initialized = true;
@@ -169,7 +164,7 @@ var highlighter = {
             if(sidebarWindow.document.getElementById('summaryBox')!=null){
                 summaryBox.ondrop = highlighter.onDrop;
 
-                var summaryBox = sidebarWindow.document.getElementById('summaryBox');
+                summaryBox = sidebarWindow.document.getElementById('summaryBox');
                 var urlBox = sidebarWindow.document.getElementById('urlBox');
                 var titleBox = sidebarWindow.document.getElementById('titleBox');
                 var commentBox = sidebarWindow.document.getElementById('commentBox');
@@ -262,12 +257,9 @@ var highlighter = {
         params.username = username;
         //params.password = password;
         params.title = document.getElementById("filterTitle").value;
-        ;
         params.author = document.getElementById("filterAuthor").value;
         params.date = document.getElementById("filterDate").value;
-        ;
         params.keywords = document.getElementById("filterKeywords").value;
-        ;
         var jsonParams = JSON.stringify(params);
 
 
@@ -276,6 +268,7 @@ var highlighter = {
 
         //Response: A List-Representation of the ELOs
         req.onreadystatechange = function (aEvt) {
+            var alertString="";
             try{
                 if (req.readyState == 4) {
                     if(req.status == 200){
@@ -327,14 +320,14 @@ var highlighter = {
                         window.alert(req.responseText);
                     }
                     else {
-                        var alertString = top.window.document.getElementById("highlighter-strings").getString("errorLoadingPage")+"\n"+document.getElementById("highlighter-strings").getString("errorCode") + req.status + "\n" + document.getElementById("highlighter-strings").getString(req.responseText);
+                        alertString = top.window.document.getElementById("highlighter-strings").getString("errorLoadingPage")+"\n"+document.getElementById("highlighter-strings").getString("errorCode") + req.status + "\n" + document.getElementById("highlighter-strings").getString(req.responseText);
                         window.alert(alertString);
                     }
                 } else {
 
             }
             }catch (e) {
-                var alertString = top.window.document.getElementById("highlighter-strings").getString("noServerResponse");
+                alertString = top.window.document.getElementById("highlighter-strings").getString("noServerResponse");
                 window.alert(alertString);
 
             }
@@ -479,16 +472,17 @@ var highlighter = {
     },
     correctSources:function(){
         var sidebar = document.getElementById("sidebar");
-
+        var urlBox;
+        var summaryBox;
         if (sidebar == null){
-            var urlBox = document.getElementById('urlBox');
+            urlBox = document.getElementById('urlBox');
             urlBox.value = "";
-            var summaryBox = document.getElementById('summaryBox');
+            summaryBox = document.getElementById('summaryBox');
         } else {
             var sidebarWindow = sidebar.contentWindow;
-            var urlBox = sidebarWindow.document.getElementById('urlBox');
+            urlBox = sidebarWindow.document.getElementById('urlBox');
             urlBox.value = "";
-            var summaryBox = sidebarWindow.document.getElementById('summaryBox');
+            summaryBox = sidebarWindow.document.getElementById('summaryBox');
         }
         if (summaryBox.itemCount>0){
             urlBox.value = summaryBox.getItemAtIndex(0).getAttribute("sourceURL");
@@ -937,72 +931,6 @@ var highlighter = {
             window.alert(top.window.document.getElementById("highlighter-strings").getString("setUpLoginData"));
             this.openPreferences();
         } else {
-
-            //make the XMLHttpRequest (POST)!!!
-
-            //a problem with c# webservices was the &-symbol, which causes the transmission of the string to break
-            //a solution might be to replace all occurences of & by another string
-
-            //var rawDoc = window.content.document.documentElement.innerHTML;
-            //var rawDoc = mainWindow.document.documentElement.innerHTML;
-
-            //eventually parse the String for HTML Special Chars like &nbsp;
-            //var clearedDoc = rawDoc.replace("&nbsp;", " ");
-
-
-            //A marker for the &, which causes errors when submitting the html document to the server
-            //var clearedDoc = rawDoc.replace(/&/g, "XXXYYYZZZ");
-
-            //replacing src-attributes
-            //var newSrcTag = "src=\""+window.content.document.location;
-            //var newSrcTag = "src=\""+mainWindow.document.location;
-            //Problem: replace src-tags, but only relative sources...
-            //clearedDoc = clearedDoc.replace(/src\s*=\s*"/g,newSrcTag);
-
-            //1. normalize src (remove spaces)
-            //clearedDoc = clearedDoc.replace(/src\s*=\s*"/g,"src=\"");
-
-            //2. mark every src that begins with http: with a space
-            //the url shouldnt be appended at absolute Paths
-            //clearedDoc = clearedDoc.replace(/src="http/g,"src =\"http");
-
-            //3. remove paths like ../..
-            //clearedDoc = clearedDoc.replace(/src="\.\.\/\.\./g,"src=\"");
-
-            //4. append the site URL to relative Paths
-            //clearedDoc = clearedDoc.replace(/src="/g,newSrcTag);
-
-
-            //var htmlDoc = "<html>"+clearedDoc+"</html>";
-            //window.alert(clearedDoc);
-
-            /*
-        //C# webservice!
-        var req = new XMLHttpRequest();
-        var url = "http://localhost:63261/Service1.asmx/saveELO";
-        var params = "html="+htmlDoc;
-
-        req.onreadystatechange = function (aEvt) {
-        if (req.readyState == 4) {
-            if(req.status == 200)
-               window.alert(req.responseXML.getElementsByTagName("string")[0].childNodes[0].nodeValue);
-            else
-               window.alert("Error loading page\n");
-          }
-        };
-
-        req.open('POST', url, true);
-        req.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-        req.send(params);
-        }*/
-
-            /*//---------------------------------------------
-        //create the summary-document (HTML)
-		//see below for a working implementation (preview-function)
-
-        //---------------------------------------------------*/
-
-
             //create the summaryDocument (XML)
 
             var summaryXML = "<document>";
@@ -1084,7 +1012,7 @@ var highlighter = {
 
             //Parameters for the webservice as JSON, stringified for transmission
             var params = {};
-            params.content = "<webresource><preview><![CDATA["+this.getPreview()+"]]></preview>"+"<annotations> "+summaryXML+" </annotations>"+"\n <html> \n <![CDATA["+htmlDoc+"]]> \n </html></webresource>";
+            params.content = "<webresource><preview><![CDATA["+this.getPreview()+"]]></preview>"+"<annotations> "+summaryXML+" </annotations>"+"\n <html>\n</html></webresource>";
             params.username = username;
             params.password = password;
             params.type = "scy/webresourcer";
@@ -1101,6 +1029,7 @@ var highlighter = {
             var jsonParams = JSON.stringify(params);
 
             req.onreadystatechange = function (aEvt) {
+                var alertString="";
                 try{
                     if (req.readyState == 4) {
                         if(req.status == 200){
@@ -1112,14 +1041,14 @@ var highlighter = {
                             window.alert(top.window.document.getElementById("highlighter-strings").getString("eloSaved"));
                         }
                         else {
-                            var alertString = top.window.document.getElementById("highlighter-strings").getString("errorLoadingPage")+"\n"+document.getElementById("highlighter-strings").getString("errorCode") + req.status + "\n" + document.getElementById("highlighter-strings").getString(req.responseText);
+                            alertString = top.window.document.getElementById("highlighter-strings").getString("errorLoadingPage")+"\n"+document.getElementById("highlighter-strings").getString("errorCode") + req.status + "\n" + document.getElementById("highlighter-strings").getString(req.responseText);
                             window.alert(alertString);
                         }
                     } else {
 
                 }
                 }catch (e) {
-                    var alertString = top.window.document.getElementById("highlighter-strings").getString("noServerResponse");
+                    alertString = top.window.document.getElementById("highlighter-strings").getString("noServerResponse");
                     window.alert(alertString);
 
                 }
@@ -1191,6 +1120,7 @@ var highlighter = {
         this.strings = top.window.document.getElementById("highlighter-strings");
 
         req.onreadystatechange = function (aEvt) {
+            var alertString="";
             try{
                 if (req.readyState == 4) {
                     if(req.status == 200){
@@ -1205,14 +1135,14 @@ var highlighter = {
                     //previewELOWindow.top.window.document.body.innerHTML = preview;
                     }
                     else {
-                        var alertString = top.window.document.getElementById("highlighter-strings").getString("errorLoadingPage")+"\n"+document.getElementById("highlighter-strings").getString("errorCode") + req.status + "\n" + document.getElementById("highlighter-strings").getString(req.responseText);
+                        alertString = top.window.document.getElementById("highlighter-strings").getString("errorLoadingPage")+"\n"+document.getElementById("highlighter-strings").getString("errorCode") + req.status + "\n" + document.getElementById("highlighter-strings").getString(req.responseText);
                         window.alert(alertString);
                     }
                 } else {
 
             }
             }catch (e) {
-                var alertString = top.window.document.getElementById("highlighter-strings").getString("noServerResponse");
+                alertString = top.window.document.getElementById("highlighter-strings").getString("noServerResponse");
                 window.alert(alertString);
 
             }
@@ -1267,6 +1197,7 @@ var highlighter = {
         this.strings = top.window.document.getElementById("highlighter-strings");
 
         req.onreadystatechange = function (aEvt) {
+            var alertString="";
             try{
                 if (req.readyState == 4) {
                     if(req.status == 200){
@@ -1281,14 +1212,14 @@ var highlighter = {
                     //previewELOWindow.top.window.document.body.innerHTML = preview;
                     }
                     else {
-                        var alertString = top.window.document.getElementById("highlighter-strings").getString("errorLoadingPage")+"\n"+document.getElementById("highlighter-strings").getString("errorCode") + req.status + "\n" + document.getElementById("highlighter-strings").getString(req.responseText);
+                        alertString = top.window.document.getElementById("highlighter-strings").getString("errorLoadingPage")+"\n"+document.getElementById("highlighter-strings").getString("errorCode") + req.status + "\n" + document.getElementById("highlighter-strings").getString(req.responseText);
                         window.alert(alertString);
                     }
                 } else {
 
             }
             }catch (e) {
-                var alertString = top.window.document.getElementById("highlighter-strings").getString("noServerResponse");
+                alertString = top.window.document.getElementById("highlighter-strings").getString("noServerResponse");
                 window.alert(alertString);
 
             }
@@ -1539,5 +1470,3 @@ window.addEventListener("load", function(e) {
 var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
 var container = mainWindow.gBrowser.tabContainer;
 container.onselect = highlighter.findBrokenHighlights;
-
-
