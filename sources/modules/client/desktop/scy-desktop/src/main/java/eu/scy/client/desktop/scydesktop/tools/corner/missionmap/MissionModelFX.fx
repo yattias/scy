@@ -19,7 +19,6 @@ import eu.scy.actionlogging.api.IAction;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.utils.XFX;
-import java.lang.UnsupportedOperationException;
 
 /**
  * @author SikkenJ
