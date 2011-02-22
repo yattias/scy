@@ -9,15 +9,15 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2011-02-22T17:10:20.328+0200</dateTime>
+          <dateTime>2011-02-22T19:28:01.593+0200</dateTime>
         </date>
       </contribute>
-      <version>8</version>
+      <version>10</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1293025047522</dateCreated>
-        <dateLastModified>1298387420328</dateLastModified>
+        <dateLastModified>1298395681593</dateLastModified>
       </customElements>
       <format>scy/youtuber</format>
     </technical>

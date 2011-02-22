@@ -9,15 +9,15 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2010-02-23T12:20:30.747+0200</dateTime>
+          <dateTime>2011-02-22T18:38:43.281+0200</dateTime>
         </date>
       </contribute>
-      <version>8</version>
+      <version>9</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1266920430747</dateCreated>
-        <dateLastModified>1266920430747</dateLastModified>
+        <dateLastModified>1298392723281</dateLastModified>
       </customElements>
       <format>scy/pds</format>
     </technical>
@@ -27,11 +27,12 @@
       </description>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/20069/0/Data_set.scypds</entry>
+        <entry>roolo://memory/20069/0/Data+from+experiments.scypds</entry>
       </identifier>
       <las>experiment_B2</las>
       <structure>dataset</structure>
       <mission>ecoMission</mission>
+      <missionRunning>roolo://memory/20193/0/ECO+mission.scymissionspecification</missionRunning>
       <title>
         <string language="en">Data from experiments</string>
       </title>
@@ -43,7 +44,20 @@
       <entity>icon</entity>
       <iconType>scy/dataset</iconType>
     </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
 <processDataset>
@@ -81,57 +95,77 @@
       </column>
     </header>
     <row>
-      <value>NaN</value>
-      <value>NaN</value>
-      <value>NaN</value>
-      <value>NaN</value>
-      <value>NaN</value>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
     </row>
     <row>
-      <value>NaN</value>
-      <value>NaN</value>
-      <value>NaN</value>
-      <value>NaN</value>
-      <value>NaN</value>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
     </row>
     <row>
-      <value>NaN</value>
-      <value>NaN</value>
-      <value>NaN</value>
-      <value>NaN</value>
-      <value>NaN</value>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
     </row>
     <row>
-      <value>NaN</value>
-      <value>NaN</value>
-      <value>NaN</value>
-      <value>NaN</value>
-      <value>NaN</value>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
     </row>
     <row>
-      <value>NaN</value>
-      <value>NaN</value>
-      <value>NaN</value>
-      <value>NaN</value>
-      <value>NaN</value>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
     </row>
     <row>
-      <value>NaN</value>
-      <value>NaN</value>
-      <value>NaN</value>
-      <value>NaN</value>
-      <value>NaN</value>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
     </row>
     <row>
-      <value>NaN</value>
-      <value>NaN</value>
-      <value>NaN</value>
-      <value>NaN</value>
-      <value>NaN</value>
+      <value />
+      <value />
+      <value />
+      <value />
+      <value />
     </row>
   </dataset>
   <processed_dataset>
     <name>Dataset</name>
+    <processed_hedaer>
+      <column>0</column>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>1</column>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>2</column>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>3</column>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>4</column>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
   </processed_dataset>
 </processDataset>
 </content>

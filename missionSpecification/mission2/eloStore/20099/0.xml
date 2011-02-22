@@ -9,15 +9,15 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2011-02-22T17:09:52.359+0200</dateTime>
+          <dateTime>2011-02-22T18:39:51.546+0200</dateTime>
         </date>
       </contribute>
-      <version>9</version>
+      <version>11</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1266853263318</dateCreated>
-        <dateLastModified>1298387392359</dateLastModified>
+        <dateLastModified>1298392791546</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -29,7 +29,7 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/20099/0/Hypotheses.rtf</entry>
       </identifier>
-      <las>orientation_B3</las>
+      <las>experiment_B3</las>
       <structure>plainText</structure>
       <mission>ecoMission</mission>
       <missionRunning>roolo://memory/20193/0/ECO+mission.scymissionspecification</missionRunning>
@@ -65,7 +65,8 @@
 {\colortbl\red0\green0\blue0;\red51\green51\blue51;}
 
 \li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here your hypotheses.\par
-\li0\ri0\fi0\f1\ul0\cf1\par
+\f1\cf1\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>

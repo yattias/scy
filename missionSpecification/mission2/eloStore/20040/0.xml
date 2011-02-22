@@ -9,15 +9,15 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2011-02-22T16:32:14.843+0200</dateTime>
+          <dateTime>2011-02-22T18:23:43.609+0200</dateTime>
         </date>
       </contribute>
-      <version>9</version>
+      <version>11</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1266853263318</dateCreated>
-        <dateLastModified>1298385134843</dateLastModified>
+        <dateLastModified>1298391823609</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -29,7 +29,7 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/20040/0/Hypotheses.rtf</entry>
       </identifier>
-      <las>orientation_C1</las>
+      <las>experiment_C1</las>
       <structure>plainText</structure>
       <mission>ecoMission</mission>
       <missionRunning>roolo://memory/20193/0/ECO+mission.scymissionspecification</missionRunning>
@@ -56,7 +56,7 @@
   </lom>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACH0lEQVR42u3VsWsTYRzG8Zuz5K8ICAG3xD8g4O7gkKHpIC5mEFyEeoK6FWunLCooQhQSSUEXh6IOFRQCBZc6FJIlg7k2MXc5r2dyyc+8P03MJaDi1OD3gSfv+9579w4f7ogVRZF0Op2lmuv0z7XMj+M4sXa7Xe0UM/jqy2g0kuFwqB0MBmIyD14ul2PrxTM8z5V6vR67p1KpLD0TBMFKVQED70h2dj+L0x5Iu/0LcO/wRI5dkfNrNyUMQ7lw7734Qah7Jm8/OnLNvqujAfTDSN5M5ne2H8/OePfJk7PpM3J967kCmnvNPWY0gDKO5OXeoV7r9b5M2lupKuBJ/0huv568jucasTfw4qNvsrbtSC6/oYClUkmKxeIM8OHOB1m/sqGjAey6gVy6ekvX0zOe7R7I01f7cvnGfQU0e/bWEx0V8Oc5mw9eKODi13Da+9tP2O972v6ktVpNqtXqrCbTfVMD2J9bL55hagDn1wbQc93YM61Wa6VqKYTvL7XRaNC/qAKSf49VKBR0Ytu2JJNJyWazks/nJZfL6fVmsymZTEbnqVRK0un0jwctS8bjsc7Nv1Eikfg/AXmHAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACeCrzHeC3/BQy15hzAAAAAElFTkSuQmCC</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAD3klEQVR42u3d30tTYRgH8HkjCEHRTbf+Bf4FgRB1UxZdeNOtCF4oeKOUEGViDLUyAhON7IdEFxIT0xIkJAgzK1a2Ubn542yi+6Fu023OzbOnPe86x/14z7JcN/J94MvZ+z7nfc/24cyjV5r6+voomUwWzNzcHKmqikhiYsCNjQ3y+XzSrK+vk8vlIj6vv78/Kzw3Pj5OOzs70uSer63JPMrment7pWs5PT09eetz95ElFosZvs+DZN+AfA6/zkwoFKSJiQkKBAJ5iUajxJW7hsN7RSIRw57NZpNej+eGh4cNewxl1OMPy++p2MkCDG34SFFWaWuLpIB27y613f1GN7pn6fItO13rGhCA3Hv71UWKP0zb4YAYh0IhAagmiT44o1nRAFNdaY8BE/FYes4RIatb1XsMGE69Qe18m4f0ngaYu2cwGBDX29zcLHp0wFDAT1Mf/eJDn236QVefrucBvrEup7pJCqaAy8+8ouu3H+uAAyPv6Htq+UXzO/0u4NpNCY6+V6ikpIRMJpN4vQeY7p08dY7Gpt16jwHVRFyMJ20BOnPhkt4TgOEtMX45tZS1pwbIY22ew4D8YblX7GQA+si1naQrliQdOa3QiYqpPMBn45+po3+WlhZcVHH+Fd2480QHtFgsNDk5SZ2dnfodzZXYVenRyCfxgdruPRev9wCJjh47rs9rPQZMqgkxLi8vp8cZPQaMhMNifG9wImudBqjN3bw/JI7B3z9W/H5/0aMDboXSd19kM0bT75304vV8HmDHg1Hqejimp617UAf0rgXoi2OFfipeMV5ZWRH7xRO7Yl1mMgFlPQbkr7esx4DRSFja0wBze3wHrq2t0erqatHzVw8RWfgpLNtYURQBZLSOAY162kNEFu0hIosGKIvX6yW321306ICFMj8/TwsLC4ZZXFyUptCa/5FC1zR6jweNaXl52fDu0+LxeMjhcCCSmAh1oMoD5D/d/qX+dd2hAGxpaRGDuro6ceTHM1dVVZU4VlZWiu+7Vo2NjeJYXV2t4w0NDYl97HY7lZaWivmysrL0RUz5N3p7e/vhAYzH49Ta2ip+2eQym80Cxel0irF2rKmp0RfW1taS1WrN23BmZkYcGxoaqLm5OatXX19PTU1Nh+puxc9AAAIQgABEARCAAAQgCoAABCAAUQAEIAABiAIgAAEIQBQAAQhAAKIACEAAAhAFQAACEIAoAAIQgABEARCAAAQgCoAABCAAAYgCIAABCEAUAAEIQACiAAhAAAIQBUAAAhCAKAACEICHH1D27y/U38md+9N5aoFz/7TP365X97l3oXXqPvdRC+z9C+jXLmIgrL5nAAAAAElFTkSuQmCC</base64>
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
@@ -65,7 +65,8 @@
 {\colortbl\red0\green0\blue0;\red51\green51\blue51;}
 
 \li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here your hypotheses.\par
-\li0\ri0\fi0\f1\ul0\cf1\par
+\f1\cf1\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>
