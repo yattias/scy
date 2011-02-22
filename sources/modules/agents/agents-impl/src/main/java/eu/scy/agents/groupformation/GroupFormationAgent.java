@@ -33,6 +33,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 
 	// private static final String LAS = "las";
 	private static final String LAS = "newLasId";
+	private static final String OLD_LAS = "oldLasId";
 	private static final String STRATEGY = "strategy";
 	private static final String FORM_GROUP = "form_group";
 	static final String NAME = GroupFormationAgent.class.getName();
@@ -123,11 +124,26 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		} else {
 			IAction action = ActionTupleTransformer
 					.getActionFromTuple(afterTuple);
+			String oldLas = action.getAttribute(OLD_LAS);
 			String las = action.getAttribute(LAS);
+			if ("conceptualisatsionConceptMap".equals(oldLas)) {
+				removeUserFromCache(action,
+						(Integer) configuration
+								.getParameter(new AgentParameter(action
+										.getContext(ContextConstants.mission),
+										MIN_GROUP_SIZE_PARAMETER)));
+			}
 			if ("conceptualisatsionConceptMap".equals(las)) {
 				runGroupFormation(action);
 			}
 		}
+	}
+
+	private void removeUserFromCache(IAction action, int minGroupSize) {
+		String mission = action.getContext(ContextConstants.mission);
+		GroupFormationCache groupFormationCache = missionGroupsCache
+				.get(mission);
+		groupFormationCache.removeFromCache(action.getUser(), minGroupSize);
 	}
 
 	private void runGroupFormation(IAction action) {
@@ -157,7 +173,9 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		Set<String> availableUsers = getAvailableUsers(scope, mission, las,
 				groupFormationCache, action.getUser());
 		if (availableUsers.size() < minGroupSize) {
-			sendWaitNotification(action);
+			if (!groupFormationCache.contains(action.getUser())) {
+				sendWaitNotification(action);
+			}
 			return;
 		}
 
