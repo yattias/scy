@@ -12,7 +12,7 @@
   - for the specific language governing rights and limitations under the
   - License.
   -
-  - The Original Code is Highlighter.
+  - The Original Code is scylighter.
   -
   - The Initial Developer of the Original Code is
   - Sven Manske.
@@ -35,14 +35,14 @@
   -
   - ***** END LICENSE BLOCK ***** -->
 
-<?xml-stylesheet href="chrome://highlighter/skin/overlay.css" type="text/css"?>
+<?xml-stylesheet href="chrome://scylighter/skin/overlay.css" type="text/css"?>
 
-<!DOCTYPE overlay SYSTEM "chrome://highlighter/locale/highlighter.dtd">
-<overlay id="highlighter-overlay"
+<!DOCTYPE overlay SYSTEM "chrome://scylighter/locale/scylighter.dtd">
+<overlay id="scylighter-overlay"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
     <script src="overlay.js"/>
     <stringbundleset id="stringbundleset">
-        <stringbundle id="highlighter-strings" src="chrome://highlighter/locale/highlighter.properties"/>
+        <stringbundle id="scylighter-strings" src="chrome://scylighter/locale/scylighter.properties"/>
     </stringbundleset>
 
 
@@ -58,7 +58,7 @@
                      autoCheck="false"
                      type="checkbox"
                      group="sidebar"
-                     sidebarurl="chrome://highlighter/content/sidebar.xul"
+                     sidebarurl="chrome://scylighter/content/sidebar.xul"
                      sidebartitle="&sidebar.title;"
                      oncommand="toggleSidebar('viewSidebar');overlay.onSidebarChanged();" />
     </broadcasterset>
@@ -68,21 +68,21 @@
 
     </menupopup>
     <popup id="contentAreaContextMenu">
-        <menuitem id="context-highlighter" label="&highlighterContext.label;"
-                  accesskey="&highlighterContext.accesskey;"
+        <menuitem id="context-scylighter" label="&scylighterContext.label;"
+                  accesskey="&scylighterContext.accesskey;"
                   insertafter="context-stop"
-                  oncommand="highlighter.onMenuItemCommand(event);"/>
-        <menuitem id="context-dehighlighter" label="&dehighlighterContext.label;"
-                  accesskey="&dehighlighterContext.accesskey;"
+                  oncommand="scylighter.onMenuItemCommand(event);"/>
+        <menuitem id="context-descylighter" label="&descylighterContext.label;"
+                  accesskey="&descylighterContext.accesskey;"
                   insertafter="context-stop"
-                  oncommand="highlighter.removeHighlight();"/>
+                  oncommand="scylighter.removeHighlight();"/>
         <menuitem id="context-sidebar" key="key_openSidebar" observes="viewSidebar" />
     </popup>
     <toolbarpalette id="browser-toolbar-palette">
-        <toolbarbutton id="highlighter-toolbar-button"
-                       label="&highlighterToolbar.label;"
-                       tooltiptext="&highlighterToolbar.tooltip;"
-                       oncommand="highlighter.onToolbarButtonCommand()"
+        <toolbarbutton id="scylighter-toolbar-button"
+                       label="&scylighterToolbar.label;"
+                       tooltiptext="&scylighterToolbar.tooltip;"
+                       oncommand="scylighter.onToolbarButtonCommand()"
                        class="toolbarbutton-1 chromeclass-toolbar-additional"/>
     </toolbarpalette>
 

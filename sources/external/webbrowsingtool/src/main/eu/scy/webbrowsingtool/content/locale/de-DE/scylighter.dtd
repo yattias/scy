@@ -1,0 +1,38 @@
+<!ENTITY scylighter.label "Highlight Selection">
+<!ENTITY scylighterContext.label "Highlight Selection">
+<!ENTITY scylighter.undo "Undo Highlighting">
+<!ENTITY scylighterContext.accesskey "Y">
+<!ENTITY scylighterToolbar.label "Highlight">
+<!ENTITY scylighterToolbar.tooltip "Highlight!">
+<!ENTITY scylighter.addTitle "Add Title">
+<!ENTITY scylighter.selection "Selection">
+<!ENTITY scylighter.deleteSelected "Remove Selection">
+<!ENTITY scylighter.comments "Comments">
+<!ENTITY scylighter.sources "Sources">
+<!ENTITY scylighter.summary "Summary">
+<!ENTITY scylighter.title "Title">
+<!ENTITY scylighter.addComments "Add comment">
+<!ENTITY scylighter.openELO "Open ELO!">
+<!ENTITY scylighter.preview "Preview!">
+<!ENTITY scylighter.saveELO "Save ELO!">
+<!ENTITY descylighter.label "De-Highlight Selection">
+<!ENTITY descylighterContext.label "De-Highlight Selection">
+<!ENTITY descylighterContext.accesskey "Z">
+<!ENTITY descylighterToolbar.label "De-Highlight">
+<!ENTITY descylighterToolbar.tooltip "De-Highlight!">
+<!ENTITY sidebar.title "SCY Sidebar">
+<!ENTITY openSidebar.commandkey "E">
+<!ENTITY openSidebar.modifierskey "shift accel">
+<!ENTITY openELOWindowTitle "Open ELO....">
+<!ENTITY toolbarbutton.new "New ELO">
+<!ENTITY toolbarbutton.save "Save ELO">
+<!ENTITY toolbarbutton.print "Print">
+<!ENTITY toolbarbutton.preferences "Preferences">
+<!ENTITY toolbarbutton.help "Help">
+<!ENTITY toolbarbutton.preview "Preview">
+<!ENTITY toolbarbutton.tooltip.new "Create new ELO">
+<!ENTITY toolbarbutton.tooltip.save "Save ELO">
+<!ENTITY toolbarbutton.tooltip.print "Print overview">
+<!ENTITY toolbarbutton.tooltip.preferences "Preferences: customize settings, e.g. Username/Password">
+<!ENTITY toolbarbutton.tooltip.help "Open Help-page">
+<!ENTITY toolbarbutton.tooltip.preview "Open preview">

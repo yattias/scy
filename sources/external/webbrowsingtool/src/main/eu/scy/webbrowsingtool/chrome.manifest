@@ -1,8 +1,8 @@
-content	highlighter	content/
-locale	highlighter	en-US	content/locale/en-US/
-skin	highlighter	classic/1.0	skin/
-overlay	chrome://browser/content/browser.xul	chrome://highlighter/content/firefoxOverlay.xul
-overlay	chrome://browser/content/browser.xul	chrome://highlighter/content/menubarOverlay.xul
-overlay	chrome://highlighter/content/firefoxOverlay.xul	chrome://highlighter/content/sidebar.xul
-style	chrome://global/content/customizeToolbar.xul	chrome://highlighter/skin/overlay.css
-resource highlighter modules/
+content	scylighter	content/
+locale	scylighter	en-US	content/locale/en-US/
+skin	scylighter	classic/1.0	skin/
+overlay	chrome://browser/content/browser.xul	chrome://scylighter/content/firefoxOverlay.xul
+overlay	chrome://browser/content/browser.xul	chrome://scylighter/content/menubarOverlay.xul
+overlay	chrome://scylighter/content/firefoxOverlay.xul	chrome://scylighter/content/sidebar.xul
+style	chrome://global/content/customizeToolbar.xul	chrome://scylighter/skin/overlay.css
+resource scylighter modules/

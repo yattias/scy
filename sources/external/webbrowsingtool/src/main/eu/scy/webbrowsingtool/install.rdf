@@ -5,12 +5,12 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="scylighter@sven.manske"
                    em:name="Scylighter"
-                   em:version="1.4.7"
+                   em:version="1.4.8"
                    em:creator="Sven Manske"
                    em:type="2"
                    em:description="Highlight selections in the HTML Document"
-                   em:optionsURL="chrome://highlighter/content/options.xul"
-                   em:iconURL="chrome://highlighter/skin/icons/Logo32x32.png"
+                   em:optionsURL="chrome://scylighter/content/options.xul"
+                   em:iconURL="chrome://scylighter/skin/icons/Logo32x32.png"
                    >
     <em:targetApplication RDF:resource="rdf:#$PfHRq2"/>
   </RDF:Description>
