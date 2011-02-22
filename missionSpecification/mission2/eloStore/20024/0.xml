@@ -9,15 +9,15 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2010-02-22T17:41:03.317+0200</dateTime>
+          <dateTime>2011-02-22T17:09:22.437+0200</dateTime>
         </date>
       </contribute>
-      <version>8</version>
+      <version>9</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1266853263318</dateCreated>
-        <dateLastModified>1266853263318</dateLastModified>
+        <dateLastModified>1298387362437</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -27,13 +27,15 @@
       </description>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/20024/0/Problem_formulation.rtf</entry>
+        <entry>roolo://memory/20024/0/Problem+formulation.rtf</entry>
       </identifier>
       <las>orientation_B2</las>
       <structure>plainText</structure>
       <mission>ecoMission</mission>
+      <missionRunning>roolo://memory/20193/0/ECO+mission.scymissionspecification</missionRunning>
       <title>
         <string language="en">Problem formulation</string>
+        <string language="ee">Probleemi sõnastamine</string>
       </title>
     </general>
     <educational>
@@ -41,16 +43,30 @@
     </educational>
     <annotation>
       <entity>icon</entity>
-      <iconType>scy/text</iconType>
+      <iconType>Idea</iconType>
     </annotation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAETklEQVR42u2d30tbZxjHI94OJl64W/+C/gUDYa43mxu7nVfijRfeKAymIM6KQ7SbHQUnKnbtythFHUpsO0GmDILt2Ga3LmXORG0SUZOoScyPxsSTp3ke+56eJO9J40x3Mb5f+PKc933e5znnfDjJeeONjsnJScrlcmW9sbFBhmHAGjsY4NHREYVCIa0PDw/J7/cTr5uamiowzy0uLtLJyYnWxetVjTXq5iYmJrS17PHx8ZL64j46p9Np2+u8iCsGyGv42OpYLEpLS0sUiURKnEqliFVcw+ZeyWTSNud2u7Xn47n5+XnbHIOyy/HN8jVV2wUAY0ch8vn2KB4nLcAnwVMa/OovunLtMX36xRPqv3pDAHLu5z/95Asn6FkiIuNYLCYAjRzRL95UgRXAfFabY4DZTPpszpOkRwHDzDHARP4C1Xr3Ppk5BbC4ZzQakfMdHx9X3SbAWCRMq7+G5abf+2Sd+r49LAH406OdfDZH0Tzgxsv36bMvb5oAbzhd9He+/KNhl/kUsE7zBO8+8FFNTQ05HA45fgnwLPf2O+/TvYcBM8cAjWxGxivuCF3+8GMzJwATcRkvrD4t6KkA8ljNsxkg3yznqm0LwBD5n+WoZy5Hb7zro7curZYA/G7xdxqZekxPt/x06YP7dGXslglwbm6OVlZWaHR01HyiWdlTg75x/iY3NHj9ezl+CZDozbp6c17lGGDOyMq4sbGRblpyDDCZSMj4+u2lgjoFUM19/vUdidEXXyvhcLjqNgHGY2dPX/I4TQ8feOmHHzdLAI5M36WrM/dMD167bQIMHkToD88u/eMLynh3d1f6ZbKnUme1FaAuxwD5463LMcBUMqHNKYDFOX4CDw4OaG9vr+o+10tEZ34L6xr7fD4BZFfHAO1y6iWis3qJ6KwA6hwMBikQCFTdJsBy3tzcpK2tLVtvb29rXa7mdbjcOe2u8aJ27Ozs2D59yvv7++TxeGCNHQRdSCUA+adbJSpeV2ndefsWi38+WWO1z/+vAPb29sqgo6NDIr+eWS0tLRKbmprk867U09NDa2trNDY2JmOn0ymxvr5eYkNDw1lzh8OMfX19JXOsurq6/MY9LsfNzc0SZ2ZmJHZ1dVFbW5vUck5BWl5e1t5MbW1t4c3lz8FfP68dYCaToYGBAdlssoaHh+VivV6vjFVsb28vKHa5XNTa2krr6+sy5q0C13V3dxc8Gf39/eaYz8MaGhqSmMjv6VRvrmfNzs5KXFhYEFs1PT0tf9yQLdDIiERrf6XOzs6CMe8M/pOPMASAAAiAAAgBIAACIABCAAiAAAiAEAACIAACIASAAAiAAAgBIAACIABCAAiAAAiAEAACIAACIABCAAiAAAiAEAACIAACIASAAAiAAAgBIAACIABCAAiAAAiAEAACIAACIASAAAiAAAgBIAAC4P8OoO7fXxgvXDz3qnVGmbWv6nPeeqPC3uXqjAr7GGV6Pwc1kggrP79G8gAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil sansserif;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red0\green0\blue0;}&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
-\f1\fs24\i0\b0\cf1 Write here what is the main problem of this situation.\par&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;&#xD;
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here what is the main problem of this situation.\par
+\li0\ri0\fi0\f1\ul0\cf1\par
 }</RichText>
 </content>
 <resources>
