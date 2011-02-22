@@ -53,7 +53,7 @@ public class ModalDialogLayer extends CustomNode {
                 blocksMouse: true
                 x: 0, y: 0
                 width: 100, height: 100
-                fill: Color.color(0.0, 0.0, 0.0, 0.3)
+                fill: Color.color(1.0, 1.0, 1.0, 0.5)
                 onKeyPressed: function(e: KeyEvent): Void {
                 }
                 onKeyReleased: function(e: KeyEvent): Void {
