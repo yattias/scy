@@ -12,7 +12,7 @@
                    em:version="1.4.1"
                    em:creator="Sven Manske"
                    em:description="Highlight selections in the HTML Document"
-                   em:optionsURL="chrome://highlighter/content/options.xul"
+                   em:optionsURL="chrome://scylighter/content/options.xul"
                    em:updateURL="http://scy.collide.info/scylighter/update.rdf">
     <em:targetApplication RDF:resource="rdf:#$lGGNS3"/>
   </RDF:Description>

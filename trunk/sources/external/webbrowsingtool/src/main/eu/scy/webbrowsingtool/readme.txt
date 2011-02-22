@@ -9,9 +9,9 @@ build.sh script located in this folder.  For development
 you should do the following:
   1. Unzip the entire contents of this package to somewhere,
 	       e.g, c:\dev or /home/user/dev
-  2. Put the full path to the folder (e.g. c:\dev\highlighter on
-     Windows, /home/user/dev/highlighter on Linux) in a file named
-     highlighter@sven.manske and copy that file to
+  2. Put the full path to the folder (e.g. c:\dev\scylighter on
+     Windows, /home/user/dev/scylighter on Linux) in a file named
+     scylighter@sven.manske and copy that file to
      [your profile folder]\extensions\
   3. Restart Firefox.
 

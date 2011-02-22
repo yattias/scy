@@ -12,7 +12,7 @@
   - for the specific language governing rights and limitations under the
   - License.
   -
-  - The Original Code is Highlighter.
+  - The Original Code is scylighter.
   -
   - The Initial Developer of the Original Code is
   - Sven Manske.
@@ -36,16 +36,16 @@
   - ***** END LICENSE BLOCK ***** -->
 
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
-<!DOCTYPE prefwindow SYSTEM "chrome://highlighter/locale/prefwindow.dtd">
-<prefwindow id="highlighterPreferences" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="&prefwindow.title;">
+<!DOCTYPE prefwindow SYSTEM "chrome://scylighter/locale/prefwindow.dtd">
+<prefwindow id="scylighterPreferences" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="&prefwindow.title;">
   <prefpane id="pane1" label="&pane1.title;">
     <preferences>
-      <preference id="user" name="extensions.highlighter.username" type="string" />
-      <preference id="password" name="extensions.highlighter.password" type="string"/>
-	  <preference id="address" name="extensions.highlighter.address" type="string"/>
-	  <preference id="defaultaddress" name="extensions.highlighter.defaultaddress" type="string"/>
-	  <preference id="port" name="extensions.highlighter.port" type="string"/>
-	  <preference id="usedefaultaddress" name="extensions.highlighter.usedefaultaddress" type="bool"/>
+      <preference id="user" name="extensions.scylighter.username" type="string" />
+      <preference id="password" name="extensions.scylighter.password" type="string"/>
+	  <preference id="address" name="extensions.scylighter.address" type="string"/>
+	  <preference id="defaultaddress" name="extensions.scylighter.defaultaddress" type="string"/>
+	  <preference id="port" name="extensions.scylighter.port" type="string"/>
+	  <preference id="usedefaultaddress" name="extensions.scylighter.usedefaultaddress" type="bool"/>
     </preferences>
 	<spacer flex="5"/>
     <groupbox>

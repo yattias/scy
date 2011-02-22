@@ -11,7 +11,7 @@
  * for the specific language governing rights and limitations under the
  * License.
  *
- * The Original Code is Highlighter.
+ * The Original Code is scylighter.
  *
  * The Initial Developer of the Original Code is
  * Sven Manske.
@@ -44,23 +44,23 @@ var overlay = {
 	var sidebar = top.window.document.getElementById("sidebar-box");
 	if (sidebar.hidden){
 		//disable (de-)highlight-command on context-menu
-		document.getElementById("context-highlighter").disabled = true;
-		document.getElementById("context-dehighlighter").disabled = true;
+		document.getElementById("context-scylighter").disabled = true;
+		document.getElementById("context-descylighter").disabled = true;
                 document.getElementById("menu-scy-new").disabled=true;
                 document.getElementById("menu-scy-save").disabled=true;
                 document.getElementById("menu-scy-preview").disabled=true;
                 document.getElementById("menu-scy-print").disabled=true;
 	} else {
 		//enable (de-)highlight-command on context-menu
-		document.getElementById("context-highlighter").disabled = false;
-		document.getElementById("context-dehighlighter").disabled = false;
+		document.getElementById("context-scylighter").disabled = false;
+		document.getElementById("context-descylighter").disabled = false;
                 document.getElementById("menu-scy-new").disabled=false;
                 document.getElementById("menu-scy-save").disabled=false;
                 document.getElementById("menu-scy-preview").disabled=false;
                 document.getElementById("menu-scy-print").disabled=false;
 	}
     this.initialized = true;
-    //this.strings = top.window.document.getElementById("highlighter-strings");
+    //this.strings = top.window.document.getElementById("scylighter-strings");
     //document.getElementById("contentAreaContextMenu").addEventListener("popupshowing", function(e) { this.showContextMenu(e); }, false);
   },
   getElementsByAttributeDOM: function (strAttributeName, strAttributeValue){
@@ -98,16 +98,16 @@ var overlay = {
 	var sidebar = top.window.document.getElementById("sidebar-box");
 	if (sidebar.hidden){
 		//disable (de-)highlight-command on context-menu
-		document.getElementById("context-highlighter").disabled = true;
-		document.getElementById("context-dehighlighter").disabled = true;
+		document.getElementById("context-scylighter").disabled = true;
+		document.getElementById("context-descylighter").disabled = true;
                 document.getElementById("menu-scy-new").disabled=true;
                 document.getElementById("menu-scy-save").disabled=true;
                 document.getElementById("menu-scy-preview").disabled=true;
                 document.getElementById("menu-scy-print").disabled=true;
 	} else {
 		//enable (de-)highlight-command on context-menu
-		document.getElementById("context-highlighter").disabled = false;
-		document.getElementById("context-dehighlighter").disabled = false;
+		document.getElementById("context-scylighter").disabled = false;
+		document.getElementById("context-descylighter").disabled = false;
                 document.getElementById("menu-scy-new").disabled=false;
                 document.getElementById("menu-scy-save").disabled=false;
                 document.getElementById("menu-scy-preview").disabled=false;
@@ -118,7 +118,7 @@ var overlay = {
   showContextMenu: function(event) {
     // show or hide the menuitem based on what the context menu is on
     // see http://kb.mozillazine.org/Adding_items_to_menus
-    document.getElementById("context-highlighter").hidden = gContextMenu.onImage;
+    document.getElementById("context-scylighter").hidden = gContextMenu.onImage;
    },
   onMenuItemCommand: function(e) {
 
@@ -126,7 +126,7 @@ var overlay = {
 
   onToolbarButtonCommand: function(e) {
     // just reuse the function above.  you can change this, obviously!
-    highlighter.onMenuItemCommand(e);
+    scylighter.onMenuItemCommand(e);
   },
 
 };

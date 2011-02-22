@@ -12,7 +12,7 @@
   - for the specific language governing rights and limitations under the
   - License.
   -
-  - The Original Code is Highlighter.
+  - The Original Code is scylighter.
   -
   - The Initial Developer of the Original Code is
   - Sven Manske.
@@ -35,15 +35,15 @@
   -
   - ***** END LICENSE BLOCK ***** -->
 
-<?xml-stylesheet href="chrome://highlighter/skin/overlay.css" type="text/css"?>
+<?xml-stylesheet href="chrome://scylighter/skin/overlay.css" type="text/css"?>
 
-<!DOCTYPE overlay SYSTEM "chrome://highlighter/locale/highlighter.dtd">
-<overlay id="highlighter-overlay"
+<!DOCTYPE overlay SYSTEM "chrome://scylighter/locale/scylighter.dtd">
+<overlay id="scylighter-overlay"
          xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
     <script src="overlay.js"/>
     <script src="sidebar.js"/>
     <stringbundleset id="stringbundleset">
-        <stringbundle id="highlighter-strings" src="chrome://highlighter/locale/highlighter.properties"/>
+        <stringbundle id="scylighter-strings" src="chrome://scylighter/locale/scylighter.properties"/>
     </stringbundleset>
 
     <menubar id="main-menubar">
@@ -51,14 +51,14 @@
             <menupopup>
                 <menuitem label="SCY Sidebar (toggle)" oncommand="toggleSidebar('viewSidebar');overlay.onSidebarChanged();" class="menuitem-iconic"  key="key_openSidebar" observes="viewSidebar"/>
                 <menuseparator></menuseparator>
-                <menuitem label="Help" oncommand="highlighter.openHelp();" class="menuitem-iconic" image="chrome://highlighter/skin/icons/help_x32.png"/>
+                <menuitem label="Help" oncommand="scylighter.openHelp();" class="menuitem-iconic" image="chrome://scylighter/skin/icons/help_x32.png"/>
                 <menuseparator></menuseparator>
-                <menuitem id="menu-scy-new" label="New ELO" oncommand="highlighter.newELO();" class="menuitem-iconic" image="chrome://highlighter/skin/icons/new_x32.png"/>
-                <menuitem id="menu-scy-save" label="Save ELO" oncommand="highlighter.saveELO();" class="menuitem-iconic" image="chrome://highlighter/skin/icons/save_x32.png"/>
-                <menuitem id="menu-scy-preview" label="Preview" oncommand="highlighter.preview();" class="menuitem-iconic" image="chrome://highlighter/skin/icons/preview_x32.png"/>
-                <menuitem id="menu-scy-print" label="Print Preview" oncommand="highlighter.print();" class="menuitem-iconic" image="chrome://highlighter/skin/icons/print_x32.png"/>
+                <menuitem id="menu-scy-new" label="New ELO" oncommand="scylighter.newELO();" class="menuitem-iconic" image="chrome://scylighter/skin/icons/new_x32.png"/>
+                <menuitem id="menu-scy-save" label="Save ELO" oncommand="scylighter.saveELO();" class="menuitem-iconic" image="chrome://scylighter/skin/icons/save_x32.png"/>
+                <menuitem id="menu-scy-preview" label="Preview" oncommand="scylighter.preview();" class="menuitem-iconic" image="chrome://scylighter/skin/icons/preview_x32.png"/>
+                <menuitem id="menu-scy-print" label="Print Preview" oncommand="scylighter.print();" class="menuitem-iconic" image="chrome://scylighter/skin/icons/print_x32.png"/>
                 <menuseparator></menuseparator>
-                <menuitem label="Preferences"  oncommand="highlighter.openPreferences();" class="menuitem-iconic" image="chrome://highlighter/skin/icons/preferences_x32.png"/>
+                <menuitem label="Preferences"  oncommand="scylighter.openPreferences();" class="menuitem-iconic" image="chrome://scylighter/skin/icons/preferences_x32.png"/>
             </menupopup>
         </menu>
     </menubar>
