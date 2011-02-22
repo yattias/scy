@@ -88,7 +88,7 @@ public class BigMissionMapControl extends CustomNode {
             }
 
          });
-         ModalDialogLayer.addModalDialog(missionMapWindow, true);
+         ModalDialogLayer.addModalDialog(missionMapWindow, true, false, true);
       }
    }
 
