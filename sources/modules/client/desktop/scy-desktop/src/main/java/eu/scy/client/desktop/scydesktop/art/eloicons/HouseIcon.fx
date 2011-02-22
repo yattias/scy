@@ -82,7 +82,7 @@ return Group {
 				},
 				Polygon {
 					points: [4.73,18.28,21.60,3.44,38.48,18.28]
-					fill: bind windowColorScheme.mainColor
+					fill: bind windowColorScheme.thirdColor
 					stroke: Color.WHITE
 					strokeWidth: 0.63
 					strokeLineCap: StrokeLineCap.BUTT

@@ -78,7 +78,7 @@ return Group {
 					height: 14.42
 				},
 				Rectangle {
-					fill: bind windowColorScheme.mainColor
+					fill: bind windowColorScheme.thirdColor
 					stroke: null
 					x: 16.22
 					y: 17.26
