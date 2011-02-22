@@ -380,6 +380,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       //        }
          scyFeedbackGiveButton = MultiImageButton {
              imageName: "giveFeedback";
+             disable: initializer.offlineMode
 //             tooltip: Tooltip {
 //                 text: "Give feedback!";
 //             }
@@ -398,11 +399,12 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  catch (e: javax.jnlp.UnavailableServiceException) {
                      BareBonesBrowserLaunch.openURL(feedbackURL);
                  }
-                 scyFeedbackGiveButton.imageName = "feedback_give";
+//                 scyFeedbackGiveButton.imageName = "feedback_give";
              }
          }
          scyFeedbackGetButton = MultiImageButton {
              imageName: "getFeedback";
+             disable: initializer.offlineMode
 //             tooltip: Tooltip {
 //                 text: "Get feedback!";
 //             }
@@ -421,11 +423,12 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  catch (e: javax.jnlp.UnavailableServiceException) {
                      BareBonesBrowserLaunch.openURL(feedbackURL);
                  }
-                 scyFeedbackGetButton.imageName = "feedback_get";
+//                 scyFeedbackGetButton.imageName = "feedback_get";
              }
          }
          eportfolioButton = MultiImageButton {
              imageName: "eportfolio";
+             disable: initializer.offlineMode
              //tooltip: Tooltip {
                //  text: "ePortfolio!";
              //}
@@ -443,7 +446,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  catch (e: javax.jnlp.UnavailableServiceException) {
                      BareBonesBrowserLaunch.openURL(eportfolioURL);
                  }
-                 eportfolioButton.imageName = "eportfolio";
+//                 eportfolioButton.imageName = "eportfolio";
              }
          }
 //         scyFeedbackGiveButton.layoutX = 5;
