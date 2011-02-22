@@ -16,6 +16,10 @@ import eu.scy.client.desktop.scydesktop.art.ScyColors;
 import javafx.scene.layout.Resizable;
 import java.lang.Void;
 import eu.scy.client.desktop.scydesktop.scywindows.ModalDialogLayer;
+import eu.scy.client.desktop.scydesktop.utils.XFX;
+import java.lang.Thread;
+import javafx.animation.Timeline;
+import javafx.animation.Interpolator;
 
 /**
  * @author sikken
@@ -31,7 +35,7 @@ public class ModalDialogBox extends CustomNode {
    public var closeAction: function(): Void;
    var dialogWindow: ScyWindow;
 
-   init {
+   postinit {
       FX.deferAction(place);
    }
 
@@ -41,7 +45,6 @@ public class ModalDialogBox extends CustomNode {
       }
 
       dialogWindow = StandardScyWindow {
-            visible: false
             scyContent: content;
             title: title
             eloIcon: eloIcon;
@@ -53,8 +56,10 @@ public class ModalDialogBox extends CustomNode {
             allowClose: false
             allowResize: content instanceof Resizable
             allowCenter: false
+            allowMaximize: false
             activated: true
-         }
+            opacity: 0
+      }
       dialogWindow.open();
       dialogWindow
    }
@@ -67,15 +72,25 @@ public class ModalDialogBox extends CustomNode {
    public function place(): Void {
       ModalDialogLayer.addModalDialog(this);
       FX.deferAction(function(): Void {
-         dialogWindow.visible = true;
-         dialogWindow.layoutY = scene.height;
          center();
       });
       this.requestFocus();
    }
 
    function center(): Void {
-       dialogWindow.openWindow(scene.width / 2 - dialogWindow.layoutBounds.width / 2, scene.height / 2 - dialogWindow.layoutBounds.height / 2, dialogWindow.layoutBounds.width, dialogWindow.layoutBounds.height);
+       // this is clearly a quick hack to wait manually for the window to redender itself, so
+       // that we have the final dialogWindow.layoutBounds that we can take to calculate the
+       // correct center position (if someone has a better idea, please remove and make it right)
+       // the hack is: wait 500 ms in the background to have the UI thread free to render
+       // then content then show it, i.e., make opacity = 1
+       XFX.runActionInBackgroundAndCallBack(function() { Thread.sleep(500); return null }, function(o): Void {
+           dialogWindow.layoutX = scene.width / 2 - dialogWindow.layoutBounds.width / 2;
+           dialogWindow.layoutY = scene.height / 2 - dialogWindow.layoutBounds.height / 2;
+           Timeline {
+               keyFrames: [
+                   at (500ms) {dialogWindow.opacity => 1 tween Interpolator.LINEAR}
+               ];
+           }.playFromStart();
+       });
    }
-
 }
