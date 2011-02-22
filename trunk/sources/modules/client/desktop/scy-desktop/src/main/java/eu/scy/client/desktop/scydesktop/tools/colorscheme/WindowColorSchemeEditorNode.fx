@@ -114,7 +114,7 @@ public class WindowColorSchemeEditorNode extends CustomNode {
          windowColorSchemeEditor.thirdLightDisplay.fill = selectedColor;
       } else if ("background" == selectedColorPart) {
          selectedWindowColorScheme.backgroundColor = selectedColor;
-         windowColorSchemeEditor.mainLightDisplay.fill = selectedColor;
+         windowColorSchemeEditor.backgroundDisplay.fill = selectedColor;
       } else if ("emptyBackground" == selectedColorPart) {
          selectedWindowColorScheme.emptyBackgroundColor = selectedColor;
          windowColorSchemeEditor.emptyBackgroundDisplay.fill = selectedColor;
