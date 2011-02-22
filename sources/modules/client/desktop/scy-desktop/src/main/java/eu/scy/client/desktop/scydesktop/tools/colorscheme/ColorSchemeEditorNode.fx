@@ -136,15 +136,12 @@ public class ColorSchemeEditorNode extends CustomNode, ScyToolFX, EloSaverCallBa
 
    function doLoadElo(eloUri: URI) {
       logger.info("Trying to load elo {eloUri}");
-      var newElo = repository.retrieveELO(eloUri);
-      if (newElo != null) {
-      //         var metadata = newElo.getMetadata();
-      //         var text = eloContentXmlToText(newElo.getContent().getXmlString());
-      //         logger.info("elo text loaded");
-      //         elo = newElo;
-      //         FX.deferAction(function(): Void {
-      //            textBox.text = text;
-      //         });
+      var newColorSchemesElo = ColorSchemesElo.loadElo(eloUri, toolBrokerAPI);
+      if (newColorSchemesElo != null) {
+         def colorSchemes = newColorSchemesElo.getTypedContent().getColorSchemes();
+         def windowColorSchemes = WindowColorSchemes.getWindowColorSchemes(colorSchemes);
+         windowColorSchemeEditorNode.windowColorSchemes = windowColorSchemes;
+         colorSchemesElo = newColorSchemesElo;
       }
    }
 
