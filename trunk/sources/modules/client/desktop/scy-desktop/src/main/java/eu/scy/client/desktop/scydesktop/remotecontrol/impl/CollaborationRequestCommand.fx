@@ -35,9 +35,13 @@ public class CollaborationRequestCommand extends ScyDesktopRemoteCommand {
             scyDesktop.config.getToolBrokerAPI().answerCollaborationProposal(false, user, eloUri);
         }
         def text = "{userNickname} {##"wants to start a collaboration with you on the ELO"} {eloUri}. {##"Accept?"}";
-        DialogBox.showOptionDialog(text, ##"Collaboration Request", scyDesktop, yesAction, noAction, "{eloUri}");
 
-        
+        // todo
+        // 1. check if user is collaboration ready state (not in mission map)
+        // 2. check if user is in the correct LAS, if not ask if he wants to go there for the collaboration
+        // if user is ready to collaborate, do it!
+
+        DialogBox.showOptionDialog(text, ##"Collaboration Request", scyDesktop, yesAction, noAction, "{eloUri}");
     }
 
 }
