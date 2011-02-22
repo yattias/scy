@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import javafx.scene.control.ListCell;
 import eu.scy.client.desktop.scydesktop.art.eloicons.EloIconFactory;
-import java.util.HashMap;
+import javafx.util.Sequences;
 
 /**
  * @author SikkenJ
@@ -63,7 +63,7 @@ public class WindowColorSchemeEditorNode extends CustomNode {
    function setupWindowColorSchemeEditor() {
       windowColorSchemeEditor.colorSchemeListview.items = windowColorSchemes.getAllWindowColorSchemes();
       windowColorSchemeEditor.colorSchemeListview.cellFactory = windowColorSchemeCellFactory;
-      windowColorSchemeEditor.eloIconListview.items = eloIconFactory.getNames();
+      windowColorSchemeEditor.eloIconListview.items = Sequences.sort(eloIconFactory.getNames());
       windowColorSchemeEditor.eloIconListview.cellFactory = eloIconCellFactory;
    }
 
