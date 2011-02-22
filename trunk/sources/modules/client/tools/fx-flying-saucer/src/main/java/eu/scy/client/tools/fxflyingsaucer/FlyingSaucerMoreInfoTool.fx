@@ -12,6 +12,7 @@ import java.net.URL;
 import javafx.scene.layout.Container;
 import javafx.scene.layout.Resizable;
 import javafx.util.Math;
+import eu.scy.client.desktop.scydesktop.scywindows.ShowMoreInfo;
 
 /**
  * @author SikkenJ
@@ -20,10 +21,12 @@ public class FlyingSaucerMoreInfoTool extends CustomNode, Resizable, ShowInfoUrl
 
    public override var width on replace { resizeContent() };
    public override var height on replace { resizeContent() };
+   public var showMoreInfo: ShowMoreInfo;
    def flyingSaucerPanel = new FlyingSaucerPanel(false);
    def swingComponent = ScySwingWrapper.wrap(flyingSaucerPanel);
 
    public override function create(): Node {
+      flyingSaucerPanel.setShowMoreInfo(showMoreInfo);
       swingComponent
    }
 
