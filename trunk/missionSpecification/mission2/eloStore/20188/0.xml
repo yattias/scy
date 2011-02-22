@@ -61,7 +61,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/20094/0/challenge_eco.url</eloUri>
-        <iconType>scy/url</iconType>
+        <iconType>Information2</iconType>
         <loElos />
         <inputAnchors />
         <relations />
@@ -84,7 +84,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/20095/0/Concept_map</eloUri>
-        <iconType>ard/concept_map</iconType>
+        <iconType>Concept_map3</iconType>
         <loElos />
         <inputAnchors />
         <relations />
@@ -107,7 +107,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/20159/0/YouTube+video+link.scyyoutuber</eloUri>
-        <iconType>ard/presentation</iconType>
+        <iconType>Video</iconType>
         <loElos />
         <inputAnchors />
         <relations />
@@ -130,7 +130,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/20051/0/Hypotheses.rtf</eloUri>
-        <iconType>ard/idea</iconType>
+        <iconType>Hypothese2</iconType>
         <loElos />
         <inputAnchors />
         <relations />
@@ -142,7 +142,7 @@
       <intermediateAnchors>
         <intermediateAnchor>
           <eloUri>roolo://memory/20047/0/Problem_formulation.rtf</eloUri>
-          <iconType>scy/text</iconType>
+          <iconType>Idea</iconType>
           <loElos />
           <inputAnchors />
           <relations />
@@ -153,7 +153,7 @@
         </intermediateAnchor>
         <intermediateAnchor>
           <eloUri>roolo://memory/20049/0/Research_questions.rtf</eloUri>
-          <iconType>scy/text</iconType>
+          <iconType>Research_question</iconType>
           <loElos />
           <inputAnchors />
           <relations />
@@ -176,7 +176,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/20028/0/Hypotheses.rtf</eloUri>
-        <iconType>ard/idea</iconType>
+        <iconType>Hypothese2</iconType>
         <loElos />
         <inputAnchors />
         <relations />
@@ -188,7 +188,7 @@
       <intermediateAnchors>
         <intermediateAnchor>
           <eloUri>roolo://memory/20024/0/Problem_formulation.rtf</eloUri>
-          <iconType>scy/text</iconType>
+          <iconType>Idea</iconType>
           <loElos />
           <inputAnchors />
           <relations />
@@ -199,7 +199,7 @@
         </intermediateAnchor>
         <intermediateAnchor>
           <eloUri>roolo://memory/20026/0/Research_questions.rtf</eloUri>
-          <iconType>scy/text</iconType>
+          <iconType>Research_question</iconType>
           <loElos />
           <inputAnchors />
           <relations />
@@ -222,7 +222,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/20099/0/Hypotheses.rtf</eloUri>
-        <iconType>ard/idea</iconType>
+        <iconType>Hypothese2</iconType>
         <loElos />
         <inputAnchors />
         <relations />
@@ -234,7 +234,7 @@
       <intermediateAnchors>
         <intermediateAnchor>
           <eloUri>roolo://memory/20016/0/Problem_formulation.rtf</eloUri>
-          <iconType>scy/text</iconType>
+          <iconType>Idea</iconType>
           <loElos />
           <inputAnchors />
           <relations />
@@ -245,7 +245,7 @@
         </intermediateAnchor>
         <intermediateAnchor>
           <eloUri>roolo://memory/20097/0/Research_questions.rtf</eloUri>
-          <iconType>scy/text</iconType>
+          <iconType>Research_question</iconType>
           <loElos />
           <inputAnchors />
           <relations />
@@ -268,7 +268,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/20040/0/Hypotheses.rtf</eloUri>
-        <iconType>ard/idea</iconType>
+        <iconType>Hypothese2</iconType>
         <loElos />
         <inputAnchors />
         <relations />
@@ -280,7 +280,7 @@
       <intermediateAnchors>
         <intermediateAnchor>
           <eloUri>roolo://memory/20036/0/Problem_formulation.rtf</eloUri>
-          <iconType>scy/text</iconType>
+          <iconType>Idea</iconType>
           <loElos />
           <inputAnchors />
           <relations />
@@ -291,7 +291,7 @@
         </intermediateAnchor>
         <intermediateAnchor>
           <eloUri>roolo://memory/20038/0/Research_questions.rtf</eloUri>
-          <iconType>scy/text</iconType>
+          <iconType>Research_question</iconType>
           <loElos />
           <inputAnchors />
           <relations />
@@ -532,7 +532,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/20053/0/Solution.rtf</eloUri>
-        <iconType>ard/drawing</iconType>
+        <iconType>Conclusion</iconType>
         <loElos>
           <eloUri>roolo://memory/20103/0/Inferences.rtf</eloUri>
         </loElos>
@@ -557,7 +557,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/20054/0/Solution.rtf</eloUri>
-        <iconType>ard/drawing</iconType>
+        <iconType>Conclusion</iconType>
         <loElos>
           <eloUri>roolo://memory/20062/0/Inferences.rtf</eloUri>
         </loElos>
@@ -582,7 +582,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/20055/0/Solution.rtf</eloUri>
-        <iconType>ard/drawing</iconType>
+        <iconType>Conclusion</iconType>
         <loElos>
           <eloUri>roolo://memory/20071/0/Inferences.rtf</eloUri>
         </loElos>
@@ -607,7 +607,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/20056/0/Solution.rtf</eloUri>
-        <iconType>ard/drawing</iconType>
+        <iconType>Conclusion</iconType>
         <loElos>
           <eloUri>roolo://memory/20079/0/Inferences.rtf</eloUri>
         </loElos>
