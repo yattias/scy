@@ -26,8 +26,8 @@ public class WindowColorSchemes {
       addWindowColorScheme(ColorSchemeId.FIVE, WindowColorScheme.getWindowColorScheme(ScyColors.blue));
       addWindowColorScheme(ColorSchemeId.SIX, WindowColorScheme.getWindowColorScheme(ScyColors.magenta));
       addWindowColorScheme(ColorSchemeId.SEVEN, WindowColorScheme.getWindowColorScheme(ScyColors.brown));
-      addWindowColorScheme(ColorSchemeId.EIGHT, WindowColorScheme.getWindowColorScheme(ScyColors.darkBlue));
-      addWindowColorScheme(ColorSchemeId.NINE, WindowColorScheme.getWindowColorScheme(ScyColors.darkGray));
+      addWindowColorScheme(ColorSchemeId.EIGHT, WindowColorScheme.getWindowColorScheme(ScyColors.darkRed));
+      addWindowColorScheme(ColorSchemeId.NINE, WindowColorScheme.getWindowColorScheme(ScyColors.darkBlue));
    }
 
    public function getWindowColorScheme(colorSchemeId: ColorSchemeId): WindowColorScheme {
@@ -72,15 +72,22 @@ public class WindowColorSchemes {
 public function getStandardWindowColorSchemes(): WindowColorSchemes {
    def windowColorSchemes = WindowColorSchemes {
       }
-   windowColorSchemes.addWindowColorScheme(ColorSchemeId.ONE, WindowColorScheme.getWindowColorScheme(ScyColors.green));
-   windowColorSchemes.addWindowColorScheme(ColorSchemeId.TWO, WindowColorScheme.getWindowColorScheme(ScyColors.purple));
-   windowColorSchemes.addWindowColorScheme(ColorSchemeId.THREE, WindowColorScheme.getWindowColorScheme(ScyColors.orange));
-   windowColorSchemes.addWindowColorScheme(ColorSchemeId.FOUR, WindowColorScheme.getWindowColorScheme(ScyColors.pink));
-   windowColorSchemes.addWindowColorScheme(ColorSchemeId.FIVE, WindowColorScheme.getWindowColorScheme(ScyColors.blue));
-   windowColorSchemes.addWindowColorScheme(ColorSchemeId.SIX, WindowColorScheme.getWindowColorScheme(ScyColors.magenta));
-   windowColorSchemes.addWindowColorScheme(ColorSchemeId.SEVEN, WindowColorScheme.getWindowColorScheme(ScyColors.brown));
-   windowColorSchemes.addWindowColorScheme(ColorSchemeId.EIGHT, WindowColorScheme.getWindowColorScheme(ScyColors.darkBlue));
-   windowColorSchemes.addWindowColorScheme(ColorSchemeId.NINE, WindowColorScheme.getWindowColorScheme(ScyColors.darkGray));
+//   windowColorSchemes.addWindowColorScheme(ColorSchemeId.ONE, WindowColorScheme.getWindowColorScheme(ScyColors.green));
+//   windowColorSchemes.addWindowColorScheme(ColorSchemeId.TWO, WindowColorScheme.getWindowColorScheme(ScyColors.purple));
+//   windowColorSchemes.addWindowColorScheme(ColorSchemeId.THREE, WindowColorScheme.getWindowColorScheme(ScyColors.orange));
+//   windowColorSchemes.addWindowColorScheme(ColorSchemeId.FOUR, WindowColorScheme.getWindowColorScheme(ScyColors.pink));
+//   windowColorSchemes.addWindowColorScheme(ColorSchemeId.FIVE, WindowColorScheme.getWindowColorScheme(ScyColors.blue));
+//   windowColorSchemes.addWindowColorScheme(ColorSchemeId.SIX, WindowColorScheme.getWindowColorScheme(ScyColors.magenta));
+//   windowColorSchemes.addWindowColorScheme(ColorSchemeId.SEVEN, WindowColorScheme.getWindowColorScheme(ScyColors.brown));
+//   windowColorSchemes.addWindowColorScheme(ColorSchemeId.EIGHT, WindowColorScheme.getWindowColorScheme(ScyColors.darkBlue));
+//   windowColorSchemes.addWindowColorScheme(ColorSchemeId.NINE, WindowColorScheme.getWindowColorScheme(ScyColors.darkGray));
 
+   windowColorSchemes
+}
+
+public function getWindowColorSchemes(colorSchemes: List): WindowColorSchemes{
+   def windowColorSchemes = WindowColorSchemes {
+      }
+   windowColorSchemes.setColorSchemes(colorSchemes);
    windowColorSchemes
 }
