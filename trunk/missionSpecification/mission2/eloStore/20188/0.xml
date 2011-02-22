@@ -83,7 +83,7 @@
       <loElos />
       <otherElos />
       <mainAnchor>
-        <eloUri>roolo://memory/20095/0/Concept_map</eloUri>
+        <eloUri>roolo://memory/20095/0/Concept+map</eloUri>
         <iconType>Concept_map3</iconType>
         <loElos />
         <inputAnchors />
@@ -106,7 +106,7 @@
       <loElos />
       <otherElos />
       <mainAnchor>
-        <eloUri>roolo://memory/20159/0/YouTube+video+link.scyyoutuber</eloUri>
+        <eloUri>roolo://memory/20159/0/Video+report.scyyoutuber</eloUri>
         <iconType>Video</iconType>
         <loElos />
         <inputAnchors />
@@ -141,7 +141,7 @@
       </mainAnchor>
       <intermediateAnchors>
         <intermediateAnchor>
-          <eloUri>roolo://memory/20047/0/Problem_formulation.rtf</eloUri>
+          <eloUri>roolo://memory/20047/0/Problem+formulation.rtf</eloUri>
           <iconType>Idea</iconType>
           <loElos />
           <inputAnchors />
@@ -152,7 +152,7 @@
           <colorScheme />
         </intermediateAnchor>
         <intermediateAnchor>
-          <eloUri>roolo://memory/20049/0/Research_questions.rtf</eloUri>
+          <eloUri>roolo://memory/20049/0/Research+questions.rtf</eloUri>
           <iconType>Research_question</iconType>
           <loElos />
           <inputAnchors />
@@ -187,7 +187,7 @@
       </mainAnchor>
       <intermediateAnchors>
         <intermediateAnchor>
-          <eloUri>roolo://memory/20024/0/Problem_formulation.rtf</eloUri>
+          <eloUri>roolo://memory/20024/0/Problem+formulation.rtf</eloUri>
           <iconType>Idea</iconType>
           <loElos />
           <inputAnchors />
@@ -198,7 +198,7 @@
           <colorScheme />
         </intermediateAnchor>
         <intermediateAnchor>
-          <eloUri>roolo://memory/20026/0/Research_questions.rtf</eloUri>
+          <eloUri>roolo://memory/20026/0/Research+questions.rtf</eloUri>
           <iconType>Research_question</iconType>
           <loElos />
           <inputAnchors />
@@ -233,7 +233,7 @@
       </mainAnchor>
       <intermediateAnchors>
         <intermediateAnchor>
-          <eloUri>roolo://memory/20016/0/Problem_formulation.rtf</eloUri>
+          <eloUri>roolo://memory/20016/0/Problem+formulation.rtf</eloUri>
           <iconType>Idea</iconType>
           <loElos />
           <inputAnchors />
@@ -244,7 +244,7 @@
           <colorScheme />
         </intermediateAnchor>
         <intermediateAnchor>
-          <eloUri>roolo://memory/20097/0/Research_questions.rtf</eloUri>
+          <eloUri>roolo://memory/20097/0/Research+questions.rtf</eloUri>
           <iconType>Research_question</iconType>
           <loElos />
           <inputAnchors />
@@ -279,7 +279,7 @@
       </mainAnchor>
       <intermediateAnchors>
         <intermediateAnchor>
-          <eloUri>roolo://memory/20036/0/Problem_formulation.rtf</eloUri>
+          <eloUri>roolo://memory/20036/0/Problem+formulation.rtf</eloUri>
           <iconType>Idea</iconType>
           <loElos />
           <inputAnchors />
@@ -290,7 +290,7 @@
           <colorScheme />
         </intermediateAnchor>
         <intermediateAnchor>
-          <eloUri>roolo://memory/20038/0/Research_questions.rtf</eloUri>
+          <eloUri>roolo://memory/20038/0/Research+questions.rtf</eloUri>
           <iconType>Research_question</iconType>
           <loElos />
           <inputAnchors />
@@ -311,12 +311,12 @@
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_inferences_b1.html</instructionUri>
       <lasType>EXPERIMENT</lasType>
       <loElos>
-         <eloUri>roolo://memory/20181/0/Introductory_model_for_scydynamics</eloUri>
+         <eloUri>roolo://memory/20181/0/Introductory+model+for+scydynamics.scymodel</eloUri>
 	  </loElos>
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/20103/0/Inferences.rtf</eloUri>
-        <iconType>scy/simconfig</iconType>
+        <iconType>Model</iconType>
         <loElos>
           <eloUri>roolo://memory/20051/0/Hypotheses.rtf</eloUri>
         </loElos>
@@ -329,8 +329,8 @@
       </mainAnchor>
       <intermediateAnchors>
         <intermediateAnchor>
-          <eloUri>roolo://memory/20108/0/Experimental_procedure.scyxproc</eloUri>
-          <iconType>scy/xproc</iconType>
+          <eloUri>roolo://memory/20108/0/Experimental+procedure.scyxproc</eloUri>
+          <iconType>Exp_design</iconType>
           <loElos />
           <inputAnchors />
           <relations />
@@ -340,8 +340,8 @@
           <colorScheme />
         </intermediateAnchor>
         <intermediateAnchor>
-          <eloUri>roolo://memory/20087/0/Scy_dynamics.model</eloUri>
-          <iconType>scy/model</iconType>
+          <eloUri>roolo://memory/20087/0/SCYDynamics+model.scymodel</eloUri>
+          <iconType>Model</iconType>
           <loElos />
           <inputAnchors />
           <relations />
@@ -351,8 +351,8 @@
           <colorScheme />
         </intermediateAnchor>
         <intermediateAnchor>
-          <eloUri>roolo://memory/20102/0/Data_set.scypds</eloUri>
-          <iconType>scy/dataset</iconType>
+          <eloUri>roolo://memory/20102/0/Data+from+experiments.scypds</eloUri>
+          <iconType>Data</iconType>
           <loElos />
           <inputAnchors />
           <relations />
@@ -375,7 +375,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/20062/0/Inferences.rtf</eloUri>
-        <iconType>scy/simconfig</iconType>
+        <iconType>Model</iconType>
         <loElos>
           <eloUri>roolo://memory/20028/0/Hypotheses.rtf</eloUri>
         </loElos>
@@ -388,8 +388,8 @@
       </mainAnchor>
       <intermediateAnchors>
         <intermediateAnchor>
-          <eloUri>roolo://memory/20063/0/Experimental_procedure.scyxproc</eloUri>
-          <iconType>scy/xproc</iconType>
+          <eloUri>roolo://memory/20063/0/Experimental+procedure.scyxproc</eloUri>
+          <iconType>Exp_design</iconType>
           <loElos />
           <inputAnchors />
           <relations />
@@ -399,8 +399,8 @@
           <colorScheme />
         </intermediateAnchor>
         <intermediateAnchor>
-          <eloUri>roolo://memory/20069/0/Data_set.scypds</eloUri>
-          <iconType>scy/dataset</iconType>
+          <eloUri>roolo://memory/20069/0/Data+from+experiments.scypds</eloUri>
+          <iconType>Data</iconType>
           <loElos />
           <inputAnchors />
           <relations />
@@ -420,12 +420,12 @@
       <instructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_inferences_b3.html</instructionUri>
       <lasType>EXPERIMENT</lasType>
       <loElos>
-        <eloUri>roolo://memory/20181/0/Introductory_model_for_scydynamics</eloUri>
+        <eloUri>roolo://memory/20181/0/Introductory+model+for+scydynamics.scymodel</eloUri>
 	  </loElos>
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/20071/0/Inferences.rtf</eloUri>
-        <iconType>scy/simconfig</iconType>
+        <iconType>Model</iconType>
         <loElos>
           <eloUri>roolo://memory/20099/0/Hypotheses.rtf</eloUri>
         </loElos>
@@ -438,8 +438,8 @@
       </mainAnchor>
       <intermediateAnchors>
         <intermediateAnchor>
-          <eloUri>roolo://memory/20072/0/Experimental_procedure.scyxproc</eloUri>
-          <iconType>scy/xproc</iconType>
+          <eloUri>roolo://memory/20072/0/Experimental+procedure.scyxproc</eloUri>
+          <iconType>Exp_design</iconType>
           <loElos />
           <inputAnchors />
           <relations />
@@ -449,8 +449,8 @@
           <colorScheme />
         </intermediateAnchor>
         <intermediateAnchor>
-          <eloUri>roolo://memory/20088/0/Scy_dynamics.model</eloUri>
-          <iconType>scy/model</iconType>
+          <eloUri>roolo://memory/20088/0/SCYDynamics+model.scymodel</eloUri>
+          <iconType>Model</iconType>
           <loElos />
           <inputAnchors />
           <relations />
@@ -460,8 +460,8 @@
           <colorScheme />
         </intermediateAnchor>
         <intermediateAnchor>
-          <eloUri>roolo://memory/20077/0/Data_set.scypds</eloUri>
-          <iconType>scy/dataset</iconType>
+          <eloUri>roolo://memory/20077/0/Data+from+experiments.scypds</eloUri>
+          <iconType>Data</iconType>
           <loElos />
           <inputAnchors />
           <relations />
@@ -484,7 +484,7 @@
       <otherElos />
       <mainAnchor>
         <eloUri>roolo://memory/20079/0/Inferences.rtf</eloUri>
-        <iconType>scy/simconfig</iconType>
+        <iconType>Model</iconType>
         <loElos>
           <eloUri>roolo://memory/20040/0/Hypotheses.rtf</eloUri>
         </loElos>
@@ -497,8 +497,8 @@
       </mainAnchor>
       <intermediateAnchors>
         <intermediateAnchor>
-          <eloUri>roolo://memory/20080/0/Experimental_procedure.scyxproc</eloUri>
-          <iconType>scy/xproc</iconType>
+          <eloUri>roolo://memory/20080/0/Experimental+procedure.scyxproc</eloUri>
+          <iconType>Exp_design</iconType>
           <loElos />
           <inputAnchors />
           <relations />
@@ -508,8 +508,8 @@
           <colorScheme />
         </intermediateAnchor>
         <intermediateAnchor>
-          <eloUri>roolo://memory/20085/0/Data_set.scypds</eloUri>
-          <iconType>scy/dataset</iconType>
+          <eloUri>roolo://memory/20085/0/Data+from+experiments.scypds</eloUri>
+          <iconType>Data</iconType>
           <loElos />
           <inputAnchors />
           <relations />
@@ -531,7 +531,7 @@
       <loElos />
       <otherElos />
       <mainAnchor>
-        <eloUri>roolo://memory/20053/0/Solution.rtf</eloUri>
+        <eloUri>roolo://memory/20053/0/Problem+solution.rtf</eloUri>
         <iconType>Conclusion</iconType>
         <loElos>
           <eloUri>roolo://memory/20103/0/Inferences.rtf</eloUri>
@@ -556,7 +556,7 @@
       <loElos />
       <otherElos />
       <mainAnchor>
-        <eloUri>roolo://memory/20054/0/Solution.rtf</eloUri>
+        <eloUri>roolo://memory/20054/0/Problem+solution.rtf</eloUri>
         <iconType>Conclusion</iconType>
         <loElos>
           <eloUri>roolo://memory/20062/0/Inferences.rtf</eloUri>
@@ -581,7 +581,7 @@
       <loElos />
       <otherElos />
       <mainAnchor>
-        <eloUri>roolo://memory/20055/0/Solution.rtf</eloUri>
+        <eloUri>roolo://memory/20055/0/Problem+solution.rtf</eloUri>
         <iconType>Conclusion</iconType>
         <loElos>
           <eloUri>roolo://memory/20071/0/Inferences.rtf</eloUri>
@@ -606,7 +606,7 @@
       <loElos />
       <otherElos />
       <mainAnchor>
-        <eloUri>roolo://memory/20056/0/Solution.rtf</eloUri>
+        <eloUri>roolo://memory/20056/0/Problem+solution.rtf</eloUri>
         <iconType>Conclusion</iconType>
         <loElos>
           <eloUri>roolo://memory/20079/0/Inferences.rtf</eloUri>
