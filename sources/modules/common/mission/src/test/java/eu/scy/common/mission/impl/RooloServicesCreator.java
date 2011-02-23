@@ -78,6 +78,10 @@ public class RooloServicesCreator
 					CoreRooloMetadataKeyIds.DATE_LAST_MODIFIED.getId(),
 					"/lom/technical/customElements/dateLastModified", I18nType.UNIVERSAL,
 					MetadataValueCount.SINGLE, null);
+		IMetadataKey dateFirstUserSaveKey = new LongMetadataKey(
+					ScyRooloMetadataKeyIds.DATE_FIRST_USER_SAVE.getId(),
+					"/lom/technical/customElements/dateFirstUserSave", I18nType.UNIVERSAL,
+					MetadataValueCount.SINGLE, null);
 		IMetadataKey technicalFormatKey = new StringMetadataKey(
 					CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId(), "/lom/technical/format",
 					I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
@@ -108,6 +112,9 @@ public class RooloServicesCreator
 		IMetadataKey authorKey = new ContributeMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId(),
 					"/lom/lifecycle/contribute/[kind=\"author\"]", I18nType.UNIVERSAL,
 					MetadataValueCount.LIST, null);
+		IMetadataKey creatorKey = new ContributeMetadataKey(ScyRooloMetadataKeyIds.CREATOR.getId(),
+					"/lom/lifecycle/contribute/[kind=\"initiator\"]", I18nType.UNIVERSAL,
+					MetadataValueCount.SINGLE, null);
 		IMetadataKey keywordsKey = new StringMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS.getId(),
 					"/keywords", I18nType.UNIVERSAL, MetadataValueCount.LIST, null);
 		IMetadataKey socialTagsKey = new StringMetadataKey(
@@ -157,6 +164,7 @@ public class RooloServicesCreator
 		metadataTypeManager.registerMetadataKey(technicalFormatKey);
 		metadataTypeManager.registerMetadataKey(dateCreatedKey);
 		metadataTypeManager.registerMetadataKey(dateLastModifiedKey);
+		metadataTypeManager.registerMetadataKey(dateFirstUserSaveKey);
 		metadataTypeManager.registerMetadataKey(isVersionOfKey);
 		metadataTypeManager.registerMetadataKey(isVersionedByKey);
 		metadataTypeManager.registerMetadataKey(isForkOfKey);
@@ -165,6 +173,7 @@ public class RooloServicesCreator
 		metadataTypeManager.registerMetadataKey(logicalRoleKey);
 		metadataTypeManager.registerMetadataKey(functionalRoleKey);
 		metadataTypeManager.registerMetadataKey(authorKey);
+		metadataTypeManager.registerMetadataKey(creatorKey);
 		metadataTypeManager.registerMetadataKey(keywordsKey);
 		metadataTypeManager.registerMetadataKey(socialTagsKey);
 		metadataTypeManager.registerMetadataKey(learningActivityKey);
