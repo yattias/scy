@@ -79,6 +79,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
          moreInfoWindow.width = (1 - 2 * relativeMoreInfoWindowScreenBoder) * scene.width;
          moreInfoWindow.height = (1 - 2 * relativeMoreInfoWindowScreenBoder) * scene.height;
       }
+      ModalDialogLayer.resize();
    }
 
    public override function getControlNode(): Node {
