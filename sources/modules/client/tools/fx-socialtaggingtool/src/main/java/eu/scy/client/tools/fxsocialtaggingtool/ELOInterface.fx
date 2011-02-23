@@ -5,8 +5,23 @@
 package eu.scy.client.tools.fxsocialtaggingtool;
 
 import roolo.elo.api.IELO;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import java.net.URI;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.metadata.keys.SocialTags;
+import java.util.Map;
 
 public class ELOInterface {
+
+    public-init var tbi: ToolBrokerAPI;
+    public-init var eloUri: URI;
+    var elo: IELO;
+    var socialtagsKey: IMetadataKey;
+
+    init {
+        elo = tbi.getRepository().retrieveELO(eloUri);
+        socialtagsKey = tbi.getMetaDataTypeManager().getMetadataKey("socialTags");
+    }
 
     /**
      * Interface class for the Tagging GUI to read and write tags to ELO objects
@@ -15,53 +30,72 @@ public class ELOInterface {
      *
      * @author sindre
      */
-
-     public function getCurrentUser(): String {
-         // Should probably be something else than String
-         return "John";
-     }
-
-
-    function setTag(elo: IELO, tag: Tag): Tag {
-        /**
-         * Sets a tag from the tagging interface in the ELO object
-         *
-         * @param elo The IELO to set the tag in
-         * @param tag A tag to be saved in elo
-         * @return A Tag when successful
-         */
-        // TODO connect to ELO
-        return Tag {};
+    public function getCurrentUser(): String {
+        return tbi.getLoginUserName();
     }
 
-    function getAllTags(elo: IELO): Tag[] {
+    function getAllTags(): Tag[] {
         /**
          * Retrieves all tags from all users associated with an IELO.
          *
          * @param elo The IELO to get all tags from
          * @return An array of Tag objects
          */
-        [// TODO connect to ELO
-            Tag {
-            }]
+        var tags: Tag[] = [];
+        var socialTags: SocialTags = elo.getMetadata().getMetadataValueContainer(socialtagsKey).getValue() as SocialTags;
+
+        if (socialTags != null) {
+            for (st in socialTags.getSocialTags()) {
+                var ayevoters: String[];
+                var nayvoters: String[];
+                var conts: Map = st.getContributions() as Map;
+                for (contributor in st.getContributorNames()) {
+                    var value: Number = conts.get(contributor) as Number;
+                    if (value > 0) {
+                        insert contributor into ayevoters;
+                    } else {
+                        insert contributor into nayvoters;
+                    }
+                }
+                var t = Tag {
+                            tagname: st.getTagName();
+                            ayevoters: ayevoters;
+                            nayvoters: nayvoters;
+                        };
+                insert t into tags;
+            }
+        }
+        return tags;
     }
 
-    function addTag(elo: IELO, tag: Tag): Tag {
+    public function addTag(tag: Tag): Tag {
+        var mvc = elo.getMetadata().getMetadataValueContainer(socialtagsKey);
+        if (mvc.getValue() == null) {
+            mvc.setValue(new SocialTags());
+        }
+        var st: SocialTags = mvc.getValue() as SocialTags;
+        st.addSocialTag(tag.tagname, getCurrentUser());
+        tbi.getRepository().updateELO(elo);
+        return tag;
+    }
+
+    public function removeTag(tag: Tag): Tag {
+        var mvc = elo.getMetadata().getMetadataValueContainer(socialtagsKey);
+        if (mvc.getValue() == null) {
+            mvc.setValue(new SocialTags());
+        }
+        var st: SocialTags = mvc.getValue() as SocialTags;
+        st.removeContributeFromTag(tag.tagname, getCurrentUser());
+        tbi.getRepository().updateELO(elo);
+        return tag;
+    }
+
+    public function addVoteForTag(tag: Tag, user): Tag {
         // TODO: inspect existing tags and update by calling setTag
         return tag;
     }
 
-    function removeTag(elo: IELO, tag: Tag): Tag {   
-        // TODO: inspect existing tags and update by calling setTag
-        return tag;
-    }
-
-    public function addVoteForTag(elo: IELO, tag: Tag, user): Tag {
-        // TODO: inspect existing tags and update by calling setTag
-        return tag;
-    }
-
-    public function removeVoteForTag(elo: IELO, tag: Tag): Tag {
+    public function removeVoteForTag(tag: Tag): Tag {
         // TODO: inspect existing tags and update by calling setTag
         return tag;
     }

@@ -30,7 +30,10 @@ public class SocialTaggingDrawer
     def valueOffset = 0.0;
     def spacing = 3.0;
     def border = 0.0;
-    def eloInterface = ELOInterface {}
+    def eloInterface = ELOInterface {
+        tbi: scyWindow.tbi;
+        eloUri: scyWindow.eloUri;
+    }
     def currentUser = bind eloInterface.getCurrentUser();
     var cacheCheckbox: CheckBox;
     var layoutXValue: TextBox;
