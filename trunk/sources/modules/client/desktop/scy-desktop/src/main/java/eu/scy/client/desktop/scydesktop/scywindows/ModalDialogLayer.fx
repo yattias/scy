@@ -47,7 +47,7 @@ public class ModalDialogLayer extends CustomNode {
     def sceneWidth = bind scene.width on replace { sceneSizeChanged() };
     def sceneHeight = bind scene.height on replace { sceneSizeChanged() };
     def modalDialogGroup = Group {
-                visible: false
+                visible: true
             }
     def backgroundBlocker = Rectangle {
                 blocksMouse: true
@@ -65,6 +65,8 @@ public class ModalDialogLayer extends CustomNode {
 
     var fullscreenNodes: Node[];
 
+    var hiddenNodes: Node[];
+
     function sceneSizeChanged() {
         backgroundBlocker.width = scene.width;
         backgroundBlocker.height = scene.height;
@@ -73,17 +75,14 @@ public class ModalDialogLayer extends CustomNode {
                 node.layoutX = -node.layoutBounds.minX + scene.width / 2 - node.layoutBounds.width / 2;
                 node.layoutY = -node.layoutBounds.minY + scene.height / 2 - node.layoutBounds.height / 2;
             }
-        } else {
-            for (node in modalDialogGroup.content) {
-                if (node != backgroundBlocker) {
-                    node.translateY = -node.layoutBounds.height + 26;
-                }
-            }
+        } 
+        for (node in hiddenNodes) {
+            node.translateY = -node.layoutBounds.height + 26;
         }
     }
 
     public override function create(): Node {
-        modalDialogGroup.content = backgroundBlocker;
+        modalDialogGroup.content = [];
         modalDialogGroup
     }
 
@@ -94,6 +93,12 @@ public class ModalDialogLayer extends CustomNode {
         }
         if (fullscreen) {
             insert node into fullscreenNodes;
+        } else {
+            backgroundBlocker.visible = true;
+        }
+
+        if (Sequences.indexOf(hiddenNodes, node) >= 0) {
+            delete node from hiddenNodes;
         }
 
         if (Sequences.indexOf(modalDialogGroup.content, backgroundBlocker) < 0) {
@@ -102,9 +107,7 @@ public class ModalDialogLayer extends CustomNode {
         if (Sequences.indexOf(modalDialogGroup.content, node) < 0) {
             insert node into modalDialogGroup.content;
         }
-        modalDialogGroup.visible = true;
         node.visible = true;
-        backgroundBlocker.visible = true;
         if (animated) {
             backgroundBlocker.opacity = 0.0;
             node.translateY = -node.layoutBounds.height + 26;
@@ -182,8 +185,10 @@ public class ModalDialogLayer extends CustomNode {
                                         node.visible = false;
                                         delete node from centeredNodes;
                                         delete node from modalDialogGroup.content;
-                                        modalDialogGroup.visible = sizeof modalDialogGroup.content > 1;
+                                    } else {
+                                        insert node into hiddenNodes;
                                     }
+
                                     backgroundBlocker.visible = false;
                                     nodeTemp.cache = false;
                                 }
@@ -197,7 +202,6 @@ public class ModalDialogLayer extends CustomNode {
             node.visible = false;
             if (Sequences.indexOf(fullscreenNodes, node) == -1) {
                 backgroundBlocker.visible = false;
-                modalDialogGroup.visible = false;
             } else {
                 delete node from fullscreenNodes;
             }
