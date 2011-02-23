@@ -55,6 +55,7 @@ public class ScyElo {
     private final IMetadataKey logicalRoleKey;
     private final IMetadataKey functionalRoleKey;
     private final IMetadataKey authorKey;
+    private final IMetadataKey creatorKey;
     private final IMetadataKey keywordsKey;
     private final IMetadataKey learningActivityKey;
     private final IMetadataKey accessKey;
@@ -65,6 +66,7 @@ public class ScyElo {
     private final IMetadataKey colorSchemeIdKey;
     private final IMetadataKey assignmentUriKey;
     private final IMetadataKey resourcesUriKey;
+    private final IMetadataKey dateFirstUserSaveKey;
     private static final String thumbnailResourceName = "thumbnail";
     private final static String thumbnailPngType = "png";
     private final static String thumbnailScyPngType = "scy/png";
@@ -94,6 +96,7 @@ public class ScyElo {
         logicalRoleKey = findMetadataKey(ScyRooloMetadataKeyIds.LOGICAL_TYPE);
         functionalRoleKey = findMetadataKey(ScyRooloMetadataKeyIds.FUNCTIONAL_TYPE);
         authorKey = findMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
+        creatorKey = findMetadataKey(ScyRooloMetadataKeyIds.CREATOR);
         learningActivityKey = findMetadataKey(ScyRooloMetadataKeyIds.LEARNING_ACTIVITY);
         accessKey = findMetadataKey(ScyRooloMetadataKeyIds.ACCESS);
         missionRuntimeKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNTIME);
@@ -108,6 +111,7 @@ public class ScyElo {
         resourcesUriKey = findMetadataKey(ScyRooloMetadataKeyIds.RESOURCES_URI);
         obligatoryInPortfolioKey = findMetadataKey(ScyRooloMetadataKeyIds.OBLIGATORY_IN_PORTFOLIO);
         feedbackOnKey = findMetadataKey(ScyRooloMetadataKeyIds.FEEDBACK_ON);
+        dateFirstUserSaveKey = findMetadataKey(ScyRooloMetadataKeyIds.DATE_FIRST_USER_SAVE);
     }
 
     public ScyElo(IELO elo, RooloServices rooloServices) {
@@ -302,8 +306,16 @@ public class ScyElo {
     }
 
     public Long getDateLastModified() {
-        return (Long) getMetadataValueContainer(dateLastModifiedKey).getValue();
-    }
+       return (Long) getMetadataValueContainer(dateLastModifiedKey).getValue();
+   }
+
+    public Long getDateFirstUserSave() {
+       return (Long) getMetadataValueContainer(dateFirstUserSaveKey).getValue();
+   }
+
+    public void setDateFirstUserSave(Long date) {
+       getMetadataValueContainer(dateFirstUserSaveKey).setValue(date);
+   }
 
     public URI getIsForkedOfEloUri() {
         return (URI) getMetadataValueContainer(isForkOfKey).getValue();
@@ -503,6 +515,23 @@ public class ScyElo {
         return authorIds;
     }
 
+    public String getCreator(){
+       Contribute creator = (Contribute) getMetadataValueContainer(creatorKey).getValue();
+       if (creator!=null){
+      	 return creator.getVCard();
+       }
+       return null;
+    }
+    
+    public void setCreator(String creatorId){
+   	 if (creatorId!=null && creatorId.length()>0){
+   		 getMetadataValueContainer(creatorKey).setValue(new Contribute(creatorId,System.currentTimeMillis()));
+   	 }
+   	 else{
+   		 getMetadata().deleteMetatadata(creatorKey);
+   	 }
+    }
+    
     public void setAccess(Access access) {
         // goes to /elol/metadata/lom/rights/copyrightAndOtherRestrictions
         // defines access limitations of an elo
