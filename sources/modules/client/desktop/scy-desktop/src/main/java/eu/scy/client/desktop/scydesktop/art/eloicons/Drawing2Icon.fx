@@ -51,7 +51,7 @@ return Group {
 					content: "M35.15,12.83 L27.09,4.84 Q28.10,3.02 28.93,2.99 C29.75,2.96 36.63,10.27 36.98,10.98 Q37.34,11.69 35.15,12.83 Z "
 				},
 				SVGPath {
-					fill: bind windowColorScheme.mainColor
+					fill: bind windowColorScheme.thirdColor
 					stroke: bind windowColorScheme.mainColor
 					strokeWidth: 1.35
 					strokeLineCap: StrokeLineCap.ROUND
