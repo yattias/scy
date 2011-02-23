@@ -691,12 +691,12 @@
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_inferences_b1.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_experiment_b1.html"/>
                <property name="inputMissionAnchorIds">
-                  <list />
-               </property>
-               <property name="loEloUris">
                   <list>
 				  <value>roolo://memory/20051/0/Hypotheses.rtf</value>
 				  </list>
+               </property>
+               <property name="loEloUris">
+                  <list />
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
@@ -707,12 +707,12 @@
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_inferences_b2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_experiment_b2.html"/>
                <property name="inputMissionAnchorIds">
-                  <list />
-               </property>
-               <property name="loEloUris">
                   <list>
 				  <value>roolo://memory/20028/0/Hypotheses.rtf</value>
 				  </list>
+               </property>
+               <property name="loEloUris">
+                  <list />
 			   </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
@@ -723,12 +723,12 @@
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_inferences_b3.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_experiment_b3.html"/>
                <property name="inputMissionAnchorIds">
-                  <list />
-               </property>
-               <property name="loEloUris">
                   <list>
 				  <value>roolo://memory/20099/0/Hypotheses.rtf</value>
 				  </list>
+               </property>
+               <property name="loEloUris">
+                  <list />
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
@@ -739,12 +739,12 @@
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_inferences_c1.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_experiment_c1.html"/>
                <property name="inputMissionAnchorIds">
-                  <list />
-               </property>
-               <property name="loEloUris">
                   <list>
 				  <value>roolo://memory/20040/0/Hypotheses.rtf</value>
-				  </list>				  
+				  </list>
+               </property>
+               <property name="loEloUris">
+                  <list />
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
@@ -755,12 +755,12 @@
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_solution_b1.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_design_b1.html"/>
                <property name="inputMissionAnchorIds">
-                  <list />
-               </property>
-               <property name="loEloUris">
                   <list>
 				  <value>roolo://memory/20103/0/Inferences.rtf</value>
-				  </list>				  
+				  </list>
+               </property>
+               <property name="loEloUris">
+                  <list />
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
@@ -771,12 +771,12 @@
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_solution_b2.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_design_b2.html"/>
                <property name="inputMissionAnchorIds">
-                  <list />
-               </property>
-               <property name="loEloUris">
                   <list>
 				  <value>roolo://memory/20062/0/Inferences.rtf</value>
-				  </list>				  
+				  </list>
+               </property>
+               <property name="loEloUris">
+                  <list />
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
@@ -787,12 +787,12 @@
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_solution_b3.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_design_b3.html"/>
                <property name="inputMissionAnchorIds">
-                  <list />
-               </property>
-               <property name="loEloUris">
                   <list>
 				  <value>roolo://memory/20071/0/Inferences.rtf</value>
-				  </list>				  
+				  </list>
+               </property>
+               <property name="loEloUris">
+                  <list />
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
@@ -803,12 +803,12 @@
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_solution_c1.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_design_c1.html"/>
                <property name="inputMissionAnchorIds">
-                  <list />
-               </property>
-               <property name="loEloUris">
                   <list>
 				  <value>roolo://memory/20079/0/Inferences.rtf</value>
 				  </list>
+               </property>
+               <property name="loEloUris">
+                  <list />
                </property>
             </bean>
          </list>
