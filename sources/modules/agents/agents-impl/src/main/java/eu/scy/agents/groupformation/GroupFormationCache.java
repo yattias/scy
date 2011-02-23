@@ -1,8 +1,6 @@
 package eu.scy.agents.groupformation;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -45,10 +43,11 @@ public class GroupFormationCache {
 		if (group.isEmpty()) {
 			return;
 		}
-		// Attention with references: Every group instance is the same. That's why this works.
+		// Attention with references: Every group instance is the same. That's
+		// why this works.
 		group.remove(userToRemove);
 		if (group.size() < minGroupSize) {
-			for(String user : group) {
+			for (String user : group) {
 				groupCache.remove(user);
 			}
 		}

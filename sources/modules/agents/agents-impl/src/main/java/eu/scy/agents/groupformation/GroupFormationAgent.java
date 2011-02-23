@@ -270,18 +270,38 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 			message.append(userListString);
 
 			for (String user : group) {
-				Tuple notificationTuple = createNotificationTuple(action,
-						message.toString(), user);
-
-				logGroupFormation(action, userListString, user);
-
 				try {
-					getCommandSpace().write(notificationTuple);
+					Tuple messageNotificationTuple = createMessageNotificationTuple(
+							action, message.toString(), user);
+					logGroupFormation(action, userListString, user);
+					for (String userToBuddify : group) {
+						if (!user.equals(userToBuddify)) {
+							Tuple buddifyNotification = createBuddifyNotificationTuple(
+									action, user, userToBuddify);
+							getCommandSpace().write(buddifyNotification);
+						}
+					}
+					getCommandSpace().write(messageNotificationTuple);
 				} catch (TupleSpaceException e) {
 					LOGGER.error("Could not write into Tuplespace", e);
 				}
 			}
 		}
+	}
+
+	private Tuple createBuddifyNotificationTuple(IAction action, String user,
+			String userToBuddify) {
+		Tuple notificationTuple = new Tuple();
+		notificationTuple.add(AgentProtocol.NOTIFICATION);
+		notificationTuple.add(new VMID().toString());
+		notificationTuple.add(user);
+		notificationTuple.add("no specific elo");
+		notificationTuple.add(NAME);
+		notificationTuple.add(action.getContext(ContextConstants.mission));
+		notificationTuple.add(action.getContext(ContextConstants.session));
+		notificationTuple.add("type=add_buddy");
+		notificationTuple.add("user=" + userToBuddify);
+		return notificationTuple;
 	}
 
 	private void logGroupFormation(IAction action, String userListString,
@@ -306,8 +326,8 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		}
 	}
 
-	private Tuple createNotificationTuple(IAction action, String message,
-			String user) {
+	private Tuple createMessageNotificationTuple(IAction action,
+			String message, String user) {
 		Tuple notificationTuple = new Tuple();
 		notificationTuple.add(AgentProtocol.NOTIFICATION);
 		notificationTuple.add(new VMID().toString());
@@ -347,7 +367,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 	}
 
 	private void sendWaitNotification(IAction action) {
-		Tuple notificationTuple = createNotificationTuple(action,
+		Tuple notificationTuple = createMessageNotificationTuple(action,
 				"please wait for other users to be available", action.getUser());
 		try {
 			getCommandSpace().write(notificationTuple);
