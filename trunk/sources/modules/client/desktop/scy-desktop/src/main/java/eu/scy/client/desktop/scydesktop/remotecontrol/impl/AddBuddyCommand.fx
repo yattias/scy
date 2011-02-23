@@ -22,7 +22,6 @@ public class AddBuddyCommand extends ScyDesktopRemoteCommand {
     override public function executeRemoteCommand(notification: INotification): Void {
         logger.debug("********************add_buddy_command*************************");
         var user: String = notification.getFirstProperty("user");
-        //TODO submit user-nickname instead of extracting it
         def awarenessService:IAwarenessService = bind scyDesktop.config.getToolBrokerAPI().getAwarenessService();
         awarenessService.addBuddy(user);
         logger.info("added buddy with name {user} to your buddylist");
