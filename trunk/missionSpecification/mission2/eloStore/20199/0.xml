@@ -1,0 +1,50 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-02-23T18:59:34.198+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1298483974198</dateCreated>
+        <dateLastModified>1298483974198</dateLastModified>
+      </customElements>
+      <format>scy/pedagogicalplansettings</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20199/0/ecoMission.scy</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">ecoMission</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true">
+
+</content>
+<resources>
+</resources>
+</elo>
