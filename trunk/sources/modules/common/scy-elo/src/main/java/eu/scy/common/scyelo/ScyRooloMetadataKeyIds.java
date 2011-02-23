@@ -32,7 +32,9 @@ public enum ScyRooloMetadataKeyIds implements IMetadataKeyIdDefinition
    ASSIGNMENT_URI("assignmentUri"),
    RESOURCES_URI("resourcesUri"),
    OBLIGATORY_IN_PORTFOLIO("obligatoryInPortfolio"),
-   FEEDBACK_ON("feedbackOn");
+   FEEDBACK_ON("feedbackOn"),
+   DATE_FIRST_USER_SAVE("dateFirstUserSave"),
+   CREATOR("creator");
 
    private final String id;
 
