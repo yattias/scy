@@ -319,7 +319,7 @@
         <iconType>Model</iconType>
         <loElos />
         <inputAnchors>
-		  <eloUri>roolo://memory/20051/0/Hypotheses.rtf</eloUri>
+		  <anchor>roolo://memory/20051/0/Hypotheses.rtf</anchor>
 		</inputAnchors>  
         <relations />
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b1lasexp.txt</targetDescriptionUri>
@@ -378,7 +378,7 @@
         <iconType>Model</iconType>
         <loElos />
         <inputAnchors>
-		  <eloUri>roolo://memory/20028/0/Hypotheses.rtf</eloUri>
+		  <anchor>roolo://memory/20028/0/Hypotheses.rtf</anchor>
 		</inputAnchors>  
         <relations />
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b2lasexp.txt</targetDescriptionUri>
@@ -428,7 +428,7 @@
         <iconType>Model</iconType>
         <loElos />
         <inputAnchors>
-		  <eloUri>roolo://memory/20099/0/Hypotheses.rtf</eloUri>
+		  <anchor>roolo://memory/20099/0/Hypotheses.rtf</anchor>
 		</inputAnchors>  
         <relations />
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b3lasexp.txt</targetDescriptionUri>
@@ -487,7 +487,7 @@
         <iconType>Model</iconType>
         <loElos />
         <inputAnchors>
-		  <eloUri>roolo://memory/20040/0/Hypotheses.rtf</eloUri>
+		  <anchor>roolo://memory/20040/0/Hypotheses.rtf</anchor>
 		</inputAnchors>  
         <relations />
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/c1lasexp.txt</targetDescriptionUri>
@@ -535,7 +535,7 @@
         <iconType>Conclusion</iconType>
         <loElos />
         <inputAnchors>
-		  <eloUri>roolo://memory/20103/0/Inferences.rtf</eloUri>
+		  <anchor>roolo://memory/20103/0/Inferences.rtf</anchor>
 		</inputAnchors>  
         <relations />
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b1lasdes.txt</targetDescriptionUri>
@@ -560,7 +560,7 @@
         <iconType>Conclusion</iconType>
         <loElos />
         <inputAnchors>
-		  <eloUri>roolo://memory/20062/0/Inferences.rtf</eloUri>
+		  <anchor>roolo://memory/20062/0/Inferences.rtf</anchor>
 		</inputAnchors>  
         <relations />
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b2lasdes.txt</targetDescriptionUri>
@@ -585,7 +585,7 @@
         <iconType>Conclusion</iconType>
         <loElos />
         <inputAnchors>
-		 <eloUri>roolo://memory/20071/0/Inferences.rtf</eloUri>
+		 <anchor>roolo://memory/20071/0/Inferences.rtf</anchor>
 		</inputAnchors>
         <relations />
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b3lasdes.txt</targetDescriptionUri>
@@ -610,7 +610,7 @@
         <iconType>Conclusion</iconType>
         <loElos />
         <inputAnchors>
-		  <eloUri>roolo://memory/20079/0/Inferences.rtf</eloUri>
+		  <anchor>roolo://memory/20079/0/Inferences.rtf</anchor>
 		</inputAnchors>  
         <relations />
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/c1lasdes.txt</targetDescriptionUri>
