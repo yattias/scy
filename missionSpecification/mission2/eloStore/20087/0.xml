@@ -37,7 +37,7 @@
       <mission>ecoMission</mission>
       <missionRunning>roolo://memory/20193/0/ECO+mission.scymissionspecification</missionRunning>
       <title>
-        <string language="en">SCYDynamics model</string>
+        <string language="en">Influence of nutrients on biomass</string>
       </title>
     </general>
     <relation>
