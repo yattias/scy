@@ -49,7 +49,7 @@ public class LasInfoDisplay extends CustomNode {
    public var las: LasFX on replace { lasChanged() };
    public var windowColorScheme: WindowColorScheme;
    public var tbi: ToolBrokerAPI;
-   public var openElo : function(scyElo: ScyElo, las: LasFX):Void;
+   public var openElo: function(scyElo: ScyElo, las: LasFX): Void;
    def spacing = 5.0;
    def fontFamily = "Verdana";
    def titleFontSize = 18.0;
@@ -111,9 +111,9 @@ public class LasInfoDisplay extends CustomNode {
                      font: Font.font(fontFamily, FontWeight.BOLD, titleFontSize)
                      text: las.mainAnchor.title
                   }
-//                  Group {
-//                     content: progressDisplay
-//                  }
+               //                  Group {
+               //                     content: progressDisplay
+               //                  }
                ]
             }
             Line {
@@ -214,13 +214,19 @@ public class LasInfoDisplay extends CustomNode {
    function getLastModifiedElos(): ScyElo[] {
       var scyElos: ScyElo[];
       if (las != null) {
-         insert las.mainAnchor.scyElo into scyElos;
+         if (las.mainAnchor.scyElo.getDateFirstUserSave() != null) {
+            insert las.mainAnchor.scyElo into scyElos;
+         }
          for (intermediate in las.intermediateAnchors) {
-            insert intermediate.scyElo into scyElos;
+            if (intermediate.scyElo.getDateFirstUserSave() != null) {
+               insert intermediate.scyElo into scyElos;
+            }
          }
          for (eloUri in las.otherEloUris) {
             def scyElo = ScyElo.loadMetadata(eloUri, tbi);
-            insert scyElo into scyElos;
+            if (scyElo.getDateFirstUserSave() != null) {
+               insert scyElo into scyElos;
+            }
          }
          scyElos = Sequences.sort(scyElos, new ScyEloLastModifiedComparator()) as ScyElo[];
       }
@@ -239,7 +245,7 @@ public class LasInfoDisplay extends CustomNode {
 
    function lastModifiedEloSelected() {
       if (selectedLastModifiedElo != null) {
-         openElo(selectedLastModifiedElo,las)
+         openElo(selectedLastModifiedElo, las)
       }
 
    }
