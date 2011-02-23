@@ -271,7 +271,7 @@
 		<constructor-arg index="3" value="SINGLE" />
 		<constructor-arg index="4" ref="defaultStringValidator" />
 	</bean>
-	<bean name="missionRunningKey" class="roolo.elo.metadata.keys.StringMetadataKey">
+	<bean name="missionRunningKey" class="roolo.elo.metadata.keys.UriMetadataKey">
 		<constructor-arg index="0" value="missionRunning" />
 		<constructor-arg index="1" value="/lom/general/missionRunning" />
 		<constructor-arg index="2" value="UNIVERSAL" />
