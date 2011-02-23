@@ -8,6 +8,8 @@
 
    <bean name="missionConfigInput" class="eu.scy.client.desktop.scydesktop.tools.mission.springimport.BasicMissionConfigInput">
 
+      <property name="colorSchemesEloUri" value="roolo://memory/30100/0/colorschemes1.colorschemes"/>
+
       <property name="eloToolConfigs" ref="eloToolConfigs"/>
 
       <property name="basicMissionMap">

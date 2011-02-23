@@ -10,6 +10,8 @@
 
       <property name="missionDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_challenge.html"/>
 
+      <property name="colorSchemesEloUri" value="roolo://memory/20010/0/colorschemes1.colorschemes"/>
+
       <property name="eloToolConfigs" ref="eloToolConfigs"/>
 
       <property name="basicMissionMap">
@@ -378,7 +380,7 @@
 			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="questionB1"/>
                <property name="uri" value="roolo://memory/20049/0/Research+questions.rtf"/>
-               <property name="iconType" value="Research question"/>
+               <property name="iconType" value="Research_question"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/b1lasori.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_questions_b1.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_orientation_b1.html"/>
