@@ -336,7 +336,7 @@
           <relations />
           <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b1lasexp.txt</targetDescriptionUri>
           <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_copex_b1.html</assignmentUri>
-          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_experiment_b1.html</resourcesUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_experiment_copex_b1.html</resourcesUri>
           <colorScheme />
         </intermediateAnchor>
         <intermediateAnchor>
@@ -395,7 +395,7 @@
           <relations />
           <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b2lasexp.txt</targetDescriptionUri>
           <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_copex_b2.html</assignmentUri>
-          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_experiment_b2.html</resourcesUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_experiment_copex_b2.html</resourcesUri>
           <colorScheme />
         </intermediateAnchor>
         <intermediateAnchor>
@@ -445,7 +445,7 @@
           <relations />
           <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/b3lasexp.txt</targetDescriptionUri>
           <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_copex_b3.html</assignmentUri>
-          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_experiment_b3.html</resourcesUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_experiment_copex_b3.html</resourcesUri>
           <colorScheme />
         </intermediateAnchor>
         <intermediateAnchor>
@@ -504,7 +504,7 @@
           <relations />
           <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/c1lasexp.txt</targetDescriptionUri>
           <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_copex_c1.html</assignmentUri>
-          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_experiment_c1.html</resourcesUri>
+          <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_experiment_copex_c1.html</resourcesUri>
           <colorScheme />
         </intermediateAnchor>
         <intermediateAnchor>
