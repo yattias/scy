@@ -62,9 +62,15 @@ public class MissionMap extends CustomNode {
    var anchorLinks: AnchorLink[];
    var tooltipCreator: TooltipCreator;
 
-   postinit {
-      if (missionModel.activeLas != null) {
-         getAnchorDisplay(missionModel.activeLas).selected = true;
+   def activeLas = bind missionModel.activeLas on replace previousActiveLas { activeLasChanged(previousActiveLas) };
+
+   function activeLasChanged(previousActiveLas: LasFX):Void{
+      if (previousActiveLas!=null){
+         getAnchorDisplay(previousActiveLas).selected = false;
+      }
+      if (activeLas!=null){
+         def anchorDisplay = getAnchorDisplay(activeLas);
+         anchorDisplay.selected = true;
       }
    }
 
@@ -103,9 +109,6 @@ public class MissionMap extends CustomNode {
             textOrigin: TextOrigin.BOTTOM
             //         textAlignment:TextAlignment.RIGHT
             content: bind missionModel.activeLas.id
-         //         content: "rtr trtreq ttqr trtqre trqtrtrtrtq"
-         // setting color, makes the characters look strange
-         //stroke: bind missionModel.activeLas.color
          }
       lasIdDisplay.x -= lasIdDisplay.layoutBounds.width - 20;
       // the las id can change and the width changes then also, until that is handled, give it a fixed x pos.

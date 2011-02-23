@@ -64,11 +64,11 @@ public class LastModifiedScyEloCellView extends CustomNode {
       def hoursPast = minutesPast / 60;
       def minutesLeft = minutesPast mod 60;
       if (hoursPast < 24) {
-         return getHoursMinutesDisplay(hoursPast, minutesLeft);
+         return getHoursDisplay(hoursPast);
       }
       def daysPast = hoursPast / 24;
       def hoursLeft = hoursPast mod 24;
-      return "{getDaysDisplay(daysPast)}, {getHoursMinutesDisplay(hoursLeft, minutesLeft)}"
+      return "{getDaysDisplay(daysPast)}"
    }
 
    function getMinutesDisplay(minutes: Integer): String {

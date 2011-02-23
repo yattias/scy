@@ -12,7 +12,9 @@
 				<ref bean="technicalFormatKey" />
 				<ref bean="dateCreatedKey" />
 				<ref bean="dateLastModifiedKey" />
+				<ref bean="dateFirstUserSaveKey" />
 				<ref bean="authorKey" />
+				<ref bean="creatorKey" />
 				<ref bean="languagesKey" />
 				<ref bean="descriptionKey" />
 				<ref bean="isVersionOfKey" />
@@ -102,6 +104,14 @@
 		<constructor-arg index="3" value="SINGLE" />
 		<constructor-arg index="4" ref="defaultLongValidator" />
 	</bean>
+	<bean name="dateFirstUserSaveKey" class="roolo.elo.metadata.keys.LongMetadataKey">
+		<constructor-arg index="0" value="dateFirstUserSave" />
+		<constructor-arg index="1"
+			value="/lom/technical/customElements/dateFirstUserSaveKey" />
+		<constructor-arg index="2" value="UNIVERSAL" />
+		<constructor-arg index="3" value="SINGLE" />
+		<constructor-arg index="4" ref="defaultLongValidator" />
+	</bean>
 	<bean name="languagesKey" class="roolo.elo.metadata.keys.StringMetadataKey">
 		<constructor-arg index="0" value="languages" />
 		<constructor-arg index="1" value="/lom/general/language" />
@@ -154,6 +164,14 @@
 			value='/lom/lifecycle/contribute/[kind="author"]' />
 		<constructor-arg index="2" value="UNIVERSAL" />
 		<constructor-arg index="3" value="LIST" />
+		<constructor-arg index="4" ref="defaultContributeValidator" />
+	</bean>
+	<bean name="creatorKey" class="roolo.elo.metadata.keys.ContributeMetadataKey">
+		<constructor-arg index="0" value='creator' />
+		<constructor-arg index="1"
+			value='/lom/lifecycle/contribute/[kind="initiator"]' />
+		<constructor-arg index="2" value="UNIVERSAL" />
+		<constructor-arg index="3" value="SINGLE" />
 		<constructor-arg index="4" ref="defaultContributeValidator" />
 	</bean>
 	<bean name="annotatesRelationKey" class="roolo.elo.metadata.keys.RelationMetadataKey">

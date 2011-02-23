@@ -18,6 +18,7 @@ import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 import eu.scy.client.desktop.scydesktop.Initializer;
 import javafx.scene.control.Tooltip;
+import eu.scy.client.desktop.scydesktop.ScyDesktop;
 
 /**
  * @author SikkenJ
@@ -29,6 +30,7 @@ public class BigMissionMapControl extends CustomNode {
    public var windowStyler: WindowStyler;
    public var scyWindowControl: ScyWindowControl;
    public var initializer: Initializer;
+   public var scyDesktop: ScyDesktop;
    def missionMapWindow: MoreInfoWindow = MoreInfoWindow {
          title: ##"Mission navigation"
          eloIcon: MissionMapWindowIcon {}
@@ -77,12 +79,16 @@ public class BigMissionMapControl extends CustomNode {
 
    function showBigMissionMap(): Void {
       if (not bigMissionMapVisible) {
+         if (initPhase) {
+            missionModel.initActiveLas();
+         }
          bigMissionMapVisible = true;
          sceneSizeChanged();
          FX.deferAction(function(): Void {
-            missionMapWindow.resizeTheContent();
             if (initPhase) {
+               missionMapWindow.resizeTheContent();
                FX.deferAction(missionMapWindow.resizeTheContent);
+               FX.deferAction(scyDesktop.showContent);
                deferLoadTimer();
                initPhase = false;
             }

@@ -243,6 +243,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    public var scyFeedbackGiveButton:MultiImageButton;
    public var scyFeedbackGetButton:MultiImageButton;
    public var eportfolioButton:MultiImageButton;
+   var cornerGroup: Group;
 
 
    init {
@@ -302,6 +303,11 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       }
       return 0;
    }
+
+   public function showContent():Void{
+      cornerGroup.visible = true;
+   }
+
 
    function createElements() {
 
@@ -366,6 +372,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             scyWindowControl: scyWindowControl
             missionModel: missionModelFX
             initializer: initializer
+            scyDesktop: this
          }
 
       topLeftCorner = TopLeftCorner {
@@ -580,10 +587,15 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             lowDebugGroup,
             edgesManager,
             windows.scyWindows,
-            topLeftCorner,
-            topRightCorner,
-            bottomRightCorner,
-            bottomLeftCorner,
+            cornerGroup = Group{
+               visible: false
+               content:[
+                  topLeftCorner,
+                  topRightCorner,
+                  bottomRightCorner,
+                  bottomLeftCorner,
+               ]
+            }
             moreInfoManager.getControlNode(),
             highDebugGroup,
          ]
@@ -712,6 +724,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             scyToolActionLogger: scyToolsList.actionLoggerTool as ScyToolActionLogger
             authorMode: initializer.authorMode
             functionalRoles: functionalRoles
+            loginName: config.getToolBrokerAPI().getLoginUserName()
          };
       def runtimeSettingsRetriever = EloRuntimeSettingsRetriever {
             eloUri: bind window.eloUri
