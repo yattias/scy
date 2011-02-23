@@ -62,7 +62,7 @@ return Group {
 					stroke: null
 				},
 				Rectangle {
-					fill: bind windowColorScheme.secondColor
+					fill: bind windowColorScheme.thirdColor
 					stroke: null
 					x: 6.6
 					y: 9.84
@@ -70,7 +70,7 @@ return Group {
 					height: 16.93
 				},
 				Rectangle {
-					fill: bind windowColorScheme.mainColor
+					fill: bind windowColorScheme.thirdColor
 					stroke: null
 					x: 11.81
 					y: 12.35
@@ -86,7 +86,7 @@ return Group {
 					height: 9.51
 				},
 				Rectangle {
-					fill: bind windowColorScheme.secondColor
+					fill: bind windowColorScheme.thirdColor
 					stroke: null
 					x: 20.67
 					y: 12.24

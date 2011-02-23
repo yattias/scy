@@ -123,52 +123,52 @@ return Group {
 					content: "M34.23,7.27 L34.23,33.00 L8.49,33.00 L8.49,7.27 Z M36.06,5.43 L6.65,5.43 L6.65,34.84 L36.06,34.84 Z "
 				},
 				SVGPath {
-					fill: bind windowColorScheme.mainColor
+					fill: bind windowColorScheme.thirdColor
 					stroke: null
 					content: "M11.22,9.14 L10.91,9.14 C10.09,9.14 9.36,9.66 9.30,10.53 C9.24,11.29 9.86,12.14 10.68,12.14 L10.99,12.14 C11.81,12.14 12.54,11.62 12.60,10.75 C12.66,9.99 12.04,9.14 11.22,9.14 Z "
 				},
 				SVGPath {
-					fill: bind windowColorScheme.mainColor
+					fill: bind windowColorScheme.thirdColor
 					stroke: null
 					content: "M21.15,8.90 C21.12,8.90 21.12,8.90 21.10,8.89 C21.16,8.91 21.22,8.93 21.30,8.96 C21.23,8.93 21.16,8.92 21.09,8.89 C20.90,8.89 20.89,8.85 21.05,8.88 C19.42,8.42 18.37,10.92 20.04,11.69 C20.50,11.90 20.95,11.91 21.44,11.88 C22.26,11.85 22.86,11.03 22.79,10.24 C22.71,9.40 21.96,8.86 21.15,8.90 Z "
 				},
 				SVGPath {
-					fill: bind windowColorScheme.mainColor
+					fill: bind windowColorScheme.thirdColor
 					stroke: null
 					content: "M21.10,8.89 C21.08,8.89 21.06,8.88 21.05,8.88 C21.06,8.88 21.08,8.89 21.09,8.89 C21.10,8.89 21.10,8.89 21.10,8.89 Z "
 				},
 				SVGPath {
-					fill: bind windowColorScheme.mainColor
+					fill: bind windowColorScheme.thirdColor
 					stroke: null
 					content: "M31.61,8.89 C29.67,8.89 29.67,11.89 31.61,11.89 C33.55,11.89 33.54,8.89 31.61,8.89 Z "
 				},
 				SVGPath {
-					fill: bind windowColorScheme.mainColor
+					fill: bind windowColorScheme.thirdColor
 					stroke: null
 					content: "M32.71,19.28 C32.05,18.83 31.10,18.98 30.64,19.64 C30.62,19.65 30.61,19.66 30.56,19.69 C29.88,20.14 29.93,21.25 30.41,21.81 C31.00,22.48 31.84,22.41 32.53,21.96 C32.76,21.81 32.94,21.60 33.09,21.36 C33.54,20.68 33.39,19.75 32.71,19.28 Z "
 				},
 				SVGPath {
-					fill: bind windowColorScheme.mainColor
+					fill: bind windowColorScheme.thirdColor
 					stroke: null
 					content: "M22.38,19.69 C21.73,19.35 21.00,19.54 20.55,20.04 C20.08,20.42 19.86,21.05 20.05,21.65 C20.30,22.43 21.16,22.89 21.93,22.63 C22.43,22.47 22.73,22.16 22.99,21.72 C23.41,21.02 23.07,20.06 22.38,19.69 Z "
 				},
 				SVGPath {
-					fill: bind windowColorScheme.mainColor
+					fill: bind windowColorScheme.thirdColor
 					stroke: null
 					content: "M11.21,20.02 C9.30,20.02 8.95,23.01 10.88,23.01 C12.79,23.01 13.14,20.02 11.21,20.02 Z "
 				},
 				SVGPath {
-					fill: bind windowColorScheme.mainColor
+					fill: bind windowColorScheme.thirdColor
 					stroke: null
 					content: "M11.64,29.33 C9.70,29.33 9.64,32.33 11.58,32.33 C13.51,32.33 13.57,29.33 11.64,29.33 Z "
 				},
 				SVGPath {
-					fill: bind windowColorScheme.mainColor
+					fill: bind windowColorScheme.thirdColor
 					stroke: null
 					content: "M22.43,29.81 C22.09,29.18 21.17,28.77 20.49,29.15 C19.87,29.32 19.39,29.82 19.36,30.52 C19.33,31.30 19.98,32.09 20.80,32.08 C21.15,32.07 21.51,32.04 21.81,31.84 C22.49,31.38 22.85,30.59 22.43,29.81 Z "
 				},
 				SVGPath {
-					fill: bind windowColorScheme.mainColor
+					fill: bind windowColorScheme.thirdColor
 					stroke: null
 					content: "M32.00,28.89 C30.07,28.89 29.91,31.89 31.84,31.89 C33.77,31.89 33.93,28.89 32.00,28.89 Z "
 },
