@@ -1,0 +1,56 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-02-23T19:09:42.889+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1298484582889</dateCreated>
+        <dateLastModified>1298484582889</dateLastModified>
+      </customElements>
+      <format>scy/templateelos</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30103/0/pizzaMission.scytemplateelos</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">pizzaMission</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<templateElosEloUris>
+  <templateElosEloUri>roolo://memory/30111/0/Empty_experimental_procedure.scyxproc</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/30113/0/Empty_rich_text.rtf</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/30110/0/Empty_dataset.dataset</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/30112/0/Empty_plain_text.text</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/30109/0/Empty_concept_map.scymapping</templateElosEloUri>
+</templateElosEloUris>
+</content>
+<resources>
+</resources>
+</elo>
