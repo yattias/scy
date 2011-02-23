@@ -57,6 +57,7 @@ public class MissionSpecificationEditor extends EloXmlEditor {
       missionSpecification.setTemplateElosEloUri(templateElosElo.getUri());
       missionSpecification.setRuntimeSettingsEloUri(runtimeSettingsElo.getUri());
       missionSpecification.setMissionDescriptionUri(springConfigFileImporter.missionDescriptionUri);
+      missionSpecification.setColorSchemesEloUri(springConfigFileImporter.colorSchemesEloUri);
       def pedagogicalPlanSettings = ScyElo.createElo(MissionEloType.PADAGOGICAL_PLAN_SETTINGS.getType(),
          toolBrokerAPI);
       pedagogicalPlanSettings.setTitle(missionMapModelElo.getTitle());
