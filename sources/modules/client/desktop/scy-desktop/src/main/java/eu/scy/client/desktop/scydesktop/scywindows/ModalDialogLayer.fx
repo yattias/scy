@@ -99,11 +99,12 @@ public class ModalDialogLayer extends CustomNode {
 
         if (Sequences.indexOf(hiddenNodes, node) >= 0) {
             delete node from hiddenNodes;
+            delete node from modalDialogGroup.content;
         }
 
-        if (Sequences.indexOf(modalDialogGroup.content, backgroundBlocker) < 0) {
-            insert backgroundBlocker into modalDialogGroup.content;
-        }
+        // reorder the background blocker, so that everything behin the new window is blocked
+        delete backgroundBlocker from modalDialogGroup.content;
+        insert backgroundBlocker into modalDialogGroup.content;
         if (Sequences.indexOf(modalDialogGroup.content, node) < 0) {
             insert node into modalDialogGroup.content;
         }
@@ -204,6 +205,13 @@ public class ModalDialogLayer extends CustomNode {
                 backgroundBlocker.visible = false;
             } else {
                 delete node from fullscreenNodes;
+            }
+            if (sizeof modalDialogGroup.content > 1 and modalDialogGroup.content[sizeof modalDialogGroup.content - 1] == backgroundBlocker) {
+                delete backgroundBlocker from modalDialogGroup.content;
+                def lastNode = modalDialogGroup.content[sizeof modalDialogGroup.content - 1];
+                delete lastNode from modalDialogGroup.content;
+                insert backgroundBlocker into modalDialogGroup.content;
+                insert lastNode into modalDialogGroup.content;
             }
 
         }
