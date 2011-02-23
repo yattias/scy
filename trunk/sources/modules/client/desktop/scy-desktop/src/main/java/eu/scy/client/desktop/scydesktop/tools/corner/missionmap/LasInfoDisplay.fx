@@ -150,7 +150,7 @@ public class LasInfoDisplay extends CustomNode {
             Label {
                translateX: spacing
                font: Font.font(fontFamily, FontWeight.BOLD, sectionFontSize)
-               text: "Last modified ELOs (time since):"
+               text: ##"My ELO list (last modified):"
             }
             lastModifiedElosList = ListView {
                   layoutInfo: LayoutInfo {

@@ -21,7 +21,6 @@ import roolo.api.IRepository;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataKey;
-import roolo.elo.api.IMetadata;
 import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
@@ -35,6 +34,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.design.SimpleAutho
 import eu.scy.common.scyelo.EloFunctionalRole;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import java.lang.IllegalArgumentException;
+import java.lang.System;
 
 /**
  * @author sikken
@@ -71,6 +71,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
    public var scyToolActionLogger: ScyToolActionLogger;
    public var authorMode = false;
    public var functionalRoles: EloFunctionalRole[];
+   public var loginName: String;
 //   def authorKey = config.getMetadataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
 
    var functionalRoleContainers: FunctionalRoleContainer[];
@@ -152,7 +153,8 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       scyElo.setTitle(eloSaveAsPanel.getTitle());
       scyElo.setFunctionalRole(eloSaveAsPanel.getFunctionalRole());
       addThumbnail(scyElo);
-      var newMetadata: IMetadata;
+      scyElo.setDateFirstUserSave(System.currentTimeMillis());
+      scyElo.setCreator(loginName);
       if (elo.getUri() != null) {
          scyElo.saveAsForkedElo();
       } else {
@@ -178,6 +180,12 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       if (elo.getUri() != null) {
          def scyElo = new ScyElo(elo, config.getToolBrokerAPI());
          addThumbnail(scyElo);
+         if (scyElo.getDateFirstUserSave()==null){
+            scyElo.setDateFirstUserSave(System.currentTimeMillis());
+         }
+         if (scyElo.getCreator()==null){
+            scyElo.setCreator(loginName);
+         }
          if (scyElo.getAuthors().contains(config.getToolBrokerAPI().getLoginUserName())) {
             // it is (also) my elo
             scyElo.updateElo();

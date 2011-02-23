@@ -40,9 +40,6 @@ public class MissionModelFX extends MissionModel {
    public-read var missionMapBackgroundImageUri: URI;
    public var saveUpdatedModel = false;
    public var scyDesktop: ScyDesktop;
-//   public var elo: IELO;
-//   public var repository: IRepository;
-//   public var eloFactory: IELOFactory;
    var contentChanged = false;
 
    function newMissionModel(): Void {
@@ -55,10 +52,14 @@ public class MissionModelFX extends MissionModel {
                missionUtils.getLasFX(lasObject as Las)
             }
       }
-      def previousId = activeLas.id;
       missionMapBackgroundImageUri = missionModel.getMissionMapBackgroundImageUri();
+      // the active las is set a bit later, so that the fullscreen mission map is shown first
+   }
+
+   public function initActiveLas(): Void {
+      def previousId = activeLas.id;
       activeLas = missionUtils.getLasFX(missionModel.getSelectedLas());
-      logger.debug("new activeLas {activeLas}");
+      logger.info("new activeLas {activeLas}");
       missionModel.setSelectedLas(activeLas);
       logLasChange(previousId, activeLas.id);
       updateElo();
@@ -88,23 +89,23 @@ public class MissionModelFX extends MissionModel {
 
    public function anchorSelected(las: LasFX, anchor: MissionAnchorFX): Void {
       if (las == activeLas and las.selectedAnchor == anchor) {
-        // nothing changed
-        return;
+         // nothing changed
+         return;
       } else {
-          if (anchor == null) {
-             las.selectedAnchor = las.mainAnchor;
-          } else {
-             las.selectedAnchor = anchor;
-          }
-          def previousId = activeLas.id;
-          XFX.deferActionAndWait(function():Void {
-               activeLas = las;
-          });
-          logger.debug("new activeLas {activeLas}");
-          missionModel.setSelectedLas(activeLas);
-          logLasChange(previousId, activeLas.id);
-          updateElo();
-          scyDesktop.edgesManager.findLinks(null);
+         if (anchor == null) {
+            las.selectedAnchor = las.mainAnchor;
+         } else {
+            las.selectedAnchor = anchor;
+         }
+         def previousId = activeLas.id;
+         XFX.deferActionAndWait(function(): Void {
+            activeLas = las;
+         });
+         logger.debug("new activeLas {activeLas}");
+         missionModel.setSelectedLas(activeLas);
+         logLasChange(previousId, activeLas.id);
+         updateElo();
+         scyDesktop.edgesManager.findLinks(null);
       }
    }
 
@@ -233,8 +234,8 @@ public class MissionModelFX extends MissionModel {
       return missionModel.getLasses();
    }
 
-    override public function getMissionMapBackgroundImageUri () : URI {
-        return missionModel.getMissionMapBackgroundImageUri();
-    }
+   override public function getMissionMapBackgroundImageUri(): URI {
+      return missionModel.getMissionMapBackgroundImageUri();
+   }
 
 }
