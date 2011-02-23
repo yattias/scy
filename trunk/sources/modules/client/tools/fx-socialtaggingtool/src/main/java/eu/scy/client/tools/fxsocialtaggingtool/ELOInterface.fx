@@ -19,8 +19,10 @@ public class ELOInterface {
     var socialtagsKey: IMetadataKey;
 
     init {
-        elo = tbi.getRepository().retrieveELO(eloUri);
-        socialtagsKey = tbi.getMetaDataTypeManager().getMetadataKey("socialTags");
+        if (eloUri != null) {
+            elo = tbi.getRepository().retrieveELO(eloUri);
+            socialtagsKey = tbi.getMetaDataTypeManager().getMetadataKey("socialTags");
+        }
     }
 
     /**
