@@ -40,6 +40,9 @@ public class GroupFormationCache {
 
 	public void removeFromCache(String userToRemove, int minGroupSize) {
 		Set<String> group = groupCache.get(userToRemove);
+		if (group == null) {
+			return;
+		}
 		if (group.isEmpty()) {
 			return;
 		}
