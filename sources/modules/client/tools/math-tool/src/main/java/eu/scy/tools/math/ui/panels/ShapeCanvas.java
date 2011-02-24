@@ -7,43 +7,38 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.logging.Logger;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 
 import eu.scy.tools.math.shapes.I3D;
 import eu.scy.tools.math.shapes.IMathShape;
 import eu.scy.tools.math.ui.UIUtils;
 
+public class ShapeCanvas extends JPanel implements IShapeCanvas {
 
-public class ShapeCanvas extends JPanel implements IShapeCanvas{
-	
 	private static Logger log = Logger.getLogger("ShapeCanvas.class"); //$NON-NLS-1$
 
-	
 	private boolean showGrid;
 	private ArrayList<IMathShape> mathShapes = new ArrayList<IMathShape>();
 	private ControlPanel controlPanel;
 	private String type;
 
-
 	private boolean hasDecorations;
-
 
 	private boolean hasCornerPoints;
 
-
 	private boolean isScreenCaptureMode;
-	
 
 	public ShapeCanvas() {
 		super(null);
 		init();
 	}
-
 
 	public ShapeCanvas(boolean showGrid) {
 		super(null);
@@ -54,22 +49,23 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas{
 	private void init() {
 		setDoubleBuffered(true);
 	}
-	
-	public void setEnabledShapeDecorations(boolean  hasDecorations) {
+
+	public void setEnabledShapeDecorations(boolean hasDecorations) {
 		this.hasDecorations = hasDecorations;
 	}
+
 	public void setEndabledShapeCornerPoints(boolean hasCornerPoints) {
 		this.hasCornerPoints = hasCornerPoints;
 	}
-	
+
 	public void setScreenCaptureMode(boolean isScreenCaptureMode) {
 		this.isScreenCaptureMode = isScreenCaptureMode;
 	}
 
 	public void paintComponent(Graphics g) {
-    	super.paintComponent(g);
-    	// System.out.println("repaint canvas show grid " + showGrid);
-    	
+		super.paintComponent(g);
+		// System.out.println("repaint canvas show grid " + showGrid);
+
 		if (isShowGrid()) {
 			double xInc, yInc;
 			final int GRID_SIZE = 20, DRAW = 0, FILL = 1, PAD = 20;
@@ -99,22 +95,21 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas{
 				y1 += yInc;
 			}
 		}
-		
+
 		for (IMathShape ms : getMathShapes()) {
-			if( !(ms instanceof I3D)) {
-				
-				if( isScreenCaptureMode ) {
+			if (!(ms instanceof I3D)) {
+
+				if (isScreenCaptureMode) {
 					ms.setShowCornerPoints(false);
-				} 
-					
+				}
+
 				ms.setHasDecorations(true);
 				ms.paintComponent(g);
 			}
 		}
 		// System.out.println("LAYOUT: "+getLayout());
-	        
-    }
 
+	}
 
 	public void setShowGrid(boolean showGrid) {
 		this.showGrid = showGrid;
@@ -123,29 +118,29 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas{
 	public boolean isShowGrid() {
 		return showGrid;
 	}
-	
+
 	@Override
 	public void addShape(IMathShape shape) {
 		getMathShapes().add(shape);
-		if( shape instanceof I3D ) {
+		if (shape instanceof I3D) {
 			this.add((JComponent) shape);
 		}
 	}
-	
+
 	public void selectAll(boolean isSelected, String type) {
-			for (IMathShape shape : mathShapes) {
-				if(UIUtils._3D.equals(type) && shape instanceof I3D) {
-					shape.setShowCornerPoints(isSelected);
-					shape.repaint();
-				} else if( UIUtils._2D.equals(type)) {
-					shape.setShowCornerPoints(isSelected);
-					shape.repaint();
-				}
+		for (IMathShape shape : mathShapes) {
+			if (UIUtils._3D.equals(type) && shape instanceof I3D) {
+				shape.setShowCornerPoints(isSelected);
+				shape.repaint();
+			} else if (UIUtils._2D.equals(type)) {
+				shape.setShowCornerPoints(isSelected);
+				shape.repaint();
 			}
-			this.repaint();
-			this.revalidate();
+		}
+		this.repaint();
+		this.revalidate();
 	}
-	
+
 	@Override
 	public void setMathShapes(ArrayList<IMathShape> mathShapes) {
 		this.mathShapes = mathShapes;
@@ -156,10 +151,9 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas{
 		return mathShapes;
 	}
 
-
 	public void setControlPanel(ControlPanel controlPanel) {
 		this.controlPanel = controlPanel;
-		
+
 	}
 
 	public void setType(String type) {
@@ -171,43 +165,38 @@ public class ShapeCanvas extends JPanel implements IShapeCanvas{
 	}
 
 	public void removeAllShapes() {
-		this.mathShapes.removeAll(mathShapes);
-		//remove the 3d ones
-		Component[] components = this.getComponents();
-		for (Component component : components) {
-			if( component.getName() != null && component.getName().equals(UIUtils._3D))
-				this.remove(component);
-				this.revalidate();
+
+		Iterator iterator = getMathShapes().iterator();
+		while (iterator.hasNext()) {
+			IMathShape ms = (IMathShape) iterator.next();
+			removeSelectedShape(ms);
+
 		}
-		
+
 	}
-	
+
 	public void removeSelectedShape(IMathShape shape) {
-		
-		synchronized (mathShapes) {
-			if( shape instanceof I3D ) {
-				Component[] components = this.getComponents();
-
-				for (Component component : components) {
-					if( component.getName() != null && component.getName().equals(UIUtils._3D)) {
-						if( ((IMathShape)component).getId().equals(shape.getId()) ) {
-							this.remove(component);
-							this.repaint();
-						}
-						
-					}
-						
-				}
-			}
-			
-			
+		if (shape instanceof I3D) {
+			remove3DFromCanvas(shape);
 		}
-		
 		this.mathShapes.remove(shape);
-		this.repaint();
-	
-		
+
 	}
 
-	
+	protected void remove3DFromCanvas(IMathShape shape) {
+
+		Component[] components = this.getComponents();
+
+		for (Component component : components) {
+			if (component.getName() != null
+					&& component.getName().equals(UIUtils._3D)) {
+				if (((IMathShape) component).getId().equals(shape.getId())) {
+					this.remove(component);
+				}
+
+			}
+
+		}
+	}
+
 }

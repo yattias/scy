@@ -30,8 +30,8 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 
 
 
-	public MathRectangle3D(Point point, String iconName) {
-		super(point,iconName);
+	public MathRectangle3D(Point point, String iconName, String id) {
+		super(point,iconName, id);
 	}
 
 	public MathRectangle3D(Point location) {
@@ -39,8 +39,8 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 		// TODO Auto-generated constructor stub
 	}
 
-	public MathRectangle3D(IRectanglarPrismToolbarShape shape, int x, int y) {
-		super(x,y,shape.getCanvasIcon());
+	public MathRectangle3D(IRectanglarPrismToolbarShape shape, int x, int y, String id) {
+		super(x,y,shape.getCanvasIcon(),id);
 		this.shape = shape;
 		
 		getVolumeValueLabel().setText(this.shape.getVolume());

@@ -61,23 +61,26 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 	protected JXLabel iconLabel;
 	private String iconName;
 	
-	public Math3DShape(Point point, String iconName) {
+	public Math3DShape(Point point, String iconName, String id) {
 		this.setLocation(point);
 		this.setIconName(iconName);
+		this.setId(id);
 		init();
 		
 		
 	}
 	
 	public Math3DShape(Point location) {
-		init();
 		this.setLocation(location);
+		init();
+		
 		
 	}
 
-	public Math3DShape(int x, int y, String iconName) {
+	public Math3DShape(int x, int y, String iconName, String id) {
 		this.setIconName(iconName);
 		this.setLocation(x, y);
+		this.setId(id);
 		init();
 		
 	}
@@ -221,6 +224,7 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 		setLayout(new BorderLayout(1, 1));
 		this.setOpaque(false);
 		this.setBackground(Color.white);
+		this.setName(UIUtils._3D);
 	}
 	
 	@Override

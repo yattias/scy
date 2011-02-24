@@ -32,8 +32,8 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 	
 
 
-	public MathCylinder3D(Point point, String icon) {
-		super(point,icon);
+	public MathCylinder3D(Point point, String icon, String id) {
+		super(point,icon, id);
 	}
 
 	public MathCylinder3D(Point location) {
@@ -41,8 +41,8 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 	}
 
 
-	public MathCylinder3D(ICylinderToolbarShape shape, int x, int y) {
-		super(x,y, shape.getCanvasIcon());
+	public MathCylinder3D(ICylinderToolbarShape shape, int x, int y, String id) {
+		super(x,y, shape.getCanvasIcon(), id);
 		this.shape = shape;
 		this.getVolumeValueLabel().setText(this.shape.getVolume());
 		this.getHeightValueLabel().setText(((ICylinderToolbarShape) this.shape).getHeight());
