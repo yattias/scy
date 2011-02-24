@@ -90,6 +90,7 @@ public class OpenFireServiceImpl implements OpenFireService {
 		}
 
 		public void disconnect() {
+			connection.removePacketListener(this);
 			connection.disconnect();
 		}
 
