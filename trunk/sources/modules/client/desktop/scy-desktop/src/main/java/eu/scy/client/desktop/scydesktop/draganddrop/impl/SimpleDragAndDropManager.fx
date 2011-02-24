@@ -18,10 +18,14 @@ import javafx.util.Sequences;
 import eu.scy.client.desktop.scydesktop.draganddrop.DropTarget;
 import eu.scy.client.desktop.scydesktop.draganddrop.DropTarget2;
 import java.lang.IllegalArgumentException;
+import javafx.scene.Group;
 
 /**
  * @author sikken
  */
+
+public-read var dragAndDropLayer = Group{};
+
 public class SimpleDragAndDropManager extends DragAndDropManager {
 
    def logger = Logger.getLogger(this.getClass());
@@ -72,9 +76,12 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
          if (not mousehasBeenDragged) {
             dragNode.opacity = dragOpacity;
 
-            var sceneContent = sourceNode.scene.content;
-            insert dragNode into sceneContent;
-            sourceNode.scene.content = sceneContent;
+//            var sceneContent = sourceNode.scene.content;
+//            insert dragNode into sceneContent;
+//            sourceNode.scene.content = sceneContent;
+
+//            insert dragNode into sourceNode.scene.content;
+            insert dragNode into dragAndDropLayer.content;
          }
 
          mousehasBeenDragged = true;
@@ -111,9 +118,10 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
                needToCallDropLeft = false;
             }
 
-            var sceneContent = dragNode.scene.content;
-            delete dragNode from sceneContent;
-            dragNode.scene.content = sceneContent;
+//            var sceneContent = dragNode.scene.content;
+//            delete dragNode from sceneContent;
+//            dragNode.scene.content = sceneContent;
+            delete dragNode from dragAndDropLayer.content;
 
             dragNode = null;
             dropObject = null;

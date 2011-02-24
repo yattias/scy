@@ -44,6 +44,7 @@ import eu.scy.client.desktop.scydesktop.tools.mission.EloXmlEditor;
 import eu.scy.client.desktop.scydesktop.scywindows.ModalDialogLayer;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import eu.scy.client.desktop.scydesktop.utils.ActivityTimer;
+import eu.scy.client.desktop.scydesktop.draganddrop.impl.SimpleDragAndDropManager;
 //import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
@@ -502,8 +503,9 @@ public class Initializer {
             }
             ScyDesktop.scyDektopGroup,
             ModalDialogLayer.layer,
-            SimpleTooltipManager.tooltipGroup,
             MouseBlocker.mouseBlockNode,
+            SimpleTooltipManager.tooltipGroup,
+            SimpleDragAndDropManager.dragAndDropLayer,
             ProgressOverlay.showProgressNode
          ];
 //      scene.stylesheets = "{__DIR__}css/scy-desktop.css";
