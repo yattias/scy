@@ -29,18 +29,23 @@ public class RuntimeMissionController extends TagSupport {
         try {
             pageContext.getOut().write("<div id=\"runtimeMissionController\">\n");
             List runtimeELOs = getRuntimeELOService().getRuntimeElosForUser(getCurrentUserName((HttpServletRequest) pageContext.getRequest()));
-            for (int i = 0; i < runtimeELOs.size(); i++) {
-                MissionRuntimeElo missionRuntimeElo = new MissionRuntimeElo (((ScyElo) runtimeELOs.get(i)).getElo(), runtimeELOService);
-                if(missionRuntimeElo.getMissionRunning().equals(getCurrentUserName((HttpServletRequest) pageContext.getRequest()))) {
-                    String uri = missionRuntimeElo.getUri().toString();
-                    uri = URLEncoder.encode(uri, "UTF-8");
-                    pageContext.getOut().write("<a href=\"/webapp/app/student/StudentIndex.html?eloURI=" + uri + "\">");
-                    pageContext.getOut().write(missionRuntimeElo.getTitle());
-                    pageContext.getOut().write("</a>");
-                }
+            if (runtimeELOs.size() > 0) {
+                for (int i = 0; i < runtimeELOs.size(); i++) {
+                    MissionRuntimeElo missionRuntimeElo = new MissionRuntimeElo(((ScyElo) runtimeELOs.get(i)).getElo(), runtimeELOService);
+                    if (missionRuntimeElo.getMissionRunning().equals(getCurrentUserName((HttpServletRequest) pageContext.getRequest()))) {
+                        String uri = missionRuntimeElo.getUri().toString();
+                        uri = URLEncoder.encode(uri, "UTF-8");
+                        pageContext.getOut().write("<a href=\"/webapp/app/student/StudentIndex.html?eloURI=" + uri + "\">");
+                        pageContext.getOut().write(missionRuntimeElo.getTitle());
+                        pageContext.getOut().write("</a>");
+                    }
 
+                }
+                //pageContext.getOut().write("RUNTIME MISSION CONTROLLER");
+            } else {
+                pageContext.getOut().write("<strong>You have no assigned missions. Please contact your teacher and ask him or her to assign a mission to your user</strong>");
             }
-            //pageContext.getOut().write("RUNTIME MISSION CONTROLLER");
+
             pageContext.getOut().write("</div>");
         } catch (Exception e) {
             e.printStackTrace();
@@ -66,12 +71,12 @@ public class RuntimeMissionController extends TagSupport {
     }
 
     public User getCurrentUser(HttpServletRequest request) {
-       return getUserService().getUser(getCurrentUserName(request));
-   }
+        return getUserService().getUser(getCurrentUserName(request));
+    }
 
     public String getCurrentUserName(HttpServletRequest request) {
-      org.springframework.security.userdetails.User user = (org.springframework.security.userdetails.User) request.getSession().getAttribute("CURRENT_USER");
-      return user.getUsername();
-  }
+        org.springframework.security.userdetails.User user = (org.springframework.security.userdetails.User) request.getSession().getAttribute("CURRENT_USER");
+        return user.getUsername();
+    }
 
 }
