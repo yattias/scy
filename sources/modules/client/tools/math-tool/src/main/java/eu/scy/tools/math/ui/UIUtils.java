@@ -64,6 +64,8 @@ public class UIUtils {
 	public static final String TRIANGLE = "TRIANGLE";
 	public static final String RECTANGLE = "RECTANGLE";
 	public static final String RECTANGLE3D = "RECTANGLE3D";
+	public static final String RECTANGLE3D_SMALL = RECTANGLE3D + "_SMALL";
+	
 	public static final String SPHERE3D = "SPHERE3D";
 	public static final String CYLINDER3D = "CYLINDER3D";
 	public static final Color ERROR_SHAPE_COLOR = Color.red;
@@ -126,6 +128,7 @@ public class UIUtils {
 	
 	
 	public static final String notation3DHelpMessage = startTags + forumla3dHtml + endTags;
+	
 	
 	public static String notationHtml = "<b>Notation Guide:</b><br>"+
 	"<p><b>Operators:</b> 2*(h+2)+(1/2)" +
