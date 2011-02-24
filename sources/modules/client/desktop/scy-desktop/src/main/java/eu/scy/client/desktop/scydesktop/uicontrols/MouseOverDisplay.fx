@@ -27,12 +27,12 @@ public class MouseOverDisplay {
    public-init var offsetY = 0.0;
    public-init var showImmediate = false;
 
+   var showing = false;
+   var disappearing = false;
    def contentGroup = Group{
       opacity:0.0
    }
 
-   var showing = false;
-   var disappearing = false;
 //   var startMillis = System.currentTimeMillis();
    def animation:Timeline = Timeline {
       repeatCount: 1
@@ -48,6 +48,7 @@ public class MouseOverDisplay {
             values: contentGroup.opacity => 0.0
             action:function():Void{
                displayMe();
+//               contentGroup.opacity = 0.0;
 //               println("mouse over added at {System.currentTimeMillis()-startMillis} ({animation.time}=?={AnimationTiming.startAppearingTime})")
             }
          }
@@ -83,6 +84,7 @@ public class MouseOverDisplay {
    };
 
    init{
+
       if (showImmediate){
           displayMe();
           contentGroup.opacity = 1.0;
@@ -93,6 +95,7 @@ public class MouseOverDisplay {
    }
 
    function displayMe():Void{
+      removeMe();
       showing = true;
       contentGroup.content = createMouseOverDisplay();
       insert contentGroup into mouseOverGroup.content;
