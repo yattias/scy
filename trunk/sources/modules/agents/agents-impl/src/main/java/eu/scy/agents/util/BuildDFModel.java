@@ -12,9 +12,9 @@ import java.io.PrintWriter;
 import java.util.Map;
 import java.util.Properties;
 
-import joptsimple.OptionParser;
-import joptsimple.OptionSet;
-import joptsimple.OptionSpec;
+//import joptsimple.OptionParser;
+//import joptsimple.OptionSet;
+//import joptsimple.OptionSpec;
 
 import antlr.Utils;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
@@ -96,32 +96,32 @@ public class BuildDFModel extends Workflow {
     File outputDir = new File("output/models/df.out");
     String input = "data/CO2background";
     
-    OptionParser optionParser = new OptionParser();
-    OptionSpec<String> inputArgument = optionParser.accepts("i", "InputDirectory").withRequiredArg().ofType(
-                                                                                                            String.class);
-    OptionSpec<String> outputArgument = optionParser.accepts("o", "OutputDirectory").withRequiredArg().ofType(
-                                                                                                              String.class);
-    OptionSpec<String> pt = optionParser.accepts("p", "ParserType").withRequiredArg().ofType(
-                                                                                                              String.class);
-    OptionSet options = optionParser.parse(args);          
+//    OptionParser optionParser = new OptionParser();
+//    OptionSpec<String> inputArgument = optionParser.accepts("i", "InputDirectory").withRequiredArg().ofType(
+//                                                                                                            String.class);
+//    OptionSpec<String> outputArgument = optionParser.accepts("o", "OutputDirectory").withRequiredArg().ofType(
+//                                                                                                              String.class);
+//    OptionSpec<String> pt = optionParser.accepts("p", "ParserType").withRequiredArg().ofType(
+//                                                                                                              String.class);
+//    OptionSet options = optionParser.parse(args);          
 
-    if (options.has(inputArgument)) {
-      input = options.valueOf(inputArgument);
-    } else {
-      optionParser.printHelpOn(new PrintStream(System.out, true));
-      System.exit(-1);
-    }
-    if (options.has(outputArgument)) {
-      outputDir = new File(options.valueOf(outputArgument));
-    } else {
-      outputDir = new File("output/models/df.out");
-    }
-    if (options.has(pt)) {
-      parserType = options.valueOf(pt);
-    } else {
-      optionParser.printHelpOn(new PrintStream(System.out, true));
-      System.exit(-1)  ;
-    }
+//    if (options.has(inputArgument)) {
+//      input = options.valueOf(inputArgument);
+//    } else {
+//      optionParser.printHelpOn(new PrintStream(System.out, true));
+//      System.exit(-1);
+//    }
+//    if (options.has(outputArgument)) {
+//      outputDir = new File(options.valueOf(outputArgument));
+//    } else {
+//      outputDir = new File("output/models/df.out");
+//    }
+//    if (options.has(pt)) {
+//      parserType = options.valueOf(pt);
+//    } else {
+//      optionParser.printHelpOn(new PrintStream(System.out, true));
+//      System.exit(-1)  ;
+//    }
 
 
 
