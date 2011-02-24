@@ -10,6 +10,8 @@ import eu.scy.agents.keywords.workflow.operators.ImprovedTokenize;
 import eu.scy.agents.keywords.workflow.operators.RemoveHTMLTags;
 import eu.scy.agents.keywords.workflow.operators.RemoveStopWords;
 import eu.scy.agents.keywords.workflow.operators.StemTokens;
+import eu.scy.agents.util.TMParameters;
+
 
 /**
  * Implements an OBWIOUS operator that
@@ -33,46 +35,51 @@ import eu.scy.agents.keywords.workflow.operators.StemTokens;
  */
 public class Preprocessing extends Workflow {
 
-	private static final String REMOVE_HTML_TAGS = "RemoveHTMLTags";
 
 	private static final long serialVersionUID = 1L;
 
-	private static final String PROVIDE_TERM_FREQUENCY = "ProvideTermFrequency";
-	private static final String PROVIDE_TOKENS = "ProvideTokens";
-	private static final String STEM_TOKENS = "StemTokens";
-	private static final String REMOVE_STOPWORDS = "RemoveStopwords";
 
-	public Preprocessing() {
+	public Preprocessing() {	  
 		this(new Properties());
 	}
 
-	public Preprocessing(Properties properties) {
-		super(properties);
+  public Preprocessing(Properties properties) {
+    super(properties);
+    if (properties.isEmpty()) { // set default properties
+      properties.put(TMParameters.REMOVE_HTML_TAGS, "RemoveHTMLTags");
+      properties.put(TMParameters.PROVIDE_TERM_FREQUENCY, "ProvideTermFrequency");
+      properties.put(TMParameters.PROVIDE_TOKENS, "ProvideTokens");
+      properties.put(TMParameters.STEM_TOKENS, "StemTokens");
+      properties.put(TMParameters.REMOVE_STOPWORDS, "RemoveStopwords");
+    }
+    if (properties.containsKey(TMParameters.REMOVE_HTML_TAGS)) {
+      addOperatorSpecification(TMParameters.REMOVE_HTML_TAGS, RemoveHTMLTags.class);
+    }
 
-		addOperatorSpecification(REMOVE_HTML_TAGS, RemoveHTMLTags.class);
+    if (properties.containsKey(TMParameters.PROVIDE_TOKENS)) {
+      addOperatorSpecification(TMParameters.PROVIDE_TOKENS, ImprovedTokenize.class);
+      setInputParameter(TMParameters.PROVIDE_TOKENS, "toLower", true);
+      setInputParameter(TMParameters.PROVIDE_TOKENS, "removePunctuation", true);
+    }
+    if (properties.containsKey(TMParameters.REMOVE_STOPWORDS)) {
+      addOperatorSpecification(TMParameters.REMOVE_STOPWORDS, RemoveStopWords.class);
+    }
+    if (properties.containsKey(TMParameters.STEM_TOKENS)) {
+      addOperatorSpecification(TMParameters.STEM_TOKENS, StemTokens.class);
+      setInputParameter(TMParameters.STEM_TOKENS, StemTokens.CREATE_MAPPING, true);
+    }
+    if (properties.containsKey(TMParameters.PROVIDE_TERM_FREQUENCY)) {
+      addOperatorSpecification(TMParameters.PROVIDE_TERM_FREQUENCY, ProvideTermFrequency.class);
 
-		addOperatorSpecification(PROVIDE_TOKENS, ImprovedTokenize.class);
-		setInputParameter(PROVIDE_TOKENS, "toLower", true);
-		setInputParameter(PROVIDE_TOKENS, "removePunctuation", true);
-		addOperatorSpecification(REMOVE_STOPWORDS, RemoveStopWords.class);
+      addOperatorSpecification(KeywordWorkflowConstants.TFIDF, ProvideTfIdf.class);
 
-		addOperatorSpecification(STEM_TOKENS, StemTokens.class);
-		setInputParameter(STEM_TOKENS, StemTokens.CREATE_MAPPING, true);
-		addOperatorSpecification(PROVIDE_TERM_FREQUENCY,
-				ProvideTermFrequency.class);
+      addNamespaceLink(KeywordWorkflowConstants.TFIDF, KeywordWorkflowConstants.DOCUMENT_FREQUENCY);
 
-		addOperatorSpecification(KeywordWorkflowConstants.TFIDF,
-				ProvideTfIdf.class);
-
-		addNamespaceLink(KeywordWorkflowConstants.TFIDF,
-				KeywordWorkflowConstants.DOCUMENT_FREQUENCY);
-
-		addNamespaceLink(KeywordWorkflowConstants.TFIDF,
-				ObjectIdentifiers.MODEL,
-				KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
-
-		addDefaultOutputLinks();
-		verify();
-	}
+      addNamespaceLink(KeywordWorkflowConstants.TFIDF, ObjectIdentifiers.MODEL,
+                       KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
+    }
+    addDefaultOutputLinks();
+    verify();
+  }
 
 }
