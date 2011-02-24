@@ -5,6 +5,7 @@ import eu.scy.core.model.pedagogicalplan.BasedOnTemplate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,6 +25,7 @@ public class ScyBaseObject implements ScyBase, Serializable {
 
     public ScyBaseObject() {
         timeCreated = System.currentTimeMillis();
+        this.id = UUID.randomUUID().toString();
     }
 
     public String getName() {
@@ -42,7 +44,9 @@ public class ScyBaseObject implements ScyBase, Serializable {
     }
 
     @Id
-    @GeneratedValue
+    //GeneratedValue
+    //GeneratedValue (strategy = GenerationType.TABLE, generator = "ID_SEQ")
+    //TableGenerator(name="ID_SEQ")
     //GenericGenerator(name = "nboid", strategy = "uuid")
     @Column(name = "primKey", length = 55)
     public String getId() {
