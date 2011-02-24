@@ -22,10 +22,9 @@ public class MathSphere3D extends Math3DShape implements IMathSphere3D {
 
 	private JXTextField radiusTextField;
 	private JXLabel radiusLabel;
-	private JXLabel iconLabel;
 
-	public MathSphere3D(int x, int y) {
-		super(x,y);
+	public MathSphere3D(Point point, String iconName) {
+		super(point,iconName);
 	}
 
 	public MathSphere3D(Point location) {
@@ -34,10 +33,11 @@ public class MathSphere3D extends Math3DShape implements IMathSphere3D {
 	}
 
 	public MathSphere3D(ISphereToolbarShape shape, int x, int y) {
-		super(x, y);
+		super(x, y, shape.getCanvasIcon());
 		this.shape = shape;
 		this.getVolumeValueLabel().setText(this.shape.getVolume());
-		iconLabel.setIcon(Images.getIcon(this.shape.getCanvasIcon()));
+//		iconLabel.setIcon(Images.getIcon(this.shape.getCanvasIcon()));
+//		this.setIconName(this.shape.getCanvasIcon());
 	}
 
 	protected void init() {
@@ -45,9 +45,8 @@ public class MathSphere3D extends Math3DShape implements IMathSphere3D {
 		JXPanel allPanel = new JXPanel(new BorderLayout(0, 0));
 
 		allPanel.setOpaque(false);
-		ImageIcon icon = (ImageIcon) Images.Sphere3dLarge.getIcon();
 
-		iconLabel = new JXLabel(icon);
+		setIconLabel(new JXLabel(Images.getIcon(this.getIconName())));
 		// iconLabel.setSize(iconLabel.getSize());
 		allPanel.add(iconLabel, BorderLayout.CENTER);
 

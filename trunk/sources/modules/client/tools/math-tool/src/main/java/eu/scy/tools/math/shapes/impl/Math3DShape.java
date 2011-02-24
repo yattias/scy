@@ -58,17 +58,27 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 	private boolean showCornerPoints;
 	private String formula;
 	protected IToolbarShape shape;
+	protected JXLabel iconLabel;
+	private String iconName;
 	
-	
-	public Math3DShape(int x, int y) {
+	public Math3DShape(Point point, String iconName) {
+		this.setLocation(point);
+		this.setIconName(iconName);
 		init();
-		this.setLocation(x, y);
+		
 		
 	}
 	
 	public Math3DShape(Point location) {
 		init();
 		this.setLocation(location);
+		
+	}
+
+	public Math3DShape(int x, int y, String iconName) {
+		this.setIconName(iconName);
+		this.setLocation(x, y);
+		init();
 		
 	}
 
@@ -382,5 +392,21 @@ public class Math3DShape extends JXPanel implements IMathShape, I3D{
 	public void setHasDecorations(boolean hasDecorations) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void setIconLabel(JXLabel iconLabel) {
+		this.iconLabel = iconLabel;
+	}
+
+	public JXLabel getIconLabel() {
+		return iconLabel;
+	}
+
+	public void setIconName(String iconName) {
+		this.iconName = iconName;
+	}
+
+	public String getIconName() {
+		return iconName;
 	}
 }

@@ -11,19 +11,27 @@ public class ThreeDObj {
 	private Point position;
 	private String length;
 	private String type;
+	private String height;
+	private String width;
+	private String volume;
+	private String icon;
 
 	
 	public ThreeDObj() {
 	}
 	
 	public ThreeDObj(String length, String radius, String surfaceArea, String ratio,
-			Point position, String type) {
+			Point position, String type, String height, String width, String volume, String icon) {
 		this.setLength(length);
 		this.radius = radius;
 		this.surfaceArea = surfaceArea;
 		this.ratio = ratio;
 		this.position = position;
 		this.type = type;
+		this.height = height;
+		this.width = width;
+		this.volume = volume;
+		this.icon = icon;
 	}
 	
 	public void setPosition(Point position) {
@@ -65,6 +73,38 @@ public class ThreeDObj {
 
 	public String getType() {
 		return type;
+	}
+
+	public void setHeight(String height) {
+		this.height = height;
+	}
+
+	public String getHeight() {
+		return height;
+	}
+
+	public void setWidth(String width) {
+		this.width = width;
+	}
+
+	public String getWidth() {
+		return width;
+	}
+
+	public void setVolume(String volume) {
+		this.volume = volume;
+	}
+
+	public String getVolume() {
+		return volume;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
+	public String getIcon() {
+		return icon;
 	}
 	
 }

@@ -29,11 +29,11 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 	private Component heightLabel;
 	private JXLabel heightValueLabel;
 	
-	private JXLabel iconLabel;
+	
 
 
-	public MathCylinder3D(int x, int y) {
-		super(x,y);
+	public MathCylinder3D(Point point, String icon) {
+		super(point,icon);
 	}
 
 	public MathCylinder3D(Point location) {
@@ -42,11 +42,12 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 
 
 	public MathCylinder3D(ICylinderToolbarShape shape, int x, int y) {
-		super(x,y);
+		super(x,y, shape.getCanvasIcon());
 		this.shape = shape;
 		this.getVolumeValueLabel().setText(this.shape.getVolume());
 		this.getHeightValueLabel().setText(((ICylinderToolbarShape) this.shape).getHeight());
-		this.getIconLabel().setIcon(Images.getIcon(this.shape.getCanvasIcon()));
+//		this.getIconLabel().setIcon(Images.getIcon(this.shape.getCanvasIcon()));
+//		this.setIconName(this.shape.getCanvasIcon());		
 	}
 
 	protected void init() {
@@ -55,9 +56,9 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 		JXPanel allPanel = new JXPanel(new BorderLayout(0, 0));
 
 		allPanel.setOpaque(false);
-		ImageIcon icon = (ImageIcon) Images.Cylinder3dLarge.getIcon();
+//		ImageIcon icon = (ImageIcon) Images.Cylinder3dLarge.getIcon();
 
-		setIconLabel(new JXLabel(icon));
+		setIconLabel(new JXLabel(Images.getIcon(this.getIconName())));
 		// iconLabel.setSize(iconLabel.getSize());
 		allPanel.add(getIconLabel(), BorderLayout.CENTER);
 
@@ -188,13 +189,6 @@ public class MathCylinder3D extends Math3DShape implements IMathCylinder3D {
 		return heightValueLabel;
 	}
 
-	public void setIconLabel(JXLabel iconLabel) {
-		this.iconLabel = iconLabel;
-	}
-
-	public JXLabel getIconLabel() {
-		return iconLabel;
-	}
 
 	@Override
 	public String getLengthValue() {

@@ -27,12 +27,11 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 	protected JXLabel widthLabel;
 	private JXLabel heightValueLabel;
 	private JXLabel widthValueLabel;
-	private JXLabel iconLabel;
 
 
 
-	public MathRectangle3D(int x, int y) {
-		super(x,y);
+	public MathRectangle3D(Point point, String iconName) {
+		super(point,iconName);
 	}
 
 	public MathRectangle3D(Point location) {
@@ -41,13 +40,14 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 	}
 
 	public MathRectangle3D(IRectanglarPrismToolbarShape shape, int x, int y) {
-		super(x,y);
+		super(x,y,shape.getCanvasIcon());
 		this.shape = shape;
 		
 		getVolumeValueLabel().setText(this.shape.getVolume());
-		heightValueLabel.setText(((IRectanglarPrismToolbarShape) this.shape).getHeight());
-		widthValueLabel.setText(((IRectanglarPrismToolbarShape) this.shape).getWidth());
-		iconLabel.setIcon(Images.getIcon(this.shape.getCanvasIcon()));
+		getHeightValueLabel().setText(((IRectanglarPrismToolbarShape) this.shape).getHeight());
+		getWidthValueLabel().setText(((IRectanglarPrismToolbarShape) this.shape).getWidth());
+//		iconLabel.setIcon(Images.getIcon(this.shape.getCanvasIcon()));
+//		this.setIconName(this.shape.getCanvasIcon());
 	}
 
 	protected void init() {
@@ -56,11 +56,11 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 		JXPanel allPanel = new JXPanel(new BorderLayout(0,0));
 		
 		allPanel.setOpaque(false);
-		ImageIcon icon = (ImageIcon) Images.Rectangle3dLarge.getIcon();
+//		ImageIcon icon = (ImageIcon) Images.Rectangle3dLarge.getIcon();
 		
-		iconLabel = new JXLabel(icon);
+		setIconLabel(new JXLabel(Images.getIcon(this.getIconName())));
 //		iconLabel.setSize(iconLabel.getSize());
-		allPanel.add(iconLabel,BorderLayout.CENTER);
+		allPanel.add(getIconLabel(),BorderLayout.CENTER);
 		
 		labelPanel = new JXPanel(new MigLayout("insets 0 0 0 0"));
 		labelPanel.setOpaque(false);
@@ -71,15 +71,15 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 		
 		heightLabel = new JXLabel("H = ");
 		labelPanel.add(heightLabel);
-		 heightValueLabel = new JXLabel("5.0");
-		labelPanel.add(heightValueLabel);
+		 setHeightValueLabel(new JXLabel("5.0"));
+		labelPanel.add(getHeightValueLabel());
 		labelPanel.add(new JXLabel(UIUtils.unitsGeneral),"wrap");
 
 		
 		widthLabel = new JXLabel("W = ");
 		labelPanel.add(widthLabel);
-		 widthValueLabel = new JXLabel("5.0");
-		labelPanel.add(widthValueLabel);
+		 setWidthValueLabel(new JXLabel("5.0"));
+		labelPanel.add(getWidthValueLabel());
 		labelPanel.add(new JXLabel(UIUtils.unitsGeneral),"wrap");
 
 		
@@ -167,12 +167,12 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 
 	@Override
 	public String getHeightValue() {
-		return heightValueLabel.getText();
+		return getHeightValueLabel().getText();
 	}
 
 	@Override
 	public String getWidthValue() {
-		return widthValueLabel.getText();
+		return getWidthValueLabel().getText();
 	}
 
 	public JXTextField getLengthTextField() {
@@ -182,6 +182,22 @@ public class MathRectangle3D extends Math3DShape implements IMathRectangle3D {
 	@Override
 	public String getLengthValue() {
 		return this.lengthTextField.getText();
+	}
+
+	public void setHeightValueLabel(JXLabel heightValueLabel) {
+		this.heightValueLabel = heightValueLabel;
+	}
+
+	public JXLabel getHeightValueLabel() {
+		return heightValueLabel;
+	}
+
+	public void setWidthValueLabel(JXLabel widthValueLabel) {
+		this.widthValueLabel = widthValueLabel;
+	}
+
+	public JXLabel getWidthValueLabel() {
+		return widthValueLabel;
 	}
 
 
