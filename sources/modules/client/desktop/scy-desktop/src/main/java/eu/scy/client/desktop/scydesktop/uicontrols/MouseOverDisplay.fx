@@ -1,5 +1,5 @@
 /*
- * WindowTitleBarMouseOverDisplay.fx
+ * MouseOverDisplay.fx
  *
  * Created on 20-apr-2010, 11:06:25
  */
@@ -16,6 +16,9 @@ import javafx.scene.Cursor;
 /**
  * @author sikken
  */
+public def mouseOverGroup = Group {
+   };
+
 public class MouseOverDisplay {
 
    public-init var createMouseOverDisplay: function(): Node;
@@ -27,8 +30,8 @@ public class MouseOverDisplay {
    def contentGroup = Group{
       opacity:0.0
    }
-   def myScene = mySourceNode.scene;
 
+   var showing = false;
    var disappearing = false;
 //   var startMillis = System.currentTimeMillis();
    def animation:Timeline = Timeline {
@@ -90,10 +93,9 @@ public class MouseOverDisplay {
    }
 
    function displayMe():Void{
+      showing = true;
       contentGroup.content = createMouseOverDisplay();
-      var sceneContent = myScene.content;
-      insert contentGroup into sceneContent;
-      myScene.content = sceneContent;
+      insert contentGroup into mouseOverGroup.content;
       positionMe();
    }
 
@@ -121,10 +123,12 @@ public class MouseOverDisplay {
    }
 
    function removeMe():Void{
-      var sceneContent = myScene.content;
-      delete contentGroup from sceneContent;
-      myScene.content = sceneContent;
-      contentGroup.content = null;
+      if (not showing){
+         return;
+      }
+
+      delete contentGroup from mouseOverGroup.content;
+      showing = false;
    }
 
    public function stop(){
@@ -138,8 +142,6 @@ public class MouseOverDisplay {
 
    public function abort(){
       animation.stop();
-      if (contentGroup.content!=null){
-         removeMe();
-      }
+      removeMe();
    }
 }
