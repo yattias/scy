@@ -15,13 +15,14 @@ public class ThreeDObj {
 	private String width;
 	private String volume;
 	private String icon;
+	private String id;
 
 	
 	public ThreeDObj() {
 	}
 	
 	public ThreeDObj(String length, String radius, String surfaceArea, String ratio,
-			Point position, String type, String height, String width, String volume, String icon) {
+			Point position, String type, String height, String width, String volume, String icon, String id) {
 		this.setLength(length);
 		this.radius = radius;
 		this.surfaceArea = surfaceArea;
@@ -32,6 +33,7 @@ public class ThreeDObj {
 		this.width = width;
 		this.volume = volume;
 		this.icon = icon;
+		this.id = id;
 	}
 	
 	public void setPosition(Point position) {
@@ -105,6 +107,14 @@ public class ThreeDObj {
 
 	public String getIcon() {
 		return icon;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getId() {
+		return id;
 	}
 	
 }

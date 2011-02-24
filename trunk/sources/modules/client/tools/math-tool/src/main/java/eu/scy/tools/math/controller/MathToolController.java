@@ -1,6 +1,5 @@
 package eu.scy.tools.math.controller;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.dnd.DropTarget;
@@ -14,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -30,6 +30,7 @@ import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -40,7 +41,6 @@ import org.apache.commons.lang.StringUtils;
 import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXTable;
 
-import com.jhlabs.composite.ScreenComposite;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
@@ -56,7 +56,6 @@ import eu.scy.tools.math.doa.json.IMathToolbarShape;
 import eu.scy.tools.math.doa.json.IRectanglarPrismToolbarShape;
 import eu.scy.tools.math.doa.json.IRectangleToolbarShape;
 import eu.scy.tools.math.doa.json.ISphereToolbarShape;
-import eu.scy.tools.math.doa.json.IToolbarShape;
 import eu.scy.tools.math.doa.json.ITriangleToolbarShape;
 import eu.scy.tools.math.shapes.I3D;
 import eu.scy.tools.math.shapes.IMathCylinder3D;
@@ -486,28 +485,25 @@ public class MathToolController {
 		} else if (label.getName().equals(UIUtils.RECTANGLE3D)) {
 			MathRectangle3D t = new MathRectangle3D(
 					(IRectanglarPrismToolbarShape) clientProperty, dropPoint.x,
-					dropPoint.y);
+					dropPoint.y,id);
 			MathShape3DFocusListener mathShape3DFocusListener = new MathShape3DFocusListener(
 					t);
 			// t.getSurfaceAreaTextField().addFocusListener(mathShape3DFocusListener);
 			// t.getRatioTextField().addFocusListener(mathShape3DFocusListener);
 			// t.getLengthTextField().addFocusListener(mathShape3DFocusListener);
 			t.setId(id);
-			t.setName(UIUtils._3D);
 			t.getAddButton().addActionListener(add3dAction);
 			sc.addShape(t);
 			this.setSelectedMathShape(t);
 		} else if (label.getName().equals(UIUtils.SPHERE3D)) {
 			MathSphere3D t = new MathSphere3D(
 					(ISphereToolbarShape) clientProperty, dropPoint.x,
-					dropPoint.y);
+					dropPoint.y,id);
 			MathShape3DFocusListener mathShape3DFocusListener = new MathShape3DFocusListener(
 					t);
 			// t.getSurfaceAreaTextField().addFocusListener(mathShape3DFocusListener);
 			// t.getRadiusTextField().addFocusListener(mathShape3DFocusListener);
 			// t.getRatioTextField().addFocusListener(mathShape3DFocusListener);
-			t.setId(id);
-			t.setName(UIUtils._3D);
 			sc.addShape(t);
 			t.getAddButton().addActionListener(add3dAction);
 			t.setLocation(dropPoint);
@@ -516,14 +512,12 @@ public class MathToolController {
 		} else if (label.getName().equals(UIUtils.CYLINDER3D)) {
 			MathCylinder3D t = new MathCylinder3D(
 					(ICylinderToolbarShape) clientProperty, dropPoint.x,
-					dropPoint.y);
+					dropPoint.y,id);
 			MathShape3DFocusListener mathShape3DFocusListener = new MathShape3DFocusListener(
 					t);
 			// t.getSurfaceAreaTextField().addFocusListener(mathShape3DFocusListener);
 			// t.getRadiusTextField().addFocusListener(mathShape3DFocusListener);
 			// t.getRatioTextField().addFocusListener(mathShape3DFocusListener);
-			t.setId(id);
-			t.setName(UIUtils._3D);
 			t.getAddButton().addActionListener(add3dAction);
 			sc.addShape(t);
 			t.setLocation(dropPoint);
@@ -873,13 +867,13 @@ public class MathToolController {
 						UIUtils.CYLINDER3D, ((MathCylinder3D) ms)
 								.getHeightValue(), null, ((MathCylinder3D) ms)
 								.getVolumeValueLabel().getText(),
-						((MathCylinder3D) ms).getIconName()));
+						((MathCylinder3D) ms).getIconName(), ms.getId()));
 			else if (ms instanceof MathSphere3D)
 				objs.add(new ThreeDObj(null, ((MathSphere3D) ms)
 						.getRadiusTextField().getText(), ((MathSphere3D) ms)
 						.getSurfaceAreaTextField().getText(),
 						((MathSphere3D) ms).getRatioTextField().getText(),
-						((MathSphere3D) ms).getLocation(), UIUtils.SPHERE3D, null, null, ((MathSphere3D) ms).getVolumeValueLabel().getText(),((MathSphere3D) ms).getIconName()));
+						((MathSphere3D) ms).getLocation(), UIUtils.SPHERE3D, null, null, ((MathSphere3D) ms).getVolumeValueLabel().getText(),((MathSphere3D) ms).getIconName(), ms.getId()));
 			else if (ms instanceof MathRectangle3D)
 				objs.add(new ThreeDObj(((MathRectangle3D) ms)
 						.getLengthTextField().getText(), null,
@@ -887,7 +881,7 @@ public class MathToolController {
 								.getText(), ((MathRectangle3D) ms)
 								.getRatioTextField().getText(),
 						((MathRectangle3D) ms).getLocation(),
-						UIUtils.RECTANGLE3D, ((MathRectangle3D) ms).getHeightValue(), ((MathRectangle3D) ms).getWidthValue(), ((MathRectangle3D) ms).getVolumeValueLabel().getText(), ((MathRectangle3D) ms).getIconName()));
+						UIUtils.RECTANGLE3D, ((MathRectangle3D) ms).getHeightValue(), ((MathRectangle3D) ms).getWidthValue(), ((MathRectangle3D) ms).getVolumeValueLabel().getText(), ((MathRectangle3D) ms).getIconName(), ms.getId()));
 		}
 		return objs;
 	}
@@ -954,60 +948,87 @@ public class MathToolController {
 
 	protected void refresh(String xml) {
 
-		Map<String, DataStoreObj> objHashMap = (Map<String, DataStoreObj>) xstream
+		final Map<String, DataStoreObj> objHashMap = (Map<String, DataStoreObj>) xstream
 				.fromXML(xml);
 
 		Set<String> keyset = shapeCanvases.keySet();
 		Iterator keySetIterator = keyset.iterator();
 		while (keySetIterator.hasNext()) {
-			String key = (String) keySetIterator.next();
+			final String key = (String) keySetIterator.next();
 
-			ShapeCanvas sc = shapeCanvases.get(key);
-			sc.removeAllShapes();
+			final ShapeCanvas sc = shapeCanvases.get(key);
+			
+			SwingWorker worker = new SwingWorker<Void, Void>() {
 
-			sc.repaint();
-			sc.revalidate();
+				@Override
+				protected Void doInBackground() throws Exception {
+					if( !sc.getMathShapes().isEmpty()) {
+						
+						  List list = Collections.synchronizedList( sc.getMathShapes());
 
-			DataStoreObj dataStoreObj = objHashMap.get(key);
-
-			String scratchPadText = dataStoreObj.getScratchPadText();
-			if (scratchPadText != null) {
-				getScratchPadPanels().get(key).getEditor()
-						.setText(scratchPadText);
-			}
-
-			if (key.equals(UIUtils._3D)) {
-				List<ThreeDObj> threeObjects = dataStoreObj
-						.getThreeDMathShapes();
-				for (ThreeDObj to : threeObjects) {
-					sc.addShape(convertThreeObjToMathShape(to));
+						synchronized (list) {
+						           while (!sc.getMathShapes().isEmpty()) {
+						        	   
+						        	   sc.removeSelectedShape(sc.getMathShapes().get(0));
+						           }
+						}
+					}
+					return null;
 				}
+				
+				@Override
+				protected void done() {
+					
+					sc.repaint();
+					
+					DataStoreObj dataStoreObj = objHashMap.get(key);
 
-			} else {
-				List<IMathShape> mathShapes = dataStoreObj.getTwoDMathShapes();
-				for (IMathShape iMathShape : mathShapes) {
-					sc.addShape(iMathShape);
+					String scratchPadText = dataStoreObj.getScratchPadText();
+					if (scratchPadText != null) {
+						getScratchPadPanels().get(key).getEditor()
+								.setText(scratchPadText);
+					}
+
+					if (key.equals(UIUtils._3D)) {
+						List<ThreeDObj> threeObjects = dataStoreObj
+								.getThreeDMathShapes();
+						for (ThreeDObj to : threeObjects) {
+							sc.addShape(convertThreeObjToMathShape(to));
+						}
+
+					} else {
+						List<IMathShape> mathShapes = dataStoreObj.getTwoDMathShapes();
+						for (IMathShape iMathShape : mathShapes) {
+							sc.addShape(iMathShape);
+						}
+
+					}
+
+					sc.repaint();
+					sc.revalidate();
+
+					List<ComputationDataObj> tablesObjects = dataStoreObj
+							.getTablesObjects();
+					DefaultTableModel model = (DefaultTableModel) getComputationTables()
+							.get(key).getModel();
+					model.getDataVector().removeAllElements();
+					for (ComputationDataObj computationDataObject : tablesObjects) {
+						model.addRow(computationDataObject.toArray(key));
+					}
+					super.done();
 				}
+				
+			};
+			
+			worker.run();
 
-			}
-
-			sc.repaint();
-			sc.revalidate();
-
-			List<ComputationDataObj> tablesObjects = dataStoreObj
-					.getTablesObjects();
-			DefaultTableModel model = (DefaultTableModel) getComputationTables()
-					.get(key).getModel();
-			model.getDataVector().removeAllElements();
-			for (ComputationDataObj computationDataObject : tablesObjects) {
-				model.addRow(computationDataObject.toArray(key));
-			}
+		
 		}
 	}
 
 	private IMathShape convertThreeObjToMathShape(ThreeDObj to) {
 		if (to.getType().equals(UIUtils.CYLINDER3D)) {
-			MathCylinder3D ms = new MathCylinder3D(to.getPosition(),to.getIcon());
+			MathCylinder3D ms = new MathCylinder3D(to.getPosition(),to.getIcon(), to.getId());
 			ms.getRadiusTextField().setText(to.getRadius());
 			ms.getSurfaceAreaTextField().setText(to.getSurfaceArea());
 			ms.getRatioTextField().setText(to.getRatio());
@@ -1019,7 +1040,7 @@ public class MathToolController {
 			
 			return ms;
 		} else if (to.getType().equals(UIUtils.SPHERE3D)) {
-			MathSphere3D ms = new MathSphere3D(to.getPosition(), to.getIcon());
+			MathSphere3D ms = new MathSphere3D(to.getPosition(), to.getIcon(), to.getId());
 			ms.getRadiusTextField().setText(to.getRadius());
 			ms.getSurfaceAreaTextField().setText(to.getSurfaceArea());
 			ms.getRatioTextField().setText(to.getRatio());
@@ -1030,7 +1051,7 @@ public class MathToolController {
 			
 			return ms;
 		} else if (to.getType().equals(UIUtils.RECTANGLE3D)) {
-			MathRectangle3D ms = new MathRectangle3D(to.getPosition(), to.getIcon());
+			MathRectangle3D ms = new MathRectangle3D(to.getPosition(), to.getIcon(), to.getId());
 			ms.getLengthTextField().setText(to.getLength());
 			ms.getSurfaceAreaTextField().setText(to.getSurfaceArea());
 			ms.getRatioTextField().setText(to.getRatio());
@@ -1056,7 +1077,7 @@ public class MathToolController {
 
 		this.removeRowsTable(this.getMathSelectedShape(), type);
 		shapeCanvas.removeSelectedShape(this.getMathSelectedShape());
-
+		shapeCanvas.repaint();
 		this.checkCalcTextField(shapeCanvas, type);
 
 	}
