@@ -17,6 +17,36 @@ public class ELOInterface {
     public-init var eloUri: URI;
     var elo: IELO;
     var socialtagsKey: IMetadataKey;
+    def demoMode = true;
+    def testTags = [
+                Tag {
+                    tagname: "ecology";
+                    ayevoters: ["Astrid", "Wilhelm"];
+                    nayvoters: ["John", "Mary"];
+                }
+                Tag {
+                    tagname: "environment";
+                    ayevoters: ["Astrid", "Mary", "Wilhelm"];
+                    nayvoters: ["John"];
+                }
+                Tag {
+                    tagname: "language";
+                    ayevoters: ["John"];
+                    nayvoters: ["Mary", "Wilhelm"];
+                }
+                Tag {
+                    tagname: "temperature";
+                    ayevoters: ["John"];
+                }
+                Tag {
+                    tagname: "energy"
+                    ayevoters: ["Mary"];
+                }
+                Tag {
+                    tagname: "carbon dioxide"
+                    ayevoters: ["Mary"];
+                }
+            ];
 
     init {
         if (eloUri != null) {
@@ -36,7 +66,7 @@ public class ELOInterface {
         return tbi.getLoginUserName();
     }
 
-    function getAllTags(): Tag[] {
+    public function getAllTags(): Tag[] {
         /**
          * Retrieves all tags from all users associated with an IELO.
          *
@@ -67,7 +97,11 @@ public class ELOInterface {
                 insert t into tags;
             }
         }
-        return tags;
+        if (this.demoMode == true) {
+            return this.testTags;
+        } else {
+            return tags;
+        }
     }
 
     public function addTag(tag: Tag): Tag {
@@ -101,5 +135,16 @@ public class ELOInterface {
         // TODO: inspect existing tags and update by calling setTag
         return tag;
     }
+
+    public function addVoteForString(string: String): Tag {
+       def tag = Tag {
+            tagname:string
+            ayevoters:[this.getCurrentUser()]
+        }
+        // TODO: Check if the vote exists
+        return this.addTag(tag);
+    }
+
+
 
 }
