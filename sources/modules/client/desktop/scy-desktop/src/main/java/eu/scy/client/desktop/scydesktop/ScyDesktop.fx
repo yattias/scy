@@ -87,7 +87,6 @@ import eu.scy.client.desktop.scydesktop.utils.ShutdownHook;
 import eu.scy.client.desktop.scydesktop.uicontrols.MultiImageButton;
 import eu.scy.client.desktop.scydesktop.utils.BareBonesBrowserLaunch;
 import eu.scy.common.configuration.Configuration;
-import javafx.scene.control.Tooltip;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import java.net.URLEncoder;
 import eu.scy.client.desktop.scydesktop.utils.XFX;
@@ -97,6 +96,8 @@ import javafx.animation.KeyFrame;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
+import eu.scy.client.desktop.scydesktop.tooltips.impl.ColoredTextTooltipCreator;
 
 /**
  * @author sikkenj
@@ -372,6 +373,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             scyWindowControl: scyWindowControl
             missionModel: missionModelFX
             initializer: initializer
+            tooltipManager: tooltipManager
             scyDesktop: this
          }
 
@@ -409,6 +411,11 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 //                 scyFeedbackGiveButton.imageName = "feedback_give";
              }
          }
+      tooltipManager.registerNode(scyFeedbackGiveButton, ColoredTextTooltipCreator {
+         content: "give feedback"
+         windowColorScheme: windowStyler.getWindowColorScheme(ImageWindowStyler.generalNew)
+      });
+
          scyFeedbackGetButton = MultiImageButton {
              imageName: "getFeedback";
              disable: initializer.offlineMode
@@ -433,6 +440,10 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 //                 scyFeedbackGetButton.imageName = "feedback_get";
              }
          }
+      tooltipManager.registerNode(scyFeedbackGetButton, ColoredTextTooltipCreator {
+         content: "get feedback"
+         windowColorScheme: windowStyler.getWindowColorScheme(ImageWindowStyler.generalNew)
+      });
          eportfolioButton = MultiImageButton {
              imageName: "eportfolio";
              disable: initializer.offlineMode
@@ -456,6 +467,10 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 //                 eportfolioButton.imageName = "eportfolio";
              }
          }
+      tooltipManager.registerNode(eportfolioButton, ColoredTextTooltipCreator {
+         content: "ePortfolio"
+         windowColorScheme: windowStyler.getWindowColorScheme(ImageWindowStyler.generalNew)
+      });
 //         scyFeedbackGiveButton.layoutX = 5;
 //         var feedbackButtons = Panel {
 //             content: [scyFeedbackGetButton, scyFeedbackGiveButton]

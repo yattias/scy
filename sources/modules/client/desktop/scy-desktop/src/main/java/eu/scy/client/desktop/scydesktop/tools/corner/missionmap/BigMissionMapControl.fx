@@ -17,8 +17,9 @@ import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 import eu.scy.client.desktop.scydesktop.Initializer;
-import javafx.scene.control.Tooltip;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
+import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
+import eu.scy.client.desktop.scydesktop.tooltips.impl.ColoredTextTooltipCreator;
 
 /**
  * @author SikkenJ
@@ -30,6 +31,7 @@ public class BigMissionMapControl extends CustomNode {
    public var windowStyler: WindowStyler;
    public var scyWindowControl: ScyWindowControl;
    public var initializer: Initializer;
+   public var tooltipManager: TooltipManager;
    public var scyDesktop: ScyDesktop;
    def missionMapWindow: MoreInfoWindow = MoreInfoWindow {
          title: ##"Mission navigation"
@@ -39,9 +41,14 @@ public class BigMissionMapControl extends CustomNode {
          closeAction: hideBigMissionMap
          mouseClickedAction: mouseClickedInMissionWindowWindow
       }
+   def missionMapButton =  MultiImageButton {
+               imageName: "missionMap"
+               action: showBigMissionMap
+            }
    def sceneWidth = bind scene.width on replace { sceneSizeChanged() };
    def sceneHeight = bind scene.height on replace { sceneSizeChanged() };
    def relativeWindowScreenBoder = 0.0;
+   def navigationTooltip = "navigation\nnow working on: ";
    var bigMissionMapVisible = false;
    var initPhase = true;
    var deferLoadTimerCount = 5;
@@ -56,15 +63,13 @@ public class BigMissionMapControl extends CustomNode {
    public override function create(): Node {
       bigMissionMap.anchorClicked = hideBigMissionMap;
       bigMissionMap.lasInfoTooltipCreator.openElo = openElo;
+      tooltipManager.registerNode(missionMapButton, ColoredTextTooltipCreator {
+         content: bind "{navigationTooltip}{missionModel.activeLas.title}"
+         windowColorScheme: windowStyler.getWindowColorScheme(ImageWindowStyler.generalNavigation)
+      });
       Group {
          content: [
-            MultiImageButton {
-               imageName: "missionMap"
-               tooltip: Tooltip {
-                  text: bind missionModel.activeLas.title
-               }
-               action: showBigMissionMap
-            }
+            missionMapButton
          ]
       }
    }
