@@ -5,6 +5,7 @@ import java.util.Properties;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.meta.Workflow;
 import eu.scy.agents.keywords.workflow.operators.ExtractTfIdfKeywords;
+import eu.scy.agents.util.TMParameters;
 
 public class ExtractTfIdfKeywordsWorkflow extends Workflow {
 
@@ -21,7 +22,13 @@ public class ExtractTfIdfKeywordsWorkflow extends Workflow {
 	public ExtractTfIdfKeywordsWorkflow(Properties props) {
 		super(props);
 
-		addOperatorSpecification(PREPROCESSING, Preprocessing.class);
+        props.put(TMParameters.REMOVE_HTML_TAGS, "RemoveHTMLTags");
+        props.put(TMParameters.PROVIDE_TERM_FREQUENCY, "ProvideTermFrequency");
+        props.put(TMParameters.PROVIDE_TOKENS, "ProvideTokens");
+        props.put(TMParameters.STEM_TOKENS, "StemTokens");
+        props.put(TMParameters.REMOVE_STOPWORDS, "RemoveStopwords");
+        Preprocessing preprocessor = new Preprocessing(props);
+        addOperatorSpecification(PREPROCESSING, preprocessor);
 
 		addOperatorSpecification(EXTRACT_TFIDF_KEYWORDS, ExtractTfIdfKeywords.class);
 
