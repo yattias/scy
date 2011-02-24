@@ -48,14 +48,6 @@ public class SocialTaggingDrawer
                 };
     }
 
-    function addTag(textBox: TextBox, toTagSet: Tag[]): Tag {
-        def tag = Tag {
-                    tagname: textBox.text
-                    ayevoters: ["John"] // Change this when real data is available
-                }
-        return tag;
-    }
-
     function createSocialTaggingDisplay(): Node {
 
         def headingFont = Font {
@@ -67,37 +59,9 @@ public class SocialTaggingDrawer
                     content: "Tag cloud:"
                 }
 
-        def testTags = [
-                    Tag {
-                        tagname: "ecology";
-                        ayevoters: ["Astrid", "Wilhelm"];
-                        nayvoters: ["John", "Mary"];
-                    }
-                    Tag {
-                        tagname: "environment";
-                        ayevoters: ["Astrid", "Mary", "Wilhelm"];
-                        nayvoters: ["John"];
-                    }
-                    Tag {
-                        tagname: "language";
-                        ayevoters: ["John"];
-                        nayvoters: ["Mary", "Wilhelm"];
-                    }
-                    Tag {
-                        tagname: "temperature";
-                        ayevoters: ["John"];
-                    }
-                    Tag {
-                        tagname: "energy"
-                        ayevoters: ["Mary"];
-                    }
-                    Tag {
-                        tagname: "carbon dioxide"
-                        ayevoters: ["Mary"];
-                    }
-                ];
+        def tags = bind eloInterface.getAllTags();
 
-        def tagLines = for (tag in testTags) {
+        def tagLines = for (tag in tags) {
                     def ayevoterslist = for (voter in tag.ayevoters)
                                 Flow { content: [SmallPlus {}, HBox { content: [Text { content: voter
                                                     layoutInfo: LayoutInfo {
@@ -194,14 +158,14 @@ public class SocialTaggingDrawer
                         text: "Adds a tag, and your vote for that tag"
                     }
                     action: function() {
-                        this.addTag(newTagBox, testTags);
+                        eloInterface.addVoteForString(newTagBox.text);
                     }
                 }
 
         def tagCloud = Flow {
                     hgap: 10
 
-                    content: for (tag in testTags)
+                    content: for (tag in tags)
                         Hyperlink { text: tag.tagname
                             font: Font {
                                 //size:Math.max(8, (8 * (tag.ayevoters.size() - tag.nayvoters.size())))
