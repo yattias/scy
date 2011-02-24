@@ -100,9 +100,9 @@ public class MissionRuntimeElo extends ContentTypedScyElo<MissionRuntimeEloConte
 		return scyElo;
 	}
 
-	public void setMissionRunning(String userName)
+	public void setMissionRunning(URI elouri)
 	{
-		getMetadata().getMetadataValueContainer(missionRunningKey).setValue(userName);
+		getMetadata().getMetadataValueContainer(missionRunningKey).setValue(elouri);
 	}
 
 	public String getMissionRunning()
