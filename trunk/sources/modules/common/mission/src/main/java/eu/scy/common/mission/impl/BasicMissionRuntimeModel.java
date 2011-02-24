@@ -79,6 +79,7 @@ public class BasicMissionRuntimeModel implements MissionRuntimeModel
       appendEloUri(builder, eloToolConfigsElo, ",eloToolConfigsElo");
       appendEloUri(builder, templateElosElo, ",templateElosElo");
       appendEloUri(builder, runtimeSettingsElo, ",runtimeSettingsElo");
+      appendEloUri(builder, colorSchemesElo, ",colorSchemesElo");
       builder.append("}");
       return builder.toString();
    }
