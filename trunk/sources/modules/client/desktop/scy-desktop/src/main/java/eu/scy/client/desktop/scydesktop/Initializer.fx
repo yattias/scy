@@ -45,6 +45,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ModalDialogLayer;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import eu.scy.client.desktop.scydesktop.utils.ActivityTimer;
 import eu.scy.client.desktop.scydesktop.draganddrop.impl.SimpleDragAndDropManager;
+import eu.scy.client.desktop.scydesktop.uicontrols.MouseOverDisplay;
 //import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
@@ -504,6 +505,7 @@ public class Initializer {
             ScyDesktop.scyDektopGroup,
             ModalDialogLayer.layer,
             MouseBlocker.mouseBlockNode,
+            MouseOverDisplay.mouseOverGroup,
             SimpleTooltipManager.tooltipGroup,
             SimpleDragAndDropManager.dragAndDropLayer,
             ProgressOverlay.showProgressNode
