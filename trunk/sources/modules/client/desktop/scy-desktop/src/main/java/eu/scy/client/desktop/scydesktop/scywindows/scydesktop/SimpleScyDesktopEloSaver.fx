@@ -35,6 +35,7 @@ import eu.scy.common.scyelo.EloFunctionalRole;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import java.lang.IllegalArgumentException;
 import java.lang.System;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * @author sikken
@@ -61,6 +62,10 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
 
    public var newTitleGenerator: NewTitleGenerator;
    public var myEloChanged: MyEloChanged;
+   public var toolBrokerAPI: ToolBrokerAPI on replace {
+         eloFactory = toolBrokerAPI.getELOFactory();
+         repository = toolBrokerAPI.getRepository();
+      };
    public var repository: IRepository;
    public var eloFactory: IELOFactory;
    public var titleKey: IMetadataKey;
