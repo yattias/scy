@@ -263,13 +263,13 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 			Collection<Set<String>> formedGroups) {
 
 		for (Set<String> group : formedGroups) {
-			StringBuilder message = new StringBuilder();
-			message.append("Please consider collaboration with these students: ");
-
-			String userListString = createUserListString(group);
-			message.append(userListString);
 
 			for (String user : group) {
+				StringBuilder message = new StringBuilder();
+				message.append("Please consider collaboration with these students: ");
+
+				String userListString = createUserListString(user, group);
+				message.append(userListString);
 				try {
 					Tuple messageNotificationTuple = createMessageNotificationTuple(
 							action, message.toString(), user);
@@ -344,17 +344,25 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		return notificationTuple;
 	}
 
-	private String createUserListString(Set<String> group) {
+	String createUserListString(String userToNotify, Set<String> group) {
 		StringBuilder message = new StringBuilder();
 		int i = 0;
 		for (String user : group) {
-			message.append(user);
+			if (user.equals(userToNotify)) {
+				i++;
+				continue;
+			}
+			message.append(sanitizeName(user));
 			if (i == group.size() - 2) {
 				message.append(", ");
 			}
 			i++;
 		}
 		return message.toString();
+	}
+
+	private String sanitizeName(String user) {
+		return user.substring(0, user.indexOf("@"));
 	}
 
 	private IELO getElo(String eloUri) {
