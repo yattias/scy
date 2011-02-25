@@ -27,295 +27,272 @@ public override function createNode(): Node {
 return Group {
 
 			content: [
+				Polyline {
+					fill: Color.WHITE
+					stroke: null
+					points: [3.97,26.83]
+				},
+				Polyline {
+					fill: Color.WHITE
+					stroke: bind windowColorScheme.mainColor
+					strokeWidth: 2.28
+					points: [1.32,6.92]
+				},
+				Line {
+					fill: Color.WHITE
+					stroke: bind windowColorScheme.secondColor
+					strokeWidth: 4.0
+					strokeLineCap: StrokeLineCap.BUTT
+					startX: 1.42
+					startY: 12.14
+					endX: 5.42
+					endY: 12.14
+				},
+				Line {
+					fill: Color.WHITE
+					stroke: bind windowColorScheme.secondColor
+					strokeWidth: 4.0
+					strokeLineCap: StrokeLineCap.BUTT
+					startX: 1.42
+					startY: 21.14
+					endX: 5.42
+					endY: 21.14
+				},
+				Line {
+					fill: Color.WHITE
+					stroke: bind windowColorScheme.secondColor
+					strokeWidth: 4.0
+					strokeLineCap: StrokeLineCap.BUTT
+					startX: 1.42
+					startY: 29.14
+					endX: 5.42
+					endY: 29.14
+				},
+				Line {
+					fill: Color.WHITE
+					stroke: bind windowColorScheme.secondColor
+					strokeWidth: 4.0
+					strokeLineCap: StrokeLineCap.BUTT
+					startX: 1.42
+					startY: 37.14
+					endX: 5.42
+					endY: 37.14
+				},
+				Line {
+					fill: Color.WHITE
+					stroke: bind windowColorScheme.secondColor
+					strokeWidth: 3.0
+					strokeLineCap: StrokeLineCap.BUTT
+					startX: 10.42
+					startY: 36.64
+					endX: 31.42
+					endY: 36.64
+				},
+				Line {
+					fill: Color.WHITE
+					stroke: bind windowColorScheme.secondColor
+					strokeWidth: 4.0
+					strokeLineCap: StrokeLineCap.BUTT
+					startX: 1.42
+					startY: 3.14
+					endX: 5.42
+					endY: 3.14
+				},
+				Line {
+					fill: Color.WHITE
+					stroke: bind windowColorScheme.secondColor
+					strokeWidth: 3.0
+					strokeLineCap: StrokeLineCap.BUTT
+					startX: 10.42
+					startY: 2.64
+					endX: 31.42
+					endY: 2.64
+				},
+				Line {
+					fill: Color.WHITE
+					stroke: bind windowColorScheme.secondColor
+					strokeWidth: 3.0
+					strokeLineCap: StrokeLineCap.BUTT
+					startX: 10.42
+					startY: 11.64
+					endX: 40.42
+					endY: 11.64
+				},
+				Line {
+					fill: Color.WHITE
+					stroke: bind windowColorScheme.secondColor
+					strokeWidth: 3.0
+					strokeLineCap: StrokeLineCap.BUTT
+					startX: 10.42
+					startY: 28.64
+					endX: 28.42
+					endY: 28.64
+				},
+				Line {
+					fill: Color.WHITE
+					stroke: bind windowColorScheme.secondColor
+					strokeWidth: 3.0
+					strokeLineCap: StrokeLineCap.BUTT
+					startX: 10.42
+					startY: 20.64
+					endX: 40.42
+					endY: 20.64
+				},
+				Line {
+					fill: null
+					stroke: bind windowColorScheme.mainColor
+					strokeLineCap: StrokeLineCap.BUTT
+					startX: 7.92
+					startY: 40.14
+					endX: 7.92
+					endY: 0.14
+				},
+				Line {
+					fill: null
+					stroke: bind windowColorScheme.mainColor
+					strokeLineCap: StrokeLineCap.BUTT
+					startX: 0.42
+					startY: 7.64
+					endX: 40.42
+					endY: 7.64
+				},
 				SVGPath {
 					fill: bind windowColorScheme.mainColorLight
 					stroke: null
-					content: "M35.93,22.95 C33.94,20.45 33.28,19.53 33.73,16.13 C34.10,13.32 34.12,10.54 33.76,7.74 C33.23,3.55 31.28,2.43 27.41,2.85 C19.81,3.68 11.71,3.13 4.06,3.15 C3.39,3.15 3.06,3.76 3.10,4.30 C2.70,4.43 2.35,4.79 2.39,5.36 C2.56,8.17 2.96,10.70 2.55,13.54 C2.27,15.53 1.54,18.29 2.15,20.24 C2.94,22.75 3.82,23.38 5.39,23.51 C3.94,24.74 2.84,26.33 3.41,28.34 C4.66,32.73 8.13,35.24 12.26,36.88 C16.92,38.74 22.26,38.24 27.13,37.82 C31.80,37.41 36.26,36.51 39.12,32.53 C41.53,29.16 37.84,25.33 35.93,22.95 Z M26.80,35.85 C23.49,36.17 20.22,36.31 16.91,35.96 C15.04,35.76 13.26,35.18 11.53,34.49 C7.52,32.90 3.62,26.59 9.01,23.43 C9.72,23.01 9.70,21.52 8.69,21.52 C4.54,21.55 3.41,21.43 4.09,16.57 C4.65,12.52 4.44,9.10 4.21,5.13 C11.35,5.11 18.50,5.04 25.64,4.93 C37.40,4.74 29.18,15.80 31.96,21.36 C32.92,23.27 35.25,25.10 36.61,26.84 C42.20,34.01 29.74,35.56 26.80,35.85 Z "
-				},
-				Polyline {
-					fill: Color.WHITE
-					stroke: null
-					points: [4.94,15.64]
-				},
-				Polyline {
-					fill: Color.WHITE
-					stroke: bind windowColorScheme.mainColor
-					strokeWidth: 1.04
-					points: [3.64,7.27]
-				},
-				Polyline {
-					fill: Color.WHITE
-					stroke: bind windowColorScheme.secondColor
-					strokeWidth: 0.95
-					points: [3.64,7.92,3.64,4.91,31.51,4.91,31.51,7.92]
-				},
-				Rectangle {
-					fill: Color.WHITE
-					stroke: bind windowColorScheme.secondColor
-					strokeWidth: 1.04
-					x: 3.68
-					y: 8.39
-					width: 27.8
-					height: 13.07
-				},
-				Line {
-					fill: Color.WHITE
-					stroke: bind windowColorScheme.secondColor
-					strokeWidth: 0.67
-					startX: 8.76
-					startY: 5.23
-					endX: 8.76
-					endY: 21.18
-				},
-				Line {
-					fill: Color.WHITE
-					stroke: bind windowColorScheme.secondColor
-					strokeWidth: 0.69
-					startX: 25.08
-					startY: 15.72
-					endX: 25.08
-					endY: 20.8
-				},
-				Line {
-					fill: Color.WHITE
-					stroke: bind windowColorScheme.secondColor
-					strokeWidth: 0.7
-					startX: 4.12
-					startY: 15.48
-					endX: 30.36
-					endY: 15.48
-				},
-				Line {
-					fill: Color.WHITE
-					stroke: bind windowColorScheme.secondColor
-					strokeWidth: 0.69
-					startX: 4.43
-					startY: 18.54
-					endX: 30.37
-					endY: 18.54
-				},
-				Line {
-					fill: Color.WHITE
-					stroke: bind windowColorScheme.secondColor
-					strokeLineCap: StrokeLineCap.BUTT
-					startX: 5.42
-					startY: 6.64
-					endX: 7.42
-					endY: 6.64
-				},
-				Line {
-					fill: Color.WHITE
-					stroke: bind windowColorScheme.secondColor
-					strokeLineCap: StrokeLineCap.BUTT
-					startX: 5.42
-					startY: 10.64
-					endX: 7.42
-					endY: 10.64
-				},
-				Line {
-					fill: Color.WHITE
-					stroke: bind windowColorScheme.secondColor
-					strokeLineCap: StrokeLineCap.BUTT
-					startX: 5.42
-					startY: 13.64
-					endX: 7.42
-					endY: 13.64
-				},
-				Line {
-					fill: Color.WHITE
-					stroke: bind windowColorScheme.secondColor
-					strokeLineCap: StrokeLineCap.BUTT
-					startX: 5.42
-					startY: 16.64
-					endX: 7.42
-					endY: 16.64
-				},
-				Line {
-					fill: Color.WHITE
-					stroke: bind windowColorScheme.secondColor
-					strokeLineCap: StrokeLineCap.BUTT
-					startX: 5.42
-					startY: 19.64
-					endX: 7.42
-					endY: 19.64
-				},
-				Line {
-					fill: Color.WHITE
-					stroke: bind windowColorScheme.secondColor
-					strokeLineCap: StrokeLineCap.BUTT
-					startX: 9.42
-					startY: 6.64
-					endX: 24.42
-					endY: 6.64
-				},
-				Line {
-					fill: Color.WHITE
-					stroke: bind windowColorScheme.secondColor
-					strokeLineCap: StrokeLineCap.BUTT
-					startX: 9.42
-					startY: 19.64
-					endX: 24.42
-					endY: 19.64
-				},
-				Line {
-					fill: Color.WHITE
-					stroke: bind windowColorScheme.secondColor
-					strokeLineCap: StrokeLineCap.BUTT
-					startX: 9.42
-					startY: 10.64
-					endX: 29.42
-					endY: 10.64
-				},
-				Line {
-					fill: Color.WHITE
-					stroke: bind windowColorScheme.secondColor
-					strokeLineCap: StrokeLineCap.BUTT
-					startX: 9.42
-					startY: 16.64
-					endX: 21.42
-					endY: 16.64
-				},
-				Line {
-					fill: Color.WHITE
-					stroke: bind windowColorScheme.secondColor
-					strokeLineCap: StrokeLineCap.BUTT
-					startX: 9.42
-					startY: 13.64
-					endX: 29.42
-					endY: 13.64
+					content: "M36.75,17.78 C33.39,14.35 31.40,10.33 27.17,8.65 C20.17,3.14 9.98,5.26 4.32,12.51 C-1.82,20.36 4.94,31.46 13.27,34.21 C18.92,36.08 25.60,36.46 31.49,36.13 C35.16,35.92 39.07,34.00 39.96,30.09 C41.07,25.21 40.25,21.35 36.75,17.78 Z M17.90,32.35 C9.98,31.30 1.13,22.90 6.43,14.52 C10.11,8.69 17.61,7.15 23.34,9.77 C23.42,10.32 23.77,10.82 24.42,10.92 C24.93,11.01 25.51,11.21 26.12,11.52 C26.69,11.98 27.24,12.49 27.72,13.07 C28.16,13.59 28.64,13.63 29.04,13.43 C33.02,16.57 37.31,21.89 37.75,25.15 C39.25,36.23 24.08,33.18 17.90,32.35 Z "
 				},
 				SVGPath {
 					fill: Color.WHITE
 					stroke: bind windowColorScheme.mainColor
-					strokeWidth: 1.19
+					strokeWidth: 1.5
 					strokeLineCap: StrokeLineCap.BUTT
-					content: "M37.02,28.42 C37.07,28.80 37.05,29.19 36.97,29.57 L36.84,30.04 L37.06,30.74 C37.28,31.66 37.00,32.52 36.26,33.10 C36.13,33.21 35.99,33.30 35.84,33.37 L35.81,33.60 C35.76,33.81 35.69,34.02 35.59,34.22 C35.37,34.62 35.00,34.94 34.56,35.12 L34.27,35.24 L33.96,35.32 L33.80,35.51 L33.63,35.66 C32.90,36.30 32.01,36.44 31.10,36.07 L30.88,35.98 L30.65,35.84 L30.59,35.94 C30.52,35.99 30.46,36.05 30.41,36.11 C29.36,36.88 28.09,37.00 26.88,36.47 C26.75,36.41 26.63,36.34 26.52,36.26 L26.39,36.30 L26.25,36.32 C25.43,36.49 24.59,36.34 23.88,35.90 L23.69,35.79 L23.51,35.90 C22.32,36.61 21.02,36.67 19.77,36.07 L19.51,36.17 C17.97,36.68 16.44,36.43 15.15,35.48 L14.86,35.22 L14.53,35.35 C13.12,35.82 11.81,35.47 10.84,34.39 L10.65,34.14 L10.51,33.90 L10.38,33.67 L10.29,33.61 L10.20,33.54 L10.13,33.44 C8.92,32.57 8.42,31.35 8.76,29.99 L8.92,29.67 L8.66,29.17 C8.06,27.93 8.20,26.67 9.11,25.64 L9.21,25.52 L9.06,24.99 C8.94,23.76 9.31,22.56 10.13,21.59 L10.09,21.20 C9.93,19.83 10.54,18.73 11.83,18.15 C12.38,16.78 13.53,16.12 15.05,16.34 L15.57,16.62 Q16.51,15.37 17.21,16.11 C17.65,16.58 17.59,15.54 19.53,15.54 Q20.75,15.55 21.63,16.41 L21.90,16.28 L22.14,16.18 C23.33,15.81 24.46,16.06 25.34,16.89 L25.49,17.03 L25.78,17.03 L26.05,17.06 C26.89,17.17 27.59,17.60 28.02,18.28 L28.11,18.42 L28.19,18.57 L28.57,18.64 L28.93,18.74 C30.10,19.13 30.87,19.98 31.12,21.14 L31.17,21.56 L31.41,21.65 C31.59,21.73 31.76,21.82 31.93,21.91 C32.45,22.24 32.83,22.70 33.04,23.26 L33.09,23.41 L33.11,23.58 L33.40,23.81 L33.66,24.05 C34.05,24.44 34.33,24.90 34.47,25.41 L34.54,25.70 L34.96,25.88 C36.05,26.40 36.77,27.29 37.02,28.42 L37.02,28.42 L37.02,28.42 L37.02,28.42 L37.02,28.42 L37.02,28.42 L37.02,28.42 L37.02,28.42 L37.02,28.42 L37.02,28.42 L37.02,28.42 L37.02,28.42 L37.02,28.42 L37.02,28.42 Q37.07,28.80 37.02,28.42 Q37.07,28.80 37.02,28.42 Q37.07,28.80 37.02,28.42 Q37.07,28.80 37.02,28.42 Q37.07,28.80 37.02,28.42 Q37.07,28.80 37.02,28.42 Q37.07,28.80 37.02,28.42 Q37.07,28.80 37.02,28.42 Q37.07,28.80 37.02,28.42 Q37.07,28.80 37.02,28.42 Q37.07,28.80 37.02,28.42 Q37.07,28.80 37.02,28.42 Q37.07,28.80 37.02,28.42 Q37.07,28.80 37.02,28.42 Q37.07,28.80 37.02,28.42 Q37.07,28.80 37.02,28.42 Q37.07,28.80 37.02,28.42 Q37.07,28.80 37.02,28.42 Z "
+					content: "M37.87,23.70 C37.93,24.12 37.91,24.54 37.82,24.95 L37.67,25.46 L37.92,26.22 C38.16,27.21 37.86,28.13 37.03,28.76 C36.89,28.88 36.73,28.97 36.56,29.05 L36.53,29.30 C36.48,29.53 36.40,29.75 36.29,29.97 C36.04,30.41 35.64,30.75 35.15,30.94 L34.82,31.07 L34.47,31.15 L34.30,31.36 L34.11,31.52 C33.30,32.21 32.31,32.37 31.30,31.97 L31.05,31.87 L30.80,31.72 L30.73,31.82 C30.66,31.88 30.59,31.94 30.53,32.01 C29.37,32.84 27.96,32.97 26.61,32.40 C26.47,32.33 26.34,32.26 26.21,32.17 L26.06,32.21 L25.92,32.23 C25.00,32.42 24.07,32.26 23.28,31.79 L23.06,31.66 L22.87,31.79 C21.55,32.55 20.10,32.62 18.72,31.97 L18.42,32.07 C16.72,32.62 15.01,32.36 13.58,31.33 L13.26,31.05 L12.89,31.19 C11.32,31.69 9.87,31.32 8.80,30.16 L8.58,29.89 L8.42,29.62 L8.27,29.38 L8.18,29.31 L8.08,29.23 L8.01,29.13 C6.66,28.19 6.10,26.87 6.49,25.40 L6.66,25.05 L6.36,24.52 C5.70,23.18 5.86,21.81 6.86,20.70 L6.98,20.58 L6.82,20.01 C6.67,18.67 7.09,17.38 8.01,16.34 L7.96,15.91 C7.78,14.43 8.45,13.24 9.89,12.62 C10.51,11.14 11.78,10.42 13.46,10.66 L14.04,10.96 Q15.09,9.61 15.87,10.41 C16.36,10.92 16.29,9.80 18.45,9.80 Q19.80,9.81 20.78,10.74 L21.08,10.59 L21.35,10.49 C22.66,10.09 23.93,10.36 24.90,11.25 L25.07,11.41 L25.39,11.41 L25.70,11.44 C26.63,11.56 27.40,12.03 27.88,12.76 L27.97,12.90 L28.07,13.07 L28.49,13.15 L28.89,13.25 C30.19,13.68 31.05,14.59 31.32,15.85 L31.37,16.29 L31.65,16.40 C31.84,16.48 32.03,16.58 32.22,16.68 C32.79,17.03 33.22,17.53 33.46,18.13 L33.51,18.29 L33.54,18.48 L33.86,18.72 L34.15,18.99 C34.58,19.40 34.88,19.90 35.05,20.46 L35.12,20.76 L35.59,20.96 C36.80,21.53 37.60,22.49 37.87,23.70 L37.87,23.70 L37.87,23.70 L37.87,23.70 L37.87,23.70 L37.87,23.70 L37.87,23.70 L37.87,23.70 L37.87,23.70 L37.87,23.70 L37.87,23.70 L37.87,23.70 L37.87,23.70 L37.87,23.70 Q37.93,24.12 37.87,23.70 Q37.93,24.12 37.87,23.70 Q37.93,24.12 37.87,23.70 Q37.93,24.12 37.87,23.70 Q37.93,24.12 37.87,23.70 Q37.93,24.12 37.87,23.70 Q37.93,24.12 37.87,23.70 Q37.93,24.12 37.87,23.70 Q37.93,24.12 37.87,23.70 Q37.93,24.12 37.87,23.70 Q37.93,24.12 37.87,23.70 Q37.93,24.12 37.87,23.70 Q37.93,24.12 37.87,23.70 Q37.93,24.12 37.87,23.70 Q37.93,24.12 37.87,23.70 Q37.93,24.12 37.87,23.70 Q37.93,24.12 37.87,23.70 Q37.93,24.12 37.87,23.70 Z "
 				},
 				SVGPath {
 					fill: Color.WHITE
 					stroke: bind windowColorScheme.mainColor
-					strokeWidth: 1.19
+					strokeWidth: 1.5
 					strokeLineCap: StrokeLineCap.BUTT
-					content: "M11.57,20.31 Q17.50,20.92 14.59,24.78 "
+					content: "M9.61,14.95 Q16.19,15.61 12.96,19.77 "
 				},
 				SVGPath {
 					fill: Color.WHITE
 					stroke: bind windowColorScheme.mainColor
-					strokeWidth: 1.19
+					strokeWidth: 1.5
 					strokeLineCap: StrokeLineCap.BUTT
-					content: "M8.22,27.33 Q9.60,24.08 11.57,26.88 "
+					content: "M5.88,22.53 Q7.41,19.02 9.61,22.05 "
 				},
 				SVGPath {
 					fill: Color.WHITE
 					stroke: bind windowColorScheme.mainColor
-					strokeWidth: 1.19
+					strokeWidth: 1.5
 					strokeLineCap: StrokeLineCap.BUTT
-					content: "M14.54,34.55 Q14.37,29.89 18.16,30.44 "
+					content: "M12.90,30.33 Q12.71,25.29 16.92,25.89 "
 				},
 				SVGPath {
 					fill: Color.WHITE
 					stroke: bind windowColorScheme.mainColor
-					strokeWidth: 1.19
+					strokeWidth: 1.5
 					strokeLineCap: StrokeLineCap.BUTT
-					content: "M17.73,26.68 Q13.32,22.04 11.30,27.13 C9.63,31.34 13.38,31.80 14.26,31.75 "
+					content: "M16.45,21.82 Q11.54,16.82 9.30,22.32 C7.44,26.86 11.62,27.35 12.59,27.30 "
 				},
 				SVGPath {
 					fill: Color.WHITE
 					stroke: bind windowColorScheme.mainColor
-					strokeWidth: 1.19
+					strokeWidth: 1.5
 					strokeLineCap: StrokeLineCap.BUTT
-					content: "M16.57,16.46 Q20.69,21.67 15.96,22.82 "
+					content: "M15.15,10.79 Q19.73,16.42 14.48,17.66 "
 				},
 				SVGPath {
 					fill: Color.WHITE
 					stroke: bind windowColorScheme.mainColor
-					strokeWidth: 1.19
+					strokeWidth: 1.5
 					strokeLineCap: StrokeLineCap.BUTT
-					content: "M18.35,20.58 Q20.96,17.53 21.79,20.72 "
+					content: "M17.14,15.24 Q20.03,11.95 20.95,15.39 "
 				},
 				SVGPath {
 					fill: Color.WHITE
 					stroke: bind windowColorScheme.mainColor
-					strokeWidth: 1.19
+					strokeWidth: 1.5
 					strokeLineCap: StrokeLineCap.BUTT
-					content: "M20.90,22.17 Q24.37,17.91 26.23,20.31 "
+					content: "M19.97,16.96 Q23.82,12.36 25.89,14.95 "
 				},
 				SVGPath {
 					fill: Color.WHITE
 					stroke: bind windowColorScheme.mainColor
-					strokeWidth: 1.19
+					strokeWidth: 1.5
 					strokeLineCap: StrokeLineCap.BUTT
-					content: "M25.41,21.67 Q31.60,18.99 30.35,25.28 "
+					content: "M24.97,16.42 Q31.86,13.53 30.46,20.31 "
 				},
 				Polyline {
 					fill: Color.WHITE
 					stroke: bind windowColorScheme.mainColor
-					strokeWidth: 1.19
+					strokeWidth: 1.5
 					strokeLineCap: StrokeLineCap.BUTT
-					points: [19.09,26.73]
+					points: [17.96,21.88]
 				},
 				Polyline {
 					fill: Color.WHITE
 					stroke: bind windowColorScheme.mainColor
-					strokeWidth: 1.19
+					strokeWidth: 1.5
 					strokeLineCap: StrokeLineCap.BUTT
-					points: [22.55,24.23]
+					points: [21.80,19.18]
 				},
 				SVGPath {
 					fill: Color.WHITE
 					stroke: bind windowColorScheme.mainColor
-					strokeWidth: 1.19
+					strokeWidth: 1.5
 					strokeLineCap: StrokeLineCap.BUTT
-					content: "M16.90,27.23 Q20.63,25.83 22.72,27.78 "
+					content: "M15.52,22.43 Q19.67,20.91 21.99,23.02 "
 				},
 				SVGPath {
 					fill: Color.WHITE
 					stroke: bind windowColorScheme.mainColor
-					strokeWidth: 1.19
+					strokeWidth: 1.5
 					strokeLineCap: StrokeLineCap.BUTT
-					content: "M23.39,31.84 Q23.71,35.01 27.72,34.36 "
+					content: "M22.73,27.40 Q23.09,30.83 27.54,30.12 "
 				},
 				SVGPath {
 					fill: Color.WHITE
 					stroke: bind windowColorScheme.mainColor
-					strokeWidth: 1.19
+					strokeWidth: 1.5
 					strokeLineCap: StrokeLineCap.BUTT
-					content: "M18.66,28.69 Q17.89,32.90 23.32,32.85 "
+					content: "M17.47,23.99 Q16.62,28.54 22.66,28.49 "
 				},
 				SVGPath {
 					fill: Color.WHITE
 					stroke: bind windowColorScheme.mainColor
-					strokeWidth: 1.19
+					strokeWidth: 1.5
 					strokeLineCap: StrokeLineCap.BUTT
-					content: "M27.88,25.08 Q25.02,25.38 26.45,27.83 "
+					content: "M27.72,20.10 Q24.55,20.42 26.13,23.07 "
 				},
 				SVGPath {
 					fill: Color.WHITE
 					stroke: bind windowColorScheme.mainColor
-					strokeWidth: 1.19
+					strokeWidth: 1.5
 					strokeLineCap: StrokeLineCap.BUTT
-					content: "M35.35,28.54 Q31.56,25.23 29.31,29.69 "
+					content: "M36.02,23.83 Q31.81,20.26 29.31,25.08 "
 				},
 				SVGPath {
 					fill: Color.WHITE
 					stroke: bind windowColorScheme.mainColor
-					strokeWidth: 1.19
+					strokeWidth: 1.5
 					strokeLineCap: StrokeLineCap.BUTT
-					content: "M34.96,30.84 Q31.89,29.44 29.41,33.95 "
+					content: "M35.59,26.32 Q32.17,24.81 29.43,29.68 "
 				},
 				SVGPath {
 					fill: Color.WHITE
 					stroke: bind windowColorScheme.mainColor
-					strokeWidth: 1.19
+					strokeWidth: 1.5
 					strokeLineCap: StrokeLineCap.BUTT
-					content: "M20.85,35.60 Q18.43,34.95 20.90,32.20 "
+					content: "M19.91,31.46 Q17.23,30.76 19.97,27.78 "
 				},
 				SVGPath {
 					fill: Color.WHITE
 					stroke: bind windowColorScheme.mainColor
-					strokeWidth: 1.19
+					strokeWidth: 1.5
 					strokeLineCap: StrokeLineCap.BUTT
-					content: "M21.84,28.22 Q29.47,23.20 30.23,32.42 "
+					content: "M21.01,23.49 Q29.49,18.06 30.34,28.02 "
 },
 ]
 }
