@@ -216,6 +216,15 @@ public class RichTextEditorScyNode extends RichTextEditorNode, ScyToolFX, EloSav
 
    public override function onQuit() {
        richTextEditor.insertedTextToActionLog();
+      if (elo != null) {
+         def oldContentXml = elo.getContent().getXmlString();
+         def newContentXml = getElo().getContent().getXmlString();
+         if (oldContentXml == newContentXml) {
+            // nothing changed
+            return;
+         }
+      }
+      doSaveElo();
    }
 
    public override function getThumbnail(width: Integer, height: Integer): BufferedImage {
