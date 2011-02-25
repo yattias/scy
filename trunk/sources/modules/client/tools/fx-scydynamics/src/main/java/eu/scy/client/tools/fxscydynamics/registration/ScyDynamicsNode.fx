@@ -160,6 +160,18 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
         }
     }
 
+   public override function onQuit():Void{
+      if (eloModel!=null){
+         def oldContentXml = eloModel.getContent().getXmlString();
+         def newContentXml = getElo().getContent().getXmlString();
+         if (oldContentXml==newContentXml){
+            // nothing changed
+            return;
+         }
+      }
+      doSaveElo();
+   }
+
     function doSaveElo() {
         eloSaver.eloUpdate(getElo(), this);
     }
