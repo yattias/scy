@@ -86,9 +86,10 @@ public class ModalDialogBox extends CustomNode {
        XFX.runActionInBackgroundAndCallBack(function() { Thread.sleep(500); return null }, function(o): Void {
            dialogWindow.layoutX = scene.width / 2 - dialogWindow.layoutBounds.width / 2;
            dialogWindow.layoutY = scene.height / 2 - dialogWindow.layoutBounds.height / 2;
+           def finalDialogWindow = dialogWindow;
            Timeline {
                keyFrames: [
-                   at (500ms) {dialogWindow.opacity => 1 tween Interpolator.LINEAR}
+                   at (500ms) {finalDialogWindow.opacity => 1 tween Interpolator.LINEAR}
                ];
            }.playFromStart();
        });
