@@ -285,6 +285,18 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML, E
         return elo;
     }
 
+   public override function onQuit():Void{
+      if (elo!=null){
+         def oldContentXml = elo.getContent().getXmlString();
+         def newContentXml = getELO().getContent().getXmlString();
+         if (oldContentXml==newContentXml){
+            // nothing changed
+            return;
+         }
+      }
+      doSaveELO();
+   }
+
     override public function eloSaveCancelled (elo : IELO) : Void {
     }
 
