@@ -34,7 +34,8 @@ public enum ScyRooloMetadataKeyIds implements IMetadataKeyIdDefinition
    OBLIGATORY_IN_PORTFOLIO("obligatoryInPortfolio"),
    FEEDBACK_ON("feedbackOn"),
    DATE_FIRST_USER_SAVE("dateFirstUserSave"),
-   CREATOR("creator");
+   CREATOR("creator"),
+   USER_RUNNING_MISSION("userRunningMission");
 
    private final String id;
 
