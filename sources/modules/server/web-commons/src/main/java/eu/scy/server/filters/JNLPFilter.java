@@ -100,16 +100,16 @@ public class JNLPFilter implements Filter {
             int index = jnlpContent.indexOf("<argument>");
             String start = jnlpContent.substring(0, index);
             String end = jnlpContent.substring(index, jnlpContent.length());
-            String middle = "<argument>-defaultUsername</argument>\n";
-            middle += "<argument>" + userName + "</argument>\n";
-            middle += "<argument>-defaultpassword</argument>\n";
-            middle += "<argument>" + password + "</argument>\n";
+            String middle = "<argument>-defaultUsername</argument>";
+            middle += "<argument>" + userName + "</argument>";
+            middle += "<argument>-defaultpassword</argument>";
+            middle += "<argument>" + password + "</argument>";
             if(mission != null) {
-                middle += "<argument>-defaultMission</argument>\n";
-                middle += "<argument>" + mission.trim() + "</argument>\n";
+                middle += "<argument>-defaultMission</argument>";
+                middle += "<argument>" + mission.trim() + "</argument>";
             }
-            middle +="<argument>-autologin</argument>\n";
-            middle +="<argument>true</argument>\n";
+            middle +="<argument>-autologin</argument>";
+            middle +="<argument>true</argument>";
             jnlpContent = start + middle + end;
             in.close();
             response.getOutputStream().print(jnlpContent);
