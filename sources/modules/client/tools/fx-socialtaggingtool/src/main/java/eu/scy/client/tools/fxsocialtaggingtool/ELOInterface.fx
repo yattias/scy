@@ -126,25 +126,32 @@ public class ELOInterface {
         return tag;
     }
 
-    public function addVoteForTag(tag: Tag, user): Tag {
-        // TODO: inspect existing tags and update by calling setTag
+    public function addVoteForTag(like: Boolean, tag: Tag): Tag {
+        var mvc = elo.getMetadata().getMetadataValueContainer(socialtagsKey);
+        var st: SocialTags = mvc.getValue() as SocialTags;
+        if (like) {
+            st.addLikingUser(tag.tagname, getCurrentUser());
+        } else {
+            st.addUnlikingUser(tag.tagname, getCurrentUser());
+        }
         return tag;
     }
 
     public function removeVoteForTag(tag: Tag): Tag {
-        // TODO: inspect existing tags and update by calling setTag
+        var mvc = elo.getMetadata().getMetadataValueContainer(socialtagsKey);
+        var st: SocialTags = mvc.getValue() as SocialTags;
+        st.removeLikingUser(tag.tagname, getCurrentUser());
+        st.removeUnlikingUser(tag.tagname, getCurrentUser());
         return tag;
     }
 
     public function addVoteForString(string: String): Tag {
        def tag = Tag {
             tagname:string
-            ayevoters:[this.getCurrentUser()]
         }
-        // TODO: Check if the vote exists
-        return this.addTag(tag);
+        def result = this.addTag(tag);
+        addVoteForTag(true, result);
+        return result;
     }
-
-
 
 }
