@@ -97,7 +97,8 @@ public class ResultBinderPanel extends JPanel implements IActionHealthPassport{
 
      /** gets the container for the thumbnail */
      public Container getInterfacePanel(){
-         return this;
+         //return this;
+         return healthPassportPanel.getInterfacePanel();
      }
 
      /** logs */
