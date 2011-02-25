@@ -43,7 +43,7 @@ public class MissionLocatorUtils {
       {
          java.util.logging.Logger.getLogger(MissionLocatorUtils.class.getName()).log(Level.SEVERE, null, ex);
       }
-        final IMetadataKey missionRunningKey = tbi.getMetaDataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNNING);
+        final IMetadataKey userRunningMissionKey = tbi.getMetaDataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.USER_RUNNING_MISSION);
         final IMetadataKey technicalFormatKey = tbi.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
 
         IQueryComponent missionSpecificationQueryComponent = new MetadataQueryComponent(technicalFormatKey,
@@ -52,7 +52,7 @@ public class MissionLocatorUtils {
         List<ISearchResult> missionSpecificationResults = tbi.getRepository().search(missionSpecificationQuery);
 
         IQueryComponent missionRuntimeQueryComponent = new MetadataQueryComponent(technicalFormatKey, SearchOperation.EQUALS, MissionEloType.MISSION_RUNTIME.getType());
-        IQueryComponent titleQuery = new MetadataQueryComponent(missionRunningKey, SearchOperation.EQUALS, tbi.getLoginUserName());
+        IQueryComponent titleQuery = new MetadataQueryComponent(userRunningMissionKey, SearchOperation.EQUALS, tbi.getLoginUserName());
         IQueryComponent myMissionRuntimeQueryComponent = new AndQuery(missionRuntimeQueryComponent, titleQuery);
         IQuery missionRuntimeQuery = new Query(myMissionRuntimeQueryComponent);
         List<ISearchResult> missionRuntimeResults = tbi.getRepository().search(missionRuntimeQuery);
