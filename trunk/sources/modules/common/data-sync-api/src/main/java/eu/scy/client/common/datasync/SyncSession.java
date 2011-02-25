@@ -70,7 +70,6 @@ public class SyncSession implements ISyncSession {
 		
 			@Override
 			public void processPacket(Packet packet) {
-                            if (packet.getFrom().startsWith(getId())) {
 				if (packet.getExtension(syncActionTransformer.getElementname(), syncActionTransformer.getNamespace()) != null) {
 					SmacketExtension extension = (SmacketExtension) packet.getExtension(syncActionTransformer.getElementname(), syncActionTransformer.getNamespace());
 					SmacketExtension se = (SmacketExtension) extension;
@@ -97,12 +96,12 @@ public class SyncSession implements ISyncSession {
 						e.printStackTrace();
 					}
 				}
-                            }
 			}
 		}, new PacketFilter() {
 			
 			@Override
 			public boolean accept(Packet packet) {
+                            if (packet.getFrom().startsWith(getId())) {
 				if(packet.getExtension(syncActionTransformer.getElementname(), syncActionTransformer.getNamespace()) != null) {
 					return true;
 				} else if (packet.getExtension(syncMessageTransformer.getElementname(), syncMessageTransformer.getNamespace()) != null) {
@@ -113,7 +112,8 @@ public class SyncSession implements ISyncSession {
 						return true;
 					}
 				}
-				return false;
+                            }
+                            return false;
 				
 			}
 		});
