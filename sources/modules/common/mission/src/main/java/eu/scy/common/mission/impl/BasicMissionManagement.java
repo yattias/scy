@@ -79,7 +79,8 @@ public class BasicMissionManagement implements MissionManagement
 			MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.createElo(rooloServices);
 			missionRuntimeElo.setTitle(missionSpecificationElo.getTitle());
 			missionRuntimeElo.setDescription(missionSpecificationElo.getDescription());
-			missionRuntimeElo.setMissionRunning(missionSpecificationElo.getUri());
+			missionRuntimeElo.setMissionSpecificationEloUri(missionSpecificationElo.getUri());
+			missionRuntimeElo.setUserRunningMission(userName);
 			missionRuntimeElo.setAuthor(userName);
 			if (!runSpecificationElos)
 			{
