@@ -28,6 +28,8 @@ import eu.scy.client.desktop.scydesktop.art.javafx.MoreAssignmentTypeIcon;
 import eu.scy.client.desktop.scydesktop.art.javafx.MoreResourcesTypeIcon;
 import eu.scy.client.desktop.scydesktop.art.javafx.InstructionTypesIcon;
 import javafx.scene.effect.DropShadow;
+import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
+import eu.scy.client.desktop.scydesktop.tooltips.impl.ColoredTextTooltipCreator;
 
 /**
  * @author SikkenJ
@@ -36,6 +38,7 @@ public class MoreInfoWindow extends CustomNode {
 
    def iconSize = 40.0;
    public var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
+   public var tooltipManager: TooltipManager;
    public var width = 300.0;
    public var height = 200.0;
    public var title = "Title";
@@ -97,8 +100,12 @@ public class MoreInfoWindow extends CustomNode {
          layoutX: borderWidth + borderLineWidth / 2.0;
          layoutY: topBorderWidth + borderLineWidth / 2.0;
       }
+   def curtainControlTooltipCreator = ColoredTextTooltipCreator {
+         windowColorScheme: windowColorScheme
+      }
 
    public override function create(): Node {
+      tooltipManager.registerNode(curtainControl, curtainControlTooltipCreator);
        if (hideCloseButton) {
            Group {
           content: [
@@ -180,11 +187,13 @@ public class MoreInfoWindow extends CustomNode {
    public function setControlFunctionClose():Void {
       curtainControl.clickAction = closeAction;
       curtainControl.rotate = 0;
+      curtainControlTooltipCreator.content = "close instruction"
    }
 
    public function setControlFunctionOpen():Void {
       curtainControl.clickAction = openAction;
       curtainControl.rotate = 180;
+      curtainControlTooltipCreator.content = "open instruction"
    }
 
 }
