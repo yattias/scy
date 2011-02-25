@@ -196,14 +196,11 @@ ScrollView {
             } } }
 
     public override function getPrefHeight(height: Number): Number {
-        //return this.height;
         return this.height;
     }
 
     public override function getPrefWidth(width: Number): Number {
-        //return taggingPanel.width
-        //return 300;
-        return this.width;
+        return 200;
 
     }
 
