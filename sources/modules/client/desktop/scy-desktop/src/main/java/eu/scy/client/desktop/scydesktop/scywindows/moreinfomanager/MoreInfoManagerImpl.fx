@@ -23,6 +23,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ModalDialogLayer;
 import eu.scy.client.desktop.scydesktop.art.javafx.MoreAssignmentTypeIcon;
 import eu.scy.client.desktop.scydesktop.art.javafx.MoreResourcesTypeIcon;
 import eu.scy.client.desktop.scydesktop.art.javafx.InstructionTypesIcon;
+import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 
 /**
  * @author SikkenJ
@@ -35,6 +36,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    public var windowStyler: WindowStyler;
    public var moreInfoToolFactory: MoreInfoToolFactory on replace { moreInfoToolFactoryChanged() };
    public var tbi: ToolBrokerAPI;
+   public var tooltipManager: TooltipManager;
    def noLasColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    var colorScheme = noLasColorScheme;
    def relativInstructioneWindowScreenBoder = 0.2;
@@ -48,6 +50,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
          closeAction: hideInstructionWindow;
          hideCloseButton: true
          visible: false
+         tooltipManager: tooltipManager;
       }
    var instructionTool: ShowInfoUrl;
    def moreInfoWindow: MoreInfoWindow = MoreInfoWindow {

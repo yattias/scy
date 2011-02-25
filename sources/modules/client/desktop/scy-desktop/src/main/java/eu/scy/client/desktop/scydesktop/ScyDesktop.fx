@@ -233,6 +233,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          tbi: missionRunConfigs.tbi
          moreInfoToolFactory: bind moreInfoToolFactory
          activeLas: bind missionModelFX.activeLas
+         tooltipManager: tooltipManager
       }
    def shutdownHook = ShutdownHook {
          stage: scene.stage
