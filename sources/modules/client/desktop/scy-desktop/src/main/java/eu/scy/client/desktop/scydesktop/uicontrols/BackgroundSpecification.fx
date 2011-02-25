@@ -7,6 +7,7 @@
 package eu.scy.client.desktop.scydesktop.uicontrols;
 
 import javafx.scene.paint.Color;
+import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 
 /**
  * @author sikken
@@ -14,5 +15,6 @@ import javafx.scene.paint.Color;
 
 public class BackgroundSpecification {
    public var iconName = "";
+   public var eloIcon: EloIcon;
    public var backgroundColor = Color.LIGHTGRAY;
 }

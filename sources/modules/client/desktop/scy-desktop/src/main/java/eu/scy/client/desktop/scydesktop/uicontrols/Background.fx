@@ -13,42 +13,44 @@ import javafx.scene.paint.Color;
 import javafx.scene.effect.Effect;
 import eu.scy.client.desktop.scydesktop.uicontrols.BackgroundSpecification;
 import eu.scy.client.desktop.scydesktop.uicontrols.BackgroundElement;
-import eu.scy.client.desktop.scydesktop.art.FxdImageLoader;
-import eu.scy.client.desktop.scydesktop.art.ArtSource;
 import org.apache.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.art.ScyColors;
+import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.scydesktop.art.javafx.LogoEloIcon;
 
 /**
  * @author sikken
  */
 public class Background extends CustomNode {
-   def logger = Logger.getLogger(this.getClass());
 
-   public-init var sourceName = ArtSource.selectedIconsPackage;
-   public-init var fxdImageLoader: FxdImageLoader;
-   public var elements:BackgroundElement[];
+   def logger = Logger.getLogger(this.getClass());
+   public var elements: BackgroundElement[];
    public var specification: BackgroundSpecification on replace {
-         newSpecification()
-      };
+              newSpecification()
+           };
    public var width = 2048;
    public var height = 1536;
    public var tileWidth = 1024;
    public var tileHeight = 768;
    public var iconOpacity = 0.1;
-   public var iconEffect:Effect;
-
+   public var iconEffect: Effect;
+   def logoWindowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
+   def defaultEloIcon = LogoEloIcon {
+              windowColorScheme: logoWindowColorScheme
+           };
    def backgroundRect = Rectangle {
-         x: 0, y: 0
-         width: width, height: height
-         fill: Color.WHITE
-      }
+              x: 0, y: 0
+              width: width, height: height
+              fill: Color.WHITE
+           }
    def iconsGroup = Group {
-      }
+           }
 
-   init{
+   init {
    }
 
-
    public override function create(): Node {
+      newSpecification();
       Group {
          content: [
             backgroundRect,
@@ -58,45 +60,35 @@ public class Background extends CustomNode {
    }
 
    function newSpecification(): Void {
-//      println("newSpecification");
+      //      println("newSpecification");
       delete  iconsGroup.content;
 
-      if (fxdImageLoader==null){
-         fxdImageLoader = FxdImageLoader {
-            sourceName: sourceName;
-            backgroundLoading: false;
-            loadedAction:newSpecification
-         }
-      }
-
-      if (specification == null or not fxdImageLoader.loaded) {
-         return ;
-      }
-      backgroundRect.fill = specification.backgroundColor;
-      var testNode = fxdImageLoader.getGroup(specification.iconName);
-      if (testNode == null) {
-         logger.error("cannot find node {specification.iconName} in {fxdImageLoader.sourceUrl}");
+      if (specification == null) {
          return;
       }
-//      println("found group id {specification.iconName}, size {testNode.layoutBounds}, {testNode.visible}");
-//      println("nr of elements {sizeof elements}");
+      backgroundRect.fill = specification.backgroundColor;
+      var useEloIcon = specification.eloIcon;
+      if (useEloIcon==null){
+         useEloIcon = defaultEloIcon;
+      }
+
       for (element in elements) {
-         var icon = fxdImageLoader.getNode(specification.iconName);
-         applyElementSpecifation(icon,element,0,0);
+         var icon = useEloIcon.clone();
+         applyElementSpecifation(icon, element, 0, 0);
          insert icon into iconsGroup.content;
-         icon = fxdImageLoader.getNode(specification.iconName);
-         applyElementSpecifation(icon,element,tileWidth,0);
+         icon = useEloIcon.clone();
+         applyElementSpecifation(icon, element, tileWidth, 0);
          insert icon into iconsGroup.content;
-         icon = fxdImageLoader.getNode(specification.iconName);
-         applyElementSpecifation(icon,element,0,tileHeight);
+         icon = useEloIcon.clone();
+         applyElementSpecifation(icon, element, 0, tileHeight);
          insert icon into iconsGroup.content;
-         icon = fxdImageLoader.getNode(specification.iconName);
-         applyElementSpecifation(icon,element,tileWidth,tileHeight);
+         icon = useEloIcon.clone();
+         applyElementSpecifation(icon, element, tileWidth, tileHeight);
          insert icon into iconsGroup.content;
       }
    }
 
-   function applyElementSpecifation(node : Node, element:BackgroundElement,addX: Number,addY: Number ){
+   function applyElementSpecifation(node: Node, element: BackgroundElement, addX: Number, addY: Number) {
       node.layoutX = element.xPos + addX;
       node.layoutY = element.yPos + addY;
       node.scaleX = element.scale;
@@ -107,6 +99,5 @@ public class Background extends CustomNode {
       node.opacity = iconOpacity;
       node.effect = iconEffect;
    }
-
 
 }

@@ -33,19 +33,19 @@ public class TestDynamicTypeBackground extends CustomNode {
                   spacing:3
                   content:[
                      Label {
-                        text: bind "Type: {dynamicTypeBackground.type}"
+//                        text: bind "Type: {dynamicTypeBackground.type}"
                      }
                      Button {
                         text: "None"
                         action: function () {
-                           dynamicTypeBackground.type = "";
+//                           dynamicTypeBackground.type = "";
                         }
                      }
                      for (type in EloImageInformation.values()) {
                         Button {
                            text: "{type.type}"
                            action: function () {
-                              dynamicTypeBackground.type = type.type;
+//                              dynamicTypeBackground.type = type.type;
                            }
                         }
                      }

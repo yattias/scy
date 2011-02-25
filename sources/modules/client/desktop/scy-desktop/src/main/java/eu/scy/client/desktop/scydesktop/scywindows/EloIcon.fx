@@ -22,7 +22,7 @@ public abstract class EloIcon extends CustomNode {
 
    public var selected: Boolean = false;
    public var size = defaultEloIconSize;
-   public var windowColorScheme: WindowColorScheme;
+   public var windowColorScheme: WindowColorScheme = WindowColorScheme{};
    public def borderSize = 2.0;
    public def cornerRadius = 7;
 
