@@ -110,12 +110,12 @@ public class ResultBinderNode extends CustomNode, Resizable, ScyToolFX, EloSaver
                               doSaveAsElo();
                            }
                         }
-                        Button {
-                           text: "test thumbnail"
-                           action: function () {
-                                testThumbnail();
-                           }
-                        }
+//                        Button {
+//                           text: "test thumbnail"
+//                           action: function () {
+//                                testThumbnail();
+//                           }
+//                        }
                      ]
                   }
                   wrappedResultBinderPanel
