@@ -14,6 +14,7 @@ package eu.scy.client.tools.resultbinder.healthPassport;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import eu.scy.client.tools.resultbinder.common.ResultCard;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.text.DateFormat;
@@ -41,8 +42,8 @@ public class HealthPassportPanel extends javax.swing.JPanel {
     private final static Color COLOR_BMI = new Color(0, 51, 204);
     private final static Color COLOR_EER = new Color(0, 153, 153);
     private final static Color COLOR_EVALUATION = Color.BLACK;
-    public final static int HEALTH_PASSPORT_WIDTH = 750;
-    public final static int HEALTH_PASSPORT_HEIGHT = 650;
+    public final static int HEALTH_PASSPORT_WIDTH = 700;
+    public final static int HEALTH_PASSPORT_HEIGHT = 540;
 
     private ResultCard resultCardHealthPassport = null;
     private String userName;
@@ -589,6 +590,11 @@ public class HealthPassportPanel extends javax.swing.JPanel {
         return resultCardHealthPassport;
     }
 
+    public Container getInterfacePanel(){
+        panelName.setSize(128,128);
+        return panelName;
+    }
+
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -643,7 +649,7 @@ public class HealthPassportPanel extends javax.swing.JPanel {
 
         panelTitle.setLayout(new java.awt.BorderLayout());
 
-        labelTitle.setFont(new java.awt.Font("Tahoma", 0, 36));
+        labelTitle.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         labelTitle.setForeground(TITLE_COLOR);
         labelTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelTitle.setText("HEALTH PASSPORT");
@@ -747,20 +753,20 @@ public class HealthPassportPanel extends javax.swing.JPanel {
             .addGroup(panelNameLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelNameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelName)
-                    .addComponent(labelBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(rbBoy)
+                    .addComponent(labelHeight)
                     .addComponent(labelWeight)
-                    .addComponent(labelHeight))
-                .addGap(18, 18, 18)
+                    .addComponent(labelBirthDate, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelName))
+                .addGap(4, 4, 4)
                 .addGroup(panelNameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelNameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(fieldHeight, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                         .addComponent(fieldWeight, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
                         .addComponent(fieldBirthDate, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                        .addComponent(fieldName, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
+                        .addComponent(fieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(rbGirl))
-                .addContainerGap())
+                .addGap(10, 10, 10))
         );
         panelNameLayout.setVerticalGroup(
             panelNameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -780,7 +786,7 @@ public class HealthPassportPanel extends javax.swing.JPanel {
                 .addGroup(panelNameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(fieldHeight, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelHeight))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(7, 7, 7)
                 .addGroup(panelNameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rbBoy)
                     .addComponent(rbGirl))
@@ -856,7 +862,7 @@ public class HealthPassportPanel extends javax.swing.JPanel {
                     .addComponent(fieldBMI, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fieldHeartRate, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(fieldBMR, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelBMILayout.setVerticalGroup(
             panelBMILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -944,7 +950,7 @@ public class HealthPassportPanel extends javax.swing.JPanel {
                 .addComponent(labelCalorieBalance, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(fieldCalorieBalance, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(60, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         panelFoodExerciseLayout.setVerticalGroup(
             panelFoodExerciseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1040,14 +1046,13 @@ public class HealthPassportPanel extends javax.swing.JPanel {
                         .addComponent(panelBMI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelDataLayout.createSequentialGroup()
                         .addContainerGap()
+                        .addComponent(sep, javax.swing.GroupLayout.DEFAULT_SIZE, 683, Short.MAX_VALUE))
+                    .addGroup(panelDataLayout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(panelFoodExercise, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelDataLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(panelText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(12, Short.MAX_VALUE))
-            .addGroup(panelDataLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(sep, javax.swing.GroupLayout.DEFAULT_SIZE, 685, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelDataLayout.setVerticalGroup(
@@ -1063,11 +1068,11 @@ public class HealthPassportPanel extends javax.swing.JPanel {
                     .addComponent(panelBMI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(sep, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelFoodExercise, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         add(panelData, java.awt.BorderLayout.CENTER);
