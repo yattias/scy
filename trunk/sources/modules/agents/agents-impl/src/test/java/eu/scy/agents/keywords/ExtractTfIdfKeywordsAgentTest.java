@@ -79,7 +79,7 @@ public class ExtractTfIdfKeywordsAgentTest extends AbstractTestFixture {
 		String keywords = (String) response.getField(3).getValue();
 		assertEquals(
 				"wrong keywords",
-				"ingredients;nontoxic;binder;solvent;labels;toxic;chemical;voc;paint;pigment;",
+				"ingredients;nontoxic;solvent;labels;toxic;chemical;voc;paint;natural;pigment;",
 				keywords);
 	}
 }

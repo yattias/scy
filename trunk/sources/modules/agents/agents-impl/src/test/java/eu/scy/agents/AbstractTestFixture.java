@@ -263,7 +263,7 @@ public class AbstractTestFixture {
 
 	protected void initDfModel() throws ClassNotFoundException, IOException {
 		InputStream inStream = this.getClass().getResourceAsStream(
-				"/models/df.out");
+				"/models/co2_en_DFmodel.dat");
 		ObjectInputStream in = new ObjectInputStream(inStream);
 		DocumentFrequencyModel dfModel = (DocumentFrequencyModel) in
 				.readObject();
