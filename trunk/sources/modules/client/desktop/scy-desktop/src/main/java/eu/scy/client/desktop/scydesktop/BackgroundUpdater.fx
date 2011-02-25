@@ -24,8 +24,8 @@ public class BackgroundUpdater {
    }
 
    function updateBackground():Void{
-      var type = windowStyler.getDisplayIconType(activeLas.mainAnchor.scyElo);
-      background.type = type;
+      def eloIcon = windowStyler.getScyEloIcon(activeLas.mainAnchor.scyElo);
+      background.eloIcon = eloIcon;
    }
 
 }

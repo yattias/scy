@@ -10,71 +10,69 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.paint.Color;
-import eu.scy.client.desktop.scydesktop.art.EloImageInformation;
-import eu.scy.client.desktop.scydesktop.art.ArtSource;
+import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 
 /**
  * @author sikken
  */
 public class DynamicTypeBackground extends CustomNode {
 
-   public-init var sourceName = ArtSource.selectedIconsPackage;
-   public var type: String on replace {
-         typeChanged()
-      };
+   public var eloIcon:EloIcon on replace{
+      eloIconChanged()
+   }
    public-init var elements = [
          BackgroundElement {
-            scale: 3
+            scale: 1.5
             xPos: 80
             yPos: 70
          }
          BackgroundElement {
-            scale: 4
+            scale: 2
             xPos: 40
             yPos: 380
          }
          BackgroundElement {
-            scale: 2.5
+            scale: 1.25
             xPos: 100
             yPos: 690
          }
          BackgroundElement {
-            scale: 2.5
+            scale: 1.25
             xPos: 260
             yPos: 260
          }
          BackgroundElement {
-            scale: 4
+            scale: 2
             xPos: 390
             yPos: 480
          }
          BackgroundElement {
-            scale: 2.5
+            scale: 1.25
             xPos: 550
             yPos: 650
          }
          BackgroundElement {
-            scale: 3
+            scale: 1.5
             xPos: 490
             yPos: 110
          }
          BackgroundElement {
-            scale: 3
+            scale: 1.5
             xPos: 680
             yPos: 440
          }
          BackgroundElement {
-            scale: 2.5
+            scale: 1.25
             xPos: 750
             yPos: 210
          }
          BackgroundElement {
-            scale: 3
+            scale: 1.5
             xPos: 900
             yPos: 140
          }
          BackgroundElement {
-            scale: 4
+            scale: 2
             xPos: 890
             yPos: 690
          }
@@ -83,32 +81,26 @@ public class DynamicTypeBackground extends CustomNode {
    public-init var iconEffect = GaussianBlur {
          radius: 1
       };
+   def backgroundGray = Color.web("#EAEAEA");
    def background = Background {
-         //sourceUrl: sourceUrl;
-         sourceName:sourceName
          elements: elements;
          iconOpacity: iconOpacity
          iconEffect: iconEffect
-      }
-   def backgroundGray = Color.web("#EAEAEA");
+         specification: BackgroundSpecification{
+          backgroundColor: backgroundGray
+         }
 
-   function typeChanged(): Void {
-      background.specification = typeToBackgroundSpecification(type);
-   }
-
-   function typeToBackgroundSpecification(type: String): BackgroundSpecification {
-      var iconName = EloImageInformation.getIconName(type);
-      if (iconName == null) {
-         iconName = EloImageInformation.generalLogo.iconName;
       }
-      BackgroundSpecification {
-         backgroundColor: backgroundGray;
-         iconName: iconName
+
+   function eloIconChanged():Void{
+      background.specification = BackgroundSpecification{
+          backgroundColor: backgroundGray;
+          eloIcon: eloIcon
       }
    }
 
    public override function create(): Node {
-      typeChanged();
+      eloIconChanged();
       return Group {
             content: background
          };
