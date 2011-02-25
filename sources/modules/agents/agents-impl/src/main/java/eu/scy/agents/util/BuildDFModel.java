@@ -89,6 +89,10 @@ public class BuildDFModel extends Workflow {
    * @param args
    *            arguments
    * @throws Exception 
+   * 
+   * -i /home/joerg/eclipseSCY/parent/agents/agents-impl/src/main/resources/mission2_texts/English
+-o /home/joerg/eclipseSCY/parent/agents/agents-impl/src/main/resources/mission2_texts/English/.model
+-p oneDocPerFile
    */
   @SuppressWarnings("unchecked")
     public static void main(String[] args) throws Exception {
@@ -139,13 +143,13 @@ public class BuildDFModel extends Workflow {
     op.setInputParameter(TMParameters.MAX_DOCUMENTS, maxDocuments);
     System.out.println(op.toXml());
     Container output = op.run();
-
-    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(new File(outputDir, "model.dat")));
-    out.writeObject(output);
+    File outFile = new File(outputDir, "DFmodel.dat");
+    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(outFile));
+    out.writeObject(output.get(ObjectIdentifiers.MODEL));
     out.close();
 
 
-    logger.info("Finished all");
+    logger.info("DF model saved to " + outFile.getAbsolutePath());
     System.exit(0);
   }
 
