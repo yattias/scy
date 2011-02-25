@@ -153,7 +153,7 @@ public class MissionModelFX extends MissionModel {
          contentChanged = true;
       }
       else {
-         loEloUris = updateEloUri(loEloUris, oldEloUri, newEloUri);
+         loEloUris = updateEloUris(loEloUris, oldEloUri, newEloUri);
          for (las in lasses) {
             updateLasEloUri(las, oldEloUri, newEloUri)
          }
@@ -163,7 +163,7 @@ public class MissionModelFX extends MissionModel {
       }
    }
 
-   function updateEloUri(uris: URI[], oldEloUri: URI, newEloUri: URI): URI[] {
+   function updateEloUris(uris: URI[], oldEloUri: URI, newEloUri: URI): URI[] {
       var updatedUris: URI[];
       for (uri in uris) {
          if (uri == oldEloUri) {
@@ -181,8 +181,8 @@ public class MissionModelFX extends MissionModel {
       for (intermediateAnchor in las.intermediateAnchors) {
          updateAnchorEloUri(intermediateAnchor, oldEloUri, newEloUri);
       }
-      las.loEloUris = updateEloUri(las.loEloUris, oldEloUri, newEloUri);
-      las.otherEloUris = updateEloUri(las.otherEloUris, oldEloUri, newEloUri);
+      las.loEloUris = updateEloUris(las.loEloUris, oldEloUri, newEloUri);
+      las.otherEloUris = updateEloUris(las.otherEloUris, oldEloUri, newEloUri);
    }
 
    function updateAnchorEloUri(anchor: MissionAnchorFX, oldEloUri: URI, newEloUri: URI) {
@@ -190,7 +190,7 @@ public class MissionModelFX extends MissionModel {
          anchor.eloUri = newEloUri;
          contentChanged = true;
       }
-      anchor.loEloUris = updateEloUri(anchor.loEloUris, oldEloUri, newEloUri);
+      anchor.loEloUris = updateEloUris(anchor.loEloUris, oldEloUri, newEloUri);
    }
 
    override public function updateElo(): Void {
