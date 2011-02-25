@@ -32,7 +32,7 @@ public class RuntimeMissionController extends TagSupport {
             if (runtimeELOs.size() > 0) {
                 for (int i = 0; i < runtimeELOs.size(); i++) {
                     MissionRuntimeElo missionRuntimeElo = new MissionRuntimeElo(((ScyElo) runtimeELOs.get(i)).getElo(), runtimeELOService);
-                    if (missionRuntimeElo.getMissionRunning().equals(getCurrentUserName((HttpServletRequest) pageContext.getRequest()))) {
+                    if (missionRuntimeElo.getUserRunningMission().equals(getCurrentUserName((HttpServletRequest) pageContext.getRequest()))) {
                         String uri = missionRuntimeElo.getUri().toString();
                         uri = URLEncoder.encode(uri, "UTF-8");
                         pageContext.getOut().write("<a href=\"/webapp/app/student/StudentIndex.html?eloURI=" + uri + "\">");
