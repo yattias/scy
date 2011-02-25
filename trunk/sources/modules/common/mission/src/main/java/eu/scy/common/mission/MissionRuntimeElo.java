@@ -60,14 +60,14 @@ public class MissionRuntimeElo extends ContentTypedScyElo<MissionRuntimeEloConte
 	}
 
 	private static final MissionRuntimeEloContentCreator missionRuntimeEloContentCreator = new MissionRuntimeEloContentCreator();
-	private final IMetadataKey missionRunningKey;
+	private final IMetadataKey userRunningMissionKey;
 	private final IMetadataKey missionSpecificationEloKey;
 
 	public MissionRuntimeElo(IELO elo, RooloServices rooloServices)
 	{
 		super(elo, rooloServices, missionRuntimeEloContentCreator, MissionEloType.MISSION_RUNTIME
 					.getType());
-		missionRunningKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNNING);
+		userRunningMissionKey = findMetadataKey(ScyRooloMetadataKeyIds.USER_RUNNING_MISSION);
 		missionSpecificationEloKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION_SPECIFICATION_ELO);
 	}
 
@@ -100,14 +100,14 @@ public class MissionRuntimeElo extends ContentTypedScyElo<MissionRuntimeEloConte
 		return scyElo;
 	}
 
-	public void setMissionRunning(URI elouri)
+	public void setUserRunningMission(String loginName)
 	{
-		getMetadata().getMetadataValueContainer(missionRunningKey).setValue(elouri);
+		getMetadata().getMetadataValueContainer(userRunningMissionKey).setValue(loginName);
 	}
 
-	public String getMissionRunning()
+	public String getUserRunningMission()
 	{
-		return (String) getMetadata().getMetadataValueContainer(missionRunningKey).getValue();
+		return (String) getMetadata().getMetadataValueContainer(userRunningMissionKey).getValue();
 	}
 
 	public void setMissionSpecificationElo(URI uri)
