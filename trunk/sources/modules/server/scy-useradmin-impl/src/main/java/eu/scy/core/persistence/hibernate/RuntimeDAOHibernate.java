@@ -175,7 +175,7 @@ public class RuntimeDAOHibernate extends ScyBaseDAOHibernate implements RuntimeD
 
 
             } else {
-                logger.warn("UNRECOGNIZED ACTION " + type + " - GIVING MAJOR SHIT!");
+                //logger.warn("UNRECOGNIZED ACTION " + type + " - GIVING MAJOR SHIT!");
             }
 
 
