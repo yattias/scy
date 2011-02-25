@@ -36,6 +36,7 @@
 				<ref bean="logicalTypeKey" />
 				<ref bean="functionalTypeKey" />
 				<ref bean="missionRunningKey" />
+				<ref bean="userRunningMissionKey" />
 				<ref bean="missionSpecificationEloKey" />
 				<ref bean="externalDocAnnotationKey" />
 				<ref bean="iconTypeAnnotationKey" />
@@ -278,10 +279,17 @@
 		<constructor-arg index="3" value="SINGLE" />
 		<constructor-arg index="4" ref="defaultStringValidator" />
 	</bean>
+	<bean name="userRunningMissionKey" class="roolo.elo.metadata.keys.StringMetadataKey">
+		<constructor-arg index="0" value="userRunningMission" />
+		<constructor-arg index="1" value="/lom/general/userRunningMission" />
+		<constructor-arg index="2" value="UNIVERSAL" />
+		<constructor-arg index="3" value="SINGLE" />
+		<constructor-arg index="4" ref="defaultStringValidator" />
+	</bean>
 	<bean name="missionSpecificationEloKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
 		<constructor-arg index="0" value='missionSpecificationElo' />
 		<constructor-arg index="1"
-			value='/lom/XXXrelation/[kind="isbasedon",type="scy/missionSpecification"]' />
+			value='/lom/relation/[kind="isbasedon",type="scy/missionSpecification"]' />
 		<constructor-arg index="2" value="UNIVERSAL" />
 		<constructor-arg index="3" value="SINGLE" />
 		<constructor-arg index="4" ref="defaultUriValidator" />
