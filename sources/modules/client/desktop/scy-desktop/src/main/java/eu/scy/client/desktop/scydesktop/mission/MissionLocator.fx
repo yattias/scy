@@ -172,7 +172,7 @@ public class MissionLocator {
           eloSaveAsMixin.modalDialogBox.close();
           def missionRuntimeElo = eloSaveAsMixin.scyElo as MissionRuntimeElo;
           missionRuntimeElo.setTitle(eloSaveAsMixin.getTitle());
-          missionRuntimeElo.setMissionRunning(eloSaveAsMixin.elo.getUri());
+          missionRuntimeElo.setUserRunningMission(userName);
           if (not initializer.dontUseMissionRuntimeElos) {
              missionRuntimeElo.saveAsNewElo();
           }
