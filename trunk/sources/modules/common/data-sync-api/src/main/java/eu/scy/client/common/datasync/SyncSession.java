@@ -65,11 +65,12 @@ public class SyncSession implements ISyncSession {
 	    SmacketExtensionProvider extensionProvider = new SmacketExtensionProvider();
 	    providerManager.addExtensionProvider(syncActionTransformer.getElementname(), syncActionTransformer.getNamespace(), extensionProvider);
 	    providerManager.addExtensionProvider(syncMessageTransformer.getElementname(), syncMessageTransformer.getNamespace(), extensionProvider);
-		
+
 		xmppConnection.addPacketListener(new PacketListener(){
 		
 			@Override
 			public void processPacket(Packet packet) {
+                            if (packet.getFrom().startsWith(getId())) {
 				if (packet.getExtension(syncActionTransformer.getElementname(), syncActionTransformer.getNamespace()) != null) {
 					SmacketExtension extension = (SmacketExtension) packet.getExtension(syncActionTransformer.getElementname(), syncActionTransformer.getNamespace());
 					SmacketExtension se = (SmacketExtension) extension;
@@ -96,6 +97,7 @@ public class SyncSession implements ISyncSession {
 						e.printStackTrace();
 					}
 				}
+                            }
 			}
 		}, new PacketFilter() {
 			
