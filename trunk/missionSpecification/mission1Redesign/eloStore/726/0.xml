@@ -38,11 +38,11 @@
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/726/0/Design+a+CO2+freindly+house.scymissionspecification</entry>
+        <entry>roolo://memory/726/0/Design+a+CO2+friendly+house.scymissionspecification</entry>
       </identifier>
       <las />
       <title>
-        <string language="en">Design a CO2 freindly house</string>
+        <string language="en">Design a CO2 friendly house</string>
       </title>
     </general>
     <relation>
