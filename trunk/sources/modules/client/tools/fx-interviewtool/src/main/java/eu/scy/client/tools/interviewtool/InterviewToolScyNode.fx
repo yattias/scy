@@ -312,6 +312,15 @@ logger.debug(elo.getMetadata().getMetadataValueContainer(metadataTypeManager.get
 
     public override function onQuit() {
         schemaEditor.insertedTextToActionLog();
+      if (elo != null) {
+         def oldContentXml = elo.getContent().getXmlString();
+         def newContentXml = getElo().getContent().getXmlString();
+         if (oldContentXml == newContentXml) {
+            // nothing changed
+            return;
+         }
+      }
+      doSaveElo();
     }
 
     public function nodeToImage(node : Node, bounds : Bounds) : BufferedImage {
