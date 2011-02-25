@@ -105,7 +105,7 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
             log.info(missionRuntimeElo.getContent().getXmlString());
             if (missionRuntimeElo != null) {
                 if (missionRuntimeElo.getTitle().equals(missionSpecificationElo.getTitle())) {
-                    String userName = missionRuntimeElo.getMissionRunning();
+                    String userName = missionRuntimeElo.getUserRunningMission();
                     userNames.add(userName);
                 } else {
                     log.info("TITLE " + missionRuntimeElo.getTitle() + " DOES NOT EQUAL: " + missionSpecificationElo.getTitle());

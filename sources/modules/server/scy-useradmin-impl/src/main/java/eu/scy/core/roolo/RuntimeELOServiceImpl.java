@@ -22,7 +22,7 @@ public class RuntimeELOServiceImpl extends BaseELOServiceImpl implements Runtime
         for (int i = 0; i < runtimeModels.size(); i++) {
             MissionRuntimeElo missionRuntimeElo = new MissionRuntimeElo(runtimeModels.get(i).getElo(), this);
             if (missionRuntimeElo != null) {
-                String missionRunningHAHAHA = missionRuntimeElo.getMissionRunning();
+                String missionRunningHAHAHA = missionRuntimeElo.getUserRunningMission();
                 if (missionRunningHAHAHA != null && missionRunningHAHAHA.equals(userName)) {
                     runtimeElos.add(missionRuntimeElo);
                 }
