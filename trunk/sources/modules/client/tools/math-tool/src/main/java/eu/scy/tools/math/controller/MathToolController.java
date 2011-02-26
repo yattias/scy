@@ -948,8 +948,17 @@ public class MathToolController {
 
 	protected void refresh(String xml) {
 
-		final Map<String, DataStoreObj> objHashMap = (Map<String, DataStoreObj>) xstream
-				.fromXML(xml);
+		final Map<String, DataStoreObj> objHashMap;
+		try {
+			objHashMap = (Map<String, DataStoreObj>) xstream
+			.fromXML(xml);
+			
+		} catch (ClassCastException e) {
+			log.severe("read xml fail: " + xml);
+			e.printStackTrace();
+			return;
+		}
+		
 
 		Set<String> keyset = shapeCanvases.keySet();
 		Iterator keySetIterator = keyset.iterator();
