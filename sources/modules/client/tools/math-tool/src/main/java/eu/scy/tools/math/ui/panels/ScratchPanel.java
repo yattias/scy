@@ -34,7 +34,7 @@ public class ScratchPanel extends JXPanel {
 	private void init() {
 		setOpaque(false);
 		setEditor(new JXEditorPane());
-		getEditor().setText("...");
+		getEditor().setText("....");
 		getEditor().setPreferredSize(new Dimension(200, 50));
 		getEditor().addFocusListener(new FocusListener() {
 			
