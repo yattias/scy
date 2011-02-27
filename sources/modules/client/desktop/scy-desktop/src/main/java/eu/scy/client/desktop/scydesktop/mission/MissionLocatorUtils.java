@@ -12,7 +12,6 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.net.URI;
 import java.util.HashSet;
 import java.util.List;
-import java.util.logging.Level;
 import org.apache.log4j.Logger;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
@@ -35,14 +34,6 @@ public class MissionLocatorUtils {
 
     public static Missions findMissions(final ToolBrokerAPI tbi) {
         Missions missions = new Missions();
-      try
-      {
-         Thread.sleep(2000);
-      }
-      catch (InterruptedException ex)
-      {
-         java.util.logging.Logger.getLogger(MissionLocatorUtils.class.getName()).log(Level.SEVERE, null, ex);
-      }
         final IMetadataKey userRunningMissionKey = tbi.getMetaDataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.USER_RUNNING_MISSION);
         final IMetadataKey technicalFormatKey = tbi.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
 
