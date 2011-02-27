@@ -112,7 +112,7 @@ public class StandardScyWindow extends ScyWindow {
    def drawerCornerOffset = controlSize + 1.5 * separatorLength;
    def leftRightDrawerOffset = 24.0;
    def contentSideBorder = 5.0;
-   def contentTopOffset = titleBarLeftOffset + iconSize + contentSideBorder;
+   def contentTopOffset = titleBarTopOffset + iconSize + contentSideBorder;
    def deltaContentWidth = borderWidth + 2 * contentSideBorder + 1;
    def deltaContentHeight = contentTopOffset + borderWidth / 2 + controlSize;
    def contentWidth = bind realWidth - deltaContentWidth;
@@ -226,7 +226,7 @@ public class StandardScyWindow extends ScyWindow {
       // now limit it to the scy desktop window size
       if (scene.width > 0) {
          limittedWidth = Math.min(limittedWidth, scene.width - deltaContentWidth);
-         limittedHeight = Math.min(limittedHeight, scene.height - deltaContentHeight);
+         limittedHeight = Math.min(limittedHeight, scene.height - deltaContentHeight+iconSize+controlSize);
       }
 
 //      println("limitSize({w},{h}):{limittedWidth},{limittedHeight} of {eloUri}, with: {scyContent}");
