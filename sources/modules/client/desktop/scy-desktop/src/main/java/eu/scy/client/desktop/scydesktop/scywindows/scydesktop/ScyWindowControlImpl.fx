@@ -212,18 +212,6 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       }
       // anchor window woll not be opened, it will remain closed on the left side
       // windowPositioner.makeMainWindow(mainWindow);
-      if (desktopState != null) {
-         // add the user elos
-         for (eloUri in desktopState.eloUris) {
-            var scyWindow = windowManager.findScyWindow(eloUri);
-            if (scyWindow == null) {
-               scyWindow = getScyWindow(eloUri);
-               if (windowPositioner.addOtherWindow(scyWindow)) {
-                  windowManager.addScyWindow(scyWindow);
-               }
-            }
-         }
-      }
       // all windows are placed on the desktop and now it is time to position them
       if (desktopState != null and desktopState.windowPositionsState != null) {
          // put the windows on the original positions
