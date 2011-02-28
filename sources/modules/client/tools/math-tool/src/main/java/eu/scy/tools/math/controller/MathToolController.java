@@ -952,7 +952,10 @@ public class MathToolController {
 		try {
 			objHashMap = (Map<String, DataStoreObj>) xstream
 			.fromXML(xml);
-			
+			if(objHashMap.isEmpty()) {
+				log.info("xml was: " + xml + " its empty return");
+				return;
+			}
 		} catch (ClassCastException e) {
 			log.severe("read xml fail: " + xml);
 			e.printStackTrace();
