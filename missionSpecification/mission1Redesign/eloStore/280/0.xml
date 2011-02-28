@@ -1,0 +1,65 @@
+<elo>
+<metadata>
+  <lom>
+    <technical>
+      <format>scy/rtf</format>
+      <customElements>
+        <dateCreated>1267436612618</dateCreated>
+        <dateLastModified>1267436612618</dateLastModified>
+      </customElements>
+    </technical>
+    <general>
+      <title>
+        <string language="en">Mission notes</string>
+      </title>
+      <mission>co2Mission</mission>
+      <las>startPage</las>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/280/0/Mission_notes.rtf</entry>
+      </identifier>
+    </general>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2010-03-01T10:43:32.618+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil sansserif;}
+{\colortbl\red0\green0\blue0;\red0\green0\blue0;}
+
+\f1\fs24\i0\b0\cf1\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>
