@@ -58,7 +58,7 @@
   </lom>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<MathTool><list/></MathTool>
+<MathTool><map></map>></MathTool>
 </content>
 <resources>
 <resource languageIndependent="true" contentType="binary" name="thumbnail" technicalFormat="scy/png">
