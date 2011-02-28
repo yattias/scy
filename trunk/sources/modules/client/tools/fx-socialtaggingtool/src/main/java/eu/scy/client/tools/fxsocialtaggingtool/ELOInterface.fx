@@ -130,24 +130,46 @@ public class ELOInterface {
 //        return tag;
 //    }
     public function addVoteForTag(like: Boolean, tag: Tag): Tag {
+        /**
+         * This is the central function to update tags
+         *
+         * The function must let each user have only one vote
+         *
+         */
         if (this.demoMode) {
             var tagToUpdate = tag;
             var user = getCurrentUser();
             def tags = this.testTags;
             def existingTag = tags[t | t.tagname == tag.tagname][0];
-            println (existingTag);
+            println(existingTag);
             if (existingTag != null) {
+                // A tag with this name already exists; we'll use this
                 tagToUpdate = existingTag;
-            }
-            else {
+            } else {
+                // We'll use the one that was passed as a parameter
                 tagToUpdate = tag;
-                insert tag into this.testTags;
+                insert tagToUpdate into this.testTags;
             }
-            delete user from tagToUpdate.ayevoters;
-            delete user from tagToUpdate.nayvoters;
-            
-            if (like) insert user into tagToUpdate.ayevoters
-            else insert user into tagToUpdate.nayvoters;
+            if (like) {
+                // User likes the tag
+                delete user from tagToUpdate.nayvoters;
+                if (tagToUpdate.ayevoters[v | v == user][0] != null)
+                    // The user has already given this vote. We'll delete the vote instead
+                    delete user from tagToUpdate.ayevoters else
+                    insert user into tagToUpdate.ayevoters;
+            } else {
+                // User does not like the tag
+                delete user from tagToUpdate.ayevoters;
+                if (tagToUpdate.nayvoters[v | v == user][0] != null)
+                    // The user has already given this vote. We'll delete the vote instead
+                    delete user from tagToUpdate.nayvoters else
+                    delete user from tagToUpdate.ayevoters;
+                insert user into tagToUpdate.nayvoters;
+            }
+            if ((tagToUpdate.ayevoters.size() == 0) and (tagToUpdate.nayvoters.size() == 0)) {
+                // There are no more voters for the tag. Delete it.
+                delete tagToUpdate from this.testTags;
+            }
             return tag;
         } else {
             var mvc = elo.getMetadata().getMetadataValueContainer(socialtagsKey);
@@ -165,8 +187,7 @@ public class ELOInterface {
         if (this.demoMode) {
             insert tag into this.testTags;
             return tag;
-        }
-        else {
+        } else {
             var mvc = elo.getMetadata().getMetadataValueContainer(socialtagsKey);
             var st: SocialTags = mvc.getValue() as SocialTags;
             st.removeLikingUser(tag.tagname, getCurrentUser());
@@ -181,8 +202,7 @@ public class ELOInterface {
                 }
         if (like) {
             insert getCurrentUser() into tag.ayevoters;
-        }
-        else {
+        } else {
             insert getCurrentUser() into tag.nayvoters;
         }
 

@@ -70,7 +70,7 @@ public class SmallMinus extends Stack {
 public class ThumbsUp extends Stack {
 
     public var tag;
-    public var alwaysOn;
+    public var alwaysOn: Boolean;
     override var layoutX = iconRadius * 2 + 4;
     override var layoutY = iconRadius * 2 + 4;
     override var content = [
@@ -78,13 +78,13 @@ public class ThumbsUp extends Stack {
                     image: Image {
                         url: "{__DIR__}images/thumbsupGrey.png";
                     }
-                    opacity: bind if (alwaysOn or hover) 0.0 else 1.0;
+                    opacity: bind if (alwaysOn /* or hover */) 0.0 else 1.0;
                 },
                 ImageView {
                     image: Image {
                         url: "{__DIR__}images/thumbsup_mouseover.png";
                     }
-                    opacity: bind if (alwaysOn or hover) 1.0 else 0.0;
+                    opacity: bind if (alwaysOn /* or hover */) 1.0 else 0.0;
                 }
             ]
 }
@@ -92,7 +92,7 @@ public class ThumbsUp extends Stack {
 public class ThumbsDown extends Stack {
 
     public var tag;
-    public var alwaysOn;
+    public var alwaysOn: Boolean;
     override var layoutX = iconRadius * 2 + 4;
     override var layoutY = iconRadius * 2 + 4;
     override var content = [
@@ -100,13 +100,13 @@ public class ThumbsDown extends Stack {
                     image: Image {
                         url: "{__DIR__}images/thumbsdownGrey.png";
                     }
-                    opacity: bind if (alwaysOn or hover) 0.0 else 1.0;
+                    opacity: bind if (alwaysOn /* or hover */) 0.0 else 1.0;
                 },
                 ImageView {
                     image: Image {
                         url: "{__DIR__}images/thumbsdown_mouseover.png";
                     }
-                    opacity: bind if (alwaysOn or hover) 1.0 else 0.0;
+                    opacity: bind if (alwaysOn /* or hover */) 1.0 else 0.0;
                 }
             ]
 }
