@@ -75,7 +75,7 @@ public class ThumbsUp extends Stack {
     override var content = [
                 ImageView {
                     image: Image {
-                        url: "{__DIR__}images/thumbsup.png";
+                        url: "{__DIR__}images/thumbsupGrey.png";
                     }
                     opacity: bind if (alwaysOn or hover) 0.0 else 1.0;
                 },
@@ -97,7 +97,7 @@ public class ThumbsDown extends Stack {
     override var content = [
                 ImageView {
                     image: Image {
-                        url: "{__DIR__}images/thumbsdown.png";
+                        url: "{__DIR__}images/thumbsdownGrey.png";
                     }
                     opacity: bind if (alwaysOn or hover) 0.0 else 1.0;
                 },
