@@ -20,6 +20,9 @@ public class DataStorage  implements Comparable<DataStorage>{
 	private String largeImageId = "";
 	private Date modifiedDate = null;
 	private String imageId = "";
+	//TODO
+	private boolean isFromCommunity = false;
+	//TODO
 	
 	public DataStorage(){
 		title = "";
@@ -101,6 +104,13 @@ public class DataStorage  implements Comparable<DataStorage>{
 	}
 	
 	/**
+	 * @param isFromCommunity
+	 */
+	public void setIsFromCommunity(boolean isFromCommunity){
+		this.isFromCommunity = isFromCommunity;
+	}
+	
+	/**
 	 * @return
 	 */
 	public String getTitle(){
@@ -168,6 +178,13 @@ public class DataStorage  implements Comparable<DataStorage>{
 	 */
 	public Date getModifiedDate(){
 		return this.modifiedDate;
+	}
+	
+	/**
+	 * @return
+	 */
+	public boolean getIsFromCommunity(){
+		return this.isFromCommunity;
 	}
 	
 	/* (non-Javadoc)

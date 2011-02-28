@@ -1,4 +1,4 @@
-function Pager(tableName, itemsPerPage , local) {
+function CustomAssetPager(tableName, itemsPerPage , local, countedCommunityItems) {
     this.tableName = tableName;
     this.itemsPerPage = itemsPerPage;
     this.currentPage = 1;
@@ -6,20 +6,37 @@ function Pager(tableName, itemsPerPage , local) {
     this.inited = false;
     this.position = "";
     this.upperPosition = "";
+    
     this.local = local;
+    this.countedCommunityItems = countedCommunityItems;
+    this.selectAll = true;
+    this.communityItemArray = new Array();
     
     // Total number of Items.
     this.total = 0;
     
-    this.showRecords = function(from, to) {        
-        var rows = document.getElementById(tableName).rows;
-        // i starts from 1 to skip table header row
-        for (var i = 1; i < rows.length; i++) {      	
-            if (i < from || i > to)  
-                rows[i].style.display = 'none';
-            else
-                rows[i].style.display = '';
-        }
+    this.showRecords = function(from, to) {       
+    	
+    	if(this.selectAll==true){
+	        var rows = document.getElementById(this.tableName).rows;
+	        // i starts from 1 to skip table header row
+	        for (var i = 1; i < rows.length; i++) {      	
+	            if (i < from || i > to)  
+	                rows[i].style.display = 'none';
+	            else
+	                rows[i].style.display = '';
+	        }
+    	}
+    	else{
+    		var rows = document.getElementById(this.tableName).rows;
+    		for(var i = 1; i < this.communityItemArray.length; i++){
+    			if (i < from || i > to)  
+    				rows[this.communityItemArray[i]].style.display = 'none';
+    			else{
+    				rows[this.communityItemArray[i]].style.display = '';
+    			}
+    		}
+    	}
     }
     
     this.showPage = function(pageNumber) {
@@ -29,11 +46,15 @@ function Pager(tableName, itemsPerPage , local) {
     	}    
     	
         var oldPageAnchor = document.getElementById('pg'+this.currentPage);
-        oldPageAnchor.className = 'pg-normal';
+        if(oldPageAnchor != null){
+        	oldPageAnchor.className = 'pg-normal';
+        }
         
         this.currentPage = pageNumber;
         var newPageAnchor = document.getElementById('pg'+this.currentPage);
-        newPageAnchor.className = 'pg-selected';
+        if(newPageAnchor != null){
+        	newPageAnchor.className = 'pg-selected';
+        }
 
         var from = (pageNumber - 1) * this.itemsPerPage + 1; 
         
@@ -46,7 +67,7 @@ function Pager(tableName, itemsPerPage , local) {
         
         this.showActualPos();
         this.showRecords(from, to);
-        this.showPageNav('pager', this.position, this.upperPosition);
+        this.showPageNav('customAssetPager', this.position, this.upperPosition);
     }   
     
     this.changeSize = function(){
@@ -55,8 +76,36 @@ function Pager(tableName, itemsPerPage , local) {
         this.pages = 0;
         this.inited = false;
     	this.init();
-    	this.showPageNav('pager', this.position, this.upperPosition);
+    	this.showPageNav('customAssetPager', this.position, this.upperPosition);
     	this.showPage(1);
+    }
+    
+    this.changeCommunity = function(){
+    	var test = document.getElementById('setCommunityForCustomAsset').options[document.getElementById('setCommunityForCustomAsset').selectedIndex].value;    
+    	if(test == "all"){
+    		this.selectAll = true;
+    	}
+    	else{
+    		this.selectAll = false;
+    		
+            var rows = document.getElementById(this.tableName).rows;
+            var counter = 1;
+            
+            // i starts from 1 to skip table header row
+            for (var i = 1; i < rows.length; i++) {   
+            	
+            	// Make ALL Items invisible!
+            	rows[i].style.display = 'none';
+            	
+            	if(rows[i].id=="isFromCommunity"){
+            		rows[i].style.display = '';
+            		this.communityItemArray[counter] = i;
+            		counter = counter + 1;
+            	}
+            }
+    		
+    	}    		
+    	this.changeSize();
     }
     
     this.prev = function() {
@@ -71,13 +120,26 @@ function Pager(tableName, itemsPerPage , local) {
     }                        
     
     this.init = function() {
-        var rows = document.getElementById(tableName).rows;
-        // Count all records and substract the Header.
-        var records = (rows.length - 1); 
-        this.pages = Math.ceil(records / this.itemsPerPage);
-        this.inited = true;
-        
-        this.total = records;
+    	if(this.selectAll==true){
+	        var rows = document.getElementById(this.tableName).rows;
+	        // Count all records and substract the Header.
+	        var records = (rows.length - 1); 
+	        this.pages = Math.ceil(records / this.itemsPerPage);
+	        this.inited = true;
+	        
+	        this.total = records;
+    	}
+    	else{
+    		this.pages = Math.ceil((this.communityItemArray.length - 1) / this.itemsPerPage);
+    		this.inited = true;
+    		
+    		this.total = this.communityItemArray.length - 1;
+    		
+    		// If there are NO Items, then this will catch a Negativ result.
+    		if(this.total < 0){
+    			this.total = 0;
+    		}
+    	}
     }
     
     this.showActualPos = function() {
@@ -86,7 +148,13 @@ function Pager(tableName, itemsPerPage , local) {
     	var currentPageMult = this.currentPage*this.itemsPerPage;
     	
     	if(this.currentPage==1){
-    		currentElementHtml = currentElementHtml + '1';
+    		if(this.total > 0){
+    			currentElementHtml = currentElementHtml + '1';
+    		}
+    		else{
+    			currentElementHtml = currentElementHtml + '0';
+    		}
+
     	}
     	else{
     		currentElementHtml = currentElementHtml + (currentPageMult - this.itemsPerPage + 1);
@@ -109,12 +177,11 @@ function Pager(tableName, itemsPerPage , local) {
         	}
     	}
     	
-    	currentElementHtml = currentElementHtml;
-    	
-    	var change = document.getElementById('actualPosition');
+    	var change = document.getElementById('customAssetActualPosition');
     	var temp = change.innerHTML;
     	
-    	temp = temp.replace(/[1-9][0-9]* - [1-9][0-9]*/,currentElementHtml);
+		temp = temp.replace(/[0-9][0-9]* - [0-9][0-9]*/,currentElementHtml);
+		temp = temp.replace(/\d*\./,this.total+"."); 
     	
     	change.innerHTML = temp;
     }
@@ -471,6 +538,6 @@ function Sorting(tableName) {
     	newHtml = newHtml + "</table>";
     	document.getElementById(tableName).innerHTML = newHtml;
     	
-    	pager.showPage(1);
+    	customAssetPager.showPage(1);
     }
 }

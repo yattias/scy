@@ -38,6 +38,13 @@ public class queryDatabase {
 	private String plid = "";
 	private String imagePath = "";
 	
+	// Community the Portlet is used
+	private String community = "";
+	private long communityId = 0;
+	private String communityName = "";
+	private boolean getCommunity = true;
+	private int countCommunityItems = 0;
+	
 	// String to determine the choosen Language.
 	private String local = "";
 	
@@ -50,13 +57,16 @@ public class queryDatabase {
 	private String sortBy = "Sort by ";
 	private String of = "of";
 	private String edit = "edit";
+	private String resultSize = "Result size:&nbsp;";
+	private String all = "All";
+	private String from = "From:";
 	
 	// The final Result of the query.
 	private String finalResult = "";
 	
 	// Strings for Paging
-	String pagingScript = "<div id='pagingPosition'></div> <script type='text/javascript'>var pager = new Pager('resultsOfCustomAsset', 5 , ''); pager.init(); pager.showPageNav('pager', 'pagingPosition', 'upperPagingPosition'); pager.showPage(1);</script>";
-	String upperPaging = "<div id='upperPagingPosition'></div>";
+	String pagingScript = "<div id='customAssetPagingPosition'></div> <script type='text/javascript'>var customAssetPager = new CustomAssetPager('resultsOfCustomAsset', 5 , '', SPACER); customAssetPager.init(); customAssetPager.showPageNav('customAssetPager', 'customAssetPagingPosition', 'customAssetUpperPagingPosition'); customAssetPager.showPage(1);customAssetPager.changeCommunity();</script>";
+	String upperPaging = "<div id='customAssetUpperPagingPosition'></div>";
 	
 	// String for Sorting
 	String sortingScript = "<script type='text/javascript'>var sort = new Sorting('resultsOfCustomAsset'); sort.init();</script>";
@@ -118,6 +128,13 @@ public class queryDatabase {
 	}	
 	
 	/**
+	 * @param community
+	 */
+	public void SetCommunity(String community){
+		this.community = community;
+	}
+	
+	/**
 	 * @param local
 	 */
 	public void setLanguage(String local){
@@ -139,7 +156,10 @@ public class queryDatabase {
 			sortBy = "Sortieren nach ";
 			of = "von";
 			edit = "bearbeiten";
-			pagingScript = "<div id='pagingPosition'></div> <script type='text/javascript'>var pager = new Pager('resultsOfCustomAsset', 5 , 'de'); pager.init(); pager.showPageNav('pager', 'pagingPosition', 'upperPagingPosition'); pager.showPage(1);</script>";
+			resultSize = "Ergebnisse:&nbsp;";
+			pagingScript = "<div id='customAssetPagingPosition'></div> <script type='text/javascript'>var customAssetPager = new CustomAssetPager('resultsOfCustomAsset', 5 , 'de'); customAssetPager.init(); customAssetPager.showPageNav('pager', 'customAssetPagingPosition', 'customAssetUpperPagingPosition'); customAssetPager.showPage(1); customAssetPager.changeCommunity();</script>";
+			all = "Allen";
+			from = "Von:";
 		}
 		
 		// First get all Groups the User is member of.
@@ -157,18 +177,43 @@ public class queryDatabase {
 		Collections.sort(results);
 		
 		if(results.size()>0){
-			finalResult = "<h4 id='actualPosition' >" + resultsFound + ": 1 - 1 " + of + " " + results.size() + "</h4>";
 			
 			finalResult = finalResult
-				+ "Result Size: ";
-			
-			finalResult = finalResult
-				+ "<select id='setPagingSizeForCustomAsset' onchange='pager.changeSize()'>"
+				+"<table width='100%'>"
+				+"<tr>"
+				+"<th width='68%'>"
+				+"<span id='customAssetActualPosition' >" + resultsFound + ": 1 - 1 " + of + " " + results.size() + ".</span>"
+				+"</th>"
+				+"<td>"
+				+resultSize
+				+"</td>"
+				+"<td>"
+				+ "<select id='setPagingSizeForCustomAsset' onchange='customAssetPager.changeSize()'>"
 				+ "<option value='5'>5</option>"
 				+ "<option value='10'>10</option>"
 				+ "<option value='15'>15</option>"
 				+ "<option value='20'>20</option>"
-				+ "</select>";
+				+ "</select>"
+				+"</td>"
+				+"</tr>"			
+				+"<tr>"
+				+"<th>"
+				+"</th>"
+				+"<td>"
+				+ from
+				+"</td>"
+				+"<td>"
+				+ "<select id='setCommunityForCustomAsset' onchange='customAssetPager.changeCommunity()'>"
+				+ "<option value='all'>"
+				+ all
+				+ "</option>"
+				+ "<option value='community' selected>" 
+				+ communityName
+				+ "</option>"
+				+ "</select>"
+				+"</td>"
+				+"</tr>"
+				+"</table>";
 			
 			finalResult = finalResult + "<br>" + upperPaging;
 
@@ -183,9 +228,16 @@ public class queryDatabase {
 				"</a></th></tr>";
 
 			for(int i =0; i<results.size(); i++){
+				
+				String isFromComm = "";
+				if(results.get(i).getIsFromCommunity()){
+					isFromComm = "id='isFromCommunity'";
+					countCommunityItems = countCommunityItems + 1;
+				}
 								
 				if(results.get(i).getType()==TYPE.DOCUMENT){
-					String temp = "<tr>";
+					
+					String temp = "<tr "+isFromComm+" >";				
 					
 					// The Name and Link to the Document.
 					temp = 
@@ -258,8 +310,8 @@ public class queryDatabase {
 				}
 				else{
 					if(results.get(i).getType()==TYPE.IMAGE){
-						String temp = "<tr>";	
 						
+						String temp = "<tr "+isFromComm+" >";		
 						
 						// Link to original sized Picture.
 						temp = temp + "<td><a href="+'"'+
@@ -316,11 +368,11 @@ public class queryDatabase {
 							+ "&_31_imageId="
 							+ results.get(i).getImageId()
 							+ "&_31_redirect=%2Fweb%2Fguest%2Fcontent"
-							+ "' > <img style='background-image: url(&quot;/scy-theme/images/common/.sprite.png&quot;); background-position: 50% -593px; background-repeat: no-repeat; height: 16px; width: 16px;' title='"
+							+ "' ><img style='background-image: url(&quot;/scy-theme/images/common/.sprite.png&quot;); background-position: 50% -593px; background-repeat: no-repeat; height: 16px; width: 16px;' title='"
 							+ edit
 							+ "' alt='"
 							+ edit
-							+ "' src='/scy-theme/images/spacer.png' class='icon'> </a>"
+							+ "' src='/scy-theme/images/spacer.png' class='icon'></a>"
 							+ "</td>";	
 
 						temp = temp +"</tr>";
@@ -329,6 +381,8 @@ public class queryDatabase {
 					}	
 				}
 			}
+			pagingScript = pagingScript.replace("SPACER", " "+countCommunityItems+" ");
+
 			finalResult = finalResult + "</table>" + pagingScript + sortingScript;
 		}
 		return finalResult;
@@ -353,8 +407,21 @@ public class queryDatabase {
 	
 			// Get all Groups for the User.
 			for(int j = 0; j < allGroups.size(); j++){
-				if(GroupLocalServiceUtil.hasUserGroup(Long.valueOf(userId).longValue(), allGroups.get(j).getGroupId())){					
+				if(GroupLocalServiceUtil.hasUserGroup(Long.valueOf(userId).longValue(), allGroups.get(j).getGroupId())){
+					
+
 					userGroups.add(allGroups.get(j).getGroupId());
+					
+					if(getCommunity){
+						if(community.contains(allGroups.get(j).getFriendlyURL())){
+							communityName = allGroups.get(j).getName();
+							if(communityName.equalsIgnoreCase("Guest")){
+								communityName = "SCYCOM";
+							}
+							communityId = allGroups.get(j).getGroupId();
+							getCommunity = false;
+						}
+					}
 				}
 			}
 		}
@@ -376,6 +443,7 @@ public class queryDatabase {
 		
 		// Get all Documents for all Groups the user is a member of.
 		for(int i =0; i<userGroups.size(); i++){
+			
 			try {
 				docsize = DLFileEntryLocalServiceUtil.getGroupFileEntriesCount(userGroups.get(i));
 			} catch (SystemException e) {
@@ -399,6 +467,11 @@ public class queryDatabase {
 			d.setName(allDocuments.get(i).getName());
 			d.setFolderId(String.valueOf(allDocuments.get(i).getFolderId()));
 			d.setModifiedDate(allDocuments.get(i).getModifiedDate());
+			
+			if(allDocuments.get(i).getGroupId() == communityId){
+				d.setIsFromCommunity(true);
+			}
+			
 			fileResults.add(d);
 		}
 		
@@ -442,6 +515,11 @@ public class queryDatabase {
 			d.setModifiedDate(allImages.get(i).getModifiedDate());
 			d.setFolderId(String.valueOf(allImages.get(i).getFolderId()));
 			d.setImageId(String.valueOf(allImages.get(i).getImageId()));
+			
+			if(allImages.get(i).getGroupId() == communityId){
+				d.setIsFromCommunity(true);
+			}
+		
 			imageResults.add(d);
 		}					
 		return imageResults;

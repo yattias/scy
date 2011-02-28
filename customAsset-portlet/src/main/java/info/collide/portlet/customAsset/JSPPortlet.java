@@ -116,11 +116,13 @@ public class JSPPortlet extends GenericPortlet {
 	    String plid = String.valueOf(td.getPlid());
 	    String imagePath = td.getPathImage();
 	    String local = td.getLocale().toString();
+	    String community = td.getURLCurrent();
 	    
 	    // Generate the Dropdown-Box Code
 	    DropdownBoxGenerator d = new DropdownBoxGenerator();
 	    d.setServer(root);
 	    d.setLocal(local);
+	    d.setCommunity(community);
 	    String dropbox = d.getDropdownBox();
 
 		// Initialize the query.
@@ -131,6 +133,7 @@ public class JSPPortlet extends GenericPortlet {
 		query.setImagePath(imagePath);
 		query.setUserId(userId);
 		query.setCompanyId(companyId);
+		query.SetCommunity(community);
 		query.setLanguage(local);
 		
 		// Start the query an get the results.
@@ -142,8 +145,7 @@ public class JSPPortlet extends GenericPortlet {
  		out.println(dropbox);
  		out.println("<br>");
  		out.println(searchResults);
-
- 		
+ 		 		
 		//include(viewJSP, renderRequest, renderResponse);
 	}
 
