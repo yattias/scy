@@ -41,15 +41,15 @@ public class SocialTaggingDrawer
     var tagGroup: ListView;
     var tagLines: Object[];
     var panelWidth = 200;
+
     public override function create(): Node {
         this.taggingDisplay = createSocialTaggingDisplay();
 
         return this.taggingDisplay;
     }
 
-
-    function createTagLines(tags:Tag[]):Object[]{
-         def tagLines = for (tag in tags) {
+    function createTagLines(tags: Tag[]): Object[] {
+        def tagLines = for (tag in tags) {
                     def ayevoterslist = for (voter in tag.ayevoters)
                                 Flow { content: [SmallPlus {}, HBox { content: [Text { content: voter
                                                     layoutInfo: LayoutInfo {
@@ -86,10 +86,23 @@ public class SocialTaggingDrawer
 
                                     ThumbsUp { tag: tag
                                         alwaysOn: bind ayeVoter
+                                        onMouseClicked: function(e) {
+                                            // Remove a vote first (this should really be handled
+                                            // in the eloInterface
+                                            eloInterface.addVoteForTag(true, tag);
+                                            this.updateTagLines();
+                                        }
                                     }
 
                                     ThumbsDown { tag: tag
-                                        alwaysOn: bind nayVoter },
+                                        alwaysOn: bind nayVoter
+                                        onMouseClicked: function(e) {
+                                            // Remove a vote first (this should really be handled
+                                            // in the eloInterface
+                                            eloInterface.addVoteForTag(false, tag);
+                                            this.updateTagLines();
+                                        }
+                                    }
                                     Label {
                                         layoutInfo: LayoutInfo {
                                             //width: labelWidth
@@ -129,11 +142,10 @@ public class SocialTaggingDrawer
                     VBox { content: bind if (winning.hover) [tagline, taglinedetails] else [tagline] } }
     }
 
-    function updateTagLines() {
+    function updateTagLines(): Object[] {
         def tags = bind eloInterface.getAllTags();
-        this.tagLines = createTagLines(tags);
+        return this.tagLines = createTagLines(tags);
     }
-
 
     function createSocialTaggingDisplay(): Node {
 
@@ -146,9 +158,6 @@ public class SocialTaggingDrawer
                     content: "Tag cloud:"
                 }
 
- 
-
-       
         tagGroup = ListView {
                     //layoutInfo: LayoutInfo{width:panelWidth}
                     items: bind this.tagLines
@@ -169,7 +178,7 @@ public class SocialTaggingDrawer
                         text: "Adds a tag, and your vote for that tag"
                     }
                     action: function() {
-                        eloInterface.addVoteForString(newTagBox.text);
+                        eloInterface.addVoteForString(true, newTagBox.text);
                         this.updateTagLines();
                     }
                 }
@@ -192,26 +201,24 @@ public class SocialTaggingDrawer
                             content: [newTagBox, newTagButton] }]
                 }
 
-
-
         ScrollView {
             //width: bind scene.width
             //width: 300
             //height: bind scene.height
             //   width: bind this.width
             //   height: bind this.height
-            layoutInfo:LayoutInfo {width:bind this.width
-                                   height:bind this.height}
+            layoutInfo: LayoutInfo { width: bind this.width
+                height: bind this.height }
             //width:bind this.width
             fitToWidth: true
             fitToHeight: true
-            node: /* tagCloud, */taggingPanel
+            node: /* tagCloud, */ taggingPanel
         }
     }
 
     public override function getPrefHeight(height: Number): Number {
         return this.height;
-        //return scyWindow.height
+    //return scyWindow.height
     }
 
     public override function getPrefWidth(width: Number): Number {

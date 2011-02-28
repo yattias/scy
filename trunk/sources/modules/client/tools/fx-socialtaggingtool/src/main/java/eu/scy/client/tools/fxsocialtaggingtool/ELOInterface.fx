@@ -131,7 +131,23 @@ public class ELOInterface {
 //    }
     public function addVoteForTag(like: Boolean, tag: Tag): Tag {
         if (this.demoMode) {
-            insert tag into this.testTags;
+            var tagToUpdate = tag;
+            var user = getCurrentUser();
+            def tags = this.testTags;
+            def existingTag = tags[t | t.tagname == tag.tagname][0];
+            println (existingTag);
+            if (existingTag != null) {
+                tagToUpdate = existingTag;
+            }
+            else {
+                tagToUpdate = tag;
+                insert tag into this.testTags;
+            }
+            delete user from tagToUpdate.ayevoters;
+            delete user from tagToUpdate.nayvoters;
+            
+            if (like) insert user into tagToUpdate.ayevoters
+            else insert user into tagToUpdate.nayvoters;
             return tag;
         } else {
             var mvc = elo.getMetadata().getMetadataValueContainer(socialtagsKey);
@@ -146,17 +162,30 @@ public class ELOInterface {
     }
 
     public function removeVoteForTag(tag: Tag): Tag {
-        var mvc = elo.getMetadata().getMetadataValueContainer(socialtagsKey);
-        var st: SocialTags = mvc.getValue() as SocialTags;
-        st.removeLikingUser(tag.tagname, getCurrentUser());
-        st.removeUnlikingUser(tag.tagname, getCurrentUser());
-        return tag;
+        if (this.demoMode) {
+            insert tag into this.testTags;
+            return tag;
+        }
+        else {
+            var mvc = elo.getMetadata().getMetadataValueContainer(socialtagsKey);
+            var st: SocialTags = mvc.getValue() as SocialTags;
+            st.removeLikingUser(tag.tagname, getCurrentUser());
+            st.removeUnlikingUser(tag.tagname, getCurrentUser());
+            return tag;
+        }
     }
 
     public function addVoteForString(like: Boolean, string: String): Tag {
         def tag = Tag {
                     tagname: string
                 }
+        if (like) {
+            insert getCurrentUser() into tag.ayevoters;
+        }
+        else {
+            insert getCurrentUser() into tag.nayvoters;
+        }
+
         //def result = this.addTag(tag);
         return this.addVoteForTag(like, tag);
     }
