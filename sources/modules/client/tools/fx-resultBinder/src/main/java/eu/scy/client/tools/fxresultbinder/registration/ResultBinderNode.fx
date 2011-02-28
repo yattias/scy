@@ -78,6 +78,7 @@ public class ResultBinderNode extends CustomNode, Resizable, ScyToolFX, EloSaver
       scyResultBinderPanel.setTBI(toolBrokerAPI);
       scyResultBinderPanel.setEloUri((scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
       scyResultBinderPanel.initActionLogger();
+      scyResultBinderPanel.setUserName();
    }
 
    public override function loadElo(uri:URI){
@@ -150,7 +151,7 @@ public class ResultBinderNode extends CustomNode, Resizable, ScyToolFX, EloSaver
    function getElo():IELO{
       if (elo==null){
          elo = eloFactory.createELO();
-         elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(scyResultBinderPanel);
+         elo.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(scyResultCardType);
       }
       elo.getContent().setXmlString(jdomStringConversion.xmlToString(scyResultBinderPanel.getResultCard()));
       return elo;

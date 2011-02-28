@@ -10,7 +10,7 @@
          <list value-type="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/resultcard"/>
-               <property name="display" value="Result Card"/>
+               <property name="display" value="Health Passport"/>
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="resultcard"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
