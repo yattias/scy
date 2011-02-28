@@ -948,12 +948,19 @@ public class MathToolController {
 
 	protected void refresh(String xml) {
 
-		final Map<String, DataStoreObj> objHashMap;
+		Map<String, DataStoreObj> objHashMap = null;
 		try {
-			objHashMap = (Map<String, DataStoreObj>) xstream
-			.fromXML(xml);
+			Object fromXML = xstream.fromXML(xml);
+			
+			if( !(fromXML instanceof Map) ) {
+				log.info("xml was not valid: " + xml);
+				return;
+			} else {
+				objHashMap = (Map<String, DataStoreObj>) fromXML;
+				log.info("got it xml: " + xml);
+			}
 			if(objHashMap.isEmpty()) {
-				log.info("xml was: " + xml + " its empty return");
+				log.info("xml was empty: " + xml);
 				return;
 			}
 		} catch (ClassCastException e) {
@@ -962,6 +969,8 @@ public class MathToolController {
 			return;
 		}
 		
+		//total fucking hack
+		final Map<String, DataStoreObj> copyMap = objHashMap;
 
 		Set<String> keyset = shapeCanvases.keySet();
 		Iterator keySetIterator = keyset.iterator();
@@ -974,6 +983,8 @@ public class MathToolController {
 
 				@Override
 				protected Void doInBackground() throws Exception {
+					
+					
 					if( !sc.getMathShapes().isEmpty()) {
 						
 						  List list = Collections.synchronizedList( sc.getMathShapes());
@@ -993,7 +1004,7 @@ public class MathToolController {
 					
 					sc.repaint();
 					
-					DataStoreObj dataStoreObj = objHashMap.get(key);
+					DataStoreObj dataStoreObj = copyMap.get(key);
 
 					String scratchPadText = dataStoreObj.getScratchPadText();
 					if (scratchPadText != null) {
