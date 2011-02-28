@@ -100,7 +100,7 @@
           </stroke>
           <opaque>true</opaque>
           <minWidth>60</minWidth>
-          <minHeight>46</minHeight>
+          <minHeight>70</minHeight>
           <shadow>true</shadow>
           <border class="javax.swing.border.EmptyBorder">
             <left>0</left>
@@ -123,7 +123,7 @@
         </constraints>
         <x>147</x>
         <y>240</y>
-        <height>46</height>
+        <height>65</height>
         <width>169</width>
         <id>f3947fb6-a6cb-466e-8788-3d3b60976902</id>
       </eu.scy.scymapper.impl.model.NodeModel>
@@ -603,7 +603,7 @@ SUVORK5CYII=</imageData>
         </constraints>
         <x>15</x>
         <y>125</y>
-        <height>46</height>
+        <height>65</height>
         <width>131</width>
         <id>fee7f917-1481-4be7-96e2-7704c3ff3b74</id>
       </eu.scy.scymapper.impl.model.NodeModel>
@@ -634,7 +634,7 @@ SUVORK5CYII=</imageData>
         </constraints>
         <x>341</x>
         <y>240</y>
-        <height>46</height>
+        <height>65</height>
         <width>167</width>
         <id>2a733985-bcb3-4ded-b2b5-1b9db8766975</id>
       </eu.scy.scymapper.impl.model.NodeModel>
