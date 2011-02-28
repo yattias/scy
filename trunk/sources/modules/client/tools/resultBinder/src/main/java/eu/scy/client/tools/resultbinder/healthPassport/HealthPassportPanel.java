@@ -595,6 +595,11 @@ public class HealthPassportPanel extends javax.swing.JPanel {
         return panelName;
     }
 
+    public void setUserName(String userName){
+        this.userName = userName;
+        fieldName.setText(userName);
+    }
+
 
     /** This method is called from within the constructor to
      * initialize the form.

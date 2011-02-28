@@ -110,4 +110,9 @@ public class ResultBinderPanel extends JPanel implements IActionHealthPassport{
     public void logAction(String attributeKey, String attributeValue) {
         logValueChanged(attributeKey, attributeValue);
     }
+
+    public void setUserName(String userName){
+        this.userName = userName;
+        healthPassportPanel.setUserName(userName);
+    }
 }
