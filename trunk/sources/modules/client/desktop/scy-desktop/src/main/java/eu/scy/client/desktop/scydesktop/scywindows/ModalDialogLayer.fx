@@ -202,21 +202,24 @@ public class ModalDialogLayer extends CustomNode {
                     };
             removeDialogTimeline1.playFromStart();
         } else {
-            delete node from modalDialogGroup.content;
-            delete node from centeredNodes;
-            node.visible = false;
-            if (Sequences.indexOf(fullscreenNodes, node) == -1) {
-                backgroundBlocker.visible = false;
-            } else {
-                delete node from fullscreenNodes;
-            }
-            if (sizeof modalDialogGroup.content > 1 and modalDialogGroup.content[sizeof modalDialogGroup.content - 1] == backgroundBlocker) {
-                delete backgroundBlocker from modalDialogGroup.content;
-                def lastNode = modalDialogGroup.content[sizeof modalDialogGroup.content - 1];
-                delete lastNode from modalDialogGroup.content;
-                insert backgroundBlocker into modalDialogGroup.content;
-                insert lastNode into modalDialogGroup.content;
-            }
+           // fix for deadlock, defer actions
+           FX.deferAction(function():Void{
+               delete node from modalDialogGroup.content;
+               delete node from centeredNodes;
+               node.visible = false;
+               if (Sequences.indexOf(fullscreenNodes, node) == -1) {
+                   backgroundBlocker.visible = false;
+               } else {
+                   delete node from fullscreenNodes;
+               }
+               if (sizeof modalDialogGroup.content > 1 and modalDialogGroup.content[sizeof modalDialogGroup.content - 1] == backgroundBlocker) {
+                   delete backgroundBlocker from modalDialogGroup.content;
+                   def lastNode = modalDialogGroup.content[sizeof modalDialogGroup.content - 1];
+                   delete lastNode from modalDialogGroup.content;
+                   insert backgroundBlocker into modalDialogGroup.content;
+                   insert lastNode into modalDialogGroup.content;
+               }
+              });
         }
     }
 
