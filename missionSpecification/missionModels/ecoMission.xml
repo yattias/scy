@@ -47,7 +47,7 @@
                   </bean>			   
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="conceptualisatsionConceptMap"/>
-                     <property name="xPosition" value="40"/>
+                     <property name="xPosition" value="-40"/>
                      <property name="yPosition" value="-20"/>
                      <property name="tooltip" value="Concept Map"/>
                      <property name="lasType" value="CONCEPTUALISATION"/>
@@ -65,7 +65,7 @@
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="reportingVideo"/>
-                     <property name="xPosition" value="-40"/>
+                     <property name="xPosition" value="20"/>
                      <property name="yPosition" value="-20"/>
                      <property name="tooltip" value="Video report"/>
                      <property name="lasType" value="REPORTING"/>
@@ -340,8 +340,8 @@
                <property name="uri" value="roolo://memory/20094/0/challenge_eco.url"/>
                <property name="iconType" value="Information2"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/challenge.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/challenge_eco.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/glossary_eco.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_challenge.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_challenge.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -355,7 +355,7 @@
                <property name="iconType" value="Video"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/videoreport.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission2/assignment_video.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_video.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission2/resources_videoreport.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
