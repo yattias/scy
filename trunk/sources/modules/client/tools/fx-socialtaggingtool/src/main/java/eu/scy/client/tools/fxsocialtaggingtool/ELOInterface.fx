@@ -10,6 +10,7 @@ import java.net.URI;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.metadata.keys.SocialTags;
 import java.util.Map;
+import roolo.elo.api.IMetadata;
 
 public class ELOInterface {
 
@@ -17,7 +18,7 @@ public class ELOInterface {
     public-init var eloUri: URI;
     var elo: IELO;
     var socialtagsKey: IMetadataKey;
-    def demoMode = true;
+    def demoMode = false;
     var testTags = [
                 Tag {
                     tagname: "ecology";
@@ -50,7 +51,7 @@ public class ELOInterface {
 
     init {
         if (eloUri != null) {
-            elo = tbi.getRepository().retrieveELO(eloUri);
+            elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
             socialtagsKey = tbi.getMetaDataTypeManager().getMetadataKey("socialTags");
         }
     }
@@ -83,14 +84,11 @@ public class ELOInterface {
                 for (st in socialTags.getSocialTags()) {
                     var ayevoters: String[];
                     var nayvoters: String[];
-                    var conts: Map = st.getContributions() as Map;
-                    for (contributor in st.getContributorNames()) {
-                        var value: Number = conts.get(contributor) as Number;
-                        if (value > 0) {
-                            insert contributor into ayevoters;
-                        } else {
-                            insert contributor into nayvoters;
-                        }
+                    for (unliker in st.getUnlikingUsers()) {
+                        insert unliker into nayvoters;
+                    }
+                    for (liker in st.getLikingUsers()) {
+                        insert liker into ayevoters;
                     }
                     var t = Tag {
                                 tagname: st.getTagName();
@@ -136,9 +134,9 @@ public class ELOInterface {
          * The function must let each user have only one vote
          *
          */
+        var user = getCurrentUser();
         if (this.demoMode) {
             var tagToUpdate = tag;
-            var user = getCurrentUser();
             def tags = this.testTags;
             def existingTag = tags[t | t.tagname == tag.tagname][0];
             println(existingTag);
@@ -172,13 +170,38 @@ public class ELOInterface {
             }
             return tag;
         } else {
-            var mvc = elo.getMetadata().getMetadataValueContainer(socialtagsKey);
+            var oldMetadata : IMetadata = elo.getMetadata();
+            var mvc = oldMetadata.getMetadataValueContainer(socialtagsKey);
             var st: SocialTags = mvc.getValue() as SocialTags;
-            if (like) {
-                st.addLikingUser(tag.tagname, getCurrentUser());
-            } else {
-                st.addUnlikingUser(tag.tagname, getCurrentUser());
+            if (st == null) {
+                st = new SocialTags();
+                mvc.setValue(st);
             }
+            var userLikes = st.getLikingUsers(tag.tagname).contains(user);
+            var userNotLikes = st.getUnlikingUsers(tag.tagname).contains(user);
+            if (userLikes and like) {
+                st.removeLikingUser(tag.tagname, user);
+                delete user from tag.ayevoters;
+            } else if (userNotLikes and not like) {
+                st.removeUnlikingUser(tag.tagname, user);
+                delete user from tag.nayvoters;
+            } else if (like) {
+                st.addLikingUser(tag.tagname, user);
+                insert user into tag.ayevoters;
+                st.removeUnlikingUser(tag.tagname, user);
+                delete user from tag.nayvoters;
+            } else {
+                st.addUnlikingUser(tag.tagname, user);
+                insert user into tag.nayvoters;
+                st.removeLikingUser(tag.tagname, user);
+                delete user from tag.ayevoters;
+            }
+            if (st.getLikeCount(tag.tagname) + st.getUnlikeCount(tag.tagname) == 0) {
+                st.removeSocialTag(tag.tagname);
+            }
+            elo.setMetadata(oldMetadata);
+            var metadata: IMetadata = tbi.getRepository().updateELO(elo);
+            elo.setMetadata(metadata);
             return tag;
         }
     }
@@ -192,6 +215,8 @@ public class ELOInterface {
             var st: SocialTags = mvc.getValue() as SocialTags;
             st.removeLikingUser(tag.tagname, getCurrentUser());
             st.removeUnlikingUser(tag.tagname, getCurrentUser());
+            var metadata: IMetadata = tbi.getRepository().updateELO(elo);
+            elo.setMetadata(metadata);
             return tag;
         }
     }
@@ -200,7 +225,6 @@ public class ELOInterface {
         def tag = Tag {
                     tagname: string
                 }
-        //def result = this.addTag(tag);
         return this.addVoteForTag(like, tag);
     }
 

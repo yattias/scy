@@ -180,6 +180,7 @@ public class SocialTaggingDrawer
                     action: function() {
                         eloInterface.addVoteForString(true, newTagBox.text);
                         this.updateTagLines();
+                        newTagBox.text = "";
                     }
                 }
 
