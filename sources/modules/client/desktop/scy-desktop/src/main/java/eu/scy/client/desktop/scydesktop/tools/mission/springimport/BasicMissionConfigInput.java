@@ -285,6 +285,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
          missionAnchor.setInputMissionAnchors(inputMissionAnchors);
       }
       // set the mission anchors of the las
+      List<Las> errorLasses = new ArrayList<Las>();
       for (eu.scy.client.desktop.scydesktop.config.BasicLas basicLas : getBasicMissionMap().getLasses())
       {
          BasicLas las = lasIdMap.get(basicLas.getId());
@@ -296,6 +297,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
          else
          {
             logger.error(addError("Cannot find mission anchor with id '" + basicLas.getAnchorEloId() + "' for las with id '" + basicLas.getId() + "'"));
+            errorLasses.add(las);
          }
          List<MissionAnchor> intermediateAnchors = new ArrayList<MissionAnchor>();
          for (String intermediateAnhorId : basicLas.getIntermediateEloIds())
@@ -311,6 +313,10 @@ public class BasicMissionConfigInput implements MissionConfigInput
             }
          }
          las.setIntermediateAnchors(intermediateAnchors);
+      }
+
+      for (Las errorLas : errorLasses){
+         lasses.remove(errorLas);
       }
 
       return lasses;
