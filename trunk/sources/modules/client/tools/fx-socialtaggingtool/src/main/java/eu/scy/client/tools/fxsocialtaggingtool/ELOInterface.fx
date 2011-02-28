@@ -200,12 +200,6 @@ public class ELOInterface {
         def tag = Tag {
                     tagname: string
                 }
-        if (like) {
-            insert getCurrentUser() into tag.ayevoters;
-        } else {
-            insert getCurrentUser() into tag.nayvoters;
-        }
-
         //def result = this.addTag(tag);
         return this.addVoteForTag(like, tag);
     }
