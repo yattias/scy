@@ -28,6 +28,7 @@
                      <property name="yPosition" value="0"/>
                      <property name="tooltip" value="Challenge"/>
                      <property name="lasType" value="ORIENTATION"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/startPage/LAS_Instruction.html"/>
                      <property name="loEloUris">
                         <list>
                         </list>
@@ -38,7 +39,7 @@
                            <value>conceptualizationIndividual</value>
                         </list>
                      </property>
-                     <property name="anchorEloId" value="start"/>
+                     <property name="anchorEloId" value="missionNotes"/>
                      <property name="intermediateEloIds">
                         <list>
                         </list>
@@ -247,6 +248,22 @@
                <property name="id" value="start"/>
                <property name="uri" value="roolo://memory/281/0/Challenge.url"/>
                <property name="iconType" value="ard/assignment"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="missionNotes"/>
+               <property name="uri" value="roolo://memory/280/0/Mission_notes.rtf"/>
+               <property name="iconType" value="ard/assignment"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/startPage/targetDescription.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/startPage/Assignments/A_Challenge.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/startPage/Resources/R_Challenge.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
