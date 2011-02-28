@@ -1,0 +1,77 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-02-28T17:33:17.896+0100</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-02-28T17:33:17.896+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1298910797896</dateCreated>
+        <dateFirstUserSaveKey>1298910797895</dateFirstUserSaveKey>
+        <dateLastModified>1298910797896</dateLastModified>
+      </customElements>
+      <format>scy/missionspecification</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentDesign</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/732/0/Design+a+CO2+friendly+house+%28UT+version%29.scymissionspecification</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">Design a CO2 friendly house (UT version)</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABMCAYAAAD6BTBNAAAHUElEQVR42u2a1W8VaxTF+UvgjRBe0Ad4oDRIQrBgAdrg7iQ4FE8haHB3CC5Bgktbiru7u7vbvvnt3D0Z2nNOuZxygXavZDozZ76Z+WbNlrX3tIA44kIB/ly5ciXq8urVKzl69GjMMSyXL1/WC965cyfHsbdv39axly5dklu3bgWTmThxouzcuVO3P378KBcvXpSzZ8/qfsmSJf9cAg8ePCiHDx+W48ePS926dSU5OVm6d++uvz969Eg2bdqk2x07dpT58+dL27ZtZdy4cXLkyBFdDhw4oMcB+2yfOnVKevToIe3bt5e1a9fKsWPHpEuXLnrs6tWrOnbHjh2yfft23V63bp28fftWtmzZovuZmZnSoEED2bNnz3cTTkhIkNq1awfj/ggCIYhl69atkpGRIZs3b9aHY/3gwQNZvHixHudh09LSdPKsOc7vrFkA12B727ZtOr5x48bBODtmZOcZF3bEQSBx6Pz58778xAJ3aoHfvn37IbYrVKgQbJcuXTrqOOJfJIwfP17X169f1xgXBmEC3Lt3T9cLFiz4+1yYQN+tWzepX7++rF69OtvgihUrypQpU+TGjRsazHnIhw8fysmTJ6V///6agb9+/So3b96Ua9euyZcvX/Q8MilZmjHnzp3TLDxr1ixZs2aNvHv3ThYtWqQJhnMtK/OCZs+erdf48OGDx8A8rQORG+DChQu6HjBggMoYsHfv3uB3kxTowhcvXkhKSoq0bt06uNinT5/k/v370rdvX5U6uDJyxzB16tRgG4sjdGCBSCMkCxg8eLAqgenTp0vDhg3VtbFM1pMmTdIxWDGoWbOm9OnTR7fJ7jZP07agZ8+ewW+oAiTUyJEj5f379yrb8rQFNmvWLOZxe/G/3QJbtmwZcxAVQjQsXbo05rnEujDu3r2bbcy8efO+29+1a1fEa2FxkWAWGQnhBEl1A86cOZO7BHbq1El3Vq1aFZDSoUMH2bhxo4wYMSIYvHv3biWTxMFkhgwZoi4ISDrPnj2TGTNmSGpqqroxbtK1a9fgfAsLiOs2bdrImzdv1H1ZIIeHJaFYOff48WMlB/dFhJcrV04KFiwo/fr103HMs1GjRjqWe5HZmd/Tp0/12syHZzJ3Xrlypbo6L7FYsWLSqlWrbC/Pk8jvSiIE/ydPnuiPM2fOlLFjx+pbnDNnTlCm7du3T0s7FqQFsqRatWoqX06fPq3JhRKOkDB8+HAt+QjyVvsOGjRIrYx95BLjsWDkUO/evXUM9yNZJSUlqXVRMpJECPzMiwaDSafExERp2rSpnrd//36VVyQyrHb9+vXZkgjX4tzRo0fLoUOHVDKhSXPFAmOJaY7ldDwWcjo/GurUqRPzeK9evSLeP6f9XLfA4sWLxxwULagDLCEW6NSEYZVGGFhdGMTaSChUqNBPzcHw/PlzXRPff4kONAwbNkw6d+6sD5aVALo06Dt0IOPCGZAJEgpwEdyPEDBmzJjgOFWM3Q8dSPsKF16yZInUq1dPjw0cOFBf2OvXrwMycWkSS/PmzaVo0aKacEgguK3pQJIIVQvzI3kQVggRgKoIWEXDHMuWLatLvFLIk0huCWneGODt1apVK3h7BN6wFdKFCCOrOyA1TPqYdRLYARKnTJkyKh+oNLBy6mZQvXr1765DYqGHiOSx+1PdcK2hQ4eq9CK5UL+3aNFCChcurLU61QrPQO0d1qBhS0MSYc3IHUtAy5YtC+ZPHT5hwoSg2UuiMSnEvfKUBdqDZQVaj274/2aBiNZoWLhwYcTfI3WWEdH5zoU/f/6sBPLtgkC8YsUKNW8ahugl5AKugn6jxfTy5Us9meDPNxMSBS5SqlSp/BsDHXESaEkDayRwW6uHJMIXuzCQMQRtayNREdACwxppf/EptESJEpogaHlt2LBBx9DOsnoYcF0SAaCFZU2LypUrB9ZsrbPJkyer5GF+AC+hVg/rxvT0dJk7d6622EggzN1gbTWqqGnTpgXPi1wKz8nAdU6cOKHbyDJEPdWTW+C/3R9Kul/qwmYZBmIjVpIVudka+mtduF27dmr25cuX1wRRqVIlPUhSodqgiMd1aFHRMS5SpIg2BkaNGqXtKtNQ+ToGOuIkkO8JBGnqRlpJBGQLzCQK1D2gkUrQrlGjhu4vX75cW1okCJII/9qBcuc4CYU2FRbK9w0SQZMmTbQmxdIZa6GCdpgFfc61z6Z80SOJkGCYA57AOVQpJBHkFvMjphH4Ac9BJcI4ngu5RWVB9UHNzP2RaNaMJemRtEiEVEAkFrapfKg8bI6WVKJa4H9tS/1sm+hH7hPPcQMPTJjJCrStZeUfuVasMVFdmLeeNalUrVo1W2cF0HXJ1y6MZqN1hYlj2uaeuEmVKlX0mwWuS9/NdJh1oj0GOpxAJ9AJdAIdTqAT6AQ6gQ4n0Al0Ap1AhxPoBDqBTqDDCXQCnUAn0OEEOoFOoBPocAKdQCfQCXQ4gU6gE+gEOpxAJ9AJdAIdTqAT6AQ6gQ4nMG4CHfHhH/NMAvo1B3cSAAAAAElFTkSuQmCC</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<missionSpeicification>
+  <missionMapModelEloUri>roolo://memory/727/0/co2MissionRedesignUT.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/728/0/co2MissionRedesignUT.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/729/0/co2MissionRedesignUT.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/730/0/co2MissionRedesignUT.runtimesettings</runtimeSettingsEloUri>
+  <agentModelsEloUri />
+  <pedagogicalPlanSettingsEloUri>roolo://memory/731/0/co2MissionRedesignUT.scy</pedagogicalPlanSettingsEloUri>
+  <colorSchemesEloUri>roolo://memory/200/0/colorschemes1.colorschemes</colorSchemesEloUri>
+  <missionDescriptionUri>http://www.scy-lab.eu/content/en/mission1Redesign_UT/startPage/A_Challenge.html</missionDescriptionUri>
+</missionSpeicification>
+</content>
+<resources>
+</resources>
+</elo>
