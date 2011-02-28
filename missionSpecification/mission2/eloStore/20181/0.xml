@@ -37,7 +37,7 @@
       <mission>ecoMission</mission>
       <missionRunning>roolo://memory/20193/0/ECO+mission.scymissionspecification</missionRunning>
       <title>
-        <string language="en">Introductory model for scydynamics</string>
+        <string language="en">Introductory model for SCYDynamics</string>
       </title>
     </general>
     <relation>
