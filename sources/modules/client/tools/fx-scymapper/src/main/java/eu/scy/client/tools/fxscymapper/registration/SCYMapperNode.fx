@@ -92,18 +92,18 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
                                                 doSaveConceptMapAs();
                                             }
                                         }
-                                        Button {
-                                            text: "Add to Portfolio"
-                                            action: function() {
-                                                addToPortfolio();
-                                            }
-                                        }
-                                        Button {
-                                            text: "test thumbnail"
-                                            action: function () {
-                                                testThumbnail();
-                                            }
-                                        }
+//                                        Button {
+//                                            text: "Add to Portfolio"
+//                                            action: function() {
+//                                                addToPortfolio();
+//                                            }
+//                                        }
+//                                        Button {
+//                                            text: "test thumbnail"
+//                                            action: function () {
+//                                                testThumbnail();
+//                                            }
+//                                        }
                                     ]
                                 }
                                 wrappedScyMapperPanel
@@ -129,6 +129,9 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
         repositoryWrapper.setELOConceptMap(currentELO, conceptMap);
         eloSaver.eloUpdate(currentELO, this);
     }
+    public override function onQuit(){
+    	doSaveConceptMap();
+    }
 
     function doSaveConceptMapAs() {
         var conceptMap = scyMapperPanel.getConceptMap();
@@ -147,7 +150,7 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
         return null;
       }
     }
-    
+
     public function testThumbnail(): Void {
         var thumbnail = getThumbnail(80, 80);
         var icon = new ImageIcon(thumbnail);
