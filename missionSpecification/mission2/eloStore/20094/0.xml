@@ -1,6 +1,16 @@
 <elo>
 <metadata>
   <lom>
+     <resource>
+      <assignmentUri>
+        <catalog>memory</catalog>
+        <entry>http://www.scy-lab.eu/content/en/mission2/assignment_challenge.html</entry>
+      </assignmentUri>
+      <resourcesUri>
+        <catalog>memory</catalog>
+        <entry>http://www.scy-lab.eu/content/en/mission2/resources_challenge.html</entry>
+     </resourcesUri>
+    </resource>
     <lifecycle>
       <contribute>
         <role>
