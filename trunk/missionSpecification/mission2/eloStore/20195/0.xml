@@ -69,8 +69,8 @@
         <inputAnchors />
         <relations />
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/challenge.txt</targetDescriptionUri>
-        <assignmentUri>http://www.scy-lab.eu/content/en/mission2/challenge_eco.html</assignmentUri>
-        <resourcesUri>http://www.scy-lab.eu/content/en/mission2/glossary_eco.html</resourcesUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_challenge.html</assignmentUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_challenge.html</resourcesUri>
         <colorScheme />
       </mainAnchor>
       <intermediateAnchors />
@@ -78,7 +78,7 @@
     </las>
     <las>
       <id>conceptualisatsionConceptMap</id>
-      <xPos>40.0</xPos>
+      <xPos>-40.0</xPos>
       <yPos>-20.0</yPos>
       <toolTip>Concept Map</toolTip>
       <title />
@@ -102,7 +102,7 @@
     </las>
     <las>
       <id>reportingVideo</id>
-      <xPos>-40.0</xPos>
+      <xPos>20.0</xPos>
       <yPos>-20.0</yPos>
       <toolTip>Video report</toolTip>
       <title />
@@ -118,7 +118,7 @@
         <relations />
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission2/videoreport.txt</targetDescriptionUri>
         <assignmentUri>http://www.scy-lab.eu/content/en/mission2/assignment_video.html</assignmentUri>
-        <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_video.html</resourcesUri>
+        <resourcesUri>http://www.scy-lab.eu/content/en/mission2/resources_videoreport.html</resourcesUri>
         <colorScheme />
       </mainAnchor>
       <intermediateAnchors />
