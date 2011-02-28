@@ -64,6 +64,10 @@ public class ScyResultBinderPanel extends JPanel implements IActionResultBinder{
     public void setTBI(ToolBrokerAPI tbi) {
         this.tbi = tbi;
     }
+
+    public void setUserName(){
+        resultBinderPanel.setUserName(getUserName());
+    }
     
     /* initialization action logger */
     public void initActionLogger(){
