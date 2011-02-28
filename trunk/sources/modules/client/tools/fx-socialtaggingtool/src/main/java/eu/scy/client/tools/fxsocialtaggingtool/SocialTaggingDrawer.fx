@@ -5,7 +5,6 @@
 package eu.scy.client.tools.fxsocialtaggingtool;
 
 import javafx.scene.control.*;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.CustomNode;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
@@ -31,37 +30,26 @@ public class SocialTaggingDrawer
     def spacing = 3.0;
     def border = 0.0;
     def eloInterface = ELOInterface {
-        tbi: scyWindow.tbi;
-        eloUri: scyWindow.eloUri;
-    }
+                tbi: scyWindow.tbi;
+                eloUri: scyWindow.eloUri;
+            }
     def currentUser = bind eloInterface.getCurrentUser();
     var cacheCheckbox: CheckBox;
     var layoutXValue: TextBox;
     var layoutYValue: TextBox;
-
+    var taggingDisplay: Node;
+    var tagGroup: ListView;
+    var tagLines: Object[];
+    var panelWidth = 200;
     public override function create(): Node {
-        var taggingDisplay = createSocialTaggingDisplay();
-        return Group {
-                    content: [
-                        taggingDisplay
-                    ]
-                };
+        this.taggingDisplay = createSocialTaggingDisplay();
+
+        return this.taggingDisplay;
     }
 
-    function createSocialTaggingDisplay(): Node {
 
-        def headingFont = Font {
-                // size: 22
-                }
-
-        def tagCloudDescription = Text {
-                    font: headingFont
-                    content: "Tag cloud:"
-                }
-
-        def tags = bind eloInterface.getAllTags();
-
-        def tagLines = for (tag in tags) {
+    function createTagLines(tags:Tag[]):Object[]{
+         def tagLines = for (tag in tags) {
                     def ayevoterslist = for (voter in tag.ayevoters)
                                 Flow { content: [SmallPlus {}, HBox { content: [Text { content: voter
                                                     layoutInfo: LayoutInfo {
@@ -92,6 +80,7 @@ public class SocialTaggingDrawer
                                 //width: 50
                                 nodeVPos: VPos.TOP
                                 hgap: 5
+
                                 content: [
                                     winning,
 
@@ -103,7 +92,7 @@ public class SocialTaggingDrawer
                                         alwaysOn: bind nayVoter },
                                     Label {
                                         layoutInfo: LayoutInfo {
-                                            width: labelWidth
+                                            //width: labelWidth
                                             vpos: VPos.CENTER
                                         }
                                         font: Font {
@@ -138,9 +127,31 @@ public class SocialTaggingDrawer
                                             hpos: HPos.LEFT
                                         } }] }
                     VBox { content: bind if (winning.hover) [tagline, taglinedetails] else [tagline] } }
+    }
 
-        def tagGroup = ListView {
-                    items: tagLines
+    function updateTagLines() {
+        def tags = bind eloInterface.getAllTags();
+        this.tagLines = createTagLines(tags);
+    }
+
+
+    function createSocialTaggingDisplay(): Node {
+
+        def headingFont = Font {
+                // size: 22
+                }
+
+        def tagCloudDescription = Text {
+                    font: headingFont
+                    content: "Tag cloud:"
+                }
+
+ 
+
+       
+        tagGroup = ListView {
+                    //layoutInfo: LayoutInfo{width:panelWidth}
+                    items: bind this.tagLines
                 }
         def newTagBox = TextBox {
                     text: ""
@@ -159,49 +170,54 @@ public class SocialTaggingDrawer
                     }
                     action: function() {
                         eloInterface.addVoteForString(newTagBox.text);
+                        this.updateTagLines();
                     }
                 }
 
-        def tagCloud = Flow {
-                    hgap: 10
+//        def tagCloud = Flow {
+//                    hgap: 10
+//
+//                    content: for (tag in tags)
+//                        Hyperlink { text: tag.tagname
+//                            font: Font {
+//                                //size:Math.max(8, (8 * (tag.ayevoters.size() - tag.nayvoters.size())))
+//                                size: 12 * (Math.max(0, (tag.ayevoters.size() - tag.nayvoters.size())))
+//                            }
+//                        }
+//                }
+        this.updateTagLines();
 
-                    content: for (tag in tags)
-                        Hyperlink { text: tag.tagname
-                            font: Font {
-                                //size:Math.max(8, (8 * (tag.ayevoters.size() - tag.nayvoters.size())))
-                                size: 12 * (Math.max(0, (tag.ayevoters.size() - tag.nayvoters.size())))
-                            }
-                        }
-                }
-        def taggingPanel = VBox {
+        var taggingPanel = VBox {
                     content: [tagGroup, HBox {
                             content: [newTagBox, newTagButton] }]
                 }
 
-ScrollView {
+
+
+        ScrollView {
             //width: bind scene.width
             //width: 300
             //height: bind scene.height
-            width: bind this.width
-            height: bind this.height
-            //layoutInfo:LayoutInfo {width:300
-            //                        height: bind this.height}
-            node: {
-                VBox {
-                    content: VBox {
-                        content: [
-                            tagCloud, taggingPanel
-                        ]
-                    } }
-            } } }
+            //   width: bind this.width
+            //   height: bind this.height
+            layoutInfo:LayoutInfo {width:bind this.width
+                                   height:bind this.height}
+            //width:bind this.width
+            fitToWidth: true
+            fitToHeight: true
+            node: /* tagCloud, */taggingPanel
+        }
+    }
 
     public override function getPrefHeight(height: Number): Number {
         return this.height;
+        //return scyWindow.height
     }
 
     public override function getPrefWidth(width: Number): Number {
-        return 200;
-
+        //return 200;
+        //return getNo   dePreferredWidth(tagGroup);
+        return this.panelWidth;
     }
 
 }

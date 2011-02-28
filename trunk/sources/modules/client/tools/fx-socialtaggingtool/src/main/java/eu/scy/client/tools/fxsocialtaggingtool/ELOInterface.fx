@@ -17,8 +17,8 @@ public class ELOInterface {
     public-init var eloUri: URI;
     var elo: IELO;
     var socialtagsKey: IMetadataKey;
-    def demoMode = false;
-    def testTags = [
+    def demoMode = true;
+    var testTags = [
                 Tag {
                     tagname: "ecology";
                     ayevoters: ["Astrid", "Wilhelm"];
@@ -63,7 +63,7 @@ public class ELOInterface {
      * @author sindre
      */
     public function getCurrentUser(): String {
-        return tbi.getLoginUserName();
+        if (this.demoMode) return "John" else return tbi.getLoginUserName();
     }
 
     public function getAllTags(): Tag[] {
@@ -73,68 +73,76 @@ public class ELOInterface {
          * @param elo The IELO to get all tags from
          * @return An array of Tag objects
          */
-        var tags: Tag[] = [];
-        var socialTags: SocialTags = elo.getMetadata().getMetadataValueContainer(socialtagsKey).getValue() as SocialTags;
-
-        if (socialTags != null) {
-            for (st in socialTags.getSocialTags()) {
-                var ayevoters: String[];
-                var nayvoters: String[];
-                var conts: Map = st.getContributions() as Map;
-                for (contributor in st.getContributorNames()) {
-                    var value: Number = conts.get(contributor) as Number;
-                    if (value > 0) {
-                        insert contributor into ayevoters;
-                    } else {
-                        insert contributor into nayvoters;
-                    }
-                }
-                var t = Tag {
-                            tagname: st.getTagName();
-                            ayevoters: ayevoters;
-                            nayvoters: nayvoters;
-                        };
-                insert t into tags;
-            }
-        }
         if (this.demoMode == true) {
             return this.testTags;
         } else {
+            var tags: Tag[] = [];
+            var socialTags: SocialTags = elo.getMetadata().getMetadataValueContainer(socialtagsKey).getValue() as SocialTags;
+
+            if (socialTags != null) {
+                for (st in socialTags.getSocialTags()) {
+                    var ayevoters: String[];
+                    var nayvoters: String[];
+                    var conts: Map = st.getContributions() as Map;
+                    for (contributor in st.getContributorNames()) {
+                        var value: Number = conts.get(contributor) as Number;
+                        if (value > 0) {
+                            insert contributor into ayevoters;
+                        } else {
+                            insert contributor into nayvoters;
+                        }
+                    }
+                    var t = Tag {
+                                tagname: st.getTagName();
+                                ayevoters: ayevoters;
+                                nayvoters: nayvoters;
+                            };
+                    insert t into tags;
+                }
+            }
+
             return tags;
         }
     }
 
-    public function addTag(tag: Tag): Tag {
-        var mvc = elo.getMetadata().getMetadataValueContainer(socialtagsKey);
-        if (mvc.getValue() == null) {
-            mvc.setValue(new SocialTags());
-        }
-        var st: SocialTags = mvc.getValue() as SocialTags;
-        st.addSocialTag(tag.tagname, getCurrentUser());
-        tbi.getRepository().updateELO(elo);
-        return tag;
-    }
-
-    public function removeTag(tag: Tag): Tag {
-        var mvc = elo.getMetadata().getMetadataValueContainer(socialtagsKey);
-        if (mvc.getValue() == null) {
-            mvc.setValue(new SocialTags());
-        }
-        var st: SocialTags = mvc.getValue() as SocialTags;
-        st.removeContributeFromTag(tag.tagname, getCurrentUser());
-        tbi.getRepository().updateELO(elo);
-        return tag;
-    }
-
+    /* Following two functions are commented for now.*/
+    /* It may not be necessary to be able to store tags that do not have a vote */
+    /* If the underlying SocialTags roolo implementation requires it these methods should be uncommented again */
+//    public function addTag(tag: Tag): Tag {
+//        var mvc = elo.getMetadata().getMetadataValueContainer(socialtagsKey);
+//        if (mvc.getValue() == null) {
+//            mvc.setValue(new SocialTags());
+//        }
+//        var st: SocialTags = mvc.getValue() as SocialTags;
+//        st.addSocialTag(tag.tagname, getCurrentUser());
+//        tbi.getRepository().updateELO(elo);
+//        return tag;
+//    }
+//
+//    public function removeTag(tag: Tag): Tag {
+//        var mvc = elo.getMetadata().getMetadataValueContainer(socialtagsKey);
+//        if (mvc.getValue() == null) {
+//            mvc.setValue(new SocialTags());
+//        }
+//        var st: SocialTags = mvc.getValue() as SocialTags;
+//        st.removeContributeFromTag(tag.tagname, getCurrentUser());
+//        tbi.getRepository().updateELO(elo);
+//        return tag;
+//    }
     public function addVoteForTag(like: Boolean, tag: Tag): Tag {
-        var mvc = elo.getMetadata().getMetadataValueContainer(socialtagsKey);
-        var st: SocialTags = mvc.getValue() as SocialTags;
-        if (like) {
-            st.addLikingUser(tag.tagname, getCurrentUser());
+        if (this.demoMode) {
+            insert tag into this.testTags;
+            return tag;
         } else {
-            st.addUnlikingUser(tag.tagname, getCurrentUser());
+            var mvc = elo.getMetadata().getMetadataValueContainer(socialtagsKey);
+            var st: SocialTags = mvc.getValue() as SocialTags;
+            if (like) {
+                st.addLikingUser(tag.tagname, getCurrentUser());
+            } else {
+                st.addUnlikingUser(tag.tagname, getCurrentUser());
+            }
+            return tag;
         }
-        return tag;
     }
 
     public function removeVoteForTag(tag: Tag): Tag {
@@ -145,13 +153,12 @@ public class ELOInterface {
         return tag;
     }
 
-    public function addVoteForString(string: String): Tag {
-       def tag = Tag {
-            tagname:string
-        }
-        def result = this.addTag(tag);
-        addVoteForTag(true, result);
-        return result;
+    public function addVoteForString(like: Boolean, string: String): Tag {
+        def tag = Tag {
+                    tagname: string
+                }
+        //def result = this.addTag(tag);
+        return this.addVoteForTag(like, tag);
     }
 
 }
