@@ -18,11 +18,9 @@ import javafx.scene.layout.LayoutInfo;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.layout.Flow;
-import javafx.util.Math;
 import javafx.scene.layout.Resizable;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.TextOrigin;
-import eu.scy.client.desktop.scydesktop.scywindows.window.WindowTitleBar;
+import javafx.geometry.BoundingBox;
 
 public class SocialTaggingDrawer
         extends
@@ -41,9 +39,10 @@ public class SocialTaggingDrawer
     var layoutXValue: TextBox;
     var layoutYValue: TextBox;
     var taggingDisplay: Node;
-    var tagGroup: ListView;
-    var tagLines: Object[];
-    var panelWidth = 200;
+    var tagGroup: Node[];
+    var tagLines: Node[];
+    var panelWidth = 450;
+    var mainBox: VBox;
 
     public override function create(): Node {
         this.taggingDisplay = createSocialTaggingDisplay();
@@ -51,7 +50,7 @@ public class SocialTaggingDrawer
         return this.taggingDisplay;
     }
 
-    function createTagLines(tags: Tag[]): Object[] {
+    function createTagLines(tags: Tag[]): Node[] {
         def tagLines = for (tag in tags) {
                     def ayevoterslist = for (voter in tag.ayevoters)
                                 Flow { content: [SmallPlus {}, HBox { content: [Text { content: voter
@@ -170,9 +169,8 @@ public class SocialTaggingDrawer
                     content: "Tags for this object"
                 }
 
-        tagGroup = ListView {
-                    //layoutInfo: LayoutInfo{width:panelWidth}
-                    items: bind this.tagLines
+        tagGroup = VBox {
+                    content: bind this.tagLines
                 }
         def newTagBox = TextBox {
                     text: ""
@@ -210,27 +208,42 @@ public class SocialTaggingDrawer
         this.updateTagLines();
 
         var taggingPanel = VBox {
-                    content: [tagGroup, HBox {
+                    //layoutInfo: LayoutInfo {
+                    //    height: bind scene.height
+                    //width: bind scene.width
+                    //}
+                    content: [
+                        tagGroup,
+                        HBox {
                             content: [newTagBox, newTagButton] }]
                 }
 
-        ScrollView {
-            //width: bind scene.width
-            //width: 300
-            //height: bind scene.height
-            //   width: bind this.width
-            //   height: bind this.height
-            layoutInfo: LayoutInfo { width: bind this.width
-                height: bind this.height }
-            //width:bind this.width
-            fitToWidth: true
-            fitToHeight: true
-            node: VBox { content: [tagDrawerDescription, taggingPanel] }
-        }
-    }
+        VBox {
+            layoutInfo: LayoutInfo {
+                width: bind scene.width
+                height: bind scene.height
+            }
+            content: [tagDrawerDescription,
+                ScrollView {
+                    width: bind scene.width
+                    //width: 300
+                    height: bind scene.height
+                    //   width: bind this.width
+                    //   height: bind this.height
+                    hbarPolicy: ScrollBarPolicy.NEVER
+                    vbarPolicy: ScrollBarPolicy.ALWAYS
+
+                    layoutInfo: LayoutInfo {
+                    //width: bind scene.width
+                    //height: bind scene.height
+                    }
+                    //width:bind this.width
+                    fitToWidth: false
+                    fitToHeight: false
+                    node: taggingPanel }]}}
 
     public override function getPrefHeight(height: Number): Number {
-        return this.height;
+        return scyWindow.height;
     //return scyWindow.height
     }
 
@@ -240,4 +253,12 @@ public class SocialTaggingDrawer
         return this.panelWidth;
     }
 
+    override var width on replace { requestLayout() }
+    override var height on replace { requestLayout() }
+    override var layoutBounds = bind BoundingBox {
+                minX: 0
+                minY: 0
+                width: this.width
+                height: this.height
+            }
 }
