@@ -139,7 +139,7 @@ public class ELOInterface {
             var tagToUpdate = tag;
             def tags = this.testTags;
             def existingTag = tags[t | t.tagname == tag.tagname][0];
-            println(existingTag);
+            // println(existingTag);
             if (existingTag != null) {
                 // A tag with this name already exists; we'll use this
                 tagToUpdate = existingTag;

@@ -20,6 +20,9 @@ import javafx.geometry.VPos;
 import javafx.scene.layout.Flow;
 import javafx.util.Math;
 import javafx.scene.layout.Resizable;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.TextOrigin;
+import eu.scy.client.desktop.scydesktop.scywindows.window.WindowTitleBar;
 
 public class SocialTaggingDrawer
         extends
@@ -149,13 +152,22 @@ public class SocialTaggingDrawer
 
     function createSocialTaggingDisplay(): Node {
 
-        def headingFont = Font {
-                // size: 22
-                }
-
-        def tagCloudDescription = Text {
-                    font: headingFont
-                    content: "Tag cloud:"
+        def tagDrawerDescription = Text {
+                    // Most of this is taken from scy/sources/modules/client/desktop/scy-desktop/src/main/java/eu/scy/client/desktop/scydesktop/scywindows/window/WindowTitleBar.fx
+                    // A better solution would have been to have this in a resource accessible from everywhere, but right now
+                    // the information is private to WindowTitleBar.
+                    // Just Subclassing it would have required extensive overriding, since WindowTitleBar contains elements like icons etc.
+                    def titleFontsize = 12;
+                    def textFont = Font.font("Verdana", FontWeight.BOLD, titleFontsize);
+                    def mainColor = bind if (scyWindow.activated) scyWindow.windowColorScheme.mainColor else scyWindow.windowColorScheme.emptyBackgroundColor;
+                    def bgColor = bind if (scyWindow.activated) scyWindow.windowColorScheme.backgroundColor else scyWindow.windowColorScheme.mainColor;
+                    font: textFont
+                    //textOrigin: TextOrigin.BOTTOM
+                    //x: iconSize + textIconSpace+textInset
+                    //y: iconSize-textInset
+                    //clip: clipRect
+                    //fill: bind bgColor
+                    content: "Tags for this object"
                 }
 
         tagGroup = ListView {
@@ -213,7 +225,7 @@ public class SocialTaggingDrawer
             //width:bind this.width
             fitToWidth: true
             fitToHeight: true
-            node: /* tagCloud, */ taggingPanel
+            node: VBox { content: [tagDrawerDescription, taggingPanel] }
         }
     }
 
