@@ -700,7 +700,7 @@ public class StandardScyWindow extends ScyWindow {
                activate: activate;
                layoutX: drawerCornerOffset;
                layoutY: 0;
-               width: bind realWidth - 2 * drawerCornerOffset
+               width: bind realWidth - 2 * drawerCornerOffset - 4
             }
          insert topDrawer into drawerGroup.content;
       }
@@ -724,7 +724,7 @@ public class StandardScyWindow extends ScyWindow {
                activate: activate;
                layoutX: bind realWidth;
                layoutY: drawerCornerOffset + leftRightDrawerOffset
-               height: bind realHeight - 2 * drawerCornerOffset
+               height: bind realHeight - 3 * drawerCornerOffset
             }
          insert rightDrawer into drawerGroup.content;
       }
@@ -780,7 +780,7 @@ public class StandardScyWindow extends ScyWindow {
                   activate: activate;
                   layoutX: 0;
                   layoutY: drawerCornerOffset + leftRightDrawerOffset
-                  height: bind realHeight - 2 * drawerCornerOffset
+                  height: bind realHeight - 3 * drawerCornerOffset - 4
                }
             insert drawer into drawerGroup.content;
          }

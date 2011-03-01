@@ -39,7 +39,7 @@ public class ClosedWindow extends WindowElement {
    public var title = "elo title";
    public var activated = false on replace { activatedChanged() };
    public-init var startDragIcon: function(e: MouseEvent ):Void;
-   def titleFontsize = 11;
+   def titleFontsize = 12;
    def textFont = Font.font("Verdana", FontWeight.REGULAR, titleFontsize);
    def bgColor = bind if (activated) windowColorScheme.emptyBackgroundColor else windowColorScheme.mainColor;
    def thumbnailView = ThumbnailView {
@@ -66,8 +66,8 @@ public class ClosedWindow extends WindowElement {
       textBackgroundFillRect = Rectangle {
             x: 0
             y: 0
-            width: bind titleText.layoutBounds.width
-            height: bind titleText.layoutBounds.height
+            width: bind titleText.layoutBounds.width+2
+            height: bind titleText.layoutBounds.height+2
          }
       titleText = Text {
             font: textFont
