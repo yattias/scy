@@ -47,6 +47,7 @@ var initializer = Initializer{
    missionMapNotSelectedImageScale:1.0
    missionMapSelectedImageScale:1.5
    missionMapPositionScale:1.0
+   showOnlyStartedMissions:false
 //   eloImagesPath:"file:/D:/projects/scy/code/scy-trunk/sources/modules/client/desktop/scy-desktop/eloImages/"
 //   eloImagesPath:"file:eloImages/"
 }

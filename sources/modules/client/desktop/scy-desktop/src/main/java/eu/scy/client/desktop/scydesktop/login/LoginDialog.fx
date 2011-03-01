@@ -211,6 +211,10 @@ public class LoginDialog extends CustomNode, TbiReady {
    }
 
    function findMission(toolBrokerAPI: ToolBrokerAPI, missions: Missions) {
+      if (initializer.showOnlyStartedMissions){
+         missions.removeMissionSpecifications();
+      }
+ 
       def missionLocator: MissionLocator = MissionLocator {
          tbi: toolBrokerAPI
          userName: userName

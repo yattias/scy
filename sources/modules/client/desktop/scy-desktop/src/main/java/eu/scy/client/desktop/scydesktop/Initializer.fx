@@ -97,6 +97,7 @@ public class Initializer {
    public-init var disableRooloVersioning = false;
    public-init var dontUseMissionRuntimeElos = false;
    public-init var useBigMissionMap = true;
+   public-init var showOnlyStartedMissions = false;
    public-read var languages: String[];
    public-read var localLoggingDirectory: File = null;
    public-read var toolBrokerLogin: ToolBrokerLogin;
@@ -151,6 +152,7 @@ public class Initializer {
    def disableRooloVersioningOption = "disableRooloVersioning";
    def dontUseMissionRuntimeElosOption = "dontUseMissionRuntimeElos";
    def useBigMissionMapOption = "useBigMissionMap";
+   def showOnlyStartedMissionsOption = "showOnlyStartedMissions";
    var setupLoggingToFiles: SetupLoggingToFiles;
    package var background: DynamicTypeBackground;
    public-read var loginTypeEnum: LoginType;
@@ -342,6 +344,9 @@ public class Initializer {
             } else if (option == useBigMissionMapOption.toLowerCase()) {
                useBigMissionMap = argumentsList.nextBooleanValue(useBigMissionMapOption);
                logger.info("app: {useBigMissionMap}: {useBigMissionMap}");
+            } else if (option == showOnlyStartedMissionsOption.toLowerCase()) {
+               showOnlyStartedMissions = argumentsList.nextBooleanValue(showOnlyStartedMissionsOption);
+               logger.info("app: {showOnlyStartedMissions}: {showOnlyStartedMissions}");
             } else {
                logger.info("Unknown option: {option}");
             }
@@ -390,6 +395,7 @@ public class Initializer {
       disableRooloVersioning = getWebstartParameterBooleanValue(disableRooloVersioningOption, disableRooloVersioning);
       dontUseMissionRuntimeElos = getWebstartParameterBooleanValue(dontUseMissionRuntimeElosOption, dontUseMissionRuntimeElos);
       useBigMissionMap = getWebstartParameterBooleanValue(useBigMissionMapOption, useBigMissionMap);
+      showOnlyStartedMissions = getWebstartParameterBooleanValue(showOnlyStartedMissionsOption, showOnlyStartedMissions);
    }
 
    function getWebstartParameterStringValue(name: String, default: String): String {
@@ -484,6 +490,7 @@ public class Initializer {
       printWriter.println("- disableRooloVersioning: {disableRooloVersioning}");
       printWriter.println("- dontUseMissionRuntimeElos: {dontUseMissionRuntimeElos}");
       printWriter.println("- useBigMissionMap: {useBigMissionMap}");
+      printWriter.println("- showOnlyStartedMissions: {showOnlyStartedMissions}");
    }
 
    public function isEmpty(string: String): Boolean {
