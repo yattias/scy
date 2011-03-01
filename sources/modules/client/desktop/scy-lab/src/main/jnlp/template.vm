@@ -16,7 +16,7 @@
   </security>
 #end
   <resources>
-    <j2se version="$j2seVersion" java-vm-args="-Xms768m -Xmx768m"/>
+    <j2se version="$j2seVersion" java-vm-args="-Xms512m -Xmx512m"/>
     <extension name="JavaFX Runtime" href="$$site/javafx-libs/javafx-rt.jnlp"/>
     <property name="jnlp.packEnabled" value="true"/>
     <property name="jnlp.versionEnabled" value="true"/>
@@ -32,6 +32,8 @@
         <argument>false</argument>
         <argument>-loginType</argument>
         <argument>remote</argument>
+        <argument>-showOnlyStartedMissions</argument>
+        <argument>true</argument>
     </application-desc>
     <update check="always"/>
 </jnlp>
