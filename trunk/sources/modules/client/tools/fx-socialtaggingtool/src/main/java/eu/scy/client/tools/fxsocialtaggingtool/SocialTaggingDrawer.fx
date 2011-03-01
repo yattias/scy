@@ -20,34 +20,27 @@ import javafx.geometry.VPos;
 import javafx.scene.layout.Flow;
 import javafx.scene.layout.Resizable;
 import javafx.scene.text.FontWeight;
-import javafx.geometry.BoundingBox;
+import javafx.scene.paint.Color;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Container;
 
 public class SocialTaggingDrawer
         extends
         CustomNode, ScyToolFX, Resizable {
 
     public var scyWindow: ScyWindow;
-    def valueOffset = 0.0;
-    def spacing = 3.0;
-    def border = 0.0;
     def eloInterface = ELOInterface {
                 tbi: scyWindow.tbi;
                 eloUri: scyWindow.eloUri;
             }
     def currentUser = bind eloInterface.getCurrentUser();
-    var cacheCheckbox: CheckBox;
-    var layoutXValue: TextBox;
-    var layoutYValue: TextBox;
-    var taggingDisplay: Node;
-    var tagGroup: Node[];
-    var tagLines: Node[];
-    var panelWidth = 450;
+    var tagGroup: Node;
     var mainBox: VBox;
+    var tagLines: Node[];
+
 
     public override function create(): Node {
-        this.taggingDisplay = createSocialTaggingDisplay();
-
-        return this.taggingDisplay;
+        return createSocialTaggingDisplay();
     }
 
     function createTagLines(tags: Tag[]): Node[] {
@@ -55,21 +48,17 @@ public class SocialTaggingDrawer
                     def ayevoterslist = for (voter in tag.ayevoters)
                                 Flow { content: [SmallPlus {}, HBox { content: [Text { content: voter
                                                     layoutInfo: LayoutInfo {
-                                                        //width: 50
                                                         vpos: VPos.CENTER
                                                         hpos: HPos.LEFT } }]
                                             layoutInfo: LayoutInfo {
-                                                //width: 100
                                                 hpos: HPos.LEFT }
                                         }] }
                     def nayvoterslist = for (voter in tag.nayvoters)
                                 Flow { content: [SmallMinus {}, HBox { content: [Text { content: voter
                                                     layoutInfo: LayoutInfo {
-                                                        //width: 50
                                                         vpos: VPos.CENTER
                                                         hpos: HPos.LEFT } }]
                                             layoutInfo: LayoutInfo {
-                                                //width: 100
                                                 hpos: HPos.LEFT }
                                         }] }
                     def winning = bind if (tag.ayevoters.size() < tag.nayvoters.size())
@@ -78,15 +67,19 @@ public class SocialTaggingDrawer
                     def nayVoter = (tag.nayvoters[v | v.equals(currentUser)]).size() > 0;
 
                     def tagline =
-                            Flow {
-                                //width: 50
-                                nodeVPos: VPos.TOP
-                                hgap: 5
-
+                            HBox {
+                                nodeVPos: VPos.CENTER
+                                spacing: 5
+                                nodeHPos: HPos.LEFT
                                 content: [
                                     winning,
 
                                     ThumbsUp { tag: tag
+                                        layoutInfo: LayoutInfo {
+                                            hfill: false
+                                            hgrow: Priority.NEVER
+                                            hpos: HPos.LEFT
+                                        }
                                         alwaysOn: bind ayeVoter
                                         onMouseClicked: function(e) {
                                             // Remove a vote first (this should really be handled
@@ -96,7 +89,13 @@ public class SocialTaggingDrawer
                                         }
                                     }
 
-                                    ThumbsDown { tag: tag
+                                    ThumbsDown { 
+                                        tag: tag
+                                        layoutInfo: LayoutInfo {
+                                            hfill: false
+                                            hgrow: Priority.NEVER
+                                            hpos: HPos.LEFT
+                                        }
                                         alwaysOn: bind nayVoter
                                         onMouseClicked: function(e) {
                                             // Remove a vote first (this should really be handled
@@ -106,24 +105,17 @@ public class SocialTaggingDrawer
                                         }
                                     }
                                     Label {
-                                        layoutInfo: LayoutInfo {
-                                            //width: labelWidth
-                                            vpos: VPos.CENTER
-                                        }
-                                        font: Font {
-                                        //size: 16
-                                        }
                                         text: tag.tagname
+                                        layoutInfo: LayoutInfo {
+                                            hfill: true
+                                            hgrow: Priority.ALWAYS
+                                            hpos: HPos.LEFT
+                                        }
                                     },
                                 ] }
                     def taglinedetails = VBox { // Detailed tag view
-                                //layoutInfo: LayoutInfo { height: bind if (winning.hover) 10000 else 0 }
                                 content: [HBox {
                                         content: [
-                                            //                                            HBox {
-                                            //                                                layoutInfo: LayoutInfo {
-                                            //                                                    width: labelWidth
-                                            //                                                } },
                                             VBox {
                                                 layoutInfo: LayoutInfo {
                                                     hpos: HPos.LEFT
@@ -141,13 +133,17 @@ public class SocialTaggingDrawer
                                         layoutInfo: LayoutInfo {
                                             hpos: HPos.LEFT
                                         } }] }
-                    VBox { content: bind if (winning.hover) [tagline, taglinedetails] else [tagline] } }
+                    VBox {
+                        content: bind if (winning.hover) [tagline, taglinedetails] else [tagline]
+                    }
+                }
     }
 
     function updateTagLines(): Object[] {
-        def tags = bind eloInterface.getAllTags();
-        return this.tagLines = createTagLines(tags);
+        def tags = eloInterface.getAllTags();
+        return tagLines = createTagLines(tags);
     }
+
 
     function createSocialTaggingDisplay(): Node {
 
@@ -158,7 +154,8 @@ public class SocialTaggingDrawer
                     // Just Subclassing it would have required extensive overriding, since WindowTitleBar contains elements like icons etc.
                     def titleFontsize = 12;
                     def textFont = Font.font("Verdana", FontWeight.BOLD, titleFontsize);
-                    def mainColor = bind if (scyWindow.activated) scyWindow.windowColorScheme.mainColor else scyWindow.windowColorScheme.emptyBackgroundColor;
+                    //                    def mainColor = bind if (scyWindow.activated) scyWindow.windowColorScheme.mainColor else scyWindow.windowColorScheme.emptyBackgroundColor;
+                    def mainColor = Color.GRAY;
                     def bgColor = bind if (scyWindow.activated) scyWindow.windowColorScheme.backgroundColor else scyWindow.windowColorScheme.mainColor;
                     font: textFont
                     //textOrigin: TextOrigin.BOTTOM
@@ -170,7 +167,13 @@ public class SocialTaggingDrawer
                 }
 
         tagGroup = VBox {
-                    content: bind this.tagLines
+                    content: bind tagLines
+                    layoutInfo: LayoutInfo {
+                        vfill: false
+                        hfill: false
+                        vgrow: Priority.NEVER
+                        hgrow: Priority.NEVER
+                    }
                 }
         def newTagBox = TextBox {
                     text: ""
@@ -194,71 +197,49 @@ public class SocialTaggingDrawer
                     }
                 }
 
-//        def tagCloud = Flow {
-//                    hgap: 10
-//
-//                    content: for (tag in tags)
-//                        Hyperlink { text: tag.tagname
-//                            font: Font {
-//                                //size:Math.max(8, (8 * (tag.ayevoters.size() - tag.nayvoters.size())))
-//                                size: 12 * (Math.max(0, (tag.ayevoters.size() - tag.nayvoters.size())))
-//                            }
-//                        }
-//                }
         this.updateTagLines();
 
-        var taggingPanel = VBox {
-                    //layoutInfo: LayoutInfo {
-                    //    height: bind scene.height
-                    //width: bind scene.width
-                    //}
-                    content: [
-                        tagGroup,
-                        HBox {
-                            content: [newTagBox, newTagButton] }]
-                }
+      var scrollView = ScrollView {
+         layoutInfo: LayoutInfo {
+            hfill: true
+            vfill: true
+            hgrow: Priority.ALWAYS
+            vgrow: Priority.ALWAYS
+         }
+        hbarPolicy: ScrollBarPolicy.AS_NEEDED
+        vbarPolicy: ScrollBarPolicy.AS_NEEDED
+        node: tagGroup
+      };
 
-        VBox {
-            layoutInfo: LayoutInfo {
-                width: bind scene.width
-                height: bind scene.height
-            }
-            content: [tagDrawerDescription,
-                ScrollView {
-                    width: bind scene.width
-                    //width: 300
-                    height: bind scene.height
-                    //   width: bind this.width
-                    //   height: bind this.height
-                    hbarPolicy: ScrollBarPolicy.NEVER
-                    vbarPolicy: ScrollBarPolicy.ALWAYS
-
+      return mainBox = VBox {
+               managed: false
+               content: [
+                  tagDrawerDescription,
+                  scrollView,
+                  HBox {
                     layoutInfo: LayoutInfo {
-                    //width: bind scene.width
-                    //height: bind scene.height
+                        vfill: true
+                        vpos: VPos.BOTTOM
                     }
-                    //width:bind this.width
-                    fitToWidth: false
-                    fitToHeight: false
-                    node: taggingPanel }]}}
-
-    public override function getPrefHeight(height: Number): Number {
-        return scyWindow.height;
-    //return scyWindow.height
+                    content: [newTagBox, newTagButton]
+                  }
+               ]
+            };
     }
 
-    public override function getPrefWidth(width: Number): Number {
-        //return 200;
-        //return getNo   dePreferredWidth(tagGroup);
-        return this.panelWidth;
+    function sizeChanged(): Void {
+      Container.resizeNode(mainBox, width, height);
     }
 
-    override var width on replace { requestLayout() }
-    override var height on replace { requestLayout() }
-    override var layoutBounds = bind BoundingBox {
-                minX: 0
-                minY: 0
-                width: this.width
-                height: this.height
-            }
+    public override function getPrefHeight(h: Number): Number {
+        return 300;
+    }
+
+    public override function getPrefWidth(w: Number): Number {
+        return 160;
+    }
+
+   public override var width on replace { sizeChanged() };
+   
+   public override var height on replace { sizeChanged() };
 }
