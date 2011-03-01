@@ -42,7 +42,7 @@ public class ScySwingWrapper extends CustomNode, Resizable {
       width: 140, height: 90
       fill: Color.TRANSPARENT
 //      fill: Color.rgb(92,92,255,0.15)
-      onMousePressed: function( e: MouseEvent ):Void {
+      onMouseEntered: function( e: MouseEvent ):Void {
          // deleting contentGlassPane from the scene graph fixes the problem with swing content in the scene graph
          delete contentGlassPane from contentGroup.content;
          contentGlassPane = null;
@@ -80,7 +80,7 @@ public class ScySwingWrapper extends CustomNode, Resizable {
          autoSizeChildren:not useJfx12Mode
          content:[
             swingComponent,
-            contentGlassPane
+//            contentGlassPane
          ]
       }
 //      if (useJfx12Mode){
