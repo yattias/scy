@@ -107,7 +107,7 @@ public class MyLinkListener extends LinkListener
                if (EXTERNAL_TARGET.equalsIgnoreCase(target))
                {
                   logger.info("launch external browser for " + uri);
-                  BareBonesBrowserLaunch.openURL(uri);
+                  BareBonesBrowserLaunch.openURL(linkUri.toString());
                   uri = null;
                }
                else if (EXTERNAL_MORE_ASSIGNMENT.equalsIgnoreCase(target))
