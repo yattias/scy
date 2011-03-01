@@ -171,7 +171,7 @@ public class SyncSession implements ISyncSession {
 	
 	@Override
 	public List<ISyncObject> getAllSyncObjects() throws DataSyncException {
-		return getAllSyncObjects(10, TimeUnit.SECONDS);
+		return getAllSyncObjects(20, TimeUnit.SECONDS);
 	}
 	
 	@Override
@@ -195,7 +195,7 @@ public class SyncSession implements ISyncSession {
 		try {
 			muc.sendMessage(sentPacket);
 			
-			Packet packet = queryQueue.poll(20, TimeUnit.SECONDS);
+			Packet packet = queryQueue.poll(time, unit);
 			if (packet == null) {
 				throw new DataSyncException("Exception during querying session data");
 			}
