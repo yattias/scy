@@ -363,7 +363,7 @@ public class StandardScyWindow extends ScyWindow {
    }
 
    public override function openWindow(posX: Number, posY: Number, openWidth: Number, openHeight: Number, rotation: Number): Void {
-      openWindow(posX, posY, openWidth, openHeight, rotate, false)
+      openWindow(posX, posY, openWidth, openHeight, rotation, false)
    }
 
    public override function openWindow(posX: Number, posY: Number, openWidth: Number, openHeight: Number, rotation: Number, hideDrawersAfterOpenning: Boolean): Void {
