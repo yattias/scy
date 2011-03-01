@@ -15,7 +15,7 @@
 	</appender>
 
 	<logger name="org.scy">
-		<level value="debug" />
+		<level value="error" />
 	</logger>
 
 	<logger name="eu.scy.client.desktop.scydesktop.utils.InjectObjectsUtils">
@@ -27,7 +27,7 @@
 	</logger>
 
 	<logger name="eu.scy.client.desktop.scydesktop.scywindows.moreinfomanager">
-		<level value="info" />
+		<level value="warn" />
 	</logger>
 
 	<logger name="eu.scy.client.desktop.scydesktop.scywindows.scydesktop">
