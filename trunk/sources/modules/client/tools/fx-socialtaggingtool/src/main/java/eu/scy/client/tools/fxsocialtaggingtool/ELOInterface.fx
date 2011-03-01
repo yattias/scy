@@ -18,7 +18,7 @@ public class ELOInterface {
     public-init var eloUri: URI;
     var elo: IELO;
     var socialtagsKey: IMetadataKey;
-    def demoMode = true;
+    def demoMode = false;
     var testTags = [
                 Tag {
                     tagname: "ecology";
