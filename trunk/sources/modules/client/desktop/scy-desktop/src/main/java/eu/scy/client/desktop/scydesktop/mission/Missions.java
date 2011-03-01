@@ -21,6 +21,11 @@ public class Missions
       missionSpecificationElos = new ArrayList<MissionSpecificationElo>();
    }
 
+   public void removeMissionSpecifications()
+   {
+      missionSpecificationElos.clear();
+   }
+
    public boolean isEmpty()
    {
       return missionRuntimeElos.isEmpty() && missionSpecificationElos.isEmpty();
