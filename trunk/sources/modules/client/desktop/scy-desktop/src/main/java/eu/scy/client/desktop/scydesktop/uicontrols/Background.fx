@@ -66,11 +66,12 @@ public class Background extends CustomNode {
       if (specification == null) {
          return;
       }
-      backgroundRect.fill = specification.backgroundColor;
       var useEloIcon = specification.eloIcon;
       if (useEloIcon==null){
          useEloIcon = defaultEloIcon;
       }
+//      backgroundRect.fill = specification.backgroundColor;
+      backgroundRect.fill = useEloIcon.windowColorScheme.backgroundColor;
 
       for (element in elements) {
          var icon = useEloIcon.clone();
