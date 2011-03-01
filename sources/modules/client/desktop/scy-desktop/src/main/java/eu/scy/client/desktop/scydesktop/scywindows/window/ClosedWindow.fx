@@ -39,8 +39,8 @@ public class ClosedWindow extends WindowElement {
    public var title = "elo title";
    public var activated = false on replace { activatedChanged() };
    public-init var startDragIcon: function(e: MouseEvent ):Void;
-   def titleFontsize = 12;
-   def textFont = Font.font("Verdana", FontWeight.REGULAR, titleFontsize);
+   def titleFontsize = 11;
+   def textFont = Font.font("Verdana", FontWeight.BOLD, titleFontsize);
    def bgColor = bind if (activated) windowColorScheme.emptyBackgroundColor else windowColorScheme.mainColor;
    def thumbnailView = ThumbnailView {
       windowColorScheme: windowColorScheme

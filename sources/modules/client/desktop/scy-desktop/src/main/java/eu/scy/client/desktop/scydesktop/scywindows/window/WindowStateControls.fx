@@ -35,7 +35,7 @@ public class WindowStateControls extends WindowElement {
    def elementWidth = 10.0;
    def elementHeight = 10.0;
    def lineWidth = 2.0;
-   def elementSpacing = 7.0;
+   def elementSpacing = 9.0;
    def backgroundColor = Color.TRANSPARENT;
    def disabledColor = Color.LIGHTGREY;
    def rotateNormalColor = bind if (enableRotateNormal) windowColorScheme.mainColor else disabledColor;
