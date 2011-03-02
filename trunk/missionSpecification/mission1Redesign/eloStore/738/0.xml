@@ -68,7 +68,7 @@
   <runtimeSettingsEloUri>roolo://memory/736/0/co2Mission_Oslo.runtimesettings</runtimeSettingsEloUri>
   <agentModelsEloUri />
   <pedagogicalPlanSettingsEloUri>roolo://memory/737/0/co2Mission_Oslo.scy</pedagogicalPlanSettingsEloUri>
-  <colorSchemesEloUri />
+  <colorSchemesEloUri>roolo://memory/200/0/colorschemes1.colorschemes</colorSchemesEloUri>
   <missionDescriptionUri>http://www.scy-lab.eu/content/en/mission1Redesign/startPage/A_Challenge.html</missionDescriptionUri>
 </missionSpeicification>
 </content>

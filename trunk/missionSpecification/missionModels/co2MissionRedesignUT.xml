@@ -104,10 +104,9 @@
                            <value>reportingExperts</value>
                         </list>
                      </property>
-                     <property name="anchorEloId" value="becomingAnExpert"/>
+                     <property name="anchorEloId" value="conclusion"/>
                      <property name="intermediateEloIds">
                         <list>
-                           <value>conclusion</value>
                            <value>simulatorExpertThermal</value>
                            <value>simulatorExpertConverter</value>
                            <value>dataExpertReal</value>
@@ -353,20 +352,6 @@
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="becomingAnExpert"/>
-               <property name="uri" value="roolo://memory/609/0/Becoming_an_expert.url"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign_UT/LAS_Experiment_expert/targetDescription.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1Redesign_UT/LAS_Experiment_expert/Assignments/A_Experimental_procedure.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1Redesign_UT/LAS_Experiment_expert/Resources/R_Experimental_procedure.html"/>
-               <property name="inputMissionAnchorIds">
-                  <list>
-                  </list>
-               </property>
-               <property name="loEloUris">
-                  <list>
-                  </list>
-               </property>
-            </bean>            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="simulatorExpertThermal"/>
                <property name="uri" value="roolo://memory/311/0/Data_from_the_Thermal_simulation.scysimconfig"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign_UT/LAS_Experiment_expert/targetDescription.txt"/>

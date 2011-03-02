@@ -10,6 +10,8 @@
 
       <property name="missionDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/startPage/A_Challenge.html"/>
 
+      <property name="colorSchemesEloUri" value="roolo://memory/200/0/colorschemes1.colorschemes"/>
+
       <property name="eloToolConfigs" ref="eloToolConfigs"/>
 
       <property name="basicMissionMap">
