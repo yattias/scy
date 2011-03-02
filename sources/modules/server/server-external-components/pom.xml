@@ -278,6 +278,11 @@
 			<properties>
 				<version-name>-ut</version-name>
 			</properties>
+		<profile>
+			<id>UT2</id>
+			<properties>
+				<version-name>-ut2</version-name>
+			</properties>
 		</profile>
 	</profiles>
 </project>
