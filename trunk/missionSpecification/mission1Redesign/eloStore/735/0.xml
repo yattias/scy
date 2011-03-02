@@ -7,17 +7,17 @@
           <source>LOMv1.0</source>
           <value>author</value>
         </role>
-        <entity>qqqq</entity>
+        <entity>jandolonen</entity>
         <date>
-          <dateTime>2011-03-02T18:14:31.678+0100</dateTime>
+          <dateTime>2011-03-02T22:33:21.946+0100</dateTime>
         </date>
       </contribute>
       <version>0</version>
     </lifecycle>
     <technical>
       <customElements>
-        <dateCreated>1299086071678</dateCreated>
-        <dateLastModified>1299086071678</dateLastModified>
+        <dateCreated>1299101601946</dateCreated>
+        <dateLastModified>1299101601946</dateLastModified>
       </customElements>
       <format>scy/templateelos</format>
     </technical>

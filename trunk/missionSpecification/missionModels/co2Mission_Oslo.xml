@@ -28,6 +28,7 @@
                      <property name="yPosition" value="0"/>
                      <property name="tooltip" value="Challenge"/>
                      <property name="lasType" value="ORIENTATION"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/startPage/LAS_Instruction.html"/>
                      <property name="loEloUris">
                         <list>
                         </list>
@@ -38,7 +39,7 @@
                            <value>conceptualizationIndividual</value>
                         </list>
                      </property>
-                     <property name="anchorEloId" value="start"/>
+                     <property name="anchorEloId" value="missionNotes"/>
                      <property name="intermediateEloIds">
                         <list>
                         </list>
@@ -66,7 +67,6 @@
                      <property name="id" value="conceptualizationExperts"/>
                      <property name="xPosition" value="160"/>
                      <property name="yPosition" value="0"/>
-                     <!--janad: changed here -->
                      <property name="tooltip" value="Research problem of my expert group"/>
                      <property name="lasType" value="CONCEPTUALISATION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Conceptualization_expert/LAS_Instruction_Oslo.html"/>
@@ -79,15 +79,18 @@
                            <value>experimentExperts</value>
                         </list>
                      </property>
-                     <!--janad: changed here -->
-                     <property name="anchorEloId" value="researchQuestions"/>
+                     <property name="anchorEloId" value="researchQuestions"/><!--janad: changed from hypothesis to research question-->
+                     <property name="intermediateEloIds">
+                        <list>
+                           <value>researchQuestions</value>
+                        </list>
+                     </property>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="experimentExperts"/>
                      <property name="xPosition" value="240"/>
                      <property name="yPosition" value="0"/>
                      <property name="tooltip" value="Conclusion of expert inquiry"/>
-                     <!--janad: changed here -->
                      <property name="lasType" value="EXPERIMENT"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Experiment_expert/LAS_Instruction_Oslo.html"/>
                      <property name="loEloUris">
@@ -101,7 +104,11 @@
                         </list>
                      </property>
                      <property name="anchorEloId" value="conclusion"/>
-                     <!--janad: removed intermediate elos -->
+                     <property name="intermediateEloIds">
+                        <list>
+                           <!--janad: removed intermediate elos -->
+                        </list>
+                     </property>
                   </bean>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="conceptualizationIndividual"/>
@@ -116,7 +123,7 @@
                      </property>
                      <property name="anchorEloId" value="conceptMap"/>
                   </bean>
-                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas"><!--janad: This need to be accomodated with math tool -->
+                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="construction"/>
                      <property name="xPosition" value="80"/>
                      <property name="yPosition" value="80"/>
@@ -216,7 +223,7 @@
                      <property name="id" value="reportingIndividual"/>
                      <property name="xPosition" value="240"/>
                      <property name="yPosition" value="160"/>
-                     <property name="tooltip" value="Report"/>
+                     <property name="tooltip" value="Individual report"/>
                      <property name="lasType" value="REPORTING"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Reporting_individual/LAS_Instruction_Oslo.html"/>
                      <property name="nextLasses">
@@ -238,6 +245,22 @@
                <property name="id" value="start"/>
                <property name="uri" value="roolo://memory/281/0/Challenge.url"/>
                <property name="iconType" value="ard/assignment"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="missionNotes"/>
+               <property name="uri" value="roolo://memory/280/0/Mission_notes.rtf"/>
+               <property name="iconType" value="ard/assignment"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/startPage/targetDescription.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/startPage/Assignments/A_Challenge.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/startPage/Resources/R_Challenge.html"/>
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
@@ -529,14 +552,13 @@
                <property name="uri" value="roolo://memory/418/0/Empty+math+worksheet.scymathtool"/>
                <property name="iconType" value="ard/choices"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Build_design/targetDescription_Oslo.txt"/>
-               <!--janad: the next two files must be made-->
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Build_design/Assignments/A_Math_tool.html"/>
                <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission1Redesign/LAS_Build_design/Resources/R_Math_tool.html"/>
                <property name="loEloUris">
                   <list>
                   </list>
                </property>
-            </bean>            
+            </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="presentationDesign"/>
                <property name="uri" value="roolo://memory/343/0/Presentation_of_house_design.ppt"/>
