@@ -1,0 +1,77 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>qqqq</entity>
+        <date>
+          <dateTime>2011-03-02T18:15:22.654+0100</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>qqqq</entity>
+        <date>
+          <dateTime>2011-03-02T18:15:22.654+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1299086122654</dateCreated>
+        <dateFirstUserSaveKey>1299086122654</dateFirstUserSaveKey>
+        <dateLastModified>1299086122654</dateLastModified>
+      </customElements>
+      <format>scy/missionspecification</format>
+    </technical>
+    <educational>
+      <learningResourceType>mapConcept</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/738/0/Design+a+CO2+friendly+house+%28Oslo+version%29.scymissionspecification</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">Design a CO2 friendly house (Oslo version)</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA9CAYAAAA6e+4pAAAFn0lEQVR42u1ZWUtWXRTub3jrhSCFKNmF4QDeKIQReGNiKjjgEAomalFZBhoo4jxFikJEZZo52wyVliSKoCiaplnOQw7NrXgWrMPx1VffT7/yq289sD3n7H32Pvt99lrPWnu7jxS7wj786e/vp+HhYerr6+N7XFHMbbhKm9wPDQ3Rx48fjXvL/ri/f/8+3/f09PB4WVlZtLCwQMXFxfzs5+dH3d3dNDc3RwEBAfTp0ydKSEigurq6P4fAR48e0YsXL+jx48d0+fJlevjwIRdp6+jooObmZrp27RrXx8TE0NOnT7msrq7yOyj37t2j3t5eSk9Pp2fPnnFdbW0tLS8vU1tbG4/348ePdRNA/ffv3/9sC4Q1WJbq6mqy1ibl5cuX277z17vwxMQEvX37VssOCrhjCxR3bWlpoc+fP7Pr2dvbcx3ccv/+/dTQ0MDuODIyQktLS3wP97179y6FhYXxu3jn27dv7LI5OTmsdUB7ezu7Lp5TUlLoyZMn3P/Dhw9UX1/P0oHv/LEuvBUcHBw21ImemWHWNnHt7WCph38FgYiCwMrKCk1OTpKnpye9f/+e69+9e0fT09MUEhLCdWbxhzWBEKnDFVEYFol3ATc3N75+/fqVZmdnje/BkmGdjo6OtLi4yO9/+fKFxxSLtyQdVr62tkbz8/M8LwD94EGw7v+MBcoPlslvZTU7sajGxsZNv9fV1WXzGHtpyUwgVttyQihYUS8vrw2dgoKCbBocKY0ZYoGC5OTkbcdAOmQLTp06tbcuLKsI1xV3gPsh0oyPj7NrvHnzxuiIZ7iR9EVCLfWwILFacWcAkQuLBbeFe6I/XBZ1586dY1cGMBbuU1NTjTEgHTJH3I+OjhptmCckAXPFHMWlfxuBaWlpGxoweewOsCuwRH5+vk2Dm3/kZpZbWVm57lmiuRnQQGsw55lm3Xvw4MHvt0BJObDVAry9vTmIODk5UUVFBSfW2dnZRsfOzk56/vy5oVlVVVV8j9UHcdjCAYODgxwEYIVIh/BcUFDABWlTa2srRURE8Lt2dnYcFAoLC9dZbmJiovHdW7ducb2/vz8FBgZSVFQU757Ea65cuUI3b978vQTevn17Q0NRURG7M7ZvtqQxm2FmZmbds6WlDwwM8BULZQ1wS1vQ1NS0txooacWlS5f46uPjwyvq6urKm/3S0lJOiAWvXr2isbExQ4PEaqBt0KEbN27wM/bLYoEuLi5sgQgeWKDz589zqoO6qakpqqmp4T6RkZEcnUVXxd2RtAPBwcFUVlZmtME7YImYK5J5WwPPv0aguK8A+ZVYx3b6JntmM7CzMAPvmFMNBAEcXlhGfUvgEEMWZTPr3k2wkMwDiy+Bc8cESvKMU5bMzEzWnOjoaDp48CC9fv3asMjy8nL+ILQLx00Q7sOHD7P7QAeRppSUlFB8fDzl5ubSiRMn6OjRo1wveibaiCAFsccRlvwQRHuJ1hgvLy/POBHy8PDYlLCzZ8+yNUJTYQhxcXFGtnDy5Em6c+cO11+4cIGtFIBeY+4XL140tPOXJNJmq8APVGxBoNlNoG9Y1fDwcHbVAwcOcDoBS7h+/bpNCfD/jkBL7NbiEBR2C2vRWU7LrQGBaSvdg5xsJgfIe63Bmt6uIxCagcgIC4MeHjp0yGjLyMigY8eOsX4gUkuCjRQoNDR03aBnzpyhq1evshbi+ArH+WK1sGTonkRpgbOzs5E+AcjxMBdoXGxsLNf5+vry1d3dncnAIp0+fZpPwC2DGAIhcPz4cSYc/5YQIGhgXvAu878OMKekpCQ6cuSIUYcMQXQTkH9N/KPDBMUuT2MUSqASqAQqgQolUAlUApVAhRKoBCqBSqBCCVQClUAlUKEEKoFKoBKoBCqUQCVQCVQCFUqgEqgEKoEKJVAJVAKVQIUSqAQqgUqgQgn89fgJkPVskjzZLxsAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<missionSpeicification>
+  <missionMapModelEloUri>roolo://memory/733/0/co2Mission_Oslo.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/734/0/co2Mission_Oslo.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/735/0/co2Mission_Oslo.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/736/0/co2Mission_Oslo.runtimesettings</runtimeSettingsEloUri>
+  <agentModelsEloUri />
+  <pedagogicalPlanSettingsEloUri>roolo://memory/737/0/co2Mission_Oslo.scy</pedagogicalPlanSettingsEloUri>
+  <colorSchemesEloUri />
+  <missionDescriptionUri>http://www.scy-lab.eu/content/en/mission1Redesign/startPage/A_Challenge.html</missionDescriptionUri>
+</missionSpeicification>
+</content>
+<resources>
+</resources>
+</elo>
