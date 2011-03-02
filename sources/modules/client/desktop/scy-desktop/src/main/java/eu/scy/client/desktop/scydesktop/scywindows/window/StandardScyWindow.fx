@@ -535,6 +535,7 @@ public class StandardScyWindow extends ScyWindow {
       layoutX = originalX + difX;
       layoutY = originalY + difY;
       hasBeenDragged = true;
+      isManuallyRepositioned = true;
    }
 
    function doResize(e: MouseEvent): Void {
