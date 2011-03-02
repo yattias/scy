@@ -62,6 +62,10 @@
       <iconType>ard/hypothese</iconType>
     </annotation>
   </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACRklEQVR42u3Uz4sSYRzH8flDOnTvD+jUtWt/QefOdYpY6JCXli792Cgy6VCBTWtLQVQEuxWyLpkXiWhnVXQhxUVNJZ0p5dt+n+UZdGbXii5zeH/gw8x8eR5n5oXqTKdT6fV6YbvdrjkOh0OZTCb0D3UUsN1ux6qAihltOp2eq+6PrslkMrFZNpuNzTzPi80Ou2+/35fxeJzIhoDDXlue5CqytzcPeOKkK6lbn2W7I+ELffjSlvP3D17e930J/JFs7Rz0Y9UPAe1Mq4CdTmf//Mf+msDMLODsOnvf2dlgMEhsQ8AzV+qSyn2X07dlDvDU2U25tDqUY8eXQ8BPxaKUy+XwG/Mz8OXl1q44jiNr770QMLfxVZ6988zRAr7YrMsD942ZWUA9v5haMUd731fFb7J09Z6Z6YPq3iTW0d+xgml26wM5t1Q01/rQ+iLXMm/lwuU1ufl4IwRcfr4tK693zLl+yORXINcfrsuNR+tmnQXUa1sLeHe1IHeeFsx6C2j3ai3g7F79CbdarUR24X/gYR2NRnNtNpuxNQoYnbmuG5vVarXYLAiC2Ez/axqNRiLrlEolyefzsRYKBalWq1KpVMwx2ujcXh+1PrrGNrrnb/Yv+qxFPeoZ//UdZ+sI+a8ACCCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQwGTmNypv9UAhZZC0AAAAAElFTkSuQmCC</base64>
+  </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
 <RichText>{\rtf1\ansi

@@ -63,6 +63,10 @@
       <iconType>ard/concept_map</iconType>
     </annotation>
   </lom>
+ <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAeElEQVR42u3QMQEAAAwCIPuX1hDbCRFIOYkCgQIFCkSgQIECEShQoEAEChQoEIECBQpEoECBAhEoUKBABAoUKBCBAgUKRKBAgQIRKFCgQIEIFChQIAIFChSIQIECBSJQoECBCBQoUCACBQoUiECBAgUiUKBAgQj8M5Hzoc7Xq3ytAAAAAElFTkSuQmCC</base64>
+  </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
 <eu.scy.scymapper.impl.model.DefaultConceptMap>
