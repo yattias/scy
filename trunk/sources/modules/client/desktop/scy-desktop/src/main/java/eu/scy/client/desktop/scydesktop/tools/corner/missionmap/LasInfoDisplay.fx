@@ -19,7 +19,6 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import java.io.File;
 import javafx.geometry.VPos;
-import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.HBox;
@@ -39,6 +38,7 @@ import eu.scy.common.scyelo.ScyElo;
 import javafx.util.Sequences;
 import javafx.scene.control.ListCell;
 import java.io.FileNotFoundException;
+import eu.scy.client.common.scyi18n.UriLocalizer;
 
 /**
  * @author SikkenJ
@@ -60,6 +60,7 @@ public class LasInfoDisplay extends CustomNode {
    def lineColor = windowColorScheme.mainColor;
    var lastModifiedElosList: ListView;
    def selectedLastModifiedElo = bind lastModifiedElosList.selectedItem as ScyElo on replace { lastModifiedEloSelected() }
+   def uriLocalizer = new UriLocalizer();
 
    public override function create(): Node {
       def progressDisplay: Node = ProgressDisplay {
@@ -166,20 +167,21 @@ public class LasInfoDisplay extends CustomNode {
 
    function getTextFromUri(uri: URI): String {
       //      logger.debug("retrieving text from uri: {uri}");
-      if (uri == null) {
+      def localizedUri = uriLocalizer.localizeUriWithChecking(uri);
+      if (localizedUri == null) {
          return "no targetDescriptionUri defined"
       }
       var reader: BufferedReader;
       try {
-         reader = new BufferedReader(new InputStreamReader(uri.toURL().openStream()));
+         reader = new BufferedReader(new InputStreamReader(localizedUri.toURL().openStream()));
       }
       catch (e: FileNotFoundException) {
-         logger.warn("cannot find text file: {uri}");
-         return "cannot find text file:\n{uri}";
+         logger.warn("cannot find text file: {localizedUri}");
+         return "cannot find text file:\n{localizedUri}";
       }
       catch (e: Exception) {
-         logger.warn("failed to open text file: {uri}, {e.getMessage()}");
-         return "failed to open text file:\n{uri},\n{e.getMessage()}";
+         logger.warn("failed to open text file: {localizedUri}, {e.getMessage()}");
+         return "failed to open text file:\n{localizedUri},\n{e.getMessage()}";
       }
 
       def builder = new StringBuilder();
@@ -193,15 +195,15 @@ public class LasInfoDisplay extends CustomNode {
          }
       }
       catch (e: Exception) {
-         logger.warn("error reading content of uri: {uri}", e);
-         builder.append("\n\nError reading from {uri}, {e.getMessage()}");
+         logger.warn("error reading content of uri: {localizedUri}", e);
+         builder.append("\n\nError reading from {localizedUri}, {e.getMessage()}");
       }
       finally {
          try {
             reader.close();
          }
          catch (e: Exception) {
-            logger.warn("failed to close stream to uri {uri}");
+            logger.warn("failed to close stream to uri {localizedUri}");
          }
       }
       builder.toString();
