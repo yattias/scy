@@ -37,6 +37,7 @@ public class SyncSession implements ISyncSession {
 	private XMPPConnection xmppConnection;
 	private Vector<ISyncListener> listeners;
 	private String toolid;
+        private String mucRoomId;
 	
 	private BlockingQueue<Packet> queryQueue;
 	
@@ -49,6 +50,8 @@ public class SyncSession implements ISyncSession {
 		this.xmppConnection = xmppConnection;
 		this.muc = muc;
 		this.toolid = toolid;
+
+                mucRoomId = muc.getRoom().substring(0, muc.getRoom().indexOf("@"));
 		
 		listeners.add(listener);
 		
@@ -101,7 +104,7 @@ public class SyncSession implements ISyncSession {
 			
 			@Override
 			public boolean accept(Packet packet) {
-                            if (packet.getFrom().startsWith(getId())) {
+                            if (packet.getFrom().startsWith(mucRoomId)) {
 				if(packet.getExtension(syncActionTransformer.getElementname(), syncActionTransformer.getNamespace()) != null) {
 					return true;
 				} else if (packet.getExtension(syncMessageTransformer.getElementname(), syncMessageTransformer.getNamespace()) != null) {
