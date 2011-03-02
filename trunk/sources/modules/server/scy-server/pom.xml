@@ -190,6 +190,12 @@
                 <version-name>-ut</version-name>
             </properties>
         </profile>
+        <profile>
+            <id>UT2</id>
+            <properties>
+                <version-name>-ut2</version-name>
+            </properties>
+        </profile>
     </profiles>
     <dependencyManagement>
         <dependencies>
