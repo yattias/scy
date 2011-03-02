@@ -1,0 +1,50 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>qqqq</entity>
+        <date>
+          <dateTime>2011-03-02T18:14:31.693+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1299086071693</dateCreated>
+        <dateLastModified>1299086071693</dateLastModified>
+      </customElements>
+      <format>scy/pedagogicalplansettings</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/737/0/co2Mission_Oslo.scy</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">co2Mission_Oslo</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true">
+
+</content>
+<resources>
+</resources>
+</elo>
