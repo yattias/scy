@@ -595,6 +595,8 @@ public class StandardScyWindow extends ScyWindow {
 
    function doMaximize(): Void {
       // TODO: needs to call window positioning code
+      activate();
+      toFront();
       isMaximized = true;
       openWindow(5, 5, scene.width - 10, scene.height - 10, 0, true);
       windowManager.fullscreenWindow = this;
@@ -602,6 +604,7 @@ public class StandardScyWindow extends ScyWindow {
       allowResize = false;
       allowRotate = false;
       isCentered = false;
+      FX.deferAction(reorganizeOtherMainWindows);
    }
 
    function resetMaximizedState(): Void {
