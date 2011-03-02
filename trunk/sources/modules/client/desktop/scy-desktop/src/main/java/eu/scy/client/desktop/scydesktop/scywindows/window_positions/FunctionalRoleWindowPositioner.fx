@@ -239,7 +239,11 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         if (not windowAlreadyAdded(window)) {
             insert window into centerWindows;
             updateAreas();
-            positionWindowsInArea(centerWindows, centerArea, 2);
+            positionWindowsInArea(centerWindows, centerArea, 3);
+            FX.deferAction(function() {
+                makeMainWindow(window);
+                positionWindows();
+            });
             return true;
         }
         return false;
@@ -341,7 +345,7 @@ public class FunctionalRoleWindowPositioner extends WindowPositioner {
         var column = 1;
         def shift = area.width / (columns + 1);
         for (window in windowList) {
-            if (not window.isCentered and window.layoutX == 0 and window.layoutY == 0 and window.relativeLayoutCenterX == 0 and window.relativeLayoutCenterY == 0) {
+            if (not window.isCentered and not window.isManuallyRepositioned) { // window.layoutX == 0 and window.layoutY == 0 and window.relativeLayoutCenterX == 0 and window.relativeLayoutCenterY == 0) {
                 
                 window.layoutX = area.layoutX + (column * shift) - (window.width / 2);
                 window.layoutY = area.layoutY + topOffset + (row * padding);
