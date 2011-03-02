@@ -278,6 +278,7 @@
 			<properties>
 				<version-name>-ut</version-name>
 			</properties>
+		</profile>
 		<profile>
 			<id>UT2</id>
 			<properties>
