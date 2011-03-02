@@ -7,9 +7,9 @@
           <source>LOMv1.0</source>
           <value>author</value>
         </role>
-        <entity>qqqq</entity>
+        <entity>jandolonen</entity>
         <date>
-          <dateTime>2011-03-02T18:15:22.654+0100</dateTime>
+          <dateTime>2011-03-02T22:34:40.873+0100</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -17,23 +17,23 @@
           <source>LOMv1.0</source>
           <value>initiator</value>
         </role>
-        <entity>qqqq</entity>
+        <entity>jandolonen</entity>
         <date>
-          <dateTime>2011-03-02T18:15:22.654+0100</dateTime>
+          <dateTime>2011-03-02T22:34:40.873+0100</dateTime>
         </date>
       </contribute>
       <version>0</version>
     </lifecycle>
     <technical>
       <customElements>
-        <dateCreated>1299086122654</dateCreated>
-        <dateFirstUserSaveKey>1299086122654</dateFirstUserSaveKey>
-        <dateLastModified>1299086122654</dateLastModified>
+        <dateCreated>1299101680873</dateCreated>
+        <dateFirstUserSaveKey>1299101680873</dateFirstUserSaveKey>
+        <dateLastModified>1299101680873</dateLastModified>
       </customElements>
       <format>scy/missionspecification</format>
     </technical>
     <educational>
-      <learningResourceType>mapConcept</learningResourceType>
+      <learningResourceType>documentDesign</learningResourceType>
     </educational>
     <general>
       <identifier>
