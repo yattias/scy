@@ -93,7 +93,6 @@ public class ModalDialogLayer extends CustomNode {
     function addModalDialogNode(node: Node, center: Boolean, animated: Boolean, fullscreen: Boolean): Void {
         if (center) {
             insert node into centeredNodes;
-            sceneSizeChanged();
         }
         if (fullscreen) {
             insert node into fullscreenNodes;
@@ -149,7 +148,6 @@ public class ModalDialogLayer extends CustomNode {
         } else {
             backgroundBlocker.opacity = 1.0;
         }
-
     }
 
     function removeModalDialogNode(node: Node): Void {

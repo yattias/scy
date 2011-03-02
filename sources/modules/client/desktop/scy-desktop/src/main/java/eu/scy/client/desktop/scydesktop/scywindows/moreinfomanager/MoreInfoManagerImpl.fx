@@ -112,8 +112,8 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       instructionTool.showInfoUrl(uriLocalizer.localizeUrlwithChecking(activeLas.instructionUri.toURL()));
          instructionWindow.visible = true;
       instructionWindow.setControlFunctionClose();
-      sceneSizeChanged();
       ModalDialogLayer.addModalDialog(instructionWindow, false, true, false);
+      sceneSizeChanged();
       }
 
    function hideInstructionWindow(): Void {
@@ -187,8 +187,8 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       moreInfoWindow.infoTypeIcon = infoTypeIcon;
       moreInfoWindow.windowColorScheme = moreInfoColorScheme;
       moreInfoTool.showInfoUrl(uriLocalizer.localizeUrlwithChecking(infoUri.toURL()));
-      sceneSizeChanged();
       ModalDialogLayer.addModalDialog(moreInfoWindow, true, true, false);
+      sceneSizeChanged();
    }
 
    function hideMoreInfoWindow(): Void {
