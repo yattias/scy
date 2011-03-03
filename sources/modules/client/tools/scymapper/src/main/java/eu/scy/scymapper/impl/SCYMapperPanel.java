@@ -428,7 +428,7 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
     }
 
     public void joinSession(String sessId) {
-		joinSession(sessId, false);
+		joinSession(sessId, true);
 	}
 
 	public void joinSession(String sessId, boolean writeCurrentStateToServer) {
