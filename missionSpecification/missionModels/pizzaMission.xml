@@ -270,7 +270,7 @@
 				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="build"/>
                      <property name="xPosition" value="-34"/>
-                     <property name="yPosition" value="00"/>
+                     <property name="yPosition" value="10"/>
                      <property name="tooltip" value="tip_LAS_K"/>
                      <property name="lasType" value="CONSTRUCTION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_BUILD.html"/>
@@ -512,7 +512,7 @@
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="mapOfTheDigestiveSystem"/>
-               <property name="uri" value="roolo://memory/30020/0/Map+Of+The+Digestive+System.scydraw"/>
+               <property name="uri" value="roolo://memory/30108/0/Map+Of+The+Digestive+System.scydraw"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_G.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_15_mapOfTheDigestiveSystem.html"/>
                <property name="resourcesUri" value=""/>
