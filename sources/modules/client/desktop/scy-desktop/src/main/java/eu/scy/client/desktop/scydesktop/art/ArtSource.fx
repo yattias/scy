@@ -5,6 +5,7 @@
  */
 
 package eu.scy.client.desktop.scydesktop.art;
+import javafx.scene.paint.Color;
 
 /**
  * @author sikken
@@ -19,3 +20,5 @@ public var notFoundReplacementName = "logo_gray";
 
 public-read var thumbnailWidth = 80;
 public-read var thumbnailHeight = 80;
+
+public-read var dialogBlockLayerColor = Color.color(1.0, 1.0, 1.0, 0.5);

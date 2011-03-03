@@ -32,6 +32,7 @@ import javafx.animation.Interpolator;
 import javafx.scene.effect.DropShadow;
 import java.util.HashMap;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
+import eu.scy.client.desktop.scydesktop.art.ArtSource;
 
 /**
  * @author sven
@@ -204,6 +205,7 @@ public static function showOptionDialog(dialogType:DialogType,text:String,dialog
                                 getDialogBoxContent(dialogWidth, dialogBox, DialogType.OK_CANCEL_DIALOG,text, okAction, cancelAction, function(){})
                                 };
         dialogBox.place();
+//        FX.deferAction(dialogBox.place);
 }
 
 public static function showOptionDialog(text:String,dialogTitle:String, scyDesktop:ScyDesktop, yesAction:function():Void, noAction:function():Void, id: String):Void{
@@ -262,7 +264,7 @@ public class DialogBox extends CustomNode {
             allowMinimize: false
             activated: true
         }
-        dialogWindow.open();
+//        dialogWindow.open();
        
         //scyDesktop.effect = glow;
         if(indicateFocus){
@@ -293,7 +295,7 @@ public class DialogBox extends CustomNode {
                                 blocksMouse: true
                                 x: 0, y: 0
                                 width: bind scene.width, height: bind scene.height
-                                fill: Color.color(0.0, 0.0, 0.0, 0.3)
+                                fill: ArtSource.dialogBlockLayerColor
                                 onKeyPressed: function (e: KeyEvent): Void {
                                 }
                                 onKeyReleased: function (e: KeyEvent): Void {
@@ -337,6 +339,7 @@ public class DialogBox extends CustomNode {
         }
         openDialogs.put(dialogid, this);
         center();
+        FX.deferAction(dialogWindow.open);
     }
 
     function center() {
