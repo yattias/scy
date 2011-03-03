@@ -36,6 +36,7 @@ public class KeywordExtractorFactory {
 				new WebresourceExtractor());
 		setKeywordExtractor(EloTypes.SCY_MAPPING, new ConceptMapExtractor());
 		setKeywordExtractor(EloTypes.SCY_XPROC, new CopexExtractor());
+        setKeywordExtractor(EloTypes.SCY_DATA, new FitexExtractor());
 		setKeywordExtractor(EloTypes.SCY_INTERVIEW,
 				new InterviewToolExtractor());
 	}

@@ -26,146 +26,125 @@ import roolo.elo.content.BasicContent;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.agents.impl.EloTypes;
 import roolo.elo.metadata.keys.KeyValuePair;
 
 public class AddKeywordsToMetadataAgentTest extends AbstractTestFixture {
 
-	private static final String WEBRESOURCE_ELO_TYPE = "scy/webresourcer";
+  private IELO copexElo, webResourceElo;
 
-	private static final String COPEX_ELO_TYPE = "scy/copex";
+  private String copexEloPath, webResourceEloPath;
 
-	private IELO copexElo, webResourceElo;
+  private URI copexEloUri, webResourceEloUri;
 
-	private String copexEloPath, webResourceEloPath;
+  private static final long TIME_IN_MILLIS = 666;
 
-	private URI copexEloUri, webResourceEloUri;
+  private static final String UUID1234 = "uuid1234";
 
-	private static final long TIME_IN_MILLIS = 666;
+  private AddKeywordsToMetadataAgent addMetadataAgent;
 
-	private static final String UUID1234 = "uuid1234";
+  @BeforeClass
+  public static void startTS() {
+    startTupleSpaceServer();
+  }
 
-	private AddKeywordsToMetadataAgent addMetadataAgent;
+  @AfterClass
+  public static void stopTS() {
+    stopTupleSpaceServer();
+  }
 
-	@BeforeClass
-	public static void startTS() {
-		startTupleSpaceServer();
-	}
+  @Override
+  @Before
+  public void setUp() throws Exception {
+    super.setUp();
 
-	@AfterClass
-	public static void stopTS() {
-		stopTupleSpaceServer();
-	}
+    this.initTopicModel();
+    this.initDfModel();
 
-	@Override
-	@Before
-	public void setUp() throws Exception {
-		super.setUp();
+    HashMap<String, Object> params = new HashMap<String, Object>();
+    params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
+    params.put(AgentProtocol.TS_HOST, TSHOST);
+    params.put(AgentProtocol.TS_PORT, TSPORT);
+    this.agentMap.put(ExtractKeywordsAgent.NAME, params);
+    this.agentMap.put(ExtractTfIdfKeywordsAgent.NAME, params);
+    this.agentMap.put(ExtractTopicModelKeywordsAgent.NAME, params);
+    this.agentMap.put(ExtractKeyphrasesAgent.NAME, params);
+    this.agentMap.put(OntologyKeywordsAgent.NAME, params);
 
-		this.initTopicModel();
-		this.initDfModel();
+    this.startAgentFramework(this.agentMap);
 
-		HashMap<String, Object> params = new HashMap<String, Object>();
-		params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
-		params.put(AgentProtocol.TS_HOST, TSHOST);
-		params.put(AgentProtocol.TS_PORT, TSPORT);
-		this.agentMap.put(ExtractKeywordsAgent.NAME, params);
-		this.agentMap.put(ExtractTfIdfKeywordsAgent.NAME, params);
-		this.agentMap.put(ExtractTopicModelKeywordsAgent.NAME, params);
-		this.agentMap.put(ExtractKeyphrasesAgent.NAME, params);
-		this.agentMap.put(OntologyKeywordsAgent.NAME, params);
+    InputStream inStream = this.getClass().getResourceAsStream("/copexExampleElo.xml");
+    String eloContent = readFile(inStream);
+    inStream.close();
+    copexElo = createNewElo("TestCopex", EloTypes.SCY_XPROC);
+    copexElo.setContent(new BasicContent(eloContent));
+    IMetadata metadata = repository.addNewELO(copexElo);
+    copexEloUri = (URI) metadata.getMetadataValueContainer(this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER)).getValue();
+    this.copexEloPath = copexEloUri.toString();
 
-		this.startAgentFramework(this.agentMap);
+    inStream = this.getClass().getResourceAsStream("/scyLighterExample.xml");
+    eloContent = readFile(inStream);
+    inStream.close();
+    webResourceElo = createNewElo("TestWebResource", EloTypes.SCY_WEBRESOURCER);
+    webResourceElo.setContent(new BasicContent(eloContent));
+    metadata = repository.addNewELO(webResourceElo);
+    webResourceEloUri = (URI) metadata.getMetadataValueContainer(this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER)).getValue();
+    this.webResourceEloPath = webResourceEloUri.toString();
 
-		InputStream inStream = this.getClass().getResourceAsStream(
-				"/copexExampleElo.xml");
-		String eloContent = readFile(inStream);
-		inStream.close();
-		copexElo = createNewElo("TestCopex", COPEX_ELO_TYPE);
-		copexElo.setContent(new BasicContent(eloContent));
-		IMetadata metadata = repository.addNewELO(copexElo);
-		copexEloUri = (URI) metadata.getMetadataValueContainer(
-				this.typeManager
-						.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER))
-				.getValue();
-		this.copexEloPath = copexEloUri.toString();
+    addMetadataAgent = new AddKeywordsToMetadataAgent(params);
+    addMetadataAgent.setRepository(repository);
+    addMetadataAgent.setMetadataTypeManager(typeManager);
 
-		inStream = this.getClass()
-				.getResourceAsStream("/scyLighterExample.xml");
-		eloContent = readFile(inStream);
-		inStream.close();
-		webResourceElo = createNewElo("TestWebResource", WEBRESOURCE_ELO_TYPE);
-		webResourceElo.setContent(new BasicContent(eloContent));
-		metadata = repository.addNewELO(webResourceElo);
-		webResourceEloUri = (URI) metadata.getMetadataValueContainer(
-				this.typeManager
-						.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER))
-				.getValue();
-		this.webResourceEloPath = webResourceEloUri.toString();
+    System.out.println(copexEloUri.toString());
+    System.out.println(webResourceEloUri.toString());
+  }
 
-		addMetadataAgent = new AddKeywordsToMetadataAgent(params);
-		addMetadataAgent.setRepository(repository);
-		addMetadataAgent.setMetadataTypeManager(typeManager);
+  @Override
+  @After
+  public void tearDown() {
+    try {
+      removeTopicModel();
+      removeDFModel();
+      this.stopAgentFrameWork();
+      super.tearDown();
+    } catch (AgentLifecycleException e) {
+      e.printStackTrace();
+    }
+  }
 
-		System.out.println(copexEloUri.toString());
-		System.out.println(webResourceEloUri.toString());
-	}
+  @SuppressWarnings("unchecked")
+  @Test
+  public void testRun() throws InterruptedException, TupleSpaceException, IOException {
 
-	@Override
-	@After
-	public void tearDown() {
-		try {
-			removeTopicModel();
-			removeDFModel();
-			this.stopAgentFrameWork();
-			super.tearDown();
-		} catch (AgentLifecycleException e) {
-			e.printStackTrace();
-		}
-	}
+    addMetadataAgent.processELOSavedAction(AgentProtocol.ACTION_ELO_SAVED, UUID1234,
+                                           TIME_IN_MILLIS, "copex", "SomeMission", "TestSession",
+                                           copexEloPath, EloTypes.SCY_XPROC);
 
-	@SuppressWarnings("unchecked")
-	@Test
-	public void testRun() throws InterruptedException, TupleSpaceException,
-			IOException {
+    IELO retrievedELO = this.repository.retrieveELOLastVersion(copexEloUri);
+    IMetadata metadata = retrievedELO.getMetadata();
+    IMetadataKey keywordKey = typeManager.getMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS.getId());
+    IMetadataValueContainer metadataValueContainer = metadata.getMetadataValueContainer(keywordKey);
+    List<KeyValuePair> keywords = (List<KeyValuePair>) metadataValueContainer.getValueList();
+    assertEquals(14, keywords.size());
 
-		addMetadataAgent.processELOSavedAction(AgentProtocol.ACTION_ELO_SAVED,
-				UUID1234, TIME_IN_MILLIS, "copex", "SomeMission",
-				"TestSession", copexEloPath, COPEX_ELO_TYPE);
+    assertTrue(hasKeywords(keywords, "transfers", "atmosphere", "roughly", "stored", "finite",
+                           "human", "fossil fuels", "balance", "carbon", "fossil", "fuels",
+                           "trees", "release", "decay"));
 
-		IELO retrievedELO = this.repository.retrieveELOLastVersion(copexEloUri);
-		IMetadata metadata = retrievedELO.getMetadata();
-		IMetadataKey keywordKey = typeManager
-				.getMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS.getId());
-		IMetadataValueContainer metadataValueContainer = metadata
-				.getMetadataValueContainer(keywordKey);
-		List<KeyValuePair> keywords = (List<KeyValuePair>) metadataValueContainer
-				.getValueList();
-		assertEquals(26, keywords.size());
+    addMetadataAgent.processELOSavedAction(AgentProtocol.ACTION_ELO_SAVED, UUID1234,
+                                           TIME_IN_MILLIS, "webresourcer", "SomeMission",
+                                           "TestSession", webResourceEloPath,
+                                           EloTypes.SCY_WEBRESOURCER);
+    retrievedELO = this.repository.retrieveELOLastVersion(webResourceEloUri);
+    metadata = retrievedELO.getMetadata();
+    keywordKey = typeManager.getMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS.getId());
+    metadataValueContainer = metadata.getMetadataValueContainer(keywordKey);
+    keywords = (List<KeyValuePair>) metadataValueContainer.getValueList();
+    assertEquals(15, keywords.size());
+    assertTrue(hasKeywords(keywords, "ecological", "expressed", "carbon footprint", "strategy",
+                           "ecological footprint", "measured", "footprint", "private",
+                           "organization", "sneaked", "carbon", "capture", "undertaking", "known",
+                           "assessment"));
 
-		assertTrue(hasKeywords(keywords, "binder", "solvent", "voc",
-				"natural paints", "modern paints", "ingredients", "nontoxic",
-				"Natural paints", "Environmentally Friendly", "toxic",
-				"chemical", "conventional paint companies",
-				"conventional paint", "non-toxic paints", "VOC content",
-				"used as solvent", "labels", "paint", "pre-set operation",
-				"natural paint", "health", "chemical paints",
-				"paint companies", "still contain", "natural", "pigment"));
-
-		addMetadataAgent.processELOSavedAction(AgentProtocol.ACTION_ELO_SAVED,
-				UUID1234, TIME_IN_MILLIS, "webresourcer", "SomeMission",
-				"TestSession", webResourceEloPath, WEBRESOURCE_ELO_TYPE);
-		retrievedELO = this.repository
-				.retrieveELOLastVersion(webResourceEloUri);
-		metadata = retrievedELO.getMetadata();
-		keywordKey = typeManager
-				.getMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS.getId());
-		metadataValueContainer = metadata.getMetadataValueContainer(keywordKey);
-		keywords = (List<KeyValuePair>) metadataValueContainer.getValueList();
-		assertEquals(15, keywords.size());
-		assertTrue(hasKeywords(keywords, "concept", "development",
-				"ecological", "expressed", "carbon footprint", "strategy",
-				"ecological footprint", "footprint", "organization", "sneaked",
-				"carbon", "capture", "undertaking", "known", "assessment"));
-
-	}
+  }
 }
