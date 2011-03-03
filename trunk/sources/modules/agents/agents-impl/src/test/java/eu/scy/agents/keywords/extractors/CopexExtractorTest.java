@@ -60,8 +60,7 @@ public class CopexExtractorTest extends AbstractTestFixture {
 		// agentMap.put(OntologyLookupAgent.class.getName(), params);
 		this.startAgentFramework(this.agentMap);
 
-		InputStream inStream = this.getClass().getResourceAsStream(
-				"/copexExampleElo.xml");
+		InputStream inStream = this.getClass().getResourceAsStream("/copexExampleElo.xml");
 		String eloContent = readFile(inStream);
 		inStream.close();
 		elo = createNewElo("TestCopex", "scy/copex");
@@ -92,17 +91,10 @@ public class CopexExtractorTest extends AbstractTestFixture {
 	@Test
 	public void testGetKeywords() {
 		List<String> keywords = copexExtractor.getKeywords(elo);
-		assertEquals(26, keywords.size());
-
-		assertTrue(hasItems(keywords, "binder", "solvent", "voc",
-				"natural paints", "modern paints", "ingredients", "nontoxic",
-				"Natural paints", "Environmentally Friendly", "toxic",
-				"chemical", "conventional paint companies",
-				"conventional paint", "non-toxic paints", "VOC content",
-				"used as solvent", "labels", "paint", "pre-set operation",
-				"natural paint", "health", "chemical paints",
-				"paint companies", "still contain", "natural", "pigment"));
-
+		assertEquals(14, keywords.size());
+		assertTrue(hasItems(keywords, "transfers", "atmosphere", "roughly", "stored", "finite",
+				"human", "fossil fuels", "balance", "carbon", "fossil", "fuels", "trees",
+				"release", "decay"));
 	}
 
 }

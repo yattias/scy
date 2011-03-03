@@ -1,9 +1,9 @@
 <experimental_procedure>
 	<mission>
 		<initial_proc>
-			<name language="fr">Procedure</name>
+			<name language="en">Procedure</name>
 			<question>
-				<description language="fr" />
+				<description language="en" />
 				<task_right>
 					<edit_right>X</edit_right>
 					<delete_right>N</delete_right>
@@ -15,13 +15,13 @@
 				</task_right>
 			</question>
 			<proc_hypothesis>
-				<hypothesis language="fr" />
-				<comment language="fr" />
+				<hypothesis language="en" />
+				<comment language="en" />
 				<hypothesis_hide>false</hypothesis_hide>
 			</proc_hypothesis>
 			<proc_general_principle>
-				<principle language="fr" />
-				<principle_comment language="fr" />
+				<principle language="en" />
+				<principle_comment language="en" />
 				<principle_hide>false</principle_hide>
 			</proc_general_principle>
 			<manipulation />
@@ -39,11 +39,11 @@
 		</initial_proc>
 	</mission>
 	<learner_proc>
-		<name language="fr">Thermostat setting</name>
+		<name language="en">Thermostat setting</name>
 		<question>
-			<description language="fr">How does the air-conditionning
+			<description language="en">How does the air-conditioning
 				device's thermostat setting affect energy consumption?</description>
-			<comments language="fr" />
+			<comments language="en" />
 			<task_right>
 				<edit_right>X</edit_right>
 				<delete_right>N</delete_right>
@@ -56,37 +56,29 @@
 		</question>
 		<proc_hypothesis>
 			
-			<hypothesis language="fr"> Toxic, environmentally
-				harmful, chemicals are also used in modern paints as preservatives,
-				stabilisers, thickeners and driers. VOCs are organic (carbon based)
-				chemical compounds that evaporate easily in the atmosphere, and are
-				known to be a major contributor to global climate change. Many of
-				them are highly toxic and linked with numerous health problems such
-				as respiratory disease, asthma, dizziness, headaches, nausea,
-				fatigue, skin disorders, eye irritation, liver and kidney damage and
-				even cancer. 
+			<hypothesis language="en"> I don' know what to do here. If I would know, I would add some more intelligent sentences.
       </hypothesis>
-			<comment language="fr">any comments</comment>
+			<comment language="en">any comments</comment>
 			<hypothesis_hide>false</hypothesis_hide>
 		</proc_hypothesis>
 		<proc_general_principle>
-			<principle language="fr">To change operational standards of
+			<principle language="en">To change operational standards of
 				electric appliances and check for corresponding effects on energy
 				consumption.
-				Dependent variable (what we will bserve): Time needed for the
+				Dependent variable (what we will observe): Time needed for the
 				air-conditionning device to reach the pre-set operation temperaure
 				Independant variable (what we will change): pre-set operation
 				temperature
 				Controlled variable (what we will keep constant): operation of all others
 				electrical appliances (most probably switched off)</principle>
-			<principle_comment language="fr" />
+			<principle_comment language="en" />
 			<principle_hide>false</principle_hide>
 		</proc_general_principle>
 		<manipulation>
 			<step>
-				<description language="fr">Choose heating or cooling system
+				<description language="en">Choose heating or cooling system
 				</description>
-				<comments language="fr" />
+				<comments language="en" />
 				<task_right>
 					<edit_right>X</edit_right>
 					<delete_right>X</delete_right>
@@ -98,9 +90,9 @@
 				</task_right>
 			</step>
 			<step>
-				<description language="fr">Switch-off all the appliances of
+				<description language="en">Switch-off all the appliances of
 					your room or class.</description>
-				<comments language="fr" />
+				<comments language="en" />
 				<task_right>
 					<edit_right>X</edit_right>
 					<delete_right>X</delete_right>
@@ -112,10 +104,10 @@
 				</task_right>
 			</step>
 			<step>
-				<description language="fr">Record energy consumption in
+				<description language="en">Record energy consumption in
 					kilowatt-hours indicated on the electric meter that your room or
 					class is connected to.</description>
-				<comments language="fr" />
+				<comments language="en" />
 				<task_right>
 					<edit_right>X</edit_right>
 					<delete_right>X</delete_right>
@@ -127,9 +119,9 @@
 				</task_right>
 			</step>
 			<step>
-				<description language="fr">Record outdoor temperature and
+				<description language="en">Record outdoor temperature and
 					room or class temperature.</description>
-				<comments language="fr" />
+				<comments language="en" />
 				<task_right>
 					<edit_right>X</edit_right>
 					<delete_right>X</delete_right>

@@ -92,11 +92,6 @@ public class HypopthesisEvaluationTest extends AbstractTestFixture {
 						.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER))
 				.getValue();
 		this.eloPath = eloUri.toString();
-
-		IMetadataKey keywordKey = this.typeManager
-				.getMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS.getId());
-		keywordKey = this.typeManager
-				.getMetadataKey(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM);
 	}
 
 	@Override
@@ -119,7 +114,8 @@ public class HypopthesisEvaluationTest extends AbstractTestFixture {
 			ClassNotFoundException {
 		Tuple tuple = new Tuple("action", UUID1234, TIME_IN_MILLIS,
 				AgentProtocol.ACTION_ELO_SAVED, "testUser", "SomeTool",
-				"SomeMission", "TestSession", eloPath, "elo_type=" + ELO_TYPE);
+				"SomeMission", "TestSession", eloPath, "elo_type=" + ELO_TYPE,
+                "elo_uri=" + eloPath);
 		getActionSpace().write(tuple);
 
 		Tuple response = this.getCommandSpace().waitToTake(
@@ -134,7 +130,7 @@ public class HypopthesisEvaluationTest extends AbstractTestFixture {
 		HashMap<Integer, Integer> histogram = (HashMap<Integer, Integer>) objectIn
 				.readObject();
 		String string = histogram.toString();
-		assertEquals("{0=16, 1=12, 2=7, 3=7, 4=1, 5=1}", string);
+		assertEquals("{0=16, 1=16, 2=8, 3=3, 5=1}", string);
 
 	}
 }
