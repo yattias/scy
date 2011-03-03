@@ -21,148 +21,152 @@ import eu.scy.common.scyelo.ScyElo;
 
 public class BasicMissionRuntimeModel implements MissionRuntimeModel
 {
-   private final MissionRuntimeElo missionRuntimeElo;
-   private final RooloServices rooloServices;
-   private final MissionModelElo missionModelElo;
-   private final EloToolConfigsElo eloToolConfigsElo;
-   private final TemplateElosElo templateElosElo;
-   private final RuntimeSettingsElo runtimeSettingsElo;
-   private final ColorSchemesElo colorSchemesElo;
+	private final MissionRuntimeElo missionRuntimeElo;
+	private final RooloServices rooloServices;
+	private final MissionModelElo missionModelElo;
+	private final EloToolConfigsElo eloToolConfigsElo;
+	private final TemplateElosElo templateElosElo;
+	private final RuntimeSettingsElo runtimeSettingsElo;
+	private final ColorSchemesElo colorSchemesElo;
 
-   private final MissionSpecificationElo missionSpecificationElo;
+	private final MissionSpecificationElo missionSpecificationElo;
 
-   public BasicMissionRuntimeModel(MissionRuntimeElo missionRuntimeElo,
-            MissionSpecificationElo missionSpecificationElo, RooloServices rooloServices)
-   {
-      super();
-      this.missionRuntimeElo = missionRuntimeElo;
-      this.missionSpecificationElo = missionSpecificationElo;
-      this.rooloServices = rooloServices;
-      final MissionRuntimeEloContent missionRuntimeEloContent = missionRuntimeElo.getTypedContent();
-      missionModelElo = MissionModelElo.loadLastVersionElo(missionRuntimeEloContent
-               .getMissionMapModelEloUri(), rooloServices);
-      eloToolConfigsElo = EloToolConfigsElo.loadLastVersionElo(missionRuntimeEloContent
-               .getEloToolConfigsEloUri(), rooloServices);
-      templateElosElo = TemplateElosElo.loadLastVersionElo(missionRuntimeEloContent
-               .getTemplateElosEloUri(), rooloServices);
-      runtimeSettingsElo = RuntimeSettingsElo.loadLastVersionElo(missionRuntimeEloContent
-               .getRuntimeSettingsEloUri(), rooloServices);
-      colorSchemesElo = ColorSchemesElo.loadLastVersionElo(missionRuntimeEloContent
-               .getColorSchemesEloUri(), rooloServices);
-   }
+	public BasicMissionRuntimeModel(MissionRuntimeElo missionRuntimeElo,
+				MissionSpecificationElo missionSpecificationElo, RooloServices rooloServices)
+	{
+		super();
+		this.missionRuntimeElo = missionRuntimeElo;
+		this.missionSpecificationElo = missionSpecificationElo;
+		this.rooloServices = rooloServices;
+		final MissionRuntimeEloContent missionRuntimeEloContent = missionRuntimeElo.getTypedContent();
+		missionModelElo = MissionModelElo.loadLastVersionElo(
+					missionRuntimeEloContent.getMissionMapModelEloUri(), rooloServices);
+		eloToolConfigsElo = EloToolConfigsElo.loadLastVersionElo(
+					missionRuntimeEloContent.getEloToolConfigsEloUri(), rooloServices);
+		templateElosElo = TemplateElosElo.loadLastVersionElo(
+					missionRuntimeEloContent.getTemplateElosEloUri(), rooloServices);
+		runtimeSettingsElo = RuntimeSettingsElo.loadLastVersionElo(
+					missionRuntimeEloContent.getRuntimeSettingsEloUri(), rooloServices);
+		colorSchemesElo = ColorSchemesElo.loadLastVersionElo(
+					missionRuntimeEloContent.getColorSchemesEloUri(), rooloServices);
+	}
 
-   public BasicMissionRuntimeModel(MissionRuntimeElo missionRuntimeElo,
-            MissionSpecificationElo missionSpecificationElo, RooloServices rooloServices,
-            MissionModelElo missionModelElo, EloToolConfigsElo eloToolConfigsElo,
-            TemplateElosElo templateElosElo, RuntimeSettingsElo runtimeSettingsElo,
-            ColorSchemesElo colorSchemesElo)
-   {
-      super();
-      this.missionRuntimeElo = missionRuntimeElo;
-      this.missionSpecificationElo = missionSpecificationElo;
-      this.rooloServices = rooloServices;
-      this.missionModelElo = missionModelElo;
-      this.eloToolConfigsElo = eloToolConfigsElo;
-      this.templateElosElo = templateElosElo;
-      this.runtimeSettingsElo = runtimeSettingsElo;
-      this.colorSchemesElo = colorSchemesElo;
-   }
+	public BasicMissionRuntimeModel(MissionRuntimeElo missionRuntimeElo,
+				MissionSpecificationElo missionSpecificationElo, RooloServices rooloServices,
+				MissionModelElo missionModelElo, EloToolConfigsElo eloToolConfigsElo,
+				TemplateElosElo templateElosElo, RuntimeSettingsElo runtimeSettingsElo,
+				ColorSchemesElo colorSchemesElo)
+	{
+		super();
+		this.missionRuntimeElo = missionRuntimeElo;
+		this.missionSpecificationElo = missionSpecificationElo;
+		this.rooloServices = rooloServices;
+		this.missionModelElo = missionModelElo;
+		this.eloToolConfigsElo = eloToolConfigsElo;
+		this.templateElosElo = templateElosElo;
+		this.runtimeSettingsElo = runtimeSettingsElo;
+		this.colorSchemesElo = colorSchemesElo;
+	}
 
-   @Override
-   public String toString()
-   {
-      StringBuilder builder = new StringBuilder();
-      builder.append(this.getClass().getName());
-      builder.append("{");
-      appendEloUri(builder, missionRuntimeElo, "missionRuntimeElo");
-      appendEloUri(builder, missionModelElo, ",missionModelElo");
-      appendEloUri(builder, eloToolConfigsElo, ",eloToolConfigsElo");
-      appendEloUri(builder, templateElosElo, ",templateElosElo");
-      appendEloUri(builder, runtimeSettingsElo, ",runtimeSettingsElo");
-      appendEloUri(builder, colorSchemesElo, ",colorSchemesElo");
-      builder.append("}");
-      return builder.toString();
-   }
+	@Override
+	public String toString()
+	{
+		StringBuilder builder = new StringBuilder();
+		builder.append(this.getClass().getName());
+		builder.append("{");
+		appendEloUri(builder, missionRuntimeElo, "missionRuntimeElo");
+		appendEloUri(builder, missionModelElo, ",missionModelElo");
+		appendEloUri(builder, eloToolConfigsElo, ",eloToolConfigsElo");
+		appendEloUri(builder, templateElosElo, ",templateElosElo");
+		appendEloUri(builder, runtimeSettingsElo, ",runtimeSettingsElo");
+		appendEloUri(builder, colorSchemesElo, ",colorSchemesElo");
+		builder.append("}");
+		return builder.toString();
+	}
 
-   private void appendEloUri(StringBuilder builder, ScyElo scyElo, String label)
-   {
-      builder.append(label);
-      if (scyElo == null)
-      {
-         builder.append("=null");
-      }
-      else
-      {
-         builder.append(".uri=");
-         builder.append(scyElo.getUri());
-      }
-   }
+	private void appendEloUri(StringBuilder builder, ScyElo scyElo, String label)
+	{
+		builder.append(label);
+		if (scyElo == null)
+		{
+			builder.append("=null");
+		}
+		else
+		{
+			builder.append(".uri=");
+			builder.append(scyElo.getUri());
+		}
+	}
 
-   @Override
-   public EloToolConfigsElo getEloToolConfigsElo()
-   {
-      return eloToolConfigsElo;
-   }
+	@Override
+	public EloToolConfigsElo getEloToolConfigsElo()
+	{
+		return eloToolConfigsElo;
+	}
 
-   @Override
-   public MissionModelElo getMissionModelElo()
-   {
-      return missionModelElo;
-   }
+	@Override
+	public MissionModelElo getMissionModelElo()
+	{
+		return missionModelElo;
+	}
 
-   @Override
-   public MissionRuntimeElo getMissionRuntimeElo()
-   {
-      return missionRuntimeElo;
-   }
+	@Override
+	public MissionRuntimeElo getMissionRuntimeElo()
+	{
+		return missionRuntimeElo;
+	}
 
-   @Override
-   public RuntimeSettingsElo getRuntimeSettingsElo()
-   {
-      return runtimeSettingsElo;
-   }
+	@Override
+	public RuntimeSettingsElo getRuntimeSettingsElo()
+	{
+		return runtimeSettingsElo;
+	}
 
-   @Override
-   public TemplateElosElo getTemplateElosElo()
-   {
-      return templateElosElo;
-   }
+	@Override
+	public TemplateElosElo getTemplateElosElo()
+	{
+		return templateElosElo;
+	}
 
-   @Override
-   public MissionModel getMissionModel()
-   {
-      return missionModelElo.getMissionModel();
-   }
+	@Override
+	public MissionModel getMissionModel()
+	{
+		if (missionModelElo == null)
+		{
+			return null;
+		}
+		return missionModelElo.getMissionModel();
+	}
 
-   @Override
-   public RuntimeSettingsManager getRuntimeSettingsManager() throws URISyntaxException
-   {
-      Set<URI> specificationMissionMapModelEloUriSet = new HashSet<URI>();
-      RuntimeSettingsElo specificationRuntimeSettingsElo = null;
-      if (missionSpecificationElo != null)
-      {
-         if (missionSpecificationElo.getTypedContent().getMissionMapModelEloUri() != null)
-         {
-            MissionModelElo specificationMissionModelElo = MissionModelElo.loadElo(
-                     missionSpecificationElo.getTypedContent().getMissionMapModelEloUri(),
-                     rooloServices);
-            if (specificationMissionModelElo != null)
-            {
-               specificationMissionMapModelEloUriSet.addAll(specificationMissionModelElo
-                        .getMissionModel().getEloUris(true));
-            }
-         }
+	@Override
+	public RuntimeSettingsManager getRuntimeSettingsManager() throws URISyntaxException
+	{
+		Set<URI> specificationMissionMapModelEloUriSet = new HashSet<URI>();
+		RuntimeSettingsElo specificationRuntimeSettingsElo = null;
+		if (missionSpecificationElo != null)
+		{
+			if (missionSpecificationElo.getTypedContent().getMissionMapModelEloUri() != null)
+			{
+				MissionModelElo specificationMissionModelElo = MissionModelElo.loadElo(
+							missionSpecificationElo.getTypedContent().getMissionMapModelEloUri(),
+							rooloServices);
+				if (specificationMissionModelElo != null)
+				{
+					specificationMissionMapModelEloUriSet.addAll(specificationMissionModelElo
+								.getMissionModel().getEloUris(true));
+				}
+			}
 
-         if (missionSpecificationElo.getTypedContent().getRuntimeSettingsEloUri() != null)
-         {
-            specificationRuntimeSettingsElo = RuntimeSettingsElo.loadElo(missionSpecificationElo
-                     .getTypedContent().getRuntimeSettingsEloUri(), rooloServices);
-         }
-      }
+			if (missionSpecificationElo.getTypedContent().getRuntimeSettingsEloUri() != null)
+			{
+				specificationRuntimeSettingsElo = RuntimeSettingsElo.loadElo(missionSpecificationElo
+							.getTypedContent().getRuntimeSettingsEloUri(), rooloServices);
+			}
+		}
 
-      return new MissionRuntimeSettingsManager(specificationRuntimeSettingsElo, runtimeSettingsElo,
-               specificationMissionMapModelEloUriSet, rooloServices);
-   }
+		return new MissionRuntimeSettingsManager(specificationRuntimeSettingsElo, runtimeSettingsElo,
+					specificationMissionMapModelEloUriSet, rooloServices);
+	}
 
 	@Override
 	public ColorSchemesElo getColorSchemesElo()
