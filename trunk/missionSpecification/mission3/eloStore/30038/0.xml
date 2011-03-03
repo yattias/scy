@@ -9,15 +9,26 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-01-26T17:24:17.984+0100</dateTime>
+          <dateTime>2011-03-03T14:40:04.005+0100</dateTime>
         </date>
       </contribute>
-      <version>1</version>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>Caspar</entity>
+        <date>
+          <dateTime>2011-03-03T14:40:00.334+0100</dateTime>
+        </date>
+      </contribute>
+      <version>4</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1296059049890</dateCreated>
-        <dateLastModified>1296059057984</dateLastModified>
+        <dateFirstUserSaveKey>1299159600334</dateFirstUserSaveKey>
+        <dateLastModified>1299159604005</dateLastModified>
       </customElements>
       <format>scy/pds</format>
     </technical>
@@ -29,7 +40,11 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/30038/0/Criteria+Table.scypds</entry>
       </identifier>
-      <las />
+      <las>reflection2</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30106/0/Healthy+pizza.scymissionspecification</entry>
+      </missionRunning>
       <title>
         <string language="en">Criteria Table</string>
       </title>
@@ -46,7 +61,7 @@
   </lom>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAADUElEQVR42u2cz4sSYRjHvQsVsXj3EqzQRoetg12s09bFrZsSiF21oIveWlJTE3+QhC4u2CqIB0ViiaDCBLMll0oSIov+Cf+Bt3leeodBR3acWZXd+QpffN9n3nnf8cPz/npmHAub89PpdFhp76XplEg8Y6VSaUoWPQB//+2ZTgRxNBpNCQDPCsCjb2/NA9B108l1khdI9TVae+zoqzaQ7rtbSwfocrlkGQL46fA12y09Z4dfDtjw50eeLldyvCGyUV7YmhIUUe7dh7p8TFyYyG9cWZ9Z7pVUj7B9lspQufMXzsnHqQ1K07mLBqj0vkajYQwgaW3tIs8fvNln5f0cu33nFs+TbLY17llk+/Wny4IP/fKxbcmDHI5Lct55Y5PXR+nJclSPsFFdBEq0S0BzL57yNLWxTID9ft84QEpTA8Km7NoCoMhfu36VBR894CI7HVd2YVHfceVE3fT9/cd7Xi6T21l4F7bb7SwYDHIRwHQ6vTiA9MMmAZIXKScNAYE8Z9ID1cqpAVQOBeJaluGB3W6XFYtFfQCdzk12eWNdFeCTncf8RxKEKYD/PUpMGDS2iS5OY6AMcKKcGkBxLgGmb+/9e0sdA4fDIfN6vSe/jFFOIu7tLawD5wVIXiAmACyksRM5HmAkEmHJZFKzYrEYn33Mpmg0qmq3UERBjewsNZtNZsZPrVZTtQMgAALg6QfY6/VYIBAAQL0Ay+UyABrtwgAIgKsDGA6H5RANAGIWBkAANBNABBMQTEAXBkAABEDdAH0+H7PZbCwUCgGgEQ/ETsRgOAseqBMgeV42m8UYaATg5CNbAIhZGAAB0CwAE4mE6uP7s5TJZHhlZlMqlVK1wwPRhQEQALGQlhbRFF0FQAQTVgPQ4XDgxjo8cEUAEVDFLAyAAGhmgLT+IyhaVSgU+H9FzKZ8Pq9qhweiCwMgAAKgBKZarQKgXoB0Y91qtQKg3nAW3VjHXthgPJBeqOB2uwEQ0RjMwgAIgACoHSBtktvttmbRPzvnAX5WNMvRLPT2ncFgoFn1ep2Nx2PTqVKpqNrRhTEGAuDpBhiPx/lbyEgAqAOgx+NhrVaLv84NAHUC9Pv9CGdhL7ziaAyejcEsDIAAaEaA2Asb3AsjGmMsGvMPm2H3L7837sMAAAAASUVORK5CYII=</base64>
+    <base64>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</base64>
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
@@ -62,25 +77,25 @@
         <symbol>Fats</symbol>
         <description />
         <type>double</type>
-        <unit>g</unit>
+        <unit />
       </column>
       <column>
         <symbol>Proteins</symbol>
         <description />
         <type>double</type>
-        <unit>g</unit>
+        <unit />
       </column>
       <column>
         <symbol>Carbohydrates</symbol>
         <description />
         <type>double</type>
-        <unit>g</unit>
+        <unit />
       </column>
       <column>
         <symbol>Calories</symbol>
         <description />
         <type>double</type>
-        <unit>kcal</unit>
+        <unit />
       </column>
     </header>
     <row>
