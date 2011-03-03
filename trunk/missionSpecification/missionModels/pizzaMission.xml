@@ -512,7 +512,7 @@
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="mapOfTheDigestiveSystem"/>
-               <property name="uri" value="roolo://memory/30108/0/Map+Of+The+Digestive+System.scydraw"/>
+               <property name="uri" value="roolo://memory/30115/0/Map+Of+The+Digestive+System.scydraw"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_G.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_15_mapOfTheDigestiveSystem.html"/>
                <property name="resourcesUri" value=""/>
@@ -734,8 +734,6 @@
                   <list />
                </property>
             </bean>
-
-
 			
 			</list>
 			
@@ -744,11 +742,10 @@
 
       <property name="templateEloUris">
          <list>
-            <value>roolo://memory/30109/0/Empty_concept_map.scymapping</value>
-            <value>roolo://memory/30110/0/Empty_dataset.dataset</value>
-            <value>roolo://memory/30111/0/Empty_experimental_procedure.scyxproc</value>
-            <value>roolo://memory/30112/0/Empty_plain_text.text</value>
-            <value>roolo://memory/30113/0/Empty_rich_text.rtf</value>
+            <value>roolo://memory/30116/0/newText.rtf</value>
+            <value>roolo://memory/30117/0/newDataset.scypds</value>
+            <value>roolo://memory/30118/0/newConceptmap.scymapping</value>
+            <value>roolo://memory/30119/0/newDrawing.scydraw</value>
          </list>
       </property>
 
