@@ -8,10 +8,14 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.rmi.dgc.VMID;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
 
@@ -34,7 +38,10 @@ import eu.scy.agents.hypothesis.workflow.EvalHypothesisWorkflow;
 import eu.scy.agents.impl.AbstractELOSavedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.EloTypes;
+import eu.scy.agents.keywords.ExtractKeyphrasesAgent;
+import eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent;
 import eu.scy.agents.keywords.KeywordConstants;
+import eu.scy.agents.keywords.OntologyKeywordsAgent;
 import eu.scy.agents.keywords.extractors.CopexExtractor;
 import eu.scy.agents.keywords.extractors.KeywordExtractor;
 import eu.scy.agents.keywords.extractors.KeywordExtractorFactory;
@@ -43,18 +50,20 @@ import eu.scy.agents.util.Utilities;
 /**
  * @author Jörg Kindermann
  * 
- *         Workflow: extract Keywords (or read them from meta-data of ELO) -
- *         tokenize text into sentences - determine keyword-per-sentence
- *         histogram: the idea is to check for co-occurring keywords in
- *         sentences. Output is a hashmap that stores the number of sentences
- *         which contain 0,1,2... keywords.
+ *         Workflow: extract Keywords based only on topic models and ontology
+ *         (don't use the meta-data keywords, because they also contain key
+ *         words found by the TFIDF workflow AND keywords from other parts of
+ *         the ScyED ELOs) - tokenize text into sentences - determine
+ *         keyword-per-sentence histogram: the idea is to check for co-occurring
+ *         keywords in sentences. Output is a hashmap that stores the number of
+ *         sentences which contain 0,1,2... keywords.
  */
-public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
-		IRepositoryAgent {
+public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements IRepositoryAgent {
 
 	public static final String NAME = HypothesisEvaluationAgent.class.getName();
 
 	public static final Object EVAL = "EvalHypothesis";
+	private static String XMLPATH = "//learner_proc/proc_hypothesis/hypothesis";
 
 	private static final Logger logger = Logger
 			.getLogger(HypothesisEvaluationAgent.class.getName());
@@ -66,9 +75,8 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
 	private IMetadataTypeManager metadataTypeManager;
 
 	public HypothesisEvaluationAgent(Map<String, Object> map) {
-		super(NAME, (String) map.get(AgentProtocol.PARAM_AGENT_ID),
-				(String) map.get(AgentProtocol.TS_HOST), (Integer) map
-						.get(AgentProtocol.TS_PORT));
+		super(NAME, (String) map.get(AgentProtocol.PARAM_AGENT_ID), (String) map
+				.get(AgentProtocol.TS_HOST), (Integer) map.get(AgentProtocol.TS_PORT));
 	}
 
 	@Override
@@ -102,62 +110,39 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
 	}
 
 	@Override
-	public void processELOSavedAction(String actionId, String user,
-			long timeInMillis, String tool, String mission, String session,
-			String eloUri, String eloType) {
+	public void processELOSavedAction(String actionId, String user, long timeInMillis, String tool,
+			String mission, String session, String eloUri, String eloType) {
 		try {
 			if (!eloType.equals(EloTypes.SCY_XPROC)) {
 				return;
 			}
 			URI eloURI = new URI(eloUri);
 			IELO elo = repository.retrieveELO(eloURI);
-			String keywordsKey = CoreRooloMetadataKeyIds.KEYWORDS.getId();
-			IMetadataKey metadataKeywordsKey = metadataTypeManager
-					.getMetadataKey(keywordsKey);
-			IMetadata metadata = elo.getMetadata();
-			List<String> keywords = new ArrayList<String>();
-			if (!metadata.metadataKeyExists(metadataKeywordsKey)) {
-				// get keywords extracted and store them in ELO meta data
-				// section!
-				KeywordExtractorFactory factory = new KeywordExtractorFactory();
-				KeywordExtractor keywordExtractor = factory
-						.getKeywordExtractor(eloType);
-				keywordExtractor.setMission(mission);
-				keywordExtractor.setTupleSpace(getCommandSpace());
-				keywords = keywordExtractor.getKeywords(elo);
-				IMetadata newMetadata = addKeywordsToMetadata(elo, keywords);
-				if (newMetadata != null) {
-					elo.setMetadata(newMetadata);
-				}
-			}
+			String text = Utilities.getEloText(elo, XMLPATH, logger);
+			Set<String> topicKeywords = callKeywordsAgent(
+					ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS,
+					text, mission);
+			Set<String> ontologyKeywords = callKeywordsAgent(
+					OntologyKeywordsAgent.EXTRACT_ONTOLOGY_KEYWORDS, text,
+					mission);
+			Set<String> keyPharses = callKeywordsAgent(
+					ExtractKeyphrasesAgent.EXTRACT_KEYPHRASES,
+					text, mission);
 
-			// if keywords exist in ELO, we can go on extracting them and the
-			// hypothesis text:
-			metadata = elo.getMetadata();
-			IMetadataValueContainer metadataValueContainer = metadata
-					.getMetadataValueContainer(metadataKeywordsKey);
+			Set<String> keywords = new HashSet<String>();
+			keywords.addAll(topicKeywords);
+			keywords.addAll(ontologyKeywords);
+			keywords.addAll(keyPharses);
+			logger.info("found keywords: " + keywords);
 
-			List<KeyValuePair> keywordPairs = (List<KeyValuePair>) metadataValueContainer
-					.getValueList();
-
-			List<String> tmpKeywords = new ArrayList<String>();
-			for (KeyValuePair keyValuePair : keywordPairs) {
-				tmpKeywords.add(keyValuePair.getKey());
-			}
-			keywords = tmpKeywords;
-
-			String text = Utilities.getEloText(elo, CopexExtractor.XMLPATH,
-					logger);
 			// make OBWIOUS document and process in workflow:
 			Document document = Utilities.convertTextToDocument(text);
-			document.setFeature(Features.WORDS, keywords);
-			Operator cmpHistogramOp = new EvalHypothesisWorkflow()
-					.getOperator("Main");
-			cmpHistogramOp.setInputParameter(ObjectIdentifiers.DOCUMENT,
-					document);
+			ArrayList<String> kwList = new ArrayList<String>(keywords);
+			document.setFeature(Features.WORDS, kwList);
+			Operator cmpHistogramOp = new EvalHypothesisWorkflow().getOperator("Main");
+			cmpHistogramOp.setInputParameter(ObjectIdentifiers.DOCUMENT, document);
 			Container result = cmpHistogramOp.run();
-			Document docResult = (Document) result
-					.get(ObjectIdentifiers.DOCUMENT);
+			Document docResult = (Document) result.get(ObjectIdentifiers.DOCUMENT);
 			HashMap<Integer, Integer> hist = docResult
 					.getFeature(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM);
 
@@ -170,8 +155,8 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
 			// write a tuple with Byte version of histogram to trigger the
 			// HypothesisEvaluation decision
 			// maker
-			Tuple activateDecisionMakerTuple = new Tuple(EVAL, user, mission,
-					session, tool, eloUri, bytesOut.toByteArray());
+			Tuple activateDecisionMakerTuple = new Tuple(EVAL, user, mission, session, tool,
+					eloUri, bytesOut.toByteArray());
 			getCommandSpace().write(activateDecisionMakerTuple);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
@@ -194,51 +179,30 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
 		repository = rep;
 	}
 
-	// private void addSentenceHistogramToMetadata(IELO elo,
-	// HashMap<Integer, Integer> histogram) {
-	// if (histogram.isEmpty()) {
-	// return;
-	// }
-	// IMetadataKey keywordSentenceHistogramKey = metadataTypeManager
-	// .getMetadataKey(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM);
-	// IMetadataValueContainer keywordSentenceHistogramContainer = elo
-	// .getMetadata().getMetadataValueContainer(
-	// keywordSentenceHistogramKey);
-	//
-	// // add key-value pairs of HashMap to elo one by one:
-	// for (Integer keywordFrequency : histogram.keySet()) {
-	// KeyValuePair entry = new KeyValuePair();
-	// entry.setKey("" + keywordFrequency);
-	// entry.setValue("" + histogram.get(keywordFrequency));
-	// keywordSentenceHistogramContainer.addValue(entry);
-	// }
-	// // repository.updateELO(elo); //XXX this is important because an update
-	// // would change the version
-	// // number of the elo, which will also change the URI
-	// repository.addMetadata(elo.getUri(), elo.getMetadata());
-	// }
-
-	private IMetadata addKeywordsToMetadata(IELO elo, List<String> keywords) {
-		if (keywords.isEmpty()) {
-			return null;
+	// TODO: extract this method because it is a duplicate from ExtractKeywordsAgent
+	private Set<String> callKeywordsAgent(String agent, String text,
+			String mission) {
+		String queryId = new VMID().toString();
+		Set<String> result = new HashSet<String>();
+		try {
+			getCommandSpace().write(
+					new Tuple(agent, AgentProtocol.QUERY, queryId, text,
+							mission));
+			Tuple response = getCommandSpace().waitToTake(
+					new Tuple(agent, AgentProtocol.RESPONSE, queryId,
+							String.class), AgentProtocol.ALIVE_INTERVAL * 3);
+			if (response == null) {
+				return result;
+			}
+			String keywordString = (String) response.getField(3).getValue();
+			StringTokenizer tokenizer = new StringTokenizer(keywordString, ";");
+			while (tokenizer.hasMoreTokens()) {
+				result.add(tokenizer.nextToken());
+			}
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
 		}
-		List<KeyValuePair> keywordsWithBoost = new ArrayList<KeyValuePair>();
-		for (String keyword : keywords) {
-			// initially using a default boosting factor
-			keywordsWithBoost.add(new KeyValuePair(keyword, "1.0"));
-		}
-		IMetadataKey keywordKey = metadataTypeManager
-				.getMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS.getId());
-		IMetadataValueContainer agentKeywordsContainer = elo.getMetadata()
-				.getMetadataValueContainer(keywordKey);
-		agentKeywordsContainer.setValueList(keywordsWithBoost);
-
-		// IMetadata updateELO = repository.updateELO(elo);
-		// return updateELO;
-		// XXX this is important because an update would change the version
-		// number of the elo, which
-		// will also change the URI
-		repository.addMetadata(elo.getUri(), elo.getMetadata());
-		return elo.getMetadata();
+		return result;
 	}
-}
+
+	}

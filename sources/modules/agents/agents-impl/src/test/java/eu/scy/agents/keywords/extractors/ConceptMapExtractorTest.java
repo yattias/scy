@@ -89,9 +89,9 @@ public class ConceptMapExtractorTest extends AbstractTestFixture {
 	@Test
 	public void testGetKeywords() {
 		List<String> keywords = conceptMapExtractor.getKeywords(elo);
-		assertEquals(18, keywords.size());
+		assertEquals(17, keywords.size());
 		assertTrue(hasItems(keywords, "wind", "reduces", "inhabitants",
-				"insulation", "co2", "number", "effects", "living", "space",
+				"insulation", "co2", "number", "effects", "living", 
 				"sun", "temperature", "size", "roof", "inside", "heating",
 				"energy", "wall", "outside"));
 	}
