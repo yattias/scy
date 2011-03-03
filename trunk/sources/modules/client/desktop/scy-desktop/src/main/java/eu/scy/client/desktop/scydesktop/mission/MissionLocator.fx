@@ -47,7 +47,7 @@ public class MissionLocator {
    public-init var startMission: function(missionRunConfigs: MissionRunConfigs): Void;
    public-init var cancelMission: function(): Void;
    var askUserForMissionNode: AskUserForMissionNode;
-   def missionRunningKey = tbi.getMetaDataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNNING);
+   def userRunningMissionKey = tbi.getMetaDataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.USER_RUNNING_MISSION);
    var missionMapModel: MissionModelFX;
 
    public function locateMission(): Void {
@@ -185,7 +185,7 @@ public class MissionLocator {
              }
           missionMapModelElo.setTitle(missionRuntimeElo.getTitle());
           //      missionMapModelElo.set(userName);
-          missionMapModelElo.getMetadata().getMetadataValueContainer(missionRunningKey).setValue(userName);
+          missionMapModelElo.getMetadata().getMetadataValueContainer(userRunningMissionKey).setValue(userName);
           if (not initializer.dontUseMissionRuntimeElos) {
              missionMapModelElo.saveAsNewElo();
              missionMapModel.saveUpdatedModel = true;

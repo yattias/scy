@@ -64,6 +64,7 @@ public class GridEloSearch extends GridSearchNode {
                               }
                            searchButton = Button {
                                  text: ##"Search"
+                                 disable: bind queryBox.rawText.trim()==""
                                  action: function() {
                                     doSearch(this);
                                  }
