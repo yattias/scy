@@ -8,13 +8,13 @@ import javafx.scene.CustomNode;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.animation.Timeline;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.util.Sequences;
 import javafx.scene.CacheHint;
+import eu.scy.client.desktop.scydesktop.art.ArtSource;
 
 /**
  * @author SikkenJ
@@ -57,7 +57,7 @@ public class ModalDialogLayer extends CustomNode {
                 blocksMouse: true
                 x: 0, y: 0
                 width: 100, height: 100
-                fill: Color.color(1.0, 1.0, 1.0, 0.5)
+                fill: ArtSource.dialogBlockLayerColor
                 onKeyPressed: function(e: KeyEvent): Void {
                 }
                 onKeyReleased: function(e: KeyEvent): Void {
