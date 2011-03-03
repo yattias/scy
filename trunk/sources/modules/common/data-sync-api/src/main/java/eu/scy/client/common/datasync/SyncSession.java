@@ -107,7 +107,9 @@ public class SyncSession implements ISyncSession {
                             if (packet.getFrom().startsWith(mucRoomId)) {
 				if(packet.getExtension(syncActionTransformer.getElementname(), syncActionTransformer.getNamespace()) != null) {
 					return true;
-				} else if (packet.getExtension(syncMessageTransformer.getElementname(), syncMessageTransformer.getNamespace()) != null) {
+				}
+                            } else if (packet.getFrom().startsWith("datasynclistener")) { // this string should be made generic somehow
+                                if (packet.getExtension(syncMessageTransformer.getElementname(), syncMessageTransformer.getNamespace()) != null) {
 					PacketExtension extension = packet.getExtension(syncMessageTransformer.getElementname(), syncMessageTransformer.getNamespace());
 					SmacketExtension se = (SmacketExtension) extension;
 					SyncMessage message = (SyncMessage) se.getTransformer().getObject();
@@ -117,7 +119,6 @@ public class SyncSession implements ISyncSession {
 				}
                             }
                             return false;
-				
 			}
 		});
 		
