@@ -51,7 +51,7 @@ public class MissionLocator {
    var missionMapModel: MissionModelFX;
 
    public function locateMission(): Void {
-      if (missions.isEmpty()) {
+      if (missions.isEmpty() and initializer.authorMode) {
          startBlankMission();
       }
       if (missions.size() == 1 and not initializer.authorMode) {
