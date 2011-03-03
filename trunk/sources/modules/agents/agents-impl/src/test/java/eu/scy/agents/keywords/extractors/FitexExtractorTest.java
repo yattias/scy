@@ -65,7 +65,7 @@ public class FitexExtractorTest extends AbstractTestFixture {
     InputStream inStream = this.getClass().getResourceAsStream("/SCYDataExample1.xml");
     String eloContent = readFile(inStream);
     inStream.close();
-    elo = createNewElo("TestCopex", "scy/copex");
+    elo = createNewElo("TestFitex", "scy/pds");
     elo.setContent(new BasicContent(eloContent));
     fitexExtractor = new FitexExtractor();
     fitexExtractor.setMission("co2");
