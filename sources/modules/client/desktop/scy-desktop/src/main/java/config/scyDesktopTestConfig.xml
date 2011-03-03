@@ -49,7 +49,7 @@
                <property name="topDrawerCreatorId" value="xmlViewer"/>
                <property name="rightDrawerCreatorId" value="propertiesViewer"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="scyToolViewer xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="scyToolViewer xmlViewer testDialogs"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/test"/>
@@ -73,7 +73,6 @@
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="scyToolViewer"/>
                <property name="topDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
                <property name="rightDrawerCreatorId" value="propertiesViewer"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
@@ -127,7 +126,6 @@
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="missionSpecification"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/missionmapmodel"/>
@@ -135,7 +133,6 @@
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="missionMapModel"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/elotoolconfiguration"/>
@@ -143,7 +140,6 @@
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="eloToolConfiguration"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/missionruntime"/>
@@ -151,7 +147,6 @@
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="missionRuntime"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/templateelos"/>
@@ -159,7 +154,6 @@
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="templateElos"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/runtimesettings"/>
@@ -167,7 +161,6 @@
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="runtimeSettings"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/colorschemes"/>
@@ -175,7 +168,6 @@
                <property name="creatable" value="true"/>
                <property name="contentCreatorId" value="colorSchemes"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
             </bean>
          </list>
       </property>
