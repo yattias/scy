@@ -97,7 +97,9 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(RuntimeSettingsEditorCreator{}, runtimeSettingsId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TestMoreInfoNodeCreator{}, testMoreInfoId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ColorSchemeEditorCreator{}, colorSchemesId);
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TestDialogsNodeCreator{}, testDialogsId);
+
+   def testDialogsNodeCreator = TestDialogsNodeCreator{};
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(testDialogsNodeCreator, testDialogsId);
 
    scyDesktopCreator.eloConfigManager.addDebugCreatorId(scyToolViewerId);
    
@@ -114,6 +116,8 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
       titleKey: scyDesktopCreator.config.getTitleKey();
       technicalFormatKey: scyDesktopCreator.config.getTechnicalFormatKey();
    }
+
+   testDialogsNodeCreator.scyDesktop = scyDesktop;
 
    initializer.loadTimer.startActivity("after creeate EloManagement");
 
