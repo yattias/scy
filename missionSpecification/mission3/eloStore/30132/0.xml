@@ -1,0 +1,77 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>Caspar</entity>
+        <date>
+          <dateTime>2011-03-03T16:29:18.365+0100</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>Caspar</entity>
+        <date>
+          <dateTime>2011-03-03T16:29:18.365+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1299166158365</dateCreated>
+        <dateFirstUserSaveKey>1299166158365</dateFirstUserSaveKey>
+        <dateLastModified>1299166158365</dateLastModified>
+      </customElements>
+      <format>scy/missionspecification</format>
+    </technical>
+    <educational>
+      <learningResourceType>sourceData</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30132/0/A+Healthy+Pizza+v2.2.scymissionspecification</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">A Healthy Pizza v2.2</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA+CAYAAAC875yHAAABiklEQVR42u3VT6sBURjHcS/NVvMCbCyUjbwCypKkaFYWdjYsbSxkgfwpWShNiJXyFmwU+d3OUzO55S7uteJ+f/U4z5xDTR/nzMREXkrMfex2Ox0OBxvD2m63+mktrOPxqF6v93Rtv9/b6BIEgdbrtfWr1UrFYtH62Wwmz/Oim6lWq4rH4yoUCu8FOBqNNJ/PNRgM1O127Xo4HCpcWywWymazmk6nmkwmWi6XNu/GVqtlfb/fV6VSUSqVUj6fVzKZtHmXdrutZrP59AbG4/H778B6vW5Vq9Wi3u0Ol8e5x97V7XZT+Ptn33Pjxx9hd1Q3mw31h3J2tgPL5bJpptNpnU4n+b4fCedyOXs2dTodO7KNRiNac8f3fD7rer3a9eVy+fbvJBIJlUole+ZlMpnPfYn8Nvf7ndfvK4AEQAABBJAACCCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAAfzfgOS1fAFyZnOW451OIwAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<missionSpeicification>
+  <missionMapModelEloUri>roolo://memory/30127/0/pizzaMission.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/30128/0/pizzaMission.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/30129/0/pizzaMission.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/30130/0/pizzaMission.runtimesettings</runtimeSettingsEloUri>
+  <agentModelsEloUri />
+  <pedagogicalPlanSettingsEloUri>roolo://memory/30131/0/pizzaMission.scy</pedagogicalPlanSettingsEloUri>
+  <colorSchemesEloUri>roolo://memory/30100/0/colorschemes1.colorschemes</colorSchemesEloUri>
+  <missionDescriptionUri />
+</missionSpeicification>
+</content>
+<resources>
+</resources>
+</elo>
