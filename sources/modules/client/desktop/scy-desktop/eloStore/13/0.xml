@@ -7,58 +7,49 @@
           <source>LOMv1.0</source>
           <value>author</value>
         </role>
-        <entity>jakob</entity>
+        <entity>mmm</entity>
         <date>
-          <dateTime>2011-02-16T19:39:36.336+0100</dateTime>
+          <dateTime>2011-02-24T12:08:20.852+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>mmm</entity>
+        <date>
+          <dateTime>2011-02-24T10:50:30.016+0100</dateTime>
+        </date>
+      </contribute>
+      <version>26</version>
     </lifecycle>
     <technical>
       <customElements>
-        <dateCreated>1297881576337</dateCreated>
-        <dateLastModified>1297881576337</dateLastModified>
+        <dateCreated>1298372301903</dateCreated>
+        <dateFirstUserSaveKey>1298541030016</dateFirstUserSaveKey>
+        <dateLastModified>1298545700852</dateLastModified>
       </customElements>
       <format>scy/colorschemes</format>
     </technical>
     <educational>
-      <learningResourceType>presentationDesign</learningResourceType>
+      <learningResourceType>documentDesign</learningResourceType>
     </educational>
     <general>
       <identifier>
         <catalog>memory</catalog>
         <entry>roolo://memory/13/0/standard+ColorSchemes.colorschemes</entry>
       </identifier>
-      <las />
+      <las>startPage</las>
+      <missionRunning>roolo://memory/20193/0/ECO+mission.scymissionspecification</missionRunning>
       <title>
-        <string language="nl">standard ColorSchemes</string>
+        <string language="nl">colorscheme1</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>isbasedon</value>
-      </kind>
-      <resource>
-        <identifier>
-          <catalog>memory</catalog>
-          <entry>roolo://memory/123/0/Lege+missie.scymissionruntime</entry>
-        </identifier>
-      </resource>
-    </relation>
   </lom>
   <thumbnail>
     <mime>png</mime>
-    <base64>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</base64>
+    <base64>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</base64>
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
@@ -66,45 +57,45 @@
   <colorScheme>
     <colorSchemeId>ONE</colorSchemeId>
     <mainColor>
-      <red>141</red>
-      <green>184</green>
-      <blue>0</blue>
+      <red>129</red>
+      <green>163</green>
+      <blue>66</blue>
       <alpha>255</alpha>
     </mainColor>
     <mainColorLight>
-      <red>196</red>
-      <green>224</green>
-      <blue>0</blue>
+      <red>230</red>
+      <green>245</green>
+      <blue>213</blue>
       <alpha>255</alpha>
     </mainColorLight>
     <secondColor>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
+      <red>80</red>
+      <green>108</green>
+      <blue>196</blue>
       <alpha>255</alpha>
     </secondColor>
     <secondColorLight>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
+      <red>246</red>
+      <green>246</green>
+      <blue>206</blue>
       <alpha>255</alpha>
     </secondColorLight>
     <thirdColor>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
+      <red>74</red>
+      <green>0</green>
+      <blue>198</blue>
       <alpha>255</alpha>
     </thirdColor>
     <thirdColorLight>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
+      <red>218</red>
+      <green>229</green>
+      <blue>244</blue>
       <alpha>255</alpha>
     </thirdColorLight>
     <backgroundColor>
-      <red>227</red>
-      <green>238</green>
-      <blue>233</blue>
+      <red>239</red>
+      <green>255</green>
+      <blue>223</blue>
       <alpha>255</alpha>
     </backgroundColor>
     <emptyBackgroundColor>
@@ -117,45 +108,45 @@
   <colorScheme>
     <colorSchemeId>TWO</colorSchemeId>
     <mainColor>
-      <red>114</red>
-      <green>67</green>
-      <blue>219</blue>
+      <red>0</red>
+      <green>94</green>
+      <blue>177</blue>
       <alpha>255</alpha>
     </mainColor>
     <mainColorLight>
-      <red>184</red>
-      <green>134</green>
-      <blue>224</blue>
+      <red>204</red>
+      <green>225</green>
+      <blue>219</blue>
       <alpha>255</alpha>
     </mainColorLight>
     <secondColor>
-      <red>255</red>
-      <green>255</green>
+      <red>0</red>
+      <green>201</green>
       <blue>255</blue>
       <alpha>255</alpha>
     </secondColor>
     <secondColorLight>
-      <red>255</red>
-      <green>255</green>
+      <red>183</red>
+      <green>191</green>
       <blue>255</blue>
       <alpha>255</alpha>
     </secondColorLight>
     <thirdColor>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
+      <red>253</red>
+      <green>44</green>
+      <blue>243</blue>
       <alpha>255</alpha>
     </thirdColor>
     <thirdColorLight>
       <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
+      <green>169</green>
+      <blue>232</blue>
       <alpha>255</alpha>
     </thirdColorLight>
     <backgroundColor>
-      <red>219</red>
-      <green>210</green>
-      <blue>238</blue>
+      <red>235</red>
+      <green>255</green>
+      <blue>255</blue>
       <alpha>255</alpha>
     </backgroundColor>
     <emptyBackgroundColor>
@@ -168,45 +159,45 @@
   <colorScheme>
     <colorSchemeId>THREE</colorSchemeId>
     <mainColor>
-      <red>255</red>
-      <green>84</green>
-      <blue>0</blue>
+      <red>148</red>
+      <green>108</green>
+      <blue>79</blue>
       <alpha>255</alpha>
     </mainColor>
     <mainColorLight>
-      <red>255</red>
-      <green>168</green>
-      <blue>128</blue>
+      <red>233</red>
+      <green>224</green>
+      <blue>207</blue>
       <alpha>255</alpha>
     </mainColorLight>
     <secondColor>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
+      <red>234</red>
+      <green>150</green>
+      <blue>118</blue>
       <alpha>255</alpha>
     </secondColor>
     <secondColorLight>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
+      <red>242</red>
+      <green>203</green>
+      <blue>0</blue>
       <alpha>255</alpha>
     </secondColorLight>
     <thirdColor>
       <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
+      <green>76</green>
+      <blue>13</blue>
       <alpha>255</alpha>
     </thirdColor>
     <thirdColorLight>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
+      <red>236</red>
+      <green>233</green>
+      <blue>218</blue>
       <alpha>255</alpha>
     </thirdColorLight>
     <backgroundColor>
-      <red>249</red>
-      <green>240</green>
-      <blue>227</blue>
+      <red>252</red>
+      <green>244</green>
+      <blue>221</blue>
       <alpha>255</alpha>
     </backgroundColor>
     <emptyBackgroundColor>
@@ -219,45 +210,45 @@
   <colorScheme>
     <colorSchemeId>FOUR</colorSchemeId>
     <mainColor>
-      <red>251</red>
-      <green>6</green>
-      <blue>162</blue>
+      <red>151</red>
+      <green>92</green>
+      <blue>143</blue>
       <alpha>255</alpha>
     </mainColor>
     <mainColorLight>
       <red>255</red>
-      <green>134</green>
-      <blue>204</blue>
+      <green>213</green>
+      <blue>222</blue>
       <alpha>255</alpha>
     </mainColorLight>
     <secondColor>
-      <red>255</red>
-      <green>255</green>
+      <red>116</red>
+      <green>225</green>
       <blue>255</blue>
       <alpha>255</alpha>
     </secondColor>
     <secondColorLight>
-      <red>255</red>
-      <green>255</green>
+      <red>207</red>
+      <green>222</green>
       <blue>255</blue>
       <alpha>255</alpha>
     </secondColorLight>
     <thirdColor>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
+      <red>129</red>
+      <green>24</green>
+      <blue>207</blue>
       <alpha>255</alpha>
     </thirdColor>
     <thirdColorLight>
-      <red>255</red>
+      <red>220</red>
       <green>255</green>
       <blue>255</blue>
       <alpha>255</alpha>
     </thirdColorLight>
     <backgroundColor>
-      <red>234</red>
-      <green>225</green>
-      <blue>231</blue>
+      <red>250</red>
+      <green>238</green>
+      <blue>233</blue>
       <alpha>255</alpha>
     </backgroundColor>
     <emptyBackgroundColor>
@@ -270,45 +261,45 @@
   <colorScheme>
     <colorSchemeId>FIVE</colorSchemeId>
     <mainColor>
-      <red>0</red>
-      <green>66</green>
-      <blue>241</blue>
+      <red>95</red>
+      <green>130</green>
+      <blue>203</blue>
       <alpha>255</alpha>
     </mainColor>
     <mainColorLight>
-      <red>64</red>
-      <green>128</green>
-      <blue>248</blue>
+      <red>224</red>
+      <green>231</green>
+      <blue>225</blue>
       <alpha>255</alpha>
     </mainColorLight>
     <secondColor>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
-      <alpha>255</alpha>
+      <red>193</red>
+      <green>147</green>
+      <blue>68</blue>
+      <alpha>250</alpha>
     </secondColor>
     <secondColorLight>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
+      <red>232</red>
+      <green>227</green>
+      <blue>213</blue>
       <alpha>255</alpha>
     </secondColorLight>
     <thirdColor>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
+      <red>0</red>
+      <green>79</green>
+      <blue>121</blue>
       <alpha>255</alpha>
     </thirdColor>
     <thirdColorLight>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
+      <red>235</red>
+      <green>239</green>
+      <blue>225</blue>
       <alpha>255</alpha>
     </thirdColorLight>
     <backgroundColor>
-      <red>225</red>
-      <green>229</green>
-      <blue>239</blue>
+      <red>230</red>
+      <green>234</green>
+      <blue>255</blue>
       <alpha>255</alpha>
     </backgroundColor>
     <emptyBackgroundColor>
@@ -327,39 +318,39 @@
       <alpha>255</alpha>
     </mainColor>
     <mainColorLight>
-      <red>144</red>
-      <green>200</green>
-      <blue>224</blue>
+      <red>225</red>
+      <green>238</green>
+      <blue>243</blue>
       <alpha>255</alpha>
     </mainColorLight>
     <secondColor>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
+      <red>200</red>
+      <green>114</green>
+      <blue>44</blue>
       <alpha>255</alpha>
     </secondColor>
     <secondColorLight>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
+      <red>228</red>
+      <green>254</green>
+      <blue>207</blue>
       <alpha>255</alpha>
     </secondColorLight>
     <thirdColor>
       <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
+      <green>200</green>
+      <blue>58</blue>
       <alpha>255</alpha>
     </thirdColor>
     <thirdColorLight>
-      <red>255</red>
-      <green>255</green>
+      <red>228</red>
+      <green>251</green>
       <blue>255</blue>
       <alpha>255</alpha>
     </thirdColorLight>
     <backgroundColor>
-      <red>214</red>
-      <green>237</green>
-      <blue>241</blue>
+      <red>234</red>
+      <green>247</green>
+      <blue>252</blue>
       <alpha>255</alpha>
     </backgroundColor>
     <emptyBackgroundColor>
@@ -372,45 +363,45 @@
   <colorScheme>
     <colorSchemeId>SEVEN</colorSchemeId>
     <mainColor>
-      <red>159</red>
-      <green>139</green>
+      <red>52</red>
+      <green>115</green>
       <blue>85</blue>
       <alpha>255</alpha>
     </mainColor>
     <mainColorLight>
-      <red>192</red>
-      <green>184</green>
-      <blue>153</blue>
+      <red>230</red>
+      <green>226</green>
+      <blue>212</blue>
       <alpha>255</alpha>
     </mainColorLight>
     <secondColor>
-      <red>255</red>
+      <red>126</red>
       <green>255</green>
       <blue>255</blue>
       <alpha>255</alpha>
     </secondColor>
     <secondColorLight>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
+      <red>220</red>
+      <green>226</green>
+      <blue>239</blue>
       <alpha>255</alpha>
     </secondColorLight>
     <thirdColor>
-      <red>255</red>
-      <green>255</green>
+      <red>65</red>
+      <green>175</green>
       <blue>255</blue>
       <alpha>255</alpha>
     </thirdColor>
     <thirdColorLight>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
+      <red>228</red>
+      <green>233</green>
+      <blue>156</blue>
       <alpha>255</alpha>
     </thirdColorLight>
     <backgroundColor>
-      <red>250</red>
-      <green>244</green>
-      <blue>229</blue>
+      <red>252</red>
+      <green>255</green>
+      <blue>234</blue>
       <alpha>255</alpha>
     </backgroundColor>
     <emptyBackgroundColor>
@@ -423,15 +414,66 @@
   <colorScheme>
     <colorSchemeId>EIGHT</colorSchemeId>
     <mainColor>
+      <red>171</red>
+      <green>0</green>
+      <blue>44</blue>
+      <alpha>255</alpha>
+    </mainColor>
+    <mainColorLight>
+      <red>228</red>
+      <green>217</green>
+      <blue>233</blue>
+      <alpha>255</alpha>
+    </mainColorLight>
+    <secondColor>
+      <red>218</red>
+      <green>65</green>
+      <blue>145</blue>
+      <alpha>255</alpha>
+    </secondColor>
+    <secondColorLight>
+      <red>249</red>
+      <green>227</green>
+      <blue>211</blue>
+      <alpha>255</alpha>
+    </secondColorLight>
+    <thirdColor>
+      <red>254</red>
+      <green>3</green>
+      <blue>130</blue>
+      <alpha>255</alpha>
+    </thirdColor>
+    <thirdColorLight>
+      <red>237</red>
+      <green>236</green>
+      <blue>255</blue>
+      <alpha>255</alpha>
+    </thirdColorLight>
+    <backgroundColor>
+      <red>254</red>
+      <green>233</green>
+      <blue>226</blue>
+      <alpha>255</alpha>
+    </backgroundColor>
+    <emptyBackgroundColor>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+      <alpha>255</alpha>
+    </emptyBackgroundColor>
+  </colorScheme>
+  <colorScheme>
+    <colorSchemeId>NINE</colorSchemeId>
+    <mainColor>
       <red>0</red>
       <green>1</green>
       <blue>95</blue>
       <alpha>255</alpha>
     </mainColor>
     <mainColorLight>
-      <red>0</red>
-      <green>8</green>
-      <blue>144</blue>
+      <red>208</red>
+      <green>210</green>
+      <blue>237</blue>
       <alpha>255</alpha>
     </mainColorLight>
     <secondColor>
@@ -462,57 +504,6 @@
       <red>238</red>
       <green>238</green>
       <blue>247</blue>
-      <alpha>255</alpha>
-    </backgroundColor>
-    <emptyBackgroundColor>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
-      <alpha>255</alpha>
-    </emptyBackgroundColor>
-  </colorScheme>
-  <colorScheme>
-    <colorSchemeId>NINE</colorSchemeId>
-    <mainColor>
-      <red>71</red>
-      <green>71</green>
-      <blue>71</blue>
-      <alpha>255</alpha>
-    </mainColor>
-    <mainColorLight>
-      <red>128</red>
-      <green>128</green>
-      <blue>128</blue>
-      <alpha>255</alpha>
-    </mainColorLight>
-    <secondColor>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
-      <alpha>255</alpha>
-    </secondColor>
-    <secondColorLight>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
-      <alpha>255</alpha>
-    </secondColorLight>
-    <thirdColor>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
-      <alpha>255</alpha>
-    </thirdColor>
-    <thirdColorLight>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
-      <alpha>255</alpha>
-    </thirdColorLight>
-    <backgroundColor>
-      <red>239</red>
-      <green>239</green>
-      <blue>239</blue>
       <alpha>255</alpha>
     </backgroundColor>
     <emptyBackgroundColor>
