@@ -3,6 +3,8 @@ package eu.scy.roolows;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.Action;
+import eu.scy.roolows.crypto.ChallengeEntity;
+import eu.scy.roolows.crypto.LoginManager;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Locale;
@@ -39,8 +41,9 @@ public class SaveELO {
 
     @Context
     private UriInfo context;
-    private static final Beans beans  = Beans.getInstance();
+    private static final Beans beans = Beans.getInstance();
     private static final Logger log = Logger.getLogger(SaveELO.class.getName());
+    private static final LoginManager loginManager = LoginManager.getInstance();
     private IELO elo;
     private IMetadataKey titleKey;
     private IMetadataKey typeKey;
@@ -92,7 +95,6 @@ public class SaveELO {
 
         String content = null;
         String username = null;
-        String password = null;
         String language = null;
         String title = null;
         String type = null;
@@ -100,11 +102,12 @@ public class SaveELO {
         String country = null;
         String description = null;
         String dateCreated = null;
+        String password = null;
+        String authType = null;
         try {
             //non-optional parameters:
             content = jsonData.getString("content");
             username = jsonData.getString("username");
-            password = jsonData.getString("password");
             language = jsonData.getString("language");
             title = jsonData.getString("title");
             type = jsonData.getString("type");
@@ -113,9 +116,12 @@ public class SaveELO {
             description = jsonData.optString("description", null);
             country = jsonData.optString("country", null);
             dateCreated = jsonData.optString("DateCreated", null);
+            authType = jsonData.optString("authType", null);
+            password = jsonData.optString("password", null);
 
             //TODO authenticate User!
-            if (true) {
+            boolean authenticated = auth(authType, username, password);
+            if (authenticated) {
                 //Authentication ok
                 if (uri != null) {
                     //update ELO
@@ -124,7 +130,7 @@ public class SaveELO {
                         elo.setContent(createELOContent(language, country, content));
                         beans.getRepository().updateELO(elo);
                         log.info("Updated ELO with uri: " + uri);
-                        logSavedELOAction(username, uri, "elo_updated",type);
+                        logSavedELOAction(username, uri, "elo_updated", type);
                     } else {
                         log.error("could not update! <- Could not retrieve ELO (ELO is null)");
                         //since the ELO could not be retrieved, the URI isnt correct
@@ -138,7 +144,7 @@ public class SaveELO {
                     IMetadata metadata = beans.getRepository().addNewELO(elo);
                     uri = ((URI) metadata.getMetadataValueContainer(identifierKey).getValue()).toString();
                     log.info("Saved ELO with uri: " + uri);
-                    logSavedELOAction(username, uri, "elo_saved",type);
+                    logSavedELOAction(username, uri, "elo_saved", type);
                 }
             } else {
                 log.error("authentication of user " + username + " failed.");
@@ -205,7 +211,7 @@ public class SaveELO {
         return metadata;
     }
 
-    private void logSavedELOAction(String username, String eloUri, String type,String elo_type) {
+    private void logSavedELOAction(String username, String eloUri, String type, String elo_type) {
         IAction action = new Action();
         action.setType(type);
         action.setUser(getSmackName(username));
@@ -218,5 +224,24 @@ public class SaveELO {
 
     private String getSmackName(String username) {
         return (username + "@" + beans.getServerConfig().getOpenFireHost() + "/Smack");
+    }
+
+    private boolean auth(String authType, String username, String password) {
+        if ("challenge/response".equals(authType)) {
+            //authentication was done before via challenge/response
+            //now just remove the security token
+            ChallengeEntity challenge = loginManager.getChallenge(username);
+            if (challenge.isAuthorized()) {
+                log.info("User "+username+" is authorized");
+                loginManager.removeChallenge(username);
+                return true;
+            }
+            log.warn("User "+username+" is NOT authorized");
+            loginManager.removeChallenge(username);
+            return false;
+        } else {
+            log.info("No AuthType chosen -> User "+username+" is authorized");
+            return true;
+        }
     }
 }
