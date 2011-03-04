@@ -45,6 +45,7 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
     var logger = Logger.getLogger(ScyMapperRepositoryWrapper.class.getName());
     var wrappedScyMapperPanel: Node;
     def spacing = 5.0;
+    var collaborative: Boolean = false;
 
     public override function create(): Node {
         wrappedScyMapperPanel = ScySwingWrapper.wrap(scyMapperPanel);
@@ -219,10 +220,13 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
     }
 
     public override function startCollaboration(mucid: String) {
-        FX.deferAction(function(): Void {
-            scyMapperPanel.joinSession(mucid);
-            logger.debug("joined session, mucid: {mucid}");
-        });
+        if (not collaborative) {
+            collaborative = true;
+            FX.deferAction(function(): Void {
+                scyMapperPanel.joinSession(mucid);
+                logger.debug("joined session, mucid: {mucid}");
+            });
+        }
     }
 
     override public function processNotification (notification: INotification) : Boolean {
