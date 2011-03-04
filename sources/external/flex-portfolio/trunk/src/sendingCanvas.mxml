@@ -145,15 +145,19 @@
 			private function alertListener(event:CloseEvent):void {
 				if(event.detail == Alert.OK || event.detail == Alert.YES) {
 					
-					trace(so.data.retrievedElosFromRoolo);
+					var myPattern:RegExp = /\#/gi; 
+					var portfolioString:String = new String(xmlPortfolio).replace(myPattern, "@");
+					
 					if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
 						trace("Local version, nothing submitted, but the idea is there ...");
+						sendEmail();
 						clickHandler(index.LEFT_DIRECTION, index.STACK_INTRO_PANEL);
 					}
 					else {
-						var ass:AutoSaveService = new AutoSaveService(so.data.saveportfolio+"?missionURI="+FlexGlobals.topLevelApplication.parameters.missionURI+"&xmlContent="+encodeURI(xmlPortfolio));
+						var ass:AutoSaveService = new AutoSaveService(so.data.saveportfolio+"?missionURI="+new String(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "@")+"&xmlContent="+encodeURI(portfolioString));	
 						ass.httpService.addEventListener(ResultEvent.RESULT, assResult);
 						ass.httpService.addEventListener(FaultEvent.FAULT, assFault);
+						ass.sendTheMofo();
 						
 					}
 				}

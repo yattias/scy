@@ -10,10 +10,12 @@ package utils
 			httpService = new HTTPService();
 			httpService.method = "POST";
 			httpService.showBusyCursor = true;
-			httpService.resultFormat = "e4x";
-			
+			//httpService.url = serviceURL;
 			var myPattern:RegExp = /#/gi; 
 			httpService.url = serviceURL.replace(myPattern, "%23");
+		}
+		
+		public function sendTheMofo():void {			
 			httpService.send();			
 		}
 	}

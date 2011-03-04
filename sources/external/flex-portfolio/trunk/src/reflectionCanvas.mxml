@@ -129,14 +129,19 @@
 						so.data.retrievedElosFromRoolo = retrievedElosFromRoolo;
 						so.flush();
 						
+						var myPattern:RegExp = /\#/gi; 
+						var portfolioString:String = retrievedElosFromRoolo.replace(myPattern, "@");
+						
 						if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
 							resetForm();
 							dispatchEvent(tEvent);
 						}
 						else {
-							var ass:AutoSaveService = new AutoSaveService(so.data.saveportfolio+"?missionURI="+FlexGlobals.topLevelApplication.parameters.missionURI+"&xmlContent="+encodeURI(so.data.retrievedElosFromRoolo));	
+							
+							var ass:AutoSaveService = new AutoSaveService(so.data.saveportfolio+"?missionURI="+new String(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "@")+"&xmlContent="+encodeURI(portfolioString));	
 							ass.httpService.addEventListener(ResultEvent.RESULT, assResult);
 							ass.httpService.addEventListener(FaultEvent.FAULT, assFault);
+							ass.sendTheMofo();
 						}
 					}
 					else if(slectedGLGs.length == 0) {
@@ -180,7 +185,8 @@
 			}
 			
 			private function assFault(evt:FaultEvent):void {
-				Alert.show("something f**ked up when posting the portfolio", "Portfolio post error");
+				
+				Alert.show(evt.fault+"\nsomething f**ked up when posting the portfolio with URL:\n"+so.data.saveportfolio+"?missionURI="+FlexGlobals.topLevelApplication.parameters.missionURI, "Portfolio post error");
 			}
 
 
@@ -229,12 +235,15 @@
 					else {
 						eloIconSource = index.NOTHUMB;
 					}
+					eloIcon.source = eloIconSource;
 					
 					elonameTextText = selectedElo.customname;
 					createdDateTextText = selectedElo.modified;
 					
+					var myPattern:RegExp = /#/gi; 
 					if(edit) {
-						eloUri = (selectedElo.uri).replace("#", "%23");
+						
+						eloUri = (selectedElo.uri).replace(myPattern, "@");
 						currentState = "updateReflection";
 						descriptionArea.text = selectedElo.studentdescription;
 						
@@ -255,7 +264,7 @@
 					}
 					else {
 						selectedElo = XMLUtilJer.getXMLAsEloObject(selectedElo as XML);
-						eloUri = (selectedElo.uri).replace("#", "%23");
+						eloUri = (selectedElo.uri).replace(myPattern, "@");
 					}
 				}
 				else {
@@ -409,6 +418,14 @@
 				
 				dispatchEvent(tEvent);
 			}
+			
+			protected function image1_ioErrorHandler(event:IOErrorEvent):void {
+				switch(event.errorID) {
+					case 0:
+						eloIconSource = index.NOTHUMB;
+						break;
+				}
+			}
 
 		]]>
 	</fx:Script>
@@ -421,7 +438,7 @@
 	<s:VGroup width="100%" height="100%">
 		<s:BorderContainer id="reflectionHeader" width="100%" height="140" backgroundColor="{index.THEME_COL}" borderStyle="solid" borderColor="{index.THEME_COL}">
 			<s:BorderContainer width="100" height="100" x="15" y="20" borderVisible="false" dropShadowVisible="true">
-				<s:Image id="eloIcon" source="{eloIconSource}" width="100" height="100" buttonMode="true" toolTip="{resourceManager.getString('resources', 'DISPLAY_ZOOM')}" click="image1_clickHandler(event)" />
+				<s:Image id="eloIcon" source="{eloIconSource}" width="100" height="100" buttonMode="true" toolTip="{resourceManager.getString('resources', 'DISPLAY_ZOOM')}" ioError="image1_ioErrorHandler(event)" click="image1_clickHandler(event)" />
 			</s:BorderContainer>
 			
 			<mx:Form x="{eloIcon.x+eloIcon.width+30}" y="0" verticalGap="0" color="{index.BACK_GRADIENT_BOT}" fontSize="13">

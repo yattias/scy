@@ -104,7 +104,10 @@
 					var portXML:XML = newEloXML.parent().parent();
 					portXML.missionruntimeuri = <missionruntimeuri>{XMLUtilJer.cdata(portXML.missionruntimeuri)}</missionruntimeuri>;
 					
-					new AutoSaveService(so.data.saveportfolio+"?missionURI="+decodeURI(portXML.missionruntimeuri)+"&xmlContent="+encodeURI(portXML));
+					var myPattern:RegExp = /\#/gi; 
+					var portfolioString:String = new String(portXML).replace(myPattern, "@");
+					
+					new AutoSaveService(so.data.saveportfolio+"?missionURI="+decodeURI(new String(portXML.missionruntimeuri).replace(myPattern, "@"))+"&xmlContent="+encodeURI(portfolioString));
 					
 					clickHandler(index.RIGHT_DIRECTION, originPanel);
 					assesslider.value = 1;

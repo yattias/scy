@@ -114,7 +114,11 @@
 					so.data.refr = portfolioElo.replace(pfXML, newPfXML);
 					so.flush();
 					newPfXML.missionruntimeuri = <missionruntimeuri>{XMLUtilJer.cdata(newPfXML.missionruntimeuri)}</missionruntimeuri>;
-					new AutoSaveService(so.data.saveportfolio+"?missionURI="+decodeURI(newPfXML.missionruntimeuri)+"&xmlContent="+encodeURI(newPfXML));
+					
+					var myPattern:RegExp = /\#/gi; 
+					var portfolioString:String = new String(newPfXML).replace(myPattern, "@");
+					
+					new AutoSaveService(so.data.saveportfolio+"?missionURI="+decodeURI(new String(newPfXML.missionruntimeuri).replace(myPattern, "@"))+"&xmlContent="+encodeURI(portfolioString));
 					
 					teaRatingGrp.selectedValue = null;
 					commentArea.text = "";

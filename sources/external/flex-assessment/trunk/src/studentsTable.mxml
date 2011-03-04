@@ -94,7 +94,7 @@
 			private function logit():void {
 				var sLogger:Dictionary = new Dictionary();
 				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
-				sLogger["type"] = "student_table_view_started";
+				sLogger["type"] = "student_table_tab_changed";
 				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
 				var attribs:ArrayCollection = new ArrayCollection();
 				var ob:Object = new Object();

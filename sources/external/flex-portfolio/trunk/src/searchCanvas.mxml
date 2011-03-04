@@ -52,7 +52,7 @@
 					attribs.addItem(ob);
 				}
 				else {
-					sLogger["type"] = "cancel_button_pressed";
+					sLogger["type"] = "cancel_search_button_pressed";
 				}
 				
 				var tEvent:ToggleEvent = new ToggleEvent(index.TOGGLE_COMMAND, true);

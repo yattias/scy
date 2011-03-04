@@ -26,14 +26,17 @@
 				tEvent.selecTarget = stack;
 				
 				so = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
+				var myPattern:RegExp = /\#/gi; 
+				var portfolioString:String = new String(so.data.retrievedElosFromRoolo).replace(myPattern, "@");
 				
 				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
 					dispatchEvent(tEvent);
 				}
 				else {
-					var ass:AutoSaveService = new AutoSaveService(so.data.saveportfolio+"?missionURI="+FlexGlobals.topLevelApplication.parameters.missionURI+"&xmlContent="+encodeURI(so.data.retrievedElosFromRoolo));
+					var ass:AutoSaveService = new AutoSaveService(so.data.saveportfolio+"?missionURI="+new String(FlexGlobals.topLevelApplication.parameters.missionURI).replace("#", "@")+"&xmlContent="+encodeURI(portfolioString));	
 					ass.httpService.addEventListener(ResultEvent.RESULT, assResult);
 					ass.httpService.addEventListener(FaultEvent.FAULT, assFault);
+					ass.sendTheMofo();
 				}
 			}
 			
