@@ -61,7 +61,6 @@ if ("undefined" == typeof(scylighter)) {
             this.strings = top.window.document.getElementById("scylighter-strings");
             this.restoreSidebar();
             this.correctSources();
-
             document.getElementById("contentAreaContextMenu").addEventListener("popupshowing", function(e) {
                 this.showContextMenu(e);
             }, false);
@@ -119,6 +118,162 @@ if ("undefined" == typeof(scylighter)) {
                 this.correctSources();
             //this will remove highlights and delete the sources
             }
+        },
+
+        generateHash: function(str){
+            var converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
+            // UTF-8 is also the encoding in the webservice
+            converter.charset = "UTF-8";
+            // result is an out parameter,
+            // result.value will contain the array length
+            var result = {};
+            // data is an array of bytes
+            var data = converter.convertToByteArray(str, result);
+            var ch = Components.classes["@mozilla.org/security/hash;1"].createInstance(Components.interfaces.nsICryptoHash);
+            ch.init(ch.MD5);
+            ch.update(data, data.length);
+            var hash = ch.finish(false);
+
+            // return the two-digit hexadecimal code for a byte
+            function toHexString(charCode)
+            {
+                return ("0" + charCode.toString(16)).slice(-2);
+            }
+
+            // convert the binary hash data to a hex string.
+            var s = [toHexString(hash.charCodeAt(i)) for (i in hash)].join("");
+            // s now contains your hash in hex: should be
+            // 5eb63bbbe01eeed093cb22bb8f5acdc3
+            return s;
+        //        return hash;
+        },
+        getWebserviceRequest: function(params, servicePath){
+            var req = new XMLHttpRequest();
+            var jsonParams = JSON.stringify(params);
+            req.jsonParams = jsonParams;
+            req.servicePath = servicePath;
+            return req;
+        },
+
+        sendRequest: function(req){
+            var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
+            prefs = prefs.getBranch("extensions.scylighter.");
+            var defaultaddress = prefs.getCharPref("defaultaddress");
+            var usedefaultaddress = prefs.getBoolPref("usedefaultaddress");
+            var address = prefs.getCharPref("address");
+
+            var serverURL = "";
+            if (usedefaultaddress){
+                serverURL = defaultaddress;
+            } else {
+                serverURL = address;
+            }
+            if(serverURL.charAt(serverURL.length-1)=="/"){
+                serverURL = serverURL + req.servicePath;
+            } else {
+                serverURL = serverURL + "/"+ req.servicePath;
+            }
+
+            //asynchronous request per POST, Content-Type JSON --> webservice consumes JSON
+            req.open('POST', serverURL, true);
+            req.setRequestHeader("Content-Type","application/json");
+            //            req.send(jsonParams);
+            req.send(req.jsonParams);
+        },
+
+        serverChallengeRequest: function(authCallback){
+
+            var sc;
+            var cc = new Date().getTime();
+            //FIXME change password to real password when usermanagement is connected
+            var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
+            prefs = prefs.getBranch("extensions.scylighter.");
+            var username = prefs.getCharPref("username");
+            //remark: password is never sent to a server!
+//            var password = prefs.getCharPref("password");
+            //TODO use loginManager
+            var password = "secret pass"; //FIXME fixed password
+
+            //Parameters for the webservice as JSON, stringified for transmission
+            var params = {};
+            params.username = username;
+            params.cc = cc;
+            params.type = "cc";
+
+            req = this.getWebserviceRequest(params, "serverChallenge");
+
+            req.onreadystatechange = function (aEvt) {
+                var alertString="";
+                try{
+                    if (req.readyState == 4) {
+                        if(req.status == 200){
+                            //ok
+                            sc = req.responseText;
+                            scylighter.serverResponseRequest(sc, cc, password, authCallback);
+                        }
+                        else {
+                            alertString = top.window.document.getElementById("scylighter-strings").getString("errorLoadingPage")+"\n"+document.getElementById("scylighter-strings").getString("errorCode") + req.status + "\n" + document.getElementById("scylighter-strings").getString(req.responseText);
+                            window.alert(alertString);
+                        }
+                    } else {
+                }
+                }catch (e) {
+                    window.alert(e);
+                    alertString = top.window.document.getElementById("scylighter-strings").getString("noAuth");
+                    window.alert(alertString);
+                }
+            };
+            this.sendRequest(req);
+        },
+
+        serverResponseRequest: function(sc, cc, password, authCallback){
+            var cr = this.calculateCr(cc, sc, password);
+            //Parameters for the webservice as JSON, stringified for transmission
+
+            var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
+            prefs = prefs.getBranch("extensions.scylighter.");
+            var username = prefs.getCharPref("username");
+            var params = {};
+            params.cr = cr;
+            params.username = username;
+            params.type = "sr";
+
+            req = this.getWebserviceRequest(params, "serverResponse");
+
+            req.onreadystatechange = function (aEvt) {
+                var alertString="";
+                try{
+                    if (req.readyState == 4) {
+                        if(req.status == 200){
+                            //ok
+                            sr = req.responseText;
+                            //TODO calculate expected sr, match it against sr
+                            //expected sr = hash(sc + cc + secret)
+                            expectedSr = scylighter.generateHash(sc + cc + password);
+                            if(sr==expectedSr){
+                                authCallback();
+                            } else {
+                                window.alert("Auth failed, server may be corrupted");
+                            }
+                        }
+                        else {
+                            alertString = top.window.document.getElementById("scylighter-strings").getString("errorLoadingPage")+"\n"+document.getElementById("scylighter-strings").getString("errorCode") + req.status + "\n" + document.getElementById("scylighter-strings").getString(req.responseText);
+                            window.alert(alertString);
+                        }
+                    } else {
+                }
+                }catch (e) {
+                    alertString = top.window.document.getElementById("scylighter-strings").getString("noServerResponse");
+                    window.alert(alertString);
+                }
+            };
+            this.sendRequest(req);
+        },
+
+        calculateCr: function(cc, sc, password){
+            hash = cc+sc+password;
+            cr = this.generateHash(hash);
+            return cr;
         },
 
         storeSidebar: function(){
@@ -214,154 +369,154 @@ if ("undefined" == typeof(scylighter)) {
             return true;
         },
 
-        //Opens the Dialog for opening ELOs
-        openELO: function(){
-
-            //Registering this window as "THE" main-window
-
-            //Open the new Overlay for selecting ELOs
-            //var windowObjectReference = window.open("chrome://scylighter/content/openELOWindow.xul", "openELOWindow", "chrome,width=790,height=400,resizable=yes,scrollbars=yes, modal");
-            var windowObjectReference = window.open("chrome://scylighter/content/openELOWindow.xul", "openELOWindow", "chrome,width=790,height=400,resizable=yes,scrollbars=yes");
-            windowObjectReference.focus();
-
-        //Query the webservice and get ELO-Data (String-Representations with IDs/URIs)
-
-        },
+        //        //Opens the Dialog for opening ELOs
+        //        openELO: function(){
+        //
+        //            //Registering this window as "THE" main-window
+        //
+        //            //Open the new Overlay for selecting ELOs
+        //            //var windowObjectReference = window.open("chrome://scylighter/content/openELOWindow.xul", "openELOWindow", "chrome,width=790,height=400,resizable=yes,scrollbars=yes, modal");
+        //            var windowObjectReference = window.open("chrome://scylighter/content/openELOWindow.xul", "openELOWindow", "chrome,width=790,height=400,resizable=yes,scrollbars=yes");
+        //            windowObjectReference.focus();
+        //
+        //        //Query the webservice and get ELO-Data (String-Representations with IDs/URIs)
+        //
+        //        },
         clearList: function(listbox){
             while(listbox.getRowCount()>0){
                 listbox.removeItemAt(0);
             }
         },
 
-        retrieveELOList: function(){
-            //retrieves a list of the queried ELOs
+        //        retrieveELOList: function(){
+        //            //retrieves a list of the queried ELOs
+        //
+        //            var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
+        //
+        //            var eloList = document.getElementById("elolist");
+        //            //clear the list to not append the new search-results to the old list
+        //            this.clearList(eloList);
+        //
+        //            //Parameters for the webservice:
+        //            var prefs = Components.classes["@mozilla.org/preferences-service;1"]
+        //            .getService(Components.interfaces.nsIPrefService);
+        //            prefs = prefs.getBranch("extensions.scylighter.");
+        //            var username = prefs.getCharPref("username");
+        //            var password = prefs.getCharPref("password");
+        //            var defaultaddress = prefs.getCharPref("defaultaddress");
+        //            var usedefaultaddress = prefs.getBoolPref("usedefaultaddress");
+        //            var address = prefs.getCharPref("address");
+        //
+        //            //Request to the webservice: Which ELOs fit to the filter criteria
+        //            //RESTful webservice request
+        //            var req = new XMLHttpRequest();
+        //
+        //            //Parameters for the webservice as JSON, stringified for transmission
+        //            var params = {};
+        //            params.username = username;
+        //            //params.password = password;
+        //            params.title = document.getElementById("filterTitle").value;
+        //            params.author = document.getElementById("filterAuthor").value;
+        //            params.date = document.getElementById("filterDate").value;
+        //            params.keywords = document.getElementById("filterKeywords").value;
+        //            var jsonParams = JSON.stringify(params);
+        //
+        //
+        //            //the scylighter-strings from the stringbundle
+        //            this.strings = top.window.document.getElementById("scylighter-strings");
+        //
+        //            //Response: A List-Representation of the ELOs
+        //            req.onreadystatechange = function (aEvt) {
+        //                var alertString="";
+        //                try{
+        //                    if (req.readyState == 4) {
+        //                        if(req.status == 200){
+        //                            //var responseText = req.responseText;
+        //                            //var alertString = this.strings.getString(responseText);
+        //                            //window.alert(alertString);
+        //
+        //                            //The response as JSON has to be parsed
+        //                            var jsObject = JSON.parse(req.responseText);
+        //                            var elos = jsObject.elos;
+        //
+        //                            //fill the listbox with search results:
+        //                            for (i=0;i<elos.length;i++){
+        //
+        //                                var titleCell = document.createElement("listcell");
+        //                                titleCell.setAttribute("label", elos[i].title);
+        //                                //titleCell.setAttribute("style", "text-align:right");
+        //
+        //                                var authorCell = document.createElement("listcell");
+        //                                authorCell.setAttribute("label", elos[i].author);
+        //
+        //                                var dateCell = document.createElement("listcell");
+        //                                dateCell.setAttribute("label", elos[i].date);
+        //
+        //                                var uriCell = document.createElement("listcell");
+        //                                uriCell.setAttribute("label", elos[i].uri);
+        //
+        //                                var item = document.createElement("listitem");
+        //
+        //                                item.appendChild(titleCell);
+        //                                item.appendChild(authorCell);
+        //                                item.appendChild(dateCell);
+        //                                item.appendChild(uriCell);
+        //
+        //                                eloList.appendChild(item);
+        //
+        //                            //window.alert(item.childNodes[3].getAttribute("label"));
+        //                            }
+        //
+        //
+        //                            //window.alert(jsObject.errors);
+        //                            //window.alert(jsObject.elos);
+        //
+        //
+        //
+        //
+        //                            //window.alert(jsObject.elos[0]);
+        //                            window.alert(top.window.document.getElementById("scylighter-strings").getString(req.responseText));
+        //                            window.alert(req.responseText);
+        //                        }
+        //                        else {
+        //                            alertString = top.window.document.getElementById("scylighter-strings").getString("errorLoadingPage")+"\n"+document.getElementById("scylighter-strings").getString("errorCode") + req.status + "\n" + document.getElementById("scylighter-strings").getString(req.responseText);
+        //                            window.alert(alertString);
+        //                        }
+        //                    } else {
+        //
+        //                }
+        //                }catch (e) {
+        //                    alertString = top.window.document.getElementById("scylighter-strings").getString("noServerResponse");
+        //                    window.alert(alertString);
+        //
+        //                }
+        //            };
+        //
+        //            //setting the server-URL to the right resource
+        //            var serverURL = "";
+        //            if (usedefaultaddress){
+        //                serverURL = defaultaddress;
+        //            } else {
+        //                serverURL = address;
+        //            }
+        //            serverURL = serverURL + "/getELOList";
+        //
+        //            //asynchronous request per POST, Content-Type JSON --> webservice consumes JSON
+        //            req.open('POST', serverURL, true);
+        //            //req.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+        //            req.setRequestHeader("Content-Type","application/json");
+        //            //req.setRequestHeader("Timeout", 0.1);
+        //            req.send(jsonParams);
+        //
+        //
+        //        },
 
-            var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
-
-            var eloList = document.getElementById("elolist");
-            //clear the list to not append the new search-results to the old list
-            this.clearList(eloList);
-
-            //Parameters for the webservice:
-            var prefs = Components.classes["@mozilla.org/preferences-service;1"]
-            .getService(Components.interfaces.nsIPrefService);
-            prefs = prefs.getBranch("extensions.scylighter.");
-            var username = prefs.getCharPref("username");
-            var password = prefs.getCharPref("password");
-            var defaultaddress = prefs.getCharPref("defaultaddress");
-            var usedefaultaddress = prefs.getBoolPref("usedefaultaddress");
-            var address = prefs.getCharPref("address");
-
-            //Request to the webservice: Which ELOs fit to the filter criteria
-            //RESTful webservice request
-            var req = new XMLHttpRequest();
-
-            //Parameters for the webservice as JSON, stringified for transmission
-            var params = {};
-            params.username = username;
-            //params.password = password;
-            params.title = document.getElementById("filterTitle").value;
-            params.author = document.getElementById("filterAuthor").value;
-            params.date = document.getElementById("filterDate").value;
-            params.keywords = document.getElementById("filterKeywords").value;
-            var jsonParams = JSON.stringify(params);
-
-
-            //the scylighter-strings from the stringbundle
-            this.strings = top.window.document.getElementById("scylighter-strings");
-
-            //Response: A List-Representation of the ELOs
-            req.onreadystatechange = function (aEvt) {
-                var alertString="";
-                try{
-                    if (req.readyState == 4) {
-                        if(req.status == 200){
-                            //var responseText = req.responseText;
-                            //var alertString = this.strings.getString(responseText);
-                            //window.alert(alertString);
-
-                            //The response as JSON has to be parsed
-                            var jsObject = JSON.parse(req.responseText);
-                            var elos = jsObject.elos;
-
-                            //fill the listbox with search results:
-                            for (i=0;i<elos.length;i++){
-
-                                var titleCell = document.createElement("listcell");
-                                titleCell.setAttribute("label", elos[i].title);
-                                //titleCell.setAttribute("style", "text-align:right");
-
-                                var authorCell = document.createElement("listcell");
-                                authorCell.setAttribute("label", elos[i].author);
-
-                                var dateCell = document.createElement("listcell");
-                                dateCell.setAttribute("label", elos[i].date);
-
-                                var uriCell = document.createElement("listcell");
-                                uriCell.setAttribute("label", elos[i].uri);
-
-                                var item = document.createElement("listitem");
-
-                                item.appendChild(titleCell);
-                                item.appendChild(authorCell);
-                                item.appendChild(dateCell);
-                                item.appendChild(uriCell);
-
-                                eloList.appendChild(item);
-
-                            //window.alert(item.childNodes[3].getAttribute("label"));
-                            }
-
-
-                            //window.alert(jsObject.errors);
-                            //window.alert(jsObject.elos);
-
-
-
-
-                            //window.alert(jsObject.elos[0]);
-                            window.alert(top.window.document.getElementById("scylighter-strings").getString(req.responseText));
-                            window.alert(req.responseText);
-                        }
-                        else {
-                            alertString = top.window.document.getElementById("scylighter-strings").getString("errorLoadingPage")+"\n"+document.getElementById("scylighter-strings").getString("errorCode") + req.status + "\n" + document.getElementById("scylighter-strings").getString(req.responseText);
-                            window.alert(alertString);
-                        }
-                    } else {
-
-                }
-                }catch (e) {
-                    alertString = top.window.document.getElementById("scylighter-strings").getString("noServerResponse");
-                    window.alert(alertString);
-
-                }
-            };
-
-            //setting the server-URL to the right resource
-            var serverURL = "";
-            if (usedefaultaddress){
-                serverURL = defaultaddress;
-            } else {
-                serverURL = address;
-            }
-            serverURL = serverURL + "/getELOList";
-
-            //asynchronous request per POST, Content-Type JSON --> webservice consumes JSON
-            req.open('POST', serverURL, true);
-            //req.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-            req.setRequestHeader("Content-Type","application/json");
-            //req.setRequestHeader("Timeout", 0.1);
-            req.send(jsonParams);
-
-
-        },
-
-        retrieveELO: function(){
-
-        //when the user selected a specific ELO and clicks "open" in the Open-ELO Dialog, a request with the ELO ID/URI will be sent to the webservice
-
-        //The response will be the ELO, which is a json String in case of web-ELOs
-        },
+        //        retrieveELO: function(){
+        //
+        //        //when the user selected a specific ELO and clicks "open" in the Open-ELO Dialog, a request with the ELO ID/URI will be sent to the webservice
+        //
+        //        //The response will be the ELO, which is a json String in case of web-ELOs
+        //        },
 
         getElementsByAttributeDOM: function (strAttributeName, strAttributeValue){
 
@@ -394,7 +549,6 @@ if ("undefined" == typeof(scylighter)) {
             // show or hide the menuitem based on what the context menu is on
             // see http://kb.mozillazine.org/Adding_items_to_menus
 
-            //XX1
             document.getElementById("context-scylighter").hidden = gContextMenu.onImage;
         },
         deleteSelection: function(){
@@ -659,17 +813,13 @@ if ("undefined" == typeof(scylighter)) {
         },
         onMenuItemCommand: function(e) {
             this.count = this.count + 1;
-            //XXX
-
 
             var sidebarWindow = document.getElementById("sidebar").contentWindow;
 
             var summaryBox = sidebarWindow.document.getElementById('summaryBox');
             var urlBox = sidebarWindow.document.getElementById('urlBox');
 
-            //XX1
             var theSelection = top.window.content.document.getSelection();
-            //var theSelection = window.content.getSelection();
 
             if (theSelection!=""){
 
@@ -701,18 +851,11 @@ if ("undefined" == typeof(scylighter)) {
         },
         highlightDoc: function() {
 
-            //XX1
             var node = document.popupNode;
             if (node == null){
                 var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
                 var browser = mainWindow.gBrowser;
                 win = browser.contentWindow;
-            //window.alert(win.getSelection());
-            //window.alert(win.getSelection());
-            /*win = top.window.document;
-		window.alert(win.getSelection());
-		win = mainWindow;
-		window.alert(win.getSelection());*/
             } else {
                 var win = node.ownerDocument.defaultView;
             }
@@ -910,16 +1053,67 @@ if ("undefined" == typeof(scylighter)) {
             var windowObjectReference = window.open("chrome://scylighter/content/options.xul", "Options", "chrome");
             windowObjectReference.focus();
         },
-        saveELO: function(){
+        createXML: function(){
+            var summaryXML = "<document>";
 
+            //append title
+            var titleBox = document.getElementById('titleBox');
+            if (titleBox == null){
+                titleBox = sidebar.contentDocument.getElementById('titleBox');
+            }
+            summaryXML = summaryXML + "<title>"+ titleBox.value + "</title>";
+
+            //append summary from the summmaryBox
+            var summaryBox = document.getElementById('summaryBox');
+            if (summaryBox == null){
+                summaryBox = sidebar.contentDocument.getElementById('summaryBox');
+            }
+            var bullets = "";
+            for(i = 0; i < summaryBox.itemCount; i++){
+                bullets = bullets + "<quote>"+summaryBox.getItemAtIndex(i).label+"</quote>";
+            }
+            summaryXML = summaryXML + "<quotes>" + bullets + "</quotes>";
+
+            //append comments
+            //Maybe it is a good idea to split multiple comments by /n and branch the comments-tag
+            var commentBox = document.getElementById('commentBox');
+            if (commentBox == null){
+                commentBox = sidebar.contentDocument.getElementById('commentBox');
+            }
+            var comments = commentBox.value.split("\n");
+            var commentsContent = "";
+            for (i=0; i<comments.length;i++) {
+                commentsContent = commentsContent + "<comment>" + comments[i] + "</comment>";
+            }
+            summaryXML = summaryXML + "<comments>" + commentsContent + "</comments>";
+
+            //append sources
+            //Maybe it is a good idea to split multiple sources by /n and branch the sources-tag
+
+            var urlBox = document.getElementById('urlBox');
+            if (urlBox == null){
+                urlBox = sidebar.contentDocument.getElementById('urlBox');
+            }
+            var sources = urlBox.value.split("\n");
+            var sourcesContent = "";
+            for (i=0; i<sources.length;i++) {
+                sourcesContent = sourcesContent + "<source>" + sources[i] + "</source>";
+            }
+
+            summaryXML = summaryXML + "<sources>" + sourcesContent + "</sources>";
+
+            //close the document tag
+            summaryXML = summaryXML + "</document>";
+            return summaryXML;
+        },
+        saveEloRequest: function(){
             //the scylighter-strings from the stringbundle
             this.strings = top.window.document.getElementById("scylighter-strings");
 
             var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
 
             //username and password will be received from the preferences
-            var prefs = Components.classes["@mozilla.org/preferences-service;1"]
-            .getService(Components.interfaces.nsIPrefService);
+            var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
             prefs = prefs.getBranch("extensions.scylighter.");
             var username = prefs.getCharPref("username");
             var password = prefs.getCharPref("password");
@@ -931,58 +1125,7 @@ if ("undefined" == typeof(scylighter)) {
                 this.openPreferences();
             } else {
                 //create the summaryDocument (XML)
-
-                var summaryXML = "<document>";
-
-                //append title
-                var titleBox = document.getElementById('titleBox');
-                if (titleBox == null){
-                    titleBox = sidebar.contentDocument.getElementById('titleBox');
-                }
-                summaryXML = summaryXML + "<title>"+ titleBox.value + "</title>";
-
-                //append summary from the summmaryBox
-                var summaryBox = document.getElementById('summaryBox');
-                if (summaryBox == null){
-                    summaryBox = sidebar.contentDocument.getElementById('summaryBox');
-                }
-                var bullets = "";
-                for(i = 0; i < summaryBox.itemCount; i++){
-                    bullets = bullets + "<quote>"+summaryBox.getItemAtIndex(i).label+"</quote>";
-                }
-                summaryXML = summaryXML + "<quotes>" + bullets + "</quotes>";
-
-                //append comments
-                //Maybe it is a good idea to split multiple comments by /n and branch the comments-tag
-                var commentBox = document.getElementById('commentBox');
-                if (commentBox == null){
-                    commentBox = sidebar.contentDocument.getElementById('commentBox');
-                }
-                var comments = commentBox.value.split("\n");
-                var commentsContent = "";
-                for (i=0; i<comments.length;i++) {
-                    commentsContent = commentsContent + "<comment>" + comments[i] + "</comment>";
-                }
-                summaryXML = summaryXML + "<comments>" + commentsContent + "</comments>";
-
-                //append sources
-                //Maybe it is a good idea to split multiple sources by /n and branch the sources-tag
-
-                var urlBox = document.getElementById('urlBox');
-                if (urlBox == null){
-                    urlBox = sidebar.contentDocument.getElementById('urlBox');
-                }
-                var sources = urlBox.value.split("\n");
-                var sourcesContent = "";
-                for (i=0; i<sources.length;i++) {
-                    sourcesContent = sourcesContent + "<source>" + sources[i] + "</source>";
-                }
-
-                summaryXML = summaryXML + "<sources>" + sourcesContent + "</sources>";
-
-                //close the document tag
-                summaryXML = summaryXML + "</document>";
-
+                var summaryXML = scylighter.createXML();
                 //----------------------------------------
 
                 //for now, html isnt used because there is no usecase for wrapping the whole html of a page as a backup inside the ELO
@@ -1000,16 +1143,14 @@ if ("undefined" == typeof(scylighter)) {
                         languageCode = lang;
                     }
                 }
-            
+
                 //RESTful webservice request
                 var req = new XMLHttpRequest();
 
-
                 //Parameters for the webservice as JSON, stringified for transmission
                 var params = {};
-                params.content = "<webresource><preview><![CDATA["+this.getPreview()+"]]></preview>"+"<annotations> "+summaryXML+" </annotations>"+"\n <html>\n</html></webresource>";
+                params.content = "<webresource><preview><![CDATA["+scylighter.getPreview()+"]]></preview>"+"<annotations> "+summaryXML+" </annotations>"+"\n <html>\n</html></webresource>";
                 params.username = username;
-                params.password = password;
                 params.type = "scy/webresourcer";
                 if (countryCode == null){
                     params.language = languageCode;
@@ -1017,10 +1158,15 @@ if ("undefined" == typeof(scylighter)) {
                     params.language = languageCode;
                     params.country = countryCode;
                 }
-                if (this.updateURI.length>1){
+                if (scylighter.updateURI.length>1){
                     params.uri = this.updateURI;
                 }
+                var titleBox = document.getElementById('titleBox');
+                if (titleBox==null){
+                    titleBox = sidebar.contentDocument.getElementById('titleBox');
+                }
                 params.title = titleBox.value;
+                params.authType = "challenge/response";
                 var jsonParams = JSON.stringify(params);
 
                 req.onreadystatechange = function (aEvt) {
@@ -1028,21 +1174,19 @@ if ("undefined" == typeof(scylighter)) {
                     try{
                         if (req.readyState == 4) {
                             if(req.status == 200){
-                                //var responseText = req.responseText;
-                                //var alertString = this.strings.getString(responseText);
-                                //window.alert(alertString);
                                 updating = true;
-                                this.updateURI = req.responseText;
+                                scylighter.updateURI = req.responseText;
                                 window.alert(top.window.document.getElementById("scylighter-strings").getString("eloSaved"));
                             }
                             else {
-                                alertString = top.window.document.getElementById("scylighter-strings").getString("errorLoadingPage")+"\n"+document.getElementById("scylighter-strings").getString("errorCode") + req.status + "\n" + document.getElementById("scylighter-strings").getString(req.responseText);
+                                alertString = scylighter.strings.getString("errorLoadingPage")+"\n"+scylighter.strings.getString("errorCode") + req.status + "\n";
                                 window.alert(alertString);
                             }
                         } else {
 
                     }
                     }catch (e) {
+                        window.alert(e);
                         alertString = top.window.document.getElementById("scylighter-strings").getString("noServerResponse");
                         window.alert(alertString);
                     }
@@ -1067,25 +1211,9 @@ if ("undefined" == typeof(scylighter)) {
                 //req.setRequestHeader("Timeout", 0.1);
                 req.send(jsonParams);
             }
-
-        /*//JSON Request maybe useful for another platform or version
-        requestNumber = JSONRequest.post(
-    "http://localhost:33604/ELOSaver/resources/saveELO",
-    {
-        xml:"TestXML",
-        username:"TestUser",
-        password:"TestPassword"
-    },
-    function (requestNumber, value, exception) {
-        window.alert(value);
-        if (value) {
-            window.alert(value);
-        } else {
-            window.alert(exception);
-        }
-    }
-);
-}*/
+        },
+        saveELO: function(){
+            this.serverChallengeRequest(this.saveEloRequest);
         },
         showPreviewELOWindow : function() {
 
@@ -1419,23 +1547,23 @@ if ("undefined" == typeof(scylighter)) {
     };
 
 
-//Components.utils.import("resource://scylighter/highlights.jsm");
-//General eventlistener
-window.addEventListener("beforeunload", function(e) {
-    scylighter.onBeforeUnload(e);
-}, false);
-window.addEventListener("afterunload", function(e) {
-    scylighter.onAfterUnload(e);
-}, false);
-window.addEventListener("unload", function(e) {
-    scylighter.onUnload(e);
-}, false);
-window.addEventListener("load", function(e) {
-    scylighter.onLoad(e);
-}, false);
+    //Components.utils.import("resource://scylighter/highlights.jsm");
+    //General eventlistener
+    window.addEventListener("beforeunload", function(e) {
+        scylighter.onBeforeUnload(e);
+    }, false);
+    window.addEventListener("afterunload", function(e) {
+        scylighter.onAfterUnload(e);
+    }, false);
+    window.addEventListener("unload", function(e) {
+        scylighter.onUnload(e);
+    }, false);
+    window.addEventListener("load", function(e) {
+        scylighter.onLoad(e);
+    }, false);
 
-//Adding listener for Tab-events
-var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
-var container = mainWindow.gBrowser.tabContainer;
-container.onselect = scylighter.findBrokenHighlights;
+    //Adding listener for Tab-events
+    var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
+    var container = mainWindow.gBrowser.tabContainer;
+    container.onselect = scylighter.findBrokenHighlights;
 }
