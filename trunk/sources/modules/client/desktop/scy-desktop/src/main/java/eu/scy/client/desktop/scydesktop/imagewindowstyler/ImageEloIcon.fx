@@ -6,10 +6,10 @@
 package eu.scy.client.desktop.scydesktop.imagewindowstyler;
 
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Stack;
 
 /**
  * @author sikken
@@ -34,22 +34,33 @@ public class ImageEloIcon extends EloIcon {
 
 
    public override function create(): Node {
-      def scale = calculateScale(inactiveImage.width,inactiveImage.height);
-      return Group {
-         scaleX:scale
-         scaleY:scale
-                 content: [
-                        imageView = ImageView {
-                            image: getCorrectImage();
-                        }
-                    ]
-              };
+      imageView = ImageView {
+          image: getCorrectImage();
+      }
+
+      scaleNode(imageView);
+      return Stack {
+            content: [
+               EloIconBackground {
+                  visible: bind selected
+                  size: bind size
+                  cornerRadius: cornerRadius
+                  borderSize: borderSize
+               }
+               imageView,
+               EloIconBorder {
+                  visible: bind selected
+                  size: bind size
+                  cornerRadius: cornerRadius
+                  borderSize: borderSize
+                  borderColor: bind windowColorScheme.mainColor
+               }
+            ]
+         };
    }
 
    public override function clone():EloIcon{
       ImageEloIcon{
-         scaleX: scaleX
-         scaleY: scaleY
          activeImage: activeImage
          inactiveImage: inactiveImage
          selected:selected

@@ -164,9 +164,7 @@ public static function showMessageDialog(text: String, dialogTitle: String, dial
               }
               windowColorScheme: windowStyler.getWindowColorScheme("general/new")
            };
-   dialogBox.content = getDialogBoxContent(dialogWidth, dialogBox, DialogType.OK_DIALOG, text, okAction, function() {
-           }, function() {
-           });
+   dialogBox.content = getDialogBoxContent(dialogWidth, dialogBox, DialogType.OK_DIALOG, text, okAction, function() {}, function() {});
    dialogBox.place();
 }
 
@@ -202,11 +200,9 @@ public static function showOptionDialog(dialogType: DialogType, text: String, di
               windowColorScheme: windowStyler.getWindowColorScheme("general/search")
            };
    dialogBox.content = if (sizeof supportedOptionTypes[n | n == dialogType] > 0) {
-              getDialogBoxContent(dialogWidth, dialogBox, dialogType, text, okAction, cancelAction, function() {
-              })
+              getDialogBoxContent(dialogWidth, dialogBox, dialogType, text, okAction, cancelAction, function() {})
            } else { //Default OptionPane Type
-              getDialogBoxContent(dialogWidth, dialogBox, DialogType.OK_CANCEL_DIALOG, text, okAction, cancelAction, function() {
-              })
+              getDialogBoxContent(dialogWidth, dialogBox, DialogType.OK_CANCEL_DIALOG, text, okAction, cancelAction, function() {})
            };
    dialogBox.place();
 //        FX.deferAction(dialogBox.place);
