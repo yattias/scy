@@ -98,12 +98,14 @@
         <property name="userService" ref="userService"/>
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
         <property name="missionELOService" ref="missionELOService"/>
+        <property name="urlInspector" ref="urlInspector"/>
     </bean>
 
     <bean id="myContributionElosFeedbackService" class="eu.scy.server.controllers.scyfeedback.xml.MyContributionElosFeedbackService">
         <property name="userService" ref="userService"/>
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
         <property name="missionELOService" ref="missionELOService"/>
+        <property name="urlInspector" ref="urlInspector"/>
     </bean>
 
     <bean id="studentEloRefViewerController"
