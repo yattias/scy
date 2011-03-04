@@ -61,7 +61,7 @@ public abstract class MissionRuntimeEnabledXMLService extends XMLStreamerControl
 
     protected PedagogicalPlanTransfer getPedagogicalPlanTransfer(MissionSpecificationElo missionSpecificationElo) {
         URI pedagogicalPlanUri = missionSpecificationElo.getTypedContent().getPedagogicalPlanSettingsEloUri();
-        logger.info("**** PEDAGOGICAL PLAN URI: " + pedagogicalPlanUri);
+        logger.info("**** PEDAGOGICAL PLAN URI: " + pedagogicalPlanUri + " from service " + getClass().getName());
 
         ScyElo pedagogicalPlanELO = ScyElo.loadLastVersionElo(pedagogicalPlanUri, getMissionELOService());
         String pedagogicalPlanXML = pedagogicalPlanELO.getContent().getXmlString();

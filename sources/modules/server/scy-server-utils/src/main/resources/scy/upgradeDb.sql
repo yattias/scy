@@ -11,3 +11,4 @@ ALTER TABLE `groups` ADD CONSTRAINT `pedagogicalPlan_const` FOREIGN KEY (`pedago
 ALTER TABLE `teacher_user_details` ADD COLUMN `profilePicture` varchar(55) default NULL;
 ALTER TABLE `teacher_user_details` ADD KEY `tprofileFileRef` (`profilePicture`);
 ALTER TABLE `teacher_user_details` ADD CONSTRAINT `tconst_profileFileRef` FOREIGN KEY (`profilePicture`) REFERENCES `fileref` (`primKey`);
+ALTER TABLE `teacher_user_details` ADD CONSTRAINT `t_const_profile_picture_ref` FOREIGN KEY (`profilePicture`) REFERENCES `fileref` (`primKey`);

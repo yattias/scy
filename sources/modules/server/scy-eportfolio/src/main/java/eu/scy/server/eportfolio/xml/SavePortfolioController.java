@@ -2,6 +2,7 @@ package eu.scy.server.eportfolio.xml;
 
 import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.scyelo.ScyElo;
+import eu.scy.core.model.transfer.Portfolio;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.server.controllers.BaseController;
 import org.springframework.web.servlet.ModelAndView;
@@ -44,8 +45,6 @@ public class SavePortfolioController extends BaseController {
             logger.info("MIssionURI: " + missionURI + " from service: " +getClass().getName());
             if (missionURI != null) {
                 missionURI = URLDecoder.decode(missionURI, "UTF-8");
-                //missionURI = missionURI.replaceAll(">", "");
-                //missionURI = missionURI.replaceAll("<", "");
 
                 ScyElo scyElo = (ScyElo) getUrlInspector().instpectRequest(request, response);
                 MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadElo(new URI(missionURI), getMissionELOService());
@@ -53,8 +52,8 @@ public class SavePortfolioController extends BaseController {
                 logger.info("DID I GET A PORTFOLIO NOW??: " + portfolioELO);
 
                 ScyElo portfolioElo = ScyElo.loadLastVersionElo(portfolioELO, getMissionELOService());
-                portfolioElo.loadMetadata(portfolioElo.getElo().getUri(), getMissionELOService());
                 portfolioElo.getContent().setXmlString(xmlContent);
+                logger.info("SETTING THIS XML ON THE PORTFOLIO ELO: " + portfolioElo.getContent().getXmlString());
                 portfolioElo.updateElo();
 
             }

@@ -136,20 +136,23 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
 
     private void addStudent(String missionURIString, String username, ModelAndView modelAndView, PedagogicalPlan pedagogicalPlan) {
         try {
+            long start = System.currentTimeMillis();
             logger.info("LOADING URI: " + missionURIString + " ?????????? ADDING STUDENT!");
             URI missionURI = new URI(missionURIString);
             MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(missionURI, getMissionELOService());
 
             // /String username = request.getParameter("username");
 
-            User user = getUserService().getUser(username);
-            StudentUserDetails details = (StudentUserDetails) user.getUserDetails();
+            //User user = getUserService().getUser(username);
+            //StudentUserDetails details = (StudentUserDetails) user.getUserDetails();
             MissionRuntimeModel missionRuntimeModel = missionSpecificationElo.getMissionManagement().createMissionRuntimeModelElos(username);
-            logger.info("MISSION RUNTIME: " + missionRuntimeModel.getRuntimeSettingsElo().getDescription());
-            logger.info("MISSION RUNTIME: " + missionRuntimeModel.getRuntimeSettingsElo().getUri());
-            RuntimeSettingKey globalMissionScaffoldingLevelKey = new RuntimeSettingKey("globalMissionScaffoldingLevel", null, null);
-            String scaffolding = missionRuntimeModel.getRuntimeSettingsElo().getTypedContent().getSetting(globalMissionScaffoldingLevelKey);
-            logger.info("SCAFFOLDING: " + scaffolding);
+            long totalTime = System.currentTimeMillis() - start;
+            logger.info("ASSIGNING STUDENT: " + username + " TO MISSION " + missionSpecificationElo.getTitle() + " TOOK " + totalTime + " MILLIS!");
+            //logger.info("MISSION RUNTIME: " + missionRuntimeModel.getRuntimeSettingsElo().getDescription());
+            //logger.info("MISSION RUNTIME: " + missionRuntimeModel.getRuntimeSettingsElo().getUri());
+            //RuntimeSettingKey globalMissionScaffoldingLevelKey = new RuntimeSettingKey("globalMissionScaffoldingLevel", null, null);
+            //String scaffolding = missionRuntimeModel.getRuntimeSettingsElo().getTypedContent().getSetting(globalMissionScaffoldingLevelKey);
+            //logger.info("SCAFFOLDING: " + scaffolding);
 
             //logger.info("Adding " + details.getUsername() + " " + details.getFirstName() + " " + details.getLastName() + " to ped plan " + pedagogicalPlan.getName() + " " + pedagogicalPlan.getId());
 

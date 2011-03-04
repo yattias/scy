@@ -64,6 +64,7 @@ public class StudentIndexController extends BaseController {
         modelAndView.addObject("numberOfFeedbacksToMyElos", myElosWithFeedback.size());
         modelAndView.addObject("elosWhereIHaveProvidedFeedback", elosWhereIHaveProvidedFeedback.size());
         try {
+            //modelAndView.addObject("jnlpRef", "/webapp/scy-lab.jnlp?username=" + getCurrentUserName(request) + "&mission=" + URLEncoder.encode(missionRuntimeElo.getUri().toString(), "UTF-8"));
             modelAndView.addObject("jnlpRef", "/webapp/scy-lab.jnlp?username=" + getCurrentUserName(request) + "&mission=" + URLEncoder.encode(missionRuntimeElo.getUri().toString(), "UTF-8"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

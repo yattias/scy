@@ -577,6 +577,28 @@
         </attribute>
     </tag>
 
+    <tag>
+        <name>ajaxPasswordField</name>
+        <tagclass>eu.scy.server.taglibs.AjaxPasswordField</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax text field</info>
+        <attribute>
+            <name>model</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>isMultiLine</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
 
 
 
