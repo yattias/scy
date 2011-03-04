@@ -373,9 +373,9 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
                 List givenFeedback = feedbackEloTransfer.getFeedbacks();
                 for (int j = 0; j < givenFeedback.size(); j++) {
                     FeedbackTransfer feedbackTransfer = (FeedbackTransfer) givenFeedback.get(j);
-                    System.out.println("FEEDBACK: "+ feedbackTransfer.getCreatedBy() + " ( " + feedbackTransfer.getComment() + " )");
+                    log.fine("FEEDBACK: "+ feedbackTransfer.getCreatedBy() + " ( " + feedbackTransfer.getComment() + " )");
                     if(feedbackTransfer.getCreatedBy().equals(currentUserName)) {
-                        System.out.println("Created by equals (" + currentUserName );
+                        log.fine("Created by equals (" + currentUserName );
                         if(!returnList.contains(feedbackTransfer)) returnList.add(feedbackTransfer);
                     } else {
                         List replies = feedbackTransfer.getReplies();
