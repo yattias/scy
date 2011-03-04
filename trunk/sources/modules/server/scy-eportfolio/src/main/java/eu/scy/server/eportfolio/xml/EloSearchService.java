@@ -2,6 +2,7 @@ package eu.scy.server.eportfolio.xml;
 
 import com.thoughtworks.xstream.XStream;
 import eu.scy.common.mission.MissionRuntimeElo;
+import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.model.transfer.ELOSearchResult;
@@ -12,6 +13,8 @@ import roolo.elo.BasicELO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -27,21 +30,36 @@ public class EloSearchService extends MissionRuntimeEnabledXMLService {
     private UrlInspector urlInspector;
 
     @Override
-    protected Object getObject(MissionRuntimeElo missionRuntimeElo, HttpServletRequest request, HttpServletResponse response) {
+    protected Object getObject(MissionRuntimeElo mre, HttpServletRequest request, HttpServletResponse response) {
 
-
-        String searchParameters = request.getParameter("searchParameters");
-
-        List elos = getMissionELOService().findElosFor("ecomission", getCurrentUserName(request));
-        ELOSearchResult eloSearchResult = new ELOSearchResult();
-        for (int i = 0; i < elos.size(); i++) {
-            BasicELO basicELO = (BasicELO) elos.get(i);
-            ScyElo scyElo = ScyElo.loadLastVersionElo(basicELO.getUri(), getMissionELOService());
-            eloSearchResult.getElos().add(createELOModel(scyElo));
-            logger.info("PART OF SEARCH RESULT: "+  scyElo.getTitle());
+        URI missionURI = null;
+        try {
+            missionURI = new URI(request.getParameter("missionURI"));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
 
-        return eloSearchResult;
+        if (missionURI != null) {
+            MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(missionURI, getMissionELOService());
+            MissionSpecificationElo missionSpecificationElo = getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo);
+
+            //String searchParameters = request.getParameter("searchParameters");
+
+            List elos = getMissionELOService().findElosFor(missionSpecificationElo.getUri(), getCurrentUserName(request));
+            ELOSearchResult eloSearchResult = new ELOSearchResult();
+            for (int i = 0; i < elos.size(); i++) {
+                BasicELO basicELO = (BasicELO) elos.get(i);
+                ScyElo scyElo = ScyElo.loadLastVersionElo(basicELO.getUri(), getMissionELOService());
+                eloSearchResult.getElos().add(createELOModel(scyElo));
+                logger.info("PART OF SEARCH RESULT: " + scyElo.getTitle());
+            }
+
+            return eloSearchResult;
+        }
+
+
+        logger.info("MISSION URI WAS NULL!!");
+        return null;
 
     }
 
