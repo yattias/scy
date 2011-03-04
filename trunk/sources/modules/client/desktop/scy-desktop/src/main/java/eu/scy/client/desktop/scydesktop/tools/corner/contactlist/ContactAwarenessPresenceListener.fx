@@ -19,7 +19,6 @@ public class ContactAwarenessPresenceListener extends IAwarenessPresenceListener
        public-init var awarenessServiceWrapper:AwarenessServiceWrapper ;
         
         override public function handleAwarenessPresenceEvent(e:IAwarePresenceEvent):Void{
-            println("RosterEvent fired");
             FX.deferAction(function():Void {
                     delete awarenessServiceWrapper.contactlist.contacts;
                     awarenessServiceWrapper.contactlist.contacts = awarenessServiceWrapper.awarenessUsersToContacts();

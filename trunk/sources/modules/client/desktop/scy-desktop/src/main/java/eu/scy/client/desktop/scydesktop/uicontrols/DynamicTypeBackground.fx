@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import javafx.scene.CacheHint;
 
 /**
  * @author sikken
@@ -89,7 +90,8 @@ public class DynamicTypeBackground extends CustomNode {
          specification: BackgroundSpecification{
           backgroundColor: backgroundGray
          }
-
+         cache: true
+         cacheHint: CacheHint.SPEED
       }
 
    function eloIconChanged():Void{

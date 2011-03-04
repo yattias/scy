@@ -27,7 +27,7 @@
 	</logger>
 
 	<logger name="eu.scy.client.desktop.scydesktop.scywindows.moreinfomanager">
-		<level value="warn" />
+		<level value="error" />
 	</logger>
 
 	<logger name="eu.scy.client.desktop.scydesktop.scywindows.scydesktop">
@@ -43,19 +43,19 @@
 	</logger>
 
    <logger name="eu.scy.common.configuration">
-      <level value="warn" />
+      <level value="error" />
    </logger>
 
 	<logger name="org.apache">
-		<level value="info" />
+		<level value="error" />
 	</logger>
 
 	<logger name="org.springframework">
-		<level value="info" />
+		<level value="error" />
 	</logger>
 
 	<root>
-		<priority value="debug" />
+		<priority value="error" />
 		<appender-ref ref="myAppender"/>
 	</root>
 
