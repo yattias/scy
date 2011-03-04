@@ -69,7 +69,7 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 				link.setToNode((INodeModel) model.getElementById(link.getToNode().getId()));
 				
 				sync(syncObject, link);
-				if (syncObject.getCreator().equals(syncSession.getUsername())) {
+				if (syncSession != null && syncObject.getCreator().equals(syncSession.getUsername())) {
 					model.addLink(link);
 				} else {
 					model.addLinkRemotely(link);
