@@ -346,6 +346,7 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
 
     @Override
     public List getMyElosWithFeedback(MissionRuntimeElo missionRuntimeElo, String currentUserName) {
+        log.info("LOADING MY ELOS WITH FEEDBACK!");
         List feedback = getFeedback();
         List returnList = new LinkedList();
 
@@ -355,12 +356,14 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
             if(feedbackEloTransfer.getCreatedBy() != null && feedbackEloTransfer.getCreatedBy().equals(currentUserName)) returnList.add(feedbackEloTransfer);
         }
 
+        log.info("MY ELOS WITH FEEDBACK: " + returnList.size());
         return returnList;
 
     }
 
     @Override
     public List getFeedbackElosWhereIHaveContributed(MissionRuntimeElo missionRuntimeElo, String currentUserName) {
+        log.info("LOADING ELOS WHERE I (" + currentUserName + ") HAVE CONTRIBUTED!");
         List feedbackElos = getFeedback();
         List returnList = new LinkedList();
         for (int i = 0; i < feedbackElos.size(); i++) {
@@ -370,8 +373,10 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
                 List givenFeedback = feedbackEloTransfer.getFeedbacks();
                 for (int j = 0; j < givenFeedback.size(); j++) {
                     FeedbackTransfer feedbackTransfer = (FeedbackTransfer) givenFeedback.get(j);
+                    System.out.println("FEEDBACK: "+ feedbackTransfer.getCreatedBy() + " ( " + feedbackTransfer.getComment() + " )");
                     if(feedbackTransfer.getCreatedBy().equals(currentUserName)) {
-                        if(!returnList.contains(feedbackEloTransfer)) returnList.add(feedbackEloTransfer);
+                        System.out.println("Created by equals (" + currentUserName );
+                        if(!returnList.contains(feedbackTransfer)) returnList.add(feedbackTransfer);
                     } else {
                         List replies = feedbackTransfer.getReplies();
                         for (int k = 0; k < replies.size(); k++) {
@@ -385,6 +390,8 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
 
             }
         }
+
+        log.info("MY CONTRIBUTIONS: " + returnList.size());
 
         return returnList;
     }
