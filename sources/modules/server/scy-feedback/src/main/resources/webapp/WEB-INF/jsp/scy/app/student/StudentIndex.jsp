@@ -20,23 +20,7 @@
                     <a href="/webapp/app/eportfolio/EPortfolioIndex.html?eloURI=${missionSpecificationTransporter.uri}">Open my portfolio</a>
                 </td>
                 <td>
-                    <c:choose>
-                        <c:when test="${portfolio.isPortfolioAssessed}">
-                            Assessed
-                        </c:when>
-                        <c:otherwise>
-                            <c:choose>
-                                <c:when test="${portfolio.isPortfolioSubmitted}">
-                                Submitted
-                                </c:when>
-                                <c:otherwise>
-                                    Not submitted
-                                </c:otherwise>
-                            </c:choose>
-                        </c:otherwise>
-                    </c:choose>
-
-                    <!--Portfolio contains <strong>2</strong> pieces of work. You need to complete <strong>4</strong> more!-->
+                    ${portfolioStatus}
                 </td>
             </tr>
             <tr class="${oddEven.oddEven}">

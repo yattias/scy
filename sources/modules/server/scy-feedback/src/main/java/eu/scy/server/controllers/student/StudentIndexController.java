@@ -32,6 +32,7 @@ public class StudentIndexController extends BaseController {
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
         MissionRuntimeElo missionRuntimeElo = (MissionRuntimeElo) getScyElo();
         URI portfolioURI = missionRuntimeElo.getTypedContent().getEPortfolioEloUri();
+        modelAndView.addObject("portfolioStatus", "Not Submitted");
         if (portfolioURI != null) {
             ScyElo scyElo = ScyElo.loadLastVersionElo(portfolioURI, getMissionELOService());
             String xmlContent = scyElo.getContent().getXmlString();
@@ -40,6 +41,9 @@ public class StudentIndexController extends BaseController {
                 if (portfolio != null) {
                     portfolio.unCdatify();
                     modelAndView.addObject("portfolio", portfolio);
+                    if(portfolio.getPortfolioStatus().equals("PORTFOLIO_SUBMITTED")) modelAndView.addObject("portfolioStatus", "Submitted");
+                    if(portfolio.getPortfolioStatus().equals("PORTFOLIO_ASSESSED")) modelAndView.addObject("portfolioStatus", "<strong>Assessed</strong>");
+                    else modelAndView.addObject("portfolioStatus", "Not Submitted");
                     logger.info("SET PORTFOLIO: " + portfolio.getPortfolioStatus());
                 } else {
                     logger.info("PORTFOLIO IS NULL!!");
