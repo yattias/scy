@@ -3,6 +3,9 @@
     <tiles:putAttribute name="main">
 
         <h1>Anchor elos</h1>
+
+        <p>Decide which elos should be obligatory part of the student portfolios. When a student adds elos to the portfolio, only the elo types that are defined as obligatory will be possible to add.</p>
+
         <c:choose>
             <c:when test="${fn:length(anchorElos) > 0}">
                 <table>
