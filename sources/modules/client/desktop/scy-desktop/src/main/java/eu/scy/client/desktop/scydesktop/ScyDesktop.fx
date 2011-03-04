@@ -807,6 +807,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 
    function scyDesktopShutdownAction(): Void {
       println("Scy desktop is shutting down....");
+      logger.info("Scy desktop is shutting down....");
       saveAll();
       closeIfPossible(config.getToolBrokerAPI(), "tool broker");
    }

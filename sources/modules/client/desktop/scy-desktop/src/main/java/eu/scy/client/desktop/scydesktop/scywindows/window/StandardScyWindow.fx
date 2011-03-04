@@ -605,7 +605,13 @@ public class StandardScyWindow extends ScyWindow {
       allowResize = false;
       allowRotate = false;
       isCentered = false;
-      FX.deferAction(reorganizeOtherMainWindows);
+      if (reorganizeOtherMainWindows!=null){
+         FX.deferAction(reorganizeOtherMainWindows);
+      }
+      else{
+         logger.info("could not call reorganizeOtherMainWindows, because it is null");
+      }
+
    }
 
    function resetMaximizedState(): Void {
