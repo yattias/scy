@@ -21,11 +21,18 @@
                 </td>
                 <td>
                     <c:choose>
-                        <c:when test="${portfolio.isPortfolioSubmitted}">
-                        Submitted
+                        <c:when test="${portfolio.isPortfolioAssessed}">
+                            Assessed
                         </c:when>
                         <c:otherwise>
-                            Not submitted
+                            <c:choose>
+                                <c:when test="${portfolio.isPortfolioSubmitted}">
+                                Submitted
+                                </c:when>
+                                <c:otherwise>
+                                    Not submitted
+                                </c:otherwise>
+                            </c:choose>
                         </c:otherwise>
                     </c:choose>
 

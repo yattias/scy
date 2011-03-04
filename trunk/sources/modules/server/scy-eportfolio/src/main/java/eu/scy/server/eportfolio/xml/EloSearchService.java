@@ -38,6 +38,7 @@ public class EloSearchService extends MissionRuntimeEnabledXMLService {
             BasicELO basicELO = (BasicELO) elos.get(i);
             ScyElo scyElo = ScyElo.loadLastVersionElo(basicELO.getUri(), getMissionELOService());
             eloSearchResult.getElos().add(createELOModel(scyElo));
+            logger.info("PART OF SEARCH RESULT: "+  scyElo.getTitle());
         }
 
         return eloSearchResult;

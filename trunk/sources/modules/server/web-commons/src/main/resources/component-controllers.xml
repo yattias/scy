@@ -69,6 +69,10 @@
                    /components/resourceservice.html=resourceService
                    /components/roleeditor/RoleEditorContoller.html=roleEditorController
                    /components/runtimemissionselector/RuntimeMissionSelector.html=runtimemissionselector
+
+                   /components/runtimemissionselector/RuntimeMissionSelector.html=runtimemissionselector
+
+                   /components/util/EloChecker.html=eloCheckerController
                </value>
            </property>
        </bean>
@@ -180,6 +184,7 @@
 
     <bean id="manageAssignedStudentController" class="eu.scy.server.controllers.ManageAssignedStudentController">
         <property name="userService" ref="userService"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
 	</bean>
 
     <bean id="helpController" class="eu.scy.server.controllers.components.help.HelpController">
@@ -251,6 +256,11 @@
     <bean id="resourceService" class="eu.scy.server.controllers.ResourceService">
         <property name="fileService" ref="fileService"/>
         <property name="missionELOService" ref="missionELOService"/>
+    </bean>
+
+    <bean id="eloCheckerController" class="eu.scy.server.controllers.EloCheckerController">
+        <property name="commandClass" value="eu.scy.server.controllers.formutils.EloUriForm"/>
+        <property name="commandName" value="eloUriForm"/>
     </bean>
 
     <bean id="roleEditorController" class="eu.scy.server.controllers.components.roleeditor.RoleEditorController">

@@ -4,7 +4,6 @@ import eu.scy.common.mission.*;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.model.transfer.*;
-import roolo.elo.BasicELO;
 import roolo.search.IQueryComponent;
 import roolo.search.MetadataQueryComponent;
 import roolo.search.AndQuery;
@@ -17,10 +16,9 @@ import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
 import java.net.URI;
-import java.util.Iterator;
+import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -136,15 +134,28 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
 
     @Override
     public MissionSpecificationElo getMissionSpecificationELOForRuntume(MissionRuntimeElo missionRuntimeElo) {
+
+
+        URI uri =  missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri();
+        return MissionSpecificationElo.loadLastVersionElo(uri, this);
+/*
         List missionSpecifications = getMissionSpecifications();
+        ScyElo returnElo = null;
         for (int i = 0; i < missionSpecifications.size(); i++) {
             ScyElo missionSpeicification = (ScyElo) missionSpecifications.get(i);
+            log.info("SEARCHING FOR MISSION WITH THE NAME: " + missionRuntimeElo.getTitle() + " COMPARING TO " + missionSpeicification.getTitle());
             if (missionRuntimeElo.getTitle().equals(missionRuntimeElo.getTitle())) {
-                return MissionSpecificationElo.loadElo(missionSpeicification.getUri(), this);
+                log.info("FOUND IT: " + missionSpeicification.getUri());
+                returnElo = missionSpeicification;
+
             }
 
         }
-        return null;
+        */
+
+       // if(returnElo != null) return MissionSpecificationElo.loadElo(returnElo.getUri(), this);
+
+        //return null;
     }
 
 
@@ -173,9 +184,14 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
 
     @Override
     public List getAnchorELOs(MissionSpecificationElo missionSpecificationElo) {
+
+        log.info("LOADING ANCHOR ELOS FOR MISSION SPEC: " + missionSpecificationElo.getUri());
+
         MissionModelElo missionModel = MissionModelElo.loadLastVersionElo(missionSpecificationElo.getTypedContent().getMissionMapModelEloUri(), this);
         missionModel.getMissionModel().loadMetadata(this);
         List lasses = missionModel.getTypedContent().getLasses();//what is  this? A getter??
+
+        log.info("*** *** MISSION URI: " + missionModel.getUri());
 
         List missionAnchors = new LinkedList();
         for (int i = 0; i < lasses.size(); i++) {
@@ -185,7 +201,7 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
                 ScyElo missionAnchorElo = ScyElo.loadLastVersionElo(missionAnchor.getEloUri(), this);
                 missionAnchors.add(missionAnchorElo);
                 if (missionAnchorElo != null) {
-                    log.info("MISSION ANCHOR: " + missionAnchorElo.getTitle());
+                    log.info("MISSION ANCHOR: " + missionAnchorElo.getTitle() + " OBLIGATORY: " + missionAnchorElo.getObligatoryInPortfolio());
                 } else {
                     log.info("MISSION SCY ELO IS NULL:" + missionAnchor.getIconType());
                 }
@@ -193,6 +209,8 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
             }
 
         }
+
+        log.info("Returning : " + missionAnchors.size() + " MISSION ANCHORS");
 
         return missionAnchors;
     }
@@ -260,6 +278,19 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
             }
         }
         return returnList;
+    }
+
+    public Portfolio getPortfolio(MissionRuntimeElo missionRuntimeElo) {
+        URI portfolioURI = missionRuntimeElo.getTypedContent().getEPortfolioEloUri();
+        ScyElo scyElo = ScyElo.loadLastVersionElo(portfolioURI, this);
+        if(scyElo != null) {
+            String xml = scyElo.getContent().getXmlString();
+            if(xml != null && xml.length() > 0) {
+                return (Portfolio) getXmlTransferObjectService().getObject(xml);
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -363,6 +394,17 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
                 scyElo.updateElo();
             }
         }
+    }
+
+    @Override
+    public MissionSpecificationElo getMissionSpecificationElo(String missionURI) {
+        try {
+            URI uri = new URI(missionURI);
+            return MissionSpecificationElo.loadLastVersionElo(uri, this);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        throw new RuntimeException("Problems (yeah, real problems) loading mission specification with uri: " + missionURI);
     }
 
     private String fixXml(String xmlString, ScyElo scyElo) {

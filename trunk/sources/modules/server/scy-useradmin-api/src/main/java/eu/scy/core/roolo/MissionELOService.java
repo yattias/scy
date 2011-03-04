@@ -6,6 +6,7 @@ import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.BaseELOService;
 import eu.scy.core.model.transfer.NewestElos;
+import eu.scy.core.model.transfer.Portfolio;
 import eu.scy.core.roolo.RooloAccessor;
 
 import java.net.URI;
@@ -52,6 +53,8 @@ public interface MissionELOService extends BaseELOService {
 
     List getPortfoliosThatAreReadyForAssessment(MissionSpecificationElo missionSpecificationElo);
 
+    public Portfolio getPortfolio(MissionRuntimeElo missionRuntimeElo); 
+
     NewestElos getNewestElosForFeedback(MissionRuntimeElo missionRuntimeElo, String username);
 
     List getFeedback();
@@ -62,4 +65,5 @@ public interface MissionELOService extends BaseELOService {
 
     void clearAllPortfolios();
 
+    MissionSpecificationElo getMissionSpecificationElo(String missionURI);
 }

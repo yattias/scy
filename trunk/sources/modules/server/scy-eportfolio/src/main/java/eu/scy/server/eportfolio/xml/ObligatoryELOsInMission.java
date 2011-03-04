@@ -32,7 +32,8 @@ public class ObligatoryELOsInMission extends MissionRuntimeEnabledXMLService {
     @Override
     protected Object getObject(MissionRuntimeElo missionRuntimeElo, HttpServletRequest request, HttpServletResponse response) {
         MissionSpecificationElo missionSpecificationElo = null;
-
+        logger.info("Loading anchor elos! missionRuntimeElo: " + missionRuntimeElo);
+        logger.info("MISSION URI PARAMETER: " + request.getParameter("missionURI"));
 
         ScyElo scyElo = null;
         if (missionRuntimeElo == null) {
@@ -67,12 +68,12 @@ public class ObligatoryELOsInMission extends MissionRuntimeEnabledXMLService {
         ELOSearchResult eloSearchResult = new ELOSearchResult();
         for (int i = 0; i < anchorElos.size(); i++) {
             ScyElo o = (ScyElo) anchorElos.get(i);
+            logger.info("IS THIS OBLIGATORY IN PORTFOLIO: " + o.getTitle() + " " + o.getObligatoryInPortfolio());
             if (o.getObligatoryInPortfolio() != null && o.getObligatoryInPortfolio()) {
                 eloSearchResult.getElos().add(new TransferElo(o));
             }
-
-
         }
+        logger.info("ANCHOR ELOS: " + eloSearchResult.getElos().size());
         return eloSearchResult;
     }
 
