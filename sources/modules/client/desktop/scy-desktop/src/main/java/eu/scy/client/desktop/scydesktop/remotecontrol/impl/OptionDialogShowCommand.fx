@@ -34,15 +34,6 @@ public class OptionDialogShowCommand extends ScyDesktopRemoteCommand {
                 scyDesktop.config.getToolBrokerAPI().getActionLogger().log(action);
     }
 
-    public var yesAction: function() = function () {
-                println("*=*=*=*=performed yesAction()!*=*=*=*=*=*=");
-                logResponse(0);
-            };
-    public var noAction: function() = function () {
-                println("*=*=*=*=performed noAction()!*=*=*=*=*=*=");
-                logResponse(1);
-            };
-
     override public function getActionName(): String {
         "option_dialog_show"
     }
@@ -64,8 +55,6 @@ public class OptionDialogShowCommand extends ScyDesktopRemoteCommand {
                 text: notification.getFirstProperty("text");
                 title: notification.getFirstProperty("title");
                 modal: if (not (modalProperty == null)) Boolean.parseBoolean(modalProperty) else true;
-                yesAction: yesAction;
-                noAction: noAction;
                 }
 
         DialogBox.showOptionDialog(params, optionDialogId);

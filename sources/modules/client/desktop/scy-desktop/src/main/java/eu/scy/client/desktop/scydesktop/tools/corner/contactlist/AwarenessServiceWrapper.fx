@@ -46,7 +46,6 @@ public class AwarenessServiceWrapper {
             var contacts:Contact[];
             var offlineContacts:Contact[];
             def buddies = awarenessService.getBuddies();
-            println("Retrieved {buddies.size()} buddies from awareness service.");
             for (buddy in buddies){
                 def awarenessUser:IAwarenessUser = buddy as IAwarenessUser;
                 def presence = awarenessUser.getPresence();
@@ -58,7 +57,6 @@ public class AwarenessServiceWrapper {
                         (if(presence.equals("idle")) OnlineState.AWAY else OnlineState.ONLINE );
                     imageURL: "{IMAGE_BASE_DIR}?username={awarenessUser.getNickName()}";
                     }
-                    println("imageURL: {contact.imageURL}");
                 //filter names "" and " "
                 if (not(contact.name.equals("")) and not(contact.name.equals(" ")))
                 {

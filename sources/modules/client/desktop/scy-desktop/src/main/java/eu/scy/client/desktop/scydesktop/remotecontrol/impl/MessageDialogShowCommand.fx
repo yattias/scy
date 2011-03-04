@@ -19,10 +19,6 @@ import java.rmi.dgc.VMID;
  */
 public class MessageDialogShowCommand extends ScyDesktopRemoteCommand {
 
-    public var okAction:function()=function(){
-            println("*=*=*=*=performed okAction()!*=*=*=*=*=*=")
-    };
-
     override public function getActionName(): String {
         "message_dialog_show"
     }
@@ -41,7 +37,6 @@ public class MessageDialogShowCommand extends ScyDesktopRemoteCommand {
                 text: notification.getFirstProperty("text");
                 title: notification.getFirstProperty("title");
                 modal: if (not (modalProperty == null)) Boolean.parseBoolean(modalProperty) else true;
-                okAction: okAction;
                 }
 
         DialogBox.showMessageDialog(params, new VMID().toString());
