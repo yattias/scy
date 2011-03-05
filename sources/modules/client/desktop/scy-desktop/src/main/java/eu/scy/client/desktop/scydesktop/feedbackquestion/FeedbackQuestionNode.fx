@@ -27,6 +27,8 @@ import org.jdom.Element;
 
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.layout.VBox;
 
 public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
 
@@ -59,7 +61,6 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
        };
    var submitButton:Button = Button {
            text: "Submit"
-           disable: true
            action: function() {
               if (eloUri==null) {
                   javafx.stage.Alert.inform("ELO not in Roolo.");
@@ -88,14 +89,27 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
               fbScyElo.setFeedbackOnEloUri(eloUri);
               fbScyElo.getContent().setXmlString(jdomStringConversion.xmlToString(feedbackElement));
               fbScyElo.saveAsNewElo();
-              submitButton.disable = true;
+              infoLabel.text = "Your feedback question: \"{textBox.text}\" has been submitted. To see the feedback, click:";
+              titleLabel.visible = false;
+              textBox.visible = false;
+              submitButton.visible = false;
+              questionAsked.visible=true;
           }
    }
-
+   var infoLabel = Label {
+                      text:"You already asked a question about this ELO. You can ask only one question per ELO. To see question you asked and answers and other information, please click:"
+                      textWrap:true
+                   };
+   var feedbackLink = Hyperlink {
+	                 text: "Get feedback"
+	                 action: scyDesktop.scyFeedbackGetButton.action
+                      };
+   var questionAsked = VBox {content: [infoLabel, feedbackLink],visible:false};
    var node = Group {content: [
        titleLabel,
        Group {content: bind textBox},
-       Group {content: bind submitButton}
+       Group {content: bind submitButton},
+       Group {content: bind questionAsked}
    ]};
 
    public override function create(): Node {
@@ -115,7 +129,7 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
 
    function eloUriChanged(eloUri: URI) {
       this.eloUri = eloUri;
-      submitButton.disable=true;
+      var questionAskedB=true;
       if (not scyDesktop.missionModelFX.getEloUris(false).contains(eloUri)) {
           titleLabel.visible = false;
           textBox.visible = false;
@@ -127,7 +141,7 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
          def query = QueryFactory.createFeedbackEloQuery(eloUri, technicalType);
          var searchResults:List = toolBrokerAPI.getRepository().search(query);
          if (searchResults.size()==0) {
-             submitButton.disable=false;
+             questionAskedB=false;
          } else {
             logger.debug("found {searchResults.size()} feedback ELO-s");
             for (r in searchResults) {
@@ -139,6 +153,12 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
       } else {
          scyElo = null;
       }
+      if (questionAskedB) {
+          titleLabel.visible = false;
+          textBox.visible = false;
+          submitButton.visible = false;
+          questionAsked.visible = true;
+      }
    }
    function resizeContent(): Void{
       textBox.height = height-titleLabel.height-submitButton.height-2*spacing;
@@ -149,6 +169,10 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
       };
       textBox.translateY = titleLabel.height+spacing;
       submitButton.translateY = titleLabel.height+textBox.height+2*spacing;
+      infoLabel.width = width;
+      infoLabel.layoutInfo = LayoutInfo{
+            width: width
+      };
    }
    public override var height on replace {
        resizeContent();
