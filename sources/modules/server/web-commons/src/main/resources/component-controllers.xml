@@ -62,7 +62,7 @@
                    /components/json/ScenarioDiagramJSON.json=scenarioDiagramJSON
                    /components/json/RuntimeUserInfoJSON.html=runtimeUserInfoJSON
                    /components/xml/UserInfoController.html=userInfoController
-                   /components/xml/UserCredentials.html=userCredentialController
+                   /UserCredentials.html=userCredentialController
                    /components/xml/AssessmentService.html=assessmentServiceController
                    /components/xml/RetrieveSingleEloService.html=retrieveSingleEloServiceController
                    /components/xml/ActionLogger.html=actionLoggingService
@@ -233,6 +233,7 @@
 
     <bean id="userCredentialController" class="eu.scy.server.controllers.xml.UserCredentialsController">
         <property name="userService" ref="userService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
     </bean>
 
     <bean id="assessmentServiceController" class="eu.scy.server.controllers.xml.AssessmentService">

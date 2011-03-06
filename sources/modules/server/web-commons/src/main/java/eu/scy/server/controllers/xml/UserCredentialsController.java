@@ -6,6 +6,7 @@ import eu.scy.core.model.transfer.UserCredentials;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,9 +19,18 @@ public class UserCredentialsController extends XMLStreamerController{
     @Override
     protected Object getObjectToStream(HttpServletRequest request, HttpServletResponse httpServletResponse) {
         UserCredentials userCredentials = new UserCredentials();
-        userCredentials.setUsername(getCurrentUserName(request));
 
-        User currentUser = getCurrentUser(request);
+        Enumeration enumeration = request.getParameterNames();
+        while (enumeration.hasMoreElements()) {
+            System.out.println("PARAM " + enumeration.nextElement());
+        }
+
+        String username = request.getParameter("username");
+        if(username  == null) {
+            username = getCurrentUserName(request);
+        }
+        userCredentials.setUsername(username);
+        User currentUser = getUserService().getUser(username);
         userCredentials.setPassword(currentUser.getUserDetails().getPassword());
 
         return userCredentials;
