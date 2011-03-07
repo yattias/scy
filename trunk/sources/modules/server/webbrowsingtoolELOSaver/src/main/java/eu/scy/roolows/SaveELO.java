@@ -63,8 +63,7 @@ public class SaveELO {
     @GET
     @Produces("text/html")
     public String echoAlive() {
-        return beans.getPasswordServiceURL();
-//        return "<html><body><h1>Hello World!</body></h1></html>";
+        return "<html><body><h1>Hello World!</body></h1></html>";
     }
 
     /**
