@@ -4,12 +4,21 @@
  */
 package eu.scy.roolows.crypto;
 
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.xml.transform.dom.DOMSource;
 import org.apache.commons.codec.binary.Hex;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * Server sends a unique challenge value sc to the client
@@ -32,6 +41,7 @@ import org.apache.commons.codec.binary.Hex;
  */
 public class ChallengeEntity {
 
+    private static final Logger logger = Logger.getLogger(ChallengeEntity.class.getName());
     //client generated challenge
     private String cc;
     //server generated challenge
@@ -42,13 +52,15 @@ public class ChallengeEntity {
     //server response sr = hash(sc + cc + secret)
     private String sr;
     //the secret
-    private String password;
     private String username;
+    private final String passwordServiceURL;
 
-    public ChallengeEntity(String username) {
+    public ChallengeEntity(String username, String passwordServiceURL) {
+        logger.log(Level.INFO, "PasswordServiceURL: {0}", passwordServiceURL);
         sc = String.valueOf(System.currentTimeMillis());
         this.username = username;
-        password = lookupPassword(username);
+        this.passwordServiceURL = passwordServiceURL;
+
     }
 
     private String lookupPassword(String username) {
@@ -89,26 +101,20 @@ public class ChallengeEntity {
     }
 
     public String calculateSr() {
-        try {
-            //sr = hash(sc + cc + secret)
-            sr = generateMD5Hash(sc + cc + password);
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(ChallengeEntity.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(ChallengeEntity.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //sr = hash(sc + cc + secret)
+        //webservice call
+        //String firstChallenge = request.getParameter("firstChallenge");
+        //String secondChallenge = request.getParameter("secondChallenge");
+        sr = getPasswordHash(sc, cc);
+//            sr = generateMD5Hash(sc + cc + password);
         return sr;
     }
 
     public String calculateExpectedCr() {
-        try {
-            //sr = hash(sc + cc + secret)
-            expectedCr = generateMD5Hash(cc + sc + password);
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(ChallengeEntity.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(ChallengeEntity.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //sr = hash(sc + cc + secret)
+        //webservice call
+        expectedCr = getPasswordHash(cc, sc);
+//            expectedCr = generateMD5Hash(cc + sc + password);
         return expectedCr;
     }
 
@@ -129,7 +135,7 @@ public class ChallengeEntity {
     }
 
     public static void main(String[] args) {
-        final ChallengeEntity challengeEntity = new ChallengeEntity("bla");
+        final ChallengeEntity challengeEntity = new ChallengeEntity("bla", "localhost");
         try {
             String generateMD5Hash = challengeEntity.generateMD5Hash("Hello World");
             System.out.println("String MD5:" + generateMD5Hash);
@@ -148,9 +154,42 @@ public class ChallengeEntity {
     public boolean isAuthorized() {
         //matching of cr and expected cr
         calculateExpectedCr();
-        if(expectedCr.equals(cr)){
+        if (expectedCr.equals(cr)) {
             return true;
         }
         return false;
+    }
+
+    public String getPasswordHash(String firstChallenge, String secondChallenge) {
+        String hash = null;
+        Client client = Client.create();
+        WebResource webResource = client.resource(passwordServiceURL);
+
+        MultivaluedMap queryParams = new MultivaluedMapImpl();
+        queryParams.add("username", username);
+        queryParams.add("firstChallenge", firstChallenge);
+        queryParams.add("secondChallenge", secondChallenge);
+        ClientResponse response = webResource.type("application/x-www-form-urlencoded").post(ClientResponse.class, queryParams);
+
+        //return something like
+//        <usercredentials>
+//          <username><![CDATA[digital]]></username>
+//          <password><![CDATA[face]]></password>
+//        </usercredentials>
+
+        DOMSource responseEntity = null;
+        if (response.hasEntity()) {
+            responseEntity = response.getEntity(DOMSource.class);
+            NodeList childNodes = responseEntity.getNode().getChildNodes();
+            Node userCredentials = childNodes.item(0);
+            String user = userCredentials.getChildNodes().item(0).getTextContent();
+            if (!user.equals(username)) {
+                logger.log(Level.SEVERE, "Usernames from both services are different! This user: {0}; username from PasswordService: {1}", new Object[]{username, user});
+            }
+            hash = userCredentials.getChildNodes().item(1).getTextContent();
+            logger.log(Level.INFO, "received hash: {0}, for user: {1}", new Object[]{hash, user});
+        }
+
+        return hash;
     }
 }

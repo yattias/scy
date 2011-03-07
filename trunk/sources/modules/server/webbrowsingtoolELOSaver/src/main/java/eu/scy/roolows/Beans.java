@@ -30,6 +30,7 @@ public class Beans {
     private Configuration serverConfig;
     private IActionLogger actionLogger;
     private static Beans instance;
+    private String passwordServiceURL;
 
     private Beans() {
         this("beans.xml");
@@ -50,6 +51,7 @@ public class Beans {
         eloFactory = config.getEloFactory();
         serverConfig = config.getServerConfig();
         actionLogger = config.getActionLogger();
+        passwordServiceURL = config.getPasswordServiceURL();
     }
 
     public static Beans getInstance() {
@@ -113,6 +115,14 @@ public class Beans {
 
     public void setActionLogger(IActionLogger actionLogger) {
         this.actionLogger = actionLogger;
+    }
+
+    public String getPasswordServiceURL() {
+        return passwordServiceURL;
+    }
+
+    public void setPasswordServiceURL(String passwordServiceURL) {
+        this.passwordServiceURL = passwordServiceURL;
     }
 
 }

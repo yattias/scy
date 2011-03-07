@@ -33,6 +33,13 @@
     <bean name="serverConfig" class="eu.scy.common.configuration.Configuration" factory-method="getInstance">
     </bean>
 
+    <bean name="passwordServiceURL" class="java.lang.String">
+        <constructor-arg index="0">
+<!--            <value>http://localhost:33605/roolo-ws/mockPasswordService</value>-->
+            <value>http://${auth.cr.server}:${auth.cr.port}/${auth.cr.context}</value>
+        </constructor-arg>
+    </bean>
+
     <bean name="actionLogger" class="eu.scy.actionlogging.SQLSpacesActionLogger">
         <constructor-arg index="0">
             <value>${sqlspaces.server.host}</value>

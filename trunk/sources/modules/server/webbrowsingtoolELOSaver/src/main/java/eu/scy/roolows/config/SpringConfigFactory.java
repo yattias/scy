@@ -75,6 +75,7 @@ public class SpringConfigFactory {
       newConfig.setRepository((IRepository) getBean("repository"));
       newConfig.setServerConfig((Configuration) getBean("serverConfig"));
       newConfig.setActionLogger((IActionLogger) getBean("actionLogger"));
+      newConfig.setPasswordServiceURL((String) getBean("passwordServiceURL"));
       this.config = newConfig;
    }
 

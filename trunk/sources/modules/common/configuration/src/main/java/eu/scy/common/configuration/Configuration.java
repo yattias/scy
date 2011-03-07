@@ -78,6 +78,9 @@ public class Configuration {
         props.setProperty("scyhub.name", "scyhub");
         props.setProperty("filestreamer.server", "scy.collide.info");
         props.setProperty("filestreamer.context", "/webapp/common/filestreamer.html");
+        props.setProperty("auth.cr.context", "webapp/UserCredentials.html");
+        props.setProperty("auth.cr.server", "scy.collide.info");
+        props.setProperty("auth.cr.port", "8080");
         props.setProperty("filestreamer.port", "8080");
         props.setProperty("roolo.server", "scy.collide.info");
         props.setProperty("roolo.context", "extcomp");
@@ -113,16 +116,15 @@ public class Configuration {
         return scyServerHost != null && scyServerHost.length() > 0;
     }
 
-    public void setScyServerPort(Integer scyServerPort)
-	{
-		this.scyServerPort = scyServerPort;
-	}
+    public void setScyServerPort(Integer scyServerPort) {
+        this.scyServerPort = scyServerPort;
+    }
 
     private boolean isScyServerPortDefined() {
-       return scyServerPort != null && scyServerPort > 0;
-   }
+        return scyServerPort != null && scyServerPort > 0;
+    }
 
-	public String get(String key) {
+    public String get(String key) {
         return props.getProperty(key);
     }
 
@@ -207,9 +209,9 @@ public class Configuration {
     }
 
     public String getFilestreamerPort() {
-   	 if (isScyServerPortDefined()){
-   		 return "" + scyServerPort;
-   	 }
+        if (isScyServerPortDefined()) {
+            return "" + scyServerPort;
+        }
         return props.getProperty("filestreamer.port");
     }
 
@@ -238,9 +240,9 @@ public class Configuration {
     }
 
     public String getRooloPort() {
-   	 if (isScyServerPortDefined()){
-   		 return "" + scyServerPort;
-   	 }
+        if (isScyServerPortDefined()) {
+            return "" + scyServerPort;
+        }
         return props.getProperty("roolo.port");
     }
 
@@ -268,9 +270,9 @@ public class Configuration {
     }
 
     public String getEportfolioPort() {
-   	 if (isScyServerPortDefined()){
-   		 return "" + scyServerPort;
-   	 }
+        if (isScyServerPortDefined()) {
+            return "" + scyServerPort;
+        }
         return props.getProperty("eportfolio.port");
     }
 
@@ -290,13 +292,39 @@ public class Configuration {
     }
 
     public String getFeedbackPort() {
-   	 if (isScyServerPortDefined()){
-   		 return "" + scyServerPort;
-   	 }
+        if (isScyServerPortDefined()) {
+            return "" + scyServerPort;
+        }
         return props.getProperty("feedback.port");
     }
 
     public String getFeedbackContext() {
         return props.getProperty("feedback.context");
+    }
+
+    public String getChallengeResponseServiceURL() {
+        String context = props.getProperty("auth.cr.context");
+        String server = null;
+        String port = null;
+        if (isScyServerHostDefined()) {
+            server = scyServerHost;
+        } else {
+            server = props.getProperty("auth.cr.server");
+        }
+        if (isScyServerPortDefined()) {
+            port = scyServerPort.toString();
+        } else {
+            port = props.getProperty("auth.cr.port");
+        }
+        if (context != null && server != null && port != null) {
+            StringBuffer str = new StringBuffer();
+            str.append(server);
+            str.append(":");
+            str.append(port);
+            str.append("/");
+            str.append(context);
+            return str.toString();
+        }
+        return null;
     }
 }
