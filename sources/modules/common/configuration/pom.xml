@@ -1,3 +1,4 @@
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -34,7 +35,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-            	<version-name></version-name>
+                <version-name></version-name>
                 <serverfilter.db.username>root</serverfilter.db.username>
                 <serverfilter.db.password>root</serverfilter.db.password>
                 <serverfilter.db.url>java:comp/env/jdbc/scy</serverfilter.db.url>
@@ -59,6 +60,10 @@
                 <filestreamer.context>webapp/common/filestreamer.html</filestreamer.context>
                 <filestreamer.port>8080</filestreamer.port>
 
+                <auth.cr.server>scy.collide.info</auth.cr.server>
+                <auth.cr.context>webapp/UserCredentials.html</auth.cr.context>
+                <auth.cr.port>8080</auth.cr.port>
+                
                 <roolo.server>scy.collide.info</roolo.server>
                 <roolo.context>extcomp</roolo.context>
                 <roolo.port>8080</roolo.port>
@@ -67,7 +72,7 @@
         <profile>
             <id>UDE-Review</id>
             <properties>
-            	<version-name>-review</version-name>
+                <version-name>-review</version-name>
                 <serverfilter.db.username>root</serverfilter.db.username>
                 <serverfilter.db.password>root</serverfilter.db.password>
                 <serverfilter.db.url>java:comp/env/jdbc/scy</serverfilter.db.url>
@@ -92,6 +97,10 @@
                 <filestreamer.context>webapp/common/filestreamer.html</filestreamer.context>
                 <filestreamer.port>8080</filestreamer.port>
 
+                <auth.cr.server>scy-review.collide.info</auth.cr.server>
+                <auth.cr.context>webapp/UserCredentials.html</auth.cr.context>
+                <auth.cr.port>8080</auth.cr.port>
+
                 <roolo.server>scy-review.collide.info</roolo.server>
                 <roolo.context>extcomp</roolo.context>
                 <roolo.port>8080</roolo.port>
@@ -100,7 +109,7 @@
         <profile>
             <id>TS</id>
             <properties>
-            	<version-name></version-name>
+                <version-name></version-name>
                 <serverfilter.db.username>root</serverfilter.db.username>
                 <serverfilter.db.password>root</serverfilter.db.password>
                 <serverfilter.db.url>java:comp/env/jdbc/scy</serverfilter.db.url>
@@ -125,6 +134,9 @@
                 <filestreamer.context>webapp/common/filestreamer.html</filestreamer.context>
                 <filestreamer.port>8080</filestreamer.port>
 
+                <auth.cr.server>83.168.205.138</auth.cr.server>
+                <auth.cr.context>webapp/UserCredentials.html</auth.cr.context>
+                <auth.cr.port>8080</auth.cr.port>
 
                 <roolo.server>http://83.168.205.138</roolo.server>
                 <roolo.context>extcomp</roolo.context>
@@ -134,7 +146,7 @@
         <profile>
             <id>UIO</id>
             <properties>
-            	<version-name></version-name>
+                <version-name></version-name>
                 <serverfilter.db.username>root</serverfilter.db.username>
                 <serverfilter.db.password>root</serverfilter.db.password>
                 <serverfilter.db.url>java:comp/env/jdbc/scy</serverfilter.db.url>
@@ -159,6 +171,10 @@
                 <filestreamer.context>webapp/common/filestreamer.html</filestreamer.context>
                 <filestreamer.port>8080</filestreamer.port>
 
+                <auth.cr.server>scy.intermedia.uio.no</auth.cr.server>
+                <auth.cr.context>webapp/UserCredentials.html</auth.cr.context>
+                <auth.cr.port>8080</auth.cr.port>
+
                 <roolo.server>scy.intermedia.uio.no</roolo.server>
                 <roolo.context>extcomp</roolo.context>
                 <roolo.port>8080</roolo.port>
@@ -167,7 +183,7 @@
         <profile>
             <id>UJF</id>
             <properties>
-            	<version-name></version-name>
+                <version-name></version-name>
                 <serverfilter.db.username>root</serverfilter.db.username>
                 <serverfilter.db.password>root</serverfilter.db.password>
                 <serverfilter.db.url>java:comp/env/jdbc/scy</serverfilter.db.url>
@@ -192,6 +208,9 @@
                 <filestreamer.context>webapp/common/filestreamer.html</filestreamer.context>
                 <filestreamer.port>8080</filestreamer.port>
 
+                <auth.cr.server>scylab.imag.fr</auth.cr.server>
+                <auth.cr.context>webapp/UserCredentials.html</auth.cr.context>
+                <auth.cr.port>8080</auth.cr.port>
 
                 <roolo.server>scylab.imag.fr</roolo.server>
                 <roolo.context>extcomp</roolo.context>
@@ -201,7 +220,7 @@
         <profile>
             <id>UT</id>
             <properties>
-            	<version-name>-ut</version-name>
+                <version-name>-ut</version-name>
                 <serverfilter.db.username>root</serverfilter.db.username>
                 <serverfilter.db.password>root</serverfilter.db.password>
                 <serverfilter.db.url>java:comp/env/jdbc/scy</serverfilter.db.url>
@@ -225,15 +244,19 @@
                 <filestreamer.context>webapp/common/filestreamer.html</filestreamer.context>
                 <filestreamer.port>80</filestreamer.port>
 
+                <auth.cr.server>GW-SCYserver.gw.utwente.nl</auth.cr.server>
+                <auth.cr.context>webapp/UserCredentials.html</auth.cr.context>
+                <auth.cr.port>8080</auth.cr.port>
+
                 <roolo.server>GW-SCYserver.gw.utwente.nl</roolo.server>
                 <roolo.context>extcomp</roolo.context>
                 <roolo.port>80</roolo.port>
             </properties>
         </profile>
-         <profile>
+        <profile>
             <id>UT2</id>
             <properties>
-            	<version-name>-ut2</version-name>
+                <version-name>-ut2</version-name>
                 <serverfilter.db.username>root</serverfilter.db.username>
                 <serverfilter.db.password>root</serverfilter.db.password>
                 <serverfilter.db.url>java:comp/env/jdbc/scy</serverfilter.db.url>
@@ -256,6 +279,10 @@
                 <filestreamer.server>GW-SCYserver2.gw.utwente.nl</filestreamer.server>
                 <filestreamer.context>webapp/common/filestreamer.html</filestreamer.context>
                 <filestreamer.port>80</filestreamer.port>
+
+                <auth.cr.server>GW-SCYserver2.gw.utwente.nl</auth.cr.server>
+                <auth.cr.context>webapp/UserCredentials.html</auth.cr.context>
+                <auth.cr.port>8080</auth.cr.port>
 
                 <roolo.server>GW-SCYserver2.gw.utwente.nl</roolo.server>
                 <roolo.context>extcomp</roolo.context>

@@ -91,14 +91,8 @@ public class ServerChallengeService {
     }
 
     private String createSC(String username) {
-        String sc = loginManager.addChallenge(username);
+        String sc = loginManager.addChallenge(username, beans.getPasswordServiceURL());
         log.info("created challenge for user " + username + ", value:" + sc);
         return sc;
-    }
-
-    private String createSR(String username) {
-        String sr = loginManager.getChallenge(username).calculateSr();
-        log.info("created server response for user " + username + ", value:" + sr);
-        return sr;
     }
 }

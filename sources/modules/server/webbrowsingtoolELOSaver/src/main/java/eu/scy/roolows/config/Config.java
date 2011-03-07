@@ -38,4 +38,6 @@ public interface Config {
 
    public Configuration getServerConfig();
    public IActionLogger getActionLogger();
+
+   public String getPasswordServiceURL();
 }

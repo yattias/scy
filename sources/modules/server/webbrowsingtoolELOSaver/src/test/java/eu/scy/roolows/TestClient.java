@@ -11,7 +11,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Vector;
 import org.apache.log4j.Logger;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
@@ -93,7 +92,7 @@ public class TestClient extends JerseyTest {
             IContent eloContent = beans.getEloFactory().createContent();
             //contentLanguages -> parse JSONArray to Locales
             JSONArray contentLanguagesAsJson = json.getJSONArray("contentLanguages");
-            List<Locale> contentLanguages = new Vector<Locale>();
+            List<Locale> contentLanguages = new ArrayList<Locale>();
             for (int i = 0; i < contentLanguagesAsJson.length(); i++) {
                 contentLanguages.add(new Locale(contentLanguagesAsJson.getString(i)));
             }

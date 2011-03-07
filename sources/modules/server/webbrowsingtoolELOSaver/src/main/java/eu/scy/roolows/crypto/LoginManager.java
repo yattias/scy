@@ -21,8 +21,8 @@ public class LoginManager {
     }
 
     //returns the value for the challenge, which is actually the timestamp
-    public String addChallenge(String username){
-        final ChallengeEntity challengeEntity = new ChallengeEntity(username);
+    public String addChallenge(String username, String passwordServiceURL){
+        final ChallengeEntity challengeEntity = new ChallengeEntity(username, passwordServiceURL);
         pendingChallenges.put(username, challengeEntity);
         return challengeEntity.getSc();
     }

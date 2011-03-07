@@ -35,6 +35,7 @@ public class BasicConfig implements Config
    private boolean backgroundImageFileNameRelative;
    private Configuration serverConfig;
    private IActionLogger actionLogger;
+   private String passwordServiceURL;
 
    @Override
    public IELOFactory getEloFactory()
@@ -179,5 +180,14 @@ public class BasicConfig implements Config
 
     public void setActionLogger (IActionLogger actionLogger){
         this.actionLogger = actionLogger;
+    }
+
+    @Override
+    public String getPasswordServiceURL() {
+        return passwordServiceURL;
+    }
+
+    public void setPasswordServiceURL(String passwordServiceURL) {
+        this.passwordServiceURL = passwordServiceURL;
     }
 }
