@@ -130,9 +130,6 @@ public class Configuration {
 
     // ### OpenFireServer
     public String getOpenFireHost() {
-        if (isScyServerHostDefined()) {
-            return scyServerHost;
-        }
         return props.getProperty("openfire.host");
     }
 
