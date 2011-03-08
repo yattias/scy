@@ -260,6 +260,10 @@
                <property name="contentCreatorId" value="mathtool"/>
             </bean>
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
+               <property name="eloType" value="scy/resultcard"/>
+               <property name="contentCreatorId" value="resultcard"/>
+            </bean>
+            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="scy/formauthor"/>
                <property name="contentCreatorId" value="formauthor"/>
             </bean>

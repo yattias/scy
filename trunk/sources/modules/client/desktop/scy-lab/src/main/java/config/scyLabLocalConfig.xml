@@ -120,6 +120,12 @@
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/resultcard"/>
+               <property name="display" value="Health Passport"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="resultcard"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
                <property name="type" value="scy/simconfig"/>
                <property name="display" value="Simulator"/>
                <property name="creatable" value="true"/>

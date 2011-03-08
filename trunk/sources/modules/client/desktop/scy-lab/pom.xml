@@ -97,6 +97,11 @@
 			<artifactId>fx-copex</artifactId>
 			<version>${parent.version}</version>
 		</dependency>
+                <dependency>
+			<groupId>eu.scy.client.tools</groupId>
+			<artifactId>fx-resultbinder</artifactId>
+			<version>${parent.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>eu.scy.client.tools</groupId>
 			<artifactId>fx-flying-saucer</artifactId>
