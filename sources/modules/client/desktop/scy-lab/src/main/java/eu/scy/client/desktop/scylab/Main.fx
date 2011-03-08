@@ -14,6 +14,7 @@ import eu.scy.client.tools.fxdrawingtool.registration.DrawingToolCreatorFX;
 import eu.scy.client.tools.fxsimulator.registration.SimulatorContentCreator;
 import eu.scy.client.tools.fxfitex.registration.FitexToolCreatorFX;
 import eu.scy.client.tools.fxcopex.registration.CopexToolCreatorFX;
+import eu.scy.client.tools.fxresultbinder.registration.ResultBinderToolCreatorFX;
 import eu.scy.client.tools.fxscydynamics.registration.ScyDynamicsContentCreator;
 
 
@@ -67,6 +68,7 @@ var initializer = Initializer {
 //           enableLocalLogging:false
            authorMode:false
            debugMode: false
+           //showOnlyStartedMissions:false
 //           redirectSystemStream:true
 //           enableLocalLogging:true
         }
@@ -76,6 +78,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def scyDrawingId = "drawing";
    def scyFitexId = "fitex";
    def scyCopexId = "copex";
+   def scyResultBinderId = "resultcard";
    def scySimulatorId = "simulator";
    def scyModelId = "scy-dynamics";
    def scyFlyingSaucerId = "flying-saucer";
@@ -120,6 +123,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(FitexToolCreatorFX{}, scyFitexId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(CopexToolCreatorFX{}, scyCopexId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ResultBinderToolCreatorFX{}, scyResultBinderId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(SCYMapperContentCreator {}, scyMapperId);
 

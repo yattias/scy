@@ -126,6 +126,11 @@
     </eloFunctionalRoles>
   </eloToolConfig>
   <eloToolConfig>
+    <eloType>scy/resultcard</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>resultcard</contentCreatorId>
+  </eloToolConfig>
+  <eloToolConfig>
     <eloType>scy/xproc</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId>copex</contentCreatorId>
