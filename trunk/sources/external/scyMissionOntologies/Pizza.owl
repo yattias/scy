@@ -1,0 +1,1128 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:protege="http://protege.stanford.edu/plugins/owl/protege#"
+    xmlns:xsp="http://www.owl-ontologies.com/2005/08/07/xsp.owl#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+    xmlns="http://www.scy.eu/pizza#"
+    xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xml:base="http://www.scy.eu/pizza">
+  <owl:Ontology rdf:about=""/>
+  <owl:Class rdf:ID="Unit">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="EnergyAttribute"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="MeatAndBeans">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="FoodPyramidGroup"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Vegetables">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="ExtraIngredient"/>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Topping"/>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#FoodPyramidGroup"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="#Topping">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="PizzaComponent"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Meat">
+    <rdfs:subClassOf rdf:resource="#Topping"/>
+    <rdfs:subClassOf rdf:resource="#MeatAndBeans"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Cheese">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Milk"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="PizzaAttribute">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Concept"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="HealthProblem">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="HealthVariable"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="DigestiveSystemComponent">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="DigestiveSystemAttribute"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="#Milk">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#FoodPyramidGroup"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="HealthIndicator">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#HealthVariable"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="#EnergyAttribute">
+    <rdfs:subClassOf rdf:resource="#Concept"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Sauce">
+    <rdfs:subClassOf rdf:resource="#Topping"/>
+  </owl:Class>
+  <owl:Class rdf:about="#PizzaComponent">
+    <rdfs:subClassOf rdf:resource="#Concept"/>
+  </owl:Class>
+  <owl:Class rdf:ID="DigestiveSystemProcess">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#DigestiveSystemAttribute"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="#FoodPyramidGroup">
+    <rdfs:subClassOf rdf:resource="#Concept"/>
+  </owl:Class>
+  <owl:Class rdf:about="#DigestiveSystemAttribute">
+    <rdfs:subClassOf rdf:resource="#Concept"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Fish">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Seafood"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="OilsAndFats">
+    <rdfs:subClassOf rdf:resource="#FoodPyramidGroup"/>
+  </owl:Class>
+  <owl:Class rdf:ID="DeterminingFactor">
+    <rdfs:subClassOf rdf:resource="#EnergyAttribute"/>
+  </owl:Class>
+  <owl:Class rdf:ID="BasicIngredient">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="PizzaIngredient"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="DigestiveSystemOrgan">
+    <rdfs:subClassOf rdf:resource="#DigestiveSystemComponent"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Food">
+    <rdfs:subClassOf rdf:resource="#Concept"/>
+  </owl:Class>
+  <owl:Class rdf:ID="NutrientFunction">
+    <rdfs:subClassOf rdf:resource="#Concept"/>
+  </owl:Class>
+  <owl:Class rdf:ID="DoughStyle">
+    <rdfs:subClassOf rdf:resource="#PizzaComponent"/>
+  </owl:Class>
+  <owl:Class rdf:about="#ExtraIngredient">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#PizzaIngredient"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="PizzaType">
+    <rdfs:subClassOf rdf:resource="#Concept"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Nutrients">
+    <rdfs:subClassOf rdf:resource="#Concept"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Fruits">
+    <rdfs:subClassOf rdf:resource="#ExtraIngredient"/>
+    <rdfs:subClassOf rdf:resource="#Topping"/>
+    <rdfs:subClassOf rdf:resource="#FoodPyramidGroup"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Grains">
+    <rdfs:subClassOf rdf:resource="#FoodPyramidGroup"/>
+  </owl:Class>
+  <owl:Class rdf:about="#HealthVariable">
+    <rdfs:subClassOf rdf:resource="#Concept"/>
+  </owl:Class>
+  <owl:Class rdf:about="#PizzaIngredient">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Ingredient"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Spice">
+    <rdfs:subClassOf rdf:resource="#Vegetables"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Seafood">
+    <rdfs:subClassOf rdf:resource="#Topping"/>
+    <rdfs:subClassOf rdf:resource="#MeatAndBeans"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Specification">
+    <rdfs:subClassOf rdf:resource="#EnergyAttribute"/>
+  </owl:Class>
+  <owl:Class rdf:about="#Ingredient">
+    <rdfs:subClassOf rdf:resource="#Concept"/>
+  </owl:Class>
+  <owl:ObjectProperty rdf:ID="hasFunction">
+    <rdfs:subPropertyOf>
+      <owl:SymmetricProperty rdf:ID="hasRelationTo"/>
+    </rdfs:subPropertyOf>
+    <rdfs:range>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#NutrientFunction"/>
+          <owl:Class rdf:about="#DigestiveSystemProcess"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:range>
+    <rdfs:domain rdf:resource="#Concept"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="isElementOf">
+    <rdfs:subPropertyOf>
+      <owl:SymmetricProperty rdf:about="#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+    <rdfs:domain rdf:resource="#DigestiveSystemComponent"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="contains">
+    <rdfs:subPropertyOf>
+      <owl:SymmetricProperty rdf:about="#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="absorb">
+    <rdfs:subPropertyOf>
+      <owl:SymmetricProperty rdf:about="#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+  </owl:ObjectProperty>
+  <owl:TransitiveProperty rdf:ID="isInfluencedBy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:subPropertyOf>
+      <owl:SymmetricProperty rdf:about="#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+    <owl:inverseOf>
+      <owl:TransitiveProperty rdf:ID="hasInfluenceOn"/>
+    </owl:inverseOf>
+  </owl:TransitiveProperty>
+  <owl:TransitiveProperty rdf:ID="hasIngredient">
+    <rdfs:subPropertyOf>
+      <owl:SymmetricProperty rdf:about="#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+    <owl:inverseOf>
+      <owl:TransitiveProperty rdf:ID="isIngredientOf"/>
+    </owl:inverseOf>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </owl:TransitiveProperty>
+  <owl:TransitiveProperty rdf:about="#isIngredientOf">
+    <rdfs:subPropertyOf>
+      <owl:SymmetricProperty rdf:about="#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+    <owl:inverseOf rdf:resource="#hasIngredient"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </owl:TransitiveProperty>
+  <owl:TransitiveProperty rdf:about="#hasInfluenceOn">
+    <owl:inverseOf rdf:resource="#isInfluencedBy"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:subPropertyOf>
+      <owl:SymmetricProperty rdf:about="#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+  </owl:TransitiveProperty>
+  <owl:SymmetricProperty rdf:about="#hasRelationTo">
+    <rdfs:domain rdf:resource="#Concept"/>
+    <owl:inverseOf rdf:resource="#hasRelationTo"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="#Concept"/>
+  </owl:SymmetricProperty>
+  <Spice rdf:ID="Basil">
+    <contains>
+      <Nutrients rdf:ID="Water">
+        <isIngredientOf>
+          <DoughStyle rdf:ID="DeepPan">
+            <hasIngredient>
+              <Grains rdf:ID="Flour">
+                <contains>
+                  <Nutrients rdf:ID="Vitamin">
+                    <hasFunction>
+                      <NutrientFunction rdf:ID="EnergyGeneration">
+                        <hasRelationTo>
+                          <EnergyAttribute rdf:ID="EnergyNeed">
+                            <isInfluencedBy>
+                              <DeterminingFactor rdf:ID="Height">
+                                <hasInfluenceOn>
+                                  <HealthIndicator rdf:ID="BodyMassIndex">
+                                    <isInfluencedBy rdf:resource="#Height"/>
+                                    <isInfluencedBy>
+                                      <DeterminingFactor rdf:ID="Weight">
+                                        <hasInfluenceOn rdf:resource="#BodyMassIndex"/>
+                                        <hasInfluenceOn>
+                                          <Specification rdf:ID="BasalMetabolicRate">
+                                            <hasRelationTo rdf:resource="#EnergyNeed"/>
+                                            <hasRelationTo>
+                                              <Concept rdf:ID="Energy">
+                                                <hasRelationTo>
+                                                  <Unit rdf:ID="Joule">
+                                                    <hasRelationTo>
+                                                      <Concept rdf:ID="NutritionalValue">
+                                                        <hasRelationTo rdf:resource="#Water"/>
+                                                        <hasRelationTo>
+                                                          <Cheese rdf:ID="Pecorino">
+                                                            <contains>
+                                                              <Nutrients rdf:ID="Carbohydrate">
+    <hasRelationTo rdf:resource="#NutritionalValue"/>
+    <hasInfluenceOn rdf:resource="#EnergyGeneration"/>
+    <hasInfluenceOn>
+      <NutrientFunction rdf:ID="RegulationOfBodyProcesses">
+        <isInfluencedBy>
+          <Nutrients rdf:ID="Protein">
+            <hasRelationTo rdf:resource="#NutritionalValue"/>
+            <hasInfluenceOn rdf:resource="#EnergyGeneration"/>
+            <hasInfluenceOn rdf:resource="#RegulationOfBodyProcesses"/>
+            <hasInfluenceOn>
+              <NutrientFunction rdf:ID="Growth">
+                <isInfluencedBy rdf:resource="#Protein"/>
+                <isInfluencedBy rdf:resource="#Vitamin"/>
+                <isInfluencedBy>
+                  <Nutrients rdf:ID="Mineral">
+                    <hasInfluenceOn rdf:resource="#EnergyGeneration"/>
+                    <hasInfluenceOn rdf:resource="#RegulationOfBodyProcesses"/>
+                    <hasInfluenceOn rdf:resource="#Growth"/>
+                    <hasFunction rdf:resource="#RegulationOfBodyProcesses"/>
+                    <hasFunction rdf:resource="#Growth"/>
+                    <hasRelationTo rdf:resource="#NutritionalValue"/>
+                  </Nutrients>
+                </isInfluencedBy>
+                <isInfluencedBy>
+                  <Nutrients rdf:ID="Fat">
+                    <hasFunction rdf:resource="#EnergyGeneration"/>
+                    <hasFunction rdf:resource="#RegulationOfBodyProcesses"/>
+                    <hasInfluenceOn rdf:resource="#EnergyGeneration"/>
+                    <hasInfluenceOn rdf:resource="#RegulationOfBodyProcesses"/>
+                    <hasInfluenceOn rdf:resource="#Growth"/>
+                    <hasRelationTo>
+                      <DigestiveSystemComponent rdf:ID="Bile">
+                        <hasRelationTo>
+                          <Concept rdf:ID="DigestiveSystem">
+                            <absorb rdf:resource="#Vitamin"/>
+                            <hasRelationTo>
+                              <DigestiveSystemComponent rdf:ID="DigestiveJuice">
+                                <absorb rdf:resource="#Protein"/>
+                                <hasRelationTo>
+                                  <DigestiveSystemComponent rdf:ID="Enzymes">
+                                    <hasRelationTo>
+                                      <DigestiveSystemProcess rdf:ID="NutrientBreakdown">
+                                        <hasRelationTo rdf:resource="#Enzymes"/>
+                                        <hasRelationTo rdf:resource="#DigestiveSystem"/>
+                                      </DigestiveSystemProcess>
+                                    </hasRelationTo>
+                                    <hasRelationTo rdf:resource="#DigestiveSystem"/>
+                                    <hasRelationTo rdf:resource="#DigestiveJuice"/>
+                                    <hasFunction rdf:resource="#NutrientBreakdown"/>
+                                  </DigestiveSystemComponent>
+                                </hasRelationTo>
+                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
+                                <hasFunction rdf:resource="#NutrientBreakdown"/>
+                                <contains rdf:resource="#Enzymes"/>
+                              </DigestiveSystemComponent>
+                            </hasRelationTo>
+                            <hasRelationTo>
+                              <DigestiveSystemOrgan rdf:ID="Rectum">
+                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
+                                <isElementOf rdf:resource="#DigestiveSystem"/>
+                              </DigestiveSystemOrgan>
+                            </hasRelationTo>
+                            <hasRelationTo>
+                              <DigestiveSystemOrgan rdf:ID="Anus">
+                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
+                                <isElementOf rdf:resource="#DigestiveSystem"/>
+                              </DigestiveSystemOrgan>
+                            </hasRelationTo>
+                            <hasRelationTo>
+                              <DigestiveSystemOrgan rdf:ID="Mouth">
+                                <isElementOf rdf:resource="#DigestiveSystem"/>
+                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
+                              </DigestiveSystemOrgan>
+                            </hasRelationTo>
+                            <hasRelationTo>
+                              <DigestiveSystemProcess rdf:ID="Peristalsis">
+                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
+                              </DigestiveSystemProcess>
+                            </hasRelationTo>
+                            <absorb rdf:resource="#Carbohydrate"/>
+                            <hasFunction rdf:resource="#NutrientBreakdown"/>
+                            <hasRelationTo>
+                              <DigestiveSystemOrgan rdf:ID="GallBladder">
+                                <isElementOf rdf:resource="#DigestiveSystem"/>
+                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
+                                <hasRelationTo rdf:resource="#Bile"/>
+                              </DigestiveSystemOrgan>
+                            </hasRelationTo>
+                            <hasRelationTo rdf:resource="#NutrientBreakdown"/>
+                            <hasRelationTo rdf:resource="#Enzymes"/>
+                            <hasRelationTo>
+                              <DigestiveSystemOrgan rdf:ID="Duodenum">
+                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
+                                <isElementOf rdf:resource="#DigestiveSystem"/>
+                              </DigestiveSystemOrgan>
+                            </hasRelationTo>
+                            <absorb rdf:resource="#Fat"/>
+                            <hasRelationTo rdf:resource="#Bile"/>
+                            <hasRelationTo>
+                              <DigestiveSystemOrgan rdf:ID="Pancreas">
+                                <isElementOf rdf:resource="#DigestiveSystem"/>
+                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
+                              </DigestiveSystemOrgan>
+                            </hasRelationTo>
+                            <absorb rdf:resource="#Water"/>
+                            <hasRelationTo>
+                              <DigestiveSystemProcess rdf:ID="SecretionOfDigestiveJuice">
+                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
+                              </DigestiveSystemProcess>
+                            </hasRelationTo>
+                            <hasRelationTo>
+                              <DigestiveSystemOrgan rdf:ID="LargeIntestine">
+                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
+                                <isElementOf rdf:resource="#DigestiveSystem"/>
+                                <absorb rdf:resource="#Water"/>
+                                <hasFunction rdf:resource="#NutrientBreakdown"/>
+                              </DigestiveSystemOrgan>
+                            </hasRelationTo>
+                            <absorb rdf:resource="#Mineral"/>
+                            <hasRelationTo>
+                              <DigestiveSystemOrgan rdf:ID="Stomach">
+                                <isElementOf rdf:resource="#DigestiveSystem"/>
+                                <contains rdf:resource="#DigestiveJuice"/>
+                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
+                              </DigestiveSystemOrgan>
+                            </hasRelationTo>
+                            <hasFunction rdf:resource="#SecretionOfDigestiveJuice"/>
+                            <hasFunction>
+                              <DigestiveSystemProcess rdf:ID="UptakeOfNutrients">
+                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
+                              </DigestiveSystemProcess>
+                            </hasFunction>
+                            <absorb rdf:resource="#Protein"/>
+                            <hasRelationTo>
+                              <DigestiveSystemOrgan rdf:ID="SmallIntestine">
+                                <isElementOf rdf:resource="#DigestiveSystem"/>
+                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
+                                <absorb rdf:resource="#Carbohydrate"/>
+                                <absorb rdf:resource="#Protein"/>
+                                <absorb rdf:resource="#Fat"/>
+                              </DigestiveSystemOrgan>
+                            </hasRelationTo>
+                            <hasFunction rdf:resource="#Peristalsis"/>
+                            <hasRelationTo>
+                              <DigestiveSystemOrgan rdf:ID="Liver">
+                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
+                                <hasRelationTo rdf:resource="#Bile"/>
+                                <isElementOf rdf:resource="#DigestiveSystem"/>
+                              </DigestiveSystemOrgan>
+                            </hasRelationTo>
+                            <hasRelationTo>
+                              <DigestiveSystemOrgan rdf:ID="Oesophagus">
+                                <isElementOf rdf:resource="#DigestiveSystem"/>
+                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
+                              </DigestiveSystemOrgan>
+                            </hasRelationTo>
+                            <hasRelationTo rdf:resource="#UptakeOfNutrients"/>
+                          </Concept>
+                        </hasRelationTo>
+                        <hasRelationTo rdf:resource="#GallBladder"/>
+                        <hasRelationTo rdf:resource="#Liver"/>
+                        <hasRelationTo rdf:resource="#Fat"/>
+                        <hasFunction rdf:resource="#NutrientBreakdown"/>
+                      </DigestiveSystemComponent>
+                    </hasRelationTo>
+                    <hasRelationTo rdf:resource="#NutritionalValue"/>
+                  </Nutrients>
+                </isInfluencedBy>
+                <isInfluencedBy rdf:resource="#Water"/>
+                <isInfluencedBy rdf:resource="#Carbohydrate"/>
+              </NutrientFunction>
+            </hasInfluenceOn>
+            <hasFunction rdf:resource="#EnergyGeneration"/>
+            <hasFunction rdf:resource="#RegulationOfBodyProcesses"/>
+          </Nutrients>
+        </isInfluencedBy>
+        <isInfluencedBy rdf:resource="#Vitamin"/>
+        <isInfluencedBy rdf:resource="#Mineral"/>
+        <isInfluencedBy rdf:resource="#Fat"/>
+        <isInfluencedBy rdf:resource="#Water"/>
+        <isInfluencedBy rdf:resource="#Carbohydrate"/>
+      </NutrientFunction>
+    </hasInfluenceOn>
+    <hasInfluenceOn rdf:resource="#Growth"/>
+    <hasFunction rdf:resource="#EnergyGeneration"/>
+    <hasFunction rdf:resource="#RegulationOfBodyProcesses"/>  </Nutrients>
+                                                            </contains>
+                                                            <contains rdf:resource="#Water"/>
+                                                            <contains rdf:resource="#Mineral"/>
+                                                            <contains rdf:resource="#Protein"/>
+                                                            <contains rdf:resource="#Fat"/>
+                                                            <contains rdf:resource="#Vitamin"/>
+                                                            <hasRelationTo rdf:resource="#NutritionalValue"/>
+                                                            <hasRelationTo rdf:resource="#Energy"/>
+                                                          </Cheese>
+                                                        </hasRelationTo>
+                                                        <hasRelationTo rdf:resource="#Joule"/>
+                                                        <hasRelationTo rdf:resource="#Carbohydrate"/>
+                                                        <hasRelationTo>
+                                                          <Cheese rdf:ID="Fetta">
+                                                            <contains rdf:resource="#Carbohydrate"/>
+                                                            <contains rdf:resource="#Water"/>
+                                                            <contains rdf:resource="#Mineral"/>
+                                                            <contains rdf:resource="#Protein"/>
+                                                            <contains rdf:resource="#Fat"/>
+                                                            <contains rdf:resource="#Vitamin"/>
+                                                            <hasRelationTo rdf:resource="#NutritionalValue"/>
+                                                            <hasRelationTo rdf:resource="#Energy"/>
+                                                          </Cheese>
+                                                        </hasRelationTo>
+                                                        <hasRelationTo>
+                                                          <Cheese rdf:ID="Mozzarella">
+                                                            <hasRelationTo rdf:resource="#NutritionalValue"/>
+                                                            <hasRelationTo rdf:resource="#Energy"/>
+                                                            <contains rdf:resource="#Carbohydrate"/>
+                                                            <contains rdf:resource="#Water"/>
+                                                            <contains rdf:resource="#Mineral"/>
+                                                            <contains rdf:resource="#Protein"/>
+                                                            <contains rdf:resource="#Fat"/>
+                                                            <contains rdf:resource="#Vitamin"/>
+                                                          </Cheese>
+                                                        </hasRelationTo>
+                                                        <hasRelationTo>
+                                                          <Cheese rdf:ID="Gouda">
+                                                            <hasRelationTo rdf:resource="#NutritionalValue"/>
+                                                            <hasRelationTo rdf:resource="#Energy"/>
+                                                            <contains rdf:resource="#Carbohydrate"/>
+                                                            <contains rdf:resource="#Water"/>
+                                                            <contains rdf:resource="#Mineral"/>
+                                                            <contains rdf:resource="#Protein"/>
+                                                            <contains rdf:resource="#Fat"/>
+                                                            <contains rdf:resource="#Vitamin"/>
+                                                          </Cheese>
+                                                        </hasRelationTo>
+                                                        <hasRelationTo rdf:resource="#Protein"/>
+                                                        <hasRelationTo>
+                                                          <Cheese rdf:ID="Ricotta">
+                                                            <hasRelationTo rdf:resource="#NutritionalValue"/>
+                                                            <hasRelationTo rdf:resource="#Energy"/>
+                                                            <contains rdf:resource="#Carbohydrate"/>
+                                                            <contains rdf:resource="#Water"/>
+                                                            <contains rdf:resource="#Mineral"/>
+                                                            <contains rdf:resource="#Protein"/>
+                                                            <contains rdf:resource="#Fat"/>
+                                                            <contains rdf:resource="#Vitamin"/>
+                                                          </Cheese>
+                                                        </hasRelationTo>
+                                                        <hasRelationTo rdf:resource="#Vitamin"/>
+                                                        <hasRelationTo>
+                                                          <Unit rdf:ID="Calorie">
+                                                            <hasRelationTo rdf:resource="#NutritionalValue"/>
+                                                            <hasRelationTo rdf:resource="#Energy"/>
+                                                          </Unit>
+                                                        </hasRelationTo>
+                                                        <hasRelationTo>
+                                                          <Cheese rdf:ID="Parmesan">
+                                                            <hasRelationTo rdf:resource="#NutritionalValue"/>
+                                                            <hasRelationTo rdf:resource="#Energy"/>
+                                                            <contains rdf:resource="#Carbohydrate"/>
+                                                            <contains rdf:resource="#Water"/>
+                                                            <contains rdf:resource="#Mineral"/>
+                                                            <contains rdf:resource="#Protein"/>
+                                                            <contains rdf:resource="#Fat"/>
+                                                            <contains rdf:resource="#Vitamin"/>
+                                                          </Cheese>
+                                                        </hasRelationTo>
+                                                        <hasRelationTo>
+                                                          <Cheese rdf:ID="Gorgonzola">
+                                                            <contains rdf:resource="#Carbohydrate"/>
+                                                            <contains rdf:resource="#Water"/>
+                                                            <contains rdf:resource="#Mineral"/>
+                                                            <contains rdf:resource="#Protein"/>
+                                                            <contains rdf:resource="#Fat"/>
+                                                            <contains rdf:resource="#Vitamin"/>
+                                                            <hasRelationTo rdf:resource="#NutritionalValue"/>
+                                                            <hasRelationTo rdf:resource="#Energy"/>
+                                                          </Cheese>
+                                                        </hasRelationTo>
+                                                        <hasRelationTo rdf:resource="#Mineral"/>
+                                                        <hasRelationTo rdf:resource="#Fat"/>
+                                                        <hasRelationTo>
+                                                          <Cheese rdf:ID="Edam">
+                                                            <hasRelationTo rdf:resource="#NutritionalValue"/>
+                                                            <hasRelationTo rdf:resource="#Energy"/>
+                                                            <contains rdf:resource="#Carbohydrate"/>
+                                                            <contains rdf:resource="#Water"/>
+                                                            <contains rdf:resource="#Mineral"/>
+                                                            <contains rdf:resource="#Protein"/>
+                                                            <contains rdf:resource="#Fat"/>
+                                                            <contains rdf:resource="#Vitamin"/>
+                                                          </Cheese>
+                                                        </hasRelationTo>
+                                                      </Concept>
+                                                    </hasRelationTo>
+                                                    <hasRelationTo rdf:resource="#Energy"/>
+                                                  </Unit>
+                                                </hasRelationTo>
+                                                <hasRelationTo rdf:resource="#Gouda"/>
+                                                <hasRelationTo>
+                                                  <DeterminingFactor rdf:ID="Age">
+                                                    <hasRelationTo rdf:resource="#Energy"/>
+                                                    <hasInfluenceOn rdf:resource="#BasalMetabolicRate"/>
+                                                    <hasInfluenceOn rdf:resource="#EnergyNeed"/>
+                                                  </DeterminingFactor>
+                                                </hasRelationTo>
+                                                <hasRelationTo rdf:resource="#Weight"/>
+                                                <hasRelationTo>
+                                                  <Food rdf:ID="Pizza">
+                                                    <hasIngredient>
+                                                      <DoughStyle rdf:ID="StuffedCrust">
+                                                        <isIngredientOf rdf:resource="#Pizza"/>
+                                                        <hasIngredient rdf:resource="#Flour"/>
+                                                        <hasIngredient rdf:resource="#Water"/>
+                                                      </DoughStyle>
+                                                    </hasIngredient>
+                                                    <contains rdf:resource="#Protein"/>
+                                                    <hasRelationTo>
+                                                      <PizzaComponent rdf:ID="Dough">
+                                                        <hasIngredient rdf:resource="#Water"/>
+                                                        <hasIngredient rdf:resource="#Flour"/>
+                                                        <hasRelationTo rdf:resource="#Pizza"/>
+                                                      </PizzaComponent>
+                                                    </hasRelationTo>
+                                                    <hasIngredient>
+                                                      <DoughStyle rdf:ID="Traditional">
+                                                        <isIngredientOf rdf:resource="#Pizza"/>
+                                                        <hasIngredient rdf:resource="#Flour"/>
+                                                        <hasIngredient rdf:resource="#Water"/>
+                                                      </DoughStyle>
+                                                    </hasIngredient>
+                                                    <hasRelationTo>
+                                                      <Concept rdf:ID="Diet">
+                                                        <hasRelationTo rdf:resource="#Pizza"/>
+                                                        <contains rdf:resource="#Carbohydrate"/>
+                                                        <contains rdf:resource="#Fat"/>
+                                                        <contains rdf:resource="#Vitamin"/>
+                                                        <contains rdf:resource="#Mineral"/>
+                                                        <contains rdf:resource="#Protein"/>
+                                                        <hasInfluenceOn>
+                                                          <HealthProblem rdf:ID="Obesity">
+                                                            <hasInfluenceOn>
+                                                              <Concept rdf:ID="Health">
+    <hasRelationTo>
+      <HealthProblem rdf:ID="HighCholesterol">
+        <isInfluencedBy rdf:resource="#Diet"/>
+        <hasInfluenceOn rdf:resource="#Health"/>
+        <hasRelationTo>
+          <PizzaAttribute rdf:ID="Healthiness">
+            <isInfluencedBy rdf:resource="#Diet"/>
+            <hasRelationTo rdf:resource="#BodyMassIndex"/>
+            <hasRelationTo rdf:resource="#HighCholesterol"/>
+            <hasRelationTo rdf:resource="#Health"/>
+            <hasRelationTo>
+              <HealthIndicator rdf:ID="HeartRate">
+                <hasRelationTo rdf:resource="#Healthiness"/>
+                <hasRelationTo rdf:resource="#Health"/>
+              </HealthIndicator>
+            </hasRelationTo>
+            <hasRelationTo rdf:resource="#Obesity"/>
+            <hasRelationTo>
+              <HealthProblem rdf:ID="HighBloodPressure">
+                <hasRelationTo rdf:resource="#Healthiness"/>
+                <hasRelationTo rdf:resource="#Health"/>
+                <isInfluencedBy rdf:resource="#Diet"/>
+                <hasInfluenceOn rdf:resource="#Health"/>
+              </HealthProblem>
+            </hasRelationTo>
+            <hasInfluenceOn rdf:resource="#Health"/>
+            <hasRelationTo>
+              <HealthIndicator rdf:ID="BloodPressure">
+                <hasRelationTo rdf:resource="#Healthiness"/>
+                <hasRelationTo rdf:resource="#Health"/>
+              </HealthIndicator>
+            </hasRelationTo>
+            <hasRelationTo rdf:resource="#Pizza"/>
+            <hasRelationTo>
+              <HealthProblem rdf:ID="CardiovasulcarDiseases">
+                <hasRelationTo rdf:resource="#Healthiness"/>
+                <hasRelationTo rdf:resource="#Health"/>
+                <hasInfluenceOn rdf:resource="#Health"/>
+                <isInfluencedBy rdf:resource="#Diet"/>
+              </HealthProblem>
+            </hasRelationTo>
+            <hasRelationTo>
+              <HealthProblem rdf:ID="Diabetes">
+                <hasRelationTo rdf:resource="#Healthiness"/>
+                <hasRelationTo rdf:resource="#Health"/>
+                <hasInfluenceOn rdf:resource="#Health"/>
+                <isInfluencedBy rdf:resource="#Diet"/>
+              </HealthProblem>
+            </hasRelationTo>
+          </PizzaAttribute>
+        </hasRelationTo>
+        <hasRelationTo rdf:resource="#Health"/>
+      </HealthProblem>
+    </hasRelationTo>
+    <isInfluencedBy rdf:resource="#Healthiness"/>
+    <isInfluencedBy rdf:resource="#CardiovasulcarDiseases"/>
+    <isInfluencedBy rdf:resource="#HighBloodPressure"/>
+    <hasRelationTo rdf:resource="#BodyMassIndex"/>
+    <isInfluencedBy rdf:resource="#HighCholesterol"/>
+    <rdf:type rdf:resource="#HealthVariable"/>
+    <hasRelationTo rdf:resource="#Healthiness"/>
+    <hasRelationTo rdf:resource="#HeartRate"/>
+    <hasRelationTo rdf:resource="#Obesity"/>
+    <hasRelationTo rdf:resource="#Diabetes"/>
+    <isInfluencedBy rdf:resource="#Obesity"/>
+    <hasRelationTo rdf:resource="#BloodPressure"/>
+    <isInfluencedBy rdf:resource="#Diabetes"/>
+    <hasRelationTo rdf:resource="#HighBloodPressure"/>
+    <hasRelationTo rdf:resource="#CardiovasulcarDiseases"/>   </Concept>
+                                                            </hasInfluenceOn>
+                                                            <hasRelationTo rdf:resource="#Healthiness"/>
+                                                            <hasRelationTo rdf:resource="#Health"/>
+                                                            <isInfluencedBy rdf:resource="#Diet"/>
+                                                          </HealthProblem>
+                                                        </hasInfluenceOn>
+                                                        <hasInfluenceOn rdf:resource="#CardiovasulcarDiseases"/>
+                                                        <hasInfluenceOn rdf:resource="#HighBloodPressure"/>
+                                                        <hasInfluenceOn rdf:resource="#Diabetes"/>
+                                                        <hasInfluenceOn rdf:resource="#Healthiness"/>
+                                                        <isInfluencedBy>
+                                                          <Concept rdf:ID="DietOptimizationStrategy">
+                                                            <hasInfluenceOn rdf:resource="#Diet"/>
+                                                          </Concept>
+                                                        </isInfluencedBy>
+                                                        <hasInfluenceOn rdf:resource="#HighCholesterol"/>
+                                                        <contains rdf:resource="#Water"/>
+                                                      </Concept>
+                                                    </hasRelationTo>
+                                                    <hasIngredient>
+                                                      <Sauce rdf:ID="BBQ">
+                                                        <contains>
+                                                          <Vegetables rdf:ID="Tomato">
+                                                            <contains rdf:resource="#Water"/>
+                                                            <contains rdf:resource="#Vitamin"/>
+                                                            <contains rdf:resource="#Carbohydrate"/>
+                                                            <contains rdf:resource="#Mineral"/>
+                                                          </Vegetables>
+                                                        </contains>
+                                                        <isIngredientOf rdf:resource="#Pizza"/>
+                                                      </Sauce>
+                                                    </hasIngredient>
+                                                    <contains rdf:resource="#Water"/>
+                                                    <contains rdf:resource="#Vitamin"/>
+                                                    <hasIngredient>
+                                                      <Sauce rdf:ID="Alfredo">
+                                                        <isIngredientOf rdf:resource="#Pizza"/>
+                                                        <contains rdf:resource="#Parmesan"/>
+                                                      </Sauce>
+                                                    </hasIngredient>
+                                                    <hasRelationTo rdf:resource="#Energy"/>
+                                                    <hasIngredient>
+                                                      <DoughStyle rdf:ID="ThinCrust">
+                                                        <isIngredientOf rdf:resource="#Pizza"/>
+                                                        <hasIngredient rdf:resource="#Flour"/>
+                                                        <hasIngredient rdf:resource="#Water"/>
+                                                      </DoughStyle>
+                                                    </hasIngredient>
+                                                    <hasIngredient rdf:resource="#DeepPan"/>
+                                                    <contains rdf:resource="#Mineral"/>
+                                                    <contains rdf:resource="#Carbohydrate"/>
+                                                    <contains rdf:resource="#Energy"/>
+                                                    <hasIngredient>
+                                                      <Sauce rdf:ID="Marinara">
+                                                        <isIngredientOf rdf:resource="#Pizza"/>
+                                                        <contains rdf:resource="#Tomato"/>
+                                                      </Sauce>
+                                                    </hasIngredient>
+                                                    <hasRelationTo rdf:resource="#Healthiness"/>
+                                                    <hasRelationTo>
+                                                      <PizzaAttribute rdf:ID="Taste">
+                                                        <hasRelationTo rdf:resource="#Pizza"/>
+                                                      </PizzaAttribute>
+                                                    </hasRelationTo>
+                                                    <contains rdf:resource="#Fat"/>
+                                                  </Food>
+                                                </hasRelationTo>
+                                                <hasRelationTo rdf:resource="#BasalMetabolicRate"/>
+                                                <hasRelationTo rdf:resource="#Ricotta"/>
+                                                <hasRelationTo rdf:resource="#Edam"/>
+                                                <hasRelationTo rdf:resource="#Gorgonzola"/>
+                                                <hasRelationTo rdf:resource="#Mozzarella"/>
+                                                <hasRelationTo rdf:resource="#EnergyGeneration"/>
+                                                <hasRelationTo rdf:resource="#Fetta"/>
+                                                <hasRelationTo>
+                                                  <DeterminingFactor rdf:ID="Gender">
+                                                    <hasRelationTo rdf:resource="#Energy"/>
+                                                    <hasInfluenceOn rdf:resource="#BasalMetabolicRate"/>
+                                                    <hasInfluenceOn rdf:resource="#EnergyNeed"/>
+                                                  </DeterminingFactor>
+                                                </hasRelationTo>
+                                                <hasRelationTo rdf:resource="#Pecorino"/>
+                                                <hasRelationTo rdf:resource="#Height"/>
+                                                <hasRelationTo rdf:resource="#EnergyNeed"/>
+                                                <hasRelationTo rdf:resource="#Parmesan"/>
+                                                <hasRelationTo rdf:resource="#Calorie"/>
+                                                <hasRelationTo>
+                                                  <DeterminingFactor rdf:ID="Activities">
+                                                    <hasRelationTo rdf:resource="#Energy"/>
+                                                    <hasInfluenceOn>
+                                                      <Specification rdf:ID="EstimatedEnergyRequirements">
+                                                        <hasRelationTo rdf:resource="#EnergyNeed"/>
+                                                        <isInfluencedBy rdf:resource="#BasalMetabolicRate"/>
+                                                        <isInfluencedBy rdf:resource="#Activities"/>
+                                                      </Specification>
+                                                    </hasInfluenceOn>
+                                                    <hasInfluenceOn rdf:resource="#EnergyNeed"/>
+                                                  </DeterminingFactor>
+                                                </hasRelationTo>
+                                              </Concept>
+                                            </hasRelationTo>
+                                            <isInfluencedBy rdf:resource="#Height"/>
+                                            <isInfluencedBy rdf:resource="#Age"/>
+                                            <isInfluencedBy rdf:resource="#Weight"/>
+                                            <isInfluencedBy rdf:resource="#Gender"/>
+                                            <hasInfluenceOn rdf:resource="#EstimatedEnergyRequirements"/>
+                                          </Specification>
+                                        </hasInfluenceOn>
+                                        <hasInfluenceOn rdf:resource="#EnergyNeed"/>
+                                        <hasRelationTo rdf:resource="#Energy"/>
+                                      </DeterminingFactor>
+                                    </isInfluencedBy>
+                                    <hasRelationTo rdf:resource="#Healthiness"/>
+                                    <hasRelationTo rdf:resource="#Health"/>
+                                  </HealthIndicator>
+                                </hasInfluenceOn>
+                                <hasInfluenceOn rdf:resource="#EnergyNeed"/>
+                                <hasInfluenceOn rdf:resource="#BasalMetabolicRate"/>
+                                <hasRelationTo rdf:resource="#Energy"/>
+                              </DeterminingFactor>
+                            </isInfluencedBy>
+                            <hasRelationTo rdf:resource="#EnergyGeneration"/>
+                            <isInfluencedBy rdf:resource="#Activities"/>
+                            <hasRelationTo rdf:resource="#EstimatedEnergyRequirements"/>
+                            <hasRelationTo rdf:resource="#BasalMetabolicRate"/>
+                            <isInfluencedBy rdf:resource="#Age"/>
+                            <isInfluencedBy rdf:resource="#Weight"/>
+                            <isInfluencedBy rdf:resource="#Gender"/>
+                            <hasRelationTo rdf:resource="#Energy"/>
+                          </EnergyAttribute>
+                        </hasRelationTo>
+                        <hasRelationTo rdf:resource="#Energy"/>
+                        <isInfluencedBy rdf:resource="#Protein"/>
+                        <isInfluencedBy rdf:resource="#Vitamin"/>
+                        <isInfluencedBy rdf:resource="#Mineral"/>
+                        <isInfluencedBy rdf:resource="#Fat"/>
+                        <isInfluencedBy rdf:resource="#Water"/>
+                        <isInfluencedBy rdf:resource="#Carbohydrate"/>
+                      </NutrientFunction>
+                    </hasFunction>
+                    <hasFunction rdf:resource="#Growth"/>
+                    <hasInfluenceOn rdf:resource="#EnergyGeneration"/>
+                    <hasInfluenceOn rdf:resource="#RegulationOfBodyProcesses"/>
+                    <hasInfluenceOn rdf:resource="#Growth"/>
+                    <hasRelationTo rdf:resource="#NutritionalValue"/>
+                  </Nutrients>
+                </contains>
+                <contains rdf:resource="#Mineral"/>
+                <contains rdf:resource="#Fat"/>
+                <isIngredientOf rdf:resource="#Traditional"/>
+                <isIngredientOf rdf:resource="#ThinCrust"/>
+                <isIngredientOf rdf:resource="#DeepPan"/>
+                <isIngredientOf rdf:resource="#StuffedCrust"/>
+                <isIngredientOf rdf:resource="#Dough"/>
+              </Grains>
+            </hasIngredient>
+            <hasIngredient rdf:resource="#Water"/>
+            <isIngredientOf rdf:resource="#Pizza"/>
+          </DoughStyle>
+        </isIngredientOf>
+        <isIngredientOf rdf:resource="#StuffedCrust"/>
+        <hasRelationTo rdf:resource="#NutritionalValue"/>
+        <hasFunction rdf:resource="#RegulationOfBodyProcesses"/>
+        <hasInfluenceOn rdf:resource="#EnergyGeneration"/>
+        <isIngredientOf rdf:resource="#Traditional"/>
+        <hasInfluenceOn rdf:resource="#RegulationOfBodyProcesses"/>
+        <isIngredientOf rdf:resource="#Dough"/>
+        <hasInfluenceOn rdf:resource="#Growth"/>
+        <isIngredientOf rdf:resource="#ThinCrust"/>
+      </Nutrients>
+    </contains>
+    <contains rdf:resource="#Vitamin"/>
+    <contains rdf:resource="#Carbohydrate"/>
+    <contains rdf:resource="#Mineral"/>
+  </Spice>
+  <Spice rdf:ID="PaprikaPowder">
+    <contains rdf:resource="#Water"/>
+    <contains rdf:resource="#Vitamin"/>
+    <contains rdf:resource="#Carbohydrate"/>
+    <contains rdf:resource="#Mineral"/>
+  </Spice>
+  <Spice rdf:ID="Oregano">
+    <contains rdf:resource="#Water"/>
+    <contains rdf:resource="#Vitamin"/>
+    <contains rdf:resource="#Carbohydrate"/>
+    <contains rdf:resource="#Mineral"/>
+  </Spice>
+  <Concept rdf:ID="FoodPyramid">
+    <contains>
+      <Seafood rdf:ID="Shrimp">
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Protein"/>
+        <contains rdf:resource="#Mineral"/>
+        <contains rdf:resource="#Fat"/>
+      </Seafood>
+    </contains>
+    <contains>
+      <Meat rdf:ID="Ham">
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Protein"/>
+        <contains rdf:resource="#Mineral"/>
+        <contains rdf:resource="#Fat"/>
+      </Meat>
+    </contains>
+    <contains>
+      <Vegetables rdf:ID="Jalapeno">
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Carbohydrate"/>
+        <contains rdf:resource="#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains>
+      <Vegetables rdf:ID="Broccoli">
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Carbohydrate"/>
+        <contains rdf:resource="#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains>
+      <Meat rdf:ID="Salami">
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Protein"/>
+        <contains rdf:resource="#Mineral"/>
+        <contains rdf:resource="#Fat"/>
+      </Meat>
+    </contains>
+    <contains>
+      <MeatAndBeans rdf:ID="Bean">
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Protein"/>
+        <contains rdf:resource="#Mineral"/>
+        <contains rdf:resource="#Fat"/>
+      </MeatAndBeans>
+    </contains>
+    <contains>
+      <Seafood rdf:ID="Mussel">
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Protein"/>
+        <contains rdf:resource="#Mineral"/>
+        <contains rdf:resource="#Fat"/>
+      </Seafood>
+    </contains>
+    <contains>
+      <Vegetables rdf:ID="Olive">
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Carbohydrate"/>
+        <contains rdf:resource="#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains rdf:resource="#Gorgonzola"/>
+    <contains>
+      <Meat rdf:ID="Beef">
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Protein"/>
+        <contains rdf:resource="#Mineral"/>
+        <contains rdf:resource="#Fat"/>
+      </Meat>
+    </contains>
+    <contains>
+      <Fish rdf:ID="Tuna">
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Protein"/>
+        <contains rdf:resource="#Mineral"/>
+        <contains rdf:resource="#Fat"/>
+      </Fish>
+    </contains>
+    <contains>
+      <Vegetables rdf:ID="Paprika">
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Carbohydrate"/>
+        <contains rdf:resource="#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains rdf:resource="#Parmesan"/>
+    <contains>
+      <Vegetables rdf:ID="Onion">
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Carbohydrate"/>
+        <contains rdf:resource="#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains rdf:resource="#Fetta"/>
+    <contains>
+      <Vegetables rdf:ID="Chili">
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Carbohydrate"/>
+        <contains rdf:resource="#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains>
+      <Vegetables rdf:ID="Garlic">
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Carbohydrate"/>
+        <contains rdf:resource="#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains>
+      <Meat rdf:ID="Bacon">
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Protein"/>
+        <contains rdf:resource="#Mineral"/>
+        <contains rdf:resource="#Fat"/>
+      </Meat>
+    </contains>
+    <contains>
+      <Meat rdf:ID="Pepperoni">
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Protein"/>
+        <contains rdf:resource="#Mineral"/>
+        <contains rdf:resource="#Fat"/>
+      </Meat>
+    </contains>
+    <contains rdf:resource="#Mozzarella"/>
+    <contains>
+      <Fish rdf:ID="Salmon">
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Protein"/>
+        <contains rdf:resource="#Mineral"/>
+        <contains rdf:resource="#Fat"/>
+      </Fish>
+    </contains>
+    <contains rdf:resource="#Flour"/>
+    <contains rdf:resource="#Edam"/>
+    <contains rdf:resource="#Gouda"/>
+    <contains>
+      <Vegetables rdf:ID="Corn">
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Carbohydrate"/>
+        <contains rdf:resource="#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains>
+      <Vegetables rdf:ID="Arugula">
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Carbohydrate"/>
+        <contains rdf:resource="#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains>
+      <Vegetables rdf:ID="Potato">
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Carbohydrate"/>
+        <contains rdf:resource="#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains>
+      <Vegetables rdf:ID="Capers">
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Carbohydrate"/>
+        <contains rdf:resource="#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains>
+      <Fruits rdf:ID="Pineapple">
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Carbohydrate"/>
+        <contains rdf:resource="#Mineral"/>
+      </Fruits>
+    </contains>
+    <contains>
+      <Fish rdf:ID="Anchovy">
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Protein"/>
+        <contains rdf:resource="#Mineral"/>
+        <contains rdf:resource="#Fat"/>
+      </Fish>
+    </contains>
+    <contains>
+      <Fruits rdf:ID="Peach">
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Carbohydrate"/>
+        <contains rdf:resource="#Mineral"/>
+      </Fruits>
+    </contains>
+    <contains>
+      <Vegetables rdf:ID="Artichoke">
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Carbohydrate"/>
+        <contains rdf:resource="#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains rdf:resource="#Tomato"/>
+    <contains rdf:resource="#Ricotta"/>
+    <contains>
+      <Vegetables rdf:ID="Mushroom">
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Carbohydrate"/>
+        <contains rdf:resource="#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains>
+      <Meat rdf:ID="Chorizo">
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Protein"/>
+        <contains rdf:resource="#Mineral"/>
+        <contains rdf:resource="#Fat"/>
+      </Meat>
+    </contains>
+    <contains rdf:resource="#Pecorino"/>
+    <contains>
+      <Meat rdf:ID="ItalianSausage">
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Protein"/>
+        <contains rdf:resource="#Mineral"/>
+        <contains rdf:resource="#Fat"/>
+      </Meat>
+    </contains>
+    <contains>
+      <Vegetables rdf:ID="Spinach">
+        <contains rdf:resource="#Water"/>
+        <contains rdf:resource="#Vitamin"/>
+        <contains rdf:resource="#Carbohydrate"/>
+        <contains rdf:resource="#Mineral"/>
+      </Vegetables>
+    </contains>
+  </Concept>
+  <Spice rdf:ID="Pepper">
+    <contains rdf:resource="#Water"/>
+    <contains rdf:resource="#Vitamin"/>
+    <contains rdf:resource="#Carbohydrate"/>
+    <contains rdf:resource="#Mineral"/>
+  </Spice>
+</rdf:RDF>
+
+<!-- Created with Protege (with OWL Plugin 3.4.4, Build 579)  http://protege.stanford.edu -->
