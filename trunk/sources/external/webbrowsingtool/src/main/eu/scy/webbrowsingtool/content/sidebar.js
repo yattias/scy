@@ -190,9 +190,9 @@ if ("undefined" == typeof(scylighter)) {
             prefs = prefs.getBranch("extensions.scylighter.");
             var username = prefs.getCharPref("username");
             //remark: password is never sent to a server!
-//            var password = prefs.getCharPref("password");
+//            var password = "secret pass"; //FIXME fixed password
             //TODO use loginManager
-            var password = "secret pass"; //FIXME fixed password
+            var password = prefs.getCharPref("password");
 
             //Parameters for the webservice as JSON, stringified for transmission
             var params = {};
@@ -253,11 +253,12 @@ if ("undefined" == typeof(scylighter)) {
                             if(sr==expectedSr){
                                 authCallback();
                             } else {
-                                window.alert("Auth failed, server may be corrupted");
+                                alertString = scylighter.strings.getString("authFailed");
+                                window.alert(alertString);
                             }
                         }
                         else {
-                            alertString = top.window.document.getElementById("scylighter-strings").getString("errorLoadingPage")+"\n"+document.getElementById("scylighter-strings").getString("errorCode") + req.status + "\n" + document.getElementById("scylighter-strings").getString(req.responseText);
+                            alertString = scylighter.strings.getString("errorLoadingPage")+"\n"+document.getElementById("scylighter-strings").getString("errorCode") + req.status + "\n" + document.getElementById("scylighter-strings").getString(req.responseText);
                             window.alert(alertString);
                         }
                     } else {
@@ -369,154 +370,11 @@ if ("undefined" == typeof(scylighter)) {
             return true;
         },
 
-        //        //Opens the Dialog for opening ELOs
-        //        openELO: function(){
-        //
-        //            //Registering this window as "THE" main-window
-        //
-        //            //Open the new Overlay for selecting ELOs
-        //            //var windowObjectReference = window.open("chrome://scylighter/content/openELOWindow.xul", "openELOWindow", "chrome,width=790,height=400,resizable=yes,scrollbars=yes, modal");
-        //            var windowObjectReference = window.open("chrome://scylighter/content/openELOWindow.xul", "openELOWindow", "chrome,width=790,height=400,resizable=yes,scrollbars=yes");
-        //            windowObjectReference.focus();
-        //
-        //        //Query the webservice and get ELO-Data (String-Representations with IDs/URIs)
-        //
-        //        },
         clearList: function(listbox){
             while(listbox.getRowCount()>0){
                 listbox.removeItemAt(0);
             }
         },
-
-        //        retrieveELOList: function(){
-        //            //retrieves a list of the queried ELOs
-        //
-        //            var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
-        //
-        //            var eloList = document.getElementById("elolist");
-        //            //clear the list to not append the new search-results to the old list
-        //            this.clearList(eloList);
-        //
-        //            //Parameters for the webservice:
-        //            var prefs = Components.classes["@mozilla.org/preferences-service;1"]
-        //            .getService(Components.interfaces.nsIPrefService);
-        //            prefs = prefs.getBranch("extensions.scylighter.");
-        //            var username = prefs.getCharPref("username");
-        //            var password = prefs.getCharPref("password");
-        //            var defaultaddress = prefs.getCharPref("defaultaddress");
-        //            var usedefaultaddress = prefs.getBoolPref("usedefaultaddress");
-        //            var address = prefs.getCharPref("address");
-        //
-        //            //Request to the webservice: Which ELOs fit to the filter criteria
-        //            //RESTful webservice request
-        //            var req = new XMLHttpRequest();
-        //
-        //            //Parameters for the webservice as JSON, stringified for transmission
-        //            var params = {};
-        //            params.username = username;
-        //            //params.password = password;
-        //            params.title = document.getElementById("filterTitle").value;
-        //            params.author = document.getElementById("filterAuthor").value;
-        //            params.date = document.getElementById("filterDate").value;
-        //            params.keywords = document.getElementById("filterKeywords").value;
-        //            var jsonParams = JSON.stringify(params);
-        //
-        //
-        //            //the scylighter-strings from the stringbundle
-        //            this.strings = top.window.document.getElementById("scylighter-strings");
-        //
-        //            //Response: A List-Representation of the ELOs
-        //            req.onreadystatechange = function (aEvt) {
-        //                var alertString="";
-        //                try{
-        //                    if (req.readyState == 4) {
-        //                        if(req.status == 200){
-        //                            //var responseText = req.responseText;
-        //                            //var alertString = this.strings.getString(responseText);
-        //                            //window.alert(alertString);
-        //
-        //                            //The response as JSON has to be parsed
-        //                            var jsObject = JSON.parse(req.responseText);
-        //                            var elos = jsObject.elos;
-        //
-        //                            //fill the listbox with search results:
-        //                            for (i=0;i<elos.length;i++){
-        //
-        //                                var titleCell = document.createElement("listcell");
-        //                                titleCell.setAttribute("label", elos[i].title);
-        //                                //titleCell.setAttribute("style", "text-align:right");
-        //
-        //                                var authorCell = document.createElement("listcell");
-        //                                authorCell.setAttribute("label", elos[i].author);
-        //
-        //                                var dateCell = document.createElement("listcell");
-        //                                dateCell.setAttribute("label", elos[i].date);
-        //
-        //                                var uriCell = document.createElement("listcell");
-        //                                uriCell.setAttribute("label", elos[i].uri);
-        //
-        //                                var item = document.createElement("listitem");
-        //
-        //                                item.appendChild(titleCell);
-        //                                item.appendChild(authorCell);
-        //                                item.appendChild(dateCell);
-        //                                item.appendChild(uriCell);
-        //
-        //                                eloList.appendChild(item);
-        //
-        //                            //window.alert(item.childNodes[3].getAttribute("label"));
-        //                            }
-        //
-        //
-        //                            //window.alert(jsObject.errors);
-        //                            //window.alert(jsObject.elos);
-        //
-        //
-        //
-        //
-        //                            //window.alert(jsObject.elos[0]);
-        //                            window.alert(top.window.document.getElementById("scylighter-strings").getString(req.responseText));
-        //                            window.alert(req.responseText);
-        //                        }
-        //                        else {
-        //                            alertString = top.window.document.getElementById("scylighter-strings").getString("errorLoadingPage")+"\n"+document.getElementById("scylighter-strings").getString("errorCode") + req.status + "\n" + document.getElementById("scylighter-strings").getString(req.responseText);
-        //                            window.alert(alertString);
-        //                        }
-        //                    } else {
-        //
-        //                }
-        //                }catch (e) {
-        //                    alertString = top.window.document.getElementById("scylighter-strings").getString("noServerResponse");
-        //                    window.alert(alertString);
-        //
-        //                }
-        //            };
-        //
-        //            //setting the server-URL to the right resource
-        //            var serverURL = "";
-        //            if (usedefaultaddress){
-        //                serverURL = defaultaddress;
-        //            } else {
-        //                serverURL = address;
-        //            }
-        //            serverURL = serverURL + "/getELOList";
-        //
-        //            //asynchronous request per POST, Content-Type JSON --> webservice consumes JSON
-        //            req.open('POST', serverURL, true);
-        //            //req.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-        //            req.setRequestHeader("Content-Type","application/json");
-        //            //req.setRequestHeader("Timeout", 0.1);
-        //            req.send(jsonParams);
-        //
-        //
-        //        },
-
-        //        retrieveELO: function(){
-        //
-        //        //when the user selected a specific ELO and clicks "open" in the Open-ELO Dialog, a request with the ELO ID/URI will be sent to the webservice
-        //
-        //        //The response will be the ELO, which is a json String in case of web-ELOs
-        //        },
 
         getElementsByAttributeDOM: function (strAttributeName, strAttributeValue){
 
