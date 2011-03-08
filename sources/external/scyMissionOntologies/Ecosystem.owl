@@ -1,0 +1,803 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns="http://www.scy.eu/ecosystem#"
+    xmlns:protege="http://protege.stanford.edu/plugins/owl/protege#"
+    xmlns:xsp="http://www.owl-ontologies.com/2005/08/07/xsp.owl#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+    xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xml:base="http://www.scy.eu/ecosystem">
+  <owl:Ontology rdf:about=""/>
+  <owl:Class rdf:ID="Eukaryotes">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="LivingOrganism"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="SecondaryConsumer">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="BioticComponent"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="InteractionType">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Concept"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="PrimaryConsumer">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#BioticComponent"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="ChemicalFactor">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="InfluencingFactor"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="EnvironmentalComponent">
+    <rdfs:subClassOf rdf:resource="#Concept"/>
+  </owl:Class>
+  <owl:Class rdf:ID="BiologicalFactor">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#InfluencingFactor"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="#InfluencingFactor">
+    <rdfs:subClassOf rdf:resource="#Concept"/>
+  </owl:Class>
+  <owl:Class rdf:ID="HumanInfluence">
+    <rdfs:subClassOf rdf:resource="#BiologicalFactor"/>
+  </owl:Class>
+  <owl:Class rdf:ID="DependentFactor">
+    <rdfs:subClassOf rdf:resource="#Concept"/>
+  </owl:Class>
+  <owl:Class rdf:ID="TopConsumer">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#BioticComponent"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="DeterminingFactor">
+    <rdfs:subClassOf rdf:resource="#Concept"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Energy">
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="PhysicalFactor"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="CellComponent">
+    <rdfs:subClassOf rdf:resource="#Concept"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Environment">
+    <rdfs:subClassOf rdf:resource="#Concept"/>
+  </owl:Class>
+  <owl:Class rdf:ID="FactorType">
+    <rdfs:subClassOf rdf:resource="#Concept"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Animal">
+    <rdfs:subClassOf rdf:resource="#Eukaryotes"/>
+  </owl:Class>
+  <owl:Class rdf:ID="AnimalInfluence">
+    <rdfs:subClassOf rdf:resource="#BiologicalFactor"/>
+  </owl:Class>
+  <owl:Class rdf:about="#PhysicalFactor">
+    <rdfs:subClassOf rdf:resource="#InfluencingFactor"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Fish">
+    <rdfs:subClassOf rdf:resource="#Animal"/>
+  </owl:Class>
+  <owl:Class rdf:about="#BioticComponent">
+    <rdfs:subClassOf rdf:resource="#EnvironmentalComponent"/>
+    <rdfs:subClassOf rdf:resource="#DependentFactor"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Nutrient">
+    <rdfs:subClassOf rdf:resource="#ChemicalFactor"/>
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="AbioticComponent"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="EnvironmentalFunction">
+    <rdfs:subClassOf rdf:resource="#Concept"/>
+  </owl:Class>
+  <owl:Class rdf:about="#AbioticComponent">
+    <rdfs:subClassOf rdf:resource="#EnvironmentalComponent"/>
+    <rdfs:subClassOf rdf:resource="#DeterminingFactor"/>
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="NonLiving"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:ID="Producer">
+    <rdfs:subClassOf rdf:resource="#BioticComponent"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Process">
+    <rdfs:subClassOf rdf:resource="#Concept"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Decomposer">
+    <rdfs:subClassOf rdf:resource="#BioticComponent"/>
+  </owl:Class>
+  <owl:Class rdf:about="#NonLiving">
+    <rdfs:subClassOf rdf:resource="#FactorType"/>
+  </owl:Class>
+  <owl:Class rdf:about="#LivingOrganism">
+    <rdfs:subClassOf rdf:resource="#FactorType"/>
+  </owl:Class>
+  <owl:ObjectProperty rdf:ID="isIncreasedBy">
+    <rdfs:subPropertyOf>
+      <owl:TransitiveProperty rdf:ID="isInfluencedBy"/>
+    </rdfs:subPropertyOf>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="increases"/>
+    </owl:inverseOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="isAbsorbedBy">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="absorb"/>
+    </owl:inverseOf>
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:ID="hasRelationTo"/>
+    </rdfs:subPropertyOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="need">
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:about="#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="produce">
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:about="#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasFunction">
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:about="#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#increases">
+    <owl:inverseOf rdf:resource="#isIncreasedBy"/>
+    <rdfs:subPropertyOf>
+      <owl:TransitiveProperty rdf:ID="hasInfluenceOn"/>
+    </rdfs:subPropertyOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasElement">
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:about="#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="isElementOf"/>
+    </owl:inverseOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="isDecreasedBy">
+    <rdfs:subPropertyOf>
+      <owl:TransitiveProperty rdf:about="#isInfluencedBy"/>
+    </rdfs:subPropertyOf>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:ID="decreases"/>
+    </owl:inverseOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#isElementOf">
+    <owl:inverseOf rdf:resource="#hasElement"/>
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:about="#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#decreases">
+    <rdfs:subPropertyOf>
+      <owl:TransitiveProperty rdf:about="#hasInfluenceOn"/>
+    </rdfs:subPropertyOf>
+    <owl:inverseOf rdf:resource="#isDecreasedBy"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#hasRelationTo">
+    <rdfs:domain rdf:resource="#Concept"/>
+    <owl:inverseOf rdf:resource="#hasRelationTo"/>
+    <rdfs:range rdf:resource="#Concept"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="#absorb">
+    <owl:inverseOf rdf:resource="#isAbsorbedBy"/>
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#EnvironmentalComponent"/>
+          <owl:Class rdf:about="#CellComponent"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="#EnvironmentalComponent"/>
+    <rdfs:subPropertyOf rdf:resource="#hasRelationTo"/>
+  </owl:ObjectProperty>
+  <owl:TransitiveProperty rdf:about="#isInfluencedBy">
+    <rdfs:subPropertyOf rdf:resource="#hasRelationTo"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <owl:inverseOf>
+      <owl:TransitiveProperty rdf:about="#hasInfluenceOn"/>
+    </owl:inverseOf>
+  </owl:TransitiveProperty>
+  <owl:TransitiveProperty rdf:about="#hasInfluenceOn">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:subPropertyOf rdf:resource="#hasRelationTo"/>
+    <owl:inverseOf rdf:resource="#isInfluencedBy"/>
+  </owl:TransitiveProperty>
+  <HumanInfluence rdf:ID="Habitation"/>
+  <LivingOrganism rdf:ID="Bacteria">
+    <isElementOf>
+      <Concept rdf:ID="Ecosystem">
+        <hasInfluenceOn>
+          <Eukaryotes rdf:ID="Algae">
+            <need>
+              <AbioticComponent rdf:ID="LightAvailability">
+                <hasInfluenceOn rdf:resource="#Ecosystem"/>
+                <hasInfluenceOn>
+                  <Process rdf:ID="Photosynthesis">
+                    <hasRelationTo rdf:resource="#Algae"/>
+                    <isInfluencedBy>
+                      <PhysicalFactor rdf:ID="Sunlight">
+                        <hasInfluenceOn>
+                          <Process rdf:ID="PlantGrowth">
+                            <isInfluencedBy rdf:resource="#Sunlight"/>
+                            <need>
+                              <AbioticComponent rdf:ID="Water">
+                                <hasRelationTo rdf:resource="#Ecosystem"/>
+                                <hasRelationTo>
+                                  <AbioticComponent rdf:ID="pH">
+                                    <hasInfluenceOn rdf:resource="#Ecosystem"/>
+                                    <hasRelationTo rdf:resource="#Ecosystem"/>
+                                    <hasRelationTo rdf:resource="#Water"/>
+                                  </AbioticComponent>
+                                </hasRelationTo>
+                                <hasRelationTo>
+                                  <SecondaryConsumer rdf:ID="Pike">
+                                    <need rdf:resource="#Water"/>
+                                    <need>
+                                      <ChemicalFactor rdf:ID="DissolvedOxygen">
+                                        <hasInfluenceOn rdf:resource="#Ecosystem"/>
+                                        <isElementOf rdf:resource="#Ecosystem"/>
+                                        <rdf:type rdf:resource="#AbioticComponent"/>
+                                        <hasRelationTo rdf:resource="#Water"/>
+                                        <hasRelationTo>
+                                          <PrimaryConsumer rdf:ID="Roach">
+                                            <isInfluencedBy rdf:resource="#Ecosystem"/>
+                                            <rdf:type rdf:resource="#Fish"/>
+                                            <isElementOf>
+                                              <Concept rdf:ID="FoodChain">
+                                                <isElementOf>
+                                                  <Concept rdf:ID="FoodWeb">
+                                                    <hasElement rdf:resource="#FoodChain"/>
+                                                    <hasRelationTo rdf:resource="#Ecosystem"/>
+                                                  </Concept>
+                                                </isElementOf>
+                                                <hasRelationTo rdf:resource="#Ecosystem"/>
+                                                <hasElement rdf:resource="#Pike"/>
+                                                <hasElement rdf:resource="#Roach"/>
+                                                <hasElement>
+                                                  <Animal rdf:ID="Beaver">
+                                                    <hasInfluenceOn rdf:resource="#Ecosystem"/>
+                                                    <hasRelationTo>
+                                                      <BioticComponent rdf:ID="Biomass">
+                                                        <hasRelationTo>
+                                                          <LivingOrganism rdf:ID="Cyanobacteria">
+                                                            <produce>
+                                                              <ChemicalFactor rdf:ID="Glucose">
+    <hasInfluenceOn rdf:resource="#PlantGrowth"/>
+    <hasRelationTo rdf:resource="#Photosynthesis"/>           </ChemicalFactor>
+                                                            </produce>
+                                                            <hasRelationTo rdf:resource="#Biomass"/>
+                                                            <need rdf:resource="#Sunlight"/>
+                                                            <need>
+                                                              <ChemicalFactor rdf:ID="CarbonDioxide">
+    <isElementOf rdf:resource="#Ecosystem"/>
+    <rdf:type rdf:resource="#AbioticComponent"/>
+    <hasInfluenceOn rdf:resource="#Photosynthesis"/>
+    <hasInfluenceOn rdf:resource="#PlantGrowth"/>             </ChemicalFactor>
+                                                            </need>
+                                                            <hasFunction rdf:resource="#Photosynthesis"/>
+                                                            <need rdf:resource="#LightAvailability"/>
+                                                            <produce>
+                                                              <AbioticComponent rdf:ID="Oxygen">
+    <rdf:type rdf:resource="#ChemicalFactor"/>
+    <isElementOf rdf:resource="#Ecosystem"/>
+    <hasRelationTo>
+      <HumanInfluence rdf:ID="HumanPopulation">
+        <hasRelationTo>
+          <TopConsumer rdf:ID="Human">
+            <need rdf:resource="#Oxygen"/>
+            <need>
+              <Environment rdf:ID="Land">
+                <isElementOf rdf:resource="#Ecosystem"/>
+                <hasRelationTo rdf:resource="#Ecosystem"/>
+              </Environment>
+            </need>
+            <need rdf:resource="#Water"/>
+            <rdf:type rdf:resource="#Animal"/>
+            <isInfluencedBy rdf:resource="#Ecosystem"/>
+            <hasRelationTo rdf:resource="#Biomass"/>
+            <hasRelationTo rdf:resource="#HumanPopulation"/>
+            <isElementOf rdf:resource="#FoodChain"/>
+          </TopConsumer>
+        </hasRelationTo>
+        <hasRelationTo rdf:resource="#Ecosystem"/>
+        <hasRelationTo rdf:resource="#Oxygen"/>
+        <isInfluencedBy>
+          <AnimalInfluence rdf:ID="AnimalPopulation">
+            <hasRelationTo rdf:resource="#Roach"/>
+            <isInfluencedBy rdf:resource="#HumanPopulation"/>
+            <hasRelationTo rdf:resource="#Ecosystem"/>
+            <hasRelationTo rdf:resource="#Oxygen"/>
+            <hasInfluenceOn rdf:resource="#HumanPopulation"/>
+            <hasRelationTo rdf:resource="#Beaver"/>
+            <hasInfluenceOn>
+              <BiologicalFactor rdf:ID="PlantPopulation">
+                <hasRelationTo rdf:resource="#LightAvailability"/>
+                <hasRelationTo rdf:resource="#Ecosystem"/>
+                <isInfluencedBy rdf:resource="#AnimalPopulation"/>
+                <hasRelationTo>
+                  <BioticComponent rdf:ID="Seeds">
+                    <isAbsorbedBy>
+                      <Eukaryotes rdf:ID="Plants">
+                        <need rdf:resource="#CarbonDioxide"/>
+                        <produce>
+                          <ChemicalFactor rdf:ID="Protein">
+                            <increases rdf:resource="#PlantGrowth"/>
+                            <hasRelationTo rdf:resource="#Algae"/>
+                          </ChemicalFactor>
+                        </produce>
+                        <hasRelationTo rdf:resource="#PlantPopulation"/>
+                        <absorb>
+                          <Nutrient rdf:ID="Nitrate">
+                            <isElementOf rdf:resource="#Ecosystem"/>
+                            <isAbsorbedBy rdf:resource="#Plants"/>
+                          </Nutrient>
+                        </absorb>
+                        <need>
+                          <AbioticComponent rdf:ID="Soil">
+                            <isElementOf rdf:resource="#Ecosystem"/>
+                          </AbioticComponent>
+                        </need>
+                        <produce>
+                          <ChemicalFactor rdf:ID="Lipids">
+                            <increases rdf:resource="#PlantGrowth"/>
+                          </ChemicalFactor>
+                        </produce>
+                        <rdf:type rdf:resource="#Producer"/>
+                        <produce rdf:resource="#Oxygen"/>
+                        <isInfluencedBy rdf:resource="#Ecosystem"/>
+                        <absorb>
+                          <Energy rdf:ID="LightEnergy">
+                            <hasRelationTo rdf:resource="#PlantGrowth"/>
+                            <hasRelationTo rdf:resource="#LightAvailability"/>
+                            <hasRelationTo rdf:resource="#Sunlight"/>
+                            <hasRelationTo>
+                              <PhysicalFactor rdf:ID="LightIntensity">
+                                <hasInfluenceOn rdf:resource="#Photosynthesis"/>
+                                <hasInfluenceOn rdf:resource="#PlantGrowth"/>
+                                <hasRelationTo rdf:resource="#LightEnergy"/>
+                                <hasRelationTo rdf:resource="#PlantPopulation"/>
+                              </PhysicalFactor>
+                            </hasRelationTo>
+                            <hasInfluenceOn rdf:resource="#PlantGrowth"/>
+                            <hasInfluenceOn rdf:resource="#Photosynthesis"/>
+                            <hasRelationTo rdf:resource="#Ecosystem"/>
+                            <hasRelationTo rdf:resource="#Photosynthesis"/>
+                            <isAbsorbedBy rdf:resource="#Plants"/>
+                          </Energy>
+                        </absorb>
+                        <hasRelationTo rdf:resource="#Biomass"/>
+                        <absorb rdf:resource="#Sunlight"/>
+                        <isElementOf rdf:resource="#Ecosystem"/>
+                        <absorb>
+                          <Nutrient rdf:ID="Phosphate">
+                            <isElementOf rdf:resource="#Ecosystem"/>
+                            <isAbsorbedBy rdf:resource="#Plants"/>
+                          </Nutrient>
+                        </absorb>
+                        <absorb rdf:resource="#Seeds"/>
+                        <hasRelationTo rdf:resource="#Photosynthesis"/>
+                        <hasElement>
+                          <CellComponent rdf:ID="Chloroplast">
+                            <isElementOf rdf:resource="#Plants"/>
+                            <isElementOf rdf:resource="#Algae"/>
+                            <isElementOf rdf:resource="#Cyanobacteria"/>
+                            <hasElement>
+                              <CellComponent rdf:ID="Chlorophyll">
+                                <isElementOf rdf:resource="#Plants"/>
+                                <isElementOf rdf:resource="#Cyanobacteria"/>
+                                <isElementOf rdf:resource="#Algae"/>
+                                <isElementOf rdf:resource="#Chloroplast"/>
+                                <absorb rdf:resource="#Sunlight"/>
+                              </CellComponent>
+                            </hasElement>
+                          </CellComponent>
+                        </hasElement>
+                        <need rdf:resource="#LightAvailability"/>
+                        <hasElement rdf:resource="#Chlorophyll"/>
+                        <hasFunction rdf:resource="#Photosynthesis"/>
+                        <produce rdf:resource="#Glucose"/>
+                        <hasRelationTo rdf:resource="#PlantGrowth"/>
+                        <need rdf:resource="#Water"/>
+                        <need rdf:resource="#Sunlight"/>
+                      </Eukaryotes>
+                    </isAbsorbedBy>
+                    <isElementOf rdf:resource="#Ecosystem"/>
+                    <hasRelationTo rdf:resource="#Biomass"/>
+                    <hasRelationTo rdf:resource="#PlantPopulation"/>
+                  </BioticComponent>
+                </hasRelationTo>
+                <hasRelationTo rdf:resource="#Plants"/>
+                <hasInfluenceOn rdf:resource="#AnimalPopulation"/>
+                <hasRelationTo rdf:resource="#Sunlight"/>
+                <hasRelationTo rdf:resource="#LightIntensity"/>
+                <hasInfluenceOn rdf:resource="#HumanPopulation"/>
+                <isInfluencedBy rdf:resource="#HumanPopulation"/>
+              </BiologicalFactor>
+            </hasInfluenceOn>
+            <hasRelationTo rdf:resource="#Pike"/>
+            <isInfluencedBy rdf:resource="#PlantPopulation"/>
+          </AnimalInfluence>
+        </isInfluencedBy>
+        <isInfluencedBy rdf:resource="#PlantPopulation"/>
+        <hasInfluenceOn rdf:resource="#PlantPopulation"/>
+        <hasInfluenceOn rdf:resource="#AnimalPopulation"/>
+      </HumanInfluence>
+    </hasRelationTo>
+    <hasRelationTo rdf:resource="#AnimalPopulation"/>         </AbioticComponent>
+                                                            </produce>
+                                                            <hasElement rdf:resource="#Chlorophyll"/>
+                                                            <isInfluencedBy rdf:resource="#Ecosystem"/>
+                                                            <hasElement rdf:resource="#Chloroplast"/>
+                                                            <hasRelationTo rdf:resource="#Photosynthesis"/>
+                                                            <rdf:type rdf:resource="#Producer"/>
+                                                            <isElementOf rdf:resource="#Ecosystem"/>
+                                                          </LivingOrganism>
+                                                        </hasRelationTo>
+                                                        <hasRelationTo rdf:resource="#Human"/>
+                                                        <hasRelationTo>
+                                                          <Eukaryotes rdf:ID="Fungi">
+                                                            <hasRelationTo rdf:resource="#Biomass"/>
+                                                            <need rdf:resource="#Phosphate"/>
+                                                            <need rdf:resource="#Oxygen"/>
+                                                            <need rdf:resource="#Water"/>
+                                                            <need rdf:resource="#Glucose"/>
+                                                            <need>
+                                                              <ChemicalFactor rdf:ID="Nitrogen">
+    <isElementOf rdf:resource="#Ecosystem"/>                  </ChemicalFactor>
+                                                            </need>
+                                                            <isElementOf rdf:resource="#Ecosystem"/>
+                                                            <rdf:type rdf:resource="#Decomposer"/>
+                                                          </Eukaryotes>
+                                                        </hasRelationTo>
+                                                        <hasRelationTo rdf:resource="#Bacteria"/>
+                                                        <hasRelationTo rdf:resource="#Seeds"/>
+                                                        <hasRelationTo rdf:resource="#Beaver"/>
+                                                        <hasRelationTo rdf:resource="#Plants"/>
+                                                        <hasRelationTo rdf:resource="#Algae"/>
+                                                      </BioticComponent>
+                                                    </hasRelationTo>
+                                                    <isElementOf rdf:resource="#FoodChain"/>
+                                                    <isInfluencedBy rdf:resource="#Ecosystem"/>
+                                                    <need rdf:resource="#Land"/>
+                                                    <hasRelationTo rdf:resource="#AnimalPopulation"/>
+                                                    <rdf:type rdf:resource="#PrimaryConsumer"/>
+                                                    <need rdf:resource="#Water"/>
+                                                    <need rdf:resource="#Oxygen"/>
+                                                  </Animal>
+                                                </hasElement>
+                                                <hasElement rdf:resource="#Human"/>
+                                              </Concept>
+                                            </isElementOf>
+                                            <need rdf:resource="#Water"/>
+                                            <need rdf:resource="#DissolvedOxygen"/>
+                                            <hasRelationTo rdf:resource="#AnimalPopulation"/>
+                                            <hasRelationTo rdf:resource="#Water"/>
+                                            <hasRelationTo rdf:resource="#DissolvedOxygen"/>
+                                          </PrimaryConsumer>
+                                        </hasRelationTo>
+                                        <hasRelationTo rdf:resource="#Pike"/>
+                                      </ChemicalFactor>
+                                    </need>
+                                    <isInfluencedBy rdf:resource="#Ecosystem"/>
+                                    <rdf:type rdf:resource="#Fish"/>
+                                    <hasRelationTo rdf:resource="#AnimalPopulation"/>
+                                    <hasRelationTo rdf:resource="#Water"/>
+                                    <hasRelationTo rdf:resource="#DissolvedOxygen"/>
+                                    <isElementOf rdf:resource="#FoodChain"/>
+                                  </SecondaryConsumer>
+                                </hasRelationTo>
+                                <rdf:type rdf:resource="#Environment"/>
+                                <isElementOf rdf:resource="#Ecosystem"/>
+                                <rdf:type rdf:resource="#ChemicalFactor"/>
+                                <hasRelationTo>
+                                  <AbioticComponent rdf:ID="WaterLevel">
+                                    <hasRelationTo rdf:resource="#Ecosystem"/>
+                                    <hasInfluenceOn rdf:resource="#Ecosystem"/>
+                                  </AbioticComponent>
+                                </hasRelationTo>
+                                <hasInfluenceOn rdf:resource="#PlantGrowth"/>
+                                <hasRelationTo rdf:resource="#DissolvedOxygen"/>
+                                <hasRelationTo>
+                                  <AbioticComponent rdf:ID="WaterTemperature">
+                                    <rdf:type rdf:resource="#PhysicalFactor"/>
+                                    <hasRelationTo rdf:resource="#Photosynthesis"/>
+                                    <hasRelationTo rdf:resource="#Water"/>
+                                    <hasInfluenceOn rdf:resource="#Ecosystem"/>
+                                    <isElementOf rdf:resource="#Ecosystem"/>
+                                  </AbioticComponent>
+                                </hasRelationTo>
+                                <hasRelationTo>
+                                  <AbioticComponent rdf:ID="WaterFlow">
+                                    <hasRelationTo rdf:resource="#Water"/>
+                                    <rdf:type rdf:resource="#PhysicalFactor"/>
+                                    <hasInfluenceOn rdf:resource="#Ecosystem"/>
+                                  </AbioticComponent>
+                                </hasRelationTo>
+                                <hasRelationTo rdf:resource="#Roach"/>
+                              </AbioticComponent>
+                            </need>
+                            <isInfluencedBy rdf:resource="#CarbonDioxide"/>
+                            <isInfluencedBy rdf:resource="#LightEnergy"/>
+                            <need rdf:resource="#Sunlight"/>
+                            <isInfluencedBy rdf:resource="#LightIntensity"/>
+                            <isIncreasedBy rdf:resource="#Protein"/>
+                            <hasRelationTo rdf:resource="#Plants"/>
+                            <isInfluencedBy rdf:resource="#LightAvailability"/>
+                            <hasRelationTo rdf:resource="#Sunlight"/>
+                            <need rdf:resource="#Glucose"/>
+                            <isIncreasedBy rdf:resource="#Lipids"/>
+                            <isInfluencedBy rdf:resource="#Glucose"/>
+                            <isInfluencedBy rdf:resource="#Water"/>
+                            <hasRelationTo rdf:resource="#LightEnergy"/>
+                          </Process>
+                        </hasInfluenceOn>
+                        <isAbsorbedBy rdf:resource="#Plants"/>
+                        <hasInfluenceOn rdf:resource="#Photosynthesis"/>
+                        <hasRelationTo rdf:resource="#PlantPopulation"/>
+                        <hasRelationTo rdf:resource="#Ecosystem"/>
+                        <hasInfluenceOn rdf:resource="#Ecosystem"/>
+                        <hasRelationTo rdf:resource="#LightEnergy"/>
+                        <hasRelationTo rdf:resource="#Photosynthesis"/>
+                        <hasRelationTo rdf:resource="#PlantGrowth"/>
+                        <isAbsorbedBy rdf:resource="#Chlorophyll"/>
+                        <rdf:type rdf:resource="#AbioticComponent"/>
+                      </PhysicalFactor>
+                    </isInfluencedBy>
+                    <need rdf:resource="#Sunlight"/>
+                    <hasRelationTo rdf:resource="#Plants"/>
+                    <need rdf:resource="#Water"/>
+                    <hasRelationTo rdf:resource="#Glucose"/>
+                    <hasRelationTo rdf:resource="#Sunlight"/>
+                    <need rdf:resource="#CarbonDioxide"/>
+                    <isInfluencedBy rdf:resource="#LightEnergy"/>
+                    <isInfluencedBy rdf:resource="#LightIntensity"/>
+                    <produce rdf:resource="#Oxygen"/>
+                    <produce rdf:resource="#Glucose"/>
+                    <hasRelationTo rdf:resource="#LightEnergy"/>
+                    <hasRelationTo>
+                      <PhysicalFactor rdf:ID="AirTemperature">
+                        <hasInfluenceOn rdf:resource="#Ecosystem"/>
+                        <isElementOf rdf:resource="#Ecosystem"/>
+                        <hasRelationTo rdf:resource="#Photosynthesis"/>
+                        <rdf:type rdf:resource="#AbioticComponent"/>
+                      </PhysicalFactor>
+                    </hasRelationTo>
+                    <isInfluencedBy rdf:resource="#LightAvailability"/>
+                    <hasRelationTo rdf:resource="#Cyanobacteria"/>
+                    <hasRelationTo rdf:resource="#WaterTemperature"/>
+                    <isInfluencedBy rdf:resource="#CarbonDioxide"/>
+                  </Process>
+                </hasInfluenceOn>
+                <hasInfluenceOn rdf:resource="#PlantGrowth"/>
+                <hasRelationTo rdf:resource="#LightEnergy"/>
+                <hasRelationTo rdf:resource="#PlantPopulation"/>
+              </AbioticComponent>
+            </need>
+            <produce rdf:resource="#Oxygen"/>
+            <hasFunction rdf:resource="#Photosynthesis"/>
+            <produce rdf:resource="#Protein"/>
+            <need rdf:resource="#Water"/>
+            <hasRelationTo rdf:resource="#Photosynthesis"/>
+            <need rdf:resource="#Sunlight"/>
+            <rdf:type rdf:resource="#Producer"/>
+            <need rdf:resource="#LightEnergy"/>
+            <need rdf:resource="#Phosphate"/>
+            <need rdf:resource="#Nitrate"/>
+            <produce rdf:resource="#Glucose"/>
+            <hasRelationTo>
+              <ChemicalFactor rdf:ID="Nucleotide">
+                <hasRelationTo rdf:resource="#Algae"/>
+              </ChemicalFactor>
+            </hasRelationTo>
+            <hasElement rdf:resource="#Chlorophyll"/>
+            <hasRelationTo rdf:resource="#Biomass"/>
+            <isInfluencedBy rdf:resource="#Ecosystem"/>
+            <hasRelationTo rdf:resource="#Protein"/>
+            <isElementOf rdf:resource="#Ecosystem"/>
+            <produce rdf:resource="#Nucleotide"/>
+            <need rdf:resource="#CarbonDioxide"/>
+            <hasElement rdf:resource="#Chloroplast"/>
+          </Eukaryotes>
+        </hasInfluenceOn>
+        <hasRelationTo rdf:resource="#HumanPopulation"/>
+        <hasRelationTo>
+          <AbioticComponent rdf:ID="Pressure">
+            <hasRelationTo rdf:resource="#Ecosystem"/>
+            <hasInfluenceOn rdf:resource="#Ecosystem"/>
+          </AbioticComponent>
+        </hasRelationTo>
+        <isInfluencedBy rdf:resource="#pH"/>
+        <isInfluencedBy>
+          <HumanInfluence rdf:ID="GlobalClimateChange">
+            <hasInfluenceOn rdf:resource="#Ecosystem"/>
+          </HumanInfluence>
+        </isInfluencedBy>
+        <hasInfluenceOn rdf:resource="#Human"/>
+        <hasRelationTo rdf:resource="#WaterLevel"/>
+        <hasElement rdf:resource="#Oxygen"/>
+        <hasInfluenceOn>
+          <LivingOrganism rdf:ID="Archaea">
+            <isInfluencedBy rdf:resource="#Ecosystem"/>
+            <isElementOf rdf:resource="#Ecosystem"/>
+          </LivingOrganism>
+        </hasInfluenceOn>
+        <hasElement>
+          <PrimaryConsumer rdf:ID="Insects">
+            <isElementOf rdf:resource="#Ecosystem"/>
+            <isInfluencedBy rdf:resource="#Ecosystem"/>
+            <rdf:type rdf:resource="#SecondaryConsumer"/>
+            <rdf:type rdf:resource="#Animal"/>
+          </PrimaryConsumer>
+        </hasElement>
+        <hasElement rdf:resource="#WaterTemperature"/>
+        <isInfluencedBy>
+          <ChemicalFactor rdf:ID="DissolvedOxygenContent">
+            <hasInfluenceOn rdf:resource="#Ecosystem"/>
+          </ChemicalFactor>
+        </isInfluencedBy>
+        <hasRelationTo rdf:resource="#AnimalPopulation"/>
+        <isInfluencedBy rdf:resource="#Sunlight"/>
+        <hasInfluenceOn rdf:resource="#Insects"/>
+        <hasRelationTo>
+          <Environment rdf:ID="Air">
+            <hasRelationTo rdf:resource="#Ecosystem"/>
+            <isElementOf rdf:resource="#Ecosystem"/>
+          </Environment>
+        </hasRelationTo>
+        <isInfluencedBy rdf:resource="#WaterLevel"/>
+        <hasElement rdf:resource="#Plants"/>
+        <hasInfluenceOn rdf:resource="#Cyanobacteria"/>
+        <hasFunction>
+          <EnvironmentalFunction rdf:ID="FloodAttenuation">
+            <hasRelationTo>
+              <PhysicalFactor rdf:ID="Flooding">
+                <hasInfluenceOn rdf:resource="#Ecosystem"/>
+                <hasRelationTo rdf:resource="#FloodAttenuation"/>
+              </PhysicalFactor>
+            </hasRelationTo>
+          </EnvironmentalFunction>
+        </hasFunction>
+        <isInfluencedBy rdf:resource="#AirTemperature"/>
+        <hasElement rdf:resource="#Water"/>
+        <isInfluencedBy rdf:resource="#WaterTemperature"/>
+        <isElementOf rdf:resource="#Ecosystem"/>
+        <hasElement rdf:resource="#Seeds"/>
+        <hasInfluenceOn rdf:resource="#Beaver"/>
+        <hasFunction>
+          <EnvironmentalFunction rdf:ID="PlaceForHumanRecreation"/>
+        </hasFunction>
+        <hasElement rdf:resource="#Fungi"/>
+        <hasRelationTo>
+          <InteractionType rdf:ID="Mutualism">
+            <hasRelationTo rdf:resource="#Ecosystem"/>
+          </InteractionType>
+        </hasRelationTo>
+        <hasElement>
+          <Producer rdf:ID="Protists">
+            <isElementOf rdf:resource="#Ecosystem"/>
+            <rdf:type rdf:resource="#PrimaryConsumer"/>
+            <rdf:type rdf:resource="#SecondaryConsumer"/>
+            <rdf:type rdf:resource="#Eukaryotes"/>
+            <isInfluencedBy rdf:resource="#Ecosystem"/>
+          </Producer>
+        </hasElement>
+        <hasInfluenceOn rdf:resource="#Plants"/>
+        <isInfluencedBy>
+          <BiologicalFactor rdf:ID="ExoticSpecies">
+            <hasInfluenceOn rdf:resource="#Ecosystem"/>
+          </BiologicalFactor>
+        </isInfluencedBy>
+        <isInfluencedBy>
+          <HumanInfluence rdf:ID="Pollution">
+            <hasInfluenceOn rdf:resource="#Ecosystem"/>
+          </HumanInfluence>
+        </isInfluencedBy>
+        <hasRelationTo rdf:resource="#FoodChain"/>
+        <isInfluencedBy rdf:resource="#Pressure"/>
+        <hasRelationTo rdf:resource="#Land"/>
+        <isInfluencedBy>
+          <AbioticComponent rdf:ID="Salinity">
+            <rdf:type rdf:resource="#ChemicalFactor"/>
+            <hasInfluenceOn rdf:resource="#Ecosystem"/>
+          </AbioticComponent>
+        </isInfluencedBy>
+        <hasElement rdf:resource="#CarbonDioxide"/>
+        <isInfluencedBy>
+          <HumanInfluence rdf:ID="ResourceUse">
+            <hasInfluenceOn rdf:resource="#Ecosystem"/>
+          </HumanInfluence>
+        </isInfluencedBy>
+        <hasElement rdf:resource="#Archaea"/>
+        <hasRelationTo rdf:resource="#Sunlight"/>
+        <hasElement rdf:resource="#Soil"/>
+        <hasRelationTo rdf:resource="#PlantPopulation"/>
+        <hasInfluenceOn rdf:resource="#Bacteria"/>
+        <hasElement rdf:resource="#AirTemperature"/>
+        <isInfluencedBy rdf:resource="#LightAvailability"/>
+        <hasInfluenceOn rdf:resource="#Roach"/>
+        <hasInfluenceOn>
+          <PrimaryConsumer rdf:ID="Protozoa">
+            <isElementOf rdf:resource="#Ecosystem"/>
+            <rdf:type rdf:resource="#SecondaryConsumer"/>
+            <rdf:type rdf:resource="#Eukaryotes"/>
+            <isInfluencedBy rdf:resource="#Ecosystem"/>
+          </PrimaryConsumer>
+        </hasInfluenceOn>
+        <hasFunction>
+          <EnvironmentalFunction rdf:ID="WaterPurification"/>
+        </hasFunction>
+        <hasInfluenceOn rdf:resource="#Protists"/>
+        <hasInfluenceOn rdf:resource="#Pike"/>
+        <hasElement rdf:resource="#Protozoa"/>
+        <hasRelationTo rdf:resource="#pH"/>
+        <hasRelationTo rdf:resource="#FoodWeb"/>
+        <hasElement rdf:resource="#Ecosystem"/>
+        <isInfluencedBy rdf:resource="#Beaver"/>
+        <hasFunction>
+          <EnvironmentalFunction rdf:ID="GroundwaterRecharge"/>
+        </hasFunction>
+        <isInfluencedBy rdf:resource="#DissolvedOxygen"/>
+        <hasElement rdf:resource="#DissolvedOxygen"/>
+        <isInfluencedBy>
+          <ChemicalFactor rdf:ID="Toxin">
+            <hasInfluenceOn rdf:resource="#Ecosystem"/>
+          </ChemicalFactor>
+        </isInfluencedBy>
+        <hasFunction>
+          <EnvironmentalFunction rdf:ID="NutrientRecycling"/>
+        </hasFunction>
+        <hasElement rdf:resource="#Nitrate"/>
+        <hasElement rdf:resource="#Bacteria"/>
+        <hasRelationTo>
+          <InteractionType rdf:ID="Predation">
+            <hasRelationTo rdf:resource="#Ecosystem"/>
+          </InteractionType>
+        </hasRelationTo>
+        <isInfluencedBy rdf:resource="#Flooding"/>
+        <hasElement rdf:resource="#Land"/>
+        <hasElement rdf:resource="#Nitrogen"/>
+        <hasRelationTo>
+          <InteractionType rdf:ID="Competition">
+            <hasRelationTo rdf:resource="#Ecosystem"/>
+          </InteractionType>
+        </hasRelationTo>
+        <hasElement rdf:resource="#Phosphate"/>
+        <hasElement rdf:resource="#Air"/>
+        <hasRelationTo rdf:resource="#Water"/>
+        <hasFunction>
+          <EnvironmentalFunction rdf:ID="HabitatsForWildlife"/>
+        </hasFunction>
+        <isInfluencedBy rdf:resource="#WaterFlow"/>
+        <isInfluencedBy>
+          <AbioticComponent rdf:ID="Height">
+            <hasInfluenceOn rdf:resource="#Ecosystem"/>
+          </AbioticComponent>
+        </isInfluencedBy>
+        <hasElement rdf:resource="#Cyanobacteria"/>
+        <hasRelationTo rdf:resource="#LightEnergy"/>
+        <hasElement rdf:resource="#Algae"/>
+      </Concept>
+    </isElementOf>
+    <isInfluencedBy rdf:resource="#Ecosystem"/>
+    <rdf:type rdf:resource="#Decomposer"/>
+    <hasRelationTo rdf:resource="#Biomass"/>
+  </LivingOrganism>
+</rdf:RDF>
+
+<!-- Created with Protege (with OWL Plugin 3.4.4, Build 579)  http://protege.stanford.edu -->
