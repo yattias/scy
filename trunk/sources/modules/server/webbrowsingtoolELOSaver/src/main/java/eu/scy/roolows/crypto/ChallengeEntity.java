@@ -169,27 +169,17 @@ public class ChallengeEntity {
         queryParams.add("username", username);
         queryParams.add("firstChallenge", firstChallenge);
         queryParams.add("secondChallenge", secondChallenge);
-        ClientResponse response = webResource.type("application/x-www-form-urlencoded").post(ClientResponse.class, queryParams);
-
-        //return something like
-//        <usercredentials>
-//          <username><![CDATA[digital]]></username>
-//          <password><![CDATA[face]]></password>
-//        </usercredentials>
-
-        DOMSource responseEntity = null;
-        if (response.hasEntity()) {
-            responseEntity = response.getEntity(DOMSource.class);
-            NodeList childNodes = responseEntity.getNode().getChildNodes();
-            Node userCredentials = childNodes.item(0);
-            String user = userCredentials.getChildNodes().item(0).getTextContent();
-            if (!user.equals(username)) {
-                logger.log(Level.SEVERE, "Usernames from both services are different! This user: {0}; username from PasswordService: {1}", new Object[]{username, user});
-            }
-            hash = userCredentials.getChildNodes().item(1).getTextContent();
-            logger.log(Level.INFO, "received hash: {0}, for user: {1}", new Object[]{hash, user});
+//        ClientResponse response = webResource.type("application/x-www-form-urlencoded").post(ClientResponse.class, queryParams);
+        DOMSource response = webResource.queryParams(queryParams).get(DOMSource.class);
+        NodeList childNodes = response.getNode().getChildNodes();
+        Node userCredentials = childNodes.item(0);
+        Node userNode = userCredentials.getChildNodes().item(1);
+        String user = userNode.getTextContent();
+        if (!user.equals(username)) {
+            logger.log(Level.SEVERE, "Usernames from both services are different! This user: {0}; username from PasswordService: {1}", new Object[]{username, user});
         }
-
+        hash = userCredentials.getChildNodes().item(3).getTextContent();
+        logger.log(Level.INFO, "received hash: {0}, for user: {1}", new Object[]{hash, user});
         return hash;
     }
 }
