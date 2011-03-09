@@ -20,6 +20,7 @@ public def roleLabel = ##"Role";
 public def dateLabel = ##"Date";
 public def createdAtLabel = ##"created at";
 public def lastModifiedAtLabel = ##"last modified at";
+public def relevanceLabel = ##"Relevance";
 
 def dateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
 

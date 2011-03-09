@@ -81,6 +81,7 @@ public abstract class GridSearchNode extends CustomNode, Resizable, ScyEloListCe
          //         openButton.disable = selectedSearchResult == null;
          //         baseButton.disable = selectedSearchResult == null;
          moreEloInfo.scyElo = selectedSearchResult.getScyElo();
+         moreEloInfo.relevance = selectedSearchResult.getRelevance();
          moreEloInfo.eloIcon = (selectedSearchResult.getEloIcon() as EloIcon).clone();
       };
    public var openAction: function(gridSearchNode: GridSearchNode): Void;

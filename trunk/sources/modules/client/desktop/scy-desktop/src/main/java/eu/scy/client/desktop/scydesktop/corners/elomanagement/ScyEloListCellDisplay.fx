@@ -27,6 +27,7 @@ public mixin class ScyEloListCellDisplay {
       listCell = ListCell {
             node: bind createListCellContent(listCell.item)
          }
+         return listCell;
    }
 
    public function simpleScyEloCellFactory(): ListCell {
@@ -36,6 +37,7 @@ public mixin class ScyEloListCellDisplay {
                scySearchResult: bind listCell.item as ScySearchResult
             }
          }
+         return listCell;
    }
 
    public function extendedScyEloCellFactory(): ListCell {
@@ -43,18 +45,20 @@ public mixin class ScyEloListCellDisplay {
       listCell = ListCell {
             node: ExtendedScyEloDisplayNode{
                newEloCreationRegistry: newEloCreationRegistry
+               relevance: bind (listCell.item as ScySearchResult).getRelevance();
                scyElo: bind (listCell.item as ScySearchResult).getScyElo()
                eloIcon:bind ((listCell.item as ScySearchResult).getEloIcon() as EloIcon).clone()
 //               scySearchResult: bind listCell.item as ScySearchResult
             }
          }
+         return listCell;
    }
 
    function createSimpleListCellContent(item: Object): Node {
       def scySearchResult = item as ScySearchResult;
       var eloIcon: EloIcon = scySearchResult.getEloIcon() as EloIcon;
       //      eloIcon.visible = scySearchResult!=null;
-      println("creating simple cell display for {item}, eloIcon: {eloIcon}");
+//      println("creating simple cell display for {item}, eloIcon: {eloIcon}");
       HBox {
          spacing: spacing
          content: [
