@@ -317,7 +317,7 @@ public class DataSyncSessionBridge {
         private List<SCYPacketTransformer> transformers;
 
         public DataSyncPacketFilterListener(String sessionId) {
-            this.sessionId = sessionId;
+            this.sessionId = sessionId.substring(0, sessionId.indexOf('@')).toLowerCase();
             transformers = new LinkedList<SCYPacketTransformer>();
             transformers.add(new SyncActionPacketTransformer());
             transformers.add(new DataSyncMessagePacketTransformer());
@@ -342,12 +342,12 @@ public class DataSyncSessionBridge {
 	                
 	                if (transformer instanceof SyncActionPacketTransformer) {
 	                	SyncAction action = (SyncAction) extension.getTransformer().getObject();
-	                	if (sessionId.equals(action.getSessionId())) {
+	                	if (action.getSessionId().toLowerCase().startsWith(sessionId)) {
 	                		process(action);
 	                	}
 	                } else if (transformer instanceof DataSyncMessagePacketTransformer) {
 	                	SyncMessage command = (SyncMessage) extension.getTransformer().getObject();
-	                	if (id.equals(command.getSessionId())) {
+	                	if (command.getSessionId().toLowerCase().startsWith(sessionId)) {
 	                		if (command.getEvent() == Event.queryall) {
 	                			logger.debug("Command: " + command.getEvent() + " " + command.getUserId() + " " + command.getToolId());
 	                			queryAll(command);
