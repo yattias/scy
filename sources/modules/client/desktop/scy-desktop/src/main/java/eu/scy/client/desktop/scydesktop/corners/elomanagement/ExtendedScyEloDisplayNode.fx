@@ -17,14 +17,13 @@ import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import eu.scy.common.scyelo.ScyElo;
-import eu.scy.common.scyelo.EloFunctionalRole;
 import eu.scy.client.desktop.scydesktop.art.javafx.NoThumbnailView;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
+import javafx.scene.CacheHint;
 
 /**
  * @author SikkenJ
@@ -33,8 +32,10 @@ public class ExtendedScyEloDisplayNode extends CustomNode {
 
    public var newEloCreationRegistry: NewEloCreationRegistry;
    public var scyElo: ScyElo on replace { newScyElo() };
+   public var relevance:Number on replace { newScyElo() };
    public var eloIcon: EloIcon on replace { newEloIcon() };
    def titleDisplay = Label {};
+//   def relevanceDisplay = Label {};
    def authorDisplay = Label {};
    def typeDisplay = Label {};
    def roleDisplay = Label {};
@@ -101,6 +102,7 @@ public class ExtendedScyEloDisplayNode extends CustomNode {
 //               visible: bind scyElo != null
                spacing: spacing / 2
                content: [
+//                  relevanceDisplay,
                   titleDisplay,
                   authorDisplay,
                   typeDisplay,
@@ -115,6 +117,7 @@ public class ExtendedScyEloDisplayNode extends CustomNode {
 
    function newScyElo() {
       titleDisplay.text = "{ScyEloDisplayProperties.titleLabel} : {scyElo.getTitle()}";
+//      relevanceDisplay.text = "{ScyEloDisplayProperties.relevanceLabel} : {relevance}";
       authorDisplay.text = "{ScyEloDisplayProperties.authorsLabel}: {ScyEloDisplayProperties.getAuthorsText(scyElo)}";
       typeDisplay.text = "{ScyEloDisplayProperties.formatLabel}: {ScyEloDisplayProperties.getTechnicalFormatString(scyElo,newEloCreationRegistry)}";
       //      roleDisplay.text = "{roleLabel}: {getRoleString()}";

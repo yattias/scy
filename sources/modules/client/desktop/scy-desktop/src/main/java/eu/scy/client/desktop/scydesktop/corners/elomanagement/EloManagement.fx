@@ -183,7 +183,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       def eloIcon: EloIcon = windowStyler.getScyEloIcon(scyElo);
       def scySearchResult = new ScySearchResult(scyElo, 1.0);
       scySearchResult.setEloIcon(eloIcon);
-      scySearchResult
+      return scySearchResult;
    }
 
    function createUriDisplay(uri: URI, showAuthor: Boolean): UriDisplay {
