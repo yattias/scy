@@ -130,7 +130,7 @@ public class Configuration {
 
     // ### OpenFireServer
     public String getOpenFireHost() {
-        return getProperty("openfire.host");
+        return props.getProperty("openfire.host");
     }
 
     public String getOpenFireConference() {
@@ -323,13 +323,5 @@ public class Configuration {
             return str.toString();
         }
         return null;
-    }
-
-    private String getProperty(String key){
-       String systemValue = System.getProperty(key);
-       if (systemValue!=null){
-          return systemValue;
-       }
-       return props.getProperty(key);
     }
 }
