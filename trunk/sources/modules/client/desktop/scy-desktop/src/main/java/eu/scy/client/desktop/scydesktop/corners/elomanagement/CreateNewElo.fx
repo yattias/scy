@@ -76,39 +76,41 @@ public class CreateNewElo extends ModalDialogNode, ScyEloListCellDisplay {
     }
     // </editor-fold>//GEN-END:main
 
-   postinit{
-      sizeRectangle.fill = Color.TRANSPARENT;
-   }
+    override public var disableRelevanceDisplay = true;
 
-   def eloSelected = bind listView.selectedItem!=null on replace{
-      createButton.disable = not eloSelected;
-   }
+    postinit {
+        sizeRectangle.fill = Color.TRANSPARENT;
+    }
 
-   function listViewOnKeyTyped(event: javafx.scene.input.KeyEvent): Void {
-      if (not createButton.disabled and event.char=='\n') {
-         createButtonAction();
-      }
-   }
+    def eloSelected = bind listView.selectedItem != null on replace {
+                createButton.disable = not eloSelected;
+            }
 
-   function listViewOnMouseClicked(event: javafx.scene.input.MouseEvent): Void {
-      if (event.clickCount==2 and listView.selectedIndex>=0 ){
-         createButtonAction();
-      }
-   }
+    function listViewOnKeyTyped(event: javafx.scene.input.KeyEvent): Void {
+        if (not createButton.disabled and event.char == '\n') {
+            createButtonAction();
+        }
+    }
 
-   function createButtonAction(): Void {
-      createAction(this);
-   }
+    function listViewOnMouseClicked(event: javafx.scene.input.MouseEvent): Void {
+        if (event.clickCount == 2 and listView.selectedIndex >= 0) {
+            createButtonAction();
+        }
+    }
 
-   function cancelButtonAction(): Void {
-      cancelAction(this);
-   }
+    function createButtonAction(): Void {
+        createAction(this);
+    }
 
-   public var createAction: function(createNewElo: CreateNewElo): Void;
-   public var cancelAction: function(createNewElo: CreateNewElo): Void;
+    function cancelButtonAction(): Void {
+        cancelAction(this);
+    }
 
-   override public function getContentNodes(): Node[] {
-      return getDesignRootNodes();
-   }
+    public var createAction: function(createNewElo: CreateNewElo): Void;
+    public var cancelAction: function(createNewElo: CreateNewElo): Void;
+
+    override public function getContentNodes(): Node[] {
+        return getDesignRootNodes();
+    }
 
 }
