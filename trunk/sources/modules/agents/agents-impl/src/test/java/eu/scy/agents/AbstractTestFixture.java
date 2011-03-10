@@ -203,6 +203,8 @@ public class AbstractTestFixture {
 		try {
 			InputStream inStream = this.getClass().getResourceAsStream(
 					"/models/co2_en_tm");
+//            InputStream inStream = this.getClass().getResourceAsStream(
+//            "/models/eco_en_tm");
 			in = new ObjectInputStream(inStream);
 			ParallelTopicModel model = (ParallelTopicModel) in.readObject();
 			in.close();

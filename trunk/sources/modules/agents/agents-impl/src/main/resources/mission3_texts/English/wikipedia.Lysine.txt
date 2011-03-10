@@ -1,0 +1,163 @@
+Lysine - Wikipedia, the free encyclopedia
+
+Lysine
+From Wikipedia, the free encyclopedia Jump to: navigation, search Lysine
+
+IUPAC name Lysine Other names 2,6-diaminohexanoic acid Identifiers CAS number 70-54-2, 56-87-1 L, 923-27-3 D PubChem 866 ChemSpider 843 Y, 5747 L KEGG C16440 Y ChEMBL CHEMBL28328 Y IUPHAR ligand 724 SMILES C(CCN)CC(C(=O)O)N InChI InChI=1S/C6H14N2O2/c7-4-2-1-3-5(8)6(9)10/h5H,1-4,7-8H2,(H,9,10) Key: KDXKERNSBIXSRK-UHFFFAOYSA-N Y
+
+Y
+
+InChI=1/C6H14N2O2/c7-4-2-1-3-5(8)6(9)10/h5H,1-4,7-8H2,(H,9,10) Key: KDXKERNSBIXSRK-UHFFFAOYAY Properties Molecular formula C6H14N2O2 Molar mass 146.19 g molâ 1 Supplementary data page Structure and n, Îµr, etc. properties Thermodynamic Phase behaviour data Solid, liquid, gas Spectral data UV, IR, NMR, MS Y(what is this?) (verify) Except where noted otherwise, data are given for materials in their standard Lysine 1
+
+Lysine - Wikipedia, the free encyclopedia state (at 25 Â°C, 100 kPa) Infobox references Lysine (abbreviated as Lys or K)[1] is an Î±-amino acid with the chemical formula HO2CCH(NH2)(CH2)4NH2. It is an essential amino acid, which means that the human body cannot synthesize it. Its codons are AAA and AAG. Lysine is a base, as are arginine and histidine. The Îµ-amino group often participates in hydrogen bonding and as a general base in catalysis. Common posttranslational modifications include methylation of the Îµ-amino group, giving methyl-, dimethyl-, and trimethyllysine. The latter occurs in calmodulin. Other posttranslational modifications at lysine residues include acetylation and ubiquitination. Collagen contains hydroxylysine which is derived from lysine by lysyl hydroxylase. O-Glycosylation of lysine residues in the endoplasmic reticulum or Golgi apparatus is used to mark certain proteins for secretion from the cell.
+
+Contents
+· 1 Biosynthesis · 2 Metabolism · 3 Synthesis · 4 Dietary sources · 5 Properties  5.1 Modifications · 6 Clinical significance · 7 Use of lysine in animal feed · 8 In popular culture · 9 See also · 10 References · 11 Sources
+
+[edit] Biosynthesis
+As an essential amino acid, lysine is not synthesized in animals, hence it must be ingested as lysine or lysine-containing proteins. In plants and bacteria, it is synthesized from aspartic acid (aspartate):[2] · L-aspartate is first converted to L-aspartyl-4-phosphate by aspartokinase (or Aspartate kinase). ATP is needed as an energy source for this step. · Î²-aspartate semialdehyde dehydrogenase converts this into Î²-aspartyl-4-semialdehyde (or Î²-aspartate-4-semialdehyde). Energy from NADPH is used in this conversion. · Dihydrodipicolinate synthase adds a pyruvate group to the Î²-aspartyl-4-semialdehyde, and two water molecules are removed. This causes cyclization and gives rise to 2,3-dihydrodipicolinate. · This product is reduced to 2,3,4,5-tetrahydrodipicolinate (or Î 1-piperidine-2,6-dicarboxylate, in the figure: (S)-2,3,4,5-tetrahydropyridine-2,6-dicarboxylate) by dihydrodipicolinate reductase. This reaction consumes a NADPH molecule. · Tetrahydrodipicolinate N-acetyltransferase opens this ring and gives rise to N-succinyl-L-2-amino-6-oxoheptanedionate (or N-acyl-2-amino-6-oxopimelate). Two water molecules and one acyl-CoA (succinyl-CoA) enzyme are used in this reaction. · N-succinyl-L-2-amino-6-oxoheptanedionate is converted into N-succinyl-LL-2,6-diaminoheptanedionate (N-acyl-2,6-diaminopimelate). This reaction is catalyzed by the enzyme succinyl diaminopimelate aminotransferase. A glutaric acid molecule is used in this Contents 2
+
+Lysine - Wikipedia, the free encyclopedia reaction and an oxoacid is produced as a byproduct. · N-succinyl-LL-2,6-diaminoheptanedionate (N-acyl-2,6-diaminopimelate)is converted into LL-2,6-diaminoheptanedionate (L,L-2,6-diaminopimelate) by succinyl diaminopimelate desuccinylase (acyldiaminopimelate deacylase). A water molecule is consumed in this reaction and a succinate is produced a byproduct. · LL-2,6-diaminoheptanedionate is converted by diaminopimelate epimerase into meso-2,6-diamino-heptanedionate (meso-2,6-diaminopimelate). · Finally meso-2,6-diamino-heptanedionate is converted into L-lysine by diaminopimelate decarboxylase.
+
+Enzymes involved in this biosynthesis include:[3] 1. Aspartokinase 2. Î²-aspartate semialdehyde dehydrogenase 3. Dihydropicolinate synthase 4. Î 1-piperidine-2,6-dicarboxylate dehydrogenase 5. N-succinyl-2-amino-6ketopimelate synthase 6. Succinyl diaminopimelate aminotransferase 7. Succinyl diaminopimelate desuccinylase 8. Diaminopimelate epimerase 9. Diaminopimelate decarboxylase.
+
+[edit] Biosynthesis
+
+3
+
+Lysine - Wikipedia, the free encyclopedia
+
+[edit] Metabolism
+Lysine is metabolised in mammals to give acetyl-CoA, via an initial transamination with Î±-ketoglutarate. The bacterial degradation of lysine yields cadaverine by decarboxylation. Allysine is a derivative of lysine, used in the production of elastin and collagen. It is produced by the actions of the enzyme lysyl oxidase on lysine in the extracellular matrix and is essential in the crosslink formation that stabilizes collagen and elastin.
+
+[edit] Synthesis
+Synthetic, racemic lysine has long been known.[4] A practical synthesis starts from caprolactam.[5] Industrially, L-lysine is usually manufactured by a fermentation process using Corynebacterium glutamicum; production exceeds 600,000 tons a year.[6]
+
+[edit] Dietary sources
+The nutritional requirement per day, in milligrams of lysine per kilogram of body weight, is: infants (3â 4 months) 103, children (2 years) 64, older children (10â 12 years) 60 to 44, adults 12.[7] For a 70 kg adult, 12 milligrams of lysine per kilogram of body weight is 0.84 grams of lysine. Lysine is the limiting amino acid (the essential amino acid found in the smallest quantity in the particular foodstuff) in most cereal grains, but is plentiful in most pulses (legumes). Consequently, meals that combine cereal grains and legumes, such as the Indian dal with rice, Middle Eastern hummus, ful medames, falafel with pita bread, the Mexican beans with rice or tortilla have arisen to provide complete protein in diets that are, by choice or by necessity, vegetarian. A food is considered to have sufficient lysine if it has at least 51 mg of lysine per gram of protein (so that the protein is 5.1% lysine).[8] Foods containing significant amounts of lysine include: · Catfish, channel, farmed, raw: 9.19% of the protein is lysine.[9] · Chicken, roasting, meat and skin, cooked, roasted: 8.11% of the protein is lysine.[10] · Beef, ground, 90% lean/10% fat, cooked: 8.31% of the protein is lysine.[11] · Soybean, mature seeds, raw: 7.42% of the protein is lysine.[12] · Soybean, mature seeds, sprouts: 5.74% of the protein is lysine (sprouting decreases the lysine content).[13] · Winged Bean (aka Goa Bean or Asparagus Pea), mature seeds, raw: 7.20% of the protein is lysine.[14] · Lentil, pink, raw: 6.97% of the protein is lysine.[15] · Lentil, sprouts, raw: 7.95% of the protein is lysine (sprouting increases the lysine content).[16] · Parmesan cheese, grated: 7.75% of the protein is lysine.[17] · Azuki bean (adzuki beans), mature seeds, raw: 7.53% of the protein is lysine.[18] · Milk, non-fat: 7.48% of the protein is lysine.[19] · Egg (food), whole, raw: 7.27% of the protein is lysine.[20] · Pea, split, mature seeds, raw: 7.22% of the protein is lysine.[21] · Kidney Bean, mature seeds, raw: 6.87% of the protein is lysine.[22] · Chickpea, (garbanzo beans, bengal gram), mature seeds, raw: 6.69% of the protein is lysine.[23] · Navy Bean, mature seeds, raw: 5.73% of the protein is lysine.[24] · Amaranth, grain, uncooked: 5.17% of the protein is lysine.[25]
+
+[edit] Metabolism
+
+4
+
+Lysine - Wikipedia, the free encyclopedia Good sources of lysine are foods rich in protein such as soy, as well as meat (specifically red meat, lamb, pork, and poultry), cheese (particularly Parmesan), certain fish (such as cod and sardines), and eggs.[26]
+
+[edit] Properties
+L-Lysine is a necessary building block for all protein in the body. L-Lysine plays a major role in calcium absorption; building muscle protein; recovering from surgery or sports injuries; and the body's production of hormones, enzymes, and antibodies.
+
+[edit] Modifications
+Lysine can be modified through acetylation, methylation, ubiquitination, sumoylation, neddylation, biotinylation and carboxylation which tends to modify the function of the protein of which the modified lysine residue(s) are a part.[27]
+
+[edit] Clinical significance
+It has been suggested that lysine may be beneficial for those with herpes simplex infections.[28] However, more research is needed to fully substantiate this claim. For more information, refer to Herpes simplex Lysine. Lysine has a known anxiolytic action through its effects on serotonin receptors in the intestinal tract. One study on rats[29] showed that overstimulation of the 5-HT4 receptors in the gut are associated with anxiety-induced intestinal pathology. Lysine, acting as a serotonin antagonist and therefore reducing the overactivity of these receptors, reduced signs of anxiety and anxiety-induced diarrhea in the sample population. Another study showed that lysine deficiency leads to a pathological increase in serotonin in the amygdala, a brain structure that is involved in emotional regulation and the stress response.[30] Human studies have also shown negative correlations between lysine intake and anxiety. A population-based study in Syria included 93 families whose diet is primarily grain-based and therefore likely to be deficient in lysine. Fortification of grains with lysine was shown to reduce markers of anxiety, including cortisol levels, and also led to potentiation of benzodiazepine receptors (common targets of anxiolytic drugs such as Xanax and Ativan).[31] There are Lysine conjugates that show promise in the treatment of cancer, by causing cancerous cells to destroy themselves when the drug is combined with the use of phototherapy, while leaving non-cancerous cells unharmed.[32] While chemically insignificant to lysine itself, it is worth noting that lysine is attached to dextroamphetamine to form the prodrug lisdexamfetamine (Vyvanse). In the gastrointestinal tract, the lysine molecule is cleaved from the dextroamphetamine, thereby making oral administration necessary. According to animal studies, lysine deficiency causes immunodeficiency.[33] One cause of relative lysine deficiency is cystinuria, where there is impaired hepatic resorption of basic, or positively charged amino acids, including lysine. The accompanying urinary cysteine results because the same deficient amino acid transporter is normally present in the kidney as well.
+
+[edit] Dietary sources
+
+5
+
+Lysine - Wikipedia, the free encyclopedia
+
+[edit] Use of lysine in animal feed
+Lysine production for animal feed is a major global industry, reaching in 2009 almost 700,000 tonnes for a market value of over â ¬1.22 billion.[34] Lysine is an important additive to animal feed because it is a limiting amino acid when optimizing the growth of certain animals such as pigs and chickens for the production of meat. Lysine supplementation allows for the use of lower-cost plant protein (maize, for instance, rather than soy) while maintaining high growth rates, and limiting the pollution from nitrogen excretion.[35] Lysine is industrially produced by microbial fermentation, from a base mainly of sugar. Research through genetic engineering of bacterial strains to improve the efficiency of the production and allow it to me made from other substrates is actively pursued.[34]
+
+[edit] In popular culture
+The 1993 film Jurassic Park, which is based on the 1990 Michael Crichton novel Jurassic Park, features dinosaurs that were genetically altered so they could not produce lysine.[36] This was known as the "lysine contingency," and was supposed to prevent the cloned dinosaurs from surviving outside the park, forcing them to be dependent on lysine supplements provided by the park's veterinary staff. Most vertebrates cannot produce lysine by default (it is an essential amino acid). In 1996, lysine became the focus of a price fixing case, the largest in United States history. The Archer Daniels Midland Company paid a fine of US$100 million, and three of its executives were convicted and served prison time. Also found guilty in the price fixing case were two Japanese firms (Ajinomoto, Kyowa Hakko) and a South Korean firm (Sewon).[37] Secret video recordings of the conspirators fixing lysine's price can be found online or by requesting the video from the U.S. Department of Justice, Antitrust Division. This case served as the basis of the movie The Informant!, and a book of the same title.[38]
+
+[edit] See also
+· Acetyllysine · Lysine price-fixing conspiracy · Deamination · Saccharopine
+
+[edit] References
+1. ^ IUPAC-IUBMB Joint Commission on Biochemical Nomenclature. "Nomenclature and Symbolism for Amino Acids and Peptides". Recommendations on Organic & Biochemical Nomenclature, Symbols & Terminology etc. http://www.chem.qmul.ac.uk/iupac/AminoAcid/. Retrieved 2007-05-17. 2. ^ Lysine biosynthesis and catabolism, Purdue University 3. ^ Nelson, D. L.; Cox, M. M. "Lehninger, Principles of Biochemistry" 3rd Ed. Worth Publishing: New York, 2000. ISBN 1-57259-153-6. 4. ^ Braun, J. V. â Synthese des inaktiven Lysins aus Piperidin" Berichte der deutschen chemischen Gesellschaft 1909, Volume 42, p 839-846. DOI: 10.1002/cber.190904201134. 5. ^ Eck, J. C.; Marvel, C. S. â dl-Lysine Hydrochloridesâ Organic Syntheses, Collected Volume 2, p.374 (1943). http://www.orgsyn.org/orgsyn/pdfs/CV2P0374.pdf 6. ^ Pfefferle, W; MÃ¶ckel, B; Bathe, B; Marx, A (2003). "Biotechnological manufacture of lysine". Advances in biochemical engineering/biotechnology 79: 59â 112. doi:10.1007/3-540-45989-8_3. PMID 12523389. edit [edit] Use of lysine in animal feed 6
+
+Lysine - Wikipedia, the free encyclopedia
+
+7. ^ United Nations Food and Agriculture Organization: Agriculture and Consumer Protection. "Energy and protein requirements: 5.6 Requirements for essential amino acids". http://www.fao.org/DOCREP/003/AA040E/AA040E05.htm#ch5.6. Retrieved 2010-10-10. 8. ^ Institute of Medicine of the National Academies. "Dietary Reference Intakes for Macronutrients". http://www.iom.edu/Reports/2002/Dietary-Reference-Intakes-for-Energy-Carbohydrate-Fiber-Fat-Fatty-AcidsRetrieved 2010-10-10. 9. ^ Helena Kloosterman; USDA National Nutrient Database for Standard Reference. "Essential Amino Acids Search, catfish farmed". http://www.bitterpoison.com/protein/15234/. Retrieved 2010-10-10. 10. ^ Helena Kloosterman; USDA National Nutrient Database for Standard Reference. "Essential Amino Acids Search, chicken roasting meat skin". http://www.bitterpoison.com/protein/05112/. Retrieved 2010-10-10. 11. ^ Helena Kloosterman; USDA National Nutrient Database for Standard Reference. "Essential Amino Acids Search, beef ground 90 10 cooked". http://www.bitterpoison.com/protein/23563/. Retrieved 2010-10-10. 12. ^ Helena Kloosterman; USDA National Nutrient Database for Standard Reference. "Essential Amino Acids Search, soybean seeds". http://www.bitterpoison.com/protein/16108/. Retrieved 2010-10-10. 13. ^ Helena Kloosterman; USDA National Nutrient Database for Standard Reference. "Essential Amino Acids Search, soybeans sprouted". http://www.bitterpoison.com/protein/11452/. Retrieved 2010-10-10. 14. ^ Helena Kloosterman; USDA National Nutrient Database for Standard Reference. "Essential Amino Acids Search, winged bean seeds". http://www.bitterpoison.com/protein/16135/. Retrieved 2010-10-10. 15. ^ Helena Kloosterman; USDA National Nutrient Database for Standard Reference. "Essential Amino Acids Search, lentils". http://www.bitterpoison.com/protein/16144/. Retrieved 2010-10-10. 16. ^ Helena Kloosterman; USDA National Nutrient Database for Standard Reference. "Essential Amino Acids Search, lentils sprouted". http://www.bitterpoison.com/protein/11248/. Retrieved 2010-10-10. 17. ^ Helena Kloosterman; USDA National Nutrient Database for Standard Reference. "Essential Amino Acids Search, parmesan cheese". http://www.bitterpoison.com/protein/01032/. Retrieved 2010-10-10. 18. ^ Helena Kloosterman; USDA National Nutrient Database for Standard Reference. "Essential Amino Acids Search, adzuki bean". http://www.bitterpoison.com/protein/16001/. Retrieved 2010-10-10. 19. ^ Helena Kloosterman; USDA National Nutrient Database for Standard Reference. "Essential Amino Acids Search, milk nonfat". http://www.bitterpoison.com/protein/01085/. Retrieved 2010-10-10. 20. ^ Helena Kloosterman; USDA National Nutrient Database for Standard Reference. "Essential Amino Acids Search, egg whole". http://www.bitterpoison.com/protein/01123/. Retrieved 2010-10-10. 21. ^ Helena Kloosterman; USDA National Nutrient Database for Standard Reference. "Essential Amino Acids Search, pea split". http://www.bitterpoison.com/protein/16085/. Retrieved 2010-10-10. 22. ^ Helena Kloosterman; USDA National Nutrient Database for Standard Reference. "Essential Amino Acids Search, kidney bean". http://www.bitterpoison.com/protein/16032/. Retrieved 2010-10-10. 23. ^ Helena Kloosterman; USDA National Nutrient Database for Standard Reference. "Essential Amino Acids Search, chickpea". http://www.bitterpoison.com/protein/16056/. Retrieved 2010-10-10. 24. ^ Helena Kloosterman; USDA National Nutrient Database for Standard Reference. "Essential Amino Acids Search, navy bean". http://www.bitterpoison.com/protein/16037/. Retrieved 2010-10-10. 25. ^ Helena Kloosterman; USDA National Nutrient Database for Standard Reference. "Essential Amino Acids Search, amaranth". http://www.bitterpoison.com/protein/20001/. Retrieved 2010-10-10. 26. ^ University of Maryland Medical Center. "Lysine". http://www.umm.edu/altmed/articles/lysine-000312.htm. Retrieved 2009-12-30. 27. ^ Sadoul K, Boyault C, Pabion M, Khochbin S (February 2008). "Regulation of protein turnover by acetyltransferases and deacetylases". Biochimie 90 (2): 306â 12. doi:10.1016/j.biochi.2007.06.009. PMID 17681659. http://linkinghub.elsevier.com/retrieve/pii/S0300-9084(07)00168-X. 28. ^ Griffith RS, Norins AL, Kagan C. (1978). "A multicentered study of lysine therapy in Herpes simplex infection". Dermatologica. 156 (5): 257â 267. doi:10.1159/000250926. PMID 640102. [edit] References 7
+
+Lysine - Wikipedia, the free encyclopedia 29. ^ Smriga and Torii (2003). "L-lysine acts like a partial serotonin receptor 4 antagonist and inhibits serotonin-mediated intestinal pathologies and anxiety in rats". PNAS 100 (26): 15370â 5. doi:10.1073/pnas.2436556100. PMID 14676321. http://www.pnas.org/content/100/26/15370.short. 30. ^ Smriga, Kameishi, Uneyama, and Torii (December 2002). "Dietary L-Lysine Deficiency Increases Stress-Induced Anxiety and Fecal Excretion in Rats". The Journal of Nutrition 132:3744-3746. http://jn.nutrition.org/cgi/content/abstract/132/12/3744. 31. ^ Smriga, Ghosh, Mouneimne, Pellett, and Scrimshaw (May 2004). Lysine fortification reduces anxiety and lessens stress in family members in economically weak communities in Northwest Syria. 101. pp. 8285â 8288. doi:10.1073/pnas.0402550101 URL=http://www.pnas.org/content/101/22/8285.full. 32. ^ ScienceDaily. "Chemists Kill Cancer Cells With Light-activated Molecules". http://www.sciencedaily.com/releases/2007/08/070808132019.htm. Retrieved 2008-01-24. 33. ^ Chen C, Sander JE, Dale NM (2003). "The effect of dietary lysine deficiency on the immune response to Newcastle disease vaccination in chickens". Avian Dis. 47 (4): 1346â 51. doi:10.1637/7008. PMID 14708981. 34. ^ a b "Norwegian granted for improving lysine production process" 35. ^ Toride Y. "Lysine and other amino acids for feed: production and contribution to protein utilization in animal feeding". http://www.fao.org/docrep/007/y5019e/y5019e0a.htm. Retrieved 2011-01-25. 36. ^ Coyne, Jerry A. (October 10, 1999). "The Truth Is Way Out There". The New York Times. http://query.nytimes.com/gst/fullpage.html?res=9E0DE6D7153EF933A25753C1A96F958260. Retrieved 2008-04-06. 37. ^ Connor, J.M.; "Global Price Fixing" 2nd Ed. Springer-Verlag: Heidelberg, 2008. ISBN 978-3-540-78669-6. 38. ^ Eichenwald, Kurt.; "The Informant: a true story" Broadway Books: New York, 2000. ISBN 0-7679-0326-9.
+
+[edit] Sources
+· Much of the information in this article has been translated from German Wikipedia. · Lide, D. R., ed. (2002), CRC Handbook of Chemistry and Physics (83rd ed.), Boca Raton, FL: CRC Press, ISBN 0-8493-0483-0 v Â· d Â· eThe 20 Common Amino Acids Aliphatic Aromatic By properties Branched-chain amino acids (Valine Â· Isoleucine Â· Leucine) Â· Methionine Â· Alanine Â· Proline Â· Glycine Phenylalanine Â· Tyrosine Â· Tryptophan Â· Histidine
+
+Polar, uncharged Asparagine Â· Glutamine Â· Serine Â· Threonine Positive charge (pKa) Lysine (â 10.8) Â· Arginine (â 12.5) Â· Histidine (â 6.1)
+
+Negative charge Aspartic acid (â 3.9) Â· Glutamic acid (â (pKa) (â 8.3) Â· Tyrosine (â 10.1) General Other classifications
+
+4.1) Â· Cysteine
+
+Essential amino acid Â· Protein Â· Peptide Â· Genetic code
+
+Essential amino acids Â· Ketogenic amino acid Â· Glucogenic amino acid
+
+biochemical families: prot Â· nucl Â· carb (glpr, alco, glys) Â· lipd (fata/i, phld, strd, gllp, eico) Â· amac/i Â· ncbs/i Â· ttpy/i [edit] Sources 8
+
+Lysine - Wikipedia, the free encyclopedia v Â· d Â· eAmino acid metabolism metabolic intermediates lysineâ Saccharopine Â· Allysine Â· Î±-Aminoadipic acid Â· Î±-Aminoadipate Â· Glutaryl-CoA Â· Glutaconyl-CoA Â· Crotonyl-CoA Â· Î²-Hydroxybutyryl-CoA Î±-Ketoisocaproic acid Â· Isovaleryl-CoA Â· 3-Methylcrotonyl-CoA Â· 3-Methylglutaconyl-CoA Â· HMG-CoA N'-Formylkynurenine Â· Kynurenine Â· Anthranilic acid Â· 3-Hydroxykynurenine Â· 3-Hydroxyanthranilic acid Â· 2-Amino-3-carboxymuconic semialdehyde Â· 2-Aminomuconic semialdehyde Â· 2-Aminomuconic acid Â· Glutaryl-CoA 3-Phosphoglyceric acid Gâ pyruvateâ citrate glycineâ serineâ glycineâ creatine: Glycocyamine Â· Phosphocreatine Â· Creatinine
+
+leucineâ Kâ acetyl-CoA
+
+tryptophanâ
+
+alanineâ
+
+G
+
+histidineâ Gâ glutamateâ Î±-ketoglutarate prolineâ arginineâ other
+
+Urocanic acid Â· Imidazol-4-one-5-propionic acid Â· Formiminoglutamic acid Â· Glutamate-1-semialdehyde 1-Pyrroline-5-carboxylic acid Ornithine Â· Putrescine Â· Agmatine cysteine+glutamateâ Î³-Glutamylcysteine glutathione:
+
+valineâ
+
+Î±-Ketoisovaleric acid Â· Isobutyryl-CoA Â· Methacrylyl-CoA Â· 3-Hydroxyisobutyryl-CoA Â· 3-Hydroxyisobutyric acid Â· 2-Methyl-3-oxopropanoic acid 2,3-Dihydroxy-3-methylpentanoic acid Â· 2-Methylbutyryl-CoA Â· Tiglyl-CoA Â· 2-Methylacetoacetyl-CoA generation of homocysteine: S-Adenosyl methionine Â· S-Adenosyl-L-homocysteine Â· Homocysteine conversion to cysteine: Cystathionine Â· alpha-Ketobutyric acid+Cysteine
+
+isoleucineâ Gâ propionyl-CoAâ succinyl-CoA methionineâ
+
+threonineâ propionyl-CoAâ Gâ fumarate
+
+Î±-Ketobutyric acid Methylmalonyl-CoA 4-Hydroxyphenylpyruvic acid Â· Homogentisic acid Â· 4-Maleylacetoacetate 9
+
+phenylalanineâ
+
+tyrosineâ
+
+[edit] Sources
+
+Lysine - Wikipedia, the free encyclopedia Gâ Other oxaloacetate see urea cycle
+
+Cysteine metabolism Cysteine sulfinic acid
+
+mt, m(A16, k, k, C10),i(k, cgrp/y/i, c/g/r/p/y/i,c/g/r/p/y/i, M: f/h/s/l/o, f/h/s/l/o/e, f/h/s/o/e, MET au, n, a/u, a/u, h, n, n, epon h h) biochemical families: prot Â· nucl Â· carb (glpr, alco, glys) Â· lipd (fata/i, phld, strd, gllp, eico) Â· amac/i Â· ncbs/i Â· ttpy/i Retrieved from "http://en.wikipedia.org/wiki/Lysine" Categories: Proteinogenic amino acids | Ketogenic amino acids | Basic amino acids | Essential amino acids
+Personal tools
+
+· Log in / create account
+Namespaces
+
+· Article · Discussion
+Variants Views
+
+· Read · Edit · View history
+Actions Search
+
+Navigation
+
+· Main page · Contents · Featured content · Current events · Random article · Donate to Wikipedia
+Interaction
+
+· Help · About Wikipedia · Community portal · Recent changes Personal tools 10
+
+Lysine - Wikipedia, the free encyclopedia · Contact Wikipedia
+Toolbox
+
+· What links here · Related changes · Upload file · Special pages · Permanent link · Cite this page
+Print/export
+
+· Create a book · Download as PDF · Printable version
+Languages
+
+· Ø§Ù Ø¹Ø±Ø¨Ù Ø© · à¦¬à¦¾à¦ à¦²à¦¾ · BÃ¢n-lÃ¢m-gÃº · Ð Ñ Ð»Ð³Ð°Ñ Ñ ÐºÐ¸ · CatalÃ · Ä esky · Deutsch · Eesti · EspaÃ±ol · Esperanto · Euskara · Ù Ø§Ø±Ø³Û · FranÃ§ais · í êµ-ì ´ · Hrvatski · Bahasa Indonesia · Italiano · ×¢× ×¨× ×ª · LatvieÅ¡u · LÃ«tzebuergesch · LietuviÅ³ · Magyar · Ð Ð°ÐºÐµÐ´Ð¾Ð½Ñ ÐºÐ¸ · Nederlands · æ ¥æ ¬èª · â ªNorsk (bokmÃ¥l)â ¬ · Occitan · Polski · PortuguÃªs · Ð Ñ Ñ Ñ ÐºÐ¸Ð¹ · Ð¡Ñ Ð¿Ñ ÐºÐ¸ / Srpski · Srpskohrvatski / Ð¡Ñ Ð¿Ñ ÐºÐ¾Ñ Ñ Ð²Ð°Ñ Ñ ÐºÐ¸ Interaction 11
+
+Lysine - Wikipedia, the free encyclopedia · Suomi · Svenska · TÃ¼rkÃ§e · Ð£ÐºÑ Ð°Ñ Ð½Ñ Ñ ÐºÐ° · ä¸-æ · This page was last modified on 21 February 2011 at 07:19. · Text is available under the Creative Commons Attribution-ShareAlike License; additional terms may apply. See Terms of Use for details. Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc., a non-profit organization. · Contact us · Privacy policy · About Wikipedia · Disclaimers · ·
+
+Languages
+
+12
+
+

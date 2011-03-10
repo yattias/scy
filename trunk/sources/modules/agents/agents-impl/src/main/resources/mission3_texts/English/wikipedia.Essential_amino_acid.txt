@@ -1,0 +1,96 @@
+Essential amino acid - Wikipedia, the free encyclopedia
+
+Essential amino acid
+From Wikipedia, the free encyclopedia Jump to: navigation, search An essential amino acid or indispensable amino acid is an amino acid that cannot be synthesized de novo by the organism (usually referring to humans), and therefore must be supplied in the diet.
+
+Contents
+· 1 Essentiality vs. conditional essentiality in humans · 2 Recommended daily amounts · 3 Use of essential amino acids · 4 Essential Amino Acid Deficiency · 5 Mnemonics · 6 See also · 7 References · 8 External links
+
+[edit] Essentiality vs. conditional essentiality in humans
+Essential Nonessential Isoleucine Alanine Leucine Arginine* Lysine Aspartate Methionine Cysteine* Phenylalanine Glutamate Threonine Glutamine* Tryptophan Glycine* Valine Proline* Histidine Serine* Tyrosine* Asparagine* Selenocysteine** Pyrrolysine** (*) Essential only in certain cases.[1][2] (**) Truly unclassified. Added to sustain the 22 Numbers of Essential Amino Acids. The amino acids regarded as essential for humans are phenylalanine, valine, threonine, tryptophan, isoleucine, methionine, leucine, lysine and histidine .[3] Additionally, cysteine (or sulphur-containing amino acids), tyrosine (or aromatic amino acids), and arginine are required by infants and growing children.[4][5] Essential amino acids are "essential" not because they are more important to life than the others, but because the body does not synthesize them, making it essential to include them in one's diet in order to obtain them. In addition, the amino acids arginine, cysteine, glycine, glutamine, histidine, proline, serine and tyrosine are considered conditionally essential, meaning they are not normally required in the diet, but must be supplied exogenously to specific populations that do not synthesize it in adequate amounts.[1][2] An example would be with the disease phenylketonuria (PKU). Individuals living with PKU must keep their intake of phenylalanine extremely low to prevent mental retardation and other metabolic complications. However, phenylalanine is Essential amino acid 1
+
+Essential amino acid - Wikipedia, the free encyclopedia the precursor for tyrosine synthesis. Without phenylalanine, tyrosine cannot be made and so tyrosine becomes essential in the diet of PKU patients. The distinction between essential and non-essential amino acids is somewhat unclear, as some amino acids can be produced from others. The sulfur-containing amino acids, methionine and homocysteine, can be converted into each other but neither can be synthesized de novo in humans. Likewise, cysteine can be made from homocysteine but cannot be synthesized on its own. So, for convenience, sulfur-containing amino acids are sometimes considered a single pool of nutritionally-equivalent amino acids as are the aromatic amino acid pair, phenylalanine and tyrosine. Likewise arginine, ornithine, and citrulline, which are interconvertible by the urea cycle, are considered a single group.
+
+[edit] Recommended daily amounts
+Estimating the daily requirement for the indispensable amino acids has proven to be difficult; these numbers have undergone considerable revision over the last 20 years. The following table lists the WHO recommended daily amounts currently in use for essential amino acids in adult humans, together with their standard one-letter abbreviations.[5] Amino acid(s) I Isoleucine L Leucine K Lysine M Methionine + C Cysteine F Phenylalanine 25 (total) 1750 2500 + Y Tyrosine T Threonine 15 1050 1500 W Tryptophan 4 280 400 V Valine 26 1820 2600 The recommended daily intakes for children aged three years and older is 10% to 20% higher than adult levels and those for infants can be as much as 150% higher in the first year of life. mg per kg body weight 20 39 30 10.4 + 4.1 (15 total) mg per 70 kg 1400 2730 2100 1050 mg per 100 kg 2000 3900 3000 1500
+
+[edit] Use of essential amino acids
+At the level of the ribosome, the cells of eukaryotes require up to 20 different amino acids for protein synthesis. A shortfall of any one of these amino acids would thus be a limiting factor in protein synthesis. However, eukaryotes can synthesize some of these amino acids from other substrates. Consequently, only a subset of the amino acids used in protein synthesis are essential nutrients. Whether a particular amino acid is essential depends upon the species and the stage of development. Scientists had known since the early 20th century that rats could not survive on a diet whose only protein source was zein, which comes from maize (corn), but recovered if they were fed casein from cow's milk. This led William Cumming Rose to the discovery of the essential amino acid threonine.[6] Through manipulation of rodent diets, Rose was able to show that ten amino acids are essential for rats: lysine, tryptophan, histidine, phenylalanine, leucine, isoleucine, methionine, valine, and arginine, in addition to threonine. Rose's later work showed that eight amino acids are essential for adult human beings, with histidine also being essential for [edit] Essentiality vs. conditional essentiality in humans 2
+
+Essential amino acid - Wikipedia, the free encyclopedia infants. Longer term studies established histidine is also essential for adult humans.[7] Because of the obvious difference in the nutritional value of zein versus casein in rat nutrition, various attempts have been made to express the "quality" or "value" of various kinds of protein. Measures include the biological value, net protein utilization, protein digestibility-corrected amino acid score. These concepts are important in the livestock industry, because the relative lack of one or more of the essential amino acids in animal feeds would have a limiting effect on growth and thus on feed conversion ratio. Thus, various feedstuffs may be fed in combination to increase net protein utilization, or a supplement of an individual amino acid (methionine, lysine, threonine, or tryptophan) can be added to the feed. Although proteins from plant sources tend to have a relatively low biological value, in comparison to protein from eggs or milk, they are nevertheless "complete" in that they contain at least trace amounts of all of the amino acids that are essential in human nutrition.[8] Eating various plant foods in combination can provide a protein of higher biological value; however, vegetarians do not need to intentionally combine different foods for this purpose necessarily.[9] Even so, the amino acid content in most plant proteins is less per serving than that from animal sources, which makes it difficult for vegetarians to maintain essential amino acids at optimum quantity and distribution.[10]
+
+[edit] Essential Amino Acid Deficiency
+The amino acids that are essential in the human diet were established in a series of experiments led by William Cumming Rose. The experiments involved elemental diets to healthy male graduate students. These diets consisted of cornstarch, sucrose, butterfat without protein, corn oil, inorganic salts, the known vitamins, a large brown "candy" made of liver extract flavored with peppermint oil (to supply any unknown vitamins), and mixtures of highly purified individual amino acids. The main outcome measure was Nitrogen balance. Rose noted that the symptoms of nervousness, exhaustion, and dizziness were encountered to a greater or lesser extent whenever human subjects were deprived of an essential amino acid.[11] Although it is possible to induce deficiency of one or more of the individual essential amino acids in a laboratory setting by providing an elemental diet or a diet based on gelatin (the only "incomplete" protein that is commonly found in human diets), it would be highly unusual for such a deficiency to occur in a community setting. It is practically impossible to design a diet based on unrefined starches and vegetables that would fail to provide enough protein, including sufficient amounts of all of the essential amino acids, to support human health.[8] Nor is it necessary to combine "complementary" plant sources to provide complete protein.[12] Nevertheless, it is difficult for vegetarians to maintain essential amino acids at optimum quantity and distribution.[10] Essential amino acid deficiency should be distinguished from Protein-energy malnutrition, which can manifest as Marasmus or Kwashiorkor. Kwashiorkor was once attributed to pure protein deficiency in individuals who were consuming enough calories ("sugar baby syndrome"). However, this theory has been challenged by the finding that there is no difference in the diets of children developing marasmus as opposed to kwashiorkor.[13]
+
+[edit] Mnemonics
+Using the one-letter designation shown above, mnemonic devices have been developed for use in memorizing the essential amino acids. Previous devices have utilized the first letter of the amino acids' names, and in general did not include arginine which is not always essential. Mnemonic devices in common use are PVT TIM HALL[14] and TT HALL V(ery) IMP(ortant).[15]
+
+[edit] Use of essential amino acids
+
+3
+
+Essential amino acid - Wikipedia, the free encyclopedia Another method uses the first letter of each essential amino acid to begin each word in a phrase, such as: "Any Help In Learning These Little Molecules Proves Truly Valuable."[16] This method begins with the two amino acids that need some qualifications as to their requirements.
+
+[edit] See also
+· Biological Value (BV) · Complete protein · Essential nutrient · Essential fatty acid · Edible protein per unit area of land · List of standard amino acids · Orthomolecular medicine · Protein Digestibility Corrected Amino Acid Score
+
+[edit] References
+1. ^ a b FÃ¼rst P, Stehle P (1 June 2004). "What are the essential elements needed for the determination of amino acid requirements in humans?". Journal of Nutrition 134 (6 Suppl): 1558Sâ 1565S. PMID 15173430. http://jn.nutrition.org/cgi/content/full/134/6/1558S. 2. ^ a b Reeds PJ (1 July 2000). "Dispensable and indispensable amino acids for humans". J. Nutr. 130 (7): 1835Sâ 40S. PMID 10867060. http://jn.nutrition.org/cgi/content/full/130/7/1835S. 3. ^ Young VR (1994). "Adult amino acid requirements: the case for a major revision in current recommendations". J. Nutr. 124 (8 Suppl): 1517Sâ 1523S. PMID 8064412. http://jn.nutrition.org/cgi/reprint/124/8_Suppl/1517S.pdf. 4. ^ Imura K, Okada A (1998). "Amino acid metabolism in pediatric patients". Nutrition 14 (1): 143â 8. doi:10.1016/S0899-9007(97)00230-X. PMID 9437700. http://jn.nutrition.org/cgi/content/full/130/7/1835S. 5. ^ a b FAO/WHO/UNU (2007). "PROTEIN AND AMINO ACID REQUIREMENTS IN HUMAN NUTRITION". WHO Press. http://whqlibdoc.who.int/trs/WHO_TRS_935_eng.pdf. , page 150 6. ^ Rose WC, Haines WJ, Warner DT, Johnson JE. The amino acid requirements of man. II. The role of threonine and histidine. J Biol Chem. 1951;188(1):49-58 7. ^ J D Kopple and M E Swendseid (May 1975). "Evidence that histidine is an essential amino acid in normal and chronically uremic man.". J Clin Invest. 55 (5): 881â 891. doi:10.1172/JCI108016. PMC 301830. PMID 1123426. http://www.jci.org/articles/view/108016. 8. ^ a b McDougall J. Plant foods have a complete amino acid composition. Circulation. 2002;105(25):e197 9. ^ Institute of Medicine. Dietary Reference Intakes for Energy, Carbohydrate, Fiber, Fat, Fatty Acids, Cholesterol, Protein, and Amino Acids. Washington, D.C.: National Academies Press; 2002 10. ^ a b Howard, Barbara, Response to McDougall J. Circulation. 2002;105(25):e197] 11. ^ Rose WC, Haines WJ, Warner DT. The amino acid requirements of man. III. The role of isoleucine; additional evidence concerning histidine. J Biol Chem. 1951;193(2):605-612 12. ^ Irwin MI, Hegsted DM. A conspectus of research on amino acid requirements of man. J Nutr. 1971;101(4):539-566 13. ^ Ahmed T, Rahman S, Cravioto A. Oedematous malnutrition. Indian J Med Res. 2009;130(5):651-654 14. ^ Mnemonic at medicalmnemonics.com 442 128 15. ^ ;MATT VIL PLy Essential amino acids Essential amino acids, Mnemonic. 16. ^ Williams, R.A.D.; Eliot, J.C. (1989). Basic and Applied Dental Biochemistry. Elsevier Health Sciences. pp. 149. ISBN 0443031444. [edit] Mnemonics 4
+
+Essential amino acid - Wikipedia, the free encyclopedia
+
+[edit] External links
+· Amino acid content of some vegetarian foods - In a meal, make sure at least one food has a low value in each row of the "Amount to meet RDA" column, at veganhealth.org · Amino Acid Profiles of Some Common Feeds at Virginia Tech · Molecular Expressions: The Amino Acid Collection - Has detailed information and crystal photographs of each amino acid. at Florida State University v Â· d Â· eThe 20 Common Amino Acids Aliphatic Aromatic By properties Branched-chain amino acids (Valine Â· Isoleucine Â· Leucine) Â· Methionine Â· Alanine Â· Proline Â· Glycine Phenylalanine Â· Tyrosine Â· Tryptophan Â· Histidine
+
+Polar, uncharged Asparagine Â· Glutamine Â· Serine Â· Threonine Positive charge (pKa) Lysine (â 10.8) Â· Arginine (â 12.5) Â· Histidine (â 6.1)
+
+Negative charge Aspartic acid (â 3.9) Â· Glutamic acid (â (pKa) (â 8.3) Â· Tyrosine (â 10.1) General Other classifications
+
+4.1) Â· Cysteine
+
+Essential amino acid Â· Protein Â· Peptide Â· Genetic code
+
+Essential amino acids Â· Ketogenic amino acid Â· Glucogenic amino acid
+
+biochemical families: prot Â· nucl Â· carb (glpr, alco, glys) Â· lipd (fata/i, phld, strd, gllp, eico) Â· amac/i Â· ncbs/i Â· ttpy/i Retrieved from "http://en.wikipedia.org/wiki/Essential_amino_acid" Categories: Amino acids | Essential nutrients | Nitrogen metabolism | Nutrition Hidden categories: Use dmy dates from February 2011
+Personal tools
+
+· Log in / create account
+Namespaces
+
+· Article · Discussion
+Variants Views
+
+· Read · Edit · View history
+Actions
+
+[edit] External links
+
+5
+
+Essential amino acid - Wikipedia, the free encyclopedia
+Search
+
+Navigation
+
+· Main page · Contents · Featured content · Current events · Random article · Donate to Wikipedia
+Interaction
+
+· Help · About Wikipedia · Community portal · Recent changes · Contact Wikipedia
+Toolbox
+
+· What links here · Related changes · Upload file · Special pages · Permanent link · Cite this page
+Print/export
+
+· Create a book · Download as PDF · Printable version
+Languages
+
+· Ð Ñ Ð»Ð³Ð°Ñ Ñ ÐºÐ¸ · CatalÃ · Ä esky · Dansk · Deutsch · Eesti · Î Î»Î»Î·Î½Î¹ÎºÎ¬ · EspaÃ±ol · Esperanto · Ù Ø§Ø±Ø³Û · FranÃ§ais · Italiano · Nederlands · æ ¥æ ¬èª · Occitan Search 6
+
+Essential amino acid - Wikipedia, the free encyclopedia · Polski · PortuguÃªs · Ð Ñ Ñ Ñ ÐºÐ¸Ð¹ · SlovenÅ¡Ä ina · Suomi · Svenska · à¹ à¸ à¸¢ · Ð£ÐºÑ Ð°Ñ Ð½Ñ Ñ ÐºÐ° · ä¸-æ · This page was last modified on 7 March 2011 at 02:06. · Text is available under the Creative Commons Attribution-ShareAlike License; additional terms may apply. See Terms of Use for details. Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc., a non-profit organization. · Contact us · Privacy policy · About Wikipedia · Disclaimers · ·
+
+Languages
+
+7
+
+

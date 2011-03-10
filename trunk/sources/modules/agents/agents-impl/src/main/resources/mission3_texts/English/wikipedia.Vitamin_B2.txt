@@ -1,0 +1,148 @@
+Riboflavin - Wikipedia, the free encyclopedia
+
+Riboflavin
+From Wikipedia, the free encyclopedia Â Â (Redirected from Vitamin B2) Jump to: navigation, search Riboflavin
+
+IUPAC name 7,8-dimethyl- 10-((2R,3R,4S)- 2,3,4,5- tetrahydroxypentyl) benzo [g] pteridine- 2,4 (3H,10H)- dione Identifiers CAS number 83-88-5 Y PubChem 493570 ChemSpider 431981 Y UNII TLM2976OFR Y MeSH Riboflavin ChEMBL CHEMBL1534 Y SMILES O=C2/N=C\1/N(c3cc(c(cc3/N=C/1C(=O)N2)C)C)C[C@H](O)[C@H](O)[C@H](O)CO InChI N4O6/c1-7-3-9-10(4-8(7)2)21(5-11(23)14(25)12(24)6-22)15-13(18-9)16(26)20-17(27)19-15/h3-4,11-12,14,22-25H,5-6H2,1-2H3,(H,20
+Y
+
+Key: AUNGANRZJHBGPY-SCRDCRAPSA-N
+
+Y
+
+N4O6/c1-7-3-9-10(4-8(7)2)21(5-11(23)14(25)12(24)6-22)15-13(18-9)16(26)20-17(27)19-15/h3-4,11-12,14,22-25H,5-6H2,1-2H3,(H,20 Key: AUNGANRZJHBGPY-SCRDCRAPBG
+
+N4O6/c1-7-3-9-10(4-8(7)2)21(5-11(23)14(25)12(24)6-22)15-13(18-9)16(26)20-17(27)19-15/h3-4,11-12,14,22-25H,5-6H2,1-2H3,(H,20 Key: AUNGANRZJHBGPY-SCRDCRAPSA-N Properties Molecular formula C17H20N4O6 Molar mass 376.36 g/mol Melting point 290 Â°C (dec.) Y(what is this?) (verify) Except where noted otherwise, data are given for materials in their standard state (at 25 Â°C, 100 kPa) Infobox references Riboflavin, also known as vitamin B2 or additive E101,[1] is an easily absorbed micronutrient with a key role in maintaining health in humans and other animals[which?]. It is the central component of the cofactors FAD and FMN, and is therefore required by all flavoproteins. As such, vitamin B2 is required for a wide variety of cellular processes. It plays a key role in energy metabolism, and for the metabolism of fats, ketone bodies, carbohydrates, and proteins.
+
+Riboflavin
+
+1
+
+Riboflavin - Wikipedia, the free encyclopedia Milk, cheese, leafy green vegetables, liver, kidneys, legumes, tomatoes, yeast, mushrooms, and almonds[2] are good sources of vitamin B2, but exposure to light destroys riboflavin. The name "riboflavin" comes from "ribose" (the sugar which forms part of its structure, which in turn is a transposition of arabinose[3]) and "flavin", the ring-moiety which imparts the yellow color to the oxidized molecule (from Latin flavus, "yellow"). The reduced form, which occurs in metabolism, is colorless. Riboflavin is best known visually as the vitamin which imparts the orange color to solid B-vitamin preparations, the yellow color to vitamin supplement solutions, and the unusual fluorescent yellow color to the urine of persons who supplement with high-dose B-complex preparations (no other vitamin imparts any color to urine).
+
+Contents
+· 1 Discovery · 2 Biochemical function · 3 Mechanism of action as cofactors and flavoproteins · 4 Riboflavin in food: occurrence, sources and stability · 5 Nutrition and recommended dietary allowance  5.1 Recommended dietary allowance (RDA)  5.2 Riboflavin deficiency  5.3 Assessment of riboflavin status  5.4 Clinical uses  5.5 Industrial uses  5.6 Good sources · 6 Toxicity · 7 Industrial synthesis · 8 See also · 9 References · 10 External links
+
+Discovery
+
+Riboflavin powder.
+
+Contents
+
+2
+
+Riboflavin - Wikipedia, the free encyclopedia
+
+Fluorescent spectra of Riboflavin Vitamin B was originally considered to have two components, a heat-labile vitamin B1 and a heat-stable vitamin B2. In the 1920s, vitamin B2 was thought to be the factor necessary for preventing pellagra. In 1923, Paul Gyorgy in Heidelberg was investigating egg white injury in rats; the curative factor for this condition was called vitamin H. Since both pellagra and vitamin H deficiency were associated with dermatitis, Gyorgy decided to test the effect of vitamin B2 on vitamin H deficiency in rats. He enlisted the service of Wagner-Jauregg in Kuhnâ s laboratory (1). In 1933, Kuhn, Gyorgy, and Wagner found that thiamin-free extracts of yeast, liver, or rice bran prevented the growth failure of rats fed a thiamin-supplemented diet. Further, they noted that a yellow-green fluorescence in each extract promoted rat growth, and that the intensity of fluorescence was proportional to the effect on growth. This observation enabled them to develop a rapid chemical and bioassay to isolate the factor from egg white in 1933, they called it Ovoflavin. The same group then isolated the same preparation (a growth-promoting compound with yellow-green fluorescence) from whey using the same procedure (lactoflavin). In 1934 Kuhnâ s group identified the structure of so-called flavin and synthesized vitamin B2.
+
+Biochemical function
+Flavin mononucleotide (FMN) and flavin adenine dinucleotide (FAD) function as coenzymes for a wide variety of oxidative enzymes and remain bound to the enzymes during the oxidation-reduction reactions. Flavaflavins can act as oxidizing agents because of their ability to accept a pair of hydrogen atoms. Reduction of isoalloxazine ring (FAD, FMN oxidized form) yields the reduced forms of the flavoproteins (FMNH2 and FADH2).
+
+Mechanism of action as cofactors and flavoproteins
+Flavoproteins exhibit a wide range of redox potential and therefore can play a wide variety of roles in intermediary metabolism. Some of these roles are: · Flavoproteins play very important roles in the electron transport chain · Decarboxylation of pyruvate and Î±-ketoglutarate requires FAD · Fatty acyl CoA dehydrogenase requires FAD in fatty acid oxidation · FAD is required to the production of pyridoxic acid from pyridoxal (vitamin B6) · The primary coenzyme form of vitamin B6 (pyridoxal phosphate) is FMN dependent · FAD is required to convert retinal (vitamin A) to retinoic acid · Synthesis of an active form of folate (5-methyl THF) is FADH2 dependent · FAD is required to convert tryptophan to niacin (vitamin B3) · Reduction of the oxidized form of glutathione (GSSG) to its reduced form (GSH) is also FAD dependent
+
+Discovery
+
+3
+
+Riboflavin - Wikipedia, the free encyclopedia
+
+Riboflavin in food: occurrence, sources and stability
+
+A solution of riboflavin. Riboflavin is yellow or yellow-orange in color and in addition to being used as a food coloring, it is also used to fortify some foods. It is used in baby foods, breakfast cereals, pastas, sauces, processed cheese, fruit drinks, vitamin-enriched milk products, and some energy drinks. Regarding occurrence and sources of vitamin B2, yeast extract is considered to be exceptionally rich in vitamin B2, and liver and kidney are also rich sources. Wheat bran, eggs, meat, milk, and cheese are important sources in diets containing these foods. Cereals grains contain relatively low concentrations of flavins, but are important sources in those parts of the world where cereals constitute the staple diet.[4][5] The milling of cereals results in considerable loss (up to 60%) of vitamin B2, so white flour is enriched in some countries such as USA by addition of the vitamin. The enrichment of bread and ready-to-eat breakfast cereals contributes significantly to the dietary supply of vitamin B2. Polished rice is not usually enriched, because the vitaminâ s yellow color would make the rice visually unacceptable to the major rice-consumption populations. However, most of the flavins content of the whole brown rice is retained if the rice is steamed prior to milling. This process drives the flavins in the germ and aleurone layers into the endosperm. Free riboflavin is naturally present in foods along with protein-bound FMN and FAD. Bovine milk contains mainly free riboflavin, with a minor contribution from FMN and FAD.[5] In whole milk, 14% of the flavins are bound noncovalently to specific proteins.[6] Egg white and egg yolk contain specialized riboflavin-binding proteins, which are required for storage of free riboflavin in the egg for use by the developing embryo. It is difficult to incorporate riboflavin into many liquid products because it has poor solubility in water, hence the requirement for riboflavin-5'-phosphate (E101a), a more expensive but more soluble form of riboflavin. Riboflavin is generally stable during the heat processing and normal cooking of foods if light is excluded. The alkaline conditions in which riboflavin is unstable are rarely encountered in foodstuffs. Riboflavin degradation in milk can occur slowly in dark during storage in the refrigerator.[7] (7).
+
+Nutrition and recommended dietary allowance
+Recommended dietary allowance (RDA)
+
+Riboflavin in food: occurrence, sources and stability
+
+4
+
+Riboflavin - Wikipedia, the free encyclopedia The latest (1998) RDA recommendations for vitamin B2 are similar to the 1989 RDA, which for adults, suggested a minimum intake of 1.2 mg for persons whose caloric intake may be > 2,000 Kcal.[8] The current RDAs for riboflavin for adult men and women are 1.3 mg/day and 1.1 mg/day, respectively; the estimated average requirement for adult men and women are 1.1 mg and 0.9 mg, respectively. Recommendations for daily riboflavin intake increase with pregnancy and lactation to 1.4 mg and 1.6 mg, respectively (1in advanced). For infants, the RDA is 0.3-0.4 mg/day and for children it is 0.6-0.9 mg/day.[9]
+
+Riboflavin deficiency
+Further information: Ariboflavinosis Riboflavin is continuously excreted in the urine of healthy individuals,[10] making deficiency relatively common when dietary intake is insufficient. However, riboflavin deficiency is always accompanied by deficiency of other vitamins.[10] A deficiency of riboflavin can be primary - poor vitamin sources in one's daily diet - or secondary, which may be a result of conditions that affect absorption in the intestine, the body not being able to use the vitamin, or an increase in the excretion of the vitamin from the body. In humans, signs and symptoms of riboflavin deficiency (ariboflavinosis) include cracked and red lips, inflammation of the lining of mouth and tongue, mouth ulcers, cracks at the corners of the mouth (angular cheilitis), and a sore throat. A deficiency may also cause dry and scaling skin, fluid in the mucous membranes, and iron-deficiency anemia. The eyes may also become bloodshot, itchy, watery and sensitive to bright light. Riboflavin deficiency is classically associated with the oral-ocular-genital syndrome. Angular cheilitis, photophobia, and scrotal dermatitis are the classic remembered signs. In animals, riboflavin deficiency results in lack of growth, failure to thrive, and eventual death. Experimental riboflavin deficiency in dogs results in growth failure, weakness, ataxia, and inability to stand. The animals collapse, become comatose, and die. During the deficiency state, dermatitis develops together with hair loss. Other signs include corneal opacity, lenticular cataracts, hemorrhagic adrenals, fatty degeneration of the kidney and liver, and inflammation of the mucous membrane of the gastrointestinal tract. Post-mortem studies in rhesus monkeys fed a riboflavin-deficient diet revealed about one-third the normal amount of riboflavin was present in the liver, which is the main storage organ for riboflavin in mammals. These overt clinical signs of riboflavin deficiency are rarely seen among inhabitants of the developed countries. However, about 28 million Americans exhibit a common â sub-clinicalâ stage.[11] characterized by a change in biochemical indices (e.g. reduced plasma erythrocyte glutathione reductase levels). Although the effects of long-term subclinical riboflavin deficiency are unknown, in children this deficiency results in reduced growth. Subclinical riboflavin deficiency has also been observed in women taking oral contraceptives, in the elderly, in people with eating disorders, and in disease states such as HIV, inflammatory bowel disease, diabetes and chronic heart disease. The fact that riboflavin deficiency does not immediately lead to gross clinical manifestations indicates that the systemic levels of this essential vitamin are tightly regulated.
+
+Assessment of riboflavin status
+Biochemical tests are essential for confirming clinical cases of riboflavin deficiency and for establishing subclinical deficiencies. Among these tests: · Erythrocyte glutathione reductase activity:
+
+Recommended dietary allowance (RDA)
+
+5
+
+Riboflavin - Wikipedia, the free encyclopedia Glutathione reductase is a nicotinamide adenine dinucleotide phosphate (NADPH), a FAD-dependent enzyme, and the major flavoproteins in erythrocyte. The measurement of the activity coefficient of erythrocyte glutathione reductase (EGR) is the preferred method for assessing riboflavin status.[12] It provides a measure of tissue saturation and long-term riboflavin status. In vitro enzyme activity in terms of activity coefficients (AC) is determined both with and without the addition of FAD to the medium. ACs represent a ratio of the enzymeâ s activity with FAD to the enzymeâ s activity without FAD. An AC of 1.2 to 1.4, riboflavin status is considered low when FAD is added to stimulate enzyme activity. An AC > 1.4 suggests riboflavin deficiency. On the other hand, if FAD is added and AC is < 1.2, then riboflavin status is considered acceptable.[9] Tillotson and Baker (1972)[13] reported that a decrease in the intakes of riboflavin was associated with increase in EGR AC. in the U.K. study of Norwich elderly (Bailey et al., 1997), initial EGR AC values for both males and females were significantly correlated with those measured 2 years later, suggesting that EGR AC may be a reliable measure of long-term biochemical riboflavin status of individuals. These findings are consistent with earlier studies (Rutishauser et al., 1979).[14] · Urinary riboflavin excretion: Experimental balance studies indicate that urinary riboflavin excretion rates increase slowly with increasing intakes, until intake level approach 1.0 mg/d, when tissue saturation occurs. At higher intakes, the rate of excretion increases dramatically.[15] Once intakes of 2.5 mg/d are reached, excretion becomes approximately equal to the rate of absorption (Horwitt et al., 1950)(18). At such high intake a significant proportion of the riboflavin intake is not absorbed.If urinary riboflavin excretion is <19 Âµg/g creatinine (without recent riboflavin intake) or < 40 Âµg per day are indicative of deficiency.
+
+Clinical uses
+Riboflavin has been used in several clinical and therapeutic situations. For over 30 years, riboflavin supplements have been used as part of the phototherapy treatment of neonatal jaundice. The light used to irradiate the infants breaks down not only bilirubin, the toxin causing the jaundice, but also the naturally occurring riboflavin within the infant's blood, so extra supplementation is necessary. High dose riboflavin appears to be useful alone or along with beta-blockers in the prevention of migraine.[16] [17] A dose of 400 mg daily has been used effecitvely in the prophylaxis of migraines, especially in combination with a daily supplement of magnesium citrate 500 mg and, in some cases, a supplement of coenzyme Q10.[18] Riboflavin has also been used as a muscle pain reliever.[citation needed] Riboflavin in combination with UV light has been shown to be effective in reducing the ability of harmful pathogens found in blood products to cause disease. [19] [20] [21] When UV light is applied to blood products containing riboflavin, the nucleic acids in pathogens are damaged, rendering them unable to replicate and cause disease. [21] [22] Riboflavin and UV light treatment has been shown to be effective for inactivating pathogens in platelets and plasma, and is under development for application to whole blood. Because platelets and red blood cells do not contain a nucleus (ie they have no DNA to be damaged). The technique is well-suited for destroying nucleic acid containing pathogens (including viruses, bacteria, parasites, and white blood cells) in blood products. [23]
+
+Recently, riboflavin has been used in a new treatment to slow or stop the progression of the corneal disorder keratoconus. This is called corneal collagen crosslinking (CXL). In corneal crosslinking, riboflavin drops are applied to the patientâ s corneal surface. Once the riboflavin has penetrated through the cornea, ultraviolet Assessment of riboflavin status 6
+
+Riboflavin - Wikipedia, the free encyclopedia A light therapy is applied. This induces collagen crosslinking, which increases the tensile strength of the cornea. The treatment has been shown in several studies to stabilize keratoconus.
+
+Industrial uses
+Because riboflavin is fluorescent under UV light, dilute solutions (0.015-0.025% w/w) are often used to detect leaks or to demonstrate coverage in an industrial system such a chemical blend tank or bioreactor. (See the ASME BPE section on Testing and Inspection for additional details.)
+
+Good sources
+Riboflavin is found naturally in asparagus, popcorn, bananas, persimmons, okra, chard, cottage cheese, milk, yogurt, meat, eggs, fish, and green beans (particularly on the ends), each of which contain at least 0.1 mg of the vitamin per 3â 10.5 oz (85â 300 g) serving.(5). Riboflavin is destroyed by exposure to ultraviolet light, so milk sold in transparent (glass/plastic) bottles will likely contain less riboflavin than milk sold in opaque containers.
+
+Toxicity
+Riboflavin is not toxic when taken orally, as its low solubility keeps it from being absorbed in dangerous amounts from the gut.[24] Although toxic doses can be administered by injection,[24] any excess at nutritionally relevant doses is excreted in the urine,[25] imparting a bright yellow color when in large quantities. In humans, there is no evidence for riboflavin toxicity produced by excessive intakes, though it helps relieve muscle pain.[citation needed] Even when 400 mg/d of riboflavin was given orally to subjects in one study for three months to investigate the efficacy of riboflavin in the prevention of migraine headache, no short-term side effects were reported.[26][9]
+
+Industrial synthesis
+
+Large cultures of Micrococcus luteus growing on pyridine (left)and succinic acid (right). The yellow pigment being produced in the presence of pyridine is riboflavin. Various biotechnological processes have been developed for industrial scale riboflavin biosynthesis using different microorganisms, including filamentous fungi such as Ashbya gossypii, Candida famata and Candida flaveri, as well as the bacteria Corynebacterium ammoniagenes and Bacillus subtilis.[27] The latter organism has been genetically modified to both increase the bacteria's production of riboflavin and to introduce an antibiotic (ampicillin) resistance marker, and is now successfully employed at a commercial scale to produce riboflavin for feed and food fortification purposes. The chemical company BASF has installed a plant in South Korea, which is specialized on riboflavin production using Ashbya gossypii. The concentrations of riboflavin in their modified strain are so high, that the mycelium has a reddish / brownish color and Clinical uses 7
+
+Riboflavin - Wikipedia, the free encyclopedia accumulates riboflavin crystals in the vacuoles, which will eventually burst the mycelium. Riboflavin is sometimes overproduced, possibly as a protective mechanism, by certain bacteria in the presence of high concentrations of hydrocarbons or aromatic compounds. One such organism is Micrococcus luteus ( American Type Culture Collection strain number ATCC 49442), which develops a yellow color due to production of riboflavin while growing on pyridine, but not when grown on other substrates, such as succinic acid.[28]
+
+See also
+· Ariboflavinosis (riboflavin deficiency) · Flavin · Riboflavin synthase · Riboflavin kinase
+
+References
+1. ^ "Current EU approved additives and their E Numbers". UK Food Standards Agency. July 27, 2007. http://www.food.gov.uk/safereating/chemsafe/additivesbranch/enumberlist. Retrieved December 3, 2009. 2. ^ Higdon, Jane; Victoria J. Drake (2007). "Riboflavin". Micronutrient Information Center. Linus Pauling Institute at Oregon State University. http://lpi.oregonstate.edu/infocenter/vitamins/riboflavin/. Retrieved December 3, 2009. 3. ^ http://onlinelibrary.wiley.com/doi/10.1002/sce.3730420523/pdf 4. ^ Food Standards Agency, McCance and Widdowsonâ s The Composition of Foods, 6th summary ed, Royal Society of Chemistry, Cambridge, 2002 5. ^ a b Ball F.M. George, Riboflavin in Vitamins in Foods, Analysis, Bioavailability, and Stability. Taylor and Francis Group, New York, 2006. P168-175 6. ^ Kanno, C., Kanehara, N., Shirafuji, K., and et al. Binding Form of Vitamin B2 in Bovine Milk: its concentration, distribution, and binding linkage, J. Nutr. Sci. Vitaminol., 37, 15, 1991 7. ^ Faron G, Drouin R, Pedneault L, et al. Recurrent cleft lip and palate in siblings of a patient with malabsorption syndrome, probably caused by hypovitaminosis A associated with folic acid and riboflavin deficiencies. Teratology 2001;63:161â 3 8. ^ National Research Council. RDAs, 10th ed. Washington, DC: National Academy Press, 1989, PP.132-37 9. ^ a b c Gropper S.S., Smith J.L., and Groff J.L., Riboflavin, Chapter 9, in Advanced Nutrition and Human Metabolism, 5th ed. Wadsworth CENGAG Learning, 2009, P329-333 10. ^ a b Brody, Tom (1999). Nutritional Biochemistry. San Diego: Academic Press. ISBN 0-12-134836-9. OCLC 212425693 39699995 51091036 162571066 212425693 39699995 51091036. 11. ^ Powers J. Hilary. Riboflavin (vitamin B-2) and health, Review Article. Am J Clin Nutr 2003;77:1352â 60 12. ^ 10. Gibson S. Rosalind, Riboflavin in Principles of Nutritional Assessment, 2nd ed. OXFORD university press, 2005 13. ^ Tilloston JA, Bashor EM. An enzymatic measurement of the riboflavin status in man. American J. Of Clin. Nutr., 1972; 72:251-261 14. ^ Rutishauser IHE, Bates CJ, Paul AA, and et al. Long term vitamin status and dietary intake of health elderly subjects. I. Riboflavin. British J. of Nutr. , 1979; 42:33-42 15. ^ Gibson S. Rosalind, Riboflavin in Principles of Nutritional Assessment, 2nd ed. OXFORD university press, 2005. 16. ^ SÃ¡ndor PS, Afra J, Ambrosini A, Schoenen J. Prophylactic treatment of migraine with beta-blockers and riboflavin: differential effects on the intensity dependence of auditory evoked Industrial synthesis 8
+
+Riboflavin - Wikipedia, the free encyclopedia cortical potentials. Headache. 2000 Jan;40(1):30-5. 17. ^ Schoenen J, Jacquy J, Lenaerts, M. Effectiveness of high-dose riboflavin in migraine prophylaxis. A randomized controlled trial. Neurology. 1998 Feb;50(2):466-70. 18. ^ Migraine Action UK 19. ^ Ruane PH, et al., â Photochemical Inactivation of Selected Viruses and Bacteria in Platelet Concentrates Using Riboflavin and Light.â Transfusion 2004; 44: 877-885. 20. ^ Goodrich RP, et al., â The Mirasol PRT System for Pathogen Reduction of Platelets and Plasma: An Overview of Current Status and Future Trends.â Transfusion and Apheresis Science 2006; 35 (1): 5-17. 21. ^ a b Goodrich RP, et.al,Chapter 5:â The Antiviral and Antibacterial Properties of Riboflavin and Light: Applications to Blood Safety and Transfusion Medicine.â Flavins: Photochemistry and Photobiology, Vol. 6, 2006, Royal Society of Chemistry; Cambridge, United Kingdom. E Silva and AM Edwards, editors. 22. ^ Kumar V, et al., â Riboflavin and UV-Light Based Pathogen Reduction: Extent and Consequence of DNA Damage at the Molecular Level.â Photochemistry and Photobiology2004; 80: 15-21. 23. ^ Hardwick CC, et al., â Separation, Identification and Quantification of Riboflavin and Its Photoproducts in Blood Products Using High-Performance Liquid Chromotography With Fluorescence Detection: A Method to Support Pathogen Reduction Technology.â Photochemistry and Photobiology 2004; 80 (3): 609-615. 24. ^ a b Unna, Klaus and Greslin, Joseph G. (1942). "Studies on the toxicity and pharmacology of riboflavin". J Pharmacol Exp Ther 76 (1): 75â 80. 25. ^ Zempleni, J and Galloway, JR and McCormick, DB (1996). "Pharmacokinetics of orally and intravenously administered riboflavin in healthy humans". Am J Clin Nutr (The American Society for Nutrition) 63 (1): 54â 66. PMID 8604671. 26. ^ Boehnke C., Reuter U., Flach U., and et al., High-dose riboflavin treatment is efficacious in migraine prophylaxis: an open study in a tertiary care centre 2004 Jul;11(7):475-7 27. ^ Stahmann KP, Revuelta JL and Seulberger H. (2000). "Three biotechnical processes using Ashbya gossypii, Candida famata, or Bacillus subtilis compete with chemical riboflavin production". Appl Microbiol Biotechnol 53 (5): 509â 516. doi:10.1007/s002530051649. PMID 10855708. 28. ^ Sims, G. K. and E.J. O'Loughlin. 1992. Riboflavin production during growth of Micrococcus luteus on pyridine. Applied and Environmental Microbiology 58(10):3423-3425. Schoenen J, Jacquy J, Lenaerts, M. Effectiveness of high-dose riboflavin in migraine prophylaxis. A randomized controlled trial. Neurology. 1998 Feb;50(2):466-70.
+
+External links
+· Jane Higdon, "Riboflavin", Micronutrient Information Center, Linus Pauling Institute v Â· d Â· eVitamins (A11) Fat soluble A Î±-Carotene Â· Î²-Carotene Â· Retinol Â· Tretinoin D2 (Ergosterol, Ergocalciferol) Â· D3 (7-Dehydrocholesterol, Previtamin D3, Cholecalciferol, 25-hydroxycholecalciferol, Calcitriol (1,25-dihydroxycholecalciferol), D Calcitroic acid) Â· D4 (Dihydroergocalciferol) Â· D5 Â· D analogues (Dihydrotachysterol, Calcipotriol, Tacalcitol, Paricalcitol) E K References 9 Tocopherol (Alpha, Beta, Gamma, Delta) Â· Tocotrienol (Alpha, Beta, Gamma, Delta) Â· Tocofersolan
+
+Riboflavin - Wikipedia, the free encyclopedia Naphthoquinone Â· Phylloquinone (K1) Â· Menatetrenone (K2) Â· Menadione (K3) Â· Menadiol (K4) B1 (Thiamine) Â· B2 (Riboflavin) Â· B3 (Niacin, Nicotinamide) Â· B5 (Pantothenic acid, Dexpanthenol, Pantethine) Â· B6 (Pyridoxine, Pyridoxal phosphate, Pyridoxamine) Â· B7 B (Biotin) Â· B9 (Folic acid, Dihydrofolic acid, Folinic acid) Â· B12 (Cyanocobalamin, Water soluble Hydroxocobalamin, Methylcobalamin, Cobamamide) Â· Choline C Ascorbic acid Â· Dehydroascorbic acid Combinations Multivitamins noco, cof, M: nuvi, enz, drug(A8/11/12) NUT sysi/epon, met met Retrieved from "http://en.wikipedia.org/wiki/Riboflavin" Categories: Flavins | B vitamins | Coenzymes | Food colorings Hidden categories: Chemical pages containing a local image | All articles with specifically marked weasel-worded phrases | Articles with specifically marked weasel-worded phrases from November 2010 | All articles with unsourced statements | Articles with unsourced statements from April 2010 | Articles with unsourced statements from October 2010
+Personal tools
+
+· Log in / create account
+Namespaces
+
+· Article · Discussion
+Variants Views
+
+· Read · View source · View history
+Actions Search
+
+Navigation
+
+· Main page · Contents · Featured content · Current events · Random article · Donate to Wikipedia
+
+External links
+
+10
+
+Riboflavin - Wikipedia, the free encyclopedia
+Interaction
+
+· Help · About Wikipedia · Community portal · Recent changes · Contact Wikipedia
+Toolbox
+
+· What links here · Related changes · Upload file · Special pages · Permanent link · Cite this page
+Print/export
+
+· Create a book · Download as PDF · Printable version
+Languages
+
+· Ø§Ù Ø¹Ø±Ø¨Ù Ø© · à¦¬à¦¾à¦ à¦²à¦¾ · Bosanski · CatalÃ · Ä esky · Cymraeg · Deutsch · Þ Þ¨Þ Þ¬Þ Þ¨Þ Þ¦Þ Þ° · Eesti · EspaÃ±ol · Esperanto · Euskara · Ù Ø§Ø±Ø³Û · FÃ¸royskt · FranÃ§ais · Galego · í êµ-ì ´ · à¤¹à¤¿à¤¨à¥ à¤¦à¥ · Hrvatski · Bahasa Indonesia · Italiano · ×¢× ×¨× ×ª · Kinyarwanda · LatvieÅ¡u · LÃ«tzebuergesch · LietuviÅ³ Interaction 11
+
+Riboflavin - Wikipedia, the free encyclopedia · Magyar · Ð Ð°ÐºÐµÐ´Ð¾Ð½Ñ ÐºÐ¸ · Bahasa Melayu · Nederlands · æ ¥æ ¬èª · â ªNorsk (bokmÃ¥l)â ¬ · Occitan · Polski · PortuguÃªs · RomÃ¢nÄ · Ð Ñ Ñ Ñ ÐºÐ¸Ð¹ · Shqip · Simple English · SlovenÄ ina · SlovenÅ¡Ä ina · Ð¡Ñ Ð¿Ñ ÐºÐ¸ / Srpski · Srpskohrvatski / Ð¡Ñ Ð¿Ñ ÐºÐ¾Ñ Ñ Ð²Ð°Ñ Ñ ÐºÐ¸ · Basa Sunda · Suomi · Svenska · à¹ à¸ à¸¢ · TÃ¼rkÃ§e · Ð£ÐºÑ Ð°Ñ Ð½Ñ Ñ ÐºÐ° · Ø§Ø±Ø¯Ù · Walon · ä¸-æ · This page was last modified on 23 February 2011 at 06:39. · Text is available under the Creative Commons Attribution-ShareAlike License; additional terms may apply. See Terms of Use for details. Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc., a non-profit organization. · Contact us · Privacy policy · About Wikipedia · Disclaimers · ·
+
+Languages
+
+12
+
+

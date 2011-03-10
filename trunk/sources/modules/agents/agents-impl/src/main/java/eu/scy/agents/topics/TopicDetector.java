@@ -108,9 +108,7 @@ public class TopicDetector extends AbstractRequestAgent {
 		ParallelTopicModel model = (ParallelTopicModel) agentDatabase
 				.get(modelName);
 
-		text = preprocessor.removePunctuation(text);
-		text = preprocessor.toLowerCase(text);
-		String[] tokens = preprocessor.tokenize(text);
+		String[] tokens = preprocessor.preprocessDocument(text);
 		tokens = preprocessor.removeStopwords(tokens, "en");
 		Instance instance = preprocessor.createInstanceFromTokens("id", tokens);
 

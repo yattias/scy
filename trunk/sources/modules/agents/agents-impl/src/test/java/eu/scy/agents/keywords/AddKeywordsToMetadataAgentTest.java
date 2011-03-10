@@ -127,9 +127,9 @@ public class AddKeywordsToMetadataAgentTest extends AbstractTestFixture {
     List<KeyValuePair> keywords = (List<KeyValuePair>) metadataValueContainer.getValueList();
     assertEquals(14, keywords.size());
 
-    assertTrue(hasKeywords(keywords, "transfers", "atmosphere", "roughly", "stored", "finite",
-                           "human", "fossil fuels", "balance", "carbon", "fossil", "fuels",
-                           "trees", "release", "decay"));
+    assertTrue(hasKeywords(keywords, "transfers", "influence", "atmosphere", "roughly", "stored",
+                           "finite", "human", "fossil fuels", "balance", "carbon", "fossil",
+                           "fuels", "release", "decay"));
 
     addMetadataAgent.processELOSavedAction(AgentProtocol.ACTION_ELO_SAVED, UUID1234,
                                            TIME_IN_MILLIS, "webresourcer", "SomeMission",
@@ -141,8 +141,8 @@ public class AddKeywordsToMetadataAgentTest extends AbstractTestFixture {
     metadataValueContainer = metadata.getMetadataValueContainer(keywordKey);
     keywords = (List<KeyValuePair>) metadataValueContainer.getValueList();
     assertEquals(15, keywords.size());
-    assertTrue(hasKeywords(keywords, "ecological", "expressed", "carbon footprint", "strategy",
-                           "ecological footprint", "measured", "footprint", "private",
+    assertTrue(hasKeywords(keywords, "concept", "development", "ecological", "expressed",
+                           "carbon footprint", "strategy", "ecological footprint", "footprint",
                            "organization", "sneaked", "carbon", "capture", "undertaking", "known",
                            "assessment"));
 
