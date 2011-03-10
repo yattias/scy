@@ -52,6 +52,10 @@ public class DataSet implements Serializable {
 		// elementStr = SerializationHelper.nullSerialization;
 	}
 
+	public int getRowCount() {
+	    return rows.size();
+	}
+
 	private void createHeadersFromXML(List<Element> headersElem)
 			throws JDOMException {
 		headers = new LinkedList<DataSetHeader>();
