@@ -83,13 +83,13 @@ public class UriLocalizer
       {
          return localizedUrl;
       }
-      logger.error("failed to find url: " + localizedUrl.toString());
+      logger.info("failed to find url: " + localizedUrl.toString());
       localizedUrl = localizeUrl(url, definitionLocaleLanguage);
       if (urlExisits(localizedUrl))
       {
          return localizedUrl;
       }
-      logger.error("failed to find url: " + localizedUrl.toString());
+      logger.info("failed to find url: " + localizedUrl.toString());
       return url;
    }
 
