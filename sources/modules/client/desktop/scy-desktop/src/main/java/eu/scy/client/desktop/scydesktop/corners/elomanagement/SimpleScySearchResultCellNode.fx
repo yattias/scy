@@ -22,6 +22,7 @@ import javafx.util.Math;
 public class SimpleScySearchResultCellNode extends CustomNode {
 
     public var scySearchResult: ScySearchResult on replace { newScySearchResult() };
+    public var disableRelevanceDisplay = false;
     def titleDisplay = Label {};
     def authorDisplay = Label {};
     def dateDisplay = Label {};
@@ -58,7 +59,7 @@ public class SimpleScySearchResultCellNode extends CustomNode {
                     }
                 ]
             }
-            if(scySearchResult!=null){
+            if((not disableRelevanceDisplay) and scySearchResult!=null){
                 return relevanceNode;
             }
             return Group{content:[]};

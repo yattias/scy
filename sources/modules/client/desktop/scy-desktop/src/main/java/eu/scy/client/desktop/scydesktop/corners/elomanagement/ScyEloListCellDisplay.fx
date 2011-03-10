@@ -20,6 +20,7 @@ public mixin class ScyEloListCellDisplay {
 
    public var newEloCreationRegistry: NewEloCreationRegistry;
    public var windowStyler: WindowStyler;
+   public var disableRelevanceDisplay: Boolean = false;
    def spacing = 5.0;
 
    public function scyEloCellFactory(): ListCell {
@@ -34,6 +35,7 @@ public mixin class ScyEloListCellDisplay {
       var listCell: ListCell;
       listCell = ListCell {
             node: SimpleScySearchResultCellNode{
+               disableRelevanceDisplay: this.disableRelevanceDisplay
                scySearchResult: bind listCell.item as ScySearchResult
             }
          }
