@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import src.main.java.eu.scy.common.configuration.Configuration;
+import eu.scy.common.configuration.Configuration;
 import eu.scy.agents.api.parameter.AgentParameter;
 import eu.scy.agents.api.parameter.AgentParameterAPI;
 import eu.scy.agents.impl.AgentProtocol;
