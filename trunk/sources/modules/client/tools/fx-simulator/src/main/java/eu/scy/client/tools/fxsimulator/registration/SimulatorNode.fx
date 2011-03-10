@@ -53,6 +53,11 @@ import javax.swing.ImageIcon;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import java.util.logging.Logger;
+import eu.scy.client.common.scyi18n.UriLocalizer;
+import java.net.URL;
+import java.util.List;
+import java.util.ArrayList;
+import eu.scy.client.tools.scysimulator.SimConfig.MODE;
 
 public class SimulatorNode
     extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
@@ -79,6 +84,7 @@ public class SimulatorNode
             dataCollector.setRotation(rotation);
         }
     };
+
     var fixedDimension = new Dimension(575, 275);
     var displayComponent: JComponent;
     var wrappedSimquestPanel: Node;
@@ -97,6 +103,11 @@ public class SimulatorNode
     var split: JSplitPane;
     var scroller: JScrollPane;
     def simulatorContent = Group {};
+    var saveDatasetButton =
+		Button {text: ##"SaveAs Dataset"
+                action: function() {
+                doSaveAsDataset();
+                }};
 
     public override function canAcceptDrop(object: Object): Boolean {
         if (object instanceof ISynchronizable) {
@@ -240,7 +251,6 @@ public class SimulatorNode
 
     public override function newElo() {
         newSimulationPanel = new NewSimulationPanel(this);
-        //        simquestPanel.add(newSimulationPanel, BorderLayout.NORTH);
         switchSwingDisplayComponent(newSimulationPanel);
     }
 
@@ -249,7 +259,8 @@ public class SimulatorNode
             logger.info("load {newSimulationPanel.getSimulationURI()}");
             switchSwingDisplayComponent(new JLabel(##"Please wait while the simulation is loaded, this may take some seconds."));
             FX.deferAction(function(): Void {
-                loadSimulation(newSimulationPanel.getSimulationURI());
+		var simConfig: SimConfig = new SimConfig(newSimulationPanel.getSimulationURI(), newSimulationPanel.getMode());
+                loadSimulation(simConfig);
             });
         }
     }
@@ -277,6 +288,7 @@ public class SimulatorNode
 
     public override  function  create ( ): Node {
         switchSwingDisplayComponent(simquestPanel);
+	
         return Group {
             blocksMouse:true;
             // cache: bind scyWindow.cache
@@ -301,12 +313,8 @@ public class SimulatorNode
                                                 doSaveAsSimconfig();
                                             }
                                         }
-                                        Button {
-                                            text: ##"SaveAs Dataset"
-                                            action: function() {
-                                                doSaveAsDataset();
-                                            }
-                                        }
+					saveDatasetButton
+                                        
                                     /*Button {
                                     text: "test thumbnail"
                                     action: function () {
@@ -334,10 +342,11 @@ public class SimulatorNode
         var newElo = repository.retrieveELO(eloUri);
         if (newElo != null) {
             var simConfig: SimConfig = new SimConfig(newElo.getContent().getXmlString());
-            loadSimulation(simConfig.getSimulationUri());
+            loadSimulation(simConfig);
             if (dataCollector != null) {
                 logger.info("setting simconfig {newElo}");
-                dataCollector.setSimConfig(simConfig);
+                dataCollector.setVariableValues(simConfig.getVariables());
+		dataCollector.setRelevantVariables(simConfig.getRelevantVariables());
                 dataCollector.setEloURI(eloUri.toString());
             } else {
                 logger.info("datacollector == null, can't load ");
@@ -347,17 +356,16 @@ public class SimulatorNode
         }
     }
 
-    function loadSimulation(simulationUri: String) {
-        var fileUri = new URI(simulationUri);
+    function loadSimulation(simConfig: SimConfig) {
         // the flag "false" configures the SQV for memory usage (instead of disk usage)
         simquestViewer = new SimQuestViewer(false);
-        logger.info("trying to load simulation: {fileUri.toString()}");
+        logger.severe("trying to load simulation: {simConfig.getSimulationUri()}");
         //
         // testing uri localization
-        //var uriLocalizer = new UriLocalizer();
-        //var url = uriLocalizer.localizeUrl(new URL("http://www.scy-lab.eu/sqzx/co2_house_en.sqzx"));
-        //logger.info("*** url after: {url.toString()}");
-        //
+        var uriLocalizer = new UriLocalizer();
+        var url = uriLocalizer.localizeUrl(new URL(simConfig.getSimulationUri()));
+        var fileUri = new URI(url.toString());
+	logger.severe("uri transformed to: {fileUri.toString()}");
         simquestViewer.setFile(fileUri);
         simquestViewer.setLookAndFeel(false);
         simquestViewer.createFrame(false);
@@ -375,7 +383,12 @@ public class SimulatorNode
             split = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
             split.setDividerLocation(0.75);
             split.setResizeWeight(0.75);
-            split.setBottomComponent(dataCollector);
+
+	    dataCollector.setVariableValues(simConfig.getVariables());
+	    dataCollector.setRelevantVariables(simConfig.getRelevantVariables());
+	    setMode(simConfig, dataCollector);
+
+	    split.setBottomComponent(dataCollector);
             split.setTopComponent(scroller);
             dataCollector.setPreferredSize(new Dimension(100, 300));
             // adding the splitcomponent to the simquestpanel
@@ -406,6 +419,30 @@ public class SimulatorNode
         }
     }
 
+    function setMode(simConfig: SimConfig, dataCollector: DataCollector): Void {
+	logger.info("setting mode to {simConfig.getMode().toString()}");
+	dataCollector.setMode(simConfig.getMode());
+	if (simConfig.getMode().equals(MODE.explore_only)) {
+	    // only simulation is visible
+	    // datasets cannot be stored
+	    //TODO deactivate saveAsDataset button
+	    saveDatasetButton.visible = false;
+	} else if (simConfig.getMode().equals(MODE.explore_simple_data)) {
+	    // only simulation is visible
+	    // saving a dataset = saving one row of selected variables
+	    // TODO adapt function doSavaAsDataset
+	    saveDatasetButton.visible = true;
+	} else if (simConfig.getMode().equals(MODE.collect_simple_data)) {
+	    // datacollector is visible, but not "select variables button"
+	    // uses pre-defined set of relevant variables
+	    saveDatasetButton.visible = true;
+	} else if (simConfig.getMode().equals(MODE.collect_data)) {
+	    // full features
+    	    saveDatasetButton.visible = true;
+	}
+    }
+
+
     function doSaveSimconfig(): Void {
         eloSaver.eloUpdate(createNewSimconfigElo(), this);
     }
@@ -415,7 +452,17 @@ public class SimulatorNode
     }
 
     function doSaveAsDataset(): Void {
-        eloSaver.otherEloSaveAs(createNewDatasetElo(), this);
+	if (eloDataset == null) {
+            eloDataset = eloFactory.createELO();
+            eloDataset.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(datasetType);
+        }
+	if (dataCollector.getMode().equals(MODE.explore_simple_data)) {
+	    dataCollector.cleanDataSet();
+	    dataCollector.addCurrentDatapoint();
+	    logger.info("dataCollector cleaned and one row added.");
+	}
+        eloDataset.getContent().setXmlString(jdomStringConversion.xmlToString(dataCollector.getDataSet().toXML()));
+        eloSaver.otherEloSaveAs(eloDataset, this);
     }
 
     function createNewSimconfigElo(): IELO {
@@ -427,14 +474,14 @@ public class SimulatorNode
         return eloSimconfig;
     }
 
-    function createNewDatasetElo(): IELO {
-        if (eloDataset == null) {
-            eloDataset = eloFactory.createELO();
-            eloDataset.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(datasetType);
-        }
-        eloDataset.getContent().setXmlString(jdomStringConversion.xmlToString(dataCollector.getDataSet().toXML()));
-        return eloDataset;
-    }
+//    function createNewDatasetElo(): IELO {
+//        if (eloDataset == null) {
+//            eloDataset = eloFactory.createELO();
+//            eloDataset.getMetadata().getMetadataValueContainer(technicalFormatKey).setValue(datasetType);
+//        }
+//        eloDataset.getContent().setXmlString(jdomStringConversion.xmlToString(dataCollector.getDataSet().toXML()));
+//        return eloDataset;
+//    }
 
     override public function eloSaveCancelled(elo: IELO): Void {}
 
