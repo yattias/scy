@@ -14,8 +14,8 @@
 
 	</appender>
 
-	<logger name="org.scy">
-		<level value="error" />
+	<logger name="eu.scy">
+		<level value="warn" />
 	</logger>
 
 	<logger name="eu.scy.client.desktop.scydesktop.utils.InjectObjectsUtils">
@@ -55,7 +55,7 @@
 	</logger>
 
 	<root>
-		<priority value="error" />
+		<priority value="debug" />
 		<appender-ref ref="myAppender"/>
 	</root>
 

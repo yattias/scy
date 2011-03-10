@@ -54,6 +54,8 @@ public class LoginDialog extends CustomNode, TbiReady {
    var loginWindow: StandardScyWindow;
    var loginNode: LoginNode;
    var windowTitle: String = null;
+   var initialStageTitle = "SCY-Lab";
+   var serverHostTitle = "";
    var userName:String = null;
    var tbi:ToolBrokerAPI = null;
 
@@ -70,8 +72,17 @@ public class LoginDialog extends CustomNode, TbiReady {
       } else {
          MouseBlocker.initMouseBlocker(scene.stage);
          ProgressOverlay.initOverlay(scene.stage);
+         setStageTitles();
       }
       initializer.launchTimer.endActivity();
+   }
+
+   function setStageTitles(){
+      initialStageTitle = scene.stage.title;
+      if (initializer.scyServerHost!=""){
+         serverHostTitle = " on {initializer.scyServerHost}";
+      }
+      scene.stage.title = "{initialStageTitle}{serverHostTitle}";
    }
 
    public override function create(): Node {
@@ -134,7 +145,7 @@ public class LoginDialog extends CustomNode, TbiReady {
    }
 
    function loginAction(userName: String, password: String): Void {
-      println("userName: {userName}, password: {password}");
+//      println("userName: {userName}, password: {password}");
       try {
          initializer.launchTimer.startActivity("login tbi");
          def loginResult = initializer.toolBrokerLogin.login(userName, password);
@@ -145,11 +156,11 @@ public class LoginDialog extends CustomNode, TbiReady {
       //placeScyDescktop(toolBrokerAPI, userName);
       }
       catch (e: LoginFailedException) {
-         logger.info("failed to login with {e.getUserName()}");
+         logger.error("failed to login with {e.getUserName()}");
          showLoginResult(null, userName);
       }
       catch (e: ServerNotRespondingException) {
-         logger.info("Could not connect to host {e.getServer()}:{e.getServer()}");
+         logger.error("Could not connect to host {e.getServer()}:{e.getServer()}");
          JOptionPane.showMessageDialog(null as Component, "Could not connect to host {e.getServer()}:{e.getPort()}", "Connection problems", JOptionPane.ERROR_MESSAGE);
       }
    }
@@ -246,7 +257,7 @@ public class LoginDialog extends CustomNode, TbiReady {
             }
          var stage = scene.stage;
          var stageTitle = stage.title;
-         stage.title = "{stageTitle} : {userName} in {missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getTitle()}";
+         stage.title = "{initialStageTitle} : {userName} in {missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getTitle()}{serverHostTitle}";
          FX.deferAction(function():Void{
                finishTbi(missionRunConfigs);
                var scyDesktop = placeScyDesktop(missionRunConfigs);
