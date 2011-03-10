@@ -36,15 +36,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-
 import org.apache.log4j.Logger;
-import org.jdom.JDOMException;
-
 import sqv.ISimQuestViewer;
 import sqv.ModelVariable;
 import sqv.data.IDataClient;
 import eu.scy.actionlogging.*;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
+import eu.scy.client.tools.scysimulator.SimConfig.MODE;
 import eu.scy.client.tools.scysimulator.logger.ScySimLogger;
 import eu.scy.elo.contenttype.dataset.DataSet;
 import eu.scy.elo.contenttype.dataset.DataSetColumn;
@@ -53,6 +51,7 @@ import eu.scy.elo.contenttype.dataset.DataSetRow;
 import eu.scy.notification.api.INotifiable;
 import eu.scy.notification.api.INotification;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import java.util.HashMap;
 import javax.swing.JTable;
 
 /**
@@ -63,12 +62,12 @@ import javax.swing.JTable;
  */
 public class DataCollector extends JPanel implements INotifiable, ActionListener, IDataClient {
 
-    private final static Logger LOGGER = Logger.getLogger(DataCollector.class.getName());
+    private final static Logger debugLogger = Logger.getLogger(DataCollector.class.getName());
     private ModelVariable rotationVariable = null;
     private final ResourceBundleWrapper bundle;
+    private JButton selectVariablesButton;
 
     public enum SCAFFOLD {
-
         VOTAT,
         INC_CHANGE,
         EXTREME_VALUES,
@@ -96,18 +95,19 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
     private boolean notThreadRunning = false;
     private Vector<String> shownMessages;
     private String notificationSender;
-
+    private MODE mode = MODE.collect_data;
+    
     public DataCollector(ISimQuestViewer simquestViewer, ToolBrokerAPI tbi, String eloURI) {
         this.bundle = new ResourceBundleWrapper(this);
         // initialize the logger(s)
         shownMessages = new Vector<String>();
         this.tbi = tbi;
         if (tbi != null) {
-            LOGGER.info("setting action logger to " + tbi.getActionLogger());
+            debugLogger.info("setting action logger to " + tbi.getActionLogger());
             logger = new ScySimLogger(simquestViewer.getDataServer(), tbi.getActionLogger(), eloURI);
             logger.setUsername(tbi.getLoginUserName());
         } else {
-            LOGGER.info("setting action logger to DevNullActionLogger");
+            debugLogger.info("setting action logger to DevNullActionLogger");
             logger = new ScySimLogger(simquestViewer.getDataServer(), new SystemOutActionLogger(), eloURI);
         }
         logger.logListOfVariables(ScySimLogger.VARIABLES_CONTAINED, logger.getInputVariables());
@@ -117,9 +117,7 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
         // setting some often-used variable
         this.simquestViewer = simquestViewer;
         simulationVariables = simquestViewer.getDataServer().getVariables("name is not relevant");
-        // setSelectedVariables(simquestViewer.getDataServer().getVariables("name is not relevant"));
-
-        // register agent
+        // register dataAgent
         dataAgent = new SCYDataAgent(this, simquestViewer.getDataServer());
         dataAgent.add(simquestViewer.getDataServer().getVariables("name is not relevant"));
         simquestViewer.getDataServer().register(dataAgent);
@@ -128,58 +126,76 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
         for (ModelVariable var : simquestViewer.getDataServer().getVariables("name is not relevant")) {
             if (var.getName().equals("rotation")) {
                 rotationVariable = var;
-                LOGGER.info("rotation variable found.");
+                debugLogger.info("rotation variable found.");
             }
         }
         if (simquestViewer.getApplication().getHeader().getDescription().equals("balance")) {
             balanceSlider = new BalanceSlider(simquestViewer.getDataServer());
-            LOGGER.info("balance simulation found.");
+            debugLogger.info("balance simulation found.");
         }
+    }
+
+    public MODE getMode() {
+	return this.mode;
+    }
+
+    public void setMode(MODE newMode) {
+	this.mode = newMode;
+	switch(this.mode) {
+	    case explore_only:
+		this.setVisible(false);
+		break;
+	    case explore_simple_data:
+		this.setVisible(false);
+		break;
+	    case collect_simple_data:
+		this.setVisible(true);
+		this.selectVariablesButton.setEnabled(false);
+		break;
+	    case collect_data:
+		this.setVisible(true);
+		this.selectVariablesButton.setEnabled(true);
+		break;
+	}
     }
 
     private void initGUI() {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createTitledBorder(getBundleString("DATACOLLECTOR_TITLE")));
-
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-
-        JButton button = new JButton(this.getBundleString("DATACOLLECTOR_SELECT_VARIABLES"));
-        button.setActionCommand("configure");
-        button.addActionListener(this);
-        buttonPanel.add(button);
-
-        button = new JButton(getBundleString("DATACOLLECTOR_ADD_DATAPOINT"));
+        selectVariablesButton = new JButton(this.getBundleString("DATACOLLECTOR_SELECT_VARIABLES"));
+        selectVariablesButton.setActionCommand("configure");
+        selectVariablesButton.addActionListener(this);
+        buttonPanel.add(selectVariablesButton);
+        JButton button = new JButton(getBundleString("DATACOLLECTOR_ADD_DATAPOINT"));
         button.setActionCommand("adddata");
         button.addActionListener(this);
         buttonPanel.add(button);
-
         checkbox = new JCheckBox(getBundleString("DATACOLLECTOR_ADD_DATAPOINTS_CONT"));
         checkbox.setSelected(false);
-        buttonPanel.add(checkbox);
-        // URL imageUrl = this.getClass().getResource("pc.gif");
-        // ImageIcon notificationImage = new ImageIcon(imageUrl);
+        // removing the "add continiously" checkbox for the time being
+	//buttonPanel.add(checkbox);
+        button = new JButton(getBundleString("clear dataset"));
+	button.setActionCommand("cleardata");
+        button.addActionListener(this);
+        buttonPanel.add(button);
 
-        notifyButton = new JButton("!");
+	notifyButton = new JButton("!");
         notifyButton.setFont(notifyButton.getFont().deriveFont(Font.BOLD));
         notifyButton.setVisible(false);
         notifyButton.setActionCommand("notification");
         notifyButton.addActionListener(this);
         Dimension ps = notifyButton.getPreferredSize();
         notifyButton.setPreferredSize(new Dimension((int) (ps.getWidth() * 1.2), (int) (ps.getHeight() * 1.2)));
-
-        // ImageBackgroundPanel imp = new ImageBackgroundPanel(notificationImage);
         buttonPanel.add(notifyButton);
         this.add(buttonPanel, BorderLayout.NORTH);
-
         tableModel = new DatasetTableModel(getSelectedVariables());
         table = new JTable(tableModel);
         table.setFillsViewportHeight(true);
         pane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        //pane.setSize(550, 140);
         pane.setPreferredSize(new Dimension(640, 160));
         pane.setSize(new Dimension(640, 160));
-        //pane.setMaximumSize(new Dimension(550, 140));
         pane.setViewportView(table);
         this.add(pane, BorderLayout.CENTER);
     }
@@ -200,8 +216,10 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
 
     public void addCurrentDatapoint() {
         if (selectedVariables.size() == 0) {
-            JOptionPane.showMessageDialog(this, getBundleString("DATACOLLECTOR_SELECT_VARIABLES_WARNING"), getBundleString("DATACOLLECTOR_SELECT_VARIABLES_WARNING_TITLE"), JOptionPane.INFORMATION_MESSAGE);
-        }
+            //JOptionPane.showMessageDialog(this, getBundleString("DATACOLLECTOR_SELECT_VARIABLES_WARNING"), getBundleString("DATACOLLECTOR_SELECT_VARIABLES_WARNING_TITLE"), JOptionPane.INFORMATION_MESSAGE);
+	    JOptionPane.showMessageDialog(this, "You have not selected any relevant variables;\nplease do so in the following dialog.", "Select variables", JOptionPane.INFORMATION_MESSAGE);
+	    showVariableSelectionDialog();
+	}
         ModelVariable var;
         List<String> values = new LinkedList<String>();
         for (Iterator<ModelVariable> vars = selectedVariables.iterator(); vars.hasNext();) {
@@ -218,13 +236,19 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
         }
     }
 
+    public void showVariableSelectionDialog() {
+	VariableSelectionDialog dialog = new VariableSelectionDialog(simquestViewer.getMainFrame(), this);
+        dialog.setVisible(true);
+    }
+
     @Override
     public void actionPerformed(ActionEvent evt) {
         if (evt.getActionCommand().equals("adddata")) {
             addCurrentDatapoint();
+	} else if (evt.getActionCommand().equals("cleardata")) {
+            cleanDataSet();
         } else if (evt.getActionCommand().equals("configure")) {
-            VariableSelectionDialog dialog = new VariableSelectionDialog(simquestViewer.getMainFrame(), this);
-            dialog.setVisible(true);
+            showVariableSelectionDialog();
         } else if (evt.getActionCommand().equals("notification")) {
             notify = false;
             int highlight = -1;
@@ -265,9 +289,6 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
                     shownMessages.remove(notificationMessage);
                 }
             }
-            // JOptionPane.showMessageDialog(this, notificationMessage);
-            // NotificationDialog d = new NotificationDialog(notificationMessage, "Notification", simquestViewer.getMainFrame(), -1);
-            // d.show();
         }
     }
 
@@ -284,12 +305,8 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
         texts.put("Try to confirm your hypothesis.", confirmHypothesis);
         texts.put("Try to indentify a hypothesis.", identifyHypothesis);
         return texts;
-
     }
 
-    /*
-     * public void newELO() { dataset.removeAll(); if (sandbox != null) { initSandbox(); } //text.setText(""); }
-     */
     public DataSet getDataSet() {
         return dataset;
     }
@@ -298,35 +315,17 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
         return new SimConfig(this);
     }
 
-    public void setSimConfig(String xmlSimConfig) {
-        try {
-            SimConfig config = new SimConfig(xmlSimConfig);
-            setSimConfig(config);
-        } catch (JDOMException ex) {
-            JOptionPane.showMessageDialog(this, "Could not parse the SimConfig; the current simulation will not be changed.", "Parsing problem", JOptionPane.WARNING_MESSAGE);
-        }
-    }
-
-    public void setSimConfig(SimConfig config) {
-        ModelVariable var;
-        try {
-            if (config.getSimulationName().equals(getSimQuestViewer().getApplication().getTopic(0).getName())) {
-                for (Iterator<Entry<String, String>> it = config.getVariables().entrySet().iterator(); it.hasNext();) {
-                    Entry<String, String> entry = it.next();
-                    var = getVariableByName(entry.getKey());
-                    if (var != null) {
-                        var.setValue(entry.getValue());
-                    }
-                }
-            } else {
-                // the simulation names doesn't match
-                JOptionPane.showMessageDialog(this, "The name of the current simulation and the config doesn't match - nothing loaded.", "Config file problem", JOptionPane.WARNING_MESSAGE);
-            }
-        } catch (NullPointerException ex) {
-            JOptionPane.showMessageDialog(this, "Could not update the Simulation with this Configuration. Do they really match?", "Update problem", JOptionPane.WARNING_MESSAGE);
-        }
-        // trigger an update to all registered clients
-        simquestViewer.getDataServer().updateClients();
+    public void setVariableValues(HashMap<String, String> variableValues) {
+	ModelVariable var;
+	for (Iterator<Entry<String, String>> it = variableValues.entrySet().iterator(); it.hasNext();) {
+	    Entry<String, String> entry = it.next();
+	    var = getVariableByName(entry.getKey());
+	    if (var != null) {
+		var.setValue(entry.getValue());
+	    }
+	}
+	// trigger an update to all registered clients
+	simquestViewer.getDataServer().updateClients();
     }
 
     @Override
@@ -391,6 +390,18 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
         selectedVariables = selection;
         cleanDataSet();
         logger.logListOfVariables(ScySimLogger.VARIABLES_SELECTED, selectedVariables);
+    }
+
+    public void setRelevantVariables(List<String> selectedVariables) {
+	ArrayList<ModelVariable> list = new ArrayList<ModelVariable>();
+	ModelVariable var;
+	for (String name: selectedVariables) {
+	    var = getVariableByName(name);
+	    if (var != null) {
+		list.add(var);
+	    }
+	}
+	setSelectedVariables(list);
     }
 
     private ModelVariable getVariableByName(String name) {
@@ -469,10 +480,7 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
                 JTextArea jta = new JTextArea(notification.getFirstProperty("message"));
                 JLabel textLabel = new JLabel();
                 textLabel.setBorder(BorderFactory.createTitledBorder("Message"));
-                // JTextPane jta = new JTextPane();
-                // jta.setText(notification.getProperty("message"));
                 jta.setEditable(false);
-                // jta.setLogicalStyle(centerStyle);
                 JLabel imageLabel = new JLabel();
                 ImageIcon ii;
                 String image = notification.getFirstProperty("image");
@@ -490,7 +498,6 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
                     }
                 } else {
                     centerPanel = new JPanel(new GridLayout(1, 1));
-
                 }
                 textLabel.add(jta, BorderLayout.CENTER);
                 centerPanel.add(jta);
@@ -508,7 +515,7 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
                 jd.setVisible(true);
 
             } else {
-                LOGGER.info("message without popup received");
+                debugLogger.info("message without popup received");
                 notificationSender = notification.getSender();
                 notificationMessage = message;
                 if (SwingUtilities.isEventDispatchThread()) {
@@ -552,7 +559,6 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
     }
 
     private void startNotifyThread() {
-
         if (!notThreadRunning && !notify) {
             notThreadRunning = true;
             notify = true;
@@ -563,7 +569,6 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
                     notifyButton.setVisible(true);
                 }
             });
-
             boolean up = true;
             Color upColor = Color.RED;
             Color downColor = notifyButton.getBackground();
@@ -623,7 +628,6 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
 
     private void setButtonStyle(final Color currentColor, final float currentFontSize) {
         SwingUtilities.invokeLater(new Runnable() {
-
             @Override
             public void run() {
                 notifyButton.setForeground(currentColor);
