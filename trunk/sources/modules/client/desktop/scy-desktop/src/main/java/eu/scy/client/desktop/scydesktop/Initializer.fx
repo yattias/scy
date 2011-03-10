@@ -46,6 +46,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import eu.scy.client.desktop.scydesktop.utils.ActivityTimer;
 import eu.scy.client.desktop.scydesktop.draganddrop.impl.SimpleDragAndDropManager;
 import eu.scy.client.desktop.scydesktop.uicontrols.MouseOverDisplay;
+import java.net.InetAddress;
 //import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
@@ -620,7 +621,7 @@ public class Initializer {
       JavaProperties.writePropertiesForApplication(printWriter);
       JavaProperties.writeApplicationParameters(FX.getArguments(), printWriter);
       printInitializerValues(printWriter);
-      logger.info("System information:\n{stringWriter.toString()}");
+      logger.warn("System information:\n{stringWriter.toString()}");
    }
 
    function setLocalUriReplacement() {
@@ -653,7 +654,7 @@ public class Initializer {
                return lookAndFeelInfo.getClassName();
             }
          }
-         logger.info("failed to find look and feel named: {lookAndFeel}");
+         logger.warn("failed to find look and feel named: {lookAndFeel}");
          return null;
       }
    }
@@ -688,16 +689,30 @@ public class Initializer {
          newScyServerPort = scyServerPort;
       }
       if (newScyServerHost.length() > 0) {
-         logger.info("setting scy server host to {newScyServerHost}");
+         newScyServerHost = newScyServerHost.toLowerCase();
          System.setProperty(scyServerNameKey, newScyServerHost);
          System.setProperty(sqlspacesServerKey, newScyServerHost);
          Configuration.getInstance().setScyServerHost(newScyServerHost);
+         scyServerHost = newScyServerHost;
       }
+      else{
+         if (not offlineMode){
+            scyServerHost = Configuration.getInstance().getRooloServer();
+         }
+      }
+
       if (newScyServerPort>0) {
          logger.info("setting scy server port to {newScyServerPort}");
          System.setProperty(scyServerPortKey, "{newScyServerPort}");
          Configuration.getInstance().setScyServerPort(newScyServerPort);
       }
+      if (offlineMode){
+         println("working offline");
+      }
+      else{
+         println("working with server: {scyServerHost}")
+      }
+
    }
 
    function setupToolBrokerLogin() {

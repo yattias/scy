@@ -60,7 +60,7 @@ public class JavaFxWindowStyler extends WindowStyler {
          }
       }
       if (colorSchemeId == null) {
-         logger.warn("failed to find colorSchemeId for scyElo:uri:{scyElo.getUri()}, type:{scyElo.getTechnicalFormat()}, role:{scyElo.getFunctionalRole()}, colorSChemeId:{scyElo.getColorSchemeId()}");
+         logger.warn("failed to find colorSchemeId for scyElo:uri:{scyElo.getUri()}, type:{scyElo.getTechnicalFormat()}, role:{scyElo.getFunctionalRole()}, colorSchemeId:{scyElo.getColorSchemeId()}");
          colorSchemeId = ColorSchemeId.NINE;
       }
       return windowColorSchemes.getWindowColorScheme(colorSchemeId);

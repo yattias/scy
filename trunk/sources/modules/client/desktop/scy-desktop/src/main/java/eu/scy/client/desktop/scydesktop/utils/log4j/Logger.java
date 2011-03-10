@@ -43,31 +43,31 @@ public class Logger
 
    public void info(java.lang.Object message)
    {
-      logger.debug(message);
+      logger.info(message);
    }
 
    public void info(java.lang.Object message, java.lang.Throwable t)
    {
-      logger.debug(message, t);
+      logger.info(message, t);
    }
 
    public void warn(java.lang.Object message)
    {
-      logger.debug(message);
+      logger.warn(message);
    }
 
    public void warn(java.lang.Object message, java.lang.Throwable t)
    {
-      logger.debug(message, t);
+      logger.warn(message, t);
    }
 
    public void error(java.lang.Object message)
    {
-      logger.debug(message);
+      logger.error(message);
    }
 
    public void error(java.lang.Object message, java.lang.Throwable t)
    {
-      logger.debug(message, t);
+      logger.error(message, t);
    }
 }
