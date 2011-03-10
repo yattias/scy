@@ -14,8 +14,10 @@ import sqv.SimQuestViewer;
 import eu.scy.notification.api.INotifiable;
 import eu.scy.notification.api.INotification;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import java.awt.Dimension;
 import java.util.logging.Logger;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import utils.FileName;
 
 public class SCYSimulatorStandalone implements INotifiable {
@@ -28,39 +30,43 @@ public class SCYSimulatorStandalone implements INotifiable {
     private DataCollector dataCollector;
 
     public SCYSimulatorStandalone() throws URISyntaxException, InterruptedException, TupleSpaceException {
-        SimQuestViewer simquestViewer = new SimQuestViewer(false);
+        SimQuestViewer simquestViewer = new SimQuestViewer(true);
 
 	//URI fileUri = new URI("http://www.scy-lab.eu/sqzx/RotatingPendulum.sqzx");
     	//URI fileUri = new URI("http://www.scy-lab.eu/sqzx/balance.sqzx");
     	//URI fileUri = new URI("http://localhost/co2_house.sqzx");
     	//URI fileUri = new URI("http://www.scy-lab.eu/sqzx/co2_house.sqzx");
-    	URI fileUri = new URI("http://www.scy-lab.eu/sqzx/pizza.sqzx");
+    	//URI fileUri = new URI("http://www.scy-lab.eu/sqzx/pizza.sqzx");
     	//URI fileUri = new URI("http://alephnull.de/co2_house.sqzx");
     	
     	//FileName fileName = new FileName("D:/projects/scy/sqzx/co2-converter/co2_converter.sqzx");
 	//FileName fileName = new FileName("D:/projects/scy/sqzx/pizza/PizzaSimulation/pizza.sqx");
-        //FileName fileName = new FileName("D:/temp/sqzx/co2-house/co2_house.sqzx");
+        URI fileUri = new URI("file:lib/sqzx/pizza.sqzx");
         //URI fileUri = fileName.toURI();
 
-	LOGGER.log(Level.INFO, "SimQuestNode.createSimQuestNode(). trying to load: {0}", fileUri.toString());
+	LOGGER.log(Level.INFO, "trying to load: {0}", fileUri.toString());
         simquestViewer.setFile(fileUri);
         simquestViewer.createFrame(false);
         simquestPanel = new JPanel();
         dataCollector = null;
 
         try {
-            simquestViewer.run();
-            simquestPanel.setLayout(new BorderLayout());
-            simquestViewer.getInterfacePanel().setMinimumSize(simquestViewer.getRealSize());
-	    JScrollPane scroller = new JScrollPane();
-	    scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-	    scroller.setViewportView(simquestViewer.getInterfacePanel());
-            simquestPanel.add(scroller, BorderLayout.CENTER);
+	    simquestViewer.run();
             dataCollector = new DataCollector(simquestViewer, tbi, "n/a");
-            simquestPanel.add(dataCollector, BorderLayout.SOUTH);
+            simquestViewer.getInterfacePanel().setPreferredSize(simquestViewer.getRealSize());
+	    JScrollPane scroller = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            scroller.setViewportView(simquestViewer.getInterfacePanel());
+            JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+            split.setDividerLocation(0.75);
+            split.setResizeWeight(0.75);
+            split.setBottomComponent(dataCollector);
+            split.setTopComponent(scroller);
+            dataCollector.setPreferredSize(new Dimension(100, 300));
+            split.setEnabled(true);
+	    simquestPanel.add(split, BorderLayout.CENTER);
         } catch (java.lang.Exception e) {
-            LOGGER.warning("SimQuestNode.createSimQuestNode(). exception caught:");
-            e.printStackTrace();
+            LOGGER.severe(e.getMessage());
+	    e.printStackTrace();
             JTextArea info = new JTextArea(4, 42);
             info.append("Simulation could not be loaded.\n");
             info.append("Probably the simulation file was not found,\n");
@@ -76,10 +82,12 @@ public class SCYSimulatorStandalone implements INotifiable {
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setVisible(true);
         // addJXLayer(simquestPanel, mainFrame);
-        String userName = dataCollector.getLogger().getUserName();
-        String toolName = dataCollector.getLogger().getToolName();
-        toolAliveSpace = new TupleSpace(new User(userName), "scy.collide.info", 2525, "toolAliveSpace");
-        startAliveThread(toolAliveSpace, userName, toolName);
+        //String userName = dataCollector.getLogger().getUserName();
+        //String toolName = dataCollector.getLogger().getToolName();
+        String userName = "n/a";
+        String toolName = "scysimulator standalone";
+        //toolAliveSpace = new TupleSpace(new User(userName), "scy.collide.info", 2525, "toolAliveSpace");
+        //startAliveThread(toolAliveSpace, userName, toolName);
     }
 
     private void startAliveThread(final TupleSpace toolAliveSpace, final String userName, final String toolName) {
