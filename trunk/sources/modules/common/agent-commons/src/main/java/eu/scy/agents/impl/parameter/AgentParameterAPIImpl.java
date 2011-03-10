@@ -1,15 +1,16 @@
 package eu.scy.agents.impl.parameter;
 
+import info.collide.sqlspaces.client.TupleSpace;
+import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleSpaceException;
+import info.collide.sqlspaces.commons.User;
+
 import java.rmi.dgc.VMID;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import eu.scy.common.configuration.Configuration;
-import info.collide.sqlspaces.client.TupleSpace;
-import info.collide.sqlspaces.commons.Tuple;
-import info.collide.sqlspaces.commons.TupleSpaceException;
-import info.collide.sqlspaces.commons.User;
+import src.main.java.eu.scy.common.configuration.Configuration;
 import eu.scy.agents.api.parameter.AgentParameter;
 import eu.scy.agents.api.parameter.AgentParameterAPI;
 import eu.scy.agents.impl.AgentProtocol;
