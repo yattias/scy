@@ -13,7 +13,7 @@ import org.jdom.output.XMLOutputter;
 // TODO: a set of JUnit tests
 public class DataSetShowcase {
 
-	String xmlString = "<dataset>  <header language=\"en\">    <column>      <symbol>T</symbol>"
+	String _xmlString = "<dataset>  <header language=\"en\">    <column>      <symbol>T</symbol>"
 			+ "<description>T</description><type>double</type></column><column>"
 			+ "<symbol>rc</symbol><description>rc</description><type>double</type>"
 			+ "</column>    <column>      <symbol>time</symbol> <description />"
@@ -22,6 +22,7 @@ public class DataSetShowcase {
 			+ "<value>19.0</value><value>2.0</value>    <value>11.0</value>  </row>"
 			+ " <row>    <value>18.0</value><value>3.0</value>    <value>12.0</value>"
 			+ " </row></dataset>";
+	String xmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>	<dataset>	  <header language=\"en\" />	</dataset>";
 
 	public DataSetShowcase() {
 		DataSet dataset;
