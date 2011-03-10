@@ -68,7 +68,7 @@ public class ExtractKeyphrasesTest extends AbstractTestFixture {
 		String keywords = (String) response.getField(3).getValue();
 		assertEquals(
 				"wrong keywords",
-				"VOC content;used as solvent;natural paints;modern paints;natural paint;chemical paints;paint companies;still contain;Natural paints;Environmentally Friendly;conventional paint companies;conventional paint;non-toxic paints;",
+				"still contain;paint companies;VOC content;used as solvent;Natural paints;Environmentally Friendly;conventional paint companies;natural paints;natural paint;modern paints;conventional paint;chemical paints;",
 				keywords);
 	}
 }

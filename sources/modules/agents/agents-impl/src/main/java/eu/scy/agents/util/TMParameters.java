@@ -1,10 +1,9 @@
 package eu.scy.agents.util;
 
 /**
- * Class that holds all parameter names and constants used in the centime
- * systems.
+ * Class that holds all parameter names and constants used in the text mining agents.
  * 
- * @author Florian Schulz
+ * @author Florian Schulz, Jörg Kindermann
  * 
  */
 public abstract class TMParameters {
@@ -45,5 +44,23 @@ public abstract class TMParameters {
 	 * read.
 	 */
 	public static final String PARSER_TYPE = "IsCorpusDPA";
+
+    /**
+     * regular expressions needed to tokenize text and split into sentences
+     */
+    public static final String ALPHA_PATTERN = "a-zA-ZäöüßáéíúóúàèìòùãõâêîôûåäëïöüçñøýÿÄÖÜÁÉÍÚÓÚÀÈÌÒÙÃÕÂÊÎÔÛÄËÏÖÜÇÑØÝ";
+    public static final String URL_PATTERN = "(http|https)://[-_\\.\\~" + ALPHA_PATTERN
+            + "0-9/=&\\?]+";
+    public static final String EMAIL_PATTERN = "[-" + ALPHA_PATTERN + "0-9\\.]+@[-" + ALPHA_PATTERN
+            + "0-9\\.]+";
+    public static final String DATE_PATTERN = "(0?[1-9]|[12][0-9]|3[01])[\\./](0?[1-9]|1[012])[\\./]((19|20)\\d\\d)";
+    public static final String MONTH_PATTERN = "(0?[1-9]|[12][0-9]|3[01])[\\./] *([A-Z][a-z]+)([\\./]*((19|20)\\d\\d))*";
+    public static final String TIME_PATTERN = "([01]?[0-9]|2[0-3]):[0-5][0-9]";
+    public static final String NUMBER_PATTERN = "[\\-\\+]*[0-9]+([,\\.][0-9]+)*";
+    public static final String WORD_PATTERN = "[" + ALPHA_PATTERN + "°\\'\\`²]+";
+    public static final String PHRASE_PATTERN = WORD_PATTERN + "([-&]" + WORD_PATTERN + ")*";
+    public static final String PUNCT_PATTERN = "\\-\\!\"/\\?\\\\\\*\\+\\~_:\\.,;=#";
+    public static final String BRACKET_PATTERN = "\\]\\(\\)\\[\\}\\{><";
+    public static final String SENTENCE_DELIMITER = "(W[\\.:\\!;\\?]W|\\)[\\.:\\!;\\?]W|N[\\.:\\!;\\?]W|W[\\.:\\!;\\?]N|\"[\\.:\\!;\\?]W|\\.\\.\\.)";
 
  }

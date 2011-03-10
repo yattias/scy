@@ -35,8 +35,11 @@ public class ComputeKeywordsInSentenceHistogramTest extends AbstractTestFixture 
 
   private IELO largeElo, smallElo, emptyElo;
 
-  private String[] keywords = { "ingredients", "nontoxic", "binder", "solvent", "labels", "toxic",
-                               "chemical", "voc", "paint", "health", "natural", "pigment" };
+  // private String[] keywords = { "ingredients", "nontoxic", "binder", "solvent", "labels",
+  // "toxic",
+  // "chemical", "voc", "paint", "health", "natural", "pigment" };
+
+  private String[] keywords = { "atmosphere", "human", "fossil fuels", "balance", "carbon", "trees" };
 
   private ArrayList<String> keywordList;
 
@@ -86,7 +89,7 @@ public class ComputeKeywordsInSentenceHistogramTest extends AbstractTestFixture 
     Document docResult = (Document) result.get(ObjectIdentifiers.DOCUMENT);
     HashMap<Integer, Integer> hist = docResult.getFeature(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM);
     String string = hist.toString();
-    assertEquals(string, "{0=16, 1=14, 2=7, 3=5, 4=1, 5=1}");
+    assertEquals(string, "{0=1, 2=1, 3=2}");
   }
 
   @Test
@@ -105,7 +108,7 @@ public class ComputeKeywordsInSentenceHistogramTest extends AbstractTestFixture 
     String string = hist.toString();
     assertEquals(string, "{0=1}");
   }
-  
+
   @Test
   public void testEmptyComputeKeywordsInSentenceHistogramTest() {
     String XMLPATH = "//learner_proc/proc_hypothesis/hypothesis";

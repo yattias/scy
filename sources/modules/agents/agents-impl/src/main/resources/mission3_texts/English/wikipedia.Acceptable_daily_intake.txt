@@ -1,0 +1,86 @@
+Acceptable daily intake - Wikipedia, the free encyclopedia
+
+Acceptable daily intake
+From Wikipedia, the free encyclopedia Jump to: navigation, search This article needs additional citations for verification.
+Please help improve this article by adding reliable references. Unsourced material may be challenged and removed. (March 2010)
+
+Acceptable daily intake or ADI is a measure of the amount of a specific substance (usually a food additive, or a residue of a veterinary drug or pesticide) in food or drinking water that can be ingested (orally) on a daily basis over a lifetime without an appreciable health risk.[1] ADIs are expressed by body mass, usually in milligrams (of the substance) per kilograms of body mass per day.[2][clarification needed]
+
+Contents
+·1 History ·2 Concept · 3 See also ·4 External links · 5 Notes
+
+[edit] History
+This concept was first introduced in 1961 by the Council of Europe and later the Joint FAO/WHO Expert Committee on Food Additives (JECFA), a committee maintained by two United Nations bodies: the Food and Agriculture Organization FAO and the WHO World Health Organization.[2]
+
+[edit] Concept
+An ADI value is based on current research, with long-term studies on animals and observations of humans. First, a No Observable (Adverse) Effect Level,[3] the amount of a substance that shows no toxic effects, is determined on the basis of studies intended to measure an effect at several doses. Usually the studies are performed with several doses including high doses. In the case of several studies on different effects, the lowest NO(A)EL is usually taken. Then, the NOEL (or NOAEL) is scaled by a safety factor, conventionally 100, to account for the differences between test animals and humans (factor of 10) and possible differences in sensitivity between humans (another factor of 10). The ADI is usually given in mg per kg body weight per day.[4] The ADI is considered a safe intake level for a healthy adult of normal weight who consumes an average daily amount of the substance in question. Those who are overweight or underweight, or who have health problems, should seek medical advice. The higher the ADI, the "safer" a compound is for regular ingestion. The ADI concept can be understood as a measure to indicate the toxicity from long-term exposure to repeated ingestion of chemical compounds in foods (present and/or added), as opposed to acute toxicity. Acceptable daily intake 1
+
+Acceptable daily intake - Wikipedia, the free encyclopedia
+
+[edit] See also
+· Acceptable daily application · Food labeling regulations · International Programme on Chemical Safety · Dietary Reference Intake
+
+[edit] External links
+· Questions and Answers about Acceptable Daily Intake, International Food Information Council. · US Food and Drug Administration's Cumulative Estimated Daily Intake/Acceptable Daily Intake Database for food contact substances
+
+[edit] Notes
+
+1. ^ WHO (1987), "Principles for the safety assessment of food additives and contaminants in food", Environmental Health Criteria 70., http://www.inchem.org/documents/ehc/ehc/ehc70.htm 2. ^ a b Lu, Frank C.; Sam Kacew (2002). Lu's Basic Toxicology: Fundamentals, Target Organs and Risk Assessment. Taylor & Francis. p. 364. ISBN 0-415-24855-8. http://books.google.com/books?id=9VcZmebxTScC&pg=PA364&dq=%22Acceptable+Daily+Intake%22&lr= 3. ^ Fennema, Owen R. (1996). Food chemistry. New York, N.Y: Marcel Dekker. p. 828. ISBN 0-8247-9691-8. http://books.google.com/books?id=u0Xx8-8_5EcC&pg=PA828&dq=%22Acceptable+Daily+Intake%22+%22 4. ^ Mackey, Maureen A.; Kotsonis, Frank N. (2002). Nutritional toxicology. Washington, DC: Taylor & Francis. p. 258. ISBN 0-415-24865-5. http://books.google.com/books?id=SBiWo6_RCJ8C&pg=PA258&dq=%22Acceptable+Daily+Intake%22+%2 v Â· d Â· eConsumer food safety Adulterants/Food contaminants Toxins/Poisons 3-MCPD Â· Aldicarb Â· Cyanide Â· Formaldehyde Â· Lead poisoning Â· Melamine Â· Mercury in fish Â· Sudan red dye Aflatoxin Â· Arsenic contamination of groundwater Â· Benzene in soft drinks Â· Bisphenol A Â· Mycotoxins Â· Shellfish poisoning Botulism Â· Campylobacter jejuni Â· Clostridium perfringens Â· Escherichia coli O157:H7 Â· Hepatitis A Â· Hepatitis E Â· Listeria Â· Norovirus Â· Rotavirus Â· Salmonella Chlorpyrifos Â· DDT Â· Lindane Â· Malathion Â· Methamidophos Benzoic acid Â· EDTA Â· Sodium benzoate Acesulfame potassium Â· Aspartame Â· Cyclamate Â· High fructose corn syrup Â· Saccharin Â· Sorbitol Â· Sucralose 2005 Indonesia food scare Â· 2006 North American E. coli outbreak Â· 2007 Vietnam food scare Â· 2008 Canadian listeriosis outbreak Â· 2008 Chinese milk scandal Â· 2008 Irish pork crisis Â· 2008 United States salmonellosis outbreak Â· Food safety incidents in the People's Republic of China Â· Bradford sweets poisoning Â· Chilean grape scare Â· ICA meat repackaging controversy Â· Minamata disease Â· Toxic oil syndrome Â· List of foodborne illness outbreaks Â· 2
+
+Microorganisms Pesticides Overuse/Residues Preservatives Sweeteners Food scares
+
+[edit] See also
+
+Acceptable daily intake - Wikipedia, the free encyclopedia List of food contamination incidents Acceptable daily intake Â· E number Â· Early history of food regulation in the United States Â· European Food Safety Authority Â· Food and Drug Administration Â· Food labeling regulations Â· Food law Â· Food Safety Act 1990 Â· Food Standards Agency Â· International Food Safety Network Â· Pure Food and Drug Act Â· Quality Assurance International Â· List of food safety organisations 4-Hydroxynonenal Â· Acrylamide Â· Creutzfeldtâ Jakob disease Â· Food irradiation Â· Heterocyclic amines Â· Hydrolyzed vegetable protein Â· Modified starch Â· Nitrosamines Â· Polycyclic aromatic hydrocarbon Â· Shortening Â· Trans fat Curing (food preservation) Â· Foodborne illness Â· Food marketing Â· Food politics Â· Food preservation Â· Food quality Â· Food safety in the People's Republic of China Â· Food safety (science) Â· Genetically modified food v Â· d Â· eToxicology Toxinology Â· History of poison Fields Aquatic toxicology Â· Ecotoxicology Â· Entomotoxicology Â· Environmental toxicology Â· Forensic toxicology Â· In vitro toxicology Â· Toxicogenomics Poison Â· Venom Â· Toxicant (Toxin) Â· Acceptable daily intake Â· Acute toxicity Â· Bioaccumulation Â· Biomagnification Â· Fixed Dose Procedure Â· Median lethal dose (LD50) Â· Lethal dose Â· Toxic capacity Â· Toxicity Class Antidote Â· Gastric lavage Â· Whole bowel irrigation Â· Activated carbon Â· Cathartic Â· Hemodialysis Â· Chelation therapy Â· Hemoperfusion Bradford Â· Minamata Â· Niigata Â· Alexander Litvinenko Â· Bhopal Â· 2007 pet food recalls Â· Seveso disaster Â· List of poisonings Hazard symbol Â· Carcinogen Â· Mutagen Â· List of extremely hazardous substances Â· Biological warfare Â· Food safety
+
+Regulatory/Watchdog
+
+Food Processing
+
+Misc
+
+Concepts
+
+Treatments Incidents Related topics
+
+M: gen pto ant TOX / txn Retrieved from "http://en.wikipedia.org/wiki/Acceptable_daily_intake" Categories: Nutrition | Toxicology Hidden categories: Articles needing additional references from March 2010 | All articles needing additional references | All pages needing cleanup | Wikipedia articles needing clarification from March 2010
+Personal tools
+
+· Log in / create account
+Namespaces
+
+· Article · Discussion
+
+[edit] Notes
+
+3
+
+Acceptable daily intake - Wikipedia, the free encyclopedia
+Variants Views
+
+· Read · Edit · View history
+Actions Search
+
+Navigation
+
+· Main page · Contents · Featured content · Current events · Random article · Donate to Wikipedia
+Interaction
+
+· Help · About Wikipedia · Community portal · Recent changes · Contact Wikipedia
+Toolbox
+
+· What links here · Related changes · Upload file · Special pages · Permanent link · Cite this page
+Print/export
+
+· Create a book · Download as PDF · Printable version
+Languages
+
+· Deutsch · FranÃ§ais · Italiano · Nederlands · æ ¥æ ¬èª · Polski Variants 4
+
+Acceptable daily intake - Wikipedia, the free encyclopedia · PortuguÃªs · Ð Ñ Ñ Ñ ÐºÐ¸Ð¹ · Suomi · Svenska · TÃ¼rkÃ§e · This page was last modified on 23 February 2011 at 06:23. · Text is available under the Creative Commons Attribution-ShareAlike License; additional terms may apply. See Terms of Use for details. Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc., a non-profit organization. · Contact us · Privacy policy · About Wikipedia · Disclaimers · ·
+
+Languages
+
+5
+
+

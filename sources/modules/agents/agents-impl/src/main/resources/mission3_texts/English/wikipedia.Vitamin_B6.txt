@@ -1,0 +1,172 @@
+Vitamin B6 - Wikipedia, the free encyclopedia
+
+Vitamin B6
+From Wikipedia, the free encyclopedia Jump to: navigation, search
+
+Pyridoxal phosphate Vitamin B6 is a water-soluble vitamin and is part of the vitamin B complex group. Several forms of the vitamin are known, but pyridoxal phosphate (PLP) is the active form and is a cofactor in many reactions of amino acid metabolism, including transamination, deamination, and decarboxylation. PLP also is necessary for the enzymatic reaction governing the release of glucose from glycogen.
+
+Contents
+· 1 History · 2 Forms · 3 Functions  3.1 Amino acid metabolism  3.2 Gluconeogenesis  3.3 Lipid metabolism · 4 Metabolic functions  4.1 Amino acid metabolism  4.2 Neurotransmitter synthesis  4.3 Histamine synthesis  4.4 Hemoglobin synthesis and function  4.5 Gene expression · 5 Dietary reference intakes · 6 Food sources · 7 Absorption and excretion · 8 Deficiencies  8.1 Clinical assessment of vitamin B6 · 9 Toxicity · 10 Oncology · 11 Preventive roles and therapeutic uses · 12 References · 13 External links
+
+Vitamin B6
+
+1
+
+Vitamin B6 - Wikipedia, the free encyclopedia
+
+[edit] History
+This section needs additional citations for verification.
+Please help improve this article by adding reliable references. Unsourced material may be challenged and removed. (May 2010)
+
+Vitamin B6 is a water-soluble compound that was discovered in the 1930s during nutrition studies on rats. In 1934, a Hungarian physician, Paul GyÃ¶rgy discovered a substance that was able to cure a skin disease in rats (dermititis acrodynia), this substance he named vitamin B6.[1][citation needed] In 1938, Lepkovsky isolated vitamin B6 from rice bran. Harris and Folkers in 1939 determined the structure of pyridoxine, and, in 1945, Snell was able to show that there are two forms of vitamin B6, pyridoxal and pyridoxamine. Vitamin B6 was named pyridoxine to indicate its structural homology to pyridine. All three forms of vitamin B6 are precursors of an activated compound known as pyridoxal 5'-phosphate (PLP), which plays a vital role as the co-factor of a large number of essential enzymes in the human body. Enzymes dependent on PLP focus a wide variety of chemical reactions mainly involving amino acids. The reactions carried out by the PLP-dependent enzymes that act on amino acids include transfer of the amino group, decarboxylation, racemization, and beta- or gamma-elimination or replacement. Such versatility arises from the ability of PLP to covalently bind the substrate, and then to act as an electrophilic catalyst, thereby stabilizing different types of carbanionic reaction intermediates. Overall, the Enzyme Commission has catalogued more than 140 PLP-dependent activities, corresponding to ~4% of all classified activities.[2]
+
+[edit] Forms
+
+Pyridoxine Seven forms of this vitamin are known: · Pyridoxine (PN), the form that is most commonly given as vitamin B6 supplement · Pyridoxine 5'-phosphate (PNP) · Pyridoxal (PL) · Pyridoxal 5'-phosphate (PLP), the metabolically active form (sold as 'P-5-P' vitamin supplement) · Pyridoxamine (PM) · Pyridoxamine 5'-phosphate (PMP) · 4-Pyridoxic acid (PA), the catabolite which is excreted in the urine All forms except PA can be interconverted.
+
+[edit] History
+
+2
+
+Vitamin B6 - Wikipedia, the free encyclopedia
+
+[edit] Functions
+Pyridoxal phosphate, the metabolically active form of vitamin B6, is involved in many aspects of macronutrient metabolism, neurotransmitter synthesis, histamine synthesis, hemoglobin synthesis and function and gene expression. Pyridoxal phosphate generally serves as a coenzyme for many reactions and can help facilitate decarboxylation, transamination, racemization, elimination, replacement and beta-group interconversion reactions.[3] The liver is the site for vitamin B6 metabolism.
+
+[edit] Amino acid metabolism
+Pyridoxal phosphate (PLP) is a cofactor in transaminases that can catabolize amino acids. PLP is also an essential component of two enzymes that converts methionine to cysteine via two reactions. Low vitamin B6 status will result in decreased activity of these enzymes. PLP is also an essential cofactor for enzymes involved in the metabolism of selenomethionine to selenohomocysteine and then from selenohomocysteine to hydrogen selenide. Vitamin B6 is also required for the conversion of tryptophan to niacin and low vitamin B6 status will impair this conversion.[3] PLP is also used to create physiologically active amines by decarboxylation of amino acids. Some notable examples of this include: histidine to histamine, tryptophan to serotonin, glutamate to gamma-aminobutyric acid (GABA), and dihydroxyphenylalanine to dopamine.
+
+[edit] Gluconeogenesis
+Vitamin B6 also plays a role in gluconeogenesis. Pyridoxal phosphate can catalyze transamination reactions that are essential for the providing amino acids as a substrate for gluconeogenesis. Also, vitamin B6 is a required coenzyme of glycogen phosphorylase,[3] the enzyme that is necessary for glycogenolysis to occur.
+
+[edit] Lipid metabolism
+Vitamin B6 is an essential component of enzymes that facilitate the biosynthesis of sphingolipids.[3] Particularly, the synthesis of ceramide requires PLP. In this reaction serine is decarboxylated and combined with palmitoyl-CoA to form sphinganine which is combined with a fatty acyl CoA to form dihydroceramide. Dihydroceramide is then further desaturated to form ceramide. In addition, the breakdown of sphingolipids is also dependent on vitamin B6 since S1P lyase, the enzyme responsible for breaking down sphingosine-1-phosphate, is also PLP dependent.
+
+[edit] Metabolic functions
+This section needs additional citations for verification.
+Please help improve this article by adding reliable references. Unsourced material may be challenged and removed. (May 2010)
+
+The primary role of vitamin B6 is to act as a coenzyme to many other enzymes in the body that are involved predominantly in metabolism. This role is performed by the active form, pyridoxal phosphate. This active form is converted from the two other natural forms founds in food: pyridoxal, pyridoxine and pyridoxamine. Vitamin B6 is involved in the following metabolic processes: · amino acid, glucose and lipid metabolism · neurotransmitter synthesis · histamine synthesis · hemoglobin synthesis and function [edit] Functions 3
+
+Vitamin B6 - Wikipedia, the free encyclopedia · gene expression
+
+[edit] Amino acid metabolism
+Pyridoxal phosphate is involved in almost all amino acid metabolism, from synthesis to breakdown. 1. Transamination: transaminase enzymes needed to break down amino acids are dependent on the presence of pyridoxal phosphate. The proper activity of these enzymes are crucial for the process of moving amine groups from one amino acid to another. 2. Transsulfuration: Pyridoxal phosphate is a coenzyme needed for the proper function of the enzymes cystathionine synthase and cystathionase. These enzymes work to transform methionine into cysteine. 3. Selenoamino acid metabolism: Selenomethionine is the primary dietary form of selenium. Pyridoxal phosphate is needed as a cofactor for the enzymes that allow selenium to be used from the dietary form. Pyridoxal phosphate also plays a cofactor role in releasing selenium from selenohomocysteine to produce hydrogen selenide. This hydrogen selenide can then be used to incorporate selenium into selenoproteins.[3] 4. Vitamin B6 is also required for the conversion of tryptophan to niacin and low vitamin B6 status will impair this conversion.[3]
+
+[edit] Neurotransmitter synthesis
+Pyridoxal phosphate-dependent enzymes play a role in the biosynthesis of four important neurotransmitters: serotonin, epinephrine, norepinephrine and gamma-aminobutyric acid.[3] Serine racemase, which synthesizes the neuromodulator D-serine, is also a pyridoxal phosphate-dependent enzyme.
+
+[edit] Histamine synthesis
+Pyridoxal phosphate is involved in the metabolism of histamine.[3]
+
+[edit] Hemoglobin synthesis and function
+Pyridoxal phosphate aids in the synthesis of heme and can also bind to two sites on hemoglobin to enhance the oxygen binding of hemoglobin.[3]
+
+[edit] Gene expression
+It transforms homocysteine into cistation then into cysteine. Pyridoxal phosphate has been implicated in increasing or decreasing the expression of certain genes. Increased intracellular levels of the vitamin will lead to a decrease in the transcription of glucocorticoid hormones. Also, vitamin B6 deficiency will lead to the increased expression of albumin mRNA. Also, pyridoxal phosphate will influence gene expression of glycoprotein IIb by interacting with various transcription factors. The result is inhibition of platelet aggregation.[3]
+
+[edit] Dietary reference intakes
+Life Stage Group RDA/AI* UL
+
+[edit] Metabolic functions
+
+4
+
+Vitamin B6 - Wikipedia, the free encyclopedia Infants (mg/day) (mg/day) 0â 6 months 0.1* ND 7â 12 months 0.3* ND Children 1-3 yrs 0.5 30 4-8 yrs 0.6 40 Males 9-13 yrs 1.0 60 14-18 yrs 1.3 80 19-50 yrs 1.3 100 50- >70 yrs 1.7 100 Females 9-13 yrs 1.0 60 13-18 yrs 1.2 80 19-50 yrs 1.3 100 50- >70 yrs 1.5 100 Pregnancy <18 yrs 1.9 80 19-50 yrs 1.9 100 Lactation <18 yrs 2.0 80 19-50 yrs 2.0 100 The Institute of Medicine notes that "No adverse effects associated with Vitamin B6 from food have been reported. This does not mean that there is no potential for adverse effects resulting from high intakes. Because data on the adverse effects of Vitamin B6 are limited, caution may be warranted. Sensory neuropathy has occurred from high intakes of supplemental forms."[4] See the full Dietary Reference Intake Table [1] from the Institute of Medicine.
+
+[edit] Food sources
+Vitamin B6 is widely distributed in foods in both its free and bound forms. Good sources include meats, whole grain products, vegetables, nuts and bananas. Cooking, storage and processing losses of vitamin B6 vary and in some foods may be more than 50%,[5] depending on the form of vitamin present in the food. Plant foods lose the least during processing as they contain mostly pyridoxine which is far more stable than the pyridoxal or pyridoxamine found in animal foods. For example, milk can lose 30-70% of its vitamin B6 content when dried.[3] Vitamin B6 is found in the germ and aleurone layer of grains and milling results to the reduction of this vitamin in white flour. Freezing and canning are other food processing methods that results in the loss of vitamin B6 in foods.[6]
+
+[edit] Absorption and excretion
+Vitamin B6 is absorbed in the jejunum and ileum via passive diffusion. With the capacity for absorption being so great, animals are able to absorb quantities much greater than what is needed for physiological demands. The absorption of pyridoxal phosphate and pyridoxamine phosphate involves their dephosphorylation catalyzed by a membrane-bound alkaline phosphatase. Those products and non-phosphorylated vitamers in the digestive tract are absorbed by diffusion, which is driven by trapping of the vitamin as 5'-phosphates through the action of phosphorylation (by a pyridoxal kinase) in the jejunal mucosa. The trapped pyridoxine and pyridoxamine are oxidized to pyridoxal phosphate in the tissue.[3] [edit] Dietary reference intakes 5
+
+Vitamin B6 - Wikipedia, the free encyclopedia The products of vitamin B6 metabolism are excreted in the urine; the major product of which is 4-pyridoxic acid. It has been estimated that 40-60% of ingested vitamin B6 is oxidized to 4-pyridoxic acid. Several studies have shown that 4-pyridoxic acid is undetectable in the urine of vitamin B6 deficient subjects, making it a useful clinical marker to assess the vitamin B6 status of an individual.[3] Other products of vitamin B6 metabolism that are excreted in the urine when high doses of the vitamin have been given include pyridoxal, pyridoxamine, and pyridoxine and their phosphates. A small amount of vitamin B6 is also excreted in the feces.
+
+[edit] Deficiencies
+The classic clinical syndrome for B6 deficiency is a seborrhoeic dermatitis-like eruption, atrophic glossitis with ulceration, angular cheilitis, conjunctivitis, intertrigo, and neurologic symptoms of somnolence, confusion, and neuropathy.[7] While severe vitamin B6 deficiency results in dermatologic and neurologic changes, less severe cases present with metabolic lesions associated with insufficient activities of the coenzyme pyridoxal phosphate. The most prominent of the lesions is due to impaired tryptophan-niacin conversion. This can be detected based on urinary excretion of xanthurenic acid after an oral tryptophan load. Vitamin B6 deficiency can also result from impaired transsulfuration of methionine to cysteine. The pyridoxal phosphate-dependent transaminases and glycogen phosphorylase provide the vitamin with its role in gluconeogenesis, so deprivation of vitamin B6 results in impaired glucose tolerance.[3] A deficiency of vitamin B6 alone is relatively uncommon and often occurs in association with other vitamins of the B complex. The elderly and alcoholics have an increased risk of vitamin B6 deficiency, as well as other micronutrient deficiencies.[8] Renal patients undergoing dialysis may experience vitamin B6 deficiency. Also, patients with liver disease, rheumatoid arthritis and those infected with HIV also appear to be at risk, despite adequate dietary intakes.[9] The availability of vitamin B6 to the body can be affected by certain drugs such as anticonvulsants and corticosteroids.[10] The drug isoniazid (used in the treatment of tuberculosis), and cycloserine, penicillamine, and hydrocortisone all interfere with vitamin B6 metabolism. These drugs may form a complex with vitamin B6 that is inhibitory for pyridoxal kinase, or they may positively displace PLP from binding sites.[11]
+
+[edit] Clinical assessment of vitamin B6
+The biochemical assessment of vitamin B6 status is essential, as the clinical signs and symptoms of vitamin B6 deficiency are very nonspecific.[12] The three biochemical tests most widely used are the activation coefficient for the erythrocyte enzyme aspartate aminotransferase, plasma pyridoxal phosphate (PLP) concentrations, and the urinary excretion of vitamin B6 degradation products, specifically urinary pyridoxic acid. Of these, plasma PLP is probably the best single measure because it reflects tissue stores.[13] When plasma pyridoxal phosphate is less than 10nmol/L, it is indicative of vitamin B6 deficiency.[14] Urinary 4-pyridoxic acid is also an indicator of vitamin B6 deficiency. Urinary 4-pyridoxic of less than 3.0 mmol/day is suggestive of vitamin B6 deficiency.[15]
+
+[edit] Toxicity
+Adverse effects have only been documented from vitamin B6 supplements and never from food sources. This article only discusses the safety of the common supplemental form of vitamin B6 pyridoxine (for a full discussion please see pyridoxine). Toxicologic animal studies identify specific destruction of the dorsal root ganglia[16] which is documented in human cases of overdosage of pyridoxine.[17] Although vitamin B6 is a [edit] Absorption and excretion 6
+
+Vitamin B6 - Wikipedia, the free encyclopedia water-soluble vitamin and is excreted in the urine, doses of pyridoxine in excess of the RDI over long periods of time thus result in painful and ultimately irreversible neurological problems. The primary symptoms are pain and numbness of the extremities, and in severe cases difficulty walking. Sensory neuropathy typically develops at doses of pyridoxine in excess of 1,000 mg per day. However, there have been a few case reports of individuals who developed sensory neuropathies at doses of less than 500 mg daily over a period of months. None of the studies, in which an objective neurological examination was performed, found evidence of sensory nerve damage at intakes of pyridoxine below 200 mg/day. This condition is usually reversible when supplementation is stopped.[18] Existing authorisations and valuations vary considerably worldwide. In 1993 the European Community Scientific Committee on Food defines intakes of 50 mg vitamin B6 per day as harmful and established tolerable upper intake level of 25 mg/day for adults in 2000. The Expert Group on Vitamins and Minerals of the Food Standard Agency UK (UK EVM) derived a safe upper level (SUL) of 10 mg/day for a 60 kg adult in 2003. The tolerable upper limit has been set by the US FDA at 100 mg/day in 2000.[19] The nutrient reference values in Australia and New Zealand recommend an upper limit of 50 mg a day in adults. "The same figure was set for pregnancy and lactation as there is no evidence of teratogenicity at this level. The UL was set based on metabolic body size and growth considerations for all other ages and life stages except infancy. It was not possible to set a UL for infants, so intake is recommended in the form of food, milk or formula." "The ULs were set using results of studies involving long-term oral administration of pyridoxine at doses of less than 1g/day (Berger & Schaumburg 1984, Bernstein & Lobitz 1988, Dalton 1985, Dalton & Dalton 1987, Del Tredici et al 1985, FNB:IOM 1998, Parry & Bredesen 1985). A NOAEL of 200 mg/day was identified from the studies of Bernstein & Lobitz (1988) and Del Tredici et al (1985). These studies involved subjects who had generally been on the supplements for 5 to 6 months or less. The study of Dalton and Dalton (1987), however, suggested that symptoms might take substantially longer than this to appear. In this latter retrospective survey, subjects who reported symptoms had been on supplements for 2.9 years on average. Those reporting no symptoms had taken supplements for 1.9 years."[20] Because there have been no placebo-controlled studies showing therapeutic benefits of high doses of pyridoxine, and the well documented occurrence of significant toxic effects there is little reason to exceed the RDI using supplements unless under medical supervision e.g. in treatment of primary hyperoxaluria.
+
+[edit] Oncology
+Vitamin B6 intake is inversely associated with the risk of colorectal cancer.[21]
+
+[edit] Preventive roles and therapeutic uses
+Vitamin B6 has been used to treat nausea and vomiting in early pregnancy for decades, commonly in conjunction with other medications such as metoclopramide or doxylamine. Alone, it has been found safe and effective, though any woman's prenatal caregiver must help guide treatment for these symptoms.[22] At least one preliminary study has found that this vitamin may increase dream vividness or the ability to recall dreams.[23] It is thought that this effect may be due to the role this vitamin plays in the conversion of tryptophan to serotonin.[23]
+
+[edit] Toxicity
+
+7
+
+Vitamin B6 - Wikipedia, the free encyclopedia The intake of vitamin B6, from either diet or supplements, could cut the risk of Parkinson's disease by half according to a prospective study from the Netherlands. "Stratified analyses showed that this association was restricted to smokers," wrote the authors.[24] Pyridoxine has a role in preventing heart disease. Without enough pyridoxine, a compound called homocysteine builds up in the body. Homocysteine damages blood vessel linings, setting the stage for plaque buildup when the body tries to heal the damage. Vitamin B6 prevents this buildup, thereby reducing the risk of heart attack. Pyridoxine lowers blood pressure and blood cholesterol levels and keeps blood platelets from sticking together. All of these properties work to keep heart disease at bay.[25][unreliable source?] Nutritional supplementation with high dose vitamin B6 and magnesium is one of the most popular alternative medicine choices for autism but randomised control trials have had mixed results and small sample sizes mean that no conclusions can be drawn as to the efficacy of this treatment.[26][27] Some studies suggest that the vitamin B6-magnesium combination can also help attention deficit disorder, citing improvements in hyperactivity, hyperemotivity/aggressiveness and improved school attention.[28] A lack of the vitamin may play a role in sensitivity to monosodium glutamate (MSG), a flavor enhancer. This sensitivity can cause headaches, pain and tingling of the upper extremities, nausea, and vomiting. In both of these syndromes, supplementation of pyridoxine alleviates symptoms only when people were deficient in the vitamin to begin with.[25][unreliable source?] If people are marginally deficient in vitamin B6, they may be more susceptible to carpal tunnel syndrome. Carpal tunnel syndrome is characterized by pain and tingling in the wrists after performing repetitive movements or otherwise straining the wrist on a regular basis.[25] Vitamin B6 has been shown in at least two small-scale clinical studies[29][30] to have a beneficial effect on carpal tunnel syndrome, particularly in cases where no trauma or overuse etiology for the CTS is known. Vitamin B6 has long been publicized as a cure for premenstrual syndrome (PMS). Study results conflict as to which symptoms are eased, but most of the studies confirm that women who take B6 supplements have reductions in bloating, breast pain, and premenstrual acne flare, a condition in which pimples break out about a week before a woman's period begins.There is strong evidence that pyridoxine supplementation, starting ten days before the menstrual period, prevents most pimples from forming. This effect is due to the vitamin's role in hormone and prostaglandin regulation. Skin blemishes are typically caused by a hormone imbalance, which vitamin B6 helps to regulate.[25][unreliable source?] Mental depression is another condition which may result from low vitamin B6 intake. Because of pyridoxine's role in serotonin and other neurotransmitter production, supplementation often helps depressed people feel better, and their mood improves significantly. It may also help improve memory in older adults.[25][unreliable source?] However, the effectiveness as treatment for PMS, PMDD, and clinical depression is debatable.[31][32] It is also suggested that ingestion of vitamin B6 can alleviate some of the many symptoms of an alcoholic hangover and morning sickness from pregnancy. This might be due to B6's mild diuretic effect.[33] Though the mechanism is not known, results show that pyridoxamine has a therapeutic effects in clinical trials for diabetic nephropathy.[34] Larsson et al. have shown that vitamin B6 intake and pyridoxal phosphate (PLP) levels are inversely related to the risk of colon cancer. While in their study the correlation with B6 intake was moderate, it was quite dramatic with PLP levels where the risk of colon cancer was nearly decreased in half.[35]
+
+[edit] Preventive roles and therapeutic uses
+
+8
+
+Vitamin B6 - Wikipedia, the free encyclopedia
+
+[edit] References
+1. ^ Paul GyÃ¶rgy (1934) "Vitamin B2 and the pellagra-like dermatitis in rats," Nature, vol. 133, pages 498-499. 2. ^ Enzyme Nomenclature 3. ^ a b c d e f g h i j k l m n Combs, G.F. The Vitamins: Fundamental Aspects in Nutrition and Health. 2008. San Diego: Elsevier 4. ^ Food and Nutrition Board. Institute of Medicine. "Dietary Reference Intakes: Vitamins". National Academies, 2001. 5. ^ McCormick, D. B. Vitamin B6 In: Present Knowledge in Nutrition (Bowman, B. A. and Russell, R. M., eds), 9th edition, vol. 2, p.270. Washington, D.C.: International Life Sciences Institute, 2006. 6. ^ Sauberlich H. Vitamins -how much is for keeps? Nutr Today 1987;22:20-28 7. ^ Andrews' Diseases of the Skin, 10th Edition, Elsevier. 8. ^ Bowman, B.A., Russell, R. M. Present Knowledge in Nutrition. 9th Edition. Washington, DC: ILSI Press; 2006; pg.273 9. ^ Rall L.C., Meydani S.N. (1993). Vitamin B6 and immune competence. Nutrition Reviews 51:217-225 10. ^ Sauberlich H. Vitamins -how much is for keeps? Nutr Today 1987; 22:20-28 11. ^ Bhagavan H.N. (1985). Interraction between vitamin B6 and drugs. In: Reynolds R.D., Leklem J.E. (eds.) Vitamin B6: Its role in Health and Disease. Liss, New York, pp. 401-415 12. ^ Gibson R.S.(2005)Principles of Nutritional Assessment. 2nd edition. Assessment of vitamin B6 status. pp 575-594. Oxford University Press, New York 13. ^ Liu A. ,Lumeng L., Aronoff G., Li T-K. (1985). Relationship between body store of vitamin B6 and plasma pyridoxal-P clearance: metabolic balance studies in humans. Journal of Laboratory and Clinical Medicine 106:491-497 14. ^ Lui A., Lumeng L. Aronoff G., Li T-K. Relationship between body store of vitamin B6 and plasma pyridoxal-P clearance; metabolic balance studies in humans. J Lab Clin Med 1985;106:491-97 15. ^ Leklem J. Vitamin B6: a status report. J. Nutr 1990;120:1503-7 16. ^ Perry TA, Weerasuriya A, Mouton PR, Holloway HW, Greig NH. Pyridoxine-induced toxicity in rats: a stereological quantification of the sensory neuropathy. Exp Neurol2004, 190, 133-144 17. ^ Schaumburg H, Kaplan J, Windebank A, Vick N, Rasmus S, Pleasure D, Brown MJ. Sensory neuropathy from pyridoxine abuse. A new megavitamin syndrome. N Engl J Med 1983, 309, 445-448. 18. ^ Vitamin and Mineral Supplement Fact Sheets Vitamin B6 19. ^ The EFSA Journal (2008) 760, 1-13 20. ^ NHMRC Nutrient Reference Values - Nutrients vitamin B6 21. ^ . PMID 20233826. 22. ^ Sheehan P. Hyperemesis gravidarum--assessment and management. Aust Fam Physician. 2007 Sep;36(9):698-701. 23. ^ a b Ebben, M., Lequerica, A., & Spielman A. (2002). Effects of pyridoxine on dreaming: a preliminary study. Perceptual & Motor Skills, 94(1), 135â 140. 24. ^ "Increased intake of vitamin B6Sheet". http://www.nutraingredients.com/news/ng.asp?n=69580-vitamin-b-folate-parkinson-s-disease. Retrieved 2006-08-11. 25. ^ a b c d e TLC Cooking "Benefits of Vitamin B6" 26. ^ Pfeiffer SI, Norton J, Nelson L, Shott S (October 1995). "Efficacy of vitamin B6 and magnesium in the treatment of autism: a methodology review and summary of outcomes". Journal of Autism and Developmental Disorders 25 (5): 481â 93. PMID 8567594. 27. ^ Angley M, Semple S, Hewton C, Paterson F, McKinnon R (2007). "Children and autismâ part 2â management with complementary medicines and dietary interventions" (PDF). Aust Fam [edit] References 9
+
+Vitamin B6 - Wikipedia, the free encyclopedia
+
+Physician 36 (10): 827â 30. PMID 17925903. http://www.racgp.org.au/Content/NavigationMenu/Publications/AustralianFamilyPhys/2007issues/afp200710/2 28. ^ Mousain-Bosc M et al. (2006). "Improvement of neurobehavioral disorders in children supplemented with magnesium-vitamin B6. I. Attention deficit hyperactivity disorders.". Magnesium Research 19 (1): 46â 52. PMID 16846100. 29. ^ Ellis J et al: Clinical results of a cross-over treatment with pyridoxine and placebo of the carpal tunnel syndrome. Am J Clin Nutr. 1979 Oct;32(10):2040-6. 30. ^ Kasdan ML, Janes C.: Carpal tunnel syndrome and vitamin B6. Plast Reconstr Surg. 1987 Mar;79(3):456-62. 31. ^ Vitamin Pills: Popping Too Many?, WebMD 32. ^ "Vitamin B6 Therapy for PMDD", Complementary and Alternative Medicine, Creighton University School of Medicine 33. ^ THE MYSTERIOUS VITAMIN B6. By Dr. Russ Ebbets. Off The Road Column 34. ^ Sergi V.C., Wenhui Zhang, Billy G.H., Anthony S.S., Paul A.V. Pyridoxamine protects proteins from functional damage by 3-Deoxyglucosone; mechanism of action of pyridoxamine. Biochemistry 2008,47,997-1006. 35. ^ Larsson, S. et.al. JAMA 2010; 303:1077-1083.
+
+[edit] External links
+· Facts about Vitamin B6 from Office of Dietary Supplements at National Institutes of Health · The B6 database A database of B6-dependent enzymes at University of Parma · COT statement on vitamin B6 (pyridoxine) toxicity (June 1997) (Committee on Toxicity of Chemicals in Food, Consumer Products and the Environment (COT)) · MeSH Vitamin+B6 v Â· d Â· eVitamins (A11) A Î±-Carotene Â· Î²-Carotene Â· Retinol Â· Tretinoin D2 (Ergosterol, Ergocalciferol) Â· D3 (7-Dehydrocholesterol, Previtamin D3, Cholecalciferol, 25-hydroxycholecalciferol, Calcitriol (1,25-dihydroxycholecalciferol), D Calcitroic acid) Â· D4 (Dihydroergocalciferol) Â· D5 Â· D analogues (Dihydrotachysterol, Calcipotriol, Tacalcitol, Paricalcitol) E K Tocopherol (Alpha, Beta, Gamma, Delta) Â· Tocotrienol (Alpha, Beta, Gamma, Delta) Â· Tocofersolan Naphthoquinone Â· Phylloquinone (K1) Â· Menatetrenone (K2) Â· Menadione (K3) Â· Menadiol (K4)
+
+Fat soluble
+
+B1 (Thiamine) Â· B2 (Riboflavin) Â· B3 (Niacin, Nicotinamide) Â· B5 (Pantothenic acid, Dexpanthenol, Pantethine) Â· B6 (Pyridoxine, Pyridoxal phosphate, Pyridoxamine) Â· B7 B (Biotin) Â· B9 (Folic acid, Dihydrofolic acid, Folinic acid) Â· B12 (Cyanocobalamin, Water soluble Hydroxocobalamin, Methylcobalamin, Cobamamide) Â· Choline C Ascorbic acid Â· Dehydroascorbic acid Combinations Multivitamins M: cof, noco, drug(A8/11/12) NUT enz, nuvi, met sysi/epon,
+
+[edit] External links
+
+10
+
+Vitamin B6 - Wikipedia, the free encyclopedia met Retrieved from "http://en.wikipedia.org/wiki/Vitamin_B6" Categories: B vitamins | Cofactors Hidden categories: Articles needing additional references from May 2010 | All articles needing additional references | All articles with unsourced statements | Articles with unsourced statements from August 2009 | All articles lacking reliable references | Articles lacking reliable references from December 2010
+Personal tools
+
+· Log in / create account
+Namespaces
+
+· Article · Discussion
+Variants Views
+
+· Read · Edit · View history
+Actions Search
+
+Navigation
+
+· Main page · Contents · Featured content · Current events · Random article · Donate to Wikipedia
+Interaction
+
+· Help · About Wikipedia · Community portal · Recent changes · Contact Wikipedia
+Toolbox
+
+· What links here · Related changes · Upload file · Special pages · Permanent link Personal tools 11
+
+Vitamin B6 - Wikipedia, the free encyclopedia · Cite this page
+Print/export
+
+· Create a book · Download as PDF · Printable version
+Languages
+
+· Ø§Ù Ø¹Ø±Ø¨Ù Ø© · Bosanski · Ä esky · Þ Þ¨Þ Þ¬Þ Þ¨Þ Þ¦Þ Þ° · Eesti · EspaÃ±ol · Ù Ø§Ø±Ø³Û · FranÃ§ais · Galego · í êµ-ì ´ · à¤¹à¤¿à¤¨à¥ à¤¦à¥ · Hrvatski · ×¢× ×¨× ×ª · Kinyarwanda · LatvieÅ¡u · Magyar · Nederlands · æ ¥æ ¬èª · Polski · PortuguÃªs · RomÃ¢nÄ · Ð Ñ Ñ Ñ ÐºÐ¸Ð¹ · SlovenÄ ina · Ð¡Ñ Ð¿Ñ ÐºÐ¸ / Srpski · Srpskohrvatski / Ð¡Ñ Ð¿Ñ ÐºÐ¾Ñ Ñ Ð²Ð°Ñ Ñ ÐºÐ¸ · Suomi · à¹ à¸ à¸¢ · ä¸-æ · This page was last modified on 15 February 2011 at 00:37. · Text is available under the Creative Commons Attribution-ShareAlike License; additional terms may apply. See Terms of Use for details. Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc., a non-profit organization. · Contact us · Privacy policy · About Wikipedia · Disclaimers ·
+
+Toolbox
+
+12
+
+Vitamin B6 - Wikipedia, the free encyclopedia ·
+
+Languages
+
+13
+
+

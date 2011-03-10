@@ -1,0 +1,93 @@
+Dietary Reference Intake - Wikipedia, the free encyclopedia
+
+Dietary Reference Intake
+From Wikipedia, the free encyclopedia Jump to: navigation, search It has been suggested that Reference Daily Intake be merged into this article or section. (Discuss) The Dietary Reference Intake (DRI) is a system of nutrition recommendations from the Institute of Medicine (IOM) of the U.S. National Academy of Sciences. The DRI system is used by both the United States and Canada and is intended for the general public and health professionals. Applications include: · Composition of diets for schools, prisons, hospitals or nursing homes · Industries developing new food stuffs · Healthcare policy makers and public health officials The DRI was introduced in 1997 in order to broaden the existing guidelines known as Recommended Dietary Allowances (RDAs). The DRI values are not currently used in nutrition labeling, where the older Reference Daily Intakes are still used.
+
+Contents
+· 1 History · 2 Current recommendations  2.1 Vitamins and minerals  2.2 Macronutrients · 3 Calculating the RDA · 4 Recent developments · 5 See also · 6 References · 7 Further reading · 8 External links
+
+History
+The Recommended Dietary Allowance (RDA) was developed during World War II by Lydia J. Roberts, Hazel Stiebeling and Helen S. Mitchell, all part of a committee established by the United States National Academy of Sciences in order to investigate issues of nutrition that might "affect national defense" (Nestle, 35).[1] The committee was renamed the Food and Nutrition Board in 1941, after which they began to deliberate on a set of recommendations of a standard daily allowance for each type of nutrient. The standards would be used for nutrition recommendations for the armed forces, for civilians, and for overseas population who might need food relief. Roberts, Stiebeling, and Mitchell surveyed all available data, created a tentative set of allowances for "energy and eight nutrients", and submitted them to experts for review (Nestle, 35). The final set of guidelines, called RDAs for Recommended Dietary Allowances, were accepted in 1941. The allowances were meant to provide superior nutrition for civilians and military personnel, so they included a Dietary Reference Intake 1
+
+Dietary Reference Intake - Wikipedia, the free encyclopedia "margin of safety." Because of food rationing during the war, the food guides created by government agencies to direct citizens' nutritional intake also took food availability into account. The Food and Nutrition Board subsequently revised the RDAs every five to ten years. In the early 1950s, United States Department of Agriculture nutritionists made a new set of guidelines that also included the number of servings of each food group in order to make it easier for people to receive their RDAs of each nutrient.
+
+Current recommendations
+The current Dietary Reference Intake recommendation is composed of: · Estimated Average Requirements (EAR), expected to satisfy the needs of 50% of the people in that age group based on a review of the scientific literature. · Recommended Dietary Allowances (RDA), the daily dietary intake level of a nutrient considered sufficient by the Food and Nutrition Board to meet the requirements of nearly all (97â 98%) healthy individuals in each life-stage and gender group. It is calculated based on the EAR and is usually approximately 20% higher than the EAR (See "Calculating the RDA", below). · Adequate Intake (AI), where no RDA has been established, but the amount established is somewhat less firmly believed to be adequate for everyone in the demographic group. · Tolerable upper intake levels (UL), to caution against excessive intake of nutrients (like vitamin A) that can be harmful in large amounts. This is the highest level of consumption that current data have shown to be safe. The RDA is used to determine the Recommended Daily Value (RDV) which is printed on food labels in the U.S. and Canada.
+
+Vitamins and minerals
+EARs, RDA/AIs and ULs for an average healthy 25-year old male are shown below. EARs shown as "NE" have not yet been established or not yet evaluated. ULs shown as "ND" could not be determined, and it is recommended that intake from these nutrients be from food only, to prevent adverse effects. Amounts and "ND" status for other age and gender groups, pregnant women, lactating women, and breastfeeding infants may be much different.[2] Nutrient Vitamin A Vitamin C Vitamin D[4][5] Vitamin K Vitamin B6 Î±-tocopherol (Vitamin E) Biotin Calcium[4][5] Chloride Chromium History EAR RDA/AI UL Unit Top Sources in Common Measures, USDA[3] 625 900 3000 Âµg turkey, carrot juice, pumpkin 75 90 2000 mg orange juice, grapefruit juice, peaches sockeye salmon, swordfish, rainbow trout (also fortified 400 600 4000 IU foods and beverages) NE 120 ND Âµg kale, collards, spinach 1.1 1.3 100 mg fortified cereals, chickpeas, sockeye salmon 12 NE 800 NE NE 15 30 1000 2300 35 1000 mg fortified cereals, tomato paste, sunflower seeds ND 2500 3600 ND Âµg mg mg Âµg beef liver, egg, salmon[6] fortified cereals, condensed cow's milk, cheese table salt broccoli, turkey ham, grape juice[7] 2
+
+Dietary Reference Intake - Wikipedia, the free encyclopedia Choline Copper Cyanocobalamin (B12) Fluoride Folate (B9) Iodine Iron Magnesium Manganese Molybdenum Niacin (B3) Pantothenic acid (B5) Phosphorus Potassium Riboflavin (B2) Selenium Sodium Thiamin (B1) Zinc NE 700 2.0 NE 320 95 6 330 NE 34 12 NE 580 NE 1.1 45 NE 1.0 9.4 550 900 2.4 4 400 150 8 400 2.3 45 16 5 700 4700 1.3 55 1500 1.2 11 3500 10000 ND 10 1000 1100 45 350 11 2000 35 ND 4000 ND ND 400 2300 ND 40 mg Âµg Âµg mg Âµg Âµg mg mg mg Âµg mg mg mg mg mg Âµg mg mg mg beef liver, condensed milk, chicken beef liver, oysters, lobster beef liver, turkey, clams public drinking water enriched white rice, fortified cereals, enriched cornmeal iodized salt fortified cereals, turkey, chicken buckwheat flour, trail mix, bulgur oat bran, whole grain wheat flour, bulgur legumes, grain products, nuts and seeds[8] fortified cereals, yellowfin tuna, sockeye salmon fortified cereals, beef liver, shiitake mushrooms cornmeal, condensed milk, wheat flour tomato paste, orange juice, beet greens spaghetti with meat sauce, beef liver, turkey Brazil nuts, rockfish, yellowfin tuna onion soup mix, miso, table salt fortified cereals, enriched wheat flour, bread crumbs oysters, fortified cereals, baked beans
+
+EAR: Estimated Average Requirements; RDA: Recommended Dietary Allowances; AI: Adequate Intake; UL: Tolerable upper intake levels.
+
+It is also recommended that the following substances not be added to food or dietary supplements. Research has been conducted into adverse effects, but was not conclusive in many cases: Substance Arsenic Silicon Vanadium RDA/AI UL ND ND 1.8 units per day mg
+
+Macronutrients
+RDA/AI is shown below for males and females aged 40â Substance Waterb Carbohydrates Proteinc Fiber Fat Linoleic acid, an omega-6 fatty acid (polyunsaturated) Amount (males) 3.7 L/day 130 g/day 56 g/day 38 g/day 20â 17 g/day 1.6 g/day Vitamins and minerals 50 years.[2] Amount (females) 2.7 L/day 130 g/day 46 g/day 25 g/day 35% of calories 12 g/day 1.1 g/day 3 Top Sources in Common Measures[3] iceberg lettuce, carbonated beverages, beer condensed milk, pie crust, barley duck, chicken, turkey barley, bulgur, legumes pie crust, white chocolate, trail mix
+
+Dietary Reference Intake - Wikipedia, the free encyclopedia alpha-Linolenic acid, an omega-3 fatty acid (polyunsaturated) Cholesterol Trans fatty acids Saturated fatty acids Added sugar
+b c
+
+As low as possible As low as possible As low as possible No more than 25% of calories
+
+chicken giblets, turkey giblets, beef liver white chocolate, coconut meat, ricotta cheese condensed milk, deglet noor dates, white chocolate
+
+Includes water from food, beverages, and drinking water. Based on 0.8 g/kg of body weight
+
+Calculating the RDA
+The equations used to calculate the RDA are as follows: "If the standard deviation (SD) of the EAR is available and the requirement for the nutrient is symmetrically distributed, the RDA is set at two SDs above the EAR: RDA = EAR + 2 SD(EAR). If data about variability in requirements are insufficient to calculate an SD, a coefficient of variation (CV) for the EAR of 10 percent is assumed, unless available data indicate a greater variation in requirements. If 10 percent is assumed to be the CV, then twice that amount when added to the EAR is defined as equal to the RDA. The resulting equation for the RDA is then RDA = 1.2 Ã EAR. This level of intake statistically represents 97.5 percent of the requirements of the population."[1]
+
+Recent developments
+In September 2007, the Institute of Medicine held a workshop entitled â The Development of DRIs 1994â 2004: Lessons Learned and New Challenges.â [9] At that meeting, several speakers stated that the current Dietary Recommended Intakes (DRIâ s) were largely based upon the very lowest rank in the quality of evidence pyramid, that is, opinion, rather than the highest level â randomized controlled clinical trials. Speakers called for a higher standard of evidence to be utilized when making dietary recommendations.
+
+See also
+· Healthy diet · Acceptable daily intake (UK standards for toxicity) · Vitamin poisoning · Canada's Food Guide · Food guide pyramid · Dietary mineral · Essential amino acid Macronutrients 4
+
+Dietary Reference Intake - Wikipedia, the free encyclopedia · Essential fatty acid · Essential nutrient
+
+References
+
+1. ^ Contributions of Women Scientists in the U.S. to the Development of Recommended Dietary Allowances - Harper 133 (11): 3698 - Journal of Nutrition 2. ^ a b Dietary Reference Intakes (DRIs): Recommended Intakes for Individuals, Food and Nutrition Board, Institute of Medicine, National Academies, 2004, http://www.iom.edu/Global/News%20Announcements/~/media/Files/Activity%20Files/Nutrition/DRIs/DRISu retrieved 2009-06-09 3. ^ a b USDA National Nutrient Database for Standard Reference, SR23, 2010 4. ^ a b Dietary Reference Intakes for Vitamin D and Calcium, Food and Nutrition Board, Institute of Medicine, National Academies, November 30, 2010 5. ^ a b Dietary Reference Intakes for Calcium and Vitamin D, IOM, November 30, 2010: "The IOM finds that the evidence supports a role for vitamin D and calcium in bone health but not in other health conditions. Further, emerging evidence indicates that too much of these nutrients may be harmful, challenging the concept that â more is better.â " 6. ^ Biotin, Micronutrient Information Center, Linus Pauling Institute, Oregon State University 7. ^ Chromium, Micronutrient Information Center, Linus Pauling Institute, Oregon State University 8. ^ Molybdenum, Micronutrient Information Center, Linus Pauling Institute, Oregon State University 9. ^ The Development of DRIs 1994â 2004: Lessons Learned and New Challenges. Workshop Summary, November 30, 2007
+
+Further reading
+· Nestle, Marion. Food Politics. Berkeley: University of California Press, 2002. ISBN 9790520224659.
+
+External links
+· US Government Food and Nutrition Information Center list of Dietary Reference Intakes (DRI) and Recommended Dietary Allowances (RDA, the deprecated nutritional recommendations) · USDA RDA chart (PDF file) · USDA Dietary Reference Intakes (DRI) · Article comparing recommended amounts of vitamins and minerals in different countries from the European Union (PDF file) · Differences in RDA set by medical authorities in the UK, the European Union and the USA. Retrieved from "http://en.wikipedia.org/wiki/Dietary_Reference_Intake" Categories: Nutrition | Vitamins Hidden categories: Articles to be merged from August 2009 | All articles to be merged
+Personal tools
+
+· Log in / create account
+Namespaces
+
+· Article · Discussion See also 5
+
+Dietary Reference Intake - Wikipedia, the free encyclopedia
+Variants Views
+
+· Read · View source · View history
+Actions Search
+
+Navigation
+
+· Main page · Contents · Featured content · Current events · Random article · Donate to Wikipedia
+Interaction
+
+· Help · About Wikipedia · Community portal · Recent changes · Contact Wikipedia
+Toolbox
+
+· What links here · Related changes · Upload file · Special pages · Permanent link · Cite this page
+Print/export
+
+· Create a book · Download as PDF · Printable version
+Languages
+
+· Ä esky · Dansk · Deutsch · EspaÃ±ol · FranÃ§ais · Hrvatski Variants 6
+
+Dietary Reference Intake - Wikipedia, the free encyclopedia · Italiano · LietuviÅ³ · Nederlands · Polski · SlovenÄ ina · Svenska · This page was last modified on 21 February 2011 at 01:30. · Text is available under the Creative Commons Attribution-ShareAlike License; additional terms may apply. See Terms of Use for details. Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc., a non-profit organization. · Contact us · Privacy policy · About Wikipedia · Disclaimers · ·
+
+Languages
+
+7
+
+
