@@ -27,8 +27,6 @@ public class BuddyServiceImpl extends OpenFireServiceImpl implements BuddyServic
     
 	private static final Logger logger = Logger.getLogger(BuddyServiceImpl.class);
 
-    
-
     static {
         BasicConfigurator.configure();
     }
@@ -36,28 +34,36 @@ public class BuddyServiceImpl extends OpenFireServiceImpl implements BuddyServic
     @Override
     public Collection<RosterEntry> getBuddies(String username, String password) {
         logger.info("Getting buddies for " + getUsernameWithHost(username));
+        XMPPConnection connection = null;
         try {
-            XMPPConnection connection = getConnection(getUsernameWithHost(username), password);
+            connection = getConnection(getUsernameWithHost(username), password);
             Roster roster = getRoster(connection);
             Collection<RosterEntry> entries = roster.getEntries();
             return entries;
         } catch (XMPPException e) {
             e.printStackTrace();
+        } finally {
+        	if (connection != null) {
+        		connection.disconnect();
+        	}
         }
-
         logger.info("Was not able to find any buddies for " + username);
         return null;
-
     }
 
     @Override
     public boolean getAreBuddies(String userName1, String password1, String buddyUsername) {
-        try {
-            XMPPConnection connection = getConnection(userName1, password1);
+    	XMPPConnection connection = null;
+    	try {
+            connection = getConnection(userName1, password1);
             Roster roster = getRoster(connection);
             return roster.contains(getUsernameWithHost(buddyUsername));
         } catch (XMPPException e) {
             e.printStackTrace();
+        } finally {
+        	if (connection != null) {
+        		connection.disconnect();
+        	}
         }
         return false;
     }
@@ -65,35 +71,46 @@ public class BuddyServiceImpl extends OpenFireServiceImpl implements BuddyServic
 
     @Override
     public void makeBuddies(String userName1, String password1, String buddyUsername, String buddyPassword) throws Exception {
-        if (!userName1.equals(buddyUsername)) {
-        	BuddyClient userClient = new BuddyClient(userName1, password1, getHost());
-        	BuddyClient buddyClient = new BuddyClient(buddyUsername, buddyPassword, getHost());
-        	
-        	userClient.subscribeToBuddy(buddyUsername);
-        	buddyClient.subscribeToBuddy(userName1);
-        	
-        	// give them some time to react on the requests
-        	Thread.sleep(300);
-        	
-        	userClient.disconnect();
-        	buddyClient.disconnect();
+    	if (!userName1.equals(buddyUsername)) {
+    		BuddyClient userClient = null;
+    		BuddyClient buddyClient = null;
+    		try {
+	        	userClient = new BuddyClient(userName1, password1, getHost());
+	        	buddyClient = new BuddyClient(buddyUsername, buddyPassword, getHost());
+	        	
+	        	userClient.subscribeToBuddy(buddyUsername);
+	        	buddyClient.subscribeToBuddy(userName1);
+	        	
+	        	// give them some time to react on the requests
+	        	Thread.sleep(300);
+    		} finally {
+    			if (userClient != null) {
+    				userClient.disconnect();
+    			}
+    			if (buddyClient != null) {
+    				buddyClient.disconnect();
+    			}
+    		}
         }
     }
 
     @Override
     public void removeBuddy(String userName1, String password1, String buddyUsername, String buddyPassword) throws Exception {
-        XMPPConnection connection = getConnection(userName1, password1);
-        Roster roster = getRoster(connection);
-
-        if (!userName1.equals(buddyUsername)) {
-            RosterEntry entry = roster.getEntry(buddyUsername + "@" + getHost());
-            if (entry != null) {
-                roster.removeEntry(entry);
-            }
+        XMPPConnection connection = null;
+        try {
+        	connection = getConnection(userName1, password1);
+        	Roster roster = getRoster(connection);
+        	if (!userName1.equals(buddyUsername)) {
+        		RosterEntry entry = roster.getEntry(buddyUsername + "@" + getHost());
+        		if (entry != null) {
+        			roster.removeEntry(entry);
+        		}
+        	}
+        } finally {
+        	if (connection != null) {
+        		connection.disconnect();
+        	}
         }
-
-
-        connection.disconnect();
     }
 
     @Override
@@ -104,13 +121,20 @@ public class BuddyServiceImpl extends OpenFireServiceImpl implements BuddyServic
 
     @Override
     public String getBuddyPresenceStatus(String username, String password, String buddyusername) throws Exception {
-        XMPPConnection connection = getConnection(username, password);
-        Roster roster = getRoster(connection);
-        Presence presence = roster.getPresence(buddyusername);
-        logger.info(presence.getMode());
-        logger.info(presence.getFrom());
-
-        return presence.getStatus();
+    	XMPPConnection connection = null;
+    	try {
+	    	connection = getConnection(username, password);
+	        Roster roster = getRoster(connection);
+	        Presence presence = roster.getPresence(buddyusername);
+	        logger.info(presence.getMode());
+	        logger.info(presence.getFrom());
+	        String status = presence.getStatus();
+	        return status;
+        } finally {
+        	if (connection != null) {
+        		connection.disconnect();
+        	}
+        }
     }
 
 
