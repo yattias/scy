@@ -14,7 +14,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Resizable;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Container;
-import java.awt.Dimension;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 
@@ -30,6 +29,7 @@ import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.common.mission.impl.jdom.JDomStringConversion;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
+import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 /**
  * @author sikken
@@ -48,6 +48,11 @@ public class SwingTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSa
    public var eloFactory:IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository:IRepository;
+   public var toolBrokerAPI: ToolBrokerAPI on replace {
+         eloFactory = toolBrokerAPI.getELOFactory();
+         metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
+         repository = toolBrokerAPI.getRepository();
+      };
 
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
@@ -64,6 +69,18 @@ public class SwingTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSa
 
    public override function loadElo(uri:URI){
       doLoadElo(uri);
+   }
+
+   public override function onQuit(): Void {
+      if (elo != null) {
+         def oldContentXml = elo.getContent().getXmlString();
+         def newContentXml = getElo().getContent().getXmlString();
+         if (oldContentXml == newContentXml) {
+            // nothing changed
+            return;
+         }
+      }
+      doSaveElo();
    }
 
    def spacing = 5.0;

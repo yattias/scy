@@ -184,21 +184,21 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       }
       if (elo.getUri() != null) {
          def scyElo = new ScyElo(elo, config.getToolBrokerAPI());
-         addThumbnail(scyElo);
-         if (scyElo.getDateFirstUserSave()==null){
-            scyElo.setDateFirstUserSave(System.currentTimeMillis());
-         }
-         if (scyElo.getCreator()==null){
-            scyElo.setCreator(loginName);
-         }
          if (scyElo.getAuthors().contains(config.getToolBrokerAPI().getLoginUserName())) {
             // it is (also) my elo
+            addThumbnail(scyElo);
+            if (scyElo.getDateFirstUserSave()==null){
+               scyElo.setDateFirstUserSave(System.currentTimeMillis());
+            }
+            if (scyElo.getCreator()==null){
+               scyElo.setCreator(loginName);
+            }
             scyElo.updateElo();
+            myEloChanged.myEloChanged(scyElo);
          } else {
-            // it is not my elo, make a fork of it
-            scyElo.saveAsForkedElo();
+            // it is not my elo, do a save as
+            eloSaveAs(elo, eloSaverCallBack);
          }
-         myEloChanged.myEloChanged(scyElo);
       } else {
          eloSaveAs(elo, eloSaverCallBack);
       }
