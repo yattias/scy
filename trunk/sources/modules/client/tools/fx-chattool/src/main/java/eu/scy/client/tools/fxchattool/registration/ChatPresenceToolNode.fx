@@ -90,8 +90,7 @@ public class ChatPresenceToolNode extends CustomNode, Resizable, ScyToolFX, INot
    }
 
    public override function canAcceptDrop(object:Object):Boolean{
-      println("ChatPresenceToolNode: canAcceptDrop of {object.getClass()}");
-      return true;
+      return false;
    }
 
    public override function acceptDrop(object:Object):Void{
