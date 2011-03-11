@@ -613,10 +613,10 @@ public class Dataset implements Cloneable{
         ArrayList<Long> listPlotsToremove = new ArrayList();
         // maj list operation
         // clone les operations
-        ArrayList<DataOperation> listOpC = new ArrayList();
-        for(Iterator<DataOperation> o = listOperation.iterator();o.hasNext();){
-            listOpC.add((DataOperation)o.next().clone());
-        }
+//        ArrayList<DataOperation> listOpC = new ArrayList();
+//        for(Iterator<DataOperation> o = listOperation.iterator();o.hasNext();){
+//            listOpC.add((DataOperation)o.next().clone());
+//        }
         int nbOp = listOperation.size();
         for (int i=0; i<nbOp; i++){
             if (listOperation.get(i).isOnCol()){
@@ -629,7 +629,8 @@ public class Dataset implements Cloneable{
                         listNo.set(k, new Integer(listNo.get(k) -1 ));
                 }
                 if(size > 0 && remove)
-                    listOperationToUpdate.add(listOpC.get(i));
+                    //listOperationToUpdate.add(listOpC.get(i));
+                    listOperationToUpdate.add(listOperation.get(i));
                 if (remove && i<listOperationResult.size()){
                     listOperationResult.get(i).remove(idNo);
                 }
@@ -642,7 +643,8 @@ public class Dataset implements Cloneable{
                 ArrayList<Integer> listNo = listOperation.get(i).getListNo() ;
                 int size = listNo.size();
                 if(size == 0){
-                    listOperationToDel.add(listOpC.get(i));
+                    //listOperationToDel.add(listOpC.get(i));
+                    listOperationToDel.add(listOperation.get(i));
                     removeOperation(listOperation.get(i));
                 }
             }
@@ -726,10 +728,10 @@ public class Dataset implements Cloneable{
         ArrayList<Visualization> listVisualizationToDel = new ArrayList();
         // maj list operation
         // clone les operations
-        ArrayList<DataOperation> listOpC = new ArrayList();
-        for(Iterator<DataOperation> o = listOperation.iterator();o.hasNext();){
-            listOpC.add((DataOperation)o.next().clone());
-        }
+//        ArrayList<DataOperation> listOpC = new ArrayList();
+//        for(Iterator<DataOperation> o = listOperation.iterator();o.hasNext();){
+//            listOpC.add((DataOperation)o.next().clone());
+//        }
         int nbOp = listOperation.size();
         for (int i=0; i<nbOp; i++){
             if (!listOperation.get(i).isOnCol()){
@@ -742,7 +744,8 @@ public class Dataset implements Cloneable{
                         listNo.set(k, new Integer(listNo.get(k) -1 ));
                 }
                 if(size > 0 && remove)
-                    listOperationToUpdate.add(listOpC.get(i));
+                    //listOperationToUpdate.add(listOpC.get(i));
+                    listOperationToUpdate.add(listOperation.get(i));
                 if (remove){
                     listOperationResult.get(i).remove(idNo);
                 }
@@ -755,7 +758,8 @@ public class Dataset implements Cloneable{
                 ArrayList<Integer> listNo = listOperation.get(i).getListNo() ;
                 int size = listNo.size();
                 if(size == 0){
-                    listOperationToDel.add(listOpC.get(i));
+                    //listOperationToDel.add(listOpC.get(i));
+                    listOperationToDel.add(listOperation.get(i));
                     removeOperation(listOperation.get(i));
                 }
             }
@@ -1404,6 +1408,16 @@ public class Dataset implements Cloneable{
             }
         }
         return nbR;
+    }
+
+    /* return the nb rows that contains some data */
+    public int getNbMaxRowsData(){
+        for(int i=nbRows-1; i>=0; i--){
+            if(isDataInRow(i)){
+                return i+1;
+            }
+        }
+        return 0;
     }
 
     public int getFirstRowData(){

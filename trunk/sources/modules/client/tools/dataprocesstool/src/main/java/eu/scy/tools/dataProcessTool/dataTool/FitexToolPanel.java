@@ -155,7 +155,6 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         initGUI();
     }
 
-    /* initialisation de l'applet */
     private void initGUI(){
         setCursor(new Cursor(Cursor.WAIT_CURSOR));
         this.listGraphFrame = new ArrayList();
@@ -684,7 +683,6 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
             openImportDialog();
             return;
         }
-
         displayError(new CopexReturn("Not yet implemented !!", false), "En travaux");
     }
 
@@ -1103,7 +1101,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
                     return;
                 }
             }
-            if(v.size() == 0){
+            if(v.isEmpty()){
                 //suppression
             }else{
                 Dataset newDs = (Dataset)v.get(0);
@@ -1115,7 +1113,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
                 updateDataset(newDs);
             }
         }else{
-            if(v.size() == 0){
+            if(v.isEmpty()){
                 //suppression
             }else{
                 Dataset newDs = (Dataset)v.get(0);

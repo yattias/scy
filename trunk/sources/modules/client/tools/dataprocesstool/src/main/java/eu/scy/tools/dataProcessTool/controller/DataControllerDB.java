@@ -101,6 +101,7 @@ public class DataControllerDB implements ControllerInterface{
 
     /* locker */
     private Locker locker;
+
    
     public DataControllerDB(DataProcessToolPanel dataToolPanel, URL url, long dbKeyMission, long dbKeyUser, long dbKeyGroup, long dbKeyLabDoc, String labDocName) {
         this.dataToolPanel = dataToolPanel ;
@@ -761,7 +762,7 @@ public class DataControllerDB implements ControllerInterface{
                 String f = dataset.getDataHeader(j).getFormulaValue();
                 if(!oldTitle.equals("") && f.contains(oldTitle)){
                     String newF = f.replace(oldTitle,  title);
-                    CopexReturn cr = DatasetFromDB.updateHeaderFormulaInDB(dbC, header.getDbKey(), newF);
+                    CopexReturn cr = DatasetFromDB.updateHeaderFormulaInDB(dbC,dataset.getDataHeader(j).getDbKey(), newF);
                     if(cr.isError())
                         return cr;
                     dataset.getDataHeader(j).setFormulaValue(newF);
@@ -1035,6 +1036,12 @@ public class DataControllerDB implements ControllerInterface{
         // suppression en memoire
         dataset.getListVisualization().remove(idVis);
         listDataset.set(idDs, dataset);
+        cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         return new CopexReturn();
     }
 
@@ -1072,7 +1079,12 @@ public class DataControllerDB implements ControllerInterface{
         // memoire
         vis.setDbKey(dbKey);
         dataset.addVisualization(vis);
-       
+       cr = exportHTML(dataset);
+        if(cr.isError())
+            return cr;
+        cr = updateLabdocStatus();
+        if(cr.isError())
+            return cr;
         // en v[0] le nouveau ds clone et en v[1] le nouveau vis clone
         listDataset.set(idDs, dataset);
         v.add(dataset.clone());

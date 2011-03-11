@@ -26,7 +26,6 @@ import eu.scy.tools.dataProcessTool.utilities.ActionDataProcessTool;
 import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyFileFilter;
-import eu.scy.tools.dataProcessTool.utilities.MyFileFilterCSV;
 import eu.scy.tools.dataProcessTool.utilities.MyFileFilterCSV_GMBL;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 

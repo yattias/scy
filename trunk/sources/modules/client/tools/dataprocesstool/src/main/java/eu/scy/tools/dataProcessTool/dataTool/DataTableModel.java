@@ -796,5 +796,11 @@ public class DataTableModel extends AbstractTableModel {
         }
         return true ;
    }
+
+   /*returns the nb of rows of data, ignores the last lines that are empty*/
+   public int getNbRowData(){
+       return dataset.getNbMaxRowsData();
+   }
+
     
 }
