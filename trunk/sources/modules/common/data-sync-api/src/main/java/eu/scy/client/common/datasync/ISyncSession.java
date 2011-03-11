@@ -103,4 +103,8 @@ public interface ISyncSession {
 	 */
 	public String getUsername();
 
+	public void addCollaboratorStatusListener(CollaboratorStatusListener listener);
+
+        public void removeCollaboratorStatusListener(CollaboratorStatusListener listener);
+
 }
