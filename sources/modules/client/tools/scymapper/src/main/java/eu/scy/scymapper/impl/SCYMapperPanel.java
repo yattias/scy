@@ -427,11 +427,11 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
         }
     }
 
-    public void joinSession(String sessId) {
-		joinSession(sessId, true);
+    public ISyncSession joinSession(String sessId) {
+		return joinSession(sessId, true);
 	}
 
-	public void joinSession(String sessId, boolean writeCurrentStateToServer) {
+	public ISyncSession joinSession(String sessId, boolean writeCurrentStateToServer) {
 		if (sessId != null) {
 			try {
 				DataSyncDiagramController diagramController = new DataSyncDiagramController(conceptMap.getDiagram());
@@ -443,6 +443,7 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
 				e.printStackTrace();
 			}
 		}
+		return currentSession;
 	}
 
     public ISyncSession createSession() {
