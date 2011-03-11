@@ -11,7 +11,7 @@ import eu.scy.client.desktop.scydesktop.art.ScyColors;
 public class EloIconFactory {
  def windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
 
-def names = ["Video","Search","Research_question","Report","Presentation","Reflection","Pizza","Orientation2","Orientation","New","Model","Interview","Information2","Information","Idea","Hypothese2","Hypothese","House","Exp_design","Evaluation_report","Drawing2","Drawing","Designed_artifact","Design_of_artifact","Debate_argument","Dataset_processed","Dataset","Data","Conclusion","Concept_map3","Concept_map2","Concept_map","Concept_hypothese","Choices","Assignment","Analyse"];
+def names = ["Video","Search","Research_question","Report","Presentation","Reflection","Pizza","Orientation2","Orientation","New","Model","Interview","Information2","Information","Idea","Hypothese2","Hypothese","House","Exp_design","Evaluation_report","Drawing2","Drawing","Designed_artifact","Design_of_artifact","Debate_argument","Dataset_processed","Dataset","Data","Conclusion","Concept_map3","Concept_map2","Concept_map","Concept_hypothese","Collaboration_invitation","Collaboration_denied","Collaboration_accepted","Choices","Assignment","Analyse","Alert_question","Alert_message"];
 
 public function getNames(): String[] {
 return names;
@@ -86,12 +86,22 @@ return Concept_map2Icon{windowColorScheme:windowColorScheme};
 return Concept_mapIcon{windowColorScheme:windowColorScheme};
 } else if (name.equalsIgnoreCase("Concept_hypothese")) {
 return Concept_hypotheseIcon{windowColorScheme:windowColorScheme};
+} else if (name.equalsIgnoreCase("Collaboration_invitation")) {
+return Collaboration_invitationIcon{windowColorScheme:windowColorScheme};
+} else if (name.equalsIgnoreCase("Collaboration_denied")) {
+return Collaboration_deniedIcon{windowColorScheme:windowColorScheme};
+} else if (name.equalsIgnoreCase("Collaboration_accepted")) {
+return Collaboration_acceptedIcon{windowColorScheme:windowColorScheme};
 } else if (name.equalsIgnoreCase("Choices")) {
 return ChoicesIcon{windowColorScheme:windowColorScheme};
 } else if (name.equalsIgnoreCase("Assignment")) {
 return AssignmentIcon{windowColorScheme:windowColorScheme};
 } else if (name.equalsIgnoreCase("Analyse")) {
 return AnalyseIcon{windowColorScheme:windowColorScheme};
+} else if (name.equalsIgnoreCase("Alert_question")) {
+return Alert_questionIcon{windowColorScheme:windowColorScheme};
+} else if (name.equalsIgnoreCase("Alert_message")) {
+return Alert_messageIcon{windowColorScheme:windowColorScheme};
 } else {
 return new LogoEloIcon();
 }
