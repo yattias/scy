@@ -152,16 +152,17 @@ public class SyncSession implements ISyncSession {
             @Override
             public void joined(String participant) {
                 for (CollaboratorStatusListener csl : collabListeners) {
-                    csl.joined(participant);
+                    csl.joined(getSimpleName(participant));
                 }
             }
 
             @Override
             public void left(String participant) {
                 for (CollaboratorStatusListener csl : collabListeners) {
-                    csl.left(participant);
+                    csl.left(getSimpleName(participant));
                 }
             }
+
         });
         muc.addParticipantListener(new PacketListener() {
 
@@ -171,9 +172,9 @@ public class SyncSession implements ISyncSession {
                     Presence presence = (Presence) packet;
                     for (CollaboratorStatusListener csl : collabListeners) {
                         if (presence.isAvailable()) {
-                            csl.wentOnline(presence.getFrom());
+                            csl.wentOnline(getSimpleName(presence.getFrom()));
                         } else {
-                            csl.wentOffline(presence.getFrom());
+                            csl.wentOffline(getSimpleName(presence.getFrom()));
                         }
                     }
                 }
@@ -181,6 +182,13 @@ public class SyncSession implements ISyncSession {
         });
     }
 
+    private String getSimpleName(String syncSessionJid) {
+        syncSessionJid = syncSessionJid.substring(syncSessionJid.indexOf('/') + 1);
+        syncSessionJid = syncSessionJid.substring(0, syncSessionJid.indexOf('@'));
+        return syncSessionJid;
+    }
+
+    
     @Override
     public void addSyncObject(ISyncObject syncObject) {
         syncObject.setCreator(xmppConnection.getUser());
