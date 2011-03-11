@@ -17,36 +17,66 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBox;
  */
 public class CollaborationResponseCommand extends ScyDesktopRemoteCommand {
 
-    override public function getActionName(): String {
-        "collaboration_response"
-    }
+   override public function getActionName(): String {
+      "collaboration_response"
+   }
 
-    override public function executeRemoteCommand(notification: INotification): Void {
-        logger.debug("********************collaboration_response*************************");
-        def accepted: String = notification.getFirstProperty("accepted");
-        def eloUri: String = notification.getFirstProperty("proposed_elo");
-        if (accepted == "true" and eloUri != null) {
-            def messageDialogText = "{##"Starting collaboration on"} {eloUri}";
-            DialogBox.showMessageDialog(messageDialogText, ##"Your Collaboration Request", scyDesktop, function(){}, "{eloUri}");
-            def mucid: String = notification.getFirstProperty("mucid");
-            var uri = new URI(eloUri);
-            var collaborationWindow: ScyWindow = scyDesktop.scyWindowControl.windowManager.findScyWindow(uri);
-            if (collaborationWindow == null) {
-                collaborationWindow = scyDesktop.scyWindowControl.addOtherScyWindow(uri);
-                collaborationWindow.mucId = mucid;
-            } else {
-                collaborationWindow.mucId = mucid;
-                scyDesktop.installCollaborationTools(collaborationWindow);
+   override public function executeRemoteCommand(notification: INotification): Void {
+      logger.debug("********************collaboration_response*************************");
+      def accepted: String = notification.getFirstProperty("accepted");
+      def eloUriString: String = notification.getFirstProperty("proposed_elo");
+      def user: String = notification.getFirstProperty("proposing_user");
+      //TODO submit user-nickname instead of extracting it
+      def pos = user.indexOf("@");
+      def userNickname = if (pos>=0) user.substring(0, pos) else user;
+      def eloUri = if (eloUriString=="") null else new URI(eloUriString);
+      if (accepted == "true" and eloUri != null) {
+         CollaborationMessageDialogBox {
+            scyDesktop: scyDesktop
+            eloUri: eloUri
+            eloIconName: "collaboration_accepted"
+            title: "Collaboration request"
+            message: "Collaboration started on ELO"
+            yesTitle: "Ok"
+         }
+         //            def messageDialogText = "{##"Starting collaboration on"} {eloUri}";
+         //            DialogBox.showMessageDialog(messageDialogText, ##"Your Collaboration Request", scyDesktop, function(){}, "{eloUri}");
+         def mucid: String = notification.getFirstProperty("mucid");
+//         var uri = new URI(eloUri);
+         var collaborationWindow: ScyWindow = scyDesktop.scyWindowControl.windowManager.findScyWindow(eloUri);
+         if (collaborationWindow == null) {
+            collaborationWindow = scyDesktop.scyWindowControl.addOtherScyWindow(eloUri);
+            collaborationWindow.mucId = mucid;
+         } else {
+            collaborationWindow.mucId = mucid;
+            scyDesktop.installCollaborationTools(collaborationWindow);
+         }
+         scyDesktop.scyWindowControl.makeMainScyWindow(eloUri);
+      } else {
+//         def closed = DialogBox.closeDialog("{eloUri}");
+//         if (not closed) {
+         def pendingCollaborationRequestDialog = CollaborationRequestCommand.pendingCollaborationRequestDialogs.get(eloUri) as CollaborationMessageDialogBox;
+         if (pendingCollaborationRequestDialog==null){
+            CollaborationMessageDialogBox {
+               scyDesktop: scyDesktop
+               eloUri: eloUri
+               eloIconName: "collaboration_denied"
+               title: "Collaboration request"
+               message: "{userNickname} does not want to collaborate on ELO"
+               yesTitle: "Cancel"
+               yesFunction: function(): Void {
+                  println("cancel");
+               }
             }
-            scyDesktop.scyWindowControl.makeMainScyWindow(uri);
-        } else {
-            def closed = DialogBox.closeDialog("{eloUri}");
-            if (not closed) {
-                def messageDialogText = "{##"Your request for Collaboration on"} {eloUri} {##"was not accepted!"}";
-                DialogBox.showMessageDialog(messageDialogText, ##"Your Collaboration Request", scyDesktop, function(){}, "{eloUri}");
-                logger.debug("collaboration not accepted");
-            }
-        }
-    }
+            //                def messageDialogText = "{##"Your request for Collaboration on"} {eloUri} {##"was not accepted!"}";
+            //                DialogBox.showMessageDialog(messageDialogText, ##"Your Collaboration Request", scyDesktop, function(){}, "{eloUri}");
+            logger.debug("collaboration not accepted");
+         }
+         else{
+            pendingCollaborationRequestDialog.close();
+         }
+
+      }
+   }
 
 }
