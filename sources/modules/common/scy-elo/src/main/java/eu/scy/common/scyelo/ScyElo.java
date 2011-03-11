@@ -488,6 +488,23 @@ public class ScyElo {
                 new Contribute(authorID, System.currentTimeMillis()));
     }
 
+    public void removeAuthor(String authorID) {
+        List values = getMetadataValueContainer(authorKey).getValueList();
+        int indexToDelete = -1;
+        for (int i = 0; i < values.size(); i++) {
+            if (values.get(i) instanceof Contribute) {
+                Contribute c = (Contribute) values.get(i);
+                if (c.getVCard().equals(authorID)) {
+                    indexToDelete = i;
+                    break;
+                }
+            }
+        }
+        if (indexToDelete != -1) {
+            values.remove(indexToDelete);
+        }
+    }
+
     public void setAuthors(List<String> authorIds) {
         List<Contribute> authors = new ArrayList<Contribute>();
         for (String authorId : authorIds) {
