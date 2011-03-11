@@ -11,6 +11,8 @@ import eu.scy.tools.dataProcessTool.common.Data;
 import eu.scy.tools.dataProcessTool.common.DataHeader;
 import eu.scy.tools.dataProcessTool.common.DataOperation;
 import eu.scy.tools.dataProcessTool.common.Dataset;
+import eu.scy.tools.dataProcessTool.common.FunctionModel;
+import eu.scy.tools.dataProcessTool.common.FunctionParam;
 import eu.scy.tools.dataProcessTool.common.Graph;
 import eu.scy.tools.dataProcessTool.common.SimpleVisualization;
 import eu.scy.tools.dataProcessTool.common.Visualization;
@@ -19,6 +21,9 @@ import eu.scy.tools.dataProcessTool.utilities.CopexReturn;
 import eu.scy.tools.fitex.GUI.DrawPanel;
 import eu.scy.tools.dataProcessTool.controller.FitexNumber;
 import eu.scy.tools.dataProcessTool.dataTool.DataTableModel;
+import eu.scy.tools.dataProcessTool.utilities.DataConstants;
+import eu.scy.tools.fitex.GUI.FitexPanel;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -31,6 +36,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -99,7 +105,7 @@ public class FitexHTML {
             nbCols += tabHeader.length;
             nbRows += 1;
         }
-        nbRowDs = dataset.getNbRows() ;
+        nbRowDs = dataset.getNbMaxRowsData() ;
         nbColDs = dataset.getNbCol() ;
         int nbOR = listOperationsOnRows.size();
         int nbOC = listOperationsOnCols.size();
@@ -199,7 +205,8 @@ public class FitexHTML {
         addString("</table>");
         int nbVis = dataset.getListVisualization().size();
         for(int i=0; i<nbVis; i++){
-            setVisualization(dataset.getListVisualization().get(i), listGraph.get(i), i);
+            if(i< listGraph.size())
+                setVisualization(dataset.getListVisualization().get(i), listGraph.get(i), i);
         }
         v.add(fitexHtml);
         return new CopexReturn();
@@ -218,7 +225,7 @@ public class FitexHTML {
     }
 
     private void setVisualization(Visualization vis, Object o, int noVis){
-        addString("<p>"+vis.getName()+"</p>");
+        addString("<p class=\"visualization_name\">"+vis.getName()+"</p>");
         if(vis instanceof SimpleVisualization){
             setChart((SimpleVisualization)vis, (JFreeChart)o, noVis);
         }else if(vis instanceof Graph){
@@ -281,6 +288,8 @@ public class FitexHTML {
     }
 
     private void setFitexGraph(Graph graph, DrawPanel drawPanel, int noVis){
+        if(graph == null )
+            return;
         BufferedImage outImage=new BufferedImage(drawPanel.getWidth(),drawPanel.getHeight(),BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics=outImage.createGraphics();
         drawPanel.paint(graphics);
@@ -311,8 +320,51 @@ public class FitexHTML {
             Logger.getLogger(FitexHTML.class.getName()).log(Level.SEVERE, null, ex);
         }catch(IOException ioex){
             Logger.getLogger(FitexHTML.class.getName()).log(Level.SEVERE, null, ioex);
+        }catch(Throwable t){
+            Logger.getLogger(FitexHTML.class.getName()).log(Level.SEVERE, null, t);
+        }
+        int nbF = 0;
+        if(graph.getListFunctionModel() != null){
+            nbF = graph.getListFunctionModel().size();
+        }
+        if(nbF >0){
+            addString("<table  border='0' cellpadding='0'  style=\"width: 100%;\">");
+            addString("<tr><td>&nbsp;</td>");
+            for(Iterator<FunctionModel> fm = graph.getListFunctionModel().iterator(); fm.hasNext();){
+                FunctionModel function = fm.next();
+                String color = getHtmlColor(function.getColor());
+                addString("<td class=\"visualization_function\" style=\"color: "+color+"\">"+((function.getType() == DataConstants.FUNCTION_TYPE_Y_FCT_X)? "f(x)" : "f(y)")+" = "+function.getDescription()+"</td>");
+            }
+            addString("</tr>");
+            addString("<tr><td>&nbsp;</td>");
+            for(Iterator<FunctionModel> fm = graph.getListFunctionModel().iterator(); fm.hasNext();){
+                FunctionModel function = fm.next();
+                String color = getHtmlColor(function.getColor());
+                int nbparam = function.getListParam().size();
+                addString("<td>");
+                if(nbparam > 0){
+                    addString("<table  border='0' cellpadding='0'><tr>");
+                    for(Iterator<FunctionParam> p = function.getListParam().iterator(); p.hasNext();){
+                        FunctionParam param = p.next();
+                        addString("<td class=\"visualization_function_param\" style=\"color: "+color+"\">"+param.getParam()+" = "+FitexNumber.getNumberFormat(fitex.getLocale()).format(param.getValue())+"</td>");
+                    }
+                    addString("</tr></table>");
+                }
+                addString("</td>");
+            }
+            addString("</tr>");
+            addString("</table>");
         }
         String preview = "<img src=\"../tools_utilities/InterfaceServer/labdoc/"+fileName+"\" alt=\"Graphe\" style=\"width: 100%;\">";
         addString(preview);
+    }
+
+    private String getHtmlColor(Color color){
+        String s = Integer.toHexString( color.getRGB() & 0x00ffffff );
+        while(s.length() < 6){
+            s ="0"+s;
+        }
+        s = "#"+s;
+        return s;
     }
 }

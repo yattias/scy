@@ -48,7 +48,7 @@ public class FitexNumber {
         }
     }
 
-    private static NumberFormat getNumberFormat(Locale locale){
+    public static NumberFormat getNumberFormat(Locale locale){
         NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
         numberFormat.setMaximumFractionDigits(Integer.MAX_VALUE);
         numberFormat.setGroupingUsed(false);

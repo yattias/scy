@@ -174,9 +174,9 @@ public class Function
                 pasX = deltaX / 1000;
                 deltaY = Math.abs((ymax-ymin));
                 pasY = deltaY / 1000;
-                if(type == DataConstants.FUNCTION_TYPE_Y_FCT_X && pasX == 0)
+                if(!OLD_DIST && type == DataConstants.FUNCTION_TYPE_Y_FCT_X && pasX == 0)
                     break;
-                if(type == DataConstants.FUNCTION_TYPE_X_FCT_Y && pasY == 0)
+                if(!OLD_DIST && type == DataConstants.FUNCTION_TYPE_X_FCT_Y && pasY == 0)
                     break;
                 for (int i=0; i<nb; i++) {
                     // recuperation des valeurs de la ligne

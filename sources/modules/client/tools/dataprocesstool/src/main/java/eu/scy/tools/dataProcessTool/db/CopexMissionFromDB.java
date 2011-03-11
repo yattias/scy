@@ -122,7 +122,12 @@ public class CopexMissionFromDB {
         for (int i=0; i<nbR; i++){
             ResultSetXML rs = (ResultSetXML)v2.get(i);
             String s = rs.getColumnData("ID_LEARNER");
-            long idLearner = Long.parseLong(s);
+            long idLearner = -1;
+            try{
+                idLearner = Long.parseLong(s);
+            }catch(NumberFormatException e){
+                
+            }
             if (s == null)
                 continue;
             String querySt = "SELECT ID_LABDOC FROM LABDOC_STATUS "
