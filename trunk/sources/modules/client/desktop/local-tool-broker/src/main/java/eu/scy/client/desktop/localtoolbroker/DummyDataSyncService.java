@@ -1,5 +1,6 @@
 package eu.scy.client.desktop.localtoolbroker;
 
+import eu.scy.client.common.datasync.CollaboratorStatusListener;
 import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.client.common.datasync.ISyncListener;
 import eu.scy.client.common.datasync.ISyncSession;
@@ -67,6 +68,16 @@ public class DummyDataSyncService implements IDataSyncService {
       {
          return userName;
       }
+
+		@Override
+		public void addCollaboratorStatusListener(CollaboratorStatusListener listener)
+		{
+		}
+
+		@Override
+		public void removeCollaboratorStatusListener(CollaboratorStatusListener listener)
+		{
+		}
 
    }
    
