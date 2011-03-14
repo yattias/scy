@@ -878,7 +878,7 @@ public class StandardScyWindow extends ScyWindow {
 
       ownershipManager = OwnershipManager {
                 elo: bind scyElo
-                myName: tbi.getLoginUserName()
+                tbi: tbi
          }
 
       titleBarBuddies = TitleBarBuddies {

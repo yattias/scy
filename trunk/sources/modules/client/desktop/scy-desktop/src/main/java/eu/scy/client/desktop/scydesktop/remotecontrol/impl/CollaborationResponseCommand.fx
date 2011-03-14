@@ -49,8 +49,8 @@ public class CollaborationResponseCommand extends ScyDesktopRemoteCommand {
             } else if (not collaborationWindow.isCollaborative) {
                 scyDesktop.installCollaborationTools(collaborationWindow, mucid);
             }
+            collaborationWindow.ownershipManager.addOwner(proposedUserNickname, true);
             scyDesktop.scyWindowControl.makeMainScyWindow(eloUri);
-            collaborationWindow.ownershipManager.addOwner(proposedUserNickname, false);
         } else {
             def pendingCollaborationRequestDialog = CollaborationRequestCommand.pendingCollaborationRequestDialogs.get(eloUri) as CollaborationMessageDialogBox;
             if (pendingCollaborationRequestDialog == null) {
