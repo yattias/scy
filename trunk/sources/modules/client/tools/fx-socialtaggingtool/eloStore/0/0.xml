@@ -1,0 +1,61 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>sikken</entity>
+        <date>
+          <dateTime>2011-02-10T13:25:13.272+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <general>
+      <title>
+        <string language="en">Mission description</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/0/0/Mission_description.text</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/text</format>
+      <customElements>
+        <dateCreated>1255477743312</dateCreated>
+      </customElements>
+    </technical>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABOCAYAAAC3zZFGAAAA90lEQVR42u3SMYqDQBSAYW8tHiCprGy8gBcw9/AKIga0SqFgo+BbIuw2YZtkt/L74THwGKb4mCT0UQkCgAABAtTbgI/HI8ZxNG/M0y7Zti2GYYi+72Oapl+lm6Z52S3Lcpzruh5ztp52B+Dtdovr9XosvsvzPIqiiDRNo+u6uFwukWVZVFUV9/s9yrL8eaSu62jb9rgzz/P5AP+ifd/P+wMFECBAgAIIECBAAQQIEKAAAgQIUAABAgQogAABAhRAgAABCiBAgAAFECBAgAIIECBAgAABAgQIUAABAgQogAABAhRAgAABCiBAgAAFECBAgAL4b4D6rC+LprdHhLerqgAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<text>Mission description</text>
+</content>
+<resources>
+</resources>
+</elo>
