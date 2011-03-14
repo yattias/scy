@@ -79,6 +79,11 @@ public class DummyDataSyncService implements IDataSyncService {
 		{
 		}
 
+		@Override
+		public void refreshOnlineCollaborators()
+		{
+		}
+
    }
    
    private String userName;
