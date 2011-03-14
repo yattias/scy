@@ -139,11 +139,11 @@ public class CollaborationAgent extends AbstractThreadedAgent {
 
         private void handleCollaborationResponse(String proposedUser, String proposingUser, String elouri, String mission, String session, boolean requestAccepted) {
             logger.debug("Got a collaboration response from user " + proposedUser + " to " + proposingUser + " for elo " + elouri + ", 'accepted' is " + requestAccepted);
+            Timer t = timeoutTimer.remove(proposingUser + proposedUser);
+            if (t != null) {
+                t.stop();
+            }
             if (requestAccepted) {
-                Timer t = timeoutTimer.remove(proposingUser + proposedUser);
-                if (t != null) {
-                    t.stop();
-                }
                 try {
                     String mucId = mucids.remove(elouri);
                     if (mucId == null) {
