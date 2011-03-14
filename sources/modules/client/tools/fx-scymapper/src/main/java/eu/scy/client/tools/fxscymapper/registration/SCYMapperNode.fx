@@ -31,6 +31,8 @@ import java.awt.Dimension;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import eu.scy.notification.api.INotifiable;
 import eu.scy.notification.api.INotification;
+import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.OnlineState;
+import javafx.util.Sequences;
 
 public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, CollaborationStartable {
 
@@ -165,7 +167,10 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
     public override function canAcceptDrop(object: Object): Boolean {
         logger.debug("canAcceptDrop of {object.getClass()}");
         if (object instanceof ContactFrame) {
-            return true;
+            var c: ContactFrame = object as ContactFrame;
+            if (not scyWindow.ownershipManager.isOwner(c.contact.name)) {
+                return true;
+            }
         }
         return false;
     }
@@ -174,6 +179,7 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
         logger.debug("acceptDrop of {object.getClass()}");
         var c: ContactFrame = object as ContactFrame;
         logger.debug("acceptDrop user: {c.contact.name}");
+        scyWindow.ownershipManager.addPendingOwner(c.contact.name);
         scyWindow.windowManager.scyDesktop.config.getToolBrokerAPI().proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString(), scyWindow.mucId);
         logger.debug("scyDesktop: {scyWindow.windowManager.scyDesktop}");
     }
@@ -223,7 +229,9 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
         if (not collaborative) {
             collaborative = true;
             FX.deferAction(function(): Void {
-                scyMapperPanel.joinSession(mucid);
+                def session : ISyncSession = scyMapperPanel.joinSession(mucid);
+                session.addCollaboratorStatusListener(scyWindow.ownershipManager);
+                session.refreshOnlineCollaborators();
                 logger.debug("joined session, mucid: {mucid}");
             });
         }
