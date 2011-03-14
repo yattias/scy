@@ -3,6 +3,7 @@ package eu.scy.client.common.datasync;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
@@ -20,7 +21,6 @@ import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smackx.muc.DefaultParticipantStatusListener;
 import org.jivesoftware.smackx.muc.MultiUserChat;
-import org.jivesoftware.smackx.muc.Occupant;
 
 import eu.scy.common.datasync.ISyncAction;
 import eu.scy.common.datasync.ISyncObject;
@@ -189,7 +189,6 @@ public class SyncSession implements ISyncSession {
         return syncSessionJid;
     }
 
-    
     @Override
     public void addSyncObject(ISyncObject syncObject) {
         syncObject.setCreator(xmppConnection.getUser());
@@ -319,14 +318,11 @@ public class SyncSession implements ISyncSession {
 
     @Override
     public void refreshOnlineCollaborators() {
-        try {
-            for (Occupant o : muc.getParticipants()) {
-                for (CollaboratorStatusListener csl : collabListeners) {
-                    csl.wentOnline(getSimpleName(o.getJid()));
-                }
+        Iterator<String> it = muc.getOccupants();
+        while (it.hasNext()) {
+            for (CollaboratorStatusListener csl : collabListeners) {
+                csl.wentOnline(getSimpleName(it.next()));
             }
-        } catch (XMPPException e) {
-            e.printStackTrace();
         }
     }
 }
