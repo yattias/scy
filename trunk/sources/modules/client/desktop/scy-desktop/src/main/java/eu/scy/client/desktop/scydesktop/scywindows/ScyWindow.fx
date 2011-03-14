@@ -93,6 +93,7 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
     public-read protected var isMaximized = false;
     public-read protected var isManuallyRepositioned = false;
     public var isCollaborative = false;
+    public var isQuiting = false;
 
     public function open(): Void {
         openWindow(minimumWidth, minimumHeight)

@@ -74,6 +74,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       missionModel.removeElo(eloUri);
       def scyWindow = findScyWindow(eloUri);
       if (scyWindow!=null){
+         scyWindow.isQuiting = true;
          scyWindow.scyToolsList.onQuit();
          windowManager.removeScyWindow(scyWindow);
          windowPositioner.removeOtherWindow(scyWindow);
