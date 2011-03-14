@@ -177,7 +177,7 @@ public class RepositoryWrapper implements IRepository
       {
          return;
       }
-      if (StringUtils.hasLength(userId) && authorKey != null)
+      if (overwriteAuthor(elo))
       {
          elo.getMetadata().getMetadataValueContainer(authorKey).setValue(new Contribute(userId, System.currentTimeMillis()));
       }
@@ -215,6 +215,30 @@ public class RepositoryWrapper implements IRepository
 //		{
 //			elo.getMetadata().getMetadataValueContainer(annotatesRelationKey).setValue(anchorEloUri);
 //		}
+   }
+
+   private boolean overwriteAuthor(IELO elo)
+   {
+      if (!StringUtils.hasLength(userId))
+      {
+         return false;
+      }
+      if (authorKey == null)
+      {
+         return false;
+      }
+      List<Contribute> authors = (List<Contribute>) elo.getMetadata().getMetadataValueContainer(authorKey).getValueList();
+      if (authors != null)
+      {
+         for (Contribute author : authors)
+         {
+            if (userId.equalsIgnoreCase(author.getVCard()))
+            {
+               return false;
+            }
+         }
+      }
+      return true;
    }
 
    @Override
@@ -372,6 +396,4 @@ public class RepositoryWrapper implements IRepository
    {
       throw new UnsupportedOperationException("Not supported yet.");
    }
-
-
 }
