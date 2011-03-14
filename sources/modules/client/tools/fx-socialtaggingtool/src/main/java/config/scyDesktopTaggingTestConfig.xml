@@ -10,14 +10,14 @@
       <property name="eloConfigs">
          <list value-type="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
-               <property name="type" value="scy/taggable"/>
+               <property name="type" value="scy/text"/>
                <property name="display" value="Taggable"/>
                <property name="creatable" value="true"/>
-               <property name="contentCreatorId" value="taggable"/>
+               <property name="contentCreatorId" value="text"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="scyToolViewer"/>
                <!-- property name="rightDrawerCreatorId" value="propertiesViewer"/ -->
-               <property name="rightDrawerCreatorId" value="tagViewer"/>
+               <property name="rightDrawerCreatorId" value="socialtagging"/>
             </bean>
          </list>
       </property>

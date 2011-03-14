@@ -20,6 +20,7 @@ import eu.scy.client.desktop.scydesktop.tools.propertiesviewer.PropertiesViewerC
 import eu.scy.client.desktop.scydesktop.tools.scytoolviewer.ScyToolViewerCreator;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.EloManagement;
 import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
+import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorScyToolContentCreator;
 
 
 /**
@@ -31,32 +32,30 @@ import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
            storeElosOnDisk:false;
            loginType:"local"
            authorMode:true
+           debugMode: true
         }
 
 
 
 
 function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
-   def scyDrawingId = "taggable";
+//   def scyDrawingId = "taggable";
    def eloXmlViewerId = "xmlViewer";
    def scyToolViewerId = "scyToolViewer";
    def propertiesViewerId = "propertiesViewer";
-   def socialTaggingDrawerId = "tagViewer";
+   def socialTaggingDrawerId = "socialtagging";
+   def scyTextId = "text";
 
    var scyDesktopCreator = ScyDesktopCreator {
-              initializer: Initializer {
-           scyDesktopConfigFile: "config/scyDesktopTaggingTestConfig.xml"
-           storeElosOnDisk:false;
-           loginType:"local"
-           authorMode:true
-        }
+              initializer: initializer
         missionRunConfigs: missionRunConfigs;
    }
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(SocialTaggingToolCreatorFX{}, scyDrawingId);
+//   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(SocialTaggingToolCreatorFX{}, scyDrawingId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), eloXmlViewerId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ScyToolViewerCreator{}, scyToolViewerId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(new PropertiesViewerCreator(), propertiesViewerId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(new SocialTaggingDrawerCreator(), socialTaggingDrawerId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TextEditorScyToolContentCreator {}, scyTextId);
 
    var scyDesktop = scyDesktopCreator.createScyDesktop();
 
@@ -76,7 +75,7 @@ var scene: Scene;
 
 stage = Stage {
    title: "SCY desktop with social tagging tool demo"
-   width: 400
-   height: 300
+   width: 500
+   height: 400
 	scene: initializer.getScene(createScyDesktop);
 }

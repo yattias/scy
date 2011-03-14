@@ -23,6 +23,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Container;
+import javafx.geometry.Insets;
 
 public class SocialTaggingDrawer
         extends
@@ -37,6 +38,7 @@ public class SocialTaggingDrawer
     var tagGroup: Node;
     var mainBox: VBox;
     var tagLines: Node[];
+    def spacing = 5.0;
 
 
     public override function create(): Node {
@@ -213,6 +215,14 @@ public class SocialTaggingDrawer
 
       return mainBox = VBox {
                managed: false
+               spacing: spacing
+               padding: Insets{
+                  top: spacing
+                  right: spacing
+                  bottom: spacing
+                  left: spacing
+               }
+
                content: [
                   tagDrawerDescription,
                   scrollView,
@@ -221,6 +231,7 @@ public class SocialTaggingDrawer
                         vfill: true
                         vpos: VPos.BOTTOM
                     }
+                    spacing: spacing
                     content: [newTagBox, newTagButton]
                   }
                ]
