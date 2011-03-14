@@ -35,8 +35,6 @@ public class ChattoolDrawerContentCreatorFX extends DrawerContentCreatorFX {
         repository = toolBrokerAPI.getRepository();
         awarenessService = toolBrokerAPI.getAwarenessService();
         metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
-         println("ChattoolDrawerContentCreatorFX ELOURI: {eloUri}");
-         println("ChattoolDrawerContentCreatorFX ELO ID: {eloId}");
          return createChatToolNode(scyWindow,eloUri);
     }
 
@@ -51,7 +49,6 @@ public class ChattoolDrawerContentCreatorFX extends DrawerContentCreatorFX {
 
     function createChatToolNode(scyWindow:ScyWindow,eloUri:URI):ChatToolNode {
         
-        println("ELO ID nooooode {eloUri.toString()}");
         if(eloUri != null) {
             var metadataFirstVersion = repository.retrieveMetadataFirstVersion(eloUri);
 
@@ -63,7 +60,6 @@ public class ChattoolDrawerContentCreatorFX extends DrawerContentCreatorFX {
             s = StringUtils.remove(s, "/");
             s = StringUtils.remove(s, ".");
             s = StringUtils.remove(s, ":");
-            println("new string chat tool drawer: {s}" );
             var chatTool;
             var controller = chatControllerMap.get(s) as ChatController;
 
