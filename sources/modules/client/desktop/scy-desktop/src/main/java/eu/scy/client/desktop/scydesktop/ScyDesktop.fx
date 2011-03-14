@@ -813,6 +813,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       for (window in windows.getScyWindows()) {
          if (window.eloUri != null) {
             try {
+               window.isQuiting = true;
                window.scyToolsList.onQuit();
             }
             catch (e: Exception) {

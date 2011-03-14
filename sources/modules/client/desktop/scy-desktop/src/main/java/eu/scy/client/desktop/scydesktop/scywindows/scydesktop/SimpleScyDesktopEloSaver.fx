@@ -40,32 +40,30 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 /**
  * @author sikken
  */
+public class FunctionalRoleContainer {
 
-public class FunctionalRoleContainer{
    public var functionalRole: EloFunctionalRole;
-   var displayText:String;
+   var displayText: String;
 
-   public override function toString():String{
+   public override function toString(): String {
       displayText
    }
-}
 
+}
 def resourceBundleWrapper = new ResourceBundleWrapper(SimpleScyDesktopEloSaver.class);
-
-def emptyFunctionalRoleContainer = FunctionalRoleContainer{
-   functionalRole: null
-   displayText: ##"None"
-}
-
+def emptyFunctionalRoleContainer = FunctionalRoleContainer {
+           functionalRole: null
+           displayText: ##"None"
+        }
 
 public class SimpleScyDesktopEloSaver extends EloSaver {
 
    public var newTitleGenerator: NewTitleGenerator;
    public var myEloChanged: MyEloChanged;
    public var toolBrokerAPI: ToolBrokerAPI on replace {
-         eloFactory = toolBrokerAPI.getELOFactory();
-         repository = toolBrokerAPI.getRepository();
-      };
+              eloFactory = toolBrokerAPI.getELOFactory();
+              repository = toolBrokerAPI.getRepository();
+           };
    public var repository: IRepository;
    public var eloFactory: IELOFactory;
    public var titleKey: IMetadataKey;
@@ -78,16 +76,15 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
    public var functionalRoles: EloFunctionalRole[];
    public var loginName: String;
 //   def authorKey = config.getMetadataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
-
    var functionalRoleContainers: FunctionalRoleContainer[];
 
-   init{
-      functionalRoleContainers = for (functionalRole in functionalRoles){
-         FunctionalRoleContainer{
-            functionalRole: functionalRole
-            displayText: resourceBundleWrapper.getString(functionalRole.toString())
-         }
-      }
+   init {
+      functionalRoleContainers = for (functionalRole in functionalRoles) {
+                 FunctionalRoleContainer {
+                    functionalRole: functionalRole
+                    displayText: resourceBundleWrapper.getString(functionalRole.toString())
+                 }
+              }
       insert emptyFunctionalRoleContainer before functionalRoleContainers[0];
    }
 
@@ -109,22 +106,22 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       def scyElo = new ScyElo(elo, config.getToolBrokerAPI());
       if (authorMode) {
          eloSaveAsPanel = SimpleAuthorSaveAsNodeDesign {
-               saveAction: saveAction
-               cancelAction: cancelAction
-               elo: elo
-               scyElo: scyElo
-               myElo: myElo
-               eloSaverCallBack: eloSaverCallBack
-            }
+                    saveAction: saveAction
+                    cancelAction: cancelAction
+                    elo: elo
+                    scyElo: scyElo
+                    myElo: myElo
+                    eloSaverCallBack: eloSaverCallBack
+                 }
       } else {
          eloSaveAsPanel = SimpleSaveAsNodeDesign {
-               saveAction: saveAction
-               cancelAction: cancelAction
-               elo: elo
-               scyElo: scyElo
-               myElo: myElo
-               eloSaverCallBack: eloSaverCallBack
-            }
+                    saveAction: saveAction
+                    cancelAction: cancelAction
+                    elo: elo
+                    scyElo: scyElo
+                    myElo: myElo
+                    eloSaverCallBack: eloSaverCallBack
+                 }
       }
       eloSaveAsPanel.setTitle(suggestedEloTitle);
       eloSaveAsPanel.setFunctionalRoleContainers(functionalRoleContainers);
@@ -134,22 +131,21 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       if (window.scyElo != null) {
          eloIcon = windowStyler.getScyEloIcon(window.scyElo);
          windowColorScheme = windowStyler.getWindowColorScheme(window.scyElo);
-      }
-      else {
+      } else {
          eloIcon = windowStyler.getScyEloIcon(window.eloType);
          windowColorScheme = windowStyler.getWindowColorScheme(window.eloType);
       }
       eloIcon.selected = true;
       Composer.localizeDesign(eloSaveAsPanel.getDesignNodes());
       eloSaveAsPanel.modalDialogBox = ModalDialogBox {
-            content: Group {
-               content: eloSaveAsPanel.getDesignNodes()
-            }
-            //            targetScene: window.scene
-            title: ##"Enter title"
-            eloIcon: eloIcon
-            windowColorScheme: windowColorScheme
-         }
+                 content: Group {
+                    content: eloSaveAsPanel.getDesignNodes()
+                 }
+                 //            targetScene: window.scene
+                 title: ##"Enter title"
+                 eloIcon: eloIcon
+                 windowColorScheme: windowColorScheme
+              }
    }
 
    function saveAction(eloSaveAsPanel: EloSaveAsMixin): Void {
@@ -179,21 +175,27 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
    }
 
    public override function eloUpdate(elo: IELO, eloSaverCallBack: EloSaverCallBack): Void {
-      if (elo==null){
+      if (elo == null) {
          throw new IllegalArgumentException("elo may not be null");
       }
       if (elo.getUri() != null) {
          def scyElo = new ScyElo(elo, config.getToolBrokerAPI());
-         if (scyElo.getAuthors().contains(config.getToolBrokerAPI().getLoginUserName())) {
+         def myElo = scyElo.getAuthors().contains(config.getToolBrokerAPI().getLoginUserName());
+         if (myElo or window.isQuiting) {
             // it is (also) my elo
             addThumbnail(scyElo);
-            if (scyElo.getDateFirstUserSave()==null){
+            if (scyElo.getDateFirstUserSave() == null) {
                scyElo.setDateFirstUserSave(System.currentTimeMillis());
             }
-            if (scyElo.getCreator()==null){
+            if (scyElo.getCreator() == null) {
                scyElo.setCreator(loginName);
             }
-            scyElo.updateElo();
+            if (myElo) {
+               scyElo.updateElo();
+            } else {
+               // it is not my, but as this window is being quit, i may not ask the user anything
+               scyElo.saveAsForkedElo();
+            }
             myEloChanged.myEloChanged(scyElo);
          } else {
             // it is not my elo, do a save as
@@ -206,7 +208,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
    }
 
    public override function otherEloSaveAs(elo: IELO, eloSaverCallBack: EloSaverCallBack): Void {
-      if (elo==null){
+      if (elo == null) {
          throw new IllegalArgumentException("elo may not be null");
       }
       var forking = elo.getUri() != null;
@@ -230,9 +232,9 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       if (thumbnailImage == null) {
          // no thumbnail returned by the tool, try to use an image of window content
          def bounds = BoundingBox {
-               width: ArtSource.thumbnailWidth
-               height: ArtSource.thumbnailHeight
-            }
+                    width: ArtSource.thumbnailWidth
+                    height: ArtSource.thumbnailHeight
+                 }
          thumbnailImage = ImageUtils.nodeToImage(window.scyContent, bounds);
          window.requestLayout();
       }
