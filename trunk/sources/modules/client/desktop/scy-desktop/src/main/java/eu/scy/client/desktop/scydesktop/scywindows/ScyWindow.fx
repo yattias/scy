@@ -22,7 +22,7 @@ import eu.scy.client.desktop.scydesktop.draganddrop.DropTarget;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.mission.EloToolConfig;
 import javafx.geometry.Point2D;
-import eu.scy.client.desktop.scydesktop.awareness.BuddyManager;
+import eu.scy.client.desktop.scydesktop.owner.OwnershipManager;
 
 /**
  * @author sikkenj
@@ -85,13 +85,14 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
     public var dragAndDropManager: DragAndDropManager;
     public var mucId: String;
     public var tbi: ToolBrokerAPI;
-    public var buddyManager: BuddyManager;
+    public var ownershipManager: OwnershipManager;
     // status variables
     public-read protected var isMinimized = false;
     public-read protected var isClosed = true;
     public var isCentered = false;
     public-read protected var isMaximized = false;
     public-read protected var isManuallyRepositioned = false;
+    public var isCollaborative = false;
 
     public function open(): Void {
         openWindow(minimumWidth, minimumHeight)

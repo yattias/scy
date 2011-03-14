@@ -46,6 +46,7 @@ import javafx.scene.layout.Container;
 import javafx.scene.CacheHint;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import eu.scy.client.desktop.scydesktop.utils.XFX;
+import eu.scy.client.desktop.scydesktop.owner.OwnershipManager;
 
 /**
  * @author sikkenj
@@ -875,12 +876,19 @@ public class StandardScyWindow extends ScyWindow {
             maximizeAction: doMaximize
          }
 
+      ownershipManager = OwnershipManager {
+                elo: bind scyElo
+                myName: tbi.getLoginUserName()
+         }
+
       titleBarBuddies = TitleBarBuddies {
             tooltipManager: tooltipManager
             windowColorScheme: windowColorScheme
             window: this
-            buddyManager: buddyManager
+            ownershipManager: ownershipManager
          }
+
+      titleBarBuddies.ownershipManager.update();
 
       windowTitleBar = WindowTitleBarDouble {
             width: bind realWidth + borderWidth

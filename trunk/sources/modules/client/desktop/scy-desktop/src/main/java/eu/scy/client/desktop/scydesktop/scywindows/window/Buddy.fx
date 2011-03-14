@@ -17,8 +17,10 @@ import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.ColoredTextTooltip;
-import eu.scy.client.desktop.scydesktop.awareness.BuddyModel;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.OnlineState;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.Cursor;
+import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.Contact;
 
 /**
  * @author SikkenJ
@@ -26,16 +28,16 @@ import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.OnlineState;
 public class Buddy extends CustomNode, TooltipCreator {
 
    public-init var tooltipManager: TooltipManager;
-   public-init var buddyModel: BuddyModel;
+   public-init var contact: Contact;
    public var windowColorScheme: WindowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    def size = 10.0;
    def circleSize = 4.0;
    def lineWidth = 2.0;
-   def color = bind if (OnlineState.ONLINE == buddyModel.onlineState) windowColorScheme.mainColor else windowColorScheme.mainColorLight;
+   def color = bind if (OnlineState.ONLINE == contact.onlineState or OnlineState.IS_ME == contact.onlineState) windowColorScheme.mainColor else windowColorScheme.mainColorLight;
 
    public override function create(): Node {
       tooltipManager.registerNode(this, this);
-      Group {
+      def node: Group = Group {
          content: [
             Polyline {
                points: [0, size, size / 2, size / 2, size, size, 0, size]
@@ -48,15 +50,31 @@ public class Buddy extends CustomNode, TooltipCreator {
                radius: circleSize
                strokeWidth: lineWidth
                stroke: bind color
-               fill: bind if (buddyModel.isMe) color else Color.WHITE
+               fill: bind if (contact.onlineState == OnlineState.IS_ME) color else Color.WHITE
             }
          ]
       }
+      if (contact.onlineState == OnlineState.PENDING) {
+            createProgressIndicator(node)
+      }
+      return node;
    }
+
+    function createProgressIndicator(node: Group): Void {
+        def progress = ProgressIndicator {
+            cursor: Cursor.WAIT
+            translateX: -5
+            translateY: -6
+            scaleX: 0.7
+            scaleY: 0.7
+            visible: bind (contact.onlineState == OnlineState.PENDING)
+        }
+        insert progress into node.content;
+    }
 
    public override function createTooltipNode(sourceNode: Node): Node {
       ColoredTextTooltip {
-         content: buddyModel.name
+         content: contact.name
          color: windowColorScheme.mainColor
       }
    }

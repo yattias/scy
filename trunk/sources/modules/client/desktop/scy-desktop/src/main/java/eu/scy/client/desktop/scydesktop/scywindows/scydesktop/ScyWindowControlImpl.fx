@@ -19,7 +19,6 @@ import javafx.util.Sequences;
 import java.lang.Void;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.common.scyelo.ScyElo;
-import eu.scy.client.desktop.scydesktop.awareness.BuddyManager;
 
 /**
  * @author sikken
@@ -29,7 +28,6 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    def logger = Logger.getLogger(this.getClass());
 
    public var showEloInfoDisplay= false;
-   public var buddyManager: BuddyManager;
 
    var firstNewLas = true;
    def techniocalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
@@ -275,8 +273,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
             dragAndDropManager: dragAndDropManager
             tbi: tbi
             windowControl:this
-            buddyManager: buddyManager
-         }
+            }
       windowStyler.style(scyWindow);
       var anchorAttribute = missionMap.getAnchorAttribute(eloUri);
       if (anchorAttribute != null) {
@@ -311,8 +308,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
             dragAndDropManager: dragAndDropManager
             tbi: tbi
             windowControl:this
-            buddyManager: buddyManager
-         }
+            }
       windowStyler.style(scyWindow);
       if (showEloInfoDisplay){
          insert getEloInfoDisplayAttribute(scyWindow) into scyWindow.scyWindowAttributes

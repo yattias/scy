@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
-import eu.scy.client.desktop.scydesktop.awareness.BuddyManager;
+import eu.scy.client.desktop.scydesktop.owner.OwnershipManager;
 
 /**
  * @author SikkenJ
@@ -19,7 +19,9 @@ public class TitleBarBuddies extends WindowElement {
 
    public var window: ScyWindow;
    public-init var tooltipManager: TooltipManager;
-   public-init var buddyManager: BuddyManager;
+   public var ownershipManager: OwnershipManager on replace {
+       ownershipManager.titleBarBuddies = this;
+       };
    def buddySpacing = 5.0;
    def displayBox = HBox {
          spacing: buddySpacing
@@ -30,23 +32,19 @@ public class TitleBarBuddies extends WindowElement {
    }
 
    public override function create(): Node {
-      updateBuddies();
       displayBox
    }
 
    function updateBuddies() {
-      delete  displayBox.content;
-      def authors = window.scyElo.getAuthors();
-      if (authors != null) {
-         displayBox.content =
-            for (author in authors) {
-               Buddy {
-                  tooltipManager:tooltipManager
-                  windowColorScheme: windowColorScheme
-                  buddyModel: buddyManager.getBuddyModel(author)
-               }
+    delete displayBox.content;
+    displayBox.content =
+            for (contact in ownershipManager.getOwners()) {
+                Buddy {
+                    tooltipManager: tooltipManager
+                    windowColorScheme: windowColorScheme
+                    contact: contact
+                }
             }
-      }
    }
 
 }

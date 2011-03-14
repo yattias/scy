@@ -19,6 +19,10 @@ import eu.scy.client.desktop.scydesktop.draganddrop.DropTarget;
 import eu.scy.client.desktop.scydesktop.draganddrop.DropTarget2;
 import java.lang.IllegalArgumentException;
 import javafx.scene.Group;
+import javafx.scene.shape.Circle;
+import javafx.scene.paint.Color;
+import javafx.util.Math;
+import javafx.scene.shape.Line;
 
 /**
  * @author sikken
@@ -34,7 +38,7 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
    def dragOpacity = 0.35;
    def dropOpacity = 0.85;
    var dropObject: Object;
-   var dragNode: Node;
+   var dragNode: Group;
    var orginalDragNodeX: Number;
    var orginalDragNodeY: Number;
    var sourceNode: Node;
@@ -43,11 +47,45 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
    var mousehasBeenDragged = false;
    var currentDropTargetUnderMouse: DropTarget;
    var needToCallDropLeft = false;
+   var forbiddenNode : Group;
 
    override public function startDrag(node: Node, object: Object, source: Node, e: MouseEvent): Void {
       MouseBlocker.startMouseBlocking();
+      def sqrt2 = 0.707106781;
+
+      def redCircle = Circle {
+        centerX: node.boundsInParent.width / 2, centerY: node.boundsInParent.height / 2
+        radius: Math.max(node.boundsInParent.width, node.boundsInParent.height) / 2 + 10
+        fill: Color.TRANSPARENT
+        stroke: Color.RED
+        strokeWidth: 8
+        cache: true
+      };
+      def redLine = Line {
+        startX: redCircle.centerX + sqrt2 * redCircle.radius,  startY: redCircle.centerY - sqrt2 * redCircle.radius
+        endX: redCircle.centerX - sqrt2 * redCircle.radius,  endY: redCircle.centerY + sqrt2 * redCircle.radius
+        strokeWidth: 8
+        stroke: Color.RED
+      };
+
+      forbiddenNode = Group {
+            content: [
+                redCircle,
+                redLine
+            ]
+            translateX: node.translateX
+            translateY: node.translateY
+            visible: true
+            opacity: 0.7
+      };
+
+
       dropObject = object;
-      dragNode = node;
+      dragNode = Group {
+            content: [
+                node, forbiddenNode
+            ]
+      }
       sourceNode = e.node;
       dragNode.opacity = 0.0;
 
@@ -176,9 +214,14 @@ public class SimpleDragAndDropManager extends DragAndDropManager {
          }
          if (dropAcceptable) {
             dragNode.opacity = dropOpacity;
+            forbiddenNode.visible = false;
          } else {
-            dragNode.opacity = dragOpacity;
+            dragNode.opacity = dropOpacity;
+            forbiddenNode.visible = true;
          }
+      } else if (dropTarget == null) {
+         forbiddenNode.visible = false;
+         dragNode.opacity = dragOpacity;
       }
    }
 

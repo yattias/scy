@@ -90,7 +90,6 @@ import eu.scy.common.configuration.Configuration;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import java.net.URLEncoder;
 import eu.scy.client.desktop.scydesktop.utils.XFX;
-import eu.scy.client.desktop.scydesktop.awareness.impl.BuddyManagerImpl;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBox;
@@ -239,9 +238,6 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          stage: scene.stage
          shutdownFunction: scyDesktopShutdownAction
       }
-   def buddyManager = BuddyManagerImpl{
-      tbi: missionRunConfigs.tbi
-   }
    public var scyFeedbackGiveButton:MultiImageButton;
    public var scyFeedbackGetButton:MultiImageButton;
    public var eportfolioButton:MultiImageButton;
@@ -576,7 +572,6 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             repositoryWrapper: if (config.getRepository() instanceof RepositoryWrapper) config.getRepository() as RepositoryWrapper else null;
             showEloInfoDisplay: initializer.debugMode
             eloConfigManager: eloConfigManager
-            buddyManager: buddyManager
          }
       missionMap.scyWindowControl = scyWindowControl;
       bigMissionMapControl.scyWindowControl = scyWindowControl;
@@ -639,16 +634,18 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    function fillScyWindowNow(window: ScyWindow): Void {
       realFillNewScyWindow2(window, false);
       if (window.mucId.length() > 0 and not initializer.offlineMode) {
-         installCollaborationTools(window);
+         installCollaborationTools(window, window.mucId);
       }
       window.scyToolsList.onOpened();
    }
 
-   public function installCollaborationTools(window: ScyWindow): Void {
+   public function installCollaborationTools(window: ScyWindow, mucId: String): Void {
+      window.mucId = mucId;
       realFillNewScyWindow2(window, true);
       def toolNode: Node = window.scyContent;
       if (toolNode instanceof CollaborationStartable) {
-         (toolNode as CollaborationStartable).startCollaboration(window.mucId);
+         (toolNode as CollaborationStartable).startCollaboration(mucId);
+         window.isCollaborative = true;
       }
    }
 
