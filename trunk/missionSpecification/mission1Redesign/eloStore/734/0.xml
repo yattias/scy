@@ -48,12 +48,12 @@
     <eloType>defaultEloToolConfig</eloType>
     <eloSystemRole>USER</eloSystemRole>
     <contentCreatorId />
-    <topDrawerCreatorId>presence</topDrawerCreatorId>
+    <topDrawerCreatorId></topDrawerCreatorId>
     <rightDrawerCreatorId>chat</rightDrawerCreatorId>
     <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
     <leftDrawerCreatorId>assingmentInfo resourcesInfo feedbackQuestion socialtagging</leftDrawerCreatorId>
     <isContentCollaboration />
-    <isTopDrawerCollaboration>true</isTopDrawerCollaboration>
+    <isTopDrawerCollaboration></isTopDrawerCollaboration>
     <isRightDrawerCollaboration>true</isRightDrawerCollaboration>
     <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
     <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
