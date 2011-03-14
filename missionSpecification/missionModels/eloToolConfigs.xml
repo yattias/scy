@@ -10,8 +10,6 @@
          <list value-type="eu.scy.common.mission.EloToolConfig">
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="defaultEloToolConfig"/>
-               <property name="topDrawerCreatorId" value="presence"/>
-               <property name="topDrawerCollaboration" value="true"/>
                <property name="rightDrawerCreatorId" value="chat"/>
                <property name="rightDrawerCollaboration" value="true"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
