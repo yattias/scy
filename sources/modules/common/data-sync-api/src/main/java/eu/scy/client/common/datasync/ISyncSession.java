@@ -106,5 +106,7 @@ public interface ISyncSession {
 	public void addCollaboratorStatusListener(CollaboratorStatusListener listener);
 
         public void removeCollaboratorStatusListener(CollaboratorStatusListener listener);
+        
+        public void refreshOnlineCollaborators();
 
 }
