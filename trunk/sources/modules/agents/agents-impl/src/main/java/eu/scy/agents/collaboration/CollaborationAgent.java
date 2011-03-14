@@ -160,11 +160,11 @@ public class CollaborationAgent extends AbstractThreadedAgent {
                     // in case of problems dump a stacktrace and do as if
                     // request has not been
                     // accepted ...
-                    sendNotification(proposedUser, mission, session, "type=collaboration_response", "accepted=false");
+                    sendNotification(proposedUser, mission, session, "type=collaboration_response", "accepted=false", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "proposed_elo=" + elouri);
                     e.printStackTrace();
                 }
             } else {
-                sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=false");
+                sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=false", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "proposed_elo=" + elouri);
             }
         }
 
