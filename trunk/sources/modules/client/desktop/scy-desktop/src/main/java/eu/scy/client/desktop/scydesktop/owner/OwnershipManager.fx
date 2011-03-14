@@ -29,11 +29,6 @@ public class OwnershipManager extends CollaboratorStatusListener {
             }
             titleBarBuddies.buddiesChanged();
         }
-        println("Updating owners of {myName}:");
-        for (owner in owners) {
-            println("Update: {owner.name} - {owner.onlineState}");
-        }
-        println("Update finished");
     }
 
     public function getOwners(): Contact[] {
@@ -51,7 +46,6 @@ public class OwnershipManager extends CollaboratorStatusListener {
     }
 
     public function addOwner(name: String, persist: Boolean): Void {
-        println("Adding owner {name}");
         var found = false;
         // either update a previous owner
         for (contact in owners) {
@@ -74,7 +68,6 @@ public class OwnershipManager extends CollaboratorStatusListener {
     }
 
     public function removeOwner(name: String, persist: Boolean): Void {
-        println("Removing owner {name}");
         for (contact in owners) {
             def c = contact as Contact;
             if (c.name == name) {
@@ -88,7 +81,6 @@ public class OwnershipManager extends CollaboratorStatusListener {
     }
 
     public function addPendingOwner(name: String): Void {
-        println("Removing pending owner {name}");
         insert Contact {
             name: name
             onlineState: OnlineState.PENDING
@@ -97,7 +89,6 @@ public class OwnershipManager extends CollaboratorStatusListener {
     }
 
     public override function joined(name: String): Void {
-println("joined: {name}");
         var found = false;
         for (contact in owners) {
             def c = contact as Contact;
@@ -115,12 +106,10 @@ println("joined: {name}");
     }
 
     public override function left(name: String): Void {
-println("left: {name}");
         wentOffline(name);
     }
 
     public override function wentOnline(name: String): Void {
-println("wentOnline: {name}");
         for (contact in owners) {
             def c = contact as Contact;
             if (c.name == name and c.onlineState != OnlineState.IS_ME) {
@@ -132,7 +121,6 @@ println("wentOnline: {name}");
     }
 
     public override function wentOffline(name: String): Void {
-println("wentOffline: {name}");
         for (contact in owners) {
             def c = contact as Contact;
             if (c.name == name) {
