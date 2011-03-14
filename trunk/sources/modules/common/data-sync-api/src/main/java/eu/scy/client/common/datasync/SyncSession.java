@@ -20,6 +20,7 @@ import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smackx.muc.DefaultParticipantStatusListener;
 import org.jivesoftware.smackx.muc.MultiUserChat;
+import org.jivesoftware.smackx.muc.Occupant;
 
 import eu.scy.common.datasync.ISyncAction;
 import eu.scy.common.datasync.ISyncObject;
@@ -314,5 +315,18 @@ public class SyncSession implements ISyncSession {
             return xmppConnection.getUser();
         }
         return null;
+    }
+
+    @Override
+    public void refreshOnlineCollaborators() {
+        try {
+            for (Occupant o : muc.getParticipants()) {
+                for (CollaboratorStatusListener csl : collabListeners) {
+                    csl.wentOnline(getSimpleName(o.getJid()));
+                }
+            }
+        } catch (XMPPException e) {
+            e.printStackTrace();
+        }
     }
 }
