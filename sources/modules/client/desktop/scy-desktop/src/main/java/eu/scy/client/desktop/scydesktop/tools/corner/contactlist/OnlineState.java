@@ -11,7 +11,7 @@ package eu.scy.client.desktop.scydesktop.tools.corner.contactlist;
  */
 public enum OnlineState {
     
-      ONLINE,AWAY,OFFLINE;
+      ONLINE,AWAY,OFFLINE,PENDING,IS_ME;
 
     @Override
     public String toString() {
@@ -19,6 +19,8 @@ public enum OnlineState {
             case ONLINE: return "Online";
             case AWAY: return "Away";
             case OFFLINE: return "Offline";
+            case PENDING: return "Pending";
+            case IS_ME: return "That's me";
             default:return "";
         }
     }

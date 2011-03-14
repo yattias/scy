@@ -10,73 +10,71 @@ import eu.scy.notification.api.INotification;
 import eu.scy.client.desktop.scydesktop.remotecontrol.api.ScyDesktopRemoteCommand;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBox;
 
 /**
  * @author sven
  */
 public class CollaborationResponseCommand extends ScyDesktopRemoteCommand {
 
-   override public function getActionName(): String {
-      "collaboration_response"
-   }
+    override public function getActionName(): String {
+        "collaboration_response"
+    }
 
-   override public function executeRemoteCommand(notification: INotification): Void {
-      logger.debug("********************collaboration_response*************************");
-      def accepted: String = notification.getFirstProperty("accepted");
-      def eloUriString: String = notification.getFirstProperty("proposed_elo");
-      def user: String = notification.getFirstProperty("proposing_user");
-      //TODO submit user-nickname instead of extracting it
-      def pos = user.indexOf("@");
-      def userNickname = if (pos>=0) user.substring(0, pos) else user;
-      def eloUri = if (eloUriString=="") null else new URI(eloUriString);
-      if (accepted == "true" and eloUri != null) {
-         CollaborationMessageDialogBox {
-            scyDesktop: scyDesktop
-            eloUri: eloUri
-            eloIconName: "collaboration_accepted"
-            title: "Collaboration request"
-            message: "Collaboration started on ELO"
-            yesTitle: "Ok"
-         }
-         //            def messageDialogText = "{##"Starting collaboration on"} {eloUri}";
-         //            DialogBox.showMessageDialog(messageDialogText, ##"Your Collaboration Request", scyDesktop, function(){}, "{eloUri}");
-         def mucid: String = notification.getFirstProperty("mucid");
-//         var uri = new URI(eloUri);
-         var collaborationWindow: ScyWindow = scyDesktop.scyWindowControl.windowManager.findScyWindow(eloUri);
-         if (collaborationWindow == null) {
-            collaborationWindow = scyDesktop.scyWindowControl.addOtherScyWindow(eloUri);
-            collaborationWindow.mucId = mucid;
-         } else {
-            collaborationWindow.mucId = mucid;
-            scyDesktop.installCollaborationTools(collaborationWindow);
-         }
-         scyDesktop.scyWindowControl.makeMainScyWindow(eloUri);
-      } else {
-//         def closed = DialogBox.closeDialog("{eloUri}");
-//         if (not closed) {
-         def pendingCollaborationRequestDialog = CollaborationRequestCommand.pendingCollaborationRequestDialogs.get(eloUri) as CollaborationMessageDialogBox;
-         if (pendingCollaborationRequestDialog==null){
+    override public function executeRemoteCommand(notification: INotification): Void {
+        logger.debug("********************collaboration_response*************************");
+        def accepted: String = notification.getFirstProperty("accepted");
+        def eloUriString: String = notification.getFirstProperty("proposed_elo");
+        def proposingUser: String = notification.getFirstProperty("proposing_user");
+        def proposedUser: String = notification.getFirstProperty("proposed_user");
+        //TODO submit user-nickname instead of extracting it
+        def pos1 = proposingUser.indexOf("@");
+        def proposingUserNickname = if (pos1 >= 0) proposingUser.substring(0, pos1) else proposingUser;
+        def pos2 = proposedUser.indexOf("@");
+        def proposedUserNickname = if (pos2 >= 0) proposedUser.substring(0, pos2) else proposedUser;
+        def eloUri = if (eloUriString == "") null else new URI(eloUriString);
+        if (accepted == "true" and eloUri != null) {
             CollaborationMessageDialogBox {
-               scyDesktop: scyDesktop
-               eloUri: eloUri
-               eloIconName: "collaboration_denied"
-               title: "Collaboration request"
-               message: "{userNickname} does not want to collaborate on ELO"
-               yesTitle: "Cancel"
-               yesFunction: function(): Void {
-                  println("cancel");
-               }
+                scyDesktop: scyDesktop
+                eloUri: eloUri
+                eloIconName: "collaboration_accepted"
+                title: "Collaboration request"
+                message: "Collaboration started on ELO"
+                yesTitle: "Ok"
             }
-            //                def messageDialogText = "{##"Your request for Collaboration on"} {eloUri} {##"was not accepted!"}";
-            //                DialogBox.showMessageDialog(messageDialogText, ##"Your Collaboration Request", scyDesktop, function(){}, "{eloUri}");
-            logger.debug("collaboration not accepted");
-         }
-         else{
-            pendingCollaborationRequestDialog.close();
-         }
+            def mucid: String = notification.getFirstProperty("mucid");
+            var collaborationWindow: ScyWindow = scyDesktop.scyWindowControl.windowManager.findScyWindow(eloUri);
+            if (collaborationWindow == null) {
+                collaborationWindow = scyDesktop.scyWindowControl.addOtherScyWindow(eloUri);
+                scyDesktop.installCollaborationTools(collaborationWindow, mucid);
+            } else if (not collaborationWindow.isCollaborative) {
+                scyDesktop.installCollaborationTools(collaborationWindow, mucid);
+            }
+            scyDesktop.scyWindowControl.makeMainScyWindow(eloUri);
+            collaborationWindow.ownershipManager.addOwner(proposedUserNickname, false);
+        } else {
+            def pendingCollaborationRequestDialog = CollaborationRequestCommand.pendingCollaborationRequestDialogs.get(eloUri) as CollaborationMessageDialogBox;
+            if (pendingCollaborationRequestDialog == null) {
+                CollaborationMessageDialogBox {
+                    scyDesktop: scyDesktop
+                    eloUri: eloUri
+                    eloIconName: "collaboration_denied"
+                    title: "Collaboration request"
+                    message: "{proposingUserNickname} does not want to collaborate on ELO {eloUri}"
+                    yesTitle: "Cancel"
+                    yesFunction: function(): Void {
+                        println("cancel");
+                    }
+                }
+                logger.debug("collaboration not accepted");
+                var collaborationWindow: ScyWindow = scyDesktop.scyWindowControl.windowManager.findScyWindow(eloUri);
+                if (collaborationWindow != null) {
+                    collaborationWindow.ownershipManager.removeOwner(proposedUserNickname, false);
+                }
+            } else {
+                pendingCollaborationRequestDialog.close();
+            }
 
-      }
-   }
+        }
+    }
 
 }

@@ -85,7 +85,7 @@ public class ContactList extends CustomNode {
     public var content:Node[] = calculateMultiColumnContent(columns);
     public var width = WindowSize.DEFAULT_ITEM_WIDTH * columns;
     public var height = 250;
-    public var itemHeight = if ((sizeof contactFrames) > 0) contactFrames[0].height else 10;
+    public var itemHeight = if ((sizeof contactFrames) > 0) contactFrames[0].boundsInParent.height else 10;
     public var itemWidth = WindowSize.DEFAULT_WIDTH;
     override var focusTraversable = true;
    

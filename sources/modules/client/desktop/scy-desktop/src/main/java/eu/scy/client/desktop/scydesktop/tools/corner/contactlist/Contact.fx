@@ -20,4 +20,5 @@ public class Contact {
     public var currentMission: String;
     public var progress: Number;
     public var imageURL: String;
+
 }

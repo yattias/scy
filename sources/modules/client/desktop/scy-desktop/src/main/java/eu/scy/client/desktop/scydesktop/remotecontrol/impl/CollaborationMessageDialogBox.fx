@@ -36,6 +36,8 @@ public class CollaborationMessageDialogBox {
    public var yesFunction: function(): Void;
    public var noTitle = "No";
    public var noFunction: function(): Void;
+   var yesButton : Button;
+   var noButton : Button;
 
    def spacing = 5.0;
    def scyElo: ScyElo = if (eloUri==null) null else ScyElo.loadMetadata(eloUri, scyDesktop.missionRunConfigs.tbi);
@@ -62,6 +64,11 @@ public class CollaborationMessageDialogBox {
                  windowColorScheme: windowColorScheme
                  content: createCollaborationMessage()
               }
+   }
+
+   function disableButtons() {
+       yesButton.disable = true;
+       noButton.disable = true;
    }
 
    function createCollaborationMessage(): Node {
@@ -104,20 +111,23 @@ public class CollaborationMessageDialogBox {
                spacing: spacing
                hpos: HPos.RIGHT
                content: [
-                  Button {
+                  yesButton = Button {
                      text: yesTitle
                      action: function():Void{
+                        disableButtons();
                         yesFunction();
                         close();
                      }
+                     
                   }
                   if (noFunction != null) {
-                     Button {
+                     noButton = Button {
                         text: noTitle
                         action: function():Void{
-                        noFunction();
-                        close();
-                     }
+                            disableButtons();
+                            noFunction();
+                            close();
+                         }
                      }
                   } else {
                      null
