@@ -195,6 +195,12 @@
             </entry>
             <entry>
                <key>
+                  <value>scy/resultcard</value>
+               </key>
+               <value>.scyresultcard</value>
+            </entry>
+            <entry>
+               <key>
                   <value>scy/speedtest</value>
                </key>
                <value>.speedtest</value>
