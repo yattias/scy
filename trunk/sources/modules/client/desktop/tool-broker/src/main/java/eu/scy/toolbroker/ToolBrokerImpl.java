@@ -520,6 +520,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 		collaborationResponseAction.addContext(ContextConstants.tool, "scylab");
 		collaborationResponseAction.addAttribute("request_accepted", String.valueOf(accept));
 		collaborationResponseAction.addAttribute("proposing_user", proposingUser);
+		collaborationResponseAction.addAttribute("proposed_user", xmppConnection.getUser());
 		collaborationResponseAction.addAttribute("proposed_elo", elouri);
 		log.log(collaborationResponseAction);
 		if (accept) {
