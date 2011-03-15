@@ -73,6 +73,7 @@ public class ScyElo {
     private final IMetadataKey thumbnailKey;
     private final IMetadataKey obligatoryInPortfolioKey;
     private final IMetadataKey feedbackOnKey;
+    private final IMetadataKey mucIdKey;
 
     private ScyElo(IELO elo, IMetadata metadata, RooloServices rooloServices) {
         assert metadata != null;
@@ -111,6 +112,7 @@ public class ScyElo {
         obligatoryInPortfolioKey = findMetadataKey(ScyRooloMetadataKeyIds.OBLIGATORY_IN_PORTFOLIO);
         feedbackOnKey = findMetadataKey(ScyRooloMetadataKeyIds.FEEDBACK_ON);
         dateFirstUserSaveKey = findMetadataKey(ScyRooloMetadataKeyIds.DATE_FIRST_USER_SAVE);
+        mucIdKey = findMetadataKey(ScyRooloMetadataKeyIds.MUC_ID);
     }
 
     public ScyElo(IELO elo, RooloServices rooloServices) {
@@ -676,5 +678,15 @@ public class ScyElo {
 
   public void setFeedbackOnEloUri(URI uri) {
       getMetadataValueContainer(feedbackOnKey).setValue(uri);
-  } 
+  }
+
+  public String getMucId() {
+      return (String) getMetadataValueContainer(mucIdKey).getValue();
+  }
+
+  public void setMucId(String mucId) {
+      getMetadataValueContainer(mucIdKey).setValue(mucId);
+  }
+
+
 }
