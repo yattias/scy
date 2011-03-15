@@ -205,12 +205,6 @@
                </key>
                <value>.speedtest</value>
             </entry>
-            <entry>
-               <key>
-                  <value>scy/resultcard</value>
-               </key>
-               <value>.resultcard</value>
-            </entry>
          </map>
       </property>
    </bean>
