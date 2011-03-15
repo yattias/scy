@@ -262,6 +262,9 @@ public class DialogBox extends CustomNode {
                     close();
                  }
                  allowMinimize: false
+                 allowMaximize:false
+                 allowCenter:false
+                 allowClose: false
                  activated: true
               }
       dialogWindow.visible = false;

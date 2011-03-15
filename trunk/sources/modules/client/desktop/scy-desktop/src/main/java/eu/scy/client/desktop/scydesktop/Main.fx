@@ -27,6 +27,7 @@ import java.lang.System;
 import eu.scy.client.desktop.scydesktop.tools.colorscheme.ColorSchemeEditorCreator;
 import eu.scy.client.desktop.scydesktop.tools.content.text.SwingTextEditorScyToolContentCreator;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.test.TestDialogsNodeCreator;
+import eu.scy.client.desktop.scydesktop.feedbackquestion.FeedbackQuestionNodeCreator;
 
 /**
  * @author sikkenj
@@ -70,6 +71,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def testMoreInfoId = "testMoreInfo";
    def colorSchemesId = "colorSchemes";
    def testDialogsId = "testDialogs";
+   def feedbackQuestionId = "feedbackQuestion";
 
    def startNanos = System.nanoTime();
 
@@ -101,6 +103,9 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def testDialogsNodeCreator = TestDialogsNodeCreator{};
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(testDialogsNodeCreator, testDialogsId);
 
+   def feedbackQuestionNodeCreator = FeedbackQuestionNodeCreator{};
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(feedbackQuestionNodeCreator, feedbackQuestionId);
+
    scyDesktopCreator.eloConfigManager.addDebugCreatorId(scyToolViewerId);
    
    initializer.loadTimer.startActivity("creeate ScyDesktop");
@@ -118,6 +123,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    }
 
    testDialogsNodeCreator.scyDesktop = scyDesktop;
+   feedbackQuestionNodeCreator.scyDesktop = scyDesktop;
 
    initializer.loadTimer.startActivity("after creeate EloManagement");
 
