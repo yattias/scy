@@ -523,11 +523,15 @@ public class ScyElo {
 
     @SuppressWarnings("unchecked")
     public List<String> getAuthors() {
-        List<Contribute> authors = (List<Contribute>) getMetadataValueContainer(authorKey).getValueList();
+        List<Object> authors = (List<Object>) getMetadataValueContainer(authorKey).getValueList();
         List<String> authorIds = new ArrayList<String>();
         if (authors != null) {
-            for (Contribute author : authors) {
-                authorIds.add(author.getVCard());
+            for (Object author : authors) {
+                if (author instanceof String) {
+                    authorIds.add((String)author);
+                } else if (author instanceof Contribute) {
+                    authorIds.add(((Contribute) author).getVCard());
+                }
             }
         }
         return authorIds;
