@@ -13,7 +13,7 @@
                <property name="topDrawerCreatorId" value="xmlViewer"/>
                <property name="rightDrawerCreatorId" value="propertiesViewer"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
-               <property name="leftDrawerCreatorId" value="scyToolViewer testMoreInfo feedbackQuestion"/>
+               <property name="leftDrawerCreatorId" value="scyToolViewer testMoreInfo testDialogs feedbackQuestion"/>
             </bean>
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="scy/test"/>
