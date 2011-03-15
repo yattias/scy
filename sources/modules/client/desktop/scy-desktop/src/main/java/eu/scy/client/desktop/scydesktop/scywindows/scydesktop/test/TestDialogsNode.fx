@@ -73,6 +73,12 @@ public class TestDialogsNode extends CustomNode, ScyToolFX {
                   testCollaborationRequestCommand();
                }
             }
+            Button {
+               text: "Message dialog"
+               action: function() {
+                  testMessageDialog();
+               }
+            }
          ]
       }
    }
@@ -157,6 +163,10 @@ public class TestDialogsNode extends CustomNode, ScyToolFX {
             println("cancel");
          }
       }
+   }
+
+   function testMessageDialog(): Void {
+      DialogBox.showMessageDialog("The message", "Test message dialog", null, null, null);
    }
 
 }
