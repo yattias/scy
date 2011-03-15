@@ -58,7 +58,7 @@
     <topDrawerCreatorId>xmlViewer</topDrawerCreatorId>
     <rightDrawerCreatorId>propertiesViewer</rightDrawerCreatorId>
     <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
-    <leftDrawerCreatorId>scyToolViewer testMoreInfo feedbackQuestion</leftDrawerCreatorId>
+    <leftDrawerCreatorId>scyToolViewer testMoreInfo testDialogs feedbackQuestion</leftDrawerCreatorId>
     <isContentCollaboration>false</isContentCollaboration>
     <isTopDrawerCollaboration>false</isTopDrawerCollaboration>
     <isRightDrawerCollaboration>false</isRightDrawerCollaboration>

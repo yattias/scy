@@ -12,7 +12,7 @@
       <title>
         <string language="nl">Lege missie</string>
       </title>
-      <missionRunning>jakob</missionRunning>
+      <userRunningMission>jakob</userRunningMission>
       <identifier>
         <catalog>memory</catalog>
         <entry>roolo://memory/12/0/Lege+missie.scymissionruntime</entry>
@@ -58,6 +58,9 @@
   <eloToolConfigsEloUri />
   <templateElosEloUri />
   <runtimeSettingsEloUri>roolo://memory/11/0/Lege+missie.runtimesettings</runtimeSettingsEloUri>
+  <ePortfolioEloUri />
+  <pedagogicalPlanSettingsEloUri />
+  <colorSchemesEloUri>roolo://memory/13/0/standard+ColorSchemes.colorschemes</colorSchemesEloUri>
 </missionRuntimeElo>
 </content>
 <resources>
