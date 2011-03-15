@@ -27,7 +27,8 @@
                      <property name="yPosition" value="-36"/>
                      <property name="tooltip" value="tip_LAS_A"/>
                      <property name="lasType" value="DESIGN"/>
-                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_DESIGN.html"/>
+                     <property name="iconType" value="Pizza"/>
+					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_DESIGN.html"/>
                      <property name="loEloUris">
                         <list />
                      </property>
@@ -51,6 +52,7 @@
                      <property name="yPosition" value="34"/>
                      <property name="tooltip" value="tip_LAS_B"/>
                      <property name="lasType" value="EXPERIMENT"/>
+					 <property name="iconType" value="Dataset_processed"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_EXPERIMENT.html"/>
                      <property name="loEloUris">
                         <list />
@@ -83,6 +85,7 @@
                      <property name="yPosition" value="-100"/>
                      <property name="tooltip" value="tip_LAS_C"/>
                      <property name="lasType" value="INFORMATION"/>
+                     <property name="iconType" value="Information2"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_INFORMATION.html"/>
                      <property name="loEloUris">
                         <list />
@@ -107,6 +110,7 @@
                      <property name="yPosition" value="-40"/>
                      <property name="tooltip" value="tip_LAS_D"/>
                      <property name="lasType" value="CONCEPTUALISATION"/>
+                     <property name="iconType" value="Analyse"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_CONCEPTUALISATION1.html"/>
                      <property name="loEloUris">
                         <list />
@@ -131,6 +135,7 @@
                      <property name="yPosition" value="40"/>
                      <property name="tooltip" value="tip_LAS_E"/>
                      <property name="lasType" value="CONCEPTUALISATION"/>
+                     <property name="iconType" value="Analyse"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_CONCEPTUALISATION2.html"/>
                      <property name="loEloUris">
                         <list />
@@ -155,6 +160,7 @@
                      <property name="yPosition" value="100"/>
                      <property name="tooltip" value="tip_LAS_F"/>
                      <property name="lasType" value="CONCEPTUALISATION"/>
+                     <property name="iconType" value="Analyse"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_CONCEPTUALISATION3.html"/>
                      <property name="loEloUris">
                         <list />
@@ -177,6 +183,7 @@
                      <property name="yPosition" value="100"/>
                      <property name="tooltip" value="tip_LAS_G"/>
                      <property name="lasType" value="CONCEPTUALISATION"/>
+                     <property name="iconType" value="Analyse"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_CONCEPTUALISATION4.html"/>
                      <property name="loEloUris">
                         <list />
@@ -200,6 +207,7 @@
                      <property name="yPosition" value="40"/>
                      <property name="tooltip" value="tip_LAS_H"/>
                      <property name="lasType" value="REFLECTION"/>
+                     <property name="iconType" value="Evaluation_report"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_REFLECTION1.html"/>
                      <property name="loEloUris">
                         <list />
@@ -222,6 +230,7 @@
                      <property name="yPosition" value="-40"/>
                      <property name="tooltip" value="tip_LAS_I"/>
                      <property name="lasType" value="REFLECTION"/>
+                     <property name="iconType" value="Conclusion"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_REFLECTION2.html"/>
                      <property name="loEloUris">
                         <list />
@@ -249,6 +258,7 @@
                      <property name="yPosition" value="-100"/>
                      <property name="tooltip" value="tip_LAS_J"/>
                      <property name="lasType" value="EVALUATION"/>
+                     <property name="iconType" value="Report"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_EVALUATION.html"/>
                      <property name="loEloUris">
                         <list />
@@ -273,6 +283,7 @@
                      <property name="yPosition" value="10"/>
                      <property name="tooltip" value="tip_LAS_K"/>
                      <property name="lasType" value="CONSTRUCTION"/>
+                     <property name="iconType" value="Hypothese"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_BUILD.html"/>
                      <property name="loEloUris">
                         <list />
@@ -342,7 +353,7 @@
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="healthPassport"/>
-               <property name="uri" value="roolo://memory/30011/0/Health+Passport.scydraw"/>
+               <property name="uri" value="roolo://memory/30139/0/My+Health+Passport.resultcard"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_20_healthPassport.html"/>
                <property name="resourcesUri" value=""/>
