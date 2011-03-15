@@ -197,6 +197,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
                scyElo.saveAsForkedElo();
             }
             myEloChanged.myEloChanged(scyElo);
+            eloSaverCallBack.eloSaved(scyElo.getElo());
          } else {
             // it is not my elo, do a save as
             eloSaveAs(elo, eloSaverCallBack);

@@ -44,6 +44,7 @@ public static def VGAP: Double = 15;
 def imageLoader = ImageLoader.getImageLoader();
 public static def openDialogs: HashMap = new HashMap();
 public static var windowStyler: WindowStyler;
+public static var scyDesktop:ScyDesktop;
 
 static function getDialogBoxContent(dialogWidth: Integer, dialogBox: DialogBox, dialogType: DialogType, text: String, action1: function(): Void, action2: function(): Void, action3: function(): Void): Group {
 
@@ -158,7 +159,7 @@ public static function showMessageDialog(text: String, dialogTitle: String, dial
               dialogid: id
               modal: modal
               indicateFocus: indicateFocus
-              scyDesktop: scyDesktop
+//              scyDesktop: scyDesktop
               closeAction: function() {
 
               }
@@ -193,7 +194,7 @@ public static function showOptionDialog(dialogType: DialogType, text: String, di
               dialogid: id
               modal: modal
               indicateFocus: indicateFocus
-              scyDesktop: scyDesktop
+//              scyDesktop: scyDesktop
               closeAction: function() {
 
               }
@@ -238,7 +239,7 @@ public class DialogBox extends CustomNode {
    public-init var modal: Boolean = true;
    public-init var indicateFocus: Boolean = true;
    public-init var dialogType: Integer = JOptionPane.OK_OPTION;
-   public-init var scyDesktop: ScyDesktop;
+//   public-init var scyDesktop: ScyDesktop;
    public-init var dialogid: String;
    var dialogWindow: ScyWindow;
 
@@ -323,6 +324,7 @@ public class DialogBox extends CustomNode {
    }
 
    public function place(): Void {
+      def targetScene = scyDesktop.scene;
       var sceneContentList = targetScene.content;
       if (modal) {
          insert this into sceneContentList;

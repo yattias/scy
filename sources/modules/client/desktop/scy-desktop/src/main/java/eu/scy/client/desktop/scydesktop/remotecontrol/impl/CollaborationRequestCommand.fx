@@ -56,11 +56,11 @@ public class CollaborationRequestCommand extends ScyDesktopRemoteCommand {
          scyDesktop: scyDesktop
          eloUri: eloUri
          eloIconName: "collaboration_invitation"
-         title: "Collaboration request"
-         message: "{userNickname} invites you to collaborate on ELO"
-         yesTitle: "Accept"
+         title: ##"Collaboration request"
+         message: "{userNickname} {##"invites you to collaborate on ELO"}"
+         yesTitle: ##"Accept"
          yesFunction: yesAction
-         noTitle: "Deny"
+         noTitle: ##"Deny"
          noFunction: noAction
       }
       pendingCollaborationRequestDialogs.put(eloUri,collaborationMessageDialogBox);

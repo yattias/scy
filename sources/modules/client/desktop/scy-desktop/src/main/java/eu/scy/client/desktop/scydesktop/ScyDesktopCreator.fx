@@ -35,13 +35,13 @@ import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.mission.impl.ApplyEloToolConfigDefaults;
-import eu.scy.client.desktop.scydesktop.imagewindowstyler.FxdWindowStyler;
 import eu.scy.client.desktop.scydesktop.utils.ActivityTimer;
 import roolo.elo.api.IMetadata;
 import java.util.List;
 import java.util.ArrayList;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.JavaFxWindowStyler;
 import eu.scy.client.desktop.scydesktop.art.eloicons.EloIconFactory;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBox;
 
 /**
  * @author sikkenj
@@ -351,6 +351,7 @@ public class ScyDesktopCreator {
          }
 
       scyDesktop.config.getToolBrokerAPI().registerForNotifications(scyDesktopNotificationRouter);
+      DialogBox.scyDesktop = scyDesktop;
       return scyDesktop;
    }
 
