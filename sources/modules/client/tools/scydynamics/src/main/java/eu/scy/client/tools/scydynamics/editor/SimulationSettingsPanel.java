@@ -15,10 +15,6 @@ import eu.scy.client.tools.scydynamics.model.Model;
 
 public class SimulationSettingsPanel extends JPanel {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2993338310582112519L;
 	private ModelEditor editor;
 	private JTextField startField;
 	private JTextField stopField;
@@ -59,7 +55,7 @@ public class SimulationSettingsPanel extends JPanel {
 		button = new JButton("export to sqv");
 		button.setActionCommand("export");
 		button.addActionListener(listener);
-		northPanel.add(button);
+		//northPanel.add(button);
 		this.add(northPanel, BorderLayout.NORTH);
 	}
 	
