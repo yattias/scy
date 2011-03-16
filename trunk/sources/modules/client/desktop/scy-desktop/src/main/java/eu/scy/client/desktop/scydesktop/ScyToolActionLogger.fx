@@ -103,13 +103,11 @@ public class ScyToolActionLogger extends CustomNode, ScyToolFX, EloSaverCallBack
     public override function onLostFocus(): Void {
         var action = createBasicAction(TOOL_LOSTFOCUS);
         actionLogger.log(action);
-//        System.out.println("***** logging onLostFocus for {username}@{toolname}");
     }
 
    public override function onQuit(): Void {
         var action = createBasicAction(TOOL_QUIT);
         actionLogger.log(action);
-//        System.out.println("***** logging onQuit for {username}@{toolname}");
    }
 
     public override function loadElo(eloUri: URI): Void {
@@ -118,7 +116,6 @@ public class ScyToolActionLogger extends CustomNode, ScyToolFX, EloSaverCallBack
         action.addAttribute("old_uri", oldURI);
         actionLogger.log(action);
         oldURI = eloUri.toString();
-//        System.out.println("***** logging loadElo for {username}@{toolname}");
     }
 
     public override function eloSaved(elo: IELO): Void {
@@ -139,11 +136,6 @@ public class ScyToolActionLogger extends CustomNode, ScyToolFX, EloSaverCallBack
         actionLogger.log(action);
     }
 
-//    public function logToolOpened(): Void {
-//        var action = createBasicAction("tool_opened");
-//        actionLogger.log(action);
-//    }
-//
     public function createBasicAction(type: String): IAction {
         var action = new Action();
         action.setUser(username);
