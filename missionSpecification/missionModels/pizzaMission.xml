@@ -432,7 +432,7 @@
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="nutrientAndEnergyCalculations"/>
-               <property name="uri" value="roolo://memory/30015/0/Nutrient+And+Energy+Calculations.scymodel"/>
+               <property name="uri" value="roolo://memory/30151/0/Nutrient+And+Energy+Calculations.rtf"/>
                <property name="iconType" value="Analyse"/>
 			   <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_D.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_06_nutrientAndEnergyCalculations.html"/>
