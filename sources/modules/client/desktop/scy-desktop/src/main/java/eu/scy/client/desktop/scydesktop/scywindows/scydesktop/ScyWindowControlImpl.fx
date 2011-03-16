@@ -92,7 +92,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
    }
 
    public override function addOtherScyWindow(eloUri: URI): ScyWindow {
-       logger.debug("trying to add another scy-windows with uri: {eloUri}");
+      logger.debug("trying to add another scy-windows with uri: {eloUri}");
       if (Sequences.indexOf(activeLas.otherEloUris, eloUri)<=0){
          missionModel.eloUriChanged(null, eloUri);
 //         insert eloUri into activeLas.otherEloUris;

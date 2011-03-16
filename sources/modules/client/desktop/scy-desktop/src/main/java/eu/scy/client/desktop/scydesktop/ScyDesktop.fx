@@ -256,7 +256,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       if (config.getRepository() instanceof RepositoryWrapper) {
          var repositoryWrapper = config.getRepository() as RepositoryWrapper;
          var eloSavedActionHandler = EloSavedActionHandler {
-               scyWindowControl: this.scyWindowControl;
+               scyDesktop: this;
             }
          repositoryWrapper.addEloSavedListener(eloSavedActionHandler);
          repositoryWrapper.setUserId(config.getToolBrokerAPI().getLoginUserName());

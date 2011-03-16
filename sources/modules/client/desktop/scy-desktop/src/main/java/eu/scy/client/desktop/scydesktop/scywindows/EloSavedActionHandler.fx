@@ -11,6 +11,7 @@ import eu.scy.client.desktop.scydesktop.hacks.EloSavedListener;
 import java.net.URI;
 
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.ScyDesktop;
 
 
 /**
@@ -20,9 +21,11 @@ import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 // place your code here
 
 public class EloSavedActionHandler extends EloSavedListener{
+
    def logger = Logger.getLogger(this.getClass());
 
-   public var scyWindowControl:ScyWindowControl;
+   //public var scyWindowControl:ScyWindowControl;
+   public-init var scyDesktop:ScyDesktop;
 
    public override function newEloSaved(eloUri : URI):Void{
       logger.info("EloSavedActionHandler.newEloSaved({eloUri})");
@@ -44,7 +47,7 @@ public class EloSavedActionHandler extends EloSavedListener{
 
    function getNewEloSaved(eloUri : URI):function(){
       function(){
-         scyWindowControl.newEloSaved(eloUri);
+         scyDesktop.scyWindowControl.newEloSaved(eloUri);
       }
    }
 
