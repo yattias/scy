@@ -1,0 +1,50 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>Caspar</entity>
+        <date>
+          <dateTime>2011-03-16T17:44:34.171+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1300293874171</dateCreated>
+        <dateLastModified>1300293874171</dateLastModified>
+      </customElements>
+      <format>scy/pedagogicalplansettings</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30162/0/pizzaMission.scy</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">pizzaMission</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true">
+
+</content>
+<resources>
+</resources>
+</elo>
