@@ -44,13 +44,12 @@ public class CollaborationResponseCommand extends ScyDesktopRemoteCommand {
             def mucid: String = notification.getFirstProperty("mucid");
             var collaborationWindow: ScyWindow = scyDesktop.scyWindowControl.windowManager.findScyWindow(eloUri);
             if (collaborationWindow == null) {
-                collaborationWindow = scyDesktop.scyWindowControl.addOtherScyWindow(eloUri);
-                scyDesktop.installCollaborationTools(collaborationWindow, mucid);
+                collaborationWindow = scyDesktop.scyWindowControl.addOtherCollaborativeScyWindow(eloUri, mucid);
             } else if (not collaborationWindow.isCollaborative) {
                 scyDesktop.installCollaborationTools(collaborationWindow, mucid);
+                scyDesktop.scyWindowControl.makeMainScyWindow(eloUri);
             }
             collaborationWindow.ownershipManager.addOwner(proposedUserNickname, true);
-            scyDesktop.scyWindowControl.makeMainScyWindow(eloUri);
         } else {
             def pendingCollaborationRequestDialog = CollaborationRequestCommand.pendingCollaborationRequestDialogs.get(eloUri) as CollaborationMessageDialogBox;
             if (pendingCollaborationRequestDialog == null) {
@@ -60,10 +59,7 @@ public class CollaborationResponseCommand extends ScyDesktopRemoteCommand {
                     eloIconName: "collaboration_denied"
                     title: "Collaboration request"
                     message: "{proposingUserNickname} does not want to collaborate on ELO {eloUri}"
-                    yesTitle: "Cancel"
-                    yesFunction: function(): Void {
-                        println("cancel");
-                    }
+                    yesTitle: "Ok"
                 }
                 logger.debug("collaboration not accepted");
                 var collaborationWindow: ScyWindow = scyDesktop.scyWindowControl.windowManager.findScyWindow(eloUri);

@@ -97,6 +97,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.ColoredTextTooltipCreator;
+import roolo.elo.api.IMetadata;
+import roolo.elo.api.IMetadataValueContainer;
+import eu.scy.common.mission.impl.BasicEloToolConfig;
 
 /**
  * @author sikkenj
@@ -566,7 +569,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             missionMap: missionMap;
             windowStyler: windowStyler;
             tbi: config.getToolBrokerAPI()
-            setScyContent: fillNewScyWindow2;
+            setScyContent: fillScyWindowNow;
             tooltipManager: tooltipManager
             dragAndDropManager: dragAndDropManager
             repositoryWrapper: if (config.getRepository() instanceof RepositoryWrapper) config.getRepository() as RepositoryWrapper else null;
@@ -612,29 +615,17 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          ]
    }
 
-   public function fillNewScyWindow2(window: ScyWindow): Void {
-      if (window.eloUri != null) {
-         var metadata = config.getRepository().retrieveMetadata(window.eloUri);
-         var mucId = metadata.getMetadataValueContainer(mucIdKey).getValue() as String;
-         if (mucId != null) {
-            window.mucId = mucId;
-         }
-      }
-
-      //var pleaseWait = PleaseWait {};
-      //window.scyContent = pleaseWait;
-            fillScyWindowNow(window);
-//      FX.deferAction(function() {
-//         // one defer does not seem to be enough to show the please wait content
-//         FX.deferAction(function() {
-//         });
-//      });
-   }
-
    function fillScyWindowNow(window: ScyWindow): Void {
-      realFillNewScyWindow2(window, false);
-      if (window.mucId.length() > 0 and not initializer.offlineMode) {
-         installCollaborationTools(window, window.mucId);
+      window.isScyContentSet = true;
+      var mucid = window.scyElo.getMucId();
+      if (mucid == null) {
+          mucid = window.mucId;
+      }
+      if (mucid != null and (initializer == null or not initializer.offlineMode)) {
+         (window.eloToolConfig as BasicEloToolConfig).setContentCollaboration(true);
+         installCollaborationTools(window, mucid);
+      } else {
+         realFillNewScyWindow2(window, false);
       }
       window.scyToolsList.onOpened();
    }
@@ -643,9 +634,17 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       window.mucId = mucId;
       realFillNewScyWindow2(window, true);
       def toolNode: Node = window.scyContent;
+      // persist the mucid in the ELO
+      var metadata : IMetadata = window.tbi.getELOFactory().createMetadata();
+      var mucIdKey = window.tbi.getMetaDataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MUC_ID);
+      var mvc : IMetadataValueContainer = metadata.getMetadataValueContainer(mucIdKey);
+      mvc.setValue(mucId);
+      window.tbi.getRepository().addMetadata(window.eloUri, metadata);
+      window.scyElo.setMucId(mucId);
       if (toolNode instanceof CollaborationStartable) {
-         (toolNode as CollaborationStartable).startCollaboration(mucId);
-         window.isCollaborative = true;
+            // tell the tool to configure for collaboration
+            (toolNode as CollaborationStartable).startCollaboration(mucId);
+            window.isCollaborative = true;
       }
    }
 
