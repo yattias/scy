@@ -19,7 +19,7 @@
         <principle_mode>T</principle_mode>
         <evaluation_mode>T</evaluation_mode>
         <draw_principle>false</draw_principle>
-        <is_task_repeat>false</is_task_repeat>
+        <is_task_repeat>true</is_task_repeat>
         <is_task_draw>false</is_task_draw>
         <is_free_action>false</is_free_action>
         <is_task>false</is_task>
@@ -504,7 +504,7 @@
             <libelle language="en">Ajouter une quantité précise de liquide</libelle>
             <is_setting>true</is_setting>
             <draw>false</draw>
-            <repeat>false</repeat>
+            <repeat>true</repeat>
             <initial_action_variable>
                 <id>VAR_AJOUTER_LIQUIDE</id>
                 <nb_param>5</nb_param>
@@ -579,7 +579,7 @@
             <libelle language="en">Homogénéiser par agitation manuelle</libelle>
             <is_setting>true</is_setting>
             <draw>false</draw>
-            <repeat>false</repeat>
+            <repeat>true</repeat>
             <initial_action_variable>
                 <id>VAR_HOMOGENEISER</id>
                 <nb_param>1</nb_param>
@@ -604,7 +604,7 @@
             <libelle language="en">Etalonner</libelle>
             <is_setting>true</is_setting>
             <draw>false</draw>
-            <repeat>false</repeat>
+            <repeat>true</repeat>
             <initial_action_variable>
                 <id>VAR_ETALONNER</id>
                 <nb_param>2</nb_param>
@@ -639,7 +639,7 @@
             <libelle language="en">Mesurer le pH</libelle>
             <is_setting>true</is_setting>
             <draw>false</draw>
-            <repeat>false</repeat>
+            <repeat>true</repeat>
             <initial_action_variable>
                 <id>VAR_MESURER_PH</id>
                 <nb_param>2</nb_param>
@@ -674,7 +674,7 @@
             <libelle language="en">Enregistrer la référence du spectrophotomètre</libelle>
             <is_setting>true</is_setting>
             <draw>false</draw>
-            <repeat>false</repeat>
+            <repeat>true</repeat>
             <initial_action_variable>
                 <id>VAR_REG_REF_SPECTRO</id>
                 <nb_param>2</nb_param>
@@ -709,7 +709,7 @@
             <libelle language="en">Acquérir un spectre d'abosrbance</libelle>
             <is_setting>true</is_setting>
             <draw>false</draw>
-            <repeat>false</repeat>
+            <repeat>true</repeat>
             <initial_action_variable>
                 <id>VAR_ACQ_SPECTRE</id>
                 <nb_param>4</nb_param>
@@ -764,7 +764,7 @@
             <libelle language="en">Mesurer une absorbance</libelle>
             <is_setting>true</is_setting>
             <draw>false</draw>
-            <repeat>false</repeat>
+            <repeat>true</repeat>
             <initial_action_variable>
                 <id>VAR_MESURER_ABS</id>
                 <nb_param>3</nb_param>
@@ -809,7 +809,7 @@
             <libelle language="en">Vider</libelle>
             <is_setting>true</is_setting>
             <draw>false</draw>
-            <repeat>false</repeat>
+            <repeat>true</repeat>
             <initial_action_variable>
                 <id>VAR_VIDER</id>
                 <nb_param>1</nb_param>

@@ -112,6 +112,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
     private CommentsPanel panelComments;
     private JLabel labelImage;
     private MyWhiteBoardPanel drawPanel;
+    private JScrollPane scrollPaneDraw;
     private TaskRepeatPanel taskRepeatPanel;
     private Dimension minDim = null;
     
@@ -466,26 +467,42 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
             drawPanel.setName("whiteboardPanel");
             if(!modeAdd && taskDraw !=null ){
                 drawPanel.getWhiteBoardPanel().setStatus(taskDraw);
+                drawPanel.setSize(drawPanel.getWhiteBoardPanel().getWidth(), drawPanel.getWhiteBoardPanel().getHeight());
+                drawPanel.setPreferredSize(new Dimension((int)drawPanel.getWhiteBoardPanel().getEnclosingScreenRectangle().getWidth(), (int)drawPanel.getWhiteBoardPanel().getEnclosingScreenRectangle().getHeight()+40));
             }
+//            int y = panelComments.getHeight()+panelComments.getY()+20 ;
+//            if(labelImage != null){
+//                y = labelImage.getY()+labelImage.getHeight()+20;
+//            }
+//            drawPanel.setBounds(posx,y,areaW,drawH);
+        }
+        return drawPanel;
+    }
+
+    private JScrollPane getScrollPaneDraw(){
+        if(scrollPaneDraw == null){
+            scrollPaneDraw = new JScrollPane();
+            scrollPaneDraw.setName("scrollPaneDraw");
+            scrollPaneDraw.setViewportView(getWhiteboardPanel());
             int y = panelComments.getHeight()+panelComments.getY()+20 ;
             if(labelImage != null){
                 y = labelImage.getY()+labelImage.getHeight()+20;
             }
-            drawPanel.setBounds(posx,y,areaW,drawH);
+            scrollPaneDraw.setBounds(posx,y,areaW,drawH);
         }
-        return drawPanel;
+        return scrollPaneDraw;
     }
 
     /* panel task repeat */
     private TaskRepeatPanel getTaskRepeatPanel(ArrayList<InitialActionParam> listAllParam, ArrayList<InitialOutput> listOutput){
         if(taskRepeatPanel == null){
-            taskRepeatPanel = new TaskRepeatPanel(edP, listAllParam, listOutput, true, modeAdd);
+            taskRepeatPanel = new TaskRepeatPanel(edP, listAllParam, null,listOutput,null, true, modeAdd);
             taskRepeatPanel.addActionTaskRepeat(this);
             taskRepeatPanel.setName("taskRepeatPanel");
             
             int y = panelComments.getHeight()+panelComments.getY()+20 ;
-            if(drawPanel != null){
-                y = drawPanel.getY()+drawPanel.getHeight()+20;
+            if(scrollPaneDraw != null){
+                y = scrollPaneDraw.getY()+scrollPaneDraw.getHeight()+20;
             }else if(labelImage != null){
                 y = labelImage.getY()+labelImage.getHeight()+20;
             }
@@ -500,8 +517,9 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
 
     private void removeWhiteboardPanel(){
         if(drawPanel != null){
-            getContentPane().remove(drawPanel);
+            getContentPane().remove(scrollPaneDraw);
             drawPanel = null;
+            scrollPaneDraw = null;
         }
         setResizable(false);
     }
@@ -529,8 +547,8 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
             int y = panelComments.getY()+panelComments.getHeight()+30;
             if(taskRepeatPanel != null){
                y = taskRepeatPanel.getY()+taskRepeatPanel.getHeight()+30;
-            }else if(drawPanel != null){
-                y = drawPanel.getY()+drawPanel.getHeight()+30;
+            }else if(scrollPaneDraw != null){
+                y = scrollPaneDraw.getY()+scrollPaneDraw.getHeight()+30;
             }else if (labelImage != null){
                 y = labelImage.getY()+labelImage.getHeight()+30;
             }
@@ -555,8 +573,8 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
             int y = panelComments.getY()+panelComments.getHeight()+30;
             if(taskRepeatPanel != null){
                y = taskRepeatPanel.getY()+taskRepeatPanel.getHeight()+30; 
-            }else if(drawPanel != null){
-                y = drawPanel.getY()+drawPanel.getHeight()+30;
+            }else if(scrollPaneDraw != null){
+                y = scrollPaneDraw.getY()+scrollPaneDraw.getHeight()+30;
             }else if (labelImage != null){
                 y = labelImage.getY()+labelImage.getHeight()+30;
             }
@@ -581,8 +599,8 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
             int y = panelComments.getY()+panelComments.getHeight()+30;
             if(taskRepeatPanel != null){
                y = taskRepeatPanel.getY()+taskRepeatPanel.getHeight()+30;
-            }else if(drawPanel != null){
-                y = drawPanel.getY()+drawPanel.getHeight()+30;
+            }else if(scrollPaneDraw != null){
+                y = scrollPaneDraw.getY()+scrollPaneDraw.getHeight()+30;
             }else if (labelImage != null){
                 y = labelImage.getY()+labelImage.getHeight()+30;
             }
@@ -648,18 +666,18 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
             labelImage.setBounds(labelImage.getX(), panelComments.getY()+panelComments.getHeight()+20, labelImage.getWidth(), labelImage.getHeight());
         }
         // repositionne dessin
-        if(drawPanel != null){
+        if(scrollPaneDraw != null){
             y = panelComments.getHeight()+panelComments.getY()+20 ;
             if(labelImage != null){
                 y = labelImage.getY()+labelImage.getHeight()+20;
             }
-            drawPanel.setBounds(drawPanel.getX(),y,drawPanel.getWidth(),drawPanel.getHeight());
+            scrollPaneDraw.setBounds(scrollPaneDraw.getX(),y,scrollPaneDraw.getWidth(),scrollPaneDraw.getHeight());
         }
         // repositionne task repeat
         if(taskRepeatPanel != null){
             y = panelComments.getHeight()+panelComments.getY()+20 ;
-            if(drawPanel != null){
-                y = drawPanel.getY()+drawPanel.getHeight() +20;
+            if(scrollPaneDraw != null){
+                y = scrollPaneDraw.getY()+scrollPaneDraw.getHeight() +20;
             }else if(labelImage != null){
                 y = labelImage.getY()+labelImage.getHeight()+20;
             }
@@ -682,8 +700,8 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
             y = panelComments.getY()+panelComments.getHeight()+30;
         if(taskRepeatPanel != null){
             y = taskRepeatPanel.getY() + taskRepeatPanel.getHeight()+30;
-        }else if(drawPanel != null){
-            y = drawPanel.getY()+drawPanel.getHeight()+30;
+        }else if(scrollPaneDraw != null){
+            y = scrollPaneDraw.getY()+scrollPaneDraw.getHeight()+30;
         }else if (labelImage != null){
             y = labelImage.getY()+labelImage.getHeight()+30;
         }
@@ -792,7 +810,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
                         }
                         double value = 0;
                         try{
-                            value = Double.parseDouble(s);
+                            value = Double.parseDouble(s.replace(',', '.'));
                         }catch(NumberFormatException e){
                             edP.displayError(new CopexReturn(edP.getBundleString("MSG_ERROR_ACTION_PARAM_VALUE"), false), edP.getBundleString("TITLE_DIALOG_ERROR"));
                             return;
@@ -1102,6 +1120,8 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
                setDescription();
                if(isActionRepeat)
                    setPanelTaskRepeat(true, new ArrayList(), new ArrayList());
+               if(isInitProcDraw)
+                    setPanelDraw(true);
            }
        }else{
            if (isFreeAction)
@@ -1117,6 +1137,11 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
                setDescription();
            }
            setPanelDraw(a.isDraw());
+           if(a.isDraw() && a.getDefaultDraw() != null && modeAdd ){
+               drawPanel.getWhiteBoardPanel().setStatus(a.getDefaultDraw());
+               drawPanel.setSize(drawPanel.getWhiteBoardPanel().getWidth(), drawPanel.getWhiteBoardPanel().getHeight());
+               drawPanel.setPreferredSize(new Dimension((int)drawPanel.getWhiteBoardPanel().getEnclosingScreenRectangle().getWidth(), (int)drawPanel.getWhiteBoardPanel().getEnclosingScreenRectangle().getHeight()+40));
+           }
            ArrayList<InitialActionParam> listAllParams = new ArrayList();
            if(a.getVariable() != null){
                 listAllParams.addAll(Arrays.asList(a.getVariable().getTabParam()));
@@ -1178,8 +1203,8 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
            if (param instanceof InitialParamQuantity){
                // text field
                JTextField tf = new JTextField("");
-               tf.setSize(60, 25);
-               tf.setPreferredSize(new Dimension(60,25));
+               tf.setSize(60, 27);
+               tf.setPreferredSize(new Dimension(60,27));
                tf.setToolTipText(edP.getBundleString("TOOLTIPTEXT_ACTION_PARAM_VALUE"));
                panelSetting.add(tf);
                if (!modeAdd && tabParam != null && tabParam[i] != null && tabParam[i] instanceof ActionParamQuantity){
@@ -1327,7 +1352,8 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
     private void setPanelDraw(boolean visible){
         removeWhiteboardPanel();
         if (visible){
-            getContentPane().add(getWhiteboardPanel());
+            //getContentPane().add(getWhiteboardPanel());
+            getContentPane().add(getScrollPaneDraw());
             setResizable(true);
         }
     }
@@ -1395,13 +1421,13 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
                 y = labelImage.getY()+labelImage.getHeight()+20;
             }
             h = drawH+diffH ;
-            drawPanel.setBounds(drawPanel.getX(), y, newAreaW, h);
-            drawPanel.revalidate();
+            scrollPaneDraw.setBounds(scrollPaneDraw.getX(), y, newAreaW, h);
+            scrollPaneDraw.revalidate();
         }
         if(taskRepeatPanel != null){
             y = panelComments.getHeight()+panelComments.getY()+20 ;
-            if(drawPanel != null){
-                y = drawPanel.getY()+drawPanel.getHeight()+20;
+            if(scrollPaneDraw != null){
+                y = scrollPaneDraw.getY()+scrollPaneDraw.getHeight()+20;
             }else if(labelImage != null){
                 y = labelImage.getY()+labelImage.getHeight()+20;
             }
@@ -1412,8 +1438,8 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
         y = panelComments.getY()+panelComments.getHeight()+30;
         if(taskRepeatPanel != null){
             y = taskRepeatPanel.getY()+taskRepeatPanel.getHeight()+30;
-        }else if(drawPanel != null){
-            y = drawPanel.getY()+drawPanel.getHeight()+30;
+        }else if(scrollPaneDraw != null){
+            y = scrollPaneDraw.getY()+scrollPaneDraw.getHeight()+30;
         }else if (labelImage != null){
             y = labelImage.getY()+labelImage.getHeight()+30;
         }

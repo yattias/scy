@@ -20,8 +20,8 @@ public class TaskRepeatParamOutputAcquisition extends TaskRepeatParam {
     private InitialAcquisitionOutput output;
     private ArrayList<TaskRepeatValueDataProd> listValue;
 
-    public TaskRepeatParamOutputAcquisition(long dbKey, InitialAcquisitionOutput output, ArrayList<TaskRepeatValueDataProd> listValue) {
-        super(dbKey);
+    public TaskRepeatParamOutputAcquisition(long dbKey, long dbKeyActionParam,InitialAcquisitionOutput output, ArrayList<TaskRepeatValueDataProd> listValue) {
+        super(dbKey, dbKeyActionParam);
         this.output = output;
         this.listValue = listValue ;
     }
@@ -30,6 +30,14 @@ public class TaskRepeatParamOutputAcquisition extends TaskRepeatParam {
         super(xmlElem);
         if (xmlElem.getName().equals(TAG_TASK_REPEAT_PARAM_OUTPUT_ACQUISITION)) {
             dbKey = idParam++;
+            dbKeyActionParam = -1;
+            if(xmlElem.getChild(TaskRepeatParam.TAG_TASK_REPEAT_PARAM_ACTION) != null){
+                try{
+                    dbKeyActionParam = Long.parseLong(xmlElem.getChild(TaskRepeatParam.TAG_TASK_REPEAT_PARAM_ACTION).getText());
+                }catch (NumberFormatException e){
+
+                }
+            }
             output = new InitialAcquisitionOutput(xmlElem.getChild(InitialAcquisitionOutput.TAG_INITIAL_OUTPUT_ACQUISITION_REF), listInitialAcquisitionOutput);
             listValue = new ArrayList();
             for(Iterator<Element> variableElem = xmlElem.getChildren(TaskRepeatValueDataProd.TAG_TASK_REPEAT_VALUE_DATA_PROD).iterator(); variableElem.hasNext();){
@@ -76,6 +84,9 @@ public class TaskRepeatParamOutputAcquisition extends TaskRepeatParam {
     public Element toXML(){
         Element element = new Element(TAG_TASK_REPEAT_PARAM_OUTPUT_ACQUISITION);
         element.addContent(output.toXMLRef());
+        if(dbKeyActionParam != -1){
+            element.addContent(new Element(TaskRepeatParam.TAG_TASK_REPEAT_PARAM_ACTION).setText(""+dbKeyActionParam));
+        }
         for(Iterator<TaskRepeatValueDataProd> v = listValue.iterator();v.hasNext();){
             element.addContent(v.next().toXML());
         }

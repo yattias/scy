@@ -149,7 +149,7 @@ public class TypeMaterial implements Cloneable {
     // toXML
     public Element toXML(){
         Element element = new Element(TAG_TYPE);
-		element.addContent(new Element(TAG_TYPE_ID).setText(code));
+        element.addContent(new Element(TAG_TYPE_ID).setText(code.equals("")?""+dbKey:code));
         if(listType != null && listType.size() > 0){
             for (Iterator<LocalText> t = listType.iterator(); t.hasNext();) {
                 LocalText l = t.next();
@@ -164,7 +164,7 @@ public class TypeMaterial implements Cloneable {
 
     public Element toXMLRef(){
         Element element = new Element(TAG_TYPE_REF);
-		element.addContent(new Element(TAG_TYPE_ID).setText(code));
+		element.addContent(new Element(TAG_TYPE_ID).setText(code.equals("")?""+dbKey:code));
         return element;
     }
     

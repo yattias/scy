@@ -32,8 +32,8 @@ public class InitialActionTreatment extends InitialNamedAction implements Clonea
     private ArrayList<InitialTreatmentOutput> listOutput;
 
     // CONSTRUCTOR
-    public InitialActionTreatment(long dbKey, String code, List<LocalText> listLibelle, boolean isSetting, InitialActionVariable variable, boolean draw, boolean repeat, int nbDataProd, ArrayList<InitialTreatmentOutput> listOutput) {
-        super(dbKey, code, listLibelle, isSetting, variable, draw, repeat);
+    public InitialActionTreatment(long dbKey, String code, List<LocalText> listLibelle, boolean isSetting, InitialActionVariable variable, boolean draw, boolean repeat, int nbDataProd, ArrayList<InitialTreatmentOutput> listOutput, Element defaultDraw) {
+        super(dbKey, code, listLibelle, isSetting, variable, draw, repeat, defaultDraw);
         this.nbDataProd = nbDataProd;
         this.listOutput = listOutput ;
     }

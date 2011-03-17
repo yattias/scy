@@ -258,6 +258,7 @@ public class CopexControllerDB implements ControllerInterface {
             }
         }
         mission.setListInitialProc(listInitialProc);
+        mission.setListType(getListType(listInitialProc));
         setLockers(listProc);
         int nbP = listProc.size();
         for (int k=0; k<nbP; k++){
@@ -391,6 +392,13 @@ public class CopexControllerDB implements ControllerInterface {
     }
 
   
+    private static List<TypeMaterial> getListType(ArrayList<InitialProcedure> listInitProc){
+        List<TypeMaterial> list = new LinkedList();
+        for(Iterator<InitialProcedure> p = listInitProc.iterator();p.hasNext();){
+            list.addAll(p.next().getListTypeMaterial());
+        }
+        return list;
+    }
 
     /* chargement d'un proc et de sa mission */
     private CopexReturn loadProc(LearnerProcedure p, boolean controlLock, ArrayList v){
@@ -1667,6 +1675,14 @@ public class CopexControllerDB implements ControllerInterface {
                 }
             }
         }
+        for(Iterator<CopexTask> t = expProc.getListTask().iterator();t.hasNext();){
+            CopexTask task = t.next();
+            if(task.isQuestion()){
+                expProc.getQuestion().setDbKeyBrother(-1);
+                expProc.getQuestion().setDbKeyChild(task.getDbKeyChild());
+                break;
+            }
+        }
         subTree.setLastBrother(lastTaskBranch.getDbKeyBrother());
         updateDatasheetProd(expProc);
         expProc.lockMaterialUsed();
@@ -2028,38 +2044,7 @@ public class CopexControllerDB implements ControllerInterface {
     /* retourne la liste des parametres des actions de l'etape */
     @Override
     public CopexReturn getTaskInitialParam(ExperimentalProcedure proc, CopexTask task, ArrayList v){
-        ArrayList<InitialActionParam> list = new ArrayList();
-        ArrayList<CopexTask> listChilds = CopexController.getAllChilds(proc, task);
-        int nb = listChilds.size();
-        for (int i=0; i<nb; i++){
-            CopexTask t = listChilds.get(i);
-            if (t instanceof CopexActionManipulation){
-                InitialNamedAction a = ((CopexActionManipulation)t).getNamedAction();
-                if (a != null && a.getVariable() != null){
-                    InitialActionParam[] tab = a.getVariable().getTabParam();
-                    if(tab != null){
-                        list.addAll(Arrays.asList(tab));
-                    }
-                }
-            }else if (t instanceof CopexActionAcquisition){
-                InitialNamedAction a = ((CopexActionAcquisition)t).getNamedAction();
-                if (a != null && a.getVariable() != null){
-                    InitialActionParam[] tab = a.getVariable().getTabParam();
-                    if(tab != null){
-                        list.addAll(Arrays.asList(tab));
-                    }
-                }
-            }else if (t instanceof CopexActionTreatment){
-                InitialNamedAction a = ((CopexActionTreatment)t).getNamedAction();
-                if (a != null && a.getVariable() != null){
-                    InitialActionParam[] tab = a.getVariable().getTabParam();
-                    if(tab != null){
-                        list.addAll(Arrays.asList(tab));
-                    }
-                }
-            }
-        }
-        v.add(list);
+        v.add(proc.getTaskInitialParam(task));
         return new CopexReturn();
     }
 
@@ -2067,41 +2052,7 @@ public class CopexControllerDB implements ControllerInterface {
     /* retourne la liste des output des actions de l'etape */
     @Override
     public CopexReturn getTaskInitialOutput(ExperimentalProcedure proc, CopexTask task, ArrayList v){
-        ArrayList<InitialOutput> list = new ArrayList();
-        ArrayList<CopexTask> listChilds = CopexController.getAllChilds(proc, task);
-        int nb = listChilds.size();
-        for (int i=0; i<nb; i++){
-            CopexTask t = listChilds.get(i);
-            if (t instanceof CopexActionManipulation){
-                InitialNamedAction a = ((CopexActionManipulation)t).getNamedAction();
-                if (a != null && a instanceof InitialActionManipulation){
-                    ArrayList<InitialManipulationOutput> l = ((InitialActionManipulation)a).getListOutput() ;
-                    int n = l.size();
-                    for (int j=0; j<n; j++){
-                        list.add(l.get(j));
-                    }
-                }
-            }else if (t instanceof CopexActionAcquisition){
-                InitialNamedAction a = ((CopexActionAcquisition)t).getNamedAction();
-                if (a != null && a instanceof InitialActionAcquisition){
-                    ArrayList<InitialAcquisitionOutput> l = ((InitialActionAcquisition)a).getListOutput() ;
-                    int n = l.size();
-                    for (int j=0; j<n; j++){
-                        list.add(l.get(j));
-                    }
-                }
-            }else if (t instanceof CopexActionTreatment){
-                InitialNamedAction a = ((CopexActionTreatment)t).getNamedAction();
-                if (a != null && a instanceof InitialActionTreatment){
-                    ArrayList<InitialTreatmentOutput> l = ((InitialActionTreatment)a).getListOutput() ;
-                    int n = l.size();
-                    for (int j=0; j<n; j++){
-                        list.add(l.get(j));
-                    }
-                }
-            }
-        }
-        v.add(list);
+        v.add(proc.getTaskInitialOutput(task));
         return new CopexReturn();
     }
 

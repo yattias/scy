@@ -9,6 +9,7 @@ import eu.scy.client.tools.copex.logger.TaskTreePosition;
 import eu.scy.client.tools.copex.utilities.CopexUtilities;
 import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -659,5 +660,139 @@ public class ExperimentalProcedure implements Cloneable {
         Element e = new Element(ExperimentalProcedure.TAG_EXPERIMENTAL_PROCEDURE);
         e.addContent(toXML());
         return e;
+    }
+
+    public  List<CopexTask> getAllChilds(CopexTask task){
+        List<CopexTask> listAllChilds = new LinkedList();
+        List<CopexTask> listC = getListChild(task);
+        int nb = listC.size();
+        for (int i=0; i<nb; i++){
+            listAllChilds.add(listC.get(i));
+            // ajout des enfants
+            List<CopexTask> l = getAllChilds(listC.get(i));
+            int n = l.size();
+            for (int j=0; j<n; j++){
+                listAllChilds.add(l.get(j));
+            }
+        }
+        return listAllChilds ;
+    }
+
+   public ArrayList[] getTaskInitialParam( CopexTask task){
+       ArrayList[] tabList = new ArrayList[2];
+       ArrayList<InitialActionParam> list = new ArrayList();
+       ArrayList<Long> listDbKey = new ArrayList();
+       List<CopexTask> listChilds = getAllChilds(task);
+        int nb = listChilds.size();
+        for (int i=0; i<nb; i++){
+            CopexTask t = listChilds.get(i);
+            if (t instanceof CopexActionManipulation){
+                InitialNamedAction a = ((CopexActionManipulation)t).getNamedAction();
+                if (a != null && a.getVariable() != null){
+                    InitialActionParam[] tab = a.getVariable().getTabParam();
+                    if(tab != null){
+                        for(int j=0; j<tab.length; j++){
+                            list.add(tab[j]);
+                            listDbKey.add(t.getDbKey());
+                        }
+                    }
+                }
+            }else if (t instanceof CopexActionAcquisition){
+                InitialNamedAction a = ((CopexActionAcquisition)t).getNamedAction();
+                if (a != null && a.getVariable() != null){
+                    InitialActionParam[] tab = a.getVariable().getTabParam();
+                    if(tab != null){
+                        for(int j=0; j<tab.length; j++){
+                            list.add(tab[j]);
+                            listDbKey.add(t.getDbKey());
+                        }
+                    }
+                }
+            }else if (t instanceof CopexActionTreatment){
+                InitialNamedAction a = ((CopexActionTreatment)t).getNamedAction();
+                if (a != null && a.getVariable() != null){
+                    InitialActionParam[] tab = a.getVariable().getTabParam();
+                    if(tab != null){
+                        for(int j=0; j<tab.length; j++){
+                            list.add(tab[j]);
+                            listDbKey.add(t.getDbKey());
+                        }
+                    }
+                }
+            }
+        }
+        tabList[0] = list;
+        tabList[1] = listDbKey;
+        return tabList;
+    }
+
+
+    /* retourne la liste des output des actions de l'etape */
+    public ArrayList[] getTaskInitialOutput(CopexTask task){
+        ArrayList[] tabList = new ArrayList[2];
+       ArrayList<InitialOutput> list = new ArrayList();
+       ArrayList<Long> listDbKey = new ArrayList();
+        List<CopexTask> listChilds = getAllChilds(task);
+        int nb = listChilds.size();
+        for (int i=0; i<nb; i++){
+            CopexTask t = listChilds.get(i);
+            if (t instanceof CopexActionManipulation){
+                InitialNamedAction a = ((CopexActionManipulation)t).getNamedAction();
+                if (a != null && a instanceof InitialActionManipulation){
+                    ArrayList<InitialManipulationOutput> l = ((InitialActionManipulation)a).getListOutput() ;
+                    int n = l.size();
+                    for (int j=0; j<n; j++){
+                        list.add(l.get(j));
+                    }
+                }
+            }else if (t instanceof CopexActionAcquisition){
+                InitialNamedAction a = ((CopexActionAcquisition)t).getNamedAction();
+                if (a != null && a instanceof InitialActionAcquisition){
+                    ArrayList<InitialAcquisitionOutput> l = ((InitialActionAcquisition)a).getListOutput() ;
+                    int n = l.size();
+                    for (int j=0; j<n; j++){
+                        list.add(l.get(j));
+                    }
+                }
+            }else if (t instanceof CopexActionTreatment){
+                InitialNamedAction a = ((CopexActionTreatment)t).getNamedAction();
+                if (a != null && a instanceof InitialActionTreatment){
+                    ArrayList<InitialTreatmentOutput> l = ((InitialActionTreatment)a).getListOutput() ;
+                    int n = l.size();
+                    for (int j=0; j<n; j++){
+                        list.add(l.get(j));
+                    }
+                }
+            }
+        }
+        tabList[0] = list;
+        tabList[1] = listDbKey;
+        return tabList;
+    }
+
+    // retourne la tache avec ce dbKey
+    public  CopexTask getTask(long dbKey){
+        int nbT = getListTask().size() ;
+        for (int i=0; i<nbT; i++){
+            if(getListTask().get(i).getDbKey() == dbKey)
+                return getListTask().get(i);
+        }
+        return null;
+    }
+
+    public void applyStepRepeat(CopexTask step){
+        if(step.getTaskRepeat() != null){
+            ArrayList<TaskRepeatParam> listTaskRepeatParam = step.getTaskRepeat().getListParam();
+            for(Iterator<TaskRepeatParam> trp = listTaskRepeatParam.iterator(); trp.hasNext();){
+                TaskRepeatParam taskRepeatParam = trp.next();
+                long dbKeyAction = taskRepeatParam.getDbKeyActionParam();
+                CopexTask task = getTask(dbKeyAction);
+                if(task != null){
+                    TaskRepeat tr = new TaskRepeat(-1, 1);
+                    tr.addParam(taskRepeatParam);
+                    task.addTaskRepeatParent(tr);
+                }
+            }
+        }
     }
 }

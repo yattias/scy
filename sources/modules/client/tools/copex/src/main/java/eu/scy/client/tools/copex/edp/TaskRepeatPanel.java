@@ -83,6 +83,9 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
     /* liste des valeurs pour chaque iteration */
     private ArrayList<ActionParam[]> listValueParam;
 
+    private ArrayList<Long> listDbKeyActionParam;
+    private ArrayList<Long> listDbKeyActionOutput;
+
     /* task repeat */
     private TaskRepeat taskRepeat;
 
@@ -107,10 +110,12 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
     /* liste des param selectionnees */
     private ArrayList<Object> listCbSel;
 
-    public TaskRepeatPanel(EdPPanel edP, ArrayList<InitialActionParam> listAllParams, ArrayList<InitialOutput> listOutput, boolean isAction, boolean modeAdd) {
+    public TaskRepeatPanel(EdPPanel edP, ArrayList<InitialActionParam> listAllParams,ArrayList<Long> listDbKeyActionParam, ArrayList<InitialOutput> listOutput, ArrayList<Long> listDbKeyActionOutput, boolean isAction, boolean modeAdd) {
         this.edP = edP;
         this.listAllParams = listAllParams;
+        this.listDbKeyActionParam = listDbKeyActionParam;
         this.listOutput = listOutput ;
+        this.listDbKeyActionOutput = listDbKeyActionOutput;
         this.isAction = isAction;
         this.modeAdd = modeAdd;
         this.nbRepeat = 1;
@@ -790,9 +795,37 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
         updateListsData(o);
     }
 
-    
+    private int getIdInitialParam(InitialActionParam param){
+        return listParam.indexOf(param);
+    }
 
-    // renvoit la task repeat ainsi constituee
+    private int getIdInitialOutput(InitialOutput output){
+        return listOutput.indexOf(output);
+    }
+
+
+    /* return the corresponding action th the selected parameter, -1 if it's an action */
+    private long getCorrespondingAction(InitialActionParam param, InitialOutput output){
+        if(listDbKeyActionParam == null && this.listDbKeyActionOutput == null )
+            return -1;
+        if(param != null){
+            int id = getIdInitialParam(param);
+            if(id != -1){
+                return listDbKeyActionParam.get(id);
+            }else
+                return -1;
+        }
+        if(output != null){
+            int id = getIdInitialOutput(output);
+            if(id != -1){
+                return listDbKeyActionOutput.get(id);
+            }else
+                return -1;
+        }
+        return -1;
+    }
+
+    // returns the repeat task
     public CopexReturn  getTaskRepeat(ArrayList v){
         long dbKey = -1;
         if (taskRepeat != null)
@@ -804,8 +837,9 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
             boolean none = getSelectedNone(i);
             if (!none){
                 InitialActionParam param = getSelectedParam(i);
+                InitialOutput output = getSelectedOutput(i);
+                long dbKeyAction = getCorrespondingAction(param, output);
                 if (param == null){
-                    InitialOutput output = getSelectedOutput(i);
                     if(output instanceof InitialManipulationOutput){
                         ArrayList<TaskRepeatValueMaterialProd> listValue= new ArrayList();
                         ParamRepeatPanel valuePanel = getTableWithId(i);
@@ -823,7 +857,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
                                 }
                             }
                         }
-                        TaskRepeatParamOutputManipulation out = new TaskRepeatParamOutputManipulation(-1, (InitialManipulationOutput)output, listValue);
+                        TaskRepeatParamOutputManipulation out = new TaskRepeatParamOutputManipulation(-1, dbKeyAction, (InitialManipulationOutput)output, listValue);
                         listP.add(out);
                     }else if (output instanceof InitialAcquisitionOutput){
                         ArrayList<TaskRepeatValueDataProd> listValue= new ArrayList();
@@ -842,7 +876,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
                                 }
                             }
                         }
-                        TaskRepeatParamOutputAcquisition out = new TaskRepeatParamOutputAcquisition(-1, (InitialAcquisitionOutput)output, listValue);
+                        TaskRepeatParamOutputAcquisition out = new TaskRepeatParamOutputAcquisition(-1,dbKeyAction,  (InitialAcquisitionOutput)output, listValue);
                         listP.add(out);
                     }else if (output instanceof InitialTreatmentOutput){
                         ArrayList<TaskRepeatValueDataProd> listValue= new ArrayList();
@@ -861,7 +895,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
                                 }
                             }
                         }
-                        TaskRepeatParamOutputTreatment out = new TaskRepeatParamOutputTreatment(-1, (InitialTreatmentOutput)output, listValue);
+                        TaskRepeatParamOutputTreatment out = new TaskRepeatParamOutputTreatment(-1, dbKeyAction, (InitialTreatmentOutput)output, listValue);
                         listP.add(out);
                     }
                 }else{
@@ -877,7 +911,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
                                 listValue.add(value);
                             }
                         }
-                        TaskRepeatParamData p = new TaskRepeatParamData(-1, (InitialParamData)param, listValue);
+                        TaskRepeatParamData p = new TaskRepeatParamData(-1,dbKeyAction,  (InitialParamData)param, listValue);
                         listP.add(p);
                     }else if (param instanceof InitialParamMaterial){
                         ArrayList<TaskRepeatValueParamMaterial> listValue = new ArrayList();
@@ -891,7 +925,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
                                 listValue.add(value);
                             }
                         }
-                        TaskRepeatParamMaterial p = new TaskRepeatParamMaterial(-1, (InitialParamMaterial)param, listValue);
+                        TaskRepeatParamMaterial p = new TaskRepeatParamMaterial(-1, dbKeyAction, (InitialParamMaterial)param, listValue);
                         listP.add(p);
                     }else if (param instanceof InitialParamQuantity){
                         ArrayList<TaskRepeatValueParamQuantity> listValue = new ArrayList();
@@ -911,7 +945,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
                                 }
                             }
                         }
-                        TaskRepeatParamQuantity p = new TaskRepeatParamQuantity(-1, (InitialParamQuantity)param, listValue);
+                        TaskRepeatParamQuantity p = new TaskRepeatParamQuantity(-1, dbKeyAction, (InitialParamQuantity)param, listValue);
                         listP.add(p);
                     }
                 }

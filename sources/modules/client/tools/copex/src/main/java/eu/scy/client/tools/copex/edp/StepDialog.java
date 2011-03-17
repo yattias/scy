@@ -25,7 +25,6 @@ import javax.swing.*;
  * @author  MBO
  */
 public class StepDialog extends JDialog implements ActionComment, ActionTaskRepeat{
-    // ATTRIBUTS
     private EdPPanel edP;
      /* mode de visualisation  : ajout / modification */
     private boolean modeAdd;
@@ -67,8 +66,8 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
         this.modeAdd = true;
         this.stepMode = stepMode;
         this.comment = "";
-        //this.isTaskRepeat = isTaskRepeat;
-        this.isTaskRepeat = false;
+        this.isTaskRepeat = isTaskRepeat;
+        //this.isTaskRepeat = false;
         this.taskRepeat = null;
         this.insertIn = insertIn;
         this.setLocationRelativeTo(edP);
@@ -91,8 +90,8 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
         this.right = right;
         this.procRight = procRight;
         this.taskImage = taskImage;
-        //this.isTaskRepeat = isTaskRepeat;
-        this.isTaskRepeat = false;
+        this.isTaskRepeat = isTaskRepeat;
+        //this.isTaskRepeat = false;
         this.taskRepeat = step.getTaskRepeat();
         this.insertIn = MyConstants.INSERT_TASK_UNDEF;
         this.setLocationRelativeTo(edP);
@@ -102,7 +101,7 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
         setIconImage(edP.getIconDialog());
         init();
     }
-    public void init(){
+    private void init(){
         getContentPane().add(getPanelComments());
         if(isTaskRepeat)
             setPanelTaskRepeat();
@@ -156,7 +155,13 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
     /* panel task repeat */
     private TaskRepeatPanel getTaskRepeatPanel(){
         if(taskRepeatPanel == null){
-            taskRepeatPanel = new TaskRepeatPanel(edP, getStepInitialParam(),getStepInitialOutput(),  false, modeAdd);
+            ArrayList[] list = getStepInitialParam();
+            ArrayList<InitialActionParam> listStepInitialParam = list[0];
+            ArrayList<Long> listStepInitialParamDbKeyAction = list[1];
+            list = getStepInitialOutput();
+            ArrayList<InitialOutput> listStepInitialOutput = list[0];
+            ArrayList<Long> listStepInitialOutputDbKeyAction = list[1];
+            taskRepeatPanel = new TaskRepeatPanel(edP, listStepInitialParam,listStepInitialParamDbKeyAction ,listStepInitialOutput, listStepInitialOutputDbKeyAction,  false, modeAdd);
             taskRepeatPanel.addActionTaskRepeat(this);
             taskRepeatPanel.setName("taskRepeatPanel");
             if(!modeAdd && this.taskRepeat != null){
@@ -172,20 +177,26 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
     }
 
     /* retourne la liste des parametres des actions de l'etape */
-    private ArrayList<InitialActionParam> getStepInitialParam(){
-        if(modeAdd)
-            return new ArrayList();
-        else{
+    private ArrayList[] getStepInitialParam(){
+        if(modeAdd){
+            ArrayList[] list = new ArrayList[2];
+            list[0] = new ArrayList();
+            list[1] = new ArrayList();
+            return list;
+        } else {
             return edP.getStepInitialParam(step);
         }
     }
 
 
     /* retourne la liste des output des actions de l'etape */
-    private ArrayList<InitialOutput> getStepInitialOutput(){
-        if(modeAdd)
-            return new ArrayList();
-        else{
+    private ArrayList[] getStepInitialOutput(){
+        if(modeAdd){
+            ArrayList[] list = new ArrayList[2];
+            list[0] = new ArrayList();
+            list[1] = new ArrayList();
+            return list;
+        } else {
             return edP.getStepInitialOutput(step);
         }
     }
@@ -307,15 +318,23 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
         if(taskRepeatPanel != null){
             nbTaskRepeat = taskRepeatPanel.getNbRepeat();
         }
-        
-        Step newStep = new Step(CopexUtilities.getLocalText(d, edP.getLocale()), CopexUtilities.getLocalText(c, edP.getLocale()));
         if(nbTaskRepeat > 1){
-            long oldKey = -1;
+           ArrayList v2 = new ArrayList();
+           long oldKey = -1;
             if (taskRepeat != null)
                 oldKey = taskRepeat.getDbKey();
-            taskRepeat = new TaskRepeat(oldKey, nbTaskRepeat);
-            newStep.setTaskRepeat(taskRepeat);
-        }
+           CopexReturn cr=  taskRepeatPanel.getTaskRepeat(v2);
+           if(cr.isError()){
+               edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
+               return;
+           }
+           taskRepeat = (TaskRepeat)v2.get(0);
+           taskRepeat.setDbKey(oldKey);
+        }else
+            taskRepeat = null;
+        
+        Step newStep = new Step(CopexUtilities.getLocalText(d, edP.getLocale()), CopexUtilities.getLocalText(c, edP.getLocale()));
+        newStep.setTaskRepeat(taskRepeat);
         if (modeAdd){
             // Cree l'etpae
             CopexReturn cr = edP.addStep(newStep, insertIn);

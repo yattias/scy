@@ -74,7 +74,7 @@ public class CopexPanel extends JPanel {
     public final static int PANEL_HEIGHT = 350;
 
     /* version */
-    private String version = "2.3";
+    private String version = "2.5";
     protected ControllerInterface controller;
     public final static Color backgroundColor = SystemColor.control;
     /* locale */

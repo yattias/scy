@@ -112,7 +112,7 @@ public abstract class InitialActionParam implements Cloneable {
     }
     
     public Element toXML(Element element){
-		element.addContent(new Element(TAG_INITIAL_ACTION_PARAM_CODE).setText(code));
+	element.addContent(new Element(TAG_INITIAL_ACTION_PARAM_CODE).setText(code.equals("")? ""+dbKey:code));
         if(listParamName != null && listParamName.size() > 0){
             for (Iterator<LocalText> t = listParamName.iterator(); t.hasNext();) {
                 LocalText l = t.next();
@@ -130,7 +130,7 @@ public abstract class InitialActionParam implements Cloneable {
     }
 
     public Element toXMLRef(Element element){
-        element.addContent(new Element(TAG_INITIAL_ACTION_PARAM_CODE).setText(code));
+        element.addContent(new Element(TAG_INITIAL_ACTION_PARAM_CODE).setText(code.equals("")? ""+dbKey:code));
         return element;
     }
 

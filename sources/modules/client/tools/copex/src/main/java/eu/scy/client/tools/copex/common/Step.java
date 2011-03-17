@@ -5,6 +5,7 @@
 
 package eu.scy.client.tools.copex.common;
 
+import eu.scy.client.tools.copex.edp.CopexPanel;
 import eu.scy.client.tools.copex.utilities.CopexUtilities;
 import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.util.Iterator;
@@ -21,7 +22,7 @@ import org.jdom.JDOMException;
  */
 public class Step extends CopexTask{
     public final static String TAG_STEP = "step";
-    // CONSTRUCTEURS
+
     public Step(long dbKey ,List<LocalText> listName, List<LocalText> listDescription, List<LocalText> listComments, String taskImage, Element draw, boolean isVisible, TaskRight taskRight, TaskRepeat taskRepeat) {
         super(dbKey, listName, listDescription, listComments, taskImage, draw, isVisible, taskRight, false, taskRepeat);
     }

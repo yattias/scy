@@ -21,8 +21,8 @@ public class TaskRepeatParamMaterial extends TaskRepeatParam{
     private InitialParamMaterial initialParamMaterial;
     private ArrayList<TaskRepeatValueParamMaterial> listValue;
 
-    public TaskRepeatParamMaterial(long dbKey, InitialParamMaterial initialParamMaterial, ArrayList<TaskRepeatValueParamMaterial> listValue) {
-        super(dbKey);
+    public TaskRepeatParamMaterial(long dbKey, long dbKeyActionParam,InitialParamMaterial initialParamMaterial, ArrayList<TaskRepeatValueParamMaterial> listValue) {
+        super(dbKey,  dbKeyActionParam);
         this.initialParamMaterial = initialParamMaterial;
         this.listValue = listValue ;
     }
@@ -31,9 +31,17 @@ public class TaskRepeatParamMaterial extends TaskRepeatParam{
         super(xmlElem);
         if (xmlElem.getName().equals(TAG_TASK_REPEAT_PARAM_MATERIAL)) {
             dbKey = idParam++;
+            dbKeyActionParam = -1;
+            if(xmlElem.getChild(TaskRepeatParam.TAG_TASK_REPEAT_PARAM_ACTION) != null){
+                try{
+                    dbKeyActionParam = Long.parseLong(xmlElem.getChild(TaskRepeatParam.TAG_TASK_REPEAT_PARAM_ACTION).getText());
+                }catch (NumberFormatException e){
+
+                }
+            }
             initialParamMaterial = new InitialParamMaterial(xmlElem.getChild(InitialParamMaterial.TAG_INITIAL_PARAM_MATERIAL_REF), listInitialParamMaterial);
             listValue = new ArrayList();
-            for(Iterator<Element> variableElem = xmlElem.getChildren(TaskRepeatValueParamData.TAG_TASK_REPEAT_VALUE_PARAM_DATA).iterator(); variableElem.hasNext();){
+            for(Iterator<Element> variableElem = xmlElem.getChildren(TaskRepeatValueParamMaterial.TAG_TASK_REPEAT_VALUE_PARAM_MATERIAL).iterator(); variableElem.hasNext();){
                 Element e = variableElem.next();
                 TaskRepeatValueParamMaterial v = new TaskRepeatValueParamMaterial(e, idValue++, idActionParam++, listPhysicalQuantity, listInitialParamMaterial, listMaterial, listActionParamQuantity);
                 listValue.add(v);
@@ -77,6 +85,9 @@ public class TaskRepeatParamMaterial extends TaskRepeatParam{
     public Element toXML(){
         Element element = new Element(TAG_TASK_REPEAT_PARAM_MATERIAL);
         element.addContent(initialParamMaterial.toXMLRef());
+        if(dbKeyActionParam != -1){
+            element.addContent(new Element(TaskRepeatParam.TAG_TASK_REPEAT_PARAM_ACTION).setText(""+dbKeyActionParam));
+        }
         for(Iterator<TaskRepeatValueParamMaterial> v = listValue.iterator();v.hasNext();){
             element.addContent(v.next().toXML());
         }

@@ -21,8 +21,8 @@ public class TaskRepeatParamOutputManipulation extends TaskRepeatParam {
     private InitialManipulationOutput output;
     private ArrayList<TaskRepeatValueMaterialProd> listValue;
 
-    public TaskRepeatParamOutputManipulation(long dbKey, InitialManipulationOutput output, ArrayList<TaskRepeatValueMaterialProd> listValue) {
-        super(dbKey);
+    public TaskRepeatParamOutputManipulation(long dbKey, long dbKeyActionParam, InitialManipulationOutput output, ArrayList<TaskRepeatValueMaterialProd> listValue) {
+        super(dbKey, dbKeyActionParam);
         this.output = output;
         this.listValue = listValue ;
     }
@@ -31,6 +31,14 @@ public class TaskRepeatParamOutputManipulation extends TaskRepeatParam {
         super(xmlElem);
         if (xmlElem.getName().equals(TAG_TASK_REPEAT_PARAM_OUTPUT_MANIPULATION)) {
             dbKey = idParam++;
+            dbKeyActionParam = -1;
+            if(xmlElem.getChild(TaskRepeatParam.TAG_TASK_REPEAT_PARAM_ACTION) != null){
+                try{
+                    dbKeyActionParam = Long.parseLong(xmlElem.getChild(TaskRepeatParam.TAG_TASK_REPEAT_PARAM_ACTION).getText());
+                }catch (NumberFormatException e){
+
+                }
+            }
             output = new InitialManipulationOutput(xmlElem.getChild(InitialManipulationOutput.TAG_INITIAL_OUTPUT_MANIPULATION_REF), listInitialManipulationOutput);
             listValue = new ArrayList();
             for(Iterator<Element> variableElem = xmlElem.getChildren(TaskRepeatValueMaterialProd.TAG_TASK_REPEAT_VALUE_MATERIAL_PROD).iterator(); variableElem.hasNext();){
@@ -77,6 +85,9 @@ public class TaskRepeatParamOutputManipulation extends TaskRepeatParam {
     public Element toXML(){
         Element element = new Element(TAG_TASK_REPEAT_PARAM_OUTPUT_MANIPULATION);
         element.addContent(output.toXMLRef());
+        if(dbKeyActionParam != -1){
+            element.addContent(new Element(TaskRepeatParam.TAG_TASK_REPEAT_PARAM_ACTION).setText(""+dbKeyActionParam));
+        }
         for(Iterator<TaskRepeatValueMaterialProd> v = listValue.iterator();v.hasNext();){
             element.addContent(v.next().toXML());
         }

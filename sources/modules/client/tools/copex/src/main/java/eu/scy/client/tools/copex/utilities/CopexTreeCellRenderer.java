@@ -282,7 +282,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
             int widthTree = ((CopexTree)tree).getTextWidth(value, row) - icon.getWidth();
             // taille du text area des commentaires
             int nbLC = commentNode.getLineCount() ;
-            int commentTextWidth = CopexUtilities.lenghtOfString(comment, getFontMetrics(commentNode.getFont()))+5;
+            int commentTextWidth = CopexUtilities.lenghtOfString(comment, commentNode.getFontMetrics(commentNode.getFont()))+5;
             boolean oneLineC = false;
             if (commentTextWidth < widthTree){
                 widthTree = commentTextWidth ;
@@ -294,8 +294,8 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
                 heightComment = HEIGHT_ONE_LINE_COMMENT;
             heightComment = Math.max(nbLC*HEIGHT_ONE_LINE_COMMENT, heightComment);
             commentNode.setSize(cw, heightComment);
-            nbLC = getNbLine(comment, cw-5, getFontMetrics(textNode.getFont()));
-            //commentNode.setSize(cw, nbLC*HEIGHT_ONE_LINE_COMMENT+5);
+            nbLC = getNbLine(comment, cw-5, commentNode.getFontMetrics(commentNode.getFont()));
+            commentNode.setSize(cw, nbLC*HEIGHT_ONE_LINE_COMMENT+5);
         }
         if (commentNode != null){
             this.commentNode.setBounds(0, this.textNode.getY()+this.textNode.getHeight(), this.commentNode.getWidth(), this.commentNode.getHeight());

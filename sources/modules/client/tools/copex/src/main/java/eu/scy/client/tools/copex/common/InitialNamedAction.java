@@ -16,8 +16,8 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- * Action nommee du protocole initial
- * si parametree : peut etre de type choice, manipulation, acquisition, treatment
+ * initial named action of the initial procedure
+ * if this action has setting : could be action choice, manipulation, acquisition, treatment
  * @author Marjolaine
  */
 public class InitialNamedAction implements Cloneable {
@@ -28,24 +28,26 @@ public class InitialNamedAction implements Cloneable {
     public final static String TAG_INITIAL_NAMED_ACTION_IS_SETTING = "is_setting";
     public final static String TAG_INITIAL_NAMED_ACTION_DRAW = "draw";
     public final static String TAG_INITIAL_NAMED_ACTION_REPEAT = "repeat";
+    public final static String TAG_INITIAL_NAMED_ACTION_DEFAULT_DRAW = "default_draw";
     
-    /* identifiant bd */
+    /* db key */
     protected long dbKey;
     /* code */
     protected String code;
-    /* libelle */
+    /* text */
     protected List<LocalText> listLibelle;
-    /* est parametree ?*/
+    /* is setting*/
     protected boolean isSetting ;
-    /* si isSetting => variable de l'action */
+    /* if isSetting => action variable */
     protected InitialActionVariable variable;
-    /* dessin autorise*/
+    /* draw authorized*/
     protected boolean draw;
-    /* repeat autorise*/
+    /* repeat authorized*/
     protected boolean repeat;
+    /** default draw*/
+    protected Element defaultDraw;
 
-    // CONSTRUCTOR
-    public InitialNamedAction(long dbKey, String code, List<LocalText> listLibelle, boolean isSetting, InitialActionVariable variable, boolean draw, boolean repeat) {
+    public InitialNamedAction(long dbKey, String code, List<LocalText> listLibelle, boolean isSetting, InitialActionVariable variable, boolean draw, boolean repeat, Element defaultDraw) {
         this.dbKey = dbKey;
         this.code = code;
         this.listLibelle = listLibelle;
@@ -53,14 +55,15 @@ public class InitialNamedAction implements Cloneable {
         this.variable = variable ;
         this.draw = draw;
         this.repeat = repeat;
+        this.defaultDraw = defaultDraw;
     }
 
     public InitialNamedAction(Element xmlElem){
     }
     public InitialNamedAction(Element xmlElem, long idAction, Locale locale, long idActionParam, List<PhysicalQuantity> listPhysicalQuantity, List<TypeMaterial> listTypeMaterial) throws JDOMException {
-		if (xmlElem.getName().equals(TAG_INITIAL_NAMED_ACTION)) {
+	if (xmlElem.getName().equals(TAG_INITIAL_NAMED_ACTION)) {
             this.dbKey = idAction;
-			code = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_CODE).getText();
+            code = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_CODE).getText();
             listLibelle = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_INITIAL_NAMED_ACTION_LIBELLE).iterator(); variableElem.hasNext();) {
                 Element e = variableElem.next();
@@ -73,15 +76,18 @@ public class InitialNamedAction implements Cloneable {
             if(xmlElem.getChild(InitialActionVariable.TAG_INITIAL_ACTION_VARIABLE) != null){
                 variable = new InitialActionVariable(xmlElem.getChild(InitialActionVariable.TAG_INITIAL_ACTION_VARIABLE), locale, idActionParam, listPhysicalQuantity, listTypeMaterial);
             }
-        }
-		else {
-			throw(new JDOMException("Initial Named Action expects <"+TAG_INITIAL_NAMED_ACTION+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+            defaultDraw = null;
+            if(xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_DEFAULT_DRAW) != null){
+                defaultDraw = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_DEFAULT_DRAW);
+            }
+        }else {
+            throw(new JDOMException("Initial Named Action expects <"+TAG_INITIAL_NAMED_ACTION+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public InitialNamedAction(Element xmlElem,List<InitialNamedAction> list) throws JDOMException{
         if (xmlElem.getName().equals(TAG_INITIAL_NAMED_ACTION_REF)) {
-			this.code = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_CODE).getText();
+            this.code = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_CODE).getText();
             for(Iterator<InitialNamedAction> q = list.iterator();q.hasNext();){
                 InitialNamedAction p = q.next();
                 if(p.getCode().equals(code)){
@@ -91,16 +97,22 @@ public class InitialNamedAction implements Cloneable {
                     this.variable = p.getVariable() ;
                     this.draw = p.isDraw();
                     this.repeat = p.isRepeat();
+                    this.defaultDraw = p.getDefaultDraw();
                 }
             }
         }else {
-			throw(new JDOMException("Initial Named Action expects <"+TAG_INITIAL_NAMED_ACTION_REF+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+            throw(new JDOMException("Initial Named Action expects <"+TAG_INITIAL_NAMED_ACTION_REF+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
+    public Element getDefaultDraw() {
+        return defaultDraw;
+    }
 
+    public void setDefaultDraw(Element defaultDraw) {
+        this.defaultDraw = defaultDraw;
+    }
     
-    // GETTER AND SETTER
     public String getCode() {
         return code;
     }
@@ -197,7 +209,11 @@ public class InitialNamedAction implements Cloneable {
             a.setVariable(variableC);
             a.setDraw(this.isDraw());
             a.setRepeat(this.isRepeat());
-
+            Element d = null;
+            if(this.defaultDraw != null){
+                d = (Element)defaultDraw.clone();
+            }
+            a.setDefaultDraw(d);
             return a;
         } catch (CloneNotSupportedException e) {
 	    // this shouldn't happen, since we are Cloneable
@@ -208,12 +224,12 @@ public class InitialNamedAction implements Cloneable {
     // toXML
     public Element toXML(){
         Element element = new Element(TAG_INITIAL_NAMED_ACTION);
-		return toXML(element);
+	return toXML(element);
     }
 
     // toXML
     protected Element toXML(Element element){
-		element.addContent(new Element(TAG_INITIAL_NAMED_ACTION_CODE).setText(code));
+	element.addContent(new Element(TAG_INITIAL_NAMED_ACTION_CODE).setText(code));
         if(listLibelle != null && listLibelle.size() > 0){
             for (Iterator<LocalText> t = listLibelle.iterator(); t.hasNext();) {
                 LocalText l = t.next();
@@ -229,7 +245,10 @@ public class InitialNamedAction implements Cloneable {
         if(variable != null){
             element.addContent(variable.toXML());
         }
-		return element;
+        if(defaultDraw != null){
+            element.addContent(new Element(TAG_INITIAL_NAMED_ACTION_DEFAULT_DRAW).setContent(defaultDraw));
+        }
+	return element;
     }
 
     public Element toXMLRef(){
