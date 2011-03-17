@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>SCYDynamics’i kasutusjuhend</title>
+<link href="scyContent.css" rel="stylesheet" type="text/css" />
+</head>
+
+
+<body bgcolor="#FFFFFF">
+<h1>SCYDynamics’i kasutusjuhend</h1>
+<p>SCYDynamics on modelleerimisvahend, mida saab kasutada reaalelus esinevatest nähtustest abstraktsete, matemaatiliste mudelite loomiseks. Kui olete selle abil mudeli koostanud, teeb edasised arvutused juba SCYDynamics ise. Seega, SCYDynamics võimaldab teil uurida muutujatevahelisi protsesse ja seoseid ise matemaatilisi arvutusi tegemata. SCYDynamicsi töö uurimiseks vaadake järgnevat mudelit.</p>
+<p>Juba valmistehtud mudeli leiate keskmiselt töölaualt (seal saate ka ise oma mudelit koostada). Iga SCYDynamics’i abil valmistatud mudel koosneb järgmistest osadest:</p>
+<ul>
+  <li>Ristkülikud. Ristkülikuid nimetatakse uurimisobjektideks (‘stocks’) ning nad tähistavad uuritavaid suurusi, mis võivad ajas kasvada või kahaneda.</li>
+</ul>
+<ul>  
+  <li>Sirged nooled (kahe väikese kolmnurgaga). Neid nooli nimetatakse voogudeks (‘flows’) ning neid kasutatakse ajas toimuvate muutuste liitmiseks või lahutamiseks uurimisobjekti hulgast. Vood  on ühendatud kas teise uurimisobjekti või pilvega.</li>
+</ul>
+<ul>
+  <li>Rombid. Rombe nimetatakse konstantideks ning nad omavad mingit kindlat väärtust.</li>
+</ul>
+<ul>
+  <li>Ringid. Ringe ehk mõjutegureid (‘auxiliaries’) kasutatakse väärtuste arvutamiseks ning nende sisestamiseks voogudesse (või teistele mõjuteguritele). Mõjutegurid on määratud  kindla valemiga.</li>
+</ul>
+<ul>  
+  <li>Väikesed nooled. Neid nimetatakse seosteks. Seoseid kasutatakse konstantide ja uurimisobjektide väärtuste sisestamiseks mõjuteguritele ja vastupidi – mõjutegurite arvutuste sisestamiseks voogudesse (või teistele mõjuteguritele).</li>
+</ul>
+<p>Eelpooltoodu tundub arvatavasti pisut abstraktne. Et asja lihtsustada, vaatame nüüd näitena esitatud mudelit.</p>
+<ul>
+  <li>Mudelil esitatud uurimisobjekt (stock) on populatsioon. Oletame, et uurimisobjekti suurus näitab kalapopulatsiooni suurust (kindlal ajahetkel). Kui teete topeltkliki uurimisobjekti sümbolil, näete selle seadeid.  Nagu näha, on algväärtuseks 1000. See tähendab, et me alustame oma simulatsiooni 1000 kalast.</li>
+</ul>
+<ul>
+  <li>Populatsioon suureneb uute kalade sündides (mida võib järeldada uurimisobjekti vasakult poolt sisenevast voost). Tehes topeltkliki konstandil “sündimus”, näidatakse väärtust 0.2. Klikkides mõjuteguril (aux) “sündimus” mõistate, mis tegelikult toimus. Iga ajavahemiku tagant korrutatakse populatsiooni suurust 0.2-ga. Seejärel liidetakse arvutuse tulemus populatsiooni algsuurusele.</li>
+</ul>
+  <ul>
+  <li>Kui kalad surevad, populatsiooni suurus väheneb. Tehes topeltkliki konstandil ”suremus”, näete väärtust 0.1. Järelikult korrutatakse iga ajavahemiku tagant populatsiooni suurust 0,1-ga. Seejärel lahutatakse arvutuse tulemus populatsiooni algupärasest suurusest. Teisisõnu – iga ajavahemiku tagant sureb 10 % kalapopulatsioonist.</li>
+</ul>
+<p>Nüüd, kui te mudelist suuremal või vähemal määral aru saate, on aeg seda ise proovida. Akna ülemises osas on näha kolm sakki: mudeli koostamine, graafik ja tabel. Siiani olete te töötanud ainult mudeli koostamise sakis. Teisi sakke saab kasutada mudeli „tööks“ ning tulemuste visualiseerimiseks.</p>
+<ul>
+  <li>Klikkige sakil “graafik”.</li>
+</ul>
+<ul>
+  <li>Vasakpoolses ülemises nurgas saate valida muutujad, mida soovite visualiseerida. Valige “populatsioon”.</li>
+</ul>
+<ul>
+  <li>Algusajaks on määratud 0.0. Lõpuajaks määrake 10.0.</li>
+</ul>
+<ul>
+  <li>Klikkige ‘käivita simulatsioon’. Akna paremale poole ilmub graafik. Populatsiooni suurus kasvab ajas astmeliselt.</li>
+</ul>
+<ul>
+  <li>Nüüd pöörduge tagasi “mudeli koostamise” sakki ning muutke sündimust ja suremust. Käivitage mudel uuesti ning vaadake, milliseid efekte teie poolt tehtud muudatused esile kutsusid.</li>
+</ul>
+</body>
+</html>
