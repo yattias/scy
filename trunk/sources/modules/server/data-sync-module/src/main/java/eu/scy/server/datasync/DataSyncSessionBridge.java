@@ -70,6 +70,8 @@ public class DataSyncSessionBridge {
 		muc = new MultiUserChat(connection, id);
 		muc.create(connection.getUser());
 		Form form = new Form(Form.TYPE_SUBMIT);
+		form.setAnswer("muc#roomconfig_persistentroom", true);
+		form.setAnswer("muc#roomconfig_enablelogging", true);
 		muc.sendConfigurationForm(form);
 		
 		DataSyncPacketFilterListener packetFilterListener = new DataSyncPacketFilterListener(id);
