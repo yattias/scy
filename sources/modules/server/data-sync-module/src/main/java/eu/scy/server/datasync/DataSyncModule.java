@@ -48,7 +48,7 @@ public class DataSyncModule extends SCYHubModule {
 
     private static final Logger logger = Logger.getLogger(DataSyncModule.class.getName());
     
-    private static final String serviceName = "syncsessions";
+    private static final String serviceName = "syncsessions." + Configuration.getInstance().getOpenFireHost();
 
     private final static String COMMAND_SPACE = "command";
     
@@ -166,7 +166,7 @@ public class DataSyncModule extends SCYHubModule {
     }
 
     private SyncMessage createSession() {
-        String sessionId = UUID.randomUUID().toString() + "@" + serviceName + "." + Configuration.getInstance().getOpenFireHost();
+        String sessionId = UUID.randomUUID().toString() + "@" + serviceName;
 
         // create a session logger with the random id
         DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId);
