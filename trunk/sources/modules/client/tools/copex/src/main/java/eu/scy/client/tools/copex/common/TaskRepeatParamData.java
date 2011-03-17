@@ -22,8 +22,8 @@ public class TaskRepeatParamData extends TaskRepeatParam{
     /* liste des valeurs */
     private ArrayList<TaskRepeatValueParamData> listValue;
 
-    public TaskRepeatParamData(long dbKey, InitialParamData initialParamData, ArrayList<TaskRepeatValueParamData> listValue) {
-        super(dbKey);
+    public TaskRepeatParamData(long dbKey, long dbKeyActionParam, InitialParamData initialParamData, ArrayList<TaskRepeatValueParamData> listValue) {
+        super(dbKey, dbKeyActionParam);
         this.initialParamData = initialParamData;
         this.listValue = listValue ;
     }
@@ -32,6 +32,14 @@ public class TaskRepeatParamData extends TaskRepeatParam{
         super(xmlElem);
         if (xmlElem.getName().equals(TAG_TASK_REPEAT_PARAM_DATA)) {
             dbKey = idParam++;
+            dbKeyActionParam = -1;
+            if(xmlElem.getChild(TaskRepeatParam.TAG_TASK_REPEAT_PARAM_ACTION) != null){
+                try{
+                    dbKeyActionParam = Long.parseLong(xmlElem.getChild(TaskRepeatParam.TAG_TASK_REPEAT_PARAM_ACTION).getText());
+                }catch (NumberFormatException e){
+
+                }
+            }
             initialParamData = new InitialParamData(xmlElem.getChild(InitialParamData.TAG_INITIAL_PARAM_DATA_REF), listInitialParamData);
             listValue = new ArrayList();
             for(Iterator<Element> variableElem = xmlElem.getChildren(TaskRepeatValueParamData.TAG_TASK_REPEAT_VALUE_PARAM_DATA).iterator(); variableElem.hasNext();){
@@ -78,6 +86,9 @@ public class TaskRepeatParamData extends TaskRepeatParam{
     public Element toXML(){
         Element element = new Element(TAG_TASK_REPEAT_PARAM_DATA);
         element.addContent(initialParamData.toXMLRef());
+        if(dbKeyActionParam != -1){
+            element.addContent(new Element(TaskRepeatParam.TAG_TASK_REPEAT_PARAM_ACTION).setText(""+dbKeyActionParam));
+        }
         for(Iterator<TaskRepeatValueParamData> v = listValue.iterator();v.hasNext();){
             element.addContent(v.next().toXML());
         }

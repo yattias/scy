@@ -39,6 +39,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -271,7 +272,7 @@ public class ParamRepeatPanel extends JPanel{
                 String s = ((JTextField)listComponents.get(i).getComponent(0)).getText();
                 double value = 0;
                 try{
-                    value = Double.parseDouble(s);
+                    value = Double.parseDouble(s.replace(',', '.'));
                 }catch(NumberFormatException e){
                     return new CopexReturn(edP.getBundleString("MSG_ERROR_ACTION_PARAM_VALUE"), false);
                 }
@@ -645,6 +646,9 @@ public class ParamRepeatPanel extends JPanel{
     }
 
     public void setTaskRepeatParam(TaskRepeatParam param){
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(getLocale());
+        numberFormat.setMaximumFractionDigits(Integer.MAX_VALUE);
+        numberFormat.setGroupingUsed(false);
         if(param instanceof TaskRepeatParamData && mode == MODE_PARAM_DATA){
             ArrayList<TaskRepeatValueParamData> listValue = ((TaskRepeatParamData)param).getListValue();
             int nb = listValue.size();
@@ -661,7 +665,7 @@ public class ParamRepeatPanel extends JPanel{
             ArrayList<TaskRepeatValueParamQuantity> listValue = ((TaskRepeatParamQuantity)param).getListValue();
             int nb = listValue.size();
             for (int i=0; i<nb; i++){
-                ((JTextField)(this.listComponents.get(i).getComponent(0))).setText(Double.toString(listValue.get(i).getActionParamQuantity().getParameter().getValue()));
+                ((JTextField)(this.listComponents.get(i).getComponent(0))).setText(numberFormat.format(listValue.get(i).getActionParamQuantity().getParameter().getValue()));
                 ((JComboBox)(this.listComponents.get(i).getComponent(1))).setSelectedItem(listValue.get(i).getActionParamQuantity().getParameter().getUnit().getSymbol(edP.getLocale()));
             }
         }else if (param instanceof TaskRepeatParamOutputAcquisition && mode == MODE_OUT_DATA){

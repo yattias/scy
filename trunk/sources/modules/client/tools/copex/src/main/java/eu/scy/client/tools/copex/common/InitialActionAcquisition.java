@@ -32,8 +32,8 @@ public class InitialActionAcquisition extends InitialNamedAction implements Clon
     private ArrayList<InitialAcquisitionOutput> listOutput;
 
     // CONSTRUCTOR
-    public InitialActionAcquisition(long dbKey, String code, List<LocalText> listLibelle, boolean isSetting, InitialActionVariable variable, boolean draw,  boolean repeat, int nbDataProd, ArrayList<InitialAcquisitionOutput> listOutput) {
-        super(dbKey, code, listLibelle, isSetting, variable, draw, repeat);
+    public InitialActionAcquisition(long dbKey, String code, List<LocalText> listLibelle, boolean isSetting, InitialActionVariable variable, boolean draw,  boolean repeat, int nbDataProd, ArrayList<InitialAcquisitionOutput> listOutput, Element defaultDraw) {
+        super(dbKey, code, listLibelle, isSetting, variable, draw, repeat, defaultDraw);
         this.nbDataProd = nbDataProd;
         this.listOutput = listOutput ;
     }

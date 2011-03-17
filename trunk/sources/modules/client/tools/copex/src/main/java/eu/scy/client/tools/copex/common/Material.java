@@ -378,7 +378,7 @@ public class Material implements Cloneable {
     // toXML
     public Element toXML(){
         Element element = new Element(TAG_MATERIAL);
-	element.addContent(new Element(TAG_MATERIAL_ID).setText(code));
+	element.addContent(new Element(TAG_MATERIAL_ID).setText(code.equals("") ? ""+dbKey:code));
         if(listName != null && listName.size() > 0){
             for (Iterator<LocalText> t = listName.iterator(); t.hasNext();) {
                 LocalText l = t.next();
@@ -401,7 +401,8 @@ public class Material implements Cloneable {
             element.addContent(new Element(TAG_MATERIAL_URL_DESCRIPTION).setText(URLDescription));
         }
         for (Iterator<TypeMaterial> type = listType.iterator(); type.hasNext();) {
-            element.addContent(type.next().toXMLRef());
+            //element.addContent(type.next().toXMLRef());
+            element.addContent(type.next().toXML());
 	}
         if (listParameters != null){
             for (Iterator<Parameter> p = listParameters.iterator(); p.hasNext();) {
@@ -413,7 +414,7 @@ public class Material implements Cloneable {
 
     public Element toXMLRef(){
         Element element = new Element(TAG_MATERIAL_REF);
-	element.addContent(new Element(TAG_MATERIAL_ID).setText(code));
+	element.addContent(new Element(TAG_MATERIAL_ID).setText(code.equals("")?""+dbKey:code));
         return element;
     }
 

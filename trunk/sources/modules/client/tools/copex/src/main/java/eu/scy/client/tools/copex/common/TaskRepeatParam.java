@@ -11,15 +11,19 @@ import org.jdom.JDOMException;
 
 
 /**
- * parametre de repetition d'une tache iterative
+ * repeat parameter of an iterative task
  * @author Marjolaine
  */
 public abstract class TaskRepeatParam implements Cloneable {
-    /* identifiant */
+     public final static String TAG_TASK_REPEAT_PARAM_ACTION = "action_param";
+    /* database dbkey */
     protected long dbKey;
 
-    public TaskRepeatParam(long dbKey) {
+    protected long dbKeyActionParam = -1;
+
+    public TaskRepeatParam(long dbKey, long dbKeyActionParam) {
         this.dbKey = dbKey;
+        this.dbKeyActionParam = dbKeyActionParam;
     }
 
     public TaskRepeatParam(Element xmlElem) throws JDOMException {
@@ -33,15 +37,24 @@ public abstract class TaskRepeatParam implements Cloneable {
         this.dbKey = dbKey;
     }
 
+    public long getDbKeyActionParam() {
+        return dbKeyActionParam;
+    }
+
+    public void setDbKeyActionParam(long dbKeyActionParam) {
+        this.dbKeyActionParam = dbKeyActionParam;
+    }
+
+    
    
     
-      // OVERRIDE
     @Override
     protected Object clone() {
        try {
             TaskRepeatParam p = (TaskRepeatParam) super.clone() ;
 
             p.setDbKey(this.dbKey);
+            p.setDbKeyActionParam(dbKeyActionParam);
             return p;
        } catch (CloneNotSupportedException e) {
             // this shouldn't happen, since we are Cloneable

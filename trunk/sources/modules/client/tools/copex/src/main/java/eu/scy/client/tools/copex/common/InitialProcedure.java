@@ -556,4 +556,19 @@ public class InitialProcedure extends ExperimentalProcedure {
         }
     }
 
+    public List<TypeMaterial> getListTypeMaterial(){
+        List<TypeMaterial> list = new LinkedList();
+        if(listMaterial == null)
+            return list;
+        for(Iterator<Material> m = listMaterial.iterator();m.hasNext();){
+            List<TypeMaterial> lt = m.next().getListType();
+            for(Iterator<TypeMaterial> t = lt.iterator(); t.hasNext();){
+                TypeMaterial type = t.next();
+                if(!list.contains(type))
+                    list.add(type);
+            }
+        }
+        return list;
+    }
+
 }

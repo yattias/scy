@@ -565,11 +565,8 @@ public class CopexTree extends JTree implements MouseListener, KeyListener, Mous
 //            edit(false);
 //           return;
 //        }
-        int row = getRowForLocation(e.getX(), e.getY());
-        if (row == -1)
-            return;
         edit(true);
-        openPopUpMenu(e.getX(), e.getY());
+        //openPopUpMenu(e.getX(), e.getY());
     }
     
     @Override
@@ -586,6 +583,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener, Mous
 //            edit(true);
 //            openPopUpMenu(e.getX(), e.getY());
 //        }
+        openPopUpMenu(e.getX(), e.getY());
     }
 
     @Override

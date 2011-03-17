@@ -528,7 +528,7 @@ public class ExperimentalProcedureFromDB {
     public static  CopexReturn getListNamedActionFromDB(DataBaseCommunication dbC, long dbKeyProc, Locale locale, ArrayList<TypeMaterial> listTypeMaterial, ArrayList<PhysicalQuantity> listPhysicalQuantity,  ArrayList v){
         ArrayList<InitialNamedAction> l = new ArrayList();
         String lib = "LIB_"+locale.getLanguage() ;
-        String query = "SELECT A.ID_ACTION_NOMMEE, A.CODE,A.DRAW, A.REPEAT, A.IS_SETTING,  A."+lib+" " +
+        String query = "SELECT A.ID_ACTION_NOMMEE, A.CODE,A.DRAW, A.DEFAULT_DRAW, A.REPEAT, A.IS_SETTING,  A."+lib+" " +
                 "FROM INITIAL_ACTION_NOMMEE A, LINK_INITIAL_PROC_ACTION_NOMMEE L " +
                 "WHERE L.ID_PROC = "+dbKeyProc +" AND L.ID_ACTION_NOMMEE = A.ID_ACTION_NOMMEE ORDER BY A.CODE ;";
         ArrayList v2 = new ArrayList();
@@ -536,6 +536,7 @@ public class ExperimentalProcedureFromDB {
         listFields.add("A.ID_ACTION_NOMMEE");
         listFields.add("A.CODE");
         listFields.add("A.DRAW");
+        listFields.add("A.DEFAULT_DRAW");
         listFields.add("A.REPEAT");
         listFields.add("A.IS_SETTING");
         listFields.add("A."+lib);
@@ -557,6 +558,11 @@ public class ExperimentalProcedureFromDB {
             if (s == null)
                 continue;
             boolean draw = s.equals("1");
+            s = rs.getColumnData("A.DEFAULT_DRAW");
+            Element defaultDraw = null;
+            if(s != null){
+                defaultDraw = CopexUtilities.getElement(s);
+            }
             s = rs.getColumnData("A.REPEAT");
             if (s == null)
                 continue;
@@ -584,14 +590,14 @@ public class ExperimentalProcedureFromDB {
                 variable = (InitialActionVariable)v3.get(0);
                 // determine si choix, manip, acq ou treat.
                 v3 = new ArrayList();
-                cr = getInitialActionFromDB(dbC, locale, dbKey, code, libelle, draw, repeat, isSetting, variable, listPhysicalQuantity, v3);
+                cr = getInitialActionFromDB(dbC, locale, dbKey, code, libelle, draw, defaultDraw, repeat, isSetting, variable, listPhysicalQuantity, v3);
                 if (cr.isError())
                     return cr;
                 action = (InitialNamedAction)v3.get(0);
 
 
             }else
-                action = new InitialNamedAction(dbKey, code, CopexUtilities.getLocalText(libelle, locale), isSetting, variable, draw, repeat);
+                action = new InitialNamedAction(dbKey, code, CopexUtilities.getLocalText(libelle, locale), isSetting, variable, draw, repeat, defaultDraw);
             l.add(action);
         }
         v.add(l);
@@ -810,7 +816,7 @@ public class ExperimentalProcedureFromDB {
     }
 
     /* retourne en v[0] l'action de type choix, manip acq ou treat */
-    private static CopexReturn getInitialActionFromDB(DataBaseCommunication dbC, Locale locale, long dbKey, String code,String libelle,boolean draw, boolean repeat,  boolean isSetting, InitialActionVariable variable, ArrayList<PhysicalQuantity> listPhysicalQuantity,ArrayList v){
+    private static CopexReturn getInitialActionFromDB(DataBaseCommunication dbC, Locale locale, long dbKey, String code,String libelle,boolean draw, Element defaultDraw, boolean repeat,  boolean isSetting, InitialActionVariable variable, ArrayList<PhysicalQuantity> listPhysicalQuantity,ArrayList v){
         InitialNamedAction action = null;
         // action choix?
         ArrayList v2 = new ArrayList();
@@ -826,7 +832,7 @@ public class ExperimentalProcedureFromDB {
             String s = rs2.getColumnData("ID_ACTION");
             if (s == null)
                 continue;
-            action = new InitialActionChoice(dbKey, code, CopexUtilities.getLocalText(libelle, locale), isSetting, variable, draw, repeat) ;
+            action = new InitialActionChoice(dbKey, code, CopexUtilities.getLocalText(libelle, locale), isSetting, variable, draw, repeat, defaultDraw) ;
             v.add(action);
             return new CopexReturn();
         }
@@ -858,7 +864,7 @@ public class ExperimentalProcedureFromDB {
             if (cr.isError())
                 return cr;
             ArrayList<InitialManipulationOutput> listOutput = (ArrayList<InitialManipulationOutput>)v3.get(0);
-            action = new InitialActionManipulation(dbKey, code, CopexUtilities.getLocalText(libelle, locale), isSetting, variable, draw, repeat, nbMaterialProd, listOutput);
+            action = new InitialActionManipulation(dbKey, code, CopexUtilities.getLocalText(libelle, locale), isSetting, variable, draw, repeat, nbMaterialProd, listOutput, defaultDraw);
             v.add(action);
             return new CopexReturn();
          }
@@ -890,7 +896,7 @@ public class ExperimentalProcedureFromDB {
             if (cr.isError())
                 return cr;
             ArrayList<InitialAcquisitionOutput> listOutput = (ArrayList<InitialAcquisitionOutput>)v3.get(0);
-            action = new InitialActionAcquisition(dbKey, code, CopexUtilities.getLocalText(libelle, locale), isSetting, variable, draw, repeat, nbDataProd, listOutput);
+            action = new InitialActionAcquisition(dbKey, code, CopexUtilities.getLocalText(libelle, locale), isSetting, variable, draw, repeat, nbDataProd, listOutput, defaultDraw);
             v.add(action);
             return new CopexReturn();
          }
@@ -922,7 +928,7 @@ public class ExperimentalProcedureFromDB {
             if (cr.isError())
                 return cr;
             ArrayList<InitialTreatmentOutput> listOutput = (ArrayList<InitialTreatmentOutput>)v3.get(0);
-            action = new InitialActionTreatment(dbKey, code, CopexUtilities.getLocalText(libelle, locale), isSetting, variable, draw, repeat, nbDataProd, listOutput);
+            action = new InitialActionTreatment(dbKey, code, CopexUtilities.getLocalText(libelle, locale), isSetting, variable, draw, repeat, nbDataProd, listOutput, defaultDraw);
             v.add(action);
             return new CopexReturn();
          }

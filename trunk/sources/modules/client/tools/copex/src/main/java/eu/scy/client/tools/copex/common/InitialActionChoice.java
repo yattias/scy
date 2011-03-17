@@ -23,8 +23,8 @@ public class InitialActionChoice extends InitialNamedAction{
     public final static String TAG_INITIAL_ACTION_CHOICE = "initial_action_choice";
     public final static String TAG_INITIAL_ACTION_CHOICE_REF = "initial_action_choice_ref";
 
-    public InitialActionChoice(long dbKey, String code, List<LocalText> listLibelle, boolean isSetting, InitialActionVariable variable, boolean draw, boolean repeat) {
-        super(dbKey, code, listLibelle, isSetting, variable, draw, repeat);
+    public InitialActionChoice(long dbKey, String code, List<LocalText> listLibelle, boolean isSetting, InitialActionVariable variable, boolean draw, boolean repeat, Element defaultDraw) {
+        super(dbKey, code, listLibelle, isSetting, variable, draw, repeat, defaultDraw);
     }
 
     public InitialActionChoice(Element xmlElem, long idAction, Locale locale, long idActionParam, List<PhysicalQuantity> listPhysicalQuantity, List<TypeMaterial> listTypeMaterial, long idOutput) throws JDOMException {

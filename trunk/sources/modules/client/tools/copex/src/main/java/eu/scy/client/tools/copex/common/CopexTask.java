@@ -62,7 +62,8 @@ public abstract  class CopexTask implements Cloneable {
     /* repetition - null sinon */
     protected TaskRepeat taskRepeat;
 
-    // CONSTRUCTEURS
+    protected List<TaskRepeat> listTaskRepeatParent;
+
     public CopexTask(long dbKey, List<LocalText> listName, List<LocalText> listDescription, List<LocalText> listComments, String taskImage, Element draw, boolean isVisible, TaskRight taskRight, boolean root, TaskRepeat taskRepeat) {
         this.dbKey = dbKey;
         this.listName = listName;
@@ -76,6 +77,7 @@ public abstract  class CopexTask implements Cloneable {
         this.dbKeyBrother = -1;
         this.dbKeyChild = -1;
         this.taskRepeat = taskRepeat;
+        this.listTaskRepeatParent = new LinkedList();
     }
 
     
@@ -92,6 +94,7 @@ public abstract  class CopexTask implements Cloneable {
         this.dbKeyBrother = dbKeyBrother;
         this.dbKeyChild = dbKeyChild;
         this.taskRepeat = taskRepeat;
+        this.listTaskRepeatParent = new LinkedList();
     }
     
     public CopexTask(Locale locale){
@@ -110,6 +113,7 @@ public abstract  class CopexTask implements Cloneable {
         this.dbKeyChild = -1;
         this.isVisible = true;
         this.taskRepeat = null;
+        this.listTaskRepeatParent = new LinkedList();
     }
    
 
@@ -117,7 +121,6 @@ public abstract  class CopexTask implements Cloneable {
 		
 	}
 
-    // GETTER AND SETTER
      public void setDbKey(long dbKey) {
         this.dbKey = dbKey;
     }
@@ -264,14 +267,20 @@ public abstract  class CopexTask implements Cloneable {
         this.taskRepeat = taskRepeat;
         updateParameter();
     }
+
+    public List<TaskRepeat> getListTaskRepeatParent() {
+        return listTaskRepeatParent;
+    }
+
+    public void setListTaskRepeatParent(List<TaskRepeat> listTaskRepeatParent) {
+        this.listTaskRepeatParent = listTaskRepeatParent;
+    }
     
     
-    // OVERRIDE
     public String toString(Locale locale) {
         return getDescription(locale);
     }
     
-    // METHODES
     /* retourne vrai s'il s'agit de la racine */
     public boolean isQuestionRoot(){
         return root;
@@ -387,6 +396,12 @@ public abstract  class CopexTask implements Cloneable {
             if(this.taskRepeat != null){
                 tr = (TaskRepeat)this.taskRepeat.clone();
             }
+            List<TaskRepeat> listTr = new LinkedList();
+            if(listTaskRepeatParent != null){
+                for (Iterator<TaskRepeat> t = listTaskRepeatParent.iterator(); t.hasNext();) {
+                    listTr.add((TaskRepeat)t.next().clone());
+                }
+            }
             task.setDbKey(dbKeyC);
             task.setTaskRight(taskRightC);
             task.setDbKeyBrother(dbKeyBrotherC);
@@ -406,6 +421,16 @@ public abstract  class CopexTask implements Cloneable {
    
     protected void updateParameter(){
         
+    }
+
+    public void addTaskRepeatParent(TaskRepeat tr){
+        if(this.listTaskRepeatParent == null)
+            this.listTaskRepeatParent = new LinkedList();
+        this.listTaskRepeatParent.add(tr);
+    }
+
+    public boolean removeTaskRepeatParent(TaskRepeat tr){
+        return this.listTaskRepeatParent.remove(tr);
     }
 
     // toXML

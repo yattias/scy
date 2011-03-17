@@ -52,7 +52,7 @@ public class CopexHTML {
             setItem(proc.getEvaluation().getEvaluation(edp.getLocale()), proc.getEvaluation().getComment(edp.getLocale()), "icone_AdT_eval.png", edp.getBundleString("TREE_EVALUATION"));
         }
         //addString("</table>");
-         //System.out.println(copexHtml);
+        // System.out.println(copexHtml);
         v.add(copexHtml);
         return new CopexReturn();
     }
@@ -60,30 +60,30 @@ public class CopexHTML {
    private void setItem(String item, String comments, String icon, String title ){
         if(item == null)
             return;
-        addString("<table width='100%'  border='0' cellpadding='0'>");
+        addString("<table  style=\"width: 100%;\" border='0' cellpadding='0'>");
         addString("<tr>");
-            addString("<td width='3%' valign='top'>");
+            addString("<td style=\"width:3%;\" valign='top'>");
                 addString("<img src=\"../tool_copex/images/"+icon+"\">");
             addString("</td>");
-            addString("<td>");
-                addString("<table width='100%'  border='0' cellpadding='0'>");
+            addString("<td style=\"width: 97%;\" >");
+                addString("<table  style=\"width: 100%;\" border='0' cellpadding='0'>");
                     addString("<tr>");
-                        addString("<td>");
+                        addString("<td style=\"width: 100%;\">");
                             addString("<span class='title'>"+title+"</span>");
                         addString("</td>");
                     addString("</tr>");
                     addString("<tr>");
-                        addString("<td>");
+                        addString("<td style=\"width: 100%;\">");
                             addString("<span class='proc'>"+item+"</span>");
                         addString("</td>");
                     addString("</tr>");
-                    if(comments != null && comments.length() > 0){
+                    //if(comments != null && comments.length() > 0){
                     addString("<tr>");
-                        addString("<td>");
-                            addString("<span class='comment'>"+comments+"</span>");
+                        addString("<td style=\"width: 100%;\">");
+                            addString("<span class='taskcomment'>"+comments+"</span>");
                             addString("</td>");
                      addString("</tr>");
-                    }
+                    //}
                 addString("</table>");
             addString("</td>");
         addString("</tr>");
@@ -101,25 +101,25 @@ public class CopexHTML {
             nbRow =nb/4+1;
         }else
             nbRow = nb/4;
-        addString("<table width='100%'  border='0' cellpadding='0'>");
+        addString("<table  style=\"width: 100%;\"  border='0' cellpadding='0'>");
         addString("<tr>");
-            addString("<td width='3%' valign='top'>");
+            addString("<td style=\"width: 3%;\" valign='top'>");
                 addString("<img src=\"../tool_copex/images/icone_AdT_material.png\">");
             addString("</td>");
             addString("<td>");
-                addString("<table width='100%'  border='0' cellpadding='0'>");
+                addString("<table  style=\"width: 97%;\"   border='0' cellpadding='0'>");
                     addString("<tr>");
-                        addString("<td>");
+                        addString("<td style=\"width: 100%;\">");
                             addString("<span class='title'>"+edp.getBundleString("TREE_MATERIAL")+"</span>");
                         addString("</td>");
                     addString("</tr>");
                     addString("<tr>");
                         addString("<td>");
-                            addString("<table border='0' cellpadding='0' width='100%'>");
+                            addString("<table border='0' cellpadding='0' style=\"width: 100%;\">");
                             for(int i=0; i<nbRow; i++){
                                 addString("<tr>");
                                 for(int j=1; j<5; j++){
-                                    addString("<td>");
+                                    addString("<td style=\"width: 25%;\">");
                                     int k = i+(j-1)*nbRow;
                                     if(k < nb){
                                         addString(listMaterial.get(k));
@@ -144,15 +144,15 @@ public class CopexHTML {
         if(proc.isTaskProc()){
             icon = "icone_AdT_manip_tasks.png";
         }
-        addString("<table width='100%'  border='0' cellpadding='0'>");
+        addString("<table  style=\"width: 100%;\"   border='0' cellpadding='0'>");
         addString("<tr>");
-            addString("<td width='3%' valign='top'>");
+            addString("<td style=\"width: 3%;\" valign='top'>");
                 addString("<img src=\"../tool_copex/images/"+icon+"\">");
             addString("</td>");
             addString("<td>");
-                addString("<table width='100%'  border='0' cellpadding='0'>");
+                addString("<table  style=\"width: 97%;\"   border='0' cellpadding='0'>");
                     addString("<tr>");
-                        addString("<td>");
+                        addString("<td style=\"width: 100%;\">");
                             addString("<span class='title'>"+edp.getBundleString("TREE_MANIPULATION")+"</span>");
                         addString("</td>");
                     addString("</tr>");
@@ -165,7 +165,7 @@ public class CopexHTML {
     }
 
     private String getChildTaskTable_old(ExperimentalProcedure proc, CopexTask task){
-        String manip = "<table width='100%'  border='0' cellpadding='0' class='level1'>\n";
+        String manip = "<table  style='width:100%'   border='0' cellpadding='0' class='level1'>\n";
         ArrayList<CopexTask> childTasks = getTaskListChild(proc, task);
         int nb = childTasks.size();
         for(int i=0; i<nb; i++){
@@ -243,22 +243,32 @@ public class CopexHTML {
         }
         String comments = task.getComments(edp.getLocale());
         boolean hasChildren = task.getDbKeyChild() != -1;
-        String manip = "<table width='100%'  border='0' cellpadding='0' >\n";
+        String manip = "<table  style=\"width: 100%;\"  border='0' cellpadding='0' >\n";
             manip += "<tr>\n";
-                manip += "<td width='20px' valign='top'>\n";
-                    manip += "<img src=\"../tool_copex/images/"+getTaskIcon(proc, task)+"\">\n";
+                manip += "<td style=\"width: 20px;\" valign='top'>\n";
+                manip += "<img src=\"../tool_copex/images/"+getTaskIcon(proc, task)+"\">\n";
                 manip += "</td>\n";
+                int nbRepeat = 1;
+                if(task.getTaskRepeat() != null)
+                    nbRepeat = task.getTaskRepeat().getNbRepeat();
+                if(nbRepeat > 1){
+                    manip += "<td style=\"width: 10px%;\" valign='top'><span class='task_repeat'>\n";
+                    manip += "("+nbRepeat+"*)\n";
+                }else{
+                    manip += "<td style=\"width: 0px;\" valign='top'><span class='task_repeat'>\n";
+                }
+                manip += "</span></td>\n";
                 manip += "<td>\n";
 
-        String taskTable = "<table width='100%'  border='0' cellpadding='0' >\n";
+        String taskTable = "<table style=\"width: 95%;\" border='0' cellpadding='0' >\n";
         taskTable += "<tr>\n";
-            taskTable += "<td><span class='proc'>\n";
+            taskTable += "<td style=\"width: 100%;\"><span class='proc'>\n";
                 taskTable += descriptionTask+"\n";
             taskTable += "</span></td>\n";
         taskTable += "</tr>\n";
         if(comments != null && comments.length() > 0){
             taskTable += "<tr>\n";
-            taskTable += "<td> <span class='comment'>\n";
+            taskTable += "<td style=\"width: 100%;\"> <span class='taskcomment'>\n";
             taskTable += comments+"\n";
             taskTable += "</span></td>\n";
             taskTable += "</tr>\n";
@@ -266,7 +276,7 @@ public class CopexHTML {
         if(task.getDraw() != null){
             if(task.getDraw() .getChild("whiteboardContainers") == null || (task.getDraw() .getChild("whiteboardContainers") != null && task.getDraw() .getChild("whiteboardContainers").getContentSize() > 0)){
             taskTable += "<tr>\n";
-            taskTable += "<td> <span class='task_draw'>\n";
+            taskTable += "<td > <span class='task_draw'>\n";
             String fileName = "labdoc-task-"+task.getDbKey()+".png";
             taskTable += "<img src=\"../tools_utilities/InterfaceServer/labdoc/"+fileName+"\" alt=\"Dessin\" >\n";
             taskTable += "</span></td>\n";

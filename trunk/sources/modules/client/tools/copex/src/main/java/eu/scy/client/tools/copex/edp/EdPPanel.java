@@ -1349,32 +1349,38 @@ public class EdPPanel extends JPanel {
     
 
     /* retourne la liste des parametres des actions de l'etape */
-    public ArrayList<InitialActionParam> getStepInitialParam(Step step){
+    public ArrayList[]  getStepInitialParam(Step step){
         ArrayList v = new ArrayList();
         if (proc != null){
             CopexReturn cr =this.controller.getTaskInitialParam(proc, step, v);
             if(cr.isError()){
                 displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             }else{
-                return (ArrayList<InitialActionParam>)v.get(0);
+                return (ArrayList[])v.get(0);
             }
         }
-        return new ArrayList();
+        ArrayList[] list = new ArrayList[2];
+        list[0] = new ArrayList();
+        list[1] = new ArrayList();
+        return list;
     }
 
 
     /* retourne la liste des output des actions de l'etape */
-    public ArrayList<InitialOutput> getStepInitialOutput(Step step){
+    public ArrayList[] getStepInitialOutput(Step step){
         ArrayList v = new ArrayList();
         if (proc != null){
             CopexReturn cr =this.controller.getTaskInitialOutput(proc, step, v);
             if(cr.isError()){
                 displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             }else{
-                return (ArrayList<InitialOutput>)v.get(0);
+                return (ArrayList[])v.get(0);
             }
         }
-        return new ArrayList();
+       ArrayList[] list = new ArrayList[2];
+        list[0] = new ArrayList();
+        list[1] = new ArrayList();
+        return list;
     }
 
    /* renvoit le type de materiel par defaut*/

@@ -53,7 +53,7 @@ public class CopexActionAcquisition extends CopexActionParam{
         this.dbKeyBrother = -1;
         this.dbKeyChild = -1;
         if (xmlElem.getName().equals(TAG_ACTION_ACQUISITION)) {
-			dbKey = idTask;
+            dbKey = idTask;
             listName = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_TASK_NAME).iterator(); variableElem.hasNext();) {
                 Element e = variableElem.next();

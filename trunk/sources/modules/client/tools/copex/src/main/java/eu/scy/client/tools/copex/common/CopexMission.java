@@ -232,6 +232,11 @@ public class CopexMission implements Cloneable{
      // toXML
     public Element toXML(){
         Element element = new Element(TAG_MISSION);
+        if(listType != null){
+            for (Iterator<TypeMaterial> t = listType.iterator(); t.hasNext();) {
+                element.addContent(t.next().toXML());
+            }
+        }
         if(listInitialProc != null){
             for (Iterator<InitialProcedure> p = listInitialProc.iterator(); p.hasNext();) {
                 element.addContent(p.next().toXML());

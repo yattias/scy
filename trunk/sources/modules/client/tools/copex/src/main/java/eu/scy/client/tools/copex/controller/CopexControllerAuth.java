@@ -689,85 +689,14 @@ public class CopexControllerAuth implements ControllerInterface{
     /** returns the parameters list of the actions of a step */
     @Override
     public CopexReturn getTaskInitialParam(ExperimentalProcedure proc, CopexTask task, ArrayList v) {
-        ArrayList<InitialActionParam> list = new ArrayList();
-        ArrayList<CopexTask> listChilds = CopexController.getAllChilds(proc, task);
-        int nb = listChilds.size();
-        for (int i=0; i<nb; i++){
-            CopexTask t = listChilds.get(i);
-            if (t instanceof CopexActionManipulation){
-                InitialNamedAction a = ((CopexActionManipulation)t).getNamedAction();
-                if (a != null && a.getVariable() != null){
-                    InitialActionParam[] tab = a.getVariable().getTabParam();
-                    if(tab != null){
-                        for (int j=0; j<tab.length; j++){
-                            list.add(tab[j]);
-                        }
-                    }
-                }
-            }else if (t instanceof CopexActionAcquisition){
-                InitialNamedAction a = ((CopexActionAcquisition)t).getNamedAction();
-                if (a != null && a.getVariable() != null){
-                    InitialActionParam[] tab = a.getVariable().getTabParam();
-                    if(tab != null){
-                        for (int j=0; j<tab.length; j++){
-                            list.add(tab[j]);
-                        }
-                    }
-                }
-            }else if (t instanceof CopexActionTreatment){
-                InitialNamedAction a = ((CopexActionTreatment)t).getNamedAction();
-                if (a != null && a.getVariable() != null){
-                    InitialActionParam[] tab = a.getVariable().getTabParam();
-                    if(tab != null){
-                        for (int j=0; j<tab.length; j++){
-                            list.add(tab[j]);
-                        }
-                    }
-                }
-            }
-        }
-        v.add(list);
+        v.add(proc.getTaskInitialParam(task));
         return new CopexReturn();
     }
 
     /** returns the output of the actions of a step */
     @Override
     public CopexReturn getTaskInitialOutput(ExperimentalProcedure proc, CopexTask task, ArrayList v) {
-        ArrayList<InitialOutput> list = new ArrayList();
-        ArrayList<CopexTask> listChilds = CopexController.getAllChilds(proc, task);
-        int nb = listChilds.size();
-        for (int i=0; i<nb; i++){
-            CopexTask t = listChilds.get(i);
-            if (t instanceof CopexActionManipulation){
-                InitialNamedAction a = ((CopexActionManipulation)t).getNamedAction();
-                if (a != null && a instanceof InitialActionManipulation){
-                    ArrayList<InitialManipulationOutput> l = ((InitialActionManipulation)a).getListOutput() ;
-                    int n = l.size();
-                    for (int j=0; j<n; j++){
-                        list.add(l.get(j));
-                    }
-                }
-            }else if (t instanceof CopexActionAcquisition){
-                InitialNamedAction a = ((CopexActionAcquisition)t).getNamedAction();
-                if (a != null && a instanceof InitialActionAcquisition){
-                    ArrayList<InitialAcquisitionOutput> l = ((InitialActionAcquisition)a).getListOutput() ;
-                    int n = l.size();
-                    for (int j=0; j<n; j++){
-                        list.add(l.get(j));
-                    }
-                }
-            }else if (t instanceof CopexActionTreatment){
-                InitialNamedAction a = ((CopexActionTreatment)t).getNamedAction();
-                if (a != null && a instanceof InitialActionTreatment){
-                    ArrayList<InitialTreatmentOutput> l = ((InitialActionTreatment)a).getListOutput() ;
-                    int n = l.size();
-                    for (int j=0; j<n; j++){
-                        list.add(l.get(j));
-                    }
-                }
-            }
-        }
-        v.add(list);
+        v.add(proc.getTaskInitialOutput(task));
         return new CopexReturn();
     }
 

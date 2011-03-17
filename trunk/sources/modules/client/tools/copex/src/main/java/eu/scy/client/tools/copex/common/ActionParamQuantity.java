@@ -6,6 +6,7 @@
 package eu.scy.client.tools.copex.common;
 
 import eu.scy.client.tools.copex.utilities.CopexUtilities;
+import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -93,8 +94,11 @@ public class ActionParamQuantity extends ActionParam{
     /* description dans l'arbre*/
     @Override
     public String toDescription(Locale locale){
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
+        numberFormat.setMaximumFractionDigits(Integer.MAX_VALUE);
+        numberFormat.setGroupingUsed(false);
         String txt = CopexUtilities.getText(parameter.getUnit().getListSymbol(), locale);
-        return Double.toString(parameter.getValue())+" "+txt;
+        return numberFormat.format(parameter.getValue())+" "+txt;
     }
 
     @Override

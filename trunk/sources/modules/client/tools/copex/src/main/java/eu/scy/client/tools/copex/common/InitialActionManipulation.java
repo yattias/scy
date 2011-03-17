@@ -31,8 +31,8 @@ public class InitialActionManipulation extends InitialNamedAction implements Clo
     private ArrayList<InitialManipulationOutput> listOutput;
 
     // CONSTRUCTOR
-    public InitialActionManipulation(long dbKey, String code, List<LocalText> listLibelle, boolean isSetting, InitialActionVariable variable, boolean draw,  boolean repeat, int nbMaterialProd, ArrayList<InitialManipulationOutput> listOutput) {
-        super(dbKey, code, listLibelle, isSetting, variable, draw, repeat);
+    public InitialActionManipulation(long dbKey, String code, List<LocalText> listLibelle, boolean isSetting, InitialActionVariable variable, boolean draw,  boolean repeat, int nbMaterialProd, ArrayList<InitialManipulationOutput> listOutput, Element defaultDraw) {
+        super(dbKey, code, listLibelle, isSetting, variable, draw, repeat, defaultDraw);
         this.nbMaterialProd = nbMaterialProd;
         this.listOutput = listOutput ;
     }

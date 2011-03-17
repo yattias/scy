@@ -102,6 +102,10 @@ public class TaskRepeat implements Cloneable {
         this.listParam = listParam;
     }
 
+    public void addParam(TaskRepeatParam param){
+        this.listParam.add(param);
+    }
+
 
    
      // OVERRIDE

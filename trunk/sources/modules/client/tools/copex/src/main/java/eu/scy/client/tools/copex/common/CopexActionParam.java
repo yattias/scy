@@ -77,52 +77,53 @@ public abstract class CopexActionParam extends CopexActionNamed implements Clone
     
     @Override
      public String toDescription(CopexPanel edP){
-        NumberFormat numberFormat = NumberFormat.getNumberInstance(edP.getLocale());
-        numberFormat.setMaximumFractionDigits(Integer.MAX_VALUE);
-        numberFormat.setGroupingUsed(false);
-        Locale locale = edP.getLocale();
-         String s = "";
-         int nbParam = tabParam.length ;
-         boolean repeatParam = false;
-         for (int i=0; i<nbParam; i++){
-            String t = namedAction.getVariable().getTextLibelle(locale, i);
-            s += t;
-            if(tabParam[i] instanceof ActionParam){
-                ActionParam param = (ActionParam)tabParam[i] ;
-                if (param instanceof ActionParamQuantity){
-                    String txt = CopexUtilities.getText(((ActionParamQuantity)param).getParameter().getUnit().getListSymbol(), locale);
-                    s += " " +numberFormat.format(((ActionParamQuantity)param).getParameter().getValue())+" "+txt+" ";
-                }else if (param instanceof ActionParamMaterial){ // material
-                    s += " "+CopexUtilities.getText(((ActionParamMaterial)param).getMaterial().getListName(), locale)+" ";
-                }else if (param instanceof ActionParamData){
-                    s += " "+((ActionParamData)param).getData().getName(locale) +" ";
-                }
-            }else if (tabParam[i] instanceof ArrayList){
-                // nom du parametres
-                repeatParam = true;
-                s += " ("+this.namedAction.getVariable().getTabParam()[i].getParamName(locale)+") ";
-            }else{
-                if(tabParam[i] == null) {
-                    logger.log(Level.SEVERE, "CopexActionParam.toDescription, null param");
-		} else {
-                    logger.log(Level.SEVERE, "CopexActionParam.toDescription, param "+tabParam[i].getClass());
-		}
-            }
-         }
-         s += " "+ namedAction.getVariable().getTextLibelle(edP.getLocale(), -1);
-         if(repeatParam){
-             s+= "\n"+edP.getBundleString("LABEL_REPEAT_MODIFY_PARAM_TREE")+" ";
-             for (int i=0; i<nbParam; i++){
-                 if(tabParam[i] instanceof ArrayList){
-                     s += "\n"+this.namedAction.getVariable().getTabParam()[i].getParamName(edP.getLocale())+" = ";
-                     int nb = ((ArrayList)tabParam[i]).size();
-                     for (int j=0; j<nb; j++){
-                         s+= ((ArrayList<ActionParam>)tabParam[i]).get(j).toDescription(edP.getLocale())+" | ";
-                     }
-                 }
-             }
-         }
-         return s;
+        return toDescription(edP.getLocale());
+//        NumberFormat numberFormat = NumberFormat.getNumberInstance(edP.getLocale());
+//        numberFormat.setMaximumFractionDigits(Integer.MAX_VALUE);
+//        numberFormat.setGroupingUsed(false);
+//        Locale locale = edP.getLocale();
+//         String s = "";
+//         int nbParam = tabParam.length ;
+//         boolean repeatParam = false;
+//         for (int i=0; i<nbParam; i++){
+//            String t = namedAction.getVariable().getTextLibelle(locale, i);
+//            s += t;
+//            if(tabParam[i] instanceof ActionParam){
+//                ActionParam param = (ActionParam)tabParam[i] ;
+//                if (param instanceof ActionParamQuantity){
+//                    String txt = CopexUtilities.getText(((ActionParamQuantity)param).getParameter().getUnit().getListSymbol(), locale);
+//                    s += " " +numberFormat.format(((ActionParamQuantity)param).getParameter().getValue())+" "+txt+" ";
+//                }else if (param instanceof ActionParamMaterial){ // material
+//                    s += " "+CopexUtilities.getText(((ActionParamMaterial)param).getMaterial().getListName(), locale)+" ";
+//                }else if (param instanceof ActionParamData){
+//                    s += " "+((ActionParamData)param).getData().getName(locale) +" ";
+//                }
+//            }else if (tabParam[i] instanceof ArrayList){
+//                // nom du parametres
+//                repeatParam = true;
+//                s += " ("+this.namedAction.getVariable().getTabParam()[i].getParamName(locale)+") ";
+//            }else{
+//                if(tabParam[i] == null) {
+//                    logger.log(Level.SEVERE, "CopexActionParam.toDescription, null param");
+//		} else {
+//                    logger.log(Level.SEVERE, "CopexActionParam.toDescription, param "+tabParam[i].getClass());
+//		}
+//            }
+//         }
+//         s += " "+ namedAction.getVariable().getTextLibelle(edP.getLocale(), -1);
+//         if(repeatParam){
+//             s+= "\n"+edP.getBundleString("LABEL_REPEAT_MODIFY_PARAM_TREE")+" ";
+//             for (int i=0; i<nbParam; i++){
+//                 if(tabParam[i] instanceof ArrayList){
+//                     s += "\n"+this.namedAction.getVariable().getTabParam()[i].getParamName(edP.getLocale())+" = ";
+//                     int nb = ((ArrayList)tabParam[i]).size();
+//                     for (int j=0; j<nb; j++){
+//                         s+= ((ArrayList<ActionParam>)tabParam[i]).get(j).toDescription(edP.getLocale())+" | ";
+//                     }
+//                 }
+//             }
+//         }
+//         return s;
      }
 
     @Override
@@ -149,7 +150,12 @@ public abstract class CopexActionParam extends CopexActionNamed implements Clone
             }else if (tabParam[i] instanceof ArrayList){
                 // nom du parametres
                 repeatParam = true;
-                s += " ("+this.namedAction.getVariable().getTabParam()[i].getParamName(locale)+") ";
+                //s += " ("+this.namedAction.getVariable().getTabParam()[i].getParamName(locale)+") ";
+                s += " | ";
+                int nb = ((ArrayList)tabParam[i]).size();
+                for (int j=0; j<nb; j++){
+                    s+= ((ArrayList<ActionParam>)tabParam[i]).get(j).toDescription(locale)+" | ";
+                }
             }else{
                 if(tabParam[i] == null) {
                     // System.out.println("toDescription, null");
@@ -161,19 +167,19 @@ public abstract class CopexActionParam extends CopexActionNamed implements Clone
             }
          }
          s += " "+ namedAction.getVariable().getTextLibelle(locale, -1);
-         if(repeatParam){
-             //s+= "\n"+edP.getBundleString("LABEL_REPEAT_MODIFY_PARAM_TREE")+" ";
-             s+= "\n"+" ";
-             for (int i=0; i<nbParam; i++){
-                 if(tabParam[i] instanceof ArrayList){
-                     s += "\n"+this.namedAction.getVariable().getTabParam()[i].getParamName(locale)+" = ";
-                     int nb = ((ArrayList)tabParam[i]).size();
-                     for (int j=0; j<nb; j++){
-                         s+= ((ArrayList<ActionParam>)tabParam[i]).get(j).toDescription(locale)+" | ";
-                     }
-                 }
-             }
-         }
+//         if(repeatParam){
+//             //s+= "\n"+edP.getBundleString("LABEL_REPEAT_MODIFY_PARAM_TREE")+" ";
+//             s+= "\n"+" ";
+//             for (int i=0; i<nbParam; i++){
+//                 if(tabParam[i] instanceof ArrayList){
+//                     s += "\n"+this.namedAction.getVariable().getTabParam()[i].getParamName(locale)+" = ";
+//                     int nb = ((ArrayList)tabParam[i]).size();
+//                     for (int j=0; j<nb; j++){
+//                         s+= ((ArrayList<ActionParam>)tabParam[i]).get(j).toDescription(locale)+" | ";
+//                     }
+//                 }
+//             }
+//         }
          return s;
     }
 
