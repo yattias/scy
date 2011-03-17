@@ -251,8 +251,8 @@ agent_connect(InTS, OutTS, Options) :-
 	(memberchk(host(Host), Options); host(Host)),
 	(memberchk(port(Port), Options); port(Port)),
 	(memberchk(user(User), Options); user(User)),
-	tspl_connect_to_ts(InSpace, Host, Port, User, '', InTS), !,
-	tspl_connect_to_ts(OutSpace, Host, Port, User, '', OutTS), !,
+	tspl_connect_to_ts(InSpace, InTS, [host(Host), port(Port), user(User), password('')]), !,
+	tspl_connect_to_ts(OutSpace, OutTS, [host(Host), port(Port), user(User), password('')]), !,
 	assert(in_ts(InTS)),
 	assert(out_ts(OutTS)).
 
