@@ -34,7 +34,7 @@ public class EloShowCommand extends ScyDesktopRemoteCommand {
         } else {
             //The ELO is already opened
             logger.debug("updating existing ELO/tool.");
-            scyDesktop.fillNewScyWindow2(toolWindow);
+            toolWindow.setScyContent(toolWindow);
         }
         scyDesktop.scyWindowControl.makeMainScyWindow(uri);
     }

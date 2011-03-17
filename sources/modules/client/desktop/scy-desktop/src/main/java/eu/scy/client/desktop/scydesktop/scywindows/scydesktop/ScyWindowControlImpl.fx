@@ -103,6 +103,18 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       return scyWindow;
    }
 
+   public override function addOtherCollaborativeScyWindow(eloUri: URI, mucid: String): ScyWindow {
+      logger.debug("trying to add another collaborative scy-window with uri: {eloUri}");
+      if (Sequences.indexOf(activeLas.otherEloUris, eloUri)<=0){
+         missionModel.eloUriChanged(null, eloUri);
+      }
+      var scyWindow = getScyWindow(eloUri);
+      scyWindow.scyElo.setMucId(mucid);
+      windowManager.addScyWindow(scyWindow);
+      windowPositioner.placeOtherWindow(scyWindow);
+      return scyWindow;
+   }
+
    public override function addOtherScyWindow(eloType: String): ScyWindow {
       var scyWindow = createScyWindow(eloType);
       windowManager.addScyWindow(scyWindow);

@@ -158,7 +158,6 @@ public class StandardScyWindow extends ScyWindow {
    public override var leftDrawerTools on replace oldValues { setLeftDrawer(oldValues) };
    public var missionModelFX: MissionModelFX;
    var mainContentGroup: Group;
-   var isScyContentSet: Boolean = false;
 
    var changesListeners: WindowChangesListener[]; //WindowChangesListener are stored here. youse them to gain more control over ScyWindow events.
 
@@ -434,7 +433,6 @@ public class StandardScyWindow extends ScyWindow {
    function checkScyContent() {
       //println("checkScyContent: scyContent: {scyContent==null}, setScyContent: {setScyContent!=null}");
       if (not isScyContentSet and scyContent == null and setScyContent != null) {
-         isScyContentSet = true;
          setScyContent(this)
       }
    }
