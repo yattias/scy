@@ -185,7 +185,7 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
             actionQueue.add(a);
             return;
         }
-        if (a.getType().equals("tool_start")) {
+        if (a.getType().equals("tool_opened")) {
             String sessionid = a.getContext(ContextConstants.session);
             UserToolExperienceModel userModel = userModels.get(a.getUser()+a.getContext(ContextConstants.tool));
             if (userModel == null) {
@@ -212,7 +212,7 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 //                timer.stop();
 //            }
 
-        } else if (a.getType().equals("tool_gotfocus")) {
+        } else if (a.getType().equals("tool_got_focus")) {
             String sessionid = a.getContext(ContextConstants.session);
             long focusTime = a.getTimeInMillis();
             UserToolExperienceModel exp = userModels.get(a.getUser()+a.getContext(ContextConstants.tool));
@@ -226,7 +226,7 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 //            if (!initializing){
 //                timer.start();
 //            }
-        } else if (a.getType().equals("tool_lostfocus")) {
+        } else if (a.getType().equals("tool_lost_focus")) {
             String sessionid = a.getContext(ContextConstants.session);
             long focusEndTime = a.getTimeInMillis();
             UserToolExperienceModel exp = userModels.get(a.getUser()+a.getContext(ContextConstants.tool));
