@@ -5,40 +5,37 @@ package eu.scy.server.datasync;
 
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Callback;
+import info.collide.sqlspaces.commons.Callback.Command;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
-import info.collide.sqlspaces.commons.Callback.Command;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.ConnectionConfiguration.SecurityMode;
 import org.jivesoftware.smack.ConnectionListener;
-import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smack.ConnectionConfiguration.SecurityMode;
-import org.jivesoftware.smack.filter.PacketFilter;
-import org.jivesoftware.smack.packet.PacketExtension;
 import org.jivesoftware.smack.provider.ProviderManager;
+import org.jivesoftware.smackx.muc.HostedRoom;
+import org.jivesoftware.smackx.muc.MultiUserChat;
 import org.xmpp.component.Component;
 import org.xmpp.packet.Message;
 import org.xmpp.packet.Packet;
 
 import eu.scy.common.configuration.Configuration;
-import eu.scy.common.datasync.SyncAction;
 import eu.scy.common.datasync.SyncActionPacketTransformer;
 import eu.scy.common.message.DataSyncMessagePacketTransformer;
 import eu.scy.common.message.SyncMessage;
 import eu.scy.common.message.SyncMessage.Event;
 import eu.scy.common.message.SyncMessage.Response;
 import eu.scy.common.message.SyncMessage.Type;
-import eu.scy.common.packetextension.SCYPacketTransformer;
-import eu.scy.common.smack.SmacketExtension;
 import eu.scy.common.smack.SmacketExtensionProvider;
 import eu.scy.commons.whack.WhacketExtension;
 import eu.scy.scyhub.SCYHubModule;
@@ -50,15 +47,17 @@ import eu.scy.scyhub.SCYHubModule;
 public class DataSyncModule extends SCYHubModule {
 
     private static final Logger logger = Logger.getLogger(DataSyncModule.class.getName());
+    
+    private static final String serviceName = "syncsessions";
 
+    private final static String COMMAND_SPACE = "command";
+    
     // sessionid -> sessionbridge
     private Map<String, DataSyncSessionBridge> bridges;
 
     private XMPPConnection connection;
 
     private TupleSpace commandSpace;
-
-    private String COMMAND_SPACE = "command";
 
     /**
      * @param scyhub
@@ -117,7 +116,14 @@ public class DataSyncModule extends SCYHubModule {
             }
 
             logger.debug("DataSyncModule initialised on " + host + ":" + port);
-
+            
+            Collection<HostedRoom> hostedRooms = MultiUserChat.getHostedRooms(connection, serviceName);
+            for (HostedRoom hostedRoom : hostedRooms) {
+            	final String sessionId = hostedRoom.getJid();
+            	// create a session logger for the existing rooms
+                DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId);
+                bridges.put(sessionId, dssl);
+			}
         } catch (XMPPException e) {
             e.printStackTrace();
         }
@@ -160,7 +166,7 @@ public class DataSyncModule extends SCYHubModule {
     }
 
     private SyncMessage createSession() {
-        String sessionId = UUID.randomUUID().toString() + "@syncsessions." + Configuration.getInstance().getOpenFireHost();
+        String sessionId = UUID.randomUUID().toString() + "@" + serviceName + "." + Configuration.getInstance().getOpenFireHost();
 
         // create a session logger with the random id
         DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId);
