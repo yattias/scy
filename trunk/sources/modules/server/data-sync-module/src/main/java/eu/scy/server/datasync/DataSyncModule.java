@@ -112,20 +112,22 @@ public class DataSyncModule extends SCYHubModule {
                     }
                 }, false);
             } catch (TupleSpaceException e) {
-                e.printStackTrace();
+                logger.error("Exception on registering callback in DataSyncModule", e);
             }
 
             logger.debug("DataSyncModule initialised on " + host + ":" + port);
             
-            Collection<HostedRoom> hostedRooms = MultiUserChat.getHostedRooms(connection, serviceName);
-            for (HostedRoom hostedRoom : hostedRooms) {
-            	final String sessionId = hostedRoom.getJid();
-            	// create a session logger for the existing rooms
-                DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId);
-                bridges.put(sessionId, dssl);
+            try {
+				Collection<HostedRoom> hostedRooms = MultiUserChat.getHostedRooms(connection, serviceName);
+				for (HostedRoom hostedRoom : hostedRooms) {
+					final String sessionId = hostedRoom.getJid();
+					createDataSyncSessionBridge(sessionId);
+				}
+			} catch (Exception e) {
+				logger.error("Could not reconnect data sync bridges on restart of server", e);
 			}
         } catch (XMPPException e) {
-            e.printStackTrace();
+        	logger.error("Could not instantiate the DataSyncModule", e);
         }
     }
 
@@ -167,21 +169,11 @@ public class DataSyncModule extends SCYHubModule {
 
     private SyncMessage createSession() {
         String sessionId = UUID.randomUUID().toString() + "@" + serviceName;
-
-        // create a session logger with the random id
-        DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId);
-        bridges.put(sessionId, dssl);
-
-        // response to client
+        // prepare response to client
         SyncMessage response = new SyncMessage(Type.answer);
         try {
-            // first check if connection is still alive
-            if (!connection.isConnected()) {
-                connection.connect();
-            }
-            // try to connect the logger
-            dssl.connect(connection);
-
+        	// try to create session bridge
+        	createDataSyncSessionBridge(sessionId);
             // if everything is okay we return success
             response.setEvent(Event.create);
             response.setResponse(Response.success);
@@ -194,6 +186,19 @@ public class DataSyncModule extends SCYHubModule {
         }
         return response;
     }
+
+	private DataSyncSessionBridge createDataSyncSessionBridge(String sessionId) throws Exception {
+		// create a session logger with the random id
+		DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId);
+		// first check if connection is still alive
+		if (!connection.isConnected()) {
+			connection.connect();
+		}
+		// try to connect the logger
+		dssl.connect(connection);
+		bridges.put(sessionId, dssl);
+		return dssl;
+	}
 
 
     @Override
