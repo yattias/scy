@@ -4,14 +4,14 @@ import info.collide.sqlspaces.client.TupleSpace;
 
 import java.util.Set;
 
-import eu.scy.agents.groupformation.GroupFormationCache;
 import eu.scy.agents.groupformation.GroupFormationScope;
 import eu.scy.agents.groupformation.GroupFormationStrategy;
+import eu.scy.agents.groupformation.cache.GroupCache;
 
 public abstract class AbstractGroupFormationStrategy implements
 		GroupFormationStrategy {
 
-	protected GroupFormationCache cache;
+	protected GroupCache cache;
 	protected TupleSpace commandSpace;
 	protected GroupFormationScope scope;
 	protected String mission;
@@ -22,7 +22,7 @@ public abstract class AbstractGroupFormationStrategy implements
 	private Set<String> availableUsers;
 
 	@Override
-	public void setGroupFormationCache(GroupFormationCache groupFormationCache) {
+	public void setGroupFormationCache(GroupCache groupFormationCache) {
 		this.cache = groupFormationCache;
 	}
 

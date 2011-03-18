@@ -1,5 +1,24 @@
 package eu.scy.agents.groupformation;
 
+import info.collide.sqlspaces.commons.Field;
+import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleSpaceException;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.rmi.dgc.VMID;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.log4j.Logger;
+
+import roolo.api.IRepository;
+import roolo.elo.api.IELO;
+import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.ActionTupleTransformer;
 import eu.scy.actionlogging.Context;
@@ -9,21 +28,9 @@ import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.api.parameter.AgentParameter;
 import eu.scy.agents.general.UserLocationAgent;
+import eu.scy.agents.groupformation.cache.MissionGroupCache;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;
-import info.collide.sqlspaces.commons.Field;
-import info.collide.sqlspaces.commons.Tuple;
-import info.collide.sqlspaces.commons.TupleSpaceException;
-import org.apache.log4j.Logger;
-import roolo.api.IRepository;
-import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadataTypeManager;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.rmi.dgc.VMID;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class GroupFormationAgent extends AbstractRequestAgent implements
 		IRepositoryAgent {
@@ -46,7 +53,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 	private IRepository repository;
 	private GroupFormationStrategyFactory factory;
 
-	private ConcurrentHashMap<String, GroupFormationCache> missionGroupsCache;
+	private MissionGroupCache missionGroupsCache;
 
 	public GroupFormationAgent(Map<String, Object> params) {
 		super(NAME, params);
@@ -66,7 +73,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
-		missionGroupsCache = new ConcurrentHashMap<String, GroupFormationCache>();
+		missionGroupsCache = new MissionGroupCache();
 	}
 
 	/* activated by action log */
@@ -131,7 +138,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 						(Integer) configuration
 								.getParameter(new AgentParameter(action
 										.getContext(ContextConstants.mission),
-										MIN_GROUP_SIZE_PARAMETER)));
+										MIN_GROUP_SIZE_PARAMETER)), las);
 			}
 			if ("conceptualisatsionConceptMap".equals(las)) {
 				runGroupFormation(action);
@@ -139,11 +146,11 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		}
 	}
 
-	private void removeUserFromCache(IAction action, int minGroupSize) {
+	private void removeUserFromCache(IAction action, int minGroupSize,
+			String las) {
 		String mission = action.getContext(ContextConstants.mission);
-		GroupFormationCache groupFormationCache = missionGroupsCache
-				.get(mission);
-		groupFormationCache.removeFromCache(action.getUser(), minGroupSize);
+		missionGroupsCache.removeFromCache(mission, las, action.getUser(),
+				minGroupSize);
 	}
 
 	private void runGroupFormation(IAction action) {
@@ -162,18 +169,10 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		String strategy = "dummy";// action.getAttribute(STRATEGY);
 		GroupFormationScope scope = GroupFormationScope.LAS;// valueOf(action.getAttribute(SCOPE));
 
-		GroupFormationCache groupFormationCache = missionGroupsCache
-				.get(mission);
-		synchronized (missionGroupsCache) {
-			if (groupFormationCache == null) {
-				groupFormationCache = new GroupFormationCache();
-				missionGroupsCache.put(mission, groupFormationCache);
-			}
-		}
 		Set<String> availableUsers = getAvailableUsers(scope, mission, las,
-				groupFormationCache, action.getUser());
+				action.getUser());
 		if (availableUsers.size() < minGroupSize) {
-			if (!groupFormationCache.contains(action.getUser())) {
+			if (!missionGroupsCache.contains(mission, las, action.getUser())) {
 				sendWaitNotification(action);
 			}
 			return;
@@ -181,7 +180,8 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 
 		GroupFormationStrategy groupFormationStrategy = factory
 				.getStrategy(strategy);
-		groupFormationStrategy.setGroupFormationCache(groupFormationCache);
+		groupFormationStrategy.setGroupFormationCache(missionGroupsCache.get(
+				mission, las));
 		groupFormationStrategy.setScope(scope);
 		groupFormationStrategy.setLas(las);
 		groupFormationStrategy.setMission(mission);
@@ -192,17 +192,15 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		Collection<Set<String>> formedGroups = groupFormationStrategy
 				.formGroup(elo);
 
-		groupFormationCache.addGroups(formedGroups);
 		// if (groupsAreOk(formedGroup, minGroupSize, maxGroupSize)) {
-		missionGroupsCache.put(mission, groupFormationCache);
+		missionGroupsCache.addGroups(mission, las, formedGroups);
 		// }
 
 		sendGroupNotification(action, formedGroups);
 	}
 
 	private Set<String> getAvailableUsers(GroupFormationScope scope,
-			String mission, String las, GroupFormationCache cache,
-			String thisUser) {
+			String mission, String las, String thisUser) {
 		Set<String> availableUsers = new HashSet<String>();
 		availableUsers.add(thisUser);
 		switch (scope) {
@@ -216,7 +214,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 			break;
 		}
 
-		for (Set<String> groups : cache.getGroups()) {
+		for (Set<String> groups : missionGroupsCache.getGroups(mission, las)) {
 			availableUsers.removeAll(groups);
 		}
 
@@ -362,7 +360,11 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 	}
 
 	private String sanitizeName(String user) {
-		return user.substring(0, user.indexOf("@"));
+		int indexOf = user.indexOf("@");
+		if (indexOf != -1) {
+			return user.substring(0, indexOf);
+		}
+		return user;
 	}
 
 	private IELO getElo(String eloUri) {
