@@ -1,4 +1,4 @@
-package eu.scy.agents.groupformation;
+package eu.scy.agents.groupformation.cache;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -6,11 +6,11 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class GroupFormationCache {
+public class GroupCache {
 
 	private Map<String, Set<String>> groupCache;
 
-	public GroupFormationCache() {
+	public GroupCache() {
 		groupCache = new LinkedHashMap<String, Set<String>>();
 	}
 
@@ -61,4 +61,8 @@ public class GroupFormationCache {
 		return groupCache.containsKey(user);
 	}
 
+	@Override
+	public String toString() {
+		return groupCache.toString();
+	}
 }

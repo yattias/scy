@@ -5,6 +5,8 @@ import info.collide.sqlspaces.client.TupleSpace;
 import java.util.Collection;
 import java.util.Set;
 
+import eu.scy.agents.groupformation.cache.GroupCache;
+
 import roolo.elo.api.IELO;
 
 public interface GroupFormationStrategy {
@@ -13,7 +15,7 @@ public interface GroupFormationStrategy {
 
 	public void setCommandSpace(TupleSpace commandSpace);
 
-	public void setGroupFormationCache(GroupFormationCache groupFormationCache);
+	public void setGroupFormationCache(GroupCache groupFormationCache);
 
 	public void setScope(GroupFormationScope scope);
 
