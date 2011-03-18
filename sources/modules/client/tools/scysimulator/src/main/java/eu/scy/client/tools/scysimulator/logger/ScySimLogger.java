@@ -106,6 +106,10 @@ public class ScySimLogger implements ActionListener, IDataClient {
         this.username = name;
     }
 
+    public void setMissionname(String missionname) {
+        this.missionname = missionname;
+    }
+    
     public String getEloURI() {
         return eloURI;
     }
