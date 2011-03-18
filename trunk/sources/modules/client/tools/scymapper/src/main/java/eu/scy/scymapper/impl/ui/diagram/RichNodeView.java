@@ -109,6 +109,8 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
         try {
             SimpleAttributeSet set = new SimpleAttributeSet();
             set.addAttribute(StyleConstants.ParagraphConstants.Alignment, StyleConstants.ParagraphConstants.ALIGN_CENTER);
+            StyleConstants.setFontSize(set, 14);
+            StyleConstants.setFontFamily(set, "Times New Roman");
             document.setParagraphAttributes(0, 1, set, true);
             document.insertString(0, getModel().getLabel(), set);
         } catch (BadLocationException e1) {
@@ -296,7 +298,7 @@ public class RichNodeView extends NodeViewComponent implements INodeModelListene
                 resizeHandle.setSize(15, 15);
             } catch (IOException e) {
                 JLabel button = new JLabel(">");
-                Font f = new Font("Serif", Font.PLAIN, 10);
+                Font f = new Font("Times New Roman", Font.PLAIN, 10);
                 button.setFont(f);
                 button.setSize(10, 10);
                 resizeHandle = button;

@@ -62,6 +62,8 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
                 labelTextarea = new JTextPane(doc);
 		try {
 		    SimpleAttributeSet set = new SimpleAttributeSet();
+		    StyleConstants.setFontSize(set, 14);
+	            StyleConstants.setFontFamily(set, "Times New Roman");
 		    set.addAttribute(StyleConstants.ParagraphConstants.Alignment, StyleConstants.ParagraphConstants.ALIGN_CENTER);
                     doc.setParagraphAttributes(0, 1, set, true);
                     doc.insertString(0, getModel().getLabel(), set);
@@ -350,10 +352,10 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
 
 		if (!link.getLabel().equals(labelTextarea.getText())) {
 			labelTextarea.setText(link.getLabel());
-			
+
 			SimpleAttributeSet set = new SimpleAttributeSet();
 			set.addAttribute(StyleConstants.ParagraphConstants.Alignment, new Integer(StyleConstants.ParagraphConstants.ALIGN_CENTER));
-			
+
 	                    try {
                             labelTextarea.getStyledDocument().remove(0, labelTextarea.getDocument().getLength());
                             labelTextarea.getStyledDocument().insertString(0, link.getLabel(), set);
@@ -361,7 +363,7 @@ public class ConceptLinkView extends LinkView implements INodeModelListener {
                         } catch (BadLocationException e) {
                             e.printStackTrace();
                         }
-			
+
 		}
 		if (conf.isDebug()) {
 			labelPos = Math.min(Integer.parseInt(labelTextarea.getText()), 100) / 100d;
