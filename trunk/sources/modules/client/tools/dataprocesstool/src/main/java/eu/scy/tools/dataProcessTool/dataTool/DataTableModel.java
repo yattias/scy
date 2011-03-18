@@ -116,7 +116,7 @@ public class DataTableModel extends AbstractTableModel {
         tabNoRow = new Integer[nbRowDs];
         for (int i=0; i<nbRowDs; i++){
             tabNoRow[i] = i+1;
-            this.tabData[i+1][0] = " "+(i+1);
+            this.tabData[i+1][0] = (i+1)+" ";
             for (int j=0; j<nbColDs; j++){
                 String s = "";
                 if(this.datas[i][j] != null && this.datas[i][j].isDoubleValue()){

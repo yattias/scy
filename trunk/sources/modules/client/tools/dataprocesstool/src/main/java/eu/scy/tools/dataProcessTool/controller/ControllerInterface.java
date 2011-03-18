@@ -7,6 +7,7 @@ package eu.scy.tools.dataProcessTool.controller;
 
 import eu.scy.tools.dataProcessTool.common.CopyDataset;
 import eu.scy.tools.dataProcessTool.common.Data;
+import eu.scy.tools.dataProcessTool.common.DataHeader;
 import eu.scy.tools.dataProcessTool.common.DataOperation;
 import eu.scy.tools.dataProcessTool.common.Dataset;
 import eu.scy.tools.dataProcessTool.common.FunctionParam;
@@ -111,4 +112,6 @@ public interface ControllerInterface {
     public CopexReturn mergeMatrixMultiplyOperation(Dataset ds1, Dataset ds2);
     /** export a html version */
     public CopexReturn exportHTML();
+    /** justify the text for the selected headers */
+    public CopexReturn justifyText(Dataset ds, int align, ArrayList<DataHeader> listHeader, ArrayList v);
 }

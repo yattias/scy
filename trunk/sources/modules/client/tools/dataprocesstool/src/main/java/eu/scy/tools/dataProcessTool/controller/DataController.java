@@ -192,7 +192,7 @@ public class DataController implements ControllerInterface{
         Data[][] data = new Data[nbRows][nbCol];
         DataHeader[] tabHeader = new DataHeader[nbCol] ;
         for (int i=0; i<nbCol; i++){
-            DataHeader h = new DataHeader(idDataHeader++, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_NAME")+(i+1), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_UNIT"), i,DataConstants.DEFAULT_TYPE_COLUMN, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_DESCRIPTION"), null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED);
+            DataHeader h = new DataHeader(idDataHeader++, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_NAME")+(i+1), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_UNIT"), i,DataConstants.DEFAULT_TYPE_COLUMN, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_DESCRIPTION"), null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED, DataConstants.DEFAULT_DATASET_ALIGNMENT);
             tabHeader[i] = h;
         }
         // creation ds
@@ -255,7 +255,7 @@ public class DataController implements ControllerInterface{
                 String type = header.getColumns().get(i).getType();
                 if (type == null || (!type.equals(DataConstants.TYPE_DOUBLE) && !type.equalsIgnoreCase(DataConstants.TYPE_STRING)))
                     type = DataConstants.DEFAULT_TYPE_COLUMN;
-                dataHeader[i] = new DataHeader(-1, header.getColumns().get(i).getSymbol(),unit, i, type, header.getColumns().get(i).getDescription(), null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED) ;
+                dataHeader[i] = new DataHeader(-1, header.getColumns().get(i).getSymbol(),unit, i, type, header.getColumns().get(i).getDescription(), null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED, DataConstants.DEFAULT_DATASET_ALIGNMENT) ;
             }
             // data
             Data[][] data = new Data[nbRows][nbCols];
@@ -298,7 +298,7 @@ public class DataController implements ControllerInterface{
             String type = header.getColumns().get(i).getType();
             if (type == null || (!type.equals(DataConstants.TYPE_DOUBLE) && !type.equalsIgnoreCase(DataConstants.TYPE_STRING)))
                     type = DataConstants.DEFAULT_TYPE_COLUMN;
-            dataHeader[i] = new DataHeader(idDataHeader++, header.getColumns().get(i).getSymbol(), unit, i, type, header.getColumns().get(i).getDescription(), null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED) ;
+            dataHeader[i] = new DataHeader(idDataHeader++, header.getColumns().get(i).getSymbol(), unit, i, type, header.getColumns().get(i).getDescription(), null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED, DataConstants.DEFAULT_DATASET_ALIGNMENT) ;
         }
         // data
         List<DataSetRow> listRows = eloDs.getValues() ;
@@ -353,6 +353,10 @@ public class DataController implements ControllerInterface{
                     dataHeader[noCol].setScientificNotation(ph.isScientificNotation());
                     dataHeader[noCol].setNbShownDecimals(ph.getNbShownDecimals());
                     dataHeader[noCol].setNbSignificantDigits(ph.getNbSignificantDigits());
+                }
+                int dataAlign = ph.getDataAlignment();
+                if(noCol >=0 && noCol < dataHeader.length && dataHeader[noCol] != null){
+                    dataHeader[noCol].setDataAlignment(dataAlign);
                 }
             }
         }
@@ -554,7 +558,7 @@ public class DataController implements ControllerInterface{
         String oldTitle = "";
         if(header == null){
             // header n'existe pas : on le cree
-            dataset.setDataHeader(new DataHeader(idDataHeader++, title, unit, colIndex, type, description, formulaValue, scientificNotation, nbShownDecimals, nbSignificantDigits), colIndex);
+            dataset.setDataHeader(new DataHeader(idDataHeader++, title, unit, colIndex, type, description, formulaValue, scientificNotation, nbShownDecimals, nbSignificantDigits, DataConstants.DEFAULT_DATASET_ALIGNMENT), colIndex);
         }else{
             oldTitle = header.getValue();
             // controle des unites par rapport / graphes existants
@@ -1253,7 +1257,7 @@ public class DataController implements ControllerInterface{
         Data[][] data = new Data[nbRows][nbCol];
         DataHeader[] tabHeader = new DataHeader[nbCol] ;
         for (int i=0; i<nbCol; i++){
-            tabHeader[i] = new DataHeader(idDataHeader++, headers[i], units[i], i, types[i], descriptions[i], null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED);
+            tabHeader[i] = new DataHeader(idDataHeader++, headers[i], units[i], i, types[i], descriptions[i], null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED, DataConstants.DEFAULT_DATASET_ALIGNMENT);
         }
         // creation ds
         Dataset ds = new Dataset(idDataSet++,mission, -1,  name, nbCol, nbRows, tabHeader,  data, listOp, listVis, DataConstants.EXECUTIVE_RIGHT);
@@ -1491,7 +1495,7 @@ public class DataController implements ControllerInterface{
             dataset.insertCol(nbCols2, nbCols1);
             for (int j=0; j<nbCols2; j++){
                 if (ds.getDataHeader(j) != null){
-                    dataset.setDataHeader(new DataHeader(idDataHeader++,ds.getDataHeader(j).getValue() , ds.getDataHeader(j).getUnit(), j+nbCols1, ds.getDataHeader(j).getType(), ds.getDataHeader(j).getDescription(),ds.getDataHeader(j).getFormulaValue(), ds.getDataHeader(j).isScientificNotation(), ds.getDataHeader(j).getNbShownDecimals(), ds.getDataHeader(j).getNbSignificantDigits()), j+nbCols1);
+                    dataset.setDataHeader(new DataHeader(idDataHeader++,ds.getDataHeader(j).getValue() , ds.getDataHeader(j).getUnit(), j+nbCols1, ds.getDataHeader(j).getType(), ds.getDataHeader(j).getDescription(),ds.getDataHeader(j).getFormulaValue(), ds.getDataHeader(j).isScientificNotation(), ds.getDataHeader(j).getNbShownDecimals(), ds.getDataHeader(j).getNbSignificantDigits(), ds.getDataHeader(j).getDataAlignment()), j+nbCols1);
                 }
                 for (int i=0; i<nbRows2; i++){
                     Data nd = null;
@@ -1796,7 +1800,7 @@ public class DataController implements ControllerInterface{
            for (int j=0; j<nbColsToPaste; j++){
                DataHeader header = null;
                if (copyDs.getListHeader().get(j) != null){
-                   header = new DataHeader(idDataHeader++, copyDs.getListHeader().get(j).getValue(),copyDs.getListHeader().get(j).getUnit(),  idC+j, copyDs.getListHeader().get(j).getType(), copyDs.getListHeader().get(j).getDescription(), copyDs.getListHeader().get(j).getFormulaValue(), copyDs.getListHeader().get(j).isScientificNotation(), copyDs.getListHeader().get(j).getNbShownDecimals(), copyDs.getListHeader().get(j).getNbSignificantDigits());
+                   header = new DataHeader(idDataHeader++, copyDs.getListHeader().get(j).getValue(),copyDs.getListHeader().get(j).getUnit(),  idC+j, copyDs.getListHeader().get(j).getType(), copyDs.getListHeader().get(j).getDescription(), copyDs.getListHeader().get(j).getFormulaValue(), copyDs.getListHeader().get(j).isScientificNotation(), copyDs.getListHeader().get(j).getNbShownDecimals(), copyDs.getListHeader().get(j).getNbSignificantDigits(), copyDs.getListHeader().get(j).getDataAlignment());
                    DataHeader[] headers = new DataHeader[2];
                    headers[0] = null;
                    if(idC+j< oldDs.getNbCol()){
@@ -1863,7 +1867,7 @@ public class DataController implements ControllerInterface{
                     if(idC+j-j0 >= dataset.getNbCol()){
                         dataset.insertCol(1, dataset.getNbCol());
                         listNoCol.add(dataset.getNbCol());
-                        DataHeader header = new DataHeader(idDataHeader++, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_NAME")+(idC+j-j0+1), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_UNIT"), idC+j-j0,DataConstants.DEFAULT_TYPE_COLUMN, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_DESCRIPTION"), null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED);
+                        DataHeader header = new DataHeader(idDataHeader++, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_NAME")+(idC+j-j0+1), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_UNIT"), idC+j-j0,DataConstants.DEFAULT_TYPE_COLUMN, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_DESCRIPTION"), null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED, DataConstants.DEFAULT_DATASET_ALIGNMENT);
                         DataHeader[] headers = new DataHeader[2];
                         headers[0] = null;
                         headers[1] = header;
@@ -2211,6 +2215,26 @@ public class DataController implements ControllerInterface{
     /** export a html version */
     @Override
     public CopexReturn exportHTML(){
+        return new CopexReturn();
+    }
+
+    /** justify the text for the selected headers */
+    @Override
+    public CopexReturn justifyText(Dataset ds, int align, ArrayList<DataHeader> listHeader, ArrayList v){
+        int idDs = getIdDataset(ds.getDbKey());
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
+        // maj en memoire
+        for(Iterator<DataHeader> h = listHeader.iterator();h.hasNext();){
+            int noCol = h.next().getNoCol();
+            if(dataset.getDataHeader(noCol) != null)
+                dataset.getDataHeader(noCol).setDataAlignment(align);
+        }
+        // en v[0] le nouveau dataset clone
+        listDataset.set(idDs, dataset);
+        v.add(dataset.clone());
         return new CopexReturn();
     }
 }

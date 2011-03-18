@@ -13,6 +13,8 @@ import eu.scy.tools.dataProcessTool.utilities.DataConstants;
 import eu.scy.tools.dataProcessTool.utilities.MyUtilities;
 import java.awt.Color;
 import java.util.Iterator;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 /**
  * Gestion en bd des dataset
@@ -267,7 +269,7 @@ public class DatasetFromDB {
     /* chargement de tous les ds header d'un dataset donne */
     public static CopexReturn getAllDatasetHeaderFromDB(DataBaseCommunication dbC, long dbKeyDs,  int nbCol, ArrayList v){
         DataHeader[] tabHeader = new DataHeader[nbCol] ;
-        String query = "SELECT D.ID_HEADER, D.VALUE,D.UNIT, D.NO_COL, D.TYPE, D.DESCRIPTION, D.FORMULA_VALUE, D.SCIENTIFIC_NOTATION, D.NB_SHOWN_DECIMALS, D.NB_SIGNIFICANT_DIGITS " +
+        String query = "SELECT D.ID_HEADER, D.VALUE,D.UNIT, D.NO_COL, D.TYPE, D.DESCRIPTION, D.FORMULA_VALUE, D.SCIENTIFIC_NOTATION, D.NB_SHOWN_DECIMALS, D.NB_SIGNIFICANT_DIGITS, D.DATA_ALIGNMENT " +
                 "FROM DATA_HEADER D, LINK_DATASET_HEADER L " +
                 "WHERE D.ID_HEADER = L.ID_HEADER AND L.ID_DATASET = "+dbKeyDs+" ;";
         ArrayList v2 = new ArrayList();
@@ -282,6 +284,7 @@ public class DatasetFromDB {
         listFields.add("D.SCIENTIFIC_NOTATION");
         listFields.add("D.NB_SHOWN_DECIMALS");
         listFields.add("D.NB_SIGNIFICANT_DIGITS");
+        listFields.add("D.DATA_ALIGNMENT");
         CopexReturn cr = dbC.sendQuery(query, listFields, v2);
         if (cr.isError())
             return cr;
@@ -335,7 +338,16 @@ public class DatasetFromDB {
                 nbSignificantDigits = Integer.parseInt(s);
             }catch(NumberFormatException e){
             }
-            DataHeader dh= new DataHeader(dbKey, value,unit, noCol, type, description, formulaValue, scientificNotation, nbShownDecimal, nbSignificantDigits);
+            s = rs.getColumnData("D.DATA_ALIGNMENT");
+            int dataAlignment = DataConstants.DEFAULT_DATASET_ALIGNMENT;
+            try{
+                int f = Integer.parseInt(s);
+                if(f == SwingConstants.LEFT || f == SwingConstants.CENTER || f == SwingConstants.RIGHT)
+                    dataAlignment = f;
+            }catch(NumberFormatException e){
+
+            }
+            DataHeader dh= new DataHeader(dbKey, value,unit, noCol, type, description, formulaValue, scientificNotation, nbShownDecimal, nbSignificantDigits, dataAlignment);
             tabHeader[noCol] = dh;
         }
         v.add(tabHeader);
@@ -1206,6 +1218,23 @@ public class DatasetFromDB {
         }
         dbC.updateDb(DataConstants.DB_LABBOOK_FITEX);
         return new CopexReturn();
+    }
+
+    /* update the text alignment for the selected headers */
+    public static CopexReturn updateJustifyTextInDB(DataBaseCommunication dbC, int align, ArrayList<DataHeader> listHeader){
+        if(listHeader.isEmpty())
+            return new CopexReturn();
+        String listH = ""+listHeader.get(0).getDbKey();
+        int nbH = listHeader.size();
+        for (int i=1; i<nbH; i++){
+            listH += ", "+listHeader.get(i).getDbKey() ;
+        }
+        String query = "UPDATE DATA_HEADER SET DATA_ALIGNMENT = "+align+" WHERE ID_HEADER  IN ("+listH+");";
+        ArrayList v2 = new ArrayList();
+        String[] querys = new String[1];
+        querys[0]  =query ;
+        CopexReturn cr = dbC.executeQuery(querys, v2);
+        return cr;
     }
 
     

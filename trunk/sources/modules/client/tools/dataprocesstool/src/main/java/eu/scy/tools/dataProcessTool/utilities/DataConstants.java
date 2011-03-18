@@ -6,6 +6,8 @@
 package eu.scy.tools.dataProcessTool.utilities;
 
 import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 
 /**
@@ -101,6 +103,7 @@ public class DataConstants {
     public static final String F_Y = "y=f(x)";
     public static final String F_X = "x=f(y)";
 
+    public final static int DEFAULT_DATASET_ALIGNMENT = SwingConstants.RIGHT;
     /* xml language */
     public final static String XMLNAME_LANGUAGE="language";
     /* LOG TYPE */
