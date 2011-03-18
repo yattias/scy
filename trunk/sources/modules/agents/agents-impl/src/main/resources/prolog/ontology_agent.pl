@@ -3,14 +3,16 @@
 agent_name('onto').
 command_space('command').
 ts_host('localhost').
+ts_port(2525).
+agent_id('dummy').
 
 connect :-
 	retractall(ts(_,_)),
 	command_space(CommandSpace),
 	ts_host(TsHost),
 	ts_port(TsPort),
-    agent_name(Name),
-	tspl_connect_to_ts(CommandSpace, TsHost, TsPort, Name, '', CommandTS),
+        agent_name(Name),
+	tspl_connect_to_ts(CommandSpace, CommandTS, [host(TsHost), port(TsPort), username(Name), password('')]),
 	assert(ts(command, CommandTS)).
 
 next_command(Cmd, Id, Params) :-
@@ -91,6 +93,13 @@ process_command(Cmd, Id, Params) :-
 			tspl_actual_field(string, EntitiesCSV, EntitiesField),
 			respond(Id, [EntitiesField])
 		; true),
+	(Cmd == 'labels'
+		-> 	Params = [OntName, Language], 
+			labels(OntName, Language, Labels),
+			list_to_csv(Labels, LabelsCSV),
+			tspl_actual_field(string, LabelsCSV, LabelsField),
+			respond(Id, [LabelsField])
+		; true),
 	!.
 
 list_to_csv([], '').
@@ -162,6 +171,15 @@ entities(OntName, Entities) :-
 	findall(ClassName, prdf(ClassName, type, class), Classes),
 	findall(InstanceName, (member(ClassName, Classes), prdf(InstanceName, type, ClassName)), Instances),
 	append(Classes, Instances, Entities).
+
+% (<ID>:String, "onto":String, "labels":String, <OntName>:String, <Language>:String) -> (<ID>:String, <LabelsList>:String)
+labels(OntName, Language, Labels) :-
+	ont_connect(_, OntName, _),
+	string_length(Language, L),
+	L1 is L + 1,
+	string_concat('@', Language, LSuffix),
+	findall(Labels, (prdf(_, label, Label), sub_string(Label, _, L1, 0, LSuffix)), Labels).
+
 
 annotationproperty(Prop) :-
 	member(Prop, [comment, isdefinedby, label, seealso, versioninfo]).

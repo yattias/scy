@@ -206,7 +206,7 @@ change_variables_feedback(Learner, Tool, Mission, Session, ELOURI, Votat) :-
 
 in_space(actions).			% scydynamics_actionlog
 out_space(command).			% scydynamics_actionlog
-host('scy.collide.info').		% localhost
+host('localhost').		% localhost
 port(2525).
 user('sqlspaces').
 
