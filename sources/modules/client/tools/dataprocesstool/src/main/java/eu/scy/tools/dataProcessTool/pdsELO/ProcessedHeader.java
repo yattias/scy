@@ -7,6 +7,8 @@ package eu.scy.tools.dataProcessTool.pdsELO;
 
 import eu.scy.tools.dataProcessTool.common.DataHeader;
 import eu.scy.tools.dataProcessTool.utilities.DataConstants;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import roolo.elo.JDomStringConversion;
@@ -23,6 +25,7 @@ public class ProcessedHeader {
     public static final String TAG_PROCESSED_HEADER_SCIENTIFIC_NOTATION = "scientific_notation";
     public static final String TAG_PROCESSED_HEADER_NB_SHOWN_DECIMALS = "nb_shown_decimals";
     public static final String TAG_PROCESSED_HEADER_NB_SIGNIFICANT_DIGITS = "nb_significant_digits";
+    public static final String TAG_PROCESSED_HEADER_DATA_ALIGNMENT = "data_alignment";
 
     /* column id */
     private String columnId;
@@ -31,13 +34,15 @@ public class ProcessedHeader {
     private boolean scientificNotation;
     private int nbShownDecimals;
     private int nbSignificantDigits;
+    private int dataAlignment;
 
-    public ProcessedHeader(String columnId, String formula, boolean scientificNotation, int nbShownDecimals, int nbSignificantDigits) {
+    public ProcessedHeader(String columnId, String formula, boolean scientificNotation, int nbShownDecimals, int nbSignificantDigits, int dataAlignment) {
         this.columnId = columnId;
         this.formula = formula;
         this.scientificNotation = scientificNotation;
         this.nbShownDecimals = nbShownDecimals;
         this.nbSignificantDigits = nbSignificantDigits;
+        this.dataAlignment = dataAlignment;
     }
     public ProcessedHeader(Element xmlElem) throws JDOMException {
         if (xmlElem.getName().equals(TAG_PROCESSED_HEADER)) {
@@ -62,6 +67,17 @@ public class ProcessedHeader {
                 try{
                     nbSignificantDigits = Integer.parseInt(xmlElem.getChild(TAG_PROCESSED_HEADER_NB_SIGNIFICANT_DIGITS).getText());
                 }catch(NumberFormatException e){
+                }
+            }
+            this.dataAlignment = DataConstants.DEFAULT_DATASET_ALIGNMENT;
+            if(xmlElem.getChild(TAG_PROCESSED_HEADER_DATA_ALIGNMENT) != null){
+                try{
+                    String s = xmlElem.getChild(TAG_PROCESSED_HEADER_DATA_ALIGNMENT).getText();
+                    int f = Integer.parseInt(s);
+                    if(f == SwingConstants.LEFT || f == SwingConstants.CENTER || f == SwingConstants.RIGHT)
+                        this.dataAlignment = f;
+                }catch(NumberFormatException e){
+                    
                 }
             }
         }else {
@@ -93,10 +109,19 @@ public class ProcessedHeader {
         return scientificNotation;
     }
 
+    public int getDataAlignment() {
+        return dataAlignment;
+    }
+
+    public void setDataAlignment(int dataAlignment) {
+        this.dataAlignment = dataAlignment;
+    }
+
     // toXML
     public Element toXML(){
         Element element = new Element(TAG_PROCESSED_HEADER);
         element.addContent(new Element(TAG_PROCESSED_HEADER_COLUMN).setText(this.columnId));
+        element.addContent(new Element(TAG_PROCESSED_HEADER_DATA_ALIGNMENT).setText(Integer.toString(dataAlignment)));
 	if(formula != null && !formula.equals("")){
             element.addContent(new Element(TAG_PROCESSED_HEADER_FORMULA).setText(this.formula));
         }

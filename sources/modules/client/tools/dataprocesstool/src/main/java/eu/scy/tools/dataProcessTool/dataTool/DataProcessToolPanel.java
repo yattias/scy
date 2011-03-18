@@ -66,7 +66,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     //CONSTANTES
     
     /* width */
-    public static final int PANEL_WIDTH = 615;
+    public static final int PANEL_WIDTH = 660;
     /* height */
     public static final int PANEL_HEIGHT = 355;
 

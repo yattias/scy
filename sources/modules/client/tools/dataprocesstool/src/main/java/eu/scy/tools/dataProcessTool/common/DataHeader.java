@@ -22,6 +22,7 @@ public class DataHeader implements Cloneable {
     private final static String TAG_HEADER_SCIENTIFIC_NOTATION = "scientific_notation";
     private final static String TAG_HEADER_NB_SHOWN_DECIMAL = "nb_shown_decimal";
     private final static String TAG_HEADER_SIGNIFICANT_DIGITS = "significant_digits";
+    private final static String TAG_HEADER_DATA_ALIGNMENT = "data_alignment";
     
     /* identifiant */
     private long dbKey;
@@ -41,8 +42,10 @@ public class DataHeader implements Cloneable {
     private boolean scientificNotation;
     private int nbShownDecimals;
     private int nbSignificantDigits;
+    private int dataAlignment;
 
-    public DataHeader(long dbKey, String value, String unit, int noCol, String type, String description, String formulaValue, boolean scientificNotation, int nbShownDecimals, int nbSignificantDigits) {
+
+    public DataHeader(long dbKey, String value, String unit, int noCol, String type, String description, String formulaValue, boolean scientificNotation, int nbShownDecimals, int nbSignificantDigits, int dataAlignment) {
         this.dbKey = dbKey;
         this.value = value;
         this.unit = unit;
@@ -53,9 +56,9 @@ public class DataHeader implements Cloneable {
         this.scientificNotation = scientificNotation;
         this.nbShownDecimals = nbShownDecimals;
         this.nbSignificantDigits = nbSignificantDigits;
+        this.dataAlignment = dataAlignment;
     }
 
-    // GETTER AND SETTER
     public long getDbKey() {
         return dbKey;
     }
@@ -148,7 +151,14 @@ public class DataHeader implements Cloneable {
         return this.isDouble() && this.formulaValue != null;
     }
 
-    // CLONE
+    public int getDataAlignment() {
+        return dataAlignment;
+    }
+
+    public void setDataAlignment(int dataAlignment) {
+        this.dataAlignment = dataAlignment;
+    }
+
     @Override
     public Object clone()  {
         try {
@@ -174,6 +184,7 @@ public class DataHeader implements Cloneable {
             dataheader.setScientificNotation(new Boolean(scientificNotation));
             dataheader.setNbShownDecimals(new Integer(nbShownDecimals));
             dataheader.setNbSignificantDigits(new Integer(nbSignificantDigits));
+            dataheader.setDataAlignment(dataAlignment);
             
             return dataheader;
         } catch (CloneNotSupportedException e) { 
@@ -197,6 +208,7 @@ public class DataHeader implements Cloneable {
          }
          e.addContent(new Element(TAG_HEADER_TYPE).setText(type));
          e.addContent(new Element(TAG_HEADER_DESCRIPTION).setText(description));
+         e.addContent(new Element(TAG_HEADER_DATA_ALIGNMENT).setText(Integer.toString(dataAlignment)));
          return e;
 
      }

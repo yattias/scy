@@ -74,6 +74,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
@@ -120,6 +121,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     private JSeparator sep5;
     private JSeparator sep6;
     private JSeparator sep7;
+    private JSeparator sep8;
     private MyMenuItem menuItemSave;
     private MyMenuItem menuItemInsert;
     private MyMenuItem menuItemSuppr ;
@@ -139,6 +141,9 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     private MyMenuItem menuItemCsv;
     private MyMenuItem menuItemHelp;
     private MyMenuItem menuItemImport;
+    private MyMenuItem menuItemTextLeft;
+    private MyMenuItem menuItemTextCenter;
+    private MyMenuItem menuItemTextRight;
     /* data organizer*/
     private JScrollPane scrollPaneDataOrganizer;
     private DataTable datasetTable;
@@ -266,6 +271,10 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
             menuBarData.add(getMenuItemInsert());
             menuBarData.add(getMenuItemSuppr());
             menuBarData.add(getSep1());
+            menuBarData.add(getMenuItemTextLeft());
+            menuBarData.add(getMenuItemTextCenter());
+            menuBarData.add(getMenuItemTextRight());
+            menuBarData.add(getSep8());
             menuBarData.add(getMenuItemSort());
             menuBarData.add(getMenuItemIgnore());
             menuBarData.add(getSep2());
@@ -351,11 +360,42 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         }
         return sep1;
     }
+    private MyMenuItem getMenuItemTextLeft(){
+        if (menuItemTextLeft == null){
+            menuItemTextLeft = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_TEXT_LEFT"),menuBarData.getBackground(),getCopexImage("Bouton-AdT-28_text_left.png"), getCopexImage("Bouton-AdT-28_text_left_survol.png"), getCopexImage("Bouton-AdT-28_text_left_clic.png"), getCopexImage("Bouton-AdT-28_text_left_grise.png"));
+            menuItemTextLeft.setBounds(sep1.getX()+sep1.getWidth(), 0, menuItemTextLeft.getWidth(), menuItemTextLeft.getHeight());
+            menuItemTextLeft.addActionMenu(this);
+        }
+        return menuItemTextLeft;
+    }
+    private MyMenuItem getMenuItemTextCenter(){
+        if (menuItemTextCenter == null){
+            menuItemTextCenter = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_TEXT_CENTER"),menuBarData.getBackground(),getCopexImage("Bouton-AdT-28_text_center.png"), getCopexImage("Bouton-AdT-28_text_center_survol.png"), getCopexImage("Bouton-AdT-28_text_center_clic.png"), getCopexImage("Bouton-AdT-28_text_center_grise.png"));
+            menuItemTextCenter.setBounds(menuItemTextLeft.getX()+menuItemTextLeft.getWidth(), 0, menuItemTextCenter.getWidth(), menuItemTextCenter.getHeight());
+            menuItemTextCenter.addActionMenu(this);
+        }
+        return menuItemTextCenter;
+    }
+    private MyMenuItem getMenuItemTextRight(){
+        if (menuItemTextRight == null){
+            menuItemTextRight = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_TEXT_RIGHT"),menuBarData.getBackground(),getCopexImage("Bouton-AdT-28_text_right.png"), getCopexImage("Bouton-AdT-28_text_right_survol.png"), getCopexImage("Bouton-AdT-28_text_right_clic.png"), getCopexImage("Bouton-AdT-28_text_right_grise.png"));
+            menuItemTextRight.setBounds(menuItemTextCenter.getX()+menuItemTextCenter.getWidth(), 0, menuItemTextRight.getWidth(), menuItemTextRight.getHeight());
+            menuItemTextRight.addActionMenu(this);
+        }
+        return menuItemTextRight;
+    }
 
+    private JSeparator getSep8(){
+        if(sep8 == null){
+            sep8 = new JSeparator(JSeparator.VERTICAL);
+            sep8.setBounds(menuItemTextRight.getX()+menuItemTextRight.getWidth(), 0, 5, DataProcessToolPanel.MENU_BAR_HEIGHT);
+        }
+        return sep8;
+    }
     private MyMenuItem getMenuItemSort(){
         if (menuItemSort == null){
             menuItemSort = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_SORT"),menuBarData.getBackground(),getCopexImage("Bouton-mat_triabc.png"), getCopexImage("Bouton-mat_triabc_survol.png"), getCopexImage("Bouton-mat_triabc_clic.png"), getCopexImage("Bouton-mat_triabc.png"));
-            menuItemSort.setBounds(sep1.getX()+sep1.getWidth(), 0, menuItemSort.getWidth(), menuItemSort.getHeight());
+            menuItemSort.setBounds(sep8.getX()+sep8.getWidth(), 0, menuItemSort.getWidth(), menuItemSort.getHeight());
             menuItemSort.addActionMenu(this);
         }
         return menuItemSort;
@@ -561,6 +601,9 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
             menuItemSave.setEnabled(canEdit);
         this.menuItemInsert.setEnabled(canEdit && datasetTable.canInsert());
         getMenuItemSuppr().setEnabled(canEdit &&datasetTable.canSuppr());
+        getMenuItemTextLeft().setEnabled(canEdit &&datasetTable.canAlignText());
+        getMenuItemTextCenter().setEnabled(canEdit &&datasetTable.canAlignText());
+        getMenuItemTextRight().setEnabled(canEdit &&datasetTable.canAlignText());
         getMenuItemCopy().setEnabled(canEdit &&datasetTable.canCopy());
         getMenuItemPaste().setEnabled(canEdit &&datasetTable.canPaste());
         getMenuItemCut().setEnabled(canEdit &&datasetTable.canCut());
@@ -681,6 +724,15 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
             return;
         }else if(item.equals(menuItemImport)){
             openImportDialog();
+            return;
+        }else if (item.equals(getMenuItemTextLeft())){
+            justifyText(SwingConstants.LEFT);
+            return;
+        }else if (item.equals(getMenuItemTextCenter())){
+            justifyText(SwingConstants.CENTER);
+            return;
+        }else if (item.equals(getMenuItemTextRight())){
+            justifyText(SwingConstants.RIGHT);
             return;
         }
         displayError(new CopexReturn("Not yet implemented !!", false), "En travaux");
@@ -1763,5 +1815,21 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
     public void exportHTML(){
         controller.exportHTML();
+    }
+
+    private void justifyText(int align){
+        ArrayList<DataHeader> headerSel = datasetTable.getSelectedHeader() ;
+        datasetTable.markSelectedCell();
+        ArrayList v = new ArrayList();
+        CopexReturn cr = this.controller.justifyText(dataset, align, headerSel,v);
+        if (cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+            return;
+        }
+        Dataset nds = (Dataset)v.get(0);
+        dataset = nds;
+        datasetTable.updateDataset(nds, false);
+        datasetTable.selectOldCell();
+        datasetModif = true;
     }
 }

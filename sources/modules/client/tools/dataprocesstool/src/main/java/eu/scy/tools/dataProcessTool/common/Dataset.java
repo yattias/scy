@@ -58,7 +58,6 @@ public class Dataset implements Cloneable{
     private long dbKeyLabDoc;
 
     private char right;
-
     
     public Dataset(long dbKey, Mission mission, long dbKeyLabDoc, String name, int nbCol, int nbRows, DataHeader[] listDataHeader, Data[][] data, ArrayList<DataOperation> listOperation,ArrayList<Visualization> listVisualization, char right) {
         this.dbKey = dbKey;
@@ -123,9 +122,7 @@ public class Dataset implements Cloneable{
     public void setRight(char right) {
         this.right = right;
     }
-
-
-
+    
     public DataHeader[] getListDataHeader() {
         return listDataHeader;
     }
@@ -351,7 +348,7 @@ public class Dataset implements Cloneable{
         DataSet ds = new DataSet(headers);
         for(int j=0; j<nbC; j++){
             if(getDataHeader(j) != null ){
-                listProcessedHeader.add(new ProcessedHeader(""+j, getDataHeader(j).getFormulaValue(), getDataHeader(j).isScientificNotation(), getDataHeader(j).getNbShownDecimals(), getDataHeader(j).getNbSignificantDigits()));
+                listProcessedHeader.add(new ProcessedHeader(""+j, getDataHeader(j).getFormulaValue(), getDataHeader(j).isScientificNotation(), getDataHeader(j).getNbShownDecimals(), getDataHeader(j).getNbSignificantDigits(), getDataHeader(j).getDataAlignment()));
             }
         }
         for (int i=0; i<nbR; i++){
@@ -1435,4 +1432,13 @@ public class Dataset implements Cloneable{
         }
         return false;
     }
+
+    public int getDataAlignment(int idCol){
+        if(getDataHeader(idCol) == null){
+            return DataConstants.DEFAULT_DATASET_ALIGNMENT;
+        }else{
+            return getDataHeader(idCol).getDataAlignment();
+        }
+    }
+
 }

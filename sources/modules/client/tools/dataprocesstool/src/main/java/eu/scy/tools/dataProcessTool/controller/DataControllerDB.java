@@ -29,6 +29,7 @@ import eu.scy.tools.dataProcessTool.pdsELO.IgnoredData;
 import eu.scy.tools.dataProcessTool.pdsELO.PieVisualization;
 import eu.scy.tools.dataProcessTool.pdsELO.ProcessedData;
 import eu.scy.tools.dataProcessTool.pdsELO.ProcessedDatasetELO;
+import eu.scy.tools.dataProcessTool.pdsELO.ProcessedHeader;
 import eu.scy.tools.dataProcessTool.pdsELO.XYAxis;
 import eu.scy.tools.dataProcessTool.print.DataPrint;
 
@@ -285,7 +286,7 @@ public class DataControllerDB implements ControllerInterface{
         Data[][] data = new Data[nbRows][nbCol];
         DataHeader[] tabHeader = new DataHeader[nbCol] ;
         for (int i=0; i<nbCol; i++){
-            DataHeader h = new DataHeader(-1, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_NAME")+(i+1), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_UNIT"), i,DataConstants.DEFAULT_TYPE_COLUMN, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_DESCRIPTION"), null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED);
+            DataHeader h = new DataHeader(-1, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_NAME")+(i+1), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_UNIT"), i,DataConstants.DEFAULT_TYPE_COLUMN, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_DESCRIPTION"), null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED, DataConstants.DEFAULT_DATASET_ALIGNMENT);
             tabHeader[i] = h;
         }
         // enregistrement base
@@ -371,7 +372,7 @@ public class DataControllerDB implements ControllerInterface{
                 String type = header.getColumns().get(i).getType();
                 if (type == null || !type.equals(DataConstants.TYPE_DOUBLE) || !type.equals(DataConstants.TYPE_STRING))
                     type = DataConstants.DEFAULT_TYPE_COLUMN;
-                dataHeader[i] = new DataHeader(-1, header.getColumns().get(i).getSymbol(),unit, i, type, header.getColumns().get(i).getDescription(), null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED) ;
+                dataHeader[i] = new DataHeader(-1, header.getColumns().get(i).getSymbol(),unit, i, type, header.getColumns().get(i).getDescription(), null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED, DataConstants.DEFAULT_DATASET_ALIGNMENT) ;
             }
             // data
             Data[][] data = new Data[nbRows][nbCols];
@@ -441,7 +442,7 @@ public class DataControllerDB implements ControllerInterface{
             String type = header.getColumns().get(i).getType();
             if (type == null || !type.equals(DataConstants.TYPE_DOUBLE) || !type.equals(DataConstants.TYPE_STRING))
                     type = DataConstants.DEFAULT_TYPE_COLUMN;
-            dataHeader[i] = new DataHeader(-1, header.getColumns().get(i).getSymbol(), unit, i, type, header.getColumns().get(i).getDescription(), null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED) ;
+            dataHeader[i] = new DataHeader(-1, header.getColumns().get(i).getSymbol(), unit, i, type, header.getColumns().get(i).getDescription(), null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED, DataConstants.DEFAULT_DATASET_ALIGNMENT) ;
         }
         // data
         List<DataSetRow> listRows = eloDs.getValues() ;
@@ -462,21 +463,46 @@ public class DataControllerDB implements ControllerInterface{
         IgnoredData ig = pds.getIgnoredData();
         List<eu.scy.tools.dataProcessTool.pdsELO.Data> listData = ig.getListIgnoredData();
         if (listData != null){
-        for (int i=0; i<listData.size(); i++){
-            String noCols = listData.get(i).getColumnId();
-            String noRows = listData.get(i).getRowId() ;
-            int noCol = -1;
-            int noRow= -1;
-            try{
-                noCol = Integer.parseInt(noCols);
-                noRow = Integer.parseInt(noRows);
-            }catch(NumberFormatException e){
-                continue;
-            }
-            if (noRow > -1 && noRow <data.length & noCol >-1 && data[noRow] != null && noCol <data[noRow].length ){
-                data[noRow][noCol].setIsIgnoredData(true);
+            for (int i=0; i<listData.size(); i++){
+                String noCols = listData.get(i).getColumnId();
+                String noRows = listData.get(i).getRowId() ;
+                int noCol = -1;
+                int noRow= -1;
+                try{
+                    noCol = Integer.parseInt(noCols);
+                    noRow = Integer.parseInt(noRows);
+                }catch(NumberFormatException e){
+                    continue;
+                }
+                if (noRow > -1 && noRow <data.length & noCol >-1 && data[noRow] != null && noCol <data[noRow].length ){
+                    data[noRow][noCol].setIsIgnoredData(true);
+                }
             }
         }
+        // headers pds
+        List<ProcessedHeader> listPdsHeader = pds.getListProcessedHeaders();
+        if(listPdsHeader != null){
+            for(Iterator<ProcessedHeader> h = listPdsHeader.iterator(); h.hasNext();){
+                ProcessedHeader ph = h.next();
+                int noCol = -1;
+                try{
+                    noCol = Integer.parseInt(ph.getColumnId());
+                }catch(NumberFormatException e){
+                    continue;
+                }
+                if(noCol >=0 && noCol < dataHeader.length && dataHeader[noCol] != null && ph.getFormula() != null && !ph.getFormula().equals("")){
+                    dataHeader[noCol].setFormulaValue(ph.getFormula());
+                }
+                if(noCol >=0 && noCol < dataHeader.length && dataHeader[noCol] != null){
+                    dataHeader[noCol].setScientificNotation(ph.isScientificNotation());
+                    dataHeader[noCol].setNbShownDecimals(ph.getNbShownDecimals());
+                    dataHeader[noCol].setNbSignificantDigits(ph.getNbSignificantDigits());
+                }
+                int dataAlign = ph.getDataAlignment();
+                if(noCol >=0 && noCol < dataHeader.length && dataHeader[noCol] != null){
+                    dataHeader[noCol].setDataAlignment(dataAlign);
+                }
+            }
         }
         // liste des operations
         List<eu.scy.tools.dataProcessTool.pdsELO.Operation> listOp = pds.getListOperations();
@@ -704,7 +730,7 @@ public class DataControllerDB implements ControllerInterface{
             if (cr.isError())
                 return cr;
             long dbKey = (Long)v2.get(0);
-            dataset.setDataHeader(new DataHeader(dbKey, title, unit, colIndex, type, description, formulaValue, scientificNotation, nbShownDecimals, nbSignificantDigits), colIndex);
+            dataset.setDataHeader(new DataHeader(dbKey, title, unit, colIndex, type, description, formulaValue, scientificNotation, nbShownDecimals, nbSignificantDigits, DataConstants.DEFAULT_DATASET_ALIGNMENT), colIndex);
         }else{
             oldTitle = header.getValue();
             // controle des unites par rapport / graphes existants
@@ -1506,7 +1532,7 @@ public class DataControllerDB implements ControllerInterface{
             if(cr.isError())
                 return cr;
             long dbKeyH = (Long)v2.get(0);
-            tabHeader[i] = new DataHeader(dbKeyH, headers[i], units[i], i, types[i], descriptions[i], null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED);
+            tabHeader[i] = new DataHeader(dbKeyH, headers[i], units[i], i, types[i], descriptions[i], null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED, DataConstants.DEFAULT_DATASET_ALIGNMENT);
         }
         // creation ds
         Dataset ds = new Dataset(dbKey, mission, dbKeyLabDoc, name, nbCol, nbRows, tabHeader,  data, listOp, listVis, DataConstants.EXECUTIVE_RIGHT);
@@ -1787,7 +1813,7 @@ public class DataControllerDB implements ControllerInterface{
                 if(cr.isError())
                     return cr;
                 long dbKeyHeader = (Long)v2.get(0);
-                dataset.setDataHeader(new DataHeader(dbKeyHeader,datasetToMerge.getDataHeader(j).getValue() , datasetToMerge.getDataHeader(j).getUnit(), j+nbCols1, datasetToMerge.getDataHeader(j).getType(), datasetToMerge.getDataHeader(j).getDescription(), datasetToMerge.getDataHeader(j).getFormulaValue(), datasetToMerge.getDataHeader(j).isScientificNotation(), datasetToMerge.getDataHeader(j).getNbShownDecimals(), datasetToMerge.getDataHeader(j).getNbSignificantDigits()), j+nbCols1);
+                dataset.setDataHeader(new DataHeader(dbKeyHeader,datasetToMerge.getDataHeader(j).getValue() , datasetToMerge.getDataHeader(j).getUnit(), j+nbCols1, datasetToMerge.getDataHeader(j).getType(), datasetToMerge.getDataHeader(j).getDescription(), datasetToMerge.getDataHeader(j).getFormulaValue(), datasetToMerge.getDataHeader(j).isScientificNotation(), datasetToMerge.getDataHeader(j).getNbShownDecimals(), datasetToMerge.getDataHeader(j).getNbSignificantDigits(), datasetToMerge.getDataHeader(j).getDataAlignment()), j+nbCols1);
 
             }
             for (int i=0; i<nbRows2; i++){
@@ -1931,7 +1957,7 @@ public class DataControllerDB implements ControllerInterface{
                     if (cr.isError())
                         return cr;
                     long dbKeyHeader = (Long)v2.get(0);
-                    dataset.setDataHeader(new DataHeader(dbKeyHeader,ds.getDataHeader(j).getValue() , ds.getDataHeader(j).getUnit(), j+nbCols1, ds.getDataHeader(j).getType(), ds.getDataHeader(j).getDescription(), ds.getDataHeader(j).getFormulaValue(), ds.getDataHeader(j).isScientificNotation(), ds.getDataHeader(j).getNbShownDecimals(), ds.getDataHeader(j).getNbSignificantDigits()), j+nbCols1);
+                    dataset.setDataHeader(new DataHeader(dbKeyHeader,ds.getDataHeader(j).getValue() , ds.getDataHeader(j).getUnit(), j+nbCols1, ds.getDataHeader(j).getType(), ds.getDataHeader(j).getDescription(), ds.getDataHeader(j).getFormulaValue(), ds.getDataHeader(j).isScientificNotation(), ds.getDataHeader(j).getNbShownDecimals(), ds.getDataHeader(j).getNbSignificantDigits(), ds.getDataHeader(j).getDataAlignment()), j+nbCols1);
                 }
                 for (int i=0; i<nbRows2; i++){
                     Data nd = null;
@@ -2270,7 +2296,7 @@ public class DataControllerDB implements ControllerInterface{
            for (int j=0; j<nbColsToPaste; j++){
                DataHeader header = null;
                if (copyDs.getListHeader().get(j) != null){
-                   header = new DataHeader(-1, copyDs.getListHeader().get(j).getValue(),copyDs.getListHeader().get(j).getUnit(),  idC+j, copyDs.getListHeader().get(j).getType(), copyDs.getListHeader().get(j).getDescription(), copyDs.getListHeader().get(j).getFormulaValue(), copyDs.getListHeader().get(j).isScientificNotation(), copyDs.getListHeader().get(j).getNbShownDecimals(), copyDs.getListHeader().get(j).getNbSignificantDigits());
+                   header = new DataHeader(-1, copyDs.getListHeader().get(j).getValue(),copyDs.getListHeader().get(j).getUnit(),  idC+j, copyDs.getListHeader().get(j).getType(), copyDs.getListHeader().get(j).getDescription(), copyDs.getListHeader().get(j).getFormulaValue(), copyDs.getListHeader().get(j).isScientificNotation(), copyDs.getListHeader().get(j).getNbShownDecimals(), copyDs.getListHeader().get(j).getNbSignificantDigits(), copyDs.getListHeader().get(j).getDataAlignment());
                    DataHeader[] headers = new DataHeader[2];
                    headers[0] = null;
                    if(idC+j< oldDs.getNbCol()){
@@ -2380,7 +2406,7 @@ public class DataControllerDB implements ControllerInterface{
                     if(idC+j-j0 >= dataset.getNbCol()){
                         dataset.insertCol(1, dataset.getNbCol());
                         listNoCol.add(dataset.getNbCol());
-                        DataHeader header = new DataHeader(-1, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_NAME")+(idC+j-j0+1), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_UNIT"), idC+j-j0,DataConstants.DEFAULT_TYPE_COLUMN, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_DESCRIPTION"), null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED);
+                        DataHeader header = new DataHeader(-1, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_NAME")+(idC+j-j0+1), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_UNIT"), idC+j-j0,DataConstants.DEFAULT_TYPE_COLUMN, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_DESCRIPTION"), null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED, DataConstants.DEFAULT_DATASET_ALIGNMENT);
                         DataHeader[] headers = new DataHeader[2];
                         
                         dataset.setDataHeader(header, idC+j);
@@ -2926,6 +2952,30 @@ public class DataControllerDB implements ControllerInterface{
     public CopexReturn exportHTML(){
         if(listDataset.size() > 0)
             return exportHTML(listDataset.get(0));
+        return new CopexReturn();
+    }
+
+    /** justify the text for the selected headers */
+    @Override
+    public CopexReturn justifyText(Dataset ds, int align, ArrayList<DataHeader> listHeader, ArrayList v){
+        int idDs = getIdDataset(ds.getDbKey());
+        if(idDs == -1){
+            return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+        }
+        Dataset dataset = listDataset.get(idDs);
+        CopexReturn cr = DatasetFromDB.updateJustifyTextInDB(dbC, align, listHeader);
+        if(cr.isError()){
+            return cr;
+        }
+        // maj en memoire
+        for(Iterator<DataHeader> h = listHeader.iterator();h.hasNext();){
+            int noCol = h.next().getNoCol();
+            if(dataset.getDataHeader(noCol) != null)
+                dataset.getDataHeader(noCol).setDataAlignment(align);
+        }
+        // en v[0] le nouveau dataset clone
+        listDataset.set(idDs, dataset);
+        v.add(dataset.clone());
         return new CopexReturn();
     }
 }

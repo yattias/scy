@@ -93,7 +93,6 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     private final static int clickInterval = 2*(Integer)Toolkit.getDefaultToolkit().getDesktopProperty("awt.multiClickInterval");
     private MouseEvent lastEvent;
 
-    // CONSTRUCTOR
     public DataTable(FitexToolPanel owner, Dataset ds) {
         super();
         this.owner = owner;
@@ -466,6 +465,7 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
         return ((colSel && !rowSel) || (rowSel && !colSel) );
         
     }
+
     /* retourne vrai si au moins une   ligne ou une  colonne est selectionnee et au moins une d'entre elles est de type double*/
     private boolean isADataLineSel(){
         boolean aLine = false;
@@ -486,6 +486,25 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
                 isDouble = true;
         }
         return aLine&isDouble;
+    }
+
+    /* retourne vrai si au moins une  colonne est selectionnee de type donnees */
+    private boolean isADataColSel(){
+        ArrayList<int[]> cellsSel = getSelectedCells();
+        boolean isDataCols = false;
+        for(Iterator<int[]> c = cellsSel.iterator();c.hasNext();){
+            int[] cell = c.next();
+            boolean h = isValueHeader(cell[0], cell[1]);
+            boolean r = isValueNoRow(cell[0], cell[1]);
+            boolean op = isValueTitleOperation(cell[0], cell[1]);
+            if(h)
+                isDataCols = true;
+            if (r || op){
+                isDataCols = false;
+                break;
+            }
+        }
+        return isDataCols;
     }
 
 
@@ -515,6 +534,11 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     /*retourne la liste des donnees selectionnees */
     public ArrayList<Data> getSelectedData(){
         return this.tableModel.getSelectedData(getSelectedCells(), false);
+    }
+
+    /* returns the selected headers*/
+    public ArrayList<DataHeader> getSelectedHeader(){
+        return this.tableModel.getSelectedHeader(getSelectedCells());
     }
 
     /* retourne le premier en tete selectionne, sinon la premiere op en ligne, sinon null */
@@ -608,6 +632,11 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
     /* retourne vrai si on peut effectuer des operations */
     public boolean canOperations(){
         return isADataLineSel() ;
+    }
+
+
+    public boolean canAlignText(){
+        return isADataColSel()  ;
     }
 
     /* clic sur ignorer data */
@@ -1334,6 +1363,12 @@ public class DataTable extends JTable implements MouseListener, MouseMotionListe
 
     public boolean isEditAfterOneClick(){
         return !doubleClickOnCell;
+    }
+
+    public int getDataAlignment(int idCol){
+        if(idCol == 0 || idCol > dataset.getNbCol() )
+            return DataConstants.DEFAULT_DATASET_ALIGNMENT;
+        return dataset.getDataAlignment(idCol-1);
     }
     
 }

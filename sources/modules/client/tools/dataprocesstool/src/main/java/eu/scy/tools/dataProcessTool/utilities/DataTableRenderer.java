@@ -57,11 +57,15 @@ public class DataTableRenderer extends DefaultTableCellRenderer{
         cell.setFont(dataFont);
         //setAlignmentX(LEFT_ALIGNMENT);
         if(cell instanceof JLabel){
-            ((JLabel)cell).setAlignmentX(JLabel.LEFT);
-            ((JLabel)cell).setHorizontalAlignment(LEFT);
+            //((JLabel)cell).setAlignmentX(JLabel.LEFT);
+            ((JLabel)cell).setHorizontalAlignment(RIGHT);
         }
         Border border = null;
         if (table instanceof DataTable){
+            //setHorizontalAlignment(((DataTable)table).getDataAlignment(column));
+            if(cell instanceof JLabel){
+                ((JLabel)cell).setHorizontalAlignment(((DataTable)table).getDataAlignment(column));
+             }
             // numerotation des lignes
             if (((DataTable)table).isValueNoRow(row, column)){
                 cell.setFont(noRowFont);
