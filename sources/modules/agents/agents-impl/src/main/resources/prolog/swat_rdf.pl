@@ -17,7 +17,7 @@ ont_connect(TS, OntoName, NS) :-
 ont_connect(TS, OntName, NS) :-
 	ts_host(Server),
 	ts_port(Port),
-	tspl_connect_to_ts(OntName, Server, Port, TS),
+	tspl_connect_to_ts(OntName, TS, [host(Server), port(Port)]),
 	id(type, Type),
 	id(ontology, Ontology),
 	rdf(ont(TS, _, _), NS1, Type, Ontology),
@@ -100,6 +100,10 @@ plain_entity(_, Id, Type) :-
 plain_entity(ont(_, _, _), Ent, literal(Lit, Type)) :-
 	concat_atom([Lit, Rest], '^^', Ent),
 	xsd(Type, Rest),
+	!.
+plain_entity(ont(_, _, _), Ent, Ent) :-
+	sub_string(Ent, 0, 1, _, '"'),
+	sub_string(Ent, _, 2, 2, '"@'),
 	!.
 plain_entity(ont(_, _, NS), Ent, SEnt) :-
 	atom_concat(NS, SEnt, Ent),
