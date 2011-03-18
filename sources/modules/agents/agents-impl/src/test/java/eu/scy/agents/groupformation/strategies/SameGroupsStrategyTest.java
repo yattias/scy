@@ -11,7 +11,7 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import eu.scy.agents.groupformation.GroupFormationCache;
+import eu.scy.agents.groupformation.cache.GroupCache;
 
 public class SameGroupsStrategyTest {
 
@@ -22,7 +22,7 @@ public class SameGroupsStrategyTest {
 	@Before
 	public void setUp() throws Exception {
 		strategy = new SameGroupsStrategy();
-		GroupFormationCache cache = new GroupFormationCache();
+		GroupCache cache = new GroupCache();
 
 		group1 = new HashSet<String>();
 		group1.add("G1Test1");

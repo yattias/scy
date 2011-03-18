@@ -11,12 +11,12 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
-import eu.scy.agents.groupformation.GroupFormationCache;
+import eu.scy.agents.groupformation.cache.GroupCache;
 
 public class DummyStrategyTest {
 
 	private DummyStrategy strategy;
-	private GroupFormationCache groupFormationCache;
+	private GroupCache groupFormationCache;
 
 	@Before
 	public void setup() {
@@ -31,7 +31,7 @@ public class DummyStrategyTest {
 		strategy.setAvailableUsers(users);
 		strategy.setMinimumGroupSize(2);
 		strategy.setMaximumGroupSize(3);
-		groupFormationCache = new GroupFormationCache();
+		groupFormationCache = new GroupCache();
 		strategy.setGroupFormationCache(groupFormationCache);
 	}
 

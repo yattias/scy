@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import eu.scy.agents.groupformation.GroupFormationCache;
+import eu.scy.agents.groupformation.cache.GroupCache;
 
 public class ClusterStrategyTest {
 
@@ -27,7 +27,7 @@ public class ClusterStrategyTest {
 		strategy.setAvailableUsers(users);
 		strategy.setMinimumGroupSize(2);
 		strategy.setMaximumGroupSize(3);
-		GroupFormationCache groupFormationCache = new GroupFormationCache();
+		GroupCache groupFormationCache = new GroupCache();
 		strategy.setGroupFormationCache(groupFormationCache);
 	}
 
