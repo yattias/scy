@@ -106,6 +106,7 @@ public class DataCollector extends JPanel implements INotifiable, ActionListener
             debugLogger.info("setting action logger to " + tbi.getActionLogger());
             logger = new ScySimLogger(simquestViewer.getDataServer(), tbi.getActionLogger(), eloURI);
             logger.setUsername(tbi.getLoginUserName());
+            logger.setMissionname(tbi.getMissionRuntimeURI().toString());
         } else {
             debugLogger.info("setting action logger to DevNullActionLogger");
             logger = new ScySimLogger(simquestViewer.getDataServer(), new SystemOutActionLogger(), eloURI);
