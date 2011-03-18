@@ -1,0 +1,35 @@
+<elo>
+<metadata>
+  <lom>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/11/0/testELO.text</entry>
+      </identifier>
+      <title>
+        <string language="en">testELO</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <technical>
+      <format>scy/text</format>
+    </technical>
+    <lifecycle>
+      <version>0</version>
+    </lifecycle>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="binary">
+ZGl2aWRlZCBkaWZmZXJlbnQgdG9vayByZWZlcmVuY2UgdHlwZXMgZWxlY3RyaWNhbCBzdGFuZGFyZCBjZWlsaW5ncyBleGFtaW5lZCBweXJvbm9tZXRlciBuaWdodCByYWRpYXRpb24gdGVtcGVyYXR1cmUgaG91c2UgZHVjdHMgcmVzdWx0YW50IGFpciBwcm9ibGVtcyB0aW1lcyBkZWFsZXJzIGV4cGVjdCBzYXZpbmdzIHJlbWFpbmVkIHdhc2hlZCBhZG1pdHRlZGx5IHNldGJhY2sgbG9jYXRlZCBpbnRlcnZhbHMgYXZlcmFnZSBlbmVyZ3kgZXZlbmluZyB1bmxlc3Mgc3VtbWVyIHJlc3QgaG91c2VzIGhvdXNlIG1lbnRpb25lZCB0aW1lIGhvbWUgc3R5bGVzIGFwcGFyZW50IGlkZW50aWNhbCBjb25kZW5zYXRpb24gdGVtcGVyYXR1cmVzIGljZSBjaHJpcyBob3VzZSBzdHJlbmd0aGVuIHJhdGluZyBzdW1tZXIgaW5jcmVhc2VkIHRoZXJtb3N0YXQgY2xvdWR5IGhvdXNlIGRheXMgc2V0Zm9yd2FyZCB0aGVybW9zdGF0IHRvdGFsaW5nIDY0IHJlYWNoIHRyZW5kcyBzaGFwZWQgbGVhZCBhcmdvbmZpbGxlZCBxdWVzdGlvbiBob3VzZXMgc3VjY2VzcyBiYXNlbWVudCBmb2N1c2VzIHBhcnRseSB0aW1lIHN1cmZhY2UgbWVudGlvbmVkIHBvaW50IHNhdmluZ3MgYXBwYXJlbnQgZGlzY3Vzc2luZyBjYXZpdHkgbm90dGluZ2hhbSBzZXQgZWFybHkgaW5zdWxhdGluZyBpbnN1bGF0aW9uIGhvdXNlIHRpbWUgcmVwb3J0IHNldGZvcndhcmQgaG91c2UgZWFybHkgY29tcGxldGVseSBzdG9ybSBjb21tb24gdHJpYWxzIGNvbmRlbnNhdGlvbiBmZWVscyBzdXJmYWNlIGluZG9vciB0ZXN0IHNheXMgdm9sdW1l
+</content>
+<resources>
+</resources>
+</elo>
