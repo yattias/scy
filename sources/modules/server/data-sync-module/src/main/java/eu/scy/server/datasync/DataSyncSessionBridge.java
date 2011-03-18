@@ -69,7 +69,8 @@ public class DataSyncSessionBridge {
 		this.connection = connection;
 		muc = new MultiUserChat(connection, id);
 		muc.create(connection.getUser());
-		Form form = new Form(Form.TYPE_SUBMIT);
+		Form form = muc.getConfigurationForm();
+		form = form.createAnswerForm();
 		form.setAnswer("muc#roomconfig_persistentroom", true);
 		form.setAnswer("muc#roomconfig_enablelogging", true);
 		muc.sendConfigurationForm(form);
