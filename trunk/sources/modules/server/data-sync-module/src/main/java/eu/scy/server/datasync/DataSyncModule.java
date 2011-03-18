@@ -121,7 +121,14 @@ public class DataSyncModule extends SCYHubModule {
 				Collection<HostedRoom> hostedRooms = MultiUserChat.getHostedRooms(connection, serviceName);
 				for (HostedRoom hostedRoom : hostedRooms) {
 					final String sessionId = hostedRoom.getJid();
-					createDataSyncSessionBridge(sessionId);
+					DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId);
+		    		// first check if connection is still alive
+		    		if (!connection.isConnected()) {
+		    			connection.connect();
+		    		}
+		    		// try to connect the logger
+		    		dssl.join(connection);
+		    		bridges.put(sessionId, dssl);
 				}
 			} catch (Exception e) {
 				logger.error("Could not reconnect data sync bridges on restart of server", e);
@@ -172,8 +179,16 @@ public class DataSyncModule extends SCYHubModule {
         // prepare response to client
         SyncMessage response = new SyncMessage(Type.answer);
         try {
-        	// try to create session bridge
-        	createDataSyncSessionBridge(sessionId);
+        	// try to create session bridge with the random id
+    		DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId);
+    		// first check if connection is still alive
+    		if (!connection.isConnected()) {
+    			connection.connect();
+    		}
+    		// try to connect the logger
+    		dssl.connect(connection);
+    		bridges.put(sessionId, dssl);
+    		
             // if everything is okay we return success
             response.setEvent(Event.create);
             response.setResponse(Response.success);
@@ -186,20 +201,6 @@ public class DataSyncModule extends SCYHubModule {
         }
         return response;
     }
-
-	private DataSyncSessionBridge createDataSyncSessionBridge(String sessionId) throws Exception {
-		// create a session logger with the random id
-		DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId);
-		// first check if connection is still alive
-		if (!connection.isConnected()) {
-			connection.connect();
-		}
-		// try to connect the logger
-		dssl.connect(connection);
-		bridges.put(sessionId, dssl);
-		return dssl;
-	}
-
 
     @Override
     public void shutdown() {

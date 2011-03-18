@@ -74,12 +74,23 @@ public class DataSyncSessionBridge {
 		form.setAnswer("muc#roomconfig_persistentroom", true);
 		form.setAnswer("muc#roomconfig_enablelogging", true);
 		muc.sendConfigurationForm(form);
+		logger.debug("Successfully connected to MUC session");
 		
+		registerBridge(connection);
+	}
+	
+	public void join(XMPPConnection connection) throws Exception {
+		this.connection = connection;
+		muc = new MultiUserChat(connection, id);
+		muc.join(connection.getUser());
+		
+		registerBridge(connection);
+	}
+
+	private void registerBridge(XMPPConnection connection)
+			throws TupleSpaceException {
 		DataSyncPacketFilterListener packetFilterListener = new DataSyncPacketFilterListener(id);
         connection.addPacketListener(packetFilterListener, packetFilterListener);
-		
-		logger.debug("Successfully connected to MUC session");
-
 		sessionSpace = new TupleSpace(new User("SyncSessionBridge@" + id),
 				Configuration.getInstance().getSQLSpacesServerHost(),
 				Configuration.getInstance().getSQLSpacesServerPort(), id);
