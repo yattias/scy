@@ -1012,6 +1012,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         datasetModif = true;
         datasetTable.addUndo(new EditHeaderUndoRedo(datasetTable, this, controller, oldValue, value, oldUnit, unit, colIndex, oldDescription, description, oldType, type, oldFormula, formulaValue, oldScientificNotation, scientificNotation, oldNbShownDecimals, nbShownDecimals, oldNbSignificantDigits, nbSignificantDigits));
         dataProcessToolPanel.logEditHeader(dataset, oldHeader, newHeader);
+        this.controller.exportHTML();
         return true;
     }
 
@@ -1184,6 +1185,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         ArrayList<Integer> listIdRows = listRowAndCol[0];
         ArrayList<Integer> listIdColumns = listRowAndCol[1];
         dataProcessToolPanel.logDeleteDatas(dataset, listData, listRowAndCol[0], listRowAndCol[1],listOperation);
+        this.controller.exportHTML();
     }
 
     /* mise a jour d'un dataset */
@@ -1268,6 +1270,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
             dataProcessToolPanel.logInsertColumns(ds, nb, idBefore);
         else
             dataProcessToolPanel.logInsertRows(ds, nb, idBefore);
+        this.controller.exportHTML();
     }
 
 
