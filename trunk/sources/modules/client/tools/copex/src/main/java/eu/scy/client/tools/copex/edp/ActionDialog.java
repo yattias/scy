@@ -1648,17 +1648,17 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
 
     /* cut*/
     private void whiteboardCut(){
-        drawPanel.getWhiteBoardPanel().whiteboardCut();
+        //drawPanel.getWhiteBoardPanel().whiteboardCut();
     }
 
     /*copy*/
     private void whiteboardCopy(){
-        drawPanel.getWhiteBoardPanel().whiteboardCopy();
+        //drawPanel.getWhiteBoardPanel().whiteboardCopy();
     }
 
     /* paste */
     private void whiteboardPaste(){
-        drawPanel.getWhiteBoardPanel().whiteboardPaste();
+        //drawPanel.getWhiteBoardPanel().whiteboardPaste();
     }
     
 }
