@@ -7,10 +7,12 @@ package eu.scy.client.tools.copex.edp;
 
 import eu.scy.client.tools.copex.common.*;
 import eu.scy.client.tools.copex.utilities.ActionComment;
+import eu.scy.client.tools.copex.utilities.ActionMenuEvent;
 import eu.scy.client.tools.copex.utilities.CommentsPanel;
 import eu.scy.client.tools.copex.utilities.CopexReturn;
 import eu.scy.client.tools.copex.utilities.CopexUtilities;
 import eu.scy.client.tools.copex.utilities.MyConstants;
+import eu.scy.client.tools.copex.utilities.MyMenuItem;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -30,7 +32,7 @@ import org.jdom.Element;
  * dialog to add/edit an action
  * @author Marjolaine
  */
-public class ActionDialog extends JDialog implements ActionComment, ActionTaskRepeat{
+public class ActionDialog extends JDialog implements ActionComment, ActionTaskRepeat, ActionMenuEvent{
     /* fenetre mere */
     private EdPPanel edP;
     /* mode de visualisation  : ajout / modification */
@@ -115,6 +117,11 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
     private JScrollPane scrollPaneDraw;
     private TaskRepeatPanel taskRepeatPanel;
     private Dimension minDim = null;
+    private JPanel panelButtonsWhiteboard = null;
+    private MyMenuItem menuItemCopy = null;
+    private MyMenuItem menuItemPaste = null;
+    private MyMenuItem menuitemCut = null;
+
     
     private static final Logger logger = Logger.getLogger(ActionDialog.class.getName());
 
@@ -484,10 +491,11 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
             scrollPaneDraw = new JScrollPane();
             scrollPaneDraw.setName("scrollPaneDraw");
             scrollPaneDraw.setViewportView(getWhiteboardPanel());
-            int y = panelComments.getHeight()+panelComments.getY()+20 ;
-            if(labelImage != null){
-                y = labelImage.getY()+labelImage.getHeight()+20;
-            }
+//            int y = panelComments.getHeight()+panelComments.getY()+20 ;
+//            if(labelImage != null){
+//                y = labelImage.getY()+labelImage.getHeight()+20;
+//            }
+            int y = panelButtonsWhiteboard.getY()+panelButtonsWhiteboard.getHeight()+5;
             scrollPaneDraw.setBounds(posx,y,areaW,drawH);
         }
         return scrollPaneDraw;
@@ -518,8 +526,13 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
     private void removeWhiteboardPanel(){
         if(drawPanel != null){
             getContentPane().remove(scrollPaneDraw);
+            getContentPane().remove(panelButtonsWhiteboard);
             drawPanel = null;
             scrollPaneDraw = null;
+            panelButtonsWhiteboard = null;
+            menuItemCopy = null;
+            menuItemPaste = null;
+            menuitemCut = null;
         }
         setResizable(false);
     }
@@ -671,7 +684,9 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
             if(labelImage != null){
                 y = labelImage.getY()+labelImage.getHeight()+20;
             }
-            scrollPaneDraw.setBounds(scrollPaneDraw.getX(),y,scrollPaneDraw.getWidth(),scrollPaneDraw.getHeight());
+            panelButtonsWhiteboard.setBounds(panelButtonsWhiteboard.getX(),y,panelButtonsWhiteboard.getWidth(),panelButtonsWhiteboard.getHeight());
+            //scrollPaneDraw.setBounds(scrollPaneDraw.getX(),y,scrollPaneDraw.getWidth(),scrollPaneDraw.getHeight());
+            scrollPaneDraw.setBounds(scrollPaneDraw.getX(),5+panelButtonsWhiteboard.getY()+panelButtonsWhiteboard.getHeight(),scrollPaneDraw.getWidth(),scrollPaneDraw.getHeight());
         }
         // repositionne task repeat
         if(taskRepeatPanel != null){
@@ -1353,6 +1368,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
         removeWhiteboardPanel();
         if (visible){
             //getContentPane().add(getWhiteboardPanel());
+            getContentPane().add(getPanelButtonsWhiteboard());
             getContentPane().add(getScrollPaneDraw());
             setResizable(true);
         }
@@ -1421,7 +1437,8 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
                 y = labelImage.getY()+labelImage.getHeight()+20;
             }
             h = drawH+diffH ;
-            scrollPaneDraw.setBounds(scrollPaneDraw.getX(), y, newAreaW, h);
+            panelButtonsWhiteboard.setBounds(panelButtonsWhiteboard.getX(), y, panelButtonsWhiteboard.getWidth(), panelButtonsWhiteboard.getHeight());
+            scrollPaneDraw.setBounds(scrollPaneDraw.getX(),5+ panelButtonsWhiteboard.getY()+panelButtonsWhiteboard.getHeight(), newAreaW, h);
             scrollPaneDraw.revalidate();
         }
         if(taskRepeatPanel != null){
@@ -1579,6 +1596,69 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
         validDialog();
     }
 
-   
+    private JPanel getPanelButtonsWhiteboard(){
+        if(panelButtonsWhiteboard == null){
+            panelButtonsWhiteboard = new JPanel();
+            panelButtonsWhiteboard.setName("panelButtonsWhiteboard");
+            panelButtonsWhiteboard.setLayout(new FlowLayout(FlowLayout.LEFT));
+            panelButtonsWhiteboard.add(getWhiteboardButtonCopy());
+            panelButtonsWhiteboard.add(getWhiteboardButtonPaste());
+            panelButtonsWhiteboard.add(getWhiteboardButtonCut());
+            int y = panelComments.getHeight()+panelComments.getY()+20 ;
+            if(labelImage != null){
+                y = labelImage.getY()+labelImage.getHeight()+20;
+            }
+            panelButtonsWhiteboard.setBounds(posx,y,areaW,30);
+        }
+        return panelButtonsWhiteboard;
+    }
+
+    private MyMenuItem getWhiteboardButtonCopy(){
+        if(menuItemCopy == null){
+            menuItemCopy = new MyMenuItem(edP.getBundleString("TOOLTIPTEXT_WHITEBOARD_COPY"),panelButtonsWhiteboard.getBackground(),edP.getCopexImage("Bouton-AdT-28_copier.png"), edP.getCopexImage("Bouton-AdT-28_copier_survol.png"), edP.getCopexImage("Bouton-AdT-28_copier_clic.png"), edP.getCopexImage("Bouton-AdT-28_copier_grise.png"));
+            menuItemCopy.addActionMenuEvent(this);
+        }
+        return menuItemCopy;
+    }
+    private MyMenuItem getWhiteboardButtonPaste(){
+        if(menuItemPaste == null){
+            menuItemPaste = new MyMenuItem(edP.getBundleString("TOOLTIPTEXT_WHITEBOARD_PASTE"),panelButtonsWhiteboard.getBackground(),edP.getCopexImage("Bouton-AdT-28_coller.png"), edP.getCopexImage("Bouton-AdT-28_coller_survol.png"), edP.getCopexImage("Bouton-AdT-28_coller_clic.png"), edP.getCopexImage("Bouton-AdT-28_coller_grise.png"));
+            menuItemPaste.addActionMenuEvent(this);
+        }
+        return menuItemPaste;
+    }
+    private MyMenuItem getWhiteboardButtonCut(){
+        if(menuitemCut == null){
+            menuitemCut = new MyMenuItem(edP.getBundleString("TOOLTIPTEXT_WHITEBOARD_CUT"),panelButtonsWhiteboard.getBackground(),edP.getCopexImage("Bouton-AdT-28_couper.png"), edP.getCopexImage("Bouton-AdT-28_couper_survol.png"), edP.getCopexImage("Bouton-AdT-28_couper_clic.png"), edP.getCopexImage("Bouton-AdT-28_couper_grise.png"));
+            menuitemCut.addActionMenuEvent(this);
+        }
+        return menuitemCut;
+    }
+
+    @Override
+    public void doMenuItemMousePressed(MyMenuItem menu) {
+        if(menuItemCopy.equals(menu)){
+            whiteboardCopy();
+        }else if(menuItemPaste.equals(menu)){
+            whiteboardPaste();
+        }else if (menuitemCut.equals(menu)){
+            whiteboardCut();
+        }
+    }
+
+    /* cut*/
+    private void whiteboardCut(){
+        drawPanel.getWhiteBoardPanel().whiteboardCut();
+    }
+
+    /*copy*/
+    private void whiteboardCopy(){
+        drawPanel.getWhiteBoardPanel().whiteboardCopy();
+    }
+
+    /* paste */
+    private void whiteboardPaste(){
+        drawPanel.getWhiteBoardPanel().whiteboardPaste();
+    }
     
 }

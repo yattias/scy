@@ -276,7 +276,7 @@ public class CopexHTML {
         if(task.getDraw() != null){
             if(task.getDraw() .getChild("whiteboardContainers") == null || (task.getDraw() .getChild("whiteboardContainers") != null && task.getDraw() .getChild("whiteboardContainers").getContentSize() > 0)){
             taskTable += "<tr>\n";
-            taskTable += "<td > <span class='task_draw'>\n";
+            taskTable += "<td > <span class='task_draw' style=\"width: 100%;\">\n";
             String fileName = "labdoc-task-"+task.getDbKey()+".png";
             taskTable += "<img src=\"../tools_utilities/InterfaceServer/labdoc/"+fileName+"\" alt=\"Dessin\" >\n";
             taskTable += "</span></td>\n";
