@@ -835,9 +835,9 @@ public class DataControllerDB implements ControllerInterface{
                 }
             }
         }
-        cr = exportHTML(dataset);
-        if(cr.isError())
-            return cr;
+//        cr = exportHTML(dataset);
+//        if(cr.isError())
+//            return cr;
         cr = updateLabdocStatus();
         if(cr.isError())
             return cr;
@@ -1295,6 +1295,9 @@ public class DataControllerDB implements ControllerInterface{
             cr = DatasetFromDB.updateDatasetMatriceInDB(dbC, dataset.getDbKey(),dataset.getNbRows(), dataset.getNbCol());
             if(cr.isError())
                 return cr;
+            cr = DatasetFromDB.updateNoInDB(dbC, dataset);
+            if (cr.isError())
+                return cr;
             dataset.removeData(listData);
             cr = computeAllData(dataset);
             if(cr.isError())
@@ -1305,10 +1308,10 @@ public class DataControllerDB implements ControllerInterface{
             v.add((Dataset)dataset.clone());
             v.add(tabDel);
         }
-        CopexReturn cr = exportHTML(dataset);
-        if(cr.isError())
-            return cr;
-        cr = updateLabdocStatus();
+//        CopexReturn cr = exportHTML(dataset);
+//        if(cr.isError())
+//            return cr;
+        CopexReturn cr = updateLabdocStatus();
         if(cr.isError())
             return cr;
         return new CopexReturn();
@@ -1438,7 +1441,7 @@ public class DataControllerDB implements ControllerInterface{
             for(int j=0; j<nb; j++){
                 ArrayList v2 = new ArrayList();
                 int no = listNoDefaultCol.get(idDs);
-                cr= updateDataHeader(ds, true, idBefore+j, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_NAME")+(no+1), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_UNIT"), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_DESCRIPTION"),DataConstants.DEFAULT_TYPE_COLUMN, null, null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED, v2);
+                cr= updateDataHeader(dataset, true, idBefore+j, this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_NAME")+(no+1), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_UNIT"), this.dataToolPanel.getBundleString("DEFAULT_DATAHEADER_DESCRIPTION"),DataConstants.DEFAULT_TYPE_COLUMN, null, null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED, v2);
                 if(cr.isError())
                     return cr;
                 listNoDefaultCol.set(idDs, no+1);
@@ -1449,9 +1452,9 @@ public class DataControllerDB implements ControllerInterface{
         cr = DatasetFromDB.updateNoInDB(dbC, dataset);
         if (cr.isError())
             return cr;
-        cr = exportHTML(dataset);
-        if(cr.isError())
-            return cr;
+//        cr = exportHTML(dataset);
+//        if(cr.isError())
+//            return cr;
         cr = updateLabdocStatus();
         if(cr.isError())
             return cr;

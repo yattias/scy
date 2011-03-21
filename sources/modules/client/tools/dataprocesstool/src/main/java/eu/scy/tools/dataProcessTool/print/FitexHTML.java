@@ -290,6 +290,8 @@ public class FitexHTML {
     private void setFitexGraph(Graph graph, DrawPanel drawPanel, int noVis){
         if(graph == null )
             return;
+        if(drawPanel.getWidth() == 0 || drawPanel.getHeight() == 0)
+            return;
         BufferedImage outImage=new BufferedImage(drawPanel.getWidth(),drawPanel.getHeight(),BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics=outImage.createGraphics();
         drawPanel.paint(graphics);
