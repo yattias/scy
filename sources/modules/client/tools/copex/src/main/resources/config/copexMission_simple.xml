@@ -18,19 +18,19 @@
         <evaluation_mode>M</evaluation_mode>
         <draw_principle>false</draw_principle>
         <is_task_repeat>false</is_task_repeat>
-        <is_task_draw>true</is_task_draw>
+        <is_task_draw>false</is_task_draw>
         <is_free_action>true</is_free_action>
         <is_task>false</is_task>
         <strategy_ref>
             <code>S4</code>
         </strategy_ref>
-        <!--initial_named_action>
+        <initial_named_action>
             <id>TEST_ACTION_DRAW</id>
             <libelle language="fr">Montage du schéma</libelle>
             <is_setting>false</is_setting>
             <draw>true</draw>
             <repeat>false</repeat>
-        </initial_named_action-->
+        </initial_named_action>
         <question>
             <description language="fr"></description>
             <description language="en"></description>

@@ -7,7 +7,6 @@ package eu.scy.client.tools.copex.utilities;
 
 
 
-import eu.scy.client.tools.copex.edp.EdPPanel;
 import java.awt.event.*;
 import javax.swing.*;
 import java.awt.*;
@@ -17,21 +16,18 @@ import java.awt.*;
  * @author MBO 
  */
 public class MyMenuItem extends JMenuItem implements  MouseListener {
-    // ATTRIBUTS
     private Image bg ;
     private Color bgColor;
-    private EdPPanel edP;
     private ImageIcon img;
     private ImageIcon imgSurvol;
     private ImageIcon imgClic;
     private ImageIcon imgDisabled;
     private String toolTipText;
     private boolean isEnabled;
+    private ActionMenuEvent action;
 
-    // CONSTRUCTEURS
-    public MyMenuItem(EdPPanel edP, String toolTipText, Color bcolor, ImageIcon img, ImageIcon imgSurvol, ImageIcon imgClic, ImageIcon imgDisabled) {
+    public MyMenuItem(String toolTipText, Color bcolor, ImageIcon img, ImageIcon imgSurvol, ImageIcon imgClic, ImageIcon imgDisabled) {
         //super(null, img);
-        this.edP = edP;
         this.bgColor = bcolor;
         this.bg = img.getImage();
         this.img = img;
@@ -66,22 +62,28 @@ public class MyMenuItem extends JMenuItem implements  MouseListener {
         g.drawImage(bg, 0, 0, null);
     }
 
-     // EVENEMENTS SOURIS
+    public void addActionMenuEvent(ActionMenuEvent action){
+        this.action = action;
+    }
+
+    @Override
     public void mouseClicked(MouseEvent e) {
         
     }
 
+    @Override
     public void mousePressed(MouseEvent e) {
         if (isEnabled){
             bg = this.imgClic.getImage();
             repaint();
-            if(edP != null)
-                this.edP.clickMenuEvent(this);
+            if(action != null)
+                this.action.doMenuItemMousePressed(this);
             bg = this.img.getImage();
             repaint();
         }
     }
 
+    @Override
     public void mouseReleased(MouseEvent e) {
         if (isEnabled){
             bg = this.img.getImage();
@@ -89,6 +91,7 @@ public class MyMenuItem extends JMenuItem implements  MouseListener {
         }
     }
 
+    @Override
     public void mouseEntered(MouseEvent e) {
         if (isEnabled){
             bg = this.imgSurvol.getImage();
@@ -96,6 +99,7 @@ public class MyMenuItem extends JMenuItem implements  MouseListener {
         }
     }
 
+    @Override
     public void mouseExited(MouseEvent e) {
         if (isEnabled){
             bg = this.img.getImage();
@@ -106,7 +110,6 @@ public class MyMenuItem extends JMenuItem implements  MouseListener {
     
     
 
-    // OPERATIONS 
     @Override
     public void setEnabled(boolean b) {
        super.setEnabled(b);
@@ -121,7 +124,7 @@ public class MyMenuItem extends JMenuItem implements  MouseListener {
         repaint();
     }
 
-    /* remplacement de l'icone */
+    /* replace the image */
     public void setItemIcon(ImageIcon newImg){
         this.img = newImg;
         this.bg = newImg.getImage();

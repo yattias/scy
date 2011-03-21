@@ -45,7 +45,7 @@ import org.jdom.output.XMLOutputter;
  * panel copex : menu and tree
  * @author Marjolaine
  */
-public class EdPPanel extends JPanel {
+public class EdPPanel extends JPanel implements ActionMenuEvent{
     private CopexPanel copexPanel;
     private ControllerInterface controller;
     // proc
@@ -238,7 +238,8 @@ public class EdPPanel extends JPanel {
     }
     private MyMenuItem getMenuItemSave(){
         if (menuItemSave == null){
-            menuItemSave = new MyMenuItem(this, getBundleString("TOOLTIPTEXT_MENU_SAVE"), menuBar.getBackground(),getCopexImage("Bouton-AdT-28_save.png"), getCopexImage("Bouton-AdT-28_save_survol.png"),  getCopexImage("Bouton-AdT-28_save_clic.png"), getCopexImage("Bouton-AdT-28_save_grise.png"));
+            menuItemSave = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_SAVE"), menuBar.getBackground(),getCopexImage("Bouton-AdT-28_save.png"), getCopexImage("Bouton-AdT-28_save_survol.png"),  getCopexImage("Bouton-AdT-28_save_clic.png"), getCopexImage("Bouton-AdT-28_save_grise.png"));
+            menuItemSave.addActionMenuEvent(this);
             menuItemSave.setBounds(0, 0, menuItemSave.getWidth(), menuItemSave.getHeight());
         }
         return menuItemSave;
@@ -246,7 +247,8 @@ public class EdPPanel extends JPanel {
 
     private MyMenuItem getMenuItemHypothesis(){
         if (menuItemHypothesis == null){
-            menuItemHypothesis = new MyMenuItem(this, getBundleString("TOOLTIPTEXT_MENU_HYPOTHESIS"), menuBar.getBackground(),getCopexImage("Bouton-AdT-28_hypothesis.png"), getCopexImage("Bouton-AdT-28_hypothesis_survol.png"),  getCopexImage("Bouton-AdT-28_hypothesis_clic.png"), getCopexImage("Bouton-AdT-28_hypothesis_grise.png"));
+            menuItemHypothesis = new MyMenuItem( getBundleString("TOOLTIPTEXT_MENU_HYPOTHESIS"), menuBar.getBackground(),getCopexImage("Bouton-AdT-28_hypothesis.png"), getCopexImage("Bouton-AdT-28_hypothesis_survol.png"),  getCopexImage("Bouton-AdT-28_hypothesis_clic.png"), getCopexImage("Bouton-AdT-28_hypothesis_grise.png"));
+            menuItemHypothesis.addActionMenuEvent(this);
             int x = 0;
             if(copexPanel.canSave()){
                 x = sep1.getX()+sep1.getWidth();
@@ -257,7 +259,8 @@ public class EdPPanel extends JPanel {
     }
     private MyMenuItem getMenuItemPrinciple(){
         if (menuItemPrinciple == null){
-            menuItemPrinciple = new MyMenuItem(this, getBundleString("TOOLTIPTEXT_MENU_PRINCIPLE"), menuBar.getBackground(),getCopexImage("Bouton-AdT-28_principle.png"), getCopexImage("Bouton-AdT-28_principle_survol.png"),  getCopexImage("Bouton-AdT-28_principle_clic.png"), getCopexImage("Bouton-AdT-28_principle_grise.png"));
+            menuItemPrinciple = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_PRINCIPLE"), menuBar.getBackground(),getCopexImage("Bouton-AdT-28_principle.png"), getCopexImage("Bouton-AdT-28_principle_survol.png"),  getCopexImage("Bouton-AdT-28_principle_clic.png"), getCopexImage("Bouton-AdT-28_principle_grise.png"));
+            menuItemPrinciple.addActionMenuEvent(this);
             int x = 0;
             if(copexPanel.canSave()){
                 x = sep1.getX()+sep1.getWidth();
@@ -271,7 +274,8 @@ public class EdPPanel extends JPanel {
     }
     private MyMenuItem getMenuItemEvaluation(){
         if (menuItemEvaluation == null){
-            menuItemEvaluation = new MyMenuItem(this, getBundleString("TOOLTIPTEXT_MENU_EVALUATION"), menuBar.getBackground(),getCopexImage("Bouton-AdT-28_evaluation.png"), getCopexImage("Bouton-AdT-28_evaluation_survol.png"),  getCopexImage("Bouton-AdT-28_evaluation_clic.png"), getCopexImage("Bouton-AdT-28_evaluation_grise.png"));
+            menuItemEvaluation = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_EVALUATION"), menuBar.getBackground(),getCopexImage("Bouton-AdT-28_evaluation.png"), getCopexImage("Bouton-AdT-28_evaluation_survol.png"),  getCopexImage("Bouton-AdT-28_evaluation_clic.png"), getCopexImage("Bouton-AdT-28_evaluation_grise.png"));
+            menuItemEvaluation.addActionMenuEvent(this);
             int x = 0;
             if(copexPanel.canSave()){
                 x = sep1.getX()+sep1.getWidth();
@@ -300,7 +304,8 @@ public class EdPPanel extends JPanel {
     }
      private MyMenuItem getMenuItemComm(){
         if (menuItemComm == null){
-            menuItemComm = new MyMenuItem(this, getBundleString("TOOLTIPTEXT_MENU_COMM"),menuBar.getBackground(),getCopexImage("Bouton-AdT-28_comment_clic.png"), getCopexImage("Bouton-AdT-28_comment_clicsur.png"), getCopexImage("Bouton-AdT-28_comment_clic.png"), getCopexImage("Bouton-AdT-28_comment_grise.png"));
+            menuItemComm = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_COMM"),menuBar.getBackground(),getCopexImage("Bouton-AdT-28_comment_clic.png"), getCopexImage("Bouton-AdT-28_comment_clicsur.png"), getCopexImage("Bouton-AdT-28_comment_clic.png"), getCopexImage("Bouton-AdT-28_comment_grise.png"));
+            menuItemComm.addActionMenuEvent(this);
             int x = 0;
             if(copexPanel.canSave()){
                 x = sep1.getX()+sep1.getWidth();
@@ -318,7 +323,8 @@ public class EdPPanel extends JPanel {
     }
      private MyMenuItem getMenuItemUndo(){
         if (menuItemUndo == null){
-            menuItemUndo = new MyMenuItem(this, getBundleString("TOOLTIPTEXT_MENU_UNDO"),menuBar.getBackground(),getCopexImage("Bouton-AdT-28_undo.png"), getCopexImage("Bouton-AdT-28_undo_survol.png"), getCopexImage("Bouton-AdT-28_undo_clic.png"), getCopexImage("Bouton-AdT-28_undo_grise.png"));
+            menuItemUndo = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_UNDO"),menuBar.getBackground(),getCopexImage("Bouton-AdT-28_undo.png"), getCopexImage("Bouton-AdT-28_undo_survol.png"), getCopexImage("Bouton-AdT-28_undo_clic.png"), getCopexImage("Bouton-AdT-28_undo_grise.png"));
+            menuItemUndo.addActionMenuEvent(this);
             menuItemUndo.setBounds(sep2.getX()+sep2.getWidth(), 0, menuItemUndo.getWidth(), menuItemUndo.getHeight());
         }
         return menuItemUndo;
@@ -326,14 +332,16 @@ public class EdPPanel extends JPanel {
 
      private MyMenuItem getMenuItemRedo(){
         if (menuItemRedo == null){
-            menuItemRedo = new MyMenuItem(this, getBundleString("TOOLTIPTEXT_MENU_REDO"),menuBar.getBackground(),getCopexImage("Bouton-AdT-28_redo.png"), getCopexImage("Bouton-AdT-28_redo_survol.png"), getCopexImage("Bouton-AdT-28_redo_clic.png"),getCopexImage("Bouton-AdT-28_redo_grise.png"));
+            menuItemRedo = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_REDO"),menuBar.getBackground(),getCopexImage("Bouton-AdT-28_redo.png"), getCopexImage("Bouton-AdT-28_redo_survol.png"), getCopexImage("Bouton-AdT-28_redo_clic.png"),getCopexImage("Bouton-AdT-28_redo_grise.png"));
+            menuItemRedo.addActionMenuEvent(this);
             menuItemRedo.setBounds(menuItemUndo.getX()+menuItemUndo.getWidth(), 0, menuItemRedo.getWidth(), menuItemRedo.getHeight());
         }
         return menuItemRedo;
     }
      private MyMenuItem getMenuItemHelp(){
         if (menuItemHelp == null){
-            menuItemHelp = new MyMenuItem(this, getBundleString("TOOLTIPTEXT_MENU_HELP"),menuBar.getBackground(),getCopexImage("Bouton-AdT-28_help.png"), getCopexImage("Bouton-AdT-28_help_survol.png"), getCopexImage("Bouton-AdT-28_help_clic.png"), getCopexImage("Bouton-AdT-28_help.png"));
+            menuItemHelp = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_HELP"),menuBar.getBackground(),getCopexImage("Bouton-AdT-28_help.png"), getCopexImage("Bouton-AdT-28_help_survol.png"), getCopexImage("Bouton-AdT-28_help_clic.png"), getCopexImage("Bouton-AdT-28_help.png"));
+            menuItemHelp.addActionMenuEvent(this);
             int x = sep3.getX()+sep3.getWidth();
             if(copexPanel.canPrint())
                 x = menuItemPrint.getX()+menuItemPrint.getWidth();
@@ -344,7 +352,8 @@ public class EdPPanel extends JPanel {
 
      private MyMenuItem getMenuItemPrint(){
         if (menuItemPrint == null){
-            menuItemPrint = new MyMenuItem(this, getBundleString("TOOLTIPTEXT_MENU_PRINT"),menuBar.getBackground(),getCopexImage("Bouton-AdT-28_pdf.png"), getCopexImage("Bouton-AdT-28_pdf_survol.png"), getCopexImage("Bouton-AdT-28_pdf_clic.png"), getCopexImage("Bouton-AdT-28_pdf_grise.png"));
+            menuItemPrint = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_PRINT"),menuBar.getBackground(),getCopexImage("Bouton-AdT-28_pdf.png"), getCopexImage("Bouton-AdT-28_pdf_survol.png"), getCopexImage("Bouton-AdT-28_pdf_clic.png"), getCopexImage("Bouton-AdT-28_pdf_grise.png"));
+            menuItemPrint.addActionMenuEvent(this);
             menuItemPrint.setSize(menuItemPrint.getWidth(), menuItemPrint.getHeight());
             menuItemPrint.setPreferredSize(new Dimension(menuItemPrint.getWidth(), menuItemPrint.getHeight()));
             menuItemPrint.setBounds(sep3.getX()+sep3.getWidth(), 0, menuItemPrint.getWidth(), menuItemPrint.getHeight());
@@ -356,7 +365,8 @@ public class EdPPanel extends JPanel {
         if (menuItem1 == null){
             String toolTipText = getBundleString("TOOLTIPTEXT_MENU_ARBO");
             toolTipText = CopexUtilities.replace(toolTipText, 0, "1");
-            menuItem1 = new MyMenuItem(this, toolTipText,menuBar.getBackground(),getCopexImage("Bouton-AdT-28_1.png"), getCopexImage("Bouton-AdT-28_1_survol.png"),getCopexImage("Bouton-AdT-28_1_clic.png"), getCopexImage("Bouton-AdT-28_1na.png"));
+            menuItem1 = new MyMenuItem(toolTipText,menuBar.getBackground(),getCopexImage("Bouton-AdT-28_1.png"), getCopexImage("Bouton-AdT-28_1_survol.png"),getCopexImage("Bouton-AdT-28_1_clic.png"), getCopexImage("Bouton-AdT-28_1na.png"));
+            menuItem1.addActionMenuEvent(this);
             menuItem1.setSize(menuItem1.getWidth(), menuItem1.getHeight());
             menuItem1.setPreferredSize(new Dimension(menuItem1.getWidth(), menuItem1.getHeight()));
             menuItem1.setBounds(0, 0, menuItem1.getWidth(), menuItem1.getHeight());
@@ -367,7 +377,8 @@ public class EdPPanel extends JPanel {
         if (menuItem2 == null){
             String toolTipText = getBundleString("TOOLTIPTEXT_MENU_ARBO");
             toolTipText = CopexUtilities.replace(toolTipText, 0, "2");
-            menuItem2 = new MyMenuItem(this, toolTipText,menuBar.getBackground(),getCopexImage("Bouton-AdT-28_2.png"), getCopexImage("Bouton-AdT-28_2_survol.png"), getCopexImage("Bouton-AdT-28_2_clic.png"), getCopexImage("Bouton-AdT-28_2na.png"));
+            menuItem2 = new MyMenuItem(toolTipText,menuBar.getBackground(),getCopexImage("Bouton-AdT-28_2.png"), getCopexImage("Bouton-AdT-28_2_survol.png"), getCopexImage("Bouton-AdT-28_2_clic.png"), getCopexImage("Bouton-AdT-28_2na.png"));
+            menuItem2.addActionMenuEvent(this);
             menuItem2.setSize(menuItem2.getWidth(), menuItem2.getHeight());
             menuItem2.setPreferredSize(new Dimension(menuItem2.getWidth(), menuItem2.getHeight()));
             menuItem2.setBounds(0, menuItem1.getHeight(), menuItem2.getWidth(), menuItem2.getHeight());
@@ -378,7 +389,8 @@ public class EdPPanel extends JPanel {
         if (menuItem3 == null){
             String toolTipText = getBundleString("TOOLTIPTEXT_MENU_ARBO");
             toolTipText = CopexUtilities.replace(toolTipText, 0, "3");
-            menuItem3 = new MyMenuItem(this, toolTipText,menuBar.getBackground(),getCopexImage("Bouton-AdT-28_3.png"), getCopexImage("Bouton-AdT-28_3_survol.png"), getCopexImage("Bouton-AdT-28_3_clic.png"), getCopexImage("Bouton-AdT-28_3na.png"));
+            menuItem3 = new MyMenuItem(toolTipText,menuBar.getBackground(),getCopexImage("Bouton-AdT-28_3.png"), getCopexImage("Bouton-AdT-28_3_survol.png"), getCopexImage("Bouton-AdT-28_3_clic.png"), getCopexImage("Bouton-AdT-28_3na.png"));
+            menuItem3.addActionMenuEvent(this);
             menuItem3.setSize(menuItem3.getWidth(), menuItem3.getHeight());
             menuItem3.setPreferredSize(new Dimension(menuItem3.getWidth(), menuItem3.getHeight()));
             menuItem3.setBounds(0, menuItem2.getHeight(), menuItem3.getWidth(), menuItem3.getHeight());
@@ -389,7 +401,8 @@ public class EdPPanel extends JPanel {
         if (menuItem4 == null){
             String toolTipText = getBundleString("TOOLTIPTEXT_MENU_ARBO");
             toolTipText = CopexUtilities.replace(toolTipText, 0, "4");
-            menuItem4 = new MyMenuItem(this, toolTipText,menuBar.getBackground(),getCopexImage("Bouton-AdT-28_4.png"), getCopexImage("Bouton-AdT-28_4_survol.png"), getCopexImage("Bouton-AdT-28_4_clic.png"), getCopexImage("Bouton-AdT-28_4na.png"));
+            menuItem4 = new MyMenuItem(toolTipText,menuBar.getBackground(),getCopexImage("Bouton-AdT-28_4.png"), getCopexImage("Bouton-AdT-28_4_survol.png"), getCopexImage("Bouton-AdT-28_4_clic.png"), getCopexImage("Bouton-AdT-28_4na.png"));
+            menuItem4.addActionMenuEvent(this);
             menuItem4.setSize(menuItem4.getWidth(), menuItem4.getHeight());
             menuItem4.setPreferredSize(new Dimension(menuItem4.getWidth(), menuItem4.getHeight()));
             menuItem4.setBounds(0, menuItem3.getHeight(), menuItem4.getWidth(), menuItem4.getHeight());
@@ -400,7 +413,8 @@ public class EdPPanel extends JPanel {
         if (menuItem5 == null){
             String toolTipText = getBundleString("TOOLTIPTEXT_MENU_ARBO");
             toolTipText = CopexUtilities.replace(toolTipText, 0, "5");
-            menuItem5 = new MyMenuItem(this, toolTipText,menuBar.getBackground(),getCopexImage("Bouton-AdT-28_5.png"), getCopexImage("Bouton-AdT-28_5_survol.png"), getCopexImage("Bouton-AdT-28_5_clic.png"), getCopexImage("Bouton-AdT-28_5na.png"));
+            menuItem5 = new MyMenuItem(toolTipText,menuBar.getBackground(),getCopexImage("Bouton-AdT-28_5.png"), getCopexImage("Bouton-AdT-28_5_survol.png"), getCopexImage("Bouton-AdT-28_5_clic.png"), getCopexImage("Bouton-AdT-28_5na.png"));
+            menuItem5.addActionMenuEvent(this);
             menuItem5.setSize(menuItem5.getWidth(), menuItem5.getHeight());
             menuItem5.setPreferredSize(new Dimension(menuItem5.getWidth(), menuItem5.getHeight()));
             menuItem5.setBounds(0, menuItem4.getHeight(), menuItem5.getWidth(), menuItem5.getHeight());
@@ -411,7 +425,8 @@ public class EdPPanel extends JPanel {
         if (menuItem6 == null){
             String toolTipText = getBundleString("TOOLTIPTEXT_MENU_ARBO");
             toolTipText = CopexUtilities.replace(toolTipText, 0, "6");
-            menuItem6 = new MyMenuItem(this, toolTipText,menuBar.getBackground(),getCopexImage("Bouton-AdT-28_6.png"), getCopexImage("Bouton-AdT-28_6_survol.png"), getCopexImage("Bouton-AdT-28_6_clic.png"), getCopexImage("Bouton-AdT-28_6na.png"));
+            menuItem6 = new MyMenuItem(toolTipText,menuBar.getBackground(),getCopexImage("Bouton-AdT-28_6.png"), getCopexImage("Bouton-AdT-28_6_survol.png"), getCopexImage("Bouton-AdT-28_6_clic.png"), getCopexImage("Bouton-AdT-28_6na.png"));
+            menuItem6.addActionMenuEvent(this);
             menuItem6.setSize(menuItem6.getWidth(), menuItem6.getHeight());
             menuItem6.setPreferredSize(new Dimension(menuItem6.getWidth(), menuItem6.getHeight()));
             menuItem6.setBounds(0, menuItem5.getHeight(), menuItem6.getWidth(), menuItem6.getHeight());
@@ -422,7 +437,8 @@ public class EdPPanel extends JPanel {
         if (menuItem7 == null){
             String toolTipText = getBundleString("TOOLTIPTEXT_MENU_ARBO");
             toolTipText = CopexUtilities.replace(toolTipText, 0, "7");
-            menuItem7 = new MyMenuItem(this, toolTipText,menuBar.getBackground(),getCopexImage("Bouton-AdT-28_7.png"), getCopexImage("Bouton-AdT-28_7_survol.png"), getCopexImage("Bouton-AdT-28_7_clic.png"), getCopexImage("Bouton-AdT-28_7na.png"));
+            menuItem7 = new MyMenuItem(toolTipText,menuBar.getBackground(),getCopexImage("Bouton-AdT-28_7.png"), getCopexImage("Bouton-AdT-28_7_survol.png"), getCopexImage("Bouton-AdT-28_7_clic.png"), getCopexImage("Bouton-AdT-28_7na.png"));
+            menuItem7.addActionMenuEvent(this);
             menuItem7.setSize(menuItem7.getWidth(), menuItem7.getHeight());
             menuItem7.setPreferredSize(new Dimension(menuItem7.getWidth(), menuItem7.getHeight()));
             menuItem7.setBounds(0, menuItem6.getHeight(), menuItem7.getWidth(), menuItem7.getHeight());
@@ -434,7 +450,8 @@ public class EdPPanel extends JPanel {
         if (menuItem8 == null){
             String toolTipText = getBundleString("TOOLTIPTEXT_MENU_ARBO");
             toolTipText = CopexUtilities.replace(toolTipText, 0, "8");
-            menuItem8 = new MyMenuItem(this, toolTipText,menuBar.getBackground(),getCopexImage("Bouton-AdT-28_8.png"), getCopexImage("Bouton-AdT-28_8_survol.png"), getCopexImage("Bouton-AdT-28_8_clic.png"), getCopexImage("Bouton-AdT-28_8na.png"));
+            menuItem8 = new MyMenuItem(toolTipText,menuBar.getBackground(),getCopexImage("Bouton-AdT-28_8.png"), getCopexImage("Bouton-AdT-28_8_survol.png"), getCopexImage("Bouton-AdT-28_8_clic.png"), getCopexImage("Bouton-AdT-28_8na.png"));
+            menuItem8.addActionMenuEvent(this);
             menuItem8.setSize(menuItem8.getWidth(), menuItem8.getHeight());
             menuItem8.setPreferredSize(new Dimension(menuItem8.getWidth(), menuItem8.getHeight()));
             menuItem8.setBounds(0, menuItem7.getHeight(), menuItem8.getWidth(), menuItem8.getHeight());
@@ -445,7 +462,8 @@ public class EdPPanel extends JPanel {
         if (menuItem9 == null){
             String toolTipText = getBundleString("TOOLTIPTEXT_MENU_ARBO");
             toolTipText = CopexUtilities.replace(toolTipText, 0, "9");
-            menuItem9 = new MyMenuItem(this, toolTipText,menuBar.getBackground(),getCopexImage("Bouton-AdT-28_9.png"), getCopexImage("Bouton-AdT-28_9_survol.png"), getCopexImage("Bouton-AdT-28_9_clic.png"), getCopexImage("Bouton-AdT-28_9na.png"));
+            menuItem9 = new MyMenuItem(toolTipText,menuBar.getBackground(),getCopexImage("Bouton-AdT-28_9.png"), getCopexImage("Bouton-AdT-28_9_survol.png"), getCopexImage("Bouton-AdT-28_9_clic.png"), getCopexImage("Bouton-AdT-28_9na.png"));
+            menuItem9.addActionMenuEvent(this);
             menuItem9.setSize(menuItem9.getWidth(), menuItem9.getHeight());
             menuItem9.setPreferredSize(new Dimension(menuItem9.getWidth(), menuItem9.getHeight()));
             menuItem9.setBounds(0, menuItem8.getHeight(), menuItem9.getWidth(), menuItem9.getHeight());
@@ -1901,6 +1919,11 @@ public class EdPPanel extends JPanel {
         copexTree.setSize(128,128);
         return copexTree;
 
+    }
+
+    @Override
+    public void doMenuItemMousePressed(MyMenuItem menuItem) {
+        clickMenuEvent(menuItem);
     }
 
 }
