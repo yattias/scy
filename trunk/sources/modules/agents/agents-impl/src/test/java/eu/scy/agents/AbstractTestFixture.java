@@ -54,7 +54,7 @@ public class AbstractTestFixture {
 	private TupleSpace tupleSpace;
 	private PersistentStorage storage;
 	private TupleSpace actionSpace;
-	private static ClassPathXmlApplicationContext applicationContext;
+	protected static ClassPathXmlApplicationContext applicationContext;
 
 	public AbstractTestFixture() {
 	}
