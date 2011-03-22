@@ -136,22 +136,29 @@ private void learnTopicModel(int numberOfTopics, InstanceList instanceList) {
   }
 
   public static void main(String[] args) throws IOException {
-    InputStream in = TopicModelTool.class.getResourceAsStream("/mission1_texts/English/content.lst");
+//    InputStream in = TopicModelTool.class.getResourceAsStream("/mission1_texts/English/content.lst");
+//    InputStream in = TopicModelTool.class.getResourceAsStream("/mission2_texts/English/content.lst");
+    InputStream in = TopicModelTool.class.getResourceAsStream("/mission3_texts/English/content.lst");
     // .getResourceAsStream("/mission1_texts/Estonian/content.lst");
     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
     String line = "";
     List<Reader> inputStreams = new ArrayList<Reader>();
     while ((line = reader.readLine()) != null) {
       inputStreams.add(new InputStreamReader(
-                                             TopicModelTool.class.getResourceAsStream("/mission1_texts/English/"
-                                                                                      + line.trim())));
+//                                             TopicModelTool.class.getResourceAsStream("/mission1_texts/English/"
+//                                                                                      + line.trim())));
+//      TopicModelTool.class.getResourceAsStream("/mission2_texts/English/"
+//                                               + line.trim())));
+      TopicModelTool.class.getResourceAsStream("/mission3_texts/English/"
+                                               + line.trim())));
       // .getResourceAsStream("/mission1_texts/Estonian/"
       // + line.trim())));
     }
 
     TopicModelTool topicModelTool = new TopicModelTool();
-    topicModelTool.createTopicModel(inputStreams.toArray(new Reader[0]), "en", "co2", 15);
-    // "est", "co2", 15);
+//    topicModelTool.createTopicModel(inputStreams.toArray(new Reader[0]), "en", "co2", 15);
+//    topicModelTool.createTopicModel(inputStreams.toArray(new Reader[0]), "en", "eco", 15);
+    topicModelTool.createTopicModel(inputStreams.toArray(new Reader[0]), "en", "pizza", 15);
 
     // topicModelTool.upload("scy.collide.info", 2525, topicModelTool
     // .getName(), topicModelTool.getTopicModel());
@@ -159,7 +166,9 @@ private void learnTopicModel(int numberOfTopics, InstanceList instanceList) {
     // System.out.println(file.getAbsolutePath());
     topicModelTool.getTopicModel().write(file);
 
-    BufferedWriter writer = new BufferedWriter(new FileWriter("topWords.en.co2.15.txt"));
+//    BufferedWriter writer = new BufferedWriter(new FileWriter("topWords.en.co2.15.txt"));
+//    BufferedWriter writer = new BufferedWriter(new FileWriter("topWords.en.eco.15.txt"));
+    BufferedWriter writer = new BufferedWriter(new FileWriter("topWords.en.pizza.15.txt"));
     Object[][] topWords = topicModelTool.getTopicModel().getTopWords(1000);
     for (Object[] topWordsTopic : topWords) {
       for (Object topWord : topWordsTopic) {
