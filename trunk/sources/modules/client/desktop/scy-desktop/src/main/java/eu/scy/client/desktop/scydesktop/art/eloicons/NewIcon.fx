@@ -34,7 +34,7 @@ return Group {
 				},
 				Polygon {
 					points: [33.35,7.53,26.48,19.96,33.35,32.38,20.92,25.52,8.49,32.38,15.36,19.96,8.49,7.53,20.92,14.40]
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: bind windowColorScheme.mainColor
 					strokeWidth: 2.58
 					strokeLineCap: StrokeLineCap.BUTT

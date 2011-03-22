@@ -28,7 +28,7 @@ return Group {
 
 			content: [
 				Rectangle {
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: null
 					x: 10.42
 					y: 20.14
@@ -42,7 +42,7 @@ return Group {
 				},
 				Polyline {
 					fill: null
-					stroke: Color.WHITE
+					stroke: bind windowColorScheme.emptyBackgroundColor
 					strokeWidth: 0.44
 					strokeLineCap: StrokeLineCap.BUTT
 					strokeMiterLimit: 1.0
@@ -65,7 +65,7 @@ return Group {
 					height: 9.17
 				},
 				Rectangle {
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: null
 					x: 10.87
 					y: 21.48
@@ -73,7 +73,7 @@ return Group {
 					height: 6.72
 				},
 				Rectangle {
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: null
 					x: 22.37
 					y: 22.39
@@ -83,14 +83,14 @@ return Group {
 				Polygon {
 					points: [4.73,18.28,21.60,3.44,38.48,18.28]
 					fill: bind windowColorScheme.thirdColor
-					stroke: Color.WHITE
+					stroke: bind windowColorScheme.emptyBackgroundColor
 					strokeWidth: 0.63
 					strokeLineCap: StrokeLineCap.BUTT
 					strokeMiterLimit: 4.0
 				},
 				Polyline {
 					fill: null
-					stroke: Color.WHITE
+					stroke: bind windowColorScheme.emptyBackgroundColor
 					strokeWidth: 0.44
 					strokeLineCap: StrokeLineCap.BUTT
 					strokeMiterLimit: 1.0

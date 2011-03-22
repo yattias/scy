@@ -38,12 +38,12 @@ return Group {
 					points: [5.93,23.09]
 				},
 				SVGPath {
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: null
 					content: "M35.33,14.89 C35.33,20.11 31.10,24.33 25.88,24.33 C20.67,24.33 16.44,20.11 16.44,14.89 C16.44,9.68 20.67,5.45 25.88,5.45 C31.10,5.45 35.33,9.68 35.33,14.89 Z "
 				},
 				SVGPath {
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: null
 					content: "M15.68,14.15 C15.68,8.57 20.20,4.05 25.78,4.05 C31.36,4.05 35.88,8.57 35.88,14.15 "
 				},
@@ -59,7 +59,7 @@ return Group {
 					content: "M32.06,25.19 C33.46,29.14 34.72,32.89 34.72,33.66 C34.72,35.45 33.69,36.12 32.02,36.12 C30.30,36.12 21.58,36.12 20.46,36.07 C19.45,36.03 17.61,35.29 17.61,33.70 C17.61,31.92 19.11,27.35 19.86,25.18 "
 				},
 				SVGPath {
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: bind windowColorScheme.mainColor
 					strokeWidth: 2.0
 					content: "M31.79,24.25 C30.22,19.60 28.48,14.66 28.33,13.88 Q28.06,12.44 28.33,9.14 L23.41,9.14 Q23.79,12.88 23.55,14.02 Q23.28,15.27 20.49,23.07 Q20.34,23.53 20.10,24.24 Z "

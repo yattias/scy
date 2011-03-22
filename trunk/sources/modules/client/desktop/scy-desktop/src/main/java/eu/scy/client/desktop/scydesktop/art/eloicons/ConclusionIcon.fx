@@ -28,7 +28,7 @@ return Group {
 
 			content: [
 				Rectangle {
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: null
 					x: 9.42
 					y: 12.14
@@ -53,7 +53,7 @@ return Group {
 					endY: 34.15
 				},
 				Line {
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: bind windowColorScheme.mainColor
 					strokeWidth: 2.75
 					strokeLineCap: StrokeLineCap.ROUND

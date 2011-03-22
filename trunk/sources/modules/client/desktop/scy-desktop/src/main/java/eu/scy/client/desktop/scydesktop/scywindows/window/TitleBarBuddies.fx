@@ -8,43 +8,39 @@ import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.owner.OwnershipManager;
 
 /**
  * @author SikkenJ
  */
-public class TitleBarBuddies extends WindowElement {
+public class TitleBarBuddies extends TitleBarItemList {
 
    public var window: ScyWindow;
    public-init var tooltipManager: TooltipManager;
    public var ownershipManager: OwnershipManager on replace {
-       ownershipManager.titleBarBuddies = this;
-       };
-   def buddySpacing = 5.0;
-   def displayBox = HBox {
-         spacing: buddySpacing
-      }
+              ownershipManager.titleBarBuddies = this;
+           };
 
    public function buddiesChanged(): Void {
-      updateBuddies()
+      updateItems()
    }
 
    public override function create(): Node {
       displayBox
    }
 
-   function updateBuddies() {
-    delete displayBox.content;
-    displayBox.content =
-            for (contact in ownershipManager.getOwners()) {
-                Buddy {
+   override function updateItems() {
+      delete displayBox.content;
+      displayBox.content =
+              for (contact in ownershipManager.getOwners()) {
+                 Buddy {
                     tooltipManager: tooltipManager
                     windowColorScheme: windowColorScheme
                     contact: contact
-                }
-            }
+                 }
+              }
+      itemListChanged();
    }
 
 }

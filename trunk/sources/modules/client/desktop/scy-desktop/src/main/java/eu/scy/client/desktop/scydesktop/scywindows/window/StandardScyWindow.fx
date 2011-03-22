@@ -47,6 +47,7 @@ import javafx.scene.CacheHint;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import eu.scy.client.desktop.scydesktop.utils.XFX;
 import eu.scy.client.desktop.scydesktop.owner.OwnershipManager;
+import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 
 /**
  * @author sikkenj
@@ -141,7 +142,9 @@ public class StandardScyWindow extends ScyWindow {
    var resizeElement: WindowResize;
    var rotateElement: WindowRotate;
    var windowStateControls: WindowStateControls;
+   var titleBarWindowAttributes: TitleBarWindowAttributes;
    var titleBarBuddies: TitleBarBuddies;
+   var titleBarButtons: TitleBarButtons;
    var contentElement: WindowContent;
    var closedWindow: ClosedWindow;
    var hideDrawers: Boolean;
@@ -157,6 +160,7 @@ public class StandardScyWindow extends ScyWindow {
    public override var bottomDrawerTool on replace { setBottomDrawer() };
    public override var leftDrawerTools on replace oldValues { setLeftDrawer(oldValues) };
    public var missionModelFX: MissionModelFX;
+   public var windowStyler: WindowStyler;
    var mainContentGroup: Group;
 
    var changesListeners: WindowChangesListener[]; //WindowChangesListener are stored here. youse them to gain more control over ScyWindow events.
@@ -200,7 +204,7 @@ public class StandardScyWindow extends ScyWindow {
    }
 
    function limitSize(w: Number, h: Number): Point2D {
-      var limittedWidth = Math.max(w, minimumWidth);
+      var limittedWidth = Math.max(w,Math.max(minimumWidth,windowTitleBar.minimumWidth));
       var limittedHeight = Math.max(h, minimumHeight);
       if (scyContent != null) {
          //         println("limitSize(): Width:  {Container.getNodeMinWidth(scyContent)} - {Container.getNodePrefWidth(scyContent)} - {Container.getNodeMaxWidth(scyContent)}");
@@ -874,6 +878,11 @@ public class StandardScyWindow extends ScyWindow {
             maximizeAction: doMaximize
          }
 
+      titleBarWindowAttributes = TitleBarWindowAttributes{
+            windowColorScheme: windowColorScheme
+            scyWindowAttributes: bind scyWindowAttributes
+      }
+
       ownershipManager = OwnershipManager {
                 elo: bind scyElo
                 tbi: tbi
@@ -888,10 +897,20 @@ public class StandardScyWindow extends ScyWindow {
 
       titleBarBuddies.ownershipManager.update();
 
+      titleBarButtons = TitleBarButtons{
+            tooltipManager: tooltipManager
+            windowColorScheme: windowColorScheme
+            windowStyler: windowStyler
+      }
+      titleBarButtonManager = titleBarButtons;
+//      scyToolsList.setTitleBarButtonManager(titleBarButtons);
+
       windowTitleBar = WindowTitleBarDouble {
             width: bind realWidth + borderWidth
             windowStateControls: windowStateControls
+            titleBarWindowAttributes: titleBarWindowAttributes
             titleBarBuddies: titleBarBuddies
+            titleBarButtons: titleBarButtons
             iconSize: iconSize
             title: bind title;
             activated: bind activated
@@ -959,11 +978,11 @@ public class StandardScyWindow extends ScyWindow {
                resizeElement,
                rotateElement,
 
-               Group { // the scy window attributes
-                  layoutX: iconSize + 5
-                  layoutY: 19
-                  content: bind scyWindowAttributes,
-               },
+//               Group { // the scy window attributes
+//                  layoutX: iconSize + 5
+//                  layoutY: 19
+//                  content: bind scyWindowAttributes,
+//               },
             ]
          }
 

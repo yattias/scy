@@ -4,7 +4,6 @@
  */
 package eu.scy.client.desktop.scydesktop.art;
 
-import eu.scy.client.desktop.scydesktop.art.images.FXDIconParser;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -59,6 +58,8 @@ public class JavaFxdEloIconLoader
       replaceMap.put("Color.rgb(0xf2,0xd5,0xc7)", "bind windowColorScheme.thirdColorLight");
       // light orange
       replaceMap.put("Color.rgb(0xff,0xea,0x9e)", "bind windowColorScheme.thirdColorLight");
+      // white
+      replaceMap.put("Color.WHITE", "bind windowColorScheme.emptyBackgroundColor");
 
       // medium grey
       // replaceMap.put("Color.rgb(0x9a,0x99,0x99)", "bind windowColorScheme.thirdColor");
@@ -139,10 +140,10 @@ public class JavaFxdEloIconLoader
       }
    }
 
-   public static void main(String[] args)
-   {
-      FXDIconParser fXDIconParser = new FXDIconParser();
-   }
+//   public static void main(String[] args)
+//   {
+//      FXDIconParser fXDIconParser = new FXDIconParser();
+//   }
 
    private void createFactory(ArrayList<String> names, File targetDir)
    {
@@ -197,7 +198,7 @@ public class JavaFxdEloIconLoader
       }
       catch (IOException ex)
       {
-         Logger.getLogger(FXDIconParser.class.getName()).log(Level.SEVERE, null, ex);
+         Logger.getLogger(JavaFxdEloIconLoader.class.getName()).log(Level.SEVERE, null, ex);
       }
    }
 

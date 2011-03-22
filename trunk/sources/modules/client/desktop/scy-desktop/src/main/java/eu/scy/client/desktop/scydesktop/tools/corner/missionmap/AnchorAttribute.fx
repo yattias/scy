@@ -45,6 +45,17 @@ public class AnchorAttribute extends ScyWindowAttribute {
       setColors()
    };
 
+   public override function clone():AnchorAttribute{
+      AnchorAttribute{
+         anchorDisplay : anchorDisplay
+         missionAnchor: missionAnchor
+         mainAnchor: mainAnchor
+         windowAction: windowAction
+         priority: priority
+      }
+   }
+
+
    function setColors(){
       if (selected){
          titleColor = defaultTitleColor;

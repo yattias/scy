@@ -17,11 +17,13 @@ import java.lang.Void;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.tools.RuntimeSettingsRetriever;
 import java.awt.image.BufferedImage;
+import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 
 /**
  * @author sikken
  */
-public class ScyToolsList extends ScyTool {
+public class ScyToolsList extends ScyToolFX {
 
    def logger = Logger.getLogger(this.getClass());
    public var windowContentTool: Node on replace { buildToolList() };
@@ -188,6 +190,18 @@ public class ScyToolsList extends ScyTool {
          return (windowContentTool as ScyTool).getThumbnail(width, height);
       }
       return null;
+   }
+
+   override public function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
+      logger.error("Should not be called");
+   }
+
+   public function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager): Void {
+      for (scyTool in scyToolList) {
+         if (scyTool instanceof ScyToolFX){
+            (scyTool as ScyToolFX).setTitleBarButtonManager(titleBarButtonManager,scyTool==windowContentTool);
+         }
+      }
    }
 
 }

@@ -48,6 +48,14 @@ public class DatasyncAttribute extends ScyWindowAttribute {
 
     def color = bind scyWindow.windowColorScheme.mainColor;
 
+   public override function clone():DatasyncAttribute{
+      DatasyncAttribute{
+         dragAndDropManager: dragAndDropManager
+         dragObject: dragObject
+         priority: priority
+      }
+   }
+
     function mousePressed(e: MouseEvent) {
        var dragNode = dragIcon();
        dragNode.layoutX = layoutX;

@@ -33,7 +33,7 @@ return Group {
 					content: "M38.23,15.92 C34.73,4.78 24.88,1.90 14.46,2.59 C13.06,2.68 12.51,3.77 12.62,4.86 C12.57,4.89 12.51,4.91 12.46,4.95 C4.96,10.32 -0.46,17.71 2.97,27.27 C6.20,36.26 18.22,38.71 26.39,36.93 C35.27,35.01 40.96,24.60 38.23,15.92 Z M23.19,32.77 C17.06,33.64 9.94,31.15 7.16,25.33 C3.78,18.23 10.33,12.17 15.42,8.52 C15.97,8.12 16.24,7.63 16.30,7.13 C23.35,6.82 29.41,8.34 33.08,15.24 C37.28,23.15 31.09,31.66 23.19,32.77 Z "
 				},
 				SVGPath {
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: null
 					content: "M20.09,34.09 C15.64,34.09 11.49,31.89 8.98,28.20 C4.79,22.04 6.36,13.61 12.48,9.39 C14.73,7.85 17.36,7.03 20.07,7.03 C24.52,7.03 28.67,9.23 31.18,12.92 C35.37,19.08 33.80,27.51 27.67,31.72 C25.43,33.27 22.80,34.09 20.09,34.09 Z "
 				},
@@ -49,7 +49,7 @@ return Group {
 				},
 				Polygon {
 					points: [20.37,20.14,37.56,20.14,23.14,22.83]
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: null
 				},
 				SVGPath {
@@ -64,7 +64,7 @@ return Group {
 				},
 				Polygon {
 					points: [3.10,20.14,17.56,17.44,20.28,20.14]
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: null
 				},
 				SVGPath {
@@ -79,7 +79,7 @@ return Group {
 				},
 				Polygon {
 					points: [17.75,23.06,20.42,20.30,20.42,37.66]
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: null
 				},
 				SVGPath {
@@ -94,7 +94,7 @@ return Group {
 				},
 				Polygon {
 					points: [20.42,2.86,23.09,17.46,20.42,20.21]
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: null
 				},
 				SVGPath {

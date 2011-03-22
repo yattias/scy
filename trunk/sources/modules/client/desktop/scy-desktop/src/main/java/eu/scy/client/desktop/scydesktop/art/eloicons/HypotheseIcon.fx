@@ -39,7 +39,7 @@ return Group {
 				},
 				Line {
 					fill: null
-					stroke: Color.WHITE
+					stroke: bind windowColorScheme.emptyBackgroundColor
 					strokeWidth: 4.99
 					strokeLineCap: StrokeLineCap.BUTT
 					strokeMiterLimit: 4.0
@@ -50,7 +50,7 @@ return Group {
 				},
 				Line {
 					fill: null
-					stroke: Color.WHITE
+					stroke: bind windowColorScheme.emptyBackgroundColor
 					strokeWidth: 4.55
 					strokeLineCap: StrokeLineCap.BUTT
 					strokeMiterLimit: 4.0
