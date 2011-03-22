@@ -13,21 +13,28 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>prefuse</groupId>
-			<artifactId>main</artifactId>
-			<version>1.0</version>
-			<type>jar</type>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>eu.scy.agents</groupId>
 			<artifactId>agents-impl</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>info.collide</groupId>
+			<artifactId>sqlspaces-client</artifactId>
+			<version>3.9.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>info.collide</groupId>
 			<artifactId>sqlspaces-commons</artifactId>
 			<version>3.9.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>prefuse</groupId>
+			<artifactId>main</artifactId>
+			<version>1.0</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
