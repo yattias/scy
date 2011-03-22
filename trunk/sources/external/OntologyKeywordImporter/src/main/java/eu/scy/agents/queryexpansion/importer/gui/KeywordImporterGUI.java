@@ -170,8 +170,10 @@ public class KeywordImporterGUI extends JFrame implements ActionListener, ListSe
         miSave.addActionListener(this);
         miQuit.addActionListener(this);
         mnFile.add(miConnect);
+        mnFile.addSeparator();
         mnFile.add(ontoImport);
         mnFile.add(ontoExport);
+        mnFile.addSeparator();
         mnFile.add(miLoad);
         mnFile.add(miSave);
         mnFile.addSeparator();
@@ -796,6 +798,9 @@ public class KeywordImporterGUI extends JFrame implements ActionListener, ListSe
             if (e.getSource() == tbKeywords.getModel()) {
                 int index = tbClouds.getSelectedRow();
                 Set<String> keywords = keywordImporter.getKeywordMap().get(index);
+                if(keywords == null) {
+                	return;
+                }                	
                 keywords.clear();
                 DefaultTableModel keywordModel = (DefaultTableModel) tbKeywords.getModel();
                 for (int i = 0; i < keywordModel.getRowCount(); i++) {
@@ -811,6 +816,9 @@ public class KeywordImporterGUI extends JFrame implements ActionListener, ListSe
                 Set<String> oldClouds = new HashSet<String>(m.keySet());
                 for (int i = 0; i < model.getRowCount(); i++) {
                     oldClouds.remove(model.getValueAt(i, 0));
+                }
+                if (oldClouds.isEmpty()) {
+                	return;
                 }
                 String oldString = oldClouds.iterator().next();
                 int internalId = m.get(oldString);
