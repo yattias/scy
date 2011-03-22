@@ -61,14 +61,6 @@
 				</language>
 			</key>
 			<key>
-				topicModel
-				<language>
-					et
-					<modelEloUri>roolo://memory/22/0/mission2TopicModel_et.scyagentmodel
-					</modelEloUri>
-				</language>
-			</key>
-			<key>
 				DocumentFrequencyModel
 				<language>
 					en
@@ -76,14 +68,14 @@
 					</modelEloUri>
 				</language>
 			</key>
-			<key>
+			<!-- <key>
 				DocumentFrequencyModel
 				<language>
 					et
 					<modelEloUri>roolo://memory/24/0/mission2DFModel_et.scyagentmodel
 					</modelEloUri>
 				</language>
-			</key>
+			</key> -->
 		</agentModels>
 	</content>
 	<resources>
