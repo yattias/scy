@@ -70,7 +70,7 @@ public class GroupformationAgentTest extends AbstractTestFixture {
 	private Tuple lasChangeTuple(String user, String las, String oldLas) {
 		return new Tuple(AgentProtocol.ACTION, new VMID().toString(),
 				System.currentTimeMillis(), AgentProtocol.ACTION_LAS_CHANGED,
-				user, "scymapper", MISSION1, "session1", "roolo://test/elo1",
+				user, "scymapper", MISSION1, "session1", "roolo://memory/16/0/eco_reference_map.mapping", // change ELO URI to one from local ELO store, like roolo://memory/16/0/eco_reference_map.mapping
 				"newLasId=" + las, "oldLasId=" + oldLas);
 	}
 
