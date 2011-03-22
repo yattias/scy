@@ -1,0 +1,1148 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns="http://www.scy.eu/pizza#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+  <owl:Ontology rdf:about="http://www.scy.eu/pizza"/>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Unit">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#EnergyAttribute"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#MeatAndBeans">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#FoodPyramidGroup"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Vegetables">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#ExtraIngredient"/>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Topping"/>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#FoodPyramidGroup"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Topping">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#PizzaComponent"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Meat">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#Topping"/>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#MeatAndBeans"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Cheese">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Milk"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#PizzaAttribute">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Concept"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#HealthProblem">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#HealthVariable"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#DigestiveSystemComponent">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#DigestiveSystemAttribute"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Milk">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#FoodPyramidGroup"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#HealthIndicator">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#HealthVariable"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#EnergyAttribute">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Concept"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Sauce">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#Topping"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#PizzaComponent">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Concept"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#DigestiveSystemProcess">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#DigestiveSystemAttribute"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#FoodPyramidGroup">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Concept"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#DigestiveSystemAttribute">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Concept"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Fish">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Seafood"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#OilsAndFats">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#FoodPyramidGroup"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#DeterminingFactor">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#EnergyAttribute"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#BasicIngredient">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#PizzaIngredient"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#DigestiveSystemOrgan">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#DigestiveSystemComponent"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Food">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Concept"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#NutrientFunction">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Concept"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#DoughStyle">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#PizzaComponent"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#ExtraIngredient">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#PizzaIngredient"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#PizzaType">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Concept"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Nutrients">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Concept"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Fruits">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#ExtraIngredient"/>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#Topping"/>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#FoodPyramidGroup"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Grains">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#FoodPyramidGroup"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#HealthVariable">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Concept"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class>
+    <owl:unionOf>2020653:12ec94bec60:-7ffa</owl:unionOf>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Concept">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#PizzaIngredient">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Ingredient"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Spice">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#Vegetables"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Seafood">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#Topping"/>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#MeatAndBeans"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Specification">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#EnergyAttribute"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Ingredient">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#Concept"/>
+  </owl:Class>
+  <owl:ObjectProperty rdf:about="http://www.scy.eu/pizza#hasFunction">
+    <rdfs:subPropertyOf>
+      <owl:SymmetricProperty rdf:about="http://www.scy.eu/pizza#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+    <rdfs:range>2020653:12ec94bec60:-7ffb</rdfs:range>
+    <rdfs:domain rdf:resource="http://www.scy.eu/pizza#Concept"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.scy.eu/pizza#isElementOf">
+    <rdfs:subPropertyOf>
+      <owl:SymmetricProperty rdf:about="http://www.scy.eu/pizza#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+    <rdfs:domain rdf:resource="http://www.scy.eu/pizza#DigestiveSystemComponent"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.scy.eu/pizza#contains">
+    <rdfs:subPropertyOf>
+      <owl:SymmetricProperty rdf:about="http://www.scy.eu/pizza#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.scy.eu/pizza#absorb">
+    <rdfs:subPropertyOf>
+      <owl:SymmetricProperty rdf:about="http://www.scy.eu/pizza#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+  </owl:ObjectProperty>
+  <owl:TransitiveProperty rdf:about="http://www.scy.eu/pizza#isInfluencedBy">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:subPropertyOf>
+      <owl:SymmetricProperty rdf:about="http://www.scy.eu/pizza#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+    <owl:inverseOf>
+      <owl:TransitiveProperty rdf:about="http://www.scy.eu/pizza#hasInfluenceOn"/>
+    </owl:inverseOf>
+  </owl:TransitiveProperty>
+  <owl:TransitiveProperty rdf:about="http://www.scy.eu/pizza#hasIngredient">
+    <rdfs:subPropertyOf>
+      <owl:SymmetricProperty rdf:about="http://www.scy.eu/pizza#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+    <owl:inverseOf>
+      <owl:TransitiveProperty rdf:about="http://www.scy.eu/pizza#isIngredientOf"/>
+    </owl:inverseOf>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </owl:TransitiveProperty>
+  <owl:TransitiveProperty rdf:about="http://www.scy.eu/pizza#isIngredientOf">
+    <rdfs:subPropertyOf>
+      <owl:SymmetricProperty rdf:about="http://www.scy.eu/pizza#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+    <owl:inverseOf rdf:resource="http://www.scy.eu/pizza#hasIngredient"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+  </owl:TransitiveProperty>
+  <owl:TransitiveProperty rdf:about="http://www.scy.eu/pizza#hasInfluenceOn">
+    <owl:inverseOf rdf:resource="http://www.scy.eu/pizza#isInfluencedBy"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:subPropertyOf>
+      <owl:SymmetricProperty rdf:about="http://www.scy.eu/pizza#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+  </owl:TransitiveProperty>
+  <owl:SymmetricProperty rdf:about="http://www.scy.eu/pizza#hasRelationTo">
+    <rdfs:domain rdf:resource="http://www.scy.eu/pizza#Concept"/>
+    <owl:inverseOf rdf:resource="http://www.scy.eu/pizza#hasRelationTo"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:range rdf:resource="http://www.scy.eu/pizza#Concept"/>
+  </owl:SymmetricProperty>
+  <Spice rdf:about="http://www.scy.eu/pizza#Basil">
+    <contains>
+      <Nutrients rdf:about="http://www.scy.eu/pizza#Water">
+        <isIngredientOf>
+          <DoughStyle rdf:about="http://www.scy.eu/pizza#DeepPan">
+            <hasIngredient>
+              <Grains rdf:about="http://www.scy.eu/pizza#Flour">
+                <contains>
+                  <Nutrients rdf:about="http://www.scy.eu/pizza#Vitamin">
+                    <hasFunction>
+                      <NutrientFunction rdf:about="http://www.scy.eu/pizza#EnergyGeneration">
+                        <hasRelationTo>
+                          <EnergyAttribute rdf:about="http://www.scy.eu/pizza#EnergyNeed">
+                            <isInfluencedBy>
+                              <DeterminingFactor rdf:about="http://www.scy.eu/pizza#Height">
+                                <hasInfluenceOn>
+                                  <HealthIndicator rdf:about="http://www.scy.eu/pizza#BodyMassIndex">
+                                    <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Height"/>
+                                    <isInfluencedBy>
+                                      <DeterminingFactor rdf:about="http://www.scy.eu/pizza#Weight">
+                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#BodyMassIndex"/>
+                                        <hasInfluenceOn>
+                                          <Specification rdf:about="http://www.scy.eu/pizza#BasalMetabolicRate">
+                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#EnergyNeed"/>
+                                            <hasRelationTo>
+                                              <Concept rdf:about="http://www.scy.eu/pizza#Energy">
+                                                <hasRelationTo>
+                                                  <Unit rdf:about="http://www.scy.eu/pizza#Joule">
+                                                    <hasRelationTo>
+                                                      <Concept rdf:about="http://www.scy.eu/pizza#NutritionalValue">
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Water"/>
+                                                        <hasRelationTo>
+                                                          <Cheese rdf:about="http://www.scy.eu/pizza#Pecorino">
+                                                            <contains>
+                                                              <Nutrients rdf:about="http://www.scy.eu/pizza#Carbohydrate">
+    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#EnergyGeneration"/>
+    <hasInfluenceOn>
+      <NutrientFunction rdf:about="http://www.scy.eu/pizza#RegulationOfBodyProcesses">
+        <isInfluencedBy>
+          <Nutrients rdf:about="http://www.scy.eu/pizza#Protein">
+            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+            <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#EnergyGeneration"/>
+            <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#RegulationOfBodyProcesses"/>
+            <hasInfluenceOn>
+              <NutrientFunction rdf:about="http://www.scy.eu/pizza#Growth">
+                <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                <isInfluencedBy>
+                  <Nutrients rdf:about="http://www.scy.eu/pizza#Mineral">
+                    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#EnergyGeneration"/>
+                    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#RegulationOfBodyProcesses"/>
+                    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Growth"/>
+                    <hasFunction rdf:resource="http://www.scy.eu/pizza#RegulationOfBodyProcesses"/>
+                    <hasFunction rdf:resource="http://www.scy.eu/pizza#Growth"/>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+                  </Nutrients>
+                </isInfluencedBy>
+                <isInfluencedBy>
+                  <Nutrients rdf:about="http://www.scy.eu/pizza#Fat">
+                    <hasFunction rdf:resource="http://www.scy.eu/pizza#EnergyGeneration"/>
+                    <hasFunction rdf:resource="http://www.scy.eu/pizza#RegulationOfBodyProcesses"/>
+                    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#EnergyGeneration"/>
+                    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#RegulationOfBodyProcesses"/>
+                    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Growth"/>
+                    <hasRelationTo>
+                      <DigestiveSystemComponent rdf:about="http://www.scy.eu/pizza#Bile">
+                        <hasRelationTo>
+                          <Concept rdf:about="http://www.scy.eu/pizza#DigestiveSystem">
+                            <absorb rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                            <hasRelationTo>
+                              <DigestiveSystemComponent rdf:about="http://www.scy.eu/pizza#DigestiveJuice">
+                                <absorb rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                                <hasRelationTo>
+                                  <DigestiveSystemComponent rdf:about="http://www.scy.eu/pizza#Enzymes">
+                                    <hasRelationTo>
+                                      <DigestiveSystemProcess rdf:about="http://www.scy.eu/pizza#NutrientBreakdown">
+                                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Enzymes"/>
+                                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                                      </DigestiveSystemProcess>
+                                    </hasRelationTo>
+                                    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                                    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveJuice"/>
+                                    <hasFunction rdf:resource="http://www.scy.eu/pizza#NutrientBreakdown"/>
+                                  </DigestiveSystemComponent>
+                                </hasRelationTo>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                                <hasFunction rdf:resource="http://www.scy.eu/pizza#NutrientBreakdown"/>
+                                <contains rdf:resource="http://www.scy.eu/pizza#Enzymes"/>
+                              </DigestiveSystemComponent>
+                            </hasRelationTo>
+                            <hasRelationTo>
+                              <DigestiveSystemOrgan rdf:about="http://www.scy.eu/pizza#Rectum">
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                                <isElementOf rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                              </DigestiveSystemOrgan>
+                            </hasRelationTo>
+                            <hasRelationTo>
+                              <DigestiveSystemOrgan rdf:about="http://www.scy.eu/pizza#Anus">
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                                <isElementOf rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                              </DigestiveSystemOrgan>
+                            </hasRelationTo>
+                            <hasRelationTo>
+                              <DigestiveSystemOrgan rdf:about="http://www.scy.eu/pizza#Mouth">
+                                <isElementOf rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                              </DigestiveSystemOrgan>
+                            </hasRelationTo>
+                            <hasRelationTo>
+                              <DigestiveSystemProcess rdf:about="http://www.scy.eu/pizza#Peristalsis">
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                              </DigestiveSystemProcess>
+                            </hasRelationTo>
+                            <absorb rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                            <hasFunction rdf:resource="http://www.scy.eu/pizza#NutrientBreakdown"/>
+                            <hasRelationTo>
+                              <DigestiveSystemOrgan rdf:about="http://www.scy.eu/pizza#GallBladder">
+                                <isElementOf rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Bile"/>
+                              </DigestiveSystemOrgan>
+                            </hasRelationTo>
+                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutrientBreakdown"/>
+                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Enzymes"/>
+                            <hasRelationTo>
+                              <DigestiveSystemOrgan rdf:about="http://www.scy.eu/pizza#Duodenum">
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                                <isElementOf rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                              </DigestiveSystemOrgan>
+                            </hasRelationTo>
+                            <absorb rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Bile"/>
+                            <hasRelationTo>
+                              <DigestiveSystemOrgan rdf:about="http://www.scy.eu/pizza#Pancreas">
+                                <isElementOf rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                              </DigestiveSystemOrgan>
+                            </hasRelationTo>
+                            <absorb rdf:resource="http://www.scy.eu/pizza#Water"/>
+                            <hasRelationTo>
+                              <DigestiveSystemProcess rdf:about="http://www.scy.eu/pizza#SecretionOfDigestiveJuice">
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                              </DigestiveSystemProcess>
+                            </hasRelationTo>
+                            <hasRelationTo>
+                              <DigestiveSystemOrgan rdf:about="http://www.scy.eu/pizza#LargeIntestine">
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                                <isElementOf rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                                <absorb rdf:resource="http://www.scy.eu/pizza#Water"/>
+                                <hasFunction rdf:resource="http://www.scy.eu/pizza#NutrientBreakdown"/>
+                              </DigestiveSystemOrgan>
+                            </hasRelationTo>
+                            <absorb rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                            <hasRelationTo>
+                              <DigestiveSystemOrgan rdf:about="http://www.scy.eu/pizza#Stomach">
+                                <isElementOf rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                                <contains rdf:resource="http://www.scy.eu/pizza#DigestiveJuice"/>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                              </DigestiveSystemOrgan>
+                            </hasRelationTo>
+                            <hasFunction rdf:resource="http://www.scy.eu/pizza#SecretionOfDigestiveJuice"/>
+                            <hasFunction>
+                              <DigestiveSystemProcess rdf:about="http://www.scy.eu/pizza#UptakeOfNutrients">
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                              </DigestiveSystemProcess>
+                            </hasFunction>
+                            <absorb rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                            <hasRelationTo>
+                              <DigestiveSystemOrgan rdf:about="http://www.scy.eu/pizza#SmallIntestine">
+                                <isElementOf rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                                <absorb rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                                <absorb rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                                <absorb rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                              </DigestiveSystemOrgan>
+                            </hasRelationTo>
+                            <hasFunction rdf:resource="http://www.scy.eu/pizza#Peristalsis"/>
+                            <hasRelationTo>
+                              <DigestiveSystemOrgan rdf:about="http://www.scy.eu/pizza#Liver">
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Bile"/>
+                                <isElementOf rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                              </DigestiveSystemOrgan>
+                            </hasRelationTo>
+                            <hasRelationTo>
+                              <DigestiveSystemOrgan rdf:about="http://www.scy.eu/pizza#Oesophagus">
+                                <isElementOf rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                              </DigestiveSystemOrgan>
+                            </hasRelationTo>
+                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#UptakeOfNutrients"/>
+                          </Concept>
+                        </hasRelationTo>
+                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#GallBladder"/>
+                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Liver"/>
+                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                        <hasFunction rdf:resource="http://www.scy.eu/pizza#NutrientBreakdown"/>
+                      </DigestiveSystemComponent>
+                    </hasRelationTo>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+                  </Nutrients>
+                </isInfluencedBy>
+                <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Water"/>
+                <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+              </NutrientFunction>
+            </hasInfluenceOn>
+            <hasFunction rdf:resource="http://www.scy.eu/pizza#EnergyGeneration"/>
+            <hasFunction rdf:resource="http://www.scy.eu/pizza#RegulationOfBodyProcesses"/>
+          </Nutrients>
+        </isInfluencedBy>
+        <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Fat"/>
+        <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+      </NutrientFunction>
+    </hasInfluenceOn>
+    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Growth"/>
+    <hasFunction rdf:resource="http://www.scy.eu/pizza#EnergyGeneration"/>
+    <hasFunction rdf:resource="http://www.scy.eu/pizza#RegulationOfBodyProcesses"/>
+                                                              </Nutrients>
+                                                            </contains>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                                                          </Cheese>
+                                                        </hasRelationTo>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Joule"/>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                                                        <hasRelationTo>
+                                                          <Cheese rdf:about="http://www.scy.eu/pizza#Fetta">
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                                                          </Cheese>
+                                                        </hasRelationTo>
+                                                        <hasRelationTo>
+                                                          <Cheese rdf:about="http://www.scy.eu/pizza#Mozzarella">
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                                                          </Cheese>
+                                                        </hasRelationTo>
+                                                        <hasRelationTo>
+                                                          <Cheese rdf:about="http://www.scy.eu/pizza#Gouda">
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                                                          </Cheese>
+                                                        </hasRelationTo>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                                                        <hasRelationTo>
+                                                          <Cheese rdf:about="http://www.scy.eu/pizza#Ricotta">
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                                                          </Cheese>
+                                                        </hasRelationTo>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                                                        <hasRelationTo>
+                                                          <Unit rdf:about="http://www.scy.eu/pizza#Calorie">
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                                                          </Unit>
+                                                        </hasRelationTo>
+                                                        <hasRelationTo>
+                                                          <Cheese rdf:about="http://www.scy.eu/pizza#Parmesan">
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                                                          </Cheese>
+                                                        </hasRelationTo>
+                                                        <hasRelationTo>
+                                                          <Cheese rdf:about="http://www.scy.eu/pizza#Gorgonzola">
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                                                          </Cheese>
+                                                        </hasRelationTo>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                                                        <hasRelationTo>
+                                                          <Cheese rdf:about="http://www.scy.eu/pizza#Edam">
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                                                          </Cheese>
+                                                        </hasRelationTo>
+                                                      </Concept>
+                                                    </hasRelationTo>
+                                                    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                                                  </Unit>
+                                                </hasRelationTo>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Gouda"/>
+                                                <hasRelationTo>
+                                                  <DeterminingFactor rdf:about="http://www.scy.eu/pizza#Age">
+                                                    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                                                    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#BasalMetabolicRate"/>
+                                                    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#EnergyNeed"/>
+                                                  </DeterminingFactor>
+                                                </hasRelationTo>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Weight"/>
+                                                <hasRelationTo>
+                                                  <Food rdf:about="http://www.scy.eu/pizza#Pizza">
+                                                    <hasIngredient>
+                                                      <DoughStyle rdf:about="http://www.scy.eu/pizza#StuffedCrust">
+                                                        <isIngredientOf rdf:resource="http://www.scy.eu/pizza#Pizza"/>
+                                                        <hasIngredient rdf:resource="http://www.scy.eu/pizza#Flour"/>
+                                                        <hasIngredient rdf:resource="http://www.scy.eu/pizza#Water"/>
+                                                      </DoughStyle>
+                                                    </hasIngredient>
+                                                    <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                                                    <hasRelationTo>
+                                                      <PizzaComponent rdf:about="http://www.scy.eu/pizza#Dough">
+                                                        <hasIngredient rdf:resource="http://www.scy.eu/pizza#Water"/>
+                                                        <hasIngredient rdf:resource="http://www.scy.eu/pizza#Flour"/>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Pizza"/>
+                                                      </PizzaComponent>
+                                                    </hasRelationTo>
+                                                    <hasIngredient>
+                                                      <DoughStyle rdf:about="http://www.scy.eu/pizza#Traditional">
+                                                        <isIngredientOf rdf:resource="http://www.scy.eu/pizza#Pizza"/>
+                                                        <hasIngredient rdf:resource="http://www.scy.eu/pizza#Flour"/>
+                                                        <hasIngredient rdf:resource="http://www.scy.eu/pizza#Water"/>
+                                                      </DoughStyle>
+                                                    </hasIngredient>
+                                                    <hasIngredient>
+                                                      <Sauce rdf:about="http://www.scy.eu/pizza#BBQ">
+                                                        <contains>
+                                                          <Vegetables rdf:about="http://www.scy.eu/pizza#Tomato">
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                                                            <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                                                          </Vegetables>
+                                                        </contains>
+                                                        <isIngredientOf rdf:resource="http://www.scy.eu/pizza#Pizza"/>
+                                                      </Sauce>
+                                                    </hasIngredient>
+                                                    <hasRelationTo>
+                                                      <Concept rdf:about="http://www.scy.eu/pizza#Diet">
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Pizza"/>
+                                                        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                                                        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                                                        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                                                        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                                                        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                                                        <hasInfluenceOn>
+                                                          <HealthProblem rdf:about="http://www.scy.eu/pizza#Obesity">
+                                                            <hasInfluenceOn>
+                                                              <Concept rdf:about="http://www.scy.eu/pizza#Health">
+    <hasRelationTo>
+      <HealthProblem rdf:about="http://www.scy.eu/pizza#HighCholesterol">
+        <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Diet"/>
+        <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Health"/>
+        <hasRelationTo>
+          <PizzaAttribute rdf:about="http://www.scy.eu/pizza#Healthiness">
+            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Diet"/>
+            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#BodyMassIndex"/>
+            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#HighCholesterol"/>
+            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Health"/>
+            <hasRelationTo>
+              <HealthIndicator rdf:about="http://www.scy.eu/pizza#HeartRate">
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Healthiness"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Health"/>
+              </HealthIndicator>
+            </hasRelationTo>
+            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Obesity"/>
+            <hasRelationTo>
+              <HealthProblem rdf:about="http://www.scy.eu/pizza#HighBloodPressure">
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Healthiness"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Health"/>
+                <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Diet"/>
+                <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Health"/>
+              </HealthProblem>
+            </hasRelationTo>
+            <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Health"/>
+            <hasRelationTo>
+              <HealthIndicator rdf:about="http://www.scy.eu/pizza#BloodPressure">
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Healthiness"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Health"/>
+              </HealthIndicator>
+            </hasRelationTo>
+            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Pizza"/>
+            <hasRelationTo>
+              <HealthProblem rdf:about="http://www.scy.eu/pizza#CardiovasulcarDiseases">
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Healthiness"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Health"/>
+                <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Health"/>
+                <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Diet"/>
+              </HealthProblem>
+            </hasRelationTo>
+            <hasRelationTo>
+              <HealthProblem rdf:about="http://www.scy.eu/pizza#Diabetes">
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Healthiness"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Health"/>
+                <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Health"/>
+                <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Diet"/>
+              </HealthProblem>
+            </hasRelationTo>
+          </PizzaAttribute>
+        </hasRelationTo>
+        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Health"/>
+      </HealthProblem>
+    </hasRelationTo>
+    <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Healthiness"/>
+    <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#CardiovasulcarDiseases"/>
+    <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#HighBloodPressure"/>
+    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#BodyMassIndex"/>
+    <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#HighCholesterol"/>
+    <rdf:type rdf:resource="http://www.scy.eu/pizza#HealthVariable"/>
+    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Healthiness"/>
+    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#HeartRate"/>
+    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Obesity"/>
+    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Diabetes"/>
+    <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Obesity"/>
+    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#BloodPressure"/>
+    <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Diabetes"/>
+    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#HighBloodPressure"/>
+    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#CardiovasulcarDiseases"/>
+                                                              </Concept>
+                                                            </hasInfluenceOn>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Healthiness"/>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Health"/>
+                                                            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Diet"/>
+                                                          </HealthProblem>
+                                                        </hasInfluenceOn>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#CardiovasulcarDiseases"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#HighBloodPressure"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Diabetes"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Healthiness"/>
+                                                        <isInfluencedBy>
+                                                          <Concept rdf:about="http://www.scy.eu/pizza#DietOptimizationStrategy">
+                                                            <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Diet"/>
+                                                          </Concept>
+                                                        </isInfluencedBy>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#HighCholesterol"/>
+                                                        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+                                                      </Concept>
+                                                    </hasRelationTo>
+                                                    <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+                                                    <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                                                    <hasIngredient>
+                                                      <Sauce rdf:about="http://www.scy.eu/pizza#Alfredo">
+                                                        <isIngredientOf rdf:resource="http://www.scy.eu/pizza#Pizza"/>
+                                                        <contains rdf:resource="http://www.scy.eu/pizza#Parmesan"/>
+                                                      </Sauce>
+                                                    </hasIngredient>
+                                                    <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                                                    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                                                    <hasIngredient rdf:resource="http://www.scy.eu/pizza#DeepPan"/>
+                                                    <hasIngredient>
+                                                      <DoughStyle rdf:about="http://www.scy.eu/pizza#ThinCrust">
+                                                        <isIngredientOf rdf:resource="http://www.scy.eu/pizza#Pizza"/>
+                                                        <hasIngredient rdf:resource="http://www.scy.eu/pizza#Flour"/>
+                                                        <hasIngredient rdf:resource="http://www.scy.eu/pizza#Water"/>
+                                                      </DoughStyle>
+                                                    </hasIngredient>
+                                                    <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                                                    <contains rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                                                    <hasIngredient>
+                                                      <Sauce rdf:about="http://www.scy.eu/pizza#Marinara">
+                                                        <isIngredientOf rdf:resource="http://www.scy.eu/pizza#Pizza"/>
+                                                        <contains rdf:resource="http://www.scy.eu/pizza#Tomato"/>
+                                                      </Sauce>
+                                                    </hasIngredient>
+                                                    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Healthiness"/>
+                                                    <hasRelationTo>
+                                                      <PizzaAttribute rdf:about="http://www.scy.eu/pizza#Taste">
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Pizza"/>
+                                                      </PizzaAttribute>
+                                                    </hasRelationTo>
+                                                    <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                                                  </Food>
+                                                </hasRelationTo>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#BasalMetabolicRate"/>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Ricotta"/>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Edam"/>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Gorgonzola"/>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Mozzarella"/>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#EnergyGeneration"/>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Fetta"/>
+                                                <hasRelationTo>
+                                                  <DeterminingFactor rdf:about="http://www.scy.eu/pizza#Gender">
+                                                    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                                                    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#BasalMetabolicRate"/>
+                                                    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#EnergyNeed"/>
+                                                  </DeterminingFactor>
+                                                </hasRelationTo>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Pecorino"/>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Height"/>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#EnergyNeed"/>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Parmesan"/>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Calorie"/>
+                                                <hasRelationTo>
+                                                  <DeterminingFactor rdf:about="http://www.scy.eu/pizza#Activities">
+                                                    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                                                    <hasInfluenceOn>
+                                                      <Specification rdf:about="http://www.scy.eu/pizza#EstimatedEnergyRequirements">
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#EnergyNeed"/>
+                                                        <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#BasalMetabolicRate"/>
+                                                        <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Activities"/>
+                                                      </Specification>
+                                                    </hasInfluenceOn>
+                                                    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#EnergyNeed"/>
+                                                  </DeterminingFactor>
+                                                </hasRelationTo>
+                                              </Concept>
+                                            </hasRelationTo>
+                                            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Height"/>
+                                            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Age"/>
+                                            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Weight"/>
+                                            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Gender"/>
+                                            <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#EstimatedEnergyRequirements"/>
+                                          </Specification>
+                                        </hasInfluenceOn>
+                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#EnergyNeed"/>
+                                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                                      </DeterminingFactor>
+                                    </isInfluencedBy>
+                                    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Healthiness"/>
+                                    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Health"/>
+                                  </HealthIndicator>
+                                </hasInfluenceOn>
+                                <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#EnergyNeed"/>
+                                <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#BasalMetabolicRate"/>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                              </DeterminingFactor>
+                            </isInfluencedBy>
+                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#EnergyGeneration"/>
+                            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Activities"/>
+                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#EstimatedEnergyRequirements"/>
+                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#BasalMetabolicRate"/>
+                            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Age"/>
+                            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Weight"/>
+                            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Gender"/>
+                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                          </EnergyAttribute>
+                        </hasRelationTo>
+                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                        <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                        <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                        <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                        <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                        <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Water"/>
+                        <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                      </NutrientFunction>
+                    </hasFunction>
+                    <hasFunction rdf:resource="http://www.scy.eu/pizza#Growth"/>
+                    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#EnergyGeneration"/>
+                    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#RegulationOfBodyProcesses"/>
+                    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Growth"/>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+                  </Nutrients>
+                </contains>
+                <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                <isIngredientOf rdf:resource="http://www.scy.eu/pizza#Traditional"/>
+                <isIngredientOf rdf:resource="http://www.scy.eu/pizza#ThinCrust"/>
+                <isIngredientOf rdf:resource="http://www.scy.eu/pizza#DeepPan"/>
+                <isIngredientOf rdf:resource="http://www.scy.eu/pizza#StuffedCrust"/>
+                <isIngredientOf rdf:resource="http://www.scy.eu/pizza#Dough"/>
+              </Grains>
+            </hasIngredient>
+            <hasIngredient rdf:resource="http://www.scy.eu/pizza#Water"/>
+            <isIngredientOf rdf:resource="http://www.scy.eu/pizza#Pizza"/>
+          </DoughStyle>
+        </isIngredientOf>
+        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+        <isIngredientOf rdf:resource="http://www.scy.eu/pizza#StuffedCrust"/>
+        <hasFunction rdf:resource="http://www.scy.eu/pizza#RegulationOfBodyProcesses"/>
+        <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#EnergyGeneration"/>
+        <isIngredientOf rdf:resource="http://www.scy.eu/pizza#Traditional"/>
+        <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#RegulationOfBodyProcesses"/>
+        <isIngredientOf rdf:resource="http://www.scy.eu/pizza#Dough"/>
+        <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Growth"/>
+        <isIngredientOf rdf:resource="http://www.scy.eu/pizza#ThinCrust"/>
+      </Nutrients>
+    </contains>
+    <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+  </Spice>
+  <Spice rdf:about="http://www.scy.eu/pizza#PaprikaPowder">
+    <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+  </Spice>
+  <rdf:Description>
+    <rdf:first rdf:resource="http://www.scy.eu/pizza#DigestiveSystemProcess"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <Spice rdf:about="http://www.scy.eu/pizza#Oregano">
+    <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+  </Spice>
+  <Concept rdf:about="http://www.scy.eu/pizza#FoodPyramid">
+    <contains>
+      <Seafood rdf:about="http://www.scy.eu/pizza#Shrimp">
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+      </Seafood>
+    </contains>
+    <contains>
+      <Meat rdf:about="http://www.scy.eu/pizza#Ham">
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+      </Meat>
+    </contains>
+    <contains>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Jalapeno">
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Broccoli">
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains>
+      <Meat rdf:about="http://www.scy.eu/pizza#Salami">
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+      </Meat>
+    </contains>
+    <contains>
+      <MeatAndBeans rdf:about="http://www.scy.eu/pizza#Bean">
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+      </MeatAndBeans>
+    </contains>
+    <contains>
+      <Seafood rdf:about="http://www.scy.eu/pizza#Mussel">
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+      </Seafood>
+    </contains>
+    <contains>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Olive">
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains rdf:resource="http://www.scy.eu/pizza#Gorgonzola"/>
+    <contains>
+      <Meat rdf:about="http://www.scy.eu/pizza#Beef">
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+      </Meat>
+    </contains>
+    <contains>
+      <Fish rdf:about="http://www.scy.eu/pizza#Tuna">
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+      </Fish>
+    </contains>
+    <contains>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Paprika">
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains rdf:resource="http://www.scy.eu/pizza#Parmesan"/>
+    <contains>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Onion">
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains rdf:resource="http://www.scy.eu/pizza#Fetta"/>
+    <contains>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Chili">
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Garlic">
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains>
+      <Meat rdf:about="http://www.scy.eu/pizza#Bacon">
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+      </Meat>
+    </contains>
+    <contains>
+      <Meat rdf:about="http://www.scy.eu/pizza#Pepperoni">
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+      </Meat>
+    </contains>
+    <contains rdf:resource="http://www.scy.eu/pizza#Mozzarella"/>
+    <contains>
+      <Fish rdf:about="http://www.scy.eu/pizza#Salmon">
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+      </Fish>
+    </contains>
+    <contains rdf:resource="http://www.scy.eu/pizza#Flour"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Edam"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Gouda"/>
+    <contains>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Corn">
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Arugula">
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Potato">
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Capers">
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains>
+      <Fruits rdf:about="http://www.scy.eu/pizza#Pineapple">
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+      </Fruits>
+    </contains>
+    <contains>
+      <Fish rdf:about="http://www.scy.eu/pizza#Anchovy">
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+      </Fish>
+    </contains>
+    <contains>
+      <Fruits rdf:about="http://www.scy.eu/pizza#Peach">
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+      </Fruits>
+    </contains>
+    <contains>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Artichoke">
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains rdf:resource="http://www.scy.eu/pizza#Tomato"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Ricotta"/>
+    <contains>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Mushroom">
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains>
+      <Meat rdf:about="http://www.scy.eu/pizza#Chorizo">
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+      </Meat>
+    </contains>
+    <contains rdf:resource="http://www.scy.eu/pizza#Pecorino"/>
+    <contains>
+      <Meat rdf:about="http://www.scy.eu/pizza#ItalianSausage">
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+      </Meat>
+    </contains>
+    <contains>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Spinach">
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+      </Vegetables>
+    </contains>
+  </Concept>
+  <rdf:Description>
+    <rdf:first rdf:resource="http://www.scy.eu/pizza#NutrientFunction"/>
+    <rdf:rest>2020653:12ec94bec60:-7ff9</rdf:rest>
+  </rdf:Description>
+  <Spice rdf:about="http://www.scy.eu/pizza#Pepper">
+    <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+  </Spice>
+</rdf:RDF>
