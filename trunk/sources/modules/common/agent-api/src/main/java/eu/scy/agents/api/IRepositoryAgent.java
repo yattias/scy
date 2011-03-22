@@ -5,9 +5,6 @@ import roolo.elo.api.IMetadataTypeManager;
 
 /**
  * Marker interface to flag that an agent needs access to the RoOLo repository.
- * It is the job of the programmer to make sure, that the agent which implements
- * this interface does not get a reference to a {@link IELOAgentDispatcher}.
- * This could leed to a infinity loop of calling this agent.
  * 
  * @author Stefan Weinbrenner
  * 
