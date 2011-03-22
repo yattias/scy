@@ -16,18 +16,22 @@ import de.fhg.iais.kd.tm.obwious.operator.meta.Workflow;
 import de.fhg.iais.kd.tm.obwious.operator.workflow.ProvideKeyphrasesOnSeparateDocument;
 import de.fhg.iais.kd.tm.obwious.type.Container;
 
+/*
+ * the model file is stored in .../agents-impl/target/classes/missionX_texts/English/.model/corpus_model
+ * NOTE: if this file exists, it will NOT be overwritten! so delete it before you want to create a new model!
+ */
 public class KeyphraseExtraction {
 
 	public static void main(String[] args) throws Throwable {
 
-		URI corpus = ClassLoader.getSystemResource("mission1_texts/English").toURI();
-		URI document = ClassLoader.getSystemResource("mission1_texts/English/new02.txt").toURI();
+//		URI corpus = ClassLoader.getSystemResource("mission1_texts/English").toURI();
+//		URI document = ClassLoader.getSystemResource("mission1_texts/English/new02.txt").toURI();
 		
 //        URI corpus = ClassLoader.getSystemResource("mission2_texts/English").toURI();
 //        URI document = ClassLoader.getSystemResource("mission2_texts/English/acid.rain.txt").toURI();
 		
-//        URI corpus = ClassLoader.getSystemResource("mission3_texts/English").toURI();
-//        URI document = ClassLoader.getSystemResource("mission3_texts/English/wikipedia.Fat.txt").toURI();
+        URI corpus = ClassLoader.getSystemResource("mission3_texts/English").toURI();
+        URI document = ClassLoader.getSystemResource("mission3_texts/English/wikipedia.Fat.txt").toURI();
 
       Workflow workflow = new Workflow(), keyphraseWorkflow;      
 		File corpusDirectory = (args.length > 0) ? new File(args[0]) : new File(corpus);
