@@ -30,7 +30,7 @@ public class EloInfoDisplayAttribute extends ScyWindowAttribute, TooltipCreator 
    public var metadataTypeManager:IMetadataTypeManager;
    public var tooltipManager:TooltipManager;
    override public var priority = 1;
-   def circleRadius = 7;
+   def circleRadius = 6.0;
    def identifierKey=metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
    def technicalFormatKey=metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
    def isForkOfKey=metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IS_FORK_OF.getId());
@@ -42,6 +42,15 @@ public class EloInfoDisplayAttribute extends ScyWindowAttribute, TooltipCreator 
       tooltipManager.registerNode(this, this);
    }
 
+   public override function clone():EloInfoDisplayAttribute{
+      EloInfoDisplayAttribute{
+         window: window
+         repository: repository
+         metadataTypeManager: metadataTypeManager
+         tooltipManager: tooltipManager
+         priority: priority
+      }
+   }
 
    override protected function create(): Node {
       Group {

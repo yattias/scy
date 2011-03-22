@@ -5,7 +5,6 @@
 package eu.scy.client.desktop.scydesktop.tools.colorscheme;
 
 import javafx.scene.CustomNode;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -16,6 +15,9 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import javafx.scene.control.ListCell;
 import eu.scy.client.desktop.scydesktop.art.eloicons.EloIconFactory;
 import javafx.util.Sequences;
+import javafx.scene.layout.VBox;
+import javafx.scene.Group;
+import eu.scy.client.desktop.scydesktop.uicontrols.EloIconButton.EloIconButtonPreview;
 
 /**
  * @author SikkenJ
@@ -26,7 +28,7 @@ public class WindowColorSchemeEditorNode extends CustomNode {
       }
    public var windowColorSchemes = WindowColorSchemes.getStandardWindowColorSchemes() on replace { windowColorSchemesChanged() };
    public var eloIconFactory: EloIconFactory;
-   public def selectedEloIconNamne = bind windowColorSchemeEditor.eloIconListview.selectedItem;
+   public def selectedEloIconNamne = bind windowColorSchemeEditor.eloIconListview.selectedItem as String on replace { selectedEloIconNameChanged()};
    public def selectedWindowColorScheme = bind windowColorSchemeEditor.colorSchemeListview.selectedItem as WindowColorScheme on replace { selectedWindowColorSchemeChanged() };
    public var colorChanged: function():Void;
    def selectedColorPart = bind windowColorSchemeEditor.toggleGroup.selectedToggle.value as String on replace { selectedColorPartChanged() };
@@ -39,13 +41,25 @@ public class WindowColorSchemeEditorNode extends CustomNode {
    var blueValue: Integer;
    var alphaValue: Integer;
    var selectedColor: Color;
+   def eloIconButtonPreviewDesktop = EloIconButtonPreview{
+      size:30
+   }
+   def eloIconButtonPreviewTitleBar = EloIconButtonPreview{
+      size:14
+   }
+
 
    public override function create(): Node {
       setupWindowColorSchemeEditor();
       FX.deferAction(selectDefaults);
-      Group {
+      VBox {
+         spacing: 5.0
          content: [
-            windowColorSchemeEditor.getDesignRootNodes()
+            Group{
+               content: windowColorSchemeEditor.getDesignRootNodes()
+            }
+            eloIconButtonPreviewDesktop,
+            eloIconButtonPreviewTitleBar
          ]
       }
    }
@@ -59,6 +73,14 @@ public class WindowColorSchemeEditorNode extends CustomNode {
          windowColorSchemeEditor.mainColorRadioButton.selected = true;
       }
    }
+
+   function selectedEloIconNameChanged(){
+      def newEloIcon = eloIconFactory.createEloIcon(selectedEloIconNamne);
+      newEloIcon.windowColorScheme =selectedWindowColorScheme;
+      eloIconButtonPreviewDesktop.eloIcon = newEloIcon;
+      eloIconButtonPreviewTitleBar.eloIcon = newEloIcon.clone();
+   }
+
 
    function setupWindowColorSchemeEditor() {
       windowColorSchemeEditor.colorSchemeListview.items = windowColorSchemes.getAllWindowColorSchemes();
@@ -120,6 +142,7 @@ public class WindowColorSchemeEditorNode extends CustomNode {
          windowColorSchemeEditor.emptyBackgroundDisplay.fill = selectedColor;
       }
       colorChanged();
+      selectedEloIconNameChanged();
    }
 
    function selectedWindowColorSchemeChanged() {
@@ -207,10 +230,11 @@ function run() {
       onClose: function() {
       }
       scene: Scene {
-         width: 400
-         height: 400
+         width: 470
+         height: 450
          content: [
             WindowColorSchemeEditorNode {
+               eloIconFactory: EloIconFactory{}
             }
          ]
       }

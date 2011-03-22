@@ -6,11 +6,8 @@ package eu.scy.client.desktop.scydesktop.tools.colorscheme;
 
 import javafx.scene.CustomNode;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.net.URI;
 import org.apache.log4j.Logger;
@@ -25,6 +22,9 @@ import eu.scy.common.mission.ColorSchemesElo;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import roolo.elo.api.IELO;
 import eu.scy.client.desktop.scydesktop.art.eloicons.EloIconFactory;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
+import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
 
 /**
  * @author SikkenJ
@@ -52,6 +52,18 @@ public class ColorSchemeEditorNode extends CustomNode, ScyToolFX, EloSaverCallBa
       }
    var technicalFormatKey: IMetadataKey;
    def eloIconName = bind windowColorSchemeEditorNode.selectedEloIconNamne as String on replace { eloIconNameChanged() };
+   def saveTitleBarButton = TitleBarButton {
+              actionId: "save"
+              iconType: "save"
+              action: doSaveElo
+              tooltip: "save ELO"
+           }
+   def saveAsTitleBarButton = TitleBarButton {
+              actionId: "saveAs"
+              iconType: "save_as"
+              action: doSaveAsElo
+              tooltip: "save copy of ELO"
+           }
 
    public override function initialize(windowContent: Boolean): Void {
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
@@ -63,7 +75,17 @@ public class ColorSchemeEditorNode extends CustomNode, ScyToolFX, EloSaverCallBa
          colorChanged();
 
       });
+   }
 
+   public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
+//      println("setTitleBarButtonManager({titleBarButtonManager},{windowContent})");
+//      println("saveTitleBarButton: {saveTitleBarButton}, saveAsTitleBarButton: {saveAsTitleBarButton}");
+      if (windowContent) {
+         titleBarButtonManager.titleBarButtons = [
+                    saveTitleBarButton,
+                    saveAsTitleBarButton
+                 ]
+      }
    }
 
    function eloIconNameChanged(): Void {
@@ -102,36 +124,42 @@ public class ColorSchemeEditorNode extends CustomNode, ScyToolFX, EloSaverCallBa
    public override function create(): Node {
       //      resizeContent();
       //      FX.deferAction(resizeContent);
-      VBox {
-         blocksMouse: true
-         managed: false
-         spacing: spacing;
-         content: [
-            buttonBox = HBox {
-                  spacing: spacing;
-                  padding: Insets {
-                     left: spacing
-                     top: spacing
-                     right: spacing
-                  }
-                  content: [
-                     Button {
-                        text: "Save"
-                        action: function() {
-                           doSaveElo();
-                        }
-                     }
-                     Button {
-                        text: "Save as"
-                        action: function() {
-                           doSaveAsElo();
-                        }
-                     }
-                  ]
-               }
-            windowColorSchemeEditorNode
-         ]
+//      VBox {
+//         blocksMouse: true
+//         managed: false
+//         spacing: spacing;
+//         content: [
+//            buttonBox = HBox {
+//                  spacing: spacing;
+//                  padding: Insets {
+//                     left: spacing
+//                     top: spacing
+//                     right: spacing
+//                  }
+//                  content: [
+//                     Button {
+//                        text: "Save"
+//                        action: function() {
+//                           doSaveElo();
+//                        }
+//                     }
+//                     Button {
+//                        text: "Save as"
+//                        action: function() {
+//                           doSaveAsElo();
+//                        }
+//                     }
+//                  ]
+//               }
+//            windowColorSchemeEditorNode
+//         ]
+//      }
+      EmptyBorderNode{
+         borderSize: 5.0
+         content:windowColorSchemeEditorNode
       }
+//
+//      windowColorSchemeEditorNode
    }
 
    function doLoadElo(eloUri: URI) {

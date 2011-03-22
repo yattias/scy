@@ -35,6 +35,7 @@ import javafx.geometry.Insets;
 import javafx.util.Math;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoManager;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 
 /**
  * @author sikken
@@ -229,6 +230,9 @@ public class ScyToolViewer extends CustomNode, Resizable, ScyToolFX {
       addMessage("acceptDrop of {object.getClass()}");
    }
 
+   public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
+      addMessage("setTitleBarButtonManager({titleBarButtonManager},{windowContent})");
+   }
    function sizeChanged(): Void {
       Container.resizeNode(nodeBox, width, height);
    //      println("ScyToolViewer: size changed to {width}*{height}");

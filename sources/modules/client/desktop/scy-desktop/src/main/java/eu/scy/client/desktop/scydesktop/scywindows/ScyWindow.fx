@@ -23,6 +23,7 @@ import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.mission.EloToolConfig;
 import javafx.geometry.Point2D;
 import eu.scy.client.desktop.scydesktop.owner.OwnershipManager;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 
 /**
  * @author sikkenj
@@ -86,6 +87,7 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
     public var mucId: String;
     public var tbi: ToolBrokerAPI;
     public var ownershipManager: OwnershipManager;
+    public var titleBarButtonManager: TitleBarButtonManager;
     // status variables
     public-read protected var isMinimized = false;
     public-read protected var isClosed = true;

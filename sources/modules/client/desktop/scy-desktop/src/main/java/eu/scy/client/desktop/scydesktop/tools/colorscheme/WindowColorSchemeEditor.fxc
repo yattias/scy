@@ -76,7 +76,6 @@
             <Item value="inst:RectangleShapeModel11"/>
             <Item value="inst:RectangleShapeModel12"/>
             <Item value="inst:RectangleShapeModel13"/>
-            <Item value="inst:RectangleShapeModel14"/>
         </List>
         <Reference name="width" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:501.0,4,null,"/>
         <Reference name="height" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:376.0,4,null,"/>
@@ -602,18 +601,5 @@
         <Reference name="stroke" value="prop2:7,NOT_SET,4,null,4,null,18,anim:,,color:BLACK,4,null,"/>
         <Reference name="width" value="prop2:7,NOT_SET,4,null,4,null,15,anim:,,flt:50.0,4,null,"/>
         <Reference name="height" value="prop2:7,NOT_SET,4,null,4,null,15,anim:,,flt:15.0,4,null,"/>
-    </Instance>
-    <Instance classID="RectangleShapeModel" instanceID="RectangleShapeModel14">
-        <Reference name="instanceName" value="str:rectangle"/>
-        <Reference name="layoutX" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:468.0,4,null,"/>
-        <Reference name="layoutY" value="prop2:7,NOT_SET,4,null,4,null,16,anim:,,flt:335.0,4,null,"/>
-        <Reference name="gridLayoutInfoHLocation" value="int:0"/>
-        <Reference name="gridLayoutInfoVLocation" value="int:0"/>
-        <Reference name="clip" value="null"/>
-        <Map name="customProperties"/>
-        <Reference name="customClass" value="null"/>
-        <Reference name="fill" value="prop2:7,NOT_SET,4,null,4,null,23,anim:,,inst:ColorModel1,4,null,"/>
-        <Reference name="width" value="prop2:7,NOT_SET,4,null,4,null,15,anim:,,flt:10.0,4,null,"/>
-        <Reference name="height" value="prop2:7,NOT_SET,4,null,4,null,15,anim:,,flt:10.0,4,null,"/>
     </Instance>
 </Model>

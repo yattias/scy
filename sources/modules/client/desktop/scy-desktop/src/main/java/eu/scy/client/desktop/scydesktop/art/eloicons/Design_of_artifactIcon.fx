@@ -46,8 +46,8 @@ return Group {
 				},
 				Polygon {
 					points: [33.14,21.13,33.09,31.95,25.37,31.30]
-					fill: Color.WHITE
-					stroke: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
+					stroke: bind windowColorScheme.emptyBackgroundColor
 					strokeWidth: 2.35
 					strokeLineCap: StrokeLineCap.BUTT
 				},
@@ -87,7 +87,7 @@ return Group {
 				},
 				Line {
 					fill: null
-					stroke: Color.WHITE
+					stroke: bind windowColorScheme.emptyBackgroundColor
 					strokeLineCap: StrokeLineCap.BUTT
 					startX: 14.92
 					startY: 22.14
@@ -96,7 +96,7 @@ return Group {
 				},
 				Line {
 					fill: null
-					stroke: Color.WHITE
+					stroke: bind windowColorScheme.emptyBackgroundColor
 					strokeLineCap: StrokeLineCap.BUTT
 					startX: 18.92
 					startY: 22.14
@@ -105,7 +105,7 @@ return Group {
 				},
 				Line {
 					fill: null
-					stroke: Color.WHITE
+					stroke: bind windowColorScheme.emptyBackgroundColor
 					strokeLineCap: StrokeLineCap.BUTT
 					startX: 21.92
 					startY: 22.14
@@ -114,7 +114,7 @@ return Group {
 				},
 				Line {
 					fill: null
-					stroke: Color.WHITE
+					stroke: bind windowColorScheme.emptyBackgroundColor
 					strokeLineCap: StrokeLineCap.BUTT
 					startX: 25.92
 					startY: 22.14
@@ -123,7 +123,7 @@ return Group {
 				},
 				Line {
 					fill: null
-					stroke: Color.WHITE
+					stroke: bind windowColorScheme.emptyBackgroundColor
 					strokeLineCap: StrokeLineCap.BUTT
 					startX: 29.92
 					startY: 22.14

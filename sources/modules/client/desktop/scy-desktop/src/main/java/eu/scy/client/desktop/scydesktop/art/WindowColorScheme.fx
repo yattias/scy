@@ -16,14 +16,14 @@ import javafx.util.Math;
 
 public class WindowColorScheme {
    public var colorSchemeId: ColorSchemeId;
-   public var mainColor:Color;
-   public var mainColorLight:Color;
-   public var secondColor:Color;
-   public var secondColorLight:Color;
-   public var thirdColor:Color;
-   public var thirdColorLight:Color;
-   public var backgroundColor:Color;
-   public var emptyBackgroundColor:Color;
+   public var mainColor:Color = Color.rgb(129, 163, 66);
+   public var mainColorLight:Color = Color.rgb(230, 245, 213);
+   public var secondColor:Color = Color.rgb(80, 108, 196);
+   public var secondColorLight:Color = Color.rgb(246, 246, 206);
+   public var thirdColor:Color = Color.rgb(74, 0, 198);
+   public var thirdColorLight:Color = Color.rgb(218, 229, 244);
+   public var backgroundColor:Color = Color.rgb(239, 255, 223);
+   public var emptyBackgroundColor:Color = Color.rgb(255, 255, 255);
 
    public function assign(windowColorScheme: WindowColorScheme):Void{
       mainColor = windowColorScheme.mainColor;

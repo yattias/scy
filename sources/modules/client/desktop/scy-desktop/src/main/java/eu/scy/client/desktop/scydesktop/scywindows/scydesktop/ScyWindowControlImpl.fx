@@ -286,6 +286,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
             dragAndDropManager: dragAndDropManager
             tbi: tbi
             windowControl:this
+            windowStyler: windowStyler
             }
       windowStyler.style(scyWindow);
       var anchorAttribute = missionMap.getAnchorAttribute(eloUri);
@@ -321,6 +322,7 @@ public class ScyWindowControlImpl extends ScyWindowControl {
             dragAndDropManager: dragAndDropManager
             tbi: tbi
             windowControl:this
+            windowStyler: windowStyler
             }
       windowStyler.style(scyWindow);
       if (showEloInfoDisplay){

@@ -6,6 +6,7 @@
 package eu.scy.client.desktop.scydesktop.tooltips;
 
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 
 /**
  * @author sikken
@@ -18,5 +19,9 @@ public mixin class TooltipManager {
    public abstract function unregisterNode(sourceNode: Node): Void;
 
    public abstract function removeTooltip(): Void;
+
+   public abstract function onMouseEntered(e: MouseEvent, tooltipCreator: TooltipCreator): Void;
+
+   public abstract function onMouseExited(e: MouseEvent): Void;
 
 }

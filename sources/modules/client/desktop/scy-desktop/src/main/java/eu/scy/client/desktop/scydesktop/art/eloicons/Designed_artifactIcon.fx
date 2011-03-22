@@ -49,14 +49,14 @@ return Group {
 				},
 				Polygon {
 					points: [16.33,23.46,16.45,31.42,25.25,26.12,33.92,31.42,33.75,23.30,25.23,18.30]
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: bind windowColorScheme.mainColor
 					strokeWidth: 0.92
 					strokeLineCap: StrokeLineCap.BUTT
 				},
 				Polygon {
 					points: [11.55,18.84,11.82,10.91,18.64,14.83]
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: bind windowColorScheme.mainColor
 					strokeWidth: 0.94
 					strokeLineCap: StrokeLineCap.BUTT

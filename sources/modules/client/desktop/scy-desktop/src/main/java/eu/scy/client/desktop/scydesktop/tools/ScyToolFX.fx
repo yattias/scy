@@ -82,4 +82,6 @@ public mixin class ScyToolFX extends ScyTool {
       return null;
    }
 
+   public function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
+   }
 }

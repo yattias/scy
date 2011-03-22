@@ -39,7 +39,7 @@ return Group {
 					content: "M37.00,20.61 C37.00,27.93 29.61,33.88 20.48,33.88 C11.36,33.88 3.97,27.93 3.97,20.61 C3.97,13.27 11.36,7.34 20.48,7.34 C29.61,7.34 37.00,13.27 37.00,20.61 Z "
 				},
 				SVGPath {
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: bind windowColorScheme.mainColor
 					strokeWidth: 1.47
 					strokeLineCap: StrokeLineCap.BUTT

@@ -46,7 +46,7 @@ return Group {
 					content: "M34.23,7.27 L34.23,33.00 L8.49,33.00 L8.49,7.27 Z M36.07,5.43 L6.65,5.43 L6.65,34.84 L36.07,34.84 Z "
 				},
 				Rectangle {
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: null
 					x: 28.69
 					y: 27.52
@@ -54,7 +54,7 @@ return Group {
 					height: 7.31
 				},
 				Rectangle {
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: null
 					x: 28.69
 					y: 16.69
@@ -62,7 +62,7 @@ return Group {
 					height: 7.31
 				},
 				Rectangle {
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: null
 					x: 28.69
 					y: 5.54
@@ -70,7 +70,7 @@ return Group {
 					height: 7.4
 				},
 				Rectangle {
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: null
 					x: 17.7
 					y: 5.46
@@ -78,7 +78,7 @@ return Group {
 					height: 7.46
 				},
 				Rectangle {
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: null
 					x: 6.55
 					y: 5.46
@@ -86,7 +86,7 @@ return Group {
 					height: 7.46
 				},
 				Rectangle {
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: null
 					x: 17.7
 					y: 16.66
@@ -94,7 +94,7 @@ return Group {
 					height: 7.37
 				},
 				Rectangle {
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: null
 					x: 6.55
 					y: 16.66
@@ -102,7 +102,7 @@ return Group {
 					height: 7.37
 				},
 				Rectangle {
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: null
 					x: 17.7
 					y: 27.58
@@ -110,7 +110,7 @@ return Group {
 					height: 7.37
 				},
 				Rectangle {
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: null
 					x: 6.55
 					y: 27.58

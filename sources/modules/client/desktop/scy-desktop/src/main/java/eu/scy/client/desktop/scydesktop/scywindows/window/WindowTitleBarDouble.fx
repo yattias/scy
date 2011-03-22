@@ -29,20 +29,28 @@ import eu.scy.client.desktop.scydesktop.art.ArtSource;
 import eu.scy.client.desktop.scydesktop.art.EloImageInformation;
 import eu.scy.client.desktop.scydesktop.art.FxdImageLoader;
 import javafx.scene.shape.Ellipse;
+import eu.scy.client.desktop.scydesktop.art.eloicons.EloIconFactory;
+import eu.scy.client.desktop.scydesktop.imagewindowstyler.JavaFxWindowStyler;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
+import javafx.animation.Timeline;
+import javafx.animation.KeyFrame;
+import eu.scy.client.desktop.scydesktop.scywindows.TestAttribute;
 
 /**
  * @author SikkenJ
  */
 public class WindowTitleBarDouble extends WindowElement {
 
-   public var width = 200.0;
+   public var width = 200.0 on replace { updatePositions() };
    public var title = "very very long title";
    public var eloIcon: EloIcon on replace oldEloIcon { eloIconChanged(oldEloIcon)
-          };
+           };
    public var activated = true on replace { activatedChanged()
-          };
+           };
    public var windowStateControls: WindowStateControls;
    public var titleBarBuddies: TitleBarBuddies;
+   public var titleBarButtons: TitleBarButtons;
+   public var titleBarWindowAttributes: TitleBarWindowAttributes;
    public var iconSize = 40.0;
    public var iconGap = 2.0;
    public var textIconSpace = 5.0;
@@ -51,19 +59,21 @@ public class WindowTitleBarDouble extends WindowElement {
    public var textInset = 1.0;
    public var rectangleAntialiasOffset = 0.0;
    public var beingDragged = false on replace {
-         if (beingDragged) {
-            mouseOverTitleDisplay.abort();
-             }
-          };
+              if (beingDragged) {
+                 mouseOverTitleDisplay.abort();
+              }
+           };
    public-init var startDragIcon: function(e: MouseEvent): Void;
+   public-read var minimumWidth = width;
+   def minimumItemSpacing = 18.0;
    def titleFontsize = 12;
    def textFont = Font.font("Verdana", FontWeight.BOLD, titleFontsize);
    def mainColor = bind if (activated) windowColorScheme.mainColor else windowColorScheme.emptyBackgroundColor;
    def bgColor = bind if (activated) windowColorScheme.emptyBackgroundColor else windowColorScheme.mainColor;
    // make sure the background color of the title bar changes, when the main changes
    def theMainColor = bind windowColorScheme.mainColor on replace {
-         activatedChanged()
-          }
+              activatedChanged()
+           }
    def mouseOverBorderSize = 1.0;
    def closeBoxWidthOffset = bind if (closeBoxShown) closeBoxWidth + textIconSpace else 0;
    def borderWidth = 2.0;
@@ -81,142 +91,178 @@ public class WindowTitleBarDouble extends WindowElement {
       eloIcon.size = iconSize;
       delete oldEloIcon from eloIconGroup.content;
       insert eloIcon into eloIconGroup.content;
-       }
+   }
 
    function activatedChanged() {
       eloIcon.selected = activated;
       if (activated) {
          textBackgroundFillRect.fill = windowColorScheme.mainColor;
-          } else {
+      } else {
          textBackgroundFillRect.fill = windowColorScheme.backgroundColor;
-          }
-       }
+      }
+   }
+
+   function updatePositions(): Void {
+      titleBarWindowAttributes.itemListChanged = updatePositions;
+      titleBarBuddies.itemListChanged = updatePositions;
+      titleBarButtons.itemListChanged = updatePositions;
+      def y = 2 * borderWidth + 1;
+      titleBarWindowAttributes.layoutY = y;
+      titleBarBuddies.layoutY = y;
+      titleBarButtons.layoutY = y;
+      def leftSide = iconSize + textIconSpace;
+      def rightSize = width - windowStateControls.layoutBounds.width - 2 * borderWidth;
+//      println("leftSide: {leftSide}, rightSize: {rightSize}");
+      def attributesWidth = titleBarWindowAttributes.layoutBounds.width;
+      def buddiesWidth = titleBarBuddies.layoutBounds.width;
+      def buttonsWidth = titleBarButtons.layoutBounds.width;
+//      println("attributesWidth: {attributesWidth}, buddiesWidth: {buddiesWidth}, buttonWidth: {buttonsWidth}");
+      var nrOfElements = 0;
+      if (buttonsWidth > 0) {
+      //         ++nrOfElements
+      }
+      if (buddiesWidth > 0) {
+         ++nrOfElements
+      }
+      if (attributesWidth > 0) {
+         ++nrOfElements
+      }
+      def spacing = (rightSize - leftSide - attributesWidth - buddiesWidth - buttonsWidth) / (nrOfElements + 1);
+      minimumWidth = leftSide + attributesWidth + buddiesWidth + buttonsWidth + (nrOfElements + 1) * minimumItemSpacing + windowStateControls.layoutBounds.width + 2 * borderWidth;
+      var x = leftSide;
+      if (buttonsWidth > 0) {
+         titleBarButtons.layoutX = x;
+         x += buttonsWidth + spacing;
+      } else {
+         x += spacing;
+      }
+      if (attributesWidth > 0) {
+         titleBarWindowAttributes.layoutX = x;
+         x += attributesWidth + spacing;
+      }
+      if (buddiesWidth > 0) {
+         titleBarBuddies.layoutX = x;
+         x += buddiesWidth + spacing;
+      }
+   }
 
    public override function create(): Node {
       if (windowStateControls == null) {
          windowStateControls = WindowStateControls {
-               windowColorScheme: bind windowColorScheme
-            }
+                    windowColorScheme: bind windowColorScheme
+                 }
 
-          }
+      }
 
       textBackgroundFillRect = Rectangle {
-            x: 0
-            y: 0
-            width: bind textClipWidth
-            height: borderDistance - 4 * borderWidth / 2
-         }
+                 x: 0
+                 y: 0
+                 width: bind textClipWidth
+                 height: borderDistance - 4 * borderWidth / 2
+              }
       clipRect = Rectangle {
-            x: 0
-            y: 0
-            width: bind width - iconSize - textIconSpace
-            height: iconSize
-            fill: Color.BLACK
-         };
+                 x: 0
+                 y: 0
+                 width: bind width - iconSize - textIconSpace
+                 height: iconSize
+                 fill: Color.BLACK
+              };
       activatedChanged();
       eloIconChanged(null);
       nodeGroup = Group {
-            content: [
-               Rectangle {
-                  x: -0, y: 0
-                  width: bind width, height: 2 * borderDistance
-                  fill: bind windowColorScheme.backgroundColor
-               }
-               Line { // top line
-                  startX: iconSize + textIconSpace + borderWidth / 2, startY: 0
-                  endX: bind width - borderWidth / 2, endY: 0
-                  strokeWidth: borderWidth
-                  stroke: bind windowColorScheme.mainColor
-               }
-               Line { // middle line
-                  startX: iconSize + textIconSpace + borderWidth / 2, startY: borderDistance
-                  endX: bind width - borderWidth / 2, endY: borderDistance
-                  strokeWidth: borderWidth
-                  stroke: bind windowColorScheme.mainColor
-               }
-               Line { // bottom line
-                  startX: borderWidth / 2, startY: 2 * borderDistance
-                  endX: bind width - borderWidth / 2, endY: 2 * borderDistance
-                  strokeWidth: borderWidth
-                  stroke: bind windowColorScheme.mainColor
-               }
+                 content: [
+                    Rectangle {
+                       x: -0, y: 0
+                       width: bind width, height: 2 * borderDistance
+                       fill: bind windowColorScheme.backgroundColor
+                    }
+                    Line { // top line
+                       startX: iconSize + textIconSpace + borderWidth / 2, startY: 0
+                       endX: bind width - borderWidth / 2, endY: 0
+                       strokeWidth: borderWidth
+                       stroke: bind windowColorScheme.mainColor
+                    }
+                    Line { // middle line
+                       startX: iconSize + textIconSpace + borderWidth / 2, startY: borderDistance
+                       endX: bind width - borderWidth / 2, endY: borderDistance
+                       strokeWidth: borderWidth
+                       stroke: bind windowColorScheme.mainColor
+                    }
+                    Line { // bottom line
+                       startX: borderWidth / 2, startY: 2 * borderDistance
+                       endX: bind width - borderWidth / 2, endY: 2 * borderDistance
+                       strokeWidth: borderWidth
+                       stroke: bind windowColorScheme.mainColor
+                    }
 
-               eloIconGroup = Group {
-                     layoutX: 0
-                     layoutY: -1
-                     blocksMouse: startDragIcon != null
-                     cursor: if (startDragIcon != null) Cursor.HAND else null
-                     content: eloIcon
-                     onMousePressed: function(e: MouseEvent): Void {
-                        startDragIcon(e);
-                        }
-                  }
-               Line { // left top line
-                  visible: bind not activated
-                  startX: borderWidth / 2, startY: 0
-                  endX: iconSize + textIconSpace + borderWidth / 2, endY: 0
-                  strokeWidth: borderWidth
-                  stroke: bind windowColorScheme.mainColor
-               }
-               Group {
-                  layoutX: bind width/2
-                  layoutY: 2 * borderWidth + 1
-                  content: titleBarBuddies;
-               }
-               Group {
-                  layoutX: bind width - windowStateControls.layoutBounds.width - 2 * borderWidth
-                  layoutY: 2 * borderWidth + 1
-                  content: windowStateControls;
-               }
-
-//            windowStateControls = WindowStateControls{
-//               layoutX: bind width - windowStateControls.layoutBounds.width-0* borderWidth
-//               layoutY: 2*borderWidth+1
-//               windowColorScheme:bind windowColorScheme
-//            }
-               Group {
-                  layoutX: iconSize + textIconSpace
-                  layoutY: borderDistance + borderWidth / 2
-                  content: [
-                     textBackgroundFillRect,
-                     titleText = Text { // title
-                           font: textFont
-                           textOrigin: TextOrigin.TOP;
-                           x: textInset,
-                           y: textInset
-                           clip: clipRect
-                           fill: bind bgColor
-                           content: bind title;
-                        },
-                  ]
-               }
-            //				Group{ // just for checking title clip
-            //					content:[
-            //						Rectangle {
-            //							x: 3 * topLeftBlockSize / 4 + iconSize,
-            //							y: 0
-            //							width: bind width - 3 * topLeftBlockSize / 4 - iconSize,
-            //							height: bind height
-            //							fill: Color.BLACK
-            //						}
-            //					]
-            //				},
-            ]
-            onMouseEntered: function(e: MouseEvent): Void {
-               mouseOverTitleDisplay = MouseOverDisplay {
-                     createMouseOverDisplay: createMouseOverNode
-                     mySourceNode: this
-                     offsetX: -mouseOverBorderSize
-                     offsetY: -mouseOverBorderSize
-                  }
-               }
-            onMouseExited: function(e: MouseEvent): Void {
-               if (mouseOverTitleDisplay != null) {
-                  mouseOverTitleDisplay.stop();
-                  mouseOverTitleDisplay = null;
-                   }
-               }
-         };
+                    eloIconGroup = Group {
+                               layoutX: 0
+                               layoutY: -1
+                               blocksMouse: startDragIcon != null
+                               cursor: if (startDragIcon != null) Cursor.HAND else null
+                               content: eloIcon
+                               onMousePressed: function(e: MouseEvent): Void {
+                                  startDragIcon(e);
+                               }
+                            }
+                    Line { // left top line
+                       visible: bind not activated
+                       startX: borderWidth / 2, startY: 0
+                       endX: iconSize + textIconSpace + borderWidth / 2, endY: 0
+                       strokeWidth: borderWidth
+                       stroke: bind windowColorScheme.mainColor
+                    }
+                    titleBarButtons,
+                    titleBarBuddies,
+                    titleBarWindowAttributes,
+                    Group {
+                       layoutX: bind width - windowStateControls.layoutBounds.width - 2 * borderWidth
+                       layoutY: 2 * borderWidth + 1
+                       content: windowStateControls;
+                    }
+                    Group {
+                       layoutX: iconSize + textIconSpace
+                       layoutY: borderDistance + borderWidth / 2
+                       content: [
+                          textBackgroundFillRect,
+                          titleText = Text { // title
+                                     font: textFont
+                                     textOrigin: TextOrigin.TOP;
+                                     x: textInset,
+                                     y: textInset
+                                     clip: clipRect
+                                     fill: bind bgColor
+                                     content: bind title;
+                                  },
+                       ]
+                    }
+                 //				Group{ // just for checking title clip
+                 //					content:[
+                 //						Rectangle {
+                 //							x: 3 * topLeftBlockSize / 4 + iconSize,
+                 //							y: 0
+                 //							width: bind width - 3 * topLeftBlockSize / 4 - iconSize,
+                 //							height: bind height
+                 //							fill: Color.BLACK
+                 //						}
+                 //					]
+                 //				},
+                 ]
+                 onMouseEntered: function(e: MouseEvent): Void {
+                    mouseOverTitleDisplay = MouseOverDisplay {
+                               createMouseOverDisplay: createMouseOverNode
+                               mySourceNode: this
+                               offsetX: -mouseOverBorderSize
+                               offsetY: -mouseOverBorderSize
+                            }
+                 }
+                 onMouseExited: function(e: MouseEvent): Void {
+                    if (mouseOverTitleDisplay != null) {
+                       mouseOverTitleDisplay.stop();
+                       mouseOverTitleDisplay = null;
+                    }
+                 }
+              };
       //      FX.deferAction(function():Void{
       //            MouseOverDisplay{
       //                     createMouseOverDisplay:createMouseOverNode
@@ -226,8 +272,23 @@ public class WindowTitleBarDouble extends WindowElement {
       //                     showImmediate:true
       //                  }
       //         });
+      updatePositions();
+      FX.deferAction(function(): Void {
+         updatePositions();
+         FX.deferAction(updatePositions);
+      });
+//      Timeline {
+//         repeatCount: 1
+//         keyFrames: [
+//            KeyFrame {
+//               time: 1s
+//               action: updatePositions
+//            }
+//         ];
+//      }.play();
+
       nodeGroup
-       }
+   }
 
    function createMouseOverNode(): Node {
       var rightBorderSize = mouseOverBorderSize;
@@ -236,7 +297,7 @@ public class WindowTitleBarDouble extends WindowElement {
          // and the title is not clipped
          // one would expects to assign 0, but to be sure that no white right border is shown due to anti-aliasing make it -2
          rightBorderSize = -2;
-          }
+      }
       //      println("eloIcon.size: {eloIcon.size} of {eloIcon}");
       var eloIconOffsetX = 0.0;
       var eloIconOffsetY = 0.0;
@@ -247,48 +308,48 @@ public class WindowTitleBarDouble extends WindowElement {
          eloIconOffsetY = 0.0;
          textOffsetX = -1.0;
          textOffsetY = 1.0;
-          }
+      }
 
       var fullTitleGroup = Group {
-            content: [
-               Rectangle {
-                  x: -eloIcon.borderSize / 2, y: -eloIcon.borderSize / 2
-                  width: eloIcon.size + eloIcon.borderSize, height: eloIcon.size + eloIcon.borderSize
-                  //                  x: 0, y:0
-                  //                  width: eloIcon.size , height: eloIcon.size
-                  fill: Color.TRANSPARENT
-               }
-               Group {
-                  layoutX: eloIconOffsetX
-                  layoutY: eloIconOffsetY
-                  content: eloIcon.clone()
-               }
-               Group {
-                  layoutX: iconSize + textIconSpace + textOffsetX
-                  layoutY: borderDistance + borderWidth / 2 + textOffsetY
-                  content: [
-                     Rectangle {
-                        x: 0
-                        y: 0
-                        width: titleText.layoutBounds.width
-                        height: borderDistance - 4 * borderWidth / 2
-                        fill: textBackgroundFillRect.fill
-                     //               fill: Color.GRAY
-                     }
-                     titleText = Text {
-                           font: textFont
-                           textOrigin: TextOrigin.TOP;
-                           x: textInset,
-                           y: textInset
-                           fill: bgColor
-                           content: title;
-                        }
-                  ]
-               }
-            ]
-         }
+                 content: [
+                    Rectangle {
+                       x: -eloIcon.borderSize / 2, y: -eloIcon.borderSize / 2
+                       width: eloIcon.size + eloIcon.borderSize, height: eloIcon.size + eloIcon.borderSize
+                       //                  x: 0, y:0
+                       //                  width: eloIcon.size , height: eloIcon.size
+                       fill: Color.TRANSPARENT
+                    }
+                    Group {
+                       layoutX: eloIconOffsetX
+                       layoutY: eloIconOffsetY
+                       content: eloIcon.clone()
+                    }
+                    Group {
+                       layoutX: iconSize + textIconSpace + textOffsetX
+                       layoutY: borderDistance + borderWidth / 2 + textOffsetY
+                       content: [
+                          Rectangle {
+                             x: 0
+                             y: 0
+                             width: titleText.layoutBounds.width
+                             height: borderDistance - 4 * borderWidth / 2
+                             fill: textBackgroundFillRect.fill
+                          //               fill: Color.GRAY
+                          }
+                          titleText = Text {
+                                     font: textFont
+                                     textOrigin: TextOrigin.TOP;
+                                     x: textInset,
+                                     y: textInset
+                                     fill: bgColor
+                                     content: title;
+                                  }
+                       ]
+                    }
+                 ]
+              }
       fullTitleGroup
-       }
+   }
 
 }
 var imageLoader = ImageLoader.getImageLoader();
@@ -296,19 +357,19 @@ var imageLoader = ImageLoader.getImageLoader();
 function loadEloIcon(type: String): EloIcon {
    def windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    def imageLoader = FxdImageLoader {
-         sourceName: ArtSource.plainIconsPackage
-         returnDuplicates: true
-      };
+              sourceName: ArtSource.plainIconsPackage
+              returnDuplicates: true
+           };
    var name = EloImageInformation.getIconName(type);
    //   println("name: {name}");
    def eloIcon = FxdEloIcon {
-         visible: true
-         fxdNode: imageLoader.getNode(name)
-         windowColorScheme: windowColorScheme
-      }
+              visible: true
+              fxdNode: imageLoader.getNode(name)
+              windowColorScheme: windowColorScheme
+           }
    //   println("eloIcon: {eloIcon}");
    eloIcon
-    }
+}
 
 function run() {
    var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
@@ -321,112 +382,135 @@ function run() {
 
    def radius = 10.0;
    var eloIcon1 = FxdEloIcon {
-         fxdNode: Ellipse {
-            centerX: radius, centerY: radius
-            radiusX: radius, radiusY: radius / 2
-            fill: Color.GREEN
-         }
-         windowColorScheme: windowColorScheme
-      };
+              fxdNode: Ellipse {
+                 centerX: radius, centerY: radius
+                 radiusX: radius, radiusY: radius / 2
+                 fill: Color.GREEN
+              }
+              windowColorScheme: windowColorScheme
+           };
 
    var eloIcon2 = FxdEloIcon {
-         fxdNode: Ellipse {
-            centerX: radius, centerY: radius
-            radiusX: radius, radiusY: radius / 2
-            fill: Color.GREEN
-         }
-         windowColorScheme: windowColorScheme
-      };
+              fxdNode: Ellipse {
+                 centerX: radius, centerY: radius
+                 radiusX: radius, radiusY: radius / 2
+                 fill: Color.GREEN
+              }
+              windowColorScheme: windowColorScheme
+           };
    var eloIcon3 = FxdEloIcon {
-         fxdNode: Circle {
-            centerX: radius, centerY: radius
-            radius: radius
-            fill: Color.GREEN
-         }
-         windowColorScheme: windowColorScheme
-      };
+              fxdNode: Circle {
+                 centerX: radius, centerY: radius
+                 radius: radius
+                 fill: Color.GREEN
+              }
+              windowColorScheme: windowColorScheme
+           };
    var eloIcon4 = FxdEloIcon {
-         fxdNode: Circle {
-            centerX: radius, centerY: radius
-            radius: radius
-            fill: Color.GREEN
-         }
-         windowColorScheme: windowColorScheme
-      };
+              fxdNode: Circle {
+                 centerX: radius, centerY: radius
+                 radius: radius
+                 fill: Color.GREEN
+              }
+              windowColorScheme: windowColorScheme
+           };
 
    var windowTitleBar2: WindowTitleBarDouble;
    var stage: Stage;
    stage = Stage {
-         title: "test title bar"
-         scene: Scene {
-            width: 400
-            height: 400
-            fill: Color.web("#eaeaea")
-            //            fill:LinearGradient {
-            //               startX : 0.0
-            //               startY : -0.5
-            //               endX : 0.0
-            //               endY : 1.0
-            //               stops: [
-            //                  Stop {
-            //                     color : Color.GREEN
-            //                     offset: 0.0
-            //                  },
-            //                  Stop {
-            //                     color : Color.WHITE
-            //                     offset: 1.0
-            //                  },
-            //               ]
-            //            }
+              title: "test title bar"
+              scene: Scene {
+                 width: 400
+                 height: 400
+                 fill: Color.web("#eaeaea")
+                 //            fill:LinearGradient {
+                 //               startX : 0.0
+                 //               startY : -0.5
+                 //               endX : 0.0
+                 //               endY : 1.0
+                 //               stops: [
+                 //                  Stop {
+                 //                     color : Color.GREEN
+                 //                     offset: 0.0
+                 //                  },
+                 //                  Stop {
+                 //                     color : Color.WHITE
+                 //                     offset: 1.0
+                 //                  },
+                 //               ]
+                 //            }
 
-            content: [
-               windowTitleBar1 = WindowTitleBarDouble {
-                     eloIcon: eloIcon1
-                     windowColorScheme: windowColorScheme
-                     title: "1: no rotation, no rotation"
-                     translateX: 10;
-                     translateY: 10;
-                     activated: true;
-                  }
-               windowTitleBar2 = WindowTitleBarDouble {
-                     eloIcon: eloIcon2
-                     windowColorScheme: windowColorScheme
-                     title: "2: no rotation, no rotation"
-                     activated: false
-                     translateX: 10;
-                     translateY: 70;
-                  }
-               WindowTitleBarDouble {
-                  eloIcon: loadEloIcon("scy/mapping")
-                  windowColorScheme: windowColorScheme
-                  title: "3: rorated by 15"
-                  activated: false
-                  translateX: 10;
-                  translateY: 140;
-                  rotate: 15
-               }
-               WindowTitleBarDouble {
-                  eloIcon: loadEloIcon("scy/mapping")
-                  windowColorScheme: windowColorScheme
-                  activated: false
-                  title: "4: rotated by -15"
-                  translateX: 10;
-                  translateY: 210;
-                  rotate: -15
-               }
-            //               Button {
-            //                  translateX: 10;
-            //                  translateY: 90;
-            //                  text: "Swap icon"
-            //                  action: function () {
-            //                     windowTitleBar1.eloIcon = if (windowTitleBar1.eloIcon==eloIcon1) eloIcon2 else eloIcon1;
-            //                     windowTitleBar1.activated = not windowTitleBar1.activated;
-            //                  }
-            //               }
-            ]
-         }
-      }
+                 content: [
+                    windowTitleBar1 = WindowTitleBarDouble {
+                               eloIcon: eloIcon1
+                               windowColorScheme: windowColorScheme
+                               title: "1: no rotation, no rotation"
+                               titleBarWindowAttributes: TitleBarWindowAttributes {
+                                  scyWindowAttributes: [
+                                     TestAttribute {
+                                        radius: 6.0
+                                     }
+                                  ]
+                               }
+                               titleBarButtons: TitleBarButtons {
+                                  windowStyler: JavaFxWindowStyler {
+                                     eloIconFactory: EloIconFactory {}
+                                  }
+                                  windowColorScheme: windowColorScheme
+                                  titleBarButtons: [
+                                     TitleBarButton {
+                                        iconType: "pizza"
+                                        enabled: true
+                                     }
+                                     TitleBarButton {
+                                        iconType: "drawing"
+                                        enabled: true
+                                     }
+                                  ]
+                               }
+                               translateX: 10;
+                               translateY: 10;
+                               activated: true;
+                            }
+                 //               windowTitleBar2 = WindowTitleBarDouble {
+                 //                     eloIcon: eloIcon2
+                 //                     windowColorScheme: windowColorScheme
+                 //                     title: "2: no rotation, no rotation"
+                 //                     activated: false
+                 //                     translateX: 10;
+                 //                     translateY: 70;
+                 //                  }
+                 //               WindowTitleBarDouble {
+                 //                  eloIcon: loadEloIcon("scy/mapping")
+                 //                  windowColorScheme: windowColorScheme
+                 //                  title: "3: rorated by 15"
+                 //                  activated: false
+                 //                  translateX: 10;
+                 //                  translateY: 140;
+                 //                  rotate: 15
+                 //               }
+                 //               WindowTitleBarDouble {
+                 //                  eloIcon: loadEloIcon("scy/mapping")
+                 //                  windowColorScheme: windowColorScheme
+                 //                  activated: false
+                 //                  title: "4: rotated by -15"
+                 //                  translateX: 10;
+                 //                  translateY: 210;
+                 //                  rotate: -15
+                 //               }
+                 //               Button {
+                 //                  translateX: 10;
+                 //                  translateY: 90;
+                 //                  text: "Swap icon"
+                 //                  action: function () {
+                 //                     windowTitleBar1.eloIcon = if (windowTitleBar1.eloIcon==eloIcon1) eloIcon2 else eloIcon1;
+                 //                     windowTitleBar1.activated = not windowTitleBar1.activated;
+                 //                  }
+                 //               }
+                 ]
+              }
+           }
    windowTitleBar2.eloIcon = eloIcon2;
    stage;
 
-    }
+}

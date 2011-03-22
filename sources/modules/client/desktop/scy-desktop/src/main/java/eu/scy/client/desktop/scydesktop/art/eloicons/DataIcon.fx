@@ -44,13 +44,13 @@ return Group {
 					points: [5.65,9.29]
 				},
 				Polyline {
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: bind windowColorScheme.secondColor
 					strokeWidth: 1.2
 					points: [5.65,10.09,5.65,4.89,31.64,4.89,31.64,10.09]
 				},
 				Rectangle {
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: bind windowColorScheme.secondColor
 					strokeWidth: 1.2
 					x: 5.69
@@ -200,7 +200,7 @@ return Group {
 					content: "M32.06,24.19 C33.46,28.14 34.72,31.89 34.72,32.66 C34.72,34.45 33.69,35.12 32.02,35.12 C30.30,35.12 21.58,35.12 20.46,35.07 C19.45,35.03 17.61,34.29 17.61,32.70 C17.61,30.92 19.11,26.35 19.86,24.18 "
 				},
 				SVGPath {
-					fill: Color.WHITE
+					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: bind windowColorScheme.mainColor
 					strokeWidth: 2.0
 					content: "M31.79,23.25 C30.22,18.60 28.48,13.66 28.33,12.88 Q28.06,11.44 28.33,8.14 L23.41,8.14 Q23.79,11.88 23.55,13.02 Q23.28,14.27 20.49,22.07 Q20.34,22.53 20.10,23.24 Z "
