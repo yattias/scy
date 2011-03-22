@@ -4,10 +4,10 @@
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/2/0/modelElo.scyagentmodel</entry>
+        <entry>roolo://memory/2/0/mission1DFModel_en.scyagentmodel</entry>
       </identifier>
       <title>
-        <string language="en">modelElo</string>
+        <string language="en">mission1DFModel_en</string>
       </title>
     </general>
     <relation>
