@@ -34,10 +34,12 @@ import eu.scy.agents.keywords.ExtractTfIdfKeywordsAgent;
 import eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent;
 import eu.scy.agents.keywords.KeywordConstants;
 import eu.scy.agents.keywords.OntologyKeywordsAgent;
+import eu.scy.agents.roolo.rooloaccessor.RooloAccessorAgent;
 
 public class HypothesisEvaluationTest extends AbstractTestFixture {
 
 	private static final String ELO_TYPE = "scy/xproc";
+	private static final String MISSION = "roolo://memory/0/0/Design+a+CO2-friendly+house.scymissionspecification";
 
 	private IELO elo;
 
@@ -79,6 +81,7 @@ public class HypothesisEvaluationTest extends AbstractTestFixture {
 		this.agentMap.put(ExtractKeyphrasesAgent.NAME, params);
 		this.agentMap.put(HypothesisEvaluationAgent.NAME, params);
 		this.agentMap.put(OntologyKeywordsAgent.NAME, params);
+		this.agentMap.put(RooloAccessorAgent.NAME, params);
 		this.startAgentFramework(this.agentMap);
 
 		InputStream inStream = this.getClass().getResourceAsStream(
@@ -119,7 +122,7 @@ public class HypothesisEvaluationTest extends AbstractTestFixture {
 			ClassNotFoundException {
 		Tuple tuple = new Tuple("action", UUID1234, TIME_IN_MILLIS,
 				AgentProtocol.ACTION_ELO_SAVED, "testUser", "SomeTool",
-				"SomeMission", "TestSession", eloPath, "elo_type=" + ELO_TYPE,
+				MISSION, "TestSession", eloPath, "elo_type=" + ELO_TYPE,
 				"elo_uri=" + eloPath);
 		getActionSpace().write(tuple);
 
@@ -127,7 +130,7 @@ public class HypothesisEvaluationTest extends AbstractTestFixture {
 				new Tuple(HypothesisEvaluationAgent.EVAL, String.class,
 						String.class, String.class, String.class, String.class,
 						Field.createWildCardField()),
-				AgentProtocol.ALIVE_INTERVAL * 6);
+				AgentProtocol.ALIVE_INTERVAL * 16);
 		assertNotNull("no response received", response);
 		ByteArrayInputStream bytesIn = new ByteArrayInputStream(
 				(byte[]) response.getField(6).getValue());
@@ -135,7 +138,7 @@ public class HypothesisEvaluationTest extends AbstractTestFixture {
 		HashMap<Integer, Integer> histogram = (HashMap<Integer, Integer>) objectIn
 				.readObject();
 		String string = histogram.toString();
-		assertEquals("{0=16, 1=12, 2=7, 3=7, 4=1, 5=1}", string);
+		assertEquals("{0=4}", string);
 
 	}
 }
