@@ -35,6 +35,7 @@ import eu.scy.agents.keywords.OntologyKeywordsAgent;
 public class HypothesisEvaluationChainTest extends AbstractTestFixture {
 
 	private static final String ELO_TYPE = "scy/xproc";
+	private static final String MISSION = "roolo://memory/0/0/Design+a+CO2-friendly+house.scymissionspecification";
 
 	private IELO elo, smallElo;
 
@@ -75,13 +76,16 @@ public class HypothesisEvaluationChainTest extends AbstractTestFixture {
 
 		this.startAgentFramework(this.agentMap);
 
-		InputStream inStream = this.getClass().getResourceAsStream("/copexExampleElo.xml");
+		InputStream inStream = this.getClass().getResourceAsStream(
+				"/copexExampleElo.xml");
 		String eloContent = readFile(inStream);
 		elo = createNewElo("TestCopex", ELO_TYPE);
 		elo.setContent(new BasicContent(eloContent));
 		IMetadata metadata = repository.addNewELO(elo);
 		URI eloUri = (URI) metadata.getMetadataValueContainer(
-				this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER)).getValue();
+				this.typeManager
+						.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER))
+				.getValue();
 		this.eloPath = eloUri.toString();
 
 		inStream = this.getClass().getResourceAsStream("/copexExampleElo2.xml");
@@ -90,7 +94,9 @@ public class HypothesisEvaluationChainTest extends AbstractTestFixture {
 		smallElo.setContent(new BasicContent(eloContent));
 		metadata = repository.addNewELO(smallElo);
 		eloUri = (URI) metadata.getMetadataValueContainer(
-				this.typeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER)).getValue();
+				this.typeManager
+						.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER))
+				.getValue();
 		this.smallEloPath = eloUri.toString();
 
 		System.out.println(eloUri.toString());
@@ -110,25 +116,30 @@ public class HypothesisEvaluationChainTest extends AbstractTestFixture {
 	}
 
 	@Test
-	public void testRun() throws InterruptedException, TupleSpaceException, IOException {
+	public void testRun() throws InterruptedException, TupleSpaceException,
+			IOException {
 		Tuple response = writeTupleGetResponse(this.eloPath);
 		assertNotNull("no response received", response);
 		String message = (String) response.getField(7).getValue();
-		assertEquals(message, "message=ok");
+		// assertEquals(message, "message=ok");
+		assertEquals(message, "message=too few keywords or text too long");
 		response = writeTupleGetResponse(this.smallEloPath);
 		assertNotNull("no response received", response);
 		message = (String) response.getField(7).getValue();
 		assertEquals(message, "message=too few keywords or text too long");
 	}
 
-	private Tuple writeTupleGetResponse(String eloPath) throws TupleSpaceException {
-		Tuple tuple = new Tuple("action", UUID1234, TIME_IN_MILLIS, AgentProtocol.ACTION_ELO_SAVED,
-				"testUser", "copex", "SomeMission", "TestSession", eloPath, "elo_type=" + ELO_TYPE,
-				"elo_uri=" + eloPath);
+	private Tuple writeTupleGetResponse(String eloPath)
+			throws TupleSpaceException {
+		Tuple tuple = new Tuple("action", UUID1234, TIME_IN_MILLIS,
+				AgentProtocol.ACTION_ELO_SAVED, "testUser", "copex", MISSION,
+				"TestSession", eloPath, "elo_type=" + ELO_TYPE, "elo_uri="
+						+ eloPath);
 		getActionSpace().write(tuple);
 
-		Tuple responseTuple = new Tuple(AgentProtocol.NOTIFICATION, String.class, String.class,
-				String.class, String.class, String.class, String.class, Field.createWildCardField());
+		Tuple responseTuple = new Tuple(AgentProtocol.NOTIFICATION,
+				String.class, String.class, String.class, String.class,
+				String.class, String.class, Field.createWildCardField());
 
 		Tuple response = this.getCommandSpace().waitToTake(responseTuple,
 				AgentProtocol.ALIVE_INTERVAL * 10);
