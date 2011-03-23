@@ -43,6 +43,8 @@ import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.image.BufferedImage;
 import java.awt.Dimension;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 
 /**
  * @author Marjolaine
@@ -70,6 +72,18 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
    def spacing = 5.0;
 
    var bundle:ResourceBundleWrapper;
+   def saveTitleBarButton = TitleBarButton {
+              actionId: "save"
+              iconType: "save"
+              action: doSaveElo
+              tooltip: "save ELO"
+           }
+   def saveAsTitleBarButton = TitleBarButton {
+              actionId: "saveAs"
+              iconType: "save_as"
+              action: doSaveAsElo
+              tooltip: "save copy of ELO"
+           }
 
   public override function canAcceptDrop(object: Object): Boolean {
         if (object instanceof ISynchronizable) {
@@ -224,6 +238,15 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
       insert syncAttrib into scyWindow.scyWindowAttributes;
       fitexPanel.initActionLogger();
       fitexPanel.initFitex();
+   }
+
+   public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
+      if (windowContent) {
+         titleBarButtonManager.titleBarButtons = [
+                    saveTitleBarButton,
+                    saveAsTitleBarButton
+                 ]
+      }
    }
 
    public override function loadElo(uri:URI){
