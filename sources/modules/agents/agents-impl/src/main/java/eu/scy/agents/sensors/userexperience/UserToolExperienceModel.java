@@ -4,6 +4,7 @@ import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleID;
 import info.collide.sqlspaces.commons.TupleSpaceException;
+import info.collide.sqlspaces.commons.TupleSpaceException.TupleSpaceError;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -153,7 +154,13 @@ public class UserToolExperienceModel {
                 }
 
             } catch (TupleSpaceException e) {
-                e.printStackTrace();
+                if (e.getError()==TupleSpaceError.INVALID_ARGUMENT){
+                    toolTIDMap.remove(activeTool);
+                    activeTool=null;
+                    System.err.println("TupleSpaceException: INVALID_ARGUMENT  Removing tool "+activeTool+" +from user "+userName);
+                }else{
+                    e.printStackTrace();
+                }
             }
             startTime = updateTime;
             logger.log(Level.FINER, "[UserToolExperienceModel for User " + getUserName() + " and active Tool " + activeTool + "] Tool " + activeTool + " [updateActiveToolExperience] User " + this.getUserName() + " has now onlineTime for Tool " + activeTool + " of " + toolTimeMap.get(activeTool));
