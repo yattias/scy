@@ -3,6 +3,7 @@ package eu.scy.agents.keywords;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -18,6 +19,7 @@ import de.fhg.iais.kd.tm.obwious.type.Container;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.agents.impl.ModelStorage;
 import eu.scy.agents.impl.PersistentStorage;
 import eu.scy.agents.keywords.workflow.ExtractTopicModelKeywordsWorkflow;
 import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
@@ -35,9 +37,13 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 	private static final Logger logger = Logger
 			.getLogger(ExtractTopicModelKeywordsAgent.class.getName());
 
+	private static final String TOPIC_MODEL = "topicModel";
+
 	private Tuple activationTuple;
 
 	private int listenerId = -1;
+
+	private ModelStorage modelStorage;
 
 	private PersistentStorage storage;
 
@@ -50,7 +56,9 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 			port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
 		activationTuple = new Tuple(EXTRACT_TOPIC_MODEL_KEYWORDS,
-				AgentProtocol.QUERY, String.class, String.class, String.class);
+				AgentProtocol.QUERY, String.class, String.class, String.class,
+				String.class);
+		modelStorage = new ModelStorage(getCommandSpace());
 		storage = new PersistentStorage(host, port);
 		try {
 			listenerId = getCommandSpace().eventRegister(Command.WRITE,
@@ -82,21 +90,20 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 				queryId, keywordBuffer.toString().trim());
 	}
 
-	private Set<String> extractKeywords(String text) {
-		DocumentFrequencyModel dfModel = storage
-				.get(KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
+	private Set<String> extractKeywords(String text, String mission,
+			String language) {
+		DocumentFrequencyModel dfModel = getDocumentFrequencyModel(mission,
+				language);
 		if (dfModel == null) {
-			return new HashSet<String>();
+			return Collections.emptySet();
 		}
-		ParallelTopicModel tm = (ParallelTopicModel) storage
-				.get(CO2_SCY_ENGLISH);
+		ParallelTopicModel tm = getTopicModel(mission, language);
 		if (tm == null) {
-			return new HashSet<String>();
+			return Collections.emptySet();
 		}
 
 		Document document = Utilities.convertTextToDocument(text);
 
-		// TODO real bad hack REMOVE
 		try {
 			Operator extractKeywordsOperator = new ExtractTopicModelKeywordsWorkflow()
 					.getOperator("Main");
@@ -114,6 +121,27 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 			e.printStackTrace();
 			return new HashSet<String>();
 		}
+	}
+
+	private ParallelTopicModel getTopicModel(String mission, String language) {
+		ParallelTopicModel tm = (ParallelTopicModel) modelStorage.getAsObject(
+				mission, language, TOPIC_MODEL);
+		if (tm == null) {
+			tm = (ParallelTopicModel) storage.get(CO2_SCY_ENGLISH);
+		}
+		return tm;
+	}
+
+	private DocumentFrequencyModel getDocumentFrequencyModel(String mission,
+			String language) {
+		DocumentFrequencyModel dfModel = (DocumentFrequencyModel) modelStorage
+				.getAsObject(mission, language,
+						KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
+		if (dfModel == null) {
+			dfModel = storage
+					.get(KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
+		}
+		return dfModel;
 	}
 
 	@Override
@@ -148,8 +176,9 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 			String queryId = (String) afterTuple.getField(2).getValue();
 			String text = (String) afterTuple.getField(3).getValue();
 			String mission = (String) afterTuple.getField(4).getValue();
+			String language = (String) afterTuple.getField(5).getValue();
 
-			Set<String> keywords = extractKeywords(text);
+			Set<String> keywords = extractKeywords(text, mission, language);
 
 			try {
 				getCommandSpace().write(getResponseTuple(keywords, queryId));

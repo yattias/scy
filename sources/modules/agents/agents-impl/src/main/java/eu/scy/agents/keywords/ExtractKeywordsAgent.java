@@ -89,7 +89,7 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 		try {
 			getCommandSpace().write(
 					new Tuple(agent, AgentProtocol.QUERY, queryId, text,
-							mission));
+							mission, "en"));
 			Tuple response = getCommandSpace().waitToTake(
 					new Tuple(agent, AgentProtocol.RESPONSE, queryId,
 							String.class), AgentProtocol.ALIVE_INTERVAL * 3);

@@ -3,6 +3,7 @@ package eu.scy.agents.keywords;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -17,6 +18,7 @@ import de.fhg.iais.kd.tm.obwious.type.Container;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.agents.impl.ModelStorage;
 import eu.scy.agents.impl.PersistentStorage;
 import eu.scy.agents.keywords.workflow.ExtractTfIdfKeywordsWorkflow;
 import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
@@ -42,6 +44,7 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 	private static final Logger logger = Logger
 			.getLogger(ExtractTfIdfKeywordsAgent.class.getName());
 
+	private ModelStorage modelStorage;
 	private PersistentStorage storage = null;
 
 	public ExtractTfIdfKeywordsAgent(Map<String, Object> params) {
@@ -53,7 +56,8 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 			port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
 		activationTuple = new Tuple(EXTRACT_TFIDF_KEYWORDS,
-				AgentProtocol.QUERY, String.class, String.class, String.class);
+				AgentProtocol.QUERY, String.class, String.class, String.class,
+				String.class);
 		storage = new PersistentStorage(host, port);
 		try {
 			listenerId = getCommandSpace().eventRegister(Command.WRITE,
@@ -61,11 +65,11 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
+		modelStorage = new ModelStorage(getCommandSpace());
 	}
 
 	@Override
 	protected void doRun() throws TupleSpaceException, AgentLifecycleException {
-
 		while (status == Status.Running) {
 			sendAliveUpdate();
 			try {
@@ -86,15 +90,16 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 				queryId, keywordBuffer.toString().trim());
 	}
 
-	private Set<String> extractKeywords(String text) {
-		DocumentFrequencyModel dfModel = storage
-				.get(KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
-
-		Document document = Utilities.convertTextToDocument(text);
+	private Set<String> extractKeywords(String text, String mission,
+			String language) {
+		DocumentFrequencyModel dfModel = getDocumentFrequencyModel(mission,
+				language);
 		if (dfModel == null) {
 			logger.fatal("TfIdfModel is not present");
-			return new HashSet<String>();
+			return Collections.emptySet();
 		}
+
+		Document document = Utilities.convertTextToDocument(text);
 
 		Operator extractKeywordsOperator = new ExtractTfIdfKeywordsWorkflow()
 				.getOperator("Main");
@@ -106,6 +111,18 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 		Document doc = (Document) result.get(ObjectIdentifiers.DOCUMENT);
 
 		return doc.getFeature(KeywordWorkflowConstants.TFIDF_KEYWORDS);
+	}
+
+	private DocumentFrequencyModel getDocumentFrequencyModel(String mission,
+			String language) {
+		DocumentFrequencyModel dfModel = (DocumentFrequencyModel) modelStorage
+				.getAsObject(mission, language,
+						KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
+		if (dfModel == null) {
+			dfModel = storage
+					.get(KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
+		}
+		return dfModel;
 	}
 
 	@Override
@@ -140,8 +157,9 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 			String queryId = (String) afterTuple.getField(2).getValue();
 			String text = (String) afterTuple.getField(3).getValue();
 			String mission = (String) afterTuple.getField(4).getValue();
+			String language = (String) afterTuple.getField(5).getValue();
 
-			Set<String> keywords = extractKeywords(text);
+			Set<String> keywords = extractKeywords(text, mission, language);
 
 			try {
 				getCommandSpace().write(getResponseTuple(keywords, queryId));

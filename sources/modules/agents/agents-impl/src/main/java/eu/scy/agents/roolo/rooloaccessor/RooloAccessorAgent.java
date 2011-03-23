@@ -27,6 +27,8 @@ import eu.scy.common.mission.MissionSpecificationEloContent;
 public class RooloAccessorAgent extends AbstractThreadedAgent implements
 		IRepositoryAgent {
 
+	private static final String NOT_PRESENT = "not_present";
+
 	private static final Logger logger = Logger
 			.getLogger(RooloAccessorAgent.class.getName());
 
@@ -127,20 +129,39 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements
 				String language = tuple.getField(4).getValue().toString();
 				String key = tuple.getField(5).getValue().toString();
 				MissionSpecificationElo missionSpecification = getMissionSpecification(eloURI);
+				if (missionSpecification == null) {
+					sendModelNotPresentResponse(requestUID);
+					return;
+				}
 				MissionSpecificationEloContent missionSpecificationEloContent = missionSpecification
 						.getTypedContent();
 				URI agentModelsEloUri = missionSpecificationEloContent
 						.getAgentModelsEloUri();
+				if (agentModelsEloUri == null) {
+					sendModelNotPresentResponse(requestUID);
+					return;
+				}
 				AgentModelElo agentModelElo = AgentModelElo.loadElo(
 						agentModelsEloUri, rooloServices);
+				if (agentModelElo == null) {
+					sendModelNotPresentResponse(requestUID);
+					return;
+				}
 				AgentModelEloContent agentModelEloContent = agentModelElo
 						.getTypedContent();
 				URI modelEloUri = agentModelEloContent.getModelEloUri(key,
 						language);
+				if (modelEloUri == null) {
+					sendModelNotPresentResponse(requestUID);
+					return;
+				}
 				IELO modelElo = rooloServices.getRepository().retrieveELO(
 						modelEloUri);
-				if(modelElo != null) {
-					sendResponse(modelElo.getContent().getBytes(), requestUID);	
+				if (modelElo != null) {
+					sendModelResponse(modelElo.getContent().getBytes(),
+							requestUID);
+				} else {
+					sendModelNotPresentResponse(requestUID);
 				}
 			} else {
 				logger.debug("Unknown Type in Request-Tuple: " + type
@@ -157,10 +178,9 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements
 		return MissionSpecificationElo.loadElo(mission, rooloServices);
 	}
 
-	private void sendResponse(byte[] bytes, String requestUID) {
+	private void sendModelResponse(byte[] bytes, String requestUID) {
 		if (bytes != null) {
-			Tuple answerTuple = new Tuple(requestUID, ROOLO_RESPONSE,
-					bytes);
+			Tuple answerTuple = new Tuple(requestUID, ROOLO_RESPONSE, bytes);
 			try {
 				getCommandSpace().write(answerTuple);
 			} catch (TupleSpaceException e) {
@@ -170,6 +190,16 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements
 			logger.debug("Repository returned null for AgentModel request with id: "
 					+ requestUID);
 		}
+	}
+
+	private void sendModelNotPresentResponse(String requestUID) {
+		Tuple answerTuple = new Tuple(requestUID, ROOLO_RESPONSE, NOT_PRESENT);
+		try {
+			getCommandSpace().write(answerTuple);
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public void sendResponse(IELO elo, String requestUID) {

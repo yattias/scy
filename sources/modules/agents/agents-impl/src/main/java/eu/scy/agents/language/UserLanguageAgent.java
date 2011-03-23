@@ -1,14 +1,5 @@
 package eu.scy.agents.language;
 
-import info.collide.sqlspaces.commons.Field;
-import info.collide.sqlspaces.commons.Tuple;
-import info.collide.sqlspaces.commons.TupleSpaceException;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.apache.log4j.Logger;
-
 import eu.scy.actionlogging.ActionTupleTransformer;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
@@ -16,6 +7,13 @@ import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.keywords.ExtractKeywordsDecisionMakerAgent;
+import info.collide.sqlspaces.commons.Field;
+import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleSpaceException;
+import org.apache.log4j.Logger;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This agent keeps track of the language a student uses when he logs into scy
@@ -38,7 +36,7 @@ public class UserLanguageAgent extends AbstractRequestAgent {
 			.getLogger(ExtractKeywordsDecisionMakerAgent.class.getName());
 
 	static final String LANGUAGE = "language";
-	static final String NAME = UserLanguageAgent.class.getName();
+	public static final String NAME = UserLanguageAgent.class.getName();
 	private int listenerId;
 	private int actionLogId;
 

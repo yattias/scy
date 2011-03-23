@@ -31,7 +31,7 @@ public class TopicDetector extends AbstractRequestAgent {
 
 	private PersistentStorage agentDatabase;
 	private Tuple activationTuple;
-	Preprocessor preprocessor;
+	private Preprocessor preprocessor;
 
 	public TopicDetector(Map<String, Object> params) {
 		super(NAME, params);
