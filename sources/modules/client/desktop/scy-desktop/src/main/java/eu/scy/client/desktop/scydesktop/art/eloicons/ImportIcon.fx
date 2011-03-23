@@ -38,10 +38,10 @@ return Group {
 				Rectangle {
 					fill: bind windowColorScheme.mainColor
 					stroke: null
-					x: 9.3
-					y: 9.14
-					width: 22.0
-					height: 22.0
+					x: 3.65
+					y: 2.72
+					width: 33.77
+					height: 34.0
 				},
 				Rectangle {
 					fill: null
@@ -52,8 +52,8 @@ return Group {
 					height: 40.0
 				},
 				Polygon {
-					points: [0.42,13.13,7.43,20.14,0.42,27.15]
-					fill: Color.rgb(0xff,0x33,0x0)
+					points: [3.67,3.85,19.43,20.25,3.67,35.85]
+					fill: bind windowColorScheme.thirdColor
 					stroke: null
 },
 ]
