@@ -1,15 +1,15 @@
 package eu.scy.agents.impl;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.rmi.dgc.VMID;
 
-import roolo.elo.api.IELO;
+import info.collide.sqlspaces.client.TupleSpace;
+import info.collide.sqlspaces.commons.Field;
+import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleSpaceException;
 import eu.scy.agents.api.IPersistentStorage;
-import eu.scy.common.mission.AgentModelElo;
-import eu.scy.common.mission.AgentModelEloContent;
-import eu.scy.common.mission.MissionSpecificationElo;
-import eu.scy.common.mission.MissionSpecificationEloContent;
-import eu.scy.common.scyelo.RooloServices;
 
 /**
  * The implementation of {@link IPersistentStorage}. Saves things as ELOs
@@ -18,36 +18,57 @@ import eu.scy.common.scyelo.RooloServices;
  */
 public class ModelStorage {
 
-	private RooloServices rooloServices;
+	// private RooloServices rooloServices;
+
+	private TupleSpace tupleSpace;
 
 	/**
 	 * Create a new {@link ModelStorage} instance.
 	 */
-	public ModelStorage(RooloServices services) {
-		rooloServices = services;
+	public ModelStorage(TupleSpace space) {
+		tupleSpace = space;
 	}
 
 	public byte[] get(String mission, String language, String key) {
-		MissionSpecificationElo missionSpecification = getMissionSpecification(mission);
-		MissionSpecificationEloContent missionSpecificationEloContent = missionSpecification
-				.getTypedContent();
-		URI agentModelsEloUri = missionSpecificationEloContent
-				.getAgentModelsEloUri();
-		AgentModelElo agentModelElo = AgentModelElo.loadElo(agentModelsEloUri,
-				rooloServices);
-		AgentModelEloContent agentModelEloContent = agentModelElo
-				.getTypedContent();
-		URI modelEloUri = agentModelEloContent.getModelEloUri(key, language);
-		IELO modelElo = rooloServices.getRepository().retrieveELO(modelEloUri);
-		return modelElo.getContent().getBytes();
+		try {
+			String requestUid = new VMID().toString();
+			tupleSpace.write(new Tuple(requestUid, "roolo-agent",
+					"agent-model", mission, language, key));
+			Tuple response = tupleSpace.waitToTake(new Tuple(requestUid,
+					"roolo-response", Field.createWildCardField()),
+					AgentProtocol.MINUTE);
+			if (response != null) {
+				Field field = response.getField(2);
+				Object value = field.getValue();
+				if (value instanceof String) {
+					if ("not_present".equals(value)) {
+						return null;
+					}
+				}
+				if (field != null) {
+					return (byte[]) value;
+				}
+			}
+		} catch (TupleSpaceException e) {
+			// exception is allowed but returns null.
+
+		}
+		return null;
 	}
 
-	private MissionSpecificationElo getMissionSpecification(String mission) {
+	public Object getAsObject(String mission, String language, String key) {
+		byte[] bytes = get(mission, language, key);
+		if (bytes == null) {
+			return null;
+		}
 		try {
-			return MissionSpecificationElo.loadElo(new URI(mission),
-					rooloServices);
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
+			ObjectInputStream inputStream = new ObjectInputStream(
+					new ByteArrayInputStream(bytes));
+			return inputStream.readObject();
+		} catch (IOException e) {
+			// exception is allowed but returns null.
+		} catch (ClassNotFoundException e) {
+			// exception is allowed but returns null.
 		}
 		return null;
 	}
