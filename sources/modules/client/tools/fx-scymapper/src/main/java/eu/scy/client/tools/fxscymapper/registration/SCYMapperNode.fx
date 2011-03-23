@@ -27,12 +27,11 @@ import javafx.scene.layout.Container;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
-import java.awt.Dimension;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import eu.scy.notification.api.INotifiable;
 import eu.scy.notification.api.INotification;
-import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.OnlineState;
-import javafx.util.Sequences;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 
 public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, CollaborationStartable {
 
@@ -48,6 +47,28 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
     var wrappedScyMapperPanel: Node;
     def spacing = 5.0;
     var collaborative: Boolean = false;
+
+   def saveTitleBarButton = TitleBarButton {
+              actionId: "save"
+              iconType: "save"
+              action: doSaveConceptMap
+              tooltip: "save ELO"
+           }
+   def saveAsTitleBarButton = TitleBarButton {
+              actionId: "saveAs"
+              iconType: "save_as"
+              action: doSaveConceptMapAs
+              tooltip: "save copy of ELO"
+           }
+
+   public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
+      if (windowContent) {
+         titleBarButtonManager.titleBarButtons = [
+                    saveTitleBarButton,
+                    saveAsTitleBarButton
+                 ]
+      }
+   }
 
     public override function create(): Node {
         wrappedScyMapperPanel = ScySwingWrapper.wrap(scyMapperPanel);
@@ -123,7 +144,7 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
         }
     }
 
-    function doSaveConceptMap() {
+    function doSaveConceptMap():Void {
         if (currentELO.getUri() == null) {
             doSaveConceptMapAs();
             return;
@@ -136,7 +157,7 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
     	doSaveConceptMap();
     }
 
-    function doSaveConceptMapAs() {
+    function doSaveConceptMapAs():Void {
         var conceptMap = scyMapperPanel.getConceptMap();
         repositoryWrapper.setELOConceptMap(currentELO, conceptMap);
         eloSaver.eloSaveAs(currentELO, this);
@@ -148,7 +169,7 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
 
     public override function getThumbnail(width: Integer, height: Integer): BufferedImage {
       if (scyMapperPanel != null) {
-        return eu.scy.client.desktop.scydesktop.utils.UiUtils.createThumbnail(scyMapperPanel.getConceptDiagramView(), scyMapperPanel.getConceptDiagramView().getSize(), new Dimension(width, height));
+        return eu.scy.client.desktop.scydesktop.utils.UiUtils.createThumbnail(scyMapperPanel.getConceptDiagramView(), scyMapperPanel.getConceptDiagramView().getSize(), new java.awt.Dimension(width, height));
       } else {
         return null;
       }
