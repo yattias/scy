@@ -1040,18 +1040,22 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         }
         int userResponse = aFileChooser.showOpenDialog(this);
         if (userResponse == JFileChooser.APPROVE_OPTION){
+            setCursor(new Cursor(Cursor.WAIT_CURSOR));
             File file = aFileChooser.getSelectedFile();
             if( (canImportXML() && (!MyUtilities.isCSVFile(file) && !MyUtilities.isGMBLFile(file)&& !MyUtilities.isXMLFile(file)) )
                     || (!canImportXML() && (!MyUtilities.isCSVFile(file) && !MyUtilities.isGMBLFile(file)) )){
+                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 displayError(new CopexReturn(getBundleString("MSG_ERROR_FILE"), false), getBundleString("TITLE_DIALOG_ERROR"));
                 return;
             }
             lastUsedFileImport = file;
             if(lastUsedFileImport == null){
+                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 displayError(new CopexReturn(getBundleString("MSG_ERROR_IMPORT_DATASET") ,false), getBundleString("TITLE_DIALOG_ERROR"));
                 return;
             }
             importELO(lastUsedFileImport, false);
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             return;
         }
     }
@@ -1159,5 +1163,9 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
             }
         }
         return true;
+    }
+
+    public boolean controlLenght(){
+        return !scyMode;
     }
 }

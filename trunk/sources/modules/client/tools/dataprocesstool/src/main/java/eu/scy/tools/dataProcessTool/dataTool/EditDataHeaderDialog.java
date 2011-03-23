@@ -199,7 +199,7 @@ public class EditDataHeaderDialog extends javax.swing.JDialog {
     private void validEditDataHeader(){
         // header name
         String name = textFieldHeaderName.getText();
-        if (name.length() > DataConstants.MAX_LENGHT_DATAHEADER_NAME){
+        if (controlLenght() && name.length() > DataConstants.MAX_LENGHT_DATAHEADER_NAME){
             String msg = owner.getBundleString("MSG_LENGHT_MAX");
             msg  = MyUtilities.replace(msg, 0, owner.getBundleString("LABEL_HEADER_NAME"));
             msg = MyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_DATAHEADER_NAME);
@@ -214,7 +214,7 @@ public class EditDataHeaderDialog extends javax.swing.JDialog {
         }
         // unit
         String unit = textFieldUnit.getText();
-        if (unit.length() > DataConstants.MAX_LENGHT_UNIT){
+        if (controlLenght() && unit.length() > DataConstants.MAX_LENGHT_UNIT){
             String msg = owner.getBundleString("MSG_LENGHT_MAX");
             msg  = MyUtilities.replace(msg, 0, owner.getBundleString("LABEL_HEADER_UNIT"));
             msg = MyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_UNIT);
@@ -232,7 +232,7 @@ public class EditDataHeaderDialog extends javax.swing.JDialog {
                 owner.displayError(new CopexReturn(msg ,false), owner.getBundleString("TITLE_DIALOG_ERROR"));
                 return;
             }
-            if (formula.length() > DataConstants.MAX_LENGHT_DATAHEADER_FORMULA){
+            if (controlLenght() && formula.length() > DataConstants.MAX_LENGHT_DATAHEADER_FORMULA){
                 String msg = owner.getBundleString("MSG_LENGHT_MAX");
                 msg  = MyUtilities.replace(msg, 0, owner.getBundleString("LABEL_HEADER_VALUE_FORMULA"));
                 msg = MyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_DATAHEADER_FORMULA);
@@ -242,7 +242,7 @@ public class EditDataHeaderDialog extends javax.swing.JDialog {
         }
         // description
         String description = areaDescription.getText();
-        if(description.length() > DataConstants.MAX_LENGHT_DATAHEADER_DESCRIPTION){
+        if(controlLenght() && description.length() > DataConstants.MAX_LENGHT_DATAHEADER_DESCRIPTION){
             String msg = owner.getBundleString("MSG_LENGHT_MAX");
             msg  = MyUtilities.replace(msg, 0, owner.getBundleString("LABEL_HEADER_DESCRIPTION"));
             msg = MyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_DATAHEADER_DESCRIPTION);
@@ -288,6 +288,10 @@ public class EditDataHeaderDialog extends javax.swing.JDialog {
         boolean isOk = owner.updateDataHeader(dataset, name, unit, noCol, description, type, formula, scientificNotation, nbShownDecimals, nbSignificantDigits);
         if(isOk)
             this.dispose();
+    }
+
+    private boolean controlLenght(){
+        return owner.controlLenght();
     }
 
 

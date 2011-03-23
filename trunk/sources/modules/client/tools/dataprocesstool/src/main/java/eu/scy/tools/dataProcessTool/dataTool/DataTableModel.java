@@ -184,7 +184,7 @@ public class DataTableModel extends AbstractTableModel {
             v2 = ((String[])aValue)[1];
         }else
             return;
-        if ((rowIndex == 0 || columnIndex == 0) && (v1.length() > DataConstants.MAX_LENGHT_DATASET_NAME || v2.length() > DataConstants.MAX_LENGHT_DATASET_NAME)){
+        if (controlLenght() &&  (rowIndex == 0 || columnIndex == 0) && (v1.length() > DataConstants.MAX_LENGHT_DATASET_NAME || v2.length() > DataConstants.MAX_LENGHT_DATASET_NAME)){
             String msg = owner.getBundleString("MSG_LENGHT_MAX");
             msg  = MyUtilities.replace(msg, 0, owner.getBundleString("LABEL_DATA"));
             msg = MyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_DATASET_NAME);
@@ -219,7 +219,7 @@ public class DataTableModel extends AbstractTableModel {
                 try{
                     if(v1 != null && !v1.equals("")){
                         val = Double.parseDouble(v1);
-                        if(Double.toString(val).length() > DataConstants.MAX_LENGHT_DATA){
+                        if(controlLenght() && Double.toString(val).length() > DataConstants.MAX_LENGHT_DATA){
                             String msg = owner.getBundleString("MSG_LENGHT_MAX");
                             msg  = MyUtilities.replace(msg, 0, owner.getBundleString("LABEL_DATA"));
                             msg = MyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_DATA);
@@ -241,7 +241,7 @@ public class DataTableModel extends AbstractTableModel {
                     return;
                 }
             }else{
-                if(v1.length() > DataConstants.MAX_LENGHT_DATA){
+                if(controlLenght() && v1.length() > DataConstants.MAX_LENGHT_DATA){
                     String msg = owner.getBundleString("MSG_LENGHT_MAX");
                     msg  = MyUtilities.replace(msg, 0, owner.getBundleString("LABEL_DATA"));
                     msg = MyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_DATA);
@@ -801,6 +801,10 @@ public class DataTableModel extends AbstractTableModel {
    public int getNbRowData(){
        return dataset.getNbMaxRowsData();
    }
+
+   private boolean controlLenght(){
+        return owner.controlLenght();
+    }
 
     
 }

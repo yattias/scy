@@ -740,7 +740,9 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
 
     private void copy(){
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
         ArrayList<int[]> listSelCell = datasetTable.copy();
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
 
     /* log: cut dataset */
@@ -753,7 +755,9 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     }
 
     private void cut(){
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
         datasetTable.cut();
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
 
     public void openDialogGraphParam(Visualization vis){
@@ -827,6 +831,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
     /* creation d'un graphique */
     public boolean createVisualization(String name, TypeVisualization typeVis, DataHeader header1, DataHeader headerLabel, ArrayList<PlotXY> listPlot){
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
         Visualization vis = null;
         if(header1 != null){
             vis = new SimpleVisualization(-1, name, typeVis, header1, headerLabel) ;
@@ -838,6 +843,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         ArrayList v = new ArrayList();
         CopexReturn cr = this.controller.createVisualization(dataset, vis,true, v) ;
         if (cr.isError()){
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return false;
         }
@@ -847,6 +853,11 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         vis = (Visualization)v.get(1);
         createInternalGraphFrame(vis);
         dataProcessToolPanel.logCreateVisualization(dataset, vis);
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        cr = this.controller.exportHTML();
+        if(cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+        }
         return true;
     }
 
@@ -888,10 +899,12 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
     /* met la liste des donnees d'un dataset ignoreees ou non */
     public void setDataIgnored(Dataset ds, boolean isIgnored, ArrayList<Data> listData){
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
         ArrayList v = new ArrayList();
         datasetTable.markSelectedCell();
         CopexReturn cr = this.controller.setDataIgnored(ds, isIgnored, listData,v);
         if (cr.isError()){
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
@@ -903,6 +916,11 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         datasetModif = true;
         datasetTable.addUndo(new IgnoreDataUndoRedo(datasetTable, this, controller, isIgnored, listData));
         dataProcessToolPanel.logIgnoreData(dataset, isIgnored, listData);
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        cr = this.controller.exportHTML();
+        if(cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+        }
     }
 
     private void  updateGraphs(Dataset ds, boolean update){
@@ -938,12 +956,14 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
     /* nouvelle operation sur le dataset */
     public void createOperation(Dataset ds, int typeOp, boolean isOnCol, ArrayList<Integer> listNo){
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
         TypeOperation type = getOperation(typeOp);
         if (type == null)
             return;
         ArrayList v = new ArrayList();
         CopexReturn cr = this.controller.createOperation(ds, typeOp, isOnCol, listNo, v);
         if (cr.isError()){
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
@@ -954,15 +974,22 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         datasetModif = true;
         datasetTable.addUndo(new OperationUndoRedo(datasetTable, this, controller, operation));
         dataProcessToolPanel.logAddOperation(ds, operation);
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        cr = this.controller.exportHTML();
+        if(cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+        }
     }
 
     /* mise a jour d'une donnees dans la table */
     public void updateData(Dataset ds, String value, int rowIndex, int columnIndex){
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
         Data oldData = ds.getData(rowIndex, columnIndex);
         String oldValue = ds.getData(rowIndex, columnIndex) == null ? null : ds.getData(rowIndex, columnIndex).getValue();
         ArrayList v = new ArrayList();
         CopexReturn cr = this.controller.updateData(ds, rowIndex, columnIndex, value, v);
         if (cr.isError()){
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
@@ -972,11 +999,17 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         Data newData = nds.getData(rowIndex, columnIndex);
         updateGraphs(nds, true);
         datasetModif = true;
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         datasetTable.addUndo(new EditDataUndoRedo(datasetTable, this, controller, oldValue, value, rowIndex, columnIndex));
         dataProcessToolPanel.logEditData(ds, oldData, newData);
+        cr  = this.controller.exportHTML();
+        if(cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+        }
     }
     /* mise a jour d'une donnees header */
     public boolean  updateDataHeader(Dataset ds, String value, String unit, int colIndex, String description, String type, String formulaValue, boolean scientificNotation, int nbShownDecimals, int nbSignificantDigits){
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
         DataHeader oldHeader = ds.getDataHeader(colIndex);
         String oldValue = ds.getDataHeader(colIndex) == null ? "" : ds.getDataHeader(colIndex).getValue();
         String oldUnit = ds.getDataHeader(colIndex) == null ? "" : (ds.getDataHeader(colIndex).getUnit() == null ? "" : ds.getDataHeader(colIndex).getUnit());
@@ -990,13 +1023,17 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         Function function = getFunction(formulaValue);
         CopexReturn cr = this.controller.updateDataHeader(ds,false, colIndex, value, unit,description, type, formulaValue, function, scientificNotation, nbShownDecimals, nbSignificantDigits, v);
         if (cr.isError()){
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return false;
         }else if(cr.isWarning()){
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             boolean isOk = displayError(cr, getBundleString("TITLE_DIALOG_WARNING"));
             if(isOk){
+                setCursor(new Cursor(Cursor.WAIT_CURSOR));
                 cr = this.controller.updateDataHeader(ds,true, colIndex, value, unit,description, type,formulaValue,function,scientificNotation, nbShownDecimals, nbSignificantDigits, v);
                 if(cr.isError()){
+                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                     displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
                     return false;
                 }
@@ -1010,9 +1047,13 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         //datasetTable.updateDataset(nds, true);
         updateDataset(nds);
         datasetModif = true;
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         datasetTable.addUndo(new EditHeaderUndoRedo(datasetTable, this, controller, oldValue, value, oldUnit, unit, colIndex, oldDescription, description, oldType, type, oldFormula, formulaValue, oldScientificNotation, scientificNotation, oldNbShownDecimals, nbShownDecimals, oldNbSignificantDigits, nbSignificantDigits));
         dataProcessToolPanel.logEditHeader(dataset, oldHeader, newHeader);
-        this.controller.exportHTML();
+        cr  = this.controller.exportHTML();
+        if(cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+        }
         return true;
     }
 
@@ -1113,6 +1154,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
     /* suppression de donnees et d'operations */
     public void deleteData(Dataset ds,  ArrayList<Data> listData, ArrayList<DataHeader> listHeader, ArrayList<DataOperation> listOperation, ArrayList<Integer>[] listRowAndCol){
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
         ArrayList v = new ArrayList();
         ArrayList<DataOperation> listOperationToUpdate = new ArrayList();
         ArrayList<Visualization> listVisualizationToUpdate = new ArrayList();
@@ -1142,14 +1184,18 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         // appel au noyau
         CopexReturn cr = this.controller.deleteData(false, ds, listData, listRowAndCol[0], listRowAndCol[1],listOperation,  v);
         if (cr.isError()){
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }else if (cr.isWarning()){
             v = new ArrayList();
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             boolean isOk = displayError(cr, getBundleString("TITLE_DIALOG_CONFIRM"));
             if (isOk){
+                setCursor(new Cursor(Cursor.WAIT_CURSOR));
                 cr = this.controller.deleteData(true, ds, listData, listRowAndCol[0], listRowAndCol[1],listOperation,  v);
                 if (cr.isError()){
+                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                     displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
                     return;
                 }
@@ -1181,11 +1227,15 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         datasetModif = true;
         updateMenuData();
         datasetTable.addUndo(new DeleteUndoRedo(datasetTable, this, controller, oldListData,listData, listHeader, listRowAndCol, listOperation, listOperationToUpdate, listOperationToDel,listVisualizationToUpdate, listVisualizationToDel));
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         //log
         ArrayList<Integer> listIdRows = listRowAndCol[0];
         ArrayList<Integer> listIdColumns = listRowAndCol[1];
         dataProcessToolPanel.logDeleteDatas(dataset, listData, listRowAndCol[0], listRowAndCol[1],listOperation);
-        this.controller.exportHTML();
+        cr = this.controller.exportHTML();
+        if(cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+        }
     }
 
     /* mise a jour d'un dataset */
@@ -1250,9 +1300,11 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
 
     /* insertion de lignes ou colonnes */
     public void insertData(Dataset ds,  boolean isOnCol, int nb, int idBefore){
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
         ArrayList v = new ArrayList();
         CopexReturn cr = this.controller.insertData(ds, isOnCol, nb, idBefore, v);
         if (cr.isError()){
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
@@ -1266,11 +1318,15 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         datasetModif = true;
         updateMenuData();
         datasetTable.addUndo(new InsertUndoRedo(datasetTable, this, controller, isOnCol, nb, idBefore));
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         if(isOnCol)
             dataProcessToolPanel.logInsertColumns(ds, nb, idBefore);
         else
             dataProcessToolPanel.logInsertRows(ds, nb, idBefore);
-        this.controller.exportHTML();
+        cr = this.controller.exportHTML();
+        if(cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+        }
     }
 
 
@@ -1316,6 +1372,10 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         Dataset newDs = (Dataset)nds.clone();
         datasetTable.updateDataset(nds, true);
         this.datasetTable.addUndo(new SortUndoRedo(datasetTable, this, controller, oldDs, newDs));
+        cr = this.controller.exportHTML();
+        if(cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+        }
     }
 
 
@@ -1352,6 +1412,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     
     /* mis a jour des parametres */
     public boolean updateGraphParam(Graph graph, String graphName, ParamGraph pg){
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
         String oldName = new String(graph.getName());
         if(!graph.getName().equals(graphName)){
             updateVisualizationName(graph, graphName);
@@ -1379,6 +1440,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
             return false;
         CopexReturn cr = this.controller.setParamGraph(dataset.getDbKey(), graph.getDbKey(),pg, v);
         if (cr.isError()){
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return false ;
         }
@@ -1396,6 +1458,11 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
                 gFrame.updateDataset(dataset, newvis, true);
         }
         dataProcessToolPanel.logUpdateGraphParam(dataset, oldName, newvis);
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        cr = this.controller.exportHTML();
+        if(cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+        }
         return true;
     }
 
@@ -1454,6 +1521,10 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         datasetTable.addUndo(new PasteUndoRedo(datasetTable, this, controller, copyDs, selCell, listData, listDataHeader, listRowAndCol));
         dataProcessToolPanel.logPaste(dataset, selCell, copyDs);
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        cr = this.controller.exportHTML();
+        if(cr.isError()){
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+        }
         return true;
     }
 
@@ -1630,13 +1701,13 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         }
     }
 
-    /* sauvegarde*/
+    /* save fitex - standalone version - xml file*/
     private void saveFitex(){
         Element pds = getPDS() ;
         JFileChooser aFileChooser = new JFileChooser();
         aFileChooser.setFileFilter(new MyFileFilterXML());
         if (lastUsedFile != null){
-			aFileChooser.setCurrentDirectory(lastUsedFile.getParentFile());
+            aFileChooser.setCurrentDirectory(lastUsedFile.getParentFile());
             aFileChooser.setSelectedFile(lastUsedFile);
         }else{
             File file = new File(aFileChooser.getCurrentDirectory(), dataset.getName()+".xml");
@@ -1644,35 +1715,31 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         }
         int r = aFileChooser.showSaveDialog(this);
         if (r == JFileChooser.APPROVE_OPTION){
+            setCursor(new Cursor(Cursor.WAIT_CURSOR));
             File file = aFileChooser.getSelectedFile();
             if(!MyUtilities.isXMLFile(file)){
                 file = MyUtilities.getXMLFile(file);
             }
-			lastUsedFile = file;
-			OutputStreamWriter fileWriter = null;
-			try
-			{
-				fileWriter = new OutputStreamWriter(new FileOutputStream(file), "utf-8");
-				xmlOutputter.output(pds, fileWriter);
+            lastUsedFile = file;
+            OutputStreamWriter fileWriter = null;
+            try{
+                fileWriter = new OutputStreamWriter(new FileOutputStream(file), "utf-8");
+		xmlOutputter.output(pds, fileWriter);
                 datasetModif = false;
                 dataProcessToolPanel.logSaveDataset(dataset);
-			}
-			catch (IOException e)
-			{
-				displayError(new CopexReturn(getBundleString("MSG_ERROR_SAVE"), false), getBundleString("TITLE_DIALOG_ERROR"));
-			}
-			finally
-			{
-				if (fileWriter != null)
-					try
-					{
-						fileWriter.close();
-					}
-					catch (IOException e)
-					{
-						displayError(new CopexReturn(getBundleString("MSG_ERROR_SAVE"), false), getBundleString("TITLE_DIALOG_ERROR"));
-					}
-			}
+            }catch (IOException e){
+                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                displayError(new CopexReturn(getBundleString("MSG_ERROR_SAVE"), false), getBundleString("TITLE_DIALOG_ERROR"));
+            }finally{
+                if (fileWriter != null){
+                    try{
+                        fileWriter.close();
+                        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    }catch (IOException e){
+                        displayError(new CopexReturn(getBundleString("MSG_ERROR_SAVE"), false), getBundleString("TITLE_DIALOG_ERROR"));
+                    }
+                }
+            }
         }
     }
 
@@ -1721,6 +1788,7 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         }
         int r = aFileChooser.showSaveDialog(this);
         if (r == JFileChooser.APPROVE_OPTION){
+            setCursor(new Cursor(Cursor.WAIT_CURSOR));
             File file = aFileChooser.getSelectedFile();
             if(!MyUtilities.isCSVFile(file)){
                 file = MyUtilities.getCSVFile(file);
@@ -1761,13 +1829,16 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
                 //log
 		dataProcessToolPanel.logExportCSV(dataset, file.getPath());
             }catch (IOException e){
+                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 displayError(new CopexReturn(getBundleString("MSG_ERROR_CSV"), false), getBundleString("TITLE_DIALOG_ERROR"));
             }
             finally{
                 if (writer != null)
                     try{
                         writer.close();
+                        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                     }catch (Exception e){
+                        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                         displayError(new CopexReturn(getBundleString("MSG_ERROR_CSV"), false), getBundleString("TITLE_DIALOG_ERROR"));
                     }
             }
@@ -1821,11 +1892,13 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
     }
 
     private void justifyText(int align){
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
         ArrayList<DataHeader> headerSel = datasetTable.getSelectedHeader() ;
         datasetTable.markSelectedCell();
         ArrayList v = new ArrayList();
         CopexReturn cr = this.controller.justifyText(dataset, align, headerSel,v);
         if (cr.isError()){
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
@@ -1834,5 +1907,10 @@ public class FitexToolPanel extends JPanel implements ActionMenu  {
         datasetTable.updateDataset(nds, false);
         datasetTable.selectOldCell();
         datasetModif = true;
+        setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    }
+
+    public boolean controlLenght(){
+        return dataProcessToolPanel.controlLenght();
     }
 }

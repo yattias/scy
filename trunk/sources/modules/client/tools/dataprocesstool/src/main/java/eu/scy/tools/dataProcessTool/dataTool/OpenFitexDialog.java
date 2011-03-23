@@ -376,7 +376,7 @@ public class OpenFitexDialog extends JDialog {
                 create = this.rbCreate.isSelected();
         if(create){
             String dsName = this.fieldName.getText();
-            if (dsName.length() > DataConstants.MAX_LENGHT_DATASET_NAME){
+            if (controlLenght() &&  dsName.length() > DataConstants.MAX_LENGHT_DATASET_NAME){
                 String msg = owner.getBundleString("MSG_LENGHT_MAX");
                 msg  = MyUtilities.replace(msg, 0, owner.getBundleString("LABEL_NEW_NAME_DATASET"));
                 msg = MyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_DATASET_NAME);
@@ -411,6 +411,10 @@ public class OpenFitexDialog extends JDialog {
 
     private void buttonCancel(){
         this.dispose();
+    }
+
+    private boolean controlLenght(){
+        return owner.controlLenght();
     }
    
 }
