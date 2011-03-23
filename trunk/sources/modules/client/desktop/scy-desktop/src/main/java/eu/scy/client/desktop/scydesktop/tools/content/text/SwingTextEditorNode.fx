@@ -71,8 +71,6 @@ public class SwingTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSa
    }
 
    public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
-//      println("setTitleBarButtonManager({titleBarButtonManager},{windowContent})");
-//      println("saveTitleBarButton: {saveTitleBarButton}, saveAsTitleBarButton: {saveAsTitleBarButton}");
       if (windowContent) {
          titleBarButtonManager.titleBarButtons = [
                     saveTitleBarButton,

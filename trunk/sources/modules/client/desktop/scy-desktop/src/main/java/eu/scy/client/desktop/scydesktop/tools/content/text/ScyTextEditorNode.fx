@@ -33,6 +33,8 @@ import java.awt.image.BufferedImage;
 import javafx.geometry.BoundingBox;
 import eu.scy.client.desktop.scydesktop.utils.ImageUtils;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 
 /**
  * @author sikken
@@ -56,6 +58,7 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
    def textBox: TextBox = TextBox {
          multiline: true
          editable: true
+         managed: false
          layoutInfo: LayoutInfo {
             hfill: true
             vfill: true
@@ -67,12 +70,33 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
    var buttonBox: HBox;
    var elo: IELO;
    var technicalFormatKey: IMetadataKey;
+   def saveTitleBarButton = TitleBarButton {
+              actionId: "save"
+              iconType: "save"
+              action: doSaveElo
+              tooltip: "save ELO"
+           }
+   def saveAsTitleBarButton = TitleBarButton {
+              actionId: "saveAs"
+              iconType: "save_as"
+              action: doSaveAsElo
+              tooltip: "save copy of ELO"
+           }
 
    public override function initialize(windowContent: Boolean): Void {
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       eloFactory = toolBrokerAPI.getELOFactory();
       metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
       repository = toolBrokerAPI.getRepository();
+   }
+
+   public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
+      if (windowContent) {
+         titleBarButtonManager.titleBarButtons = [
+                    saveTitleBarButton,
+                    saveAsTitleBarButton
+                 ]
+      }
    }
 
    public override function loadElo(uri: URI) {
@@ -96,43 +120,43 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
    public override function create(): Node {
       //      resizeContent();
       //      FX.deferAction(resizeContent);
-      nodeBox = VBox {
-            blocksMouse: true
-            managed: false
-            spacing: spacing;
-            content: [
-               buttonBox = HBox {
-                     spacing: spacing;
-                     padding: Insets {
-                        left: spacing
-                        top: spacing
-                        right: spacing
-                     }
-                     content: [
-                        Button {
-                           text: "Save"
-                           action: function() {
-                              doSaveElo();
-                           }
-                        }
-                        Button {
-                           text: "Save as"
-                           action: function() {
-                              doSaveAsElo();
-                           }
-                        }
-                     ]
-                  }
-               textBox
-            ]
-         }
+      textBox
+//      nodeBox = VBox {
+//            blocksMouse: true
+//            managed: false
+//            spacing: spacing;
+//            content: [
+//               buttonBox = HBox {
+//                     spacing: spacing;
+//                     padding: Insets {
+//                        left: spacing
+//                        top: spacing
+//                        right: spacing
+//                     }
+//                     content: [
+//                        Button {
+//                           text: "Save"
+//                           action: function() {
+//                              doSaveElo();
+//                           }
+//                        }
+//                        Button {
+//                           text: "Save as"
+//                           action: function() {
+//                              doSaveAsElo();
+//                           }
+//                        }
+//                     ]
+//                  }
+//               textBox
+//            ]
+//         }
    }
 
    function doLoadElo(eloUri: URI) {
       logger.info("Trying to load elo {eloUri}");
       var newElo = repository.retrieveELO(eloUri);
       if (newElo != null) {
-         var metadata = newElo.getMetadata();
          var text = eloContentXmlToText(newElo.getContent().getXmlString());
          logger.info("elo text loaded");
          elo = newElo;
@@ -182,23 +206,28 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
    }
 
    function sizeChanged(): Void {
-      Container.resizeNode(nodeBox, width, height);
+//      Container.resizeNode(nodeBox, width, height);
+      Container.resizeNode(textBox, width, height);
    }
 
    public override function getPrefHeight(h: Number): Number {
-      textBox.boundsInParent.minY + textBox.getPrefHeight(h);
+//      textBox.boundsInParent.minY + textBox.getPrefHeight(h);
+      textBox.getPrefHeight(h)
    }
 
    public override function getPrefWidth(w: Number): Number {
-      textBox.boundsInParent.minX + textBox.getPrefWidth(w);
+//      textBox.boundsInParent.minX + textBox.getPrefWidth(w);
+      textBox.getPrefWidth(w)
    }
 
    public override function getMinHeight(): Number {
-      textBox.boundsInParent.minY + textBox.getMinHeight();
+//      textBox.boundsInParent.minY + textBox.getMinHeight();
+      textBox.getMinHeight()
    }
 
    public override function getMinWidth(): Number {
-      Math.max(buttonBox.getMinWidth(), textBox.getMinWidth())
+//      Math.max(buttonBox.getMinWidth(), textBox.getMinWidth())
+      textBox.getMinWidth()
    }
 
    public override function getThumbnail(width: Integer, height: Integer): BufferedImage {
