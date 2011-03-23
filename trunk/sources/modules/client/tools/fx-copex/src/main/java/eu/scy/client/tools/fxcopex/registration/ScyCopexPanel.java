@@ -11,6 +11,7 @@ import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.api.IAction;
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import eu.scy.notification.api.INotification;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
@@ -21,13 +22,22 @@ import eu.scy.client.tools.copex.utilities.ActionCopex;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.text.BadLocationException;
 import org.jdom.Element;
 import javax.swing.JPanel;
+import roolo.elo.api.IELO;
+import eu.scy.common.scyelo.ScyElo;
+import eu.scy.common.scyelo.EloFunctionalRole;
+import java.io.StringReader;
+import javax.swing.text.Document;
+import javax.swing.text.rtf.RTFEditorKit;
 
 /**
  *
@@ -44,6 +54,7 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
     private String toolName;
 
     private CopexNotificationManager copexNotificationManager;
+    private ResourceBundleWrapper bundle;
 
     public ScyCopexPanel(String toolName) {
         super();
@@ -51,7 +62,7 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
         this.copexNotificationManager = new CopexNotificationManager();
         logger = Logger.getLogger(ScyCopexPanel.class.getName());
         this.setLayout(new BorderLayout());
-        
+        this.bundle = new ResourceBundleWrapper(this);
     }
 
     public void initCopex(){
@@ -157,4 +168,83 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
         this.copexNotificationManager.keepNotification(keep);
     }
 
+    private String getBundleString(String key){
+       return this.bundle.getString(key);
+   }
+
+    public void acceptDrop(IELO textElo){
+        if(textElo != null){
+            String[] yesNoOptions = new String[2];
+            yesNoOptions[0] = getBundleString("FX-COPEX.YES");
+            yesNoOptions[1] = getBundleString("FX-COPEX.NO");
+            int n = -1;
+            ScyElo scyElo = new ScyElo(textElo, tbi);
+            if(scyElo == null)
+                return;
+            String technicalFormat = scyElo.getTechnicalFormat();
+            if(technicalFormat == null || !technicalFormat.equals("scy/rtf"))
+                return;
+            if(textElo.getContent() == null)
+                return;
+            String functionnalRole = null;
+            if(scyElo.getFunctionalRole() != null){
+                functionnalRole = scyElo.getFunctionalRole().name();
+            }
+            if(functionnalRole != null && functionnalRole.equals(EloFunctionalRole.HYPOTHESIS.name())){
+                n = JOptionPane.showOptionDialog( null,
+                            getBundleString("FX-COPEX.MSG_MERGE_HYPOTHESIS"),               // question
+                            getBundleString("FX-COPEX.TITLE_DIALOG_MERGE_TEXT"),           // title
+                            JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,  // icon
+                            null, yesNoOptions,yesNoOptions[0] );
+                if (n == 0) {
+                    Element el = new JDomStringConversion().stringToXml(textElo.getContent().getXmlString());
+                    if(el.getName().equals("RichText") && canEditHypothesis()){
+                        copex.setProcedureHypothsesis(getPlainText(el.getText()));
+                    }
+                }
+            }else if(functionnalRole != null && functionnalRole.equals(EloFunctionalRole.RESEARCH_QUESTION.name())){
+                n = JOptionPane.showOptionDialog( null,
+                            getBundleString("FX-COPEX.MSG_MERGE_RESEARCH_QUESTION"),               // question
+                            getBundleString("FX-COPEX.TITLE_DIALOG_MERGE_TEXT"),           // title
+                            JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,  // icon
+                            null, yesNoOptions,yesNoOptions[0] );
+                if (n == 0) {
+                    Element el = new JDomStringConversion().stringToXml(textElo.getContent().getXmlString());
+                    if(el.getName().equals("RichText") && canEditResearchQuestion()){
+                        copex.setProcedureQuestion(getPlainText(el.getText()));
+                    }
+                }
+              }
+        }
+    }
+
+    private String getPlainText(String rtfText){
+        RTFEditorKit rtfEditor = new RTFEditorKit();
+        Document doc = rtfEditor.createDefaultDocument();
+        try {
+            rtfEditor.read(new StringReader(rtfText), doc, 0);
+            String plainText = doc.getText(0, doc.getLength());
+            while (plainText.endsWith("\n")){
+                plainText = plainText.substring(0, plainText.length()-1);
+            }
+            return plainText;
+        } catch (IOException ex) {
+            logger.severe("IOException while reading text elo "+ex);
+        } catch (BadLocationException ex) {
+            logger.severe("BadLocationException while reading text elo "+ex);
+        }
+        return "";
+    }
+
+    /** returns true if the user can edit the research question */
+    public boolean canEditResearchQuestion(){
+        return copex.canEditResearchQuestion();
+    }
+
+    /** returns true if the user can edit the hypothesis */
+    public boolean canEditHypothesis(){
+         return copex.canEditHypothesis();
+    }
 }
