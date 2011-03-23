@@ -41,7 +41,8 @@ public class OntologyKeywordsAgent extends AbstractRequestAgent {
 			this.port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
 		this.activationTuple = new Tuple(EXTRACT_ONTOLOGY_KEYWORDS,
-				AgentProtocol.QUERY, String.class, String.class, String.class);
+				AgentProtocol.QUERY, String.class, String.class, String.class,
+				String.class);
 		try {
 			this.listenerId = this.getCommandSpace().eventRegister(
 					Command.WRITE, this.activationTuple, this, true);
@@ -62,8 +63,9 @@ public class OntologyKeywordsAgent extends AbstractRequestAgent {
 			String queryId = (String) afterTuple.getField(2).getValue();
 			String text = (String) afterTuple.getField(3).getValue();
 			String mission = (String) afterTuple.getField(4).getValue();
+			String language = (String) afterTuple.getField(5).getValue();
 
-			Set<String> keywords = this.getKeywords(text);
+			Set<String> keywords = this.getKeywords(text, mission, language);
 
 			try {
 				this.getCommandSpace().write(
@@ -84,7 +86,7 @@ public class OntologyKeywordsAgent extends AbstractRequestAgent {
 				queryId, keywordBuffer.toString().trim());
 	}
 
-	private Set<String> getKeywords(String text) {
+	private Set<String> getKeywords(String text, String mission, String language) {
 		Set<String> tokens = this.preprocessText(text);
 
 		Set<String> ontologyKeywords = this.getOntologyKeywords();

@@ -20,7 +20,6 @@ import de.fhg.iais.kd.tm.obwious.type.Container;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.impl.PersistentStorage;
 import eu.scy.agents.keywords.workflow.ExtractKeyphrasesWorkflow;
 import eu.scy.agents.util.Utilities;
 
@@ -44,9 +43,7 @@ public class ExtractKeyphrasesAgent extends AbstractRequestAgent {
 	private static final Logger logger = Logger
 			.getLogger(ExtractKeyphrasesAgent.class.getName());
 
-	@SuppressWarnings("unused")
-	private PersistentStorage storage = null;
-
+	// private PersistentStorage storage = null;
 	public ExtractKeyphrasesAgent(Map<String, Object> params) {
 		super(NAME, params);
 		if (params.containsKey(AgentProtocol.TS_HOST)) {
@@ -56,8 +53,8 @@ public class ExtractKeyphrasesAgent extends AbstractRequestAgent {
 			port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
 		activationTuple = new Tuple(EXTRACT_KEYPHRASES, AgentProtocol.QUERY,
-				String.class, String.class, String.class);
-		storage = new PersistentStorage(host, port);
+				String.class, String.class, String.class, String.class);
+		// storage = new PersistentStorage(host, port);
 		try {
 			listenerId = getCommandSpace().eventRegister(Command.WRITE,
 					activationTuple, this, true);
@@ -168,7 +165,9 @@ public class ExtractKeyphrasesAgent extends AbstractRequestAgent {
 				keywordBuffer.toString().trim());
 	}
 
-	private Set<String> extractKeyphrases(String text) {
+	@SuppressWarnings("unchecked")
+	private Set<String> extractKeyphrases(String text, String mission,
+			String language) {
 		Document document = Utilities.convertTextToDocument(text);
 		Operator extractKeyphrasesOperator = new ExtractKeyphrasesWorkflow(
 				initWorkflowProperties()).getOperator("Main");
@@ -178,7 +177,8 @@ public class ExtractKeyphrasesAgent extends AbstractRequestAgent {
 		Container output = extractKeyphrasesOperator.run();
 
 		Document doc = (Document) output.getObject(ObjectIdentifiers.DOCUMENT);
-		HashMap keyphraseMap = (HashMap<String, Float>) doc
+
+		Map<String, Float> keyphraseMap = (HashMap<String, Float>) doc
 				.getFeature(WikiFeatures.NGRAM_FREQUENCIES);
 		return keyphraseMap.keySet();
 	}
@@ -215,8 +215,9 @@ public class ExtractKeyphrasesAgent extends AbstractRequestAgent {
 			String queryId = (String) afterTuple.getField(2).getValue();
 			String text = (String) afterTuple.getField(3).getValue();
 			String mission = (String) afterTuple.getField(4).getValue();
+			String language = (String) afterTuple.getField(5).getValue();
 
-			Set<String> keywords = extractKeyphrases(text);
+			Set<String> keywords = extractKeyphrases(text, mission, language);
 
 			try {
 				getCommandSpace().write(getResponseTuple(keywords, queryId));
