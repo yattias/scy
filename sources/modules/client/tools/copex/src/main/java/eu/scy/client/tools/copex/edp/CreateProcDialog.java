@@ -103,6 +103,10 @@ public class CreateProcDialog extends javax.swing.JDialog {
        }
    }
 
+   private boolean controlLenght(){
+        return edP.controlLenght();
+    }
+
    private void validDialog(){
         setCursor(new Cursor(Cursor.WAIT_CURSOR));
         // creation d'un nouveau protocole
@@ -114,7 +118,7 @@ public class CreateProcDialog extends javax.swing.JDialog {
             edP.displayError(new CopexReturn(msg, false), edP.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
-        if (name.length() > MyConstants.MAX_LENGHT_PROC_NAME){
+        if (controlLenght() && name.length() > MyConstants.MAX_LENGHT_PROC_NAME){
             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             String msg = edP.getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_PROC_NAME"));

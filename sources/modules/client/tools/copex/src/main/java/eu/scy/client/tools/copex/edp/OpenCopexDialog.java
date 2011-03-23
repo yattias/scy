@@ -433,9 +433,11 @@ public class OpenCopexDialog  extends JDialog  {
             this.dispose();
         }
     }
-    
 
-    
+    private boolean controlLenght(){
+        return owner.controlLenght();
+    }
+
     private void buttonOk(){
         // recupere les donnees
         setCursor(new Cursor(Cursor.WAIT_CURSOR));
@@ -449,7 +451,7 @@ public class OpenCopexDialog  extends JDialog  {
                 owner.displayError(new CopexReturn(msg, false), owner.getBundleString("TITLE_DIALOG_ERROR"));
                 return;
             }
-            if (name.length() > MyConstants.MAX_LENGHT_PROC_NAME){
+            if (controlLenght() && name.length() > MyConstants.MAX_LENGHT_PROC_NAME){
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 String msg = owner.getBundleString("MSG_LENGHT_MAX");
                 msg  = CopexUtilities.replace(msg, 0, owner.getBundleString("LABEL_PROC_NAME"));

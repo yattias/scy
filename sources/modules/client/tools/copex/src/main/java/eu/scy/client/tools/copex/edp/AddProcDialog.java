@@ -201,7 +201,7 @@ public class AddProcDialog extends JDialog {
                 edP.displayError(new CopexReturn(msg, false), edP.getBundleString("TITLE_DIALOG_ERROR"));
                 return;
             }
-            if (name.length() > MyConstants.MAX_LENGHT_PROC_NAME){
+            if (controlLenght() && name.length() > MyConstants.MAX_LENGHT_PROC_NAME){
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 String msg = edP.getBundleString("MSG_LENGHT_MAX");
                 msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_PROC_NAME"));
@@ -241,7 +241,7 @@ public class AddProcDialog extends JDialog {
                 edP.displayError(new CopexReturn(msg, false), edP.getBundleString("TITLE_DIALOG_ERROR"));
                 return;
             }
-            if (name.length() > MyConstants.MAX_LENGHT_PROC_NAME){
+            if (controlLenght() && name.length() > MyConstants.MAX_LENGHT_PROC_NAME){
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 String msg = edP.getBundleString("MSG_LENGHT_MAX");
                 msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_PROC_NAME"));
@@ -305,7 +305,10 @@ public class AddProcDialog extends JDialog {
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         this.dispose();
     }
-    
+
+    private boolean controlLenght(){
+        return edP.controlLenght();
+    }
     
     
     /** This method is called from within the constructor to

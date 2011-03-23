@@ -107,12 +107,16 @@ public class EditProcDialog extends javax.swing.JDialog {
        // bouton Annuler
        this.buttonCancel.setSize(60+CopexUtilities.lenghtOfString(this.buttonCancel.getText(), getFontMetrics(this.buttonCancel.getFont())), 23);
    }
+
+   private boolean controlLenght(){
+        return edP.controlLenght();
+    }
    
    private void validDialog(){
         // recupere les donnees 
     // recupere les donnees : 
    String p = this.textFieldProc.getText();
-   if (p.length() > MyConstants.MAX_LENGHT_PROC_NAME){
+   if (controlLenght() && p.length() > MyConstants.MAX_LENGHT_PROC_NAME){
        String msg = edP.getBundleString("MSG_LENGHT_MAX");
        msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_PROC"));
        msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_PROC_NAME);

@@ -290,7 +290,7 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
        this.panelComments.setPanelDetailsShown();
         // recupere les donnees :
         String d = this.textAreaDescription.getText();
-        if (d.length() > MyConstants.MAX_LENGHT_TASK_DESCRIPTION){
+        if (controlLenght() && d.length() > MyConstants.MAX_LENGHT_TASK_DESCRIPTION){
             String msg = edP.getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, champ);
             msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_DESCRIPTION);
@@ -306,7 +306,7 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
             return;
         }
         String c = this.panelComments.getComments();
-        if (c.length() > MyConstants.MAX_LENGHT_TASK_COMMENTS){
+        if (controlLenght() && c.length() > MyConstants.MAX_LENGHT_TASK_COMMENTS){
             String msg = edP.getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_COMMENTS"));
             msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_COMMENTS);
@@ -366,6 +366,10 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
     @Override
     public void setComment(){
         this.panelComments.setComments(this.comment);
+    }
+
+    private boolean controlLenght(){
+        return edP.controlLenght();
     }
     /** This method is called from within the constructor to
      * initialize the form.

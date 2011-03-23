@@ -237,7 +237,7 @@ public class NewMaterialPanel extends CopexPanelHideShow {
     public CopexReturn getMaterial(ArrayList v){
         // nom
         String name = fieldName.getText();
-        if (name.length() > MyConstants.MAX_LENGHT_MATERIAL_NAME){
+        if (controlLenght() && name.length() > MyConstants.MAX_LENGHT_MATERIAL_NAME){
             String msg = edP.getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_MATERIAL_NAME"));
             msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_MATERIAL_NAME);
@@ -250,7 +250,7 @@ public class NewMaterialPanel extends CopexPanelHideShow {
         }
         // description
         String description = areaDescription.getText();
-        if (description.length() > MyConstants.MAX_LENGHT_MATERIAL_DESCRIPTION){
+        if (controlLenght() && description.length() > MyConstants.MAX_LENGHT_MATERIAL_DESCRIPTION){
             String msg = edP.getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_MATERIAL_DESCRIPTION"));
             msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_MATERIAL_DESCRIPTION);
@@ -267,7 +267,7 @@ public class NewMaterialPanel extends CopexPanelHideShow {
         boolean used = this.cboxUsed.isSelected();
         // comments
         String comments = areaComment.getText();
-        if (comments.length() > MyConstants.MAX_LENGHT_MATERIAL_COMMENTS){
+        if (controlLenght() && comments.length() > MyConstants.MAX_LENGHT_MATERIAL_COMMENTS){
             String msg = edP.getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_ADD_COMMENT"));
             msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_MATERIAL_COMMENTS);
@@ -277,6 +277,10 @@ public class NewMaterialPanel extends CopexPanelHideShow {
         MaterialUsed materialUsed = new MaterialUsed(m, CopexUtilities.getLocalText(comments, edP.getLocale()), used);
         v.add(materialUsed);
         return new CopexReturn();
+    }
+
+    private boolean controlLenght(){
+        return edP.controlLenght();
     }
 
     

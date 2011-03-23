@@ -892,7 +892,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
         String d = "";
         if (this.labelDescription != null){
             d = this.textAreaDescription.getText();
-            if (d.length() > MyConstants.MAX_LENGHT_TASK_DESCRIPTION){
+            if (controlLenght() && d.length() > MyConstants.MAX_LENGHT_TASK_DESCRIPTION){
             String msg = edP.getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_DESCRIPTION"));
             msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_DESCRIPTION);
@@ -907,7 +907,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
             }
         }
         String c = this.panelComments.getComments();
-        if (c.length() > MyConstants.MAX_LENGHT_TASK_COMMENTS){
+        if (controlLenght() && c.length() > MyConstants.MAX_LENGHT_TASK_COMMENTS){
             String msg = edP.getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_COMMENTS"));
             msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_COMMENTS);
@@ -1023,7 +1023,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
                 v.add(false);
                 return ld;
            }
-           if (s.length() > MyConstants.MAX_LENGHT_QUANTITY_NAME){
+           if (controlLenght() && s.length() > MyConstants.MAX_LENGHT_QUANTITY_NAME){
                 String msg = edP.getBundleString("MSG_LENGHT_MAX");
                 msg  = CopexUtilities.replace(msg, 0, textProd);
                 msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_QUANTITY_NAME);
@@ -1081,7 +1081,7 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
                 v.add(false);
                 return lm;
            }
-           if (s.length() > MyConstants.MAX_LENGHT_MATERIAL_NAME){
+           if (controlLenght() && s.length() > MyConstants.MAX_LENGHT_MATERIAL_NAME){
                 String msg = edP.getBundleString("MSG_LENGHT_MAX");
                 msg  = CopexUtilities.replace(msg, 0, textProd);
                 msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_MATERIAL_NAME);
@@ -1659,6 +1659,10 @@ public class ActionDialog extends JDialog implements ActionComment, ActionTaskRe
     /* paste */
     private void whiteboardPaste(){
         //drawPanel.getWhiteBoardPanel().whiteboardPaste();
+    }
+
+    private boolean controlLenght(){
+        return edP.controlLenght();
     }
     
 }

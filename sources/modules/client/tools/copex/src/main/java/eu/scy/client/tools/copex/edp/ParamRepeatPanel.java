@@ -483,7 +483,7 @@ public class ParamRepeatPanel extends JPanel{
                     msg  = CopexUtilities.replace(msg, 0, initialManipulationOutput.getName(edP.getLocale()));
                     return new CopexReturn(msg ,false);
                 }
-                if (s.length() > MyConstants.MAX_LENGHT_MATERIAL_NAME){
+                if (controlLenght() && s.length() > MyConstants.MAX_LENGHT_MATERIAL_NAME){
                     String msg = edP.getBundleString("MSG_LENGHT_MAX");
                     msg  = CopexUtilities.replace(msg, 0, initialManipulationOutput.getName(edP.getLocale()));
                     msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_MATERIAL_NAME);
@@ -592,6 +592,10 @@ public class ParamRepeatPanel extends JPanel{
         this.listComponents.add(panel);
     }
 
+    private boolean controlLenght(){
+        return edP.controlLenght();
+    }
+    
     public CopexReturn getOutputData(ArrayList v){
         ArrayList<QData> list = new ArrayList();
         if (mode == MODE_OUT_DATA){
@@ -603,7 +607,7 @@ public class ParamRepeatPanel extends JPanel{
                     msg  = CopexUtilities.replace(msg, 0, initialOutput.getName(edP.getLocale()));
                     return new CopexReturn(msg ,false);
                 }
-                if (s.length() > MyConstants.MAX_LENGHT_QUANTITY_NAME){
+                if (controlLenght() && s.length() > MyConstants.MAX_LENGHT_QUANTITY_NAME){
                     String msg = edP.getBundleString("MSG_LENGHT_MAX");
                     msg  = CopexUtilities.replace(msg, 0, initialOutput.getName(edP.getLocale()));
                     msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_QUANTITY_NAME);
