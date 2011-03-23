@@ -49,6 +49,8 @@ import javafx.animation.KeyFrame;
 import roolo.elo.metadata.BasicMetadata;
 import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
 import eu.scy.common.scyelo.ScyElo;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 
 
 /**
@@ -99,6 +101,18 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
         }
     ]
 }
+   def saveTitleBarButton = TitleBarButton {
+              actionId: "save"
+              iconType: "save"
+              action: doSaveElo
+              tooltip: "save ELO"
+           }
+   def saveAsTitleBarButton = TitleBarButton {
+              actionId: "saveAs"
+              iconType: "save_as"
+              action: doSaveAsElo
+              tooltip: "save copy of ELO"
+           }
 
 
    public override function initialize(windowContent: Boolean):Void{
@@ -113,6 +127,15 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
       scyCopexPanel.initCopex();
       //toolBrokerAPI.registerForNotifications(this as INotifiable);
       notificationAnim.play();
+   }
+
+   public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
+      if (windowContent) {
+         titleBarButtonManager.titleBarButtons = [
+                    saveTitleBarButton,
+                    saveAsTitleBarButton
+                 ]
+      }
    }
 
    public override function loadElo(uri:URI){
