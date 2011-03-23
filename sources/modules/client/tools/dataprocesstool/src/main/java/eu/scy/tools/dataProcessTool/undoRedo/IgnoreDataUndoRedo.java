@@ -44,6 +44,11 @@ public class IgnoreDataUndoRedo extends DataUndoRedo{
         dataToolPanel.updateDataset(nds);
         isIgnored = !isIgnored ;
         this.dataToolPanel.logRedo(this);
+        cr = this.controller.exportHTML();
+        if (cr.isError()){
+            dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
+            return;
+        }
     }
 
     @Override
@@ -59,6 +64,11 @@ public class IgnoreDataUndoRedo extends DataUndoRedo{
         dataToolPanel.updateDataset(nds);
         isIgnored = !isIgnored ;
         this.dataToolPanel.logUndo(this);
+        cr = this.controller.exportHTML();
+        if (cr.isError()){
+            dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
+            return;
+        }
     }
 
 

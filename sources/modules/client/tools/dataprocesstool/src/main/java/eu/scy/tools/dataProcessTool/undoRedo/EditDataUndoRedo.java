@@ -48,6 +48,11 @@ public class EditDataUndoRedo extends DataUndoRedo{
         Dataset nds = (Dataset)v.get(0);
         this.dataToolPanel.updateDataset(nds);
         this.dataToolPanel.logRedo(this);
+        cr = this.controller.exportHTML();
+        if (cr.isError()){
+            dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
+            return;
+        }
     }
 
     @Override
@@ -62,6 +67,11 @@ public class EditDataUndoRedo extends DataUndoRedo{
         Dataset nds = (Dataset)v.get(0);
         this.dataToolPanel.updateDataset(nds);
         this.dataToolPanel.logUndo(this);
+        cr = this.controller.exportHTML();
+        if (cr.isError()){
+            dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
+            return;
+        }
     }
 
 

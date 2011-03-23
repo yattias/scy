@@ -640,9 +640,9 @@ public class DataControllerDB implements ControllerInterface{
             return cr;
         // recalcule des operations
         dataset.calculateOperation();
-        cr = exportHTML(dataset);
-        if(cr.isError())
-            return cr;
+//        cr = exportHTML(dataset);
+//        if(cr.isError())
+//            return cr;
         cr = updateLabdocStatus();
         if(cr.isError())
             return cr;
@@ -678,9 +678,9 @@ public class DataControllerDB implements ControllerInterface{
         // creation en memoire
         dataset.addOperation(operation);
         // en v[0] le nouveau dataset clone et en v[1] le dataOperation
-        cr = exportHTML(dataset);
-        if(cr.isError())
-            return cr;
+//        cr = exportHTML(dataset);
+//        if(cr.isError())
+//            return cr;
         cr = updateLabdocStatus();
         if(cr.isError())
             return cr;
@@ -996,10 +996,10 @@ public class DataControllerDB implements ControllerInterface{
         
         // en v[0] : le nouveau dataset
         //System.out.println("dataset apres updateData : "+dataset.toString());
-        CopexReturn cr = exportHTML(dataset);
-        if(cr.isError())
-            return cr;
-        cr = updateLabdocStatus();
+//        CopexReturn cr = exportHTML(dataset);
+//        if(cr.isError())
+//            return cr;
+        CopexReturn cr = updateLabdocStatus();
         if(cr.isError())
             return cr;
         listDataset.set(idDs, dataset);
@@ -1105,9 +1105,9 @@ public class DataControllerDB implements ControllerInterface{
         // memoire
         vis.setDbKey(dbKey);
         dataset.addVisualization(vis);
-       cr = exportHTML(dataset);
-        if(cr.isError())
-            return cr;
+//       cr = exportHTML(dataset);
+//        if(cr.isError())
+//            return cr;
         cr = updateLabdocStatus();
         if(cr.isError())
             return cr;
@@ -1484,10 +1484,10 @@ public class DataControllerDB implements ControllerInterface{
         Dataset dataset = listDataset.get(idDs);
         dataset.exchange(exchange);
         v.add(dataset.clone());
-        CopexReturn cr = exportHTML(dataset);
-        if(cr.isError())
-            return cr;
-        cr = updateLabdocStatus();
+//        CopexReturn cr = exportHTML(dataset);
+//        if(cr.isError())
+//            return cr;
+        CopexReturn cr = updateLabdocStatus();
         if(cr.isError())
             return cr;
         listDataset.set(idDs, dataset);
@@ -1766,10 +1766,10 @@ public class DataControllerDB implements ControllerInterface{
                 dataset.getListVisualization().set(idVis, ((Graph)vis));
             }
         }
-        CopexReturn cr = exportHTML(dataset);
-        if(cr.isError())
-            return cr;
-        cr = updateLabdocStatus();
+//        CopexReturn cr = exportHTML(dataset);
+//        if(cr.isError())
+//            return cr;
+        CopexReturn cr = updateLabdocStatus();
         if(cr.isError())
             return cr;
         listDataset.set(idDs, dataset);
@@ -2464,9 +2464,9 @@ public class DataControllerDB implements ControllerInterface{
         listRowAndCol[0] = listNoRow ;
         listRowAndCol[1] = listNoCol;
         v.add(listRowAndCol);
-        cr = exportHTML(dataset);
-        if(cr.isError())
-            return cr;
+//        cr = exportHTML(dataset);
+//        if(cr.isError())
+//            return cr;
         cr = updateLabdocStatus();
         if(cr.isError())
             return cr;

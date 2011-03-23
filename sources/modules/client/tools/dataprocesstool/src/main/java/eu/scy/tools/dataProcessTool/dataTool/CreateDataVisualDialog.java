@@ -190,7 +190,7 @@ public class CreateDataVisualDialog extends javax.swing.JDialog implements Actio
             owner.displayError(new CopexReturn(msg, false), owner.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
-         if (name.length() > DataConstants.MAX_LENGHT_VISUALIZATION_NAME){
+         if (controlLenght() && name.length() > DataConstants.MAX_LENGHT_VISUALIZATION_NAME){
             String msg = owner.getBundleString("MSG_LENGHT_MAX");
              msg  = MyUtilities.replace(msg, 0, owner.getBundleString("LABEL_NAME"));
              msg = MyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_VISUALIZATION_NAME);
@@ -220,6 +220,10 @@ public class CreateDataVisualDialog extends javax.swing.JDialog implements Actio
         boolean isOk = owner.createVisualization(name, typeVis, dataHeader, headerLabel, listPlot);
         if (isOk)
             this.dispose();
+    }
+
+    private boolean controlLenght(){
+        return owner.controlLenght();
     }
     
     

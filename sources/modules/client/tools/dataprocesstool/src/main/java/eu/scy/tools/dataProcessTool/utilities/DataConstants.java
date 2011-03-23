@@ -22,7 +22,7 @@ public class DataConstants {
     public static final int OP_MAX = 3;
     public static final int OP_SUM_IF = 4;
     
-    /* Visualisations types */
+    /* Visualizations types */
     public static final int VIS_GRAPH = 0;
     public static final int VIS_PIE=1;
     public static final int VIS_BAR = 2;
@@ -40,10 +40,9 @@ public class DataConstants {
     public static final int MAX_LENGHT_DATASET_NAME = 32;
     public static final int MAX_LENGHT_DATAHEADER_NAME = 32;
     public static final int MAX_LENGHT_DATAHEADER_DESCRIPTION = 1024;
-     public static final int MAX_LENGHT_DATAHEADER_FORMULA = 1024;
+    public static final int MAX_LENGHT_DATAHEADER_FORMULA = 1024;
     public static final int MAX_LENGHT_UNIT = 32;
     public static final int MAX_LENGHT_VISUALIZATION_NAME = 64;
-    public static final int MAX_LENGHT_AXIS_NAME= 10;
     public final static int MAX_LENGHT_DATA=128;
 
     /* graph mode */

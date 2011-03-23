@@ -42,6 +42,11 @@ public class OperationUndoRedo extends DataUndoRedo {
         this.operation = op;
         dataToolPanel.updateDataset(nds) ;
         this.dataToolPanel.logRedo(this);
+        cr = this.controller.exportHTML();
+        if (cr.isError()){
+            dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
+            return;
+        }
     }
 
     @Override
@@ -60,6 +65,11 @@ public class OperationUndoRedo extends DataUndoRedo {
             dataToolPanel.updateDataset(ds);
         }
         this.dataToolPanel.logUndo(this);
+        cr = this.controller.exportHTML();
+        if (cr.isError()){
+            dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
+            return;
+        }
     }
 
     @Override

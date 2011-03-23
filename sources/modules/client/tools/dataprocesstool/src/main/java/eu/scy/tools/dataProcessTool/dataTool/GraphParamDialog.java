@@ -163,10 +163,14 @@ public class GraphParamDialog extends javax.swing.JDialog implements ActionPlot 
        }
    }
 
+    private boolean controlLenght(){
+        return dataToolPanel.controlLenght();
+    }
+
     private void validParamGraph(){
         // recupere les donnees :
         String name = this.fieldName.getText();
-        if (name.length() > DataConstants.MAX_LENGHT_VISUALIZATION_NAME){
+        if (controlLenght() && name.length() > DataConstants.MAX_LENGHT_VISUALIZATION_NAME){
             String msg = dataToolPanel.getBundleString("MSG_LENGHT_MAX");
             msg  = MyUtilities.replace(msg, 0, dataToolPanel.getBundleString("LABEL_NAME_VISUALIZATION"));
             msg = MyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_DATASET_NAME);

@@ -151,7 +151,7 @@ public class RenameDatasetDialog extends javax.swing.JDialog {
 
     private void validDialog(){
         String n = this.fieldName.getText();
-        if (n.length() > DataConstants.MAX_LENGHT_DATASET_NAME){
+        if (controlLenght() && n.length() > DataConstants.MAX_LENGHT_DATASET_NAME){
             String msg = fitex.getBundleString("MSG_LENGHT_MAX");
             msg  = MyUtilities.replace(msg, 0, fitex.getBundleString("LABEL_NAME"));
             msg = MyUtilities.replace(msg, 1, ""+DataConstants.MAX_LENGHT_DATASET_NAME);
@@ -169,5 +169,9 @@ public class RenameDatasetDialog extends javax.swing.JDialog {
         boolean isOk = fitex.renameDataset(n);
         if(isOk)
             this.dispose();
+    }
+
+    private boolean controlLenght(){
+        return fitex.controlLenght();
     }
 }

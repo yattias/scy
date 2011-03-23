@@ -68,6 +68,11 @@ public class DeleteUndoRedo extends DataUndoRedo {
             listVisualizationToDel = (ArrayList<Visualization>)tabDel[3];
         }
         dataToolPanel.logUndo(this);
+        cr = this.controller.exportHTML();
+        if (cr.isError()){
+            dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
+            return;
+        }
     }
 
     @Override
@@ -185,6 +190,11 @@ public class DeleteUndoRedo extends DataUndoRedo {
         // mise a jour
         dataToolPanel.updateDataset(nds) ;
         dataToolPanel.logRedo(this);
+        CopexReturn cr = this.controller.exportHTML();
+        if (cr.isError()){
+            dataToolPanel.displayError(cr, dataToolPanel.getBundleString("TITLE_DIALOG_ERROR"));
+            return;
+        }
     }
 
 
