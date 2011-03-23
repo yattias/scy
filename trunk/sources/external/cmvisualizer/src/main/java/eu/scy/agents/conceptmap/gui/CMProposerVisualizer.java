@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 
@@ -40,6 +41,8 @@ public class CMProposerVisualizer extends JFrame implements CMProposerObserver {
         agent.start();
     }
 
+
+
     public CMProposerVisualizer() {
         super("CMProposerVisualizer");
         setLayout(new BorderLayout(5, 5));
@@ -56,10 +59,10 @@ public class CMProposerVisualizer extends JFrame implements CMProposerObserver {
         centerPane.setDividerLocation(500);
 
         JPanel northPane = new JPanel(new BorderLayout(5,5));
-        northPane.add(BorderLayout.CENTER, textPanel);
+        northPane.add(BorderLayout.CENTER, new JScrollPane(textPanel));
         northPane.add(BorderLayout.SOUTH, statusLabel);
-        
-        
+
+
         add(BorderLayout.CENTER, centerPane);
         add(BorderLayout.NORTH, northPane);
         setSize(1000, 800);
