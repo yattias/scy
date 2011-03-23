@@ -30,7 +30,7 @@ return Group {
 				Rectangle {
 					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: null
-					x: 0.36
+					x: 0.42
 					y: 0.14
 					width: 40.0
 					height: 40.0
@@ -38,10 +38,10 @@ return Group {
 				Rectangle {
 					fill: bind windowColorScheme.mainColor
 					stroke: null
-					x: 9.36
-					y: 9.14
-					width: 22.0
-					height: 22.0
+					x: 3.42
+					y: 3.14
+					width: 34.0
+					height: 34.0
 },
 ]
 }

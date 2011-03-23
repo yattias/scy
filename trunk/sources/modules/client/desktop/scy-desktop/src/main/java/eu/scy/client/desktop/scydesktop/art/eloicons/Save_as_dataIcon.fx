@@ -30,7 +30,7 @@ return Group {
 				Rectangle {
 					fill: bind windowColorScheme.emptyBackgroundColor
 					stroke: null
-					x: 0.42
+					x: 0.54
 					y: 0.14
 					width: 40.0
 					height: 40.0
@@ -38,68 +38,58 @@ return Group {
 				Rectangle {
 					fill: bind windowColorScheme.mainColor
 					stroke: null
-					x: 9.3
-					y: 9.14
-					width: 22.0
-					height: 22.0
+					x: 3.55
+					y: 3.14
+					width: 34.0
+					height: 34.0
 				},
 				Rectangle {
 					fill: null
 					stroke: null
-					x: 0.3
+					x: 0.42
 					y: 0.14
 					width: 40.0
 					height: 40.0
 				},
 				Line {
 					fill: null
-					stroke: Color.rgb(0xff,0x33,0x0)
-					strokeWidth: 2.0
+					stroke: bind windowColorScheme.thirdColor
+					strokeWidth: 3.0
 					strokeLineCap: StrokeLineCap.BUTT
-					startX: 19.42
-					startY: 1.14
+					startX: 12.42
+					startY: 25.64
 					endX: 40.42
-					endY: 1.14
+					endY: 25.64
 				},
 				Line {
 					fill: null
-					stroke: Color.rgb(0xff,0x33,0x0)
-					strokeWidth: 2.0
+					stroke: bind windowColorScheme.thirdColor
+					strokeWidth: 3.0
 					strokeLineCap: StrokeLineCap.BUTT
-					startX: 19.42
-					startY: 6.14
+					startX: 12.42
+					startY: 1.64
 					endX: 40.42
-					endY: 6.14
+					endY: 1.64
 				},
 				Line {
 					fill: null
-					stroke: Color.rgb(0xff,0x33,0x0)
-					strokeWidth: 2.0
+					stroke: bind windowColorScheme.thirdColor
+					strokeWidth: 3.0
 					strokeLineCap: StrokeLineCap.BUTT
-					startX: 19.42
-					startY: 11.14
+					startX: 12.42
+					startY: 9.64
 					endX: 40.42
-					endY: 11.14
+					endY: 9.64
 				},
 				Line {
 					fill: null
-					stroke: Color.rgb(0xff,0x33,0x0)
-					strokeWidth: 2.0
+					stroke: bind windowColorScheme.thirdColor
+					strokeWidth: 3.0
 					strokeLineCap: StrokeLineCap.BUTT
-					startX: 19.42
-					startY: 15.14
+					startX: 12.42
+					startY: 17.64
 					endX: 40.42
-					endY: 15.14
-				},
-				Line {
-					fill: null
-					stroke: Color.rgb(0xff,0x33,0x0)
-					strokeWidth: 2.0
-					strokeLineCap: StrokeLineCap.BUTT
-					startX: 19.42
-					startY: 20.14
-					endX: 40.42
-					endY: 20.14
+					endY: 17.64
 },
 ]
 }

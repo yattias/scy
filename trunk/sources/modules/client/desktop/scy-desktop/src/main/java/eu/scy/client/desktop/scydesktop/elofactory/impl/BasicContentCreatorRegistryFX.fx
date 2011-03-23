@@ -24,7 +24,7 @@ public class BasicContentCreatorRegistryFX{
    protected function registerContentCreatorFX(contentCreator: Object, id: String):Void{
 //      logger.info("registering ContentCreatorFX with id {id}, class {contentCreator.getClass()}");
       checkIfIdIsDefined(id);
-      contentCreatorsFXMap.put(id, contentCreator);
+      contentCreatorsFXMap.put(id.toLowerCase(), contentCreator);
    }
 
    function checkIfIdIsDefined(id:String){
@@ -38,7 +38,7 @@ public class BasicContentCreatorRegistryFX{
    }
 
    protected function getContentCreatorFX(id:String):Object{
-      return contentCreatorsFXMap.get(id)
+      return contentCreatorsFXMap.get(id.toLowerCase())
    }
 
 
