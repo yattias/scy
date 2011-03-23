@@ -42,15 +42,16 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements
 
 	private static final String AGENT_MODEL = "agent-model";
 
+	public static final String NAME = RooloAccessorAgent.class.getName();
+
 	private boolean isStopped;
 
 	private AgentRooloServiceImpl rooloServices;
 
 	public RooloAccessorAgent(Map<String, Object> map) {
-		super(RooloAccessorAgent.class.getName(), (String) map
-				.get(AgentProtocol.PARAM_AGENT_ID), (String) map
-				.get(AgentProtocol.TS_HOST), (Integer) map
-				.get(AgentProtocol.TS_PORT));
+		super(NAME, (String) map.get(AgentProtocol.PARAM_AGENT_ID),
+				(String) map.get(AgentProtocol.TS_HOST), (Integer) map
+						.get(AgentProtocol.TS_PORT));
 		rooloServices = new AgentRooloServiceImpl();
 	}
 
