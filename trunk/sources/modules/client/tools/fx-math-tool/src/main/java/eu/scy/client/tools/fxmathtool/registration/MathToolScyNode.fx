@@ -18,9 +18,6 @@ import roolo.elo.api.IMetadataKey;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import roolo.api.IExtensionManager;
 import eu.scy.actionlogging.api.IActionLogger;
-import eu.scy.awareness.IAwarenessService;
-import eu.scy.client.common.datasync.IDataSyncService;
-import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import java.net.URI;
@@ -44,6 +41,8 @@ import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import eu.scy.tools.math.ui.MathTool;
 import eu.scy.tools.math.controller.SCYMathToolController;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 
 /**
  * @author kaido
@@ -72,6 +71,18 @@ public class MathToolScyNode extends MathToolNode, ScyToolFX, EloSaverCallBack {
    var saveLabel = ##"Save ELO";
    var saveAsLabel = ##"Save ELO as";
    def mathToolTagName = "MathToolTag";
+   def saveTitleBarButton = TitleBarButton {
+              actionId: "save"
+              iconType: "save"
+              action: doSaveElo
+              tooltip: "save ELO"
+           }
+   def saveAsTitleBarButton = TitleBarButton {
+              actionId: "saveAs"
+              iconType: "save_as"
+              action: doSaveAsElo
+              tooltip: "save copy of ELO"
+           }
 
    function setLoggerEloUri() {
       var myEloUri:String = (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI();
@@ -95,6 +106,15 @@ public class MathToolScyNode extends MathToolNode, ScyToolFX, EloSaverCallBack {
       //setActionLogger(actionLogger,toolBrokerAPI.getLoginUserName(), toolname, "n/a", MathTool");
       setLoggerEloUri();
     }
+
+   public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
+      if (windowContent) {
+         titleBarButtonManager.titleBarButtons = [
+                    saveTitleBarButton,
+                    saveAsTitleBarButton
+                 ]
+      }
+   }
 
    public override function loadElo(uri:URI){
       doLoadElo(uri);
