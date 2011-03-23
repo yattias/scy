@@ -196,9 +196,11 @@ public class CMProposerAgent extends AbstractThreadedAgent {
 
     @Override
     public void doStop() throws AgentLifecycleException {
+        observer.setStatusText("Stopping....");
         con.close();
         try {
             commandSpace.disconnect();
+            observer.setStatusText("Stopped");
         } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
