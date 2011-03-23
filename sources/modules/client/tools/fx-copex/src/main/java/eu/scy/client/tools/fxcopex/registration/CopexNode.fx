@@ -20,7 +20,7 @@ import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import java.util.logging.Logger;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 import eu.scy.client.desktop.scydesktop.utils.UiUtils;
@@ -34,7 +34,6 @@ import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import java.awt.image.BufferedImage;
@@ -47,6 +46,9 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
+import roolo.elo.metadata.BasicMetadata;
+import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
+import eu.scy.common.scyelo.ScyElo;
 
 
 /**
@@ -54,7 +56,7 @@ import javafx.animation.KeyFrame;
  */
 
 public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack, INotifiable {
-   def logger = Logger.getLogger(this.getClass());
+   def logger = Logger.getLogger(CopexNode.class.getName());
    def scyCopexType = "scy/xproc";
    def jdomStringConversion = new JDomStringConversion();
 
@@ -328,5 +330,45 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
     }
 
 
+    public override function canAcceptDrop(object: Object): Boolean {
+        logger.info("copex-canAcceptDrop? {object.getClass()}");
+        if (object instanceof BasicMetadata) {
+            var b: BasicMetadata = object as BasicMetadata;
+            var textElo = repository.retrieveELO(getEloUri(b));
+            var scyElo = new ScyElo(textElo, toolBrokerAPI);
+            var technicalFormat = scyElo.getTechnicalFormat();
+            return technicalFormat != null and technicalFormat.equals("scy/rtf");
+        }
+        if (object instanceof StandardScyWindow) {
+            var w: StandardScyWindow = object as StandardScyWindow;
+            var textElo = repository.retrieveELO(w.eloUri);
+            var scyElo = new ScyElo(textElo, toolBrokerAPI);
+            var technicalFormat = scyElo.getTechnicalFormat();
+            return technicalFormat != null and technicalFormat.equals("scy/rtf");
+        }
+        return false;
+    }
+
+    public override function acceptDrop(object: Object) {
+        logger.info("drop accepted.");
+        if (object instanceof BasicMetadata) {
+            var b: BasicMetadata = object as BasicMetadata;
+            var textElo = repository.retrieveELO(getEloUri(b));
+            scyCopexPanel.acceptDrop(textElo);
+            return;
+        }
+        if (object instanceof StandardScyWindow) {
+            var w: StandardScyWindow = object as StandardScyWindow;
+            var textElo = repository.retrieveELO(w.eloUri);
+            scyCopexPanel.acceptDrop(textElo);
+            return;
+        }
+        
+    }
+
+    function getEloUri(object: BasicMetadata): URI{
+        def identifierKey = toolBrokerAPI.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER);
+        return object.getMetadataValueContainer(identifierKey).getValue() as URI;
+   }
 
 }
