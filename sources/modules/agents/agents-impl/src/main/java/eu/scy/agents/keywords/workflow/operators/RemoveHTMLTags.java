@@ -4,10 +4,10 @@ import java.util.Properties;
 
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
-import de.fhg.iais.kd.tm.obwious.identifiers.TMParameters;
 import de.fhg.iais.kd.tm.obwious.operator.DocumentOperatorSpecification;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.type.Container;
+import eu.scy.agents.util.TMParameters;
 
 /**
  * Implements an OBWIOUS operator that
