@@ -34,6 +34,8 @@ import java.awt.Dimension;
 import eu.scy.client.desktop.scydesktop.utils.UiUtils;
 import java.awt.image.BufferedImage;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 
 /**
  * @author sikkenj
@@ -58,6 +60,18 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
    var nodeBox: VBox;
    var buttonBox: HBox;
    def spacing = 5.0;
+   def saveTitleBarButton = TitleBarButton {
+              actionId: "save"
+              iconType: "save"
+              action: doSaveElo
+              tooltip: "save ELO"
+           }
+   def saveAsTitleBarButton = TitleBarButton {
+              actionId: "saveAs"
+              iconType: "save_as"
+              action: doSaveAsElo
+              tooltip: "save copy of ELO"
+           }
 
 //   def cached = bind scyWindow.cache on replace {
 //         wrappedWhiteboardPanel.cache = cached;
@@ -69,6 +83,15 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
        eloFactory = toolBrokerAPI.getELOFactory();
 
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+   }
+
+   public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
+      if (windowContent) {
+         titleBarButtonManager.titleBarButtons = [
+                    saveTitleBarButton,
+                    saveAsTitleBarButton
+                 ]
+      }
    }
 
    public override function loadElo(uri: URI) {
