@@ -36,7 +36,7 @@ public class StudyAdminAgent implements Callback {
             agentNames.add(name);
         }
 
-        public AbstractThreadedAgent start() {
+        public AbstractThreadedAgent start(Map<String,Object> params) {
             HashMap<String, Object> map = new HashMap<String, Object>();
             String name = agentNames.remove((int) (Math.random() * agentNames.size()));
             map.put(AgentProtocol.PARAM_AGENT_ID, name);
@@ -51,6 +51,9 @@ public class StudyAdminAgent implements Callback {
                     agent = new UserConceptMapAgent(map);
                     break;
                 case PROPOSER:
+                    if (params!=null && params.get("observer")!=null){
+                        map.put("observer", params.get("observer"));
+                    }
                     agent = new CMProposerAgent(map);
                     break;
             }
@@ -73,9 +76,9 @@ public class StudyAdminAgent implements Callback {
             commandSpace = new TupleSpace("localhost", 2525, "command");
             commandSpace.eventRegister(Command.WRITE, new Tuple("study", String.class, String.class), this, true);
             agents = new HashMap<String, AbstractThreadedAgent>();
-            startAgent(StudyAgent.ENRICHER);
-            startAgent(StudyAgent.MODELLER);
-            startAgent(StudyAgent.PROPOSER);
+            //startAgent(StudyAgent.ENRICHER);
+           // startAgent(StudyAgent.MODELLER);
+          //  startAgent(StudyAgent.PROPOSER);
         } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
@@ -96,7 +99,7 @@ public class StudyAdminAgent implements Callback {
                     }
                 }
             }
-            startAgent(agentType);
+            startAgent(agentType,null);
         } else if ("stop".equals(command)) {
             stopAgent(param);
         }
@@ -107,7 +110,7 @@ public class StudyAdminAgent implements Callback {
         }
     }
 
-    private void stopAgent(String agentName) {
+    public void stopAgent(String agentName) {
         if (agents.containsKey(agentName)) {
             try {
                 AbstractThreadedAgent agent = agents.get(agentName);
@@ -126,8 +129,8 @@ public class StudyAdminAgent implements Callback {
         }
     }
 
-    private String startAgent(StudyAgent agentType) {
-        AbstractThreadedAgent agent = agentType.start();
+    public String startAgent(StudyAgent agentType, Map<String,Object> params) {
+        AbstractThreadedAgent agent = agentType.start(params);
         agents.put(agent.getId(), agent);
         try {
             commandSpace.write(new Tuple("study admin", agentType.name(), agent.getId()));
