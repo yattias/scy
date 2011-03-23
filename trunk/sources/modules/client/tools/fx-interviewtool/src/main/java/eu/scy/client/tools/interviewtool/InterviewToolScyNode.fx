@@ -22,9 +22,6 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import roolo.api.IRepository;
 import roolo.api.IExtensionManager;
 import eu.scy.actionlogging.api.IActionLogger;
-import eu.scy.awareness.IAwarenessService;
-import eu.scy.client.common.datasync.IDataSyncService;
-import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 
@@ -50,6 +47,8 @@ import javafx.reflect.FXLocal;
 import javafx.geometry.BoundingBox;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 
 /**
  * @author kaido
@@ -85,6 +84,18 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
    // interval in milliseconds after what typed text is wrote
    // into action log - should be configurable from authoring tools
    public var interviewSchemaTypingLogIntervalMs = 30000;
+   def saveTitleBarButton = TitleBarButton {
+              actionId: "save"
+              iconType: "save"
+              action: doSaveElo
+              tooltip: "save ELO"
+           }
+   def saveAsTitleBarButton = TitleBarButton {
+              actionId: "saveAs"
+              iconType: "save_as"
+              action: doSaveAsElo
+              tooltip: "save copy of ELO"
+           }
 
    function setLoggerEloUri() {
       var myEloUri:String = (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI();
@@ -116,6 +127,15 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
       schemaEditor.setRichTextEditorLogger(actionLogger,
          username, toolname, missionname, sessionname, "interview schema");
       setLoggerEloUri();
+   }
+
+   public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
+      if (windowContent) {
+         titleBarButtonManager.titleBarButtons = [
+                    saveTitleBarButton,
+                    saveAsTitleBarButton
+                 ]
+      }
    }
 
    public override function loadElo(uri:URI){
