@@ -1017,4 +1017,39 @@ public class CopexPanel extends JPanel {
         }
         return new JPanel();
     }
+
+    public boolean controlLenght(){
+        return !scyMode;
+    }
+
+    
+    /** update the hypothesis (scy text)*/
+    public void setProcedureHypothsesis(String hypothesisText){
+        if(activCopex != null){
+            activCopex.setProcedureHypothesis(hypothesisText);
+        }
+    }
+
+    /** update the question (scy text)*/
+    public void setProcedureQuestion(String questionText){
+        if(activCopex != null){
+            activCopex.setProcedureQuestion(questionText);
+        }
+    }
+
+    /** returns true if the user can edit the research question */
+    public boolean canEditResearchQuestion(){
+        if(activCopex != null){
+            return activCopex.getExperimentalProc().getQuestion().getEditRight() == MyConstants.EXECUTE_RIGHT;
+        }
+        return false;
+    }
+
+    /** returns true if the user can edit the hypothesis */
+    public boolean canEditHypothesis(){
+        if(activCopex != null){
+            return activCopex.getExperimentalProc().getHypothesisMode() != MyConstants.MODE_MENU_NO;
+        }
+        return false;
+    }
 }

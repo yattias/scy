@@ -1706,14 +1706,14 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
 
     
     public String updateHypothesis(Hypothesis hypothesis, String newText, String newComment){
-        if(newText.length() > MyConstants.MAX_LENGHT_HYPOTHESIS){
+        if(controlLenght() && newText.length() > MyConstants.MAX_LENGHT_HYPOTHESIS){
             String msg = getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, getBundleString("TREE_HYPOTHESIS"));
             msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_HYPOTHESIS);
             displayError(new CopexReturn(msg, false), getBundleString("TITLE_DIALOG_ERROR"));
             return hypothesis.getHypothesis(getLocale());
         }
-        if(newComment.length() > MyConstants.MAX_LENGHT_TASK_COMMENTS){
+        if(controlLenght() && newComment.length() > MyConstants.MAX_LENGHT_TASK_COMMENTS){
             String msg = getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, getBundleString("LABEL_COMMENTS"));
             msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_COMMENTS);
@@ -1745,14 +1745,14 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     }
 
     public String updateGeneralPrinciple(GeneralPrinciple principle, String newText, String newComment){
-        if(newText.length() > MyConstants.MAX_LENGHT_GENERAL_PRINCIPLE){
+        if(controlLenght() && newText.length() > MyConstants.MAX_LENGHT_GENERAL_PRINCIPLE){
             String msg = getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, getBundleString("TREE_GENERAL_PRINCIPLE"));
             msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_GENERAL_PRINCIPLE);
             displayError(new CopexReturn(msg, false), getBundleString("TITLE_DIALOG_ERROR"));
             return principle.getPrinciple(getLocale());
         }
-        if(newComment.length() > MyConstants.MAX_LENGHT_TASK_COMMENTS){
+        if(controlLenght() && newComment.length() > MyConstants.MAX_LENGHT_TASK_COMMENTS){
             String msg = getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, getBundleString("LABEL_COMMENTS"));
             msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_COMMENTS);
@@ -1785,14 +1785,14 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
 
 
      public String updateEvaluation(Evaluation evaluation, String newText, String newComment){
-        if(newText.length() > MyConstants.MAX_LENGHT_EVALUATION){
+        if(controlLenght() && newText.length() > MyConstants.MAX_LENGHT_EVALUATION){
             String msg = getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, getBundleString("TREE_EVALUATION"));
             msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_EVALUATION);
             displayError(new CopexReturn(msg, false), getBundleString("TITLE_DIALOG_ERROR"));
             return evaluation.getEvaluation(getLocale());
         }
-        if(newComment.length() > MyConstants.MAX_LENGHT_TASK_COMMENTS){
+        if(controlLenght() && newComment.length() > MyConstants.MAX_LENGHT_TASK_COMMENTS){
             String msg = getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, getBundleString("LABEL_COMMENTS"));
             msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_COMMENTS);
@@ -1824,7 +1824,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     }
 
      public String updateQuestion(Question question, String newText, String newComment){
-        if (newText.length() > MyConstants.MAX_LENGHT_TASK_DESCRIPTION){
+        if (controlLenght() && newText.length() > MyConstants.MAX_LENGHT_TASK_DESCRIPTION){
            String msg = getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, getBundleString("LABEL_QUESTION"));
             msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_DESCRIPTION);
@@ -1839,7 +1839,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
 //            }
 //            return question.getDescription(getLocale());
         }
-        if (newComment.length() > MyConstants.MAX_LENGHT_TASK_COMMENTS){
+        if (controlLenght() && newComment.length() > MyConstants.MAX_LENGHT_TASK_COMMENTS){
             String msg = getBundleString("MSG_LENGHT_MAX");
             msg  = CopexUtilities.replace(msg, 0, getBundleString("LABEL_COMMENTS"));
             msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_COMMENTS);
@@ -1925,5 +1925,69 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     public void doMenuItemMousePressed(MyMenuItem menuItem) {
         clickMenuEvent(menuItem);
     }
+
+    public boolean controlLenght(){
+        return copexPanel.controlLenght();
+    }
+
+
+    public void setProcedureHypothesis(String newText){
+        if(controlLenght() && newText.length() > MyConstants.MAX_LENGHT_HYPOTHESIS){
+            String msg = getBundleString("MSG_LENGHT_MAX");
+            msg  = CopexUtilities.replace(msg, 0, getBundleString("TREE_HYPOTHESIS"));
+            msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_HYPOTHESIS);
+            displayError(new CopexReturn(msg, false), getBundleString("TITLE_DIALOG_ERROR"));
+            return ;
+        }
+        Hypothesis oldHypothesis = (Hypothesis)proc.getHypothesis().clone();
+        String oldHyp = proc.getHypothesis().getHypothesis(getLocale()) ;
+        String oldHypComment = proc.getHypothesis().getComment(getLocale()) ;
+        //proc.getHypothesis().setHypothesis(CopexUtilities.getTextLocal(newText, getLocale()));
+        proc.getHypothesis().setHypothesis(newText);
+        ArrayList v= new ArrayList();
+        CopexReturn cr = this.controller.setHypothesis(proc, proc.getHypothesis(), v);
+        if(cr.isError()){
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+            //proc.getHypothesis().setHypothesis(CopexUtilities.getTextLocal(oldHyp, getLocale()));
+            proc.getHypothesis().setHypothesis(oldHyp);
+            //proc.getHypothesis().setComment(CopexUtilities.getTextLocal(oldHypComment, getLocale()));
+            proc.getHypothesis().setComment(oldHypComment);
+            return ;
+        }
+        Hypothesis hypothesis = (Hypothesis)v.get(0);
+        copexTree.addEdit_hypothesis(oldHypothesis, hypothesis);
+        setHypothesis(hypothesis);
+    }
+
+     public void setProcedureQuestion(String newText){
+        if (controlLenght() && newText.length() > MyConstants.MAX_LENGHT_TASK_DESCRIPTION){
+            String msg = getBundleString("MSG_LENGHT_MAX");
+            msg  = CopexUtilities.replace(msg, 0, getBundleString("LABEL_QUESTION"));
+            msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_TASK_DESCRIPTION);
+            displayError(new CopexReturn(msg ,false), getBundleString("TITLE_DIALOG_ERROR"));
+            return ;
+        }
+        Question oldQuestion = (Question)proc.getQuestion().clone();
+        String oldQ = proc.getQuestion().getDescription(getLocale());
+        String oldQComment = proc.getQuestion().getComments(getLocale());
+        proc.getQuestion().setDescription(newText);
+        ArrayList v= new ArrayList();
+        CopexReturn cr = this.controller.updateQuestion(proc.getQuestion(), proc, oldQuestion, v);
+        if(cr.isError()){
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
+            proc.getQuestion().setDescription(oldQ);
+            proc.getQuestion().setComments(CopexUtilities.getTextLocal(oldQComment, getLocale()));
+            return ;
+        }
+        openQuestion = false;
+        ExperimentalProcedure newProc = (ExperimentalProcedure)v.get(0);
+        updateProc(newProc);
+        copexTree.updateQuestion(newProc.getQuestion());
+        copexTree.addEdit_updateQuestion(oldQuestion, newProc.getQuestion());
+        updateMenu();
+        procModif = true;
+     }
 
 }
