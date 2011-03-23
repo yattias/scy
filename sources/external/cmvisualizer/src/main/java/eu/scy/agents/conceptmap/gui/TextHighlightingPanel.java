@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
@@ -16,18 +17,20 @@ import javax.swing.text.StyleContext;
 public class TextHighlightingPanel extends JPanel {
 
     private JTextPane textPane;
+    private JScrollPane scrollPane;
     private String emptyText;
 
     public TextHighlightingPanel(int rows) {
         super(new GridLayout(1, 1));
         StyleContext context = new StyleContext();
         textPane = new JTextPane(new DefaultStyledDocument(context));
+        scrollPane= new JScrollPane(textPane);
         emptyText= "";
         for (int i = 0; i < rows; i++) {
             emptyText += "\n";
         }
         textPane.setText(emptyText);
-        add(textPane);
+        add(scrollPane);
     }
 
     public synchronized void highlight(String string, Color color) {
@@ -59,7 +62,7 @@ public class TextHighlightingPanel extends JPanel {
     public void clearText() {
         textPane.setText(emptyText);
     }
-    
+
     public String getText() {
         return textPane.getText();
     }
