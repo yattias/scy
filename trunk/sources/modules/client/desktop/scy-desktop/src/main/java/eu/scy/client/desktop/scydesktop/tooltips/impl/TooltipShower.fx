@@ -14,6 +14,7 @@ import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.util.Math;
+import javafx.scene.CacheHint;
 
 /**
  * @author SikkenJ
@@ -62,6 +63,8 @@ public class TooltipShower {
            }
 
    init {
+      tooltip.cache = true;
+      tooltip.cacheHint = CacheHint.SPEED;
       timeline.play();
    }
 

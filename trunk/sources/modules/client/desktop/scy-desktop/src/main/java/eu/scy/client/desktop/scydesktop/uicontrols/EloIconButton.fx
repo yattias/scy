@@ -119,7 +119,7 @@ public class EloIconButton extends CustomNode, TooltipCreator {
             updateColors();
          }
          onMouseReleased: function(e: MouseEvent): Void {
-            if (not turnedOn and mouseOver) {
+            if (not disableButton and not turnedOn and mouseOver) {
                action();
             }
             mousePressed = false;
