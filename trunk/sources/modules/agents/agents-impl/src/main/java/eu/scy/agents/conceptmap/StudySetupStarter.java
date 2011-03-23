@@ -10,24 +10,32 @@ import eu.scy.agents.api.AgentLifecycleException;
 
 public class StudySetupStarter {
 
+    private  StudyAdminAgent studyAdminAgent;
+    private Configuration conf;
+
     public static void main(String[] args) throws Throwable {
-        startServer(args);
-        startAgents();
+       new StudySetupStarter(args);
 //        TupleSpace tsTarget = new TupleSpace("localhost", 2525, "http://www.scy.eu/co2house#");
 //        tsTarget.exportTuples("tmp.xml");
     }
 
-    private static void startServer(String[] args) throws TupleSpaceException {
-        Configuration conf = Configuration.getConfiguration();
-        conf.setDbType(Database.MYSQL);
+    public StudySetupStarter(String[] args) throws Throwable {
+        startServer(args);
+        startAgents();
+    }
+
+    private void startServer(String[] args) throws TupleSpaceException {
+        setConf(Configuration.getConfiguration());
+        getConf().setDbType(Database.MYSQL);
+
 //        if (args.length > 0) {
 //            conf.setHsqlDestination(args[0]);
 //        } else {
 //            conf.setHsqlDestination("./database");
 //        }
 
-        conf.setLocal(true);
-        conf.setWebEnabled(false);
+        getConf().setLocal(true);
+        getConf().setWebEnabled(false);
         Server.startServer();
         TupleSpace ts = new TupleSpace("command");
         ts.deleteAll(new Tuple());
@@ -41,8 +49,21 @@ public class StudySetupStarter {
         }
     }
 
-    private static void startAgents() throws AgentLifecycleException {
-        new StudyAdminAgent();
+    private  void startAgents() throws AgentLifecycleException {
+        studyAdminAgent = new StudyAdminAgent();
+    }
+
+
+    public  StudyAdminAgent getStudyAdminAgent() {
+        return studyAdminAgent;
+    }
+
+    private void setConf(Configuration conf) {
+        this.conf = conf;
+    }
+
+    public Configuration getConf() {
+        return conf;
     }
 
 }
