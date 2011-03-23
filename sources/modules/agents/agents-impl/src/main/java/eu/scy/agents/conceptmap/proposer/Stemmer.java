@@ -23,7 +23,7 @@ public class Stemmer {
     
     static {
         stemmer = new englishStemmer();
-        readStopwords("english");
+        readStopwords("en");
     }
 
     public synchronized static String stem(String string) {
@@ -94,11 +94,10 @@ public class Stemmer {
     public static void setLanguage(String language) {
         if (language.equals("en")) {
             stemmer = new englishStemmer();
-            readStopwords("english");
         } else if (language.equals("de")){
             stemmer = new germanStemmer();
-            readStopwords("german");
         }
+        readStopwords(language);
     }
 
 }
