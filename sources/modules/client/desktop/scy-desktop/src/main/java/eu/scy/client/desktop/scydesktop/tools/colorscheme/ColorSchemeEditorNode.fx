@@ -51,6 +51,8 @@ public class ColorSchemeEditorNode extends CustomNode, ScyToolFX, EloSaverCallBa
          colorChanged: colorChanged
       }
    var technicalFormatKey: IMetadataKey;
+   var titleBarButtonManager: TitleBarButtonManager;
+   var windowContent: Boolean;
    def eloIconName = bind windowColorSchemeEditorNode.selectedEloIconNamne as String on replace { eloIconNameChanged() };
    def saveTitleBarButton = TitleBarButton {
               actionId: "save"
@@ -80,6 +82,14 @@ public class ColorSchemeEditorNode extends CustomNode, ScyToolFX, EloSaverCallBa
    public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
 //      println("setTitleBarButtonManager({titleBarButtonManager},{windowContent})");
 //      println("saveTitleBarButton: {saveTitleBarButton}, saveAsTitleBarButton: {saveAsTitleBarButton}");
+//      if (windowContent) {
+//         setTitleBarButtons();
+//      }
+      this.titleBarButtonManager = titleBarButtonManager;
+      this.windowContent = windowContent;
+   }
+
+   function setTitleBarButtons():Void{
       if (windowContent) {
          titleBarButtonManager.titleBarButtons = [
                     saveTitleBarButton,
@@ -99,6 +109,7 @@ public class ColorSchemeEditorNode extends CustomNode, ScyToolFX, EloSaverCallBa
 
    function colorChanged(): Void {
       window.windowColorScheme.assign(windowColorSchemeEditorNode.selectedWindowColorScheme);
+      setTitleBarButtons();
    }
 
    public override function loadElo(uri: URI) {

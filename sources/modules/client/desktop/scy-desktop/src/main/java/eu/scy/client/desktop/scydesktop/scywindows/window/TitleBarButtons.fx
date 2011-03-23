@@ -29,9 +29,6 @@ public class TitleBarButtons extends TitleBarItemList, TitleBarButtonManager {
          return
       }
       delete  displayBox.content;
-//      for (eloIconButton in eloIconButtons) {
-//         tooltipManager.unregisterNode(eloIconButton);
-//      }
       delete  eloIconButtons;
       eloIconButtons =
               for (titleBarButton in titleBarButtons) {
@@ -43,9 +40,9 @@ public class TitleBarButtons extends TitleBarItemList, TitleBarButtonManager {
                             size: itemHeight+4
                             action: bind titleBarButton.action
                             tooltip: bind titleBarButton.tooltip
+                            disableButton: bind not titleBarButton.enabled
                             tooltipManager: tooltipManager
                          }
-//                 tooltipManager.registerNode(eloIconButton, eloIconButton);
                  eloIconButton
               }
       displayBox.content = eloIconButtons;
