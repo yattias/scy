@@ -58,6 +58,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.ArrayList;
 import eu.scy.client.tools.scysimulator.SimConfig.MODE;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 
 public class SimulatorNode
     extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
@@ -103,13 +105,47 @@ public class SimulatorNode
     var split: JSplitPane;
     var scroller: JScrollPane;
     def simulatorContent = Group {};
-    var saveDatasetButton =
-		Button {text: ##"SaveAs Dataset"
-                action: function() {
-                doSaveAsDataset();
-                }};
+    
+    def saveTitleBarButton = TitleBarButton {
+              actionId: "save"
+              iconType: "save"
+              action: doSaveSimconfig
+              tooltip: "save ELO"
+           }
+	   
+   def saveAsTitleBarButton = TitleBarButton {
+              actionId: "saveAs"
+              iconType: "save_as"
+              action: doSaveAsSimconfig
+              tooltip: "save copy of ELO"
+           }
+
+
+	   def saveAsDatasetTitleBarButton = TitleBarButton {
+              actionId: "saveAsDataset"
+              iconType: "save_as"
+              action: doSaveAsDataset
+              tooltip: "save copy of ELO as dataset"
+           }
+
+//    var saveDatasetButton =
+//		Button {text: ##"SaveAs Dataset"
+//                action: function() {
+//                doSaveAsDataset();
+//                }};
+
+   public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
+      if (windowContent) {
+         titleBarButtonManager.titleBarButtons = [
+                    saveTitleBarButton,
+                    saveAsTitleBarButton,
+		    saveAsDatasetTitleBarButton
+                 ]
+      }
+   }
 
     public override function canAcceptDrop(object: Object): Boolean {
+	logger.severe("object received: {object.getClass()}");
         if (object instanceof ISynchronizable) {
             if ((object as ISynchronizable).getToolName().equals("fitex")) {
                 return true;
@@ -250,6 +286,9 @@ public class SimulatorNode
     }
 
     public override function newElo() {
+	saveAsDatasetTitleBarButton.enabled = false;
+	saveAsTitleBarButton.enabled = false;
+	saveTitleBarButton.enabled = false;
         newSimulationPanel = new NewSimulationPanel(this);
         switchSwingDisplayComponent(newSimulationPanel);
     }
@@ -288,46 +327,46 @@ public class SimulatorNode
 
     public override  function  create ( ): Node {
         switchSwingDisplayComponent(simquestPanel);
-	
-        return Group {
-            blocksMouse:true;
-            // cache: bind scyWindow.cache
-            content  : [
-            VBox {
-                    translateY:  spacing    ;
-                            spacing: spacing;
-                            content: [
-                                HBox {
-                                    translateX: spacing;
-                                    spacing: spacing;
-                                    content: [
-                                        Button {
-                                            text: ##"Save Simconfig"
-                                            action: function() {
-                                                doSaveSimconfig();
-                                            }
-                                        }
-                                        Button {
-                                            text: ##"SaveAs Simconfig"
-                                            action: function() {
-                                                doSaveAsSimconfig();
-                                            }
-                                        }
-					saveDatasetButton
-                                        
-                                    /*Button {
-                                    text: "test thumbnail"
-                                    action: function () {
-                                    testThumbnail();
-                                    }
-                                    }*/
-                                    ]
-                                }
-                                simulatorContent
-                            ]
-                        }
-                    ]
-                };;
+	simulatorContent
+//        return Group {
+//            blocksMouse:true;
+//            // cache: bind scyWindow.cache
+//            content  : [
+//            VBox {
+//                    translateY:  spacing    ;
+//                            spacing: spacing;
+//                            content: [
+//                                HBox {
+//                                    translateX: spacing;
+//                                    spacing: spacing;
+//                                    content: [
+//                                        Button {
+//                                            text: ##"Save Simconfig"
+//                                            action: function() {
+//                                                doSaveSimconfig();
+//                                            }
+//                                        }
+//                                        Button {
+//                                            text: ##"SaveAs Simconfig"
+//                                            action: function() {
+//                                                doSaveAsSimconfig();
+//                                            }
+//                                        }
+//					saveDatasetButton
+//
+//                                    /*Button {
+//                                    text: "test thumbnail"
+//                                    action: function () {
+//                                    testThumbnail();
+//                                    }
+//                                    }*/
+//                                    ]
+//                                }
+//                                simulatorContent
+//                            ]
+//                        }
+//                    ]
+//                };;
     }
 
     function switchSwingDisplayComponent(newComponent: JComponent): Void {
@@ -386,12 +425,16 @@ public class SimulatorNode
 
 	    dataCollector.setVariableValues(simConfig.getVariables());
 	    dataCollector.setRelevantVariables(simConfig.getRelevantVariables());
+	    saveAsDatasetTitleBarButton.enabled = true;
+	    saveAsTitleBarButton.enabled = true;
+	    saveTitleBarButton.enabled = true;
 	    setMode(simConfig, dataCollector);
 
 	    split.setBottomComponent(dataCollector);
             split.setTopComponent(scroller);
             dataCollector.setPreferredSize(new Dimension(100, 300));
             // adding the splitcomponent to the simquestpanel
+
             split.setEnabled(true);
 
             //toolBrokerAPI.registerForNotifications(this as INotifiable);
@@ -425,20 +468,20 @@ public class SimulatorNode
 	if (simConfig.getMode().equals(MODE.explore_only)) {
 	    // only simulation is visible
 	    // datasets cannot be stored
-	    //TODO deactivate saveAsDataset button
-	    saveDatasetButton.visible = false;
+	    //saveDatasetButton.visible = false;
+	    saveAsDatasetTitleBarButton.enabled = false;
 	} else if (simConfig.getMode().equals(MODE.explore_simple_data)) {
 	    // only simulation is visible
 	    // saving a dataset = saving one row of selected variables
-	    // TODO adapt function doSavaAsDataset
-	    saveDatasetButton.visible = true;
+	    //saveDatasetButton.visible = true;
+	    saveAsDatasetTitleBarButton.enabled = true;
 	} else if (simConfig.getMode().equals(MODE.collect_simple_data)) {
 	    // datacollector is visible, but not "select variables button"
 	    // uses pre-defined set of relevant variables
-	    saveDatasetButton.visible = true;
+	    saveAsDatasetTitleBarButton.enabled = true;
 	} else if (simConfig.getMode().equals(MODE.collect_data)) {
 	    // full features
-    	    saveDatasetButton.visible = true;
+    	    saveAsDatasetTitleBarButton.enabled = true;
 	}
     }
 
