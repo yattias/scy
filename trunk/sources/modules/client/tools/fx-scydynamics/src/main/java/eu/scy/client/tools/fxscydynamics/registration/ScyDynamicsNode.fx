@@ -133,54 +133,48 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
             //modelEditor.setEloUri(eloModel.getUri().toString());
         }
         wrappedModelEditor = ScySwingWrapper.wrap(modelEditor);
-	wrappedModelEditor;
-//        return Group {
-//            blocksMouse: true;
-//            content: [
-//                VBox {
-//                    translateY: spacing;
-//                    spacing: spacing;
-//                    content: [
-//                        HBox {
-//                            translateX: spacing;
-//                            spacing: spacing;
-//                            content: [
+	return Group {
+            blocksMouse: true;
+            content: [
+                VBox {
+                    translateY: spacing;
+                    spacing: spacing;
+                    content: [
+                        HBox {
+                            translateX: spacing;
+                            spacing: spacing;
+                            content: [
+                                Button {
+                                    text: "Save model"
+                                    action: function() {
+                                        doSaveElo();
+                                    }
+                                }
+                                Button {
+                                    text: "Save as model"
+                                    action: function() {
+                                        doSaveAsElo();
+                                    }
+                                }
+                                Button {
+                                    text: "Save as dataset"
+                                    action: function() {
+                                        doSaveAsDataset();
+                                    }
+                                }
 //                                Button {
-//                                    text: "Save model"
-//                                    action: function() {
-//                                        doSaveElo();
-//                                    }
+//                                text: "test thumbnail"
+//                                action: function() {
+//                                    testThumbnail();
 //                                }
-//                                Button {
-//                                    text: "Save as model"
-//                                    action: function() {
-//                                        doSaveAsElo();
-//                                    }
-//                                }
-//                                Button {
-//                                    text: "Save as dataset"
-//                                    action: function() {
-//                                        var dataset:DataSet = modelEditor.getDataSet();
-//                                        if (dataset.getValues() == null or dataset.getValues().size() == 0) {
-//                                            showEmptyDatasetInfobox();
-//                                        } else {
-//                                            eloSaver.otherEloSaveAs(getDataset(), this);
-//                                        }
-//                                    }
-//                                }
-////                                Button {
-////                                text: "test thumbnail"
-////                                action: function() {
-////                                    testThumbnail();
-////                                }
-////                            }
-//                            ]
-//                        }
-//                        wrappedModelEditor
-//                    ]
-//                }
-//            ]
-//        };
+//                            }
+                            ]
+                        }
+                        wrappedModelEditor
+                    ]
+                }
+            ]
+        };
     }
 
     function doLoadElo(eloUri: URI) {
