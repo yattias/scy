@@ -38,6 +38,8 @@ import java.awt.Dimension;
 import roolo.elo.api.IELOFactory;
 import roolo.api.IRepository;
 import eu.scy.common.configuration.Configuration;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 
 
 /**
@@ -75,6 +77,18 @@ public class ResultBinderNode extends CustomNode, Resizable, ScyToolFX, EloSaver
    //this should look like:
    //"http://scy.collide.info:8080/webapp/common/filestreamer.html";
    public def IMAGE_BASE_DIR = "http://{filestreamerServer}:{filestreamerPort}/{filestreamerContext}";
+   def saveTitleBarButton = TitleBarButton {
+              actionId: "save"
+              iconType: "save"
+              action: doSaveElo
+              tooltip: "save ELO"
+           }
+   def saveAsTitleBarButton = TitleBarButton {
+              actionId: "saveAs"
+              iconType: "save_as"
+              action: doSaveAsElo
+              tooltip: "save copy of ELO"
+           }
 
    public override function initialize(windowContent: Boolean):Void{
        metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
@@ -87,6 +101,15 @@ public class ResultBinderNode extends CustomNode, Resizable, ScyToolFX, EloSaver
       scyResultBinderPanel.initActionLogger();
       scyResultBinderPanel.setUserName();
       scyResultBinderPanel.setPicture("{IMAGE_BASE_DIR}?username={toolBrokerAPI.getLoginUserName()}");
+   }
+
+   public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
+      if (windowContent) {
+         titleBarButtonManager.titleBarButtons = [
+                    saveTitleBarButton,
+                    saveAsTitleBarButton
+                 ]
+      }
    }
 
    public override function loadElo(uri:URI){
