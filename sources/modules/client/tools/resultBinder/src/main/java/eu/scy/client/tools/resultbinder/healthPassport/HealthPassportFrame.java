@@ -58,6 +58,7 @@ public class HealthPassportFrame extends javax.swing.JFrame implements IActionRe
         myPanel = new ResultBinderPanel("userName");
         myPanel.addActionResultBinder(this);
         add(myPanel, BorderLayout.CENTER);
+        myPanel.setPicture("http://scy.collide.info:8080/webapp/common/filestreamer.html?username=marjolaine");
     }
 
     /** Creates new form HealthPassportFrame */

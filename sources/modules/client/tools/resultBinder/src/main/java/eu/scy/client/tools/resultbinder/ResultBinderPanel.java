@@ -115,4 +115,8 @@ public class ResultBinderPanel extends JPanel implements IActionHealthPassport{
         this.userName = userName;
         healthPassportPanel.setUserName(userName);
     }
+
+    public void setPicture(String pictureUrl){
+        healthPassportPanel.setPicture(pictureUrl);
+    }
 }

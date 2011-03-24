@@ -17,6 +17,9 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -24,7 +27,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -600,6 +606,21 @@ public class HealthPassportPanel extends javax.swing.JPanel {
         fieldName.setText(userName);
     }
 
+    public void setPicture(String pictureUrl){
+        if(pictureUrl != null){
+            try {
+                ImageIcon imgIcon = new ImageIcon(new URL(pictureUrl));
+                Image img = imgIcon.getImage();
+                imgIcon = new ImageIcon(img.getScaledInstance((int)pictureLabel.getPreferredSize().getWidth(), (int)pictureLabel.getPreferredSize().getHeight(), Image.SCALE_AREA_AVERAGING));
+                this.pictureLabel.setIcon(imgIcon);
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(HealthPassportPanel.class.getName()).log(Level.SEVERE, null, ex);
+                return;
+            }
+            this.pictureLabel.setText("");
+        }
+    }
+    
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -654,7 +675,7 @@ public class HealthPassportPanel extends javax.swing.JPanel {
 
         panelTitle.setLayout(new java.awt.BorderLayout());
 
-        labelTitle.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        labelTitle.setFont(new java.awt.Font("Tahoma", 0, 36));
         labelTitle.setForeground(TITLE_COLOR);
         labelTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelTitle.setText("HEALTH PASSPORT");
@@ -667,6 +688,7 @@ public class HealthPassportPanel extends javax.swing.JPanel {
         pictureLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         pictureLabel.setText("<html>place<br> your<br> picture<br> here</html>");
         pictureLabel.setBorder(new javax.swing.border.LineBorder(BORDER_PICTURE_COLOR, 1, true));
+        pictureLabel.setPreferredSize(new java.awt.Dimension(134, 142));
 
         labelBirthDate.setFont(FONT_LABEL);
         labelBirthDate.setForeground(COLOR_NAME);
