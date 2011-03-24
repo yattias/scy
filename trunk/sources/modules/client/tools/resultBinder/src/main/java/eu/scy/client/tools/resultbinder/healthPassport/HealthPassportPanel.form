@@ -132,6 +132,9 @@
                 </LineBorder>
               </Border>
             </Property>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[134, 142]"/>
+            </Property>
           </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="panelName">
