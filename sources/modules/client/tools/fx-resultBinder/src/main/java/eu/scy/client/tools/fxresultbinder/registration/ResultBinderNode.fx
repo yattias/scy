@@ -37,6 +37,7 @@ import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import roolo.elo.api.IELOFactory;
 import roolo.api.IRepository;
+import eu.scy.common.configuration.Configuration;
 
 
 /**
@@ -67,7 +68,13 @@ public class ResultBinderNode extends CustomNode, Resizable, ScyToolFX, EloSaver
 
    var bundle:ResourceBundleWrapper;
 
-
+   def config:Configuration=Configuration.getInstance();
+   def filestreamerServer:String = config.getFilestreamerServer();
+   def filestreamerContext:String = config.getFilestreamerContext();
+   def filestreamerPort:String = config.getFilestreamerPort();
+   //this should look like:
+   //"http://scy.collide.info:8080/webapp/common/filestreamer.html";
+   public def IMAGE_BASE_DIR = "http://{filestreamerServer}:{filestreamerPort}/{filestreamerContext}";
 
    public override function initialize(windowContent: Boolean):Void{
        metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
@@ -79,6 +86,7 @@ public class ResultBinderNode extends CustomNode, Resizable, ScyToolFX, EloSaver
       scyResultBinderPanel.setEloUri((scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
       scyResultBinderPanel.initActionLogger();
       scyResultBinderPanel.setUserName();
+      scyResultBinderPanel.setPicture("{IMAGE_BASE_DIR}?username={toolBrokerAPI.getLoginUserName()}");
    }
 
    public override function loadElo(uri:URI){
