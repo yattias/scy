@@ -28,7 +28,7 @@ return Group {
 
 			content: [
 				Rectangle {
-					fill: bind windowColorScheme.emptyBackgroundColor
+					fill: bind windowColorScheme.mainColor
 					stroke: null
 					x: 0.42
 					y: 0.14
@@ -36,12 +36,17 @@ return Group {
 					height: 40.0
 				},
 				Rectangle {
-					fill: bind windowColorScheme.mainColor
+					fill: bind windowColorScheme.mainColorLight
 					stroke: null
 					x: 3.42
 					y: 3.14
 					width: 34.0
 					height: 34.0
+				},
+				Polygon {
+					points: [36.42,21.38,20.02,37.14,4.42,21.38]
+					fill: bind windowColorScheme.thirdColor
+					stroke: null
 },
 ]
 }
