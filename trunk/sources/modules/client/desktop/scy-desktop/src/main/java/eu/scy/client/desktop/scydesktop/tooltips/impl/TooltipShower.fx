@@ -51,7 +51,7 @@ public class TooltipShower {
                  KeyFrame {
                     time: startDisappearingTime
                     values: tooltip.opacity => finalOpacity tween Interpolator.EASEBOTH;
-                  }
+                 }
                  KeyFrame {
                     time: fullDisappearingTime
                     values: tooltip.opacity => 0.0 tween Interpolator.EASEBOTH;
@@ -69,7 +69,12 @@ public class TooltipShower {
    }
 
    public function remove(): Void {
-      if (timeline.time < startDisappearingTime) {
+      if (timeline.time < startAppearingTime) {
+         timeline.stop();
+      } else if (timeline.time < fullAppearingTime) {
+         def delta = (timeline.time - startAppearingTime) / (fullAppearingTime - startAppearingTime);
+         timeline.time = startDisappearingTime + delta * (fullDisappearingTime - startDisappearingTime)
+      } else if (timeline.time < startDisappearingTime) {
          timeline.time = startDisappearingTime
       }
    }

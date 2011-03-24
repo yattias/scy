@@ -41,11 +41,16 @@ import eu.scy.client.desktop.scydesktop.scywindows.TestAttribute;
  */
 public class WindowTitleBarDouble extends WindowElement {
 
-   public var width = 200.0 on replace { updatePositions() };
-   public var title = "very very long title";
-   public var eloIcon: EloIcon on replace oldEloIcon { eloIconChanged(oldEloIcon)
+   public var width = 200.0 on replace {
+//              println("new width: {width}");
+              updatePositions();
            };
-   public var activated = true on replace { activatedChanged()
+   public var title = "very very long title";
+   public var eloIcon: EloIcon on replace oldEloIcon {
+              eloIconChanged(oldEloIcon)
+           };
+   public var activated = true on replace {
+              activatedChanged()
            };
    public var windowStateControls: WindowStateControls;
    public var titleBarBuddies: TitleBarBuddies;
@@ -78,7 +83,6 @@ public class WindowTitleBarDouble extends WindowElement {
    def closeBoxWidthOffset = bind if (closeBoxShown) closeBoxWidth + textIconSpace else 0;
    def borderWidth = 2.0;
    def borderDistance = 22;
-   def backgroundColor = Color.web("#eaeaea");
    var nodeGroup: Group;
    var eloIconGroup: Group;
    var textBackgroundFillRect: Rectangle;
@@ -112,38 +116,42 @@ public class WindowTitleBarDouble extends WindowElement {
       titleBarButtons.layoutY = y;
       def leftSide = iconSize + textIconSpace;
       def rightSize = width - windowStateControls.layoutBounds.width - 2 * borderWidth;
-//      println("leftSide: {leftSide}, rightSize: {rightSize}");
+      //      println("leftSide: {leftSide}, rightSize: {rightSize}");
       def attributesWidth = titleBarWindowAttributes.layoutBounds.width;
       def buddiesWidth = titleBarBuddies.layoutBounds.width;
       def buttonsWidth = titleBarButtons.layoutBounds.width;
-//      println("attributesWidth: {attributesWidth}, buddiesWidth: {buddiesWidth}, buttonWidth: {buttonsWidth}");
+      def attributesPresent = sizeof titleBarWindowAttributes.scyWindowAttributes>0;
+      def buddiesPresent = sizeof titleBarBuddies.ownershipManager.getOwners()>0;
+      def buttonsPresent = sizeof titleBarButtons.titleBarButtons>0;
+//      println("attributesWidth: {attributesWidth} ({sizeof titleBarWindowAttributes.scyWindowAttributes}), buddiesWidth: {buddiesWidth}, buttonWidth: {buttonsWidth}");
       var nrOfElements = 0;
-      if (buttonsWidth > 0) {
+      if (buttonsPresent) {
       //         ++nrOfElements
       }
-      if (buddiesWidth > 0) {
+      if (buddiesPresent) {
          ++nrOfElements
       }
-      if (attributesWidth > 0) {
+      if (attributesPresent) {
          ++nrOfElements
       }
       def spacing = (rightSize - leftSide - attributesWidth - buddiesWidth - buttonsWidth) / (nrOfElements + 1);
       minimumWidth = leftSide + attributesWidth + buddiesWidth + buttonsWidth + (nrOfElements + 1) * minimumItemSpacing + windowStateControls.layoutBounds.width + 2 * borderWidth;
       var x = leftSide;
-      if (buttonsWidth > 0) {
+      if (buttonsPresent) {
          titleBarButtons.layoutX = x;
          x += buttonsWidth + spacing;
       } else {
          x += spacing;
       }
-      if (attributesWidth > 0) {
+      if (attributesPresent) {
          titleBarWindowAttributes.layoutX = x;
          x += attributesWidth + spacing;
       }
-      if (buddiesWidth > 0) {
+      if (buddiesPresent) {
          titleBarBuddies.layoutX = x;
          x += buddiesWidth + spacing;
       }
+//      println("titleBarButtons.layoutX: {titleBarButtons.layoutX}, titleBarWindowAttributes.layoutX: {titleBarWindowAttributes.layoutX}, titleBarBuddies.layoutX: {titleBarBuddies.layoutX}");
    }
 
    public override function create(): Node {
@@ -272,22 +280,20 @@ public class WindowTitleBarDouble extends WindowElement {
       //                     showImmediate:true
       //                  }
       //         });
-      updatePositions();
-      FX.deferAction(function(): Void {
-         updatePositions();
-         FX.deferAction(updatePositions);
-      });
-//      Timeline {
-//         repeatCount: 1
-//         keyFrames: [
-//            KeyFrame {
-//               time: 1s
-//               action: updatePositions
-//            }
-//         ];
-//      }.play();
+      delayedUpdatePositions(3);
 
       nodeGroup
+   }
+
+   function delayedUpdatePositions(count: Integer): Void {
+//      println("delayedUpdatePositions({count})");
+      updatePositions();
+      if (count > 0) {
+         FX.deferAction(function(): Void {
+            delayedUpdatePositions(count - 1);
+         });
+      }
+
    }
 
    function createMouseOverNode(): Node {
