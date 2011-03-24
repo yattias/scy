@@ -37,6 +37,8 @@ import eu.scy.client.desktop.scydesktop.corners.elomanagement.ModalDialogNode;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 import eu.scy.elo.contenttype.dataset.DataSet;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 
 public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
 
@@ -60,6 +62,27 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
     var eloDataset: IELO;
     def spacing = 5.0;
 
+    def saveTitleBarButton = TitleBarButton {
+	  actionId: "save"
+	  iconType: "save"
+	  action: doSaveElo
+	  tooltip: "save ELO"
+    }
+
+    def saveAsTitleBarButton = TitleBarButton {
+	  actionId: "saveAs"
+	  iconType: "save_as"
+	  action: doSaveAsElo
+	  tooltip: "save copy of ELO"
+    }
+
+    def saveAsDatasetTitleBarButton = TitleBarButton {
+	  actionId: "saveAsDataset"
+	  iconType: "save_as"
+	  action: doSaveAsDataset
+	  tooltip: "save copy of ELO as dataset"
+    }
+
     public override function initialize(windowContent: Boolean): Void {
         repository = toolBrokerAPI.getRepository();
         metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
@@ -68,6 +91,16 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
         technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
         modelEditor.setActionLogger(toolBrokerAPI.getActionLogger(), "dummy_user");
     }
+
+    public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
+      if (windowContent) {
+         titleBarButtonManager.titleBarButtons = [
+                    saveTitleBarButton,
+                    saveAsTitleBarButton,
+		    saveAsDatasetTitleBarButton
+                 ]
+      }
+   }
 
     public override function loadElo(uri: URI) {
         doLoadElo(uri);
@@ -95,58 +128,59 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
         // note: the injected services are not yet available here
         // e.g., use the initialize(..) method
 	if (eloModel.getUri() == null) {
-            modelEditor.setEloUri((scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
+            //modelEditor.setEloUri((scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
         } else {
-            modelEditor.setEloUri(eloModel.getUri().toString());
+            //modelEditor.setEloUri(eloModel.getUri().toString());
         }
         wrappedModelEditor = ScySwingWrapper.wrap(modelEditor);
-        return Group {
-            blocksMouse: true;
-            content: [
-                VBox {
-                    translateY: spacing;
-                    spacing: spacing;
-                    content: [
-                        HBox {
-                            translateX: spacing;
-                            spacing: spacing;
-                            content: [
-                                Button {
-                                    text: "Save model"
-                                    action: function() {
-                                        doSaveElo();
-                                    }
-                                }
-                                Button {
-                                    text: "Save as model"
-                                    action: function() {
-                                        doSaveAsElo();
-                                    }
-                                }
-                                Button {
-                                    text: "Save as dataset"
-                                    action: function() {
-                                        var dataset:DataSet = modelEditor.getDataSet();
-                                        if (dataset.getValues() == null or dataset.getValues().size() == 0) {
-                                            showEmptyDatasetInfobox();
-                                        } else {
-                                            eloSaver.otherEloSaveAs(getDataset(), this);
-                                        }
-                                    }
-                                }
+	wrappedModelEditor;
+//        return Group {
+//            blocksMouse: true;
+//            content: [
+//                VBox {
+//                    translateY: spacing;
+//                    spacing: spacing;
+//                    content: [
+//                        HBox {
+//                            translateX: spacing;
+//                            spacing: spacing;
+//                            content: [
 //                                Button {
-//                                text: "test thumbnail"
-//                                action: function() {
-//                                    testThumbnail();
+//                                    text: "Save model"
+//                                    action: function() {
+//                                        doSaveElo();
+//                                    }
 //                                }
-//                            }
-                            ]
-                        }
-                        wrappedModelEditor
-                    ]
-                }
-            ]
-        };
+//                                Button {
+//                                    text: "Save as model"
+//                                    action: function() {
+//                                        doSaveAsElo();
+//                                    }
+//                                }
+//                                Button {
+//                                    text: "Save as dataset"
+//                                    action: function() {
+//                                        var dataset:DataSet = modelEditor.getDataSet();
+//                                        if (dataset.getValues() == null or dataset.getValues().size() == 0) {
+//                                            showEmptyDatasetInfobox();
+//                                        } else {
+//                                            eloSaver.otherEloSaveAs(getDataset(), this);
+//                                        }
+//                                    }
+//                                }
+////                                Button {
+////                                text: "test thumbnail"
+////                                action: function() {
+////                                    testThumbnail();
+////                                }
+////                            }
+//                            ]
+//                        }
+//                        wrappedModelEditor
+//                    ]
+//                }
+//            ]
+//        };
     }
 
     function doLoadElo(eloUri: URI) {
@@ -158,6 +192,15 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
             logger.info("elo loaded");
             eloModel = newElo;
         }
+    }
+
+    function doSaveAsDataset() {
+	var dataset:DataSet = modelEditor.getDataSet();
+	if (dataset.getValues() == null or dataset.getValues().size() == 0) {
+	    showEmptyDatasetInfobox();
+	} else {
+	    eloSaver.otherEloSaveAs(getDataset(), this);
+	}
     }
 
    public override function onQuit():Void{
