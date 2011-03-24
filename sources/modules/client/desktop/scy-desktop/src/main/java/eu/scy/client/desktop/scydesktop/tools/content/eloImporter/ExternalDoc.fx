@@ -38,6 +38,8 @@ import roolo.elo.metadata.keys.ExternalDocAnnotation;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 
 /**
  * @author sikken
@@ -231,6 +233,31 @@ public class ExternalDoc extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
             }
          ]
       }
+   def saveTitleBarButton = TitleBarButton {
+              actionId: "save"
+              iconType: "save"
+              action: doSaveElo
+              tooltip: "save ELO"
+           }
+   def saveAsTitleBarButton = TitleBarButton {
+              actionId: "saveAs"
+              iconType: "save_as"
+              action: doSaveAsElo
+              tooltip: "save copy of ELO"
+           }
+   def importFileTitleBarButton = TitleBarButton {
+              actionId: "import"
+              iconType: "import"
+              action: importFile
+              tooltip: ##"Upload file"
+           }
+   def exportFileTitleBarButton = TitleBarButton {
+              actionId: "export"
+              iconType: "export"
+              action: exportFile
+              tooltip:  ##"Download file"
+              enabled: bind file != null
+           }
 
    init {
       if (sizeof extensions > 0) {
@@ -266,6 +293,17 @@ public class ExternalDoc extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       titleKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE);
       externalDocAnnotationKey = metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.EXTERNAL_DOC.getId());
+   }
+
+   public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
+      if (windowContent) {
+         titleBarButtonManager.titleBarButtons = [
+                    saveTitleBarButton,
+                    saveAsTitleBarButton,
+                    importFileTitleBarButton,
+                    exportFileTitleBarButton
+                 ]
+      }
    }
 
    public override function loadElo(uri: URI) {
