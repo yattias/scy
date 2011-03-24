@@ -28,7 +28,7 @@ return Group {
 
 			content: [
 				Rectangle {
-					fill: bind windowColorScheme.emptyBackgroundColor
+					fill: bind windowColorScheme.mainColor
 					stroke: null
 					x: 0.42
 					y: 0.14
@@ -36,7 +36,7 @@ return Group {
 					height: 40.0
 				},
 				Rectangle {
-					fill: bind windowColorScheme.mainColor
+					fill: bind windowColorScheme.mainColorLight
 					stroke: null
 					x: 3.65
 					y: 2.72
