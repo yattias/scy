@@ -15,13 +15,14 @@ import cc.mallet.types.Instance;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.impl.PersistentStorage;
+import eu.scy.agents.impl.ModelStorage;
+import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 import eu.scy.agents.util.Preprocessor;
 
 /**
- * ("topicDetector":String, <QueryID>:String, <ModelName>:String, <Text>:String)
- * -> ("topicDetector":String, <QueryID>:String,
- * <topicModelScore>:byte[](HashMap<Integer,Double>))
+ * ("topicDetector":String, <QueryID>:String, <Mission>:String,
+ * <Language>:String, <Text>:String) -> ("topicDetector":String,
+ * <QueryID>:String, <topicModelScore>:byte[](HashMap<Integer,Double>))
  * 
  * @author fschulz_2
  */
@@ -29,9 +30,11 @@ public class TopicDetector extends AbstractRequestAgent {
 
 	static final String NAME = TopicDetector.class.getName();
 
-	private PersistentStorage agentDatabase;
+	private ModelStorage modelStorage;
 	private Tuple activationTuple;
 	private Preprocessor preprocessor;
+
+	private int listenerId;
 
 	public TopicDetector(Map<String, Object> params) {
 		super(NAME, params);
@@ -42,33 +45,26 @@ public class TopicDetector extends AbstractRequestAgent {
 			port = (Integer) params.get(AgentProtocol.TS_PORT);
 		}
 		preprocessor = new Preprocessor();
-		agentDatabase = new PersistentStorage(host, port);
+		modelStorage = new ModelStorage(getCommandSpace());
 		activationTuple = new Tuple(TopicAgents.TOPIC_DETECTOR,
-				AgentProtocol.QUERY, String.class, String.class, String.class);
+				AgentProtocol.QUERY, String.class, String.class, String.class,
+				String.class);
+		try {
+			listenerId = getCommandSpace().eventRegister(Command.WRITE,
+					activationTuple, this, true);
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	protected void doRun() throws TupleSpaceException, AgentLifecycleException {
 		while (status == Status.Running) {
+			sendAliveUpdate();
 			try {
-				Tuple tuple = null;
-				if (getCommandSpace().isConnected()) {
-					tuple = getCommandSpace().waitToTake(activationTuple,
-							AgentProtocol.COMMAND_EXPIRATION);
-				}
-				if (tuple != null) {
-					String queryID = (String) tuple.getField(2).getValue();
-					String modelName = (String) tuple.getField(3).getValue();
-					String text = (String) tuple.getField(4).getValue();
-					Map<Integer, Double> topicScores = getTopicScores(
-							modelName, text);
-					sendTopicsToTS(queryID, topicScores);
-				}
-				sendAliveUpdate();
-			} catch (TupleSpaceException e) {
-				// just ignore
-			} catch (IOException e) {
-				throw new AgentLifecycleException("Could not send tuple", e);
+				Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 3);
+			} catch (InterruptedException e) {
+				throw new AgentLifecycleException(e.getMessage(), e);
 			}
 		}
 	}
@@ -83,19 +79,24 @@ public class TopicDetector extends AbstractRequestAgent {
 		bytesOut.toByteArray();
 
 		Tuple topicsDetectedTuple = new Tuple(TopicAgents.TOPIC_DETECTOR,
-				AgentProtocol.RESPONSE, queryId.toString(), bytesOut
-						.toByteArray());
+				AgentProtocol.RESPONSE, queryId.toString(),
+				bytesOut.toByteArray());
 		getCommandSpace().write(topicsDetectedTuple);
 	}
 
 	@Override
-	protected void doStop() {
+	protected void doStop() throws AgentLifecycleException {
+		try {
+			getCommandSpace().eventDeRegister(listenerId);
+		} catch (TupleSpaceException e) {
+			throw new AgentLifecycleException("Could not deregister listener",
+					e);
+		}
 		status = Status.Stopping;
 	}
 
 	@Override
 	protected Tuple getIdentifyTuple(String queryId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -104,9 +105,10 @@ public class TopicDetector extends AbstractRequestAgent {
 		return status == Status.Stopping;
 	}
 
-	private Map<Integer, Double> getTopicScores(String modelName, String text) {
-		ParallelTopicModel model = (ParallelTopicModel) agentDatabase
-				.get(modelName);
+	private Map<Integer, Double> getTopicScores(String mission,
+			String language, String text) {
+		ParallelTopicModel model = (ParallelTopicModel) modelStorage.get(
+				mission, language, KeywordWorkflowConstants.TOPIC_MODEL);
 
 		String[] tokens = preprocessor.preprocessDocument(text);
 		tokens = preprocessor.removeStopwords(tokens, "en");
@@ -121,5 +123,28 @@ public class TopicDetector extends AbstractRequestAgent {
 			topicScores.put(i, sampledDistribution[i]);
 		}
 		return topicScores;
+	}
+
+	@Override
+	public void call(Command command, int seq, Tuple tuple, Tuple beforeTuple) {
+		if (listenerId != seq) {
+			logger.debug("Callback passed to Superclass.");
+			super.call(command, seq, tuple, beforeTuple);
+			return;
+		} else {
+			String queryID = (String) tuple.getField(2).getValue();
+			String mission = (String) tuple.getField(3).getValue();
+			String language = (String) tuple.getField(4).getValue();
+			String text = (String) tuple.getField(5).getValue();
+			Map<Integer, Double> topicScores = getTopicScores(mission,
+					language, text);
+			try {
+				sendTopicsToTS(queryID, topicScores);
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (TupleSpaceException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

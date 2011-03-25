@@ -80,21 +80,21 @@ public class ExtractKeyphrasesAgent extends AbstractRequestAgent {
 				WikiValues.FILE_TYPE_TXT);
 
 		/** minimum length that a token must have */
-		workflowProperties.setProperty(WikiParameters.MIN_TOKEN_LENGTH,
-				new Integer(1).toString());
+		workflowProperties.setProperty(WikiParameters.MIN_TOKEN_LENGTH, Integer
+				.valueOf(1).toString());
 		/** indicator of whether the tokens should be transformed to lower case */
 		workflowProperties.setProperty(WikiParameters.TO_LOWER,
 				Boolean.FALSE.toString());
 
 		/** minimum number of tokens that a n-gram must have */
-		workflowProperties.setProperty(WikiParameters.MIN_NGRAM_TOKENS,
-				new Integer(2).toString());
+		workflowProperties.setProperty(WikiParameters.MIN_NGRAM_TOKENS, Integer
+				.valueOf(2).toString());
 		/** maximum number of tokens that a n-gram can have */
-		workflowProperties.setProperty(WikiParameters.MAX_NGRAM_TOKENS,
-				new Integer(5).toString());
+		workflowProperties.setProperty(WikiParameters.MAX_NGRAM_TOKENS, Integer
+				.valueOf(5).toString());
 		/** minimum number of appearances in the document a n-gram must have */
-		workflowProperties.setProperty(WikiParameters.MIN_FREQUENCY,
-				new Integer(2).toString());
+		workflowProperties.setProperty(WikiParameters.MIN_FREQUENCY, Integer
+				.valueOf(2).toString());
 		/**
 		 * indicator of whether the tokens of a n-gram might be separated by a
 		 * delimiter (like . or ,)
@@ -133,18 +133,17 @@ public class ExtractKeyphrasesAgent extends AbstractRequestAgent {
 				Boolean.FALSE.toString());
 
 		/** phraseness weight in the final score */
-		workflowProperties.setProperty(WikiParameters.PHRASENESS_WEIGHT,
-				new Float(0.5f).toString());
+		workflowProperties.setProperty(WikiParameters.PHRASENESS_WEIGHT, Float
+				.valueOf(0.5f).toString());
 		/** informativeness weight in the final score */
 		workflowProperties.setProperty(WikiParameters.INFORMATIVENESS_WEIGHT,
-				new Float(0.5f).toString());
+				Float.valueOf(0.5f).toString());
 		return workflowProperties;
 
 	}
 
 	@Override
 	protected void doRun() throws TupleSpaceException, AgentLifecycleException {
-
 		while (status == Status.Running) {
 			sendAliveUpdate();
 			try {
@@ -168,6 +167,7 @@ public class ExtractKeyphrasesAgent extends AbstractRequestAgent {
 	@SuppressWarnings("unchecked")
 	private Set<String> extractKeyphrases(String text, String mission,
 			String language) {
+
 		Document document = Utilities.convertTextToDocument(text);
 		Operator extractKeyphrasesOperator = new ExtractKeyphrasesWorkflow(
 				initWorkflowProperties()).getOperator("Main");
