@@ -21,6 +21,7 @@ import org.junit.Test;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.agents.roolo.rooloaccessor.RooloAccessorAgent;
 
 public class TopicDetectorTest extends AbstractTestFixture {
 
@@ -42,11 +43,12 @@ public class TopicDetectorTest extends AbstractTestFixture {
 	public void setUp() throws Exception {
 		super.setUp();
 
-		initTopicModel();
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
 		params.put(AgentProtocol.TS_HOST, TSHOST);
 		params.put(AgentProtocol.TS_PORT, TSPORT);
+		params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
+		agentMap.put(RooloAccessorAgent.class.getName(), params);
 		agentMap.put(TopicDetector.NAME, params);
 		startAgentFramework(agentMap);
 	}
@@ -60,32 +62,47 @@ public class TopicDetectorTest extends AbstractTestFixture {
 
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testProcessElo() throws TupleSpaceException, IOException, ClassNotFoundException {
+	public void testProcessElo() throws TupleSpaceException, IOException,
+			ClassNotFoundException {
 		String queryID = new VMID().toString();
 		System.out.println("Writing tuple");
 		getCommandSpace().write(
-				new Tuple(TopicAgents.TOPIC_DETECTOR, AgentProtocol.QUERY, queryID, "co2_scy_english", TEXT));
+				new Tuple(TopicAgents.TOPIC_DETECTOR, AgentProtocol.QUERY,
+						queryID, MISSION1, "en", TEXT));
 		System.out.println("Tuple written. Waiting for response...");
 		Tuple t = getCommandSpace().waitToTake(
-				new Tuple(TopicAgents.TOPIC_DETECTOR, AgentProtocol.RESPONSE, queryID, Field.createWildCardField()),
-				5000);
-		System.out.println("Response received");
+				new Tuple(TopicAgents.TOPIC_DETECTOR, AgentProtocol.RESPONSE,
+						queryID, Field.createWildCardField()),
+				AgentProtocol.SECOND * 30);
 		assertNotNull("tuple is null", t);
-		ObjectInputStream bytesIn = new ObjectInputStream(new ByteArrayInputStream((byte[]) t.getField(3).getValue()));
-		HashMap<Integer, Double> topicScoresMap = (HashMap<Integer, Double>) bytesIn.readObject();
+		System.out.println("Response received");
+		ObjectInputStream bytesIn = new ObjectInputStream(
+				new ByteArrayInputStream((byte[]) t.getField(3).getValue()));
+		HashMap<Integer, Double> topicScoresMap = (HashMap<Integer, Double>) bytesIn
+				.readObject();
 
-		assertEquals(10, topicScoresMap.size());
-		assertEquals("wrong probability for topic 0", 0.0017892133644281931, topicScoresMap.get(0), 0.01);
-		assertEquals("wrong probability for topic 1", 0.002575589897297382, topicScoresMap.get(1), 0.01);
-		assertEquals("wrong probability for topic 4", 0.00227468953178241, topicScoresMap.get(4), 0.01);
-		assertEquals("wrong probability for topic 5", 0.0016823702862740107, topicScoresMap.get(5), 0.01);
-		assertEquals("wrong probability for topic 6", 0.001945861865589766, topicScoresMap.get(6), 0.01);
-		assertEquals("wrong probability for topic 7", 0.002655118753113757, topicScoresMap.get(7), 0.01);
-		assertEquals("wrong probability for topic 8", 0.0019143937827241963, topicScoresMap.get(8), 0.01);
+		assertEquals(15, topicScoresMap.size());
+		assertEquals("wrong probability for topic 0", 8.617945979695665E-4,
+				topicScoresMap.get(0), 0.01);
+		assertEquals("wrong probability for topic 1", 0.004857312259509067,
+				topicScoresMap.get(1), 0.01);
+		assertEquals("wrong probability for topic 4", 0.10590514547817416,
+				topicScoresMap.get(4), 0.01);
+		assertEquals("wrong probability for topic 5", 0.0033541530235643288,
+				topicScoresMap.get(5), 0.01);
+		assertEquals("wrong probability for topic 6", 0.0459014358663772,
+				topicScoresMap.get(6), 0.01);
+		assertEquals("wrong probability for topic 7", 0.0030242939989562866,
+				topicScoresMap.get(7), 0.01);
+		assertEquals("wrong probability for topic 8", 0.0020630692385972455,
+				topicScoresMap.get(8), 0.01);
 
-		assertEquals("wrong probability for topic 2", 0.1603676990866432, topicScoresMap.get(2), 0.03);
-		assertEquals("wrong probability for topic 3", 0.05110776312074621, topicScoresMap.get(3), 0.03);
-		assertEquals("wrong probability for topic 9", 0.7885358343528651, topicScoresMap.get(9), 0.03);
+		assertEquals("wrong probability for topic 2", 0.5755461799746437,
+				topicScoresMap.get(2), 0.03);
+		assertEquals("wrong probability for topic 3", 0.14900830716040536,
+				topicScoresMap.get(3), 0.03);
+		assertEquals("wrong probability for topic 9", 9.088862492220839E-4,
+				topicScoresMap.get(9), 0.03);
 
 	}
 }
