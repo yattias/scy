@@ -54,10 +54,6 @@ public class HypothesisDecisionMakerTest extends AbstractTestFixture {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-
-		this.initTopicModel();
-		this.initDfModel();
-
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
 		params.put(AgentProtocol.TS_HOST, TSHOST);
@@ -101,8 +97,6 @@ public class HypothesisDecisionMakerTest extends AbstractTestFixture {
 	@After
 	public void tearDown() {
 		try {
-			removeTopicModel();
-			removeDFModel();
 			this.stopAgentFrameWork();
 			super.tearDown();
 		} catch (AgentLifecycleException e) {
@@ -135,8 +129,7 @@ public class HypothesisDecisionMakerTest extends AbstractTestFixture {
 		objectOut.close();
 
 		Tuple tuple = new Tuple(HypothesisEvaluationAgent.EVAL, "testUser",
-				MISSION, "TestSession", "copex", eloPath,
-				bytes.toByteArray());
+				MISSION, "TestSession", "copex", eloPath, bytes.toByteArray());
 		getCommandSpace().write(tuple);
 		Tuple response = this.getCommandSpace().waitToTake(
 				new Tuple(AgentProtocol.NOTIFICATION, String.class,

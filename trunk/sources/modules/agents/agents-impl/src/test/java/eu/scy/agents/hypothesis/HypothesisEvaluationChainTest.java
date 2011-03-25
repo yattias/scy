@@ -1,6 +1,6 @@
 package eu.scy.agents.hypothesis;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
@@ -17,8 +17,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.mchange.util.AssertException;
 
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadata;
@@ -60,8 +58,8 @@ public class HypothesisEvaluationChainTest extends AbstractTestFixture {
 	public void setUp() throws Exception {
 		super.setUp();
 
-		this.initTopicModel();
-		this.initDfModel();
+		// this.initTopicModel();
+		// this.initDfModel();
 
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
@@ -106,8 +104,6 @@ public class HypothesisEvaluationChainTest extends AbstractTestFixture {
 	@After
 	public void tearDown() {
 		try {
-			removeTopicModel();
-			removeDFModel();
 			this.stopAgentFrameWork();
 			super.tearDown();
 		} catch (AgentLifecycleException e) {
@@ -121,8 +117,8 @@ public class HypothesisEvaluationChainTest extends AbstractTestFixture {
 		Tuple response = writeTupleGetResponse(this.eloPath);
 		assertNotNull("no response received", response);
 		String message = (String) response.getField(7).getValue();
-		// assertEquals(message, "message=ok");
-		assertEquals(message, "message=too few keywords or text too long");
+		assertEquals(message, "message=ok");
+		// assertEquals(message, "message=too few keywords or text too long");
 		response = writeTupleGetResponse(this.smallEloPath);
 		assertNotNull("no response received", response);
 		message = (String) response.getField(7).getValue();
@@ -142,7 +138,7 @@ public class HypothesisEvaluationChainTest extends AbstractTestFixture {
 				String.class, String.class, Field.createWildCardField());
 
 		Tuple response = this.getCommandSpace().waitToTake(responseTuple,
-				AgentProtocol.ALIVE_INTERVAL * 10);
+				AgentProtocol.MINUTE * 6);
 		return response;
 	}
 }

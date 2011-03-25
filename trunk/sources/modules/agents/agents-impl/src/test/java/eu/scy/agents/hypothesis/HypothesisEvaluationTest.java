@@ -68,9 +68,6 @@ public class HypothesisEvaluationTest extends AbstractTestFixture {
 	public void setUp() throws Exception {
 		super.setUp();
 
-		initDfModel();
-		initTopicModel();
-
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
 		params.put(AgentProtocol.TS_HOST, TSHOST);
@@ -106,10 +103,6 @@ public class HypothesisEvaluationTest extends AbstractTestFixture {
 	@After
 	public void tearDown() {
 		try {
-			if (getPersistentStorage() != null) {
-				removeDFModel();
-				removeTopicModel();
-			}
 			this.stopAgentFrameWork();
 			super.tearDown();
 		} catch (AgentLifecycleException e) {
@@ -129,8 +122,7 @@ public class HypothesisEvaluationTest extends AbstractTestFixture {
 		Tuple response = this.getCommandSpace().waitToTake(
 				new Tuple(HypothesisEvaluationAgent.EVAL, String.class,
 						String.class, String.class, String.class, String.class,
-						Field.createWildCardField()),
-				AgentProtocol.ALIVE_INTERVAL * 16);
+						Field.createWildCardField()), AgentProtocol.MINUTE * 6);
 		assertNotNull("no response received", response);
 		ByteArrayInputStream bytesIn = new ByteArrayInputStream(
 				(byte[]) response.getField(6).getValue());
@@ -138,7 +130,7 @@ public class HypothesisEvaluationTest extends AbstractTestFixture {
 		HashMap<Integer, Integer> histogram = (HashMap<Integer, Integer>) objectIn
 				.readObject();
 		String string = histogram.toString();
-		assertEquals("{0=4}", string);
+		assertEquals("{0=1, 2=3}", string);
 
 	}
 }
