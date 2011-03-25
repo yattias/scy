@@ -361,9 +361,8 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 	private void writeNewAliveTuple() throws TupleSpaceException {
 		if (getCommandSpace().isConnected()) {
 			aliveTupleID = getCommandSpace()
-					.write(
-							AgentProtocol.getAliveTuple(getId(), getName(),
-									new VMID()));
+					.write(AgentProtocol.getAliveTuple(getId(), getName(),
+							new VMID()));
 		}
 	}
 
@@ -371,8 +370,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 		lock.lock();
 		if (getCommandSpace().isConnected()) {
 			getCommandSpace()
-					.update(
-							aliveTupleID,
+					.update(aliveTupleID,
 							AgentProtocol.getAliveTuple(getId(), getName(),
 									new VMID()));
 		}
@@ -462,7 +460,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 			lock.unlock();
 		} catch (TupleSpaceException e) {
 			// we do not care about exceptions here
-			e.printStackTrace();
+			logger.warn("could not tidy up", e);
 		}
 	}
 }
