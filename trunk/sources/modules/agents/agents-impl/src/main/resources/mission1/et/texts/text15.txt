@@ -1,0 +1,34 @@
+Ökojalajälje kalkulaator
+
+Ökoloogilise jalajälje kalkulaator on üks viise teada saada, kuidas Sinu
+elustiil mõjutab maakera jätkusuutlikkust. Mida enam me kulutame toidu,
+asjade ja energia tarbimisele, seda suurema jalajälje me endast maha
+jätame. Arvuta, kui suur on Sinu ökoloogiline jalajälg ning mõtle, mida
+saaksid Sina teha selle vähendamiseks!
+
+Mis on ökoloogiline jalajälg?
+
+Ökoloogiline jalajälg on meetod, mis suudab ligikaudselt arvutada maa-ala
+suurust, mida on vaja meie poolt ühes aastas kasutatavate ressursside (nt
+soojusenergia, mootorikütus või toiduained) tootmiseks ja tekkinud jäätmete
+ning saaste ümbertöötlemiseks, ladestamiseks või looduslikesse
+aineringetesse sidumiseks. Kui ressursikasutus ja jäätmeteke ületab maakera
+eluslooduse kandevõime piirid, siis ei käitu inimkond enam jätkusuutlikult.
+
+Ökojalajälge ja eluslooduse kandevõimet mõõdetakse globaalhektarites
+inimese kohta aastas (gha / in a). Üks globaalhektar on tingühik, mis
+vastab maakera keskmise bioloogilise tootlikkusega hektarile.
+
+Ökoloogilist jalajälge saab arvutada kas inimese, leibkonna, toote, mõne
+organisatsiooni või territoriaalse üksuse, nt riigi või linna tasemel, siin
+lehel olev ökojalajälje kalkulaator keskendub indiviidile ja tema
+tarbimisharjumustele, võttes arvesse ka terve leibkonna poolt tehtavaid
+kulutusi.
+
+Et viljeleda jätkusuutlikku eluviisi, ei tohiks Maa ligi 6,9 miljardi
+elaniku keskmine ökojalajälg ületada 1,8 globaalhektarit aastas. Eesti
+elaniku keskmine ökojalajälg oli aga 2007. aastal (viimased arvutatud
+andmed) 7,9 gha/in a. See tähendab, et me elame globaalses mõõtmes
+vastutustundetult ja tulevaste põlvede võimaluste arvelt. Kui kõik elaksid
+nii nagu meie, oleks meie tarbimisharjumuste jätkusuutlikuks katmiseks vaja
+üle nelja maakera!
