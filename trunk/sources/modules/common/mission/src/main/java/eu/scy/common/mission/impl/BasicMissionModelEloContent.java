@@ -13,6 +13,8 @@ public class BasicMissionModelEloContent implements MissionModelEloContent
    private List<Las> lasses = new ArrayList<Las>();
    private Las selectedLas;
    private URI missionMapBackgroundImageUri;
+   private URI missionMapInstructionUri;
+   private String missionMapButtonIconType;
 
    @Override
    public List<URI> getLoEloUris()
@@ -60,5 +62,27 @@ public class BasicMissionModelEloContent implements MissionModelEloContent
 	{
 		this.missionMapBackgroundImageUri = missionMapBackgroundImageUri;
 	}
+
+   @Override
+   public String getMissionMapButtonIconType()
+   {
+      return missionMapButtonIconType;
+   }
+
+   public void setMissionMapButtonIconType(String missionMapButtonIconType)
+   {
+      this.missionMapButtonIconType = missionMapButtonIconType;
+   }
+
+   @Override
+   public URI getMissionMapInstructionUri()
+   {
+      return missionMapInstructionUri;
+   }
+
+   public void setMissionMapInstructionUri(URI missionMapInstructionUri)
+   {
+      this.missionMapInstructionUri = missionMapInstructionUri;
+   }
 
 }

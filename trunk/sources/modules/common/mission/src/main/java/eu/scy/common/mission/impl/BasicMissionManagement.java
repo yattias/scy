@@ -6,6 +6,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import roolo.elo.api.IMetadata;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.api.metadata.IMetadataKeyIdDefinition;
 import roolo.search.IQuery;
 import roolo.search.ISearchResult;
 import eu.scy.common.mission.ColorSchemesElo;
@@ -28,6 +31,7 @@ import eu.scy.common.mission.TemplateElosElo;
 import eu.scy.common.scyelo.QueryFactory;
 import eu.scy.common.scyelo.RooloServices;
 import eu.scy.common.scyelo.ScyElo;
+import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 
 public class BasicMissionManagement implements MissionManagement
 {
@@ -35,6 +39,7 @@ public class BasicMissionManagement implements MissionManagement
 
 	private final MissionSpecificationElo missionSpecificationElo;
 	private final RooloServices rooloServices;
+	private final IMetadataKey missionRuntimeKey;
 
 	public BasicMissionManagement(MissionSpecificationElo missionSpecificationElo,
 				RooloServices rooloServices)
@@ -42,8 +47,16 @@ public class BasicMissionManagement implements MissionManagement
 		super();
 		this.missionSpecificationElo = missionSpecificationElo;
 		this.rooloServices = rooloServices;
+      missionRuntimeKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNTIME);
 	}
 
+   protected final IMetadataKey findMetadataKey(IMetadataKeyIdDefinition id) {
+      IMetadataKey key = rooloServices.getMetaDataTypeManager().getMetadataKey(id);
+      if (key == null) {
+          throw new IllegalStateException("the metadata key cannot be found, id: " + id);
+      }
+      return key;
+  }
 	@Override
 	public MissionRuntimeModel createMissionRuntimeModelElos(String userName)
 	{
@@ -267,6 +280,29 @@ public class BasicMissionManagement implements MissionManagement
 				missionAnchor.getScyElo().setCreator(null);
 				missionAnchor.getScyElo().saveAsForkedElo();
 				missionAnchor.setEloUri(missionAnchor.getScyElo().getUri());
+			}
+		}
+		else
+		{
+			logger.error("failed to find existing anchor elo, uri: " + missionAnchor.getEloUri());
+		}
+	}
+
+	private void addMissinRuntimeEloUri(MissionAnchor missionAnchor, URI missionRuntimeEloUri, 
+				EloToolConfigsEloContent eloToolConfigs)
+	{
+		if (missionAnchor.isExisting())
+		{
+			EloToolConfig eloConfig = eloToolConfigs.getEloToolConfig(missionAnchor.getScyElo()
+						.getTechnicalFormat());
+			if (!eloConfig.isContentStatic())
+			{
+				IMetadata metadata = rooloServices.getELOFactory().createMetadata();
+				metadata.getMetadataValueContainer(missionRuntimeKey).setValue(missionRuntimeEloUri);
+				rooloServices.getRepository().addMetadata(missionAnchor.getEloUri(), metadata);
+				// now elo is up to date in roolo
+				// we assume no one else has modified it, now update my local copy
+				missionAnchor.getScyElo().setMissionRuntimeEloUri(missionRuntimeEloUri);
 			}
 		}
 		else

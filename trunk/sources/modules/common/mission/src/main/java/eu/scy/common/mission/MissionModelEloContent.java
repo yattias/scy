@@ -14,5 +14,9 @@ public interface MissionModelEloContent
    public void setSelectedLas(Las selectedLas);
    
    public URI getMissionMapBackgroundImageUri();
+
+   public URI getMissionMapInstructionUri();
+
+   public String getMissionMapButtonIconType();
    
 }

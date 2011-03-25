@@ -28,6 +28,8 @@ public class MissionModelEloContentXmlUtils
    private final static String otherElosName = "otherElos";
    private final static String activeLasName = "activeLas";
    private final static String missionMapBackgroundImageUriName = "missionMapBackgroundImageUri";
+   private final static String missionMapInstructionUriName = "missionMapInstructionUri";
+   private final static String missionMapButtonIconTypeName = "missionMapButtonIconType";
    private final static String lassesName = "lasses";
    private final static String lasName = "las";
    private final static String nextLassesName = "nextLasses";
@@ -72,6 +74,8 @@ public class MissionModelEloContentXmlUtils
       }
       root.addContent(createElement(activeLasName, selectedLasId));
       root.addContent(createElement(missionMapBackgroundImageUriName, missionModel.getMissionMapBackgroundImageUri()));
+      root.addContent(createElement(missionMapInstructionUriName, missionModel.getMissionMapInstructionUri()));
+      root.addContent(createElement(missionMapButtonIconTypeName, missionModel.getMissionMapButtonIconType()));
       root.addContent(createElement(loElosName, eloUriName, missionModel.getLoEloUris()));
       Element lasses = new Element(lassesName);
       root.addContent(lasses);
@@ -176,6 +180,8 @@ public class MissionModelEloContentXmlUtils
          missionModel.setSelectedLas(lassesMap.get(selectedLasId));
       }
       missionModel.setMissionMapBackgroundImageUri(getUriValue(root,missionMapBackgroundImageUriName));
+      missionModel.setMissionMapInstructionUri(getUriValue(root,missionMapInstructionUriName));
+      missionModel.setMissionMapButtonIconType(root.getChildTextTrim(missionMapBackgroundImageUriName));
       if (!missionModel.getLasses().isEmpty())
       {
          fillInMissingLinks(lassesMap, anchorsMap, lassesRoot);
