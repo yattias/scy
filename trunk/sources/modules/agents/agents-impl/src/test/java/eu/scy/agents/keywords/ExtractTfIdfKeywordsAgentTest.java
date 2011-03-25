@@ -42,14 +42,12 @@ public class ExtractTfIdfKeywordsAgentTest extends AbstractTestFixture {
 	public void setUp() throws Exception {
 		super.setUp();
 
-		initDfModel();
-
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
 		params.put(AgentProtocol.TS_HOST, TSHOST);
 		params.put(AgentProtocol.TS_PORT, TSPORT);
 		agentMap.put(ExtractTfIdfKeywordsAgent.NAME, params);
-		
+
 		params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
 		agentMap.put(RooloAccessorAgent.class.getName(), params);
 		startAgentFramework(agentMap);
@@ -58,14 +56,6 @@ public class ExtractTfIdfKeywordsAgentTest extends AbstractTestFixture {
 	@Override
 	@After
 	public void tearDown() throws AgentLifecycleException {
-		try {
-			getCommandSpace().take(
-					new Tuple("persistent_storage_1_0",
-							KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL,
-							Field.createWildCardField()));
-		} catch (TupleSpaceException e) {
-			e.printStackTrace();
-		}
 		stopAgentFrameWork();
 		super.tearDown();
 	}

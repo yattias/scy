@@ -41,10 +41,6 @@ public class ExtractTopicModelKeywordsAgentTest extends AbstractTestFixture {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-
-		initTopicModel();
-		initDfModel();
-
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
 		params.put(AgentProtocol.TS_HOST, TSHOST);

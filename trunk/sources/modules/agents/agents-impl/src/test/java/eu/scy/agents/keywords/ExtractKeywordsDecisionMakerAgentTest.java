@@ -35,8 +35,6 @@ import eu.scy.agents.roolo.rooloaccessor.RooloAccessorAgent;
 
 public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 
-	private static final String MISSION1 = "roolo://memory/0/0/Design+a+CO2-friendly+house.scymissionspecification";
-
 	private static final int IDLE_TIME = 2000;
 
 	private IELO elo;
@@ -72,9 +70,6 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-
-		this.initTopicModel();
-		this.initDfModel();
 
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
@@ -113,9 +108,6 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 	@After
 	public void tearDown() {
 		try {
-			this.getPersistentStorage().remove(
-					KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
-			this.removeTopicModel();
 			this.stopAgentFrameWork();
 			super.tearDown();
 		} catch (AgentLifecycleException e) {
