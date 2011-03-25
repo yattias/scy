@@ -66,8 +66,6 @@ public class HypopthesisEvaluationTest extends AbstractTestFixture {
 	public void setUp() throws Exception {
 		super.setUp();
 
-		initDfModel();
-		initTopicModel();
 
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
@@ -99,10 +97,6 @@ public class HypopthesisEvaluationTest extends AbstractTestFixture {
 	@After
 	public void tearDown() {
 		try {
-			if (getPersistentStorage() != null) {
-				removeDFModel();
-				removeTopicModel();
-			}
 			this.stopAgentFrameWork();
 			super.tearDown();
 		} catch (AgentLifecycleException e) {
