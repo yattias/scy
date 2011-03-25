@@ -115,7 +115,7 @@
         <dependency>
             <groupId>nl.utwente</groupId>
             <artifactId>simquestviewer</artifactId>
-            <version>1.8.0</version>
+            <version>1.9.0</version>
         </dependency>
 
         <dependency>
