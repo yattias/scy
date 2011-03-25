@@ -58,7 +58,8 @@ import eu.scy.agents.util.Utilities;
  *         keywords in sentences. Output is a hashmap that stores the number of
  *         sentences which contain 0,1,2... keywords.
  */
-public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements IRepositoryAgent {
+public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
+		IRepositoryAgent {
 
 	public static final String NAME = HypothesisEvaluationAgent.class.getName();
 
@@ -75,8 +76,9 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
 	private IMetadataTypeManager metadataTypeManager;
 
 	public HypothesisEvaluationAgent(Map<String, Object> map) {
-		super(NAME, (String) map.get(AgentProtocol.PARAM_AGENT_ID), (String) map
-				.get(AgentProtocol.TS_HOST), (Integer) map.get(AgentProtocol.TS_PORT));
+		super(NAME, (String) map.get(AgentProtocol.PARAM_AGENT_ID),
+				(String) map.get(AgentProtocol.TS_HOST), (Integer) map
+						.get(AgentProtocol.TS_PORT));
 	}
 
 	@Override
@@ -110,8 +112,9 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
 	}
 
 	@Override
-	public void processELOSavedAction(String actionId, String user, long timeInMillis, String tool,
-			String mission, String session, String eloUri, String eloType) {
+	public void processELOSavedAction(String actionId, String user,
+			long timeInMillis, String tool, String mission, String session,
+			String eloUri, String eloType) {
 		try {
 			if (!eloType.equals(EloTypes.SCY_XPROC)) {
 				return;
@@ -121,13 +124,16 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
 			String text = Utilities.getEloText(elo, XMLPATH, logger);
 			Set<String> topicKeywords = callKeywordsAgent(
 					ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS,
-					text, mission);
+					text, mission, AgentProtocol.MINUTE * 3);
+			logger.debug("found in tm keywords: " + topicKeywords);
 			Set<String> ontologyKeywords = callKeywordsAgent(
 					OntologyKeywordsAgent.EXTRACT_ONTOLOGY_KEYWORDS, text,
-					mission);
+					mission, AgentProtocol.MINUTE);
+			logger.debug("found in ont keywords: " + ontologyKeywords);
 			Set<String> keyPharses = callKeywordsAgent(
-					ExtractKeyphrasesAgent.EXTRACT_KEYPHRASES,
-					text, mission);
+					ExtractKeyphrasesAgent.EXTRACT_KEYPHRASES, text, mission,
+					AgentProtocol.MINUTE * 3);
+			logger.debug("found in keyphrases: " + keyPharses);
 
 			Set<String> keywords = new HashSet<String>();
 			keywords.addAll(topicKeywords);
@@ -139,10 +145,13 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
 			Document document = Utilities.convertTextToDocument(text);
 			ArrayList<String> kwList = new ArrayList<String>(keywords);
 			document.setFeature(Features.WORDS, kwList);
-			Operator cmpHistogramOp = new EvalHypothesisWorkflow().getOperator("Main");
-			cmpHistogramOp.setInputParameter(ObjectIdentifiers.DOCUMENT, document);
+			Operator cmpHistogramOp = new EvalHypothesisWorkflow()
+					.getOperator("Main");
+			cmpHistogramOp.setInputParameter(ObjectIdentifiers.DOCUMENT,
+					document);
 			Container result = cmpHistogramOp.run();
-			Document docResult = (Document) result.get(ObjectIdentifiers.DOCUMENT);
+			Document docResult = (Document) result
+					.get(ObjectIdentifiers.DOCUMENT);
 			HashMap<Integer, Integer> hist = docResult
 					.getFeature(KeywordConstants.KEYWORD_SENTENCE_HISTOGRAM);
 
@@ -155,8 +164,8 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
 			// write a tuple with Byte version of histogram to trigger the
 			// HypothesisEvaluation decision
 			// maker
-			Tuple activateDecisionMakerTuple = new Tuple(EVAL, user, mission, session, tool,
-					eloUri, bytesOut.toByteArray());
+			Tuple activateDecisionMakerTuple = new Tuple(EVAL, user, mission,
+					session, tool, eloUri, bytesOut.toByteArray());
 			getCommandSpace().write(activateDecisionMakerTuple);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
@@ -179,18 +188,19 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
 		repository = rep;
 	}
 
-	// TODO: extract this method because it is a duplicate from ExtractKeywordsAgent
+	// TODO: extract this method because it is a duplicate from
+	// ExtractKeywordsAgent
 	private Set<String> callKeywordsAgent(String agent, String text,
-			String mission) {
+			String mission, int waitTime) {
 		String queryId = new VMID().toString();
 		Set<String> result = new HashSet<String>();
 		try {
 			getCommandSpace().write(
 					new Tuple(agent, AgentProtocol.QUERY, queryId, text,
-							mission));
+							mission, "en"));
 			Tuple response = getCommandSpace().waitToTake(
 					new Tuple(agent, AgentProtocol.RESPONSE, queryId,
-							String.class), AgentProtocol.ALIVE_INTERVAL * 3);
+							String.class), waitTime);
 			if (response == null) {
 				return result;
 			}
@@ -205,4 +215,4 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements 
 		return result;
 	}
 
-	}
+}
