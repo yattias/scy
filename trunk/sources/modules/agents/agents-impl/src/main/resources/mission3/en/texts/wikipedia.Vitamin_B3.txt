@@ -1,0 +1,161 @@
+Niacin - Wikipedia, the free encyclopedia
+
+Niacin
+From Wikipedia, the free encyclopedia Â Â (Redirected from Vitamin B3) Jump to: navigation, search This article is about the organic compound and vitamin. For the band, see Niacin (band). Niacin
+
+IUPAC name nicotinic acid Other names Bionic Vitamin B3 Identifiers CAS number 59-67-6 Y PubChem 938 ChemSpider 913 Y UNII 2679MF687A Y EC number 200-441-0 DrugBank DB00627 KEGG D00049 Y MeSH Niacin ChEBI CHEBI:15940 ChEMBL CHEMBL573 Y IUPHAR ligand 1588 RTECS number QT0525000 ATC code C04AC01,C10AD02 Beilstein Reference 109591 Gmelin Reference 3340 3DMet B00073 SMILES OC(=O)C1=CN=CC=C1 c1cc(cnc1)C(=O)O InChI InChI=1S/C6H5NO2/c8-6(9)5-2-1-3-7-4-5/h1-4H,(H,8,9) Key: PVNIIMVLHYAWGP-UHFFFAOYSA-N Y InChI=1/C6H5NO2/c8-6(9)5-2-1-3-7-4-5/h1-4H,(H,8,9) Key: PVNIIMVLHYAWGP-UHFFFAOYAA Niacin 1
+
+Y
+
+Niacin - Wikipedia, the free encyclopedia Properties Molecular formula C6H5NO2 Molar mass 123.11 g molâ 1 Exact mass 123.032028409 g mol-1 Appearance White crystals Density 1.473 g/cm3 Melting point 236-239 Â°C, 509-512 K, 457-462 Â°F Solubility in water 0.018 g cm-3 log P 0.219 Acidity (pKa) 2.201 Isoelectric point 4.75 Refractive index (nD) 1.4936 Dipole moment 0.1271305813 D Pharmacology Routes of Intramuscular, Oral administration Elimination 20-45 min half-life Hazards EU classification
+Xi
+
+R-phrases S-phrases
+
+R36/37/38 S26,S36
+
+NFPA 704 1 1 0 193 Â°C
+
+Flash point Autoignition 365 Â°C temperature Y(what is this?) (verify) Except where noted otherwise, data are given for materials in their standard state (at 25 Â°C, 100 kPa) Infobox references Niacin (also known as vitamin B3, nicotinic acid and vitamin PP) is an organic compound with the formula C6H5NO2 and, depending on the definition used, one of the forty to eighty essential human nutrients. This colorless, water-soluble solid is a derivative of pyridine, with a carboxyl group (COOH) at the 3-position. Other forms of vitamin B3 include the corresponding amide, nicotinamide ("niacinamide"), where the carboxyl group has been replaced by a carboxamide group (CONH2), as well as more complex amides and a variety of esters. The terms niacin, nicotinamide, and vitamin B3 are often used interchangeably to refer to any member of this family of compounds, since they have the same biochemical activity.
+
+Niacin
+
+2
+
+Niacin - Wikipedia, the free encyclopedia Niacin cannot be directly converted to nicotinamide, but both compounds could be converted to NAD and NADP in vivo. Although the two are identical in their vitamin activity, nicotinamide does not have the same pharmacological effects as niacin, which occur as side effects of niacin's conversion. Nicotinamide does not reduce cholesterol or cause flushing.[1] Nicotinamide may be toxic to the liver at doses exceeding 3 g/day for adults.[2] Niacin is a precursor to NAD+/NADH and NADP+/NADPH, which play essential metabolic roles in living cells.[3] Niacin is involved in both DNA repair, and the production of steroid hormones in the adrenal gland. Niacin is one of five vitamins associated with a pandemic deficiency disease: · niacin deficiency (pellagra) · vitamin C deficiency (scurvy) · thiamin deficiency (beriberi) · vitamin D deficiency (rickets) · vitamin A deficiency. In larger doses, niacin can reverse atherosclerosis by lowering low-density lipoprotein (LDL) and favorably affecting other compounds.[4]
+
+Contents
+· 1 History · 2 Dietary needs · 3 Deficiency · 4 Lipid-modifying effects · 5 Toxicity · 6 Inositol hexanicotinate · 7 Biosynthesis and chemical synthesis · 8 Receptor · 9 Food sources · 10 References
+
+[edit] History
+Niacin was first described by Hugo Weidel in 1873 in his studies of nicotine.[5] The original preparation remains useful: The oxidation of nicotine using nitric acid.[6] Niacin was extracted from livers by Conrad Elvehjem, who later identified the active ingredient, then referred to as the "pellagra-preventing factor" and the "anti-blacktongue factor."[7] When the biological significance of nicotinic acid was realized, it was thought appropriate to choose a name to dissociate it from nicotine, to avoid the perception that vitamins or niacin-rich food contains nicotine, or that cigarettes contain vitamins. The resulting name 'niacin' was derived from nicotinic acid + vitamin. Carpenter found in 1951 that niacin in corn is biologically unavailable, and can be released only in very alkaline lime water of pH 11.[8] This process is known as nixtamalization.[9] Niacin is referred to as vitamin B3 because it was the third of the B vitamins to be discovered. It has historically been referred to as "vitamin PP" or "vitamin P-P".
+
+Contents
+
+3
+
+Niacin - Wikipedia, the free encyclopedia
+
+[edit] Dietary needs
+The recommended daily allowance of niacin is 2â 12 mg/day for children, 14 mg/day for women, 16 mg/day for men, and 18 mg/day for pregnant or breast-feeding women.[10] The upper limit for adult men and women is 35 mg/day, which is based on flushing as the critical adverse effect.[citation needed] In general, niacin status is tested through urinary biomarkers,[11] which are believed to be more reliable than plasma levels.[12]
+
+[edit] Deficiency
+Main article: Pellagra
+
+A man with pellagra, which is caused by a chronic lack of vitamin B3 in the diet At present, niacin deficiency is rarely seen in developed countries, but it is usually apparent in conditions of poverty, malnutrition, and chronic alcoholism.[13] It also tends to occur in areas where people eat maize (corn, the only grain low in niacin) as a staple food. A special cooking technique called nixtamalization is needed to increase the bioavailability of niacin during maize meal/flour production. Mild niacin deficiency has been shown to slow metabolism, causing decreased tolerance to cold. Severe deficiency of niacin in the diet causes the disease pellagra, which is characterized by diarrhea, dermatitis, and dementia, as well as â necklaceâ lesions on the lower neck, hyperpigmentation, thickening of the skin, inflammation of the mouth and tongue, digestive disturbances, amnesia, delirium, and eventually death, if left untreated.[14] Common psychiatric symptoms of niacin deficiency include irritability, poor concentration, anxiety, fatigue, restlessness, apathy, and depression.[14] Studies have indicated that, in patients with alcoholic pellagra, niacin deficiency may be an important factor influencing both the onset and severity of this condition. Alcoholic patients typically experience increased intestinal permeability, leading to negative health outcomes. Hartnupâ s disease is a hereditary nutritional disorder resulting in niacin deficiency.[14] This condition was first identified in the 1950s by the Hartnup family in London. It is due to a deficit in the intestines and kidneys, making it difficult for the body to break down and absorb dietary tryptophan. The resulting condition is similar to pellagra, including symptoms of red, scaly rash, and sensitivity to sunlight. Oral niacin is given as a treatment for this condition in doses ranging from 40â 200 mg, with a good prognosis if identified and treated early.[14] Niacin synthesis is also deficient in carcinoid syndrome, because of metabolic diversion of its precursor tryptophan to form serotonin.
+
+[edit] Dietary needs
+
+4
+
+Niacin - Wikipedia, the free encyclopedia
+
+[edit] Lipid-modifying effects
+In pharmacological doses, niacin has been proven to reverse atherosclerosis by reducing total cholesterol, triglycerides, very-low-density lipoprotein (VLDL), and low-density lipoprotein (LDL), and increasing high-density lipoprotein (HDL). It has been proposed that niacin has the ability to lower lipoprotein(a), which is beneficial at reducing thrombotic tendency.[15] Niacin, prescribed in doses between 1000 and 2000 mg, two to three times daily,[16] blocks the breakdown of fats in adipose tissue. These fats are used to build very-low-density lipoproteins (VLDL) in the liver, which are precursors of low-density lipoprotein (LDL) or "bad" cholesterol. Because niacin blocks the breakdown of fats, it causes a decrease in free fatty acids in the blood and, as a consequence, decreases the secretion of VLDL and cholesterol by the liver.[17] By lowering VLDL levels, niacin also increases the level of high-density lipoprotein (HDL) or "good" cholesterol in blood, and therefore it is sometimes prescribed for patients with low HDL, who are also at high risk of a heart attack.[18][19] Whether the increasing of HDL translates into a reduction in clinical events might be answered by two large outcome studies: AIM HIGH and HPS-2 THRIVE. If it does, the current approach to lipid modulation of high-risk patient would be fundamentally changed. The ARBITER 6-HALTS study, reported at the 2009 annual meeting of the American Heart Association and in the New England Journal of Medicine[20] concluded that, when added to statins, 2000 mg/day of slow-release niacin was more effective than ezetimibe (Zetia) in reducing carotid intima-media thickness, a marker of atherosclerosis.[21] As of August 2008[update], a combination of niacin with laropiprant is being tested in a clinical trial. Laropiprant reduces facial flushes induced by niacin. [22]
+
+[edit] Toxicity
+Pharmacological doses of niacin (1.5 - 6 g per day) often lead to side effects that can include dermatological conditions such as skin flushing and itching, dry skin, and skin rashes including eczema exacerbation and acanthosis nigricans. These symptoms are generally related to niacin's role as the rate limiting cofactor in the histidine decarboxylase enzyme which converts l-histidine into histamine. H1 and H2 receptor mediated histamine is metabolized via a sequence of mono (or di-) amine oxidase and COMT into methylhistamine which is then conjugated through the liver's CYP450 pathways. Persistent flushing and other symptoms may indicate deficiencies in one or more of the cofactors responsible for this enzymatic cascade. Gastrointestinal complaints, such as dyspepsia (indigestion), nausea and liver toxicity fulminant hepatic failure, have also been reported. Side effects of hyperglycemia, cardiac arrhythmias and "birth defects in experimental animals" have also been reported.[23] The flush lasts for about 15 to 30 minutes, and is sometimes accompanied by a prickly or itching sensation, in particular, in areas covered by clothing. This effect is mediated by prostaglandin and can be blocked by taking 300 mg of aspirin half an hour before taking niacin, or by taking one tablet of ibuprofen per day. Taking the niacin with meals also helps reduce this side effect. After several weeks of a consistent dose, most patients no longer flush.[24] Slow- or "sustained"-release forms of niacin have been developed to lessen these side effects.[17][25] One study showed the incidence of flushing was significantly lower with a sustained release formulation[26] though doses above 2 g per day have been associated with liver damage, in particular, with slow-release formulations.[23] Flushing is often thought to involve histamine, but histamine has been shown not to be involved in the reaction.[27] Prostaglandin (PGD2) is the primary cause of the flushing reaction, with serotonin appearing to have a secondary role in this reaction.[27]
+
+[edit] Lipid-modifying effects
+
+5
+
+Niacin - Wikipedia, the free encyclopedia Although high-dose niacin may also elevate blood sugar, thereby worsening diabetes mellitus.[23] Recent studies show the actual effect on blood sugar is only 5-10%. Patients with diabetes continue taking their anti-diabetes drugs did not experience major blood glucose changes. Thus from the big picture, niacin is recommended as a drug for prevention of CVD in patients with diabetes. Hyperuricemia is another side effect of taking high-dose niacin, and may exacerbate gout.[28] Niacin at doses used in lowering cholesterol has been associated with birth defects in laboratory animals, with possible consequences for infant development in pregnant women.[23] Niacin at extremely high doses can have life-threatening acute toxic reactions.[29] Extremely high doses of niacin can also cause niacin maculopathy, a thickening of the macula and retina, which leads to blurred vision and blindness. This maculopathy is reversible after stopping niacin intake.[30]
+
+[edit] Inositol hexanicotinate
+One popular form of dietary supplement is inositol hexanicotinate (IHN), which is inositol that has been esterified with niacin on all six of inositol's alcohol groups. IHN is usually sold as "flush-free" or "no-flush" niacin in units of 250, 500, or 1000 mg/tablets or capsules. It is sold as an over-the-counter formulation, and often is marketed and labeled as niacin, thus misleading consumers into thinking they are getting the active form of the medication. While this form of niacin does not cause the flushing associated with the immediate-release products, the evidence that it has lipid-modifying functions is contradictory, at best. As the clinical trials date from the early 1960s (Dorner, Welsh) or the late 1970s (Ziliotto, Kruse, Agusti), it is difficult to assess them by today's standards.[31] One of the last of those studies affirmed the superiority of inositol and xantinol esters of nicotinic acid for reducing serum free fatty acid,[32] but other studies conducted during the same period found no benefit.[33] Studies explain that this is primarily because "flush-free" preparations do not contain any free nicotinic acid. A more recent placebo-controlled trial was small (n=11/group), but results after three months at 1500 mg/day showed no trend for improvements in total cholesterol, LDL-C, HDL-C or triglycerides.[34] Thus, so far there is not enough evidence to recommend IHN to treat dyslipidemia. Furthermore, the American Heart Association and the National Cholesterol Education Program both take the position that only prescription niacin should be used to treat dyslipidemias, and only under the management of a physician. The reason given is that niacin at effective intakes of 1500â 3000 mg/day can also potentially have severe adverse effects. Monitoring of liver enzymes is necessary.
+
+[edit] Biosynthesis and chemical synthesis
+
+[edit] Toxicity
+
+6
+
+Niacin - Wikipedia, the free encyclopedia
+
+Biosynthesis The liver can synthesize niacin from the essential amino acid tryptophan, requiring 60 mg of tryptophan to make one mg of niacin.[35] The 5-membered aromatic heterocycle of tryptophan is cleaved and rearranged with the alpha amino group of tryptophan into the 6-membered aromatic heterocycle of niacin. Riboflavin, Vitamin B6 and iron are required in some of the reactions involved in the conversion of tryptophan to NAD. Several million kilograms of niacin are manufactured each year, starting from 3-methylpyridine.
+
+[edit] Receptor
+The receptor for niacin is a G protein-coupled receptor called HM74A.[36] It couples to the Gi alpha subunit.[37]
+
+[edit] Food sources
+Niacin is found in variety of foods, including liver, chicken, beef, fish, cereal, peanuts and legumes, and is also synthesized from tryptophan, which is found in meat, dairy and eggs. Animal products: [edit] Biosynthesis and chemical synthesis 7
+
+Niacin - Wikipedia, the free encyclopedia · liver, heart and kidney · chicken · beef · fish: tuna, salmon · milk · eggs Fruits and vegetables: · avocados · dates · tomatoes · leaf vegetables · broccoli · carrots · sweet potatoes · asparagus Seeds: · nuts · whole grain products · legumes · saltbush seeds Fungi: · mushrooms · brewer's yeast Other: · Vegemite (from spent brewer's yeast)
+
+[edit] References
+1. ^ Jaconello P (October 1992). "Niacin versus niacinamide". CMAJ 147 (7): 990. PMC 1336277. PMID 1393911. 2. ^ Knip M, Douek IF, Moore WP, et al. (2000). "Safety of high-dose nicotinamide: a review". Diabetologia 43 (11): 1337â 45. doi:10.1007/s001250051536. PMID 11126400. 3. ^ Cox, Michael; Lehninger, Albert L; Nelson, David R. (2000). Lehninger principles of biochemistry. New York: Worth Publishers. ISBN 1-57259-153-6. 4. ^ Cardiac Biomarkers May Predict Heart Attacks 5. ^ Weidel, H (1873). "Zur Kenntniss des Nicotins". Justus Liebig's Annalen der Chemie und Pharmacie 165: 330â 349. doi:10.1002/jlac.18731650212. 6. ^ Samuel M. McElvain (1941), "Nicotinic Acid", Org. Synth., http://www.orgsyn.org/orgsyn/orgsyn/prepContent.asp?prep=CV1P0385.pdf ; Coll. Vol. 1: 385 7. ^ Elvehjem, C.A.; Madden, R.J.; Strongandd, F.M.. "W. WOOLLEY 1938 The isolation and identification of the anti-blacktongue factor J". J. Biol. Chem 123: 137.
+
+[edit] Food sources
+
+8
+
+Niacin - Wikipedia, the free encyclopedia 8. ^ LAGUNA J, CARPENTER KJ (September 1951). "Raw versus processed corn in niacin-deficient diets". J. Nutr. 45 (1): 21â 8. PMID 14880960. http://jn.nutrition.org/cgi/pmidlookup?view=long&pmid=14880960. 9. ^ "Vitamin B3". University of Maryland Medical Center. 2002-01-04. http://www.umm.edu/altmed/articles/vitamin-b3-000335.htm. Retrieved 2008-03-31. 10. ^ United States Department of Agriculture, National Agriculture Library, Food and Nutrition Information Center, Dietary Reference Intakes: Recommended Intakes for Individuals, Vitamins [1] 11. ^ Institute of Medicine. (2006). Dietary Reference Intakes Research Synthesis: Workshop Summary, p. 37. National Academies Press. 12. ^ Jacob RA, Swendseid ME, McKee RW, Fu CS, Clemens RA (April 1989). "Biochemical markers for assessment of niacin status in young men: urinary and blood levels of niacin metabolites". J. Nutr. 119 (4): 591â 8. PMID 2522982. http://jn.nutrition.org/cgi/pmidlookup?view=long&pmid=2522982. 13. ^ Pitsavas, Stergios; Christina Andreou, Franzesca Bascialla, Vasilis P. Bozikas, Athanasios Karavatos (2004). "Pellagra Encephalopathy Following B-Complex Vitamin Treatment without Niacin". International Journal of Psychiatry in Medicine 31 (1): 91â 96. http://baywood.metapress.com/link.asp?id=29xv1gg1u17krgjh. Retrieved 2009-11-27. 14. ^ a b c d Prakash, Ravi; Sachin Gandotra, Lokesh Kumar Singh, Basudeb Das, Anuja Lakra. "Rapid resolution of delusional parasitosis in pellagra with niacin augmentation therapy". General Hospital Psychiatry 30 (6): 581â 584. doi:10.1016/j.genhosppsych.2008.04.011. PMID 19061687. http://www.sciencedirect.com/science/article/B6T70-4T24FKB-D/2/f619871a3d1f1d626b775c84523d6d94. Retrieved 2009-11-27. 15. ^ ^ "Guidelines for Niacin Therapy For the Treatment of Elevated Lipoprotein a (Lpa)". Rush Hemophilia & Thrombophilia Center. August 15, 2002, Revised July 27, 2005. Retrieved 20 November 2009. "facial flushing is a common side effect of niacin therapy that usually subsides after several weeks of consistent niacin use" 16. ^ Marks, Jay W. (2005). "Niacin Monograph". MedicineNet, Inc.. 17. ^ a b Katzung, Bertram G. (2006). Basic and clinical pharmacology. New York: McGraw-Hill Medical Publishing Division. ISBN 0071451536. http://www.medicinenet.com/niacin/article.htm. 18. ^ McGovern ME (2005). "Taking aim at HDL-C. Raising levels to reduce cardiovascular risk". Postgrad Med 117 (4): 29â 30, 33â 5, 39 passim. PMID 15842130. 19. ^ Canner PL, Berge KG, Wenger NK, et al. (1986). "Fifteen year mortality in Coronary Drug Project patients: long-term benefit with niacin". J. Am. Coll. Cardiol. 8 (6): 1245â 55. doi:10.1016/S0735-1097(86)80293-5. PMID 3782631. 20. ^ N Engl J Med 361:2113 21. ^ Singer, Natasha (November 15, 2009). "Study Raises Questions About Cholesterol Drugâ s Benefit". The New York Times. http://www.nytimes.com/2009/11/16/health/research/16heart.html. Retrieved November 16, 2009. 22. ^ Paolini JF, Bays HE, Ballantyne CM, et al. Extended-release niacin/laropiprant: reducing niacin-induced flushing to better realize the benefit of niacin in improving cardiovascular risk factors. Cardiol Clin. 2008 Nov;26(4):547-60. 23. ^ a b c d Keith Parker; Laurence Brunton; Goodman, Louis Sanford; Lazo, John S.; Gilman, Alfred (2006). Goodman & Gilman's the pharmacological basis of therapeutics. New York: McGraw-Hill. ISBN 0071422803. 24. ^ "Guidelines for Niacin Therapy For the Treatment of Elevated Lipoprotein a (Lpa)". Rush Hemophilia & Thrombophilia Center. August 15, 2002, Revised July 27, 2005. http://www.rush.edu/Rush_Document/Niacin%20therapy%20for%20elevated%20Lpa,0.pdf. Retrieved 20 November 2009. "facial flushing is a common side effect of niacin therapy that usually subsides after several weeks of consistent niacin use" 25. ^ Barter, P (2006). "Options for therapeutic intervention: How effective are the different agents?". European Heart Journal Supplements 8 (F): F47â F53. doi:10.1093/eurheartj/sul041. [edit] References 9
+
+Niacin - Wikipedia, the free encyclopedia 26. ^ Chapman MJ, Assmann G, Fruchart JC, Shepherd J, Sirtori C (2004). "Raising high-density lipoprotein cholesterol with reduction of cardiovascular risk: the role of nicotinic acid--a position paper developed by the European Consensus Panel on HDL-C". Curr Med Res Opin 20 (8): 1253â 68. doi:10.1185/030079904125004402. PMID 15324528. 27. ^ a b "Niacin-induced "Flush" Involves Release of Prostaglandin D2 from Mast Cells and Serotonin from Platelets: Evidence from Human Cells in Vitro and an Animal Model". Journal of Pharmacology and Experimental Therapeutics. 2008. 28. ^ Capuzzi DM, Morgan JM, Brusco OA, Intenzo CM (2000). "Niacin dosing: relationship to benefits and adverse effects". Curr Atheroscler Rep 2 (1): 64â 71. doi:10.1007/s11883-000-0096-y. PMID 11122726. 29. ^ Mittal MK, Florin T, Perrone J, Delgado JH, Osterhoudt KC (2007). "Toxicity from the use of niacin to beat urine drug screening". Ann Emerg Med 50 (5): 587â 90. doi:10.1016/j.annemergmed.2007.01.014. PMID 17418450. 30. ^ Gass JD (2003). "Nicotinic acid maculopathy. 1973". Retina (Philadelphia, Pa.) 23 (6 Suppl): 500â 10. PMID 15035390. 31. ^ Taheri, R (2003-01-15). "No-Flush Niacin for the Treatment of Hyperlipidemia". Medscape. http://www.medscape.com/viewarticle/447528. Retrieved 2008-03-31. 32. ^ Kruse W, Kruse W, Raetzer H, Heuck CC, Oster P, Schellenberg B, Schlierf G (1979). "Nocturnal inhibition of lipolysis in man by nicotinic acid and derivatives". European Journal of Clinical Pharmacology 16 (1): 11â 15. doi:10.1007/BF00644960. PMID 499296. 33. ^ Meyers CD, Carr MC, Park S, Brunzell JD (2003). "Varying cost and free nicotinic acid content in over-the-counter niacin preparations for dyslipidemia". Annals of Internal Medicine 139 (12): 996â 1002. PMID 14678919. http://www.annals.org/content/139/12/996.full.pdf+html. 34. ^ BenjÃ³ AM, MaranhÃ£o RC, Coimbra SR, Andrade AC, Favarato D, Molina MS, Brandizzi LI, da Luz PL (2006). "Accumulation of chylomicron remnants and impaired vascular reactivity occur in subjects with isolated low HDL cholesterol: effects of niacin treatment". Atherosclerosis 187 (1): 116â 122. doi:10.1016/j.atherosclerosis.2005.08.025. PMID 16458316. 35. ^ Jacobson, EL (2007). "Niacin". Linus Pauling Institute. http://lpi.oregonstate.edu/infocenter/vitamins/niacin/. Retrieved 2008-03-31. 36. ^ Zhang Y, Schmidt RJ, Foxworthy P, et al. (2005). "Niacin mediates lipolysis in adipose tissue through its G-protein coupled receptor HM74A". Biochem. Biophys. Res. Commun. 334 (2): 729â 32. doi:10.1016/j.bbrc.2005.06.141. PMID 16018973. 37. ^ Zellner C, Pullinger CR, Aouizerat BE, et al. (2005). "Variations in human HM74 (GPR109B) and HM74A (GPR109A) niacin receptors". Hum. Mutat. 25 (1): 18â 21. doi:10.1002/humu.20121. PMID 15580557. v Â· d Â· eVitamins (A11) A Î±-Carotene Â· Î²-Carotene Â· Retinol Â· Tretinoin D2 (Ergosterol, Ergocalciferol) Â· D3 (7-Dehydrocholesterol, Previtamin D3, Cholecalciferol, 25-hydroxycholecalciferol, Calcitriol (1,25-dihydroxycholecalciferol), D Calcitroic acid) Â· D4 (Dihydroergocalciferol) Â· D5 Â· D analogues (Dihydrotachysterol, Calcipotriol, Tacalcitol, Paricalcitol) E K Tocopherol (Alpha, Beta, Gamma, Delta) Â· Tocotrienol (Alpha, Beta, Gamma, Delta) Â· Tocofersolan Naphthoquinone Â· Phylloquinone (K1) Â· Menatetrenone (K2) Â· Menadione (K3) Â· Menadiol (K4)
+
+Fat soluble
+
+Water soluble B B1 (Thiamine) Â· B2 (Riboflavin) Â· B3 (Niacin, Nicotinamide) Â· B5 (Pantothenic acid, Dexpanthenol, Pantethine) Â· B6 (Pyridoxine, Pyridoxal phosphate, Pyridoxamine) Â· B7 [edit] References 10
+
+Niacin - Wikipedia, the free encyclopedia (Biotin) Â· B9 (Folic acid, Dihydrofolic acid, Folinic acid) Â· B12 (Cyanocobalamin, Hydroxocobalamin, Methylcobalamin, Cobamamide) Â· Choline C Ascorbic acid Â· Dehydroascorbic acid Combinations Multivitamins noco, cof, M: nuvi, enz, drug(A8/11/12) NUT sysi/epon, met met v Â· d Â· ePeripheral vasodilators (C04) 2-amino-1-phenylethanol derivatives Imidazoline derivatives/ Alpha blockers Niacin and derivatives Purine derivatives Ergot alkaloids Isoxsuprine â ¢ Buphenine â ¢ Bamethan Phentolamine â ¢ Tolazoline â ¢ Phenoxybenzamine Niacin â ¢ Nicotinyl alcohol â ¢ Inositol nicotinate â ¢ Ciclonicate Pentifylline â ¢ Xantinol nicotinate â ¢ Pentoxifylline â ¢ Etofylline nicotinate Ergoloid â ¢ Nicergoline â ¢ Dihydroergocristine Cyclandelate â ¢ Phenoxybenzamine â ¢ Vincamine â ¢ Moxisylyte â ¢ Bencyclane â ¢ Vinburnine â ¢ Sulcotidil â ¢ Buflomedil â ¢ Naftidrofuryl â ¢ Butalamine â ¢ Visnadine â ¢ Cetiedil â ¢ Cinepazide â ¢ Ifenprodil â ¢ Azapetine â ¢ Fasudil
+
+Other peripheral vasodilators
+
+proc, drug(C2s/n, C3, anat(a:h, u, t, a, l,v:h, u, C4, noco/syva/cong/tumr, M: t, a, sysi/epon C5, VAS l)/phys/devp/cell/prot C7, C8, C9) v Â· d Â· eLipid modifying agents (C10) Cholesterol absorption inhibitors, Ezetimibe â ¢ SCH-48461 NPC1L1 Bile acid sequestrants/resins (LDL) Statins (HMG-CoA reductase, LDL) Cholestyramine â ¢ Colestipol â ¢ Colestilan â ¢ Colextran â ¢ Colesevelam
+
+GI tract
+
+Liver
+
+Simvastatin# â ¢ Atorvastatin â ¢ Fluvastatin â ¢ Lovastatin â ¢ Mevastatin â ¢ Pitavastatin â ¢ Pravastatin â ¢ Rosuvastatin â ¢ Cerivastatinâ ¡
+
+Niacin and derivatives Niceritrol â ¢ Niacin â ¢ Nicofuranose â ¢ Aluminium (HDL and LDL) nicotinate â ¢ Nicotinyl alcohol â ¢ Acipimox Blood vessels Fibrates (PPAR) Clofibrateâ ¡ â ¢ Bezafibrate â ¢ Aluminium clofibrate â ¢ Gemfibrozil â ¢ Fenofibrate â ¢ Simfibrate â ¢ Ronifibrate â ¢ Ciprofibrate â ¢ Etofibrate â ¢ Clofibride â ¢ Clinofibrate 11
+
+[edit] References
+
+Niacin - Wikipedia, the free encyclopedia CETP inhibitors (HDL)
+
+Anacetrapibâ â ¢ Dalcetrapib â ¢ TorcetrapibÂ§
+
+Combinations Niacin/lovastatin â ¢ Niacin/simvastatin â ¢ Ezetimibe/simvastatin â ¢ Niacin/laropiprant Other Dextrothyroxine â ¢ Probucol â ¢ Tiadenol â ¢ Benfluorex â ¢ Meglutol â ¢ Omega-3-triglycerides â ¢ Magnesium pyridoxal 5-phosphate glutamate â ¢ Policosanol â ¢ LapaquistatÂ§ â ¢ Alipogene tiparvovec from market. Clinical trials: â Phase III. Â§Never to phase III
+
+#WHO-EM. â ¡Withdrawn
+
+mt, m(A16, k, k, C10),i(k, cgrp/y/i, c/g/r/p/y/i,c/g/r/p/y/i, M: f/h/s/l/o, f/h/s/l/o/e, f/h/s/o/e, MET au, n, a/u, a/u, h, n, n, epon h h) Retrieved from "http://en.wikipedia.org/wiki/Niacin" Categories: Hypolipidemic agents | B vitamins | Inositol | Nicotinic acids Hidden categories: All articles with unsourced statements | Articles with unsourced statements from November 2010 | Articles containing potentially dated statements from August 2008 | All articles containing potentially dated statements
+Personal tools
+
+· Log in / create account
+Namespaces
+
+· Article · Discussion
+Variants Views
+
+· Read · Edit · View history
+Actions Search
+
+Navigation
+
+· Main page · Contents · Featured content · Current events · Random article Personal tools 12
+
+Niacin - Wikipedia, the free encyclopedia · Donate to Wikipedia
+Interaction
+
+· Help · About Wikipedia · Community portal · Recent changes · Contact Wikipedia
+Toolbox
+
+· What links here · Related changes · Upload file · Special pages · Permanent link · Cite this page
+Print/export
+
+· Create a book · Download as PDF · Printable version
+Languages
+
+· Ø§Ù Ø¹Ø±Ø¨Ù Ø© · Bosanski · Ð Ñ Ð»Ð³Ð°Ñ Ñ ÐºÐ¸ · CatalÃ · Ä esky · Cymraeg · Dansk · Deutsch · Þ Þ¨Þ Þ¬Þ Þ¨Þ Þ¦Þ Þ° · Eesti · EspaÃ±ol · Euskara · Ù Ø§Ø±Ø³Û · FranÃ§ais · Galego · í êµ-ì ´ · à¤¹à¤¿à¤¨à¥ à¤¦à¥ · Hrvatski · Bahasa Indonesia · Italiano · ×¢× ×¨× ×ª · á ¥á á á á £á á · Kinyarwanda · LÃ«tzebuergesch Navigation 13
+
+Niacin - Wikipedia, the free encyclopedia · LietuviÅ³ · Magyar · Ð Ð°ÐºÐµÐ´Ð¾Ð½Ñ ÐºÐ¸ · Nederlands · æ ¥æ ¬èª · â ªNorsk (bokmÃ¥l)â ¬ · Occitan · Polski · PortuguÃªs · RomÃ¢nÄ · Ð Ñ Ñ Ñ ÐºÐ¸Ð¹ · Simple English · SlovenÄ ina · Ð¡Ñ Ð¿Ñ ÐºÐ¸ / Srpski · Srpskohrvatski / Ð¡Ñ Ð¿Ñ ÐºÐ¾Ñ Ñ Ð²Ð°Ñ Ñ ÐºÐ¸ · Suomi · Svenska · à¹ à¸ à¸¢ · TÃ¼rkÃ§e · Ð£ÐºÑ Ð°Ñ Ð½Ñ Ñ ÐºÐ° · Ø§Ø±Ø¯Ù · ä¸-æ · This page was last modified on 28 February 2011 at 21:23. · Text is available under the Creative Commons Attribution-ShareAlike License; additional terms may apply. See Terms of Use for details. Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc., a non-profit organization. · Contact us · Privacy policy · About Wikipedia · Disclaimers · ·
+
+Languages
+
+14
+
+

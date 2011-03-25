@@ -1,0 +1,121 @@
+Valine - Wikipedia, the free encyclopedia
+
+Valine
+From Wikipedia, the free encyclopedia Jump to: navigation, search Valine
+
+IUPAC name Valine Other names 2-amino-3-methylbutanoic acid Identifiers Y, 72-18-4 (L-isomer) Y, 640-68-6 (D-isomer) Y CAS number 516-06-3 PubChem 1182 ChemSpider 6050 Y UNII 4CA13A832H Y EC-number 208-220-0 KEGG D00039 Y ChEMBL CHEMBL43068 Y SMILES CC(C)[C@@H](C(=O)O)N InChI InChI=1S/C5H11NO2/c1-3(2)4(6)5(7)8/h3-4H,6H2,1-2H3,(H,7,8)/t4-/m0/s1 Key: KZSNJWFQEVHDMF-BYPYZUCNSA-N Y InChI=1/C5H11NO2/c1-3(2)4(6)5(7)8/h3-4H,6H2,1-2H3,(H,7,8)/t4-/m0/s1 Key: KZSNJWFQEVHDMF-BYPYZUCNBW Properties[2] Molecular formula C5H11NO2 Molar mass 117.15 g molâ 1 Density 1.316 g/cm3 Melting point 298 Â°C decomp. Solubility in water soluble Acidity (pKa) 2.32 (carboxyl), 9.62 (amino)[1] Supplementary data page Structure and n, Îµr, etc. properties Thermodynamic Phase behaviour data Solid, liquid, gas
+
+Y
+
+Valine
+
+1
+
+Valine - Wikipedia, the free encyclopedia Spectral data UV, IR, NMR, MS Y(what is this?) (verify) Except where noted otherwise, data are given for materials in their standard state (at 25 Â°C, 100 kPa) Infobox references Valine (abbreviated as Val or V)[3] is an Î±-amino acid with the chemical formula HO2CCH(NH2)CH(CH3)2. L-Valine is one of 20 proteinogenic amino acids. Its codons are GUU, GUC, GUA, and GUG. This essential amino acid is classified as nonpolar. Human dietary sources include cottage cheese, fish, poultry, peanuts, sesame seeds, and lentils. Along with leucine and isoleucine, valine is a branched-chain amino acid. It is named after the plant valerian. In sickle-cell disease, valine substitutes for the hydrophilic amino acid glutamic acid in hemoglobin. Because valine is hydrophobic, the hemoglobin does not fold correctly.
+
+Contents
+·1 Biosynthesis ·2 Synthesis ·3 References ·4 External links
+
+[edit] Biosynthesis
+Valine is an essential amino acid, hence it must be ingested, usually as a component of proteins. It is synthesized in plants via several steps starting from pyruvic acid. The initial part of the pathway also leads to leucine. The intermediate Î±-ketovalerate undergoes reductive amination with glutamate. Enzymes involved in this biosynthesis include:[4] 1. Acetolactate synthase (also known as acetohydroxy acid synthase) 2. Acetohydroxy acid isomeroreductase 3. Dihydroxyacid dehydratase 4. Valine aminotransferase
+
+[edit] Synthesis
+Racemic valine can be synthesized by bromination of isovaleric acid followed by amination of the Î±-bromo derivative[5] HO2CCH2CH(CH3)2 + Br2 â HO2CCHBrCH(CH3)2 + HBr HO2CCHBrCH(CH3)2 + 2 NH3 â HO2CCH(NH2)CH(CH3)2 + NH4Br
+
+Contents
+
+2
+
+Valine - Wikipedia, the free encyclopedia
+
+[edit] References
+1. ^ Dawson, R.M.C., et al., Data for Biochemical Research, Oxford, Clarendon Press, 1959. 2. ^ Weast, Robert C., ed. (1981), CRC Handbook of Chemistry and Physics (62nd ed.), Boca Raton, FL: CRC Press, p. C-569, ISBN 0-8493-0462-8 . 3. ^ "Nomenclature and symbolism for amino acids and peptides (IUPAC-IUB Recommendations 1983)", Pure Appl. Chem. 56 (5): 595â 624, 1984, doi:10.1351/pac198456050595 . 4. ^ Lehninger, Albert L.; Nelson, David L.; Cox, Michael M. (2000), Principles of Biochemistry (3rd ed.), New York: W. H. Freeman, ISBN 1-57259-153-6 . 5. ^ Marvel, C. S. (1940), "dl-Valine", Org. Synth. 20: 106, http://www.orgsyn.org/orgsyn/orgsyn/prepContent.asp?prep=CV3P0848 ; Coll. Vol. 3: 848 .
+
+[edit] External links
+· Isoleucine and valine biosynthesis · Food Sources of Valine v Â· d Â· eThe 20 Common Amino Acids Aliphatic Aromatic By properties Branched-chain amino acids (Valine Â· Isoleucine Â· Leucine) Â· Methionine Â· Alanine Â· Proline Â· Glycine Phenylalanine Â· Tyrosine Â· Tryptophan Â· Histidine
+
+Polar, uncharged Asparagine Â· Glutamine Â· Serine Â· Threonine Positive charge (pKa) Lysine (â 10.8) Â· Arginine (â 12.5) Â· Histidine (â 6.1)
+
+Negative charge Aspartic acid (â 3.9) Â· Glutamic acid (â (pKa) (â 8.3) Â· Tyrosine (â 10.1) General Other classifications
+
+4.1) Â· Cysteine
+
+Essential amino acid Â· Protein Â· Peptide Â· Genetic code
+
+Essential amino acids Â· Ketogenic amino acid Â· Glucogenic amino acid
+
+biochemical families: prot Â· nucl Â· carb (glpr, alco, glys) Â· lipd (fata/i, phld, strd, gllp, eico) Â· amac/i Â· ncbs/i Â· ttpy/i v Â· d Â· eAmino acid metabolism metabolic intermediates lysineâ Saccharopine Â· Allysine Â· Î±-Aminoadipic acid Â· Î±-Aminoadipate Â· Glutaryl-CoA Â· Glutaconyl-CoA Â· Crotonyl-CoA Â· Î²-Hydroxybutyryl-CoA Î±-Ketoisocaproic acid Â· Isovaleryl-CoA Â· 3-Methylcrotonyl-CoA Â· 3-Methylglutaconyl-CoA Â· HMG-CoA N'-Formylkynurenine Â· Kynurenine Â· Anthranilic acid Â· 3-Hydroxykynurenine Â· 3-Hydroxyanthranilic acid Â· 2-Amino-3-carboxymuconic semialdehyde Â· 2-Aminomuconic semialdehyde Â· 2-Aminomuconic acid Â· Glutaryl-CoA
+
+leucineâ Kâ acetyl-CoA
+
+tryptophanâ
+
+alanineâ
+
+[edit] References
+
+3
+
+Valine - Wikipedia, the free encyclopedia 3-Phosphoglyceric acid Gâ pyruvateâ citrate glycineâ serineâ glycineâ creatine: Glycocyamine Â· Phosphocreatine Â· Creatinine
+
+histidineâ Gâ glutamateâ Î±-ketoglutarate prolineâ arginineâ other
+
+Urocanic acid Â· Imidazol-4-one-5-propionic acid Â· Formiminoglutamic acid Â· Glutamate-1-semialdehyde 1-Pyrroline-5-carboxylic acid Ornithine Â· Putrescine Â· Agmatine cysteine+glutamateâ Î³-Glutamylcysteine glutathione:
+
+valineâ G isoleucineâ Gâ propionyl-CoAâ succinyl-CoA methionineâ
+
+Î±-Ketoisovaleric acid Â· Isobutyryl-CoA Â· Methacrylyl-CoA Â· 3-Hydroxyisobutyryl-CoA Â· 3-Hydroxyisobutyric acid Â· 2-Methyl-3-oxopropanoic acid 2,3-Dihydroxy-3-methylpentanoic acid Â· 2-Methylbutyryl-CoA Â· Tiglyl-CoA Â· 2-Methylacetoacetyl-CoA generation of homocysteine: S-Adenosyl methionine Â· S-Adenosyl-L-homocysteine Â· Homocysteine conversion to cysteine: Cystathionine Â· alpha-Ketobutyric acid+Cysteine
+
+threonineâ propionyl-CoAâ Gâ Gâ Other fumarate oxaloacetate
+
+Î±-Ketobutyric acid Methylmalonyl-CoA 4-Hydroxyphenylpyruvic acid Â· Homogentisic acid Â· 4-Maleylacetoacetate
+
+phenylalanineâ see urea cycle
+
+tyrosineâ
+
+Cysteine metabolism Cysteine sulfinic acid
+
+mt, m(A16, k, k, C10),i(k, cgrp/y/i, c/g/r/p/y/i,c/g/r/p/y/i, M: f/h/s/l/o, f/h/s/l/o/e, f/h/s/o/e, MET au, n, a/u, a/u, h, n, n, epon h h) biochemical families: prot Â· nucl Â· carb (glpr, alco, glys) Â· lipd (fata/i, phld, strd, gllp, eico) Â· amac/i Â· ncbs/i Â· ttpy/i [edit] External links 4
+
+Valine - Wikipedia, the free encyclopedia Retrieved from "http://en.wikipedia.org/wiki/Valine" Categories: Branched-chain amino acids | Proteinogenic amino acids | Glucogenic amino acids | Essential amino acids Hidden categories: Chemboxes which contain changes to watched fields
+Personal tools
+
+· Log in / create account
+Namespaces
+
+· Article · Discussion
+Variants Views
+
+· Read · Edit · View history
+Actions Search
+
+Navigation
+
+· Main page · Contents · Featured content · Current events · Random article · Donate to Wikipedia
+Interaction
+
+· Help · About Wikipedia · Community portal · Recent changes · Contact Wikipedia
+Toolbox
+
+· What links here · Related changes · Upload file · Special pages · Permanent link · Cite this page
+
+Personal tools
+
+5
+
+Valine - Wikipedia, the free encyclopedia
+Print/export
+
+· Create a book · Download as PDF · Printable version
+Languages
+
+· BÃ¢n-lÃ¢m-gÃº · CatalÃ · Ä esky · Dansk · Deutsch · Î Î»Î»Î·Î½Î¹ÎºÎ¬ · EspaÃ±ol · Esperanto · Euskara · Ù Ø§Ø±Ø³Û · FranÃ§ais · í êµ-ì ´ · Hrvatski · Bahasa Indonesia · Italiano · ×¢× ×¨× ×ª · LatvieÅ¡u · LÃ«tzebuergesch · LietuviÅ³ · Magyar · Ð Ð°ÐºÐµÐ´Ð¾Ð½Ñ ÐºÐ¸ · Nederlands · æ ¥æ ¬èª · Occitan · Polski · PortuguÃªs · RomÃ¢nÄ · Ð Ñ Ñ Ñ ÐºÐ¸Ð¹ · SlovenÄ ina · SlovenÅ¡Ä ina · Ð¡Ñ Ð¿Ñ ÐºÐ¸ / Srpski · Srpskohrvatski / Ð¡Ñ Ð¿Ñ ÐºÐ¾Ñ Ñ Ð²Ð°Ñ Ñ ÐºÐ¸ · Suomi · Svenska · TÃ¼rkÃ§e · Ð£ÐºÑ Ð°Ñ Ð½Ñ Ñ ÐºÐ° · West-Vlams · ä¸-æ · This page was last modified on 6 March 2011 at 18:00. · Text is available under the Creative Commons Attribution-ShareAlike License; additional terms may apply. See Terms of Use for details. Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc., a non-profit organization. Print/export 6
+
+Valine - Wikipedia, the free encyclopedia · Contact us · Privacy policy · About Wikipedia · Disclaimers · ·
+
+Languages
+
+7
+
+
