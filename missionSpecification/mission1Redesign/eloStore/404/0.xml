@@ -11,7 +11,7 @@
     <general>
       <title>
         <string language="en">Empty dataset</string>
-        <string language="fr">Nouveau jeu de données</string>
+        <string language="fr">Nouveau jeu de donnÃ©es</string>
       </title>
       <mission>co2Mission</mission>
       <las>startPage</las>

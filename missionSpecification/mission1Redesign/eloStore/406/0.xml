@@ -11,7 +11,7 @@
     <general>
       <title>
         <string language="en">Empty experimental procedure</string>
-        <string language="fr">Nouveau protocole expérimental</string>
+        <string language="fr">Nouveau protocole expÃ©rimental</string>
       </title>
       <mission>co2Mission</mission>
       <las>startPage</las>
