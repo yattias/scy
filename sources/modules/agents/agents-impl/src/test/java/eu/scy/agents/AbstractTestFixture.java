@@ -2,17 +2,16 @@ package eu.scy.agents;
 
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Configuration;
+import info.collide.sqlspaces.commons.Configuration.Database;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
-import info.collide.sqlspaces.commons.Configuration.Database;
 import info.collide.sqlspaces.server.Server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,17 +29,13 @@ import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.KeyValuePair;
-import cc.mallet.topics.ParallelTopicModel;
-import de.fhg.iais.kd.tm.obwious.system.documentfrequency.DocumentFrequencyModel;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.impl.PersistentStorage;
 import eu.scy.agents.impl.manager.AgentManager;
-import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 
 public class AbstractTestFixture {
-
-	private static final String TM_MODEL_NAME = "co2_scy_english";
+	protected static final String MISSION1 = "roolo://memory/0/0/Design+a+CO2-friendly+house.scymissionspecification";
+	// private static final String TM_MODEL_NAME = "TopicModel";
 	protected static String TSHOST = "localhost";
 	// protected static String TSHOST = "scy.collide.info";
 	protected static int TSPORT = 2525;
@@ -52,7 +47,7 @@ public class AbstractTestFixture {
 	private AgentManager agentFramework;
 	private ArrayList<String> agentList;
 	private TupleSpace tupleSpace;
-	private PersistentStorage storage;
+	// private PersistentStorage storage;
 	private TupleSpace actionSpace;
 	protected static ClassPathXmlApplicationContext applicationContext;
 
@@ -71,7 +66,6 @@ public class AbstractTestFixture {
 					false, false, AgentProtocol.COMMAND_SPACE_NAME);
 			actionSpace = new TupleSpace(new User("test"), TSHOST, TSPORT,
 					false, false, AgentProtocol.ACTION_SPACE_NAME);
-			storage = new PersistentStorage(TSHOST, TSPORT);
 		}
 
 		agentMap.clear();
@@ -109,17 +103,15 @@ public class AbstractTestFixture {
 				e.printStackTrace();
 			}
 		}
-		if (storage != null) {
-			storage.close();
-		}
 	}
 
 	protected void removeTopicModel() {
-		storage.remove(TM_MODEL_NAME);
+		// storage.remove(MISSION1, "en", TM_MODEL_NAME);
 	}
 
 	protected void removeDFModel() {
-		storage.remove(KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
+		// storage.remove(MISSION1, "en",
+		// KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
 	}
 
 	protected IELO createNewElo() {
@@ -194,27 +186,27 @@ public class AbstractTestFixture {
 		}
 	}
 
-	protected PersistentStorage getPersistentStorage() {
-		return storage;
-	}
+	// protected PersistentStorage getPersistentStorage() {
+	// return storage;
+	// }
 
-	protected void initTopicModel() {
-		ObjectInputStream in = null;
-		try {
-			InputStream inStream = this.getClass().getResourceAsStream(
-					"/models/co2_en_tm");
-			// InputStream inStream = this.getClass().getResourceAsStream(
-			// "/models/eco_en_tm");
-			in = new ObjectInputStream(inStream);
-			ParallelTopicModel model = (ParallelTopicModel) in.readObject();
-			in.close();
-			storage.put(TM_MODEL_NAME, model);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
+	// protected void initTopicModel() {
+	// ObjectInputStream in = null;
+	// try {
+	// InputStream inStream = this.getClass().getResourceAsStream(
+	// "/models/co2_en_tm");
+	// // InputStream inStream = this.getClass().getResourceAsStream(
+	// // "/models/eco_en_tm");
+	// in = new ObjectInputStream(inStream);
+	// ParallelTopicModel model = (ParallelTopicModel) in.readObject();
+	// in.close();
+	// storage.put(MISSION1, "en", TM_MODEL_NAME, model);
+	// } catch (IOException e) {
+	// e.printStackTrace();
+	// } catch (ClassNotFoundException e) {
+	// e.printStackTrace();
+	// }
+	// }
 
 	protected Tuple getTestActionTuple(String eloUri, String type,
 			long currentTimeInMillis, String uuid) {
@@ -263,13 +255,13 @@ public class AbstractTestFixture {
 		return text;
 	}
 
-	protected void initDfModel() throws ClassNotFoundException, IOException {
-		InputStream inStream = this.getClass().getResourceAsStream(
-				"/models/co2_en_DFmodel.dat");
-		ObjectInputStream in = new ObjectInputStream(inStream);
-		DocumentFrequencyModel dfModel = (DocumentFrequencyModel) in
-				.readObject();
-		this.getPersistentStorage().put(
-				KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
-	}
+	// protected void initDfModel() throws ClassNotFoundException, IOException {
+	// InputStream inStream = this.getClass().getResourceAsStream(
+	// "/models/co2_en_DFmodel.dat");
+	// ObjectInputStream in = new ObjectInputStream(inStream);
+	// DocumentFrequencyModel dfModel = (DocumentFrequencyModel) in
+	// .readObject();
+	// this.getPersistentStorage().put(MISSION1, "en",
+	// KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
+	// }
 }
