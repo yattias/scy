@@ -1,0 +1,127 @@
+Eutrophication
+
+Eutrophication (Greek: eutrophia - healthy, adequate nutrition, development; German: Eutrophie) is the addition of artificial or non-artificial substances, such as nitrates and phosphates, through fertilizers or sewage, to a fresh water system.  , i.e. the primary productivity of the waterbody. In other terms, it is the "bloom" or great increase of phytoplankton in a water body. Negative environmental effects include Hypoxia, or loss of oxygen in the water with severe reductions in fish and other animal populations. Other species (such as Nomurai Jellyfish in Japanese waters) may experience an increase in population that negatively affects other species in the local ecosystem.
+
+Lakes and rivers
+Eutrophication can be human-caused or natural. Untreated sewage effluent and agricultural run-off carrying fertilizers are examples of human-caused eutrophication. However, it also occurs naturally in situations where nutrients accumulate (e.g. depositional environments), or where they flow into systems on an ephemeral basis. Eutrophication generally promotes excessive plant growth and decay, favouring simple algae and plankton over other more complicated plants, and causes a severe reduction in water quality. Enhanced growth of aquatic vegetation or phytoplankton and algal blooms disrupts normal functioning of the ecosystem, causing a variety of problems such as a lack of oxygen needed for fish and shellfish to survive. The water becomes cloudy, typically coloured a shade of green, yellow, brown, or red. Eutrophication also decreases the value of rivers, lakes, and estuaries for recreation, fishing, hunting, and aesthetic enjoyment. Health problems can occur where eutrophic conditions interfere with drinking water treatment. 
+
+Eutrophication was recognized as a pollution problem in European and North American lakes and reservoirs in the mid-20th century.  Since then, it has become more widespread. Surveys showed that 54% of lakes in Asia are eutrophic; in Europe, 53%; in North America, 48%; in South America, 41%; and in Africa, 28%. 
+
+Although eutrophication is commonly caused by human activities, it can also be a natural process particularly in lakes. Eutrophy occurs in many lakes in temperate grasslands, for instance. Paleolimnologists now recognise that climate change, geology, and other external influences are critical in regulating the natural productivity of lakes. Some lakes also demonstrate the reverse process (meiotrophication), becoming less nutrient rich with time.  
+
+Eutrophication can also be a natural process in seasonally inundated tropical floodplains. In the Barotse Floodplain of the Zambezi River, the first floodwaters of the rainy season are usually hypoxic because of material such as cattle manure and previous decay of vegetation which grew during the dry season. These so-called "red waters" kill many fish.  The process can be made worse by the use of fertilizers in crops such as maize, rice, and sugarcane grown on the floodplain.
+
+Human activities can accelerate the rate at which nutrients enter ecosystems. Runoff from agriculture and development, pollution from septic systems and sewers, and other human-related activities increase the flow of both inorganic nutrients and organic substances into ecosystems. Elevated levels of atmospheric compounds of nitrogen can increase nitrogen availability. Phosphorus is often regarded as the main culprit in cases of eutrophication in lakes subjected to "point source" pollution from sewage pipes. The concentration of algae and the trophic state of lakes correspond well to phosphorus levels in water. Studies conducted in the Experimental Lakes Area in Ontario have shown a relationship between the addition of phosphorus and the rate of eutrophication. Humankind has increased the rate of phosphorus cycling on Earth by four times, mainly due to agricultural fertilizer production and application. Between 1950 and 1995, an estimated 600,000,000 tonnes of phosphorus were applied to Earth's surface, primarily on croplands.  Policy changes to control point sources of phosphorus have resulted in rapid control of eutrophication.
+  Ocean waters
+
+Eutrophication is a common phenomenon in coastal waters. In contrast to freshwater systems, nitrogen is more commonly the key limiting nutrient of marine waters; thus, nitrogen levels have greater importance to understanding eutrophication problems in salt water. Estuaries tend to be naturally eutrophic because land-derived nutrients are concentrated where run-off enters a confined channel. Upwelling in coastal systems also promotes increased productivity by conveying deep, nutrient-rich waters to the surface, where the nutrients can be assimilated by algae.
+
+The World Resources Institute has identified 375 hypoxic coastal zones in the world, concentrated in coastal areas in Western Europe, the Eastern and Southern coasts of the US, and East Asia, particularly Japan. 
+
+In addition to runoff from land, atmospheric fixed nitrogen can enter the open ocean. A study in 2008 found that this could account for around one third of the ocean’s external (non-recycled) nitrogen supply, and up to 3% of the annual new marine biological production.  It has been suggested that accumulating reactive nitrogen in the environment may prove as serious as putting carbon dioxide in the atmosphere. 
+  Terrestrial ecosystems
+
+Terrestrial ecosystems are subject to similarly adverse impacts from eutrophication.  Increased nitrates in soil are frequently undesirable for plants. Many terrestrial plant species are endangered as a result of soil eutrophication, such as the majority of orchid species in Europe.  Meadows, forests, and bogs are characterized by low nutrient content and slowly growing species adapted to those levels, so they can be overgrown by faster growing and more competitive species. In meadows, tall grasses that can take advantage of higher nitrogen levels may change the area so that natural species may be lost. Species-rich fens can be overtaken by reed or reedgrass species. Forest undergrowth affected by run-off from a nearby fertilized field can be turned into a nettle and bramble thicket.
+
+Chemical forms of nitrogen are most often of concern with regard to eutrophication, because plants have high nitrogen requirements so that additions of nitrogen compounds will stimulate plant growth. Nitrogen is not readily available in soil because N2, a gaseous form of nitrogen, is very stable and unavailable directly to higher plants. Terrestrial ecosystems rely on microbial nitrogen fixation to convert N2 into other forms such as nitrates. However, there is a limit to how much nitrogen can be utilized. Ecosystems receiving more nitrogen than the plants require are called nitrogen-saturated. Saturated terrestrial ecosystems then can contribute both inorganic and organic nitrogen to freshwater, coastal, and marine eutrophication, where nitrogen is also typically a limiting nutrient.  This is also the case with increased levels of phosphorus. However, because phosphorus is generally much less soluble than nitrogen, it is leached from the soil at a much slower rate than nitrogen. Consequently, phosphorus is much more important as a limiting nutrient in aquatic systems. 
+  Ecological effects
+Eutrophication is apparent as increased turbidity in the northern part of the Caspian Sea, imaged from orbit.
+
+Many ecological effects can arise from stimulating primary production, but there are three particularly troubling ecological impacts: decreased biodiversity, changes in species composition and dominance, and toxicity effects.
+
+    * Increased biomass of phytoplankton
+    * Toxic or inedible phytoplankton species
+    * Increases in blooms of gelatinous zooplankton
+    * Decreased biomass of benthic and epiphytic algae
+    * Changes in macrophyte species composition and biomass
+    * Decreases in water transparency (increased turbidity)
+    * Colour, smell, and water treatment problems
+    * Dissolved oxygen depletion
+    * Increased incidences of fish kills
+    * Loss of desirable fish species
+    * Reductions in harvestable fish and shellfish
+    * Decreases in perceived aesthetic value of the water body
+
+  Decreased biodiversity
+
+When an ecosystem experiences an increase in nutrients, primary producers reap the benefits first. In aquatic ecosystems, species such as algae experience a population increase (called an algal bloom). Algal blooms limit the sunlight available to bottom-dwelling organisms and cause wide swings in the amount of dissolved oxygen in the water. Oxygen is required by all respiring plants and animals and it is replenished in daylight by photosynthesizing plants and algae. Under eutrophic conditions, dissolved oxygen greatly increases during the day, but is greatly reduced after dark by the respiring algae and by microorganisms that feed on the increasing mass of dead algae. When dissolved oxygen levels decline to hypoxic levels, fish and other marine animals suffocate. As a result, creatures such as fish, shrimp, and especially immobile bottom dwellers die off.  In extreme cases, anaerobic conditions ensue, promoting growth of bacteria such as Clostridium botulinum that produces toxins deadly to birds and mammals. Zones where this occurs are known as dead zones.
+  New species invasion
+
+Eutrophication may cause competitive release by making abundant a normally limiting nutrient. This process causes shifts in the species composition of ecosystems. For instance, an increase in nitrogen might allow new, competitive species to invade and out-compete original inhabitant species. This has been shown to occur  in New England salt marshes.
+  Toxicity
+
+Some algal blooms, otherwise called "nuisance algae" or "harmful algal blooms", are toxic to plants and animals. Toxic compounds they produce can make their way up the food chain, resulting in animal mortality.  Freshwater algal blooms can pose a threat to livestock. When the algae die or are eaten, neuro- and hepatotoxins are released which can kill animals and may pose a threat to humans.   An example of algal toxins working their way into humans is the case of shellfish poisoning.  Biotoxins created during algal blooms are taken up by shellfish (mussels, oysters), leading to these human foods acquiring the toxicity and poisoning humans. Examples include paralytic, neurotoxic, and diarrhoetic shellfish poisoning. Other marine animals can be vectors for such toxins, as in the case of ciguatera, where it is typically a predator fish that accumulates the toxin and then poisons humans.
+  Sources of high nutrient runoff
+Characteristics of point and nonpoint sources of chemical inputs (  modified from Novonty and Olem 1994) Point sources
+
+    * Wastewater effluent (municipal and industrial)
+    * Runoff and leachate from waste disposal systems
+    * Runoff and infiltration from animal feedlots
+    * Runoff from mines, oil fields, unsewered industrial sites
+    * Overflows of combined storm and sanitary sewers
+    * Runoff from construction sites less than 20,000 m² (220,000 ft²)
+    * Untreated sewage
+
+
+Nonpoint sources
+
+    * Runoff from agriculture/irrigation
+    * Runoff from pasture and range
+    * Urban runoff from unsewered areas
+    * Septic tank leachate
+    * Runoff from construction sites >20,000 m²
+    * Runoff from abandoned mines
+    * Atmospheric deposition over a water surface
+    * Other land activities generating contaminants
+
+In order to gauge how to best prevent eutrophication from occurring, specific sources that contribute to nutrient loading must be identified. There are two common sources of nutrients and organic matter: point and nonpoint sources.
+  Point sources
+
+Point sources are directly attributable to one influence. In point sources the nutrient waste travels directly from source to water. Point sources are relatively easy to regulate.
+  Nonpoint sources
+
+Nonpoint source pollution (also known as 'diffuse' or 'runoff' pollution) is that which comes from ill-defined and diffuse sources. Nonpoint sources are difficult to regulate and usually vary spatially and temporally (with season, precipitation, and other irregular events).
+
+It has been shown that nitrogen transport is correlated with various indices of human activity in watersheds,   including the amount of development.  Ploughing in Agriculture and development are activities that contribute most to nutrient loading. There are three reasons that nonpoint sources are especially troublesome: 
+  Soil retention
+
+Nutrients from human activities tend to accumulate in soils and remain there for years. It has been shown  that the amount of phosphorus lost to surface waters increases linearly with the amount of phosphorus in the soil. Thus much of the nutrient loading in soil eventually makes its way to water. Nitrogen, similarly, has a turnover time of decades or more.
+  Runoff to surface water and leaching to groundwater
+
+Nutrients from human activities tend to travel from land to either surface or ground water. Nitrogen in particular is removed through storm drains, sewage pipes, and other forms of surface runoff. Nutrient losses in runoff and leachate are often associated with agriculture. Modern agriculture often involves the application of nutrients onto fields in order to maximise production. However, farmers frequently apply more nutrients than are taken up by crops  or pastures. Regulations aimed at minimising nutrient exports from agriculture are typically far less stringent than those placed on sewage treatment plants  and other point source polluters.
+  Atmospheric deposition
+
+Nitrogen is released into the air because of ammonia volatilization and nitrous oxide production. The combustion of fossil fuels is a large human-initiated contributor to atmospheric nitrogen pollution. Atmospheric deposition (e.g., in the form of acid rain) can also affect nutrient concentration in water,  especially in highly industrialized regions.
+  Other causes
+
+Any factor that causes increased nutrient concentrations can potentially lead to eutrophication. In modeling eutrophication, the rate of water renewal plays a critical role; stagnant water is allowed to collect more nutrients than bodies with replenished water supplies. It has also been shown that the drying of wetlands causes an increase in nutrient concentration and subsequent eutrophication blooms. 
+  Prevention and reversal
+
+Eutrophication poses a problem not only to ecosystems, but to humans as well. Reducing eutrophication should be a key concern when considering future policy, and a sustainable solution for everyone, including farmers and ranchers, seems feasible. While eutrophication does pose problems, humans should be aware that natural runoff (which causes algal blooms in the wild) is common in ecosystems and should thus not reverse nutrient concentrations beyond normal levels.
+  Effectiveness
+
+Cleanup measures have been mostly, but not completely, successful. Finnish phosphorus removal measures started in the mid-1970s and have targeted rivers and lakes polluted by industrial and municipal discharges. These efforts have had a 90% removal efficiency.  Still, some targeted point sources did not show a decrease in runoff despite reduction efforts.
+  Minimizing nonpoint pollution: future work
+
+Nonpoint pollution is the most difficult source of nutrients to manage. The literature suggests, though, that when these sources are controlled, eutrophication decreases. The following steps are recommended to minimize the amount of pollution that can enter aquatic ecosystems from ambiguous sources.
+  Riparian buffer zones
+
+Studies show that intercepting non-point pollution between the source and the water is a successful means of prevention.  Riparian buffer zones are interfaces between a flowing body of water and land, and have been created near waterways in an attempt to filter pollutants; sediment and nutrients are deposited here instead of in water. Creating buffer zones near farms and roads is another possible way to prevent nutrients from traveling too far. Still, studies have shown  that the effects of atmospheric nitrogen pollution can reach far past the buffer zone. This suggests that the most effective means of prevention is from the primary source.
+  Prevention policy
+
+Laws regulating the discharge and treatment of sewage have led to dramatic nutrient reductions to surrounding ecosystems,  but it is generally agreed that a policy regulating agricultural use of fertilizer and animal waste must be imposed. In Japan the amount of nitrogen produced by livestock is adequate to serve the fertilizer needs for the agriculture industry.  Thus, it is not unreasonable to command livestock owners to clean up animal waste—which when left stagnant will leach into ground water.
+
+Policy concerning the prevention and reduction of eutrophication can be broken down into four sectors: Technologies, public participation, economic instruments, and cooperation.  The term technology is used loosely, referring to a more widespread use of existing methods rather than an appropriation of new technologies. As mentioned before, nonpoint sources of pollution are the primary contributors to eutrophication, and their effects can be easily minimized through common agricultural practices. Reducing the amount of pollutants that reach a watershed can be achieved through the protection of its forest cover, reducing the amount of erosion leeching into a watershed. Also, through the efficient, controlled use of land using sustainable agricultural practices to minimize land degradation, the amount of soil runoff and nitrogen-based fertilizers reaching a watershed can be reduced.  Waste disposal technology constitutes another factor in eutrophication prevention. Because a major contributor to the nonpoint source nutrient loading of water bodies is untreated domestic sewage, it is necessary to provide treatment facilities to highly urbanized areas, particularly those in underdeveloped nations, in which treatment of domestic waste water is a scarcity.  The technology to safely and efficiently reuse waste water, both from domestic and industrial sources, should be a primary concern for policy regarding eutrophication.
+
+The role of the public is a major factor for the effective prevention of eutrophication. In order for a policy to have any effect, the public must be aware of their contribution to the problem, and ways in which they can reduce their effects. Programs instituted to promote participation in the recycling and elimination of wastes, as well as education on the issue of rational water use are necessary to protect water quality within urbanized areas and adjacent water bodies.
+
+Economic instruments, “which include, among others, property rights, water markets, fiscal and financial instruments, charge systems and liability systems, are gradually becoming a substantive component of the management tool set used for pollution control and water allocation decisions."  Incentives for those who practice clean, renewable, water management technologies are an effective means of encouraging pollution prevention. By internalizing the costs associated with the negative effects on the environment, governments are able to encourage a cleaner water management.
+
+Because a body of water can have an effect on a range of people reaching far beyond that of the watershed, cooperation between different organizations is necessary to prevent the intrusion of contaminants that can lead to eutrophication. Agencies ranging from state governments to those of water resource management and non-governmental organizations, going as low as the local population, are responsible for preventing eutrophication of water bodies.
+  Nitrogen testing and modeling
+
+Soil Nitrogen Testing (N-Testing) is a technique that helps farmers optimize the amount of fertilizer applied to crops. By testing fields with this method, farmers saw a decrease in fertilizer application costs, a decrease in nitrogen lost to surrounding sources, or both.  By testing the soil and modeling the bare minimum amount of fertilizer needed, farmers reap economic benefits while the environment remains clean and pure.
+  Organic farming
+
+There has been a study that found that organically fertilized fields "significantly reduce harmful nitrate leaching" over conventionally fertilized fields. 
+ 
