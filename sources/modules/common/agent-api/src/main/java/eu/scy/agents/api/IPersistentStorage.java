@@ -17,7 +17,7 @@ public interface IPersistentStorage {
 	 * @param object
 	 *            The value to write to the ADB.
 	 */
-	public <T> void put(String key, T object);
+	public <T> void put(String mission, String language, String key, T object);
 
 	/**
 	 * Read an object back from the ADB.
@@ -29,6 +29,6 @@ public interface IPersistentStorage {
 	 * @return The object identified by <code>key</code> or null if not
 	 *         existent.
 	 */
-	public <T> T get(String key);
+	public <T> T get(String mission, String language, String key);
 
 }
