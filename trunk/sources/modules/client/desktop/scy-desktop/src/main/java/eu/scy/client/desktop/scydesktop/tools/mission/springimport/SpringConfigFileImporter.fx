@@ -27,6 +27,7 @@ public class SpringConfigFileImporter {
    public-init var tbi: ToolBrokerAPI;
    public-read var missionDescriptionUri: URI;
    public-read var colorSchemesEloUri: URI;
+   public-read var agentModelsEloUri: URI;
    public-read var missionMapXml: String;
    public-read var eloToolConfigsXml: String;
    public-read var templateElosXml: String;
@@ -38,6 +39,7 @@ public class SpringConfigFileImporter {
       missionConfigInput = readSpringConfig();
       missionDescriptionUri = missionConfigInput.getMissionDescriptionUri();
       colorSchemesEloUri = missionConfigInput.getColorSchemesEloUri();
+      agentModelsEloUri = missionConfigInput.getAgentModelsEloUri();
       def missionModel = missionConfigInput.getMissionModelEloContent();
       missionMapXml = MissionModelEloContentXmlUtils.missionModelToXml(missionModel);
       def eloToolConfigsEloContent = new BasicEloToolConfigsEloContent();
