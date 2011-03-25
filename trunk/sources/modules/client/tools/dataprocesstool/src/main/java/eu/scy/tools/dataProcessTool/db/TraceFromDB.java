@@ -36,6 +36,8 @@ public class TraceFromDB {
        long dbKeyAction = (Long)v2.get(0);
 
         // enregistrement des parametres
+       String[] querys = new String[attribute.size()];
+       int i=0;
         for(Iterator<FitexProperty> p = attribute.iterator();p.hasNext();){
             FitexProperty prop = p.next();
             String queryParam  = "";
@@ -45,13 +47,20 @@ public class TraceFromDB {
             }else{
                 queryParam = "INSERT INTO ACTION_ATTRIBUTE (ID_ATTRIBUTE, ID_ACTION, ATTRIBUTE_NAME, ATTRIBUTE_VALUE) VALUES (NULL, "+dbKeyAction+", '"+prop.getName()+"', '"+prop.getValue()+"') ;" ;
             }
-            queryID = "SELECT max(last_insert_id(`ID_ATTRIBUTE`))   FROM ACTION_ATTRIBUTE ;";
-            v2 = new ArrayList();
-            cr = dbC.getNewIdInsertInDB(queryParam, queryID, v2);
-            if (cr.isError()){
-                dbC.updateDb(oldDb);
-                return cr;
-            }
+//            queryID = "SELECT max(last_insert_id(`ID_ATTRIBUTE`))   FROM ACTION_ATTRIBUTE ;";
+//            v2 = new ArrayList();
+//            cr = dbC.getNewIdInsertInDB(queryParam, queryID, v2);
+//            if (cr.isError()){
+//                dbC.updateDb(oldDb);
+//                return cr;
+//            }
+            querys[i++] = queryParam;
+        }
+       ArrayList v3 = new ArrayList();
+        cr = dbC.executeQuery(querys, v3);
+        if (cr.isError()){
+            dbC.updateDb(oldDb);
+            return cr;
         }
         dbC.updateDb(oldDb);
         return cr;
