@@ -1,0 +1,247 @@
+Vitamin - Wikipedia, the free encyclopedia
+
+Vitamin
+From Wikipedia, the free encyclopedia Jump to: navigation, search This article is about the set of organic compounds. For the nutritional supplement preparation, see multivitamin. For the manga, see Vitamin (manga).
+
+The chemical structure of retinol, the most common dietary form of vitamin A A vitamin is an organic compound required as a nutrient in tiny amounts by an organism.[1] In other words, an organic chemical compound (or related set of compounds) is called a vitamin when it cannot be synthesized in sufficient quantities by an organism, and must be obtained from the diet. Thus, the term is conditional both on the circumstances and on the particular organism. For example, ascorbic acid (vitamin C) is a vitamin for humans, but not for most other animals, and biotin and vitamin D are required in the human diet only in certain circumstances. By convention, the term vitamin does not include other essential nutrients such as dietary minerals, essential fatty acids, or essential amino acids (which are needed in larger amounts than vitamins), nor does it encompass the large number of other nutrients that promote health but are otherwise required less often.[2] Thirteen vitamins are presently universally recognized. Vitamins are classified by their biological and chemical activity, not their structure. Thus, each "vitamin" refers to a number of vitamer compounds that all show the biological activity associated with a particular vitamin. Such a set of chemicals is grouped under an alphabetized vitamin "generic descriptor" title, such as "vitamin A", which includes the compounds retinal, retinol, and four known carotenoids. Vitamers by definition are convertible to the active form of the vitamin in the body, and are sometimes inter-convertible to one another, as well. Vitamins have diverse biochemical functions. Some have hormone-like functions as regulators of mineral metabolism (e.g., vitamin D), or regulators of cell and tissue growth and differentiation (e.g., some forms of vitamin A). Others function as antioxidants (e.g., vitamin E and sometimes vitamin C).[3] The largest number of vitamins (e.g., B complex vitamins) function as precursors for enzyme cofactors, that help enzymes in their work as catalysts in metabolism. In this role, vitamins may be tightly bound to enzymes as part of prosthetic groups: For example, biotin is part of enzymes involved in making fatty acids. Vitamins may also be less tightly bound to enzyme catalysts as coenzymes, detachable molecules that function to carry chemical groups or electrons between molecules. For example, folic acid carries various forms of carbon group â methyl, formyl, and methylene â in the cell. Although these roles in assisting enzyme-substrate reactions are vitamins' best-known function, the other vitamin functions are equally important.[4] Until the mid-1930s, when the first commercial yeast-extract and semi-synthetic vitamin C supplement tablets were sold, vitamins were obtained solely through food intake, and changes in diet (which, for example, could occur during a particular growing season) can alter the types and amounts of vitamins ingested. Vitamins have Vitamin 1
+
+Vitamin - Wikipedia, the free encyclopedia been produced as commodity chemicals and made widely available as inexpensive semisynthetic and synthetic-source multivitamin dietary supplements, since the middle of the 20th century. The term vitamin was derived from "vitamine," a combination word made up by Polish scientist Casimir Funk from vital and amine, meaning amine of life, because it was suggested in 1912 that the organic micronutrient food factors that prevent beriberi and perhaps other similar dietary-deficiency diseases might be chemical amines. This proved incorrect for the micronutrient class, and the word was shortened to vitamin.
+
+Contents
+· 1 History · 2 In humans  2.1 List of vitamins · 3 In nutrition and diseases  3.1 Deficiencies  3.2 Side-effects and overdose · 4 Supplements  4.1 Governmental regulation of vitamin supplements · 5 Names in current and previous nomenclatures · 6 Anti-vitamins · 7 See also · 8 References · 9 External links
+
+[edit] History
+The discovery dates of the vitamins and their sources Year of discovery 1913 1910 1920 1920 1920 1922 1926 1929 Vitamin Vitamin A (Retinol) Vitamin B1 (Thiamine) Vitamin C (Ascorbic acid) Vitamin D (Calciferol) Vitamin B2 (Riboflavin) Vitamin E (Tocopherol) Vitamin B12 (Cobalamins) Vitamin K1 (Phylloquinone) Food source
+
+Cod liver oil Rice bran Citrus, most fresh foods Cod liver oil Meat, eggs Wheat germ oil, unrefined vegetable oils liver, eggs, animal products Leafy green vegetables Meat, whole grains, 1931 Vitamin B5 (Pantothenic acid) in many foods 1931 Vitamin B7 (Biotin) Meat, dairy products, eggs 1934 Vitamin B6 (Pyridoxine) Meat, dairy products 1936 Vitamin B3 (Niacin) Meat, eggs, grains 1941 Vitamin B9 (Folic acid) Leafy green vegetables The value of eating a certain food to maintain health was recognized long before vitamins were identified. The ancient Egyptians knew that feeding liver to a patient would help cure night blindness, an illness now known Contents 2
+
+Vitamin - Wikipedia, the free encyclopedia to be caused by a vitamin A deficiency.[5] The advancement of ocean voyage during the Renaissance resulted in prolonged periods without access to fresh fruits and vegetables, and made illnesses from vitamin deficiency common among ships' crews.[6] In 1749, the Scottish surgeon James Lind discovered that citrus foods helped prevent scurvy, a particularly deadly disease in which collagen is not properly formed, causing poor wound healing, bleeding of the gums, severe pain, and death.[5] In 1753, Lind published his Treatise on the Scurvy, which recommended using lemons and limes to avoid scurvy, which was adopted by the British Royal Navy. This led to the nickname Limey for sailors of that organization. Lind's discovery, however, was not widely accepted by individuals in the Royal Navy's Arctic expeditions in the 19th century, where it was widely believed that scurvy could be prevented by practicing good hygiene, regular exercise, and maintaining the morale of the crew while on board, rather than by a diet of fresh food.[5] As a result, Arctic expeditions continued to be plagued by scurvy and other deficiency diseases. In the early 20th century, when Robert Falcon Scott made his two expeditions to the Antarctic, the prevailing medical theory was that scurvy was caused by "tainted" canned food.[5] During the late 18th and early 19th centuries, the use of deprivation studies allowed scientists to isolate and identify a number of vitamins. Lipid from fish oil was used to cure rickets in rats, and the fat-soluble nutrient was called "antirachitic A". Thus, the first "vitamin" bioactivity ever isolated, which cured rickets, was initially called "vitamin A"; however, the bioactivity of this compound is now called vitamin D.[7] In 1881, Russian surgeon Nikolai Lunin studied the effects of scurvy while at the University of Tartu in present-day Estonia.[8] He fed mice an artificial mixture of all the separate constituents of milk known at that time, namely the proteins, fats, carbohydrates, and salts. The mice that received only the individual constituents died, while the mice fed by milk itself developed normally. He made a conclusion that "a natural food such as milk must therefore contain, besides these known principal ingredients, small quantities of unknown substances essential to life."[8] However, his conclusions were rejected by other researchers when they were unable to reproduce his results. One difference was that he had used table sugar (sucrose), while other researchers had used milk sugar (lactose) that still contained small amounts of vitamin B.[citation needed]
+
+The Ancient Egyptians knew that feeding a patient liver (back, right) would help cure night blindness. In east Asia, where polished white rice was the common staple food of the middle class, beriberi resulting from lack of vitamin B1 was endemic. In 1884, Takaki Kanehiro, a British trained medical doctor of the Imperial Japanese Navy, observed that beriberi was endemic among low-ranking crew who often ate nothing but rice, but not among officers who consumed a Western-style diet. With the support of the Japanese navy, he experimented using crews of two battleships; one crew was fed only white rice, while the other was fed a diet of meat, fish, barley, rice, and beans. The group that ate only white rice documented 161 crew members with beriberi and 25 deaths, while the latter group had only 14 cases of beriberi and no deaths. This convinced [edit] History 3
+
+Vitamin - Wikipedia, the free encyclopedia Takaki and the Japanese Navy that diet was the cause of beriberi, but mistakenly believed that sufficient amounts of protein prevented it.[9] That diseases could result from some dietary deficiencies was further investigated by Christiaan Eijkman, who in 1897 discovered that feeding unpolished rice instead of the polished variety to chickens helped to prevent beriberi in the chickens. The following year, Frederick Hopkins postulated that some foods contained "accessory factors" â in addition to proteins, carbohydrates, fats, et cetera â that are necessary for the functions of the human body.[5] Hopkins and Eijkman were awarded the Nobel Prize for Physiology or Medicine in 1929 for their discovery of several vitamins.[10] In 1910, the first vitamin complex was isolated by Japanese scientist Umetaro Suzuki, who succeeded in extracting a water-soluble complex of micronutrients from rice bran and named it aberic acid (later Orizanin). He published this discovery in a Japanese scientific journal.[11] When the article was translated into German, the translation failed to state that it was a newly discovered nutrient, a claim made in the original Japanese article, and hence his discovery failed to gain publicity. In 1912 Polish biochemist Casimir Funk isolated the same complex of micronutrients and proposed the complex be named "vitamine" (a portmanteau of "vital amine").[12] The name soon became synonymous with Hopkins' "accessory factors", and, by the time it was shown that not all vitamins are amines, the word was already ubiquitous. In 1920, Jack Cecil Drummond proposed that the final "e" be dropped to deemphasize the "amine" reference, after researchers began to suspect that not all "vitamines" (in particular, vitamin A) has an amine component.[9] In 1931, Albert Szent-GyÃ¶rgyi and a fellow researcher Joseph Svirbely suspected that "hexuronic acid" was actually vitamin C, and gave a sample to Charles Glen King, who proved its anti-scorbutic activity in his long-established guinea pig scorbutic assay. In 1937, Szent-GyÃ¶rgyi was awarded the Nobel Prize in Physiology or Medicine for his discovery. In 1943, Edward Adelbert Doisy and Henrik Dam were awarded the Nobel Prize in Physiology or Medicine for their discovery of vitamin K and its chemical structure. In 1967, George Wald was awarded the Nobel Prize (along with Ragnar Granit and Haldan Keffer Hartline) for his discovery that vitamin A could participate directly in a physiological process.[10]
+
+[edit] In humans
+Vitamins are classified as either water-soluble or fat-soluble. In humans there are 13 vitamins: 4 fat-soluble (A, D, E, and K) and 9 water-soluble (8 B vitamins and vitamin C). Water-soluble vitamins dissolve easily in water and, in general, are readily excreted from the body, to the degree that urinary output is a strong predictor of vitamin consumption.[13] Because they are not readily stored, consistent daily intake is important.[14] Many types of water-soluble vitamins are synthesized by bacteria.[15] Fat-soluble vitamins are absorbed through the intestinal tract with the help of lipids (fats). Because they are more likely to accumulate in the body, they are more likely to lead to hypervitaminosis than are water-soluble vitamins. Fat-soluble vitamin regulation is of particular significance in cystic fibrosis.[16]
+
+[edit] List of vitamins
+Each vitamin is typically used in multiple reactions, and, therefore, most have multiple functions.[17] Vitamin Vitamer Recommended generic chemical name(s) dietary allowances Solubility descriptor (list not (male, age name complete) 19â 70)[18] Vitamin A Retinol, retinal, Fat 900 Âµg and four carotenoids Upper Deficiency disease Intake Level (UL/day)[18] Night-blindness, 3,000 Âµg Hyperkeratosis, and Keratomalacia[19]
+
+Overdose disease
+
+Hypervitamino A
+
+[edit] In humans
+
+4
+
+Vitamin - Wikipedia, the free encyclopedia including beta carotene Vitamin Thiamine B1 Vitamin Riboflavin B2 Vitamin Niacin, B3 niacinamide Vitamin Pantothenic acid B5 Pyridoxine, Vitamin pyridoxamine, B6 pyridoxal Vitamin Biotin B7 Water 1.2 mg Beriberi, Wernicke-Korsakoff N/D[20] syndrome Ariboflavinosis N/D
+
+Drowsiness or muscle relaxati with large doses.[21]
+
+Water
+
+1.3 mg
+
+Water
+
+16.0 mg
+
+Pellagra
+
+35.0 mg
+
+Water
+
+5.0 mg[23]
+
+Paresthesia
+
+N/D
+
+Water
+
+1.3â
+
+1.7 mg
+
+Anemia[25] peripheral neuropathy.
+
+100 mg
+
+Liver damage (doses > 2g/day)[22] and other problems Diarrhea; possibly nausea and heartburn.[2 Impairment of proprioception, nerve damage (doses > 100 mg/day)
+
+Water
+
+30.0 Âµg
+
+Dermatitis, enteritis N/D Megaloblast and Deficiency during pregnancy is associated with birth defects, such as neural tube defects Megaloblastic anemia[26] Scurvy 10 Âµg[27] Rickets and Osteomalacia
+
+Vitamin Folic acid, folinic Water B9 acid
+
+400 Âµg
+
+1,000 Âµg
+
+May mask symptoms of vitamin B12 deficiency; othe effects.
+
+Cyanocobalamin, Vitamin hydroxycobalamin,Water B12 methylcobalamin Vitamin C Ascorbic acid Vitamin D Ergocalciferol, cholecalciferol Water Fat
+
+2.4 Âµg
+
+N/D
+
+90.0 mg 5.0 Âµgâ
+
+2,000 mg 50 Âµg
+
+Vitamin E
+
+Tocopherols, tocotrienols
+
+Fat
+
+15.0 mg
+
+Deficiency is very rare; mild hemolytic 1,000 mg anemia in newborn infants.[28]
+
+Vitamin K
+
+phylloquinone, menaquinones
+
+Fat
+
+120 Âµg
+
+Bleeding diathesis
+
+N/D
+
+Acne-like rash [causality is no conclusively established]. Vitamin C megadosage Hypervitamino D Increased congestive hear failure seen in one large randomized study.[29] Increases coagulation in patients taking warfarin.[30]
+
+[edit] List of vitamins
+
+5
+
+Vitamin - Wikipedia, the free encyclopedia
+
+[edit] In nutrition and diseases
+Vitamins are essential for the normal growth and development of a multicellular organism. Using the genetic blueprint inherited from its parents, a fetus begins to develop, at the moment of conception, from the nutrients it absorbs. It requires certain vitamins and minerals to be present at certain times. These nutrients facilitate the chemical reactions that produce among other things, skin, bone, and muscle. If there is serious deficiency in one or more of these nutrients, a child may develop a deficiency disease. Even minor deficiencies may cause permanent damage.[31] For the most part, vitamins are obtained with food, but a few are obtained by other means. For example, microorganisms in the intestine â commonly known as "gut flora" â produce vitamin K and biotin, while one form of vitamin D is synthesized in the skin with the help of the natural ultraviolet wavelength of sunlight. Humans can produce some vitamins from precursors they consume. Examples include vitamin A, produced from beta carotene, and niacin, from the amino acid tryptophan.[18] Once growth and development are completed, vitamins remain essential nutrients for the healthy maintenance of the cells, tissues, and organs that make up a multicellular organism; they also enable a multicellular life form to efficiently use chemical energy provided by food it eats, and to help process the proteins, carbohydrates, and fats required for respiration.[3]
+
+[edit] Deficiencies
+It was suggested that, when plants and animals began to transfer from the sea to rivers and land about 500 million years ago, environmental deficiency of marine mineral antioxidants was a challenge to the evolution of terrestrial life. Terrestrial plants slowly optimized the production of â newâ endogenous antioxidants such as ascorbic acid (Vitamin C), polyphenols, flavonoids, tocopherols, etc. Since this age, dietary vitamin deficiencies appeared in terrestrial animals.[32] Humans must consume vitamins periodically but with differing schedules, to avoid deficiency. Human bodily stores for different vitamins vary widely; vitamins A, D, and B12 are stored in significant amounts in the human body, mainly in the liver,[28] and an adult human's diet may be deficient in vitamins A and D for many months and B12 in some cases for years, before developing a deficiency condition. However, vitamin B3 (niacin and niacinamide) is not stored in the human body in significant amounts, so stores may last only a couple of weeks.[19][28] For vitamin C, the first symptoms of scurvy in experimental studies of complete vitamin C deprivation in humans have varied widely, from a month to more than six months, depending on previous dietary history that determined body stores.[33] Deficiencies of vitamins are classified as either primary or secondary. A primary deficiency occurs when an organism does not get enough of the vitamin in its food. A secondary deficiency may be due to an underlying disorder that prevents or limits the absorption or use of the vitamin, due to a â lifestyle factorâ , such as smoking, excessive alcohol consumption, or the use of medications that interfere with the absorption or use of the vitamin.[28] People who eat a varied diet are unlikely to develop a severe primary vitamin deficiency. In contrast, restrictive diets have the potential to cause prolonged vitamin deficits, which may result in often painful and potentially deadly diseases. Well-known human vitamin deficiencies involve thiamine (beriberi), niacin (pellagra), vitamin C (scurvy), and vitamin D (rickets). In much of the developed world, such deficiencies are rare; this is due to (1) an adequate supply of food and (2) the addition of vitamins and minerals to common foods, often called fortification.[18][28] In addition to these classical vitamin deficiency diseases, some evidence has also suggested links between vitamin deficiency and a number of different disorders.[34][35]
+
+[edit] In nutrition and diseases
+
+6
+
+Vitamin - Wikipedia, the free encyclopedia
+
+[edit] Side-effects and overdose
+In large doses, some vitamins have documented side-effects that tend to be more severe with a larger dosage. The likelihood of consuming too much of any vitamin from food is remote, but overdosing (vitamin poisoning) from vitamin supplementation does occur. At high enough dosages, some vitamins cause side-effects such as nausea, diarrhea, and vomiting.[19][36] When side-effects emerge, recovery is often accomplished by reducing the dosage. The doses of vitamins different individual can tolerate varies widely, and appear to be related to age and state of health.[37] In 2008, overdose exposure to all formulations of vitamins and multivitamin-mineral formulations was reported by 68,911 individuals to the American Association of Poison Control Centers (nearly 80% of these exposures were in children under the age of 6), leading to 8 "major" life-threatening outcomes and 0 deaths.[38]
+
+[edit] Supplements
+Dietary supplements, often containing vitamins, are used to ensure that adequate amounts of nutrients are obtained on a daily basis, if optimal amounts of the nutrients cannot be obtained through a varied diet. Scientific evidence supporting the benefits of some vitamin supplements is well established for certain health conditions, but others need further study.[39] In some cases, vitamin supplements may have unwanted effects, especially if taken before surgery, with other dietary supplements or medicines, or if the person taking them has certain health conditions.[39] Dietary supplements may also contain levels of vitamins many times higher, and in different forms, than one may ingest through food.[40] There have been mixed studies on the importance and safety of dietary supplementation. A meta-analysis published in 2006 suggested that Vitamin A and E supplements not only provide no tangible health benefits for generally healthy individuals but may actually increase mortality, although two large studies included in the analysis involved smokers, for which it was already known that beta-carotene supplements can be harmful.[41] Another study published in May 2009 found that antioxidants such as vitamins C and E may actually curb some benefits of exercise.[42] While others findings suggest that evidence of Vitamin E toxicity is limited to specific form taken in excess.[43]
+
+[edit] Governmental regulation of vitamin supplements
+Most countries place dietary supplements in a special category under the general umbrella of foods, not drugs. This necessitates that the manufacturer, and not the government, be responsible for ensuring that its dietary supplement products are safe before they are marketed. Regulation of supplements varies widely by country. In the United States, a dietary supplement is defined under the Dietary Supplement Health and Education Act of 1994.[44] In addition, the Food and Drug Administration uses the Adverse Event Reporting System to monitor adverse events that occur with supplements.[45] In the European Union, the Food Supplements Directive requires that only those supplements that have been proven safe can be sold without a prescription.[46]
+
+[edit] Names in current and previous nomenclatures
+Nomenclature of reclassified vitamins Previous name Chemical name Vitamin B4 Adenine [edit] Side-effects and overdose Reason for name change[47] DNA metabolite; synthesized in body 7
+
+Vitamin - Wikipedia, the free encyclopedia DNA metabolite; synthesized in body Needed in large quantities (does Vitamin F Essential fatty acids not fit the definition of a vitamin). Vitamin G Riboflavin Reclassified as Vitamin B2 Vitamin H Biotin Reclassified as Vitamin B7 Vitamin J Catechol, Flavin Catechol nonessential; flavin reclassified as B2 Vitamin L1[48] Anthranilic acid Non essential Vitamin L2[48] Adenylthiomethylpentose RNA metabolite; synthesized in body Vitamin M Folic acid Reclassified as Vitamin B9 Vitamin O Carnitine Synthesized in body Vitamin P Flavonoids No longer classified as a vitamin Vitamin PP Niacin Reclassified as Vitamin B3 Vitamin S Salicylic acid Proposed inclusion[49] of salicylate as an essential micronutrient Vitamin U S-Methylmethionine Protein metabolite; synthesized in body The reason that the set of vitamins skips directly from E to K is that the vitamins corresponding to letters F-J were either reclassified over time, discarded as false leads, or renamed because of their relationship to vitamin B, which became a complex of vitamins. The German-speaking scientists who isolated and described vitamin K (in addition to naming it as such) did so because the vitamin is intimately involved in the Koagulation of blood following wounding. At the time, most (but not all) of the letters from F through to J were already designated, so the use of the letter K was considered quite reasonable.[47][50] The table on the right lists chemicals that had previously been classified as vitamins, as well as the earlier names of vitamins that later became part of the B-complex. Vitamin B8 Adenylic acid
+
+[edit] Anti-vitamins
+Main article: Antinutrient Anti-vitamins are chemical compounds that inhibit the absorption or actions of vitamins. For example, avidin is a protein in egg whites that inhibits the absorption of biotin.[51] Pyrithiamine is similar to thiamine vitamin B1 and inhibits the enzymes that use thiamine.[52]
+
+[edit] See also
+Food portal · Antioxidant · Dietary supplement · Dietetics · Health freedom movement · Illnesses related to poor nutrition · Megavitamin therapy · Nutrition  Vitamin deficiency  Dietary minerals  Essential amino acids  Essential nutrients [edit] Names in current and previous nomenclatures 8
+
+Vitamin - Wikipedia, the free encyclopedia  Nootropics  Nutrients · Orthomolecular medicine · Pharmacology · Vitamin poisoning (overdose) · Whole food supplements
+
+[edit] References
+
+1. ^ Lieberman, S, Bruning, N (1990). The Real Vitamin & Mineral Book. NY: Avery Group, 3, ISBN 0895297698 2. ^ Maton, Anthea; Jean Hopkins, Charles William McLaughlin, Susan Johnson, Maryanna Quon Warner, David LaHart, Jill D. Wright (1993). Human Biology and Health. Englewood Cliffs, New Jersey, USA: Prentice Hall. ISBN 0-13-981176-1. OCLC 32308337. 3. ^ a b Bender, David A. (2003). Nutritional biochemistry of the vitamins. Cambridge, U.K.: Cambridge University Press. ISBN 978-0-521-80388-5. 4. ^ Bolander FF (2006). "Vitamins: not just for enzymes". Curr Opin Investig Drugs 7 (10): 912â 5. PMID 17086936. 5. ^ a b c d e Jack Challem (1997). "The Past, Present and Future of Vitamins" 6. ^ Jacob, RA. (1996). "Three eras of vitamin C discovery.". Subcell Biochem 25: 1â 16. PMID 8821966. 7. ^ Bellis, Mary. Vitamins â Production Methods The History of the Vitamins. Retrieved 1 February 2005. 8. ^ a b 1929 Nobel lecture 9. ^ a b Rosenfeld, L. (1997). "Vitamineâ vitamin. The early years of discovery.". Clin Chem 43 (4): 680â 5. PMID 9105273. 10. ^ a b Carpenter, Kenneth (22 June 2004). "The Nobel Prize and the Discovery of Vitamins". Nobelprize.org. http://nobelprize.org/nobel_prizes/medicine/articles/carpenter/index.html. Retrieved 5 October 2009. 11. ^ Tokyo Kagaku Kaishi: (1911) 12. ^ Funk, C. and H. E. Dubin. The Vitamines. Baltimore: Williams and Wilkins Company, 1922. 13. ^ Fukuwatari T, Shibata K (2008). "Urinary water-soluble vitamins and their metabolite contents as nutritional markers for evaluating vitamin intakes in young Japanese women". J. Nutr. Sci. Vitaminol. 54 (3): 223â 9. doi:10.3177/jnsv.54.223. PMID 18635909. 14. ^ "Water-Soluble Vitamins". http://www.ext.colostate.edu/PUBS/FOODNUT/09312.html. Retrieved 2008-12-07. 15. ^ Said HM, Mohammed ZM (2006). "Intestinal absorption of water-soluble vitamins: an update". Curr. Opin. Gastroenterol. 22 (2): 140â 6. doi:10.1097/01.mog.0000203870.22706.52. PMID 16462170. http://meta.wkhealth.com/pt/pt-core/template-journal/lwwgateway/media/landingpage.htm?an=00001574-2006 16. ^ Maqbool A, Stallings VA (2008). "Update on fat-soluble vitamins in cystic fibrosis". Curr Opin Pulm Med 14 (6): 574â 81. doi:10.1097/MCP.0b013e3283136787. PMID 18812835. http://meta.wkhealth.com/pt/pt-core/template-journal/lwwgateway/media/landingpage.htm?an=00063198-2008 17. ^ Kutsky, R.J. (1973). Handbook of Vitamins and Hormones. New York: Van Nostrand Reinhold, ISBN 0442245491 18. ^ a b c d Dietary Reference Intakes: Vitamins The National Academies, 2001. 19. ^ a b c Vitamin and Mineral Supplement Fact Sheets Vitamin A
+
+[edit] See also
+
+9
+
+Vitamin - Wikipedia, the free encyclopedia 20. ^ N/D= "Amount not determinable due to lack of data of adverse effects. Source of intake should be from food only to prevent high levels of intake"(see Dietary Reference Intakes: Vitamins). 21. ^ "Thiamin, vitamin B1: MedlinePlus Supplements". http://www.nlm.nih.gov/medlineplus/druginfo/natural/patient-thiamin.html. Retrieved 5 October 2009. 22. ^ Hardman, J.G. et al., ed. Goodman and Gilman's Pharmacological Basis of Therapeutics (10th ed.). p. 992. 23. ^ Plain type indicates Adequate Intakes (A/I). "The AI is believed to cover the needs of all individuals, but a lack of data prevent being able to specify with confidence the percentage of individuals covered by this intake" (see Dietary Reference Intakes: Vitamins). 24. ^ "Pantothenic acid, dexpanthenol: MedlinePlus Supplements". MedlinePlus. http://www.nlm.nih.gov/medlineplus/druginfo/natural/patient-vitaminb5.html. Retrieved 5 October 2009. 25. ^ Vitamin and Mineral Supplement Fact Sheets Vitamin B6 26. ^ Vitamin and Mineral Supplement Fact Sheets Vitamin B12 27. ^ Value represents suggested intake without adequate sunlight exposure (see Dietary Reference Intakes: Vitamins). 28. ^ a b c d e The Merck Manual: Nutritional Disorders: Vitamin Introduction Please select specific vitamins from the list at the top of the page. 29. ^ Gaby, Alan R. (2005). "Does vitamin E cause congestive heart failure?". Townsend Letter for Doctors and Patients. http://findarticles.com/p/articles/mi_m0ISW/is_262/ai_n13675725. 30. ^ Rohde LE, de Assis MC, Rabelo ER (2007). "Dietary vitamin K intake and anticoagulation in elderly patients". Curr Opin Clin Nutr Metab Care 10 (1): 1â 5. doi:10.1097/MCO.0b013e328011c46c. PMID 17143047. 31. ^ Gavrilov, Leonid A. Pieces of the Puzzle: Aging Research Today and Tomorrow 32. ^ Venturi, S; Donati, FM; Venturi, A; Venturi, M (2000). "Environmental iodine deficiency: A challenge to the evolution of terrestrial life?". Thyroid : official journal of the American Thyroid Association 10 (8): 727â 9. doi:10.1089/10507250050137851. PMID 11014322. 33. ^ Pemberton, J. (2006). "Medical experiments carried out in Sheffield on conscientious objectors to military service during the 1939-45 war". International Journal of Epidemiology 35 (3): 556. doi:10.1093/ije/dyl020. PMID 16510534. 34. ^ Lakhan, SE; Vieira, KF (2008). "Nutritional therapies for mental disorders.". Nutrition journal 7: 2. doi:10.1186/1475-2891-7-2. PMC 2248201. PMID 18208598. http://www.pubmedcentral.nih.gov/articlerender.fcgi?tool=pmcentrez&artid=2248201. 35. ^ Boy, E.; Mannar, V.; Pandav, C.; de Benoist, B.; Viteri, F.; Fontaine, O.; Hotz, C. (2009). "Achievements, challenges, and promising new approaches in vitamin and mineral deficiency control.". Nutr Rev 67 (Suppl 1): S24â 30. doi:10.1111/j.1753-4887.2009.00155.x. PMID 19453674. 36. ^ Institute of Medicine. Food and Nutrition Board. Dietary Reference Intakes for Vitamin A, Vitamin K, Arsenic, Boron, Chromium, Copper, Iodine, Iron, Manganese, Molybdenum, Nickel, Silicon, Vanadium, and Zinc. National Academy Press, Washington, DC, 2001. 37. ^ Healthier Kids Section: What to take and how to take it. 38. ^ Bronstein, AC; et al. (2009). "2008 Annual Report of the American Association of Poison Control Centers' National Poison Data System (NPDS): 26th Annual Report" (PDF). Clinical Toxicology 47 (10): 911â 1084. doi:10.3109/15563650903438566. PMID 20028214. http://www.aapcc.org/dnn/Portals/0/2008annualreport.pdf. 39. ^ a b Use and Safety of Dietary Supplements NIH office of Dietary Supplements. 40. ^ Higdon, Jane Vitamin E recommendations at Linus Pauling Institute's Micronutrient Information Center 41. ^ Bjelakovic G, et al. (2007). "Mortality in randomized trials of antioxidant supplements for primary and secondary prevention: systematic review and meta-analysis". JAMA 297 (8): 842â 57. [edit] References 10
+
+Vitamin - Wikipedia, the free encyclopedia doi:10.1001/jama.297.8.842. PMID 17327526. . See also the letter to JAMA by Philip Taylor and Sanford Dawsey and the reply by the authors of the original paper. 42. ^ Wade, Nicholas (12 May 2009). "Vitamins Found to Curb Exercise Benefits". The New York Times. http://www.nytimes.com/2009/05/12/health/research/12exer.html?em=&pagewanted=print. Retrieved 9 April 2010. 43. ^ Sen, CK; Khanna, S; Roy, S (2006). "Tocotrienols: Vitamin E beyond tocopherols.". Life sciences 78 (18): 2088â 98. doi:10.1016/j.lfs.2005.12.001. PMC 1790869. PMID 16458936. http://www.pubmedcentral.nih.gov/articlerender.fcgi?tool=pmcentrez&artid=1790869. 44. ^ Legislation. Fda.gov (2009-09-15). Retrieved on 2010-11-12. 45. ^ Adverse Event Reporting System (AERS). Fda.gov (2009-08-20). Retrieved on 2010-11-12. 46. ^ EUR-Lex - 32002L0046 - EN. Eur-lex.europa.eu. Retrieved on 2010-11-12. 47. ^ a b Every Vitamin Page All Vitamins and Pseudo-Vitamins. Compiled by David Bennett. 48. ^ a b Davidson, Michael W. (2004) Anthranilic Acid (Vitamin L) Florida State University. Retrieved 20-02-07. 49. ^ Kamran Abbasi (2003). "Rapid Responses to: Aspirin protects women at risk of pre-eclampsia without causing bleeding". British Medical Journal 327: 7424. doi:10.1136/bmj.327.7424.0-h. 50. ^ Vitamins and minerals â names and facts 51. ^ Roth KS (1981). "Biotin in clinical medicineâ a review". Am. J. Clin. Nutr. 34 (9): 1967â 74. PMID 6116428. 52. ^ Rindi G, Perri V (1961). "Uptake of pyrithiamine by tissue of rats". Biochem. J. 80: 214â 6. PMC 1243973. PMID 13741739. http://www.pubmedcentral.nih.gov/articlerender.fcgi?tool=pmcentrez&artid=1243973.
+
+[edit] External links
+Wikisource has the text of the 1922 EncyclopÃ¦dia Britannica article Vitamine. · USDA RDA chart in PDF format · Health Canada Dietary Reference Intakes Reference Chart for Vitamins · NIH Office of Dietary Supplements: Fact Sheets · NIH Office of Dietary Supplements. Dietary Supplements: Background Information v Â· d Â· eVitamins (A11) A Î±-Carotene Â· Î²-Carotene Â· Retinol Â· Tretinoin D2 (Ergosterol, Ergocalciferol) Â· D3 (7-Dehydrocholesterol, Previtamin D3, Cholecalciferol, 25-hydroxycholecalciferol, Calcitriol (1,25-dihydroxycholecalciferol), D Calcitroic acid) Â· D4 (Dihydroergocalciferol) Â· D5 Â· D analogues (Dihydrotachysterol, Calcipotriol, Tacalcitol, Paricalcitol) E K Water soluble Tocopherol (Alpha, Beta, Gamma, Delta) Â· Tocotrienol (Alpha, Beta, Gamma, Delta) Â· Tocofersolan Naphthoquinone Â· Phylloquinone (K1) Â· Menatetrenone (K2) Â· Menadione (K3) Â· Menadiol (K4)
+
+Fat soluble
+
+B1 (Thiamine) Â· B2 (Riboflavin) Â· B3 (Niacin, Nicotinamide) Â· B5 (Pantothenic acid, Dexpanthenol, Pantethine) Â· B6 (Pyridoxine, Pyridoxal phosphate, Pyridoxamine) Â· B7 B (Biotin) Â· B9 (Folic acid, Dihydrofolic acid, Folinic acid) Â· B12 (Cyanocobalamin, Hydroxocobalamin, Methylcobalamin, Cobamamide) Â· Choline 11
+
+[edit] External links
+
+Vitamin - Wikipedia, the free encyclopedia C Ascorbic acid Â· Dehydroascorbic acid Combinations Multivitamins noco, cof, M: nuvi, enz, drug(A8/11/12) NUT sysi/epon, met met v Â· d Â· eFood chemistry Additives Â· Carbohydrates Â· Coloring Â· Enzymes Â· Essential fatty acids Â· Flavors Â· Lipids Â· "Minerals" (Chemical elements) Â· Proteins Â· Vitamins Â· Water v Â· d Â· eNutrition disorders (E40â E68, 260â 269)
+
+Protein-energy Kwashiorkor Â· Marasmus Â· Catabolysis malnutrition B1: Beriberi/Wernicke's encephalopathy (Thiamine deficiency) Â· B2: Ariboflavinosis Â· B3: Pellagra (Niacin B deficiency) Â· B6: Pyridoxine deficiency Â· B7: Biotin vitamins deficiency Â· B9: Folate deficiency Â· B12: Vitamn B12 deficiency A: Vitamin A deficiency/Bitot's spots Â· C: Scurvy Â· Other D: Hypovitaminosis D/Rickets/Osteomalacia Â· E: Vitamin vitamins E deficiency Â· K: Vitamin K deficiency Zinc Â· Iron Â· Magnesium Â· Chromium Â· Selenium (Keshan disease) Â· Manganese Â· Molybdenum Â· Copper Â· Calcium Â· Potassium Childhood obesity Â· Obesity hypoventilation syndrome Â· Abdominal obesity Hypervitaminosis A Â· Hypervitaminosis D Â· Hypervitaminosis E see inborn errors of metal metabolism, toxicity
+
+Hypoalimentation/ Avitaminosis malnutrition
+
+Mineral deficiency Overweight Â· Obesity Hyperalimentation
+
+Vitamin poisoning Mineral overload
+
+[edit] External links
+
+12
+
+Vitamin - Wikipedia, the free encyclopedia noco, cof, M: nuvi, enz, drug(A8/11/12) NUT sysi/epon, met met v Â· d Â· eDietary supplements Types Amino acids â ¢ Bodybuilding supplement â ¢ Energy drink â ¢ Energy bar â ¢ Fatty acids â ¢ Herbal Supplements â ¢ Minerals â ¢ Prebiotics â ¢ Probiotics (Lactobacillus, Bifidobacterium) â ¢ Vitamins
+
+Retinol (Vitamin A) â ¢ B vitamins: Thiamine (B1) â ¢ Riboflavin (B2) â ¢ Niacin (B3) â ¢ Pantothenic acid (B5) â ¢ Pyridoxine (B6) â ¢ Biotin (B7) â ¢ Folic acid (B9) â ¢ Vitamins and Cyanocobalamin (B12) â ¢ Ascorbic acid (Vitamin C) â ¢ Ergocalciferol and Cholecalciferol "minerals" (Vitamin D) â ¢ Tocopherol (Vitamin E) â ¢ Naphthoquinone (Vitamin K) â ¢ Calcium (chemical â ¢ Choline â ¢ Chlorine â ¢ Chromium â ¢ Cobalt â ¢ Copper â ¢ Fluorine â ¢ Iodine elements) â ¢ Iron â ¢ Magnesium â ¢ Manganese â ¢ Molybdenum â ¢ Phosphorus â ¢ Potassium â ¢ Selenium â ¢ Sodium â ¢ Sulfur â ¢ Zinc AAKG â ¢ Carnitine â ¢ Chondroitin sulfate â ¢ Cod liver oil â ¢ Copper gluconate â ¢ Creatine/Creatine supplements â ¢ Dietary fiber â ¢ Echinacea â ¢ Elemental calcium â ¢ Ephedra â ¢ Fish oil â ¢ Folic acid â ¢ Ginseng â ¢ Glucosamine â ¢ Glutamine â ¢ Grape seed extract â ¢ Guarana â ¢ Iron supplements â ¢ Japanese Honeysuckle â ¢ Krill oil â ¢ Lingzhi â ¢ Linseed oil â ¢ Lipoic acid â ¢ Milk thistle â ¢ Melatonin â ¢ Red yeast rice â ¢ Royal jelly â ¢ Saw palmetto â ¢ Spirulina â ¢ St John's wort â ¢ Taurine â ¢ Wheatgrass â ¢ Wolfberry â ¢ Yohimbine â ¢ Zinc gluconate Codex Alimentarius â ¢ Enzyte â ¢ Hadacol â ¢ Nutraceutical â ¢ Multivitamin â ¢ Nutrition
+
+Other common ingredients
+
+Related articles
+
+Retrieved from "http://en.wikipedia.org/wiki/Vitamin" Categories: Essential nutrients | Nutrition | Vitamins Hidden categories: All articles with unsourced statements | Articles with unsourced statements from July 2010 | Good articles
+Personal tools
+
+· Log in / create account
+Namespaces
+
+· Article · Discussion
+Variants Views
+
+· Read · Edit · View history
+
+Personal tools
+
+13
+
+Vitamin - Wikipedia, the free encyclopedia
+Actions Search
+
+Navigation
+
+· Main page · Contents · Featured content · Current events · Random article · Donate to Wikipedia
+Interaction
+
+· Help · About Wikipedia · Community portal · Recent changes · Contact Wikipedia
+Toolbox
+
+· What links here · Related changes · Upload file · Special pages · Permanent link · Cite this page
+Print/export
+
+· Create a book · Download as PDF · Printable version
+Languages
+
+· Ø§Ù Ø¹Ø±Ø¨Ù Ø© · AzÉ rbaycanca · à¦¬à¦¾à¦ à¦²à¦¾ · BÃ¢n-lÃ¢m-gÃº · Ð ÐµÐ»Ð°Ñ Ñ Ñ ÐºÐ°Ñ · â ªÐ ÐµÐ»Ð°Ñ Ñ Ñ ÐºÐ°Ñ (Ñ Ð°Ñ Ð°Ñ ÐºÐµÐ²Ñ Ñ Ð°)â ¬ · Bosanski · Ð Ñ Ð»Ð³Ð°Ñ Ñ ÐºÐ¸ · CatalÃ · Ä esky · Cymraeg · Dansk · Deutsch Actions 14
+
+Vitamin - Wikipedia, the free encyclopedia · Þ Þ¨Þ Þ¬Þ Þ¨Þ Þ¦Þ Þ° · Eesti · Î Î»Î»Î·Î½Î¹ÎºÎ¬ · EspaÃ±ol · Esperanto · Euskara · Ù Ø§Ø±Ø³Û · FÃ¸royskt · FranÃ§ais · Gaeilge · Galego · í êµ-ì ´ · Õ Õ¡ÕµÕ¥Ö Õ¥Õ¶ · à¤¹à¤¿à¤¨à¥ à¤¦à¥ · Hrvatski · Bahasa Indonesia · Ã slenska · Italiano · ×¢× ×¨× ×ª · à² à²¨à³ à²¨à²¡ · á ¥á á á á £á á · Latina · LatvieÅ¡u · LÃ«tzebuergesch · LietuviÅ³ · Magyar · Ð Ð°ÐºÐµÐ´Ð¾Ð½Ñ ÐºÐ¸ · à´®à´²à´¯à´¾à´³à´ · à¤®à¤°à¤¾à¤ à¥ · Nederlands · à¤¨à¥ à¤ªà¤¾à¤²à¥ · æ ¥æ ¬èª · â ªNorsk (bokmÃ¥l)â ¬ · â ªNorsk (nynorsk)â ¬ · Novial · Occitan · Ù¾Ú ØªÙ · á á ¶á á ¶á á á á á · Polski · PortuguÃªs · RomÃ¢nÄ · Ð Ñ Ñ Ñ ÐºÐ¸Ð¹ · Shqip · Sicilianu · Simple English · SlovenÄ ina · SlovenÅ¡Ä ina · Soomaaliga · Ú©Ù Ø±Ø¯Û · Ð¡Ñ Ð¿Ñ ÐºÐ¸ / Srpski · Srpskohrvatski / Ð¡Ñ Ð¿Ñ ÐºÐ¾Ñ Ñ Ð²Ð°Ñ Ñ ÐºÐ¸ Languages 15
+
+Vitamin - Wikipedia, the free encyclopedia · Basa Sunda · Suomi · Svenska · Tagalog · à®¤à®®à®¿à®´à¯ · à°¤à± à°²à± à° à± · à¹ à¸ à¸¢ · Ð¢Ð¾Ò·Ð¸ÐºÓ£ · TÃ¼rkÃ§e · TÃ¼rkmenÃ§e · Ð£ÐºÑ Ð°Ñ Ð½Ñ Ñ ÐºÐ° · Ø§Ø±Ø¯Ù · Tiáº¿ng Viá» t · × × Ö´× × ×© · ä¸-æ · This page was last modified on 7 March 2011 at 19:11. · Text is available under the Creative Commons Attribution-ShareAlike License; additional terms may apply. See Terms of Use for details. Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc., a non-profit organization. · Contact us · Privacy policy · About Wikipedia · Disclaimers · ·
+
+Languages
+
+16
+
+

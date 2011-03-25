@@ -1,0 +1,117 @@
+Omega-6 fatty acid - Wikipedia, the free encyclopedia
+
+Omega-6 fatty acid
+From Wikipedia, the free encyclopedia Jump to: navigation, search For an explanation of n and numerical nomenclature (such as nâ Types of fats in food · Unsaturated fat  Monounsaturated fat  Polyunsaturated fat  Trans fat  Cis fat  Omega fatty acids: Ï â 3 Ï â 6 Ï â 9 · Saturated fat  Interesterified fat See also · Fatty acid · Essential fatty acid 6 or 18:2), see Fatty acid#Nomenclature.
+
+The chemical structure of linoleic acid, a common nâ 6 fatty acid found in many vegetable oils. nâ 6 fatty acids (popularly referred to as Ï â 6 fatty acids or omega-6 fatty acids) are a family of unsaturated fatty acids that have in common a final carbonâ carbon double bond in the nâ 6 position, that is, the sixth bond, counting from the end opposite the carboxyl group.[citation needed] The biological effects of the nâ 6 fatty acids are largely mediated by their conversion to n-6 eicosanoids that bind to diverse receptors found in every tissue of the body. The conversion of tissue arachidonic acid (20:4n-6) to n-6 prostaglandin and n-6 leukotriene hormones provides many targets for pharmaceutical drug development and treatment to diminish excessive n-6 actions in atherosclerosis, asthma, arthritis, vascular disease, thrombosis, immune-inflammatory processes, and tumor proliferation. Competitive interactions with the nâ 3 fatty acids affect the relative storage, mobilization, conversion and action of the n-3 and n-6 eicosanoid precursors. (See Essential fatty acid interactions for more information.)
+
+Omega-6 fatty acid
+
+1
+
+Omega-6 fatty acid - Wikipedia, the free encyclopedia
+
+Contents
+· 1 Key nâ 6 fatty acids · 2 Negative health effects · 3 Dietary linoleic acid requirement · 4 Dietary sources · 5 List of nâ 6 fatty acids · 6 See also · 7 Notes & references  7.1 Additional sources · 8 External links
+
+[edit] Key nâ
+
+6 fatty acids
+
+Linoleic acid (18:2, nâ 6), the shortest-chained nâ 6 fatty acid, is an essential fatty acid. Arachidonic acid (20:4) is a physiologically significant nâ 6 fatty acid and is the precursor for prostaglandins and other physiologically active molecules.
+
+[edit] Negative health effects
+Some medical research suggests that excessive levels of nâ 6 fatty acids, relative to nâ acids, may increase the probability of a number of diseases and depression.[1][2][3] Modern Western diets typically have ratios of nâ 6 to nâ The optimal ratio is thought to be 4 to 1 or lower.[4][5] 3 (Omega-3) fatty
+
+3 in excess of 10 to 1, some as high as 30 to 1.
+
+Excess nâ 6 fats interfere with the health benefits of nâ 3 fats, in part because they compete for the same rate-limiting enzymes. A high proportion of nâ 6 to nâ 3 fat in the diet shifts the physiological state in the tissues toward the pathogenesis of many diseases: prothrombotic, proinflammatory and proconstrictive.[6] Chronic excessive production of nâ 6 eicosanoids is associated with heart attacks, thrombotic stroke, arrhythmia, arthritis, osteoporosis, inflammation, mood disorders, obesity, and cancer.[7] Many of the medications used to treat and manage these conditions work by blocking the effects of the potent nâ 6 fat, arachidonic acid.[8] Many steps in formation and action of n-6 hormones from n-6 arachidonic acid proceed more vigorously than the corresponding competitive steps in formation and action of n-3 hormones from n-3 eicosapentaenoic acid.[9] The COX-1 and COX-2 inhibitor medications, used to treat inflammation and pain, work by preventing the COX enzymes from turning arachidonic acid into inflammatory compounds.[10] (See Cyclooxygenase for more information.) The LOX inhibitor medications often used to treat asthma, work by preventing the LOX enzyme from converting arachidonic acid into the leukotrienes.[11][12] Many of the anti-mania medications used to treat bipolar disorder work by targeting the arachidonic acid cascade in the brain.[13] A high consumption of omega-6 polyunsaturated fatty acids (PUFAs), which are found in most types of vegetable oil, may increase the likelihood that postmenopausal women will develop breast cancer.[14] Similar effect was observed on prostate cancer.[15] Other "analysis suggested an inverse association between total polyunsaturated fatty acids and breast cancer risk, but individual polyunsaturated fatty acids behaved differently [from each other]. [...] a 20:2 derivative of linoleic acid [...] was inversely associated with the risk of breast cancer".[16] Contents 2
+
+Omega-6 fatty acid - Wikipedia, the free encyclopedia
+
+[edit] Dietary linoleic acid requirement
+Adding more controversy to the nâ 6 fat issue is that the dietary requirement for linoleic acid (the key nâ 6 fatty acid), has been seriously questioned, because of a significant methodology error discovered by University of Toronto scientist Stephen Cunnane.[17] Cunnane discovered that the seminal research used to determine the dietary requirement for linoleic acid was based on feeding animals linoleic acid-deficient diets, which were simultaneously deficient in nâ 3 fats. The nâ 3 deficiency was not taken into account. The nâ 6 oils added back systematically to correct the deficiency also contained trace amounts of nâ 3 fats. Therefore the researchers were inadvertently correcting the nâ 3 deficiency as well. Ultimately, it took more oil to correct both deficiencies. According to Cunnane, this error overestimates LA requirements by 5 to 15 times.
+
+[edit] Dietary sources
+
+The evening primrose flower (O. biennis) produces an oil containing a high content of Î³-linolenic acid, a type of nâ 6 fatty acid. Four major food oils (palm, soybean, rapeseed, and sunflower) provide more than 100 million metric tons annually, providing more than 32 million metric tons of n-6 linoleic acid and 4 million metric tons of n-3 alpha-linolenic acid.[18] Dietary sources of nâ 6 fatty acids include:[19][dead link][clarification needed]
+
+· poultry · eggs · avocado · nuts · cereals · whole-grain breads · most vegetable oils · evening primrose oil · borage oil · blackcurrant seed oil · flax/linseed oil · rapeseed or canola oil · hemp oil · soybean oil · cottonseed oil · sunflower seed oil · corn oil · safflower oil [edit] Dietary linoleic acid requirement 3
+
+Omega-6 fatty acid - Wikipedia, the free encyclopedia · pumpkin seeds · acai berry · Cashews
+
+[edit] List of nâ
+Common name Linoleic acid Gamma-linolenic acid Eicosadienoic acid Dihomo-gamma-linolenic acid Arachidonic acid Docosadienoic acid Adrenic acid Docosapentaenoic acid Calendic acid
+
+6 fatty acids
+Lipid name 18:2 (nâ 6) 18:3 (nâ 6) 20:2 (nâ 6) 20:3 (nâ 6) 20:4 (nâ 6) 22:2 (nâ 6) 22:4 (nâ 6) 22:5 (nâ 6) 18:3 (nâ 6) Chemical name 9,12-octadecadienoic acid 6,9,12-octadecatrienoic acid 11,14-eicosadienoic acid 8,11,14-eicosatrienoic acid 5,8,11,14-eicosatetraenoic acid 13,16-docosadienoic acid 7,10,13,16-docosatetraenoic acid 4,7,10,13,16-docosapentaenoic acid 8E,10E,12Z-octadecatrienoic acid
+
+[edit] See also
+· Essential fatty acid interactions · Essential nutrients · Linolenic acid · nâ 3 fatty acid · nâ 9 fatty acid · Wheat germ oil
+
+[edit] Notes & references
+1. ^ Lands, William E.M. (December 2005). "Dietary fat and health: the evidence and the politics of prevention: careful use of dietary fats can improve life and prevent disease". Annals of the New York Academy of Sciences (Blackwell) 1055: 179â 192. doi:10.1196/annals.1323.028. PMID 16387724. 2. ^ Hibbeln, Joseph R.; N; B; R; L; Nieminen, Levi R.G.; Blasbalg, Tanya L.; Riggs, Jessica A.; and William E.M. Lands (June 1, 2006). "Healthy intakes of nâ 3 and nâ 6 fatty acids: estimations considering worldwide diversity". American Journal of Clinical Nutrition (American Society for Nutrition) 83 (6, supplement): 1483Sâ 1493S. PMID 16841858. http://www.ajcn.org/cgi/content/full/83/6/S1483. 3. ^ Okuyama, Hirohmi; Ichikawa, Yuko; Sun, Yueji; Hamazaki, Tomohito; Lands, William E.M. (2007). "Ï 3 fatty acids effectively prevent coronary heart disease and other late-onset diseases: the excessive linoleic acid syndrome". World Review of Nutritional Dietetics (Karger) 96 (Prevention of Coronary Heart Disease): 83â 103. doi:10.1159/000097809. PMID 17167282. ISBN 3805581793. 4. ^ Daley, C.A.; Abbott, A.; Doyle, P.; Nader, G.; and Larson, S. (2004). A literature review of the value-added nutrients found in grass-fed beef products. California State University, Chico (College of Agriculture). http://www.csuchico.edu/agr/grassfedbeef/health-benefits/index.html. Retrieved 2008-03-23. 5. ^ Simopoulos, Artemis P. (October 2002). "The importance of the ratio of omega-6/omega-3 essential fatty acids". Biomedicine & Pharmacotherapy 56 (8): 365â 379. doi:10.1016/S0753-3322(02)00253-6. PMID 12442909.
+
+[edit] Dietary sources
+
+4
+
+Omega-6 fatty acid - Wikipedia, the free encyclopedia 6. ^ Simopoulos, Artemis P. (September 2003). "Importance of the ratio of omega-6/omega-3 essential fatty acids: evolutionary aspects". World Review of Nutrition and Dietetics (Karger) 92 (Omega-6/Omega-3 Essential Fatty Acid Ratio: The Scientific Evidence): 1â 174. doi:10.1159/000073788. PMID 14579680. ISBN 3805576404. 7. ^ Calder, Philip C. (June 1, 2006). "nâ 3 polyunsaturated fatty acids, inflammation, and inflammatory diseases". American Journal of Clinical Nutrition (American Society for Nutrition) 83 (6, supplement): 1505Sâ 1519S. PMID 16841861. http://www.ajcn.org/cgi/content/full/83/6/S1505. 8. ^ Smith, William L. (January 2008). "Nutritionally essential fatty acids and biologically indispensable cyclooxygenases". Trends in Biochemical Sciences (Elsevier) 33 (1): 27â 37. doi:10.1016/j.tibs.2007.09.013. PMID 18155912. 9. ^ Wada, M.; Delong, CJ; Hong, YH; Rieke, CJ; Song, I; Sidhu, RS; Yuan, C; Warnock, M et al. (August 3 2007). "Enzymes and receptors of prostaglandin pathways with arachidonic acid-derived versus eicosapentaenoic acid-derived substrates and products. Nutritionally essential fatty acids and biologically indispensable cyclooxygenases". J. Biol. Chem. (ASBMB) 282 (31): 22254â 22266. doi:10.1074/jbc.M703169200. PMID 17519235. 10. ^ Cleland, Leslie G.; James, Michael J.; Proudman, Susanna M. (January 2006). "Fish oil: what the prescriber needs to know". Arthritis Research & Therapy (BioMed Central) 8 (1): 202. doi:10.1186/ar1876. PMC 1526555. PMID 16542466. http://arthritis-research.com/content/8/1/202. 11. ^ Mickleborough, Timothy D. (June 2005). "Dietary omega-3 polyunsaturated fatty acid supplementation and airway hyperresponsiveness in asthma". The Journal of Asthma (Informa Healthcare) 42 (5): 305â 314. doi:10.1081/JAS-200062950. PMID 16036405. 12. ^ Broughton, K. Shane; Johnson, Cody S.; Pace, Bobin K.; Liebman, Michael; Kleppinger, Kent M. (April 1, 2005). "Reduced asthma symptoms with nâ 3 fatty acid ingestion are related to 5-series leukotriene production". American Journal of Clinical Nutrition (American Society for Nutrition) 65 (4): 1011â 1017. PMID 9094887. http://www.ajcn.org/cgi/reprint/65/4/1011. 13. ^ Lee, H.J.; Rao, J.S.; Rapoport, S.I.; Bazinet, R.P. (November 2007). "Antimanic therapies target brain arachidonic acid signaling: lessons learned about the regulation of brain fatty acid metabolism". Prostaglandins, Leukotrienes and Essential Fatty Acids (Elsevier) 77 (5): 239â 246. doi:10.1016/j.plefa.2007.10.018. PMID 18042366. 14. ^ Emily Sonestedt, Ulrika Ericson, Bo Gullberg, Kerstin Skog, HÃ¥kan Olsson, Elisabet WirfÃ¤lt (2008). "Do both heterocyclic amines and omega-6 polyunsaturated fatty acids contribute to the incidence of breast cancer in postmenopausal women of the MalmÃ¶ diet and cancer cohort?". The International Journal of Cancer (UICC International Union Against Cancer) 123 (7): 1637â 1643. doi:10.1002/ijc.23394. PMID 10970215. http://www3.interscience.wiley.com/journal/120780752/abstract. Retrieved 2008-11-30. 15. ^ Yong Q. Chen, at al (2007). "Modulation of prostate cancer genetic risk by omega-3 and omega-6 fatty acids". The Journal of Clinical Investigation 117 (7): 1866â 1875. doi:10.1172/JCI31494. PMC 1890998. PMID 17607361. http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=1890998. Retrieved 2008-11-30. 16. ^ Valeria Pala, Vittorio Krogh, Paola Muti, VÃ©ronique ChajÃ¨s, Elio Riboli, Andrea Micheli, Mitra Saadatian, Sabina Sieri, Franco Berrino (July 18, 2001). "Erythrocyte Membrane Fatty Acids and Subsequent Breast Cancer: a Prospective Italian Study". JNCL 93 (14): 1088â 95. doi:10.1093/jnci/93.14.1088. PMID 11459870. http://jnci.oxfordjournals.org/cgi/content/full/93/14/1088. Retrieved 2008-11-30. 17. ^ Cunnane, Stephen C. (November 2003). "Problems with essential fatty acids: time for a new paradigm?". Progress in Lipid Research 42 (6): 544â 568. doi:10.1016/S0163-7827(03)00038-9. PMID 14559071. 18. ^ Gunstone, Frank (December 2007) "Oilseed markets: Market update: Palm oil". INFORM (AOCS) 18(12): 835-836.
+
+[edit] Notes & references
+
+5
+
+Omega-6 fatty acid - Wikipedia, the free encyclopedia
+
+19. ^ "Omega-6 fatty acids". WholeHealthMD. http://209.196.51.230/ME2/dirmod.asp?sid=17E09E7CFFF640448FFB0B4FC1B7FEF0&nm=Reference+Libr Retrieved 2008-03-23.
+
+[edit] Additional sources
+· Tokar, Steve (2005-09-02). "Omega-6 fatty acids cause prostate tumor cell growth in culture". Medical News Today (MediLexicon International). http://www.medicalnewstoday.com/articles/29976.php. Retrieved 2008-03-23. · "Brain fatty acid levels linked to depression". News-Medical.Net (AZoNetwork). 2005-05-25. http://www.news-medical.net/?id=10398. Retrieved 2008-03-23. · Tribole, E.F. (2006-03-27). "Excess Omega-6 Fats Thwart Health Benefits from Omega-3 Fats". British Medical Journal Rapid Responses to Hooper, et al., 2006. http://www.bmj.com/cgi/eletters/332/7544/752#130637. Retrieved 2008-03-23.
+
+[edit] External links
+· Fats That Heal, Fats That Kill. Udo Erasmus 3rd ed. Burnaby (BC): Alive Books; 1993. v Â· d Â· eTypes of lipids General Geometry Fatty acids Phospholipids Saturated fat Â· Unsaturated fat Â· Monounsaturated fat Â· Polyunsaturated fat Trans fat Â· Omega-3 fatty acid Â· Omega-6 fatty acid Â· Omega-9 fatty acid Lauric acid Â· Palmitic acid Â· Myristic acid Â· Stearic acid Â· Caprylic acid Phosphatidylserine Â· Phosphatidylinositol Â· Phosphatidyl ethanolamine Â· Cardiolipin Â· Dipalmitoylphosphatidylcholine
+
+Cholesterol/steroids Corticosteroids Â· Sex steroids Sphingolipids Eicosanoids Ceramide Arachidonic acid Â· Prostaglandin Â· Prostacyclin Â· Thromboxane Â· Leukotriene
+
+biochemical families: prot Â· nucl Â· carb (glpr, alco, glys) Â· lipd (fata/i, phld, strd, gllp, eico) Â· amac/i Â· ncbs/i Â· ttpy/i Retrieved from "http://en.wikipedia.org/wiki/Omega-6_fatty_acid" Categories: Fatty acids | Essential nutrients | Treatment of bipolar disorder Hidden categories: All articles with unsourced statements | Articles with unsourced statements from May 2010 | All articles with dead external links | Articles with dead external links from August 2010 | All pages needing cleanup | Wikipedia articles needing clarification from May 2010
+Personal tools
+
+· Log in / create account
+Namespaces
+
+· Article · Discussion
+
+[edit] Additional sources
+
+6
+
+Omega-6 fatty acid - Wikipedia, the free encyclopedia
+Variants Views
+
+· Read · Edit · View history
+Actions Search
+
+Navigation
+
+· Main page · Contents · Featured content · Current events · Random article · Donate to Wikipedia
+Interaction
+
+· Help · About Wikipedia · Community portal · Recent changes · Contact Wikipedia
+Toolbox
+
+· What links here · Related changes · Upload file · Special pages · Permanent link · Cite this page
+Print/export
+
+· Create a book · Download as PDF · Printable version
+Languages
+
+· CatalÃ · Dansk · Deutsch · EspaÃ±ol · FranÃ§ais · à¤¹à¤¿à¤¨à¥ à¤¦à¥ Variants 7
+
+Omega-6 fatty acid - Wikipedia, the free encyclopedia · Italiano · Nederlands · æ ¥æ ¬èª · Polski · PortuguÃªs · Svenska · à®¤à®®à®¿à®´à¯ · TÃ¼rkÃ§e · ä¸-æ · This page was last modified on 1 February 2011 at 19:55. · Text is available under the Creative Commons Attribution-ShareAlike License; additional terms may apply. See Terms of Use for details. Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc., a non-profit organization. · Contact us · Privacy policy · About Wikipedia · Disclaimers · ·
+
+Languages
+
+8
+
+

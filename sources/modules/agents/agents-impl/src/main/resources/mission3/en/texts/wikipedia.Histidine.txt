@@ -1,0 +1,164 @@
+Histidine - Wikipedia, the free encyclopedia
+
+Histidine
+From Wikipedia, the free encyclopedia Jump to: navigation, search
+L-Histidine
+
+IUPAC name Histidine Other names 2-Amino-3-(1H-imidazol-4-yl)propanoic acid Identifiers CAS number 71-00-1 Y PubChem 773 ChemSpider 6038 Y UNII 4QD397987E Y KEGG D00032 Y ChEMBL CHEMBL17962 Y SMILES O=C(O)[C@@H](N)Cc1cncn1 InChI InChI=1S/C6H9N3O2/c7-5(6(10)11)1-4-2-8-3-9-4/h2-3,5H,1,7H2,(H,8,9)(H,10,11)/t5-/m0/s1 Key: HNDVDQJCIGZPNO-YFKPBYRVSA-N Y
+
+Y
+
+InChI=1/C6H9N3O2/c7-5(6(10)11)1-4-2-8-3-9-4/h2-3,5H,1,7H2,(H,8,9)(H,10,11)/t5-/m0/s1 Key: HNDVDQJCIGZPNO-YFKPBYRVBM Properties Molecular formula C6H9N3O2 Molar mass 155.15 g molâ 1 Supplementary data page Structure and n, Îµr, etc. properties Thermodynamic Phase behaviour data Solid, liquid, gas Spectral data UV, IR, NMR, MS Y(what is this?) (verify) Except where noted otherwise, data are given for materials in their standard state (at 25 Â°C, 100 kPa) Infobox references Histidine (abbreviated as His or H)[1] Histidine, an essential amino acid, has as a positively charged Histidine 1
+
+Histidine - Wikipedia, the free encyclopedia imidazole functional group. It is the one of the 22 proteinogenic amino acids. Its codons are CAU and CAC. Histidine was first isolated by German physician Albrecht Kossel in 1896. Histidine is an essential amino acid in humans and other mammals. It was initially thought that it was only essential for infants, but longer term studies established it is also essential for adult humans.[2]
+
+Contents
+· 1 Chemical properties  1.1 Aromaticity  1.2 Biochemistry  1.3 NMR · 2 Metabolism ·3 Supplementation · 4 Additional images · 5 See also · 6 References · 7 External links
+
+[edit] Chemical properties
+The imidazole sidechain of histidine has a pKa of approximately 6.0, and, overall, the amino acid has a pKa of 6.5. This means that, at physiologically relevant pH values, relatively small shifts in pH will change its average charge. Below a pH of 6, the imidazole ring is mostly protonated as described by the Hendersonâ Hasselbalch equation. When protonated, the imidazole ring bears two NH bonds and has a positive charge. The positive charge is equally distributed between both nitrogens and can be represented with two equally important resonance structures.
+
+[edit] Aromaticity
+The imidazole ring of histidine is aromatic at all pH values.[3] It contains six pi electrons: four from two double bonds and two from a nitrogen lone pair. It can form pi stacking interactions,[4] but is complicated by the positive charge.[5] It doesn't absorb at 280 nm in either state, but does in the lower UV range more than some amino acids.[6][7]
+
+[edit] Biochemistry
+The imidazole sidechain of histidine is a common coordinating ligand in metalloproteins and is a part of catalytic sites in certain enzymes. In catalytic triads, the basic nitrogen of histidine is used to abstract a proton from serine, threonine, or cysteine to activate it as a nucleophile. In a histidine proton shuttle, histidine is used to quickly shuttle protons, it can do this by abstracting a proton with its basic nitrogen to make a positively-charged intermediate and then use another molecule, a buffer, to extract the proton from its acidic nitrogen. In carbonic anhydrases, a histidine proton shuttle is utilized to rapidly shuttle protons away from a zinc-bound water molecule to quickly regenerate the active form of the enzyme. Contents 2
+
+Histidine - Wikipedia, the free encyclopedia
+
+[edit] NMR
+As expected, the 15N chemical shifts of these nitrogens are indistinguishable (about 200 ppm, relative to nitric acid on the sigma scale, on which increased shielding corresponds to increased chemical shift). As the pH increases to approximately 8, the protonation of the imidazole ring is lost. The remaining proton of the now neutral imidazole can exist on either nitrogen, giving rise to what are known as the N-1 or N-3 tautomers. NMR shows that the chemical shift of N-1 drops slightly, while the chemical shift of N-3 drops considerably (about 190 vs. 145 ppm). This indicates that the N-1-H tautomer is preferred, presumably due to hydrogen bonding to the neighboring ammonium. The shielding at N-3 is substantially reduced due to the second-order paramagnetic effect, which involves a symmetry-allowed interaction between the nitrogen lone pair and the excited pi* states of the aromatic ring. As the pH rises above 9, the chemical shifts of N-1 and N-3 become approximately 185 and 170 ppm. It is worth noting that the deprotonated form of imidazole, imidazolate ion, would only be formed above a pH of 14, and is therefore not physiologically relevant. This change in chemical shifts can be explained by the presumably decreased hydrogen bonding of an amine over an ammonium ion, and the favorable hydrogen bonding between a carboxylate and an NH. This should act to decrease the N-1-H tautomer preference.[8]
+
+[edit] Metabolism
+The amino acid is a precursor for histamine and carnosine biosynthesis.
+
+Conversion of histidine to histamine by histidine decarboxylase The enzyme histidine ammonia-lyase converts histidine into ammonia and urocanic acid. A deficiency in this enzyme is present in the rare metabolic disorder histidinemia. In Actinobacteria and filamentous fungi, such as Neurospora crassa histidine can be converted into the antioxidant ergothioneine.[9]
+
+[edit] Supplementation
+Supplementation of Histidine has been shown to cause rapid zinc excretion in rats with an excretion rate 3 to 6 times normal.[10][11]
+
+[edit] Additional images
+·
+
+Histidine
+
+[edit] NMR
+
+3
+
+Histidine - Wikipedia, the free encyclopedia ·
+
+The histidine bound heme group of succinate dehydrogenase, an electron carrier in the mitochondrial electron transfer chain. The large semi-transparent sphere indicates the location of the iron ion. From PDB 1YQ3.
+
+[edit] See also
+· Imidazole · Aromatic amino acids · Urocanic aciduria · Carnosinemia · Beta-alanine
+
+[edit] References
+1. ^ IUPAC-IUBMB Joint Commission on Biochemical Nomenclature. "Nomenclature and Symbolism for Amino Acids and Peptides". Recommendations on Organic & Biochemical Nomenclature, Symbols & Terminology etc. http://www.chem.qmul.ac.uk/iupac/AminoAcid/. Retrieved 2007-05-17. 2. ^ J D Kopple and M E Swendseid (May 1975). "Evidence that histidine is an essential amino acid in normal and chronically uremic man.". J Clin Invest. 55 (5): 881â 891. doi:10.1172/JCI108016. PMC 301830. PMID 1123426. http://www.jci.org/articles/view/108016. 3. ^ MROZEK Agnieszka, KAROLAK-WOJCIECHOWSKA Janina, KIEC-KONONOWICZ Katarzyna (August 2003). "Five-membered heterocycles. Part III. Aromaticity of 1,3-imidazole in 5+n hetero-bicyclic molecules". Journal of Molecular Structure 655 (3): 397â 403. doi:10.1016/S0022-2860(03)00282-5. 4. ^ Lijun Wang,, Na Sun,, Simon Terzyan,, Xuejun Zhang, and, David R. Benson. A Histidine/Tryptophan Ï -Stacking Interaction Stabilizes the Heme-Independent Folding Core of Microsomal Apocytochrome b5 Relative to that of Mitochondrial Apocytochrome b5. Biochemistry 2006 45 (46), 13750-13759 5. ^ Robert H. Blessing, Edward L. McGandy. Base stacking and hydrogen bonding in crystals of imidazolium dihydrogen orthophosphate. Journal of the American Chemical Society 1972 94 (11), 4034-4035. 6. ^ Katoh R. Absorption Spectra of Imidazolium Ionic Liquids. Chemistry Letters. Vol. 36 (2007) , No. 10 p.1256. 7. ^ AR Goldfarb, LJ Saidel, E Mosovich. THE ULTRAVIOLET ABSORPTION SPECTRA OF PROTEINS. Journal of Biological Chemistry, 1951, p.397-404. 8. ^ Roberts, John D. (2000). ABCs of FT-NMR. Sausalito, CA: University Science Books. pp. 258â 259. ISBN 978-1-891389-18-4. http://www.uscibooks.com/. 9. ^ Fahey RC (2001). "Novel thiols of prokaryotes". Annu. Rev. Microbiol. 55: 333â 56. doi:10.1146/annurev.micro.55.1.333. PMID 11544359. 10. ^ Freeman, Rm; Taylor, Pr (Apr 1977). "Influence of histidine administration on zinc metabolism in the rat." (Free full text). The American journal of clinical nutrition 30 (4): 523â 7. ISSN 0002-9165. PMID 851080. http://www.ajcn.org/cgi/pmidlookup?view=long&pmid=851080.
+
+[edit] Additional images
+
+4
+
+Histidine - Wikipedia, the free encyclopedia 11. ^ Wensink, J; Van, Den, Hamer, Cj (Jul 1988). "Effect of excess dietary histidine on rate of turnover of 65Zn in brain of rat.". Biological trace element research 16 (2): 137â 50. doi:10.1007/BF02797098. PMID 2484542.
+
+[edit] External links
+· Histidine biosynthesis (early stages) · Histidine biosynthesis (later stages) · Histidine catabolism · Food Sources of Histidine v Â· d Â· eThe 20 Common Amino Acids Aliphatic Aromatic By properties Branched-chain amino acids (Valine Â· Isoleucine Â· Leucine) Â· Methionine Â· Alanine Â· Proline Â· Glycine Phenylalanine Â· Tyrosine Â· Tryptophan Â· Histidine
+
+Polar, uncharged Asparagine Â· Glutamine Â· Serine Â· Threonine Positive charge (pKa) Lysine (â 10.8) Â· Arginine (â 12.5) Â· Histidine (â 6.1)
+
+Negative charge Aspartic acid (â 3.9) Â· Glutamic acid (â (pKa) (â 8.3) Â· Tyrosine (â 10.1) General Other classifications
+
+4.1) Â· Cysteine
+
+Essential amino acid Â· Protein Â· Peptide Â· Genetic code
+
+Essential amino acids Â· Ketogenic amino acid Â· Glucogenic amino acid
+
+biochemical families: prot Â· nucl Â· carb (glpr, alco, glys) Â· lipd (fata/i, phld, strd, gllp, eico) Â· amac/i Â· ncbs/i Â· ttpy/i v Â· d Â· eAmino acid metabolism metabolic intermediates lysineâ Saccharopine Â· Allysine Â· Î±-Aminoadipic acid Â· Î±-Aminoadipate Â· Glutaryl-CoA Â· Glutaconyl-CoA Â· Crotonyl-CoA Â· Î²-Hydroxybutyryl-CoA Î±-Ketoisocaproic acid Â· Isovaleryl-CoA Â· 3-Methylcrotonyl-CoA Â· 3-Methylglutaconyl-CoA Â· HMG-CoA N'-Formylkynurenine Â· Kynurenine Â· Anthranilic acid Â· 3-Hydroxykynurenine Â· 3-Hydroxyanthranilic acid Â· 2-Amino-3-carboxymuconic semialdehyde Â· 2-Aminomuconic semialdehyde Â· 2-Aminomuconic acid Â· Glutaryl-CoA
+
+leucineâ Kâ acetyl-CoA
+
+tryptophanâ
+
+alanineâ
+
+[edit] References
+
+5
+
+Histidine - Wikipedia, the free encyclopedia 3-Phosphoglyceric acid Gâ pyruvateâ citrate glycineâ serineâ glycineâ creatine: Glycocyamine Â· Phosphocreatine Â· Creatinine
+
+histidineâ Gâ glutamateâ Î±-ketoglutarate prolineâ arginineâ other
+
+Urocanic acid Â· Imidazol-4-one-5-propionic acid Â· Formiminoglutamic acid Â· Glutamate-1-semialdehyde 1-Pyrroline-5-carboxylic acid Ornithine Â· Putrescine Â· Agmatine cysteine+glutamateâ Î³-Glutamylcysteine glutathione:
+
+valineâ G isoleucineâ Gâ propionyl-CoAâ succinyl-CoA methionineâ
+
+Î±-Ketoisovaleric acid Â· Isobutyryl-CoA Â· Methacrylyl-CoA Â· 3-Hydroxyisobutyryl-CoA Â· 3-Hydroxyisobutyric acid Â· 2-Methyl-3-oxopropanoic acid 2,3-Dihydroxy-3-methylpentanoic acid Â· 2-Methylbutyryl-CoA Â· Tiglyl-CoA Â· 2-Methylacetoacetyl-CoA generation of homocysteine: S-Adenosyl methionine Â· S-Adenosyl-L-homocysteine Â· Homocysteine conversion to cysteine: Cystathionine Â· alpha-Ketobutyric acid+Cysteine
+
+threonineâ propionyl-CoAâ Gâ Gâ Other fumarate oxaloacetate
+
+Î±-Ketobutyric acid Methylmalonyl-CoA 4-Hydroxyphenylpyruvic acid Â· Homogentisic acid Â· 4-Maleylacetoacetate
+
+phenylalanineâ see urea cycle
+
+tyrosineâ
+
+Cysteine metabolism Cysteine sulfinic acid
+
+mt, m(A16, k, k, C10),i(k, cgrp/y/i, c/g/r/p/y/i,c/g/r/p/y/i, M: f/h/s/l/o, f/h/s/l/o/e, f/h/s/o/e, MET au, n, a/u, a/u, h, n, n, epon h h) biochemical families: prot Â· nucl Â· carb (glpr, alco, glys) Â· lipd (fata/i, phld, strd, gllp, eico) Â· amac/i Â· ncbs/i Â· ttpy/i
+
+[edit] External links
+
+6
+
+Histidine - Wikipedia, the free encyclopedia v Â· d Â· eHistaminergics Agonists: 2-Pyridylethylamine â ¢ Betahistine â ¢ Histamine â ¢ HTMT â ¢ UR-AK49 Antagonists: 1st generation: 4-Methyldiphenhydramine â ¢ Alimemazine â ¢ Antazoline â ¢ Azatadine â ¢ Bamipine â ¢ Benzatropine (Benztropine) â ¢ Bepotastine â ¢ Bromazine â ¢ Brompheniramine â ¢ Buclizine â ¢ Captodiame â ¢ Carbinoxamine â ¢ Chlorcyclizine â ¢ Chloropyramine â ¢ Chlorothen â ¢ Chlorpheniramine â ¢ Chlorphenoxamine â ¢ Cinnarizine â ¢ Clemastine â ¢ Clobenzepam â ¢ Clocinizine â ¢ Cyclizine â ¢ Cyproheptadine â ¢ Dacemazine â ¢ Deptropine â ¢ Dexbrompheniramine â ¢ Dexchlorpheniramine â ¢ Dimenhydrinate â ¢ Dimetindene â ¢ Diphenhydramine â ¢ Diphenylpyraline â ¢ Doxylamine â ¢ Embramine â ¢ Etybenzatropine (Ethylbenztropine) â ¢ Etymemazine â ¢ Histapyrrodine â ¢ Homochlorcyclizine â ¢ Hydroxyethylpromethazine â ¢ Hydroxyzine â ¢ Isopromethazine â ¢ Isothipendyl â ¢ Meclozine â ¢ Mepyramine (Pyrilamine) â ¢ Mequitazine â ¢ Methafurylene â ¢ Methapyrilene â ¢ Methdilazine â ¢ H1 Moxastine â ¢ Niaprazine â ¢ Orphenadrine â ¢ Oxatomide â ¢ Oxomemazine â ¢ Phenindamine â ¢ Pheniramine â ¢ Phenyltoloxamine â ¢ Pimethixene â ¢ Piperoxan â ¢ Promethazine â ¢ Propiomazine â ¢ Pyrrobutamine â ¢ Talastine â ¢ Thenalidine â ¢ Thenyldiamine â ¢ Thiazinamium â ¢ Thonzylamine â ¢ Tolpropamine â ¢ Tripelennamine â ¢ Triprolidine; 2nd generation: Acrivastine â ¢ Astemizole â ¢ Azelastine â ¢ Cetirizine â ¢ Clemizole â ¢ Clobenztropine â ¢ Ebastine â ¢ Emedastine â ¢ Epinastine â ¢ Ketotifen â ¢ Latrepirdine â ¢ Levocabastine â ¢ Loratadine â ¢ Mebhydrolin â ¢ Mizolastine â ¢ Olopatadine â ¢ Rupatadine â ¢ Setastine â ¢ Terfenadine; 3rd generation: Desloratadine â ¢ Fexofenadine â ¢ Receptor Levocetirizine; Miscellaneous: Tricyclic Antidepressants (Amitriptyline, Doxepin, ligands Trimipramine, etc) â ¢ Tetracyclic Antidepressants (Mianserin, Mirtazapine, etc) â ¢ Serotonin Antagonists and Reuptake Inhibitors (Trazodone, Nefazodone) â ¢ Typical Antipsychotics (Chlorpromazine, Thioridazine, etc) â ¢ Atypical Antipsychotics (Clozapine, Olanzapine, Quetiapine, etc) Agonists: Amthamine â ¢ Betazole â ¢ Dimaprit â ¢ Histamine â ¢ HTMT â ¢ Impromidine â ¢ UR-AK49 Antagonists: Bisfentidine â ¢ Burimamide â ¢ Cimetidine â ¢ Dalcotidine â ¢ Donetidine â ¢ Ebrotidine â ¢ Etintidine â ¢ Famotidine â ¢ Lafutidine â ¢ Lamtidine â ¢ H2 Lavoltidine/Loxtidine â ¢ Lupitidine â ¢ Metiamide â ¢ Mifentidine â ¢ Niperotidine â ¢ Nizatidine â ¢ Osutidine â ¢ Oxmetidine â ¢ Pibutidine â ¢ Quisultidine/Quisultazine â ¢ Ramixotidine â ¢ Ranitidine â ¢ Roxatidine â ¢ Sufotidine â ¢ Tiotidine â ¢ Tuvatidine â ¢ Venritidine â ¢ Zaltidine Agonists: Î±-Methylhistamine â ¢ Cipralisant â ¢ Histamine â ¢ Imetit â ¢ Immepip â ¢ Immethridine â ¢ Methimepip â ¢ Proxyfan Antagonists: A-349,821 â ¢ A-423,579 â ¢ ABT-239 â ¢ Betahistine â ¢ Burimamide â ¢ H3 Ciproxifan â ¢ Clobenpropit â ¢ Conessine â ¢ GSK-189,254 â ¢ Impentamine â ¢ Iodophenpropit â ¢ JNJ-5,207,852 â ¢ MK-0249 â ¢ NNC-38-1,049 â ¢ PF-03654746 â ¢ SCH-79,687 â ¢ Thioperamide â ¢ Tiprolisant â ¢ VUF-5,681 H4 Agonists: 4-Methylhistamine â ¢ Histamine â ¢ VUF-8,430 Antagonists: JNJ-7,777,120 â ¢ Thioperamide â ¢ VUF-6,002
+
+Reuptake Vesicular VMAT inhibitors Ibogaine â ¢ Reserpine â ¢ Tetrabenazine inhibitors
+
+[edit] External links
+
+7
+
+Histidine - Wikipedia, the free encyclopedia HDC inhibitors HNMT inhibitors DAO inhibitors Others Precursors L-Histidine Cofactors Vitamin B6 (pyridoxine, pyridoxamine, pyridoxal â Pyridoxal phosphate) Î±-FMH â ¢ Brocresine â ¢ Catechin â ¢ Cyanidanol-3 â ¢ McN-A-1293 â ¢ ME â ¢ Meciadanol â ¢ Naringenin â ¢ Thiazol-4-yimethoxyamine â ¢ Tritoqualine â ¢ Zy-15,029 Amodiaquine â ¢ BW-301U â ¢ Diphenhydramine â ¢ Harmaline â ¢ Metoprine â ¢ Quinacrine â ¢ SKF-91,488 â ¢ Tacrine 1,4-Diamino-2-butyne â ¢ Aminoguanidine
+
+Anabolism Enzyme inhibitors Catabolism
+
+Retrieved from "http://en.wikipedia.org/wiki/Histidine" Categories: Proteinogenic amino acids | Basic amino acids | Essential amino acids | Imidazoles
+Personal tools
+
+· Log in / create account
+Namespaces
+
+· Article · Discussion
+Variants Views
+
+· Read · Edit · View history
+Actions Search
+
+Navigation
+
+· Main page · Contents · Featured content · Current events · Random article · Donate to Wikipedia
+Interaction
+
+· Help · About Wikipedia · Community portal · Recent changes Personal tools 8
+
+Histidine - Wikipedia, the free encyclopedia · Contact Wikipedia
+Toolbox
+
+· What links here · Related changes · Upload file · Special pages · Permanent link · Cite this page
+Print/export
+
+· Create a book · Download as PDF · Printable version
+Languages
+
+· BÃ¢n-lÃ¢m-gÃº · Bosanski · CatalÃ · Ä esky · Dansk · Deutsch · EspaÃ±ol · Esperanto · Euskara · Ù Ø§Ø±Ø³Û · FranÃ§ais · í êµ-ì ´ · Hrvatski · Bahasa Indonesia · Italiano · ×¢× ×¨× ×ª · LatvieÅ¡u · LÃ«tzebuergesch · LietuviÅ³ · Magyar · Ð Ð°ÐºÐµÐ´Ð¾Ð½Ñ ÐºÐ¸ · Nederlands · æ ¥æ ¬èª · â ªNorsk (bokmÃ¥l)â ¬ · Occitan · Polski · PortuguÃªs · Ð Ñ Ñ Ñ ÐºÐ¸Ð¹ · Sicilianu · Ð¡Ñ Ð¿Ñ ÐºÐ¸ / Srpski · Suomi · Svenska Interaction 9
+
+Histidine - Wikipedia, the free encyclopedia · TÃ¼rkÃ§e · Ð£ÐºÑ Ð°Ñ Ð½Ñ Ñ ÐºÐ° · ä¸-æ · This page was last modified on 2 March 2011 at 18:07. · Text is available under the Creative Commons Attribution-ShareAlike License; additional terms may apply. See Terms of Use for details. Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc., a non-profit organization. · Contact us · Privacy policy · About Wikipedia · Disclaimers · ·
+
+Languages
+
+10
+
+
