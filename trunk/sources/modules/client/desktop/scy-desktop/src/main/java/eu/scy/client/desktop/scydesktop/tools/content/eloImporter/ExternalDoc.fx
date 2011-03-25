@@ -235,15 +235,11 @@ public class ExternalDoc extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
       }
    def saveTitleBarButton = TitleBarButton {
               actionId: "save"
-              iconType: "save"
               action: doSaveElo
-              tooltip: "save ELO"
            }
    def saveAsTitleBarButton = TitleBarButton {
               actionId: "saveAs"
-              iconType: "save_as"
               action: doSaveAsElo
-              tooltip: "save copy of ELO"
            }
    def importFileTitleBarButton = TitleBarButton {
               actionId: "import"

@@ -120,6 +120,7 @@ public class EloIconButton extends CustomNode, TooltipCreator {
          }
          onMouseReleased: function(e: MouseEvent): Void {
             if (not disableButton and not turnedOn and mouseOver) {
+               tooltipManager.onMouseExited(e);
                action();
             }
             mousePressed = false;

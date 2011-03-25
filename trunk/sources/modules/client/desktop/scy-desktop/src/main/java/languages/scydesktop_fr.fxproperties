@@ -38,6 +38,8 @@
 "Save as" = "Enregistrer sous"
 "Upload file" = "Importer le fichier"
 "Download file" = "Exporter le fichier"
+"save"="créer"
+"save as new ELO"="save as new ELO"
 "Welcome to SCY-Lab" = "Bienvenue dans SCY-Lab"
 "Please wait, while SCY-Lab is loading..." = "Veuillez patienter pendant le chargement de SCY-Lab..."
 "Loading, please wait..." = "Chargement, veuillez patientez..."

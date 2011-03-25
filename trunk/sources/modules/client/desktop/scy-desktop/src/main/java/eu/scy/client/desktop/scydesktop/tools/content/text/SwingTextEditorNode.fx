@@ -55,15 +55,11 @@ public class SwingTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSa
    var technicalFormatKey: IMetadataKey;
    def saveTitleBarButton = TitleBarButton {
               actionId: "save"
-              iconType: "save"
               action: doSaveElo
-              tooltip: "save ELO"
            }
    def saveAsTitleBarButton = TitleBarButton {
               actionId: "saveAs"
-              iconType: "save_as"
               action: doSaveAsElo
-              tooltip: "save copy of ELO"
            }
 
    public override function initialize(windowContent: Boolean): Void {
