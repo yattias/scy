@@ -4,7 +4,6 @@ import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -19,7 +18,6 @@ import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.ModelStorage;
-import eu.scy.agents.impl.PersistentStorage;
 import eu.scy.agents.keywords.workflow.ExtractTfIdfKeywordsWorkflow;
 import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 import eu.scy.agents.util.Utilities;
@@ -45,7 +43,6 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 			.getLogger(ExtractTfIdfKeywordsAgent.class.getName());
 
 	private ModelStorage modelStorage;
-	private PersistentStorage storage = null;
 
 	public ExtractTfIdfKeywordsAgent(Map<String, Object> params) {
 		super(NAME, params);
@@ -58,7 +55,6 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 		activationTuple = new Tuple(EXTRACT_TFIDF_KEYWORDS,
 				AgentProtocol.QUERY, String.class, String.class, String.class,
 				String.class);
-		storage = new PersistentStorage(host, port);
 		try {
 			listenerId = getCommandSpace().eventRegister(Command.WRITE,
 					activationTuple, this, true);
@@ -115,13 +111,8 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 
 	private DocumentFrequencyModel getDocumentFrequencyModel(String mission,
 			String language) {
-		DocumentFrequencyModel dfModel = (DocumentFrequencyModel) modelStorage
-				.getAsObject(mission, language,
-						KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
-		if (dfModel == null) {
-			dfModel = storage
-					.get(KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
-		}
+		DocumentFrequencyModel dfModel = modelStorage.get(mission, language,
+				KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
 		return dfModel;
 	}
 

@@ -1,6 +1,7 @@
 package eu.scy.agents.keywords;
 
 import java.rmi.dgc.VMID;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -92,7 +93,7 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 							mission, "en"));
 			Tuple response = getCommandSpace().waitToTake(
 					new Tuple(agent, AgentProtocol.RESPONSE, queryId,
-							String.class), AgentProtocol.ALIVE_INTERVAL * 3);
+							String.class), AgentProtocol.SECOND * 30);
 			if (response == null) {
 				return result;
 			}
@@ -143,8 +144,9 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 			Set<String> tfIdfKeywords = callKeywordsAgent(
 					ExtractTfIdfKeywordsAgent.EXTRACT_TFIDF_KEYWORDS, text,
 					mission);
-			Set<String> keyPhrases = callKeywordsAgent(
-					ExtractKeyphrasesAgent.EXTRACT_KEYPHRASES, text, mission);
+			Set<String> keyPhrases = Collections.emptySet();
+			// callKeywordsAgent(
+			// ExtractKeyphrasesAgent.EXTRACT_KEYPHRASES, text, mission);
 			Set<String> topicKeywords = callKeywordsAgent(
 					ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS,
 					text, mission);

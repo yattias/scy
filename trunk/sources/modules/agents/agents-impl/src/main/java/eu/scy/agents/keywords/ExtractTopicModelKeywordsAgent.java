@@ -20,14 +20,11 @@ import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.ModelStorage;
-import eu.scy.agents.impl.PersistentStorage;
 import eu.scy.agents.keywords.workflow.ExtractTopicModelKeywordsWorkflow;
 import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 import eu.scy.agents.util.Utilities;
 
 public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
-
-	private static final String CO2_SCY_ENGLISH = "co2_scy_english";
 
 	public static final String EXTRACT_TOPIC_MODEL_KEYWORDS = "ExtractTopicModelKeywords";
 
@@ -37,15 +34,11 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 	private static final Logger logger = Logger
 			.getLogger(ExtractTopicModelKeywordsAgent.class.getName());
 
-	private static final String TOPIC_MODEL = "topicModel";
-
 	private Tuple activationTuple;
 
 	private int listenerId = -1;
 
 	private ModelStorage modelStorage;
-
-	private PersistentStorage storage;
 
 	public ExtractTopicModelKeywordsAgent(Map<String, Object> params) {
 		super(NAME, params);
@@ -58,14 +51,13 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 		activationTuple = new Tuple(EXTRACT_TOPIC_MODEL_KEYWORDS,
 				AgentProtocol.QUERY, String.class, String.class, String.class,
 				String.class);
-		modelStorage = new ModelStorage(getCommandSpace());
-		storage = new PersistentStorage(host, port);
 		try {
 			listenerId = getCommandSpace().eventRegister(Command.WRITE,
 					activationTuple, this, true);
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
+		modelStorage = new ModelStorage(getCommandSpace());
 	}
 
 	@Override
@@ -97,6 +89,7 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 		if (dfModel == null) {
 			return Collections.emptySet();
 		}
+
 		ParallelTopicModel tm = getTopicModel(mission, language);
 		if (tm == null) {
 			return Collections.emptySet();
@@ -118,29 +111,20 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 			return doc.getFeature(KeywordWorkflowConstants.TM_KEYWORDS);
 		} catch (RuntimeException e) {
 			logger.fatal(e.getMessage(), e);
-			e.printStackTrace();
 			return new HashSet<String>();
 		}
 	}
 
 	private ParallelTopicModel getTopicModel(String mission, String language) {
-		ParallelTopicModel tm = (ParallelTopicModel) modelStorage.getAsObject(
-				mission, language, TOPIC_MODEL);
-		if (tm == null) {
-			tm = (ParallelTopicModel) storage.get(CO2_SCY_ENGLISH);
-		}
+		ParallelTopicModel tm = (ParallelTopicModel) modelStorage.get(mission,
+				language, KeywordWorkflowConstants.TOPIC_MODEL);
 		return tm;
 	}
 
 	private DocumentFrequencyModel getDocumentFrequencyModel(String mission,
 			String language) {
-		DocumentFrequencyModel dfModel = (DocumentFrequencyModel) modelStorage
-				.getAsObject(mission, language,
-						KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
-		if (dfModel == null) {
-			dfModel = storage
-					.get(KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
-		}
+		DocumentFrequencyModel dfModel = modelStorage.get(mission, language,
+				KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
 		return dfModel;
 	}
 
@@ -173,13 +157,13 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 			super.call(command, seq, afterTuple, beforeTuple);
 			return;
 		} else {
+			logger.debug("tm agent called");
 			String queryId = (String) afterTuple.getField(2).getValue();
 			String text = (String) afterTuple.getField(3).getValue();
 			String mission = (String) afterTuple.getField(4).getValue();
 			String language = (String) afterTuple.getField(5).getValue();
-
 			Set<String> keywords = extractKeywords(text, mission, language);
-
+			logger.debug("found keywords " + keywords);
 			try {
 				getCommandSpace().write(getResponseTuple(keywords, queryId));
 			} catch (TupleSpaceException e) {

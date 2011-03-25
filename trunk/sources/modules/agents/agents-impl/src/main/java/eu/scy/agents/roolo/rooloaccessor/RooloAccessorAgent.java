@@ -3,6 +3,7 @@ package eu.scy.agents.roolo.rooloaccessor;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
+import info.collide.sqlspaces.commons.Callback.Command;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,16 +19,11 @@ import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.impl.AgentRooloServiceImpl;
-import eu.scy.common.mission.AgentModelElo;
-import eu.scy.common.mission.AgentModelEloContent;
-import eu.scy.common.mission.MissionSpecificationElo;
-import eu.scy.common.mission.MissionSpecificationEloContent;
+import eu.scy.agents.impl.AbstractThreadedAgent.Status;
+import eu.scy.agents.topics.TopicAgents;
 
 public class RooloAccessorAgent extends AbstractThreadedAgent implements
 		IRepositoryAgent {
-
-	private static final String NOT_PRESENT = "not_present";
 
 	private static final Logger logger = Logger
 			.getLogger(RooloAccessorAgent.class.getName());
@@ -40,19 +36,28 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements
 
 	static final String AGENT_NAME = "roolo-agent";
 
-	private static final String AGENT_MODEL = "agent-model";
-
 	public static final String NAME = RooloAccessorAgent.class.getName();
 
 	private boolean isStopped;
 
-	private AgentRooloServiceImpl rooloServices;
+	private IRepository rooloServices;
+
+	private IMetadataTypeManager metadataTypeManager;
+
+	private int listenerId;
 
 	public RooloAccessorAgent(Map<String, Object> map) {
 		super(NAME, (String) map.get(AgentProtocol.PARAM_AGENT_ID),
 				(String) map.get(AgentProtocol.TS_HOST), (Integer) map
 						.get(AgentProtocol.TS_PORT));
-		rooloServices = new AgentRooloServiceImpl();
+		Tuple activationTuple = new Tuple(String.class, AGENT_NAME,
+				String.class, Field.createWildCardField());
+		try {
+			listenerId = getCommandSpace().eventRegister(Command.WRITE,
+					activationTuple, this, true);
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -60,24 +65,23 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements
 			InterruptedException {
 		while (status == Status.Running) {
 			sendAliveUpdate();
-			Tuple t = getCommandSpace().waitToTake(
-					new Tuple(String.class, AGENT_NAME, String.class,
-							Field.createWildCardField()),
-					AgentProtocol.COMMAND_EXPIRATION);
-			if (t != null) {
-				processTuple(t);
+			try {
+				Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 3);
+			} catch (InterruptedException e) {
+				throw new AgentLifecycleException(e.getMessage(), e);
 			}
-			// Thread.sleep(5000);
 		}
 	}
 
 	@Override
 	protected void doStop() throws AgentLifecycleException {
 		try {
-			getCommandSpace().disconnect();
+			getCommandSpace().eventDeRegister(listenerId);
 		} catch (TupleSpaceException e) {
-			e.printStackTrace();
+			throw new AgentLifecycleException("Could not deregister listener",
+					e);
 		}
+		status = Status.Stopping;
 	}
 
 	@Override
@@ -103,66 +107,27 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements
 						+ " RequestID was: " + requestUID);
 				return;
 			}
+
 			URI eloURI = new URI(tuple.getField(3).getValue().toString());
 			if (type.equals(METADATA)) {
-				if (rooloServices.getRepository() != null) {
+				if (rooloServices != null) {
 					logger.debug("Request to fetch metadata for ELO: " + eloURI
 							+ " RequestID was: " + requestUID);
-					IMetadata metadata = rooloServices.getRepository()
-							.retrieveMetadata(eloURI);
+					IMetadata metadata = rooloServices.retrieveMetadata(eloURI);
 					sendResponse(metadata, requestUID);
 				} else {
 					logger.debug("Request to fetch metadata for ELO, but Repository is null: "
 							+ eloURI + " RequestID was: " + requestUID);
 				}
 			} else if (type.equals(ELO)) {
-				if (rooloServices.getRepository() != null) {
+				if (rooloServices != null) {
 					logger.debug("Request to fetch ELO: " + eloURI
 							+ " RequestID was: " + requestUID);
-					IELO elo = rooloServices.getRepository()
-							.retrieveELO(eloURI);
+					IELO elo = rooloServices.retrieveELO(eloURI);
 					sendResponse(elo, requestUID);
 				} else {
 					logger.debug("Request to fetch ELO, but Repository is null: "
 							+ eloURI + " RequestID was: " + requestUID);
-				}
-			} else if (type.equals(AGENT_MODEL)) {
-				String language = tuple.getField(4).getValue().toString();
-				String key = tuple.getField(5).getValue().toString();
-				MissionSpecificationElo missionSpecification = getMissionSpecification(eloURI);
-				if (missionSpecification == null) {
-					sendModelNotPresentResponse(requestUID);
-					return;
-				}
-				MissionSpecificationEloContent missionSpecificationEloContent = missionSpecification
-						.getTypedContent();
-				URI agentModelsEloUri = missionSpecificationEloContent
-						.getAgentModelsEloUri();
-				if (agentModelsEloUri == null) {
-					sendModelNotPresentResponse(requestUID);
-					return;
-				}
-				AgentModelElo agentModelElo = AgentModelElo.loadElo(
-						agentModelsEloUri, rooloServices);
-				if (agentModelElo == null) {
-					sendModelNotPresentResponse(requestUID);
-					return;
-				}
-				AgentModelEloContent agentModelEloContent = agentModelElo
-						.getTypedContent();
-				URI modelEloUri = agentModelEloContent.getModelEloUri(key,
-						language);
-				if (modelEloUri == null) {
-					sendModelNotPresentResponse(requestUID);
-					return;
-				}
-				IELO modelElo = rooloServices.getRepository().retrieveELO(
-						modelEloUri);
-				if (modelElo != null) {
-					sendModelResponse(modelElo.getContent().getBytes(),
-							requestUID);
-				} else {
-					sendModelNotPresentResponse(requestUID);
 				}
 			} else {
 				logger.debug("Unknown Type in Request-Tuple: " + type
@@ -173,34 +138,6 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements
 					+ tuple.getField(2).getValue().toString());
 			e.printStackTrace();
 		}
-	}
-
-	private MissionSpecificationElo getMissionSpecification(URI mission) {
-		return MissionSpecificationElo.loadElo(mission, rooloServices);
-	}
-
-	private void sendModelResponse(byte[] bytes, String requestUID) {
-		if (bytes != null) {
-			Tuple answerTuple = new Tuple(requestUID, ROOLO_RESPONSE, bytes);
-			try {
-				getCommandSpace().write(answerTuple);
-			} catch (TupleSpaceException e) {
-				e.printStackTrace();
-			}
-		} else {
-			logger.debug("Repository returned null for AgentModel request with id: "
-					+ requestUID);
-		}
-	}
-
-	private void sendModelNotPresentResponse(String requestUID) {
-		Tuple answerTuple = new Tuple(requestUID, ROOLO_RESPONSE, NOT_PRESENT);
-		try {
-			getCommandSpace().write(answerTuple);
-		} catch (TupleSpaceException e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	public void sendResponse(IELO elo, String requestUID) {
@@ -235,12 +172,23 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements
 
 	@Override
 	public void setRepository(IRepository rep) {
-		rooloServices.setRepository(rep);
+		rooloServices = rep;
 	}
 
 	@Override
 	public void setMetadataTypeManager(IMetadataTypeManager manager) {
-		rooloServices.setMetadataTypeManager(manager);
+		metadataTypeManager = manager;
+	}
+
+	@Override
+	public void call(Command command, int seq, Tuple tuple, Tuple beforeTuple) {
+		if (listenerId != seq) {
+			logger.debug("Callback passed to Superclass.");
+			super.call(command, seq, tuple, beforeTuple);
+			return;
+		} else {
+			processTuple(tuple);
+		}
 	}
 
 }
