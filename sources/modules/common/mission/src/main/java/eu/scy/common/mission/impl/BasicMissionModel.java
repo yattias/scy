@@ -62,6 +62,18 @@ public class BasicMissionModel implements MissionModel
 		return missionModelEloContent.getMissionMapBackgroundImageUri();
 	}
 
+   @Override
+   public String getMissionMapButtonIconType()
+   {
+      return missionModelEloContent.getMissionMapButtonIconType();
+   }
+
+   @Override
+   public URI getMissionMapInstructionUri()
+   {
+      return missionModelEloContent.getMissionMapBackgroundImageUri();
+   }
+
 	@Override
 	public List<URI> getEloUris(boolean allElos)
 	{
