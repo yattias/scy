@@ -30,10 +30,8 @@
 				<configuration>
 					<mainClass>eu.scy.agents.AgentFramework</mainClass>
 					<arguments>
-						<!--
-							fill in here other agents that should be started at debug
-							sessions (without spring)
-						-->
+						<!-- fill in here other agents that should be started at debug sessions 
+							(without spring) -->
 						<argument>eu.scy.agents.serviceprovider.ontology.OntologyLookupAgent
 						</argument>
 					</arguments>
@@ -61,12 +59,12 @@
 			<groupId>org.roolo</groupId>
 			<artifactId>elo-api</artifactId>
 		</dependency>
-		
-		 <dependency>
-            <groupId>org.roolo</groupId>
-            <artifactId>roolo-lucene</artifactId>
-            <version>0.7.0-SNAPSHOT</version>
-        </dependency>
+
+		<dependency>
+			<groupId>org.roolo</groupId>
+			<artifactId>roolo-lucene</artifactId>
+			<version>0.7.0-SNAPSHOT</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.roolo</groupId>
@@ -90,35 +88,32 @@
 			<scope>compile</scope>
 		</dependency>
 
+		<!--<dependency> <groupId>eu.scy.common</groupId> <artifactId>agent-api</artifactId> 
+			<version>${project.version}</version> </dependency> -->
 		<dependency>
-			<groupId>${pom.groupId}</groupId>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>agents-base</artifactId>
-			<version>${pom.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>eu.scy.common</groupId>
-            <artifactId>configuration</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
+			<artifactId>configuration</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>action-logging-commons</artifactId>
-			<version>${pom.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>action-logging-api</artifactId>
-			<version>${pom.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>eu.scy.common</groupId>
-			<artifactId>agent-api</artifactId>
-			<version>${pom.version}</version>
-		</dependency>
 
 		<dependency>
 			<groupId>de.fhg.iais.kd.tm</groupId>
@@ -151,13 +146,8 @@
 			<version>1.0</version>
 		</dependency>
 
-		<!--<dependency>
-			<groupId>org.gnu</groupId>
-			<artifactId>trove</artifactId>
-			<version>2.0.2</version>
-		</dependency>
-
-		-->
+		<!--<dependency> <groupId>org.gnu</groupId> <artifactId>trove</artifactId> 
+			<version>2.0.2</version> </dependency> -->
 		<dependency>
 			<groupId>backport-util-concurrent</groupId>
 			<artifactId>backport-util-concurrent</artifactId>
@@ -215,11 +205,8 @@
 		</dependency>
 	</dependencies>
 
-	<!--
-		<scm>
-		<connection>scm:svn:http://scy.googlecode.com/svn/trunk/roolo-agents</connection>
-		<developerConnection>scm:svn:http://scy.googlecode.com/svn/trunk/roolo-agents</developerConnection>
-		<url>http://scy.googlecode.com/svn/trunk/roolo-agents</url> </scm>
-	-->
+	<!-- <scm> <connection>scm:svn:http://scy.googlecode.com/svn/trunk/roolo-agents</connection> 
+		<developerConnection>scm:svn:http://scy.googlecode.com/svn/trunk/roolo-agents</developerConnection> 
+		<url>http://scy.googlecode.com/svn/trunk/roolo-agents</url> </scm> -->
 
 </project>
