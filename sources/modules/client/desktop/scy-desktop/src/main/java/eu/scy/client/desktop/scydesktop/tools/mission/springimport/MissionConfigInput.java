@@ -18,6 +18,8 @@ public interface MissionConfigInput {
 
    public URI getColorSchemesEloUri();
 
+   public URI getAgentModelsEloUri();
+
    public URI getMissionDescriptionUri();
    
    public MissionModelEloContent getMissionModelEloContent();

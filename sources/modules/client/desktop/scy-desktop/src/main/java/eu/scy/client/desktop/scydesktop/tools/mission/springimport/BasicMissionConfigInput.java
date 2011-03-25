@@ -41,6 +41,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
    private List<String> errors = new ArrayList<String>();
    private URI missionDescriptionUri;
    private URI colorSchemesEloUri;
+   private URI agentModelsEloUri;
 
    public void parseEloConfigs(ToolBrokerAPI tbi)
    {
@@ -89,6 +90,25 @@ public class BasicMissionConfigInput implements MissionConfigInput
    public void setColorSchemesEloUri(URI colorSchemesEloUri)
    {
       this.colorSchemesEloUri = colorSchemesEloUri;
+   }
+
+   public void setAgentModelsEloUri(URI agentModelsEloUri)
+   {
+      this.agentModelsEloUri = agentModelsEloUri;
+   }
+
+   @Override
+   public URI getAgentModelsEloUri()
+   {
+      if (agentModelsEloUri != null)
+      {
+         ScyElo agentModelsElo = ScyElo.loadElo(agentModelsEloUri, tbi);
+         if (agentModelsElo == null)
+         {
+            logger.warn(addError("could not find agentModelsElo with uri: " + agentModelsElo));
+         }
+      }
+      return agentModelsEloUri;
    }
 
    public void setEloToolConfigs(List<EloToolConfig> eloConfigList)

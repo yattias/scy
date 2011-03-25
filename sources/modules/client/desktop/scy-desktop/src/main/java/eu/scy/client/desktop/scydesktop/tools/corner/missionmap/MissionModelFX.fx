@@ -38,6 +38,8 @@ public class MissionModelFX extends MissionModel {
    public var lasses: LasFX[];
    public-read var activeLas: LasFX;
    public-read var missionMapBackgroundImageUri: URI;
+   public-read var missionMapInstructionUri: URI;
+   public-read var missionMapButtonIconType: String;
    public var saveUpdatedModel = false;
    public var scyDesktop: ScyDesktop;
    var contentChanged = false;
@@ -53,6 +55,8 @@ public class MissionModelFX extends MissionModel {
             }
       }
       missionMapBackgroundImageUri = missionModel.getMissionMapBackgroundImageUri();
+      missionMapInstructionUri = missionModel.getMissionMapInstructionUri();
+      missionMapButtonIconType = missionModel.getMissionMapButtonIconType();
       // the active las is set a bit later, so that the fullscreen mission map is shown first
    }
 
@@ -237,5 +241,14 @@ public class MissionModelFX extends MissionModel {
    override public function getMissionMapBackgroundImageUri(): URI {
       return missionModel.getMissionMapBackgroundImageUri();
    }
+
+    override public function getMissionMapButtonIconType () : String {
+        return missionModel.getMissionMapButtonIconType();
+    }
+
+    override public function getMissionMapInstructionUri () : URI {
+        return missionModel.getMissionMapInstructionUri();
+    }
+
 
 }
