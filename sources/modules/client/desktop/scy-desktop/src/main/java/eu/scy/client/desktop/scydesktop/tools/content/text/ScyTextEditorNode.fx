@@ -71,16 +71,12 @@ public class ScyTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSave
    var elo: IELO;
    var technicalFormatKey: IMetadataKey;
    def saveTitleBarButton = TitleBarButton {
-              actionId: "save"
-              iconType: "save"
+              actionId: TitleBarButton.saveActionId
               action: doSaveElo
-              tooltip: "save ELO"
            }
    def saveAsTitleBarButton = TitleBarButton {
-              actionId: "saveAs"
-              iconType: "save_as"
+              actionId: TitleBarButton.saveAsActionId
               action: doSaveAsElo
-              tooltip: "save copy of ELO"
            }
 
    public override function initialize(windowContent: Boolean): Void {
