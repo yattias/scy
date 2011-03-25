@@ -246,7 +246,9 @@ public class InitialNamedAction implements Cloneable {
             element.addContent(variable.toXML());
         }
         if(defaultDraw != null){
-            element.addContent(new Element(TAG_INITIAL_NAMED_ACTION_DEFAULT_DRAW).setContent(defaultDraw));
+            Element e = new Element(TAG_INITIAL_NAMED_ACTION_DEFAULT_DRAW) ;
+            e.addContent(defaultDraw.cloneContent());
+            element.addContent(e);
         }
 	return element;
     }
