@@ -107,22 +107,18 @@ public class SimulatorNode
     def simulatorContent = Group {};
 
     def saveTitleBarButton = TitleBarButton {
-	  actionId: "save"
-	  iconType: "save"
+	  actionId: TitleBarButton.saveActionId
 	  action: doSaveSimconfig
-	  tooltip: "save ELO"
     }
 
    def saveAsTitleBarButton = TitleBarButton {
-	  actionId: "saveAs"
-	  iconType: "save_as"
+	  actionId: TitleBarButton.saveAsActionId
 	  action: doSaveAsSimconfig
-	  tooltip: "save copy of ELO"
     }
 
     def saveAsDatasetTitleBarButton = TitleBarButton {
 	  actionId: "saveAsDataset"
-	  iconType: "save_as"
+	  iconType: "save_as_dataset"
 	  action: doSaveAsDataset
 	  tooltip: "save copy of ELO as dataset"
     }
