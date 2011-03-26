@@ -37,10 +37,12 @@ public class EloIconButton extends CustomNode, TooltipCreator {
    public var turnedOn = false;
    public var tooltip: String;
    public var tooltipManager: TooltipManager;
+   public var actionScheme = 0;
 //   public override var disable on replace { updateColors() }
    public var disableButton = false on replace { updateColors() };
    var mouseOver = false;
    var mousePressed = false;
+   var contentGroup: Group;
    def enabledOpacity = 1.0;
    def disabledOpacity = 0.5;
    def lighterColorFactor = 0.5;
@@ -54,38 +56,88 @@ public class EloIconButton extends CustomNode, TooltipCreator {
    }
 
    function updateColors(): Void {
+      if (actionScheme == 1) {
+         updateColors1();
+         return;
+      }
+      updateColors0();
+   }
+
+   function updateColors0(): Void {
       if (disableButton) {
          eloIcon.windowColorScheme.assign(originalWindowColorScheme);
          opacity = disabledOpacity;
-      } else if ((mouseOver and mousePressed) or turnedOn) {
+         blocksMouse = false;
+         cursor = null;
+      } else {
          opacity = enabledOpacity;
-         eloIcon.windowColorScheme.mainColor = originalWindowColorScheme.mainColor;
-         eloIcon.windowColorScheme.mainColorLight = originalWindowColorScheme.mainColor;
-         eloIcon.windowColorScheme.secondColor = originalWindowColorScheme.secondColor;
-         eloIcon.windowColorScheme.secondColorLight = originalWindowColorScheme.secondColor;
-         eloIcon.windowColorScheme.thirdColor = originalWindowColorScheme.thirdColor;
-         eloIcon.windowColorScheme.thirdColorLight = originalWindowColorScheme.thirdColor;
-         eloIcon.windowColorScheme.backgroundColor = originalWindowColorScheme.backgroundColor;
-         eloIcon.windowColorScheme.emptyBackgroundColor = originalWindowColorScheme.mainColor;
-      } else if (not mouseOver and not mousePressed) {
-         opacity = enabledOpacity;
+         blocksMouse = true;
+         cursor = Cursor.HAND;
+         if ((mouseOver and mousePressed) or turnedOn) {
+            eloIcon.windowColorScheme.mainColor = originalWindowColorScheme.mainColor;
+            eloIcon.windowColorScheme.mainColorLight = originalWindowColorScheme.mainColor;
+            eloIcon.windowColorScheme.secondColor = originalWindowColorScheme.secondColor;
+            eloIcon.windowColorScheme.secondColorLight = originalWindowColorScheme.secondColor;
+            eloIcon.windowColorScheme.thirdColor = originalWindowColorScheme.thirdColor;
+            eloIcon.windowColorScheme.thirdColorLight = originalWindowColorScheme.thirdColor;
+            eloIcon.windowColorScheme.backgroundColor = originalWindowColorScheme.backgroundColor;
+            eloIcon.windowColorScheme.emptyBackgroundColor = originalWindowColorScheme.mainColor;
+         } else if (not mouseOver and not mousePressed) {
+            eloIcon.windowColorScheme.assign(originalWindowColorScheme);
+         } else if (mouseOver and not mousePressed) {
+            eloIcon.windowColorScheme.mainColor = originalWindowColorScheme.mainColorLight;
+            eloIcon.windowColorScheme.mainColorLight = originalWindowColorScheme.mainColor;
+            eloIcon.windowColorScheme.backgroundColor = originalWindowColorScheme.backgroundColor;
+            eloIcon.windowColorScheme.emptyBackgroundColor = originalWindowColorScheme.mainColor;
+         } else if (not mouseOver and mousePressed) {
+            eloIcon.windowColorScheme.mainColor = lighterColor(originalWindowColorScheme.mainColor);
+            eloIcon.windowColorScheme.mainColorLight = lighterColor(originalWindowColorScheme.mainColor);
+            eloIcon.windowColorScheme.secondColor = lighterColor(originalWindowColorScheme.secondColor);
+            eloIcon.windowColorScheme.secondColorLight = lighterColor(originalWindowColorScheme.secondColor);
+            eloIcon.windowColorScheme.thirdColor = lighterColor(originalWindowColorScheme.thirdColor);
+            eloIcon.windowColorScheme.thirdColorLight = lighterColor(originalWindowColorScheme.thirdColor);
+            eloIcon.windowColorScheme.backgroundColor = originalWindowColorScheme.backgroundColor;
+            eloIcon.windowColorScheme.emptyBackgroundColor = originalWindowColorScheme.mainColor;
+         }
+      }
+   }
+
+   function updateColors1(): Void {
+      if (disableButton) {
          eloIcon.windowColorScheme.assign(originalWindowColorScheme);
-      } else if (mouseOver and not mousePressed) {
+         opacity = disabledOpacity;
+         blocksMouse = false;
+         cursor = null;
+      } else {
          opacity = enabledOpacity;
-         eloIcon.windowColorScheme.mainColor = originalWindowColorScheme.mainColorLight;
-         eloIcon.windowColorScheme.mainColorLight = originalWindowColorScheme.mainColor;
-         eloIcon.windowColorScheme.backgroundColor = originalWindowColorScheme.backgroundColor;
-         eloIcon.windowColorScheme.emptyBackgroundColor = originalWindowColorScheme.mainColor;
-      } else if (not mouseOver and mousePressed) {
-         opacity = enabledOpacity;
-         eloIcon.windowColorScheme.mainColor = lighterColor(originalWindowColorScheme.mainColor);
-         eloIcon.windowColorScheme.mainColorLight = lighterColor(originalWindowColorScheme.mainColor);
-         eloIcon.windowColorScheme.secondColor = lighterColor(originalWindowColorScheme.secondColor);
-         eloIcon.windowColorScheme.secondColorLight = lighterColor(originalWindowColorScheme.secondColor);
-         eloIcon.windowColorScheme.thirdColor = lighterColor(originalWindowColorScheme.thirdColor);
-         eloIcon.windowColorScheme.thirdColorLight = lighterColor(originalWindowColorScheme.thirdColor);
-         eloIcon.windowColorScheme.backgroundColor = originalWindowColorScheme.backgroundColor;
-         eloIcon.windowColorScheme.emptyBackgroundColor = originalWindowColorScheme.mainColor;
+         blocksMouse = true;
+         cursor = Cursor.HAND;
+         if ((mouseOver and mousePressed) or turnedOn) {
+            eloIcon.windowColorScheme.mainColor = originalWindowColorScheme.secondColor;
+            eloIcon.windowColorScheme.mainColorLight = originalWindowColorScheme.mainColor;
+            eloIcon.windowColorScheme.secondColor = originalWindowColorScheme.secondColor;
+            eloIcon.windowColorScheme.secondColorLight = originalWindowColorScheme.secondColor;
+            eloIcon.windowColorScheme.thirdColor = originalWindowColorScheme.thirdColor;
+            eloIcon.windowColorScheme.thirdColorLight = originalWindowColorScheme.thirdColor;
+            eloIcon.windowColorScheme.backgroundColor = originalWindowColorScheme.backgroundColor;
+            eloIcon.windowColorScheme.emptyBackgroundColor = originalWindowColorScheme.mainColor;
+         } else if (not mouseOver and not mousePressed) {
+            eloIcon.windowColorScheme.assign(originalWindowColorScheme);
+         } else if (mouseOver and not mousePressed) {
+            eloIcon.windowColorScheme.mainColor = originalWindowColorScheme.mainColorLight;
+            eloIcon.windowColorScheme.mainColorLight = originalWindowColorScheme.mainColor;
+            eloIcon.windowColorScheme.backgroundColor = originalWindowColorScheme.backgroundColor;
+            eloIcon.windowColorScheme.emptyBackgroundColor = originalWindowColorScheme.mainColor;
+         } else if (not mouseOver and mousePressed) {
+            eloIcon.windowColorScheme.mainColor = lighterColor(originalWindowColorScheme.secondColor);
+            eloIcon.windowColorScheme.mainColorLight = lighterColor(originalWindowColorScheme.mainColor);
+            eloIcon.windowColorScheme.secondColor = lighterColor(originalWindowColorScheme.secondColor);
+            eloIcon.windowColorScheme.secondColorLight = lighterColor(originalWindowColorScheme.secondColor);
+            eloIcon.windowColorScheme.thirdColor = lighterColor(originalWindowColorScheme.thirdColor);
+            eloIcon.windowColorScheme.thirdColorLight = lighterColor(originalWindowColorScheme.thirdColor);
+            eloIcon.windowColorScheme.backgroundColor = originalWindowColorScheme.backgroundColor;
+            eloIcon.windowColorScheme.emptyBackgroundColor = originalWindowColorScheme.mainColor;
+         }
       }
    }
 
@@ -99,51 +151,54 @@ public class EloIconButton extends CustomNode, TooltipCreator {
 
    public override function create(): Node {
       newEloIcon();
-      Group {
-         cursor: Cursor.HAND
-         blocksMouse: true
-         content: bind eloIcon
+      contentGroup = Group {
+//                 cursor: Cursor.HAND
+//                 blocksMouse: bind not disableButton
+                 content: bind eloIcon
 
-         onMouseEntered: function(e: MouseEvent): Void {
-            mouseOver = true;
-            updateColors();
-            tooltipManager.onMouseEntered(e, this);
-         }
-         onMouseExited: function(e: MouseEvent): Void {
-            mouseOver = false;
-            updateColors();
-            tooltipManager.onMouseExited(e);
-         }
-         onMousePressed: function(e: MouseEvent): Void {
-            mousePressed = true;
-            updateColors();
-         }
-         onMouseReleased: function(e: MouseEvent): Void {
-            if (not disableButton and not turnedOn and mouseOver) {
-               tooltipManager.onMouseExited(e);
-               action();
-            }
-            mousePressed = false;
-            updateColors();
-         }
-      }
+                 onMouseEntered: function(e: MouseEvent): Void {
+                    mouseOver = true;
+                    updateColors();
+                    tooltipManager.onMouseEntered(e, this);
+                 }
+                 onMouseExited: function(e: MouseEvent): Void {
+                    mouseOver = false;
+                    updateColors();
+                    tooltipManager.onMouseExited(e);
+                 }
+                 onMousePressed: function(e: MouseEvent): Void {
+                    mousePressed = true;
+                    updateColors();
+                 }
+                 onMouseReleased: function(e: MouseEvent): Void {
+                    if (not disableButton and not turnedOn and mouseOver) {
+                       tooltipManager.onMouseExited(e);
+                       action();
+                    }
+                    mousePressed = false;
+                    updateColors();
+                 }
+              }
    }
 
    public override function createTooltipNode(sourceNode: Node): Node {
-      if (tooltip!=""){
-         return TextTooltip{
-            content:tooltip
-            windowColorScheme:originalWindowColorScheme
-         }
+      if (tooltip != "") {
+         return TextTooltip {
+                    content: tooltip
+                    windowColorScheme: originalWindowColorScheme
+                 }
 
       }
       return null;
    }
+
 }
 
 public class EloIconButtonPreview extends CustomNode {
+
    public-init var tooltipManager: TooltipManager;
    public-init var size = 20.0;
+   public-init var actionScheme = 0;
    public var eloIcon: EloIcon on replace { newEloIcon() };
    def spacing = 5.0;
    var normalEloIconButton = EloIconButton {
@@ -172,7 +227,7 @@ public class EloIconButtonPreview extends CustomNode {
            }
    var disabledEloIconButton = EloIconButton {
               size: size;
-//              disable: true
+              //              disable: true
               disableButton: true
               tooltip: "disabled"
            }
@@ -191,6 +246,7 @@ public class EloIconButtonPreview extends CustomNode {
 
    function newEloIcon(): Void {
       for (eloIconButton in eloIconButtons) {
+         eloIconButton.actionScheme = actionScheme;
          eloIconButton.size = size;
          eloIconButton.eloIcon = eloIcon.clone();
          eloIconButton.tooltipManager = tooltipManager;
@@ -251,7 +307,7 @@ public class EloIconButtonPreview extends CustomNode {
                   VBox {
                      spacing: spacing
                      nodeHPos: HPos.CENTER
-//                     disable: true
+                     //                     disable: true
                      content: [
                         disabledEloIconButton,
                         Label {
@@ -289,7 +345,7 @@ public class EloIconButtonPreview extends CustomNode {
 }
 
 function run() {
-   def tooltipManager = SimpleTooltipManager{};
+   def tooltipManager = SimpleTooltipManager {};
    def eloIconFactory = EloIconFactory {};
    def windowColorScheme = WindowColorScheme {
               mainColor: Color.rgb(129, 163, 66);
@@ -313,13 +369,44 @@ function run() {
          height: 200
          fill: Color.LAVENDER
          content: [
-            EloIconButtonPreview {
+            VBox {
+               spacing: 5.0
                layoutX: 10
                layoutY: 10
-               size: 40
-               eloIcon: eloIcon.clone()
-               tooltipManager: tooltipManager
+               content: [
+                  EloIconButtonPreview {
+                     layoutX: 10
+                     layoutY: 10
+                     size: 40
+                     eloIcon: eloIcon.clone()
+                     tooltipManager: tooltipManager
+                  }
+                  EloIconButtonPreview {
+                     layoutX: 10
+                     layoutY: 0
+                     size: 14
+                     eloIcon: eloIcon.clone()
+                     tooltipManager: tooltipManager
+                  }
+                  EloIconButtonPreview {
+                     layoutX: 10
+                     layoutY: 10
+                     size: 40
+                     eloIcon: eloIcon.clone()
+                     tooltipManager: tooltipManager
+                     actionScheme: 1
+                  }
+                  EloIconButtonPreview {
+                     layoutX: 10
+                     layoutY: 0
+                     size: 14
+                     eloIcon: eloIcon.clone()
+                     tooltipManager: tooltipManager
+                     actionScheme: 1
+                  }
+               ]
             }
+
             SimpleTooltipManager.tooltipGroup
          ]
       }

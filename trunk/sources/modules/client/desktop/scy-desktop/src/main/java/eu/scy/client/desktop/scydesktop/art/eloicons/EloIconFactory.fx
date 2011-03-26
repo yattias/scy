@@ -11,7 +11,7 @@ import eu.scy.client.desktop.scydesktop.art.ScyColors;
 public class EloIconFactory {
  def windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
 
-def names = ["Import","Export","Save_as_data","Save_as","Save","Video","Search","Research_question","Report","Presentation","Reflection","Pizza","Orientation2","Orientation","New","Model","Interview","Information2","Information","Idea","Hypothese2","Hypothese","House","Exp_design","Evaluation_report","Drawing2","Drawing","Designed_artifact","Design_of_artifact","Debate_argument","Dataset_processed","Dataset","Data","Conclusion","Concept_map3","Concept_map2","Concept_map","Concept_hypothese","Collaboration_invitation","Collaboration_accepted","Collaboration_denied","Choices","Assignment","Analyse","Alert_question","Alert_message"];
+def names = ["Import_2","Import_1","Import","Export_2","Export_1","Export","Save_as_dataset","Save_as_1","Save_as","Save_2","Save_1","Save","Minimize_1","Minimize","Unrotate","Maximize","Center_1","Center","Video","Search","Research_question","Report","Presentation","Reflection","Pizza","Orientation2","Orientation","New","Model","Interview","Information2","Information","Idea","Hypothese2","Hypothese","House","Exp_design","Evaluation_report","Drawing2","Drawing","Designed_artifact","Design_of_artifact","Debate_argument","Dataset_processed","Dataset","Data","Conclusion","Concept_map3","Concept_map2","Concept_map","Concept_hypothese","Collaboration_invitation","Collaboration_accepted","Collaboration_denied","Choices","Assignment","Analyse","Alert_question","Alert_message"];
 
 public function getNames(): String[] {
 return names;
@@ -20,16 +20,42 @@ return names;
 public function createEloIcon(name: String): EloIcon {
 if (name.equalsIgnoreCase("dummy")) {
 return null;
+} else if (name.equalsIgnoreCase("Import_2")) {
+return Import_2Icon{windowColorScheme:windowColorScheme};
+} else if (name.equalsIgnoreCase("Import_1")) {
+return Import_1Icon{windowColorScheme:windowColorScheme};
 } else if (name.equalsIgnoreCase("Import")) {
 return ImportIcon{windowColorScheme:windowColorScheme};
+} else if (name.equalsIgnoreCase("Export_2")) {
+return Export_2Icon{windowColorScheme:windowColorScheme};
+} else if (name.equalsIgnoreCase("Export_1")) {
+return Export_1Icon{windowColorScheme:windowColorScheme};
 } else if (name.equalsIgnoreCase("Export")) {
 return ExportIcon{windowColorScheme:windowColorScheme};
-} else if (name.equalsIgnoreCase("Save_as_data")) {
-return Save_as_dataIcon{windowColorScheme:windowColorScheme};
+} else if (name.equalsIgnoreCase("Save_as_dataset")) {
+return Save_as_datasetIcon{windowColorScheme:windowColorScheme};
+} else if (name.equalsIgnoreCase("Save_as_1")) {
+return Save_as_1Icon{windowColorScheme:windowColorScheme};
 } else if (name.equalsIgnoreCase("Save_as")) {
 return Save_asIcon{windowColorScheme:windowColorScheme};
+} else if (name.equalsIgnoreCase("Save_2")) {
+return Save_2Icon{windowColorScheme:windowColorScheme};
+} else if (name.equalsIgnoreCase("Save_1")) {
+return Save_1Icon{windowColorScheme:windowColorScheme};
 } else if (name.equalsIgnoreCase("Save")) {
 return SaveIcon{windowColorScheme:windowColorScheme};
+} else if (name.equalsIgnoreCase("Minimize_1")) {
+return Minimize_1Icon{windowColorScheme:windowColorScheme};
+} else if (name.equalsIgnoreCase("Minimize")) {
+return MinimizeIcon{windowColorScheme:windowColorScheme};
+} else if (name.equalsIgnoreCase("Unrotate")) {
+return UnrotateIcon{windowColorScheme:windowColorScheme};
+} else if (name.equalsIgnoreCase("Maximize")) {
+return MaximizeIcon{windowColorScheme:windowColorScheme};
+} else if (name.equalsIgnoreCase("Center_1")) {
+return Center_1Icon{windowColorScheme:windowColorScheme};
+} else if (name.equalsIgnoreCase("Center")) {
+return CenterIcon{windowColorScheme:windowColorScheme};
 } else if (name.equalsIgnoreCase("Video")) {
 return VideoIcon{windowColorScheme:windowColorScheme};
 } else if (name.equalsIgnoreCase("Search")) {

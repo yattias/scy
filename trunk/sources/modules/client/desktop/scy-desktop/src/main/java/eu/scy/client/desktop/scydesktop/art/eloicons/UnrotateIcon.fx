@@ -12,10 +12,10 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 /**
  * @author lars
  */
-public class Save_asIcon extends AbstractEloIcon {
+public class UnrotateIcon extends AbstractEloIcon {
 
-public override function clone(): Save_asIcon {
-Save_asIcon {
+public override function clone(): UnrotateIcon {
+UnrotateIcon {
 selected: selected
 size: size
 windowColorScheme: windowColorScheme
@@ -30,6 +30,22 @@ return Group {
 				Rectangle {
 					fill: bind windowColorScheme.mainColor
 					stroke: null
+					x: 0.54
+					y: 0.14
+					width: 40.0
+					height: 40.0
+				},
+				Rectangle {
+					fill: bind windowColorScheme.mainColorLight
+					stroke: null
+					x: 0.42
+					y: 0.11
+					width: 40.0
+					height: 35.0
+				},
+				Rectangle {
+					fill: null
+					stroke: null
 					x: 0.42
 					y: 0.14
 					width: 40.0
@@ -38,20 +54,34 @@ return Group {
 				Rectangle {
 					fill: bind windowColorScheme.mainColorLight
 					stroke: null
-					x: 3.42
-					y: 3.14
-					width: 34.0
-					height: 34.0
+					x: 35.42
+					y: 34.14
+					width: 5.0
+					height: 6.0
 				},
-				Polygon {
-					points: [40.42,0.14,40.30,40.14,0.30,40.14,0.30,0.14]
+				Rectangle {
+					fill: bind windowColorScheme.mainColorLight
+					stroke: null
+					x: 0.42
+					y: 34.14
+					width: 5.0
+					height: 6.0
+				},
+				SVGPath {
 					fill: null
-					stroke: null
+					stroke: bind windowColorScheme.mainColor
+					strokeWidth: 5.0
+					strokeLineCap: StrokeLineCap.BUTT
+					strokeMiterLimit: 4.0
+					content: "M3.17,20.14 C3.17,11.49 11.90,2.76 20.55,2.76 "
 				},
-				Polygon {
-					points: [17.79,0.14,40.29,0.36,40.42,22.77]
-					fill: bind windowColorScheme.secondColor
-					stroke: null
+				SVGPath {
+					fill: null
+					stroke: bind windowColorScheme.mainColor
+					strokeWidth: 5.0
+					strokeLineCap: StrokeLineCap.BUTT
+					strokeMiterLimit: 4.0
+					content: "M20.55,2.76 C29.19,2.76 37.92,11.49 37.92,20.14 "
 },
 ]
 }
@@ -67,12 +97,12 @@ function run(){
 		height: 200
       fill: Color.YELLOW
 		content: [
-         Save_asIcon{
+         UnrotateIcon{
             windowColorScheme: windowColorScheme
            layoutX: 25
             layoutY: 25
          }
-         Save_asIcon{
+         UnrotateIcon{
             windowColorScheme: windowColorScheme
             layoutX: 75
             layoutY: 25

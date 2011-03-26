@@ -867,6 +867,8 @@ public class StandardScyWindow extends ScyWindow {
          }
 
       windowStateControls = WindowStateControls {
+            tooltipManager: tooltipManager
+            windowStyler: windowStyler
             windowColorScheme: windowColorScheme
             enableRotateNormal: bind rotate != 0.0
             enableMinimize: bind allowClose and not isClosed

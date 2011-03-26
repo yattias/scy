@@ -4,25 +4,24 @@
  */
 package eu.scy.client.desktop.scydesktop.scywindows.window;
 
-import javafx.scene.Group;
-import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import javafx.scene.shape.Line;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
-import javafx.scene.shape.Arc;
-import javafx.scene.shape.ArcType;
-import javafx.scene.Cursor;
-import javafx.scene.input.MouseEvent;
+import eu.scy.client.desktop.scydesktop.art.eloicons.EloIconFactory;
+import eu.scy.client.desktop.scydesktop.imagewindowstyler.JavaFxWindowStyler;
+import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
+import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
+import eu.scy.client.desktop.scydesktop.tooltips.impl.SimpleTooltipManager;
+import eu.scy.client.desktop.scydesktop.uicontrols.EloIconButton;
 
 /**
  * @author SikkenJ
  */
-public class WindowStateControls extends WindowElement {
+public class WindowStateControls extends TitleBarItemList {
 
+   public-init var tooltipManager: TooltipManager;
+   public-init var windowStyler: WindowStyler;
    public var window: ScyWindow;
    public var rotateNormalAction: function(): Void;
    public var minimizeAction: function(): Void;
@@ -32,135 +31,60 @@ public class WindowStateControls extends WindowElement {
    public var enableMinimize = true;
    public var enableCenter = true;
    public var enableMaximize = true;
-   def elementWidth = 10.0;
-   def elementHeight = 10.0;
-   def lineWidth = 2.0;
-   def elementSpacing = 9.0;
-   def backgroundColor = Color.TRANSPARENT;
-   def disabledColor = Color.LIGHTGREY;
-   def rotateNormalColor = bind if (enableRotateNormal) windowColorScheme.mainColor else disabledColor;
-   def minmizeColor = bind if (enableMinimize) windowColorScheme.mainColor else disabledColor;
-   def centerColor = bind if (enableCenter) windowColorScheme.mainColor else disabledColor;
-   def maximizeColor = bind if (enableMaximize) windowColorScheme.mainColor else disabledColor;
+   def actionScheme = 1;
 
-   public override function create(): Node {
-      HBox {
-         blocksMouse:true
-         spacing: elementSpacing
-         content: [
-            createRotateNormalNode(),
-            createMinimizeNode(),
-            createCenterNode(),
-            createMaximizeNode(),
-         ]
-      }
+   override function updateItems(): Void {
+      delete  displayBox.content;
+      displayBox.content = [
+                 EloIconButton {
+                    eloIcon: createEloIcon("unrotate")
+                    size: itemHeight + 4
+                    action: rotateNormalAction
+                    disableButton: bind not enableRotateNormal
+                    tooltipManager: tooltipManager
+                    actionScheme: actionScheme
+                 }
+                 EloIconButton {
+                    eloIcon: createEloIcon("minimize")
+                    size: itemHeight + 4
+                    action: minimizeAction
+                    disableButton: bind not enableMinimize
+                    tooltipManager: tooltipManager
+                    actionScheme: actionScheme
+                 }
+                 EloIconButton {
+                    eloIcon: createEloIcon("center")
+                    size: itemHeight + 4
+                    action: centerAction
+                    disableButton: bind not enableCenter
+                    tooltipManager: tooltipManager
+                    actionScheme: actionScheme
+                 }
+                 EloIconButton {
+                    eloIcon: createEloIcon("maximize")
+                    size: itemHeight + 4
+                    action: maximizeAction
+                    disableButton: bind not enableMaximize
+                    tooltipManager: tooltipManager
+                    actionScheme: actionScheme
+                 }
+              ];
+      itemListChanged();
    }
 
-   function createRotateNormalNode(): Node {
-      Group {
-         cursor: bind if (enableRotateNormal) Cursor.HAND else null
-         disable:bind not enableRotateNormal
-         content: [
-            createElementBackground(),
-            Line {
-               startX: 0, startY: elementHeight
-               endX: elementWidth, endY: elementHeight
-               strokeWidth: lineWidth
-               stroke: bind rotateNormalColor
-            }
-            Arc {
-               def radius = elementWidth/2 - 1;
-               centerX: elementWidth / 2, centerY: elementWidth / 2
-               radiusX: radius, radiusY: radius
-               startAngle: 0, length: 180
-               type: ArcType.OPEN
-               fill: null
-               strokeWidth: lineWidth
-               stroke: bind rotateNormalColor
-            }
-         ]
-         onMouseClicked: function(m: MouseEvent): Void {
-            rotateNormalAction();
-         }
-      }
+   function createEloIcon(name: String): EloIcon {
+      def eloIcon = windowStyler.getScyEloIcon(name);
+      eloIcon.windowColorScheme = windowColorScheme;
+      eloIcon.selected = false;
+      eloIcon
    }
-
-   function createMinimizeNode(): Node {
-      Group {
-         cursor: bind if (enableMinimize) Cursor.HAND else null
-         disable:bind not enableMinimize
-         content: [
-            createElementBackground(),
-            Line {
-               startX: 0, startY: elementHeight
-               endX: elementWidth, endY: elementHeight
-               strokeWidth: lineWidth
-               stroke: bind minmizeColor
-            }
-         ]
-         onMouseClicked: function(m: MouseEvent): Void {
-            minimizeAction();
-         }
-      }
-   }
-
-   function createCenterNode(): Node {
-      Group {
-         cursor: bind if (enableCenter) Cursor.HAND else null
-         disable:bind not enableCenter
-         content: [
-            createElementBackground(),
-            Rectangle {
-               x: 0, y: 0
-               width: elementWidth, height: elementHeight
-               fill: null
-               strokeWidth: lineWidth
-               stroke: bind centerColor
-            }
-            Rectangle {
-               x: elementWidth / 4, y: elementHeight / 4
-               width: elementWidth / 2, height: elementHeight / 2
-               fill: bind centerColor
-            }
-         ]
-         onMouseClicked: function(m: MouseEvent): Void {
-            centerAction();
-         }
-      }
-   }
-
-   function createMaximizeNode(): Node {
-      Group {
-         cursor: bind if (enableMaximize) Cursor.HAND else null
-         disable:bind not enableMaximize
-         content: [
-            createElementBackground(),
-            Rectangle {
-               x: 0, y: 0
-               width: elementWidth, height: elementHeight
-               fill: null
-               strokeWidth: lineWidth
-               stroke: bind maximizeColor
-            }
-         ]
-         onMouseClicked: function(m: MouseEvent): Void {
-            maximizeAction();
-         }
-      }
-   }
-
-   function createElementBackground(): Node {
-      Rectangle {
-         x: -lineWidth/2, y: -lineWidth/2
-         width: elementWidth+lineWidth, height: elementHeight+lineWidth
-         fill: backgroundColor
-      }
-
-   }
-
 }
 
 function run() {
+   def tooltipManager = SimpleTooltipManager{};
+   def windowStyler= JavaFxWindowStyler {
+                     eloIconFactory: EloIconFactory{}
+                  }
    def scale = 1.0;
    Stage {
       title: "MyApp"
@@ -171,10 +95,14 @@ function run() {
          height: 200
          content: [
             WindowStateControls {
+               tooltipManager: tooltipManager
+               windowStyler: windowStyler
                layoutX: 10
                layoutY: 10
             }
             WindowStateControls {
+               tooltipManager: tooltipManager
+               windowStyler: windowStyler
                layoutX: 10
                layoutY: 50
                enableRotateNormal: false
