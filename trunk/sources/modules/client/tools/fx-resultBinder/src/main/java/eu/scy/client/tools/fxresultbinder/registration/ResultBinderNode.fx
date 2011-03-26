@@ -78,16 +78,12 @@ public class ResultBinderNode extends CustomNode, Resizable, ScyToolFX, EloSaver
    //"http://scy.collide.info:8080/webapp/common/filestreamer.html";
    public def IMAGE_BASE_DIR = "http://{filestreamerServer}:{filestreamerPort}/{filestreamerContext}";
    def saveTitleBarButton = TitleBarButton {
-              actionId: "save"
-              iconType: "save"
+              actionId: TitleBarButton.saveActionId
               action: doSaveElo
-              tooltip: "save ELO"
            }
    def saveAsTitleBarButton = TitleBarButton {
-              actionId: "saveAs"
-              iconType: "save_as"
+              actionId: TitleBarButton.saveAsActionId
               action: doSaveAsElo
-              tooltip: "save copy of ELO"
            }
 
    public override function initialize(windowContent: Boolean):Void{
