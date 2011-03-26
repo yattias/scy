@@ -61,16 +61,12 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
    var buttonBox: HBox;
    def spacing = 5.0;
    def saveTitleBarButton = TitleBarButton {
-              actionId: "save"
-              iconType: "save"
+              actionId: TitleBarButton.saveActionId
               action: doSaveElo
-              tooltip: "save ELO"
            }
    def saveAsTitleBarButton = TitleBarButton {
-              actionId: "saveAs"
-              iconType: "save_as"
+              actionId: TitleBarButton.saveAsActionId
               action: doSaveAsElo
-              tooltip: "save copy of ELO"
            }
 
 //   def cached = bind scyWindow.cache on replace {
