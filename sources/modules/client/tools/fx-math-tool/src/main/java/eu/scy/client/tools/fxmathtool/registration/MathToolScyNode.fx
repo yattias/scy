@@ -72,16 +72,12 @@ public class MathToolScyNode extends MathToolNode, ScyToolFX, EloSaverCallBack {
    var saveAsLabel = ##"Save ELO as";
    def mathToolTagName = "MathToolTag";
    def saveTitleBarButton = TitleBarButton {
-              actionId: "save"
-              iconType: "save"
+              actionId: TitleBarButton.saveActionId
               action: doSaveElo
-              tooltip: "save ELO"
            }
    def saveAsTitleBarButton = TitleBarButton {
-              actionId: "saveAs"
-              iconType: "save_as"
+              actionId: TitleBarButton.saveAsActionId
               action: doSaveAsElo
-              tooltip: "save copy of ELO"
            }
 
    function setLoggerEloUri() {
