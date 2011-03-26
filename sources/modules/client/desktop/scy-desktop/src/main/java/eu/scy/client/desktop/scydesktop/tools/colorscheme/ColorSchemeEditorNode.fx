@@ -55,16 +55,12 @@ public class ColorSchemeEditorNode extends CustomNode, ScyToolFX, EloSaverCallBa
    var windowContent: Boolean;
    def eloIconName = bind windowColorSchemeEditorNode.selectedEloIconNamne as String on replace { eloIconNameChanged() };
    def saveTitleBarButton = TitleBarButton {
-              actionId: "save"
-              iconType: "save"
+              actionId: TitleBarButton.saveActionId
               action: doSaveElo
-              tooltip: "save ELO"
            }
    def saveAsTitleBarButton = TitleBarButton {
-              actionId: "saveAs"
-              iconType: "save_as"
+              actionId: TitleBarButton.saveAsActionId
               action: doSaveAsElo
-              tooltip: "save copy of ELO"
            }
 
    public override function initialize(windowContent: Boolean): Void {
