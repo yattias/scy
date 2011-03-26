@@ -85,16 +85,12 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
    // into action log - should be configurable from authoring tools
    public var interviewSchemaTypingLogIntervalMs = 30000;
    def saveTitleBarButton = TitleBarButton {
-              actionId: "save"
-              iconType: "save"
+              actionId: TitleBarButton.saveActionId
               action: doSaveElo
-              tooltip: "save ELO"
            }
    def saveAsTitleBarButton = TitleBarButton {
-              actionId: "saveAs"
-              iconType: "save_as"
+              actionId: TitleBarButton.saveAsActionId
               action: doSaveAsElo
-              tooltip: "save copy of ELO"
            }
 
    function setLoggerEloUri() {
