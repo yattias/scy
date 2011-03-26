@@ -54,11 +54,11 @@ public class SwingTextEditorNode extends CustomNode, Resizable, ScyToolFX, EloSa
    var elo: IELO;
    var technicalFormatKey: IMetadataKey;
    def saveTitleBarButton = TitleBarButton {
-              actionId: "save"
+              actionId: TitleBarButton.saveActionId
               action: doSaveElo
            }
    def saveAsTitleBarButton = TitleBarButton {
-              actionId: "saveAs"
+              actionId: TitleBarButton.saveAsActionId
               action: doSaveAsElo
            }
 
