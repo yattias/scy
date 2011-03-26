@@ -49,16 +49,12 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
     var collaborative: Boolean = false;
 
    def saveTitleBarButton = TitleBarButton {
-              actionId: "save"
-              iconType: "save"
+              actionId: TitleBarButton.saveActionId
               action: doSaveConceptMap
-              tooltip: "save ELO"
            }
    def saveAsTitleBarButton = TitleBarButton {
-              actionId: "saveAs"
-              iconType: "save_as"
+              actionId: TitleBarButton.saveAsActionId
               action: doSaveConceptMapAs
-              tooltip: "save copy of ELO"
            }
 
    public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
