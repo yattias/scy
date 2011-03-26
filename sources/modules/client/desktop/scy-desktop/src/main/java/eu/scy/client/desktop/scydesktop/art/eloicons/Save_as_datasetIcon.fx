@@ -12,10 +12,10 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 /**
  * @author lars
  */
-public class Save_asIcon extends AbstractEloIcon {
+public class Save_as_datasetIcon extends AbstractEloIcon {
 
-public override function clone(): Save_asIcon {
-Save_asIcon {
+public override function clone(): Save_as_datasetIcon {
+Save_as_datasetIcon {
 selected: selected
 size: size
 windowColorScheme: windowColorScheme
@@ -29,29 +29,59 @@ return Group {
 			content: [
 				Rectangle {
 					fill: bind windowColorScheme.mainColor
-					stroke: null
-					x: 0.42
+					stroke: bind windowColorScheme.secondColor
+					x: 0.54
 					y: 0.14
 					width: 40.0
 					height: 40.0
 				},
 				Rectangle {
 					fill: bind windowColorScheme.mainColorLight
-					stroke: null
-					x: 3.42
+					stroke: bind windowColorScheme.secondColor
+					x: 3.55
 					y: 3.14
 					width: 34.0
 					height: 34.0
 				},
-				Polygon {
-					points: [40.42,0.14,40.30,40.14,0.30,40.14,0.30,0.14]
+				Line {
 					fill: null
-					stroke: null
+					stroke: bind windowColorScheme.secondColor
+					strokeWidth: 3.0
+					strokeLineCap: StrokeLineCap.BUTT
+					startX: 12.42
+					startY: 25.64
+					endX: 40.42
+					endY: 25.64
 				},
-				Polygon {
-					points: [17.79,0.14,40.29,0.36,40.42,22.77]
-					fill: bind windowColorScheme.secondColor
-					stroke: null
+				Line {
+					fill: null
+					stroke: bind windowColorScheme.secondColor
+					strokeWidth: 3.0
+					strokeLineCap: StrokeLineCap.BUTT
+					startX: 12.42
+					startY: 1.64
+					endX: 40.42
+					endY: 1.64
+				},
+				Line {
+					fill: null
+					stroke: bind windowColorScheme.secondColor
+					strokeWidth: 3.0
+					strokeLineCap: StrokeLineCap.BUTT
+					startX: 12.42
+					startY: 9.64
+					endX: 40.42
+					endY: 9.64
+				},
+				Line {
+					fill: null
+					stroke: bind windowColorScheme.secondColor
+					strokeWidth: 3.0
+					strokeLineCap: StrokeLineCap.BUTT
+					startX: 12.42
+					startY: 17.64
+					endX: 40.42
+					endY: 17.64
 },
 ]
 }
@@ -67,12 +97,12 @@ function run(){
 		height: 200
       fill: Color.YELLOW
 		content: [
-         Save_asIcon{
+         Save_as_datasetIcon{
             windowColorScheme: windowColorScheme
            layoutX: 25
             layoutY: 25
          }
-         Save_asIcon{
+         Save_as_datasetIcon{
             windowColorScheme: windowColorScheme
             layoutX: 75
             layoutY: 25

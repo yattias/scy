@@ -12,10 +12,10 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 /**
  * @author lars
  */
-public class Save_asIcon extends AbstractEloIcon {
+public class Save_as_1Icon extends AbstractEloIcon {
 
-public override function clone(): Save_asIcon {
-Save_asIcon {
+public override function clone(): Save_as_1Icon {
+Save_as_1Icon {
 selected: selected
 size: size
 windowColorScheme: windowColorScheme
@@ -43,15 +43,28 @@ return Group {
 					width: 34.0
 					height: 34.0
 				},
-				Polygon {
-					points: [40.42,0.14,40.30,40.14,0.30,40.14,0.30,0.14]
+				Rectangle {
+					fill: bind windowColorScheme.mainColorLight
+					stroke: null
+					x: 3.42
+					y: 3.14
+					width: 34.0
+					height: 34.0
+				},
+				Rectangle {
 					fill: null
 					stroke: null
+					x: 0.3
+					y: 0.14
+					width: 40.0
+					height: 40.0
 				},
 				Polygon {
-					points: [17.79,0.14,40.29,0.36,40.42,22.77]
+					points: [37.23,3.33,31.46,13.74,37.22,24.16,26.80,18.40,16.39,24.14,22.14,13.74,16.40,3.31,26.81,9.08]
 					fill: bind windowColorScheme.secondColor
-					stroke: null
+					stroke: bind windowColorScheme.secondColor
+					strokeWidth: 2.39
+					strokeLineCap: StrokeLineCap.BUTT
 },
 ]
 }
@@ -67,12 +80,12 @@ function run(){
 		height: 200
       fill: Color.YELLOW
 		content: [
-         Save_asIcon{
+         Save_as_1Icon{
             windowColorScheme: windowColorScheme
            layoutX: 25
             layoutY: 25
          }
-         Save_asIcon{
+         Save_as_1Icon{
             windowColorScheme: windowColorScheme
             layoutX: 75
             layoutY: 25

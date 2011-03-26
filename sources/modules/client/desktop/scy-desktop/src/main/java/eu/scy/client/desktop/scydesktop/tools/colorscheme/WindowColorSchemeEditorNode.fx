@@ -47,6 +47,14 @@ public class WindowColorSchemeEditorNode extends CustomNode {
    def eloIconButtonPreviewTitleBar = EloIconButtonPreview{
       size:14
    }
+   def eloIconButtonPreviewDesktop1 = EloIconButtonPreview{
+      size:30
+      actionScheme:1
+   }
+   def eloIconButtonPreviewTitleBar1 = EloIconButtonPreview{
+      size:14
+      actionScheme:1
+   }
 
 
    public override function create(): Node {
@@ -59,7 +67,9 @@ public class WindowColorSchemeEditorNode extends CustomNode {
                content: windowColorSchemeEditor.getDesignRootNodes()
             }
             eloIconButtonPreviewDesktop,
-            eloIconButtonPreviewTitleBar
+            eloIconButtonPreviewTitleBar,
+            eloIconButtonPreviewDesktop1,
+            eloIconButtonPreviewTitleBar1
          ]
       }
    }
@@ -79,6 +89,8 @@ public class WindowColorSchemeEditorNode extends CustomNode {
       newEloIcon.windowColorScheme =selectedWindowColorScheme;
       eloIconButtonPreviewDesktop.eloIcon = newEloIcon;
       eloIconButtonPreviewTitleBar.eloIcon = newEloIcon.clone();
+      eloIconButtonPreviewDesktop1.eloIcon = newEloIcon.clone();
+      eloIconButtonPreviewTitleBar1.eloIcon = newEloIcon.clone();
    }
 
 
@@ -231,7 +243,7 @@ function run() {
       }
       scene: Scene {
          width: 470
-         height: 450
+         height: 500
          content: [
             WindowColorSchemeEditorNode {
                eloIconFactory: EloIconFactory{}
