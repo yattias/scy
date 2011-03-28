@@ -14,6 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
@@ -51,7 +52,7 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
    def spacing = 5.0;
    def titleLabel = Label {
            text: "Ask for Feedback"
-           font: Font{size:18}
+           font: Font.font("Verdana", FontWeight.BOLD, 12)
        };
    var textBox = TextBox {
            text: bind comment with inverse
@@ -161,10 +162,10 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
       }
    }
    function resizeContent(): Void{
-      textBox.height = height-titleLabel.height-submitButton.height-2*spacing;
+      textBox.height = height-titleLabel.height-submitButton.height-2*spacing-10;
       textBox.width = width;
       textBox.layoutInfo = LayoutInfo{
-            height: height-titleLabel.height-submitButton.height-2*spacing
+            height: height-titleLabel.height-submitButton.height-2*spacing-10
             width: width
       };
       textBox.translateY = titleLabel.height+spacing;
