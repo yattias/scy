@@ -181,7 +181,7 @@ public class MissionModelEloContentXmlUtils
       }
       missionModel.setMissionMapBackgroundImageUri(getUriValue(root,missionMapBackgroundImageUriName));
       missionModel.setMissionMapInstructionUri(getUriValue(root,missionMapInstructionUriName));
-      missionModel.setMissionMapButtonIconType(root.getChildTextTrim(missionMapBackgroundImageUriName));
+      missionModel.setMissionMapButtonIconType(root.getChildTextTrim(missionMapButtonIconTypeName));
       if (!missionModel.getLasses().isEmpty())
       {
          fillInMissingLinks(lassesMap, anchorsMap, lassesRoot);
