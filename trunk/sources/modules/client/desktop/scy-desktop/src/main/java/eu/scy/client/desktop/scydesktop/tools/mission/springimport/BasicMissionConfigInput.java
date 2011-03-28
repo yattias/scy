@@ -185,6 +185,8 @@ public class BasicMissionConfigInput implements MissionConfigInput
    {
       final BasicMissionModelEloContent missionModelEloContent = new BasicMissionModelEloContent();
       missionModelEloContent.setMissionMapBackgroundImageUri(getBasicMissionMap().getMissionMapBackgroundImageUri());
+      missionModelEloContent.setMissionMapInstructionUri(getBasicMissionMap().getMissionMapInstructionUri());
+      missionModelEloContent.setMissionMapButtonIconType(getBasicMissionMap().getMissionMapButtonIconType());
       if (missionModelEloContent.getMissionMapBackgroundImageUri() == null || missionModelEloContent.getMissionMapBackgroundImageUri().toString().length() == 0)
       {
          logger.info(addError("MissionMapBackgroundImageUri is not defined"));
