@@ -11,7 +11,6 @@ import eu.scy.client.desktop.scydesktop.scywindows.moreinfomanager.MoreInfoWindo
 import eu.scy.client.desktop.scydesktop.scywindows.ModalDialogLayer;
 import javafx.scene.input.MouseEvent;
 import eu.scy.client.desktop.scydesktop.art.javafx.MissionMapWindowIcon;
-import eu.scy.client.desktop.scydesktop.uicontrols.MultiImageButton;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.common.scyelo.ScyElo;
@@ -20,6 +19,7 @@ import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.ColoredTextTooltipCreator;
+import eu.scy.client.desktop.scydesktop.uicontrols.EloIconButton;
 
 /**
  * @author SikkenJ
@@ -33,6 +33,8 @@ public class BigMissionMapControl extends CustomNode {
    public var initializer: Initializer;
    public var tooltipManager: TooltipManager;
    public var scyDesktop: ScyDesktop;
+   public var buttonSize = 30.0;
+   public var buttonActionScheme = 1;
    def missionMapWindow: MoreInfoWindow = MoreInfoWindow {
          title: ##"Mission navigation"
          eloIcon: MissionMapWindowIcon {}
@@ -41,10 +43,20 @@ public class BigMissionMapControl extends CustomNode {
          closeAction: hideBigMissionMap
          mouseClickedAction: mouseClickedInMissionWindowWindow
       }
-   def missionMapButton =  MultiImageButton {
-               imageName: "missionMap"
-               action: showBigMissionMap
-            }
+//   def missionMapButton =  MultiImageButton {
+//               imageName: "missionMap"
+//               action: showBigMissionMap
+//            }
+   def eloIcon = windowStyler.getScyEloIcon("mission_map");
+   def missionMapButton = EloIconButton{
+      size: buttonSize
+      actionScheme: buttonActionScheme
+      eloIcon: eloIcon
+      action: showBigMissionMap
+      tooltipManager: tooltipManager
+      tooltip: bind "{navigationTooltip}{missionModel.activeLas.title}"
+   }
+
    def sceneWidth = bind scene.width on replace { sceneSizeChanged() };
    def sceneHeight = bind scene.height on replace { sceneSizeChanged() };
    def relativeWindowScreenBoder = 0.0;
@@ -63,10 +75,10 @@ public class BigMissionMapControl extends CustomNode {
    public override function create(): Node {
       bigMissionMap.anchorClicked = hideBigMissionMap;
       bigMissionMap.lasInfoTooltipCreator.openElo = openElo;
-      tooltipManager.registerNode(missionMapButton, ColoredTextTooltipCreator {
-         content: bind "{navigationTooltip}{missionModel.activeLas.title}"
-         windowColorScheme: windowStyler.getWindowColorScheme(ImageWindowStyler.generalNavigation)
-      });
+//      tooltipManager.registerNode(missionMapButton, ColoredTextTooltipCreator {
+//         content: bind "{navigationTooltip}{missionModel.activeLas.title}"
+//         windowColorScheme: windowStyler.getWindowColorScheme(ImageWindowStyler.generalNavigation)
+//      });
       Group {
          content: [
             missionMapButton

@@ -44,7 +44,7 @@ return Group {
 					height: 37.0
 				},
 				Polygon {
-					points: [36.42,24.38,20.36,40.14,4.42,24.38]
+					points: [40.42,23.38,20.36,40.14,0.42,23.38]
 					fill: bind windowColorScheme.secondColor
 					stroke: null
 },

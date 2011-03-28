@@ -34,11 +34,10 @@ public class EloIconButton extends CustomNode, TooltipCreator {
    public var eloIcon: EloIcon on replace { newEloIcon() };
    public var size = 10.0;
    public var action: function(): Void;
-   public var turnedOn = false;
+   public var turnedOn = false on replace { updateColors() };
    public var tooltip: String;
    public var tooltipManager: TooltipManager;
    public var actionScheme = 0;
-//   public override var disable on replace { updateColors() }
    public var disableButton = false on replace { updateColors() };
    var mouseOver = false;
    var mousePressed = false;
@@ -152,8 +151,6 @@ public class EloIconButton extends CustomNode, TooltipCreator {
    public override function create(): Node {
       newEloIcon();
       contentGroup = Group {
-//                 cursor: Cursor.HAND
-//                 blocksMouse: bind not disableButton
                  content: bind eloIcon
 
                  onMouseEntered: function(e: MouseEvent): Void {

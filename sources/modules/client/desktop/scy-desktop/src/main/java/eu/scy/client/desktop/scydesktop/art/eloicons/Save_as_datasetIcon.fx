@@ -29,18 +29,18 @@ return Group {
 			content: [
 				Rectangle {
 					fill: bind windowColorScheme.mainColor
-					stroke: bind windowColorScheme.secondColor
-					x: 0.54
-					y: 0.14
-					width: 40.0
+					stroke: null
+					x: 0.44
+					y: 0.12
+					width: 40.05
 					height: 40.0
 				},
 				Rectangle {
 					fill: bind windowColorScheme.mainColorLight
-					stroke: bind windowColorScheme.secondColor
-					x: 3.55
-					y: 3.14
-					width: 34.0
+					stroke: null
+					x: 3.57
+					y: 3.11
+					width: 34.25
 					height: 34.0
 				},
 				Line {
@@ -48,40 +48,40 @@ return Group {
 					stroke: bind windowColorScheme.secondColor
 					strokeWidth: 3.0
 					strokeLineCap: StrokeLineCap.BUTT
-					startX: 12.42
-					startY: 25.64
-					endX: 40.42
-					endY: 25.64
+					startX: 12.51
+					startY: 25.62
+					endX: 40.56
+					endY: 25.62
 				},
 				Line {
 					fill: null
 					stroke: bind windowColorScheme.secondColor
 					strokeWidth: 3.0
 					strokeLineCap: StrokeLineCap.BUTT
-					startX: 12.42
-					startY: 1.64
-					endX: 40.42
-					endY: 1.64
+					startX: 12.51
+					startY: 1.62
+					endX: 40.56
+					endY: 1.62
 				},
 				Line {
 					fill: null
 					stroke: bind windowColorScheme.secondColor
 					strokeWidth: 3.0
 					strokeLineCap: StrokeLineCap.BUTT
-					startX: 12.42
-					startY: 9.64
-					endX: 40.42
-					endY: 9.64
+					startX: 12.51
+					startY: 9.62
+					endX: 40.56
+					endY: 9.62
 				},
 				Line {
 					fill: null
 					stroke: bind windowColorScheme.secondColor
 					strokeWidth: 3.0
 					strokeLineCap: StrokeLineCap.BUTT
-					startX: 12.42
-					startY: 17.64
-					endX: 40.42
-					endY: 17.64
+					startX: 12.51
+					startY: 17.62
+					endX: 40.56
+					endY: 17.62
 },
 ]
 }

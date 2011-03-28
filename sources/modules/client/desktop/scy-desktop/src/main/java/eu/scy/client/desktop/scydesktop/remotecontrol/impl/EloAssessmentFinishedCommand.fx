@@ -15,7 +15,8 @@ public class EloAssessmentFinishedCommand extends ScyDesktopRemoteCommand {
         logger.debug("*****************elo_assessment_finished*Notification*********************");
         def mission = new URI(notification.getFirstProperty("mission"));
         if (mission.equals(scyDesktop.missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri())) {
-            scyDesktop.eportfolioButton.imageName = "eportfolio_new";
+           // TODO, show it some how
+//            scyDesktop.eportfolioButton.imageName = "eportfolio_new";
         } else {
             logger.debug("elo_assessment_finished in other mission: {mission.toString()}");
             Alert.inform("ELO assessment finished in some other mission.");
