@@ -8,11 +8,19 @@
 
    <bean name="missionConfigInput" class="eu.scy.client.desktop.scydesktop.tools.mission.springimport.BasicMissionConfigInput">
 
+      <property name="missionDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_challenge.html"/>
+
+      <property name="colorSchemesEloUri" value="roolo://memory/13/0/standard+ColorSchemes.colorschemes"/>
+
+      <property name="agentModelsEloUri" value="roolo://memory/13/0/standard+ColorSchemes.colorschemes"/>
+
       <property name="eloToolConfigs" ref="eloToolConfigs"/>
 
       <property name="basicMissionMap">
          <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionMap">
             <property name="missionMapBackgroundImageUri" value="http://www.scy-lab.eu/content/en/mission2/ecoBackground.fxz"/>
+            <property name="missionMapInstructionUri" value="http://www.scy-lab.eu/content/en/mission1/startPage/Welcome.html"/>
+            <property name="missionMapButtonIconType" value="pizza"/>
             <!--
             <property name="id" value="testMap"/>
             <property name="name" value="test mission"/>
