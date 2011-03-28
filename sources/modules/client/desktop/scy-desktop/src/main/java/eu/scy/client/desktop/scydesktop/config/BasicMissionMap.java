@@ -21,6 +21,8 @@ public class BasicMissionMap
    private List<BasicLas> lasses = new ArrayList<BasicLas>();
    private String initialLasId;
    private URI missionMapBackgroundImageUri;
+   private URI missionMapInstructionUri;
+   private String missionMapButtonIconType;
 
    public String getId()
    {
@@ -86,5 +88,25 @@ public class BasicMissionMap
    public void setMissionMapBackgroundImageUri(URI missionMapBackgroundImageUri)
    {
       this.missionMapBackgroundImageUri = missionMapBackgroundImageUri;
+   }
+
+   public String getMissionMapButtonIconType()
+   {
+      return missionMapButtonIconType;
+   }
+
+   public void setMissionMapButtonIconType(String missionMapButtonIconType)
+   {
+      this.missionMapButtonIconType = missionMapButtonIconType;
+   }
+
+   public URI getMissionMapInstructionUri()
+   {
+      return missionMapInstructionUri;
+   }
+
+   public void setMissionMapInstructionUri(URI missionMapInstructionUri)
+   {
+      this.missionMapInstructionUri = missionMapInstructionUri;
    }
 }
