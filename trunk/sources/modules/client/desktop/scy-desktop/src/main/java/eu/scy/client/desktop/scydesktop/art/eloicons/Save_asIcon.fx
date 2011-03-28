@@ -49,7 +49,7 @@ return Group {
 					stroke: null
 				},
 				Polygon {
-					points: [17.79,0.14,40.29,0.36,40.42,22.77]
+					points: [40.42,26.14,15.42,0.14,40.42,0.14]
 					fill: bind windowColorScheme.secondColor
 					stroke: null
 },

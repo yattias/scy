@@ -17,8 +17,10 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import java.lang.Void;
 import java.net.URI;
-import eu.scy.client.desktop.scydesktop.uicontrols.MultiImageButton;
 import eu.scy.client.desktop.scydesktop.draganddrop.DropTarget2;
+import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
+import eu.scy.client.desktop.scydesktop.uicontrols.EloIconButton;
 
 /**
  * @author SikkenJ
@@ -28,6 +30,11 @@ public class Archiver extends CustomNode, DropTarget2 {
 
    public-init var missionMapModel: MissionModelFX;
    public-init var tbi: ToolBrokerAPI;
+   public-init var eloIcon: EloIcon;
+   public-init var buttonSize = 30.0;
+   public-init var buttonActionScheme = 1;
+   public-init var tooltipManager: TooltipManager;
+   public-init var tooltip: String;
    public var scyWindowControl: ScyWindowControl;
    public var turnedOn = false on replace{
          archiverButton.turnedOn = turnedOn
@@ -35,10 +42,14 @@ public class Archiver extends CustomNode, DropTarget2 {
 
    def identifierKey = tbi.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER);
 
-   def archiverButton = MultiImageButton {
-               imageName: "archive1"
-               action: archiveAction
-            };
+   def archiverButton: EloIconButton = EloIconButton {
+              eloIcon: eloIcon
+              size: buttonSize
+              actionScheme: buttonActionScheme
+              action: archiveAction
+              tooltipManager: tooltipManager
+              tooltip: tooltip
+           }
 
    public override function create(): Node {
       Group {

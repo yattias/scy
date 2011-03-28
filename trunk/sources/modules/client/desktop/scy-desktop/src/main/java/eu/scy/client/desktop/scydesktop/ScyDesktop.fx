@@ -100,6 +100,7 @@ import eu.scy.client.desktop.scydesktop.tooltips.impl.ColoredTextTooltipCreator;
 import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataValueContainer;
 import eu.scy.common.mission.impl.BasicEloToolConfig;
+import eu.scy.client.desktop.scydesktop.uicontrols.EloIconButton;
 
 /**
  * @author sikkenj
@@ -241,10 +242,12 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          stage: scene.stage
          shutdownFunction: scyDesktopShutdownAction
       }
-   public var scyFeedbackGiveButton:MultiImageButton;
-   public var scyFeedbackGetButton:MultiImageButton;
-   public var eportfolioButton:MultiImageButton;
+   public var scyFeedbackGiveButton:EloIconButton;
+   public var scyFeedbackGetButton:EloIconButton;
+   public var eportfolioButton:EloIconButton;
    var cornerGroup: Group;
+   public def desktopButtonSize = 25.0;
+   public def desktopButtonActionScheme = 1;
 
 
    init {
@@ -375,6 +378,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             initializer: initializer
             tooltipManager: tooltipManager
             scyDesktop: this
+            buttonSize:desktopButtonSize
          }
 
       topLeftCorner = TopLeftCorner {
@@ -387,12 +391,13 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       //            color: Color.GREEN;
       //            effect: cornerToolEffect
       //        }
-         scyFeedbackGiveButton = MultiImageButton {
-             imageName: "giveFeedback";
-             disable: initializer.offlineMode
-//             tooltip: Tooltip {
-//                 text: "Give feedback!";
-//             }
+         scyFeedbackGiveButton = EloIconButton {
+            eloIcon: windowStyler.getScyEloIcon("give_feedback")
+            size: desktopButtonSize
+            actionScheme: desktopButtonActionScheme
+             disableButton: initializer.offlineMode
+             tooltipManager: tooltipManager
+             tooltip: if (initializer.offlineMode) "feedback is only available when working online" else "give feedback"
              action: function(): Void {
                  def conf:Configuration=Configuration.getInstance();
 //                 def feedbackURL = "{conf.getFeedbackProtocol()}://{conf.getFeedbackServer()}:{conf.getFeedbackPort()}{conf.getFeedbackContext()}FeedbackToolIndex.html?missionURL={missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri()}";
@@ -411,17 +416,14 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 //                 scyFeedbackGiveButton.imageName = "feedback_give";
              }
          }
-      tooltipManager.registerNode(scyFeedbackGiveButton, ColoredTextTooltipCreator {
-         content: "give feedback"
-         windowColorScheme: windowStyler.getWindowColorScheme(ImageWindowStyler.generalNew)
-      });
 
-         scyFeedbackGetButton = MultiImageButton {
-             imageName: "getFeedback";
-             disable: initializer.offlineMode
-//             tooltip: Tooltip {
-//                 text: "Get feedback!";
-//             }
+         scyFeedbackGetButton = EloIconButton {
+           eloIcon: windowStyler.getScyEloIcon("get_feedback")
+            size: desktopButtonSize
+            actionScheme: desktopButtonActionScheme
+             disableButton: initializer.offlineMode
+             tooltipManager: tooltipManager
+             tooltip: if (initializer.offlineMode) "feedback is only available when working online" else "give feedback"
              action: function(): Void {
                  def conf:Configuration=Configuration.getInstance();
 //                 def feedbackURL = "{conf.getFeedbackProtocol()}://{conf.getFeedbackServer()}:{conf.getFeedbackPort()}{conf.getFeedbackContext()}FeedbackToolIndex.html?missionURL={missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri()}";
@@ -440,16 +442,13 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 //                 scyFeedbackGetButton.imageName = "feedback_get";
              }
          }
-      tooltipManager.registerNode(scyFeedbackGetButton, ColoredTextTooltipCreator {
-         content: "get feedback"
-         windowColorScheme: windowStyler.getWindowColorScheme(ImageWindowStyler.generalNew)
-      });
-         eportfolioButton = MultiImageButton {
-             imageName: "eportfolio";
-             disable: initializer.offlineMode
-             //tooltip: Tooltip {
-               //  text: "ePortfolio!";
-             //}
+         eportfolioButton = EloIconButton {
+           eloIcon: windowStyler.getScyEloIcon("e_portfolio")
+            size: desktopButtonSize
+            actionScheme: desktopButtonActionScheme
+             disableButton: initializer.offlineMode
+             tooltipManager: tooltipManager
+             tooltip: if (initializer.offlineMode) "ePortfolio is only available when working online" else "ePortfolio"
              action: function(): Void {
                  def conf:Configuration=Configuration.getInstance();
                  def eloUriEncoded = URLEncoder.encode(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString(),"UTF-8");
@@ -467,16 +466,6 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 //                 eportfolioButton.imageName = "eportfolio";
              }
          }
-      tooltipManager.registerNode(eportfolioButton, ColoredTextTooltipCreator {
-         content: "ePortfolio"
-         windowColorScheme: windowStyler.getWindowColorScheme(ImageWindowStyler.generalNew)
-      });
-//         scyFeedbackGiveButton.layoutX = 5;
-//         var feedbackButtons = Panel {
-//             content: [scyFeedbackGetButton, scyFeedbackGiveButton]
-//         }
-
-     // if (not initializer.offlineMode) {
         def ePortfolioSpacer = Rectangle {
             x: 0, y: 0
             width: 1, height: 5
