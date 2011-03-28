@@ -3,6 +3,7 @@ package eu.scy.actionlogging;
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
+import info.collide.sqlspaces.commons.User;
 
 import java.util.ArrayList;
 
@@ -20,15 +21,19 @@ public class SQLSpacesActionLogger implements IActionLogger {
     private int port;
 
     private String ip;
-	
-	public SQLSpacesActionLogger(String ip, int port, String space) {
+
+    public SQLSpacesActionLogger(String ip, int port, String space) {
+        this(ip, port, space, "ActionLogger");
+    }
+
+    public SQLSpacesActionLogger(String ip, int port, String space, String user) {
         this.ip = ip;
         this.port = port;
         this.space = space;
         queue = new ArrayList<IAction>();
         // creating / connecting to a space
         try {
-            ts = new TupleSpace(ip, port, space);
+            ts = new TupleSpace(new User(user), ip, port, space);
         } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
@@ -66,7 +71,7 @@ public class SQLSpacesActionLogger implements IActionLogger {
         if (ts == null) {
             try {
                 ts = new TupleSpace(ip, port, space);
-                
+
                 @SuppressWarnings("unchecked")
                 ArrayList<IAction> queueCopy = (ArrayList<IAction>) (queue.clone());
                 for (IAction a : queueCopy) {
@@ -75,7 +80,7 @@ public class SQLSpacesActionLogger implements IActionLogger {
                         queue.remove(a);
                     }
                 }
-             } catch (TupleSpaceException e) {
+            } catch (TupleSpaceException e) {
                 e.printStackTrace();
             }
         }
@@ -87,5 +92,5 @@ public class SQLSpacesActionLogger implements IActionLogger {
         // The username and source aren't used any more, therefore -> null
         log(null, null, action);
     }
-	
+
 }
