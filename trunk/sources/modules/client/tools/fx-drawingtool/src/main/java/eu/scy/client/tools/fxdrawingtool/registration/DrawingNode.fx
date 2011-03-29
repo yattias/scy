@@ -10,7 +10,6 @@ import java.net.URI;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
 import javafx.scene.layout.Container;
@@ -26,9 +25,6 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
-import javafx.geometry.Insets;
-import javafx.scene.layout.LayoutInfo;
-import javafx.scene.layout.Priority;
 import javafx.util.Math;
 import java.awt.Dimension;
 import eu.scy.client.desktop.scydesktop.utils.UiUtils;
@@ -113,43 +109,7 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
    public override function create(): Node {
       wrappedWhiteboardPanel = ScySwingWrapper.wrap(whiteboardPanel);
       //wrappedWhiteboardPanel.cache = true;
-      wrappedWhiteboardPanel.layoutInfo = LayoutInfo {
-            hfill: true
-            vfill: true
-            hgrow: Priority.ALWAYS
-            vgrow: Priority.ALWAYS
-         }
-
-      nodeBox = VBox {
-            managed: false
-            blocksMouse: true;
-            spacing: spacing;
-            content: [
-               buttonBox = HBox {
-                     padding: Insets {
-                        left: spacing
-                        top: spacing
-                        right: spacing
-                     }
-                     spacing: spacing;
-                     content: [
-                        Button {
-                           text: ##"Save"
-                           action: function() {
-                              doSaveElo();
-                           }
-                        }
-                        Button {
-                           text: ##"Save as"
-                           action: function() {
-                              doSaveAsElo();
-                           }
-                        }
-                     ]
-                  }
-               wrappedWhiteboardPanel
-            ]
-         }
+      wrappedWhiteboardPanel
    }
 
    function doLoadElo(eloUri: URI) {
@@ -188,23 +148,23 @@ public class DrawingNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
    }
 
    function sizeChanged(): Void {
-      Container.resizeNode(nodeBox, width, height);
+      Container.resizeNode(wrappedWhiteboardPanel, width, height);
    }
 
    public override function getPrefHeight(h: Number): Number {
-      wrappedWhiteboardPanel.boundsInParent.minY + Container.getNodePrefHeight(wrappedWhiteboardPanel, h);
+      Container.getNodePrefHeight(wrappedWhiteboardPanel, h);
    }
 
    public override function getPrefWidth(w: Number): Number {
-      wrappedWhiteboardPanel.boundsInParent.minX + Container.getNodePrefWidth(wrappedWhiteboardPanel, w);
+      Container.getNodePrefWidth(wrappedWhiteboardPanel, w);
    }
 
    public override function getMinHeight(): Number {
-      wrappedWhiteboardPanel.boundsInParent.minY + Math.max(30, Container.getNodeMinHeight(wrappedWhiteboardPanel));
+      Math.max(30, Container.getNodeMinHeight(wrappedWhiteboardPanel));
    }
 
    public override function getMinWidth(): Number {
-      Math.max(buttonBox.getMinWidth(), Container.getNodeMinWidth(wrappedWhiteboardPanel))
+      Container.getNodeMinWidth(wrappedWhiteboardPanel)
    }
 
 }
