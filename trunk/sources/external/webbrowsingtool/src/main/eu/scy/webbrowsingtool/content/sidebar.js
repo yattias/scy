@@ -378,8 +378,6 @@ if ("undefined" == typeof(scylighter)) {
 
         getElementsByAttributeDOM: function (strAttributeName, strAttributeValue){
 
-            //XX2
-            //var mainWindow = window.QueryInterface()....
             var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
 
             //only select Span-Tags, because only these tags are highlighted
@@ -503,7 +501,7 @@ if ("undefined" == typeof(scylighter)) {
             if (summaryBox.itemCount>0){
                 urlBox.value = summaryBox.getItemAtIndex(0).getAttribute("sourceURL");
             }
-            for(i = 1; i < summaryBox.itemCount; i++){
+            for(var i = 1; i < summaryBox.itemCount; i++){
                 var actualSource = summaryBox.getItemAtIndex(i).getAttribute("sourceURL");
                 if (urlBox.value.search(actualSource)!=-1){
                     //the url exists

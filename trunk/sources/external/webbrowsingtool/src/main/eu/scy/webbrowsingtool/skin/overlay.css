@@ -33,3 +33,7 @@ hbox#browser > vbox {
     min-width: 230px !important;
 }
 
+.scylighter-icon{
+  list-style-image: url("chrome://scylighter/skin/icons/Logo32x32.png");
+}
+

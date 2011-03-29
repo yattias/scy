@@ -67,7 +67,7 @@
     <menupopup id="menu_ToolsPopup">
 
     </menupopup>
-    <popup id="contentAreaContextMenu">
+    <menupopup id="contentAreaContextMenu">
         <menuitem id="context-scylighter" label="&scylighterContext.label;"
                   accesskey="&scylighterContext.accesskey;"
                   insertafter="context-stop"
@@ -77,7 +77,7 @@
                   insertafter="context-stop"
                   oncommand="scylighter.removeHighlight();"/>
         <menuitem id="context-sidebar" key="key_openSidebar" observes="viewSidebar" />
-    </popup>
+    </menupopup>
     <toolbarpalette id="browser-toolbar-palette">
         <toolbarbutton id="scylighter-toolbar-button"
                        label="&scylighterToolbar.label;"

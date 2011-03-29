@@ -36,3 +36,4 @@
 <!ENTITY toolbarbutton.tooltip.preferences "Preferences: customize settings, e.g. Username/Password">
 <!ENTITY toolbarbutton.tooltip.help "Open Help-page">
 <!ENTITY toolbarbutton.tooltip.preview "Open preview">
+<!ENTITY scylighterMenu.accesskey "S">
