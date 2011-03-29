@@ -61,10 +61,10 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
     private long helpInterval;
 
     private TimerTask reEnableTask;
-    
+
     public SCYMapperPanelCollide(IConceptMap cmap, ISCYMapperToolConfiguration configuration, String sqlspacesHost, int sqlspacesPort, String userid) {
         super(cmap, configuration);
-        actionLogger = new ConceptMapActionLoggerCollide(new SQLSpacesActionLogger(sqlspacesHost, sqlspacesPort, "actions"), getConceptMap().getDiagram(), userid, getConceptMap(), this);
+        actionLogger = new ConceptMapActionLoggerCollide(new SQLSpacesActionLogger(sqlspacesHost, sqlspacesPort, "actions","SCYMapper("+userid+")"), getConceptMap().getDiagram(), userid, getConceptMap(), this);
         suggestionPanel.setActionLogger(actionLogger);
     }
 
@@ -147,8 +147,8 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
                             }
                         };
                         reenableButtonTimer.schedule(reEnableTask, REENABLE_BUTTONS_TIMER * 1000);
-                        
-                        
+
+
                     }
 
                 });
