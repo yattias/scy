@@ -39,9 +39,9 @@ return Group {
 					fill: bind windowColorScheme.mainColorLight
 					stroke: null
 					x: 3.42
-					y: 3.14
-					width: 34.0
-					height: 34.0
+					y: 0.14
+					width: 37.0
+					height: 37.0
 				},
 				Polygon {
 					points: [40.42,0.14,40.30,40.14,0.30,40.14,0.30,0.14]
@@ -49,7 +49,7 @@ return Group {
 					stroke: null
 				},
 				Polygon {
-					points: [40.42,26.14,15.42,0.14,40.42,0.14]
+					points: [40.42,28.14,13.42,0.14,40.42,0.14]
 					fill: bind windowColorScheme.secondColor
 					stroke: null
 },

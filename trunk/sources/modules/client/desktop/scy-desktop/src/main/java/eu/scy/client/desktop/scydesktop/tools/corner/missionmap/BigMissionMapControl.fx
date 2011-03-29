@@ -75,7 +75,7 @@ public class BigMissionMapControl extends CustomNode {
    public override function create(): Node {
       if (missionModel.missionMapButtonIconType!=""){
          def newEloIcon = windowStyler.getScyEloIcon(missionModel.missionMapButtonIconType);
-         println("missionModel.missionMapButtonIconType: {missionModel.missionMapButtonIconType} -> {newEloIcon}");
+//         println("missionModel.missionMapButtonIconType: {missionModel.missionMapButtonIconType} -> {newEloIcon}");
          newEloIcon.windowColorScheme = eloIcon.windowColorScheme;
          missionMapButton.eloIcon = newEloIcon;
       }

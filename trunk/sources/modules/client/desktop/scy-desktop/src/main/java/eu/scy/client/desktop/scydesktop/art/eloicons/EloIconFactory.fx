@@ -11,7 +11,7 @@ import eu.scy.client.desktop.scydesktop.art.ScyColors;
 public class EloIconFactory {
  def windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
 
-def names = ["Import_2","Import_1","Import","Export_2","Export_1","Export","Save_as_dataset","Save_as_1","Save_as","Save_2","Save_1","Save","Minimize_1","Minimize","Unrotate","Maximize","Center_1","Center","Video","Search","Research_question","Report","Presentation","Reflection","Pizza","Orientation2","Orientation","New","Model","Interview","Information2","Information","Idea","Hypothese2","Hypothese","House","Exp_design","Evaluation_report","Drawing2","Drawing","Designed_artifact","Design_of_artifact","Debate_argument","Dataset_processed","Dataset","Data","Conclusion","Concept_map3","Concept_map2","Concept_map","Concept_hypothese","Collaboration_invitation","Collaboration_accepted","Collaboration_denied","Choices","Assignment","Analyse","Alert_question","Alert_message","Mission_map_2","Mission_map","E_portfolio","Give_feedback","Get_feedback","New_author","New_author_copy","Search_2","New_template","New_template_copy","Archive"];
+def names = ["Import_2","Import_1","Import","Export_2","Export_1","Export","Save_as_dataset","Save_as_1","Save_as","Save_2","Save_1","Save","Minimize_1","Minimize","Unrotate","Maximize","Center_1","Center","Video","Search","Research_question","Report","Presentation","Reflection","Pizza","Orientation2","Orientation","New","Model","Interview","Information2","Information","Idea","Hypothese2","Hypothese","House","Exp_design","Evaluation_report","Drawing2","Drawing","Designed_artifact","Design_of_artifact","Debate_argument","Dataset_processed","Dataset","Data","Conclusion","Concept_map3","Concept_map2","Concept_map","Concept_hypothese","Collaboration_invitation","Collaboration_accepted","Collaboration_denied","Choices","Assignment","Analyse","Alert_question","Alert_message","Mission_map_2","Mission_map_1","Mission_map","E_portfolio","Give_feedback","Get_feedback","New_author_2","New_author","Search_2","New_template_2","New_template","Archive"];
 
 public function getNames(): String[] {
 return names;
@@ -140,6 +140,8 @@ return Alert_questionIcon{windowColorScheme:windowColorScheme};
 return Alert_messageIcon{windowColorScheme:windowColorScheme};
 } else if (name.equalsIgnoreCase("Mission_map_2")) {
 return Mission_map_2Icon{windowColorScheme:windowColorScheme};
+} else if (name.equalsIgnoreCase("Mission_map_1")) {
+return Mission_map_1Icon{windowColorScheme:windowColorScheme};
 } else if (name.equalsIgnoreCase("Mission_map")) {
 return Mission_mapIcon{windowColorScheme:windowColorScheme};
 } else if (name.equalsIgnoreCase("E_portfolio")) {
@@ -148,16 +150,16 @@ return E_portfolioIcon{windowColorScheme:windowColorScheme};
 return Give_feedbackIcon{windowColorScheme:windowColorScheme};
 } else if (name.equalsIgnoreCase("Get_feedback")) {
 return Get_feedbackIcon{windowColorScheme:windowColorScheme};
+} else if (name.equalsIgnoreCase("New_author_2")) {
+return New_author_2Icon{windowColorScheme:windowColorScheme};
 } else if (name.equalsIgnoreCase("New_author")) {
 return New_authorIcon{windowColorScheme:windowColorScheme};
-} else if (name.equalsIgnoreCase("New_author_copy")) {
-return New_author_copyIcon{windowColorScheme:windowColorScheme};
 } else if (name.equalsIgnoreCase("Search_2")) {
 return Search_2Icon{windowColorScheme:windowColorScheme};
+} else if (name.equalsIgnoreCase("New_template_2")) {
+return New_template_2Icon{windowColorScheme:windowColorScheme};
 } else if (name.equalsIgnoreCase("New_template")) {
 return New_templateIcon{windowColorScheme:windowColorScheme};
-} else if (name.equalsIgnoreCase("New_template_copy")) {
-return New_template_copyIcon{windowColorScheme:windowColorScheme};
 } else if (name.equalsIgnoreCase("Archive")) {
 return ArchiveIcon{windowColorScheme:windowColorScheme};
 } else {
