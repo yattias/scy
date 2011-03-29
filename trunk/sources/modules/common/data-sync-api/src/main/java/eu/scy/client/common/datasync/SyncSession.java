@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.XMPPConnection;
@@ -50,16 +52,24 @@ public class SyncSession implements ISyncSession {
 
     private BlockingQueue<Packet> queryQueue;
 
+    private boolean fetchState;
+
     public SyncSession(XMPPConnection xmppConnection, MultiUserChat muc, String toolid, ISyncListener listener) throws DataSyncException {
         this(xmppConnection, muc, toolid, listener, false);
     }
 
+    public SyncSession(XMPPConnection xmppConnection, MultiUserChat muc, ISyncListener listener) throws DataSyncException {
+        this(xmppConnection, muc, null, listener, false);
+    }
+
+
     public SyncSession(XMPPConnection xmppConnection, MultiUserChat muc, String toolid, ISyncListener listener, boolean fetchState) throws DataSyncException {
+        this.toolid = toolid;
+        this.fetchState = fetchState;
         this.listeners = new ArrayList<ISyncListener>();
         this.collabListeners = new ArrayList<CollaboratorStatusListener>();
         this.xmppConnection = xmppConnection;
         this.muc = muc;
-        this.toolid = toolid;
 
         mucRoomId = muc.getRoom().substring(0, muc.getRoom().indexOf("@"));
 
@@ -133,21 +143,9 @@ public class SyncSession implements ISyncSession {
         });
 
         if (fetchState) {
-            List<ISyncObject> syncObjects = getAllSyncObjects();
-            // System.out.println(syncObjects);
-            Collections.sort(syncObjects, new Comparator<ISyncObject>() {
-
-                @Override
-                public int compare(ISyncObject o1, ISyncObject o2) {
-                    return (int) (o1.getCreationTime() - o2.getCreationTime());
-                }
-            });
-            for (ISyncObject syncObject : syncObjects) {
-                for (ISyncListener l : listeners) {
-                    l.syncObjectAdded(syncObject);
-                }
-            }
+            fetchState(toolid);
         }
+
         muc.addParticipantStatusListener(new DefaultParticipantStatusListener() {
 
             @Override
@@ -224,16 +222,16 @@ public class SyncSession implements ISyncSession {
     }
 
     @Override
-    public List<ISyncObject> getAllSyncObjects() throws DataSyncException {
-        return getAllSyncObjects(20, TimeUnit.SECONDS);
+    public List<ISyncObject> getAllSyncObjects(String toolId) throws DataSyncException {
+        return getAllSyncObjects(toolId, 20, TimeUnit.SECONDS);
     }
 
     @Override
-    public List<ISyncObject> getAllSyncObjects(int time, TimeUnit unit) throws DataSyncException {
+    public List<ISyncObject> getAllSyncObjects(String toolId, int time, TimeUnit unit) throws DataSyncException {
         List<ISyncObject> list = new LinkedList<ISyncObject>();
         SyncMessage request = new SyncMessage(eu.scy.common.message.SyncMessage.Type.request);
         request.setUserId(xmppConnection.getUser());
-        request.setToolId(toolid);
+        request.setToolId(toolId);
         request.setEvent(Event.queryall);
         request.setSessionId(muc.getRoom());
 
@@ -324,5 +322,42 @@ public class SyncSession implements ISyncSession {
                 csl.wentOnline(getSimpleName(it.next()));
             }
         }
+    }
+
+    @Override
+    public List<ISyncObject> getAllSyncObjects() throws DataSyncException {
+        return getAllSyncObjects(toolid);
+    }
+
+    @Override
+    public List<ISyncObject> getAllSyncObjects(int time, TimeUnit unit) throws DataSyncException {
+        return getAllSyncObjects(toolid, time, unit);
+    }
+
+    @Override
+    public void fetchState(String toolId) {
+        try {
+            List<ISyncObject> syncObjects = getAllSyncObjects(toolId);
+            // System.out.println(syncObjects);
+            Collections.sort(syncObjects, new Comparator<ISyncObject>() {
+
+                @Override
+                public int compare(ISyncObject o1, ISyncObject o2) {
+                    return (int) (o1.getCreationTime() - o2.getCreationTime());
+                }
+            });
+            for (ISyncObject syncObject : syncObjects) {
+                for (ISyncListener l : listeners) {
+                    l.syncObjectAdded(syncObject);
+                }
+            }
+        } catch (DataSyncException ex) {
+            Logger.getLogger(SyncSession.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public boolean isConnected() {
+        return muc.isJoined();
     }
 }

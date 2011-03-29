@@ -24,6 +24,7 @@ import eu.scy.common.message.SyncMessage.Type;
 import eu.scy.common.packetextension.SCYPacketTransformer;
 import eu.scy.common.smack.SmacketExtension;
 import eu.scy.common.smack.SmacketExtensionProvider;
+import java.util.HashMap;
 
 public class DataSyncService implements IDataSyncService {
 	
@@ -33,8 +34,11 @@ public class DataSyncService implements IDataSyncService {
 	
 	private XMPPConnection xmppConnection;
 
+        private HashMap<String, ISyncSession> sessionMap;
+
 	public DataSyncService() {
 		packetLock = new SynchronousQueue<Packet>();
+                sessionMap = new HashMap<String, ISyncSession>();
 	}
 	
 	public void init(XMPPConnection xmppConnection) {
@@ -170,15 +174,22 @@ public class DataSyncService implements IDataSyncService {
 	@Override
 	public ISyncSession joinSession(String mucID, ISyncListener listener, String toolid, boolean fetchState) throws DataSyncException {
 		checkConnectionState();
-		
-		MultiUserChat muc = new MultiUserChat(xmppConnection, mucID);
-		try {
-			muc.join(xmppConnection.getUser());
-			ISyncSession joinedSession = new SyncSession(xmppConnection, muc, toolid, listener, true);
-			return joinedSession;
-		} catch (XMPPException e) {
-			e.printStackTrace();
-		}
-		return null;
+		if (sessionMap.containsKey(mucID) && sessionMap.get(mucID).isConnected()) {
+                    ISyncSession session = sessionMap.get(mucID);
+                    if (fetchState) {
+                        session.fetchState(toolid);
+                    }
+                    return session;
+                } else {
+                    MultiUserChat muc = new MultiUserChat(xmppConnection, mucID);
+                    try {
+                            muc.join(xmppConnection.getUser());
+                            ISyncSession joinedSession = new SyncSession(xmppConnection, muc, listener);
+                            joinedSession.fetchState(toolid);
+                            return joinedSession;
+                    } catch (XMPPException e) {
+                            throw new DataSyncException(e);
+                    }
+                }
 	}
 }
