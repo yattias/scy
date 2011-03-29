@@ -163,12 +163,30 @@ public class CMProposerAgent extends AbstractThreadedAgent {
 
     @Override
     protected void doRun() throws TupleSpaceException {
+
+        if (!(observer instanceof NullObserver)) {
+            new Thread() {
+
+                @Override
+                public void run() {
+                    try {
+                        while (status == Status.Running) {
+                            sendAliveUpdate();
+                            Thread.sleep(5000);
+                        }
+
+                    } catch (TupleSpaceException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.start();
+        }
         while (status == Status.Running) {
             observer.setStatusText("Agent running");
-            try {
+            if ((observer instanceof NullObserver)) {
                 sendAliveUpdate();
-            } catch (TupleSpaceException e1) {
-                e1.printStackTrace();
             }
             Tuple returnTuple = commandSpace.waitToTake(new Tuple(String.class, "CMProposer", "cm proposal", String.class, String.class, Integer.class, String.class), AgentProtocol.COMMAND_EXPIRATION);
             if (returnTuple != null) {
