@@ -207,11 +207,13 @@ public class WindowTitleBarDouble extends WindowElement {
                     eloIconGroup = Group {
                                layoutX: 0
                                layoutY: -1
-                               blocksMouse: startDragIcon != null
+                               blocksMouse: allowDragIcon and (startDragIcon != null)
                                cursor: if (allowDragIcon and (startDragIcon != null)) Cursor.HAND else null
                                content: eloIcon
                                onMousePressed: function(e: MouseEvent): Void {
-                                  startDragIcon(e);
+                                  if (allowDragIcon){
+                                     startDragIcon(e);
+                                  }
                                }
                             }
                     Line { // left top line
