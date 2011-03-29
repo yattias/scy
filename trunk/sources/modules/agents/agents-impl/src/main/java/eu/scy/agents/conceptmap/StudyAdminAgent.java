@@ -4,6 +4,7 @@ import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Callback;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
+import info.collide.sqlspaces.commons.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,7 +74,7 @@ public class StudyAdminAgent implements Callback {
 
     public StudyAdminAgent() {
         try {
-            commandSpace = new TupleSpace("localhost", 2525, "command");
+            commandSpace = new TupleSpace(new User("AdminAgent"),"localhost", 2525, "command");
             commandSpace.eventRegister(Command.WRITE, new Tuple("study", String.class, String.class), this, true);
             agents = new HashMap<String, AbstractThreadedAgent>();
             //startAgent(StudyAgent.ENRICHER);
