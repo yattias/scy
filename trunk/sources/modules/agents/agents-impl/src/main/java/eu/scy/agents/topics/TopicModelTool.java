@@ -133,7 +133,7 @@ public class TopicModelTool {
 		// InputStream in =
 		// TopicModelTool.class.getResourceAsStream("/mission2_texts/English/content.lst");
 		InputStream in = TopicModelTool.class
-				.getResourceAsStream("/mission3_texts/English/content.lst");
+				.getResourceAsStream("/mission3/en/texts/content.lst");
 		// .getResourceAsStream("/mission1_texts/Estonian/content.lst");
 		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
 		String line = "";
@@ -145,7 +145,7 @@ public class TopicModelTool {
 			// TopicModelTool.class.getResourceAsStream("/mission2_texts/English/"
 			// + line.trim())));
 					TopicModelTool.class
-							.getResourceAsStream("/mission3_texts/English/"
+							.getResourceAsStream("/mission3/en/texts/"
 									+ line.trim())));
 			// .getResourceAsStream("/mission1_texts/Estonian/"
 			// + line.trim())));
