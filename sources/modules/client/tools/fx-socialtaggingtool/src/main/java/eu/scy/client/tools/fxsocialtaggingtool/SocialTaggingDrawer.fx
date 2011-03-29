@@ -192,6 +192,7 @@ public class SocialTaggingDrawer
                     tooltip: Tooltip {
                         text: "Adds a tag, and your vote for that tag"
                     }
+                    disable: bind newTagBox.rawText==""
                     action: function() {
                         eloInterface.addVoteForString(true, newTagBox.text);
                         this.updateTagLines();
