@@ -32,6 +32,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 
 /**
  * @author pg
@@ -83,50 +85,8 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML, E
     var foreground:Node[];
     override var children = bind [nodes, foreground];
     
-
-    def addURLButton:Button = Button {
-        tooltip: Tooltip {text: "add YouTube Video"}
-        graphic: ImageView{ image: Image { url: "{__DIR__}resources/television_add.png" } }
-        action: function():Void {
-            showPopup(YouTubeDataEditor{ 
-                ytNode: this
-                translateX: bind (width/2) - (170);
-                translateY: bind (height/2) - (105);
-            });
-            //showPopup(Text { content: "foobar "});
-            //println("added buttons");
-        }
-    }
-
-    def menuBar:HBox = HBox {
-        content: [
-            addURLButton,
-            Button {
-                graphic: ImageView{ image: Image { url: "{__DIR__}resources/world_add.png" } }
-                tooltip: Tooltip { text: "browse ELOs" }
-                action:function():Void {browseElos()}
-            },
-            Button {
-                graphic: ImageView{ image: Image { url: "{__DIR__}resources/page_white_world.png" } }
-                tooltip: Tooltip { text: "save ELO" }
-                action:function():Void {
-                    doSaveELO();
-                }
-            },
-            Button {
-                graphic: ImageView{ image: Image { url: "{__DIR__}resources/page_world.png" } }
-                tooltip: Tooltip { text: "save AS ELO" }
-                action:function():Void {
-                    doSaveAsELO();
-                }
-            }
-            ]
-            spacing: 5.0;
-    }
-
     var content:VBox = VBox {
         content: [
-            menuBar,
             sv]
         spacing: 5.0;
     }
@@ -139,6 +99,20 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML, E
         fill: Color.BLACK;
         opacity: 0.7;
     }
+   def saveTitleBarButton = TitleBarButton {
+              actionId: "save"
+              action: doSaveELO
+           }
+   def saveAsTitleBarButton = TitleBarButton {
+              actionId: "saveAs"
+              action: doSaveAsELO
+           }
+   def addVideoTitleBarButton = TitleBarButton {
+              actionId: "import"
+              iconType: "import"
+              action: addUrl
+              tooltip: ##"add YouTube Video"
+           }
 
     postinit {
         insert content into nodes;
@@ -160,6 +134,15 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML, E
         return (dataSets.get(id) as YouTuberDataSet);
     }
 
+    function addUrl():Void{
+      showPopup(YouTubeDataEditor{
+          ytNode: this
+          translateX: bind (width/2) - (170);
+          translateY: bind (height/2) - (105);
+      });
+      //showPopup(Text { content: "foobar "});
+      //println("added buttons");
+    }
 
 
     function refreshGUIList():Void {
@@ -227,6 +210,16 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML, E
         technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
     }
 
+   public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
+      if (windowContent) {
+         titleBarButtonManager.titleBarButtons = [
+                    saveTitleBarButton,
+                    saveAsTitleBarButton,
+                    addVideoTitleBarButton
+                 ]
+      }
+   }
+
     override function loadXML(xml:String):Void {
         this.dataSets = YTDataHandler.createSetFromString(xml);
         refreshGUIList();
@@ -267,7 +260,7 @@ public class YouTuberNode  extends CustomNode, Resizable, ScyToolFX, ILoadXML, E
         }
     }
     
-    function doSaveELO() {
+    function doSaveELO(): Void {
         eloSaver.eloUpdate(getELO(), this);
         this.eloUri = elo.getUri().toString(); // stolen from filtex, dont know why (:
     }
