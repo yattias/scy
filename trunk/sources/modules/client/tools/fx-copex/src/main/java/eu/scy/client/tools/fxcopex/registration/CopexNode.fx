@@ -141,49 +141,6 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
    public override function create(): Node {
       bundle = new ResourceBundleWrapper(this);
       wrappedCopexPanel = ScySwingWrapper.wrap(scyCopexPanel);
-      return Group {
-         blocksMouse:true;
-         content: [
-            VBox{
-               translateY:spacing;
-               spacing:spacing;
-               content:[
-                  HBox{
-                     translateX:spacing;
-                     spacing:spacing;
-                     content:[
-                        Button {
-                           text: getBundleString("FX-COPEX.MENU_SAVE");
-                           action: function() {
-                              doSaveElo();
-                           }
-                        }
-                        Button {
-                           text: getBundleString("FX-COPEX.MENU_SAVE_AS");
-                           action: function() {
-                              doSaveAsElo();
-                           }
-                        }
-//                        Button {
-//                           text: "test thumbnail"
-//                           action: function () {
-//                                testThumbnail();
-//                           }
-//                        }
-                        notificationButton = Button {
-                           text: "!";
-                           visible:false;
-                           action: function() {
-                              doNotify();
-                           }
-                        }
-                     ]
-                  }
-                  wrappedCopexPanel
-               ]
-            }
-         ]
-      };
    }
 
    function doLoadElo(eloUri:URI)
@@ -226,11 +183,11 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
     }
 
    function resizeContent(){
-      Container.resizeNode(wrappedCopexPanel,width,height-wrappedCopexPanel.boundsInParent.minY-spacing);
+      Container.resizeNode(wrappedCopexPanel,width,height);
    }
 
    public override function getPrefHeight(height: Number) : Number{
-      return Container.getNodePrefHeight(wrappedCopexPanel, height)+wrappedCopexPanel.boundsInParent.minY+spacing;
+      return Container.getNodePrefHeight(wrappedCopexPanel, height);
    }
 
    public override function getPrefWidth(width: Number) : Number{
