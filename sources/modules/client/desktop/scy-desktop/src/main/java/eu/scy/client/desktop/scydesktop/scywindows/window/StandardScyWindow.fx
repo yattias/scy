@@ -918,6 +918,7 @@ public class StandardScyWindow extends ScyWindow {
             activated: bind activated
             beingDragged: bind beingDragged
             startDragIcon: startDragIcon
+            allowDragIcon: allowDragging
             windowColorScheme: windowColorScheme
             layoutX: -borderWidth / 2;
             layoutY: 0;
@@ -991,7 +992,7 @@ public class StandardScyWindow extends ScyWindow {
       eloIconChanged();
 
       return mainContentGroup = Group {
-               cursor: Cursor.MOVE;
+               cursor: if (allowDragging) Cursor.MOVE else null
                cache: true;
                content: [
                   closedGroup,

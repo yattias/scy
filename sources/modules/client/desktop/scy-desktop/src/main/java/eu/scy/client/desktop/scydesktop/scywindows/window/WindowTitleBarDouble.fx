@@ -69,6 +69,7 @@ public class WindowTitleBarDouble extends WindowElement {
               }
            };
    public-init var startDragIcon: function(e: MouseEvent): Void;
+   public-init var allowDragIcon = true;
    public-read var minimumWidth = width;
    def minimumItemSpacing = 18.0;
    def titleFontsize = 12;
@@ -207,7 +208,7 @@ public class WindowTitleBarDouble extends WindowElement {
                                layoutX: 0
                                layoutY: -1
                                blocksMouse: startDragIcon != null
-                               cursor: if (startDragIcon != null) Cursor.HAND else null
+                               cursor: if (allowDragIcon and (startDragIcon != null)) Cursor.HAND else null
                                content: eloIcon
                                onMousePressed: function(e: MouseEvent): Void {
                                   startDragIcon(e);
