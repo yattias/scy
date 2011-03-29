@@ -19,6 +19,7 @@ import javafx.util.Sequences;
 import java.lang.Void;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.common.scyelo.ScyElo;
+import roolo.elo.api.IMetadataKey;
 
 /**
  * @author sikken
@@ -64,7 +65,14 @@ public class ScyWindowControlImpl extends ScyWindowControl {
       if (scyWindow == null) {
          // the elo is not yet in a window on the desktop, add it
          logger.info("new elo, is not yet on the desktop, {eloUri}");
-         addOtherScyWindow(eloUri);
+	 // TODO check if elo is a 'displayable/creatabke' elo
+	 def eloMetadata = ScyElo.loadMetadata(eloUri, tbi);
+	 if (windowManager.scyDesktop.newEloCreationRegistry.containsEloType(eloMetadata.getTechnicalFormat())) {
+	    logger.info("new elo's type ({eloMetadata.getTechnicalFormat()}) is registered in scy-desktop, trying to create a new scywindow/tool for it.");
+	    addOtherScyWindow(eloUri);
+	 } else {
+	    logger.info("new elo's type ({eloMetadata.getTechnicalFormat()}) is not registered in scy-desktop, doing nothing.");
+	 }   
       } else {
          logger.info("new elo is already on desktop, {eloUri}");
       }
