@@ -184,46 +184,6 @@ public class RichTextEditorScyNode extends RichTextEditorNode, ScyToolFX, EloSav
       richTextEditor = new RichTextEditor(false, authorMode);
       richTextEditor.setTypingLogIntervalMs(typingLogIntervalMs);
       wrappedRichTextEditor = ScySwingWrapper.wrap(richTextEditor,true);
-      resizeContent();
-      FX.deferAction(resizeContent);
-      return Group {
-         blocksMouse:true;
-         content: [
-            VBox{
-               translateY:spacing;
-               spacing:spacing;
-               content:[
-                  HBox{
-                     translateX:spacing;
-                     spacing:spacing;
-                     content:[
-                        /* 100301 Jakob, commented out open button, it should not be in the tool
-                        Button {
-                           text: openLabel
-                           action: function() {
-                               openElo();
-                           }
-                        }
-                        */
-                        Button {
-                           text: saveLabel
-                           action: function() {
-                              doSaveElo();
-                           }
-                        }
-                        Button {
-                           text: saveAsLabel
-                           action: function() {
-    							doSaveAsElo();
-                           }
-                        }
-                     ]
-                  }
-                  wrappedRichTextEditor
-               ]
-            }
-         ]
-      };
    }
 
    override function postInitialize():Void {
