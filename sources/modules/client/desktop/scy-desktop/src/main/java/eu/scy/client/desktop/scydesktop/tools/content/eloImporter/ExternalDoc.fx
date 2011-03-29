@@ -8,8 +8,6 @@ package eu.scy.client.desktop.scydesktop.tools.content.eloImporter;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import javafx.scene.CustomNode;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import roolo.api.IRepository;
@@ -84,6 +82,7 @@ public class ExternalDoc extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
          content: [
             VBox {
                layoutX: spacing
+               layoutY: spacing
                spacing: spacing
                content: [
                   //                  Text {
@@ -151,13 +150,7 @@ public class ExternalDoc extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
                         }
                         TextBox {
                            layoutX: valueOffset
-                           text: bind if (file != null) "{
-
-
-
-
-
-             %tD fileLastModified}, {%tT fileLastModified}" else ""
+                           text: bind if (file != null) "{%tD fileLastModified}, {%tT fileLastModified}" else ""
                            columns: nrOfColumns
                            selectOnFocus: true
                            editable:false
@@ -325,47 +318,7 @@ public class ExternalDoc extends CustomNode, Resizable, ScyToolFX, EloSaverCallB
       contentGroup = Group {
             blocksMouse: true;
             content: [
-               VBox {
-                  translateX: spacing;
-                  translateY: spacing;
-                  spacing: spacing;
-                  content: [
-                     HBox {
-                        //translateX:spacing;
-                        spacing: spacing;
-                        content: [
-                           Button {
-                              text: ##"Save"
-                              //disable:bind file==null
-                              action: function() {
-                                 doSaveElo();
-                              }
-                           }
-                           Button {
-                              text: ##"Save as"
-                              //disable:bind file==null
-                              action: function() {
-                                 doSaveAsElo();
-                              }
-                           }
-                           Button {
-                              text: ##"Upload file"
-                              action: function() {
-                                 importFile();
-                              }
-                           }
-                           minimumSizeBottomRightNode = Button {
-                                 text: ##"Download file"
-                                 disable: bind file == null
-                                 action: function() {
-                                    exportFile();
-                                 }
-                              }
-                        ]
-                     }
-                     mainContent
-                  ]
-               }
+               mainContent
             ]
          };
       contentGroup.layout();
