@@ -28,7 +28,7 @@ import eu.scy.agents.conceptmap.StudySetupStarter;
 import eu.scy.agents.conceptmap.proposer.CMProposerAgent;
 import eu.scy.agents.impl.AgentProtocol;
 
-public class StudyAgentStarterGUI implements ActionListener {
+public class CMAgentStarter implements ActionListener {
 
     private JFrame frmAgentstarter;
 
@@ -70,7 +70,7 @@ public class StudyAgentStarterGUI implements ActionListener {
 
             public void run() {
                 try {
-                    StudyAgentStarterGUI window = new StudyAgentStarterGUI();
+                    CMAgentStarter window = new CMAgentStarter();
                     window.frmAgentstarter.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -86,7 +86,7 @@ public class StudyAgentStarterGUI implements ActionListener {
      *
      * @throws Throwable
      */
-    public StudyAgentStarterGUI() throws Throwable {
+    public CMAgentStarter() throws Throwable {
         initialize();
     }
 

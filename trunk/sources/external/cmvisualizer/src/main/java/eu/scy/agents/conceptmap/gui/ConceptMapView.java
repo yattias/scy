@@ -182,7 +182,7 @@ public class ConceptMapView extends JPanel implements ChangeListener, ActionList
             graph.removeNode(n1);
             graph.removeNode(n2);
             graph.removeNode(n3);
-            display.pan(display.getWidth() / 2, display.getHeight() / 2);
+            display.pan(display.getWidth() / 4, display.getHeight() / 4);
             display.zoom(new Point(display.getWidth() / 2, display.getHeight() / 2), 1.1d);
         } catch (Exception e) {
             e.printStackTrace();
@@ -254,6 +254,13 @@ public class ConceptMapView extends JPanel implements ChangeListener, ActionList
 
     public void mouseWheelMoved(MouseWheelEvent e) {}
 
+    public void clearMap(){
+        graph.clear();
+        nodes.clear();
+        layoutGraph(false);
+
+    }
+
     public void addConcept(String concept) {
         Node n = graph.addNode();
         n.setString("name", concept);
@@ -304,7 +311,13 @@ public class ConceptMapView extends JPanel implements ChangeListener, ActionList
     } // end of inner class LabelLayout
 
     public void clearGraph() {
-        graph.clear();
+        int edgeCount = graph.getEdgeCount();
+        for (int i = 0; i < edgeCount; i++) {
+            graph.removeEdge(i);
+        }
+        for (Node n : nodes.values()) {
+            graph.removeNode(n);
+        }
         nodes.clear();
     }
 
