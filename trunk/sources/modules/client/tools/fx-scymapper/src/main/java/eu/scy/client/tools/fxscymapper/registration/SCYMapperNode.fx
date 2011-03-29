@@ -73,64 +73,7 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
         } else {
             scyMapperPanel.getConceptMapActionLogger().setEloURI(currentELO.getUri().toString());
         }
-        return Group {
-                    blocksMouse: true;
-                    content: [
-                        VBox {
-                            translateY: spacing;
-                            spacing: spacing;
-                            content: [
-                                HBox {
-                                    translateX: spacing;
-                                    spacing: spacing;
-                                    content: [
-                                        /*
-                                        Button {
-                                        text: "New"
-                                        action: function() {
-                                        newConceptMap();
-                                        }
-                                        }
-                                        Button {
-                                        text: "Load"
-                                        action: function() {
-                                        var uris = repositoryWrapper.findElos();
-                                        var selectedUri = JOptionPane.showInputDialog(null, "Select concept map", "Select concept map", JOptionPane.QUESTION_MESSAGE, null, uris, null);
-                                        loadElo(selectedUri as URI);
-                                        }
-                                        }
-                                         */
-                                        Button {
-                                            text: "Save"
-                                            action: function() {
-                                                doSaveConceptMap();
-                                            }
-                                        }
-                                        Button {
-                                            text: "Save as"
-                                            action: function() {
-                                                doSaveConceptMapAs();
-                                            }
-                                        }
-//                                        Button {
-//                                            text: "Add to Portfolio"
-//                                            action: function() {
-//                                                addToPortfolio();
-//                                            }
-//                                        }
-//                                        Button {
-//                                            text: "test thumbnail"
-//                                            action: function () {
-//                                                testThumbnail();
-//                                            }
-//                                        }
-                                    ]
-                                }
-                                wrappedScyMapperPanel
-                            ]
-                        }
-                    ]
-                };
+        wrappedScyMapperPanel
     }
 
     function newConceptMap() {
@@ -212,11 +155,11 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
     }
 
     function resizeContent() {
-        Container.resizeNode(wrappedScyMapperPanel, width, height - wrappedScyMapperPanel.boundsInParent.minY - spacing);
+        Container.resizeNode(wrappedScyMapperPanel, width, height);
     }
 
     public override function getPrefHeight(width: Number): Number {
-        return Container.getNodePrefHeight(wrappedScyMapperPanel, height) + wrappedScyMapperPanel.boundsInParent.minY + spacing;
+        return Container.getNodePrefHeight(wrappedScyMapperPanel, height);
     }
 
     public override function getPrefWidth(width: Number): Number {
