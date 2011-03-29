@@ -174,47 +174,6 @@ public class MathToolScyNode extends MathToolNode, ScyToolFX, EloSaverCallBack {
       mathTool = new MathTool(new SCYMathToolController());
      
      wrappedMathTool = ScySwingWrapper.wrap(mathTool.createMathTool(0, 0),true);
-
-      resizeContent();
-      FX.deferAction(resizeContent);
-      return Group {
-         blocksMouse:true;
-         content: [
-            VBox{
-               translateY:spacing;
-               spacing:spacing;
-               content:[
-                  HBox{
-                     translateX:spacing;
-                     spacing:spacing;
-                     content:[
-                        /* 100301 Jakob, commented out open button, it should not be in the tool
-                        Button {
-                           text: openLabel
-                           action: function() {
-                               openElo();
-                           }
-                        }
-                        */
-                        Button {
-                           text: saveLabel
-                           action: function() {
-                              doSaveElo();
-                           }
-                        }
-                        Button {
-                           text: saveAsLabel
-                           action: function() {
-    							doSaveAsElo();
-                           }
-                        }
-                     ]
-                  }
-                  wrappedMathTool
-               ]
-            }
-         ]
-      };
    }
 
    override function postInitialize():Void {
