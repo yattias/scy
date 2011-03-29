@@ -23,8 +23,9 @@ public class Preprocessor {
 		}
 		Instance instance = new Instance(new TokenSequence(malletTokens), "",
 				id, id);
-		Pipe pipe = new TokenSequence2FeatureSequence();
-		return pipe.pipe(instance);
+		// Pipe pipe = new TokenSequence2FeatureSequence();
+		// return pipe.pipe(instance);
+		return instance;
 	}
 
 	public String removeEmailAdresses(String document) {
