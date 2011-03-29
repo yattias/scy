@@ -252,42 +252,6 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
    public override function create(): Node {
       bundle = new ResourceBundleWrapper(this);
       wrappedFitexPanel = ScySwingWrapper.wrap(fitexPanel);
-      return Group {
-         blocksMouse:true;
-         content: [
-            VBox{
-               translateY:spacing;
-               spacing:spacing;
-               content:[
-                  HBox{
-                     translateX:spacing;
-                     spacing:spacing;
-                     content:[
-                        Button {
-                           text: getBundleString("FX-FITEX.MENU_SAVE");
-                           action: function() {
-                              doSaveElo();
-                           }
-                        }
-                        Button {
-                           text: getBundleString("FX-FITEX.MENU_SAVE_AS");
-                           action: function() {
-                                doSaveAsElo();
-                           }
-                        }
-//                        Button {
-//                           text: "test thumbnail"
-//                           action: function () {
-//                                testThumbnail();
-//                           }
-//                        }
-                     ]
-                  }
-                  wrappedFitexPanel
-               ]
-            }
-         ]
-      };
    }
 
    function doLoadElo(eloUri:URI)
@@ -331,11 +295,11 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
 
 
    function resizeContent(){
-      Container.resizeNode(wrappedFitexPanel,width,height-wrappedFitexPanel.boundsInParent.minY-spacing);
+      Container.resizeNode(wrappedFitexPanel,width,height);
    }
 
    public override function getPrefHeight(height: Number) : Number{
-      return Container.getNodePrefHeight(wrappedFitexPanel, height)+wrappedFitexPanel.boundsInParent.minY+spacing;
+      return Container.getNodePrefHeight(wrappedFitexPanel, height);
    }
 
    public override function getPrefWidth(width: Number) : Number{
