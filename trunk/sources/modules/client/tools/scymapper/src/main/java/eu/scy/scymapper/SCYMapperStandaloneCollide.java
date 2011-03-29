@@ -72,7 +72,7 @@ public class SCYMapperStandaloneCollide extends SCYMapperStandalone {
 
         super.init(CONTEXT_CONFIG_CLASS_PATH_LOCATION);
         try {
-            commandSpace = new TupleSpace(new User("SCYMapper"), SCYMapperStandaloneConfig.getInstance().getSQLSpacesHost(), SCYMapperStandaloneConfig.getInstance().getSQLSpacesPort(), "command");
+            commandSpace = new TupleSpace(new User("SCYMapper("+userid+")"), SCYMapperStandaloneConfig.getInstance().getSQLSpacesHost(), SCYMapperStandaloneConfig.getInstance().getSQLSpacesPort(), "command");
             Callback cb = new Callback() {
 
                 @Override
@@ -130,6 +130,7 @@ public class SCYMapperStandaloneCollide extends SCYMapperStandalone {
         scyMapperPanel = new SCYMapperPanelCollide(cmap, configuration, SCYMapperStandaloneConfig.getInstance().getSQLSpacesHost(), SCYMapperStandaloneConfig.getInstance().getSQLSpacesPort(), userid);
         scyMapperPanel.setEloURI(eloUri);
         currentConceptMap = cmap;
+        
         return scyMapperPanel;
     }
 
