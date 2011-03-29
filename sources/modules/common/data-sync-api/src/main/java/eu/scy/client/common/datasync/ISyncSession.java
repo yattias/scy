@@ -47,17 +47,45 @@ public interface ISyncSession {
 	 * @throws DataSyncException 
 	 */
 	public List<ISyncObject> getAllSyncObjects() throws DataSyncException;
+
+        /**
+	 * Returns all ISyncObjects in this session for a special tool indicated by the toolId.
+         * The query will timeout after 10 seconds. If this is not enough for you (maybe
+         * because of very very large data or super slow connection) specify the timeout
+         * using the {@link ISyncSession#getAllSyncObjects(int, TimeUnit)} method.
+	 *
+         * @param toolId the id of the tool
+	 * @return a List of all ISyncObjects that are currently in this session
+	 * @throws DataSyncException
+	 */
+	public List<ISyncObject> getAllSyncObjects(String toolId) throws DataSyncException;
 	
 	/**
 	 * Returns all ISyncObjects in this session with a specified timeout. Only
 	 * use this method if you really want to specify the timeout. The preferred
 	 * option is to use the {@link ISyncSession#getAllSyncObjects()} method that
 	 * uses a timeout of 10 seconds.
-	 * 
+	 *
+         * @param time the amount of time to wait for the server repsonse
+         * @param unit the TimeUnit, e.g., minutes or seconds
 	 * @return a List of all ISyncObjects that are currently in this session
 	 * @throws DataSyncException 
 	 */
 	public List<ISyncObject> getAllSyncObjects(int time, TimeUnit unit) throws DataSyncException;
+
+        /**
+	 * Returns all ISyncObjects in this session for a tool with a specified timeout. Only
+	 * use this method if you really want to specify the timeout. The preferred
+	 * option is to use the {@link ISyncSession#getAllSyncObjects()} method that
+	 * uses a timeout of 10 seconds.
+	 *
+         * @param toolId the id of the tool
+         * @param time the amount of time to wait for the server repsonse
+         * @param unit the TimeUnit, e.g., minutes or seconds
+	 * @return a List of all ISyncObjects that are currently in this session
+	 * @throws DataSyncException
+	 */
+	public List<ISyncObject> getAllSyncObjects(String toolId, int time, TimeUnit unit) throws DataSyncException;
 	
 	/**
 	 * returns a single SyncObjects in this session. if no ISyncObject
@@ -102,6 +130,15 @@ public interface ISyncSession {
 	 * @return username the logged-in username
 	 */
 	public String getUsername();
+        
+        /**
+         * This method call will query the state on the server through {@link #getAllSyncObjects(java.lang.String)}
+         * and will call the {@link ISyncListener#syncObjectAdded(eu.scy.common.datasync.ISyncObject)} method of
+         * the sync listener of the tool.
+         * 
+         * @param toolId the id of the tool
+         */
+        public void fetchState(String toolId);
 
 	public void addCollaboratorStatusListener(CollaboratorStatusListener listener);
 
@@ -109,4 +146,5 @@ public interface ISyncSession {
         
         public void refreshOnlineCollaborators();
 
+        public boolean isConnected();
 }
