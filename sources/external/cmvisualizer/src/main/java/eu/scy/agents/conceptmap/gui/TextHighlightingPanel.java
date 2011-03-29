@@ -1,12 +1,12 @@
 package eu.scy.agents.conceptmap.gui;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Document;
@@ -23,8 +23,12 @@ public class TextHighlightingPanel extends JPanel {
     public TextHighlightingPanel(int rows) {
         super(new GridLayout(1, 1));
         StyleContext context = new StyleContext();
-        textPane = new JTextPane(new DefaultStyledDocument(context));
-        scrollPane= new JScrollPane(textPane);
+        DefaultStyledDocument doc = new DefaultStyledDocument(context);
+        textPane = new JTextPane(doc);
+
+        scrollPane= new JScrollPane();
+        scrollPane.setViewportView(textPane);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         emptyText= "";
         for (int i = 0; i < rows; i++) {
             emptyText += "\n";
