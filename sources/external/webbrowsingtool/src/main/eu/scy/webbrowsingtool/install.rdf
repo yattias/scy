@@ -5,7 +5,7 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="scylighter@sven.manske"
                    em:name="Scylighter"
-                   em:version="1.5.0"
+                   em:version="1.5.2"
                    em:creator="Sven Manske"
                    em:type="2"
                    em:description="Highlight selections in the HTML Document"
@@ -17,5 +17,5 @@
   <RDF:Description RDF:about="rdf:#$PfHRq2"
                    em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
                    em:minVersion="3.5"
-                   em:maxVersion="3.6.*" />
+                   em:maxVersion="4.0.*" />
 </RDF:RDF>

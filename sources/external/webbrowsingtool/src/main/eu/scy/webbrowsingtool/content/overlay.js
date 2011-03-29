@@ -39,96 +39,84 @@
 
 var overlay = {
 
-  onLoad: function() {
-    // initialization code
-	var sidebar = top.window.document.getElementById("sidebar-box");
-	if (sidebar.hidden){
-		//disable (de-)highlight-command on context-menu
-		document.getElementById("context-scylighter").disabled = true;
-		document.getElementById("context-descylighter").disabled = true;
-                document.getElementById("menu-scy-new").disabled=true;
-                document.getElementById("menu-scy-save").disabled=true;
-                document.getElementById("menu-scy-preview").disabled=true;
-                document.getElementById("menu-scy-print").disabled=true;
-	} else {
-		//enable (de-)highlight-command on context-menu
-		document.getElementById("context-scylighter").disabled = false;
-		document.getElementById("context-descylighter").disabled = false;
-                document.getElementById("menu-scy-new").disabled=false;
-                document.getElementById("menu-scy-save").disabled=false;
-                document.getElementById("menu-scy-preview").disabled=false;
-                document.getElementById("menu-scy-print").disabled=false;
-	}
-    this.initialized = true;
-    //this.strings = top.window.document.getElementById("scylighter-strings");
-    //document.getElementById("contentAreaContextMenu").addEventListener("popupshowing", function(e) { this.showContextMenu(e); }, false);
-  },
-  getElementsByAttributeDOM: function (strAttributeName, strAttributeValue){
-	//only select Span-Tags, because only these tags are highlighted
-    var arrElements = top.window.content.document.getElementsByTagName("span");
-	//window.alert(arrElements.length);
-    var arrReturnElements = new Array();
-    var oAttributeValue = (typeof strAttributeValue != "undefined")? new RegExp("(^|\\s)" + strAttributeValue + "(\\s|$)", "i") : null;
-    var oCurrent;
-    var oAttribute;
-    for(var i=0; i<arrElements.length; i++){
-        oCurrent = arrElements[i];
-        oAttribute = oCurrent.getAttribute && oCurrent.getAttribute(strAttributeName);
-        if(typeof oAttribute == "string" && oAttribute.length > 0){
-            if(typeof strAttributeValue == "undefined" || (oAttributeValue && oAttributeValue.test(oAttribute))){
-                arrReturnElements.push(oCurrent);
+    onLoad: function() {
+        // initialization code
+        var sidebar = top.window.document.getElementById("sidebar-box");
+        overlay.changeMenuitemState(sidebar);
+        this.initialized = true;
+    },
+    getElementsByAttributeDOM: function (strAttributeName, strAttributeValue){
+        //only select Span-Tags, because only these tags are highlighted
+        var arrElements = top.window.content.document.getElementsByTagName("span");
+        //window.alert(arrElements.length);
+        var arrReturnElements = new Array();
+        var oAttributeValue = (typeof strAttributeValue != "undefined")? new RegExp("(^|\\s)" + strAttributeValue + "(\\s|$)", "i") : null;
+        var oCurrent;
+        var oAttribute;
+        for(var i=0; i<arrElements.length; i++){
+            oCurrent = arrElements[i];
+            oAttribute = oCurrent.getAttribute && oCurrent.getAttribute(strAttributeName);
+            if(typeof oAttribute == "string" && oAttribute.length > 0){
+                if(typeof strAttributeValue == "undefined" || (oAttributeValue && oAttributeValue.test(oAttribute))){
+                    arrReturnElements.push(oCurrent);
+                }
             }
         }
-    }
-    return arrReturnElements;
-	},
+        return arrReturnElements;
+    },
 
-	sidebarExists:function(){
-	var sidebar = top.window.document.getElementById("sidebar");
-	if (sidebar == null) {
-		//window.alert("sidebarExists = false");
-		return false;
-	} else {
-		//window.alert("sidebarExists = true");
-		return true;
-	}
-  },
-  onSidebarChanged: function(){
-	//toggleSidebar("viewSidebar");
-	var sidebar = top.window.document.getElementById("sidebar-box");
-	if (sidebar.hidden){
-		//disable (de-)highlight-command on context-menu
-		document.getElementById("context-scylighter").disabled = true;
-		document.getElementById("context-descylighter").disabled = true;
-                document.getElementById("menu-scy-new").disabled=true;
-                document.getElementById("menu-scy-save").disabled=true;
-                document.getElementById("menu-scy-preview").disabled=true;
-                document.getElementById("menu-scy-print").disabled=true;
-	} else {
-		//enable (de-)highlight-command on context-menu
-		document.getElementById("context-scylighter").disabled = false;
-		document.getElementById("context-descylighter").disabled = false;
-                document.getElementById("menu-scy-new").disabled=false;
-                document.getElementById("menu-scy-save").disabled=false;
-                document.getElementById("menu-scy-preview").disabled=false;
-                document.getElementById("menu-scy-print").disabled=false;
-	}
-  },
+    sidebarExists:function(){
+        var sidebar = top.window.document.getElementById("sidebar");
+        if (sidebar == null) {
+            //window.alert("sidebarExists = false");
+            return false;
+        } else {
+            //window.alert("sidebarExists = true");
+            return true;
+        }
+    },
+    onSidebarChanged: function(){
+        //toggleSidebar("viewSidebar");
+        var sidebar = top.window.document.getElementById("sidebar-box");
+        overlay.changeMenuitemState(sidebar);
+    },
 
-  showContextMenu: function(event) {
-    // show or hide the menuitem based on what the context menu is on
-    // see http://kb.mozillazine.org/Adding_items_to_menus
-    document.getElementById("context-scylighter").hidden = gContextMenu.onImage;
-   },
-  onMenuItemCommand: function(e) {
+    changeMenuitemState: function(sidebar){
+        if (sidebar.hidden){
+            //disable (de-)highlight-command on context-menu
+            document.getElementById("context-scylighter").disabled = true;
+            document.getElementById("context-descylighter").disabled = true;
+            document.getElementById("menu-scy-new").disabled=true;
+            document.getElementById("menu-scy-save").disabled=true;
+            document.getElementById("menu-scy-preview").disabled=true;
+            document.getElementById("menu-scy-print").disabled=true;
+        } else {
+            //enable (de-)highlight-command on context-menu
+            document.getElementById("context-scylighter").disabled = false;
+            document.getElementById("context-descylighter").disabled = false;
+            document.getElementById("menu-scy-new").disabled=false;
+            document.getElementById("menu-scy-save").disabled=false;
+            document.getElementById("menu-scy-preview").disabled=false;
+            document.getElementById("menu-scy-print").disabled=false;
+        }
+    },
 
-},
+    showContextMenu: function(event) {
+        // show or hide the menuitem based on what the context menu is on
+        // see http://kb.mozillazine.org/Adding_items_to_menus
+        document.getElementById("context-scylighter").hidden = gContextMenu.onImage;
+    },
+    onMenuItemCommand: function(e) {
 
-  onToolbarButtonCommand: function(e) {
-    // just reuse the function above.  you can change this, obviously!
-    scylighter.onMenuItemCommand(e);
-  },
+    },
+
+    onToolbarButtonCommand: function(e) {
+        // just reuse the function above.  you can change this, obviously!
+        scylighter.onMenuItemCommand(e);
+    },
 
 };
 
-window.addEventListener("load", function(e) {overlay.onLoad(e);}, false);
+window.addEventListener("load", function(e) {
+    overlay.onLoad(e);
+}, false);

@@ -9,8 +9,10 @@
         <!-- Toolbar -->
         <toolbox>
             <toolbar id="scy-toolbar">
-                <toolbarbutton id="newButton"  accesskey="N" class="toolbarbutton-1" tooltiptext="&toolbarbutton.tooltip.new;" oncommand="scylighter.newELO();" image="chrome://scylighter/skin/icons/new_x32.png"/>
-                <toolbarbutton id="saveButton" accesskey="s"  class="toolbarbutton-1" tooltiptext="&toolbarbutton.tooltip.save;" oncommand="scylighter.saveELO();" image="chrome://scylighter/skin/icons/save_x32.png"/>
+                <toolbarbutton id="newButton" class="toolbarbutton-1" tooltiptext="&toolbarbutton.tooltip.new;" oncommand="scylighter.newELO();" image="chrome://scylighter/skin/icons/new_x32.png"/>
+                <toolbarbutton id="saveButton" class="toolbarbutton-1" tooltiptext="&toolbarbutton.tooltip.save;" oncommand="scylighter.saveELO();" image="chrome://scylighter/skin/icons/save_x32.png"/>
+<!--                <toolbarbutton id="newButton"  accesskey="N" class="toolbarbutton-1" tooltiptext="&toolbarbutton.tooltip.new;" oncommand="scylighter.newELO();" image="chrome://scylighter/skin/icons/new_x32.png"/>
+                <toolbarbutton id="saveButton" accesskey="s"  class="toolbarbutton-1" tooltiptext="&toolbarbutton.tooltip.save;" oncommand="scylighter.saveELO();" image="chrome://scylighter/skin/icons/save_x32.png"/>-->
                 <toolbarbutton id="previewButton" class="toolbarbutton-1" tooltiptext="&toolbarbutton.tooltip.preview;" oncommand="scylighter.preview();" image="chrome://scylighter/skin/icons/preview_x32.png"/>
                 <toolbarbutton id="printButton"  class="toolbarbutton-1" tooltiptext="&toolbarbutton.tooltip.print;" oncommand="scylighter.print();" image="chrome://scylighter/skin/icons/print_x32.png"/>
                 <toolbarbutton id="preferencesButton" class="toolbarbutton-1" tooltiptext="&toolbarbutton.tooltip.preferences;" oncommand="scylighter.openPreferences();" image="chrome://scylighter/skin/icons/preferences_x32.png"/>
