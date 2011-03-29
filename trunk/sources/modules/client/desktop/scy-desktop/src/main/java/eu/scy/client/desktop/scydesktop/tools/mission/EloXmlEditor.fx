@@ -34,6 +34,8 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 
 /**
  * @author sikken
@@ -95,6 +97,20 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
             textBox.text = errorsString;
          }
       }
+   def saveTitleBarButton = TitleBarButton {
+              actionId: "save"
+              action: doSaveElo
+           }
+   def saveAsTitleBarButton = TitleBarButton {
+              actionId: "saveAs"
+              action: doSaveAsElo
+           }
+   def importFileTitleBarButton = TitleBarButton {
+              actionId: "import"
+              iconType: "import"
+              action: doImport
+              tooltip: ##"Import specification file"
+           }
 
    override protected function create(): Node {
       nodeBox = VBox {
@@ -110,24 +126,6 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
                      }
                      spacing: spacing;
                      content: [
-                        Button {
-                           text: ##"Save"
-                           action: function() {
-                              doSaveElo();
-                           }
-                        }
-                        Button {
-                           text: ##"Save as"
-                           action: function() {
-                              doSaveAsElo();
-                           }
-                        }
-                        Button {
-                           text: ##"Import"
-                           action: function() {
-                              doImport();
-                           }
-                        }
                         xmlView,
                         errorView
                      ]
@@ -140,6 +138,16 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
    public override function initialize(windowContent: Boolean): Void {
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       titleKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TITLE);
+   }
+
+   public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
+      if (windowContent) {
+         titleBarButtonManager.titleBarButtons = [
+                    saveTitleBarButton,
+                    saveAsTitleBarButton,
+                    importFileTitleBarButton
+                 ]
+      }
    }
 
    protected function setContent(xml: String, errors: String): Void {
