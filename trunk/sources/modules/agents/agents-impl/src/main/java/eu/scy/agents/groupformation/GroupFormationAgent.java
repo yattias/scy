@@ -195,8 +195,12 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		// if (groupsAreOk(formedGroup, minGroupSize, maxGroupSize)) {
 		missionGroupsCache.addGroups(mission, las, formedGroups);
 		// }
+		try {
+			sendGroupNotification(action, formedGroups);
+		} catch (TupleSpaceException e) {
+			LOGGER.error("Could not write into Tuplespace", e);
+		}
 
-		sendGroupNotification(action, formedGroups);
 	}
 
 	private Set<String> getAvailableUsers(GroupFormationScope scope,
@@ -258,33 +262,47 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 	// }
 
 	private void sendGroupNotification(IAction action,
-			Collection<Set<String>> formedGroups) {
+			Collection<Set<String>> formedGroups) throws TupleSpaceException {
 
 		for (Set<String> group : formedGroups) {
 
 			for (String user : group) {
+				Tuple removeAllBuddiesTuple = createRemoveAllBuddiesNotification(
+						action, user);
+				getCommandSpace().write(removeAllBuddiesTuple);
+
 				StringBuilder message = new StringBuilder();
 				message.append("Please consider collaboration with these students: ");
 
 				String userListString = createUserListString(user, group);
 				message.append(userListString);
-				try {
-					Tuple messageNotificationTuple = createMessageNotificationTuple(
-							action, message.toString(), user);
-					logGroupFormation(action, userListString, user);
-					for (String userToBuddify : group) {
-						if (!user.equals(userToBuddify)) {
-							Tuple buddifyNotification = createBuddifyNotificationTuple(
-									action, user, userToBuddify);
-							getCommandSpace().write(buddifyNotification);
-						}
+				Tuple messageNotificationTuple = createMessageNotificationTuple(
+						action, message.toString(), user);
+				logGroupFormation(action, userListString, user);
+				for (String userToBuddify : group) {
+					if (!user.equals(userToBuddify)) {
+						Tuple buddifyNotification = createBuddifyNotificationTuple(
+								action, user, userToBuddify);
+						getCommandSpace().write(buddifyNotification);
 					}
-					getCommandSpace().write(messageNotificationTuple);
-				} catch (TupleSpaceException e) {
-					LOGGER.error("Could not write into Tuplespace", e);
 				}
+				getCommandSpace().write(messageNotificationTuple);
 			}
 		}
+	}
+
+	private Tuple createRemoveAllBuddiesNotification(IAction action, String user) {
+		Tuple notificationTuple = new Tuple();
+		notificationTuple.add(AgentProtocol.NOTIFICATION);
+		notificationTuple.add(new VMID().toString());
+		notificationTuple.add(user);
+		notificationTuple.add("no specific elo");
+		notificationTuple.add(NAME);
+		notificationTuple.add(action.getContext(ContextConstants.mission));
+		notificationTuple.add(action.getContext(ContextConstants.session));
+		notificationTuple.add("type=remove_all_buddies");
+		notificationTuple.add("user=" + user);
+		return notificationTuple;
 	}
 
 	private Tuple createBuddifyNotificationTuple(IAction action, String user,
