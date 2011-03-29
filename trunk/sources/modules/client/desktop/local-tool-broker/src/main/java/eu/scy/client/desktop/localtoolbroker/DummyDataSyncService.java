@@ -1,6 +1,7 @@
 package eu.scy.client.desktop.localtoolbroker;
 
 import eu.scy.client.common.datasync.CollaboratorStatusListener;
+import eu.scy.client.common.datasync.DataSyncException;
 import eu.scy.client.common.datasync.IDataSyncService;
 import eu.scy.client.common.datasync.ISyncListener;
 import eu.scy.client.common.datasync.ISyncSession;
@@ -83,6 +84,29 @@ public class DummyDataSyncService implements IDataSyncService {
 		public void refreshOnlineCollaborators()
 		{
 		}
+
+      @Override
+      public List<ISyncObject> getAllSyncObjects(String toolId) throws DataSyncException
+      {
+         return new ArrayList<ISyncObject>();
+      }
+
+      @Override
+      public List<ISyncObject> getAllSyncObjects(String toolId, int time, TimeUnit unit) throws DataSyncException
+      {
+         return new ArrayList<ISyncObject>();
+      }
+
+      @Override
+      public void fetchState(String toolId)
+      {
+      }
+
+      @Override
+      public boolean isConnected()
+      {
+         return false;
+      }
 
    }
    
