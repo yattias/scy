@@ -115,42 +115,6 @@ public class ResultBinderNode extends CustomNode, Resizable, ScyToolFX, EloSaver
    public override function create(): Node {
       bundle = new ResourceBundleWrapper(this);
       wrappedResultBinderPanel = ScySwingWrapper.wrap(scyResultBinderPanel);
-      return Group {
-         blocksMouse:true;
-         content: [
-            VBox{
-               translateY:spacing;
-               spacing:spacing;
-               content:[
-                  HBox{
-                     translateX:spacing;
-                     spacing:spacing;
-                     content:[
-                        Button {
-                           text: getBundleString("FX-RESULTBINDER.MENU_SAVE");
-                           action: function() {
-                              doSaveElo();
-                           }
-                        }
-                        Button {
-                           text: getBundleString("FX-RESULTBINDER.MENU_SAVE_AS");
-                           action: function() {
-                              doSaveAsElo();
-                           }
-                        }
-//                        Button {
-//                           text: "test thumbnail"
-//                           action: function () {
-//                                testThumbnail();
-//                           }
-//                        }
-                     ]
-                  }
-                  wrappedResultBinderPanel
-               ]
-            }
-         ]
-      };
    }
 
    function doLoadElo(eloUri:URI)
@@ -193,11 +157,11 @@ public class ResultBinderNode extends CustomNode, Resizable, ScyToolFX, EloSaver
     }
 
    function resizeContent(){
-      Container.resizeNode(wrappedResultBinderPanel,width,height-wrappedResultBinderPanel.boundsInParent.minY-spacing);
+      Container.resizeNode(wrappedResultBinderPanel,width,height);
    }
 
    public override function getPrefHeight(height: Number) : Number{
-      return Container.getNodePrefHeight(wrappedResultBinderPanel, height)+wrappedResultBinderPanel.boundsInParent.minY+spacing;
+      return Container.getNodePrefHeight(wrappedResultBinderPanel, height);
    }
 
    public override function getPrefWidth(width: Number) : Number{
