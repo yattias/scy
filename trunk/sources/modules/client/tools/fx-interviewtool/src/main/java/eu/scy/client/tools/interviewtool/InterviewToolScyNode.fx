@@ -273,29 +273,6 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
              translateX:10;
              spacing:10;
              content:[
-                /* 100301 Jakob, commented out open button, it should not be in the tool
-                Button {
-                   text: ##"Open"
-                   font: buttonFont
-                   action: function() {
-                       openElo();
-                   }
-                }
-                */
-                Button {
-                   text: ##"Save"
-                   font: buttonFont
-                   action: function() {
-                      doSaveElo();
-                   }
-                }
-                Button {
-                   text: ##"Save as"
-                   font: buttonFont
-                   action: function() {
-                        doSaveAsElo();
-                   }
-                }
                 treeZoomButton
              ]
           }
