@@ -90,4 +90,12 @@ public class WorkflowItem implements Serializable {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "WorkflowItem [id=" + id + ", type=" + type
+				+ ", expectedTimeinMinutes=" + expectedTimeinMinutes
+				+ ", anchorElos=" + anchorElos + ", expectedVisits="
+				+ expectedVisits + "]";
+	}
+
 }
