@@ -11,7 +11,7 @@ public class ExtractTfIdfKeywordsWorkflow extends Workflow {
 
 	private static final long serialVersionUID = 3762190530929039379L;
 
-	private static final String EXTRACT_TFIDF_KEYWORDS = "ExtractTopicModelKeywords";
+	private static final String EXTRACT_TFIDF_KEYWORDS = "ExtractTfIdfKeywords";
 
 	private static final String PREPROCESSING = "Preprocessing";
 

@@ -30,8 +30,8 @@ public class KeyphraseExtraction {
 //        URI corpus = ClassLoader.getSystemResource("mission2_texts/English").toURI();
 //        URI document = ClassLoader.getSystemResource("mission2_texts/English/acid.rain.txt").toURI();
 		
-        URI corpus = ClassLoader.getSystemResource("mission3_texts/English").toURI();
-        URI document = ClassLoader.getSystemResource("mission3_texts/English/wikipedia.Fat.txt").toURI();
+        URI corpus = ClassLoader.getSystemResource("mission3/en/texts/").toURI();
+        URI document = ClassLoader.getSystemResource("mission3/en/texts/wikipedia.Fat.txt").toURI();
 
       Workflow workflow = new Workflow(), keyphraseWorkflow;      
 		File corpusDirectory = (args.length > 0) ? new File(args[0]) : new File(corpus);
