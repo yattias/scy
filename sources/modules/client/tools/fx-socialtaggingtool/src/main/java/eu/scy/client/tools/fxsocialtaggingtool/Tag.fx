@@ -21,4 +21,9 @@ public class Tag {
     public var tagname: String;
     public var ayevoters: String[];
     public var nayvoters: String[];
+
+    public override function toString() : String {
+        return tagname;
+    }
+
 }
