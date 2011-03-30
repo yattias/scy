@@ -21,7 +21,7 @@ import eu.scy.agents.api.parameter.AgentParameter;
 /**
  * A basic implementation of a threaded agent. It provides basic starting and
  * stopping functionality.
- * 
+ *
  * @author Florian Schulz, Jan Engler, Stefan Weinbrenner
  */
 public abstract class AbstractThreadedAgent extends AbstractAgent implements
@@ -56,7 +56,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 
 	/**
 	 * The current status of the agent.
-	 * 
+	 *
 	 * @see Status
 	 */
 	protected Status status;
@@ -76,7 +76,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 	/**
 	 * Create a new {@link AbstractThreadedAgent}. Only allowed to call by
 	 * subclasses.
-	 * 
+	 *
 	 * @param name
 	 *            The name of the agent.
 	 * @param id
@@ -226,7 +226,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 	 * Really runs the agent. This method is present so programmers can
 	 * implement their own behavior of agents whenever they should run. It is
 	 * necessary to provide means that the agent is triggered in doRun.
-	 * 
+	 *
 	 * @throws TupleSpaceException
 	 *             TupleSpace couldn't be accessed.
 	 * @throws AgentLifecycleException
@@ -248,7 +248,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 	 * This Tuple has the form:<br /> {@code AgentProtocol.RESPONSE, QueryID : String,
 	 * agentID :String, agentName :String, AgentProtocol.MESSAGE_IDENTIFY,
 	 * TupleDocEntries : String ...}
-	 * 
+	 *
 	 * @param queryId
 	 *            The queryId which is inside the Response. Usually taken from
 	 *            the identify query.
@@ -276,7 +276,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 
 	/**
 	 * Is the agent really stopped.
-	 * 
+	 *
 	 * @return true if the agent is really stopped.
 	 */
 	@Override
@@ -346,7 +346,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 	/**
 	 * This method writes an alive {@link Tuple} in the {@link TupleSpace}. If
 	 * such a {@link Tuple} has already been written, it is updated,
-	 * 
+	 *
 	 * @throws TupleSpaceException
 	 *             If something went wrong with the {@link TupleSpace}.
 	 */
@@ -367,14 +367,12 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 	}
 
 	private void updateAliveTuple() throws TupleSpaceException {
-		lock.lock();
 		if (getCommandSpace().isConnected()) {
 			getCommandSpace()
 					.update(aliveTupleID,
 							AgentProtocol.getAliveTuple(getId(), getName(),
 									new VMID()));
 		}
-		lock.unlock();
 	}
 
 	@Override
@@ -420,7 +418,7 @@ public abstract class AbstractThreadedAgent extends AbstractAgent implements
 	/**
 	 * This methods stops the agents, deregisters all callbacks and disconnects
 	 * from the {@link TupleSpace}.
-	 * 
+	 *
 	 * @throws AgentLifecycleException
 	 *             Is thrown if something went wrong during the stopping of the
 	 *             agent.
