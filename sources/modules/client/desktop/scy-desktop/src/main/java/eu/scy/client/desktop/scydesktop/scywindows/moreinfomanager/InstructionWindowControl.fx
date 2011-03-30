@@ -17,26 +17,32 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Cursor;
+import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
+import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
+import eu.scy.client.desktop.scydesktop.tooltips.impl.TextTooltip;
 
 /**
  * @author SikkenJ
  */
-public class InstructionWindowControl extends CustomNode {
+public class InstructionWindowControl extends CustomNode, TooltipCreator {
 
    public var windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
    public var clickAction: function(): Void;
+   public var tooltip: String;
+   public var tooltipManager: TooltipManager;
    def circleBorder = 2.0;
 
    public override function create(): Node {
       def logo = NotSelectedLogo {
-            color: bind windowColorScheme.mainColor
-            rotate: -90.0
-         }
-      logo.layoutX = -logo.layoutBounds.width / 2.0-0.5;
-      logo.layoutY = -logo.layoutBounds.height / 2.0-0.5;
+                 color: bind windowColorScheme.mainColor
+                 rotate: -90.0
+              }
+      logo.layoutX = -logo.layoutBounds.width / 2.0 - 0.5;
+      logo.layoutY = -logo.layoutBounds.height / 2.0 - 0.5;
       Group {
          layoutY: 3
          cursor: Cursor.HAND
+         blocksMouse: true
          content: [
             logo,
             Circle {
@@ -46,11 +52,30 @@ public class InstructionWindowControl extends CustomNode {
                stroke: bind windowColorScheme.mainColor
             }
          ]
-         onMouseClicked:function(m:MouseEvent):Void{
+         onMouseClicked: function(m: MouseEvent): Void {
             clickAction();
          }
+         onMouseEntered: function(e: MouseEvent): Void {
+            tooltipManager.onMouseEntered(e, this);
+         }
+         onMouseExited: function(e: MouseEvent): Void {
+            tooltipManager.onMouseExited(e);
+         }
+         onMouseReleased: function(e: MouseEvent): Void {
+            tooltipManager.onMouseExited(e);
+         }
+      }
+   }
+
+   public override function createTooltipNode(sourceNode: Node): Node {
+      if (tooltip != "") {
+         return TextTooltip {
+                    content: tooltip
+                    windowColorScheme: windowColorScheme
+                 }
 
       }
+      return null;
    }
 
 }
@@ -68,8 +93,8 @@ function run() {
          height: 200
 
          content: Group {
-            scaleX:scale
-            scaleY:scale
+            scaleX: scale
+            scaleY: scale
             content: [
                Line {
                   startX: 0, startY: yOffset

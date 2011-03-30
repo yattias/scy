@@ -27,30 +27,30 @@ public class EloIconBorder extends CustomNode {
          content: [
             Line {
                startX: 0, startY: 0
-               endX: size, endY: 0
+               endX: bind size, endY: 0
                strokeWidth: borderSize
                stroke: bind borderColor
             }
             Line {
-               startX: size, startY: 0
-               endX: size, endY: size
+               startX: bind size, startY: 0
+               endX: bind size, endY: bind size
                strokeWidth: borderSize
                stroke: bind borderColor
             }
             Line {
-               startX: cornerRadius + borderSize, startY: size
-               endX: size, endY: size
+               startX: cornerRadius + borderSize, startY: bind size
+               endX: bind size, endY: bind size
                strokeWidth: borderSize
                stroke: bind borderColor
             }
             Line {
                startX: 0, startY: 0
-               endX: 0, endY: size - cornerRadius - borderSize
+               endX: 0, endY: bind size - cornerRadius - borderSize
                strokeWidth: borderSize
                stroke: bind borderColor
             }
             Arc {
-               centerX: cornerRadius, centerY: size - cornerRadius
+               centerX: cornerRadius, centerY: bind size - cornerRadius
                radiusX: cornerRadius, radiusY: cornerRadius
                startAngle: 180, length: 90
                type: ArcType.OPEN
