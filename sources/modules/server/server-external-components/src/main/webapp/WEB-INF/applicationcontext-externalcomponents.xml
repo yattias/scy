@@ -82,6 +82,7 @@
 				<ref bean="userLocationAgent" />
 				<ref bean="portfolioNotificator" />
 				<ref bean="groupFormation" />
+				<ref bean="rooloAccessor" />
 			</set>
 		</property>
 		<property name="repository">
