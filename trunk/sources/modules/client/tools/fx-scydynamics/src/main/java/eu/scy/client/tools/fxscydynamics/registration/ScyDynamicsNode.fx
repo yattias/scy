@@ -133,48 +133,49 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
             //modelEditor.setEloUri(eloModel.getUri().toString());
         }
         wrappedModelEditor = ScySwingWrapper.wrap(modelEditor);
-	return Group {
-            blocksMouse: true;
-            content: [
-                VBox {
-                    translateY: spacing;
-                    spacing: spacing;
-                    content: [
-                        HBox {
-                            translateX: spacing;
-                            spacing: spacing;
-                            content: [
-                                Button {
-                                    text: "Save model"
-                                    action: function() {
-                                        doSaveElo();
-                                    }
-                                }
-                                Button {
-                                    text: "Save as model"
-                                    action: function() {
-                                        doSaveAsElo();
-                                    }
-                                }
-                                Button {
-                                    text: "Save as dataset"
-                                    action: function() {
-                                        doSaveAsDataset();
-                                    }
-                                }
+	wrappedModelEditor
+//	return Group {
+//            blocksMouse: true;
+//            content: [
+//                VBox {
+//                    translateY: spacing;
+//                    spacing: spacing;
+//                    content: [
+//                        HBox {
+//                            translateX: spacing;
+//                            spacing: spacing;
+//                            content: [
 //                                Button {
-//                                text: "test thumbnail"
-//                                action: function() {
-//                                    testThumbnail();
+//                                    text: "Save model"
+//                                    action: function() {
+//                                        doSaveElo();
+//                                    }
 //                                }
-//                            }
-                            ]
-                        }
-                        wrappedModelEditor
-                    ]
-                }
-            ]
-        };
+//                                Button {
+//                                    text: "Save as model"
+//                                    action: function() {
+//                                        doSaveAsElo();
+//                                    }
+//                                }
+//                                Button {
+//                                    text: "Save as dataset"
+//                                    action: function() {
+//                                        doSaveAsDataset();
+//                                    }
+//                                }
+////                                Button {
+////                                text: "test thumbnail"
+////                                action: function() {
+////                                    testThumbnail();
+////                                }
+////                            }
+//                            ]
+//                        }
+//                        wrappedModelEditor
+//                    ]
+//                }
+//            ]
+//        };
     }
 
     function doLoadElo(eloUri: URI) {
