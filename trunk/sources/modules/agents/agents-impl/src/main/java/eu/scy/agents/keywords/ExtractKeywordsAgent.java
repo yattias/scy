@@ -144,9 +144,8 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 			Set<String> tfIdfKeywords = callKeywordsAgent(
 					ExtractTfIdfKeywordsAgent.EXTRACT_TFIDF_KEYWORDS, text,
 					mission);
-			Set<String> keyPhrases = Collections.emptySet();
-			// callKeywordsAgent(
-			// ExtractKeyphrasesAgent.EXTRACT_KEYPHRASES, text, mission);
+			Set<String> keyPhrases = callKeywordsAgent(
+					ExtractKeyphrasesAgent.EXTRACT_KEYPHRASES, text, mission);
 			Set<String> topicKeywords = callKeywordsAgent(
 					ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS,
 					text, mission);
@@ -161,5 +160,4 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 			sendAnswer(mergedKeywords, queryId);
 		}
 	}
-
 }
