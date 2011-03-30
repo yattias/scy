@@ -31,7 +31,7 @@ public class MyConstants {
     public static final int MAX_LENGHT_MATERIAL_COMMENTS = 1024;
     public static final int MAX_LENGHT_QUANTITY_NAME=32;
     
-    
+
     /* TRACE */
     public static final char TRACE_ACTIV = 'T';
     public static final char TRACE_INACTIV = 'N';

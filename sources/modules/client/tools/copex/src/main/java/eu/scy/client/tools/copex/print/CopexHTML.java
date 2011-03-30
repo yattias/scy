@@ -8,7 +8,9 @@ package eu.scy.client.tools.copex.print;
 import eu.scy.client.tools.copex.common.CopexAction;
 import eu.scy.client.tools.copex.common.CopexTask;
 import eu.scy.client.tools.copex.common.ExperimentalProcedure;
+import eu.scy.client.tools.copex.common.InitialProcedure;
 import eu.scy.client.tools.copex.common.MaterialProc;
+import eu.scy.client.tools.copex.common.MaterialStrategy;
 import eu.scy.client.tools.copex.edp.CopexPanel;
 import eu.scy.client.tools.copex.utilities.CopexReturn;
 import eu.scy.client.tools.copex.utilities.MyConstants;
@@ -43,7 +45,7 @@ public class CopexHTML {
         if(proc.getGeneralPrinciple() != null){
             setItem(proc.getGeneralPrinciple().getPrinciple(edp.getLocale()), proc.getGeneralPrinciple().getComment(edp.getLocale()), "icone_AdT_principe.png", edp.getBundleString("TREE_GENERAL_PRINCIPLE"));
         }
-        setMaterial(proc.getMaterials());
+        setMaterial(proc, proc.getMaterials());
         setManipulation(proc);
         if(proc.getDataSheet() != null){
             setItem(proc.getDataSheet().toTreeString(edp.getLocale()), null, "icone_AdT_datasheet", edp.getBundleString("TREE_DATASHEET"));
@@ -91,8 +93,10 @@ public class CopexHTML {
     }
 
 
-    private void setMaterial(MaterialProc materialProc){
+    private void setMaterial(ExperimentalProcedure proc, MaterialProc materialProc){
         if(materialProc == null)
+            return;
+        if(!proc.hasMaterial())
             return;
         List<String> listMaterial = materialProc.getListTree(edp.getLocale());
         int nb = listMaterial.size();
