@@ -1,0 +1,1753 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:protege="http://protege.stanford.edu/plugins/owl/protege#"
+    xmlns:xsp="http://www.owl-ontologies.com/2005/08/07/xsp.owl#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns="http://www.scy.eu/co2house#"
+    xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+    xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xml:base="file:/home/weinbrenner/Desktop/co2house-translated.owl">
+  <owl:Ontology rdf:about="http://www.scy.eu/co2house"/>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#HealthDevice">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#Appliance"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"Gesundheitsgerät"</rdfs:label>
+    <rdfs:label xml:lang="en">"health device"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#RoofMaterial">
+    <rdfs:label xml:lang="de">"Dachmaterial"</rdfs:label>
+    <rdfs:label xml:lang="en">"roof material"</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#BuildingMaterial"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#PhysicalHouseParameter">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#HouseParameter"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"physikalische Hausparameter"</rdfs:label>
+    <rdfs:label xml:lang="en">"physical house parameter"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#NonRenewableEnergySource">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#EnergySource"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"Nicht erneuerbare Energiequelle"</rdfs:label>
+    <rdfs:label xml:lang="en">"non renewable energy source"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#HouseParameter">
+    <rdfs:label xml:lang="de">"Hausparameter"</rdfs:label>
+    <rdfs:label xml:lang="en">"house parameter"</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#BuildingAspect"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#LaundryDevice">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#Appliance"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"Waschgerät"</rdfs:label>
+    <rdfs:label xml:lang="en">"laundry device"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#InsulationMaterial">
+    <rdfs:label xml:lang="de">"Isoliermaterial"</rdfs:label>
+    <rdfs:label xml:lang="en">"insulation material"</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#BuildingMaterial"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#CookingDevice">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#Appliance"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"Kochgerät"</rdfs:label>
+    <rdfs:label xml:lang="en">"cooking device"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#Volume">
+    <rdfs:label xml:lang="de">"Volumen"</rdfs:label>
+    <rdfs:label xml:lang="en">"volume"</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#PhysicalQuantityDefinition"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#Boiler">
+    <rdfs:label xml:lang="de">"Kessel"</rdfs:label>
+    <rdfs:label xml:lang="en">"boiler"</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#Heating"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#NaturalFactor">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#EnvironmentalFactor"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"natürlicher Faktor"</rdfs:label>
+    <rdfs:label xml:lang="en">"natural factor"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#CO2FriendlyEnergySource">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#EnergySource"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"CO2-freundliche Energiequelle"</rdfs:label>
+    <rdfs:label xml:lang="en">"co2 friendly energy source"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#Area">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#PhysicalQuantityDefinition"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"Bereich"</rdfs:label>
+    <rdfs:label xml:lang="en">"area"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#Stove">
+    <rdfs:label xml:lang="de">"Herd"</rdfs:label>
+    <rdfs:label xml:lang="en">"stove"</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#Heating"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#EntertainmentDevice">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#Appliance"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"Unterhaltungsgerät"</rdfs:label>
+    <rdfs:label xml:lang="en">"entertainment device"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#Climate">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#GeographicalParameter"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"Klima"</rdfs:label>
+    <rdfs:label xml:lang="en">"climate"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#Ventilation">
+    <rdfs:label xml:lang="de">"Lüftung"</rdfs:label>
+    <rdfs:label xml:lang="en">"ventilation"</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#BuildingAspect"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#Energy">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#PhysicalQuantityDefinition"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"Energie"</rdfs:label>
+    <rdfs:label xml:lang="en">"energy"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#FinancialAspect">
+    <rdfs:label xml:lang="de">"finanzieller Aspekt"</rdfs:label>
+    <rdfs:label xml:lang="en">"financial aspect"</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#BuildingAspect"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#KeywordList">
+    <rdfs:label xml:lang="en">"keyword list"</rdfs:label>
+    <rdfs:label xml:lang="de">"Stichwortliste"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#PoliticalConcept">
+    <rdfs:label xml:lang="de">"politisches Konzept"</rdfs:label>
+    <rdfs:label xml:lang="en">"political concept"</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#Concept"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#LivingQuality">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#LocationQuality"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"Wohnqualität"</rdfs:label>
+    <rdfs:label xml:lang="en">"living quality"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#HouseDevice">
+    <rdfs:label xml:lang="de">"Hausgerät"</rdfs:label>
+    <rdfs:label xml:lang="en">"house device"</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#Concept"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#FirePlace">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#Heating"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"Kamin"</rdfs:label>
+    <rdfs:label xml:lang="en">"fire place"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#GeographicalParameter">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#BuildingAspect"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"geographischer Parameter"</rdfs:label>
+    <rdfs:label xml:lang="en">"geographical parameter"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#StructureMaterial">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#BuildingMaterial"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"Strukturmaterial"</rdfs:label>
+    <rdfs:label xml:lang="en">"structure material"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#HotwaterProduction">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#EmbeddedAppliance"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"Warmwasser-Produktion"</rdfs:label>
+    <rdfs:label xml:lang="en">"hotwater production"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#SocialHouseParameter">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/co2house#HouseParameter"/>
+    <rdfs:label xml:lang="de">"Sozialer Hausparameter"</rdfs:label>
+    <rdfs:label xml:lang="en">"social house parameter"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#EnergySource">
+    <rdfs:label xml:lang="de">"Energiequelle"</rdfs:label>
+    <rdfs:label xml:lang="en">"energy source"</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#Concept"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#EmbeddedAppliance">
+    <rdfs:label xml:lang="de">"Embedded-Gerät"</rdfs:label>
+    <rdfs:label xml:lang="en">"embedded appliance"</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/co2house#HouseDevice"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#Heating">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/co2house#EmbeddedAppliance"/>
+    <rdfs:label xml:lang="de">"Heizung"</rdfs:label>
+    <rdfs:label xml:lang="en">"heating"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#ElectricityProduction">
+    <rdfs:label xml:lang="de">"Stromerzeugung"</rdfs:label>
+    <rdfs:label xml:lang="en">"electricity production"</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/co2house#EmbeddedAppliance"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#CO2ProducingEnergySource">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/co2house#EnergySource"/>
+    <rdfs:label xml:lang="de">"CO2-erzeugende Energiequelle"</rdfs:label>
+    <rdfs:label xml:lang="en">"co2 producing energy source"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#EnvironmentalFactor">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#Concept"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"Umweltfaktor"</rdfs:label>
+    <rdfs:label xml:lang="en">"environmental factor"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#PhysicalQuantityDefinition">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#Concept"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"physikalische Größendefinition"</rdfs:label>
+    <rdfs:label xml:lang="en">"physical quantity definition"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#BuildingMaterial">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#Concept"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"Baustoff"</rdfs:label>
+    <rdfs:label xml:lang="en">"building material"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#Site">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/co2house#GeographicalParameter"/>
+    <rdfs:label xml:lang="de">"Ort"</rdfs:label>
+    <rdfs:label xml:lang="en">"site"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#Keyword">
+    <rdfs:label xml:lang="en">"keyword"</rdfs:label>
+    <rdfs:label xml:lang="de">"Stichwort"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#LocationQuality">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/co2house#GeographicalParameter"/>
+    <rdfs:label xml:lang="de">"Standortqualität"</rdfs:label>
+    <rdfs:label xml:lang="en">"location quality"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#HumanFactor">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/co2house#EnvironmentalFactor"/>
+    <rdfs:label xml:lang="de">"menschlicher Faktor"</rdfs:label>
+    <rdfs:label xml:lang="en">"human factor"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#BuildingAspect">
+    <rdfs:label xml:lang="de">"Gebäudeaspekt"</rdfs:label>
+    <rdfs:label xml:lang="en">"building aspect"</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/co2house#Concept"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#Appliance">
+    <rdfs:label xml:lang="en">"appliance"</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/co2house#HouseDevice"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#WindowsGlazingMaterial">
+    <rdfs:label xml:lang="de">"Fensterverglasungsmaterial"</rdfs:label>
+    <rdfs:label xml:lang="en">"windows glazing material"</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/co2house#BuildingMaterial"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#EcologicalQuality">
+    <rdfs:label xml:lang="de">"ökologische Qualität"</rdfs:label>
+    <rdfs:label xml:lang="en">"ecological quality"</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/co2house#LocationQuality"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#PrivatelyUsableEnergySource">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/co2house#EnergySource"/>
+    <rdfs:label xml:lang="de">"privat nutzbare Energiequelle"</rdfs:label>
+    <rdfs:label xml:lang="en">"privately usable energy source"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#Concept">
+    <rdfs:label xml:lang="en">"concept"</rdfs:label>
+    <rdfs:label xml:lang="de">"Konzept"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#PhysicalPhenomenon">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/co2house#Concept"/>
+    <rdfs:label xml:lang="de">"physikalisches Phänomen"</rdfs:label>
+    <rdfs:label xml:lang="en">"physical phenomenon"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#EnvironmentalEffect">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/co2house#Concept"/>
+    <rdfs:label xml:lang="de">"Auswirkungen auf die Umwelt"</rdfs:label>
+    <rdfs:label xml:lang="en">"environmental effect"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#RenewableEnergySource">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/co2house#EnergySource"/>
+    <rdfs:label xml:lang="de">"erneuerbare Energiequelle"</rdfs:label>
+    <rdfs:label xml:lang="en">"renewable energy source"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/co2house#HousekeepingDevice">
+    <rdfs:label xml:lang="de">"Haushaltsgerät"</rdfs:label>
+    <rdfs:label xml:lang="en">"housekeeping device"</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/co2house#Appliance"/>
+  </owl:Class>
+  <owl:ObjectProperty rdf:about="http://www.scy.eu/co2house#decreases">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="http://www.scy.eu/co2house#isDecreasedBy"/>
+    </owl:inverseOf>
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:about="http://www.scy.eu/co2house#hasInfluenceOn"/>
+    </rdfs:subPropertyOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.scy.eu/co2house#isPrerequisiteOf">
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:about="http://www.scy.eu/co2house#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="http://www.scy.eu/co2house#dependsOn"/>
+    </owl:inverseOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.scy.eu/co2house#hasInfluenceOn">
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:about="http://www.scy.eu/co2house#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.scy.eu/co2house#dependsOn">
+    <owl:inverseOf rdf:resource="http://www.scy.eu/co2house#isPrerequisiteOf"/>
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:about="http://www.scy.eu/co2house#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.scy.eu/co2house#isMadeOf">
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:about="http://www.scy.eu/co2house#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.scy.eu/co2house#belongsToList">
+    <rdfs:domain rdf:resource="http://www.scy.eu/co2house#Keyword"/>
+    <rdfs:range rdf:resource="http://www.scy.eu/co2house#KeywordList"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.scy.eu/co2house#isInfluencedBy">
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:about="http://www.scy.eu/co2house#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.scy.eu/co2house#includes">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:about="http://www.scy.eu/co2house#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.scy.eu/co2house#isDecreasedBy">
+    <rdfs:subPropertyOf rdf:resource="http://www.scy.eu/co2house#isInfluencedBy"/>
+    <owl:inverseOf rdf:resource="http://www.scy.eu/co2house#decreases"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.scy.eu/co2house#coincidesWith">
+    <rdfs:subPropertyOf>
+      <owl:ObjectProperty rdf:about="http://www.scy.eu/co2house#hasRelationTo"/>
+    </rdfs:subPropertyOf>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.scy.eu/co2house#hasRelationTo">
+    <owl:inverseOf rdf:resource="http://www.scy.eu/co2house#hasRelationTo"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#SymmetricProperty"/>
+    <rdfs:range rdf:resource="http://www.scy.eu/co2house#Concept"/>
+    <rdfs:domain rdf:resource="http://www.scy.eu/co2house#Concept"/>
+  </owl:ObjectProperty>
+  <owl:DatatypeProperty rdf:about="http://www.scy.eu/co2house#isConnectedTo">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="http://www.scy.eu/co2house#KeywordList"/>
+  </owl:DatatypeProperty>
+  <owl:TransitiveProperty rdf:about="http://www.scy.eu/co2house#increases">
+    <rdfs:subPropertyOf rdf:resource="http://www.scy.eu/co2house#hasInfluenceOn"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <owl:inverseOf>
+      <owl:TransitiveProperty rdf:about="http://www.scy.eu/co2house#isIncreasedBy"/>
+    </owl:inverseOf>
+  </owl:TransitiveProperty>
+  <owl:TransitiveProperty rdf:about="http://www.scy.eu/co2house#isIncreasedBy">
+    <owl:inverseOf rdf:resource="http://www.scy.eu/co2house#increases"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:subPropertyOf rdf:resource="http://www.scy.eu/co2house#isInfluencedBy"/>
+  </owl:TransitiveProperty>
+  <Energy rdf:about="http://www.scy.eu/co2house#electricEnergy">
+    <rdfs:label xml:lang="de">"elektrischer Energie"</rdfs:label>
+    <rdfs:label xml:lang="en">"electric energy"</rdfs:label>
+  </Energy>
+  <Keyword rdf:about="http://www.scy.eu/co2house#electricity">
+    <belongsToList>
+      <KeywordList rdf:about="http://www.scy.eu/co2house#electricity_household">
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/co2house#EmbeddedAppliance"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <rdfs:label xml:lang="de">"electricity_household"</rdfs:label>
+        <rdfs:label xml:lang="en">"electricity_household"</rdfs:label>
+      </KeywordList>
+    </belongsToList>
+    <rdfs:label xml:lang="de">"Elektrizität"</rdfs:label>
+    <rdfs:label xml:lang="en">"electricity"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#economy">
+    <rdfs:label xml:lang="de">"Wirtschaft"</rdfs:label>
+    <rdfs:label xml:lang="en">"economy"</rdfs:label>
+    <belongsToList>
+      <KeywordList rdf:about="http://www.scy.eu/co2house#atmosphere_protocol">
+        <rdfs:label xml:lang="de">"atmosphere_protocol"</rdfs:label>
+        <rdfs:label xml:lang="en">"atmosphere_protocol"</rdfs:label>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/co2house#globalWarming"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/co2house#PoliticalConcept"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+      </KeywordList>
+    </belongsToList>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#change">
+    <rdfs:label xml:lang="de">"ändern"</rdfs:label>
+    <rdfs:label xml:lang="en">"change"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#atmosphere_protocol"/>
+  </Keyword>
+  <Boiler rdf:about="http://www.scy.eu/co2house#coalBoiler">
+    <rdfs:label xml:lang="de">"Kohlekessel"</rdfs:label>
+    <rdfs:label xml:lang="en">"coal boiler"</rdfs:label>
+  </Boiler>
+  <Keyword rdf:about="http://www.scy.eu/co2house#save">
+    <belongsToList>
+      <KeywordList rdf:about="http://www.scy.eu/co2house#co2_list">
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/co2house#Pollution"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/co2house#CO2Emission"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <rdfs:label xml:lang="de">"CO2"</rdfs:label>
+        <rdfs:label xml:lang="en">"co2"</rdfs:label>
+      </KeywordList>
+    </belongsToList>
+    <rdfs:label xml:lang="de">"sparen"</rdfs:label>
+    <rdfs:label xml:lang="en">"save"</rdfs:label>
+  </Keyword>
+  <PhysicalHouseParameter rdf:about="http://www.scy.eu/co2house#shape">
+    <rdfs:label xml:lang="de">"Form"</rdfs:label>
+    <rdfs:label xml:lang="en">"shape"</rdfs:label>
+  </PhysicalHouseParameter>
+  <EntertainmentDevice rdf:about="http://www.scy.eu/co2house#tv">
+    <rdfs:label xml:lang="de">"Fernseher"</rdfs:label>
+    <rdfs:label xml:lang="en">"tv"</rdfs:label>
+  </EntertainmentDevice>
+  <GeographicalParameter rdf:about="http://www.scy.eu/co2house#Altitude">
+    <rdfs:label xml:lang="de">"Höhe"</rdfs:label>
+    <rdfs:label xml:lang="en">"altitude"</rdfs:label>
+  </GeographicalParameter>
+  <Keyword rdf:about="http://www.scy.eu/co2house#activities">
+    <belongsToList>
+      <KeywordList rdf:about="http://www.scy.eu/co2house#trips_vehicle">
+        <rdfs:label xml:lang="de">"trips_vehicle"</rdfs:label>
+        <rdfs:label xml:lang="en">"trips_vehicle"</rdfs:label>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/co2house#UrbanInfrastructure"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/co2house#Pollution"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/co2house#CO2Emission"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+      </KeywordList>
+    </belongsToList>
+    <rdfs:label xml:lang="de">"Aktivitäten"</rdfs:label>
+    <rdfs:label xml:lang="en">"activities"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#global">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#atmosphere_protocol"/>
+    <rdfs:label xml:lang="de">"globalen"</rdfs:label>
+    <rdfs:label xml:lang="en">"global"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#gases">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#trips_vehicle"/>
+    <rdfs:label xml:lang="de">"Gase"</rdfs:label>
+    <rdfs:label xml:lang="en">"gases"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#reducing">
+    <belongsToList>
+      <KeywordList rdf:about="http://www.scy.eu/co2house#windows_insulation">
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/co2house#InsulationMaterial"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/co2house#thermalConductance"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/co2house#thermalBridge"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <rdfs:label xml:lang="en">"windows_insulation"</rdfs:label>
+        <rdfs:label xml:lang="de">"windows_insulation"</rdfs:label>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/co2house#WindowsGlazingMaterial"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/co2house#thermalEnergy"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/co2house#heatConduction"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/co2house#heatFlux"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+      </KeywordList>
+    </belongsToList>
+    <rdfs:label xml:lang="de">"Reduzierung"</rdfs:label>
+    <rdfs:label xml:lang="en">"reducing"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#vehicles">
+    <rdfs:label xml:lang="de">"Fahrzeuge"</rdfs:label>
+    <rdfs:label xml:lang="en">"vehicles"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#trips_vehicle"/>
+  </Keyword>
+  <owl:DataRange>
+    <owl:oneOf rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >67e2912c:12b76920c5f:-7ffc</owl:oneOf>
+  </owl:DataRange>
+  <Keyword rdf:about="http://www.scy.eu/co2house#heater">
+    <belongsToList>
+      <KeywordList rdf:about="http://www.scy.eu/co2house#energy_consumption">
+        <rdfs:label xml:lang="de">"energy_consumption"</rdfs:label>
+        <rdfs:label xml:lang="en">"energy_consumption"</rdfs:label>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/co2house#Energy"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+      </KeywordList>
+    </belongsToList>
+    <rdfs:label xml:lang="de">"Heizung"</rdfs:label>
+    <rdfs:label xml:lang="en">"heater"</rdfs:label>
+  </Keyword>
+  <Boiler rdf:about="http://www.scy.eu/co2house#woodBoiler">
+    <rdfs:label xml:lang="de">"Holzkessel"</rdfs:label>
+    <rdfs:label xml:lang="en">"wood boiler"</rdfs:label>
+  </Boiler>
+  <PhysicalQuantityDefinition rdf:about="http://www.scy.eu/co2house#speed">
+    <rdfs:label xml:lang="de">"Geschwindigkeit"</rdfs:label>
+    <rdfs:label xml:lang="en">"speed"</rdfs:label>
+  </PhysicalQuantityDefinition>
+  <Keyword rdf:about="http://www.scy.eu/co2house#world">
+    <rdfs:label xml:lang="de">"Welt"</rdfs:label>
+    <rdfs:label xml:lang="en">"world"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#atmosphere_protocol"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#footprint">
+    <rdfs:label xml:lang="de">"Fußabdruck"</rdfs:label>
+    <rdfs:label xml:lang="en">"footprint"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#atmosphere_protocol"/>
+  </Keyword>
+  <EntertainmentDevice rdf:about="http://www.scy.eu/co2house#hifiSystem">
+    <rdfs:label xml:lang="de">"Hifi-Anlage"</rdfs:label>
+    <rdfs:label xml:lang="en">"hifi system"</rdfs:label>
+  </EntertainmentDevice>
+  <Site rdf:about="http://www.scy.eu/co2house#countryside">
+    <rdfs:label xml:lang="de">"Landschaft"</rdfs:label>
+    <rdfs:label xml:lang="en">"countryside"</rdfs:label>
+    <coincidesWith>
+      <LivingQuality rdf:about="http://www.scy.eu/co2house#AirQuality">
+        <isDecreasedBy>
+          <HumanFactor rdf:about="http://www.scy.eu/co2house#Pollution">
+            <decreases rdf:resource="http://www.scy.eu/co2house#AirQuality"/>
+            <isIncreasedBy>
+              <NonRenewableEnergySource rdf:about="http://www.scy.eu/co2house#CoalPower">
+                <rdf:type rdf:resource="http://www.scy.eu/co2house#CO2ProducingEnergySource"/>
+                <rdfs:label xml:lang="de">"Kohlekraftwerke"</rdfs:label>
+                <rdfs:label xml:lang="en">"coal power"</rdfs:label>
+                <increases>
+                  <HumanFactor rdf:about="http://www.scy.eu/co2house#CO2Emission">
+                    <isIncreasedBy>
+                      <NonRenewableEnergySource rdf:about="http://www.scy.eu/co2house#FossilFuel">
+                        <rdf:type rdf:resource="http://www.scy.eu/co2house#CO2ProducingEnergySource"/>
+                        <rdfs:label xml:lang="de">"fossile Brennstoffe"</rdfs:label>
+                        <rdfs:label xml:lang="en">"fossil fuel"</rdfs:label>
+                        <increases rdf:resource="http://www.scy.eu/co2house#CO2Emission"/>
+                        <increases rdf:resource="http://www.scy.eu/co2house#Pollution"/>
+                      </NonRenewableEnergySource>
+                    </isIncreasedBy>
+                    <rdfs:label xml:lang="en">"co2 emission"</rdfs:label>
+                    <increases>
+                      <PhysicalPhenomenon rdf:about="http://www.scy.eu/co2house#greenhouseEffect">
+                        <isIncreasedBy>
+                          <NaturalFactor rdf:about="http://www.scy.eu/co2house#vulcanism">
+                            <rdfs:label xml:lang="de">"Vulkanismus"</rdfs:label>
+                            <rdfs:label xml:lang="en">"vulcanism"</rdfs:label>
+                            <increases rdf:resource="http://www.scy.eu/co2house#greenhouseEffect"/>
+                          </NaturalFactor>
+                        </isIncreasedBy>
+                        <isIncreasedBy rdf:resource="http://www.scy.eu/co2house#CO2Emission"/>
+                        <isIncreasedBy>
+                          <NaturalFactor rdf:about="http://www.scy.eu/co2house#greenhouseGas">
+                            <increases rdf:resource="http://www.scy.eu/co2house#greenhouseEffect"/>
+                            <rdfs:label xml:lang="de">Treibhausgas</rdfs:label>
+                            <rdfs:label xml:lang="en">greenhouse gas</rdfs:label>
+                          </NaturalFactor>
+                        </isIncreasedBy>
+                        <rdfs:label xml:lang="en">"greenhouse effect"</rdfs:label>
+                        <increases>
+                          <Climate rdf:about="http://www.scy.eu/co2house#OutdoorTemperature">
+                            <hasRelationTo>
+                              <EcologicalQuality rdf:about="http://www.scy.eu/co2house#NecessityForHeating">
+                                <rdfs:label xml:lang="de">"Notwendigkeit zu Heizen"</rdfs:label>
+                                <rdfs:label xml:lang="en">"necessity for heating"</rdfs:label>
+                              </EcologicalQuality>
+                            </hasRelationTo>
+                            <rdfs:label xml:lang="de">"Außentemperatur"</rdfs:label>
+                            <rdfs:label xml:lang="en">"outdoor temperature"</rdfs:label>
+                            <isIncreasedBy rdf:resource="http://www.scy.eu/co2house#greenhouseEffect"/>
+                            <isIncreasedBy>
+                              <Climate rdf:about="http://www.scy.eu/co2house#SolarIrradiation">
+                                <isPrerequisiteOf>
+                                  <RenewableEnergySource rdf:about="http://www.scy.eu/co2house#SolarPower">
+                                    <increases>
+                                      <FinancialAspect rdf:about="http://www.scy.eu/co2house#ConstructionCosts">
+                                        <rdfs:label xml:lang="de"
+                                        >"Baukosten"</rdfs:label>
+                                        <rdfs:label xml:lang="en"
+                                        >"construction costs"</rdfs:label>
+                                        <isIncreasedBy>
+                                          <RenewableEnergySource rdf:about="http://www.scy.eu/co2house#BioenergyPower">
+                                            <increases rdf:resource="http://www.scy.eu/co2house#ConstructionCosts"/>
+                                            <rdfs:label xml:lang="de"
+                                            >"Bioenergie"</rdfs:label>
+                                            <rdfs:label xml:lang="en"
+                                            >"bioenergy power"</rdfs:label>
+                                            <decreases>
+                                              <FinancialAspect rdf:about="http://www.scy.eu/co2house#MaintenanceCosts">
+                                                <isDecreasedBy rdf:resource="http://www.scy.eu/co2house#BioenergyPower"/>
+                                                <isDecreasedBy rdf:resource="http://www.scy.eu/co2house#SolarPower"/>
+                                                <rdfs:label xml:lang="de"
+                                                >"Wartungskosten"</rdfs:label>
+                                                <rdfs:label xml:lang="en"
+                                                >"maintenance costs"</rdfs:label>
+                                                <isIncreasedBy>
+                                                  <PhysicalHouseParameter rdf:about="http://www.scy.eu/co2house#energyConsumption">
+                                                    <increases rdf:resource="http://www.scy.eu/co2house#MaintenanceCosts"/>
+                                                    <rdfs:label
+                                                     xml:lang="de"
+                                                    >"Energieverbrauch"</rdfs:label>
+                                                    <rdfs:label
+                                                     xml:lang="en"
+                                                    >"energy consumption"</rdfs:label>
+                                                  </PhysicalHouseParameter>
+                                                </isIncreasedBy>
+                                              </FinancialAspect>
+                                            </decreases>
+                                            <rdf:type rdf:resource="http://www.scy.eu/co2house#CO2FriendlyEnergySource"/>
+                                            <rdf:type rdf:resource="http://www.scy.eu/co2house#PrivatelyUsableEnergySource"/>
+                                          </RenewableEnergySource>
+                                        </isIncreasedBy>
+                                        <isIncreasedBy rdf:resource="http://www.scy.eu/co2house#SolarPower"/>
+                                      </FinancialAspect>
+                                    </increases>
+                                    <rdfs:label xml:lang="de"
+                                    >"Solarenergie"</rdfs:label>
+                                    <rdfs:label xml:lang="en"
+                                    >"solar power"</rdfs:label>
+                                    <dependsOn rdf:resource="http://www.scy.eu/co2house#SolarIrradiation"/>
+                                    <decreases rdf:resource="http://www.scy.eu/co2house#MaintenanceCosts"/>
+                                    <rdf:type rdf:resource="http://www.scy.eu/co2house#CO2FriendlyEnergySource"/>
+                                    <rdf:type rdf:resource="http://www.scy.eu/co2house#PrivatelyUsableEnergySource"/>
+                                  </RenewableEnergySource>
+                                </isPrerequisiteOf>
+                                <hasRelationTo>
+                                  <EcologicalQuality rdf:about="http://www.scy.eu/co2house#HighSunshineDuration">
+                                    <rdfs:label xml:lang="de"
+                                    >"hohe Sonnenscheindauer"</rdfs:label>
+                                    <rdfs:label xml:lang="en"
+                                    >"high sunshine duration"</rdfs:label>
+                                    <hasRelationTo rdf:resource="http://www.scy.eu/co2house#SolarIrradiation"/>
+                                  </EcologicalQuality>
+                                </hasRelationTo>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/co2house#greenhouseEffect"/>
+                                <increases rdf:resource="http://www.scy.eu/co2house#OutdoorTemperature"/>
+                                <rdfs:label xml:lang="de">"Sonneneinstrahlung"</rdfs:label>
+                                <rdfs:label xml:lang="en">"solar irradiation"</rdfs:label>
+                              </Climate>
+                            </isIncreasedBy>
+                          </Climate>
+                        </increases>
+                        <rdfs:label xml:lang="de">"Treibhauseffekt"</rdfs:label>
+                        <increases>
+                          <EnvironmentalEffect rdf:about="http://www.scy.eu/co2house#globalWarming">
+                            <increases>
+                              <EnvironmentalEffect rdf:about="http://www.scy.eu/co2house#heatwave">
+                                <isIncreasedBy rdf:resource="http://www.scy.eu/co2house#globalWarming"/>
+                                <rdfs:label xml:lang="en">heatwave</rdfs:label>
+                                <rdfs:label xml:lang="de">Hitzewelle</rdfs:label>
+                              </EnvironmentalEffect>
+                            </increases>
+                            <increases>
+                              <EnvironmentalEffect rdf:about="http://www.scy.eu/co2house#heavyRain">
+                                <rdfs:label xml:lang="en">heavy rain</rdfs:label>
+                                <rdfs:label xml:lang="de">starke Niederschläge</rdfs:label>
+                                <isIncreasedBy rdf:resource="http://www.scy.eu/co2house#globalWarming"/>
+                              </EnvironmentalEffect>
+                            </increases>
+                            <isIncreasedBy rdf:resource="http://www.scy.eu/co2house#greenhouseEffect"/>
+                            <increases>
+                              <EnvironmentalEffect rdf:about="http://www.scy.eu/co2house#seaLevelRise">
+                                <isIncreasedBy rdf:resource="http://www.scy.eu/co2house#globalWarming"/>
+                                <rdfs:label xml:lang="de">"Anstieg des Meeresspiegels"</rdfs:label>
+                                <rdfs:label xml:lang="en">"sea level rise"</rdfs:label>
+                              </EnvironmentalEffect>
+                            </increases>
+                            <increases>
+                              <EnvironmentalEffect rdf:about="http://www.scy.eu/co2house#moreExtremeWeather">
+                                <rdfs:label xml:lang="de">"mehr extreme Wetterereignisse"</rdfs:label>
+                                <rdfs:label xml:lang="en">"more extreme weather"</rdfs:label>
+                                <isIncreasedBy rdf:resource="http://www.scy.eu/co2house#globalWarming"/>
+                              </EnvironmentalEffect>
+                            </increases>
+                            <increases>
+                              <EnvironmentalEffect rdf:about="http://www.scy.eu/co2house#storms">
+                                <rdfs:label xml:lang="en">Storm</rdfs:label>
+                                <rdfs:label xml:lang="de">Wirbelsturm</rdfs:label>
+                                <isIncreasedBy rdf:resource="http://www.scy.eu/co2house#globalWarming"/>
+                              </EnvironmentalEffect>
+                            </increases>
+                            <rdfs:label xml:lang="en">"global warming"</rdfs:label>
+                            <rdfs:label xml:lang="de">"Globale Erwärmung"</rdfs:label>
+                            <increases>
+                              <EnvironmentalEffect rdf:about="http://www.scy.eu/co2house#glacierRetreat">
+                                <isIncreasedBy rdf:resource="http://www.scy.eu/co2house#globalWarming"/>
+                                <rdfs:label xml:lang="de">"Gletscherschmelze"</rdfs:label>
+                                <rdfs:label xml:lang="en">"glacier retreat"</rdfs:label>
+                              </EnvironmentalEffect>
+                            </increases>
+                          </EnvironmentalEffect>
+                        </increases>
+                        <rdf:type rdf:resource="http://www.scy.eu/co2house#NaturalFactor"/>
+                        <hasRelationTo rdf:resource="http://www.scy.eu/co2house#SolarIrradiation"/>
+                        <isIncreasedBy>
+                          <HumanFactor rdf:about="http://www.scy.eu/co2house#Deforestation">
+                            <rdfs:label xml:lang="de">"Abholzung"</rdfs:label>
+                            <rdfs:label xml:lang="en">"deforestation"</rdfs:label>
+                            <increases rdf:resource="http://www.scy.eu/co2house#greenhouseEffect"/>
+                          </HumanFactor>
+                        </isIncreasedBy>
+                      </PhysicalPhenomenon>
+                    </increases>
+                    <isIncreasedBy>
+                      <HumanFactor rdf:about="http://www.scy.eu/co2house#Farming">
+                        <rdfs:label xml:lang="de">"Landwirtschaft"</rdfs:label>
+                        <rdfs:label xml:lang="en">"farming"</rdfs:label>
+                        <increases rdf:resource="http://www.scy.eu/co2house#CO2Emission"/>
+                      </HumanFactor>
+                    </isIncreasedBy>
+                    <isIncreasedBy rdf:resource="http://www.scy.eu/co2house#CoalPower"/>
+                    <isIncreasedBy>
+                      <RenewableEnergySource rdf:about="http://www.scy.eu/co2house#IncinerationPower">
+                        <rdf:type rdf:resource="http://www.scy.eu/co2house#CO2ProducingEnergySource"/>
+                        <rdfs:label xml:lang="de">"Verbrennungsenergie"</rdfs:label>
+                        <rdfs:label xml:lang="en">"incineration power"</rdfs:label>
+                        <dependsOn>
+                          <SocialHouseParameter rdf:about="http://www.scy.eu/co2house#wasteProduction">
+                            <rdfs:label xml:lang="de">"Erzeugung von Abfällen"</rdfs:label>
+                            <rdfs:label xml:lang="en">"waste production"</rdfs:label>
+                            <isPrerequisiteOf rdf:resource="http://www.scy.eu/co2house#IncinerationPower"/>
+                          </SocialHouseParameter>
+                        </dependsOn>
+                        <increases rdf:resource="http://www.scy.eu/co2house#Pollution"/>
+                        <increases rdf:resource="http://www.scy.eu/co2house#CO2Emission"/>
+                      </RenewableEnergySource>
+                    </isIncreasedBy>
+                    <rdfs:label xml:lang="de">"CO2-Emissionen"</rdfs:label>
+                    <isIncreasedBy>
+                      <NonRenewableEnergySource rdf:about="http://www.scy.eu/co2house#NaturalGasPower">
+                        <increases rdf:resource="http://www.scy.eu/co2house#CO2Emission"/>
+                        <rdfs:label xml:lang="de">"Erdgasenergie"</rdfs:label>
+                        <rdfs:label xml:lang="en">"natural gas power"</rdfs:label>
+                        <rdf:type rdf:resource="http://www.scy.eu/co2house#CO2ProducingEnergySource"/>
+                      </NonRenewableEnergySource>
+                    </isIncreasedBy>
+                    <isDecreasedBy>
+                      <PoliticalConcept rdf:about="http://www.scy.eu/co2house#kyotoProtocol">
+                        <rdfs:label xml:lang="de">"Kyoto-Protokoll"</rdfs:label>
+                        <rdfs:label xml:lang="en">"kyoto protocol"</rdfs:label>
+                        <includes>
+                          <PoliticalConcept rdf:about="http://www.scy.eu/co2house#cleanDevelopmentMechanism">
+                            <rdfs:label xml:lang="de">"Mechanismus für umweltverträgliche Entwicklung"</rdfs:label>
+                            <rdfs:label xml:lang="en">"clean development mechanism"</rdfs:label>
+                            <hasRelationTo>
+                              <PoliticalConcept rdf:about="http://www.scy.eu/co2house#emissionsTrading">
+                                <rdfs:label xml:lang="de">"Emissionshandel"</rdfs:label>
+                                <rdfs:label xml:lang="en">"emissions trading"</rdfs:label>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/co2house#cleanDevelopmentMechanism"/>
+                              </PoliticalConcept>
+                            </hasRelationTo>
+                          </PoliticalConcept>
+                        </includes>
+                        <decreases rdf:resource="http://www.scy.eu/co2house#CO2Emission"/>
+                      </PoliticalConcept>
+                    </isDecreasedBy>
+                  </HumanFactor>
+                </increases>
+                <increases rdf:resource="http://www.scy.eu/co2house#Pollution"/>
+              </NonRenewableEnergySource>
+            </isIncreasedBy>
+            <isIncreasedBy rdf:resource="http://www.scy.eu/co2house#IncinerationPower"/>
+            <isIncreasedBy rdf:resource="http://www.scy.eu/co2house#FossilFuel"/>
+            <rdfs:label xml:lang="de">"Verschmutzung"</rdfs:label>
+            <rdfs:label xml:lang="en">"pollution"</rdfs:label>
+          </HumanFactor>
+        </isDecreasedBy>
+        <rdfs:label xml:lang="de">"Luftqualität"</rdfs:label>
+        <rdfs:label xml:lang="en">"air quality"</rdfs:label>
+      </LivingQuality>
+    </coincidesWith>
+  </Site>
+  <PhysicalQuantityDefinition rdf:about="http://www.scy.eu/co2house#lambda">
+    <rdfs:label xml:lang="de">"Lambda"</rdfs:label>
+    <rdfs:label xml:lang="en">"lambda"</rdfs:label>
+  </PhysicalQuantityDefinition>
+  <Keyword rdf:about="http://www.scy.eu/co2house#panel">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#energy_consumption"/>
+    <rdfs:label xml:lang="de">"Panel"</rdfs:label>
+    <rdfs:label xml:lang="en">"panel"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#total">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#electricity_household"/>
+    <rdfs:label xml:lang="de">"insgesamt"</rdfs:label>
+    <rdfs:label xml:lang="en">"total"</rdfs:label>
+  </Keyword>
+  <PoliticalConcept rdf:about="http://www.scy.eu/co2house#climatePolicy">
+    <rdfs:label xml:lang="en">climate policy</rdfs:label>
+    <rdfs:label xml:lang="de">Klimapolitik</rdfs:label>
+  </PoliticalConcept>
+  <Keyword rdf:about="http://www.scy.eu/co2house#create">
+    <rdfs:label xml:lang="de">"erzeugen"</rdfs:label>
+    <rdfs:label xml:lang="en">"create"</rdfs:label>
+    <belongsToList>
+      <KeywordList rdf:about="http://www.scy.eu/co2house#building_materials">
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/co2house#BuildingMaterial"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <rdfs:label xml:lang="de">"building_materials"</rdfs:label>
+        <rdfs:label xml:lang="en">"building_materials"</rdfs:label>
+      </KeywordList>
+    </belongsToList>
+  </Keyword>
+  <LaundryDevice rdf:about="http://www.scy.eu/co2house#WashingMachine">
+    <rdfs:label xml:lang="de">"Waschmaschine"</rdfs:label>
+    <rdfs:label xml:lang="en">"washing machine"</rdfs:label>
+  </LaundryDevice>
+  <StructureMaterial rdf:about="http://www.scy.eu/co2house#clay">
+    <rdfs:label xml:lang="de">"Lehm"</rdfs:label>
+    <rdfs:label xml:lang="en">"clay"</rdfs:label>
+  </StructureMaterial>
+  <RoofMaterial rdf:about="http://www.scy.eu/co2house#ClayTiles">
+    <rdfs:label xml:lang="de">"Tonziegel"</rdfs:label>
+    <rdfs:label xml:lang="en">"clay tiles"</rdfs:label>
+  </RoofMaterial>
+  <Keyword rdf:about="http://www.scy.eu/co2house#warming">
+    <rdfs:label xml:lang="de">"Erwärmung"</rdfs:label>
+    <rdfs:label xml:lang="en">"warming"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#atmosphere_protocol"/>
+  </Keyword>
+  <Boiler rdf:about="http://www.scy.eu/co2house#woodPelletsBoiler">
+    <rdfs:label xml:lang="de">"Holzpellets Kessel"</rdfs:label>
+    <rdfs:label xml:lang="en">"wood pellets boiler"</rdfs:label>
+  </Boiler>
+  <Area rdf:about="http://www.scy.eu/co2house#rectangle">
+    <rdfs:label xml:lang="de">"Rechteck"</rdfs:label>
+    <rdfs:label xml:lang="en">"rectangle"</rdfs:label>
+  </Area>
+  <Keyword rdf:about="http://www.scy.eu/co2house#million">
+    <rdfs:label xml:lang="de">"Millionen"</rdfs:label>
+    <rdfs:label xml:lang="en">"million"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#co2_list"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#people">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#electricity_household"/>
+    <rdfs:label xml:lang="de">"Menschen"</rdfs:label>
+    <rdfs:label xml:lang="en">"people"</rdfs:label>
+  </Keyword>
+  <PhysicalQuantityDefinition rdf:about="http://www.scy.eu/co2house#thermalRadiation">
+    <rdfs:label xml:lang="de">"Wärmestrahlung"</rdfs:label>
+    <rdfs:label xml:lang="en">"thermal radiation"</rdfs:label>
+  </PhysicalQuantityDefinition>
+  <EnvironmentalEffect rdf:about="http://www.scy.eu/co2house#oceanAcidification">
+    <rdfs:label xml:lang="en">ocean acidification</rdfs:label>
+    <rdfs:label xml:lang="de">Versauerung der Ozeane</rdfs:label>
+  </EnvironmentalEffect>
+  <Keyword rdf:about="http://www.scy.eu/co2house#emissions">
+    <rdfs:label xml:lang="de">"Emissionen"</rdfs:label>
+    <rdfs:label xml:lang="en">"emissions"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#trips_vehicle"/>
+  </Keyword>
+  <FinancialAspect rdf:about="http://www.scy.eu/co2house#subsidies">
+    <rdfs:label xml:lang="de">"Subventionen"</rdfs:label>
+    <rdfs:label xml:lang="en">"subsidies"</rdfs:label>
+    <rdf:type rdf:resource="http://www.scy.eu/co2house#PoliticalConcept"/>
+  </FinancialAspect>
+  <Keyword rdf:about="http://www.scy.eu/co2house#device">
+    <rdfs:label xml:lang="de">"Gerät"</rdfs:label>
+    <rdfs:label xml:lang="en">"device"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#electricity_household"/>
+  </Keyword>
+  <PhysicalQuantityDefinition rdf:about="http://www.scy.eu/co2house#power">
+    <rdfs:label xml:lang="de">"Strom"</rdfs:label>
+    <rdfs:label xml:lang="en">"power"</rdfs:label>
+  </PhysicalQuantityDefinition>
+  <Keyword rdf:about="http://www.scy.eu/co2house#appliances">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#electricity_household"/>
+    <rdfs:label xml:lang="de">"Geräte"</rdfs:label>
+    <rdfs:label xml:lang="en">"appliances"</rdfs:label>
+  </Keyword>
+  <StructureMaterial rdf:about="http://www.scy.eu/co2house#wood">
+    <rdfs:label xml:lang="de">"Holz"</rdfs:label>
+    <rdfs:label xml:lang="en">"wood"</rdfs:label>
+  </StructureMaterial>
+  <RenewableEnergySource rdf:about="http://www.scy.eu/co2house#GeothermalPower">
+    <rdfs:label xml:lang="de">"Geothermie"</rdfs:label>
+    <rdfs:label xml:lang="en">"geothermal power"</rdfs:label>
+    <rdf:type rdf:resource="http://www.scy.eu/co2house#CO2FriendlyEnergySource"/>
+  </RenewableEnergySource>
+  <Keyword rdf:about="http://www.scy.eu/co2house#household">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#electricity_household"/>
+    <rdfs:label xml:lang="de">"Haushalt"</rdfs:label>
+    <rdfs:label xml:lang="en">"household"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#savings">
+    <rdfs:label xml:lang="de">"Einsparungen"</rdfs:label>
+    <rdfs:label xml:lang="en">"savings"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#co2_list"/>
+  </Keyword>
+  <CookingDevice rdf:about="http://www.scy.eu/co2house#Oven">
+    <rdfs:label xml:lang="de">"Backofen"</rdfs:label>
+    <rdfs:label xml:lang="en">"oven"</rdfs:label>
+  </CookingDevice>
+  <Keyword rdf:about="http://www.scy.eu/co2house#epc">
+    <belongsToList>
+      <KeywordList rdf:about="http://www.scy.eu/co2house#energy_performance_certificate">
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/co2house#Ventilation"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/co2house#carbonFootprint"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <rdfs:label xml:lang="de">"energy_performance_certificate"</rdfs:label>
+        <rdfs:label xml:lang="en">"energy_performance_certificate"</rdfs:label>
+      </KeywordList>
+    </belongsToList>
+    <rdfs:label xml:lang="de">"epc"</rdfs:label>
+    <rdfs:label xml:lang="en">"epc"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#efficient">
+    <rdfs:label xml:lang="de">"effizient"</rdfs:label>
+    <rdfs:label xml:lang="en">"efficient"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#energy_performance_certificate"/>
+  </Keyword>
+  <Climate rdf:about="http://www.scy.eu/co2house#Rainfall">
+    <rdfs:label xml:lang="de">"Niederschlag"</rdfs:label>
+    <rdfs:label xml:lang="en">"rainfall"</rdfs:label>
+  </Climate>
+  <PhysicalQuantityDefinition rdf:about="http://www.scy.eu/co2house#heatLoss">
+    <rdfs:label xml:lang="de">"Wärmeverlust"</rdfs:label>
+    <rdfs:label xml:lang="en">"heat loss"</rdfs:label>
+  </PhysicalQuantityDefinition>
+  <Keyword rdf:about="http://www.scy.eu/co2house#fuel">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#trips_vehicle"/>
+    <rdfs:label xml:lang="de">"Kraftstoff"</rdfs:label>
+    <rdfs:label xml:lang="en">"fuel"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#gas">
+    <rdfs:label xml:lang="de">"Gas"</rdfs:label>
+    <rdfs:label xml:lang="en">"gas"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#trips_vehicle"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#industrial">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#atmosphere_protocol"/>
+    <rdfs:label xml:lang="de">"industriell"</rdfs:label>
+    <rdfs:label xml:lang="en">"industrial"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#effect">
+    <rdfs:label xml:lang="de">"Auswirkung"</rdfs:label>
+    <rdfs:label xml:lang="en">"effect"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#atmosphere_protocol"/>
+  </Keyword>
+  <Stove rdf:about="http://www.scy.eu/co2house#gasStove">
+    <rdfs:label xml:lang="de">"Gasherd"</rdfs:label>
+    <rdfs:label xml:lang="en">"gas stove"</rdfs:label>
+  </Stove>
+  <Boiler rdf:about="http://www.scy.eu/co2house#solarBoiler">
+    <rdfs:label xml:lang="de">"Solar-Boiler"</rdfs:label>
+    <rdfs:label xml:lang="en">"solar boiler"</rdfs:label>
+  </Boiler>
+  <PhysicalPhenomenon rdf:about="http://www.scy.eu/co2house#heatConduction">
+    <hasInfluenceOn>
+      <BuildingAspect rdf:about="http://www.scy.eu/co2house#Insulation">
+        <isDecreasedBy>
+          <PhysicalPhenomenon rdf:about="http://www.scy.eu/co2house#thermalBridge">
+            <rdfs:label xml:lang="de">"Wärmebrücke"</rdfs:label>
+            <rdfs:label xml:lang="en">"thermal bridge"</rdfs:label>
+            <decreases rdf:resource="http://www.scy.eu/co2house#Insulation"/>
+          </PhysicalPhenomenon>
+        </isDecreasedBy>
+        <isIncreasedBy>
+          <InsulationMaterial rdf:about="http://www.scy.eu/co2house#styrofoam">
+            <rdfs:label xml:lang="de">"Styropor"</rdfs:label>
+            <rdfs:label xml:lang="en">"styrofoam"</rdfs:label>
+            <increases rdf:resource="http://www.scy.eu/co2house#Insulation"/>
+          </InsulationMaterial>
+        </isIncreasedBy>
+        <rdfs:label xml:lang="en">"insulation"</rdfs:label>
+        <isIncreasedBy>
+          <InsulationMaterial rdf:about="http://www.scy.eu/co2house#woodWool">
+            <increases rdf:resource="http://www.scy.eu/co2house#Insulation"/>
+            <rdfs:label xml:lang="de">"Holzwolle"</rdfs:label>
+            <rdfs:label xml:lang="en">"wood wool"</rdfs:label>
+          </InsulationMaterial>
+        </isIncreasedBy>
+        <rdfs:label xml:lang="de">"Isolierung"</rdfs:label>
+        <isIncreasedBy>
+          <InsulationMaterial rdf:about="http://www.scy.eu/co2house#glassWool">
+            <increases rdf:resource="http://www.scy.eu/co2house#Insulation"/>
+            <rdfs:label xml:lang="de">"Glaswolle"</rdfs:label>
+            <rdfs:label xml:lang="en">"glass wool"</rdfs:label>
+          </InsulationMaterial>
+        </isIncreasedBy>
+        <isInfluencedBy>
+          <WindowsGlazingMaterial rdf:about="http://www.scy.eu/co2house#tripleGlazing">
+            <rdfs:label xml:lang="de">"Dreifachverglasung"</rdfs:label>
+            <rdfs:label xml:lang="en">"triple glazing"</rdfs:label>
+          </WindowsGlazingMaterial>
+        </isInfluencedBy>
+        <isIncreasedBy>
+          <InsulationMaterial rdf:about="http://www.scy.eu/co2house#rockWool">
+            <increases rdf:resource="http://www.scy.eu/co2house#Insulation"/>
+            <rdfs:label xml:lang="de">"Steinwolle"</rdfs:label>
+            <rdfs:label xml:lang="en">"rock wool"</rdfs:label>
+          </InsulationMaterial>
+        </isIncreasedBy>
+        <isInfluencedBy>
+          <WindowsGlazingMaterial rdf:about="http://www.scy.eu/co2house#simpleGlazing">
+            <rdfs:label xml:lang="de">"einfache Verglasung"</rdfs:label>
+            <rdfs:label xml:lang="en">"simple glazing"</rdfs:label>
+          </WindowsGlazingMaterial>
+        </isInfluencedBy>
+        <isInfluencedBy>
+          <WindowsGlazingMaterial rdf:about="http://www.scy.eu/co2house#doubleGlazing">
+            <rdfs:label xml:lang="de">"Doppelverglasung"</rdfs:label>
+            <rdfs:label xml:lang="en">"double glazing"</rdfs:label>
+          </WindowsGlazingMaterial>
+        </isInfluencedBy>
+      </BuildingAspect>
+    </hasInfluenceOn>
+    <rdfs:label xml:lang="de">"Wärmeleitung"</rdfs:label>
+    <rdfs:label xml:lang="en">"heat conduction"</rdfs:label>
+  </PhysicalPhenomenon>
+  <Keyword rdf:about="http://www.scy.eu/co2house#radiation">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#atmosphere_protocol"/>
+    <rdfs:label xml:lang="de">"Strahlung"</rdfs:label>
+    <rdfs:label xml:lang="en">"radiation"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#dioxide">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#atmosphere_protocol"/>
+    <rdfs:label xml:lang="de">"Kohlendioxid"</rdfs:label>
+    <rdfs:label xml:lang="en">"dioxide"</rdfs:label>
+  </Keyword>
+  <Appliance rdf:about="http://www.scy.eu/co2house#light">
+    <rdfs:label xml:lang="de">"Licht"</rdfs:label>
+    <rdfs:label xml:lang="en">"light"</rdfs:label>
+  </Appliance>
+  <Ventilation rdf:about="http://www.scy.eu/co2house#naturalVentilation">
+    <rdfs:label xml:lang="de">"natürliche Belüftung"</rdfs:label>
+    <rdfs:label xml:lang="en">"natural ventilation"</rdfs:label>
+  </Ventilation>
+  <Keyword rdf:about="http://www.scy.eu/co2house#carbon">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#atmosphere_protocol"/>
+    <rdfs:label xml:lang="de">"Kohlenstoff"</rdfs:label>
+    <rdfs:label xml:lang="en">"carbon"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#sun">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#windows_insulation"/>
+    <rdfs:label xml:lang="de">"Sonne"</rdfs:label>
+    <rdfs:label xml:lang="en">"sun"</rdfs:label>
+  </Keyword>
+  <NaturalFactor rdf:about="http://www.scy.eu/co2house#naturalFluctuation">
+    <rdfs:label xml:lang="de">"natürliche Fluktuation"</rdfs:label>
+    <rdfs:label xml:lang="en">"natural fluctuation"</rdfs:label>
+  </NaturalFactor>
+  <RoofMaterial rdf:about="http://www.scy.eu/co2house#BiomassRoof">
+    <rdfs:label xml:lang="de">"Dach aus Biomasse"</rdfs:label>
+    <rdfs:label xml:lang="en">"biomass roof"</rdfs:label>
+  </RoofMaterial>
+  <LaundryDevice rdf:about="http://www.scy.eu/co2house#Drier">
+    <rdfs:label xml:lang="de">"Wäschetrockner"</rdfs:label>
+    <rdfs:label xml:lang="en">"drier"</rdfs:label>
+  </LaundryDevice>
+  <PoliticalConcept rdf:about="http://www.scy.eu/co2house#ipcc">
+    <rdfs:label xml:lang="en">Intergovernmental Panel on Climate Change</rdfs:label>
+    <rdfs:label xml:lang="de">Weltklimarat</rdfs:label>
+  </PoliticalConcept>
+  <CookingDevice rdf:about="http://www.scy.eu/co2house#RiceCooker">
+    <rdfs:label xml:lang="de">"Reiskocher"</rdfs:label>
+    <rdfs:label xml:lang="en">"rice cooker"</rdfs:label>
+  </CookingDevice>
+  <Keyword rdf:about="http://www.scy.eu/co2house#efficiency">
+    <rdfs:label xml:lang="de">"Effizienz"</rdfs:label>
+    <rdfs:label xml:lang="en">"efficiency"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#energy_performance_certificate"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#conserve">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#co2_list"/>
+    <rdfs:label xml:lang="de">"bewahren"</rdfs:label>
+    <rdfs:label xml:lang="en">"conserve"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#house">
+    <rdfs:label xml:lang="de">"Haus"</rdfs:label>
+    <rdfs:label xml:lang="en">"house"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#windows_insulation"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#influence">
+    <rdfs:label xml:lang="de">"Einfluss"</rdfs:label>
+    <rdfs:label xml:lang="en">"influence"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#atmosphere_protocol"/>
+  </Keyword>
+  <PhysicalQuantityDefinition rdf:about="http://www.scy.eu/co2house#thermalConductance">
+    <rdfs:label xml:lang="de">"Wärmeleitfähigkeit"</rdfs:label>
+    <rdfs:label xml:lang="en">"thermal conductance"</rdfs:label>
+  </PhysicalQuantityDefinition>
+  <Keyword rdf:about="http://www.scy.eu/co2house#vehicle">
+    <rdfs:label xml:lang="de">"Fahrzeug"</rdfs:label>
+    <rdfs:label xml:lang="en">"vehicle"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#trips_vehicle"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#inside">
+    <rdfs:label xml:lang="de">"innen"</rdfs:label>
+    <rdfs:label xml:lang="en">"inside"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#windows_insulation"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#burning">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#atmosphere_protocol"/>
+    <rdfs:label xml:lang="de">"Verbrennen"</rdfs:label>
+    <rdfs:label xml:lang="en">"burning"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#materials">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#building_materials"/>
+    <rdfs:label xml:lang="de">"Materialien"</rdfs:label>
+    <rdfs:label xml:lang="en">"materials"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#reuse">
+    <rdfs:label xml:lang="de">"Wiederverwendung"</rdfs:label>
+    <rdfs:label xml:lang="en">"reuse"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#energy_consumption"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#homes">
+    <rdfs:label xml:lang="de">"Häuser"</rdfs:label>
+    <rdfs:label xml:lang="en">"homes"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#windows_insulation"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#home">
+    <rdfs:label xml:lang="de">"Zuhause"</rdfs:label>
+    <rdfs:label xml:lang="en">"home"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#windows_insulation"/>
+  </Keyword>
+  <Appliance rdf:about="http://www.scy.eu/co2house#officedevice">
+    <rdfs:label xml:lang="de">"Bürogerät"</rdfs:label>
+    <rdfs:label xml:lang="en">"officedevice"</rdfs:label>
+  </Appliance>
+  <Keyword rdf:about="http://www.scy.eu/co2house#fuels">
+    <rdfs:label xml:lang="de">"Kraftstoffe"</rdfs:label>
+    <rdfs:label xml:lang="en">"fuels"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#atmosphere_protocol"/>
+  </Keyword>
+  <NonRenewableEnergySource rdf:about="http://www.scy.eu/co2house#NuclearPower">
+    <rdf:type rdf:resource="http://www.scy.eu/co2house#CO2FriendlyEnergySource"/>
+    <rdfs:label xml:lang="de">"Kernenergie"</rdfs:label>
+    <rdfs:label xml:lang="en">"nuclear power"</rdfs:label>
+  </NonRenewableEnergySource>
+  <Keyword rdf:about="http://www.scy.eu/co2house#build">
+    <rdfs:label xml:lang="de">"bauen"</rdfs:label>
+    <rdfs:label xml:lang="en">"build"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#building_materials"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#local">
+    <rdfs:label xml:lang="de">"örtlich"</rdfs:label>
+    <rdfs:label xml:lang="en">"local"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#trips_vehicle"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#atmosphere">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#atmosphere_protocol"/>
+    <rdfs:label xml:lang="de">"Atmosphäre"</rdfs:label>
+    <rdfs:label xml:lang="en">"atmosphere"</rdfs:label>
+  </Keyword>
+  <Stove rdf:about="http://www.scy.eu/co2house#coalStove">
+    <rdfs:label xml:lang="de">"Kohleofen"</rdfs:label>
+    <rdfs:label xml:lang="en">"coal stove"</rdfs:label>
+  </Stove>
+  <Ventilation rdf:about="http://www.scy.eu/co2house#mechanicalVentilation">
+    <rdfs:label xml:lang="de">"mechanische Ventilation"</rdfs:label>
+    <rdfs:label xml:lang="en">"mechanical ventilation"</rdfs:label>
+  </Ventilation>
+  <Keyword rdf:about="http://www.scy.eu/co2house#soil">
+    <rdfs:label xml:lang="de">"Boden"</rdfs:label>
+    <rdfs:label xml:lang="en">"soil"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#building_materials"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#heat">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#windows_insulation"/>
+    <rdfs:label xml:lang="de">"Wärme"</rdfs:label>
+    <rdfs:label xml:lang="en">"heat"</rdfs:label>
+  </Keyword>
+  <HealthDevice rdf:about="http://www.scy.eu/co2house#HairDrier">
+    <rdfs:label xml:lang="de">"Fön"</rdfs:label>
+    <rdfs:label xml:lang="en">"hair drier"</rdfs:label>
+  </HealthDevice>
+  <PhysicalQuantityDefinition rdf:about="http://www.scy.eu/co2house#thermalResistance">
+    <rdfs:label xml:lang="de">"thermische Beständigkeit"</rdfs:label>
+    <rdfs:label xml:lang="en">"thermal resistance"</rdfs:label>
+  </PhysicalQuantityDefinition>
+  <Boiler rdf:about="http://www.scy.eu/co2house#gasBoiler">
+    <rdfs:label xml:lang="de">"Gaskessel"</rdfs:label>
+    <rdfs:label xml:lang="en">"gas boiler"</rdfs:label>
+  </Boiler>
+  <Keyword rdf:about="http://www.scy.eu/co2house#distance">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#trips_vehicle"/>
+    <rdfs:label xml:lang="de">"Abstand"</rdfs:label>
+    <rdfs:label xml:lang="en">"distance"</rdfs:label>
+  </Keyword>
+  <FirePlace rdf:about="http://www.scy.eu/co2house#openHearthFireplace">
+    <rdfs:label xml:lang="de">"Kamin"</rdfs:label>
+    <rdfs:label xml:lang="en">"open hearth fireplace"</rdfs:label>
+  </FirePlace>
+  <PhysicalPhenomenon rdf:about="http://www.scy.eu/co2house#convection">
+    <rdfs:label xml:lang="de">"Konvektion"</rdfs:label>
+    <rdfs:label xml:lang="en">"convection"</rdfs:label>
+  </PhysicalPhenomenon>
+  <Keyword rdf:about="http://www.scy.eu/co2house#year">
+    <rdfs:label xml:lang="de">"Jahr"</rdfs:label>
+    <rdfs:label xml:lang="en">"year"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#co2_list"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#trees">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#co2_list"/>
+    <rdfs:label xml:lang="de">"Bäume"</rdfs:label>
+    <rdfs:label xml:lang="en">"trees"</rdfs:label>
+  </Keyword>
+  <HousekeepingDevice rdf:about="http://www.scy.eu/co2house#VacuumCleaner">
+    <rdfs:label xml:lang="de">"Staubsauger"</rdfs:label>
+    <rdfs:label xml:lang="en">"vacuum cleaner"</rdfs:label>
+  </HousekeepingDevice>
+  <Keyword rdf:about="http://www.scy.eu/co2house#waste">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#electricity_household"/>
+    <rdfs:label xml:lang="de">"Abfälle"</rdfs:label>
+    <rdfs:label xml:lang="en">"waste"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#construction">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#building_materials"/>
+    <rdfs:label xml:lang="de">"Bau"</rdfs:label>
+    <rdfs:label xml:lang="en">"construction"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#co2">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#co2_list"/>
+    <rdfs:label xml:lang="de">Kohlendioxid</rdfs:label>
+    <rdfs:label xml:lang="en">Carbondioxide</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#earth">
+    <rdfs:label xml:lang="de">"Erde"</rdfs:label>
+    <rdfs:label xml:lang="en">"earth"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#atmosphere_protocol"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#walls">
+    <rdfs:label xml:lang="de">"Wände"</rdfs:label>
+    <rdfs:label xml:lang="en">"walls"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#windows_insulation"/>
+  </Keyword>
+  <PhysicalQuantityDefinition rdf:about="http://www.scy.eu/co2house#efficiencyRate">
+    <rdfs:label xml:lang="de">"Wirkungsgrad"</rdfs:label>
+    <rdfs:label xml:lang="en">"efficiency rate"</rdfs:label>
+  </PhysicalQuantityDefinition>
+  <HousekeepingDevice rdf:about="http://www.scy.eu/co2house#Dishwasher">
+    <rdfs:label xml:lang="de">"Geschirrspüler"</rdfs:label>
+    <rdfs:label xml:lang="en">"dishwasher"</rdfs:label>
+  </HousekeepingDevice>
+  <Keyword rdf:about="http://www.scy.eu/co2house#water">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#energy_consumption"/>
+    <rdfs:label xml:lang="de">"Wasser"</rdfs:label>
+    <rdfs:label xml:lang="en">"water"</rdfs:label>
+  </Keyword>
+  <Volume rdf:about="http://www.scy.eu/co2house#cuboid">
+    <rdfs:label xml:lang="de">"Quader"</rdfs:label>
+    <rdfs:label xml:lang="en">"cuboid"</rdfs:label>
+  </Volume>
+  <FirePlace rdf:about="http://www.scy.eu/co2house#fireplaceInsert">
+    <rdfs:label xml:lang="de">"Kamineinsatz"</rdfs:label>
+    <rdfs:label xml:lang="en">"fireplace insert"</rdfs:label>
+  </FirePlace>
+  <Keyword rdf:about="http://www.scy.eu/co2house#chemicals">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#building_materials"/>
+    <rdfs:label xml:lang="de">"Chemikalien"</rdfs:label>
+    <rdfs:label xml:lang="en">"chemicals"</rdfs:label>
+  </Keyword>
+  <PhysicalHouseParameter rdf:about="http://www.scy.eu/co2house#basement">
+    <rdfs:label xml:lang="de">"Keller"</rdfs:label>
+    <rdfs:label xml:lang="en">"basement"</rdfs:label>
+  </PhysicalHouseParameter>
+  <Keyword rdf:about="http://www.scy.eu/co2house#tank">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#energy_consumption"/>
+    <rdfs:label xml:lang="de">"Tank"</rdfs:label>
+    <rdfs:label xml:lang="en">"tank"</rdfs:label>
+  </Keyword>
+  <PhysicalQuantityDefinition rdf:about="http://www.scy.eu/co2house#heatFlux">
+    <rdfs:label xml:lang="de">"Wärmestromdichte"</rdfs:label>
+    <rdfs:label xml:lang="en">"heat flux"</rdfs:label>
+  </PhysicalQuantityDefinition>
+  <Keyword rdf:about="http://www.scy.eu/co2house#performance">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#energy_performance_certificate"/>
+    <rdfs:label xml:lang="de">"Leistung"</rdfs:label>
+    <rdfs:label xml:lang="en">"performance"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#reduce">
+    <rdfs:label xml:lang="de">"reduzieren"</rdfs:label>
+    <rdfs:label xml:lang="en">"reduce"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#energy_consumption"/>
+  </Keyword>
+  <ElectricityProduction rdf:about="http://www.scy.eu/co2house#windTurbine">
+    <rdfs:label xml:lang="de">"Windkraftanlage"</rdfs:label>
+    <rdfs:label xml:lang="en">"wind turbine"</rdfs:label>
+  </ElectricityProduction>
+  <Keyword rdf:about="http://www.scy.eu/co2house#glass">
+    <rdfs:label xml:lang="de">"Glas"</rdfs:label>
+    <rdfs:label xml:lang="en">"glass"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#windows_insulation"/>
+  </Keyword>
+  <EmbeddedAppliance rdf:about="http://www.scy.eu/co2house#AirConditioning">
+    <rdfs:label xml:lang="de">"Klimaanlage"</rdfs:label>
+    <rdfs:label xml:lang="en">"air conditioning"</rdfs:label>
+  </EmbeddedAppliance>
+  <Keyword rdf:about="http://www.scy.eu/co2house#cars">
+    <rdfs:label xml:lang="de">"Autos"</rdfs:label>
+    <rdfs:label xml:lang="en">"cars"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#trips_vehicle"/>
+  </Keyword>
+  <HouseParameter rdf:about="http://www.scy.eu/co2house#carbonFootprint">
+    <isInfluencedBy rdf:resource="http://www.scy.eu/co2house#energyConsumption"/>
+    <isInfluencedBy>
+      <PhysicalHouseParameter rdf:about="http://www.scy.eu/co2house#numberOfFloors">
+        <rdfs:label xml:lang="de">"Anzahl der Stockwerke"</rdfs:label>
+        <rdfs:label xml:lang="en">"number of floors"</rdfs:label>
+      </PhysicalHouseParameter>
+    </isInfluencedBy>
+    <isInfluencedBy>
+      <PhysicalHouseParameter rdf:about="http://www.scy.eu/co2house#baseArea">
+        <rdfs:label xml:lang="de">"Grundfläche"</rdfs:label>
+        <rdfs:label xml:lang="en">"base area"</rdfs:label>
+      </PhysicalHouseParameter>
+    </isInfluencedBy>
+    <isInfluencedBy>
+      <SocialHouseParameter rdf:about="http://www.scy.eu/co2house#numberOfInhabitants">
+        <rdfs:label xml:lang="de">"Zahl der Einwohner"</rdfs:label>
+        <rdfs:label xml:lang="en">"number of inhabitants"</rdfs:label>
+      </SocialHouseParameter>
+    </isInfluencedBy>
+    <isInfluencedBy>
+      <SocialHouseParameter rdf:about="http://www.scy.eu/co2house#inhabitantsLifestyle">
+        <rdfs:label xml:lang="de">"Einwohner-Lifestyle"</rdfs:label>
+        <rdfs:label xml:lang="en">"inhabitants lifestyle"</rdfs:label>
+      </SocialHouseParameter>
+    </isInfluencedBy>
+    <rdfs:label xml:lang="de">"Kohlenstoff-Fußabdruck"</rdfs:label>
+    <rdfs:label xml:lang="en">"carbon footprint"</rdfs:label>
+  </HouseParameter>
+  <Keyword rdf:about="http://www.scy.eu/co2house#property">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#energy_performance_certificate"/>
+    <rdfs:label xml:lang="de">"Eigentum"</rdfs:label>
+    <rdfs:label xml:lang="en">"property"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#environmental">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#atmosphere_protocol"/>
+    <rdfs:label xml:lang="de">"natürlich"</rdfs:label>
+    <rdfs:label xml:lang="en">"environmental"</rdfs:label>
+  </Keyword>
+  <rdf:Description>
+    <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >south^^http://www.w3.org/2001/XMLSchema#string</rdf:first>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <Keyword rdf:about="http://www.scy.eu/co2house#consumption">
+    <rdfs:label xml:lang="de">"Verbrauch"</rdfs:label>
+    <rdfs:label xml:lang="en">"consumption"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#windows_insulation"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#install">
+    <rdfs:label xml:lang="de">"installieren"</rdfs:label>
+    <rdfs:label xml:lang="en">"install"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#energy_consumption"/>
+  </Keyword>
+  <CookingDevice rdf:about="http://www.scy.eu/co2house#WaterBoiler">
+    <rdfs:label xml:lang="de">"Wasserkocher"</rdfs:label>
+    <rdfs:label xml:lang="en">"water boiler"</rdfs:label>
+  </CookingDevice>
+  <rdf:Description>
+    <rdf:first rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >light^^http://www.w3.org/2001/XMLSchema#string</rdf:first>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <Keyword rdf:about="http://www.scy.eu/co2house#cold">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#windows_insulation"/>
+    <rdfs:label xml:lang="de">"Kälte"</rdfs:label>
+    <rdfs:label xml:lang="en">"cold"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#kg">
+    <rdfs:label xml:lang="de">"kg"</rdfs:label>
+    <rdfs:label xml:lang="en">"kg"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#co2_list"/>
+  </Keyword>
+  <Site rdf:about="http://www.scy.eu/co2house#mountain">
+    <coincidesWith rdf:resource="http://www.scy.eu/co2house#AirQuality"/>
+    <coincidesWith rdf:resource="http://www.scy.eu/co2house#HighSunshineDuration"/>
+    <rdfs:label xml:lang="de">"Berg"</rdfs:label>
+    <rdfs:label xml:lang="en">"mountain"</rdfs:label>
+  </Site>
+  <Boiler rdf:about="http://www.scy.eu/co2house#oilBoiler">
+    <rdfs:label xml:lang="de">"Ölkessel"</rdfs:label>
+    <rdfs:label xml:lang="en">"oil boiler"</rdfs:label>
+  </Boiler>
+  <PhysicalQuantityDefinition rdf:about="http://www.scy.eu/co2house#uFactor">
+    <rdfs:label xml:lang="de">"u-Faktor"</rdfs:label>
+    <rdfs:label xml:lang="en">"u factor"</rdfs:label>
+  </PhysicalQuantityDefinition>
+  <Keyword rdf:about="http://www.scy.eu/co2house#windows">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#windows_insulation"/>
+    <rdfs:label xml:lang="de">"Fenster"</rdfs:label>
+    <rdfs:label xml:lang="en">"windows"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#shower">
+    <rdfs:label xml:lang="de">"Dusche"</rdfs:label>
+    <rdfs:label xml:lang="en">"shower"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#energy_consumption"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#greenhouse">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#windows_insulation"/>
+    <rdfs:label xml:lang="de">"Treibhaus"</rdfs:label>
+    <rdfs:label xml:lang="en">"greenhouse"</rdfs:label>
+  </Keyword>
+  <Site rdf:about="http://www.scy.eu/co2house#city">
+    <rdfs:label xml:lang="de">"Stadt"</rdfs:label>
+    <rdfs:label xml:lang="en">"city"</rdfs:label>
+    <coincidesWith>
+      <LivingQuality rdf:about="http://www.scy.eu/co2house#UrbanInfrastructure">
+        <rdfs:label xml:lang="de">"städtische Infrastruktur"</rdfs:label>
+        <rdfs:label xml:lang="en">"urban infrastructure"</rdfs:label>
+      </LivingQuality>
+    </coincidesWith>
+  </Site>
+  <Energy rdf:about="http://www.scy.eu/co2house#thermalEnergy">
+    <rdfs:label xml:lang="de">"Wärmeenergie"</rdfs:label>
+    <rdfs:label xml:lang="en">"thermal energy"</rdfs:label>
+  </Energy>
+  <Volume rdf:about="http://www.scy.eu/co2house#cube">
+    <rdfs:label xml:lang="de">"Würfel"</rdfs:label>
+    <rdfs:label xml:lang="en">"cube"</rdfs:label>
+  </Volume>
+  <Keyword rdf:about="http://www.scy.eu/co2house#doors">
+    <rdfs:label xml:lang="de">"Türen"</rdfs:label>
+    <rdfs:label xml:lang="en">"doors"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#windows_insulation"/>
+  </Keyword>
+  <PhysicalQuantityDefinition rdf:about="http://www.scy.eu/co2house#averageTemperature">
+    <rdfs:label xml:lang="de">Durchschnittstemperatur</rdfs:label>
+    <rdfs:label xml:lang="en">average temperature</rdfs:label>
+  </PhysicalQuantityDefinition>
+  <EcologicalQuality rdf:about="http://www.scy.eu/co2house#AccessToBurningWood">
+    <rdfs:label xml:lang="de">"Zugriff zu Brennholz"</rdfs:label>
+    <rdfs:label xml:lang="en">"access to burning wood"</rdfs:label>
+  </EcologicalQuality>
+  <PhysicalHouseParameter rdf:about="http://www.scy.eu/co2house#housePart">
+    <rdfs:label xml:lang="de">"Hausteil"</rdfs:label>
+    <rdfs:label xml:lang="en">"house part"</rdfs:label>
+    <includes>
+      <PhysicalHouseParameter rdf:about="http://www.scy.eu/co2house#roof">
+        <rdfs:label xml:lang="de">"Dach"</rdfs:label>
+        <rdfs:label xml:lang="en">"roof"</rdfs:label>
+      </PhysicalHouseParameter>
+    </includes>
+    <includes>
+      <PhysicalHouseParameter rdf:about="http://www.scy.eu/co2house#wall">
+        <rdfs:label xml:lang="de">"Wand"</rdfs:label>
+        <rdfs:label xml:lang="en">"wall"</rdfs:label>
+      </PhysicalHouseParameter>
+    </includes>
+    <includes>
+      <PhysicalHouseParameter rdf:about="http://www.scy.eu/co2house#opening">
+        <rdfs:label xml:lang="de">"Öffnung"</rdfs:label>
+        <rdfs:label xml:lang="en">"opening"</rdfs:label>
+        <includes>
+          <PhysicalHouseParameter rdf:about="http://www.scy.eu/co2house#door">
+            <rdfs:label xml:lang="de">"Tür"</rdfs:label>
+            <rdfs:label xml:lang="en">"door"</rdfs:label>
+          </PhysicalHouseParameter>
+        </includes>
+        <includes>
+          <PhysicalHouseParameter rdf:about="http://www.scy.eu/co2house#window">
+            <rdfs:label xml:lang="de">"Fenster"</rdfs:label>
+            <rdfs:label xml:lang="en">"window"</rdfs:label>
+          </PhysicalHouseParameter>
+        </includes>
+      </PhysicalHouseParameter>
+    </includes>
+  </PhysicalHouseParameter>
+  <CookingDevice rdf:about="http://www.scy.eu/co2house#MicrowaveOven">
+    <rdfs:label xml:lang="de">"Mikrowelle"</rdfs:label>
+    <rdfs:label xml:lang="en">"microwave oven"</rdfs:label>
+  </CookingDevice>
+  <owl:DataRange>
+    <owl:oneOf rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >67e2912c:12b76920c5f:-7ff7</owl:oneOf>
+  </owl:DataRange>
+  <Keyword rdf:about="http://www.scy.eu/co2house#form">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#building_materials"/>
+    <rdfs:label xml:lang="de">"Form"</rdfs:label>
+    <rdfs:label xml:lang="en">"form"</rdfs:label>
+  </Keyword>
+  <StructureMaterial rdf:about="http://www.scy.eu/co2house#bricks">
+    <rdfs:label xml:lang="de">"Ziegel"</rdfs:label>
+    <rdfs:label xml:lang="en">"bricks"</rdfs:label>
+  </StructureMaterial>
+  <Keyword rdf:about="http://www.scy.eu/co2house#properties">
+    <rdfs:label xml:lang="de">"Besitztümer"</rdfs:label>
+    <rdfs:label xml:lang="en">"properties"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#energy_performance_certificate"/>
+  </Keyword>
+  <EntertainmentDevice rdf:about="http://www.scy.eu/co2house#gamePad">
+    <rdfs:label xml:lang="de">"Spielekonsole"</rdfs:label>
+    <rdfs:label xml:lang="en">"game pad"</rdfs:label>
+  </EntertainmentDevice>
+  <LaundryDevice rdf:about="http://www.scy.eu/co2house#Iron">
+    <rdfs:label xml:lang="de">"Bügeleisen"</rdfs:label>
+    <rdfs:label xml:lang="en">"iron"</rdfs:label>
+  </LaundryDevice>
+  <EnvironmentalEffect rdf:about="http://www.scy.eu/co2house#precipitationChanges">
+    <rdfs:label xml:lang="de">Veränderte Niederschlagsmuster</rdfs:label>
+    <rdfs:label xml:lang="en">changes of precipitation patterns</rdfs:label>
+  </EnvironmentalEffect>
+  <Keyword rdf:about="http://www.scy.eu/co2house#growing">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#building_materials"/>
+    <rdfs:label xml:lang="de">"wächst"</rdfs:label>
+    <rdfs:label xml:lang="en">"growing"</rdfs:label>
+  </Keyword>
+  <Site rdf:about="http://www.scy.eu/co2house#seaside">
+    <rdfs:label xml:lang="de">"Meer"</rdfs:label>
+    <rdfs:label xml:lang="en">"seaside"</rdfs:label>
+    <coincidesWith rdf:resource="http://www.scy.eu/co2house#AirQuality"/>
+    <coincidesWith>
+      <EcologicalQuality rdf:about="http://www.scy.eu/co2house#HighWindSpeed">
+        <rdfs:label xml:lang="de">"hohe Windgeschwindigkeit"</rdfs:label>
+        <rdfs:label xml:lang="en">"high wind speed"</rdfs:label>
+      </EcologicalQuality>
+    </coincidesWith>
+  </Site>
+  <Area rdf:about="http://www.scy.eu/co2house#square">
+    <rdfs:label xml:lang="de">"Quadrat"</rdfs:label>
+    <rdfs:label xml:lang="en">"square"</rdfs:label>
+  </Area>
+  <Keyword rdf:about="http://www.scy.eu/co2house#frame">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#windows_insulation"/>
+    <rdfs:label xml:lang="de">"Rahmen"</rdfs:label>
+    <rdfs:label xml:lang="en">"frame"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#shared">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#energy_consumption"/>
+    <rdfs:label xml:lang="de">"geteilt"</rdfs:label>
+    <rdfs:label xml:lang="en">"shared"</rdfs:label>
+  </Keyword>
+  <CookingDevice rdf:about="http://www.scy.eu/co2house#Cooker">
+    <rdfs:label xml:lang="de">"Herd"</rdfs:label>
+    <rdfs:label xml:lang="en">"cooker"</rdfs:label>
+  </CookingDevice>
+  <Keyword rdf:about="http://www.scy.eu/co2house#fossil">
+    <rdfs:label xml:lang="de">"fossil"</rdfs:label>
+    <rdfs:label xml:lang="en">"fossil"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#atmosphere_protocol"/>
+  </Keyword>
+  <Volume rdf:about="http://www.scy.eu/co2house#cylinder">
+    <rdfs:label xml:lang="de">"Zylinder"</rdfs:label>
+    <rdfs:label xml:lang="en">"cylinder"</rdfs:label>
+  </Volume>
+  <StructureMaterial rdf:about="http://www.scy.eu/co2house#cement">
+    <rdfs:label xml:lang="de">"Zement"</rdfs:label>
+    <rdfs:label xml:lang="en">"cement"</rdfs:label>
+  </StructureMaterial>
+  <HousekeepingDevice rdf:about="http://www.scy.eu/co2house#Freezer">
+    <rdfs:label xml:lang="de">"Gefrierschrank"</rdfs:label>
+    <rdfs:label xml:lang="en">"freezer"</rdfs:label>
+  </HousekeepingDevice>
+  <Keyword rdf:about="http://www.scy.eu/co2house#buildings">
+    <rdfs:label xml:lang="de">"Häuser"</rdfs:label>
+    <rdfs:label xml:lang="en">"buildings"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#energy_performance_certificate"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#building">
+    <rdfs:label xml:lang="de">"Gebäude"</rdfs:label>
+    <rdfs:label xml:lang="en">"building"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#building_materials"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#certificates">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#energy_performance_certificate"/>
+    <rdfs:label xml:lang="de">"Zertifikate"</rdfs:label>
+    <rdfs:label xml:lang="en">"certificates"</rdfs:label>
+  </Keyword>
+  <PhysicalQuantityDefinition rdf:about="http://www.scy.eu/co2house#temperature">
+    <rdfs:label xml:lang="de">"Temperatur"</rdfs:label>
+    <rdfs:label xml:lang="en">"temperature"</rdfs:label>
+  </PhysicalQuantityDefinition>
+  <Keyword rdf:about="http://www.scy.eu/co2house#material">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#building_materials"/>
+    <rdfs:label xml:lang="de">"Material"</rdfs:label>
+    <rdfs:label xml:lang="en">"material"</rdfs:label>
+  </Keyword>
+  <Boiler rdf:about="http://www.scy.eu/co2house#electricBoiler">
+    <rdfs:label xml:lang="de">"Elektroboiler"</rdfs:label>
+    <rdfs:label xml:lang="en">"electric boiler"</rdfs:label>
+  </Boiler>
+  <Keyword rdf:about="http://www.scy.eu/co2house#plants">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#building_materials"/>
+    <rdfs:label xml:lang="de">"Pflanzen"</rdfs:label>
+    <rdfs:label xml:lang="en">"plants"</rdfs:label>
+  </Keyword>
+  <ElectricityProduction rdf:about="http://www.scy.eu/co2house#solarPanel">
+    <rdfs:label xml:lang="de">"Solar-Panel"</rdfs:label>
+    <rdfs:label xml:lang="en">"solar panel"</rdfs:label>
+  </ElectricityProduction>
+  <Keyword rdf:about="http://www.scy.eu/co2house#countries">
+    <rdfs:label xml:lang="de">"Länder"</rdfs:label>
+    <rdfs:label xml:lang="en">"countries"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#atmosphere_protocol"/>
+  </Keyword>
+  <Area rdf:about="http://www.scy.eu/co2house#disk">
+    <rdfs:label xml:lang="de">"Scheibe"</rdfs:label>
+    <rdfs:label xml:lang="en">"disk"</rdfs:label>
+  </Area>
+  <HotwaterProduction rdf:about="http://www.scy.eu/co2house#solarCollector">
+    <rdfs:label xml:lang="de">"Solarkollektor"</rdfs:label>
+    <rdfs:label xml:lang="en">"solar collector"</rdfs:label>
+  </HotwaterProduction>
+  <Keyword rdf:about="http://www.scy.eu/co2house#warm">
+    <rdfs:label xml:lang="de">"warm"</rdfs:label>
+    <rdfs:label xml:lang="en">"warm"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#windows_insulation"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#trips">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#trips_vehicle"/>
+    <rdfs:label xml:lang="de">"Reisen"</rdfs:label>
+    <rdfs:label xml:lang="en">"trips"</rdfs:label>
+  </Keyword>
+  <Stove rdf:about="http://www.scy.eu/co2house#woodStove">
+    <rdfs:label xml:lang="de">"Holzofen"</rdfs:label>
+    <rdfs:label xml:lang="en">"wood stove"</rdfs:label>
+  </Stove>
+  <Keyword rdf:about="http://www.scy.eu/co2house#car">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#trips_vehicle"/>
+    <rdfs:label xml:lang="de">"Auto"</rdfs:label>
+    <rdfs:label xml:lang="en">"car"</rdfs:label>
+  </Keyword>
+  <RenewableEnergySource rdf:about="http://www.scy.eu/co2house#WaterPower">
+    <rdf:type rdf:resource="http://www.scy.eu/co2house#CO2FriendlyEnergySource"/>
+    <rdfs:label xml:lang="de">"Wasserkraft"</rdfs:label>
+    <rdfs:label xml:lang="en">"water power"</rdfs:label>
+  </RenewableEnergySource>
+  <HousekeepingDevice rdf:about="http://www.scy.eu/co2house#Fridge">
+    <rdfs:label xml:lang="de">"Kühlschrank"</rdfs:label>
+    <rdfs:label xml:lang="en">"fridge"</rdfs:label>
+  </HousekeepingDevice>
+  <HealthDevice rdf:about="http://www.scy.eu/co2house#Shaver">
+    <rdfs:label xml:lang="de">"Rasierapparat"</rdfs:label>
+    <rdfs:label xml:lang="en">"shaver"</rdfs:label>
+  </HealthDevice>
+  <Keyword rdf:about="http://www.scy.eu/co2house#hot">
+    <rdfs:label xml:lang="de">"heiß"</rdfs:label>
+    <rdfs:label xml:lang="en">"hot"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#energy_consumption"/>
+  </Keyword>
+  <PoliticalConcept rdf:about="http://www.scy.eu/co2house#co2Certificate">
+    <rdfs:label xml:lang="en">co2 certificate</rdfs:label>
+    <rdfs:label xml:lang="de">CO2-Zertifikat</rdfs:label>
+  </PoliticalConcept>
+  <Keyword rdf:about="http://www.scy.eu/co2house#green">
+    <rdfs:label xml:lang="de">"grün"</rdfs:label>
+    <rdfs:label xml:lang="en">"green"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#building_materials"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#needs">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#building_materials"/>
+    <rdfs:label xml:lang="de">"Bedürfnisse"</rdfs:label>
+    <rdfs:label xml:lang="en">"needs"</rdfs:label>
+  </Keyword>
+  <Heating rdf:about="http://www.scy.eu/co2house#geothermalHeatPump">
+    <rdfs:label xml:lang="de">"Erdwärmepumpe"</rdfs:label>
+    <rdfs:label xml:lang="en">"geothermal heat pump"</rdfs:label>
+    <rdf:type rdf:resource="http://www.scy.eu/co2house#HotwaterProduction"/>
+  </Heating>
+  <Keyword rdf:about="http://www.scy.eu/co2house#roofs">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#building_materials"/>
+    <rdfs:label xml:lang="de">"Dächer"</rdfs:label>
+    <rdfs:label xml:lang="en">"roofs"</rdfs:label>
+  </Keyword>
+  <StructureMaterial rdf:about="http://www.scy.eu/co2house#concrete">
+    <rdfs:label xml:lang="de">"Beton"</rdfs:label>
+    <rdfs:label xml:lang="en">"concrete"</rdfs:label>
+  </StructureMaterial>
+  <Keyword rdf:about="http://www.scy.eu/co2house#absorbs">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#building_materials"/>
+    <rdfs:label xml:lang="de">"absorbiert"</rdfs:label>
+    <rdfs:label xml:lang="en">"absorbs"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#factors">
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#energy_performance_certificate"/>
+    <rdfs:label xml:lang="de">"Faktoren"</rdfs:label>
+    <rdfs:label xml:lang="en">"factors"</rdfs:label>
+  </Keyword>
+  <EcologicalQuality rdf:about="http://www.scy.eu/co2house#AccessToBuildingWood">
+    <rdfs:label xml:lang="de">"Zugang zu Bauholz"</rdfs:label>
+    <rdfs:label xml:lang="en">"access to building wood"</rdfs:label>
+  </EcologicalQuality>
+  <EntertainmentDevice rdf:about="http://www.scy.eu/co2house#mobilePhoneRecharger">
+    <rdfs:label xml:lang="de">"Handy-Ladegerät"</rdfs:label>
+    <rdfs:label xml:lang="en">"mobile phone recharger"</rdfs:label>
+  </EntertainmentDevice>
+  <Keyword rdf:about="http://www.scy.eu/co2house#infrared">
+    <rdfs:label xml:lang="de">"Infrarot"</rdfs:label>
+    <rdfs:label xml:lang="en">"infrared"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#atmosphere_protocol"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/co2house#air">
+    <rdfs:label xml:lang="de">"Luft"</rdfs:label>
+    <rdfs:label xml:lang="en">"air"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/co2house#windows_insulation"/>
+  </Keyword>
+  <Heating rdf:about="http://www.scy.eu/co2house#electricRadiator">
+    <rdfs:label xml:lang="de">"Elektroheizkörper"</rdfs:label>
+    <rdfs:label xml:lang="en">"electric radiator"</rdfs:label>
+  </Heating>
+  <RenewableEnergySource rdf:about="http://www.scy.eu/co2house#WindPower">
+    <rdfs:label xml:lang="de">"Windkraft"</rdfs:label>
+    <rdfs:label xml:lang="en">"wind power"</rdfs:label>
+    <dependsOn>
+      <Climate rdf:about="http://www.scy.eu/co2house#Wind">
+        <hasRelationTo rdf:resource="http://www.scy.eu/co2house#HighWindSpeed"/>
+        <isPrerequisiteOf rdf:resource="http://www.scy.eu/co2house#WindPower"/>
+        <rdfs:label xml:lang="de">"Wind"</rdfs:label>
+        <rdfs:label xml:lang="en">"wind"</rdfs:label>
+      </Climate>
+    </dependsOn>
+    <rdf:type rdf:resource="http://www.scy.eu/co2house#CO2FriendlyEnergySource"/>
+  </RenewableEnergySource>
+</rdf:RDF>
+
+<!-- Created with Protege (with OWL Plugin 3.4.1, Build 536)  http://protege.stanford.edu -->
