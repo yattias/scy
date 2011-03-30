@@ -30,6 +30,7 @@ import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.VBox;
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
 
@@ -37,6 +38,7 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
    public var toolBrokerAPI: ToolBrokerAPI;
    public var metadataTypeManager: IMetadataTypeManager;
    public var scyDesktop:ScyDesktop;
+   public var scyWindow:ScyWindow;
    def technicalType:String = "scy/feedback";
    def title:String = "Feedback ELO";
    def feedbackTagName:String = "feedback";
@@ -53,6 +55,7 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
    def titleLabel = Label {
            text: "Ask for Feedback"
            font: Font.font("Verdana", FontWeight.BOLD, 12)
+           textFill: scyWindow.windowColorScheme.mainColor;
        };
    var textBox = TextBox {
            text: bind comment with inverse
