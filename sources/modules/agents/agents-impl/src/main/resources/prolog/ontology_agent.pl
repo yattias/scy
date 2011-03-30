@@ -59,6 +59,13 @@ process_command(Cmd, Id, Params) :-
 			tspl_actual_field(string, Category, CategoryField),
 			respond(Id, [CategoryField])
 		; true),
+	(Cmd == 'label lookup'
+		-> 	Params = [OntName, OntLabel, Language], 
+			label_lookup(OntName, OntLabel, Language, OntTerm, Category),
+			tspl_actual_field(string, OntTerm, OntTermField),
+			tspl_actual_field(string, Category, CategoryField),
+			respond(Id, [OntTerm, OntTermField, CategoryField])
+		; true),
 	(Cmd == 'class info'
 		-> 	Params = [OntName, OntTerm], 
 			class_info(OntName, OntTerm, Instances, Superclasses, Subclasses),
@@ -177,10 +184,18 @@ labels(OntName, Language, Labels) :-
 	ont_connect(_, OntName, _),
 	string_length(Language, L),
 	L1 is L + 1,
+	L2 is L1 + 1,
 	string_concat('@', Language, LSuffix),
-	findall(Labels, (prdf(_, label, Label), sub_string(Label, _, L1, 0, LSuffix)), Labels).
+	findall(TrimmedLabel, (prdf(_, label, Label), sub_string(Label, _, L1, 0, LSuffix), sub_string(Label, 1, _, L2, TrimmedLabel)), Labels).
 
-
+% (<ID>:String, "onto":String, "label lookup":String, <OntName>:String, <OntLabel>:String, <Language>:String) -> (<ID>:String, <OntTerm>:String, <Category>:String)
+label_lookup(OntName, OntLabel, Language, OntTerm, Category) :-
+	ont_connect(_, OntName, _),
+	format(atom(Label), '"~w"@~w', [OntLabel, Language]),
+	prdf(OntTerm, label, Label),
+	lookup(OntName, OntTerm, Category).
+	
+	
 annotationproperty(Prop) :-
 	member(Prop, [comment, isdefinedby, label, seealso, versioninfo]).
 annotationproperty(Prop) :-
