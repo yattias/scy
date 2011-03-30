@@ -71,7 +71,7 @@ public class BasicMissionModel implements MissionModel
    @Override
    public URI getMissionMapInstructionUri()
    {
-      return missionModelEloContent.getMissionMapBackgroundImageUri();
+      return missionModelEloContent.getMissionMapInstructionUri();
    }
 
 	@Override
