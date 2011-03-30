@@ -46,6 +46,7 @@
 <missionModel>
   <activeLas>design</activeLas>
   <missionMapBackgroundImageUri>http://www.scy-lab.eu/content/en/mission3/pizzaBackground.fxz</missionMapBackgroundImageUri>
+  <missionMapButtonIconType>pizza</missionMapButtonIconType>
   <loElos />
   <lasses>
     <las>

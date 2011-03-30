@@ -46,6 +46,7 @@
 <missionModel>
   <activeLas>startPage</activeLas>
   <missionMapBackgroundImageUri>http://www.scy-lab.eu/content/en/mission2/ecoBackground.fxz</missionMapBackgroundImageUri>
+  <missionMapInstructionUri>http://www.scy-lab.eu/content/en/mission2/las_description_challenge.html</missionMapInstructionUri>
   <loElos>
     <eloUri>roolo://memory/20006/0/Glossary.url</eloUri>
   </loElos>
