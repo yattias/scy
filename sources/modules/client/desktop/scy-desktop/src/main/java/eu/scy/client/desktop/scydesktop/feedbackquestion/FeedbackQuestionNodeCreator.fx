@@ -7,8 +7,9 @@ import eu.scy.client.desktop.scydesktop.ScyDesktop;
 public class FeedbackQuestionNodeCreator extends ScyToolCreatorFX{
     public var scyDesktop:ScyDesktop;
     override public function createScyToolNode (eloType:String,creatorId:String, scyWindow:ScyWindow, windowContent:Boolean) : Node {
-        FeedbackQuestionNode{scyDesktop: scyDesktop}
-//        FeedbackQuestionNode{}
+        FeedbackQuestionNode{
+            scyDesktop: scyDesktop,
+            scyWindow: scyWindow
+        }
     }
-
 }
