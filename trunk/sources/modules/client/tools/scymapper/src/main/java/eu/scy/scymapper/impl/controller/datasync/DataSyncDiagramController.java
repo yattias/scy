@@ -46,6 +46,9 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 	 */
 	@Override
 	public void syncObjectAdded(ISyncObject syncObject) {
+            if(!syncObject.getToolname().equals("scymapper")) {
+                return;
+            }
 		logger.debug("SYNC OBJECT ADDED TO SESSION!!!");
 
 		String xml = syncObject.getProperty("initial");
@@ -136,7 +139,9 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 	 */
 	@Override
 	public void syncObjectChanged(final ISyncObject syncObject) {
-
+            if(!syncObject.getToolname().equals("scymapper")) {
+                    return;
+            }
 		String id = syncObject.getID();
 
 		if (id == null) {
@@ -167,7 +172,9 @@ public class DataSyncDiagramController extends DiagramController implements ISyn
 	 */
 	@Override
 	public void syncObjectRemoved(ISyncObject syncObject) {
-
+                if(!syncObject.getToolname().equals("scymapper")) {
+                    return;
+                }
 		String id = syncObject.getID();
 
 		logger.debug("Sync object for element id " + id + " deleted remotely!!");
