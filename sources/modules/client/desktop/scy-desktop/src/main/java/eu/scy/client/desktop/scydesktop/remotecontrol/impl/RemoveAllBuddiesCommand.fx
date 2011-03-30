@@ -25,7 +25,7 @@ public class RemoveAllBuddiesCommand extends ScyDesktopRemoteCommand {
         def awarenessService:IAwarenessService = bind scyDesktop.config.getToolBrokerAPI().getAwarenessService();
         def buddies = awarenessService.getBuddies();
         for(buddy in buddies){
-            def buddyname = (buddy as IAwarenessUser).getNickName();
+            def buddyname = (buddy as IAwarenessUser).getJid();
             awarenessService.removeBuddy(buddyname);
             logger.info("removed buddy with name {buddyname} from buddylist");
         }
