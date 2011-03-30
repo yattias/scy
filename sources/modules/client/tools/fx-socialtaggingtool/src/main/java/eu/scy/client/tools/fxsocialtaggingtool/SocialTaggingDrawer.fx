@@ -20,20 +20,21 @@ import javafx.geometry.VPos;
 import javafx.scene.layout.Flow;
 import javafx.scene.layout.Resizable;
 import javafx.scene.text.FontWeight;
-import javafx.scene.paint.Color;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Container;
 import javafx.geometry.Insets;
+import eu.scy.collaboration.api.CollaborationStartable;
 
 public class SocialTaggingDrawer
         extends
-        CustomNode, ScyToolFX, Resizable {
+        CustomNode, ScyToolFX, Resizable, CollaborationStartable {
 
     public var scyWindow: ScyWindow;
     def eloInterface = ELOInterface {
-                tbi: scyWindow.tbi;
-                eloUri: scyWindow.eloUri;
-            }
+        tbi: scyWindow.tbi;
+        eloUri: scyWindow.eloUri;
+        view: this;
+    }
     def currentUser = bind eloInterface.getCurrentUser();
     var tagGroup: Node;
     var mainBox: VBox;
@@ -141,9 +142,9 @@ public class SocialTaggingDrawer
                 }
     }
 
-    function updateTagLines(): Object[] {
-        def tags = eloInterface.getAllTags();
-        return tagLines = createTagLines(tags);
+    public function updateTagLines(): Void {
+        def tags : Tag[] = eloInterface.getAllTags();
+        tagLines = createTagLines(tags);
     }
 
 
@@ -154,17 +155,12 @@ public class SocialTaggingDrawer
                     // A better solution would have been to have this in a resource accessible from everywhere, but right now
                     // the information is private to WindowTitleBar.
                     // Just Subclassing it would have required extensive overriding, since WindowTitleBar contains elements like icons etc.
-                    def titleFontsize = 12;
-                    def textFont = Font.font("Verdana", FontWeight.BOLD, titleFontsize);
-                    //                    def mainColor = bind if (scyWindow.activated) scyWindow.windowColorScheme.mainColor else scyWindow.windowColorScheme.emptyBackgroundColor;
-                    def mainColor = Color.GRAY;
-                    def bgColor = bind if (scyWindow.activated) scyWindow.windowColorScheme.backgroundColor else scyWindow.windowColorScheme.mainColor;
-                    font: textFont
+                    font: Font.font("Verdana", FontWeight.BOLD, 12);
                     //textOrigin: TextOrigin.BOTTOM
                     //x: iconSize + textIconSpace+textInset
                     //y: iconSize-textInset
                     //clip: clipRect
-                    //fill: bind bgColor
+                    fill: scyWindow.windowColorScheme.mainColor
                     content: "Tags for this object"
                 }
 
@@ -251,7 +247,11 @@ public class SocialTaggingDrawer
         return 160;
     }
 
-   public override var width on replace { sizeChanged() };
+    public override function startCollaboration(mucId: String) : Void {
+        eloInterface.joinSession(mucId);
+    }
+
+    public override var width on replace { sizeChanged() };
    
-   public override var height on replace { sizeChanged() };
+    public override var height on replace { sizeChanged() };
 }
