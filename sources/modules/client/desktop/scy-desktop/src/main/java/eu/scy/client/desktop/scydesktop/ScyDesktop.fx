@@ -635,6 +635,20 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             (toolNode as CollaborationStartable).startCollaboration(mucId);
             window.isCollaborative = true;
       }
+      if (window.isCollaborative and window.topDrawerTool instanceof CollaborationStartable) {
+          (window.topDrawerTool as CollaborationStartable).startCollaboration(mucId);
+      }
+      if (window.isCollaborative and window.rightDrawerTool instanceof CollaborationStartable) {
+          (window.rightDrawerTool as CollaborationStartable).startCollaboration(mucId);
+      }
+      if (window.isCollaborative and window.bottomDrawerTool instanceof CollaborationStartable) {
+          (window.bottomDrawerTool as CollaborationStartable).startCollaboration(mucId);
+      }
+      for (leftDrawerTool in window.leftDrawerTools) {
+          if (window.isCollaborative and leftDrawerTool instanceof CollaborationStartable) {
+              (leftDrawerTool as CollaborationStartable).startCollaboration(mucId);
+          }
+      }
    }
 
 //    function fillNewScyWindowCollaborative(window: ScyWindow, mucid: String): Void {
@@ -667,36 +681,36 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             window: window;
             config: config
             missionRuntimeEloUri: missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri()
-         };
+      };
       if (not collaboration and eloConfig.isContentCollaboration()) {
          // currently, the content tool must be created on the first call, which is with collaboration false
          // otherwise the first set of tools are not informed of the elo load messages
          throw new IllegalStateException("the content tool may not be a collaboration only tool");
       }
-      if (eloConfig.isContentCollaboration() == collaboration) {
+//      if (eloConfig.isContentCollaboration() == collaboration) {
          scyToolsList.windowContentTool = scyToolFactory.createNewScyToolNode(eloConfig.getContentCreatorId(), window.eloType, window.eloUri, window, false);
-      }
-      if (eloConfig.isTopDrawerCollaboration() == collaboration) {
+//      }
+//      if (eloConfig.isTopDrawerCollaboration() == collaboration) {
          scyToolsList.topDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getTopDrawerCreatorId(), window.eloType, window.eloUri, window, true);
-      }
-      if (eloConfig.isRightDrawerCollaboration() == collaboration) {
+//      }
+      if (collaboration) {
          scyToolsList.rightDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getRightDrawerCreatorId(), window.eloType, window.eloUri, window, true);
       }
-      if (eloConfig.isBottomDrawerCollaboration() == collaboration) {
+//      if (eloConfig.isBottomDrawerCollaboration() == collaboration) {
          scyToolsList.bottomDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getBottomDrawerCreatorId(), window.eloType, window.eloUri, window, true);
-      }
-      if (eloConfig.isLeftDrawerCollaboration() == collaboration) {
-         if (eloConfig.getLeftDrawerCreatorId() != null) {
-            def creatorTokenizer = new StringTokenizer(eloConfig.getLeftDrawerCreatorId());
-            while (creatorTokenizer.hasMoreTokens()) {
+//      }
+//      if (eloConfig.isLeftDrawerCollaboration() == collaboration) {
+      if (eloConfig.getLeftDrawerCreatorId() != null) {
+        def creatorTokenizer = new StringTokenizer(eloConfig.getLeftDrawerCreatorId());
+        while (creatorTokenizer.hasMoreTokens()) {
 //               insert scyToolFactory.createNewScyToolNode(creatorTokenizer.nextToken(), window.eloType, window.eloUri, window, true) into scyToolsList.leftDrawerTools;
-               var leftDrawerCreatorId = creatorTokenizer.nextToken();
-               if (not leftDrawerCreatorId.equals("feedbackQuestion") or
-                   missionModelFX.getEloUris(false).contains(window.eloUri))
+           var leftDrawerCreatorId = creatorTokenizer.nextToken();
+           if (not leftDrawerCreatorId.equals("feedbackQuestion") or
+               missionModelFX.getEloUris(false).contains(window.eloUri))
                   insert scyToolFactory.createNewScyToolNode(leftDrawerCreatorId, window.eloType, window.eloUri, window, true) into scyToolsList.leftDrawerTools;
-            };
-         }
+        };
       }
+//      }
 
       // all tools are created and placed in the window
       // now do the ScyTool initialisation
@@ -750,27 +764,27 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
           }
           if (scyToolsList.topDrawerTool != null) {
              window.topDrawerTool = scyToolsList.topDrawerTool;
-             if (collaboration) {
-                window.openDrawer("top");
-             }
+         if (collaboration) {
+            window.openDrawer("top");
+         }
           }
           if (scyToolsList.rightDrawerTool != null) {
              window.rightDrawerTool = scyToolsList.rightDrawerTool;
-             if (collaboration) {
-                window.openDrawer("right");
-             }
+         if (collaboration) {
+            window.openDrawer("right");
+         }
           }
           if (scyToolsList.bottomDrawerTool != null) {
              window.bottomDrawerTool = scyToolsList.bottomDrawerTool;
-             if (collaboration) {
-                window.openDrawer("bottom");
-             }
+         if (collaboration) {
+            window.openDrawer("bottom");
+         }
           }
           if (scyToolsList.leftDrawerTools != null) {
              window.leftDrawerTools = scyToolsList.leftDrawerTools;
-             if (collaboration) {
-                window.openDrawer("left");
-             }
+         if (collaboration) {
+            window.openDrawer("left");
+         }
           }
       });
       // if the window content tool is defined, meaning a new or existing elo is loaded, report this
