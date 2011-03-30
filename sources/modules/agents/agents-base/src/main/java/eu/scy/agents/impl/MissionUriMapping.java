@@ -78,7 +78,7 @@ public class MissionUriMapping {
 			tupleSpace.write(tuple);
 			Tuple response = tupleSpace.waitToTake(new Tuple(
 					queryId.toString(), "roolo-response", String.class),
-					AgentProtocol.SECOND * 30);
+					AgentProtocol.SECOND * 10);
 			if (response == null) {
 				return;
 			}
