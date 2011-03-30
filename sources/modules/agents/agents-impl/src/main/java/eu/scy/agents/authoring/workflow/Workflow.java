@@ -21,4 +21,9 @@ public class Workflow implements Serializable {
 		workflowItems.put(item.getId(), item);
 	}
 
+	@Override
+	public String toString() {
+		return "Workflow [workflowItems=" + workflowItems + "]";
+	}
+
 }
