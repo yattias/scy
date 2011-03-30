@@ -414,7 +414,7 @@
   <eloToolConfig>
     <eloType>scy/image</eloType>
     <eloSystemRole>USER</eloSystemRole>
-    <contentCreatorId />
+    <contentCreatorId>image</contentCreatorId>
     <topDrawerCreatorId />
     <rightDrawerCreatorId />
     <bottomDrawerCreatorId />
