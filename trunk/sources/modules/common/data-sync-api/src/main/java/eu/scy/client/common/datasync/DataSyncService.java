@@ -176,6 +176,7 @@ public class DataSyncService implements IDataSyncService {
 		checkConnectionState();
 		if (sessionMap.containsKey(mucID) && sessionMap.get(mucID).isConnected()) {
                     ISyncSession session = sessionMap.get(mucID);
+                    session.addSyncListener(listener);
                     if (fetchState) {
                         session.fetchState(toolid);
                     }
@@ -185,7 +186,10 @@ public class DataSyncService implements IDataSyncService {
                     try {
                             muc.join(xmppConnection.getUser());
                             ISyncSession joinedSession = new SyncSession(xmppConnection, muc, listener);
-                            joinedSession.fetchState(toolid);
+                            sessionMap.put(mucID, joinedSession);
+                            if (fetchState) {
+                                joinedSession.fetchState(toolid);
+                            }
                             return joinedSession;
                     } catch (XMPPException e) {
                             throw new DataSyncException(e);
