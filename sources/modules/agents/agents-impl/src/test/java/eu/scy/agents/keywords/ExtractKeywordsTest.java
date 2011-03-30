@@ -30,7 +30,7 @@ public class ExtractKeywordsTest extends AbstractTestFixture {
 			"natural paints", "natural paint", "modern paints",
 			"chemical paints", "nontoxic", "ingredients", "paint companies",
 			"still contain", "Natural paints", "Environmentally Friendly",
-			"chemical", "toxic", "conventional paint companies",
+			"chemical", "toxic", "conventional paint companies", "natural",
 			"conventional paint", "pigment" };
 
 	@BeforeClass
