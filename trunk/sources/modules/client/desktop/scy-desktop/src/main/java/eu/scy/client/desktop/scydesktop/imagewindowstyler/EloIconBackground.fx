@@ -27,16 +27,16 @@ public class EloIconBackground extends CustomNode {
          content: [
             Rectangle {
                x: borderSize / 2, y: borderSize / 2
-               width: size - borderSize, height: size - cornerRadius - borderSize
+               width: bind size - borderSize, height: bind size - cornerRadius - borderSize
                fill: backgroundColor
             }
             Rectangle {
-               x: cornerRadius + borderSize / 2, y: size - cornerRadius - borderSize / 2
-               width: size - cornerRadius - borderSize, height: cornerRadius
+               x: cornerRadius + borderSize / 2, y: bind size - cornerRadius - borderSize / 2
+               width: bind size - cornerRadius - borderSize, height: cornerRadius
                fill: backgroundColor
             }
             Arc {
-               centerX: cornerRadius + borderSize / 2, centerY: size - cornerRadius - borderSize / 2
+               centerX: cornerRadius + borderSize / 2, centerY: bind size - cornerRadius - borderSize / 2
                radiusX: cornerRadius, radiusY: cornerRadius
                startAngle: 180, length: 90
                type: ArcType.ROUND

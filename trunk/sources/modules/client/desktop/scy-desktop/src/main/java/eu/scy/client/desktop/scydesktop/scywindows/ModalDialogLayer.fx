@@ -46,6 +46,12 @@ public function resize() : Void {
     modalDialogLayer.sceneSizeChanged();
 }
 
+public function addHiddenNode(node: Node): Void{
+   insert node into modalDialogLayer.hiddenNodes;
+   insert node into modalDialogLayer.modalDialogGroup.content
+}
+
+
 public class ModalDialogLayer extends CustomNode {
 
     def sceneWidth = bind scene.width;

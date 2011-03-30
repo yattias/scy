@@ -379,6 +379,8 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             tooltipManager: tooltipManager
             scyDesktop: this
             buttonSize:desktopButtonSize
+            moreInfoToolFactory: bind moreInfoToolFactory
+            moreInfoManager: moreInfoManager
          }
 
       topLeftCorner = TopLeftCorner {
