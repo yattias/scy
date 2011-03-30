@@ -7,6 +7,7 @@ public final class KeywordWorkflowConstants {
 	public static final String TFIDF_KEYWORDS = "TfIdfKeywords";
 	public static final String TM_KEYWORDS = "TMKeywords";
 	public static final String TOPIC_MODEL = "TopicModel";
+    public static final String KEYPHRASE_MODEL = "KeyPhraseModel";
     public static final String KEYPHRASES = "Keyphrases";
 	public static final String DOCUMENT_FREQUENCY_MODEL = "DocumentFrequencyModel";
 	public static final String DOCUMENT_FREQUENCY = "DocumentFrequency";
