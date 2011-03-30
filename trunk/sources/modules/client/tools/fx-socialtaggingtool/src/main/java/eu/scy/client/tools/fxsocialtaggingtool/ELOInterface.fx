@@ -9,14 +9,22 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.net.URI;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.metadata.keys.SocialTags;
-import java.util.Map;
 import roolo.elo.api.IMetadata;
+import eu.scy.client.common.datasync.ISyncListener;
+import eu.scy.common.datasync.ISyncObject;
+import eu.scy.client.common.datasync.ISyncSession;
+import eu.scy.common.datasync.SyncObject;
+import javafx.util.Sequences;
 
-public class ELOInterface {
+public class ELOInterface extends ISyncListener {
+
+    def tagComparator : TagComparator = TagComparator{};
 
     public-init var tbi: ToolBrokerAPI;
     public-init var eloUri: URI;
+    public-init var view: SocialTaggingDrawer;
     var elo: IELO;
+    var syncSession: ISyncSession;
     var socialtagsKey: IMetadataKey;
     def demoMode = false;
     var testTags = [
@@ -98,35 +106,10 @@ public class ELOInterface {
                     insert t into tags;
                 }
             }
-
-            return tags;
+            return Sequences.sort(tags, tagComparator);
         }
     }
 
-    /* Following two functions are commented for now.*/
-    /* It may not be necessary to be able to store tags that do not have a vote */
-    /* If the underlying SocialTags roolo implementation requires it these methods should be uncommented again */
-//    public function addTag(tag: Tag): Tag {
-//        var mvc = elo.getMetadata().getMetadataValueContainer(socialtagsKey);
-//        if (mvc.getValue() == null) {
-//            mvc.setValue(new SocialTags());
-//        }
-//        var st: SocialTags = mvc.getValue() as SocialTags;
-//        st.addSocialTag(tag.tagname, getCurrentUser());
-//        tbi.getRepository().updateELO(elo);
-//        return tag;
-//    }
-//
-//    public function removeTag(tag: Tag): Tag {
-//        var mvc = elo.getMetadata().getMetadataValueContainer(socialtagsKey);
-//        if (mvc.getValue() == null) {
-//            mvc.setValue(new SocialTags());
-//        }
-//        var st: SocialTags = mvc.getValue() as SocialTags;
-//        st.removeContributeFromTag(tag.tagname, getCurrentUser());
-//        tbi.getRepository().updateELO(elo);
-//        return tag;
-//    }
     public function addVoteForTag(like: Boolean, tag: Tag): Tag {
         /**
          * This is the central function to update tags
@@ -180,6 +163,10 @@ public class ELOInterface {
             }
             var userLikes = st.getLikingUsers(tag.tagname).contains(user);
             var userNotLikes = st.getUnlikingUsers(tag.tagname).contains(user);
+            var newTag = false;
+            if (not userLikes and not userNotLikes) {
+                newTag = true;
+            }
             if (userLikes and like) {
                 st.removeLikingUser(tag.tagname, user);
                 delete user from tag.ayevoters;
@@ -203,6 +190,20 @@ public class ELOInterface {
             elo.setMetadata(oldMetadata);
             var metadata: IMetadata = tbi.getRepository().updateELO(elo);
             elo.setMetadata(metadata);
+
+            if (syncSession != null and syncSession.isConnected()) {
+                var object : ISyncObject = new SyncObject();
+                object.setID("{tag.tagname}_{user}");
+                object.setToolname("socialtagging");
+                object.setProperty("tag", tag.tagname);
+                object.setProperty("user", user);
+                object.setProperty("like", Boolean.toString(like));
+                if (newTag) {
+                    syncSession.addSyncObject(object);
+                } else {
+                    syncSession.changeSyncObject(object);
+                }
+            }
             return tag;
         }
     }
@@ -219,6 +220,16 @@ public class ELOInterface {
             st.removeUnlikingUser(tag.tagname, getCurrentUser());
             var metadata: IMetadata = tbi.getRepository().updateELO(elo);
             elo.setMetadata(metadata);
+
+            if (syncSession != null and syncSession.isConnected()) {
+                var object : ISyncObject = new SyncObject();
+                object.setID("{tag.tagname}_{getCurrentUser()}");
+                object.setToolname("socialtagging");
+                object.setProperty("tag", tag.tagname);
+                object.setProperty("user", getCurrentUser());
+                syncSession.removeSyncObject(object);
+            }
+
             return tag;
         }
     }
@@ -228,6 +239,31 @@ public class ELOInterface {
                     tagname: string
                 }
         return this.addVoteForTag(like, tag);
+    }
+
+    public function joinSession(mucId:String) : Void {
+        syncSession = tbi.getDataSyncService().joinSession(mucId, this, "socialtagging");
+    }
+
+    override public function syncObjectRemoved (syncObject : ISyncObject) : Void {
+        if(not syncObject.getToolname().equals("socialtagging")) {
+            return;
+        }
+        FX.deferAction(view.updateTagLines);
+    }
+
+    override public function syncObjectChanged (syncObject : ISyncObject) : Void {
+        if(not syncObject.getToolname().equals("socialtagging")) {
+            return;
+        }
+        FX.deferAction(view.updateTagLines);
+    }
+
+    override public function syncObjectAdded (syncObject : ISyncObject) : Void {
+        if(not syncObject.getToolname().equals("socialtagging")) {
+            return;
+        }
+        FX.deferAction(view.updateTagLines);
     }
 
 }
