@@ -1,4 +1,9 @@
 :- consult('swat_rdf.pl').
+:- 	dynamic(agent_name/1),
+	dynamic(command_space/1),
+	dynamic(ts_host/1),
+	dynamic(ts_port/1),
+	dynamic(agent_id/1).
 
 agent_name('onto').
 command_space('command').
@@ -31,8 +36,8 @@ next_command(Cmd, Id, Params) :-
 	writeln(' found!'),
 	flush_output.
 
-field_values(element(tuple, _, Fields), FieldValues) :-
-	findall(FieldValue, (member(Field, Fields), field_value_(Field, FieldValue)), FieldValues).
+field_values(Tuple, FieldValues) :-
+	findall(FieldValue, tspl_tuple_field(Tuple, _, FieldValue), FieldValues).
 
 
 respond(Id, Params) :-
