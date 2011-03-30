@@ -8,10 +8,7 @@ package eu.scy.client.tools.fxcopex.registration;
 
 import java.net.URI;
 import javafx.scene.Group;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
 import javafx.scene.layout.Container;
@@ -44,8 +41,6 @@ import eu.scy.client.desktop.scydesktop.corners.elomanagement.ModalDialogNode;
 import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
-import javafx.animation.Timeline;
-import javafx.animation.KeyFrame;
 import roolo.elo.metadata.BasicMetadata;
 import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
 import eu.scy.common.scyelo.ScyElo;
@@ -82,25 +77,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
    var bundle:ResourceBundleWrapper;
 
    var notificationDialog: NotificationDialog;
-   var notificationButton: Button;
-   var notificationAnim = Timeline {
-    repeatCount: Timeline.INDEFINITE;
-    autoReverse: true;
-    keyFrames: [
-        KeyFrame {
-            time: 0s;
-            action: function():Void {
-                notificationButton.text = "!";
-            }
-        }
-        KeyFrame {
-            time: 0.5s;
-            action: function():Void {
-                notificationButton.text = "";
-            }
-        }
-    ]
-}
+   var copexTitleBarButtonManager:TitleBarButtonManager;
    def saveTitleBarButton = TitleBarButton {
               actionId: TitleBarButton.saveActionId
               action: doSaveElo
@@ -110,6 +87,12 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
               action: doSaveAsElo
            }
 
+   def notificationTitleBarButton = TitleBarButton {
+	  actionId: "notify"
+	  iconType: "information2"
+	  action: doNotify
+	  tooltip: getBundleString("FX-COPEX.TOOLTIP_NOTIFICATION");
+    }
 
    public override function initialize(windowContent: Boolean):Void{
        metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
@@ -122,10 +105,10 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
       scyCopexPanel.initActionLogger();
       scyCopexPanel.initCopex();
       //toolBrokerAPI.registerForNotifications(this as INotifiable);
-      notificationAnim.play();
    }
 
    public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
+      copexTitleBarButtonManager = titleBarButtonManager;
       if (windowContent) {
          titleBarButtonManager.titleBarButtons = [
                     saveTitleBarButton,
@@ -133,6 +116,22 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
                  ]
       }
    }
+
+   function addNotificationInTitleBar(){
+    copexTitleBarButtonManager.titleBarButtons = [
+                    saveTitleBarButton,
+                    saveAsTitleBarButton,
+                    notificationTitleBarButton
+                 ]
+   }
+
+   function removeNotificationInTitleBar(){
+    copexTitleBarButtonManager.titleBarButtons = [
+                    saveTitleBarButton,
+                    saveAsTitleBarButton
+                 ]
+   }
+
 
    public override function loadElo(uri:URI){
       doLoadElo(uri);
@@ -242,8 +241,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
         if (scyCopexPanel != null and note.getFirstProperty(CopexNotificationManager.keyMessage) != null) {
             success = true;
             logger.info("process notification, forwarding to copex");
-            notificationButton.visible = true;
-            notificationAnim.play();
+            addNotificationInTitleBar();
             FX.deferAction(function (): Void {
                 scyCopexPanel.processNotification(note);
             });
@@ -281,8 +279,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
 
     function cancelNotificationDialog(): Void {
         notificationDialog.modalDialogBox.close();
-        notificationAnim.stop();
-        notificationButton.text = "!";
+        removeNotificationInTitleBar();
         FX.deferAction(function () {
             scyCopexPanel.keepNotification(true);
         })
@@ -290,8 +287,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
 
     function okayNotificationDialog(): Void {
         notificationDialog.modalDialogBox.close();
-        notificationButton.visible = false;
-        notificationAnim.stop();
+        removeNotificationInTitleBar();
         FX.deferAction(function () {
             scyCopexPanel.keepNotification(false);
         })
