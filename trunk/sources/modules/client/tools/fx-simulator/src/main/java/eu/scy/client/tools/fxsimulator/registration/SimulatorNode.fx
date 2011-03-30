@@ -123,11 +123,11 @@ public class SimulatorNode
 	  tooltip: "save copy of ELO as dataset"
     }
 
-    var saveDatasetButton =
-	    Button {text: ##"SaveAs Dataset"
-	    action: function() {
-	    doSaveAsDataset();
-    }};
+//    var saveDatasetButton =
+//	    Button {text: ##"SaveAs Dataset"
+//	    action: function() {
+//	    doSaveAsDataset();
+//    }};
 
    public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
       if (windowContent) {
@@ -322,45 +322,46 @@ public class SimulatorNode
 
     public override  function  create ( ): Node {
         switchSwingDisplayComponent(simquestPanel);
-	return Group {
-            blocksMouse:true;
-            // cache: bind scyWindow.cache
-            content  : [
-            VBox {
-                    translateY:  spacing    ;
-                            spacing: spacing;
-                            content: [
-                                HBox {
-                                    translateX: spacing;
-                                    spacing: spacing;
-                                    content: [
-                                        Button {
-                                            text: ##"Save Simconfig"
-                                            action: function() {
-                                                doSaveSimconfig();
-                                            }
-                                        }
-                                        Button {
-                                            text: ##"SaveAs Simconfig"
-                                            action: function() {
-                                                doSaveAsSimconfig();
-                                            }
-                                        }
-					saveDatasetButton
-
-                                    /*Button {
-                                    text: "test thumbnail"
-                                    action: function () {
-                                    testThumbnail();
-                                    }
-                                    }*/
-                                    ]
-                                }
-                                simulatorContent
-                            ]
-                        }
-                    ]
-                };;
+	simulatorContent
+//	return Group {
+//            blocksMouse:true;
+//            // cache: bind scyWindow.cache
+//            content  : [
+//            VBox {
+//                    translateY:  spacing    ;
+//                            spacing: spacing;
+//                            content: [
+//                                HBox {
+//                                    translateX: spacing;
+//                                    spacing: spacing;
+//                                    content: [
+//                                        Button {
+//                                            text: ##"Save Simconfig"
+//                                            action: function() {
+//                                                doSaveSimconfig();
+//                                            }
+//                                        }
+//                                        Button {
+//                                            text: ##"SaveAs Simconfig"
+//                                            action: function() {
+//                                                doSaveAsSimconfig();
+//                                            }
+//                                        }
+//					saveDatasetButton
+//
+//                                    /*Button {
+//                                    text: "test thumbnail"
+//                                    action: function () {
+//                                    testThumbnail();
+//                                    }
+//                                    }*/
+//                                    ]
+//                                }
+//                                simulatorContent
+//                            ]
+//                        }
+//                    ]
+//                };;
     }
 
     function switchSwingDisplayComponent(newComponent: JComponent): Void {
@@ -462,21 +463,21 @@ public class SimulatorNode
 	if (simConfig.getMode().equals(MODE.explore_only)) {
 	    // only simulation is visible
 	    // datasets cannot be stored
-	    saveDatasetButton.visible = false;
+	    //saveDatasetButton.visible = false;
 	    saveAsDatasetTitleBarButton.enabled = false;
 	} else if (simConfig.getMode().equals(MODE.explore_simple_data)) {
 	    // only simulation is visible
 	    // saving a dataset = saving one row of selected variables
-	    saveDatasetButton.visible = true;
+	    //saveDatasetButton.visible = true;
 	    saveAsDatasetTitleBarButton.enabled = true;
 	} else if (simConfig.getMode().equals(MODE.collect_simple_data)) {
 	    // datacollector is visible, but not "select variables button"
 	    // uses pre-defined set of relevant variables
-	    saveDatasetButton.visible = true;
+	    //saveDatasetButton.visible = true;
 	    saveAsDatasetTitleBarButton.enabled = true;
 	} else if (simConfig.getMode().equals(MODE.collect_data)) {
 	    // full features
-	    saveDatasetButton.visible = true;
+	    //saveDatasetButton.visible = true;
     	    saveAsDatasetTitleBarButton.enabled = true;
 	}
     }
