@@ -252,6 +252,7 @@
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="scy/image"/>
                <property name="eloSystemRole" value="USER"/>
+               <property name="contentCreatorId" value="image"/>
             </bean>
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="scy/mathtool"/>
