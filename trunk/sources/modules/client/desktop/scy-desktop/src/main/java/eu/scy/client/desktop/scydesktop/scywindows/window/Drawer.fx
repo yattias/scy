@@ -8,20 +8,25 @@ package eu.scy.client.desktop.scydesktop.scywindows.window;
 import javafx.scene.CustomNode;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.Group;
-import javafx.scene.Parent;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Resizable;
-import javafx.util.Math;
-import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowContent;
-import eu.scy.client.desktop.scydesktop.scywindows.window.WindowResize;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
 import eu.scy.client.desktop.scydesktop.art.AnimationTiming;
 import javafx.animation.Interpolator;
 import javafx.scene.paint.Color;
+import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
+import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
+import eu.scy.client.desktop.scydesktop.tools.ScyTool;
+import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Resizable;
+import javafx.util.Math;
+import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
+import eu.scy.client.desktop.scydesktop.scywindows.window.OpenDrawerControl;
+import eu.scy.client.desktop.scydesktop.scywindows.window.WindowResize;
+import eu.scy.client.desktop.scydesktop.tools.ScyToolGetter;
 
 /**
  * @author sikkenj
@@ -30,6 +35,7 @@ import javafx.scene.paint.Color;
 public abstract class Drawer extends CustomNode {
 
    public var windowColorScheme: WindowColorScheme;
+   public var tooltipManager: TooltipManager;
    public var borderSize = 2.0;
    public var closedSize = 20.0;
    public var content: Node;
@@ -38,6 +44,7 @@ public abstract class Drawer extends CustomNode {
    public var handleNumber = 0;
    public var otherDrawers:Drawer[];
    public var controlLetter = "";
+   var contentLabel = ##"drawer";
    def sideContentBorder = 5.0;
    def topContentBorder = 5.0;
    def bottomContentBorder = 5.0;
@@ -98,6 +105,17 @@ public abstract class Drawer extends CustomNode {
       }
    var clipRectColor = Color.TRANSPARENT;
    var drawerCreated = false;
+   def resourceBundleWrapper = new ResourceBundleWrapper(this);
+   def openLabel = ##"open";
+   def closeLabel = ##"close";
+
+   function getLanguageValue(key: String, default: String): String{
+      def value = resourceBundleWrapper.getString(key);
+      if (value!=key){
+         return value;
+      }
+      return default
+   }
 
    function sizeChanged() {
       adjustClipRect();
@@ -148,7 +166,30 @@ public abstract class Drawer extends CustomNode {
    }
 
    function createElements(): Void {
+      var scyTool:ScyTool = null;
+      if (content instanceof ScyToolGetter){
+         scyTool = (content as ScyToolGetter).getScyTool();
+      }
+      else if (content instanceof ScyTool){
+         scyTool = (content as ScyTool)
+      }
+      if (scyTool!=null){
+         def drawerUIIndicator = scyTool.getDrawerUIIndicator();
+         if (drawerUIIndicator!=null){
+//            def resourceBundleWrapper = new ResourceBundleWrapper(this);
+//            controlLetter = drawerUIIndicator.toString().substring(0,1);
+//            contentLabel = drawerUIIndicator.toString();
+            controlLetter = getLanguageValue("drawer.{drawerUIIndicator.toString().toLowerCase()}.letter",controlLetter);
+            contentLabel = getLanguageValue("drawer.{drawerUIIndicator.toString().toLowerCase()}.label",contentLabel);
+         }
+         println("content: {content}, drawerUIIndicator:{drawerUIIndicator}, controlLetter: {controlLetter}, contentLabel: {contentLabel}");
+      }
+      else{
+         println("content is not a ScyTool: {content}");
+      }
+
       openCloseControl = OpenDrawerControl {
+            tooltipManager: tooltipManager
             windowColorScheme: windowColorScheme
             controlLetter:controlLetter
             size: closedSize
@@ -156,6 +197,7 @@ public abstract class Drawer extends CustomNode {
                opened = not opened;
             }
          }
+      setOpenCloseDrawerTooltip();
       if (content instanceof Parent) {
          (content as Parent).layout();
       }
@@ -206,7 +248,17 @@ public abstract class Drawer extends CustomNode {
       }
    }
 
+   function setOpenCloseDrawerTooltip():Void{
+      if (opened){
+         openCloseControl.tooltip = "{closeLabel} {contentLabel}";
+      }
+      else{
+         openCloseControl.tooltip = "{openLabel} {contentLabel}";
+      }
+   }
+
    function openCloseDrawer(): Void {
+      setOpenCloseDrawerTooltip();
       var openFactor = 0.0;
       var animationInterpolation = Interpolator.EASEBOTH;
       if (opened) {

@@ -11,6 +11,7 @@
 
 package eu.scy.client.desktop.scydesktop.tools.drawers.xmlviewer;
 
+import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
 import eu.scy.client.desktop.scydesktop.tools.RuntimeSettingsRetriever;
@@ -238,6 +239,12 @@ public class EloXmlViewer extends javax.swing.JPanel implements ScyTool, ScyTool
    public BufferedImage getThumbnail(int width, int height)
    {
       return null;
+   }
+
+   @Override
+   public DrawerUIIndicator getDrawerUIIndicator()
+   {
+      return DrawerUIIndicator.XML_VIEWER;
    }
 
 }

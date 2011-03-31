@@ -45,6 +45,7 @@ public class EloIconButton extends CustomNode, TooltipCreator {
    def enabledOpacity = 1.0;
    def disabledOpacity = 0.5;
    def lighterColorFactor = 0.5;
+   def overSizeFactor = 1.0;
 
    function newEloIcon(): Void {
       originalWindowColorScheme.assign(eloIcon.windowColorScheme);
@@ -155,11 +156,15 @@ public class EloIconButton extends CustomNode, TooltipCreator {
 
                  onMouseEntered: function(e: MouseEvent): Void {
                     mouseOver = true;
+                    eloIcon.size = overSizeFactor*size;
+                    eloIcon.translateY = (overSizeFactor-1)/2*size;
                     updateColors();
                     tooltipManager.onMouseEntered(e, this);
                  }
                  onMouseExited: function(e: MouseEvent): Void {
                     mouseOver = false;
+                    eloIcon.size = size;
+                    eloIcon.translateY = 0.0;
                     updateColors();
                     tooltipManager.onMouseExited(e);
                  }
