@@ -14,6 +14,7 @@ import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractThreadedAgent;
+import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 
 /**
@@ -67,7 +68,7 @@ public class PortfolioNotificator extends AbstractThreadedAgent {
 			this.eloAssesmentFinishedListenerId = this.getActionSpace()
 					.eventRegister(
 							Command.WRITE,
-							new Tuple(AgentProtocol.ACTION, String.class,
+							new Tuple(ActionConstants.ACTION, String.class,
 									Long.class, PORTFOLIO_ASSESS_VIEW_FINISHED,
 									String.class, SCY_ASSESSMENT_TOOL,
 									String.class, String.class, String.class,
@@ -81,8 +82,8 @@ public class PortfolioNotificator extends AbstractThreadedAgent {
 		try {
 			this.eloIsAssessedlistenerId = this.getActionSpace().eventRegister(
 					Command.WRITE,
-					new Tuple(AgentProtocol.ACTION, String.class, Long.class,
-							AgentProtocol.ACTION_TOOL_STARTED, String.class,
+					new Tuple(ActionConstants.ACTION, String.class, Long.class,
+							ActionConstants.ACTION_TOOL_STARTED, String.class,
 							SCY_ASSESSMENT_TOOL, String.class, String.class,
 							String.class, Field.createWildCardField()), this,
 					true);
@@ -96,7 +97,7 @@ public class PortfolioNotificator extends AbstractThreadedAgent {
 			this.eloAddedToPortfolioListener = this.getActionSpace()
 					.eventRegister(
 							Command.WRITE,
-							new Tuple(AgentProtocol.ACTION, String.class,
+							new Tuple(ActionConstants.ACTION, String.class,
 									Long.class,
 									EPORTFOLIO_SUBMITTED_FOR_ASSESSMENT,
 									String.class, SCY_EPORTFOLIO_TOOL,

@@ -19,6 +19,7 @@ import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractRequestAgent;
+import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 
 /**
@@ -91,7 +92,7 @@ public class UserLocationAgent extends AbstractRequestAgent {
 	}
 
 	private Tuple getActivationTuple() {
-		return new Tuple(AgentProtocol.ACTION, String.class, Long.class,
+		return new Tuple(ActionConstants.ACTION, String.class, Long.class,
 				String.class, String.class, String.class, String.class,
 				String.class, String.class, Field.createWildCardField());
 	}
@@ -131,15 +132,15 @@ public class UserLocationAgent extends AbstractRequestAgent {
 			IAction action = ActionTupleTransformer
 					.getActionFromTuple(activationTuple);
 			String type = action.getType();
-			if (type.equals(AgentProtocol.ACTION_TOOL_OPENED)) {
+			if (type.equals(ActionConstants.ACTION_TOOL_OPENED)) {
 				handleToolOpened(action);
-			} else if (type.equals(AgentProtocol.ACTION_TOOL_CLOSED)) {
+			} else if (type.equals(ActionConstants.ACTION_TOOL_CLOSED)) {
 				handleToolClosed(action);
-			} else if (type.equals(AgentProtocol.ACTION_LAS_CHANGED)) {
+			} else if (type.equals(ActionConstants.ACTION_LAS_CHANGED)) {
 				handleLasChanged(action);
-			} else if (type.equals(AgentProtocol.ACTION_LOG_IN)) {
+			} else if (type.equals(ActionConstants.ACTION_LOG_IN)) {
 				handleLogin(action);
-			} else if (type.equals(AgentProtocol.ACTION_LOG_OUT)) {
+			} else if (type.equals(ActionConstants.ACTION_LOG_OUT)) {
 				handleLogout(action);
 			}
 		} else if (requestListenerId == seq) {
