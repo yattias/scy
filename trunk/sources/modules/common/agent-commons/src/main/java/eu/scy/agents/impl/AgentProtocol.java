@@ -23,6 +23,7 @@ public final class AgentProtocol {
 
 	public static final String COMMAND_SPACE_NAME = "command";
 	public static final String ACTION_SPACE_NAME = "actions";
+	public static final String SESSION_SPACE_NAME = "session";
 
 	public static final String COMMAND_LINE = "agent command";
 	public static final String AGENT_PARAMETER_SET = "agent_parameter_set";
@@ -48,21 +49,6 @@ public final class AgentProtocol {
 	public enum ResonseType {
 		OK, ANSWER, ERROR;
 	}
-
-	public static final String ACTION = "action";
-	public static final String ACTION_ELO_SAVED = "elo_saved";
-	public static final String ACTION_ELO_LOADED = "elo_loaded";
-	public static final String ACTIONLOG_ELO_TYPE = "elo_type";
-	public static final String ACTIONLOG_ELO_URI = "elo_uri";
-	public static final String ACTIONLOG_OLD_URI = "old_uri";
-	public static final String ACTION_TOOL_STARTED = "tool_started";
-	public static final String ACTION_TOOL_OPENED = "tool_opened";
-	public static final String ACTION_TOOL_CLOSED = "tool_closed";
-	public static final String ACTION_NODE_ADDED = "node_added";
-	public static final String ACTION_NODE_REMOVED = "node_removed";
-	public static final String ACTION_LAS_CHANGED = "las_changed";
-	public static final String ACTION_LOG_IN = "log_in";
-	public static final Object ACTION_LOG_OUT = "log_out";
 
 	public static final String NOTIFICATION = "notification";
 
@@ -107,8 +93,8 @@ public final class AgentProtocol {
 	 * <QueryId>:String,<AgentName>:String, *:String)
 	 */
 	public static final Tuple LIST_PARAMETER_RESPONSE = new Tuple(
-			LIST_PARAMETERS, RESPONSE, String.class, String.class, Field
-					.createWildCardField());
+			LIST_PARAMETERS, RESPONSE, String.class, String.class,
+			Field.createWildCardField());
 
 	/**
 	 * ("agent_parameter_get","query", <QueryId>:String, <ParameterName>:String,
@@ -126,8 +112,8 @@ public final class AgentProtocol {
 	 */
 	public static final Tuple getParameterSetTupleTemplate(String agentName) {
 		return new Tuple(AgentProtocol.AGENT_PARAMETER_SET, agentName,
-				String.class, String.class, String.class, Field
-						.createWildCardField());
+				String.class, String.class, String.class,
+				Field.createWildCardField());
 	}
 
 	/**
@@ -157,16 +143,18 @@ public final class AgentProtocol {
 
 	public static Tuple getStartTuple(String agentId, String agentName,
 			VMID queryId) {
-		Tuple startTuple = new Tuple(AgentProtocol.COMMAND_LINE, queryId
-				.toString(), agentId, agentName, AgentProtocol.MESSAGE_START);
+		Tuple startTuple = new Tuple(AgentProtocol.COMMAND_LINE,
+				queryId.toString(), agentId, agentName,
+				AgentProtocol.MESSAGE_START);
 		startTuple.setExpiration(COMMAND_EXPIRATION);
 		return startTuple;
 	}
 
 	public static Tuple getStopTuple(String agentId, String agentName,
 			VMID queryId) {
-		Tuple stopTuple = new Tuple(AgentProtocol.COMMAND_LINE, queryId
-				.toString(), agentId, agentName, AgentProtocol.MESSAGE_STOP);
+		Tuple stopTuple = new Tuple(AgentProtocol.COMMAND_LINE,
+				queryId.toString(), agentId, agentName,
+				AgentProtocol.MESSAGE_STOP);
 		stopTuple.setExpiration(COMMAND_EXPIRATION);
 		return stopTuple;
 	}
@@ -180,8 +168,8 @@ public final class AgentProtocol {
 
 	public static Tuple getAliveTuple(String agentId, String agentName,
 			VMID queryId) {
-		Tuple aliveTuple = new Tuple(AgentProtocol.COMMAND_LINE, queryId
-				.toString(), agentId, agentName, AgentProtocol.ALIVE);
+		Tuple aliveTuple = new Tuple(AgentProtocol.COMMAND_LINE,
+				queryId.toString(), agentId, agentName, AgentProtocol.ALIVE);
 		aliveTuple.setExpiration(2 * ALIVE_INTERVAL);
 		return aliveTuple;
 	}
