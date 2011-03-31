@@ -31,10 +31,14 @@ import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.EloTypes;
-import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 import eu.scy.agents.roolo.rooloaccessor.RooloAccessorAgent;
+import eu.scy.agents.session.SessionAgent;
 
 public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
+
+	private static final String DUMMY_MISSION = "co2";
+
+	private static final String USER = "jeremy@scy.collide.info/Smack";
 
 	private static final int IDLE_TIME = 2000;
 
@@ -85,6 +89,8 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		this.agentMap.put(ExtractTfIdfKeywordsAgent.NAME, params);
 		this.agentMap.put(ExtractTopicModelKeywordsAgent.NAME, params);
 		this.agentMap.put(ExtractKeywordsDecisionMakerAgent.NAME, params);
+		this.agentMap.put(RooloAccessorAgent.NAME, params);
+		this.agentMap.put(SessionAgent.NAME, params);
 
 		params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
 		agentMap.put(RooloAccessorAgent.class.getName(), params);
@@ -118,12 +124,19 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 
 	@Test
 	public void testRun() throws InterruptedException, TupleSpaceException {
+		getActionSpace().write(
+				new Tuple(ActionConstants.ACTION, "ID", 122345L,
+						ActionConstants.ACTION_LOG_IN, USER, "scy-desktop",
+						MISSION1, "n/a", "balbal", "missionSpecification="
+								+ MISSION1, "language=en"));
+		Thread.sleep(1000);
+
 		this.sendWebresourcerStarted();
 		this.sendScyMapperStarted();
 		this.sendELoLoaded();
 
 		this.sendConceptAdded();
-		Thread.sleep(5000);
+		Thread.sleep(3000);
 
 		Tuple notificationTuple = this.getCommandSpace().waitToTake(
 				new Tuple(AgentProtocol.NOTIFICATION, String.class,
@@ -133,13 +146,12 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		assertNotNull("no notification received", notificationTuple);
 		assertEquals(AgentProtocol.NOTIFICATION, notificationTuple.getField(0)
 				.getValue());
-		assertEquals("jeremy@scy.collide.info/Smack", notificationTuple
-				.getField(2).getValue());
+		assertEquals(USER, notificationTuple.getField(2).getValue());
 		assertEquals("roolo://memory/1/0/Test.scymapper", notificationTuple
 				.getField(3).getValue());
 		assertEquals(ExtractKeywordsDecisionMakerAgent.class.getName(),
 				notificationTuple.getField(4).getValue());
-		assertEquals(MISSION1, notificationTuple.getField(5).getValue());
+		assertEquals(DUMMY_MISSION, notificationTuple.getField(5).getValue());
 		assertEquals("n/a", notificationTuple.getField(6).getValue());
 		assertEquals("type=concept_proposal", notificationTuple.getField(7)
 				.getValue());
@@ -187,8 +199,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		assertNotNull("no notification received", notificationTuple);
 		assertEquals(AgentProtocol.NOTIFICATION, notificationTuple.getField(0)
 				.getValue());
-		assertEquals("jeremy@scy.collide.info/Smack", notificationTuple
-				.getField(2).getValue());
+		assertEquals(USER, notificationTuple.getField(2).getValue());
 		assertEquals("roolo://memory/2/0/Test.scymapper", notificationTuple
 				.getField(3).getValue());
 		assertEquals(ExtractKeywordsDecisionMakerAgent.class.getName(),
@@ -218,8 +229,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		assertNotNull("no notification received", notificationTuple);
 		assertEquals(AgentProtocol.NOTIFICATION, notificationTuple.getField(0)
 				.getValue());
-		assertEquals("jeremy@scy.collide.info/Smack", notificationTuple
-				.getField(2).getValue());
+		assertEquals(USER, notificationTuple.getField(2).getValue());
 		assertEquals("roolo://memory/3/0/Test.scymapper", notificationTuple
 				.getField(3).getValue());
 		assertEquals(ExtractKeywordsDecisionMakerAgent.class.getName(),
@@ -263,8 +273,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		assertNotNull("no notification received", notificationTuple);
 		assertEquals(AgentProtocol.NOTIFICATION, notificationTuple.getField(0)
 				.getValue());
-		assertEquals("jeremy@scy.collide.info/Smack", notificationTuple
-				.getField(2).getValue());
+		assertEquals(USER, notificationTuple.getField(2).getValue());
 		assertEquals(eloPath, notificationTuple.getField(3).getValue());
 		assertEquals(ExtractKeywordsDecisionMakerAgent.class.getName(),
 				notificationTuple.getField(4).getValue());
@@ -293,8 +302,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 		assertNotNull("no notification received", notificationTuple);
 		assertEquals(AgentProtocol.NOTIFICATION, notificationTuple.getField(0)
 				.getValue());
-		assertEquals("jeremy@scy.collide.info/Smack", notificationTuple
-				.getField(2).getValue());
+		assertEquals(USER, notificationTuple.getField(2).getValue());
 		assertEquals(eloPath, notificationTuple.getField(3).getValue());
 		assertEquals(ExtractKeywordsDecisionMakerAgent.class.getName(),
 				notificationTuple.getField(4).getValue());
@@ -327,10 +335,9 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 			this.getActionSpace().write(
 					new Tuple(ActionConstants.ACTION, "id3", System
 							.currentTimeMillis(),
-							ActionConstants.ACTION_ELO_LOADED,
-							"jeremy@scy.collide.info/Smack",
+							ActionConstants.ACTION_ELO_LOADED, USER,
 							ExtractKeywordsDecisionMakerAgent.WEBRESOURCER,
-							MISSION1, "n/a", this.eloPath));
+							DUMMY_MISSION, "n/a", this.eloPath));
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
@@ -341,10 +348,9 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 			this.getActionSpace().write(
 					new Tuple(ActionConstants.ACTION, "id1", System
 							.currentTimeMillis(),
-							ActionConstants.ACTION_NODE_ADDED,
-							"jeremy@scy.collide.info/Smack",
+							ActionConstants.ACTION_NODE_ADDED, USER,
 							ExtractKeywordsDecisionMakerAgent.SCYMAPPER,
-							MISSION1, "n/a", this.eloPath, "id=111",
+							DUMMY_MISSION, "n/a", this.eloPath, "id=111",
 							"name=label"));
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
@@ -356,10 +362,9 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 			this.getActionSpace().write(
 					new Tuple(ActionConstants.ACTION, "id1", System
 							.currentTimeMillis(),
-							ActionConstants.ACTION_TOOL_STARTED,
-							"jeremy@scy.collide.info/Smack",
+							ActionConstants.ACTION_TOOL_STARTED, USER,
 							ExtractKeywordsDecisionMakerAgent.WEBRESOURCER,
-							MISSION1, "n/a", this.eloPath));
+							DUMMY_MISSION, "n/a", this.eloPath));
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
@@ -370,10 +375,9 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 			this.getActionSpace().write(
 					new Tuple(ActionConstants.ACTION, "id1", System
 							.currentTimeMillis(),
-							ActionConstants.ACTION_TOOL_STARTED,
-							"jeremy@scy.collide.info/Smack",
+							ActionConstants.ACTION_TOOL_STARTED, USER,
 							ExtractKeywordsDecisionMakerAgent.CONCEPTMAP,
-							MISSION1, "n/a",
+							DUMMY_MISSION, "n/a",
 							"roolo://memory/1/0/Test.scymapper"));
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();

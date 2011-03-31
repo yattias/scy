@@ -1,5 +1,8 @@
 package eu.scy.agents.keywords;
 
+import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleSpaceException;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -15,7 +18,12 @@ import eu.scy.agents.impl.AbstractELOSavedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.keywords.extractors.KeywordExtractor;
 import eu.scy.agents.keywords.extractors.KeywordExtractorFactory;
+import eu.scy.agents.session.SessionAgent;
+
 import java.util.ArrayList;
+
+import org.apache.log4j.Logger;
+
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.KeyValuePair;
 
@@ -24,6 +32,9 @@ public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
 
 	public final static String NAME = AddKeywordsToMetadataAgent.class
 			.getName();
+
+	private static final Logger LOGGER = Logger
+			.getLogger(AddKeywordsToMetadataAgent.class.getName());
 
 	private IMetadataTypeManager metadataTypeManager;
 
@@ -49,9 +60,14 @@ public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
 			return;
 		}
 
+		String missionForUser = getMission(user);
+		if (missionForUser == null) {
+			missionForUser = mission;
+		}
+
 		KeywordExtractorFactory factory = new KeywordExtractorFactory();
 		KeywordExtractor extractor = factory.getKeywordExtractor(eloType);
-		extractor.setMission(mission);
+		extractor.setMission(missionForUser);
 		extractor.setTupleSpace(getCommandSpace());
 		List<String> keywords = extractor.getKeywords(elo);
 		List<KeyValuePair> keywordsWithBoost = new ArrayList<KeyValuePair>();
@@ -84,6 +100,21 @@ public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
 			return repository.retrieveELO(new URI(eloUri));
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private String getMission(String user) {
+		try {
+			Tuple missionTuple = getSessionSpace()
+					.read(
+							new Tuple(SessionAgent.MISSION, String.class,
+									String.class));
+			if (missionTuple != null) {
+				return (String) missionTuple.getField(2).getValue();
+			}
+		} catch (TupleSpaceException e) {
+			LOGGER.warn(e.getMessage());
 		}
 		return null;
 	}

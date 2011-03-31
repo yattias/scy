@@ -106,15 +106,6 @@ public class AbstractTestFixture {
 		}
 	}
 
-	protected void removeTopicModel() {
-		// storage.remove(MISSION1, "en", TM_MODEL_NAME);
-	}
-
-	protected void removeDFModel() {
-		// storage.remove(MISSION1, "en",
-		// KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL);
-	}
-
 	protected IELO createNewElo() {
 		BasicELO elo = new BasicELO();
 		return elo;

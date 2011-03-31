@@ -29,6 +29,7 @@ import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.keywords.extractors.KeywordExtractor;
 import eu.scy.agents.keywords.extractors.WebresourceExtractor;
+import eu.scy.agents.session.SessionAgent;
 
 public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 		implements IRepositoryAgent {
@@ -161,18 +162,20 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 					.getActionFromTuple(afterTuple);
 			if (ActionConstants.ACTION_TOOL_STARTED.equals(action.getType())) {
 				this.handleToolStarted(action);
-			} else if (ActionConstants.ACTION_TOOL_OPENED
-					.equals(action.getType())) {
+			} else if (ActionConstants.ACTION_TOOL_OPENED.equals(action
+					.getType())) {
 				this.handleToolStarted(action);
-			} else if (ActionConstants.ACTION_NODE_ADDED.equals(action.getType())) {
+			} else if (ActionConstants.ACTION_NODE_ADDED.equals(action
+					.getType())) {
 				this.handleNodeAdded(action);
 			} else if (ActionConstants.ACTION_NODE_REMOVED.equals(action
 					.getType())) {
 				this.handleNodeRemoved(action);
-			} else if (ActionConstants.ACTION_TOOL_CLOSED
-					.equals(action.getType())) {
+			} else if (ActionConstants.ACTION_TOOL_CLOSED.equals(action
+					.getType())) {
 				this.handleToolStopped(action);
-			} else if (ActionConstants.ACTION_ELO_LOADED.equals(action.getType())) {
+			} else if (ActionConstants.ACTION_ELO_LOADED.equals(action
+					.getType())) {
 				this.handleELOLoaded(action);
 			}
 		}
@@ -339,7 +342,13 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 							+ " was null");
 					return;
 				}
-				extractor.setMission(contextInformation.mission);
+
+				String mission = getMission(user);
+				if (mission == null) {
+					mission = contextInformation.mission;
+				}
+
+				extractor.setMission(mission);
 				List<String> keywords = extractor.getKeywords(elo);
 
 				LOGGER.debug("found keywords to send to " + user + ": "
@@ -347,6 +356,20 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 				ExtractKeywordsDecisionMakerAgent.this.sendNotification(
 						contextInformation, keywords);
 				contextInformation.lastNotification = currentTime;
+			}
+
+			private String getMission(String user) {
+				try {
+					Tuple missionTuple = getSessionSpace()
+							.read(new Tuple(SessionAgent.MISSION, user,
+									String.class));
+					if (missionTuple != null) {
+						return (String) missionTuple.getField(2).getValue();
+					}
+				} catch (TupleSpaceException e) {
+					LOGGER.warn(e.getMessage());
+				}
+				return null;
 			}
 
 			private IELO getELO(final ContextInformation contextInformation) {

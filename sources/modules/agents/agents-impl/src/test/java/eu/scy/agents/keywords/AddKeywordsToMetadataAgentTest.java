@@ -2,6 +2,7 @@ package eu.scy.agents.keywords;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.io.IOException;
@@ -28,6 +29,8 @@ import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.EloTypes;
+import eu.scy.agents.roolo.rooloaccessor.RooloAccessorAgent;
+import eu.scy.agents.session.SessionAgent;
 import roolo.elo.metadata.keys.KeyValuePair;
 
 public class AddKeywordsToMetadataAgentTest extends AbstractTestFixture {
@@ -67,6 +70,9 @@ public class AddKeywordsToMetadataAgentTest extends AbstractTestFixture {
 		this.agentMap.put(ExtractTopicModelKeywordsAgent.NAME, params);
 		this.agentMap.put(ExtractKeyphrasesAgent.NAME, params);
 		this.agentMap.put(OntologyKeywordsAgent.NAME, params);
+		this.agentMap.put(RooloAccessorAgent.NAME, params);
+		this.agentMap.put(SessionAgent.NAME, params);
+
 		this.startAgentFramework(this.agentMap);
 
 		InputStream inStream = this.getClass().getResourceAsStream(
@@ -108,8 +114,6 @@ public class AddKeywordsToMetadataAgentTest extends AbstractTestFixture {
 	@After
 	public void tearDown() {
 		try {
-			removeTopicModel();
-			removeDFModel();
 			this.stopAgentFrameWork();
 			super.tearDown();
 		} catch (AgentLifecycleException e) {
@@ -122,9 +126,17 @@ public class AddKeywordsToMetadataAgentTest extends AbstractTestFixture {
 	public void testRun() throws InterruptedException, TupleSpaceException,
 			IOException {
 
-		addMetadataAgent.processELOSavedAction(ActionConstants.ACTION_ELO_SAVED,
-				UUID1234, TIME_IN_MILLIS, "copex", MISSION1, "TestSession",
-				copexEloPath, EloTypes.SCY_XPROC);
+		getActionSpace().write(
+				new Tuple(ActionConstants.ACTION, "ID", 122345L,
+						ActionConstants.ACTION_LOG_IN, UUID1234, "scy-desktop",
+						MISSION1, "n/a", copexEloPath, "missionSpecification="
+								+ MISSION1, "language=en"));
+
+		Thread.sleep(AgentProtocol.SECOND);
+		addMetadataAgent
+				.processELOSavedAction(ActionConstants.ACTION_ELO_SAVED,
+						UUID1234, TIME_IN_MILLIS, "copex", "co2",
+						"TestSession", copexEloPath, EloTypes.SCY_XPROC);
 
 		IELO retrievedELO = this.repository.retrieveELOLastVersion(copexEloUri);
 		IMetadata metadata = retrievedELO.getMetadata();
@@ -134,16 +146,16 @@ public class AddKeywordsToMetadataAgentTest extends AbstractTestFixture {
 				.getMetadataValueContainer(keywordKey);
 		List<KeyValuePair> keywords = (List<KeyValuePair>) metadataValueContainer
 				.getValueList();
-		assertEquals(14, keywords.size());
+		assertEquals(13, keywords.size());
 
-		assertTrue(hasKeywords(keywords, "transfers", "influence",
-				"atmosphere", "roughly", "stored", "finite", "human",
-				"fossil fuels", "balance", "carbon", "fossil", "fuels",
-				"release", "decay"));
+		assertTrue(hasKeywords(keywords, "transfers", "atmosphere", "roughly",
+				"stored", "finite", "human", "fossil fuels", "balance",
+				"carbon", "fossil", "fuels", "release", "decay"));
 
-		addMetadataAgent.processELOSavedAction(ActionConstants.ACTION_ELO_SAVED,
-				UUID1234, TIME_IN_MILLIS, "webresourcer", MISSION1,
-				"TestSession", webResourceEloPath, EloTypes.SCY_WEBRESOURCER);
+		addMetadataAgent.processELOSavedAction(
+				ActionConstants.ACTION_ELO_SAVED, UUID1234, TIME_IN_MILLIS,
+				"webresourcer", MISSION1, "TestSession", webResourceEloPath,
+				EloTypes.SCY_WEBRESOURCER);
 		retrievedELO = this.repository
 				.retrieveELOLastVersion(webResourceEloUri);
 		metadata = retrievedELO.getMetadata();
@@ -152,10 +164,11 @@ public class AddKeywordsToMetadataAgentTest extends AbstractTestFixture {
 		metadataValueContainer = metadata.getMetadataValueContainer(keywordKey);
 		keywords = (List<KeyValuePair>) metadataValueContainer.getValueList();
 		assertEquals(15, keywords.size());
-		assertTrue(hasKeywords(keywords, "concept", "development",
-				"ecological", "expressed", "carbon footprint", "strategy",
-				"ecological footprint", "footprint", "organization", "sneaked",
-				"carbon", "capture", "undertaking", "known", "assessment"));
+		assertTrue(hasKeywords(keywords, "ecological", "development",
+				"expressed", "carbon footprint", "strategy",
+				"ecological footprint", "footprint", "private", "organization",
+				"sneaked", "carbon", "capture", "undertaking", "known",
+				"assessment"));
 
 	}
 }

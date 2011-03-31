@@ -39,11 +39,13 @@ import eu.scy.agents.impl.AgentProtocol;
  */
 public class SessionAgent extends AbstractRequestAgent {
 
+	private static final String TOOL = "tool";
+
 	static final String LANGUAGE = "language";
 
 	private static final String LAS = "las";
 
-	private static final String MISSION = "mission";
+	public static final String MISSION = "mission";
 
 	public static final String METHOD_USERS_IN_LAS = "userInLas";
 	public static final String METHOD_USERS_IN_MISSION = "userInMission";
@@ -77,11 +79,10 @@ public class SessionAgent extends AbstractRequestAgent {
 	}
 
 	private Tuple getCommandTuple() {
-		// ("userInfoRequest","query", <QueryId>:String, <Mission>:String,
+		// ("userInfoRequest","query", <QueryId>:String,
 		// <Method>:String, <Parameter>:String)
 		return new Tuple(SessionAgent.USER_INFO_REQUEST, AgentProtocol.QUERY,
-				String.class, String.class, String.class,
-				Field.createWildCardField());
+				String.class, String.class, Field.createWildCardField());
 	}
 
 	private Tuple getActivationTuple() {
@@ -144,19 +145,15 @@ public class SessionAgent extends AbstractRequestAgent {
 				// <Method>:String, <Parameter>:String)
 				String queryId = (String) activationTuple.getField(2)
 						.getValue();
-				String mission = (String) activationTuple.getField(3)
+				String method = (String) activationTuple.getField(3).getValue();
+				String parameter = (String) activationTuple.getField(4)
 						.getValue();
-				String method = (String) activationTuple.getField(4).getValue();
-				String parameter = "";
-				if (activationTuple.numberOfFields() > 5) {
-					parameter = (String) activationTuple.getField(5).getValue();
-				}
 				if (METHOD_USERS_IN_LAS.equals(method)) {
-					handleCommandUsersInLas(queryId, mission, parameter);
+					handleCommandUsersInLas(queryId, parameter);
 				} else if (METHOD_GET_LAS.equals(method)) {
-					handleCommandLasForUser(queryId, mission, parameter);
+					handleCommandLasForUser(queryId, parameter);
 				} else if (METHOD_USERS_IN_MISSION.equals(method)) {
-					handleCommandUsersInMission(queryId, mission, parameter);
+					handleCommandUsersInMission(queryId, parameter);
 				} else {
 					LOGGER.debug("requested not existing method");
 				}
@@ -171,8 +168,7 @@ public class SessionAgent extends AbstractRequestAgent {
 		}
 	}
 
-	private void handleCommandUsersInMission(String queryId, String mission,
-			String parameter) {
+	private void handleCommandUsersInMission(String queryId, String mission) {
 		try {
 			Tuple[] tuples = getSessionSpace().readAll(
 					new Tuple(MISSION, String.class, mission));
@@ -188,8 +184,7 @@ public class SessionAgent extends AbstractRequestAgent {
 		}
 	}
 
-	private void handleCommandLasForUser(String queryId, String mission,
-			String user) {
+	private void handleCommandLasForUser(String queryId, String user) {
 		try {
 			Tuple lasTuple = getSessionSpace().read(
 					new Tuple(LAS, user, String.class));
@@ -206,8 +201,7 @@ public class SessionAgent extends AbstractRequestAgent {
 		}
 	}
 
-	private void handleCommandUsersInLas(String queryId, String mission,
-			String las) {
+	private void handleCommandUsersInLas(String queryId, String las) {
 
 		try {
 			Tuple[] lasTuples = getSessionSpace().readAll(
@@ -241,10 +235,8 @@ public class SessionAgent extends AbstractRequestAgent {
 		String user = action.getUser();
 
 		try {
-			getSessionSpace()
-.write(
-					new Tuple(LANGUAGE, user, action
-							.getAttribute(LANGUAGE)));
+			getSessionSpace().write(
+					new Tuple(LANGUAGE, user, action.getAttribute(LANGUAGE)));
 			getSessionSpace().write(
 					new Tuple(MISSION, user, action
 							.getAttribute("missionSpecification")));
@@ -288,7 +280,7 @@ public class SessionAgent extends AbstractRequestAgent {
 	private void handleToolClosed(IAction action) {
 		try {
 			getSessionSpace().delete(
-					new Tuple("tool", action.getUser(), action
+					new Tuple(TOOL, action.getUser(), action
 							.getContext(ContextConstants.tool)));
 		} catch (TupleSpaceException e) {
 			LOGGER.warn("", e);
@@ -298,7 +290,7 @@ public class SessionAgent extends AbstractRequestAgent {
 	private void handleToolOpened(IAction action) {
 		try {
 			getSessionSpace().write(
-					new Tuple("tool", action.getUser(), action
+					new Tuple(TOOL, action.getUser(), action
 							.getContext(ContextConstants.tool)));
 		} catch (TupleSpaceException e) {
 			LOGGER.warn("", e);
