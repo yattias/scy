@@ -5,7 +5,6 @@
 package eu.scy.client.tools.fxflyingsaucer;
 
 import eu.scy.client.common.scyi18n.UriLocalizer;
-import eu.scy.client.desktop.scydesktop.scywindows.ShowMoreInfo;
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
@@ -32,6 +31,7 @@ import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
 
 /**
  *
@@ -54,11 +54,13 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
    private List<EloSavedListener> eloSavedListeners = new CopyOnWriteArrayList<EloSavedListener>();
    private UriLocalizer uriLocalizer = new UriLocalizer();
    private UrlSource urlSource;
+   private DrawerUIIndicator drawerUIIndicator = null;
 
-   public EloFlyingSaucerPanel(UrlSource urlSource)
+   public EloFlyingSaucerPanel(UrlSource urlSource, DrawerUIIndicator drawerUIIndicator)
    {
       super(!(UrlSource.ASSIGNMENT == urlSource || UrlSource.RESOURCES == urlSource));
       this.urlSource = urlSource;
+      this.drawerUIIndicator = drawerUIIndicator;
       if (UrlSource.ASSIGNMENT == urlSource || UrlSource.RESOURCES == urlSource)
       {
          Dimension preferredSize = new Dimension(200, getPreferredSize().height);
@@ -129,6 +131,11 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
    @Override
    public void setRuntimeSettingsRetriever(RuntimeSettingsRetriever runtimeSettingsRetriever)
    {
+   }
+
+   @Override
+   public DrawerUIIndicator getDrawerUIIndicator(){
+      return drawerUIIndicator;
    }
 
    public void setHomeElo(URI uri)
