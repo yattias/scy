@@ -223,14 +223,6 @@ public class WindowTitleBarDouble extends WindowElement {
                        strokeWidth: borderWidth
                        stroke: bind windowColorScheme.mainColor
                     }
-                    titleBarButtons,
-                    titleBarBuddies,
-                    titleBarWindowAttributes,
-                    Group {
-                       layoutX: bind width - windowStateControls.layoutBounds.width - 2 * borderWidth
-                       layoutY: 2 * borderWidth + 1
-                       content: windowStateControls;
-                    }
                     Group {
                        layoutX: iconSize + textIconSpace
                        layoutY: borderDistance + borderWidth / 2
@@ -246,6 +238,14 @@ public class WindowTitleBarDouble extends WindowElement {
                                      content: bind title;
                                   },
                        ]
+                    }
+                    titleBarButtons,
+                    titleBarBuddies,
+                    titleBarWindowAttributes,
+                    Group {
+                       layoutX: bind width - windowStateControls.layoutBounds.width - 2 * borderWidth
+                       layoutY: 2 * borderWidth + 1
+                       content: windowStateControls;
                     }
                  //				Group{ // just for checking title clip
                  //					content:[

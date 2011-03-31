@@ -707,6 +707,7 @@ public class StandardScyWindow extends ScyWindow {
       if (topDrawerTool != null) {
          topDrawer = TopDrawer {
                windowColorScheme: windowColorScheme
+               tooltipManager: tooltipManager
                content: topDrawerTool;
                activated: bind activated;
                activate: activate;
@@ -731,6 +732,7 @@ public class StandardScyWindow extends ScyWindow {
       if (rightDrawerTool != null) {
          rightDrawer = RightDrawer {
                windowColorScheme: windowColorScheme
+               tooltipManager: tooltipManager
                content: rightDrawerTool;
                activated: bind activated;
                activate: activate;
@@ -756,6 +758,7 @@ public class StandardScyWindow extends ScyWindow {
          //println("new BottomDrawer with color {drawerColor}");
          bottomDrawer = BottomDrawer {
                windowColorScheme: windowColorScheme
+               tooltipManager: tooltipManager
                content: bottomDrawerTool;
                activated: bind activated;
                activate: activate;
@@ -786,6 +789,7 @@ public class StandardScyWindow extends ScyWindow {
             drawer = LeftDrawer {
                   //                  visible: bind scyElo.getAssignmentUri() != null
                   windowColorScheme: windowColorScheme
+                  tooltipManager: tooltipManager
                   content: drawerTool;
                   handleNumber: indexof drawerTool
                   activated: bind activated;

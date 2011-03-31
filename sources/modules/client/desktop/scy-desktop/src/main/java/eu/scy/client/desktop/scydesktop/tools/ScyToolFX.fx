@@ -84,4 +84,9 @@ public mixin class ScyToolFX extends ScyTool {
 
    public function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
    }
+
+   public override function getDrawerUIIndicator(): DrawerUIIndicator{
+      return null;
+   }
+
 }

@@ -20,12 +20,17 @@ import javafx.scene.Cursor;
 import eu.scy.client.desktop.scydesktop.art.ScyColors;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
+import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
+import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
+import eu.scy.client.desktop.scydesktop.tooltips.impl.TextTooltip;
 
 /**
  * @author sikken
  */
-public class OpenDrawerControl extends WindowActiveElement {
+public class OpenDrawerControl extends WindowActiveElement, TooltipCreator {
 
+   public var tooltipManager: TooltipManager;
+   public var tooltip: String;
    public-init var mainRadius = 5.0;
    public-init var secondRadius = 3.0;
    public-init var secondRadiusOffset = 6.5;
@@ -135,13 +140,25 @@ public class OpenDrawerControl extends WindowActiveElement {
          ]
          onMouseEntered: function (e: MouseEvent): Void {
             highLighted = true;
+            tooltipManager.onMouseEntered(e, this);
          }
          onMouseExited: function (e: MouseEvent): Void {
             highLighted = false;
+            tooltipManager.onMouseExited(e);
          }
       }
    }
 
+   public override function createTooltipNode(sourceNode: Node): Node {
+      if (tooltip != "") {
+         return TextTooltip {
+                    content: tooltip
+                    windowColorScheme: windowColorScheme
+                 }
+
+      }
+      return null;
+   }
 }
 
 function run() {

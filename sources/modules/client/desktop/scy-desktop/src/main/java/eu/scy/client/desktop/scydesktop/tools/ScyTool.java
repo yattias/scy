@@ -134,4 +134,13 @@ public interface ScyTool
     * @returns the thumbnail image
     */
    public BufferedImage getThumbnail(int width, int height);
+
+   /**
+    * this method returns the DrawerUIIndicator to specify indicator of the drawer GUI
+    *
+    * a null value, means no specific indicator is desired
+    *
+    * @returns the DrawerUIIndicator
+    */
+   public DrawerUIIndicator getDrawerUIIndicator();
 }

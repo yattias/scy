@@ -31,6 +31,7 @@ import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.VBox;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
+import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
 
 public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
 
@@ -164,6 +165,11 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
           questionAsked.visible = true;
       }
    }
+
+   public override function getDrawerUIIndicator(): DrawerUIIndicator{
+      return DrawerUIIndicator.FEEDBACK;
+   }
+
    function resizeContent(): Void{
       textBox.height = height-titleLabel.height-submitButton.height-2*spacing-10;
       textBox.width = width;

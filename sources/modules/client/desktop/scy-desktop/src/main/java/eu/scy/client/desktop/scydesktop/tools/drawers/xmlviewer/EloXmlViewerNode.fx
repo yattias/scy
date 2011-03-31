@@ -29,6 +29,7 @@ import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import roolo.elo.api.IELO;
 import eu.scy.common.scyelo.ScyElo;
 import java.lang.IllegalArgumentException;
+import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
 
 /**
  * @author SikkenJ
@@ -185,5 +186,8 @@ public class EloXmlViewerNode extends CustomNode, Resizable, ScyToolFX, EloSaver
       textBox.copy();
    }
 
+   public override function getDrawerUIIndicator(): DrawerUIIndicator{
+      return DrawerUIIndicator.XML_VIEWER;
+   }
 
 }

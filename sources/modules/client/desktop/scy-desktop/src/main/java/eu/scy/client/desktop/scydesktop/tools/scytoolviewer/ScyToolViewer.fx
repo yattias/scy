@@ -36,6 +36,7 @@ import javafx.util.Math;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoManager;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
+import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
 
 /**
  * @author sikken
@@ -233,6 +234,12 @@ public class ScyToolViewer extends CustomNode, Resizable, ScyToolFX {
    public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
       addMessage("setTitleBarButtonManager({titleBarButtonManager},{windowContent})");
    }
+
+   public override function getDrawerUIIndicator(): DrawerUIIndicator {
+      addMessage("getDrawerUIIndicator");
+      return DrawerUIIndicator.SCY_TOOL_VIEWER;
+   }
+
    function sizeChanged(): Void {
       Container.resizeNode(nodeBox, width, height);
    //      println("ScyToolViewer: size changed to {width}*{height}");
