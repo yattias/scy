@@ -27,8 +27,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import javafx.geometry.Insets;
 import javafx.util.Math;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
-import javafx.scene.layout.LayoutInfo;
-import javafx.scene.layout.Priority;
+import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
 
 /**
  * @author sikkenj
@@ -161,7 +160,11 @@ public class SocialTaggingToolNode extends CustomNode, Resizable, ScyToolFX, Elo
         this.elo = elo;
     }
 
-    function sizeChanged(): Void {
+   public override function getDrawerUIIndicator(): DrawerUIIndicator{
+      return DrawerUIIndicator.SOCIAL_TAGGING;
+   }
+
+   function sizeChanged(): Void {
         Container.resizeNode(nodeBox, width, height);
     }
 
