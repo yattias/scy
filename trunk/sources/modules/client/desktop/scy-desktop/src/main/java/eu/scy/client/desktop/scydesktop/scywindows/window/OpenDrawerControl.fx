@@ -23,6 +23,7 @@ import javafx.scene.text.Font;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.TextTooltip;
+import javafx.scene.text.TextOrigin;
 
 /**
  * @author sikken
@@ -34,16 +35,27 @@ public class OpenDrawerControl extends WindowActiveElement, TooltipCreator {
    public-init var mainRadius = 5.0;
    public-init var secondRadius = 3.0;
    public-init var secondRadiusOffset = 6.5;
-   public var controlLetter = "R";
+   public var controlLetter = "O";
    public var textRotate = 0;
 
    protected override var scaledTranslateXCorrection2 = 0;
    protected override var scaledTranslateYCorrection2 = 0;
 
+   var controlLetterText:Text;
+
+   function centerControlLetterText():Void{
+      def centerX = layoutBounds.minX + layoutBounds.width/2.0;
+      controlLetterText.layoutX = centerX - controlLetterText.layoutBounds.width/2.0;
+      def centerY = layoutBounds.minY + layoutBounds.height/2.0;
+      controlLetterText.layoutY = centerY - controlLetterText.layoutBounds.height/2.0;
+   }
+
+
    override public function create(): Node {
       def mainLineLength = size - 2 * mainRadius;
       def mainSeparation = borderWidth+4.0;
       def secondSeparation = borderWidth+2.0;
+      FX.deferAction(centerControlLetterText);
       Group {
          cursor: Cursor.HAND
          content: [
@@ -97,12 +109,12 @@ public class OpenDrawerControl extends WindowActiveElement, TooltipCreator {
                stroke: bind windowColorScheme.mainColor
                strokeWidth: borderWidth
             }
-            Text {
+            controlLetterText = Text {
                rotate: bind textRotate
+               textOrigin: TextOrigin.TOP
                font:Font{
                   size: 14
                }
-               x: 1.5, y: size/2+4
                content: controlLetter
                fill: bind windowColorScheme.mainColor
             }

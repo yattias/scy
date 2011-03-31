@@ -176,17 +176,14 @@ public abstract class Drawer extends CustomNode {
       if (scyTool!=null){
          def drawerUIIndicator = scyTool.getDrawerUIIndicator();
          if (drawerUIIndicator!=null){
-//            def resourceBundleWrapper = new ResourceBundleWrapper(this);
-//            controlLetter = drawerUIIndicator.toString().substring(0,1);
-//            contentLabel = drawerUIIndicator.toString();
             controlLetter = getLanguageValue("drawer.{drawerUIIndicator.toString().toLowerCase()}.letter",controlLetter);
             contentLabel = getLanguageValue("drawer.{drawerUIIndicator.toString().toLowerCase()}.label",contentLabel);
          }
-         println("content: {content}, drawerUIIndicator:{drawerUIIndicator}, controlLetter: {controlLetter}, contentLabel: {contentLabel}");
+//         println("content: {content}, drawerUIIndicator:{drawerUIIndicator}, controlLetter: {controlLetter}, contentLabel: {contentLabel}");
       }
-      else{
-         println("content is not a ScyTool: {content}");
-      }
+//      else{
+//         println("content is not a ScyTool: {content}");
+//      }
 
       openCloseControl = OpenDrawerControl {
             tooltipManager: tooltipManager
