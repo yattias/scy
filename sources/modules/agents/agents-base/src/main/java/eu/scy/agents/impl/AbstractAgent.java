@@ -18,6 +18,7 @@ public abstract class AbstractAgent implements IAgent {
 
 	private TupleSpace tupleSpace;
 	private TupleSpace actionSpace;
+	private TupleSpace sessionSpace;
 
 	private boolean runAutonomous;
 
@@ -133,6 +134,24 @@ public abstract class AbstractAgent implements IAgent {
 			}
 		}
 		return actionSpace;
+	}
+	
+	/**
+	 * Get an instance of the tuplespace.
+	 * 
+	 * @return The global instance of the tuple space.
+	 */
+	public TupleSpace getSessionSpace() {
+		if (tupleSpace == null) {
+			try {
+				tupleSpace = new TupleSpace(new User(getSimpleName()), host,
+						port, runAutonomous, false,
+						AgentProtocol.SESSION_SPACE_NAME);
+			} catch (TupleSpaceException e) {
+				e.printStackTrace();
+			}
+		}
+		return tupleSpace;
 	}
 
 	public String getSimpleName() {
