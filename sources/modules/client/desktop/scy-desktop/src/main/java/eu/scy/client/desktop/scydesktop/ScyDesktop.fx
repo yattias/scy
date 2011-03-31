@@ -101,6 +101,9 @@ import roolo.elo.api.IMetadata;
 import roolo.elo.api.IMetadataValueContainer;
 import eu.scy.common.mission.impl.BasicEloToolConfig;
 import eu.scy.client.desktop.scydesktop.uicontrols.EloIconButton;
+import eu.scy.actionlogging.api.IAction;
+import eu.scy.actionlogging.Action;
+import eu.scy.actionlogging.api.ContextConstants;
 
 /**
  * @author sikkenj
@@ -811,7 +814,20 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       println("Scy desktop is shutting down....");
       logger.info("Scy desktop is shutting down....");
       saveAll();
+      logLoggedOut();
       closeIfPossible(config.getToolBrokerAPI(), "tool broker");
+   }
+
+    function logLoggedOut(): Void {
+       def action: IAction = new Action();
+        action.setUser(missionRunConfigs.tbi.getLoginUserName());
+        action.setType("logged_out");
+        action.addContext(ContextConstants.tool, "scy-desktop");
+        action.addContext(ContextConstants.mission, missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString());
+        action.addContext(ContextConstants.session, "n/a");
+        action.addContext(ContextConstants.eloURI, "n/a");
+        missionRunConfigs.tbi.getActionLogger().log(action);
+	logger.info("logged logge_out-action: {action}");
    }
 
    function saveAll() {

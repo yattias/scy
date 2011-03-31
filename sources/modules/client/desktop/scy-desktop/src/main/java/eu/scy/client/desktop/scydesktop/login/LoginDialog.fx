@@ -37,6 +37,10 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import eu.scy.client.desktop.scydesktop.utils.XFX;
 import eu.scy.client.desktop.scydesktop.mission.MissionLocator;
 import eu.scy.client.desktop.scydesktop.art.javafx.LogoEloIcon;
+import eu.scy.actionlogging.Action;
+import eu.scy.actionlogging.api.ContextConstants;
+import eu.scy.actionlogging.api.IAction;
+import java.util.Locale;
 
 /**
  * @author sikken
@@ -260,10 +264,27 @@ public class LoginDialog extends CustomNode, TbiReady {
          stage.title = "{initialStageTitle} : {userName} in {missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getTitle()}{serverHostTitle}";
          FX.deferAction(function():Void{
                finishTbi(missionRunConfigs);
+	       logLoggedIn(missionRunConfigs);
                var scyDesktop = placeScyDesktop(missionRunConfigs);
             });
       });
    }
+
+   function logLoggedIn(missionRunConfigs: MissionRunConfigs): Void {
+       def action: IAction = new Action();
+        action.setUser(missionRunConfigs.tbi.getLoginUserName());
+        action.setType("logged_in");
+        action.addContext(ContextConstants.tool, "scy-desktop");
+        action.addContext(ContextConstants.mission, missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString());
+        action.addContext(ContextConstants.session, "n/a");
+        action.addContext(ContextConstants.eloURI, "n/a");
+	action.addAttribute("language", Locale.getDefault().toString());
+	action.addAttribute("missionSpecification", missionRunConfigs.tbi.getMissionSpecificationURI().toString());
+        action.addAttribute("missionName",  missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getTitle());
+        missionRunConfigs.tbi.getActionLogger().log(action);
+	logger.info("logged logged_in-action: {action}");
+   }
+
 
    function finishTbi(missionRunConfigs: MissionRunConfigs): Void {
       InjectObjectsUtils.injectObjectIfWantedJava(missionRunConfigs.tbi,URI.class,"missionRuntimeURI",missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUriFirstVersion());
