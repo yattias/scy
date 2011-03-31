@@ -17,6 +17,7 @@ import org.junit.Test;
 
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 
 public class UserLocationAgentTest extends AbstractTestFixture {
@@ -131,8 +132,8 @@ public class UserLocationAgentTest extends AbstractTestFixture {
 	}
 
 	private Tuple lasChangeTuple(String user, String las) {
-		return new Tuple(AgentProtocol.ACTION, new VMID().toString(), System
-				.currentTimeMillis(), AgentProtocol.ACTION_LAS_CHANGED, user,
+		return new Tuple(ActionConstants.ACTION, new VMID().toString(), System
+				.currentTimeMillis(), ActionConstants.ACTION_LAS_CHANGED, user,
 				"scymapper", MISSION1, "session1", "roolo://test/elo1",
 				"newLasId=" + las, "oldLasId=oldLas");
 	}
