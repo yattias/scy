@@ -68,7 +68,9 @@ public class ChatterNode extends CustomNode, Resizable, ScyToolFX, IChat {
         messageBox = TextBox {
             selectOnFocus: true;
             action:function():Void {
-                sendMessage();
+                if (messageBox.text.trim().length() != 0) {
+                    sendMessage();
+                }
             }
             layoutInfo: LayoutInfo {
                 hfill: true
@@ -96,6 +98,7 @@ public class ChatterNode extends CustomNode, Resizable, ScyToolFX, IChat {
                             action:function():Void {
                                 sendMessage();
                             }
+                            disable: bind messageBox.text.trim().length() == 0
                         }
                     ]
                     layoutInfo: LayoutInfo {
