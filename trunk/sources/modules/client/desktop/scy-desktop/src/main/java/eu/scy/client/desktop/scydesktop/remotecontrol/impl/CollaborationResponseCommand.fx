@@ -58,7 +58,7 @@ public class CollaborationResponseCommand extends ScyDesktopRemoteCommand {
                     eloUri: eloUri
                     eloIconName: "collaboration_denied"
                     title: "Collaboration request"
-                    message: "{proposingUserNickname} does not want to collaborate on ELO {eloUri}"
+                    message: "{proposedUserNickname} does not want to collaborate on ELO {eloUri}"
                     yesTitle: "Ok"
                 }
                 logger.debug("collaboration not accepted");
