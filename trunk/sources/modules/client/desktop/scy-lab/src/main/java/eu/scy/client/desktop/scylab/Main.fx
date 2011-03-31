@@ -26,7 +26,7 @@ import eu.scy.client.tools.fxflyingsaucer.registration.FlyingSaucerCreator;
 import eu.scy.client.tools.fxsocialtaggingtool.SocialTaggingDrawerCreator;
 
 import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentCreatorFX;
-import eu.scy.client.tools.fxchattool.registration.ChattoolPresenceDrawerContentCreatorFX;
+//import eu.scy.client.tools.fxchattool.registration.ChattoolPresenceDrawerContentCreatorFX;
 
 import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorScyToolContentCreator;
 import eu.scy.client.tools.interviewtool.InterviewToolContentCreator;
@@ -83,10 +83,8 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def scyModelId = "scy-dynamics";
    def scyFlyingSaucerId = "flying-saucer";
    def scyMapperId = "conceptmap";
-   def scyStudentPlanningTool = "studentplanningtool";
    def scyTextId = "text";
    def scychatId = "chat";
-   def scychatpresenceId = "presence";
    def scyInterviewId = "interview";
    def scyVideoId = "video";
    def scyWebresourceId = "webresource";
@@ -194,13 +192,6 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
                 chatControllerMap: chatControllerMap;
                 },
             scychatId);
-
-   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
-            ChattoolPresenceDrawerContentCreatorFX {
-                awarenessService: awarenessService;
-                chatControllerMap: chatControllerMap;
-            },
-            scychatpresenceId);
 
    var scyDesktop = scyDesktopCreator.createScyDesktop();
 
