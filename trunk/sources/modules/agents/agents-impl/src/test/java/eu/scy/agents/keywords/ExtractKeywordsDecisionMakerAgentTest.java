@@ -28,6 +28,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.content.BasicContent;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.EloTypes;
 import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
@@ -324,9 +325,9 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 	private void sendELoLoaded() {
 		try {
 			this.getActionSpace().write(
-					new Tuple(AgentProtocol.ACTION, "id3", System
+					new Tuple(ActionConstants.ACTION, "id3", System
 							.currentTimeMillis(),
-							AgentProtocol.ACTION_ELO_LOADED,
+							ActionConstants.ACTION_ELO_LOADED,
 							"jeremy@scy.collide.info/Smack",
 							ExtractKeywordsDecisionMakerAgent.WEBRESOURCER,
 							MISSION1, "n/a", this.eloPath));
@@ -338,9 +339,9 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 	private void sendConceptAdded() {
 		try {
 			this.getActionSpace().write(
-					new Tuple(AgentProtocol.ACTION, "id1", System
+					new Tuple(ActionConstants.ACTION, "id1", System
 							.currentTimeMillis(),
-							AgentProtocol.ACTION_NODE_ADDED,
+							ActionConstants.ACTION_NODE_ADDED,
 							"jeremy@scy.collide.info/Smack",
 							ExtractKeywordsDecisionMakerAgent.SCYMAPPER,
 							MISSION1, "n/a", this.eloPath, "id=111",
@@ -353,9 +354,9 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 	private void sendWebresourcerStarted() {
 		try {
 			this.getActionSpace().write(
-					new Tuple(AgentProtocol.ACTION, "id1", System
+					new Tuple(ActionConstants.ACTION, "id1", System
 							.currentTimeMillis(),
-							AgentProtocol.ACTION_TOOL_STARTED,
+							ActionConstants.ACTION_TOOL_STARTED,
 							"jeremy@scy.collide.info/Smack",
 							ExtractKeywordsDecisionMakerAgent.WEBRESOURCER,
 							MISSION1, "n/a", this.eloPath));
@@ -367,9 +368,9 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 	private void sendScyMapperStarted() {
 		try {
 			this.getActionSpace().write(
-					new Tuple(AgentProtocol.ACTION, "id1", System
+					new Tuple(ActionConstants.ACTION, "id1", System
 							.currentTimeMillis(),
-							AgentProtocol.ACTION_TOOL_STARTED,
+							ActionConstants.ACTION_TOOL_STARTED,
 							"jeremy@scy.collide.info/Smack",
 							ExtractKeywordsDecisionMakerAgent.CONCEPTMAP,
 							MISSION1, "n/a",

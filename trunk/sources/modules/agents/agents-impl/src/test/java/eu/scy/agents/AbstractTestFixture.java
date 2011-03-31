@@ -30,6 +30,7 @@ import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.KeyValuePair;
 import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.manager.AgentManager;
 
@@ -211,7 +212,7 @@ public class AbstractTestFixture {
 	protected Tuple getTestActionTuple(String eloUri, String type,
 			long currentTimeInMillis, String uuid) {
 		return new Tuple("action", uuid, currentTimeInMillis,
-				AgentProtocol.ACTION_ELO_SAVED, "testUser", "SomeTool",
+				ActionConstants.ACTION_ELO_SAVED, "testUser", "SomeTool",
 				"SomeMission", "TestSession", eloUri, "type=" + type);
 	}
 

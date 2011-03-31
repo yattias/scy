@@ -25,6 +25,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.content.BasicContent;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.EloTypes;
 import roolo.elo.metadata.keys.KeyValuePair;
@@ -121,7 +122,7 @@ public class AddKeywordsToMetadataAgentTest extends AbstractTestFixture {
 	public void testRun() throws InterruptedException, TupleSpaceException,
 			IOException {
 
-		addMetadataAgent.processELOSavedAction(AgentProtocol.ACTION_ELO_SAVED,
+		addMetadataAgent.processELOSavedAction(ActionConstants.ACTION_ELO_SAVED,
 				UUID1234, TIME_IN_MILLIS, "copex", MISSION1, "TestSession",
 				copexEloPath, EloTypes.SCY_XPROC);
 
@@ -140,7 +141,7 @@ public class AddKeywordsToMetadataAgentTest extends AbstractTestFixture {
 				"fossil fuels", "balance", "carbon", "fossil", "fuels",
 				"release", "decay"));
 
-		addMetadataAgent.processELOSavedAction(AgentProtocol.ACTION_ELO_SAVED,
+		addMetadataAgent.processELOSavedAction(ActionConstants.ACTION_ELO_SAVED,
 				UUID1234, TIME_IN_MILLIS, "webresourcer", MISSION1,
 				"TestSession", webResourceEloPath, EloTypes.SCY_WEBRESOURCER);
 		retrievedELO = this.repository

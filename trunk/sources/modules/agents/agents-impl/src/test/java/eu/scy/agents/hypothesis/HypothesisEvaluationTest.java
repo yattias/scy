@@ -27,6 +27,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.content.BasicContent;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.keywords.ExtractKeyphrasesAgent;
 import eu.scy.agents.keywords.ExtractKeywordsAgent;
@@ -114,7 +115,7 @@ public class HypothesisEvaluationTest extends AbstractTestFixture {
 	public void testRun() throws TupleSpaceException, IOException,
 			ClassNotFoundException {
 		Tuple tuple = new Tuple("action", UUID1234, TIME_IN_MILLIS,
-				AgentProtocol.ACTION_ELO_SAVED, "testUser", "SomeTool",
+				ActionConstants.ACTION_ELO_SAVED, "testUser", "SomeTool",
 				MISSION, "TestSession", eloPath, "elo_type=" + ELO_TYPE,
 				"elo_uri=" + eloPath);
 		getActionSpace().write(tuple);

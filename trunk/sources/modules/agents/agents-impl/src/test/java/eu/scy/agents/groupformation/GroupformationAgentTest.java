@@ -6,6 +6,7 @@ import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.general.UserLocationAgent;
 import eu.scy.agents.hypothesis.HypothesisEvaluationAgent;
+import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
@@ -72,8 +73,8 @@ public class GroupformationAgentTest extends AbstractTestFixture {
   }
 
   private Tuple lasChangeTuple(String user, String las, String oldLas) {
-    return new Tuple(AgentProtocol.ACTION, new VMID().toString(), System.currentTimeMillis(),
-                     AgentProtocol.ACTION_LAS_CHANGED, user, "scymapper", MISSION1, "session1",
+    return new Tuple(ActionConstants.ACTION, new VMID().toString(), System.currentTimeMillis(),
+                     ActionConstants.ACTION_LAS_CHANGED, user, "scymapper", MISSION1, "session1",
                      "roolo://memory/16/0/eco_reference_map.mapping", // change ELO URI to one from
                                                                       // local ELO store, like
                                                                       // roolo://memory/16/0/eco_reference_map.mapping
