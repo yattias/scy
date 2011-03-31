@@ -54,6 +54,7 @@ import eu.scy.client.tools.fxformauthor.FormAuthorContentCreator;
 import eu.scy.client.tools.fxyoutuber.YouTuberContentCreator;
 import eu.scy.client.desktop.scydesktop.feedbackquestion.FeedbackQuestionNodeCreator;
 import eu.scy.client.desktop.scydesktop.tools.colorscheme.ColorSchemeEditorCreator;
+import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
 
 /**
  * @author sikkenj
@@ -130,8 +131,8 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ScyDynamicsContentCreator {}, scyModelId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new FlyingSaucerCreator(), scyFlyingSaucerId);
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new FlyingSaucerCreator(UrlSource.ASSIGNMENT), scyFlyingSaucerAssignmentId);
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new FlyingSaucerCreator(UrlSource.RESOURCES), scyFlyingSaucerResourcesId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new FlyingSaucerCreator(UrlSource.ASSIGNMENT,DrawerUIIndicator.ASSIGNMENT), scyFlyingSaucerAssignmentId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new FlyingSaucerCreator(UrlSource.RESOURCES,DrawerUIIndicator.RESOURCES), scyFlyingSaucerResourcesId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TextEditorScyToolContentCreator {}, scyTextId);
 
