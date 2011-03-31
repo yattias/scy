@@ -24,6 +24,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Container;
 import javafx.geometry.Insets;
 import eu.scy.collaboration.api.CollaborationStartable;
+import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
 
 public class SocialTaggingDrawer
         extends
@@ -261,4 +262,8 @@ public class SocialTaggingDrawer
     public override var width on replace { sizeChanged() };
    
     public override var height on replace { sizeChanged() };
+
+   public override function getDrawerUIIndicator(): DrawerUIIndicator{
+      return DrawerUIIndicator.SOCIAL_TAGGING;
+   }
 }
