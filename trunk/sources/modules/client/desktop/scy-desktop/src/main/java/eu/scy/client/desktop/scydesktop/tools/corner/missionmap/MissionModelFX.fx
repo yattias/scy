@@ -131,7 +131,10 @@ public class MissionModelFX extends MissionModel {
       def action: IAction = new Action();
       action.setType("las_changed");
       action.setUser(tbi.getLoginUserName());
-      action.addContext(ContextConstants.tool, "scy-lab");
+      action.addContext(ContextConstants.tool, "scy-desktop");
+      action.addContext(ContextConstants.mission, scyDesktop.missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString());
+      action.addContext(ContextConstants.session, "n/a");
+      action.addContext(ContextConstants.eloURI, "n/a");
       action.addAttribute("oldLasId", oldLasId);
       action.addAttribute("newLasId", newLasId);
       tbi.getActionLogger().log(action);

@@ -32,7 +32,7 @@ public class ScyToolActionLogger extends CustomNode, ScyToolFX, EloSaverCallBack
     def actionLogger = config.getToolBrokerAPI().getActionLogger();
     def username = config.getToolBrokerAPI().getLoginUserName();
     def toolname = config.getEloToolConfig(window.eloType).getContentCreatorId();
-    def missionname = "mission 1";
+    //def missionname = "mission 1";
     def sessionname = "n/a";
     def logger = Logger.getLogger(this.getClass());
     def technicalFormatKey = config.getMetadataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
