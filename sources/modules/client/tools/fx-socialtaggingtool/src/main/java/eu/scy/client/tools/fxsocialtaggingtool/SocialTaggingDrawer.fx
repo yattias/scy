@@ -39,6 +39,7 @@ public class SocialTaggingDrawer
     var tagGroup: Node;
     var mainBox: VBox;
     var tagLines: Node[];
+    var newTagBox: TextBox;
     def spacing = 5.0;
 
 
@@ -173,7 +174,7 @@ public class SocialTaggingDrawer
                         hgrow: Priority.NEVER
                     }
                 }
-        def newTagBox = TextBox {
+        newTagBox = TextBox {
                     text: ""
                     selectOnFocus: true
                     font: Font {
@@ -181,6 +182,7 @@ public class SocialTaggingDrawer
                     tooltip: Tooltip {
                         text: "New tags can be entered here"
                     }
+                    action: addTag
                 }
 
         def newTagButton = Button {
@@ -189,11 +191,7 @@ public class SocialTaggingDrawer
                         text: "Adds a tag, and your vote for that tag"
                     }
                     disable: bind newTagBox.rawText==""
-                    action: function() {
-                        eloInterface.addVoteForString(true, newTagBox.text);
-                        this.updateTagLines();
-                        newTagBox.text = "";
-                    }
+                    action: addTag
                 }
 
         this.updateTagLines();
@@ -236,6 +234,13 @@ public class SocialTaggingDrawer
                ]
             };
     }
+    
+    function addTag() : Void {
+        eloInterface.addVoteForString(true, newTagBox.text);
+        this.updateTagLines();
+        newTagBox.text = "";
+    }
+    
 
     function sizeChanged(): Void {
       Container.resizeNode(mainBox, width, height);
