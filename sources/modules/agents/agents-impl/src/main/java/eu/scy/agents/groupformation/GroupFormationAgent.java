@@ -30,6 +30,7 @@ import eu.scy.agents.api.parameter.AgentParameter;
 import eu.scy.agents.general.UserLocationAgent;
 import eu.scy.agents.groupformation.cache.MissionGroupCache;
 import eu.scy.agents.impl.AbstractRequestAgent;
+import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 
 public class GroupFormationAgent extends AbstractRequestAgent implements
@@ -82,8 +83,8 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		 * return new Tuple(AgentProtocol.ACTION, String.class, Long.class,
 		 * FORM_GROUP, Field.createWildCardField());
 		 */
-		return new Tuple(AgentProtocol.ACTION, String.class, Long.class,
-				AgentProtocol.ACTION_LAS_CHANGED, Field.createWildCardField());
+		return new Tuple(ActionConstants.ACTION, String.class, Long.class,
+				ActionConstants.ACTION_LAS_CHANGED, Field.createWildCardField());
 	}
 
 	@Override

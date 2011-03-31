@@ -25,6 +25,7 @@ import eu.scy.actionlogging.api.IAction;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.impl.AbstractDecisionAgent;
+import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.keywords.extractors.KeywordExtractor;
 import eu.scy.agents.keywords.extractors.WebresourceExtractor;
@@ -143,7 +144,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 	}
 
 	private Tuple getActionTupleTemplate() {
-		return new Tuple(AgentProtocol.ACTION, String.class, Long.class,
+		return new Tuple(ActionConstants.ACTION, String.class, Long.class,
 				String.class, String.class, String.class, String.class,
 				String.class, String.class, Field.createWildCardField());
 	}
@@ -158,20 +159,20 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 		} else {
 			IAction action = ActionTupleTransformer
 					.getActionFromTuple(afterTuple);
-			if (AgentProtocol.ACTION_TOOL_STARTED.equals(action.getType())) {
+			if (ActionConstants.ACTION_TOOL_STARTED.equals(action.getType())) {
 				this.handleToolStarted(action);
-			} else if (AgentProtocol.ACTION_TOOL_OPENED
+			} else if (ActionConstants.ACTION_TOOL_OPENED
 					.equals(action.getType())) {
 				this.handleToolStarted(action);
-			} else if (AgentProtocol.ACTION_NODE_ADDED.equals(action.getType())) {
+			} else if (ActionConstants.ACTION_NODE_ADDED.equals(action.getType())) {
 				this.handleNodeAdded(action);
-			} else if (AgentProtocol.ACTION_NODE_REMOVED.equals(action
+			} else if (ActionConstants.ACTION_NODE_REMOVED.equals(action
 					.getType())) {
 				this.handleNodeRemoved(action);
-			} else if (AgentProtocol.ACTION_TOOL_CLOSED
+			} else if (ActionConstants.ACTION_TOOL_CLOSED
 					.equals(action.getType())) {
 				this.handleToolStopped(action);
-			} else if (AgentProtocol.ACTION_ELO_LOADED.equals(action.getType())) {
+			} else if (ActionConstants.ACTION_ELO_LOADED.equals(action.getType())) {
 				this.handleELOLoaded(action);
 			}
 		}

@@ -1,6 +1,7 @@
 package eu.scy.agents.roolo.elo.elobrowsernotification;
 
 import eu.scy.agents.impl.AbstractELOSavedAgent;
+import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.EloTypes;
 import info.collide.sqlspaces.commons.Tuple;
@@ -64,8 +65,8 @@ public class ELOHasBeenSavedAgent extends AbstractELOSavedAgent {
 
 		Tuple notificationTuple = new Tuple(AgentProtocol.NOTIFICATION,
 				new VMID().toString(), user, tool, NAME, mission, session,
-				AgentProtocol.ACTIONLOG_ELO_URI + "=" + eloUri,
-				AgentProtocol.ACTIONLOG_ELO_TYPE + "=" + eloType, TYPE);
+				ActionConstants.ACTIONLOG_ELO_URI + "=" + eloUri,
+				ActionConstants.ACTIONLOG_ELO_TYPE + "=" + eloType, TYPE);
 
 		try {
 			this.getCommandSpace().write(notificationTuple);

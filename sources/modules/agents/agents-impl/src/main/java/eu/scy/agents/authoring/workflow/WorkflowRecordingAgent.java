@@ -20,6 +20,7 @@ import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.authoring.workflow.paths.Path;
 import eu.scy.agents.impl.AbstractThreadedAgent;
+import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.AgentRooloServiceImpl;
 
@@ -61,8 +62,8 @@ public class WorkflowRecordingAgent extends AbstractThreadedAgent implements
 	}
 
 	private Tuple getTemplateTuple() {
-		return new Tuple(AgentProtocol.ACTION, String.class, Long.class,
-				AgentProtocol.ACTION_LAS_CHANGED, Field.createWildCardField());
+		return new Tuple(ActionConstants.ACTION, String.class, Long.class,
+				ActionConstants.ACTION_LAS_CHANGED, Field.createWildCardField());
 	}
 
 	@Override
