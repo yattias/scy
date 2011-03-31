@@ -3,7 +3,6 @@ package eu.scy.client.tools.fxchattool;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import eu.scy.client.tools.fxchattool.registration.ChattoolDrawerContentCreatorFX;
-import eu.scy.client.tools.fxchattool.registration.ChattoolPresenceDrawerContentCreatorFX;
 import java.util.logging.Logger;
 import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorScyToolContentCreator;
 import eu.scy.client.desktop.scydesktop.ScyDesktopCreator;
@@ -30,8 +29,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    logger.info("top of createScyDesktop");
 
    def scychatId = "chat";
-   def scychatpresenceId = "presence";
-    def scyTextId = "text";
+   def scyTextId = "text";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -50,17 +48,6 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
                 chatControllerMap: chatControllerMap;
                 },
             scychatId);
-            
-    scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
-            ChattoolPresenceDrawerContentCreatorFX {
-                awarenessService: awarenessService;
-                chatControllerMap: chatControllerMap;
-                toolBrokerAPI: missionRunConfigs.tbi;
-            },
-            scychatpresenceId);
-
-
- 
 
    var scyDesktop = scyDesktopCreator.createScyDesktop();
 
@@ -81,7 +68,7 @@ var scene: Scene;
 
 stage = Stage {
    title: "SCY desktop with chat"
-   width: 400
-   height: 300
+   width: 800
+   height: 600
 	scene: initializer.getScene(createScyDesktop);
 }

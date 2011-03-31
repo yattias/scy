@@ -98,11 +98,11 @@
 			<version>${pom.version}</version>
 		</dependency>
 
-		<dependency>
+		<!--dependency>
 			<groupId>eu.scy.client.tools</groupId>
 			<artifactId>chat-tool</artifactId>
 			<version>${pom.version}</version>
-		</dependency>
+		</dependency-->
 
 		<dependency>
 			<groupId>eu.scy.client.tools</groupId>
