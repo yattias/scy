@@ -1,4 +1,4 @@
-/*  $Id: tspl.pl,v 1.2 2010-06-29 15:09:51 weinbrenner Exp $
+/*  $Id: tspl.pl,v 1.4 2011-03-24 08:53:46 weinbrenner Exp $
  *  
  *  File       tspl.pl
  *  Part of    SQLSpaces
@@ -11,7 +11,7 @@
  *             Copyright (c) 2009  University of Twente
  *  
  *  History    29/06/09  (Created)
- *             05/03/10  (Last modified)
+ *             21/03/11  (Last modified)
  */ 
 
 
@@ -59,14 +59,14 @@
 
          tspl_get_all_spaces/2,     % TS -> Spaces
 	 
-	   tspl_transaction/2,        % TS x Transaction
+    	 tspl_transaction/2,        % TS x Transaction
 
          tspl_event_register/5,     % TS x Command x Query x CallBack x Seq
-         tspl_event_deregister/2    % TS x Seq
+         tspl_event_deregister/2,   % TS x Seq
+         tspl_replace_tuple_field/4
 
        ]).
 
-:- use_module(library('dialog/pretty_print')).
 /** <module> Prolog client library for SQLSpaces
 
 This module provides predicates to access an SQLSpaces server. The SQLSpaces are an implementation of the TupleSpaces concept. TupleSpaces are an elegant and easy way of creating distributed software systems that are robust and modular since they are loosely coupled. In addition to the original set of operations (in, out, rd) and to some typical features already known by other TupleSpaces implementations, SQLSpaces furthermore introduces some unique features like multi-language support, versioning, reverse structured naming and wildcard fields. This module allows programmers to connect, to define and execute read and write queries and to register for event notifications. More information on the SQLSpaces can be found at http://sqlspaces.collide.info .
@@ -426,7 +426,7 @@ For further conceptual or technical questions regarding the SQLSpaces or blackbo
 :- use_module(library('sgml_write')).
 :- use_module(library('memfile')).
 
-:- module_transparent                    % Anjo
+:- module_transparent
 	tspl_event_register/5.
 
 /*------------------------------------------------------------
@@ -467,7 +467,9 @@ tspl_connect_to_ts(Space, TS, Options) :-
 %       Disconnects from TS.
 
 tspl_disconnect(TS) :-
-        tcp_close_socket(TS).
+        uid(UID),
+        xml_to_string_([element(disconnect, [id=UID], [])], XMLString),
+        send_receive_xml_(XMLString, UID, _, TS).
 
 
 /*------------------------------------------------------------
@@ -527,6 +529,20 @@ tspl_wildcard_field(element(field, [fieldtype=wildcard], [])).
 
 tspl_tuple(Fields, element(tuple, [], Fields)).
 
+
+replace_member(LS,Index,Element,Res):-
+	replace_member(LS,Index,Element,0,Res).
+replace_member([],_,_,[]).
+replace_member([_|Rest],Index,Element,Count,[Element|Rest]):-
+	Index=:=Count,!.
+replace_member([First|Rest],Index,Element,Count,[First|Rest2]):-
+	Count2 is Count +1,
+	replace_member(Rest,Index,Element,Count2,Rest2).
+
+tspl_replace_tuple_field(element(tuple,_,Fields),Index,FieldVal,element(tuple,[],Fields2)):-
+    nonvar(FieldVal),
+    nonvar(Index),
+    replace_member(Fields,Index,FieldVal,Fields2).
 
 %%     tspl_tuple_field(+Tuple:xml, ?Nth0:int, -Value:any) is det.
 %
@@ -792,13 +808,13 @@ tspl_expiring_tuple(Fields, Exp, element(tuple, [expiration=Exp], Fields)).
 
 
 
-:- dynamic          % Anjo
+:- dynamic
      ts_writer_/2,
      ts_reader_/2,
-     callback/2,
+     callback/3,
      mqueue/2,
      tspl_ts_spacename_id/3,
-     responsethread/2.
+     mutex_name/2.
 
 uid(X) :-
         get_time(T1),
@@ -821,10 +837,12 @@ connect_ts_(LoginData, Host, Port, TS, SpaceId) :-
         asserta(ts_reader_(ReadFd, TS)),
         asserta(ts_writer_(WriteFd, TS)),
         uid(UID),
+	uid(Mutex),
+	mutex_create(Mutex),
+	assert(mutex_name(TS, Mutex)),
         message_queue_create(Q),
         assert(mqueue(Q, TS)),
-        thread_create(responsethread(TS), ThreadId, []),
-        assert(responsethread(TS, ThreadId)),
+        thread_create(responsethread(TS), _, []),
         xml_to_string_([element(connect, [id=UID], LoginData)], XMLConnect),
         send_receive_xml_(XMLConnect, UID, XMLResponse, TS),
         XMLResponse = [element(response, AttrList, [Tuple])],
@@ -863,7 +881,7 @@ tspl_transaction(TS, Action) :-
 %     ==
 
 tspl_event_register(TS, Command, Template, Callback, Seq) :-
-        context_module(Context),     % TBD -- Anjo
+        context_module(Context),
         uid(UID),
         xml_to_string_([element('event-register', [id=UID, command=Command], [element(after, [], [Template])])], XMLTrans),
         send_receive_xml_(XMLTrans, UID, XMLResponse, TS),
@@ -871,7 +889,7 @@ tspl_event_register(TS, Command, Template, Callback, Seq) :-
         memberchk(id=UID, AttrList),
         memberchk(type=answer, AttrList),
         tspl_tuple_field(Tuple, 0, Seq),
-        assert(tspl:callback(Seq, Context:Callback)).
+        assert(callback(Seq, TS, Context:Callback)).
 
 
 %%     tspl_event_deregister(+TS:any, +Seq:int) is det.
@@ -885,7 +903,8 @@ tspl_event_deregister(TS, Seq) :-
         send_receive_xml_(XMLTrans, UID, XMLResponse, TS),
         XMLResponse = [element(response, AttrList, [])],
         memberchk(id=UID, AttrList),
-        memberchk(type=ok, AttrList).
+        memberchk(type=ok, AttrList),
+        retract(callback(Seq, TS, _)).
 
 field_value_(element(field, Attr, _), _) :-
 	memberchk(fieldtype=formal, Attr), !.
@@ -930,8 +949,7 @@ produce_timed_response(UID, TimeOut, TS) :-
 	;   true
 	).
 
-
-/*	Slightly ackward because parse_query_/2 can be called with
+/*	Slightly akward because parse_query_/2 can be called with
 	a list and a single query.
  */	
 parse_query_([], []).
@@ -968,9 +986,12 @@ parse_query_(element(tuple, Attr, Fields), element(tuple, Attr, Fields)).
 send_receive_xml_(XMLString, UID, XMLResponse, TS) :-
         mqueue(Q, TS),
         ts_writer_(WriteFd, TS),
-        write(WriteFd, XMLString),
-        nl(WriteFd),
-        flush_output(WriteFd), 
+        mutex_name(TS, Mutex),
+        with_mutex(Mutex, (
+	      write(WriteFd, XMLString),
+	      nl(WriteFd),
+	      flush_output(WriteFd))
+	    ),
         % TODO: ADD TIMEOUT SO THAT A NON RESPONSIVE SERVER WILL NOT LEAD TO FREEZE, BUT TO A CLEAN ERROR MESSAGE
         thread_get_message(Q, event(UID, XMLResponse)).
 
@@ -992,13 +1013,24 @@ xml_to_string_(XML, String) :-
         free_memory_file(MemFile).
 
 
+callback_handler(Q) :-
+	repeat,
+	thread_get_message(Q, CbCall),
+	(
+	  CbCall == [] ;
+	  thread_create(call(CbCall), _, [detached(true)]),
+	  fail
+	),
+	message_queue_destroy(Q).
+
 responsethread(TS) :-
         mqueue(Q, TS),
+        message_queue_create(CallbackQ, [max_size(1024)]),
+        thread_create(callback_handler(CallbackQ), _, [detached(true)]),
         ts_reader_(ReadFd, TS),
         repeat,
         read_line_to_codes(ReadFd, Codes),
-	(   Codes == end_of_file, !,
-	    writeln('Server closed the socket, exiting!')
+	(   Codes == end_of_file, !
 	;   string_to_list(Response, Codes),
 	    xml_to_string_(XMLResponse, Response),
 	    XMLResponse = [El|_],
@@ -1011,70 +1043,21 @@ responsethread(TS) :-
 		term_to_atom(SEQ, SEQAtom),
 		memberchk(element(after, _, AfterCommand), Children),
 		memberchk(element(before, _, BeforeCommand), Children), 
-		callback(SEQ, Context:Call),			% Anjo
+		callback(SEQ, TS, Call),
 		CbCall =.. [Call, Cmd, SEQ, BeforeCommand, AfterCommand],
-		thread_create(Context:call(CbCall), _, [])	% Anjo
+		thread_send_message(CallbackQ, CbCall)
 	    ),
 	    fail
-	).
-
-/*  Original version
-responsethread(TS) :-
-        mqueue(Q, TS),
-        ts_reader_(ReadFd, TS),
-        repeat,
-        read_line_to_codes(ReadFd, Codes),
-        string_to_list(Response, Codes),
-        (
-          (
-               Codes == end_of_file, !,
-               writeln('Server closed the socket, exiting!'),
-               Finish = true
-          );(
-               xml_to_string_(XMLResponse, Response),
-               XMLResponse = [El|_],
-               (
-                    (
-                         El = element(response, _, _), 
-                         xml_attribute_value_(El, id, UID), 
-                         thread_send_message(Q, event(UID, XMLResponse))
-                    );(
-                         El = element(callback, _, Children), 
-                         xml_attribute_value_(El, seq, SEQAtom),
-                         xml_attribute_value_(El, command, Cmd),
-                         term_to_atom(SEQ, SEQAtom),
-                         memberchk(element(after, _, AfterCommand), Children),
-                         memberchk(element(before, _, BeforeCommand), Children), 
-                         callback(SEQ, Context:Call),               % Anjo
-                         CbCall =.. [Call, Cmd, SEQ, BeforeCommand, AfterCommand],
-                         thread_create(Context:call(CbCall), _, [])     % Anjo
-                    )
-               ),
-               Finish = false
-          )
-        ),
-        Finish == true.
-*/
-
+	),
+	retract(mqueue(Q, TS)),
+	retract(mutex_name(TS, Mutex)),
+        retract(ts_writer_(_, TS)),
+	retract(ts_reader_(_, TS)),
+        retractall(callback(_, TS, _)),
+	message_queue_destroy(Q),
+	mutex_destroy(Mutex),
+	thread_send_message(CallbackQ, []),
+	tcp_close_socket(TS).
 
 xml_attribute_value_(element(_,AttrList,_), Attr, Value) :-
 	memberchk(Attr=Value, AttrList).
-
-
-/*	Orig
-xml_attribute_value_(element(_, AttrList, _), Attr, Value) :-
-  format('AttrList: ~q~n', [AttrList]),
-        search_attr_(AttrList, Attr, ValueStr),
-        term_to_atom(Value, ValueStr).
-
-%search_attr_([], _, _) :-
-%        fail.
-search_attr_([Head|_], Attr, Val) :-
-        string_concat(Attr, '=', S),
-        term_to_atom(Head, StrHead),
-        sub_string(StrHead, 0, L, _, S),
-        sub_string(StrHead, L, _, 0, StrVal),
-        string_to_atom(StrVal, Val), !.
-search_attr_([_|Rest], Attr, Val) :-
-        search_attr_(Rest, Attr, Val).
-*/
