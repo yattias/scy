@@ -108,7 +108,7 @@ public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
 		try {
 			Tuple missionTuple = getSessionSpace()
 					.read(
-							new Tuple(SessionAgent.MISSION, String.class,
+							new Tuple(SessionAgent.MISSION, user,
 									String.class));
 			if (missionTuple != null) {
 				return (String) missionTuple.getField(2).getValue();

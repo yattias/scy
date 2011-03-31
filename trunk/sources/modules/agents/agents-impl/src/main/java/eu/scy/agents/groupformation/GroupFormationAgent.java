@@ -210,9 +210,8 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 
 	private String getMission(String user) {
 		try {
-			Tuple missionTuple = getSessionSpace()
-					.read(new Tuple(SessionAgent.MISSION, String.class,
-							String.class));
+			Tuple missionTuple = getSessionSpace().read(
+					new Tuple(SessionAgent.MISSION, user, String.class));
 			if (missionTuple != null) {
 				return (String) missionTuple.getField(2).getValue();
 			}
