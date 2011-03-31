@@ -36,6 +36,13 @@ public interface ChatController {
 	 */
 	public abstract void sendMessage(final String ELOUri, final String message);
 
+        /**
+	 * Send a Message
+	 *
+	 * @param message
+	 */
+	public abstract void sendMessage(final String message);
+
 	/**
 	 * for OOO sends a message to the recipient
 	 * 
@@ -59,11 +66,18 @@ public interface ChatController {
 	public abstract void removeBuddy(final AwarenessUser user);
 
 	/**
-	 * register chat are to recieve updates
+	 * register chat area to recieve updates
 	 * 
 	 * @param chatArea
 	 */
 	public abstract void registerChatArea(final JTextArea chatArea);
+
+        /**
+	 * register chat to recieve updates
+	 *
+	 * @param chatArea
+	 */
+	public abstract void registerChat(IChat chat);
 
 	/**
 	 * connect to a room specificed in the constructor
