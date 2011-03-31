@@ -18,7 +18,6 @@ import javafx.scene.paint.Color;
 import eu.scy.chat.controller.ChatController;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
-import eu.scy.chat.controller.IChat;
 import javafx.scene.layout.LayoutInfo;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Container;
@@ -27,6 +26,8 @@ import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.geometry.HPos;
+import eu.scy.chat.controller.IChat;
+import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
 
 /**
  * @author pg
@@ -124,6 +125,10 @@ public class ChatterNode extends CustomNode, Resizable, ScyToolFX, IChat {
     override function getPrefHeight(width:Number):Number {
         return 300;
     }
+
+   public override function getDrawerUIIndicator(): DrawerUIIndicator{
+      return DrawerUIIndicator.CHAT;
+   }
 
     function sizeChanged(): Void {
       Container.resizeNode(content, width, height);
