@@ -11,8 +11,6 @@ import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import java.net.URI;
 
-import eu.scy.client.tools.chattool.ChatPanel;
-
 import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorFX;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.chat.controller.ChatController;
@@ -38,7 +36,6 @@ public class ChattoolDrawerContentCreatorFX extends DrawerContentCreatorFX {
          return createChatToolNode(scyWindow,eloUri);
     }
 
-    public var node:Node;
     public var awarenessService:IAwarenessService;
     public var chatController:ChatController;
     public var eloId:String;
@@ -47,7 +44,7 @@ public class ChattoolDrawerContentCreatorFX extends DrawerContentCreatorFX {
     public var metadataTypeManager: IMetadataTypeManager;
     public var toolBrokerAPI: ToolBrokerAPI;
 
-    function createChatToolNode(scyWindow:ScyWindow,eloUri:URI):ChatToolNode {
+    function createChatToolNode(scyWindow:ScyWindow,eloUri:URI) : Node {
         
         if(eloUri != null) {
             var metadataFirstVersion = repository.retrieveMetadataFirstVersion(eloUri);
@@ -60,24 +57,19 @@ public class ChattoolDrawerContentCreatorFX extends DrawerContentCreatorFX {
             s = StringUtils.remove(s, "/");
             s = StringUtils.remove(s, ".");
             s = StringUtils.remove(s, ":");
-            var chatTool;
-            var controller = chatControllerMap.get(s) as ChatController;
+            chatController = chatControllerMap.get(s) as ChatController;
 
-            if( controller != null ) {
-                chatTool = new ChatPanel(controller);
-            } else {
-                var chatController = new MUCChatController(awarenessService, s);
+            if( chatController == null ) {
+                chatController = new MUCChatController(awarenessService, s);
                 chatControllerMap.put(s, chatController);
-                chatTool = new ChatPanel(chatController);
-            }
-
-            //or go random
-            //String token = Long.toString(Math.abs(r.nextLong()), 36);
-
-
-            return ChatToolNode{
-                chatTool:chatTool;
-            }
+            } 
+            def chattool = ChatterNode{
+                chatController: chatController
+                scyWindow: scyWindow
+            };
+            chatController.registerChat(chattool);
+            chatController.connectToRoom();
+            return chattool;
         }
         else {
             return null;

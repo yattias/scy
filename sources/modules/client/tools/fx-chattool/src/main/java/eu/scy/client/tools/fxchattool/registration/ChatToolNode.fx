@@ -7,16 +7,12 @@
 package eu.scy.client.tools.fxchattool.registration;
 
 
-import java.net.URI;
 import javafx.scene.Node;
-import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.CustomNode;
 
 
-import eu.scy.client.tools.chattool.ChatPanel;
 import javafx.scene.layout.Resizable;
 import javafx.scene.layout.VBox;
-import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 import javafx.scene.layout.Container;
 /**
  * @author jeremyt
@@ -29,36 +25,26 @@ public class ChatToolNode extends CustomNode, Resizable {
 
     def spacing = 5.0;
 
-
-    public var wrappedSPTPanel:Node;
-    public var chatTool:ChatPanel;
-    public var scyWindow:ScyWindow on replace {
-    };
-
-    public function loadElo(uri:URI){
-        // is never called
-        println("WARNING: someone loaded a chat elo, not implemented yet");
-    }
+    public var chatTool:Node;
 
    public override function create(): Node {
-   wrappedSPTPanel = ScySwingWrapper.wrap(chatTool);
-   return VBox {
+      return VBox {
          blocksMouse:false;
          content:
-            wrappedSPTPanel;
+            chatTool;
       };
    }
 
 
    function resizeContent(){
-       Container.resizeNode(wrappedSPTPanel,width,height);
+       Container.resizeNode(chatTool,width,height);
    }
 
    public override function getPrefHeight(height: Number) : Number{
-      Container.getNodePrefHeight(wrappedSPTPanel, height);
+      Container.getNodePrefHeight(chatTool, height);
     }
 
    public override function getPrefWidth(width: Number) : Number{
-      Container.getNodePrefWidth(wrappedSPTPanel, width);
+      Container.getNodePrefWidth(chatTool, width);
    }
 }
