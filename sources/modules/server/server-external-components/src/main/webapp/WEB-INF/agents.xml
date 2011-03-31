@@ -3,10 +3,8 @@
         "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
 
-	<!--
-		This file consists of a list of all defined agents. To enable or
-		disable them, modify the external-components.xml, not this one!
-	-->
+	<!-- This file consists of a list of all defined agents. To enable or disable 
+		them, modify the external-components.xml, not this one! -->
 
 	<bean id="topicdetector" class="eu.scy.agents.impl.AgentStartConfiguration">
 		<constructor-arg index="0"
@@ -153,7 +151,7 @@
 			<map />
 		</constructor-arg>
 	</bean>
-	
+
 	<bean id="rooloAccessor" class="eu.scy.agents.impl.AgentStartConfiguration">
 		<constructor-arg index="0"
 			value="eu.scy.agents.roolo.rooloaccessor.RooloAccessorAgent" />
@@ -161,8 +159,16 @@
 			<map />
 		</constructor-arg>
 	</bean>
-	
-	
+
+	<bean id="sessionAgent" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.session.SessionAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+
+
 	<bean id="groupFormation" class="eu.scy.agents.impl.AgentStartConfiguration">
 		<constructor-arg index="0"
 			value="eu.scy.agents.groupformation.GroupFormationAgent" />

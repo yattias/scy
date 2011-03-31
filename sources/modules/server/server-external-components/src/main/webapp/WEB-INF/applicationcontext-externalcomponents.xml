@@ -83,6 +83,7 @@
 				<ref bean="portfolioNotificator" />
 				<ref bean="groupFormation" />
 				<ref bean="rooloAccessor" />
+				<ref bean="sessionAgent" />
 			</set>
 		</property>
 		<property name="repository">
