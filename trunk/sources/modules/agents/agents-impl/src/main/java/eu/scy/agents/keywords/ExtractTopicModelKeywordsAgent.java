@@ -87,11 +87,13 @@ public class ExtractTopicModelKeywordsAgent extends AbstractRequestAgent {
 		DocumentFrequencyModel dfModel = getDocumentFrequencyModel(mission,
 				language);
 		if (dfModel == null) {
+			logger.warn("Could not load df model for mission " + mission);
 			return Collections.emptySet();
 		}
 
 		ParallelTopicModel tm = getTopicModel(mission, language);
 		if (tm == null) {
+			logger.warn("Could not load tm model for mission " + mission);
 			return Collections.emptySet();
 		}
 

@@ -50,15 +50,6 @@ public class UserLanguageAgentTest extends AbstractTestFixture {
 	@Override
 	@After
 	public void tearDown() throws AgentLifecycleException {
-		try {
-			getCommandSpace().take(
-					new Tuple("persistent_storage_1_0",
-							KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL,
-							Field.createWildCardField()));
-			removeTopicModel();
-		} catch (TupleSpaceException e) {
-			e.printStackTrace();
-		}
 		stopAgentFrameWork();
 		super.tearDown();
 	}
