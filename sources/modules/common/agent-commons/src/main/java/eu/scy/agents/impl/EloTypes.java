@@ -1,6 +1,6 @@
 package eu.scy.agents.impl;
 
-public class EloTypes {
+public final class EloTypes {
 
 	public static final String SCY_INTERVIEW = "scy/interview";
 	public static final String SCY_XPROC = "scy/xproc";
@@ -8,7 +8,8 @@ public class EloTypes {
 	public static final String SCY_WEBRESOURCER = "scy/webresourcer";
 	public static final String SCY_RICHTEXT = "scy/richtext";
 	public static final String SCY_TEXT = "scy/text";
-    public static final String SCY_DATA = "scy/pdf";
+	public static final String SCY_DATA = "scy/pdf";
+
 	private EloTypes() {
 		// not allowed
 	}
