@@ -161,7 +161,7 @@ public class SocialTaggingDrawer
                     //y: iconSize-textInset
                     //clip: clipRect
                     fill: scyWindow.windowColorScheme.mainColor
-                    content: "Tags for this object"
+                    content: "Tags"
                 }
 
         tagGroup = VBox {
