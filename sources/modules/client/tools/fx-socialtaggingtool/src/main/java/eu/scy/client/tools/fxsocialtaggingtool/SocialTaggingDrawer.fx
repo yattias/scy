@@ -199,12 +199,13 @@ public class SocialTaggingDrawer
         this.updateTagLines();
 
       var scrollView = ScrollView {
-         layoutInfo: LayoutInfo {
+        style: "-fx-background-color: white; -fx-border-color: grey;"
+        layoutInfo: LayoutInfo {
             hfill: true
             vfill: true
             hgrow: Priority.ALWAYS
             vgrow: Priority.ALWAYS
-         }
+        }
         hbarPolicy: ScrollBarPolicy.AS_NEEDED
         vbarPolicy: ScrollBarPolicy.AS_NEEDED
         node: tagGroup
@@ -213,6 +214,7 @@ public class SocialTaggingDrawer
       return mainBox = VBox {
                managed: false
                spacing: spacing
+               nodeHPos: HPos.CENTER
                padding: Insets{
                   top: spacing
                   right: spacing
