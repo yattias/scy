@@ -32,6 +32,7 @@ import eu.scy.agents.groupformation.cache.MissionGroupCache;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.agents.session.SessionAgent;
 
 public class GroupFormationAgent extends AbstractRequestAgent implements
 		IRepositoryAgent {
@@ -155,7 +156,10 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 	}
 
 	private void runGroupFormation(IAction action) {
-		String mission = action.getContext(ContextConstants.mission);
+		String mission = getMission(action.getUser());
+		if (mission == null) {
+			mission = action.getContext(ContextConstants.mission);
+		}
 		String las = action.getAttribute(LAS);
 
 		int minGroupSize = (Integer) configuration
@@ -202,6 +206,20 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 			LOGGER.error("Could not write into Tuplespace", e);
 		}
 
+	}
+
+	private String getMission(String user) {
+		try {
+			Tuple missionTuple = getSessionSpace()
+					.read(new Tuple(SessionAgent.MISSION, String.class,
+							String.class));
+			if (missionTuple != null) {
+				return (String) missionTuple.getField(2).getValue();
+			}
+		} catch (TupleSpaceException e) {
+			LOGGER.warn(e.getMessage());
+		}
+		return null;
 	}
 
 	private Set<String> getAvailableUsers(GroupFormationScope scope,

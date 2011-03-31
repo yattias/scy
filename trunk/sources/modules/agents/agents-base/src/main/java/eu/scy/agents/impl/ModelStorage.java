@@ -38,7 +38,8 @@ public class ModelStorage implements IPersistentStorage {
 
 		String path = computePath(missionUri, language, key);
 		ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
-		InputStream resourceAsStream = getClass().getResourceAsStream(path);
+		InputStream resourceAsStream = getClass().getClassLoader()
+				.getResourceAsStream(path);
 		if (resourceAsStream == null) {
 			logger.debug("mode not found " + path);
 			return null;
@@ -59,7 +60,6 @@ public class ModelStorage implements IPersistentStorage {
 
 	private String computePath(String mission, String language, String key) {
 		pathBuffer.setLength(0);
-		pathBuffer.append("/");
 		pathBuffer.append(mapping.getMission(mission));
 		pathBuffer.append("/");
 		pathBuffer.append(language);
