@@ -153,6 +153,7 @@ public class ELOInterface extends ISyncListener {
             }
             return tag;
         } else {
+        	elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
             var oldMetadata : IMetadata = elo.getMetadata();
             var mvc = oldMetadata.getMetadataValueContainer(socialtagsKey);
             var st: SocialTags = mvc.getValue() as SocialTags;
@@ -210,6 +211,7 @@ public class ELOInterface extends ISyncListener {
             insert tag into this.testTags;
             return tag;
         } else {
+     		elo = tbi.getRepository().retrieveELOLastVersion(eloUri);
             var mvc = elo.getMetadata().getMetadataValueContainer(socialtagsKey);
             var st: SocialTags = mvc.getValue() as SocialTags;
             st.removeLikingUser(tag.tagname, getCurrentUser());
