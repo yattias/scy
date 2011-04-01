@@ -12,6 +12,8 @@ import java.net.URI;
 
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
+import java.lang.UnsupportedOperationException;
+import roolo.elo.api.IMetadata;
 
 
 /**
@@ -39,6 +41,10 @@ public class EloSavedActionHandler extends EloSavedListener{
 
    public override function eloUpdated(eloUri : URI):Void{
       logger.info("EloSavedActionHandler.eloUpdated({eloUri})");
+   }
+
+   public override function metadataChanged (eloUri : URI, metadata : IMetadata) : Void {
+      logger.info("EloSavedActionHandler.metadataChanged({eloUri})");
    }
 
    function reportNewEloSaved(eloUri:URI):Void{
