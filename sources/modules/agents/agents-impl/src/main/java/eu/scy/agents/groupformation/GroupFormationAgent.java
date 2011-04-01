@@ -9,7 +9,6 @@ import java.net.URISyntaxException;
 import java.rmi.dgc.VMID;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -27,7 +26,6 @@ import eu.scy.actionlogging.api.IAction;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.api.parameter.AgentParameter;
-import eu.scy.agents.general.UserLocationAgent;
 import eu.scy.agents.groupformation.cache.MissionGroupCache;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.ActionConstants;
@@ -143,7 +141,11 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 										MIN_GROUP_SIZE_PARAMETER)), las);
 			}
 			if ("conceptualisatsionConceptMap".equals(las)) {
-				runGroupFormation(action);
+				try {
+					runGroupFormation(action);
+				} catch (TupleSpaceException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -155,7 +157,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 				minGroupSize);
 	}
 
-	private void runGroupFormation(IAction action) {
+	private void runGroupFormation(IAction action) throws TupleSpaceException {
 		String mission = getMission(action.getUser());
 		if (mission == null) {
 			mission = action.getContext(ContextConstants.mission);
@@ -222,51 +224,27 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 	}
 
 	private Set<String> getAvailableUsers(GroupFormationScope scope,
-			String mission, String las, String thisUser) {
+			String mission, String las, String thisUser)
+			throws TupleSpaceException {
 		Set<String> availableUsers = new HashSet<String>();
 		availableUsers.add(thisUser);
 		switch (scope) {
 		case LAS:
-			availableUsers.addAll(getUsers(
-					UserLocationAgent.METHOD_USERS_IN_LAS, mission, las));
+			Tuple[] allUsersInLas = getSessionSpace().readAll(
+					new Tuple(SessionAgent.LAS, String.class, las));
+			for (Tuple t : allUsersInLas) {
+				availableUsers.add((String) t.getField(1).getValue());
+			}
 			break;
 		case MISSION:
-			availableUsers.addAll(getUsers(
-					UserLocationAgent.METHOD_USERS_IN_MISSION, mission, las));
+			Tuple[] allUsersInMission = getSessionSpace().readAll(
+					new Tuple(SessionAgent.MISSION, String.class, mission));
+			for (Tuple t : allUsersInMission) {
+				availableUsers.add((String) t.getField(1).getValue());
+			}
 			break;
 		}
-
-		for (Set<String> groups : missionGroupsCache.getGroups(mission, las)) {
-			availableUsers.removeAll(groups);
-		}
-
 		return availableUsers;
-	}
-
-	private Set<String> getUsers(String method, String mission, String las) {
-		Tuple request = new Tuple(UserLocationAgent.USER_INFO_REQUEST,
-				AgentProtocol.QUERY, new VMID().toString(), mission, method,
-				las);
-		try {
-			getCommandSpace().write(request);
-			Tuple response = getCommandSpace().waitToTake(
-					new Tuple(UserLocationAgent.USER_INFO_REQUEST,
-							AgentProtocol.RESPONSE, String.class,
-							Field.createWildCardField()),
-					AgentProtocol.ALIVE_INTERVAL);
-			Set<String> availableUsers = new HashSet<String>();
-			if (response == null) {
-				return Collections.emptySet();
-			}
-			for (int i = 3; i < response.getNumberOfFields(); i++) {
-				availableUsers.add((String) response.getField(i).getValue());
-			}
-			return availableUsers;
-		} catch (TupleSpaceException e) {
-			e.printStackTrace();
-		}
-		return Collections.emptySet();
-
 	}
 
 	// private boolean groupsAreOk(Collection<Set<String>> formedGroup,
