@@ -112,7 +112,19 @@ process_command(Cmd, Id, Params) :-
 			tspl_actual_field(string, LabelsCSV, LabelsField),
 			respond(Id, [LabelsField])
 		; true),
+	(Cmd == 'surrounding'
+		-> 	Params = [OntName, Label, Language], 
+			surrounding(OntName, Label, Language, Surrounding),
+			list_to_csv(Surrounding, SurroundingCSV),
+			tspl_actual_field(string, SurroundingCSV, SurroundingField),
+			respond(Id, [SurroundingField])
+		; true),
 	!.
+
+
+process_command(Cmd, Id, Params) :-
+	writef('An error has occured while executing %w with params %w', [Cmd, Params]),
+	respond(Id, []).
 
 list_to_csv([], '').
 list_to_csv([E], E) :- !.
@@ -199,8 +211,30 @@ label_lookup(OntName, OntLabel, Language, OntTerm, Category) :-
 	format(atom(Label), '"~w"@~w', [OntLabel, Language]),
 	prdf(OntTerm, label, Label),
 	lookup(OntName, OntTerm, Category).
-	
-	
+
+surrounding(OntName, Label, Language, Surrounding) :-
+	ont_connect(_, OntName, _),
+	label_lookup(OntName, Label, Language, Term, Category),
+	expand(Term, Category, SurroundingTerms),
+	findall(L, (member(STerm, SurroundingTerms), prdf(STerm, label, SLabel), sub_string(SLabel, _, _, 0, Language), trim_label(SLabel, L)), Surrounding). 
+
+expand(Term, individual, Surrounding) :-
+	findall(Parent, prdf(Term, type, Parent), Parents),
+	findall(Sibling, (member(Parent, Parents), prdf(Sibling, type, Parent), Sibling \= Term), Siblings),
+	append(Parents, Siblings, Surrounding).
+
+expand(Term, class, Surrounding) :-
+	findall(Parent, prdf(Term, subclassof, Parent), Parents),
+	findall(Child, prdf(Child, subclassof, Term), Children),
+	findall(Sibling, (member(Parent, Parents), prdf(Sibling, subclassof, Parent), Sibling \= Term), Siblings),
+	findall(Instance, prdf(Instance, type, Term), Instances),
+	append([Parents, Children, Siblings, Instances], Surrounding).
+
+trim_label(Label, TrimmedLabel) :-
+	sub_string(Label, AtPos, 1, _, '@'),
+	CutPos is AtPos - 2,
+	sub_string(Label, 1, CutPos, _, TrimmedLabel).
+
 annotationproperty(Prop) :-
 	member(Prop, [comment, isdefinedby, label, seealso, versioninfo]).
 annotationproperty(Prop) :-

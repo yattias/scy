@@ -81,16 +81,17 @@ public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
 	for (String keyword : keywords) {
 	        VMID id = new VMID();
 	        try {
-                getCommandSpace().write(new Tuple(id.toString(), "onto", "surrounding", "http://www.scy.eu/co2house#", keyword, "en"));
-                Tuple respTuple = getCommandSpace().waitToTake(new Tuple(id.toString(), AgentProtocol.RESPONSE, String.class), AgentProtocol.COMMAND_EXPIRATION);
-                String surroundedStrings = respTuple.getField(2).getValue().toString();
-                
-                keywordsWithBoost.add(new KeyValuePair(keyword, "1.0"));
-                for (String surrounding : surroundedStrings.split(",")) {
-                    if (!keywords.contains(surrounding)) {
-                        keywordsWithBoost.add(new KeyValuePair(keyword, "0.5"));
+	            keywordsWithBoost.add(new KeyValuePair(keyword, "1.0"));
+                    getCommandSpace().write(new Tuple(id.toString(), "onto", "surrounding", "http://www.scy.eu/co2house#", keyword, "en"));
+                    Tuple respTuple = getCommandSpace().waitToTake(new Tuple(id.toString(), AgentProtocol.RESPONSE, String.class), AgentProtocol.COMMAND_EXPIRATION);
+                    if (respTuple != null && respTuple.getNumberOfFields() > 2)  {
+                        String surroundedStrings = respTuple.getField(2).getValue().toString();
+                        for (String surrounding : surroundedStrings.split(",")) {
+                            if (!keywords.contains(surrounding)) {
+                                keywordsWithBoost.add(new KeyValuePair(keyword, "0.5"));
+                            }
+                        }
                     }
-                }
             } catch (TupleSpaceException e) {
                 e.printStackTrace();
             }
