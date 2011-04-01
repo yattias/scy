@@ -51,7 +51,7 @@
   <lasses>
     <las>
       <id>design</id>
-      <xPos>-34.0</xPos>
+      <xPos>-25.0</xPos>
       <yPos>-36.0</yPos>
       <toolTip>tip_LAS_A</toolTip>
       <title />
@@ -547,8 +547,8 @@
     </las>
     <las>
       <id>build</id>
-      <xPos>-34.0</xPos>
-      <yPos>10.0</yPos>
+      <xPos>-60.0</xPos>
+      <yPos>5.0</yPos>
       <toolTip>tip_LAS_K</toolTip>
       <title />
       <instructionUri>http://www.scy-lab.eu/content/en/mission3/curtain_BUILD.html</instructionUri>

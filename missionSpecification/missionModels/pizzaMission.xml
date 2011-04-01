@@ -24,7 +24,7 @@
                <list>
                   <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="design"/>
-                     <property name="xPosition" value="-34"/>
+                     <property name="xPosition" value="-25"/>
                      <property name="yPosition" value="-36"/>
                      <property name="tooltip" value="tip_LAS_A"/>
                      <property name="lasType" value="DESIGN"/>
@@ -271,8 +271,8 @@
 				  
 				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
                      <property name="id" value="build"/>
-                     <property name="xPosition" value="-34"/>
-                     <property name="yPosition" value="10"/>
+                     <property name="xPosition" value="-60"/>
+                     <property name="yPosition" value="5"/>
                      <property name="tooltip" value="tip_LAS_K"/>
                      <property name="lasType" value="CONSTRUCTION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_BUILD.html"/>
