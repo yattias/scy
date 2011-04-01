@@ -43,7 +43,7 @@ public class SessionAgent extends AbstractRequestAgent {
 
 	static final String LANGUAGE = "language";
 
-	private static final String LAS = "las";
+	public static final String LAS = "las";
 
 	public static final String MISSION = "mission";
 
