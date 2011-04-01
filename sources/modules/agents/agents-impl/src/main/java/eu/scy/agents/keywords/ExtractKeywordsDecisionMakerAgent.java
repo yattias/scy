@@ -360,8 +360,8 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 
 			private String getMission(String user) {
 				try {
-					Tuple missionTuple = getSessionSpace()
-							.read(new Tuple(SessionAgent.MISSION, user,
+					Tuple missionTuple = getSessionSpace().read(
+							new Tuple(SessionAgent.MISSION, user, String.class,
 									String.class));
 					if (missionTuple != null) {
 						return (String) missionTuple.getField(2).getValue();

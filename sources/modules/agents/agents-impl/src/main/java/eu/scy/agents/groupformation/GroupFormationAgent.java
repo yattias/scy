@@ -213,7 +213,8 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 	private String getMission(String user) {
 		try {
 			Tuple missionTuple = getSessionSpace().read(
-					new Tuple(SessionAgent.MISSION, user, String.class));
+					new Tuple(SessionAgent.MISSION, user, String.class,
+							String.class));
 			if (missionTuple != null) {
 				return (String) missionTuple.getField(2).getValue();
 			}
@@ -231,14 +232,15 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		switch (scope) {
 		case LAS:
 			Tuple[] allUsersInLas = getSessionSpace().readAll(
-					new Tuple(SessionAgent.LAS, String.class, las));
+					new Tuple(SessionAgent.LAS, String.class, mission, las));
 			for (Tuple t : allUsersInLas) {
 				availableUsers.add((String) t.getField(1).getValue());
 			}
 			break;
 		case MISSION:
 			Tuple[] allUsersInMission = getSessionSpace().readAll(
-					new Tuple(SessionAgent.MISSION, String.class, mission));
+					new Tuple(SessionAgent.MISSION, String.class, mission,
+							String.class));
 			for (Tuple t : allUsersInMission) {
 				availableUsers.add((String) t.getField(1).getValue());
 			}
@@ -365,7 +367,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 				continue;
 			}
 			message.append(sanitizeName(user));
-			if (i == group.size() - 2) {
+			if (i != group.size() - 1) {
 				message.append(", ");
 			}
 			i++;

@@ -80,7 +80,7 @@ public class SessionAgent extends AbstractRequestAgent {
 
 	private Tuple getCommandTuple() {
 		// ("userInfoRequest","query", <QueryId>:String,
-		// <Method>:String, <Parameter>:String)
+		// <Method>:String, <Mission>:String, <Parameter>:String)
 		return new Tuple(SessionAgent.USER_INFO_REQUEST, AgentProtocol.QUERY,
 				String.class, String.class, Field.createWildCardField());
 	}
@@ -146,14 +146,16 @@ public class SessionAgent extends AbstractRequestAgent {
 				String queryId = (String) activationTuple.getField(2)
 						.getValue();
 				String method = (String) activationTuple.getField(3).getValue();
-				String parameter = (String) activationTuple.getField(4)
+				String mission = (String) activationTuple.getField(4)
+						.getValue();
+				String parameter = (String) activationTuple.getField(5)
 						.getValue();
 				if (METHOD_USERS_IN_LAS.equals(method)) {
-					handleCommandUsersInLas(queryId, parameter);
+					handleCommandUsersInLas(queryId, mission, parameter);
 				} else if (METHOD_GET_LAS.equals(method)) {
-					handleCommandLasForUser(queryId, parameter);
+					handleCommandLasForUser(queryId, mission, parameter);
 				} else if (METHOD_USERS_IN_MISSION.equals(method)) {
-					handleCommandUsersInMission(queryId, parameter);
+					handleCommandUsersInMission(queryId, mission);
 				} else {
 					LOGGER.debug("requested not existing method");
 				}
@@ -171,7 +173,7 @@ public class SessionAgent extends AbstractRequestAgent {
 	private void handleCommandUsersInMission(String queryId, String mission) {
 		try {
 			Tuple[] tuples = getSessionSpace().readAll(
-					new Tuple(MISSION, String.class, mission));
+					new Tuple(MISSION, String.class, mission, String.class));
 			Tuple response = new Tuple(USER_INFO_REQUEST,
 					AgentProtocol.RESPONSE, queryId);
 			for (Tuple t : tuples) {
@@ -184,12 +186,13 @@ public class SessionAgent extends AbstractRequestAgent {
 		}
 	}
 
-	private void handleCommandLasForUser(String queryId, String user) {
+	private void handleCommandLasForUser(String queryId, String user,
+			String mission) {
 		try {
 			Tuple lasTuple = getSessionSpace().read(
-					new Tuple(LAS, user, String.class));
+					new Tuple(LAS, user, mission, String.class));
 
-			String lasForUser = (String) lasTuple.getField(2).getValue();
+			String lasForUser = (String) lasTuple.getField(3).getValue();
 			if (lasForUser == null) {
 				return;
 			}
@@ -201,11 +204,12 @@ public class SessionAgent extends AbstractRequestAgent {
 		}
 	}
 
-	private void handleCommandUsersInLas(String queryId, String las) {
+	private void handleCommandUsersInLas(String queryId, String las,
+			String mission) {
 
 		try {
 			Tuple[] lasTuples = getSessionSpace().readAll(
-					new Tuple(LAS, String.class, las));
+					new Tuple(LAS, String.class, mission, las));
 			Tuple response = new Tuple(USER_INFO_REQUEST,
 					AgentProtocol.RESPONSE, queryId);
 			for (Tuple t : lasTuples) {
@@ -239,7 +243,8 @@ public class SessionAgent extends AbstractRequestAgent {
 					new Tuple(LANGUAGE, user, action.getAttribute(LANGUAGE)));
 			getSessionSpace().write(
 					new Tuple(MISSION, user, action
-							.getAttribute("missionSpecification")));
+							.getAttribute("missionSpecification"), action
+							.getAttribute("missionName")));
 		} catch (TupleSpaceException e) {
 			LOGGER.warn("", e);
 		}
@@ -247,8 +252,14 @@ public class SessionAgent extends AbstractRequestAgent {
 
 	private void handleLasChanged(IAction action) {
 		try {
+			Tuple missionTuple = getSessionSpace().read(
+					new Tuple(MISSION, action.getUser(), String.class,
+							String.class));
+			String mission = missionTuple.getField(2).getValue().toString();
+			getSessionSpace().deleteAll(
+					new Tuple(LAS, action.getUser(), mission, String.class));
 			getSessionSpace().write(
-					new Tuple(LAS, action.getUser(), action
+					new Tuple(LAS, action.getUser(), mission, action
 							.getAttribute(ActionConstants.LAS)));
 		} catch (TupleSpaceException e) {
 			LOGGER.warn("", e);

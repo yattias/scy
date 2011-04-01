@@ -77,30 +77,38 @@ public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
 		addKeywordsToMetadata(elo, keywordsWithBoost);
 	}
 
-    private List<KeyValuePair> setBoostFactors(List<String> keywords) {
-        List<KeyValuePair> keywordsWithBoost = new ArrayList<KeyValuePair>();
-        HashSet<String> addedKeywords = new HashSet<String>(keywords);
-	for (String keyword : keywords) {
-	        VMID id = new VMID();
-	        try {
-	            keywordsWithBoost.add(new KeyValuePair(keyword, "1.0"));
-                    getCommandSpace().write(new Tuple(id.toString(), "onto", "surrounding", "http://www.scy.eu/co2house#", keyword, "en"));
-                    Tuple respTuple = getCommandSpace().waitToTake(new Tuple(id.toString(), AgentProtocol.RESPONSE, String.class), AgentProtocol.COMMAND_EXPIRATION);
-                    if (respTuple != null && respTuple.getNumberOfFields() > 2)  {
-                        String surroundedStrings = respTuple.getField(2).getValue().toString();
-                        for (String surrounding : surroundedStrings.split(",")) {
-                            if (!addedKeywords.contains(surrounding)) {
-                                addedKeywords.add(surrounding);
-                                keywordsWithBoost.add(new KeyValuePair(surrounding, "0.5"));
-                            }
-                        }
-                    }
-            } catch (TupleSpaceException e) {
-                e.printStackTrace();
-            }
+	private List<KeyValuePair> setBoostFactors(List<String> keywords) {
+		List<KeyValuePair> keywordsWithBoost = new ArrayList<KeyValuePair>();
+		HashSet<String> addedKeywords = new HashSet<String>(keywords);
+		for (String keyword : keywords) {
+			VMID id = new VMID();
+			try {
+				keywordsWithBoost.add(new KeyValuePair(keyword, "1.0"));
+				getCommandSpace().write(
+						new Tuple(id.toString(), "onto", "surrounding",
+								"http://www.scy.eu/co2house#", keyword, "en"));
+				Tuple respTuple = getCommandSpace()
+						.waitToTake(
+								new Tuple(id.toString(),
+										AgentProtocol.RESPONSE, String.class),
+								AgentProtocol.COMMAND_EXPIRATION);
+				if (respTuple != null && respTuple.getNumberOfFields() > 2) {
+					String surroundedStrings = respTuple.getField(2).getValue()
+							.toString();
+					for (String surrounding : surroundedStrings.split(",")) {
+						if (!addedKeywords.contains(surrounding)) {
+							addedKeywords.add(surrounding);
+							keywordsWithBoost.add(new KeyValuePair(surrounding,
+									"0.5"));
+						}
+					}
+				}
+			} catch (TupleSpaceException e) {
+				e.printStackTrace();
+			}
+		}
+		return keywordsWithBoost;
 	}
-        return keywordsWithBoost;
-    }
 
 	private void addKeywordsToMetadata(IELO elo, List<KeyValuePair> keywords) {
 		if (keywords.isEmpty()) {
@@ -129,10 +137,9 @@ public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
 
 	private String getMission(String user) {
 		try {
-			Tuple missionTuple = getSessionSpace()
-					.read(
-							new Tuple(SessionAgent.MISSION, user,
-									String.class));
+			Tuple missionTuple = getSessionSpace().read(
+					new Tuple(SessionAgent.MISSION, user, String.class,
+							String.class));
 			if (missionTuple != null) {
 				return (String) missionTuple.getField(2).getValue();
 			}
