@@ -107,6 +107,17 @@ public class RepositoryWrapper implements IRepository
       }
    }
 
+   private void sendMetadataChangedEvent(URI eloURI, IMetadata metadata)
+   {
+      if (sendEloSavedEvents)
+      {
+         for (EloSavedListener eloSavedListener : eloSavedListeners)
+         {
+            eloSavedListener.metadataChanged(eloURI, metadata);
+         }
+      }
+   }
+
    public void setAnchorEloUri(URI anchorEloUri)
    {
       this.anchorEloUri = anchorEloUri;
@@ -341,6 +352,10 @@ public class RepositoryWrapper implements IRepository
    public void addMetadata(URI arg0, IMetadata arg1)
    {
       repository.addMetadata(arg0, arg1);
+      if (uriKey != null)
+      {
+         sendMetadataChangedEvent(arg0, arg1);
+      }
    }
 
    @Override

@@ -32,8 +32,10 @@ import eu.scy.notification.api.INotifiable;
 import eu.scy.notification.api.INotification;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
+import eu.scy.client.desktop.scydesktop.hacks.EloSavedListener;
+import roolo.elo.api.IMetadata;
 
-public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, CollaborationStartable {
+public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, CollaborationStartable, EloSavedListener {
 
     var Dimension;
     public-init var scyMapperPanel: SCYMapperPanel;
@@ -199,6 +201,25 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
 
     override public function processNotification (notification: INotification) : Boolean {
         return scyMapperPanel.processNotification(notification);
+    }
+	 
+         
+    override public function newEloSaved(eloURI : URI): Void {
+        // don't care
+    }
+
+    override public function forkedEloSaved(eloURI : URI) : Void {
+        // don't care
+    }
+
+    override public function eloUpdated(eloURI : URI) : Void {
+        // don't care
+    }
+
+    override public function metadataChanged(eloURI : URI, metadata: IMetadata) : Void {
+        if (eloURI.equals(currentELO.getUri())) {
+            currentELO.setMetadata(metadata);
+        }
     }
 
 }

@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import roolo.elo.api.IELO;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
+import eu.scy.client.desktop.scydesktop.hacks.RepositoryWrapper;
 
 public class SCYMapperContentCreator extends ScyToolCreatorFX {
 
@@ -33,8 +34,10 @@ public class SCYMapperContentCreator extends ScyToolCreatorFX {
 
     public override function createScyToolNode(eloType:String, creatorId:String, scyWindow:ScyWindow, windowContent: Boolean):Node {
         initRepositoryWrapper();
-        var elo = repositoryWrapper.createELO();
-        return createScyMapperNode(scyWindow, elo);
+        def elo = repositoryWrapper.createELO();
+        def node = createScyMapperNode(scyWindow, elo);
+        (toolBrokerAPI.getRepository() as RepositoryWrapper).addEloSavedListener(node);
+        return node;
     }
 
 
