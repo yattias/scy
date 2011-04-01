@@ -6,6 +6,7 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.rmi.dgc.VMID;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -78,6 +79,7 @@ public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
 
     private List<KeyValuePair> setBoostFactors(List<String> keywords) {
         List<KeyValuePair> keywordsWithBoost = new ArrayList<KeyValuePair>();
+        HashSet<String> addedKeywords = new HashSet<String>(keywords);
 	for (String keyword : keywords) {
 	        VMID id = new VMID();
 	        try {
@@ -87,8 +89,9 @@ public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
                     if (respTuple != null && respTuple.getNumberOfFields() > 2)  {
                         String surroundedStrings = respTuple.getField(2).getValue().toString();
                         for (String surrounding : surroundedStrings.split(",")) {
-                            if (!keywords.contains(surrounding)) {
-                                keywordsWithBoost.add(new KeyValuePair(keyword, "0.5"));
+                            if (!addedKeywords.contains(surrounding)) {
+                                addedKeywords.add(surrounding);
+                                keywordsWithBoost.add(new KeyValuePair(surrounding, "0.5"));
                             }
                         }
                     }
