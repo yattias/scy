@@ -84,7 +84,7 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 	}
 
 	private Set<String> callKeywordsAgent(String agent, String text,
-			String mission) {
+			String mission, int wait) {
 		String queryId = new VMID().toString();
 		Set<String> result = new HashSet<String>();
 		try {
@@ -93,7 +93,7 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 							mission, "en"));
 			Tuple response = getCommandSpace().waitToTake(
 					new Tuple(agent, AgentProtocol.RESPONSE, queryId,
-							String.class), AgentProtocol.SECOND * 30);
+							String.class), wait);
 			if (response == null) {
 				return result;
 			}
@@ -143,15 +143,16 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 
 			Set<String> tfIdfKeywords = callKeywordsAgent(
 					ExtractTfIdfKeywordsAgent.EXTRACT_TFIDF_KEYWORDS, text,
-					mission);
-			Set<String> keyPhrases = callKeywordsAgent(
-					ExtractKeyphrasesAgent.EXTRACT_KEYPHRASES, text, mission);
+					mission, AgentProtocol.SECOND * 30);
 			Set<String> topicKeywords = callKeywordsAgent(
 					ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS,
-					text, mission);
+					text, mission, AgentProtocol.SECOND * 30);
+			Set<String> keyPhrases = callKeywordsAgent(
+					ExtractKeyphrasesAgent.EXTRACT_KEYPHRASES, text, mission,
+					AgentProtocol.SECOND * 60);
 			Set<String> ontologyKeywords = callKeywordsAgent(
 					OntologyKeywordsAgent.EXTRACT_ONTOLOGY_KEYWORDS, text,
-					mission);
+					mission, AgentProtocol.SECOND * 30);
 
 			Set<String> mergedKeywords = mergeKeywords(tfIdfKeywords,
 					keyPhrases, topicKeywords, ontologyKeywords);
