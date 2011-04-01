@@ -5,6 +5,7 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.rmi.dgc.VMID;
 import java.util.List;
 import java.util.Map;
 
@@ -70,14 +71,32 @@ public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
 		extractor.setMission(missionForUser);
 		extractor.setTupleSpace(getCommandSpace());
 		List<String> keywords = extractor.getKeywords(elo);
-		List<KeyValuePair> keywordsWithBoost = new ArrayList<KeyValuePair>();
-		for (String keyword : keywords) {
-			// initially using a default boosting factor
-			keywordsWithBoost.add(new KeyValuePair(keyword, "1.0"));
-		}
+		List<KeyValuePair> keywordsWithBoost = setBoostFactors(keywords);
 
 		addKeywordsToMetadata(elo, keywordsWithBoost);
 	}
+
+    private List<KeyValuePair> setBoostFactors(List<String> keywords) {
+        List<KeyValuePair> keywordsWithBoost = new ArrayList<KeyValuePair>();
+	for (String keyword : keywords) {
+	        VMID id = new VMID();
+	        try {
+                getCommandSpace().write(new Tuple(id.toString(), "onto", "surrounding", "http://www.scy.eu/co2house#", keyword, "en"));
+                Tuple respTuple = getCommandSpace().waitToTake(new Tuple(id.toString(), AgentProtocol.RESPONSE, String.class), AgentProtocol.COMMAND_EXPIRATION);
+                String surroundedStrings = respTuple.getField(2).getValue().toString();
+                
+                keywordsWithBoost.add(new KeyValuePair(keyword, "1.0"));
+                for (String surrounding : surroundedStrings.split(",")) {
+                    if (!keywords.contains(surrounding)) {
+                        keywordsWithBoost.add(new KeyValuePair(keyword, "0.5"));
+                    }
+                }
+            } catch (TupleSpaceException e) {
+                e.printStackTrace();
+            }
+	}
+        return keywordsWithBoost;
+    }
 
 	private void addKeywordsToMetadata(IELO elo, List<KeyValuePair> keywords) {
 		if (keywords.isEmpty()) {
