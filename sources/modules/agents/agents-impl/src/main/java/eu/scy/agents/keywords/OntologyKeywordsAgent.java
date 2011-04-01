@@ -107,7 +107,7 @@ public class OntologyKeywordsAgent extends AbstractRequestAgent {
 		try {
 			VMID queryId = new VMID();
 			this.getCommandSpace().write(
-					new Tuple(queryId.toString(), "onto", "entities",
+					new Tuple(queryId.toString(), "onto", "labels",
 							"http://www.scy.eu/co2house#"));
 
 			Tuple response = this.getCommandSpace().waitToTake(
@@ -116,7 +116,7 @@ public class OntologyKeywordsAgent extends AbstractRequestAgent {
 			if (response == null) {
 				return ontologyKeywords;
 			}
-			String keywordString = (String) response.getField(1).getValue();
+			String keywordString = (String) response.getField(2).getValue();
 			StringTokenizer tokenizer = new StringTokenizer(keywordString, ",");
 
 			while (tokenizer.hasMoreTokens()) {
