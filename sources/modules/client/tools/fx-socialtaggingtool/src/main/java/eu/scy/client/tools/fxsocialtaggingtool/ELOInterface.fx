@@ -187,7 +187,7 @@ public class ELOInterface extends ISyncListener {
             if (st.getLikeCount(tag.tagname) + st.getUnlikeCount(tag.tagname) == 0) {
                 st.removeSocialTag(tag.tagname);
             }
-            tbi.getRepository().addMetadata(eloUri, oldMetadata);
+            tbi.getRepository().addMetadata(elo.getUri(), oldMetadata);
 
             if (syncSession != null and syncSession.isConnected()) {
                 var object : ISyncObject = new SyncObject();
@@ -216,7 +216,7 @@ public class ELOInterface extends ISyncListener {
             var st: SocialTags = mvc.getValue() as SocialTags;
             st.removeLikingUser(tag.tagname, getCurrentUser());
             st.removeUnlikingUser(tag.tagname, getCurrentUser());
-            tbi.getRepository().addMetadata(eloUri, elo.getMetadata());
+            tbi.getRepository().addMetadata(elo.getUri(), elo.getMetadata());
 
             if (syncSession != null and syncSession.isConnected()) {
                 var object : ISyncObject = new SyncObject();
