@@ -47,6 +47,7 @@ import eu.scy.client.desktop.scydesktop.utils.ActivityTimer;
 import eu.scy.client.desktop.scydesktop.draganddrop.impl.SimpleDragAndDropManager;
 import eu.scy.client.desktop.scydesktop.uicontrols.MouseOverDisplay;
 import java.net.InetAddress;
+import eu.scy.client.desktop.scydesktop.hacks.TransparencyFixer;
 //import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
@@ -160,7 +161,7 @@ public class Initializer {
 
    init {
       StringLocalizer.associate("languages.scydesktop", "eu.scy.client.desktop.scydesktop");
-
+      TransparencyFixer.fixTransparency();
       Thread.setDefaultUncaughtExceptionHandler(new FilteringExceptionCatcher("SCY-Lab"));
       parseApplicationParameters();
       parseWebstartParameters();
