@@ -768,7 +768,8 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
             int j=0;
             for (Iterator<DataSetColumn> h = header.getColumns().iterator();h.hasNext();){
                 DataSetColumn c = h.next();
-                headers[j] = c.getSymbol();
+                //headers[j] = c.getSymbol();
+                headers[j] = DataHeader.computeHeaderValue(c.getSymbol(), c.getDescription());
                 units[j] = c.getUnit();
                 types[j] = c.getType();
                 descriptions[j] = c.getDescription();
