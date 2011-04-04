@@ -21,6 +21,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
+import eu.scy.agents.Mission;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.conceptmap.Edge;
 import eu.scy.agents.conceptmap.Graph;
@@ -158,7 +159,6 @@ public class CMProposerAgent extends AbstractThreadedAgent {
         Arrays.sort(strategies);
         // default, but will adapt at each call
         con = new SWATConnection("en", "http://www.scy.eu/co2house#");
-        // con = new SWATConnection("de", "http://www.scy.eu/co2house#");
     }
 
     @Override
@@ -235,8 +235,8 @@ public class CMProposerAgent extends AbstractThreadedAgent {
     }
 
     private Field[] getProposals(String user, String elouri, int amount, String centralityAlgorithm) {
-        String ontologyNS = getOntologyNamespace(elouri);
-        String lang = determineLanguage(elouri);
+        String ontologyNS = getOntologyNamespace(user);
+        String lang = determineLanguage(user);
 
         observer.setStatusText("Retrieving text");
         String text = getText();
@@ -384,18 +384,33 @@ public class CMProposerAgent extends AbstractThreadedAgent {
         return g;
     }
 
-    private String getOntologyNamespace(@SuppressWarnings("unused") String mission) {
-        // TODO fetch from SCY ontology
-        return "http://www.scy.eu/co2house#";
+    private String getOntologyNamespace(String user) {
+        try {
+            Tuple t = getSessionSpace().read(new Tuple("mission", user, String.class, String.class));
+            if (t != null) {
+                String missionString = (String) t.getField(3).getValue();
+                return Mission.getForName(missionString).getNamespace();
+            }
+        } catch (TupleSpaceException e) {
+            e.printStackTrace();
+        }
+        return Mission.UNKNOWN_MISSION.getNamespace();
     }
 
-    private String determineLanguage(@SuppressWarnings("unused") String elouri) {
-        // TODO fetch ELO from Roolo and look at metadata
+    private String determineLanguage(String user) {
+        try {
+            Tuple t = getSessionSpace().read(new Tuple("language", user, String.class));
+            if (t != null) {
+                String languageString = (String) t.getField(2).getValue();
+                return languageString;
+            }
+        } catch (TupleSpaceException e) {
+            e.printStackTrace();
+        }
         return "en";
     }
 
     public Map<String, Double> getKeywordsFromText(String text, String namespace) {
-        // TODO ask OntologyKeyword agent
         HashSet<String> stopwords = new HashSet<String>();
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/ger_stopwords.txt")));
