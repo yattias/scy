@@ -60,7 +60,7 @@
                      group="sidebar"
                      sidebarurl="chrome://scylighter/content/sidebar.xul"
                      sidebartitle="&sidebar.title;"
-                     oncommand="toggleSidebar('viewSidebar');overlay.onSidebarChanged();" />
+                     oncommand="toggleSidebar('viewSidebar');" />
     </broadcasterset>
 
 

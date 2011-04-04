@@ -21,7 +21,6 @@
     -moz-image-region: rect(24px 40px 40px 24px);
 }
 
-@namespace url(http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul);
 hbox#browser { 
     direction: rtl !important;
 }         
