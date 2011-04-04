@@ -16,11 +16,11 @@ import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import eu.scy.client.desktop.scydesktop.tooltips.impl.ColoredTextTooltip;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.OnlineState;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.Cursor;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.Contact;
+import eu.scy.client.desktop.scydesktop.tooltips.impl.TextTooltip;
 
 /**
  * @author SikkenJ
@@ -73,9 +73,9 @@ public class Buddy extends CustomNode, TooltipCreator {
     }
 
    public override function createTooltipNode(sourceNode: Node): Node {
-      ColoredTextTooltip {
+      TextTooltip {
          content: contact.name
-         color: windowColorScheme.mainColor
+         windowColorScheme: windowColorScheme
       }
    }
 
