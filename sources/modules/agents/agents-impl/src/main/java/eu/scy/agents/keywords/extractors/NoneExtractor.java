@@ -5,9 +5,8 @@ import info.collide.sqlspaces.client.TupleSpace;
 import java.util.ArrayList;
 import java.util.List;
 
-import eu.scy.agents.Mission;
-
 import roolo.elo.api.IELO;
+import eu.scy.agents.Mission;
 
 /**
  * Always returns an empty list of keywords. It is used as default extractor

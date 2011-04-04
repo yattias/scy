@@ -27,6 +27,7 @@ import roolo.elo.api.IMetadata;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.content.BasicContent;
 import eu.scy.agents.AbstractTestFixture;
+import eu.scy.agents.Mission;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
@@ -58,7 +59,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 			"keyword=ingredients", "keyword=nontoxic", "keyword=binder",
 			"keyword=solvent", "keyword=labels", "keyword=toxic",
 			"keyword=chemical", "keyword=voc", "keyword=paint",
-			"keyword=pigment");
+			"keyword=pigment", "keyword=natural");
 
 	private String eloPath;
 
@@ -73,7 +74,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 	}
 
 	@Override
-    @Before
+	@Before
 	public void setUp() throws Exception {
 		super.setUp();
 
@@ -129,7 +130,8 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 				new Tuple(ActionConstants.ACTION, "ID", 122345L,
 						ActionConstants.ACTION_LOG_IN, USER, "scy-desktop",
 						MISSION1, "n/a", "balbal", "missionSpecification="
-								+ MISSION1, "language=en"));
+								+ MISSION1, "language=en", "missionName="
+								+ Mission.MISSION1.getName()));
 		Thread.sleep(1000);
 
 		this.sendWebresourcerStarted();
@@ -158,7 +160,7 @@ public class ExtractKeywordsDecisionMakerAgentTest extends AbstractTestFixture {
 				.getValue());
 		for (int i = 8; i < notificationTuple.getNumberOfFields(); i++) {
 			String keyword = (String) notificationTuple.getField(i).getValue();
-			// System.out.println(keyword);
+			System.out.println(keyword);
 			assertTrue(this.expectedKeywords.contains(keyword));
 		}
 	}

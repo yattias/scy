@@ -4,9 +4,8 @@ import info.collide.sqlspaces.client.TupleSpace;
 
 import java.util.List;
 
-import eu.scy.agents.Mission;
-
 import roolo.elo.api.IELO;
+import eu.scy.agents.Mission;
 
 /**
  * Abstract interface to extract keywords from an ELO. Subclasses should handle
