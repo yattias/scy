@@ -253,7 +253,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 
 			for (String user : group) {
 				Tuple removeAllBuddiesTuple = createRemoveAllBuddiesNotification(
-						action, user);
+						action, new VMID().toString(), user);
 				getCommandSpace().write(removeAllBuddiesTuple);
 			}
 
@@ -264,12 +264,13 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 				String userListString = createUserListString(user, group);
 				message.append(userListString);
 				Tuple messageNotificationTuple = createMessageNotificationTuple(
-						action, message.toString(), user);
+						action, new VMID().toString(), message.toString(), user);
 				logGroupFormation(action, userListString, user);
 				for (String userToBuddify : group) {
 					if (!user.equals(userToBuddify)) {
 						Tuple buddifyNotification = createBuddifyNotificationTuple(
-								action, user, userToBuddify);
+								action, new VMID().toString(), user,
+								userToBuddify);
 						getCommandSpace().write(buddifyNotification);
 					}
 				}
@@ -278,10 +279,11 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		}
 	}
 
-	private Tuple createRemoveAllBuddiesNotification(IAction action, String user) {
+	private Tuple createRemoveAllBuddiesNotification(IAction action,
+			String notificationId, String user) {
 		Tuple notificationTuple = new Tuple();
 		notificationTuple.add(AgentProtocol.NOTIFICATION);
-		notificationTuple.add(new VMID().toString());
+		notificationTuple.add(notificationId);
 		notificationTuple.add(user);
 		notificationTuple.add("no specific elo");
 		notificationTuple.add(NAME);
@@ -292,11 +294,11 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		return notificationTuple;
 	}
 
-	private Tuple createBuddifyNotificationTuple(IAction action, String user,
-			String userToBuddify) {
+	private Tuple createBuddifyNotificationTuple(IAction action,
+			String notificationId, String user, String userToBuddify) {
 		Tuple notificationTuple = new Tuple();
 		notificationTuple.add(AgentProtocol.NOTIFICATION);
-		notificationTuple.add(new VMID().toString());
+		notificationTuple.add(notificationId);
 		notificationTuple.add(user);
 		notificationTuple.add("no specific elo");
 		notificationTuple.add(NAME);
@@ -330,10 +332,10 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 	}
 
 	private Tuple createMessageNotificationTuple(IAction action,
-			String message, String user) {
+			String notificationId, String message, String user) {
 		Tuple notificationTuple = new Tuple();
 		notificationTuple.add(AgentProtocol.NOTIFICATION);
-		notificationTuple.add(new VMID().toString());
+		notificationTuple.add(notificationId);
 		notificationTuple.add(user);
 		notificationTuple.add("no specific elo");
 		notificationTuple.add(NAME);
@@ -383,6 +385,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 
 	private void sendWaitNotification(IAction action) {
 		Tuple notificationTuple = createMessageNotificationTuple(action,
+				new VMID().toString(),
 				"please wait for other users to be available", action.getUser());
 		try {
 			getCommandSpace().write(notificationTuple);
