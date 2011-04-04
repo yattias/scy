@@ -17,6 +17,7 @@ import eu.scy.tools.dataProcessTool.dataTool.DataProcessToolPanel;
 import eu.scy.tools.dataProcessTool.dataTool.DataTableModel;
 import eu.scy.tools.dataProcessTool.gmbl.GmblColumn;
 import eu.scy.tools.dataProcessTool.gmbl.GmblDataset;
+import eu.scy.tools.dataProcessTool.gmbl.GmblDocument;
 import eu.scy.tools.dataProcessTool.logger.FitexProperty;
 import eu.scy.tools.dataProcessTool.pdsELO.BarVisualization;
 import eu.scy.tools.dataProcessTool.pdsELO.GraphVisualization;
@@ -2170,29 +2171,35 @@ public class DataController implements ControllerInterface{
             fileReader = new InputStreamReader(new FileInputStream(file), "utf-8");
             Document doc = builder.build(fileReader, file.getAbsolutePath());
             Element element = doc.getRootElement();
-            GmblDataset gmblDataset = new GmblDataset(element);
+            GmblDocument gmblDocument = new GmblDocument(element);
             List<DataSetHeader> headers = new LinkedList<DataSetHeader>();
             DataSetHeader header;
             List<DataSetColumn> listC = new LinkedList<DataSetColumn>();
             int nbBMaxRow = 0;
-            for(Iterator<GmblColumn> col = gmblDataset.getColumns().iterator(); col.hasNext();){
-                GmblColumn gmblColumn = col.next();
-                DataSetColumn c = new DataSetColumn(gmblColumn.getColumnTitle(), "", gmblColumn.getType(), gmblColumn.getUnit());
-                listC.add(c);
-                nbBMaxRow = Math.max(nbBMaxRow, gmblColumn.getCellValues().size());
+            for(Iterator<GmblDataset> gmds = gmblDocument.getColumns().iterator(); gmds.hasNext();){
+                GmblDataset gmblDataset = gmds.next();
+                for(Iterator<GmblColumn> col = gmblDataset.getColumns().iterator(); col.hasNext();){
+                    GmblColumn gmblColumn = col.next();
+                    DataSetColumn c = new DataSetColumn(gmblColumn.getColumnTitle(), "", gmblColumn.getType(), gmblColumn.getUnit());
+                    listC.add(c);
+                    nbBMaxRow = Math.max(nbBMaxRow, gmblColumn.getCellValues().size());
+                }
+                header = new DataSetHeader(listC, dataToolPanel.getLocale());
+                headers.add(header);
             }
-            header = new DataSetHeader(listC, dataToolPanel.getLocale());
-            headers.add(header);
             eu.scy.elo.contenttype.dataset.DataSet ds = new eu.scy.elo.contenttype.dataset.DataSet(headers);
             for(int i=0; i<nbBMaxRow; i++){
                 List<String> values = new LinkedList<String>();
-                for(Iterator<GmblColumn> col = gmblDataset.getColumns().iterator(); col.hasNext();){
-                    GmblColumn gmblColumn = col.next();
-                    List<String> cellsValues = gmblColumn.getCellValues();
-                    if(i<cellsValues.size() && cellsValues.get(i) != null){
-                        values.add(cellsValues.get(i));
-                    }else{
-                        values.add("");
+                for(Iterator<GmblDataset> gmds = gmblDocument.getColumns().iterator(); gmds.hasNext();){
+                    GmblDataset gmblDataset = gmds.next();
+                    for(Iterator<GmblColumn> col = gmblDataset.getColumns().iterator(); col.hasNext();){
+                        GmblColumn gmblColumn = col.next();
+                        List<String> cellsValues = gmblColumn.getCellValues();
+                        if(i<cellsValues.size() && cellsValues.get(i) != null){
+                            values.add(cellsValues.get(i));
+                        }else{
+                            values.add("");
+                        }
                     }
                 }
                 DataSetRow datasetRow = new DataSetRow(values);
