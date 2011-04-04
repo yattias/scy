@@ -83,4 +83,10 @@ public class GmblColumn {
     public String getUnit() {
         return unit;
     }
+
+    public void setDsName(String dsName){
+        if(!dsName.equals("")){
+           columnTitle = dsName+": "+columnTitle;
+        }
+    }
 }
