@@ -23,6 +23,7 @@ import eu.scy.actionlogging.ActionTupleTransformer;
 import eu.scy.actionlogging.Context;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
+import eu.scy.agents.Mission;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.api.parameter.AgentParameter;
@@ -30,7 +31,7 @@ import eu.scy.agents.groupformation.cache.MissionGroupCache;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.session.SessionAgent;
+import eu.scy.agents.session.Session;
 
 public class GroupFormationAgent extends AbstractRequestAgent implements
 		IRepositoryAgent {
@@ -158,17 +159,14 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 	}
 
 	private void runGroupFormation(IAction action) throws TupleSpaceException {
-		String mission = getMission(action.getUser());
-		if (mission == null) {
-			mission = action.getContext(ContextConstants.mission);
-		}
+		Mission mission = getSession().getMission(action.getUser());
 		String las = action.getAttribute(LAS);
 
 		int minGroupSize = (Integer) configuration
-				.getParameter(new AgentParameter(mission,
+				.getParameter(new AgentParameter(mission.getName(),
 						MIN_GROUP_SIZE_PARAMETER));
 		int maxGroupSize = (Integer) configuration
-				.getParameter(new AgentParameter(mission,
+				.getParameter(new AgentParameter(mission.getName(),
 						MAX_GROUP_SIZE_PARAMETER));
 
 		String eloUri = action.getContext(ContextConstants.eloURI);
@@ -179,7 +177,8 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		Set<String> availableUsers = getAvailableUsers(scope, mission, las,
 				action.getUser());
 		if (availableUsers.size() < minGroupSize) {
-			if (!missionGroupsCache.contains(mission, las, action.getUser())) {
+			if (!missionGroupsCache.contains(mission.getName(), las,
+					action.getUser())) {
 				sendWaitNotification(action);
 			}
 			return;
@@ -188,10 +187,10 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		GroupFormationStrategy groupFormationStrategy = factory
 				.getStrategy(strategy);
 		groupFormationStrategy.setGroupFormationCache(missionGroupsCache.get(
-				mission, las));
+				mission.getName(), las));
 		groupFormationStrategy.setScope(scope);
 		groupFormationStrategy.setLas(las);
-		groupFormationStrategy.setMission(mission);
+		groupFormationStrategy.setMission(mission.getName());
 		groupFormationStrategy.setMinimumGroupSize(minGroupSize);
 		groupFormationStrategy.setMaximumGroupSize(maxGroupSize);
 		groupFormationStrategy.setAvailableUsers(availableUsers);
@@ -200,7 +199,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 				.formGroup(elo);
 
 		// if (groupsAreOk(formedGroup, minGroupSize, maxGroupSize)) {
-		missionGroupsCache.addGroups(mission, las, formedGroups);
+		missionGroupsCache.addGroups(mission.getName(), las, formedGroups);
 		// }
 		try {
 			sendGroupNotification(action, formedGroups);
@@ -210,36 +209,24 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 
 	}
 
-	private String getMission(String user) {
-		try {
-			Tuple missionTuple = getSessionSpace().read(
-					new Tuple(SessionAgent.MISSION, user, String.class,
-							String.class));
-			if (missionTuple != null) {
-				return (String) missionTuple.getField(2).getValue();
-			}
-		} catch (TupleSpaceException e) {
-			LOGGER.warn(e.getMessage());
-		}
-		return null;
-	}
-
 	private Set<String> getAvailableUsers(GroupFormationScope scope,
-			String mission, String las, String thisUser)
+			Mission mission, String las, String thisUser)
 			throws TupleSpaceException {
 		Set<String> availableUsers = new HashSet<String>();
 		availableUsers.add(thisUser);
 		switch (scope) {
 		case LAS:
-			Tuple[] allUsersInLas = getSessionSpace().readAll(
-					new Tuple(SessionAgent.LAS, String.class, mission, las));
+			Tuple[] allUsersInLas = getSessionSpace()
+					.readAll(
+							new Tuple(Session.LAS, String.class, mission
+									.getName(), las));
 			for (Tuple t : allUsersInLas) {
 				availableUsers.add((String) t.getField(1).getValue());
 			}
 			break;
 		case MISSION:
 			Tuple[] allUsersInMission = getSessionSpace().readAll(
-					new Tuple(SessionAgent.MISSION, String.class, mission,
+					new Tuple(Session.MISSION, String.class, mission,
 							String.class));
 			for (Tuple t : allUsersInMission) {
 				availableUsers.add((String) t.getField(1).getValue());

@@ -6,6 +6,7 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.rmi.dgc.VMID;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -15,20 +16,14 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
+import roolo.elo.metadata.keys.KeyValuePair;
 import eu.scy.agents.Mission;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.impl.AbstractELOSavedAgent;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.keywords.extractors.KeywordExtractor;
 import eu.scy.agents.keywords.extractors.KeywordExtractorFactory;
-import eu.scy.agents.session.SessionAgent;
-
-import java.util.ArrayList;
-
-import org.apache.log4j.Logger;
-
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import roolo.elo.metadata.keys.KeyValuePair;
 
 public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
 		IRepositoryAgent {
@@ -36,8 +31,8 @@ public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
 	public final static String NAME = AddKeywordsToMetadataAgent.class
 			.getName();
 
-	private static final Logger LOGGER = Logger
-			.getLogger(AddKeywordsToMetadataAgent.class.getName());
+	// private static final Logger LOGGER =
+	// Logger.getLogger(AddKeywordsToMetadataAgent.class.getName());
 
 	private IMetadataTypeManager metadataTypeManager;
 
@@ -63,19 +58,21 @@ public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
 			return;
 		}
 
-		Mission missionForUser = getMission(user);
+		Mission missionForUser = getSession().getMission(user);
 
 		KeywordExtractorFactory factory = new KeywordExtractorFactory();
 		KeywordExtractor extractor = factory.getKeywordExtractor(eloType);
 		extractor.setMission(missionForUser);
 		extractor.setTupleSpace(getCommandSpace());
 		List<String> keywords = extractor.getKeywords(elo);
-		List<KeyValuePair> keywordsWithBoost = setBoostFactors(keywords, "en", missionForUser); // TODO make language dynamic
+		List<KeyValuePair> keywordsWithBoost = setBoostFactors(keywords,
+				getSession().getLanguage(user), missionForUser);
 
 		addKeywordsToMetadata(elo, keywordsWithBoost);
 	}
 
-	private List<KeyValuePair> setBoostFactors(List<String> keywords, String language, Mission mission) {
+	private List<KeyValuePair> setBoostFactors(List<String> keywords,
+			String language, Mission mission) {
 		List<KeyValuePair> keywordsWithBoost = new ArrayList<KeyValuePair>();
 		HashSet<String> addedKeywords = new HashSet<String>(keywords);
 		for (String keyword : keywords) {
@@ -83,8 +80,8 @@ public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
 			try {
 				keywordsWithBoost.add(new KeyValuePair(keyword, "1.0"));
 				getCommandSpace().write(
-						new Tuple(id.toString(), "onto", "surrounding",
-								mission.getNamespace(), keyword, language));
+						new Tuple(id.toString(), "onto", "surrounding", mission
+								.getNamespace(), keyword, language));
 				Tuple respTuple = getCommandSpace()
 						.waitToTake(
 								new Tuple(id.toString(),
@@ -131,21 +128,6 @@ public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
 			e.printStackTrace();
 		}
 		return null;
-	}
-
-	private Mission getMission(String user) {
-		try {
-			Tuple missionTuple = getSessionSpace().read(
-					new Tuple(SessionAgent.MISSION, user, String.class,
-							String.class));
-			if (missionTuple != null) {
-				String missionString = (String) missionTuple.getField(3).getValue();
-				return Mission.getForName(missionString);
-			}
-		} catch (TupleSpaceException e) {
-			LOGGER.warn(e.getMessage());
-		}
-		return Mission.UNKNOWN_MISSION;
 	}
 
 	@Override

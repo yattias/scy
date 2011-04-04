@@ -16,6 +16,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import eu.scy.agents.AbstractTestFixture;
+import eu.scy.agents.Mission;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.roolo.rooloaccessor.RooloAccessorAgent;
@@ -82,9 +83,10 @@ public class ExtractKeywordsTest extends AbstractTestFixture {
 	@Test
 	public void testRun() throws TupleSpaceException {
 		VMID queryId = new VMID();
-		this.getCommandSpace()
-				.write(new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS,
-						AgentProtocol.QUERY, queryId.toString(), TEXT, MISSION1));
+		this.getCommandSpace().write(
+				new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS,
+						AgentProtocol.QUERY, queryId.toString(), TEXT,
+						Mission.MISSION1.getName()));
 
 		Tuple response = this.getCommandSpace().waitToTake(
 				new Tuple(ExtractKeywordsAgent.EXTRACT_KEYWORDS,

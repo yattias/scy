@@ -130,7 +130,8 @@ public class AddKeywordsToMetadataAgentTest extends AbstractTestFixture {
 				new Tuple(ActionConstants.ACTION, "ID", 122345L,
 						ActionConstants.ACTION_LOG_IN, UUID1234, "scy-desktop",
 						MISSION1, "n/a", copexEloPath, "missionSpecification="
-								+ MISSION1, "language=en"));
+								+ MISSION1, "language=en",
+						"missionName=Design a CO2 friendly house"));
 
 		Thread.sleep(AgentProtocol.SECOND);
 		addMetadataAgent

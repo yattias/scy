@@ -39,14 +39,6 @@ import eu.scy.agents.impl.AgentProtocol;
  */
 public class SessionAgent extends AbstractRequestAgent {
 
-	private static final String TOOL = "tool";
-
-	static final String LANGUAGE = "language";
-
-	public static final String LAS = "las";
-
-	public static final String MISSION = "mission";
-
 	public static final String METHOD_USERS_IN_LAS = "userInLas";
 	public static final String METHOD_USERS_IN_MISSION = "userInMission";
 	public static final String METHOD_GET_LAS = "lasOfUser";
@@ -173,7 +165,8 @@ public class SessionAgent extends AbstractRequestAgent {
 	private void handleCommandUsersInMission(String queryId, String mission) {
 		try {
 			Tuple[] tuples = getSessionSpace().readAll(
-					new Tuple(MISSION, String.class, mission, String.class));
+					new Tuple(Session.MISSION, String.class, mission,
+							String.class));
 			Tuple response = new Tuple(USER_INFO_REQUEST,
 					AgentProtocol.RESPONSE, queryId);
 			for (Tuple t : tuples) {
@@ -190,7 +183,7 @@ public class SessionAgent extends AbstractRequestAgent {
 			String mission) {
 		try {
 			Tuple lasTuple = getSessionSpace().read(
-					new Tuple(LAS, user, mission, String.class));
+					new Tuple(Session.LAS, user, mission, String.class));
 
 			String lasForUser = (String) lasTuple.getField(3).getValue();
 			if (lasForUser == null) {
@@ -209,7 +202,7 @@ public class SessionAgent extends AbstractRequestAgent {
 
 		try {
 			Tuple[] lasTuples = getSessionSpace().readAll(
-					new Tuple(LAS, String.class, mission, las));
+					new Tuple(Session.LAS, String.class, mission, las));
 			Tuple response = new Tuple(USER_INFO_REQUEST,
 					AgentProtocol.RESPONSE, queryId);
 			for (Tuple t : lasTuples) {
@@ -248,9 +241,10 @@ public class SessionAgent extends AbstractRequestAgent {
 		try {
 			cleanSession(action);
 			getSessionSpace().write(
-					new Tuple(LANGUAGE, user, action.getAttribute(LANGUAGE)));
+					new Tuple(Session.LANGUAGE, user, action
+							.getAttribute(Session.LANGUAGE)));
 			getSessionSpace().write(
-					new Tuple(MISSION, user, action
+					new Tuple(Session.MISSION, user, action
 							.getAttribute("missionSpecification"), action
 							.getAttribute("missionName")));
 		} catch (TupleSpaceException e) {
@@ -261,14 +255,15 @@ public class SessionAgent extends AbstractRequestAgent {
 	private void handleLasChanged(IAction action) {
 		try {
 			Tuple missionTuple = getSessionSpace().read(
-					new Tuple(MISSION, action.getUser(), String.class,
+					new Tuple(Session.MISSION, action.getUser(), String.class,
 							String.class));
-			String mission = missionTuple.getField(2).getValue().toString();
+			String missionName = missionTuple.getField(3).getValue().toString();
 			getSessionSpace().deleteAll(
-					new Tuple(LAS, action.getUser(), mission, String.class));
+					new Tuple(Session.LAS, action.getUser(), missionName,
+							String.class));
 			getSessionSpace().write(
-					new Tuple(LAS, action.getUser(), mission, action
-							.getAttribute(ActionConstants.LAS)));
+					new Tuple(Session.LAS, action.getUser(), missionName,
+							action.getAttribute(ActionConstants.LAS)));
 		} catch (TupleSpaceException e) {
 			LOGGER.warn("", e);
 		}
@@ -299,8 +294,9 @@ public class SessionAgent extends AbstractRequestAgent {
 	private void handleToolClosed(IAction action) {
 		try {
 			getSessionSpace().delete(
-					new Tuple(TOOL, action.getUser(), action
-							.getContext(ContextConstants.tool)));
+					new Tuple(Session.TOOL, action.getUser(), action
+							.getContext(ContextConstants.tool), action
+							.getContext(ContextConstants.eloURI)));
 		} catch (TupleSpaceException e) {
 			LOGGER.warn("", e);
 		}
@@ -309,8 +305,9 @@ public class SessionAgent extends AbstractRequestAgent {
 	private void handleToolOpened(IAction action) {
 		try {
 			getSessionSpace().write(
-					new Tuple(TOOL, action.getUser(), action
-							.getContext(ContextConstants.tool)));
+					new Tuple(Session.TOOL, action.getUser(), action
+							.getContext(ContextConstants.tool), action
+							.getContext(ContextConstants.eloURI)));
 		} catch (TupleSpaceException e) {
 			LOGGER.warn("", e);
 		}

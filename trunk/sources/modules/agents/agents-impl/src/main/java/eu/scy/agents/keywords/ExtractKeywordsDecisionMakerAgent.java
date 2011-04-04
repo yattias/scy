@@ -30,7 +30,6 @@ import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.keywords.extractors.KeywordExtractor;
 import eu.scy.agents.keywords.extractors.WebresourceExtractor;
-import eu.scy.agents.session.SessionAgent;
 
 public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 		implements IRepositoryAgent {
@@ -344,7 +343,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 					return;
 				}
 
-				Mission mission = getMission(user);
+				Mission mission = getSession().getMission(user);
 
 				extractor.setMission(mission);
 				List<String> keywords = extractor.getKeywords(elo);
@@ -355,21 +354,6 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 						contextInformation, keywords);
 				contextInformation.lastNotification = currentTime;
 			}
-
-		        private Mission getMission(String user) {
-		                try {
-		                        Tuple missionTuple = getSessionSpace().read(
-		                                        new Tuple(SessionAgent.MISSION, user, String.class,
-		                                                        String.class));
-		                        if (missionTuple != null) {
-		                                String missionString = (String) missionTuple.getField(3).getValue();
-		                                return Mission.getForName(missionString);
-		                        }
-		                } catch (TupleSpaceException e) {
-		                        LOGGER.warn(e.getMessage());
-		                }
-		                return Mission.UNKNOWN_MISSION;
-		        }
 
 			private IELO getELO(final ContextInformation contextInformation) {
 				if (ExtractKeywordsDecisionMakerAgent.this.repository == null) {
