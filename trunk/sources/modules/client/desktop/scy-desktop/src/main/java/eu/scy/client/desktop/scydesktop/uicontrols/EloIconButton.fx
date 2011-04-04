@@ -29,12 +29,14 @@ import javafx.scene.layout.Stack;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import org.apache.log4j.Logger;
 
 /**
  * @author SikkenJ
  */
 public class EloIconButton extends CustomNode, TooltipCreator {
 
+   def logger = Logger.getLogger(this.getClass());
    var originalWindowColorScheme = WindowColorScheme {};
    public var eloIcon: EloIcon on replace { newEloIcon() };
    public var size = 10.0 on replace { sizesChanged() };
@@ -42,7 +44,7 @@ public class EloIconButton extends CustomNode, TooltipCreator {
    public var action: function(): Void;
    public var turnedOn = false on replace { turnOnChanged() };
    public var tooltip: String;
-   public var tooltipFunction: function():String;
+   public var tooltipFunction: function(): String;
    public var tooltipManager: TooltipManager;
    public var actionScheme = 0;
    public var disableButton = false on replace { updateColors() };
@@ -89,9 +91,31 @@ public class EloIconButton extends CustomNode, TooltipCreator {
                  }
               ];
            };
+   var startAnimationCount = 0;
+
+   function startAnimation(): Void {
+      if (not animationReady) {
+         startAnimationCount++;
+         if (startAnimationCount < 20) {
+            if (not sizeChangeTimeLine.running) {
+               sizeChangeTimeLine.play();
+            }
+            FX.deferAction(startAnimation);
+         } else {
+            logger.warn("failed to start animation in {startAnimationCount} tries\nsizeChangeTimeLine: {sizeChangeTimeLine}, icon: {eloIcon}, running: {sizeChangeTimeLine.running}, rate:{sizeChangeTimeLine.rate}, paused: {sizeChangeTimeLine.paused}, time: {sizeChangeTimeLine.time}");
+         }
+      } else {
+      //         println("startAnimation started after {startAnimationCount} tries");
+      }
+   }
 
    function startGrow(): Void {
       //      println("startGrow, rate:{sizeChangeTimeLine.rate}, paused: {sizeChangeTimeLine.paused}, time: {sizeChangeTimeLine.time}");
+      if (not animationReady) {
+         // animation not yet ready, wait for it
+         println("startGrow(): animation not ready: icon: {eloIcon}, running: {sizeChangeTimeLine.running}, rate:{sizeChangeTimeLine.rate}, paused: {sizeChangeTimeLine.paused}, time: {sizeChangeTimeLine.time}");
+         return
+      }
       if (sizeChangeTimeLine.time == growTime) {
          // we are allready big, do nothing
          return
@@ -105,6 +129,11 @@ public class EloIconButton extends CustomNode, TooltipCreator {
 
    function startShrink(): Void {
       //      println("startShrink, rate:{sizeChangeTimeLine.rate}, paused: {sizeChangeTimeLine.paused}, time: {sizeChangeTimeLine.time}");
+      if (not animationReady) {
+         // animation not yet ready, wait for it
+         println("startShrink(): animation not ready: icon: {eloIcon}, running: {sizeChangeTimeLine.running}, rate:{sizeChangeTimeLine.rate}, paused: {sizeChangeTimeLine.paused}, time: {sizeChangeTimeLine.time}");
+         return
+      }
       if (sizeChangeTimeLine.time == 0ms) {
          // we are allready small, do nothing
          return
@@ -161,7 +190,7 @@ public class EloIconButton extends CustomNode, TooltipCreator {
    function updateColors0(): Void {
       if (disableButton) {
          eloIcon.windowColorScheme.assign(originalWindowColorScheme);
-         if (hideBackground){
+         if (hideBackground) {
             eloIcon.windowColorScheme.mainColorLight = originalWindowColorScheme.backgroundColor
          }
          opacity = disabledOpacity;
@@ -182,7 +211,7 @@ public class EloIconButton extends CustomNode, TooltipCreator {
             eloIcon.windowColorScheme.emptyBackgroundColor = originalWindowColorScheme.mainColor;
          } else if (not mouseOver and not mousePressed) {
             eloIcon.windowColorScheme.assign(originalWindowColorScheme);
-            if (hideBackground){
+            if (hideBackground) {
                eloIcon.windowColorScheme.mainColorLight = originalWindowColorScheme.backgroundColor
             }
          } else if (mouseOver and not mousePressed) {
@@ -206,7 +235,7 @@ public class EloIconButton extends CustomNode, TooltipCreator {
    function updateColors1(): Void {
       if (disableButton) {
          eloIcon.windowColorScheme.assign(originalWindowColorScheme);
-         if (hideBackground){
+         if (hideBackground) {
             eloIcon.windowColorScheme.mainColorLight = originalWindowColorScheme.backgroundColor
          }
          opacity = disabledOpacity;
@@ -227,7 +256,7 @@ public class EloIconButton extends CustomNode, TooltipCreator {
             eloIcon.windowColorScheme.emptyBackgroundColor = originalWindowColorScheme.mainColor;
          } else if (not mouseOver and not mousePressed) {
             eloIcon.windowColorScheme.assign(originalWindowColorScheme);
-            if (hideBackground){
+            if (hideBackground) {
                eloIcon.windowColorScheme.mainColorLight = originalWindowColorScheme.backgroundColor
             }
          } else if (mouseOver and not mousePressed) {
@@ -257,7 +286,7 @@ public class EloIconButton extends CustomNode, TooltipCreator {
    }
 
    public override function create(): Node {
-      sizeChangeTimeLine.play();
+      startAnimation();
       newEloIcon();
       eloIconGroup = Group {
                  content: bind eloIcon
@@ -311,8 +340,8 @@ public class EloIconButton extends CustomNode, TooltipCreator {
    }
 
    public override function createTooltipNode(sourceNode: Node): Node {
-      var tooltipText = if (tooltipFunction!=null) tooltipFunction() else tooltip;
-//      println("tooltipFunction: {tooltipFunction}, tooltip: {tooltip}  ->  tooltipText: {tooltipText}");
+      var tooltipText = if (tooltipFunction != null) tooltipFunction() else tooltip;
+      //      println("tooltipFunction: {tooltipFunction}, tooltip: {tooltip}  ->  tooltipText: {tooltipText}");
       if (tooltipText != "") {
          return TextTooltip {
                     content: tooltipText
