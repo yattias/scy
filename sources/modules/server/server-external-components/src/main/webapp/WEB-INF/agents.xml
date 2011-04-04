@@ -168,10 +168,33 @@
 		</constructor-arg>
 	</bean>
 
-
 	<bean id="groupFormation" class="eu.scy.agents.impl.AgentStartConfiguration">
 		<constructor-arg index="0"
 			value="eu.scy.agents.groupformation.GroupFormationAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+
+	<bean id="cmEnricher" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.conceptmap.enrich.CMEnricherAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+	
+	<bean id="cmProposer" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.conceptmap.proposer.CMProposerAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+	
+	<bean id="cmModeller" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.conceptmap.model.UserConceptMapAgent" />
 		<constructor-arg index="1">
 			<map />
 		</constructor-arg>
