@@ -210,6 +210,8 @@ public class MissionMap extends CustomNode {
                   anchorDisplay: anchorMap.get(las) as AnchorDisplay
                   missionAnchor: las.mainAnchor
                   mainAnchor: true
+                  missionModel: missionModel
+                  tooltipManager: tooltipManager
                }
          }
          for (anchor in las.intermediateAnchors) {
@@ -218,6 +220,8 @@ public class MissionMap extends CustomNode {
                      anchorDisplay: anchorMap.get(las) as AnchorDisplay
                      missionAnchor: anchor
                      mainAnchor: false
+                     missionModel: missionModel
+                     tooltipManager: tooltipManager
                   }
             }
          }

@@ -43,6 +43,7 @@ public class WindowStateControls extends TitleBarItemList {
                     disableButton: bind not enableRotateNormal
                     tooltipManager: tooltipManager
                     actionScheme: actionScheme
+                    hideBackground: true
                  }
                  EloIconButton {
                     eloIcon: createEloIcon("minimize")
@@ -51,6 +52,7 @@ public class WindowStateControls extends TitleBarItemList {
                     disableButton: bind not enableMinimize
                     tooltipManager: tooltipManager
                     actionScheme: actionScheme
+                    hideBackground: true
                  }
                  EloIconButton {
                     eloIcon: createEloIcon("center")
@@ -59,6 +61,7 @@ public class WindowStateControls extends TitleBarItemList {
                     disableButton: bind not enableCenter
                     tooltipManager: tooltipManager
                     actionScheme: actionScheme
+                    hideBackground: true
                  }
                  EloIconButton {
                     eloIcon: createEloIcon("maximize")
@@ -67,6 +70,7 @@ public class WindowStateControls extends TitleBarItemList {
                     disableButton: bind not enableMaximize
                     tooltipManager: tooltipManager
                     actionScheme: actionScheme
+                    hideBackground: true
                  }
               ];
       itemListChanged();

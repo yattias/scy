@@ -42,9 +42,11 @@ public class EloIconButton extends CustomNode, TooltipCreator {
    public var action: function(): Void;
    public var turnedOn = false on replace { turnOnChanged() };
    public var tooltip: String;
+   public var tooltipFunction: function():String;
    public var tooltipManager: TooltipManager;
    public var actionScheme = 0;
    public var disableButton = false on replace { updateColors() };
+   public var hideBackground = false;
    var mouseOver = false;
    var mousePressed = false;
    var eloIconGroup: Group;
@@ -52,6 +54,7 @@ public class EloIconButton extends CustomNode, TooltipCreator {
    def enabledOpacity = 1.0;
    def disabledOpacity = 0.5;
    def lighterColorFactor = 0.5;
+   var animationReady = false;
    def growTime = 250ms;
    def sizeChangeTimeLine: Timeline = Timeline {
               repeatCount: Timeline.INDEFINITE
@@ -67,7 +70,8 @@ public class EloIconButton extends CustomNode, TooltipCreator {
 //                       println("at begin, rate: {sizeChangeTimeLine.rate}");
                        sizeChangeTimeLine.rate = 1;
                        sizeChangeTimeLine.pause();
-
+                       animationReady = true;
+                       turnOnChanged();
                     }
                  }
                  KeyFrame {
@@ -80,7 +84,7 @@ public class EloIconButton extends CustomNode, TooltipCreator {
 //                       println("at end, rate: {sizeChangeTimeLine.rate}");
                        sizeChangeTimeLine.rate = 1;
                        sizeChangeTimeLine.pause();
-
+                       animationReady = true;
                     }
                  }
               ];
@@ -112,13 +116,15 @@ public class EloIconButton extends CustomNode, TooltipCreator {
       }
    }
 
-   function turnOnChanged() {
-      if (turnedOn) {
-         startGrow();
-      } else {
-         startShrink();
+   function turnOnChanged(): Void {
+      if (animationReady) {
+         if (turnedOn) {
+            startGrow();
+         } else {
+            startShrink();
+         }
+         updateColors();
       }
-      updateColors();
    }
 
    function newEloIcon(): Void {
@@ -155,6 +161,9 @@ public class EloIconButton extends CustomNode, TooltipCreator {
    function updateColors0(): Void {
       if (disableButton) {
          eloIcon.windowColorScheme.assign(originalWindowColorScheme);
+         if (hideBackground){
+            eloIcon.windowColorScheme.mainColorLight = originalWindowColorScheme.backgroundColor
+         }
          opacity = disabledOpacity;
          blocksMouse = false;
          cursor = null;
@@ -173,6 +182,9 @@ public class EloIconButton extends CustomNode, TooltipCreator {
             eloIcon.windowColorScheme.emptyBackgroundColor = originalWindowColorScheme.mainColor;
          } else if (not mouseOver and not mousePressed) {
             eloIcon.windowColorScheme.assign(originalWindowColorScheme);
+            if (hideBackground){
+               eloIcon.windowColorScheme.mainColorLight = originalWindowColorScheme.backgroundColor
+            }
          } else if (mouseOver and not mousePressed) {
             eloIcon.windowColorScheme.mainColor = originalWindowColorScheme.mainColorLight;
             eloIcon.windowColorScheme.mainColorLight = originalWindowColorScheme.mainColor;
@@ -194,6 +206,9 @@ public class EloIconButton extends CustomNode, TooltipCreator {
    function updateColors1(): Void {
       if (disableButton) {
          eloIcon.windowColorScheme.assign(originalWindowColorScheme);
+         if (hideBackground){
+            eloIcon.windowColorScheme.mainColorLight = originalWindowColorScheme.backgroundColor
+         }
          opacity = disabledOpacity;
          blocksMouse = false;
          cursor = null;
@@ -212,6 +227,9 @@ public class EloIconButton extends CustomNode, TooltipCreator {
             eloIcon.windowColorScheme.emptyBackgroundColor = originalWindowColorScheme.mainColor;
          } else if (not mouseOver and not mousePressed) {
             eloIcon.windowColorScheme.assign(originalWindowColorScheme);
+            if (hideBackground){
+               eloIcon.windowColorScheme.mainColorLight = originalWindowColorScheme.backgroundColor
+            }
          } else if (mouseOver and not mousePressed) {
             eloIcon.windowColorScheme.mainColor = originalWindowColorScheme.mainColorLight;
             eloIcon.windowColorScheme.mainColorLight = originalWindowColorScheme.mainColor;
@@ -241,7 +259,6 @@ public class EloIconButton extends CustomNode, TooltipCreator {
    public override function create(): Node {
       sizeChangeTimeLine.play();
       newEloIcon();
-      FX.deferAction(turnOnChanged);
       eloIconGroup = Group {
                  content: bind eloIcon
 
@@ -294,9 +311,11 @@ public class EloIconButton extends CustomNode, TooltipCreator {
    }
 
    public override function createTooltipNode(sourceNode: Node): Node {
-      if (tooltip != "") {
+      var tooltipText = if (tooltipFunction!=null) tooltipFunction() else tooltip;
+//      println("tooltipFunction: {tooltipFunction}, tooltip: {tooltip}  ->  tooltipText: {tooltipText}");
+      if (tooltipText != "") {
          return TextTooltip {
-                    content: tooltip
+                    content: tooltipText
                     windowColorScheme: originalWindowColorScheme
                  }
 

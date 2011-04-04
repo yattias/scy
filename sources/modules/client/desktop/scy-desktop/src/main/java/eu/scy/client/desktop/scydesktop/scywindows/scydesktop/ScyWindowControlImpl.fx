@@ -19,7 +19,7 @@ import javafx.util.Sequences;
 import java.lang.Void;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.common.scyelo.ScyElo;
-import roolo.elo.api.IMetadataKey;
+import eu.scy.client.desktop.scydesktop.scywindows.DatasyncAttribute;
 
 /**
  * @author sikken
@@ -307,7 +307,8 @@ public class ScyWindowControlImpl extends ScyWindowControl {
          }
       }
       if (showEloInfoDisplay){
-         insert getEloInfoDisplayAttribute(scyWindow) into scyWindow.scyWindowAttributes
+//         insert getDataSyncAttribute(scyWindow) into scyWindow.scyWindowAttributes;
+         insert getEloInfoDisplayAttribute(scyWindow) into scyWindow.scyWindowAttributes;
       }
 
       //      applyMetadataAttributes(scyWindow,eloUri);
@@ -334,7 +335,8 @@ public class ScyWindowControlImpl extends ScyWindowControl {
             }
       windowStyler.style(scyWindow);
       if (showEloInfoDisplay){
-         insert getEloInfoDisplayAttribute(scyWindow) into scyWindow.scyWindowAttributes
+//         insert getDataSyncAttribute(scyWindow) into scyWindow.scyWindowAttributes;
+         insert getEloInfoDisplayAttribute(scyWindow) into scyWindow.scyWindowAttributes;
       }
 //      tooltipManager.registerNode(scyWindow, scyWindow);
       //windowStyler.style(scyWindow);
@@ -350,6 +352,15 @@ public class ScyWindowControlImpl extends ScyWindowControl {
          tooltipManager:tooltipManager
       }
    }
+
+   function getDataSyncAttribute(scyWindow:ScyWindow): DatasyncAttribute{
+      DatasyncAttribute{
+         scyWindow:scyWindow
+         tooltipManager:tooltipManager
+      }
+
+   }
+
 
 
    function getAnchor(eloUri: URI): MissionAnchorFX {

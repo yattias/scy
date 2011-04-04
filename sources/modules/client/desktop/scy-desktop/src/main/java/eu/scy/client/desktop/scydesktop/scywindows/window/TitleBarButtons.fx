@@ -45,12 +45,12 @@ public class TitleBarButtons extends TitleBarItemList, TitleBarButtonManager {
                             disableButton: bind not titleBarButton.enabled
                             tooltipManager: tooltipManager
                             actionScheme: actionScheme
+                            hideBackground: true
                          }
                  eloIconButton
               }
       displayBox.content = eloIconButtons;
       itemListChanged();
-
    }
 
 }

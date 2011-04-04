@@ -50,7 +50,7 @@ return Group {
 					stroke: bind windowColorScheme.mainColor
 					strokeWidth: 6.01
 					strokeLineCap: StrokeLineCap.ROUND
-					content: "M3.61,17.01 C4.72,9.46 11.83,3.64 20.44,3.64 C29.14,3.64 36.32,9.59 37.31,17.25 "
+					content: "M3.61,11.58 C4.72,7.10 11.83,3.64 20.44,3.64 C29.14,3.64 36.32,7.17 37.31,11.73 "
 				},
 				SVGPath {
 					fill: null
