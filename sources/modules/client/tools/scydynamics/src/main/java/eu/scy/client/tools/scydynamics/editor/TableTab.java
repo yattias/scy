@@ -29,7 +29,7 @@ import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
-import eu.scy.client.tools.scydynamics.model.SimquestModel;
+import eu.scy.client.tools.scydynamics.model.SimquestModelQuantitative;
 import eu.scy.elo.contenttype.dataset.DataSet;
 import eu.scy.elo.contenttype.dataset.DataSetColumn;
 import eu.scy.elo.contenttype.dataset.DataSetHeader;
@@ -55,7 +55,7 @@ public class TableTab extends JPanel implements ChangeListener, ActionListener {
     private JPanel tablePanel;
     private DataServer dataServer;
     private SimulationSettingsPanel simulationPanel;
-    private SimquestModel sqModel;
+    private SimquestModelQuantitative sqModel;
     private JTable table;
     private SimulationTableModel tableModel;
     private JScrollPane scrollPane;
@@ -131,7 +131,7 @@ public class TableTab extends JPanel implements ChangeListener, ActionListener {
 				return;
 			}
             // create the SimQuest model from the CoLab model
-            sqModel = new SimquestModel(editor.getModel(), variablePanel.getValues());
+            sqModel = new SimquestModelQuantitative(editor.getModel(), variablePanel.getValues());
             sqv.Model model = new sqv.Model(sqModel, dataServer);
 
             // building the tablemodel
@@ -199,7 +199,7 @@ public class TableTab extends JPanel implements ChangeListener, ActionListener {
             return;
         }
         // create the SimQuest model from the CoLab model
-        sqModel = new SimquestModel(editor.getModel());
+        sqModel = new SimquestModelQuantitative(editor.getModel());
         sqv.Model model = new sqv.Model(sqModel, dataServer);
         FileDialog dialog = new FileDialog((Frame) editor.getRootPane().getParent(), bundle.getString("PANEL_SAVESQX"), FileDialog.SAVE);
         dialog.setFile("*.sqx");

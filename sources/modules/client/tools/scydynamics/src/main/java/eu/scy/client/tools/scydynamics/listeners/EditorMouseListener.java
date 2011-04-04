@@ -77,7 +77,7 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
                             x, y);
                     break;
                 case EditorToolbar.RELATION:
-                    actionCreateLink(new JdRelation(model.getFreeName(JdFigure.RELATION), editor.allowQualitative()), x, y);
+                    actionCreateLink(new JdRelation(model.getFreeName(JdFigure.RELATION), true), x, y);
                     break;
             } // switch
         } // if
@@ -213,6 +213,9 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
             editor.selectObject(aNode, false);
             editor.getEditorToolbar().toCursorAction();
             editor.getActionLogger().logAddAction(aNode, editor.getModelXML());
+            if (editor.isSynchronized()) {
+            	editor.getModelSyncControl().addNode(aNode);
+            }
         }
     }
 
@@ -365,14 +368,12 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
                 }
                 break;
         }
-        // if (lastMsg!=userMsg) editor.showStatusMsg(userMsg);
         try {
             fLink.movePoint(dragPoint, x, y);
         } catch (NullPointerException ex) {
         }
     }
 
-    // -------------------------------------------------------------------------
     private boolean validateLinkFig2(JdLink l, JdFigure f) {
         try {
             switch (l.getType()) {
@@ -396,10 +397,12 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
                     if (l.getFigure1() == f) {
                         return false;
                     }
-                    if (f.getType() == JdFigure.STOCK && !editor.stockEnds()) {
+                    if (f.getType() == JdFigure.STOCK) {
                         userMsg = JdEditor.LNK_NO_STOCK_ENDS;
                     } else if (f.getType() == JdFigure.AUX
-                            || f.getType() == JdFigure.STOCK
+                    		// incoming relations to stocks are not allowed,
+                    		// thus commenting out next line
+                            //|| f.getType() == JdFigure.STOCK
                             || f.getType() == JdFigure.FLOWCTR) {
                         return true;
                     } else if (f.getType() == JdFigure.CONSTANT) {
@@ -517,7 +520,6 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
             editor.selectObjects(r);
         }
     }
-    //---------------------------------------------------------------------------
 
     private void actionEndLink() {
         if (!allowDrag) {
@@ -529,7 +531,6 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
                 b = allowConnection1(fLink, fOver);
                 if (b) { // can link stop on object?
                     fLink.setFigure1(fOver);
-                    //editor.sendLogEventAddObject(fLink);
                 } else {
                     model.removeObjectAndRelations(fLink);
                 }
@@ -538,7 +539,7 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
             case JdHandle.H_P2:
                 b = allowConnection2(fLink, fOver);
                 if (b) { // can link stop on object?
-                    if (editor.defaultQualitative() && fLink.isRelation() && fOver.isAux()) {
+                    if (fLink.isRelation() && fOver.isAux()) {
                         if (((JdRelation) fLink).getRelationType() != JdRelation.R_FX) {
                             ((JdAux) fOver).setExprType(JdNode.EXPR_QUALITATIVE);
                         }
@@ -546,7 +547,6 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
                     fLink.setFigure2(fOver);
                     editor.getEditorToolbar().toCursorAction();
                     editor.getActionLogger().logAddAction(fLink, editor.getModelXML());
-                    //editor.sendLogEventAddObject(fLink);
                 } else {
                     model.removeObjectAndRelations(fLink);
                 }
@@ -560,7 +560,6 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
             fOver.setEnhanced(false);
             fOver = null;
         }
-        //editor.clearStatusMsg();
         userMsg = -1;
         //setEditorCursor(lastCursor);
         fLink = null;

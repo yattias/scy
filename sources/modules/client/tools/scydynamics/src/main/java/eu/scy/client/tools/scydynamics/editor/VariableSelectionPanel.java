@@ -11,20 +11,16 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
-
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
 import colab.um.draw.JdFigure;
 import colab.um.draw.JdObject;
 import eu.scy.client.tools.scydynamics.model.Model;
 import java.util.logging.Logger;
-
 
 @SuppressWarnings("serial")
 public class VariableSelectionPanel extends JPanel {
@@ -166,7 +162,9 @@ public class VariableSelectionPanel extends JPanel {
 				textField.setText(object.getExpr());
 				textFields.add(textField);
 				vPanel.add(textField);
-				panel.add(vPanel);
+				if (!editor.isQualitative()) {
+					panel.add(vPanel);
+				}
 			}
 		}
 		return panel;
