@@ -111,9 +111,10 @@ public class WindowTitleBarDouble extends WindowElement {
       titleBarWindowAttributes.itemListChanged = updatePositions;
       titleBarBuddies.itemListChanged = updatePositions;
       titleBarButtons.itemListChanged = updatePositions;
-      def y = 2 * borderWidth + 1;
-      titleBarWindowAttributes.layoutY = y;
-      titleBarBuddies.layoutY = y;
+      def y = borderWidth/2;
+      def yTemp = 2*borderWidth+1;
+      titleBarWindowAttributes.layoutY = yTemp;
+      titleBarBuddies.layoutY = yTemp;
       titleBarButtons.layoutY = y;
       def leftSide = iconSize + textIconSpace;
       def rightSize = width - windowStateControls.layoutBounds.width - 2 * borderWidth;
@@ -243,8 +244,8 @@ public class WindowTitleBarDouble extends WindowElement {
                     titleBarBuddies,
                     titleBarWindowAttributes,
                     Group {
-                       layoutX: bind width - windowStateControls.layoutBounds.width - 2 * borderWidth
-                       layoutY: 2 * borderWidth + 1
+                       layoutX: bind width - windowStateControls.layoutBounds.width
+                       layoutY: borderWidth/2
                        content: windowStateControls;
                     }
                  //				Group{ // just for checking title clip
@@ -477,6 +478,7 @@ function run() {
                                      }
                                   ]
                                }
+                               windowStateControls: WindowStateControls{}
                                translateX: 10;
                                translateY: 10;
                                activated: true;

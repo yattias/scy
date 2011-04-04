@@ -37,7 +37,7 @@ public class WindowColorScheme {
    }
 
    public override function toString():String{
-      "colorSchemeId: {colorSchemeId}, mainColor: {mainColor}, secondColor: {secondColor}, backgroundColor: {backgroundColor}"
+      "colorSchemeId: {colorSchemeId}, mainColor: {mainColor}, mainColorLight: {mainColorLight}, secondColor: {secondColor}, secondColorLight: {secondColorLight}, backgroundColor: {backgroundColor}"
    }
 
    public function getColorScheme():ColorScheme{
