@@ -50,7 +50,7 @@
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<simconfig simulationname="New Equation Model" simulationuri="http://www.scy-lab.eu/sqzx/pizza.sqzx">
+<simconfig simulationname="New Equation Model" simulationuri="http://www.scy-lab.eu/sqzx/pizza.sqzx" mode="explore_simple_data">
   <variable name="nutritientsVector" value="0.0" />
   <variable name="saturatedFat" value="1.0" />
   <variable name="startTime" value="0.0" />
@@ -73,7 +73,6 @@
   <variable name="totalFat" value="6.5" />
   <variable name="cholesterol" value="0.0" />
   <variable name="cost" value="1.31" />
-  <variable name="i0" value="0.0" />
   <variable name="outputAfterTime" value="0.01" />
   <variable name="i31" value="0.0" />
   <variable name="i30" value="0.0" />
@@ -83,7 +82,6 @@
   <variable name="i32" value="0.0" />
   <variable name="nutritientsTable" value="0.0" />
   <variable name="i6" value="0.0" />
-  <variable name="dummy" value="1.0" />
   <variable name="i35" value="0.0" />
   <variable name="i5" value="0.0" />
   <variable name="i34" value="0.0" />
@@ -129,6 +127,73 @@
   <variable name="simulator__state" value="1.0" />
   <variable name="energy" value="674.0" />
   <variable name="sugar" value="2.5" />
+  <relevantVariable name="cholesterol" />
+  <relevantVariable name="cost" />
+  <relevantVariable name="dough" />
+  <relevantVariable name="energy" />
+  <relevantVariable name="fiber" />
+  <relevantVariable name="i10" />
+  <relevantVariable name="i11" />
+  <relevantVariable name="i12" />
+  <relevantVariable name="i13" />
+  <relevantVariable name="i14" />
+  <relevantVariable name="i15" />
+  <relevantVariable name="i16" />
+  <relevantVariable name="i17" />
+  <relevantVariable name="i18" />
+  <relevantVariable name="i19" />
+  <relevantVariable name="i1" />
+  <relevantVariable name="i20" />
+  <relevantVariable name="i21" />
+  <relevantVariable name="i22" />
+  <relevantVariable name="i23" />
+  <relevantVariable name="i24" />
+  <relevantVariable name="i25" />
+  <relevantVariable name="i26" />
+  <relevantVariable name="i27" />
+  <relevantVariable name="i28" />
+  <relevantVariable name="i29" />
+  <relevantVariable name="i2" />
+  <relevantVariable name="i30" />
+  <relevantVariable name="i31" />
+  <relevantVariable name="i32" />
+  <relevantVariable name="i33" />
+  <relevantVariable name="i34" />
+  <relevantVariable name="i35" />
+  <relevantVariable name="i36" />
+  <relevantVariable name="i37" />
+  <relevantVariable name="i38" />
+  <relevantVariable name="i39" />
+  <relevantVariable name="i3" />
+  <relevantVariable name="i40" />
+  <relevantVariable name="i41" />
+  <relevantVariable name="i42" />
+  <relevantVariable name="i43" />
+  <relevantVariable name="i44" />
+  <relevantVariable name="i45" />
+  <relevantVariable name="i46" />
+  <relevantVariable name="i47" />
+  <relevantVariable name="i48" />
+  <relevantVariable name="i49" />
+  <relevantVariable name="i4" />
+  <relevantVariable name="i50" />
+  <relevantVariable name="i51" />
+  <relevantVariable name="i52" />
+  <relevantVariable name="i53" />
+  <relevantVariable name="i5" />
+  <relevantVariable name="i6" />
+  <relevantVariable name="i7" />
+  <relevantVariable name="i8" />
+  <relevantVariable name="i9" />
+  <relevantVariable name="ingredientsSelection" />
+  <relevantVariable name="nutritientsTable" />
+  <relevantVariable name="nutritientsVector" />
+  <relevantVariable name="protein" />
+  <relevantVariable name="saturatedFat" />
+  <relevantVariable name="sodium" />
+  <relevantVariable name="sugar" />
+  <relevantVariable name="totalCarbs" />
+  <relevantVariable name="totalFat" />
 </simconfig>
 </content>
 <resources>
