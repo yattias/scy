@@ -96,10 +96,13 @@ public class AnchorAttribute extends ScyWindowAttribute {
 
    function tooltipFunction():String{
       if (missionModel.activeLas!=missionAnchor.las){
-         "product\nclick to open in activity: {missionAnchor.las.title}"
+         "product of other activity: {missionAnchor.las.title}\nclick to open in activity"
+      }
+      else if (scyWindow.isClosed){
+         "product of this activity\nclick to open and center"
       }
       else{
-         "product\nclick to center"
+         "product of this activity\nclick to center"
       }
    }
 

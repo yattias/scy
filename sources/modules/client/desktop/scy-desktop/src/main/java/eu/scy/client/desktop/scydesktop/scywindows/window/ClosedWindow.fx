@@ -4,8 +4,6 @@
  */
 package eu.scy.client.desktop.scydesktop.scywindows.window;
 
-import javafx.scene.Group;
-import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import eu.scy.common.scyelo.ScyElo;
@@ -19,14 +17,18 @@ import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.FxdEloIcon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextOrigin;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.TextAlignment;
 import javafx.scene.layout.Stack;
-import javafx.geometry.VPos;
+import javafx.util.Sequences;
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowAttribute;
 import javafx.geometry.HPos;
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.text.TextOrigin;
+import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.AnchorAttribute;
 
 /**
  * @author SikkenJ
@@ -48,6 +50,11 @@ public class ClosedWindow extends WindowElement {
       eloIcon: bind eloIcon
       startDragIcon:startDragIcon
    }
+   def windowAttributes = bind window.scyWindowAttributes on replace { windowAttributesChanged() };
+   def windowAttributeGroup = Group{
+
+   }
+
    var textBackgroundFillRect: Rectangle;
    var titleText: Text;
 
@@ -59,6 +66,18 @@ public class ClosedWindow extends WindowElement {
       } else {
          textBackgroundFillRect.fill = windowColorScheme.backgroundColor;
          titleText.fill = windowColorScheme.mainColor;
+      }
+   }
+
+   function windowAttributesChanged(): Void{
+      def sortedWindowAttributes = Sequences.sort(windowAttributes, null) as ScyWindowAttribute[];
+      for (windowAttribute in sortedWindowAttributes){
+         if (windowAttribute instanceof AnchorAttribute){
+            windowAttributeGroup.content = windowAttribute;
+            windowAttributeGroup.layoutX = -windowAttribute.layoutBounds.width + ThumbnailView.eloIconOffset -1;
+            windowAttributeGroup.layoutY = -3;
+            return;
+         }
       }
    }
 
@@ -83,6 +102,7 @@ public class ClosedWindow extends WindowElement {
       Group {
          content: [
             thumbnailView,
+            windowAttributeGroup,
             Stack {
                layoutX: bind thumbnailView.layoutBounds.width/2 - titleText.layoutBounds.width/2
                layoutY: thumbnailView.layoutBounds.height + 2
