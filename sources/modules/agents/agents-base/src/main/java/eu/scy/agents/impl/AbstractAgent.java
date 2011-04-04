@@ -6,6 +6,7 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
 import eu.scy.agents.api.IAgent;
 import eu.scy.agents.api.parameter.AgentConfiguration;
+import eu.scy.agents.session.Session;
 
 /**
  * Implementation of the IAgent interface.
@@ -169,6 +170,10 @@ public abstract class AbstractAgent implements IAgent {
 	@Override
 	public String getId() {
 		return id;
+	}
+
+	public Session getSession() {
+		return new Session(getSessionSpace());
 	}
 
 }

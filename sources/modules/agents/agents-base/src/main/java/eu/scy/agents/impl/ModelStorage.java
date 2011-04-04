@@ -11,6 +11,7 @@ import java.io.ObjectInputStream;
 import org.apache.log4j.Logger;
 import org.apache.log4j.lf5.util.StreamUtils;
 
+import eu.scy.agents.Mission;
 import eu.scy.agents.api.IPersistentStorage;
 
 /**
@@ -34,9 +35,8 @@ public class ModelStorage implements IPersistentStorage {
 		pathBuffer = new StringBuffer();
 	}
 
-	private byte[] getByteArray(String missionUri, String language, String key) {
-
-		String path = computePath(missionUri, language, key);
+	private byte[] getByteArray(String missionName, String language, String key) {
+		String path = computePath(missionName, language, key);
 		ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
 		InputStream resourceAsStream = getClass().getClassLoader()
 				.getResourceAsStream(path);
@@ -60,7 +60,9 @@ public class ModelStorage implements IPersistentStorage {
 
 	private String computePath(String mission, String language, String key) {
 		pathBuffer.setLength(0);
-		pathBuffer.append(mapping.getMission(mission));
+		// pathBuffer.append(mapping.getMission(mission));
+		pathBuffer.append(Mission.getForName(mission).toString()
+				.toLowerCase());
 		pathBuffer.append("/");
 		pathBuffer.append(language);
 		pathBuffer.append("/");
