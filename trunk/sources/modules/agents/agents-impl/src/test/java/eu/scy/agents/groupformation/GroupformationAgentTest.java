@@ -2,21 +2,28 @@ package eu.scy.agents.groupformation;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import eu.scy.agents.AbstractTestFixture;
-import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.general.UserLocationAgent;
-import eu.scy.agents.hypothesis.HypothesisEvaluationAgent;
-import eu.scy.agents.impl.ActionConstants;
-import eu.scy.agents.impl.AgentProtocol;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
-import org.junit.*;
 
 import java.rmi.dgc.VMID;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import eu.scy.agents.AbstractTestFixture;
+import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.general.UserLocationAgent;
+import eu.scy.agents.impl.ActionConstants;
+import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.agents.roolo.rooloaccessor.RooloAccessorAgent;
+import eu.scy.agents.session.SessionAgent;
 
 /** @author fschulz */
 public class GroupformationAgentTest extends AbstractTestFixture {
@@ -42,7 +49,8 @@ public class GroupformationAgentTest extends AbstractTestFixture {
 		params.put(AgentProtocol.PARAM_AGENT_ID, new VMID());
 		params.put(AgentProtocol.TS_HOST, TSHOST);
 		params.put(AgentProtocol.TS_PORT, TSPORT);
-		agentMap.put(UserLocationAgent.NAME, params);
+		agentMap.put(RooloAccessorAgent.NAME, params);
+		agentMap.put(SessionAgent.NAME, params);
 		agentMap.put(GroupFormationAgent.NAME, params);
 		startAgentFramework(agentMap);
 	}
@@ -124,6 +132,7 @@ public class GroupformationAgentTest extends AbstractTestFixture {
 				System.currentTimeMillis(), ActionConstants.ACTION_LOG_IN,
 				user, "scy-desktop", MISSION1, "n/a",
 				"roolo://memory/16/0/eco_reference_map.mapping",
-				"missionSpecification=" + MISSION1, "language=en");
+				"missionSpecification=" + MISSION1, "language=en",
+				"missionName=co2");
 	}
 }
