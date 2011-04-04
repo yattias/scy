@@ -12,6 +12,8 @@ public class ScyDynamicsContentCreator extends ScyToolCreatorFX {
     override public function createScyToolNode (eloType:String, creatorId: String, scyWindow:ScyWindow, windowContent: Boolean) : Node {
         var props:Properties = new Properties();
         props.put("show.filetoolbar", "false");
+	props.put("editor.qualitative", "false");
+	props.put("editor.export_to_sqv", "false");
         var editor:ModelEditor = new ModelEditor(props);
         var dim:Dimension = new Dimension(660,400);
         editor.setSize(dim);

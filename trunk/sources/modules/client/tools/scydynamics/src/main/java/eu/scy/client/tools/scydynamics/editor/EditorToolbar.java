@@ -13,7 +13,7 @@ import javax.swing.JToolBar;
 import colab.um.tools.JTools;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 
-
+@SuppressWarnings("serial")
 public class EditorToolbar extends JToolBar implements ActionListener {
 
 	public static final int CURSOR = 1;

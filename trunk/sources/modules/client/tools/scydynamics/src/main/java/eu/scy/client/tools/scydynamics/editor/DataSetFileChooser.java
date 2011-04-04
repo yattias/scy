@@ -12,45 +12,42 @@ import javax.swing.filechooser.FileFilter;
 @SuppressWarnings("serial")
 public class DataSetFileChooser extends JFileChooser implements PropertyChangeListener {
 
-        private final static Logger LOGGER = Logger.getLogger(DataSetFileChooser.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(DataSetFileChooser.class.getName());
 
-	public DataSetFileChooser() {
-		this.addChoosableFileFilter(new CSVFileFilter());
-		this.addChoosableFileFilter(new XMLFileFilter());
+    public DataSetFileChooser() {
+	this.addChoosableFileFilter(new CSVFileFilter());
+	this.addChoosableFileFilter(new XMLFileFilter());
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+	this.
+	LOGGER.log(Level.INFO, "{0}", evt);
+    }
+
+    public class CSVFileFilter extends FileFilter {
+
+	@Override
+	public boolean accept(File f) {
+	    return f.getName().toLowerCase().endsWith(".csv");
 	}
 
 	@Override
-	public void propertyChange(PropertyChangeEvent evt) {
-		LOGGER.log(Level.INFO, "{0}", evt);
+	public String getDescription() {
+	    return "csv files";
+	}
+    }
+
+    public class XMLFileFilter extends FileFilter {
+
+	@Override
+	public boolean accept(File f) {
+	    return f.getName().toLowerCase().endsWith(".xml");
 	}
 
-	public class CSVFileFilter extends FileFilter {
-
-		@Override
-		public boolean accept(File f) {
-			return f.getName().toLowerCase().endsWith(".csv");
-		}
-
-		@Override
-		public String getDescription() {
-			return "csv files";
-		}
-		
+	@Override
+	public String getDescription() {
+	    return "xml files";
 	}
-	
-	public class XMLFileFilter extends FileFilter {
-
-		@Override
-		public boolean accept(File f) {
-			return f.getName().toLowerCase().endsWith(".xml");
-		}
-
-		@Override
-		public String getDescription() {
-			return "xml files";
-		}
-		
-	}
-
-	
+    }
 }

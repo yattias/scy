@@ -18,7 +18,7 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
 import eu.scy.client.tools.scydynamics.model.Model;
-import eu.scy.client.tools.scydynamics.model.SimquestModel;
+import eu.scy.client.tools.scydynamics.model.SimquestModelQuantitative;
 import java.util.logging.Logger;
 
 import sqv.Interface;
@@ -34,7 +34,7 @@ public class SimulationToolbar extends JToolBar implements ActionListener {
 
         private final static Logger LOGGER = Logger.getLogger(SimulationToolbar.class.getName());
 	private ModelEditor editor;
-	private SimquestModel sqModel;
+	private SimquestModelQuantitative sqModel;
 
 	public SimulationToolbar(ModelEditor editor) {
 		super(JToolBar.VERTICAL);
@@ -57,7 +57,7 @@ public class SimulationToolbar extends JToolBar implements ActionListener {
 			SimulationDialog simdialog = new SimulationDialog(frame, editor.getModel());
 		} else if (evt.getActionCommand().equals("run")) {
 			// LOGGER.info(editor.getModel());
-			sqModel = new SimquestModel(editor.getModel());
+			sqModel = new SimquestModelQuantitative(editor.getModel());
 			// LOGGER.info(new XMLOutputter(Format.getPrettyFormat()).outputString(sqModel));
 			DataServer dataServer = new DataServer();
 			sqv.Model model = new sqv.Model(sqModel, dataServer);

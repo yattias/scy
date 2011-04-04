@@ -1,37 +1,35 @@
 package eu.scy.client.tools.scydynamics.model;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.logging.Logger;
 
 import org.jdom.Element;
 import org.nfunk.jep.JEP;
 import org.nfunk.jep.Node;
 import org.nfunk.jep.ParseException;
 
-import colab.um.draw.JdAux;
 import colab.um.draw.JdFigure;
 import colab.um.draw.JdFlow;
 import colab.um.draw.JdFlowCtr;
 import colab.um.draw.JdObject;
 import colab.um.draw.JdRelation;
 import colab.um.draw.JdStock;
-import java.util.logging.Logger;
 
 @SuppressWarnings("serial")
-public class SimquestModel extends Element {
+public class SimquestModelQuantitative extends Element {
 
-        private final static Logger LOGGER = Logger.getLogger(SimquestModel.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(SimquestModelQuantitative.class.getName());
 
 	private Model model;
 	private HashMap<String, Double> simulationValues;
 
-	public SimquestModel(Model model) {
+	public SimquestModelQuantitative(Model model) {
 		this(model, new HashMap<String, Double>());
 	}
 
-	public SimquestModel(Model model, HashMap<String, Double> simulationValues) {
+	public SimquestModelQuantitative(Model model, HashMap<String, Double> simulationValues) {
 		super("model");
 		this.model = model;
 		this.simulationValues = simulationValues;
@@ -208,18 +206,6 @@ public class SimquestModel extends Element {
 			if (operator == null) {
 				throw new ParseException("Could not identify operator or function '"+fragment+"'.");
 			}
-			//the old style
-			//
-			//if (Arrays.asList(availableScalarFunctions).contains(fragment)) {
-			//	operator  = new Element("function");
-			//} else {
-			//	operator = new Element("operator");
-			//}
-			//if (fragment.equals("uminus"))
-			//	fragment = "-.";
-			//operator.setAttribute("name", fragment);
-			//
-			//end of the old stlye
 			
 			// traverse children
 			for (int i = 0; i < node.jjtGetNumChildren(); i++) {

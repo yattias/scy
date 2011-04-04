@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import eu.scy.client.tools.scydynamics.model.Model;
 
 
+@SuppressWarnings("serial")
 public class SimulationSettingsPanel extends JPanel {
 
 	private ModelEditor editor;
@@ -35,19 +36,23 @@ public class SimulationSettingsPanel extends JPanel {
 	public void initUI(ActionListener listener) {
 		JPanel northPanel = new JPanel();
 		northPanel.setLayout(new java.awt.GridLayout(6, 2));
-		northPanel.add(new JLabel("start time"));
 		startField = new JTextField(10);
 		startField.setEditable(false);
-		northPanel.add(startField);
-		northPanel.add(new JLabel("stop time"));
 		stopField = new JTextField(10);
-		northPanel.add(stopField);
-		northPanel.add(new JLabel("time step"));
 		stepField = new JTextField(10);
-		northPanel.add(stepField);
-		northPanel.add(new JLabel("method"));
 		methodbox = getMethodBox();
-		northPanel.add(methodbox);
+		
+		if (!editor.isQualitative()) {
+			northPanel.add(new JLabel("start time"));
+			northPanel.add(startField);
+			northPanel.add(new JLabel("stop time"));
+			northPanel.add(stopField);
+			northPanel.add(new JLabel("time step"));
+			northPanel.add(stepField);
+			northPanel.add(new JLabel("method"));
+			northPanel.add(methodbox);
+		}
+		
 		JButton button = new JButton("run simulation");
 		button.setActionCommand("run");
 		button.addActionListener(listener);
@@ -55,7 +60,9 @@ public class SimulationSettingsPanel extends JPanel {
 		button = new JButton("export to sqv");
 		button.setActionCommand("export");
 		button.addActionListener(listener);
-		//northPanel.add(button);
+		if (editor.getProperties().getProperty("editor.export_to_sqv", "false").equals("true")) {
+		    northPanel.add(button);
+		}
 		this.add(northPanel, BorderLayout.NORTH);
 	}
 	
