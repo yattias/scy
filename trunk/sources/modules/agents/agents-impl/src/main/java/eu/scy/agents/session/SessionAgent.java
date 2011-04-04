@@ -228,17 +228,25 @@ public class SessionAgent extends AbstractRequestAgent {
 
 	private void handleLogout(IAction action) {
 		try {
-			getSessionSpace().deleteAll(
-					new Tuple(String.class, action.getUser(), String.class));
+			cleanSession(action);
 		} catch (TupleSpaceException e) {
 			LOGGER.warn("", e);
 		}
+	}
+
+	private void cleanSession(IAction action) throws TupleSpaceException {
+		getSessionSpace().deleteAll(
+				new Tuple(String.class, action.getUser(), String.class));
+		getSessionSpace().deleteAll(
+				new Tuple(String.class, action.getUser(), String.class,
+						String.class));
 	}
 
 	private void handleLogin(IAction action) {
 		String user = action.getUser();
 
 		try {
+			cleanSession(action);
 			getSessionSpace().write(
 					new Tuple(LANGUAGE, user, action.getAttribute(LANGUAGE)));
 			getSessionSpace().write(
