@@ -8,13 +8,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import roolo.elo.api.IELO;
-import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
+import eu.scy.agents.Mission;
 
 public class FitexExtractorTest extends AbstractExtractorTest {
 
@@ -22,7 +19,7 @@ public class FitexExtractorTest extends AbstractExtractorTest {
 	public void setup() throws Exception {
 		loadElo("/SCYDataExample1.xml", "TestFitex", "scy/pds");
 		extractor = new FitexExtractor();
-		extractor.setMission(MISSION1);
+		extractor.setMission(Mission.MISSION1);
 		extractor.setTupleSpace(getCommandSpace());
 	}
 

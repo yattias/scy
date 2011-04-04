@@ -112,7 +112,7 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
         logger.addHandler(cH);
     }
 
-    public  BehavioralModel getModel(String user, String tool, String session, String mission) {
+    public  BehavioralModel getModel(String user, String tool, String mission, String session) {
        l.lock();
         BehavioralModel model = userModels.get(user + "/" + tool + "/" + mission + "/" + session);
         if (model == null) {

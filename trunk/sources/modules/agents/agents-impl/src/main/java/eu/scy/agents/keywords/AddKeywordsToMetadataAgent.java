@@ -15,6 +15,7 @@ import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
+import eu.scy.agents.Mission;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.impl.AbstractELOSavedAgent;
 import eu.scy.agents.impl.AgentProtocol;
@@ -62,22 +63,19 @@ public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
 			return;
 		}
 
-		String missionForUser = getMission(user);
-		if (missionForUser == null) {
-			missionForUser = mission;
-		}
+		Mission missionForUser = getMission(user);
 
 		KeywordExtractorFactory factory = new KeywordExtractorFactory();
 		KeywordExtractor extractor = factory.getKeywordExtractor(eloType);
 		extractor.setMission(missionForUser);
 		extractor.setTupleSpace(getCommandSpace());
 		List<String> keywords = extractor.getKeywords(elo);
-		List<KeyValuePair> keywordsWithBoost = setBoostFactors(keywords);
+		List<KeyValuePair> keywordsWithBoost = setBoostFactors(keywords, "en", missionForUser); // TODO make language dynamic
 
 		addKeywordsToMetadata(elo, keywordsWithBoost);
 	}
 
-	private List<KeyValuePair> setBoostFactors(List<String> keywords) {
+	private List<KeyValuePair> setBoostFactors(List<String> keywords, String language, Mission mission) {
 		List<KeyValuePair> keywordsWithBoost = new ArrayList<KeyValuePair>();
 		HashSet<String> addedKeywords = new HashSet<String>(keywords);
 		for (String keyword : keywords) {
@@ -86,7 +84,7 @@ public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
 				keywordsWithBoost.add(new KeyValuePair(keyword, "1.0"));
 				getCommandSpace().write(
 						new Tuple(id.toString(), "onto", "surrounding",
-								"http://www.scy.eu/co2house#", keyword, "en"));
+								mission.getNamespace(), keyword, language));
 				Tuple respTuple = getCommandSpace()
 						.waitToTake(
 								new Tuple(id.toString(),
@@ -135,18 +133,19 @@ public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
 		return null;
 	}
 
-	private String getMission(String user) {
+	private Mission getMission(String user) {
 		try {
 			Tuple missionTuple = getSessionSpace().read(
 					new Tuple(SessionAgent.MISSION, user, String.class,
 							String.class));
 			if (missionTuple != null) {
-				return (String) missionTuple.getField(2).getValue();
+				String missionString = (String) missionTuple.getField(3).getValue();
+				return Mission.getForName(missionString);
 			}
 		} catch (TupleSpaceException e) {
 			LOGGER.warn(e.getMessage());
 		}
-		return null;
+		return Mission.UNKNOWN_MISSION;
 	}
 
 	@Override

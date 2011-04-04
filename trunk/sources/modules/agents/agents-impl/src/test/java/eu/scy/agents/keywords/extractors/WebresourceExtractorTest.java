@@ -11,13 +11,15 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import eu.scy.agents.Mission;
+
 public class WebresourceExtractorTest extends AbstractExtractorTest {
 
 	@Before
 	public void setup() throws Exception {
 		loadElo("/scyLighterExample.xml", "TestWebresource", "scy/webresource");
 		extractor = new WebresourceExtractor();
-		extractor.setMission(MISSION1);
+		extractor.setMission(Mission.MISSION1);
 		extractor.setTupleSpace(getCommandSpace());
 	}
 

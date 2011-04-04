@@ -47,7 +47,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
         increases,
         includes;
 
-        public String getLabel(@SuppressWarnings("unused") String language) {
+        public String getLabel(String language) {
             if (language.equals("de")) {
                 switch (this) {
                     case isA:

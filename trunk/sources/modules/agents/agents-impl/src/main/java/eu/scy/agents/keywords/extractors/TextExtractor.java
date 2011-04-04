@@ -18,6 +18,7 @@ import org.jdom.input.SAXBuilder;
 
 import roolo.elo.api.IContent;
 import roolo.elo.api.IELO;
+import eu.scy.agents.Mission;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.keywords.ExtractKeywordsAgent;
 
@@ -27,7 +28,7 @@ public class TextExtractor implements KeywordExtractor {
 
 	TupleSpace tupleSpace;
 
-	private String mission;
+	private Mission mission;
 
 	public TextExtractor() {
 	}
@@ -69,7 +70,7 @@ public class TextExtractor implements KeywordExtractor {
 			String queryId = new VMID().toString();
 			Tuple extractKeywordsTriggerTuple = new Tuple(
 					ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.QUERY,
-					queryId, text, mission);
+					queryId, text, mission.getName());
 			extractKeywordsTriggerTuple.setExpiration(7200000);
 			Tuple responseTuple = null;
 			if (this.tupleSpace.isConnected()) {
@@ -93,16 +94,19 @@ public class TextExtractor implements KeywordExtractor {
 		}
 		return new ArrayList<String>();
 	}
-
+	
+	@Override
 	public TupleSpace getTupleSpace() {
 		return tupleSpace;
 	}
 
+	@Override
 	public void setTupleSpace(TupleSpace tupleSpace) {
 		this.tupleSpace = tupleSpace;
 	}
 
-	public void setMission(String mission) {
+	@Override
+	public void setMission(Mission mission) {
 		this.mission = mission;
 	}
 }

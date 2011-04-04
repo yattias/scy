@@ -1,7 +1,5 @@
 package eu.scy.agents.authoring.workflow;
 
-import static org.junit.Assert.*;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -17,7 +15,8 @@ public class WorkflowCreatorTest extends AbstractTestFixture {
 
 	private WorkflowCreator workflowCreator;
 
-	@Before
+	@Override
+    @Before
 	public void setUp() throws Exception {
 		super.setUp();
 
@@ -27,7 +26,8 @@ public class WorkflowCreatorTest extends AbstractTestFixture {
 		workflowCreator = new WorkflowCreator(rooloServices);
 	}
 
-	@After
+	@Override
+    @After
 	public void tearDown() throws AgentLifecycleException {
 		super.tearDown();
 	}

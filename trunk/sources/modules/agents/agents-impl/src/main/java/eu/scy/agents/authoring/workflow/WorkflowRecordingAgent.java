@@ -6,7 +6,6 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

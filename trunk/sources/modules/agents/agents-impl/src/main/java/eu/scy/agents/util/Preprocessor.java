@@ -8,8 +8,6 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import cc.mallet.pipe.Pipe;
-import cc.mallet.pipe.TokenSequence2FeatureSequence;
 import cc.mallet.types.Instance;
 import cc.mallet.types.Token;
 import cc.mallet.types.TokenSequence;

@@ -33,7 +33,8 @@ public class ELOHasBeenSavedAgentTest extends AbstractTestFixture {
 		stopTupleSpaceServer();
 	}
 
-	@Before
+	@Override
+    @Before
 	public void setUp() throws Exception {
 		super.setUp();
 
@@ -42,7 +43,8 @@ public class ELOHasBeenSavedAgentTest extends AbstractTestFixture {
 		agent = new ELOHasBeenSavedAgent(params);
 	}
 
-	@After
+	@Override
+    @After
 	public void tearDown() throws AgentLifecycleException {
 		super.tearDown();
 	}

@@ -18,7 +18,6 @@ import org.junit.Test;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 import eu.scy.agents.roolo.rooloaccessor.RooloAccessorAgent;
 
 public class ExtractKeywordsTest extends AbstractTestFixture {

@@ -22,6 +22,7 @@ import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.actionlogging.ActionTupleTransformer;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
+import eu.scy.agents.Mission;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.impl.AbstractDecisionAgent;
@@ -343,10 +344,7 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 					return;
 				}
 
-				String mission = getMission(user);
-				if (mission == null) {
-					mission = contextInformation.mission;
-				}
+				Mission mission = getMission(user);
 
 				extractor.setMission(mission);
 				List<String> keywords = extractor.getKeywords(elo);
@@ -358,19 +356,20 @@ public class ExtractKeywordsDecisionMakerAgent extends AbstractDecisionAgent
 				contextInformation.lastNotification = currentTime;
 			}
 
-			private String getMission(String user) {
-				try {
-					Tuple missionTuple = getSessionSpace().read(
-							new Tuple(SessionAgent.MISSION, user, String.class,
-									String.class));
-					if (missionTuple != null) {
-						return (String) missionTuple.getField(2).getValue();
-					}
-				} catch (TupleSpaceException e) {
-					LOGGER.warn(e.getMessage());
-				}
-				return null;
-			}
+		        private Mission getMission(String user) {
+		                try {
+		                        Tuple missionTuple = getSessionSpace().read(
+		                                        new Tuple(SessionAgent.MISSION, user, String.class,
+		                                                        String.class));
+		                        if (missionTuple != null) {
+		                                String missionString = (String) missionTuple.getField(3).getValue();
+		                                return Mission.getForName(missionString);
+		                        }
+		                } catch (TupleSpaceException e) {
+		                        LOGGER.warn(e.getMessage());
+		                }
+		                return Mission.UNKNOWN_MISSION;
+		        }
 
 			private IELO getELO(final ContextInformation contextInformation) {
 				if (ExtractKeywordsDecisionMakerAgent.this.repository == null) {

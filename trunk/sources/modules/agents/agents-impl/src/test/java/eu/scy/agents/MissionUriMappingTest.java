@@ -28,7 +28,8 @@ public class MissionUriMappingTest extends AbstractTestFixture {
 		stopTupleSpaceServer();
 	}
 
-	@Before
+	@Override
+    @Before
 	public void setUp() throws Exception {
 		super.setUp();
 
@@ -41,7 +42,8 @@ public class MissionUriMappingTest extends AbstractTestFixture {
 		startAgentFramework(agentMap);
 	}
 
-	@After
+	@Override
+    @After
 	public void tearDown() throws AgentLifecycleException {
 		stopAgentFrameWork();
 		super.tearDown();

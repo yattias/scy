@@ -1,7 +1,9 @@
 package eu.scy.agents.keywords;
 
+import info.collide.sqlspaces.commons.Tuple;
+import info.collide.sqlspaces.commons.TupleSpaceException;
+
 import java.rmi.dgc.VMID;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -9,8 +11,6 @@ import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
 
-import info.collide.sqlspaces.commons.Tuple;
-import info.collide.sqlspaces.commons.TupleSpaceException;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;
@@ -90,7 +90,7 @@ public class ExtractKeywordsAgent extends AbstractRequestAgent {
 		try {
 			getCommandSpace().write(
 					new Tuple(agent, AgentProtocol.QUERY, queryId, text,
-							mission, "en"));
+							mission, "en")); // TODO make language dynamic
 			Tuple response = getCommandSpace().waitToTake(
 					new Tuple(agent, AgentProtocol.RESPONSE, queryId,
 							String.class), wait);

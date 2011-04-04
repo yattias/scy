@@ -3,8 +3,6 @@ package eu.scy.agents.roolo.rooloaccessor;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
-import info.collide.sqlspaces.commons.Callback.Command;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
@@ -19,8 +17,6 @@ import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.impl.AbstractThreadedAgent.Status;
-import eu.scy.agents.topics.TopicAgents;
 
 public class RooloAccessorAgent extends AbstractThreadedAgent implements
 		IRepositoryAgent {

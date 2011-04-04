@@ -15,8 +15,12 @@ public class StudySetupStarter {
 
     public static void main(String[] args) throws Throwable {
        new StudySetupStarter(args);
+//        TupleSpace tsSource = new TupleSpace("scy.collide.info", 2525, "http://www.scy.eu/co2house#");
+//        tsSource.exportTuples("tmp.xml");
+//        tsSource.disconnect();
 //        TupleSpace tsTarget = new TupleSpace("localhost", 2525, "http://www.scy.eu/co2house#");
-//        tsTarget.exportTuples("tmp.xml");
+//        tsTarget.importTuples("tmp.xml");
+//        tsTarget.disconnect();
     }
 
     public StudySetupStarter(String[] args) throws Throwable {

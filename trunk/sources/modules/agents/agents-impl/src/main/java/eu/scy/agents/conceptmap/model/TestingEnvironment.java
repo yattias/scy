@@ -1,7 +1,6 @@
 package eu.scy.agents.conceptmap.model;
 
 import info.collide.sqlspaces.client.TupleSpace;
-import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.util.HashMap;

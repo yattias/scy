@@ -86,7 +86,6 @@ public class BuildDFModel extends Workflow {
 -o /home/joerg/eclipseSCY/parent/agents/agents-impl/src/main/resources/mission2_texts/English/.model
 -p oneDocPerFile
    */
-  @SuppressWarnings("unchecked")
     public static void main(String[] args) throws Exception {
 
     File outputDir = new File("output/models/df.out");

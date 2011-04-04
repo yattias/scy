@@ -3,7 +3,6 @@ package eu.scy.agents.roolo.elo.elobrowsernotification;
 import eu.scy.agents.impl.AbstractELOSavedAgent;
 import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.impl.EloTypes;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 

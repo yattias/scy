@@ -11,13 +11,15 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import eu.scy.agents.Mission;
+
 public class InterviewToolExtractorTest extends AbstractExtractorTest {
 
 	@Before
 	public void setup() throws Exception {
 		loadElo("/interviewToolExample1.xml", "TestInterview", "scy/interview");
 		extractor = new InterviewToolExtractor();
-		extractor.setMission(MISSION1);
+		extractor.setMission(Mission.MISSION1);
 		extractor.setTupleSpace(getCommandSpace());
 	}
 

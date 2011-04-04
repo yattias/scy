@@ -7,8 +7,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Locale;
 
-import net.sf.cglib.core.Local;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +32,8 @@ public class AgentModelEloTest extends AbstractTestFixture {
 		rooloServices.setEloFactory(eloFactory);
 	}
 
-	@After
+	@Override
+    @After
 	public void tearDown() {
 
 	}
