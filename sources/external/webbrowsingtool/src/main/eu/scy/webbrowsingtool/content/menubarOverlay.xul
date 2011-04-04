@@ -51,7 +51,7 @@
             insertafter="tools-menu"
             accesskey="&scylighterMenu.accesskey;">
             <menupopup id="scylighter-menupopup">
-                <menuitem label="SCY Sidebar (toggle)" oncommand="toggleSidebar('viewSidebar');overlay.onSidebarChanged();" class="menuitem-iconic"  key="key_openSidebar" observes="viewSidebar"/>
+                <menuitem label="SCY Sidebar (toggle)" oncommand="toggleSidebar('viewSidebar');" class="menuitem-iconic"  key="key_openSidebar" observes="viewSidebar"/>
                 <menuseparator/>
                 <menuitem label="Help" oncommand="scylighter.openHelp();" class="menuitem-iconic" image="chrome://scylighter/skin/icons/help_x32.png"/>
                 <menuseparator/>
@@ -66,32 +66,30 @@
     </menubar>
 
     <vbox id="appmenuPrimaryPane" >
-        <splitmenu id="scylighter_menu"
+        <splitmenu id="scylighter_appmenu"
                  iconic="true"
                  class="menu-iconic scylighter-icon"
                  label="SCYLighter"
                  insertafter="appmenu_webDeveloper"
                  observes="viewSidebar"
-                 command="toggleSidebar('viewSidebar');overlay.onSidebarChanged();">
-            <menupopup id="scylighter-menupopup">
-                <menuitem label="SCY Sidebar (toggle)" oncommand="toggleSidebar('viewSidebar');overlay.onSidebarChanged();" class="menuitem-iconic"  key="key_openSidebar" observes="viewSidebar"/>
+                 command="toggleSidebar('viewSidebar');">
+            <menupopup id="scylighter-app-menupopup">
+                <menuitem label="SCY Sidebar (toggle)" oncommand="toggleSidebar('viewSidebar');" class="menuitem-iconic"  key="key_openSidebar" observes="viewSidebar"/>
                 <menuseparator/>
                 <menuitem label="Help" oncommand="scylighter.openHelp();" class="menuitem-iconic" image="chrome://scylighter/skin/icons/help_x32.png"/>
                 <menuseparator/>
-                <menuitem id="menu-scy-new" label="New ELO" oncommand="scylighter.newELO();" class="menuitem-iconic" image="chrome://scylighter/skin/icons/new_x32.png"/>
-                <menuitem id="menu-scy-save" label="Save ELO" oncommand="scylighter.saveELO();" class="menuitem-iconic" image="chrome://scylighter/skin/icons/save_x32.png"/>
-                <menuitem id="menu-scy-preview" label="Preview" oncommand="scylighter.preview();" class="menuitem-iconic" image="chrome://scylighter/skin/icons/preview_x32.png"/>
-                <menuitem id="menu-scy-print" label="Print Preview" oncommand="scylighter.print();" class="menuitem-iconic" image="chrome://scylighter/skin/icons/print_x32.png"/>
+                <menuitem id="app-menu-scy-new" label="New ELO" oncommand="scylighter.newELO();" class="menuitem-iconic" image="chrome://scylighter/skin/icons/new_x32.png"/>
+                <menuitem id="app-menu-scy-save" label="Save ELO" oncommand="scylighter.saveELO();" class="menuitem-iconic" image="chrome://scylighter/skin/icons/save_x32.png"/>
+                <menuitem id="app-menu-scy-preview" label="Preview" oncommand="scylighter.preview();" class="menuitem-iconic" image="chrome://scylighter/skin/icons/preview_x32.png"/>
+                <menuitem id="app-menu-scy-print" label="Print Preview" oncommand="scylighter.print();" class="menuitem-iconic" image="chrome://scylighter/skin/icons/print_x32.png"/>
                 <menuseparator/>
                 <menuitem label="Preferences"  oncommand="scylighter.openPreferences();" class="menuitem-iconic" image="chrome://scylighter/skin/icons/preferences_x32.png"/>
             </menupopup>
         </splitmenu>
     </vbox>
-
   
     <menupopup id="viewSidebarMenu">
-        <menuitem label="SCY Sidebar" oncommand="toggleSidebar('viewSidebar');overlay.onSidebarChanged();"  key="key_openSidebar" observes="viewSidebar"/>
+        <menuitem label="SCY Sidebar" oncommand="toggleSidebar('viewSidebar');"  key="key_openSidebar" observes="viewSidebar"/>
     </menupopup>
-    
 
 </overlay>

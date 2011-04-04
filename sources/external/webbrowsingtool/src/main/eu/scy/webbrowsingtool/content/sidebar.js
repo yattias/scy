@@ -34,10 +34,6 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-//var count = 0;
-//var updateURI = "";
-//var sidebar = top.window.document.getElementById("sidebar");
-
 if ("undefined" == typeof(scylighter)) {
     var scylighter = {
         updateURI:"",
@@ -54,25 +50,44 @@ if ("undefined" == typeof(scylighter)) {
         },
 
         onLoad: function(e) {
-            //this.sidebarExists();
             // initialization code
             this.updateURI = "";
             this.initialized = true;
             this.strings = top.window.document.getElementById("scylighter-strings");
             this.restoreSidebar();
             this.correctSources();
-            document.getElementById("contentAreaContextMenu").addEventListener("popupshowing", function(e) {
-                this.showContextMenu(e);
-            }, false);
+
+            var contentAreaContextMenu = top.window.document.getElementById("contentAreaContextMenu");
+            if(contentAreaContextMenu == null){
+                contentAreaContextMenu = document.getElementById("contentAreaContextMenu");
+            }
+            if(contentAreaContextMenu != null){
+                contentAreaContextMenu.addEventListener("popupshowing", function(e) {
+                    if("undefined" != typeof scylighter){
+                        scylighter.showContextMenu(e);
+                    }
+                }, false);
+            }
 
         },
         sidebarExists:function(){
+            //            var sidebar = top.window.document.getElementById("sidebar");
+            //            if (sidebar == null) {
+            //                return false;
+            //            } else {
+            //                return true;
+            //            }
+
             var sidebar = top.window.document.getElementById("sidebar");
-            if (sidebar == null) {
-                return false;
-            } else {
-                return true;
+            const location = "chrome://scylighter/content/sidebar.xul";
+            if(sidebar!=null){
+                var sidebarWindow = sidebar.contentWindow;
+                if(sidebarWindow.location.href == location){
+                    return true;
+                }
             }
+            return false;
+
         },
         onUnload: function(e){
         },
@@ -87,7 +102,6 @@ if ("undefined" == typeof(scylighter)) {
             var resultOK = prompts.confirm(null,this.strings.getString("newELODialog"), this.strings.getString("newELODialogText"));
 
             if (resultOK){
-                var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
                 var sidebarWindow = top.window.document.getElementById("sidebar").contentWindow;
                 var summaryBox = sidebarWindow.document.getElementById('summaryBox');
 
@@ -101,7 +115,6 @@ if ("undefined" == typeof(scylighter)) {
                 sourcesStore.value = "";
 
                 //read sequentially from the sidebar and store it to the highlights.jsm module (only for this session)
-
                 var urlBox = sidebarWindow.document.getElementById('urlBox');
                 var titleBox = sidebarWindow.document.getElementById('titleBox');
                 var commentBox = sidebarWindow.document.getElementById('commentBox');
@@ -111,12 +124,9 @@ if ("undefined" == typeof(scylighter)) {
                 urlBox.value="";
                 titleBox.value="";
                 commentBox.value="";
-                //hack!
-                //        mainWindow.toggleSidebar('viewSidebar');
-                //        mainWindow.toggleSidebar('viewSidebar');
                 this.findBrokenHighlights();
                 this.correctSources();
-            //this will remove highlights and delete the sources
+            //this will remove highlights and delete the sources if neccessary
             }
         },
 
@@ -124,10 +134,7 @@ if ("undefined" == typeof(scylighter)) {
             var converter = Components.classes["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(Components.interfaces.nsIScriptableUnicodeConverter);
             // UTF-8 is also the encoding in the webservice
             converter.charset = "UTF-8";
-            // result is an out parameter,
-            // result.value will contain the array length
             var result = {};
-            // data is an array of bytes
             var data = converter.convertToByteArray(str, result);
             var ch = Components.classes["@mozilla.org/security/hash;1"].createInstance(Components.interfaces.nsICryptoHash);
             ch.init(ch.MD5);
@@ -142,10 +149,9 @@ if ("undefined" == typeof(scylighter)) {
 
             // convert the binary hash data to a hex string.
             var s = [toHexString(hash.charCodeAt(i)) for (i in hash)].join("");
-            // s now contains your hash in hex: should be
+            // s now contains your hash in hex: should be something like
             // 5eb63bbbe01eeed093cb22bb8f5acdc3
             return s;
-        //        return hash;
         },
         getWebserviceRequest: function(params, servicePath){
             var req = new XMLHttpRequest();
@@ -185,12 +191,10 @@ if ("undefined" == typeof(scylighter)) {
 
             var sc;
             var cc = new Date().getTime();
-            //FIXME change password to real password when usermanagement is connected
             var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
             prefs = prefs.getBranch("extensions.scylighter.");
             var username = prefs.getCharPref("username");
             //remark: password is never sent to a server!
-//            var password = "secret pass"; //FIXME fixed password
             //TODO use loginManager
             var password = prefs.getCharPref("password");
 
@@ -200,7 +204,7 @@ if ("undefined" == typeof(scylighter)) {
             params.cc = cc;
             params.type = "cc";
 
-            req = this.getWebserviceRequest(params, "serverChallenge");
+            var req = this.getWebserviceRequest(params, "serverChallenge");
 
             req.onreadystatechange = function (aEvt) {
                 var alertString="";
@@ -212,15 +216,16 @@ if ("undefined" == typeof(scylighter)) {
                             scylighter.serverResponseRequest(sc, cc, password, authCallback);
                         }
                         else {
-                            alertString = top.window.document.getElementById("scylighter-strings").getString("errorLoadingPage")+"\n"+document.getElementById("scylighter-strings").getString("errorCode") + req.status + "\n" + document.getElementById("scylighter-strings").getString(req.responseText);
+                            alertString = top.window.document.getElementById("scylighter-strings").getString("noAuth");
                             window.alert(alertString);
                         }
+                    //TODO handle error codes for auth failed
                     } else {
+                //                        alertString = top.window.document.getElementById("scylighter-strings").getString("noServerResponse");
+                //                            window.alert(alertString);
                 }
                 }catch (e) {
                     window.alert(e);
-                    alertString = top.window.document.getElementById("scylighter-strings").getString("noAuth");
-                    window.alert(alertString);
                 }
             };
             this.sendRequest(req);
@@ -238,7 +243,7 @@ if ("undefined" == typeof(scylighter)) {
             params.username = username;
             params.type = "sr";
 
-            req = this.getWebserviceRequest(params, "serverResponse");
+            var req = this.getWebserviceRequest(params, "serverResponse");
 
             req.onreadystatechange = function (aEvt) {
                 var alertString="";
@@ -246,10 +251,8 @@ if ("undefined" == typeof(scylighter)) {
                     if (req.readyState == 4) {
                         if(req.status == 200){
                             //ok
-                            sr = req.responseText;
-                            //TODO calculate expected sr, match it against sr
-                            //expected sr = hash(sc + cc + secret)
-                            expectedSr = scylighter.generateHash(sc + cc + password);
+                            const sr = req.responseText;
+                            const expectedSr = scylighter.generateHash(sc + cc + password);
                             if(sr==expectedSr){
                                 authCallback();
                             } else {
@@ -272,14 +275,13 @@ if ("undefined" == typeof(scylighter)) {
         },
 
         calculateCr: function(cc, sc, password){
-            hash = cc+sc+password;
-            cr = this.generateHash(hash);
+            const hash = cc+sc+password;
+            const cr = this.generateHash(hash);
             return cr;
         },
 
         storeSidebar: function(){
 
-            var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
             var sidebarWindow = top.window.document.getElementById("sidebar").contentWindow;
 
             //Initialize the global storage for highlights
@@ -296,7 +298,7 @@ if ("undefined" == typeof(scylighter)) {
             var commentBox = sidebarWindow.document.getElementById('commentBox');
             var item;
             if(summaryBox.getRowCount()>0){
-                for (i = 0; i<summaryBox.getRowCount();i++){
+                for (var i = 0; i<summaryBox.getRowCount();i++){
                     item = summaryBox.getItemAtIndex(i);
                     bullets.itemTexts.push(item.label);
                     bullets.nodeIDs.push(item.value);
@@ -336,7 +338,7 @@ if ("undefined" == typeof(scylighter)) {
 
                     //Store information for restoring them on-load
                     if(bullets.itemTexts.length>0){
-                        for(i=0; i<bullets.itemTexts.length; i++){
+                        for(var i=0; i<bullets.itemTexts.length; i++){
                             itemText = bullets.itemTexts[i];
                             nodeId = bullets.nodeIDs[i];
                             sourceURL = bullets.sourceURLs[i];
@@ -378,10 +380,7 @@ if ("undefined" == typeof(scylighter)) {
 
         getElementsByAttributeDOM: function (strAttributeName, strAttributeValue){
 
-            var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
-
             //only select Span-Tags, because only these tags are highlighted
-
             var arrElements = top.window.content.document.getElementsByTagName("span");
             //window.alert(arrElements.length);
             var arrReturnElements = new Array();
@@ -403,9 +402,17 @@ if ("undefined" == typeof(scylighter)) {
 
         showContextMenu: function(event) {
             // show or hide the menuitem based on what the context menu is on
-            // see http://kb.mozillazine.org/Adding_items_to_menus
-
-            document.getElementById("context-scylighter").hidden = gContextMenu.onImage;
+            var element = document.popupNode;
+            var isImage = (element instanceof Components.interfaces.nsIImageLoadingContent &&
+                element.currentURI && !scylighter.sidebarExists());
+            const contextScylighter = top.window.content.document.getElementById("context-scylighter");
+            const contextDeScylighter = top.window.content.document.getElementById("context-descylighter");
+            if(contextScylighter!=null){
+                contextScylighter.disabled = isImage;
+            }
+            if(contextDeScylighter!=null){
+                contextDeScylighter.disabled = isImage;
+            }
         },
         deleteSelection: function(){
             //deleteSelection is performed from within the sidebar ("delete selected"-button)
@@ -418,13 +425,8 @@ if ("undefined" == typeof(scylighter)) {
             while (count--){
                 var item = list.selectedItems[0];
                 var unhighlightNodes=this.getElementsByAttributeDOM("belongsTo",item.value);
-                //window.alert("item.value: " + item.value);
-                //window.alert("unhighlightNodes.length: " + unhighlightNodes.length);
                 //Deleting the listitem before restoring the html because this can cause an nullpointer which prevents the listitem from being cleared
-                var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
                 var undoNode = top.window.content.document.getElementById(item.value);
-                //window.alert("undoNode: "+undoNode);
-                //undoNode.style.backgroundColor = "white";
                 if (undoNode!=null){
                     undoNode.style.backgroundColor = undoNode.parentNode.style.backgroundColor;
                 }
@@ -468,21 +470,8 @@ if ("undefined" == typeof(scylighter)) {
                         }
                         hi.dirty = true;
                     }
-
-
-                //OLD STUFF, but works!
-                /*if (unhighlightNodes[i]!=null){
-		//window.alert("unhighlightNode "+i+" is not null");
-		unhighlightNodes[i].style.backgroundColor = "white";
-		//unhighlightNodes[i].setAttribute("sourceURL","<<!!null!!>>");
-
-		}*/
                 }
-            //this.correctSources();
             }
-
-        //window.alert("End reached");
-
         },
         correctSources:function(){
             var sidebar = document.getElementById("sidebar");
@@ -490,30 +479,34 @@ if ("undefined" == typeof(scylighter)) {
             var summaryBox;
             if (sidebar == null){
                 urlBox = document.getElementById('urlBox');
-                urlBox.value = "";
                 summaryBox = document.getElementById('summaryBox');
             } else {
                 var sidebarWindow = sidebar.contentWindow;
                 urlBox = sidebarWindow.document.getElementById('urlBox');
-                urlBox.value = "";
+                if(urlBox==null){
+                    urlBox = document.getElementById('urlBox');
+                }
                 summaryBox = sidebarWindow.document.getElementById('summaryBox');
             }
-            if (summaryBox.itemCount>0){
-                urlBox.value = summaryBox.getItemAtIndex(0).getAttribute("sourceURL");
+            if(urlBox!=null){
+                urlBox.value = "";
             }
-            for(var i = 1; i < summaryBox.itemCount; i++){
-                var actualSource = summaryBox.getItemAtIndex(i).getAttribute("sourceURL");
-                if (urlBox.value.search(actualSource)!=-1){
-                    //the url exists
-                    urlBox.value = urlBox.value;
+            if(summaryBox!=null){
+                if (summaryBox.itemCount>0){
+                    urlBox.value = summaryBox.getItemAtIndex(0).getAttribute("sourceURL");
                 }
-                else {
-                    //the url doesnt exist
-                    urlBox.value = urlBox.value +"\n"+ actualSource;
+                for(var i = 1; i < summaryBox.itemCount; i++){
+                    var actualSource = summaryBox.getItemAtIndex(i).getAttribute("sourceURL");
+                    if (urlBox.value.search(actualSource)!=-1){
+                        //the url exists
+                        urlBox.value = urlBox.value;
+                    }
+                    else {
+                        //the url doesnt exist
+                        urlBox.value = urlBox.value +"\n"+ actualSource;
+                    }
                 }
             }
-
-
         },
         onDrop: function(event){
             var link = event.dataTransfer.getData("URL");
@@ -531,7 +524,6 @@ if ("undefined" == typeof(scylighter)) {
                 var sidebarWindow = top.window.document.getElementById("sidebar").contentWindow;
 
                 var summaryBox = sidebarWindow.document.getElementById('summaryBox');
-                var urlBox = sidebarWindow.document.getElementById('urlBox');
 
                 var theSelection = top.window.content.document.getSelection();
 
@@ -546,20 +538,13 @@ if ("undefined" == typeof(scylighter)) {
                 var listId = "list_"+newNodeId;
                 item.setAttribute("id",listId);
 
-                var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
-                //window.alert(mainWindow.document.activeElement);
-
                 scylighter.highlightDoc();
-
                 scylighter.correctSources();
             }
-
-
         },
         addSummaryItemAsImage:function(imageURL){
             var sidebarWindow = top.window.document.getElementById("sidebar").contentWindow;
             var summaryBox = sidebarWindow.document.getElementById("summaryBox");
-            var urlBox = sidebarWindow.document.getElementById('urlBox');
 
             var newNodeId = imageURL;
 
@@ -592,7 +577,7 @@ if ("undefined" == typeof(scylighter)) {
 
             var sidebarWindow = top.window.document.getElementById("sidebar").contentWindow;
             var summaryBox = sidebarWindow.document.getElementById("summaryBox");
-
+            var i;
             var belongsTos = new Array();
             for(i = 0; i < summaryBox.getRowCount(); i++){
                 belongsTos.push(summaryBox.getItemAtIndex(i).getAttribute("value"));
@@ -601,7 +586,7 @@ if ("undefined" == typeof(scylighter)) {
             for (i=0;i<brokenHighlightCandidates.length;i++){
                 var selectionBroken = true;
                 var candidate = brokenHighlightCandidates[i];
-                for (j=0;j<belongsTos.length;j++){
+                for (var j=0;j<belongsTos.length;j++){
                     if (candidate.getAttribute("belongsTo")==belongsTos[j]){
                         selectionBroken = false;
                     }
@@ -633,7 +618,7 @@ if ("undefined" == typeof(scylighter)) {
                             //everything below modifies unsafe objects on the webpage. Do this last.
 
                             var hi = node.ownerDocument.defaultView.scylighterInfo;
-                            for(var i=hi.highlights.length-1; i>=0; i--) {
+                            for(i=hi.highlights.length-1; i>=0; i--) {
                                 if(hi.highlights[i] == record) {
                                     hi.highlights.splice(i, 1);
                                     break;
@@ -655,7 +640,7 @@ if ("undefined" == typeof(scylighter)) {
             if (summaryBox.itemCount>0){
                 urlBox.value = summaryBox.getItemAtIndex(0).getAttribute("sourceURL");
             }
-            for(i = 1; i < summaryBox.itemCount; i++){
+            for(var i = 1; i < summaryBox.itemCount; i++){
                 var actualSource = summaryBox.getItemAtIndex(i).getAttribute("sourceURL");
                 if (urlBox.value.search(actualSource)!=-1){
                     //the url exists
@@ -673,9 +658,7 @@ if ("undefined" == typeof(scylighter)) {
             var sidebarWindow = document.getElementById("sidebar").contentWindow;
 
             var summaryBox = sidebarWindow.document.getElementById('summaryBox');
-            var urlBox = sidebarWindow.document.getElementById('urlBox');
-
-            var theSelection = top.window.content.document.getSelection();
+            var theSelection = content.window.getSelection().toString();
 
             if (theSelection!=""){
 
@@ -702,8 +685,6 @@ if ("undefined" == typeof(scylighter)) {
 
                 this.correctSources();
             }
-
-
         },
         highlightDoc: function() {
 
@@ -719,15 +700,7 @@ if ("undefined" == typeof(scylighter)) {
 
             var fgcolor = "black";
             var bgcolor = "yellow";
-            //window.alert(sel);
 
-            //if exist highlight and no selections then change current highlight colour
-            //if((sel.rangeCount == 0 || sel.getRangeAt(0).collapsed)
-            //    && node.nodeType == Node.ELEMENT_NODE && node.hasAttribute("scylighter")) {
-
-            //  scylighter.changeHighlightColor(node, fgcolor, bgcolor);
-
-            //} else
             if(sel.rangeCount > 0) {
                 scylighter.highlightRange(win, fgcolor, bgcolor);
             }
@@ -743,8 +716,6 @@ if ("undefined" == typeof(scylighter)) {
             const wrap = win.document.createElement("span");
             wrap.setAttribute("scylighter", bgcolor);
             var belongsToValue = "selection_"+this.count;
-            var sourceURLValue = top.window.content.document.location;
-            //	wrap.setAttribute("sourceURL",sourceURLValue);
             wrap.setAttribute("belongsTo",belongsToValue)
             //wrap.style.color = fgcolor;
             wrap.style.backgroundColor = bgcolor;
@@ -756,11 +727,9 @@ if ("undefined" == typeof(scylighter)) {
                 if(record.lastNode)record.lastNode.nextHighlight = e;
                 record.lastNode = e;
 
-                //XXX getBoxObjectFor(node)
                 var boxObject = n.parentNode.getBoundingClientRect();
 
                 var posTop = boxObject.top;
-                //var posTop = win.document.getBoxObjectFor(n.parentNode).y;
                 var pageTop = parseInt(win.pageYOffset);
                 if(!posTop || posTop < pageTop) {
                     record.offsetY = pageTop;
@@ -771,7 +740,6 @@ if ("undefined" == typeof(scylighter)) {
                 return e;
             };
 
-            //Highlight Range0
             for(var i=0, sel=win.getSelection(); i<sel.rangeCount; i++) {
                 scylighter.highlightRange0(sel.getRangeAt(i), _createWrapper, record);
             }
@@ -785,9 +753,8 @@ if ("undefined" == typeof(scylighter)) {
                 };
 
                 var arr = win.scylighterInfo.highlights;
-                //do an insertion sort insertion
                 if(arr.length > 0) {
-                    for(var i=arr.length-1; i>=-1; i--) {
+                    for(i=arr.length-1; i>=-1; i--) {
                         if(i < 0) {
                             arr.splice(0, 0, record);
                         } else if(arr[i].offsetY <= record.offsetY) {
@@ -822,38 +789,31 @@ if ("undefined" == typeof(scylighter)) {
                     endSide = endSide.parentNode;
                 }
                 endSide = endSide.previousSibling;
-            //dump("\nendOffset=0, endSide="+endSide+" goto root="+endSide+" ancestor="+ancestor);
             } else if(endSide.nodeType == Node.TEXT_NODE) {
                 if(range.endOffset < endSide.nodeValue.length) {
                     endSide.splitText(range.endOffset);
-                //dump("\nendSide is textnode, split text, endSide="+endSide);
                 }
             } else if(range.endOffset > 0) {  //nodeValue = element
                 endSide = endSide.childNodes.item(range.endOffset - 1);
-            //dump("\nendOffset > 0, select indexed="+endSide);
             }
 
             if(startSide.nodeType == Node.TEXT_NODE) {
                 if(range.startOffset == startSide.nodeValue.length) {
-                    //dump("\nstartOffset=len, noop");
                     dirIsLeaf = false;
                 } else if(range.startOffset > 0) {
                     startSide = startSide.splitText(range.startOffset);
                     if(endSide == startSide.previousSibling)endSide = startSide;
-                //dump("\nstartOffset > 0, split text, startSide="+startSide);
                 }
-            } else if(range.startOffset < startSide.childNodes.length) {
+            }
+            else if(range.startOffset < startSide.childNodes.length) {
                 startSide = startSide.childNodes.item(range.startOffset);
-            //dump("\nstartOffset < len, select indexed="+startSide);
             } else {
-                //dump("\nstartOffset=len, noop");
                 dirIsLeaf = false;
             }
 
             range.setStart(range.startContainer, 0);
             range.setEnd(range.startContainer, 0);
 
-            //dump("\nstartSide="+startSide+"\nendSide="+endSide);
             var done = false;
             var node = startSide;
             var tmp;
@@ -887,22 +847,20 @@ if ("undefined" == typeof(scylighter)) {
 
 
                 if(dirIsLeaf && node.hasChildNodes()) {
-                    node = node.firstChild;  //dump("-> firstchild ");
+                    node = node.firstChild; 
 
                 } else if(node.nextSibling != null) {
-                    node = node.nextSibling;  //dump("-> nextSibling ");
+                    node = node.nextSibling; 
                     dirIsLeaf = true;
 
                 } else if(node.nextSibling == null) {
-                    node = node.parentNode;  //dump("-> parent ");
+                    node = node.parentNode; 
                     dirIsLeaf = false;
                 }
-            //if(node == ancestor.parentNode)dump("\nHALT shouldn't face ancestor");
             } while(!done);
         },
 
         onToolbarButtonCommand: function(e) {
-            // just reuse the function above.  you can change this, obviously!
             scylighter.onMenuItemCommand(e);
         },
         openPreferences: function(){
@@ -925,7 +883,7 @@ if ("undefined" == typeof(scylighter)) {
                 summaryBox = sidebar.contentDocument.getElementById('summaryBox');
             }
             var bullets = "";
-            for(i = 0; i < summaryBox.itemCount; i++){
+            for(var i = 0; i < summaryBox.itemCount; i++){
                 bullets = bullets + "<quote>"+summaryBox.getItemAtIndex(i).label+"</quote>";
             }
             summaryXML = summaryXML + "<quotes>" + bullets + "</quotes>";
@@ -965,8 +923,6 @@ if ("undefined" == typeof(scylighter)) {
         saveEloRequest: function(){
             //the scylighter-strings from the stringbundle
             this.strings = top.window.document.getElementById("scylighter-strings");
-
-            var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
 
             //username and password will be received from the preferences
             var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
@@ -1030,9 +986,8 @@ if ("undefined" == typeof(scylighter)) {
                     try{
                         if (req.readyState == 4) {
                             if(req.status == 200){
-                                updating = true;
                                 scylighter.updateURI = req.responseText;
-                                window.alert(top.window.document.getElementById("scylighter-strings").getString("eloSaved"));
+                                window.alert(scylighter.strings.getString("eloSaved"));
                             }
                             else {
                                 alertString = scylighter.strings.getString("errorLoadingPage")+"\n"+scylighter.strings.getString("errorCode") + req.status + "\n";
@@ -1042,8 +997,9 @@ if ("undefined" == typeof(scylighter)) {
 
                     }
                     }catch (e) {
-                        window.alert(e);
-                        alertString = top.window.document.getElementById("scylighter-strings").getString("noServerResponse");
+                        //                        window.alert(e);
+                        alertString = scylighter.strings.getString("noServerResponse");
+                        //                        alertString = top.window.document.getElementById("scylighter-strings").getString("noServerResponse");
                         window.alert(alertString);
                     }
                 };
@@ -1071,160 +1027,7 @@ if ("undefined" == typeof(scylighter)) {
         saveELO: function(){
             this.serverChallengeRequest(this.saveEloRequest);
         },
-        showPreviewELOWindow : function() {
-
-            var elolist = document.getElementById("elolist");
-            var selectedItem = elolist.getSelectedItem(0);
-            var uri = selectedItem.childNodes[3].getAttribute("label");
-            //window.alert("URI: "+uri);
-
-            var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
-
-            //username and password will be received from the preferences
-            var prefs = Components.classes["@mozilla.org/preferences-service;1"]
-            .getService(Components.interfaces.nsIPrefService);
-            prefs = prefs.getBranch("extensions.scylighter.");
-            var username = prefs.getCharPref("username");
-            var password = prefs.getCharPref("password");
-            var defaultaddress = prefs.getCharPref("defaultaddress");
-            var usedefaultaddress = prefs.getBoolPref("usedefaultaddress");
-            var address = prefs.getCharPref("address");
-
-            //RESTful webservice request
-            var req = new XMLHttpRequest();
-
-            //Parameters for the webservice as JSON, stringified for transmission
-            var params = {};
-            params.uri = uri;
-            var jsonParams = JSON.stringify(params);
-
-            //the scylighter-strings from the stringbundle
-            this.strings = top.window.document.getElementById("scylighter-strings");
-
-            req.onreadystatechange = function (aEvt) {
-                var alertString="";
-                try{
-                    if (req.readyState == 4) {
-                        if(req.status == 200){
-                            //The response as JSON has to be parsed
-                            var jsObject = JSON.parse(req.responseText);
-                            var preview = jsObject.preview;
-                            //window.alert(preview);
-                            //opens a new Browser-Window without Navigation and sets the preview to the documents content
-                            myPreviewWindow = window.open('','','resizable=yes,scrollbars=yes,width=700,height=520');
-                            myPreviewWindow.document.body.innerHTML = preview;
-                        //var previewELOWindow = window.open('','','resizable=yes,scrollbars=yes,width=700,height=600');
-                        //previewELOWindow.top.window.document.body.innerHTML = preview;
-                        }
-                        else {
-                            alertString = top.window.document.getElementById("scylighter-strings").getString("errorLoadingPage")+"\n"+document.getElementById("scylighter-strings").getString("errorCode") + req.status + "\n" + document.getElementById("scylighter-strings").getString(req.responseText);
-                            window.alert(alertString);
-                        }
-                    } else {
-
-                }
-                }catch (e) {
-                    alertString = top.window.document.getElementById("scylighter-strings").getString("noServerResponse");
-                    window.alert(alertString);
-
-                }
-            };
-
-            var serverURL = "";
-            if (usedefaultaddress){
-                serverURL = defaultaddress;
-            } else {
-                serverURL = address;
-            }
-            serverURL = serverURL + "/getELOPreview";
-
-            //asynchronous request per POST, Content-Type JSON --> webservice consumes JSON
-            req.open('POST', serverURL, true);
-            //req.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-            req.setRequestHeader("Content-Type","application/json");
-            //req.setRequestHeader("Timeout", 0.1);
-            req.send(jsonParams);
-
-            elolist.clearSelection();
-        },
-
-        showELOWindow : function() {
-
-            var elolist = document.getElementById("elolist");
-            var selectedItem = elolist.getSelectedItem(0);
-            var uri = selectedItem.childNodes[3].getAttribute("label");
-            //window.alert("URI: "+uri);
-
-            var mainWindow = window.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIWebNavigation).QueryInterface(Components.interfaces.nsIDocShellTreeItem).rootTreeItem.QueryInterface(Components.interfaces.nsIInterfaceRequestor).getInterface(Components.interfaces.nsIDOMWindow);
-
-            //username and password will be received from the preferences
-            var prefs = Components.classes["@mozilla.org/preferences-service;1"]
-            .getService(Components.interfaces.nsIPrefService);
-            prefs = prefs.getBranch("extensions.scylighter.");
-            var username = prefs.getCharPref("username");
-            var password = prefs.getCharPref("password");
-            var defaultaddress = prefs.getCharPref("defaultaddress");
-            var usedefaultaddress = prefs.getBoolPref("usedefaultaddress");
-            var address = prefs.getCharPref("address");
-
-            //RESTful webservice request
-            var req = new XMLHttpRequest();
-
-            //Parameters for the webservice as JSON, stringified for transmission
-            var params = {};
-            params.uri = uri;
-            var jsonParams = JSON.stringify(params);
-
-            //the scylighter-strings from the stringbundle
-            this.strings = top.window.document.getElementById("scylighter-strings");
-
-            req.onreadystatechange = function (aEvt) {
-                var alertString="";
-                try{
-                    if (req.readyState == 4) {
-                        if(req.status == 200){
-                            //The response as JSON has to be parsed
-                            var jsObject = JSON.parse(req.responseText);
-                            var preview = jsObject.preview;
-                            //window.alert(preview);
-                            //opens a new Browser-Window without Navigation and sets the preview to the documents content
-                            myPreviewWindow = window.open('','','resizable=yes,scrollbars=yes,width=700,height=520');
-                            myPreviewWindow.document.body.innerHTML = preview;
-                        //var previewELOWindow = window.open('','','resizable=yes,scrollbars=yes,width=700,height=600');
-                        //previewELOWindow.top.window.document.body.innerHTML = preview;
-                        }
-                        else {
-                            alertString = top.window.document.getElementById("scylighter-strings").getString("errorLoadingPage")+"\n"+document.getElementById("scylighter-strings").getString("errorCode") + req.status + "\n" + document.getElementById("scylighter-strings").getString(req.responseText);
-                            window.alert(alertString);
-                        }
-                    } else {
-
-                }
-                }catch (e) {
-                    alertString = top.window.document.getElementById("scylighter-strings").getString("noServerResponse");
-                    window.alert(alertString);
-
-                }
-            };
-
-            var serverURL = "";
-            if (usedefaultaddress){
-                serverURL = defaultaddress;
-            } else {
-                serverURL = address;
-            }
-            serverURL = serverURL + "/getELOPreview";
-
-            //asynchronous request per POST, Content-Type JSON --> webservice consumes JSON
-            req.open('POST', serverURL, true);
-            //req.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-            req.setRequestHeader("Content-Type","application/json");
-            //req.setRequestHeader("Timeout", 0.1);
-            req.send(jsonParams);
-
-            elolist.clearSelection();
-        },
-
+      
         removeHighlight: function() {
 
             var node = document.popupNode;
@@ -1271,6 +1074,7 @@ if ("undefined" == typeof(scylighter)) {
 
         undo: function(){
             //NOT used at the moment
+            //TODO check if there is a usecase
             if (highlightCount>0) {
                 var nodeID = "highlight_" + (highlightCount-1)+"_" + "background-color: FFFF";
                 var oldNode = document.getElementById(nodeID).node;
@@ -1291,23 +1095,17 @@ if ("undefined" == typeof(scylighter)) {
     
         },
         getPreview: function(){
-
-        
             //creates a HTML representation of the document for preview
 
-            //Loading the stringbundle from the xul document -->scylighter.properties
             this.strings = top.window.document.getElementById("scylighter-strings");
-            //window.alert(this.strings==null);
-
-
-            //---------------------------------------------------
 
             var titleBox = document.getElementById('titleBox');
             if (titleBox==null){
-                titleBox = sidebar.contentDocument.getElementById('titleBox');
+                titleBox = scylighter.sidebar.contentDocument.getElementById('titleBox');
             }
-            var summaryHTML = "<document>";
+            var summaryHTML = "<html>";
 
+            //TODO put the css into the template.html. Also rename emptyHtml.html to template.html
             //The header especially contains the styles of the summary
             var header = 	"<head> <title>"+titleBox.value+"</title> <style type=\"text/css\">"+
             "h1{font-family:Georgia,\"Times New Roman\",Times,serif; font-weight:normal; border-bottom:3px solid #E2E1DE; font-size:200%; margin-bottom:0.5em;} " +
@@ -1325,11 +1123,11 @@ if ("undefined" == typeof(scylighter)) {
             //append summary from the summmaryBox
             var summaryBox = document.getElementById('summaryBox');
             if (summaryBox==null){
-                summaryBox = sidebar.contentDocument.getElementById('summaryBox');
+                summaryBox = scylighter.sidebar.contentDocument.getElementById('summaryBox');
             }
             var bullets = "";
             //window.alert("summaryBox.value==null");
-            for(i = 0; i < summaryBox.itemCount; i++){
+            for(var i = 0; i < summaryBox.itemCount; i++){
                 var summaryItem = summaryBox.getItemAtIndex(i);
                 if (summaryItem.getAttribute("itemType")=="image-link"){
                     var imageTag = "<img src=\""+summaryItem.label+"\">";
@@ -1345,7 +1143,7 @@ if ("undefined" == typeof(scylighter)) {
             //Maybe it is a good idea to split multiple comments by /n and branch the comments-tag
             var commentBox = document.getElementById('commentBox');
             if (commentBox==null){
-                commentBox = sidebar.contentDocument.getElementById('commentBox');
+                commentBox = scylighter.sidebar.contentDocument.getElementById('commentBox');
             }
             summaryHTML = summaryHTML + "<h2>"+this.strings.getString("comments")+"</h2>" + "<p>" + commentBox.value + "</p>";
 
@@ -1353,7 +1151,7 @@ if ("undefined" == typeof(scylighter)) {
             //Maybe it is a good idea to split multiple sources by /n and branch the sources-tag
             var urlBox = document.getElementById('urlBox');
             if (urlBox==null){
-                urlBox = sidebar.contentDocument.getElementById('urlBox');
+                urlBox = scylighter.sidebar.contentDocument.getElementById('urlBox');
             }
             //split at \n for multiple sources and create hyperlinks
             var sources = urlBox.value.split("\n");
@@ -1364,11 +1162,8 @@ if ("undefined" == typeof(scylighter)) {
             summaryHTML = summaryHTML + "</p>";
 
             //close the document tag
-            summaryHTML = summaryHTML + "</body> </document>";
+            summaryHTML = summaryHTML + "</body> </html>";
 
-            //window.alert("summaryHTML: \n --------------------------------------------\n"+summaryHTML);
-
-            //---------------------------------------------------
             return summaryHTML;
         },
         preview: function(){
@@ -1376,25 +1171,34 @@ if ("undefined" == typeof(scylighter)) {
             this.strings = top.window.document.getElementById("scylighter-strings");
             var titleBox = document.getElementById('titleBox');
             if (titleBox==null){
-                titleBox = sidebar.contentDocument.getElementById('titleBox');
+                titleBox = scylighter.sidebar.contentDocument.getElementById('titleBox');
             }
-            //opens a new Browser-Window without Navigation and sets the preview to the documents content
-            myWindow = window.open('',"preview",'resizable=yes,scrollbars=yes,width=600,height=520');
-            myWindow.document.body.innerHTML = summary;
+            var myWindow = window.open("emptyHtml.html","preview",'chrome,resizable=yes,scrollbars=yes,width=600,height=520');
+            if(myWindow==null){
+                window.alert("window == null")
+                myWindow = window.open("chrome://scylighter/content/emptyHtml.html","preview",'chrome,resizable=yes,scrollbars=yes,width=600,height=520');
+            }
+            myWindow.document.write(summary);
             myWindow.document.title = titleBox.value;
+            myWindow.focus();
         },
         print: function(){
             var summary = this.getPreview();
             this.strings = top.window.document.getElementById("scylighter-strings");
             var titleBox = document.getElementById('titleBox');
             if (titleBox==null){
-                titleBox = sidebar.contentDocument.getElementById('titleBox');
+                titleBox = scylighter.sidebar.contentDocument.getElementById('titleBox');
             }
             var printerTitle = this.strings.getString("printPreview")+titleBox.value;
             //opens a new Browser-Window without Navigation and sets the preview to the documents content
-            myWindow = window.open('',"preview",'resizable=yes,scrollbars=yes,width=600,height=520');
-            myWindow.document.body.innerHTML = summary;
+            var myWindow = window.open("emptyHtml.html","preview",'chrome,resizable=yes,scrollbars=yes,width=600,height=520');
+            if(myWindow==null){
+                window.alert("window == null")
+                myWindow = window.open("chrome://scylighter/content/emptyHtml.html","preview",'chrome,resizable=yes,scrollbars=yes,width=600,height=520');
+            }
+            myWindow.document.write(summary);
             myWindow.document.title = printerTitle;
+            myWindow.focus();
             myWindow.print();
         },
         onAfterUnload:function(e){

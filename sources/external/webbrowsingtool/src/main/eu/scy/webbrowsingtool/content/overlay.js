@@ -34,89 +34,97 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-//const serverURL="http://localhost:8080/ELOSaver/resources/saveELO";
-//const serverURL="http://localhost:33604/ELOSaver/resources/saveELO";
+if ("undefined" == typeof(scylighterOverlay)) {
+    var scylighterOverlay = {
 
-var overlay = {
-
-    onLoad: function() {
-        // initialization code
-        var sidebar = top.window.document.getElementById("sidebar-box");
-        overlay.changeMenuitemState(sidebar);
-        this.initialized = true;
-    },
-    getElementsByAttributeDOM: function (strAttributeName, strAttributeValue){
-        //only select Span-Tags, because only these tags are highlighted
-        var arrElements = top.window.content.document.getElementsByTagName("span");
-        //window.alert(arrElements.length);
-        var arrReturnElements = new Array();
-        var oAttributeValue = (typeof strAttributeValue != "undefined")? new RegExp("(^|\\s)" + strAttributeValue + "(\\s|$)", "i") : null;
-        var oCurrent;
-        var oAttribute;
-        for(var i=0; i<arrElements.length; i++){
-            oCurrent = arrElements[i];
-            oAttribute = oCurrent.getAttribute && oCurrent.getAttribute(strAttributeName);
-            if(typeof oAttribute == "string" && oAttribute.length > 0){
-                if(typeof strAttributeValue == "undefined" || (oAttributeValue && oAttributeValue.test(oAttribute))){
-                    arrReturnElements.push(oCurrent);
+        onLoad: function() {
+            // initialization code
+            var sidebarBox = document.getElementById("sidebar-box");
+            sidebarBox.addEventListener("DOMContentLoaded",function(e) {
+                scylighterOverlay.changeMenuitemState();
+            }, false);
+            scylighterOverlay.changeMenuitemState();
+            this.initialized = true;
+        },
+        getElementsByAttributeDOM: function (strAttributeName, strAttributeValue){
+            //only select Span-Tags, because only these tags are highlighted
+            var arrElements = top.window.content.document.getElementsByTagName("span");
+            //window.alert(arrElements.length);
+            var arrReturnElements = new Array();
+            var oAttributeValue = (typeof strAttributeValue != "undefined")? new RegExp("(^|\\s)" + strAttributeValue + "(\\s|$)", "i") : null;
+            var oCurrent;
+            var oAttribute;
+            for(var i=0; i<arrElements.length; i++){
+                oCurrent = arrElements[i];
+                oAttribute = oCurrent.getAttribute && oCurrent.getAttribute(strAttributeName);
+                if(typeof oAttribute == "string" && oAttribute.length > 0){
+                    if(typeof strAttributeValue == "undefined" || (oAttributeValue && oAttributeValue.test(oAttribute))){
+                        arrReturnElements.push(oCurrent);
+                    }
                 }
             }
-        }
-        return arrReturnElements;
-    },
+            return arrReturnElements;
+        },
 
-    sidebarExists:function(){
-        var sidebar = top.window.document.getElementById("sidebar");
-        if (sidebar == null) {
-            //window.alert("sidebarExists = false");
+        getSidebar: function(){
+            return top.window.document.getElementById("sidebar");
+        },
+
+        getSidebarBox: function(){
+            return top.window.document.getElementById("sidebar-box");
+        },
+       
+        isSidebarValid: function(){
+            var sidebar = scylighterOverlay.getSidebar();
+            const location = "chrome://scylighter/content/sidebar.xul";
+            if(sidebar!=null){
+                var sidebarWindow = sidebar.contentWindow;
+                if(sidebarWindow.location.href == location){
+                    return true;
+                } 
+            }
             return false;
-        } else {
-            //window.alert("sidebarExists = true");
-            return true;
-        }
-    },
-    onSidebarChanged: function(){
-        //toggleSidebar("viewSidebar");
-        var sidebar = top.window.document.getElementById("sidebar-box");
-        overlay.changeMenuitemState(sidebar);
-    },
+        },
 
-    changeMenuitemState: function(sidebar){
-        if (sidebar.hidden){
-            //disable (de-)highlight-command on context-menu
-            document.getElementById("context-scylighter").disabled = true;
-            document.getElementById("context-descylighter").disabled = true;
-            document.getElementById("menu-scy-new").disabled=true;
-            document.getElementById("menu-scy-save").disabled=true;
-            document.getElementById("menu-scy-preview").disabled=true;
-            document.getElementById("menu-scy-print").disabled=true;
-        } else {
-            //enable (de-)highlight-command on context-menu
-            document.getElementById("context-scylighter").disabled = false;
-            document.getElementById("context-descylighter").disabled = false;
-            document.getElementById("menu-scy-new").disabled=false;
-            document.getElementById("menu-scy-save").disabled=false;
-            document.getElementById("menu-scy-preview").disabled=false;
-            document.getElementById("menu-scy-print").disabled=false;
-        }
-    },
+        changeMenuitemState: function(){
+            var sidebarBox = scylighterOverlay.getSidebarBox();
+            if (sidebarBox.hidden || !scylighterOverlay.isSidebarValid()){
+                //disable (de-)highlight-command on context-menu
+                document.getElementById("context-scylighter").disabled = true;
+                document.getElementById("context-descylighter").disabled = true;
+                document.getElementById("menu-scy-new").disabled=true;
+                document.getElementById("menu-scy-save").disabled=true;
+                document.getElementById("menu-scy-preview").disabled=true;
+                document.getElementById("menu-scy-print").disabled=true;
+                document.getElementById("app-menu-scy-new").disabled=true;
+                document.getElementById("app-menu-scy-save").disabled=true;
+                document.getElementById("app-menu-scy-preview").disabled=true;
+                document.getElementById("app-menu-scy-print").disabled=true;
+            } else if(scylighterOverlay.isSidebarValid()){
+                //enable (de-)highlight-command on context-menu
+                //and only enable if it is scylighter sidebar
+                document.getElementById("context-scylighter").disabled = false;
+                document.getElementById("context-descylighter").disabled = false;
+                document.getElementById("menu-scy-new").disabled=false;
+                document.getElementById("menu-scy-save").disabled=false;
+                document.getElementById("menu-scy-preview").disabled=false;
+                document.getElementById("menu-scy-print").disabled=false;
+                document.getElementById("app-menu-scy-new").disabled=false;
+                document.getElementById("app-menu-scy-save").disabled=false;
+                document.getElementById("app-menu-scy-preview").disabled=false;
+                document.getElementById("app-menu-scy-print").disabled=false;
+            }
+        },
 
-    showContextMenu: function(event) {
-        // show or hide the menuitem based on what the context menu is on
-        // see http://kb.mozillazine.org/Adding_items_to_menus
-        document.getElementById("context-scylighter").hidden = gContextMenu.onImage;
-    },
-    onMenuItemCommand: function(e) {
+        showContextMenu: function(event) {
+            // show or hide the menuitem based on what the context menu is on
+            // see http://kb.mozillazine.org/Adding_items_to_menus
+            document.getElementById("context-scylighter").hidden = gContextMenu.onImage;
+            document.getElementById("context-descylighter").hidden = gContextMenu.onImage;
+        },
+    };
 
-    },
-
-    onToolbarButtonCommand: function(e) {
-        // just reuse the function above.  you can change this, obviously!
-        scylighter.onMenuItemCommand(e);
-    },
-
-};
-
-window.addEventListener("load", function(e) {
-    overlay.onLoad(e);
-}, false);
+    window.addEventListener("load", function(e) {
+        scylighterOverlay.onLoad(e);
+    }, false);
+}

@@ -21,7 +21,7 @@
 <!ENTITY descylighterToolbar.label "De-Highlight">
 <!ENTITY descylighterToolbar.tooltip "De-Highlight!">
 <!ENTITY sidebar.title "SCY Sidebar">
-<!ENTITY openSidebar.commandkey "E">
+<!ENTITY openSidebar.commandkey "S">
 <!ENTITY openSidebar.modifierskey "shift accel">
 <!ENTITY openELOWindowTitle "Open ELO....">
 <!ENTITY toolbarbutton.new "New ELO">
@@ -37,3 +37,4 @@
 <!ENTITY toolbarbutton.tooltip.help "Open Help-page">
 <!ENTITY toolbarbutton.tooltip.preview "Open preview">
 <!ENTITY scylighterMenu.accesskey "S">
+<!ENTITY preview.title "Preview">
