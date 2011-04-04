@@ -84,6 +84,9 @@
 				<ref bean="groupFormation" />
 				<ref bean="rooloAccessor" />
 				<ref bean="sessionAgent" />
+				<ref bean="cmEnricher" />
+				<ref bean="cmProposer" />
+				<ref bean="cmModeller" />
 			</set>
 		</property>
 		<property name="repository">
