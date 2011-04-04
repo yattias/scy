@@ -40,7 +40,7 @@ public class SWATConnection implements OntologyConnection {
             this.language = language;
             this.ontologyNamespace = ontologyNamespace;
             this.sc = new SWATClient(ontologyNamespace, "localhost", 2525, OWLType.OWL_DL, new User("CM-Enricher2SWAT"), false);
-            // System.out.println("Initializing SWAT connection ...");
+             System.out.println("Initializing SWAT connection ...");
             // build up cache
             NamedClass[] classes = sc.getOntology().listNamedClasses();
             for (NamedClass nc : classes) {
@@ -60,7 +60,7 @@ public class SWATConnection implements OntologyConnection {
                 i.getLabels();
                 i.getPropertyValues();
             }
-            // System.out.println(" Finished!");
+             System.out.println(" Finished!");
             sc.saveCache();
             
         } catch (TupleSpaceException e) {

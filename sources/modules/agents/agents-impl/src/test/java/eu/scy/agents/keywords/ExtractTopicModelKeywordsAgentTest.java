@@ -2,7 +2,6 @@ package eu.scy.agents.keywords;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
@@ -18,7 +17,6 @@ import org.junit.Test;
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 import eu.scy.agents.roolo.rooloaccessor.RooloAccessorAgent;
 
 public class ExtractTopicModelKeywordsAgentTest extends AbstractTestFixture {

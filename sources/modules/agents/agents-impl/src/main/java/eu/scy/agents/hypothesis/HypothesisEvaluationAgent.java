@@ -12,7 +12,6 @@ import java.rmi.dgc.VMID;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -21,12 +20,7 @@ import org.apache.log4j.Logger;
 
 import roolo.api.IRepository;
 import roolo.elo.api.IELO;
-import roolo.elo.api.IMetadata;
-import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.IMetadataTypeManager;
-import roolo.elo.api.IMetadataValueContainer;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import roolo.elo.metadata.keys.KeyValuePair;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Document;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
@@ -42,9 +36,6 @@ import eu.scy.agents.keywords.ExtractKeyphrasesAgent;
 import eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent;
 import eu.scy.agents.keywords.KeywordConstants;
 import eu.scy.agents.keywords.OntologyKeywordsAgent;
-import eu.scy.agents.keywords.extractors.CopexExtractor;
-import eu.scy.agents.keywords.extractors.KeywordExtractor;
-import eu.scy.agents.keywords.extractors.KeywordExtractorFactory;
 import eu.scy.agents.util.Utilities;
 
 /**

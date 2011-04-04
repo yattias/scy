@@ -1,8 +1,5 @@
 package eu.scy.agents.roolo.rooloaccessor;
 
-import static org.junit.Assert.assertNotNull;
-
-import java.net.URI;
 import java.rmi.dgc.VMID;
 import java.util.HashMap;
 
@@ -12,17 +9,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import roolo.elo.api.IMetadata;
-import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import roolo.elo.content.BasicContent;
-
 import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.impl.ModelStorage;
-import eu.scy.agents.topics.DetectTopicForElos;
-import eu.scy.agents.topics.TopicAgents;
-import eu.scy.agents.topics.TopicDetector;
 
 public class RooloAcccessorAgentTest extends AbstractTestFixture {
 
@@ -38,7 +27,8 @@ public class RooloAcccessorAgentTest extends AbstractTestFixture {
 		stopTupleSpaceServer();
 	}
 
-	@Before
+	@Override
+    @Before
 	public void setUp() throws Exception {
 		super.setUp();
 
@@ -51,7 +41,8 @@ public class RooloAcccessorAgentTest extends AbstractTestFixture {
 		startAgentFramework(agentMap);
 	}
 
-	@After
+	@Override
+    @After
 	public void tearDown() throws AgentLifecycleException {
 		stopAgentFrameWork();
 		super.tearDown();

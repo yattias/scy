@@ -18,6 +18,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import roolo.elo.api.IELO;
+import eu.scy.agents.Mission;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.keywords.ExtractKeywordsAgent;
 import eu.scy.agents.util.Utilities;
@@ -33,7 +34,7 @@ public class FitexExtractor implements KeywordExtractor {
 
 	private TupleSpace tupleSpace;
 
-	private String mission;
+	private Mission mission;
 
 	public static String XMLPATH = "//column/symbol";
 
@@ -67,7 +68,7 @@ public class FitexExtractor implements KeywordExtractor {
 			String queryId = new VMID().toString();
 			Tuple extractKeywordsTriggerTuple = new Tuple(
 					ExtractKeywordsAgent.EXTRACT_KEYWORDS, AgentProtocol.QUERY,
-					queryId, text, mission);
+					queryId, text, mission.getName());
 			extractKeywordsTriggerTuple.setExpiration(7200000);
 			Tuple responseTuple = null;
 			if (this.tupleSpace.isConnected()) {
@@ -114,7 +115,8 @@ public class FitexExtractor implements KeywordExtractor {
 		this.tupleSpace = tupleSpace;
 	}
 
-	public void setMission(String mission) {
+	@Override
+    public void setMission(Mission mission) {
 		this.mission = mission;
 	}
 

@@ -1,8 +1,5 @@
 package eu.scy.agents.session;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
@@ -19,7 +16,6 @@ import eu.scy.agents.AbstractTestFixture;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
 import eu.scy.agents.session.SessionAgent;
 
 public class SessionAgentTest extends AbstractTestFixture {

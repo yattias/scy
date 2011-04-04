@@ -75,7 +75,7 @@ public class Graph {
     }
 
     public Node[] getNodes() {
-        return (Node[]) nodes.values().toArray(new Node[nodes.values().size()]);
+        return nodes.values().toArray(new Node[nodes.values().size()]);
     }
 
     public Edge[] getEdges() {
@@ -85,7 +85,7 @@ public class Graph {
                 edgeList.add(e);
             }
         }
-        return (Edge[]) edgeList.toArray(new Edge[edgeList.size()]);
+        return edgeList.toArray(new Edge[edgeList.size()]);
     }
 
     public Edge getEdgeForLabels(String from, String to, boolean ignoreCase) {

@@ -1,11 +1,5 @@
 package eu.scy.agents.keywords.workflow.operators;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-
 import de.fhg.iais.kd.tm.obwious.JavaClasses;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.CarrierClasses;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Corpus;
@@ -13,7 +7,6 @@ import de.fhg.iais.kd.tm.obwious.base.featurecarrier.CorpusView;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.Features;
 import de.fhg.iais.kd.tm.obwious.base.featurecarrier.MemoryCorpus;
 import de.fhg.iais.kd.tm.obwious.identifiers.WikiFeatures;
-import de.fhg.iais.kd.tm.obwious.identifiers.WikiParameters;
 import de.fhg.iais.kd.tm.obwious.model.CorpusModel;
 import de.fhg.iais.kd.tm.obwious.operator.ObjectIdentifiers;
 import de.fhg.iais.kd.tm.obwious.operator.OperatorSpecification;

@@ -2,25 +2,13 @@ package eu.scy.agents.keywords.extractors;
 
 import static org.junit.Assert.assertArrayEquals;
 
-import java.rmi.dgc.VMID;
-import java.util.HashMap;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import roolo.elo.api.IELO;
 import roolo.elo.content.BasicContent;
-import eu.scy.agents.AbstractTestFixture;
-import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.impl.AgentProtocol;
-import eu.scy.agents.keywords.ExtractKeywordsAgent;
-import eu.scy.agents.keywords.ExtractTfIdfKeywordsAgent;
-import eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent;
-import eu.scy.agents.keywords.workflow.KeywordWorkflowConstants;
+import eu.scy.agents.Mission;
 
 public class TextExtractorTest extends AbstractExtractorTest {
 
@@ -37,7 +25,7 @@ public class TextExtractorTest extends AbstractExtractorTest {
 		elo.setContent(new BasicContent(TEXT));
 
 		extractor = new TextExtractor();
-		extractor.setMission(MISSION1);
+		extractor.setMission(Mission.MISSION1);
 		extractor.setTupleSpace(getCommandSpace());
 	}
 

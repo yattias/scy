@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
+import eu.scy.agents.Mission;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.AgentProtocol;
@@ -62,9 +63,10 @@ public class OntologyKeywordsAgent extends AbstractRequestAgent {
 		} else {
 			String queryId = (String) afterTuple.getField(2).getValue();
 			String text = (String) afterTuple.getField(3).getValue();
-			String mission = (String) afterTuple.getField(4).getValue();
+			String missionString = (String) afterTuple.getField(4).getValue();
+			Mission mission = Mission.getForName(missionString);
 			String language = (String) afterTuple.getField(5).getValue();
-
+			
 			Set<String> keywords = this.getKeywords(text, mission, language);
 
 			try {
@@ -86,10 +88,10 @@ public class OntologyKeywordsAgent extends AbstractRequestAgent {
 				queryId, keywordBuffer.toString().trim());
 	}
 
-	private Set<String> getKeywords(String text, String mission, String language) {
+	private Set<String> getKeywords(String text, Mission mission, String language) {
 		Set<String> tokens = this.preprocessText(text);
 
-		Set<String> ontologyKeywords = this.getOntologyKeywords();
+		Set<String> ontologyKeywords = this.getOntologyKeywords(mission, language);
 
 		Set<String> result = this.merge(ontologyKeywords, tokens);
 
@@ -102,13 +104,13 @@ public class OntologyKeywordsAgent extends AbstractRequestAgent {
 		return tokens;
 	}
 
-	private Set<String> getOntologyKeywords() {
+	private Set<String> getOntologyKeywords(Mission mission, String language) {
 		Set<String> ontologyKeywords = new HashSet<String>();
 		try {
 			VMID queryId = new VMID();
 			this.getCommandSpace().write(
 					new Tuple(queryId.toString(), "onto", "labels",
-							"http://www.scy.eu/co2house#", "en"));
+							mission.getNamespace(), language));
 
 			Tuple response = this.getCommandSpace().waitToTake(
 					new Tuple(queryId.toString(), AgentProtocol.RESPONSE,

@@ -7,7 +7,6 @@ import eu.scy.agents.authoring.workflow.WorkflowItem.Type;
 import eu.scy.common.mission.Las;
 import eu.scy.common.mission.MissionModel;
 import eu.scy.common.mission.MissionModelElo;
-import eu.scy.common.mission.MissionModelEloContent;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.mission.MissionSpecificationEloContent;
 import eu.scy.common.scyelo.RooloServices;

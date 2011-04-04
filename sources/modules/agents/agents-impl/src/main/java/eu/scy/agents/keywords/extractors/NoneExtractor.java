@@ -5,6 +5,8 @@ import info.collide.sqlspaces.client.TupleSpace;
 import java.util.ArrayList;
 import java.util.List;
 
+import eu.scy.agents.Mission;
+
 import roolo.elo.api.IELO;
 
 /**
@@ -31,6 +33,7 @@ public class NoneExtractor implements KeywordExtractor {
 	public void setTupleSpace(TupleSpace tupleSpace) {
 	}
 
-	public void setMission(String mission) {
+	@Override
+	public void setMission(Mission mission) {
 	}
 }

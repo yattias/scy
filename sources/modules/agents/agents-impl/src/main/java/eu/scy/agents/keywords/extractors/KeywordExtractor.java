@@ -4,6 +4,8 @@ import info.collide.sqlspaces.client.TupleSpace;
 
 import java.util.List;
 
+import eu.scy.agents.Mission;
+
 import roolo.elo.api.IELO;
 
 /**
@@ -29,6 +31,6 @@ public interface KeywordExtractor {
 
 	public void setTupleSpace(TupleSpace tupleSpace);
 
-	public void setMission(String mission);
+	public void setMission(Mission mission);
 
 }
