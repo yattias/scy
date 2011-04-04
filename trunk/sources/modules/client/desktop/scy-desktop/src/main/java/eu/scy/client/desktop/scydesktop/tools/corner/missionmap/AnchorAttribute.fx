@@ -19,6 +19,9 @@ import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import eu.scy.client.desktop.scydesktop.art.eloicons.EloIconFactory;
+import eu.scy.client.desktop.scydesktop.uicontrols.EloIconButton;
+import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 
 /**
  * @author sikkenj
@@ -29,6 +32,8 @@ public class AnchorAttribute extends ScyWindowAttribute {
    public var missionAnchor: MissionAnchorFX;
    public var mainAnchor = true;
    public var windowAction:function(MissionAnchorFX):Void;
+   public var missionModel: MissionModelFX;
+   public-init var tooltipManager: TooltipManager;
    override public var priority = 5;
 
    def size = 10.0;
@@ -52,6 +57,8 @@ public class AnchorAttribute extends ScyWindowAttribute {
          mainAnchor: mainAnchor
          windowAction: windowAction
          priority: priority
+         missionModel: missionModel
+         tooltipManager: tooltipManager
       }
    }
 
@@ -68,6 +75,35 @@ public class AnchorAttribute extends ScyWindowAttribute {
    }
 
    public override function create(): Node {
+      def eloIconName = if (mainAnchor) "elo_anchor" else "elo_intermediate";
+      def eloIcon = EloIconFactory{}.createEloIcon(eloIconName);
+      eloIcon.windowColorScheme = missionAnchor.windowColorScheme;
+      EloIconButton{
+         size: itemSize
+         mouseOverSize: mouseOverItemSize
+         eloIcon: eloIcon
+         tooltipFunction: tooltipFunction
+         tooltipManager: tooltipManager
+         hideBackground: true
+         actionScheme: 1
+
+         onMouseClicked: function( e: MouseEvent ):Void {
+            anchorDisplay.selectionAction(anchorDisplay,missionAnchor);
+            windowAction(missionAnchor);
+         },
+      }
+   }
+
+   function tooltipFunction():String{
+      if (missionModel.activeLas!=missionAnchor.las){
+         "product\nclick to open in activity: {missionAnchor.las.title}"
+      }
+      else{
+         "product\nclick to center"
+      }
+   }
+
+   public  function create2(): Node {
       var mainRadius = 3*size/3;
       return Group {
          cursor: Cursor.HAND;

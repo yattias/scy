@@ -16,6 +16,8 @@ public abstract class ScyWindowAttribute extends CustomNode, Comparable {
 
    public var scyWindow: ScyWindow;
    public var priority: Integer;
+   protected def itemSize = 14.0;
+   protected def mouseOverItemSize = 20.0;
 
    public override function compareTo(object: Object): Integer {
       var result: Integer = 0;

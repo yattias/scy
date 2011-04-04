@@ -28,20 +28,12 @@ return Group {
 
 			content: [
 				Rectangle {
-					fill: bind windowColorScheme.mainColor
+					fill: bind windowColorScheme.mainColorLight
 					stroke: null
 					x: 0.54
 					y: 0.14
 					width: 40.0
 					height: 40.0
-				},
-				Rectangle {
-					fill: bind windowColorScheme.mainColorLight
-					stroke: null
-					x: 0.42
-					y: 0.11
-					width: 40.0
-					height: 35.0
 				},
 				Rectangle {
 					fill: null
@@ -50,22 +42,6 @@ return Group {
 					y: 0.14
 					width: 40.0
 					height: 40.0
-				},
-				Rectangle {
-					fill: bind windowColorScheme.mainColorLight
-					stroke: null
-					x: 35.42
-					y: 34.14
-					width: 5.0
-					height: 6.0
-				},
-				Rectangle {
-					fill: bind windowColorScheme.mainColorLight
-					stroke: null
-					x: 0.42
-					y: 34.14
-					width: 5.0
-					height: 6.0
 				},
 				SVGPath {
 					fill: null
@@ -82,6 +58,14 @@ return Group {
 					strokeLineCap: StrokeLineCap.BUTT
 					strokeMiterLimit: 4.0
 					content: "M20.55,2.76 C29.19,2.76 37.92,11.49 37.92,20.14 "
+				},
+				Rectangle {
+					fill: bind windowColorScheme.mainColor
+					stroke: null
+					x: 5.55
+					y: 33.83
+					width: 30.0
+					height: 6.31
 },
 ]
 }

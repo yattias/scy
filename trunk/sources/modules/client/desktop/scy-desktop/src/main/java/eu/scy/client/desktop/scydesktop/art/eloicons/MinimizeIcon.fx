@@ -28,20 +28,12 @@ return Group {
 
 			content: [
 				Rectangle {
-					fill: bind windowColorScheme.mainColor
-					stroke: null
-					x: 0.54
-					y: 0.14
-					width: 40.0
-					height: 40.0
-				},
-				Rectangle {
 					fill: bind windowColorScheme.mainColorLight
 					stroke: null
 					x: 0.42
-					y: 0.11
+					y: 0.14
 					width: 40.0
-					height: 35.0
+					height: 40.0
 				},
 				Rectangle {
 					fill: null
@@ -52,20 +44,12 @@ return Group {
 					height: 40.0
 				},
 				Rectangle {
-					fill: bind windowColorScheme.mainColorLight
+					fill: bind windowColorScheme.mainColor
 					stroke: null
-					x: 35.42
+					x: 5.42
 					y: 34.14
-					width: 5.0
-					height: 6.0
-				},
-				Rectangle {
-					fill: bind windowColorScheme.mainColorLight
-					stroke: null
-					x: 0.42
-					y: 34.14
-					width: 5.0
-					height: 6.0
+					width: 30.0
+					height: 6.31
 },
 ]
 }
