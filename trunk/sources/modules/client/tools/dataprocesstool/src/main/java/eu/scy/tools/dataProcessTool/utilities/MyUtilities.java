@@ -122,7 +122,8 @@ public class MyUtilities {
 
     public static boolean isGMBLFile(File file){
         String ext = getExtensionFile(file);
-        return ext.equals("gmbl");
+        //return ext.equals("gmbl");
+        return ext.length() == 4  && ext.endsWith("mbl");
     }
 
     private static  String getExtensionFile(File file){

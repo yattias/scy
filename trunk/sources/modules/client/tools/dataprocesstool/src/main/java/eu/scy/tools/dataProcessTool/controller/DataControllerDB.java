@@ -2898,7 +2898,7 @@ public class DataControllerDB implements ControllerInterface{
         if (file == null) {
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_FILE_EXIST"), false);
         }
-        if(!file.getName().substring(file.getName().length()-4).equals("gmbl")){
+        if(!MyUtilities.isGMBLFile(file)){
             return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_FILE_GMBL"), false);
         }
         InputStreamReader fileReader = null;

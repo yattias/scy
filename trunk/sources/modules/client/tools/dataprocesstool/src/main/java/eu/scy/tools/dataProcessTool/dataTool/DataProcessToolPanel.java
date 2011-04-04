@@ -1083,7 +1083,7 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
         if(elo != null ){
             String fileName = file.getName();
             if(fileName != null){
-                int id = fileName.indexOf(".gmbl");
+                int id = fileName.indexOf(".");
                 if(id != -1)
                     fileName = fileName.substring(0, id);
             }
