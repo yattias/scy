@@ -21,6 +21,8 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
+import eu.scy.agents.Mission;
+
 public class MissionUriMapping {
 	private static final Logger logger = Logger
 			.getLogger(MissionUriMapping.class.getName());
@@ -35,11 +37,12 @@ public class MissionUriMapping {
 		this.tupleSpace = tupleSpace;
 	}
 
-	public String getMission(String missionUri) {
-		if (!mapFilled) {
-			fillMapping();
-		}
-		return uriToMission.get(missionUri);
+	public String getMission(String missionName) {
+		// if (!mapFilled) {
+		// fillMapping();
+		// }
+		// return uriToMission.get(missionUri);
+		return Mission.getForName(missionName).toString().toLowerCase();
 	}
 
 	public Set<String> getMissionUri(String mission) {
