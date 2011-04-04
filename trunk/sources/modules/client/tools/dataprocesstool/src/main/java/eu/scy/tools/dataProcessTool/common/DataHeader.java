@@ -213,4 +213,13 @@ public class DataHeader implements Cloneable {
 
      }
 
+    // if the description is not emmty, the symbol is "symbol: description"
+    public static String computeHeaderValue(String symbol, String description){
+        if(description == null || description.trim().length() == 0)
+            return symbol;
+        else{
+            return symbol+": "+description;
+        }
+    }
+
 }

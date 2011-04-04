@@ -255,7 +255,8 @@ public class DataController implements ControllerInterface{
                 String type = header.getColumns().get(i).getType();
                 if (type == null || (!type.equals(DataConstants.TYPE_DOUBLE) && !type.equalsIgnoreCase(DataConstants.TYPE_STRING)))
                     type = DataConstants.DEFAULT_TYPE_COLUMN;
-                dataHeader[i] = new DataHeader(-1, header.getColumns().get(i).getSymbol(),unit, i, type, header.getColumns().get(i).getDescription(), null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED, DataConstants.DEFAULT_DATASET_ALIGNMENT) ;
+                String value = DataHeader.computeHeaderValue(header.getColumns().get(i).getSymbol(), header.getColumns().get(i).getDescription());
+                dataHeader[i] = new DataHeader(-1, value,unit, i, type, header.getColumns().get(i).getDescription(), null, false, DataConstants.NB_DECIMAL_UNDEFINED, DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED, DataConstants.DEFAULT_DATASET_ALIGNMENT) ;
             }
             // data
             Data[][] data = new Data[nbRows][nbCols];
