@@ -23,6 +23,7 @@ public class TitleBarButtons extends TitleBarItemList, TitleBarButtonManager {
    public-init var windowStyler: WindowStyler;
    public override var titleBarButtons on replace { updateItems() };
    var eloIconButtons: EloIconButton[];
+   def actionScheme = 1;
 
    override function updateItems(): Void {
       if (windowStyler==null){
@@ -37,11 +38,13 @@ public class TitleBarButtons extends TitleBarItemList, TitleBarButtonManager {
                  eloIcon.selected = false;
                  def eloIconButton = EloIconButton {
                             eloIcon: eloIcon
-                            size: itemHeight+4
+                            size: itemSize
+                            mouseOverSize: mouseOverItemSize
                             action: bind titleBarButton.action
                             tooltip: bind titleBarButton.tooltip
                             disableButton: bind not titleBarButton.enabled
                             tooltipManager: tooltipManager
+                            actionScheme: actionScheme
                          }
                  eloIconButton
               }

@@ -24,6 +24,11 @@ import eu.scy.client.desktop.scydesktop.tooltips.impl.TextTooltip;
 import javafx.scene.Cursor;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.SimpleTooltipManager;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.Stack;
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 
 /**
  * @author SikkenJ
@@ -32,27 +37,111 @@ public class EloIconButton extends CustomNode, TooltipCreator {
 
    var originalWindowColorScheme = WindowColorScheme {};
    public var eloIcon: EloIcon on replace { newEloIcon() };
-   public var size = 10.0;
+   public var size = 10.0 on replace { sizesChanged() };
+   public var mouseOverSize = 20.0 on replace { sizesChanged() };
    public var action: function(): Void;
-   public var turnedOn = false on replace { updateColors() };
+   public var turnedOn = false on replace { turnOnChanged() };
    public var tooltip: String;
    public var tooltipManager: TooltipManager;
    public var actionScheme = 0;
    public var disableButton = false on replace { updateColors() };
    var mouseOver = false;
    var mousePressed = false;
-   var contentGroup: Group;
+   var eloIconGroup: Group;
+   var displaySize = size on replace { displaySizeChanged() };
    def enabledOpacity = 1.0;
    def disabledOpacity = 0.5;
    def lighterColorFactor = 0.5;
-   def overSizeFactor = 1.0;
+   def growTime = 250ms;
+   def sizeChangeTimeLine: Timeline = Timeline {
+              repeatCount: Timeline.INDEFINITE
+              autoReverse: true
+              keyFrames: [
+                 KeyFrame {
+                    time: 0s
+                    canSkip: false
+                    values: [
+                       displaySize => size tween Interpolator.EASEBOTH
+                    ]
+                    action: function(): Void {
+//                       println("at begin, rate: {sizeChangeTimeLine.rate}");
+                       sizeChangeTimeLine.rate = 1;
+                       sizeChangeTimeLine.pause();
+
+                    }
+                 }
+                 KeyFrame {
+                    time: growTime
+                    canSkip: false
+                    values: [
+                       displaySize => mouseOverSize tween Interpolator.EASEBOTH
+                    ]
+                    action: function(): Void {
+//                       println("at end, rate: {sizeChangeTimeLine.rate}");
+                       sizeChangeTimeLine.rate = 1;
+                       sizeChangeTimeLine.pause();
+
+                    }
+                 }
+              ];
+           };
+
+   function startGrow(): Void {
+      //      println("startGrow, rate:{sizeChangeTimeLine.rate}, paused: {sizeChangeTimeLine.paused}, time: {sizeChangeTimeLine.time}");
+      if (sizeChangeTimeLine.time == growTime) {
+         // we are allready big, do nothing
+         return
+      }
+      if (sizeChangeTimeLine.paused) {
+         sizeChangeTimeLine.play();
+      } else {
+         sizeChangeTimeLine.rate = -sizeChangeTimeLine.rate;
+      }
+   }
+
+   function startShrink(): Void {
+      //      println("startShrink, rate:{sizeChangeTimeLine.rate}, paused: {sizeChangeTimeLine.paused}, time: {sizeChangeTimeLine.time}");
+      if (sizeChangeTimeLine.time == 0ms) {
+         // we are allready small, do nothing
+         return
+      }
+      if (sizeChangeTimeLine.paused) {
+         sizeChangeTimeLine.play();
+      } else {
+         sizeChangeTimeLine.rate = -sizeChangeTimeLine.rate;
+      }
+   }
+
+   function turnOnChanged() {
+      if (turnedOn) {
+         startGrow();
+      } else {
+         startShrink();
+      }
+      updateColors();
+   }
 
    function newEloIcon(): Void {
       originalWindowColorScheme.assign(eloIcon.windowColorScheme);
       eloIcon.windowColorScheme = WindowColorScheme {};
       eloIcon.windowColorScheme.assign(originalWindowColorScheme);
-      eloIcon.size = size;
+      displaySizeChanged();
       updateColors();
+   }
+
+   function sizesChanged(): Void {
+   //      displaySizeChanged()
+   }
+
+   function displaySizeChanged(): Void {
+      if (mouseOverSize < size) {
+         mouseOverSize = size;
+      }
+      eloIcon.size = displaySize;
+      def newLayout = (mouseOverSize - displaySize) / 2;
+   //      println("displaySize: {displaySize}, eloIconGroup.layout: {eloIconGroup.layoutX},{eloIconGroup.layoutY}, newLayout: {newLayout}");
+   //      eloIconGroup.layoutX = newLayout;
+   //      eloIconGroup.layoutY = newLayout;
    }
 
    function updateColors(): Void {
@@ -150,21 +239,19 @@ public class EloIconButton extends CustomNode, TooltipCreator {
    }
 
    public override function create(): Node {
+      sizeChangeTimeLine.play();
       newEloIcon();
-      contentGroup = Group {
+      FX.deferAction(turnOnChanged);
+      eloIconGroup = Group {
                  content: bind eloIcon
 
                  onMouseEntered: function(e: MouseEvent): Void {
                     mouseOver = true;
-                    eloIcon.size = overSizeFactor*size;
-                    eloIcon.translateY = (overSizeFactor-1)/2*size;
                     updateColors();
                     tooltipManager.onMouseEntered(e, this);
                  }
                  onMouseExited: function(e: MouseEvent): Void {
                     mouseOver = false;
-                    eloIcon.size = size;
-                    eloIcon.translateY = 0.0;
                     updateColors();
                     tooltipManager.onMouseExited(e);
                  }
@@ -181,6 +268,29 @@ public class EloIconButton extends CustomNode, TooltipCreator {
                     updateColors();
                  }
               }
+      displaySizeChanged();
+      Stack {
+         content: [
+            Rectangle {
+               x: 0, y: 0
+               width: mouseOverSize, height: mouseOverSize
+               fill: Color.TRANSPARENT
+               stroke: null
+            }
+            eloIconGroup
+         ]
+         onMouseEntered: function(e: MouseEvent): Void {
+            if (not disableButton) {
+               startGrow();
+            }
+         }
+         onMouseExited: function(e: MouseEvent): Void {
+            if (not turnedOn) {
+               startShrink();
+            }
+         }
+      }
+
    }
 
    public override function createTooltipNode(sourceNode: Node): Node {
@@ -200,6 +310,7 @@ public class EloIconButtonPreview extends CustomNode {
 
    public-init var tooltipManager: TooltipManager;
    public-init var size = 20.0;
+   public-init var mouseOverSize = 20.0;
    public-init var actionScheme = 0;
    public var eloIcon: EloIcon on replace { newEloIcon() };
    def spacing = 5.0;
@@ -250,12 +361,19 @@ public class EloIconButtonPreview extends CustomNode {
       for (eloIconButton in eloIconButtons) {
          eloIconButton.actionScheme = actionScheme;
          eloIconButton.size = size;
+         eloIconButton.mouseOverSize = mouseOverSize;
          eloIconButton.eloIcon = eloIcon.clone();
          eloIconButton.tooltipManager = tooltipManager;
       }
+      mouseOverEloIconButton.size = mouseOverSize;
+      mouseOutPressedEloIconButton.size = mouseOverSize;
+      turnedOnEloIconButton.size = mouseOverSize;
    }
 
    public override function create(): Node {
+      if (mouseOverSize < size) {
+         mouseOverSize = size;
+      }
       newEloIcon();
       Group {
          content: [
@@ -362,6 +480,55 @@ function run() {
 
    def eloIcon = eloIconFactory.createEloIcon("save");
    eloIcon.windowColorScheme = windowColorScheme;
+   def displayAll = VBox {
+              spacing: 5.0
+              layoutX: 10
+              layoutY: 10
+              content: [
+                 EloIconButtonPreview {
+                    layoutX: 10
+                    layoutY: 10
+                    size: 40
+                    eloIcon: eloIcon.clone()
+                    tooltipManager: tooltipManager
+                 }
+                 EloIconButtonPreview {
+                    layoutX: 10
+                    layoutY: 0
+                    size: 14
+                    mouseOverSize: 20
+                    eloIcon: eloIcon.clone()
+                    tooltipManager: tooltipManager
+                 }
+                 EloIconButtonPreview {
+                    layoutX: 10
+                    layoutY: 10
+                    size: 40
+                    eloIcon: eloIcon.clone()
+                    tooltipManager: tooltipManager
+                    actionScheme: 1
+                 }
+                 EloIconButtonPreview {
+                    layoutX: 10
+                    layoutY: 0
+                    size: 14
+                    mouseOverSize: 20
+                    eloIcon: eloIcon.clone()
+                    tooltipManager: tooltipManager
+                    actionScheme: 1
+                 }
+              ]
+           }
+   def singleEloIconButton = EloIconButton {
+              layoutX: 10
+              layoutY: 10
+              size: 20
+              mouseOverSize: 30
+              eloIcon: eloIcon.clone()
+              tooltipManager: tooltipManager
+              actionScheme: 1
+           }
+
    Stage {
       title: "Test EloIconButton"
       onClose: function() {
@@ -371,43 +538,8 @@ function run() {
          height: 200
          fill: Color.LAVENDER
          content: [
-            VBox {
-               spacing: 5.0
-               layoutX: 10
-               layoutY: 10
-               content: [
-                  EloIconButtonPreview {
-                     layoutX: 10
-                     layoutY: 10
-                     size: 40
-                     eloIcon: eloIcon.clone()
-                     tooltipManager: tooltipManager
-                  }
-                  EloIconButtonPreview {
-                     layoutX: 10
-                     layoutY: 0
-                     size: 14
-                     eloIcon: eloIcon.clone()
-                     tooltipManager: tooltipManager
-                  }
-                  EloIconButtonPreview {
-                     layoutX: 10
-                     layoutY: 10
-                     size: 40
-                     eloIcon: eloIcon.clone()
-                     tooltipManager: tooltipManager
-                     actionScheme: 1
-                  }
-                  EloIconButtonPreview {
-                     layoutX: 10
-                     layoutY: 0
-                     size: 14
-                     eloIcon: eloIcon.clone()
-                     tooltipManager: tooltipManager
-                     actionScheme: 1
-                  }
-               ]
-            }
+            displayAll,
+            //            singleEloIconButton,
 
             SimpleTooltipManager.tooltipGroup
          ]

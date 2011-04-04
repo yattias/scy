@@ -17,7 +17,9 @@ public class TitleBarItemList extends WindowElement {
 
    protected def itemWidth = 10.0;
    protected def itemHeight = 10.0;
-   protected def itemSpacing = 9.0;
+   protected def itemSpacing = 1.0;
+   protected def itemSize = 14.0;
+   protected def mouseOverItemSize = 20.0;
 
    protected def displayBox = HBox {
          spacing: itemSpacing

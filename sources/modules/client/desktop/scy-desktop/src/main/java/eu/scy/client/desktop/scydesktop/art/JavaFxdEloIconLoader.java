@@ -41,7 +41,7 @@ public class JavaFxdEloIconLoader
       // dark blue
       replaceMap.put("Color.rgb(0x0,0x51,0xf4)", "bind windowColorScheme.mainColor");
       // dark blue
-      replaceMap.put("Color.rgb(0xe9,0x5a,0xc)", "bind windowColorScheme.mainColor");
+      replaceMap.put("Color.rgb(0xe9,0x5a,0xc)", "bind windowColorScheme.thirdColor");
       // light blue
       replaceMap.put("Color.rgb(0xb5,0xd5,0xf0)", "bind windowColorScheme.mainColorLight");
       // light blue

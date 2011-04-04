@@ -26,8 +26,8 @@ import java.io.File;
 public class ShowEloIcons extends CustomNode {
 
    def eloIconFactory = EloIconFactory {};
-   def iconSpacingX = 120;
-   def maxX = 500;
+   def iconSpacingX = 140;
+   def maxX = 700;
    def iconSpacingY = 80;
    def spacing = 5.0;
    def windowColorScheme = WindowColorScheme {
@@ -50,12 +50,12 @@ public class ShowEloIcons extends CustomNode {
 
    function generationControl(): Node {
       def contentFileBox = TextBox {
-            text: "src\\main\\java\\eu\\scy\\client\\desktop\\scydesktop\\art\\images\\content.fxd"
+            text: "src\\eu\\scy\\client\\desktop\\scydesktop\\art\\images\\content.fxd"
             columns: 60
             selectOnFocus: true
          }
       def targetDirBox = TextBox {
-            text: "src\\main\\java\\eu\\scy\\client\\desktop\\scydesktop\\art\\eloicons"
+            text: "src\\eu\\scy\\client\\desktop\\scydesktop\\art\\eloicons"
             columns: 60
             selectOnFocus: true
          }
@@ -120,7 +120,7 @@ public class ShowEloIcons extends CustomNode {
                   }
 
                   Label {
-                     text: eloIconName
+                     text: eloIconName.toLowerCase()
                   }
                ]
             }
