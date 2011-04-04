@@ -79,7 +79,7 @@
 				<ref bean="notifyUserAgent" />
 				<ref bean="hypothesisDecisionAgent" />
 				<ref bean="hypothesisEvalAgent" />
-				<ref bean="userLocationAgent" />
+				<!--<ref bean="userLocationAgent" /> -->
 				<ref bean="portfolioNotificator" />
 				<ref bean="groupFormation" />
 				<ref bean="rooloAccessor" />
