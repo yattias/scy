@@ -34,16 +34,18 @@ public class ScyDesktopNotificationRouter extends INotifiable {
         if (success) {
             // yep, has been handled by commandregistry
             logger.debug("notification successfully handled by RemoteCommandRegistry");
+	    logNotificationAccepted(notification);
             return true;
         }
 
         if (notification.getToolId().equals("scylab") and (notification.getFirstProperty("type") != null) and notification.getFirstProperty("type").equals("collaboration_response")) {
             // special case, handled by ToolBrokerImpl itself
             logger.debug("received collaboration_response notification (which is handled elsewhere).");
+	    logNotificationAccepted(notification);
             return true;
         }
 
-        // no, has not handled by commandregistry, go on...
+        // no, has not been handled by commandregistry, go on...
         logger.debug("received notification for tool with eloURI {notification.getToolId()}");
         try {
             var eloUri = new URI(notification.getToolId());
@@ -69,10 +71,11 @@ public class ScyDesktopNotificationRouter extends INotifiable {
 
         if (success) {
             logNotificationAccepted(notification);
+	    return true;
         } else {
             logNotificationRejected(notification);
+	    return false;
         }
-        return true;
     }
 
     function logNotificationRejected(notification: INotification): Void {
