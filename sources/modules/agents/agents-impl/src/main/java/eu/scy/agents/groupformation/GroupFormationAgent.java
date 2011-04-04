@@ -255,9 +255,11 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 				Tuple removeAllBuddiesTuple = createRemoveAllBuddiesNotification(
 						action, user);
 				getCommandSpace().write(removeAllBuddiesTuple);
+			}
 
+			for (String user : group) {
 				StringBuilder message = new StringBuilder();
-				message.append("Please consider collaboration with these students: ");
+				message.append("Please consider collaboration with these students:\n");
 
 				String userListString = createUserListString(user, group);
 				message.append(userListString);
