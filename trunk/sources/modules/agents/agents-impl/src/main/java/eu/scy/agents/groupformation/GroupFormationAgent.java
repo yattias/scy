@@ -137,8 +137,9 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 			if ("conceptualisatsionConceptMap".equals(oldLas)) {
 				removeUserFromCache(action,
 						(Integer) configuration
-								.getParameter(new AgentParameter(action
-										.getContext(ContextConstants.mission),
+								.getParameter(new AgentParameter(
+										getSession().getMission(
+												action.getUser()).getName(),
 										MIN_GROUP_SIZE_PARAMETER)), las);
 			}
 			if ("conceptualisatsionConceptMap".equals(las)) {
