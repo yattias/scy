@@ -18,6 +18,8 @@ public final class ActionConstants {
 	public static final Object ACTION_LOG_OUT = "logged_out";
 	public static final String LAS = "newLasId";
 	public static final String OLD_LAS = "oldLasId";
+	public static final String NOTIFICATION_REJECTED = "notification_rejected";
+	public static final String NOTIFICATION_ACCEPTED = "notification_accepted";
 
 	private ActionConstants() {
 		// construction not allowed
