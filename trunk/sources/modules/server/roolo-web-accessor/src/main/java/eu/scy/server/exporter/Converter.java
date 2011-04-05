@@ -1,5 +1,6 @@
 package eu.scy.server.exporter;
 
+import info.collide.sqlspaces.client.TupleIterator;
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
@@ -9,6 +10,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Writer;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.DateFormat;
@@ -64,13 +66,13 @@ public class Converter {
 	}
 
 	public void convertToFile(File f) throws TupleSpaceException, IOException {
-		Tuple[] allActions = ts.readAll(new Tuple());
+		TupleIterator allActions = ts.readAll(new Tuple(),1000);
 		Document doc = convertToXML(allActions);
 		writeFile(doc, f);
 	}
 
 	public String convertToString() throws TupleSpaceException, IOException {
-		Tuple[] allActions = ts.readAll(new Tuple());
+		TupleIterator allActions = ts.readAll(new Tuple(),1000);
 		Document doc = convertToXML(allActions);
 		XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
 		String result = outputter.outputString(doc);
@@ -84,7 +86,7 @@ public class Converter {
 		Set<String> entries = new HashSet<String>();
 		RetrieveElos e = new RetrieveElos();
 
-		Tuple[] allActions = ts.readAll(new Tuple());
+		TupleIterator allActions = ts.readAll(new Tuple(),1000);
 		for (Tuple tuple : allActions) {
 			String eloUri = tuple.getField(8).getValue().toString();
 			if (entries.contains(eloUri)) {
@@ -107,30 +109,30 @@ public class Converter {
 
 	}
 
-	public String convertToHTMLTable() throws TupleSpaceException, IOException {
-		Tuple[] allActions = ts.readAll(new Tuple());
+	public void convertToHTMLTable(Writer out) throws TupleSpaceException, IOException {
+		TupleIterator allActions = ts.readAll(new Tuple(),1000);
 		int maxFields = Integer.MIN_VALUE;
 		for (Tuple t : allActions) {
 			maxFields = Math.max(maxFields, t.getNumberOfFields());
 		}
-		sortTupleArray(allActions);
-		StringBuilder sb = new StringBuilder(
-				"<table id=\"rounded-corner\" summary=\"Overview of all Action Logs\" >");
-		sb.append("<thead>");
-		sb.append("<th />Constant<th>UniqueID</th><th>Timestamp</th><th>Type</th><th>User</th><th>Tool</th><th>Mission</th><th>Session</th><th>ELO</th>");
+		//sortTupleArray(allActions);
+		out.write("<table id=\"rounded-corner\" summary=\"Overview of all Action Logs\" >");
+		out.write("<thead>");
+		out.write("<th />Constant<th>UniqueID</th><th>Timestamp</th><th>Type</th><th>User</th><th>Tool</th><th>Mission</th><th>Session</th><th>ELO</th>");
 		for (int z = 10; z <= maxFields; z++) {
-			sb.append("<th>Attribute No." + (z - 9) + "</th>");
+			out.write("<th>Attribute No." + (z - 9) + "</th>");
+			out.flush();
 		}
-		sb.append("</thead>");
-		sb.append("<tbody>");
-
+		out.write("</thead>");
+		out.write("<tbody>");
+		allActions = ts.readAll(new Tuple(),1000);
 		for (Tuple t : allActions) {
 			if (tupleShouldBeDropped(t)) {
 				continue;
 			}
-			sb.append("<tr>");
+			out.write("<tr>");
 			for (int i = 0; i < maxFields; i++) {
-				sb.append("<td>");
+				out.write("<td>");
 				if (i < t.getNumberOfFields()) {
 					String longValue = "";
 					longValue = (t.getField(i).getValue().toString());
@@ -138,15 +140,15 @@ public class Converter {
 						Date d = new Date(Long.parseLong(longValue));
 						DateFormat formatter = new SimpleDateFormat();
 						longValue = formatter.format(d);
-						sb.append(longValue);
+						out.write(longValue);
 					} else {
 						if (longValue.length() <= 10) {
-							sb.append(longValue);
+							out.write(longValue);
 						} else {
 							String shortValue = longValue.substring(0, 5)
 									+ "[...]";
 							String uid = (t.getTupleID().toString() + i);
-							sb.append("<span id=\""
+							out.write("<span id=\""
 									+ uid
 									+ "\" title=\""
 									+ longValue
@@ -156,7 +158,7 @@ public class Converter {
 									+ "</span>");
 						}
 						if (i == 8) {
-							sb.append("&nbsp;<a href=\"downloadElo.jsp?eloUri="
+							out.write("&nbsp;<a href=\"downloadElo.jsp?eloUri="
 									+ Base64.encodeToString(
 											longValue.getBytes(), false)
 									+ "\"><img border=\"0\" src=\"table-images/save.gif\" height=\"16\" width=\"16\" title=\"Click to save\" /></a>");
@@ -164,15 +166,16 @@ public class Converter {
 						}
 					}
 				} else {
-					sb.append("&nbsp;");
+					out.write("&nbsp;");
 				}
-				sb.append("</td>");
+				out.write("</td>");
 			}
-			sb.append("</tr>");
+			out.write("</tr>");
+			out.flush();
 		}
-		sb.append("</tbody>");
-		sb.append("</table>");
-		return sb.toString();
+		out.write("</tbody>");
+		out.write("</table>");
+
 	}
 
 	public String[] getUsers() throws TupleSpaceException {
@@ -180,8 +183,8 @@ public class Converter {
 			return new String[0];
 		}
 		Set<String> users = new HashSet<String>();
-		Tuple[] allActions = ts.readAll(new Tuple());
-		for (Tuple tuple : allActions) {
+		TupleIterator readAll = ts.readAll(new Tuple(), 1000);
+		for (Tuple tuple : readAll) {
 			String user = tuple.getField(4).getValue().toString();
 			int indexOfUserSeparator = user.indexOf("@");
 			if (indexOfUserSeparator == -1) {
@@ -196,8 +199,8 @@ public class Converter {
 		return users.toArray(new String[users.size()]);
 	}
 
-	private Document convertToXML(final Tuple[] tuples) throws IOException {
-		sortTupleArray(tuples);
+	private Document convertToXML(final TupleIterator tuples) throws IOException {
+		//sortTupleArray(tuples);
 		Document doc = new Document();
 		Element rootElement = new Element("actionLogs");
 		rootElement.setAttribute("server", ts.toString());
