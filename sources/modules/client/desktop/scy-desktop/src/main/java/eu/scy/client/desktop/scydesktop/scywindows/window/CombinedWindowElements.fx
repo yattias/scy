@@ -179,6 +179,9 @@ public class CombinedWindowElements extends ScyWindow {
       closedWindow.windowColorScheme.assign(windowColorScheme);
    }
 
+    override public function buddiesChanged () : Void {
+    }
+
    function setTopDrawer() {
       if (drawerGroup == null) {
          // initialisation not yet ready, a call from postinit will be done again

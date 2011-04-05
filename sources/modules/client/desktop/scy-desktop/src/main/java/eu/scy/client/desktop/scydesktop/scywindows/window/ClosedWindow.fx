@@ -40,6 +40,7 @@ public class ClosedWindow extends WindowElement {
    public var eloIcon: EloIcon;
    public var title = "elo title";
    public var activated = false on replace { activatedChanged() };
+   public var buddiesDisplay: TitleBarBuddies;
    public-init var startDragIcon: function(e: MouseEvent ):Void;
    def titleFontsize = 11;
    def textFont = Font.font("Verdana", FontWeight.BOLD, titleFontsize);
@@ -52,6 +53,9 @@ public class ClosedWindow extends WindowElement {
    }
    def windowAttributes = bind window.scyWindowAttributes on replace { windowAttributesChanged() };
    def windowAttributeGroup = Group{
+
+   }
+   def buddiesDisplayGroup = Group{
 
    }
 
@@ -81,7 +85,15 @@ public class ClosedWindow extends WindowElement {
       }
    }
 
+   public function buddiesDisplayChanged(): Void{
+      def lb = buddiesDisplay.layoutBounds;
+      buddiesDisplayGroup.content = buddiesDisplay;
+      buddiesDisplayGroup.layoutX = -buddiesDisplay.layoutBounds.width + ThumbnailView.eloIconOffset -1;
+      buddiesDisplayGroup.layoutY = ArtSource.thumbnailHeight/2-buddiesDisplay.layoutBounds.height/2 - ThumbnailView.eloIconOffset;
+   }
+
    public override function create(): Node {
+      buddiesDisplayChanged();
       textBackgroundFillRect = Rectangle {
             x: 0
             y: 0
@@ -103,6 +115,7 @@ public class ClosedWindow extends WindowElement {
          content: [
             thumbnailView,
             windowAttributeGroup,
+            buddiesDisplayGroup,
             Stack {
                layoutX: bind thumbnailView.layoutBounds.width/2 - titleText.layoutBounds.width/2
                layoutY: thumbnailView.layoutBounds.height + 2

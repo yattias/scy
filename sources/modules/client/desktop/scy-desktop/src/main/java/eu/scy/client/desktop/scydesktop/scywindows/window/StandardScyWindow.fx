@@ -144,6 +144,7 @@ public class StandardScyWindow extends ScyWindow {
    var windowStateControls: WindowStateControls;
    var titleBarWindowAttributes: TitleBarWindowAttributes;
    var titleBarBuddies: TitleBarBuddies;
+   var closedWindowBuddies: TitleBarBuddies;
    var titleBarButtons: TitleBarButtons;
    var contentElement: WindowContent;
    var closedWindow: ClosedWindow;
@@ -695,6 +696,12 @@ public class StandardScyWindow extends ScyWindow {
       closedWindow.windowColorScheme.assign(windowColorScheme);
    }
 
+   public override function buddiesChanged(): Void{
+      titleBarBuddies.buddiesChanged();
+      closedWindowBuddies.buddiesChanged();
+      closedWindow.buddiesDisplayChanged();
+   }
+
    function setTopDrawer() {
       if (drawerGroup == null) {
          // initialisation not yet ready, a call from postinit will be done again
@@ -892,6 +899,7 @@ public class StandardScyWindow extends ScyWindow {
       ownershipManager = OwnershipManager {
                 elo: bind scyElo
                 tbi: tbi
+                scyWindow: this
          }
 
       titleBarBuddies = TitleBarBuddies {
@@ -899,9 +907,19 @@ public class StandardScyWindow extends ScyWindow {
             windowColorScheme: windowColorScheme
             window: this
             ownershipManager: ownershipManager
+            showOneIcon: false
          }
 
-      titleBarBuddies.ownershipManager.update();
+      closedWindowBuddies = TitleBarBuddies {
+            tooltipManager: tooltipManager
+            windowColorScheme: windowColorScheme
+            window: this
+            ownershipManager: ownershipManager
+            showOneIcon: true
+            myName: tbi.getLoginUserName()
+         }
+
+      ownershipManager.update();
 
       titleBarButtons = TitleBarButtons{
             tooltipManager: tooltipManager
@@ -967,6 +985,7 @@ public class StandardScyWindow extends ScyWindow {
                      window: this
                      windowColorScheme: windowColorScheme
                      scyElo: bind scyElo
+                     buddiesDisplay: closedWindowBuddies
                      startDragIcon: startDragIcon
                      activated: bind activated
                      activate: activate;
