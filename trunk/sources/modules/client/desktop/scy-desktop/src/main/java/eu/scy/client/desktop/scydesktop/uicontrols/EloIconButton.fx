@@ -58,69 +58,71 @@ public class EloIconButton extends CustomNode, TooltipCreator {
    def lighterColorFactor = 0.5;
    var animationReady = false;
    def growTime = 250ms;
-   def sizeChangeTimeLine: Timeline = Timeline {
-              repeatCount: Timeline.INDEFINITE
-              autoReverse: true
-              keyFrames: [
-                 KeyFrame {
-                    time: 0s
-                    canSkip: false
-                    values: [
-                       displaySize => size tween Interpolator.EASEBOTH
-                    ]
-                    action: function(): Void {
-//                       println("at begin, rate: {sizeChangeTimeLine.rate}");
-                       sizeChangeTimeLine.rate = 1;
-                       sizeChangeTimeLine.pause();
-                       animationReady = true;
-                       turnOnChanged();
-                    }
-                 }
-                 KeyFrame {
-                    time: growTime
-                    canSkip: false
-                    values: [
-                       displaySize => mouseOverSize tween Interpolator.EASEBOTH
-                    ]
-                    action: function(): Void {
-//                       println("at end, rate: {sizeChangeTimeLine.rate}");
-                       sizeChangeTimeLine.rate = 1;
-                       sizeChangeTimeLine.pause();
-                       animationReady = true;
-                    }
-                 }
-              ];
-           };
-   var startAnimationCount = 0;
+   var sizeChangeTimeLine: Timeline;
+   var timelineStarted = false;
 
-   function startAnimation(): Void {
-      if (not animationReady) {
-         startAnimationCount++;
-         if (startAnimationCount < 20) {
-            if (not sizeChangeTimeLine.running) {
-               sizeChangeTimeLine.play();
+   function createSizeChangeTimeline(): Timeline {
+//      println("created new timeline");
+      timelineStarted = false;
+      Timeline {
+         repeatCount: 2
+         autoReverse: true
+         keyFrames: [
+            KeyFrame {
+               time: 0s
+               canSkip: false
+               values: [
+                  displaySize => size tween Interpolator.EASEBOTH
+               ]
+               action: function(): Void {
+//                  println("at begin, rate: {sizeChangeTimeLine.rate}, timelineStarted: {timelineStarted}");
+                  sizeChangeTimeLine.rate = 1;
+                  if (timelineStarted) {
+                     sizeChangeTimeLine.stop();
+                     sizeChangeTimeLine = null;
+                  } else {
+                     timelineStarted = true;
+                  }
+
+               }
             }
-            FX.deferAction(startAnimation);
-         } else {
-            logger.warn("failed to start animation in {startAnimationCount} tries\nsizeChangeTimeLine: {sizeChangeTimeLine}, icon: {eloIcon}, running: {sizeChangeTimeLine.running}, rate:{sizeChangeTimeLine.rate}, paused: {sizeChangeTimeLine.paused}, time: {sizeChangeTimeLine.time}");
-         }
-      } else {
-      //         println("startAnimation started after {startAnimationCount} tries");
+            KeyFrame {
+               time: growTime
+               canSkip: false
+               values: [
+                  displaySize => mouseOverSize tween Interpolator.EASEBOTH
+               ]
+               action: function(): Void {
+//                  println("at end, rate: {sizeChangeTimeLine.rate}");
+                  sizeChangeTimeLine.rate = 1;
+                  sizeChangeTimeLine.pause();
+               }
+            }
+         ];
+      };
+   }
+
+   function getTimelineInfo():String{
+      if (sizeChangeTimeLine==null){
+         "no timeline"
+      } else{
+         "rate:{sizeChangeTimeLine.rate}, running: {sizeChangeTimeLine.running}, paused: {sizeChangeTimeLine.paused}, time: {sizeChangeTimeLine.time}"
       }
    }
 
    function startGrow(): Void {
-      //      println("startGrow, rate:{sizeChangeTimeLine.rate}, paused: {sizeChangeTimeLine.paused}, time: {sizeChangeTimeLine.time}");
-      if (not animationReady) {
-         // animation not yet ready, wait for it
-         println("startGrow(): animation not ready: icon: {eloIcon}, running: {sizeChangeTimeLine.running}, rate:{sizeChangeTimeLine.rate}, paused: {sizeChangeTimeLine.paused}, time: {sizeChangeTimeLine.time}");
-         return
+//      println("startGrow, rate:{sizeChangeTimeLine.rate}, paused: {sizeChangeTimeLine.paused}, time: {sizeChangeTimeLine.time}");
+      def timelineInfo = getTimelineInfo();
+      if (sizeChangeTimeLine!=null and not sizeChangeTimeLine.running){
+         // some times the animation get stuck some how
+         // force a reset
+         sizeChangeTimeLine.stop();
+         sizeChangeTimeLine = null;
       }
-      if (sizeChangeTimeLine.time == growTime) {
-         // we are allready big, do nothing
-         return
-      }
-      if (sizeChangeTimeLine.paused) {
+      if (sizeChangeTimeLine == null) {
+         sizeChangeTimeLine = createSizeChangeTimeline();
+         sizeChangeTimeLine.play();
+      } else if (sizeChangeTimeLine.paused) {
          sizeChangeTimeLine.play();
       } else {
          sizeChangeTimeLine.rate = -sizeChangeTimeLine.rate;
@@ -128,17 +130,11 @@ public class EloIconButton extends CustomNode, TooltipCreator {
    }
 
    function startShrink(): Void {
-      //      println("startShrink, rate:{sizeChangeTimeLine.rate}, paused: {sizeChangeTimeLine.paused}, time: {sizeChangeTimeLine.time}");
-      if (not animationReady) {
-         // animation not yet ready, wait for it
-         println("startShrink(): animation not ready: icon: {eloIcon}, running: {sizeChangeTimeLine.running}, rate:{sizeChangeTimeLine.rate}, paused: {sizeChangeTimeLine.paused}, time: {sizeChangeTimeLine.time}");
-         return
-      }
-      if (sizeChangeTimeLine.time == 0ms) {
-         // we are allready small, do nothing
-         return
-      }
-      if (sizeChangeTimeLine.paused) {
+//      println("startShrink, rate:{sizeChangeTimeLine.rate}, paused: {sizeChangeTimeLine.paused}, time: {sizeChangeTimeLine.time}");
+      def timelineInfo = getTimelineInfo();
+      if (sizeChangeTimeLine == null) {
+      // nothing to do
+      } else if (sizeChangeTimeLine.paused) {
          sizeChangeTimeLine.play();
       } else {
          sizeChangeTimeLine.rate = -sizeChangeTimeLine.rate;
@@ -146,14 +142,12 @@ public class EloIconButton extends CustomNode, TooltipCreator {
    }
 
    function turnOnChanged(): Void {
-      if (animationReady) {
-         if (turnedOn) {
-            startGrow();
-         } else {
-            startShrink();
-         }
-         updateColors();
+      if (turnedOn) {
+         startGrow();
+      } else {
+         startShrink();
       }
+      updateColors();
    }
 
    function newEloIcon(): Void {
@@ -286,7 +280,6 @@ public class EloIconButton extends CustomNode, TooltipCreator {
    }
 
    public override function create(): Node {
-      startAnimation();
       newEloIcon();
       eloIconGroup = Group {
                  content: bind eloIcon
