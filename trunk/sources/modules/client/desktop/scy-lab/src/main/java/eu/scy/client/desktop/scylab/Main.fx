@@ -130,9 +130,9 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ScyDynamicsContentCreator {}, scyModelId);
 
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new FlyingSaucerCreator(), scyFlyingSaucerId);
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new FlyingSaucerCreator(UrlSource.ASSIGNMENT,DrawerUIIndicator.ASSIGNMENT), scyFlyingSaucerAssignmentId);
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new FlyingSaucerCreator(UrlSource.RESOURCES,DrawerUIIndicator.RESOURCES), scyFlyingSaucerResourcesId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(FlyingSaucerCreator{}, scyFlyingSaucerId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(FlyingSaucerCreator{ urlSource: UrlSource.ASSIGNMENT; drawerUIIndicator: DrawerUIIndicator.ASSIGNMENT}, scyFlyingSaucerAssignmentId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(FlyingSaucerCreator{ urlSource: UrlSource.RESOURCES; drawerUIIndicator: DrawerUIIndicator.RESOURCES}, scyFlyingSaucerResourcesId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TextEditorScyToolContentCreator {}, scyTextId);
 
