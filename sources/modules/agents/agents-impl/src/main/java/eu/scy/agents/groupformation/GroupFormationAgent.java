@@ -396,7 +396,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 			}
 			message.append(sanitizeName(user));
 			if (i != group.size() - 1) {
-				message.append(", ");
+				message.append("; ");
 			}
 			i++;
 		}
