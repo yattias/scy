@@ -3,12 +3,12 @@ package eu.scy.client.desktop.scydesktop.owner;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.Contact;
 import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.OnlineState;
 import eu.scy.common.scyelo.ScyElo;
-import eu.scy.client.desktop.scydesktop.scywindows.window.TitleBarBuddies;
 import eu.scy.client.common.datasync.CollaboratorStatusListener;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.Contribute;
 import javafx.util.Sequences;
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 /**
  * @author weinbrenner
@@ -19,7 +19,7 @@ public class OwnershipManager extends CollaboratorStatusListener {
     public var elo: ScyElo on replace {
                 update();
             };
-    public var titleBarBuddies: TitleBarBuddies;
+    public var scyWindow: ScyWindow;
     var owners: Contact[];
     var authorKey;
 
@@ -40,7 +40,7 @@ public class OwnershipManager extends CollaboratorStatusListener {
                     onlineState: if (authorName == myName) OnlineState.IS_ME else OnlineState.OFFLINE
                 } into owners;
             }
-            titleBarBuddies.buddiesChanged();
+            scyWindow.buddiesChanged();
         }
     }
 
@@ -86,7 +86,7 @@ public class OwnershipManager extends CollaboratorStatusListener {
         }
         elo.addAuthor(name);
 
-        titleBarBuddies.buddiesChanged();
+        scyWindow.buddiesChanged();
     }
 
     public function removeOwner(name: String, persist: Boolean): Void {
@@ -110,7 +110,7 @@ public class OwnershipManager extends CollaboratorStatusListener {
 
             }
         }
-        titleBarBuddies.buddiesChanged();
+        scyWindow.buddiesChanged();
     }
 
     public function addPendingOwner(name: String): Void {
@@ -118,7 +118,7 @@ public class OwnershipManager extends CollaboratorStatusListener {
             name: name
             onlineState: OnlineState.PENDING
         } into owners;
-        titleBarBuddies.buddiesChanged();
+        scyWindow.buddiesChanged();
     }
 
     public override function joined(name: String): Void {
@@ -138,7 +138,7 @@ public class OwnershipManager extends CollaboratorStatusListener {
                 name: name
                 onlineState: if (name.equalsIgnoreCase(myName)) OnlineState.IS_ME else onlineState
             } into owners;
-            titleBarBuddies.buddiesChanged();
+            scyWindow.buddiesChanged();
             delete name from buddyOnlineYetNotJoined;
         }
     }
@@ -153,7 +153,7 @@ public class OwnershipManager extends CollaboratorStatusListener {
             def c = contact as Contact;
             if (c.name.equalsIgnoreCase(name) and c.onlineState != OnlineState.IS_ME) {
                 c.onlineState = OnlineState.ONLINE;
-                titleBarBuddies.buddiesChanged();
+                scyWindow.buddiesChanged();
                 delete name from buddyOnlineYetNotJoined;
                 return;
             }
@@ -165,7 +165,7 @@ public class OwnershipManager extends CollaboratorStatusListener {
             def c = contact as Contact;
             if (c.name.equalsIgnoreCase(name)) {
                 c.onlineState = OnlineState.OFFLINE;
-                titleBarBuddies.buddiesChanged();
+                scyWindow.buddiesChanged();
                 return;
             }
         }
