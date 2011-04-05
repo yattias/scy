@@ -38,7 +38,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
               missionRunConfigs: missionRunConfigs;
            }
 
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new FlyingSaucerCreator(), scyFlyingSaucerId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(FlyingSaucerCreator{urlSource: null; drawerUIIndicator: null}, scyFlyingSaucerId);
 
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), "xmlViewer");
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TestMoreInfoNodeCreator{}, testMoreInfoId);
