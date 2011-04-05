@@ -177,7 +177,11 @@ public final class ActivityTimer
    private void addLong(StringBuilder builder, long value)
    {
       String stringValue = "" + value;
-      builder.append(spaces.substring(0, valueLength - stringValue.length()));
+      int nrOfSpaces = valueLength - stringValue.length();
+      if (nrOfSpaces<0){
+         nrOfSpaces = 0;
+      }
+      builder.append(spaces.substring(0, nrOfSpaces));
       builder.append(stringValue);
    }
 }
