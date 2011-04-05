@@ -7,6 +7,7 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.rmi.dgc.VMID;
+import java.text.StringCharacterIterator;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -253,9 +254,14 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		for (Set<String> group : formedGroups) {
 
 			for (String user : group) {
+				String notificationId = createId();
 				Tuple removeAllBuddiesTuple = createRemoveAllBuddiesNotification(
-						action, new VMID().toString(), user);
+						action, notificationId, user);
 				getCommandSpace().write(removeAllBuddiesTuple);
+
+				waitForNotificationProcessedAction(notificationId,
+						"remove all buddies for " + user
+								+ " notification was not processed");
 			}
 
 			for (String user : group) {
@@ -264,20 +270,50 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 
 				String userListString = createUserListString(user, group);
 				message.append(userListString);
+
+				String messageNotificationId = createId();
 				Tuple messageNotificationTuple = createMessageNotificationTuple(
-						action, new VMID().toString(), message.toString(), user);
+						action, messageNotificationId, message.toString(), user);
 				logGroupFormation(action, userListString, user);
+
 				for (String userToBuddify : group) {
 					if (!user.equals(userToBuddify)) {
+						String buddifyNotificationId = messageNotificationId;
 						Tuple buddifyNotification = createBuddifyNotificationTuple(
-								action, new VMID().toString(), user,
+								action, buddifyNotificationId, user,
 								userToBuddify);
 						getCommandSpace().write(buddifyNotification);
+
+						waitForNotificationProcessedAction(
+								buddifyNotificationId, "Buddify " + user
+										+ " -> " + userToBuddify
+										+ " notification was not processed");
 					}
 				}
+
 				getCommandSpace().write(messageNotificationTuple);
+				waitForNotificationProcessedAction(messageNotificationId,
+						"Message about group notification was not processed");
 			}
 		}
+	}
+
+	private void waitForNotificationProcessedAction(String notificationId,
+			String message) throws TupleSpaceException {
+		Tuple notificationProcessedTuple = getActionSpace()
+				.waitToRead(
+						new Tuple(ActionConstants.ACTION, notificationId,
+								Long.class,
+								ActionConstants.NOTIFICATION_ACCEPTED,
+								Field.createWildCardField()),
+						AgentProtocol.SECOND * 10);
+		if (notificationProcessedTuple == null) {
+			logger.warn(message);
+		}
+	}
+
+	private String createId() {
+		return new VMID().toString();
 	}
 
 	private Tuple createRemoveAllBuddiesNotification(IAction action,
@@ -317,7 +353,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 				.getContext(ContextConstants.mission), action
 				.getContext(ContextConstants.session), action
 				.getContext(ContextConstants.eloURI)));
-		groupFormationAction.setId(new VMID().toString());
+		groupFormationAction.setId(createId());
 		groupFormationAction.setTimeInMillis(System.currentTimeMillis());
 		groupFormationAction.setUser(action.getUser());
 		groupFormationAction.setType(FORM_GROUP);
@@ -386,8 +422,8 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 
 	private void sendWaitNotification(IAction action) {
 		Tuple notificationTuple = createMessageNotificationTuple(action,
-				new VMID().toString(),
-				"please wait for other users to be available", action.getUser());
+				createId(), "please wait for other users to be available",
+				action.getUser());
 		try {
 			getCommandSpace().write(notificationTuple);
 		} catch (TupleSpaceException e) {
