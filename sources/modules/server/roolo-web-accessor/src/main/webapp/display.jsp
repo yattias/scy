@@ -6,8 +6,7 @@
 	    }
 		int port = Integer.parseInt(request.getParameter("port"));
 		Converter c = new Converter(port, request.getParameterValues("user"));
-		String xml = c.convertToHTMLTable();
-%>
+		%>
 <script src="toggleWidth.js"></script>
 <script src="downloadElo.js"></script>
 <style type="text/css">
@@ -25,5 +24,5 @@ Display ActionLogs
 </head>
 <body>
 <a href="index.jsp?port=<%= portStr %>"><img id="logo" src="table-images/scylogo.gif" height="109" width="192" /></a>
-<%= xml %>
+<% c.convertToHTMLTable(out); %>
 </body>
