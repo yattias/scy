@@ -42,7 +42,7 @@ public class ActionProcessModule extends SCYHubModule {
             logfile = "scyActions.log";
         }
         try {
-            fileLogger = new PrintWriter(new FileWriter(logfile, true));
+            fileLogger = new PrintWriter(new FileWriter(logfile, true), false);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -74,6 +74,7 @@ public class ActionProcessModule extends SCYHubModule {
 
     private void dumpLogToFile(Tuple actionTuple) {
         fileLogger.println(actionTuple.toXMLString());
+        fileLogger.flush();
     }
 
     @Override
