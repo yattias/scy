@@ -18,7 +18,6 @@ import info.collide.swat.model.SWATException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -32,6 +31,8 @@ import java.util.TreeMap;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.io.output.FileWriterWithEncoding;
 
 import eu.scy.agents.conceptmap.proposer.Stemmer;
 
@@ -60,12 +61,14 @@ public class OntoTranslator {
     }
 
     public static void main(String[] args) throws Throwable {
-        OntoTranslator ot = new OntoTranslator("http://www.scy.eu/co2house#");
+//    	OntoTranslator ot = new OntoTranslator("http://www.scy.eu/pizza#");
+    	OntoTranslator ot = new OntoTranslator("http://www.scy.eu/ecosystem#");
+        
 //        ot.createFirstFile();
         ot.readFirstFile();
-        ot.createFilesFor("et");
-//        ot.writeLabels(false, "en", "de");
-//        ot.exportOWL("co2house-translated.owl");
+//        ot.createFilesFor("de");
+        ot.writeLabels(false, "en", "de");
+//        ot.exportOWL("ecosystem-translated.owl");
         ot.finish();
     }
 
@@ -77,6 +80,9 @@ public class OntoTranslator {
         sc.finishSession();
     }
 
+    /**
+     * Reads an existing language properties file. The words will be used as basis for translation.
+     */
     public void readFirstFile() throws FileNotFoundException, IOException {
         Properties props = new Properties();
         props.load(new FileReader(ontologyName + "_" + ONTOLOGY_LANGUAGE + ".properties"));
@@ -85,6 +91,9 @@ public class OntoTranslator {
         }
     }
 
+    /**
+     * Enriches the ontology by adding language specific labels.
+     */
     public void writeLabels(boolean overwrite, String... countryCodes) throws FileNotFoundException, IOException, SWATException {
         for (String countryCode : countryCodes) {
             Properties props = new Properties();
@@ -124,10 +133,14 @@ public class OntoTranslator {
         
     }
 
+    /**
+     * Uses google translator to translate the basic ontology wordlist into separate wordlists for each 
+     * country specified in the arguments.
+     */
     public void createFilesFor(String... countryCodes) throws IOException {
         String nl = System.getProperty("line.separator");
         for (String countryCode : countryCodes) {
-            FileWriter fw = new FileWriter(ontologyName + "_" + countryCode + ".properties");
+            FileWriterWithEncoding fw = new FileWriterWithEncoding(ontologyName + "_" + countryCode + ".properties", "UTF-8");
             try {
                 Iterator<String> valueIt = entities.values().iterator();
                 Iterator<String> keyIt = entities.keySet().iterator();
@@ -152,8 +165,13 @@ public class OntoTranslator {
         }
     }
 
+    /**
+     * Generates a translation properties file for the language, that is used in the ontology. Words in the ontology file are
+     * extracted and unCamelized. 
+     * The words in this file are the basis for translation. The language of the ontology is set by ONTOLOGY_LANGUAGE.
+     */
     public void createFirstFile() throws IOException {
-        FileWriter fw = new FileWriter(ontologyName + "_" + ONTOLOGY_LANGUAGE + ".properties");
+        FileWriterWithEncoding fw = new FileWriterWithEncoding(ontologyName + "_" + ONTOLOGY_LANGUAGE + ".properties", "UTF-8");
         try {
             Instance[] instances = sc.getOntology().listInstances();
             Class[] classes = sc.getOntology().listClasses();

@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -124,6 +125,10 @@ public class KeywordImporterGUI extends JFrame implements ActionListener, ListSe
     private String language = "en";
 
     private String lastDir = ".";
+    
+    private Set<String> cloudNames;
+    
+    private Set<String> keywordNames;
 
     public static void main(String[] args) {
         LookAndFeelInfo[] installedLookAndFeels = UIManager.getInstalledLookAndFeels();
@@ -307,6 +312,9 @@ public class KeywordImporterGUI extends JFrame implements ActionListener, ListSe
         setSize(800, 600);
         setLocationRelativeTo(null);
         setVisible(true);
+        
+        this.keywordNames = new HashSet<String>();
+        this.cloudNames = new HashSet<String>();
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -320,6 +328,7 @@ public class KeywordImporterGUI extends JFrame implements ActionListener, ListSe
             exportOntology();
         } else if (e.getSource().equals(miLoad)) {
             load();
+            checkForDuplicates();
         } else if (e.getSource().equals(miSave)) {
             save();
         } else if (e.getSource().equals(miQuit)) {
@@ -350,6 +359,11 @@ public class KeywordImporterGUI extends JFrame implements ActionListener, ListSe
             }
             String newCloud = JOptionPane.showInputDialog(this, "Please insert the name of the new cloud!");
             if (newCloud != null) {
+            	// check if already exist.
+            	if(this.keywordNames.contains(newCloud)) {
+            		JOptionPane.showMessageDialog(this, "There already exist a keyword with this name!");
+            		return;
+            	}
                 int max = 0;
                 for (Integer i : keywordImporter.getLabelsMap().values()) {
                     max = Math.max(max, i);
@@ -384,6 +398,11 @@ public class KeywordImporterGUI extends JFrame implements ActionListener, ListSe
             int cloud = keywordImporter.getLabelsMap().get(cloudName);
             String newKeyword = JOptionPane.showInputDialog(this, "Please insert the name of the new keyword!");
             if (newKeyword != null) {
+            	// check if already exist.
+            	if(this.cloudNames.contains(newKeyword)) {
+            		JOptionPane.showMessageDialog(this, "There already exist a cloud with this name!");
+            		return;
+            	}
                 keywordImporter.getKeywordMap().get(cloud).add(newKeyword);
                 updateKeywords();
             }
@@ -423,7 +442,7 @@ public class KeywordImporterGUI extends JFrame implements ActionListener, ListSe
                         displayedProperties.add(keywordImporter.getBelongsTo().getId());
                         HashSet<ID> nodesToFold = new HashSet<ID>();
                         graphCard.setSWATClient(sc, ignoredEntities, displayedProperties, nodesToFold);
-                    }
+                                            }
                     updateClouds();
                 } catch (IOException e1) {
                     JOptionPane.showMessageDialog(this, "The following error occured while parsing the files:\n" + e1.getMessage());
@@ -435,6 +454,7 @@ public class KeywordImporterGUI extends JFrame implements ActionListener, ListSe
             }
         }
     }
+    
 
     private void save() {
         JFileChooser fc = new JFileChooser();
@@ -721,6 +741,32 @@ public class KeywordImporterGUI extends JFrame implements ActionListener, ListSe
 
         }.start();
     }
+    
+    @SuppressWarnings("unchecked")
+	private void checkForDuplicates() {
+    	HashSet<String> keywordSet = new HashSet<String>();
+    	for(Set<String> set : keywordImporter.getKeywordMap().values()) {
+    		keywordSet.addAll(set);
+    	}
+    	
+    	this.keywordNames = (HashSet<String>)keywordSet.clone();
+    	this.cloudNames = keywordImporter.getLabelsMap().keySet();
+    	keywordSet.retainAll(keywordImporter.getLabelsMap().keySet());
+    	
+        if(!keywordSet.isEmpty()) {
+        	StringBuilder sb = new StringBuilder();
+        	Iterator<String> it = keywordSet.iterator();
+        	while(it.hasNext()) {
+        		sb.append(it.next());
+        		if(it.hasNext()) {
+        			sb.append(", ");
+        		}
+        	}
+        	JOptionPane.showMessageDialog(this, 
+        			"The keyword and label files contains the following duplicate names:\n" + sb.toString());
+        }
+    	
+    }
 
     private boolean preconditionsFulfilled() {
         if (sc == null) {
@@ -800,7 +846,7 @@ public class KeywordImporterGUI extends JFrame implements ActionListener, ListSe
                 Set<String> keywords = keywordImporter.getKeywordMap().get(index);
                 if(keywords == null) {
                 	return;
-                }                	
+                }
                 keywords.clear();
                 DefaultTableModel keywordModel = (DefaultTableModel) tbKeywords.getModel();
                 for (int i = 0; i < keywordModel.getRowCount(); i++) {
