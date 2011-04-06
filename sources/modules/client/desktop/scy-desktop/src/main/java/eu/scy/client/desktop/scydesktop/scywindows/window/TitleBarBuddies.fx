@@ -15,7 +15,15 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import eu.scy.client.desktop.scydesktop.art.eloicons.EloIconFactory;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
-import eu.scy.client.desktop.scydesktop.tooltips.impl.TextTooltip;
+import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.Contact;
+import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.OnlineState;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import eu.scy.client.desktop.scydesktop.tooltips.impl.NodeTooltip;
+import javafx.scene.control.Label;
+import javafx.util.Sequences;
+import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactNameComparator;
 
 /**
  * @author SikkenJ
@@ -28,6 +36,7 @@ public class TitleBarBuddies extends TitleBarItemList, TooltipCreator {
    public var showOneIcon = false;
    public var myName: String;
    def eloIconFactory = EloIconFactory {};
+   def spacing = 5.0;
 
    public function buddiesChanged(): Void {
       updateItems()
@@ -49,12 +58,15 @@ public class TitleBarBuddies extends TitleBarItemList, TooltipCreator {
             tooltipManager: tooltipManager
             windowColorScheme: windowColorScheme
             contact: contact
+            eloIcon: getContactEloIcon(contact)
+            size: mouseOverItemSize
+            tooltipContent: getContactTooltipContent(contact)
          }
       }
    }
 
    function createCombinedBuddies(): Node[] {
-      def contacts = ownershipManager.getOwners();
+      def contacts = Sequences.sort(ownershipManager.getOwners(), ContactNameComparator {}) as Contact[];
       if (sizeof contacts == 0) {
          return null;
       } else {
@@ -73,10 +85,7 @@ public class TitleBarBuddies extends TitleBarItemList, TooltipCreator {
                buddiesEloIconName = "Buddies_others"
             }
          }
-         def eloIcon = eloIconFactory.createEloIcon(buddiesEloIconName);
-         eloIcon.windowColorScheme.assign(windowColorScheme);
-         eloIcon.windowColorScheme.mainColorLight = Color.TRANSPARENT;
-         eloIcon.size = itemSize;
+         def eloIcon = getEloIcon(buddiesEloIconName);
          tooltipManager.registerNode(eloIcon, this);
          return Stack {
                     content: [
@@ -91,17 +100,46 @@ public class TitleBarBuddies extends TitleBarItemList, TooltipCreator {
       }
    }
 
-   public override function createTooltipNode(sourceNode: Node): Node {
-      def contacts = ownershipManager.getOwners();
-      var tooltip = "";
-      for (contact in contacts) {
-         if (indexof contact > 0) {
-            tooltip += "\n"
-         }
-         tooltip += "{contact.name}"
+   function getContactEloIcon(contact: Contact): EloIcon {
+      def eloIconName = if (contact.onlineState == OnlineState.IS_ME) "buddy_me" else "buddy_other";
+      def eloIcon = getEloIcon(eloIconName);
+      if (contact.onlineState != OnlineState.IS_ME and contact.onlineState != OnlineState.ONLINE) {
+         eloIcon.opacity = 0.5;
       }
-      TextTooltip {
-         content: tooltip
+      return eloIcon
+   }
+
+   function getEloIcon(name: String): EloIcon {
+      def eloIcon = eloIconFactory.createEloIcon(name);
+      eloIcon.windowColorScheme.assign(windowColorScheme);
+      eloIcon.windowColorScheme.mainColorLight = Color.TRANSPARENT;
+      eloIcon.size = itemSize;
+      return eloIcon;
+   }
+
+   function getContactTooltipContent(contact: Contact): Node {
+      HBox {
+         spacing: spacing
+         content: [
+            getContactEloIcon(contact),
+            Label {
+               text: contact.name
+            }
+         ]
+      }
+   }
+
+   public override function createTooltipNode(sourceNode: Node): Node {
+      def contacts = Sequences.sort(ownershipManager.getOwners(), ContactNameComparator {}) as Contact[];
+      NodeTooltip {
+         content: VBox {
+            spacing: spacing
+            content: [
+               for (contact in contacts) {
+                  getContactTooltipContent(contact)
+               }
+            ]
+         }
          windowColorScheme: windowColorScheme
       }
    }
