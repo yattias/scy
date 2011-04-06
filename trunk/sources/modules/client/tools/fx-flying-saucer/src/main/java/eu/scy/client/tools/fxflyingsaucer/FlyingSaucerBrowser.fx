@@ -33,8 +33,7 @@ public class FlyingSaucerBrowser extends CustomNode, Resizable, ScyToolGetter {
             };
     public-init var flyingSaucer: EloFlyingSaucerPanel;
     public-init var urlSource: UrlSource;
-
-    public-init var scyWindow : ScyWindow;
+    public-init var scyWindow: ScyWindow;
 
     function resizeBrowser() {
         flyingSaucer.setPreferredSize(new Dimension(width, height));
@@ -48,6 +47,12 @@ public class FlyingSaucerBrowser extends CustomNode, Resizable, ScyToolGetter {
     def spacing = 5.0;
 
     public override function create(): Node {
+        var content;
+        if (urlSource == UrlSource.ELO) {
+            content = [createBrowserComponent()];
+        } else {
+            content = [drawerDescription, createBrowserComponent()];
+        }
         return VBox {
                     spacing: spacing
                     nodeHPos: HPos.CENTER
@@ -58,10 +63,7 @@ public class FlyingSaucerBrowser extends CustomNode, Resizable, ScyToolGetter {
                         left: spacing
                     }
 
-                    content: [
-                        drawerDescription,
-                        createBrowserComponent()
-                    ]
+                    content: content
                 };
     }
 
@@ -77,10 +79,9 @@ public class FlyingSaucerBrowser extends CustomNode, Resizable, ScyToolGetter {
         return flyingSaucer.getPreferredSize().height;
     }
 
-    override function getScyTool() : ScyTool {
+    override function getScyTool(): ScyTool {
         return flyingSaucer;
     }
-
 
 }
 
