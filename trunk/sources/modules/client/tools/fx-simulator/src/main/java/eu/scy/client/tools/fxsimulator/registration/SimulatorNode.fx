@@ -444,7 +444,9 @@ public class SimulatorNode
             syncAttrib = DatasyncAttribute {
                         scyWindow: scyWindow
                         dragAndDropManager: scyWindow.dragAndDropManager;
-                        dragObject: this };
+                        dragObject: this 
+                        tooltipManager: scyWindow.tooltipManager
+                        };
             insert syncAttrib into scyWindow.scyWindowAttributes;
         } catch (e: java.lang.Exception) {
             logger.info("exception caught: {e.getMessage()}");
