@@ -28,6 +28,7 @@ import eu.scy.client.desktop.scydesktop.tools.colorscheme.ColorSchemeEditorCreat
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.test.TestDialogsNodeCreator;
 import eu.scy.client.desktop.scydesktop.feedbackquestion.FeedbackQuestionNodeCreator;
 import eu.scy.client.desktop.scydesktop.tools.content.text.TextEditorScyToolContentCreator;
+import eu.scy.client.desktop.scydesktop.tools.versionviewer.VersionViewerCreator;
 
 /**
  * @author sikkenj
@@ -72,6 +73,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def colorSchemesId = "colorSchemes";
    def testDialogsId = "testDialogs";
    def feedbackQuestionId = "feedbackQuestion";
+   def eloVersionViewerId = "versionViewer";
 
    def startNanos = System.nanoTime();
 
@@ -100,6 +102,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(RuntimeSettingsEditorCreator{}, runtimeSettingsId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TestMoreInfoNodeCreator{}, testMoreInfoId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ColorSchemeEditorCreator{}, colorSchemesId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(VersionViewerCreator{}, eloVersionViewerId);
 
    def testDialogsNodeCreator = TestDialogsNodeCreator{};
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(testDialogsNodeCreator, testDialogsId);
