@@ -32,6 +32,11 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.VBox;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
+import javafx.scene.text.Text;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.scene.layout.Container;
+import javafx.scene.layout.Priority;
 
 public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
 
@@ -53,16 +58,22 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
    var eloUri: URI;
    var scyElo: ScyElo;
    def spacing = 5.0;
-   def titleLabel = Label {
-           text: "Ask for Feedback"
+   def titleLabel = Text {
+           content: "Ask for Feedback"
            font: Font.font("Verdana", FontWeight.BOLD, 12)
-           textFill: scyWindow.windowColorScheme.mainColor;
+           fill: scyWindow.windowColorScheme.mainColor;
        };
    var textBox = TextBox {
            text: bind comment with inverse
            multiline: true
            selectOnFocus: true
-           columns: 20
+           managed: true
+           layoutInfo: LayoutInfo {
+            hfill: true
+            vfill: true
+            hgrow: Priority.ALWAYS
+            vgrow: Priority.ALWAYS
+        }
        };
    var submitButton:Button = Button {
            text: "Submit"
@@ -95,10 +106,14 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
               fbScyElo.getContent().setXmlString(jdomStringConversion.xmlToString(feedbackElement));
               fbScyElo.saveAsNewElo();
               infoLabel.text = "Your feedback question: \"{textBox.text}\" has been submitted. To see the feedback, click:";
-              titleLabel.visible = false;
-              textBox.visible = false;
-              submitButton.visible = false;
-              questionAsked.visible=true;
+              for (ui in submitUi) {
+                    delete ui from mainBox.content;
+              }
+              for (ui in questionAskedUi) {
+                    insert ui into mainBox.content;
+              }
+              resizeContent();
+              mainBox.layout();
           }
    }
    var infoLabel = Label {
@@ -109,19 +124,31 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
 	                 text: "Get feedback"
 	                 action: scyDesktop.scyFeedbackGetButton.action
                       };
-   var questionAsked = VBox {content: [infoLabel, feedbackLink],visible:false};
-   var node = Group {content: [
-       titleLabel,
-       Group {content: bind textBox},
-       Group {content: bind submitButton},
-       Group {content: bind questionAsked}
-   ]};
+   var questionAskedUi = [infoLabel, feedbackLink];
+
+   var submitUi = [textBox,submitButton];
+
+   var mainBox: VBox;
 
    public override function create(): Node {
-      var myNode = Group {content: bind node}
-      resizeContent();
-      FX.deferAction(resizeContent);
-      return myNode;
+              mainBox = VBox {
+                    spacing: spacing
+                    nodeHPos: HPos.CENTER
+                    padding: Insets {
+                        top: spacing
+                        right: spacing
+                        bottom: spacing
+                        left: spacing
+                    }
+                    managed: false
+                    content: [
+                        titleLabel
+                    ]
+                };
+                for (ui in submitUi) {
+                    insert ui into mainBox.content;
+                }
+                return mainBox;
    }
 
    public override function loadElo(eloUri: URI): Void {
@@ -136,10 +163,10 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
       this.eloUri = eloUri;
       var questionAskedB=true;
       if (not scyDesktop.missionModelFX.getEloUris(false).contains(eloUri)) {
-          titleLabel.visible = false;
-          textBox.visible = false;
-          submitButton.visible = false;
-     }
+          for (ui in submitUi) {
+                delete ui from mainBox.content;
+          }
+      }
       if (eloUri != null) {
          logger.debug("eloUri is changing, new eloUri: {eloUri.toString()}");
          scyElo = ScyElo.loadMetadata(eloUri, toolBrokerAPI);
@@ -159,10 +186,12 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
          scyElo = null;
       }
       if (questionAskedB) {
-          titleLabel.visible = false;
-          textBox.visible = false;
-          submitButton.visible = false;
-          questionAsked.visible = true;
+          for (ui in submitUi) {
+                delete ui from mainBox.content;
+          }
+          for (ui in questionAskedUi) {
+                insert ui into mainBox.content;
+          }
       }
    }
 
@@ -170,26 +199,16 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
       return DrawerUIIndicator.FEEDBACK;
    }
 
-   function resizeContent(): Void{
-      textBox.height = height-titleLabel.height-submitButton.height-2*spacing-10;
-      textBox.width = width;
-      textBox.layoutInfo = LayoutInfo{
-            height: height-titleLabel.height-submitButton.height-2*spacing-10
-            width: width
-      };
-      textBox.translateY = titleLabel.height+spacing;
-      submitButton.translateY = titleLabel.height+textBox.height+2*spacing;
-      infoLabel.width = width;
-      infoLabel.layoutInfo = LayoutInfo{
-            width: width
-      };
-   }
    public override var height on replace {
        resizeContent();
    }
    public override var width on replace {
        resizeContent();
    }
+
+    function resizeContent(): Void {
+      Container.resizeNode(mainBox, width, height);
+    }
 
    public override function getPrefHeight(width: Number) : Number{
       if (height<getMinHeight())
@@ -208,7 +227,7 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
    }
 
    public override function getMinWidth() : Number {
-       return titleLabel.width+10;
+       return titleLabel.boundsInParent.width+50;
    }
 
 }
