@@ -9,1120 +9,2186 @@
     xmlns="http://www.scy.eu/pizza#"
     xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-  xml:base="http://www.scy.eu/pizza">
-  <owl:Ontology rdf:about=""/>
-  <owl:Class rdf:ID="Unit">
+  xml:base="file:/F:/Dokumente/Collide/Ontologie%20-%20Jan11/Pizza-translated.owl">
+  <owl:Ontology rdf:about="http://www.scy.eu/pizza"/>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Unit">
+    <rdfs:label xml:lang="de">"Einheit"</rdfs:label>
+    <rdfs:label xml:lang="en">"unit"</rdfs:label>
     <rdfs:subClassOf>
-      <owl:Class rdf:ID="EnergyAttribute"/>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#EnergyAttribute"/>
     </rdfs:subClassOf>
   </owl:Class>
-  <owl:Class rdf:ID="MeatAndBeans">
+  <owl:Class rdf:about="http://www.scy.eu/pizza#MeatAndBeans">
     <rdfs:subClassOf>
-      <owl:Class rdf:ID="FoodPyramidGroup"/>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#FoodPyramidGroup"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"Fleisch und Bohnen"</rdfs:label>
+    <rdfs:label xml:lang="en">"meat and beans"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Keyword">
+    <rdfs:label xml:lang="de">"Stichwort"</rdfs:label>
+    <rdfs:label xml:lang="en">"keyword"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Vegetables">
+    <rdfs:label xml:lang="de">"Gemüse"</rdfs:label>
+    <rdfs:label xml:lang="en">"vegetables"</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Topping"/>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#FoodPyramidGroup"/>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#PizzaIngredient"/>
     </rdfs:subClassOf>
   </owl:Class>
-  <owl:Class rdf:ID="Vegetables">
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Meat">
     <rdfs:subClassOf>
-      <owl:Class rdf:ID="ExtraIngredient"/>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Topping"/>
     </rdfs:subClassOf>
-    <rdfs:subClassOf>
-      <owl:Class rdf:ID="Topping"/>
-    </rdfs:subClassOf>
-    <rdfs:subClassOf>
-      <owl:Class rdf:about="#FoodPyramidGroup"/>
-    </rdfs:subClassOf>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#MeatAndBeans"/>
+    <rdfs:label xml:lang="de">"Fleisch"</rdfs:label>
+    <rdfs:label xml:lang="en">"meat"</rdfs:label>
   </owl:Class>
-  <owl:Class rdf:about="#Topping">
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Topping">
     <rdfs:subClassOf>
-      <owl:Class rdf:ID="PizzaComponent"/>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#PizzaComponent"/>
     </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"Belag"</rdfs:label>
+    <rdfs:label xml:lang="en">"topping"</rdfs:label>
   </owl:Class>
-  <owl:Class rdf:ID="Meat">
-    <rdfs:subClassOf rdf:resource="#Topping"/>
-    <rdfs:subClassOf rdf:resource="#MeatAndBeans"/>
-  </owl:Class>
-  <owl:Class rdf:ID="Cheese">
+  <owl:Class rdf:about="http://www.scy.eu/pizza#PizzaAttribute">
+    <rdfs:label xml:lang="de">"Attribute einer Pizza"</rdfs:label>
+    <rdfs:label xml:lang="en">"pizza attribute"</rdfs:label>
     <rdfs:subClassOf>
-      <owl:Class rdf:ID="Milk"/>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Concept"/>
     </rdfs:subClassOf>
   </owl:Class>
-  <owl:Class rdf:ID="PizzaAttribute">
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Cheese">
+    <rdfs:label xml:lang="de">"Käse"</rdfs:label>
+    <rdfs:label xml:lang="en">"cheese"</rdfs:label>
     <rdfs:subClassOf>
-      <owl:Class rdf:ID="Concept"/>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Milk"/>
     </rdfs:subClassOf>
   </owl:Class>
-  <owl:Class rdf:ID="HealthProblem">
+  <owl:Class rdf:about="http://www.scy.eu/pizza#HealthProblem">
+    <rdfs:label xml:lang="de">"gesundheitliches Problem"</rdfs:label>
+    <rdfs:label xml:lang="en">"health problem"</rdfs:label>
     <rdfs:subClassOf>
-      <owl:Class rdf:ID="HealthVariable"/>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#HealthVariable"/>
     </rdfs:subClassOf>
   </owl:Class>
-  <owl:Class rdf:ID="DigestiveSystemComponent">
+  <owl:Class rdf:about="http://www.scy.eu/pizza#DigestiveSystemComponent">
     <rdfs:subClassOf>
-      <owl:Class rdf:ID="DigestiveSystemAttribute"/>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#DigestiveSystemAttribute"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"Komponente des Verdauungssystems"</rdfs:label>
+    <rdfs:label xml:lang="en">"digestive system component"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#HealthIndicator">
+    <rdfs:label xml:lang="de">"Gesundheitsindikator"</rdfs:label>
+    <rdfs:label xml:lang="en">"health indicator"</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#HealthVariable"/>
     </rdfs:subClassOf>
   </owl:Class>
-  <owl:Class rdf:about="#Milk">
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Milk">
+    <rdfs:label xml:lang="de">"Milch"</rdfs:label>
+    <rdfs:label xml:lang="en">"milk"</rdfs:label>
     <rdfs:subClassOf>
-      <owl:Class rdf:about="#FoodPyramidGroup"/>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#FoodPyramidGroup"/>
     </rdfs:subClassOf>
   </owl:Class>
-  <owl:Class rdf:ID="HealthIndicator">
+  <owl:Class rdf:about="http://www.scy.eu/pizza#EnergyAttribute">
+    <rdfs:label xml:lang="de">"Energie-Attribut"</rdfs:label>
+    <rdfs:label xml:lang="en">"energy attribute"</rdfs:label>
     <rdfs:subClassOf>
-      <owl:Class rdf:about="#HealthVariable"/>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Concept"/>
     </rdfs:subClassOf>
   </owl:Class>
-  <owl:Class rdf:about="#EnergyAttribute">
-    <rdfs:subClassOf rdf:resource="#Concept"/>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Sauce">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#Topping"/>
+    <rdfs:label xml:lang="de">"Sauce"</rdfs:label>
+    <rdfs:label xml:lang="en">"sauce"</rdfs:label>
   </owl:Class>
-  <owl:Class rdf:ID="Sauce">
-    <rdfs:subClassOf rdf:resource="#Topping"/>
-  </owl:Class>
-  <owl:Class rdf:about="#PizzaComponent">
-    <rdfs:subClassOf rdf:resource="#Concept"/>
-  </owl:Class>
-  <owl:Class rdf:ID="DigestiveSystemProcess">
+  <owl:Class rdf:about="http://www.scy.eu/pizza#PizzaComponent">
+    <rdfs:label xml:lang="de">"Komponenten einer Pizza"</rdfs:label>
+    <rdfs:label xml:lang="en">"pizza component"</rdfs:label>
     <rdfs:subClassOf>
-      <owl:Class rdf:about="#DigestiveSystemAttribute"/>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Concept"/>
     </rdfs:subClassOf>
   </owl:Class>
-  <owl:Class rdf:about="#FoodPyramidGroup">
-    <rdfs:subClassOf rdf:resource="#Concept"/>
-  </owl:Class>
-  <owl:Class rdf:about="#DigestiveSystemAttribute">
-    <rdfs:subClassOf rdf:resource="#Concept"/>
-  </owl:Class>
-  <owl:Class rdf:ID="Fish">
+  <owl:Class rdf:about="http://www.scy.eu/pizza#DigestiveSystemProcess">
+    <rdfs:label xml:lang="de">"Verdauungssystem-Prozess"</rdfs:label>
+    <rdfs:label xml:lang="en">"digestive system process"</rdfs:label>
     <rdfs:subClassOf>
-      <owl:Class rdf:ID="Seafood"/>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#DigestiveSystemAttribute"/>
     </rdfs:subClassOf>
   </owl:Class>
-  <owl:Class rdf:ID="OilsAndFats">
-    <rdfs:subClassOf rdf:resource="#FoodPyramidGroup"/>
-  </owl:Class>
-  <owl:Class rdf:ID="DeterminingFactor">
-    <rdfs:subClassOf rdf:resource="#EnergyAttribute"/>
-  </owl:Class>
-  <owl:Class rdf:ID="BasicIngredient">
+  <owl:Class rdf:about="http://www.scy.eu/pizza#FoodPyramidGroup">
+    <rdfs:label xml:lang="de">"Ernährungspyramide Gruppe"</rdfs:label>
+    <rdfs:label xml:lang="en">"food pyramid group"</rdfs:label>
     <rdfs:subClassOf>
-      <owl:Class rdf:ID="PizzaIngredient"/>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Concept"/>
     </rdfs:subClassOf>
   </owl:Class>
-  <owl:Class rdf:ID="DigestiveSystemOrgan">
-    <rdfs:subClassOf rdf:resource="#DigestiveSystemComponent"/>
-  </owl:Class>
-  <owl:Class rdf:ID="Food">
-    <rdfs:subClassOf rdf:resource="#Concept"/>
-  </owl:Class>
-  <owl:Class rdf:ID="NutrientFunction">
-    <rdfs:subClassOf rdf:resource="#Concept"/>
-  </owl:Class>
-  <owl:Class rdf:ID="DoughStyle">
-    <rdfs:subClassOf rdf:resource="#PizzaComponent"/>
-  </owl:Class>
-  <owl:Class rdf:about="#ExtraIngredient">
+  <owl:Class rdf:about="http://www.scy.eu/pizza#DigestiveSystemAttribute">
+    <rdfs:label xml:lang="de">"Attribut des Verdauungssystems"</rdfs:label>
+    <rdfs:label xml:lang="en">"digestive system attribute"</rdfs:label>
     <rdfs:subClassOf>
-      <owl:Class rdf:about="#PizzaIngredient"/>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Concept"/>
     </rdfs:subClassOf>
   </owl:Class>
-  <owl:Class rdf:ID="PizzaType">
-    <rdfs:subClassOf rdf:resource="#Concept"/>
-  </owl:Class>
-  <owl:Class rdf:ID="Nutrients">
-    <rdfs:subClassOf rdf:resource="#Concept"/>
-  </owl:Class>
-  <owl:Class rdf:ID="Fruits">
-    <rdfs:subClassOf rdf:resource="#ExtraIngredient"/>
-    <rdfs:subClassOf rdf:resource="#Topping"/>
-    <rdfs:subClassOf rdf:resource="#FoodPyramidGroup"/>
-  </owl:Class>
-  <owl:Class rdf:ID="Grains">
-    <rdfs:subClassOf rdf:resource="#FoodPyramidGroup"/>
-  </owl:Class>
-  <owl:Class rdf:about="#HealthVariable">
-    <rdfs:subClassOf rdf:resource="#Concept"/>
-  </owl:Class>
-  <owl:Class rdf:about="#PizzaIngredient">
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Fish">
     <rdfs:subClassOf>
-      <owl:Class rdf:ID="Ingredient"/>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Seafood"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"Fisch"</rdfs:label>
+    <rdfs:label xml:lang="en">"fish"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#OilsAndFats">
+    <rdfs:label xml:lang="de">"Öle und Fette"</rdfs:label>
+    <rdfs:label xml:lang="en">"oils and fats"</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#FoodPyramidGroup"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#DeterminingFactor">
+    <rdfs:label xml:lang="de">"bestimmender Faktor"</rdfs:label>
+    <rdfs:label xml:lang="en">"determining factor"</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#EnergyAttribute"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#DigestiveSystemOrgan">
+    <rdfs:label xml:lang="de">"Verdauungssystem-Organ"</rdfs:label>
+    <rdfs:label xml:lang="en">"digestive system organ"</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#DigestiveSystemComponent"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Food">
+    <rdfs:label xml:lang="de">"Lebensmittel"</rdfs:label>
+    <rdfs:label xml:lang="en">"food"</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Concept"/>
     </rdfs:subClassOf>
   </owl:Class>
-  <owl:Class rdf:ID="Spice">
-    <rdfs:subClassOf rdf:resource="#Vegetables"/>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#NutrientFunction">
+    <rdfs:label xml:lang="de">"Nährstoff-Funktion"</rdfs:label>
+    <rdfs:label xml:lang="en">"nutrient function"</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Concept"/>
+    </rdfs:subClassOf>
   </owl:Class>
-  <owl:Class rdf:about="#Seafood">
-    <rdfs:subClassOf rdf:resource="#Topping"/>
-    <rdfs:subClassOf rdf:resource="#MeatAndBeans"/>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#DoughStyle">
+    <rdfs:label xml:lang="de">"Art des Teiges"</rdfs:label>
+    <rdfs:label xml:lang="en">"dough style"</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#PizzaComponent"/>
   </owl:Class>
-  <owl:Class rdf:ID="Specification">
-    <rdfs:subClassOf rdf:resource="#EnergyAttribute"/>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#KeywordList">
+    <rdfs:label xml:lang="de">"Stichwort-Liste"</rdfs:label>
+    <rdfs:label xml:lang="en">"keyword list"</rdfs:label>
   </owl:Class>
-  <owl:Class rdf:about="#Ingredient">
-    <rdfs:subClassOf rdf:resource="#Concept"/>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#PizzaType">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Concept"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"Pizzasorte"</rdfs:label>
+    <rdfs:label xml:lang="en">"pizza type"</rdfs:label>
   </owl:Class>
-  <owl:ObjectProperty rdf:ID="hasFunction">
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Nutrients">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Concept"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"Nährstoffe"</rdfs:label>
+    <rdfs:label xml:lang="en">"nutrients"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Fruits">
+    <rdfs:label xml:lang="de">"Früchte"</rdfs:label>
+    <rdfs:label xml:lang="en">"fruits"</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#Topping"/>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#FoodPyramidGroup"/>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#PizzaIngredient"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Grains">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#FoodPyramidGroup"/>
+    <rdfs:label xml:lang="de">"Körner"</rdfs:label>
+    <rdfs:label xml:lang="en">"grains"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#HealthVariable">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Concept"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"gesundheitliche Variable"</rdfs:label>
+    <rdfs:label xml:lang="en">"health variable"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Concept">
+    <rdfs:label xml:lang="de">"Konzept"</rdfs:label>
+    <rdfs:label xml:lang="en">"concept"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Spice">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#Vegetables"/>
+    <rdfs:label xml:lang="de">"Gewürz"</rdfs:label>
+    <rdfs:label xml:lang="en">"spice"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#PizzaIngredient">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/pizza#Ingredient"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="de">"Zutaten einer Pizza"</rdfs:label>
+    <rdfs:label xml:lang="en">"pizza ingredient"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Seafood">
+    <rdfs:label xml:lang="de">"Meeresfrüchte"</rdfs:label>
+    <rdfs:label xml:lang="en">"seafood"</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#Topping"/>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#MeatAndBeans"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Specification">
+    <rdfs:label xml:lang="de">"Spezifikation"</rdfs:label>
+    <rdfs:label xml:lang="en">"specification"</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#EnergyAttribute"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/pizza#Ingredient">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/pizza#Concept"/>
+    <rdfs:label xml:lang="de">"Zutat"</rdfs:label>
+    <rdfs:label xml:lang="en">"ingredient"</rdfs:label>
+  </owl:Class>
+  <owl:ObjectProperty rdf:about="http://www.scy.eu/pizza#hasFunction">
     <rdfs:subPropertyOf>
-      <owl:SymmetricProperty rdf:ID="hasRelationTo"/>
+      <owl:SymmetricProperty rdf:about="http://www.scy.eu/pizza#hasRelationTo"/>
     </rdfs:subPropertyOf>
-    <rdfs:range>
-      <owl:Class>
-        <owl:unionOf rdf:parseType="Collection">
-          <owl:Class rdf:about="#NutrientFunction"/>
-          <owl:Class rdf:about="#DigestiveSystemProcess"/>
-        </owl:unionOf>
-      </owl:Class>
-    </rdfs:range>
-    <rdfs:domain rdf:resource="#Concept"/>
+    <rdfs:range rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >-ee29723:12f2a4075a2:-7ffd</rdfs:range>
+    <rdfs:domain rdf:resource="http://www.scy.eu/pizza#Concept"/>
   </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="isElementOf">
+  <owl:ObjectProperty rdf:about="http://www.scy.eu/pizza#belongsToList">
+    <rdfs:domain rdf:resource="http://www.scy.eu/pizza#Keyword"/>
+    <rdfs:range rdf:resource="http://www.scy.eu/pizza#KeywordList"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.scy.eu/pizza#isElementOf">
     <rdfs:subPropertyOf>
-      <owl:SymmetricProperty rdf:about="#hasRelationTo"/>
+      <owl:SymmetricProperty rdf:about="http://www.scy.eu/pizza#hasRelationTo"/>
     </rdfs:subPropertyOf>
-    <rdfs:domain rdf:resource="#DigestiveSystemComponent"/>
+    <rdfs:domain rdf:resource="http://www.scy.eu/pizza#DigestiveSystemComponent"/>
   </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="contains">
+  <owl:ObjectProperty rdf:about="http://www.scy.eu/pizza#contains">
     <rdfs:subPropertyOf>
-      <owl:SymmetricProperty rdf:about="#hasRelationTo"/>
+      <owl:SymmetricProperty rdf:about="http://www.scy.eu/pizza#hasRelationTo"/>
     </rdfs:subPropertyOf>
   </owl:ObjectProperty>
-  <owl:ObjectProperty rdf:ID="absorb">
+  <owl:ObjectProperty rdf:about="http://www.scy.eu/pizza#absorb">
     <rdfs:subPropertyOf>
-      <owl:SymmetricProperty rdf:about="#hasRelationTo"/>
+      <owl:SymmetricProperty rdf:about="http://www.scy.eu/pizza#hasRelationTo"/>
     </rdfs:subPropertyOf>
   </owl:ObjectProperty>
-  <owl:TransitiveProperty rdf:ID="isInfluencedBy">
+  <owl:DatatypeProperty rdf:about="http://www.scy.eu/pizza#isConnectedTo">
+    <rdfs:domain rdf:resource="http://www.scy.eu/pizza#KeywordList"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:TransitiveProperty rdf:about="http://www.scy.eu/pizza#isInfluencedBy">
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
     <rdfs:subPropertyOf>
-      <owl:SymmetricProperty rdf:about="#hasRelationTo"/>
+      <owl:SymmetricProperty rdf:about="http://www.scy.eu/pizza#hasRelationTo"/>
     </rdfs:subPropertyOf>
     <owl:inverseOf>
-      <owl:TransitiveProperty rdf:ID="hasInfluenceOn"/>
+      <owl:TransitiveProperty rdf:about="http://www.scy.eu/pizza#hasInfluenceOn"/>
     </owl:inverseOf>
   </owl:TransitiveProperty>
-  <owl:TransitiveProperty rdf:ID="hasIngredient">
+  <owl:TransitiveProperty rdf:about="http://www.scy.eu/pizza#hasIngredient">
     <rdfs:subPropertyOf>
-      <owl:SymmetricProperty rdf:about="#hasRelationTo"/>
+      <owl:SymmetricProperty rdf:about="http://www.scy.eu/pizza#hasRelationTo"/>
     </rdfs:subPropertyOf>
     <owl:inverseOf>
-      <owl:TransitiveProperty rdf:ID="isIngredientOf"/>
+      <owl:TransitiveProperty rdf:about="http://www.scy.eu/pizza#isIngredientOf"/>
     </owl:inverseOf>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
   </owl:TransitiveProperty>
-  <owl:TransitiveProperty rdf:about="#isIngredientOf">
+  <owl:TransitiveProperty rdf:about="http://www.scy.eu/pizza#isIngredientOf">
     <rdfs:subPropertyOf>
-      <owl:SymmetricProperty rdf:about="#hasRelationTo"/>
+      <owl:SymmetricProperty rdf:about="http://www.scy.eu/pizza#hasRelationTo"/>
     </rdfs:subPropertyOf>
-    <owl:inverseOf rdf:resource="#hasIngredient"/>
+    <owl:inverseOf rdf:resource="http://www.scy.eu/pizza#hasIngredient"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
   </owl:TransitiveProperty>
-  <owl:TransitiveProperty rdf:about="#hasInfluenceOn">
-    <owl:inverseOf rdf:resource="#isInfluencedBy"/>
+  <owl:TransitiveProperty rdf:about="http://www.scy.eu/pizza#hasInfluenceOn">
+    <owl:inverseOf rdf:resource="http://www.scy.eu/pizza#isInfluencedBy"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
     <rdfs:subPropertyOf>
-      <owl:SymmetricProperty rdf:about="#hasRelationTo"/>
+      <owl:SymmetricProperty rdf:about="http://www.scy.eu/pizza#hasRelationTo"/>
     </rdfs:subPropertyOf>
   </owl:TransitiveProperty>
-  <owl:SymmetricProperty rdf:about="#hasRelationTo">
-    <rdfs:domain rdf:resource="#Concept"/>
-    <owl:inverseOf rdf:resource="#hasRelationTo"/>
+  <owl:SymmetricProperty rdf:about="http://www.scy.eu/pizza#hasRelationTo">
+    <rdfs:domain rdf:resource="http://www.scy.eu/pizza#Concept"/>
+    <owl:inverseOf rdf:resource="http://www.scy.eu/pizza#hasRelationTo"/>
     <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
-    <rdfs:range rdf:resource="#Concept"/>
+    <rdfs:range rdf:resource="http://www.scy.eu/pizza#Concept"/>
   </owl:SymmetricProperty>
-  <Spice rdf:ID="Basil">
+  <Keyword rdf:about="http://www.scy.eu/pizza#dna">
+    <rdfs:label xml:lang="de">"DNA"</rdfs:label>
+    <rdfs:label xml:lang="en">"dna"</rdfs:label>
+    <belongsToList>
+      <KeywordList rdf:about="http://www.scy.eu/pizza#human_body">
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/pizza#Health"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <rdfs:label xml:lang="de">"Menschlicher Körper"</rdfs:label>
+        <rdfs:label xml:lang="en">"human_body"</rdfs:label>
+      </KeywordList>
+    </belongsToList>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#check">
+    <rdfs:label xml:lang="de">"Untersuchung"</rdfs:label>
+    <rdfs:label xml:lang="en">"check"</rdfs:label>
+    <belongsToList>
+      <KeywordList rdf:about="http://www.scy.eu/pizza#health_problems">
+        <rdfs:label xml:lang="de">"Gesundheitliche Probleme"</rdfs:label>
+        <rdfs:label xml:lang="en">"health_problems"</rdfs:label>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/pizza#Diet"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/pizza#Health"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/pizza#HealthProblem"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+      </KeywordList>
+    </belongsToList>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#products">
+    <belongsToList>
+      <KeywordList rdf:about="http://www.scy.eu/pizza#food_and_additives">
+        <rdfs:label xml:lang="de">"Essen und Zusatzstoffe"</rdfs:label>
+        <rdfs:label xml:lang="en">"food_and_additives"</rdfs:label>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/pizza#Diet"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/pizza#FoodPyramid"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/pizza#Health"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/pizza#Food"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+      </KeywordList>
+    </belongsToList>
+    <rdfs:label xml:lang="de">"Produkte"</rdfs:label>
+    <rdfs:label xml:lang="en">"products"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#amino">
+    <rdfs:label xml:lang="de">"Amino"</rdfs:label>
+    <rdfs:label xml:lang="en">"amino"</rdfs:label>
+    <belongsToList>
+      <KeywordList rdf:about="http://www.scy.eu/pizza#vitamins_nutrients_etc">
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/pizza#NutritionalValue"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/pizza#Diet"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <rdfs:label xml:lang="en">"vitamins_nutrients_etc"</rdfs:label>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/pizza#NutrientFunction"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <rdfs:label xml:lang="de">"Vitamine Nährstoffe etc"</rdfs:label>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/pizza#Energy"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/pizza#Health"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/pizza#DietOptimizationStrategy"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/pizza#Nutrients"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+      </KeywordList>
+    </belongsToList>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#nutrition">
+    <rdfs:label xml:lang="de">"Ernährung"</rdfs:label>
+    <rdfs:label xml:lang="en">"nutrition"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#reaction">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+    <rdfs:label xml:lang="de">"Reaktion"</rdfs:label>
+    <rdfs:label xml:lang="en">"reaction"</rdfs:label>
+  </Keyword>
+  <Spice rdf:about="http://www.scy.eu/pizza#PaprikaPowder">
+    <rdfs:label xml:lang="de">"Paprikapulver"</rdfs:label>
+    <rdfs:label xml:lang="en">"paprika powder"</rdfs:label>
     <contains>
-      <Nutrients rdf:ID="Water">
+      <Nutrients rdf:about="http://www.scy.eu/pizza#Water">
         <isIngredientOf>
-          <DoughStyle rdf:ID="DeepPan">
+          <DoughStyle rdf:about="http://www.scy.eu/pizza#DeepPan">
             <hasIngredient>
-              <Grains rdf:ID="Flour">
-                <contains>
-                  <Nutrients rdf:ID="Vitamin">
-                    <hasFunction>
-                      <NutrientFunction rdf:ID="EnergyGeneration">
-                        <hasRelationTo>
-                          <EnergyAttribute rdf:ID="EnergyNeed">
-                            <isInfluencedBy>
-                              <DeterminingFactor rdf:ID="Height">
-                                <hasInfluenceOn>
-                                  <HealthIndicator rdf:ID="BodyMassIndex">
-                                    <isInfluencedBy rdf:resource="#Height"/>
-                                    <isInfluencedBy>
-                                      <DeterminingFactor rdf:ID="Weight">
-                                        <hasInfluenceOn rdf:resource="#BodyMassIndex"/>
-                                        <hasInfluenceOn>
-                                          <Specification rdf:ID="BasalMetabolicRate">
-                                            <hasRelationTo rdf:resource="#EnergyNeed"/>
-                                            <hasRelationTo>
-                                              <Concept rdf:ID="Energy">
-                                                <hasRelationTo>
-                                                  <Unit rdf:ID="Joule">
-                                                    <hasRelationTo>
-                                                      <Concept rdf:ID="NutritionalValue">
-                                                        <hasRelationTo rdf:resource="#Water"/>
-                                                        <hasRelationTo>
-                                                          <Cheese rdf:ID="Pecorino">
-                                                            <contains>
-                                                              <Nutrients rdf:ID="Carbohydrate">
-    <hasRelationTo rdf:resource="#NutritionalValue"/>
-    <hasInfluenceOn rdf:resource="#EnergyGeneration"/>
-    <hasInfluenceOn>
-      <NutrientFunction rdf:ID="RegulationOfBodyProcesses">
-        <isInfluencedBy>
-          <Nutrients rdf:ID="Protein">
-            <hasRelationTo rdf:resource="#NutritionalValue"/>
-            <hasInfluenceOn rdf:resource="#EnergyGeneration"/>
-            <hasInfluenceOn rdf:resource="#RegulationOfBodyProcesses"/>
-            <hasInfluenceOn>
-              <NutrientFunction rdf:ID="Growth">
-                <isInfluencedBy rdf:resource="#Protein"/>
-                <isInfluencedBy rdf:resource="#Vitamin"/>
-                <isInfluencedBy>
-                  <Nutrients rdf:ID="Mineral">
-                    <hasInfluenceOn rdf:resource="#EnergyGeneration"/>
-                    <hasInfluenceOn rdf:resource="#RegulationOfBodyProcesses"/>
-                    <hasInfluenceOn rdf:resource="#Growth"/>
-                    <hasFunction rdf:resource="#RegulationOfBodyProcesses"/>
-                    <hasFunction rdf:resource="#Growth"/>
-                    <hasRelationTo rdf:resource="#NutritionalValue"/>
-                  </Nutrients>
-                </isInfluencedBy>
-                <isInfluencedBy>
-                  <Nutrients rdf:ID="Fat">
-                    <hasFunction rdf:resource="#EnergyGeneration"/>
-                    <hasFunction rdf:resource="#RegulationOfBodyProcesses"/>
-                    <hasInfluenceOn rdf:resource="#EnergyGeneration"/>
-                    <hasInfluenceOn rdf:resource="#RegulationOfBodyProcesses"/>
-                    <hasInfluenceOn rdf:resource="#Growth"/>
-                    <hasRelationTo>
-                      <DigestiveSystemComponent rdf:ID="Bile">
-                        <hasRelationTo>
-                          <Concept rdf:ID="DigestiveSystem">
-                            <absorb rdf:resource="#Vitamin"/>
+              <Grains rdf:about="http://www.scy.eu/pizza#Flour">
+                <isIngredientOf>
+                  <DoughStyle rdf:about="http://www.scy.eu/pizza#ThinCrust">
+                    <isIngredientOf>
+                      <Food rdf:about="http://www.scy.eu/pizza#Pizza">
+                        <rdfs:label xml:lang="de">"Pizza"</rdfs:label>
+                        <hasIngredient>
+                          <DoughStyle rdf:about="http://www.scy.eu/pizza#StuffedCrust">
+                            <rdfs:label xml:lang="de">"gefüllte Kruste"</rdfs:label>
+                            <rdfs:label xml:lang="en">"stuffed crust"</rdfs:label>
+                            <isIngredientOf rdf:resource="http://www.scy.eu/pizza#Pizza"/>
+                            <hasIngredient rdf:resource="http://www.scy.eu/pizza#Flour"/>
+                            <hasIngredient rdf:resource="http://www.scy.eu/pizza#Water"/>
+                          </DoughStyle>
+                        </hasIngredient>
+                        <contains>
+                          <Nutrients rdf:about="http://www.scy.eu/pizza#Protein">
                             <hasRelationTo>
-                              <DigestiveSystemComponent rdf:ID="DigestiveJuice">
-                                <absorb rdf:resource="#Protein"/>
+                              <Concept rdf:about="http://www.scy.eu/pizza#NutritionalValue">
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Water"/>
                                 <hasRelationTo>
-                                  <DigestiveSystemComponent rdf:ID="Enzymes">
-                                    <hasRelationTo>
-                                      <DigestiveSystemProcess rdf:ID="NutrientBreakdown">
-                                        <hasRelationTo rdf:resource="#Enzymes"/>
-                                        <hasRelationTo rdf:resource="#DigestiveSystem"/>
-                                      </DigestiveSystemProcess>
-                                    </hasRelationTo>
-                                    <hasRelationTo rdf:resource="#DigestiveSystem"/>
-                                    <hasRelationTo rdf:resource="#DigestiveJuice"/>
-                                    <hasFunction rdf:resource="#NutrientBreakdown"/>
-                                  </DigestiveSystemComponent>
-                                </hasRelationTo>
-                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
-                                <hasFunction rdf:resource="#NutrientBreakdown"/>
-                                <contains rdf:resource="#Enzymes"/>
-                              </DigestiveSystemComponent>
-                            </hasRelationTo>
-                            <hasRelationTo>
-                              <DigestiveSystemOrgan rdf:ID="Rectum">
-                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
-                                <isElementOf rdf:resource="#DigestiveSystem"/>
-                              </DigestiveSystemOrgan>
-                            </hasRelationTo>
-                            <hasRelationTo>
-                              <DigestiveSystemOrgan rdf:ID="Anus">
-                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
-                                <isElementOf rdf:resource="#DigestiveSystem"/>
-                              </DigestiveSystemOrgan>
-                            </hasRelationTo>
-                            <hasRelationTo>
-                              <DigestiveSystemOrgan rdf:ID="Mouth">
-                                <isElementOf rdf:resource="#DigestiveSystem"/>
-                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
-                              </DigestiveSystemOrgan>
-                            </hasRelationTo>
-                            <hasRelationTo>
-                              <DigestiveSystemProcess rdf:ID="Peristalsis">
-                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
-                              </DigestiveSystemProcess>
-                            </hasRelationTo>
-                            <absorb rdf:resource="#Carbohydrate"/>
-                            <hasFunction rdf:resource="#NutrientBreakdown"/>
-                            <hasRelationTo>
-                              <DigestiveSystemOrgan rdf:ID="GallBladder">
-                                <isElementOf rdf:resource="#DigestiveSystem"/>
-                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
-                                <hasRelationTo rdf:resource="#Bile"/>
-                              </DigestiveSystemOrgan>
-                            </hasRelationTo>
-                            <hasRelationTo rdf:resource="#NutrientBreakdown"/>
-                            <hasRelationTo rdf:resource="#Enzymes"/>
-                            <hasRelationTo>
-                              <DigestiveSystemOrgan rdf:ID="Duodenum">
-                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
-                                <isElementOf rdf:resource="#DigestiveSystem"/>
-                              </DigestiveSystemOrgan>
-                            </hasRelationTo>
-                            <absorb rdf:resource="#Fat"/>
-                            <hasRelationTo rdf:resource="#Bile"/>
-                            <hasRelationTo>
-                              <DigestiveSystemOrgan rdf:ID="Pancreas">
-                                <isElementOf rdf:resource="#DigestiveSystem"/>
-                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
-                              </DigestiveSystemOrgan>
-                            </hasRelationTo>
-                            <absorb rdf:resource="#Water"/>
-                            <hasRelationTo>
-                              <DigestiveSystemProcess rdf:ID="SecretionOfDigestiveJuice">
-                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
-                              </DigestiveSystemProcess>
-                            </hasRelationTo>
-                            <hasRelationTo>
-                              <DigestiveSystemOrgan rdf:ID="LargeIntestine">
-                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
-                                <isElementOf rdf:resource="#DigestiveSystem"/>
-                                <absorb rdf:resource="#Water"/>
-                                <hasFunction rdf:resource="#NutrientBreakdown"/>
-                              </DigestiveSystemOrgan>
-                            </hasRelationTo>
-                            <absorb rdf:resource="#Mineral"/>
-                            <hasRelationTo>
-                              <DigestiveSystemOrgan rdf:ID="Stomach">
-                                <isElementOf rdf:resource="#DigestiveSystem"/>
-                                <contains rdf:resource="#DigestiveJuice"/>
-                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
-                              </DigestiveSystemOrgan>
-                            </hasRelationTo>
-                            <hasFunction rdf:resource="#SecretionOfDigestiveJuice"/>
-                            <hasFunction>
-                              <DigestiveSystemProcess rdf:ID="UptakeOfNutrients">
-                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
-                              </DigestiveSystemProcess>
-                            </hasFunction>
-                            <absorb rdf:resource="#Protein"/>
-                            <hasRelationTo>
-                              <DigestiveSystemOrgan rdf:ID="SmallIntestine">
-                                <isElementOf rdf:resource="#DigestiveSystem"/>
-                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
-                                <absorb rdf:resource="#Carbohydrate"/>
-                                <absorb rdf:resource="#Protein"/>
-                                <absorb rdf:resource="#Fat"/>
-                              </DigestiveSystemOrgan>
-                            </hasRelationTo>
-                            <hasFunction rdf:resource="#Peristalsis"/>
-                            <hasRelationTo>
-                              <DigestiveSystemOrgan rdf:ID="Liver">
-                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
-                                <hasRelationTo rdf:resource="#Bile"/>
-                                <isElementOf rdf:resource="#DigestiveSystem"/>
-                              </DigestiveSystemOrgan>
-                            </hasRelationTo>
-                            <hasRelationTo>
-                              <DigestiveSystemOrgan rdf:ID="Oesophagus">
-                                <isElementOf rdf:resource="#DigestiveSystem"/>
-                                <hasRelationTo rdf:resource="#DigestiveSystem"/>
-                              </DigestiveSystemOrgan>
-                            </hasRelationTo>
-                            <hasRelationTo rdf:resource="#UptakeOfNutrients"/>
-                          </Concept>
-                        </hasRelationTo>
-                        <hasRelationTo rdf:resource="#GallBladder"/>
-                        <hasRelationTo rdf:resource="#Liver"/>
-                        <hasRelationTo rdf:resource="#Fat"/>
-                        <hasFunction rdf:resource="#NutrientBreakdown"/>
+                                  <Cheese rdf:about="http://www.scy.eu/pizza#Pecorino">
+                                    <rdfs:label xml:lang="de"
+                                    >"Pecorino"</rdfs:label>
+                                    <rdfs:label xml:lang="en"
+                                    >"pecorino"</rdfs:label>
+                                    <contains>
+                                      <Nutrients rdf:about="http://www.scy.eu/pizza#Mineral">
+                                        <rdfs:label xml:lang="de"
+                                        >"Mineral"</rdfs:label>
+                                        <rdfs:label xml:lang="en"
+                                        >"mineral"</rdfs:label>
+                                        <hasInfluenceOn>
+                                          <NutrientFunction rdf:about="http://www.scy.eu/pizza#EnergyGeneration">
+                                            <isInfluencedBy>
+                                              <Nutrients rdf:about="http://www.scy.eu/pizza#Carbohydrate">
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+                                                <rdfs:label xml:lang="de"
+                                                >"Kohlenhydrat"</rdfs:label>
+                                                <rdfs:label xml:lang="en"
+                                                >"carbohydrate"</rdfs:label>
+                                                <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#EnergyGeneration"/>
+                                                <hasInfluenceOn>
+                                                  <NutrientFunction rdf:about="http://www.scy.eu/pizza#RegulationOfBodyProcesses">
+                                                    <rdfs:label
+                                                     xml:lang="de"
+                                                    >"Regulierung der Körperprozesse"</rdfs:label>
+                                                    <rdfs:label
+                                                     xml:lang="en"
+                                                    >"regulation of body processes"</rdfs:label>
+                                                    <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                                                    <isInfluencedBy>
+                                                      <Nutrients rdf:about="http://www.scy.eu/pizza#Vitamin">
+                                                        <hasFunction rdf:resource="http://www.scy.eu/pizza#EnergyGeneration"/>
+                                                        <hasFunction>
+                                                          <NutrientFunction rdf:about="http://www.scy.eu/pizza#Growth">
+                                                            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                                                            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                                                            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                                                            <isInfluencedBy>
+                                                              <Nutrients rdf:about="http://www.scy.eu/pizza#Fat">
+    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#RegulationOfBodyProcesses"/>
+    <hasRelationTo>
+      <DigestiveSystemComponent rdf:about="http://www.scy.eu/pizza#Bile">
+        <hasRelationTo>
+          <Concept rdf:about="http://www.scy.eu/pizza#DigestiveSystem">
+            <absorb rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+            <rdfs:label xml:lang="de">"Verdauungssystem"</rdfs:label>
+            <hasRelationTo>
+              <DigestiveSystemOrgan rdf:about="http://www.scy.eu/pizza#Rectum">
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                <rdfs:label xml:lang="de">"Rektum"</rdfs:label>
+                <rdfs:label xml:lang="en">"rectum"</rdfs:label>
+                <isElementOf rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+              </DigestiveSystemOrgan>
+            </hasRelationTo>
+            <hasRelationTo>
+              <DigestiveSystemOrgan rdf:about="http://www.scy.eu/pizza#Anus">
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                <rdfs:label xml:lang="de">"Anus"</rdfs:label>
+                <rdfs:label xml:lang="en">"anus"</rdfs:label>
+                <isElementOf rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+              </DigestiveSystemOrgan>
+            </hasRelationTo>
+            <hasRelationTo>
+              <DigestiveSystemOrgan rdf:about="http://www.scy.eu/pizza#Mouth">
+                <isElementOf rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                <rdfs:label xml:lang="de">"Mund"</rdfs:label>
+                <rdfs:label xml:lang="en">"mouth"</rdfs:label>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+              </DigestiveSystemOrgan>
+            </hasRelationTo>
+            <hasRelationTo>
+              <DigestiveSystemProcess rdf:about="http://www.scy.eu/pizza#Peristalsis">
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                <rdfs:label xml:lang="de">"Peristaltik"</rdfs:label>
+                <rdfs:label xml:lang="en">"peristalsis"</rdfs:label>
+              </DigestiveSystemProcess>
+            </hasRelationTo>
+            <absorb rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+            <hasFunction>
+              <DigestiveSystemProcess rdf:about="http://www.scy.eu/pizza#NutrientBreakdown">
+                <rdfs:label xml:lang="de">"Nährstoffabbau"</rdfs:label>
+                <rdfs:label xml:lang="en">"nutrient breakdown"</rdfs:label>
+                <hasRelationTo>
+                  <DigestiveSystemComponent rdf:about="http://www.scy.eu/pizza#Enzymes">
+                    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutrientBreakdown"/>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                    <hasRelationTo>
+                      <DigestiveSystemComponent rdf:about="http://www.scy.eu/pizza#DigestiveJuice">
+                        <rdfs:label xml:lang="de">"Verdauungssaft"</rdfs:label>
+                        <rdfs:label xml:lang="en">"digestive juice"</rdfs:label>
+                        <absorb rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Enzymes"/>
+                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                        <hasFunction rdf:resource="http://www.scy.eu/pizza#NutrientBreakdown"/>
+                        <contains rdf:resource="http://www.scy.eu/pizza#Enzymes"/>
                       </DigestiveSystemComponent>
                     </hasRelationTo>
-                    <hasRelationTo rdf:resource="#NutritionalValue"/>
-                  </Nutrients>
-                </isInfluencedBy>
-                <isInfluencedBy rdf:resource="#Water"/>
-                <isInfluencedBy rdf:resource="#Carbohydrate"/>
-              </NutrientFunction>
-            </hasInfluenceOn>
-            <hasFunction rdf:resource="#EnergyGeneration"/>
-            <hasFunction rdf:resource="#RegulationOfBodyProcesses"/>
-          </Nutrients>
-        </isInfluencedBy>
-        <isInfluencedBy rdf:resource="#Vitamin"/>
-        <isInfluencedBy rdf:resource="#Mineral"/>
-        <isInfluencedBy rdf:resource="#Fat"/>
-        <isInfluencedBy rdf:resource="#Water"/>
-        <isInfluencedBy rdf:resource="#Carbohydrate"/>
-      </NutrientFunction>
-    </hasInfluenceOn>
-    <hasInfluenceOn rdf:resource="#Growth"/>
-    <hasFunction rdf:resource="#EnergyGeneration"/>
-    <hasFunction rdf:resource="#RegulationOfBodyProcesses"/>  </Nutrients>
-                                                            </contains>
-                                                            <contains rdf:resource="#Water"/>
-                                                            <contains rdf:resource="#Mineral"/>
-                                                            <contains rdf:resource="#Protein"/>
-                                                            <contains rdf:resource="#Fat"/>
-                                                            <contains rdf:resource="#Vitamin"/>
-                                                            <hasRelationTo rdf:resource="#NutritionalValue"/>
-                                                            <hasRelationTo rdf:resource="#Energy"/>
-                                                          </Cheese>
-                                                        </hasRelationTo>
-                                                        <hasRelationTo rdf:resource="#Joule"/>
-                                                        <hasRelationTo rdf:resource="#Carbohydrate"/>
-                                                        <hasRelationTo>
-                                                          <Cheese rdf:ID="Fetta">
-                                                            <contains rdf:resource="#Carbohydrate"/>
-                                                            <contains rdf:resource="#Water"/>
-                                                            <contains rdf:resource="#Mineral"/>
-                                                            <contains rdf:resource="#Protein"/>
-                                                            <contains rdf:resource="#Fat"/>
-                                                            <contains rdf:resource="#Vitamin"/>
-                                                            <hasRelationTo rdf:resource="#NutritionalValue"/>
-                                                            <hasRelationTo rdf:resource="#Energy"/>
-                                                          </Cheese>
-                                                        </hasRelationTo>
-                                                        <hasRelationTo>
-                                                          <Cheese rdf:ID="Mozzarella">
-                                                            <hasRelationTo rdf:resource="#NutritionalValue"/>
-                                                            <hasRelationTo rdf:resource="#Energy"/>
-                                                            <contains rdf:resource="#Carbohydrate"/>
-                                                            <contains rdf:resource="#Water"/>
-                                                            <contains rdf:resource="#Mineral"/>
-                                                            <contains rdf:resource="#Protein"/>
-                                                            <contains rdf:resource="#Fat"/>
-                                                            <contains rdf:resource="#Vitamin"/>
-                                                          </Cheese>
-                                                        </hasRelationTo>
-                                                        <hasRelationTo>
-                                                          <Cheese rdf:ID="Gouda">
-                                                            <hasRelationTo rdf:resource="#NutritionalValue"/>
-                                                            <hasRelationTo rdf:resource="#Energy"/>
-                                                            <contains rdf:resource="#Carbohydrate"/>
-                                                            <contains rdf:resource="#Water"/>
-                                                            <contains rdf:resource="#Mineral"/>
-                                                            <contains rdf:resource="#Protein"/>
-                                                            <contains rdf:resource="#Fat"/>
-                                                            <contains rdf:resource="#Vitamin"/>
-                                                          </Cheese>
-                                                        </hasRelationTo>
-                                                        <hasRelationTo rdf:resource="#Protein"/>
-                                                        <hasRelationTo>
-                                                          <Cheese rdf:ID="Ricotta">
-                                                            <hasRelationTo rdf:resource="#NutritionalValue"/>
-                                                            <hasRelationTo rdf:resource="#Energy"/>
-                                                            <contains rdf:resource="#Carbohydrate"/>
-                                                            <contains rdf:resource="#Water"/>
-                                                            <contains rdf:resource="#Mineral"/>
-                                                            <contains rdf:resource="#Protein"/>
-                                                            <contains rdf:resource="#Fat"/>
-                                                            <contains rdf:resource="#Vitamin"/>
-                                                          </Cheese>
-                                                        </hasRelationTo>
-                                                        <hasRelationTo rdf:resource="#Vitamin"/>
-                                                        <hasRelationTo>
-                                                          <Unit rdf:ID="Calorie">
-                                                            <hasRelationTo rdf:resource="#NutritionalValue"/>
-                                                            <hasRelationTo rdf:resource="#Energy"/>
-                                                          </Unit>
-                                                        </hasRelationTo>
-                                                        <hasRelationTo>
-                                                          <Cheese rdf:ID="Parmesan">
-                                                            <hasRelationTo rdf:resource="#NutritionalValue"/>
-                                                            <hasRelationTo rdf:resource="#Energy"/>
-                                                            <contains rdf:resource="#Carbohydrate"/>
-                                                            <contains rdf:resource="#Water"/>
-                                                            <contains rdf:resource="#Mineral"/>
-                                                            <contains rdf:resource="#Protein"/>
-                                                            <contains rdf:resource="#Fat"/>
-                                                            <contains rdf:resource="#Vitamin"/>
-                                                          </Cheese>
-                                                        </hasRelationTo>
-                                                        <hasRelationTo>
-                                                          <Cheese rdf:ID="Gorgonzola">
-                                                            <contains rdf:resource="#Carbohydrate"/>
-                                                            <contains rdf:resource="#Water"/>
-                                                            <contains rdf:resource="#Mineral"/>
-                                                            <contains rdf:resource="#Protein"/>
-                                                            <contains rdf:resource="#Fat"/>
-                                                            <contains rdf:resource="#Vitamin"/>
-                                                            <hasRelationTo rdf:resource="#NutritionalValue"/>
-                                                            <hasRelationTo rdf:resource="#Energy"/>
-                                                          </Cheese>
-                                                        </hasRelationTo>
-                                                        <hasRelationTo rdf:resource="#Mineral"/>
-                                                        <hasRelationTo rdf:resource="#Fat"/>
-                                                        <hasRelationTo>
-                                                          <Cheese rdf:ID="Edam">
-                                                            <hasRelationTo rdf:resource="#NutritionalValue"/>
-                                                            <hasRelationTo rdf:resource="#Energy"/>
-                                                            <contains rdf:resource="#Carbohydrate"/>
-                                                            <contains rdf:resource="#Water"/>
-                                                            <contains rdf:resource="#Mineral"/>
-                                                            <contains rdf:resource="#Protein"/>
-                                                            <contains rdf:resource="#Fat"/>
-                                                            <contains rdf:resource="#Vitamin"/>
-                                                          </Cheese>
-                                                        </hasRelationTo>
-                                                      </Concept>
-                                                    </hasRelationTo>
-                                                    <hasRelationTo rdf:resource="#Energy"/>
-                                                  </Unit>
-                                                </hasRelationTo>
-                                                <hasRelationTo rdf:resource="#Gouda"/>
-                                                <hasRelationTo>
-                                                  <DeterminingFactor rdf:ID="Age">
-                                                    <hasRelationTo rdf:resource="#Energy"/>
-                                                    <hasInfluenceOn rdf:resource="#BasalMetabolicRate"/>
-                                                    <hasInfluenceOn rdf:resource="#EnergyNeed"/>
-                                                  </DeterminingFactor>
-                                                </hasRelationTo>
-                                                <hasRelationTo rdf:resource="#Weight"/>
-                                                <hasRelationTo>
-                                                  <Food rdf:ID="Pizza">
-                                                    <hasIngredient>
-                                                      <DoughStyle rdf:ID="StuffedCrust">
-                                                        <isIngredientOf rdf:resource="#Pizza"/>
-                                                        <hasIngredient rdf:resource="#Flour"/>
-                                                        <hasIngredient rdf:resource="#Water"/>
-                                                      </DoughStyle>
-                                                    </hasIngredient>
-                                                    <contains rdf:resource="#Protein"/>
-                                                    <hasRelationTo>
-                                                      <PizzaComponent rdf:ID="Dough">
-                                                        <hasIngredient rdf:resource="#Water"/>
-                                                        <hasIngredient rdf:resource="#Flour"/>
-                                                        <hasRelationTo rdf:resource="#Pizza"/>
-                                                      </PizzaComponent>
-                                                    </hasRelationTo>
-                                                    <hasIngredient>
-                                                      <DoughStyle rdf:ID="Traditional">
-                                                        <isIngredientOf rdf:resource="#Pizza"/>
-                                                        <hasIngredient rdf:resource="#Flour"/>
-                                                        <hasIngredient rdf:resource="#Water"/>
-                                                      </DoughStyle>
-                                                    </hasIngredient>
-                                                    <hasRelationTo>
-                                                      <Concept rdf:ID="Diet">
-                                                        <hasRelationTo rdf:resource="#Pizza"/>
-                                                        <contains rdf:resource="#Carbohydrate"/>
-                                                        <contains rdf:resource="#Fat"/>
-                                                        <contains rdf:resource="#Vitamin"/>
-                                                        <contains rdf:resource="#Mineral"/>
-                                                        <contains rdf:resource="#Protein"/>
-                                                        <hasInfluenceOn>
-                                                          <HealthProblem rdf:ID="Obesity">
-                                                            <hasInfluenceOn>
-                                                              <Concept rdf:ID="Health">
-    <hasRelationTo>
-      <HealthProblem rdf:ID="HighCholesterol">
-        <isInfluencedBy rdf:resource="#Diet"/>
-        <hasInfluenceOn rdf:resource="#Health"/>
-        <hasRelationTo>
-          <PizzaAttribute rdf:ID="Healthiness">
-            <isInfluencedBy rdf:resource="#Diet"/>
-            <hasRelationTo rdf:resource="#BodyMassIndex"/>
-            <hasRelationTo rdf:resource="#HighCholesterol"/>
-            <hasRelationTo rdf:resource="#Health"/>
+                    <hasFunction rdf:resource="http://www.scy.eu/pizza#NutrientBreakdown"/>
+                    <rdfs:label xml:lang="de">"Enzyme"</rdfs:label>
+                    <rdfs:label xml:lang="en">"enzymes"</rdfs:label>
+                  </DigestiveSystemComponent>
+                </hasRelationTo>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+              </DigestiveSystemProcess>
+            </hasFunction>
             <hasRelationTo>
-              <HealthIndicator rdf:ID="HeartRate">
-                <hasRelationTo rdf:resource="#Healthiness"/>
-                <hasRelationTo rdf:resource="#Health"/>
-              </HealthIndicator>
+              <DigestiveSystemOrgan rdf:about="http://www.scy.eu/pizza#GallBladder">
+                <isElementOf rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Bile"/>
+                <rdfs:label xml:lang="de">"Gallenblase"</rdfs:label>
+                <rdfs:label xml:lang="en">"gall bladder"</rdfs:label>
+              </DigestiveSystemOrgan>
             </hasRelationTo>
-            <hasRelationTo rdf:resource="#Obesity"/>
+            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutrientBreakdown"/>
+            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Enzymes"/>
             <hasRelationTo>
-              <HealthProblem rdf:ID="HighBloodPressure">
-                <hasRelationTo rdf:resource="#Healthiness"/>
-                <hasRelationTo rdf:resource="#Health"/>
-                <isInfluencedBy rdf:resource="#Diet"/>
-                <hasInfluenceOn rdf:resource="#Health"/>
-              </HealthProblem>
+              <DigestiveSystemOrgan rdf:about="http://www.scy.eu/pizza#Duodenum">
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                <rdfs:label xml:lang="de">"Zwölffingerdarm"</rdfs:label>
+                <rdfs:label xml:lang="en">"duodenum"</rdfs:label>
+                <isElementOf rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+              </DigestiveSystemOrgan>
             </hasRelationTo>
-            <hasInfluenceOn rdf:resource="#Health"/>
+            <absorb rdf:resource="http://www.scy.eu/pizza#Fat"/>
+            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Bile"/>
             <hasRelationTo>
-              <HealthIndicator rdf:ID="BloodPressure">
-                <hasRelationTo rdf:resource="#Healthiness"/>
-                <hasRelationTo rdf:resource="#Health"/>
-              </HealthIndicator>
+              <DigestiveSystemOrgan rdf:about="http://www.scy.eu/pizza#Pancreas">
+                <rdfs:label xml:lang="de">"Bauchspeicheldrüse"</rdfs:label>
+                <rdfs:label xml:lang="en">"pancreas"</rdfs:label>
+                <isElementOf rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+              </DigestiveSystemOrgan>
             </hasRelationTo>
-            <hasRelationTo rdf:resource="#Pizza"/>
+            <rdfs:label xml:lang="en">"digestive system"</rdfs:label>
+            <absorb rdf:resource="http://www.scy.eu/pizza#Water"/>
             <hasRelationTo>
-              <HealthProblem rdf:ID="CardiovasulcarDiseases">
-                <hasRelationTo rdf:resource="#Healthiness"/>
-                <hasRelationTo rdf:resource="#Health"/>
-                <hasInfluenceOn rdf:resource="#Health"/>
-                <isInfluencedBy rdf:resource="#Diet"/>
-              </HealthProblem>
+              <DigestiveSystemProcess rdf:about="http://www.scy.eu/pizza#SecretionOfDigestiveJuice">
+                <rdfs:label xml:lang="de">"Verdauungssekret"</rdfs:label>
+                <rdfs:label xml:lang="en">"secretion of digestive juice"</rdfs:label>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+              </DigestiveSystemProcess>
             </hasRelationTo>
             <hasRelationTo>
-              <HealthProblem rdf:ID="Diabetes">
-                <hasRelationTo rdf:resource="#Healthiness"/>
-                <hasRelationTo rdf:resource="#Health"/>
-                <hasInfluenceOn rdf:resource="#Health"/>
-                <isInfluencedBy rdf:resource="#Diet"/>
-              </HealthProblem>
+              <DigestiveSystemOrgan rdf:about="http://www.scy.eu/pizza#LargeIntestine">
+                <rdfs:label xml:lang="de">"Dickdarm"</rdfs:label>
+                <rdfs:label xml:lang="en">"large intestine"</rdfs:label>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                <isElementOf rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                <absorb rdf:resource="http://www.scy.eu/pizza#Water"/>
+                <hasFunction rdf:resource="http://www.scy.eu/pizza#NutrientBreakdown"/>
+              </DigestiveSystemOrgan>
             </hasRelationTo>
-          </PizzaAttribute>
+            <absorb rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+            <hasRelationTo>
+              <DigestiveSystemOrgan rdf:about="http://www.scy.eu/pizza#Stomach">
+                <isElementOf rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#DigestiveJuice"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                <rdfs:label xml:lang="de">"Magen"</rdfs:label>
+                <rdfs:label xml:lang="en">"stomach"</rdfs:label>
+              </DigestiveSystemOrgan>
+            </hasRelationTo>
+            <hasFunction rdf:resource="http://www.scy.eu/pizza#SecretionOfDigestiveJuice"/>
+            <hasFunction>
+              <DigestiveSystemProcess rdf:about="http://www.scy.eu/pizza#UptakeOfNutrients">
+                <rdfs:label xml:lang="de">"Nährstoffaufnahme"</rdfs:label>
+                <rdfs:label xml:lang="en">"uptake of nutrients"</rdfs:label>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+              </DigestiveSystemProcess>
+            </hasFunction>
+            <absorb rdf:resource="http://www.scy.eu/pizza#Protein"/>
+            <hasRelationTo>
+              <DigestiveSystemOrgan rdf:about="http://www.scy.eu/pizza#SmallIntestine">
+                <isElementOf rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                <rdfs:label xml:lang="de">"Dünndarm"</rdfs:label>
+                <rdfs:label xml:lang="en">"small intestine"</rdfs:label>
+                <absorb rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                <absorb rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                <absorb rdf:resource="http://www.scy.eu/pizza#Fat"/>
+              </DigestiveSystemOrgan>
+            </hasRelationTo>
+            <hasFunction rdf:resource="http://www.scy.eu/pizza#Peristalsis"/>
+            <hasRelationTo>
+              <DigestiveSystemOrgan rdf:about="http://www.scy.eu/pizza#Liver">
+                <rdfs:label xml:lang="de">"Leber"</rdfs:label>
+                <rdfs:label xml:lang="en">"liver"</rdfs:label>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Bile"/>
+                <isElementOf rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+              </DigestiveSystemOrgan>
+            </hasRelationTo>
+            <hasRelationTo>
+              <DigestiveSystemOrgan rdf:about="http://www.scy.eu/pizza#Oesophagus">
+                <isElementOf rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveSystem"/>
+                <rdfs:label xml:lang="de">"Speiseröhre"</rdfs:label>
+                <rdfs:label xml:lang="en">"oesophagus"</rdfs:label>
+              </DigestiveSystemOrgan>
+            </hasRelationTo>
+            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#UptakeOfNutrients"/>
+            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#DigestiveJuice"/>
+          </Concept>
         </hasRelationTo>
-        <hasRelationTo rdf:resource="#Health"/>
-      </HealthProblem>
+        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#GallBladder"/>
+        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Liver"/>
+        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Fat"/>
+        <rdfs:label xml:lang="de">"Galle"</rdfs:label>
+        <rdfs:label xml:lang="en">"bile"</rdfs:label>
+        <hasFunction rdf:resource="http://www.scy.eu/pizza#NutrientBreakdown"/>
+      </DigestiveSystemComponent>
     </hasRelationTo>
-    <isInfluencedBy rdf:resource="#Healthiness"/>
-    <isInfluencedBy rdf:resource="#CardiovasulcarDiseases"/>
-    <isInfluencedBy rdf:resource="#HighBloodPressure"/>
-    <hasRelationTo rdf:resource="#BodyMassIndex"/>
-    <isInfluencedBy rdf:resource="#HighCholesterol"/>
-    <rdf:type rdf:resource="#HealthVariable"/>
-    <hasRelationTo rdf:resource="#Healthiness"/>
-    <hasRelationTo rdf:resource="#HeartRate"/>
-    <hasRelationTo rdf:resource="#Obesity"/>
-    <hasRelationTo rdf:resource="#Diabetes"/>
-    <isInfluencedBy rdf:resource="#Obesity"/>
-    <hasRelationTo rdf:resource="#BloodPressure"/>
-    <isInfluencedBy rdf:resource="#Diabetes"/>
-    <hasRelationTo rdf:resource="#HighBloodPressure"/>
-    <hasRelationTo rdf:resource="#CardiovasulcarDiseases"/>   </Concept>
-                                                            </hasInfluenceOn>
-                                                            <hasRelationTo rdf:resource="#Healthiness"/>
-                                                            <hasRelationTo rdf:resource="#Health"/>
-                                                            <isInfluencedBy rdf:resource="#Diet"/>
-                                                          </HealthProblem>
-                                                        </hasInfluenceOn>
-                                                        <hasInfluenceOn rdf:resource="#CardiovasulcarDiseases"/>
-                                                        <hasInfluenceOn rdf:resource="#HighBloodPressure"/>
-                                                        <hasInfluenceOn rdf:resource="#Diabetes"/>
-                                                        <hasInfluenceOn rdf:resource="#Healthiness"/>
-                                                        <isInfluencedBy>
-                                                          <Concept rdf:ID="DietOptimizationStrategy">
-                                                            <hasInfluenceOn rdf:resource="#Diet"/>
-                                                          </Concept>
-                                                        </isInfluencedBy>
-                                                        <hasInfluenceOn rdf:resource="#HighCholesterol"/>
-                                                        <contains rdf:resource="#Water"/>
-                                                      </Concept>
-                                                    </hasRelationTo>
-                                                    <hasIngredient>
-                                                      <Sauce rdf:ID="BBQ">
-                                                        <contains>
-                                                          <Vegetables rdf:ID="Tomato">
-                                                            <contains rdf:resource="#Water"/>
-                                                            <contains rdf:resource="#Vitamin"/>
-                                                            <contains rdf:resource="#Carbohydrate"/>
-                                                            <contains rdf:resource="#Mineral"/>
-                                                          </Vegetables>
-                                                        </contains>
-                                                        <isIngredientOf rdf:resource="#Pizza"/>
-                                                      </Sauce>
-                                                    </hasIngredient>
-                                                    <contains rdf:resource="#Water"/>
-                                                    <contains rdf:resource="#Vitamin"/>
-                                                    <hasIngredient>
-                                                      <Sauce rdf:ID="Alfredo">
-                                                        <isIngredientOf rdf:resource="#Pizza"/>
-                                                        <contains rdf:resource="#Parmesan"/>
-                                                      </Sauce>
-                                                    </hasIngredient>
-                                                    <hasRelationTo rdf:resource="#Energy"/>
-                                                    <hasIngredient>
-                                                      <DoughStyle rdf:ID="ThinCrust">
-                                                        <isIngredientOf rdf:resource="#Pizza"/>
-                                                        <hasIngredient rdf:resource="#Flour"/>
-                                                        <hasIngredient rdf:resource="#Water"/>
-                                                      </DoughStyle>
-                                                    </hasIngredient>
-                                                    <hasIngredient rdf:resource="#DeepPan"/>
-                                                    <contains rdf:resource="#Mineral"/>
-                                                    <contains rdf:resource="#Carbohydrate"/>
-                                                    <contains rdf:resource="#Energy"/>
-                                                    <hasIngredient>
-                                                      <Sauce rdf:ID="Marinara">
-                                                        <isIngredientOf rdf:resource="#Pizza"/>
-                                                        <contains rdf:resource="#Tomato"/>
-                                                      </Sauce>
-                                                    </hasIngredient>
-                                                    <hasRelationTo rdf:resource="#Healthiness"/>
-                                                    <hasRelationTo>
-                                                      <PizzaAttribute rdf:ID="Taste">
-                                                        <hasRelationTo rdf:resource="#Pizza"/>
-                                                      </PizzaAttribute>
-                                                    </hasRelationTo>
-                                                    <contains rdf:resource="#Fat"/>
-                                                  </Food>
-                                                </hasRelationTo>
-                                                <hasRelationTo rdf:resource="#BasalMetabolicRate"/>
-                                                <hasRelationTo rdf:resource="#Ricotta"/>
-                                                <hasRelationTo rdf:resource="#Edam"/>
-                                                <hasRelationTo rdf:resource="#Gorgonzola"/>
-                                                <hasRelationTo rdf:resource="#Mozzarella"/>
-                                                <hasRelationTo rdf:resource="#EnergyGeneration"/>
-                                                <hasRelationTo rdf:resource="#Fetta"/>
-                                                <hasRelationTo>
-                                                  <DeterminingFactor rdf:ID="Gender">
-                                                    <hasRelationTo rdf:resource="#Energy"/>
-                                                    <hasInfluenceOn rdf:resource="#BasalMetabolicRate"/>
-                                                    <hasInfluenceOn rdf:resource="#EnergyNeed"/>
-                                                  </DeterminingFactor>
-                                                </hasRelationTo>
-                                                <hasRelationTo rdf:resource="#Pecorino"/>
-                                                <hasRelationTo rdf:resource="#Height"/>
-                                                <hasRelationTo rdf:resource="#EnergyNeed"/>
-                                                <hasRelationTo rdf:resource="#Parmesan"/>
-                                                <hasRelationTo rdf:resource="#Calorie"/>
-                                                <hasRelationTo>
-                                                  <DeterminingFactor rdf:ID="Activities">
-                                                    <hasRelationTo rdf:resource="#Energy"/>
+    <rdfs:label xml:lang="en">"fat"</rdfs:label>
+    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+    <rdfs:label xml:lang="de">"Fett"</rdfs:label>
+    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#EnergyGeneration"/>
+    <hasFunction rdf:resource="http://www.scy.eu/pizza#EnergyGeneration"/>
+    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Growth"/>
+    <hasFunction rdf:resource="http://www.scy.eu/pizza#RegulationOfBodyProcesses"/>
+                                                              </Nutrients>
+                                                            </isInfluencedBy>
+                                                            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Water"/>
+                                                            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                                                            <rdfs:label
+                                                             xml:lang="de"
+                                                            >"Wachstum"</rdfs:label>
+                                                            <rdfs:label
+                                                             xml:lang="en"
+                                                            >"growth"</rdfs:label>
+                                                          </NutrientFunction>
+                                                        </hasFunction>
+                                                        <rdfs:label
+                                                         xml:lang="de"
+                                                        >"Vitamin"</rdfs:label>
+                                                        <rdfs:label
+                                                         xml:lang="en"
+                                                        >"vitamin"</rdfs:label>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#EnergyGeneration"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#RegulationOfBodyProcesses"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Growth"/>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+                                                      </Nutrients>
+                                                    </isInfluencedBy>
+                                                    <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                                                    <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                                                    <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Water"/>
+                                                    <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                                                  </NutrientFunction>
+                                                </hasInfluenceOn>
+                                                <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Growth"/>
+                                                <hasFunction rdf:resource="http://www.scy.eu/pizza#EnergyGeneration"/>
+                                                <hasFunction rdf:resource="http://www.scy.eu/pizza#RegulationOfBodyProcesses"/>
+                                              </Nutrients>
+                                            </isInfluencedBy>
+                                            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                                            <hasRelationTo>
+                                              <EnergyAttribute rdf:about="http://www.scy.eu/pizza#EnergyNeed">
+                                                <isInfluencedBy>
+                                                  <DeterminingFactor rdf:about="http://www.scy.eu/pizza#Height">
                                                     <hasInfluenceOn>
-                                                      <Specification rdf:ID="EstimatedEnergyRequirements">
-                                                        <hasRelationTo rdf:resource="#EnergyNeed"/>
-                                                        <isInfluencedBy rdf:resource="#BasalMetabolicRate"/>
-                                                        <isInfluencedBy rdf:resource="#Activities"/>
-                                                      </Specification>
+                                                      <HealthIndicator rdf:about="http://www.scy.eu/pizza#BodyMassIndex">
+                                                        <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Height"/>
+                                                        <isInfluencedBy>
+                                                          <DeterminingFactor rdf:about="http://www.scy.eu/pizza#Weight">
+                                                            <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#BodyMassIndex"/>
+                                                            <hasInfluenceOn>
+                                                              <Specification rdf:about="http://www.scy.eu/pizza#BasalMetabolicRate">
+    <isInfluencedBy>
+      <DeterminingFactor rdf:about="http://www.scy.eu/pizza#Age">
+        <hasRelationTo>
+          <Concept rdf:about="http://www.scy.eu/pizza#Energy">
+            <hasRelationTo>
+              <Unit rdf:about="http://www.scy.eu/pizza#Joule">
+                <rdfs:label xml:lang="de">"Joule"</rdfs:label>
+                <rdfs:label xml:lang="en">"joule"</rdfs:label>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+              </Unit>
+            </hasRelationTo>
+            <hasRelationTo>
+              <Cheese rdf:about="http://www.scy.eu/pizza#Gouda">
+                <rdfs:label xml:lang="en">"gouda"</rdfs:label>
+                <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+                <rdfs:label xml:lang="de">"Gouda"</rdfs:label>
+                <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+              </Cheese>
+            </hasRelationTo>
+            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Age"/>
+            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Weight"/>
+            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Pizza"/>
+            <rdfs:label xml:lang="en">"energy"</rdfs:label>
+            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#BasalMetabolicRate"/>
+            <hasRelationTo>
+              <Cheese rdf:about="http://www.scy.eu/pizza#Ricotta">
+                <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                <rdfs:label xml:lang="en">"ricotta"</rdfs:label>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                <rdfs:label xml:lang="de">"Ricotta"</rdfs:label>
+              </Cheese>
+            </hasRelationTo>
+            <rdfs:label xml:lang="de">"Energie"</rdfs:label>
+            <hasRelationTo>
+              <Cheese rdf:about="http://www.scy.eu/pizza#Edam">
+                <rdfs:label xml:lang="en">"edam"</rdfs:label>
+                <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                <rdfs:label xml:lang="de">"Edamer"</rdfs:label>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+              </Cheese>
+            </hasRelationTo>
+            <hasRelationTo>
+              <Cheese rdf:about="http://www.scy.eu/pizza#Gorgonzola">
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                <rdfs:label xml:lang="de">"Gorgonzola"</rdfs:label>
+                <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+                <rdfs:label xml:lang="en">"gorgonzola"</rdfs:label>
+              </Cheese>
+            </hasRelationTo>
+            <hasRelationTo>
+              <Cheese rdf:about="http://www.scy.eu/pizza#Mozzarella">
+                <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                <rdfs:label xml:lang="en">"mozzarella"</rdfs:label>
+                <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                <rdfs:label xml:lang="de">"Mozzarella"</rdfs:label>
+                <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+              </Cheese>
+            </hasRelationTo>
+            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#EnergyGeneration"/>
+            <hasRelationTo>
+              <Cheese rdf:about="http://www.scy.eu/pizza#Fetta">
+                <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                <rdfs:label xml:lang="en">"fetta"</rdfs:label>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                <rdfs:label xml:lang="de">"Feta"</rdfs:label>
+              </Cheese>
+            </hasRelationTo>
+            <hasRelationTo>
+              <DeterminingFactor rdf:about="http://www.scy.eu/pizza#Gender">
+                <rdfs:label xml:lang="de">"Geschlecht"</rdfs:label>
+                <rdfs:label xml:lang="en">"gender"</rdfs:label>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#BasalMetabolicRate"/>
+                <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#EnergyNeed"/>
+              </DeterminingFactor>
+            </hasRelationTo>
+            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Pecorino"/>
+            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Height"/>
+            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#EnergyNeed"/>
+            <hasRelationTo>
+              <Cheese rdf:about="http://www.scy.eu/pizza#Parmesan">
+                <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                <rdfs:label xml:lang="en">"parmesan"</rdfs:label>
+                <rdfs:label xml:lang="de">"Parmesan"</rdfs:label>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+              </Cheese>
+            </hasRelationTo>
+            <hasRelationTo>
+              <Unit rdf:about="http://www.scy.eu/pizza#Calorie">
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                <rdfs:label xml:lang="de">"Kalorie"</rdfs:label>
+                <rdfs:label xml:lang="en">"calorie"</rdfs:label>
+              </Unit>
+            </hasRelationTo>
+            <hasRelationTo>
+              <DeterminingFactor rdf:about="http://www.scy.eu/pizza#Activities">
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                <rdfs:label xml:lang="de">"Aktivitäten"</rdfs:label>
+                <rdfs:label xml:lang="en">"activities"</rdfs:label>
+                <hasInfluenceOn>
+                  <Specification rdf:about="http://www.scy.eu/pizza#EstimatedEnergyRequirements">
+                    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#EnergyNeed"/>
+                    <rdfs:label xml:lang="de">"Tatsächlicher Energiebedarf"</rdfs:label>
+                    <rdfs:label xml:lang="en">"estimated energy requirements"</rdfs:label>
+                    <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#BasalMetabolicRate"/>
+                    <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Activities"/>
+                  </Specification>
+                </hasInfluenceOn>
+                <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#EnergyNeed"/>
+              </DeterminingFactor>
+            </hasRelationTo>
+          </Concept>
+        </hasRelationTo>
+        <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#BasalMetabolicRate"/>
+        <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#EnergyNeed"/>
+        <rdfs:label xml:lang="de">"Alter"</rdfs:label>
+        <rdfs:label xml:lang="en">"age"</rdfs:label>
+      </DeterminingFactor>
+    </isInfluencedBy>
+    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#EstimatedEnergyRequirements"/>
+    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+    <rdfs:label xml:lang="de">"Basale Stoffwechselrate"</rdfs:label>
+    <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Height"/>
+    <rdfs:label xml:lang="en">"basal metabolic rate"</rdfs:label>
+    <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Weight"/>
+    <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Gender"/>
+    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#EnergyNeed"/>
+                                                              </Specification>
+                                                            </hasInfluenceOn>
+                                                            <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#EnergyNeed"/>
+                                                            <rdfs:label
+                                                             xml:lang="de"
+                                                            >"Gewicht"</rdfs:label>
+                                                            <rdfs:label
+                                                             xml:lang="en"
+                                                            >"weight"</rdfs:label>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                                                          </DeterminingFactor>
+                                                        </isInfluencedBy>
+                                                        <hasRelationTo>
+                                                          <PizzaAttribute rdf:about="http://www.scy.eu/pizza#Healthiness">
+                                                            <rdfs:label
+                                                             xml:lang="en"
+                                                            >"healthiness"</rdfs:label>
+                                                            <isInfluencedBy>
+                                                              <Concept rdf:about="http://www.scy.eu/pizza#Diet">
+    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Pizza"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+    <rdfs:label xml:lang="de">"Diät"</rdfs:label>
+    <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+    <hasInfluenceOn>
+      <HealthProblem rdf:about="http://www.scy.eu/pizza#CardiovascularDiseases">
+        <hasInfluenceOn>
+          <Concept rdf:about="http://www.scy.eu/pizza#Health">
+            <hasRelationTo>
+              <HealthProblem rdf:about="http://www.scy.eu/pizza#HighCholesterol">
+                <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Diet"/>
+                <rdfs:label xml:lang="de">"hoher Cholesterinspiegel"</rdfs:label>
+                <rdfs:label xml:lang="en">"high cholesterol"</rdfs:label>
+                <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Health"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Healthiness"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Health"/>
+              </HealthProblem>
+            </hasRelationTo>
+            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Healthiness"/>
+            <isInfluencedBy>
+              <HealthProblem rdf:about="http://www.scy.eu/pizza#HighBloodPressure">
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Healthiness"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Health"/>
+                <rdfs:label xml:lang="de">"Bluthochdruck"</rdfs:label>
+                <rdfs:label xml:lang="en">"high blood pressure"</rdfs:label>
+                <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Diet"/>
+                <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Health"/>
+              </HealthProblem>
+            </isInfluencedBy>
+            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#BodyMassIndex"/>
+            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#HighCholesterol"/>
+            <rdf:type rdf:resource="http://www.scy.eu/pizza#HealthVariable"/>
+            <rdfs:label xml:lang="en">"health"</rdfs:label>
+            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Healthiness"/>
+            <hasRelationTo>
+              <HealthIndicator rdf:about="http://www.scy.eu/pizza#HeartRate">
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Healthiness"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Health"/>
+                <rdfs:label xml:lang="de">"Herzfrequenz"</rdfs:label>
+                <rdfs:label xml:lang="en">"heart rate"</rdfs:label>
+              </HealthIndicator>
+            </hasRelationTo>
+            <rdfs:label xml:lang="de">"Gesundheit"</rdfs:label>
+            <hasRelationTo>
+              <HealthProblem rdf:about="http://www.scy.eu/pizza#Obesity">
+                <rdfs:label xml:lang="de">"Fettleibigkeit"</rdfs:label>
+                <rdfs:label xml:lang="en">"obesity"</rdfs:label>
+                <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Health"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Healthiness"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Health"/>
+                <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Diet"/>
+              </HealthProblem>
+            </hasRelationTo>
+            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#CardiovascularDiseases"/>
+            <hasRelationTo>
+              <HealthProblem rdf:about="http://www.scy.eu/pizza#Diabetes">
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Healthiness"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Health"/>
+                <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Health"/>
+                <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Diet"/>
+                <rdfs:label xml:lang="de">"Diabetes"</rdfs:label>
+                <rdfs:label xml:lang="en">"diabetes"</rdfs:label>
+              </HealthProblem>
+            </hasRelationTo>
+            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Obesity"/>
+            <hasRelationTo>
+              <HealthIndicator rdf:about="http://www.scy.eu/pizza#BloodPressure">
+                <rdfs:label xml:lang="de">"Blutdruck"</rdfs:label>
+                <rdfs:label xml:lang="en">"blood pressure"</rdfs:label>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Healthiness"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Health"/>
+              </HealthIndicator>
+            </hasRelationTo>
+            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Diabetes"/>
+            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#HighBloodPressure"/>
+            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#CardiovascularDiseases"/>
+          </Concept>
+        </hasInfluenceOn>
+        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Healthiness"/>
+        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Health"/>
+        <rdfs:label xml:lang="de">"Cardiovaskuläre Krankheiten"</rdfs:label>
+        <rdfs:label xml:lang="en">"cardiovascular diseases"</rdfs:label>
+        <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Diet"/>
+      </HealthProblem>
+    </hasInfluenceOn>
+    <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Obesity"/>
+    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#HighBloodPressure"/>
+    <rdfs:label xml:lang="en">"diet"</rdfs:label>
+    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Diabetes"/>
+    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Healthiness"/>
+    <isInfluencedBy>
+      <Concept rdf:about="http://www.scy.eu/pizza#DietOptimizationStrategy">
+        <rdfs:label xml:lang="de">"Diät-Optimierungsstrategie"</rdfs:label>
+        <rdfs:label xml:lang="en">"diet optimization strategy"</rdfs:label>
+        <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Diet"/>
+      </Concept>
+    </isInfluencedBy>
+    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#HighCholesterol"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Water"/>  </Concept>
+                                                            </isInfluencedBy>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#BodyMassIndex"/>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#HighCholesterol"/>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Health"/>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#HeartRate"/>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Obesity"/>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#CardiovascularDiseases"/>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#HighBloodPressure"/>
+                                                            <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Health"/>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#BloodPressure"/>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Pizza"/>
+                                                            <rdfs:label
+                                                             xml:lang="de"
+                                                            >"Gesundheit"</rdfs:label>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Diabetes"/>
+                                                          </PizzaAttribute>
+                                                        </hasRelationTo>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Health"/>
+                                                        <rdfs:label
+                                                         xml:lang="de"
+                                                        >"Body Mass Index"</rdfs:label>
+                                                        <rdfs:label
+                                                         xml:lang="en"
+                                                        >"body mass index"</rdfs:label>
+                                                      </HealthIndicator>
                                                     </hasInfluenceOn>
-                                                    <hasInfluenceOn rdf:resource="#EnergyNeed"/>
+                                                    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#EnergyNeed"/>
+                                                    <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#BasalMetabolicRate"/>
+                                                    <rdfs:label
+                                                     xml:lang="de"
+                                                    >"Höhe"</rdfs:label>
+                                                    <rdfs:label
+                                                     xml:lang="en"
+                                                    >"height"</rdfs:label>
+                                                    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
                                                   </DeterminingFactor>
-                                                </hasRelationTo>
-                                              </Concept>
+                                                </isInfluencedBy>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#EnergyGeneration"/>
+                                                <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Activities"/>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#EstimatedEnergyRequirements"/>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#BasalMetabolicRate"/>
+                                                <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Age"/>
+                                                <rdfs:label xml:lang="de"
+                                                >"Energiebedarf"</rdfs:label>
+                                                <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Weight"/>
+                                                <rdfs:label xml:lang="en"
+                                                >"energy need"</rdfs:label>
+                                                <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Gender"/>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                                              </EnergyAttribute>
                                             </hasRelationTo>
-                                            <isInfluencedBy rdf:resource="#Height"/>
-                                            <isInfluencedBy rdf:resource="#Age"/>
-                                            <isInfluencedBy rdf:resource="#Weight"/>
-                                            <isInfluencedBy rdf:resource="#Gender"/>
-                                            <hasInfluenceOn rdf:resource="#EstimatedEnergyRequirements"/>
-                                          </Specification>
+                                            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                                            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                                            <rdfs:label xml:lang="en"
+                                            >"energy generation"</rdfs:label>
+                                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                                            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                                            <isInfluencedBy rdf:resource="http://www.scy.eu/pizza#Water"/>
+                                            <rdfs:label xml:lang="de"
+                                            >"Energieerzeugung"</rdfs:label>
+                                          </NutrientFunction>
                                         </hasInfluenceOn>
-                                        <hasInfluenceOn rdf:resource="#EnergyNeed"/>
-                                        <hasRelationTo rdf:resource="#Energy"/>
-                                      </DeterminingFactor>
-                                    </isInfluencedBy>
-                                    <hasRelationTo rdf:resource="#Healthiness"/>
-                                    <hasRelationTo rdf:resource="#Health"/>
-                                  </HealthIndicator>
-                                </hasInfluenceOn>
-                                <hasInfluenceOn rdf:resource="#EnergyNeed"/>
-                                <hasInfluenceOn rdf:resource="#BasalMetabolicRate"/>
-                                <hasRelationTo rdf:resource="#Energy"/>
-                              </DeterminingFactor>
-                            </isInfluencedBy>
-                            <hasRelationTo rdf:resource="#EnergyGeneration"/>
-                            <isInfluencedBy rdf:resource="#Activities"/>
-                            <hasRelationTo rdf:resource="#EstimatedEnergyRequirements"/>
-                            <hasRelationTo rdf:resource="#BasalMetabolicRate"/>
-                            <isInfluencedBy rdf:resource="#Age"/>
-                            <isInfluencedBy rdf:resource="#Weight"/>
-                            <isInfluencedBy rdf:resource="#Gender"/>
-                            <hasRelationTo rdf:resource="#Energy"/>
-                          </EnergyAttribute>
+                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#RegulationOfBodyProcesses"/>
+                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Growth"/>
+                                        <hasFunction rdf:resource="http://www.scy.eu/pizza#RegulationOfBodyProcesses"/>
+                                        <hasFunction rdf:resource="http://www.scy.eu/pizza#Growth"/>
+                                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+                                      </Nutrients>
+                                    </contains>
+                                    <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                                    <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                                    <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+                                    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                                    <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                                    <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                                    <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+                                  </Cheese>
+                                </hasRelationTo>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Joule"/>
+                                <rdfs:label xml:lang="de">"Nährwert"</rdfs:label>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Fetta"/>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Mozzarella"/>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Gouda"/>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Protein"/>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Ricotta"/>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Calorie"/>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Parmesan"/>
+                                <rdfs:label xml:lang="en">"nutritional value"</rdfs:label>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Gorgonzola"/>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Edam"/>
+                              </Concept>
+                            </hasRelationTo>
+                            <rdfs:label xml:lang="de">"Protein"</rdfs:label>
+                            <rdfs:label xml:lang="en">"protein"</rdfs:label>
+                            <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#EnergyGeneration"/>
+                            <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#RegulationOfBodyProcesses"/>
+                            <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Growth"/>
+                            <hasFunction rdf:resource="http://www.scy.eu/pizza#EnergyGeneration"/>
+                            <hasFunction rdf:resource="http://www.scy.eu/pizza#RegulationOfBodyProcesses"/>
+                          </Nutrients>
+                        </contains>
+                        <rdfs:label xml:lang="en">"pizza"</rdfs:label>
+                        <hasRelationTo>
+                          <PizzaComponent rdf:about="http://www.scy.eu/pizza#Dough">
+                            <hasIngredient rdf:resource="http://www.scy.eu/pizza#Water"/>
+                            <hasIngredient rdf:resource="http://www.scy.eu/pizza#Flour"/>
+                            <rdfs:label xml:lang="de">"Teig"</rdfs:label>
+                            <rdfs:label xml:lang="en">"dough"</rdfs:label>
+                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Pizza"/>
+                          </PizzaComponent>
                         </hasRelationTo>
-                        <hasRelationTo rdf:resource="#Energy"/>
-                        <isInfluencedBy rdf:resource="#Protein"/>
-                        <isInfluencedBy rdf:resource="#Vitamin"/>
-                        <isInfluencedBy rdf:resource="#Mineral"/>
-                        <isInfluencedBy rdf:resource="#Fat"/>
-                        <isInfluencedBy rdf:resource="#Water"/>
-                        <isInfluencedBy rdf:resource="#Carbohydrate"/>
-                      </NutrientFunction>
-                    </hasFunction>
-                    <hasFunction rdf:resource="#Growth"/>
-                    <hasInfluenceOn rdf:resource="#EnergyGeneration"/>
-                    <hasInfluenceOn rdf:resource="#RegulationOfBodyProcesses"/>
-                    <hasInfluenceOn rdf:resource="#Growth"/>
-                    <hasRelationTo rdf:resource="#NutritionalValue"/>
-                  </Nutrients>
-                </contains>
-                <contains rdf:resource="#Mineral"/>
-                <contains rdf:resource="#Fat"/>
-                <isIngredientOf rdf:resource="#Traditional"/>
-                <isIngredientOf rdf:resource="#ThinCrust"/>
-                <isIngredientOf rdf:resource="#DeepPan"/>
-                <isIngredientOf rdf:resource="#StuffedCrust"/>
-                <isIngredientOf rdf:resource="#Dough"/>
+                        <hasIngredient>
+                          <DoughStyle rdf:about="http://www.scy.eu/pizza#Traditional">
+                            <rdfs:label xml:lang="de">"traditionell"</rdfs:label>
+                            <rdfs:label xml:lang="en">"traditional"</rdfs:label>
+                            <isIngredientOf rdf:resource="http://www.scy.eu/pizza#Pizza"/>
+                            <hasIngredient rdf:resource="http://www.scy.eu/pizza#Flour"/>
+                            <hasIngredient rdf:resource="http://www.scy.eu/pizza#Water"/>
+                          </DoughStyle>
+                        </hasIngredient>
+                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Diet"/>
+                        <hasIngredient>
+                          <Sauce rdf:about="http://www.scy.eu/pizza#BBQ">
+                            <rdfs:label xml:lang="de">"Barbecue"</rdfs:label>
+                            <rdfs:label xml:lang="en">"b b q"</rdfs:label>
+                            <contains>
+                              <Vegetables rdf:about="http://www.scy.eu/pizza#Tomato">
+                                <rdfs:label xml:lang="de">"Tomate"</rdfs:label>
+                                <rdfs:label xml:lang="en">"tomato"</rdfs:label>
+                                <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+                                <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                                <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                                <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                              </Vegetables>
+                            </contains>
+                            <isIngredientOf rdf:resource="http://www.scy.eu/pizza#Pizza"/>
+                          </Sauce>
+                        </hasIngredient>
+                        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+                        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                        <hasIngredient>
+                          <Sauce rdf:about="http://www.scy.eu/pizza#Alfredo">
+                            <isIngredientOf rdf:resource="http://www.scy.eu/pizza#Pizza"/>
+                            <rdfs:label xml:lang="de">"Alfredo"</rdfs:label>
+                            <rdfs:label xml:lang="en">"alfredo"</rdfs:label>
+                            <contains rdf:resource="http://www.scy.eu/pizza#Parmesan"/>
+                          </Sauce>
+                        </hasIngredient>
+                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                        <hasIngredient rdf:resource="http://www.scy.eu/pizza#ThinCrust"/>
+                        <hasIngredient rdf:resource="http://www.scy.eu/pizza#DeepPan"/>
+                        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+                        <contains rdf:resource="http://www.scy.eu/pizza#Energy"/>
+                        <hasIngredient>
+                          <Sauce rdf:about="http://www.scy.eu/pizza#Marinara">
+                            <isIngredientOf rdf:resource="http://www.scy.eu/pizza#Pizza"/>
+                            <contains rdf:resource="http://www.scy.eu/pizza#Tomato"/>
+                            <rdfs:label xml:lang="de">"Marinara Soße"</rdfs:label>
+                            <rdfs:label xml:lang="en">"marinara"</rdfs:label>
+                          </Sauce>
+                        </hasIngredient>
+                        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Healthiness"/>
+                        <hasRelationTo>
+                          <PizzaAttribute rdf:about="http://www.scy.eu/pizza#Taste">
+                            <rdfs:label xml:lang="de">"Geschmack"</rdfs:label>
+                            <rdfs:label xml:lang="en">"taste"</rdfs:label>
+                            <hasRelationTo rdf:resource="http://www.scy.eu/pizza#Pizza"/>
+                          </PizzaAttribute>
+                        </hasRelationTo>
+                        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                      </Food>
+                    </isIngredientOf>
+                    <hasIngredient rdf:resource="http://www.scy.eu/pizza#Flour"/>
+                    <hasIngredient rdf:resource="http://www.scy.eu/pizza#Water"/>
+                    <rdfs:label xml:lang="de">"dünne Kruste"</rdfs:label>
+                    <rdfs:label xml:lang="en">"thin crust"</rdfs:label>
+                  </DoughStyle>
+                </isIngredientOf>
+                <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+                <isIngredientOf rdf:resource="http://www.scy.eu/pizza#Dough"/>
+                <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+                <isIngredientOf rdf:resource="http://www.scy.eu/pizza#DeepPan"/>
+                <isIngredientOf rdf:resource="http://www.scy.eu/pizza#StuffedCrust"/>
+                <rdfs:label xml:lang="en">"flour"</rdfs:label>
+                <rdfs:label xml:lang="de">"Mehl"</rdfs:label>
+                <isIngredientOf rdf:resource="http://www.scy.eu/pizza#Traditional"/>
               </Grains>
             </hasIngredient>
-            <hasIngredient rdf:resource="#Water"/>
-            <isIngredientOf rdf:resource="#Pizza"/>
+            <hasIngredient rdf:resource="http://www.scy.eu/pizza#Water"/>
+            <rdfs:label xml:lang="de">"DeepPan"</rdfs:label>
+            <rdfs:label xml:lang="en">"deep pan"</rdfs:label>
+            <isIngredientOf rdf:resource="http://www.scy.eu/pizza#Pizza"/>
           </DoughStyle>
         </isIngredientOf>
-        <isIngredientOf rdf:resource="#StuffedCrust"/>
-        <hasRelationTo rdf:resource="#NutritionalValue"/>
-        <hasFunction rdf:resource="#RegulationOfBodyProcesses"/>
-        <hasInfluenceOn rdf:resource="#EnergyGeneration"/>
-        <isIngredientOf rdf:resource="#Traditional"/>
-        <hasInfluenceOn rdf:resource="#RegulationOfBodyProcesses"/>
-        <isIngredientOf rdf:resource="#Dough"/>
-        <hasInfluenceOn rdf:resource="#Growth"/>
-        <isIngredientOf rdf:resource="#ThinCrust"/>
+        <isIngredientOf rdf:resource="http://www.scy.eu/pizza#StuffedCrust"/>
+        <hasRelationTo rdf:resource="http://www.scy.eu/pizza#NutritionalValue"/>
+        <hasFunction rdf:resource="http://www.scy.eu/pizza#RegulationOfBodyProcesses"/>
+        <isIngredientOf rdf:resource="http://www.scy.eu/pizza#Traditional"/>
+        <rdfs:label xml:lang="de">"Wasser"</rdfs:label>
+        <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#EnergyGeneration"/>
+        <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#RegulationOfBodyProcesses"/>
+        <isIngredientOf rdf:resource="http://www.scy.eu/pizza#Dough"/>
+        <hasInfluenceOn rdf:resource="http://www.scy.eu/pizza#Growth"/>
+        <isIngredientOf rdf:resource="http://www.scy.eu/pizza#ThinCrust"/>
+        <rdfs:label xml:lang="en">"water"</rdfs:label>
       </Nutrients>
     </contains>
-    <contains rdf:resource="#Vitamin"/>
-    <contains rdf:resource="#Carbohydrate"/>
-    <contains rdf:resource="#Mineral"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
   </Spice>
-  <Spice rdf:ID="PaprikaPowder">
-    <contains rdf:resource="#Water"/>
-    <contains rdf:resource="#Vitamin"/>
-    <contains rdf:resource="#Carbohydrate"/>
-    <contains rdf:resource="#Mineral"/>
+  <Keyword rdf:about="http://www.scy.eu/pizza#depression">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+    <rdfs:label xml:lang="de">"Depression"</rdfs:label>
+    <rdfs:label xml:lang="en">"depression"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#institute">
+    <belongsToList>
+      <KeywordList rdf:about="http://www.scy.eu/pizza#politics_science">
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/pizza#FoodPyramid"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/pizza#Diet"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+      </KeywordList>
+    </belongsToList>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#cell">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#human_body"/>
+    <rdfs:label xml:lang="de">"Zelle"</rdfs:label>
+    <rdfs:label xml:lang="en">"cell"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#drug">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+    <rdfs:label xml:lang="de">"Medikament"</rdfs:label>
+    <rdfs:label xml:lang="en">"drug"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#atrophy">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+    <rdfs:label xml:lang="de">"Atrophie"</rdfs:label>
+    <rdfs:label xml:lang="en">"atrophy"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#ala">
+    <rdfs:label xml:lang="de">"ALA"</rdfs:label>
+    <rdfs:label xml:lang="en">"ala"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#guidelines">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#politics_science"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#consumption">
+    <rdfs:label xml:lang="de">"Verbrauch"</rdfs:label>
+    <rdfs:label xml:lang="en">"consumption"</rdfs:label>
+    <belongsToList>
+      <KeywordList rdf:about="http://www.scy.eu/pizza#energy_cycle">
+        <rdfs:label xml:lang="de">"Energiezyklus"</rdfs:label>
+        <rdfs:label xml:lang="en">"energy_cycle"</rdfs:label>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/pizza#Energy"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+      </KeywordList>
+    </belongsToList>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#death">
+    <rdfs:label xml:lang="de">"Tod"</rdfs:label>
+    <rdfs:label xml:lang="en">"death"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#orange">
+    <rdfs:label xml:lang="de">"Orange"</rdfs:label>
+    <rdfs:label xml:lang="en">"orange"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#food_and_additives"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#facts">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#politics_science"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#disorder">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+    <rdfs:label xml:lang="de">"Funktionsstörung"</rdfs:label>
+    <rdfs:label xml:lang="en">"disorder"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#antibodies">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+    <rdfs:label xml:lang="de">"Antikörper"</rdfs:label>
+    <rdfs:label xml:lang="en">"antibodies"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#defect">
+    <rdfs:label xml:lang="de">"Defekt"</rdfs:label>
+    <rdfs:label xml:lang="en">"defect"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#anemia">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+    <rdfs:label xml:lang="de">"Anämie"</rdfs:label>
+    <rdfs:label xml:lang="en">"anemia"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#making">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#food_and_additives"/>
+    <rdfs:label xml:lang="de">"machen"</rdfs:label>
+    <rdfs:label xml:lang="en">"making"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#cirrhosis">
+    <rdfs:label xml:lang="de">"Zirrhose"</rdfs:label>
+    <rdfs:label xml:lang="en">"cirrhosis"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+  </Keyword>
+  <rdf:Description>
+    <rdf:rest rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >-ee29723:12f2a4075a2:-7ffb</rdf:rest>
+    <rdf:first rdf:resource="http://www.scy.eu/pizza#NutrientFunction"/>
+  </rdf:Description>
+  <Keyword rdf:about="http://www.scy.eu/pizza#folic">
+    <rdfs:label xml:lang="de">"Folsäure"</rdfs:label>
+    <rdfs:label xml:lang="en">"folic"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#immune">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+    <rdfs:label xml:lang="de">"Immunsystem"</rdfs:label>
+    <rdfs:label xml:lang="en">"immune"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#riboflavin">
+    <rdfs:label xml:lang="de">"Riboflavin"</rdfs:label>
+    <rdfs:label xml:lang="en">"riboflavin"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#food_and_additives"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#caffeine">
+    <rdfs:label xml:lang="de">"Koffein"</rdfs:label>
+    <rdfs:label xml:lang="en">"caffeine"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#histidine">
+    <rdfs:label xml:lang="de">"Histidin"</rdfs:label>
+    <rdfs:label xml:lang="en">"histidine"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#patient">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+    <rdfs:label xml:lang="de">"Patient"</rdfs:label>
+    <rdfs:label xml:lang="en">"patient"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#stroke">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+    <rdfs:label xml:lang="de">"Schlaganfall"</rdfs:label>
+    <rdfs:label xml:lang="en">"stroke"</rdfs:label>
+  </Keyword>
+  <Spice rdf:about="http://www.scy.eu/pizza#Oregano">
+    <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+    <rdfs:label xml:lang="de">"Oregano"</rdfs:label>
+    <rdfs:label xml:lang="en">"oregano"</rdfs:label>
   </Spice>
-  <Spice rdf:ID="Oregano">
-    <contains rdf:resource="#Water"/>
-    <contains rdf:resource="#Vitamin"/>
-    <contains rdf:resource="#Carbohydrate"/>
-    <contains rdf:resource="#Mineral"/>
-  </Spice>
-  <Concept rdf:ID="FoodPyramid">
+  <Keyword rdf:about="http://www.scy.eu/pizza#wheat">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#food_and_additives"/>
+    <rdfs:label xml:lang="de">"Weizen"</rdfs:label>
+    <rdfs:label xml:lang="en">"wheat"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#physical">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#politics_science"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#sodium">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+    <rdfs:label xml:lang="de">"Natrium"</rdfs:label>
+    <rdfs:label xml:lang="en">"sodium"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#account">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#politics_science"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#metabolism">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#human_body"/>
+    <rdfs:label xml:lang="de">"Stoffwechsel"</rdfs:label>
+    <rdfs:label xml:lang="en">"metabolism"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#production">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+    <rdfs:label xml:lang="de">"Produktion"</rdfs:label>
+    <rdfs:label xml:lang="en">"production"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#heat">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#food_and_additives"/>
+    <rdfs:label xml:lang="de">"Wärme"</rdfs:label>
+    <rdfs:label xml:lang="en">"heat"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#calories">
+    <rdfs:label xml:lang="de">"Kalorien"</rdfs:label>
+    <rdfs:label xml:lang="en">"calories"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#essential">
+    <rdfs:label xml:lang="de">"wesentliche"</rdfs:label>
+    <rdfs:label xml:lang="en">"essential"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#national">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#politics_science"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#brain">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#human_body"/>
+    <rdfs:label xml:lang="de">"Gehirn"</rdfs:label>
+    <rdfs:label xml:lang="en">"brain"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#work">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#energy_cycle"/>
+    <rdfs:label xml:lang="de">"Arbeit"</rdfs:label>
+    <rdfs:label xml:lang="en">"work"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#nuts">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#food_and_additives"/>
+    <rdfs:label xml:lang="de">"Nüsse"</rdfs:label>
+    <rdfs:label xml:lang="en">"nuts"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#biology">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#politics_science"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#arginine">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+    <rdfs:label xml:lang="de">"Arginin"</rdfs:label>
+    <rdfs:label xml:lang="en">"arginine"</rdfs:label>
+  </Keyword>
+  <rdf:Description>
+    <rdf:first rdf:resource="http://www.scy.eu/pizza#DigestiveSystemProcess"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <Concept rdf:about="http://www.scy.eu/pizza#FoodPyramid">
     <contains>
-      <Seafood rdf:ID="Shrimp">
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Protein"/>
-        <contains rdf:resource="#Mineral"/>
-        <contains rdf:resource="#Fat"/>
+      <Seafood rdf:about="http://www.scy.eu/pizza#Shrimp">
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+        <rdfs:label xml:lang="de">"Garnele"</rdfs:label>
+        <rdfs:label xml:lang="en">"shrimp"</rdfs:label>
       </Seafood>
     </contains>
     <contains>
-      <Meat rdf:ID="Ham">
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Protein"/>
-        <contains rdf:resource="#Mineral"/>
-        <contains rdf:resource="#Fat"/>
+      <Meat rdf:about="http://www.scy.eu/pizza#Ham">
+        <rdfs:label xml:lang="de">"Schinken"</rdfs:label>
+        <rdfs:label xml:lang="en">"ham"</rdfs:label>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
       </Meat>
     </contains>
     <contains>
-      <Vegetables rdf:ID="Jalapeno">
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Carbohydrate"/>
-        <contains rdf:resource="#Mineral"/>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Jalapeno">
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <rdfs:label xml:lang="de">"Jalapeno"</rdfs:label>
+        <rdfs:label xml:lang="en">"jalapeno"</rdfs:label>
       </Vegetables>
     </contains>
     <contains>
-      <Vegetables rdf:ID="Broccoli">
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Carbohydrate"/>
-        <contains rdf:resource="#Mineral"/>
-      </Vegetables>
-    </contains>
-    <contains>
-      <Meat rdf:ID="Salami">
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Protein"/>
-        <contains rdf:resource="#Mineral"/>
-        <contains rdf:resource="#Fat"/>
-      </Meat>
-    </contains>
-    <contains>
-      <MeatAndBeans rdf:ID="Bean">
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Protein"/>
-        <contains rdf:resource="#Mineral"/>
-        <contains rdf:resource="#Fat"/>
+      <MeatAndBeans rdf:about="http://www.scy.eu/pizza#Beans">
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+        <rdfs:label xml:lang="de">"Bohnen"</rdfs:label>
+        <rdfs:label xml:lang="en">"beans"</rdfs:label>
       </MeatAndBeans>
     </contains>
     <contains>
-      <Seafood rdf:ID="Mussel">
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Protein"/>
-        <contains rdf:resource="#Mineral"/>
-        <contains rdf:resource="#Fat"/>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Broccoli">
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <rdfs:label xml:lang="de">"Brokkoli"</rdfs:label>
+        <rdfs:label xml:lang="en">"broccoli"</rdfs:label>
+      </Vegetables>
+    </contains>
+    <contains>
+      <Meat rdf:about="http://www.scy.eu/pizza#Salami">
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+        <rdfs:label xml:lang="de">"Salami"</rdfs:label>
+        <rdfs:label xml:lang="en">"salami"</rdfs:label>
+      </Meat>
+    </contains>
+    <contains>
+      <Seafood rdf:about="http://www.scy.eu/pizza#Mussel">
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+        <rdfs:label xml:lang="de">"Muschel"</rdfs:label>
+        <rdfs:label xml:lang="en">"mussel"</rdfs:label>
       </Seafood>
     </contains>
     <contains>
-      <Vegetables rdf:ID="Olive">
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Carbohydrate"/>
-        <contains rdf:resource="#Mineral"/>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Olive">
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <rdfs:label xml:lang="de">"Olivenöl"</rdfs:label>
+        <rdfs:label xml:lang="en">"olive"</rdfs:label>
       </Vegetables>
     </contains>
-    <contains rdf:resource="#Gorgonzola"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Gorgonzola"/>
+    <rdfs:label xml:lang="en">"food pyramid"</rdfs:label>
     <contains>
-      <Meat rdf:ID="Beef">
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Protein"/>
-        <contains rdf:resource="#Mineral"/>
-        <contains rdf:resource="#Fat"/>
+      <Meat rdf:about="http://www.scy.eu/pizza#Beef">
+        <rdfs:label xml:lang="de">"Rindfleisch"</rdfs:label>
+        <rdfs:label xml:lang="en">"beef"</rdfs:label>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
       </Meat>
     </contains>
     <contains>
-      <Fish rdf:ID="Tuna">
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Protein"/>
-        <contains rdf:resource="#Mineral"/>
-        <contains rdf:resource="#Fat"/>
+      <Fish rdf:about="http://www.scy.eu/pizza#Tuna">
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+        <rdfs:label xml:lang="de">"Thunfisch"</rdfs:label>
+        <rdfs:label xml:lang="en">"tuna"</rdfs:label>
       </Fish>
     </contains>
     <contains>
-      <Vegetables rdf:ID="Paprika">
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Carbohydrate"/>
-        <contains rdf:resource="#Mineral"/>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Paprika">
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <rdfs:label xml:lang="de">"Paprika"</rdfs:label>
+        <rdfs:label xml:lang="en">"paprika"</rdfs:label>
       </Vegetables>
     </contains>
-    <contains rdf:resource="#Parmesan"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Parmesan"/>
     <contains>
-      <Vegetables rdf:ID="Onion">
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Carbohydrate"/>
-        <contains rdf:resource="#Mineral"/>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Onion">
+        <rdfs:label xml:lang="de">"Zwiebel"</rdfs:label>
+        <rdfs:label xml:lang="en">"onion"</rdfs:label>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
       </Vegetables>
     </contains>
-    <contains rdf:resource="#Fetta"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Fetta"/>
     <contains>
-      <Vegetables rdf:ID="Chili">
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Carbohydrate"/>
-        <contains rdf:resource="#Mineral"/>
-      </Vegetables>
-    </contains>
-    <contains>
-      <Vegetables rdf:ID="Garlic">
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Carbohydrate"/>
-        <contains rdf:resource="#Mineral"/>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Chili">
+        <rdfs:label xml:lang="de">"Chili"</rdfs:label>
+        <rdfs:label xml:lang="en">"chili"</rdfs:label>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
       </Vegetables>
     </contains>
     <contains>
-      <Meat rdf:ID="Bacon">
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Protein"/>
-        <contains rdf:resource="#Mineral"/>
-        <contains rdf:resource="#Fat"/>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Garlic">
+        <rdfs:label xml:lang="de">"Knoblauch"</rdfs:label>
+        <rdfs:label xml:lang="en">"garlic"</rdfs:label>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+      </Vegetables>
+    </contains>
+    <contains>
+      <Meat rdf:about="http://www.scy.eu/pizza#Bacon">
+        <rdfs:label xml:lang="de">"Speck"</rdfs:label>
+        <rdfs:label xml:lang="en">"bacon"</rdfs:label>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
       </Meat>
     </contains>
     <contains>
-      <Meat rdf:ID="Pepperoni">
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Protein"/>
-        <contains rdf:resource="#Mineral"/>
-        <contains rdf:resource="#Fat"/>
+      <Meat rdf:about="http://www.scy.eu/pizza#Pepperoni">
+        <rdfs:label xml:lang="de">"Peperoni"</rdfs:label>
+        <rdfs:label xml:lang="en">"pepperoni"</rdfs:label>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
       </Meat>
     </contains>
-    <contains rdf:resource="#Mozzarella"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Mozzarella"/>
     <contains>
-      <Fish rdf:ID="Salmon">
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Protein"/>
-        <contains rdf:resource="#Mineral"/>
-        <contains rdf:resource="#Fat"/>
+      <Fish rdf:about="http://www.scy.eu/pizza#Salmon">
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+        <rdfs:label xml:lang="de">"Lachs"</rdfs:label>
+        <rdfs:label xml:lang="en">"salmon"</rdfs:label>
       </Fish>
     </contains>
-    <contains rdf:resource="#Flour"/>
-    <contains rdf:resource="#Edam"/>
-    <contains rdf:resource="#Gouda"/>
+    <rdfs:label xml:lang="de">"Ernährungspyramide"</rdfs:label>
+    <contains rdf:resource="http://www.scy.eu/pizza#Flour"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Edam"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Gouda"/>
     <contains>
-      <Vegetables rdf:ID="Corn">
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Carbohydrate"/>
-        <contains rdf:resource="#Mineral"/>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Corn">
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <rdfs:label xml:lang="de">"Mais"</rdfs:label>
+        <rdfs:label xml:lang="en">"corn"</rdfs:label>
       </Vegetables>
     </contains>
     <contains>
-      <Vegetables rdf:ID="Arugula">
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Carbohydrate"/>
-        <contains rdf:resource="#Mineral"/>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Arugula">
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <rdfs:label xml:lang="de">"Rucola"</rdfs:label>
+        <rdfs:label xml:lang="en">"arugula"</rdfs:label>
       </Vegetables>
     </contains>
     <contains>
-      <Vegetables rdf:ID="Potato">
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Carbohydrate"/>
-        <contains rdf:resource="#Mineral"/>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Potato">
+        <rdfs:label xml:lang="de">"Kartoffel"</rdfs:label>
+        <rdfs:label xml:lang="en">"potato"</rdfs:label>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
       </Vegetables>
     </contains>
     <contains>
-      <Vegetables rdf:ID="Capers">
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Carbohydrate"/>
-        <contains rdf:resource="#Mineral"/>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Capers">
+        <rdfs:label xml:lang="de">"Kapern"</rdfs:label>
+        <rdfs:label xml:lang="en">"capers"</rdfs:label>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
       </Vegetables>
     </contains>
     <contains>
-      <Fruits rdf:ID="Pineapple">
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Carbohydrate"/>
-        <contains rdf:resource="#Mineral"/>
+      <Fruits rdf:about="http://www.scy.eu/pizza#Pineapple">
+        <rdfs:label xml:lang="de">"Ananas"</rdfs:label>
+        <rdfs:label xml:lang="en">"pineapple"</rdfs:label>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
       </Fruits>
     </contains>
     <contains>
-      <Fish rdf:ID="Anchovy">
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Protein"/>
-        <contains rdf:resource="#Mineral"/>
-        <contains rdf:resource="#Fat"/>
+      <Fish rdf:about="http://www.scy.eu/pizza#Anchovy">
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
+        <rdfs:label xml:lang="de">"Sardelle"</rdfs:label>
+        <rdfs:label xml:lang="en">"anchovy"</rdfs:label>
       </Fish>
     </contains>
     <contains>
-      <Fruits rdf:ID="Peach">
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Carbohydrate"/>
-        <contains rdf:resource="#Mineral"/>
+      <Fruits rdf:about="http://www.scy.eu/pizza#Peach">
+        <rdfs:label xml:lang="de">"Pfirsich"</rdfs:label>
+        <rdfs:label xml:lang="en">"peach"</rdfs:label>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
       </Fruits>
     </contains>
     <contains>
-      <Vegetables rdf:ID="Artichoke">
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Carbohydrate"/>
-        <contains rdf:resource="#Mineral"/>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Artichoke">
+        <rdfs:label xml:lang="de">"Artischocke"</rdfs:label>
+        <rdfs:label xml:lang="en">"artichoke"</rdfs:label>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
       </Vegetables>
     </contains>
-    <contains rdf:resource="#Tomato"/>
-    <contains rdf:resource="#Ricotta"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Tomato"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Ricotta"/>
     <contains>
-      <Vegetables rdf:ID="Mushroom">
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Carbohydrate"/>
-        <contains rdf:resource="#Mineral"/>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Mushroom">
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <rdfs:label xml:lang="de">"Pilz"</rdfs:label>
+        <rdfs:label xml:lang="en">"mushroom"</rdfs:label>
       </Vegetables>
     </contains>
     <contains>
-      <Meat rdf:ID="Chorizo">
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Protein"/>
-        <contains rdf:resource="#Mineral"/>
-        <contains rdf:resource="#Fat"/>
+      <Meat rdf:about="http://www.scy.eu/pizza#Chorizo">
+        <rdfs:label xml:lang="de">"Chorizo"</rdfs:label>
+        <rdfs:label xml:lang="en">"chorizo"</rdfs:label>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
       </Meat>
     </contains>
-    <contains rdf:resource="#Pecorino"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Pecorino"/>
     <contains>
-      <Meat rdf:ID="ItalianSausage">
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Protein"/>
-        <contains rdf:resource="#Mineral"/>
-        <contains rdf:resource="#Fat"/>
+      <Meat rdf:about="http://www.scy.eu/pizza#ItalianSausage">
+        <rdfs:label xml:lang="de">"italienische Wurst"</rdfs:label>
+        <rdfs:label xml:lang="en">"italian sausage"</rdfs:label>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Protein"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Fat"/>
       </Meat>
     </contains>
     <contains>
-      <Vegetables rdf:ID="Spinach">
-        <contains rdf:resource="#Water"/>
-        <contains rdf:resource="#Vitamin"/>
-        <contains rdf:resource="#Carbohydrate"/>
-        <contains rdf:resource="#Mineral"/>
+      <Vegetables rdf:about="http://www.scy.eu/pizza#Spinach">
+        <rdfs:label xml:lang="de">"Spinat"</rdfs:label>
+        <rdfs:label xml:lang="en">"spinach"</rdfs:label>
+        <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+        <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
       </Vegetables>
     </contains>
   </Concept>
-  <Spice rdf:ID="Pepper">
-    <contains rdf:resource="#Water"/>
-    <contains rdf:resource="#Vitamin"/>
-    <contains rdf:resource="#Carbohydrate"/>
-    <contains rdf:resource="#Mineral"/>
+  <Keyword rdf:about="http://www.scy.eu/pizza#tyrosine">
+    <rdfs:label xml:lang="de">"Tyrosin"</rdfs:label>
+    <rdfs:label xml:lang="en">"tyrosine"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#anxiety">
+    <rdfs:label xml:lang="de">"Angst"</rdfs:label>
+    <rdfs:label xml:lang="en">"anxiety"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#size">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#human_body"/>
+    <rdfs:label xml:lang="de">"Größe"</rdfs:label>
+    <rdfs:label xml:lang="en">"size"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#heart">
+    <rdfs:label xml:lang="de">"Herz"</rdfs:label>
+    <rdfs:label xml:lang="en">"heart"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#human_body"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#biochemical">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#politics_science"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#methionine">
+    <rdfs:label xml:lang="de">"Methionin"</rdfs:label>
+    <rdfs:label xml:lang="en">"methionine"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#phosphate">
+    <rdfs:label xml:lang="de">"Phosphat"</rdfs:label>
+    <rdfs:label xml:lang="en">"phosphate"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#required">
+    <rdfs:label xml:lang="de">"erforderlich"</rdfs:label>
+    <rdfs:label xml:lang="en">"required"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#alcohol">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#food_and_additives"/>
+    <rdfs:label xml:lang="de">"Alkohol"</rdfs:label>
+    <rdfs:label xml:lang="en">"alcohol"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#serine">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+    <rdfs:label xml:lang="de">"Serin"</rdfs:label>
+    <rdfs:label xml:lang="en">"serine"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#results">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#politics_science"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#lysine">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+    <rdfs:label xml:lang="de">"Lysin"</rdfs:label>
+    <rdfs:label xml:lang="en">"lysine"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#gene">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#human_body"/>
+    <rdfs:label xml:lang="de">"Gen"</rdfs:label>
+    <rdfs:label xml:lang="en">"gene"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#skin">
+    <rdfs:label xml:lang="de">"Haut"</rdfs:label>
+    <rdfs:label xml:lang="en">"skin"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#human_body"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#exposure">
+    <rdfs:label xml:lang="de">"Belichtung"</rdfs:label>
+    <rdfs:label xml:lang="en">"exposure"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#contents">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+    <rdfs:label xml:lang="de">"Inhalt"</rdfs:label>
+    <rdfs:label xml:lang="en">"contents"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#bone">
+    <rdfs:label xml:lang="de">"Knochen"</rdfs:label>
+    <rdfs:label xml:lang="en">"bone"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#human_body"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#molybdenum">
+    <rdfs:label xml:lang="de">"Molybdän"</rdfs:label>
+    <rdfs:label xml:lang="en">"molybdenum"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#calcium">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+    <rdfs:label xml:lang="de">"Kalzium"</rdfs:label>
+    <rdfs:label xml:lang="en">"calcium"</rdfs:label>
+  </Keyword>
+  <Spice rdf:about="http://www.scy.eu/pizza#Pepper">
+    <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+    <rdfs:label xml:lang="de">"Pfeffer"</rdfs:label>
+    <rdfs:label xml:lang="en">"pepper"</rdfs:label>
   </Spice>
+  <Keyword rdf:about="http://www.scy.eu/pizza#risk">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+    <rdfs:label xml:lang="de">"Risiko"</rdfs:label>
+    <rdfs:label xml:lang="en">"risk"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#iron">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+    <rdfs:label xml:lang="de">"Eisen"</rdfs:label>
+    <rdfs:label xml:lang="en">"iron"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#oil">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#food_and_additives"/>
+    <rdfs:label xml:lang="de">"Öl"</rdfs:label>
+    <rdfs:label xml:lang="en">"oil"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#apple">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#food_and_additives"/>
+    <rdfs:label xml:lang="de">"Apfel"</rdfs:label>
+    <rdfs:label xml:lang="en">"apple"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#rickets">
+    <rdfs:label xml:lang="de">"Rachitis"</rdfs:label>
+    <rdfs:label xml:lang="en">"rickets"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#pyridoxine">
+    <rdfs:label xml:lang="de">"Pyridoxin"</rdfs:label>
+    <rdfs:label xml:lang="en">"pyridoxine"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#absorption">
+    <rdfs:label xml:lang="de">"Absorption"</rdfs:label>
+    <rdfs:label xml:lang="en">"absorption"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#energy_cycle"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#body">
+    <rdfs:label xml:lang="de">"Körper"</rdfs:label>
+    <rdfs:label xml:lang="en">"body"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#human_body"/>
+  </Keyword>
+  <Spice rdf:about="http://www.scy.eu/pizza#Basil">
+    <rdfs:label xml:lang="de">"Basilikum"</rdfs:label>
+    <rdfs:label xml:lang="en">"basil"</rdfs:label>
+    <contains rdf:resource="http://www.scy.eu/pizza#Water"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Vitamin"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Carbohydrate"/>
+    <contains rdf:resource="http://www.scy.eu/pizza#Mineral"/>
+  </Spice>
+  <Keyword rdf:about="http://www.scy.eu/pizza#retinol">
+    <rdfs:label xml:lang="de">"Retinol"</rdfs:label>
+    <rdfs:label xml:lang="en">"retinol"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#coronary">
+    <rdfs:label xml:lang="de">"Koronar-"</rdfs:label>
+    <rdfs:label xml:lang="en">"coronary"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#human_body"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#beriberi">
+    <rdfs:label xml:lang="de">"Beriberi"</rdfs:label>
+    <rdfs:label xml:lang="en">"beriberi"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#organisation">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#politics_science"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#articile">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#politics_science"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#soybean">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#food_and_additives"/>
+    <rdfs:label xml:lang="de">"Sojabohne"</rdfs:label>
+    <rdfs:label xml:lang="en">"soybean"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#eat">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#food_and_additives"/>
+    <rdfs:label xml:lang="de">"essen"</rdfs:label>
+    <rdfs:label xml:lang="en">"eat"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#cholesterol">
+    <rdfs:label xml:lang="de">"Cholesterin"</rdfs:label>
+    <rdfs:label xml:lang="en">"cholesterol"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#cysteine">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+    <rdfs:label xml:lang="de">"Cystein"</rdfs:label>
+    <rdfs:label xml:lang="en">"cysteine"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#drink">
+    <rdfs:label xml:lang="de">"trinken"</rdfs:label>
+    <rdfs:label xml:lang="en">"drink"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#food_and_additives"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#egg">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#food_and_additives"/>
+    <rdfs:label xml:lang="de">"Ei"</rdfs:label>
+    <rdfs:label xml:lang="en">"egg"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#niacin">
+    <rdfs:label xml:lang="de">"Niacin"</rdfs:label>
+    <rdfs:label xml:lang="en">"niacin"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#symptom">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+    <rdfs:label xml:lang="de">"Symptom"</rdfs:label>
+    <rdfs:label xml:lang="en">"symptom"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#refrigerator">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#food_and_additives"/>
+    <rdfs:label xml:lang="de">"Kühlschrank"</rdfs:label>
+    <rdfs:label xml:lang="en">"refrigerator"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#glycine">
+    <rdfs:label xml:lang="de">"Glycin"</rdfs:label>
+    <rdfs:label xml:lang="en">"glycine"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#encyclopedia">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#politics_science"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#urine">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+    <rdfs:label xml:lang="de">"Urin"</rdfs:label>
+    <rdfs:label xml:lang="en">"urine"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#intestinal">
+    <rdfs:label xml:lang="de">"Darm-"</rdfs:label>
+    <rdfs:label xml:lang="en">"intestinal"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#human_body"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#checmial">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#politics_science"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#synthesis">
+    <rdfs:label xml:lang="de">"Synthese"</rdfs:label>
+    <rdfs:label xml:lang="en">"synthesis"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#discussion">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#politics_science"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#thiamine">
+    <rdfs:label xml:lang="de">"Thiamin"</rdfs:label>
+    <rdfs:label xml:lang="en">"thiamine"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#linoleic">
+    <rdfs:label xml:lang="de">"Linolsäure"</rdfs:label>
+    <rdfs:label xml:lang="en">"linoleic"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#acid">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+    <rdfs:label xml:lang="de">"Säure"</rdfs:label>
+    <rdfs:label xml:lang="en">"acid"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#need">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#food_and_additives"/>
+    <rdfs:label xml:lang="de">"brauchen"</rdfs:label>
+    <rdfs:label xml:lang="en">"need"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#disease">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+    <rdfs:label xml:lang="de">"Krankheit"</rdfs:label>
+    <rdfs:label xml:lang="en">"disease"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#biotin">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+    <rdfs:label xml:lang="de">"Biotin"</rdfs:label>
+    <rdfs:label xml:lang="en">"biotin"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#intake">
+    <rdfs:label xml:lang="de">"Einlass"</rdfs:label>
+    <rdfs:label xml:lang="en">"intake"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#butter">
+    <rdfs:label xml:lang="de">"Butter"</rdfs:label>
+    <rdfs:label xml:lang="en">"butter"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#food_and_additives"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#information">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#politics_science"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#dha">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+    <rdfs:label xml:lang="de">"DHA"</rdfs:label>
+    <rdfs:label xml:lang="en">"dha"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#pantothenic">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+    <rdfs:label xml:lang="de">"Pantothensäure"</rdfs:label>
+    <rdfs:label xml:lang="en">"pantothenic"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#treatment">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+    <rdfs:label xml:lang="de">"Behandlung"</rdfs:label>
+    <rdfs:label xml:lang="en">"treatment"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#threonine">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+    <rdfs:label xml:lang="de">"Threonin"</rdfs:label>
+    <rdfs:label xml:lang="en">"threonine"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#carotene">
+    <rdfs:label xml:lang="de">"Carotin"</rdfs:label>
+    <rdfs:label xml:lang="en">"carotene"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#effect">
+    <rdfs:label xml:lang="de">"Wirkung"</rdfs:label>
+    <rdfs:label xml:lang="en">"effect"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#increase">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+    <rdfs:label xml:lang="de">"Erhöhung"</rdfs:label>
+    <rdfs:label xml:lang="en">"increase"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#cause">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+    <rdfs:label xml:lang="de">"Ursache"</rdfs:label>
+    <rdfs:label xml:lang="en">"cause"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#liquid">
+    <rdfs:label xml:lang="de">"Flüssigkeit"</rdfs:label>
+    <rdfs:label xml:lang="en">"liquid"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#food_and_additives"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#bread">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#food_and_additives"/>
+    <rdfs:label xml:lang="de">"Brot"</rdfs:label>
+    <rdfs:label xml:lang="en">"bread"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#cancer">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+    <rdfs:label xml:lang="de">"Krebs"</rdfs:label>
+    <rdfs:label xml:lang="en">"cancer"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#phylloquinone">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+    <rdfs:label xml:lang="de">"Phyllochinon"</rdfs:label>
+    <rdfs:label xml:lang="en">"phylloquinone"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#zinc">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+    <rdfs:label xml:lang="de">"Zink"</rdfs:label>
+    <rdfs:label xml:lang="en">"zinc"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#leucine">
+    <rdfs:label xml:lang="de">"Leucin"</rdfs:label>
+    <rdfs:label xml:lang="en">"leucine"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#rice">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#food_and_additives"/>
+    <rdfs:label xml:lang="de">"Reis"</rdfs:label>
+    <rdfs:label xml:lang="en">"rice"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#peanut">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#food_and_additives"/>
+    <rdfs:label xml:lang="de">"Erdnuss"</rdfs:label>
+    <rdfs:label xml:lang="en">"peanut"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#cooked">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#food_and_additives"/>
+    <rdfs:label xml:lang="de">"gekocht"</rdfs:label>
+    <rdfs:label xml:lang="en">"cooked"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#teeth">
+    <rdfs:label xml:lang="de">"Zähne"</rdfs:label>
+    <rdfs:label xml:lang="en">"teeth"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#human_body"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#nervous">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+    <rdfs:label xml:lang="de">"nervös"</rdfs:label>
+    <rdfs:label xml:lang="en">"nervous"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#folate">
+    <rdfs:label xml:lang="de">"Folat"</rdfs:label>
+    <rdfs:label xml:lang="en">"folate"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#salt">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+    <rdfs:label xml:lang="de">"Salz"</rdfs:label>
+    <rdfs:label xml:lang="en">"salt"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#deficiency">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+    <rdfs:label xml:lang="de">"Mangel"</rdfs:label>
+    <rdfs:label xml:lang="en">"deficiency"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#cream">
+    <rdfs:label xml:lang="de">"Sahne"</rdfs:label>
+    <rdfs:label xml:lang="en">"cream"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#food_and_additives"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#arachidonic">
+    <rdfs:label xml:lang="de">"Arachidonsäure"</rdfs:label>
+    <rdfs:label xml:lang="en">"arachidonic"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#journal">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#politics_science"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#epa">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+    <rdfs:label xml:lang="de">"EPA"</rdfs:label>
+    <rdfs:label xml:lang="en">"epa"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#case">
+    <rdfs:label xml:lang="de">"Krankheitsfall"</rdfs:label>
+    <rdfs:label xml:lang="en">"case"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#tissue">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#human_body"/>
+    <rdfs:label xml:lang="de">"Gewebe"</rdfs:label>
+    <rdfs:label xml:lang="en">"tissue"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#supplement">
+    <rdfs:label xml:lang="de">"Zusatz"</rdfs:label>
+    <rdfs:label xml:lang="en">"supplement"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#ascorbate">
+    <rdfs:label xml:lang="de">"Ascorbat"</rdfs:label>
+    <rdfs:label xml:lang="en">"ascorbate"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#use">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+    <rdfs:label xml:lang="de">"Verwendung"</rdfs:label>
+    <rdfs:label xml:lang="en">"use"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#homocysteine">
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#vitamins_nutrients_etc"/>
+    <rdfs:label xml:lang="de">"Homocystein"</rdfs:label>
+    <rdfs:label xml:lang="en">"homocysteine"</rdfs:label>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#cake">
+    <rdfs:label xml:lang="de">"Kuchen"</rdfs:label>
+    <rdfs:label xml:lang="en">"cake"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#food_and_additives"/>
+  </Keyword>
+  <Keyword rdf:about="http://www.scy.eu/pizza#damage">
+    <rdfs:label xml:lang="de">"Schaden"</rdfs:label>
+    <rdfs:label xml:lang="en">"damage"</rdfs:label>
+    <belongsToList rdf:resource="http://www.scy.eu/pizza#health_problems"/>
+  </Keyword>
 </rdf:RDF>
 
-<!-- Created with Protege (with OWL Plugin 3.4.4, Build 579)  http://protege.stanford.edu -->
+<!-- Created with Protege (with OWL Plugin 3.4.5, Build 608)  http://protege.stanford.edu -->
