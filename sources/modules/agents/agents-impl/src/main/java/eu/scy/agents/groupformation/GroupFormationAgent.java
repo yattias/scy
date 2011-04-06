@@ -155,7 +155,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 
 	private void removeUserFromCache(IAction action, int minGroupSize,
 			String las) {
-		String mission = action.getContext(ContextConstants.mission);
+		Mission mission = getSession().getMission(action.getUser());
 		missionGroupsCache.removeFromCache(mission, las, action.getUser(),
 				minGroupSize);
 	}
@@ -179,8 +179,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		Set<String> availableUsers = getAvailableUsers(scope, mission, las,
 				action.getUser());
 		if (availableUsers.size() < minGroupSize) {
-			if (!missionGroupsCache.contains(mission.getName(), las,
-					action.getUser())) {
+			if (!missionGroupsCache.contains(mission, las, action.getUser())) {
 				sendWaitNotification(action);
 			}
 			return;
@@ -189,7 +188,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		GroupFormationStrategy groupFormationStrategy = factory
 				.getStrategy(strategy);
 		groupFormationStrategy.setGroupFormationCache(missionGroupsCache.get(
-				mission.getName(), las));
+				mission, las));
 		groupFormationStrategy.setScope(scope);
 		groupFormationStrategy.setLas(las);
 		groupFormationStrategy.setMission(mission.getName());
@@ -201,7 +200,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 				.formGroup(elo);
 
 		// if (groupsAreOk(formedGroup, minGroupSize, maxGroupSize)) {
-		missionGroupsCache.addGroups(mission.getName(), las, formedGroups);
+		missionGroupsCache.addGroups(mission, las, formedGroups);
 		// }
 		try {
 			sendGroupNotification(action, formedGroups);
@@ -234,6 +233,11 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 				availableUsers.add((String) t.getField(1).getValue());
 			}
 			break;
+		}
+		Collection<Set<String>> groups = missionGroupsCache.getGroups(mission,
+				las);
+		for (Set<String> group : groups) {
+			availableUsers.removeAll(group);
 		}
 		return availableUsers;
 	}
@@ -300,13 +304,10 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 
 	private void waitForNotificationProcessedAction(String notificationId,
 			String message) throws TupleSpaceException {
-		Tuple notificationProcessedTuple = getActionSpace()
-				.waitToRead(
-						new Tuple(ActionConstants.ACTION, notificationId,
-								Long.class,
-								ActionConstants.NOTIFICATION_ACCEPTED,
-								Field.createWildCardField()),
-						AgentProtocol.SECOND * 10);
+		Tuple notificationProcessedTuple = getActionSpace().waitToRead(
+				new Tuple(ActionConstants.ACTION, notificationId, Long.class,
+						String.class, Field.createWildCardField()),
+				AgentProtocol.SECOND / 4);
 		if (notificationProcessedTuple == null) {
 			logger.warn(message);
 		}
