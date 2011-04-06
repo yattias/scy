@@ -21,68 +21,70 @@ import javafx.util.Math;
  */
 public class SimpleScySearchResultCellNode extends CustomNode {
 
-    public var scySearchResult: ScySearchResult on replace { newScySearchResult() };
-    public var disableRelevanceDisplay = false;
-    def titleDisplay = Label {};
-    def authorDisplay = Label {};
-    def dateDisplay = Label {};
-    def spacing = 5.0;
-    def relevanceBarWidth = 30.0;
-    def relevanceBarHeight = 8.0;
-    var relevance: Number;
-    def hBox = HBox {
-                spacing: spacing
-                content: []
-                nodeVPos:VPos.CENTER
-            }
+   public var scySearchResult: ScySearchResult on replace { newScySearchResult() };
+   public var disableRelevanceDisplay = false;
+   def titleDisplay = Label {};
+   def authorDisplay = Label {};
+   def dateDisplay = Label {};
+   def spacing = 5.0;
+   def relevanceBarWidth = 10.0;
+   def relevanceBarHeight = 40.0;
+   var relevance: Number;
+   def hBox = HBox {
+              spacing: spacing
+              content: []
+              nodeVPos: VPos.CENTER
+           }
 
-    public override function create(): Node {
-        hBox
-    }
+   public override function create(): Node {
+      hBox
+   }
 
-    public function getRelevanceNode(relevance: Number){
-        def fillColor = (if (relevance > 0.75) Color.GREEN else if (relevance > 0.5) Color.YELLOW else Color.RED);
-        def relevanceNode = Group {
-                content: [
+   public function getRelevanceNode(relevance: Number) {
+      //TODO This has to be done as the relevance might be greater than 1.0 and normalization has to be discussed
+      def displayRelevance = Math.min(1.0, Math.max(0.0, relevance));
+      def fillColor = Color.hsb(displayRelevance * 120.0, 1.0, 1.0);
+      def displayHeight = relevanceBarHeight * displayRelevance;
+      def relevanceNode = Group {
+                 content: [
                     Rectangle {
-                        width: relevanceBarWidth
-                        height: relevanceBarHeight
-                        stroke: Color.GRAY
-                        fill: Color.GRAY
+                       y: relevanceBarHeight - displayHeight
+                       width: relevanceBarWidth
+                       height: displayHeight
+                       stroke: null
+                       fill: fillColor
+                    }
+                    Rectangle {
+                       width: relevanceBarWidth
+                       height: relevanceBarHeight
+                       stroke: Color.BLACK
+                       fill: Color.TRANSPARENT
                     },
-                     Rectangle {
-                         //TODO This has to be done as the relevance might be greater than 1.0 and normalization has to be discussed
-                        width: Math.min(relevanceBarWidth, relevanceBarWidth * relevance);
-                        height: relevanceBarHeight
-                        stroke: Color.BLACK
-                        fill: fillColor
-                    }
-                ]
-            }
-            if((not disableRelevanceDisplay) and scySearchResult!=null){
-                return relevanceNode;
-            }
-            return Group{content:[]};
-    }
+                 ]
+              }
+      if ((not disableRelevanceDisplay) and scySearchResult != null) {
+         return relevanceNode;
+      }
+      return Group { content: [] };
+   }
 
-
-    function newScySearchResult() {
-        relevance = scySearchResult.getRelevance();
-        titleDisplay.text = scySearchResult.getScyElo().getTitle();
-        authorDisplay.text = ScyEloDisplayProperties.getAuthorsText(scySearchResult.getScyElo());
-        dateDisplay.text = ScyEloDisplayProperties.getDateString(scySearchResult.getScyElo());
-        hBox.content = [
-                    getRelevanceNode(relevance),
-                    scySearchResult.getEloIcon() as EloIcon,
-                    VBox {
-                        spacing: -1
-                        content: [
-                            titleDisplay,
-                            authorDisplay,
-                            dateDisplay
-                        ]
-                    }
-                ];
-    }
+   function newScySearchResult() {
+      relevance = scySearchResult.getRelevance();
+      titleDisplay.text = scySearchResult.getScyElo().getTitle();
+      authorDisplay.text = ScyEloDisplayProperties.getAuthorsText(scySearchResult.getScyElo());
+      dateDisplay.text = ScyEloDisplayProperties.getDateString(scySearchResult.getScyElo());
+      hBox.content = [
+                 getRelevanceNode(relevance),
+                 scySearchResult.getEloIcon() as EloIcon,
+                 VBox {
+                    spacing: -1
+                    content: [
+                       titleDisplay,
+                       authorDisplay,
+                       dateDisplay
+                    ]
+                 }
+              ];
+   }
 
 }
