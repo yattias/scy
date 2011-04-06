@@ -55,7 +55,7 @@
   <eloToolConfig>
     <eloType>defaultEloToolConfig</eloType>
     <eloSystemRole>USER</eloSystemRole>
-    <topDrawerCreatorId>xmlViewer</topDrawerCreatorId>
+    <topDrawerCreatorId>versionViewer</topDrawerCreatorId>
     <rightDrawerCreatorId>propertiesViewer</rightDrawerCreatorId>
     <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
     <leftDrawerCreatorId>scyToolViewer testMoreInfo testDialogs feedbackQuestion</leftDrawerCreatorId>

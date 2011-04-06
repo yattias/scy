@@ -10,7 +10,7 @@
          <list value-type="eu.scy.common.mission.EloToolConfig">
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="defaultEloToolConfig"/>
-               <property name="topDrawerCreatorId" value="xmlViewer"/>
+               <property name="topDrawerCreatorId" value="versionViewer"/>
                <property name="rightDrawerCreatorId" value="propertiesViewer"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="scyToolViewer testMoreInfo testDialogs feedbackQuestion"/>
