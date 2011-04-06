@@ -35,8 +35,12 @@ public class FlyingSaucerBrowser extends CustomNode, Resizable, ScyToolGetter {
     public-init var urlSource: UrlSource;
     public-init var scyWindow: ScyWindow;
 
+    var flyingSaucerWrapper : Node;
+
+    var mainBox : VBox;
+
     function resizeBrowser() {
-        flyingSaucer.setPreferredSize(new Dimension(width, height));
+        flyingSaucer.setPreferredSize(new Dimension(width - 2*spacing, height - 6*spacing));
     }
 
     def drawerDescription = Text {
@@ -53,7 +57,7 @@ public class FlyingSaucerBrowser extends CustomNode, Resizable, ScyToolGetter {
         } else {
             content = [drawerDescription, createBrowserComponent()];
         }
-        return VBox {
+        return mainBox = VBox {
                     spacing: spacing
                     nodeHPos: HPos.CENTER
                     padding: Insets {
@@ -68,15 +72,15 @@ public class FlyingSaucerBrowser extends CustomNode, Resizable, ScyToolGetter {
     }
 
     function createBrowserComponent(): Node {
-        SwingComponent.wrap(flyingSaucer)
+        return SwingComponent.wrap(flyingSaucer);
     }
 
     override function getPrefWidth(width: Number): Number {
-        return flyingSaucer.getPreferredSize().width;
+        return flyingSaucer.getPreferredSize().width + 2*spacing;
     }
 
     override function getPrefHeight(width: Number): Number {
-        return flyingSaucer.getPreferredSize().height;
+        return flyingSaucer.getPreferredSize().height + 6*spacing;
     }
 
     override function getScyTool(): ScyTool {
