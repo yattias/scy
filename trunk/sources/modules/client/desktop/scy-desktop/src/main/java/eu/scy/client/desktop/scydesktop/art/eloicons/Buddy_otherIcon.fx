@@ -36,14 +36,14 @@ return Group {
 					height: 39.91
 				},
 				SVGPath {
-					fill: null
+					fill: bind windowColorScheme.secondColorLight
 					stroke: bind windowColorScheme.mainColor
 					strokeWidth: 4.0
 					strokeLineCap: StrokeLineCap.BUTT
 					content: "M2.93,38.50 C2.93,34.80 10.84,31.80 20.59,31.80 C30.34,31.80 38.24,34.80 38.24,38.50 Z "
 				},
 				SVGPath {
-					fill: null
+					fill: bind windowColorScheme.secondColorLight
 					stroke: bind windowColorScheme.mainColor
 					strokeWidth: 4.0
 					strokeLineCap: StrokeLineCap.BUTT

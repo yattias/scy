@@ -43,18 +43,18 @@ return Group {
 					content: "M2.93,38.50 C2.93,34.80 10.84,31.80 20.59,31.80 C30.34,31.80 38.24,34.80 38.24,38.50 Z "
 				},
 				SVGPath {
+					fill: bind windowColorScheme.secondColorLight
+					stroke: bind windowColorScheme.mainColor
+					strokeWidth: 4.0
+					strokeLineCap: StrokeLineCap.BUTT
+					content: "M26.55,15.18 C26.55,21.79 21.19,27.14 14.59,27.14 C7.98,27.14 2.63,21.79 2.63,15.18 C2.63,8.58 7.98,3.22 14.59,3.22 C21.19,3.22 26.55,8.58 26.55,15.18 Z "
+				},
+				SVGPath {
 					fill: bind windowColorScheme.mainColor
 					stroke: bind windowColorScheme.mainColor
 					strokeWidth: 4.0
 					strokeLineCap: StrokeLineCap.BUTT
 					content: "M38.55,15.18 C38.55,21.79 33.19,27.14 26.59,27.14 C19.98,27.14 14.63,21.79 14.63,15.18 C14.63,8.58 19.98,3.22 26.59,3.22 C33.19,3.22 38.55,8.58 38.55,15.18 Z "
-				},
-				SVGPath {
-					fill: null
-					stroke: bind windowColorScheme.mainColor
-					strokeWidth: 4.0
-					strokeLineCap: StrokeLineCap.BUTT
-					content: "M26.55,15.18 C26.55,21.79 21.19,27.14 14.59,27.14 C7.98,27.14 2.63,21.79 2.63,15.18 C2.63,8.58 7.98,3.22 14.59,3.22 C21.19,3.22 26.55,8.58 26.55,15.18 Z "
 },
 ]
 }

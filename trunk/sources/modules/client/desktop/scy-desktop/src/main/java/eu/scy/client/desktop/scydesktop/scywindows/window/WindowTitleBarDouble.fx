@@ -114,7 +114,7 @@ public class WindowTitleBarDouble extends WindowElement {
       def y = borderWidth/2;
       def yTemp = 2*borderWidth+1;
       titleBarWindowAttributes.layoutY = y;
-      titleBarBuddies.layoutY = yTemp;
+      titleBarBuddies.layoutY = y;
       titleBarButtons.layoutY = y;
       def leftSide = iconSize + textIconSpace;
       def rightSize = width - windowStateControls.layoutBounds.width - 2 * borderWidth;
