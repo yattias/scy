@@ -53,6 +53,7 @@ public class DatasyncAttribute extends ScyWindowAttribute {
          dragAndDropManager: dragAndDropManager
          dragObject: dragObject
          priority: priority
+         tooltipManager: tooltipManager
       }
    }
 
@@ -93,8 +94,8 @@ public class DatasyncAttribute extends ScyWindowAttribute {
          actionScheme: 1
 
          onMousePressed: mousePressed;
-         onMouseDragged: mouseDragged;
-         onMouseReleased: mouseReleased;
+//         onMouseDragged: mouseDragged;
+//         onMouseReleased: mouseReleased;
       }
    }
 
