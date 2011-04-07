@@ -150,7 +150,7 @@ public class SimulatorNode
     }
 
     public override function acceptDrop(object: Object) {
-        logger.info("drop accepted");
+        logger.severe("drop accepted");
         var isSync = isSynchronizingWith(object as ISynchronizable);
         if (isSync) {
             removeDatasync(object as ISynchronizable);
@@ -214,12 +214,13 @@ public class SimulatorNode
     }
 
     public function initializeDatasync(fitex: ISynchronizable): Void {
-        datasyncEdge = scyWindow.windowManager.scyDesktop.edgesManager.addDatasyncLink(fitex.getDatasyncAttribute() as DatasyncAttribute, syncAttrib);
+	datasyncEdge = scyWindow.windowManager.scyDesktop.edgesManager.addDatasyncLink(fitex.getDatasyncAttribute() as DatasyncAttribute, syncAttrib);
         var datasyncsession = toolBrokerAPI.getDataSyncService().createSession(new DummySyncListener());
         fitex.join(datasyncsession.getId(), datasyncEdge as Object);
         this.join(datasyncsession.getId());
         datasyncEdge.join(datasyncsession.getId(), toolBrokerAPI);
         acceptDialog.modalDialogBox.close();
+	syncAttrib.setTooltipText("drag to disconnect");
     }
 
     public function removeDatasync(fitex: ISynchronizable) {
@@ -227,6 +228,7 @@ public class SimulatorNode
         datasyncEdge = null;
         this.leave(dataCollector.getSessionID());
         fitex.leave(fitex.getSessionID());
+	syncAttrib.setTooltipText("drag to connect");
     }
 
     public override function getDatasyncAttribute(): DatasyncAttribute {
@@ -446,6 +448,7 @@ public class SimulatorNode
                         dragAndDropManager: scyWindow.dragAndDropManager;
                         dragObject: this 
                         tooltipManager: scyWindow.tooltipManager
+			tooltipText: "drag to connect"
                         };
             insert syncAttrib into scyWindow.scyWindowAttributes;
         } catch (e: java.lang.Exception) {

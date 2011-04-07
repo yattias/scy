@@ -177,6 +177,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
         simulator.join(datasyncsession.getId(), datasyncEdge as Object);
         datasyncEdge.join(datasyncsession.getId(), toolBrokerAPI);
         acceptDialog.modalDialogBox.close();
+	syncAttrib.setTooltipText("drag to disconnect");
     }
 
     public function removeDatasync(simulator: ISynchronizable) {
@@ -184,6 +185,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
         datasyncEdge = null;
         this.leave(simulator.getSessionID());
         simulator.leave(simulator.getSessionID());
+	syncAttrib.setTooltipText("drag to connect");
     }
 
     public override function getDatasyncAttribute(): DatasyncAttribute {
@@ -227,10 +229,13 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
       fitexPanel.setTBI(toolBrokerAPI);
       fitexPanel.setEloUri((scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
-      syncAttrib = DatasyncAttribute{
-                    scyWindow:scyWindow
-                    dragAndDropManager:scyWindow.dragAndDropManager;
-                    dragObject:this};
+      syncAttrib = DatasyncAttribute {
+                        scyWindow: scyWindow
+                        dragAndDropManager: scyWindow.dragAndDropManager;
+                        dragObject: this
+                        tooltipManager: scyWindow.tooltipManager
+			tooltipText: "drag to connect"
+                        };
       insert syncAttrib into scyWindow.scyWindowAttributes;
       fitexPanel.initActionLogger();
       fitexPanel.initFitex();
