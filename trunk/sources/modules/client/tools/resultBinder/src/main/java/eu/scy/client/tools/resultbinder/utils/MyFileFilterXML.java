@@ -7,11 +7,14 @@ package eu.scy.client.tools.resultbinder.utils;
 
 import java.io.File;
 import javax.swing.filechooser.FileFilter;
+
 /**
- *
+ * file filter for xml files
  * @author Marjolaine
  */
+
 public class MyFileFilterXML extends FileFilter{
+    /* accepts the xml files only*/
     @Override
     public boolean accept(File f) {
         if(f.isDirectory())
@@ -24,6 +27,7 @@ public class MyFileFilterXML extends FileFilter{
         return ext.equals("xml");
     }
 
+    /* xml files*/
     @Override
     public String getDescription() {
         return "*.xml";

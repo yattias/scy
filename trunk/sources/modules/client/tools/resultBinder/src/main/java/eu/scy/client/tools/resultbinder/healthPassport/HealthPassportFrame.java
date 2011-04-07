@@ -34,13 +34,15 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
 /**
- *
+ * JFrame to test the health passport
  * @author Marjolaine
  */
 public class HealthPassportFrame extends javax.swing.JFrame implements IActionResultBinder, ComponentListener{
 
+    /** main panel*/
     private ResultBinderPanel myPanel;
 
+    /** last file used for saving or loading an xml resultCard*/
     private File lastUsedFile = null;
     private XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
     private transient SAXBuilder builder = new SAXBuilder(false);
@@ -67,6 +69,7 @@ public class HealthPassportFrame extends javax.swing.JFrame implements IActionRe
         initGUI();
     }
 
+    /* choice of the file to save the resultCard elo*/
     private void doSave(){
         JFileChooser aFileChooser = new JFileChooser();
         aFileChooser.setFileFilter(new MyFileFilterXML());
@@ -105,11 +108,13 @@ public class HealthPassportFrame extends javax.swing.JFrame implements IActionRe
         }
     }
 
+    /* returns true if the specified file os an xml file (.xml)*/
     private static boolean isXMLFile(File file){
         String ext = getExtensionFile(file);
         return ext.equals("xml");
     }
 
+    /* returns the extension of a file (after the '.')*/
     private static  String getExtensionFile(File file){
         int id = file.getName().lastIndexOf(".");
         if(id == -1 || id==file.getName().length()-1)
@@ -117,6 +122,7 @@ public class HealthPassportFrame extends javax.swing.JFrame implements IActionRe
         return file.getName().substring(id+1);
     }
 
+    /* load an xml resultCard ELO */
     private void doLoad(){
         setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         JFileChooser aFileChooser = new JFileChooser();
@@ -161,6 +167,7 @@ public class HealthPassportFrame extends javax.swing.JFrame implements IActionRe
         }
     }
 
+    /* new blank ELO */
     private void doNew(){
         myPanel.newElo();
     }

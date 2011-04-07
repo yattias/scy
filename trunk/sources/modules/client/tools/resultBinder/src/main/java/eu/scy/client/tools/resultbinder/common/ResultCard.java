@@ -11,15 +11,20 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- *
+ * A resultCard is a list of elements, defined by a name and a value
  * @author Marjolaine
  */
 public class ResultCard {
+    /** xml tag for the result card */
     private final static String TAG_RESULT_CARD = "result_card";
+    /** xml tag for an element of the result card */
     private final static String TAG_RESULT = "result";
+    /** xml tag for the name of the element */
     private final static String TAG_RESULT_CARD_NAME = "result_name";
+    /** xml tag for the value ofd the element */
     private final static String TAG_RESULT_CARD_VALUE = "result_value";
 
+    /** hashmap of the different elements in a result card */
     private HashMap<String,Object> resultCard ;
 
     public ResultCard() {
@@ -57,6 +62,7 @@ public class ResultCard {
         }
     }
 
+    /** returns the xml element representation of the result card*/
     public Element toXML(){
         Element element = new Element(TAG_RESULT_CARD);
         for (Iterator<String> i = resultCard.keySet().iterator() ; i.hasNext() ; ){

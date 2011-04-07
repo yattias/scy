@@ -34,24 +34,37 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * health passport panel
  * @author Marjolaine
  */
 public class HealthPassportPanel extends javax.swing.JPanel {
 
+    /* title health passport color*/
     private final static Color TITLE_COLOR = Color.RED;
+    /* title health passport font*/
     private final static Font TITLE_FONT = new Font("Arial", Font.BOLD, 36);
+    /* color of the text, when there is no picture */
     private final static Color NO_PICTURE_COLOR = new Color(0, 255, 102);
+    /* border color of the picture */
     private final static Color BORDER_PICTURE_COLOR = Color.BLACK;
+    /* font of the labels*/
     private final static Font FONT_LABEL = new Font(Font.DIALOG, Font.PLAIN, 12);
+    /* color for the data relative to the name*/
     private final static Color COLOR_NAME = new Color(102,102, 102);
+    /* color for the data relative to the bmi */
     private final static Color COLOR_BMI = new Color(0, 51, 204);
+    /* color for the data relative to the eer */
     private final static Color COLOR_EER = new Color(0, 153, 153);
+    /* color for the data relative to the evaluation & conclusions */
     private final static Color COLOR_EVALUATION = Color.BLACK;
+    /** health passport width */
     public final static int HEALTH_PASSPORT_WIDTH = 700;
+    /** health passport height */
     public final static int HEALTH_PASSPORT_HEIGHT = 540;
 
+    /*health passport as a resultCard*/
     private ResultCard resultCardHealthPassport = null;
+    /*login of the user*/
     private String userName;
     private HealthPassportEnum healthPassportEnum;
 
@@ -70,6 +83,7 @@ public class HealthPassportPanel extends javax.swing.JPanel {
         initGUI();
     }
 
+    /** Adds the specified action resultBinder listener to receive action events from this panel.*/
     public void addActionResultBinder(IActionHealthPassport actionHealthPassport){
         this.actionHealthPassport = actionHealthPassport;
     }
@@ -80,6 +94,7 @@ public class HealthPassportPanel extends javax.swing.JPanel {
     }
 
     private void initGUI(){
+        // i18n number format
         numberFormat = NumberFormat.getNumberInstance(getLocale());
         numberFormat.setGroupingUsed(false);
         initHealthPassport();
@@ -121,6 +136,7 @@ public class HealthPassportPanel extends javax.swing.JPanel {
          updateElements();
      }
 
+     /*gets the value of an element, specified by its key*/
      private String getValue(String key){
          Object o = resultCardHealthPassport.getResultCard().get(key);
          if(o == null)
@@ -130,6 +146,7 @@ public class HealthPassportPanel extends javax.swing.JPanel {
      }
 
 
+     /* check the birth date, if the format is correct and before today */
      private void checkBirthDate(){
          String oldV = getValue(HealthPassportEnum.BIRTH_DATE.name());
          String s = fieldBirthDate.getText();
@@ -152,6 +169,7 @@ public class HealthPassportPanel extends javax.swing.JPanel {
 
      }
 
+     // returns true if the specified string can be a birth date
      private boolean controlBirthDate(String s){
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         try {
@@ -172,6 +190,7 @@ public class HealthPassportPanel extends javax.swing.JPanel {
         return true;
      }
 
+     /* gets the value of a specified key as a double*/
      private double getDoubleValue(String key){
          Object o = resultCardHealthPassport.getResultCard().get(key);
          if(o == null || o.equals("")){
@@ -308,6 +327,7 @@ public class HealthPassportPanel extends javax.swing.JPanel {
         }
     }
 
+    /* check if the format of the weight is correct */
     private void checkWeight(){
         String oldV = getValue(HealthPassportEnum.WEIGHT.name());
          String s = fieldWeight.getText();
@@ -335,6 +355,7 @@ public class HealthPassportPanel extends javax.swing.JPanel {
          }
      }
 
+    /* check if the format of the height is correct */
     private void checkHeight(){
          String oldV = getValue(HealthPassportEnum.HEIGHT.name());
          String s = fieldHeight.getText();
@@ -374,6 +395,7 @@ public class HealthPassportPanel extends javax.swing.JPanel {
         checkGender(rbBoy.isSelected());
     }
 
+    /* check if the format of the BMI is correct */
     private void checkBMI(){
         String oldV = getValue(HealthPassportEnum.BMI.name());
          String s = fieldBMI.getText();
@@ -401,6 +423,7 @@ public class HealthPassportPanel extends javax.swing.JPanel {
          }
      }
 
+    /* check if the format of the heart rate is correct */
     private void checkHeartRate(){
         String oldV = getValue(HealthPassportEnum.HEART_RATE.name());
          String s = fieldHeartRate.getText();
@@ -428,6 +451,7 @@ public class HealthPassportPanel extends javax.swing.JPanel {
          }
      }
 
+    /* check if the format of the BMR is correct */
     private void checkBMR(){
          String oldV = getValue(HealthPassportEnum.BMR.name());
          String s = fieldBMR.getText();
@@ -455,6 +479,7 @@ public class HealthPassportPanel extends javax.swing.JPanel {
          }
      }
 
+    /* check if the format of the calorieintake is correct */
     private void checkCalorieIntake(){
         String oldV = getValue(HealthPassportEnum.DAILY_CALORIE_INTAKE.name());
          String s = fieldCalorieIntake.getText();
@@ -483,6 +508,7 @@ public class HealthPassportPanel extends javax.swing.JPanel {
          computeCalorieBalance();
      }
 
+    /* check if the format of the EER is correct */
     private void checkEER(){
         String oldV = getValue(HealthPassportEnum.EER.name());
          String s = fieldEER.getText();
@@ -511,6 +537,7 @@ public class HealthPassportPanel extends javax.swing.JPanel {
          computeCalorieBalance();
      }
 
+    /* check if the format of the evaluation is correct */
     private void checkEvaluation(){
         String oldV = getValue(HealthPassportEnum.EVALUATION.name());
          String s = editorEvaluation.getText();
@@ -527,6 +554,7 @@ public class HealthPassportPanel extends javax.swing.JPanel {
          }
      }
 
+    /* check if the format of the conclusion is correct */
     private void checkConclusion(){
         String oldV = getValue(HealthPassportEnum.CONCLUSION.name());
          String s = editorConclusion.getText();
@@ -543,6 +571,7 @@ public class HealthPassportPanel extends javax.swing.JPanel {
          }
      }
 
+    /* checks all values and fills the resultCard */
     private void checkAll(){
         checkBirthDate();
         checkWeight();
@@ -558,14 +587,15 @@ public class HealthPassportPanel extends javax.swing.JPanel {
     }
      
 
-    /** logs */
+    /** logs the modification of a value */
     private void logValueChanged(String valueName, String value){
         if(actionHealthPassport != null)
             actionHealthPassport.logAction(valueName, value);
     }
 
 
-     private void updateElements(){
+    /* update the different elements of the health passport */
+    private void updateElements(){
          fieldName.setText(userName);
          fieldBirthDate.setText(resultCardHealthPassport.getResultCard().get(HealthPassportEnum.BIRTH_DATE.name()) == null ? "":resultCardHealthPassport.getResultCard().get(HealthPassportEnum.BIRTH_DATE.name()).toString());
          double weight = getDoubleValue(HealthPassportEnum.WEIGHT.name());
@@ -591,21 +621,25 @@ public class HealthPassportPanel extends javax.swing.JPanel {
          editorConclusion.setText(resultCardHealthPassport.getResultCard().get(HealthPassportEnum.CONCLUSION.name()) == null ?"" :resultCardHealthPassport.getResultCard().get(HealthPassportEnum.CONCLUSION.name()).toString());
      }
 
+    /** returns the health passport result Card */
     public ResultCard getResultCardHealthPassport() {
         checkAll();
         return resultCardHealthPassport;
     }
 
+    /** returns the panel Name -resized- for the thumbnail */
     public Container getInterfacePanel(){
         panelName.setSize(128,128);
         return panelName;
     }
 
+    /** sets the specified user name */
     public void setUserName(String userName){
         this.userName = userName;
         fieldName.setText(userName);
     }
 
+    /** sets the specified URL for the picture */
     public void setPicture(String pictureUrl){
         if(pictureUrl != null){
             try {
