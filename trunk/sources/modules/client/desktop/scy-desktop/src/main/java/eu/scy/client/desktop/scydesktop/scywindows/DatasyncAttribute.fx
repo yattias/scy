@@ -34,17 +34,14 @@ public class DatasyncAttribute extends ScyWindowAttribute {
    public-init var dragAndDropManager: DragAndDropManager;
    public-init var dragObject: Object;
    public-init var tooltipManager: TooltipManager;
+   public-init var tooltipText: String;
    public-read def cableStartX = 3;
    public-read def cableStartY = -12;
    def logger = Logger.getLogger(this.getClass());
    def size = 16.0;
-//    def strokeWidth = 2;
-//    def defaultTitleColor = Color.WHITE;
-//    def defaultContentColor = Color.GRAY;
    def dragScale = 2.0;
-//    var titleColor = defaultTitleColor;
-//    var contentColor = defaultContentColor;
    var eloIcon: EloIcon;
+
    def color = bind scyWindow.windowColorScheme.mainColor;
 
    public override function clone(): DatasyncAttribute {
@@ -54,19 +51,17 @@ public class DatasyncAttribute extends ScyWindowAttribute {
          dragObject: dragObject
          priority: priority
          tooltipManager: tooltipManager
+	 tooltipText: tooltipText
       }
+   }
+
+   public function setTooltipText(newText: String): Void {
+       tooltipText = newText;
    }
 
    function mousePressed(e: MouseEvent) {
       println("now dragging should start.....");
       var dragNode = dragIcon();
-      //       dragNode.layoutX = layoutX;
-      //       dragNode.layoutY = layoutY;
-      // correct for the  "layouting" in the drag and drop manager
-      //       dragNode.scaleX = dragScale;
-      //       dragNode.scaleY = dragScale;
-      //       dragNode.translateX = -e.sceneX + e.x;
-      //       dragNode.translateY = -e.sceneY + e.y;
       dragAndDropManager.startDrag(dragNode, dragObject, this, e);
    };
 
@@ -89,15 +84,17 @@ public class DatasyncAttribute extends ScyWindowAttribute {
          mouseOverSize: mouseOverItemSize
          eloIcon: eloIcon.clone()
          tooltipManager: tooltipManager
-         tooltip: "drag to connect"
+         tooltip: getTooltipText()
          hideBackground: true
          actionScheme: 1
-
          onMousePressed: mousePressed;
-//         onMouseDragged: mouseDragged;
-//         onMouseReleased: mouseReleased;
       }
    }
+
+   function getTooltipText(): String {
+       tooltipText;
+   }
+
 
 }
 
