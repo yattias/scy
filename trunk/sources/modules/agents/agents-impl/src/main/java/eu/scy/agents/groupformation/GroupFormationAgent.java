@@ -141,7 +141,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 								.getParameter(new AgentParameter(
 										getSession().getMission(
 												action.getUser()).getName(),
-										MIN_GROUP_SIZE_PARAMETER)), las);
+										MIN_GROUP_SIZE_PARAMETER)), oldLas);
 			}
 			if ("conceptualisatsionConceptMap".equals(las)) {
 				try {
@@ -307,7 +307,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		Tuple notificationProcessedTuple = getActionSpace().waitToRead(
 				new Tuple(ActionConstants.ACTION, notificationId, Long.class,
 						String.class, Field.createWildCardField()),
-				AgentProtocol.SECOND / 4);
+				AgentProtocol.MILLI_SECOND * 100);
 		if (notificationProcessedTuple == null) {
 			logger.warn(message);
 		}
