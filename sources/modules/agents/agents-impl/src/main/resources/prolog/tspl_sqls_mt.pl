@@ -889,7 +889,7 @@ tspl_event_register(TS, Command, Template, Callback, Seq) :-
         memberchk(id=UID, AttrList),
         memberchk(type=answer, AttrList),
         tspl_tuple_field(Tuple, 0, Seq),
-        assert(callback(Seq, TS, Context:Callback)).
+        assert(tspl:callback(Seq, TS, Context:Callback)).
 
 
 %%     tspl_event_deregister(+TS:any, +Seq:int) is det.
@@ -904,7 +904,7 @@ tspl_event_deregister(TS, Seq) :-
         XMLResponse = [element(response, AttrList, [])],
         memberchk(id=UID, AttrList),
         memberchk(type=ok, AttrList),
-        retract(callback(Seq, TS, _)).
+        retract(tspl:callback(Seq, TS, _)).
 
 field_value_(element(field, Attr, _), _) :-
 	memberchk(fieldtype=formal, Attr), !.
@@ -1037,13 +1037,13 @@ responsethread(TS) :-
 	    (   El = element(response, _, _), 
 		xml_attribute_value_(El, id, UID), 
 		thread_send_message(Q, event(UID, XMLResponse))
-	    ;   El = element(callback, _, Children), 
+	    ;   El = element(callback, _, Children),
 		xml_attribute_value_(El, seq, SEQAtom),
 		xml_attribute_value_(El, command, Cmd),
 		term_to_atom(SEQ, SEQAtom),
 		memberchk(element(after, _, AfterCommand), Children),
 		memberchk(element(before, _, BeforeCommand), Children), 
-		callback(SEQ, TS, Call),
+		callback(SEQ, TS, _:Call),
 		CbCall =.. [Call, Cmd, SEQ, BeforeCommand, AfterCommand],
 		thread_send_message(CallbackQ, CbCall)
 	    ),
