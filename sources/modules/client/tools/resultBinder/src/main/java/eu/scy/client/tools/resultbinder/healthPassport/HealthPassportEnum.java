@@ -6,7 +6,7 @@
 package eu.scy.client.tools.resultbinder.healthPassport;
 
 /**
- *
+ * Name of the variables in the health passport
  * @author Marjolaine
  */
 public enum HealthPassportEnum {

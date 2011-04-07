@@ -18,13 +18,15 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- *
+ * resultBinder panel, could be in the future a more generic panel
  * @author Marjolaine
  */
 public class ResultBinderPanel extends JPanel implements IActionHealthPassport{
 
+    /* xml tag for the value changed in the logs*/
     private final static String LOG_RESULT_BINDER_CHANGED = "result_binder_value_changed";
-     private ResultCard resultCard = null;
+    /* result Card*/
+    private ResultCard resultCard = null;
 
     /* ressource bundle */
     private ResourceBundleWrapper bundle;
@@ -41,6 +43,7 @@ public class ResultBinderPanel extends JPanel implements IActionHealthPassport{
         initGUI();
     }
 
+    /** Adds the specified action resultBinder listener to receive action events from this panel.*/
     public void addActionResultBinder(IActionResultBinder actionResultBinder){
         this.actionResultBinder = actionResultBinder;
     }
@@ -67,7 +70,7 @@ public class ResultBinderPanel extends JPanel implements IActionHealthPassport{
     }
 
 
-    /** new ELO */
+    /** loads a new ELO */
      public void newElo(){
          healthPassportPanel.initHealthPassport();
          resultCard = healthPassportPanel.getResultCardHealthPassport();
@@ -111,11 +114,13 @@ public class ResultBinderPanel extends JPanel implements IActionHealthPassport{
         logValueChanged(attributeKey, attributeValue);
     }
 
+    /** sets the specified userName for the health passport*/
     public void setUserName(String userName){
         this.userName = userName;
         healthPassportPanel.setUserName(userName);
     }
 
+    /** sets the specified url for a picture for the health passport*/
     public void setPicture(String pictureUrl){
         healthPassportPanel.setPicture(pictureUrl);
     }
