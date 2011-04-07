@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project SimQuestViewer">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+        <jar destfile="C:/Users/lars/Desktop/scysimulator-complete.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="sqv.SimQuestViewerApplication"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="D:/code/workspaces/colab/SimQuestViewer/bin"/>
+            <zipfileset excludes="META-INF/*.SF" src="D:/code/workspaces/colab/SimQuestViewer/libs/jcommon-1.0.12.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="D:/code/workspaces/colab/SimQuestViewer/libs/jdom.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="D:/code/workspaces/colab/SimQuestViewer/libs/jfreechart-1.0.9.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="D:/code/workspaces/colab/SimQuestViewer/libs/plot.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="D:/code/workspaces/colab/SimQuestViewer/libs/xerces.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="D:/code/workspaces/colab/SimQuestViewer/libs/Jama-1.0.2.jar"/>
+        </jar>
+    </target>
+</project>

@@ -22,115 +22,120 @@ import utils.FileName;
 
 public class SCYSimulatorStandalone implements INotifiable {
 
-    private final static Logger LOGGER = Logger.getLogger(SCYSimulatorStandalone.class.getName());
-    private TupleSpace toolAliveSpace;
-    private JPanel simquestPanel;
-    private ToolBrokerAPI tbi = null;
-    private JFrame mainFrame;
-    private DataCollector dataCollector;
+	private final static Logger LOGGER = Logger.getLogger(SCYSimulatorStandalone.class.getName());
+	private TupleSpace toolAliveSpace;
+	private JPanel simquestPanel;
+	private ToolBrokerAPI tbi = null;
+	private JFrame mainFrame;
+	private DataCollector dataCollector;
 
-    public SCYSimulatorStandalone() throws URISyntaxException, InterruptedException, TupleSpaceException {
-        SimQuestViewer simquestViewer = new SimQuestViewer(true);
+	public SCYSimulatorStandalone() throws URISyntaxException, InterruptedException, TupleSpaceException {
+		SimQuestViewer simquestViewer = new SimQuestViewer(true);
 
-	//URI fileUri = new URI("http://www.scy-lab.eu/sqzx/RotatingPendulum.sqzx");
-    	//URI fileUri = new URI("http://www.scy-lab.eu/sqzx/balance.sqzx");
-    	//URI fileUri = new URI("http://localhost/co2_house.sqzx");
-    	//URI fileUri = new URI("http://www.scy-lab.eu/sqzx/co2_house.sqzx");
-    	//URI fileUri = new URI("http://www.scy-lab.eu/sqzx/pizza.sqzx");
-    	//URI fileUri = new URI("http://alephnull.de/co2_house.sqzx");
-    	
-    	//FileName fileName = new FileName("D:/projects/scy/sqzx/co2-converter/co2_converter.sqzx");
-	//FileName fileName = new FileName("D:/projects/scy/sqzx/pizza/PizzaSimulation/pizza.sqx");
-        URI fileUri = new URI("file:lib/sqzx/pizza.sqzx");
-        //URI fileUri = fileName.toURI();
+		// URI fileUri = new
+		// URI("http://www.scy-lab.eu/sqzx/RotatingPendulum.sqzx");
+		// URI fileUri = new URI("http://www.scy-lab.eu/sqzx/balance.sqzx");
+		 URI fileUri = new URI("http://www.scy-lab.eu/sqzx/co2_house.sqzx");
+		// URI fileUri = new URI("http://www.scy-lab.eu/sqzx/pizza.sqzx");
+		// URI fileUri = new URI("http://alephnull.de/co2_house.sqzx");
 
-	LOGGER.log(Level.INFO, "trying to load: {0}", fileUri.toString());
-        simquestViewer.setFile(fileUri);
-        simquestViewer.createFrame(false);
-        simquestPanel = new JPanel();
-        dataCollector = null;
+		// FileName fileName = new
+		// FileName("D:/projects/scy/sqzx/co2-converter/co2_converter.sqzx");
+		// FileName fileName = new
+		// FileName("D:/projects/scy/sqzx/pizza/PizzaSimulation/pizza.sqx");
+		// URI fileUri = new URI("file:lib/sqzx/pizza.sqzx");
+		// URI fileUri = fileName.toURI();
 
-        try {
-	    simquestViewer.run();
-            dataCollector = new DataCollector(simquestViewer, tbi, "n/a");
-            simquestViewer.getInterfacePanel().setPreferredSize(simquestViewer.getRealSize());
-	    JScrollPane scroller = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-            scroller.setViewportView(simquestViewer.getInterfacePanel());
-            JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-            split.setDividerLocation(0.75);
-            split.setResizeWeight(0.75);
-            split.setBottomComponent(dataCollector);
-            split.setTopComponent(scroller);
-            dataCollector.setPreferredSize(new Dimension(100, 300));
-            split.setEnabled(true);
-	    simquestPanel.add(split, BorderLayout.CENTER);
-        } catch (java.lang.Exception e) {
-            LOGGER.severe(e.getMessage());
-	    e.printStackTrace();
-            JTextArea info = new JTextArea(4, 42);
-            info.append("Simulation could not be loaded.\n");
-            info.append("Probably the simulation file was not found,\n");
-            info.append("it was expected at:\n");
-            info.append(fileUri.toString());
-            simquestPanel.add(info);
-        }
+		LOGGER.log(Level.INFO, "trying to load: {0}", fileUri.toString());
+		simquestViewer.setFile(fileUri);
+		simquestViewer.createFrame(false);
+		simquestPanel = new JPanel();
+		dataCollector = null;
 
-        mainFrame = new JFrame();
-        mainFrame.getContentPane().add(simquestPanel);
-        mainFrame.pack();
-        mainFrame.setSize(800, 650);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.setVisible(true);
-        // addJXLayer(simquestPanel, mainFrame);
-        //String userName = dataCollector.getLogger().getUserName();
-        //String toolName = dataCollector.getLogger().getToolName();
-        String userName = "n/a";
-        String toolName = "scysimulator standalone";
-        //toolAliveSpace = new TupleSpace(new User(userName), "scy.collide.info", 2525, "toolAliveSpace");
-        //startAliveThread(toolAliveSpace, userName, toolName);
-    }
+		try {
+			simquestViewer.run();
+			dataCollector = new DataCollector(simquestViewer, tbi, "n/a");
+			simquestViewer.getInterfacePanel().setPreferredSize(simquestViewer.getRealSize());
+			JScrollPane scroller = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			scroller.setViewportView(simquestViewer.getInterfacePanel());
+			JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+			split.setDividerLocation(0.75);
+			split.setResizeWeight(0.75);
+			split.setBottomComponent(dataCollector);
+			split.setTopComponent(scroller);
+			dataCollector.setPreferredSize(new Dimension(100, 300));
+			split.setEnabled(true);
+			simquestPanel.add(split, BorderLayout.CENTER);
+		} catch (java.lang.Exception e) {
+			LOGGER.severe(e.getMessage());
+			e.printStackTrace();
+			JTextArea info = new JTextArea(4, 42);
+			info.append("Simulation could not be loaded.\n");
+			info.append("Probably the simulation file was not found,\n");
+			info.append("it was expected at:\n");
+			info.append(fileUri.toString());
+			simquestPanel.add(info);
+		}
 
-    private void startAliveThread(final TupleSpace toolAliveSpace, final String userName, final String toolName) {
-//        Thread t = new Thread(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                TupleID alive = null;
-//                while (true) {
-//
-//                    synchronized (this) {
-//                        try {
-//                            this.wait(2000);
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//
-//                    try {
-//                        Tuple tuple = new Tuple(toolName, userName, "i'm alive...nanannannannannaa", TimeFormatHelper.getInstance().getCurrentTimeMillisAsISO8601());
-//                        tuple.setExpiration(3000);
-//                        if (alive == null) {
-//                            alive = toolAliveSpace.write(tuple);
-//                        } else {
-//                            toolAliveSpace.update(alive, tuple);
-//                        }
-//                    } catch (TupleSpaceException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//
-//            }
-//        });
-//        t.start();
-    }
+		mainFrame = new JFrame();
+		mainFrame.getContentPane().add(simquestPanel);
+		mainFrame.pack();
+		mainFrame.setSize(800, 650);
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.setVisible(true);
+		// addJXLayer(simquestPanel, mainFrame);
+		// String userName = dataCollector.getLogger().getUserName();
+		// String toolName = dataCollector.getLogger().getToolName();
+		String userName = "n/a";
+		String toolName = "scysimulator standalone";
+		// toolAliveSpace = new TupleSpace(new User(userName),
+		// "scy.collide.info", 2525, "toolAliveSpace");
+		// startAliveThread(toolAliveSpace, userName, toolName);
+	}
 
-    public static void main(String[] args) throws URISyntaxException, InterruptedException, TupleSpaceException {
-            new SCYSimulatorStandalone();
-    }
+	private void startAliveThread(final TupleSpace toolAliveSpace, final String userName, final String toolName) {
+		// Thread t = new Thread(new Runnable() {
+		//
+		// @Override
+		// public void run() {
+		// TupleID alive = null;
+		// while (true) {
+		//
+		// synchronized (this) {
+		// try {
+		// this.wait(2000);
+		// } catch (InterruptedException e) {
+		// e.printStackTrace();
+		// }
+		// }
+		//
+		// try {
+		// Tuple tuple = new Tuple(toolName, userName,
+		// "i'm alive...nanannannannannaa",
+		// TimeFormatHelper.getInstance().getCurrentTimeMillisAsISO8601());
+		// tuple.setExpiration(3000);
+		// if (alive == null) {
+		// alive = toolAliveSpace.write(tuple);
+		// } else {
+		// toolAliveSpace.update(alive, tuple);
+		// }
+		// } catch (TupleSpaceException e) {
+		// e.printStackTrace();
+		// }
+		// }
+		//
+		// }
+		// });
+		// t.start();
+	}
 
-    @Override
-    public boolean processNotification(INotification notification) {
-        return dataCollector.processNotification(notification);
-    }
+	public static void main(String[] args) throws URISyntaxException, InterruptedException, TupleSpaceException {
+		new SCYSimulatorStandalone();
+	}
+
+	@Override
+	public boolean processNotification(INotification notification) {
+		return dataCollector.processNotification(notification);
+	}
 
 }

@@ -23,7 +23,11 @@ public class DatasetTableModel extends AbstractTableModel {
     private void setColumnNames(List<ModelVariable> variables) {
         columnNames = new String[variables.size()];
         for (int i = 0; i < variables.size(); i++) {
-            columnNames[i] = variables.get(i).getName();
+            if (variables.get(i).getDescription().isEmpty()) {
+            	columnNames[i] = variables.get(i).getName();
+            } else {
+            	columnNames[i] = variables.get(i).getName()+": "+variables.get(i).getDescription();
+            }
         }
     }
 
