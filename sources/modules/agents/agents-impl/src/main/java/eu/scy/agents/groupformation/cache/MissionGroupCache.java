@@ -23,6 +23,9 @@ public class MissionGroupCache {
 			return Collections.emptyList();
 		}
 		GroupCache groupCache = lasCache.get(las);
+		if (groupCache == null) {
+			return Collections.emptyList();
+		}
 		return groupCache.getGroups();
 	}
 
