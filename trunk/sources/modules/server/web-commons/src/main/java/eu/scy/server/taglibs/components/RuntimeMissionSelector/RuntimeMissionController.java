@@ -30,17 +30,24 @@ public class RuntimeMissionController extends TagSupport {
             pageContext.getOut().write("<div id=\"runtimeMissionController\">\n");
             List runtimeELOs = getRuntimeELOService().getRuntimeElosForUser(getCurrentUserName((HttpServletRequest) pageContext.getRequest()));
             if (runtimeELOs.size() > 0) {
+                pageContext.getOut().write("<table width=\"100%\">");
                 for (int i = 0; i < runtimeELOs.size(); i++) {
+
                     MissionRuntimeElo missionRuntimeElo = new MissionRuntimeElo(((ScyElo) runtimeELOs.get(i)).getElo(), runtimeELOService);
                     if (missionRuntimeElo.getUserRunningMission().equals(getCurrentUserName((HttpServletRequest) pageContext.getRequest()))) {
                         String uri = missionRuntimeElo.getUri().toString();
                         uri = URLEncoder.encode(uri, "UTF-8");
+                        pageContext.getOut().write("<tr><td>");
                         pageContext.getOut().write("<a href=\"/webapp/app/student/StudentIndex.html?eloURI=" + uri + "\">");
                         pageContext.getOut().write(missionRuntimeElo.getTitle());
                         pageContext.getOut().write("</a>");
+                        pageContext.getOut().write("</td><td>");
+                        pageContext.getOut().write("<a href=\"/extcomp/scy-lab.jnlp\">Start SCYLab</a></td></tr>");
                     }
 
+
                 }
+                pageContext.getOut().write("</table>");
                 //pageContext.getOut().write("RUNTIME MISSION CONTROLLER");
             } else {
                 pageContext.getOut().write("<strong>You have no assigned missions. Please contact your teacher and ask him or her to assign a mission to your user</strong>");
