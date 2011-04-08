@@ -7,11 +7,7 @@
 package eu.scy.client.tools.fxresultbinder.registration;
 
 import java.net.URI;
-import javafx.scene.Group;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
 import javafx.scene.layout.Container;
@@ -40,6 +36,7 @@ import roolo.api.IRepository;
 import eu.scy.common.configuration.Configuration;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
+import eu.scy.common.scyelo.ScyElo;
 
 
 /**
@@ -66,7 +63,6 @@ public class ResultBinderNode extends CustomNode, Resizable, ScyToolFX, EloSaver
 
    var elo:IELO;
 
-   def spacing = 5.0;
 
    var bundle:ResourceBundleWrapper;
 
@@ -127,6 +123,14 @@ public class ResultBinderNode extends CustomNode, Resizable, ScyToolFX, EloSaver
          scyResultBinderPanel.loadELO(newElo.getContent().getXmlString());
          logger.info("elo loaded");
          elo = newElo;
+        var scyElo = new ScyElo(elo, toolBrokerAPI);
+        var authorList= scyElo.getAuthors();
+        var userName = toolBrokerAPI.getLoginUserName();
+        if(authorList != null and authorList.get(0) != null){
+            userName = authorList.get(0);
+        }
+        scyResultBinderPanel.setUserName(userName);
+        scyResultBinderPanel.setPicture("{IMAGE_BASE_DIR}?username={userName}");
       }
    }
 

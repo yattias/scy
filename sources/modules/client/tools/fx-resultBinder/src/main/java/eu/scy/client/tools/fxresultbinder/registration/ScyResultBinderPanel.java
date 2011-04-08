@@ -68,6 +68,9 @@ public class ScyResultBinderPanel extends JPanel implements IActionResultBinder{
     public void setUserName(){
         resultBinderPanel.setUserName(getUserName());
     }
+    public void setUserName(String userName){
+        resultBinderPanel.setUserName(userName);
+    }
 
     public void setPicture(String pictureUrl){
         resultBinderPanel.setPicture(pictureUrl);
