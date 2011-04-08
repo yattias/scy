@@ -1,10 +1,7 @@
 package eu.scy.client.tools.fxfitex.registration;
 
 import javafx.scene.Group;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
 import javafx.scene.layout.Container;
@@ -12,7 +9,7 @@ import javafx.scene.layout.Container;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import java.util.logging.Logger;
 import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.ModalDialogNode;
@@ -47,11 +44,15 @@ import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 
 /**
+ * fitex node
+ * output elos: pds, processed dataset elos
+ * accepts dnd from other fitex node, in order to merge 2 datasets
+ * sync. with SCYSimulator, by dnd the "cable", dataset header and dataset rows
  * @author Marjolaine
  */
 
 public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
-   def logger = Logger.getLogger(this.getClass());
+   def logger = Logger.getLogger(FitexNode.class.getName());
    def scyFitexType = "scy/pds";
    def jdomStringConversion = new JDomStringConversion();
 
@@ -69,7 +70,6 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
    var datasyncEdge: DatasyncEdge;
    var acceptDialog: AcceptSyncModalDialog;
    var elo:IELO;
-   def spacing = 5.0;
 
    var bundle:ResourceBundleWrapper;
    def saveTitleBarButton = TitleBarButton {
@@ -81,7 +81,8 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
               action: doSaveAsElo
            }
 
-  public override function canAcceptDrop(object: Object): Boolean {
+   // accepts drop if its a simulator or fitex
+   public override function canAcceptDrop(object: Object): Boolean {
         if (object instanceof ISynchronizable) {
             if ((object as ISynchronizable).getToolName().equals("simulator") or (object as ISynchronizable).getToolName().equals("fitex")) {
                 return true;
@@ -98,10 +99,12 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
         return (object as ISynchronizable).getToolName().equals("fitex");
     }
 
+    // drop accepted: synchronizing or merging, depending of the dropped tool
     public override function acceptDrop(object: Object) {
-        logger.debug("drop accepted.");
+        logger.info("drop accepted.");
         var isSync = isSynchronizingWith(object as ISynchronizable);
         if (isSync) {
+            // remove the sync.
             removeDatasync(object as ISynchronizable);
         } else {
              if(isDnDSimulator(object as ISynchronizable)){
@@ -170,7 +173,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
        return getSessionID() != null;
    }
 
-   public function initializeDatasync(simulator: ISynchronizable) {
+   public function initializeDatasync(simulator: ISynchronizable): Void {
         var datasyncsession = toolBrokerAPI.getDataSyncService().createSession(new DummySyncListener());
         datasyncEdge = scyWindow.windowManager.scyDesktop.edgesManager.addDatasyncLink(scyWindow, simulator.getScyWindow() as ScyWindow);
         this.join(datasyncsession.getId());
@@ -226,19 +229,19 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
         metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
         repository = toolBrokerAPI.getRepository();
         eloFactory = toolBrokerAPI.getELOFactory();
-      technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
-      fitexPanel.setTBI(toolBrokerAPI);
-      fitexPanel.setEloUri((scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
-      syncAttrib = DatasyncAttribute {
+        technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
+        fitexPanel.setTBI(toolBrokerAPI);
+        fitexPanel.setEloUri((scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
+        syncAttrib = DatasyncAttribute {
                         scyWindow: scyWindow
                         dragAndDropManager: scyWindow.dragAndDropManager;
                         dragObject: this
                         tooltipManager: scyWindow.tooltipManager
 			tooltipText: "drag to connect"
                         };
-      insert syncAttrib into scyWindow.scyWindowAttributes;
-      fitexPanel.initActionLogger();
-      fitexPanel.initFitex();
+        insert syncAttrib into scyWindow.scyWindowAttributes;
+        fitexPanel.initActionLogger();
+        fitexPanel.initFitex();
    }
 
    public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
@@ -312,11 +315,11 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
    }
    
    public override function getMinHeight() : Number{
-      return 320;
+      return 300;
    }
 
    public override function getMinWidth() : Number{
-      return 550;
+      return 580;
    }
 
    public function getBundleString(key:String) : String{
