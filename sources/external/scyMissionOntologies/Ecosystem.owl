@@ -13,9 +13,29 @@
   <owl:Ontology rdf:about="http://www.scy.eu/ecosystem"/>
   <owl:Class rdf:about="http://www.scy.eu/ecosystem#SecondaryConsumer">
     <rdfs:label xml:lang="en">"secondary consumer"</rdfs:label>
-    <rdfs:label xml:lang="de">"sekundäre Verbraucher"</rdfs:label>
+    <rdfs:label xml:lang="de">"Sekundärkonsumenten"</rdfs:label>
     <rdfs:subClassOf>
       <owl:Class rdf:about="http://www.scy.eu/ecosystem#BioticComponent"/>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/ecosystem#BioticFactor"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/ecosystem#PrimaryConsumer">
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/ecosystem#BioticComponent"/>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/ecosystem#BioticFactor"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="en">"primary consumer"</rdfs:label>
+    <rdfs:label xml:lang="de">"Primärkonsumenten"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/ecosystem#InteractionType">
+    <rdfs:label xml:lang="en">"interaction type"</rdfs:label>
+    <rdfs:label xml:lang="de">"Interaktion Typ"</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/ecosystem#Concept"/>
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:about="http://www.scy.eu/ecosystem#Eukaryotes">
@@ -23,20 +43,6 @@
     <rdfs:label xml:lang="de">"Eukaryoten"</rdfs:label>
     <rdfs:subClassOf>
       <owl:Class rdf:about="http://www.scy.eu/ecosystem#LivingFactor"/>
-    </rdfs:subClassOf>
-  </owl:Class>
-  <owl:Class rdf:about="http://www.scy.eu/ecosystem#PrimaryConsumer">
-    <rdfs:subClassOf>
-      <owl:Class rdf:about="http://www.scy.eu/ecosystem#BioticComponent"/>
-    </rdfs:subClassOf>
-    <rdfs:label xml:lang="en">"primary consumer"</rdfs:label>
-    <rdfs:label xml:lang="de">"Primär Verbraucher"</rdfs:label>
-  </owl:Class>
-  <owl:Class rdf:about="http://www.scy.eu/ecosystem#InteractionType">
-    <rdfs:label xml:lang="en">"interaction type"</rdfs:label>
-    <rdfs:label xml:lang="de">"Interaktion Typ"</rdfs:label>
-    <rdfs:subClassOf>
-      <owl:Class rdf:about="http://www.scy.eu/ecosystem#Concept"/>
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:about="http://www.scy.eu/ecosystem#ChemicalFactor">
@@ -85,12 +91,22 @@
     <rdfs:subClassOf>
       <owl:Class rdf:about="http://www.scy.eu/ecosystem#BioticComponent"/>
     </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/ecosystem#BioticFactor"/>
+    </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:about="http://www.scy.eu/ecosystem#DeterminingFactor">
     <rdfs:label xml:lang="en">"determining factor"</rdfs:label>
     <rdfs:label xml:lang="de">"bestimmender Faktor"</rdfs:label>
     <rdfs:subClassOf>
       <owl:Class rdf:about="http://www.scy.eu/ecosystem#Concept"/>
+    </rdfs:subClassOf>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/ecosystem#AquaticEcosystem">
+    <rdfs:label xml:lang="en">"aquatic ecosystem"</rdfs:label>
+    <rdfs:label xml:lang="de">"aquatisches Ökosystem"</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/ecosystem#EcosystemExample"/>
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:about="http://www.scy.eu/ecosystem#Energy">
@@ -148,11 +164,16 @@
     <rdfs:label xml:lang="de">"Fisch"</rdfs:label>
     <rdfs:subClassOf rdf:resource="http://www.scy.eu/ecosystem#Animal"/>
   </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/ecosystem#AbioticFactor">
+    <rdfs:label xml:lang="en">"abiotic factor"</rdfs:label>
+    <rdfs:label xml:lang="de">"abiotischer Faktor"</rdfs:label>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/ecosystem#DeterminingFactor"/>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/ecosystem#NonLivingFactor"/>
+  </owl:Class>
   <owl:Class rdf:about="http://www.scy.eu/ecosystem#BioticComponent">
     <rdfs:label xml:lang="en">"biotic component"</rdfs:label>
     <rdfs:label xml:lang="de">"biotische Komponente"</rdfs:label>
     <rdfs:subClassOf rdf:resource="http://www.scy.eu/ecosystem#EnvironmentalComponent"/>
-    <rdfs:subClassOf rdf:resource="http://www.scy.eu/ecosystem#DependentFactor"/>
   </owl:Class>
   <owl:Class rdf:about="http://www.scy.eu/ecosystem#KeywordList">
     <rdfs:label xml:lang="de">"Keyword-Liste"</rdfs:label>
@@ -161,9 +182,17 @@
   <owl:Class rdf:about="http://www.scy.eu/ecosystem#Nutrient">
     <rdfs:label xml:lang="en">"nutrient"</rdfs:label>
     <rdfs:label xml:lang="de">"Nährstoff"</rdfs:label>
-    <rdfs:subClassOf rdf:resource="http://www.scy.eu/ecosystem#ChemicalFactor"/>
     <rdfs:subClassOf>
       <owl:Class rdf:about="http://www.scy.eu/ecosystem#AbioticComponent"/>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/ecosystem#ChemicalFactor"/>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/ecosystem#AbioticFactor"/>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/ecosystem#EcosystemExample">
+    <rdfs:label xml:lang="en">"example for ecosystem"</rdfs:label>
+    <rdfs:label xml:lang="de">"Beispiel für Ökosysteme"</rdfs:label>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/ecosystem#Concept"/>
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:about="http://www.scy.eu/ecosystem#EnvironmentalFunction">
@@ -174,25 +203,31 @@
     </rdfs:subClassOf>
   </owl:Class>
   <owl:Class rdf:about="http://www.scy.eu/ecosystem#AbioticComponent">
-    <rdfs:label xml:lang="de">"atiotische Komponente"</rdfs:label>
+    <rdfs:label xml:lang="de">"abiotische Komponente"</rdfs:label>
     <rdfs:label xml:lang="en">"abiotic component"</rdfs:label>
     <rdfs:subClassOf rdf:resource="http://www.scy.eu/ecosystem#EnvironmentalComponent"/>
-    <rdfs:subClassOf rdf:resource="http://www.scy.eu/ecosystem#DeterminingFactor"/>
-    <rdfs:subClassOf rdf:resource="http://www.scy.eu/ecosystem#NonLivingFactor"/>
-  </owl:Class>
-  <owl:Class rdf:about="http://www.scy.eu/ecosystem#Producer">
-    <rdfs:subClassOf rdf:resource="http://www.scy.eu/ecosystem#BioticComponent"/>
-    <rdfs:label xml:lang="en">"producer"</rdfs:label>
-    <rdfs:label xml:lang="de">"Produzent"</rdfs:label>
   </owl:Class>
   <owl:Class rdf:about="http://www.scy.eu/ecosystem#LivingFactor">
     <rdfs:label xml:lang="en">"living factor"</rdfs:label>
     <rdfs:label xml:lang="de">"Wohn-Faktor"</rdfs:label>
     <rdfs:subClassOf rdf:resource="http://www.scy.eu/ecosystem#FactorType"/>
   </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/ecosystem#Producer">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/ecosystem#BioticComponent"/>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="http://www.scy.eu/ecosystem#BioticFactor"/>
+    </rdfs:subClassOf>
+    <rdfs:label xml:lang="en">"producer"</rdfs:label>
+    <rdfs:label xml:lang="de">"Produzent"</rdfs:label>
+  </owl:Class>
   <owl:Class rdf:about="http://www.scy.eu/ecosystem#Concept">
     <rdfs:label xml:lang="en">"concept"</rdfs:label>
     <rdfs:label xml:lang="de">"Konzept"</rdfs:label>
+  </owl:Class>
+  <owl:Class rdf:about="http://www.scy.eu/ecosystem#BioticFactor">
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/ecosystem#DependentFactor"/>
+    <rdfs:label xml:lang="en">"biotic factor"</rdfs:label>
+    <rdfs:label xml:lang="de">"biotischer Faktor"</rdfs:label>
   </owl:Class>
   <owl:Class rdf:about="http://www.scy.eu/ecosystem#Process">
     <rdfs:label xml:lang="en">"process"</rdfs:label>
@@ -205,6 +240,7 @@
   </owl:Class>
   <owl:Class rdf:about="http://www.scy.eu/ecosystem#Decomposer">
     <rdfs:subClassOf rdf:resource="http://www.scy.eu/ecosystem#BioticComponent"/>
+    <rdfs:subClassOf rdf:resource="http://www.scy.eu/ecosystem#BioticFactor"/>
     <rdfs:label xml:lang="en">"decomposer"</rdfs:label>
     <rdfs:label xml:lang="de">"Zersetzer"</rdfs:label>
   </owl:Class>
@@ -282,7 +318,7 @@
   <owl:ObjectProperty rdf:about="http://www.scy.eu/ecosystem#absorb">
     <owl:inverseOf rdf:resource="http://www.scy.eu/ecosystem#isAbsorbedBy"/>
     <rdfs:domain rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >-3a354cd0:12f2aa2f7d8:-7ffd</rdfs:domain>
+    >2728b601:12f34d72765:-7ffd</rdfs:domain>
     <rdfs:range rdf:resource="http://www.scy.eu/ecosystem#EnvironmentalComponent"/>
     <rdfs:subPropertyOf rdf:resource="http://www.scy.eu/ecosystem#hasRelationTo"/>
   </owl:ObjectProperty>
@@ -331,6 +367,8 @@
         >"http://www.scy.eu/ecosystem#Process"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
         <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >"http://www.scy.eu/ecosystem#NutrientRecycling"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/ecosystem#Ecosystem"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
         <rdfs:label xml:lang="en">"processes"</rdfs:label>
         <rdfs:label xml:lang="de">"Prozesse"</rdfs:label>
       </KeywordList>
@@ -361,10 +399,14 @@
     <rdfs:label xml:lang="de">"Felder"</rdfs:label>
   </Keyword>
   <Keyword rdf:about="http://www.scy.eu/ecosystem#ecological">
+    <rdfs:label xml:lang="en">"ecological"</rdfs:label>
+    <rdfs:label xml:lang="de">"ökologisch"</rdfs:label>
     <belongsToList>
       <KeywordList rdf:about="http://www.scy.eu/ecosystem#problem_cloud">
         <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >"http://www.scy.eu/ecosystem#Ecosystem"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <rdfs:label xml:lang="en">"problem_cloud"</rdfs:label>
+        <rdfs:label xml:lang="de">"problem_cloud"</rdfs:label>
       </KeywordList>
     </belongsToList>
   </Keyword>
@@ -372,20 +414,6 @@
     <rdfs:label xml:lang="en">"eutrophication"</rdfs:label>
     <rdfs:label xml:lang="de">"Eutrophierung"</rdfs:label>
     <belongsToList rdf:resource="http://www.scy.eu/ecosystem#processes"/>
-  </Keyword>
-  <Keyword rdf:about="http://www.scy.eu/ecosystem#lake">
-    <rdfs:label xml:lang="en">"lake"</rdfs:label>
-    <rdfs:label xml:lang="de">"See"</rdfs:label>
-    <belongsToList>
-      <KeywordList rdf:about="http://www.scy.eu/ecosystem#aquatic_ecosystem">
-        <rdfs:label xml:lang="en">"aquatic_ecosystem"</rdfs:label>
-        <rdfs:label xml:lang="de">"aquatic_ecosystem"</rdfs:label>
-        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >"http://www.scy.eu/ecosystem#Ecosystem"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
-        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >"http://www.scy.eu/ecosystem#Water"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
-      </KeywordList>
-    </belongsToList>
   </Keyword>
   <Keyword rdf:about="http://www.scy.eu/ecosystem#quantities">
     <rdfs:label xml:lang="en">"quantities"</rdfs:label>
@@ -395,11 +423,11 @@
         <rdfs:label xml:lang="en">"influences_effects"</rdfs:label>
         <rdfs:label xml:lang="de">"influences_effects"</rdfs:label>
         <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >"http://www.scy.eu/ecosystem#InfluencingFactor"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        >"http://www.scy.eu/ecosystem#DeterminingFactor"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
         <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >"http://www.scy.eu/ecosystem#DependentFactor"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
         <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >"http://www.scy.eu/ecosystem#DeterminingFactor"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        >"http://www.scy.eu/ecosystem#InfluencingFactor"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
       </KeywordList>
     </belongsToList>
   </Keyword>
@@ -410,6 +438,8 @@
       <KeywordList rdf:about="http://www.scy.eu/ecosystem#components_materials">
         <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >"http://www.scy.eu/ecosystem#NonLivingFactor"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/ecosystem#AbioticFactor"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
         <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >"http://www.scy.eu/ecosystem#AbioticComponent"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
         <rdfs:label xml:lang="en">"components_materials"</rdfs:label>
@@ -422,11 +452,6 @@
     <rdfs:label xml:lang="de">"Jahr"</rdfs:label>
     <belongsToList rdf:resource="http://www.scy.eu/ecosystem#influences_effects"/>
   </Keyword>
-  <rdf:Description>
-    <rdf:first rdf:resource="http://www.scy.eu/ecosystem#EnvironmentalComponent"/>
-    <rdf:rest rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >-3a354cd0:12f2aa2f7d8:-7ffb</rdf:rest>
-  </rdf:Description>
   <HumanInfluence rdf:about="http://www.scy.eu/ecosystem#Habitation">
     <rdfs:label xml:lang="en">"habitation"</rdfs:label>
     <rdfs:label xml:lang="de">"Wohnen"</rdfs:label>
@@ -441,6 +466,8 @@
         <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >"http://www.scy.eu/ecosystem#LivingFactor"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
         <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/ecosystem#BioticFactor"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >"http://www.scy.eu/ecosystem#BioticComponent"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
       </KeywordList>
     </belongsToList>
@@ -453,7 +480,7 @@
   <Keyword rdf:about="http://www.scy.eu/ecosystem#contains">
     <rdfs:label xml:lang="en">"contains"</rdfs:label>
     <rdfs:label xml:lang="de">"enthält"</rdfs:label>
-    <belongsToList rdf:resource="http://www.scy.eu/ecosystem#components_materials"/>
+    <belongsToList rdf:resource="http://www.scy.eu/ecosystem#environment_ecosystem"/>
   </Keyword>
   <Keyword rdf:about="http://www.scy.eu/ecosystem#fertilizer">
     <belongsToList rdf:resource="http://www.scy.eu/ecosystem#components_materials"/>
@@ -462,7 +489,7 @@
   </Keyword>
   <Keyword rdf:about="http://www.scy.eu/ecosystem#freshwater">
     <rdfs:label xml:lang="en">"freshwater"</rdfs:label>
-    <rdfs:label xml:lang="de">"Süßwasser-"</rdfs:label>
+    <rdfs:label xml:lang="de">"Süßwasser"</rdfs:label>
     <belongsToList rdf:resource="http://www.scy.eu/ecosystem#organisms"/>
   </Keyword>
   <Keyword rdf:about="http://www.scy.eu/ecosystem#pure">
@@ -480,6 +507,11 @@
     <rdfs:label xml:lang="en">"cycle"</rdfs:label>
     <rdfs:label xml:lang="de">"Zyklus"</rdfs:label>
   </Keyword>
+  <rdf:Description>
+    <rdf:first rdf:resource="http://www.scy.eu/ecosystem#EnvironmentalComponent"/>
+    <rdf:rest rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >2728b601:12f34d72765:-7ffb</rdf:rest>
+  </rdf:Description>
   <Keyword rdf:about="http://www.scy.eu/ecosystem#material">
     <belongsToList rdf:resource="http://www.scy.eu/ecosystem#processes"/>
     <rdfs:label xml:lang="en">"material"</rdfs:label>
@@ -545,11 +577,6 @@
     <rdfs:label xml:lang="de">"Zink"</rdfs:label>
     <belongsToList rdf:resource="http://www.scy.eu/ecosystem#components_materials"/>
   </Keyword>
-  <Keyword rdf:about="http://www.scy.eu/ecosystem#problem">
-    <belongsToList rdf:resource="http://www.scy.eu/ecosystem#politics"/>
-    <rdfs:label xml:lang="en">"problem"</rdfs:label>
-    <rdfs:label xml:lang="de">"Problem"</rdfs:label>
-  </Keyword>
   <Keyword rdf:about="http://www.scy.eu/ecosystem#prey">
     <belongsToList rdf:resource="http://www.scy.eu/ecosystem#food_web"/>
     <rdfs:label xml:lang="en">"prey"</rdfs:label>
@@ -588,7 +615,7 @@
   <Keyword rdf:about="http://www.scy.eu/ecosystem#organic">
     <rdfs:label xml:lang="en">"organic"</rdfs:label>
     <rdfs:label xml:lang="de">"Bio-"</rdfs:label>
-    <belongsToList rdf:resource="http://www.scy.eu/ecosystem#components_materials"/>
+    <belongsToList rdf:resource="http://www.scy.eu/ecosystem#environment_ecosystem"/>
   </Keyword>
   <Keyword rdf:about="http://www.scy.eu/ecosystem#research">
     <rdfs:label xml:lang="en">"research"</rdfs:label>
@@ -656,7 +683,7 @@
     <rdfs:label xml:lang="de">"Wechselwirkungen"</rdfs:label>
   </Keyword>
   <Keyword rdf:about="http://www.scy.eu/ecosystem#minerals">
-    <belongsToList rdf:resource="http://www.scy.eu/ecosystem#components_materials"/>
+    <belongsToList rdf:resource="http://www.scy.eu/ecosystem#environment_ecosystem"/>
     <rdfs:label xml:lang="en">"minerals"</rdfs:label>
     <rdfs:label xml:lang="de">"Mineralien"</rdfs:label>
   </Keyword>
@@ -665,13 +692,26 @@
     <rdfs:label xml:lang="en">"shellfish"</rdfs:label>
     <rdfs:label xml:lang="de">"Schalentiere"</rdfs:label>
   </Keyword>
+  <rdf:Description>
+    <rdf:first rdf:resource="http://www.scy.eu/ecosystem#CellComponent"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
   <Keyword rdf:about="http://www.scy.eu/ecosystem#size">
     <belongsToList rdf:resource="http://www.scy.eu/ecosystem#processes"/>
     <rdfs:label xml:lang="en">"size"</rdfs:label>
     <rdfs:label xml:lang="de">"Größe"</rdfs:label>
   </Keyword>
   <Keyword rdf:about="http://www.scy.eu/ecosystem#marine">
-    <belongsToList rdf:resource="http://www.scy.eu/ecosystem#aquatic_ecosystem"/>
+    <belongsToList>
+      <KeywordList rdf:about="http://www.scy.eu/ecosystem#aquatic_ecosystem">
+        <rdfs:label xml:lang="en">"aquatic_ecosystem"</rdfs:label>
+        <rdfs:label xml:lang="de">"aquatic_ecosystem"</rdfs:label>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/ecosystem#Ecosystem"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+        <isConnectedTo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >"http://www.scy.eu/ecosystem#Water"^^http://www.w3.org/2001/XMLSchema#string</isConnectedTo>
+      </KeywordList>
+    </belongsToList>
     <rdfs:label xml:lang="en">"marine"</rdfs:label>
     <rdfs:label xml:lang="de">"marinen"</rdfs:label>
   </Keyword>
@@ -701,6 +741,8 @@
     <rdfs:label xml:lang="de">"schaffen"</rdfs:label>
   </Keyword>
   <Keyword rdf:about="http://www.scy.eu/ecosystem#runoff">
+    <rdfs:label xml:lang="en">"runoff"</rdfs:label>
+    <rdfs:label xml:lang="de">"Stichwahl"</rdfs:label>
     <belongsToList rdf:resource="http://www.scy.eu/ecosystem#problem_cloud"/>
   </Keyword>
   <Keyword rdf:about="http://www.scy.eu/ecosystem#ammonia">
@@ -734,14 +776,14 @@
     <belongsToList rdf:resource="http://www.scy.eu/ecosystem#influences_effects"/>
   </Keyword>
   <Keyword rdf:about="http://www.scy.eu/ecosystem#inorganic">
-    <belongsToList rdf:resource="http://www.scy.eu/ecosystem#components_materials"/>
+    <belongsToList rdf:resource="http://www.scy.eu/ecosystem#environment_ecosystem"/>
     <rdfs:label xml:lang="en">"inorganic"</rdfs:label>
     <rdfs:label xml:lang="de">"anorganische"</rdfs:label>
   </Keyword>
   <Keyword rdf:about="http://www.scy.eu/ecosystem#emissions">
     <rdfs:label xml:lang="en">"emissions"</rdfs:label>
     <rdfs:label xml:lang="de">"Emissionen"</rdfs:label>
-    <belongsToList rdf:resource="http://www.scy.eu/ecosystem#components_materials"/>
+    <belongsToList rdf:resource="http://www.scy.eu/ecosystem#environment_ecosystem"/>
   </Keyword>
   <Keyword rdf:about="http://www.scy.eu/ecosystem#emission">
     <belongsToList rdf:resource="http://www.scy.eu/ecosystem#politics"/>
@@ -758,10 +800,6 @@
     <rdfs:label xml:lang="de">"Auswirkungen"</rdfs:label>
     <belongsToList rdf:resource="http://www.scy.eu/ecosystem#organisms"/>
   </Keyword>
-  <rdf:Description>
-    <rdf:first rdf:resource="http://www.scy.eu/ecosystem#CellComponent"/>
-    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
-  </rdf:Description>
   <Keyword rdf:about="http://www.scy.eu/ecosystem#materials">
     <belongsToList rdf:resource="http://www.scy.eu/ecosystem#components_materials"/>
     <rdfs:label xml:lang="en">"materials"</rdfs:label>
@@ -799,756 +837,1052 @@
   </Keyword>
   <LivingFactor rdf:about="http://www.scy.eu/ecosystem#Bacteria">
     <isElementOf>
-      <Concept rdf:about="http://www.scy.eu/ecosystem#Ecosystem">
-        <hasInfluenceOn>
-          <Eukaryotes rdf:about="http://www.scy.eu/ecosystem#Algae">
-            <need>
-              <AbioticComponent rdf:about="http://www.scy.eu/ecosystem#LightAvailability">
-                <rdfs:label xml:lang="en">"light availability"</rdfs:label>
-                <rdfs:label xml:lang="de">"Licht Verfügbarkeit"</rdfs:label>
-                <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                <hasInfluenceOn>
-                  <Process rdf:about="http://www.scy.eu/ecosystem#Photosynthesis">
-                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Algae"/>
-                    <isInfluencedBy>
-                      <PhysicalFactor rdf:about="http://www.scy.eu/ecosystem#Sunlight">
-                        <rdfs:label xml:lang="de">"Sonnenlicht"</rdfs:label>
-                        <rdfs:label xml:lang="en">"sunlight"</rdfs:label>
-                        <hasInfluenceOn>
-                          <Process rdf:about="http://www.scy.eu/ecosystem#PlantGrowth">
-                            <rdfs:label xml:lang="de">"Pflanzenwachstum"</rdfs:label>
-                            <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
-                            <need>
-                              <AbioticComponent rdf:about="http://www.scy.eu/ecosystem#Water">
-                                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                                <hasRelationTo>
-                                  <AbioticComponent rdf:about="http://www.scy.eu/ecosystem#pH">
-                                    <rdfs:label xml:lang="en"
-                                    >"p h"</rdfs:label>
-                                    <rdfs:label xml:lang="de"
-                                    >"ph"</rdfs:label>
-                                    <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Water"/>
-                                  </AbioticComponent>
-                                </hasRelationTo>
-                                <hasRelationTo>
-                                  <Fish rdf:about="http://www.scy.eu/ecosystem#Pike">
-                                    <hasRelationTo>
-                                      <ChemicalFactor rdf:about="http://www.scy.eu/ecosystem#DissolvedOxygen">
-                                        <rdfs:label xml:lang="en"
-                                        >"dissolved oxygen"</rdfs:label>
-                                        <rdfs:label xml:lang="de"
-                                        >"gelösten Sauerstoff"</rdfs:label>
-                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                                        <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#AbioticComponent"/>
-                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+      <AquaticEcosystem rdf:about="http://www.scy.eu/ecosystem#River">
+        <isInfluencedBy>
+          <AbioticComponent rdf:about="http://www.scy.eu/ecosystem#WaterFlow">
+            <rdfs:label xml:lang="en">"water flow"</rdfs:label>
+            <rdfs:label xml:lang="de">"Wasserfluss"</rdfs:label>
+            <hasRelationTo>
+              <AbioticComponent rdf:about="http://www.scy.eu/ecosystem#Water">
+                <hasRelationTo>
+                  <Concept rdf:about="http://www.scy.eu/ecosystem#Ecosystem">
+                    <hasRelationTo>
+                      <AquaticEcosystem rdf:about="http://www.scy.eu/ecosystem#Lake">
+                        <isInfluencedBy>
+                          <ChemicalFactor rdf:about="http://www.scy.eu/ecosystem#Salinity">
+                            <hasInfluenceOn>
+                              <AquaticEcosystem rdf:about="http://www.scy.eu/ecosystem#Aquarium">
+                                <isInfluencedBy>
+                                  <AbioticComponent rdf:about="http://www.scy.eu/ecosystem#CarbonDioxide">
+                                    <hasInfluenceOn>
+                                      <Process rdf:about="http://www.scy.eu/ecosystem#Photosynthesis">
                                         <hasRelationTo>
-                                          <Fish rdf:about="http://www.scy.eu/ecosystem#Roach">
-                                            <isElementOf>
-                                              <Concept rdf:about="http://www.scy.eu/ecosystem#FoodChain">
-                                                <isElementOf>
-                                                  <Concept rdf:about="http://www.scy.eu/ecosystem#FoodWeb">
-                                                    <rdfs:label
-                                                     xml:lang="en"
-                                                    >"food web"</rdfs:label>
-                                                    <rdfs:label
-                                                     xml:lang="de"
-                                                    >"Nahrung finden"</rdfs:label>
-                                                    <hasElement rdf:resource="http://www.scy.eu/ecosystem#FoodChain"/>
-                                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                                                  </Concept>
-                                                </isElementOf>
-                                                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                                                <hasElement rdf:resource="http://www.scy.eu/ecosystem#Pike"/>
-                                                <hasElement rdf:resource="http://www.scy.eu/ecosystem#Roach"/>
-                                                <hasElement>
-                                                  <Animal rdf:about="http://www.scy.eu/ecosystem#Beaver">
-                                                    <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                                                    <rdfs:label
-                                                     xml:lang="en"
-                                                    >"beaver"</rdfs:label>
-                                                    <hasRelationTo>
-                                                      <BioticComponent rdf:about="http://www.scy.eu/ecosystem#Biomass">
-                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Beaver"/>
-                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Bacteria"/>
+                                          <Eukaryotes rdf:about="http://www.scy.eu/ecosystem#Algae">
+                                            <need>
+                                              <AbioticComponent rdf:about="http://www.scy.eu/ecosystem#LightAvailability">
+                                                <hasInfluenceOn>
+                                                  <EcosystemExample rdf:about="http://www.scy.eu/ecosystem#Puddle">
+                                                    <isInfluencedBy>
+                                                      <AbioticFactor rdf:about="http://www.scy.eu/ecosystem#DissolvedOxygen">
                                                         <hasRelationTo>
-                                                          <Eukaryotes rdf:about="http://www.scy.eu/ecosystem#Fungi">
-                                                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Biomass"/>
-                                                            <rdfs:label
-                                                             xml:lang="de"
-                                                            >"Pilze"</rdfs:label>
-                                                            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                                                            <need rdf:resource="http://www.scy.eu/ecosystem#Water"/>
-                                                            <need>
-                                                              <ChemicalFactor rdf:about="http://www.scy.eu/ecosystem#Nitrogen">
-    <rdfs:label xml:lang="en">"nitrogen"</rdfs:label>
-    <rdfs:label xml:lang="de">"Stickstoff"</rdfs:label>
-    <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                                                              </ChemicalFactor>
-                                                            </need>
-                                                            <need>
-                                                              <AbioticComponent rdf:about="http://www.scy.eu/ecosystem#Oxygen">
-    <rdf:type rdf:resource="http://www.scy.eu/ecosystem#ChemicalFactor"/>
-    <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-    <rdfs:label xml:lang="en">"oxygen"</rdfs:label>
-    <rdfs:label xml:lang="de">"Sauerstoff"</rdfs:label>
-    <hasRelationTo>
-      <HumanInfluence rdf:about="http://www.scy.eu/ecosystem#HumanPopulation">
+                                                          <Fish rdf:about="http://www.scy.eu/ecosystem#Pike">
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#DissolvedOxygen"/>
+                                                            <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                            <isElementOf>
+                                                              <Concept rdf:about="http://www.scy.eu/ecosystem#FoodChain">
+    <isElementOf>
+      <Concept rdf:about="http://www.scy.eu/ecosystem#FoodWeb">
+        <rdfs:label xml:lang="en">"food web"</rdfs:label>
+        <rdfs:label xml:lang="de">"Nahrung finden"</rdfs:label>
+        <hasElement rdf:resource="http://www.scy.eu/ecosystem#FoodChain"/>
+        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#River"/>
+        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Lake"/>
         <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-        <hasInfluenceOn>
+      </Concept>
+    </isElementOf>
+    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+    <hasElement rdf:resource="http://www.scy.eu/ecosystem#Pike"/>
+    <hasElement>
+      <Fish rdf:about="http://www.scy.eu/ecosystem#Roach">
+        <rdfs:label xml:lang="en">"roach"</rdfs:label>
+        <isElementOf rdf:resource="http://www.scy.eu/ecosystem#FoodChain"/>
+        <rdfs:label xml:lang="de">"Rotauge"</rdfs:label>
+        <isElementOf rdf:resource="http://www.scy.eu/ecosystem#River"/>
+        <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Lake"/>
+        <need rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+        <need rdf:resource="http://www.scy.eu/ecosystem#DissolvedOxygen"/>
+        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#DissolvedOxygen"/>
+        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#PrimaryConsumer"/>
+        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+        <hasRelationTo>
           <AnimalInfluence rdf:about="http://www.scy.eu/ecosystem#AnimalPopulation">
             <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Roach"/>
             <rdfs:label xml:lang="en">"animal population"</rdfs:label>
-            <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#HumanPopulation"/>
+            <isInfluencedBy>
+              <HumanInfluence rdf:about="http://www.scy.eu/ecosystem#HumanPopulation">
+                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#AnimalPopulation"/>
+                <isInfluencedBy>
+                  <BiologicalFactor rdf:about="http://www.scy.eu/ecosystem#PlantPopulation">
+                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#LightAvailability"/>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#AnimalPopulation"/>
+                    <hasRelationTo>
+                      <BioticComponent rdf:about="http://www.scy.eu/ecosystem#Seeds">
+                        <isAbsorbedBy>
+                          <Eukaryotes rdf:about="http://www.scy.eu/ecosystem#Plants">
+                            <need rdf:resource="http://www.scy.eu/ecosystem#CarbonDioxide"/>
+                            <produce>
+                              <ChemicalFactor rdf:about="http://www.scy.eu/ecosystem#Protein">
+                                <increases>
+                                  <Process rdf:about="http://www.scy.eu/ecosystem#PlantGrowth">
+                                    <rdfs:label xml:lang="de"
+                                    >"Pflanzenwachstum"</rdfs:label>
+                                    <isInfluencedBy>
+                                      <AbioticFactor rdf:about="http://www.scy.eu/ecosystem#Sunlight">
+                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Lake"/>
+                                        <hasRelationTo>
+                                          <EcosystemExample rdf:about="http://www.scy.eu/ecosystem#Desert">
+                                            <hasRelationTo>
+                                              <Environment rdf:about="http://www.scy.eu/ecosystem#Land">
+                                                <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                <rdfs:label xml:lang="en"
+                                                >"land"</rdfs:label>
+                                                <rdfs:label xml:lang="de"
+                                                >"Land"</rdfs:label>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Desert"/>
+                                                <hasRelationTo>
+                                                  <EcosystemExample rdf:about="http://www.scy.eu/ecosystem#Terrarium">
+                                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Land"/>
+                                                    <hasRelationTo>
+                                                      <Environment rdf:about="http://www.scy.eu/ecosystem#Air">
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Desert"/>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Terrarium"/>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                        <rdfs:label
+                                                         xml:lang="en"
+                                                        >"air"</rdfs:label>
+                                                        <rdfs:label
+                                                         xml:lang="de"
+                                                        >"Luft"</rdfs:label>
+                                                        <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                      </Environment>
+                                                    </hasRelationTo>
+                                                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
+                                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
+                                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                    <isInfluencedBy>
+                                                      <AbioticFactor rdf:about="http://www.scy.eu/ecosystem#AirTemperature">
+                                                        <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Lake"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Terrarium"/>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Desert"/>
+                                                        <rdfs:label
+                                                         xml:lang="en"
+                                                        >"air temperature"</rdfs:label>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#River"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Puddle"/>
+                                                        <rdfs:label
+                                                         xml:lang="de"
+                                                        >"Lufttemperatur"</rdfs:label>
+                                                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#AbioticComponent"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Desert"/>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Terrarium"/>
+                                                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#PhysicalFactor"/>
+                                                      </AbioticFactor>
+                                                    </isInfluencedBy>
+                                                    <rdfs:label
+                                                     xml:lang="en"
+                                                    >"terrarium"</rdfs:label>
+                                                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#LightAvailability"/>
+                                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+                                                    <hasRelationTo>
+                                                      <AbioticComponent rdf:about="http://www.scy.eu/ecosystem#Oxygen">
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Aquarium"/>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#HumanPopulation"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Desert"/>
+                                                        <rdfs:label
+                                                         xml:lang="de"
+                                                        >"Sauerstoff"</rdfs:label>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Desert"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Terrarium"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                        <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Terrarium"/>
+                                                        <rdfs:label
+                                                         xml:lang="en"
+                                                        >"oxygen"</rdfs:label>
+                                                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#ChemicalFactor"/>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#AnimalPopulation"/>
+                                                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#AbioticFactor"/>
+                                                      </AbioticComponent>
+                                                    </hasRelationTo>
+                                                    <rdfs:label
+                                                     xml:lang="de"
+                                                    >"Terrarium"</rdfs:label>
+                                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#AirTemperature"/>
+                                                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Oxygen"/>
+                                                  </EcosystemExample>
+                                                </hasRelationTo>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Puddle"/>
+                                              </Environment>
+                                            </hasRelationTo>
+                                            <rdfs:label xml:lang="en"
+                                            >"desert"</rdfs:label>
+                                            <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
+                                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
+                                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Oxygen"/>
+                                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+                                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                            <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#LightAvailability"/>
+                                            <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Oxygen"/>
+                                            <rdfs:label xml:lang="de"
+                                            >"Wüste"</rdfs:label>
+                                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Air"/>
+                                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#AirTemperature"/>
+                                            <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#AirTemperature"/>
+                                          </EcosystemExample>
+                                        </hasRelationTo>
+                                        <rdfs:label xml:lang="de"
+                                        >"Sonnenlicht"</rdfs:label>
+                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Puddle"/>
+                                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#PhysicalFactor"/>
+                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#River"/>
+                                        <rdfs:label xml:lang="en"
+                                        >"sunlight"</rdfs:label>
+                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Aquarium"/>
+                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#PlantGrowth"/>
+                                        <isAbsorbedBy rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
+                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
+                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#PlantPopulation"/>
+                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                        <hasRelationTo>
+                                          <Energy rdf:about="http://www.scy.eu/ecosystem#LightEnergy">
+                                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#PlantGrowth"/>
+                                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#LightAvailability"/>
+                                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
+                                            <rdfs:label xml:lang="en"
+                                            >"light energy"</rdfs:label>
+                                            <hasRelationTo>
+                                              <PhysicalFactor rdf:about="http://www.scy.eu/ecosystem#LightIntensity">
+                                                <rdfs:label xml:lang="en"
+                                                >"light intensity"</rdfs:label>
+                                                <rdfs:label xml:lang="de"
+                                                >"Lichtintensität"</rdfs:label>
+                                                <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
+                                                <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#PlantGrowth"/>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#LightEnergy"/>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#PlantPopulation"/>
+                                              </PhysicalFactor>
+                                            </hasRelationTo>
+                                            <rdfs:label xml:lang="de"
+                                            >"Lichtenergie"</rdfs:label>
+                                            <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#PlantGrowth"/>
+                                            <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
+                                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
+                                            <isAbsorbedBy rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
+                                          </Energy>
+                                        </hasRelationTo>
+                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Terrarium"/>
+                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
+                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Desert"/>
+                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#PlantGrowth"/>
+                                        <isAbsorbedBy>
+                                          <CellComponent rdf:about="http://www.scy.eu/ecosystem#Chlorophyll">
+                                            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
+                                            <isElementOf>
+                                              <Producer rdf:about="http://www.scy.eu/ecosystem#Cyanobacteria">
+                                                <produce>
+                                                  <ChemicalFactor rdf:about="http://www.scy.eu/ecosystem#Glucose">
+                                                    <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#PlantGrowth"/>
+                                                    <rdfs:label
+                                                     xml:lang="en"
+                                                    >"glucose"</rdfs:label>
+                                                    <rdfs:label
+                                                     xml:lang="de"
+                                                    >"Glucose"</rdfs:label>
+                                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
+                                                  </ChemicalFactor>
+                                                </produce>
+                                                <hasRelationTo>
+                                                  <BioticComponent rdf:about="http://www.scy.eu/ecosystem#Biomass">
+                                                    <hasRelationTo>
+                                                      <Animal rdf:about="http://www.scy.eu/ecosystem#Beaver">
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                        <rdfs:label
+                                                         xml:lang="en"
+                                                        >"beaver"</rdfs:label>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Biomass"/>
+                                                        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                        <isElementOf rdf:resource="http://www.scy.eu/ecosystem#FoodChain"/>
+                                                        <need rdf:resource="http://www.scy.eu/ecosystem#Land"/>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#AnimalPopulation"/>
+                                                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#PrimaryConsumer"/>
+                                                        <rdfs:label
+                                                         xml:lang="de"
+                                                        >"Biber"</rdfs:label>
+                                                        <need rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+                                                        <need rdf:resource="http://www.scy.eu/ecosystem#Oxygen"/>
+                                                      </Animal>
+                                                    </hasRelationTo>
+                                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Bacteria"/>
+                                                    <hasRelationTo>
+                                                      <Eukaryotes rdf:about="http://www.scy.eu/ecosystem#Fungi">
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Biomass"/>
+                                                        <rdfs:label
+                                                         xml:lang="de"
+                                                        >"Pilze"</rdfs:label>
+                                                        <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                        <need rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+                                                        <need>
+                                                          <ChemicalFactor rdf:about="http://www.scy.eu/ecosystem#Nitrogen">
+                                                            <rdfs:label
+                                                             xml:lang="en"
+                                                            >"nitrogen"</rdfs:label>
+                                                            <rdfs:label
+                                                             xml:lang="de"
+                                                            >"Stickstoff"</rdfs:label>
+                                                            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                          </ChemicalFactor>
+                                                        </need>
+                                                        <need rdf:resource="http://www.scy.eu/ecosystem#Oxygen"/>
+                                                        <need>
+                                                          <Nutrient rdf:about="http://www.scy.eu/ecosystem#Phosphate">
+                                                            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                            <rdfs:label
+                                                             xml:lang="en"
+                                                            >"phosphate"</rdfs:label>
+                                                            <rdfs:label
+                                                             xml:lang="de"
+                                                            >"Phosphat"</rdfs:label>
+                                                            <isAbsorbedBy rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
+                                                          </Nutrient>
+                                                        </need>
+                                                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#Decomposer"/>
+                                                        <need rdf:resource="http://www.scy.eu/ecosystem#Glucose"/>
+                                                        <rdfs:label
+                                                         xml:lang="en"
+                                                        >"fungi"</rdfs:label>
+                                                      </Eukaryotes>
+                                                    </hasRelationTo>
+                                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Algae"/>
+                                                    <rdfs:label
+                                                     xml:lang="de"
+                                                    >"Biomasse"</rdfs:label>
+                                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Seeds"/>
+                                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
+                                                    <hasRelationTo>
+                                                      <TopConsumer rdf:about="http://www.scy.eu/ecosystem#Human">
+                                                        <need rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#HumanPopulation"/>
+                                                        <rdfs:label
+                                                         xml:lang="de"
+                                                        >"Mensch"</rdfs:label>
+                                                        <need rdf:resource="http://www.scy.eu/ecosystem#Land"/>
+                                                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#Animal"/>
+                                                        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Biomass"/>
+                                                        <need rdf:resource="http://www.scy.eu/ecosystem#Oxygen"/>
+                                                        <isElementOf rdf:resource="http://www.scy.eu/ecosystem#FoodChain"/>
+                                                        <rdfs:label
+                                                         xml:lang="en"
+                                                        >"human"</rdfs:label>
+                                                      </TopConsumer>
+                                                    </hasRelationTo>
+                                                    <rdfs:label
+                                                     xml:lang="en"
+                                                    >"biomass"</rdfs:label>
+                                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Cyanobacteria"/>
+                                                    <rdf:type rdf:resource="http://www.scy.eu/ecosystem#BioticFactor"/>
+                                                  </BioticComponent>
+                                                </hasRelationTo>
+                                                <need rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
+                                                <need rdf:resource="http://www.scy.eu/ecosystem#CarbonDioxide"/>
+                                                <hasFunction rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
+                                                <need rdf:resource="http://www.scy.eu/ecosystem#LightAvailability"/>
+                                                <produce rdf:resource="http://www.scy.eu/ecosystem#Oxygen"/>
+                                                <hasElement rdf:resource="http://www.scy.eu/ecosystem#Chlorophyll"/>
+                                                <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                <hasElement>
+                                                  <CellComponent rdf:about="http://www.scy.eu/ecosystem#Chloroplast">
+                                                    <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
+                                                    <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Algae"/>
+                                                    <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Cyanobacteria"/>
+                                                    <hasElement rdf:resource="http://www.scy.eu/ecosystem#Chlorophyll"/>
+                                                    <rdfs:label
+                                                     xml:lang="en"
+                                                    >"chloroplast"</rdfs:label>
+                                                    <rdfs:label
+                                                     xml:lang="de"
+                                                    >"Chloroplasten"</rdfs:label>
+                                                  </CellComponent>
+                                                </hasElement>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
+                                                <rdfs:label xml:lang="de"
+                                                >"Cyanobakterien"</rdfs:label>
+                                                <rdfs:label xml:lang="en"
+                                                >"cyanobacteria"</rdfs:label>
+                                                <rdf:type rdf:resource="http://www.scy.eu/ecosystem#LivingFactor"/>
+                                                <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                              </Producer>
+                                            </isElementOf>
+                                            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Algae"/>
+                                            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Chloroplast"/>
+                                            <rdfs:label xml:lang="en"
+                                            >"chlorophyll"</rdfs:label>
+                                            <rdfs:label xml:lang="de"
+                                            >"Chlorophyll"</rdfs:label>
+                                            <absorb rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
+                                          </CellComponent>
+                                        </isAbsorbedBy>
+                                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#AbioticComponent"/>
+                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Terrarium"/>
+                                      </AbioticFactor>
+                                    </isInfluencedBy>
+                                    <need rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+                                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#CarbonDioxide"/>
+                                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#LightEnergy"/>
+                                    <need rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
+                                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#LightIntensity"/>
+                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
+                                    <isIncreasedBy rdf:resource="http://www.scy.eu/ecosystem#Protein"/>
+                                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#LightAvailability"/>
+                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
+                                    <rdfs:label xml:lang="en"
+                                    >"plant growth"</rdfs:label>
+                                    <need rdf:resource="http://www.scy.eu/ecosystem#Glucose"/>
+                                    <isIncreasedBy>
+                                      <ChemicalFactor rdf:about="http://www.scy.eu/ecosystem#Lipids">
+                                        <increases rdf:resource="http://www.scy.eu/ecosystem#PlantGrowth"/>
+                                        <rdfs:label xml:lang="en"
+                                        >"lipids"</rdfs:label>
+                                        <rdfs:label xml:lang="de"
+                                        >"Lipide"</rdfs:label>
+                                      </ChemicalFactor>
+                                    </isIncreasedBy>
+                                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Glucose"/>
+                                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#LightEnergy"/>
+                                  </Process>
+                                </increases>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Algae"/>
+                                <rdfs:label xml:lang="en">"protein"</rdfs:label>
+                                <rdfs:label xml:lang="de">"Protein"</rdfs:label>
+                              </ChemicalFactor>
+                            </produce>
+                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#PlantPopulation"/>
+                            <absorb>
+                              <Nutrient rdf:about="http://www.scy.eu/ecosystem#Nitrate">
+                                <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                <isAbsorbedBy rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
+                                <rdfs:label xml:lang="en">"nitrate"</rdfs:label>
+                                <rdfs:label xml:lang="de">"Nitrat"</rdfs:label>
+                              </Nutrient>
+                            </absorb>
+                            <hasRelationTo>
+                              <EcosystemExample rdf:about="http://www.scy.eu/ecosystem#Tree">
+                                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
+                                <rdfs:label xml:lang="en">"tree"</rdfs:label>
+                                <rdfs:label xml:lang="de">"Baum"</rdfs:label>
+                              </EcosystemExample>
+                            </hasRelationTo>
+                            <need>
+                              <AbioticComponent rdf:about="http://www.scy.eu/ecosystem#Soil">
+                                <rdfs:label xml:lang="en">"soil"</rdfs:label>
+                                <rdfs:label xml:lang="de">"Boden"</rdfs:label>
+                                <rdf:type rdf:resource="http://www.scy.eu/ecosystem#AbioticFactor"/>
+                                <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                              </AbioticComponent>
+                            </need>
+                            <produce rdf:resource="http://www.scy.eu/ecosystem#Lipids"/>
+                            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Aquarium"/>
+                            <rdf:type rdf:resource="http://www.scy.eu/ecosystem#Producer"/>
+                            <produce rdf:resource="http://www.scy.eu/ecosystem#Oxygen"/>
+                            <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                            <rdfs:label xml:lang="de">"Pflanzen"</rdfs:label>
+                            <absorb rdf:resource="http://www.scy.eu/ecosystem#LightEnergy"/>
+                            <absorb rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
+                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Biomass"/>
+                            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#River"/>
+                            <absorb rdf:resource="http://www.scy.eu/ecosystem#Phosphate"/>
+                            <absorb rdf:resource="http://www.scy.eu/ecosystem#Seeds"/>
+                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
+                            <hasElement rdf:resource="http://www.scy.eu/ecosystem#Chloroplast"/>
+                            <need rdf:resource="http://www.scy.eu/ecosystem#LightAvailability"/>
+                            <hasElement rdf:resource="http://www.scy.eu/ecosystem#Chlorophyll"/>
+                            <hasFunction rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
+                            <produce rdf:resource="http://www.scy.eu/ecosystem#Glucose"/>
+                            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Lake"/>
+                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#PlantGrowth"/>
+                            <need rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+                            <rdfs:label xml:lang="en">"plants"</rdfs:label>
+                            <need rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
+                          </Eukaryotes>
+                        </isAbsorbedBy>
+                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#BioticFactor"/>
+                        <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Biomass"/>
+                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#PlantPopulation"/>
+                        <rdfs:label xml:lang="en">"seeds"</rdfs:label>
+                        <rdfs:label xml:lang="de">"Samen"</rdfs:label>
+                      </BioticComponent>
+                    </hasRelationTo>
+                    <rdfs:label xml:lang="de">"Planzenpopulation"</rdfs:label>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
+                    <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#AnimalPopulation"/>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#LightIntensity"/>
+                    <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#HumanPopulation"/>
+                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#HumanPopulation"/>
+                    <rdfs:label xml:lang="en">"plant population"</rdfs:label>
+                  </BiologicalFactor>
+                </isInfluencedBy>
+                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Human"/>
+                <rdfs:label xml:lang="de">"Bevölkerung"</rdfs:label>
+                <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#PlantPopulation"/>
+                <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#AnimalPopulation"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Oxygen"/>
+                <rdfs:label xml:lang="en">"human population"</rdfs:label>
+              </HumanInfluence>
+            </isInfluencedBy>
             <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
             <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Oxygen"/>
             <rdfs:label xml:lang="de">"Tierpopulation"</rdfs:label>
             <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#HumanPopulation"/>
             <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Beaver"/>
-            <hasInfluenceOn>
-              <BiologicalFactor rdf:about="http://www.scy.eu/ecosystem#PlantPopulation">
-                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#LightAvailability"/>
-                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#AnimalPopulation"/>
-                <hasRelationTo>
-                  <BioticComponent rdf:about="http://www.scy.eu/ecosystem#Seeds">
-                    <isAbsorbedBy>
-                      <Eukaryotes rdf:about="http://www.scy.eu/ecosystem#Plants">
-                        <need>
-                          <ChemicalFactor rdf:about="http://www.scy.eu/ecosystem#CarbonDioxide">
-                            <rdfs:label xml:lang="en">"carbon dioxide"</rdfs:label>
-                            <rdfs:label xml:lang="de">"Kohlendioxid"</rdfs:label>
-                            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                            <rdf:type rdf:resource="http://www.scy.eu/ecosystem#AbioticComponent"/>
-                            <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
-                            <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#PlantGrowth"/>
-                          </ChemicalFactor>
-                        </need>
-                        <produce>
-                          <ChemicalFactor rdf:about="http://www.scy.eu/ecosystem#Protein">
-                            <increases rdf:resource="http://www.scy.eu/ecosystem#PlantGrowth"/>
-                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Algae"/>
-                            <rdfs:label xml:lang="en">"protein"</rdfs:label>
-                            <rdfs:label xml:lang="de">"Protein"</rdfs:label>
-                          </ChemicalFactor>
-                        </produce>
-                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#PlantPopulation"/>
-                        <absorb>
-                          <Nutrient rdf:about="http://www.scy.eu/ecosystem#Nitrate">
-                            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                            <isAbsorbedBy rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
-                            <rdfs:label xml:lang="en">"nitrate"</rdfs:label>
-                            <rdfs:label xml:lang="de">"Nitrat"</rdfs:label>
-                          </Nutrient>
-                        </absorb>
-                        <need>
-                          <AbioticComponent rdf:about="http://www.scy.eu/ecosystem#Soil">
-                            <rdfs:label xml:lang="en">"soil"</rdfs:label>
-                            <rdfs:label xml:lang="de">"Boden"</rdfs:label>
-                            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                          </AbioticComponent>
-                        </need>
-                        <produce>
-                          <ChemicalFactor rdf:about="http://www.scy.eu/ecosystem#Lipids">
-                            <increases rdf:resource="http://www.scy.eu/ecosystem#PlantGrowth"/>
-                            <rdfs:label xml:lang="en">"lipids"</rdfs:label>
-                            <rdfs:label xml:lang="de">"Lipide"</rdfs:label>
-                          </ChemicalFactor>
-                        </produce>
-                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#Producer"/>
-                        <produce rdf:resource="http://www.scy.eu/ecosystem#Oxygen"/>
-                        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                        <rdfs:label xml:lang="de">"Pflanzen"</rdfs:label>
-                        <absorb>
-                          <Energy rdf:about="http://www.scy.eu/ecosystem#LightEnergy">
-                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#PlantGrowth"/>
-                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#LightAvailability"/>
-                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
-                            <rdfs:label xml:lang="en">"light energy"</rdfs:label>
-                            <hasRelationTo>
-                              <PhysicalFactor rdf:about="http://www.scy.eu/ecosystem#LightIntensity">
-                                <rdfs:label xml:lang="en">"light intensity"</rdfs:label>
-                                <rdfs:label xml:lang="de">"Lichtintensität"</rdfs:label>
-                                <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
-                                <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#PlantGrowth"/>
-                                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#LightEnergy"/>
-                                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#PlantPopulation"/>
-                              </PhysicalFactor>
-                            </hasRelationTo>
-                            <rdfs:label xml:lang="de">"Lichtenergie"</rdfs:label>
-                            <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#PlantGrowth"/>
-                            <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
-                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
-                            <isAbsorbedBy rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
-                          </Energy>
-                        </absorb>
-                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Biomass"/>
-                        <absorb rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
-                        <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                        <absorb>
-                          <Nutrient rdf:about="http://www.scy.eu/ecosystem#Phosphate">
-                            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                            <rdfs:label xml:lang="en">"phosphate"</rdfs:label>
-                            <rdfs:label xml:lang="de">"Phosphat"</rdfs:label>
-                            <isAbsorbedBy rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
-                          </Nutrient>
-                        </absorb>
-                        <absorb rdf:resource="http://www.scy.eu/ecosystem#Seeds"/>
-                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
-                        <hasElement>
-                          <CellComponent rdf:about="http://www.scy.eu/ecosystem#Chloroplast">
-                            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
-                            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Algae"/>
-                            <isElementOf>
-                              <Producer rdf:about="http://www.scy.eu/ecosystem#Cyanobacteria">
-                                <produce>
-                                  <ChemicalFactor rdf:about="http://www.scy.eu/ecosystem#Glucose">
-                                    <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#PlantGrowth"/>
-                                    <rdfs:label xml:lang="en"
-                                    >"glucose"</rdfs:label>
-                                    <rdfs:label xml:lang="de"
-                                    >"Glucose"</rdfs:label>
-                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
-                                  </ChemicalFactor>
-                                </produce>
-                                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Biomass"/>
-                                <need rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
-                                <need rdf:resource="http://www.scy.eu/ecosystem#CarbonDioxide"/>
-                                <hasFunction rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
-                                <need rdf:resource="http://www.scy.eu/ecosystem#LightAvailability"/>
-                                <produce rdf:resource="http://www.scy.eu/ecosystem#Oxygen"/>
-                                <hasElement>
-                                  <CellComponent rdf:about="http://www.scy.eu/ecosystem#Chlorophyll">
-                                    <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
-                                    <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Cyanobacteria"/>
-                                    <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Algae"/>
-                                    <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Chloroplast"/>
-                                    <rdfs:label xml:lang="en"
-                                    >"chlorophyll"</rdfs:label>
-                                    <rdfs:label xml:lang="de"
-                                    >"Chlorophyll"</rdfs:label>
-                                    <absorb rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
-                                  </CellComponent>
-                                </hasElement>
-                                <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                                <hasElement rdf:resource="http://www.scy.eu/ecosystem#Chloroplast"/>
-                                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
-                                <rdfs:label xml:lang="de">"Cyanobakterien"</rdfs:label>
-                                <rdfs:label xml:lang="en">"cyanobacteria"</rdfs:label>
-                                <rdf:type rdf:resource="http://www.scy.eu/ecosystem#LivingFactor"/>
-                                <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                              </Producer>
-                            </isElementOf>
-                            <hasElement rdf:resource="http://www.scy.eu/ecosystem#Chlorophyll"/>
-                            <rdfs:label xml:lang="en">"chloroplast"</rdfs:label>
-                            <rdfs:label xml:lang="de">"Chloroplasten"</rdfs:label>
-                          </CellComponent>
-                        </hasElement>
-                        <need rdf:resource="http://www.scy.eu/ecosystem#LightAvailability"/>
-                        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Chlorophyll"/>
-                        <hasFunction rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
-                        <produce rdf:resource="http://www.scy.eu/ecosystem#Glucose"/>
-                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#PlantGrowth"/>
-                        <need rdf:resource="http://www.scy.eu/ecosystem#Water"/>
-                        <rdfs:label xml:lang="en">"plants"</rdfs:label>
-                        <need rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
-                      </Eukaryotes>
-                    </isAbsorbedBy>
-                    <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Biomass"/>
-                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#PlantPopulation"/>
-                    <rdfs:label xml:lang="en">"seeds"</rdfs:label>
-                    <rdfs:label xml:lang="de">"Samen"</rdfs:label>
-                  </BioticComponent>
-                </hasRelationTo>
-                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
-                <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#AnimalPopulation"/>
-                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
-                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#LightIntensity"/>
-                <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#HumanPopulation"/>
-                <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#HumanPopulation"/>
-                <rdfs:label xml:lang="de">"Anlage Bevölkerung"</rdfs:label>
-                <rdfs:label xml:lang="en">"plant population"</rdfs:label>
-              </BiologicalFactor>
-            </hasInfluenceOn>
+            <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#PlantPopulation"/>
             <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Pike"/>
             <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#PlantPopulation"/>
           </AnimalInfluence>
-        </hasInfluenceOn>
-        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#PlantPopulation"/>
-        <hasRelationTo>
-          <TopConsumer rdf:about="http://www.scy.eu/ecosystem#Human">
-            <need rdf:resource="http://www.scy.eu/ecosystem#Water"/>
-            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#HumanPopulation"/>
-            <rdfs:label xml:lang="de">"Mensch"</rdfs:label>
-            <need>
-              <Environment rdf:about="http://www.scy.eu/ecosystem#Land">
-                <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                <rdfs:label xml:lang="en">"land"</rdfs:label>
-                <rdfs:label xml:lang="de">"Land"</rdfs:label>
-                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-              </Environment>
-            </need>
-            <rdf:type rdf:resource="http://www.scy.eu/ecosystem#Animal"/>
-            <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Biomass"/>
-            <need rdf:resource="http://www.scy.eu/ecosystem#Oxygen"/>
-            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#FoodChain"/>
-            <rdfs:label xml:lang="en">"human"</rdfs:label>
-          </TopConsumer>
         </hasRelationTo>
-        <rdfs:label xml:lang="de">"Bevölkerung"</rdfs:label>
-        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#PlantPopulation"/>
-        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#AnimalPopulation"/>
-        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Oxygen"/>
-        <rdfs:label xml:lang="en">"human population"</rdfs:label>
-      </HumanInfluence>
-    </hasRelationTo>
-    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#AnimalPopulation"/>
-                                                              </AbioticComponent>
-                                                            </need>
-                                                            <need rdf:resource="http://www.scy.eu/ecosystem#Phosphate"/>
-                                                            <rdf:type rdf:resource="http://www.scy.eu/ecosystem#Decomposer"/>
-                                                            <need rdf:resource="http://www.scy.eu/ecosystem#Glucose"/>
+        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+      </Fish>
+    </hasElement>
+    <hasElement rdf:resource="http://www.scy.eu/ecosystem#Beaver"/>
+    <hasElement rdf:resource="http://www.scy.eu/ecosystem#Human"/>
+    <rdfs:label xml:lang="en">"food chain"</rdfs:label>
+    <rdfs:label xml:lang="de">"Nahrungskette"</rdfs:label>    </Concept>
+                                                            </isElementOf>
+                                                            <need rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+                                                            <need rdf:resource="http://www.scy.eu/ecosystem#DissolvedOxygen"/>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+                                                            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#River"/>
+                                                            <rdfs:label
+                                                             xml:lang="de"
+                                                            >"Hecht"</rdfs:label>
+                                                            <rdf:type rdf:resource="http://www.scy.eu/ecosystem#SecondaryConsumer"/>
+                                                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#AnimalPopulation"/>
                                                             <rdfs:label
                                                              xml:lang="en"
-                                                            >"fungi"</rdfs:label>
-                                                          </Eukaryotes>
+                                                            >"pike"</rdfs:label>
+                                                            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Lake"/>
+                                                          </Fish>
                                                         </hasRelationTo>
-                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Algae"/>
-                                                        <rdfs:label
-                                                         xml:lang="de"
-                                                        >"Biomasse"</rdfs:label>
-                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Seeds"/>
-                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
-                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Human"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Aquarium"/>
                                                         <rdfs:label
                                                          xml:lang="en"
-                                                        >"biomass"</rdfs:label>
-                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Cyanobacteria"/>
-                                                      </BioticComponent>
-                                                    </hasRelationTo>
-                                                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                                                    <isElementOf rdf:resource="http://www.scy.eu/ecosystem#FoodChain"/>
-                                                    <need rdf:resource="http://www.scy.eu/ecosystem#Land"/>
-                                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#AnimalPopulation"/>
-                                                    <rdf:type rdf:resource="http://www.scy.eu/ecosystem#PrimaryConsumer"/>
+                                                        >"dissolved oxygen"</rdfs:label>
+                                                        <rdfs:label
+                                                         xml:lang="de"
+                                                        >"gelösten Sauerstoff"</rdfs:label>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Lake"/>
+                                                        <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Puddle"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#River"/>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Roach"/>
+                                                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#AbioticComponent"/>
+                                                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#ChemicalFactor"/>
+                                                      </AbioticFactor>
+                                                    </isInfluencedBy>
                                                     <rdfs:label
                                                      xml:lang="de"
-                                                    >"Biber"</rdfs:label>
-                                                    <need rdf:resource="http://www.scy.eu/ecosystem#Water"/>
-                                                    <need rdf:resource="http://www.scy.eu/ecosystem#Oxygen"/>
-                                                  </Animal>
-                                                </hasElement>
-                                                <hasElement rdf:resource="http://www.scy.eu/ecosystem#Human"/>
+                                                    >"Sumpf"</rdfs:label>
+                                                    <rdfs:label
+                                                     xml:lang="en"
+                                                    >"puddle"</rdfs:label>
+                                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Land"/>
+                                                    <isInfluencedBy>
+                                                      <AbioticFactor rdf:about="http://www.scy.eu/ecosystem#pH">
+                                                        <rdfs:label
+                                                         xml:lang="de"
+                                                        >"ph"</rdfs:label>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Puddle"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Lake"/>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Aquarium"/>
+                                                        <rdfs:label
+                                                         xml:lang="en"
+                                                        >"p h"</rdfs:label>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#River"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#AbioticComponent"/>
+                                                      </AbioticFactor>
+                                                    </isInfluencedBy>
+                                                    <isInfluencedBy>
+                                                      <AbioticFactor rdf:about="http://www.scy.eu/ecosystem#WaterLevel">
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#River"/>
+                                                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#AbioticComponent"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Lake"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Aquarium"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Puddle"/>
+                                                        <rdfs:label
+                                                         xml:lang="de"
+                                                        >"Wasserstand"</rdfs:label>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+                                                        <rdfs:label
+                                                         xml:lang="en"
+                                                        >"water level"</rdfs:label>
+                                                      </AbioticFactor>
+                                                    </isInfluencedBy>
+                                                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
+                                                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#LightAvailability"/>
+                                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                    <isInfluencedBy>
+                                                      <AbioticFactor rdf:about="http://www.scy.eu/ecosystem#WaterTemperature">
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Lake"/>
+                                                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#PhysicalFactor"/>
+                                                        <rdfs:label
+                                                         xml:lang="de"
+                                                        >"Wassertemperatur"</rdfs:label>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                        <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Puddle"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#River"/>
+                                                        <rdfs:label
+                                                         xml:lang="en"
+                                                        >"water temperature"</rdfs:label>
+                                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
+                                                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#AbioticComponent"/>
+                                                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Aquarium"/>
+                                                      </AbioticFactor>
+                                                    </isInfluencedBy>
+                                                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Salinity"/>
+                                                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#AirTemperature"/>
+                                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+                                                  </EcosystemExample>
+                                                </hasInfluenceOn>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#PlantPopulation"/>
+                                                <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Aquarium"/>
+                                                <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
                                                 <rdfs:label xml:lang="en"
-                                                >"food chain"</rdfs:label>
+                                                >"light availability"</rdfs:label>
+                                                <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                                <rdf:type rdf:resource="http://www.scy.eu/ecosystem#AbioticFactor"/>
+                                                <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Desert"/>
+                                                <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#PlantGrowth"/>
                                                 <rdfs:label xml:lang="de"
-                                                >"Nahrungskette"</rdfs:label>
-                                              </Concept>
-                                            </isElementOf>
+                                                >"Verfügbarkeit von Licht"</rdfs:label>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#LightEnergy"/>
+                                                <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Terrarium"/>
+                                              </AbioticComponent>
+                                            </need>
+                                            <produce rdf:resource="http://www.scy.eu/ecosystem#Oxygen"/>
                                             <rdfs:label xml:lang="en"
-                                            >"roach"</rdfs:label>
+                                            >"algae"</rdfs:label>
+                                            <hasFunction rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
                                             <rdfs:label xml:lang="de"
-                                            >"Rotauge"</rdfs:label>
+                                            >"Algen"</rdfs:label>
+                                            <produce rdf:resource="http://www.scy.eu/ecosystem#Protein"/>
                                             <need rdf:resource="http://www.scy.eu/ecosystem#Water"/>
-                                            <need rdf:resource="http://www.scy.eu/ecosystem#DissolvedOxygen"/>
-                                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#DissolvedOxygen"/>
-                                            <rdf:type rdf:resource="http://www.scy.eu/ecosystem#PrimaryConsumer"/>
-                                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Water"/>
-                                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#AnimalPopulation"/>
+                                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
+                                            <need rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
+                                            <rdf:type rdf:resource="http://www.scy.eu/ecosystem#Producer"/>
+                                            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#River"/>
+                                            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Aquarium"/>
+                                            <need rdf:resource="http://www.scy.eu/ecosystem#LightEnergy"/>
+                                            <need rdf:resource="http://www.scy.eu/ecosystem#Phosphate"/>
+                                            <need rdf:resource="http://www.scy.eu/ecosystem#Nitrate"/>
+                                            <produce rdf:resource="http://www.scy.eu/ecosystem#Glucose"/>
+                                            <hasRelationTo>
+                                              <ChemicalFactor rdf:about="http://www.scy.eu/ecosystem#Nucleotide">
+                                                <rdfs:label xml:lang="en"
+                                                >"nucleotide"</rdfs:label>
+                                                <rdfs:label xml:lang="de"
+                                                >"Nukleotid"</rdfs:label>
+                                                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Algae"/>
+                                              </ChemicalFactor>
+                                            </hasRelationTo>
+                                            <hasElement rdf:resource="http://www.scy.eu/ecosystem#Chlorophyll"/>
+                                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Biomass"/>
                                             <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                                          </Fish>
+                                            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Lake"/>
+                                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Protein"/>
+                                            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                            <produce rdf:resource="http://www.scy.eu/ecosystem#Nucleotide"/>
+                                            <need rdf:resource="http://www.scy.eu/ecosystem#CarbonDioxide"/>
+                                            <hasElement rdf:resource="http://www.scy.eu/ecosystem#Chloroplast"/>
+                                          </Eukaryotes>
                                         </hasRelationTo>
-                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Pike"/>
-                                      </ChemicalFactor>
-                                    </hasRelationTo>
-                                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                                    <isElementOf rdf:resource="http://www.scy.eu/ecosystem#FoodChain"/>
-                                    <need rdf:resource="http://www.scy.eu/ecosystem#Water"/>
-                                    <need rdf:resource="http://www.scy.eu/ecosystem#DissolvedOxygen"/>
-                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Water"/>
-                                    <rdfs:label xml:lang="de"
-                                    >"Hecht"</rdfs:label>
-                                    <rdf:type rdf:resource="http://www.scy.eu/ecosystem#SecondaryConsumer"/>
-                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#AnimalPopulation"/>
-                                    <rdfs:label xml:lang="en"
-                                    >"pike"</rdfs:label>
-                                  </Fish>
-                                </hasRelationTo>
-                                <rdf:type rdf:resource="http://www.scy.eu/ecosystem#Environment"/>
-                                <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                                <rdfs:label xml:lang="en">"water"</rdfs:label>
-                                <rdf:type rdf:resource="http://www.scy.eu/ecosystem#ChemicalFactor"/>
-                                <hasRelationTo>
-                                  <AbioticComponent rdf:about="http://www.scy.eu/ecosystem#WaterLevel">
-                                    <rdfs:label xml:lang="en"
-                                    >"water level"</rdfs:label>
-                                    <rdfs:label xml:lang="de"
-                                    >"Wasserstand"</rdfs:label>
-                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                                    <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                                  </AbioticComponent>
-                                </hasRelationTo>
-                                <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#PlantGrowth"/>
-                                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#DissolvedOxygen"/>
-                                <rdfs:label xml:lang="de">"Wasser"</rdfs:label>
-                                <hasRelationTo>
-                                  <AbioticComponent rdf:about="http://www.scy.eu/ecosystem#WaterTemperature">
-                                    <rdf:type rdf:resource="http://www.scy.eu/ecosystem#PhysicalFactor"/>
-                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
-                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Water"/>
-                                    <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
+                                        <need rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
+                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
+                                        <need rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Glucose"/>
+                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
+                                        <need rdf:resource="http://www.scy.eu/ecosystem#CarbonDioxide"/>
+                                        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#LightEnergy"/>
+                                        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#LightIntensity"/>
+                                        <produce rdf:resource="http://www.scy.eu/ecosystem#Oxygen"/>
+                                        <produce rdf:resource="http://www.scy.eu/ecosystem#Glucose"/>
+                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#LightEnergy"/>
+                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#AirTemperature"/>
+                                        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#LightAvailability"/>
+                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Cyanobacteria"/>
+                                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#WaterTemperature"/>
+                                        <rdfs:label xml:lang="en"
+                                        >"photosynthesis"</rdfs:label>
+                                        <rdfs:label xml:lang="de"
+                                        >"Photosynthese"</rdfs:label>
+                                        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#CarbonDioxide"/>
+                                      </Process>
+                                    </hasInfluenceOn>
+                                    <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Lake"/>
                                     <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                                    <rdfs:label xml:lang="en"
-                                    >"water temperature"</rdfs:label>
-                                    <rdfs:label xml:lang="de"
-                                    >"Wassertemperatur"</rdfs:label>
-                                  </AbioticComponent>
-                                </hasRelationTo>
-                                <hasRelationTo>
-                                  <AbioticComponent rdf:about="http://www.scy.eu/ecosystem#WaterFlow">
-                                    <rdfs:label xml:lang="en"
-                                    >"water flow"</rdfs:label>
-                                    <rdfs:label xml:lang="de"
-                                    >"Wasserfluss"</rdfs:label>
-                                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Water"/>
-                                    <rdf:type rdf:resource="http://www.scy.eu/ecosystem#PhysicalFactor"/>
                                     <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                    <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#River"/>
+                                    <rdfs:label xml:lang="de"
+                                    >"Kohlendioxid"</rdfs:label>
+                                    <rdfs:label xml:lang="en"
+                                    >"carbon dioxide"</rdfs:label>
+                                    <rdf:type rdf:resource="http://www.scy.eu/ecosystem#ChemicalFactor"/>
+                                    <rdf:type rdf:resource="http://www.scy.eu/ecosystem#AbioticFactor"/>
+                                    <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Aquarium"/>
+                                    <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#PlantGrowth"/>
                                   </AbioticComponent>
-                                </hasRelationTo>
-                                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Roach"/>
-                              </AbioticComponent>
-                            </need>
-                            <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#CarbonDioxide"/>
-                            <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#LightEnergy"/>
-                            <need rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
-                            <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#LightIntensity"/>
-                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
-                            <isIncreasedBy rdf:resource="http://www.scy.eu/ecosystem#Protein"/>
-                            <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#LightAvailability"/>
-                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
-                            <rdfs:label xml:lang="en">"plant growth"</rdfs:label>
-                            <need rdf:resource="http://www.scy.eu/ecosystem#Glucose"/>
-                            <isIncreasedBy rdf:resource="http://www.scy.eu/ecosystem#Lipids"/>
-                            <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Glucose"/>
-                            <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Water"/>
-                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#LightEnergy"/>
-                          </Process>
-                        </hasInfluenceOn>
-                        <isAbsorbedBy rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
-                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
-                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#PlantPopulation"/>
+                                </isInfluencedBy>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+                                <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Salinity"/>
+                                <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#DissolvedOxygen"/>
+                                <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#pH"/>
+                                <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
+                                <hasElement rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
+                                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                                <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Oxygen"/>
+                                <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#WaterFlow"/>
+                                <rdfs:label xml:lang="de">"Aquarium"</rdfs:label>
+                                <rdfs:label xml:lang="en">"aquarium"</rdfs:label>
+                                <hasElement rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+                                <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#WaterTemperature"/>
+                                <hasElement rdf:resource="http://www.scy.eu/ecosystem#Algae"/>
+                                <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#LightAvailability"/>
+                                <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#WaterLevel"/>
+                                <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+                              </AquaticEcosystem>
+                            </hasInfluenceOn>
+                            <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Lake"/>
+                            <rdf:type rdf:resource="http://www.scy.eu/ecosystem#AbioticComponent"/>
+                            <rdfs:label xml:lang="de">"Salzgehalt"</rdfs:label>
+                            <rdf:type rdf:resource="http://www.scy.eu/ecosystem#AbioticFactor"/>
+                            <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Puddle"/>
+                            <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                            <rdfs:label xml:lang="en">"salinity"</rdfs:label>
+                            <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#River"/>
+                          </ChemicalFactor>
+                        </isInfluencedBy>
+                        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Algae"/>
+                        <rdfs:label xml:lang="en">"lake"</rdfs:label>
+                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#FoodWeb"/>
+                        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#WaterLevel"/>
+                        <rdfs:label xml:lang="de">"See"</rdfs:label>
+                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+                        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Bacteria"/>
+                        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+                        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#WaterTemperature"/>
+                        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#AirTemperature"/>
+                        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
+                        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Roach"/>
+                        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
+                        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#DissolvedOxygen"/>
+                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#CarbonDioxide"/>
+                        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Pike"/>
+                        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#pH"/>
+                      </AquaticEcosystem>
+                    </hasRelationTo>
+                    <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Algae"/>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#HumanPopulation"/>
+                    <hasRelationTo>
+                      <AbioticComponent rdf:about="http://www.scy.eu/ecosystem#Pressure">
+                        <rdfs:label xml:lang="en">"pressure"</rdfs:label>
+                        <rdfs:label xml:lang="de">"Druck"</rdfs:label>
                         <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
                         <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#LightEnergy"/>
-                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
-                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#PlantGrowth"/>
-                        <isAbsorbedBy rdf:resource="http://www.scy.eu/ecosystem#Chlorophyll"/>
-                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#AbioticComponent"/>
-                      </PhysicalFactor>
-                    </isInfluencedBy>
-                    <need rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
-                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
-                    <need rdf:resource="http://www.scy.eu/ecosystem#Water"/>
-                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Glucose"/>
-                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
-                    <need rdf:resource="http://www.scy.eu/ecosystem#CarbonDioxide"/>
-                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#LightEnergy"/>
-                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#LightIntensity"/>
-                    <produce rdf:resource="http://www.scy.eu/ecosystem#Oxygen"/>
-                    <produce rdf:resource="http://www.scy.eu/ecosystem#Glucose"/>
-                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#LightEnergy"/>
-                    <hasRelationTo>
-                      <PhysicalFactor rdf:about="http://www.scy.eu/ecosystem#AirTemperature">
-                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                        <rdfs:label xml:lang="en">"air temperature"</rdfs:label>
-                        <rdfs:label xml:lang="de">"Lufttemperatur"</rdfs:label>
-                        <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
-                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#AbioticComponent"/>
-                      </PhysicalFactor>
+                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#AbioticFactor"/>
+                      </AbioticComponent>
                     </hasRelationTo>
+                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#pH"/>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Tree"/>
+                    <isInfluencedBy>
+                      <HumanInfluence rdf:about="http://www.scy.eu/ecosystem#GlobalClimateChange">
+                        <rdfs:label xml:lang="en">"global climate change"</rdfs:label>
+                        <rdfs:label xml:lang="de">"globalen Klimawandels"</rdfs:label>
+                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                      </HumanInfluence>
+                    </isInfluencedBy>
+                    <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Human"/>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#WaterLevel"/>
+                    <hasElement rdf:resource="http://www.scy.eu/ecosystem#Oxygen"/>
+                    <hasInfluenceOn>
+                      <LivingFactor rdf:about="http://www.scy.eu/ecosystem#Archaea">
+                        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                        <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                        <rdfs:label xml:lang="en">"archaea"</rdfs:label>
+                        <rdfs:label xml:lang="de">"Archaeen"</rdfs:label>
+                      </LivingFactor>
+                    </hasInfluenceOn>
+                    <hasElement>
+                      <PrimaryConsumer rdf:about="http://www.scy.eu/ecosystem#Insects">
+                        <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#SecondaryConsumer"/>
+                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#Animal"/>
+                        <rdfs:label xml:lang="en">"insects"</rdfs:label>
+                        <rdfs:label xml:lang="de">"Insekten"</rdfs:label>
+                      </PrimaryConsumer>
+                    </hasElement>
+                    <hasElement rdf:resource="http://www.scy.eu/ecosystem#WaterTemperature"/>
+                    <isInfluencedBy>
+                      <ChemicalFactor rdf:about="http://www.scy.eu/ecosystem#DissolvedOxygenContent">
+                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                        <rdfs:label xml:lang="en">"dissolved oxygen content"</rdfs:label>
+                        <rdfs:label xml:lang="de">"Gehalt an gelöstem Sauerstoff"</rdfs:label>
+                      </ChemicalFactor>
+                    </isInfluencedBy>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#AnimalPopulation"/>
+                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
+                    <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Insects"/>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Air"/>
+                    <rdfs:label xml:lang="en">"ecosystem"</rdfs:label>
+                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#WaterLevel"/>
+                    <hasElement rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
+                    <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Cyanobacteria"/>
+                    <hasFunction>
+                      <EnvironmentalFunction rdf:about="http://www.scy.eu/ecosystem#FloodAttenuation">
+                        <hasRelationTo>
+                          <PhysicalFactor rdf:about="http://www.scy.eu/ecosystem#Flooding">
+                            <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#FloodAttenuation"/>
+                            <rdfs:label xml:lang="en">"flooding"</rdfs:label>
+                            <rdfs:label xml:lang="de">"Hochwasser"</rdfs:label>
+                          </PhysicalFactor>
+                        </hasRelationTo>
+                        <rdfs:label xml:lang="en">"flood attenuation"</rdfs:label>
+                        <rdfs:label xml:lang="de">"Hochwasserschutz"</rdfs:label>
+                      </EnvironmentalFunction>
+                    </hasFunction>
+                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#AirTemperature"/>
+                    <hasElement rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#WaterTemperature"/>
+                    <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                    <hasElement rdf:resource="http://www.scy.eu/ecosystem#Seeds"/>
+                    <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Beaver"/>
+                    <hasFunction>
+                      <EnvironmentalFunction rdf:about="http://www.scy.eu/ecosystem#PlaceForHumanRecreation">
+                        <rdfs:label xml:lang="en">"place for human recreation"</rdfs:label>
+                        <rdfs:label xml:lang="de">"Platz für die Erholung"</rdfs:label>
+                      </EnvironmentalFunction>
+                    </hasFunction>
+                    <hasElement rdf:resource="http://www.scy.eu/ecosystem#Fungi"/>
+                    <hasRelationTo>
+                      <InteractionType rdf:about="http://www.scy.eu/ecosystem#Mutualism">
+                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                        <rdfs:label xml:lang="en">"mutualism"</rdfs:label>
+                        <rdfs:label xml:lang="de">"Mutualismus"</rdfs:label>
+                      </InteractionType>
+                    </hasRelationTo>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Aquarium"/>
+                    <hasElement>
+                      <Producer rdf:about="http://www.scy.eu/ecosystem#Protists">
+                        <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#PrimaryConsumer"/>
+                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#SecondaryConsumer"/>
+                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#Eukaryotes"/>
+                        <rdfs:label xml:lang="en">"protists"</rdfs:label>
+                        <rdfs:label xml:lang="de">"Protisten"</rdfs:label>
+                        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                      </Producer>
+                    </hasElement>
+                    <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
+                    <isInfluencedBy>
+                      <BiologicalFactor rdf:about="http://www.scy.eu/ecosystem#ExoticSpecies">
+                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                        <rdfs:label xml:lang="en">"exotic species"</rdfs:label>
+                        <rdfs:label xml:lang="de">"Exoten"</rdfs:label>
+                      </BiologicalFactor>
+                    </isInfluencedBy>
+                    <isInfluencedBy>
+                      <HumanInfluence rdf:about="http://www.scy.eu/ecosystem#Pollution">
+                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                        <rdfs:label xml:lang="en">"pollution"</rdfs:label>
+                        <rdfs:label xml:lang="de">"Verschmutzung"</rdfs:label>
+                      </HumanInfluence>
+                    </isInfluencedBy>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#FoodChain"/>
+                    <rdfs:label xml:lang="de">"Ökosystem"</rdfs:label>
+                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Pressure"/>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Land"/>
+                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Salinity"/>
+                    <hasElement rdf:resource="http://www.scy.eu/ecosystem#CarbonDioxide"/>
+                    <isInfluencedBy>
+                      <HumanInfluence rdf:about="http://www.scy.eu/ecosystem#ResourceUse">
+                        <rdfs:label xml:lang="en">"resource use"</rdfs:label>
+                        <rdfs:label xml:lang="de">"Ressourcennutzung"</rdfs:label>
+                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                      </HumanInfluence>
+                    </isInfluencedBy>
+                    <hasElement rdf:resource="http://www.scy.eu/ecosystem#Archaea"/>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
+                    <hasElement rdf:resource="http://www.scy.eu/ecosystem#Soil"/>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#PlantPopulation"/>
+                    <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Bacteria"/>
+                    <hasElement rdf:resource="http://www.scy.eu/ecosystem#AirTemperature"/>
                     <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#LightAvailability"/>
-                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Cyanobacteria"/>
-                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#WaterTemperature"/>
-                    <rdfs:label xml:lang="en">"photosynthesis"</rdfs:label>
-                    <rdfs:label xml:lang="de">"Photosynthese"</rdfs:label>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Terrarium"/>
+                    <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Roach"/>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Puddle"/>
+                    <hasInfluenceOn>
+                      <PrimaryConsumer rdf:about="http://www.scy.eu/ecosystem#Protozoa">
+                        <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#SecondaryConsumer"/>
+                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#Eukaryotes"/>
+                        <rdfs:label xml:lang="en">"protozoa"</rdfs:label>
+                        <rdfs:label xml:lang="de">"Protozoen"</rdfs:label>
+                        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                      </PrimaryConsumer>
+                    </hasInfluenceOn>
+                    <hasFunction>
+                      <EnvironmentalFunction rdf:about="http://www.scy.eu/ecosystem#WaterPurification">
+                        <rdfs:label xml:lang="en">"water purification"</rdfs:label>
+                        <rdfs:label xml:lang="de">"Wasserreinigung"</rdfs:label>
+                      </EnvironmentalFunction>
+                    </hasFunction>
+                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+                    <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Protists"/>
+                    <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Pike"/>
+                    <hasElement rdf:resource="http://www.scy.eu/ecosystem#Protozoa"/>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#pH"/>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#FoodWeb"/>
+                    <hasElement rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Beaver"/>
+                    <hasFunction>
+                      <EnvironmentalFunction rdf:about="http://www.scy.eu/ecosystem#GroundwaterRecharge">
+                        <rdfs:label xml:lang="en">"groundwater recharge"</rdfs:label>
+                        <rdfs:label xml:lang="de">"Grundwasserneubildung"</rdfs:label>
+                      </EnvironmentalFunction>
+                    </hasFunction>
+                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Oxygen"/>
+                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#DissolvedOxygen"/>
+                    <hasElement rdf:resource="http://www.scy.eu/ecosystem#DissolvedOxygen"/>
+                    <isInfluencedBy>
+                      <ChemicalFactor rdf:about="http://www.scy.eu/ecosystem#Toxin">
+                        <rdfs:label xml:lang="en">"toxin"</rdfs:label>
+                        <rdfs:label xml:lang="de">"Toxin"</rdfs:label>
+                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                      </ChemicalFactor>
+                    </isInfluencedBy>
+                    <hasFunction>
+                      <EnvironmentalFunction rdf:about="http://www.scy.eu/ecosystem#NutrientRecycling">
+                        <rdfs:label xml:lang="en">"nutrient recycling"</rdfs:label>
+                        <rdfs:label xml:lang="de">"Recycling von Nährstoffen"</rdfs:label>
+                      </EnvironmentalFunction>
+                    </hasFunction>
+                    <hasElement rdf:resource="http://www.scy.eu/ecosystem#Nitrate"/>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#River"/>
+                    <hasElement rdf:resource="http://www.scy.eu/ecosystem#Bacteria"/>
+                    <hasRelationTo>
+                      <InteractionType rdf:about="http://www.scy.eu/ecosystem#Predation">
+                        <rdfs:label xml:lang="en">"predation"</rdfs:label>
+                        <rdfs:label xml:lang="de">"Prädation"</rdfs:label>
+                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                      </InteractionType>
+                    </hasRelationTo>
+                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Flooding"/>
+                    <hasElement rdf:resource="http://www.scy.eu/ecosystem#Land"/>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Desert"/>
+                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Soil"/>
+                    <hasElement rdf:resource="http://www.scy.eu/ecosystem#Nitrogen"/>
+                    <hasRelationTo>
+                      <InteractionType rdf:about="http://www.scy.eu/ecosystem#Competition">
+                        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                        <rdfs:label xml:lang="en">"competition"</rdfs:label>
+                        <rdfs:label xml:lang="de">"Wettbewerb"</rdfs:label>
+                      </InteractionType>
+                    </hasRelationTo>
+                    <hasElement rdf:resource="http://www.scy.eu/ecosystem#Phosphate"/>
+                    <hasElement rdf:resource="http://www.scy.eu/ecosystem#Air"/>
                     <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#CarbonDioxide"/>
-                  </Process>
-                </hasInfluenceOn>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+                    <hasFunction>
+                      <EnvironmentalFunction rdf:about="http://www.scy.eu/ecosystem#HabitatsForWildlife">
+                        <rdfs:label xml:lang="en">"habitats for wildlife"</rdfs:label>
+                        <rdfs:label xml:lang="de">"Lebensräume für Wildtiere"</rdfs:label>
+                      </EnvironmentalFunction>
+                    </hasFunction>
+                    <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#WaterFlow"/>
+                    <isInfluencedBy>
+                      <AbioticComponent rdf:about="http://www.scy.eu/ecosystem#Height">
+                        <rdfs:label xml:lang="en">"height"</rdfs:label>
+                        <rdfs:label xml:lang="de">"Höhe"</rdfs:label>
+                        <rdf:type rdf:resource="http://www.scy.eu/ecosystem#AbioticFactor"/>
+                        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                      </AbioticComponent>
+                    </isInfluencedBy>
+                    <hasElement rdf:resource="http://www.scy.eu/ecosystem#Cyanobacteria"/>
+                    <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#LightEnergy"/>
+                    <hasElement rdf:resource="http://www.scy.eu/ecosystem#Algae"/>
+                  </Concept>
+                </hasRelationTo>
+                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Lake"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#pH"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Pike"/>
+                <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Aquarium"/>
+                <rdf:type rdf:resource="http://www.scy.eu/ecosystem#Environment"/>
+                <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#River"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Terrarium"/>
+                <rdfs:label xml:lang="en">"water"</rdfs:label>
+                <rdf:type rdf:resource="http://www.scy.eu/ecosystem#ChemicalFactor"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Aquarium"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#WaterLevel"/>
+                <rdf:type rdf:resource="http://www.scy.eu/ecosystem#AbioticFactor"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Desert"/>
+                <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Aquarium"/>
                 <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#PlantGrowth"/>
-                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#LightEnergy"/>
-                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#PlantPopulation"/>
-              </AbioticComponent>
-            </need>
-            <produce rdf:resource="http://www.scy.eu/ecosystem#Oxygen"/>
-            <rdfs:label xml:lang="en">"algae"</rdfs:label>
-            <hasFunction rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
-            <rdfs:label xml:lang="de">"Algen"</rdfs:label>
-            <produce rdf:resource="http://www.scy.eu/ecosystem#Protein"/>
-            <need rdf:resource="http://www.scy.eu/ecosystem#Water"/>
-            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Photosynthesis"/>
-            <need rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
-            <rdf:type rdf:resource="http://www.scy.eu/ecosystem#Producer"/>
-            <need rdf:resource="http://www.scy.eu/ecosystem#LightEnergy"/>
-            <need rdf:resource="http://www.scy.eu/ecosystem#Phosphate"/>
-            <need rdf:resource="http://www.scy.eu/ecosystem#Nitrate"/>
-            <produce rdf:resource="http://www.scy.eu/ecosystem#Glucose"/>
-            <hasRelationTo>
-              <ChemicalFactor rdf:about="http://www.scy.eu/ecosystem#Nucleotide">
-                <rdfs:label xml:lang="en">"nucleotide"</rdfs:label>
-                <rdfs:label xml:lang="de">"Nukleotid"</rdfs:label>
-                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Algae"/>
-              </ChemicalFactor>
-            </hasRelationTo>
-            <hasElement rdf:resource="http://www.scy.eu/ecosystem#Chlorophyll"/>
-            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Biomass"/>
-            <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Protein"/>
-            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-            <produce rdf:resource="http://www.scy.eu/ecosystem#Nucleotide"/>
-            <need rdf:resource="http://www.scy.eu/ecosystem#CarbonDioxide"/>
-            <hasElement rdf:resource="http://www.scy.eu/ecosystem#Chloroplast"/>
-          </Eukaryotes>
-        </hasInfluenceOn>
-        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#HumanPopulation"/>
-        <hasRelationTo>
-          <AbioticComponent rdf:about="http://www.scy.eu/ecosystem#Pressure">
-            <rdfs:label xml:lang="en">"pressure"</rdfs:label>
-            <rdfs:label xml:lang="de">"Druck"</rdfs:label>
-            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-            <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-          </AbioticComponent>
-        </hasRelationTo>
-        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#pH"/>
-        <isInfluencedBy>
-          <HumanInfluence rdf:about="http://www.scy.eu/ecosystem#GlobalClimateChange">
-            <rdfs:label xml:lang="en">"global climate change"</rdfs:label>
-            <rdfs:label xml:lang="de">"globalen Klimawandels"</rdfs:label>
-            <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-          </HumanInfluence>
-        </isInfluencedBy>
-        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Human"/>
-        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#WaterLevel"/>
-        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Oxygen"/>
-        <hasInfluenceOn>
-          <LivingFactor rdf:about="http://www.scy.eu/ecosystem#Archaea">
-            <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-            <rdfs:label xml:lang="en">"archaea"</rdfs:label>
-            <rdfs:label xml:lang="de">"Archaeen"</rdfs:label>
-          </LivingFactor>
-        </hasInfluenceOn>
-        <hasElement>
-          <PrimaryConsumer rdf:about="http://www.scy.eu/ecosystem#Insects">
-            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-            <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-            <rdf:type rdf:resource="http://www.scy.eu/ecosystem#SecondaryConsumer"/>
-            <rdf:type rdf:resource="http://www.scy.eu/ecosystem#Animal"/>
-            <rdfs:label xml:lang="en">"insects"</rdfs:label>
-            <rdfs:label xml:lang="de">"Insekten"</rdfs:label>
-          </PrimaryConsumer>
-        </hasElement>
-        <hasElement rdf:resource="http://www.scy.eu/ecosystem#WaterTemperature"/>
-        <isInfluencedBy>
-          <ChemicalFactor rdf:about="http://www.scy.eu/ecosystem#DissolvedOxygenContent">
-            <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-            <rdfs:label xml:lang="en">"dissolved oxygen content"</rdfs:label>
-            <rdfs:label xml:lang="de">"Gehalt an gelöstem Sauerstoff"</rdfs:label>
-          </ChemicalFactor>
-        </isInfluencedBy>
-        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#AnimalPopulation"/>
-        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
-        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Insects"/>
-        <hasRelationTo>
-          <Environment rdf:about="http://www.scy.eu/ecosystem#Air">
-            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-            <rdfs:label xml:lang="en">"air"</rdfs:label>
-            <rdfs:label xml:lang="de">"Luft"</rdfs:label>
-            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-          </Environment>
-        </hasRelationTo>
-        <rdfs:label xml:lang="en">"ecosystem"</rdfs:label>
-        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#WaterLevel"/>
-        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
-        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Cyanobacteria"/>
-        <hasFunction>
-          <EnvironmentalFunction rdf:about="http://www.scy.eu/ecosystem#FloodAttenuation">
-            <hasRelationTo>
-              <PhysicalFactor rdf:about="http://www.scy.eu/ecosystem#Flooding">
+                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Puddle"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#DissolvedOxygen"/>
+                <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Lake"/>
+                <rdfs:label xml:lang="de">"Wasser"</rdfs:label>
+                <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#River"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#WaterTemperature"/>
                 <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#FloodAttenuation"/>
-                <rdfs:label xml:lang="en">"flooding"</rdfs:label>
-                <rdfs:label xml:lang="de">"Hochwasser"</rdfs:label>
-              </PhysicalFactor>
+                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#WaterFlow"/>
+                <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Roach"/>
+              </AbioticComponent>
             </hasRelationTo>
-            <rdfs:label xml:lang="de">"Hochwasserschutz"</rdfs:label>
-            <rdfs:label xml:lang="en">"flood attenuation"</rdfs:label>
-          </EnvironmentalFunction>
-        </hasFunction>
-        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#AirTemperature"/>
-        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Water"/>
-        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#WaterTemperature"/>
-        <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Seeds"/>
-        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Beaver"/>
-        <hasFunction>
-          <EnvironmentalFunction rdf:about="http://www.scy.eu/ecosystem#PlaceForHumanRecreation">
-            <rdfs:label xml:lang="en">"place for human recreation"</rdfs:label>
-            <rdfs:label xml:lang="de">"Platz für die Erholung"</rdfs:label>
-          </EnvironmentalFunction>
-        </hasFunction>
-        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Fungi"/>
-        <hasRelationTo>
-          <InteractionType rdf:about="http://www.scy.eu/ecosystem#Mutualism">
-            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-            <rdfs:label xml:lang="en">"mutualism"</rdfs:label>
-            <rdfs:label xml:lang="de">"Mutualismus"</rdfs:label>
-          </InteractionType>
-        </hasRelationTo>
-        <hasElement>
-          <Producer rdf:about="http://www.scy.eu/ecosystem#Protists">
-            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-            <rdf:type rdf:resource="http://www.scy.eu/ecosystem#PrimaryConsumer"/>
-            <rdf:type rdf:resource="http://www.scy.eu/ecosystem#SecondaryConsumer"/>
-            <rdf:type rdf:resource="http://www.scy.eu/ecosystem#Eukaryotes"/>
-            <rdfs:label xml:lang="en">"protists"</rdfs:label>
-            <rdfs:label xml:lang="de">"Protisten"</rdfs:label>
-            <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-          </Producer>
-        </hasElement>
-        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
-        <isInfluencedBy>
-          <BiologicalFactor rdf:about="http://www.scy.eu/ecosystem#ExoticSpecies">
+            <rdf:type rdf:resource="http://www.scy.eu/ecosystem#AbioticFactor"/>
+            <rdf:type rdf:resource="http://www.scy.eu/ecosystem#PhysicalFactor"/>
+            <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#River"/>
             <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-            <rdfs:label xml:lang="en">"exotic species"</rdfs:label>
-            <rdfs:label xml:lang="de">"Exoten"</rdfs:label>
-          </BiologicalFactor>
-        </isInfluencedBy>
-        <isInfluencedBy>
-          <HumanInfluence rdf:about="http://www.scy.eu/ecosystem#Pollution">
-            <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-            <rdfs:label xml:lang="en">"pollution"</rdfs:label>
-            <rdfs:label xml:lang="de">"Verschmutzung"</rdfs:label>
-          </HumanInfluence>
-        </isInfluencedBy>
-        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#FoodChain"/>
-        <rdfs:label xml:lang="de">"Ökosystem"</rdfs:label>
-        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Pressure"/>
-        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Land"/>
-        <isInfluencedBy>
-          <AbioticComponent rdf:about="http://www.scy.eu/ecosystem#Salinity">
-            <rdfs:label xml:lang="en">"salinity"</rdfs:label>
-            <rdfs:label xml:lang="de">"Salzgehalt"</rdfs:label>
-            <rdf:type rdf:resource="http://www.scy.eu/ecosystem#ChemicalFactor"/>
-            <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+            <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Aquarium"/>
           </AbioticComponent>
         </isInfluencedBy>
-        <hasElement rdf:resource="http://www.scy.eu/ecosystem#CarbonDioxide"/>
-        <isInfluencedBy>
-          <HumanInfluence rdf:about="http://www.scy.eu/ecosystem#ResourceUse">
-            <rdfs:label xml:lang="en">"resource use"</rdfs:label>
-            <rdfs:label xml:lang="de">"Ressourcennutzung"</rdfs:label>
-            <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-          </HumanInfluence>
-        </isInfluencedBy>
-        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Archaea"/>
-        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
-        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Soil"/>
-        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#PlantPopulation"/>
-        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Bacteria"/>
-        <hasElement rdf:resource="http://www.scy.eu/ecosystem#AirTemperature"/>
-        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#LightAvailability"/>
-        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Roach"/>
-        <hasInfluenceOn>
-          <PrimaryConsumer rdf:about="http://www.scy.eu/ecosystem#Protozoa">
-            <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-            <rdf:type rdf:resource="http://www.scy.eu/ecosystem#SecondaryConsumer"/>
-            <rdf:type rdf:resource="http://www.scy.eu/ecosystem#Eukaryotes"/>
-            <rdfs:label xml:lang="en">"protozoa"</rdfs:label>
-            <rdfs:label xml:lang="de">"Protozoen"</rdfs:label>
-            <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-          </PrimaryConsumer>
-        </hasInfluenceOn>
-        <hasFunction>
-          <EnvironmentalFunction rdf:about="http://www.scy.eu/ecosystem#WaterPurification">
-            <rdfs:label xml:lang="en">"water purification"</rdfs:label>
-            <rdfs:label xml:lang="de">"Wasserreinigung"</rdfs:label>
-          </EnvironmentalFunction>
-        </hasFunction>
-        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Protists"/>
-        <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Pike"/>
-        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Protozoa"/>
-        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#pH"/>
-        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#FoodWeb"/>
-        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Beaver"/>
-        <hasFunction>
-          <EnvironmentalFunction rdf:about="http://www.scy.eu/ecosystem#GroundwaterRecharge">
-            <rdfs:label xml:lang="en">"groundwater recharge"</rdfs:label>
-            <rdfs:label xml:lang="de">"Grundwasserneubildung"</rdfs:label>
-          </EnvironmentalFunction>
-        </hasFunction>
-        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#DissolvedOxygen"/>
-        <hasElement rdf:resource="http://www.scy.eu/ecosystem#DissolvedOxygen"/>
-        <isInfluencedBy>
-          <ChemicalFactor rdf:about="http://www.scy.eu/ecosystem#Toxin">
-            <rdfs:label xml:lang="en">"toxin"</rdfs:label>
-            <rdfs:label xml:lang="de">"Toxin"</rdfs:label>
-            <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-          </ChemicalFactor>
-        </isInfluencedBy>
-        <hasFunction>
-          <EnvironmentalFunction rdf:about="http://www.scy.eu/ecosystem#NutrientRecycling">
-            <rdfs:label xml:lang="en">"nutrient recycling"</rdfs:label>
-            <rdfs:label xml:lang="de">"Recycling von Nährstoffen"</rdfs:label>
-          </EnvironmentalFunction>
-        </hasFunction>
-        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Nitrate"/>
-        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Bacteria"/>
-        <hasRelationTo>
-          <InteractionType rdf:about="http://www.scy.eu/ecosystem#Predation">
-            <rdfs:label xml:lang="en">"predation"</rdfs:label>
-            <rdfs:label xml:lang="de">"Prädation"</rdfs:label>
-            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-          </InteractionType>
-        </hasRelationTo>
-        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Flooding"/>
-        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Land"/>
-        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Nitrogen"/>
-        <hasRelationTo>
-          <InteractionType rdf:about="http://www.scy.eu/ecosystem#Competition">
-            <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-            <rdfs:label xml:lang="en">"competition"</rdfs:label>
-            <rdfs:label xml:lang="de">"Wettbewerb"</rdfs:label>
-          </InteractionType>
-        </hasRelationTo>
-        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Phosphate"/>
-        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Air"/>
         <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Water"/>
-        <hasFunction>
-          <EnvironmentalFunction rdf:about="http://www.scy.eu/ecosystem#HabitatsForWildlife">
-            <rdfs:label xml:lang="en">"habitats for wildlife"</rdfs:label>
-            <rdfs:label xml:lang="de">"Lebensräume für Wildtiere"</rdfs:label>
-          </EnvironmentalFunction>
-        </hasFunction>
-        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#WaterFlow"/>
-        <isInfluencedBy>
-          <AbioticComponent rdf:about="http://www.scy.eu/ecosystem#Height">
-            <rdfs:label xml:lang="en">"height"</rdfs:label>
-            <rdfs:label xml:lang="de">"Höhe"</rdfs:label>
-            <hasInfluenceOn rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
-          </AbioticComponent>
-        </isInfluencedBy>
-        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Cyanobacteria"/>
-        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#LightEnergy"/>
+        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#DissolvedOxygen"/>
+        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
+        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#CarbonDioxide"/>
+        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Roach"/>
+        <hasRelationTo rdf:resource="http://www.scy.eu/ecosystem#FoodWeb"/>
+        <rdfs:label xml:lang="de">"Fluss"</rdfs:label>
+        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Water"/>
+        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Sunlight"/>
         <hasElement rdf:resource="http://www.scy.eu/ecosystem#Algae"/>
-      </Concept>
+        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#pH"/>
+        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Pike"/>
+        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Bacteria"/>
+        <hasElement rdf:resource="http://www.scy.eu/ecosystem#Plants"/>
+        <rdfs:label xml:lang="en">"river"</rdfs:label>
+        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#WaterLevel"/>
+        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#WaterTemperature"/>
+        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Salinity"/>
+        <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#AirTemperature"/>
+      </AquaticEcosystem>
     </isElementOf>
+    <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Lake"/>
+    <isElementOf rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
     <isInfluencedBy rdf:resource="http://www.scy.eu/ecosystem#Ecosystem"/>
     <rdf:type rdf:resource="http://www.scy.eu/ecosystem#Decomposer"/>
     <rdfs:label xml:lang="en">"bacteria"</rdfs:label>
