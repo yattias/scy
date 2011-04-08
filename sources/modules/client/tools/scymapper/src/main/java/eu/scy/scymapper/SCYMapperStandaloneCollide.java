@@ -127,10 +127,10 @@ public class SCYMapperStandaloneCollide extends SCYMapperStandalone {
 
         }
 
-        scyMapperPanel = new SCYMapperPanelCollide(cmap, configuration, SCYMapperStandaloneConfig.getInstance().getSQLSpacesHost(), SCYMapperStandaloneConfig.getInstance().getSQLSpacesPort(), userid);
+        scyMapperPanel = new SCYMapperPanelCollide(cmap, configuration, SCYMapperStandaloneConfig.getInstance().getSQLSpacesHost(), SCYMapperStandaloneConfig.getInstance().getSQLSpacesPort(), userid,true);
         scyMapperPanel.setEloURI(eloUri);
         currentConceptMap = cmap;
-        
+
         return scyMapperPanel;
     }
 
