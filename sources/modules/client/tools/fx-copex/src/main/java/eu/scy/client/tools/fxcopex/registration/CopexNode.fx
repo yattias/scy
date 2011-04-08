@@ -49,6 +49,11 @@ import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 
 
 /**
+ * copex node,
+ * output elos: xproc, experimental procedure
+ * accepts dnd from rich text editor, that allows to fill automaticaly the hypothesis or the question part of the procedure,
+ * depends of the functional role of the text elo (hypothesis or research question)
+ * the notification button allows to show to the user the notification of the SCY Hypothesis evaluation agent
  * @author Marjolaine
  */
 
@@ -72,11 +77,10 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
 
    var elo:IELO;
 
-   def spacing = 5.0;
-
    var bundle:ResourceBundleWrapper;
 
    var notificationDialog: NotificationDialog;
+   // manager of the title bar to show/hide the notification button
    var copexTitleBarButtonManager:TitleBarButtonManager;
    def saveTitleBarButton = TitleBarButton {
               actionId: TitleBarButton.saveActionId
@@ -117,6 +121,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
       }
    }
 
+   // show the notification button
    function addNotificationInTitleBar(){
     copexTitleBarButtonManager.titleBarButtons = [
                     saveTitleBarButton,
@@ -125,6 +130,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
                  ]
    }
 
+   //hide the notification button
    function removeNotificationInTitleBar(){
     copexTitleBarButtonManager.titleBarButtons = [
                     saveTitleBarButton,
@@ -206,6 +212,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
        return bundle.getString(key);
    }
 
+   /* returns the thumbnail of copexe*/
    public override function getThumbnail(width: Integer, height: Integer): BufferedImage {
       if (scyCopexPanel != null) {
         return UiUtils.createThumbnail(scyCopexPanel.getInterfacePanel(), scyCopexPanel.getRealSize(), new Dimension(width, height));
@@ -236,6 +243,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
       doSaveElo();
    }
 
+   /* received a notification*/
    override public function processNotification(note: INotification): Boolean {
         var success: Boolean = false;
         if (scyCopexPanel != null and note.getFirstProperty(CopexNotificationManager.keyMessage) != null) {
@@ -251,6 +259,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
         return success;
     }
 
+    /*opens the notification dialog*/
     function doNotify(){
         notificationDialog = NotificationDialog {
             okayAction: okayNotificationDialog
@@ -301,7 +310,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
         }
     }
 
-
+    // copex accepts drop from rich text editor
     public override function canAcceptDrop(object: Object): Boolean {
         logger.info("copex-canAcceptDrop? {object.getClass()}");
         if (object instanceof BasicMetadata) {

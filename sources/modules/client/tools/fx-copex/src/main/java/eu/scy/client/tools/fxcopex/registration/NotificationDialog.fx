@@ -11,6 +11,7 @@ import javafx.scene.Node;
 
 
 /**
+ * notification dialog
  * @author Marjolaine
  */
 

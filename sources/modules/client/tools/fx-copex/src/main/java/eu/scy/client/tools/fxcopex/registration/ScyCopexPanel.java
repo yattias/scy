@@ -40,7 +40,7 @@ import javax.swing.text.Document;
 import javax.swing.text.rtf.RTFEditorKit;
 
 /**
- *
+ * swing panel for copex
  * @author Marjolaine
  */
 public class ScyCopexPanel extends JPanel implements ActionCopex{
@@ -75,7 +75,6 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
         copex.addActionCopex(this);
         this.add(this.copex, BorderLayout.CENTER);
         copex.loadData();
-        copex.setQuestionDialog();
     }
 
     public void setEloUri(String eloUri){
@@ -107,10 +106,7 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
         this.copex.newELO();
     }
 
-    public void controlQuestion(){
-        this.copex.setQuestionDialog();
-    }
-
+    /* returns  the experimental proc ELO*/
     public Element getExperimentalProcedure(){
         return this.copex.getXProc();
     }
@@ -120,6 +116,10 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
         
     }
 
+    /* logs a user action
+     * @param type type of the action (action_added, ...)
+     * @param attribute list of the attribute of the action (position in the tree, name of the action...)
+     */
     @Override
     public void logAction(String type, List<CopexProperty> attribute) {
         // action
@@ -156,6 +156,7 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
         return copex.getInterfacePanel().getSize();
     }
 
+    /* received an agent notification*/
     public boolean processNotification(INotification notification) {
         return this.copexNotificationManager.processNotification(notification);
     }
@@ -172,6 +173,7 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
        return this.bundle.getString(key);
    }
 
+    /* accepts drop from rich text editor, with functional role= research question or hypothesis */
     public void acceptDrop(IELO textElo){
         if(textElo != null){
             String[] yesNoOptions = new String[2];
@@ -220,6 +222,7 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
         }
     }
 
+    /* returns the text corresponding to the specified rtf text (rich text editor)*/
     private String getPlainText(String rtfText){
         RTFEditorKit rtfEditor = new RTFEditorKit();
         Document doc = rtfEditor.createDefaultDocument();
