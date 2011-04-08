@@ -88,7 +88,7 @@ public class SCYHubComponent implements Component, ApplicationContextAware {
         modules.add((SCYHubModule) getBean("dataSyncModule"));
         modules.add((SCYHubModule) getBean("actionProcessModule"));
         modules.add((SCYHubModule) getBean("notificator"));
-        modules.add((SCYHubModule) getBean("scyAuthorRuntimeModule"));
+        //modules.add((SCYHubModule) getBean("scyAuthorRuntimeModule"));
     }
     
     
