@@ -119,4 +119,14 @@ public class MissionGroupCache {
 	private Map<String, GroupCache> createCacheMap() {
 		return new ConcurrentHashMap<String, GroupCache>();
 	}
+
+	public void removeUser(String user) {
+		for (Mission mission : missionLasCache.keySet()) {
+			Map<String, GroupCache> lasCache = missionLasCache.get(mission);
+			for (String las : lasCache.keySet()) {
+				GroupCache groupCache = lasCache.get(las);
+				groupCache.removeFromCache(user, 2);
+			}
+		}
+	}
 }

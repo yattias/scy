@@ -19,6 +19,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import eu.scy.agents.AbstractTestFixture;
+import eu.scy.agents.Mission;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.general.UserLocationAgent;
 import eu.scy.agents.impl.ActionConstants;
@@ -79,8 +80,9 @@ public class GroupformationAgentTest extends AbstractTestFixture {
 				.write(lasChangeTuple("user3", "conceptualisatsionConceptMap",
 						"some"));
 		getActionSpace()
-				.write(lasChangeTuple("user1", "some",
+				.write(lasChangeTuple("user3", "some",
 						"conceptualisatsionConceptMap"));
+		getActionSpace().write(logout("user2"));
 		Tuple response = this.getCommandSpace()
 				.waitToTake(
 						new Tuple(AgentProtocol.NOTIFICATION, String.class,
@@ -91,6 +93,13 @@ public class GroupformationAgentTest extends AbstractTestFixture {
 		assertNotNull("no response received", response);
 		String message = (String) response.getField(8).getValue();
 		System.out.println(message);
+	}
+
+	private Tuple logout(String user) {
+		return new Tuple(ActionConstants.ACTION, new VMID().toString(),
+				System.currentTimeMillis(), ActionConstants.ACTION_LOG_OUT,
+				user, "scy-desktop", MISSION1, "n/a",
+				"roolo://memory/16/0/eco_reference_map.mapping");
 	}
 
 	private Tuple lasChangeTuple(String user, String las, String oldLas) {
@@ -118,7 +127,7 @@ public class GroupformationAgentTest extends AbstractTestFixture {
 		group.add("user3@scy.collide.info");
 		String createUserListString = groupFormationAgent.createUserListString(
 				"user1@scy.collide.info", group);
-		assertEquals("user2, user3", createUserListString);
+		assertEquals("user2; user3", createUserListString);
 
 		Set<String> group2 = new HashSet<String>();
 		group2.add("user1@scy.collide.info");
@@ -134,6 +143,11 @@ public class GroupformationAgentTest extends AbstractTestFixture {
 				user, "scy-desktop", MISSION1, "n/a",
 				"roolo://memory/16/0/eco_reference_map.mapping",
 				"missionSpecification=" + MISSION1, "language=en",
-				"missionName=co2");
+				"missionName=" + Mission.MISSION1.getName());
+	}
+
+	@Test
+	public void testStringConcat() {
+		assertEquals("null", "" + null);
 	}
 }
