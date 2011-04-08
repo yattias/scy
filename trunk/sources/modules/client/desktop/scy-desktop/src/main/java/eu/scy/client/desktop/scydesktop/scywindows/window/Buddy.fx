@@ -58,10 +58,10 @@ public class Buddy extends CustomNode, TooltipCreator {
    function createProgressIndicator(node: Group): Void {
       def progress = ProgressIndicator {
                  cursor: Cursor.WAIT
-                 translateX: -5
-                 translateY: -6
-                 scaleX: 0.7
-                 scaleY: 0.7
+                 translateX: 0
+                 translateY: -2
+                 scaleX: 0.4
+                 scaleY: 0.4
                  visible: bind (contact.onlineState == OnlineState.PENDING)
               }
       insert progress into node.content;
