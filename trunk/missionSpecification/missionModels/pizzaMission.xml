@@ -8,6 +8,8 @@
 
    <bean name="missionConfigInput" class="eu.scy.client.desktop.scydesktop.tools.mission.springimport.BasicMissionConfigInput">
 
+      <property name="missionDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_MISSION.html"/>
+
       <property name="colorSchemesEloUri" value="roolo://memory/30100/0/colorschemes1.colorschemes"/>
 
       <property name="eloToolConfigs" ref="eloToolConfigs"/>
@@ -15,6 +17,7 @@
       <property name="basicMissionMap">
          <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionMap">
             <property name="missionMapBackgroundImageUri" value="http://www.scy-lab.eu/content/en/mission3/pizzaBackground.fxz"/>
+            <property name="missionMapInstructionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_MISSION.html"/>
             <property name="missionMapButtonIconType" value="pizza"/>
             <property name="initialLasId" value="design"/>
             <property name="loEloUris">

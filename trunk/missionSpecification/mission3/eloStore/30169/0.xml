@@ -69,7 +69,7 @@
   <agentModelsEloUri />
   <pedagogicalPlanSettingsEloUri>roolo://memory/30168/0/pizzaMission.scy</pedagogicalPlanSettingsEloUri>
   <colorSchemesEloUri>roolo://memory/30100/0/colorschemes1.colorschemes</colorSchemesEloUri>
-  <missionDescriptionUri />
+  <missionDescriptionUri>http://www.scy-lab.eu/content/en/mission3/curtain_MISSION.html</missionDescriptionUri>
 </missionSpeicification>
 </content>
 <resources>
