@@ -479,7 +479,7 @@
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="constructionOfTheFoodPyramid"/>
-               <property name="uri" value="roolo://memory/30018/0/Construction+Of+The+Food+Pyramid.scymodel"/>
+               <property name="uri" value="roolo://memory/30018/0/Construction+of+The+Food+Pyramid.url"/>
 			   <property name="iconType" value="Analyse"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_E.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_09_constructionOfTheFoodPyramid.html"/>
