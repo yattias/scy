@@ -1,0 +1,50 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-03-18T15:45:42.450+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1300459542450</dateCreated>
+        <dateLastModified>1300459542450</dateLastModified>
+      </customElements>
+      <format>scy/pedagogicalplansettings</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40046/0/forensicMission.scy</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">forensicMission</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true">
+
+</content>
+<resources>
+</resources>
+</elo>

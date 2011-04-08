@@ -1,0 +1,86 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-03-18T14:25:50.042+0100</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-03-18T14:25:50.042+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1300205053593</dateCreated>
+        <dateFirstUserSaveKey>1300454750042</dateFirstUserSaveKey>
+        <dateLastModified>1300454750042</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>argument</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40025/0/Technique+for+the+biological+analysis.rtf</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">Technique for the biological analysis</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/40003/0/Technic+for+the+biological+analysis.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAADsklEQVR42u3dSU9TURgG4P4If4BRY0JiXOlvcKHRhYIbVs6CC+POsHHAGANOOKQUSKEi6EZNWqoGAxgkYVAaogLGUrClKbRA4ZYWypBPvmPO4d72XERl4eL9kjdnvvf2aZuyw1FdXU2rq6sqKysreWO3222ZQ9bjYMCZmRmKx+PaJBIJ8ng8VFdXZ0ltba1oXS4XZbNZbRobG7VnuB0ZGbGMzXvC4XDe/eRac3Nz3rVk+Fl05+Q+u+f8l2wakPdMT09bMp8yyO/3k2EYIqlUSrVc8tq55zjRaFS7lkwmaWpqSruWSc8LDN1aypijtrY27b04/FyZTGbLowAnJ+M0PxtfayfXbkZawJ5ghiprvlGFa5gOnfxAJy47BaDANJLUMRinGt8PsVcC8hqfM2cpm1GAuWufB78rQB6vXZL6QlnRP3rmqgI0n+n+nqYL1z0KsOtb2rLeF1pUb/JWRwFmjAR5W6Pihdd741R6N5wH6O+JrK2ukpEmKnqYpOJLVQqw6Uk9BZNEwcSy+BSZAfmcw+EQ4f7S4i9Auca5WFYpWgbke8r77d65nTwvO0S/8Nw1BdjSHab3X+eoc3ie7rl9dLrMpQBfdY2J/bzO7evecfFi+dxWRwEupBIUiGbpip9o25EY7djXlwdY7/1Evs4gxaIxOlA5R4WlFQowEAhQe3s7DQwM0MLCggWQz0lA7ps/gY+fdah5zueh9U8gj29W3Kc9BbtEv+h8uQLk8dHiEirYu1/0+c2UgNUvesVcg69ftJ6WgADk17LVUYDZ9JR40Wljifo/Rujg2Z48wNvut1TV1EpVT1vp0fN3dPhUuQJcXlqkRy2D9MD3Ne8rzOc4le43ojUDmuc5X4aCClDOyRwvuaEA5RluOcdKbinAcqfXcu5O/VsBGIvFaGJiQrUyuWO7ed2+P/oR0YUBfT4feb1eS2v+EdFFAuoiAXWRgLpIQN0aA0YiERofH1etTO7Ybl63z+F0On/7PW9oaKBQKGQJ/xki+2NjYzQ6OmppZV93xq7N7W90T/NZGbtzMrpn1I3t5nX7HLOzs7SZMj8oJxgMase583Z7ZHLPbOb8RtfaKHbPaHd2M/schPqnAiAAAQhAAKIACEAAAhAFQAACEIAoAAIQgABEARCAAAQgCoAABCAAUQAEIAABiAIgAAEIQBQAAQhAAKIACEAAAhAFQAACEIAARAEQgAAEIAqAAAQgAFEABCAAAYgCIAABCEAUAAEIQACiAAjA/xqQ/93FMvLX+QlldT8JgHFGPwAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1\par
+\li0\ri0\fi0\ul0\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

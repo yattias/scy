@@ -1,0 +1,639 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-03-18T13:49:45.130+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1300452585130</dateCreated>
+        <dateLastModified>1300452585130</dateLastModified>
+      </customElements>
+      <format>scy/elotoolconfiguration</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40015/0/forensicMission.scyelotoolconfiguration</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">forensicMission</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<eloToolConfigs>
+  <eloToolConfig>
+    <eloType>defaultEloToolConfig</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId />
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId>chat</rightDrawerCreatorId>
+    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
+    <leftDrawerCreatorId>assingmentInfo resourcesInfo feedbackQuestion socialtagging</leftDrawerCreatorId>
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration>true</isRightDrawerCollaboration>
+    <isBottomDrawerCollaboration>false</isBottomDrawerCollaboration>
+    <isLeftDrawerCollaboration>false</isLeftDrawerCollaboration>
+    <isContentStatic />
+    <eloLogicalRoles />
+    <eloFunctionalRoles />
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/drawing</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>drawing</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId />
+    <leftDrawerCreatorId />
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles>
+      <eloLogicalRole>drawing</eloLogicalRole>
+    </eloLogicalRoles>
+    <eloFunctionalRoles>
+      <eloFunctionalRole>drawingDesign</eloFunctionalRole>
+    </eloFunctionalRoles>
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/dataset</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>fitex</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId />
+    <leftDrawerCreatorId />
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles>
+      <eloLogicalRole>dataset</eloLogicalRole>
+    </eloLogicalRoles>
+    <eloFunctionalRoles>
+      <eloFunctionalRole>dataset</eloFunctionalRole>
+      <eloFunctionalRole>datasetProcessed</eloFunctionalRole>
+    </eloFunctionalRoles>
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/pds</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>fitex</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId />
+    <leftDrawerCreatorId />
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles>
+      <eloLogicalRole>dataset</eloLogicalRole>
+    </eloLogicalRoles>
+    <eloFunctionalRoles>
+      <eloFunctionalRole>dataset</eloFunctionalRole>
+      <eloFunctionalRole>datasetProcessed</eloFunctionalRole>
+    </eloFunctionalRoles>
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/xproc</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>copex</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId />
+    <leftDrawerCreatorId />
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles>
+      <eloLogicalRole>structuredText</eloLogicalRole>
+    </eloLogicalRoles>
+    <eloFunctionalRoles>
+      <eloFunctionalRole>experimentalDesign</eloFunctionalRole>
+    </eloFunctionalRoles>
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/simconfig</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>simulator</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId />
+    <leftDrawerCreatorId />
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles />
+    <eloFunctionalRoles>
+      <eloFunctionalRole>sourceData</eloFunctionalRole>
+    </eloFunctionalRoles>
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/model</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>scy-dynamics</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId />
+    <leftDrawerCreatorId />
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles />
+    <eloFunctionalRoles>
+      <eloFunctionalRole>sourceData</eloFunctionalRole>
+    </eloFunctionalRoles>
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/url</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>flying-saucer</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId />
+    <leftDrawerCreatorId />
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic>true</isContentStatic>
+    <eloLogicalRoles>
+      <eloLogicalRole>information</eloLogicalRole>
+    </eloLogicalRoles>
+    <eloFunctionalRoles>
+      <eloFunctionalRole>informationResource</eloFunctionalRole>
+      <eloFunctionalRole>informationAssignment</eloFunctionalRole>
+      <eloFunctionalRole>informationHelp</eloFunctionalRole>
+    </eloFunctionalRoles>
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/mapping</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>conceptmap</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId />
+    <leftDrawerCreatorId />
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles>
+      <eloLogicalRole>conceptMap</eloLogicalRole>
+    </eloLogicalRoles>
+    <eloFunctionalRoles>
+      <eloFunctionalRole>mapConcept</eloFunctionalRole>
+      <eloFunctionalRole>mapInitialIdeas</eloFunctionalRole>
+      <eloFunctionalRole>mapKeyIdeas</eloFunctionalRole>
+      <eloFunctionalRole>argument</eloFunctionalRole>
+    </eloFunctionalRoles>
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/text</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>text</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId />
+    <leftDrawerCreatorId />
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles>
+      <eloLogicalRole>plainText</eloLogicalRole>
+    </eloLogicalRoles>
+    <eloFunctionalRoles>
+      <eloFunctionalRole>hypothesis</eloFunctionalRole>
+      <eloFunctionalRole>documentDesign</eloFunctionalRole>
+      <eloFunctionalRole>reportEvaluation</eloFunctionalRole>
+      <eloFunctionalRole>reportFinal</eloFunctionalRole>
+      <eloFunctionalRole>documentReflection</eloFunctionalRole>
+    </eloFunctionalRoles>
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/rtf</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>richtext</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId />
+    <leftDrawerCreatorId />
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles>
+      <eloLogicalRole>plainText</eloLogicalRole>
+    </eloLogicalRoles>
+    <eloFunctionalRoles>
+      <eloFunctionalRole>hypothesis</eloFunctionalRole>
+      <eloFunctionalRole>documentDesign</eloFunctionalRole>
+      <eloFunctionalRole>reportEvaluation</eloFunctionalRole>
+      <eloFunctionalRole>reportFinal</eloFunctionalRole>
+      <eloFunctionalRole>documentReflection</eloFunctionalRole>
+    </eloFunctionalRoles>
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/interview</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>interview</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId />
+    <leftDrawerCreatorId />
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles>
+      <eloLogicalRole>structuredText</eloLogicalRole>
+    </eloLogicalRoles>
+    <eloFunctionalRoles>
+      <eloFunctionalRole>interview</eloFunctionalRole>
+    </eloFunctionalRoles>
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/video</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>video</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId />
+    <leftDrawerCreatorId />
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles>
+      <eloLogicalRole>information</eloLogicalRole>
+    </eloLogicalRoles>
+    <eloFunctionalRoles>
+      <eloFunctionalRole>informationResource</eloFunctionalRole>
+      <eloFunctionalRole>informationAssignment</eloFunctionalRole>
+      <eloFunctionalRole>informationHelp</eloFunctionalRole>
+      <eloFunctionalRole>presentationFinal</eloFunctionalRole>
+      <eloFunctionalRole>presentationDesign</eloFunctionalRole>
+    </eloFunctionalRoles>
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/webresourcer</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>webresource</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId />
+    <leftDrawerCreatorId />
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles>
+      <eloLogicalRole>information</eloLogicalRole>
+    </eloLogicalRoles>
+    <eloFunctionalRoles>
+      <eloFunctionalRole>webSummary</eloFunctionalRole>
+    </eloFunctionalRoles>
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/ppt</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>presentationUpload</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId />
+    <leftDrawerCreatorId />
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles />
+    <eloFunctionalRoles>
+      <eloFunctionalRole>presentationFinal</eloFunctionalRole>
+      <eloFunctionalRole>presentationExpert</eloFunctionalRole>
+    </eloFunctionalRoles>
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/skp</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>sketchUpUpload</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId />
+    <leftDrawerCreatorId />
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles />
+    <eloFunctionalRoles>
+      <eloFunctionalRole>drawingDesign</eloFunctionalRole>
+    </eloFunctionalRoles>
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/doc</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>wordUpload</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId />
+    <leftDrawerCreatorId />
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles />
+    <eloFunctionalRoles>
+      <eloFunctionalRole>hypothesis</eloFunctionalRole>
+      <eloFunctionalRole>documentDesign</eloFunctionalRole>
+      <eloFunctionalRole>reportEvaluation</eloFunctionalRole>
+      <eloFunctionalRole>reportFinal</eloFunctionalRole>
+      <eloFunctionalRole>documentReflection</eloFunctionalRole>
+    </eloFunctionalRoles>
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/image</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId />
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId />
+    <leftDrawerCreatorId />
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles />
+    <eloFunctionalRoles />
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/mathtool</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>mathtool</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId />
+    <leftDrawerCreatorId />
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles />
+    <eloFunctionalRoles />
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/formauthor</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>formauthor</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId />
+    <leftDrawerCreatorId />
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles />
+    <eloFunctionalRoles />
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/youtuber</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>youtuber</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId />
+    <leftDrawerCreatorId />
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles />
+    <eloFunctionalRoles />
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/resultcard</eloType>
+    <eloSystemRole>USER</eloSystemRole>
+    <contentCreatorId>resultcard</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId />
+    <leftDrawerCreatorId />
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles />
+    <eloFunctionalRoles />
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/speedTest</eloType>
+    <eloSystemRole>SYSTEM</eloSystemRole>
+    <contentCreatorId>speedTestPanel</contentCreatorId>
+    <topDrawerCreatorId>xmlViewer</topDrawerCreatorId>
+    <rightDrawerCreatorId>propertiesViewer</rightDrawerCreatorId>
+    <bottomDrawerCreatorId />
+    <leftDrawerCreatorId />
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles />
+    <eloFunctionalRoles />
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/missionspecification</eloType>
+    <eloSystemRole>SYSTEM</eloSystemRole>
+    <contentCreatorId>missionSpecification</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
+    <leftDrawerCreatorId>scyToolViewer</leftDrawerCreatorId>
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles />
+    <eloFunctionalRoles />
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/missionmapmodel</eloType>
+    <eloSystemRole>SYSTEM</eloSystemRole>
+    <contentCreatorId>missionMapModel</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
+    <leftDrawerCreatorId>scyToolViewer</leftDrawerCreatorId>
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles />
+    <eloFunctionalRoles />
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/elotoolconfiguration</eloType>
+    <eloSystemRole>SYSTEM</eloSystemRole>
+    <contentCreatorId>eloToolConfiguration</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
+    <leftDrawerCreatorId>scyToolViewer</leftDrawerCreatorId>
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles />
+    <eloFunctionalRoles />
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/missionruntime</eloType>
+    <eloSystemRole>SYSTEM</eloSystemRole>
+    <contentCreatorId>missionRuntime</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
+    <leftDrawerCreatorId>scyToolViewer</leftDrawerCreatorId>
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles />
+    <eloFunctionalRoles />
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/templateelos</eloType>
+    <eloSystemRole>SYSTEM</eloSystemRole>
+    <contentCreatorId>templateElos</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
+    <leftDrawerCreatorId>scyToolViewer</leftDrawerCreatorId>
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles />
+    <eloFunctionalRoles />
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/runtimesettings</eloType>
+    <eloSystemRole>SYSTEM</eloSystemRole>
+    <contentCreatorId>runtimeSettings</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
+    <leftDrawerCreatorId>scyToolViewer</leftDrawerCreatorId>
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles />
+    <eloFunctionalRoles />
+  </eloToolConfig>
+  <eloToolConfig>
+    <eloType>scy/colorschemes</eloType>
+    <eloSystemRole>SYSTEM</eloSystemRole>
+    <contentCreatorId>colorschemes</contentCreatorId>
+    <topDrawerCreatorId />
+    <rightDrawerCreatorId />
+    <bottomDrawerCreatorId>xmlViewer</bottomDrawerCreatorId>
+    <leftDrawerCreatorId>scyToolViewer</leftDrawerCreatorId>
+    <isContentCollaboration />
+    <isTopDrawerCollaboration />
+    <isRightDrawerCollaboration />
+    <isBottomDrawerCollaboration />
+    <isLeftDrawerCollaboration />
+    <isContentStatic />
+    <eloLogicalRoles />
+    <eloFunctionalRoles />
+  </eloToolConfig>
+</eloToolConfigs>
+</content>
+<resources>
+</resources>
+</elo>
