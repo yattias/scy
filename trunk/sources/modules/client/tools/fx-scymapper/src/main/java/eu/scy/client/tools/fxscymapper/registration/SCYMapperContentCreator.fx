@@ -8,6 +8,7 @@ package eu.scy.client.tools.fxscymapper.registration;
 import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.scymapper.impl.SCYMapperPanel;
+import eu.scy.scymapper.impl.SCYMapperPanelCollide;
 import eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.apache.log4j.Logger;
