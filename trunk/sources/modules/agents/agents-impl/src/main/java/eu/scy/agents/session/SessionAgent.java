@@ -39,6 +39,8 @@ import eu.scy.agents.impl.AgentProtocol;
  */
 public class SessionAgent extends AbstractRequestAgent {
 
+	private static final String MISSION_NAME = "missionName";
+	private static final String MISSION_SPECIFICATION = "missionSpecification";
 	public static final String METHOD_USERS_IN_LAS = "userInLas";
 	public static final String METHOD_USERS_IN_MISSION = "userInMission";
 	public static final String METHOD_GET_LAS = "lasOfUser";
@@ -240,13 +242,25 @@ public class SessionAgent extends AbstractRequestAgent {
 
 		try {
 			cleanSession(action);
+			String language = action.getAttribute(Session.LANGUAGE);
+			if (language != null) {
+				getSessionSpace().write(
+						new Tuple(Session.LANGUAGE, user, language));
+			} else {
+				LOGGER.warn("language is null");
+			}
+			String missionSpecification = action
+					.getAttribute(MISSION_SPECIFICATION);
+			if (missionSpecification == null) {
+				LOGGER.warn("missionspecification is null");
+			}
+			String missionName = action.getAttribute(MISSION_NAME);
+			if (missionName == null) {
+				LOGGER.warn("missionName is null");
+			}
 			getSessionSpace().write(
-					new Tuple(Session.LANGUAGE, user, action
-							.getAttribute(Session.LANGUAGE)));
-			getSessionSpace().write(
-					new Tuple(Session.MISSION, user, action
-							.getAttribute("missionSpecification"), action
-							.getAttribute("missionName")));
+					new Tuple(Session.MISSION, user, "" + missionSpecification,
+							"" + missionName));
 		} catch (TupleSpaceException e) {
 			LOGGER.warn("", e);
 		}
