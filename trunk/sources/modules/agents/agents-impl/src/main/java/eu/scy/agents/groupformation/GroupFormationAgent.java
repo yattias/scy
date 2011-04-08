@@ -85,7 +85,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		 * FORM_GROUP, Field.createWildCardField());
 		 */
 		return new Tuple(ActionConstants.ACTION, String.class, Long.class,
-				ActionConstants.ACTION_LAS_CHANGED, Field.createWildCardField());
+				String.class, Field.createWildCardField());
 	}
 
 	@Override
@@ -133,8 +133,16 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		} else {
 			IAction action = ActionTupleTransformer
 					.getActionFromTuple(afterTuple);
+			String type = action.getType();
 			String oldLas = action.getAttribute(OLD_LAS);
 			String las = action.getAttribute(LAS);
+			if (type.equals(ActionConstants.ACTION_LOG_OUT)) {
+				missionGroupsCache.removeUser(action.getUser());
+				return;
+			}
+			if (!type.equals(ActionConstants.ACTION_LAS_CHANGED)) {
+				return;
+			}
 			if ("conceptualisatsionConceptMap".equals(oldLas)) {
 				removeUserFromCache(action,
 						(Integer) configuration
@@ -294,7 +302,6 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 										+ " notification was not processed");
 					}
 				}
-
 				getCommandSpace().write(messageNotificationTuple);
 				waitForNotificationProcessedAction(messageNotificationId,
 						"Message about group notification was not processed");
@@ -307,7 +314,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		Tuple notificationProcessedTuple = getActionSpace().waitToRead(
 				new Tuple(ActionConstants.ACTION, notificationId, Long.class,
 						String.class, Field.createWildCardField()),
-				AgentProtocol.MILLI_SECOND * 100);
+				AgentProtocol.MILLI_SECOND * 50);
 		if (notificationProcessedTuple == null) {
 			logger.warn(message);
 		}
