@@ -78,7 +78,7 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
 
     def saveAsDatasetTitleBarButton = TitleBarButton {
 	  actionId: "saveAsDataset"
-	  iconType: "save_as"
+	  iconType: "save_as_dataset"
 	  action: doSaveAsDataset
 	  tooltip: "save copy of ELO as dataset"
     }
