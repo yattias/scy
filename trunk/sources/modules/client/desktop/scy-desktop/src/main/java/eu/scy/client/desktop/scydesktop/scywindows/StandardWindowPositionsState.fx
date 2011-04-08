@@ -13,6 +13,7 @@ import javafx.data.pull.Event;
 import java.net.URI;
 import javax.xml.stream.*;
 import java.io.ByteArrayOutputStream;
+import javafx.geometry.Point2D;
 
 /**
  * @author giemza
@@ -97,6 +98,10 @@ public class StandardWindowPositionsState extends WindowPositionsState {
             } else {
                 window.layoutX = layoutState.layoutX;
                 window.layoutY = layoutState.layoutY;
+                window.closedPosition = Point2D {
+                    x: window.layoutX;
+                    y: window.layoutY;
+                }
                 window.relativeLayoutCenterX = layoutState.relativeLayoutCenterX;
                 window.relativeLayoutCenterY = layoutState.relativeLayoutCenterY;
                 window.rotate = layoutState.rotate;
@@ -105,6 +110,7 @@ public class StandardWindowPositionsState extends WindowPositionsState {
                 window.relativeWidth = layoutState.relativeWidth;
                 window.relativeHeight = layoutState.relativeHeight;
             }
+            window.isManuallyRepositioned = true;
         }
     }
 
