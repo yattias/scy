@@ -35,27 +35,23 @@ public class EdgesManager extends IEdgesManager {
     public-init var showEloRelations: Boolean;
     def logger = Logger.getLogger(this.getClass());
 
-    public override function addDatasyncLink(source: DatasyncAttribute, target: DatasyncAttribute): DatasyncEdge {
+    public override function addDatasyncLink(scyWindowStart: ScyWindow, scyWindowEnd: ScyWindow): DatasyncEdge {
         def edge: DatasyncEdge = DatasyncEdge {
-                    startAttrib: source;
-                    endAttrib: target;
+                    scyWindowStart: scyWindowStart;
+                    scyWindowEnd: scyWindowEnd;
                     manager: this;
                     visible: true;
                     opacity: 0.5
                 }
-        logger.debug("adding a datasync-edge {edge} from {source} to {target}.");
+        logger.error("adding a datasync-edge {edge} from {scyWindowStart} to {scyWindowEnd}.");
         insert edge into nodes;
         insert edge into datasyncNodes;
         return edge;
     }
 
     public override function removeDatasyncLink(edge: DatasyncEdge): Void {
-        //logger.debug("adding a datasync-edge {edge} from {source} to {target}.");
-        //logger.debug("#datasync edges before: {datasyncNodes.sizeof}");
         delete edge from datasyncNodes;
         delete edge from nodes;
-    //logger.debug("#datasync edges after: {datasyncNodes.sizeof}");
-
     }
 
     public function addLink(source: ScyWindow, target: ScyWindow, text: String): Void {
@@ -76,7 +72,7 @@ public class EdgesManager extends IEdgesManager {
     }
 
     public override function findLinks(sourceWindow: ScyWindow) {
-        logger.debug("finding links...");
+        logger.error("finding links...");
         delete  nodes;
         // insert datasyncnodes if according window is visible
         insertDatasyncNodes();
@@ -125,13 +121,13 @@ public class EdgesManager extends IEdgesManager {
 
     protected function insertDatasyncNodes() {
         for (datasyncNode in datasyncNodes) {
-            var window = windowManager.findScyWindow((datasyncNode as DatasyncEdge).startAttrib.scyWindow.eloUri);
+            var window = windowManager.findScyWindow((datasyncNode as DatasyncEdge).scyWindowStart.eloUri);
             if (not (window == null)) {
+		logger.error("insert {datasyncNode} into {sizeof nodes}");
                 insert datasyncNode into nodes;
                 (datasyncNode as DatasyncEdge).update();
             }
         }
-    //insert datasyncNodes into nodes;
     }
 
     override protected function create(): Node {

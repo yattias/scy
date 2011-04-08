@@ -18,12 +18,11 @@ import javafx.animation.Interpolator;
 import javafx.animation.Timeline;
 
 /**
- * @author pg
+ * @author pg, lars
  */
 public class Edge extends CustomNode {
 
     public-init var manager: EdgesManager;
-
     public-init var start:ScyWindow;
     public-init var end:ScyWindow;
     public-init var text:String;
