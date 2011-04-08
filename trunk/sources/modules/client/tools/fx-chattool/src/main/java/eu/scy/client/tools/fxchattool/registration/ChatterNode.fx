@@ -42,8 +42,8 @@ public class ChatterNode extends CustomNode, Resizable, ScyToolFX, IChat {
     var messageBox:TextBox;
     var content:VBox;
     var chatLines:VBox = VBox {
-            spacing: 3
-        }
+        spacing: 3
+    }
 
     var lastTime: String;
 
@@ -97,9 +97,10 @@ public class ChatterNode extends CustomNode, Resizable, ScyToolFX, IChat {
                         Button {
                             text: "Send"
                             action:function():Void {
-                                sendMessage();
+                                if (messageBox.text.trim().length() != 0) {
+                                    sendMessage();
+                                }
                             }
-                            disable: bind messageBox.text.trim().length() == 0
                         }
                     ]
                     layoutInfo: LayoutInfo {
@@ -108,12 +109,6 @@ public class ChatterNode extends CustomNode, Resizable, ScyToolFX, IChat {
                     }
                 }
             ]
-            layoutInfo: LayoutInfo {
-                hfill: true
-                vfill: true
-                hgrow: Priority.ALWAYS
-                vgrow: Priority.ALWAYS
-            }
         }
         return content;
     }
@@ -123,12 +118,16 @@ public class ChatterNode extends CustomNode, Resizable, ScyToolFX, IChat {
     }
 
     override function getPrefHeight(width:Number):Number {
-        return 300;
+        return 418;
     }
 
-   public override function getDrawerUIIndicator(): DrawerUIIndicator{
-      return DrawerUIIndicator.CHAT;
-   }
+    postinit {
+        sizeChanged();
+    }
+
+    public override function getDrawerUIIndicator(): DrawerUIIndicator{
+       return DrawerUIIndicator.CHAT;
+    }
 
     function sizeChanged(): Void {
       Container.resizeNode(content, width, height);
