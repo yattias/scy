@@ -29,10 +29,12 @@ public class EditUserRoles extends TagSupport {
             pageContext.getOut().write("<table>");
             for (int i = 0; i < availableAuthorities.size(); i++) {
                 SCYGrantedAuthority o = (SCYGrantedAuthority) availableAuthorities.get(i);
-                pageContext.getOut().write("<tr><td>");
+                pageContext.getOut().write("<tr><td width=\"5%\">");
+                pageContext.getOut().write("<a href=\"/webapp/components/roleeditor/RoleEditorContoller.html?username=" + getUser().getUserDetails().getUsername() +"&role=" + o.getAuthority() +"&successView=" + getSuccessView() + "\">x</a>");
+                pageContext.getOut().write("</td><td>");
                 if(userHasRole(o)) pageContext.getOut().write("<strong>" +  o.getAuthority() + "</strong>");
                 else pageContext.getOut().write(o.getAuthority());
-                pageContext.getOut().write("<a href=\"/webapp/components/roleeditor/RoleEditorContoller.html?username=" + getUser().getUserDetails().getUsername() +"&role=" + o.getAuthority() +"&successView=" + getSuccessView() + "\">x</a>");
+
                 pageContext.getOut().write("</td></tr>");
             }
             pageContext.getOut().write("</table>");

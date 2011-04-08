@@ -31,6 +31,18 @@ public class UserDAOHibernate extends ScyBaseDAOHibernate implements UserDAO {
     }
 
     public void deleteUser(Long id) {
+
+        User user = getUser(id);
+
+        getSession().createQuery("delete from AbstractRuntimeActionImpl where user = :user")
+                .setEntity("user", user)
+                .executeUpdate();
+
+        getSession().createQuery("delete from AssignedPedagogicalPlanImpl where user = :user")
+                .setEntity("user", user)
+                .executeUpdate();
+
+
         getSession().createQuery("delete from SCYUserImpl where id = :id")
                 .setLong("id", id)
                 .executeUpdate();

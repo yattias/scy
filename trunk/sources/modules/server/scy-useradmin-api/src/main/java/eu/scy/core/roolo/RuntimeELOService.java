@@ -15,4 +15,6 @@ public interface RuntimeELOService extends BaseELOService {
 
         List getRuntimeElosForUser(String userName);
 
+        public void deleteRuntimeElosForUser(String userName);
+
 }
