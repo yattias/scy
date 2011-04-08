@@ -210,7 +210,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
             }
 
         });
-        toolBar.add(requestLexiconButton);
+        //toolBar.add(requestLexiconButton);
 
         conceptBrowserPanel = new ConceptBrowserPanel();
         conceptBrowserPanel.setVisible(false);
