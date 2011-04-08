@@ -16,6 +16,7 @@ public final class AgentProtocol {
 	public static final int MILLI_SECOND = 1;
 	public static final int SECOND = 1000 * MILLI_SECOND;
 	public static final int MINUTE = 60 * SECOND;
+	public static final int HOUR = 60 * MINUTE;
 
 	public static final int COMMAND_EXPIRATION = 5 * SECOND;
 
