@@ -62,10 +62,16 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
 
     private TimerTask reEnableTask;
 
-    public SCYMapperPanelCollide(IConceptMap cmap, ISCYMapperToolConfiguration configuration, String sqlspacesHost, int sqlspacesPort, String userid) {
+    public SCYMapperPanelCollide(IConceptMap cmap, ISCYMapperToolConfiguration configuration){
+        this(cmap,configuration,null,0,null,false);
+    }
+
+    public SCYMapperPanelCollide(IConceptMap cmap, ISCYMapperToolConfiguration configuration, String sqlspacesHost, int sqlspacesPort, String userid, boolean log) {
         super(cmap, configuration);
-        actionLogger = new ConceptMapActionLoggerCollide(new SQLSpacesActionLogger(sqlspacesHost, sqlspacesPort, "actions","SCYMapper("+userid+")"), getConceptMap().getDiagram(), userid, getConceptMap(), this);
-        suggestionPanel.setActionLogger(actionLogger);
+        if (!log){
+            actionLogger = new ConceptMapActionLoggerCollide(new SQLSpacesActionLogger(sqlspacesHost, sqlspacesPort, "actions","SCYMapper("+userid+")"), getConceptMap().getDiagram(), userid, getConceptMap(), this);
+            suggestionPanel.setActionLogger(actionLogger);
+        }
     }
 
     @Override
