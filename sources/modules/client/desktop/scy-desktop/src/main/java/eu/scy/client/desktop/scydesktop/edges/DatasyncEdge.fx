@@ -5,7 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.Group;
 import javafx.scene.shape.Line;
 import javafx.scene.paint.*;
-import eu.scy.client.desktop.scydesktop.scywindows.DatasyncAttribute;
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import javafx.animation.Timeline;
 import javafx.animation.Interpolator;
@@ -20,48 +20,46 @@ import eu.scy.common.datasync.ISyncObject;
 public class DatasyncEdge extends CustomNode, ISyncListener {
 
     public-init var manager: EdgesManager;
-    public-init var startAttrib: DatasyncAttribute;
-    public-init var endAttrib: DatasyncAttribute;
+    public-init var scyWindowStart: ScyWindow;
+    public-init var scyWindowEnd: ScyWindow;
     var session: ISyncSession;
     def logger = Logger.getLogger(this.getClass());
     public-read def line: Line = Line {
-                startX: startAttrib.localToScene(startAttrib.cableStartX, startAttrib.cableStartY).x;
-                startY: startAttrib.localToScene(startAttrib.cableStartX, startAttrib.cableStartY).y;
-                endX: endAttrib.localToScene(endAttrib.cableStartX, endAttrib.cableStartY).x;
-                endY: endAttrib.localToScene(endAttrib.cableStartX, endAttrib.cableStartY).y;
+                startX: scyWindowStart.layoutX + (scyWindowStart.width/2);
+                startY: scyWindowStart.layoutY;
+                endX: scyWindowEnd.layoutX + (scyWindowEnd.width/2);
+                endY: scyWindowEnd.layoutY;
                 strokeWidth: 3.0;
-                //stroke: startAttrib.scyWindow.windowColorScheme.mainColor;
+//                stroke: Color.BLACK;
                 stroke: LinearGradient {
                     startX: 0.0, startY: 0.0, endX: 1.0, endY: 0.0
                     proportional: true
-                    stops: [Stop { offset: 0.0 color: startAttrib.scyWindow.windowColorScheme.mainColor },
-                        Stop { offset: 1.0 color: endAttrib.scyWindow.windowColorScheme.mainColor }]
+                    stops: [Stop { offset: 0.0 color: scyWindowStart.windowColorScheme.mainColor },
+                        Stop { offset: 1.0 color: scyWindowEnd.windowColorScheme.mainColor }]
                 }
             }
-    var startWatchX = bind startAttrib.scyWindow.layoutX on replace {
+
+    var startWatchX = bind scyWindowStart.layoutX on replace {
                 update()
             };
-    var startWatchY = bind startAttrib.scyWindow.layoutX on replace {
+
+    var startWatchY = bind scyWindowStart.layoutY on replace {
                 update()
             };
-    var startWatchRot = bind startAttrib.scyWindow.layoutX on replace {
+   
+    var endWatchX = bind scyWindowEnd.layoutX on replace {
                 update()
             };
-    var endWatchX = bind endAttrib.scyWindow.layoutX on replace {
-                update()
-            };
-    var endWatchY = bind endAttrib.scyWindow.layoutX on replace {
-                update()
-            };
-    var endWatchRot = bind endAttrib.scyWindow.layoutX on replace {
+
+    var endWatchY = bind scyWindowEnd.layoutY on replace {
                 update()
             };
 
     public function update(): Void {
-        line.startX = startAttrib.localToScene(startAttrib.cableStartX, startAttrib.cableStartY).x;
-        line.startY = startAttrib.localToScene(startAttrib.cableStartX, startAttrib.cableStartY).y;
-        line.endX = endAttrib.localToScene(endAttrib.cableStartX, endAttrib.cableStartY).x;
-        line.endY = endAttrib.localToScene(endAttrib.cableStartX, endAttrib.cableStartY).y;
+	line.startX = scyWindowStart.layoutX + (scyWindowStart.width/2);
+        line.startY = scyWindowStart.layoutY;
+        line.endX = scyWindowEnd.layoutX + (scyWindowEnd.width/2);
+        line.endY = scyWindowEnd.layoutY;
     }
 
     public function join(mucID: String, tbi: ToolBrokerAPI): Void {

@@ -172,7 +172,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
 
    public function initializeDatasync(simulator: ISynchronizable) {
         var datasyncsession = toolBrokerAPI.getDataSyncService().createSession(new DummySyncListener());
-        datasyncEdge = scyWindow.windowManager.scyDesktop.edgesManager.addDatasyncLink(syncAttrib, simulator.getDatasyncAttribute() as DatasyncAttribute);
+        datasyncEdge = scyWindow.windowManager.scyDesktop.edgesManager.addDatasyncLink(scyWindow, simulator.getScyWindow() as ScyWindow);
         this.join(datasyncsession.getId());
         simulator.join(datasyncsession.getId(), datasyncEdge as Object);
         datasyncEdge.join(datasyncsession.getId(), toolBrokerAPI);
@@ -188,8 +188,8 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
 	syncAttrib.setTooltipText("drag to connect");
     }
 
-    public override function getDatasyncAttribute(): DatasyncAttribute {
-        return syncAttrib;
+    public override function getScyWindow(): ScyWindow {
+        scyWindow;
     }
 
    public override function join(mucID: String) {

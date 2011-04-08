@@ -214,7 +214,7 @@ public class SimulatorNode
     }
 
     public function initializeDatasync(fitex: ISynchronizable): Void {
-	datasyncEdge = scyWindow.windowManager.scyDesktop.edgesManager.addDatasyncLink(fitex.getDatasyncAttribute() as DatasyncAttribute, syncAttrib);
+	datasyncEdge = scyWindow.windowManager.scyDesktop.edgesManager.addDatasyncLink(fitex.getScyWindow() as ScyWindow, scyWindow);
         var datasyncsession = toolBrokerAPI.getDataSyncService().createSession(new DummySyncListener());
         fitex.join(datasyncsession.getId(), datasyncEdge as Object);
         this.join(datasyncsession.getId());
@@ -231,8 +231,8 @@ public class SimulatorNode
 	syncAttrib.setTooltipText("drag to connect");
     }
 
-    public override function getDatasyncAttribute(): DatasyncAttribute {
-        return syncAttrib;
+    public override function getScyWindow(): ScyWindow {
+        scyWindow;
     }
 
     public override function join(mucID: String) {

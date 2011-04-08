@@ -6,7 +6,7 @@ package eu.scy.client.common.datasync;
  */
 public interface ISynchronizable {
 
-    public Object getDatasyncAttribute();
+    public Object getScyWindow();
 
     public void join(String mucID);
 
