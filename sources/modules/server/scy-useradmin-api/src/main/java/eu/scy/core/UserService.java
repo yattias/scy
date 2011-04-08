@@ -19,6 +19,8 @@ public interface UserService extends BaseService{
 
     User createUser(String username, String password, String role);
 
+    public void deleteUser(User user);
+
     public List<User> getUsers();
 
     public List<User> getStudents();

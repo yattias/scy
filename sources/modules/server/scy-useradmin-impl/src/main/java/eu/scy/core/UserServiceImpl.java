@@ -36,6 +36,22 @@ public class UserServiceImpl extends BaseServiceImpl implements UserService{
     }
 
     @Override
+    @Transactional
+    public void deleteUser(User user) {
+        if(user != null) {
+            getUserDAO().deleteUser(user.getId());
+        } else {
+            log.warning("WAS NOT POSSIBLE TO DELETE - IT WAS FREAKIN' NULL!");    
+        }
+
+
+
+        return ;
+
+
+    }
+
+    @Override
     public List<User> getUsers() {
         return getUserDAO().getUsers();
     }
