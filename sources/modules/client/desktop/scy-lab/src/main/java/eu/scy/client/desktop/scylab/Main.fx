@@ -55,6 +55,7 @@ import eu.scy.client.tools.fxyoutuber.YouTuberContentCreator;
 import eu.scy.client.desktop.scydesktop.feedbackquestion.FeedbackQuestionNodeCreator;
 import eu.scy.client.desktop.scydesktop.tools.colorscheme.ColorSchemeEditorCreator;
 import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
+import eu.scy.client.desktop.scydesktop.tools.versionviewer.VersionViewerCreator;
 
 /**
  * @author sikkenj
@@ -109,6 +110,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    def scyYouTuberID = "youtuber";
    def feedbackQuestionId = "feedbackQuestion";
    def socialtaggingId = "socialtagging";
+   def eloVersionViewerId = "versionViewer";
 
    var scyDesktopCreator = ScyDesktopCreator {
               initializer: initializer;
@@ -184,6 +186,10 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(feedbackQuestionNodeCreator, feedbackQuestionId);
    
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(SocialTaggingDrawerCreator{}, socialtaggingId);
+
+   def versionViewerCreator = VersionViewerCreator{};
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(versionViewerCreator, eloVersionViewerId);
+   scyDesktopCreator.eloConfigManager.addDebugCreatorId(eloVersionViewerId);
 
    var awarenessService:IAwarenessService = missionRunConfigs.tbi.getAwarenessService();
    var chatControllerMap = new HashMap();
