@@ -39,10 +39,10 @@ import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 
 /**
- *
+ * swing panel for fitex
  * @author Marjolaine
  */
-//public class FitexPanel extends JPanel implements ActionDataProcessTool, IDataSyncListener{
+
 public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncListener{
     private final static String SYNC_OBJECT_TYPE = "type";
     private final static String TYPE_DATASET_HEADER = "datasetheader";
@@ -104,6 +104,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         }
     }
 
+    // joins the session for sync.
     public boolean joinSession(String mucID){
         if(session != null){
             leaveSession(session.getId());
@@ -139,6 +140,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         }
     }
 
+    // read all objects from a session, first the header and then the rows
     public void readAllSyncObjects(){
         List<ISyncObject> syncObjects = null;
 	try {
@@ -232,14 +234,11 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     }
 
     /* merge ELO with the current dataset */
-//    public void mergeELO(String xmlContent){
-//        this.dataProcessPanel.mergeELO(new JDomStringConversion().stringToXml(xmlContent));
-//    }
-    /* merge ELO with the current dataset */
     public void mergeELO(Element element){
         this.dataProcessPanel.mergeELO(element);
     }
 
+    /* returns the processed dataset ELO */
     public Element getPDS(){
         return this.dataProcessPanel.getPDS();
     }
@@ -250,6 +249,10 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
 
     }
 
+    /* logs a user action
+     * @param type type of the action (action_added, ...)
+     * @param attribute list of the attribute of the action (position in the tree, name of the action...)
+     */
     @Override
     public void logAction(String type, List<FitexProperty> attribute) {
         // action
