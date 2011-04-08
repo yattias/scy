@@ -69,7 +69,7 @@ public class VersionViewer extends CustomNode, Resizable, ScyToolFX {
               if (selectedToggle == versionsRadioButton) {
                  selectedVersionElo = selectedItem as ScyElo;
                  updateFromEloForked();
-              } else if (selectedToggle.value == forksRadioButton) {
+              } else if (selectedToggle == forksRadioButton) {
                  selectedForkedElo = selectedItem as ScyElo;
               }
            }
@@ -91,7 +91,6 @@ public class VersionViewer extends CustomNode, Resizable, ScyToolFX {
    var selectedVersionElo: ScyElo;
    var selectedForkedElo: ScyElo;
    var fromEloForked: ScyElo;
-   var openFromEloForked: Button;
 
    public function scyEloCellFactory(): ListCell {
       var listCell: ListCell;
@@ -138,11 +137,16 @@ public class VersionViewer extends CustomNode, Resizable, ScyToolFX {
                              disable: bind selectedForkedElo == null or selectedToggle != forksRadioButton
                              action: openSelectedForkedEloAction
                           }
-                          openFromEloForked = Button {
-                                     text: "open forked from"
-                                     disable: bind fromEloForked == null
-                                     action: openFromFromEloAction
-                                  }
+                          NodeWithTooltip {
+                             node: Button {
+                                text: "open forked from"
+                                disable: bind fromEloForked == null
+                                action: openFromFromEloAction
+                             }
+                             tooltipManager: window.tooltipManager
+                             windowColorScheme: window.windowColorScheme
+                             tooltipFunction: createOpenForkedFromTooltip
+                          }
                           versionsRadioButton = RadioButton {
                                      text: "versions"
                                      toggleGroup: versionForksToggle
@@ -182,8 +186,11 @@ public class VersionViewer extends CustomNode, Resizable, ScyToolFX {
    }
 
    function openElo(elo: ScyElo) {
-      if (elo!=null){
-         scyDesktop.scyWindowControl.addOtherScyWindow(elo.getUri());
+      if (elo != null) {
+         def eloWindow = scyDesktop.scyWindowControl.addOtherScyWindow(elo.getUri());
+         if (eloWindow!=null){
+            scyDesktop.scyWindowControl.makeMainScyWindow(eloWindow);
+         }
       }
    }
 
@@ -210,19 +217,25 @@ public class VersionViewer extends CustomNode, Resizable, ScyToolFX {
       def fromEloForkedUri = selectedVersionElo.getIsForkedOfEloUri();
       if (fromEloForkedUri == null) {
          fromEloForked = null;
-         openFromEloForked.tooltip = null;
       } else {
          fromEloForked = ScyElo.loadMetadata(fromEloForkedUri, toolBrokerAPI);
-         def eloIcon = scyDesktop.windowStyler.getScyEloIcon(fromEloForked);
-         openFromEloForked.tooltip = Tooltip {
-                    graphic: ExtendedScyEloDisplayNode {
-                       scyElo: fromEloForked
-                       newEloCreationRegistry: scyDesktop.newEloCreationRegistry
-                       eloIcon: eloIcon
-                    }
-                 }
       }
+   }
 
+   function createOpenForkedFromTooltip(): Node {
+      if (fromEloForked == null) {
+         Label {
+            text: ""
+         }
+         null
+      } else {
+         def eloIcon = scyDesktop.windowStyler.getScyEloIcon(fromEloForked);
+         ExtendedScyEloDisplayNode {
+            scyElo: fromEloForked
+            newEloCreationRegistry: scyDesktop.newEloCreationRegistry
+            eloIcon: eloIcon
+         }
+      }
    }
 
    function updateForksDisplay() {
