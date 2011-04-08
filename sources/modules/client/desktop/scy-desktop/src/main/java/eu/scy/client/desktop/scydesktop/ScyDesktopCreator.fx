@@ -146,7 +146,7 @@ public class ScyDesktopCreator {
          var basicConfig = springConfigFactory.getConfig() as BasicConfig;
          if (toolBrokerAPI != null) {
             basicConfig.setToolBrokerAPI(toolBrokerAPI);
-            (toolBrokerAPI as ToolBrokerAPIRuntimeSetting).setMissionRuntimeURI(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUriFirstVersion());
+            (toolBrokerAPI as ToolBrokerAPIRuntimeSetting).setMissionRuntimeURI(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri());
          }
          config = basicConfig;
       }
