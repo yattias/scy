@@ -102,13 +102,15 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(RuntimeSettingsEditorCreator{}, runtimeSettingsId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TestMoreInfoNodeCreator{}, testMoreInfoId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ColorSchemeEditorCreator{}, colorSchemesId);
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(VersionViewerCreator{}, eloVersionViewerId);
 
    def testDialogsNodeCreator = TestDialogsNodeCreator{};
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(testDialogsNodeCreator, testDialogsId);
 
    def feedbackQuestionNodeCreator = FeedbackQuestionNodeCreator{};
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(feedbackQuestionNodeCreator, feedbackQuestionId);
+
+   def versionViewerCreator = VersionViewerCreator{};
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(versionViewerCreator, eloVersionViewerId);
 
    scyDesktopCreator.eloConfigManager.addDebugCreatorId(scyToolViewerId);
    
@@ -128,6 +130,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
 
    testDialogsNodeCreator.scyDesktop = scyDesktop;
    feedbackQuestionNodeCreator.scyDesktop = scyDesktop;
+   versionViewerCreator.scyDesktop = scyDesktop;
 
    initializer.loadTimer.startActivity("after creeate EloManagement");
 

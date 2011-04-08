@@ -36,6 +36,10 @@ import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import java.lang.IllegalArgumentException;
 import java.lang.System;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import roolo.elo.api.exceptions.ELONotLastVersionException;
+import roolo.elo.api.IMetadataTypeManager;
+import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
+import org.apache.log4j.Logger;
 
 /**
  * @author sikken
@@ -58,6 +62,7 @@ def emptyFunctionalRoleContainer = FunctionalRoleContainer {
 
 public class SimpleScyDesktopEloSaver extends EloSaver {
 
+   def logger = Logger.getLogger(this.getClass());
    public var newTitleGenerator: NewTitleGenerator;
    public var myEloChanged: MyEloChanged;
    public var toolBrokerAPI: ToolBrokerAPI on replace {
@@ -65,6 +70,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
               repository = toolBrokerAPI.getRepository();
            };
    public var repository: IRepository;
+   public var metadataTypeManager: IMetadataTypeManager;
    public var eloFactory: IELOFactory;
    public var titleKey: IMetadataKey;
    public var technicalFormatKey: IMetadataKey;
@@ -76,6 +82,8 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
    public var functionalRoles: EloFunctionalRole[];
    public var loginName: String;
 //   def authorKey = config.getMetadataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
+   var dateFirstUserSaveKey = config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.DATE_FIRST_USER_SAVE);
+   var creatorKey: IMetadataKey = config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.CREATOR);
    var functionalRoleContainers: FunctionalRoleContainer[];
 
    init {
@@ -183,15 +191,30 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
          def myElo = scyElo.getAuthors().contains(config.getToolBrokerAPI().getLoginUserName());
          if (myElo or window.isQuiting) {
             // it is (also) my elo
+            var dateFirstUserSaveSet = false;
+            var creatorSet = false;
             addThumbnail(scyElo);
             if (scyElo.getDateFirstUserSave() == null) {
                scyElo.setDateFirstUserSave(System.currentTimeMillis());
+               dateFirstUserSaveSet = true;
             }
             if (scyElo.getCreator() == null) {
                scyElo.setCreator(loginName);
+               creatorSet = true;
             }
             if (myElo) {
-               scyElo.updateElo();
+               try{
+                  scyElo.updateElo();
+               } catch (e: ELONotLastVersionException){
+                  logger.error("unexpected ELONotLastVersionException for elo: {e.getURI()}, now doing a save as");
+                  if (dateFirstUserSaveSet){
+                     scyElo.getMetadata().deleteMetatadata(dateFirstUserSaveKey);
+                  }
+                  if (creatorSet){
+                     scyElo.getMetadata().deleteMetatadata(creatorKey);
+                  }
+                  eloSaveAs(elo, eloSaverCallBack);
+               }
             } else {
                // it is not my, but as this window is being quit, i may not ask the user anything
                scyElo.saveAsForkedElo();

@@ -24,6 +24,13 @@ import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
+import eu.scy.common.scyelo.ScyElo;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.Tooltip;
+import eu.scy.client.desktop.scydesktop.ScyDesktop;
+import eu.scy.client.desktop.scydesktop.corners.elomanagement.ExtendedScyEloDisplayNode;
 
 /**
  * @author SikkenJ
@@ -38,14 +45,18 @@ public class VersionViewer extends CustomNode, Resizable, ScyToolFX {
               repository = toolBrokerAPI.getRepository();
               metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
               identifierKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER);
+              versionKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.VERSION);
            };
    public var window: ScyWindow;
+   public var scyDesktop: ScyDesktop;
    var repository: IRepository;
    var metadataTypeManager: IMetadataTypeManager;
    var identifierKey: IMetadataKey;
+   var versionKey: IMetadataKey;
    def spacing = 5.0;
    def versionListViewer = ListView {
               items: []
+              cellFactory: scyEloCellFactory
               layoutInfo: LayoutInfo {
                  height: 75.0
                  hfill: true
@@ -54,8 +65,48 @@ public class VersionViewer extends CustomNode, Resizable, ScyToolFX {
                  vgrow: Priority.ALWAYS
               }
            }
+   def selectedItem = bind versionListViewer.selectedItem on replace {
+              if (selectedToggle == versionsRadioButton) {
+                 selectedVersionElo = selectedItem as ScyElo;
+                 updateFromEloForked();
+              } else if (selectedToggle.value == forksRadioButton) {
+                 selectedForkedElo = selectedItem as ScyElo;
+              }
+           }
+   var versionsRadioButton: RadioButton;
+   var forksRadioButton: RadioButton;
+   def versionForksToggle = ToggleGroup {
+           }
+   def selectedToggle = bind versionForksToggle.selectedToggle on replace {
+              if (selectedToggle == versionsRadioButton) {
+                 updateVersionsDisplay();
+              } else if (selectedToggle == forksRadioButton) {
+                 updateForksDisplay();
+              }
+           }
    var nodeBox: Container;
    var loadedEloUri: URI;
+   var versionElos: ScyElo[];
+   var forkedElos: ScyElo[];
+   var selectedVersionElo: ScyElo;
+   var selectedForkedElo: ScyElo;
+   var fromEloForked: ScyElo;
+   var openFromEloForked: Button;
+
+   public function scyEloCellFactory(): ListCell {
+      var listCell: ListCell;
+      listCell = ListCell {
+                 node: ScyEloVersionCellDisplay {
+                    tooltipManager: window.tooltipManager
+                    newEloCreationRegistry: scyDesktop.newEloCreationRegistry
+                    windowStyler: scyDesktop.windowStyler
+                    windowColorScheme: window.windowColorScheme
+                    versionKey: versionKey
+                    item: bind listCell.item
+                 }
+              }
+      return listCell;
+   }
 
    public override function create(): Node {
       nodeBox = VBox {
@@ -63,64 +114,131 @@ public class VersionViewer extends CustomNode, Resizable, ScyToolFX {
                  spacing: spacing
                  padding: Insets {
                     top: spacing
-                    left: spacing
                  }
                  content: [
-                    Label {
-                       text: bind "Current: {window.eloUri}"
-                    }
                     HBox {
-                       spacing: spacing;
+                       spacing: spacing
+                       padding: Insets {
+                          right: spacing
+                          left: spacing
+                       }
                        content: [
-                          VBox {
-                             spacing: spacing
-                             padding: Insets {
-                                top: spacing
-                                bottom: spacing
-                                left: spacing
-                             }
-                             content: [
-                                Button {
-                                   text: "view"
-                                   disable: bind loadedEloUri == null or versionListViewer.selectedItem==null
-                                   action: viewSelectedVersionAction
-                                }
-                                Button {
-                                   text: "last"
-                                   disable: bind loadedEloUri == null or true
-                                   action: viewLastVersionAction
-                                }
-                             ]
+                          Button {
+                             text: "view"
+                             disable: bind selectedVersionElo == null or selectedToggle != versionsRadioButton or loadedEloUri == selectedVersionElo.getUri()
+                             action: viewSelectedVersionAction
                           }
-                          versionListViewer
+                          Button {
+                             text: "last"
+                             disable: bind loadedEloUri == null or true
+                             action: viewLastVersionAction
+                          }
+                          Button {
+                             text: "open"
+                             disable: bind selectedForkedElo == null or selectedToggle != forksRadioButton
+                             action: openSelectedForkedEloAction
+                          }
+                          openFromEloForked = Button {
+                                     text: "open forked from"
+                                     disable: bind fromEloForked == null
+                                     action: openFromFromEloAction
+                                  }
+                          versionsRadioButton = RadioButton {
+                                     text: "versions"
+                                     toggleGroup: versionForksToggle
+                                     selected: true
+                                  }
+                          forksRadioButton = RadioButton {
+                                     text: "forked by"
+                                     toggleGroup: versionForksToggle
+                                     disable: bind selectedVersionElo == null
+                                  }
                        ]
                     }
+                    Label {
+                       text: bind "Current: {loadedEloUri}"
+                    }
+                    versionListViewer
                  ]
               }
    }
 
    function viewSelectedVersionAction(): Void {
-
+      def uriToShow = selectedVersionElo.getUri();
+      window.scyToolsList.loadElo(uriToShow);
+      window.scyToolsList.loadedEloChanged(uriToShow);
    }
 
    function viewLastVersionAction(): Void {
 
    }
 
-   function loadVersionList(): Void {
-      delete  versionListViewer.items;
+   function openSelectedForkedEloAction(): Void {
+      openElo(selectedForkedElo)
+   }
+
+   function openFromFromEloAction(): Void {
+      openElo(fromEloForked)
+   }
+
+   function openElo(elo: ScyElo) {
+      if (elo!=null){
+         scyDesktop.scyWindowControl.addOtherScyWindow(elo.getUri());
+      }
+   }
+
+   function loadEloLists(): Void {
+      delete  versionElos;
+      delete  forkedElos;
       if (loadedEloUri != null) {
          def metadatas = repository.retrieveMetadataAllVersions(loadedEloUri);
-         versionListViewer.items =
+         versionElos =
                  for (metadata in metadatas) {
-                    metadata.getMetadataValueContainer(identifierKey).getValue()
+                    new ScyElo(metadata, toolBrokerAPI)
                  }
       }
    }
 
+   function updateVersionsDisplay() {
+      versionListViewer.items = versionElos;
+      selectedVersionElo = null;
+      selectedForkedElo = null;
+      fromEloForked = null;
+   }
+
+   function updateFromEloForked() {
+      def fromEloForkedUri = selectedVersionElo.getIsForkedOfEloUri();
+      if (fromEloForkedUri == null) {
+         fromEloForked = null;
+         openFromEloForked.tooltip = null;
+      } else {
+         fromEloForked = ScyElo.loadMetadata(fromEloForkedUri, toolBrokerAPI);
+         def eloIcon = scyDesktop.windowStyler.getScyEloIcon(fromEloForked);
+         openFromEloForked.tooltip = Tooltip {
+                    graphic: ExtendedScyEloDisplayNode {
+                       scyElo: fromEloForked
+                       newEloCreationRegistry: scyDesktop.newEloCreationRegistry
+                       eloIcon: eloIcon
+                    }
+                 }
+      }
+
+   }
+
+   function updateForksDisplay() {
+      //      println("updateForksDisplay: selectedVersionElo:{selectedVersionElo}");
+      forkedElos =
+              for (uri in selectedVersionElo.getIsForkedByEloUris()) {
+                 ScyElo.loadMetadata(uri, toolBrokerAPI);
+              }
+      versionListViewer.items = forkedElos;
+   }
+
    public override function loadedEloChanged(eloUri: URI): Void {
       loadedEloUri = eloUri;
-      loadVersionList();
+      loadEloLists();
+      versionsRadioButton.selected = true;
+      updateVersionsDisplay();
    }
 
    function sizeChanged(): Void {

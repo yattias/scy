@@ -56,6 +56,13 @@ public function getDateString(scyElo: ScyElo): String {
    return "{createdAtLabel} {getDateString(scyElo.getDateCreated())}, {lastModifiedAtLabel} {getDateString(scyElo.getDateLastModified())}"
 }
 
+public function getLastModifiedDateString(scyElo: ScyElo): String {
+   if (scyElo == null) {
+      return ""
+   }
+   return "{lastModifiedAtLabel} {getDateString(scyElo.getDateLastModified())}"
+}
+
 function getDateString(millis: java.lang.Long): String {
    if (millis == null) {
       return ##"unknown"
