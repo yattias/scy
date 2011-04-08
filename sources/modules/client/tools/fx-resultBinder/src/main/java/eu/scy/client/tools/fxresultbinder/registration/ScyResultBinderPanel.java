@@ -23,7 +23,7 @@ import eu.scy.client.tools.resultbinder.ResultBinderPanel;
 import eu.scy.client.tools.resultbinder.IActionResultBinder;
 
 /**
- *
+ * swing panel for the health passport
  * @author Marjolaine
  */
 public class ScyResultBinderPanel extends JPanel implements IActionResultBinder{
@@ -65,6 +65,7 @@ public class ScyResultBinderPanel extends JPanel implements IActionResultBinder{
         this.tbi = tbi;
     }
 
+    /* set the username to the healthpassport*/
     public void setUserName(){
         resultBinderPanel.setUserName(getUserName());
     }
@@ -72,6 +73,7 @@ public class ScyResultBinderPanel extends JPanel implements IActionResultBinder{
         resultBinderPanel.setUserName(userName);
     }
 
+    /*set the picture URL of the author of the ELo to the health passport*/
     public void setPicture(String pictureUrl){
         resultBinderPanel.setPicture(pictureUrl);
     }
@@ -97,6 +99,7 @@ public class ScyResultBinderPanel extends JPanel implements IActionResultBinder{
     }
 
 
+    /* returns the resultCard ELO*/
     public Element getResultCard(){
         return this.resultBinderPanel.getResultCard();
     }
@@ -111,6 +114,11 @@ public class ScyResultBinderPanel extends JPanel implements IActionResultBinder{
         return resultBinderPanel.getInterfacePanel().getSize();
     }
 
+    /* logs a user action 
+     * @param type type of the action (health_passport_value_changed) 
+     * @param attributeKey the key changed (bmi...)
+     * @param attributeValue the new value of the key 
+     */
     @Override
     public void logAction(String type, String attributeKey, String attributeValue) {
         // action

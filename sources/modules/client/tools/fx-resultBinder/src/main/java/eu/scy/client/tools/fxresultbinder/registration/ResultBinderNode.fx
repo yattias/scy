@@ -66,6 +66,7 @@ public class ResultBinderNode extends CustomNode, Resizable, ScyToolFX, EloSaver
 
    var bundle:ResourceBundleWrapper;
 
+   // picture of the user
    def config:Configuration=Configuration.getInstance();
    def filestreamerServer:String = config.getFilestreamerServer();
    def filestreamerContext:String = config.getFilestreamerContext();
@@ -73,6 +74,7 @@ public class ResultBinderNode extends CustomNode, Resizable, ScyToolFX, EloSaver
    //this should look like:
    //"http://scy.collide.info:8080/webapp/common/filestreamer.html";
    public def IMAGE_BASE_DIR = "http://{filestreamerServer}:{filestreamerPort}/{filestreamerContext}";
+
    def saveTitleBarButton = TitleBarButton {
               actionId: TitleBarButton.saveActionId
               action: doSaveElo
@@ -123,6 +125,8 @@ public class ResultBinderNode extends CustomNode, Resizable, ScyToolFX, EloSaver
          scyResultBinderPanel.loadELO(newElo.getContent().getXmlString());
          logger.info("elo loaded");
          elo = newElo;
+         // don't use the toolBrokerAPI.getLoginUserName(), but the author of the elo
+         // what to do with multiple authors? no sense with the health passport....
         var scyElo = new ScyElo(elo, toolBrokerAPI);
         var authorList= scyElo.getAuthors();
         var userName = toolBrokerAPI.getLoginUserName();
