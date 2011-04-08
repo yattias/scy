@@ -39,6 +39,7 @@ import eu.scy.agents.impl.AgentProtocol;
  */
 public class SessionAgent extends AbstractRequestAgent {
 
+	private static final int SESSION_TUPLE_EXPIRATION = AgentProtocol.HOUR * 4;
 	private static final String MISSION_NAME = "missionName";
 	private static final String MISSION_SPECIFICATION = "missionSpecification";
 	public static final String METHOD_USERS_IN_LAS = "userInLas";
@@ -244,8 +245,10 @@ public class SessionAgent extends AbstractRequestAgent {
 			cleanSession(action);
 			String language = action.getAttribute(Session.LANGUAGE);
 			if (language != null) {
-				getSessionSpace().write(
-						new Tuple(Session.LANGUAGE, user, language));
+				Tuple languageTuple = new Tuple(Session.LANGUAGE, user,
+						language);
+				languageTuple.setExpiration(SESSION_TUPLE_EXPIRATION);
+				getSessionSpace().write(languageTuple);
 			} else {
 				LOGGER.warn("language is null");
 			}
@@ -258,9 +261,10 @@ public class SessionAgent extends AbstractRequestAgent {
 			if (missionName == null) {
 				LOGGER.warn("missionName is null");
 			}
-			getSessionSpace().write(
-					new Tuple(Session.MISSION, user, "" + missionSpecification,
-							"" + missionName));
+			Tuple missionTuple = new Tuple(Session.MISSION, user, ""
+					+ missionSpecification, "" + missionName);
+			missionTuple.setExpiration(SESSION_TUPLE_EXPIRATION);
+			getSessionSpace().write(missionTuple);
 		} catch (TupleSpaceException e) {
 			LOGGER.warn("", e);
 		}
@@ -268,6 +272,7 @@ public class SessionAgent extends AbstractRequestAgent {
 
 	private void handleLasChanged(IAction action) {
 		try {
+
 			Tuple missionTuple = getSessionSpace().read(
 					new Tuple(Session.MISSION, action.getUser(), String.class,
 							String.class));
@@ -275,9 +280,13 @@ public class SessionAgent extends AbstractRequestAgent {
 			getSessionSpace().deleteAll(
 					new Tuple(Session.LAS, action.getUser(), missionName,
 							String.class));
-			getSessionSpace().write(
-					new Tuple(Session.LAS, action.getUser(), missionName,
-							action.getAttribute(ActionConstants.LAS)));
+
+			updateTuples(action);
+
+			Tuple lasTuple = new Tuple(Session.LAS, action.getUser(),
+					missionName, action.getAttribute(ActionConstants.LAS));
+			lasTuple.setExpiration(SESSION_TUPLE_EXPIRATION);
+			getSessionSpace().write(lasTuple);
 		} catch (TupleSpaceException e) {
 			LOGGER.warn("", e);
 		}
@@ -311,6 +320,7 @@ public class SessionAgent extends AbstractRequestAgent {
 					new Tuple(Session.TOOL, action.getUser(), action
 							.getContext(ContextConstants.tool), action
 							.getContext(ContextConstants.eloURI)));
+			updateTuples(action);
 		} catch (TupleSpaceException e) {
 			LOGGER.warn("", e);
 		}
@@ -318,13 +328,31 @@ public class SessionAgent extends AbstractRequestAgent {
 
 	private void handleToolOpened(IAction action) {
 		try {
-			getSessionSpace().write(
-					new Tuple(Session.TOOL, action.getUser(), action
-							.getContext(ContextConstants.tool), action
-							.getContext(ContextConstants.eloURI)));
+			updateTuples(action);
+			Tuple toolTuple = new Tuple(Session.TOOL, action.getUser(),
+					action.getContext(ContextConstants.tool),
+					action.getContext(ContextConstants.eloURI));
+			toolTuple.setExpiration(SESSION_TUPLE_EXPIRATION);
+			getSessionSpace().write(toolTuple);
 		} catch (TupleSpaceException e) {
 			LOGGER.warn("", e);
 		}
 	}
 
+	private void updateTuples(IAction action) throws TupleSpaceException {
+		Tuple[] languageTuples = getSessionSpace().readAll(
+				new Tuple(String.class, action.getUser(), String.class));
+		for (Tuple languageTuple : languageTuples) {
+			languageTuple.setExpiration(SESSION_TUPLE_EXPIRATION);
+			getSessionSpace().update(languageTuple.getTupleID(), languageTuple);
+		}
+
+		Tuple[] tuples = getSessionSpace().readAll(
+				new Tuple(String.class, action.getUser(), String.class,
+						String.class));
+		for (Tuple tuple : tuples) {
+			tuple.setExpiration(SESSION_TUPLE_EXPIRATION);
+			getSessionSpace().update(tuple.getTupleID(), tuple);
+		}
+	}
 }
