@@ -1,0 +1,70 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-03-18T16:00:32.573+0100</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-03-18T16:00:32.573+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1300460432573</dateCreated>
+        <dateFirstUserSaveKey>1300460432573</dateFirstUserSaveKey>
+        <dateLastModified>1300460432573</dateLastModified>
+      </customElements>
+      <format>scy/drawing</format>
+    </technical>
+    <educational>
+      <learningResourceType>dataset</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40048/0/Representation+of+biological+results.scydraw</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">Representation of biological results</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACtElEQVR42u3UPY8SQRwG8L2elu9CQ2MkQEIoKCyIhVErET+BJlQ0+gnOgpJECxo0eqFBCDSKWlgACXKKHu/vb+FtnP/E2ezszuGZi415nuTJ7s4Nw+1vdzCePHvOXr0/5/32u+fs9YfvjLLdbpVWKhXHGLVarWrH0+m0dny1WjnGWq2Wdm4+n9eO53I57Xi73XaMLRYLdpXsdjvt2LEaBPjm4w/+RRtxpL799NNcYDqdmuelUokNBgM2HA6V1mo1cdzv92bpmgDpSJ+RY1T6YjneaDTEOT0Eubbb7Ral80KhoKzd56V5BLjZbJR1qf1+XxwTiQRzuVzinFDH4zFbLpdmQ6EQMwxDKcXr9Yq/00O2zr+sHPBUoFG+8psRgJ8vxLVA4Avf4KXzcrmsANI/Rcd6ve5AHY1GApDmy88Ui0UFMJlMslgsZj4EOY/eGrmOBBTlOOzkhA3mcwFIY81mk3k8HlH5UOR8eQ+dTkesaU0wGDTRKPKc7snn84kHO5vNxPWxmoC3bt9j9+/eUQBpwk2+8Eve9XqtAFqf/DFA641Eo1EFMBKJKG/xMcBsNssymQx7cXbG5hZAelOs33sZIP1E9Ho9s4FAQAvY7XbF2uFwWKwl59M41X5tPH56am7dBw8fKVvYjvKnLWyvBLTXuoXlmHULy58OxxtoqQS0V25hgpX3QFuY3ihClPX7/Y4tTA8ulUqZc+LxuPIZXY13Xy7YdWPfHjL0ButyOByuvLbuh50ymUz+aj4B/osaDLlWAAhAAAIQgAgAAQhAACIABCAAAYgAEIAABCACQAACEIAIAAEIQAAiAAQgAAGIABCAAAQgAkAAAhCACAABCEAAIgAEIAABCEAEgAAEIAARAAIQgABEAAhAAAIQASAAAQhABIAABCAAEQACEIAARAAIQAD+l/kFurvmb8PEdRUAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<whiteboard>
+  <whiteboardContainers />
+</whiteboard>
+</content>
+<resources>
+</resources>
+</elo>

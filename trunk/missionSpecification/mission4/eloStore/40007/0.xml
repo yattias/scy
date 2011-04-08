@@ -1,0 +1,70 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-03-17T15:53:54.377+0100</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-03-17T15:53:54.377+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1300373634378</dateCreated>
+        <dateFirstUserSaveKey>1300373634377</dateFirstUserSaveKey>
+        <dateLastModified>1300373634379</dateLastModified>
+      </customElements>
+      <format>scy/drawing</format>
+    </technical>
+    <educational>
+      <learningResourceType>datasetProcessed</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40007/0/Interpretation+of+biological+results.scydraw</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">Interpretation of biological results</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACz0lEQVR42u3TO4taQRgG4LNssU06w2LlhbR2sj9B2J8QQv6CBASrbGejpLQQ08gWW28RVoIrosRUmgRJJaiNBtR4WxXX+xe/ITPMeFkkIU14P3iZOTNnxnMez1hX795T8kvdSKrUJK7VakXL5VK0nHg8rvr6eKlUUtf6+Gw2U305l8/nRSsjx9fr9c56TiaT2flN/R59r0KhYKzV7/mT0vc+FIsBP377IRZwy0l/b4vrD3d31O12qVarUa/XE4DcyvActwzI/fl8rsLj/APcTqdTWiwWop9Op9W6XC5Hbrdb9Lm4vbi4oPPzc7q5uRHX2WyWhsOhsTev7/f7ZLPZjOcpFouqz3vIPq+ZTCYqXJZlGeHnaLVa6p5AICCeX1+3LwZgt/PTAOQf/3RyQs9OT3cA+SUeHh4UIH9tco5fTgLKfTjhcNgA1Of0Pr+Q7DNgNBql8XjMby0iAXnebreLJBIJA1DfQ6zdKp73+/2q73K5aDAYULlcJp/PJ/oMxO1T2QDGBdqbqwi9cDkMwPT9PT0/O6PPG0QdkF+Avwr5gE8BMjKH11QqFQX4+PhIl5eXRwHGYjG6vb0Vub6+NgBTqZRoQ6HQQUBOu91W4dPA88FgUAE6nU4x5/F4KJlMij4D6ev2xXr7G5Dz8tVrA1A+pMz2EdYB943LI6xHAsqvcB+g/mcw4PYeOuChI6zv0Ww2qdFoUL1eFy1/kdtH2OFwkNfrFfOcSCQijrS81tfrsb6WNxuOhjsZjUbiKzsm/E8ce++hfTudzt5x+bUfE0bdN16tVv9ZLEL9VQEQgAAEIABRAAQgAAGIAiAAAQhAFAABCEAAogAIQAACEAVAAAIQgCgAAhCAAEQBEIAABCAKgAAEIABRAAQgAAGIAiAAAQhAAKIACEAAAhAFQAACEIAoAAIQgABEARCAAAQgCoAABCAAUQAEIAABiAIgAAH4X9YvhobCyMdbZyMAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<whiteboard>
+  <whiteboardContainers />
+</whiteboard>
+</content>
+<resources>
+</resources>
+</elo>

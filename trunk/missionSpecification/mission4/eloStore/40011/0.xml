@@ -1,0 +1,136 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-03-17T16:03:58.765+0100</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-03-17T16:03:58.765+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1300374238765</dateCreated>
+        <dateFirstUserSaveKey>1300374238765</dateFirstUserSaveKey>
+        <dateLastModified>1300374238766</dateLastModified>
+      </customElements>
+      <format>scy/pds</format>
+    </technical>
+    <educational>
+      <learningResourceType>dataAnalysis</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40011/0/Probabilities.scypds</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">Probabilities</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<processDataset>
+  <dataset>
+    <header language="en">
+      <column>
+        <symbol>data1</symbol>
+        <description />
+        <type>double</type>
+        <unit>unit</unit>
+      </column>
+      <column>
+        <symbol>data2</symbol>
+        <description />
+        <type>double</type>
+        <unit>unit</unit>
+      </column>
+    </header>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+    <row>
+      <value />
+      <value />
+    </row>
+  </dataset>
+  <processed_dataset>
+    <name>Datasheet</name>
+    <processed_hedaer>
+      <column>0</column>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+    <processed_hedaer>
+      <column>1</column>
+      <scientific_notation>false</scientific_notation>
+    </processed_hedaer>
+  </processed_dataset>
+</processDataset>
+</content>
+<resources>
+</resources>
+</elo>
