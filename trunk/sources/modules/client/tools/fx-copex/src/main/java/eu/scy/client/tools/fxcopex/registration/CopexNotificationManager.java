@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * concantenation of the notification messages
  * @author Marjolaine
  */
 public class CopexNotificationManager {
