@@ -49,7 +49,7 @@ public class SCYMapperContentCreator extends ScyToolCreatorFX {
 
         var conceptMap = repositoryWrapper.getELOConceptMap(elo);
 
-        var scymapperPanel = new SCYMapperPanel(conceptMap, configuration);
+        var scymapperPanel = new SCYMapperPanelCollide(conceptMap, configuration);
 
         logger.debug("THE TOOLBROKERAPI IS: {toolBrokerAPI}");
 
