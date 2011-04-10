@@ -7,6 +7,7 @@ package eu.scy.client.desktop.scydesktop.hacks;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import org.apache.log4j.Logger;
 import org.springframework.util.StringUtils;
@@ -117,6 +118,11 @@ public class RepositoryWrapper implements IRepository
          }
       }
    }
+   
+    //XXX maybe we shouldnt implement this method here, because it is just used in the exporter
+    public List<Map<Integer, URI>> getAllVersionLists() {
+        throw new UnsupportedOperationException("Not supported yet. Just for the roolo-jpa Exporter!");
+    }
 
    public void setAnchorEloUri(URI anchorEloUri)
    {
