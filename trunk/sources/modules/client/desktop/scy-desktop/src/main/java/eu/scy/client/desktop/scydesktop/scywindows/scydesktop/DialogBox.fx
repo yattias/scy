@@ -18,15 +18,12 @@ import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
 import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import javax.swing.JOptionPane;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.control.Button;
-import eu.scy.client.desktop.scydesktop.art.ImageLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
-import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageEloIcon;
 import javafx.animation.Timeline;
 import javafx.animation.Interpolator;
 import javafx.scene.effect.DropShadow;
@@ -41,14 +38,30 @@ import javafx.animation.KeyFrame;
 public static def DEFAULT_WIDTH: Double = 400;
 public static def HGAP: Double = 15;
 public static def VGAP: Double = 15;
-def imageLoader = ImageLoader.getImageLoader();
 public static def openDialogs: HashMap = new HashMap();
-public static var windowStyler: WindowStyler;
+public static var windowStyler: WindowStyler on replace {loadDefaults()};
 public static var scyDesktop:ScyDesktop;
+var infoWindowEloIcon: EloIcon;
+var questionWindowEloIcon: EloIcon;
+var infoEloIcon: EloIcon;
+var questionEloIcon: EloIcon;
+var modalWindowColorScheme: WindowColorScheme;
+
+function loadDefaults():Void{
+   if (windowStyler!=null){
+      infoWindowEloIcon = windowStyler.getScyEloIcon("alert_message");
+      questionWindowEloIcon = windowStyler.getScyEloIcon("alert_question");
+      modalWindowColorScheme = windowStyler.getWindowColorScheme("general/neww");
+      infoWindowEloIcon.selected = true;
+      questionWindowEloIcon.selected = true;
+      infoEloIcon = windowStyler.getScyEloIcon("information2");
+      questionEloIcon = windowStyler.getScyEloIcon("assignment");
+   }
+}
 
 static function getDialogBoxContent(dialogWidth: Integer, dialogBox: DialogBox, dialogType: DialogType, text: String, action1: function(): Void, action2: function(): Void, action3: function(): Void): Group {
 
-   def indicatorImage: ImageView = getIndicatorImage(dialogType);
+   def indicatorImage: Node = getIndicatorImage(dialogType);
    def group: Group = Group {
               content: [
                  VBox {
@@ -78,19 +91,13 @@ static function getDialogBoxContent(dialogWidth: Integer, dialogBox: DialogBox, 
    return group
 }
 
-static function getIndicatorImage(dialogType): ImageView {
+static function getIndicatorImage(dialogType): Node {
    if (dialogType == DialogType.OK_DIALOG) {
-      return ImageView {
-                 image: imageLoader.getImage("info_red_x32.png");
-              };
+      return infoEloIcon.clone()
    } else if (dialogType == DialogType.YES_NO_DIALOG or dialogType == DialogType.OK_CANCEL_DIALOG) {
-      return ImageView {
-                 image: imageLoader.getImage("question_blue_x32.png");
-              };
+      return questionEloIcon.clone()
    } else {
-      return ImageView {
-                 image: imageLoader.getImage("info_red_x32.png");
-              };
+      return infoEloIcon.clone()
    }
 }
 
@@ -151,10 +158,7 @@ public static function showMessageDialog(text: String, dialogTitle: String, dial
    def dialogBox: DialogBox = DialogBox {
               //                    content: getDialogBoxContent(dialogWidth,dialogBox, DialogType.OK_DIALOG,text, okAction, function(){}, function(){})
               targetScene: scyDesktop.scene
-              eloIcon: ImageEloIcon {
-                 activeImage: imageLoader.getImage("info_red_active_x16.png");
-                 inactiveImage: imageLoader.getImage("info_red_inactive_x16.png");
-              }
+              eloIcon: infoWindowEloIcon.clone()
               title: dialogTitle
               dialogid: id
               modal: modal
@@ -163,7 +167,7 @@ public static function showMessageDialog(text: String, dialogTitle: String, dial
               closeAction: function() {
 
               }
-              windowColorScheme: windowStyler.getWindowColorScheme("general/new")
+              windowColorScheme: modalWindowColorScheme
            };
    dialogBox.content = getDialogBoxContent(dialogWidth, dialogBox, DialogType.OK_DIALOG, text, okAction, function() {}, function() {});
    dialogBox.place();
@@ -186,10 +190,7 @@ public static function showOptionDialog(dialogType: DialogType, text: String, di
               //                                getDialogBoxContent(dialogWidth, dialogBox, DialogType.OK_CANCEL_DIALOG,text, okAction, cancelAction, function(){})
               //                                }
               targetScene: scyDesktop.scene
-              eloIcon: ImageEloIcon {
-                 activeImage: imageLoader.getImage("question_blue_active_x16.png");
-                 inactiveImage: imageLoader.getImage("question_blue_inactive_x16.png");
-              }
+              eloIcon: questionWindowEloIcon.clone()
               title: dialogTitle
               dialogid: id
               modal: modal
@@ -198,7 +199,7 @@ public static function showOptionDialog(dialogType: DialogType, text: String, di
               closeAction: function() {
 
               }
-              windowColorScheme: windowStyler.getWindowColorScheme("general/search")
+              windowColorScheme: modalWindowColorScheme
            };
    dialogBox.content = if (sizeof supportedOptionTypes[n | n == dialogType] > 0) {
               getDialogBoxContent(dialogWidth, dialogBox, dialogType, text, okAction, cancelAction, function() {})
