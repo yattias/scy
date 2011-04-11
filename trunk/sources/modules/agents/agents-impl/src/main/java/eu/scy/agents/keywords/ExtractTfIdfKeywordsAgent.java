@@ -91,7 +91,8 @@ public class ExtractTfIdfKeywordsAgent extends AbstractRequestAgent {
 		DocumentFrequencyModel dfModel = getDocumentFrequencyModel(mission,
 				language);
 		if (dfModel == null) {
-			logger.fatal("TfIdfModel is not present for mission " + mission);
+			logger.fatal("TfIdfModel is not present for mission " + mission
+					+ ", " + language);
 			return Collections.emptySet();
 		}
 
