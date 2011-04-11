@@ -2,10 +2,7 @@ package eu.scy.client.tools.fxsimulator.registration;
 
 import java.net.URI;
 import javafx.scene.Group;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
 import java.awt.Dimension;
@@ -55,11 +52,9 @@ import javafx.animation.KeyFrame;
 import java.util.logging.Logger;
 import eu.scy.client.common.scyi18n.UriLocalizer;
 import java.net.URL;
-import java.util.List;
-import java.util.ArrayList;
-import eu.scy.client.tools.scysimulator.SimConfig.MODE;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
+import eu.scy.client.tools.scysimulator.SimConfig.MODE;
 
 public class SimulatorNode
     extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
@@ -101,7 +96,6 @@ public class SimulatorNode
     var acceptDialog: AcceptSyncModalDialog;
     var jdomStringConversion: JDomStringConversion = new JDomStringConversion();
     def spacing = 5.0;
-    def lostPixels = 20.0;
     var split: JSplitPane;
     var scroller: JScrollPane;
     def simulatorContent = Group {};
@@ -560,11 +554,11 @@ public class SimulatorNode
     }
 
     function resizeContent() {
-        Container.resizeNode(wrappedSimquestPanel, width, height - wrappedSimquestPanel.boundsInParent.minY - spacing - lostPixels);
+        Container.resizeNode(wrappedSimquestPanel, width, height);
     }
 
     public override function getPrefHeight(height: Number): Number {
-        return Container.getNodePrefHeight(wrappedSimquestPanel, height) + wrappedSimquestPanel.boundsInParent.minY + spacing + lostPixels;
+        return Container.getNodePrefHeight(wrappedSimquestPanel, height);
     }
 
     public override function getPrefWidth(width: Number): Number {
