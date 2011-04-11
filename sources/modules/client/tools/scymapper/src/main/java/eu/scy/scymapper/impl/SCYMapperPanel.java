@@ -121,7 +121,7 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
 
     @Override
     public boolean processNotification(INotification notification) {
-        if (notification.getFirstProperty("type").equals("concept_proposal")) {
+        if ("concept_proposal".equals(notification.getFirstProperty("type"))) {
             String[] keywords = notification.getPropertyArray("keyword");
             if (keywords != null) {
                 List<String> keywordsAsList = new ArrayList<String>();
@@ -130,6 +130,24 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
                 }
                 suggestKeywords(keywords, null, "concept");
             }
+            return true;
+        } else if ("cmenricher agent".equals(notification.getSender())) {
+            List<String> keywords = new ArrayList<String>();
+            List<String> categories = new ArrayList<String>();
+            String type = notification.getFirstProperty("proposal_type");
+            
+            notification.getPropertyArray("relation_proposal");
+            for (String cprop : notification.getPropertyArray("concept_proposal")) {
+                keywords.add(cprop);
+                categories.add("concept_proposal");
+            }
+            for (String rprop : notification.getPropertyArray("relation_proposal")) {
+                keywords.add(rprop);
+                categories.add("relation_relation");
+            }
+            String[] keywordArray = (String[]) keywords.toArray(new String[keywords.size()]);
+            String[] categoryArray = (String[]) categories.toArray(new String[categories.size()]);
+            suggestKeywords(keywordArray, categoryArray, type);
             return true;
         } else {
             return false;
