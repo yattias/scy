@@ -19,7 +19,9 @@ public class Edge {
         this.fromNode = fromNode;
         this.toNode = toNode;
         this.id = id;
-        stemmedLabel = Stemmer.stem(label);
+        if(label != null && !label.isEmpty()) {
+        	stemmedLabel = Stemmer.stem(label);
+        }
         fromNode.addEdge(this);
         toNode.addEdge(this);
     }
