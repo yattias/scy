@@ -157,7 +157,9 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
    }
 
    function saveAction(eloSaveAsPanel: EloSaveAsMixin): Void {
-      def elo = eloSaveAsPanel.elo;
+      var elo = eloSaveAsPanel.elo;
+      println("elo.getXml().equals(scyElo.getElo().getXml()): {elo.getXml().equals(scyElo.getElo().getXml())}");
+      elo = repository.retrieveELO(elo.getUri());
       def scyElo = eloSaveAsPanel.scyElo;
       scyElo.setTitle(eloSaveAsPanel.getTitle());
       scyElo.setFunctionalRole(eloSaveAsPanel.getFunctionalRole());
