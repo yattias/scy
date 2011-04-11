@@ -20,6 +20,8 @@ public final class ActionConstants {
 	public static final String OLD_LAS = "oldLasId";
 	public static final String NOTIFICATION_REJECTED = "notification_rejected";
 	public static final String NOTIFICATION_ACCEPTED = "notification_accepted";
+	public static final String OLD_ELO_URI = "old_uri";
+	public static final String NEW_ELO_URI = "new_uri";
 
 	private ActionConstants() {
 		// construction not allowed
