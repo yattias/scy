@@ -107,8 +107,10 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
 			long timeInMillis, String tool, String mission, String session,
 			String eloUri, String eloType) {
 		try {
-			if (!EloTypes.SCY_XPROC.equals(eloType)) {
+			if (eloType == null) {
 				logger.warn(eloUri + " has no type");
+			}
+			if (!EloTypes.SCY_XPROC.equals(eloType)) {
 				return;
 			}
 			URI eloURI = new URI(eloUri);
