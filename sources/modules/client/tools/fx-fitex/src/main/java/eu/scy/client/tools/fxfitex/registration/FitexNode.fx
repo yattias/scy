@@ -42,6 +42,12 @@ import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
+import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
+import eu.scy.collaboration.api.CollaborationStartable;
+import eu.scy.client.common.datasync.ISyncSession;
+import roolo.elo.metadata.BasicMetadata;
+import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
+import eu.scy.common.scyelo.ScyElo;
 
 /**
  * fitex node
@@ -51,7 +57,8 @@ import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
  * @author Marjolaine
  */
 
-public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
+//public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, CollaborationStartable {
+    public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
    def logger = Logger.getLogger(FitexNode.class.getName());
    def scyFitexType = "scy/pds";
    def jdomStringConversion = new JDomStringConversion();
@@ -70,6 +77,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
    var datasyncEdge: DatasyncEdge;
    var acceptDialog: AcceptSyncModalDialog;
    var elo:IELO;
+   var collaborative: Boolean = false;
 
    var bundle:ResourceBundleWrapper;
    def saveTitleBarButton = TitleBarButton {
@@ -81,14 +89,42 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
               action: doSaveAsElo
            }
 
-   // accepts drop if its a simulator or fitex
+   // accepts drop if its a simulator or fitex for sync. or ContactFrame for collaboration
    public override function canAcceptDrop(object: Object): Boolean {
+       logger.info("fitex-canAcceptDrop? {object.getClass()}");
+        //sync.
         if (object instanceof ISynchronizable) {
-            if ((object as ISynchronizable).getToolName().equals("simulator") or (object as ISynchronizable).getToolName().equals("fitex")) {
+            if ((object as ISynchronizable).getToolName().equals("simulator")) {
                 return true;
             }
         }
+        if (object instanceof BasicMetadata) {
+            var b: BasicMetadata = object as BasicMetadata;
+            var draggedElo = repository.retrieveELO(getEloUri(b));
+            var scyElo = new ScyElo(draggedElo, toolBrokerAPI);
+            var technicalFormat = scyElo.getTechnicalFormat();
+            return technicalFormat != null and (technicalFormat.equals("scy/pds") or technicalFormat.equals("scy/ds"));
+        }
+        if (object instanceof StandardScyWindow) {
+            var w: StandardScyWindow = object as StandardScyWindow;
+            var draggedElo = repository.retrieveELO(w.eloUri);
+            var scyElo = new ScyElo(draggedElo, toolBrokerAPI);
+            var technicalFormat = scyElo.getTechnicalFormat();
+            return technicalFormat != null and (technicalFormat.equals("scy/pds")or technicalFormat.equals("scy/ds"));
+        }
+        // collaboration
+//        if (object instanceof ContactFrame) {
+//            var c: ContactFrame = object as ContactFrame;
+//            if (not scyWindow.ownershipManager.isOwner(c.contact.name)) {
+//                return true;
+//            }
+//        }
         return false;
+    }
+
+    function getEloUri(object: BasicMetadata): URI{
+        def identifierKey = toolBrokerAPI.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER);
+        return object.getMetadataValueContainer(identifierKey).getValue() as URI;
     }
 
     public function isDnDSimulator(object: ISynchronizable): Boolean{
@@ -99,45 +135,67 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
         return (object as ISynchronizable).getToolName().equals("fitex");
     }
 
-    // drop accepted: synchronizing or merging, depending of the dropped tool
+    // drop accepted: synchronizing or merging, depending of the dropped tool, or collaboration
     public override function acceptDrop(object: Object) {
         logger.info("drop accepted.");
-        var isSync = isSynchronizingWith(object as ISynchronizable);
-        if (isSync) {
-            // remove the sync.
-            removeDatasync(object as ISynchronizable);
-        } else {
-             if(isDnDSimulator(object as ISynchronizable)){
-                acceptDialog = AcceptSyncModalDialog {
-                        object: object as ISynchronizable
-                        okayAction: initializeDatasync
-                        cancelAction: cancelDialog
-                    }
-                createModalDialog(scyWindow.windowManager.scyDesktop.windowStyler.getWindowColorScheme(ImageWindowStyler.generalNew), ##"Synchronise?", acceptDialog);
-            }else if(isDnDFitex(object as ISynchronizable)){
-                    var yesNoOptions = [getBundleString("FX-FITEX.YES"), getBundleString("FX-FITEX.NO")];
-                    var n = -1;
-                    //var question = getBundleString("FX-FITEX.MSG_MERGE_DATASET");
-                    if(isSynchronizing()){
-                        var question = getBundleString("FX-FITEX.MSG_STOP_SYNC_BEFORE_MERGE");
-                        n = JOptionPane.showOptionDialog( null,
+//        if(object instanceof ContactFrame){
+//            var c: ContactFrame = object as ContactFrame;
+//            logger.info("acceptDrop user: {c.contact.name}");
+//            scyWindow.ownershipManager.addPendingOwner(c.contact.name);
+//            scyWindow.windowManager.scyDesktop.config.getToolBrokerAPI().proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString(), scyWindow.mucId);
+//        }
+        if(object instanceof ISynchronizable){
+            var isSync = isSynchronizingWith(object as ISynchronizable);
+            if (isSync) {
+                // remove the sync.
+                removeDatasync(object as ISynchronizable);
+            }else {
+                if(isDnDSimulator(object as ISynchronizable)){
+                    acceptDialog = AcceptSyncModalDialog {
+                            object: object as ISynchronizable
+                            okayAction: initializeDatasync
+                            cancelAction: cancelDialog
+                        }
+                    createModalDialog(scyWindow.windowManager.scyDesktop.windowStyler.getWindowColorScheme(ImageWindowStyler.generalNew), ##"Synchronise?", acceptDialog);
+                }
+            }
+        }
+        if (object instanceof BasicMetadata) {
+            var b: BasicMetadata = object as BasicMetadata;
+            var draggedElo = repository.retrieveELO(getEloUri(b));
+            askForMerging(draggedElo);
+            return;
+        }
+        if (object instanceof StandardScyWindow) {
+            var w: StandardScyWindow = object as StandardScyWindow;
+            var draggedElo = repository.retrieveELO(w.eloUri);
+            askForMerging(draggedElo);
+            return;
+        }
+    }
+
+    function askForMerging(draggedElo: IELO):Void{
+         var yesNoOptions = [getBundleString("FX-FITEX.YES"), getBundleString("FX-FITEX.NO")];
+         var n = -1;
+         //var question = getBundleString("FX-FITEX.MSG_MERGE_DATASET");
+         if(isSynchronizing()){
+            var question = getBundleString("FX-FITEX.MSG_STOP_SYNC_BEFORE_MERGE");
+            n = JOptionPane.showOptionDialog( null,
                             question,               // question
                             getBundleString("FX-FITEX.TITLE_DIALOG_MERGE"),           // title
                             JOptionPane.YES_NO_CANCEL_OPTION,
                             JOptionPane.QUESTION_MESSAGE,  // icon
                             null, yesNoOptions,yesNoOptions[0] );
-                        if (n == 0) {
-                            leave(null);
-                            mergeDataset(object as ISynchronizable);
-                        }
-                    }else{
-                        //leave(null);
-                        mergeDataset(object as ISynchronizable);
-                    }
-
-           }
-        }
+            if (n == 0) {
+                leave(null);
+                mergeDataset(draggedElo);
+            }
+         }else{
+            //leave(null);
+            mergeDataset(draggedElo);
+         }
     }
+
 
     function cancelDialog(): Void {
             acceptDialog.modalDialogBox.close();
@@ -216,9 +274,8 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
         return "fitex";
     }
 
-    public function mergeDataset(fitex: ISynchronizable){
-        if(fitex instanceof FitexNode)
-            fitexPanel.mergeELO((fitex as FitexNode).getDataset());
+    public function mergeDataset(fitexElo: IELO){
+        fitexPanel.mergeELO(new JDomStringConversion().stringToXml(fitexElo.getContent().getXmlString()));
     }
 
     public function getDataset():Element{
@@ -355,5 +412,19 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
       }
       doSaveElo();
    }
+
+   // start Collaboration
+//   public override function startCollaboration(mucid: String) {
+//        if (not collaborative) {
+//            collaborative = true;
+//            FX.deferAction(function(): Void {
+//                def session : ISyncSession = fitexPanel.joinSession(mucid);
+//                session.addCollaboratorStatusListener(scyWindow.ownershipManager);
+//                session.refreshOnlineCollaborators();
+//                fitexPanel.startCollaboration();
+//                logger.info("joined session, mucid: {mucid}");
+//            });
+//        }
+//    }
    
 }

@@ -5,6 +5,7 @@
 
 package eu.scy.client.tools.fxfitex.registration;
 
+import eu.scy.notification.api.INotification;
 import java.awt.BorderLayout;
 import java.util.Iterator;
 import java.util.List;
@@ -105,7 +106,7 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     }
 
     // joins the session for sync.
-    public boolean joinSession(String mucID){
+    public ISyncSession joinSession(String mucID){
         if(session != null){
             leaveSession(session.getId());
         }
@@ -114,15 +115,15 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
 	} catch (DataSyncException e) {
 		JOptionPane.showMessageDialog(null, getBundleString("FX-FITEX.MSG_ERROR_SYNC"));
 		e.printStackTrace();
-                return false;
+                return session;
 	}
         if (session == null) {
             JOptionPane.showMessageDialog(null, getBundleString("FX-FITEX.MSG_ERROR_SYNC"));
-            return false;
+            return session;
         } else{
             readAllSyncObjects();
         }
-        return true;
+        return session;
     }
 
     public void leaveSession(String mucID){
@@ -198,6 +199,12 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
                         }
                     }
                 }
+            }
+        }else if (syncObject.getToolname() != null && syncObject.getToolname().equals(toolName)){
+            if (syncObject.getCreator().equals(session.getUsername())) {
+                // creator of the object
+            }else{
+                //dataProcessPanel.syncNodeAdded(syncObject);
             }
         }
     }
@@ -290,7 +297,6 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
     public void syncObjectAdded(final ISyncObject syncObject) {
         if(syncObject == null)
             return;
-       // debugLogger.log(Level.INFO, "syncObjectAdded ("+syncObject.getID()+") "+session.getId());
          SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
@@ -301,22 +307,27 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
 
     @Override
     public void syncObjectChanged(ISyncObject syncObject) {
-        //
+        if (syncObject.getToolname() != null && syncObject.getToolname().equals(toolName)){
+            if (syncObject.getCreator().equals(session.getUsername())) {
+                // creator of the object
+            }else{
+                //dataProcessPanel.syncNodeChanged(syncObject);
+            }
+        }
     }
 
     @Override
     public void syncObjectRemoved(ISyncObject syncObject) {
-        //
+        if (syncObject.getToolname() != null && syncObject.getToolname().equals(toolName)){
+            if (syncObject.getCreator().equals(session.getUsername())) {
+                // creator of the object
+            }else{
+                //dataProcessPanel.syncNodeRemoved(syncObject);
+            }
+        }
     }
 
-    /*public void synchronizeTool(){
-        String mucID = JOptionPane.showInputDialog("Enter session ID:", "");
-        if (StringUtils.hasText(mucID)){
-            joinSession(mucID);
-        }
-    }*/
-
-
+    
    private String getBundleString(String key){
        return this.bundle.getString(key);
    }
@@ -330,4 +341,11 @@ public class FitexPanel extends JPanel implements ActionDataProcessTool, ISyncLi
         return dataProcessPanel.getInterfacePanel().getSize();
     }
 
+//    public void startCollaboration(){
+//        this.dataProcessPanel.startCollaboration();
+//    }
+//
+//    public void endCollaboration(){
+//        this.dataProcessPanel.endCollaboration();
+//    }
 }
