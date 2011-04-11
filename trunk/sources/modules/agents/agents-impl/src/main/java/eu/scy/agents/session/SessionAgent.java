@@ -131,6 +131,8 @@ public class SessionAgent extends AbstractRequestAgent {
 				handleLogin(action);
 			} else if (type.equals(ActionConstants.ACTION_LOG_OUT)) {
 				handleLogout(action);
+			} else if (type.equals(ActionConstants.ACTION_ELO_SAVED)) {
+				updateToolOpened(action);
 			}
 		} else if (requestListenerId == seq) {
 			if (activationTuple.getField(0).getValue()
@@ -162,6 +164,25 @@ public class SessionAgent extends AbstractRequestAgent {
 			logger.debug("Callback passed to Superclass.");
 			super.call(command, seq, activationTuple, beforeTuple);
 			return;
+		}
+	}
+
+	private void updateToolOpened(IAction action) {
+		String oldEloUri = action.getAttribute(ActionConstants.OLD_ELO_URI);
+		String newEloUri = action.getAttribute(ActionConstants.NEW_ELO_URI);
+
+		try {
+			Tuple[] tuples = getSessionSpace().readAll(
+					new Tuple(Session.TOOL, action.getUser(), action
+							.getContext(ContextConstants.tool), oldEloUri));
+			for (Tuple tuple : tuples) {
+				Tuple toolTuple = new Tuple(Session.TOOL, action.getUser(),
+						action.getContext(ContextConstants.tool), newEloUri);
+				toolTuple.setExpiration(SESSION_TUPLE_EXPIRATION);
+				getSessionSpace().update(tuple.getTupleID(), toolTuple);
+			}
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
 		}
 	}
 
