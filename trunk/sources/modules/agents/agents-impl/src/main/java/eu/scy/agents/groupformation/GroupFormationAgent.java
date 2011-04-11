@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.locks.Lock;
 
 import org.apache.log4j.Logger;
 
@@ -55,10 +56,13 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 	private IRepository repository;
 	private GroupFormationStrategyFactory factory;
 
+	private Object lock;
+
 	private MissionGroupCache missionGroupsCache;
 
 	public GroupFormationAgent(Map<String, Object> params) {
 		super(NAME, params);
+		lock = new Object();
 		if (params.containsKey(AgentProtocol.TS_HOST)) {
 			host = (String) params.get(AgentProtocol.TS_HOST);
 		}
@@ -137,19 +141,23 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 			String oldLas = action.getAttribute(OLD_LAS);
 			String las = action.getAttribute(LAS);
 			if (type.equals(ActionConstants.ACTION_LOG_OUT)) {
-				missionGroupsCache.removeUser(action.getUser());
-				return;
+				synchronized (lock) {
+					missionGroupsCache.removeUser(action.getUser());
+					return;
+				}
 			}
 			if (!type.equals(ActionConstants.ACTION_LAS_CHANGED)) {
 				return;
 			}
 			if ("conceptualisatsionConceptMap".equals(oldLas)) {
-				removeUserFromCache(action,
-						(Integer) configuration
-								.getParameter(new AgentParameter(
-										getSession().getMission(
-												action.getUser()).getName(),
-										MIN_GROUP_SIZE_PARAMETER)), oldLas);
+				synchronized (lock) {
+					removeUserFromCache(
+							action,
+							(Integer) configuration.getParameter(new AgentParameter(
+									getSession().getMission(action.getUser())
+											.getName(),
+									MIN_GROUP_SIZE_PARAMETER)), oldLas);
+				}
 			}
 			if ("conceptualisatsionConceptMap".equals(las)) {
 				try {
@@ -211,7 +219,9 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 		missionGroupsCache.addGroups(mission, las, formedGroups);
 		// }
 		try {
-			sendGroupNotification(action, formedGroups);
+			synchronized (lock) {
+				sendGroupNotification(action, formedGroups);
+			}
 		} catch (TupleSpaceException e) {
 			LOGGER.error("Could not write into Tuplespace", e);
 		}
