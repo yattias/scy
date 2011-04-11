@@ -59,7 +59,9 @@ public class GridEloSearch extends GridSearchNode {
                                  columns: 40
                                  selectOnFocus: true
                                  action: function() {
-                                    doSearch(this);
+                                     if(queryBox.rawText.trim()!=""){
+                                        doSearch(this);
+                                     }
                                  }
                               }
                            searchButton = Button {
