@@ -5,6 +5,7 @@ import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
+import info.collide.sqlspaces.commons.util.XMLUtils;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -20,6 +21,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
+
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import eu.scy.agents.Mission;
 import eu.scy.agents.api.AgentLifecycleException;
@@ -130,7 +141,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
                  System.out.println(s);
                 t.getField(3).setValue(s);
                 ts.update(t.getTupleID(), t);
-            }
+    }
         }
         tuples = ts.readAll(new Tuple(Field.createWildCardField(), Field.createSemiformalField("*de")));
         for (Tuple t : tuples) {
@@ -245,7 +256,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
         }
 
         observer.setStatusText("Retrieving text");
-        String text = getText();
+        String text = getText(user);
         observer.setCMText(text);
 
         observer.setStatusText("Determining keywords");
@@ -355,8 +366,39 @@ public class CMProposerAgent extends AbstractThreadedAgent {
         return ontologyConcepts;
     }
 
-    private String getText() {
-        return ECO_TEXT_EN;
+    private String getText(String user) {
+//        return ECO_TEXT_EN;
+        try {
+            Tuple t = getSessionSpace().read(new Tuple("tool", user, "webresource", String.class));
+            if (t == null) {
+                // dude, no webresourcer open!
+                return "";
+            }
+            String eloUri = t.getField(3).getValue().toString();
+            String id = new VMID().toString();
+            commandSpace.write(new Tuple(id, "roolo-agent", "elo", eloUri));
+            t = commandSpace.waitToTakeFirst(new Tuple(id, "roolo-response", String.class));
+            Document doc = XMLUtils.parseString(t.getField(2).getValue().toString());
+            XPath xPath = XPathFactory.newInstance().newXPath();
+            NodeList highlights = (NodeList) xPath.evaluate("/elo/content/webresource/annotations/document/quotes/quote", doc, XPathConstants.NODESET);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < highlights.getLength(); i++) {
+                sb.append(highlights.item(i).getTextContent());
+            }
+            return sb.toString();
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+        } catch (DOMException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TupleSpaceException e) {
+            e.printStackTrace();
+        }
+        // some error
+        return "";
     }
 
     private Graph getUserGraph(String elouri, String user) {
