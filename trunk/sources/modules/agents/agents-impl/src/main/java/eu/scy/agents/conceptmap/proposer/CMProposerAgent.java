@@ -373,9 +373,13 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             for (int i = 0; userEdgesTuple == null && i < 30; i++) {
                 userEdgesTuple = commandSpace.waitToTake(new Tuple(eid, "response", Field.createWildCardField()), 1000);
             }
-            Field[] nodeFields = new Field[userNodesTuple.getNumberOfFields() - 2];
+            Field[] nodeFields = (userNodesTuple == null) 
+            				? new Field[0]
+            				: new Field[userNodesTuple.getNumberOfFields() - 2];
             System.arraycopy(userNodesTuple.getFields(), 2, nodeFields, 0, nodeFields.length);
-            Field[] edgesFields = new Field[userEdgesTuple.getNumberOfFields() - 2];
+            Field[] edgesFields = (userEdgesTuple == null) 
+            				? new Field[0] 
+            	            : new Field[userEdgesTuple.getNumberOfFields() - 2]; 
             System.arraycopy(userEdgesTuple.getFields(), 2, edgesFields, 0, edgesFields.length);
             g.fillFromFields(edgesFields, nodeFields);
         } catch (TupleSpaceException e) {
