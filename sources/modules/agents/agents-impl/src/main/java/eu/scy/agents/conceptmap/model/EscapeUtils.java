@@ -12,8 +12,11 @@ public class EscapeUtils {
     public static String escape(String... strings) {
         StringBuilder sb = new StringBuilder();
         for (String s : strings) {
-            String escapedString = s.replace(ESCAPE_CHAR, ESCAPE_CHAR + ESCAPE_CHAR).replace(SEPARATOR, ESCAPE_CHAR + SEPARATOR);
-            sb.append(escapedString + SEPARATOR);
+        	String escapedString = "";
+        	if(s != null) {
+        		escapedString = s.replace(ESCAPE_CHAR, ESCAPE_CHAR + ESCAPE_CHAR).replace(SEPARATOR, ESCAPE_CHAR + SEPARATOR);
+        	}
+        	sb.append(escapedString + SEPARATOR);
         }
         sb.delete(sb.length() - SEPARATOR.length(), sb.length());
         return sb.toString();
