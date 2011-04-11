@@ -21,6 +21,8 @@ public class Edge {
         this.id = id;
         if(label != null && !label.isEmpty()) {
         	stemmedLabel = Stemmer.stem(label);
+        } else {
+        	stemmedLabel = label;
         }
         fromNode.addEdge(this);
         toNode.addEdge(this);
