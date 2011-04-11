@@ -27,82 +27,90 @@ import javafx.ext.swing.SwingComponent;
  */
 public class FlyingSaucerBrowser extends CustomNode, Resizable, ScyToolGetter {
 
-    public override var width on replace { resizeBrowser()
-            };
-    public override var height on replace { resizeBrowser()
-            };
-    public-init var flyingSaucer: EloFlyingSaucerPanel;
-    public-init var urlSource: UrlSource;
-    public-init var scyWindow: ScyWindow;
+   public override var width on replace { resizeBrowser()
+           };
+   public override var height on replace { resizeBrowser()
+           };
+   public-init var flyingSaucer: EloFlyingSaucerPanel;
+   public-init var urlSource: UrlSource;
+   public-init var scyWindow: ScyWindow;
+   def showTitle = urlSource == UrlSource.ASSIGNMENT or urlSource == UrlSource.RESOURCES;
+   var flyingSaucerWrapper: Node;
+   var mainBox: VBox;
 
-    var flyingSaucerWrapper : Node;
+   function resizeBrowser() {
+      if (showTitle) {
+         flyingSaucer.setPreferredSize(new Dimension(width - 2 * spacing, height - 6 * spacing));
+      } else {
+         flyingSaucer.setPreferredSize(new Dimension(width - 2 * spacing, height - 2 * spacing));
+      }
+   }
 
-    var mainBox : VBox;
+   def drawerDescription = Text {
+              font: Font.font("Verdana", FontWeight.BOLD, 12);
+              fill: scyWindow.windowColorScheme.mainColor
+              content: if (urlSource != null) "{urlSource.name().charAt(0)}{urlSource.name().substring(1).toLowerCase()}" else ""
+           }
+   def spacing = 5.0;
 
-    function resizeBrowser() {
-        flyingSaucer.setPreferredSize(new Dimension(width - 2*spacing, height - 6*spacing));
-    }
+   public override function create(): Node {
+      println("showTitle: {showTitle}");
+      var content;
+      if (showTitle) {
+         content = [drawerDescription, createBrowserComponent()];
+      } else {
+         content = [createBrowserComponent()];
+      }
+      return mainBox = VBox {
+                         spacing: spacing
+                         nodeHPos: HPos.CENTER
+                         padding: Insets {
+                            top: spacing
+                            right: spacing
+                            bottom: spacing
+                            left: spacing
+                         }
 
-    def drawerDescription = Text {
-                font: Font.font("Verdana", FontWeight.BOLD, 12);
-                fill: scyWindow.windowColorScheme.mainColor
-                content: "{urlSource.name().charAt(0)}{urlSource.name().substring(1).toLowerCase()}"
-            }
-    def spacing = 5.0;
+                         content: content
+                      };
+   }
 
-    public override function create(): Node {
-        var content;
-        if (urlSource == UrlSource.ELO) {
-            content = [createBrowserComponent()];
-        } else {
-            content = [drawerDescription, createBrowserComponent()];
-        }
-        return mainBox = VBox {
-                    spacing: spacing
-                    nodeHPos: HPos.CENTER
-                    padding: Insets {
-                        top: spacing
-                        right: spacing
-                        bottom: spacing
-                        left: spacing
-                    }
+   function createBrowserComponent(): Node {
+      return SwingComponent.wrap(flyingSaucer);
+   }
 
-                    content: content
-                };
-    }
+   override function getPrefWidth(width: Number): Number {
+      return flyingSaucer.getPreferredSize().width + 2 * spacing;
+   }
 
-    function createBrowserComponent(): Node {
-        return SwingComponent.wrap(flyingSaucer);
-    }
+   override function getPrefHeight(width: Number): Number {
+      if (showTitle) {
+         return flyingSaucer.getPreferredSize().height + 6 * spacing;
+      } else {
+         return flyingSaucer.getPreferredSize().height + 2 * spacing;
+      }
+   }
 
-    override function getPrefWidth(width: Number): Number {
-        return flyingSaucer.getPreferredSize().width + 2*spacing;
-    }
-
-    override function getPrefHeight(width: Number): Number {
-        return flyingSaucer.getPreferredSize().height + 6*spacing;
-    }
-
-    override function getScyTool(): ScyTool {
-        return flyingSaucer;
-    }
+   override function getScyTool(): ScyTool {
+      return flyingSaucer;
+   }
 
 }
 
 function run() {
-    var scene: Scene;
-    Stage {
-        title: "Flying saucer browser test"
-        scene: scene = Scene {
-                    width: 400
-                    height: 400
-                    content: [
-                        FlyingSaucerBrowser {
-                            width: bind scene.width;
-                            height: bind scene.height;
-                        }
-                    ]
-                }
-    }
+   var scene: Scene;
+   Stage {
+      title: "Flying saucer browser test"
+      scene: scene = Scene {
+                 width: 400
+                 height: 400
+                 content: [
+                    FlyingSaucerBrowser {
+                       width: bind scene.width;
+                       height: bind scene.height;
+                    }
+                 ]
+              }
+   }
 
 }
