@@ -221,9 +221,17 @@ public class QueryELO {
                                 IMetadataValueContainer valueContainer = metadata.getMetadataValueContainer(key);
                                 if (valueContainer != null) {
                                     if (key.equals(authorKey)) {
-                                        resultAsJson.put(metadataKey, ((Contribute) valueContainer.getValue()).getVCard());
+                                    	if (valueContainer.getValue() != null) {
+                                    		resultAsJson.put(metadataKey, ((Contribute) valueContainer.getValue()).getVCard());
+                                    	} else {
+                                    		resultAsJson.put(metadataKey, "no author"); // this is only a quick fix
+                                    	}
                                     } else {
-                                        resultAsJson.put(metadataKey, valueContainer.getValue().toString());
+                                    	if (valueContainer.getValue() != null) {
+                                    		resultAsJson.put(metadataKey, valueContainer.getValue().toString());
+                                    	} else {
+                                    		resultAsJson.put(metadataKey, "");
+                                    	}
                                     }
                                 }
                             }
