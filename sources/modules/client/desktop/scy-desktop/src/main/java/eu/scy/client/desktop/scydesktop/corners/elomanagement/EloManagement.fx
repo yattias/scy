@@ -41,6 +41,7 @@ import java.util.List;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.SameMissionSearcher;
 import eu.scy.common.scyelo.QueryFactory;
 import eu.scy.client.desktop.scydesktop.uicontrols.EloIconButton;
+import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.FindSimilarSearcher;
 
 /**
  * @author sikken
@@ -104,6 +105,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
       eloBasedSearchers.add(new SameAuthorSearcher(tbi));
       eloBasedSearchers.add(new SameMissionSearcher(tbi, true));
       eloBasedSearchers.add(new SameMissionSearcher(tbi, false));
+      eloBasedSearchers.add(new FindSimilarSearcher(tbi));
    }
 
    public override function create(): Node {
