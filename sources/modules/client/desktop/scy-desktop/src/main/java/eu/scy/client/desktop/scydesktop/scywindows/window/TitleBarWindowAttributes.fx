@@ -12,7 +12,7 @@ import javafx.util.Sequences;
  */
 public class TitleBarWindowAttributes extends TitleBarItemList {
 
-   public var scyWindowAttributes: ScyWindowAttribute[] on replace { updateItems() };
+   public var scyWindowAttributes: ScyWindowAttribute[] on replace { FX.deferAction(updateItems) };
 
    override function updateItems(): Void {
       delete  displayBox.content;

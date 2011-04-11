@@ -30,6 +30,15 @@ public class NodeTooltip extends CustomNode {
                  blocksMouse: true;
                  content: [
                     Rectangle {
+                       x: bind content.boundsInLocal.minX - contentBorder - borderWidth
+                       y: bind content.boundsInLocal.minY - contentBorder - borderWidth
+                       width: bind content.boundsInLocal.width + 2 * contentBorder + 2 * borderWidth
+                       height: bind content.boundsInLocal.height + 2 * contentBorder + 2 * borderWidth
+                       fill: windowColorScheme.backgroundColor;
+                       stroke: windowColorScheme.mainColorLight;
+                       strokeWidth: borderWidth;
+                    }
+                    Rectangle {
                        x: bind content.boundsInLocal.minX - contentBorder
                        y: bind content.boundsInLocal.minY - contentBorder
                        width: bind content.boundsInLocal.width + 2 * contentBorder
@@ -41,7 +50,7 @@ public class NodeTooltip extends CustomNode {
                     content
                  ]
               }
-       }
+   }
 
 }
 
@@ -67,6 +76,6 @@ function run() {
       }
    }
 
-    }
+}
 
 
