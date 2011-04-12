@@ -54,7 +54,7 @@ public class TextExtractor implements KeywordExtractor {
 		try {
 			Element rootElement = builder.build(
 					new StringReader(content.getXml())).getRootElement();
-			text = rootElement.getTextTrim();
+			text = rootElement.getChild("text").getTextTrim();
 		} catch (JDOMException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
