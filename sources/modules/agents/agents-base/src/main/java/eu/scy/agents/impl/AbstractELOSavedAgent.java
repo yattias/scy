@@ -16,12 +16,15 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 
 	private int listenerId;
 
-	// ("action":String, <ID>:String, <Timestamp>:long, "elo_saved":String,
-	// <User>:String, <Tool>:String,
-	// <Mission>:String, <Session>:String, <Key=Value>:String*)
 	private Tuple eloSavedTupleTemplate = new Tuple(ActionConstants.ACTION,
 			String.class, Long.class, ActionConstants.ACTION_ELO_SAVED,
 			Field.createWildCardField());
+
+	private Tuple eloUpdatedTupleTemplate = new Tuple(ActionConstants.ACTION,
+			String.class, Long.class, ActionConstants.ACTION_ELO_UPDATED,
+			Field.createWildCardField());
+
+	private int updateListenerId;
 
 	private static final Logger logger = Logger
 			.getLogger(AbstractELOSavedAgent.class.getName());
@@ -41,6 +44,8 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 		try {
 			this.listenerId = this.getActionSpace().eventRegister(
 					Command.WRITE, this.eloSavedTupleTemplate, this, true);
+			this.updateListenerId = this.getActionSpace().eventRegister(
+					Command.WRITE, this.eloUpdatedTupleTemplate, this, true);
 			logger.log(Level.INFO, "Callback registered");
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
@@ -97,23 +102,18 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 			return;
 		}
 		IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
-		if (!ActionConstants.ACTION_ELO_SAVED.equals(action.getType())) {
-			logger.warning("Trying to process action log that does not match elo_save signature. Type: "
-					+ action.getType());
-		} else {
-			this.processELOSavedAction(
-					action.getId(),
-					action.getUser(),
-					action.getTimeInMillis(),
-					action.getContext(ContextConstants.tool),
-					action.getContext(ContextConstants.mission),
-					action.getContext(ContextConstants.session),
-					// action.getContext(ContextConstants.eloURI),
-					// getting the eloUri from the properties, not from the
-					// context-constants
-					action.getAttribute(ActionConstants.ACTIONLOG_ELO_URI),
-					action.getAttribute(ActionConstants.ACTIONLOG_ELO_TYPE));
-		}
+		this.processELOSavedAction(
+				action.getId(),
+				action.getUser(),
+				action.getTimeInMillis(),
+				action.getContext(ContextConstants.tool),
+				action.getContext(ContextConstants.mission),
+				action.getContext(ContextConstants.session),
+				// action.getContext(ContextConstants.eloURI),
+				// getting the eloUri from the properties, not from the
+				// context-constants
+				action.getAttribute(ActionConstants.ACTIONLOG_ELO_URI),
+				action.getAttribute(ActionConstants.ACTIONLOG_ELO_TYPE));
 	}
 
 	public abstract void processELOSavedAction(String actionId, String user,
