@@ -40,6 +40,9 @@ import roolo.elo.api.exceptions.ELONotLastVersionException;
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import org.apache.log4j.Logger;
+import roolo.elo.api.IMetadataKey;
+import roolo.elo.metadata.keys.SocialTags;
+import roolo.elo.api.IMetadata;
 
 /**
  * @author sikken
@@ -81,6 +84,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
    public var authorMode = false;
    public var functionalRoles: EloFunctionalRole[];
    public var loginName: String;
+   var socialtagsKey = config.getMetadataTypeManager().getMetadataKey("socialTags");
 //   def authorKey = config.getMetadataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
    var dateFirstUserSaveKey = config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.DATE_FIRST_USER_SAVE);
    var creatorKey: IMetadataKey = config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.CREATOR);
@@ -157,7 +161,8 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
    }
 
    function saveAction(eloSaveAsPanel: EloSaveAsMixin): Void {
-      def elo = eloSaveAsPanel.elo;
+      var elo = eloSaveAsPanel.elo;
+      updateTags(elo);
       def scyElo = eloSaveAsPanel.scyElo;
       scyElo.setTitle(eloSaveAsPanel.getTitle());
       scyElo.setFunctionalRole(eloSaveAsPanel.getFunctionalRole());
@@ -182,10 +187,25 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       eloSaveAsPanel.modalDialogBox.close();
    }
 
+   function updateTags(elo: IELO): Void{
+   	  var lastestElo = repository.retrieveELOLastVersion(elo.getUri());
+  	  var latestMetadata : IMetadata = lastestElo.getMetadata();
+      var mvc = latestMetadata.getMetadataValueContainer(socialtagsKey);
+      var st: SocialTags = mvc.getValue() as SocialTags;
+      if (st == null) {
+        st = new SocialTags();
+        mvc.setValue(st);
+      }
+      var currentMetadata : IMetadata = elo.getMetadata();
+      currentMetadata.getMetadataValueContainer(socialtagsKey).setValue(st);
+   }
+
    public override function eloUpdate(elo: IELO, eloSaverCallBack: EloSaverCallBack): Void {
       if (elo == null) {
          throw new IllegalArgumentException("elo may not be null");
       }
+      updateTags(elo);
+
       if (elo.getUri() != null) {
          def scyElo = new ScyElo(elo, config.getToolBrokerAPI());
          def myElo = scyElo.getAuthors().contains(config.getToolBrokerAPI().getLoginUserName());
@@ -235,6 +255,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       if (elo == null) {
          throw new IllegalArgumentException("elo may not be null");
       }
+      updateTags(elo);
       var forking = elo.getUri() != null;
       var currentEloTitle = elo.getMetadata().getMetadataValueContainer(titleKey).getValue() as String;
       var suggestedEloTitle = currentEloTitle;
