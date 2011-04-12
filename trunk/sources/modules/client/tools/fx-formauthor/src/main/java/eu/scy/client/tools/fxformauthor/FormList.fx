@@ -281,25 +281,25 @@ public class FormList extends CustomNode {
         }
     }
 
-    function askForReplace(): Void {
-        if (fdm == null) {
-            return;
-        }
-
-        var options = ["Append content", "Delete current form"];
-        var result: Number = JOptionPane.showOptionDialog(
-                null,
-                "Do you want to append the ELO content to the current form?",
-                "Replace Form?",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                (options as Object[]),
-                (options[0] as Object));
-        if (result == 1.0) {
-            clearContent();
-        }
-    }
+//    function askForReplace(): Void {
+//        if (fdm == null) {
+//            return;
+//        }
+//
+//        var options = ["Append content", "Delete current form"];
+//        var result: Number = JOptionPane.showOptionDialog(
+//                null,
+//                "Do you want to append the ELO content to the current form?",
+//                "Replace Form?",
+//                JOptionPane.YES_NO_OPTION,
+//                JOptionPane.QUESTION_MESSAGE,
+//                null,
+//                (options as Object[]),
+//                (options[0] as Object));
+//        if (result == 1.0) {
+//            clearContent();
+//        }
+//    }
 
     public function createFromString(xml: String): Void {
         var fdm = DataHandler.getInstance().loadFromString(xml);
@@ -323,7 +323,8 @@ public class FormList extends CustomNode {
             return;
         }
         this.fdm = fdm;
-        askForReplace();
+//        askForReplace();
+        clearContent();
         titleBox.text = fdm.getTitle();
         descriptionBox.text = fdm.getDescription();
         version = fdm.getVersion();
