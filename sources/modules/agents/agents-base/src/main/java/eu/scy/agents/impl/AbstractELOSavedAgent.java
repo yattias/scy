@@ -94,12 +94,15 @@ public abstract class AbstractELOSavedAgent extends AbstractThreadedAgent {
 	public void call(Command command, int seq, Tuple afterTuple,
 			Tuple beforeTuple) {
 		if (this.listenerId != seq) {
-			// If a callback arrives here that wasn't registered from this class
-			// it is passed to the
-			// AbstractThreadedAgent.
-			logger.log(Level.FINEST, "Callback passed to Superclass.");
-			super.call(command, seq, afterTuple, beforeTuple);
-			return;
+			if (this.updateListenerId != seq) {
+				// If a callback arrives here that wasn't registered from this
+				// class
+				// it is passed to the
+				// AbstractThreadedAgent.
+				logger.log(Level.FINEST, "Callback passed to Superclass.");
+				super.call(command, seq, afterTuple, beforeTuple);
+				return;
+			}
 		}
 		IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
 		this.processELOSavedAction(
