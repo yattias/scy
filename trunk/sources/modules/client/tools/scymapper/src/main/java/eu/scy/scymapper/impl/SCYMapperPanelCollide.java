@@ -26,6 +26,7 @@ import eu.scy.scymapper.impl.ui.notification.DoubleKeywordSuggestionPanel;
 import eu.scy.scymapper.impl.ui.notification.KeywordSuggestionPanelCollide;
 import eu.scy.scymapper.impl.ui.toolbar.ConceptMapToolBar;
 import eu.scy.scymapper.impl.ui.toolbar.ConceptMapToolBarCollide;
+import java.awt.Container;
 
 public class SCYMapperPanelCollide extends SCYMapperPanel {
 
@@ -71,29 +72,29 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
         }
     }
 
-    @Override
-    protected Notificator createNotificator(JComponent parent, JPanel panel) {
-        return createNotificator(parent, panel, SUGGEST_KEYWORD_POSITION);
-    }
-
-    protected Notificator createNotificator(JComponent parent, JPanel panel, FadeNotificator.Position position) {
-        // int yOffset = -cmapPanel.getY();
-        // FadeNotificator fn = new FadeNotificator(parent, panel, position, 0, yOffset);
-        FadeNotificator fn = new FadeNotificator(parent, panel, position);
-        fn.setBorderPainted(false);
-        return fn;
-    }
-
-    protected Notificator createNotificator(JComponent parent, JPanel panel, FadeNotificator.Position position, int xOffset, int yOffset) {
-        FadeNotificator fn = new FadeNotificator(parent, panel, position, xOffset, yOffset);
-        fn.setBorderPainted(false);
-        return fn;
-    }
-
-    @Override
-    protected ConceptMapToolBar createToolbar(IConceptMap conceptMap, ConceptDiagramView conceptDiagramView) {
-        return new ConceptMapToolBarCollide(conceptMap, conceptDiagramView);
-    }
+//    @Override
+//    protected Notificator createNotificator(JComponent parent, JPanel panel) {
+//        return createNotificator(parent, panel, SUGGEST_KEYWORD_POSITION);
+//    }
+//
+//    protected Notificator createNotificator(JComponent parent, JPanel panel, FadeNotificator.Position position) {
+//        // int yOffset = -cmapPanel.getY();
+//        // FadeNotificator fn = new FadeNotificator(parent, panel, position, 0, yOffset);
+//        FadeNotificator fn = new FadeNotificator(parent, panel, position);
+//        fn.setBorderPainted(false);
+//        return fn;
+//    }
+//
+//    protected Notificator createNotificator(JComponent parent, JPanel panel, FadeNotificator.Position position, int xOffset, int yOffset) {
+//        FadeNotificator fn = new FadeNotificator(parent, panel, position, xOffset, yOffset);
+//        fn.setBorderPainted(false);
+//        return fn;
+//    }
+//
+//    @Override
+//    protected ConceptMapToolBar createToolbar(IConceptMap conceptMap, ConceptDiagramView conceptDiagramView) {
+//        return new ConceptMapToolBarCollide(conceptMap, conceptDiagramView);
+//    }
 
     @Override
     protected void initComponents() {
@@ -150,8 +151,6 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
                             }
                         };
                         reenableButtonTimer.schedule(reEnableTask, REENABLE_BUTTONS_TIMER * 1000);
-
-
                     }
 
                 });
