@@ -43,9 +43,7 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 
 public class WebResourceNode extends CustomNode, ILoadXML, ScyToolFX, Resizable {
     def logger = Logger.getLogger(this.getClass());
-    public var scyWindow: ScyWindow on replace {
-        setScyWindowTitle();
-    };
+    public var scyWindow: ScyWindow;
     public var toolBrokerAPI:ToolBrokerAPI;
     public var repository:IRepository;
     public var eloFactory:IELOFactory;
@@ -115,17 +113,12 @@ public class WebResourceNode extends CustomNode, ILoadXML, ScyToolFX, Resizable 
         };
         var xmlData:XMLData = new XMLData(input);
         myContent.loadXML(xmlData);
-        setScyWindowTitle();
         updateLine();
         updateScrollbars();
     }
 
     public override function getXML():String {
         return "";
-    }
-
-    function setScyWindowTitle() {
-        scyWindow.title = "WebResouceR: {myContent.title}";
     }
 
  /**
@@ -152,7 +145,6 @@ public class WebResourceNode extends CustomNode, ILoadXML, ScyToolFX, Resizable 
 
     override function loadElo(uri:URI):Void {
         eloWebResourceActionWrapper.loadElo(uri);
-        setScyWindowTitle();
     }
 
     override function onGotFocus():Void {
