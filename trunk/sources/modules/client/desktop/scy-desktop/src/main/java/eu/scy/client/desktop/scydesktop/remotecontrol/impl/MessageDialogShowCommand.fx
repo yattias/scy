@@ -13,17 +13,25 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBox;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogType;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBoxParams;
 import java.rmi.dgc.VMID;
+import java.util.Map;
 
 /**
  * @author sven
  */
 public class MessageDialogShowCommand extends ScyDesktopRemoteCommand {
 
+   def idPrefix = "mdsc_";
+
     override public function getActionName(): String {
         "message_dialog_show"
     }
     
     override public function executeRemoteCommand(notification: INotification): Void {
+        if (isMessageDialogShowCommandPending()){
+           logger.info("message dialog pending, ignoring notification: {notification}");
+           return;
+        }
+
         logger.debug("*****************message dialog show action*********************");
         def modalProperty = notification.getFirstProperty("modal");
         def indicateFocusProperty = notification.getFirstProperty("indicateFocus");
@@ -39,8 +47,22 @@ public class MessageDialogShowCommand extends ScyDesktopRemoteCommand {
                 modal: if (not (modalProperty == null)) Boolean.parseBoolean(modalProperty) else true;
                 }
 
-        DialogBox.showMessageDialog(params, new VMID().toString());
-
+        DialogBox.showMessageDialog(params, "{idPrefix}{new VMID().toString()}" );
     }
+
+    function isMessageDialogShowCommandPending():Boolean{
+       for (entryObject in DialogBox.openDialogs.entrySet()){
+          def entry = entryObject as Map.Entry;
+          def key = entry.getKey();
+          if (key instanceof String){
+             def stringKey = key as String;
+             if (stringKey.startsWith(idPrefix)){
+                return true
+             }
+          }
+       }
+       return false;
+    }
+
 
 }
