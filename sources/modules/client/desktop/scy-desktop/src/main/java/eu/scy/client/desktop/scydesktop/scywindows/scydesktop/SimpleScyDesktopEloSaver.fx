@@ -187,16 +187,20 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       eloSaveAsPanel.modalDialogBox.close();
    }
 
-   function updateTags(elo: IELO): Void{
-   	  var lastestElo = repository.retrieveELOLastVersion(elo.getUri());
-  	  var latestMetadata : IMetadata = lastestElo.getMetadata();
+   function updateTags(elo: IELO): Void {
+      if (elo.getUri() == null) {
+         // the elo is not yet stored, so there is nothing to update
+         return
+      }
+      var lastestElo = repository.retrieveELOLastVersion(elo.getUri());
+      var latestMetadata: IMetadata = lastestElo.getMetadata();
       var mvc = latestMetadata.getMetadataValueContainer(socialtagsKey);
       var st: SocialTags = mvc.getValue() as SocialTags;
       if (st == null) {
-        st = new SocialTags();
-        mvc.setValue(st);
+         st = new SocialTags();
+         mvc.setValue(st);
       }
-      var currentMetadata : IMetadata = elo.getMetadata();
+      var currentMetadata: IMetadata = elo.getMetadata();
       currentMetadata.getMetadataValueContainer(socialtagsKey).setValue(st);
    }
 
@@ -223,14 +227,14 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
                creatorSet = true;
             }
             if (myElo) {
-               try{
+               try {
                   scyElo.updateElo();
-               } catch (e: ELONotLastVersionException){
+               } catch (e: ELONotLastVersionException) {
                   logger.error("unexpected ELONotLastVersionException for elo: {e.getURI()}, now doing a save as");
-                  if (dateFirstUserSaveSet){
+                  if (dateFirstUserSaveSet) {
                      scyElo.getMetadata().deleteMetatadata(dateFirstUserSaveKey);
                   }
-                  if (creatorSet){
+                  if (creatorSet) {
                      scyElo.getMetadata().deleteMetatadata(creatorKey);
                   }
                   eloSaveAs(elo, eloSaverCallBack);
