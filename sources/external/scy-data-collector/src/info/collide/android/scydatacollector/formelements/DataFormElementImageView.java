@@ -8,6 +8,7 @@ import info.collide.android.scydatacollector.DataFormElementEventModel.DataFormE
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -32,7 +33,7 @@ public class DataFormElementImageView extends DataFormElementView {
         btnTakeImage.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 events(DataFormElementEventTypes.ONBEFORE);
-                Intent i = new Intent("android.media.action.IMAGE_CAPTURE");
+                Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 getApplication().startActivityForResult(i, id);
             }
         });
