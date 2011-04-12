@@ -103,14 +103,14 @@ import eu.scy.common.scyelo.ScyElo;
             var draggedElo = repository.retrieveELO(getEloUri(b));
             var scyElo = new ScyElo(draggedElo, toolBrokerAPI);
             var technicalFormat = scyElo.getTechnicalFormat();
-            return technicalFormat != null and (technicalFormat.equals("scy/pds") or technicalFormat.equals("scy/ds"));
+            return technicalFormat != null and (technicalFormat.equals("scy/pds") or technicalFormat.equals("scy/dataset"));
         }
         if (object instanceof StandardScyWindow) {
             var w: StandardScyWindow = object as StandardScyWindow;
             var draggedElo = repository.retrieveELO(w.eloUri);
             var scyElo = new ScyElo(draggedElo, toolBrokerAPI);
             var technicalFormat = scyElo.getTechnicalFormat();
-            return technicalFormat != null and (technicalFormat.equals("scy/pds")or technicalFormat.equals("scy/ds"));
+            return technicalFormat != null and (technicalFormat.equals("scy/pds")or technicalFormat.equals("scy/dataset"));
         }
         // collaboration
 //        if (object instanceof ContactFrame) {
