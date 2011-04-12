@@ -19,7 +19,7 @@ public class SlideNotificator implements Notificator {
 	private int startY;
 	private Timer animationTimer;
 	private long animationStart;
-	private JComponent ownerComponent;
+	private Container ownerComponent;
 
 	private JWindow window;
 
@@ -28,7 +28,11 @@ public class SlideNotificator implements Notificator {
 //		if (!(f instanceof JFrame))
 //			throw new IllegalArgumentException("The ownerComponent component must be contained in a JFrame");
 //		ownerFrame = f;
-		this.ownerComponent = ownerComponent;
+		   Container c = ownerComponent.getParent();
+           while (c.getParent() != null) {
+               c = c.getParent();
+           }
+		this.ownerComponent = c;
 		System.out.println("Owner Component: "+ownerComponent.getClass());
 		setContents(contents);
 	}
@@ -36,8 +40,8 @@ public class SlideNotificator implements Notificator {
 	private Point getLocationForWindow() {
 
 		Point loc = new Point(ownerComponent.getLocationOnScreen());
-		loc.x = loc.x + ownerComponent.getHeight();
-		loc.y = loc.y + ownerComponent.getWidth();
+		loc.x = loc.x + ownerComponent.getWidth();
+		loc.y = loc.y + ownerComponent.getHeight();
 
 //		loc.x += ownerComponent.getWidth() - window.getWidth() - 10;
 //		loc.y += ownerComponent.getHeight() - window.getHeight() - 10;
