@@ -169,8 +169,16 @@ public class SessionAgent extends AbstractRequestAgent {
 
 	private void updateToolOpened(IAction action) {
 		String oldEloUri = action.getAttribute(ActionConstants.OLD_ELO_URI);
-		String newEloUri = action.getAttribute(ActionConstants.NEW_ELO_URI);
+		String newEloUri = action.getAttribute(ActionConstants.ELO_URI);
 
+		if (oldEloUri == null) {
+			LOGGER.warn("elo_saved action does not contain oldUri: " + action);
+			return;
+		}
+		if (newEloUri == null) {
+			LOGGER.warn("elo_saved action does not contain newUri: " + action);
+			return;
+		}
 		try {
 			Tuple[] tuples = getSessionSpace().readAll(
 					new Tuple(Session.TOOL, action.getUser(), action
