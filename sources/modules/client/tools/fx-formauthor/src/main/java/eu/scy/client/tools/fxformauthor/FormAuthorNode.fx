@@ -34,7 +34,6 @@ public class FormAuthorNode extends CustomNode, Resizable, ScyToolFX, ILoadXML, 
     public var metadataTypeManager:IMetadataTypeManager;
     public var technicalFormatKey: IMetadataKey;
     public var scyWindow:ScyWindow on replace {
-        setScyWindowTitle();
         formList.setScyWindow(scyWindow);
     };
     public var spacing:Number on replace { requestLayout() }
@@ -92,17 +91,9 @@ public class FormAuthorNode extends CustomNode, Resizable, ScyToolFX, ILoadXML, 
         return 400;
     }
 
-    function setScyWindowTitle():Void {
-        scyWindow.title = "FormAuthor: {windowTitle}";
-
+    override function setTitle(title:String):Void {
+        windowTitle = title;
     }
-
-   override function setTitle(title:String):Void {
-       windowTitle = title;
-       setScyWindowTitle();
-   }
-
-
 
     public function setFormAuthorRepositoryWrapper(wrapper:FormAuthorRepositoryWrapper):Void {
         formAuthorRepositoryWrapper = wrapper;
