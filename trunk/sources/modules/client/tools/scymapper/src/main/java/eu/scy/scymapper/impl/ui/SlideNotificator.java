@@ -35,7 +35,7 @@ public class SlideNotificator implements Notificator {
 
 	private Point getLocationForWindow() {
 
-		Point loc = new Point(ownerComponent.getLocation());
+		Point loc = new Point(ownerComponent.getLocationOnScreen());
 		loc.x += ownerComponent.getWidth() - window.getWidth() - 10;
 		loc.y += ownerComponent.getHeight() - window.getHeight() - 10;
 		System.out.println("Location for window: x="+loc.x+"; y="+loc.y);
@@ -43,7 +43,7 @@ public class SlideNotificator implements Notificator {
 	}
 
 	public void setContents(JComponent contents) {
-		Dimension componentSize = contents.getSize();
+		Dimension componentSize = new Dimension(contents.getWidth(), contents.getWidth());
 
 		window = new JWindow();
 		window.setSize(componentSize);
