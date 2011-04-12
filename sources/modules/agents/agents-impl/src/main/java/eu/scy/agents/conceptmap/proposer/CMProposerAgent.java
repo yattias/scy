@@ -318,6 +318,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
             for (Node n : userGraph.getNodes()) {
                 userNodes.add(n.getLabel().toLowerCase());
             }
+            String delim = ";";
             HashSet<String> foundRelations = new HashSet<String>();
             Map<String, Set<String>> relationHierarchy = con.getRelationHierarchy();
             for (Edge e : ontologyGraph.getEdges()) {
@@ -332,18 +333,18 @@ public class CMProposerAgent extends AbstractThreadedAgent {
                             toLabel = fromLabel;
                             fromLabel = tmp;
                         }
-                        if (!foundRelations.contains(fromLabel + "," + toLabel)) {
-                            list.put(rankedStrings.getWeightFor(fromLabel) + rankedStrings.getWeightFor(toLabel), fromLabel + "," + toLabel);
-                            foundRelations.add(fromLabel + "," + toLabel);
+                        if (!foundRelations.contains(fromLabel + delim + toLabel)) {
+                            list.put(rankedStrings.getWeightFor(fromLabel) + rankedStrings.getWeightFor(toLabel), fromLabel + delim + toLabel);
+                            foundRelations.add(fromLabel + delim + toLabel);
                         }
                     } else {
                         Edge foundEdge = (e1 != null) ? e1 : e2;
                         String userRelation = foundEdge.getLabel();
                         String ontologyRelation = e.getLabel();
                         if (relationHierarchy.get(userRelation).contains(ontologyRelation)) {
-                            if (!foundRelations.contains(fromLabel + "," + toLabel)) {
-                                list.put(-rankedStrings.getWeightFor(fromLabel) - rankedStrings.getWeightFor(toLabel), fromLabel + "," + toLabel);
-                                foundRelations.add(fromLabel + "," + toLabel);
+                            if (!foundRelations.contains(fromLabel + delim + toLabel)) {
+                                list.put(-rankedStrings.getWeightFor(fromLabel) - rankedStrings.getWeightFor(toLabel), fromLabel + delim + toLabel);
+                                foundRelations.add(fromLabel + delim + toLabel);
                             }
                         }
                     }
