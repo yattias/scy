@@ -29,13 +29,16 @@ public class SlideNotificator implements Notificator {
 //			throw new IllegalArgumentException("The ownerComponent component must be contained in a JFrame");
 //		ownerFrame = f;
 		this.ownerComponent = ownerComponent;
+		System.out.println("Owner Component: "+ownerComponent.getClass());
 		setContents(contents);
 	}
 
 	private Point getLocationForWindow() {
+
 		Point loc = new Point(ownerComponent.getLocation());
 		loc.x += ownerComponent.getWidth() - window.getWidth() - 10;
 		loc.y += ownerComponent.getHeight() - window.getHeight() - 10;
+		System.out.println("Location for window: x="+loc.x+"; y="+loc.y);
 		return loc;
 	}
 
@@ -51,6 +54,11 @@ public class SlideNotificator implements Notificator {
 	public void show() {
 		roller = new Roller(makeOffscreenImage(window));
 		startY = window.getY() + window.getHeight();
+		System.out.println("------SHOW------");
+		System.out.println("Window Height: "+window.getHeight());
+		System.out.println("Window Width: "+window.getWidth());
+		System.out.println("Window X: "+window.getX());
+		System.out.println("Window Y: "+window.getY());
 
 		ActionListener animation = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
