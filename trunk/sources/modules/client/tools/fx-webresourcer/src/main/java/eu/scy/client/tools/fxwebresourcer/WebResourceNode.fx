@@ -199,18 +199,18 @@ public class WebResourceNode extends CustomNode, ILoadXML, ScyToolFX, Resizable 
                translateY:spacing;
                spacing:spacing;
                content: bind [
-                  HBox{
-                     translateX:spacing;
-                     spacing:spacing;
-                     content:[
-                        Button {
-                           text: "Open"
-                           action: function() {
-                                eloWebResourceActionWrapper.loadWebAction();
-                           }
-                        }
-                     ]
-                  }
+//                  HBox{
+//                     translateX:spacing;
+//                     spacing:spacing;
+//                     content:[
+//                        Button {
+//                           text: "Open"
+//                           action: function() {
+//                                eloWebResourceActionWrapper.loadWebAction();
+//                           }
+//                        }
+//                     ]
+//                  }
                   hBox
                ]
             }
