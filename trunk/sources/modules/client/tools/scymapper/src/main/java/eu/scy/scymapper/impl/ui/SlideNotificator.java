@@ -19,29 +19,30 @@ public class SlideNotificator implements Notificator {
 	private int startY;
 	private Timer animationTimer;
 	private long animationStart;
-	private Frame ownerFrame;
+	private JComponent ownerComponent;
 
 	private JWindow window;
 
 	public SlideNotificator(JComponent ownerComponent, JComponent contents) {
-		Frame f = JOptionPane.getFrameForComponent(ownerComponent);
+		//Frame f = JOptionPane.getFrameForComponent(ownerComponent);
 //		if (!(f instanceof JFrame))
 //			throw new IllegalArgumentException("The ownerComponent component must be contained in a JFrame");
-		ownerFrame = f;
+//		ownerFrame = f;
+		this.ownerComponent = ownerComponent;
 		setContents(contents);
 	}
 
 	private Point getLocationForWindow() {
-		Point loc = new Point(ownerFrame.getLocation());
-		loc.x += ownerFrame.getWidth() - window.getWidth() - 10;
-		loc.y += ownerFrame.getHeight() - window.getHeight() - 10;
+		Point loc = new Point(ownerComponent.getLocation());
+		loc.x += ownerComponent.getWidth() - window.getWidth() - 10;
+		loc.y += ownerComponent.getHeight() - window.getHeight() - 10;
 		return loc;
 	}
 
 	public void setContents(JComponent contents) {
 		Dimension componentSize = contents.getSize();
 
-		window = new JWindow(ownerFrame);
+		window = new JWindow();
 		window.setSize(componentSize);
 		window.setLocation(getLocationForWindow());
 		window.setContentPane(contents);
@@ -61,23 +62,23 @@ public class SlideNotificator implements Notificator {
 					window.setVisible(true);
 					roller.setVisible(false);
 					roller.dispose();
-					ownerFrame.addComponentListener(new ComponentAdapter() {
-						@Override
-						public void componentResized(ComponentEvent e) {
-							window.setLocation(getLocationForWindow());
-						}
-
-						@Override
-						public void componentMoved(ComponentEvent e) {
-							window.setLocation(getLocationForWindow());
-						}
-					});
-					ownerFrame.addWindowStateListener(new WindowAdapter() {
-						@Override
-						public void windowStateChanged(WindowEvent e) {
-							window.setLocation(getLocationForWindow());
-						}
-					});
+//					ownerFrame.addComponentListener(new ComponentAdapter() {
+//						@Override
+//						public void componentResized(ComponentEvent e) {
+//							window.setLocation(getLocationForWindow());
+//						}
+//
+//						@Override
+//						public void componentMoved(ComponentEvent e) {
+//							window.setLocation(getLocationForWindow());
+//						}
+//					});
+//					ownerFrame.addWindowStateListener(new WindowAdapter() {
+//						@Override
+//						public void windowStateChanged(WindowEvent e) {
+//							window.setLocation(getLocationForWindow());
+//						}
+//					});
 				} else {
 					float progress = (float) elapsed / ANIMATION_TIME;
 					int h = (int) (progress * window.getHeight());
@@ -142,7 +143,7 @@ public class SlideNotificator implements Notificator {
 		w.setLocation(tmpLoc);
 		return offscreenImage;
 	}
-	
+
 	public boolean isVisible() {
 		return window.isVisible();
 	}
