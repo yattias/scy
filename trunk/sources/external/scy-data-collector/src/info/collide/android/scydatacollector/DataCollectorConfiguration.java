@@ -32,7 +32,7 @@ public class DataCollectorConfiguration {
     }
 
     public String getServerUrl() {
-        return preferences.getString(URL_KEY, null);
+        return preferences.getString(URL_KEY, "http://scy.collide.info:8080/roolo-ws/");
     }
 
     public String getPassword() {
