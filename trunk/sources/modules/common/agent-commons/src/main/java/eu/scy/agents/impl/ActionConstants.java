@@ -5,6 +5,7 @@ public final class ActionConstants {
 	public static final String ACTION = "action";
 	public static final String ACTION_ELO_SAVED = "elo_saved";
 	public static final String ACTION_ELO_LOADED = "elo_loaded";
+	public static final String ACTION_ELO_UPDATED = "elo_updated";
 	public static final String ACTIONLOG_ELO_TYPE = "elo_type";
 	public static final String ACTIONLOG_ELO_URI = "elo_uri";
 	public static final String ACTIONLOG_OLD_URI = "old_uri";
