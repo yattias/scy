@@ -86,6 +86,14 @@ public class DataCollectorActivity extends Activity {
                 });
                 if (!new DataCollectorConfiguration(DataCollectorActivity.this).isComplete()) {
                     Toast.makeText(getApplication(), R.string.notconfiguredyet, Toast.LENGTH_LONG).show();
+                    openDownloadFormsOverviewButton.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                        	openDownloadFormsOverviewButton.setColorFilter(0x00000000, Mode.SRC_ATOP);
+                        	openDownloadFormsOverviewTitle.setTextColor(0xFF000000);
+                        	openDownloadFormsOverviewText.setTextColor(0xFF000000);
+                        }
+                    }, 2000);
                 } else {
                     Intent tki = new Intent();
                     tki.setClass(getApplication(), DownloadFormsOverviewActivity.class);
