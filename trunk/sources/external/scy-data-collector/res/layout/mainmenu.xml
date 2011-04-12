@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="fill_parent">
-	<ImageView android:src="@drawable/logo"
-		android:scaleType="fitXY" android:id="@+id/AndroidLogo"
-		android:layout_alignParentTop="true" android:layout_alignParentLeft="true" android:layout_height="100dp" android:layout_width="95dp" android:layout_margin="15px"></ImageView>
+	<ImageView android:src="@drawable/logo" android:scaleType="fitXY"
+		android:id="@+id/AndroidLogo" android:layout_alignParentTop="true"
+		android:layout_alignParentLeft="true" android:layout_height="100dp"
+		android:layout_width="95dp" android:layout_margin="15px"></ImageView>
 	<ImageView android:src="@drawable/scy_logo"
 		android:scaleType="fitXY" android:id="@+id/SCYLogo"
 		android:layout_toRightOf="@+id/AndroidLogo"
 		android:layout_alignBaseline="@+id/AndroidLogo" android:layout_height="100dp"
-		android:layout_marginRight="10dp" android:layout_marginTop="20dp" android:layout_width="220dp" android:layout_marginLeft="10dp"></ImageView>
+		android:layout_marginRight="10dp" android:layout_marginTop="20dp"
+		android:layout_width="220dp" android:layout_marginLeft="10dp"></ImageView>
 	<!-- form selection option -->
 	<ImageView android:layout_below="@id/SCYLogo"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -17,36 +19,38 @@
 		android:layout_marginRight="10dp" android:paddingTop="4dp"></ImageView>
 	<TextView android:id="@+id/SelectFormTitle"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:textSize="24dp"
-		android:layout_toRightOf="@+id/FormsIcon" android:layout_alignTop="@+id/FormsIcon" android:text="@string/mainSelectForms"></TextView>
+		android:textSize="24dp" android:layout_toRightOf="@+id/FormsIcon"
+		android:layout_alignTop="@+id/FormsIcon" android:text="@string/mainSelectForms"></TextView>
 	<TextView android:layout_below="@id/SelectFormTitle"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:id="@+id/SelectFormText"
-		android:layout_toRightOf="@+id/FormsIcon" android:textSize="12dp" android:text="@string/mainSelectFormsDescription"></TextView>
+		android:id="@+id/SelectFormText" android:layout_toRightOf="@+id/FormsIcon"
+		android:textSize="12dp" android:text="@string/mainSelectFormsDescription"></TextView>
 	<!-- form synchronization option -->
 	<ImageView android:layout_below="@id/FormsIcon"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:id="@+id/SyncIcon" android:layout_marginTop="30dp" android:layout_marginLeft="20dp"
-		android:layout_marginRight="10dp" android:src="@drawable/syncicon" android:paddingTop="2dp"></ImageView>
+		android:id="@+id/SyncIcon" android:layout_marginTop="30dp"
+		android:layout_marginLeft="20dp" android:layout_marginRight="10dp"
+		android:src="@drawable/syncicon" android:paddingTop="2dp"></ImageView>
 	<TextView android:id="@+id/SyncFormTitle"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:textSize="24dp"
-		android:layout_toRightOf="@+id/SyncIcon" android:layout_alignTop="@+id/SyncIcon" android:text="@string/mainDownloadForms"></TextView>
+		android:textSize="24dp" android:layout_toRightOf="@+id/SyncIcon"
+		android:layout_alignTop="@+id/SyncIcon" android:text="@string/mainDownloadForms"></TextView>
 	<TextView android:layout_below="@id/SyncFormTitle"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:id="@+id/SyncFormText"
-		android:layout_toRightOf="@+id/SyncIcon" android:textSize="12dp" android:text="@string/mainDownloadFormsDescription"></TextView>
+		android:id="@+id/SyncFormText" android:layout_toRightOf="@+id/SyncIcon"
+		android:textSize="12dp" android:text="@string/mainDownloadFormsDescription"></TextView>
 	<!-- configuration option -->
 	<ImageView android:layout_below="@id/SyncIcon"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:id="@+id/PreferencesIcon" android:layout_marginTop="30dp" android:layout_marginLeft="20dp"
-		android:layout_marginRight="10dp" android:src="@drawable/prefsicon" android:paddingTop="2dp"></ImageView>
+		android:id="@+id/PreferencesIcon" android:layout_marginTop="30dp"
+		android:layout_marginLeft="20dp" android:layout_marginRight="10dp"
+		android:src="@drawable/prefsicon" android:paddingTop="2dp"></ImageView>
 	<TextView android:id="@+id/PreferencesTitle"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:textSize="24dp"
-		android:layout_toRightOf="@+id/PreferencesIcon" android:layout_alignTop="@+id/PreferencesIcon" android:text="@string/mainConfiguration"></TextView>
+		android:textSize="24dp" android:layout_toRightOf="@+id/PreferencesIcon"
+		android:layout_alignTop="@+id/PreferencesIcon" android:text="@string/mainConfiguration"></TextView>
 	<TextView android:layout_below="@id/PreferencesTitle"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:id="@+id/PreferencesText"
-		android:layout_toRightOf="@+id/PreferencesIcon" android:textSize="12dp" android:text="@string/mainConfigurationDescription"></TextView>
+		android:id="@+id/PreferencesText" android:layout_toRightOf="@+id/PreferencesIcon"
+		android:textSize="12dp" android:text="@string/mainConfigurationDescription"></TextView>
 </RelativeLayout>
