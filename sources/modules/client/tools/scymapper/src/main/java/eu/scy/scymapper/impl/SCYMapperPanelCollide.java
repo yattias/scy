@@ -34,7 +34,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
 
 //    private final static FadeNotificator.Position LEXICON_POSITION = FadeNotificator.Position.LOWER_LEFT_CORNER;
 
-    private final static int REENABLE_BUTTONS_TIMER = 10;
+    private final static int REENABLE_BUTTONS_TIMER = 40;
 
 //    private Notificator lexiconNotificator;
 
