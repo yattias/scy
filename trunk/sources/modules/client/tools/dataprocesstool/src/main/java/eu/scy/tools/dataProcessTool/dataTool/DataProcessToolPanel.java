@@ -124,6 +124,8 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
     private  String sepText;
     private String charEncoding;
 
+    private boolean isSynchronized = false;
+
     public DataProcessToolPanel(boolean scyMode, Locale locale) {
         super();
         this.scyMode = scyMode;
@@ -1168,5 +1170,20 @@ public class DataProcessToolPanel extends javax.swing.JPanel implements OpenData
 
     public boolean controlLenght(){
         return !scyMode;
+    }
+
+    /*starts the collaboration */
+    public void startCollaboration(){
+        isSynchronized = true;
+    }
+
+    /* ends the collaboration */
+    public void endCollaboration(){
+        isSynchronized = false;
+    }
+
+    /* returns true if the tool is sync with another (collaboration) */
+    public boolean isCollaborate(){
+        return isSynchronized;
     }
 }

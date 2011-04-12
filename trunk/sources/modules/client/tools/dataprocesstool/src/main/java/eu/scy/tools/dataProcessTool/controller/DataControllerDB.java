@@ -1922,7 +1922,7 @@ public class DataControllerDB implements ControllerInterface{
         if(v.size() > 0)
             ds = (Dataset)v.get(0);
         if(ds != null){
-            // if ds contains only 1 numerical row &  nb of columns fits to dataset => ask the user
+            // if ds contains only 1  row &  &  types fits to dataset & at least 1 numerical column & nb of columns fits to dataset => ask the user
             // - add as a new row ?
             // - merge ?
             // - add the values of ds to every row of dataset (kind of a matrix-add-operation) ?
@@ -1938,7 +1938,8 @@ public class DataControllerDB implements ControllerInterface{
             int nbRows2 = ds.getNbRows();
             int nbCols2 = ds.getNbCol();
             boolean oneRow = ds.getNbRowsData() == 1;
-            if(confirm && oneRow && nbCols1 == nbCols2 && dataset.isAllColumnDouble() && ds.isAllColumnDouble()){
+            //if(confirm && oneRow && nbCols1 == nbCols2 && dataset.isAllColumnDouble() && ds.isAllColumnDouble()){
+            if(confirm && oneRow && nbCols1 == nbCols2 && dataset.isFitTypeColumn(ds) && dataset.hasAtLeastADoubleColumn()){
                 dataToolPanel.askForMergeType(dataset, ds,elo,  true);
                 return new CopexReturn();
             }
@@ -2099,9 +2100,9 @@ public class DataControllerDB implements ControllerInterface{
             if(dataset1.getDataHeader(j) != null && ds2.getDataHeader(j) != null && !dataset1.getDataHeader(j).getType().equals(ds2.getDataHeader(j).getType())){
                 return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
             }
-            if(dataset1.getDataHeader(j) != null && !dataset1.getDataHeader(j).isDouble()){
-                return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
-            }
+//            if(dataset1.getDataHeader(j) != null && !dataset1.getDataHeader(j).isDouble()){
+//                return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+//            }
         }
         int idR = ds2.getFirstRowData();
         if(idR == -1){
@@ -2109,15 +2110,18 @@ public class DataControllerDB implements ControllerInterface{
         }
         for(int i=0; i<nbRows1; i++){
             for (int j=0; j<nbCols1; j++){
-                if(dataset1.getData(i, j) == null){
-                    dataset1.setData(new Data(-1, ds2.getData(idR, j) == null ? "" :ds2.getData(idR, j).getValue() , i, j, false), i, j);
+                if(dataset1.getDataHeader(j) != null  && !dataset1.getDataHeader(j).isDouble()){
                 }else{
-                    dataset1.getData(i, j).addToValue(ds2.getData(idR, j) == null ? 0 :ds2.getData(idR, j).getDoubleValue());
+                    if(dataset1.getData(i, j) == null){
+                        dataset1.setData(new Data(-1, ds2.getData(idR, j) == null ? "" :ds2.getData(idR, j).getValue() , i, j, false), i, j);
+                    }else{
+                        dataset1.getData(i, j).addToValue(ds2.getData(idR, j) == null ? 0 :ds2.getData(idR, j).getDoubleValue());
+                    }
+                    ArrayList v2 = new ArrayList();
+                    CopexReturn cr = updateData(dataset1,i, j, dataset1.getData(i, j).getValue() , v2);
+                    if(cr.isError())
+                        return cr;
                 }
-                ArrayList v2 = new ArrayList();
-                CopexReturn cr = updateData(dataset1,i, j, dataset1.getData(i, j).getValue() , v2);
-                if(cr.isError())
-                   return cr;
             }
         }
         CopexReturn cr = computeAllData(dataset1);
@@ -2156,21 +2160,24 @@ public class DataControllerDB implements ControllerInterface{
             if(dataset1.getDataHeader(j) != null && ds2.getDataHeader(j) != null && !dataset1.getDataHeader(j).getType().equals(ds2.getDataHeader(j).getType())){
                 return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
             }
-            if(dataset1.getDataHeader(j) != null && !dataset1.getDataHeader(j).isDouble()){
-                return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
-            }
+//            if(dataset1.getDataHeader(j) != null && !dataset1.getDataHeader(j).isDouble()){
+//                return new CopexReturn(dataToolPanel.getBundleString("MSG_ERROR_DATASET"), false);
+//            }
         }
         for(int i=0; i<nbRows1; i++){
             for (int j=0; j<nbCols1; j++){
-                if(dataset1.getData(i, j) == null){
-                    dataset1.setData(new Data(-1, ds2.getData(idR, j) == null ? "" :"0" , i, j, false), i, j);
+                if(dataset1.getDataHeader(j) != null  && !dataset1.getDataHeader(j).isDouble()){
                 }else{
-                    dataset1.getData(i, j).multiplyToValue(ds2.getData(idR, j) == null ? 0 :ds2.getData(idR, j).getDoubleValue());
+                    if(dataset1.getData(i, j) == null){
+                        dataset1.setData(new Data(-1, ds2.getData(idR, j) == null ? "" :"0" , i, j, false), i, j);
+                    }else{
+                        dataset1.getData(i, j).multiplyToValue(ds2.getData(idR, j) == null ? 0 :ds2.getData(idR, j).getDoubleValue());
+                    }
+                    ArrayList v2 = new ArrayList();
+                    CopexReturn cr = updateData(dataset1,i, j, dataset1.getData(i, j).getValue() , v2);
+                    if(cr.isError())
+                        return cr;
                 }
-                ArrayList v2 = new ArrayList();
-                CopexReturn cr = updateData(dataset1,i, j, dataset1.getData(i, j).getValue() , v2);
-                if(cr.isError())
-                   return cr;
             }
         }
         CopexReturn cr = computeAllData(dataset1);
