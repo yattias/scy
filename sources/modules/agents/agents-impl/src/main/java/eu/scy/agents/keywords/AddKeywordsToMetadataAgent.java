@@ -18,6 +18,8 @@ import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.IMetadataValueContainer;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import roolo.elo.metadata.keys.KeyValuePair;
+import roolo.elo.metadata.keys.SocialTag;
+import roolo.elo.metadata.keys.SocialTags;
 import eu.scy.agents.Mission;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.impl.AbstractELOSavedAgent;
@@ -65,6 +67,13 @@ public class AddKeywordsToMetadataAgent extends AbstractELOSavedAgent implements
 		extractor.setMission(missionForUser);
 		extractor.setTupleSpace(getCommandSpace());
 		List<String> keywords = extractor.getKeywords(elo);
+		IMetadataValueContainer mvc = elo.getMetadata().getMetadataValueContainer(metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.SOCIAL_TAGS));
+		if (mvc != null && mvc.getValue() != null && mvc.getValue() instanceof SocialTags) {
+		    SocialTags st = (SocialTags) mvc.getValue();
+		    for (SocialTag tag : st.getSocialTags()) {
+		        keywords.add(tag.getTagName());
+		    }
+		}
 		List<KeyValuePair> keywordsWithBoost = setBoostFactors(keywords,
 				getSession().getLanguage(user), missionForUser);
 
