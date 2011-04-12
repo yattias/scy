@@ -40,12 +40,11 @@ public class SlideNotificator implements Notificator {
 	private Point getLocationForWindow() {
 
 		Point loc = new Point(ownerComponent.getLocationOnScreen());
-		loc.x = loc.x + ownerComponent.getWidth();
-		loc.y = loc.y + ownerComponent.getHeight();
+//		loc.x = loc.x + ownerComponent.getWidth();
+//		loc.y = loc.y + ownerComponent.getHeight();
 
-//		loc.x += ownerComponent.getWidth() - window.getWidth() - 10;
-//		loc.y += ownerComponent.getHeight() - window.getHeight() - 10;
-		System.out.println("Location for window: x="+loc.x+"; y="+loc.y);
+		loc.x += ownerComponent.getWidth() - window.getWidth() - 10;
+		loc.y += ownerComponent.getHeight() - window.getHeight() - 10;
 		return loc;
 	}
 
@@ -61,11 +60,6 @@ public class SlideNotificator implements Notificator {
 	public void show() {
 		roller = new Roller(makeOffscreenImage(window));
 		startY = window.getY() + window.getHeight();
-		System.out.println("------SHOW------");
-		System.out.println("Window Height: "+window.getHeight());
-		System.out.println("Window Width: "+window.getWidth());
-		System.out.println("Window X: "+window.getX());
-		System.out.println("Window Y: "+window.getY());
 
 		ActionListener animation = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
