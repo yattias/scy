@@ -22,7 +22,6 @@ public class FormAuthorContentCreator extends ScyToolCreatorFX {
     
     public override function createScyToolNode(eloType:String, creatorId:String, scyWindow:ScyWindow, windowContent: Boolean):Node {
         StringLocalizer.associate("eu.scy.client.tools.fxformauthor.resources.FormAuthor", "eu.scy.client.tools.fxformauthor");
-        println("createscytoolwindowcontent");
         return createFormAuthorNode(scyWindow);
     }
 
@@ -30,9 +29,6 @@ public class FormAuthorContentCreator extends ScyToolCreatorFX {
     public var eloFactory:IELOFactory;
     public var metadataTypeManager: IMetadataTypeManager;
     public var repository:IRepository;
-    init {
-        println("formauthor content creator");
-    }
 
     function createFormAuthorNode(scyWindow:ScyWindow):FormAuthorNode {
         repository = toolBrokerAPI.getRepository();
