@@ -7,13 +7,11 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.rmi.dgc.VMID;
-import java.text.StringCharacterIterator;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.locks.Lock;
 
 import org.apache.log4j.Logger;
 
@@ -140,6 +138,9 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 			String type = action.getType();
 			String oldLas = action.getAttribute(OLD_LAS);
 			String las = action.getAttribute(LAS);
+			if (!correctLasEntry(oldLas, las)) {
+				return;
+			}
 			if (type.equals(ActionConstants.ACTION_LOG_OUT)) {
 				synchronized (lock) {
 					missionGroupsCache.removeUser(action.getUser());
@@ -167,6 +168,16 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 				}
 			}
 		}
+	}
+
+	private boolean correctLasEntry(String oldLas, String newLas) {
+		if (oldLas == null) {
+			return false;
+		}
+		if (oldLas.equals(newLas)) {
+			return false;
+		}
+		return true;
 	}
 
 	private void removeUserFromCache(IAction action, int minGroupSize,
