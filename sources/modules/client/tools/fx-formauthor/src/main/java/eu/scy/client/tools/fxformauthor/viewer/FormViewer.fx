@@ -62,7 +62,6 @@ public class FormViewer extends CustomNode, Resizable, ILoadXML, ScyToolFX {
     public var eloFactory:IELOFactory;
     public var metadataTypeManager:IMetadataTypeManager;
     public var scyWindow:ScyWindow on replace {
-        setScyWindowTitle();
         //formList.setScyWindow(scyWindow);
     };
     var elements:ArrayList = new ArrayList();
@@ -260,17 +259,11 @@ public class FormViewer extends CustomNode, Resizable, ILoadXML, ScyToolFX {
     }
 
     public var windowTitle:String;
-    function setScyWindowTitle():Void {
-        scyWindow.title = "FormAuthor: {windowTitle}";
 
+    override function setTitle(title:String):Void {
+        windowTitle = title;
+        this.title = title;
     }
-
-   override function setTitle(title:String):Void {
-       windowTitle = title;
-       this.title = title;
-       setScyWindowTitle();
-   }
-
 
     public override function postInitialize(): Void {
         formAuthorRepositoryWrapper = new FormAuthorRepositoryWrapper(this);
