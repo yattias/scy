@@ -38,13 +38,20 @@ public class FindSimilarSearcher implements EloBasedSearcher {
 
     @Override
     public List<ISearchResult> findElos(ScyElo scyElo) {
-        AndQuery aq = new AndQuery(null);
-        aq.clearQueries();
+        StringBuilder sb = new StringBuilder();
         for (String keyword : scyElo.getKeywords()) {
-            AbstractQueryComponent aqc = new MetadataQueryComponent("contents", keyword);
-            aq.addQueryComponent(aqc);
+            sb.append(keyword);
+            sb.append(" ");
         }
-
-        return tbi.getRepository().search(new Query(aq));
+        for (String tag : scyElo.getTagNames()) {
+            sb.append(tag);
+            sb.append(" ");
+        }
+        for (String author : scyElo.getAuthors()) {
+            sb.append(author);
+            sb.append(" ");
+        }
+        sb.append(scyElo.getTitle());
+        return tbi.getRepository().search(new Query(new MetadataQueryComponent("contents", sb)));
     }
 }
