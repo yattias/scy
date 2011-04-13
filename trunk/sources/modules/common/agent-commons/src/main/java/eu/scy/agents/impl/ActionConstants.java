@@ -23,6 +23,7 @@ public final class ActionConstants {
 	public static final String NOTIFICATION_ACCEPTED = "notification_accepted";
 	public static final String OLD_ELO_URI = "old_uri";
 	public static final String ELO_URI = "elo_uri";
+	public static final String ACTION_TOOL_MINIMIZED = "tool_minimized";
 
 	private ActionConstants() {
 		// construction not allowed
