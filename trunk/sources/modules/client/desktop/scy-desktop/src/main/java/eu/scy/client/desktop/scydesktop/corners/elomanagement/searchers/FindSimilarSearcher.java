@@ -41,9 +41,10 @@ public class FindSimilarSearcher implements EloBasedSearcher {
         AndQuery aq = new AndQuery(null);
         aq.clearQueries();
         for (String keyword : scyElo.getKeywords()) {
-            AbstractQueryComponent aqc = new MetadataQueryComponent(keywordsKey, keyword);
+            AbstractQueryComponent aqc = new MetadataQueryComponent("contents", keyword);
             aq.addQueryComponent(aqc);
         }
+
         return tbi.getRepository().search(new Query(aq));
     }
 }
