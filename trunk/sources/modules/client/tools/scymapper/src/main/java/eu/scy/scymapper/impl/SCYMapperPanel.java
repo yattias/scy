@@ -57,29 +57,29 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
     private final static Logger logger = Logger.getLogger(SCYMapperPanel.class);
 
     private ToolBrokerAPI toolBroker;
-    
+
     private IConceptMap conceptMap;
-    
+
     protected ISCYMapperToolConfiguration configuration;
-    
+
     private ConceptDiagramView conceptDiagramView;
-    
+
     private JTextField sessionId;
-    
+
     private ISyncSession currentSession;
-    
+
     protected ConceptMapPanel cmapPanel;
-    
+
     protected KeywordSuggestionPanel suggestionPanel;
 
     protected ConceptMapActionLogger actionLogger;
-    
+
     protected Notificator notificator;
 
     protected ConceptMapToolBar toolBar;
-    
+
     private ISCYMapperToolConfiguration conf = SCYMapperToolConfiguration.getInstance();
-    
+
     private ISyncListener dummySyncListener = new ISyncListener() {
 
         @Override
@@ -94,7 +94,7 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
         public void syncObjectRemoved(ISyncObject iSyncObject) {
         }
     };
-    
+
     public SCYMapperPanel(IConceptMap cmap, ISCYMapperToolConfiguration configuration) {
         conceptMap = cmap;
         this.configuration = configuration;
@@ -122,20 +122,21 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
     @Override
     public boolean processNotification(INotification notification) {
         if ("concept_proposal".equals(notification.getFirstProperty("type"))) {
-            String[] keywords = notification.getPropertyArray("keyword");
-            if (keywords != null) {
-                List<String> keywordsAsList = new ArrayList<String>();
-                for (String keyword : keywords) {
-                    keywordsAsList.add(keyword);
-                }
-                suggestKeywords(keywords, null, "concept");
-            }
+//            String[] keywords = notification.getPropertyArray("keyword");
+//            if (keywords != null) {
+//                List<String> keywordsAsList = new ArrayList<String>();
+//                for (String keyword : keywords) {
+//                    keywordsAsList.add(keyword);
+//                }
+//                suggestKeywords(keywords, null, "concept");
+//            }
+        	System.err.println("Received concept_proposal from "+notification.getSender());
             return true;
         } else if ("cmenricher agent".equals(notification.getSender())) {
             List<String> keywords = new ArrayList<String>();
             List<String> categories = new ArrayList<String>();
             String type = notification.getFirstProperty("proposal_type");
-            
+
             notification.getPropertyArray("relation_proposal");
             for (String cprop : notification.getPropertyArray("concept_proposal")) {
                 keywords.add(cprop);
@@ -171,7 +172,7 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
         if (notificator != null) {
             notificator.hide();
         }
-        
+
         notificator = createNotificator(this, suggestionPanel);
 
         JButton close = new JButton(Localization.getString("Mainframe.Input.Close"));
@@ -256,8 +257,8 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
     private void showKeywordSuggestion() {
 
         String input = JOptionPane.showInputDialog(
-        		Localization.getString("Dialog.Message.KeywordSuggestion.Line.1"), 
-        		Localization.getString("Dialog.Message.KeywordSuggestion.Line.2")); 
+        		Localization.getString("Dialog.Message.KeywordSuggestion.Line.1"),
+        		Localization.getString("Dialog.Message.KeywordSuggestion.Line.2"));
 
         if (input == null) {
             return;
@@ -269,7 +270,7 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
     protected void initComponents() {
 
     	JPanel topToolBarPanel = new JPanel(new GridLayout(1, 0));
-        
+
         // topToolBarPanel.setBorder(BorderFactory.createTitledBorder(Localization.getString("Mainframe.Toolbar.Session.Status")));
 
         //JPanel sessionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -345,7 +346,7 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
 //        }
 //        sessionPanel.add(testSuggestKeywordButton);
 //        topToolBarPanel.add(sessionPanel);
-        
+
         cmapPanel = new ConceptMapPanel(conceptMap);
         cmapPanel.setBackground(Color.WHITE);
         conceptDiagramView = cmapPanel.getDiagramView();
@@ -354,7 +355,7 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
         JPanel palettePane = new PalettePane(conceptMap, configuration, cmapPanel);
         topToolBarPanel.add(toolBar);
 //        topToolBarPanel.add(palettePane);
-        
+
         createKeywordSuggestionPanel();
 
         add(BorderLayout.NORTH, topToolBarPanel);
@@ -375,7 +376,7 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
     public IConceptMap getConceptMap() {
         return conceptMap;
     }
-    
+
     public void setConceptMap(IConceptMap conceptMap) {
         removeAll();
         this.conceptMap = conceptMap;
@@ -478,7 +479,7 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
         }
         return null;
     }
-    
+
     public void setEloURI(String eloURI) {
         actionLogger.setEloURI(eloURI);
     }
