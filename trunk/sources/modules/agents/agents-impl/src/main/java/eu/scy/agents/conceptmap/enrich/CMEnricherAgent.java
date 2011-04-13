@@ -36,7 +36,7 @@ public class CMEnricherAgent extends AbstractThreadedAgent {
             commandSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.COMMAND_SPACE_NAME);
             actionSpace = new TupleSpace(new User(getSimpleName()), host, port, false, false, AgentProtocol.ACTION_SPACE_NAME);
             Callback cb = new CMEnricherCallback();
-            actionSpace.eventRegister(Command.WRITE, new Tuple("action", String.class, Long.class, Field.createSemiformalField("*_help_requested"), String.class, "scymapper", String.class, String.class, String.class), cb, false);
+            actionSpace.eventRegister(Command.WRITE, new Tuple("action", String.class, Long.class, Field.createSemiformalField("*_help_requested"), String.class, "scymapper", String.class, String.class, String.class), cb, true);
         } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
