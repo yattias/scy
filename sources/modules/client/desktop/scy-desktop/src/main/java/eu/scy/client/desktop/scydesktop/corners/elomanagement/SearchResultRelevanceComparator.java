@@ -34,7 +34,7 @@ public class SearchResultRelevanceComparator implements Comparator<ISearchResult
       {
          return -1;
       }
-      else if (dif > 1.0)
+      else if (dif > 0.0)
       {
          return 1;
       }
