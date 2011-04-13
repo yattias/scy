@@ -539,7 +539,7 @@ public class SimulatorNode
 
     public override function onOpened(): Void {
         Timeline {
-            repeatCount: Timeline.INDEFINITE
+            repeatCount: 1
             keyFrames: [
                 KeyFrame {
                     time: 0.01s
