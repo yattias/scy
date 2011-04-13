@@ -83,8 +83,7 @@ public class BackgroundEloBasedSearch extends BackgroundSearch
                   if (previousQueryResult != null)
                   {
                      newQueryResults.put(searchResult.getUri(), new SimpleSearchResult(
-                        searchResult.getUri(), searchResult.getRelevance()
-                        * previousQueryResult.getRelevance()));
+                        searchResult.getUri(), searchResult.getRelevance()));
                   }
                }
                queryResults = newQueryResults;
