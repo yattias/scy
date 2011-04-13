@@ -480,7 +480,7 @@
 			<local:portfolioAssessingCanvas id="pfassess" width="100%" creationPolicy="all" height="100%" showEffect="{showEffect}" />
 		</mx:ViewStack>
 		<s:Image id="animateImage" visible="false" includeInLayout="false" />
-		<s:Label fontSize="8" right="0" bottom="0" text="v.2.8" />
+		<s:Label fontSize="8" right="0" bottom="0" text="v.2.9" />
 	</s:Group>
 
 <!--
