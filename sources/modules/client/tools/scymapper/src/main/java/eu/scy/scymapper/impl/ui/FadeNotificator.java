@@ -31,7 +31,7 @@ import org.apache.log4j.Logger;
 public class FadeNotificator implements ComponentListener, TimingTarget, Notificator {
 
     private final static Logger logger = Logger.getLogger(FadeNotificator.class);
-	
+
     private int duration = 400;
 
     public enum Position {
@@ -60,7 +60,7 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Notific
     private int contentHeight;
 
     private int xOffset;
-    
+
     private int yOffset;
 
     private boolean visible;
@@ -129,7 +129,7 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Notific
         parentsRootPane.setGlassPane(glassPane);
         parentsRootPane.getGlassPane().setVisible(true);
     }
- 
+
     public FadeNotificator(JComponent parent, JComponent content, Position position) {
     	this(parent, content, position, 0, 0);
     }
@@ -146,7 +146,7 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Notific
     public void setBorderPainted(boolean enabled) {
         this.borderPainted = enabled;
     }
-    
+
     /**
      * Sets the x-axis offset for the element, to fade in.
      * Values greater then zero move the element to the right,
@@ -157,7 +157,7 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Notific
     public void setXOffset(int x) {
     	xOffset = x;
     }
-    
+
     /**
      * Sets the y-axis offset for the element, to fade in.
      * Values greater then zero move the element above,
@@ -168,7 +168,7 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Notific
     public void setYOffset(int y) {
     	yOffset = y;
     }
-    
+
     /**
      * Current x-axis offset, the element fades in.
      * Values greater then zero move the element above,
@@ -386,6 +386,9 @@ public class FadeNotificator implements ComponentListener, TimingTarget, Notific
                 break;
         }
         glassPane.repaint();
+    }
+    public void hideNow(){
+        //To be implemented
     }
 
 }
