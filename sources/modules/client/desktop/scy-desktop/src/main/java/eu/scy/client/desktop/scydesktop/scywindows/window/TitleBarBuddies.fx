@@ -39,7 +39,7 @@ public class TitleBarBuddies extends TitleBarItemList, TooltipCreator {
    def spacing = 5.0;
 
    public function buddiesChanged(): Void {
-      updateItems()
+      FX.deferAction(updateItems)
    }
 
    public override function create(): Node {

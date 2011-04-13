@@ -110,7 +110,7 @@ public class LasInfoDisplay extends CustomNode {
                         hfill: true
                      }
                      font: Font.font(fontFamily, FontWeight.BOLD, titleFontSize)
-                     text: las.mainAnchor.title
+                     text: las.title
                   }
                //                  Group {
                //                     content: progressDisplay

@@ -21,7 +21,7 @@ public class TitleBarButtons extends TitleBarItemList, TitleBarButtonManager {
 
    public-init var tooltipManager: TooltipManager;
    public-init var windowStyler: WindowStyler;
-   public override var titleBarButtons on replace { updateItems() };
+   public override var titleBarButtons on replace { FX.deferAction(updateItems) };
    var eloIconButtons: EloIconButton[];
    def actionScheme = 1;
 
