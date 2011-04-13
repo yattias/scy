@@ -225,7 +225,10 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
 
     @Override
     public void suggestKeywords(String[] keywords, String[] categories, String type) {
-
+    	if (keywords==null || keywords.length==0){
+    		System.err.println("Keywords-Array is null or empty in suggestKeywords!");
+    		return;
+    	}
         if (helpMode == Help.VOLUNTARY) {
             requestConceptHelpButton.setEnabled(true);
             requestRelationHelpButton.setEnabled(true);
