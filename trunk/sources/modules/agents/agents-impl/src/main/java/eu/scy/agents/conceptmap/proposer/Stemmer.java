@@ -3,6 +3,7 @@ package eu.scy.agents.conceptmap.proposer;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,7 +36,16 @@ public class Stemmer {
     private static void readStopwords(String lang) {
         stopwords = new HashSet<String>();
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(Stemmer.class.getResourceAsStream("/" + lang + "_stopwords.txt")));
+            InputStream stream = Stemmer.class.getResourceAsStream("/" + lang + "_stopwords.txt");
+            if (stream == null) {
+                System.err.println("Resource '/" + lang + "_stopwords.txt' not found");
+                stream = Stemmer.class.getResourceAsStream(lang + "_stopwords.txt");
+                if (stream == null) {
+                    System.err.println("Also resource '" + lang + "_stopwords.txt' without '/' not found. Skipping stopword elimination!");
+                    return;
+                }
+            }
+            BufferedReader br = new BufferedReader(new InputStreamReader(stream));
             String buffer = null;
             while ((buffer = br.readLine()) != null) {
                 try {
