@@ -59,7 +59,11 @@ public class Node {
 
     public void setLabel(String label) {
         this.label = label;
-        stemmedLabel = Stemmer.stemWordWise(label).toLowerCase();
+        if (label != null && !label.isEmpty()) {
+            stemmedLabel = Stemmer.stemWordWise(label).toLowerCase();
+        } else {
+            stemmedLabel = label;
+        }
     }
 
     public Edge[] getEdges() {

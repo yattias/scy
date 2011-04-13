@@ -171,7 +171,7 @@ public class CMProposerAgent extends AbstractThreadedAgent {
 
         Arrays.sort(strategies);
         // default, but will adapt at each call
-        con = new SWATConnection("en", "http://www.scy.eu/co2house#");
+        con = new SWATConnection("en", "http://www.scy.eu/ecosystem#");
     }
 
     @Override
