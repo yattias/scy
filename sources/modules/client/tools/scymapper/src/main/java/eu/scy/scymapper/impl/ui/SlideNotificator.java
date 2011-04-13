@@ -135,6 +135,14 @@ public class SlideNotificator implements Notificator {
 		animationTimer.start();
 	}
 
+	public void hideNow(){
+	    if (!window.isVisible()) return;
+	    window.setVisible(false);
+	    window.dispose();
+	    roller.setVisible(false);
+	    roller.dispose();
+	}
+
 	private BufferedImage makeOffscreenImage(JWindow w) {
 		Point tmpLoc = new Point(w.getLocation());
 		w.setLocation(-w.getWidth(), -w.getHeight());
