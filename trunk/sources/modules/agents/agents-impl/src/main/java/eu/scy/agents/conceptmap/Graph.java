@@ -230,18 +230,20 @@ public class Graph {
             return;
         }
         Set<Edge> es = edges.get(labelOrId);
-        if (es.size() > 1) {
-            throw new UnsupportedOperationException();
-        }
-        Edge e = es.iterator().next();
-        if (e != null) {
-            if (useStemming) {
-                removeEdge(labelOrId);
-                addEdge(e.getFromNode().getLabel(), e.getToNode().getLabel(), labelOrId, e.getStemmedLabel());
-            } else {
-                e.setLabel(label);
+        if (es != null) {
+            if (es.size() > 1) {
+                throw new UnsupportedOperationException();
             }
-            return;
+            Edge e = es.iterator().next();
+            if (e != null) {
+                if (useStemming) {
+                    removeEdge(labelOrId);
+                    addEdge(e.getFromNode().getLabel(), e.getToNode().getLabel(), labelOrId, e.getStemmedLabel());
+                } else {
+                    e.setLabel(label);
+                }
+                return;
+            }
         }
     }
 
