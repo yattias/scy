@@ -10,6 +10,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -466,7 +467,12 @@ public class ScyElo {
     }
 
     public Set<String> getTagNames(){
-        return getSocialTags().getTagNames();
+        SocialTags st = getSocialTags();
+        if (st != null) {
+            return st.getTagNames();
+        } else {
+            return new HashSet<String>();
+        }
     }
 
     public void removeSocialTag(String tagName, String username){
