@@ -32,7 +32,7 @@ import roolo.elo.metadata.keys.KeyValuePair;
 import roolo.elo.metadata.keys.SocialTags;
 
 /**
- * 
+ *
  * @author SikkenJ
  */
 public class ScyElo {
@@ -444,7 +444,7 @@ public class ScyElo {
         List<String> keywords = new ArrayList<String>();
         final List<KeyValuePair> keywordPairs = (List<KeyValuePair>) getMetadataValueContainer(keywordsKey).getValueList();
         for (KeyValuePair keyValuePair : keywordPairs) {
-            keywords.add(keyValuePair.getValue());
+            keywords.add(keyValuePair.getKey());
         }
         return keywords;
     }
@@ -544,7 +544,7 @@ public class ScyElo {
        }
        return null;
     }
-    
+
     public void setCreator(String creatorId){
    	 if (creatorId!=null && creatorId.length()>0){
    		 getMetadataValueContainer(creatorKey).setValue(new Contribute(creatorId,System.currentTimeMillis()));
@@ -553,7 +553,7 @@ public class ScyElo {
    		 getMetadata().deleteMetatadata(creatorKey);
    	 }
     }
-    
+
     public void setAccess(Access access) {
         // goes to /elol/metadata/lom/rights/copyrightAndOtherRestrictions
         // defines access limitations of an elo
@@ -622,7 +622,7 @@ public class ScyElo {
    public void setIconType(String iconType) {
        getMetadataValueContainer(iconTypeKey).setValue(iconType);
    }
-   
+
    public ColorSchemeId getColorSchemeId() {
       String colorSchemeIdString = (String) getMetadataValueContainer(colorSchemeIdKey).getValue();
       if (colorSchemeIdString!=null && colorSchemeIdString.length()>00){
@@ -641,7 +641,7 @@ public class ScyElo {
   public void setColorSchemeId(ColorSchemeId colorSchemeId) {
       getMetadataValueContainer(colorSchemeIdKey).setValue(colorSchemeId==null?null:colorSchemeId.toString());
   }
-  
+
     public URI getAssignmentUri() {
        return (URI) getMetadataValueContainer(assignmentUriKey).getValue();
    }
@@ -675,7 +675,7 @@ public class ScyElo {
      }
      getMetadataValueContainer(obligatoryInPortfolioKey).setValue(value);
   }
-   
+
    public URI getFeedbackOnEloUri() {
       return (URI) getMetadataValueContainer(feedbackOnKey).getValue();
   }
