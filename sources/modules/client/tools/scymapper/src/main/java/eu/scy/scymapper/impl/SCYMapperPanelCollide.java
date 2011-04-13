@@ -264,7 +264,7 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
                 }
             });
             suggestionPanel.add(BorderLayout.SOUTH, close);
-
+            notificator.hideNow();
             notificator.show();
         }
     }
