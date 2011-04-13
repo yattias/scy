@@ -107,7 +107,13 @@ package utility
 		
 		public static function getXMLFormattedELO(ob:Object):XML {
 			var newELO:XML = <elo />;
-			newELO.uri = <uri>{cdata((ob.uri).replace("#", "%23"))}</uri>;
+			var myPattern:RegExp = /#/gi; 
+			
+			var uri:String = ob.uri;
+			if(uri != null && uri != "") {
+				newELO.uri = <uri>{cdata(uri.replace(myPattern, "@"))}</uri>;
+			}
+			
 			newELO.catname = <catname>{cdata(ob.catname)}</catname>;
 			newELO.createdby = <createdby>{cdata(ob.createdby)}</createdby>;
 			newELO.thumbnail = <thumbnail>{cdata(ob.thumbnail)}</thumbnail>;
@@ -137,10 +143,22 @@ package utility
 			newELO.technicalformat = <technicalformat>{cdata(ob.technicalformat)}</technicalformat>;
 			newELO.rawdata = <rawdata />;
 			newELO.rawdata.id = <id>{cdata(ob.rawdataid)}</id>;
-			newELO.rawdata.text = <text>{cdata(ob.rawdatatext)}</text>;
-			newELO.rawdata.thumbnail = <thumbnail>{cdata(ob.rawdatathumb)}</thumbnail>;
-			newELO.rawdata.fullscreen = <fullscreen>{cdata(ob.rawdatafull)}</fullscreen>;
-			newELO.rawdata.dataset = <dataset>{cdata(ob.rawdatadataset)}</dataset>;
+			var rawdatatext:String = ob.rawdatatext;
+			if(rawdatatext != null && rawdatatext != "") {
+				newELO.rawdata.text = <text>{cdata((cleanHTML(rawdatatext)).replace(myPattern, "@"))}</text>;
+			}
+			var rawdatathumb:String = ob.rawdatathumb;
+			if(rawdatathumb != null && rawdatathumb != "") {
+				newELO.rawdata.thumbnail = <thumbnail>{cdata((rawdatathumb).replace(myPattern, "@"))}</thumbnail>;
+			}
+			var rawdatafull:String = ob.rawdatafull;
+			if(rawdatafull != null && rawdatafull != "") {
+				newELO.rawdata.fullscreen = <fullscreen>{cdata((rawdatafull).replace(myPattern, "@"))}</fullscreen>;	
+			}
+			var rawdatadataset:String = ob.rawdatadataset;
+			if(rawdatadataset != null && rawdatadataset != "") {
+				newELO.rawdata.dataset = <dataset>{cdata((rawdatadataset).replace(myPattern, "@"))}</dataset>;
+			}
 			newELO.inquiryquestion = <inquiryquestion>{cdata(ob.inquiryquestion)}</inquiryquestion>;
 			newELO.studentinquiry = <studentinquiry>{ob.studentinquiry}</studentinquiry>;
 			newELO.assessed = <assessed>false</assessed>;
