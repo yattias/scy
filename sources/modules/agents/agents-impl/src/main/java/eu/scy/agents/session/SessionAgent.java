@@ -345,7 +345,7 @@ public class SessionAgent extends AbstractRequestAgent {
 
 	private void handleToolClosed(IAction action) {
 		try {
-			getSessionSpace().delete(
+			getSessionSpace().deleteAll(
 					new Tuple(Session.TOOL, action.getUser(), action
 							.getContext(ContextConstants.tool), action
 							.getContext(ContextConstants.eloURI)));
