@@ -710,9 +710,21 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
         while (creatorTokenizer.hasMoreTokens()) {
 //               insert scyToolFactory.createNewScyToolNode(creatorTokenizer.nextToken(), window.eloType, window.eloUri, window, true) into scyToolsList.leftDrawerTools;
            var leftDrawerCreatorId = creatorTokenizer.nextToken();
-           if (not leftDrawerCreatorId.equals("feedbackQuestion") or
-               missionModelFX.getEloUris(false).contains(window.eloUri))
-                  insert scyToolFactory.createNewScyToolNode(leftDrawerCreatorId, window.eloType, window.eloUri, window, true) into scyToolsList.leftDrawerTools;
+           // TODO, remove these hard coded hacks!!!
+           var addDrawer = true;
+           if (leftDrawerCreatorId.equals("feedbackQuestion") and not missionModelFX.getEloUris(false).contains(window.eloUri)){
+              addDrawer = false;
+           }
+           if (leftDrawerCreatorId.equals("assingmentInfo") and window.scyElo.getAssignmentUri()==null){
+              addDrawer = false;
+           }
+           if (leftDrawerCreatorId.equals("resourcesInfo") and window.scyElo.getResourcesUri()==null){
+              addDrawer = false;
+           }
+
+           if (addDrawer){
+              insert scyToolFactory.createNewScyToolNode(leftDrawerCreatorId, window.eloType, window.eloUri, window, true) into scyToolsList.leftDrawerTools;
+           }
         };
       }
 //      }
