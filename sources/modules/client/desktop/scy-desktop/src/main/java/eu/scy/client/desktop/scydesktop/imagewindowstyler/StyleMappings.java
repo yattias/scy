@@ -47,6 +47,7 @@ public class StyleMappings
       styleMappings.addStyleMapping("scy/mathtool", "report", ColorSchemeId.FOUR);
       styleMappings.addStyleMapping("scy/formauthor", "report", ColorSchemeId.FIVE);
       styleMappings.addStyleMapping("scy/youtuber", "video", ColorSchemeId.SIX);
+      styleMappings.addStyleMapping("scy/webresourcer", "information2", ColorSchemeId.SEVEN);
       // functional role based mappings
       styleMappings.addStyleMapping(EloFunctionalRole.ARGUMENT, "debate_argument", ColorSchemeId.ONE);
       styleMappings.addStyleMapping(EloFunctionalRole.ARTEFACT_DESIGNED, "designed_artifact", ColorSchemeId.TWO);
