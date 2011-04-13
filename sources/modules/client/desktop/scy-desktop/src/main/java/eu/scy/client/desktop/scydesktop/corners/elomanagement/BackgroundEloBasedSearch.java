@@ -91,7 +91,7 @@ public class BackgroundEloBasedSearch extends BackgroundSearch
          }
       }
       List<ISearchResult> searchResults = new ArrayList<ISearchResult>(queryResults.values());
-//      Collections.sort(searchResults, new SearchResultRelevanceComparator());
+      Collections.sort(searchResults, new SearchResultRelevanceComparator());
       return searchResults;
 
    }
