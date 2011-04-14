@@ -56,7 +56,6 @@ public class ClosedWindow extends WindowElement {
 
    }
    def buddiesDisplayGroup = Group{
-
    }
 
    var textBackgroundFillRect: Rectangle;
@@ -88,8 +87,8 @@ public class ClosedWindow extends WindowElement {
    public function buddiesDisplayChanged(): Void{
       def lb = buddiesDisplay.layoutBounds;
       buddiesDisplayGroup.content = buddiesDisplay;
-      buddiesDisplayGroup.layoutX = -buddiesDisplay.layoutBounds.width + ThumbnailView.eloIconOffset -1;
-      buddiesDisplayGroup.layoutY = ArtSource.thumbnailHeight/2-buddiesDisplay.layoutBounds.height/2 - ThumbnailView.eloIconOffset;
+      buddiesDisplayGroup.layoutX = -buddiesDisplay.layoutBounds.width + ThumbnailView.eloIconOffset -21;
+      buddiesDisplayGroup.layoutY = ArtSource.thumbnailHeight/2-buddiesDisplay.layoutBounds.height/2 - ThumbnailView.eloIconOffset - 7;
    }
 
    public override function create(): Node {
