@@ -24,13 +24,13 @@ public class OperationFromDB {
         ArrayList<TypeOperation> listOp = new ArrayList();
         TypeOperation[] tabTypeOp = null;
         int nbOp = 0;
-        String query = "SELECT ID_TYPE_OPERATION, CODE, TYPE, COLOR_R, COLOR_G, COLOR_B FROM TYPE_OPERATION ;";
+        String query = "SELECT ID_TYPE_OPERATION, CODE, OPERATION_TYPE, COLOR_R, COLOR_G, COLOR_B FROM TYPE_OPERATION ;";
         
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("ID_TYPE_OPERATION");
         listFields.add("CODE");
-        listFields.add("TYPE");
+        listFields.add("OPERATION_TYPE");
         listFields.add("COLOR_R");
         listFields.add("COLOR_G");
         listFields.add("COLOR_B");
@@ -48,7 +48,7 @@ public class OperationFromDB {
             String code = rs.getColumnData("CODE");
             if (code == null)
                 continue;
-            s = rs.getColumnData("TYPE");
+            s = rs.getColumnData("OPERATION_TYPE");
             if (s == null)
                 continue;
             int type = 0;
@@ -123,7 +123,7 @@ public class OperationFromDB {
         querys[i++] = query1;
         querys[i++] = query2;
         for (int k=0; k<nb; k++){
-            String query3 = "INSERT INTO LIST_NO_OPERATION (ID_DATA_OPERATION, NO) VALUES ("+dbKey+", "+operation.getListNo().get(k)+"); ";
+            String query3 = "INSERT INTO LIST_NO_OPERATION (ID_DATA_OPERATION, OPERATION_NO) VALUES ("+dbKey+", "+operation.getListNo().get(k)+"); ";
             querys[i++] = query3;
         }
         v2 = new ArrayList();
@@ -181,7 +181,7 @@ public class OperationFromDB {
         for (int i=0; i<nb; i++){
             long dbKeyOp = (Long)(((ArrayList)list.get(i)).get(0));
             int no = (Integer)(((ArrayList)list.get(i)).get(1));
-            String query = "DELETE FROM LIST_NO_OPERATION WHERE ID_DATA_OPERATION = "+dbKeyOp+" AND NO = "+no+" ;";
+            String query = "DELETE FROM LIST_NO_OPERATION WHERE ID_DATA_OPERATION = "+dbKeyOp+" AND OPERATION_NO = "+no+" ;";
             querys[i] = query;
             
         }
@@ -205,7 +205,7 @@ public class OperationFromDB {
         for (int i=0; i<nbOp; i++){
             int n = listOperation.get(i).getListNo().size() ;
             for (int j=0; j<n; j++){
-                listQ.add("INSERT INTO LIST_NO_OPERATION (ID_DATA_OPERATION, NO) VALUES ("+listOperation.get(i).getDbKey()+", "+listOperation.get(i).getListNo().get(j)+") ;");
+                listQ.add("INSERT INTO LIST_NO_OPERATION (ID_DATA_OPERATION, OPERATION_NO) VALUES ("+listOperation.get(i).getDbKey()+", "+listOperation.get(i).getListNo().get(j)+") ;");
             }
         }
         int nb = listQ.size();

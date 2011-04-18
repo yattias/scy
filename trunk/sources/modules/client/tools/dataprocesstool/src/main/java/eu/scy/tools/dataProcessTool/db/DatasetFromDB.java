@@ -269,16 +269,16 @@ public class DatasetFromDB {
     /* chargement de tous les ds header d'un dataset donne */
     public static CopexReturn getAllDatasetHeaderFromDB(DataBaseCommunication dbC, long dbKeyDs,  int nbCol, ArrayList v){
         DataHeader[] tabHeader = new DataHeader[nbCol] ;
-        String query = "SELECT D.ID_HEADER, D.VALUE,D.UNIT, D.NO_COL, D.TYPE, D.DESCRIPTION, D.FORMULA_VALUE, D.SCIENTIFIC_NOTATION, D.NB_SHOWN_DECIMALS, D.NB_SIGNIFICANT_DIGITS, D.DATA_ALIGNMENT " +
+        String query = "SELECT D.ID_HEADER, D.HEADER_VALUE,D.UNIT, D.NO_COL, D.HEADER_TYPE, D.DESCRIPTION, D.FORMULA_VALUE, D.SCIENTIFIC_NOTATION, D.NB_SHOWN_DECIMALS, D.NB_SIGNIFICANT_DIGITS, D.DATA_ALIGNMENT " +
                 "FROM DATA_HEADER D, LINK_DATASET_HEADER L " +
                 "WHERE D.ID_HEADER = L.ID_HEADER AND L.ID_DATASET = "+dbKeyDs+" ;";
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("D.ID_HEADER");
-        listFields.add("D.VALUE");
+        listFields.add("D.HEADER_VALUE");
         listFields.add("D.UNIT");
         listFields.add("D.NO_COL");
-        listFields.add("D.TYPE");
+        listFields.add("D.HEADER_TYPE");
         listFields.add("D.DESCRIPTION");
         listFields.add("D.FORMULA_VALUE");
         listFields.add("D.SCIENTIFIC_NOTATION");
@@ -295,7 +295,7 @@ public class DatasetFromDB {
             if (s == null)
                 continue;
             long dbKey = Long.parseLong(s);
-            String value = rs.getColumnData("D.VALUE");
+            String value = rs.getColumnData("D.HEADER_VALUE");
             if (value == null)
                 continue;
             String unit = rs.getColumnData("D.UNIT");
@@ -310,7 +310,7 @@ public class DatasetFromDB {
             }catch(NumberFormatException e){
                 // System.out.println(e);
             }
-            String type = rs.getColumnData("D.TYPE");
+            String type = rs.getColumnData("D.HEADER_TYPE");
             if (type == null)
                 continue;
             String description = rs.getColumnData("D.DESCRIPTION");
@@ -423,17 +423,17 @@ public class DatasetFromDB {
     private static CopexReturn getAllNoOperation(DataBaseCommunication dbC, long dbKey, ArrayList v){
             // list des numeros de col/row surlesquells s'applique l'operation
             ArrayList<Integer> listNo = new ArrayList();
-            String query = "SELECT NO FROM LIST_NO_OPERATION WHERE ID_DATA_OPERATION = "+dbKey+" ;";
+            String query = "SELECT OPERATION_NO FROM LIST_NO_OPERATION WHERE ID_DATA_OPERATION = "+dbKey+" ;";
             ArrayList v2 = new ArrayList();
             ArrayList<String> listFields = new ArrayList();
-            listFields.add("NO");
+            listFields.add("OPERATION_NO");
             CopexReturn cr = dbC.sendQuery(query, listFields, v2);
             if (cr.isError())
                 return cr;
             int nbR = v2.size();
             for (int i=0; i<nbR; i++){
                 ResultSetXML rs = (ResultSetXML)v2.get(i);
-                String s = rs.getColumnData("NO");
+                String s = rs.getColumnData("OPERATION_NO");
                 if (s == null)
                     continue;
                 int no = 0;
@@ -450,13 +450,13 @@ public class DatasetFromDB {
     /* chargement des donnees d'un data set */
     public static CopexReturn getAllDatasetDataFromDB(DataBaseCommunication dbC, long dbKeyDs,  int nbRows, int nbCol, ArrayList v){
         Data[][] tabData = new Data[nbRows][nbCol] ;
-        String query = "SELECT D.ID_DATA, D.VALUE, D.NO_COL, D.NO_ROW, D.IS_IGNORED " +
-                "FROM COPEX_DATA D, LINK_DATASET_DATA L " +
+        String query = "SELECT D.ID_DATA, D.DATA_VALUE, D.NO_COL, D.NO_ROW, D.IS_IGNORED " +
+                "FROM FITEX_DATA D, LINK_DATASET_DATA L " +
                 "WHERE D.ID_DATA = L.ID_DATA AND L.ID_DATASET = "+dbKeyDs+" ;";
         ArrayList v2 = new ArrayList();
         ArrayList<String> listFields = new ArrayList();
         listFields.add("D.ID_DATA");
-        listFields.add("D.VALUE");
+        listFields.add("D.DATA_VALUE");
         listFields.add("D.NO_COL");
         listFields.add("D.NO_ROW");
         listFields.add("D.IS_IGNORED");
@@ -471,7 +471,7 @@ public class DatasetFromDB {
             if (s == null)
                 continue;
             long dbKey = Long.parseLong(s);
-            String value = rs.getColumnData("D.VALUE");
+            String value = rs.getColumnData("D.DATA_VALUE");
             if (value == null)
                 continue;
             s = rs.getColumnData("D.NO_COL");
@@ -551,7 +551,7 @@ public class DatasetFromDB {
         String queryDelOp = "DELETE FROM DATA_OPERATION WHERE ID_DATA_OPERATION IN (SELECT ID_DATA_OPERATION FROM LINK_DATASET_OPERATION WHERE ID_DATASET = "+dbKeyDataset+ ") ;";
         String queryDelLinkOp = "DELETE FROM LINK_DATASET_OPERATION WHERE ID_DATASET = "+dbKeyDataset+ " ;";
         // suppression des donnees
-        String queryDelData = "DELETE FROM COPEX_DATA WHERE ID_DATA IN (SELECT ID_DATA FROM LINK_DATASET_DATA WHERE ID_DATASET = "+dbKeyDataset+ " );";
+        String queryDelData = "DELETE FROM FITEX_DATA WHERE ID_DATA IN (SELECT ID_DATA FROM LINK_DATASET_DATA WHERE ID_DATASET = "+dbKeyDataset+ " );";
         String queryDelLinkData = "DELETE FROM LINK_DATASET_DATA WHERE ID_DATASET = "+dbKeyDataset+ " ;";
         // suppression des header
         String queryDelHeader = "DELETE FROM DATA_HEADER WHERE ID_HEADER IN (SELECT ID_HEADER FROM LINK_DATASET_HEADER WHERE ID_DATASET = "+dbKeyDataset+ " );";
@@ -612,7 +612,7 @@ public class DatasetFromDB {
             listIdData += ","+listData.get(i).getDbKey();
         ArrayList v = new ArrayList();
         String[] querys = new String[1];
-        String query = "UPDATE COPEX_DATA SET IS_IGNORED =  "+ignore+" WHERE ID_DATA IN ("+listIdData+") ;" ;
+        String query = "UPDATE FITEX_DATA SET IS_IGNORED =  "+ignore+" WHERE ID_DATA IN ("+listIdData+") ;" ;
         querys[0] = query ;
         CopexReturn cr = dbC.executeQuery(querys, v);
         return cr;
@@ -636,7 +636,7 @@ public class DatasetFromDB {
         String nbSigDig = "NULL";
         if(nbSignificantDigits != DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED)
             nbSigDig = Integer.toString(nbSignificantDigits);
-        String query = "INSERT INTO DATA_HEADER (ID_HEADER, VALUE, UNIT,NO_COL, TYPE, DESCRIPTION, FORMULA_VALUE, SCIENTIFIC_NOTATION, NB_SHOWN_DECIMALS, NB_SIGNIFICANT_DIGITS) VALUES (NULL, '"+value+"', '"+unit+"', "+noCol+", '"+type+"', '"+description+"', "+s+", "+sn+", "+nbShDec+", "+nbSigDig+") ;";
+        String query = "INSERT INTO DATA_HEADER (ID_HEADER, HEADER_VALUE, UNIT,NO_COL, HEADER_TYPE, DESCRIPTION, FORMULA_VALUE, SCIENTIFIC_NOTATION, NB_SHOWN_DECIMALS, NB_SIGNIFICANT_DIGITS) VALUES (NULL, '"+value+"', '"+unit+"', "+noCol+", '"+type+"', '"+description+"', "+s+", "+sn+", "+nbShDec+", "+nbSigDig+") ;";
         // System.out.println("createDataHeaderInDB : "+query);
         String queryID = "SELECT max(last_insert_id(`ID_HEADER`))   FROM DATA_HEADER ;";
         // System.out.println("createDataHeaderInDB : "+queryID);
@@ -677,7 +677,7 @@ public class DatasetFromDB {
         String nbSigDig = "NULL";
         if(nbSignificantDigits != DataConstants.NB_SIGNIFICANT_DIGITS_UNDEFINED)
             nbSigDig = Integer.toString(nbSignificantDigits);
-        String query = "UPDATE DATA_HEADER SET VALUE = '"+value+"', UNIT= '"+unit+"' , DESCRIPTION = '"+description+"', TYPE = '"+type+"', FORMULA_VALUE = "+s+", SCIENTIFIC_NOTATION = "+sn+", NB_SHOWN_DECIMALS = "+nbShDec+", NB_SIGNIFICANT_DIGITS = "+nbSigDig+"  WHERE ID_HEADER = "+dbKey+" ;";
+        String query = "UPDATE DATA_HEADER SET HEADER_VALUE = '"+value+"', UNIT= '"+unit+"' , DESCRIPTION = '"+description+"', HEADER_TYPE = '"+type+"', FORMULA_VALUE = "+s+", SCIENTIFIC_NOTATION = "+sn+", NB_SHOWN_DECIMALS = "+nbShDec+", NB_SIGNIFICANT_DIGITS = "+nbSigDig+"  WHERE ID_HEADER = "+dbKey+" ;";
         querys[0] = query ;
         CopexReturn cr = dbC.executeQuery(querys, v);
         return cr;
@@ -700,8 +700,8 @@ public class DatasetFromDB {
     /* creation d'un data - retourne en v[0] le nouveau dbKey */
     public static CopexReturn createDataInDB(DataBaseCommunication dbC, String value, int noRow, int noCol, long dbKeyDs, ArrayList v){
         value = MyUtilities.replace("\'",value,"''") ;
-        String query = "INSERT INTO COPEX_DATA (ID_DATA, VALUE, NO_ROW, NO_COL, IS_IGNORED) VALUES (NULL, '"+value+"', "+noRow+", "+noCol+", 0) ;";
-        String queryID = "SELECT max(last_insert_id(`ID_DATA`))   FROM COPEX_DATA ;";
+        String query = "INSERT INTO FITEX_DATA (ID_DATA, DATA_VALUE, NO_ROW, NO_COL, IS_IGNORED) VALUES (NULL, '"+value+"', "+noRow+", "+noCol+", 0) ;";
+        String queryID = "SELECT max(last_insert_id(`ID_DATA`))   FROM FITEX_DATA ;";
         ArrayList v2 = new ArrayList();
         CopexReturn cr = dbC.getNewIdInsertInDB(query, queryID, v2);
         if (cr.isError())
@@ -722,7 +722,7 @@ public class DatasetFromDB {
         value = MyUtilities.replace("\'",value,"''") ;
         ArrayList v = new ArrayList();
         String[] querys = new String[1];
-        String query = "UPDATE COPEX_DATA SET VALUE = '"+value+"' WHERE ID_DATA = "+dbKey+" ;";
+        String query = "UPDATE FITEX_DATA SET DATA_VALUE = '"+value+"' WHERE ID_DATA = "+dbKey+" ;";
         querys[0] = query ;
         CopexReturn cr = dbC.executeQuery(querys, v);
         return cr;
@@ -1130,7 +1130,7 @@ public class DatasetFromDB {
             listDbKeyData += ", "+listData.get(i).getDbKey() ;
         }
         String queryDelLink = "DELETE FROM LINK_DATASET_DATA WHERE ID_DATA IN ( "+listDbKeyData+") ;";
-        String queryDelData = "DELETE FROM COPEX_DATA WHERE ID_DATA IN ( "+listDbKeyData+") ;";
+        String queryDelData = "DELETE FROM FITEX_DATA WHERE ID_DATA IN ( "+listDbKeyData+") ;";
         String[] querys = new String[2];
         querys[0] = queryDelLink;
         querys[1] = queryDelData;
@@ -1171,7 +1171,7 @@ public class DatasetFromDB {
         for (int i=0; i<nbRows; i++){
             for (int j=0; j<nbCols; j++){
                 if (data[i][j] != null)
-                    listQuerys.add("UPDATE COPEX_DATA SET NO_COL ="+j+" , NO_ROW ="+i+"  WHERE ID_DATA = "+data[i][j].getDbKey()+" ;");
+                    listQuerys.add("UPDATE FITEX_DATA SET NO_COL ="+j+" , NO_ROW ="+i+"  WHERE ID_DATA = "+data[i][j].getDbKey()+" ;");
             }
         }
         //data header
