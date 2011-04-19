@@ -415,6 +415,13 @@ public class RepositoryWrapper implements IRepository
    @Override
    public List<IELO> retrieveAllELOs()
    {
+       //shouldnt be used from within client
       throw new UnsupportedOperationException("Not supported yet.");
    }
+
+    @Override
+    public List<ISearchResult> listAllElos() {
+        //shouldnt be used from within client
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
