@@ -126,8 +126,8 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
                 idUser = "2";
                 mission= "1";
                 group = "1";
-                labDoc = "10113";
-                labDocName = "test";
+                labDoc = "10148";
+                labDocName = "default_proc";
 //                copexURL = new URL("http://labbook.imag.fr/pages/");
 //                idUser = "1";
 //                mission= "5";

@@ -528,7 +528,7 @@ public class ExperimentalProcedureFromDB {
     public static  CopexReturn getListNamedActionFromDB(DataBaseCommunication dbC, long dbKeyProc, Locale locale, ArrayList<TypeMaterial> listTypeMaterial, ArrayList<PhysicalQuantity> listPhysicalQuantity,  ArrayList v){
         ArrayList<InitialNamedAction> l = new ArrayList();
         String lib = "LIB_"+locale.getLanguage() ;
-        String query = "SELECT A.ID_ACTION_NOMMEE, A.CODE,A.DRAW, A.DEFAULT_DRAW, A.REPEAT, A.IS_SETTING,  A."+lib+" " +
+        String query = "SELECT A.ID_ACTION_NOMMEE, A.CODE,A.DRAW, A.DEFAULT_DRAW, A.IS_REPEAT, A.IS_SETTING,  A."+lib+" " +
                 "FROM INITIAL_ACTION_NOMMEE A, LINK_INITIAL_PROC_ACTION_NOMMEE L " +
                 "WHERE L.ID_PROC = "+dbKeyProc +" AND L.ID_ACTION_NOMMEE = A.ID_ACTION_NOMMEE ORDER BY A.CODE ;";
         ArrayList v2 = new ArrayList();
@@ -537,7 +537,7 @@ public class ExperimentalProcedureFromDB {
         listFields.add("A.CODE");
         listFields.add("A.DRAW");
         listFields.add("A.DEFAULT_DRAW");
-        listFields.add("A.REPEAT");
+        listFields.add("A.IS_REPEAT");
         listFields.add("A.IS_SETTING");
         listFields.add("A."+lib);
 
@@ -563,7 +563,7 @@ public class ExperimentalProcedureFromDB {
             if(s != null){
                 defaultDraw = CopexUtilities.getElement(s);
             }
-            s = rs.getColumnData("A.REPEAT");
+            s = rs.getColumnData("A.IS_REPEAT");
             if (s == null)
                 continue;
             boolean repeat = s.equals("1");
@@ -594,8 +594,6 @@ public class ExperimentalProcedureFromDB {
                 if (cr.isError())
                     return cr;
                 action = (InitialNamedAction)v3.get(0);
-
-
             }else
                 action = new InitialNamedAction(dbKey, code, CopexUtilities.getLocalText(libelle, locale), isSetting, variable, draw, repeat, defaultDraw);
             l.add(action);
@@ -1690,7 +1688,7 @@ public class ExperimentalProcedureFromDB {
     public static CopexReturn getMaterialParametersFromDB(DataBaseCommunication dbC, Locale locale,long idMat,ArrayList<PhysicalQuantity> listPhysicalQuantity,  ArrayList v){
         ArrayList<Parameter> listP = new ArrayList();
         int nbPhysQ = listPhysicalQuantity.size();
-        String query = "SELECT ID_QUANTITY, QUANTITY_NAME, TYPE, VALUE, UNCERTAINTY, UNIT " +
+        String query = "SELECT ID_QUANTITY, QUANTITY_NAME, QUANTITY_TYPE, QUANTITY_VALUE, UNCERTAINTY, UNIT " +
                 " FROM QUANTITY WHERE ID_QUANTITY IN " +
                 "(SELECT ID_PARAMETER FROM LINK_MATERIAL_PARAMETERS WHERE ID_MATERIAL =  "+idMat+ ") ;";
 
@@ -1698,8 +1696,8 @@ public class ExperimentalProcedureFromDB {
         ArrayList<String> listFields = new ArrayList();
         listFields.add("ID_QUANTITY");
         listFields.add("QUANTITY_NAME");
-        listFields.add("TYPE");
-        listFields.add("VALUE");
+        listFields.add("QUANTITY_TYPE");
+        listFields.add("QUANTITY_VALUE");
         listFields.add("UNCERTAINTY");
         listFields.add("UNIT");
 
@@ -1716,10 +1714,10 @@ public class ExperimentalProcedureFromDB {
             String name = rs.getColumnData("QUANTITY_NAME");
             if (name == null)
                 continue;
-            String type = rs.getColumnData("TYPE");
+            String type = rs.getColumnData("QUANTITY_TYPE");
             if (type == null)
                 continue;
-            s = rs.getColumnData("VALUE");
+            s = rs.getColumnData("QUANTITY_ALUE");
             if (s == null)
                 continue;
             Double value = Double.parseDouble(s);
@@ -2389,7 +2387,7 @@ public class ExperimentalProcedureFromDB {
             String qUncertainty = material.getListParameters().get(j).getUncertainty(locale) ;
             qUncertainty =  AccesDB.replace("\'",qUncertainty,"''") ;
             long dbKeyUnit = material.getListParameters().get(j).getUnit().getDbKey() ;
-            String queryQ = "INSERT INTO QUANTITY (ID_QUANTITY, QUANTITY_NAME, TYPE, VALUE, UNCERTAINTY, UNIT) " +
+            String queryQ = "INSERT INTO QUANTITY (ID_QUANTITY, QUANTITY_NAME, QUANTITY_TYPE, QUANTITY_VALUE, UNCERTAINTY, UNIT) " +
             " VALUES (NULL,'"+qName+"' , '"+qType+"',"+qValue+" , '"+qUncertainty+"',"+dbKeyUnit+" ); ";
             String queryIDQ = "SELECT max(last_insert_id(`ID_QUANTITY`))   FROM QUANTITY ;";
             ArrayList v3 = new ArrayList();
