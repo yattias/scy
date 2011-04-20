@@ -1,5 +1,7 @@
 package eu.scy.agents.conceptmap;
 
+import java.io.IOException;
+import org.xml.sax.SAXException;
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Configuration;
 import info.collide.sqlspaces.commons.Configuration.Database;
@@ -28,7 +30,7 @@ public class StudySetupStarter {
         startAgents();
     }
 
-    private void startServer(String[] args) throws TupleSpaceException {
+    private void startServer(String[] args) throws TupleSpaceException, SAXException, IOException {
         setConf(Configuration.getConfiguration());
         getConf().setDbType(Database.MYSQL);
 
