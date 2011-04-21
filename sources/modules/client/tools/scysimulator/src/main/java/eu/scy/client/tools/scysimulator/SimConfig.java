@@ -74,21 +74,7 @@ public class SimConfig {
             this.simulationName = xmlElem.getAttributeValue("simulationname");
             this.simulationUri = xmlElem.getAttributeValue("simulationuri");
 	    String modeString = xmlElem.getAttributeValue("mode", "not_found");
-	    if (modeString.equals("explore_only")) {
-		this.mode = MODE.explore_only;
-	    } else if (modeString.equals("explore_simple_data")) {
-		this.mode = MODE.explore_simple_data;
-	    } else if (modeString.equals("collect_simple_data")) {
-		this.mode = MODE.collect_simple_data;
-	    } else if (modeString.equals("collect_data")) {
-		this.mode = MODE.collect_data;
-	    } else if (modeString.equals("not_found")) {
-		debugLogger.severe("mode not found, set to default 'collect_data'");
-		this.mode = MODE.collect_data;
-	    } else {
-		debugLogger.severe("unknown mode, set to default 'collect_data'");
-		this.mode = MODE.collect_data;
-	    }
+	    this.mode = getModeFromString(modeString);
             Element xmlVariable;
             for (Iterator<Element> xmlVariables = xmlElem.getChildren("variable").iterator(); xmlVariables.hasNext();) {
                 xmlVariable = xmlVariables.next();
@@ -102,6 +88,24 @@ public class SimConfig {
             throw (new JDOMException(
                     "SimConfig expects <simconfig> as root element, but found <" + xmlElem.getName() + ">."));
         }
+    }
+
+    public static MODE getModeFromString(String modeString) {
+	if (modeString.equals("explore_only")) {
+		return MODE.explore_only;
+	    } else if (modeString.equals("explore_simple_data")) {
+		return MODE.explore_simple_data;
+	    } else if (modeString.equals("collect_simple_data")) {
+		return MODE.collect_simple_data;
+	    } else if (modeString.equals("collect_data")) {
+		return MODE.collect_data;
+	    } else if (modeString.equals("not_found")) {
+		debugLogger.severe("mode not found, set to default 'collect_data'");
+		return MODE.collect_data;
+	    } else {
+		debugLogger.severe("unknown mode, set to default 'collect_data'");
+		return MODE.collect_data;
+	    }
     }
 
     public MODE getMode() {
