@@ -308,56 +308,22 @@ public class SimulatorNode
             } else {
                 logger.info("notification not processed, DataCollector == null");
             }
-        }
+        } else if (notification.getFirstProperty("set_mode")!=null) {
+	    FX.deferAction(function (): Void {
+		setMode(SimConfig.getModeFromString(notification.getFirstProperty("set_mode")));
+	    });
+	    success = true;
+	}
         return success;
     }
 
-    public override function  loadElo(uri:URI) {
+    public override function loadElo(uri:URI) {
         doLoadElo(uri);
     }
 
-    public override  function  create ( ): Node {
+    public override  function create ( ): Node {
         switchSwingDisplayComponent(simquestPanel);
 	simulatorContent
-//	return Group {
-//            blocksMouse:true;
-//            // cache: bind scyWindow.cache
-//            content  : [
-//            VBox {
-//                    translateY:  spacing    ;
-//                            spacing: spacing;
-//                            content: [
-//                                HBox {
-//                                    translateX: spacing;
-//                                    spacing: spacing;
-//                                    content: [
-//                                        Button {
-//                                            text: ##"Save Simconfig"
-//                                            action: function() {
-//                                                doSaveSimconfig();
-//                                            }
-//                                        }
-//                                        Button {
-//                                            text: ##"SaveAs Simconfig"
-//                                            action: function() {
-//                                                doSaveAsSimconfig();
-//                                            }
-//                                        }
-//					saveDatasetButton
-//
-//                                    /*Button {
-//                                    text: "test thumbnail"
-//                                    action: function () {
-//                                    testThumbnail();
-//                                    }
-//                                    }*/
-//                                    ]
-//                                }
-//                                simulatorContent
-//                            ]
-//                        }
-//                    ]
-//                };;
     }
 
     function switchSwingDisplayComponent(newComponent: JComponent): Void {
@@ -419,7 +385,7 @@ public class SimulatorNode
 	    saveAsDatasetTitleBarButton.enabled = true;
 	    saveAsTitleBarButton.enabled = true;
 	    saveTitleBarButton.enabled = true;
-	    setMode(simConfig, dataCollector);
+	    setMode(simConfig.getMode());
 
 	    split.setBottomComponent(dataCollector);
             split.setTopComponent(scroller);
@@ -456,25 +422,27 @@ public class SimulatorNode
         }
     }
 
-    function setMode(simConfig: SimConfig, dataCollector: DataCollector): Void {
-	logger.info("setting mode to {simConfig.getMode().toString()}");
-	dataCollector.setMode(simConfig.getMode());
-	if (simConfig.getMode().equals(MODE.explore_only)) {
+    function setMode(newMode:MODE): Void {
+	logger.info("setting mode to {newMode.toString()}");
+	if (dataCollector != null) {
+	    dataCollector.setMode(newMode);
+	}
+	if (newMode.equals(MODE.explore_only)) {
 	    // only simulation is visible
 	    // datasets cannot be stored
 	    //saveDatasetButton.visible = false;
 	    saveAsDatasetTitleBarButton.enabled = false;
-	} else if (simConfig.getMode().equals(MODE.explore_simple_data)) {
+	} else if (newMode.equals(MODE.explore_simple_data)) {
 	    // only simulation is visible
 	    // saving a dataset = saving one row of selected variables
 	    //saveDatasetButton.visible = true;
 	    saveAsDatasetTitleBarButton.enabled = true;
-	} else if (simConfig.getMode().equals(MODE.collect_simple_data)) {
+	} else if (newMode.equals(MODE.collect_simple_data)) {
 	    // datacollector is visible, but not "select variables button"
 	    // uses pre-defined set of relevant variables
 	    //saveDatasetButton.visible = true;
 	    saveAsDatasetTitleBarButton.enabled = true;
-	} else if (simConfig.getMode().equals(MODE.collect_data)) {
+	} else if (newMode.equals(MODE.collect_data)) {
 	    // full features
 	    //saveDatasetButton.visible = true;
     	    saveAsDatasetTitleBarButton.enabled = true;
