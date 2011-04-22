@@ -22,13 +22,13 @@
           <dateTime>2011-03-15T16:41:56.873+0100</dateTime>
         </date>
       </contribute>
-      <version>2</version>
+      <version>5</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1300203641677</dateCreated>
         <dateFirstUserSaveKey>1300203716872</dateFirstUserSaveKey>
-        <dateLastModified>1300464925571</dateLastModified>
+        <dateLastModified>1303386092201</dateLastModified>
       </customElements>
       <format>scy/mapping</format>
     </technical>
@@ -40,7 +40,11 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/40000/0/The+travel+of+evidences.scymapping</entry>
       </identifier>
-      <las />
+      <las>Information</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40047/0/Forensic+SCY-Lab.scymissionspecification</entry>
+      </missionRunning>
       <title>
         <string language="en">The travel of evidences</string>
       </title>
@@ -55,9 +59,12 @@
       </resource>
     </relation>
   </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAARCAYAAABKFStkAAAEkklEQVR42u1WR0skURD2B6mIFwVRPChexAQGRD0omAUxIpjAAIoIgiLmnFDMOeecc0RBxQBeRAVBreUreEtPv57d2VVm92BDMd2vK3z1Vegxoe/rU5fJNwXfBP6fBL6/vxtVPj4+fgvW2JgMEYlAJHJ9fU3b29u0vLxMKysrRpG9vT16eHjQS9zl5SVtbW0ZFZMhIhF4dXVFh4eHdH9/T7e3t/yrlru7O837v9HDOQSx1tfX6fHxUSro+fk5nZyc6GD6bNzfvTNUz0Rd6dXVVSbx9PTUqAKSEHdpaUmHwNfXVyb2X2AyRCQCx8fHORl0oZYcHx9zN0COjo706v2pHBwc0M3NDXV3d+sQ+PLyQvPz83R2dqbXVuD5akyGiA6Bb29vNDIywszu7u5KAoOGhgZKSkqitLQ0JltL729kZ2eHd29HR4dE4MzMDBOjZYfzyspKxpSens5kfxUmQ0TqwIGBAe6GjY0NHdnc3GTCPD09aXp6miYmJniJ4t3+/j6TCxKghw8CfsU9lj98Qg9nat9CLi4uqLW1VSIQsQBWrQ+/Q0ND5OrqSnNzc6yHFYR3iAdM+BgqMcEGvvRhQg44h0BHKz8lBqkDe3t7WVH9tQGwwcFB8vLy4o4QZ9hPHh4eZG1tTampqTQ7O0vBwcE0NjbGxQgICKDGxkZycnIid3d3HlHYaX3R0PnNzc06BD4/P/NUALhaf21tjf0h/sLCwk9Mi4uL5OLiQlZWVpSdnc32oaGhjA0FiomJofLycnJwcCAfHx8uAmyRS0FBAZ9D2tra+MzNzY1sbW0pLy9P+hcgEdjZ2cnMYhQASikwhpOIiAjKzMzkigMsCEUwCwsLTgoA29vbeaygj2SKioooOTmZ4uLiJL+IBUHV6+vrJQJRCBCjxCRskERWVhZjysnJoampKcaEKWlpaSEzMzMmISgoiEZHRyk+Pp4KCwvJ3t6eysrKKDIyknJzc3/6hu3w8DCfwWdPTw/Z2Njwe2BQY5cIBBEABVK0BI6QUGJiIuXn51NfXx93JQgyNzfnICCtuLiY7OzsqL+/n/z9/ZmYuro66urq0vSLhDFaNTU1EoFIQhRKHybEQZdhH6IJ/Pz8GJOpqSl3b0pKClVXV5OjoyNjQOeh22tra9lWYEBeaA7s05CQECYJRKMA6E7oKGNLBKJqAIR9pxaMJaqDkcBHBERBAByVt7S0ZFsUAbsyMDCQgzg7O/MZOgA+9PlG54MA5fX09MSEwI+WHXwKTFFRUVRRUcFji07He3Qg/hphjWAUw8PDmQR0IAqjxIT1BaKwFjDiuJ+cnGTfwIVn3CvjSwSiUxAAoNQCx3ACEGFhYfwM8fX1pYSEBPL29uaxRlDswaqqKg6CLzc6AiOBzgQItW+xh0pLSyUCsbfgV20DP6LbgCc6OponAusDZ+gmdBqKi5zEJMAXuhG4YYeuFz7ReRjr2NhYysjI4NjY48gH2NUYJALhDBUBELWg1WGEEUbCeBZn+MAgIaEr9HCPX6EjztSC6mPJl5SUSAQ2NTWx/a8wwfdXYBJ+ILhX+tLCbvJ9fe76ARPXVejPsl8eAAAAAElFTkSuQmCC</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAeElEQVR42u3QMQEAAAwCIPuX1hDbCRFIOYkCgQIFCkSgQIECEShQoEAEChQoEIECBQpEoECBAhEoUKBABAoUKBCBAgUKRKBAgQIRKFCgQIEIFChQIAIFChSIQIECBSJQoECBCBQoUCACBQoUiECBAgUiUKBAgQj8M5Hzoc7Xq3ytAAAAAElFTkSuQmCC</base64>
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">

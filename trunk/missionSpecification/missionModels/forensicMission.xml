@@ -8,7 +8,7 @@
 
    <bean name="missionConfigInput" class="eu.scy.client.desktop.scydesktop.tools.mission.springimport.BasicMissionConfigInput">
    
-      <property name="missionDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Information/LAS_Instruction.html"/>
+      <property name="missionDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/missionMapInstruction.html"/>
 	  
       <property name="colorSchemesEloUri" value="roolo://memory/40036/0/Color+schemes+Mission4.colorschemes"/>
 
@@ -17,6 +17,8 @@
       <property name="basicMissionMap">
          <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionMap">
 		 	<!--<property name="missionMapBackgroundImageUri" value="http://www.scy-lab.eu/content/en/mission4/loupe.png"/>-->
+			<property name="missionMapInstructionUri" value="http://www.scy-lab.eu/content/en/mission4/missionMapInstruction.html"/>
+            <property name="initialLasId" value="Information"/>
             <property name="loEloUris">
                <list>
                </list>
@@ -39,7 +41,7 @@
                            <value>Orientation</value>
                         </list>
                      </property>
-                     <property name="anchorEloId" value="conceptMap"/>
+                     <property name="anchorEloId" value="checklist"/>
                      <property name="intermediateEloIds">
                         <list>
                         </list>
@@ -102,10 +104,10 @@
                            <value>Analysis</value>
                         </list>
                      </property>
-                     <property name="anchorEloId" value="bioInterpretationData"/>
+                     <property name="anchorEloId" value="bioRepresentationData"/>
                      <property name="intermediateEloIds">
                         <list>
-                           <value>bioRepresentationData</value>
+                           <value>bioPictureData</value>
                         </list>
                      </property>
                   </bean>
@@ -143,6 +145,7 @@
                      <property name="anchorEloId" value="bioReport"/>
                      <property name="intermediateEloIds">
                         <list>
+							<value>bioPersonalReport</value>
                         </list>
                      </property>
                   </bean>
@@ -154,8 +157,8 @@
       <property name="basicMissionAnchors">
          <list>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="conceptMap"/>
-               <property name="uri" value="roolo://memory/40000/0/The+travel+of+evidences.scymapping"/>
+               <property name="id" value="checklist"/>
+               <property name="uri" value="roolo://memory/40094/0/Crime+scene+examination.rtf"/>
                <property name="iconType" value="Concept_map3"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Information/targetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Information/Assignments/A_conceptMap.html"/>
@@ -171,11 +174,11 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="bioChoiceTechnique"/>
-               <property name="uri" value="roolo://memory/40025/0/Technique+for+the+biological+analysis.rtf"/>
+               <property name="uri" value="roolo://memory/40096/0/Choice+of+techniques.rtf"/>
                <property name="iconType" value="Model"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/targetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Assignments/A_bioChoiceTechnique.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Resources/R_bioChoiceTechnique.html"/>
+               <!--<property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Resources/R_bioChoiceTechnique.html"/>-->
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
@@ -187,11 +190,11 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="bioGoalAnalysis"/>
-               <property name="uri" value="roolo://memory/40001/0/Goal+of+the+biological+analysis.rtf"/>
+               <property name="uri" value="roolo://memory/40095/0/Goal+of+the+analysis.rtf"/>
                <property name="iconType" value="Research_question"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/targetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Assignments/A_bioGoalAnalysis.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Resources/R_bioGoalAnalysis.html"/>
+               <!--<property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Orientation/Resources/R_bioGoalAnalysis.html"/>-->
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
@@ -203,7 +206,7 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="bioExperimentalProcedure"/>
-               <property name="uri" value="roolo://memory/40005/0/Experimental+procedure+for+biological+analysis.scyxproc"/>
+               <property name="uri" value="roolo://memory/40097/0/Experimental+procedure.scyxproc"/>
                <property name="iconType" value="Data"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Design/targetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Design/Assignments/A_bioExperimentalProcedure.html"/>
@@ -220,12 +223,12 @@
                </property>
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="bioInterpretationData"/>
-               <property name="uri" value="roolo://memory/40007/0/Interpretation+of+biological+results.scydraw"/>
-			   <property name="iconType" value="Dataset_processed"/>
+               <property name="id" value="bioPictureData"/>
+               <property name="uri" value="roolo://memory/40098/0/Picture+of+my+data.scyformauthor"/>
+			   <property name="iconType" value="Dataset"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/targetDescription.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Assignments/A_bioInterpretationData.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Resources/R_bioInterpretationData.html"/>
+               <!--<property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Assignments/A_bioPictureData.html"/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Resources/R_bioPictureData.html"/>-->
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
@@ -237,11 +240,11 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="bioRepresentationData"/>
-			   <property name="uri" value="roolo://memory/40048/0/Representation+of+biological+results.scydraw"/>
-               <property name="iconType" value="Dataset"/>
+			   <property name="uri" value="roolo://memory/40099/0/Visual+representation+of+data.scydraw"/>
+               <property name="iconType" value="Dataset_processed"/>
 			   <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/targetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Assignments/A_bioRepresentationData.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Resources/R_bioRepresentationData.html"/>
+               <!--<property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Experiment/Resources/R_bioRepresentationData.html"/>-->
                <property name="inputMissionAnchorIds">
                   <list>
                      <value>bioExperimentalProcedure</value>
@@ -254,14 +257,14 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="bioExperimentConclusion"/>
-               <property name="uri" value="roolo://memory/40009/0/Conclusion+of+biological+analysis.rtf"/>
+               <property name="uri" value="roolo://memory/40100/0/Conclusion+of+the+experiment.rtf"/>
 			   <property name="iconType" value="Conclusion"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/targetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Assignments/A_bioExperimentConclusion.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Resources/R_bioExperimentConclusion.html"/>
+               <!--<property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Resources/R_bioExperimentConclusion.html"/>-->
                <property name="inputMissionAnchorIds">
                   <list>
-				  	<value>bioInterpretationData</value>
+				  	<value>bioRepresentationData</value>
                   </list>
                </property>
                <property name="loEloUris">
@@ -275,7 +278,7 @@
                <property name="iconType" value="Presentation"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/targetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Assignments/A_Probabilities.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Resources/R_Probabilities.html"/>
+               <!--<property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Analysis/Resources/R_Probabilities.html"/>-->
                <property name="inputMissionAnchorIds">
                   <list>
                   </list>
@@ -287,15 +290,31 @@
             </bean>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="bioReport"/>
-               <property name="uri" value="roolo://memory/40012/0/Report+about+my+biological+analysis.rtf"/>
+               <property name="uri" value="roolo://memory/40101/0/Official+report.rtf"/>
                <property name="iconType" value="Report"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/targetDescription.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/Assignments/A_bioReport.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/Resources/R_bioReport.html"/>
+               <!--<property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/Resources/R_bioReport.html"/>-->
                <property name="inputMissionAnchorIds">
                   <list>
 				  	<value>bioExperimentConclusion</value>
 					<value>Probabilities</value>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                  </list>
+               </property>
+            </bean>
+			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="bioPersonalReport"/>
+               <property name="uri" value="roolo://memory/40102/0/Personal+report.rtf"/>
+               <property name="iconType" value="Report"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/targetDescription.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/Assignments/A_bioPersonalReport.html"/>
+               <!--<property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission4/LAS_Reporting/Resources/R_bioPersonalReport.html"/>-->
+               <property name="inputMissionAnchorIds">
+                  <list>
                   </list>
                </property>
                <property name="loEloUris">

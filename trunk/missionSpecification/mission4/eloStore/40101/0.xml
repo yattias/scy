@@ -1,0 +1,77 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-04-22T14:43:49.409+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-04-22T14:43:49.409+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1303476229409</dateCreated>
+        <dateFirstUserSaveKey>1303476229409</dateFirstUserSaveKey>
+        <dateLastModified>1303476229409</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>reportFinal</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40101/0/Official+report.rtf</entry>
+      </identifier>
+      <las>Orientation</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40047/0/Forensic+SCY-Lab.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Official report</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAERklEQVR42u2X30/bVRjG+wf4T3DrjYmES+Od3i1R5w1LvAHmgMTAiCgLhLpOUUwGo2QE5EdGgAAiUmgAq5MfYyBsgJENg+uosMEERqHtKG1peex75vdIaTuirolLnid5cn685z3nfD89Pd/W1NjYiJMUiUToJDYJwO3tbWxubipvbGzoutjtdqO/vx82my3OkhsMBhM60Xixw+FIGqupqUnYL+sPDAwkjFVXVyedLxwOJ93f83IcwOMWgKJQdPBBKKC9/mgDIyMjKve49/b2VN7R8eIu2w8YHR3VsVDw79juzg7q6+uxu7sbl+fxeHBwcKDGH80Zuj6JhoaGhGv5fF61b9lLKm1qampSD21pc6Ho2hYWfvViZtYdB3D7SQSt4x7cdfpR0upC23eLCqDEvZ4dzD8MYnDqvmrLA0s5tujD7d/D+OURcHPpCd7OMWuA0hYbMW80RwBKKe1b0bzhWw8xGa0bAOddfp23FN1WZuEVDdDoNxwK+tW+JTeV1gCL66MAv/oD56+uo6APePnNmRiA64/30DYXxtxKACW2AGo7J/QJ3NraQllZGTo62tV4sfR3//gbvp/fgslkQt+N+zj9/kUNUNrtQ/OqFHs8u08Bej2qbf/pAVrtt/+KeRAKhXB99gF6x+6p+WwTyzid/6UGKOOk/9txp6qHAn51Rxn7SZU1wA+sTnztAs5Yg3jp9XtYX9+IAehac+NMaxhTU3fwamUEF6/26xM4PDyMD4uL8Ym5XLWNvJqOcbQMzKJt+A7qeybx7jmLBihto19snECf14uPPmuApbYbF75oQsM3U/oEdjt+VmPbHYuqPJXzqQZozPNKxmuqlBMoOcmupudlDbCl34WSOifOX76LPMtc3Ff4Sksf3sn9XPutc5c0wONeW1tT5amzl2Jyzn58WQM82i82TqDcrfGxpwBzSqwx/W+8d0EDPJ4TjJ5AueRlL6m0Bvisl0hvby86OzvjXFdXh5WVlTivrq4mHC8WgMliVqs1YX9XVxd6enoSxqqqqpLOFwgE1F5SaVNzc/OJF+Xy8jKdxKaxGzcR64kT2s/yxL8Y/0/X+n/tzwTqP0kBHBwchN1uR0VFBdLT01FYWKiC2dnZKC0tjf608MLpdOLw8FD1S1zuuqGhISwtLam+oqIi9W/B+ItTUFAQs5DMm5ubi4WFBTWPxWJBfn4+5AqZnp5GZWWlmiMvL0/duS8UQL/fr95mxoMel7xMsrKyVD0zM1OVMzMzqK2tVfX9/X1VpqWlqTIjI0PnlpeXq7HGvMaHI2v6fD5VN5vNMevJG/eFAkgRIAESIAFSBEiABEiAFAESIAESIEWABEiABEgRIAESIAFSBEiABEiAFAESIAESIEWABEiABEgRIAESIAFSBEiABEiABEgRIAESIAFSBEiABEiAFAESIAESIEWABEiABEgRIAESIAFSBEiABEiAFAGmSn8CDivc2KNEdFwAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\f1\fs24\i0\b0\cf1 Write here your report to the attorney.\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>
