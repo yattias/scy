@@ -1,0 +1,93 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-04-22T14:22:34.101+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-04-22T14:22:34.101+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1303474954101</dateCreated>
+        <dateFirstUserSaveKey>1303474954101</dateFirstUserSaveKey>
+        <dateLastModified>1303474954101</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentReflection</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40096/0/Choice+of+techniques.rtf</entry>
+      </identifier>
+      <las>Orientation</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40047/0/Forensic+SCY-Lab.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Choice of techniques</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\f1\fs24\i0\b\cf1 My forensic speciality is:\b0\par
+\par
+\par
+\b Techniques taht have to be used for the analysis are:\b0\par
+\par
+1. name: \par
+function: \par
+\par
+\par
+\par
+2. name: \par
+function: \par
+\par
+\par
+\par
+3. name: \par
+function: \par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>
