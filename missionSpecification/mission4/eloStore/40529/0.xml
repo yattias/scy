@@ -1,0 +1,81 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>arle</entity>
+        <date>
+          <dateTime>2011-04-26T11:04:25.812+0300</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>arle</entity>
+        <date>
+          <dateTime>2011-04-26T11:04:25.812+0300</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1303805065812</dateCreated>
+        <dateFirstUserSaveKey>1303805065812</dateFirstUserSaveKey>
+        <dateLastModified>1303817166593</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>reportFinal</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40529/0/Expert+council+decision.rtf</entry>
+      </identifier>
+      <las>Debate</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40536/0/GMO+SCY-Lab.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Expert council decision</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAFP0lEQVR42u2XiUtcVxTG5x9o6d9QUNJCMcEgVIIoURkxVRAl1D0iFFtK6eJoo8aiNoqYIDrNxJiqEOsS61YNFrHiWEOsrZpE244mIcGt0bhFR2Vc5qvnhHc748ykpY1Q2vPBx93OPXPfz/fuveqqq6vxZ9rb2xN7sI4ALi4uYmFhAfPz81w61q1WK/r6+tx6bGwMNpvNxSRPc+rq6tz2t7S0eJwzPDzstt9sNqO/v99jPndre9F2AujOBPDp06f7r+Eu7Mo7qG68genpaSwtLWF5eVl5ZmYG29vbXKc4xznUNzIywuN2h3w72zaMjo5yLuc5u1hfX+M/lOvYDlZXV7Gz4xxPLjLWoqOjAxsbG4duBTDQMIG3y55gdZ9V2RWLC0DzL2v4bcWGxf3xN9//CR/kGhkgQXmncgRTyztYWXkGcHNzk/sHLOvovbuI3juLXKc+epsAO7fNP6/ujz1B3/iKAkj9vsfeQOW1Vq5vbVoVQGqTdTodlxrAoftWNUYOic1kgLTuw7YC+FbOfeQ3LOHjynlEVgEJn4w6AWzqnUDzqA1f3dpEcM4UPvzskgJoLC1B1dUrmJ2dZYBra2vc32q+xw9Lprr2BpJa++/hpZdf4fLrXosCSHH60JO4VHWdxxwB0liRqQnf3XlW1wB+O/gQSe9moqKxj+eExH2Kzs5O/r2DX4ijnzf2V+N0NTU1DDDYYEHbQyClzIpXw8Zd3sCyun4YamZh7r8LveFXfJRnUgCLPs+D6XIlL5oAaskvN91E1TfDqO4Y4bojQOqnPvIXjd8rgNT2ev0YXvPxQ8mXN5wA0pjp+oCapwG81vkjtytbfkBF8y2Exp3ltdA+fthWAGfn5jGjeXbeBeDJ+EwEnc5gB542wFjdrAAe3AMpMdUpznGO9glnF19V/eTQpLMKoGM/ecO6zgAJ5MF8GkB9cpbTnPeySxkgfRGHbQXweYdIQ0MDGhsblbX248ePMTU15WJK7BjnWK+trXXKpY3V19e7zNH86NEjj/ncxVPf0NCQ27W9aOuMRiO6uro8uru7Gw8ePBB7sC6ruAJ/+LKH+kH/F+Mq/lacDqJ/JAZot9u5QftHVlaWGiwoKEB2djb8/Py41JSbm4vY2FjVprH4+HicO3eO2waDQcXToUJ7mKbCwkKO8/b2xoULFxAWFqb6c3JyeA2k6OhoNefixYvw9/fndVLegYEB7O7uIi8vDz09PZibm+M6ieJI+fn5KCkpUfnGx8f5OeiOqj0b5aBcxcXF3NfW1saHGcVo+SYmJnDkyBFeG+UkxcTEYHBwkOMYYEhICA9MTk4iICAAKSkp3KYrR2hoKI4ePcoliU7EiIgI3qg1BQUFoby8HKdOneITOD09HcHBwQgPD+cf2draUrG051Ic5SRFRUVxmZGRAb1ez2sgpaWlcUkPaTKZuE7/OlFe/q9kHyZdlkkEMC4ujusnTpxQ+eihtXx0N6XfpHxafspB66WDjUSHIt04KIZykujWEBkZyWujnCRaA8VRjHzCL+ITLi0thcViga+vL86cOYPz588jNTUVx48fR2trKwf6+PggKSkJt2/f5jtWQkKC0HMESK+ql5cXA2xvb2eAgYGBKpAAJicncxwBTExMVHvH/x6gSAAKQAEoAEUCUAAKQAEoEoACUAAKQJEAFIACUACKBKAAFIACUCQABaAAFIAiASgABaAAFAlAASgABaBIAApAASgARQJQAApAASgARQJQAApAASgSgAJQAApAkQAUgAJQAIoEoAAUgAJQJAAFoAAUgCIBKAD/1fodmFIlAOZiWaEAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Copy here your previously composed Revised field-specific decision. Read all the decisions of different fields.\par
+\li0\ri0\fi0\ul0\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>
