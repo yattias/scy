@@ -1,0 +1,81 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>arle</entity>
+        <date>
+          <dateTime>2011-04-26T11:04:25.812+0300</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>arle</entity>
+        <date>
+          <dateTime>2011-04-26T11:04:25.812+0300</dateTime>
+        </date>
+      </contribute>
+      <version>2</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1303805065812</dateCreated>
+        <dateFirstUserSaveKey>1303805065812</dateFirstUserSaveKey>
+        <dateLastModified>1303816802265</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>problemStatement</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40522/0/Initial+field+specific+decision+economist.rtf</entry>
+      </identifier>
+      <las>ConceptualisationEconomist</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40536/0/GMO+SCY-Lab.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Initial field-specific decision economist</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAFE0lEQVR42u2X+09jRRTH+w9o/JkfDUI0MbAxIfEXHllokJc/bmA1GENiohGj8pLyMAiBLAshpW5hiy1hEegiIMIGQ5DQ8tgVpcCyKstClgAFyhbKo2BKgSPnkDvevtAoJMacb/LNnJk5M3fup3fm3ioMBgP8lY6Pj9kBrECAdrsdNjY2wGazUSmPnU4nDA0N+fXMzAy4XC4fowKNaWlp8dve2dkZcMzExITfdpPJBGazOeB8/tZ20fYA6M8IcGdn5/QxPIITYTcYjPdgeXkZNjc3YWtrS3hlZQUODw8pxjz5GGyzWCzUfyKbz33ogsnJSZrLc8wR7O3t0g/l2+eG7e1tcLs989EVmmbo6emB/f39S7cAGJ3zGFLVz2D7lJX69qwPQNOvu7DmcIH9tP/1D3+Gj4o1BBChvKezwNKWGxyOM4AHBwfUPjK7B4MP7TA4bacY2/BpAjihuumX7dO+ZzD0yCEAYvtrV14F3Z0uin8/cAqAWEcrFAoqJYDj807Rh45LyyOAuO7LtgCYXDgPX7Rtwqc6G7ypB3g7a9IDYPvgY+iYdMHX9w8gtnAJPv78lgCoqbkJ+obbYLVaCeDu7i61d5me0M2iMZaeQFSX+Qk89/wLVH4zOCsAYl688irc0t+lPjlA7KvQtsMP02exBPD7B08h/f08qDcO0Zi4659Bb28vXc97h8h9Xt/fzVM0NjYSwNicWfj2KcC7aie8+MYjnydQ3WKGnEYrmMwPIT7nN/ikRCsAVpSVgLZOR4tGgNLkde2joP9uAgw9ForlALEd29BfGocFQKy/9MoVeDksAm5+dc8DIPZp746IcRLAO70/UV3X+SPUd9wH5fV8Wgue45dtAdC6aoMVyVabD8Crb+VBzLVccvS1HNAYOgRA7zMQJ8YY8+RjpC1ccKNBtKOV6fkCoLwdve/cI4AI0ns+CWD8OyqPMR8U1BBA3BGXbQHwvJdIW1sbGI1GYam+vr4OS0tLPsaJ5XnyuLm52WMuqa+1tdVnjOTFxcWA8/nLx7bx8XG/a7toKzQaDfT19QV0f38/LCwssANYobpRD3+6LkDs7f9jXv0/ylMA61+JADY0nB7qMTFQUlIC0dHRUFBQQJ2lpaUUR0REiDZUcXExpKWliXpRURFUVlZCd3c31THGtuDgYKipqaFcrKMKCwuhqqqKvhXxxYFxfn4+9UlnHaq6uppyUWVlZVRin0qlEtfEdeMcONfq6ioMDAyINWFeeXk53YM8DzU3N0dlU1MTlZmZmXRPuBaUWq2m+RMSEjyui0catq+trdE9CoCoqakpKoOCgiA2NpZi/ORQKpUQHh5OJQrfiCkpKXRQS0pMTKTF4qGKqq2tpYuHhIRQPTU1lXJQOPfY2BgcHR3RWxk/eKW/f3iD0s3h2RwXF0cxzi2/cdT09DQMDw/TFwLONTIyAnq9HqKiokRObm6uiDEP39hynX3UA/3wycnJBAg1OjoKSUlJkJWVRfXQ0FCIjIykPAmqtCbewhexhdPT0+nXkJ4ErVYLGRkZtJ2lX8jhcDCt8wBmZ2f7AJS2aVhYGG03nU4H8/PzTM0bIIsBMkAGyABZDJABMkAGyGKADJABMkAWA2SADJABshggA2SADJDFABkgA2SALAbIABkgA2QxQAbIABkgiwEyQAbIAFkMkAEyQAbIAFkMkAEyQAbIYoAMkAEyQBYDZIAMkAGyGCADZIAMkMUAGSADZIAsBsgA/9P6A1IdOeuIRy6aAAAAAElFTkSuQmCC</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write here your economic-specific decision about whether it is reasonable to grow GMO salmon in our country. \par
+\li0\ri0\fi0\ul0\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

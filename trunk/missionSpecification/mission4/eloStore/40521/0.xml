@@ -1,0 +1,80 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>arle</entity>
+        <date>
+          <dateTime>2011-04-26T11:04:25.812+0300</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>arle</entity>
+        <date>
+          <dateTime>2011-04-26T11:04:25.812+0300</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1303805065812</dateCreated>
+        <dateFirstUserSaveKey>1303805065812</dateFirstUserSaveKey>
+        <dateLastModified>1303816773187</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>problemStatement</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40521/0/Initial+field+specific+decision+biologist.rtf</entry>
+      </identifier>
+      <las>ConceptualisationBiologist</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40536/0/GMO+SCY-Lab.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Initial field-specific decision biologist</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAFDElEQVR42u2X20tcVxTG5x9o6bOPFcEWSw1FoW9qdBiFWn0KGiXFl0JrKb04tYk3rEWJUYKOjsYrxqoTqxY1WJSKM7XE2nqLqTUkElHHOma8j4q3+epack5mnJmkpAqlrA8+9tp7r32Zn+fsfdTU1dXhRTo6OhL7sIYA2u12LC8vw2azcekaOxwODAwMePXk5CT29vY8TPI1pqmpyWt7e3u7zzEjIyNe281mMywWi8/5vO3trO0G0JsJ4MbGxvFjeAin6gPUme5ifn4eKysrWF1dVb2wsID9/X2OKc91DLWNjo5yv9NlvoP9PYyNjfFc7mMOsbW1yX8oz74DrK+v4+DAPZ9cYGhEV1cXtre3z90qwDD9QySUPMX6MauSW9MeAM1Tm/hrbQ/24/53P/kdn2YbGCBB+bBqFHOrB1hbOwG4s7PD7YPTW+i/b0f/hJ1jaqOnCXBy3fzH+nHfUww8WFMBUvs7F95C1e0Ojnd3HCpAqpM1Gg2XCsDhxw61jxyVmM4Aad/nbRXge5mP8U3LCr6osuH9WiD5yzE3gK39D9E2tofv7u0gMnMOn+WUqwANN2+gtvoWrFYrA9zc3OT2DvMj/rFkipUnkNRheYRXXn2Ny+/7p1WAlKfTXkR57R3ucwVIfQXGVvw0cRIrAH8ceoIrH6Wj0jTAY6Iuf43u7m5e7/Qb4urn9f3TPE19fT0DjNRP44cnQEqJA69HP/B4AkuaLNDXW2G23IdO/yc+zzWqAAu+zYWxooo3TQCVyStaf0Ft5wjqukY5dgVI7dRGLjP9rAKkesCbF/DG26G4UXPXDSD1Ge8MquMUgLe7f+N6VfuvqGy7B+3lq7wXOsfP2ypA66INC4qtNg+AF5PSEX7pK3bYJT0MdW0qwNNnIE1MMeW5jlFe4Yzr1Wo7WXvlqgrQtZ287dhigATy9HwKQN0H19zGfJxxkwHSG3HeVgE+7xJpaWmByWRSrdSXlpYwNzfnYZrYNc81bmxsdJtL6WtubvYYo3h2dtbnfN7yqW14eNjr3s7aGoPBgJ6eHp/u7e3FzMyM2Ic1165X4pkrfMSn/X/Mq3ypPA1E/0oMsLr6+FAPD0dubi7CwsKQkZHBnXl5eRyHhoaqbaTs7GwkJiaqdeorLS1VcwoLC93yMzMzERgYyHFxcTHXnU4n9Ho9ioqKcHh4iNTUVB6Tk5PDe6GcxcVF3lN5ebm6blRUFMcNDQ1cxsXFHX9/rnFcVlbGRw79i+WaR+PpN5LoG3VoaAjR0dHIysri85UuPoppfVqXcmhdmi82NpbXJdG5Sns1Go1c7+zsfPYEjo+Pc+nn54fIyEiO6ZNDq9UiODiYSxLdiDQpHdSK6AcTQCUnPz+f2wgSSafTISQkhGM6c5Ufl5aWxh+8lJecnMzrxsfH81iKCWBSUpK6DvURMNLExARD9/f353pQUBCXdLGREhISuDz5cAfvj0S3Nn1VREREICYmBru7u7wHimlN2hOtOzg4yBce5dHvJdGFSnulu4HEl4i8hGfwCtOrmpKSgoCAAG6sqakRMi8DsK+vz+3xn5qa4vdc9AKAIgEoAAWgABQJQAEoAAWgSAAKQAEoAEUCUAAKQAEoEoACUAAKQJEAFIACUACKBKAAFIACUCQABaAAFIAiASgABaAAFAlAASgABaAAFAlAASgABaBIAApAASgARQJQAApAASgSgAJQAApAkQAUgAJQAIoEoAD8T+tvnbIo3ihkjsEAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+\margl1417\margr1417\margt1417\margb1417\widowctrl
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1 Write here your biology-specific decision about whether it is reasonable to grow GMO salmon in our country. \ul0\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>
