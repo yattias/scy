@@ -118,7 +118,7 @@ public class RepositoryWrapper implements IRepository
          }
       }
    }
-   
+
     //XXX maybe we shouldnt implement this method here, because it is just used in the exporter
     public List<Map<Integer, URI>> getAllVersionLists() {
         throw new UnsupportedOperationException("Not supported yet. Just for the roolo-jpa Exporter!");
@@ -424,4 +424,9 @@ public class RepositoryWrapper implements IRepository
         //shouldnt be used from within client
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+	@Override
+	public IMetadata updateWithMinorChange(IELO elo) {
+		throw new UnsupportedOperationException("Not yet implemented...");
+	}
 }
