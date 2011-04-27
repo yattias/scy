@@ -3,14 +3,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.scy.common</groupId>
 	<artifactId>agent-api</artifactId>
-	<version>31-SNAPSHOT</version>
+	<version>34-SNAPSHOT</version>
 	<name>agent-api</name>
 	<packaging>jar</packaging>
 	
  	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy.common</groupId>
-		<version>31-SNAPSHOT</version>
+		<version>34-SNAPSHOT</version>
 	</parent> 	
 
 	<dependencies>
