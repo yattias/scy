@@ -32,7 +32,7 @@
 		<module>fx-drawingtool</module>
 		<module>fx-copex</module>
 		<module>fx-fitex</module>
-		<module>fx-resultbinder</module>
+		<module>fx-resultBinder</module>
 		<module>fx-flying-saucer</module>
 		<module>fx-math-tool</module>
 		<module>fx-formauthor</module>
