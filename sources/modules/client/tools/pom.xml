@@ -24,7 +24,7 @@
 		<module>colemo-model</module>
 		<module>copex</module>
 		<module>dataprocesstool</module>
-		<module>resultbinder</module>
+		<module>resultBinder</module>
 		<module>drawingtool</module>
 		<module>math-tool</module>
 		<module>math-tool-scy-extensions</module>
