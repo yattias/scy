@@ -6,7 +6,7 @@
 <parent>
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy.client.tools</groupId>
-		<version>31-SNAPSHOT</version>
+		<version>34-SNAPSHOT</version>
 	</parent>
 
     <modelVersion>4.0.0</modelVersion>

@@ -5,15 +5,16 @@
     <groupId>eu.scy.common</groupId>
     <artifactId>configuration</artifactId>
     
-    <!-- dear Lars, please don't remove this line again ;) -->
-    <version>31-SNAPSHOT${version-name}</version>
+    <!-- dear Lars, please don't remove this line again ;) 
+    <version>31-SNAPSHOT${version-name}</version>-->
+	<version>${parent.version}${version-name}</version>
     <name>Configuration</name>
     <packaging>jar</packaging>
 
     <parent>
         <artifactId>parent</artifactId>
         <groupId>eu.scy.common</groupId>
-        <version>31-SNAPSHOT</version>
+        <version>34-SNAPSHOT</version>
     </parent>
 
     <build>

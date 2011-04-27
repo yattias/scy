@@ -15,35 +15,35 @@
 	</appender>
 
 	<logger name="eu.scy">
-		<level value="warn" />
+		<level value="info" />
 	</logger>
 
 	<logger name="eu.scy.client.desktop.scydesktop.utils.InjectObjectsUtils">
-		<level value="error" />
+		<level value="info" />
 	</logger>
 
 	<logger name="eu.scy.client.desktop.scydesktop.scywindows">
-		<level value="error" />
+		<level value="info" />
 	</logger>
 
 	<logger name="eu.scy.client.desktop.scydesktop.scywindows.moreinfomanager">
-		<level value="error" />
+		<level value="info" />
 	</logger>
 
 	<logger name="eu.scy.client.desktop.scydesktop.scywindows.scydesktop">
-		<level value="error" />
+		<level value="info" />
 	</logger>
 
 	<logger name="eu.scy.client.desktop.scydesktop.scywindows.window_positions">
-		<level value="error" />
+		<level value="info" />
 	</logger>
 
 	<logger name="eu.scy.client.desktop.scydesktop.elofactory">
-		<level value="error" />
+		<level value="info" />
 	</logger>
 
    <logger name="eu.scy.common.configuration">
-      <level value="error" />
+      <level value="info" />
    </logger>
 
 	<logger name="org.apache">
