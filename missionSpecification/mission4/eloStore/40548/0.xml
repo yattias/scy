@@ -1,0 +1,74 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-04-28T14:49:11.892+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-04-28T14:49:11.892+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1303994951892</dateCreated>
+        <dateFirstUserSaveKey>1303994951892</dateFirstUserSaveKey>
+        <dateLastModified>1303994951892</dateLastModified>
+      </customElements>
+      <format>scy/drawing</format>
+    </technical>
+    <educational>
+      <learningResourceType>drawingDesign</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40548/0/Chemistry%3A+Annotated+data.scydraw</entry>
+      </identifier>
+      <las>Information</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40123/0/Forensic+SCY-Lab.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Chemistry: Annotated data</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABZ0lEQVR42u3Su22DUBSAYSahRCxARckIzGDWYA4qxohhAUQTZwAkJIeEioeEKKDwSe6NuLJQXkoaiv+Xjnx5Wv58rezpVc6PjZwvL5IkifR9rydNU7Mex9Gs96Pa1lVVmXWWZV8+03WdWfu+L3Vd67EsS4/ruubcuq6HHksBqh7eERWg3G7yfL0awLIsNeCGeA8WRZE+Vj96D5jnudi2LZfTyZyL41iKotCA0zTpc0EQSBiGetR7VApwGAY96nu3z/16P/f3f/bsT+/67bX70YBq9207cFkWmef5XztQ3a8Av9uB23Oe50nTNHq2Heg4jj5u29ZcO+p8/OX05wAEEEAAASQAAQQQQAIQQAABJAABBBBAAhBAAAEkAAEEEEACEEAAASQAAQQQQAIQQAABJAABBBBAAhBAAAEEkAAEEEAACUAAAQSQAAQQQAAJQAABBJAABBBAAAlAAAEEkAAEEEAACUAAj9YbEHVAO1+h9IQAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<whiteboard>
+  <whiteboardContainers />
+</whiteboard>
+</content>
+<resources>
+</resources>
+</elo>

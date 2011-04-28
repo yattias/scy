@@ -1,0 +1,82 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-04-28T14:58:17.619+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-04-28T14:58:17.619+0200</dateTime>
+        </date>
+      </contribute>
+      <version>2</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1303995497619</dateCreated>
+        <dateFirstUserSaveKey>1303995497619</dateFirstUserSaveKey>
+        <dateLastModified>1303995620154</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>reportEvaluation</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40549/0/Chemistry%3A+Conclusion+of+the+experiment.rtf</entry>
+      </identifier>
+      <las>Information</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40123/0/Forensic+SCY-Lab.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Chemistry: Conclusion of the experiment</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACSElEQVR42u3V32tSYRzH8fNvuBvxToaK+Cd422UXu+uym6jL/oAugroIBhIhA6nWD4wuUiJi4BaabDhEXZCgghmauak4nW6lftvzBV0HFghBJLw/8OGc73keHjgv/GH1ej3pdDq2mozHY7pALQPYarVsnUwmcjoazttoNKTdbmv7/b4Cz9YOD49kOLzYO/55Jslk8mL+cSrhcNh2XiwWs80mJycnWnPWrIs+u6z/6jwFfBD9oi9x/X51Dvgu05D++bttZb8p4OvoS0mURjIYDHTv+/2GXLl6TR6/zelhZrYsS3YO2gpo5sRBR7YLRwpo5q1sU68G0Fx3PnX1atLtdpeyCnjveVXKX8/kybPPc8D1zW1ZW3sqoRcfFPDWzRtS+96dA5rnpncevlHA2fzo1UcFXN9MyO274fM5pYCzdVMD+Pts0mw2l7J//Aqn0+l5q9WqrYVCwbaeyWRsczQatc2hUMg2x+Nx22xSq9WWsla5XJbLWqlU6AK1hPxVrGw2Kz6fT9xut+TzeVlZWZHpdGrbVCwW9S/b7/dLKpUSp9Mpo9FI99brdd2zsbEhgUBAgsGgRCIROT4+FpfLpWsej0dKpZI4HA6dd3d3ZW9vT7xer865XE5WV1f13vw+LhUgnyEAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAD+l/kFMRniDKgCKboAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\f1\fs24\i0\b\cf1 Write here the conclusion of your chemical experiment.\par
+\par
+\b0\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>
