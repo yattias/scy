@@ -1,0 +1,222 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-04-28T14:40:49.512+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-04-28T14:40:49.512+0200</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1303994449512</dateCreated>
+        <dateFirstUserSaveKey>1303994449512</dateFirstUserSaveKey>
+        <dateLastModified>1303994762347</dateLastModified>
+      </customElements>
+      <format>scy/xproc</format>
+    </technical>
+    <educational>
+      <learningResourceType>experimentalDesign</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40546/0/Chemistry%3A+Experimental+procedure.scyxproc</entry>
+      </identifier>
+      <las>Information</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40123/0/Forensic+SCY-Lab.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Chemistry: Experimental procedure</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAc+UlEQVR42u18B3Bb15muZnZfNrubzZvd2XXsl2ycl8STss7aE3vs2LGz+xL3snHc7bjLliPJtqpVrd4LRTWKFCWSYhGLJFKkSLFTLCIp9g6ABAiCIAEQvRCVKPze+Q94QYACJdlxbMfSP/PPuffc0+53/1O/c+4c3JA/S+bcgOAvCKBT1QJD7XaMla2E9sImmGr3wFi7G7oLG6ErXQND4wH4bKobAM6UyQkn1CWLoS1YBK9lFH63hbkj8Brl8Bpk8FlHEfCMY2KsDyOZL8HckcIiBW4ASOJzaDGc8Xs4+osZQL1wDV+CS3ERnrEeBuIwvCY5POoOuIbq4FY2M/9eWDvSMXr6dYahj+C/aqbHTpdj+e4UfLTt2NcLwIDXieHUJ+DsL4NDXBQCMcAscqb4nSa4R1thFxfCOVAOe/cpaCvXXjXDhk4JRjSG0P3hk+eDVj85+dcPoKp4Ecz1B2FrTYG9N48BZ79qAn77GGwdGbC1p0FfsBjG9uOzhs0qqoPX54vwm/BO3z/1p6149sOdofttR0/juUW74PP7+f3cTw5/dQF0qtswcvxhWOoPwFy3DwG3NbxVhM88DKe0kldnv10XkQhVY9OF7bA0HYWKtYkBnztqZifOXghdJ2SXIiWvimsgMMnvw58RsC7PBL9/5oPt3H1lWcxXF0B91UYYS1ZDX7iEW5/QlvntelguxkLHOhR94VKuunNLYGtLxaTXHap+BLq+aBk0uXPh0XRGzYzAmlld08/VcKvsEMsjwulNVjzPrO/FJXvw8tK93P/lZXu/ugAqkh+C8sBdGNpyMx+a0DsG/D4Yildh7PRc6M7MhTFvLgwMIC2712S9xqvu5FTv61F1YCz7DYxlvYGR8wujZmYZd2BNbHqEX3xWCcYdLvTJlPyenvt8fjw2bxO/f3P1AW6NFQ1dGFCov7oAStZ/E7JVfwNl3K9DVuIYrEb/0jkM1Fsg2f8gSrY/hZq9/wNl8jNQpfwe6sw/so7HxcNO+r1QZ7wIVfLTkCXcFTUzwfIWbT9+WS9MPTP5885sKty76w7DYnPwqlx6seOr3Yn0fzyHAfi3bOy3eOolAF3RxxhY9Q0o1/8jkl/9B3zw3/+EDa/+J5p2/gajCb/BMAPbNdrOK3uAAahKfx7Kw/dBvu171984UMIAlK76Xxg7My8ICEPQULkNklXfxNCG/42cd76N+f/1T1jwX/+Iix/fDMXu2yDf+wu4tWJuMQGfByNHH4Ji739Auvk71x+A4q3/DNmav8NwzO0cQD8bOjhV3ehf8y0MbPhXiNbdhNIPb0LN0pvQv+Hf0L/uXyCPuRNej5OH9TnNkG/6N0hXfwOSuP+4/gAcTvwNpGtYO7hiDhxD9bxnnPAFMJI9F6JP/hn9m/8d0q23YoCpZNN3IV7199DVx2NiYgJ+hri5/jBkq/8W0pV/A03Fqtnn104nXnrpJTz33HMhv4ULF/5FXq63t5fn91nltddeu2r5pocxDTHMAr/JVZ3+IjweD9xuNxwWHUYL10AScy/6ttyGvq0/wcCh/4exiwlwOR08jHvciKFdP4Zs7d9jYP234DUrZs2wtrYWw8PD/PrnP/85/wAffvghv6+qihzm1NXVob+/n1+r1Wo0NTWF0qFr8ptNqFzZ2dkcwKvFFfIlaW9vR09PD+z24CRCr9dj0aJFvCyChKc3Z3pGoWMv/w+Qrfs2ZBv+BdaBKjjdEzwhm80Gi1ELraga+sF2WMxG7kfPXB4vtKUbMPjJt5h+G8NHH5iaE0eXe++9N3R955134ujRo/x63rx53H3ooYe4+8ADDwQHz6+8wt0DBw5ApVKhoaEBnZ2dMJlM3C+aUFz6KEKasbGxPDy9NCld79wZnPG89dZbEfn97Gc/4x+Z8qF3TEhICJXp3XffvSy9iKmcqT0Z0vUMwI3/Cvnun0Lfkg6LxQKzxQaj0QiD0cTUyK9peGHRqzFWthmDW77L4/Rv/DZrN1uvWC1+9KMfYf/+/di1axe/37t3L7fCFStW8ILFxcVx/0OHDvHrwsLCULiYmBheM+6++27s27cPhw9fPrXbtm1b6JqaCfpIiYmJXOkDWK1Wng6l73A40No6XV66Tk1NDV1TWAonyPPPPx+RHlli5GoMGxQrc17C4OabId9+Kwa3/18o057BWGcBxlTD0GpUXMeUUmjqE6GIf5CF+wEGt30fg1v/Dyy0rHUF2bFjx2UzkT179mB8fJxXo4qKCv7VBet48cUXufvggw/yjoq+ulgsxptvvslBJ8ApLV/Y/JpApw/8ne8ERwIPP/xwKA3BoimPgwcPwuv1RuRLHykcfJLvfe97PK+XX345anqXLWdR9dOULGOAfBdDMf8Jxb47oYi7B4qkx6DMeAnK9OegOMaGK4fZrCXmDgyxoYx0x3cZeKlXbZRHRkYu81MqgzMQkUjEVWhj6uvreTUSpKamJtTuULtG1Uz4GOFtGEljY2Oo7SSprKwMhaW4lLbQBobnG16+vr4+7up0Op4XxRM+vJDeLAuqwUCGzlQo2GBZHncXs7QHMHz8IQwnP4rhJKbHfsdAZQNmBqIy5Uk41C1f2jDi9ddf/+ou6dOqCi0MKAv/BGniryE/cAcGD94FWcpvoa1azxdYr9RhXPecyA35nACkFZfApI8NmH3cDUz6/2pXkL9QAG0eLRS2FmjsIhhdCpjdalg8GhhcQ1DbezAy3gmPz3EDwMumW14T5NZL0Dn74ZucgMc1CsNoNcYGT2FMfgamsSb4WBhvwAWVvRuq8R5M+B03ACQZZYBo7H1wTWjg9msgqp2P7tO/hbXtWfgGHsfE0PMwihbgUubDUPbFMLC1THUMyC44vObrG0AVq5Z6pxQOzzDGXZ1oz30M1ppfAkNsKqObC5hXMf2Y6duA9Smoe95DZ/lc2D39TJUcRJN75Et5kS+rTZ5eTHDJoGVV1uwQMW1F7Ym74W26m5nkfEw60zFpT2KajABzA/ZEBMYPYlJzExy6RPTWLmJxOmF2SXnb6At4Zs3Q7nSjrW8wYiX6s4jDNZ3HZ+GX0wqqrxqG2MC0/OqrA0i9qtRcA4OjF4bxRgxLD8Fy4T5g+HVMOo4FAbOnIuDIgN+RDr89hd2fgF//Eib1P4Os4UOYrBUsbhP0DjFExtJZM9wYl82X6AWLOZJVErKgaFY0m2UR4STIB1sTr9k6eT7XCPJj722aPZ1wAPuNVazd64HG1gCd/SL6Kp9BoO0WTFr3MEuLZ8ClwufIZOCdZu4Z+OxZDMST8JkWwae5E1blMogvzYPWVg0NA5HaUJ1zIGqhXlyyGz0Dw1wfn7eZ+z09f2twCYoBS1xJRmEtOkRyLNicALXOxJ8l51byZ8SNKFQ6vLB4Nyoau7hFl9S1Y/6mBLT2yYJTuc5+LNmZhD1JZxEIBPjCx8d7TuDDrceg1Oh5GKJO6Vls6jks2ZHE44QD1S4a5MRaOGhOt4eTXmTx0uHgVHCOx2+HzFyHUVszRi3lGLOVoPPMnZiU3sSs7CC3PgLP68zFhLOIaTEmHAXwOvIwYfwAXu2T8FuWoTn/MWgsRSyNKijZ0GeI9eLRhKhJz4SXq0BTCnxvNwOVACH+mJg5klX70vDeurhQfAKRT/Y/2hlqEuo7JKG0C6qapxdUpUr+PLOoDu+tD6bhnUqXqFN69tA760PVNVxmsoeYojlC7zFFtc6xeFS8+vYbizGgz8KgMQ1debdjUvkN+Md3M2s7Dq89Bx5HEVzOSqYX4HZUwGlLgsuwBB79G/BbV6Pl3NMYMZ2BwlwMuaWOVeMyPugOlz7ZCPIrpxc2f79QIMyDhRGAOsksUPjyi3ccx6vLYyLau/4hVehlMotqoTNZoTNakXm+DqdLG5DO2jcCKLv4Ig8nUKbkT5ZIZSALOlPWGGyHT5VHVNfq5l7UtPRdBmBq/gWeLqVRVNOKujYR5iiszbikPoEmVRLaVQfRNbYfbUX3wq++CV7DHzExnsbAOwOnsxxORx0cjouw2fJhNeyC3biJgTgfHvNuNBU+gmFDNgYNBZCaqiAxlrNqLIsogECsk1BHImzroC0bAqVJ8tu31nFLEayN6E2qbgSSaHCEV2+t0RKyOhIi5smiaPuIkO6qmLQIa6OPsiX+VOiDzf3kUKg20PWVrE/wp3JR+Xh7fjgbc8TsRZvUqUxT0KaKQ6cqFq2XXmNV8/dwa+6BQz8PXtX9mFA+DafqHdhHF8Ij/RXciodgNcXCrl8I9cAeSMTLIdWfRL8+F2JDKUSGEgzZmiIKMKafHicSme73T5Hy7AVymLXwBdGjp3kPSwC7wzqb1l4Zr+LBHni6JyernpkePWvpkYbyol0OBLDgJ8QRwoaPCigNautmdl50T+WhsCbrOPejtnhOn+H8FICpaFUdRQcDsEOxGY1nn4TbMBfjunfgVD8KnWE7DJolMI1+BJN2HSwGpsZdzCpz0FWzgFX/VIh1aejV5aJHf45pAW9br0WoV5YOa/g1Wchf1UC6jw05msfSpvQE2jXx6FLHont0OzrKXoTDshZW7QcwqhczC4qFynAI+pGF0Or2wWLJQmPu05CoD0CsPcbAy0SXPo9rJwNy0NLw9Z+J0Eu2jGUGlQHQxqyoYyyRtYWH0dj8ASzaBBjNOyDv/whqUyKG9UcgES2B0ngUGnUWuhXb0K09ii5tCjr02Sx+Dlq12WjSpPHhzBc1A7nWmcinnbFcLf05eucg2nVZ6NBlo10vaBa6dCfQItuK9voDMOnJ/RNk4o1ouvgR2ltWQsmAHZLmMos9xqwtLSxuNk+riVmzJ8oCA/Efv/jFL/DLX/4SGo3mzwKPyCmSP/zhD9cU/lrDzRQikkiI2iTuJAJAl8/CLOcUOk256GLDEK7GM+hmbo81D0WliyDrSYTbsg0WzToo+lnbZ0qFXFqJswXrefhuHi8Yv3NKuw35UQvz/vvvc5KGhEAURCBr6EsXFRWFKESBTiQ/ks2bN3PgiRDKzc3lzBpxFo8//vjUWC0QkV5oEDzFo6xfHxz35eTkcHft2rVQKBT8mnhkEiKrBLApj7vuuotz2RT31VdfjSDJ+EykU8/AMp1lmh9U81n0Ws5C4izEzoNvIe7gOyg6F4/mptNM81GQn4yFc59CVU8ceq3BsBQnGJ/cPIyMt0cF8Fe/+lXENbFtP/zhDzkoTzzxBPcX+FwidjIyMiJe+O233+ZMXjij9+tfB3eUEVFPAM5MT7B8CkdkE1GjFNflcqGjo4ODRIDFx8fzsMuWLQulRyIQ/z/96U+DI4Vt2ziRlZKSEgTQ6bWgTZ8JkbVwSs9xHXCfR+zxJWhpiWPjHz2MlmoolHkoLd2Gt1+9H42KNIjGz4XCC/Gp/fMFJqICeMcdd0RUDeJXySL5LgiHY2oo4efP5HJ5iE4UQAhn4LZv387jEssWLT1hWwdZNYFGFkjMHj0nsH73u9/x54JVEV9Mlh2enkD8hzcBxBXfc889PI/QaozS1oo+awH67cWQjJ9nbhFkrlKk5i5Cbc1ONtQYgMlyASLJSZQUb8WKxY+jsHE/CxcMK+FuCbotebC4o58doS+XlJTEv77A/ba1tfH7rVuD82Eiy+medgQQv0sEOt0TVUlEN9GbJN///ve5e/PNN/MXmi09QX7wgx9w99FHHw2BIFg3AUWcMG3rIKDpmpoa+pB0TWV55JFHIvIl/pnyiVgP7DGcY+AVQeooZcoGwv5KbN72JkSi42xaRts4LmFQcQaF5zZj744/4sjJleh3FPOwFIeqs8La9Lmt481cRbmWnvFKfoJLlkzWRvLMM89ccw8dLd85M8kjKbOyXmZFvcZCNpzJQ2VPEjZs/SPWrnoBG9a+ghVLn8PCPz2OLXvfRbUkFc1K1gGNnWXDl2zOnfw1SPjmIoFA/1w5Ebm+CY3DmagfSkdlbzJqBtKwdusS1hOWsKqyG2t2fIC8hkPIbzyMSvFx9jwVSl0fvBPXH0ccFUDqyZwuO2RjbaiSHEO56AgqREeReGYz0ot3orT7CIo69qNKnIIhdS+sNitvfK9HqvPqvDDtlbbL0W+sRp+pCGJTOQaMdbC69Axp4Hqnh2cFkJb5DU45BszV0DoksE8YOQdMC7DjE3pOIA1aLsLm0TGMAzcADBe1owcGjwwuvwk9fZ1Qjw1jImDHBOuJJwLjcPtsHEi3b5yBqeMEu9E1dANA6oWV9lZ0SOpxqakBRpuajb9aUc/GYAarCgOyAYgGumD3GphFTqlXzwHVOgegd8mvbwAl5go4J/WovXQBo6MmnDhZjhMZZTiTX4f2ziHQNLO6vhw2rwZEBUSqGmb3KIZnmcJ9HSRaJxkCUOPsRW1TGZQqJYpK63A0uQgV1V24eEmM2gYRyi90ora+D33iATS0dKJvsA0mlwJG59C0svsx1l5aPZpZChDs4TfFZePE2eBBQ5HsciK+OWw1+UrSMks4Wr6nFexPI2crm3A0pyzC73TZ9Hrmwi1HZ7dAassU9gZk5h5HW/sgDsTlorSyC1XV3WhqlaK5VcbA7Mb50jZU1vQi6UQxqhoLOHWpdfSHqQQ6B6vmxuJZ58ICmyZIcl4l/7JE/rjcnhBh7mQuLaELJzYFYGjpXhDiPoS44f5EMtHyv599LIrj9V4+PqVjHPTMP7V6E+0gY7jf2v0Zl1kgxZ9D4xTiL3RuMWT6S0jPqkRGTg1KyjuxY3cGtu/bjGVrViL+eDkDtRuxh/ORklaC/rGLUPONRV2XKc1IZltMDWfYiKQhzpYK8uaq/ZwzEQjzJ97fwjng4rp2BuwE54CJSyY+40BacOP58dMVobgS+SgneUiENDYezuJcCFn7zGoYn13KnxF3TPLS0r0wW6fPR1Oegh/lQaRTeB5EeHX3K4LrgUPWRuQUJjPQ+li7V4OcM404d74dSRknoff1YNTZgl17juEU8z8cX4iD8UVsjpyG7uEyDNtaptU6pexaZqmNCuCTDBiiBQUWjq+UTHh54cJfXnDpJYkjpuo+OaMdIrKdSB7NFFklsG30kZbuTOYn4yn+1oRInuWp+Vsv45nDdzoIPA3tohBIr/DyEc88rNZxdnAOtVvEzOU3HMb7i99GQlI5TubUo7yyD+VVbajvycPZihQ0XlKgpKwLaZk12L3vNDbvXQkZG1APmi9GVbGxjI0bI0+8U8YzCWyBXhSIdap+Wecvhoh1sjqqbuGUqEB1hoMW3jyQuyY2I1TN3J7I5iT84PbiHUkYUml5vuFCwBP7F618xA8LTcCcQQsbsqhS0KJNY1O2eBxMOIuConbU1Q9ALNFjSG6DQmFHT48aF2rEOFvYilXrjqBDWYR+UxWblVTxrSEzlXjhmdU48VRZVKv8nwXbQtSl3emKCDdvakeBcLo9Iac0Ig4R4rRRiKozX6bKCK5cEzFOFkpxOiWRY9T8qmb+jNpfOsPcMpXvTADjMoujlk88OMrjUtqclSNKs92QgWUblmLj1nRknqpjnckwRCItxOKgikRj6OlV4VBCPpasjMPJ4ng2rStF99h51mmUoE9fzNpSQdk9cwetjZ/7sCFcaEfB50UefdZ0Qrww0ZqlfYeR17wHiz9ZysZ/FzCissFs9sBkdkE2ZGTgFWPdvo+xL2Utyi5loeJSLsT9A8iu2A+5WoLmkRx06ws4J9ytz4fMXPsXHZeFE/Vf2kCaFgeCnHA6105zJlZtW4433luK199fiMUrY7BsdTyef/NNzF2wCbGpW5CYE4MuVqUbm2Ro7ZDBZPJBwnqkyp4TaFJmoVOfi3btqVk3GH2tZiIK1mu2aDPRqs1Cqy4LbUxr5cmolh1n1ToLy7fNx9PPv45eyym+jNXU2oa8gkZodax7t/vgck1Cp3dCPqRDe4cGe5M+4WkRLzJzb8wXPUu41lXlPwtA2pJLPG6HIWeGnkKHMQeNo2ko64lDl/E0em2ncexkEuoaJBBJtNiwfT9Wb1mHs+eaGLByHDqSh4K2fTxu01gqX9GZWXjiGYhvIK5h5mHBaPtRrvSixJOQCHzFlcCiGVBLS/BE1a233npNFMBs/gJ1ygEk8rtDn4MuUx7ndrsFNUdqry0Ph44dYWNFCYrZcKaiUooT57dC7CzAkWOZSD1ZjcMJ53EsrQitY6cgMpVELYRAUodTnERB3nbbbSF/ImwExoyEroVTk3QIkICgBVziZYloIiLpxz/+cYion5mekO9PfvITdHV18WO6wsFHEgo7k+Snk5l0BJZOb9IRXeFsnlB+weVTOTHribvNeeg1Eyecz6orU2t+kPOd0j5bPqokyYiJT0DiiQtIP1mH9m4JmxP34szZS4g9lI81G9hguzYGncYzfE4cTWbywnSgkCzivffeC52QFF6evvTSpUuDrOHUocQXXnghdE2sGO0UECyZiPpo6ZEQt0t0Jj0vKSnhuxrIoghUCnvLLbdElPP+++8P5SHkSyJwxVR2+tAcQH/Ay61QbCuCyFrEOV4x6XghxPZznPvlrr2AjQFjkJxWiQNH8rE79gz2HSzA9l1ZiD9WjJVrk7AveS1rEk5HBc9gMGD58uX8mjhVqsrCoWlhd4BwQvPZZ5/lJ8eFghNHLFgbH2CzZ/n5+Zwnbm5unjW9mR+Odh9QWGpCyKV0ZlbRJ598MuQnAEjlFk6LkvvRRx/x/KZ36bMGv9uSy3nhoJ4PUzZodgS1pCMRCz6ej/yiDjQ0SVFc0Y6qWglWfHIE2ZWxqB44Aa8/+q+fyFLuu+8+XiUoc0GIbBf4XrKS22+/PXRKnKqOQMYTgMLRe8GPXOFloqUnCO1WGBwcDJHjQhWmeOFxhY8XXmYi0QXwqFoL54qJQ45YDxwZ7+CUpsxZznneAWcJpM5iDLjOc5UyHQ6Us552LVZsWYoVm1dj0Yp4LNu4AAuWL0OzJh2WT3lO5M/hhcMb80/TKVxLD3y1dMh6icyPclKpE32szZM5yzDoKuO7E7i6GZhTKp8og9xTjnZNLpasfwdDngpexR0+0w1OhMThNUFkLkGP7RQDrhSD7nIMekrDNAig1FXMwuRAbqvHhN+J61GuSGvaJ/SQWWsgsRVDwtvBwqBLe2GsxVDYm67bQ4bXBKAgTqcSFmsjjMYKNm2rY415MxuHmXBDrgCgyzkM+3gfHONi1tto4PPZ2CzChQCrqj6vjTWiI3DYxUwlrOc03gAwXCzmi/C4RxlgBJaFqXlKLWFK91YOqn28F+O27hsABgIeeBxsoOrXMTUE3QBt4dDB7zNgwqOLqt4JAwNcA9un3Nr2tQIwEJiATleBxEYjMpq1OF6vRUKtFgcrNdh4zoTi6gvcKt2u2XSEPR9j7eOVQSQWrFM8vUJMh1aInPmsQgdjbHbnlw+gxXyJtXtKrE8sYONANiPws0k562C7mSG+nz6O3NxkOB1ypoMR6nYNRdw77FJWnXtmzZCOSv33G9O/S35k7sbQAcCIoZTLc03A8j8XReFZvlAACRirpZm1ZWL2SWVIzi+B1uXHiJ11JkTC7JdiZLASdtZpCEodyJC8Da0t5xnw/UH/8WCnYmY99Wy9NP2Rd92Bk/yayGxi6ASh/6kKy/R0jnjLkZzQM+JC6GAhX22ZWoluF8lD5DfRo8RTCER9WX3nFwPg5KQfRn0x7Mxqxq2dTDsgkrZCZfdBxSzQwWYvr+wbgFxSOPU8qA5bB4rPF8NkaAnz7+Bqt1GnEv0FiHJcPXWYj9iuUyXBDd0rpw4GCuQTsXJ0XJXktRWxIeslGpP8//DhjgiGTTggKPxqWaAr/+IAer1GVn0bYTU3hbSnvx6j49MAvr6nm339XGRUXkRa+UWkltWhsLIB6+PzcPxcDY7mXUDcqSrEZRVDPVrF0zAZKq8IIP2Rl/jWlCnS+ySzLiKtNzOrO1vRxLd/EDfbxaox+dGzdQczOc1JjJlwIlMA8BNm1RTnrTUHv1AA/z/igV6S6DiFQgAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<experimental_procedure>
+  <mission>
+    <type>
+      <id>TYPE_DEFAULT</id>
+      <name language="fr">Type de matériel par défaut</name>
+      <name language="en">Default material type</name>
+    </type>
+    <type>
+      <id>TYPE_LIQUIDE</id>
+      <name language="fr">Liquide</name>
+      <name language="en">Liquid</name>
+    </type>
+    <type>
+      <id>TYPE_PROD_CHIM</id>
+      <name language="fr">Produit chimique</name>
+      <name language="en">Chemical product</name>
+    </type>
+    <type>
+      <id>TYPE_MESUREUR</id>
+      <name language="fr">Mesureur</name>
+      <name language="en">Mesureur</name>
+    </type>
+    <type>
+      <id>TYPE_DELIVREUR</id>
+      <name language="fr">Délivreur</name>
+      <name language="en">Délivreur</name>
+    </type>
+    <type>
+      <id>TYPE_CONTENEUR</id>
+      <name language="fr">Conteneur</name>
+      <name language="en">Container</name>
+    </type>
+    <type>
+      <id>TYPE_USTENSILE</id>
+      <name language="fr">Ustensile</name>
+      <name language="en">Ustensil</name>
+    </type>
+    <type>
+      <id>TYPE_INGREDIENT</id>
+      <name language="fr">Ingrédient</name>
+      <name language="en">Ingredient</name>
+    </type>
+    <type>
+      <id>TYPE_CHAUFFANT</id>
+      <name language="fr">Chauffant</name>
+      <name language="en">Chauffant</name>
+    </type>
+    <type>
+      <id>TYPE_HOMOGENEISATEUR</id>
+      <name language="fr">Homogénéisateur</name>
+      <name language="en">Homogénéisateur</name>
+    </type>
+    <type>
+      <id>TYPE_SOLUTION</id>
+      <name language="fr">Solution</name>
+      <name language="en">Solution</name>
+    </type>
+    <type>
+      <id>TYPE_OBJET</id>
+      <name language="fr">Objet</name>
+      <name language="en">Object</name>
+    </type>
+    <type>
+      <id>TYPE_SOLIDE</id>
+      <name language="fr">Solide</name>
+      <name language="en">Solide</name>
+    </type>
+    <initial_proc>
+      <name language="fr">Procedure</name>
+      <name language="en">Procedure</name>
+      <question>
+        <description language="fr" />
+        <description language="en" />
+        <task_right>
+          <edit_right>X</edit_right>
+          <delete_right>N</delete_right>
+          <copy_right>N</copy_right>
+          <move_right>N</move_right>
+          <parent_right>X</parent_right>
+          <draw_right>N</draw_right>
+          <repeat_right>N</repeat_right>
+        </task_right>
+      </question>
+      <proc_hypothesis>
+        <hypothesis language="en" />
+        <hypothesis language="fr" />
+        <comment language="en" />
+        <comment language="fr" />
+        <hypothesis_hide>false</hypothesis_hide>
+      </proc_hypothesis>
+      <proc_general_principle>
+        <principle language="en" />
+        <principle language="fr" />
+        <principle_comment language="en" />
+        <principle_comment language="fr" />
+        <principle_hide>false</principle_hide>
+      </proc_general_principle>
+      <manipulation />
+      <code>TEST</code>
+      <is_free_action>true</is_free_action>
+      <is_task>true</is_task>
+      <is_task_repeat>false</is_task_repeat>
+      <hypothesis_mode>M</hypothesis_mode>
+      <principle_mode>M</principle_mode>
+      <draw_principle>false</draw_principle>
+      <evaluation_mode>N</evaluation_mode>
+      <strategy_ref>
+        <code>S4</code>
+      </strategy_ref>
+      <is_task_draw>false</is_task_draw>
+    </initial_proc>
+  </mission>
+  <learner_proc>
+    <name language="fr">Procedure</name>
+    <name language="en">Procedure</name>
+    <question>
+      <description language="fr" />
+      <description language="en" />
+      <task_right>
+        <edit_right>X</edit_right>
+        <delete_right>N</delete_right>
+        <copy_right>N</copy_right>
+        <move_right>N</move_right>
+        <parent_right>X</parent_right>
+        <draw_right>N</draw_right>
+        <repeat_right>N</repeat_right>
+      </task_right>
+    </question>
+    <proc_hypothesis>
+      <hypothesis language="en" />
+      <hypothesis language="fr" />
+      <comment language="en" />
+      <comment language="fr" />
+      <hypothesis_hide>false</hypothesis_hide>
+    </proc_hypothesis>
+    <proc_general_principle>
+      <principle language="en" />
+      <principle language="fr" />
+      <principle_comment language="en" />
+      <principle_comment language="fr" />
+      <principle_hide>false</principle_hide>
+    </proc_general_principle>
+    <manipulation />
+    <initial_proc_ref>
+      <code>TEST</code>
+    </initial_proc_ref>
+  </learner_proc>
+</experimental_procedure>
+</content>
+<resources>
+</resources>
+</elo>
