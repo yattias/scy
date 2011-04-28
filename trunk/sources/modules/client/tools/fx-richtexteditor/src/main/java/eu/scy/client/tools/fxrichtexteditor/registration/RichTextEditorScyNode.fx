@@ -43,12 +43,14 @@ import java.awt.image.BufferedImage;
 import java.awt.Dimension;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
+import eu.scy.notification.api.INotifiable;
+import eu.scy.notification.api.INotification;
 
 /**
  * @author kaido
  */
 
-public class RichTextEditorScyNode extends RichTextEditorNode, ScyToolFX, EloSaverCallBack {
+public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyToolFX, EloSaverCallBack {
    def logger = Logger.getLogger("eu.scy.client.tools.fxrichtexteditor.RichTextEditorNode");
    def scyRichTextEditorType = "scy/rtf";
    def jdomStringConversion = new JDomStringConversion();
@@ -209,5 +211,24 @@ public class RichTextEditorScyNode extends RichTextEditorNode, ScyToolFX, EloSav
          return null;
       }
    }
+
+    public override function processNotification (notification: INotification) : Boolean {
+        if (notification.getSender().equals("eu.scy.agents.hypothesis.HypothesisDecisionMaker")) {
+            var messageFromAgent = notification.getFirstProperty("message");
+            var messageToUser = "";
+            if (messageFromAgent.equals("ok"))
+                messageToUser = ##"Your hypothesis text seems to be ok."
+            else if (messageFromAgent.equals("too few keywords or text too long"))
+                messageToUser = ##"Your text is too short, or it does not contain enough statements about the relevant concepts of the mission."
+            else if (messageFromAgent.equals("inter-relation between keywords"))
+                messageToUser = ##"Try to express the relations between mission concepts more descriptively.";
+            if (not messageToUser.equals(""))
+                javafx.stage.Alert.inform(messageToUser);
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 
 }
