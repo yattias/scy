@@ -57,7 +57,7 @@
                      <property name="id" value="ConceptualisationBiologist"/>
                      <property name="xPosition" value="40"/>
                      <property name="yPosition" value="0"/>
-                     <property name="tooltip" value="Conceptualisation"/>
+                     <property name="tooltip" value="Conceptualisation for biologist"/>
                      <property name="lasType" value="CONCEPTUALISATION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission4/GMO/ConceptualisationLAS/curtain-bio.html"/>
                      <property name="loEloUris">
@@ -79,7 +79,7 @@
                      <property name="id" value="ConceptualisationEconomist"/>
                      <property name="xPosition" value="40"/>
                      <property name="yPosition" value="40"/>
-                     <property name="tooltip" value="Conceptualisation"/>
+                     <property name="tooltip" value="Conceptualisation for economist"/>
                      <property name="lasType" value="CONCEPTUALISATION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission4/GMO/ConceptualisationLAS/curtain-eco.html"/>
                      <property name="loEloUris">
@@ -101,7 +101,7 @@
                      <property name="id" value="ConceptualisationLawyer"/>
                      <property name="xPosition" value="40"/>
                      <property name="yPosition" value="80"/>
-                     <property name="tooltip" value="Conceptualisation"/>
+                     <property name="tooltip" value="Conceptualisation for lawyer"/>
                      <property name="lasType" value="CONCEPTUALISATION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission4/GMO/ConceptualisationLAS/curtain-law.html"/>
                      <property name="loEloUris">
@@ -123,7 +123,7 @@
                      <property name="id" value="ConceptualisationProtector"/>
                      <property name="xPosition" value="40"/>
                      <property name="yPosition" value="120"/>
-                     <property name="tooltip" value="Conceptualisation"/>
+                     <property name="tooltip" value="Conceptualisation for animal protector"/>
                      <property name="lasType" value="CONCEPTUALISATION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission4/GMO/ConceptualisationLAS/curtain-pro.html"/>
                      <property name="loEloUris">
@@ -145,7 +145,7 @@
                      <property name="id" value="ReflectionBiologist"/>
                      <property name="xPosition" value="80"/>
                      <property name="yPosition" value="0"/>
-                     <property name="tooltip" value="Reflection"/>
+                     <property name="tooltip" value="Reflection for biologists"/>
                      <property name="lasType" value="REFLECTION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS1/curtain-bio.html"/>
                      <property name="loEloUris">
@@ -167,7 +167,7 @@
                      <property name="id" value="ReflectionEconomist"/>
                      <property name="xPosition" value="80"/>
                      <property name="yPosition" value="40"/>
-                     <property name="tooltip" value="Reflection"/>
+                     <property name="tooltip" value="Reflection for economists"/>
                      <property name="lasType" value="REFLECTION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS1/curtain-eco.html"/>
                      <property name="loEloUris">
@@ -189,7 +189,7 @@
                      <property name="id" value="ReflectionLawyer"/>
                      <property name="xPosition" value="80"/>
                      <property name="yPosition" value="80"/>
-                     <property name="tooltip" value="Reflection"/>
+                     <property name="tooltip" value="Reflection for lawyers"/>
                      <property name="lasType" value="REFLECTION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS1/curtain-law.html"/>
                      <property name="loEloUris">
@@ -211,7 +211,7 @@
                      <property name="id" value="ReflectionProtector"/>
                      <property name="xPosition" value="80"/>
                      <property name="yPosition" value="120"/>
-                     <property name="tooltip" value="Reflection"/>
+                     <property name="tooltip" value="Reflection for animal protectors"/>
                      <property name="lasType" value="REFLECTION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS1/curtain-pro.html"/>
                      <property name="loEloUris">
