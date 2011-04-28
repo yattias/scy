@@ -83,7 +83,7 @@
       <id>ConceptualisationBiologist</id>
       <xPos>40.0</xPos>
       <yPos>0.0</yPos>
-      <toolTip>Conceptualisation</toolTip>
+      <toolTip>Conceptualisation for biologist</toolTip>
       <title />
       <instructionUri>http://www.scy-lab.eu/content/en/mission4/GMO/ConceptualisationLAS/curtain-bio.html</instructionUri>
       <lasType>CONCEPTUALISATION</lasType>
@@ -109,7 +109,7 @@
       <id>ConceptualisationEconomist</id>
       <xPos>40.0</xPos>
       <yPos>40.0</yPos>
-      <toolTip>Conceptualisation</toolTip>
+      <toolTip>Conceptualisation for economist</toolTip>
       <title />
       <instructionUri>http://www.scy-lab.eu/content/en/mission4/GMO/ConceptualisationLAS/curtain-eco.html</instructionUri>
       <lasType>CONCEPTUALISATION</lasType>
@@ -135,7 +135,7 @@
       <id>ConceptualisationLawyer</id>
       <xPos>40.0</xPos>
       <yPos>80.0</yPos>
-      <toolTip>Conceptualisation</toolTip>
+      <toolTip>Conceptualisation for lawyer</toolTip>
       <title />
       <instructionUri>http://www.scy-lab.eu/content/en/mission4/GMO/ConceptualisationLAS/curtain-law.html</instructionUri>
       <lasType>CONCEPTUALISATION</lasType>
@@ -161,7 +161,7 @@
       <id>ConceptualisationProtector</id>
       <xPos>40.0</xPos>
       <yPos>120.0</yPos>
-      <toolTip>Conceptualisation</toolTip>
+      <toolTip>Conceptualisation for animal protector</toolTip>
       <title />
       <instructionUri>http://www.scy-lab.eu/content/en/mission4/GMO/ConceptualisationLAS/curtain-pro.html</instructionUri>
       <lasType>CONCEPTUALISATION</lasType>
@@ -187,7 +187,7 @@
       <id>ReflectionBiologist</id>
       <xPos>80.0</xPos>
       <yPos>0.0</yPos>
-      <toolTip>Reflection</toolTip>
+      <toolTip>Reflection for biologists</toolTip>
       <title />
       <instructionUri>http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS1/curtain-bio.html</instructionUri>
       <lasType>REFLECTION</lasType>
@@ -213,7 +213,7 @@
       <id>ReflectionEconomist</id>
       <xPos>80.0</xPos>
       <yPos>40.0</yPos>
-      <toolTip>Reflection</toolTip>
+      <toolTip>Reflection for economists</toolTip>
       <title />
       <instructionUri>http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS1/curtain-eco.html</instructionUri>
       <lasType>REFLECTION</lasType>
@@ -239,7 +239,7 @@
       <id>ReflectionLawyer</id>
       <xPos>80.0</xPos>
       <yPos>80.0</yPos>
-      <toolTip>Reflection</toolTip>
+      <toolTip>Reflection for lawyers</toolTip>
       <title />
       <instructionUri>http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS1/curtain-law.html</instructionUri>
       <lasType>REFLECTION</lasType>
@@ -265,7 +265,7 @@
       <id>ReflectionProtector</id>
       <xPos>80.0</xPos>
       <yPos>120.0</yPos>
-      <toolTip>Reflection</toolTip>
+      <toolTip>Reflection for animal protectors</toolTip>
       <title />
       <instructionUri>http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS1/curtain-pro.html</instructionUri>
       <lasType>REFLECTION</lasType>
