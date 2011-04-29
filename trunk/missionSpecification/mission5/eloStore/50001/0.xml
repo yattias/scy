@@ -1,0 +1,83 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>yuri</entity>
+        <date>
+          <dateTime>2011-04-29T11:04:37.788+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>yuri</entity>
+        <date>
+          <dateTime>2011-04-29T11:04:37.788+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1304067877788</dateCreated>
+        <dateFirstUserSaveKey>1304067877788</dateFirstUserSaveKey>
+        <dateLastModified>1304067877788</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>informationAssignment</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/50001/0/List+of+information.rtf</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">List of information</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACXklEQVR42u3av2saYRzH8RMslO5CoX9C1m5uIrR/RB2TzAWpkJY6SiYdQ8VB6JBYChkq/QF1auygTTA4iIjQYquJGvSil5y1fuvzBK+elCIplArvD3y45zn1xJfPoRxn2LYt3W7X1V6vJ+PxmC5RYzQayenpqav9fl/Ozs4cUDUeDAYyHA51C4WC3i9iOc1kMq4vIZlMuubqGPPHvLAGojL/HPW+lmWtVDWgZbbly9dLOWnaDqD6QOcX38U8t+Vbs6Xnlv1DHqWPfgEWn8qtmzek9fqJBnx/1JKDijndnmjAyRTId/uOns8A1fjT57Hce7ClAdV882FUb03T1Kt/laoBLwdt2Xo1Eq+/7gKM7dblbmzkAEajUdne3pZisXgF+HZD5N2GtHY3NeCzlx+dasDJRHZeHMhO5oMDOHv8fuixBlTj52/KeqsAF8+G/71/PIXnm06nnVYqFddpqbq3t+eaK8DFYyxWZX6uABuNxkrVqFarcnx87Gq5XJZ6vU6XqCHkr2LUajUJhULOjk6ns/yLDfwRABBAAAEk1wdMJBLi9XrF5/M5v6q5XE6CwaCo/4jr6+sosQIBBBBA8nvAfD4vfr9f1FWZw8NDRFiBAAIIIAHwnwGWSiXZ39+XcDgs2WxWl7ACAQQQQLI0oLoO2G63r26WmY5njcViEo/H9X0xHo9H1tbWJJVKSSQSkUAgIM1mE0DWEIAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAAEgABBBBAcq38BEp73k+e4B5KAAAAAElFTkSuQmCC</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Dolly;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+{\stylesheet{\s2\f1\fs24\i0\b0\cf1 default;}{\s1\li0\ri0\fi0\sa80\sb80\sbasedon2\snext1 DP Document;}}
+\margl1417\margr1417\margt1417\margb1417\widowctrl
+\s1\li0\ri0\fi0\sa80\sb80\f2\fs20\i0\b\ul0\cf0 List of information you collected\par
+\par
+Carbohydrates\par
+\par
+Glucose\par
+\par
+Insulin\par
+\par
+Role of glucose in the body\b0\par
+\pard\li0\ri0\fi0\f1\fs24\ul0\cf1\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>
