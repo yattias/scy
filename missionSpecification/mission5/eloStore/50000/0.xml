@@ -1,0 +1,486 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>wouter</entity>
+        <date>
+          <dateTime>2011-04-28T20:05:48.205+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>wouter</entity>
+        <date>
+          <dateTime>2011-04-28T20:05:48.201+0200</dateTime>
+        </date>
+      </contribute>
+      <version>2</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1304013948205</dateCreated>
+        <dateFirstUserSaveKey>1304013948200</dateFirstUserSaveKey>
+        <dateLastModified>1304014162830</dateLastModified>
+      </customElements>
+      <format>scy/model</format>
+    </technical>
+    <educational>
+      <learningResourceType>artefactDesigned</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/50000/0/Glucose+Model.scymodel</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">Glucose Model</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAeElEQVR42u3QMQEAAAwCIPuX1hDbCRFIOYkCgQIFCkSgQIECEShQoEAEChQoEIECBQpEoECBAhEoUKBABAoUKBCBAgUKRKBAgQIRKFCgQIEIFChQIAIFChSIQIECBSJQoECBCBQoUCACBQoUiECBAgUiUKBAgQj8M5Hzoc7Xq3ytAAAAAElFTkSuQmCC</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<model xmlns="http://www.co-lab.nl/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.co-lab.nl/xml Model.xsd">
+  <descriptor>
+    <symbol>model</symbol>
+  </descriptor>
+  <variables>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>startExercise</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>30</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>ExerciseLevel</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>0.4</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>InsulineConcentration</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#008000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>0</initial>
+          <unit>micmol/l</unit>
+          <inflow>PancreasInsulineProduction</inflow>
+          <outflow>InsulineDecay</outflow>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>Exercise</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#ffc800</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>ExerciseLevel*(1/(1+exp(-10*(time-startExercise))) - 1/(1+exp(-10*(time-stopExercise))))</expression>
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>time</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <timeSpec>
+          <unit>?</unit>
+          <time start="0.0" stop="90.0" />
+          <integration method="euler" step="0.1" />
+        </timeSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>InsulineBreakdownRate</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>0.005</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>InsulineDecayRate</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>0.1</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>MetabolismRate</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>0.3</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>InsulineBreakdown</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000080</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>GlucoseConcentration*InsulineConcentration *InsulineBreakdownRate</expression>
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>TargetGlucoseLevel</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>4</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>GlucoseInDigestiveSystem</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#ff0000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>30</initial>
+          <unit>?</unit>
+          <outflow>GlucoseIntake</outflow>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>InsulineDecay</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#9a7c32</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>InsulineConcentration * InsulineDecayRate</expression>
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>GlucoseIntake</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#7c009f</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>GlucoseIntakeRate*GlucoseInDigestiveSystem</expression>
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>InsulineProductionCoefficient</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>0.05</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>MuscleMetabolism</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#ef1385</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>Exercise * MetabolismRate</expression>
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>productionInLiverRate</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>0.1</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>GlucoseConcentration</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#fa0000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <stockSpec>
+          <initial>4</initial>
+          <unit>mmol/l</unit>
+          <inflow>GlucoseIntake</inflow>
+          <inflow>ProductionInLiver</inflow>
+          <outflow>InsulineBreakdown</outflow>
+          <outflow>MuscleMetabolism</outflow>
+        </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>stopExercise</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>55</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>GlucoseIntakeRate</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#000000</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>0.0053</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>ProductionInLiver</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#f46510</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>max (TargetGlucoseLevel-GlucoseConcentration, 0)*  productionInLiverRate</expression>
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>PancreasInsulineProduction</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#2c92bb</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <auxSpec>
+          <expression>max(GlucoseConcentration - TargetGlucoseLevel,0)*InsulineProductionCoefficient</expression>
+          <unit>?</unit>
+          <exprType>0</exprType>
+        </auxSpec>
+      </specification>
+    </varspec>
+  </variables>
+  <layout>
+    <nodes>
+      <nstock symbol="InsulineConcentration" id="37ea8328-9ac5-4a4b-8821-b5da67f08f06" x1="583" y1="625" x2="615" y2="645" label="south" color="#000000" labelColor="#008000" />
+      <nstock symbol="GlucoseInDigestiveSystem" id="86638233-b279-4965-9627-4642b016f28c" x1="67" y1="588" x2="99" y2="608" label="south" color="#000000" labelColor="#ff0000" />
+      <nstock symbol="GlucoseConcentration" id="92974da9-ed91-46ac-9f34-7e33685b85f5" x1="470" y1="435" x2="502" y2="455" label="south" color="#000000" labelColor="#fa0000" />
+      <naux symbol="Exercise" id="b65c84bb-985d-40a3-bd6b-3625b711483d" x1="499" y1="217" x2="531" y2="249" label="south" color="#000000" labelColor="#ffc800" />
+      <naux symbol="ProductionInLiver" id="37d5fdfe-2d86-407c-aaf9-63de9e3a6616" x1="216" y1="310" x2="248" y2="342" label="south" color="#000000" labelColor="#f46510" />
+      <naux symbol="InsulineDecay" id="dfab6917-3af4-45ca-864f-ed1cd6bd265d" x1="653" y1="681" x2="685" y2="713" label="south" color="#000000" labelColor="#9a7c32" />
+      <naux symbol="PancreasInsulineProduction" id="4086d4a9-7b6d-48cd-b7b1-d7ba694c9625" x1="377" y1="518" x2="409" y2="550" label="south" color="#000000" labelColor="#2c92bb" />
+      <naux symbol="MuscleMetabolism" id="fd9302c7-0cf7-405d-ae7a-ce7603307e79" x1="552" y1="273" x2="584" y2="305" label="south" color="#000000" labelColor="#ef1385" />
+      <naux symbol="GlucoseIntake" id="0192a4f7-2069-424e-9ecc-cb246b89a822" x1="176" y1="497" x2="208" y2="529" label="south" color="#000000" labelColor="#7c009f" />
+      <naux symbol="InsulineBreakdown" id="0b650bf1-ed03-4369-aa1e-68f51631a755" x1="566" y1="504" x2="598" y2="536" label="south" color="#000000" labelColor="#000080" />
+      <nconst symbol="TargetGlucoseLevel" id="81ac5349-e838-4680-89bf-af07006cb3f0" x1="321" y1="350" x2="353" y2="382" label="south" color="#000000" labelColor="#000000" />
+      <nconst symbol="productionInLiverRate" id="ca50cab9-b1c5-44b2-8577-c854d12d52ea" x1="153" y1="192" x2="185" y2="224" label="south" color="#000000" labelColor="#000000" />
+      <nconst symbol="MetabolismRate" id="3781fcb1-83ab-478d-a6b6-35057a468194" x1="591" y1="177" x2="623" y2="209" label="south" color="#000000" labelColor="#000000" />
+      <nconst symbol="ExerciseLevel" id="f9f2e41f-6937-4d44-b934-4cdce8b744ad" x1="364" y1="175" x2="396" y2="207" label="south" color="#000000" labelColor="#000000" />
+      <nconst symbol="InsulineDecayRate" id="a5050ba7-d285-4755-b813-e8dad5ecd7ea" x1="795" y1="652" x2="827" y2="684" label="south" color="#000000" labelColor="#000000" />
+      <nconst symbol="InsulineBreakdownRate" id="42cd52ef-a043-4bfe-a9e5-bd5a4781e0f8" x1="712" y1="496" x2="744" y2="528" label="south" color="#000000" labelColor="#000000" />
+      <nconst symbol="startExercise" id="b1bf3457-e82c-4bcb-8a9a-3599677a9c06" x1="413" y1="51" x2="445" y2="83" label="south" color="#000000" labelColor="#000000" />
+      <nconst symbol="InsulineProductionCoefficient" id="a1e4c680-527c-4cef-9bd5-a3a5d3953ff6" x1="338" y1="631" x2="370" y2="663" label="south" color="#000000" labelColor="#000000" />
+      <nconst symbol="stopExercise" id="4e80099a-a35f-40b3-be07-e83f206ff779" x1="556" y1="60" x2="588" y2="92" label="south" color="#000000" labelColor="#000000" />
+      <nconst symbol="GlucoseIntakeRate" id="8d2410f0-a689-43ac-8698-3bd2d688c1d2" x1="206" y1="578" x2="238" y2="610" label="south" color="#000000" labelColor="#000000" />
+    </nodes>
+    <links>
+      <lflow symbol="Flow_6" id="62657ff2-50ee-4e71-be2e-ff4849915a1b" start="GlucoseInDigestiveSystem" end="GlucoseConcentration" x1="99" y1="588" x2="470" y2="450" cx1="99" cy1="450" type="ctrl_1" color="#000000" />
+      <lflow symbol="Flow_5" id="29688e37-a7da-4b32-b241-78ba0f75138c" start="InsulineConcentration" x1="615" y1="635" x2="723" y2="635" cx1="723" cy1="635" type="lineal" color="#000000" />
+      <lflow symbol="Flow_4" id="22fff54d-0dbe-4e33-bb08-ff8a1955c842" end="GlucoseConcentration" x1="100" y1="323" x2="470" y2="436" cx1="100" cy1="436" type="ctrl_1" color="#000000" />
+      <lflow symbol="Flow_3" id="57ed8bd3-26a0-4daa-bff9-7613ba22776f" end="InsulineConcentration" x1="500" y1="587" x2="583" y2="636" cx1="500" cy1="636" type="ctrl_1" color="#000000" />
+      <lflow symbol="Flow_2" id="2c64292e-c7d0-46f0-9c7f-fa9eaa706c65" start="GlucoseConcentration" x1="502" y1="447" x2="664" y2="470" cx1="664" cy1="447" type="ctrl_1" color="#000000" />
+      <lflow symbol="Flow_1" id="d7310021-103a-459d-a579-295aa0f09f06" start="GlucoseConcentration" x1="502" y1="436" x2="848" y2="353" cx1="848" cy1="436" type="ctrl_1" color="#000000" />
+      <lrelation symbol="Relation_9" id="cc05c654-1d7a-4986-81e5-99062a7b41b7" start="MuscleMetabolism" end="Flow_1" type="0" x1="571" y1="305" x2="668" y2="429" cx1="580" cy1="358" cx2="627" cy2="388" color="#000000" />
+      <lrelation symbol="Relation_8" id="0ae5e45b-1c21-43f4-bbd2-901dfd5f37c0" start="Exercise" end="MuscleMetabolism" type="0" x1="526" y1="245" x2="558" y2="278" cx1="536" cy1="256" cx2="548" cy2="266" color="#000000" />
+      <lrelation symbol="Relation_7" id="b3c07a10-b513-4dc8-8bbf-971cfd4ef991" start="startExercise" end="Exercise" type="0" x1="434" y1="77" x2="506" y2="221" cx1="458" cy1="125" cx2="474" cy2="179" color="#000000" />
+      <lrelation symbol="Relation_6" id="86b85813-4465-4009-8953-57a34cfe456f" start="ProductionInLiver" end="Flow_4" type="0" x1="218" y1="332" x2="107" y2="376" cx1="181" cy1="347" cx2="141" cy2="357" color="#000000" />
+      <lrelation symbol="Relation_5" id="2459a3c6-a612-477c-aafb-683fc2dade6a" start="InsulineBreakdown" end="Flow_2" type="0" x1="582" y1="505" x2="582" y2="454" cx1="582" cy1="488" cx2="580" cy2="471" color="#000000" />
+      <lrelation symbol="Relation_19" id="635cf2a1-558c-477e-8cf2-2f9122524ef5" start="InsulineDecayRate" end="InsulineDecay" type="0" x1="798" y1="671" x2="684" y2="703" cx1="758" cy1="680" cx2="721" cy2="718" color="#000000" />
+      <lrelation symbol="Relation_4" id="e99f5d7e-3605-4ccc-bed5-ebf6c26aa069" start="GlucoseConcentration" end="InsulineBreakdown" type="0" x1="502" y1="454" x2="574" y2="508" cx1="528" cy1="469" cx2="557" cy2="483" color="#000000" />
+      <lrelation symbol="Relation_18" id="92303b5c-1cc5-48c3-9146-f030765fe3e5" start="TargetGlucoseLevel" end="ProductionInLiver" type="0" x1="325" y1="361" x2="248" y2="326" cx1="299" cy1="351" cx2="276" cy2="326" color="#000000" />
+      <lrelation symbol="Relation_3" id="68edf837-2cdc-4521-a52a-302b2b6b2c31" start="InsulineConcentration" end="InsulineBreakdown" type="0" x1="595" y1="625" x2="575" y2="534" cx1="583" cy1="593" cx2="560" cy2="564" color="#000000" />
+      <lrelation symbol="Relation_17" id="4bcbcfcb-2d9e-402b-9c34-31d089adfdc3" start="InsulineProductionCoefficient" end="PancreasInsulineProduction" type="0" x1="346" y1="638" x2="382" y2="524" cx1="251" cy1="528" cx2="348" cy2="493" color="#000000" />
+      <lrelation symbol="Relation_2" id="236a5803-7d71-4783-8200-6329c5b76c3c" start="PancreasInsulineProduction" end="Flow_3" type="0" x1="409" y1="534" x2="493" y2="605" cx1="500" cy1="525" cx2="466" cy2="578" color="#000000" />
+      <lrelation symbol="Relation_16" id="1f32db8f-da62-4984-80c7-695d47803fb3" start="InsulineBreakdownRate" end="InsulineBreakdown" type="0" x1="713" y1="513" x2="598" y2="524" cx1="674" cy1="515" cx2="637" cy2="533" color="#000000" />
+      <lrelation symbol="Relation_1" id="78e9cde9-dccc-4c99-91f8-8d0ac944d4f1" start="GlucoseConcentration" end="PancreasInsulineProduction" type="0" x1="470" y1="443" x2="404" y2="523" cx1="434" cy1="439" cx2="430" cy2="497" color="#000000" />
+      <lrelation symbol="Relation_15" id="f3535a2f-87eb-4150-a3e6-99d5645079d8" start="MetabolismRate" end="MuscleMetabolism" type="0" x1="603" y1="205" x2="574" y2="275" cx1="595" cy1="229" cx2="583" cy2="252" color="#000000" />
+      <lrelation symbol="Relation_14" id="d5c73f2c-417d-47da-81fa-ee4d27fdc633" start="GlucoseConcentration" end="ProductionInLiver" type="0" x1="491" y1="435" x2="244" y2="316" cx1="536" cy1="345" cx2="294" cy2="269" color="#000000" />
+      <lrelation symbol="Relation_13" id="9677ab0a-28f7-4dc9-95a3-9dd937d819d9" start="productionInLiverRate" end="ProductionInLiver" type="0" x1="182" y1="210" x2="228" y2="312" cx1="221" cy1="216" cx2="217" cy2="273" color="#000000" />
+      <lrelation symbol="Relation_12" id="8aee206a-f626-43ad-9f73-84089a60cbd1" start="TargetGlucoseLevel" end="PancreasInsulineProduction" type="0" x1="352" y1="366" x2="389" y2="520" cx1="470" cy1="369" cx2="375" cy2="471" color="#000000" />
+      <lrelation symbol="Relation_11" id="bfcdb96a-8924-42b5-9434-dc67cfb809b3" start="InsulineDecay" end="Flow_5" type="0" x1="669" y1="682" x2="668" y2="642" cx1="669" cy1="669" cx2="667" cy2="655" color="#000000" />
+      <lrelation symbol="Relation_10" id="4f690879-6b2c-4846-98f2-30363eee789d" start="InsulineConcentration" end="InsulineDecay" type="0" x1="602" y1="645" x2="657" y2="688" cx1="608" cy1="668" cx2="639" cy2="675" color="#000000" />
+      <lrelation symbol="Relation_24" id="a9d13175-eec3-4e32-8070-4be165f6dc94" start="GlucoseIntakeRate" end="GlucoseIntake" type="0" x1="219" y1="580" x2="208" y2="513" cx1="214" cy1="556" cx2="285" cy2="509" color="#000000" />
+      <lrelation symbol="Relation_23" id="b45f20c7-dcb5-4d86-9406-6cc216d4d759" start="GlucoseInDigestiveSystem" end="GlucoseIntake" type="0" x1="99" y1="598" x2="178" y2="517" cx1="137" cy1="598" cx2="120" cy2="534" color="#000000" />
+      <lrelation symbol="Relation_22" id="84b8aa47-8704-4c9c-91fc-c0a4766f3f34" start="GlucoseIntake" end="Flow_6" type="0" x1="177" y1="514" x2="106" y2="516" cx1="154" cy1="515" cx2="129" cy2="506" color="#000000" />
+      <lrelation symbol="Relation_21" id="c7a449e1-c87d-4410-a67b-93cb1b4af630" start="stopExercise" end="Exercise" type="0" x1="568" y1="88" x2="531" y2="231" cx1="551" cy1="141" cx2="584" cy2="225" color="#000000" />
+      <lrelation symbol="Relation_20" id="a98cf620-b599-4bef-924e-dd94e368060b" start="ExerciseLevel" end="Exercise" type="0" x1="392" y1="194" x2="502" y2="226" cx1="429" cy1="203" cx2="468" cy2="208" color="#000000" />
+    </links>
+  </layout>
+</model>
+
+
+</content>
+<resources>
+</resources>
+</elo>
