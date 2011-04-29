@@ -38,8 +38,6 @@ public class UserConceptMapAgent extends AbstractThreadedAgent {
 
     private static final String REQUEST_EDGES = "edges";
 
-    private static final String ROOLO_AGENT_NAME = "roolo-agent";
-
     private static final Tuple TEMPLATE_FOR_MAPPER_ACTIONS = new Tuple("action", String.class, Long.class, String.class, String.class, TOOL, Field.createWildCardField());
 
     // (<ID>:String, <AgentName>:String, <ServiceType>:String, <UserName>:String, <EloURI>:String,
