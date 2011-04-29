@@ -126,7 +126,7 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
         if (e.getClickCount() == 2) {
             if (fStart != null) {
                 if (fStart.isNode()) {
-                    editor.showSpecDialog(fStart, e.getPoint());
+                    editor.showSpecDialog(fStart, e.getLocationOnScreen());
                 } else if (fStart.isRelation()) {
                     //if (((JdRelation) fStart).canBeQualitative())
                     //editor.showSpecDialog();
@@ -135,11 +135,9 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
         }
     }
 
-    public void mouseEntered(MouseEvent e) {
-    }
+    public void mouseEntered(MouseEvent e) {}
 
-    public void mouseExited(MouseEvent e) {
-    }
+    public void mouseExited(MouseEvent e) {}
 
     public void setAction(int action) {
         editor.setCursor(action);
@@ -213,9 +211,9 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
             editor.selectObject(aNode, false);
             editor.getEditorToolbar().toCursorAction();
             editor.getActionLogger().logAddAction(aNode, editor.getModelXML());
-            if (editor.isSynchronized()) {
-            	editor.getModelSyncControl().addNode(aNode);
-            }
+//            if (editor.isSynchronized()) {
+//            	editor.getModelSyncControl().addNode(aNode);
+//            }
         }
     }
 
