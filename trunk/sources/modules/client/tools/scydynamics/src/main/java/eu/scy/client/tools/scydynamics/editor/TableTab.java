@@ -37,6 +37,7 @@ import eu.scy.elo.contenttype.dataset.DataSetRow;
 
 
 import sqv.Interface;
+import sqv.Model;
 import sqv.ModelVariable;
 import sqv.data.DataServer;
 import sqv.data.ScreenOutputDataClient;
@@ -44,11 +45,8 @@ import sqv.widgets.Curve;
 import sqv.widgets.GraphWidget;
 import sqv.widgets.VariableRef;
 
-public class TableTab extends JPanel implements ChangeListener, ActionListener {
+public class TableTab extends JPanel implements Runnable, ChangeListener, ActionListener {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 2337114562359454914L;
     private ModelEditor editor;
     private VariableSelectionPanel variablePanel;
@@ -60,6 +58,8 @@ public class TableTab extends JPanel implements ChangeListener, ActionListener {
     private SimulationTableModel tableModel;
     private JScrollPane scrollPane;
     private final ResourceBundleWrapper bundle;
+	private Model sqvModel;
+	private Thread simulationThread;
 
     public TableTab(ModelEditor editor, ResourceBundleWrapper bundle) {
         super();
@@ -132,12 +132,12 @@ public class TableTab extends JPanel implements ChangeListener, ActionListener {
 			}
             // create the SimQuest model from the CoLab model
             sqModel = new SimquestModelQuantitative(editor.getModel(), variablePanel.getValues());
-            sqv.Model model = new sqv.Model(sqModel, dataServer);
+            sqvModel = new sqv.Model(sqModel, dataServer);
 
             // building the tablemodel
             ArrayList<ModelVariable> selectedVariables = new ArrayList<ModelVariable>();
             ModelVariable time = new ModelVariable();
-            for (ModelVariable var : model.getVariables()) {
+            for (ModelVariable var : sqvModel.getVariables()) {
                 // getting a reference to the time variable
                 if (variablePanel.getSelectedVariables().contains(var.getName())) {
                     selectedVariables.add(var);
@@ -163,10 +163,9 @@ public class TableTab extends JPanel implements ChangeListener, ActionListener {
 
             if (variableIdList.length() > 0) {
                 // simulate
-                model.getSimulation().Simulate();
-                // tune table
-                tableModel.deleteFirstAndLast();
-                tablePanel.updateUI();
+				simulationThread = new Thread(this);
+				simulationThread.start();
+				
                 // log
 		String injectedVariables = "";
 		for (String varName: variablePanel.getValues().keySet()) {
@@ -256,5 +255,17 @@ public class TableTab extends JPanel implements ChangeListener, ActionListener {
 			}
 		}
 		return dataset;
+	}
+	
+	@Override
+	public void run() {
+		WaiterDialog waiter = new WaiterDialog(tablePanel, simulationThread, "please wait...", "running model...");	
+		sqvModel.getSimulation().Simulate();
+		// tune table
+        tableModel.deleteFirstAndLast();
+        tablePanel.updateUI();
+        //
+		waiter.breakGlass();
+		waiter.dispose();
 	}
 }

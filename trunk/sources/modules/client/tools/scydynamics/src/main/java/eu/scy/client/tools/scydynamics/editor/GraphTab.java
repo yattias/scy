@@ -27,6 +27,7 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
 import sqv.Interface;
+import sqv.Model;
 import sqv.ModelVariable;
 import sqv.data.DataServer;
 import sqv.widgets.Curve;
@@ -37,7 +38,7 @@ import eu.scy.client.tools.scydynamics.logging.ModellingLogger;
 import eu.scy.client.tools.scydynamics.model.SimquestModelQuantitative;
 
 @SuppressWarnings("serial")
-public class GraphTab extends JPanel implements ChangeListener, ActionListener {
+public class GraphTab extends JPanel implements Runnable, ChangeListener, ActionListener {
 
 	private ModelEditor editor;
 	private VariableSelectionPanel variablePanel;
@@ -51,6 +52,8 @@ public class GraphTab extends JPanel implements ChangeListener, ActionListener {
 	private JComboBox xAxisSelector;
 	private LinkedList<Curve> curves;
 	private JCheckBox multiPlotsCheckBox;
+	private Thread simulationThread;
+	private Model sqvModel;
 
 	public GraphTab(ModelEditor editor, ResourceBundleWrapper bundle) {
 		super();
@@ -171,7 +174,7 @@ public class GraphTab extends JPanel implements ChangeListener, ActionListener {
 
 			// create the SimQuest model from the CoLab model
 			sqModel = new SimquestModelQuantitative(editor.getModel(), variablePanel.getValues());
-			sqv.Model model = new sqv.Model(sqModel, dataServer);
+			sqvModel = new sqv.Model(sqModel, dataServer);
 
 			//fade out existing curves
 			for (Curve curve : curves) {
@@ -181,16 +184,15 @@ public class GraphTab extends JPanel implements ChangeListener, ActionListener {
 
 			// adding the new curves
 			// get the x-axis-variable
-			// List<ModelVariable> variables = model.getVariables();
 			VariableRef xAxisVariable = null;
-			for (ModelVariable var : model.getVariables()) {
+			for (ModelVariable var : sqvModel.getVariables()) {
 				if (var.getName().equals(
 						xAxisSelector.getSelectedItem().toString())) {
 					xAxisVariable = new VariableRef(var);
 					break;
 				}
 			}
-			for (ModelVariable var : model.getVariables()) {
+			for (ModelVariable var : sqvModel.getVariables()) {
 				// if the variable is one of the selected ones
 				if (variablePanel.getSelectedVariables().contains(var.getName())) {
 					curves.add(new Curve(curves.size(), xAxisVariable, new VariableRef(var),
@@ -200,9 +202,6 @@ public class GraphTab extends JPanel implements ChangeListener, ActionListener {
 			}
 
 			graph.setCurvesList(curves);
-			graph.update();
-			graphPanel.updateUI();
-
 			// need the variableIdList for logging
 			String variableIdList = new String();
 			for (String varname : variablePanel.getSelectedVariables()) {
@@ -212,7 +211,8 @@ public class GraphTab extends JPanel implements ChangeListener, ActionListener {
 			if (variablePanel.getSelectedVariables().size() > 0) {
 				// simulate
 				//LOGGER.info("starting simulation");
-				model.getSimulation().Simulate();
+				simulationThread = new Thread(this);
+				simulationThread.start();
 				// log
 				String injectedVariables = "";
 				for (String varName: variablePanel.getValues().keySet()) {
@@ -288,5 +288,19 @@ public class GraphTab extends JPanel implements ChangeListener, ActionListener {
 			editor.getModel().setStep(Double.parseDouble(simulationPanel.getStep()));
 			editor.getModel().setMethod(simulationPanel.getMethod());
 		}
+	}
+
+	@Override
+	public void run() {
+		WaiterDialog waiter = new WaiterDialog(graphPanel, simulationThread, "please wait...", "running model...");	
+		sqvModel.getSimulation().Simulate();
+		waiter.breakGlass();
+		waiter.dispose();
+		// for some reason, it's important to call these after the WaiterDialog has been disposed
+		// modality vs. update issue?
+		graph.update();
+		graphPanel.updateUI();
+		graphPanel.repaint();
+
 	}
 }

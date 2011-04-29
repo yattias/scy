@@ -15,7 +15,7 @@ import javax.swing.JButton;
 public class ColorDialog extends javax.swing.JDialog implements
 java.awt.event.ActionListener {
 	
-	private static final Color[] colors = { Color.BLACK, Color.BLUE, Color.CYAN, Color.GREEN, Color.MAGENTA, Color.ORANGE, Color.PINK, Color.RED, Color.YELLOW};
+	private static final Color[] colors = { Color.BLACK, Color.BLUE, Color.CYAN, Color.GREEN.darker(), Color.MAGENTA, Color.ORANGE, Color.PINK, Color.RED.darker(), Color.YELLOW.darker()};
 	private static final int size = 20;
 	private VariableDialog variableDialog;
 

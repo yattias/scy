@@ -81,7 +81,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	private GraphTab graphTab;
 	private TableTab tableTab;
 	private final ResourceBundleWrapper bundle;
-	private ModelSyncControl modelSyncControl;
+	//private ModelSyncControl modelSyncControl;
 
 	// private String eloUri = "n/a";
 
@@ -111,13 +111,13 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		}
 	}
 	
-	public ModelSyncControl getModelSyncControl() {
-		return this.modelSyncControl;
-	}
+//	public ModelSyncControl getModelSyncControl() {
+//		return this.modelSyncControl;
+//	}
 	
-	public boolean isSynchronized() {
-		return this.modelSyncControl != null;
-	}
+//	public boolean isSynchronized() {
+//		return this.modelSyncControl != null;
+//	}
 
 	public DataSet getDataSet() {
 		return tableTab.getDataSet();

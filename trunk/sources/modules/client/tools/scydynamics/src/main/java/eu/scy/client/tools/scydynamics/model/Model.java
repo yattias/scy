@@ -57,6 +57,7 @@ public class Model {
 
 	public Model(ModelEditor editor) {
 		this.editor = editor;
+		setDefaultTimes();
 	}
 
 	public void  setForeground(Color c) { fColor = c; }

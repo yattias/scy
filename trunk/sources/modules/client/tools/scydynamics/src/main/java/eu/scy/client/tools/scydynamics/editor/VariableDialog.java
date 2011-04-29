@@ -60,7 +60,7 @@ java.awt.event.ActionListener, java.awt.event.MouseListener {
 		super(owner, false);
 		this.bundle = bundle;
 		editor.getActionLogger().logActivateWindow("specification", figure.getID(), this);
-		this.setLocation(position);
+		//this.setLocation(position);
 		this.figure = figure;
 		this.props = figure.getProperties();
 		this.editor = editor;
@@ -82,7 +82,7 @@ java.awt.event.ActionListener, java.awt.event.MouseListener {
 		this.setPreferredSize(new Dimension(440, 300));
 		updateView();
 		pack();
-		setLocation(position);
+		setLocation(Math.max(0, position.x-this.getWidth()/2), Math.max(0, position.y-this.getHeight()/2));
 		setVisible(true);
 	}
 

@@ -51,7 +51,7 @@ public class ModellingStandalone extends JFrame implements WindowListener {
 	}
 
 	public static void main(String[] args) {
-		ModellingStandalone modelling = new ModellingStandalone();
+		new ModellingStandalone();
 	}
 
 	@Override
