@@ -12,12 +12,23 @@
           <dateTime>2011-01-19T16:17:49.953+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>Caspar</entity>
+        <date>
+          <dateTime>2011-04-07T17:59:00.406+0200</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1295450269953</dateCreated>
-        <dateLastModified>1295450269953</dateLastModified>
+        <dateFirstUserSaveKey>1302191940406</dateFirstUserSaveKey>
+        <dateLastModified>1302191940406</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -29,7 +40,11 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/30012/0/Notes+On+Unhealthy+Diet.rtf</entry>
       </identifier>
-      <las />
+      <las>information</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30169/0/A+Healthy+Pizza+2.7.scymissionspecification</entry>
+      </missionRunning>
       <title>
         <string language="en">Notes On Unhealthy Diet</string>
       </title>
@@ -46,7 +61,7 @@
   </lom>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAAiCAYAAADI+15nAAABlklEQVR42u2VvUrDYBSGv8kLcBEHoZfgDXgJuorXIS5OnUSRONvFyc2puBgzxh+kiG2HukTMEBtotaFBgpSaoyeQ0CRf0mJN2+F94aFJT95y8kATUalUaJL4vg8kCBbY6/Wo0+lI4RmHr5PB88FgICWrMw+ydpyWiQXyp4ysmed5mZ15wPsUQUpg69kix/mWCnwwPCqfNKmsNILj0dnm4S29u1/Rwq7rRp0k4TWznPE+RRAT+Nh0aDgkKm3Xaf+8nxJ4eWfy05A++j4trx7FZlvH99SwhqTrenDuOE7USRLebHguhMic5fVGu+N6vE8RxAS+/crbvfBpaeOFVtZvUgLPqjXa2atT7emV1kpxgYqikKqqpGlacN7tdqMOwzcaHoc3m/w+OcvrjZslf5P3KYKYQE67/UlX1y3pX/jgtBoj7xlo27a0E/ZmPeN9iuBfXiKyWJa1UC8R3qcIIoF5cEzTBBKEYRgE/o4gZKpAIARCIARCIAKBEAiBEIhAIARCIAQiEAiBEAiBCARCIARCIAKBELjg+QGeLB6wZKqgkwAAAABJRU5ErkJggg==</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAB0klEQVR42u3TvUrDUBjG8RS8BUHwNty8AL0InZ1dHOqQUTq6FetSULAVEcTBRVwsIq0USofSIaDUr0pCm6bRxNpXz4GGng4iuFj5P/BwztuGhPzIsaIoEtd1jXY6HRkMBvQHteI4lna7bbTb7YrneQmo2gdBIP1+X7dcLhvgnudKsVg0fsvlchPXeMY9X8NAVMavUc8Nw3CqqgFD/0Xu7t/k+TFKANUL9V7fxe9F8vD4pOcw+pCNfDUBPK8+SSqVkpOSowHVXGr4X+uzBhx+Ac3Ozet5BKj2N7cDWVpJa0A1r63bevV9X3/901QN+Ba8SPo0lplFxwDcOnBkYStOAG3blkwmI5VKRc87R1eye3wt2/sXGlDNo2rA4VCyhyXJFi8TwNH/y6ubGlDt987qelWAk6fhr/fbIzzefD6ftNFoGMdStVAoGLMCnLzHZFXGZwXYarWmqlaz2ZRarWa0Xq+L4zj0B7WE/CoAAggggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEMB/mU9iVRTu4s9onAAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
@@ -54,7 +69,8 @@
 {\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
 {\colortbl\red0\green0\blue0;\red51\green51\blue51;}
 
-\f1\fs24\i0\b0\cf1\par
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>

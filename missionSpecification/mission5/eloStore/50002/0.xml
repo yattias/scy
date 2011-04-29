@@ -1,0 +1,85 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>yuri</entity>
+        <date>
+          <dateTime>2011-04-29T11:08:04.960+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>yuri</entity>
+        <date>
+          <dateTime>2011-04-29T11:08:04.960+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1304068084960</dateCreated>
+        <dateFirstUserSaveKey>1304068084960</dateFirstUserSaveKey>
+        <dateLastModified>1304068084960</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>hypothesis</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/50002/0/Hypothesis.rtf</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">Hypothesis</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAFTklEQVR42u2aWywfeRTHXfZBGhKVCHVrEbekCdKVaPZRw75IJC4PLAlRKo1IQ1fw4BGJBxuJynZFiBW17pdkQwSxjaJoUdcQFHUPirqf9T2784+R0lpWKz3f5OQ/v5nf/Gbm45zf78wZWtvb27S0tKSylZUV2tvbE/sM09rZ2aH5+XmVra6u0vLysgYottfX12ljY4Oto6NDBXx5eYmKi4tV+54+fXqsz7JqzA+b6wQd7YPrbm5uXiljgJtrCzQ5vUVz77Y1APFA7z/s0tr7bZp5N8vtze19+jmvWwOwoXuWtLW1qer5GANE+/ng2uHvHAM8OARkbGrObQUgtjsn9sjrp0QGiHbko2T+XVtbY++/SsYAt9YXKLFmh777YUwFMKVojL5P2dEATE5OprS0NHr58iW3fy1tpd/K2+iX3xsZINqKMcCDA8r+4zllF/+lAagc/zE4iQFiu+DPPv4FwOPR8LXbqSF81PLy8jQ2ODioCkvYs2fPVG0APD7GcYOOtgFwamrqSpnW8PAw9fT0qKyvr4/GxsbEPsO0SHQuab169eqTnWJiYoTUSQBPPKAlznkugKIzAtzf3ydLS0vS0dGhkpISevjwIZmampK3tzcfz8rKooSEBLp//z6Fh4fT9evXydrammpra8nW1pbMzMy4H85T8sTy8nJOwJH+ODg4kJ+fH1lZWVFkZCTdvn2bnJ2d+bxr166RgYEBISMQD5QQFglAASgAvx2AeOHf3d3l2haEX+wTiQdeDkBUXxTPm56eppmZGcrMzOSiAoRcsLe3l/O69vZ2Gh0d5WoMcjsIFW19fX16/fo155LQmzdvOBeEWlpaaGRkhM9BTohxUcB48eIFTUxM8LhRUVFUX19Pzc3N1NnZyXW22dlZrgpBAwMDtLi4yNuogCBilPGHhobYoP7+fi74YvzHjx+T8pqKfU5OTjQ5Ocm55tu3b3kMXG9ra4srULge7ntubo7Gx8c1uTG4NDY28nNiP66LcbEfz3RmD8SDf0xImr9WFRQU/Odz4VASwpc1B3Z1dZGhoSF5eXlRdnY2eXp6stsijCFjY2PKzc2lnJwc7gshJPT09DhMnjx5whXrkJAQCggIIFdXVzIyMqKUlBSqqqri/ghXXV1dlVegcJGUlEQuLi7cXlhYUN0kXgM/Jh8fH7KwsOAwVBZBxeNwHUUI1+7ubn6NhOrq6lTjuLu7U3p6umZKwGcKNzc3CgsLo8DAQIqLi+Nj+AaCsRSFhoaKB36RVVhZLM6b7hz1mouScm+XBhDuD9nb21NZWRndvHmTV5kbN25QdHQ0H4M7I8ywQvr7+3PoeHh48HGEG8IvNTWVqquruaKDVRPhe+vWLYqPj1eNh9UQD1lUVMTVmIqKCg5x9Glra+OPU6jwQLjWvXv3qLW1lacOVH9wPhQcHMz9sVJjdccfA6u9iYkJmZub/7NCHt5zfn4+T0FYXZFl+Pr60t27d8nR0ZFKS0u5uvTgwQOKiIjQhHFGRgZVVlZSUFAQf95AWON4YWEh2djYkJ2dHd25c4diY2MlhC89hPEh5SyCB5wk5IiKmpqaNNuYGpTp4VPTBOqX5xUi5+i14H0XBhArz2nzFYqjFyGskvIqJyEsEoBfGqCUss4IUFkclO/AeJ3CwoEcTCQh/P8DrKmpUb0gnybkR/gvLLxgX0UlJv77P4kNDeKBF6XjlR8BKHOgABSAIgEoAAWgABQJQAEoAAWgSAAKQAEoAEUCUAAKQAEoEoACUAAKQJEAFIACUACKBKAAFIACUCQABaAAFIACUCQABaAAFIAiASgABeC3pr8BTn7TNwcZGfAAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Dolly;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+{\stylesheet{\s1\li0\ri0\fi0\sa80\sb80\sbasedon2\snext1 DP Document;}{\s2\f1\fs24\i0\b0\cf1 default;}}
+\margl1417\margr1417\margt1417\margb1417\widowctrl
+\s1\li0\ri0\fi0\sa80\sb80\f2\fs20\i0\b\ul0\cf0 Research question:\par
+\b0 Is it useful to drink an energy drink before you are going to exercise?\par
+\par
+\b Situations:\par
+\b0 1. In situation 1 first I expect blood glucose concentration to rise/lower/remain the same and then I expect blood glucose concentration to rise/lower/ remain the same.\par
+2. In situation 2 I expect blood glucose concentration to rise/lower/remain the same and then I expect blood glucose concentration to rise/lower/ remain the same.\par
+3. In situation 3 I expect blood glucose concentration to rise/lower/remain the same and then I expect blood glucose concentration to rise/lower/ remain the same.\par
+4. In situation 4 I expect blood glucose concentration to rise/lower/remain the same and then I expect blood glucose concentration to rise/lower/ remain the same.\par
+\par
+\b Hypothesis\par
+\b0 If someone drinks ................................................................................, then the blood glucose concentration will .... .......................................................................................................................\par
+\pard\li0\ri0\fi0\f1\fs24\ul0\cf1\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>
