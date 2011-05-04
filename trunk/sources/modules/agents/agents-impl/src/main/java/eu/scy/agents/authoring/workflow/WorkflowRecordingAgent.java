@@ -39,6 +39,8 @@ public class WorkflowRecordingAgent extends AbstractThreadedAgent implements
 
 	private Map<String, Path> paths;
 
+	private int logoutListenerId;
+
 	public WorkflowRecordingAgent(Map<String, Object> params) {
 		super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
 		if (params.containsKey(AgentProtocol.TS_HOST)) {
@@ -53,16 +55,20 @@ public class WorkflowRecordingAgent extends AbstractThreadedAgent implements
 		rooloService = new AgentRooloServiceImpl();
 
 		try {
-			listenerId = getCommandSpace().eventRegister(Command.WRITE,
-					getTemplateTuple(), this, true);
+			listenerId = getCommandSpace().eventRegister(
+					Command.WRITE,
+					new Tuple(ActionConstants.ACTION, String.class, Long.class,
+							ActionConstants.ACTION_LAS_CHANGED, Field
+									.createWildCardField()), this, true);
+
+			logoutListenerId = getCommandSpace().eventRegister(
+					Command.WRITE,
+					new Tuple(ActionConstants.ACTION, String.class, Long.class,
+							ActionConstants.ACTION_LOG_OUT, Field
+									.createWildCardField()), this, true);
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private Tuple getTemplateTuple() {
-		return new Tuple(ActionConstants.ACTION, String.class, Long.class,
-				ActionConstants.ACTION_LAS_CHANGED, Field.createWildCardField());
 	}
 
 	@Override
@@ -92,11 +98,7 @@ public class WorkflowRecordingAgent extends AbstractThreadedAgent implements
 	@Override
 	public void call(Command command, int seq, Tuple afterTuple,
 			Tuple beforeTuple) {
-		if (this.listenerId != seq) {
-			logger.debug("Callback passed to Superclass.");
-			super.call(command, seq, afterTuple, beforeTuple);
-			return;
-		} else {
+		if (this.listenerId == seq) {
 			IAction action = ActionTupleTransformer
 					.getActionFromTuple(afterTuple);
 			// String oldLas = action.getAttribute(OLD_LAS);
@@ -112,7 +114,17 @@ public class WorkflowRecordingAgent extends AbstractThreadedAgent implements
 			WorkflowItem item = workflow.getItem(las);
 			Path path = getPath(user);
 			path.addPathComponent(item);
+		} else if (logoutListenerId == seq) {
+			IAction action = ActionTupleTransformer
+					.getActionFromTuple(afterTuple);
+			Path path = getPath(action.getUser());
+			path.stopTiming();
+		} else {
+			logger.debug("Callback passed to Superclass.");
+			super.call(command, seq, afterTuple, beforeTuple);
+			return;
 		}
+
 	}
 
 	private synchronized Path getPath(String user) {

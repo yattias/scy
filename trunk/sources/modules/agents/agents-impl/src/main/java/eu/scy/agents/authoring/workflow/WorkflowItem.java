@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.net.URI;
 import java.util.List;
 
+import eu.scy.agents.util.time.Duration;
+
 public class WorkflowItem implements Serializable {
 
 	public enum Type {
@@ -16,11 +18,15 @@ public class WorkflowItem implements Serializable {
 
 	private Type type;
 
-	private long expectedTimeinMinutes;
+	private Duration expectedTime;
 
 	private List<URI> anchorElos;
 
 	private int expectedVisits;
+
+	public WorkflowItem(String id) {
+		this.id = id;
+	}
 
 	public List<URI> getAnchorElos() {
 		return anchorElos;
@@ -38,12 +44,12 @@ public class WorkflowItem implements Serializable {
 		this.expectedVisits = expectedVisits;
 	}
 
-	public long getExpectedTimeinMinutes() {
-		return expectedTimeinMinutes;
+	public Duration getExpectedTime() {
+		return expectedTime;
 	}
 
 	public void setExpectedTimeInMinutes(long expectedTimeinMinutes) {
-		this.expectedTimeinMinutes = expectedTimeinMinutes;
+		this.expectedTime = new Duration(expectedTimeinMinutes * 60000);
 	}
 
 	public String getId() {
@@ -93,9 +99,8 @@ public class WorkflowItem implements Serializable {
 	@Override
 	public String toString() {
 		return "WorkflowItem [id=" + id + ", type=" + type
-				+ ", expectedTimeinMinutes=" + expectedTimeinMinutes
-				+ ", anchorElos=" + anchorElos + ", expectedVisits="
-				+ expectedVisits + "]";
+				+ ", expectedTime=" + expectedTime + ", anchorElos="
+				+ anchorElos + ", expectedVisits=" + expectedVisits + "]";
 	}
 
 }

@@ -19,4 +19,8 @@ public class MockTimer implements Timer {
 		this.time = time;
 	}
 
+	public void addTime(int time) {
+		this.time += time;
+	}
+
 }
