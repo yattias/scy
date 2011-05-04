@@ -1,16 +1,18 @@
 package eu.scy.agents.authoring.workflow;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-public class Workflow implements Serializable {
+public class Workflow implements Serializable, Iterable<WorkflowItem> {
 
 	private static final long serialVersionUID = 4962962803749645958L;
 
-	private HashMap<String, WorkflowItem> workflowItems;
+	private Map<String, WorkflowItem> workflowItems;
 
 	public Workflow() {
-		workflowItems = new HashMap<String, WorkflowItem>();
+		workflowItems = new LinkedHashMap<String, WorkflowItem>();
 	}
 
 	public WorkflowItem getItem(String id) {
@@ -24,6 +26,11 @@ public class Workflow implements Serializable {
 	@Override
 	public String toString() {
 		return "Workflow [workflowItems=" + workflowItems + "]";
+	}
+
+	@Override
+	public Iterator<WorkflowItem> iterator() {
+		return workflowItems.values().iterator();
 	}
 
 }

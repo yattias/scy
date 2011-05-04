@@ -6,6 +6,7 @@ import java.util.List;
 
 import eu.scy.agents.authoring.workflow.WorkflowItem;
 import eu.scy.agents.util.time.DefaultTimer;
+import eu.scy.agents.util.time.Duration;
 import eu.scy.agents.util.time.Timer;
 
 public class Path implements Iterable<PathComponent> {
@@ -20,7 +21,13 @@ public class Path implements Iterable<PathComponent> {
 
 	public void addPathComponent(WorkflowItem item) {
 		if (!path.isEmpty()) {
-			path.get(path.size() - 1).endTiming();
+			PathComponent lastPathComponent = path.get(path.size() - 1);
+			if (lastPathComponent.getWorkflowItemId().equals(item.getId())) {
+				lastPathComponent.startTiming();
+				return;
+			} else {
+				lastPathComponent.endTiming();
+			}
 		}
 		PathComponent pathComponent = new PathComponent(timer, item);
 		pathComponent.startTiming();
@@ -40,13 +47,24 @@ public class Path implements Iterable<PathComponent> {
 		this.timer = timer;
 	}
 
-	public long timeSpentInItem(WorkflowItem item) {
-		long timeSpent = 0;
+	public Duration timeSpentInItem(WorkflowItem item) {
+		Duration timeSpent = new Duration();
 		for (PathComponent pathComponent : path) {
 			if (pathComponent.getWorkflowItemId().equals(item.getId())) {
-				timeSpent += pathComponent.getTimeSpent();
+				timeSpent = timeSpent.add(pathComponent.getTimeSpent());
 			}
 		}
 		return timeSpent;
+	}
+
+	public void stopTiming() {
+		if (!path.isEmpty()) {
+			path.get(path.size() - 1).endTiming();
+		}
+	}
+
+	@Override
+	public String toString() {
+		return path.toString();
 	}
 }

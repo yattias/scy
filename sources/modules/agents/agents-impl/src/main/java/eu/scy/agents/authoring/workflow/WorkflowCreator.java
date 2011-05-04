@@ -35,9 +35,8 @@ public class WorkflowCreator {
 		Workflow workflow = new Workflow();
 
 		for (Las las : lasses) {
-			WorkflowItem workflowItem = new WorkflowItem();
+			WorkflowItem workflowItem = new WorkflowItem(las.getId());
 			workflowItem.setType(Type.LAS);
-			workflowItem.setId(las.getId());
 			workflow.addWorkflowItem(workflowItem);
 		}
 
