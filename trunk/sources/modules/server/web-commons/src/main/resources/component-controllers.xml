@@ -295,6 +295,7 @@
         <property name="eloFactory" ref="eloFactory"/>
         <property name="authorKey" ref="authorKey"/>
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="sqlSpacesActionLogger" ref="sqlSpacesActionLogger"/>
     </bean>
 
     <bean name="pedagogicalPlanELOService" class="eu.scy.core.roolo.PedagogicalPlanELOServiceImpl">

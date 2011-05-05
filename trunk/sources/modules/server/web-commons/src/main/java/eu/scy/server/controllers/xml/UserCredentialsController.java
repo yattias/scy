@@ -61,7 +61,7 @@ public class UserCredentialsController extends XMLStreamerController {
 
     @Override
     protected void addAliases(XStream xStream) {
-        super.addAliases(xStream);  
+        super.addAliases(xStream);
         xStream.aliasPackage("eu.scy.core.model.transfer", "");
         xStream.alias("usercredentials", UserCredentials.class);
     }
