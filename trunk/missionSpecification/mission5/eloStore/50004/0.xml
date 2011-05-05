@@ -1,0 +1,88 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>Caspar</entity>
+        <date>
+          <dateTime>2011-05-05T17:28:44.296+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>Caspar</entity>
+        <date>
+          <dateTime>2011-05-05T17:28:44.296+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1304609324296</dateCreated>
+        <dateFirstUserSaveKey>1304609324296</dateFirstUserSaveKey>
+        <dateLastModified>1304609324296</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>hypothesis</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/50004/0/hypothesis.rtf</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">hypothesis</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+\paperw11906\paperh16838\margl1417\margr1417\margt1417\margb1417\widowctrl
+\f1\fs24\i0\b\cf1 Research question:\b0\par
+Is it useful to drink an energy drink before you are going to exercise?\par
+\par
+\b Situations:\b0\par
+In situation 1, first I expect blood glucose concentration to rise / lower / remain the same, and then I expect blood glucose concentration to rise / lower / remain the same.\par
+\par
+In situation 2, first I expect blood glucose concentration to rise / lower / remain the same, and then I expect blood glucose concentration to rise / lower / remain the same.\par
+\par
+In situation 3, first I expect blood glucose concentration to rise / lower / remain the same, and then I expect blood glucose concentration to rise / lower / remain the same.\par
+\par
+In situation 4, first I expect blood glucose concentration to rise / lower / remain the same, and then I expect blood glucose concentration to rise / lower / remain the same.\par
+\par
+\b Hypothesis:\b0\par
+If someone drinks...\par
+\par
+then the blood glucose concentration will...\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

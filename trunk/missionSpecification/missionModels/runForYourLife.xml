@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+   <import resource="eloToolConfigs.xml"/>
+
+   <bean name="missionConfigInput" class="eu.scy.client.desktop.scydesktop.tools.mission.springimport.BasicMissionConfigInput">
+
+      <property name="missionDescriptionUri" value="http://www.scy-lab.eu/content/en/mission5/curtain_MISSION.html"/>
+
+      <property name="colorSchemesEloUri" value="roolo://memory/50100/0/colorschemes1.colorschemes"/>
+
+      <property name="eloToolConfigs" ref="eloToolConfigs"/>
+
+      <property name="basicMissionMap">
+         <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionMap">
+            <property name="missionMapInstructionUri" value="http://www.scy-lab.eu/content/en/mission5/curtain_MISSION.html"/>
+            <property name="missionMapButtonIconType" value="pizza"/>
+            <property name="initialLasId" value="design"/>
+            <property name="loEloUris">
+               <list />
+            </property>
+            <property name="lasses">
+               <list>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="information"/>
+                     <property name="xPosition" value="-50"/>
+                     <property name="yPosition" value="-50"/>
+                     <property name="tooltip" value="tip_LAS_A"/>
+                     <property name="lasType" value="INFORMATION"/>
+					 <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission5/curtain_INFORMATION.html"/>
+                     <property name="loEloUris">
+                        <list />
+                     </property>
+                     <property name="nextLasses">
+                        <list>
+                           <value>conceptualization</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="listOfInformation"/>
+					 
+                     <property name="intermediateEloIds">
+                        <list>
+						</list>
+                     </property>
+                  </bean>
+
+                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="conceptualization"/>
+                     <property name="xPosition" value="50"/>
+                     <property name="yPosition" value="-50"/>
+                     <property name="tooltip" value="tip_LAS_B"/>
+                     <property name="lasType" value="CONCEPTUALIZATION"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission5/curtain_CONCEPTUALIZATION.html"/>
+                     <property name="loEloUris">
+                        <list />
+                     </property>
+                     <property name="nextLasses">
+                        <list>
+                           <value>information</value>
+                           <value>experiment</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="hypothesis"/>
+                     <property name="intermediateEloIds">
+                        <list>
+						</list>
+                     </property>
+                  </bean>
+
+                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="experiment"/>
+                     <property name="xPosition" value="50"/>
+                     <property name="yPosition" value="50"/>
+                     <property name="tooltip" value="tip_LAS_C"/>
+                     <property name="lasType" value="EXPERIMENT"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission5/curtain_EXPERIMENT.html"/>
+                     <property name="loEloUris">
+                        <list />
+                     </property>
+                     <property name="nextLasses">
+                        <list>
+                           <value>conceptualization</value>
+                           <value>report</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="conclusionOfExperiment"/>
+                     <property name="intermediateEloIds">
+                        <list>
+								<value>visualRepresentationOfData</value>
+							</list>
+                     </property>
+                  </bean>
+                  
+				  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="report"/>
+                     <property name="xPosition" value="-50"/>
+                     <property name="yPosition" value="50"/>
+                     <property name="tooltip" value="tip_LAS_D"/>
+                     <property name="lasType" value="REPORT"/>
+                     <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission5/curtain_REPORT.html"/>
+                     <property name="loEloUris">
+                        <list />
+                     </property>
+                     <property name="nextLasses">
+                        <list>
+                           <value>experiment</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="report"/>
+                     <property name="intermediateEloIds">
+                        <list>
+                        </list>
+                     </property>
+                  </bean>
+				  
+               </list>
+            </property>
+         </bean>
+      </property>
+
+
+      <property name="basicMissionAnchors">
+         <list>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="listOfInformation"/>
+               <property name="uri" value="roolo://memory/50001/0/List+of+information.rtf"/>
+               <property name="iconType" value="Pizza"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission5/tip_LAS_A.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission5/instruction_1_listOfInformation.html"/>
+               <property name="resourcesUri" value=""/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="hypothesis"/>
+               <property name="uri" value="roolo://memory/50002/0/Hypothesis.rtf"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission5/tip_LAS_B.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission5/instruction_2_hypothesis.html"/>
+               <property name="resourcesUri" value=""/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="visualRepresentationOfData"/>
+               <property name="uri" value="roolo://memory/50000/0/Glucose+Model.scymodel"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission5/tip_LAS_C.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission5/instruction_3_visualRepresentationOfData.html"/>
+               <property name="resourcesUri" value=""/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="conclusionOfExperiment"/>
+               <property name="uri" value="roolo://memory/50007/0/Conclusion+of+experiment.rtf"/>
+			   <property name="iconType" value="Dataset_processed"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission5/tip_LAS_C.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission5/instruction_4_conclusionOfExperiment.html"/>
+               <property name="resourcesUri" value=""/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="report"/>
+               <property name="uri" value="roolo://memory/50008/0/Report.rtf"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission5/tip_LAS_D.txt"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission5/instruction_5_report.html"/>
+               <property name="resourcesUri" value=""/>
+               <property name="inputMissionAnchorIds">
+                  <list />
+               </property>
+               <property name="loEloUris">
+                  <list />
+               </property>
+            </bean>
+		
+			
+			</list>
+			
+      </property>
+
+
+      <property name="templateEloUris">
+         <list>
+            <value>roolo://memory/30116/0/newText.rtf</value>
+            <value>roolo://memory/30117/0/newDataset.scypds</value>
+            <value>roolo://memory/30118/0/newConceptmap.scymapping</value>
+            <value>roolo://memory/30119/0/newDrawing.scydraw</value>
+         </list>
+      </property>
+
+   </bean>
+
+</beans>

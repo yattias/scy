@@ -1,0 +1,90 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>Caspar</entity>
+        <date>
+          <dateTime>2011-05-05T17:18:33.953+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>Caspar</entity>
+        <date>
+          <dateTime>2011-05-05T17:18:33.953+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1304608713953</dateCreated>
+        <dateFirstUserSaveKey>1304608713953</dateFirstUserSaveKey>
+        <dateLastModified>1304608713953</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>informationAssignment</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/50003/0/listOfInformation.rtf</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">listOfInformation</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAFcUlEQVR42u2c7U9URxTG9x9ow2fiB9PYhFYLGBISQqIUkYAEipFoilSwX5q0qU2FABWEBtIEDCQGFhcEdolSBC1QXtRqUsJSwUILCNgWo5F3yuLyvoiwwFPOMfd2F3bR2JBaek7yMGfmnBkuv72zl7t3ZjUGgwEvstXVVZETaQig2WzG+Pg4TCYTl7a+xWJBY2OjQ/X09GBxcRFLS0t2InPWp6yszGF7VVWV0z7t7e0O241GI5qampyOR8fi6PgUbRZ72Tw7gI5EAGdmZoCVZayqssJQcR1DQ0OYmJjA5OSkquHhYR6YfMqz7UNtHR0dHF+1Gc+6tIjOzk4ey77PMubmZvmF2hizYnp6GlarfT4pQ1uKuro6zM/Pb7lUgH7xD/BhzhNMr7HKudi7AaDx91n8ObUI81rc5/Nf8UWqlgESlE8KOzA4acXU1HOACwsL3H6ndw4N3WY0dJnZpzY6m9beFLhu/G16LfYEjfenVIDU7rX3PRRermZ/4alFBUh1kkaj4VIB2PbIosZIByMTGeDs7OyWSwUYevYR0ssnEFtowgd64KO4TjuA1xoeoLJzEd/efYqAs4P48usLKkDt+Szoiy5iZGSEAdLA1F5tfMh/LIl85Qwkq256iDfedOHyu4ZeFSDlBQUewAX9VY7ZAqRYhu4afux67isAf/i5D9GfJqKgopH7HDz+Ferr6/n3rZ8httos9rJ5mpKSEgYYEN+L7/uAj3MseCv4/oYzMKesCfElIzA2dSMo/g+cTtOpADO+SYMuv5APmgAqg+dfa4a+th2Gug72bQFSO7WR8ip+UgFS/e139+IdD29kFV+3A0gx3dU7aj8F4OX6X7heWNWKgsq7CDx+ho+F3se3WirAkVEThhWNmDYAPBCViPePJbD8jsVDa6hUAa5/D6R+5FOebR9lCiefK1LbSYHRZ1SAtu2kecscAySQ68dTAAbFJNn1+Sz5PAMcHR3dcqkAN7uIlJeXo6KiQpVSHxsbw8DAAAYHB+1EU9k2z9YvLS21G0uJXblyZUMfRf39/U7Hc5RPbW1tbXwsjo5P0Waxl83TaLVa3Lx506lu376Nx48fi5xIk3SuAH8r34m/Xtsxr+CV8jQQ+0emAqSpvGvXLvbT09O5LC4u5nJlZQU1NTVITk7m+qVLl7ikKZ6SksJ+XFwcvL292Y+KioJer+fYjRs3cOrUKaSmpkKn021PgGFhYaitrYWXlxc3JiQk2CU9e/YMnp6eCAwM5HpXVxeXBPXQoUPYt28f1ymHLDMzk0uKUQ6JjP653bZnoJgAFIAC8P8KkC4OkZGR2LlzJ4s+/4qNjeXbobS0NHR3dyMkJIQvBn5+foiIiEB4eDhCQ0MFIP04evQoTp48yfBcXFz49i0mJoYTkpKScO/ePfVK6+vrC7r9O3HiBKKjowWgTEIBKAAFoAAUE4ACUAAKQDEB+O8AzMrK4idMAQEB8Pf3R0tLCwfpU+r9+/cLpRcBpPtaenTo7u7OT+GOHDnCQfqEubm5WSjJFBaAAlAAiglAASgABaCYABSArx/AoqIiLC8v874Lsh07dvAqT97eIPZigK6urujr68Pu3bt5eS4B9PHx4WVqYjKFBaAAFIBiAlAACkABKCYABeBrCZDug2nbKBntSrI12p4fHBzMPn3JgpJP66iVXGqnPBpD+X4BaiNfMeqj3DZuyzPw8OHDXLa2tiIvL09d/0zbs2iBOZmyk2nPnj28W8nNzY1B0frq7Oxsjt26dQu5ubm8MJ2eM5PRTifqQ9tj6T7bw8NDpvCrmnIWC0AxASgABaAAFICCQAAKQAEoAMUEoAAUgAJQTAAKQAEoAMUEoAAUgAJQTAAKwP+C/QWdySve7k9u3QAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\f1\fs24\i0\b0\cf1 Explain the following terms:\par
+\par
+\b carbohydrates\b0\par
+\par
+\par
+\par
+\b glucose\par
+\b0\par
+\par
+\par
+\b insulin\b0\par
+\par
+\par
+\par
+\b role of glucose in your body\b0\par
+\par
+\par
+\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>
