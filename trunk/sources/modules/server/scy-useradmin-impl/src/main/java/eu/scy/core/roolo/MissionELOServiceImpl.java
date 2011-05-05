@@ -179,6 +179,8 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
         action.setUser("tea");
         action.addContext(ContextConstants.tool, "Authoring");
         action.addAttribute("mission_uri", String.valueOf(missionSpecificationElo.getUri()));
+        action.addAttribute("mission_title", missionSpecificationElo.getTitle());
+        action.addAttribute("globalScaffoldingLevel", String.valueOf(scaffoldingLevel));
         action.addAttribute("assKicked", "true");
 
 
