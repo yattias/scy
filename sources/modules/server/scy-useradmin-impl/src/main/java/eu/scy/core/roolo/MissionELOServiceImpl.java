@@ -1,5 +1,9 @@
 package eu.scy.core.roolo;
 
+import eu.scy.actionlogging.Action;
+import eu.scy.actionlogging.SQLSpacesActionLogger;
+import eu.scy.actionlogging.api.ContextConstants;
+import eu.scy.actionlogging.api.IAction;
 import eu.scy.common.mission.*;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
@@ -37,6 +41,8 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
     private static final RuntimeSettingKey globalMissionScaffoldingLevelKey = new RuntimeSettingKey(GLOBAL_MISSION_SCAFFOLDING_LEVEL, null, null);
 
     private XMLTransferObjectService xmlTransferObjectService;
+
+    private SQLSpacesActionLogger sqlSpacesActionLogger;
 
     @Override
     public MissionSpecificationElo createMissionSpecification(String title, String description, String author) {
@@ -167,6 +173,19 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
         MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(scyElo.getUri(), this);
         RuntimeSettingsElo runtimeSettingsElo = getRuntimeSettingsElo(missionSpecificationElo);
         ((RuntimeSettingsHelper) runtimeSettingsElo.getPropertyAccessor()).setScaffoldingLevel(scaffoldingLevel);
+
+        IAction action = new Action();
+        action.setType("GlobalScaffoldingLevelAdjustment");
+        action.setUser("tea");
+        action.addContext(ContextConstants.tool, "Authoring");
+        action.addAttribute("mission_uri", String.valueOf(missionSpecificationElo.getUri()));
+        action.addAttribute("assKicked", "true");
+
+
+        getSqlSpacesActionLogger().log(action);
+
+
+
     }
 
     @Override
@@ -444,5 +463,13 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
 
     public void setXmlTransferObjectService(XMLTransferObjectService xmlTransferObjectService) {
         this.xmlTransferObjectService = xmlTransferObjectService;
+    }
+
+    public SQLSpacesActionLogger getSqlSpacesActionLogger() {
+        return sqlSpacesActionLogger;
+    }
+
+    public void setSqlSpacesActionLogger(SQLSpacesActionLogger sqlSpacesActionLogger) {
+        this.sqlSpacesActionLogger = sqlSpacesActionLogger;
     }
 }
