@@ -1,0 +1,92 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>Caspar</entity>
+        <date>
+          <dateTime>2011-05-05T17:34:19.531+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>Caspar</entity>
+        <date>
+          <dateTime>2011-05-05T17:34:19.531+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1304609659531</dateCreated>
+        <dateFirstUserSaveKey>1304609659531</dateFirstUserSaveKey>
+        <dateLastModified>1304609659531</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>experimentalConclusion</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/50006/0/conclusionOfExperiment.rtf</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">conclusionOfExperiment</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAFRklEQVR42u2b20tcVxTG5w+wpT4FxKeCQhuMSLXYt5Rc0IApXiDWtKY0D0JLaXrBpmqiphYlBAwyjY6mjqD12mi9JJZAjTOxpLVekhh1osH73fE6o+L1q2uFc3JGZ4wk9aFmffCx99lr7T1nfnP2OZxhb53RaMTztLGxIXZhHQG0Wq2YmJjA+Pg4l9q63W5HfX29U7e1tWF5eRkrKysOJrnqU1hY6LS9vLzcZZ/m5man7SaTCWaz2eV4dC7Ozk/xTrHd5jkAdGYCODc3B6yvYUP1KowlNzE4OIipqSlMT0+rHhoa4oGpTnnaPtTW0tLC8Q3NeKsry2htbeWxHPuswWab5x9qe2wVs7OzWF11zCen6QtQXV2NhYWFPbcK8HDsY3yYMYnZTVYZ2ZZtAE0d8xidWYZ1M/7eF034MlHPAAlKTE4LBqZXMTPzFODS0hK3N1hsqHtoRd0DK9epja6mzZsCH5vaZzdjk6h/NKMCpPZ3/HyQk1/B9aVFuwqQjsk6nY5LBWDjE7saIx+LOs8A5+fn99wqwJALT/BD8RS+yRnHB7nAx9+2OgAsq3uMG63L+OXeIo5eGMBXSddUgPqrV5B7PRvDw8MMkAam9gpTN39ZMtWVK5BUYe7Ga6+/weWvdRYVIOUFHT+Ca7mlHNMCpFhaZhn+ePC0rgD8/a9enPnsPAwl9dzn2OnvUVNTw5+3dYZovVNst3m6vLw8Bng01oLfeoFPM+x4M/jRtiswo9CM2LxhmMwPERTbia8vZaoA0368hMysHD5pAqgMnlX2J3KrmmGsbuG6FiC1Uxv5p5K7KkA69nrbD2/5vosrP990AEixzNIGtZ8CML/mHz7OKf8bhhv3cPx0HJ8L3cf32irA4ZFxDCkeHt8G8MhH5/H+qe/Yh0/FQm+8oQLceg+kflSnPG0fZQonXL6utpOPn4lTAWrbyQt2GwMkkFvHUwAGfRLv0OfzhKsMcGRkZM+tAtzpIVJcXIySkhLVyvHY2Bj6+/sxMDDgYJrK2jxtvaCgwGEsJVZUVLStj+K+vj6X4znLp7bGxkY+F2fnp3in2G7zdHq9HrW1tS59+/Zt9PT0iF1YF3/ZgGfOclHf6v2YZ3ihPB1ELyUG2NnZCXd3d341CQgI4Ju5j48PSktLER4ejri4OI6RIiMjkZKSwvnJycncFhQUxCX1WVtbQ3R09KsF8OTJkwgODmZIbm5ufAM+ePAgwsLCEBERwQ8LPz8/7hATE8Ml5WVnZ3P97Nmz/Ip24MABPk5ISHi1AIoEoAAUgAJQJAAFoAAUgCIBKAAFoAAUCUABKAAFoEgACkABKABFAlAACkABKHoOQIvFwssyaHE2Ldk4dOgQr0hIT09Hfn4+UlNTkZSUxOvxRE4A+vv7M0BPT09eCEkAExMTkZWVhRMnTqChoQEeHh5ob28XajKFBaAAFICiZwDLysr4AaKItiKsr69zvbu7m5/Cd+7cQW9vL6+MV0QL0BV1dHSgsrISVVVVOHfuHJqamrid1hzSQ2nfX4H379/nLVihoaG8UYZ08eJFLhcXF2Gz2dROXl5e6Orq4kXoJFqgOTo6qsYNBgOX3t7eXEZFRXEZGBgoU1gkAAWgABSAIgEoAAWgABQJwP8GIO1zU6RsKtRqcnLyhT/g1q1br8YVSO/C9AcCbS6kLfYk2pFNoh3tWoi+vr783qy8C4eEhHBJuzVJ8fHxap6ycZvqJGWzovLPNn2usx9tX07hl/2i/2dQcg8UgAJQAIoEoAAUgAJQJAAFoAAUgCIBKAAFoAAUCUABKAAFoAAUvbD+BW5uVRWH6JTIAAAAAElFTkSuQmCC</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\f1\fs24\i0\b\cf1 Summary of results\b0\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\par
+\b Conclusion\b0\par
+\par
+Answer to your hypothesis:\par
+\par
+\par
+\par
+Answer to your research question:\b\par
+\b0\par
+\par
+\par
+\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>
