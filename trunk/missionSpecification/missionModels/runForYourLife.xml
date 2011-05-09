@@ -52,7 +52,7 @@
                      <property name="xPosition" value="50"/>
                      <property name="yPosition" value="-50"/>
                      <property name="tooltip" value="tip_LAS_B"/>
-                     <property name="lasType" value="CONCEPTUALIZATION"/>
+                     <property name="lasType" value="CONCEPTUALISATION"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission5/curtain_CONCEPTUALIZATION.html"/>
                      <property name="loEloUris">
                         <list />
@@ -99,7 +99,7 @@
                      <property name="xPosition" value="-50"/>
                      <property name="yPosition" value="50"/>
                      <property name="tooltip" value="tip_LAS_D"/>
-                     <property name="lasType" value="REPORT"/>
+                     <property name="lasType" value="REPORTING"/>
                      <property name="instructionUri" value="http://www.scy-lab.eu/content/en/mission5/curtain_REPORT.html"/>
                      <property name="loEloUris">
                         <list />
