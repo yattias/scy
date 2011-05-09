@@ -1,0 +1,176 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>Caspar</entity>
+        <date>
+          <dateTime>2011-05-09T13:39:37.781+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1304941177781</dateCreated>
+        <dateLastModified>1304941177781</dateLastModified>
+      </customElements>
+      <format>scy/missionmapmodel</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/50019/0/runForYourLife.scymissionmapmodel</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">runForYourLife</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<missionModel>
+  <activeLas />
+  <missionMapBackgroundImageUri />
+  <missionMapInstructionUri>http://www.scy-lab.eu/content/en/mission5/curtain_MISSION.html</missionMapInstructionUri>
+  <missionMapButtonIconType>pizza</missionMapButtonIconType>
+  <loElos />
+  <lasses>
+    <las>
+      <id>information</id>
+      <xPos>-50.0</xPos>
+      <yPos>-50.0</yPos>
+      <toolTip>tip_LAS_A</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission5/curtain_INFORMATION.html</instructionUri>
+      <lasType>INFORMATION</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/50001/0/List+of+information.rtf</eloUri>
+        <iconType>Pizza</iconType>
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission5/tip_LAS_A.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission5/instruction_1_listOfInformation.html</assignmentUri>
+        <resourcesUri />
+        <colorScheme />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>conceptualization</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>conceptualization</id>
+      <xPos>50.0</xPos>
+      <yPos>-50.0</yPos>
+      <toolTip>tip_LAS_B</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission5/curtain_CONCEPTUALIZATION.html</instructionUri>
+      <lasType>CONCEPTUALISATION</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/50002/0/Hypothesis.rtf</eloUri>
+        <iconType />
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission5/tip_LAS_B.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission5/instruction_2_hypothesis.html</assignmentUri>
+        <resourcesUri />
+        <colorScheme />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>information</las>
+        <las>experiment</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>experiment</id>
+      <xPos>50.0</xPos>
+      <yPos>50.0</yPos>
+      <toolTip>tip_LAS_C</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission5/curtain_EXPERIMENT.html</instructionUri>
+      <lasType>EXPERIMENT</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/50007/0/Conclusion+of+experiment.rtf</eloUri>
+        <iconType>Dataset_processed</iconType>
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission5/tip_LAS_C.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission5/instruction_4_conclusionOfExperiment.html</assignmentUri>
+        <resourcesUri />
+        <colorScheme />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/50000/0/Glucose+Model.scymodel</eloUri>
+          <iconType />
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission5/tip_LAS_C.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission5/instruction_3_visualRepresentationOfData.html</assignmentUri>
+          <resourcesUri />
+          <colorScheme />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses>
+        <las>conceptualization</las>
+        <las>report</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>report</id>
+      <xPos>-50.0</xPos>
+      <yPos>50.0</yPos>
+      <toolTip>tip_LAS_D</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission5/curtain_REPORT.html</instructionUri>
+      <lasType>REPORTING</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/50008/0/Report.rtf</eloUri>
+        <iconType />
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission5/tip_LAS_D.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission5/instruction_5_report.html</assignmentUri>
+        <resourcesUri />
+        <colorScheme />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>experiment</las>
+      </nextLasses>
+    </las>
+  </lasses>
+</missionModel>
+</content>
+<resources>
+</resources>
+</elo>
