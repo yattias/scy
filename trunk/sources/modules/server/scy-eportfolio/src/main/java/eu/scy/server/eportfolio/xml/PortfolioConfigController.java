@@ -19,6 +19,7 @@ import java.util.List;
 public class PortfolioConfigController extends MissionRuntimeEnabledXMLService {
     @Override
     protected Object getObject(MissionRuntimeElo missionRuntimeElo, HttpServletRequest request, HttpServletResponse response) {
+        logger.info("GEtting portfolio config..." + missionRuntimeElo);
 
         MissionSpecificationElo missionSpecificationElo = getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo);
         PedagogicalPlanTransfer pedagogicalPlanTransfer = getPedagogicalPlanTransfer(missionSpecificationElo);

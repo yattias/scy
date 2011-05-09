@@ -46,6 +46,7 @@ public class UrlInspector {
         }
 
         String eloURI = request.getParameter("eloURI");
+        if(eloURI == null) eloURI = request.getParameter("missionURI");
         log.info("URI: " + eloURI);
         if (eloURI != null && eloURI.length() > 0) {
             try {
