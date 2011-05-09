@@ -7,13 +7,16 @@ package eu.scy.client.common.scyi18n;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.Locale;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -219,11 +222,15 @@ public class UriLocalizer
       try
       {
          URI localizedUri = new URI(uri.getScheme(), uri.getUserInfo(), uri.getHost(), uri.getPort(),
-            localizedPath, uri.getQuery(), uri.getFragment());
+            URLEncoder.encode(localizedPath,encoding), uri.getQuery(), uri.getFragment());
          String localLocalizedUri = makePathLocalIfSpecified(localizedUri.toString());
          return new URI(localLocalizedUri);
       }
       catch (URISyntaxException ex)
+      {
+         logger.error("problems localizing uri: " + uri, ex);
+      }
+      catch (UnsupportedEncodingException ex)
       {
          logger.error("problems localizing uri: " + uri, ex);
       }
@@ -249,7 +256,7 @@ public class UriLocalizer
       }
       try
       {
-         return localizeUri(new URI(uri), targetLanguage).toString();
+         return localizeUri(stringToUri(uri), targetLanguage).toString();
       }
       catch (URISyntaxException ex)
       {
@@ -338,5 +345,18 @@ public class UriLocalizer
          }
       }
       return path;
+   }
+
+   private static final String encoding = "UTF-8";
+   private URI stringToUri(String string) throws URISyntaxException{
+
+      try
+      {
+         return new URI(URLEncoder.encode(string, encoding));
+      }
+      catch (UnsupportedEncodingException ex)
+      {
+         throw new URISyntaxException(encoding, ex.getMessage());
+      }
    }
 }
