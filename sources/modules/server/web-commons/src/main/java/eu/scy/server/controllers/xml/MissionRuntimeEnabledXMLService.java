@@ -43,6 +43,7 @@ public abstract class MissionRuntimeEnabledXMLService extends XMLStreamerControl
                     MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadElo(new URI(missionURI), getMissionELOService());
                     return getObject(missionRuntimeElo, request, httpServletResponse);
                 } else {
+                    logger.info("elo technical format is not scy/missinonruntime but " + scyElo.getTechnicalFormat());
                     return getObject(null, request, httpServletResponse);
                 }
             }
