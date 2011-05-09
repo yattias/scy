@@ -59,9 +59,9 @@ public interface MissionELOService extends BaseELOService {
 
     List getFeedback();
 
-    List getMyElosWithFeedback(MissionRuntimeElo missionRuntimeElo, String currentUserName);
+    NewestElos getMyElosWithFeedback(MissionRuntimeElo missionRuntimeElo, String currentUserName);
 
-    List getFeedbackElosWhereIHaveContributed(MissionRuntimeElo missionRuntimeElo, String currentUserName);
+    NewestElos getFeedbackElosWhereIHaveContributed(MissionRuntimeElo missionRuntimeElo, String currentUserName);
 
     void clearAllPortfolios();
 

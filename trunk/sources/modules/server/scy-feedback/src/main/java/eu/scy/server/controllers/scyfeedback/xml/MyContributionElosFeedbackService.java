@@ -19,6 +19,7 @@ public class MyContributionElosFeedbackService extends MissionRuntimeEnabledXMLS
 
     @Override
     protected Object getObject(MissionRuntimeElo missionRuntimeElo, HttpServletRequest request, HttpServletResponse response) {
+        logger.info("*** *** LOADING MY CONTRIBUTION ELOS FEEDBACK SERVICE!");
         return getMissionELOService().getFeedbackElosWhereIHaveContributed(missionRuntimeElo, getCurrentUserName(request));
     }
 }

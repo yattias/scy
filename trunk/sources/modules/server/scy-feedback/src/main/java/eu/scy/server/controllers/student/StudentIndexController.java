@@ -4,6 +4,7 @@ import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
+import eu.scy.core.model.transfer.NewestElos;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.server.controllers.BaseController;
 import eu.scy.core.model.transfer.Portfolio;
@@ -57,16 +58,16 @@ public class StudentIndexController extends BaseController {
         }
 
 
-        List myElosWithFeedback = getMissionELOService().getMyElosWithFeedback(missionRuntimeElo, getCurrentUserName(request));
-        List elosWhereIHaveProvidedFeedback = getMissionELOService().getFeedbackElosWhereIHaveContributed(missionRuntimeElo, getCurrentUserName(request));
+        NewestElos myElosWithFeedback = getMissionELOService().getMyElosWithFeedback(missionRuntimeElo, getCurrentUserName(request));
+        NewestElos elosWhereIHaveProvidedFeedback = getMissionELOService().getFeedbackElosWhereIHaveContributed(missionRuntimeElo, getCurrentUserName(request));
 
         MissionSpecificationElo missionSpecificationElo = getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo);
         URI descriptionURI = missionSpecificationElo.getTypedContent().getMissionDescriptionUri();
 
         modelAndView.addObject("descriptionUrl", descriptionURI);
         modelAndView.addObject("missionSpecificationTransporter", getMissionELOService().getWebSafeTransporter(missionRuntimeElo));
-        modelAndView.addObject("numberOfFeedbacksToMyElos", myElosWithFeedback.size());
-        modelAndView.addObject("elosWhereIHaveProvidedFeedback", elosWhereIHaveProvidedFeedback.size());
+        modelAndView.addObject("numberOfFeedbacksToMyElos", myElosWithFeedback.getElos().size());
+        modelAndView.addObject("elosWhereIHaveProvidedFeedback", elosWhereIHaveProvidedFeedback.getElos().size());
         try {
             //modelAndView.addObject("jnlpRef", "/webapp/scy-lab.jnlp?username=" + getCurrentUserName(request) + "&mission=" + URLEncoder.encode(missionRuntimeElo.getUri().toString(), "UTF-8"));
             modelAndView.addObject("jnlpRef", "/webapp/scy-lab.jnlp?username=" + getCurrentUserName(request) + "&mission=" + URLEncoder.encode(missionRuntimeElo.getUri().toString(), "UTF-8"));
