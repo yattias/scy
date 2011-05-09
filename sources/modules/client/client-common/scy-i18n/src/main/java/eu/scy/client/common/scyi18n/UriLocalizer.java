@@ -173,7 +173,7 @@ public class UriLocalizer
       }
       return uri;
    }
-   
+
    /**
     * Replaces the language specification by the default language. If the localized uri does not
     * exists, the languages part will be replaced by the definition language en (English). If that
@@ -199,7 +199,7 @@ public class UriLocalizer
       }
       return uri;
    }
-   
+
    /**
     * Replaces the first language specification in the uri by the default language. There are no
     * checks performed if the localized uri exists or not.
@@ -222,15 +222,11 @@ public class UriLocalizer
       try
       {
          URI localizedUri = new URI(uri.getScheme(), uri.getUserInfo(), uri.getHost(), uri.getPort(),
-            URLEncoder.encode(localizedPath,encoding), uri.getQuery(), uri.getFragment());
+            localizedPath.replace(' ', '+'), uri.getQuery(), uri.getFragment());
          String localLocalizedUri = makePathLocalIfSpecified(localizedUri.toString());
          return new URI(localLocalizedUri);
       }
       catch (URISyntaxException ex)
-      {
-         logger.error("problems localizing uri: " + uri, ex);
-      }
-      catch (UnsupportedEncodingException ex)
       {
          logger.error("problems localizing uri: " + uri, ex);
       }
@@ -318,7 +314,7 @@ public class UriLocalizer
 
    String makePathLocalIfSpecified(String path)
    {
-      if (localUriReplacements == null || path==null)
+      if (localUriReplacements == null || path == null)
       {
          return path;
       }
@@ -346,17 +342,10 @@ public class UriLocalizer
       }
       return path;
    }
-
    private static final String encoding = "UTF-8";
-   private URI stringToUri(String string) throws URISyntaxException{
 
-      try
-      {
-         return new URI(URLEncoder.encode(string, encoding));
-      }
-      catch (UnsupportedEncodingException ex)
-      {
-         throw new URISyntaxException(encoding, ex.getMessage());
-      }
+   private URI stringToUri(String string) throws URISyntaxException
+   {
+      return new URI(string.replace(' ', '+'));
    }
 }
