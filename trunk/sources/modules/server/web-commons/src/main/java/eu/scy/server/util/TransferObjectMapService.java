@@ -1,9 +1,7 @@
 package eu.scy.server.util;
 
-import eu.scy.core.model.transfer.AssessmentSetupTransfer;
-import eu.scy.core.model.transfer.BaseXMLTransfer;
-import eu.scy.core.model.transfer.LearningGoal;
-import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
+import eu.scy.core.model.transfer.*;
+
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -76,10 +74,30 @@ public class TransferObjectMapService {
             LearningGoal learningGoal = (LearningGoal) assessmentSetupTransfer.getSpecificLearningGoals().get(i);
             register(learningGoal, map);
         }
+
+        for (int i = 0; i < assessmentSetupTransfer.getReflectionQuestions().size(); i++) {
+            ReflectionQuestion reflectionQuestion = (ReflectionQuestion) assessmentSetupTransfer.getReflectionQuestions().get(i);
+            registerReflectionQuestion(reflectionQuestion, map);
+            }
+
+        for (int i = 0; i < assessmentSetupTransfer.getReflectionTabs().size(); i++) {
+            Tab tab = (Tab) assessmentSetupTransfer.getReflectionTabs().get(i);
+            registerReflectionTab(tab, map);
+        }
+    }
+
+    private void registerReflectionTab(Tab tab, Map map) {
+        map.put(tab.getId(), tab);
     }
 
     private void register(LearningGoal learningGoal, Map map) {
         map.put(learningGoal.getId(), learningGoal);
     }
+
+    private void registerReflectionQuestion(ReflectionQuestion reflectionQuestion, Map map) {
+        map.put(reflectionQuestion.getId(), reflectionQuestion);
+    }
+
+
 
 }

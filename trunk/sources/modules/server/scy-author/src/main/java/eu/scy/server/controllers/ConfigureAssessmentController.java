@@ -3,19 +3,17 @@ package eu.scy.server.controllers;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
-import eu.scy.core.model.transfer.LearningGoal;
-import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
+import eu.scy.core.model.transfer.*;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.roolo.PedagogicalPlanELOService;
-import eu.scy.server.controllers.xml.XMLTransferObjectServiceImpl;
 import eu.scy.server.util.TransferObjectServiceCollection;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URLEncoder;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -36,6 +34,7 @@ public class ConfigureAssessmentController extends BaseController {
         try {
             String uriParam = request.getParameter("eloURI");
             String action = request.getParameter("action");
+            String anchorEloURI = request.getParameter("anchorEloURI");
 
             logger.info("ELO URI: " + uriParam);
 
@@ -43,12 +42,18 @@ public class ConfigureAssessmentController extends BaseController {
             MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(uri, getMissionELOService());
 
             PedagogicalPlanTransfer pedagogicalPlanTransfer = getPedagogicalPlanTransfer(missionSpecificationElo);
+            syncAssessmentWithAnchorElos(pedagogicalPlanTransfer, getMissionELOService().getAnchorELOs(missionSpecificationElo), missionSpecificationElo);
+
 
             if (action != null) {
                 if (action.equals("addGeneralLearningGoal"))
                     addGeneralLearningGoal(missionSpecificationElo, pedagogicalPlanTransfer);
                 if (action.equals("addSpecificLearningGoal"))
                     addSpecificLearningGoal(missionSpecificationElo, pedagogicalPlanTransfer);
+                if (action.equals("addReflectionQuestion"))
+                    addReflectionQuestion(missionSpecificationElo, pedagogicalPlanTransfer, anchorEloURI, "");
+                if (action.equals("clearReflectionQuestions"))
+                    clearReflectionQuestions(missionSpecificationElo, pedagogicalPlanTransfer);
             }
 
             logger.info("Ich habe die parameteren gesatt: " + uriParam);
@@ -63,6 +68,69 @@ public class ConfigureAssessmentController extends BaseController {
         }
 
     }
+
+    private void clearReflectionQuestions(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer) {
+        logger.info("CLEARING REFLECTION QUESTIONS!");
+        if (pedagogicalPlanTransfer != null) {
+            pedagogicalPlanTransfer.getAssessmentSetup().setReflectionQuestions(Collections.EMPTY_LIST);
+            ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
+            pedagogicalPlanElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer));
+            pedagogicalPlanElo.updateElo();
+        }
+    }
+
+    private void syncAssessmentWithAnchorElos(PedagogicalPlanTransfer pedagogicalPlanTransfer, List anchorELOs, MissionSpecificationElo missionSpecificationElo) {
+
+        Map reflectionMap = new HashMap();
+        List syncedList = new LinkedList();
+
+
+        if(pedagogicalPlanTransfer.getAssessmentSetup().getReflectionTabs() == null){
+            pedagogicalPlanTransfer.getAssessmentSetup().setReflectionTabs(new LinkedList());
+        }
+
+        if(pedagogicalPlanTransfer.getAssessmentSetup().getReflectionTabs().size() == 0) {
+            pedagogicalPlanTransfer.getAssessmentSetup().addReflectionTab(createTab("xxReflection on Mission", "The most important things I learned about CO2 neural houses are...", "text"));
+            pedagogicalPlanTransfer.getAssessmentSetup().addReflectionTab(createTab("xxReflection on Collaboration", "Did your group agreed about how to work before you started and were there any problems during the work?", "text"));
+            pedagogicalPlanTransfer.getAssessmentSetup().addReflectionTab(createTab("xxReflection on Inquiry", "Did you keep the hypotheses that you created early in the inquiry or did you change it?", "text"));
+            pedagogicalPlanTransfer.getAssessmentSetup().addReflectionTab(createTab("xxReflection on Effort", "Are you satisfied with your own work on this Mission?", "slider"));
+
+
+        }
+
+        List reflectionQuestions = pedagogicalPlanTransfer.getAssessmentSetup().getReflectionQuestions();
+        for (int j = 0; j < reflectionQuestions.size(); j++) {
+            ReflectionQuestion reflectionQuestion = (ReflectionQuestion) reflectionQuestions.get(j);
+            reflectionMap.put(reflectionQuestion, reflectionQuestion.getAnchorEloURI());
+        }
+
+        for (int i = 0; i < anchorELOs.size(); i++) {
+            ScyElo scyElo = (ScyElo) anchorELOs.get(i);
+            if (scyElo.getObligatoryInPortfolio() != null && scyElo.getObligatoryInPortfolio()) {
+                ReflectionQuestion question = (ReflectionQuestion) reflectionMap.get(String.valueOf(scyElo.getUri()));
+                if (question != null) {
+                    syncedList.add(question);
+                } else {
+                    addReflectionQuestion(missionSpecificationElo, pedagogicalPlanTransfer, String.valueOf(scyElo.getUri()), scyElo.getTitle());
+                }
+            }
+
+
+        }
+
+
+    }
+
+    private Tab createTab(String title, String question, String type) {
+        Tab returnTab = new Tab();
+        returnTab.setTitle(title);
+        returnTab.setQuestion(question);
+        returnTab.setType(type);
+
+        return returnTab;
+    }
+
+
 
     private void addSpecificLearningGoal(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer) {
         LearningGoal learningGoal = new LearningGoal();
@@ -87,6 +155,40 @@ public class ConfigureAssessmentController extends BaseController {
             logger.info("PEDAGOGICAL PLAN TRANSFER IS NULL!!");
         }
 
+    }
+
+    private void addReflectionQuestion(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, String anchorEloURI, String title) {
+        logger.info("ADDING REFLECTION QUESTION " + anchorEloURI + " " + title);
+
+        if (getSetupContainsQuestion(pedagogicalPlanTransfer.getAssessmentSetup(), title)) {
+            logger.info("SETUP ALREADY CONTAINS QUESTION FOR " + title);
+            return;
+        }
+
+        ReflectionQuestion reflectionQuestion = new ReflectionQuestion();
+        reflectionQuestion.setAnchorEloURI(anchorEloURI);
+        reflectionQuestion.setAnchorEloName(title);
+        if (pedagogicalPlanTransfer != null) {
+            pedagogicalPlanTransfer.getAssessmentSetup().addReflectionQuestion(reflectionQuestion);
+            ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
+            pedagogicalPlanElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer));
+            pedagogicalPlanElo.updateElo();
+        } else {
+            logger.info("PEDAGOGICAL PLAN TRANSFER IS NULL");
+        }
+
+
+    }
+
+    private boolean getSetupContainsQuestion(AssessmentSetupTransfer assessmentSetup, String title) {
+        List questions = assessmentSetup.getReflectionQuestions();
+        for (int i = 0; i < questions.size(); i++) {
+            ReflectionQuestion reflectionQuestion = (ReflectionQuestion) questions.get(i);
+            if (reflectionQuestion.getAnchorEloName() != null && reflectionQuestion.getAnchorEloName().equals(title))
+                return true;
+
+        }
+        return false;
     }
 
     private PedagogicalPlanTransfer getPedagogicalPlanTransfer(MissionSpecificationElo missionSpecificationElo) {

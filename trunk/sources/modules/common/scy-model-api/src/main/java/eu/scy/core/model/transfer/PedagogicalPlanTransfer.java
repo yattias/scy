@@ -2,6 +2,7 @@ package eu.scy.core.model.transfer;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -54,5 +55,20 @@ public class PedagogicalPlanTransfer extends BaseXMLTransfer {
 
         return getPedagogicalPlanURI();
         
+    }
+
+    public String getReflectionQuestionForURI(String uri) {
+        if(uri != null) {
+            uri = uri.trim();
+            List reflectionQuestions = getAssessmentSetup().getReflectionQuestions();
+            for (int i = 0; i < reflectionQuestions.size(); i++) {
+                ReflectionQuestion reflectionQuestion = (ReflectionQuestion) reflectionQuestions.get(i);
+                if(reflectionQuestion.getAnchorEloURI() != null) {
+                    if(reflectionQuestion.getAnchorEloURI().equals(uri)) return reflectionQuestion.getReflectionQuestion();
+                }
+            }
+        }
+
+        return "";
     }
 }

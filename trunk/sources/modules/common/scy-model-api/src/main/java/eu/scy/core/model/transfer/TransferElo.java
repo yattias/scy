@@ -50,6 +50,7 @@ public class TransferElo extends BaseXMLTransfer {
     private Boolean hasBeenReflectedOn = Boolean.FALSE;
     private Boolean hasBeenSelectedForSubmit = Boolean.FALSE;
     private String inquiryQuestion;
+    private String reflectionQuestion;
 
     private String grade;
 
@@ -400,5 +401,13 @@ public class TransferElo extends BaseXMLTransfer {
         } catch (Exception ex) {
             return txt;
         }  */
+    }
+
+    public String getReflectionQuestion() {
+        return reflectionQuestion;
+    }
+
+    public void setReflectionQuestion(String reflectionQuestion) {
+        this.reflectionQuestion = reflectionQuestion;
     }
 }

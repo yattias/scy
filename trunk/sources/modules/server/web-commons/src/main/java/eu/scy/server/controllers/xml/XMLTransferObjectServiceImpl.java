@@ -207,6 +207,7 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
         xStream.aliasField("hasBeenSelectedForSubmit".toLowerCase(), TransferElo.class, "hasBeenSelectedForSubmit");
         xStream.aliasField("studentspecificlearninggoals", TransferElo.class, "specificLearningGoals");
         xStream.aliasField("feedbackEloUrl".toLowerCase(), TransferElo.class, "feedbackEloUrl");
+        xStream.aliasField("reflectionQuestion".toLowerCase(), TransferElo.class, "reflectionQuestion");
 
         xStream.aliasField("createdBy".toLowerCase(), FeedbackEloTransfer.class, "createdBy");
         xStream.aliasField("createdByPicture".toLowerCase(), FeedbackEloTransfer.class, "createdByPicture");

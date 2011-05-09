@@ -3,6 +3,7 @@ package eu.scy.server.eportfolio.xml;
 import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
+import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.model.transfer.ELOSearchResult;
 import eu.scy.core.model.transfer.TransferElo;
@@ -65,12 +66,17 @@ public class ObligatoryELOsInMission extends MissionRuntimeEnabledXMLService {
 
 
         List anchorElos = getMissionELOService().getAnchorELOs(missionSpecificationElo);
+        PedagogicalPlanTransfer pedagogicalPlanTransfer = getPedagogicalPlanTransfer(missionSpecificationElo);
         ELOSearchResult eloSearchResult = new ELOSearchResult();
         for (int i = 0; i < anchorElos.size(); i++) {
             ScyElo o = (ScyElo) anchorElos.get(i);
             logger.info("IS THIS OBLIGATORY IN PORTFOLIO: " + o.getTitle() + " " + o.getObligatoryInPortfolio());
             if (o.getObligatoryInPortfolio() != null && o.getObligatoryInPortfolio()) {
-                eloSearchResult.getElos().add(new TransferElo(o));
+                TransferElo transferElo = new TransferElo(o);
+                eloSearchResult.getElos().add(transferElo);
+                String reflectionQuestion = pedagogicalPlanTransfer.getReflectionQuestionForURI(String.valueOf(o.getUri()));
+                transferElo.setReflectionQuestion(reflectionQuestion);
+                //eloSearchResult.getElos().add(new TransferElo(o));
             }
         }
         logger.info("ANCHOR ELOS: " + eloSearchResult.getElos().size());
