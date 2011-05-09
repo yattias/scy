@@ -87,7 +87,7 @@ public class Initializer {
    public-init var showEloRelations = true;
 //   public-init var eloImagesPath = "http://www.scy-lab.eu/content/backgrounds/eloIcons/";
    public-init var showOfflineContacts = true;
-   public-init var languageList = "en,nl,et,fr,el";
+   public-init var languageList = "en,nl,et,fr,el,no";
    public-init var missionMapSelectedImageScale = 1.5;
    public-init var missionMapNotSelectedImageScale = 1.0;
    public-init var missionMapPositionScale = 1.0;
