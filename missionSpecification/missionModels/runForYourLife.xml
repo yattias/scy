@@ -16,6 +16,7 @@
 
       <property name="basicMissionMap">
          <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionMap">
+            <property name="missionMapBackgroundImageUri" value="http://www.scy-lab.eu/content/en/mission5/runners.fxz"/>
             <property name="missionMapInstructionUri" value="http://www.scy-lab.eu/content/en/mission5/curtain_MISSIONMAP.html"/>
             <property name="initialLasId" value="information"/>
             <property name="loEloUris">
