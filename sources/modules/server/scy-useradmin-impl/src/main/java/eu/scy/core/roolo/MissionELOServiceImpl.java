@@ -8,7 +8,6 @@ import eu.scy.common.mission.*;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.model.transfer.*;
-import roolo.elo.api.IELO;
 import roolo.search.IQueryComponent;
 import roolo.search.MetadataQueryComponent;
 import roolo.search.IQuery;
@@ -366,28 +365,53 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
     }
 
     @Override
-    public List getMyElosWithFeedback(MissionRuntimeElo missionRuntimeElo, String currentUserName) {
-        log.info("LOADING MY ELOS WITH FEEDBACK!");
-        List feedback = getFeedback();
-        List returnList = new LinkedList();
+    public NewestElos getMyElosWithFeedback(MissionRuntimeElo missionRuntimeElo, String currentUserName) {
+        NewestElos newestElos = new NewestElos();
 
-        for (int i = 0; i < feedback.size(); i++) {
-            ScyElo scyElo = (ScyElo) feedback.get(i);
-            FeedbackEloTransfer feedbackEloTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(scyElo.getContent().getXml());
-            if(feedbackEloTransfer.getCreatedBy() != null && feedbackEloTransfer.getCreatedBy().equals(currentUserName)) returnList.add(feedbackEloTransfer);
+        List feedbackList = getFeedback();
+        for (int i = 0; i < feedbackList.size(); i++) {
+            ScyElo feedbackElo = (ScyElo) feedbackList.get(i);
+            URI uri = feedbackElo.getFeedbackOnEloUri();
+            ScyElo commentedOn = ScyElo.loadLastVersionElo(uri, this);
+
+            URI feedbackURI = commentedOn.getFeedbackOnEloUri();
+            /*if(feedbackURI != null) {
+                ScyElo feedbackELO = ScyElo.loadLastVersionElo(feedbackURI, this);
+                FeedbackEloTransfer feedbackEloTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(commentedOn.getContent().getXml());
+                if(feedbackEloTransfer.getCreatedBy() != null && feedbackEloTransfer.getCreatedBy().equals(currentUserName)) {
+                    TransferElo transferElo = new TransferElo(commentedOn);
+                    transferElo.setFeedbackELO(feedbackElo);
+                    newestElos.addElo(transferElo);newestElos.addElo(transferElo);
+                }
+
+            } */
+
+            TransferElo transferElo = new TransferElo(commentedOn);
+            newestElos.addElo(transferElo);newestElos.addElo(transferElo);
+
+
+
         }
 
-        log.info("MY ELOS WITH FEEDBACK: " + returnList.size());
-        return returnList;
-
+        return newestElos;
     }
 
     @Override
-    public List getFeedbackElosWhereIHaveContributed(MissionRuntimeElo missionRuntimeElo, String currentUserName) {
+    public NewestElos getFeedbackElosWhereIHaveContributed(MissionRuntimeElo missionRuntimeElo, String currentUserName) {
         log.info("LOADING ELOS WHERE I (" + currentUserName + ") HAVE CONTRIBUTED!");
         List feedbackElos = getFeedback();
-        List returnList = new LinkedList();
-        for (int i = 0; i < feedbackElos.size(); i++) {
+        NewestElos newestElos = new NewestElos();
+
+         for (int i = 0; i < feedbackElos.size(); i++) {
+            ScyElo feedbackElo = (ScyElo) feedbackElos.get(i);
+            URI uri = feedbackElo.getFeedbackOnEloUri();
+            ScyElo commentedOn = ScyElo.loadLastVersionElo(uri, this);
+            TransferElo transferElo = new TransferElo(commentedOn);
+            newestElos.addElo(transferElo);newestElos.addElo(transferElo);
+         }
+
+
+        /*for (int i = 0; i < feedbackElos.size(); i++) {
             ScyElo scyElo = (ScyElo) feedbackElos.get(i);
             FeedbackEloTransfer feedbackEloTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(scyElo.getContent().getXml());
             if(feedbackEloTransfer != null) {
@@ -397,13 +421,13 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
                     log.fine("FEEDBACK: "+ feedbackTransfer.getCreatedBy() + " ( " + feedbackTransfer.getComment() + " )");
                     if(feedbackTransfer.getCreatedBy().equals(currentUserName)) {
                         log.fine("Created by equals (" + currentUserName );
-                        if(!returnList.contains(feedbackTransfer)) returnList.add(feedbackTransfer);
+                        if(!newestElos.getElos().contains(feedbackTransfer)) newestElos.getElos().add(feedbackTransfer);
                     } else {
                         List replies = feedbackTransfer.getReplies();
                         for (int k = 0; k < replies.size(); k++) {
                             FeedbackReplyTransfer replyTransfer = (FeedbackReplyTransfer) replies.get(k);
                             if(replyTransfer.getCreatedBy().equals(currentUserName)) {
-                                if(!returnList.contains(feedbackEloTransfer)) returnList.add(feedbackEloTransfer);
+                                if(!newestElos.getElos().contains(feedbackEloTransfer)) newestElos.getElos().add(feedbackEloTransfer);
                             }
                         }
                     }
@@ -411,10 +435,10 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
 
             }
         }
+             */
+             return newestElos;
 
-        log.info("MY CONTRIBUTIONS: " + returnList.size());
 
-        return returnList;
     }
 
     @Override

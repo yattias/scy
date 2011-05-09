@@ -17,6 +17,7 @@ public class NewElosForFeedbackController extends MissionRuntimeEnabledXMLServic
 
     @Override
     protected Object getObject(MissionRuntimeElo missionRuntimeElo, HttpServletRequest request, HttpServletResponse response) {
+        logger.info("*** *** LOADING NEW ELOS FOR FEEDBACK!");
         return getMissionELOService().getNewestElosForFeedback(missionRuntimeElo, getCurrentUserName(request));        
     }
 

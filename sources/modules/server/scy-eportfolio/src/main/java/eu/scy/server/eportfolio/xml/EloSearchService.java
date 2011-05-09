@@ -31,7 +31,7 @@ public class EloSearchService extends MissionRuntimeEnabledXMLService {
 
     @Override
     protected Object getObject(MissionRuntimeElo mre, HttpServletRequest request, HttpServletResponse response) {
-
+        logger.info("*** *** LOADING ELO SEARCH SERVICWE!");
         URI missionURI = null;
         try {
             missionURI = new URI(request.getParameter("missionURI"));
