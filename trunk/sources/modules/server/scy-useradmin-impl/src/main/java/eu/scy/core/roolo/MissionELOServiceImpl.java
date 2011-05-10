@@ -139,26 +139,29 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
 
     @Override
     public MissionSpecificationElo getMissionSpecificationELOForRuntume(MissionRuntimeElo missionRuntimeElo) {
-
-
-        URI uri =  missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri();
-        return MissionSpecificationElo.loadLastVersionElo(uri, this);
-/*
-        List missionSpecifications = getMissionSpecifications();
-        ScyElo returnElo = null;
-        for (int i = 0; i < missionSpecifications.size(); i++) {
-            ScyElo missionSpeicification = (ScyElo) missionSpecifications.get(i);
-            log.info("SEARCHING FOR MISSION WITH THE NAME: " + missionRuntimeElo.getTitle() + " COMPARING TO " + missionSpeicification.getTitle());
-            if (missionRuntimeElo.getTitle().equals(missionRuntimeElo.getTitle())) {
-                log.info("FOUND IT: " + missionSpeicification.getUri());
-                returnElo = missionSpeicification;
-
-            }
-
+        if (missionRuntimeElo != null) {
+            URI uri = missionRuntimeElo.getTypedContent().getMissionSpecificationEloUri();
+            return MissionSpecificationElo.loadLastVersionElo(uri, this);
         }
-        */
 
-       // if(returnElo != null) return MissionSpecificationElo.loadElo(returnElo.getUri(), this);
+        return null;
+
+/*
+List missionSpecifications = getMissionSpecifications();
+ScyElo returnElo = null;
+for (int i = 0; i < missionSpecifications.size(); i++) {
+    ScyElo missionSpeicification = (ScyElo) missionSpecifications.get(i);
+    log.info("SEARCHING FOR MISSION WITH THE NAME: " + missionRuntimeElo.getTitle() + " COMPARING TO " + missionSpeicification.getTitle());
+    if (missionRuntimeElo.getTitle().equals(missionRuntimeElo.getTitle())) {
+        log.info("FOUND IT: " + missionSpeicification.getUri());
+        returnElo = missionSpeicification;
+
+    }
+
+}
+*/
+
+        // if(returnElo != null) return MissionSpecificationElo.loadElo(returnElo.getUri(), this);
 
         //return null;
     }
@@ -184,7 +187,6 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
 
 
         getSqlSpacesActionLogger().log(action);
-
 
 
     }
@@ -264,8 +266,6 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
         log.info("Loading elos for mission with uri: " + missionURI);
 
 
-
-
         //AndQuery aq = new AndQuery(bmq1, bmq2);
         IQuery q = new Query(bmq2);
         List<ISearchResult> results = getRepository().search(q);
@@ -274,7 +274,7 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
             ISearchResult searchResult = results.get(i);
             ScyElo scyElo = ScyElo.loadLastVersionElo(searchResult.getUri(), this);
             //if(scyElo.getMissionSpecificationEloUri().equals(missionURI)) {
-                elos.add(getRepository().retrieveELO(searchResult.getUri()));
+            elos.add(getRepository().retrieveELO(searchResult.getUri()));
             //}
 
         }
@@ -296,7 +296,7 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
                 if (xml != null) {
                     Portfolio portfolio = (Portfolio) getXmlTransferObjectService().getObject(xml);
                     portfolio.setMissionRuntimeURI(missionRuntimeElo.getUri().toString());
-                    if(portfolio.getIsPortfolioSubmitted() && portfolio.getIsPortfolioAssessed() == false) {
+                    if (portfolio.getIsPortfolioSubmitted() && portfolio.getIsPortfolioAssessed() == false) {
                         returnList.add(portfolio);
                     } else {
                         log.info("PORTFOLIO " + portfolio.getOwner() + " STATUS: " + portfolio.getPortfolioStatus() + " :: " + portfolio.getIsPortfolioSubmitted());
@@ -311,9 +311,9 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
     public Portfolio getPortfolio(MissionRuntimeElo missionRuntimeElo) {
         URI portfolioURI = missionRuntimeElo.getTypedContent().getEPortfolioEloUri();
         ScyElo scyElo = ScyElo.loadLastVersionElo(portfolioURI, this);
-        if(scyElo != null) {
+        if (scyElo != null) {
             String xml = scyElo.getContent().getXmlString();
-            if(xml != null && xml.length() > 0) {
+            if (xml != null && xml.length() > 0) {
                 return (Portfolio) getXmlTransferObjectService().getObject(xml);
             }
         }
@@ -358,7 +358,7 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
 
             //log.info("***************** FEEDBACK: " + xmlString);
 
-            if(xmlString.startsWith("<feedback>")) xmlString = fixXml(xmlString, scyELO);
+            if (xmlString.startsWith("<feedback>")) xmlString = fixXml(xmlString, scyELO);
         }
 
         return getELOs(feedbackQuery);
@@ -387,8 +387,8 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
             } */
 
             TransferElo transferElo = new TransferElo(commentedOn);
-            newestElos.addElo(transferElo);newestElos.addElo(transferElo);
-
+            newestElos.addElo(transferElo);
+            newestElos.addElo(transferElo);
 
 
         }
@@ -402,13 +402,14 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
         List feedbackElos = getFeedback();
         NewestElos newestElos = new NewestElos();
 
-         for (int i = 0; i < feedbackElos.size(); i++) {
+        for (int i = 0; i < feedbackElos.size(); i++) {
             ScyElo feedbackElo = (ScyElo) feedbackElos.get(i);
             URI uri = feedbackElo.getFeedbackOnEloUri();
             ScyElo commentedOn = ScyElo.loadLastVersionElo(uri, this);
             TransferElo transferElo = new TransferElo(commentedOn);
-            newestElos.addElo(transferElo);newestElos.addElo(transferElo);
-         }
+            newestElos.addElo(transferElo);
+            newestElos.addElo(transferElo);
+        }
 
 
         /*for (int i = 0; i < feedbackElos.size(); i++) {
@@ -436,7 +437,7 @@ public class MissionELOServiceImpl extends BaseELOServiceImpl implements Mission
             }
         }
              */
-             return newestElos;
+        return newestElos;
 
 
     }
