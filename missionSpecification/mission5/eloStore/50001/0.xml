@@ -48,10 +48,13 @@
     <relation>
       <kind>
         <source>LOMv1.0</source>
-        <value>is_version_of</value>
+        <value>is_forked_by</value>
       </kind>
       <resource>
-        <identifier />
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/50040/0/List+of+information.rtf</entry>
+        </identifier>
       </resource>
     </relation>
   </lom>
@@ -61,21 +64,21 @@
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Dolly;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-{\stylesheet{\s2\f1\fs24\i0\b0\cf1 default;}{\s1\li0\ri0\fi0\sa80\sb80\sbasedon2\snext1 DP Document;}}
-\margl1417\margr1417\margt1417\margb1417\widowctrl
-\s1\li0\ri0\fi0\sa80\sb80\f2\fs20\i0\b\ul0\cf0 List of information you collected\par
-\par
-Carbohydrates\par
-\par
-Glucose\par
-\par
-Insulin\par
-\par
-Role of glucose in the body\b0\par
-\pard\li0\ri0\fi0\f1\fs24\ul0\cf1\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Dolly;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+{\stylesheet{\s2\f1\fs24\i0\b0\cf1 default;}{\s1\li0\ri0\fi0\sa80\sb80\sbasedon2\snext1 DP Document;}}&#xD;
+\margl1417\margr1417\margt1417\margb1417\widowctrl&#xD;
+\s1\li0\ri0\fi0\sa80\sb80\f2\fs20\i0\b\ul0\cf0 List of information you collected\par&#xD;
+\par&#xD;
+Carbohydrates\par&#xD;
+\par&#xD;
+Glucose\par&#xD;
+\par&#xD;
+Insulin\par&#xD;
+\par&#xD;
+Role of glucose in the body\b0\par&#xD;
+\pard\li0\ri0\fi0\f1\fs24\ul0\cf1\par&#xD;
 }</RichText>
 </content>
 <resources>
