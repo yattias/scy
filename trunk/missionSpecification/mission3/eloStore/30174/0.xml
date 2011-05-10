@@ -9,26 +9,30 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-05-09T17:11:47.218+0200</dateTime>
+          <dateTime>2011-05-10T17:55:24.406+0200</dateTime>
         </date>
       </contribute>
       <version>0</version>
     </lifecycle>
     <technical>
       <customElements>
-        <dateCreated>1304953907218</dateCreated>
-        <dateLastModified>1304953907218</dateLastModified>
+        <dateCreated>1305042924406</dateCreated>
+        <dateLastModified>1305042924406</dateLastModified>
       </customElements>
-      <format>scy/templateelos</format>
+      <format>scy/pedagogicalplansettings</format>
     </technical>
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/50031/0/runForYourLife.scytemplateelos</entry>
+        <entry>roolo://memory/30174/0/pizzaMission.scy</entry>
       </identifier>
-      <las />
+      <las>design</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30169/0/A+Healthy+Pizza+2.7.scymissionspecification</entry>
+      </missionRunning>
       <title>
-        <string language="en">runForYourLife</string>
+        <string language="en">pizzaMission</string>
       </title>
     </general>
     <relation>
@@ -42,8 +46,8 @@
     </relation>
   </lom>
 </metadata>
-<content languageIndependent="true" contentType="xml">
-<templateElosEloUris />
+<content languageIndependent="true">
+
 </content>
 <resources>
 </resources>
