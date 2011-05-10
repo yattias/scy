@@ -222,9 +222,9 @@ public class UriLocalizer
       try
       {
          URI localizedUri = new URI(uri.getScheme(), uri.getUserInfo(), uri.getHost(), uri.getPort(),
-            localizedPath.replace(' ', '+'), uri.getQuery(), uri.getFragment());
+            localizedPath, uri.getQuery(), uri.getFragment());
          String localLocalizedUri = makePathLocalIfSpecified(localizedUri.toString());
-         return new URI(localLocalizedUri);
+         return stringToUri(localLocalizedUri);
       }
       catch (URISyntaxException ex)
       {
