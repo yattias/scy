@@ -9,22 +9,22 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-05-09T17:45:23.093+0200</dateTime>
+          <dateTime>2011-05-10T10:10:34.421+0200</dateTime>
         </date>
       </contribute>
       <version>0</version>
     </lifecycle>
     <technical>
       <customElements>
-        <dateCreated>1304955923093</dateCreated>
-        <dateLastModified>1304955923093</dateLastModified>
+        <dateCreated>1305015034421</dateCreated>
+        <dateLastModified>1305015034421</dateLastModified>
       </customElements>
       <format>scy/elotoolconfiguration</format>
     </technical>
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/50035/0/runForYourLife.scyelotoolconfiguration</entry>
+        <entry>roolo://memory/50040/0/runForYourLife.scyelotoolconfiguration</entry>
       </identifier>
       <las />
       <title>
