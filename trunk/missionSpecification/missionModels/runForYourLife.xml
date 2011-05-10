@@ -10,7 +10,7 @@
 
       <property name="missionDescriptionUri" value="http://www.scy-lab.eu/content/en/mission5/curtain_MISSION.html"/>
 
-      <property name="colorSchemesEloUri" value="roolo://memory/50100/0/colorschemes1.colorschemes"/>
+      <property name="colorSchemesEloUri" value="roolo://memory/50030/0/colorschemes1.colorschemes"/>
 
       <property name="eloToolConfigs" ref="eloToolConfigs"/>
 
