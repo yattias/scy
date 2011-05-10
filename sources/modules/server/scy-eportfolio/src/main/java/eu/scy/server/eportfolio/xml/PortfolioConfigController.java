@@ -7,6 +7,9 @@ import eu.scy.server.controllers.xml.MissionRuntimeEnabledXMLService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URLDecoder;
 import java.util.List;
 
 /**
@@ -21,7 +24,24 @@ public class PortfolioConfigController extends MissionRuntimeEnabledXMLService {
     protected Object getObject(MissionRuntimeElo missionRuntimeElo, HttpServletRequest request, HttpServletResponse response) {
         logger.info("GEtting portfolio config..." + missionRuntimeElo);
 
-        MissionSpecificationElo missionSpecificationElo = getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo);
+        MissionSpecificationElo missionSpecificationElo = null;
+
+        String missionURI = request.getParameter("missionURI");
+        if(missionURI != null) {
+            URI uri = null;
+            try {
+                missionURI = URLDecoder.decode(missionURI, "utf-8");
+                uri = new URI(missionURI);
+
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
+            }
+
+            missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(uri, getMissionELOService());
+            missionSpecificationElo = getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo);
+        }
+
+        //missionSpecificationElo = getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo);
         PedagogicalPlanTransfer pedagogicalPlanTransfer = getPedagogicalPlanTransfer(missionSpecificationElo);
         PortfolioConfig portfolioConfig = new PortfolioConfig();
         if (pedagogicalPlanTransfer != null) {

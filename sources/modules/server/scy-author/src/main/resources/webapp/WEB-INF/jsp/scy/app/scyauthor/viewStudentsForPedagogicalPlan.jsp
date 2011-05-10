@@ -2,11 +2,14 @@
 <tiles:insertDefinition name="default-page">
     <tiles:putAttribute name="main">
 
-        <h1>Assigned students for ${pedagogicalPlan.name}</h1>
+        <h1>Assigned students</h1>
+        <p>
+            Currently ${fn:length(users)} are assigned to this mission. Click link below to assign additional students.
+        </p>
 
             
 
-        <s:dialog url="selectStudentsForPedagogicalPlan.html" title="Select" dialogHeader="Select students" extraParameters="eloURI=${eloURI.uri}"/>
+        <s:dialog url="selectStudentsForPedagogicalPlan.html" title="Click to assign another student" dialogHeader="Select students" extraParameters="eloURI=${eloURI.uri}"/>
 
         <c:choose>
             <c:when test="${fn:length(users) > 0}">
