@@ -1,0 +1,50 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>yuri</entity>
+        <date>
+          <dateTime>2011-05-10T10:46:43.703+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1305017203703</dateCreated>
+        <dateLastModified>1305017203703</dateLastModified>
+      </customElements>
+      <format>scy/templateelos</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/50031/0/runForYourLife.scytemplateelos</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">runForYourLife</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<templateElosEloUris />
+</content>
+<resources>
+</resources>
+</elo>
