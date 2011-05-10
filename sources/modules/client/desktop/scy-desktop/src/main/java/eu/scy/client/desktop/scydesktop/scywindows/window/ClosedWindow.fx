@@ -85,10 +85,14 @@ public class ClosedWindow extends WindowElement {
    }
 
    public function buddiesDisplayChanged(): Void{
+      FX.deferAction(updateBuddiesDisplay);
+   }
+
+   function updateBuddiesDisplay(): Void{
       def lb = buddiesDisplay.layoutBounds;
       buddiesDisplayGroup.content = buddiesDisplay;
-      buddiesDisplayGroup.layoutX = -buddiesDisplay.layoutBounds.width + ThumbnailView.eloIconOffset -21;
-      buddiesDisplayGroup.layoutY = ArtSource.thumbnailHeight/2-buddiesDisplay.layoutBounds.height/2 - ThumbnailView.eloIconOffset - 7;
+      buddiesDisplayGroup.layoutX = -buddiesDisplay.layoutBounds.width + ThumbnailView.eloIconOffset -1;
+      buddiesDisplayGroup.layoutY = ArtSource.thumbnailHeight/2-buddiesDisplay.layoutBounds.height/2 - ThumbnailView.eloIconOffset - 0;
    }
 
    public override function create(): Node {
