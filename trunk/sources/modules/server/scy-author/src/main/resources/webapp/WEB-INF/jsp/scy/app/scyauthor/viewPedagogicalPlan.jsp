@@ -48,16 +48,18 @@
                     </tr>
                     <tr class="${oddEven.oddEven}">
                         <td colspan="2">
-                            <a href="MissionHighLevelOverview.html?eloURI=${missionSpecificationTransporter.uri}">More details...</a>
+                            <a href="MissionHighLevelOverview.html?eloURI=${missionSpecificationTransporter.uri}">Anchor ELOs</a>
 
                         </td>
                     </tr>
+                    <c:choose><c:when test="${author}">
                     <tr class="${oddEven.oddEven}">
                         <td colspan="2">
                             <a href="viewAgentConfiguration.html?eloURI=${missionSpecificationTransporter.uri}">Agent configuration</a>
 
                         </td>
                     </tr>
+                    </c:when></c:choose>
                     <tr class="${oddEven.oddEven}">
                         <td colspan="2">
                             <a href="ConfigureAssessment.html?eloURI=${missionSpecificationTransporter.uri}">Configure assessment</a>
