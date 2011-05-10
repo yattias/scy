@@ -393,8 +393,8 @@
                <property name="id" value="estimatedEnergyRequirements"/>
                <property name="uri" value="roolo://memory/30008/0/Estimated+Energy+Requirements+%28Health+Passport%29.scypds"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_14-estimatedEnergyRequirements.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/resource_14_activityList.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_14_estimatedEnergyRequirements.html"/>
+               <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
@@ -440,7 +440,7 @@
                <property name="iconType" value="Analyse"/>
 			   <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_D.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_06_nutrientAndEnergyCalculations.html"/>
-               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/resource_06_labelsOfIngredients.html"/>
+               <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
