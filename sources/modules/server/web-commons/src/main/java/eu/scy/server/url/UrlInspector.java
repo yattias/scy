@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.net.URLDecoder;
+import java.util.Enumeration;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -27,6 +29,19 @@ public class UrlInspector {
     private static Logger log = Logger.getLogger("UrlInspector.class");
 
     public Object instpectRequest(HttpServletRequest request, HttpServletResponse httpServletResponse) {
+        log.info(request.getQueryString());
+        Enumeration parameterNames = request.getParameterNames();
+        System.out.println("REQUEST START");
+        System.out.println(request.getRequestURL().toString());
+        System.out.println(request.getQueryString());
+        Map parameterMap = request.getParameterMap();
+        while (parameterNames.hasMoreElements()) {
+            Object o = parameterNames.nextElement();
+            String value = String.valueOf(parameterMap.get(o));
+            System.out.println("--[" + o + "]-- [" + value + "]");
+        }
+        System.out.println("DONE PARAMETERS");
+        
         String modelString = request.getParameter("model");
         log.info("MODEL STRING: " + modelString);
 
@@ -46,7 +61,7 @@ public class UrlInspector {
         }
 
         String eloURI = request.getParameter("eloURI");
-        if(eloURI == null) eloURI = request.getParameter("missionURI");
+        //if(eloURI == null) eloURI = request.getParameter("missionURI");
         log.info("URI: " + eloURI);
         if (eloURI != null && eloURI.length() > 0) {
             try {

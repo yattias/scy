@@ -43,7 +43,10 @@ public abstract class MissionRuntimeEnabledXMLService extends XMLStreamerControl
                     MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadElo(new URI(missionURI), getMissionELOService());
                     return getObject(missionRuntimeElo, request, httpServletResponse);
                 } else {
-                    logger.info("elo technical format is not scy/missinonruntime but " + scyElo.getTechnicalFormat());
+                    if(scyElo != null) {
+                        logger.info("elo technical format is not scy/missinonruntime but " + scyElo.getTechnicalFormat());    
+                    }
+
                     return getObject(null, request, httpServletResponse);
                 }
             }
@@ -61,12 +64,18 @@ public abstract class MissionRuntimeEnabledXMLService extends XMLStreamerControl
     }
 
     protected PedagogicalPlanTransfer getPedagogicalPlanTransfer(MissionSpecificationElo missionSpecificationElo) {
+        if(missionSpecificationElo != null) {
         URI pedagogicalPlanUri = missionSpecificationElo.getTypedContent().getPedagogicalPlanSettingsEloUri();
         logger.info("**** PEDAGOGICAL PLAN URI: " + pedagogicalPlanUri + " from service " + getClass().getName());
 
         ScyElo pedagogicalPlanELO = ScyElo.loadLastVersionElo(pedagogicalPlanUri, getMissionELOService());
         String pedagogicalPlanXML = pedagogicalPlanELO.getContent().getXmlString();
         return (PedagogicalPlanTransfer) getXmlTransferObjectService().getObject(pedagogicalPlanXML);
+        } else {
+            logger.warn("Mission specification elo is null, fuck why am I here?");
+        }
+        return null;
+
     }
 
 
