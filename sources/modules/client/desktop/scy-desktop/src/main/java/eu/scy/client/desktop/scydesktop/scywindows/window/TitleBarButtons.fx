@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.JavaFxWindowStyler;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
-import eu.scy.client.desktop.scydesktop.art.eloicons.EloIconFactory;
+import eu.scy.client.desktop.desktoputils.art.eloicons.EloIconFactory;
 
 /**
  * @author SikkenJ

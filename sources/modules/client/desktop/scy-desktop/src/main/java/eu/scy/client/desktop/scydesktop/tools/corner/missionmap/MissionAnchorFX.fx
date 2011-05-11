@@ -11,8 +11,8 @@ import java.net.URI;
 import java.lang.String;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.scyelo.ColorSchemeId;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
-import eu.scy.client.desktop.scydesktop.art.ScyColors;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.ScyColors;
 
 /**
  * @author SikkenJ

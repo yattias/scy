@@ -19,7 +19,7 @@ import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import eu.scy.client.desktop.scydesktop.art.eloicons.EloIconFactory;
+import eu.scy.client.desktop.desktoputils.art.eloicons.EloIconFactory;
 import eu.scy.client.desktop.scydesktop.uicontrols.EloIconButton;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 

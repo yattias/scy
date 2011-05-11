@@ -9,7 +9,7 @@ import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import javafx.scene.input.MouseEvent;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.NodeTooltip;
 import javafx.scene.layout.Stack;
 import javafx.scene.shape.Rectangle;

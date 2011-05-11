@@ -5,7 +5,7 @@
  */
 package eu.scy.client.desktop.scydesktop.uicontrols;
 
-import eu.scy.client.desktop.scydesktop.art.ImageLoader;
+import eu.scy.client.desktop.desktoputils.art.ImageLoader;
 import org.apache.log4j.Logger;
 import javafx.scene.CustomNode;
 import javafx.scene.Node;

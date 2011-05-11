@@ -6,7 +6,7 @@ package eu.scy.client.desktop.scydesktop.tools.colorscheme;
 
 import javafx.scene.CustomNode;
 import javafx.scene.Node;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;

@@ -22,12 +22,12 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 import javafx.util.Math;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.window.EmptyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
 import javafx.scene.shape.Rectangle;
-import eu.scy.client.desktop.scydesktop.art.ScyColors;
+import eu.scy.client.desktop.desktoputils.art.ScyColors;
 
 /**
  * @author sikkenj

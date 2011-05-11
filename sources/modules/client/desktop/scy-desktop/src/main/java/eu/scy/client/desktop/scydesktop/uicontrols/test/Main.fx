@@ -7,7 +7,7 @@
 package eu.scy.client.desktop.scydesktop.uicontrols.test;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
-import eu.scy.client.desktop.scydesktop.art.ArtSource;
+import eu.scy.client.desktop.desktoputils.art.ArtSource;
 
 /**
  * @author sikken

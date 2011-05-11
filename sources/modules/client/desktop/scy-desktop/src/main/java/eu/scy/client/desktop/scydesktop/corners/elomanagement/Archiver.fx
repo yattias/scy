@@ -18,7 +18,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import java.lang.Void;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.draganddrop.DropTarget2;
-import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.desktoputils.art.EloIcon;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.uicontrols.EloIconButton;
 

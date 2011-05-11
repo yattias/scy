@@ -7,7 +7,7 @@ package eu.scy.client.desktop.scydesktop.tools.colorscheme;
 import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import eu.scy.client.desktop.scydesktop.art.eloicons.EloIconFactory;
+import eu.scy.client.desktop.desktoputils.art.eloicons.EloIconFactory;
 
 /**
  * @author SikkenJ

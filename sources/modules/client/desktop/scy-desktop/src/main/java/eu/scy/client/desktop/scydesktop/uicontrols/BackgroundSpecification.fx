@@ -7,7 +7,7 @@
 package eu.scy.client.desktop.scydesktop.uicontrols;
 
 import javafx.scene.paint.Color;
-import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.desktoputils.art.EloIcon;
 
 /**
  * @author sikken

@@ -5,16 +5,15 @@
 package eu.scy.client.desktop.scydesktop.imagewindowstyler;
 
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
-import eu.scy.client.desktop.scydesktop.art.eloicons.EloIconFactory;
-import eu.scy.client.desktop.scydesktop.art.WindowColorSchemes;
-import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.eloicons.EloIconFactory;
+import eu.scy.client.desktop.desktoputils.art.WindowColorSchemes;
+import eu.scy.client.desktop.desktoputils.art.EloIcon;
 import java.lang.String;
 import eu.scy.common.mission.ColorSchemesElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.scyelo.ColorSchemeId;
-import eu.scy.client.desktop.scydesktop.art.javafx.LogoEloIcon;
-import eu.scy.client.desktop.scydesktop.imagewindowstyler.StyleMappings;
+import eu.scy.client.desktop.desktoputils.art.javafx.LogoEloIcon;
 import eu.scy.common.scyelo.ScyElo;
 import java.lang.String;
 import org.apache.log4j.Logger;

@@ -9,26 +9,26 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Cursor;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import java.lang.UnsupportedOperationException;
 import java.lang.String;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import eu.scy.client.desktop.scydesktop.art.EloImageInformation;
-import eu.scy.client.desktop.scydesktop.art.ImageLoader;
-import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.desktoputils.art.EloImageInformation;
+import eu.scy.client.desktop.desktoputils.art.ImageLoader;
+import eu.scy.client.desktop.desktoputils.art.EloIcon;
 import javafx.scene.shape.Rectangle;
 import eu.scy.client.desktop.scydesktop.uicontrols.test.ruler.RulerRectangle;
 import eu.scy.client.desktop.scydesktop.uicontrols.test.ruler.ResizableRulerRectangle;
-import eu.scy.client.desktop.scydesktop.art.ArtSource;
-import eu.scy.client.desktop.scydesktop.art.FxdImageLoader;
+import eu.scy.client.desktop.desktoputils.art.ArtSource;
+import eu.scy.client.desktop.desktoputils.art.FxdImageLoader;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.FxdEloIcon;
 import org.apache.log4j.Logger;
 import javafx.util.Sequences;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowAttribute;
 import eu.scy.client.desktop.scydesktop.scywindows.TestAttribute;
-import eu.scy.client.desktop.scydesktop.art.ScyColors;
+import eu.scy.client.desktop.desktoputils.art.ScyColors;
 
 /**
  * @author sikken

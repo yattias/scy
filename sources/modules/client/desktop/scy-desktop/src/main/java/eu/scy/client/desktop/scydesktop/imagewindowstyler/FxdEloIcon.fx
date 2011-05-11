@@ -4,7 +4,7 @@
  */
 package eu.scy.client.desktop.scydesktop.imagewindowstyler;
 
-import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.desktoputils.art.EloIcon;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -12,11 +12,13 @@ import javafx.scene.Scene;
 import javafx.scene.shape.Circle;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import javafx.fxd.Duplicator;
-import eu.scy.client.desktop.scydesktop.art.ScyColors;
+import eu.scy.client.desktop.desktoputils.art.ScyColors;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.layout.Stack;
+import eu.scy.client.desktop.desktoputils.art.eloicons.EloIconBackground;
+import eu.scy.client.desktop.desktoputils.art.eloicons.EloIconBorder;
 
 /**
  * @author SikkenJ

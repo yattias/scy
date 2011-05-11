@@ -9,7 +9,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.animation.Timeline;
 import javafx.animation.KeyFrame;
-import eu.scy.client.desktop.scydesktop.art.AnimationTiming;
+import eu.scy.client.desktop.desktoputils.art.AnimationTiming;
 import javafx.animation.Interpolator;
 import javafx.scene.Cursor;
 

@@ -5,11 +5,13 @@
  */
 package eu.scy.client.desktop.scydesktop.imagewindowstyler;
 
-import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.desktoputils.art.EloIcon;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Stack;
+import eu.scy.client.desktop.desktoputils.art.eloicons.EloIconBorder;
+import eu.scy.client.desktop.desktoputils.art.eloicons.EloIconBackground;
 
 /**
  * @author sikken

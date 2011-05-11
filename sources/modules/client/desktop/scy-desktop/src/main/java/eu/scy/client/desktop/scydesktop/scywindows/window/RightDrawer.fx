@@ -10,8 +10,8 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 
 import javafx.scene.control.Button;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
-import eu.scy.client.desktop.scydesktop.art.ScyColors;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.ScyColors;
 import javafx.scene.paint.Color;
 
 

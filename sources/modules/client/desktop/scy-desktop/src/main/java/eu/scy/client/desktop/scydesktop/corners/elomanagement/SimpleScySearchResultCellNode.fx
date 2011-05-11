@@ -8,7 +8,7 @@ import javafx.scene.CustomNode;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.desktoputils.art.EloIcon;
 import javafx.scene.layout.VBox;
 import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;

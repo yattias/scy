@@ -14,7 +14,7 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.util.Sequences;
 import javafx.scene.CacheHint;
-import eu.scy.client.desktop.scydesktop.art.ArtSource;
+import eu.scy.client.desktop.desktoputils.art.ArtSource;
 
 /**
  * @author SikkenJ

@@ -6,11 +6,12 @@
 package eu.scy.client.desktop.scydesktop.scywindows;
 
 import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
-import eu.scy.client.desktop.scydesktop.art.ScyColors;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.ScyColors;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import eu.scy.common.scyelo.ScyElo;
-import eu.scy.client.desktop.scydesktop.art.EloImageInformation;
+import eu.scy.client.desktop.desktoputils.art.EloImageInformation;
 import eu.scy.common.scyelo.EloFunctionalRole;
+import eu.scy.client.desktop.desktoputils.art.EloIcon;
 
 /**
  * @author sikkenj

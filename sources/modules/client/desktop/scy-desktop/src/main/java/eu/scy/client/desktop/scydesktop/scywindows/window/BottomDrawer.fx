@@ -11,8 +11,8 @@ import javafx.stage.Stage;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
-import eu.scy.client.desktop.scydesktop.art.ScyColors;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.ScyColors;
 
 /**
  * @author sikkenj

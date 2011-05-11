@@ -5,15 +5,15 @@
 package eu.scy.client.desktop.scydesktop.scywindows.window;
 
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.desktoputils.art.EloIcon;
 import eu.scy.common.scyelo.ScyElo;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import eu.scy.client.desktop.scydesktop.art.ArtSource;
-import eu.scy.client.desktop.scydesktop.art.EloImageInformation;
-import eu.scy.client.desktop.scydesktop.art.FxdImageLoader;
-import eu.scy.client.desktop.scydesktop.art.ScyColors;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.ArtSource;
+import eu.scy.client.desktop.desktoputils.art.EloImageInformation;
+import eu.scy.client.desktop.desktoputils.art.FxdImageLoader;
+import eu.scy.client.desktop.desktoputils.art.ScyColors;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.FxdEloIcon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;

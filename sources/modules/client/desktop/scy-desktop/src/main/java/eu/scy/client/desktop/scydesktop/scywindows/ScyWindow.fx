@@ -8,15 +8,13 @@ package eu.scy.client.desktop.scydesktop.scywindows;
 import javafx.scene.Node;
 import javafx.scene.effect.Effect;
 import java.net.URI;
-import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowAttribute;
-import eu.scy.client.desktop.scydesktop.scywindows.WindowManager;
 import javafx.scene.CustomNode;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ScyToolsList;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
 import eu.scy.client.desktop.scydesktop.scywindows.window.WindowChangesListener;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
-import eu.scy.client.desktop.scydesktop.art.ScyColors;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.ScyColors;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.draganddrop.DropTarget;
 import eu.scy.common.scyelo.ScyElo;
@@ -24,6 +22,7 @@ import eu.scy.common.mission.EloToolConfig;
 import javafx.geometry.Point2D;
 import eu.scy.client.desktop.scydesktop.owner.OwnershipManager;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
+import eu.scy.client.desktop.desktoputils.art.EloIcon;
 
 /**
  * @author sikkenj

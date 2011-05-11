@@ -13,7 +13,7 @@ import javafx.scene.input.MouseEvent;
 import java.lang.Exception;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import javafx.scene.Group;
-import eu.scy.client.desktop.scydesktop.art.AnimationTiming;
+import eu.scy.client.desktop.desktoputils.art.AnimationTiming;
 
 /**
  * @author sikken

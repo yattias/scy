@@ -14,8 +14,8 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
 import javafx.scene.Scene;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.input.KeyEvent;
-import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.EloIcon;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import javax.swing.JOptionPane;
 import javafx.scene.layout.HBox;
@@ -29,7 +29,7 @@ import javafx.animation.Interpolator;
 import javafx.scene.effect.DropShadow;
 import java.util.HashMap;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
-import eu.scy.client.desktop.scydesktop.art.ArtSource;
+import eu.scy.client.desktop.desktoputils.art.ArtSource;
 import javafx.animation.KeyFrame;
 
 /**
