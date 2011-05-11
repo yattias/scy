@@ -10,10 +10,7 @@
 		<mx:StringValidator id="validateDescription" source="{descriptionArea}" property="text" triggerEvent=""
 							minLength="5" tooShortError="{resourceManager.getString('resources', 'VALIDATOR_TOO_SHORT_ERROR')}"
 							requiredFieldError="{resourceManager.getString('resources', 'REQUIRED_DESCRIPTION_ERROR')}"/>
-		<mx:StringValidator id="validateReflection" source="{reflectionArea}" property="text" triggerEvent=""
-							minLength="5" tooShortError="{resourceManager.getString('resources', 'VALIDATOR_TOO_SHORT_ERROR')}"
-							requiredFieldError="{resourceManager.getString('resources', 'REQUIRED_REFLECTION_ERROR')}"/>
-		
+	
 		<s:HTTPService id="goalService" 
 					   showBusyCursor="true" 
 					   result="goalService_resultHandler(event)" 
@@ -65,6 +62,8 @@
 			[Bindable] private var glgLiveText:String = "";
 			[Bindable] private var slgLiveText:String = "";
 			
+			private var retrievedReflectionQuestion:String = null;
+			
 			[Bindable] private var GLG:ArrayCollection;
 			[Bindable] private var SLG:ArrayCollection;
 			
@@ -81,10 +80,9 @@
 				
 				if(but) {
 					var descValidation:ValidationResultEvent = validateDescription.validate();
-					var reflecValidation:ValidationResultEvent = validateReflection.validate();
 										
 					if (descValidation.type == ValidationResultEvent.VALID 
-						&& reflecValidation.type == ValidationResultEvent.VALID 
+						&& reflectionArea.text != retrievedReflectionQuestion
 						&& slectedGLGs.length > 0
 						&& slectedSLGs.length > 0 ) {
 						
@@ -143,6 +141,9 @@
 							ass.httpService.addEventListener(FaultEvent.FAULT, assFault);
 							ass.sendTheMofo();
 						}
+					}
+					else if(reflectionArea.text == retrievedReflectionQuestion) {
+						Alert.show(resourceManager.getString('resources', 'REQUIRED_REFLECTION_ERROR'), "ERROR");
 					}
 					else if(slectedGLGs.length == 0) {
 						Alert.show(resourceManager.getString('resources', 'GLG_SELECT_ERROR'), resourceManager.getString('resources', 'GLG_SELECT_ERROR_TITLE'));
@@ -265,11 +266,20 @@
 					else {
 						selectedElo = XMLUtilJer.getXMLAsEloObject(selectedElo as XML);
 						eloUri = (selectedElo.uri).replace(myPattern, "@");
+						
+						for (var k:int = 0; k < index.obligElos.length; k++) {
+							if(selectedEloCatname == (index.obligElos[k]).label) {
+								retrievedReflectionQuestion = (index.obligElos[k]).refquest;
+								reflectionAreaTextText = retrievedReflectionQuestion;
+							}
+						}
 					}
 				}
 				else {
 					Alert.show(resourceManager.getString('resources', 'SEARCH_PROPERTY_FILE_ERROR'), resourceManager.getString('resources', 'HTTP_SERVICE_ERROR'));
 				}
+						//place the question
+				
 				
 			}
 
@@ -389,7 +399,8 @@
 			}
 			
 			protected function image1_clickHandler(event:MouseEvent):void {
-				var tEvent:ImageMagEvent = new ImageMagEvent(index.IMAGEMAG_COMMAND, true);
+				//disbaled for the time being
+				/*var tEvent:ImageMagEvent = new ImageMagEvent(index.IMAGEMAG_COMMAND, true);
 				tEvent.showNow = true;
 				if((so.data.searchSelection as XML).technicalformat == "scy/rtf") {
 					tEvent.evtType = index.ZOOM_TYPE_RICHTEXT;
@@ -416,7 +427,7 @@
 					tEvent.imageSource = ((so.data.searchSelection as XML).rawdata.fullscreen).toString();
 				}
 				
-				dispatchEvent(tEvent);
+				dispatchEvent(tEvent);*/
 			}
 			
 			protected function image1_ioErrorHandler(event:IOErrorEvent):void {

@@ -172,7 +172,8 @@
 			}
 			
 			protected function image1_clickHandler(elo:XML):void {
-				var tEvent:ImageMagEvent = new ImageMagEvent(index.IMAGEMAG_COMMAND, true);
+				//disbaled for the time being
+				/*var tEvent:ImageMagEvent = new ImageMagEvent(index.IMAGEMAG_COMMAND, true);
 				tEvent.showNow = true;
 				
 				if(elo.technicalformat == "scy/rtf") {
@@ -200,7 +201,7 @@
 					tEvent.imageSource = elo.rawdata.fullscreen.toString();
 				}
 				
-				dispatchEvent(tEvent);
+				dispatchEvent(tEvent);*/
 			}
 			
 			protected function image1_ioErrorHandler(event:IOErrorEvent):void {

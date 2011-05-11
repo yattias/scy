@@ -234,7 +234,8 @@
 				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
 				sLogger["type"] = "tool_start";
 				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
-				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				var ass:AutoSaveService = new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				ass.sendTheMofo();
 				
 				if(firstBoot) {
 					feedbackService.url = new String(so.data.newestelosfeedbackservice)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
@@ -372,7 +373,7 @@
 			<local:enterFeedbackCanvas id="enterFeedback" width="100%" height="100%" showEffect="{showEffect}" />
 		</mx:ViewStack>
 		<s:Image id="animateImage" visible="false" includeInLayout="false" />
-		<s:Label fontSize="8" right="0" bottom="0" text="v.2.1" />
+		<s:Label fontSize="8" right="0" bottom="0" text="v.2.2" />
 	</s:Group>
 	
 	<s:BorderContainer id="maxImage" visible="false" alpha="0" showEffect="{fadeInIm}" hideEffect="{fadeOutIm}" width="100%" height="100%" backgroundColor="#000000" backgroundAlpha=".7" cornerRadius="0">

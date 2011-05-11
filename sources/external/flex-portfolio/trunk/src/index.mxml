@@ -357,15 +357,23 @@
 
 			protected function eloCategoryService_resultHandler(event:ResultEvent):void {
 				
+				var obliEloObject:Object;
+				obliEloObject = new Object();
+				obliEloObject.label = resourceManager.getString('resources', 'MISSION_SELECT');
 				obligElos = new ArrayCollection([
-					resourceManager.getString('resources', 'MISSION_SELECT'),
+					obliEloObject,
 				]);
 				
 				for each (var object:XML in (event.result as XML).elos[0].*) {
 					if (object.name() == "elo") {
-						obligElos.addItem(object.customname.toString());
+						obliEloObject = new Object();
+						obliEloObject.label = object.customname.toString();
+						obliEloObject.refquest = object.reflectionquestion.toString();
+						obligElos.addItem(obliEloObject);
 					}
 				}
+				
+				
 				
 				portfolioService.url = new String(toolURLProvider.portfolioloader)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
 				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
@@ -382,7 +390,7 @@
 				so.data.pfrt = pfXmlConfig.portfolioreflectiontabs;
 				so.flush();
 				
-				REF_ON_INQ_TXT = new String(pfXmlConfig.eloreflection.eloreflectioninquiryquestion);
+				REF_ON_INQ_TXT = new String(pfXmlConfig.eloReflection.eloreflectioninquiryquestion);
 				
 				eloCategoryService.url = new String(toolURLProvider.obligatoryelosinmission)+"?missionURI="+decodeURI(new String(FlexGlobals.topLevelApplication.parameters.missionURI)).replace("#", "%23");
 				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
@@ -480,7 +488,7 @@
 			<local:portfolioAssessingCanvas id="pfassess" width="100%" creationPolicy="all" height="100%" showEffect="{showEffect}" />
 		</mx:ViewStack>
 		<s:Image id="animateImage" visible="false" includeInLayout="false" />
-		<s:Label fontSize="8" right="0" bottom="0" text="v.2.9" />
+		<s:Label fontSize="8" right="0" bottom="0" text="v.3.1" />
 	</s:Group>
 
 <!--

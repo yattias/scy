@@ -72,7 +72,7 @@
 					submitcanvasnav = new submitCanvasNavigator();
 					submitcanvasnav.percentWidth = 100;
 					submitcanvasnav.percentHeight = 100;
-					submitcanvasnav.catname = index.obligElos[i];
+					submitcanvasnav.catname = (index.obligElos[i]).label;
 					submitBox.addChild(submitcanvasnav);
 				}
 			}

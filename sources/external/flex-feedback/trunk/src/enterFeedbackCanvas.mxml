@@ -52,7 +52,8 @@
 				sLogger["tool"] = index.SHAREDOBJECT_LOCAL_NAME;
 				sLogger["type"] = "enter_feedback_view_started";
 				sLogger["elouri"] = new String(FlexGlobals.topLevelApplication.parameters.missionURI);
-				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				var ass:AutoSaveService = new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, null)));
+				ass.sendTheMofo();
 				
 				var tEvent:RefreshEvent = new RefreshEvent(index.REFRESH_COMMAND, true);
 				tEvent.eloURI = elourl;
@@ -60,7 +61,7 @@
 			}
 			
 			private function fillValues(elo:Object):void {
-				imageSource = elo.rawdatathumb;
+				imageSource = elo.rawdata.thumbnail;
 				customname = elo.customname;
 				createdby = elo.createdby;
 				modified = elo.modified;
@@ -105,7 +106,8 @@
 			}
 			
 			protected function image1_clickHandler(event:MouseEvent):void {
-				var tEvent:ImageMagEvent = new ImageMagEvent(index.IMAGEMAG_COMMAND, true);
+				//disbaled for the time being
+				/*var tEvent:ImageMagEvent = new ImageMagEvent(index.IMAGEMAG_COMMAND, true);
 				tEvent.showNow = true;
 				if(this.technicalformat == "scy/rtf") {
 					tEvent.evtType = index.ZOOM_TYPE_RICHTEXT;
@@ -116,7 +118,7 @@
 					tEvent.imageSource = this.rawdatafull;
 				}
 				
-				dispatchEvent(tEvent);
+				dispatchEvent(tEvent);*/
 			}
 
 
@@ -129,8 +131,15 @@
 					dico["comment"] = feedbackArea.text;
 					var ELOnewURL:String = feedbackURI;
 					
-					var ass:AutoSaveService = new AutoSaveService(so.data.savefeedback+"?feedbackURI="+feedbackURI+"&xmlContent="+encodeURI(XMLUtilJer.getFeedBackXML(dico)));
+					var ass:AutoSaveService;
+					if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+						ass = new AutoSaveService(new String(so.data.savefeedback).substring(1), "e4x");
+					}
+					else {
+						ass = new AutoSaveService(new String(so.data.savefeedback)+"?feedbackURI="+feedbackURI+"&xmlContent="+encodeURI(XMLUtilJer.getFeedBackXML(dico)), "e4x");
+					}
 					ass.httpService.addEventListener(ResultEvent.RESULT, AutoSaveService_resultHandler);
+					ass.sendTheMofo();
 				}
 			}
 			
@@ -140,7 +149,7 @@
 				refreshOverallDisplay(xml);
 			}
 			
-			private function refreshOverallDisplay(xml):void {
+			private function refreshOverallDisplay(xml:XML):void {
 				feedbackText = xml.comment;
 				shown = xml.shown;
 				eval = xml.evaluation;
@@ -192,7 +201,7 @@
 			protected function retrieveSingleELOService_resultHandler(event:ResultEvent):void {
 				xmlres = event.result as XML;
 				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
-					fillValues(xmlres.elo[0]);
+					fillValues(xmlres);
 				}
 				else {
 					fillValues(xmlres);

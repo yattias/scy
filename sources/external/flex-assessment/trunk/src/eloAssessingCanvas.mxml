@@ -127,7 +127,8 @@
 			}
 
 			protected function image1_clickHandler(event:MouseEvent):void {
-				var tEvent:ImageMagEvent = new ImageMagEvent(index.IMAGEMAG_COMMAND, true);
+				//disbaled for the time being
+				/*var tEvent:ImageMagEvent = new ImageMagEvent(index.IMAGEMAG_COMMAND, true);
 				tEvent.showNow = true;
 				var ob:Object = so.data.searchSelection;
 				if(eloXML.technicalformat == "scy/rtf") {
@@ -155,7 +156,7 @@
 					tEvent.imageSource = eloXML.rawdata.fullscreen.toString();
 				}
 				
-				dispatchEvent(tEvent);
+				dispatchEvent(tEvent);*/
 			}
 			
 			protected function image1_ioErrorHandler(event:IOErrorEvent):void {

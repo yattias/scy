@@ -50,8 +50,15 @@
 					var ELOnewURL:String = ELOnewURL;
 					
 					var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
-					var ass:AutoSaveService = new AutoSaveService(so.data.savereplyfeedback+"?replyfeedbackID="+idd+"&feedbackURI="+feedbackURI+"&xmlContent="+encodeURI(XMLUtilJer.getReplyFeedBackXML(dico)));
+					var ass:AutoSaveService;
+					if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
+						ass = new AutoSaveService(new String(so.data.savereplyfeedback).substring(1), "e4x");
+					}
+					else {
+						ass = new AutoSaveService(new String(so.data.savereplyfeedback)+"?replyfeedbackID="+idd+"&feedbackURI="+feedbackURI+"&xmlContent="+encodeURI(XMLUtilJer.getReplyFeedBackXML(dico)), "e4x");
+					}						
 					ass.httpService.addEventListener(ResultEvent.RESULT, AutoSaveService_resultHandler);
+					ass.sendTheMofo();
 				}
 			}
 			

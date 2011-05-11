@@ -61,11 +61,11 @@
 				var attribs:ArrayCollection = new ArrayCollection();
 				var ob:Object = new Object();
 				ob.oName = "oldValue";
-				ob.oVal = index.obligElos[event.oldIndex];
+				ob.oVal = (index.obligElos[event.oldIndex]).label;
 				attribs.addItem(ob);
 				ob = new Object();
 				ob.oName = "newValue";
-				ob.oVal = index.obligElos[event.newIndex];
+				ob.oVal = (index.obligElos[event.newIndex]).label;
 				attribs.addItem(ob);
 				new AutoSaveService(so.data.actionlogger+"?&logaction="+encodeURI(XMLUtilJer.getXMLActionLoggerObject(sLogger, attribs)));
 				
@@ -86,7 +86,7 @@
 			protected function clickHandler(dir:String, stack:Number):void {
 				var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 				var currentEloCategory:Object = new Object()
-				currentEloCategory.obliElo = obligEloSelection.selectedItem;
+				currentEloCategory.obliElo = obligEloSelection.selectedItem.label;
 				currentEloCategory.obliEloNum = obligEloSelection.selectedIndex-1;
 				so.data.currentEloCategory = currentEloCategory;
 				so.flush();
@@ -121,7 +121,7 @@
 					obliEloCanvas = new introductionSubCanvas();
 					obliEloCanvas.percentWidth = 100;
 					obliEloCanvas.percentHeight = 100;
-					obliEloCanvas.catname = index.obligElos[i];
+					obliEloCanvas.catname = (index.obligElos[i]).label;
 					introStack.addChild(obliEloCanvas);
 					obliEloCanvases.addItem(obliEloCanvas);
 				}
