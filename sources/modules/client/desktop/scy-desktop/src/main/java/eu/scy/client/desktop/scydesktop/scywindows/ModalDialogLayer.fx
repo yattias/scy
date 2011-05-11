@@ -22,16 +22,16 @@ import eu.scy.client.desktop.desktoputils.art.ArtSource;
 def modalDialogLayer = ModalDialogLayer {};
 public def layer: Node = modalDialogLayer;
 
-public function addModalDialog(node: Node, center: Boolean, animated: Boolean, fullscreen: Boolean): Void {
-    modalDialogLayer.addModalDialogNode(node, center, animated, fullscreen);
+public function addModalDialog(node: Node, center: Boolean, animated: Boolean, fullscreen: Boolean, xOffset: Integer): Void {
+    modalDialogLayer.addModalDialogNode(node, center, animated, fullscreen, xOffset);
 }
 
 public function addModalDialog(node: Node, center: Boolean): Void {
-    modalDialogLayer.addModalDialogNode(node, center, false, false);
+    modalDialogLayer.addModalDialogNode(node, center, false, false, 0);
 }
 
 public function addModalDialog(node: Node): Void {
-    modalDialogLayer.addModalDialogNode(node, false, false, false);
+    modalDialogLayer.addModalDialogNode(node, false, false, false, 0);
 }
 
 public function removeModalDialog(node: Node): Void {
@@ -96,7 +96,7 @@ public class ModalDialogLayer extends CustomNode {
         modalDialogGroup
     }
 
-    function addModalDialogNode(node: Node, center: Boolean, animated: Boolean, fullscreen: Boolean): Void {
+    function addModalDialogNode(node: Node, center: Boolean, animated: Boolean, fullscreen: Boolean, xOffset: Integer): Void {
         if (center) {
             insert node into centeredNodes;
         }
@@ -121,6 +121,7 @@ public class ModalDialogLayer extends CustomNode {
         if (animated) {
             backgroundBlocker.opacity = 0.0;
             node.translateY = -node.layoutBounds.height + 26;
+            node.translateX = xOffset;
             def nodeTemp = node;
             nodeTemp.cache = true;
             nodeTemp.cacheHint = CacheHint.SPEED;
