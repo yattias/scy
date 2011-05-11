@@ -121,7 +121,6 @@
 			private var toolURLProvider:XML;
 			
 			protected function application1_applicationCompleteHandler(event:FlexEvent):void {
-				trace("fucking awesome shizzle");
 				retrieveUserInfo();
 				this.addEventListener(TOGGLE_COMMAND, ToggleStack);
 				this.addEventListener(IMAGEMAG_COMMAND, ToggleImageMag);
@@ -264,6 +263,7 @@
 
 
 			protected function feedbackService_faultHandler(event:FaultEvent):void {
+				trace(event.fault);
 				Alert.show(resourceManager.getString('resources', 'URL_PROPERTY_FILE_ERROR'), "HTTPService Error");
 			}
 
