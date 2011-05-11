@@ -75,6 +75,12 @@
       </dependency>
 
       <dependency>
+         <groupId>eu.scy.client.desktop</groupId>
+         <artifactId>desktop-utils</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
+
+      <dependency>
          <groupId>eu.scy.common</groupId>
          <artifactId>scy-elo</artifactId>
          <version>${pom.version}</version>
