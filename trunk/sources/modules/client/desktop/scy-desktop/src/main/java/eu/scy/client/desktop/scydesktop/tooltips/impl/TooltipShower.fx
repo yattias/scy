@@ -5,7 +5,7 @@
 package eu.scy.client.desktop.scydesktop.tooltips.impl;
 
 import javafx.scene.Node;
-import eu.scy.client.desktop.scydesktop.art.AnimationTiming;
+import eu.scy.client.desktop.desktoputils.art.AnimationTiming;
 import javafx.scene.Group;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;

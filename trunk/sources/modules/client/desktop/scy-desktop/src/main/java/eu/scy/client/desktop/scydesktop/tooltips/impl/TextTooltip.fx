@@ -10,7 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 
 /**
  * @author SikkenJ

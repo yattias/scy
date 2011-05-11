@@ -14,7 +14,7 @@ import eu.scy.client.desktop.scydesktop.corners.elomanagement.ScyEloDisplayPrope
 import roolo.elo.api.IMetadataKey;
 import javafx.scene.input.MouseEvent;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.NodeTooltip;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.ExtendedScyEloDisplayNode;
 import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;

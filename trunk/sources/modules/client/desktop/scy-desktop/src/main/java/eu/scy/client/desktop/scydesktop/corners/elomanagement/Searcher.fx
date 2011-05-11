@@ -14,7 +14,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.common.scyelo.ScyElo;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
-import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.desktoputils.art.EloIcon;
 import eu.scy.client.desktop.scydesktop.uicontrols.EloIconButton;
 
 /**

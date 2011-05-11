@@ -8,16 +8,16 @@ package eu.scy.client.desktop.scydesktop.scywindows.window;
 
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import eu.scy.client.desktop.scydesktop.art.EloImageInformation;
-import eu.scy.client.desktop.scydesktop.art.ImageLoader;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
-import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.desktoputils.art.EloImageInformation;
+import eu.scy.client.desktop.desktoputils.art.ImageLoader;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.EloIcon;
 import eu.scy.client.desktop.scydesktop.uicontrols.test.ruler.ResizableRulerRectangle;
 import eu.scy.client.desktop.scydesktop.uicontrols.test.ruler.RulerRectangle;
-import eu.scy.client.desktop.scydesktop.art.ArtSource;
-import eu.scy.client.desktop.scydesktop.art.FxdImageLoader;
+import eu.scy.client.desktop.desktoputils.art.ArtSource;
+import eu.scy.client.desktop.desktoputils.art.FxdImageLoader;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.FxdEloIcon;
-import eu.scy.client.desktop.scydesktop.art.ScyColors;
+import eu.scy.client.desktop.desktoputils.art.ScyColors;
 
 /**
  * @author sikken

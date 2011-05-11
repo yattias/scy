@@ -20,7 +20,7 @@ import javafx.util.Math;
 import com.javafx.preview.layout.Grid;
 import com.javafx.preview.layout.GridLayoutInfo;
 import com.javafx.preview.layout.GridRow;
-import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.desktoputils.art.EloIcon;
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
 import javafx.scene.control.Button;

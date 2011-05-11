@@ -5,17 +5,17 @@
 
 package eu.scy.client.desktop.scydesktop.imagewindowstyler;
 import javafx.scene.paint.Color;
-import eu.scy.client.desktop.scydesktop.art.EloImageInformation;
-import eu.scy.client.desktop.scydesktop.art.ScyColors;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
-import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.desktoputils.art.EloImageInformation;
+import eu.scy.client.desktop.desktoputils.art.ScyColors;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.EloIcon;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.client.desktop.scydesktop.scywindows.window.CharacterEloIcon;
 import java.util.HashMap;
 import roolo.api.IRepository;
 import roolo.elo.api.IMetadataTypeManager;
-import eu.scy.client.desktop.scydesktop.art.FxdImageLoader;
-import eu.scy.client.desktop.scydesktop.art.ArtSource;
+import eu.scy.client.desktop.desktoputils.art.FxdImageLoader;
+import eu.scy.client.desktop.desktoputils.art.ArtSource;
 import javafx.scene.Node;
 import javafx.fxd.Duplicator;
 

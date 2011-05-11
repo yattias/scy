@@ -8,7 +8,7 @@ package eu.scy.client.desktop.scydesktop.imagewindowstyler;
 import javafx.scene.image.Image;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import javafx.scene.paint.Color;
-import eu.scy.client.desktop.scydesktop.art.ImageLoader;
+import eu.scy.client.desktop.desktoputils.art.ImageLoader;
 
 /**
  * @author sikken

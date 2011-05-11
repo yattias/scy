@@ -10,7 +10,7 @@ import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.desktoputils.art.EloIcon;
 import javafx.scene.layout.HBox;
 
 /**

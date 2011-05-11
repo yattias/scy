@@ -8,8 +8,8 @@ package eu.scy.client.desktop.scydesktop.scywindows.window;
 
 import javafx.scene.CustomNode;
 
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
-import eu.scy.client.desktop.scydesktop.art.ScyColors;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.ScyColors;
 
 /**
  * @author sikkenj

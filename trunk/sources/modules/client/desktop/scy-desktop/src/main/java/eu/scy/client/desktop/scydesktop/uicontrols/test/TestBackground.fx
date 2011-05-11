@@ -18,7 +18,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.scene.effect.GaussianBlur;
-import eu.scy.client.desktop.scydesktop.art.EloImageInformation;
+import eu.scy.client.desktop.desktoputils.art.EloImageInformation;
 import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
 
 /**

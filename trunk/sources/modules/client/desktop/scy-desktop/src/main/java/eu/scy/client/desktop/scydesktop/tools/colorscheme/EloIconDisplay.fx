@@ -6,11 +6,11 @@ package eu.scy.client.desktop.scydesktop.tools.colorscheme;
 
 import javafx.scene.CustomNode;
 import javafx.scene.Node;
-import eu.scy.client.desktop.scydesktop.art.eloicons.EloIconFactory;
+import eu.scy.client.desktop.desktoputils.art.eloicons.EloIconFactory;
 import javafx.scene.layout.VBox;
-import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.desktoputils.art.EloIcon;
 import javafx.scene.control.Label;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import javafx.scene.Group;
 import java.util.HashMap;
 

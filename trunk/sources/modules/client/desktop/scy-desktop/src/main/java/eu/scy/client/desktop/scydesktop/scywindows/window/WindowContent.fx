@@ -13,7 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import javafx.scene.layout.Container;
 
 /**

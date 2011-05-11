@@ -6,7 +6,7 @@ package eu.scy.client.desktop.scydesktop.tooltips.impl;
 
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
 import javafx.scene.Node;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 
 /**
  * @author SikkenJ

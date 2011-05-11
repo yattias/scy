@@ -8,7 +8,6 @@ package eu.scy.client.desktop.scydesktop.scywindows;
 /**
  * @author lars
  */
-import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowAttribute;
 import java.lang.Object;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
@@ -22,9 +21,10 @@ import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
 import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.transform.Transform;
-import eu.scy.client.desktop.scydesktop.art.eloicons.EloIconFactory;
+import eu.scy.client.desktop.desktoputils.art.eloicons.EloIconFactory;
 import eu.scy.client.desktop.scydesktop.uicontrols.EloIconButton;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
+import eu.scy.client.desktop.desktoputils.art.EloIcon;
 
 /**
  * @author lars

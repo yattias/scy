@@ -10,7 +10,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.paint.Color;
-import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.desktoputils.art.EloIcon;
 import javafx.scene.CacheHint;
 
 /**

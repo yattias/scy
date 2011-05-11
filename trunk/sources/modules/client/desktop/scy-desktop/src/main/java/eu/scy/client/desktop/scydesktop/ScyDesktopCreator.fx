@@ -27,8 +27,8 @@ import java.net.URI;
 import eu.scy.client.desktop.scydesktop.elofactory.EloConfigManager;
 import eu.scy.client.desktop.scydesktop.elofactory.impl.BasicEloConfigManager;
 import eu.scy.client.desktop.scydesktop.mission.MissionRunConfigs;
-import eu.scy.client.desktop.scydesktop.art.ScyColors;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.ScyColors;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.elofactory.impl.BasicEloToolConfigManager;
 import eu.scy.common.mission.EloSystemRole;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
@@ -40,7 +40,7 @@ import roolo.elo.api.IMetadata;
 import java.util.List;
 import java.util.ArrayList;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.JavaFxWindowStyler;
-import eu.scy.client.desktop.scydesktop.art.eloicons.EloIconFactory;
+import eu.scy.client.desktop.desktoputils.art.eloicons.EloIconFactory;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBox;
 
 /**

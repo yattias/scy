@@ -11,12 +11,10 @@ import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.effect.Effect;
-import eu.scy.client.desktop.scydesktop.uicontrols.BackgroundSpecification;
-import eu.scy.client.desktop.scydesktop.uicontrols.BackgroundElement;
 import org.apache.log4j.Logger;
-import eu.scy.client.desktop.scydesktop.art.ScyColors;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
-import eu.scy.client.desktop.scydesktop.art.javafx.LogoEloIcon;
+import eu.scy.client.desktop.desktoputils.art.ScyColors;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.javafx.LogoEloIcon;
 
 /**
  * @author sikken

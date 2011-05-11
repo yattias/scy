@@ -19,7 +19,7 @@ import javafx.geometry.HPos;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import eu.scy.common.scyelo.ScyElo;
-import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.desktoputils.art.EloIcon;
 
 /**
  * @author SikkenJ

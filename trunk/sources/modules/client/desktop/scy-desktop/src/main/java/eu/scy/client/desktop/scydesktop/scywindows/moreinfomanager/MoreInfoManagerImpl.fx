@@ -8,8 +8,8 @@ import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoManager;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
-import eu.scy.client.desktop.scydesktop.art.ScyColors;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.ScyColors;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import org.apache.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoToolFactory;
 import eu.scy.client.desktop.scydesktop.scywindows.ShowInfoUrl;
@@ -17,12 +17,12 @@ import java.net.URI;
 import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoTypes;
 import eu.scy.client.common.scyi18n.UriLocalizer;
 import eu.scy.common.scyelo.ScyElo;
-import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;
+import eu.scy.client.desktop.desktoputils.art.EloIcon;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.scywindows.ModalDialogLayer;
-import eu.scy.client.desktop.scydesktop.art.javafx.MoreAssignmentTypeIcon;
-import eu.scy.client.desktop.scydesktop.art.javafx.MoreResourcesTypeIcon;
-import eu.scy.client.desktop.scydesktop.art.javafx.InstructionTypesIcon;
+import eu.scy.client.desktop.desktoputils.art.javafx.MoreAssignmentTypeIcon;
+import eu.scy.client.desktop.desktoputils.art.javafx.MoreResourcesTypeIcon;
+import eu.scy.client.desktop.desktoputils.art.javafx.InstructionTypesIcon;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 
 /**
