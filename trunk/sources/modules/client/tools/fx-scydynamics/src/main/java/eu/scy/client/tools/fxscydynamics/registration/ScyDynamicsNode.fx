@@ -30,7 +30,7 @@ import java.awt.Dimension;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
 import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.ModalDialogNode;

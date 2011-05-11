@@ -36,7 +36,7 @@ import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import javafx.scene.layout.Container;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 import eu.scy.client.common.datasync.DummySyncListener;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.ModalDialogNode;
 import eu.scy.client.desktop.scydesktop.edges.DatasyncEdge;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;

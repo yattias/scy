@@ -24,7 +24,7 @@ import java.lang.Void;
 import eu.scy.client.tools.fxflyingsaucer.BareBonesBrowserLaunch;
 import eu.scy.client.tools.fxwebresourcer.highlighter.XMLData;
 import javafx.scene.control.Button;
-import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 
 /**
  * @author pg
