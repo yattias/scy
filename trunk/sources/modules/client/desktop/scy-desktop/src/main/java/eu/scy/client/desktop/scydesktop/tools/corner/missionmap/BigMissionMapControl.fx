@@ -147,7 +147,7 @@ public class BigMissionMapControl extends CustomNode {
             }
 
          });
-         ModalDialogLayer.addModalDialog(missionMapWindow, true, false, true);
+         ModalDialogLayer.addModalDialog(missionMapWindow, true, false, true, 0);
          if (missionMapInstructionAvailable and not missionMapInstructionShown) {
             addInstructionWindow();
             missionMapInstructionShown = true;
@@ -205,7 +205,7 @@ public class BigMissionMapControl extends CustomNode {
    function showInstructionWindow(): Void {
       initInstructionWindow();
       instructionWindow.setControlFunctionClose();
-      ModalDialogLayer.addModalDialog(instructionWindow, false, true, false);
+      ModalDialogLayer.addModalDialog(instructionWindow, false, true, false, 0);
       sceneSizeChanged();
       ++nrOfTimesInstructionShowed
    }

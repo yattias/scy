@@ -233,7 +233,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    def mucIdKey = config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.MUC_ID.getId());
    var backgroundUpdater: BackgroundUpdater;
    public var moreInfoToolFactory: MoreInfoToolFactory = TestMoreInfoToolFactory {};
-   def moreInfoManager = MoreInfoManagerImpl {
+   public-read def moreInfoManager = MoreInfoManagerImpl {
          scene: scene
          windowStyler: windowStyler
          tbi: missionRunConfigs.tbi

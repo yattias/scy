@@ -24,6 +24,10 @@ import eu.scy.client.desktop.desktoputils.art.javafx.MoreAssignmentTypeIcon;
 import eu.scy.client.desktop.desktoputils.art.javafx.MoreResourcesTypeIcon;
 import eu.scy.client.desktop.desktoputils.art.javafx.InstructionTypesIcon;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
+import javafx.scene.CustomNode;
+import javafx.scene.Group;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.Color;
 
 /**
  * @author SikkenJ
@@ -59,6 +63,15 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
          hideCloseButton: false
          visible: false
       }
+   def agendaWindow: MoreInfoWindow = MoreInfoWindow {
+         title: "Agenda"
+         infoTypeIcon: InstructionTypesIcon {}
+         closeAction: hideAgendaWindow
+         openAction: showAgendaWindow;
+         hideCloseButton: true
+         visible: false
+      }
+   public-read var agendaNode: AgendaNode;
    var moreInfoTool: ShowInfoUrl;
    def uriLocalizer = new UriLocalizer();
    var runPhase = false;
@@ -66,6 +79,9 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    init {
       runPhase = true;
       activeLasChanged();
+      if (Boolean.getBoolean("agenda")) {
+        showAgendaWindow();
+      }
       sceneSizeChanged();
    }
 
@@ -77,6 +93,14 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
          instructionWindow.layoutY = 0.0;
          instructionWindow.curtainControl.layoutX = instructionWindow.width / 2.0;
          instructionWindow.curtainControl.layoutY = instructionWindow.height + 8;
+      }
+      if (agendaWindow.visible) {
+         agendaWindow.width = (1 - 2 * relativInstructioneWindowScreenBoder) * scene.width;
+         agendaWindow.height = (1 - 1 * relativInstructioneWindowScreenBoder) * scene.height;
+         agendaWindow.layoutX = relativInstructioneWindowScreenBoder * scene.width;
+         agendaWindow.layoutY = 0.0;
+         agendaWindow.curtainControl.layoutX = agendaWindow.width / 2.0;
+         agendaWindow.curtainControl.layoutY = agendaWindow.height + 8;
       }
       if (moreInfoWindow.visible) {
          moreInfoWindow.width = (1 - 2 * relativeMoreInfoWindowScreenBoder) * scene.width;
@@ -103,6 +127,18 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       }
    }
 
+   function showAgendaWindow(): Void {
+      initAgendaWindow();
+      agendaWindow.windowColorScheme = colorScheme;
+      agendaWindow.eloIcon = windowStyler.getScyEloIcon(activeLas.mainAnchor.scyElo);
+      agendaWindow.eloIcon.windowColorScheme = colorScheme;
+      agendaWindow.title = "Agenda";
+      agendaWindow.visible = true;
+      agendaWindow.setControlFunctionClose();
+      ModalDialogLayer.addModalDialog(agendaWindow, false, true, false, 20);
+      sceneSizeChanged();
+   }
+
    function showInstructionWindow(): Void {
       initInstructionWindow();
       instructionWindow.windowColorScheme = colorScheme;
@@ -110,16 +146,30 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       instructionWindow.eloIcon.windowColorScheme = colorScheme;
       instructionWindow.title = activeLas.title;
       instructionTool.showInfoUrl(uriLocalizer.localizeUrlwithChecking(activeLas.instructionUri.toURL()));
-         instructionWindow.visible = true;
+      instructionWindow.visible = true;
       instructionWindow.setControlFunctionClose();
-      ModalDialogLayer.addModalDialog(instructionWindow, false, true, false);
+      ModalDialogLayer.addModalDialog(instructionWindow, false, true, false, 0);
       sceneSizeChanged();
-      }
+   }
 
    function hideInstructionWindow(): Void {
       if (instructionWindow.visible) {
          instructionWindow.setControlFunctionOpen();
          ModalDialogLayer.removeModalDialog(instructionWindow, true, false);
+      }
+   }
+
+   function hideAgendaWindow(): Void {
+      if (agendaWindow.visible) {
+         agendaWindow.setControlFunctionOpen();
+         ModalDialogLayer.removeModalDialog(agendaWindow, true, false);
+      }
+   }
+
+   function initAgendaWindow(): Void {
+      if (agendaWindow.content == null) {
+         agendaNode = AgendaNode { };
+         agendaWindow.content = agendaNode
       }
    }
 
@@ -139,7 +189,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
             instructionTool = instructionWindow.content as ShowInfoUrl;
          }
          if (instructionWindow.visible and not runPhase){
-            showInstructionWindow()
+            showInstructionWindow();
          }
       }
    }
@@ -187,7 +237,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       moreInfoWindow.infoTypeIcon = infoTypeIcon;
       moreInfoWindow.windowColorScheme = moreInfoColorScheme;
       moreInfoTool.showInfoUrl(uriLocalizer.localizeUrlwithChecking(infoUri.toURL()));
-      ModalDialogLayer.addModalDialog(moreInfoWindow, true, true, false);
+      ModalDialogLayer.addModalDialog(moreInfoWindow, true, true, false, 0);
       sceneSizeChanged();
    }
 
