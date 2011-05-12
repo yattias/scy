@@ -41,6 +41,12 @@
          <version>${pom.version}</version>
       </dependency>
 
+      <dependency>
+         <groupId>eu.scy.client.client-common</groupId>
+         <artifactId>scy-i18n</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
+
    </dependencies>
 
    <build>
