@@ -12,7 +12,7 @@ import java.util.Map;
 import javafx.util.Sequences;
 import javafx.scene.Group;
 import java.net.URI;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import java.lang.Void;
 
 /**

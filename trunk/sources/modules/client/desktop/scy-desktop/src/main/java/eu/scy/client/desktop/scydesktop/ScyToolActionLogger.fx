@@ -15,7 +15,7 @@ import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.client.desktop.scydesktop.config.Config;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import java.lang.String;
 import java.util.UUID;
 

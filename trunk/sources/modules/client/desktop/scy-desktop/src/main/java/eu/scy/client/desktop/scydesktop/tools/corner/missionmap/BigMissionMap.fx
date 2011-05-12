@@ -11,7 +11,7 @@ import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.tooltips.impl.SemiPermanentTooltipManager;
 import javafx.scene.input.MouseEvent;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
-import eu.scy.client.desktop.scydesktop.utils.XFX;
+import eu.scy.client.desktop.desktoputils.XFX;
 import javafx.fxd.FXDNode;
 import javafx.scene.Group;
 import eu.scy.client.common.scyi18n.UriLocalizer;

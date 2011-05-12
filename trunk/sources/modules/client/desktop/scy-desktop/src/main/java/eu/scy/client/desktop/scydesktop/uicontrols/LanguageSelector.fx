@@ -13,7 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
+import eu.scy.client.desktop.desktoputils.log4j.InitLog4JFX;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.util.Sequences;

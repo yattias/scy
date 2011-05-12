@@ -11,7 +11,7 @@ import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
 import java.util.HashMap;
 import javafx.scene.input.MouseEvent;
 import java.lang.Exception;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import javafx.scene.Group;
 import eu.scy.client.desktop.desktoputils.art.AnimationTiming;
 

@@ -9,7 +9,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.WindowPositioner;
 import javafx.geometry.Bounds;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowPositionsState;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import javafx.geometry.BoundingBox;
 import javafx.scene.shape.Rectangle;

@@ -15,7 +15,7 @@ import javafx.scene.layout.Resizable;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Container;
 import java.net.URI;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.desktoputils.log4j.Logger;
 
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;

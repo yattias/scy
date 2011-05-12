@@ -12,7 +12,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.TestAttribute;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.control.Button;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -32,7 +32,7 @@ import eu.scy.client.desktop.desktoputils.art.ScyColors;
 import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import javafx.scene.layout.Container;
 import javafx.scene.CacheHint;
-import eu.scy.client.desktop.scydesktop.utils.XFX;
+import eu.scy.client.desktop.desktoputils.XFX;
 import eu.scy.client.desktop.scydesktop.owner.OwnershipManager;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 

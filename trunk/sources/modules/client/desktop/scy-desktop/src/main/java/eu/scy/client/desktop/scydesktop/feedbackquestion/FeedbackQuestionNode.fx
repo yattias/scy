@@ -17,7 +17,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
+import eu.scy.client.desktop.desktoputils.jdom.JDomStringConversion;
 import eu.scy.common.scyelo.QueryFactory;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;

@@ -4,7 +4,7 @@
  */
 package eu.scy.client.desktop.scydesktop.config;
 
-import eu.scy.client.desktop.scydesktop.utils.StringUtils;
+import eu.scy.client.desktop.desktoputils.StringUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

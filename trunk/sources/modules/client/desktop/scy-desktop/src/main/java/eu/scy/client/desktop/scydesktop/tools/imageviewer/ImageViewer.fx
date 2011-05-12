@@ -7,7 +7,7 @@ package eu.scy.client.desktop.scydesktop.tools.imageviewer;
 
 import javafx.scene.CustomNode;
 import javafx.scene.Node;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import roolo.api.IRepository;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;

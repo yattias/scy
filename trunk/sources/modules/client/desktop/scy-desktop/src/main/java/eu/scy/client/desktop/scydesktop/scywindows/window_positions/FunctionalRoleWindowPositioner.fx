@@ -8,7 +8,7 @@ package eu.scy.client.desktop.scydesktop.scywindows.window_positions;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowPositioner;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowPositionsState;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
@@ -19,7 +19,7 @@ import javafx.util.Math;
 import eu.scy.client.desktop.scydesktop.scywindows.StandardWindowPositionsState;
 import javafx.geometry.Point2D;
 import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
-import eu.scy.client.desktop.scydesktop.utils.XFX;
+import eu.scy.client.desktop.desktoputils.XFX;
 
 /**
  * @author giemza

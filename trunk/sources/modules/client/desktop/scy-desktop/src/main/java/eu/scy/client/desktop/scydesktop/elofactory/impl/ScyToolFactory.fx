@@ -7,12 +7,12 @@ package eu.scy.client.desktop.scydesktop.elofactory.impl;
 
 import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorRegistryFX;
 import eu.scy.client.desktop.scydesktop.scywindows.NewTitleGenerator;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import javafx.scene.Node;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import java.lang.System;
-import eu.scy.client.desktop.scydesktop.utils.XFX;
+import eu.scy.client.desktop.desktoputils.XFX;
 import javafx.scene.control.TextBox;
 import javafx.scene.layout.Container;
 import javafx.scene.layout.LayoutInfo;

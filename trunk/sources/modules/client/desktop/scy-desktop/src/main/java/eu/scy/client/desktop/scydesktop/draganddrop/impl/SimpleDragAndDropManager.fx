@@ -11,7 +11,7 @@ import javafx.scene.input.MouseEvent;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowManager;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseEventInScene;
 import java.lang.Exception;
 import javafx.util.Sequences;

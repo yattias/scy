@@ -6,7 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.shape.Line;
 import javafx.scene.paint.*;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import javafx.animation.Timeline;
 import javafx.animation.Interpolator;
 import eu.scy.client.common.datasync.ISyncSession;

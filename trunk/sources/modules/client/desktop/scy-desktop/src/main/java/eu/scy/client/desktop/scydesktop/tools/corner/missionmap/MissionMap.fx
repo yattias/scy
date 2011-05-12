@@ -13,7 +13,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.net.URI;
 import java.util.HashMap;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;

@@ -13,7 +13,7 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionAnchorFX;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowControl;
 import eu.scy.client.desktop.scydesktop.scywindows.DesktopState;
 import java.util.HashMap;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.LasFX;
 import javafx.util.Sequences;
 import java.lang.Void;
