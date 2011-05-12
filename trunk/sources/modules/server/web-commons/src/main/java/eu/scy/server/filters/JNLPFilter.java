@@ -10,6 +10,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLDecoder;
@@ -41,12 +42,12 @@ public class JNLPFilter implements Filter {
             if(mission != null) {
                 mission = URLDecoder.decode(mission, "UTF-8");
             }
-            String password = "";
+            String password = null;
             User user = null;
 
-            String serverName = Configuration.getInstance().getRooloServer();
-
-
+            String serverName = servletRequest.getServerName();
+            String serverPort = String.valueOf(servletRequest.getLocalPort());
+            
             ServletContext servletContext = ((HttpServletRequest) servletRequest).getSession().getServletContext();
 
             WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
@@ -56,48 +57,55 @@ public class JNLPFilter implements Filter {
                 if(user != null) {
                     password = user.getUserDetails().getPassword();    
                 }
-
-
             } else {
                 // System.out.println("SHIT - USER SERVICE IS NULL!!");
             }
 
-
             // System.out.println("LOADING JNLP FILE! " + request.getRequestURL());
             response.setContentType("application/x-java-jnlp-file");
 
-            String jnlpUrl = "";
+            String jnlpContent = generateJnlpString(userName, mission, password, serverName, serverPort);
+            response.getOutputStream().print(jnlpContent);
+        } else {
+            //// System.out.println("NOT JNLP");
+            filterChain.doFilter(servletRequest, servletResponse);
+        }
+    }
 
-            if(serverName != null) {
-                jnlpUrl = "http://" + serverName + ":8080/extcomp/scy-lab.jnlp";
-                // System.out.println("USING SERVER NAME FROM STARTUP PARAMETER ROOLO.SERVER.NAME " + jnlpUrl);
+    public static String generateJnlpString(String userName, String mission, String password, String serverName, String serverPort) throws MalformedURLException, IOException {
+        String jnlpUrl = "";
+
+        if(serverName != null && serverPort != null) {
+            jnlpUrl = "http://" + serverName + ":" + serverPort + "/extcomp/scy-lab.jnlp";
+            // System.out.println("USING SERVER NAME FROM STARTUP PARAMETER ROOLO.SERVER.NAME " + jnlpUrl);
+        } else {
+            jnlpUrl = "http://scy.collide.info:8080/extcomp/scy-lab.jnlp";
+            // System.out.println("DEFAULTING TO SCY.COLLIDE.INFO FOR SCY LAB!!");
+            // System.out.println("USING " + jnlpUrl);
+
+        }
+        URL url = new URL(jnlpUrl);
+        URLConnection connection = url.openConnection();
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        String inputLine;
+
+        String jnlpContent = "";
+
+        Boolean extraArgumentsAdded = false;
+
+        while ((inputLine = in.readLine()) != null) {
+            if (inputLine.contains("/application") && !extraArgumentsAdded) {
+                // System.out.println("ADDDING EXTRA ARGUMENTS!");
+                extraArgumentsAdded = true;
             } else {
-                jnlpUrl = "http://scy.collide.info:8080/extcomp/scy-lab.jnlp";
-                // System.out.println("DEFAULTING TO SCY.COLLIDE.INFO FOR SCY LAB!!");
-                // System.out.println("USING " + jnlpUrl);
-
+                // System.out.println("NOT APPLICATION");
             }
-            URL url = new URL(jnlpUrl);
-            URLConnection connection = url.openConnection();
+            jnlpContent += inputLine;
+        }
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String inputLine;
-
-            String jnlpContent = "";
-
-            Boolean extraArgumentsAdded = false;
-
-            while ((inputLine = in.readLine()) != null) {
-                if (inputLine.contains("/application") && !extraArgumentsAdded) {
-                    // System.out.println("ADDDING EXTRA ARGUMENTS!");
-                    extraArgumentsAdded = true;
-                } else {
-                    // System.out.println("NOT APPLICATION");
-                }
-                jnlpContent += inputLine;
-            }
-
-            int index = jnlpContent.indexOf("<argument>");
+        if (userName != null && password != null) {
+            int index = jnlpContent.indexOf("</application-desc>");
             String start = jnlpContent.substring(0, index);
             String end = jnlpContent.substring(index, jnlpContent.length());
             String middle = "<argument>-defaultUsername</argument>";
@@ -111,12 +119,11 @@ public class JNLPFilter implements Filter {
             middle +="<argument>-autologin</argument>";
             middle +="<argument>true</argument>";
             jnlpContent = start + middle + end;
-            in.close();
-            response.getOutputStream().print(jnlpContent);
         } else {
-            //// System.out.println("NOT JNLP");
-            filterChain.doFilter(servletRequest, servletResponse);
+            // seems like we are not logged in -> no autologin in SCY-Lab
         }
+        in.close();
+        return jnlpContent;
     }
 
     @Override

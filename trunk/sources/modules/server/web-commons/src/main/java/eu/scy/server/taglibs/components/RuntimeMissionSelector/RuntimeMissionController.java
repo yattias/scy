@@ -28,13 +28,14 @@ public class RuntimeMissionController extends TagSupport {
     public int doEndTag() throws JspException {
         try {
             pageContext.getOut().write("<div id=\"runtimeMissionController\">\n");
-            List runtimeELOs = getRuntimeELOService().getRuntimeElosForUser(getCurrentUserName((HttpServletRequest) pageContext.getRequest()));
+            String user = getCurrentUserName((HttpServletRequest) pageContext.getRequest());
+            List runtimeELOs = getRuntimeELOService().getRuntimeElosForUser(user);
             if (runtimeELOs.size() > 0) {
                 pageContext.getOut().write("<table width=\"100%\">");
                 for (int i = 0; i < runtimeELOs.size(); i++) {
 
                     MissionRuntimeElo missionRuntimeElo = new MissionRuntimeElo(((ScyElo) runtimeELOs.get(i)).getElo(), runtimeELOService);
-                    if (missionRuntimeElo.getUserRunningMission().equals(getCurrentUserName((HttpServletRequest) pageContext.getRequest()))) {
+                    if (missionRuntimeElo.getUserRunningMission().equals(user)) {
                         String uri = missionRuntimeElo.getUri().toString();
                         uri = URLEncoder.encode(uri, "UTF-8");
                         pageContext.getOut().write("<tr><td>");
@@ -42,9 +43,8 @@ public class RuntimeMissionController extends TagSupport {
                         pageContext.getOut().write(missionRuntimeElo.getTitle());
                         pageContext.getOut().write("</a>");
                         pageContext.getOut().write("</td><td>");
-                        pageContext.getOut().write("<a href=\"/extcomp/scy-lab.jnlp\">Start SCYLab</a></td></tr>");
+                        pageContext.getOut().write("<a href=\"scy-lab.jnlp?username=" + user + "&mission=" + uri + "\">Start SCYLab</a></td></tr>");
                     }
-
 
                 }
                 pageContext.getOut().write("</table>");
