@@ -11,7 +11,6 @@ import javafx.scene.input.MouseEvent;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowManager;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseBlocker;
-import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.scywindows.window.MouseEventInScene;
 import java.lang.Exception;
 import javafx.util.Sequences;
@@ -23,6 +22,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.paint.Color;
 import javafx.util.Math;
 import javafx.scene.shape.Line;
+import org.apache.log4j.Logger;
 
 /**
  * @author sikken
