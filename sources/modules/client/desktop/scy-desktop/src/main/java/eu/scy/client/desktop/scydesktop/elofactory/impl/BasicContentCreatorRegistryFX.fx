@@ -8,7 +8,7 @@ package eu.scy.client.desktop.scydesktop.elofactory.impl;
 
 import java.lang.IllegalArgumentException;
 import java.util.HashMap;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.desktoputils.log4j.Logger;
 
 /**
  * @author sikkenj

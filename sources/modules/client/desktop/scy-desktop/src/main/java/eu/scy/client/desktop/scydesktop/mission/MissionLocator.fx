@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionSpecificationElo;
 import javafx.scene.Group;
-import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
+import eu.scy.client.desktop.desktoputils.EmptyBorderNode;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.Label;
 import eu.scy.common.scyelo.ScyElo;
@@ -16,7 +16,7 @@ import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
-import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
+import eu.scy.client.desktop.desktoputils.i18n.Composer;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.Initializer;
 import eu.scy.common.mission.RuntimeSettingsElo;
@@ -28,10 +28,10 @@ import eu.scy.common.mission.MissionModelElo;
 import eu.scy.common.mission.MissionRuntimeModel;
 import eu.scy.common.mission.impl.BasicMissionRuntimeModel;
 import javafx.scene.Cursor;
-import eu.scy.client.desktop.scydesktop.utils.JavaFXBackgroundRunner;
+import eu.scy.client.desktop.desktoputils.JavaFXBackgroundRunner;
 import eu.scy.common.mission.MissionModel;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
-import eu.scy.client.desktop.scydesktop.utils.XFX;
+import eu.scy.client.desktop.desktoputils.XFX;
 
 /**
  * @author SikkenJ

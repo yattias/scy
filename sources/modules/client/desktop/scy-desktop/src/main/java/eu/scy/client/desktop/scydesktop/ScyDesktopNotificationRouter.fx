@@ -3,7 +3,7 @@ package eu.scy.client.desktop.scydesktop;
 import eu.scy.notification.api.INotifiable;
 import java.lang.UnsupportedOperationException;
 import eu.scy.notification.api.INotification;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import java.net.URI;
 import java.net.URISyntaxException;
 import eu.scy.actionlogging.api.IAction;

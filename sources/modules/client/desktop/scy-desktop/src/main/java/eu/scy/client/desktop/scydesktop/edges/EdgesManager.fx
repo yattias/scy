@@ -21,7 +21,7 @@ import javafx.animation.Interpolator;
 import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
 import java.lang.Void;
 import eu.scy.client.desktop.scydesktop.scywindows.DatasyncAttribute;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import javafx.scene.shape.Circle;
 import eu.scy.client.desktop.scydesktop.edges.DatasyncEdge;
 

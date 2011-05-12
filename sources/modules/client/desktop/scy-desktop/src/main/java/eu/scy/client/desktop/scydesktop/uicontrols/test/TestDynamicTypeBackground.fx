@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import eu.scy.client.desktop.desktoputils.art.EloImageInformation;
-import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
+import eu.scy.client.desktop.desktoputils.log4j.InitLog4JFX;
 
 /**
  * @author sikken

@@ -16,7 +16,7 @@ import eu.scy.client.desktop.desktoputils.art.ScyColors;
 import javafx.scene.layout.Resizable;
 import java.lang.Void;
 import eu.scy.client.desktop.scydesktop.scywindows.ModalDialogLayer;
-import eu.scy.client.desktop.scydesktop.utils.XFX;
+import eu.scy.client.desktop.desktoputils.XFX;
 import java.lang.Thread;
 import javafx.animation.Timeline;
 import javafx.animation.Interpolator;

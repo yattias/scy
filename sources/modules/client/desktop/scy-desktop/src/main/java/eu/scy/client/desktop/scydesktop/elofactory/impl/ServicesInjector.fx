@@ -20,12 +20,12 @@ import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.server.pedagogicalplan.PedagogicalPlanService;
 import eu.scy.client.common.datasync.IDataSyncService;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.Initializer;
-import eu.scy.client.desktop.scydesktop.utils.InjectObjectsUtils;
+import eu.scy.client.desktop.desktoputils.InjectObjectsUtils;
 import eu.scy.client.desktop.scydesktop.scywindows.ShowMoreInfo;
 import java.lang.System;
-import eu.scy.client.desktop.scydesktop.utils.ActivityTimer;
+import eu.scy.client.desktop.desktoputils.ActivityTimer;
 
 
 /**

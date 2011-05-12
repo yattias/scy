@@ -6,7 +6,7 @@
 package eu.scy.client.desktop.scydesktop.remotecontrol.api;
 
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.desktoputils.log4j.Logger;
 
 /**
  * @author sven

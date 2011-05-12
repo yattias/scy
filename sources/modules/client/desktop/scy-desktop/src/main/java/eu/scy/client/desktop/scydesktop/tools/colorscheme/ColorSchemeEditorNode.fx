@@ -24,7 +24,7 @@ import roolo.elo.api.IELO;
 import eu.scy.client.desktop.desktoputils.art.eloicons.EloIconFactory;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
-import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
+import eu.scy.client.desktop.desktoputils.EmptyBorderNode;
 
 /**
  * @author SikkenJ

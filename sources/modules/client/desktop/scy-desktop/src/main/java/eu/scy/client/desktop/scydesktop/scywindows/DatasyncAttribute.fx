@@ -18,7 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import eu.scy.client.desktop.scydesktop.draganddrop.DragAndDropManager;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.transform.Transform;
 import eu.scy.client.desktop.desktoputils.art.eloicons.EloIconFactory;

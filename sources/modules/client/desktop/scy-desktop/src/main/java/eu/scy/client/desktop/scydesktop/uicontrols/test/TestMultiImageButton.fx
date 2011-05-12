@@ -14,7 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.animation.Timeline;
-import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
+import eu.scy.client.desktop.desktoputils.log4j.InitLog4JFX;
 
 /**
  * @author sikken

@@ -25,7 +25,7 @@ import roolo.search.Query;
 import roolo.search.IQuery;
 import roolo.search.IQueryComponent;
 import roolo.search.MetadataQueryComponent;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.desktoputils.log4j.Logger;
 
 import java.net.URI;
 

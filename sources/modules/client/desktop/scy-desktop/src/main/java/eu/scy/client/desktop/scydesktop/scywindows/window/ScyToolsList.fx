@@ -7,7 +7,7 @@ package eu.scy.client.desktop.scydesktop.scywindows.window;
 
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
 import javafx.scene.Node;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
 import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolGetter;

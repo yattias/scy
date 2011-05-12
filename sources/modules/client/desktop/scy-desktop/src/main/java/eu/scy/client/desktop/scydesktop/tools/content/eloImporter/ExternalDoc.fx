@@ -9,7 +9,7 @@ import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import javafx.scene.CustomNode;
 import javafx.scene.Group;
 import javafx.scene.layout.VBox;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
+import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import roolo.api.IRepository;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import javax.swing.JFileChooser;

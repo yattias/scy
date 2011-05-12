@@ -10,7 +10,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import eu.scy.client.desktop.scydesktop.utils.log4j.InitLog4JFX;
+import eu.scy.client.desktop.desktoputils.log4j.InitLog4JFX;
 import eu.scy.client.desktop.desktoputils.art.ImageLoader;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
