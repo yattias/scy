@@ -34,18 +34,19 @@ public class ThumbnailView extends WindowElement {
    public var scyElo: ScyElo on replace { newScyElo() };
    public var eloIcon: EloIcon on replace oldEloIcon { eloIconChanged(oldEloIcon) };
    public-init var startDragIcon: function(e: MouseEvent): Void;
+   public-init var doubleClickAction: function(e: MouseEvent): Void;
    def thumbnailBorder = 2.0;
    def eloIconSize = EloIcon.defaultEloIconSize;
    def thumbnailView = ImageView {
-         layoutX: eloIconOffset
-         fitWidth: ArtSource.thumbnailWidth
-         fitHeight: ArtSource.thumbnailHeight
-         preserveRatio: true
-      }
+              layoutX: eloIconOffset
+              fitWidth: ArtSource.thumbnailWidth
+              fitHeight: ArtSource.thumbnailHeight
+              preserveRatio: true
+           }
    def noThumbnailView = NoThumbnailView {
-         layoutX: eloIconOffset
-         windowColorScheme: bind windowColorScheme
-      }
+              layoutX: eloIconOffset
+              windowColorScheme: bind windowColorScheme
+           }
    var eloIconGroup: Group;
 
    public override function create(): Node {
@@ -75,17 +76,22 @@ public class ThumbnailView extends WindowElement {
                      fill: Color.TRANSPARENT
                   }
                   eloIconGroup = Group {
-                        layoutX: 0
-                        layoutY: 0
-                        blocksMouse: startDragIcon != null
-                        cursor: if (startDragIcon != null) Cursor.HAND else null
-                        content: [
-                           eloIcon
-                        ]
-                        onMousePressed: function(e: MouseEvent): Void {
-                           startDragIcon(e);
-                        }
-                     }
+                             layoutX: 0
+                             layoutY: 0
+                             blocksMouse: startDragIcon != null
+                             cursor: if (startDragIcon != null) Cursor.HAND else null
+                             content: [
+                                eloIcon
+                             ]
+                             onMousePressed: function(e: MouseEvent): Void {
+                                startDragIcon(e);
+                             }
+                             onMouseClicked: function(e: MouseEvent): Void {
+                                if (e.clickCount == 2) {
+                                   doubleClickAction(e);
+                                }
+                             }
+                          }
                ]
             }
          ]
@@ -116,8 +122,8 @@ public class ThumbnailView extends WindowElement {
 function loadEloIcon(type: String): EloIcon {
    def windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.blue);
    def imageLoader = FxdImageLoader {
-         sourceName: ArtSource.plainIconsPackage
-      };
+              sourceName: ArtSource.plainIconsPackage
+           };
    var name = EloImageInformation.getIconName(type);
    //   println("name: {name}");
    FxdEloIcon {

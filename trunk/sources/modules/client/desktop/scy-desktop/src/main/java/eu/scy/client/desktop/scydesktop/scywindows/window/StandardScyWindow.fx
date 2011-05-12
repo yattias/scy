@@ -12,7 +12,6 @@ import eu.scy.client.desktop.scydesktop.scywindows.TestAttribute;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import javafx.scene.control.Button;
 import eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX;
-import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -32,9 +31,10 @@ import eu.scy.client.desktop.desktoputils.art.ScyColors;
 import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import javafx.scene.layout.Container;
 import javafx.scene.CacheHint;
-import eu.scy.client.desktop.desktoputils.XFX;
 import eu.scy.client.desktop.scydesktop.owner.OwnershipManager;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
+import eu.scy.client.desktop.desktoputils.XFX;
+import org.apache.log4j.Logger;
 
 /**
  * @author sikkenj
@@ -614,6 +614,7 @@ public class StandardScyWindow extends ScyWindow {
    }
 
    function handleDoubleClick(e: MouseEvent): Void {
+      activate();
       if (isMaximized) {
          resetMaximizedState();
       }
@@ -974,6 +975,7 @@ public class StandardScyWindow extends ScyWindow {
                      scyElo: bind scyElo
                      buddiesDisplay: closedWindowBuddies
                      startDragIcon: startDragIcon
+                     doubleClickAction: handleDoubleClick
                      activated: bind activated
                      activate: activate;
                      title: bind title

@@ -42,6 +42,7 @@ public class ClosedWindow extends WindowElement {
    public var activated = false on replace { activatedChanged() };
    public var buddiesDisplay: TitleBarBuddies;
    public-init var startDragIcon: function(e: MouseEvent ):Void;
+   public-init var doubleClickAction: function(e: MouseEvent ):Void;
    def titleFontsize = 11;
    def textFont = Font.font("Verdana", FontWeight.BOLD, titleFontsize);
    def bgColor = bind if (activated) windowColorScheme.emptyBackgroundColor else windowColorScheme.mainColor;
@@ -50,6 +51,7 @@ public class ClosedWindow extends WindowElement {
       scyElo: bind scyElo
       eloIcon: bind eloIcon
       startDragIcon:startDragIcon
+      doubleClickAction: doubleClickAction
    }
    def windowAttributes = bind window.scyWindowAttributes on replace { windowAttributesChanged() };
    def windowAttributeGroup = Group{
