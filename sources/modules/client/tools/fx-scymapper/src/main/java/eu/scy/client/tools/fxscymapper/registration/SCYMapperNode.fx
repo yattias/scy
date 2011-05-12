@@ -110,7 +110,7 @@ public class SCYMapperNode extends INotifiable, CustomNode, Resizable, ScyToolFX
 
     public override function getThumbnail(width: Integer, height: Integer): BufferedImage {
       if (scyMapperPanel != null) {
-        return eu.scy.client.desktop.scydesktop.utils.UiUtils.createThumbnail(scyMapperPanel.getConceptDiagramView(), scyMapperPanel.getConceptDiagramView().getSize(), new java.awt.Dimension(width, height));
+        return eu.scy.client.desktop.desktoputils.UiUtils.createThumbnail(scyMapperPanel.getConceptDiagramView(), scyMapperPanel.getConceptDiagramView().getSize(), new java.awt.Dimension(width, height));
       } else {
         return null;
       }

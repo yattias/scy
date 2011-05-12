@@ -16,10 +16,7 @@ import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
-import eu.scy.client.desktop.scydesktop.utils.UiUtils;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import roolo.elo.api.IMetadataTypeManager;
@@ -37,6 +34,9 @@ import eu.scy.common.configuration.Configuration;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 import eu.scy.common.scyelo.ScyElo;
+import eu.scy.client.desktop.desktoputils.UiUtils;
+import eu.scy.client.desktop.desktoputils.jdom.JDomStringConversion;
+import org.apache.log4j.Logger;
 
 
 /**

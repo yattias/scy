@@ -11,7 +11,7 @@ import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.api.IAction;
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
+import eu.scy.client.desktop.desktoputils.jdom.JDomStringConversion;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.awt.BorderLayout;
 import java.awt.Container;

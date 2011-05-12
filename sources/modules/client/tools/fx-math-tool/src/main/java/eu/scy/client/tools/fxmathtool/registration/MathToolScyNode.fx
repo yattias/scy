@@ -22,7 +22,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import java.net.URI;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
+import eu.scy.client.desktop.desktoputils.jdom.JDomStringConversion;
 import roolo.search.IQuery;
 import roolo.search.Query;
 import roolo.search.ISearchResult;
@@ -185,7 +185,7 @@ public class MathToolScyNode extends MathToolNode, ScyToolFX, EloSaverCallBack {
 
    public override function getThumbnail(width: Integer, height: Integer): BufferedImage {
       if (mathTool != null) {
-         return eu.scy.client.desktop.scydesktop.utils.UiUtils.createThumbnail(mathTool.getMainPanel(), mathTool.getMainPanel().getSize(), new Dimension(width, height));
+         return eu.scy.client.desktop.desktoputils.UiUtils.createThumbnail(mathTool.getMainPanel(), mathTool.getMainPanel().getSize(), new Dimension(width, height));
       } else {
          return null;
       }

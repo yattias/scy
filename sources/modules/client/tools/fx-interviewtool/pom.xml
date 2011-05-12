@@ -48,6 +48,12 @@
             <version>0.1</version>
         </dependency>
 
+      <dependency>
+         <groupId>eu.scy.client.desktop</groupId>
+         <artifactId>desktop-utils</artifactId>
+         <version>${pom.version}</version>
+      </dependency>
+
         <dependency>
             <groupId>eu.scy.client.desktop</groupId>
             <artifactId>scy-desktop</artifactId>

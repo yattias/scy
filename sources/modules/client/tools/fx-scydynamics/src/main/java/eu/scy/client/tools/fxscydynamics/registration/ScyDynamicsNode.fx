@@ -12,8 +12,7 @@ import colab.um.xml.model.JxmModel;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import roolo.api.IRepository;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
+import eu.scy.client.desktop.desktoputils.jdom.JDomStringConversion;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
@@ -31,14 +30,15 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
 import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
-import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
-import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
+import eu.scy.client.desktop.desktoputils.i18n.Composer;
+import eu.scy.client.desktop.desktoputils.EmptyBorderNode;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.ModalDialogNode;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 import eu.scy.elo.contenttype.dataset.DataSet;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
+import org.apache.log4j.Logger;
 
 public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
 
@@ -108,7 +108,7 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
 
     public override function getThumbnail(width: Integer, height: Integer): BufferedImage {
         if (modelEditor != null) {
-            return eu.scy.client.desktop.scydesktop.utils.UiUtils.createThumbnail(modelEditor.getCanvas(), modelEditor.getCanvas().getSize(), new Dimension(width, height));
+            return eu.scy.client.desktop.desktoputils.UiUtils.createThumbnail(modelEditor.getCanvas(), modelEditor.getCanvas().getSize(), new Dimension(width, height));
         } else {
             return null;
         }

@@ -25,7 +25,6 @@ import java.net.URI;
 import roolo.api.IRepository;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 
 import eu.scy.client.desktop.scydesktop.tools.EloSaver;
@@ -36,6 +35,7 @@ import javafx.scene.layout.Resizable;
 
 import eu.scy.client.tools.fxwebresourcer.highlighter.XMLData;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import org.apache.log4j.Logger;
 
 /**
  * @author pg

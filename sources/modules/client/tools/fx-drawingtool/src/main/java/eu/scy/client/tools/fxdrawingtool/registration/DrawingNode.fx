@@ -16,8 +16,6 @@ import javafx.scene.layout.Container;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import roolo.api.IRepository;
-import eu.scy.client.desktop.scydesktop.utils.log4j.Logger;
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
@@ -27,11 +25,13 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.swingwrapper.ScySwingWrapper;
 import javafx.util.Math;
 import java.awt.Dimension;
-import eu.scy.client.desktop.scydesktop.utils.UiUtils;
 import java.awt.image.BufferedImage;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
+import eu.scy.client.desktop.desktoputils.UiUtils;
+import eu.scy.client.desktop.desktoputils.jdom.JDomStringConversion;
+import org.apache.log4j.Logger;
 
 /**
  * @author sikkenj

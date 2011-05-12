@@ -21,7 +21,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import java.net.URI;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
+import eu.scy.client.desktop.desktoputils.jdom.JDomStringConversion;
 import roolo.search.IQuery;
 import roolo.search.Query;
 import roolo.search.ISearchResult;
@@ -206,7 +206,7 @@ public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyT
 
    public override function getThumbnail(width: Integer, height: Integer): BufferedImage {
       if (richTextEditor != null) {
-         return eu.scy.client.desktop.scydesktop.utils.UiUtils.createThumbnail(richTextEditor, richTextEditor.getSize(), new Dimension(width, height));
+         return eu.scy.client.desktop.desktoputils.UiUtils.createThumbnail(richTextEditor, richTextEditor.getSize(), new Dimension(width, height));
       } else {
          return null;
       }

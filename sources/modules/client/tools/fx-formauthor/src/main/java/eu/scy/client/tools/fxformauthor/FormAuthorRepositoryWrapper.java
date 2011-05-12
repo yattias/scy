@@ -5,7 +5,7 @@
 
 package eu.scy.client.tools.fxformauthor;
 
-import eu.scy.client.desktop.scydesktop.utils.StringUtils;
+import eu.scy.client.desktop.desktoputils.StringUtils;
 import java.net.URI;
 import java.util.List;
 import java.util.Locale;
