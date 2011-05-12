@@ -9,7 +9,7 @@ import java.awt.Dimension;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import roolo.api.IRepository;
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
+import eu.scy.client.desktop.desktoputils.jdom.JDomStringConversion;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
@@ -41,8 +41,8 @@ import eu.scy.client.desktop.scydesktop.corners.elomanagement.ModalDialogNode;
 import eu.scy.client.desktop.scydesktop.edges.DatasyncEdge;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.ImageWindowStyler;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
-import eu.scy.client.desktop.scydesktop.utils.EmptyBorderNode;
-import eu.scy.client.desktop.scydesktop.utils.i18n.Composer;
+import eu.scy.client.desktop.desktoputils.EmptyBorderNode;
+import eu.scy.client.desktop.desktoputils.i18n.Composer;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import java.awt.image.BufferedImage;
@@ -253,7 +253,7 @@ public class SimulatorNode
 
     public override function getThumbnail(width: Integer, height: Integer): BufferedImage {
         if (simquestViewer != null) {
-            return eu.scy.client.desktop.scydesktop.utils.UiUtils.createThumbnail(simquestViewer.getInterfacePanel(), simquestViewer.getRealSize(), new Dimension(width, height));
+            return eu.scy.client.desktop.desktoputils.UiUtils.createThumbnail(simquestViewer.getInterfacePanel(), simquestViewer.getRealSize(), new Dimension(width, height));
         } else {
             return null;
         }

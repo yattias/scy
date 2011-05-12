@@ -27,7 +27,7 @@ import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 
 import java.net.URI;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
+import eu.scy.client.desktop.desktoputils.jdom.JDomStringConversion;
 import roolo.search.IQuery;
 import roolo.search.Query;
 import roolo.search.ISearchResult;

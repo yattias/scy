@@ -13,7 +13,7 @@ import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import eu.scy.notification.api.INotification;
-import eu.scy.client.desktop.scydesktop.utils.jdom.JDomStringConversion;
+import eu.scy.client.desktop.desktoputils.jdom.JDomStringConversion;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.tools.copex.common.LearnerProcedure;
 import eu.scy.client.tools.copex.edp.CopexPanel;
