@@ -2,7 +2,8 @@ package eu.scy.core.persistence.hibernate;
 
 import eu.scy.core.model.impl.pedagogicalplan.*;
 import eu.scy.core.model.pedagogicalplan.*;
-import org.springframework.test.AbstractTransactionalSpringContextTests;
+import junit.framework.TestCase;
+//import org.springframework.test.AbstractTransactionalSpringContextTests;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,7 +12,7 @@ import org.springframework.test.AbstractTransactionalSpringContextTests;
  * Time: 05:55:18
  * To change this template use File | Settings | File Templates.
  */
-public abstract class AbstractDAOTest extends AbstractTransactionalSpringContextTests {
+public abstract class AbstractDAOTest extends TestCase /*extends AbstractTransactionalSpringContextTests */{
     protected String[] getConfigLocations() {
         return new String[]{"classpath:/eu/scy/core/persistence/hibernate/applciationContext-hibernate-OnlyForTesting.xml"};
     }

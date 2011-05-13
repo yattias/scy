@@ -1,8 +1,4 @@
 <%@ include file="common-taglibs.jsp" %>
-<tiles:insertDefinition name="default-page">
-    <tiles:putAttribute name="main">
-
-        <h1>Assigned students</h1>
         <p>
             Currently ${fn:length(users)} are assigned to this mission. Click link below to assign additional students.
         </p>
@@ -39,8 +35,3 @@
                 <br>
             </c:when>
         </c:choose>
-
-        <!--a href="/webapp/app/scyauthor/viewStudentsForPedagogicalPlan.html?eloURI=${eloURI.uri}&action=addMultipleUsers">30 new users</a-->
-
-    </tiles:putAttribute>
-</tiles:insertDefinition>

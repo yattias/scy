@@ -42,33 +42,13 @@ public class ViewPedagogicalPlanController extends BaseController {
 
         try {
 
-            if(getEportfolioTupleSpace().isConnected()) {
-                logger.info("CONNECTED TO THE EPORTFOLIO TUPLE SPACE");
-                /*Tuple tuple = new Tuple(String.class, String.class, String.class, String.class);
-
-                try {
-                    Tuple [] tuples = getEportfolioTupleSpace().readAll(tuple);
-                    logger.info("TUPLES:" + tuples.length);
-                    for (int i = 0; i < tuples.length; i++) {
-                        Tuple tuple1 = tuples[i];
-                        Field[] fields = tuple1.getFields();
-                        for (int j = 0; j < fields.length; j++) {
-                            Field field = fields[j];
-                            logger.info("----> " + field.toString());
-                        }
-                    }
-                } catch (TupleSpaceException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }    */
-            };
-            
-
             String uriParam = request.getParameter("uri");
             logger.info("*** **** URI IS : " + uriParam);
             URI uri = new URI(uriParam);
 
             MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(uri, getMissionELOService());
-            URI descriptionURI = missionSpecificationElo.getTypedContent().getMissionDescriptionUri();
+
+            String descriptionURI = "/webapp/useradmin/LoadExternalPage.html?url=" + missionSpecificationElo.getTypedContent().getMissionDescriptionUri();
             modelAndView.addObject("descriptionUrl", descriptionURI);
             logger.info("DESCRIPTION: " + descriptionURI); // HAHAHA I laugh myself to death!
 
@@ -100,11 +80,11 @@ public class ViewPedagogicalPlanController extends BaseController {
 
 
             Integer globalScaffoldingLevel = getMissionELOService().getGlobalMissionScaffoldingLevel(missionSpecificationElo);
-            List portfoliosReadyForAssessment = getMissionELOService().getPortfoliosThatAreReadyForAssessment(missionSpecificationElo);
-            List assignedUsernames = getMissionELOService().getAssignedUserNamesFor(missionSpecificationElo);
+            //List portfoliosReadyForAssessment = getMissionELOService().getPortfoliosThatAreReadyForAssessment(missionSpecificationElo);
+            //List assignedUsernames = getMissionELOService().getAssignedUserNamesFor(missionSpecificationElo);
 
-            modelAndView.addObject("numberOfStudentsAssigned" , assignedUsernames.size());
-            modelAndView.addObject("numberOfPortfoliosReadyForAssessment", portfoliosReadyForAssessment.size());
+            //modelAndView.addObject("numberOfStudentsAssigned" , assignedUsernames.size());
+            //modelAndView.addObject("numberOfPortfoliosReadyForAssessment", portfoliosReadyForAssessment.size());
             modelAndView.addObject("missionSpecificationTransporter", getMissionELOService().getWebSafeTransporter(missionSpecificationElo));
             modelAndView.addObject("missionGlobalScaffoldingLevel", globalScaffoldingLevel);
             modelAndView.addObject("pedagogicalPlan", pedagogicalPlanTransfer);

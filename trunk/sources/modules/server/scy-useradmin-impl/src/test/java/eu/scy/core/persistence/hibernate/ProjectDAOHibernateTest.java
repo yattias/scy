@@ -6,7 +6,7 @@ import eu.scy.core.model.impl.SCYGroupImpl;
 import eu.scy.core.model.impl.SCYProjectImpl;
 import eu.scy.core.persistence.ProjectDAO;
 import org.junit.Test;
-import org.springframework.test.AbstractTransactionalSpringContextTests;
+
 
 import java.util.List;
 

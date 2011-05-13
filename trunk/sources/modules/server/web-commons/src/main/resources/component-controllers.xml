@@ -54,6 +54,7 @@
 
                    /editors/userProfileEditor.html=userProfileEditor
                    /useradmin/manageAssignedStudent.html=manageAssignedStudentController
+                   /useradmin/LoadExternalPage.html=loadExternalPageController
                    /components/fileupload/fileupload.html=fileUploadController
                    /components/links/help.html=helpController
                    /components/realtime/currentStudentActivity.html=currentStudentActivityController
@@ -185,6 +186,9 @@
     <bean id="manageAssignedStudentController" class="eu.scy.server.controllers.ManageAssignedStudentController">
         <property name="userService" ref="userService"/>
         <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+	</bean>
+
+    <bean id="loadExternalPageController" class="eu.scy.server.controllers.LoadExternalPageController">
 	</bean>
 
     <bean id="helpController" class="eu.scy.server.controllers.components.help.HelpController">
