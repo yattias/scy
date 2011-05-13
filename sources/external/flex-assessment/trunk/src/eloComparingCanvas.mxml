@@ -172,6 +172,7 @@
 			}
 			
 			protected function image1_clickHandler(elo:XML):void {
+				
 				//disbaled for the time being
 				/*var tEvent:ImageMagEvent = new ImageMagEvent(index.IMAGEMAG_COMMAND, true);
 				tEvent.showNow = true;
@@ -202,6 +203,7 @@
 				}
 				
 				dispatchEvent(tEvent);*/
+				navigateToURL(new URLRequest(new String(elo.snippeturl)), "_blank");
 			}
 			
 			protected function image1_ioErrorHandler(event:IOErrorEvent):void {

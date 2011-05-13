@@ -5,6 +5,8 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import flash.net.navigateToURL;
+			
 			import listeners.ImageMagEvent;
 			import listeners.RefreshEvent;
 			import listeners.SaveFeedbackEvent;
@@ -34,6 +36,7 @@
 			private var technicalformat:String;
 			private var rawdatatext:String;
 			private var rawdatafull:String;
+			private var snippeturl:String;
 			private var xmlres:XML;
 			
 			private var objectsToTile:ArrayCollection;
@@ -68,7 +71,7 @@
 				technicalformat = elo.technicalformat;
 				rawdatatext = elo.rawdatatext;
 				rawdatafull = elo.rawdatafull;
-				
+				snippeturl = new String(elo.snippeturl);
 				
 				eloFeedback.url = new String(elo.feedbackelourl);
 				if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
@@ -119,6 +122,9 @@
 				}
 				
 				dispatchEvent(tEvent);*/
+				
+				navigateToURL(new URLRequest(snippeturl), "_blank");
+				//navigateToURL(new URLRequest("http://www.google.com"), "_blank");
 			}
 
 

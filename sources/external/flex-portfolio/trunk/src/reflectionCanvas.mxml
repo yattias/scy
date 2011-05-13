@@ -28,6 +28,7 @@
 		<![CDATA[
 			import adobe.utils.XMLUI;
 			
+			import flash.net.navigateToURL;
 			import flash.utils.clearInterval;
 			import flash.utils.setInterval;
 			
@@ -109,6 +110,7 @@
 						resultToSave.rawdatathumb = selectedElo.rawdatathumb;
 						resultToSave.rawdatafull = selectedElo.rawdatafull;
 						resultToSave.rawdatadataset = selectedElo.rawdatadataset;
+						resultToSave.snippeturl = selectedElo.snippeturl;
 						
 						var so:SharedObject = SharedObject.getLocal(index.SHAREDOBJECT_LOCAL_NAME);
 						var retrievedElosFromRoolo:XML = so.data.retrievedElosFromRoolo;
@@ -428,6 +430,8 @@
 				}
 				
 				dispatchEvent(tEvent);*/
+				
+				navigateToURL(new URLRequest(new String(selectedElo.snippeturl)), "_blank");
 			}
 			
 			protected function image1_ioErrorHandler(event:IOErrorEvent):void {

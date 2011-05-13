@@ -43,6 +43,7 @@
 			[Bindable] public var eval:String;
 			[Bindable] public var score:String;
 			[Bindable] public var feedbackelourl:String;
+			[Bindable] public var snippeturl:String = "";
 	
 			protected function bordercontainer1_mouseOverHandler(event:MouseEvent):void {
 				event.target.alpha = .7;

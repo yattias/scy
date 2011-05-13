@@ -5,6 +5,8 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import flash.net.navigateToURL;
+			
 			import listeners.ImageMagEvent;
 			import listeners.ToggleEvent;
 			
@@ -26,6 +28,7 @@
 			[Bindable] private var createdByText:String = "";
 			[Bindable] private var createdDateText:String = "";
 			[Bindable] private var catname:String = "";
+			[Bindable] private var snippeturl:String = "";
 			
 			private var eloXML:XML;
 			private var newEloXML:XML;
@@ -69,6 +72,7 @@
 				reflectionText = eloXML.studentreflection;
 				inquiryNumber = new Number(eloXML.studentinquiry);
 				thumbnailURL = eloXML.thumbnail;
+				snippeturl = eloXML.snippeturl;
 				
 				if(eloXML.assessed == "true") {
 					var previousGrade:String = new String(eloXML.grade);
@@ -157,6 +161,8 @@
 				}
 				
 				dispatchEvent(tEvent);*/
+				
+				navigateToURL(new URLRequest(snippeturl), "_blank");
 			}
 			
 			protected function image1_ioErrorHandler(event:IOErrorEvent):void {

@@ -406,7 +406,7 @@
 			<local:eloComparingCanvas id="comparing" width="100%" height="100%" showEffect="{showEffect}" creationPolicy="all" />
 		</mx:ViewStack>
 		<s:Image id="animateImage" visible="false" includeInLayout="false" />
-		<s:Label fontSize="8" right="0" bottom="0" text="v.2.3" />
+		<s:Label fontSize="8" right="0" bottom="0" text="v.2.4" />
 	</s:Group>
 	
 	<!--

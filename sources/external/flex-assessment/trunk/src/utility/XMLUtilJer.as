@@ -39,6 +39,7 @@ package utility
 			xmlObject.rawdatathumb = object.rawdata.thumbnail;
 			xmlObject.rawdatafull = object.rawdata.fullscreen;
 			xmlObject.rawdatadataset = object.rawdata.dataset;
+			xmlObject.snippeturl = object.snippeturl;
 			return xmlObject;
 		}
 		
@@ -93,6 +94,7 @@ package utility
 			subCE.rawdatathumb = selectedElo.rawdatathumb;
 			subCE.rawdatafull = selectedElo.rawdatafull;
 			subCE.rawdatadataset = selectedElo.rawdatadataset;
+			subCE.snippeturl = selectedElo.snippeturl;
 			return subCE;
 		}
 		
@@ -159,6 +161,7 @@ package utility
 			if(rawdatadataset != null && rawdatadataset != "") {
 				newELO.rawdata.dataset = <dataset>{cdata((rawdatadataset).replace(myPattern, "@"))}</dataset>;
 			}
+			newELO.snippeturl = <snippeturl>{cdata(ob.snippeturl)}</snippeturl>;
 			newELO.inquiryquestion = <inquiryquestion>{cdata(ob.inquiryquestion)}</inquiryquestion>;
 			newELO.studentinquiry = <studentinquiry>{ob.studentinquiry}</studentinquiry>;
 			newELO.assessed = <assessed>false</assessed>;

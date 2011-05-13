@@ -41,6 +41,7 @@ package utility
 			xmlObject.rawdatafull = object.rawdata.fullscreen;
 			xmlObject.rawdatadataset = object.rawdata.dataset;
 			xmlObject.feedbackelourl = object.feedbackelourl;
+			xmlObject.snippeturl = object.snippeturl;
 			return xmlObject;
 		}
 		
@@ -96,6 +97,7 @@ package utility
 			subCE.rawdatafull = selectedElo.rawdatafull;
 			subCE.rawdatadataset = selectedElo.rawdatadataset;
 			subCE.feedbackelourl = selectedElo.feedbackelourl;
+			subCE.snippeturl = selectedElo.snippeturl;
 			return subCE;
 		}
 		
@@ -140,6 +142,7 @@ package utility
 			newELO.rawdata.thumbnail = <thumbnail>{cdata(ob.rawdatathumb)}</thumbnail>;
 			newELO.rawdata.fullscreen = <fullscreen>{cdata(ob.rawdatafull)}</fullscreen>;
 			newELO.rawdata.dataset = <dataset>{cdata(ob.rawdatadataset)}</dataset>;
+			newELO.snippeturl = <snippeturl>{cdata(ob.snippeturl)}</snippeturl>;
 			newELO.inquiryquestion = <inquiryquestion>{cdata(ob.inquiryquestion)}</inquiryquestion>;
 			newELO.studentinquiry = <studentinquiry>{ob.studentinquiry}</studentinquiry>;
 			newELO.assessed = <assessed>false</assessed>;

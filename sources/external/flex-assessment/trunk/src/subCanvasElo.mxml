@@ -40,6 +40,7 @@
 			[Bindable] public var rawdatathumb:String = "";
 			[Bindable] public var rawdatafull:String = "";
 			[Bindable] public var rawdatadataset:String = "";
+			[Bindable] public var snippeturl:String = "";
 			
 			[Bindable] private var graphicHighlight:Boolean = false;
 			[Bindable] private var alphaValue:Number = .1;
