@@ -14,9 +14,9 @@ import java.util.logging.Logger;
  * @author Marjolaine
  */
 public class ResourceBundleWrapper {
+
     private final static String languageDir = "languages";
     private final static Locale defaultLocale = new Locale("en");
-
     private ClassLoader loader;
     private String baseName = null;
     private ResourceBundle bundle;
@@ -38,89 +38,86 @@ public class ResourceBundleWrapper {
      * @param key the specified key
      * @return the string for the given key
      */
-    public String getString(String key){
-        try{
+    public String getString(String key) {
+        try {
             return this.bundle.getString(key);
-        }catch(MissingResourceException e){
-            logger.log(Level.SEVERE, "Error while retrieving bundle string with the key: "+key);
+        } catch (MissingResourceException e) {
+            logger.log(Level.SEVERE, null, e);
+            logger.log(Level.SEVERE, "Error while retrieving bundle string with the key: {0}", key);
             return key;
-        }catch(Exception e2){
-            logger.log(Level.SEVERE, "Invalid bundle key "+key);
+        } catch (Exception e2) {
+            logger.log(Level.SEVERE, null, e2);
+            logger.log(Level.SEVERE, "Invalid bundle key {0}", key);
             return key;
         }
     }
-
 
     /** Gets a string for a given number
      * @param number the specified number
      * @return the string for the given number
      */
-    public String getNumberToString(double number){
+    public String getNumberToString(double number) {
         return getNumberFormat().format(number);
     }
 
     /** Gets a numberFormat
      * @return the numberFormat for the given locale
      */
-    public NumberFormat getNumberFormat(){
+    public NumberFormat getNumberFormat() {
         return NumberFormat.getNumberInstance(Locale.getDefault());
     }
 
-    
-    private void initBundle(String moduleName){
-        if(moduleName == null){
+    private void initBundle(String moduleName) {
+        if (moduleName == null) {
             logger.log(Level.SEVERE, "failed to find the module name");
             return;
         }
-        baseName = languageDir+"/"+moduleName;
+        baseName = languageDir + "/" + moduleName;
 //        URL urlList[] = {o.getClass().getClassLoader().getResource(languageDir+"/")};
 //        loader = new URLClassLoader(urlList);
-        loader=Thread.currentThread().getContextClassLoader();
+        loader = Thread.currentThread().getContextClassLoader();
 
-        try{
-            this.bundle  = ResourceBundle.getBundle(baseName, Locale.getDefault(), loader);
-        }catch(MissingResourceException e){
-          try{
+        try {
+            this.bundle = ResourceBundle.getBundle(baseName, Locale.getDefault(), loader);
+        } catch (MissingResourceException e) {
+            try {
                 // english by def.
+                logger.log(Level.SEVERE, null, e);
+                logger.log(Level.SEVERE, "Failed to load resource bundle (e.g. language properties) for module {0}", moduleName);
                 bundle = ResourceBundle.getBundle(baseName, defaultLocale, loader);
-                logger.log(Level.SEVERE, "Bundle missing with locale "+Locale.getDefault().getLanguage()+", english bundle by default");
-          }catch (MissingResourceException e2){
-              logger.log(Level.SEVERE, "No bundle for baseName "+baseName);
-          }
-        }catch(Exception e3){
-            logger.log(Level.SEVERE, "failed to load bundle resources "+e3);
+                logger.log(Level.SEVERE, "Bundle missing with locale {0}, english bundle by default", Locale.getDefault().getLanguage());
+            } catch (MissingResourceException e2) {
+                logger.log(Level.SEVERE, "No bundle for baseName {0}", baseName);
+            }
+        } catch (Exception e3) {
+            logger.log(Level.SEVERE, null, e3);
+            logger.log(Level.SEVERE, "Failed to load resource bundle (e.g. language properties) for module {0}", moduleName);
+            logger.log(Level.SEVERE, "failed to load bundle resources {0}", e3);
+
         }
     }
 
-
-    private String getModuleName(Object o){
-        if(o != null && o.getClass().getPackage() != null){
+    private String getModuleName(Object o) {
+        if (o != null && o.getClass().getPackage() != null) {
             return getModuleName(o.getClass().getPackage().getName());
         }
         return null;
     }
+    private final static String[] commonPackageNames = {"eu.scy.client.tools.", "eu.scy.client.desktop.", "eu.scy.client.common."};
 
-    private final static String[] commonPackageNames = {"eu.scy.client.tools.","eu.scy.client.desktop.", "eu.scy.client.common."};
-
-   protected String getModuleName(String packageName)
-   {
-      for (String commonPackageName : commonPackageNames)
-      {
-         if (packageName.startsWith(commonPackageName))
-         {
-            String longModuleName = packageName.substring(commonPackageName.length());
-            if (longModuleName.length() > 0)
-            {
-               int pointPos = longModuleName.indexOf('.');
-               if (pointPos >= 0)
-               {
-                  return longModuleName.substring(0, pointPos);
-               }
-               return longModuleName;
+    protected String getModuleName(String packageName) {
+        for (String commonPackageName : commonPackageNames) {
+            if (packageName.startsWith(commonPackageName)) {
+                String longModuleName = packageName.substring(commonPackageName.length());
+                if (longModuleName.length() > 0) {
+                    int pointPos = longModuleName.indexOf('.');
+                    if (pointPos >= 0) {
+                        return longModuleName.substring(0, pointPos);
+                    }
+                    return longModuleName;
+                }
             }
-         }
-      }
-      return null;
-   }
-    
+        }
+        return null;
+    }
 }
