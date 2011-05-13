@@ -43,16 +43,12 @@ public class BuddyfierImplTest extends AbstractDAOTest {
     }
 
     public void testCreateBuddies() {
-        for (int counter = 0; counter < 15; counter++) {
-            logger.info("STARTING TEST!!");
-        }
         if (getHost() != null) {
             Collection buddies = getBuddyService().getBuddies(USER_NAME, PASSWORD);
             assertNotNull(buddies);
             int count = buddies.size();
             for (Iterator iterator = buddies.iterator(); iterator.hasNext();) {
                 RosterEntry rosterEntry = (RosterEntry) iterator.next();
-                logger.info("==============================>" + rosterEntry.getName() + " " + rosterEntry.getUser() + " " + rosterEntry.getStatus());
             }
 
             try {
@@ -62,16 +58,10 @@ public class BuddyfierImplTest extends AbstractDAOTest {
                 fail(e.getMessage());
             }
         }
-        for (int counter = 0; counter < 15; counter++) {
-            logger.info("TEST DONE!!");
-        }
 
     }
 
     public void testBuddyCheck() {
-        for (int counter = 0; counter < 15; counter++) {
-            logger.info("STARTING TEST!!");
-        }
         if (getHost() != null) {
             try {
 
@@ -87,13 +77,5 @@ public class BuddyfierImplTest extends AbstractDAOTest {
     }
 
     public void testGetBuddyPresenceStatus() {
-        for (int counter = 0; counter < 15; counter++) {
-            logger.info("STARTING TEST!!");
-        }
-        try {
-            logger.info(getBuddyService().getBuddyPresenceStatus(USER_NAME, PASSWORD, BUDDY_USERNAME));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

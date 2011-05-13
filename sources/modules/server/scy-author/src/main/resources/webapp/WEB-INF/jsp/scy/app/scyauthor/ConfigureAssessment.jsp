@@ -1,23 +1,19 @@
 <%@ include file="common-taglibs.jsp" %>
-<tiles:insertDefinition name="default-page">
-    <tiles:putAttribute name="main">
 
-
-        <h1>Configure assessment for ${pedagogicalPlan.name}</h1>   <a href="ConfigureAssessment.html?action=clearReflectionQuestions&eloURI=${missionSpecificationEloURI}">[clear reflection questions]</a>
-
-        <table>
-            <tr>
-                <td>
-                    Name
-                </td>
-                <td>
-                    <s:ajaxTransferObjectTextField transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${pedagogicalPlan}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${pedagogicalPlan.id}" property="name"/>
-                </td>
-            </tr>
-        </table>
-        <br/>
-        <br/>
         <h2>Reflection questions</h2>
+
+        <div id="reflectionQuestionHelp" dojoType="dijit.Dialog" title="Reflection questions">
+            <p id="reflectionQuestionHelp">Reflection questions are used in the eportfolio tool. Students will be asked these questions for each ELO type they have added to their eportfolio.</p>
+        </div>
+        <button id="buttonOne" dojoType="dijit.form.Button" type="button">
+            Help
+            <script type="dojo/method" event="onClick" args="evt">
+                // Show the Dialog:
+                dijit.byId("reflectionQuestionHelp").show();
+            </script>
+        </button>
+
+
         <c:choose>
             <c:when test="${fn:length(pedagogicalPlan.assessmentSetup.reflectionQuestions) > 0}">
                 <table>
@@ -26,7 +22,7 @@
                         <th>Reflection question</th>
                     </tr>
                     <c:forEach var="reflectionQuestion" items="${pedagogicalPlan.assessmentSetup.reflectionQuestions}">
-                        <tr>
+                        <tr  class="${oddEven.oddEven}">
                             <td>
                                 ${reflectionQuestion.anchorEloName}
                             </td>
@@ -38,7 +34,7 @@
                 </table>
             </c:when>
         </c:choose>
-    <!--a href="ConfigureAssessment.html?action=addReflectionQuestion&eloURI=${missionSpecificationEloURI}&anchorEloURI=BAAAA">Add reflection question</a-->
+        <a href="ConfigureAssessment.html?action=clearReflectionQuestions&eloURI=${missionSpecificationEloURI}">[clear reflection questions]</a>
 
         <br/><br/>
 
@@ -52,7 +48,7 @@
                         <th>Type</th>
                     </tr>
                     <c:forEach var="reflectionTab" items="${pedagogicalPlan.assessmentSetup.reflectionTabs}">
-                        <tr>
+                        <tr  class="${oddEven.oddEven}">
                             <td>
                                 ${reflectionTab.title}
                             </td>
@@ -67,7 +63,8 @@
                 </table>
             </c:when>
         </c:choose>
-
+        <br/>
+        <br/>
 
 
 
@@ -80,7 +77,7 @@
             <c:when test="${fn:length(pedagogicalPlan.assessmentSetup.generalLearningGoals) > 0}">
                 <table>
                     <c:forEach var="learningGoal" items="${pedagogicalPlan.assessmentSetup.generalLearningGoals}">
-                        <tr>
+                        <tr  class="${oddEven.oddEven}">
                             <td>
                                 <s:ajaxTransferObjectTextField transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${learningGoal}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${learningGoal.id}" property="goal"/>
                             </td>
@@ -100,7 +97,7 @@
             <c:when test="${fn:length(pedagogicalPlan.assessmentSetup.specificLearningGoals) > 0}">
                 <table>
                     <c:forEach var="learningGoal" items="${pedagogicalPlan.assessmentSetup.specificLearningGoals}">
-                        <tr>
+                        <tr  class="${oddEven.oddEven}">
                             <td>
                                 <s:ajaxTransferObjectTextField transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${learningGoal}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${learningGoal.id}" property="goal"/>
                             </td>
@@ -114,5 +111,3 @@
 
 
 
-    </tiles:putAttribute>
-</tiles:insertDefinition>
