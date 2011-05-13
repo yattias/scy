@@ -152,12 +152,12 @@ public class JavaFxdEloIconLoader
       {
          outFile = new FileWriter(new File(targetDir,"EloIconFactory.fx"));
          PrintWriter out = new PrintWriter(outFile);
-         out.println("package eu.scy.client.desktop.scydesktop.art.eloicons;");
+         out.println("package eu.scy.client.desktop.desktoputils.art.eloicons;");
          out.println("");
-         out.println("import eu.scy.client.desktop.scydesktop.art.javafx.LogoEloIcon;");
-         out.println("import eu.scy.client.desktop.scydesktop.scywindows.EloIcon;");
-         out.println("import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;");
-         out.println("import eu.scy.client.desktop.scydesktop.art.ScyColors;");
+         out.println("import eu.scy.client.desktop.desktoputils.art.javafx.LogoEloIcon;");
+         out.println("import eu.scy.client.desktop.desktoputils.art.EloIcon;");
+         out.println("import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;");
+         out.println("import eu.scy.client.desktop.desktoputils.art.ScyColors;");
          out.println("/**");
          out.println("* @author lars");
          out.println("*/");
@@ -240,17 +240,17 @@ public class JavaFxdEloIconLoader
 
    private void writeHeader(PrintWriter out, String name)
    {
-      out.println("package eu.scy.client.desktop.scydesktop.art.eloicons;");
+      out.println("package eu.scy.client.desktop.desktoputils.art.eloicons;");
       out.println();
       out.println("import javafx.scene.Scene;");
       out.println("import javafx.stage.Stage;");
-      out.println("import eu.scy.client.desktop.scydesktop.art.ScyColors;");
+      out.println("import eu.scy.client.desktop.desktoputils.art.ScyColors;");
       out.println("import javafx.scene.Node;");
       out.println("import javafx.scene.Group;");
       out.println("import javafx.scene.shape.*;");
       out.println("import javafx.scene.paint.Color;");
       out.println("import javafx.scene.transform.Transform;");
-      out.println("import eu.scy.client.desktop.scydesktop.art.WindowColorScheme;");
+      out.println("import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;");
       out.println("/**");
       out.println(" * @author lars");
       out.println(" */");

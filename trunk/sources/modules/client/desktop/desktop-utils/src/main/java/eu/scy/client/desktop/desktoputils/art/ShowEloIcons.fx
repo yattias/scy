@@ -49,12 +49,12 @@ public class ShowEloIcons extends CustomNode {
 
    function generationControl(): Node {
       def contentFileBox = TextBox {
-            text: "src\\eu\\scy\\client\\desktop\\scydesktop\\art\\images\\content.fxd"
+            text: "art\\content.fxd"
             columns: 60
             selectOnFocus: true
          }
       def targetDirBox = TextBox {
-            text: "src\\eu\\scy\\client\\desktop\\scydesktop\\art\\eloicons"
+            text: "src\\main\\java\\eu\\scy\\client\\desktop\\desktoputils\\art\\eloicons"
             columns: 60
             selectOnFocus: true
          }
