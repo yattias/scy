@@ -104,6 +104,7 @@ import eu.scy.client.desktop.scydesktop.uicontrols.EloIconButton;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.api.ContextConstants;
+import eu.scy.client.desktop.scydesktop.corners.assessment.EportfolioButton;
 
 /**
  * @author sikkenj
@@ -247,7 +248,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       }
    public var scyFeedbackGiveButton:EloIconButton;
    public var scyFeedbackGetButton:EloIconButton;
-   public var eportfolioButton:EloIconButton;
+   public var eportfolioButton:EportfolioButton;
    var cornerGroup: Group;
    public def desktopButtonSize = 25.0;
    public def desktopButtonActionScheme = 1;
@@ -447,30 +448,8 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 //                 scyFeedbackGetButton.imageName = "feedback_get";
              }
          }
-         eportfolioButton = EloIconButton {
-           eloIcon: windowStyler.getScyEloIcon("e_portfolio")
-            size: desktopButtonSize
-            actionScheme: desktopButtonActionScheme
-             disableButton: initializer.offlineMode
-             tooltipManager: tooltipManager
-             tooltip: if (initializer.offlineMode) "ePortfolio is only available when working online" else "ePortfolio"
-             action: function(): Void {
-                 def conf:Configuration=Configuration.getInstance();
-                 def eloUriEncoded = URLEncoder.encode(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString(),"UTF-8");
-                 def eportfolioURL = "{conf.getEportfolioProtocol()}://{conf.getEportfolioServer()}:{conf.getEportfolioPort()}{conf.getEportfolioContext()}EPortfolioIndex.html?eloURI={eloUriEncoded}";
-                 try {
-                    var basicService = javax.jnlp.ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
-                    if (basicService != null) {
-                        var url : java.net.URL = new java.net.URL(eportfolioURL);
-                        basicService.showDocument(url);
-                    }
-                 }
-                 catch (e: javax.jnlp.UnavailableServiceException) {
-                     BareBonesBrowserLaunch.openURL(eportfolioURL);
-                 }
-//                 eportfolioButton.imageName = "eportfolio";
-             }
-         }
+        eportfolioButton = EportfolioButton{scyDesktop:this}
+        dragAndDropManager.addDropTaget(eportfolioButton);
         def ePortfolioSpacer = Rectangle {
             x: 0, y: 0
             width: 1, height: 5
@@ -712,9 +691,9 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
            var leftDrawerCreatorId = creatorTokenizer.nextToken();
            // TODO, remove these hard coded hacks!!!
            var addDrawer = true;
-           if (leftDrawerCreatorId.equals("feedbackQuestion") and not missionModelFX.getEloUris(false).contains(window.eloUri)){
-              addDrawer = false;
-           }
+//           if (leftDrawerCreatorId.equals("feedbackQuestion") and not missionModelFX.getEloUris(false).contains(window.eloUri)){
+//              addDrawer = false;
+//           }
            if (leftDrawerCreatorId.equals("assingmentInfo") and window.scyElo.getAssignmentUri()==null){
               addDrawer = false;
            }
