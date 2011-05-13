@@ -162,11 +162,11 @@ public class FeedbackQuestionNode extends CustomNode, ScyToolFX, Resizable {
    function eloUriChanged(eloUri: URI) {
       this.eloUri = eloUri;
       var questionAskedB=true;
-      if (not scyDesktop.missionModelFX.getEloUris(false).contains(eloUri)) {
-          for (ui in submitUi) {
-                delete ui from mainBox.content;
-          }
-      }
+//      if (not scyDesktop.missionModelFX.getEloUris(false).contains(eloUri)) {
+//          for (ui in submitUi) {
+//                delete ui from mainBox.content;
+//          }
+//      }
       if (eloUri != null) {
          logger.debug("eloUri is changing, new eloUri: {eloUri.toString()}");
          scyElo = ScyElo.loadMetadata(eloUri, toolBrokerAPI);
