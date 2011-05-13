@@ -59,6 +59,8 @@ public class TransferElo extends BaseXMLTransfer {
     private String feedbackEloUrl;
     private String feedbackEloURI;
 
+    private String snippeturl = "http://www.youtube.com/watch?v=3aQpNQqls3M";
+
 
     public TransferElo() {
     }
@@ -409,5 +411,13 @@ public class TransferElo extends BaseXMLTransfer {
 
     public void setReflectionQuestion(String reflectionQuestion) {
         this.reflectionQuestion = reflectionQuestion;
+    }
+
+    public String getSnippeturl() {
+        return snippeturl;
+    }
+
+    public void setSnippeturl(String snippeturl) {
+        this.snippeturl = snippeturl;
     }
 }
