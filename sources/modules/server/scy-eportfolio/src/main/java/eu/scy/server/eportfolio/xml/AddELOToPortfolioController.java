@@ -2,6 +2,7 @@ package eu.scy.server.eportfolio.xml;
 
 import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.scyelo.ScyElo;
+import eu.scy.core.model.transfer.TransferElo;
 import eu.scy.core.roolo.MissionELOService;
 import eu.scy.core.model.transfer.Portfolio;
 import eu.scy.server.controllers.xml.MissionRuntimeEnabledXMLService;
@@ -10,6 +11,8 @@ import eu.scy.server.controllers.xml.ServiceExceptionMessage;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,26 +27,38 @@ public class AddELOToPortfolioController extends MissionRuntimeEnabledXMLService
 
     @Override
     protected Object getObject(MissionRuntimeElo missionRuntimeElo, HttpServletRequest request, HttpServletResponse response) {
-        String missionURI = request.getParameter("missionURI");
-        String eloURI = request.getParameter("eloURI");
+        try {
+            String missionURI = request.getParameter("missionURI");
+            String eloURI = request.getParameter("eloURI");
 
-        if(missionURI == null || eloURI == null) {
-            return new ServiceExceptionMessage("Either missionURI or eloURI is null - service needs both to work!");
-        }
-
-        ScyElo scyElo = ScyElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getEPortfolioEloUri(), getMissionELOService());
-        if(scyElo != null) {
-            String xml = scyElo.getContent().getXmlString();
-            if(xml == null || xml.length() == 0) {
-                scyElo.getContent().setXmlString(getXstream().toXML(new Portfolio()));
-                scyElo.updateElo();
+            if(missionURI == null || eloURI == null) {
+                return new ServiceExceptionMessage("Either missionURI or eloURI is null - service needs both to work!");
             }
+
+            URI toBeAddedURI = new URI(eloURI);
+            ScyElo toBeAdded = ScyElo.loadLastVersionElo(toBeAddedURI, getMissionELOService());
+
+            ScyElo portfolioElo = ScyElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getEPortfolioEloUri(), getMissionELOService());
+            if(portfolioElo != null) {
+                String xml = portfolioElo.getContent().getXmlString();
+                if(xml == null || xml.length() == 0) {
+                    portfolioElo.getContent().setXmlString(getXstream().toXML(new Portfolio()));
+                    portfolioElo.updateElo();
+                }
+            }
+
+            Portfolio portfolio = (Portfolio) getXmlTransferObjectService().getObject(portfolioElo.getContent().getXmlString());
+            TransferElo toBeAddedToPortfolio = new TransferElo(toBeAdded);
+            portfolio.addElo(toBeAddedToPortfolio);
+
+            logger.info("ADDING ELO: " + eloURI + " TO PORTFOLIO OF : " + missionURI);
+
+
+            return new ServiceStatusMessage("OK");
+        } catch (URISyntaxException e) {
+            logger.error(e.getMessage(), e);
+            return new ServiceStatusMessage(e.getMessage());
         }
-
-        logger.info("ADDING ELO: " + eloURI + " TO PORTFOLIO OF : " + missionURI);
-
-        return new ServiceStatusMessage("OK");
-
     }
 
     public MissionELOService getMissionELOService() {
