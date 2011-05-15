@@ -19,17 +19,17 @@
          <name>lgpl</name>
       </license>
    </licenses>
- 
+
    <dependencies>
-   
-		<dependency>
-			<groupId>info.collide</groupId>
-			<artifactId>javafx-deps</artifactId>
-			<version>${javafx-version}</version>
-			<type>pom</type>
-			<scope>provided</scope>
-		</dependency>
-		
+
+      <dependency>
+         <groupId>info.collide</groupId>
+         <artifactId>javafx-deps</artifactId>
+         <version>${javafx-version}</version>
+         <type>pom</type>
+         <scope>provided</scope>
+      </dependency>
+
       <dependency>
          <groupId>log4j</groupId>
          <artifactId>log4j</artifactId>
@@ -63,15 +63,15 @@
          <resource>
             <directory>src/main/java</directory>
             <includes>
-                <include>**/*.png</include>
-                <include>**/*.jpg</include>
-                <include>**/*.xml</include>
-                <include>**/*.properties</include>
-                <include>**/*.fxproperties</include>
-                <include>**/*.fxc</include>
-                <include>**/*.fxz</include>
-                <include>**/*.form</include>
-                <include>**/*.css</include>
+               <include>**/*.png</include>
+               <include>**/*.jpg</include>
+               <include>**/*.xml</include>
+               <include>**/*.properties</include>
+               <include>**/*.fxproperties</include>
+               <include>**/*.fxc</include>
+               <include>**/*.fxz</include>
+               <include>**/*.form</include>
+               <include>**/*.css</include>
             </includes>
          </resource>
       </resources>

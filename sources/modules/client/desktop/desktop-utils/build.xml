@@ -2,7 +2,7 @@
 <!-- You may freely edit this file. See commented blocks below for -->
 <!-- some examples of how to customize the build. -->
 <!-- (If you delete it and reopen the project it will be recreated.) -->
-<project name="fx-drawingtool" default="default" basedir="." xmlns:artifact="urn:maven-artifact-ant">
+<project name="desktop-utils" default="default" basedir="." xmlns:artifact="urn:maven-artifact-ant">
     <description>Builds, tests, and runs the project desktop-utils.</description>
     <import file="nbproject/build-impl.xml"/>
     <import file="nbproject/profiler-build-impl.xml"/>
