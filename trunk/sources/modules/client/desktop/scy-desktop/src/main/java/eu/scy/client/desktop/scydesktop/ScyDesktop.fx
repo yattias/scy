@@ -694,6 +694,9 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 //           if (leftDrawerCreatorId.equals("feedbackQuestion") and not missionModelFX.getEloUris(false).contains(window.eloUri)){
 //              addDrawer = false;
 //           }
+           if (leftDrawerCreatorId.equals("feedbackQuestion") and not window.scyElo.getAuthors().contains(config.getToolBrokerAPI().getLoginUserName())){
+              addDrawer = false;
+           }
            if (leftDrawerCreatorId.equals("assingmentInfo") and window.scyElo.getAssignmentUri()==null){
               addDrawer = false;
            }
