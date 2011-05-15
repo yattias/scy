@@ -75,10 +75,10 @@ public class EportfolioButton extends CustomNode, DropTarget2 {
       if (object instanceof IMetadata) {
          def metadata = object as IMetadata;
          def scyElo = ScyElo.loadMetadata(metadata.getMetadataValueContainer(identifierKey).getValue() as URI, tbi);
-         javafx.stage.Alert.inform("In future (if e-portfolio tool is able to add ELO-s from SCY-Lab) this message will be substituted with real adding ELO to e-portfolio. Currently just showing e-portfolio. EloUri={scyElo.getUri()}");
          def conf:Configuration=Configuration.getInstance();
-         def eloUriEncoded = URLEncoder.encode(scyDesktop.missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString(),"UTF-8");
-         def eportfolioAddURL = "{conf.getEportfolioProtocol()}://{conf.getEportfolioServer()}:{conf.getEportfolioPort()}{conf.getEportfolioContext()}EPortfolioIndex.html?eloURI={eloUriEncoded}";
+         def missionEloUriEncoded = URLEncoder.encode(scyDesktop.missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString(),"UTF-8");
+         def eloUriEncoded = URLEncoder.encode(scyElo.getUri().toString(),"UTF-8");
+         def eportfolioAddURL = "{conf.getEportfolioProtocol()}://{conf.getEportfolioServer()}:{conf.getEportfolioPort()}{conf.getEportfolioContext()}xml/addEloToPortfolio.html?missionURI={missionEloUriEncoded}&eloURI={eloUriEncoded}";
          try {
             var basicService = javax.jnlp.ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
             if (basicService != null) {
