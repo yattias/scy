@@ -38,6 +38,10 @@ public class AddELOToPortfolioController extends MissionRuntimeEnabledXMLService
             URI toBeAddedURI = new URI(eloURI);
             ScyElo toBeAdded = ScyElo.loadLastVersionElo(toBeAddedURI, getMissionELOService());
 
+            URI missionRuntimeURI = new URI(missionURI);
+
+            missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(missionRuntimeURI, getMissionELOService());
+            
             ScyElo portfolioElo = ScyElo.loadLastVersionElo(missionRuntimeElo.getTypedContent().getEPortfolioEloUri(), getMissionELOService());
             if(portfolioElo != null) {
                 String xml = portfolioElo.getContent().getXmlString();
@@ -48,8 +52,17 @@ public class AddELOToPortfolioController extends MissionRuntimeEnabledXMLService
             }
 
             Portfolio portfolio = (Portfolio) getXmlTransferObjectService().getObject(portfolioElo.getContent().getXmlString());
+            portfolio.setAssessed(false);
+            portfolio.setPortfolioStatus("PORTFOLIO_NOT_SUBMITTED");
+            portfolio.setMissionName(missionRuntimeElo.getTitle());
+            portfolio.setMissionRuntimeURI(String.valueOf(missionRuntimeURI));
+            portfolio.setOwner(getCurrentUserName(request));
             TransferElo toBeAddedToPortfolio = new TransferElo(toBeAdded);
             portfolio.addElo(toBeAddedToPortfolio);
+
+
+            portfolioElo.getContent().setXmlString(getXstream().toXML(portfolio));
+            portfolioElo.updateElo();
 
             logger.info("ADDING ELO: " + eloURI + " TO PORTFOLIO OF : " + missionURI);
 

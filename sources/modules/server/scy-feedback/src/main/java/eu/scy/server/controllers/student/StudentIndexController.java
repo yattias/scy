@@ -42,6 +42,7 @@ public class StudentIndexController extends BaseController {
                 if (portfolio != null) {
                     portfolio.unCdatify();
                     modelAndView.addObject("portfolio", portfolio);
+                    if(portfolio.getPortfolioStatus() == null) portfolio.setPortfolioStatus("PORTFOLIO_NOT_SUBMITTED");
                     if(portfolio.getPortfolioStatus().equals("PORTFOLIO_SUBMITTED")) modelAndView.addObject("portfolioStatus", "Submitted");
                     if(portfolio.getPortfolioStatus().equals("PORTFOLIO_ASSESSED")) modelAndView.addObject("portfolioStatus", "<strong>Assessed</strong>");
                     else modelAndView.addObject("portfolioStatus", "Not Submitted");
