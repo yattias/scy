@@ -53,7 +53,7 @@ public class QueryFactory {
     public static IQuery createMissionRuntimeQuery(String missionRuntimeType, String username) {
         IQueryComponent missionRuntimeQueryComp = new MetadataQueryComponent(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId(),
                 SearchOperation.EQUALS, missionRuntimeType);
-        IQueryComponent titleQueryComp = new MetadataQueryComponent(ScyRooloMetadataKeyIds.MISSION_RUNNING.getId(), SearchOperation.EQUALS,
+        IQueryComponent titleQueryComp = new MetadataQueryComponent(ScyRooloMetadataKeyIds.USER_RUNNING_MISSION.getId(), SearchOperation.EQUALS,
                 username);
         IQueryComponent myMissionRuntimeQuery = new AndQuery(missionRuntimeQueryComp, titleQueryComp);
         IQuery q = new Query(myMissionRuntimeQuery);
