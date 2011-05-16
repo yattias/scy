@@ -1,15 +1,14 @@
 package eu.scy.agents.authoring;
 
+import eu.scy.agents.api.AgentLifecycleException;
+import eu.scy.agents.impl.AbstractRequestAgent;
+import eu.scy.agents.impl.AgentProtocol;
 import info.collide.sqlspaces.commons.Callback;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.rmi.dgc.VMID;
 import java.util.Map;
-
-import eu.scy.agents.api.AgentLifecycleException;
-import eu.scy.agents.impl.AbstractRequestAgent;
-import eu.scy.agents.impl.AgentProtocol;
 
 public class NotifyUserAgent extends AbstractRequestAgent implements Callback {
 
@@ -92,16 +91,19 @@ public class NotifyUserAgent extends AbstractRequestAgent implements Callback {
 
 	private void sendNotification(String from, String to, String mission,
 			String message) {
-		Tuple notificationTuple = new Tuple();
+        Tuple notificationTuple = new Tuple();
 		notificationTuple.add(AgentProtocol.NOTIFICATION);
 		notificationTuple.add(new VMID().toString());
 		notificationTuple.add(to);
-		notificationTuple.add("no elo");
-		notificationTuple.add(from);
+		notificationTuple.add("no specific elo");
+		notificationTuple.add(NAME);
 		notificationTuple.add(mission);
-		notificationTuple.add("");
-		notificationTuple.add("type=message_notification");
-		notificationTuple.add(message);
+		notificationTuple.add("n/a");
+		notificationTuple.add("text=" + message.toString());
+		notificationTuple.add("title=Generic Message");
+		notificationTuple.add("type=message_dialog_show");
+		notificationTuple.add("modal=false");
+		notificationTuple.add("dialogType=OK_DIALOG");
 
 		try {
 			if (this.getCommandSpace().isConnected()) {
