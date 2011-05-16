@@ -64,6 +64,7 @@ public class ModalDialogLayer extends CustomNode {
                 x: 0, y: 0
                 width: 100, height: 100
                 fill: ArtSource.dialogBlockLayerColor
+                visible: false
                 onKeyPressed: function(e: KeyEvent): Void {
                 }
                 onKeyReleased: function(e: KeyEvent): Void {

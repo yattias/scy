@@ -85,18 +85,18 @@ public class ScyDesktopCreator {
          //               repository: config.getRepository()
          //               metadataTypeManager: config.getMetadataTypeManager()
          //            };
-//         windowStyler = FxdWindowStyler {
-//               //               impagesPath: initializer.eloImagesPath
-//               repository: config.getRepository()
-//               metadataTypeManager: config.getMetadataTypeManager()
-//            };
-         windowStyler = JavaFxWindowStyler{
-            eloIconFactory: EloIconFactory{}
-         }
+         //         windowStyler = FxdWindowStyler {
+         //               //               impagesPath: initializer.eloImagesPath
+         //               repository: config.getRepository()
+         //               metadataTypeManager: config.getMetadataTypeManager()
+         //            };
+         windowStyler = JavaFxWindowStyler {
+                    eloIconFactory: EloIconFactory {}
+                 }
       }
       var scyToolCreatorRegistryFXImpl = ScyToolCreatorRegistryFXImpl {
-            config: config;
-         }
+                 config: config;
+              }
       if (scyToolCreatorRegistryFX == null) {
          scyToolCreatorRegistryFX = scyToolCreatorRegistryFXImpl;
       }
@@ -176,7 +176,7 @@ public class ScyDesktopCreator {
 
    function handleMissionRunConfigs(): Void {
       activityTimer.startActivity("create MissionModelFX");
-      if (windowStyler instanceof JavaFxWindowStyler){
+      if (windowStyler instanceof JavaFxWindowStyler) {
          def javaFxWindowStyler = windowStyler as JavaFxWindowStyler;
          javaFxWindowStyler.colorSchemesElo = missionRunConfigs.missionRuntimeModel.getColorSchemesElo();
       }
@@ -184,7 +184,7 @@ public class ScyDesktopCreator {
       missionModelFX = missionRunConfigs.missionMapModel;
       if (missionModelFX == null) {
          missionModelFX = MissionModelFX {
-            }
+                 }
       }
       if (initializer.usingRooloCache) {
          activityTimer.startActivity("cache elos");
@@ -259,7 +259,7 @@ public class ScyDesktopCreator {
       if (eloToolConfigs.size() > 0) {
          for (eloToolConfig in eloToolConfigs) {
             if ((initializer.authorMode or eloToolConfig.getEloSystemRole() == EloSystemRole.USER)
-               and ApplyEloToolConfigDefaults.defaultEloToolConfigType != eloToolConfig.getEloType()) {
+                    and ApplyEloToolConfigDefaults.defaultEloToolConfigType != eloToolConfig.getEloType()) {
                newEloCreationRegistry.registerEloCreation(eloToolConfig.getEloType());
             }
          }
@@ -305,10 +305,12 @@ public class ScyDesktopCreator {
       println("Nr of all elos: {missionModelFX.getEloUris(true).size()}");
    }
 
-   function printEloInfos(eloUris: List){
-      def metadatas = config.getRepository().retrieveMetadatas(eloUris);
-      for (uri in eloUris) {
-         printEloInfoFromMetadata(uri as URI, metadatas.get(indexof uri));
+   function printEloInfos(eloUris: List) {
+      if (eloUris != null) {
+         def metadatas = config.getRepository().retrieveMetadatas(eloUris);
+         for (uri in eloUris) {
+            printEloInfoFromMetadata(uri as URI, metadatas.get(indexof uri));
+         }
       }
    }
 
@@ -317,7 +319,7 @@ public class ScyDesktopCreator {
       var technicalType = "?";
       var functionalType = "?";
       if (metadata != null) {
-      def scyElo = new ScyElo(metadata,config.getToolBrokerAPI());
+         def scyElo = new ScyElo(metadata, config.getToolBrokerAPI());
          title = scyElo.getTitle();
          technicalType = scyElo.getTechnicalFormat();
          functionalType = "{scyElo.getFunctionalRole()}";
@@ -328,17 +330,17 @@ public class ScyDesktopCreator {
    public function createScyDesktop(): ScyDesktop {
       eloConfigManager.setDebug(initializer.debugMode);
       def scyDesktop: ScyDesktop = ScyDesktop {
-            initializer: initializer
-            config: config;
-            missionRunConfigs: missionRunConfigs
-            missionModelFX: missionModelFX;
-            windowStyler: windowStyler;
-            scyToolCreatorRegistryFX: scyToolCreatorRegistryFX
-            newEloCreationRegistry: newEloCreationRegistry;
-            drawerContentCreatorRegistryFX: drawerContentCreatorRegistryFX;
-            eloConfigManager: eloConfigManager;
-            templateEloUris: templateEloUris
-         };
+                 initializer: initializer
+                 config: config;
+                 missionRunConfigs: missionRunConfigs
+                 missionModelFX: missionModelFX;
+                 windowStyler: windowStyler;
+                 scyToolCreatorRegistryFX: scyToolCreatorRegistryFX
+                 newEloCreationRegistry: newEloCreationRegistry;
+                 drawerContentCreatorRegistryFX: drawerContentCreatorRegistryFX;
+                 eloConfigManager: eloConfigManager;
+                 templateEloUris: templateEloUris
+              };
       missionModelFX.scyDesktop = scyDesktop;
       //register for notifications
       //logger.debug("****************registering scyDesktop for notifications***************************");
@@ -347,8 +349,8 @@ public class ScyDesktopCreator {
       //scyDesktop.config.getToolBrokerAPI().registerForNotifications(scyDesktop.remoteCommandRegistryFX);
       logger.debug("****************registering ScyDesktopNotificationRouter for notifications***************************");
       def scyDesktopNotificationRouter: ScyDesktopNotificationRouter = ScyDesktopNotificationRouter {
-            scyDesktop: scyDesktop;
-         }
+                 scyDesktop: scyDesktop;
+              }
 
       scyDesktop.config.getToolBrokerAPI().registerForNotifications(scyDesktopNotificationRouter);
       DialogBox.scyDesktop = scyDesktop;

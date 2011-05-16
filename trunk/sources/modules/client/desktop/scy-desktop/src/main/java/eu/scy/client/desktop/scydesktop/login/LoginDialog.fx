@@ -264,8 +264,8 @@ public class LoginDialog extends CustomNode, TbiReady {
          stage.title = "{initialStageTitle} : {userName} in {missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getTitle()}{serverHostTitle}";
          FX.deferAction(function():Void{
                finishTbi(missionRunConfigs);
-	       logLoggedIn(missionRunConfigs);
-               var scyDesktop = placeScyDesktop(missionRunConfigs);
+               logLoggedIn(missionRunConfigs);
+               placeScyDesktop(missionRunConfigs);
             });
       });
    }

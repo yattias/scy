@@ -27,11 +27,11 @@ import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.design.EloSaveAsMi
 import eu.scy.common.mission.MissionModelElo;
 import eu.scy.common.mission.MissionRuntimeModel;
 import eu.scy.common.mission.impl.BasicMissionRuntimeModel;
-import javafx.scene.Cursor;
-import eu.scy.client.desktop.desktoputils.JavaFXBackgroundRunner;
 import eu.scy.common.mission.MissionModel;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import eu.scy.client.desktop.desktoputils.XFX;
+import eu.scy.client.desktop.desktoputils.StringUtils;
+import eu.scy.common.mission.MissionRuntimeElo;
 
 /**
  * @author SikkenJ
@@ -51,6 +51,11 @@ public class MissionLocator {
    var missionMapModel: MissionModelFX;
 
    public function locateMission(): Void {
+      if (not StringUtils.isEmpty(initializer.loadEloUri)){
+         startSingleEloMission();
+         return;
+      }
+
       if (missions.isEmpty() and initializer.authorMode) {
          startBlankMission();
       }
@@ -272,5 +277,21 @@ public class MissionLocator {
             }
          }
    }
+
+   function startSingleEloMission() {
+       def eloUri = new URI(initializer.loadEloUri);
+       def scyElo = ScyElo.loadElo(eloUri, tbi);
+       if (scyElo!=null){
+          def missionRuntimeElo = MissionRuntimeElo.loadElo(scyElo.getMissionRuntimeEloUri(), tbi);
+          startMission(MissionRunConfigs {
+             tbi: tbi
+             missionRuntimeModel: missionRuntimeElo.getMissionRuntimeModel()
+             scyEloToLoad: scyElo
+          });
+
+       }
+
+   }
+
 
 }

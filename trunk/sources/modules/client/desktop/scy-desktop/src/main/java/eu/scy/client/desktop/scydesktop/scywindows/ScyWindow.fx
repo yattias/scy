@@ -123,4 +123,6 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
     public abstract function openDrawer(which: String): Void;
 
     public abstract function buddiesChanged(): Void;
+
+    public abstract function doMaximize(): Void;
 }

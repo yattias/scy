@@ -584,7 +584,7 @@ public class StandardScyWindow extends ScyWindow {
       logger.debug("closed {title}");
    }
 
-   function doMaximize(): Void {
+   public override function doMaximize(): Void {
       // TODO: needs to call window positioning code
       activate();
       toFront();
