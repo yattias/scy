@@ -371,26 +371,13 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         List feedbackList = getFeedback();
         for (int i = 0; i < feedbackList.size(); i++) {
             ScyElo feedbackElo = (ScyElo) feedbackList.get(i);
-            URI uri = feedbackElo.getFeedbackOnEloUri();
-            ScyElo commentedOn = ScyElo.loadLastVersionElo(uri, this);
 
-            URI feedbackURI = commentedOn.getFeedbackOnEloUri();
-            /*if(feedbackURI != null) {
-                ScyElo feedbackELO = ScyElo.loadLastVersionElo(feedbackURI, this);
-                FeedbackEloTransfer feedbackEloTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(commentedOn.getContent().getXml());
-                if(feedbackEloTransfer.getCreatedBy() != null && feedbackEloTransfer.getCreatedBy().equals(currentUserName)) {
-                    TransferElo transferElo = new TransferElo(commentedOn);
-                    transferElo.setFeedbackELO(feedbackElo);
-                    newestElos.addElo(transferElo);newestElos.addElo(transferElo);
-                }
-
-            } */
-
-            TransferElo transferElo = new TransferElo(commentedOn);
-            newestElos.addElo(transferElo);
-            newestElos.addElo(transferElo);
-
-
+            FeedbackEloTransfer feedbackTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(feedbackElo.getContent().getXmlString());
+            if(feedbackTransfer.getCreatedBy().equals(currentUserName)) {
+                URI parent = feedbackElo.getFeedbackOnEloUri();
+                ScyElo parentElo = ScyElo.loadLastVersionElo(parent, this);
+                newestElos.addElo(new TransferElo(parentElo));
+            }
         }
 
         return newestElos;
@@ -404,42 +391,32 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
 
         for (int i = 0; i < feedbackElos.size(); i++) {
             ScyElo feedbackElo = (ScyElo) feedbackElos.get(i);
-            URI uri = feedbackElo.getFeedbackOnEloUri();
-            ScyElo commentedOn = ScyElo.loadLastVersionElo(uri, this);
-            TransferElo transferElo = new TransferElo(commentedOn);
-            newestElos.addElo(transferElo);
-            newestElos.addElo(transferElo);
-        }
+            FeedbackEloTransfer feedbackTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(feedbackElo.getContent().getXmlString());
 
-
-        /*for (int i = 0; i < feedbackElos.size(); i++) {
-            ScyElo scyElo = (ScyElo) feedbackElos.get(i);
-            FeedbackEloTransfer feedbackEloTransfer = (FeedbackEloTransfer) getXmlTransferObjectService().getObject(scyElo.getContent().getXml());
-            if(feedbackEloTransfer != null) {
-                List givenFeedback = feedbackEloTransfer.getFeedbacks();
-                for (int j = 0; j < givenFeedback.size(); j++) {
-                    FeedbackTransfer feedbackTransfer = (FeedbackTransfer) givenFeedback.get(j);
-                    log.fine("FEEDBACK: "+ feedbackTransfer.getCreatedBy() + " ( " + feedbackTransfer.getComment() + " )");
-                    if(feedbackTransfer.getCreatedBy().equals(currentUserName)) {
-                        log.fine("Created by equals (" + currentUserName );
-                        if(!newestElos.getElos().contains(feedbackTransfer)) newestElos.getElos().add(feedbackTransfer);
-                    } else {
-                        List replies = feedbackTransfer.getReplies();
-                        for (int k = 0; k < replies.size(); k++) {
-                            FeedbackReplyTransfer replyTransfer = (FeedbackReplyTransfer) replies.get(k);
-                            if(replyTransfer.getCreatedBy().equals(currentUserName)) {
-                                if(!newestElos.getElos().contains(feedbackEloTransfer)) newestElos.getElos().add(feedbackEloTransfer);
-                            }
-                        }
-                    }
-                }
-
+            if(getHasUserContributedWithFeedbackOnElo(feedbackTransfer, currentUserName)) {
+                URI parent = feedbackElo.getFeedbackOnEloUri();
+                ScyElo parentElo = ScyElo.loadLastVersionElo(parent, this);
+                newestElos.addElo(new TransferElo(parentElo));
             }
         }
-             */
         return newestElos;
 
 
+    }
+
+    private boolean getHasUserContributedWithFeedbackOnElo(FeedbackEloTransfer feedbackEloTransfer, String currentUserName) {
+        List <FeedbackTransfer> feedbackTransfers = feedbackEloTransfer.getFeedbacks();
+        for (int i = 0; i < feedbackTransfers.size(); i++) {
+            FeedbackTransfer feedbackTransfer = feedbackTransfers.get(i);
+            List <FeedbackReplyTransfer> replies = feedbackTransfer.getReplies();
+            for (int j = 0; j < replies.size(); j++) {
+                FeedbackReplyTransfer transfer = replies.get(j);
+                if(transfer.getCreatedBy().equals(currentUserName)) return true;
+            }
+            if(feedbackTransfer.getCreatedBy().equals(currentUserName)) return true;
+        }
+
+        return false;
     }
 
     @Override

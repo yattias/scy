@@ -41,7 +41,7 @@
                     tabs.addChild(missionDesc);
                     tabs.selectChild(missionDesc);
 
-                    var pane1 = new dijit.layout.ContentPane({ title:"Assessment configuration", href:"http://localhost:8080/webapp/app/scyauthor/ConfigureAssessment.html?eloURI=roolo%3A%2F%2Fscy.collide.info%2Fscy-collide-server%2F261.261%230" });
+                    var pane1 = new dijit.layout.ContentPane({ title:"Portfolio configuration", href:"http://localhost:8080/webapp/app/scyauthor/ConfigureAssessment.html?eloURI=roolo%3A%2F%2Fscy.collide.info%2Fscy-collide-server%2F261.261%230" });
                     tabs.addChild(pane1);
 
                     var pane2 = new dijit.layout.ContentPane({ title:"Students", href:"viewStudentsForPedagogicalPlan.html?eloURI=${missionSpecificationTransporter.uri}" });
