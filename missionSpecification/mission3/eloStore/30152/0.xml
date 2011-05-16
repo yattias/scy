@@ -1,0 +1,68 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-05-16T19:22:30.434+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-05-16T19:22:30.434+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1305566550434</dateCreated>
+        <dateFirstUserSaveKey>1305566550434</dateFirstUserSaveKey>
+        <dateLastModified>1305566550434</dateLastModified>
+      </customElements>
+      <format>scy/url</format>
+    </technical>
+    <educational>
+      <learningResourceType>informationResource</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30152/0/Glossary.url</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">Glossary</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<url>http://www.scy-lab.eu/content/en/mission3/glossary.html</url>
+</content>
+<resources>
+</resources>
+</elo>

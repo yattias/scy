@@ -1,0 +1,55 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-05-16T19:40:45.383+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1305567645383</dateCreated>
+        <dateLastModified>1305567645383</dateLastModified>
+      </customElements>
+      <format>scy/templateelos</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30155/0/pizzaMission.scytemplateelos</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">pizzaMission</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<templateElosEloUris>
+  <templateElosEloUri>roolo://memory/30116/0/newText.rtf</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/30118/0/newConceptmap.scymapping</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/30119/0/newDrawing.scydraw</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/30117/0/newDataset.scypds</templateElosEloUri>
+</templateElosEloUris>
+</content>
+<resources>
+</resources>
+</elo>
