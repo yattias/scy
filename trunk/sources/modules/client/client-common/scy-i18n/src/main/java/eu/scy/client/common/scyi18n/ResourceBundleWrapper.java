@@ -39,15 +39,16 @@ public class ResourceBundleWrapper {
      * @return the string for the given key
      */
     public String getString(String key) {
+        if (bundle==null){
+           return key;
+        }
         try {
             return this.bundle.getString(key);
         } catch (MissingResourceException e) {
-            logger.log(Level.SEVERE, null, e);
-            logger.log(Level.SEVERE, "Error while retrieving bundle string with the key: {0}", key);
+            logger.log(Level.SEVERE, "Error while retrieving bundle string with the key: "+ key, e);
             return key;
         } catch (Exception e2) {
-            logger.log(Level.SEVERE, null, e2);
-            logger.log(Level.SEVERE, "Invalid bundle key {0}", key);
+            logger.log(Level.SEVERE, "Problems with retrieving value for bundle key: " + key, e2);
             return key;
         }
     }
@@ -82,18 +83,13 @@ public class ResourceBundleWrapper {
         } catch (MissingResourceException e) {
             try {
                 // english by def.
-                logger.log(Level.SEVERE, null, e);
-                logger.log(Level.SEVERE, "Failed to load resource bundle (e.g. language properties) for module {0}", moduleName);
                 bundle = ResourceBundle.getBundle(baseName, defaultLocale, loader);
                 logger.log(Level.SEVERE, "Bundle missing with locale {0}, english bundle by default", Locale.getDefault().getLanguage());
             } catch (MissingResourceException e2) {
                 logger.log(Level.SEVERE, "No bundle for baseName {0}", baseName);
             }
         } catch (Exception e3) {
-            logger.log(Level.SEVERE, null, e3);
-            logger.log(Level.SEVERE, "Failed to load resource bundle (e.g. language properties) for module {0}", moduleName);
-            logger.log(Level.SEVERE, "failed to load bundle resources {0}", e3);
-
+            logger.log(Level.SEVERE, "Failed to load resource bundle (e.g. language properties) for module: " +  moduleName, e3);
         }
     }
 
@@ -101,6 +97,7 @@ public class ResourceBundleWrapper {
         if (o != null && o.getClass().getPackage() != null) {
             return getModuleName(o.getClass().getPackage().getName());
         }
+        logger.log(Level.SEVERE, "failed to find module name for: {0}", o.getClass().getName());
         return null;
     }
     private final static String[] commonPackageNames = {"eu.scy.client.tools.", "eu.scy.client.desktop.", "eu.scy.client.common."};
