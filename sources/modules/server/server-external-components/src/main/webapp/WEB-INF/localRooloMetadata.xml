@@ -212,10 +212,9 @@
 		<constructor-arg index="3" value="SINGLE" />
 		<constructor-arg index="4" ref="defaultStringValidator" />
 	</bean>
-	<bean name="missionRuntimeKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
+	<bean name="missionRuntimeKey" class="roolo.elo.metadata.keys.UriMetadataKey">
 		<constructor-arg index="0" value='missionRuntime' />
-		<constructor-arg index="1"
-			value='/lom/relation/[kind="isbasedon",type="scy/missionruntime"]' />
+		<constructor-arg index="1" value="/lom/general/missionruntime" />
 		<constructor-arg index="2" value="UNIVERSAL" />
 		<constructor-arg index="3" value="SINGLE" />
 		<constructor-arg index="4" ref="defaultUriValidator" />
@@ -241,10 +240,9 @@
 		<constructor-arg index="3" value="SINGLE" />
 		<constructor-arg index="4" ref="defaultStringValidator" />
 	</bean>
-	<bean name="activeAnchorEloKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
+	<bean name="activeAnchorEloKey" class="roolo.elo.metadata.keys.UriMetadataKey">
 		<constructor-arg index="0" value='activeAnchorElo' />
-		<constructor-arg index="1"
-			value='/lom/relation/[kind="isbasedon",type="scy/anchor"]' />
+		<constructor-arg index="1"	value='/lom/general/activeAnchorElo' />
 		<constructor-arg index="2" value="UNIVERSAL" />
 		<constructor-arg index="3" value="SINGLE" />
 		<constructor-arg index="4" ref="defaultUriValidator" />
@@ -289,7 +287,7 @@
 	<bean name="missionSpecificationEloKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
 		<constructor-arg index="0" value='missionSpecificationElo' />
 		<constructor-arg index="1"
-			value='/lom/XXXrelation/[kind="isbasedon",type="scy/missionSpecification"]' />
+			value='/lom/relation/[kind="isbasedon",type="scy/missionSpecification"]' />
 		<constructor-arg index="2" value="UNIVERSAL" />
 		<constructor-arg index="3" value="SINGLE" />
 		<constructor-arg index="4" ref="defaultUriValidator" />
