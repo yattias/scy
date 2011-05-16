@@ -21,7 +21,9 @@
             <property name="missionMapButtonIconType" value="pizza"/>
             <property name="initialLasId" value="design"/>
             <property name="loEloUris">
-               <list />
+               <list>
+                  <value>roolo://memory/30152/0/Glossary.url</value>
+			    </list>
             </property>
             <property name="lasses">
                <list>
