@@ -144,6 +144,11 @@ public class CombinedWindowElements extends ScyWindow {
       this.rotate = rotation;
    }
 
+   public override function doMaximize(): Void{
+
+   }
+
+
    function placeAttributes() {
       var sortedScyWindowAttributes =
          Sequences.sort(scyWindowAttributes, null) as ScyWindowAttribute[];

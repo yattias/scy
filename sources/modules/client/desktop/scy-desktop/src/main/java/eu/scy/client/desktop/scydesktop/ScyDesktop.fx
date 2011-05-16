@@ -276,6 +276,10 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       }
       //      FX.addShutdownAction(scyDesktopShutdownAction);
       create();
+      if (missionRunConfigs.scyEloToLoad!=null){
+         loadSingleScyElo();
+      }
+
    }
 
    function initMouseBlocker(): Void {
@@ -586,6 +590,11 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
             moreInfoManager.getControlNode(),
             highDebugGroup,
          ]
+   }
+
+   function loadSingleScyElo(){
+      def window = scyWindowControl.addOtherScyWindow(missionRunConfigs.scyEloToLoad.getUri());
+      window.doMaximize();
    }
 
    function fillScyWindowNow(window: ScyWindow): Void {
