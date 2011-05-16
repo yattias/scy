@@ -556,7 +556,7 @@
 			   <property name="iconType" value="Evaluation_report"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_H.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_17_personalComments.html"/>
-               <property name="resourcesUri" value=""/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/resource_17_personalComments.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>

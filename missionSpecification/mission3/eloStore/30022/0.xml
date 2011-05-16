@@ -12,12 +12,23 @@
           <dateTime>2011-01-20T17:14:21.906+0100</dateTime>
         </date>
       </contribute>
-      <version>2</version>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>Caspar</entity>
+        <date>
+          <dateTime>2011-05-16T10:17:31.483+0200</dateTime>
+        </date>
+      </contribute>
+      <version>3</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1295539978062</dateCreated>
-        <dateLastModified>1295540061906</dateLastModified>
+        <dateFirstUserSaveKey>1305533851483</dateFirstUserSaveKey>
+        <dateLastModified>1305533851483</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -29,7 +40,11 @@
         <catalog>memory</catalog>
         <entry>roolo://memory/30022/0/Personal+Comments.rtf</entry>
       </identifier>
-      <las />
+      <las>reflection1</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30175/0/A+Healthy+Pizza+%28new%29.scymissionspecification</entry>
+      </missionRunning>
       <title>
         <string language="en">Personal Comments</string>
       </title>
@@ -44,9 +59,12 @@
       </resource>
     </relation>
   </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABHCAYAAACQwsCOAAAEQElEQVR42u2bS0hcZxTHZ2MRQXSnO8FNXBTdidm4dqMIQtBSIZuiAU1gCFEGhUIFDcYiShlQGmoKvggoBOMjBIW2SCuKm86MUUml+KiI1he+e5L/B+fjzp2ZatTADPz/cPge93z3u/O7c++ce+43ntPTU9ne3o6wi4sL2hXMA4Cbm5sRtrS0FAF1Z2fHWn9/v+zv70eF77ShoaFLfXp7eyP6jo6OEsIswAc/bX0sz8IA/hLYlX92/pMvyybsB5v7+1zGfn8vAwMDBiB8Hn/bbkr10b6+N0EDEO1Xvy5H+KgB4OHhoW2XVX0ne3t7CWEW4B9rJ3Lnm3+l/XnIAvz59bwE363K3fu/2Q8+OTkpExMTFiB8nnYNmVJ9kpK+MO3vX7w1AFEvLCwM80H9SZPflAoQ9Xv3HxqAW1tbCWEW4A8v/5KnPwbCvoFfPXpmzX2JKcBoPtqu9D4zAL/2tsX0gQHgn6Fl237ga5e1tbWEME+sH5GVlRXaFcwTCoWEdn3zCHUjEeBtAezr6zPl/Pz8lQbu7u6GtWdmZuT8/PzWDgz3l1haXFwMa4+MjMTPN7C+vl4yMzOlqqpK3HBbWlokKytL/H6/BINB0zc6Oio5OTmSkpJiAkunZmdnpaCgQMrLy23f8fGxKTG+qKhIKioqTB1hDNTU1GTmT09Pt2OGh4dNmZqaKsnJyWZ+CGN1fhwvtnV2dppt1dXVZu7p6Wm7Hxw/fHp6emzf2NiYGY8+5/FHGw9lZGRc/RJ2TkRd8g3EWcVZb25uNmeisrJS8vPz5eTkhJT4I0KABEiAFAESYDwDRID5f0IAHU3FxcU3Poi8vDypqalJXIBtbW3mCQQ2NTUl6+vrkpuba59MGhsbzdNBXV2d7UMyEU8S2dnZMXe+uroa1kZUjziztLTU7EP3pU8SvIR5D6QIkAAJkACpTwSIMAI6OzuzGzSJ+rnk8/nMq1G3EEapkNCMJiQ74wogAlm3BgcHI+oItpEz7O7uNmPQ1gBcy9bW1rCgHC/UMX5jY0MaGhpsP7LQJSUlNhB3jtc5MRbm3lZbW2v6xsfHeQnzHkiAFAESIAESIJSWlha2MVYcdh0584nXyf0hnRa3AJHbcwfSEF6sI38XCASko6PD1GFQV1eXDYTRhzf8biEfqC/nMR6LMyG3r+4Tgo+zrTlFjOclzHsgRYAESIAESDkALiwsmL81OIWFjPpaU3VwcGBDHYQZGvoglPF6vabuTGPpokr46gJJvBbF0rm5uTnrpwskVe4FjQhjNIxCiIP5NR/oDKOwT2cYhj4NgXR+DY8QRkULw5AuQ90ZMmnoBtNjg6/u61a/gc5Vpbcp/K0s7i9hJC6RqIR0/bP7SQRnHv8rga8u8XWeLWzH2dHx8ZQ55j2QAAmQIkACJEACpAiQAAmQACkCJEACJECKAAmQAAmQACkCJEACJEDqWgCpm+kDxo4vo24z3e4AAAAASUVORK5CYII=</base64>
+    <base64>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</base64>
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
@@ -72,7 +90,8 @@ IV. School canteens should not sell fast food products at all.\par
 \par
 \par
 V. Fast food restaurants (such as McDonalds) should provide customers with more information about the nutritional value of their products.\par
-\li0\ri0\fi0\f1\ul0\cf1\par
+\f1\cf1\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>
