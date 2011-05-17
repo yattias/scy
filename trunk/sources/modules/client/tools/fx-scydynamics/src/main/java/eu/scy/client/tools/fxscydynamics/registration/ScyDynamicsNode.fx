@@ -39,6 +39,9 @@ import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 import org.apache.log4j.Logger;
+import roolo.elo.metadata.keys.KeyValuePair;
+import java.util.Hashtable;
+import java.util.Set;
 
 public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
 
@@ -58,6 +61,7 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
     public override var height on replace {resizeContent()};
     var wrappedModelEditor: Node;
     var technicalFormatKey: IMetadataKey;
+    var keywordsKey: IMetadataKey;
     var eloModel: IELO;
     var eloDataset: IELO;
     def spacing = 5.0;
@@ -89,7 +93,8 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
         eloFactory = toolBrokerAPI.getELOFactory();
         actionLogger = toolBrokerAPI.getActionLogger();
         technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
-        modelEditor.setActionLogger(toolBrokerAPI.getActionLogger(), "dummy_user");
+        keywordsKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.KEYWORDS);
+	modelEditor.setActionLogger(toolBrokerAPI.getActionLogger(), "dummy_user");
     }
 
     public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
@@ -134,48 +139,6 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
         }
         wrappedModelEditor = ScySwingWrapper.wrap(modelEditor);
 	wrappedModelEditor
-//	return Group {
-//            blocksMouse: true;
-//            content: [
-//                VBox {
-//                    translateY: spacing;
-//                    spacing: spacing;
-//                    content: [
-//                        HBox {
-//                            translateX: spacing;
-//                            spacing: spacing;
-//                            content: [
-//                                Button {
-//                                    text: "Save model"
-//                                    action: function() {
-//                                        doSaveElo();
-//                                    }
-//                                }
-//                                Button {
-//                                    text: "Save as model"
-//                                    action: function() {
-//                                        doSaveAsElo();
-//                                    }
-//                                }
-//                                Button {
-//                                    text: "Save as dataset"
-//                                    action: function() {
-//                                        doSaveAsDataset();
-//                                    }
-//                                }
-////                                Button {
-////                                text: "test thumbnail"
-////                                action: function() {
-////                                    testThumbnail();
-////                                }
-////                            }
-//                            ]
-//                        }
-//                        wrappedModelEditor
-//                    ]
-//                }
-//            ]
-//        };
     }
 
     function doLoadElo(eloUri: URI) {
@@ -228,7 +191,14 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
             xmlString = xmlString.substring(39);
         }
         eloModel.getContent().setXmlString(xmlString);
-        return eloModel;
+
+	// setting node-names as keywords
+	var namesSet: Set;
+	namesSet = modelEditor.getModel().getNodes().keySet();
+	for (name in namesSet) {
+	    eloModel.getMetadata().getMetadataValueContainer(keywordsKey).addValue(new KeyValuePair(name as String, "1.0"));
+	}
+	return eloModel;
     }
 
     function getDataset(): IELO {
