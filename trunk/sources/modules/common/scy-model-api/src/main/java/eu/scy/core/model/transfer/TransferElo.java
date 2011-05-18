@@ -86,7 +86,7 @@ public class TransferElo extends BaseXMLTransfer {
             authorString += s + " ";
 
         }
-        setCreatedBy(authorString);
+        setCreatedBy(authorString.trim());
         setCatname(scyElo.getTitle());
 
         if (getRawData() == null) {

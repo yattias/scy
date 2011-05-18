@@ -7,6 +7,7 @@ import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.BaseELOService;
 import eu.scy.core.model.transfer.NewestElos;
 import eu.scy.core.model.transfer.Portfolio;
+import eu.scy.core.model.transfer.TransferElo;
 import eu.scy.core.roolo.RooloAccessor;
 
 import java.net.URI;
@@ -66,4 +67,6 @@ public interface MissionELOService extends BaseELOService {
     void clearAllPortfolios();
 
     MissionSpecificationElo getMissionSpecificationElo(String missionURI);
+
+    TransferElo getTransferElo(ScyElo scyElo);
 }

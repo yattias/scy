@@ -333,8 +333,11 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
             ScyElo commentedOn = ScyElo.loadLastVersionElo(uri, this);
 
             TransferElo transferElo = new TransferElo(commentedOn);
-            transferElo.setFeedbackELO(feedbackElo);
-            newestElos.addElo(transferElo);
+            if(!transferElo.getCreatedBy().trim().equals(username)) {
+                transferElo.setFeedbackELO(feedbackElo);
+                newestElos.addElo(transferElo);
+            }
+
 
         }
 
@@ -443,6 +446,34 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
         throw new RuntimeException("Problems (yeah, real problems) loading mission specification with uri: " + missionURI);
+    }
+
+    @Override
+    public TransferElo getTransferElo(ScyElo scyElo) {
+        String title = scyElo.getTitle();
+        String createdBy = scyElo.getCreator();
+        TransferElo scyEloTransf = new TransferElo(scyElo);
+        List feedbackElos = getFeedback();
+        for (int i = 0; i < feedbackElos.size(); i++) {
+            ScyElo feedbackElo = (ScyElo) feedbackElos.get(i);
+            TransferElo feedbackEloTransf = new TransferElo(feedbackElo);
+            URI scyEloURI = scyElo.getUri();
+            URI feedbackEloParentURI = feedbackElo.getFeedbackOnEloUri();
+            URI feedbackEloURI = feedbackElo.getUri();
+            ScyElo parentElo = ScyElo.loadLastVersionElo(feedbackEloParentURI, this);
+            String parentEloTitle = parentElo.getTitle();
+            String parentEloCreator = parentElo.getCreator();
+            if(createdBy != null) {
+            if(title.equals(parentEloTitle) && createdBy.equals(parentEloCreator)) {
+                TransferElo returnElo = new TransferElo(scyElo);
+                returnElo.setFeedbackELO(feedbackElo);
+                return returnElo;
+            }    
+            }
+
+
+        }
+        return null;
     }
 
     private String fixXml(String xmlString, ScyElo scyElo) {
