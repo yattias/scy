@@ -1,7 +1,6 @@
 <jnlp
     spec="1.6+"
-    codebase="$$codebase"
-    href="$outputFile">
+    codebase="$$codebase">
   <information>
     <title>SCY-Lab</title>
     <vendor>SCY</vendor>
