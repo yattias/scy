@@ -410,7 +410,6 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
              tooltip: if (initializer.offlineMode) "Feedback is only available when working online" else "Give Feedback"
              action: function(): Void {
                  def conf:Configuration=Configuration.getInstance();
-//                 def feedbackURL = "{conf.getFeedbackProtocol()}://{conf.getFeedbackServer()}:{conf.getFeedbackPort()}{conf.getFeedbackContext()}FeedbackToolIndex.html?missionURL={missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri()}";
                  def eloUriEncoded = URLEncoder.encode(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString(),"UTF-8");
                  def feedbackURL = "{conf.getFeedbackProtocol()}://{conf.getFeedbackServer()}:{conf.getFeedbackPort()}{conf.getFeedbackContext()}FeedbackToolIndex.html?eloURI={eloUriEncoded}";
                  try {
@@ -423,7 +422,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  catch (e: javax.jnlp.UnavailableServiceException) {
                      BareBonesBrowserLaunch.openURL(feedbackURL);
                  }
-//                 scyFeedbackGiveButton.imageName = "feedback_give";
+                 scyFeedbackGiveButton.eloIcon = windowStyler.getScyEloIcon("give_feedback");
              }
          }
 
@@ -436,7 +435,6 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
              tooltip: if (initializer.offlineMode) "Feedback is only available when working online" else "Get Feedback"
              action: function(): Void {
                  def conf:Configuration=Configuration.getInstance();
-//                 def feedbackURL = "{conf.getFeedbackProtocol()}://{conf.getFeedbackServer()}:{conf.getFeedbackPort()}{conf.getFeedbackContext()}FeedbackToolIndex.html?missionURL={missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri()}";
                  def eloUriEncoded = URLEncoder.encode(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString(),"UTF-8");
                  def feedbackURL = "{conf.getFeedbackProtocol()}://{conf.getFeedbackServer()}:{conf.getFeedbackPort()}{conf.getFeedbackContext()}FeedbackToolIndex.html?eloURI={eloUriEncoded}";
                  try {
@@ -449,7 +447,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  catch (e: javax.jnlp.UnavailableServiceException) {
                      BareBonesBrowserLaunch.openURL(feedbackURL);
                  }
-//                 scyFeedbackGetButton.imageName = "feedback_get";
+                 scyFeedbackGetButton.eloIcon = windowStyler.getScyEloIcon("get_feedback");
              }
          }
         eportfolioButton = EportfolioButton{scyDesktop:this}
