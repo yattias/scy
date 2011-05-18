@@ -17,8 +17,13 @@ import javafx.animation.Interpolator;
 /**
  * @author sikkenj
  */
-var theStage: Stage;
+var theStage: Stage on replace {
+        if (theStage != null and showWorkingActiveWhenPossible) {
+            startShowWorking();
+        }
+    };
 var showWorkingActive = false;
+var showWorkingActiveWhenPossible = false;
 def progressIndicator = ProgressIndicator {
       cursor: Cursor.WAIT
       scaleX: 10
@@ -87,27 +92,26 @@ public function initOverlay(stage: Stage): Void {
 }
 
 public function startShowWorking(): Void {
-   checkInitialisation();
-   if (showWorkingActive) {
-      println("calling startShowWorking, while show wait is already active");
-      return;
+   if (theStage == null) {
+       showWorkingActiveWhenPossible = true;
+   } else {
+       if (showWorkingActive) {
+          return;
+       }
+       placeNodes();
+       showWorkingActive = true;
+       fadeInProgress.playFromStart();
    }
-   placeNodes();
-   showWorkingActive = true;
-   fadeInProgress.playFromStart();
 }
 
 public function stopShowWorking(): Void {
-   checkInitialisation();
-   if (not showWorkingActive) {
-      println("calling stopShowWorking, while show wait is not active");
-      return;
-   }
-   fadeOutProgress.playFromStart();
-}
-
-function checkInitialisation() {
-   if (theStage == null) {
-      throw new IllegalStateException("Please call ProgressOverlay.initOverlay before use");
-   }
+    if (theStage == null) {
+        showWorkingActiveWhenPossible = false;
+    } else {
+        if (not showWorkingActive) {
+            println("calling stopShowWorking, while show wait is not active");
+            return;
+        }
+        fadeOutProgress.playFromStart();
+    }
 }
