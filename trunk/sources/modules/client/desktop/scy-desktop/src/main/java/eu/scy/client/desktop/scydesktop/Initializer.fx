@@ -24,7 +24,6 @@ import javax.jnlp.ServiceManager;
 import eu.scy.common.configuration.Configuration;
 import javax.swing.JOptionPane;
 import java.util.Date;
-import java.net.InetAddress;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import eu.scy.client.desktop.scydesktop.login.LoginDialog;
@@ -85,7 +84,6 @@ public class Initializer {
    public-init var authorMode = false;
    public-init var indicateOnlineStateByOpacity = true;
    public-init var showEloRelations = true;
-//   public-init var eloImagesPath = "http://www.scy-lab.eu/content/backgrounds/eloIcons/";
    public-init var showOfflineContacts = true;
    public-init var languageList = "en,nl,et,fr,el,no";
    public-init var missionMapSelectedImageScale = 1.5;
@@ -166,7 +164,6 @@ public class Initializer {
       TransparencyFixer.fixTransparency();
       Thread.setDefaultUncaughtExceptionHandler(new FilteringExceptionCatcher("SCY-Lab"));
       parseApplicationParameters();
-      parseWebstartParameters();
       loginTypeEnum = LoginType.convertToLoginType(loginType);
       usingWebStart = System.getProperty("javawebstart.version") != null;
       offlineMode = loginType.toLowerCase().startsWith("local");
@@ -174,23 +171,6 @@ public class Initializer {
       if (LoginType.LOCAL_MULTI_USER != loginTypeEnum) {
          setupLogging(null);
       }
-
-//      System.setProperty(enableLocalLoggingKey, "{enableLocalLogging}");
-//      var loggingDirectoryKeyValue = "";
-//      if (enableLocalLogging) {
-//         localLoggingDirectory = findLocalLoggingDirectory();
-//         if (localLoggingDirectory != null) {
-//            setupLoggingToFiles = new SetupLoggingToFiles(localLoggingDirectory);
-//            if (redirectSystemStream) {
-//               setupLoggingToFiles.redirectSystemStreams();
-//            }
-//            loggingDirectoryKeyValue = localLoggingDirectory.getAbsolutePath();
-//         }
-//      }
-//      System.setProperty(loggingDirectoryKey, loggingDirectoryKeyValue);
-//      System.setProperty(storeElosOnDiskKey, "{storeElosOnDisk}");
-//      setupCodeLogging();
-//      logProperties();
       setLocalUriReplacement();
       setLookAndFeel();
       setupScyServerHost();
@@ -222,8 +202,8 @@ public class Initializer {
 
    function parseApplicationParameters() {
       var argumentsList = ArgumentsList {
-            arguments: FX.getArguments()
-         }
+         arguments: FX.getArguments()
+      }
       while (argumentsList.hasMoreArguments()) {
          var argument = argumentsList.nextArgument();
          var lcArg = argument.toLowerCase();
@@ -341,19 +321,19 @@ public class Initializer {
                logger.info("app: {minimumRooloNewVersionListIdOption}: {minimumRooloNewVersionListId}");
             } else if (option == localAuthorRootPathOption.toLowerCase()) {
                localAuthorRootPath = argumentsList.nextStringValue(localAuthorRootPathOption);
-               logger.info("app: {localAuthorRootPath}: {localAuthorRootPath}");
+               logger.info("app: {localAuthorRootPathOption}: {localAuthorRootPath}");
             } else if (option == disableRooloVersioningOption.toLowerCase()) {
                disableRooloVersioning = argumentsList.nextBooleanValue(disableRooloVersioningOption);
-               logger.info("app: {disableRooloVersioning}: {disableRooloVersioning}");
+               logger.info("app: {disableRooloVersioningOption}: {disableRooloVersioning}");
             } else if (option == dontUseMissionRuntimeElosOption.toLowerCase()) {
                dontUseMissionRuntimeElos = argumentsList.nextBooleanValue(dontUseMissionRuntimeElosOption);
-               logger.info("app: {dontUseMissionRuntimeElos}: {dontUseMissionRuntimeElos}");
+               logger.info("app: {dontUseMissionRuntimeElosOption}: {dontUseMissionRuntimeElos}");
             } else if (option == useBigMissionMapOption.toLowerCase()) {
                useBigMissionMap = argumentsList.nextBooleanValue(useBigMissionMapOption);
-               logger.info("app: {useBigMissionMap}: {useBigMissionMap}");
+               logger.info("app: {useBigMissionMapOption}: {useBigMissionMap}");
             } else if (option == showOnlyStartedMissionsOption.toLowerCase()) {
                showOnlyStartedMissions = argumentsList.nextBooleanValue(showOnlyStartedMissionsOption);
-               logger.info("app: {showOnlyStartedMissions}: {showOnlyStartedMissions}");
+               logger.info("app: {showOnlyStartedMissionsOption}: {showOnlyStartedMissions}");
             } else {
                logger.info("Unknown option: {option}");
             }
@@ -361,98 +341,6 @@ public class Initializer {
             logger.info("ignored parameter: {argument}");
          }
       }
-   }
-
-   function parseWebstartParameters() {
-      log4JInitFile = getWebstartParameterStringValue(log4JInitFileOption, log4JInitFile);
-      enableLocalLogging = getWebstartParameterBooleanValue(enableLocalLoggingOption, enableLocalLogging);
-      loggingDirectoryName = getWebstartParameterStringValue(loggingDirectoryNameOption, loggingDirectoryName);
-      redirectSystemStream = getWebstartParameterBooleanValue(redirectSystemStreamOption, redirectSystemStream);
-      writeJavaLoggingToFile = getWebstartParameterBooleanValue(writeJavaLoggingToFileOption, writeJavaLoggingToFile);
-      lookAndFeel = getWebstartParameterStringValue(lookAndFeelOption, lookAndFeel);
-      loginType = getWebstartParameterStringValue(loginTypeOption, loginType);
-      localPasswordCheckMethod = getWebstartParameterStringValue(localPasswordCheckMethodOption, localPasswordCheckMethod);
-      localToolBrokerLoginConfigFile = getWebstartParameterStringValue(localToolBrokerLoginConfigFileOption, localToolBrokerLoginConfigFile);
-      remoteToolBrokerLoginConfigFile = getWebstartParameterStringValue(remoteToolBrokerLoginConfigFileOption, remoteToolBrokerLoginConfigFile);
-      defaultUserName = getWebstartParameterStringValue(defaultUserNameOption, defaultUserName);
-      defaultPassword = getWebstartParameterStringValue(defaultPasswordOption, defaultPassword);
-      autoLogin = getWebstartParameterBooleanValue(autoLoginOption, autoLogin);
-      scyDesktopConfigFile = getWebstartParameterStringValue(scyDesktopConfigFileOption, scyDesktopConfigFile);
-      storeElosOnDisk = getWebstartParameterBooleanValue(storeElosOnDiskOption, storeElosOnDisk);
-      createPersonalMissionMap = getWebstartParameterBooleanValue(createPersonalMissionMapOption, createPersonalMissionMap);
-      eloImagesPath = getWebstartParameterStringValue(eloImagesPathOption, eloImagesPath);
-      scyServerHost = getWebstartParameterStringValue(scyServerHostOption, scyServerHost);
-      scyServerPort = getWebstartParameterIntegerValue(scyServerPortOption, scyServerPort);
-      useWebStartHost = getWebstartParameterBooleanValue(useWebStartHostOption, useWebStartHost);
-      windowPositioner = getWebstartParameterStringValue(windowPositionerOption, windowPositioner);
-      debugMode = getWebstartParameterBooleanValue(debugModeOption, debugMode);
-      authorMode = getWebstartParameterBooleanValue(authorModeOption, authorMode);
-      showOfflineContacts = getWebstartParameterBooleanValue(showOfflineContactsOption, showOfflineContacts);
-      indicateOnlineStateByOpacity = getWebstartParameterBooleanValue(indicateOnlineStateByOpacityOption, indicateOnlineStateByOpacity);
-      showEloRelations = getWebstartParameterBooleanValue(showEloRelationsOption, showEloRelations);
-      languageList = getWebstartParameterStringValue(languageListOption, languageList);
-      missionMapSelectedImageScale = getWebstartParameterNumberValue(missionMapSelectedImageScaleOption, missionMapSelectedImageScale);
-      missionMapNotSelectedImageScale = getWebstartParameterNumberValue(missionMapNotSelectedImageScaleOption, missionMapNotSelectedImageScale);
-      missionMapPositionScale = getWebstartParameterNumberValue(missionMapPositionScaleOption, missionMapPositionScale);
-      localUriReplacements = getWebstartParameterStringValue(localUriReplacementsOption, localUriReplacements);
-      usingRooloCache = getWebstartParameterBooleanValue(usingRooloCacheOption, usingRooloCache);
-      defaultMission = getWebstartParameterStringValue(defaultMissionOption, defaultMission);
-      loadEloUri = getWebstartParameterStringValue(loadEloUriOption, loadEloUri);
-      minimumRooloNewVersionListId = getWebstartParameterIntegerValueAsString(minimumRooloNewVersionListIdOption, minimumRooloNewVersionListId);
-      localAuthorRootPath = getWebstartParameterStringValue(localAuthorRootPathOption, localAuthorRootPath);
-      disableRooloVersioning = getWebstartParameterBooleanValue(disableRooloVersioningOption, disableRooloVersioning);
-      dontUseMissionRuntimeElos = getWebstartParameterBooleanValue(dontUseMissionRuntimeElosOption, dontUseMissionRuntimeElos);
-      useBigMissionMap = getWebstartParameterBooleanValue(useBigMissionMapOption, useBigMissionMap);
-      showOnlyStartedMissions = getWebstartParameterBooleanValue(showOnlyStartedMissionsOption, showOnlyStartedMissions);
-   }
-
-   function getWebstartParameterStringValue(name: String, default: String): String {
-      var webstartValue = FX.getArgument(name) as String;
-      if (isEmpty(webstartValue)) {
-         return default;
-      }
-      logger.info("ws: {name}: {webstartValue}");
-      return webstartValue;
-   }
-
-   function getWebstartParameterBooleanValue(name: String, default: Boolean): Boolean {
-      var webstartValue = FX.getArgument(name) as String;
-      if (isEmpty(webstartValue)) {
-         return default;
-      }
-      var boolValue = "true".equalsIgnoreCase(webstartValue);
-      logger.info("ws: {name}: {boolValue}");
-      return boolValue;
-   }
-
-   function getWebstartParameterNumberValue(name: String, default: Number): Number {
-      var webstartValue = FX.getArgument(name) as String;
-      if (isEmpty(webstartValue)) {
-         return default;
-      }
-      var numberValue = Float.parseFloat(webstartValue);
-      logger.info("ws: {name}: {numberValue}");
-      return numberValue;
-   }
-
-   function getWebstartParameterIntegerValue(name: String, default: Integer): Integer {
-      var webstartValue = FX.getArgument(name) as String;
-      if (isEmpty(webstartValue)) {
-         return default;
-      }
-      var integerValue = Integer.parseInt(webstartValue);
-      logger.info("ws: {name}: {integerValue}");
-      return integerValue;
-   }
-
-   function getWebstartParameterIntegerValueAsString(name: String, default: String): String {
-      var webstartValue = FX.getArgument(name) as String;
-      if (isEmpty(webstartValue)) {
-         return default;
-      }
-      var integerValue = Integer.parseInt(webstartValue);
-      logger.info("ws: {name}: {integerValue}");
-      return "{integerValue}";
    }
 
    function printInitializerValues(printWriter: PrintWriter) {
