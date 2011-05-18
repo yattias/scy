@@ -27,6 +27,8 @@ public class CurrentActivityViewController extends BaseController {
 
     private final static String LANGUAGE = "language";
     private final static String TOOL = "tool";
+    private final static String MISSION = "mission";
+    private final static String LAS = "las";
 
 
     @Override
@@ -52,6 +54,8 @@ public class CurrentActivityViewController extends BaseController {
         try {
             Tuple languageTemplate = new Tuple(LANGUAGE ,String.class, String.class);
             Tuple toolTemplate = new Tuple(TOOL ,String.class, String.class, String.class);
+            Tuple missionTemplate = new Tuple(MISSION ,String.class, String.class, String.class);
+            Tuple lasTemplate = new Tuple(LAS,String.class, String.class, String.class);
             Tuple [] tuples = getTupleSpace().readAll(languageTemplate);
             for (int i = 0; i < tuples.length; i++) {
                 UserActivityInfo userActivityInfo = new UserActivityInfo();
@@ -65,9 +69,10 @@ public class CurrentActivityViewController extends BaseController {
 
 
                 Tuple [] toolTuples = getTupleSpace().readAll(toolTemplate);
+                String toolString = "";
+                toolString +=toolTuples.length + "..";
                 for (int j = 0; j < toolTuples.length; j++) {
                     Tuple toolTuple = toolTuples[j];
-                    String toolString = "";
                     Field[] toolFields = toolTuple.getFields();
                     for (int k = 0; k < toolFields.length; k++) {
                         Field toolField = toolFields[k];
@@ -75,7 +80,35 @@ public class CurrentActivityViewController extends BaseController {
                     }
                 }
 
-                logger.info("---> " + toString());
+                logger.info("T---> " + toolString);
+
+                Tuple [] missionTuples = getTupleSpace().readAll(missionTemplate);
+                String missionString = "";
+                missionString +=missionTuples.length + "..";
+                for (int j = 0; j < missionTuples.length; j++) {
+                    Tuple missionTuple = missionTuples[j];
+                    Field[] missionFields =missionTuple.getFields();
+                    for (int k = 0; k < missionFields.length; k++) {
+                        Field missionField = missionFields[k];
+                        missionString+=missionField.getValue() + ", ";
+                    }
+                }
+
+                logger.info("M---> " + missionString);
+
+                Tuple [] lasTuples = getTupleSpace().readAll(lasTemplate);
+                String lasString = "";
+                lasString +=lasTuples.length + "..";
+                for (int j = 0; j < lasTuples.length; j++) {
+                    Tuple lasTuple = lasTuples[j];
+                    Field[] lasFields =lasTuple.getFields();
+                    for (int k = 0; k < lasFields.length; k++) {
+                        Field lasField = lasFields[k];
+                        lasString+=lasField.getValue() + ", ";
+                    }
+                }
+
+                logger.info("LAS---> " + lasString);
 
 
 
