@@ -65,6 +65,9 @@ public class JNLPFilter implements Filter {
             response.setContentType("application/x-java-jnlp-file");
 
             String jnlpContent = generateJnlpString(userName, mission, password, serverName, serverPort);
+            response.setHeader("Pragma", "no-cache");
+            response.setHeader("Cache-Control", "no-cache");
+            response.setHeader("Expires", "0");
             response.getOutputStream().print(jnlpContent);
         } else {
             //// System.out.println("NOT JNLP");
