@@ -48,7 +48,7 @@ public class EportfolioButton extends CustomNode, DropTarget2 {
             } catch (e: javax.jnlp.UnavailableServiceException) {
                BareBonesBrowserLaunch.openURL(eportfolioURL);
             }
-//                 eportfolioButton.imageName = "eportfolio";
+            eportfolioButton.eloIcon = scyDesktop.windowStyler.getScyEloIcon("e_portfolio");
          }
       }
       eportfolioButton
