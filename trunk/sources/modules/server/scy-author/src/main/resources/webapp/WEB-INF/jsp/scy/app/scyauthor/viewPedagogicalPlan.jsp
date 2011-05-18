@@ -56,6 +56,20 @@
                     var paneAnchorElos = new dijit.layout.ContentPane({ title:"Anchor ELOs", href:"MissionHighLevelOverview.html?eloURI=${missionSpecificationTransporter.uri}" });
                     tabs.addChild(paneAnchorElos);
 
+                    var refreshActive = false;
+                    var currentActivity = new dojox.layout.ContentPane({ title:"Current activity", executeScripts: true,  id:"currentActivityTab", href:"/webapp/app/scyauthorruntime/currentActivityView.html?eloURI=${missionSpecificationTransporter.uri}" });
+                    currentActivity.refreshOnShow = true;
+                    tabs.addChild(currentActivity);
+                    if(dijit.byId("currentActivityTab")){
+                        if(!refreshActive) {
+                            setInterval('dijit.byId("currentActivityTab").refresh()', 5000);
+                            refreshActive = true;
+                        }
+                    }
+
+
+
+
                 <c:choose><c:when test="${author}">
                     var paneAgent = new dijit.layout.ContentPane({ title:"Current activity", href:"viewAgentConfiguration.html?eloURI=${missionSpecificationTransporter.uri}" });
                     tabs.addChild(paneAgent);

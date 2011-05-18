@@ -76,6 +76,7 @@
                    /app/scyauthorruntime/viewStudentPlan.html=viewStudentPlanController
                    /app/scyauthorruntime/viewLASRuntimeInfo.html=viewLASRuntimeInfoController
                    /app/scyauthorruntime/viewSingleStudentStatus.html=viewSingleStudentStatusController
+                   /app/scyauthorruntime/currentActivityView.html=currentActivityViewController
 
                    /app/scyauthor/scenarioJsonView.html=scenarioJsonView
                </value>
@@ -244,6 +245,12 @@
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
         <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="currentActivityViewController" class="eu.scy.server.controllers.scyauthorruntime.CurrentActivityViewController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="tupleSpace" ref="sessionTupleSpace"/>
     </bean>
 
     <bean id="viewStudentPlanController" class="eu.scy.server.controllers.scyauthorruntime.ViewStudentPlanController">
