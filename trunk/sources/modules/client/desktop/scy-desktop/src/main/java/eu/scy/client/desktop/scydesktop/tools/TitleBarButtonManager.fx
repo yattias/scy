@@ -9,5 +9,5 @@ package eu.scy.client.desktop.scydesktop.tools;
  */
 public mixin class TitleBarButtonManager {
 
-   public var titleBarButtons: TitleBarButton[];
+    public var titleBarButtons: TitleBarButton[];
 }

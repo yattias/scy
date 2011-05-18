@@ -11,7 +11,7 @@ import eu.scy.client.desktop.desktoputils.art.ScyColors;
 public class EloIconFactory {
  def windowColorScheme = WindowColorScheme.getWindowColorScheme(ScyColors.darkGray);
 
-def names = ["Import_2","Import_1","Import","Export_2","Export_1","Export","Save_as_dataset","Save_as_1","Save_as","Save_2","Save_1","Save","Data_sync","Elo_intermediate","Elo_anchor","Buddies_me_and_others","Buddies_others","Buddy_other","Buddy_me","Minimize_1","Minimize","Unrotate","Maximize","Center_1","Center","Mission_map_2","Mission_map_1","Mission_map","E_portfolio","Give_feedback","Get_feedback","New_author_2","New_author","Search_2","New_template_2","New_template","Archive","Video","Search","Research_question","Report","Presentation","Reflection","Pizza","Orientation2","Orientation","New","Model","Interview","Information2","Information","Idea","Hypothese2","Hypothese","House","Exp_design","Evaluation_report","Drawing2","Drawing","Designed_artifact","Design_of_artifact","Debate_argument","Dataset_processed","Dataset","Data","Conclusion","Concept_map3","Concept_map2","Concept_map","Concept_hypothese","Collaboration_invitation","Collaboration_accepted","Collaboration_denied","Choices","Assignment","Analyse","Alert_question","Alert_message"];
+def names = ["Import_2","Import_1","Import","Export_2","Export_1","Export","Save_as_dataset","Save_as_1","Save_as","Save_2","Save_1","Save","Data_sync","Elo_intermediate","Elo_anchor","Buddies_me_and_others","Buddies_others","Buddy_other","Buddy_me","Minimize_1","Minimize","Unrotate","Maximize","Center_1","Center","Mission_map_2","Mission_map_1","Mission_map","E_portfolio","Give_feedback","Get_feedback","New_author_2","New_author","Search_2","New_template_2","New_template","Archive","Video","Search","Research_question","Report","Presentation","Reflection","Pizza","Orientation2","Orientation","New","Model","Interview","Information2","Information","Idea","Hypothese2","Hypothese","House","Exp_design","Evaluation_report","Drawing2","Drawing","Designed_artifact","Design_of_artifact","Debate_argument","Dataset_processed","Dataset","Data","Conclusion","Concept_map3","Concept_map2","Concept_map","Concept_hypothese","Collaboration_invitation","Collaboration_accepted","Collaboration_denied","Choices","Assignment","Analyse","Alert_question","Alert_message", "Elo_finished"];
 
 public function getNames(): String[] {
 return names;
@@ -176,6 +176,8 @@ return AnalyseIcon{windowColorScheme:windowColorScheme};
 return Alert_questionIcon{windowColorScheme:windowColorScheme};
 } else if (name.equalsIgnoreCase("Alert_message")) {
 return Alert_messageIcon{windowColorScheme:windowColorScheme};
+} else if (name.equalsIgnoreCase("Elo_finished")) {
+return EloFinishedIcon{windowColorScheme:windowColorScheme};
 } else {
 return new LogoEloIcon();
 }
