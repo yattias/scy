@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import eu.scy.client.desktop.scydesktop.imagewindowstyler.JavaFxWindowStyler;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.desktoputils.art.eloicons.EloIconFactory;
+import javafx.util.Sequences;
 
 /**
  * @author SikkenJ
@@ -24,6 +25,7 @@ public class TitleBarButtons extends TitleBarItemList, TitleBarButtonManager {
    public override var titleBarButtons on replace { FX.deferAction(updateItems) };
    var eloIconButtons: EloIconButton[];
    def actionScheme = 1;
+   public-init var globalTitleBarButtons: TitleBarButton[];
 
    override function updateItems(): Void {
       if (windowStyler==null){
@@ -31,8 +33,13 @@ public class TitleBarButtons extends TitleBarItemList, TitleBarButtonManager {
       }
       delete  displayBox.content;
       delete  eloIconButtons;
+
+      var allTitleBarButtons : TitleBarButton[];
+      insert titleBarButtons into allTitleBarButtons;
+      insert globalTitleBarButtons into allTitleBarButtons;
+
       eloIconButtons =
-              for (titleBarButton in titleBarButtons) {
+              for (titleBarButton in allTitleBarButtons) {
                  def eloIcon = windowStyler.getScyEloIcon(titleBarButton.iconType);
                  eloIcon.windowColorScheme = windowColorScheme;
                  eloIcon.selected = false;

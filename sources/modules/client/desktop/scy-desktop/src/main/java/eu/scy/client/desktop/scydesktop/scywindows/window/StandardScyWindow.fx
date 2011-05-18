@@ -33,9 +33,11 @@ import javafx.scene.layout.Container;
 import javafx.scene.CacheHint;
 import eu.scy.client.desktop.scydesktop.owner.OwnershipManager;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
+import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
+import eu.scy.actionlogging.Action;
+import eu.scy.actionlogging.Context;
 import eu.scy.client.desktop.desktoputils.XFX;
 import org.apache.log4j.Logger;
-
 /**
  * @author sikkenj
  */
@@ -152,6 +154,8 @@ public class StandardScyWindow extends ScyWindow {
    var mainContentGroup: Group;
 
    var changesListeners: WindowChangesListener[]; //WindowChangesListener are stored here. youse them to gain more control over ScyWindow events.
+
+   var eloFinishedButton : TitleBarButton;
 
    postinit {
       if (isClosed) {
@@ -334,6 +338,7 @@ public class StandardScyWindow extends ScyWindow {
                      cache = false;
                      cacheHint = CacheHint.DEFAULT;
                      isAnimating = false;
+                     eloFinishedButton.enabled = true;
                      finishedOpeningWindow();
                   }
                }
@@ -396,6 +401,7 @@ public class StandardScyWindow extends ScyWindow {
                         cache = false;
                         cacheHint = CacheHint.DEFAULT;
                         isAnimating = false;
+                        eloFinishedButton.enabled = true;
                         finishedOpeningWindow();
                      }
                   }
@@ -909,10 +915,35 @@ public class StandardScyWindow extends ScyWindow {
 
       ownershipManager.update();
 
+      eloFinishedButton = TitleBarButton {
+                    actionId: "elo_finished"
+                    enabled: true
+                    iconType: "Elo_finished"
+                    tooltip: ##"I am finished"
+                    action: function() {
+                        var action = new Action();
+                        var context = new Context();
+                        context.setEloURI(eloUri.toString());
+                        context.setTool(eloToolConfig.getContentCreatorId());
+                        context.setMission(tbi.getMissionRuntimeURI().toString());
+                        context.setSession("n/a");
+                        action.setType("elo_finished");
+                        action.setContext(context);
+                        tbi.getActionLogger().log(action);
+                        eloFinishedButton.enabled = false;
+                    }
+                };
+
+      var globalTitleBarButtons: TitleBarButton[];
+      if (Boolean.getBoolean("agenda")) {
+           insert eloFinishedButton into globalTitleBarButtons;
+      }
+
       titleBarButtons = TitleBarButtons{
             tooltipManager: tooltipManager
             windowColorScheme: windowColorScheme
             windowStyler: windowStyler
+            globalTitleBarButtons: globalTitleBarButtons
       }
       titleBarButtonManager = titleBarButtons;
 //      scyToolsList.setTitleBarButtonManager(titleBarButtons);
