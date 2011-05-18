@@ -100,6 +100,16 @@
         <constructor-arg index="2" value="command"/>
     </bean>
 
+    <bean name="sessionTupleSpace" class="info.collide.sqlspaces.client.TupleSpace">
+        <constructor-arg index="0">
+            <util:property-path path="myConfiguration.ip"/>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <util:property-path path="myConfiguration.port"/>
+        </constructor-arg>
+        <constructor-arg index="2" value="session"/>
+    </bean>
+
     <bean id="ajaxCheckBoxController" class="eu.scy.server.controllers.AjaxCheckBoxController">
         <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
 	</bean>
