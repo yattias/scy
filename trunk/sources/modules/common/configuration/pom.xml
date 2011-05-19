@@ -43,7 +43,7 @@
                 <serverfilter.db.host>localhost</serverfilter.db.host>
 
                 <client.servername>scy.collide.info</client.servername>
-                <client.httpPort>8080</client.httpPort>
+                <client.httpPort>80</client.httpPort>
                 <client.contextPath>/scy-useradmin-web</client.contextPath>
 
                 <sqlspaces.server.host>scy.collide.info</sqlspaces.server.host>
@@ -54,20 +54,22 @@
                 <openfire.client.port>5222</openfire.client.port>
                 <openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
                 <openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
+                <openfire.http-host>scy-xmpp.collide.info</openfire.http-host>
+                <openfire.client.http-port>80</openfire.client.http-port>
                 <scyhub.name>scyhub</scyhub.name>
-                <studentplanningtool.service.url>http://scy.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker</studentplanningtool.service.url>
+                <studentplanningtool.service.url>http://scy.collide.info:80/extcomp/remoting/studentPlan-httpinvoker</studentplanningtool.service.url>
 
                 <filestreamer.server>scy.collide.info</filestreamer.server>
                 <filestreamer.context>webapp/common/filestreamer.html</filestreamer.context>
-                <filestreamer.port>8080</filestreamer.port>
+                <filestreamer.port>80</filestreamer.port>
 
                 <auth.cr.server>scy.collide.info</auth.cr.server>
                 <auth.cr.context>webapp/UserCredentials.html</auth.cr.context>
-                <auth.cr.port>8080</auth.cr.port>
+                <auth.cr.port>80</auth.cr.port>
                 
                 <roolo.server>scy.collide.info</roolo.server>
                 <roolo.context>extcomp</roolo.context>
-                <roolo.port>8080</roolo.port>
+                <roolo.port>80</roolo.port>
             </properties>
         </profile>
         <profile>
@@ -80,7 +82,7 @@
                 <serverfilter.db.host>localhost</serverfilter.db.host>
 
                 <client.servername>scy-review.collide.info</client.servername>
-                <client.httpPort>8080</client.httpPort>
+                <client.httpPort>80</client.httpPort>
                 <client.contextPath>/scy-useradmin-web</client.contextPath>
 
                 <sqlspaces.server.host>scy-review.collide.info</sqlspaces.server.host>
@@ -91,20 +93,22 @@
                 <openfire.client.port>5222</openfire.client.port>
                 <openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
                 <openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
+                <openfire.http-host>scy-review-xmpp.collide.info</openfire.http-host>
+                <openfire.client.http-port>80</openfire.client.http-port>
                 <scyhub.name>scyhub</scyhub.name>
-                <studentplanningtool.service.url>http://scy-review.collide.info:8080/extcomp/remoting/studentPlan-httpinvoker</studentplanningtool.service.url>
+                <studentplanningtool.service.url>http://scy-review.collide.info:80/extcomp/remoting/studentPlan-httpinvoker</studentplanningtool.service.url>
 
                 <filestreamer.server>scy-review.collide.info</filestreamer.server>
                 <filestreamer.context>webapp/common/filestreamer.html</filestreamer.context>
-                <filestreamer.port>8080</filestreamer.port>
+                <filestreamer.port>80</filestreamer.port>
 
                 <auth.cr.server>scy-review.collide.info</auth.cr.server>
                 <auth.cr.context>webapp/UserCredentials.html</auth.cr.context>
-                <auth.cr.port>8080</auth.cr.port>
+                <auth.cr.port>80</auth.cr.port>
 
                 <roolo.server>scy-review.collide.info</roolo.server>
                 <roolo.context>extcomp</roolo.context>
-                <roolo.port>8080</roolo.port>
+                <roolo.port>80</roolo.port>
             </properties>
         </profile>
         <profile>
@@ -128,6 +132,8 @@
                 <openfire.client.port>5222</openfire.client.port>
                 <openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
                 <openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
+                <openfire.http-host>83.168.205.138</openfire.http-host>
+                <openfire.client.http-port>80</openfire.client.http-port>
                 <scyhub.name>scyhub</scyhub.name>
                 <studentplanningtool.service.url>http://83.168.205.138:8080/extcomp/remoting/studentPlan-httpinvoker</studentplanningtool.service.url>
 
@@ -165,6 +171,8 @@
                 <openfire.client.port>5222</openfire.client.port>
                 <openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
                 <openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
+                <openfire.http-host>scy.intermedia.uio.no</openfire.http-host>
+                <openfire.client.http-port>80</openfire.client.http-port>
                 <scyhub.name>scyhub</scyhub.name>
                 <studentplanningtool.service.url>http://83.168.205.138:8080/extcomp/remoting/studentPlan-httpinvoker</studentplanningtool.service.url>
 
@@ -202,6 +210,8 @@
                 <openfire.client.port>5222</openfire.client.port>
                 <openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
                 <openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
+                <openfire.http-host>scylab.imag.fr</openfire.http-host>
+                <openfire.client.http-port>80</openfire.client.http-port>
                 <scyhub.name>scyhub</scyhub.name>
                 <studentplanningtool.service.url>http://scylab.imag.fr:8080/extcomp/remoting/studentPlan-httpinvoker</studentplanningtool.service.url>
 
@@ -239,6 +249,8 @@
                 <openfire.client.port>5222</openfire.client.port>
                 <openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
                 <openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
+                <openfire.http-host>scyserver1-xmpp.gw.utwente.nl</openfire.http-host>
+                <openfire.client.http-port>80</openfire.client.http-port>
                 <scyhub.name>scyhub</scyhub.name>
 
                 <filestreamer.server>GW-SCYserver.gw.utwente.nl</filestreamer.server>
@@ -275,6 +287,8 @@
                 <openfire.client.port>5222</openfire.client.port>
                 <openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
                 <openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
+                <openfire.http-host>scyserver2-xmpp.gw.utwente.nl</openfire.http-host>
+                <openfire.client.http-port>80</openfire.client.http-port>
                 <scyhub.name>scyhub</scyhub.name>
 
                 <filestreamer.server>GW-SCYserver2.gw.utwente.nl</filestreamer.server>
