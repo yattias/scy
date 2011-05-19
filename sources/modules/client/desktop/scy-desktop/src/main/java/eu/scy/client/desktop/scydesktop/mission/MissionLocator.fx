@@ -31,7 +31,7 @@ import eu.scy.common.mission.MissionModel;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import eu.scy.client.desktop.desktoputils.XFX;
 import eu.scy.client.desktop.desktoputils.StringUtils;
-import eu.scy.common.mission.MissionRuntimeElo;
+import javafx.util.Sequences;
 
 /**
  * @author SikkenJ
@@ -51,7 +51,7 @@ public class MissionLocator {
    var missionMapModel: MissionModelFX;
 
    public function locateMission(): Void {
-      if (not StringUtils.isEmpty(initializer.loadEloUri)){
+      if (not StringUtils.isEmpty(initializer.loadEloUri)) {
          startSingleEloMission();
          return;
       }
@@ -87,65 +87,64 @@ public class MissionLocator {
    }
 
    function startNewMission(missionSpecificationElo: MissionSpecificationElo) {
-       ProgressOverlay.startShowWorking();
+      ProgressOverlay.startShowWorking();
       var missionRuntimeModel: MissionRuntimeModel;
       var missionRuntimeElo: MissionRuntimeElo;
       XFX.runActionInBackgroundAndCallBack(function(): Object {
-          def missionManagement = missionSpecificationElo.getMissionManagement();
-          if (not initializer.dontUseMissionRuntimeElos) {
-             // this is the normal way
-             logger.info("prepare new mission runtime for {missionSpecificationElo.getUri()}");
-             missionRuntimeModel = missionManagement.createMissionRuntimeModelElos(userName);
-          } else {
-             // this is a special way, try not to change the elos while running,
-             // this is meant for when an author is checking the entered mission
-             // try to use the specificatins elos directly
-             // or do not save new elos
-             logger.info("starting mission (without runtime elos) from {missionSpecificationElo.getUri()}");
-             missionRuntimeModel = missionManagement.getMissionRuntimeModelElosOnSpecifiaction(userName);
-          }
-          def missionModel = missionRuntimeModel.getMissionModel();
-          missionModel.loadMetadata(tbi);
-          return missionModel;
+         def missionManagement = missionSpecificationElo.getMissionManagement();
+         if (not initializer.dontUseMissionRuntimeElos) {
+            // this is the normal way
+            logger.info("prepare new mission runtime for {missionSpecificationElo.getUri()}");
+            missionRuntimeModel = missionManagement.createMissionRuntimeModelElos(userName);
+         } else {
+            // this is a special way, try not to change the elos while running,
+            // this is meant for when an author is checking the entered mission
+            // try to use the specificatins elos directly
+            // or do not save new elos
+            logger.info("starting mission (without runtime elos) from {missionSpecificationElo.getUri()}");
+            missionRuntimeModel = missionManagement.getMissionRuntimeModelElosOnSpecifiaction(userName);
+         }
+         def missionModel = missionRuntimeModel.getMissionModel();
+         missionModel.loadMetadata(tbi);
+         return missionModel;
       }, function(missionModel): Void {
-          missionMapModel = MissionModelFX {
-                tbi: tbi
-                missionModel: missionModel as MissionModel
-                saveUpdatedModel: not initializer.dontUseMissionRuntimeElos
-             }
-          startMission(MissionRunConfigs {
-             tbi: tbi
-             missionRuntimeModel: missionRuntimeModel
-             missionMapModel: missionMapModel
-          });
-          ProgressOverlay.stopShowWorking();
+         missionMapModel = MissionModelFX {
+                    tbi: tbi
+                    missionModel: missionModel as MissionModel
+                    saveUpdatedModel: not initializer.dontUseMissionRuntimeElos
+                 }
+         startMission(MissionRunConfigs {
+            tbi: tbi
+            missionRuntimeModel: missionRuntimeModel
+            missionMapModel: missionMapModel
+         });
+         ProgressOverlay.stopShowWorking();
       });
 
    }
 
    function continueMission(missionRuntimeElo: MissionRuntimeElo) {
-        ProgressOverlay.startShowWorking();
-        var missionRuntimeModel: MissionRuntimeModel;
-        XFX.runActionInBackgroundAndCallBack(function(): Object {
-            injectMissionRuntimeEloInRepository(missionRuntimeElo.getUriFirstVersion());
-             missionRuntimeModel = missionRuntimeElo.getMissionRuntimeModel();
-             def missionModel = missionRuntimeModel.getMissionModel();
-             missionModel.loadMetadata(tbi);
-             return missionModel;
-          }, function(missionModel): Void {
-               missionMapModel = MissionModelFX {
-                tbi: tbi
-                missionModel: missionModel as MissionModel
-                saveUpdatedModel: true
-             }
-              startMission(MissionRunConfigs {
-                 tbi: tbi
-                 missionRuntimeModel: missionRuntimeModel
-                 missionMapModel: missionMapModel
-              });
-              ProgressOverlay.stopShowWorking();
-          }
-        );
+      ProgressOverlay.startShowWorking();
+      var missionRuntimeModel: MissionRuntimeModel;
+      XFX.runActionInBackgroundAndCallBack(function(): Object {
+         injectMissionRuntimeEloInRepository(missionRuntimeElo.getUriFirstVersion());
+         missionRuntimeModel = missionRuntimeElo.getMissionRuntimeModel();
+         def missionModel = missionRuntimeModel.getMissionModel();
+         missionModel.loadMetadata(tbi);
+         return missionModel;
+      }, function(missionModel): Void {
+         missionMapModel = MissionModelFX {
+                    tbi: tbi
+                    missionModel: missionModel as MissionModel
+                    saveUpdatedModel: true
+                 }
+         startMission(MissionRunConfigs {
+            tbi: tbi
+            missionRuntimeModel: missionRuntimeModel
+            missionMapModel: missionMapModel
+         });
+         ProgressOverlay.stopShowWorking();
+      });
 
    }
 
@@ -155,68 +154,68 @@ public class MissionLocator {
 
    function askUserForBlankMissionName(missionRuntimeElo: MissionRuntimeElo) {
       var eloSaveAsPanel = SimpleSaveAsNodeDesign {
-            saveAction: createBlankMissionAction
-            cancelAction: cancelBlankMissionAction
-            scyElo: missionRuntimeElo
-         }
+                 saveAction: createBlankMissionAction
+                 cancelAction: cancelBlankMissionAction
+                 scyElo: missionRuntimeElo
+              }
       eloSaveAsPanel.setTitle(##"Empty mission");
       Composer.localizeDesign(eloSaveAsPanel.getDesignRootNodes());
       eloSaveAsPanel.modalDialogBox = ModalDialogBox {
-            content: Group {
-               content: eloSaveAsPanel.getDesignRootNodes()
-            }
-            title: ##"Enter title"
-            eloIcon: window.eloIcon.clone()
-            windowColorScheme: window.windowColorScheme
-         }
+                 content: Group {
+                    content: eloSaveAsPanel.getDesignRootNodes()
+                 }
+                 title: ##"Enter title"
+                 eloIcon: window.eloIcon.clone()
+                 windowColorScheme: window.windowColorScheme
+              }
    }
 
    function createBlankMissionAction(eloSaveAsMixin: EloSaveAsMixin): Void {
 
-       XFX.runActionInBackgroundAndCallBack(function(): Object {
-          eloSaveAsMixin.modalDialogBox.close();
-          def missionRuntimeElo = eloSaveAsMixin.scyElo as MissionRuntimeElo;
-          missionRuntimeElo.setTitle(eloSaveAsMixin.getTitle());
-          missionRuntimeElo.setUserRunningMission(userName);
-          if (not initializer.dontUseMissionRuntimeElos) {
-             missionRuntimeElo.saveAsNewElo();
-          }
-          injectMissionRuntimeEloInRepository(missionRuntimeElo.getUriFirstVersion());
+      XFX.runActionInBackgroundAndCallBack(function(): Object {
+         eloSaveAsMixin.modalDialogBox.close();
+         def missionRuntimeElo = eloSaveAsMixin.scyElo as MissionRuntimeElo;
+         missionRuntimeElo.setTitle(eloSaveAsMixin.getTitle());
+         missionRuntimeElo.setUserRunningMission(userName);
+         if (not initializer.dontUseMissionRuntimeElos) {
+            missionRuntimeElo.saveAsNewElo();
+         }
+         injectMissionRuntimeEloInRepository(missionRuntimeElo.getUriFirstVersion());
 
-          def missionMapModelElo = MissionModelElo.createElo(tbi);
-          missionMapModel = MissionModelFX {
-                tbi: tbi
-                missionModel: missionMapModelElo.getMissionModel()
-             }
-          missionMapModelElo.setTitle(missionRuntimeElo.getTitle());
-          //      missionMapModelElo.set(userName);
-          missionMapModelElo.getMetadata().getMetadataValueContainer(userRunningMissionKey).setValue(userName);
-          if (not initializer.dontUseMissionRuntimeElos) {
-             missionMapModelElo.saveAsNewElo();
-             missionMapModel.saveUpdatedModel = true;
-          }
+         def missionMapModelElo = MissionModelElo.createElo(tbi);
+         missionMapModel = MissionModelFX {
+                    tbi: tbi
+                    missionModel: missionMapModelElo.getMissionModel()
+                 }
+         missionMapModelElo.setTitle(missionRuntimeElo.getTitle());
+         //      missionMapModelElo.set(userName);
+         missionMapModelElo.getMetadata().getMetadataValueContainer(userRunningMissionKey).setValue(userName);
+         if (not initializer.dontUseMissionRuntimeElos) {
+            missionMapModelElo.saveAsNewElo();
+            missionMapModel.saveUpdatedModel = true;
+         }
 
-          def runtimeSettingsElo = RuntimeSettingsElo.createElo(tbi);
-          runtimeSettingsElo.setTitle(missionRuntimeElo.getTitle());
-          if (not initializer.dontUseMissionRuntimeElos) {
-             runtimeSettingsElo.saveAsNewElo();
-          }
+         def runtimeSettingsElo = RuntimeSettingsElo.createElo(tbi);
+         runtimeSettingsElo.setTitle(missionRuntimeElo.getTitle());
+         if (not initializer.dontUseMissionRuntimeElos) {
+            runtimeSettingsElo.saveAsNewElo();
+         }
 
-          missionRuntimeElo.getTypedContent().setMissionSpecificationEloUri(null);
-          missionRuntimeElo.getTypedContent().setMissionMapModelEloUri(missionMapModelElo.getUri());
-          missionRuntimeElo.getTypedContent().setEloToolConfigsEloUri(null);
-          missionRuntimeElo.getTypedContent().setRuntimeSettingsEloUri(runtimeSettingsElo.getUri());
-          if (not initializer.dontUseMissionRuntimeElos) {
-             missionRuntimeElo.updateElo();
-          }
-          return new BasicMissionRuntimeModel(missionRuntimeElo, null, tbi, missionMapModelElo, null, null, runtimeSettingsElo,null);
-      },  function(missionRuntimeModel): Void {
-          startMission(MissionRunConfigs {
-             tbi: tbi
-             missionRuntimeModel: missionRuntimeModel as MissionRuntimeModel
-             missionMapModel: missionMapModel
-          });
-          ProgressOverlay.stopShowWorking();
+         missionRuntimeElo.getTypedContent().setMissionSpecificationEloUri(null);
+         missionRuntimeElo.getTypedContent().setMissionMapModelEloUri(missionMapModelElo.getUri());
+         missionRuntimeElo.getTypedContent().setEloToolConfigsEloUri(null);
+         missionRuntimeElo.getTypedContent().setRuntimeSettingsEloUri(runtimeSettingsElo.getUri());
+         if (not initializer.dontUseMissionRuntimeElos) {
+            missionRuntimeElo.updateElo();
+         }
+         return new BasicMissionRuntimeModel(missionRuntimeElo, null, tbi, missionMapModelElo, null, null, runtimeSettingsElo, null);
+      }, function(missionRuntimeModel): Void {
+         startMission(MissionRunConfigs {
+            tbi: tbi
+            missionRuntimeModel: missionRuntimeModel as MissionRuntimeModel
+            missionMapModel: missionMapModel
+         });
+         ProgressOverlay.stopShowWorking();
       });
    }
 
@@ -234,23 +233,23 @@ public class MissionLocator {
 
    function askUserForMission(missions: Missions) {
       askUserForMissionNode = AskUserForMissionNode {
-         }
+              }
       askUserForMissionNode.blankButton.visible = initializer.authorMode;
       askUserForMissionNode.blankButton.action = blankMissionAction;
       askUserForMissionNode.goButton.action = missionSelected;
       askUserForMissionNode.cancelButton.action = cancelAction;
       askUserForMissionNode.startedMissionListView.cellFactory = missionCellFactory;
-      var startedMissions: MissionRuntimeElo[] = missions.getMissionRuntimeElosArray();
+      var startedMissions: MissionRuntimeElo[] = Sequences.sort(missions.getMissionRuntimeElosArray(), new ScyEloTitleComparator()) as MissionRuntimeElo[];
       askUserForMissionNode.startedMissionListView.items = startedMissions;
       askUserForMissionNode.newMissionListView.cellFactory = missionCellFactory;
-      var newMissions: MissionSpecificationElo[] = missions.getMissionSpecificationElosArray();
+      var newMissions: MissionSpecificationElo[] = Sequences.sort(missions.getMissionSpecificationElosArray(), new ScyEloTitleComparator()) as MissionSpecificationElo[];
       askUserForMissionNode.newMissionListView.items = newMissions;
       Composer.localizeDesign(askUserForMissionNode.getDesignRootNodes());
       window.scyContent = EmptyBorderNode {
-            content: Group {
-               content: askUserForMissionNode.getDesignRootNodes()
-            }
-         }
+                 content: Group {
+                    content: askUserForMissionNode.getDesignRootNodes()
+                 }
+              }
    }
 
    function missionSelected(): Void {
@@ -272,26 +271,25 @@ public class MissionLocator {
    function missionCellFactory(): ListCell {
       var listCell: ListCell;
       listCell = ListCell {
-            node: Label {
-               text: bind (listCell.item as ScyElo).getTitle()
-            }
-         }
+                 node: Label {
+                    text: bind (listCell.item as ScyElo).getTitle()
+                 }
+              }
    }
 
    function startSingleEloMission() {
-       def eloUri = new URI(initializer.loadEloUri);
-       def scyElo = ScyElo.loadElo(eloUri, tbi);
-       if (scyElo!=null){
-          def missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(scyElo.getMissionRuntimeEloUri(), tbi);
-          startMission(MissionRunConfigs {
-             tbi: tbi
-             missionRuntimeModel: missionRuntimeElo.getMissionRuntimeModel()
-             scyEloToLoad: scyElo
-          });
+      def eloUri = new URI(initializer.loadEloUri);
+      def scyElo = ScyElo.loadElo(eloUri, tbi);
+      if (scyElo != null) {
+         def missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(scyElo.getMissionRuntimeEloUri(), tbi);
+         startMission(MissionRunConfigs {
+            tbi: tbi
+            missionRuntimeModel: missionRuntimeElo.getMissionRuntimeModel()
+            scyEloToLoad: scyElo
+         });
 
-       }
+      }
 
    }
-
 
 }
