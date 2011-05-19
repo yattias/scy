@@ -66,7 +66,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	private JdPopups aPopups;
 	private Model aModel = null;
 	private ModelSelection aSelection;
-	private EditorPanel aCanvas;
+	private EditorPanel editorPanel;
 	private JScrollPane aScrollPane;
 	private EditorMouseListener mouseListener;
 	private int currentCursor;
@@ -178,7 +178,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		this.add(tabbedPane, BorderLayout.CENTER);
 
 		editorTab = new EditorTab(this, actionListener, bundle);
-		this.aCanvas = (editorTab).getEditorPanel();
+		this.editorPanel = (editorTab).getEditorPanel();
 		this.toolbar = (editorTab).getToolbar();
 		graphTab = new GraphTab(this, bundle);
 		tableTab = new TableTab(this, bundle);
@@ -235,7 +235,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		aPopups = null;
 		// aControl = null;
 		aSelection = null;
-		aCanvas = null;
+		editorPanel = null;
 		aScrollPane = null;
 	}
 
@@ -244,7 +244,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	}
 
 	public EditorPanel getCanvas() {
-		return aCanvas;
+		return editorPanel;
 	}
 
 	public int getCurrentAction() {
@@ -256,14 +256,14 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	}
 	
 	public void setNewModel() {
-		aCanvas.removeMouseListener(mouseListener);
-		aCanvas.removeMouseMotionListener(mouseListener);
+		editorPanel.removeMouseListener(mouseListener);
+		editorPanel.removeMouseMotionListener(mouseListener);
 		aModel = new Model(this);
 		aModel.setMethod("euler");
-		aCanvas.setModel(aModel);
+		editorPanel.setModel(aModel);
 		mouseListener = new EditorMouseListener(this, aModel);
-		aCanvas.addMouseListener(mouseListener);
-		aCanvas.addMouseMotionListener(mouseListener);
+		editorPanel.addMouseListener(mouseListener);
+		editorPanel.addMouseMotionListener(mouseListener);
 	}
 
 	public JxmModel getXmModel() {
@@ -275,15 +275,15 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		if (m != null) {
 			if (aModel == null) {
 				mouseListener = new EditorMouseListener(this, aModel);
-				aCanvas.addMouseListener(mouseListener);
-				aCanvas.addMouseMotionListener(mouseListener);
+				editorPanel.addMouseListener(mouseListener);
+				editorPanel.addMouseMotionListener(mouseListener);
 			}
 			aModel.setXmModel(m);
-			aCanvas.setModel(aModel);
+			editorPanel.setModel(aModel);
 		} else {
 			aModel = null;
-			aCanvas.setModel(null);
-			aCanvas.removeMouseListener(mouseListener);
+			editorPanel.setModel(null);
+			editorPanel.removeMouseListener(mouseListener);
 		}
 	}
 
@@ -714,7 +714,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	// control
 	// ---------------------------------------------------------------------------
 	public void updateCanvas() {
-		aCanvas.repaint();
+		editorPanel.repaint();
 	}
 
 	// public void setModelChanged() { aEditorVT.setModelChecked(false); }
@@ -728,15 +728,15 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	// aEditorVT.sendLogEvent(JvtEditorLogs.LOG_ADD_OBJECT,o); }
 	// ---------------------------------------------------------------------------
 	public void startRect(int x, int y) {
-		aCanvas.startRect(x, y);
+		editorPanel.startRect(x, y);
 	}
 
 	public void extendRect(int x, int y) {
-		aCanvas.extendRect(x, y);
+		editorPanel.extendRect(x, y);
 	}
 
 	public Rectangle stopRect() {
-		return aCanvas.stopRect();
+		return editorPanel.stopRect();
 	}
 
 	// ---------------------------------------------------------------------------
@@ -772,7 +772,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		java.awt.Frame frame = javax.swing.JOptionPane.getFrameForComponent(this);
 		VariableDialog vdialog = new VariableDialog(frame, position, figure, this, bundle);
 		vdialog.setVisible(true);
-		aCanvas.updateUI();
+		editorPanel.updateUI();
 	}
 
 	// public void updateSpecDialog(boolean bCheck) {
@@ -887,7 +887,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		Hashtable<String, Object> ho = o.getProperties();
 		ho.put("oldLabel", oldName);
 		// sendVisualToolEvent("ChangeObjectEvent", ho);
-		aCanvas.repaint();
+		editorPanel.repaint();
 		// rename JdModel key
 		String newName = h.containsKey("label") ? (String) h.get("label") : null;
 		if (newName != null && !oldName.equals(newName)) {
