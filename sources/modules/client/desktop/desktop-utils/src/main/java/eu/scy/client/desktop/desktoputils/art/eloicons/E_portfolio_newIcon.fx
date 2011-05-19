@@ -84,7 +84,7 @@ return Group {
 				},
 				Polygon {
 					points: [5.49,19.17,11.46,5.16,18.78,8.23,19.21,7.74,20.14,7.74,24.89,9.75,24.98,10.84,34.34,14.76,28.47,28.78]
-					fill: bind windowColorScheme.emptyBackgroundColor
+					fill: bind windowColorScheme.mainColor
 					stroke: null
 				},
 				SVGPath {
@@ -94,7 +94,7 @@ return Group {
 				},
 				Polygon {
 					points: [7.40,28.27,9.71,14.36,9.71,13.26,10.87,13.44,12.03,13.64,12.44,12.88,18.29,13.68,18.65,14.73,34.43,17.32,31.95,32.30]
-					fill: bind windowColorScheme.emptyBackgroundColor
+					fill: bind windowColorScheme.mainColor
 					stroke: null
 				},
 				SVGPath {
@@ -104,7 +104,7 @@ return Group {
 				},
 				Polygon {
 					points: [8.25,36.17,4.29,21.00,29.32,21.00,33.30,36.17]
-					fill: bind windowColorScheme.emptyBackgroundColor
+					fill: bind windowColorScheme.mainColor
 					stroke: null
 				},
 				SVGPath {
