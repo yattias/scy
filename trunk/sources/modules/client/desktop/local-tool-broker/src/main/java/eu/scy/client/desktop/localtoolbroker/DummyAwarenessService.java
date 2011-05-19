@@ -9,7 +9,7 @@ import eu.scy.awareness.event.IAwarenessRosterListener;
 import eu.scy.awareness.tool.IChatPresenceToolListener;
 import java.util.ArrayList;
 import java.util.List;
-import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.Connection;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 
 /**
@@ -60,7 +60,7 @@ public class DummyAwarenessService implements IAwarenessService  {
    }
 
    @Override
-   public void init(XMPPConnection connection)
+   public void init(Connection connection)
    {
    }
 
