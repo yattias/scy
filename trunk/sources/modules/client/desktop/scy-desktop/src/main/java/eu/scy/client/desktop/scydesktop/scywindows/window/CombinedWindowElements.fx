@@ -144,7 +144,7 @@ public class CombinedWindowElements extends ScyWindow {
       this.rotate = rotation;
    }
 
-   public override function doMaximize(): Void{
+   public override function openFixedFullScreen(): Void{
 
    }
 

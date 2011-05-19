@@ -69,7 +69,8 @@ public class WindowTitleBarDouble extends WindowElement {
               }
            };
    public-init var startDragIcon: function(e: MouseEvent): Void;
-   public-init var allowDragIcon = true;
+   public var allowDragIcon = true;
+   public var allowMouseOverDisplay = true;
    public-read var minimumWidth = width;
    def minimumItemSpacing = 18.0;
    def titleFontsize = 12;
@@ -117,7 +118,8 @@ public class WindowTitleBarDouble extends WindowElement {
       titleBarBuddies.layoutY = y;
       titleBarButtons.layoutY = y;
       def leftSide = iconSize + textIconSpace;
-      def rightSize = width - windowStateControls.layoutBounds.width - 2 * borderWidth;
+      def windowStateControlsWidth = if (windowStateControls.visible)  windowStateControls.layoutBounds.width - borderWidth else 0;
+      def rightSize = width -borderWidth - windowStateControlsWidth;
       //      println("leftSide: {leftSide}, rightSize: {rightSize}");
       def attributesWidth = titleBarWindowAttributes.layoutBounds.width;
       def buddiesWidth = titleBarBuddies.layoutBounds.width;
@@ -209,7 +211,7 @@ public class WindowTitleBarDouble extends WindowElement {
                                layoutX: 0
                                layoutY: -1
                                blocksMouse: allowDragIcon and (startDragIcon != null)
-                               cursor: if (allowDragIcon and (startDragIcon != null)) Cursor.HAND else null
+                               cursor: bind if (allowDragIcon and (startDragIcon != null)) Cursor.HAND else null
                                content: eloIcon
                                onMousePressed: function(e: MouseEvent): Void {
                                   if (allowDragIcon){
@@ -261,12 +263,14 @@ public class WindowTitleBarDouble extends WindowElement {
                  //				},
                  ]
                  onMouseEntered: function(e: MouseEvent): Void {
-                    mouseOverTitleDisplay = MouseOverDisplay {
-                               createMouseOverDisplay: createMouseOverNode
-                               mySourceNode: this
-                               offsetX: -mouseOverBorderSize
-                               offsetY: -mouseOverBorderSize
-                            }
+                    if (allowMouseOverDisplay){
+                       mouseOverTitleDisplay = MouseOverDisplay {
+                                  createMouseOverDisplay: createMouseOverNode
+                                  mySourceNode: this
+                                  offsetX: -mouseOverBorderSize
+                                  offsetY: -mouseOverBorderSize
+                               }
+                    }
                  }
                  onMouseExited: function(e: MouseEvent): Void {
                     if (mouseOverTitleDisplay != null) {

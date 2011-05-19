@@ -282,7 +282,7 @@ public class MissionLocator {
        def eloUri = new URI(initializer.loadEloUri);
        def scyElo = ScyElo.loadElo(eloUri, tbi);
        if (scyElo!=null){
-          def missionRuntimeElo = MissionRuntimeElo.loadElo(scyElo.getMissionRuntimeEloUri(), tbi);
+          def missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(scyElo.getMissionRuntimeEloUri(), tbi);
           startMission(MissionRunConfigs {
              tbi: tbi
              missionRuntimeModel: missionRuntimeElo.getMissionRuntimeModel()

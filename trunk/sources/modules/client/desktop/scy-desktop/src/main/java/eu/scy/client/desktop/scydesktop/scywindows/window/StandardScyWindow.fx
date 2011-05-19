@@ -590,7 +590,7 @@ public class StandardScyWindow extends ScyWindow {
       logger.debug("closed {title}");
    }
 
-   public override function doMaximize(): Void {
+   function doMaximize(): Void {
       // TODO: needs to call window positioning code
       activate();
       toFront();
@@ -607,7 +607,11 @@ public class StandardScyWindow extends ScyWindow {
       else{
          logger.info("could not call reorganizeOtherMainWindows, because it is null");
       }
+   }
 
+   public override function openFixedFullScreen(): Void{
+      windowStateControls.visible = false;
+      doMaximize();
    }
 
    function resetMaximizedState(): Void {
@@ -959,14 +963,15 @@ public class StandardScyWindow extends ScyWindow {
             activated: bind activated
             beingDragged: bind beingDragged
             startDragIcon: startDragIcon
-            allowDragIcon: allowDragging
+            allowDragIcon: bind allowDragging and not isMaximized
+            allowMouseOverDisplay: bind not isMaximized
             windowColorScheme: windowColorScheme
             layoutX: -borderWidth / 2;
             layoutY: 0;
          }
 
       resizeElement = WindowResize {
-            visible: bind allowResize or isClosed;
+            visible: bind (allowResize or isClosed) and not isMaximized
             size: controlSize;
             borderWidth: borderWidth;
             separatorLength: separatorLength
@@ -980,7 +985,7 @@ public class StandardScyWindow extends ScyWindow {
          }
 
       rotateElement = WindowRotate {
-            visible: bind allowRotate;
+            visible: bind allowRotate and not isMaximized
             size: controlSize;
             borderWidth: borderWidth;
             separatorLength: separatorLength
@@ -1035,7 +1040,7 @@ public class StandardScyWindow extends ScyWindow {
       eloIconChanged();
 
       return mainContentGroup = Group {
-               cursor: if (allowDragging) Cursor.MOVE else null
+               cursor: bind if (allowDragging and not isMaximized) Cursor.MOVE else null
                cache: true;
                content: [
                   closedGroup,
