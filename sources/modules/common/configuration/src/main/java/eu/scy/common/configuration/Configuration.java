@@ -71,8 +71,10 @@ public class Configuration {
         props.setProperty("sqlspaces.server.host", "scy.collide.info");
         props.setProperty("sqlspaces.server.port", "2525");
         props.setProperty("openfire.host", "scy.collide.info");
+        props.setProperty("openfire.http-host", "scy.collide.info");
         props.setProperty("openfire.conference", "conference.scy.collide.info");
         props.setProperty("openfire.client.port", "5222");
+        props.setProperty("openfire.client.http-port", "80");
         props.setProperty("openfire.externalcomponent.port", "5275");
         props.setProperty("openfire.externalcomponent.secretkey", "java");
         props.setProperty("scyhub.name", "scyhub");
@@ -133,6 +135,10 @@ public class Configuration {
         return props.getProperty("openfire.host");
     }
 
+    public String getOpenFireHTTPHost() {
+        return props.getProperty("openfire.http-host");
+    }
+
     public String getOpenFireConference() {
         return props.getProperty("openfire.conference");
     }
@@ -141,6 +147,10 @@ public class Configuration {
         return Integer.parseInt(props.getProperty("openfire.client.port"));
     }
 
+    public int getOpenFireHTTPPort() {
+        return Integer.parseInt(props.getProperty("openfire.client.http-port"));
+    }
+    
     // ### External Component
     public int getOpenFireExternalComponentPort() {
         return Integer.parseInt(props.getProperty("openfire.externalcomponent.port"));
