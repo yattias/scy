@@ -54,24 +54,56 @@
 			<groupId>eu.scy.common</groupId>
 			<artifactId>awareness-api</artifactId>
 			<version>${pom.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>smack</artifactId>
+					<groupId>jivesoftware</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>smackx</artifactId>
+					<groupId>jivesoftware</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		
 		<dependency>
 			<groupId>eu.scy.client.desktop</groupId>
 			<artifactId>action-logging-client</artifactId>
 			<version>${pom.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>smack</artifactId>
+					<groupId>jivesoftware</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		
 		<dependency>
 			<groupId>eu.scy.common</groupId>
 			<artifactId>data-sync-api</artifactId>
 			<version>${pom.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>smack</artifactId>
+					<groupId>jivesoftware</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>smackx</artifactId>
+					<groupId>jivesoftware</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		
 		<dependency>
 			<groupId>eu.scy.client.desktop</groupId>
 			<artifactId>notification-receiver</artifactId>
 			<version>${pom.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>smack</artifactId>
+					<groupId>jivesoftware</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		
 		<dependency>
@@ -109,9 +141,21 @@
         </dependency>
 
 		<dependency>	
-            <groupId>jivesoftware</groupId>
+            <groupId>org.igniterealtime</groupId>
             <artifactId>smack</artifactId>
-            <version>3.1.0</version>
+            <version>3.2.0-SNAPSHOT</version>
+        </dependency>
+        
+		<dependency>	
+            <groupId>org.igniterealtime</groupId>
+            <artifactId>smackx</artifactId>
+            <version>3.2.0-SNAPSHOT</version>
+        </dependency>
+        
+		<dependency>	
+            <groupId>org.igniterealtime</groupId>
+            <artifactId>smack-bosh</artifactId>
+            <version>3.2.0-SNAPSHOT</version>
         </dependency>
 		
 		<dependency>

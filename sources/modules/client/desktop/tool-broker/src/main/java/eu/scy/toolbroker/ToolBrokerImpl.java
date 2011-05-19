@@ -15,6 +15,9 @@ import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.ConnectionConfiguration.SecurityMode;
 import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.packet.Packet;
+import org.jivesoftware.smack.BOSHConfiguration;
+import org.jivesoftware.smack.BOSHConnection;
+import org.jivesoftware.smack.Connection;
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.SmackConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
@@ -87,7 +90,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 
 	private ConnectionConfiguration config;
 
-	private XMPPConnection xmppConnection;
+	private Connection connection;
 
 	private PedagogicalPlanService pedagogicalPlanService;
 
@@ -218,7 +221,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 		List<IActionLogger> loggers = ((MultiActionLogger) internalLogger).getLoggers();
 		for (IActionLogger logger : loggers) {
                     if (logger instanceof ActionLogger) {
-                        ((ActionLogger) logger).init(xmppConnection);
+                        ((ActionLogger) logger).init(connection);
                     }
                 }
 		
@@ -232,13 +235,13 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 		
 		// AwarenessService
 		awarenessService = (IAwarenessService) context.getBean("awarenessService");
-		awarenessService.init(xmppConnection);
+		awarenessService.init(connection);
 		awarenessService.setMUCConferenceExtension(Configuration.getInstance().getOpenFireConference() + "." + Configuration.getInstance().getOpenFireHost());
 		logger.debug("Conference extension parameter: " + awarenessService.getMUCConferenceExtension());
 
 		// DataSyncService
 		dataSyncService = (IDataSyncService) context.getBean("dataSyncService");
-		((DataSyncService) dataSyncService).init(xmppConnection);
+		((DataSyncService) dataSyncService).init(connection);
 
 		// PedagogicalPlan
 		pedagogicalPlanService = (PedagogicalPlanService) context.getBean("pedagogicalPlanService");
@@ -250,7 +253,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 
 		// NotificationReceiver
 		notificationReceiver = (NotificationReceiver) context.getBean("notificationReceiver");
-		notificationReceiver.init(xmppConnection);
+		notificationReceiver.init(connection);
 
 		// collaboration
 		collaborationAnswers = new HashMap<String, BlockingQueue<INotification>>();
@@ -369,8 +372,8 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 		return dataSyncService;
 	}
 
-	private XMPPConnection getConnection(String userName, String password) {
-		if (xmppConnection == null) {
+	private Connection getConnection(String userName, String password) {
+		if (connection == null) {
 
 			this.userName = userName;
 			this.password = password;
@@ -379,23 +382,34 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 			config.setCompressionEnabled(true);
 			config.setReconnectionAllowed(true);
 			config.setSecurityMode(SecurityMode.disabled);
-			this.xmppConnection = new XMPPConnection(config);
+			this.connection = new XMPPConnection(config);
 			XMPPConnection.DEBUG_ENABLED = false;
-
+			
 			try {
-				this.xmppConnection.connect();
+				this.connection.connect();
 				logger.debug("Successful connection to xmpp server " + config.getHost() + ":" + config.getPort());
 				SmackConfiguration.setPacketReplyTimeout(100000);
 				SmackConfiguration.setKeepAliveInterval(10000);
 			} catch (XMPPException e) {
-				logger.error("Error during xmpp connect");
-				e.printStackTrace();
+				logger.error("Error while connecting over xmpp, trying over HTTP now");
+			}
+			
+			if (!connection.isConnected()) {
+			    config = new BOSHConfiguration(false, Configuration.getInstance().getOpenFireHTTPHost(), Configuration.getInstance().getOpenFireHTTPPort(), "/http-bind/", Configuration.getInstance().getOpenFireHost());
+			    connection = new BOSHConnection((BOSHConfiguration) config);
+			    try {
+                                connection.connect();
+                                logger.debug("Successful HTTP connection to xmpp server " + config.getHost() + ":" + config.getPort());
+                            } catch (XMPPException e) {
+                                logger.error("Error while connecting over HTTP, no way connecting to the SCY server.");
+                                logger.error("Check firewall settings for port " + Configuration.getInstance().getOpenFireHTTPPort() + " or get some professional support!");
 				throw new ServerNotRespondingException(config.getHost(), config.getPort());
+                            }
 			}
 
 			try {
 				logger.debug("User logging in: " + userName + " " + password);
-				this.xmppConnection.login(userName, password);
+				this.connection.login(userName, password);
 				logger.debug("Login successful" + userName + " " + password);
 			} catch (XMPPException e) {
 				logger.error("Login failed  " + e);
@@ -411,7 +425,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 			 * indefinitely try to connect once every five minutes.
 			 */
 
-			this.xmppConnection.addConnectionListener(new org.jivesoftware.smack.ConnectionListener() {
+			this.connection.addConnectionListener(new org.jivesoftware.smack.ConnectionListener() {
 
 				@Override
 				public void connectionClosed() {
@@ -454,7 +468,7 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 				}
 			});
 		}
-		return xmppConnection;
+		return connection;
 	}
 
     @Override
@@ -477,11 +491,11 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 		logger.debug("TBI: proposeCollaborationWith: user: " + proposedUser + " eloid: " + elouri);
 		// callback.receivedCollaborationResponse(elouri, proposedUser);
 		final LinkedBlockingQueue<INotification> queue = new LinkedBlockingQueue<INotification>();
-		collaborationAnswers.put(xmppConnection.getUser() + "#" + proposedUser + "#" + elouri, queue);
-		logger.debug("==========XMPPName: " + xmppConnection.getUser());
+		collaborationAnswers.put(connection.getUser() + "#" + proposedUser + "#" + elouri, queue);
+		logger.debug("==========XMPPName: " + connection.getUser());
 		final IActionLogger log = getActionLogger();
 		final IAction requestCollaborationAction = new Action();
-		requestCollaborationAction.setUser(xmppConnection.getUser());
+		requestCollaborationAction.setUser(connection.getUser());
 		requestCollaborationAction.setType("collaboration_request");
 		requestCollaborationAction.addContext(ContextConstants.tool, "scylab");
 		requestCollaborationAction.addAttribute("proposed_user", proposedUser);
@@ -512,15 +526,15 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 	@Override
 	public String answerCollaborationProposal(boolean accept, String proposingUser, String elouri) {
 		LinkedBlockingQueue<INotification> queue = new LinkedBlockingQueue<INotification>();
-		collaborationAnswers.put(proposingUser + "#" + xmppConnection.getUser() + "#" + elouri, queue);
+		collaborationAnswers.put(proposingUser + "#" + connection.getUser() + "#" + elouri, queue);
 		IActionLogger log = getActionLogger();
 		IAction collaborationResponseAction = new Action();
-		collaborationResponseAction.setUser(xmppConnection.getUser());
+		collaborationResponseAction.setUser(connection.getUser());
 		collaborationResponseAction.setType("collaboration_response");
 		collaborationResponseAction.addContext(ContextConstants.tool, "scylab");
 		collaborationResponseAction.addAttribute("request_accepted", String.valueOf(accept));
 		collaborationResponseAction.addAttribute("proposing_user", proposingUser);
-		collaborationResponseAction.addAttribute("proposed_user", xmppConnection.getUser());
+		collaborationResponseAction.addAttribute("proposed_user", connection.getUser());
 		collaborationResponseAction.addAttribute("proposed_elo", elouri);
 		log.log(collaborationResponseAction);
 		if (accept) {
