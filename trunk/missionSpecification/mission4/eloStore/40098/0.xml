@@ -52,10 +52,13 @@
     <relation>
       <kind>
         <source>LOMv1.0</source>
-        <value>is_version_of</value>
+        <value>is_forked_by</value>
       </kind>
       <resource>
-        <identifier />
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/40578/0/Picture+of+my+results.scyformauthor</entry>
+        </identifier>
       </resource>
     </relation>
   </lom>
@@ -65,7 +68,7 @@
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<form description="" title="" version="0"/>
+<form description="" title="" version="0" />
 </content>
 <resources>
 </resources>

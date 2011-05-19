@@ -22,13 +22,13 @@
           <dateTime>2011-04-22T14:18:19.613+0200</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>1</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1303474699613</dateCreated>
         <dateFirstUserSaveKey>1303474699613</dateFirstUserSaveKey>
-        <dateLastModified>1303474699613</dateLastModified>
+        <dateLastModified>1305798707363</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
@@ -43,7 +43,7 @@
       <las>Orientation</las>
       <missionRunning>
         <catalog>memory</catalog>
-        <entry>roolo://memory/40047/0/Forensic+SCY-Lab.scymissionspecification</entry>
+        <entry>roolo://memory/40557/0/The+forensic+SCY-Lab.scymissionspecification</entry>
       </missionRunning>
       <title>
         <string language="en">Goal of the analysis</string>
@@ -59,9 +59,12 @@
       </resource>
     </relation>
   </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAEt0lEQVR42u2Y30+bVRjH+wd4Q7ghcMsFMQQTExMSYrzTK0aUCQkk3nUOJUYxoiwBxxgENRmMLvySXzaFACJSWFxFJ9AxMNsKC6wYWKHAoMivQktp2tLytc/BHiltR9ho4sXzTb455znnPO97+sl5z3nfKpqamnCafD4fO4IVBHB7exsbGxvC6+vrsk62Wq3o7++HVqsNMeW63e6wDjeePDg4GLGvpqYmbDvdf2BgIGxfdXV1xOt5vd6I8zsvhwA8aQJI8vgHH3hc0pa1dQwNDYnck97f3xd5x8eTu7S/Y3h4WPZ53P/17e7soKGhAbu7uyF5NpsNBwcHYvzxnDt3x9DY2Bj2Xnt7djFvmks0rWhubhY/ukxjxuc/bGL6LzseGKwhALcdPqj1NhhNThSpzdD8OiMAUr/dtoPJFTd+GZ8XMf1gKkdm9vBo0YupNeD+rAPvKa9KgBSTA312fw4BpJLih/483cMVjPnrAYCTZqfMm/VPK+ezmxJgoD1gj9sp5k250bQEWNjgB/j93yioteDTPuDVdx4EAbRs7UMz4cXEkgtFWhdudY7KFbi5uYni4mJ0dLSL8WRq7/5jDr9NbkKhUKDv3jwufnhNAqS4/c6kKMk22+4RQLtNxLf/fAb17Uf/9tng8Xhw1/AMvSNPxfW0owu4+PF3EiCNo/af9SZR97icYo8KzCdalgA/UZnwoxnIVbnxyltPYbGsBwE0r1qRq/ZifPwJXv/Wh2u1/XIF6nQ6fFFYiNKrX4s4kFfToUfrgAEa3RM09Izh/ctlEiDFgXZyYAXu2e34sqIRZbe6ceWbZjT+NC5XYPfgYzG2fXBGlBeU5RJg4DqvvfGmKGkFUk6krem8LAG29ptRVGdCwQ0jPiqbCHmEb7b2ITOvUvrdy9clwJNeXV0V5YVL14NyLn11QwI83k4OrEDaW0P7jgAqi1RB7W9/cEUCPJnj9q9A2uRpLtG0BPi8Q6S3txednZ0hrqurw9LSUoiXl5fDjicTwEh9KpUqbHtXVxd6enrC9lVVVUW8nsvlEnOJphUtLS2nbpQLCwvsCFaM3LuPYI+eEj/Poy8w/qz3+n/NTwHWS0kAnJqaQk5Ojv/ktZzrxekrIRpaWVkJ267RaILiw8PDkDF6vf78AZLm5uaCyvLycnG4xMTEiDg/Px9KpVJMijbnkpIS8e5HmzUpOzsb6enpom4ymUSZkZGBra0tUacTtr6+XtQzMzORkpKC2NhYEWdlZSE+Pl5Oan5+HrQ3Ly4uive/3NxcVFZWIikpSfSnpaWJTztSYmIiCgoKREw5tBjoxCatra2htrYWTqcTCQkJqKioEG2pqalHXzb+azscDvE2MTs7i7y8PKjVavH+SPOLi4sLAUaHGb330gESBJD1kivwLDIYDEzuOED616K0tBTT09PiETUajWhraxMDkpOTxZJlvcAKpP2EFYVHmMUAGSADZIAsBsgAGSADZIAsBsgAGSADZDFABsgAGSCLATJABsgAWQyQATJABshigAyQATJAFgNkgAyQAbIYIANkgAyQxQAZIANkgCwGyAAZIANkMUAGyAAZIIsBMkAGyAAZIIsBMkAGyABZDJABMkAGyDqb/gEgysCsPf5KbAAAAABJRU5ErkJggg==</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACg0lEQVR42u3VTYtSURgHcL+KC3d+AL+D4MKE2fVC0CaaKCFs4UZE1IUwICHuqnEKIyFNYhzRwrCFOsY1aZHiS2DmjO8vY6I8zXnCQxcmEIoY4f+HP2eee+Rc/DH3qhkOh9Tr9VQVWS6X6AbVCMBOp6PqarWi+dlMttVqUbfb5Y7HYwZe752cnNJsNqO79xPc3XuHlMlk5P5yMadgMKg6LxqNqmaR6XTKFWetu+m1i/q/zmNAX7jBX+KWty4B3+RaND7/bkfH3xjwZfg5pb6c0WQy4c8e5ltkvHKVHsc/8mH04SEpBzeJFBsDiv1UqUdp5ZQBxXx03OZVAIr17ac+ryL9fn8ry4CegzpVvv6gJ6HPEnBvP007O0/J/+wdA+7euU3N730JKK6LOh69+gX4+sZ5rxOlrzHg3n6KHriCFHjxngHXnxcVgL/PIu12eyv7x0c4m83K1ut1VRVFUe3ncjnVHA6HVbPf71fNsVhMNYs0m82trKZSqdBFrVar6AbVEPJXkYCFQoFCoRD/9+l0On7vBQIBfpxFzGYzWSwWcjqdpNfr+SfcaDSSy+WShw0GA17tdjt5PB7+u9FoqG44Go34HlqtVl7zer1UKpWoVqvxeyWfz5Pb7ZaPt8FgIIfDQeVymaxWK9lsNorH47wn7pNIJGixWPCcTCapWCzKs+fzOa8+n49fHSaTiedIJPJvAREAAhCAAEQACEAAAhABIAABCEAEgAAEIAARAAIQgABEAAhAAAIQASAAAQhABIAABCAAEQACEIAARAAIQAACEIAIAAEIQAAiAAQgAAGIABCAAAQgAkAAAhCACAABCEAAIgAEIAABiAAQgAAEIAJAAF6q/AR9t9oqqejxZgAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
@@ -69,10 +72,11 @@
 {\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Calibri;\f3\fnil Times New Roman;}
 {\colortbl\red0\green0\blue0;\red51\green51\blue51;}
 \margl1417\margr1417\margt1417\margb1417\widowctrl
-\li0\ri0\fi0\ql\f2\fs24\i\b0\ul0\cf0 "The attorney wants to know whether the blood found at the crime scene has come from the victim, or any of the suspects."\par
+\li0\ri0\fi0\ql\f2\fs24\i\b0\ul0\cf0 "I want to know whether the blood found at the crime scene has come from the victim, or any of the suspects."\par
 \par
 \f3\i0\par
-\li0\ri0\fi0\f1\ul0\cf1\par
+\f1\cf1\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>

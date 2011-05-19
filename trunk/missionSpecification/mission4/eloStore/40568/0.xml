@@ -1,0 +1,68 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2011-05-19T15:01:53.783+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1305810113783</dateCreated>
+        <dateLastModified>1305810113783</dateLastModified>
+      </customElements>
+      <format>scy/templateelos</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40568/0/forensicMission.scytemplateelos</entry>
+      </identifier>
+      <las>Information</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40557/0/The+forensic+SCY-Lab.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">forensicMission</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<templateElosEloUris>
+  <templateElosEloUri>roolo://memory/409/0/Empty_plain_text.text</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/412/0/Word_document.doc</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/410/0/Presentation_document.ppt</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/419/0/Empty+form.scyformauthor</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/405/0/Empty_drawing.scydraw</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/403/0/Empty_concept_map.scymapping</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/404/0/Empty_dataset.dataset</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/406/0/Empty_experimental_procedure.scyxproc</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/418/0/Empty+math+worksheet.scymathtool</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/411/0/Empty_rich_text.rtf</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/420/0/Empty+YouTube+video.scyyoutuber</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/407/0/Google_SketchUp_document.skp</templateElosEloUri>
+  <templateElosEloUri>roolo://memory/408/0/Empty_interview.scyinterview</templateElosEloUri>
+</templateElosEloUris>
+</content>
+<resources>
+</resources>
+</elo>
