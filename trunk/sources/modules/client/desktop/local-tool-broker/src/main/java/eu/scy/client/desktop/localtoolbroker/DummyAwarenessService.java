@@ -106,7 +106,7 @@ public class DummyAwarenessService implements IAwarenessService  {
    }
 
    @Override
-   public XMPPConnection getConnection()
+   public Connection getConnection()
    {
       return null;
    }
