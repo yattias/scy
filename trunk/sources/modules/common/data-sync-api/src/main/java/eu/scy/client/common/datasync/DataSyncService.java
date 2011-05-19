@@ -1,12 +1,13 @@
 package eu.scy.client.common.datasync;
 
+import java.util.HashMap;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
+import org.jivesoftware.smack.Connection;
 import org.jivesoftware.smack.PacketListener;
-import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.packet.Message;
@@ -24,7 +25,6 @@ import eu.scy.common.message.SyncMessage.Type;
 import eu.scy.common.packetextension.SCYPacketTransformer;
 import eu.scy.common.smack.SmacketExtension;
 import eu.scy.common.smack.SmacketExtensionProvider;
-import java.util.HashMap;
 
 public class DataSyncService implements IDataSyncService {
 	
@@ -32,7 +32,7 @@ public class DataSyncService implements IDataSyncService {
 
 	private BlockingQueue<Packet> packetLock;
 	
-	private XMPPConnection xmppConnection;
+	private Connection connection;
 
         private HashMap<String, ISyncSession> sessionMap;
 
@@ -41,9 +41,9 @@ public class DataSyncService implements IDataSyncService {
                 sessionMap = new HashMap<String, ISyncSession>();
 	}
 	
-	public void init(XMPPConnection xmppConnection) {
+	public void init(Connection xmppConnection) {
 		
-		this.xmppConnection = xmppConnection;
+		this.connection = xmppConnection;
 		final SCYPacketTransformer transformer = new DataSyncMessagePacketTransformer();
 		
 		// add extenison provider
@@ -97,12 +97,12 @@ public class DataSyncService implements IDataSyncService {
 		SCYPacketTransformer transformer = new DataSyncMessagePacketTransformer();
 		
 		command.setEvent(Event.create);
-		command.setUserId(xmppConnection.getUser());
+		command.setUserId(connection.getUser());
 		command.setToolId(toolid);
 		transformer.setObject(command);
 		
 		Packet sentPacket = new Message();
-		sentPacket.setFrom(xmppConnection.getUser());
+		sentPacket.setFrom(connection.getUser());
 		sentPacket.setTo(Configuration.getInstance().getSCYHubName() + "." + Configuration.getInstance().getOpenFireHost());
 		
 		SmacketExtension extension = new SmacketExtension(transformer);
@@ -110,7 +110,7 @@ public class DataSyncService implements IDataSyncService {
 		
 		logger.debug("Sending message to create session for tool " + toolid + " to receiver: " + Configuration.getInstance().getSCYHubName() + "." + Configuration.getInstance().getOpenFireHost());
 		
-		xmppConnection.sendPacket(sentPacket);
+		connection.sendPacket(sentPacket);
 		
 		Message receivedPacket = null;
 		ISyncSession newSession = null;
@@ -134,9 +134,9 @@ public class DataSyncService implements IDataSyncService {
 				if (mucID == null) {
 					throw new DataSyncException("Session could not be created!");
 				}
-				MultiUserChat muc = new MultiUserChat(xmppConnection, mucID);
-				muc.join(xmppConnection.getUser());
-				newSession = new SyncSession(xmppConnection, muc, toolid, listener);
+				MultiUserChat muc = new MultiUserChat(connection, mucID);
+				muc.join(connection.getUser());
+				newSession = new SyncSession(connection, muc, toolid, listener);
 				
 				logger.debug("Session successfully created with id: " + mucID);
 			} else if (message.getResponse().equals(Response.failure)) {
@@ -154,10 +154,10 @@ public class DataSyncService implements IDataSyncService {
 	}
 
 	private void checkConnectionState() throws DataSyncException {
-		if (!xmppConnection.isAuthenticated()) {
+		if (!connection.isAuthenticated()) {
 			throw new DataSyncException("Connection is not authenticated. User already logged out? Wrong username or password?");
 		}
-		if (!xmppConnection.isConnected()) {
+		if (!connection.isConnected()) {
 			throw new DataSyncException("Client not connected to server!");
 		}
 	}
@@ -182,10 +182,10 @@ public class DataSyncService implements IDataSyncService {
                     }
                     return session;
                 } else {
-                    MultiUserChat muc = new MultiUserChat(xmppConnection, mucID);
+                    MultiUserChat muc = new MultiUserChat(connection, mucID);
                     try {
-                            muc.join(xmppConnection.getUser());
-                            ISyncSession joinedSession = new SyncSession(xmppConnection, muc, listener);
+                            muc.join(connection.getUser());
+                            ISyncSession joinedSession = new SyncSession(connection, muc, listener);
                             sessionMap.put(mucID, joinedSession);
                             if (fetchState) {
                                 joinedSession.fetchState(toolid);

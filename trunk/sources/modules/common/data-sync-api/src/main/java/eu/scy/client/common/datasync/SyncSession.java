@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.jivesoftware.smack.Connection;
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
@@ -25,10 +26,10 @@ import org.jivesoftware.smackx.muc.DefaultParticipantStatusListener;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 
 import eu.scy.common.datasync.ISyncAction;
+import eu.scy.common.datasync.ISyncAction.Type;
 import eu.scy.common.datasync.ISyncObject;
 import eu.scy.common.datasync.SyncAction;
 import eu.scy.common.datasync.SyncActionPacketTransformer;
-import eu.scy.common.datasync.ISyncAction.Type;
 import eu.scy.common.message.DataSyncMessagePacketTransformer;
 import eu.scy.common.message.SyncMessage;
 import eu.scy.common.message.SyncMessage.Event;
@@ -40,7 +41,7 @@ public class SyncSession implements ISyncSession {
 
     private MultiUserChat muc;
 
-    private XMPPConnection xmppConnection;
+    private Connection connection;
 
     private List<ISyncListener> listeners;
 
@@ -54,21 +55,21 @@ public class SyncSession implements ISyncSession {
 
     private boolean fetchState;
 
-    public SyncSession(XMPPConnection xmppConnection, MultiUserChat muc, String toolid, ISyncListener listener) throws DataSyncException {
+    public SyncSession(Connection xmppConnection, MultiUserChat muc, String toolid, ISyncListener listener) throws DataSyncException {
         this(xmppConnection, muc, toolid, listener, false);
     }
 
-    public SyncSession(XMPPConnection xmppConnection, MultiUserChat muc, ISyncListener listener) throws DataSyncException {
+    public SyncSession(Connection xmppConnection, MultiUserChat muc, ISyncListener listener) throws DataSyncException {
         this(xmppConnection, muc, null, listener, false);
     }
 
 
-    public SyncSession(XMPPConnection xmppConnection, MultiUserChat muc, String toolid, ISyncListener listener, boolean fetchState) throws DataSyncException {
+    public SyncSession(Connection xmppConnection, MultiUserChat muc, String toolid, ISyncListener listener, boolean fetchState) throws DataSyncException {
         this.toolid = toolid;
         this.fetchState = fetchState;
         this.listeners = new ArrayList<ISyncListener>();
         this.collabListeners = new ArrayList<CollaboratorStatusListener>();
-        this.xmppConnection = xmppConnection;
+        this.connection = xmppConnection;
         this.muc = muc;
 
         mucRoomId = muc.getRoom().substring(0, muc.getRoom().indexOf("@"));
@@ -189,7 +190,7 @@ public class SyncSession implements ISyncSession {
 
     @Override
     public void addSyncObject(ISyncObject syncObject) {
-        syncObject.setCreator(xmppConnection.getUser());
+        syncObject.setCreator(connection.getUser());
         sendSyncAction(Type.add, syncObject);
     }
 
@@ -207,9 +208,9 @@ public class SyncSession implements ISyncSession {
 
     private void sendSyncAction(Type type, ISyncObject syncObject) {
         Message message = muc.createMessage();
-        message.setFrom(xmppConnection.getUser());
+        message.setFrom(connection.getUser());
 
-        ISyncAction syncAction = new SyncAction(this.getId(), xmppConnection.getUser(), type, syncObject);
+        ISyncAction syncAction = new SyncAction(this.getId(), connection.getUser(), type, syncObject);
 
         SyncActionPacketTransformer syncActionTransformer = new SyncActionPacketTransformer(syncAction);
         message.addExtension(new SmacketExtension(syncActionTransformer));
@@ -230,7 +231,7 @@ public class SyncSession implements ISyncSession {
     public List<ISyncObject> getAllSyncObjects(String toolId, int time, TimeUnit unit) throws DataSyncException {
         List<ISyncObject> list = new LinkedList<ISyncObject>();
         SyncMessage request = new SyncMessage(eu.scy.common.message.SyncMessage.Type.request);
-        request.setUserId(xmppConnection.getUser());
+        request.setUserId(connection.getUser());
         request.setToolId(toolId);
         request.setEvent(Event.queryall);
         request.setSessionId(muc.getRoom());
@@ -239,7 +240,7 @@ public class SyncSession implements ISyncSession {
         syncMessageTransformer.setObject(request);
 
         Message sentPacket = muc.createMessage();
-        sentPacket.setFrom(xmppConnection.getUser());
+        sentPacket.setFrom(connection.getUser());
 
         SmacketExtension extension = new SmacketExtension(syncMessageTransformer);
         sentPacket.addExtension(extension);
@@ -308,8 +309,8 @@ public class SyncSession implements ISyncSession {
 
     @Override
     public String getUsername() {
-        if (xmppConnection != null) {
-            return xmppConnection.getUser();
+        if (connection != null) {
+            return connection.getUser();
         }
         return null;
     }

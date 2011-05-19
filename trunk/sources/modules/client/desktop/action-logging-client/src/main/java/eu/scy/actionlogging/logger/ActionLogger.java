@@ -2,6 +2,8 @@ package eu.scy.actionlogging.logger;
 
 import javax.swing.SwingUtilities;
 
+import org.apache.log4j.Logger;
+import org.jivesoftware.smack.Connection;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.packet.Message;
 
@@ -11,11 +13,10 @@ import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.common.configuration.Configuration;
 import eu.scy.common.smack.SmacketExtension;
-import org.apache.log4j.Logger;
 
 public class ActionLogger implements IActionLogger {
 
-    private XMPPConnection connection;
+    private Connection connection;
     private static Logger debugLogger = Logger.getLogger(ActionLogger.class.getName());
     /**
      * simple constructor for an actionlogger
@@ -62,7 +63,7 @@ public class ActionLogger implements IActionLogger {
         }
     }
 
-    public void init(XMPPConnection connection) {
+    public void init(Connection connection) {
         this.connection = connection;
     }
 

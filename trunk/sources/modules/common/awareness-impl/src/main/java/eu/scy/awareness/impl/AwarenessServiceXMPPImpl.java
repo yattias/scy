@@ -10,6 +10,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
+import org.jivesoftware.smack.Connection;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.PacketListener;
@@ -17,7 +18,6 @@ import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.RosterListener;
 import org.jivesoftware.smack.SmackConfiguration;
-import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
@@ -48,7 +48,6 @@ import eu.scy.awareness.event.IAwarenessRosterListener;
 import eu.scy.awareness.tool.ChatPresenceToolEvent;
 import eu.scy.awareness.tool.IChatPresenceToolEvent;
 import eu.scy.awareness.tool.IChatPresenceToolListener;
-import org.jivesoftware.smack.packet.PacketExtension;
 
 public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListener {
 
@@ -62,7 +61,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
     private ArrayList<IChatPresenceToolListener> presenceToolListeners = new ArrayList<IChatPresenceToolListener>();
     private Roster roster;
     public Map<String, MultiUserChat> joinedMUCRooms = new HashMap<String, MultiUserChat>();
-    private XMPPConnection xmppConnection;
+    private Connection xmppConnection;
 
     public AwarenessServiceXMPPImpl() {
     }
@@ -266,7 +265,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
     }
 
     @Override
-    public void init(XMPPConnection connection) {
+    public void init(Connection connection) {
         this.xmppConnection = connection;
         if (getRoster() == null) {
             return;
@@ -606,7 +605,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
     }
 
     @Override
-    public XMPPConnection getConnection() {
+    public Connection getConnection() {
         return this.xmppConnection;
     }
 
