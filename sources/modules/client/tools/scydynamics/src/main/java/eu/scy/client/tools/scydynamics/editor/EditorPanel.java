@@ -33,6 +33,7 @@ public class EditorPanel extends JPanel {
 
 	public EditorPanel() {
 		super();
+		setPreferredSize(new Dimension(1600,1200));
 		setLayout(null);
 		setModel(null);
 	}

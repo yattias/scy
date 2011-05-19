@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import javax.swing.*;
 
 import eu.scy.client.tools.scydynamics.editor.ModelEditor;
+import java.awt.Dimension;
 import java.util.logging.Logger;
 
 @SuppressWarnings("serial")
@@ -26,7 +27,7 @@ public class ModellingStandalone extends JFrame implements WindowListener {
 		editor = new ModelEditor(getProperties());
 		this.getContentPane().setLayout(new BorderLayout());
 		this.getContentPane().add(editor, BorderLayout.CENTER);
-		this.setSize(600, 400);
+		this.setPreferredSize(new Dimension(800, 600));
 		this.pack();
 		this.setVisible(true);
 	}
