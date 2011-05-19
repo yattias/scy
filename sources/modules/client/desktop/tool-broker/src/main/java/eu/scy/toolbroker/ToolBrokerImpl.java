@@ -388,7 +388,6 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 			try {
 				this.connection.connect();
 				logger.debug("Successful connection to xmpp server " + config.getHost() + ":" + config.getPort());
-				SmackConfiguration.setPacketReplyTimeout(100000);
 				SmackConfiguration.setKeepAliveInterval(10000);
 			} catch (XMPPException e) {
 				logger.error("Error while connecting over xmpp, trying over HTTP now");
