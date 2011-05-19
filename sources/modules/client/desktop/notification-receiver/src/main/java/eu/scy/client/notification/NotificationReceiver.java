@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jivesoftware.smack.PacketListener;
-import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.Connection;
 import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
@@ -25,7 +25,7 @@ import eu.scy.notification.api.INotification;
  */
 public class NotificationReceiver {
 	
-	private XMPPConnection connection;
+	private Connection connection;
 	
 	private SCYPacketTransformer transformer;
 	
@@ -35,7 +35,7 @@ public class NotificationReceiver {
 		notifiables = new ArrayList<INotifiable>();
 	}
 
-	public void init(XMPPConnection connection) {
+	public void init(Connection connection) {
 		this.connection = connection;
 		
 		transformer = new NotificationPacketTransformer();
