@@ -2,7 +2,7 @@ package eu.scy.awareness;
 
 import java.util.List;
 
-import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.Connection;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 
 import eu.scy.awareness.event.IAwarenessMessageListener;
@@ -18,7 +18,7 @@ import eu.scy.awareness.tool.IChatPresenceToolListener;
 public interface IAwarenessService {
     //to be replace with scy user
     
-	public XMPPConnection getConnection();
+	public Connection getConnection();
 	
     /**
      * Get all the buddies
@@ -114,7 +114,7 @@ public interface IAwarenessService {
      * 
      * @param connection
      */
-    public void init(XMPPConnection connection);
+    public void init(Connection connection);
     
     /**
      * is the service connected

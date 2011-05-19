@@ -3,14 +3,13 @@ package eu.scy.awareness.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.Connection;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 
 import eu.scy.awareness.AwarenessServiceException;
 import eu.scy.awareness.AwarenessUser;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.IAwarenessUser;
-import eu.scy.awareness.event.AwarenessEvent;
 import eu.scy.awareness.event.AwarenessRosterEvent;
 import eu.scy.awareness.event.IAwarePresenceEvent;
 import eu.scy.awareness.event.IAwarenessMessageListener;
@@ -148,7 +147,7 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
     }
 
     @Override
-    public void init(XMPPConnection connection) {
+    public void init(Connection connection) {
         
     }
 
@@ -237,7 +236,7 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
 	}
 
 	@Override
-	public XMPPConnection getConnection() {
+	public Connection getConnection() {
 		// TODO Auto-generated method stub
 		return null;
 	}
