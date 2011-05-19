@@ -23,6 +23,7 @@ import javafx.geometry.Point2D;
 import eu.scy.client.desktop.scydesktop.owner.OwnershipManager;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 import eu.scy.client.desktop.desktoputils.art.EloIcon;
+import java.lang.IllegalArgumentException;
 
 /**
  * @author sikkenj
@@ -96,7 +97,7 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
     public var isCollaborative = false;
     public var isQuiting = false;
     public var isScyContentSet: Boolean = false;
-    
+
     public function open(): Void {
         openWindow(minimumWidth, minimumHeight)
     }
@@ -124,5 +125,5 @@ public abstract class ScyWindow extends CustomNode, DropTarget {
 
     public abstract function buddiesChanged(): Void;
 
-    public abstract function doMaximize(): Void;
+    public abstract function openFixedFullScreen(): Void;
 }
