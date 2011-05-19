@@ -170,6 +170,7 @@
                      <value>report_Evaluation</value>
                      <value>report_Final</value>
                      <value>document_Reflection</value>
+					 <value>research_Question</value>
                   </list>
                </property>
             </bean>
