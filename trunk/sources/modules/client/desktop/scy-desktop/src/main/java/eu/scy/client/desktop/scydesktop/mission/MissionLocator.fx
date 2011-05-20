@@ -51,7 +51,7 @@ public class MissionLocator {
    var missionMapModel: MissionModelFX;
 
    public function locateMission(): Void {
-      if (not StringUtils.isEmpty(initializer.loadEloUri)) {
+      if (initializer.singleEloMode) {
          startSingleEloMission();
          return;
       }

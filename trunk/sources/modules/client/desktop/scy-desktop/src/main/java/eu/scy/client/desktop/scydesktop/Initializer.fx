@@ -47,6 +47,7 @@ import eu.scy.client.desktop.scydesktop.draganddrop.impl.SimpleDragAndDropManage
 import eu.scy.client.desktop.scydesktop.uicontrols.MouseOverDisplay;
 import java.net.InetAddress;
 import eu.scy.client.desktop.scydesktop.hacks.TransparencyFixer;
+import eu.scy.client.desktop.desktoputils.StringUtils;
 //import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
@@ -104,6 +105,7 @@ public class Initializer {
    public-read var toolBrokerLogin: ToolBrokerLogin;
    public-read var usingWebStart = false;
    public-read var offlineMode = false;
+   public-read var singleEloMode = false;
    def systemOutFileName = "systemOut";
    def systemErrFileName = "systemErr";
    def enableLocalLoggingKey = "enableLocalLogging";
@@ -167,6 +169,7 @@ public class Initializer {
       loginTypeEnum = LoginType.convertToLoginType(loginType);
       usingWebStart = System.getProperty("javawebstart.version") != null;
       offlineMode = loginType.toLowerCase().startsWith("local");
+      singleEloMode = not StringUtils.isEmpty(loadEloUri);
       setupLanguages();
       if (LoginType.LOCAL_MULTI_USER != loginTypeEnum) {
          setupLogging(null);
