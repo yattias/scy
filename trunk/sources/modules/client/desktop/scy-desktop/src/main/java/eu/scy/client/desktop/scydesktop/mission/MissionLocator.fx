@@ -30,7 +30,6 @@ import eu.scy.common.mission.impl.BasicMissionRuntimeModel;
 import eu.scy.common.mission.MissionModel;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import eu.scy.client.desktop.desktoputils.XFX;
-import eu.scy.client.desktop.desktoputils.StringUtils;
 import javafx.util.Sequences;
 
 /**
