@@ -131,6 +131,16 @@
             <groupId>org.roolo</groupId>
             <artifactId>elo-impl</artifactId>
 	</dependency>
+        <dependency>
+        <groupId>eu.scy.common</groupId>
+        <artifactId>data-sync-common</artifactId>
+        <version>${pom.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>eu.scy.common</groupId>
+        <artifactId>data-sync-api</artifactId>
+        <version>${pom.version}</version>
+    </dependency>
     </dependencies>
 
 </project>
