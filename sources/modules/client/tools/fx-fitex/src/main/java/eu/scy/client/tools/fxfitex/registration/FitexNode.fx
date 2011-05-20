@@ -57,8 +57,7 @@ import eu.scy.common.scyelo.ScyElo;
  * @author Marjolaine
  */
 
-//public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, CollaborationStartable {
-    public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
+public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, CollaborationStartable {
    def logger = Logger.getLogger(FitexNode.class.getName());
    def scyFitexType = "scy/pds";
    def jdomStringConversion = new JDomStringConversion();
@@ -115,7 +114,7 @@ import eu.scy.common.scyelo.ScyElo;
         // collaboration
 //        if (object instanceof ContactFrame) {
 //            var c: ContactFrame = object as ContactFrame;
-//            if (not scyWindow.ownershipManager.isOwner(c.contact.name)) {
+//            if (not scyWindow.ownershipManager.isOwner(c.contact.name)) {// condition to remove as soon as the user can stop the collaboration, for now, the collaboration is autoreestablished
 //                return true;
 //            }
 //        }
@@ -138,12 +137,16 @@ import eu.scy.common.scyelo.ScyElo;
     // drop accepted: synchronizing or merging, depending of the dropped tool, or collaboration
     public override function acceptDrop(object: Object) {
         logger.info("drop accepted.");
-//        if(object instanceof ContactFrame){
-//            var c: ContactFrame = object as ContactFrame;
-//            logger.info("acceptDrop user: {c.contact.name}");
-//            scyWindow.ownershipManager.addPendingOwner(c.contact.name);
-//            scyWindow.windowManager.scyDesktop.config.getToolBrokerAPI().proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString(), scyWindow.mucId);
-//        }
+        if(object instanceof ContactFrame){
+            if (isSynchronizing()){// quit the sync. with the simulator
+                leave(null);
+            }
+            var c: ContactFrame = object as ContactFrame;
+            logger.info("acceptDrop user: {c.contact.name}");
+            scyWindow.ownershipManager.addPendingOwner(c.contact.name);
+            scyWindow.windowManager.scyDesktop.config.getToolBrokerAPI().proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString(), scyWindow.mucId);
+            return;
+        }
         if(object instanceof ISynchronizable){
             var isSync = isSynchronizingWith(object as ISynchronizable);
             if (isSync) {
@@ -254,12 +257,18 @@ import eu.scy.common.scyelo.ScyElo;
     }
 
    public override function join(mucID: String) {
-        fitexPanel.joinSession(mucID);
+        var s = fitexPanel.joinSession(mucID);
+        if(s != null){
+            fitexPanel.readAllSyncObjects();
+        }
     }
 
     public override function join(mucID: String, edge: Object) {
         this.datasyncEdge = edge as DatasyncEdge;
-        fitexPanel.joinSession(mucID);
+        var s = fitexPanel.joinSession(mucID);
+        if(s != null){
+            fitexPanel.readAllSyncObjects();
+        }
     }
 
     public override function leave(mucID: String) {
@@ -414,17 +423,17 @@ import eu.scy.common.scyelo.ScyElo;
    }
 
    // start Collaboration
-//   public override function startCollaboration(mucid: String) {
-//        if (not collaborative) {
-//            collaborative = true;
-//            FX.deferAction(function(): Void {
-//                def session : ISyncSession = fitexPanel.joinSession(mucid);
-//                session.addCollaboratorStatusListener(scyWindow.ownershipManager);
-//                session.refreshOnlineCollaborators();
-//                fitexPanel.startCollaboration();
-//                logger.info("joined session, mucid: {mucid}");
-//            });
-//        }
-//    }
+   public override function startCollaboration(mucid: String) {
+        if (not collaborative) {
+            collaborative = true;
+            FX.deferAction(function(): Void {
+                def session : ISyncSession = fitexPanel.joinSession(mucid);
+                session.addCollaboratorStatusListener(scyWindow.ownershipManager);
+                session.refreshOnlineCollaborators();
+                fitexPanel.startCollaboration();
+                logger.info("joined session, mucid: {mucid}");
+            });
+        }
+    }
    
 }
