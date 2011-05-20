@@ -3,11 +3,10 @@
   <parent>
     <artifactId>parent</artifactId>
     <groupId>eu.scy</groupId>
-    <version>20-SNAPSHOT</version>
+    <version>34-SNAPSHOT</version>
   </parent>
   <groupId>eu.scy.external</groupId>
   <artifactId>scy-environment-tester</artifactId>
-  <version>20-SNAPSHOT</version>
   <name>SCY Environment Tester</name>
   <repositories>
   	<repository>
@@ -31,23 +30,37 @@
   </repositories>
   <dependencies>
   	<dependency>
-  		<groupId>jivesoftware</groupId>
+  		<groupId>org.igniterealtime</groupId>
   		<artifactId>smack</artifactId>
-  		<version>3.1.0</version>
+  		<version>3.2.0-BOSH</version>
   		<type>jar</type>
   		<scope>compile</scope>
   	</dependency>
   	<dependency>
   		<groupId>eu.scy.common</groupId>
   		<artifactId>configuration</artifactId>
-  		<version>20-SNAPSHOT</version>
+  		<version>${project.version}</version>
   		<type>jar</type>
   		<scope>compile</scope>
+  		<exclusions>
+  			<exclusion>
+  				<artifactId>jms</artifactId>
+  				<groupId>javax.jms</groupId>
+  			</exclusion>
+  			<exclusion>
+  				<artifactId>jmxtools</artifactId>
+  				<groupId>com.sun.jdmk</groupId>
+  			</exclusion>
+  			<exclusion>
+  				<artifactId>jmxri</artifactId>
+  				<groupId>com.sun.jmx</groupId>
+  			</exclusion>
+  		</exclusions>
   	</dependency>
   	<dependency>
-  		<groupId>jivesoftware</groupId>
+  		<groupId>org.igniterealtime</groupId>
   		<artifactId>smackx</artifactId>
-  		<version>3.1.0</version>
+  		<version>3.2.0-BOSH</version>
   		<type>jar</type>
   		<scope>compile</scope>
   	</dependency>

@@ -16,6 +16,7 @@ public class Controller {
 	public boolean testsRunning = false;
 	private Thread testThread;
 	private int errors = 0;
+        private int warnings = 0;
 	
 	public Controller(Model model, View view) {
 		this.model = model;
@@ -29,12 +30,14 @@ public class Controller {
 	public void returnResult(TestResult rslt) {
 		model.storeResult(rslt);
 		int i = model.getCurrentTest();
-		if(rslt.getErrors().size() == 0) {
-			view.changeImage(i, "ok.png");
-		}
-		else {
-			view.changeImage(i, "fail.png");
-			errors++;
+		if(rslt.getErrors().size() > 0) {
+		    view.changeImage(i, "fail.png");
+		    errors++;
+		} else if (rslt.getWarnings().size() > 0) {
+		    view.changeImage(i, "warning.png");
+		    warnings++;
+	        } else {
+		    view.changeImage(i, "ok.png");
 		}
 		if(!model.testsDone()) {
 			nextTest();
@@ -42,11 +45,10 @@ public class Controller {
 		else {
 			testsRunning = false;
 			model.resetTestCount();
-			if(errors == 0) {
-				view.showOkPopup();
-			}
-			else {
-				view.showErrorPopup( errors);
+			if(errors > 0 || warnings > 0) {
+			    view.showErrorPopup(errors, warnings);
+			} else {
+			    view.showOkPopup();
 			}
 		}
 	}

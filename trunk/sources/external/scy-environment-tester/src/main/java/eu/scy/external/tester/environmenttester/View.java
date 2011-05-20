@@ -30,7 +30,6 @@ public class View extends JFrame {
 	private JLabel scyLogo;
 	private Vector<JLabel> results;
 	public View() {
-//		JOptionPane.showMessageDialog(this, "Thank you for using the SCY Trojan Downloader!\nSeveral Keyloggers have already been installed to C:\\Windows\\System32! (even on Linux!)", "SCY Trojan Loader", JOptionPane.INFORMATION_MESSAGE);
 		this.build();
 		this.loadDefaultCenter();
 	}
@@ -45,7 +44,7 @@ public class View extends JFrame {
 		viewLogBT.setEnabled(false);
 		center = new JPanel();
 		center.setBackground(null);
-		center.setPreferredSize(new Dimension(300, 240));
+		center.setPreferredSize(new Dimension(300, 260));
 		scyLogo = new JLabel();
 		scyLogo.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage(View.class.getResource("/scy.png"))));
 		//add items
@@ -134,11 +133,25 @@ public class View extends JFrame {
 		viewLogBT.setEnabled(true);
 	}
 
-	public void showErrorPopup(int errors) {
-		JOptionPane.showMessageDialog(this, "Warning: "+errors+" error(s) occured during the test.\nPlease send the log to your SCY-Partner for further steps.", "SCY Environment Test", JOptionPane.ERROR_MESSAGE);
+	public void showErrorPopup(int errors, int warnings) {
+	        StringBuilder sb = new StringBuilder("Warning: ");
+	        int errorMessage = JOptionPane.WARNING_MESSAGE;
+	        if (errors > 0) {
+	            errorMessage = JOptionPane.ERROR_MESSAGE;
+	            sb.append(errors + " error(s)");
+	        }
+	        if (errors > 0 && warnings > 0) {
+	            sb.append(" and ");
+	        }
+	        if (warnings > 0) {
+	            sb.append(warnings + " warning(s)"); 
+	        }
+	        sb.append(" occured during the test.\nPlease send the log to your SCY-Partner for further steps.");
+		JOptionPane.showMessageDialog(this, sb.toString(), "SCY Environment Test", errorMessage);
 		startTestBT.setEnabled(true);
 		startTestBT.setText("Restart");
 		viewLogBT.setEnabled(true);
 	}
+
 
 }
