@@ -31,7 +31,7 @@
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/20087/0/SCYDynamics+model.scymodel</entry>
+        <entry>roolo://memory/20087/0/Nutrients+SCYDynamics+model.scymodel</entry>
       </identifier>
       <las>experiment_B1</las>
       <mission>ecoMission</mission>
