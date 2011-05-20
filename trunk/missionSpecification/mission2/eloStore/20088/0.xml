@@ -31,7 +31,7 @@
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/20088/0/SCYDynamics+model.scymodel</entry>
+        <entry>roolo://memory/20088/0/Trophic+levels+SCYDynamics+model.scymodel</entry>
       </identifier>
       <las>experiment_B3</las>
       <mission>ecoMission</mission>
