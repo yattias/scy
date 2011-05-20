@@ -250,6 +250,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    var cornerGroup: Group;
    public def desktopButtonSize = 25.0;
    public def desktopButtonActionScheme = 1;
+   var bigMissionMapControl: BigMissionMapControl;
 
    init {
       if (config.isRedirectSystemStreams() and config.getLoggingDirectory() != null) {
@@ -273,10 +274,9 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       }
       //      FX.addShutdownAction(scyDesktopShutdownAction);
       create();
-      if (missionRunConfigs.scyEloToLoad != null) {
+      if (initializer.singleEloMode) {
          loadSingleScyElo();
       }
-
    }
 
    function initMouseBlocker(): Void {
@@ -329,164 +329,8 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  showMoreInfo: moreInfoManager
               }
       missionRuntimeSettingsManager = missionRunConfigs.missionRuntimeModel.getRuntimeSettingsManager();
-      var bigMissionMapControl: BigMissionMapControl;
-      if (StringUtils.isEmpty(initializer.loadEloUri)) {
-         //The frontend to thecontact list
-         def contactList: ContactList = ContactList {
-                    columns: 2
-                    contacts: []
-                    dragAndDropManager: dragAndDropManager
-                    tooltipManager: tooltipManager
-                    scyDesktop: this
-                    height: 250
-                    showOfflineContacts: initializer.showOfflineContacts
-                    width: 300
-                    stateIndicatorOpacity: initializer.indicateOnlineStateByOpacity
-                 };
-         contactList.height = 250;
-         missionMap = MissionMap {
-                    missionModel: missionModelFX
-                    bigMissionMap: false
-                    tooltipManager: tooltipManager
-                    dragAndDropManager: dragAndDropManager
-                    runtimeSettingsRetriever: EloRuntimeSettingsRetriever {
-                       eloUri: null;
-                       runtimeSettingsManager: missionRuntimeSettingsManager
-                    }
-                    scyDesktop: this
-                    metadataTypeManager: config.getMetadataTypeManager()
-                    showLasId: initializer.debugMode
-                    selectedScale: initializer.missionMapSelectedImageScale
-                    notSelectedScale: initializer.missionMapNotSelectedImageScale
-                    positionScale: initializer.missionMapPositionScale
-                 }
-         def bigMissionMap = BigMissionMap {
-                    missionModel: missionModelFX
-                    bigMissionMap: true
-                    tooltipManager: tooltipManager
-                    dragAndDropManager: dragAndDropManager
-                    runtimeSettingsRetriever: EloRuntimeSettingsRetriever {
-                       eloUri: null;
-                       runtimeSettingsManager: missionRuntimeSettingsManager
-                    }
-                    scyDesktop: this
-                    metadataTypeManager: config.getMetadataTypeManager()
-                    showLasId: initializer.debugMode
-                    selectedScale: initializer.missionMapSelectedImageScale
-                    notSelectedScale: initializer.missionMapNotSelectedImageScale
-                    positionScale: initializer.missionMapPositionScale
-                 }
-         bigMissionMapControl = BigMissionMapControl {
-                    bigMissionMap: bigMissionMap
-                    windowStyler: windowStyler
-                    scyWindowControl: scyWindowControl
-                    missionModel: missionModelFX
-                    initializer: initializer
-                    tooltipManager: tooltipManager
-                    scyDesktop: this
-                    buttonSize: desktopButtonSize
-                    moreInfoToolFactory: bind moreInfoToolFactory
-                    moreInfoManager: moreInfoManager
-                 }
-
-         topLeftCorner = TopLeftCorner {
-                    content: contactList;
-                    color: Color.RED;
-                    effect: cornerToolEffect
-                 }
-         //        topRightCorner = TopRightCorner {
-         //            content: topRightCornerTool;
-         //            color: Color.GREEN;
-         //            effect: cornerToolEffect
-         //        }
-         scyFeedbackGiveButton = EloIconButton {
-                    eloIcon: windowStyler.getScyEloIcon("give_feedback")
-                    size: desktopButtonSize
-                    actionScheme: desktopButtonActionScheme
-                    disableButton: initializer.offlineMode
-                    tooltipManager: tooltipManager
-                    tooltip: if (initializer.offlineMode) "Feedback is only available when working online" else "Give Feedback"
-                    action: function(): Void {
-                       def conf: Configuration = Configuration.getInstance();
-                       def eloUriEncoded = URLEncoder.encode(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString(), "UTF-8");
-                       def feedbackURL = "{conf.getFeedbackProtocol()}://{conf.getFeedbackServer()}:{conf.getFeedbackPort()}{conf.getFeedbackContext()}FeedbackToolIndex.html?eloURI={eloUriEncoded}";
-                       try {
-                          var basicService = javax.jnlp.ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
-                          if (basicService != null) {
-                             var url: java.net.URL = new java.net.URL(feedbackURL);
-                             basicService.showDocument(url);
-                          }
-                       } catch (e: javax.jnlp.UnavailableServiceException) {
-                          BareBonesBrowserLaunch.openURL(feedbackURL);
-                       }
-                       scyFeedbackGiveButton.eloIcon = windowStyler.getScyEloIcon("give_feedback");
-                    }
-                 }
-
-         scyFeedbackGetButton = EloIconButton {
-                    eloIcon: windowStyler.getScyEloIcon("get_feedback")
-                    size: desktopButtonSize
-                    actionScheme: desktopButtonActionScheme
-                    disableButton: initializer.offlineMode
-                    tooltipManager: tooltipManager
-                    tooltip: if (initializer.offlineMode) "Feedback is only available when working online" else "Get Feedback"
-                    action: function(): Void {
-                       def conf: Configuration = Configuration.getInstance();
-                       def eloUriEncoded = URLEncoder.encode(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString(), "UTF-8");
-                       def feedbackURL = "{conf.getFeedbackProtocol()}://{conf.getFeedbackServer()}:{conf.getFeedbackPort()}{conf.getFeedbackContext()}FeedbackToolIndex.html?eloURI={eloUriEncoded}";
-                       try {
-                          var basicService = javax.jnlp.ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
-                          if (basicService != null) {
-                             var url: java.net.URL = new java.net.URL(feedbackURL);
-                             basicService.showDocument(url);
-                          }
-                       } catch (e: javax.jnlp.UnavailableServiceException) {
-                          BareBonesBrowserLaunch.openURL(feedbackURL);
-                       }
-                       scyFeedbackGetButton.eloIcon = windowStyler.getScyEloIcon("get_feedback");
-                    }
-                 }
-         eportfolioButton = EportfolioButton { scyDesktop: this }
-         dragAndDropManager.addDropTaget(eportfolioButton);
-         def ePortfolioSpacer = Rectangle {
-                    x: 0, y: 0
-                    width: 1, height: 5
-                    fill: Color.TRANSPARENT
-                 }
-
-         topRightCorner = TopRightCorner {
-                    content: VBox {
-                       content: [
-                          scyFeedbackGetButton,
-                          scyFeedbackGiveButton,
-                          ePortfolioSpacer,
-                          eportfolioButton
-                       ]
-                       spacing: 0
-                    };
-                 //               effect: cornerToolEffect
-                 }
-         //}
-
-         bottomRightCorner = BottomRightCorner {
-                    // TODO, replace with specified tool
-                    content: if (initializer.useBigMissionMap) bigMissionMapControl else missionMap
-                    //            content:missionMap
-                    //            content: HBox {
-                    //               spacing: 5.0
-                    //               content: [
-                    //                  missionMap,
-                    //                  bigMissionMapControl
-                    //               ]
-                    //            }
-                    color: Color.BLUE;
-                    effect: cornerToolEffect
-                 }
-         bottomLeftCorner = BottomLeftCorner {
-                    content: bottomLeftCornerTool;
-                    color: Color.GRAY;
-                    effect: cornerToolEffect
-                 }
+      if (not initializer.singleEloMode) {
+         createMultiEloElements();
       }
       if (initializer.windowPositioner.equalsIgnoreCase("simple")) {
       // this is the default
@@ -557,6 +401,165 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
               }
    }
 
+   function createMultiEloElements() {
+      //The frontend to thecontact list
+      def contactList: ContactList = ContactList {
+                 columns: 2
+                 contacts: []
+                 dragAndDropManager: dragAndDropManager
+                 tooltipManager: tooltipManager
+                 scyDesktop: this
+                 height: 250
+                 showOfflineContacts: initializer.showOfflineContacts
+                 width: 300
+                 stateIndicatorOpacity: initializer.indicateOnlineStateByOpacity
+              };
+      contactList.height = 250;
+      missionMap = MissionMap {
+                 missionModel: missionModelFX
+                 bigMissionMap: false
+                 tooltipManager: tooltipManager
+                 dragAndDropManager: dragAndDropManager
+                 runtimeSettingsRetriever: EloRuntimeSettingsRetriever {
+                    eloUri: null;
+                    runtimeSettingsManager: missionRuntimeSettingsManager
+                 }
+                 scyDesktop: this
+                 metadataTypeManager: config.getMetadataTypeManager()
+                 showLasId: initializer.debugMode
+                 selectedScale: initializer.missionMapSelectedImageScale
+                 notSelectedScale: initializer.missionMapNotSelectedImageScale
+                 positionScale: initializer.missionMapPositionScale
+              }
+      def bigMissionMap = BigMissionMap {
+                 missionModel: missionModelFX
+                 bigMissionMap: true
+                 tooltipManager: tooltipManager
+                 dragAndDropManager: dragAndDropManager
+                 runtimeSettingsRetriever: EloRuntimeSettingsRetriever {
+                    eloUri: null;
+                    runtimeSettingsManager: missionRuntimeSettingsManager
+                 }
+                 scyDesktop: this
+                 metadataTypeManager: config.getMetadataTypeManager()
+                 showLasId: initializer.debugMode
+                 selectedScale: initializer.missionMapSelectedImageScale
+                 notSelectedScale: initializer.missionMapNotSelectedImageScale
+                 positionScale: initializer.missionMapPositionScale
+              }
+      bigMissionMapControl = BigMissionMapControl {
+                 bigMissionMap: bigMissionMap
+                 windowStyler: windowStyler
+                 scyWindowControl: scyWindowControl
+                 missionModel: missionModelFX
+                 initializer: initializer
+                 tooltipManager: tooltipManager
+                 scyDesktop: this
+                 buttonSize: desktopButtonSize
+                 moreInfoToolFactory: bind moreInfoToolFactory
+                 moreInfoManager: moreInfoManager
+              }
+
+      topLeftCorner = TopLeftCorner {
+                 content: contactList;
+                 color: Color.RED;
+                 effect: cornerToolEffect
+              }
+      //        topRightCorner = TopRightCorner {
+      //            content: topRightCornerTool;
+      //            color: Color.GREEN;
+      //            effect: cornerToolEffect
+      //        }
+      scyFeedbackGiveButton = EloIconButton {
+                 eloIcon: windowStyler.getScyEloIcon("give_feedback")
+                 size: desktopButtonSize
+                 actionScheme: desktopButtonActionScheme
+                 disableButton: initializer.offlineMode
+                 tooltipManager: tooltipManager
+                 tooltip: if (initializer.offlineMode) "Feedback is only available when working online" else "Give Feedback"
+                 action: function(): Void {
+                    def conf: Configuration = Configuration.getInstance();
+                    def eloUriEncoded = URLEncoder.encode(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString(), "UTF-8");
+                    def feedbackURL = "{conf.getFeedbackProtocol()}://{conf.getFeedbackServer()}:{conf.getFeedbackPort()}{conf.getFeedbackContext()}FeedbackToolIndex.html?eloURI={eloUriEncoded}";
+                    try {
+                       var basicService = javax.jnlp.ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
+                       if (basicService != null) {
+                          var url: java.net.URL = new java.net.URL(feedbackURL);
+                          basicService.showDocument(url);
+                       }
+                    } catch (e: javax.jnlp.UnavailableServiceException) {
+                       BareBonesBrowserLaunch.openURL(feedbackURL);
+                    }
+                    scyFeedbackGiveButton.eloIcon = windowStyler.getScyEloIcon("give_feedback");
+                 }
+              }
+
+      scyFeedbackGetButton = EloIconButton {
+                 eloIcon: windowStyler.getScyEloIcon("get_feedback")
+                 size: desktopButtonSize
+                 actionScheme: desktopButtonActionScheme
+                 disableButton: initializer.offlineMode
+                 tooltipManager: tooltipManager
+                 tooltip: if (initializer.offlineMode) "Feedback is only available when working online" else "Get Feedback"
+                 action: function(): Void {
+                    def conf: Configuration = Configuration.getInstance();
+                    def eloUriEncoded = URLEncoder.encode(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString(), "UTF-8");
+                    def feedbackURL = "{conf.getFeedbackProtocol()}://{conf.getFeedbackServer()}:{conf.getFeedbackPort()}{conf.getFeedbackContext()}FeedbackToolIndex.html?eloURI={eloUriEncoded}";
+                    try {
+                       var basicService = javax.jnlp.ServiceManager.lookup("javax.jnlp.BasicService") as javax.jnlp.BasicService;
+                       if (basicService != null) {
+                          var url: java.net.URL = new java.net.URL(feedbackURL);
+                          basicService.showDocument(url);
+                       }
+                    } catch (e: javax.jnlp.UnavailableServiceException) {
+                       BareBonesBrowserLaunch.openURL(feedbackURL);
+                    }
+                    scyFeedbackGetButton.eloIcon = windowStyler.getScyEloIcon("get_feedback");
+                 }
+              }
+      eportfolioButton = EportfolioButton { scyDesktop: this }
+      dragAndDropManager.addDropTaget(eportfolioButton);
+      def ePortfolioSpacer = Rectangle {
+                 x: 0, y: 0
+                 width: 1, height: 5
+                 fill: Color.TRANSPARENT
+              }
+
+      topRightCorner = TopRightCorner {
+                 content: VBox {
+                    content: [
+                       scyFeedbackGetButton,
+                       scyFeedbackGiveButton,
+                       ePortfolioSpacer,
+                       eportfolioButton
+                    ]
+                    spacing: 0
+                 };
+              //               effect: cornerToolEffect
+              }
+      //}
+
+      bottomRightCorner = BottomRightCorner {
+                 // TODO, replace with specified tool
+                 content: if (initializer.useBigMissionMap) bigMissionMapControl else missionMap
+                 //            content:missionMap
+                 //            content: HBox {
+                 //               spacing: 5.0
+                 //               content: [
+                 //                  missionMap,
+                 //                  bigMissionMapControl
+                 //               ]
+                 //            }
+                 color: Color.BLUE;
+                 effect: cornerToolEffect
+              }
+      bottomLeftCorner = BottomLeftCorner {
+                 content: bottomLeftCornerTool;
+                 color: Color.GRAY;
+                 effect: cornerToolEffect
+              }
+   }
+
    def jdomStringConversion = new JDomStringConversion();
 
    function create(): Void {
@@ -623,18 +626,20 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
          (toolNode as CollaborationStartable).startCollaboration(mucId);
          window.isCollaborative = true;
       }
-      if (window.isCollaborative and window.topDrawerTool instanceof CollaborationStartable) {
-         (window.topDrawerTool as CollaborationStartable).startCollaboration(mucId);
-      }
-      if (window.isCollaborative and window.rightDrawerTool instanceof CollaborationStartable) {
-         (window.rightDrawerTool as CollaborationStartable).startCollaboration(mucId);
-      }
-      if (window.isCollaborative and window.bottomDrawerTool instanceof CollaborationStartable) {
-         (window.bottomDrawerTool as CollaborationStartable).startCollaboration(mucId);
-      }
-      for (leftDrawerTool in window.leftDrawerTools) {
-         if (window.isCollaborative and leftDrawerTool instanceof CollaborationStartable) {
-            (leftDrawerTool as CollaborationStartable).startCollaboration(mucId);
+      if (not initializer.singleEloMode) {
+         if (window.isCollaborative and window.topDrawerTool instanceof CollaborationStartable) {
+            (window.topDrawerTool as CollaborationStartable).startCollaboration(mucId);
+         }
+         if (window.isCollaborative and window.rightDrawerTool instanceof CollaborationStartable) {
+            (window.rightDrawerTool as CollaborationStartable).startCollaboration(mucId);
+         }
+         if (window.isCollaborative and window.bottomDrawerTool instanceof CollaborationStartable) {
+            (window.bottomDrawerTool as CollaborationStartable).startCollaboration(mucId);
+         }
+         for (leftDrawerTool in window.leftDrawerTools) {
+            if (window.isCollaborative and leftDrawerTool instanceof CollaborationStartable) {
+               (leftDrawerTool as CollaborationStartable).startCollaboration(mucId);
+            }
          }
       }
    }
@@ -678,42 +683,44 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       //      if (eloConfig.isContentCollaboration() == collaboration) {
       scyToolsList.windowContentTool = scyToolFactory.createNewScyToolNode(eloConfig.getContentCreatorId(), window.eloType, window.eloUri, window, false);
       //      }
-      //      if (eloConfig.isTopDrawerCollaboration() == collaboration) {
-      scyToolsList.topDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getTopDrawerCreatorId(), window.eloType, window.eloUri, window, true);
-      //      }
-      if (collaboration) {
-         scyToolsList.rightDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getRightDrawerCreatorId(), window.eloType, window.eloUri, window, true);
-      }
-      //      if (eloConfig.isBottomDrawerCollaboration() == collaboration) {
-      scyToolsList.bottomDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getBottomDrawerCreatorId(), window.eloType, window.eloUri, window, true);
-      //      }
-      //      if (eloConfig.isLeftDrawerCollaboration() == collaboration) {
-      if (eloConfig.getLeftDrawerCreatorId() != null) {
-         def creatorTokenizer = new StringTokenizer(eloConfig.getLeftDrawerCreatorId());
-         while (creatorTokenizer.hasMoreTokens()) {
-            //               insert scyToolFactory.createNewScyToolNode(creatorTokenizer.nextToken(), window.eloType, window.eloUri, window, true) into scyToolsList.leftDrawerTools;
-            var leftDrawerCreatorId = creatorTokenizer.nextToken();
-            // TODO, remove these hard coded hacks!!!
-            var addDrawer = true;
-            //           if (leftDrawerCreatorId.equals("feedbackQuestion") and not missionModelFX.getEloUris(false).contains(window.eloUri)){
-            //              addDrawer = false;
-            //           }
-            if (leftDrawerCreatorId.equals("feedbackQuestion") and not window.scyElo.getAuthors().contains(config.getToolBrokerAPI().getLoginUserName())) {
-               addDrawer = false;
-            }
-            if (leftDrawerCreatorId.equals("assingmentInfo") and window.scyElo.getAssignmentUri() == null) {
-               addDrawer = false;
-            }
-            if (leftDrawerCreatorId.equals("resourcesInfo") and window.scyElo.getResourcesUri() == null) {
-               addDrawer = false;
-            }
+      if (not initializer.singleEloMode) {
+         //      if (eloConfig.isTopDrawerCollaboration() == collaboration) {
+         scyToolsList.topDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getTopDrawerCreatorId(), window.eloType, window.eloUri, window, true);
+         //      }
+         if (collaboration) {
+            scyToolsList.rightDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getRightDrawerCreatorId(), window.eloType, window.eloUri, window, true);
+         }
+         //      if (eloConfig.isBottomDrawerCollaboration() == collaboration) {
+         scyToolsList.bottomDrawerTool = scyToolFactory.createNewScyToolNode(eloConfig.getBottomDrawerCreatorId(), window.eloType, window.eloUri, window, true);
+         //      }
+         //      if (eloConfig.isLeftDrawerCollaboration() == collaboration) {
+         if (eloConfig.getLeftDrawerCreatorId() != null) {
+            def creatorTokenizer = new StringTokenizer(eloConfig.getLeftDrawerCreatorId());
+            while (creatorTokenizer.hasMoreTokens()) {
+               //               insert scyToolFactory.createNewScyToolNode(creatorTokenizer.nextToken(), window.eloType, window.eloUri, window, true) into scyToolsList.leftDrawerTools;
+               var leftDrawerCreatorId = creatorTokenizer.nextToken();
+               // TODO, remove these hard coded hacks!!!
+               var addDrawer = true;
+               //           if (leftDrawerCreatorId.equals("feedbackQuestion") and not missionModelFX.getEloUris(false).contains(window.eloUri)){
+               //              addDrawer = false;
+               //           }
+               if (leftDrawerCreatorId.equals("feedbackQuestion") and not window.scyElo.getAuthors().contains(config.getToolBrokerAPI().getLoginUserName())) {
+                  addDrawer = false;
+               }
+               if (leftDrawerCreatorId.equals("assingmentInfo") and window.scyElo.getAssignmentUri() == null) {
+                  addDrawer = false;
+               }
+               if (leftDrawerCreatorId.equals("resourcesInfo") and window.scyElo.getResourcesUri() == null) {
+                  addDrawer = false;
+               }
 
-            if (addDrawer) {
-               insert scyToolFactory.createNewScyToolNode(leftDrawerCreatorId, window.eloType, window.eloUri, window, true) into scyToolsList.leftDrawerTools;
-            }
-         };
-      }
+               if (addDrawer) {
+                  insert scyToolFactory.createNewScyToolNode(leftDrawerCreatorId, window.eloType, window.eloUri, window, true) into scyToolsList.leftDrawerTools;
+               }
+            };
+         }
       //      }
+      }
 
       // all tools are created and placed in the window
       // now do the ScyTool initialisation
