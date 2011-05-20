@@ -135,14 +135,24 @@ public class LoginDialog extends CustomNode, TbiReady {
 
    function fadeWindowIn(): Void {
       def window = loginWindow;
+      def delayDuration = 500ms;
+      def appearDuration = 500ms;
       Timeline {
          repeatCount: 1
          keyFrames: [
-            at (3s) {
-               window.opacity => 0.0
+//            at (3s) {
+//               window.opacity => 0.0
+//            }
+//            at (4s) {
+//               window.opacity => 1.0
+//            }
+            KeyFrame {
+               time: delayDuration
+               values: window.opacity => 0.0
             }
-            at (4s) {
-               window.opacity => 1.0
+            KeyFrame {
+               time: delayDuration+appearDuration
+               values: window.opacity => 1.0
             }
          ]
       }.play();
