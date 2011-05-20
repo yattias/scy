@@ -1,9 +1,16 @@
 package eu.scy.external.tester.environmenttester.test;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
+import java.lang.reflect.Method;
+
 import eu.scy.external.tester.environmenttester.Controller;
 
 public class EnvironmentDataTest implements ITest  {
 	
+        private static final int MB500 = 500 * 1024 * 1024;
+        private static final int MB1000 = 1000 * 1024 * 1024;
+    
 	private String name;
 	private String desc;
 	private TestResult rslt;
@@ -58,6 +65,17 @@ public class EnvironmentDataTest implements ITest  {
 		sb.append(System.getProperty("line.separator"));
 		sb.append("Memory max: ").append(Runtime.getRuntime().maxMemory());
 		sb.append(System.getProperty("line.separator"));
+		try {
+                    long maxPhysMemory = getMaxPhysicalMemory();
+                    long memInMB = (maxPhysMemory / 1024) / 1024;
+                    sb.append("Memory max physical: ").append(memInMB).append(" MB");
+                    sb.append(System.getProperty("line.separator"));
+                    if (maxPhysMemory < MB500) {
+                        rslt.addError("The computer has only " + memInMB + " MB of internal memory. This is not enough to run SCY-Lab.");
+                    } else if (maxPhysMemory < MB1000) {
+                        rslt.addWarning("The computer has only " + memInMB + " MB of internal memory. SCY-Lab might not run very smoothly on this machine.");
+                    }
+                } catch (Exception e) {}
 		sb.append("CPU processors: ").append(Runtime.getRuntime().availableProcessors());
 		sb.append(System.getProperty("line.separator"));
 		sb.append("CPU set: ").append(System.getProperty("sun.cpu.isalist"));
@@ -72,5 +90,14 @@ public class EnvironmentDataTest implements ITest  {
 		rslt.setResultText(sb.toString());
 		ctrl.returnResult(rslt);
 	}
+	
+        private long getMaxPhysicalMemory() throws Exception {
+            OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
+            Method method = operatingSystemMXBean.getClass().getMethod("getTotalPhysicalMemorySize");
+            method.setAccessible(true);
+            Object value = method.invoke(operatingSystemMXBean);
+            System.out.println(method.getName() + " = " + value);
+            return (Long) value;
+        }
 
 }

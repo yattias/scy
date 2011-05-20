@@ -5,7 +5,7 @@ import java.util.Vector;
 import eu.scy.external.tester.environmenttester.test.CPUTest;
 import eu.scy.external.tester.environmenttester.test.EnvironmentDataTest;
 import eu.scy.external.tester.environmenttester.test.ITest;
-import eu.scy.external.tester.environmenttester.test.Port8080Test;
+import eu.scy.external.tester.environmenttester.test.PortTest;
 import eu.scy.external.tester.environmenttester.test.ScylabeuTest;
 import eu.scy.external.tester.environmenttester.test.SpeedTest;
 import eu.scy.external.tester.environmenttester.test.TestResult;
@@ -22,9 +22,10 @@ public class Model {
 		tests = new Vector<ITest>();
 		results = new Vector<TestResult>();
 		
-		tests.add(new XMPPTest());
-		tests.add(new Port8080Test());
+		tests.add(new PortTest(80, true));
+		tests.add(new PortTest(8080, false));
 		tests.add(new SpeedTest());
+		tests.add(new XMPPTest());
 		tests.add(new EnvironmentDataTest());
 		tests.add(new CPUTest());
 		tests.add(new ScylabeuTest());
