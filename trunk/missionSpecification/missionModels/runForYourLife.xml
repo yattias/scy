@@ -129,7 +129,7 @@
                <property name="uri" value="roolo://memory/50001/0/List+of+information.rtf"/>
                <property name="iconType" value="information2"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Information/tip_LAS_A.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Information/instruction_1_listOfInformation.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Information/instruction_01_listOfInformation.html"/>
                <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
                   <list />
@@ -144,7 +144,7 @@
                <property name="uri" value="roolo://memory/50002/0/Hypothesis.rtf"/>
 			   <property name="iconType" value="alert_question"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/LAS_Conceptualization/mission5/tip_LAS_B.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Conceptualization/instruction_2_hypothesis.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Conceptualization/instruction_02_hypothesis.html"/>
                <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
                   <list />
@@ -159,7 +159,7 @@
                <property name="uri" value="roolo://memory/50000/0/Glucose+Model.scymodel"/>
                <property name="iconType" value="dataset"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/tip_LAS_C.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/instruction_3_visualRepresentationOfData.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/instruction_03_visualRepresentationOfData.html"/>
                <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
                   <list />
@@ -174,7 +174,7 @@
                <property name="uri" value="roolo://memory/50007/0/Conclusion+of+experiment.rtf"/>
 			   <property name="iconType" value="dataset"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/tip_LAS_C.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/instruction_4_conclusionOfExperiment.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/instruction_04_conclusionOfExperiment.html"/>
                <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
                   <list />
