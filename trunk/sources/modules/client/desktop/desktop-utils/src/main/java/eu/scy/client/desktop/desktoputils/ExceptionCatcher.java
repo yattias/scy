@@ -47,12 +47,19 @@ public class ExceptionCatcher implements Thread.UncaughtExceptionHandler
       System.err.println("An uncatched exception occurred at " + new Date() + " in thread " + t.getName());
       e.printStackTrace(System.err);
       final ResourceBundleWrapper resourceBundleWrapper = new ResourceBundleWrapper(this);
-      StringBuilder exceptionMessage = new StringBuilder(e.getMessage());
+      if (resourceBundleWrapper==null){
+         logger.error("can't report uncatched exception, because I can't find ResourceBundleWrapper");
+         return;
+      }
+      final String npeMessage = resourceBundleWrapper.getString("ExceptionCatcher.nullPointerException");
+      String errorMessage = getThrowableMessage(e,npeMessage);
+      StringBuilder exceptionMessage = new StringBuilder(errorMessage);
       Throwable cause = e.getCause();
       while (cause!=null){
          exceptionMessage.append("\n");
          exceptionMessage.append(resourceBundleWrapper.getString("ExceptionCatcher.causedBy"));
          exceptionMessage.append(" ");
+         exceptionMessage.append(getThrowableMessage(cause,npeMessage));
          cause = e.getCause();
       }
       JOptionPane.showMessageDialog(null,resourceBundleWrapper.getString("ExceptionCatcher.message")+ "\n" +
@@ -68,5 +75,18 @@ public class ExceptionCatcher implements Thread.UncaughtExceptionHandler
       {
          System.exit(1);
       }
+   }
+
+   private String getThrowableMessage(Throwable e, String npeMessage){
+      if (e!=null){
+         final String message = e.getMessage();
+         if (message!=null){
+            return message;
+         }
+         else{
+            return npeMessage;
+         }
+      }
+      return "";
    }
 }
