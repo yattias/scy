@@ -8,7 +8,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
@@ -86,6 +85,11 @@ public class EditorPanel extends JPanel {
 	    g2d.drawRect(tip_x - w / 2, tip_y - h / 2, w, h);
 	    g2d.drawString(tip, tip_x - w / 2 + 4, tip_y + h / 2 - 3);
 	}
+
+	if (rDrag != null) {
+	    g2d.setColor(Color.BLACK);
+	    g2d.drawRect(rDrag.x, rDrag.y, rDrag.width, rDrag.height);
+	}
     }
 
     public void repaintObject(JdObject o) {
@@ -101,13 +105,11 @@ public class EditorPanel extends JPanel {
 	startX = x;
 	startY = y;
 	rDrag = new Rectangle(x, y, 0, 0);
+	this.repaint();
     }
 
     public void extendRect(int x2, int y2) {
 	if (rDrag != null) {
-	    Graphics2D g = (Graphics2D) this.getGraphics();
-	    g.setXORMode(this.getBackground());
-	    g.drawRoundRect(rDrag.x, rDrag.y, rDrag.width, rDrag.height, 2, 2);
 	    int x, y, w, h;
 	    if (startX > x2) {
 		x = x2;
@@ -123,20 +125,17 @@ public class EditorPanel extends JPanel {
 		y = startY;
 		h = y2 - startY;
 	    }
-	    g.drawRoundRect(x, y, w, h, 2, 2);
 	    rDrag.setBounds(x, y, w, h);
+	    this.repaint();
 	}
     }
 
     public Rectangle stopRect() {
 	Rectangle r = null;
 	if (rDrag != null) {
-	    Graphics2D g = (Graphics2D) this.getGraphics();
-	    g.setXORMode(this.getBackground());
-	    g.drawRoundRect(rDrag.x, rDrag.y, rDrag.width, rDrag.height, 2, 2);
-	    g.setPaintMode();
 	    r = new Rectangle(rDrag);
 	    rDrag = null;
+	    this.repaint();
 	}
 	return r;
     }

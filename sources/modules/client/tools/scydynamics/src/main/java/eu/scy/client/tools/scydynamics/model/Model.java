@@ -103,21 +103,19 @@ public class Model {
 		// because of the "adding link in progress problem"
 		//logger.logAddAction(aObj);
 	}
-	//-------------------------------------------------------------------------
+
 	public void removeObject(JdObject aObj) {
 		JdColor.freeColor(aObj.getLabelColor());
 		objs.remove(aObj.getLabel());
 		editor.getActionLogger().logDeleteAction(aObj, this.getXmModel().getXML("", true));
 	}
-	//-------------------------------------------------------------------------
+
 	public void renameObject(String oldName, String newName) {
 		JdObject aObj = objs.get(oldName);
 		objs.remove(oldName);
 		objs.put(newName, aObj);
 	}
-	//-------------------------------------------------------------------------
-	// objects
-	//-------------------------------------------------------------------------
+
 	public boolean hasObjectOfName(String name) {
 		String lowerName = name.toLowerCase();
 		for (JdObject o : objs.values()) {
@@ -125,7 +123,7 @@ public class Model {
 		}
 		return false;
 	}
-	//-------------------------------------------------------------------------
+
 	public Vector<JdObject> getObjectsOfType(int type) {
 		Vector<JdObject> v = new Vector<JdObject>();
 		for (JdObject o : objs.values()) {
@@ -133,7 +131,7 @@ public class Model {
 		}
 		return v;
 	}
-	//-------------------------------------------------------------------------
+
 	public JdObject getObjectOfName(Hashtable<String,JdObject> h, String s) {
 		if (s==null) return null;
 		for (JdObject o : h.values()) {
@@ -141,11 +139,11 @@ public class Model {
 		}
 		return null;
 	}
-	//-------------------------------------------------------------------------
+
 	public JdObject getObjectOfName(String s) {
 		return getObjectOfName(objs,s);
 	}
-	//-------------------------------------------------------------------------
+
 	public void renameObjectKey(String oldName, String newName) {
 		renameObject(oldName,newName);
 		for (JdObject o : objs.values()) {
@@ -156,7 +154,7 @@ public class Model {
 			}
 		}
 	}
-	//-------------------------------------------------------------------------
+
 	public void changeNodeRelations(String name, int type) {
 		for (JdRelation l : getRelations()) {
 			JdFigure f2 = l.getFigure2();
@@ -166,7 +164,7 @@ public class Model {
 			}
 		}
 	}
-	//-------------------------------------------------------------------------
+
 	public void updateNodeRelations(String name, Hashtable hr) {
 		for (JdRelation l : getRelations()) {
 			JdFigure f1 = l.getFigure1();
@@ -179,8 +177,8 @@ public class Model {
 			}
 		}
 	}
-	//-------------------------------------------------------------------------
-	public Vector<JdStock> getStocks() { 
+
+	public Vector<JdStock> getStocks() {
 		Vector<JdStock> v = new Vector<JdStock>();
 		for (JdObject o : objs.values()) if (o.isStock()) { v.add((JdStock) o); }
 		return v;
@@ -254,9 +252,7 @@ public class Model {
 		}
 		return null;
 	}
-	//-------------------------------------------------------------------------
-	// remove objects from model and links connected to it
-	//-------------------------------------------------------------------------
+
 	private void removeLinksConnectedTo(JdObject aObj) {
 		for (JdLink l : getLinks()) {
 			boolean bRemove = false;
@@ -268,12 +264,10 @@ public class Model {
 			if (aObj.containsFigure(f2)) {
 				if (l.isFlow()) { l.setFigure2(null); } else { bRemove = true; }
 			}
-			//if (aObj.containsFigure(f1)) { if (l.isFlow()) removeLinksConnectedTo((JdObject) l); bRemove=true; }
-			//if (aObj.containsFigure(f2)) { if (l.isFlow()) removeLinksConnectedTo((JdObject) l); bRemove=true; }
 			if (bRemove) { removeObject(l); }
 		}
 	}
-	//-------------------------------------------------------------------------
+
 	public void removeObjectAndRelations(JdFigure aObj) {
 		if (aObj == null) { return; }
 		switch (aObj.getType()) {
@@ -301,9 +295,7 @@ public class Model {
 			break;
 		}
 	}
-	//-------------------------------------------------------------------------
-	// get linked variables to a node
-	//-------------------------------------------------------------------------
+
 	public Vector<String> getLinkedVariablesTo(JdNode aNode, boolean bRelType) {
 		Vector<String> v = new Vector<String>();
 		//if (aNode.isStock()) return v; // stocks has not linked variables
@@ -318,9 +310,7 @@ public class Model {
 		}
 		return v;
 	}
-	//-------------------------------------------------------------------------
-	// update stocks in/out flows
-	//-------------------------------------------------------------------------
+
 	public Vector<JdNode> getVarsConnectedToFlow(JdFlow aFlow) {
 		Vector<JdNode> v = new Vector<JdNode>();
 		for (JdLink l : getLinks()) {
@@ -351,9 +341,7 @@ public class Model {
 			}
 		} // while flows
 	}
-	//-------------------------------------------------------------------------
-	// update stocks in/out flows
-	//-------------------------------------------------------------------------
+
 	private Vector<JdRelation> getRelationsConnectedTo(JdNode n) {
 		Vector<JdRelation> v = new Vector<JdRelation>();
 		for (JdRelation l : getRelations()) {
@@ -362,7 +350,7 @@ public class Model {
 		}
 		return v;
 	}
-	//-------------------------------------------------------------------------
+
 	public void updateAuxExpressions() {
 		for (JdAux a : getAuxs()) {
 			String aExpr = null;
@@ -398,9 +386,7 @@ public class Model {
 			}
 		}
 	}
-	//-------------------------------------------------------------------------
-	// test valid objects
-	//-------------------------------------------------------------------------
+
 	public String getFreeName(int t) {
 		String s = "none";
 		int n=1;
@@ -445,9 +431,7 @@ public class Model {
 		while (hasObjectOfName(vname + "_" + n)) n++;
 		return (vname + "_" + n);
 	}
-	//-------------------------------------------------------------------------
-	// XML I/O
-	//-------------------------------------------------------------------------
+
 	public void getXmModelObjects(JxmModel m, Hashtable<String,JdObject> hObj) {
 		for (JdObject o : hObj.values()) {
 			switch (o.getType()) {
@@ -654,10 +638,7 @@ public class Model {
 		step    = tSpec.getStep();
 		method  = tSpec.getMethod();
 	}
-	//-------------------------------------------------------------------------
-	//-------------------------------------------------------------------------
-	// get figures at point (x,y)
-	//-------------------------------------------------------------------------
+
 	public JdFigure getSmallFigureAt(int x, int y) {
 		JdFigure f, rf=null;
 		for (JdObject obj : getObjects().values()) {
