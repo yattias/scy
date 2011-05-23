@@ -34,13 +34,13 @@ import eu.scy.client.desktop.scydesktop.mission.Missions;
 import eu.scy.client.desktop.desktoputils.InjectObjectsUtils;
 import java.net.URI;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
-import eu.scy.client.desktop.desktoputils.XFX;
 import eu.scy.client.desktop.scydesktop.mission.MissionLocator;
 import eu.scy.client.desktop.desktoputils.art.javafx.LogoEloIcon;
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import java.util.Locale;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBox;
 
 /**
  * @author sikken
@@ -76,6 +76,7 @@ public class LoginDialog extends CustomNode, TbiReady {
       } else {
          MouseBlocker.initMouseBlocker(scene.stage);
          ProgressOverlay.initOverlay(scene.stage);
+         DialogBox.dialogScene = scene;
          setStageTitles();
       }
       initializer.launchTimer.endActivity();

@@ -31,6 +31,7 @@ import java.util.HashMap;
 import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.client.desktop.desktoputils.art.ArtSource;
 import javafx.animation.KeyFrame;
+import eu.scy.client.desktop.desktoputils.art.eloicons.EloIconFactory;
 
 /**
  * @author sven
@@ -41,21 +42,27 @@ public static def VGAP: Double = 15;
 public static def openDialogs: HashMap = new HashMap();
 public static var windowStyler: WindowStyler on replace {loadDefaults()};
 public static var scyDesktop:ScyDesktop;
-var infoWindowEloIcon: EloIcon;
-var questionWindowEloIcon: EloIcon;
-var infoEloIcon: EloIcon;
-var questionEloIcon: EloIcon;
-var modalWindowColorScheme: WindowColorScheme;
+public static var dialogScene:Scene;
+def infoWindowEloIconName = "alert_message";
+def questionWindowEloIconName = "alert_question";
+def infoEloIconName = "information2";
+def questionEloIconName = "assignment";
+def eloIconFactory = EloIconFactory{};
+var infoWindowEloIcon: EloIcon = eloIconFactory.createEloIcon(infoWindowEloIconName);
+var questionWindowEloIcon: EloIcon = eloIconFactory.createEloIcon(questionWindowEloIconName);
+var infoEloIcon: EloIcon = eloIconFactory.createEloIcon(infoEloIconName);
+var questionEloIcon: EloIcon = eloIconFactory.createEloIcon(questionEloIconName);
+var modalWindowColorScheme: WindowColorScheme = WindowColorScheme{};
 
 function loadDefaults():Void{
    if (windowStyler!=null){
-      infoWindowEloIcon = windowStyler.getScyEloIcon("alert_message");
-      questionWindowEloIcon = windowStyler.getScyEloIcon("alert_question");
+      infoWindowEloIcon = windowStyler.getScyEloIcon(infoWindowEloIconName);
+      questionWindowEloIcon = windowStyler.getScyEloIcon(questionWindowEloIconName);
       modalWindowColorScheme = windowStyler.getWindowColorScheme("general/neww");
       infoWindowEloIcon.selected = true;
       questionWindowEloIcon.selected = true;
-      infoEloIcon = windowStyler.getScyEloIcon("information2");
-      questionEloIcon = windowStyler.getScyEloIcon("assignment");
+      infoEloIcon = windowStyler.getScyEloIcon(infoEloIconName);
+      questionEloIcon = windowStyler.getScyEloIcon(questionEloIconName);
    }
 }
 
@@ -328,7 +335,7 @@ public class DialogBox extends CustomNode {
    }
 
    public function place(): Void {
-      def targetScene = scyDesktop.scene;
+      def targetScene = dialogScene;
       var sceneContentList = targetScene.content;
       if (modal) {
          insert this into sceneContentList;

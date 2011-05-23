@@ -31,6 +31,7 @@ import eu.scy.common.mission.MissionModel;
 import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import eu.scy.client.desktop.desktoputils.XFX;
 import javafx.util.Sequences;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBox;
 
 /**
  * @author SikkenJ
@@ -286,9 +287,11 @@ public class MissionLocator {
             missionRuntimeModel: missionRuntimeElo.getMissionRuntimeModel()
             scyEloToLoad: scyElo
          });
-
       }
-
+      else {
+         logger.warn("Cannot find ELO with uri: {eloUri}");
+         DialogBox.showMessageDialog("Cannot find ELO with uri:\n{eloUri}\nSCY-Lab will quit.", "Cannot find ELO", null, function():Void{FX.exit();}, null);
+      }
    }
 
 }
