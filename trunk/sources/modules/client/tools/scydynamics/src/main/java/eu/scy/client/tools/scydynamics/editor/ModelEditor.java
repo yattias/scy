@@ -52,6 +52,10 @@ import java.util.logging.Logger;
 @SuppressWarnings("serial")
 public class ModelEditor extends JPanel implements AdjustmentListener {
 
+	public enum Mode {
+	    BLACK_BOX, CLEAR_BOX, MODELLING;
+	}
+	
 	private final static Logger DEBUGLOGGER = Logger.getLogger(ModelEditor.class.getName());
 	public final static String DEFAULT_ACTION = "cursor";
 	public final static int LNK_DRAG_POINT = 0;
@@ -63,8 +67,9 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	public final static int LNK_NOT_FREE = 6;
 	public final static int LNK_DATASET = 7;
 	public final static int LNK_NO_STOCK_ENDS = 8;
+	private Mode mode = Mode.MODELLING;
 	private JdPopups aPopups;
-	private Model aModel = null;
+	private Model model = null;
 	private ModelSelection aSelection;
 	private EditorPanel editorPanel;
 	private JScrollPane aScrollPane;
@@ -73,7 +78,6 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	private JdCursors cursors;
 	private EditorToolbar toolbar;
 	private IModellingLogger actionLogger;
-	//private JTools jtools;
 	private EditorTab editorTab;
 	private ArrayList<String> modelCheckMessages = new ArrayList<String>();
 	private final Properties properties;
@@ -101,6 +105,45 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		aSelection = new ModelSelection();
 		initComponents();
 		setNewModel();
+		setMode(properties.getProperty("editor.mode", "modelling"));
+	}
+	
+	public void setMode(String newMode) {
+		DEBUGLOGGER.info("setting mode to "+newMode);
+		if (newMode == null) {
+			DEBUGLOGGER.info("setting mode to 'null' not allowed, setting to default mode 'modelling'");
+			setMode(Mode.MODELLING);
+		} else if (newMode.equalsIgnoreCase("black_box")) {
+			setMode(Mode.BLACK_BOX);
+		} else if (newMode.equalsIgnoreCase("clear_box")) {
+			setMode(Mode.CLEAR_BOX);
+		} else if (newMode.equalsIgnoreCase("modelling")) {
+			setMode(Mode.MODELLING);
+		} else {
+			DEBUGLOGGER.info("unknown mode '"+newMode+"', setting to default mode 'modelling'");
+			setMode(Mode.MODELLING);
+		}
+	}
+	
+	public void setMode(Mode newMode) {
+		if (newMode != this.mode) {
+			this.mode = newMode;
+			switch (mode) {
+			case BLACK_BOX:
+			case CLEAR_BOX:
+				toolbar.toCursorAction();
+				toolbar.setEnabled(false);
+				clearSelectedObjects();
+				break;
+			case MODELLING:
+				toolbar.setEnabled(true);
+				break;
+			}
+		}
+	}
+	
+	public Mode getMode() {
+		return this.mode;
 	}
 
 	public boolean isQualitative() {
@@ -127,15 +170,6 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		properties.put("editor.qualitative", q);
 	}
 
-	public void setActionLogger(IActionLogger newLogger, String username) {
-		this.actionLogger = new ModellingLogger(newLogger, username);
-	}
-
-	// public void setEloUri(String eloUri) {
-	// this.eloUri = eloUri;
-	// this.actionLogger.setEloUri(eloUri);
-	// }
-
 	public static Properties getDefaultProperties() {
 		Properties props = new Properties();
 		props.put("actionlog.to.file", "false");
@@ -149,6 +183,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		props.put("editor.fixedcalculationmethod", "false");
 		props.put("show.popouttabs", "false");
 		props.put("editor.qualitative", "false");
+		props.put("editor.mode", "modelling");
 		return props;
 	}
 
@@ -158,6 +193,10 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 
 	public IModellingLogger getActionLogger() {
 		return actionLogger;
+	}
+	
+	public void setActionLogger(IActionLogger newLogger, String username) {
+		this.actionLogger = new ModellingLogger(newLogger, username);
 	}
 
 	public FileToolbar getFileToolbar() {
@@ -208,39 +247,8 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		tabbedPane.setTabComponentAt(tabbedPane.getComponentCount() - 2, new TabPanel("table", tableTab, this, properties));
 	}
 
-	// ---------------------------------------------------------------------------
-	// free memory
-	// ---------------------------------------------------------------------------
-	public void destroyEditor() {
-		MouseMotionListener[] mmls = this.getListeners(MouseMotionListener.class);
-		for (int i = 0; i < mmls.length; i++) {
-			try {
-				this.removeMouseMotionListener(mmls[i]);
-			} catch (Exception ex) {
-				System.err.println("JdEditor->destroyEditor removeMouseMotionListener exception: " + ex);
-			}
-		}
-		MouseListener[] mls = this.getListeners(MouseListener.class);
-		for (int i = 0; i < mls.length; i++) {
-			try {
-				this.removeMouseListener(mls[i]);
-			} catch (Exception ex) {
-				System.err.println("JdEditor->destroyEditor removeMouseListener exception: " + ex);
-			}
-		}
-		aScrollPane.getVerticalScrollBar().removeAdjustmentListener(this);
-		aScrollPane.getHorizontalScrollBar().removeAdjustmentListener(this);
-		this.resetKeyboardActions();
-		aModel = null;
-		aPopups = null;
-		// aControl = null;
-		aSelection = null;
-		editorPanel = null;
-		aScrollPane = null;
-	}
-
 	public Model getModel() {
-		return aModel;
+		return model;
 	}
 
 	public EditorPanel getCanvas() {
@@ -258,50 +266,45 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	public void setNewModel() {
 		editorPanel.removeMouseListener(mouseListener);
 		editorPanel.removeMouseMotionListener(mouseListener);
-		aModel = new Model(this);
-		aModel.setMethod("euler");
-		editorPanel.setModel(aModel);
-		mouseListener = new EditorMouseListener(this, aModel);
+		model = new Model(this);
+		model.setMethod("euler");
+		editorPanel.setModel(model);
+		mouseListener = new EditorMouseListener(this, model);
 		editorPanel.addMouseListener(mouseListener);
 		editorPanel.addMouseMotionListener(mouseListener);
 	}
 
 	public JxmModel getXmModel() {
-		return (aModel == null) ? null : aModel.getXmModel();
+		return (model == null) ? null : model.getXmModel();
 	}
 
 	public void setXmModel(JxmModel m) {
 		clearSelectedObjects();
 		if (m != null) {
-			if (aModel == null) {
-				mouseListener = new EditorMouseListener(this, aModel);
+			if (model == null) {
+				mouseListener = new EditorMouseListener(this, model);
 				editorPanel.addMouseListener(mouseListener);
 				editorPanel.addMouseMotionListener(mouseListener);
 			}
-			aModel.setXmModel(m);
-			editorPanel.setModel(aModel);
+			model.setXmModel(m);
+			editorPanel.setModel(model);
 		} else {
-			aModel = null;
+			model = null;
 			editorPanel.setModel(null);
 			editorPanel.removeMouseListener(mouseListener);
 		}
 	}
 
 	public String getModelXML() {
-		if (aModel == null) {
+		if (model == null) {
 			return null;
 		}
-		JxmModel m = aModel.getXmModel(); // pass from JdObjects to JxmModel
+		JxmModel m = model.getXmModel(); // pass from JdObjects to JxmModel
 		return m.getXML("", true); // get XML model string
 	}
 
-//	public String getUserMessage() {
-//		return userMessage;
-//	}
-
-	// -------------------------------------------------------------------------
 	public boolean isValidName(String name) {
-		if (aModel == null) {
+		if (model == null) {
 			return false;
 		}
 		boolean b = false;
@@ -313,7 +316,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 			// userMessage =
 			// JTools.getAppResourceString("editorMsgYouMustIntroduceVariableName");
 			DEBUGLOGGER.info("invalid variable name: length < 1");
-		} else if (aModel.hasObjectOfName(name)) {
+		} else if (model.hasObjectOfName(name)) {
 			// userMessage =
 			// JTools.getAppResourceString("editorMsgDuplicateVariableName",
 			// name);
@@ -332,10 +335,10 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 
 	// ---------------------------------------------------------------------------
 	public boolean isModelWithIF() {
-		if (aModel == null) {
+		if (model == null) {
 			return false;
 		}
-		for (JdObject o : aModel.getObjects().values()) {
+		for (JdObject o : model.getObjects().values()) {
 			switch (o.getType()) {
 			case JdFigure.CONSTANT:
 			case JdFigure.AUX:
@@ -366,15 +369,15 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	// ---------------------------------------------------------------------------
 	public boolean checkModel() {
 		modelCheckMessages.clear();
-		if (aModel == null) {
+		if (model == null) {
 			return true;
 		}
 		boolean b = true;
 		JParserExpr parser = new JParserExpr();
 		// set qualitative/graph expressions
-		aModel.updateAuxExpressions();
+		model.updateAuxExpressions();
 		// add variables to parser
-		for (JdObject o : aModel.getObjects().values()) {
+		for (JdObject o : model.getObjects().values()) {
 			switch (o.getType()) {
 			case JdFigure.CONSTANT:
 			case JdFigure.AUX:
@@ -405,7 +408,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		} catch (JParserException ex) {
 		}
 		// evaluate expressions
-		for (JdObject o : aModel.getObjects().values()) {
+		for (JdObject o : model.getObjects().values()) {
 			switch (o.getType()) {
 			case JdFigure.CONSTANT:
 			case JdFigure.AUX:
@@ -439,7 +442,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 			}
 		}
 		// evaluate expressions (links)
-		for (JdObject o : aModel.getObjects().values()) {
+		for (JdObject o : model.getObjects().values()) {
 			switch (o.getType()) {
 			// case JdFigure.DATASET:
 			case JdFigure.AUX:
@@ -448,7 +451,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 				boolean b3 = true;
 				if (!n.isGraphExpr()) // do not check GRAPH(...) expressions
 				{
-					b3 = checkExpr(n.getLabel(), n.getExpr(), aModel.getLinkedVariablesTo(n, false), true);
+					b3 = checkExpr(n.getLabel(), n.getExpr(), model.getLinkedVariablesTo(n, false), true);
 				}
 				o.setSpecified(b3);
 				if (!b3 && !b) {
@@ -462,12 +465,12 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 
 	// -------------------------------------------------------------------------
 	public boolean checkExpr(String vName, String aExpr, Vector<String> vLinks, boolean bUseAllLinks) {
-		if (aModel == null) {
+		if (model == null) {
 			return true;
 		}
 		JParserExpr parser = new JParserExpr();
 		if (vLinks == null) { // use model variables
-			for (JdObject o : aModel.getObjects().values()) {
+			for (JdObject o : model.getObjects().values()) {
 				switch (o.getType()) {
 				case JdFigure.CONSTANT:
 				case JdFigure.AUX:
@@ -594,7 +597,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	}
 
 	public void pasteSelection() {
-		aSelection.pasteSelection(this, aModel);
+		aSelection.pasteSelection(this, model);
 	}
 
 	public void cutSelection() {
@@ -642,91 +645,82 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	public void clearSelectedObjects() {
 		aSelection.unselectAll();
 		updateCanvas();
-		this.updateSpecDialog(true);
+		//this.updateSpecDialog(true);
 	}
 
 	// -------------------------------------------------------------------------
 	public void selectAllObjects() {
-		if (aModel == null) {
+		if (model == null) {
 			return;
 		}
 		aSelection.unselectAll();
-		for (JdObject o : aModel.getObjects().values()) {
+		for (JdObject o : model.getObjects().values()) {
 			aSelection.selectObject(o, true);
 		}
 		updateCanvas();
-		updateSpecDialog(true);
+		//updateSpecDialog(true);
 	}
 
 	// ---------------------------------------------------------------------------
 	public void selectObjects(Vector<String> v) {
-		if (aModel == null) {
+		if (model == null) {
 			return;
 		}
 		aSelection.unselectAll();
 		for (String objName : v) {
-			JdObject o = aModel.getObjectOfName(objName);
+			JdObject o = model.getObjectOfName(objName);
 			aSelection.selectObject(o, true);
 		}
 		updateCanvas();
-		updateSpecDialog(true);
+		//updateSpecDialog(true);
 	}
 
 	// ---------------------------------------------------------------------------
 	public void selectObjects(Rectangle r) {
-		if (aModel == null) {
+		if (model == null) {
 			return;
 		}
 		aSelection.unselectAll();
-		for (JdObject o : aModel.getObjects().values()) {
+		for (JdObject o : model.getObjects().values()) {
 			if (JdTools.testR1ContainsR2(r, o.getBounds())) {
 				aSelection.selectObject(o, true);
 			}
 		}
 		updateCanvas();
-		updateSpecDialog(true);
+		//updateSpecDialog(true);
 	}
 
 	// -------------------------------------------------------------------------
 	public void selectObject(JdObject o, boolean bToggle) {
-		if (aModel == null) {
+		if (model == null) {
 			return;
 		}
 		aSelection.selectObject(o, bToggle);
 		updateCanvas();
-		updateSpecDialog(true);
+		//updateSpecDialog(true);
 	}
 
 	// -------------------------------------------------------------------------
 	public void selectObject(String s, boolean bEvent) {
-		if (aModel == null) {
+		if (model == null) {
 			return;
 		}
 		aSelection.unselectAll();
-		JdObject o = aModel.getObjectOfName(s);
+		JdObject o = model.getObjectOfName(s);
 		aSelection.selectObject(o, false);
 		updateCanvas();
 		// if (bEvent)
 		// sendVisualToolEvent("SelectObject", s);
 	}
 
-	// ---------------------------------------------------------------------------
-	// control
-	// ---------------------------------------------------------------------------
 	public void updateCanvas() {
 		editorPanel.repaint();
 	}
 
-	// public void setModelChanged() { aEditorVT.setModelChecked(false); }
-	// TODO
 	public void setModelChanged() {
 		// // LOGGER.info("JdEditorStandalone.setModelChanged() called.");
 	}
 
-	// TODO
-	// public void sendLogEventAddObject(JdObject o) {
-	// aEditorVT.sendLogEvent(JvtEditorLogs.LOG_ADD_OBJECT,o); }
-	// ---------------------------------------------------------------------------
 	public void startRect(int x, int y) {
 		editorPanel.startRect(x, y);
 	}
@@ -739,7 +733,6 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		return editorPanel.stopRect();
 	}
 
-	// ---------------------------------------------------------------------------
 	public void showPopupMenu(JdObject o, int x, int y) {
 		if (o == null) {
 			return;
@@ -753,9 +746,6 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		}
 	}
 
-	// ---------------------------------------------------------------------------
-	// specify variable dialog methods
-	// ---------------------------------------------------------------------------
 	public Vector<String> getSelectedObjects() {
 		Vector<String> v = new Vector<String>();
 		if (aSelection != null) {
@@ -766,8 +756,6 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		return v;
 	}
 
-	// ---------------------------------------------------------------------------
-	// public void showSpecDialog() { aEditorVT.showSpecDialog(); }
 	public void showSpecDialog(JdFigure figure, java.awt.Point position) {
 		java.awt.Frame frame = javax.swing.JOptionPane.getFrameForComponent(this);
 		VariableDialog vdialog = new VariableDialog(frame, position, figure, this, bundle);
@@ -775,66 +763,20 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		editorPanel.updateUI();
 	}
 
-	// public void updateSpecDialog(boolean bCheck) {
-	// aEditorVT.updateSpecDialog(bCheck); }
-	// TODO
-	public void updateSpecDialog(boolean bCheck) {
-		// // LOGGER.info("JdEditorStandalone.updateSpecDialog() called.");
-		// String noSpecMsg =
-		// JTools.getAppResourceString("EditorSpecMsgSelNone");
-		// if (aModel==null) { wSpec.loadProperties(null,noSpecMsg); return; }
-		// String oldObject = wSpec.getLastVarName();
-		// if (bCheck && !wSpec.allowChange()) {
-		// wSpec.vtwShowWindow();
-		// aEditor.selectObject(oldObject, true);
-		// return;
-		// }
-		// Hashtable<String,Object> h = null;
-		// Vector<String> vsel = aEditor.getSelectedObjects();
-		// int nsel = vsel.size();
-		// if (nsel<1) { // none selected
-		// h = null;
-		// noSpecMsg = JTools.getAppResourceString("EditorSpecMsgSelNone");
-		// } else if (nsel>1) { // multiple selection
-		// h = null;
-		// noSpecMsg = JTools.getAppResourceString("EditorSpecMsgSelMultiple");
-		// } else { // only one object selected
-		// String newObject = vsel.firstElement();
-		// JdObject o = aModel.getObjectOfName(newObject);
-		// if (o.isFlow()) {
-		// noSpecMsg = JTools.getAppResourceString("EditorSpecMsgSelFlow");
-		// } else if (o.isNode()) {
-		// JdNode fNode = (JdNode) o;
-		// h = fNode.getProperties();
-		// Vector<String> vl =
-		// JTools.sortStringVector(aModel.getLinkedVariablesTo(fNode,false));
-		// h.put("linked", vl);
-		// h.put("linkedColors", aModel.getObjectsLabelColors(vl));
-		// if (o.isAux()) {
-		// h.put("linkedRel",
-		// JTools.sortStringVector(aModel.getLinkedVariablesTo(fNode,true)));
-		// }
-		// } else if (o.isRelation()) {
-		// noSpecMsg = JTools.getAppResourceString("EditorSpecMsgSelRelation");
-		// JdRelation r = (JdRelation) o;
-		// if (r.canBeQualitative()) h = o.getProperties();
-		// }
-		// }
-		// wSpec.loadProperties(h,noSpecMsg);
-	}
+	
 
 	// ---------------------------------------------------------------------------
 	public void deleteFigure(String name, boolean bEvent) {
-		if (aModel == null || name == null) {
+		if (model == null || name == null) {
 			return;
 		}
-		JdObject o = aModel.getObjectOfName(name);
+		JdObject o = model.getObjectOfName(name);
 		if (o == null) {
 			return;
 		}
 		// aEditorVT.sendLogEvent(JvtEditorLogs.LOG_DELETE_OBJECT,o); // log
 		// delete object
-		aModel.removeObjectAndRelations(o);
+		model.removeObjectAndRelations(o);
 		clearSelectedObjects();
 		setModelChanged();
 		checkModel();
@@ -844,10 +786,10 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 
 	// ---------------------------------------------------------------------------
 	public void setFigureProperties(String oldName, Hashtable<String, Object> h) {
-		if (aModel == null || oldName == null) {
+		if (model == null || oldName == null) {
 			return;
 		}
-		JdObject o = aModel.getObjectOfName(oldName);
+		JdObject o = model.getObjectOfName(oldName);
 		if (o == null || h == null) {
 			return;
 		}
@@ -891,15 +833,15 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		// rename JdModel key
 		String newName = h.containsKey("label") ? (String) h.get("label") : null;
 		if (newName != null && !oldName.equals(newName)) {
-			aModel.renameObjectKey(oldName, newName);
+			model.renameObjectKey(oldName, newName);
 			aSelection.renameObjectKey(oldName, newName);
 		}
 		if (h.containsKey("relations")) {
-			aModel.updateNodeRelations(((JdNode) o).getLabel(), (Hashtable) h.get("relations"));
+			model.updateNodeRelations(((JdNode) o).getLabel(), (Hashtable) h.get("relations"));
 			// updateSpecDialog(false);
 		} else if (bChangeRel) {
-			aModel.changeNodeRelations(((JdNode) o).getLabel(), ((Integer) h.get("exprType")).intValue());
-			updateSpecDialog(false);
+			model.changeNodeRelations(((JdNode) o).getLabel(), ((Integer) h.get("exprType")).intValue());
+			//updateSpecDialog(false);
 		}
 		if (bModelChanged) {
 			setModelChanged();

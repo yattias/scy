@@ -26,6 +26,7 @@ import colab.um.draw.JdLink;
 import colab.um.draw.JdNode;
 import colab.um.draw.JdRelation;
 import colab.um.tools.JTools;
+import eu.scy.client.tools.scydynamics.editor.ModelEditor.Mode;
 import eu.scy.client.tools.scydynamics.model.Model;
 import eu.scy.client.tools.scydynamics.model.ModelUtils;
 import eu.scy.client.tools.scydynamics.model.ModelUtils.QualitativeInfluenceType;
@@ -284,6 +285,9 @@ java.awt.event.ActionListener, java.awt.event.MouseListener {
 		panel.setLayout(new java.awt.FlowLayout());
 		javax.swing.JButton okayButton = new javax.swing.JButton(bundle.getString("VARIABLEDIALOG_OKAY"));
 		okayButton.setActionCommand("okay");
+		if (editor.getMode()==Mode.BLACK_BOX || editor.getMode()==Mode.CLEAR_BOX) {
+			okayButton.setEnabled(false);
+		}
 		javax.swing.JButton cancelButton = new javax.swing.JButton(bundle.getString("VARIABLEDIALOG_CANCEL"));
 		cancelButton.setActionCommand("cancel");
 		okayButton.addActionListener(this);

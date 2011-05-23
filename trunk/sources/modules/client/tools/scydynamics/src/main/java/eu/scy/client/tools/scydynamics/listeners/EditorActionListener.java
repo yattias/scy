@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import eu.scy.client.tools.scydynamics.editor.EditorToolbar;
 import eu.scy.client.tools.scydynamics.editor.ModelEditor;
+import eu.scy.client.tools.scydynamics.editor.ModelEditor.Mode;
 
 public class EditorActionListener implements ActionListener {
 
@@ -14,7 +15,11 @@ public class EditorActionListener implements ActionListener {
 		this.editor = editor;
 	}
 	
-	public void actionPerformed(ActionEvent e) {		
+	public void actionPerformed(ActionEvent e) {
+		if (editor.getMode()==Mode.BLACK_BOX || editor.getMode()==Mode.CLEAR_BOX) {
+    		// editing the model is not allowed -> return!
+    		return;
+    	}
 		String aCmd = e.getActionCommand();
 		if (aCmd.equals(EditorToolbar.DELETE+"")) {
 			editor.getSelection().deleteSelection(editor);

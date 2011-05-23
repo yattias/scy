@@ -23,6 +23,7 @@ import colab.um.draw.JdStock;
 import colab.um.draw.JdSubObject;
 import eu.scy.client.tools.scydynamics.editor.EditorToolbar;
 import eu.scy.client.tools.scydynamics.editor.ModelEditor;
+import eu.scy.client.tools.scydynamics.editor.ModelEditor.Mode;
 import eu.scy.client.tools.scydynamics.model.Model;
 
 public class EditorMouseListener implements MouseListener, MouseMotionListener {
@@ -34,7 +35,6 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
     private int dragPoint;
     private JdLink fLink;
     private JdFigure fOver;
-    private int userMsg;
 
     public EditorMouseListener(ModelEditor editor, Model model) {
         this.editor = editor;
@@ -85,7 +85,10 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
     }
 
     public void mouseDragged(MouseEvent evt) {
-        // if (!allowDrag) { e.consume(); return; }
+    	if (editor.getMode()==Mode.BLACK_BOX || editor.getMode()==Mode.CLEAR_BOX) {
+    		// editing the model is not allowed -> return!
+    		return;
+    	}
         switch (editor.getCurrentAction()) {
             case EditorToolbar.CURSOR:
                 actionDragCursor(evt.getX(), evt.getY());
@@ -112,24 +115,13 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
         evt.consume();
     }
 
-    public void mouseMoved(MouseEvent e) {
-//		switch (cAction) {
-//	      case A_CURSOR:
-//	        fMouse = getSmallFigureAt(e.getX(),e.getY());
-//	        if (fMouse!=null) setEditorCursor(fMouse.isHandle() ? A_HANDLE : A_OBJECT);
-//	        else              setEditorCursor(A_CURSOR);
-//	        break;
-//	    } // switch
-    }
+    public void mouseMoved(MouseEvent e) {}
 
     public void mouseClicked(MouseEvent e) {
         if (e.getClickCount() == 2) {
             if (fStart != null) {
-                if (fStart.isNode()) {
+                if (fStart.isNode() && editor.getMode()!=Mode.BLACK_BOX) {
                     editor.showSpecDialog(fStart, e.getLocationOnScreen());
-                } else if (fStart.isRelation()) {
-                    //if (((JdRelation) fStart).canBeQualitative())
-                    //editor.showSpecDialog();
                 }
             }
         }
@@ -181,8 +173,6 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
                 }
                 if (f.getType() == JdFigure.STOCK) {
                     return true;
-                } else {
-                    userMsg = JdEditor.LNK_FLOW;
                 }
                 break;
             case JdFigure.RELATION:
@@ -203,6 +193,10 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
     }
 
     private void actionCreateNode(JdNode aNode, int x, int y) {
+    	if (editor.getMode()==Mode.BLACK_BOX || editor.getMode()==Mode.CLEAR_BOX) {
+    		// editing the model is not allowed -> return!
+    		return;
+    	}
         fStart = model.getSmallFigureAt(x, y);
         if (fStart == null) { // free position?
             editor.saveModel();
@@ -235,7 +229,12 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
     }
 
     private void actionCursor(int x, int y, boolean isControlDown) {
-        fStart = model.getSmallFigureAt(x, y);
+    	fStart = model.getSmallFigureAt(x, y);
+        
+    	if (editor.getMode()==Mode.BLACK_BOX || editor.getMode()==Mode.CLEAR_BOX) {
+    		// editing the model is not allowed -> return!
+    		return;
+    	}
         if (fStart == null) { // click in canvas -> remove selection
             editor.clearSelectedObjects();
             editor.startRect(x, y);
@@ -322,8 +321,6 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
     private void dragLink(int x, int y) {
         boolean b = true;
         editor.saveFirstModel();
-        //int lastMsg = userMsg;
-        userMsg = JdEditor.LNK_DRAG_POINT;
         switch (dragPoint) {
             case JdHandle.H_P1:
                 JdFigure f1 = model.getFigureAt(x, y, fLink);
@@ -335,7 +332,6 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
                 if (b) { // can link start on object?
                     if (fOver != null) {
                         fOver.setEnhanced(true);
-                        userMsg = JdEditor.LNK_RELASE_MOUSE;
                     }
                     fLink.setFigure1(fOver);
                 } else {
@@ -352,11 +348,7 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
                 if (b) { // can link stop on object?
                     if (fOver != null) {
                         fOver.setEnhanced(true);
-                        userMsg = JdEditor.LNK_RELASE_MOUSE;
                     }
-                    // if (cEditor.defaultQualitative() && fLink.isRelation() &&
-                    // fOver.isAux()) ((JdAux)
-                    // fOver).setExprType(JdNode.EXPR_QUALITATIVE);
                     fLink.setFigure2(fOver);
                 } else {
                     try {
@@ -384,8 +376,6 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
                     }
                     if (f.getType() == JdFigure.STOCK) {
                         return true;
-                    } else {
-                        userMsg = JdEditor.LNK_FLOW;
                     }
                     break;
                 case JdFigure.RELATION:
@@ -396,17 +386,12 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
                         return false;
                     }
                     if (f.getType() == JdFigure.STOCK) {
-                        userMsg = JdEditor.LNK_NO_STOCK_ENDS;
                     } else if (f.getType() == JdFigure.AUX
                     		// incoming relations to stocks are not allowed,
                     		// thus commenting out next line
                             //|| f.getType() == JdFigure.STOCK
                             || f.getType() == JdFigure.FLOWCTR) {
                         return true;
-                    } else if (f.getType() == JdFigure.CONSTANT) {
-                        userMsg = JdEditor.LNK_CONSTANT;
-                    } else if (f.getType() == JdFigure.DATASET) {
-                        userMsg = JdEditor.LNK_DATASET;
                     }
                     break;
             }
@@ -437,14 +422,10 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
             }
         }
         if (n != 0) {
-            userMsg = JdEditor.LNK_CONNECTED;
             return false;
         }
         // test loops
         boolean b = hasALoop(aLink, fOver, aLink.getFigure2());
-        if (b) {
-            userMsg = JdEditor.LNK_LOOP;
-        }
         return !b;
     }
 
@@ -473,14 +454,10 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
             }
         }
         if (n != 0) {
-            userMsg = JdEditor.LNK_CONNECTED;
             return false;
         }
         // test loops
         boolean b = hasALoop(aLink, aLink.getFigure1(), fOver);
-        if (b) {
-            userMsg = JdEditor.LNK_LOOP;
-        }
         return !b;
     }
 
@@ -558,7 +535,6 @@ public class EditorMouseListener implements MouseListener, MouseMotionListener {
             fOver.setEnhanced(false);
             fOver = null;
         }
-        userMsg = -1;
         //setEditorCursor(lastCursor);
         fLink = null;
         editor.getSelection().setEnhanced(true);
