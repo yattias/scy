@@ -202,13 +202,13 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
 
    var scyDesktop = scyDesktopCreator.createScyDesktop();
 
-   scyDesktop.bottomLeftCornerTool = EloManagement {
-      scyDesktop: scyDesktop;
-      repository: scyDesktopCreator.config.getRepository();
-      metadataTypeManager:scyDesktopCreator.config.getMetadataTypeManager();
-      titleKey: scyDesktopCreator.config.getTitleKey();
-      technicalFormatKey: scyDesktopCreator.config.getTechnicalFormatKey();
-   }
+//   scyDesktop.bottomLeftCornerTool = EloManagement {
+//      scyDesktop: scyDesktop;
+//      repository: scyDesktopCreator.config.getRepository();
+//      metadataTypeManager:scyDesktopCreator.config.getMetadataTypeManager();
+//      titleKey: scyDesktopCreator.config.getTitleKey();
+//      technicalFormatKey: scyDesktopCreator.config.getTechnicalFormatKey();
+//   }
    scyDesktop.moreInfoToolFactory = new FlyingSaucerMoreInfoToolFactory();
    feedbackQuestionNodeCreator.scyDesktop = scyDesktop;
    return scyDesktop;
