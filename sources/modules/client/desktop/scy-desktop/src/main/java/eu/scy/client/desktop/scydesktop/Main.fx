@@ -53,6 +53,11 @@ var initializer = Initializer{
    showOnlyStartedMissions:false
 //   eloImagesPath:"file:/D:/projects/scy/code/scy-trunk/sources/modules/client/desktop/scy-desktop/eloImages/"
 //   eloImagesPath:"file:eloImages/"
+// special setting for profiling, as profiling seems to run the app without any parameters
+//   defaultUserName: "jakob"
+//   defaultPassword: "jakob"
+//   autoLogin: true
+//   loadEloUri: "roolo://memory/24/0/Mission+background.text"
 }
 
 function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
@@ -119,14 +124,6 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    var scyDesktop = scyDesktopCreator.createScyDesktop();
 
    initializer.loadTimer.startActivity("creeate EloManagement");
-
-   scyDesktop.bottomLeftCornerTool = EloManagement {
-      scyDesktop: scyDesktop;
-      repository: scyDesktopCreator.config.getRepository();
-      metadataTypeManager:scyDesktopCreator.config.getMetadataTypeManager();
-      titleKey: scyDesktopCreator.config.getTitleKey();
-      technicalFormatKey: scyDesktopCreator.config.getTechnicalFormatKey();
-   }
 
    testDialogsNodeCreator.scyDesktop = scyDesktop;
    feedbackQuestionNodeCreator.scyDesktop = scyDesktop;
