@@ -1,6 +1,5 @@
 package eu.scy.client.tools.scydynamics.editor;
 
-import colab.um.draw.JdEditor;
 import colab.um.draw.JdFigure;
 import colab.um.draw.JdFlow;
 import colab.um.draw.JdFlowCtr;
@@ -19,39 +18,29 @@ import eu.scy.client.tools.scydynamics.model.Model;
 
 public class ModelSelection {
   private int old_x, old_y;
-  //---------------------------------------------------------------------------
-  // variables
-  //---------------------------------------------------------------------------
   private Hashtable<String,JdObject> sObj; // table of selected objects
   private Hashtable<String,JdObject> cObj; // copy/paste/cut objects
   private JxmModel xmUndo;
   private boolean bSaveFirstModel;
-  //---------------------------------------------------------------------------
-  // creation
-  //---------------------------------------------------------------------------
+  
   public ModelSelection() { 
     sObj = new Hashtable<String,JdObject>(); // table of selected objects
     cObj = new Hashtable<String,JdObject>(); // copy/paste/cut objects
     xmUndo = null;
     bSaveFirstModel = true;
   }
-  //---------------------------------------------------------------------------
-  // access
-  //---------------------------------------------------------------------------
+  
   public void clear()            { sObj.clear(); }
   public void add(JdObject o)    { sObj.put(o.getLabel(),o); }
   public void remove(JdObject o) { sObj.remove(o.getLabel()); }
-  //---------------------------------------------------------------------------
   public Hashtable<String,JdObject> getObjects() { return sObj; }
   public int getObjectSize()    { return sObj.size(); }
-  //---------------------------------------------------------------------------
-  // test
-  //---------------------------------------------------------------------------
+  
   public boolean containsObj(JdObject o) {
     if (o==null) return false;
     return sObj.containsKey(o.getLabel());
   }
-  //---------------------------------------------------------------------------
+
   public boolean containsFig(JdFigure f) {
     String id = "";
     if (f==null) return false;
@@ -280,7 +269,7 @@ public class ModelSelection {
         }
       }
     renamePasteExpressions(cObj,hNames);
-    modelEditor.updateSpecDialog(true);
+    //modelEditor.updateSpecDialog(true);
     modelEditor.setModelChanged();
     modelEditor.checkModel();
     modelEditor.updateCanvas();

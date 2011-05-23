@@ -10,10 +10,11 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 import java.util.logging.Level;
 
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JToolBar;
 import javax.swing.filechooser.FileFilter;
@@ -30,9 +31,9 @@ import eu.scy.elo.contenttype.dataset.DataSet;
 import eu.scy.elo.contenttype.dataset.DataSetColumn;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
 import java.io.BufferedWriter;
-import java.util.Locale;
 import java.util.logging.Logger;
 
+@SuppressWarnings("serial")
 public class FileToolbar extends JToolBar implements ActionListener {
 
 	private final static Logger LOGGER = Logger.getLogger(FileToolbar.class.getName());
@@ -55,11 +56,17 @@ public class FileToolbar extends JToolBar implements ActionListener {
 		add(Util.createJButton("save as", "saveas", "editorSave", this));
 		this.addSeparator();
 		add(Util.createJButton("save as dataset", "saveasdataset", "editorSave", this));
+		this.addSeparator();
+		// testing the modes
+		//add(new JLabel("mode: "));
+		String[] modes = {"black_box", "clear_box", "modelling"};
+		JComboBox modeBox = new JComboBox(modes);
+		modeBox.setSelectedItem(editor.getMode().toString().toLowerCase());
+		modeBox.addActionListener(this);
+		//add(modeBox);
 	}
 
 	public void load(String filename) {
-		// JxmModel xmlModel = JxmModel.readFileXML(filename);
-		// editor.setXmModel(xmlModel);
 		JxmModel xmlModel = null;
 		Document doc = null;
 		SAXBuilder sb = new SAXBuilder();
@@ -75,13 +82,8 @@ public class FileToolbar extends JToolBar implements ActionListener {
 			}
 			if (modelElement != null) {
 				xmlModel = JxmModel.readStringXML(new XMLOutputter(Format.getPrettyFormat()).outputString(modelElement));
-//				for (String name: xmlModel.getVariables().keySet()) {
-//					System.out.println(""+name+": "+xmlModel.getVariables().get(name).getColor());
-//				}
-				// colors are still correct here
 				editor.setXmModel(xmlModel);
 				this.setFilename(filename);
-				//editor.getActionLogger().logLoadAction(editor.getXmModel().getXML("", true));
 			} else {
 				throw new JDOMException(
 						"Couldn't find <model> element in file " + filename);
@@ -119,10 +121,8 @@ public class FileToolbar extends JToolBar implements ActionListener {
 			writer.flush();
 			writer.close();
 		} catch (JDOMException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -232,9 +232,11 @@ public class FileToolbar extends JToolBar implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent evt) {
+		if (evt.getSource() instanceof JComboBox) {
+			editor.setMode(((JComboBox)evt.getSource()).getSelectedItem().toString());
+		}
 		if (evt.getActionCommand().equals("new")) {
 			editor.setNewModel();
-			//editor.getActionLogger().logSimpleAction("new_model");
 			this.setFilename(null);
 		} else if (evt.getActionCommand().equals("saveas")) {
 			saveAs();

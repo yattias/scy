@@ -52,7 +52,7 @@ public class Model {
 	private String method;
 	private String name = "model";
 	private boolean bQualitative = true; // allow qualitative modelling?
-	private IModellingLogger logger;
+	//private IModellingLogger logger;
 	private ModelEditor editor;
 
 	public Model(ModelEditor editor) {
@@ -107,7 +107,7 @@ public class Model {
 	public void removeObject(JdObject aObj) {
 		JdColor.freeColor(aObj.getLabelColor());
 		objs.remove(aObj.getLabel());
-		logger.logDeleteAction(aObj, this.getXmModel().getXML("", true));
+		editor.getActionLogger().logDeleteAction(aObj, this.getXmModel().getXML("", true));
 	}
 	//-------------------------------------------------------------------------
 	public void renameObject(String oldName, String newName) {

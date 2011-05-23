@@ -1,5 +1,6 @@
 package eu.scy.client.tools.scydynamics.editor;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
@@ -56,6 +57,15 @@ public class EditorToolbar extends JToolBar implements ActionListener {
 		add(createButton(PASTE, "paste", bundle.getString("EDITOR_PASTE")));
 		buttonMap.get(CURSOR+"").setSelected(true);
 		currentAction = CURSOR;
+	}
+	
+	@Override
+	public void setEnabled(boolean enabled) {
+		super.setEnabled(enabled);
+		// setting children
+		for (Component c: this.getComponents()) {
+			c.setEnabled(enabled);
+		}
 	}
 
 	private JToggleButton createToggleButton(int cmd, String icon, String tooltip) {
