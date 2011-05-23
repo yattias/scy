@@ -98,13 +98,8 @@ public class LoginDialog extends CustomNode, TbiReady {
             autoLogin: initializer.autoLogin
             languages: initializer.languages
          }
-      //      loginNode.layout();
       loginWindow = StandardScyWindow {
             title: bind if (windowTitle == null) loginNode.loginTitle else windowTitle
-            //         eloIcon: CharacterEloIcon {
-            //            iconCharacter: "L"
-            //            color: loginColor
-            //         }
             windowColorScheme: WindowColorScheme.getWindowColorScheme(ScyColors.green)
             scyContent: EmptyBorderNode {
                content: loginNode
@@ -141,12 +136,6 @@ public class LoginDialog extends CustomNode, TbiReady {
       Timeline {
          repeatCount: 1
          keyFrames: [
-//            at (3s) {
-//               window.opacity => 0.0
-//            }
-//            at (4s) {
-//               window.opacity => 1.0
-//            }
             KeyFrame {
                time: delayDuration
                values: window.opacity => 0.0
@@ -258,6 +247,7 @@ public class LoginDialog extends CustomNode, TbiReady {
    }
 
    function startMission(missionRunConfigs: MissionRunConfigs): Void {
+      initializer.launchTimer.endActivity();
       logger.info("start mission with {missionRunConfigs}");
       initializer.launchTimer.endActivity();
       initializer.loadTimer.reset();

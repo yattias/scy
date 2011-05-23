@@ -53,9 +53,9 @@ public class LoginNode extends CustomNode {
    var quitButton: Button;
    var currentLocale = Locale.getDefault();
    def languageSelector = LanguageSelector {
-         languages: languages
-         language: currentLocale.getLanguage()
-      };
+              languages: languages
+              language: currentLocale.getLanguage()
+           };
    def loginDisabled = bind (userNameField.text.length() == 0 or passwordField.password.length() == 0 or languageSelector.language.length() == 0);
    def loginButtonText = "               ";
    def quitButtonText = "               ";
@@ -104,8 +104,7 @@ public class LoginNode extends CustomNode {
          passwordLabel.text = bundle.getString("LoginDialog.password");
          loginButton.text = bundle.getString("LoginDialog.login");
          quitButton.text = bundle.getString("LoginDialog.quit");
-      }
-      catch (e: MissingResourceException) {
+      } catch (e: MissingResourceException) {
          logger.info("failed to find resource bundle, {e.getMessage()}");
       }
    }
@@ -113,85 +112,73 @@ public class LoginNode extends CustomNode {
    public override function create(): Node {
 
       var loginGroup = Group {
-            content: [
-               userNameLabel = Label {
-                     layoutY: labelVOffset
-                     text: "User name             "
-                  }
-               userNameField = TextBox {
-                     layoutX: entryFieldOffset;
-                     text: defaultUserName
-                     columns: textBoxColumns
-                     selectOnFocus: true
-                     action: function() {
-                        passwordField.requestFocus();
-                     }
-                  }
-               passwordLabel = Label {
-                     layoutY: rowHeight + labelVOffset;
-                     text: "Password             "
-                  }
-               passwordField = PasswordBox {
-                     layoutX: entryFieldOffset;
-                     layoutY: rowHeight;
-                     text: defaultPassword
-                     columns: textBoxColumns
-                     selectOnFocus: true
-                     action: function() {
-                        if (userNameField.text.length() == 0) {
-                           userNameField.requestFocus();
-                        } else if (passwordField.password.length() > 0) {
-                           loginButton.action();
-                        }
-                     }
-                  }
-               loginButton = Button {
-                     layoutX: entryFieldOffset;
-                     layoutY: 2 * rowHeight + spacing;
-                     strong: true
-                     text: loginButtonText
-                     disable: bind loginDisabled
-                     action: function() {
-                        loginAction(userNameField.text, passwordField.password);
-                     }
-                  }
-               quitButton = Button {
-                     //layoutX: entryFieldOffset;
-                     layoutX: bind passwordField.boundsInParent.maxX - quitButton.layoutBounds.width;
-                     layoutY: 2 * rowHeight + spacing;
-                     text: quitButtonText
-                     action: function() {
-                        FX.exit();
-                     }
-                  }
-            ]
-         };
-      loginGroup.layout();
-      languageSelector.layout();
+                 content: [
+                    userNameLabel = Label {
+                               layoutY: labelVOffset
+                               text: "User name             "
+                            }
+                    userNameField = TextBox {
+                               layoutX: entryFieldOffset;
+                               text: defaultUserName
+                               columns: textBoxColumns
+                               selectOnFocus: true
+                               action: function() {
+                                  passwordField.requestFocus();
+                               }
+                            }
+                    passwordLabel = Label {
+                               layoutY: rowHeight + labelVOffset;
+                               text: "Password             "
+                            }
+                    passwordField = PasswordBox {
+                               layoutX: entryFieldOffset;
+                               layoutY: rowHeight;
+                               text: defaultPassword
+                               columns: textBoxColumns
+                               selectOnFocus: true
+                               action: function() {
+                                  if (userNameField.text.length() == 0) {
+                                     userNameField.requestFocus();
+                                  } else if (passwordField.password.length() > 0) {
+                                     loginButton.action();
+                                  }
+                               }
+                            }
+                    loginButton = Button {
+                               layoutX: entryFieldOffset;
+                               layoutY: 2 * rowHeight + spacing;
+                               strong: true
+                               text: loginButtonText
+                               disable: bind loginDisabled
+                               action: function() {
+                                  loginAction(userNameField.text, passwordField.password);
+                               }
+                            }
+                    quitButton = Button {
+                               //layoutX: entryFieldOffset;
+                               layoutX: bind passwordField.boundsInParent.maxX - quitButton.layoutBounds.width;
+                               layoutY: 2 * rowHeight + spacing;
+                               text: quitButtonText
+                               action: function() {
+                                  FX.exit();
+                               }
+                            }
+                 ]
+              };
       languageSelected();
       var vbox = VBox {
-            spacing: spacing;
-            hpos: HPos.RIGHT
-            nodeHPos: HPos.RIGHT
-            content: [
-               languageSelector,
-               loginGroup,
-            ]
-         }
+                 spacing: spacing;
+                 hpos: HPos.RIGHT
+                 nodeHPos: HPos.RIGHT
+                 content: [
+                    languageSelector,
+                    loginGroup,
+                 ]
+              }
       vbox.layout();
-
-      // "dirty" hack to change the focus from the password
-      // field to the username field after initialization
-      Timeline {
-	keyFrames: [
-            KeyFrame {
-                time: 2s;
-                action: function() {
-                    userNameField.requestFocus();
-                }
-            }
-    	];
-      }.play();
+      FX.deferAction(function(): Void {
+         userNameField.requestFocus();
+      });
       return vbox;
    }
 
@@ -238,25 +225,25 @@ public class LoginNode extends CustomNode {
       def colorChangeDuration = 500ms;
       def colorShowDuration = 5000ms;
       // change the color of the labels and back
-      Timeline{
-         repeatCount:1
+      Timeline {
+         repeatCount: 1
          keyFrames: [
-           KeyFrame {
+            KeyFrame {
                time: colorChangeDuration
                values: [
                   finalUsernameLabel.textFill => Color.RED tween Interpolator.LINEAR,
                   finalPasswordLabel.textFill => Color.RED tween Interpolator.LINEAR
                ]
             }
-           KeyFrame {
-               time: colorChangeDuration+colorShowDuration
+            KeyFrame {
+               time: colorChangeDuration + colorShowDuration
                values: [
                   finalUsernameLabel.textFill => Color.RED tween Interpolator.LINEAR,
                   finalPasswordLabel.textFill => Color.RED tween Interpolator.LINEAR
                ]
             }
-           KeyFrame {
-               time:colorChangeDuration+colorShowDuration+colorChangeDuration
+            KeyFrame {
+               time: colorChangeDuration + colorShowDuration + colorChangeDuration
                values: [
                   finalUsernameLabel.textFill => labelColor tween Interpolator.LINEAR,
                   finalPasswordLabel.textFill => labelColor tween Interpolator.LINEAR
@@ -274,14 +261,14 @@ public class LoginNode extends CustomNode {
 
 function run() {
    var logingNode = LoginNode {
-         layoutX: 0
-         layoutY: 0
-         defaultUserName: "123"
-         defaultPassword: "321"
-         loginAction: function(userName: String, password: String): Void {
-            println("user name: {userName}, password: {password}");
-         }
-      }
+              layoutX: 0
+              layoutY: 0
+              defaultUserName: "123"
+              defaultPassword: "321"
+              loginAction: function(userName: String, password: String): Void {
+                 println("user name: {userName}, password: {password}");
+              }
+           }
 
    Stage {
       title: "Login node test"

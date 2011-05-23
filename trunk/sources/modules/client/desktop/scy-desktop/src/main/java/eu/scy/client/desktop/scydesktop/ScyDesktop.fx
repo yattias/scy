@@ -102,8 +102,7 @@ import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.client.desktop.scydesktop.corners.assessment.EportfolioButton;
-import eu.scy.client.desktop.desktoputils.StringUtils;
-import javafx.animation.Interpolator;
+import eu.scy.client.desktop.scydesktop.corners.elomanagement.EloManagement;
 
 /**
  * @author sikkenj
@@ -558,6 +557,13 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  color: Color.GRAY;
                  effect: cornerToolEffect
               }
+      bottomLeftCornerTool = EloManagement {
+                 scyDesktop: this;
+                 repository: config.getRepository();
+                 metadataTypeManager: config.getMetadataTypeManager();
+                 titleKey: config.getTitleKey();
+                 technicalFormatKey: config.getTechnicalFormatKey();
+              }
    }
 
    def jdomStringConversion = new JDomStringConversion();
@@ -593,6 +599,20 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    function loadSingleScyElo() {
       def window = scyWindowControl.addOtherScyWindow(missionRunConfigs.scyEloToLoad.getUri());
       window.openFixedFullScreen();
+      deferLoadTimer();
+   }
+
+   var deferLoadTimerCount = 5;
+
+   function deferLoadTimer(): Void {
+      if (deferLoadTimerCount <= 0) {
+         initializer.loadTimer.endActivity();
+//         FX.exit();
+      } else {
+         initializer.loadTimer.startActivity("deferLoadTimer {deferLoadTimerCount}");
+         --deferLoadTimerCount;
+         FX.deferAction(deferLoadTimer);
+      }
    }
 
    function fillScyWindowNow(window: ScyWindow): Void {
