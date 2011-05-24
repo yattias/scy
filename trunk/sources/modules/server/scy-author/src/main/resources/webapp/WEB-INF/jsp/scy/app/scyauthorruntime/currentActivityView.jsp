@@ -7,23 +7,24 @@
 
             <tr>
                 <th>
-                    User
+                    <spring:message code="STUDENT"/>
                 </th>
                 <th>
-                    Language
+                    <spring:message code="LAS"/>
+                </th>
+                <th>
+                    <spring:message code="TOOL"/>
+                </th>
+                <th>
+                    <spring:message code="NUMBER_OF_ELOS"/>
                 </th>
             </tr>
 
         <c:forEach var="userActivityInfo" items="${userActivityList}">
             <tr>
                 <td>
-                    ${userActivityInfo.userName}
-                </td>
-                <td>
-                    ${userActivityInfo.missionSpecification}
-                </td>
-                <td>
-                    ${userActivityInfo.missionName}
+                    <img src="/webapp/common/filestreamer.html?username=${userActivityInfo.parsedUserName}&showIcon"/>
+                    ${userActivityInfo.parsedUserName}
                 </td>
                 <td>
                     ${userActivityInfo.lasName}
@@ -31,6 +32,10 @@
                 <td>
                     ${userActivityInfo.toolName}
                 </td>
+                <td>
+                    ${userActivityInfo.numberOfElosProduced}
+                </td>
+
             </tr>
         </c:forEach>
         </table>

@@ -2,6 +2,7 @@ package eu.scy.core.runtime;
 
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.core.model.transfer.UserActivityInfo;
+import eu.scy.core.roolo.BaseELOServiceImpl;
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
@@ -18,7 +19,7 @@ import java.util.List;
  * Time: 15:13:38
  * To change this template use File | Settings | File Templates.
  */
-public class SessionServiceImpl implements SessionService {
+public class SessionServiceImpl extends BaseELOServiceImpl implements SessionService {
 
     private TupleSpace tupleSpace;
     private final static String LANGUAGE = "language";

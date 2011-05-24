@@ -15,6 +15,7 @@ public class UserActivityInfo {
     private String missionName;
     private String toolName;
     private String lasName;
+    private String numberOfElosProduced;
 
     public String getUserName() {
         return userName;
@@ -22,6 +23,12 @@ public class UserActivityInfo {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getParsedUserName() {
+        String userName = getUserName();
+        String returnValue = userName.substring(0, userName.indexOf("@"));
+        return returnValue;
     }
 
     public String getLanguage() {
@@ -62,5 +69,13 @@ public class UserActivityInfo {
 
     public void setLasName(String lasName) {
         this.lasName = lasName;
+    }
+
+    public String getNumberOfElosProduced() {
+        return numberOfElosProduced;
+    }
+
+    public void setNumberOfElosProduced(String numberOfElosProduced) {
+        this.numberOfElosProduced = numberOfElosProduced;
     }
 }
