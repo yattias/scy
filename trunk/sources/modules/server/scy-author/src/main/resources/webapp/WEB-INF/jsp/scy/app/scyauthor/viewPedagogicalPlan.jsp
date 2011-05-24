@@ -11,14 +11,13 @@
         </c:when>
         <c:otherwise>
 
-            <h1>Mission name: ${missionSpecificationTransporter.elo.title}</h1>
-
+            <h1><spring:message code="MISSION_NAME" /> : ${missionSpecificationTransporter.elo.title}</h1>
 
             <fieldset>
                 <table>
                     <tr>
                         <td>
-                            <strong>Scaffolding level</strong>
+                            <strong><spring:message code="SCAFFOLDING_LEVEL"/></strong>
                         </td>
                         <td>
                             <s:ajaxELOSlider sliderValues="${agentLevels}" defaultValue="${scaffoldingLevel}" eloURI="${missionSpecificationTransporter.uri}" property="globalMissionScaffoldingLevel" rooloServices="${rooloServices}"/>
@@ -37,23 +36,23 @@
           <script type="text/javascript">
                 dojo.addOnLoad(function() {
                     var tabs = dijit.byId("tabContainer");
-                    var missionDesc = new dijit.layout.ContentPane({ title:"Mission description", href:"${descriptionUrl}" });
+                    var missionDesc = new dijit.layout.ContentPane({ title:"<spring:message code="MISSION_DESCRIPTION"/>", href:"${descriptionUrl}" });
                     tabs.addChild(missionDesc);
                     tabs.selectChild(missionDesc);
 
-                    var pane1 = new dijit.layout.ContentPane({ title:"Portfolio configuration", href:"http://localhost:8080/webapp/app/scyauthor/ConfigureAssessment.html?eloURI=roolo%3A%2F%2Fscy.collide.info%2Fscy-collide-server%2F261.261%230" });
+                    var pane1 = new dijit.layout.ContentPane({ title:"<spring:message code="PORTFOLIO_CONFIGURATION"/>", href:"/webapp/app/scyauthor/ConfigureAssessment.html?eloURI=${missionSpecificationTransporter.uri}" });
                     tabs.addChild(pane1);
 
-                    var pane2 = new dijit.layout.ContentPane({ title:"Students", href:"viewStudentsForPedagogicalPlan.html?eloURI=${missionSpecificationTransporter.uri}" });
+                    var pane2 = new dijit.layout.ContentPane({ title:"<spring:message code="STUDENTS"/>", href:"viewStudentsForPedagogicalPlan.html?eloURI=${missionSpecificationTransporter.uri}" });
                     tabs.addChild(pane2);
 
-                    var pane3 = new dijit.layout.ContentPane({ title:"Portfolios", href:"/webapp/app/assessment/assessmentindex.html?eloURI=${missionSpecificationTransporter.uri}" });
+                    var pane3 = new dijit.layout.ContentPane({ title:"<spring:message code="PORTFOLIOS"/>", href:"/webapp/app/assessment/assessmentindex.html?eloURI=${missionSpecificationTransporter.uri}" });
                     tabs.addChild(pane3);
 
-                    var pane3 = new dijit.layout.ContentPane({ title:"Current activity", href:"/webapp/app/assessment/assessmentindex.html?eloURI=${missionSpecificationTransporter.uri}" });
+                    var pane3 = new dijit.layout.ContentPane({ title:"<spring:message code="CURRENT_ACTIVITY"/>", href:"/webapp/app/assessment/assessmentindex.html?eloURI=${missionSpecificationTransporter.uri}" });
                     tabs.addChild(pane3);
 
-                    var paneAnchorElos = new dijit.layout.ContentPane({ title:"Anchor ELOs", href:"MissionHighLevelOverview.html?eloURI=${missionSpecificationTransporter.uri}" });
+                    var paneAnchorElos = new dijit.layout.ContentPane({ title:"<spring:message code="ANCHOR_ELOS"/>", href:"MissionHighLevelOverview.html?eloURI=${missionSpecificationTransporter.uri}" });
                     tabs.addChild(paneAnchorElos);
 
                     var refreshActive = false;

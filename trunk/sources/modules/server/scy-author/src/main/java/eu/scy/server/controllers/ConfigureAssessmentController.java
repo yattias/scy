@@ -90,10 +90,10 @@ public class ConfigureAssessmentController extends BaseController {
         }
 
         if(pedagogicalPlanTransfer.getAssessmentSetup().getReflectionTabs().size() == 0) {
-            pedagogicalPlanTransfer.getAssessmentSetup().addReflectionTab(createTab("xxReflection on Mission", "The most important things I learned about CO2 neural houses are...", "text"));
-            pedagogicalPlanTransfer.getAssessmentSetup().addReflectionTab(createTab("xxReflection on Collaboration", "Did your group agreed about how to work before you started and were there any problems during the work?", "text"));
-            pedagogicalPlanTransfer.getAssessmentSetup().addReflectionTab(createTab("xxReflection on Inquiry", "Did you keep the hypotheses that you created early in the inquiry or did you change it?", "text"));
-            pedagogicalPlanTransfer.getAssessmentSetup().addReflectionTab(createTab("xxReflection on Effort", "Are you satisfied with your own work on this Mission?", "slider"));
+            pedagogicalPlanTransfer.getAssessmentSetup().addReflectionTab(createTab("Reflection on Mission", "The most important things I learned about CO2 neural houses are...", "text"));
+            pedagogicalPlanTransfer.getAssessmentSetup().addReflectionTab(createTab("Reflection on Collaboration", "Did your group agreed about how to work before you started and were there any problems during the work?", "text"));
+            pedagogicalPlanTransfer.getAssessmentSetup().addReflectionTab(createTab("Reflection on Inquiry", "Did you keep the hypotheses that you created early in the inquiry or did you change it?", "text"));
+            pedagogicalPlanTransfer.getAssessmentSetup().addReflectionTab(createTab("Reflection on Effort", "Are you satisfied with your own work on this Mission?", "slider"));
 
 
         }

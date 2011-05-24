@@ -32,6 +32,7 @@ public class SCYUserDetails implements UserDetails, Serializable {
     private boolean accoundNotLocked = Boolean.TRUE;
     private boolean credentialsNotExpired = Boolean.TRUE;
     private boolean enabled = Boolean.TRUE;
+    private String locale = "en";
 
     private Set<SCYGrantedAuthority> grantedAuthorities = null;
 
@@ -181,4 +182,12 @@ public class SCYUserDetails implements UserDetails, Serializable {
 		return false;
 	}
 
+
+    public String getLocale() {
+        return locale;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
 }

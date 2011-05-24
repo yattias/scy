@@ -24,6 +24,14 @@
                     </td>
                 </tr>
                 <tr  class="${oddEven.oddEven}">
+                    <td width="20%">
+                        Language
+                    </td>
+                    <td>
+                        <s:ajaxTextFieldForUsers model="${userDetails}" property="locale"/>
+                    </td>
+                </tr>
+                <tr  class="${oddEven.oddEven}">
                     <td>
                         Profile picture
                     </td>
