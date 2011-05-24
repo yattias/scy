@@ -48,7 +48,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
    def sceneWidth = bind scene.width on replace { sceneSizeChanged() };
    def sceneHeight = bind scene.height on replace { sceneSizeChanged() };
    def instructionWindow: MoreInfoWindow = MoreInfoWindow {
-         title: "Instruction"
+         title: ##"Instruction"
          infoTypeIcon: InstructionTypesIcon {}
          openAction: showInstructionWindow;
          closeAction: hideInstructionWindow;
@@ -217,7 +217,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
       if (MoreInfoTypes.RESOURCES == type) {
          return ##"Resources"
       }
-      return ##"Unknonw type"
+      return ##"Unknown type"
    }
 
    function getMoreInfoTypeIcon(type: MoreInfoTypes): Node {

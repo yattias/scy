@@ -477,7 +477,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  actionScheme: desktopButtonActionScheme
                  disableButton: initializer.offlineMode
                  tooltipManager: tooltipManager
-                 tooltip: if (initializer.offlineMode) "Feedback is only available when working online" else "Give Feedback"
+                 tooltip: if (initializer.offlineMode) ##"Feedback is only available when working online" else ##"Give Feedback"
                  action: function(): Void {
                     def conf: Configuration = Configuration.getInstance();
                     def eloUriEncoded = URLEncoder.encode(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString(), "UTF-8");
@@ -501,7 +501,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  actionScheme: desktopButtonActionScheme
                  disableButton: initializer.offlineMode
                  tooltipManager: tooltipManager
-                 tooltip: if (initializer.offlineMode) "Feedback is only available when working online" else "Get Feedback"
+                 tooltip: if (initializer.offlineMode) ##"Feedback is only available when working online" else ##"Get Feedback"
                  action: function(): Void {
                     def conf: Configuration = Configuration.getInstance();
                     def eloUriEncoded = URLEncoder.encode(missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString(), "UTF-8");
