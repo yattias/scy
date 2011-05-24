@@ -2,12 +2,15 @@ package eu.scy.server.controllers;
 
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.ServerService;
+import eu.scy.core.UserService;
 import eu.scy.core.model.ScyBase;
 import eu.scy.core.model.Server;
+import eu.scy.core.model.User;
 import eu.scy.server.controllers.ui.OddEven;
 import eu.scy.server.url.UrlInspector;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +31,7 @@ public abstract class BaseController extends AbstractController {
     private ScyBase model;
     private UrlInspector urlInspector;
     private ScyElo scyElo;
+    private UserService userService;
 
     public ScyElo getScyElo() {
         return scyElo;
@@ -66,6 +70,8 @@ public abstract class BaseController extends AbstractController {
     @Override
     protected final ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse httpServletResponse) throws Exception {
         logger.info("NEW REQUEST ARRIVED:");
+
+        RequestContextUtils.getLocaleResolver(request).setLocale(request, httpServletResponse, getCurrentLocale(request));
 
         Enumeration parameEnumeration = request.getParameterNames();
         while(parameEnumeration.hasMoreElements()) {
@@ -120,4 +126,29 @@ public abstract class BaseController extends AbstractController {
        org.springframework.security.userdetails.User user = (org.springframework.security.userdetails.User) request.getSession().getAttribute("CURRENT_USER");
        return user.getUsername();
    }
+
+    public User getCurrentUser(HttpServletRequest request) {
+        if(getUserService() != null) {
+            return getUserService().getUser(getCurrentUserName(request));
+        }
+        return null;
+    }
+
+
+    public Locale getCurrentLocale(HttpServletRequest request) {
+        User user = getCurrentUser(request);
+        String localeString = "en";
+        if(user != null) {
+            if(user.getUserDetails().getLocale() != null)  localeString = user.getUserDetails().getLocale();
+        }
+        return new Locale(localeString);
+    }
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 }

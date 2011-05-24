@@ -10,6 +10,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,6 +21,7 @@ import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -41,7 +43,6 @@ public class ViewPedagogicalPlanController extends BaseController {
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
 
         try {
-
             String uriParam = request.getParameter("uri");
             logger.info("*** **** URI IS : " + uriParam);
             URI uri = new URI(uriParam);
@@ -49,6 +50,7 @@ public class ViewPedagogicalPlanController extends BaseController {
             MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(uri, getMissionELOService());
 
             String descriptionURI = "/webapp/useradmin/LoadExternalPage.html?url=" + missionSpecificationElo.getTypedContent().getMissionDescriptionUri();
+            descriptionURI = localizeDescriptionURI(descriptionURI, getCurrentUser(request));
             modelAndView.addObject("descriptionUrl", descriptionURI);
             logger.info("DESCRIPTION: " + descriptionURI); // HAHAHA I laugh myself to death!
 
@@ -111,6 +113,15 @@ public class ViewPedagogicalPlanController extends BaseController {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
+    }
+
+    private String localizeDescriptionURI(String descriptionURI, User currentUser) {
+        final String contentString = "content/";
+        String firstPart = descriptionURI.substring(0, descriptionURI.indexOf(contentString) + contentString.length());
+        String lastPart = descriptionURI.substring(firstPart.length(), descriptionURI.length());
+        lastPart = lastPart.substring(lastPart.indexOf("/"), lastPart.length());
+        lastPart = currentUser.getUserDetails().getLocale() + lastPart;
+        return firstPart + lastPart;
     }
 
     private void increaseScaffoldingLevel(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView, ScyElo elo) {

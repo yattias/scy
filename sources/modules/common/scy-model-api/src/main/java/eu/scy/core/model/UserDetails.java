@@ -45,4 +45,7 @@ public interface UserDetails {
     void addAuthority(SCYGrantedAuthority authority);
 
     boolean hasGrantedAuthority(String authority);
+
+    String getLocale();
+    void setLocale(String locale);
 }

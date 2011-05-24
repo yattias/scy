@@ -12,3 +12,5 @@ ALTER TABLE `teacher_user_details` ADD COLUMN `profilePicture` varchar(55) defau
 ALTER TABLE `teacher_user_details` ADD KEY `tprofileFileRef` (`profilePicture`);
 ALTER TABLE `teacher_user_details` ADD CONSTRAINT `tconst_profileFileRef` FOREIGN KEY (`profilePicture`) REFERENCES `fileref` (`primKey`);
 ALTER TABLE `teacher_user_details` ADD CONSTRAINT `t_const_profile_picture_ref` FOREIGN KEY (`profilePicture`) REFERENCES `fileref` (`primKey`);
+
+ALTER TABLE `user_details` ADD COLUMN `locale` varchar(10) default 'en';
