@@ -143,7 +143,7 @@
                <property name="id" value="hypothesis"/>
                <property name="uri" value="roolo://memory/50002/0/Hypothesis.rtf"/>
 			   <property name="iconType" value="alert_question"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/LAS_Conceptualization/mission5/tip_LAS_B.txt"/>
+               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Conceptualization/tip_LAS_B.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Conceptualization/instruction_02_hypothesis.html"/>
                <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
@@ -189,7 +189,7 @@
                <property name="uri" value="roolo://memory/50008/0/Report.rtf"/>
                <property name="iconType" value="report"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Report/tip_LAS_D.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Report/instruction_5_report.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Report/instruction_05_report.html"/>
                <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
                   <list />
