@@ -52,7 +52,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
 
     def logger = Logger.getLogger(this.getClass());
     public var scyDesktop: ScyDesktop;
-    public var scyWindowControl: ScyWindowControl;
+    public var scyWindowControl: ScyWindowControl on replace {archiver.scyWindowControl = scyWindowControl};
     public var repository: IRepository;
     public var metadataTypeManager: IMetadataTypeManager;
     public var titleKey: IMetadataKey;

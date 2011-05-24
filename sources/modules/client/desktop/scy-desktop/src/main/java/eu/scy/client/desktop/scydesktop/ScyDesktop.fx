@@ -250,6 +250,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    public def desktopButtonSize = 25.0;
    public def desktopButtonActionScheme = 1;
    var bigMissionMapControl: BigMissionMapControl;
+   var eloManagement: EloManagement;
 
    init {
       if (config.isRedirectSystemStreams() and config.getLoggingDirectory() != null) {
@@ -393,6 +394,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
               }
       missionMap.scyWindowControl = scyWindowControl;
       bigMissionMapControl.scyWindowControl = scyWindowControl;
+      eloManagement.scyWindowControl = scyWindowControl;
       backgroundUpdater = BackgroundUpdater {
                  windowStyler: windowStyler;
                  background: initializer.background
@@ -557,13 +559,14 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
                  color: Color.GRAY;
                  effect: cornerToolEffect
               }
-      bottomLeftCornerTool = EloManagement {
+      eloManagement = EloManagement {
                  scyDesktop: this;
                  repository: config.getRepository();
                  metadataTypeManager: config.getMetadataTypeManager();
                  titleKey: config.getTitleKey();
                  technicalFormatKey: config.getTechnicalFormatKey();
               }
+      bottomLeftCornerTool = eloManagement;
    }
 
    def jdomStringConversion = new JDomStringConversion();
