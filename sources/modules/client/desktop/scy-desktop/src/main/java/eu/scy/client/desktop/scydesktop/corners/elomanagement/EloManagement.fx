@@ -43,7 +43,7 @@ import eu.scy.common.scyelo.QueryFactory;
 import eu.scy.client.desktop.scydesktop.uicontrols.EloIconButton;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.searchers.FindSimilarSearcher;
 import roolo.search.QueryContext;
-import java.lang.UnsupportedOperationException;
+import javafx.util.StringLocalizer;
 
 /**
  * @author sikken
@@ -304,7 +304,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
 
     function createModalDialog(windowColorScheme: WindowColorScheme, eloIcon: EloIcon, title: String, modalDialogNode: ModalDialogNode): Void {
         eloIcon.selected = true;
-        Composer.localizeDesign(modalDialogNode.getContentNodes());
+        Composer.localizeDesign(modalDialogNode.getContentNodes(), StringLocalizer{});
         modalDialogNode.modalDialogBox = ModalDialogBox {
                     //            content: EmptyBorderNode {
                     //               content: modalDialogNode.getContentGroup();

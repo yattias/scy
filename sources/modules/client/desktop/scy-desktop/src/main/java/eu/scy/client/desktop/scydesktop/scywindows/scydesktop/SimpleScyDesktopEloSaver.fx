@@ -20,7 +20,6 @@ import eu.scy.client.desktop.scydesktop.tools.MyEloChanged;
 import roolo.api.IRepository;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IELOFactory;
-import roolo.elo.api.IMetadataKey;
 import eu.scy.client.desktop.desktoputils.i18n.Composer;
 import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 import eu.scy.client.desktop.scydesktop.tools.ScyTool;
@@ -43,6 +42,7 @@ import org.apache.log4j.Logger;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.metadata.keys.SocialTags;
 import roolo.elo.api.IMetadata;
+import javafx.util.StringLocalizer;
 
 /**
  * @author sikken
@@ -148,7 +148,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
          windowColorScheme = windowStyler.getWindowColorScheme(window.eloType);
       }
       eloIcon.selected = true;
-      Composer.localizeDesign(eloSaveAsPanel.getDesignNodes());
+      Composer.localizeDesign(eloSaveAsPanel.getDesignNodes(), StringLocalizer{});
       eloSaveAsPanel.modalDialogBox = ModalDialogBox {
                  content: Group {
                     content: eloSaveAsPanel.getDesignNodes()

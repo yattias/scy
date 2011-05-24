@@ -34,7 +34,7 @@ public class EportfolioButton extends CustomNode, DropTarget2 {
          actionScheme: scyDesktop.desktopButtonActionScheme
          disableButton: scyDesktop.initializer.offlineMode
          tooltipManager: scyDesktop.tooltipManager
-         tooltip: if (scyDesktop.initializer.offlineMode) "ePortfolio is only available when working online" else "ePortfolio"
+         tooltip: if (scyDesktop.initializer.offlineMode) ##"ePortfolio is only available when working online" else ##"ePortfolio"
          action: function(): Void {
             def conf:Configuration=Configuration.getInstance();
             def eloUriEncoded = URLEncoder.encode(scyDesktop.missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString(),"UTF-8");

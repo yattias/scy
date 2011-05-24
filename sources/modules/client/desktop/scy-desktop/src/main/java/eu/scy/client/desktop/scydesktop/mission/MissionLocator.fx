@@ -32,6 +32,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.ProgressOverlay;
 import eu.scy.client.desktop.desktoputils.XFX;
 import javafx.util.Sequences;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBox;
+import javafx.util.StringLocalizer;
 
 /**
  * @author SikkenJ
@@ -159,7 +160,7 @@ public class MissionLocator {
                  scyElo: missionRuntimeElo
               }
       eloSaveAsPanel.setTitle(##"Empty mission");
-      Composer.localizeDesign(eloSaveAsPanel.getDesignRootNodes());
+      Composer.localizeDesign(eloSaveAsPanel.getDesignRootNodes(), StringLocalizer{});
       eloSaveAsPanel.modalDialogBox = ModalDialogBox {
                  content: Group {
                     content: eloSaveAsPanel.getDesignRootNodes()
@@ -244,7 +245,7 @@ public class MissionLocator {
       askUserForMissionNode.newMissionListView.cellFactory = missionCellFactory;
       var newMissions: MissionSpecificationElo[] = Sequences.sort(missions.getMissionSpecificationElosArray(), new ScyEloTitleComparator()) as MissionSpecificationElo[];
       askUserForMissionNode.newMissionListView.items = newMissions;
-      Composer.localizeDesign(askUserForMissionNode.getDesignRootNodes());
+      Composer.localizeDesign(askUserForMissionNode.getDesignRootNodes(), StringLocalizer{});
       window.scyContent = EmptyBorderNode {
                  content: Group {
                     content: askUserForMissionNode.getDesignRootNodes()
