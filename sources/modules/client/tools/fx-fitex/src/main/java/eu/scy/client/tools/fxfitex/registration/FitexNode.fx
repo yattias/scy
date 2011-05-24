@@ -48,6 +48,7 @@ import eu.scy.client.common.datasync.ISyncSession;
 import roolo.elo.metadata.BasicMetadata;
 import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
 import eu.scy.common.scyelo.ScyElo;
+import javafx.util.StringLocalizer;
 
 /**
  * fitex node
@@ -205,7 +206,7 @@ public class FitexNode extends ISynchronizable, CustomNode, Resizable, ScyToolFX
     }
 
     function createModalDialog(windowColorScheme: WindowColorScheme, title: String, modalDialogNode: ModalDialogNode): Void {
-        Composer.localizeDesign(modalDialogNode.getContentNodes());
+        Composer.localizeDesign(modalDialogNode.getContentNodes(), StringLocalizer{});
         modalDialogNode.modalDialogBox = ModalDialogBox {
             content: EmptyBorderNode {
                 content: Group {

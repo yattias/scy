@@ -2,10 +2,7 @@ package eu.scy.client.tools.fxscydynamics.registration;
 
 import java.net.URI;
 import javafx.scene.Group;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
 import colab.um.xml.model.JxmModel;
@@ -35,13 +32,12 @@ import eu.scy.client.desktop.desktoputils.EmptyBorderNode;
 import eu.scy.client.desktop.scydesktop.corners.elomanagement.ModalDialogNode;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.ModalDialogBox;
 import eu.scy.elo.contenttype.dataset.DataSet;
-import eu.scy.client.desktop.scydesktop.ScyToolActionLogger;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 import org.apache.log4j.Logger;
 import roolo.elo.metadata.keys.KeyValuePair;
-import java.util.Hashtable;
 import java.util.Set;
+import javafx.util.StringLocalizer;
 
 public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBack {
 
@@ -218,7 +214,7 @@ public class ScyDynamicsNode extends CustomNode, Resizable, ScyToolFX, EloSaverC
     }
 
     function createModalDialog(windowColorScheme: WindowColorScheme, title: String, modalDialogNode: ModalDialogNode): Void {
-        Composer.localizeDesign(modalDialogNode.getContentNodes());
+        Composer.localizeDesign(modalDialogNode.getContentNodes(), StringLocalizer{});
         modalDialogNode.modalDialogBox = ModalDialogBox {
                     content: EmptyBorderNode {
                         content: Group {

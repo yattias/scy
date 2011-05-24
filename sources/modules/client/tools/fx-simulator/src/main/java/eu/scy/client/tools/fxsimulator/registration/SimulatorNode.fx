@@ -54,12 +54,10 @@ import eu.scy.client.common.scyi18n.UriLocalizer;
 import java.net.URL;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
-import eu.scy.client.tools.scysimulator.SimConfig.MODE;
-import eu.scy.elo.contenttype.dataset.DataSet;
-import eu.scy.elo.contenttype.dataset.DataSetHeader;
 import java.util.List;
 import eu.scy.elo.contenttype.dataset.DataSetColumn;
-import roolo.elo.metadata.keys.KeyValuePair;
+import javafx.util.StringLocalizer;
+import eu.scy.client.tools.scysimulator.SimConfig.MODE;
 
 public class SimulatorNode
     extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
@@ -168,7 +166,7 @@ public class SimulatorNode
     }
 
     function createModalDialog(windowColorScheme: WindowColorScheme, title: String, modalDialogNode: ModalDialogNode): Void {
-        Composer.localizeDesign(modalDialogNode.getContentNodes());
+        Composer.localizeDesign(modalDialogNode.getContentNodes(), StringLocalizer{});
         modalDialogNode.modalDialogBox = ModalDialogBox {
                     content: EmptyBorderNode {
                         content: Group {
