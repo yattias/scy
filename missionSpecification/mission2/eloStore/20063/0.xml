@@ -165,7 +165,7 @@
     <material_used>
       <material>
         <id />
-        <name language="en">Vernier Teperature Probe</name>
+        <name language="en">Vernier Temperature Probe</name>
         <info language="en" />
         <type_ref>
           <id>TYPE_DEFAULT</id>
@@ -178,18 +178,6 @@
       <material>
         <id />
         <name language="en">Vernier Light Sensor</name>
-        <info language="en" />
-        <type_ref>
-          <id>TYPE_DEFAULT</id>
-        </type_ref>
-      </material>
-      <used>false</used>
-      <comment language="en" />
-    </material_used>
-    <material_used>
-      <material>
-        <id />
-        <name language="en">Logger Pro</name>
         <info language="en" />
         <type_ref>
           <id>TYPE_DEFAULT</id>
@@ -258,11 +246,96 @@
       <used>false</used>
       <comment language="en" />
     </material_used>
+	<material_used>
+      <material>
+        <id />
+        <name language="en">Vernier pH sensor</name>
+        <info language="en" />
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id />
+        <name language="en">Distilled water</name>
+        <info language="en">3 litres</info>
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
     <material_used>
       <material>
         <id />
         <name language="en">Canadian waterweed</name>
         <info language="en">20g Canadian waterweed (Elodea canadensis)</info>
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+	    <material_used>
+      <material>
+        <id />
+        <name language="en">Samples of ground</name>
+        <info language="en">limestone, granite, sand, peat</info>
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id />
+        <name language="en">Vessels</name>
+        <info language="en">250 ml</info>
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id />
+        <name language="en">Sulphuric acid solutions</name>
+        <info language="en">Solution A - 0,0001M&#xD;
+Solution B - 0,01 M</info>
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id />
+        <name language="en">Syringes</name>
+        <info language="en">2ml and 10ml</info>
+        <type_ref>
+          <id>TYPE_DEFAULT</id>
+        </type_ref>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id />
+        <name language="en">Paper towel</name>
+        <info language="en" />
         <type_ref>
           <id>TYPE_DEFAULT</id>
         </type_ref>
