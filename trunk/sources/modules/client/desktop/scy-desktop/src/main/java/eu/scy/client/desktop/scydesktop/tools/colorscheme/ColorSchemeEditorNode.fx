@@ -25,6 +25,7 @@ import eu.scy.client.desktop.desktoputils.art.eloicons.EloIconFactory;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 import eu.scy.client.desktop.desktoputils.EmptyBorderNode;
+import eu.scy.common.mission.ColorScheme;
 
 /**
  * @author SikkenJ
@@ -62,6 +63,12 @@ public class ColorSchemeEditorNode extends CustomNode, ScyToolFX, EloSaverCallBa
               actionId: TitleBarButton.saveAsActionId
               action: doSaveAsElo
            }
+   def exportWindowColorSchemesInitTitleBarButton = TitleBarButton {
+              actionId: "exportWindowColorSchemesInit"
+              action: exportWindowColorSchemesInit
+              iconType: "export"
+              tooltip: "export WindowColorSchemes init code to the console"
+           }
 
    public override function initialize(windowContent: Boolean): Void {
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
@@ -89,7 +96,8 @@ public class ColorSchemeEditorNode extends CustomNode, ScyToolFX, EloSaverCallBa
       if (windowContent) {
          titleBarButtonManager.titleBarButtons = [
                     saveTitleBarButton,
-                    saveAsTitleBarButton
+                    saveAsTitleBarButton,
+                    exportWindowColorSchemesInitTitleBarButton
                  ]
       }
    }
@@ -204,5 +212,33 @@ public class ColorSchemeEditorNode extends CustomNode, ScyToolFX, EloSaverCallBa
    public override function eloSaveCancelled(elo: IELO) {
 
    }
+
+   function exportWindowColorSchemesInit():Void{
+      def colorSchemes = windowColorSchemeEditorNode.windowColorSchemes.getColorSchemes();
+      def windowColorSchemesInitCode =
+      for (colorSchemeObject in colorSchemes){
+         def colorScheme = colorSchemeObject as ColorScheme;
+         def colorSchemeId = "{colorScheme.getColorSchemeId().getClass().getName()}.{colorScheme.getColorSchemeId()}";
+         "addWindowColorScheme({colorSchemeId},\nWindowColorScheme\{\n"
+         "colorSchemeId: {colorSchemeId}\n"
+         "mainColor: {createColorDef(colorScheme.getMainColor())}\n"
+         "mainColorLight: {createColorDef(colorScheme.getMainColorLight())}\n"
+         "secondColor: {createColorDef(colorScheme.getSecondColor())}\n"
+         "secondColorLight: {createColorDef(colorScheme.getSecondColorLight())}\n"
+         "thirdColor: {createColorDef(colorScheme.getThirdColor())}\n"
+         "thirdColorLight: {createColorDef(colorScheme.getThirdColorLight())}\n"
+         "backgroundColor: {createColorDef(colorScheme.getBackgroundColor())}\n"
+         "emptyBackgroundColor: {createColorDef(colorScheme.getEmptyBackgroundColor())}\n"
+         "\});"
+      }
+      for (line in windowColorSchemesInitCode){
+         println(line);
+      }
+   }
+
+   function createColorDef(color: java.awt.Color):String{
+      "Color.rgb({color.getRed()},{color.getGreen()},{color.getBlue()},{color.getAlpha()/255.0})"
+   }
+
 
 }
