@@ -19,9 +19,7 @@ import javafx.scene.layout.Container;
 
 def toLocalizeCode = "##";
 
-public function localizeDesign(nodes: Node[]):Void{
-   //println("localizeDesign in {Locale.getDefault().getLanguage()}");
-   var stringLocalizer = StringLocalizer{};
+public function localizeDesign(nodes: Node[], stringLocalizer: StringLocalizer):Void{
    for (node in nodes){
       if (node instanceof Labeled){
          var labeled = node as Labeled;
@@ -32,11 +30,11 @@ public function localizeDesign(nodes: Node[]):Void{
       }
       else if (node instanceof Group){
          def group = node as Group;
-         localizeDesign(group.content)
+         localizeDesign(group.content, stringLocalizer)
       }
       else if (node instanceof Container){
          def container = node as Container;
-         localizeDesign(container.content)
+         localizeDesign(container.content, stringLocalizer)
       }
 
    }
