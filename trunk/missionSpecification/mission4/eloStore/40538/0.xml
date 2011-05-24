@@ -69,7 +69,7 @@
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/GMO/OrientationLAS/targetDescription.txt</targetDescriptionUri>
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/GMO/OrientationLAS/assignment.html</assignmentUri>
         <resourcesUri>http://www.scy-lab.eu/content/en/mission4/GMO/OrientationLAS/resources.html</resourcesUri>
-        <colorScheme />
+        <colorScheme>SEVEN</colorScheme>
       </mainAnchor>
       <intermediateAnchors />
       <nextLasses>
@@ -98,7 +98,7 @@
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/GMO/ConceptualisationLAS/targetDescriptionBio.txt</targetDescriptionUri>
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/GMO/ConceptualisationLAS/assignment-bio.html</assignmentUri>
         <resourcesUri>http://www.scy-lab.eu/content/en/mission4/GMO/ConceptualisationLAS/resources-bio.html</resourcesUri>
-        <colorScheme />
+        <colorScheme>ONE</colorScheme>
       </mainAnchor>
       <intermediateAnchors />
       <nextLasses>
@@ -124,7 +124,7 @@
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/GMO/ConceptualisationLAS/targetDescriptionEco.txt</targetDescriptionUri>
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/GMO/ConceptualisationLAS/assignment-eco.html</assignmentUri>
         <resourcesUri>http://www.scy-lab.eu/content/en/mission4/GMO/ConceptualisationLAS/resources-eco.html</resourcesUri>
-        <colorScheme />
+        <colorScheme>SIX</colorScheme>
       </mainAnchor>
       <intermediateAnchors />
       <nextLasses>
@@ -150,7 +150,7 @@
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/GMO/ConceptualisationLAS/targetDescriptionLaw.txt</targetDescriptionUri>
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/GMO/ConceptualisationLAS/assignment-law.html</assignmentUri>
         <resourcesUri>http://www.scy-lab.eu/content/en/mission4/GMO/ConceptualisationLAS/resources-law.html</resourcesUri>
-        <colorScheme />
+        <colorScheme>FIVE</colorScheme>
       </mainAnchor>
       <intermediateAnchors />
       <nextLasses>
@@ -176,7 +176,7 @@
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/GMO/ConceptualisationLAS/targetDescriptionPro.txt</targetDescriptionUri>
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/GMO/ConceptualisationLAS/assignment-pro.html</assignmentUri>
         <resourcesUri>http://www.scy-lab.eu/content/en/mission4/GMO/ConceptualisationLAS/resources-pro.html</resourcesUri>
-        <colorScheme />
+        <colorScheme>THREE</colorScheme>
       </mainAnchor>
       <intermediateAnchors />
       <nextLasses>
@@ -202,7 +202,7 @@
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS1/targetDescriptionBio.txt</targetDescriptionUri>
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS1/assignment-bio.html</assignmentUri>
         <resourcesUri>http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS1/resources-bio.html</resourcesUri>
-        <colorScheme />
+        <colorScheme>ONE</colorScheme>
       </mainAnchor>
       <intermediateAnchors />
       <nextLasses>
@@ -228,7 +228,7 @@
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS1/targetDescriptionEco.txt</targetDescriptionUri>
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS1/assignment-eco.html</assignmentUri>
         <resourcesUri>http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS1/resources-eco.html</resourcesUri>
-        <colorScheme />
+        <colorScheme>SIX</colorScheme>
       </mainAnchor>
       <intermediateAnchors />
       <nextLasses>
@@ -254,7 +254,7 @@
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS1/targetDescriptionLaw.txt</targetDescriptionUri>
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS1/assignment-law.html</assignmentUri>
         <resourcesUri>http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS1/resources-law.html</resourcesUri>
-        <colorScheme />
+        <colorScheme>FIVE</colorScheme>
       </mainAnchor>
       <intermediateAnchors />
       <nextLasses>
@@ -280,7 +280,7 @@
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS1/targetDescriptionPro.txt</targetDescriptionUri>
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS1/assignment-pro.html</assignmentUri>
         <resourcesUri>http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS1/resources-pro.html</resourcesUri>
-        <colorScheme />
+        <colorScheme>THREE</colorScheme>
       </mainAnchor>
       <intermediateAnchors />
       <nextLasses>
@@ -306,7 +306,7 @@
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/GMO/DebateLAS/targetDescription.txt</targetDescriptionUri>
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/GMO/DebateLAS/assignment.html</assignmentUri>
         <resourcesUri>http://www.scy-lab.eu/content/en/mission4/GMO/DebateLAS/resources.html</resourcesUri>
-        <colorScheme />
+        <colorScheme>SEVEN</colorScheme>
       </mainAnchor>
       <intermediateAnchors />
       <nextLasses>
@@ -332,7 +332,7 @@
         <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS2/targetDescription.txt</targetDescriptionUri>
         <assignmentUri>http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS2/assignment.html</assignmentUri>
         <resourcesUri>http://www.scy-lab.eu/content/en/mission4/GMO/ReflectionLAS2/resources.html</resourcesUri>
-        <colorScheme />
+        <colorScheme>EIGHT</colorScheme>
       </mainAnchor>
       <intermediateAnchors />
       <nextLasses />
