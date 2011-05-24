@@ -281,16 +281,23 @@ public class MissionLocator {
       def eloUri = new URI(initializer.loadEloUri);
       def scyElo = ScyElo.loadElo(eloUri, tbi);
       if (scyElo != null) {
-         def missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(scyElo.getMissionRuntimeEloUri(), tbi);
+         var missionRuntimeModel: MissionRuntimeModel;
+         def missionRuntimeEloUri = scyElo.getMissionRuntimeEloUri();
+         if (missionRuntimeEloUri != null) {
+            injectMissionRuntimeEloInRepository(missionRuntimeEloUri);
+            def missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(scyElo.getMissionRuntimeEloUri(), tbi);
+            missionRuntimeModel = missionRuntimeElo.getMissionRuntimeModel();
+         }
          startMission(MissionRunConfigs {
             tbi: tbi
-            missionRuntimeModel: missionRuntimeElo.getMissionRuntimeModel()
+            missionRuntimeModel: missionRuntimeModel
             scyEloToLoad: scyElo
          });
-      }
-      else {
+      } else {
          logger.warn("Cannot find ELO with uri: {eloUri}");
-         DialogBox.showMessageDialog("Cannot find ELO with uri:\n{eloUri}\nSCY-Lab will quit.", "Cannot find ELO", null, function():Void{FX.exit();}, null);
+         DialogBox.showMessageDialog("Cannot find ELO with uri:\n{eloUri}\nSCY-Lab will quit.", "Cannot find ELO", null, function(): Void {
+            FX.exit();
+         }, null);
       }
    }
 
