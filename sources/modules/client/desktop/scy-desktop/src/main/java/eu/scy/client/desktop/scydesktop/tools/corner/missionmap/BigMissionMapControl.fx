@@ -54,19 +54,10 @@ public class BigMissionMapControl extends CustomNode {
               cacheHint: CacheHint.SPEED
               cache: true
            }
-   def missionMapButton = EloIconButton {
-              size: buttonSize
-              actionScheme: buttonActionScheme
-              eloIcon: eloIcon.clone()
-              action: showBigMissionMap
-              tooltipManager: tooltipManager
-              tooltip: bind "{navigationTooltip}{missionModel.activeLas.title}"
-           }
    def relativInstructioneWindowScreenBoder = 0.2;
    def sceneWidth = bind scene.width on replace { sceneSizeChanged() };
    def sceneHeight = bind scene.height on replace { sceneSizeChanged() };
    def relativeWindowScreenBoder = 0.0;
-   def navigationTooltip = "navigation\nnow working on: ";
    var bigMissionMapVisible = false;
    var initPhase = true;
    var deferLoadTimerCount = 5;
@@ -87,13 +78,29 @@ public class BigMissionMapControl extends CustomNode {
    def missionMapInstructionAvailable = missionModel.missionMapInstructionUri != null or missionModel.missionMapInstructionUri.toString() != "";
    var missionMapInstructionShown = false;
    var nrOfTimesInstructionShowed = 0;
+   def navigationTooltip = ##"navigation\nnow working on: ";
+   def navigationNoMissionTooltip = ##"navigation is only available when there is a mission";
+   def missionPresent = missionModel != null and sizeof missionModel.lasses > 0;
+   def missionMapButton = EloIconButton {
+              size: buttonSize
+              actionScheme: buttonActionScheme
+              eloIcon: eloIcon.clone()
+              action: showBigMissionMap
+              disableButton: not missionPresent
+              tooltipManager: tooltipManager
+              tooltip: bind if (missionPresent) "{navigationTooltip}{missionModel.activeLas.title}" else navigationNoMissionTooltip
+           }
 
    init {
-      FX.deferAction(function(): Void {
-         initializer.loadTimer.startActivity("show big mission map");
-         showBigMissionMap();
-      });
-      println("missionModel.missionMapInstructionUri: {missionModel.missionMapInstructionUri} -> {missionMapInstructionAvailable}");
+      if (missionPresent) {
+         FX.deferAction(function(): Void {
+            initializer.loadTimer.startActivity("show big mission map");
+            showBigMissionMap();
+         });
+         println("missionModel.missionMapInstructionUri: {missionModel.missionMapInstructionUri} -> {missionMapInstructionAvailable}");
+      } else {
+         showDesktopContent();
+      }
    }
 
    public override function create(): Node {
@@ -141,11 +148,8 @@ public class BigMissionMapControl extends CustomNode {
             if (initPhase) {
                missionMapWindow.resizeTheContent();
                FX.deferAction(missionMapWindow.resizeTheContent);
-               FX.deferAction(scyDesktop.showContent);
-               deferLoadTimer();
-               initPhase = false;
+               showDesktopContent();
             }
-
          });
          ModalDialogLayer.addModalDialog(missionMapWindow, true, false, true, 0);
          if (missionMapInstructionAvailable and not missionMapInstructionShown) {
@@ -153,6 +157,12 @@ public class BigMissionMapControl extends CustomNode {
             missionMapInstructionShown = true;
          }
       }
+   }
+
+   function showDesktopContent():Void{
+      FX.deferAction(scyDesktop.showContent);
+      deferLoadTimer();
+      initPhase = false;
    }
 
    function deferLoadTimer(): Void {
