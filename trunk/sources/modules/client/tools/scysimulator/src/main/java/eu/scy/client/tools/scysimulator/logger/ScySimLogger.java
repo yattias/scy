@@ -19,12 +19,15 @@ import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import eu.scy.actionlogging.api.IActionLogger;
 import eu.scy.elo.contenttype.dataset.DataSetRow;
+import java.util.logging.Logger;
 
 public class ScySimLogger implements ActionListener, IDataClient {
 
+    private final static Logger debugLogger = Logger.getLogger(ScySimLogger.class.getName());
+
     private String username = "default_username";
     private String toolname = "simulator";
-    private String missionname = "mission 1";
+    private String missionname = "n/a";
     private String sessionname = "n/a";
     private String eloURI = "n/a";
     private DataServer dataServer;
@@ -32,7 +35,6 @@ public class ScySimLogger implements ActionListener, IDataClient {
     private ArrayList<Double> oldOutputValues;
     private ArrayList<ModelVariable> inputVariables;
     private ArrayList<ModelVariable> outputVariables;
-    private IAction action;
     private IAction lastInputVariableValueChangedAction;
     private IAction lastOutputVariableValueChangedAction;
     private Timer inputVariableTimer;
@@ -48,7 +50,7 @@ public class ScySimLogger implements ActionListener, IDataClient {
     public static final String VARIABLES_SELECTED = "variables_selected";
 
     public ScySimLogger(DataServer dataServer, IActionLogger logger, String eloURI) {
-        COUNT++;
+	COUNT++;
         this.dataServer = dataServer;
         this.eloURI = eloURI;
         xmlOutputter = new XMLOutputter();
@@ -103,11 +105,11 @@ public class ScySimLogger implements ActionListener, IDataClient {
     }
 
     public void setUsername(String name) {
-        this.username = name;
+	this.username = name;
     }
 
     public void setMissionname(String missionname) {
-        this.missionname = missionname;
+	this.missionname = missionname;
     }
     
     public String getEloURI() {
@@ -153,7 +155,7 @@ public class ScySimLogger implements ActionListener, IDataClient {
     }
 
     private void logValueChanged(String name, double oldValue, double newValue) {
-        action = createBasicAction(VALUE_CHANGED);
+        IAction action = createBasicAction(VALUE_CHANGED);
         action.addAttribute("name", name);
         action.addAttribute("oldValue", stripValue(oldValue + ""));
         action.addAttribute("newValue", stripValue(newValue + ""));
@@ -192,7 +194,7 @@ public class ScySimLogger implements ActionListener, IDataClient {
     }
 
     public IAction createBasicAction(String type) {
-        IAction action = new Action();
+	IAction action = new Action();
         action.setUser(username);
         action.setType(type);
         action.addContext(ContextConstants.tool, toolname);
@@ -203,13 +205,13 @@ public class ScySimLogger implements ActionListener, IDataClient {
     }
 
     public void logAddRow(DataSetRow newRow) {
-        action = createBasicAction(ROW_ADDED);
+        IAction action = createBasicAction(ROW_ADDED);
         action.addAttribute("dataRow", xmlOutputter.outputString(newRow.toXML()));
         write(action);
     }
 
     public void logListOfVariables(String actionType, List<ModelVariable> selectedVariables) {
-        action = createBasicAction(actionType);
+        IAction action = createBasicAction(actionType);
         String selection = new String();
         for (ModelVariable var : selectedVariables) {
             selection = selection + var.getName() + ", ";
@@ -226,6 +228,7 @@ public class ScySimLogger implements ActionListener, IDataClient {
         if (action.getType() != null && action.getType().equals(VALUE_CHANGED) && action.getAttribute("name") != null && action.getAttribute("name").trim().toLowerCase().equals("mtot")) {
             // no evil mtot logging ...
         } else {
+	    debugLogger.info("logging action: "+action.toString());
             actionLogger.log(action);
         }
     }
