@@ -3,8 +3,14 @@ package eu.scy.server.filters;
 import eu.scy.common.configuration.Configuration;
 import eu.scy.core.UserService;
 import eu.scy.core.model.User;
+import eu.scy.server.jnlp.JNLPBuilder;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +20,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLDecoder;
+import java.util.Locale;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,8 +29,10 @@ import java.net.URLDecoder;
  * Time: 06:05:38
  * To change this template use File | Settings | File Templates.
  */
-public class JNLPFilter implements Filter {
+public class JNLPFilter implements Filter, ApplicationContextAware {
 
+
+    private JNLPBuilder jnlpBuilder;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -33,6 +42,7 @@ public class JNLPFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
+
 
         //// System.out.println("==== DO LOCAL FILE FILTER");
         if (request.getRequestURL().indexOf(".jnlp") >= 0) {
@@ -62,76 +72,32 @@ public class JNLPFilter implements Filter {
             }
 
             // System.out.println("LOADING JNLP FILE! " + request.getRequestURL());
-            response.setContentType("application/x-java-jnlp-file");
 
-            String jnlpContent = generateJnlpString(userName, mission, password, serverName, serverPort);
-            response.setHeader("Pragma", "no-cache");
-            response.setHeader("Cache-Control", "no-cache");
-            response.setHeader("Expires", "0");
-            response.getOutputStream().print(jnlpContent);
+
+            getJnlpBuilder().streamJnlpString(userName, mission, password, serverName, serverPort, request, response);
+
         } else {
             //// System.out.println("NOT JNLP");
             filterChain.doFilter(servletRequest, servletResponse);
         }
     }
 
-    public static String generateJnlpString(String userName, String mission, String password, String serverName, String serverPort) throws MalformedURLException, IOException {
-        String jnlpUrl = "";
-
-        if(serverName != null && serverPort != null) {
-            jnlpUrl = "http://" + serverName + ":" + serverPort + "/extcomp/scy-lab.jnlp";
-            // System.out.println("USING SERVER NAME FROM STARTUP PARAMETER ROOLO.SERVER.NAME " + jnlpUrl);
-        } else {
-            jnlpUrl = "http://scy.collide.info:8080/extcomp/scy-lab.jnlp";
-            // System.out.println("DEFAULTING TO SCY.COLLIDE.INFO FOR SCY LAB!!");
-            // System.out.println("USING " + jnlpUrl);
-
-        }
-        URL url = new URL(jnlpUrl);
-        URLConnection connection = url.openConnection();
-
-        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        String inputLine;
-
-        String jnlpContent = "";
-
-        Boolean extraArgumentsAdded = false;
-
-        while ((inputLine = in.readLine()) != null) {
-            if (inputLine.contains("/application") && !extraArgumentsAdded) {
-                // System.out.println("ADDDING EXTRA ARGUMENTS!");
-                extraArgumentsAdded = true;
-            } else {
-                // System.out.println("NOT APPLICATION");
-            }
-            jnlpContent += inputLine;
-        }
-
-        if (userName != null && password != null) {
-            int index = jnlpContent.indexOf("</application-desc>");
-            String start = jnlpContent.substring(0, index);
-            String end = jnlpContent.substring(index, jnlpContent.length());
-            String middle = "<argument>-defaultUsername</argument>";
-            middle += "<argument>" + userName + "</argument>";
-            middle += "<argument>-defaultpassword</argument>";
-            middle += "<argument>" + password + "</argument>";
-            if(mission != null) {
-                middle += "<argument>-defaultMission</argument>";
-                middle += "<argument>" + mission.trim() + "</argument>";
-            }
-            middle +="<argument>-autologin</argument>";
-            middle +="<argument>true</argument>";
-            jnlpContent = start + middle + end;
-        } else {
-            // seems like we are not logged in -> no autologin in SCY-Lab
-        }
-        in.close();
-        return jnlpContent;
-    }
 
     @Override
     public void destroy() {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public JNLPBuilder getJnlpBuilder() {
+        return jnlpBuilder;
+    }
+
+    public void setJnlpBuilder(JNLPBuilder jnlpBuilder) {
+        this.jnlpBuilder = jnlpBuilder;
+    }
 }

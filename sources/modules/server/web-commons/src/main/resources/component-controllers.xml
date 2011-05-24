@@ -329,8 +329,14 @@
         <property name="authorKey" ref="authorKey"/>
     </bean>
 
+    <bean name="jnlpBuilder" class="eu.scy.server.jnlp.JNLPBuilder">
+        <property name="userService" ref="userService"/>
+    </bean>
 
+    <bean id="jnlpFilter" class="eu.scy.server.filters.JNLPFilter">
+        <property name="jnlpBuilder" ref="jnlpBuilder"/>
 
+    </bean>
 
 
 </beans>
