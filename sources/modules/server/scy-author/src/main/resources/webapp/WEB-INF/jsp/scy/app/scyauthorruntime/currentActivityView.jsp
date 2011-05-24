@@ -20,7 +20,16 @@
                     ${userActivityInfo.userName}
                 </td>
                 <td>
-                    ${userActivityInfo.language}
+                    ${userActivityInfo.missionSpecification}
+                </td>
+                <td>
+                    ${userActivityInfo.missionName}
+                </td>
+                <td>
+                    ${userActivityInfo.lasName}
+                </td>
+                <td>
+                    ${userActivityInfo.toolName}
                 </td>
             </tr>
         </c:forEach>

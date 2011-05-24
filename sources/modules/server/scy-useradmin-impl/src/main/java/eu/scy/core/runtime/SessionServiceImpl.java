@@ -1,63 +1,40 @@
-package eu.scy.server.controllers.scyauthorruntime;
+package eu.scy.core.runtime;
 
-import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.core.model.transfer.UserActivityInfo;
-import eu.scy.core.roolo.MissionELOService;
-import eu.scy.core.runtime.SessionService;
-import eu.scy.server.controllers.BaseController;
 import info.collide.sqlspaces.client.TupleSpace;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
-import org.springframework.web.servlet.ModelAndView;
+import org.apache.log4j.Logger;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
  * User: Henrik
- * Date: 18.mai.2011
- * Time: 13:00:33
+ * Date: 24.mai.2011
+ * Time: 15:13:38
  * To change this template use File | Settings | File Templates.
  */
-public class CurrentActivityViewController extends BaseController {
-
-    private MissionELOService missionELOService;
+public class SessionServiceImpl implements SessionService {
 
     private TupleSpace tupleSpace;
-    private SessionService sessionService;
-
     private final static String LANGUAGE = "language";
     private final static String TOOL = "tool";
     private final static String MISSION = "mission";
     private final static String LAS = "las";
     private final static String SEND_NOTIFICATION = "send_notification";
 
+    private static final Logger logger = Logger.getLogger(SessionServiceImpl.class);
+
 
     @Override
-    protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
-
-        MissionSpecificationElo missionRuntimeElo = null;
-        try {
-            URI uri = new URI(request.getParameter("eloURI"));
-            missionRuntimeElo = MissionSpecificationElo.loadLastVersionElo(uri, getMissionELOService());
-        } catch (URISyntaxException e) {
-            logger.error(e.getMessage(), e);
-        }
-
-        List<UserActivityInfo> userActivityInfo = getCurrentStudentActivity(missionRuntimeElo);
-        modelAndView.addObject("userActivityList", userActivityInfo);
-
-        //sendMessage(String.valueOf(missionRuntimeElo.getUri()));
-
+    public List getActiveStudentsOnMission(MissionSpecificationElo missionSpecificationElo) {
+        return getCurrentStudentActivity(missionSpecificationElo);
     }
+
 
 
     public List getCurrentStudentActivity(MissionSpecificationElo missionSpecificationElo) {
@@ -143,27 +120,14 @@ public class CurrentActivityViewController extends BaseController {
 
     }
 
+
+
+
     public TupleSpace getTupleSpace() {
         return tupleSpace;
     }
 
     public void setTupleSpace(TupleSpace tupleSpace) {
         this.tupleSpace = tupleSpace;
-    }
-
-    public MissionELOService getMissionELOService() {
-        return missionELOService;
-    }
-
-    public void setMissionELOService(MissionELOService missionELOService) {
-        this.missionELOService = missionELOService;
-    }
-
-    public SessionService getSessionService() {
-        return sessionService;
-    }
-
-    public void setSessionService(SessionService sessionService) {
-        this.sessionService = sessionService;
     }
 }

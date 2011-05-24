@@ -92,4 +92,8 @@
         <property name="learningMaterialDAO" ref="learningMaterialDAO"/>
     </bean>
 
+    <bean id="sessionService" class="eu.scy.core.runtime.SessionServiceImpl">
+        <property name="tupleSpace" ref="sessionTupleSpace"/>
+    </bean>
+
 </beans>

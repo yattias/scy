@@ -47,6 +47,7 @@ public class JNLPBuilder {
         if(serverName != null && serverPort != null) {
             jnlpUrl = "http://" + serverName + ":" + serverPort + "/extcomp/scy-lab.jnlp";
         } else {
+            System.out.println("FREAK FUCKING SHIT HACK!");
             jnlpUrl = "http://scy.collide.info:8080/extcomp/scy-lab.jnlp";
         }
         URL url = new URL(jnlpUrl);
