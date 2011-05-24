@@ -55,6 +55,11 @@ import java.net.URL;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 import eu.scy.client.tools.scysimulator.SimConfig.MODE;
+import eu.scy.elo.contenttype.dataset.DataSet;
+import eu.scy.elo.contenttype.dataset.DataSetHeader;
+import java.util.List;
+import eu.scy.elo.contenttype.dataset.DataSetColumn;
+import roolo.elo.metadata.keys.KeyValuePair;
 
 public class SimulatorNode
     extends ISynchronizable, CustomNode, Resizable, ScyToolFX, EloSaverCallBack, ActionListener, INotifiable {
@@ -370,7 +375,7 @@ public class SimulatorNode
             simquestViewer.run();
             //--- creating a splitpane
             // creating the datacollector
-            dataCollector = new DataCollector(simquestViewer, toolBrokerAPI, (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
+	    dataCollector = new DataCollector(simquestViewer, toolBrokerAPI, (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI());
             var simulationViewer = simquestViewer.getInterfacePanel();
             simulationViewer.setPreferredSize(simquestViewer.getRealSize());
             // adding simulation and datacollector to splitpane
@@ -412,13 +417,14 @@ public class SimulatorNode
                         };
             insert syncAttrib into scyWindow.scyWindowAttributes;
         } catch (e: java.lang.Exception) {
+	    e.printStackTrace();
             logger.info("exception caught: {e.getMessage()}");
             var info = new JTextArea(4, 42);
             info.append("Simulation could not be loaded.\n");
             info.append("Probably the simulation file was not found,\n");
             info.append("it was expected at:\n");
             info.append(fileUri.toString());
-            simquestPanel.add(info);
+            switchSwingDisplayComponent(info);
         }
     }
 
@@ -469,7 +475,19 @@ public class SimulatorNode
 	    logger.info("dataCollector cleaned and one row added.");
 	}
         eloDataset.getContent().setXmlString(jdomStringConversion.xmlToString(dataCollector.getDataSet().toXML()));
-        eloSaver.otherEloSaveAs(eloDataset, this);
+
+	// setting variable-symbols/descriptions as keywords
+	var columnList: List;
+	columnList = dataCollector.getDataSet().getHeaders().get(0).getColumns();
+	for (column in columnList) {
+	    def symbol = (column as DataSetColumn).getSymbol();
+	    def description = (column as DataSetColumn).getDescription();
+	    //logger.warning("symbol: {symbol}");
+	    //logger.warning("description: {description}");
+	    //eloDataset.getMetadata().getMetadataValueContainer(keywordsKey).addValue(new KeyValuePair(symbol, "1.0"));
+	    //eloDataset.getMetadata().getMetadataValueContainer(keywordsKey).addValue(new KeyValuePair(description, "1.0"));
+	}
+	eloSaver.otherEloSaveAs(eloDataset, this);
     }
 
     function createNewSimconfigElo(): IELO {
