@@ -11,6 +11,10 @@ public class UserActivityInfo {
 
     private String userName;
     private String language;
+    private String missionSpecification;
+    private String missionName;
+    private String toolName;
+    private String lasName;
 
     public String getUserName() {
         return userName;
@@ -26,5 +30,37 @@ public class UserActivityInfo {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public String getMissionSpecification() {
+        return missionSpecification;
+    }
+
+    public void setMissionSpecification(String missionSpecification) {
+        this.missionSpecification = missionSpecification;
+    }
+
+    public String getMissionName() {
+        return missionName;
+    }
+
+    public void setMissionName(String missionName) {
+        this.missionName = missionName;
+    }
+
+    public String getToolName() {
+        return toolName;
+    }
+
+    public void setToolName(String toolName) {
+        this.toolName = toolName;
+    }
+
+    public String getLasName() {
+        return lasName;
+    }
+
+    public void setLasName(String lasName) {
+        this.lasName = lasName;
     }
 }

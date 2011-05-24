@@ -251,6 +251,8 @@
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
         <property name="tupleSpace" ref="sessionTupleSpace"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="sessionService" ref="sessionService"/>
     </bean>
 
     <bean id="viewStudentPlanController" class="eu.scy.server.controllers.scyauthorruntime.ViewStudentPlanController">
