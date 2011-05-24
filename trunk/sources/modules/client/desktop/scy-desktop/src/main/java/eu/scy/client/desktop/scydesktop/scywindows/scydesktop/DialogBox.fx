@@ -258,6 +258,7 @@ public class DialogBox extends CustomNode {
    }
 
    public override function create(): Node {
+      eloIcon.selected = true;
       dialogWindow = StandardScyWindow {
                  eloUri: null;
                  scyElo: null;
