@@ -1,5 +1,7 @@
 package eu.scy.awareness.impl;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -360,9 +362,10 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
     public boolean doesRoomExist(String ELOUri) {
         RoomInfo info;
         try {
-            info = MultiUserChat.getRoomInfo(xmppConnection, ELOUri + CONFERENCE_EXT);
+            info = MultiUserChat.getRoomInfo(xmppConnection, URLEncoder.encode(ELOUri, "utf-8") + CONFERENCE_EXT);
         } catch (XMPPException e) {
-            // e.printStackTrace();
+            return false;
+        } catch (UnsupportedEncodingException e) {
             return false;
         }
 
@@ -416,11 +419,13 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
     public void destoryMUCRoom(String ELOUri) throws AwarenessServiceException {
         if (doesRoomExist(ELOUri)) {
-            MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri
-                    + CONFERENCE_EXT);
             try {
+                MultiUserChat muc = new MultiUserChat(xmppConnection, URLEncoder.encode(ELOUri, "utf-8")
+                        + CONFERENCE_EXT);
                 muc.destroy("hate this room", null);
             } catch (XMPPException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
         }
@@ -433,7 +438,12 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
         if (ELOUri != null) {
 
-            MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri + CONFERENCE_EXT);
+            MultiUserChat muc;
+            try {
+                muc = new MultiUserChat(xmppConnection, URLEncoder.encode(ELOUri, "utf-8") + CONFERENCE_EXT);
+            } catch (UnsupportedEncodingException e) {
+                throw new AwarenessServiceException(e.getMessage());
+            }
             DiscussionHistory history = new DiscussionHistory();
             try {
                 muc.addParticipantListener(new PacketListener() {
@@ -518,8 +528,13 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
             throws AwarenessServiceException {
         if (ELOUri != null) {
             List<IAwarenessUser> users = new ArrayList<IAwarenessUser>();
-            MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri
-                    + CONFERENCE_EXT);
+            MultiUserChat muc;
+            try {
+                muc = new MultiUserChat(xmppConnection, URLEncoder.encode(ELOUri, "utf-8")
+                        + CONFERENCE_EXT);
+            } catch (UnsupportedEncodingException e) {
+                throw new AwarenessServiceException(e.getMessage());
+            }
             Iterator<String> occupants = muc.getOccupants();
             try {
                 Collection<Occupant> participants = muc.getParticipants();
@@ -568,10 +583,12 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
             // check to see if the room exists
             if (this.doesRoomExist(ELOUri)) {
-                MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri);
                 try {
+                    MultiUserChat muc = new MultiUserChat(xmppConnection, URLEncoder.encode(ELOUri, "utf-8") + CONFERENCE_EXT);
                     muc.join(buddy.getJid());
                 } catch (XMPPException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
             } else {
@@ -585,10 +602,12 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
     @Override
     public void removeBuddyFromMUC(IAwarenessUser buddy, String ELOUri) throws AwarenessServiceException {
         if (ELOUri != null) {
-            MultiUserChat muc = new MultiUserChat(xmppConnection, ELOUri);
             try {
+                MultiUserChat muc = new MultiUserChat(xmppConnection, URLEncoder.encode(ELOUri, "utf-8") + CONFERENCE_EXT);
                 muc.kickParticipant(buddy.getJid(), "had to go");
             } catch (XMPPException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
         }
