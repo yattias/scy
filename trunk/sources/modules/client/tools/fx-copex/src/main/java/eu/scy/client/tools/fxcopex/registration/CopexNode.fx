@@ -46,6 +46,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.window.StandardScyWindow;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
+import javafx.util.StringLocalizer;
 
 
 /**
@@ -271,7 +272,7 @@ public class CopexNode extends CustomNode, Resizable, ScyToolFX, EloSaverCallBac
     }
 
     function createModalDialog(windowColorScheme: WindowColorScheme, title: String, modalDialogNode: ModalDialogNode): Void {
-        Composer.localizeDesign(modalDialogNode.getContentNodes());
+        Composer.localizeDesign(modalDialogNode.getContentNodes(), StringLocalizer{});
         modalDialogNode.modalDialogBox = ModalDialogBox {
             content: EmptyBorderNode {
                 content: Group {
