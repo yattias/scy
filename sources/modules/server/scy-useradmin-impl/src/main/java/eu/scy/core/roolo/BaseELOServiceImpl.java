@@ -12,6 +12,8 @@ import roolo.search.SearchOperation;
 import roolo.elo.api.IMetadataKey;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
+import java.net.URI;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -49,5 +51,18 @@ public class BaseELOServiceImpl extends RooloAccessorImpl implements BaseELOServ
     public void setAuthorKey(IMetadataKey authorKey) {
         this.authorKey = authorKey;
     }
-    
+
+    public List findElosFor(URI missionURI, String username) {
+        IQueryComponent bmq2 = new MetadataQueryComponent(getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR), SearchOperation.EQUALS, username);   //e.g. author = "jan"
+
+        IQuery q = new Query(bmq2);
+        List<ISearchResult> results = getRepository().search(q);
+        List elos = new LinkedList();
+        for (int i = 0; i < results.size(); i++) {
+            ISearchResult searchResult = results.get(i);
+            elos.add(getRepository().retrieveELO(searchResult.getUri()));
+        }
+
+        return elos;
+    }
 }

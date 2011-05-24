@@ -251,6 +251,7 @@
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
         <property name="tupleSpace" ref="sessionTupleSpace"/>
+        <property name="commandSpace" ref="portfolioTupleSpace"/>
         <property name="missionELOService" ref="missionELOService"/>
         <property name="sessionService" ref="sessionService"/>
     </bean>

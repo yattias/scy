@@ -251,35 +251,6 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
 
     public List getMissionSpecificationsByAuthor(String author) {
         return getMissionSpecifications();
-        /*final IMetadataKey authorKey = getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR.getId());
-        IQuery missionSpecificationQuery = new BasicMetadataQuery(authorKey, BasicSearchOperations.EQUALS, author);
-        return getELOs(missionSpecificationQuery);
-        */
-    }
-
-    @Override
-    public List findElosFor(URI missionURI, String username) {
-
-        //IQueryComponent bmq1 = new MetadataQueryComponent(getMetaDataTypeManager().getMetadataKey("mission"), SearchOperation.EQUALS, "ecomission"); //e.g. mission = "ecoMission"
-        IQueryComponent bmq2 = new MetadataQueryComponent(getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR), SearchOperation.EQUALS, username);   //e.g. author = "jan"
-
-        log.info("Loading elos for mission with uri: " + missionURI);
-
-
-        //AndQuery aq = new AndQuery(bmq1, bmq2);
-        IQuery q = new Query(bmq2);
-        List<ISearchResult> results = getRepository().search(q);
-        List elos = new LinkedList();
-        for (int i = 0; i < results.size(); i++) {
-            ISearchResult searchResult = results.get(i);
-            ScyElo scyElo = ScyElo.loadLastVersionElo(searchResult.getUri(), this);
-            //if(scyElo.getMissionSpecificationEloUri().equals(missionURI)) {
-            elos.add(getRepository().retrieveELO(searchResult.getUri()));
-            //}
-
-        }
-
-        return elos;
     }
 
     @Override

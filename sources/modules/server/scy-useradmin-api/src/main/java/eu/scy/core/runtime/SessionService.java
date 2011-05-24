@@ -2,6 +2,7 @@ package eu.scy.core.runtime;
 
 import eu.scy.common.mission.MissionSpecificationElo;
 
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -13,4 +14,6 @@ import java.util.List;
  */
 public interface SessionService {
     List getActiveStudentsOnMission(MissionSpecificationElo missionSpecificationElo);
+
+    public List findElosFor(URI missionURI, String username);
 }

@@ -32,6 +32,7 @@ public class CurrentActivityViewController extends BaseController {
     private MissionELOService missionELOService;
 
     private TupleSpace tupleSpace;
+    private TupleSpace commandSpace;
     private SessionService sessionService;
 
     private final static String LANGUAGE = "language";
@@ -52,7 +53,7 @@ public class CurrentActivityViewController extends BaseController {
             logger.error(e.getMessage(), e);
         }
 
-        List<UserActivityInfo> userActivityInfo = getCurrentStudentActivity(missionRuntimeElo);
+        List<UserActivityInfo> userActivityInfo = getCurrentStudentActivity(missionRuntimeElo, request);
         modelAndView.addObject("userActivityList", userActivityInfo);
 
         //sendMessage(String.valueOf(missionRuntimeElo.getUri()));
@@ -60,7 +61,7 @@ public class CurrentActivityViewController extends BaseController {
     }
 
 
-    public List getCurrentStudentActivity(MissionSpecificationElo missionSpecificationElo) {
+    public List getCurrentStudentActivity(MissionSpecificationElo missionSpecificationElo, HttpServletRequest request) {
         List<UserActivityInfo> userActivityInfoList = new LinkedList<UserActivityInfo>();
 
         try {
@@ -71,6 +72,7 @@ public class CurrentActivityViewController extends BaseController {
             missionString += missionTuples.length + "..";
             for (int j = 0; j < missionTuples.length; j++) {
                 UserActivityInfo userActivityInfo = new UserActivityInfo();
+                userActivityInfo.setNumberOfElosProduced("" + getSessionService().findElosFor(missionSpecificationElo.getUri(), getCurrentUserName(request)).size());
                 Tuple missionTuple = missionTuples[j];
                 Field[] missionFields = missionTuple.getFields();
                 for (int k = 0; k < missionFields.length; k++) {
@@ -98,7 +100,7 @@ public class CurrentActivityViewController extends BaseController {
     private void sendMessage(String missionURI) {
         Tuple messageTuple = new Tuple(SEND_NOTIFICATION, "stefan@scy.collide.info/Smack", "digital@scy.collide.info/Smack", missionURI, "Norway rocks!");
         try {
-            getTupleSpace().write(messageTuple);
+            getCommandSpace().write(messageTuple);
         } catch (TupleSpaceException e) {
             logger.error(e.getMessage(), e);
         }
@@ -165,5 +167,13 @@ public class CurrentActivityViewController extends BaseController {
 
     public void setSessionService(SessionService sessionService) {
         this.sessionService = sessionService;
+    }
+
+    public TupleSpace getCommandSpace() {
+        return commandSpace;
+    }
+
+    public void setCommandSpace(TupleSpace commandSpace) {
+        this.commandSpace = commandSpace;
     }
 }
