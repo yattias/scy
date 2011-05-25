@@ -11,8 +11,10 @@ import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
 
+import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 
@@ -23,8 +25,12 @@ import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.provider.ProviderManager;
+import org.jivesoftware.smack.util.StringUtils;
+import org.jivesoftware.smackx.Form;
+import org.jivesoftware.smackx.FormField;
 import org.jivesoftware.smackx.muc.HostedRoom;
 import org.jivesoftware.smackx.muc.MultiUserChat;
+import org.jivesoftware.smackx.muc.RoomInfo;
 import org.xmpp.component.Component;
 import org.xmpp.packet.Message;
 import org.xmpp.packet.Packet;
@@ -47,11 +53,11 @@ import eu.scy.scyhub.SCYHubModule;
 public class DataSyncModule extends SCYHubModule {
 
     private static final Logger logger = Logger.getLogger(DataSyncModule.class.getName());
-    
+
     private static final String serviceName = "syncsessions." + Configuration.getInstance().getOpenFireHost();
 
     private final static String COMMAND_SPACE = "command";
-    
+
     // sessionid -> sessionbridge
     private Map<String, DataSyncSessionBridge> bridges;
 
@@ -74,7 +80,7 @@ public class DataSyncModule extends SCYHubModule {
             connection.connect();
             connection.login("datasynclistener", "datasync");
             connection.addConnectionListener(new DataSyncConnectionListener(connection));
-            
+
             final SyncActionPacketTransformer sapt = new SyncActionPacketTransformer();
             final DataSyncMessagePacketTransformer dsmpt = new DataSyncMessagePacketTransformer();
 
@@ -98,9 +104,10 @@ public class DataSyncModule extends SCYHubModule {
                     public void call(final Command cmd, final int seqnum, final Tuple afterTuple, final Tuple beforeTuple) {
                         final String id = afterTuple.getField(0).getValue().toString();
                         final String service = afterTuple.getField(2).getValue().toString();
+                        final String elouri = afterTuple.getField(3).getValue().toString();
                         if (service.equals("create_session")) {
                             logger.debug("Got a create mucsession request with id " + id);
-                            final SyncMessage msg = createSession();
+                            final SyncMessage msg = createSession(elouri);
                             final String mucId = msg.getSessionId();
                             logger.debug("Answering id " + id + " with mucid " + mucId);
                             try {
@@ -116,25 +123,25 @@ public class DataSyncModule extends SCYHubModule {
             }
 
             logger.debug("DataSyncModule initialised on " + host + ":" + port);
-            
+
             try {
-				Collection<HostedRoom> hostedRooms = MultiUserChat.getHostedRooms(connection, serviceName);
-				for (HostedRoom hostedRoom : hostedRooms) {
-					final String sessionId = hostedRoom.getJid();
-					DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId);
-		    		// first check if connection is still alive
-		    		if (!connection.isConnected()) {
-		    			connection.connect();
-		    		}
-		    		// try to connect the logger
-		    		dssl.join(connection);
-		    		bridges.put(sessionId, dssl);
-				}
-			} catch (Exception e) {
-				logger.error("Could not reconnect data sync bridges on restart of server", e);
-			}
+                Collection<HostedRoom> hostedRooms = MultiUserChat.getHostedRooms(connection, serviceName);
+                for (HostedRoom hostedRoom : hostedRooms) {
+                    final String sessionId = hostedRoom.getJid();
+                    DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId);
+                    // first check if connection is still alive
+                    if (!connection.isConnected()) {
+                        connection.connect();
+                    }
+                    // try to connect the logger
+                    dssl.join(connection);
+                    bridges.put(sessionId, dssl);
+                }
+            } catch (Exception e) {
+                logger.error("Could not reconnect data sync bridges on restart of server", e);
+            }
         } catch (XMPPException e) {
-        	logger.error("Could not instantiate the DataSyncModule", e);
+            logger.error("Could not instantiate the DataSyncModule", e);
         }
     }
 
@@ -151,44 +158,79 @@ public class DataSyncModule extends SCYHubModule {
         if (pojo instanceof SyncMessage) {
             SyncMessage command = (SyncMessage) pojo;
             if (command.getEvent() == Event.create) {
-            	logger.debug("Command: " + command.getEvent() + " " + command.getUserId() + " " + command.getToolId());
-            	SyncMessage response = createSession();
-        		
-        		// we create the response message, add the extension and send it
-        		// with the same id to the client
-        		Message responseMessage = new Message();
-        		
-        		responseMessage.addExtension(new WhacketExtension(transformer.getElementname(), transformer.getNamespace(), response));
-        		responseMessage.setTo(packet.getFrom());
-        		responseMessage.setFrom(Configuration.getInstance().getSCYHubName() + "." + Configuration.getInstance().getOpenFireHost());
-        		responseMessage.setID(packet.getID());
-        		
-        		send(responseMessage);
+                logger.debug("Command: " + command.getEvent() + " " + command.getUserId() + " " + command.getToolId());
+                SyncMessage response = createSession("DataSyncModule.process.test");
+
+                // we create the response message, add the extension and send it
+                // with the same id to the client
+                Message responseMessage = new Message();
+
+                responseMessage.addExtension(new WhacketExtension(transformer.getElementname(), transformer.getNamespace(), response));
+                responseMessage.setTo(packet.getFrom());
+                responseMessage.setFrom(Configuration.getInstance().getSCYHubName() + "." + Configuration.getInstance().getOpenFireHost());
+                responseMessage.setID(packet.getID());
+
+                send(responseMessage);
             } else if (command.getEvent() == Event.kill) {
-            	logger.debug("Command: " + command.getEvent() + " " + command.getUserId() + " " + command.getToolId());
-            	DataSyncSessionBridge dataSyncSessionBridge = bridges.get(command.getSessionId());
-        		if (dataSyncSessionBridge != null) {
-        			dataSyncSessionBridge.shutdown();
-        		}
+                logger.debug("Command: " + command.getEvent() + " " + command.getUserId() + " " + command.getToolId());
+                DataSyncSessionBridge dataSyncSessionBridge = bridges.get(command.getSessionId());
+                if (dataSyncSessionBridge != null) {
+                    dataSyncSessionBridge.shutdown();
+                }
             }
         }
     }
 
-    private SyncMessage createSession() {
+    private SyncMessage createSession(String elouri) {
         String sessionId = UUID.randomUUID().toString() + "@" + serviceName;
         // prepare response to client
         SyncMessage response = new SyncMessage(Type.answer);
         try {
-        	// try to create session bridge with the random id
-    		DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId);
-    		// first check if connection is still alive
-    		if (!connection.isConnected()) {
-    			connection.connect();
-    		}
-    		// try to connect the logger
-    		dssl.connect(connection);
-    		bridges.put(sessionId, dssl);
-    		
+            // try to create session bridge with the random id
+            DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId);
+            // first check if connection is still alive
+            if (!connection.isConnected()) {
+                connection.connect();
+            }
+            // try to connect the logger
+            dssl.connect(connection);
+            bridges.put(sessionId, dssl);
+
+            // now we create the chat session
+            elouri = elouri.replace("/", "");
+            elouri = elouri.replace(".", "");
+            elouri = elouri.replace(":", "");
+            String chatSessionName = URLEncoder.encode(elouri, "utf-8") + "@" + Configuration.getInstance().getOpenFireConference() + "." + Configuration.getInstance().getOpenFireHost();
+            
+            if (!chatRoomExists(connection, chatSessionName)) {
+                MultiUserChat muc = new MultiUserChat(connection, chatSessionName);
+                // we need to create
+                muc.create(connection.getUser());
+
+                // Get the the room's configuration form
+                Form form = muc.getConfigurationForm();
+
+                // Create a new form to submit based on the original form
+                Form submitForm = form.createAnswerForm();
+                // Add default answers to the form to submit
+                for (Iterator fields = form.getFields(); fields.hasNext();) {
+                    FormField field = (FormField) fields.next();
+                    if (!FormField.TYPE_HIDDEN.equals(field.getType()) && field.getVariable() != null) {
+                        // Sets the default value as the answer
+                        submitForm.setDefaultAnswer(field.getVariable());
+                    }
+                }
+                // Sets the new owner of the room
+                // List owners = new ArrayList();
+                // owners.add("djed11");
+                submitForm.setAnswer("muc#roomconfig_persistentroom", true);
+                submitForm.setAnswer("muc#roomconfig_enablelogging", true);
+                // Send the completed form (with default values) to the
+                // server to configure the room
+                muc.sendConfigurationForm(submitForm);
+                muc.leave();
+            }
+
             // if everything is okay we return success
             response.setEvent(Event.create);
             response.setResponse(Response.success);
@@ -200,6 +242,18 @@ public class DataSyncModule extends SCYHubModule {
             response.setResponse(Response.failure);
         }
         return response;
+    }
+
+    /**
+     * Checks if the chat room already exists on the server.
+     */
+    private static boolean chatRoomExists(XMPPConnection connection, String chatRoom) {
+        try {
+            MultiUserChat.getRoomInfo(connection, chatRoom);
+            return true;
+        } catch (XMPPException e) {
+            return false;
+        }
     }
 
     @Override
