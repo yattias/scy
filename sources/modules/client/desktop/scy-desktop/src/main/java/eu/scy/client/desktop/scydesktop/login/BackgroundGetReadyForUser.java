@@ -36,16 +36,24 @@ public class BackgroundGetReadyForUser implements Runnable
    @Override
    public void run()
    {
-      final ToolBrokerAPI tbi = toolBrokerLogin.getReadyForUser(loginResult);
-      final Missions missions = MissionLocatorUtils.findMissions(tbi);
-      SwingUtilities.invokeLater(new Runnable()
+      try
       {
-
-         @Override
-         public void run()
+//         throw new IllegalStateException("testing");
+         final ToolBrokerAPI tbi = toolBrokerLogin.getReadyForUser(loginResult);
+         final Missions missions = MissionLocatorUtils.findMissions(tbi);
+         SwingUtilities.invokeLater(new Runnable()
          {
-            tbiReady.tbiReady(tbi,missions);
-         }
-      });
+
+            @Override
+            public void run()
+            {
+               tbiReady.tbiReady(tbi, missions);
+            }
+         });
+      }
+      catch (Exception e)
+      {
+         tbiReady.tbiFailed(e);
+      }
    }
 }

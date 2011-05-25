@@ -32,6 +32,9 @@ import eu.scy.client.desktop.scydesktop.scywindows.WindowStyler;
 import eu.scy.client.desktop.desktoputils.art.ArtSource;
 import javafx.animation.KeyFrame;
 import eu.scy.client.desktop.desktoputils.art.eloicons.EloIconFactory;
+import eu.scy.client.desktop.desktoputils.art.WindowColorSchemes;
+import eu.scy.common.scyelo.ColorSchemeId;
+import javafx.geometry.Insets;
 
 /**
  * @author sven
@@ -52,7 +55,7 @@ var infoWindowEloIcon: EloIcon = eloIconFactory.createEloIcon(infoWindowEloIconN
 var questionWindowEloIcon: EloIcon = eloIconFactory.createEloIcon(questionWindowEloIconName);
 var infoEloIcon: EloIcon = eloIconFactory.createEloIcon(infoEloIconName);
 var questionEloIcon: EloIcon = eloIconFactory.createEloIcon(questionEloIconName);
-var modalWindowColorScheme: WindowColorScheme = WindowColorScheme{};
+var modalWindowColorScheme: WindowColorScheme = WindowColorSchemes{}.getWindowColorScheme(ColorSchemeId.NINE);
 
 function loadDefaults():Void{
    if (windowStyler!=null){
@@ -66,12 +69,20 @@ function loadDefaults():Void{
    }
 }
 
-static function getDialogBoxContent(dialogWidth: Integer, dialogBox: DialogBox, dialogType: DialogType, text: String, action1: function(): Void, action2: function(): Void, action3: function(): Void): Group {
+static function getDialogBoxContent(dialogWidth: Integer, dialogBox: DialogBox, dialogType: DialogType, text: String, action1: function(): Void, action2: function(): Void, action3: function(): Void): Node {
 
-   def indicatorImage: Node = getIndicatorImage(dialogType);
-   def group: Group = Group {
-              content: [
+   def indicatorImage: EloIcon = getIndicatorImage(dialogType);
+   indicatorImage.windowColorScheme = modalWindowColorScheme;
+   def spacing = 5.0;
+//   def group: Group = Group {
+//              content: [
                  VBox {
+                    padding:Insets{
+                       top: spacing
+                       right: spacing
+                       bottom: spacing
+                       left: spacing
+                    }
                     hpos: HPos.CENTER
                     vpos: VPos.CENTER
                     nodeHPos: HPos.CENTER
@@ -93,12 +104,12 @@ static function getDialogBoxContent(dialogWidth: Integer, dialogBox: DialogBox, 
                        getButtonBar(dialogBox, dialogType, action1, action2, action3)
                     ];
                  }
-              ];
-           }
-   return group
+//              ];
+//           }
+//   return group
 }
 
-static function getIndicatorImage(dialogType): Node {
+static function getIndicatorImage(dialogType): EloIcon {
    if (dialogType == DialogType.OK_DIALOG) {
       return infoEloIcon.clone()
    } else if (dialogType == DialogType.YES_NO_DIALOG or dialogType == DialogType.OK_CANCEL_DIALOG) {
@@ -259,6 +270,7 @@ public class DialogBox extends CustomNode {
 
    public override function create(): Node {
       eloIcon.selected = true;
+      eloIcon.windowColorScheme = windowColorScheme;
       dialogWindow = StandardScyWindow {
                  eloUri: null;
                  scyElo: null;

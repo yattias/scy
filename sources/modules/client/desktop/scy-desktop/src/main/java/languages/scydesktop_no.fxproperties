@@ -90,3 +90,6 @@
 "close instruction"="close instruction"
 "open instruction"="open instruction"
 "My ELO list (last modified):"="My ELO list (last modified):"
+"Connection problems"="Connection problems"
+"Could not connect to host %0%:%1%:\n%2%"="Could not connect to host %0%:%1%:\n%2%"
+"Failed to complete login:\n%0%\nSCY-Lab will quit."="Failed to complete login:\n%0%\nSCY-Lab will quit."
