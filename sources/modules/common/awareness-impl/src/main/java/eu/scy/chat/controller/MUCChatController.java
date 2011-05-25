@@ -1,10 +1,12 @@
 package eu.scy.chat.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.logging.Level;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JTextArea;
@@ -25,6 +27,7 @@ import eu.scy.awareness.event.IAwarenessPresenceListener;
 import eu.scy.awareness.event.IAwarenessRosterEvent;
 import eu.scy.awareness.event.IAwarenessRosterListener;
 import eu.scy.presence.IPresenceEvent;
+import java.net.URLEncoder;
 
 public class MUCChatController implements ChatController {
 
@@ -132,24 +135,24 @@ public class MUCChatController implements ChatController {
                 SwingUtilities.invokeLater(new Runnable() {
 
                     public void run() {
-                        // System.out.println( "Checking room id" );
-
-
-                        String awarenessEventRoomId = awarenessEvent.getRoomId();
-                        if (awarenessEventRoomId != null && awarenessEventRoomId.contains("@")) {
-                            //need to parse it text@conference.org
-                            awarenessEventRoomId = StringUtils.parseName(awarenessEventRoomId);
-                            logger.debug("NEW ROOMID " + awarenessEventRoomId);
-                        }
-
-                        if (org.apache.commons.lang.StringUtils.equalsIgnoreCase(ELOUri, awarenessEventRoomId)) {
-                            logger.debug("MATCHED ELOURI " + ELOUri + " roomid " + awarenessEventRoomId);
-
-                            if (awarenessEvent.getMessage() != null) {
-                                chat.addMessage(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(new Date(awarenessEvent.getTimestamp())), awarenessEvent.getUser().getNickName(), awarenessEvent.getMessage());
+                        try {
+                            // System.out.println( "Checking room id" );
+                            String awarenessEventRoomId = awarenessEvent.getRoomId();
+                            if (awarenessEventRoomId != null && awarenessEventRoomId.contains("@")) {
+                                //need to parse it text@conference.org
+                                awarenessEventRoomId = StringUtils.parseName(awarenessEventRoomId);
+                                logger.debug("NEW ROOMID " + awarenessEventRoomId);
                             }
-                        } else {
-                            logger.debug("ELOURI MISS MATCH " + ELOUri + " roomid " + awarenessEventRoomId);
+                            if (org.apache.commons.lang.StringUtils.equalsIgnoreCase(URLEncoder.encode(ELOUri, "utf-8"), awarenessEventRoomId)) {
+                                logger.debug("MATCHED ELOURI " + ELOUri + " roomid " + awarenessEventRoomId);
+                                if (awarenessEvent.getMessage() != null) {
+                                    chat.addMessage(DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.SHORT).format(new Date(awarenessEvent.getTimestamp())), awarenessEvent.getUser().getNickName(), awarenessEvent.getMessage());
+                                }
+                            } else {
+                                logger.debug("ELOURI MISS MATCH " + ELOUri + " roomid " + awarenessEventRoomId);
+                            }
+                        } catch (UnsupportedEncodingException ex) {
+                            java.util.logging.Logger.getLogger(MUCChatController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
                 });
@@ -166,33 +169,32 @@ public class MUCChatController implements ChatController {
                 SwingUtilities.invokeLater(new Runnable() {
 
                     public void run() {
-
-                        String awarenessEventRoomId = awarenessPresenceEvent.getRoomId();
-                        logger.debug("NEW awarenessEventRoomId ROOMID " + awarenessEventRoomId);
-                        if (awarenessEventRoomId != null && awarenessEventRoomId.contains("@")) {
-                            //need to parse it text@conference.org
-                            awarenessEventRoomId = StringUtils.parseName(awarenessEventRoomId);
+                        try {
+                            String awarenessEventRoomId = awarenessPresenceEvent.getRoomId();
                             logger.debug("NEW awarenessEventRoomId ROOMID " + awarenessEventRoomId);
-                        }
-
-                        if (org.apache.commons.lang.StringUtils.equalsIgnoreCase(ELOUri, awarenessEventRoomId)) {
-                            logger.debug("MATCHED awarenessEventRoomId ELOURI " + ELOUri + " roomid " + awarenessEventRoomId);
-
-                            IAwarenessUser awarenessUser = awarenessPresenceEvent.getUser();
-
-                            boolean isFound = false;
-                            IAwarenessUser iau;
-                            logger.debug("AwarenessPresenceListener elouri: " + ELOUri + " ------ roomid :" + awarenessEventRoomId + " ------ number of buddies in chat room: " + buddyListModel.getSize());
-                            for (int i = 0; i < buddyListModel.getSize(); i++) {
-                                iau = (IAwarenessUser) buddyListModel.elementAt(i);
-                                logger.debug("registerChatArea: handleAwarenessPresenceEvent: awarenessEventRoomId: " + iau.getNickName());
-                                logger.debug("registerChatArea: handleAwarenessPresenceEvent: awarenessEventRoomId: " + iau);
-
-                                if (iau.getNickName().equals(awarenessUser.getNickName())) {
-                                    ((IAwarenessUser) buddyListModel.elementAt(i)).setPresence(awarenessUser.getPresence());
-                                    isFound = true;
+                            if (awarenessEventRoomId != null && awarenessEventRoomId.contains("@")) {
+                                //need to parse it text@conference.org
+                                awarenessEventRoomId = StringUtils.parseName(awarenessEventRoomId);
+                                logger.debug("NEW awarenessEventRoomId ROOMID " + awarenessEventRoomId);
+                            }
+                            if (org.apache.commons.lang.StringUtils.equalsIgnoreCase(URLEncoder.encode(ELOUri, "utf-8"), awarenessEventRoomId)) {
+                                logger.debug("MATCHED awarenessEventRoomId ELOURI " + ELOUri + " roomid " + awarenessEventRoomId);
+                                IAwarenessUser awarenessUser = awarenessPresenceEvent.getUser();
+                                boolean isFound = false;
+                                IAwarenessUser iau;
+                                logger.debug("AwarenessPresenceListener elouri: " + ELOUri + " ------ roomid :" + awarenessEventRoomId + " ------ number of buddies in chat room: " + buddyListModel.getSize());
+                                for (int i = 0; i < buddyListModel.getSize(); i++) {
+                                    iau = (IAwarenessUser) buddyListModel.elementAt(i);
+                                    logger.debug("registerChatArea: handleAwarenessPresenceEvent: awarenessEventRoomId: " + iau.getNickName());
+                                    logger.debug("registerChatArea: handleAwarenessPresenceEvent: awarenessEventRoomId: " + iau);
+                                    if (iau.getNickName().equals(awarenessUser.getNickName())) {
+                                        ((IAwarenessUser) buddyListModel.elementAt(i)).setPresence(awarenessUser.getPresence());
+                                        isFound = true;
+                                    }
                                 }
                             }
+                        } catch (UnsupportedEncodingException ex) {
+                            java.util.logging.Logger.getLogger(MUCChatController.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     }
                 });
@@ -215,30 +217,29 @@ public class MUCChatController implements ChatController {
 
                             @Override
                             public void run() {
-
-                                String awarenessEventRoomId = awarenessRosterEvent.getRoomId();
-                                logger.debug("NEW awarenessRosterEventRoomId ROOMID " + awarenessEventRoomId);
-                                if (awarenessEventRoomId != null && awarenessEventRoomId.contains("@")) {
-                                    //need to parse it text@conference.org
-                                    awarenessEventRoomId = StringUtils.parseName(awarenessEventRoomId);
+                                try {
+                                    String awarenessEventRoomId = awarenessRosterEvent.getRoomId();
                                     logger.debug("NEW awarenessRosterEventRoomId ROOMID " + awarenessEventRoomId);
-                                }
-
-                                if (org.apache.commons.lang.StringUtils.equalsIgnoreCase(ELOUri, awarenessEventRoomId)) {
-                                    logger.debug("MATCHED awarenessRosterEventRoomId ELOURI " + ELOUri + " roomid " + awarenessEventRoomId);
-
-                                    int indexOfBuddy = getIndexOfBuddy(a);
-                                    if (indexOfBuddy > -1) {
-                                        IAwarenessUser elementAt = (IAwarenessUser) buddyListModel.elementAt(indexOfBuddy);
-                                        elementAt.setPresence(IPresenceEvent.AVAILABLE);
-                                        buddyListModel.remove(indexOfBuddy);
-                                        buddyListModel.add(indexOfBuddy,
-                                                elementAt);
-                                    } else {
-                                        a.setPresence(IPresenceEvent.AVAILABLE);
-                                        buddyListModel.addElement(a);
+                                    if (awarenessEventRoomId != null && awarenessEventRoomId.contains("@")) {
+                                        //need to parse it text@conference.org
+                                        awarenessEventRoomId = StringUtils.parseName(awarenessEventRoomId);
+                                        logger.debug("NEW awarenessRosterEventRoomId ROOMID " + awarenessEventRoomId);
                                     }
-
+                                    if (org.apache.commons.lang.StringUtils.equalsIgnoreCase(URLEncoder.encode(ELOUri, "utf-8"), awarenessEventRoomId)) {
+                                        logger.debug("MATCHED awarenessRosterEventRoomId ELOURI " + ELOUri + " roomid " + awarenessEventRoomId);
+                                        int indexOfBuddy = getIndexOfBuddy(a);
+                                        if (indexOfBuddy > -1) {
+                                            IAwarenessUser elementAt = (IAwarenessUser) buddyListModel.elementAt(indexOfBuddy);
+                                            elementAt.setPresence(IPresenceEvent.AVAILABLE);
+                                            buddyListModel.remove(indexOfBuddy);
+                                            buddyListModel.add(indexOfBuddy, elementAt);
+                                        } else {
+                                            a.setPresence(IPresenceEvent.AVAILABLE);
+                                            buddyListModel.addElement(a);
+                                        }
+                                    }
+                                } catch (UnsupportedEncodingException ex) {
+                                    java.util.logging.Logger.getLogger(MUCChatController.class.getName()).log(Level.SEVERE, null, ex);
                                 }
 
 
@@ -251,30 +252,29 @@ public class MUCChatController implements ChatController {
 
                             @Override
                             public void run() {
-
-                                String awarenessEventRoomId = awarenessRosterEvent.getRoomId();
-                                logger.debug("NEW awarenessRosterEventRoomId ROOMID " + awarenessEventRoomId);
-
-                                if (awarenessEventRoomId != null && awarenessEventRoomId.contains("@")) {
-                                    //need to parse it text@conference.org
-                                    awarenessEventRoomId = StringUtils.parseName(awarenessEventRoomId);
+                                try {
+                                    String awarenessEventRoomId = awarenessRosterEvent.getRoomId();
                                     logger.debug("NEW awarenessRosterEventRoomId ROOMID " + awarenessEventRoomId);
-                                }
-
-                                if (org.apache.commons.lang.StringUtils.equalsIgnoreCase(ELOUri, awarenessEventRoomId)) {
-                                    logger.debug("MATCHED awarenessRosterEventRoomId ELOURI " + ELOUri + " roomid " + awarenessEventRoomId);
-
-                                    int indexOfBuddy = getIndexOfBuddy(a);
-                                    if (indexOfBuddy > -1) {
-                                        IAwarenessUser elementAt = (IAwarenessUser) buddyListModel.elementAt(indexOfBuddy);
-                                        elementAt.setPresence(IPresenceEvent.UNAVAILABLE);
-                                        buddyListModel.remove(indexOfBuddy);
-                                        buddyListModel.add(indexOfBuddy,
-                                                elementAt);
-                                    } else {
-                                        a.setPresence(IPresenceEvent.UNAVAILABLE);
-                                        buddyListModel.addElement(a);
+                                    if (awarenessEventRoomId != null && awarenessEventRoomId.contains("@")) {
+                                        //need to parse it text@conference.org
+                                        awarenessEventRoomId = StringUtils.parseName(awarenessEventRoomId);
+                                        logger.debug("NEW awarenessRosterEventRoomId ROOMID " + awarenessEventRoomId);
                                     }
+                                    if (org.apache.commons.lang.StringUtils.equalsIgnoreCase(URLEncoder.encode(ELOUri, "utf-8"), awarenessEventRoomId)) {
+                                        logger.debug("MATCHED awarenessRosterEventRoomId ELOURI " + ELOUri + " roomid " + awarenessEventRoomId);
+                                        int indexOfBuddy = getIndexOfBuddy(a);
+                                        if (indexOfBuddy > -1) {
+                                            IAwarenessUser elementAt = (IAwarenessUser) buddyListModel.elementAt(indexOfBuddy);
+                                            elementAt.setPresence(IPresenceEvent.UNAVAILABLE);
+                                            buddyListModel.remove(indexOfBuddy);
+                                            buddyListModel.add(indexOfBuddy, elementAt);
+                                        } else {
+                                            a.setPresence(IPresenceEvent.UNAVAILABLE);
+                                            buddyListModel.addElement(a);
+                                        }
+                                    }
+                                } catch (UnsupportedEncodingException ex) {
+                                    java.util.logging.Logger.getLogger(MUCChatController.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                             }
                         });
