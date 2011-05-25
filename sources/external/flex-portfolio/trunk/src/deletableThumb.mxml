@@ -76,7 +76,7 @@
 			}
 			
 			private function assFault(evt:FaultEvent):void {
-				Alert.show("something f**ked up when posting the portfolio", "Portfolio post error");
+				Alert.show("An error occurred when trying to save the portfolio from the deleteELO panel.", "Portfolio post error");
 			}
 			
 			protected function deleteCanvas_clickHandler(event:MouseEvent):void {

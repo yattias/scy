@@ -189,7 +189,7 @@
 			
 			private function assFault(evt:FaultEvent):void {
 				
-				Alert.show(evt.fault+"\nsomething f**ked up when posting the portfolio with URL:\n"+so.data.saveportfolio+"?missionURI="+FlexGlobals.topLevelApplication.parameters.missionURI, "Portfolio post error");
+				Alert.show("An error occurred when trying to save the portfolio from the reflection panel.", "Portfolio post error");
 			}
 
 
