@@ -24,4 +24,14 @@ public class StringUtils
    {
       return !isEmpty(string);
    }
+   
+   public static String putInValues(String string, String... values)
+   {
+      String resultString = string;
+      for (int i = 0; i < values.length; i++)
+      {
+         resultString = resultString.replace("%" + i + "%", values[i]);
+      }
+      return resultString;
+   }
 }
