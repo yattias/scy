@@ -556,6 +556,70 @@
     </tag>
 
     <tag>
+        <name>ajaxTransferObjectCheckBox</name>
+        <tagclass>eu.scy.server.taglibs.AjaxTransferObjectCheckBox</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax text field</info>
+        <attribute>
+            <name>transferObject</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>transferEloURI</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>id</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>transferObjectServiceCollection</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>ajaxTransferObjectNumberField</name>
+        <tagclass>eu.scy.server.taglibs.AjaxTransferObjectNumberField</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax text field</info>
+        <attribute>
+            <name>transferObject</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>transferEloURI</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>id</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>transferObjectServiceCollection</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
         <name>ajaxTextFieldForUsers</name>
         <tagclass>eu.scy.server.taglibs.AjaxTextFieldForUsers</tagclass>
         <bodycontent>empty</bodycontent>

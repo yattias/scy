@@ -59,6 +59,7 @@
                    /app/scyauthor/addFileToMission.html=addFileToMissionController
                    /app/scyauthor/selectAnchorELOsToBePeerAssessed.html=selectAnchorELOsToBePeerAssessedController
                    /app/scyauthor/MissionHighLevelOverview.html=missionHighLevelOverviewController
+                   /app/scyauthor/missionPlanner.html=missionPlannerController
 
                    /app/scyauthor/createnewPedplansteps/PedPlanNameController.html=pedPlanNameController
                    /app/scyauthor/createnewPedplansteps/selectScenario.html=selectScenarioController
@@ -333,6 +334,15 @@
         <property name="userService" ref="userService"/>
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
         <property name="missionELOService" ref="missionELOService"/>
+	</bean>
+
+    <bean id="missionPlannerController" class="eu.scy.server.controllers.MissionPlannerController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="userService" ref="userService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+        <property name="transferObjectServiceCollection" ref="transferObjectServiceCollection"/>
 	</bean>
 
     <bean id="pedPlanNameController" class="eu.scy.server.controllers.createnewpedplansteps.PedPlanNameController">

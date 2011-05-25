@@ -14,6 +14,7 @@ import java.util.List;
 public class PedagogicalPlanTransfer extends BaseXMLTransfer {
 
     private AssessmentSetupTransfer assessmentSetup;
+    private MissionPlanTransfer missionPlan;
     private String name;
     private String pedagogicalPlanURI;
 
@@ -24,6 +25,15 @@ public class PedagogicalPlanTransfer extends BaseXMLTransfer {
 
     public void setAssessmentSetup(AssessmentSetupTransfer assessmentSetup) {
         this.assessmentSetup = assessmentSetup;
+    }
+
+    public MissionPlanTransfer getMissionPlan() {
+        if(this.missionPlan == null) setMissionPlan(new MissionPlanTransfer());
+        return missionPlan;
+    }
+
+    public void setMissionPlan(MissionPlanTransfer missionPlan) {
+        this.missionPlan = missionPlan;
     }
 
     public String getName() {

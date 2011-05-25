@@ -27,6 +27,8 @@ import java.util.Locale;
  */
 public abstract class BaseController extends AbstractController {
 
+    public static final String ELO_URI = "eloURI";
+
     private ServerService serverService;
     private ScyBase model;
     private UrlInspector urlInspector;

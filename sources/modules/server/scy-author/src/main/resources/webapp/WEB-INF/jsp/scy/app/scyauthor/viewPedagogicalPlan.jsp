@@ -55,6 +55,9 @@
                     var paneAnchorElos = new dijit.layout.ContentPane({ title:"<spring:message code="ANCHOR_ELOS"/>", href:"MissionHighLevelOverview.html?eloURI=${missionSpecificationTransporter.uri}" });
                     tabs.addChild(paneAnchorElos);
 
+                    var pedagogicalPlan = new dijit.layout.ContentPane({ title:"<spring:message code="PEDAGOGICAL_PLAN"/>", href:"missionPlanner.html?eloURI=${missionSpecificationTransporter.uri}&action=initializeMissionPlanning" });
+                    tabs.addChild(pedagogicalPlan);
+
                     var refreshActive = false;
                     var currentActivity = new dojox.layout.ContentPane({ title:"Current activity", executeScripts: true,  id:"currentActivityTab", href:"/webapp/app/scyauthorruntime/currentActivityView.html?eloURI=${missionSpecificationTransporter.uri}" });
                     currentActivity.refreshOnShow = true;

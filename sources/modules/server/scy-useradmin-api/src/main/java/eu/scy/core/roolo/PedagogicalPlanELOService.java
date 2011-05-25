@@ -15,4 +15,7 @@ public interface PedagogicalPlanELOService extends BaseELOService {
 
     public PedagogicalPlanTransfer getPedagogicalPlanForMission(MissionSpecificationElo missionSpecificationElo);
 
+    void initializePedagogicalPlanWithLasses(MissionSpecificationElo missionSpecificationElo);
+
+    void clearMissionPlanning(MissionSpecificationElo missionSpecificationElo);
 }
