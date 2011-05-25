@@ -23,20 +23,19 @@ public class SQLSpacesComponent implements IExternalComponent {
         sqlsConf.setLogLevel(Level.INFO);
         sqlsConf.setDbType(Configuration.Database.MYSQL);
         sqlsConf.setSSLEnabled(false);
-        sqlsConf.setMysqlHost(scyConf.getSQLSpacesDBHost());
-        sqlsConf.setMysqlPort(3306);
-        sqlsConf.setMysqlSchema("sqlspaces");
+        sqlsConf.setDbHost(scyConf.getSQLSpacesDBHost());
+        sqlsConf.setDbPort(3306);
+        sqlsConf.setDbSchema("sqlspaces");
         sqlsConf.setDbUser(scyConf.get("sqlspaces.db.user"));
         sqlsConf.setDbPassword(scyConf.get("sqlspaces.db.password"));
         sqlsConf.setWebEnabled(false);
-        sqlsConf.setWebServicesEnabled(false);
         sqlsConf.setOpenFireHost(scyConf.getOpenFireHost());
         sqlsConf.setOpenFirePortClient(scyConf.getOpenFirePort());
         sqlsConf.setOpenFirePortExternal(scyConf.getOpenFireExternalComponentPort());
         sqlsConf.setXMPPServiceName("sqlspaces");
         sqlsConf.setXMPPServiceSecret("sqlspaces");
         Level level = Logger.getLogger("").getLevel();
-        log.info("USING: " + sqlsConf.getDbUser() + " " + sqlsConf.getDbPassword() + " " + sqlsConf.getMysqlHost() + " " +sqlsConf.getDbType());
+        log.info("USING: " + sqlsConf.getDbUser() + " " + sqlsConf.getDbPassword() + " " + sqlsConf.getDbHost() + " " +sqlsConf.getDbType());
         Server.startServer();
         Logger.getLogger("").setLevel(level);
     }
