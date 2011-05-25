@@ -5,6 +5,7 @@ import info.collide.sqlspaces.commons.Callback;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
+import info.collide.sqlspaces.commons.TupleSpaceException.TupleSpaceError;
 import info.collide.sqlspaces.commons.User;
 
 import java.awt.event.ActionEvent;
@@ -148,9 +149,12 @@ public class CollaborationAgent extends AbstractThreadedAgent {
                     String mucId = mucids.remove(elouri);
                     if (mucId == null) {
                         String id = new VMID().toString();
-                        commandSpace.write(new Tuple(id, "datasync", "create_session"));
+                        commandSpace.write(new Tuple(id, "datasync", "create_session", elouri));
                         logger.debug("Requesting a new mucid from datasync (ID " + id + ")");
-                        Tuple dataSyncResponse = commandSpace.waitToRead(new Tuple(id, String.class));
+                        Tuple dataSyncResponse = commandSpace.waitToRead(new Tuple(id, String.class), 5000);
+                        if (dataSyncResponse == null) {
+                            throw new TupleSpaceException(TupleSpaceError.UNKNOWN, "Data sync did not answer within defined timeout");
+                        }
                         mucId = dataSyncResponse.getField(1).getValue().toString();
                         logger.debug("Fetching datasync response for ID " + id + ", mucid is " + mucId);
                         sendNotification(proposingUser, mission, session, "type=collaboration_response", "accepted=true", "proposed_user=" + proposedUser, "proposing_user=" + proposingUser, "mucid=" + mucId, "proposed_elo=" + elouri);
