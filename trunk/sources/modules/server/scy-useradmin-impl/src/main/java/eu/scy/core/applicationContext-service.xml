@@ -92,14 +92,5 @@
         <property name="learningMaterialDAO" ref="learningMaterialDAO"/>
     </bean>
 
-    <bean id="sessionService" class="eu.scy.core.runtime.SessionServiceImpl">
-        <property name="tupleSpace" ref="sessionTupleSpace"/>
-        <property name="metaDataTypeManager" ref="metadataTypeManager"/>
-        <property name="extensionManager" ref="extensionManager"/>
-        <property name="repository" ref="repository"/>
-        <property name="eloFactory" ref="eloFactory"/>
-        <property name="authorKey" ref="authorKey"/>
-        
-    </bean>
 
 </beans>
