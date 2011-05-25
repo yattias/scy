@@ -2,22 +2,22 @@
 <tiles:insertDefinition name="default-page">
     <tiles:putAttribute name="main">
 
-        <h1>${missionSpecificationTransporter.elo.title} - WHAT DO YOU WANT TO DO?</h1>
+        <h1>${missionSpecificationTransporter.elo.title}</h1>
 
         <table>
             <tr class="${oddEven.oddEven}">
                 <td colspan="2">
-                    <a href="/extcomp/scy-lab.jnlp">Start SCYLab</a>
+                    <a href="/extcomp/scy-lab.jnlp"><spring:message code="START_SCYLAB"/> </a>
                 </td>
             </tr>
             <tr class="${oddEven.oddEven}">
                 <td colspan="2">
-                    <a href="${descriptionUrl}" target="_blank">Read the mission description</a>
+                    <a href="${descriptionUrl}" target="_blank"><spring:message code="READ_THE_MISSION_DESCRIPTION"/></a>
                 </td>
             </tr>
             <tr class="${oddEven.oddEven}">
                 <td>
-                    <a href="/webapp/app/eportfolio/EPortfolioIndex.html?eloURI=${missionSpecificationTransporter.uri}">Open my portfolio</a>
+                    <a href="/webapp/app/eportfolio/EPortfolioIndex.html?eloURI=${missionSpecificationTransporter.uri}"><spring:message code="OPEN_MY_PORTFOLIO"/></a>
                 </td>
                 <td>
                     ${portfolioStatus}
@@ -25,18 +25,18 @@
             </tr>
             <tr class="${oddEven.oddEven}">
                 <td>
-                    <a href="/webapp/app/feedback/FeedbackToolIndex.html?eloURI=${missionSpecificationTransporter.uri}">Give Feedback</a>
+                    <a href="/webapp/app/feedback/FeedbackToolIndex.html?eloURI=${missionSpecificationTransporter.uri}"><spring:message code="GIVE_FEEDBACK"/></a>
                 </td>
                 <td>
-                    You have contributed with feedback to ${elosWhereIHaveProvidedFeedback} elos.
+                    <spring:message code="YOU_HAVE_CONTRIBUTED_WITH_FEEDBACK_TO"/> ${elosWhereIHaveProvidedFeedback} <spring:message code="ELOS"/>.
                 </td>
             </tr>
             <tr  class="${oddEven.oddEven}">
                 <td>
-                    <a href="/webapp/app/feedback/FeedbackToolIndex.html?eloURI=${missionSpecificationTransporter.uri}">View Feedback</a>
+                    <a href="/webapp/app/feedback/FeedbackToolIndex.html?eloURI=${missionSpecificationTransporter.uri}"><spring:message code="VIEW_FEEDBACK"/></a>
                 </td>
                 <td>
-                    Your work has gotten feedback from <strong>${numberOfFeedbacksToMyElos}</strong> others
+                    <spring:message code="YOUR_WORK_HAS_GOTTEN_FEEDBACK_FROM"/> <strong>${numberOfFeedbacksToMyElos}</strong> <spring:message code="OTHERS"/>
                 </td>
             </tr>
 
