@@ -17,7 +17,7 @@ public class ContextService implements IActionLogger, IContextService {
 
     private String missionSpecificationURI;
 
-    private String currentLAS;
+    private String currentLAS = "";
 
     private String session;
 
@@ -26,6 +26,7 @@ public class ContextService implements IActionLogger, IContextService {
     public ContextService() {
         this.session = new VMID().toString();
         currentlyOpenedELOs = new HashMap<String, Set<String>>();
+        currentlyOpenedELOs.put(currentLAS, new HashSet<String>());
     }
 
     @Override
