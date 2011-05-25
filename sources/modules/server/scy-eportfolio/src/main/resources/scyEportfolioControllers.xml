@@ -49,6 +49,7 @@
                 /app/eportfolio/xml/portfolioConfigService.html=portfolioConfigController
 
                 /app/assessment/assessmentindex.html=assessmentIndexController
+                /app/assessment/teacherAssessmentOverview.html=teacherAssessmentOverviewController
 
                 /app/feedback/newElosForFeedbackService.html=newElosForFeedbackService
 
@@ -69,6 +70,13 @@
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
         <property name="userService" ref="userService"/>
+	</bean>
+
+    <bean id="teacherAssessmentOverviewController" class="eu.scy.server.assessment.TeacherAssessmentOverview">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="userService" ref="userService"/>
+        <property name="missionELOService" ref="missionELOService"/>
 	</bean>
 
     <bean id="feedbackIndexController" class="eu.scy.server.feedback.FeedbackIndexController">

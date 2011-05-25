@@ -55,12 +55,12 @@ public class Portfolio {
     }
 
     public Boolean getIsPortfolioSubmitted() {
-        if(getPortfolioStatus().equals("PORTFOLIO_SUBMITTED")) return true;
+        if(getPortfolioStatus() != null && getPortfolioStatus().equals("PORTFOLIO_SUBMITTED")) return true;
         return false;
     }
 
     public Boolean getIsPortfolioAssessed() {
-        if(getPortfolioStatus().equals("PORTFOLIO_ASSESSSED")) return true;
+        if(getPortfolioStatus() != null && getPortfolioStatus().equals("PORTFOLIO_ASSESSSED")) return true;
         return false;
     }
 
