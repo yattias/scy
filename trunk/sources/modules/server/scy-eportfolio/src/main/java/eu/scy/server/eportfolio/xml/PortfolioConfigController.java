@@ -37,8 +37,16 @@ public class PortfolioConfigController extends MissionRuntimeEnabledXMLService {
                 logger.error(e.getMessage(), e);
             }
 
-            missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(uri, getMissionELOService());
-            missionSpecificationElo = getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo);
+            try {
+                missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(uri, getMissionELOService());
+                missionSpecificationElo = getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo);
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
+            }
+            if(missionSpecificationElo == null) {
+                missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(uri, getMissionELOService());    
+            }
+
         }
 
         //missionSpecificationElo = getMissionELOService().getMissionSpecificationELOForRuntume(missionRuntimeElo);

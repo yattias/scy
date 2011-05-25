@@ -45,6 +45,9 @@ public class ViewPedagogicalPlanController extends BaseController {
         try {
             String uriParam = request.getParameter("uri");
             logger.info("*** **** URI IS : " + uriParam);
+            if(uriParam == null) {
+                uriParam = request.getParameter("eloURI");
+            }
             URI uri = new URI(uriParam);
 
             MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(uri, getMissionELOService());

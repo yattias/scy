@@ -46,7 +46,7 @@
                     var pane2 = new dijit.layout.ContentPane({ title:"<spring:message code="STUDENTS"/>", href:"viewStudentsForPedagogicalPlan.html?eloURI=${missionSpecificationTransporter.uri}" });
                     tabs.addChild(pane2);
 
-                    var pane3 = new dijit.layout.ContentPane({ title:"<spring:message code="PORTFOLIOS"/>", href:"/webapp/app/assessment/assessmentindex.html?eloURI=${missionSpecificationTransporter.uri}" });
+                    var pane3 = new dijit.layout.ContentPane({ title:"<spring:message code="PORTFOLIOS"/>", href:"/webapp/app/assessment/teacherAssessmentOverview.html?eloURI=${missionSpecificationTransporter.uri}" });
                     tabs.addChild(pane3);
 
                     var pane3 = new dijit.layout.ContentPane({ title:"<spring:message code="CURRENT_ACTIVITY"/>", href:"/webapp/app/assessment/assessmentindex.html?eloURI=${missionSpecificationTransporter.uri}" });

@@ -66,6 +66,8 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
                 if (action.equals("addStudent")) {
                     String username = request.getParameter("username");
                     addStudent(missionURI, username, modelAndView, pedagogicalPlan);
+                    modelAndView.setViewName("forward:viewPedagogicalPlan.html");
+                    return;
                 } else if (action.equals("removeStudent")) {
                     removeStudent(request.getParameter("username"), modelAndView, pedagogicalPlan);
                 } else if(action.equals("addMultipleUsers")) {
@@ -86,23 +88,6 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
 
             }
             modelAndView.addObject("users", users);
-            //modelAndView.addObject("message", message);
-
-            logger.info("ADDED " + users.size() + " USERS!");
-
-
-            if (!missionURI.contains("#")) {
-                logger.warn("HACK WARNING HACK WARNING HACK WARNING!");
-                logger.warn("HACK WARNING HACK WARNING HACK WARNING!");
-                logger.warn("HACK WARNING HACK WARNING HACK WARNING!");
-                logger.warn("HACK WARNING HACK WARNING HACK WARNING!");
-                logger.warn("HACK WARNING HACK WARNING HACK WARNING!");
-                logger.warn("HACK WARNING HACK WARNING HACK WARNING!");
-                missionURI += "#2";
-            }
-
-            logger.info("MissionURL: " + missionURI);
-            //modelAndView.addObject("eloURI", URLEncoder.encode(missionURI, "UTF-8"));
             modelAndView.addObject("eloURI", getMissionELOService().getWebSafeTransporter(missionSpecificationElo));
 
             logger.info("DECODED URI: " + missionURI);
