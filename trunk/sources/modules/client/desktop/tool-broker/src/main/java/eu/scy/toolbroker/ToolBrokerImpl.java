@@ -378,30 +378,30 @@ public class ToolBrokerImpl implements ToolBrokerAPI, ToolBrokerAPIRuntimeSettin
 			this.userName = userName;
 			this.password = password;
 
-			config = new ConnectionConfiguration(Configuration.getInstance().getOpenFireHost(), Configuration.getInstance().getOpenFirePort());
-			config.setCompressionEnabled(true);
-			config.setReconnectionAllowed(true);
-			config.setSecurityMode(SecurityMode.disabled);
-			this.connection = new XMPPConnection(config);
 			XMPPConnection.DEBUG_ENABLED = false;
+			SmackConfiguration.setKeepAliveInterval(10000);
+			config = new BOSHConfiguration(false, Configuration.getInstance().getOpenFireHTTPHost(), Configuration.getInstance().getOpenFireHTTPPort(), "/http-bind/", Configuration.getInstance().getOpenFireHost());
+			connection = new BOSHConnection((BOSHConfiguration) config);
 			
 			try {
 				this.connection.connect();
-				logger.debug("Successful connection to xmpp server " + config.getHost() + ":" + config.getPort());
-				SmackConfiguration.setKeepAliveInterval(10000);
+				logger.debug("Successful HTTP connection to xmpp server " + config.getHost() + ":" + config.getPort());
 			} catch (XMPPException e) {
-				logger.error("Error while connecting over xmpp, trying over HTTP now");
+				logger.error("Error while connecting over HTTP, trying over XMPP now");
 			}
 			
 			if (!connection.isConnected()) {
-			    config = new BOSHConfiguration(false, Configuration.getInstance().getOpenFireHTTPHost(), Configuration.getInstance().getOpenFireHTTPPort(), "/http-bind/", Configuration.getInstance().getOpenFireHost());
-			    connection = new BOSHConnection((BOSHConfiguration) config);
 			    try {
+			        config = new ConnectionConfiguration(Configuration.getInstance().getOpenFireHost(), Configuration.getInstance().getOpenFirePort());
+			        config.setCompressionEnabled(true);
+			        config.setReconnectionAllowed(true);
+			        config.setSecurityMode(SecurityMode.disabled);
+			        this.connection = new XMPPConnection(config);
                                 connection.connect();
-                                logger.debug("Successful HTTP connection to xmpp server " + config.getHost() + ":" + config.getPort());
+                                logger.debug("Successful connection to xmpp server " + config.getHost() + ":" + config.getPort());
                             } catch (XMPPException e) {
-                                logger.error("Error while connecting over HTTP, no way connecting to the SCY server.");
-                                logger.error("Check firewall settings for port " + Configuration.getInstance().getOpenFireHTTPPort() + " or get some professional support!");
+                                logger.error("Error while connecting over XMPP, no way connecting to the SCY server.");
+                                logger.error("Check firewall settings for port " + Configuration.getInstance().getOpenFireHTTPPort() + " and " + Configuration.getInstance().getOpenFirePort() + " or get some professional support!");
 				throw new ServerNotRespondingException(config.getHost(), config.getPort());
                             }
 			}
