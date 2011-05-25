@@ -18,7 +18,7 @@
             flashvars.lastName = "${currentUser.userDetails.lastName}";
             flashvars.toolURLProvider = "${toolURLProvider}";
             flashvars.missionURI = "${missionURI}";
-            flashvars.language = "${language}";
+            flashvars.language = "${la}";
             var params = {};
             params.quality = "high";
             params.bgcolor = "#ffffff";

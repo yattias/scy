@@ -34,6 +34,7 @@ public class EPortfolioIndex extends BaseController {
         modelAndView.addObject("text", "bla bla bla!");
         modelAndView.addObject("author", getCurrentUser(request).getUserDetails().hasGrantedAuthority("ROLE_AUTHOR"));
         modelAndView.addObject("toolURLProvider", "/webapp/app/eportfolio/xml/toolURLProvider.html");
+        modelAndView.addObject("la", getCurrentUser(request).getUserDetails().getLocale());
         try {
             if(getScyElo() != null) {
                 modelAndView.addObject("missionURI", URLEncoder.encode(getScyElo().getUri().toString(), "UTF-8"));
