@@ -48,6 +48,8 @@
                    /components/ajaxELOSlider.html=ajaxELOSliderController
                    /components/agentParameterTextFieldController.html=agentParameterTextFieldController
                    /components/ajaxTransferObjectTextFieldController.html=ajaxTransferObjectTextFieldController
+                   /components/ajaxTransferObjectCheckBoxController.html=ajaxTransferObjectCheckBoxController
+                   /components/ajaxTransferObjectNumberFieldController.html=ajaxTransferObjectNumberFieldController
                    /components/profilePictureUploadController.html=profilePictureUploadController
 
 
@@ -159,6 +161,18 @@
 	</bean>
 
     <bean id="ajaxTransferObjectTextFieldController" class="eu.scy.server.controllers.AjaxTransferObjectTextFieldController">
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="transferObjectMapService" ref="transferObjectMapService"/>
+	</bean>
+
+    <bean id="ajaxTransferObjectCheckBoxController" class="eu.scy.server.controllers.AjaxTransferObjectCheckBoxController">
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="transferObjectMapService" ref="transferObjectMapService"/>
+	</bean>
+
+    <bean id="ajaxTransferObjectNumberFieldController" class="eu.scy.server.controllers.AjaxTransferObjectNumberFieldController">
         <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
         <property name="missionELOService" ref="missionELOService"/>
         <property name="transferObjectMapService" ref="transferObjectMapService"/>

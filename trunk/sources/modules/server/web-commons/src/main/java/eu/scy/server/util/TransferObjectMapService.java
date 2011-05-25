@@ -54,12 +54,27 @@ public class TransferObjectMapService {
 
         returnMap.put(pedagogicalPlanTransfer.getId(), pedagogicalPlanTransfer);
         AssessmentSetupTransfer assessmentSetupTransfer = pedagogicalPlanTransfer.getAssessmentSetup();
+        MissionPlanTransfer missionPlanTransfer = pedagogicalPlanTransfer.getMissionPlan();
         if(assessmentSetupTransfer != null) register(assessmentSetupTransfer, returnMap);
+        if(missionPlanTransfer != null) register (missionPlanTransfer, returnMap);
 
 
 
         return returnMap;
 
+    }
+
+    private void register(MissionPlanTransfer missionPlanTransfer, Map map) {
+        map.put(missionPlanTransfer.getId(), missionPlanTransfer);
+        for (int i = 0; i < missionPlanTransfer.getLasTransfers().size(); i++) {
+            LasTransfer lasTransfer = missionPlanTransfer.getLasTransfers().get(i);
+            register(lasTransfer, map);
+        }
+    }
+
+    private void register(LasTransfer lasTransfer, Map map) {
+        map.put(lasTransfer.getId(), lasTransfer);
+        map.put(lasTransfer.getAnchorElo().getId(), lasTransfer.getAnchorElo());
     }
 
     private void register(AssessmentSetupTransfer assessmentSetupTransfer, Map map) {
