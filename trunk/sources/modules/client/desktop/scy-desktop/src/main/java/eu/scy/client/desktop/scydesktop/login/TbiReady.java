@@ -15,4 +15,6 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 public interface TbiReady {
 
    public void tbiReady(ToolBrokerAPI tbi, Missions mission);
+
+   public void tbiFailed(Exception e);
 }

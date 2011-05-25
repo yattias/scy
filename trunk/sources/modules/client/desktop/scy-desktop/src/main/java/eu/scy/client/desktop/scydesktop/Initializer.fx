@@ -93,7 +93,7 @@ public class Initializer {
    public-init var localUriReplacements = "";
    public-init var usingRooloCache = false;
    public-init var defaultMission = "";
-   public-init var loadEloUri = "";
+   public-init var singleEloUri = "";
    public-init var minimumRooloNewVersionListId = "";
    public-init var localAuthorRootPath = "";
    public-init var disableRooloVersioning = false;
@@ -150,7 +150,7 @@ public class Initializer {
    def localUriReplacementsOption = "localUriReplacements";
    def usingRooloCacheOption = "usingRooloCache";
    def defaultMissionOption = "defaultMission";
-   def loadEloUriOption = "loadEloUri";
+   def singleEloUriOption = "singleEloUri";
    def minimumRooloNewVersionListIdOption = "minimumRooloNewVersionListId";
    def localAuthorRootPathOption = "localAuthorRootPath";
    def disableRooloVersioningOption = "disableRooloVersioning";
@@ -169,7 +169,7 @@ public class Initializer {
       loginTypeEnum = LoginType.convertToLoginType(loginType);
       usingWebStart = System.getProperty("javawebstart.version") != null;
       offlineMode = loginType.toLowerCase().startsWith("local");
-      singleEloMode = not StringUtils.isEmpty(loadEloUri);
+      singleEloMode = not StringUtils.isEmpty(singleEloUri);
       setupLanguages();
       if (LoginType.LOCAL_MULTI_USER != loginTypeEnum) {
          setupLogging(null);
@@ -316,9 +316,9 @@ public class Initializer {
             } else if (option == defaultMissionOption.toLowerCase()) {
                defaultMission = argumentsList.nextStringValue(defaultMissionOption);
                logger.info("app: {defaultMissionOption}: {defaultMission}");
-            } else if (option == loadEloUriOption.toLowerCase()) {
-               loadEloUri = argumentsList.nextStringValue(loadEloUriOption);
-               logger.info("app: {loadEloUriOption}: {loadEloUri}");
+            } else if (option == singleEloUriOption.toLowerCase()) {
+               singleEloUri = argumentsList.nextStringValue(singleEloUriOption);
+               logger.info("app: {singleEloUriOption}: {singleEloUri}");
             } else if (option == minimumRooloNewVersionListIdOption.toLowerCase()) {
                minimumRooloNewVersionListId = "{argumentsList.nextIntegerValue(minimumRooloNewVersionListIdOption)}";
                logger.info("app: {minimumRooloNewVersionListIdOption}: {minimumRooloNewVersionListId}");
@@ -363,7 +363,7 @@ public class Initializer {
       printWriter.println("- defaultPassword: {defaultPassword}");
       printWriter.println("- autoLogin: {autoLogin}");
       printWriter.println("- defaultMission: {defaultMission}");
-      printWriter.println("- loadEloUri: {loadEloUri}");
+      printWriter.println("- singleEloUri: {singleEloUri}");
       printWriter.println("- scyDesktopConfigFile: {scyDesktopConfigFile}");
       printWriter.println("- storeElosOnDisk: {storeElosOnDisk}");
       printWriter.println("- createPersonalMissionMap: {createPersonalMissionMap}");

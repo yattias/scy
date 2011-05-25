@@ -279,7 +279,7 @@ public class MissionLocator {
    }
 
    function startSingleEloMission() {
-      def eloUri = new URI(initializer.loadEloUri);
+      def eloUri = new URI(initializer.singleEloUri);
       def scyElo = ScyElo.loadElo(eloUri, tbi);
       if (scyElo != null) {
          var missionRuntimeModel: MissionRuntimeModel;

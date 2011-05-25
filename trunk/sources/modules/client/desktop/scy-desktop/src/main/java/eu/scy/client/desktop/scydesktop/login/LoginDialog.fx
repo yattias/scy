@@ -41,6 +41,8 @@ import eu.scy.actionlogging.api.ContextConstants;
 import eu.scy.actionlogging.api.IAction;
 import java.util.Locale;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBox;
+import java.lang.Exception;
+import eu.scy.client.desktop.desktoputils.StringUtils;
 
 /**
  * @author sikken
@@ -60,8 +62,8 @@ public class LoginDialog extends CustomNode, TbiReady {
    var windowTitle: String = null;
    var initialStageTitle = "SCY-Lab";
    var serverHostTitle = "";
-   var userName:String = null;
-   var tbi:ToolBrokerAPI = null;
+   var userName: String = null;
+   var tbi: ToolBrokerAPI = null;
 
    postinit {
 
@@ -82,9 +84,9 @@ public class LoginDialog extends CustomNode, TbiReady {
       initializer.launchTimer.endActivity();
    }
 
-   function setStageTitles(){
+   function setStageTitles() {
       initialStageTitle = scene.stage.title;
-      if (initializer.scyServerHost!=""){
+      if (initializer.scyServerHost != "") {
          serverHostTitle = " on {initializer.scyServerHost}";
       }
       scene.stage.title = "{initialStageTitle}{serverHostTitle}";
@@ -92,37 +94,37 @@ public class LoginDialog extends CustomNode, TbiReady {
 
    public override function create(): Node {
       loginNode = LoginNode {
-            loginAction: loginAction
-            defaultUserName: initializer.defaultUserName
-            defaultPassword: initializer.defaultPassword
-            autoLogin: initializer.autoLogin
-            languages: initializer.languages
-         }
+                 loginAction: loginAction
+                 defaultUserName: initializer.defaultUserName
+                 defaultPassword: initializer.defaultPassword
+                 autoLogin: initializer.autoLogin
+                 languages: initializer.languages
+              }
       loginWindow = StandardScyWindow {
-            title: bind if (windowTitle == null) loginNode.loginTitle else windowTitle
-            windowColorScheme: WindowColorScheme.getWindowColorScheme(ScyColors.green)
-            scyContent: EmptyBorderNode {
-               content: loginNode
-               widthCorrection: 10.0
-               heightCorrection: 6.0
-            }
-            allowClose: false;
-            allowResize: false;
-            allowRotate: false;
-            allowMinimize: false;
-            allowDragging: false;
-            allowCenter: false;
-            allowMaximize: false;
-            opacity: 0.0;
-            layoutX: bind (scene.width / 2 - loginWindow.width / 2);
-            layoutY: bind (scene.height / 2 - loginWindow.height / 2);
-         };
+                 title: bind if (windowTitle == null) loginNode.loginTitle else windowTitle
+                 windowColorScheme: WindowColorScheme.getWindowColorScheme(ScyColors.green)
+                 scyContent: EmptyBorderNode {
+                    content: loginNode
+                    widthCorrection: 10.0
+                    heightCorrection: 6.0
+                 }
+                 allowClose: false;
+                 allowResize: false;
+                 allowRotate: false;
+                 allowMinimize: false;
+                 allowDragging: false;
+                 allowCenter: false;
+                 allowMaximize: false;
+                 opacity: 0.0;
+                 layoutX: bind (scene.width / 2 - loginWindow.width / 2);
+                 layoutY: bind (scene.height / 2 - loginWindow.height / 2);
+              };
       loginWindow.windowColorScheme.mainColor = loginColor;
       loginWindow.activated = true;
       loginWindow.eloIcon = LogoEloIcon {
-            windowColorScheme: bind loginWindow.windowColorScheme
-            selected: true
-         }
+                 windowColorScheme: bind loginWindow.windowColorScheme
+                 selected: true
+              }
 
       loginWindow.openBoundWindow(0, 0);
       FX.deferAction(fadeWindowIn);
@@ -141,7 +143,7 @@ public class LoginDialog extends CustomNode, TbiReady {
                values: window.opacity => 0.0
             }
             KeyFrame {
-               time: delayDuration+appearDuration
+               time: delayDuration + appearDuration
                values: window.opacity => 1.0
             }
          ]
@@ -149,7 +151,7 @@ public class LoginDialog extends CustomNode, TbiReady {
    }
 
    function loginAction(userName: String, password: String): Void {
-//      println("userName: {userName}, password: {password}");
+      //      println("userName: {userName}, password: {password}");
       try {
          initializer.launchTimer.startActivity("login tbi");
          def loginResult = initializer.toolBrokerLogin.login(userName, password);
@@ -158,14 +160,14 @@ public class LoginDialog extends CustomNode, TbiReady {
          //         "tbi.getLoginUserName() : {toolBrokerAPI.getLoginUserName()}\n""tbi.getMission() : {toolBrokerAPI.getMission()}\n""tbi.getRepository() : {toolBrokerAPI.getRepository()}\n""tbi.getMetaDataTypeManager() : {toolBrokerAPI.getMetaDataTypeManager()}\n""tbi.getExtensionManager() : {toolBrokerAPI.getExtensionManager()}\n""tbi.getELOFactory() : {toolBrokerAPI.getELOFactory()}\n""tbi.getActionLogger() : {toolBrokerAPI.getActionLogger()}\n""tbi.getAwarenessService() : {toolBrokerAPI.getAwarenessService()}\n""tbi.getDataSyncService() : {toolBrokerAPI.getDataSyncService()}\n""tbi.getPedagogicalPlanService() : {toolBrokerAPI.getPedagogicalPlanService()}\n""tbi.getStudentPedagogicalPlanService() : {toolBrokerAPI.getStudentPedagogicalPlanService()}");
          showLoginResult(loginResult, userName);
       //placeScyDescktop(toolBrokerAPI, userName);
-      }
-      catch (e: LoginFailedException) {
+      } catch (e: LoginFailedException) {
          logger.error("failed to login with {e.getUserName()}");
          showLoginResult(null, userName);
-      }
-      catch (e: ServerNotRespondingException) {
+      } catch (e: ServerNotRespondingException) {
          logger.error("Could not connect to host {e.getServer()}:{e.getServer()}");
-         JOptionPane.showMessageDialog(null as Component, "Could not connect to host {e.getServer()}:{e.getPort()}", "Connection problems", JOptionPane.ERROR_MESSAGE);
+//         JOptionPane.showMessageDialog(null as Component, "Could not connect to host {e.getServer()}:{e.getPort()}", "Connection problems", JOptionPane.ERROR_MESSAGE);
+         def message = StringUtils.putInValues(##"Could not connect to host %0%:%1%:\n%2%", e.getServer(),"{e.getPort()}",e.getMessage());
+         DialogBox.showMessageDialog(message, ##"Connection problems", null, null, null);
       }
    }
 
@@ -188,8 +190,7 @@ public class LoginDialog extends CustomNode, TbiReady {
                }
             ]
          }.play();
-      }
-      else {
+      } else {
          Timeline {
             repeatCount: 6
             autoReverse: true
@@ -209,36 +210,46 @@ public class LoginDialog extends CustomNode, TbiReady {
    }
 
    function getReadyForUser(loginResult: Object): Void {
-      if (LoginType.LOCAL_MULTI_USER == initializer.loginTypeEnum){
+      if (LoginType.LOCAL_MULTI_USER == initializer.loginTypeEnum) {
          initializer.setupLogging(userName);
       }
       ProgressOverlay.startShowWorking();
-      def backgroundGetReadyForUser = new BackgroundGetReadyForUser(initializer.toolBrokerLogin,loginResult,this);
+      def backgroundGetReadyForUser = new BackgroundGetReadyForUser(initializer.toolBrokerLogin, loginResult, this);
       backgroundGetReadyForUser.start();
    }
 
-   public override function tbiReady(toolBrokerAPI: ToolBrokerAPI, missions: Missions): Void{
-     logger.info(
+   public override function tbiFailed(e: Exception): Void {
+      logger.error("Failed to complete login {e.getMessage()}", e);
+      FX.deferAction(function(): Void {
+         def message = StringUtils.putInValues(##"Failed to complete login:\n%0%\nSCY-Lab will quit.", e.getMessage());
+         DialogBox.showMessageDialog(message, ##"Connection problems", null, function(): Void {
+            FX.exit();
+         }, null);
+      });
+   }
+
+   public override function tbiReady(toolBrokerAPI: ToolBrokerAPI, missions: Missions): Void {
+      logger.info(
       "tbi.getLoginUserName() : {toolBrokerAPI.getLoginUserName()}\n""tbi.getMissionSpecificationURI() ) : {toolBrokerAPI.getMissionSpecificationURI()}\n""tbi.getRepository() : {toolBrokerAPI.getRepository()}\n""tbi.getMetaDataTypeManager() : {toolBrokerAPI.getMetaDataTypeManager()}\n""tbi.getExtensionManager() : {toolBrokerAPI.getExtensionManager()}\n""tbi.getELOFactory() : {toolBrokerAPI.getELOFactory()}\n""tbi.getActionLogger() : {toolBrokerAPI.getActionLogger()}\n""tbi.getAwarenessService() : {toolBrokerAPI.getAwarenessService()}\n""tbi.getDataSyncService() : {toolBrokerAPI.getDataSyncService()}\n""tbi.getPedagogicalPlanService() : {toolBrokerAPI.getPedagogicalPlanService()}\n""tbi.getStudentPedagogicalPlanService() : {toolBrokerAPI.getStudentPedagogicalPlanService()}");
       initializer.launchTimer.startActivity("start find mission");
-      findMission(toolBrokerAPI,missions);
+      findMission(toolBrokerAPI, missions);
       ProgressOverlay.stopShowWorking();
    }
 
    function findMission(toolBrokerAPI: ToolBrokerAPI, missions: Missions) {
-      if (initializer.showOnlyStartedMissions){
+      if (initializer.showOnlyStartedMissions) {
          missions.removeMissionSpecifications();
       }
- 
+
       def missionLocator: MissionLocator = MissionLocator {
-         tbi: toolBrokerAPI
-         userName: userName
-         initializer: initializer
-         missions:missions
-         window: loginWindow
-         startMission: startMission
-         cancelMission: cancelMission
-      }
+                 tbi: toolBrokerAPI
+                 userName: userName
+                 initializer: initializer
+                 missions: missions
+                 window: loginWindow
+                 startMission: startMission
+                 cancelMission: cancelMission
+              }
       missionLocator.locateMission();
    }
 
@@ -253,43 +264,42 @@ public class LoginDialog extends CustomNode, TbiReady {
       initializer.loadTimer.reset();
       initializer.loadTimer.startActivity("prepare mission loading");
       loginWindow.scyContent = WelcomeNode {
-            name: missionRunConfigs.tbi.getLoginUserName();
-         }
+                 name: missionRunConfigs.tbi.getLoginUserName();
+              }
       FX.deferAction(function(): Void {
          def userName = missionRunConfigs.tbi.getLoginUserName();
          loginWindow.scyContent = WelcomeNode {
-               name: userName
-            }
+                    name: userName
+                 }
          var stage = scene.stage;
          var stageTitle = stage.title;
          stage.title = "{initialStageTitle} : {userName} in {missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getTitle()}{serverHostTitle}";
-         FX.deferAction(function():Void{
-               finishTbi(missionRunConfigs);
-               logLoggedIn(missionRunConfigs);
-               placeScyDesktop(missionRunConfigs);
-            });
+         FX.deferAction(function(): Void {
+            finishTbi(missionRunConfigs);
+            logLoggedIn(missionRunConfigs);
+            placeScyDesktop(missionRunConfigs);
+         });
       });
    }
 
    function logLoggedIn(missionRunConfigs: MissionRunConfigs): Void {
-       def action: IAction = new Action();
-        action.setUser(missionRunConfigs.tbi.getLoginUserName());
-        action.setType("logged_in");
-        action.addContext(ContextConstants.tool, "scy-desktop");
-        action.addContext(ContextConstants.mission, missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString());
-        action.addContext(ContextConstants.session, "n/a");
-        action.addContext(ContextConstants.eloURI, "n/a");
-	action.addAttribute("language", Locale.getDefault().toString());
-	action.addAttribute("missionSpecification", missionRunConfigs.tbi.getMissionSpecificationURI().toString());
-        action.addAttribute("missionName",  missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getTitle());
-        missionRunConfigs.tbi.getActionLogger().log(action);
-	logger.info("logged logged_in-action: {action}");
+      def action: IAction = new Action();
+      action.setUser(missionRunConfigs.tbi.getLoginUserName());
+      action.setType("logged_in");
+      action.addContext(ContextConstants.tool, "scy-desktop");
+      action.addContext(ContextConstants.mission, missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUri().toString());
+      action.addContext(ContextConstants.session, "n/a");
+      action.addContext(ContextConstants.eloURI, "n/a");
+      action.addAttribute("language", Locale.getDefault().toString());
+      action.addAttribute("missionSpecification", missionRunConfigs.tbi.getMissionSpecificationURI().toString());
+      action.addAttribute("missionName", missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getTitle());
+      missionRunConfigs.tbi.getActionLogger().log(action);
+      logger.info("logged logged_in-action: {action}");
    }
 
-
    function finishTbi(missionRunConfigs: MissionRunConfigs): Void {
-      InjectObjectsUtils.injectObjectIfWantedJava(missionRunConfigs.tbi,URI.class,"missionRuntimeURI",missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUriFirstVersion());
-      InjectObjectsUtils.injectObjectIfWantedJava(missionRunConfigs.tbi,URI.class,"missionSpecificationURI",missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getTypedContent().getMissionSpecificationEloUri());
+      InjectObjectsUtils.injectObjectIfWantedJava(missionRunConfigs.tbi, URI.class, "missionRuntimeURI", missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getUriFirstVersion());
+      InjectObjectsUtils.injectObjectIfWantedJava(missionRunConfigs.tbi, URI.class, "missionSpecificationURI", missionRunConfigs.missionRuntimeModel.getMissionRuntimeElo().getTypedContent().getMissionSpecificationEloUri());
    }
 
    function placeScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
@@ -313,9 +323,9 @@ public class LoginDialog extends CustomNode, TbiReady {
 
 function run() {
    var loginDialog = LoginDialog {
-         layoutX: 10
-         layoutY: 10
-      }
+              layoutX: 10
+              layoutY: 10
+           }
 
    Stage {
       title: "Login dialog test"
