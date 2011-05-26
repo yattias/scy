@@ -237,14 +237,14 @@
                 <serverfilter.db.url>java:comp/env/jdbc/scy</serverfilter.db.url>
                 <serverfilter.db.host>localhost</serverfilter.db.host>
 
-                <client.servername>GW-SCYserver.gw.utwente.nl</client.servername>
+                <client.servername>gw-scyserver.gw.utwente.nl</client.servername>
                 <client.httpPort>80</client.httpPort>
                 <client.contextPath>/scy-useradmin-web</client.contextPath>
 
                 <sqlspaces.server.host>localhost</sqlspaces.server.host>
                 <sqlspaces.server.port>2525</sqlspaces.server.port>
 
-                <openfire.host>GW-SCYserver.gw.utwente.nl</openfire.host>
+                <openfire.host>gw-scyserver.gw.utwente.nl</openfire.host>
                 <openfire.conference>conference</openfire.conference>
                 <openfire.client.port>5222</openfire.client.port>
                 <openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
@@ -253,15 +253,15 @@
                 <openfire.client.http-port>80</openfire.client.http-port>
                 <scyhub.name>scyhub</scyhub.name>
 
-                <filestreamer.server>GW-SCYserver.gw.utwente.nl</filestreamer.server>
+                <filestreamer.server>gw-scyserver.gw.utwente.nl</filestreamer.server>
                 <filestreamer.context>webapp/common/filestreamer.html</filestreamer.context>
                 <filestreamer.port>80</filestreamer.port>
 
-                <auth.cr.server>GW-SCYserver.gw.utwente.nl</auth.cr.server>
+                <auth.cr.server>gw-scyserver.gw.utwente.nl</auth.cr.server>
                 <auth.cr.context>webapp/UserCredentials.html</auth.cr.context>
                 <auth.cr.port>8080</auth.cr.port>
 
-                <roolo.server>GW-SCYserver.gw.utwente.nl</roolo.server>
+                <roolo.server>gw-scyserver.gw.utwente.nl</roolo.server>
                 <roolo.context>extcomp</roolo.context>
                 <roolo.port>80</roolo.port>
             </properties>
@@ -275,14 +275,14 @@
                 <serverfilter.db.url>java:comp/env/jdbc/scy</serverfilter.db.url>
                 <serverfilter.db.host>localhost</serverfilter.db.host>
 
-                <client.servername>GW-SCYserver2.gw.utwente.nl</client.servername>
+                <client.servername>gw-scyserver2.gw.utwente.nl</client.servername>
                 <client.httpPort>80</client.httpPort>
                 <client.contextPath>/scy-useradmin-web</client.contextPath>
 
                 <sqlspaces.server.host>localhost</sqlspaces.server.host>
                 <sqlspaces.server.port>2525</sqlspaces.server.port>
 
-                <openfire.host>GW-SCYserver2.gw.utwente.nl</openfire.host>
+                <openfire.host>gw-scyserver2.gw.utwente.nl</openfire.host>
                 <openfire.conference>conference</openfire.conference>
                 <openfire.client.port>5222</openfire.client.port>
                 <openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
@@ -291,15 +291,15 @@
                 <openfire.client.http-port>80</openfire.client.http-port>
                 <scyhub.name>scyhub</scyhub.name>
 
-                <filestreamer.server>GW-SCYserver2.gw.utwente.nl</filestreamer.server>
+                <filestreamer.server>gw-scyserver2.gw.utwente.nl</filestreamer.server>
                 <filestreamer.context>webapp/common/filestreamer.html</filestreamer.context>
                 <filestreamer.port>80</filestreamer.port>
 
-                <auth.cr.server>GW-SCYserver2.gw.utwente.nl</auth.cr.server>
+                <auth.cr.server>gw-scyserver2.gw.utwente.nl</auth.cr.server>
                 <auth.cr.context>webapp/UserCredentials.html</auth.cr.context>
                 <auth.cr.port>8080</auth.cr.port>
 
-                <roolo.server>GW-SCYserver2.gw.utwente.nl</roolo.server>
+                <roolo.server>gw-scyserver2.gw.utwente.nl</roolo.server>
                 <roolo.context>extcomp</roolo.context>
                 <roolo.port>80</roolo.port>
             </properties>
