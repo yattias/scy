@@ -9,6 +9,7 @@ import eu.scy.external.tester.environmenttester.test.PortTest;
 import eu.scy.external.tester.environmenttester.test.ScylabeuTest;
 import eu.scy.external.tester.environmenttester.test.SpeedTest;
 import eu.scy.external.tester.environmenttester.test.TestResult;
+import eu.scy.external.tester.environmenttester.test.XMPPOverHTTPTest;
 import eu.scy.external.tester.environmenttester.test.XMPPTest;
 
 public class Model {
@@ -26,6 +27,7 @@ public class Model {
 		tests.add(new PortTest(8080, false));
 		tests.add(new SpeedTest());
 		tests.add(new XMPPTest());
+		tests.add(new XMPPOverHTTPTest());
 		tests.add(new EnvironmentDataTest());
 		tests.add(new CPUTest());
 		tests.add(new ScylabeuTest());

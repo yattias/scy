@@ -23,7 +23,7 @@ public class PortTest implements ITest {
             this.port = port;
             this.errorOnFail = errorOnFail;
             name = "Port " + port + " Test";
-            desc = "This test will try to connect on scy.collide.info on Port " + port + ".";
+            desc = "This test will try to connect on " + Configuration.getInstance().getOpenFireHost() +" on Port " + port + ".";
             rslt = new TestResult();
         }
 	

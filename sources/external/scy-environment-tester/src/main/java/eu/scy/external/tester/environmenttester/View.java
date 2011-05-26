@@ -44,9 +44,10 @@ public class View extends JFrame {
 		viewLogBT.setEnabled(false);
 		center = new JPanel();
 		center.setBackground(null);
-		center.setPreferredSize(new Dimension(300, 260));
+		center.setPreferredSize(new Dimension(340, 290));
 		scyLogo = new JLabel();
 		scyLogo.setIcon(new ImageIcon(Toolkit.getDefaultToolkit().getImage(View.class.getResource("/scy.png"))));
+		scyLogo.setHorizontalAlignment(JLabel.CENTER);
 		//add items
 		Container con = this.getContentPane();
 		con.setLayout(new BorderLayout());

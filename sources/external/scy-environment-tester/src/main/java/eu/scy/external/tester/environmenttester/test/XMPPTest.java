@@ -42,15 +42,19 @@ public class XMPPTest implements ITest {
 
 	@Override
 	public void run() {
+	        XMPPConnection con = null;
 		try {
 			ConnectionConfiguration cfg = new ConnectionConfiguration(Configuration.getInstance().getOpenFireHost(), Configuration.getInstance().getOpenFirePort());
-			XMPPConnection con = new XMPPConnection(cfg);
+			con = new XMPPConnection(cfg);
 			con.connect();
+			con.login("scy", "scy", "SET");
 			rslt.setResultText("XMPP works.");
-			con.disconnect();
 		} catch(XMPPException e) {
 			rslt.addWarning("Could not establish a XMPP connection. Now worries, if the \"Port 80 Test\" was successful. XMPP Exception: "+e.getStackTrace());
 		} finally {
+		        if (con != null) {
+		            con.disconnect();
+		        }
 			rslt.setTestName(name);
 			ctrl.returnResult(rslt);
 		}
