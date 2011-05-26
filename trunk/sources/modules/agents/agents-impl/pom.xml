@@ -114,6 +114,12 @@
 			<version>${project.version}</version>
 		</dependency>
 
+        <dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>scy-model-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>de.fhg.iais.kd.tm</groupId>
