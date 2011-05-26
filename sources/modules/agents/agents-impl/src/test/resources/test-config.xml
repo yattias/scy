@@ -1,662 +1,653 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
-	default-autowire="byName">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-autowire="byName">
 
 
-	<!-- <alias name="dispatcher" alias="repository" /> -->
-	<alias name="localRepository" alias="repository" />
-	<alias name="localMetadataTypeManager" alias="metadataTypeManager" />
-	<alias name="localExtensionManager" alias="extensionManager" />
+    <!-- <alias name="dispatcher" alias="repository" /> -->
+    <alias name="localRepository" alias="repository"/>
+    <alias name="localMetadataTypeManager" alias="metadataTypeManager"/>
+    <alias name="localExtensionManager" alias="extensionManager"/>
 
+    <bean name="localRepository" class="roolo.cms.repository.mock.MockRepository"
+          depends-on="localMetadataTypeManager" init-method="initialise">
+        <property name="metadataTypeManager" ref="localMetadataTypeManager"/>
+        <property name="extensionManager" ref="extensionManager"/>
+        <property name="eloStoreDirectory" value="src/test/resources/eloStore"/>
+        <property name="storeElosInStoreDirectory" value="true"/>
+        <property name="eloFactory" ref="localEloFactory"/>
+    </bean>
 
+    <bean name="localMetadataTypeManager" class="roolo.elo.MetadataTypeManager"
+          factory-method="getInstance">
+        <property name="metadataKeys">
+            <list>
+                <ref bean="identifierKey"/>
+                <ref bean="titleKey"/>
+                <ref bean="technicalFormatKey"/>
+                <ref bean="dateCreatedKey"/>
+                <ref bean="dateLastModifiedKey"/>
+                <ref bean="dateFirstUserSaveKey"/>
+                <ref bean="authorKey"/>
+                <ref bean="creatorKey"/>
+                <ref bean="languagesKey"/>
+                <ref bean="descriptionKey"/>
+                <ref bean="isVersionOfKey"/>
+                <ref bean="isVersionedByKey"/>
+                <ref bean="isForkOfKey"/>
+                <ref bean="isForkedByKey"/>
+                <ref bean="usesRelationKey"/>
+                <ref bean="annotatesRelationKey"/>
+                <ref bean="versionKey"/>
+                <!-- <ref bean="keywordsKey" /> -->
+                <ref bean="learningActivityKey"/>
+                <ref bean="accessKey"/>
+                <ref bean="missionRuntimeKey"/>
+                <ref bean="missionKey"/>
+                <ref bean="lasKey"/>
+                <ref bean="anchorIdKey"/>
+                <ref bean="activeAnchorEloKey"/>
+                <ref bean="containsAssignmentEloKey"/>
+                <ref bean="logicalTypeKey"/>
+                <ref bean="functionalTypeKey"/>
+                <ref bean="missionRunningKey"/>
+                <ref bean="userRunningMissionKey"/>
+                <ref bean="missionSpecificationEloKey"/>
+                <ref bean="externalDocAnnotationKey"/>
+                <ref bean="iconTypeAnnotationKey"/>
+                <ref bean="colorSchemeIdAnnotationKey"/>
+                <ref bean="mucIdKey"/>
+                <ref bean="obligatoryInPortfolioKey"/>
+                <ref bean="feedbackOnKey"/>
 
-	<bean name="localRepository" class="roolo.cms.repository.mock.MockRepository"
-		depends-on="localMetadataTypeManager" init-method="initialise">
-		<property name="metadataTypeManager" ref="localMetadataTypeManager" />
-		<property name="extensionManager" ref="extensionManager" />
-		<property name="eloStoreDirectory" value="src/test/resources/eloStore" />
-		<property name="storeElosInStoreDirectory" value="true" />
-		<property name="eloFactory" ref="localEloFactory" />
-	</bean>
+                <ref bean="lineCountKey"/>
+                <ref bean="rectangleCountKey"/>
+                <ref bean="ovalCountKey"/>
+                <ref bean="freehandCountKey"/>
+                <ref bean="textCountKey"/>
+                <ref bean="imageCountKey"/>
+                <ref bean="tagPointerCountKey"/>
+                <ref bean="thumbnailKey"/>
+                <ref bean="socialTagsKey"/>
+                <ref bean="keywordsKey"/>
+                <ref bean="assignmentUriKey"/>
+                <ref bean="resourcesUriKey"/>
+                <ref bean="testStringListKey"/>
+            </list>
+        </property>
+    </bean>
+    <bean name="identifierKey" class="roolo.elo.metadata.keys.UriMetadataKey">
+        <constructor-arg index="0" value="identifier"/>
+        <constructor-arg index="1" value="/lom/general/identifier"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultUriValidator"/>
+    </bean>
+    <bean name="titleKey" class="roolo.elo.metadata.keys.StringMetadataKey">
+        <constructor-arg index="0" value="title"/>
+        <constructor-arg index="1" value="/lom/general/title"/>
+        <constructor-arg index="2" value="SPECIFIC"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultStringValidator"/>
+    </bean>
+    <bean name="descriptionKey" class="roolo.elo.metadata.keys.StringMetadataKey">
+        <constructor-arg index="0" value="description"/>
+        <constructor-arg index="1" value="/lom/general/description"/>
+        <constructor-arg index="2" value="SPECIFIC"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultStringValidator"/>
+    </bean>
+    <bean name="technicalFormatKey" class="roolo.elo.metadata.keys.StringMetadataKey">
+        <constructor-arg index="0" value="technicalFormat"/>
+        <constructor-arg index="1" value="/lom/technical/format"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultStringValidator"/>
+    </bean>
+    <bean name="dateCreatedKey" class="roolo.elo.metadata.keys.LongMetadataKey">
+        <constructor-arg index="0" value="dateCreated"/>
+        <constructor-arg index="1"
+                         value="/lom/technical/customElements/dateCreated"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultLongValidator"/>
+    </bean>
+    <bean name="dateLastModifiedKey" class="roolo.elo.metadata.keys.LongMetadataKey">
+        <constructor-arg index="0" value="dateLastModified"/>
+        <constructor-arg index="1"
+                         value="/lom/technical/customElements/dateLastModified"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultLongValidator"/>
+    </bean>
+    <bean name="dateFirstUserSaveKey" class="roolo.elo.metadata.keys.LongMetadataKey">
+        <constructor-arg index="0" value="dateFirstUserSave"/>
+        <constructor-arg index="1"
+                         value="/lom/technical/customElements/dateFirstUserSaveKey"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultLongValidator"/>
+    </bean>
+    <bean name="languagesKey" class="roolo.elo.metadata.keys.StringMetadataKey">
+        <constructor-arg index="0" value="languages"/>
+        <constructor-arg index="1" value="/lom/general/language"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="LIST"/>
+        <constructor-arg index="4" ref="defaultUriValidator"/>
+    </bean>
+    <bean name="isVersionOfKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
+        <constructor-arg index="0" value='isVersionOf'/>
+        <constructor-arg index="1"
+                         value='/lom/relation/[kind="is_version_of"]'/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultUriValidator"/>
+    </bean>
+    <bean name="isVersionedByKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
+        <constructor-arg index="0" value='isVersionedBy'/>
+        <constructor-arg index="1"
+                         value='/lom/relation/[kind="is_versioned_by"]'/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="LIST"/>
+        <constructor-arg index="4" ref="defaultUriValidator"/>
+    </bean>
+    <bean name="isForkOfKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
+        <constructor-arg index="0" value='isForkOf'/>
+        <constructor-arg index="1"
+                         value='/lom/relation/[kind="is_fork_of"]'/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultUriValidator"/>
+    </bean>
+    <bean name="isForkedByKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
+        <constructor-arg index="0" value='isForkedBy'/>
+        <constructor-arg index="1"
+                         value='/lom/relation/[kind="is_forked_by"]'/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="LIST"/>
+        <constructor-arg index="4" ref="defaultUriValidator"/>
+    </bean>
+    <bean name="usesRelationKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
+        <constructor-arg index="0" value='uses'/>
+        <constructor-arg index="1" value='/lom/relationU/[kind="uses"]'/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="LIST"/>
+        <constructor-arg index="4" ref="defaultUriValidator"/>
+    </bean>
+    <bean name="authorKey" class="roolo.elo.metadata.keys.ContributeMetadataKey">
+        <constructor-arg index="0" value='author'/>
+        <constructor-arg index="1"
+                         value='/lom/lifecycle/contribute/[kind="author"]'/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="LIST"/>
+        <constructor-arg index="4" ref="defaultContributeValidator"/>
+    </bean>
+    <bean name="creatorKey" class="roolo.elo.metadata.keys.ContributeMetadataKey">
+        <constructor-arg index="0" value='creator'/>
+        <constructor-arg index="1"
+                         value='/lom/lifecycle/contribute/[kind="initiator"]'/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultContributeValidator"/>
+    </bean>
+    <bean name="annotatesRelationKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
+        <constructor-arg index="0" value='annotates'/>
+        <constructor-arg index="1"
+                         value='/lom/relationA/[kind="annotates"]'/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultUriValidator"/>
+    </bean>
+    <bean name="versionKey" class="roolo.elo.metadata.keys.LongMetadataKey">
+        <constructor-arg index="0" value="version"/>
+        <constructor-arg index="1" value="/lom/lifecycle/version"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultLongValidator"/>
+    </bean>
+    <!-- <bean name="keywordsKey" class="roolo.elo.metadata.keys.StringMetadataKey"> -->
+    <!-- <constructor-arg index="0" value="keywords" /> -->
+    <!-- <constructor-arg index="1" value="/lom/general/keyword" /> -->
+    <!-- <constructor-arg index="2" value="UNIVERSAL" /> -->
+    <!-- <constructor-arg index="3" value="LIST" /> -->
+    <!-- <constructor-arg index="4" ref="defaultStringValidator" /> -->
+    <!-- </bean> -->
+    <bean name="learningActivityKey" class="roolo.elo.metadata.keys.StringMetadataKey">
+        <constructor-arg index="0" value="learningActivity"/>
+        <constructor-arg index="1" value="/lom/educational/context"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultStringValidator"/>
+    </bean>
+    <bean name="accessKey" class="roolo.elo.metadata.keys.StringMetadataKey">
+        <constructor-arg index="0" value="access"/>
+        <constructor-arg index="1"
+                         value="/lom/rights/copyrightAndOtherRestrictions"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultStringValidator"/>
+    </bean>
+    <bean name="missionRuntimeKey" class="roolo.elo.metadata.keys.UriMetadataKey">
+        <constructor-arg index="0" value='missionRuntime'/>
+        <constructor-arg index="1" value="/lom/general/missionruntime"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultUriValidator"/>
+    </bean>
+    <bean name="missionKey" class="roolo.elo.metadata.keys.StringMetadataKey">
+        <constructor-arg index="0" value="mission"/>
+        <constructor-arg index="1" value="/lom/general/mission"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultStringValidator"/>
+    </bean>
+    <bean name="lasKey" class="roolo.elo.metadata.keys.StringMetadataKey">
+        <constructor-arg index="0" value="las"/>
+        <constructor-arg index="1" value="/lom/general/las"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultStringValidator"/>
+    </bean>
+    <bean name="anchorIdKey" class="roolo.elo.metadata.keys.StringMetadataKey">
+        <constructor-arg index="0" value="anchorId"/>
+        <constructor-arg index="1" value="/lom/general/anchorId"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultStringValidator"/>
+    </bean>
+    <bean name="activeAnchorEloKey" class="roolo.elo.metadata.keys.UriMetadataKey">
+        <constructor-arg index="0" value='activeAnchorElo'/>
+        <constructor-arg index="1" value='/lom/general/activeAnchorElo'/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultUriValidator"/>
+    </bean>
+    <bean name="containsAssignmentEloKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
+        <constructor-arg index="0" value='containsAssignment'/>
+        <constructor-arg index="1"
+                         value='/lom/relation/[kind="containsAssignment",type="scy/anchor"]'/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultUriValidator"/>
+    </bean>
+    <bean name="logicalTypeKey" class="roolo.elo.metadata.keys.StringMetadataKey">
+        <constructor-arg index="0" value="logicalType"/>
+        <constructor-arg index="1" value="/lom/general/structure"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultStringValidator"/>
+    </bean>
+    <bean name="functionalTypeKey" class="roolo.elo.metadata.keys.StringMetadataKey">
+        <constructor-arg index="0" value="functionalType"/>
+        <constructor-arg index="1"
+                         value="/lom/educational/learningResourceType"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultStringValidator"/>
+    </bean>
+    <bean name="missionRunningKey" class="roolo.elo.metadata.keys.UriMetadataKey">
+        <constructor-arg index="0" value="missionRunning"/>
+        <constructor-arg index="1" value="/lom/general/missionRunning"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultStringValidator"/>
+    </bean>
+    <bean name="userRunningMissionKey" class="roolo.elo.metadata.keys.StringMetadataKey">
+        <constructor-arg index="0" value="userRunningMission"/>
+        <constructor-arg index="1" value="/lom/general/userRunningMission"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultStringValidator"/>
+    </bean>
+    <bean name="missionSpecificationEloKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
+        <constructor-arg index="0" value='missionSpecificationElo'/>
+        <constructor-arg index="1"
+                         value='/lom/relation/[kind="isbasedon",type="scy/missionSpecification"]'/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultUriValidator"/>
+    </bean>
+    <bean name="externalDocAnnotationKey" class="roolo.elo.metadata.keys.ExternalDocAnnotationKey">
+        <constructor-arg index="0" value="externalDoc"/>
+        <constructor-arg index="1"
+                         value='/lom/annotation/[entity="externalDoc"]'/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultStringValidator"/>
+    </bean>
+    <bean name="iconTypeAnnotationKey" class="roolo.elo.metadata.keys.IconTypeAnnotationKey">
+        <constructor-arg index="0" value="iconType"/>
+        <constructor-arg index="1"
+                         value='/lom/annotation/[entity="icon"]'/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultStringValidator"/>
+    </bean>
+    <bean name="colorSchemeIdAnnotationKey" class="roolo.elo.metadata.keys.ColorSchemeIdAnnotationKey">
+        <constructor-arg index="0" value="colorSchemeId"/>
+        <constructor-arg index="1"
+                         value='/lom/annotation/[entity="colorId"]'/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultStringValidator"/>
+    </bean>
+    <bean name="mucIdKey" class="roolo.elo.metadata.keys.StringMetadataKey">
+        <constructor-arg index="0" value='mucId'/>
+        <constructor-arg index="1" value='/lom/technical/mucId'/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultStringValidator"/>
+    </bean>
+    <bean name="obligatoryInPortfolioKey" class="roolo.elo.metadata.keys.StringMetadataKey">
+        <constructor-arg index="0" value='obligatoryInPortfolio'/>
+        <constructor-arg index="1" value='/lom/educational/obligatoryInPortfolio'/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultStringValidator"/>
+    </bean>
+    <bean name="feedbackOnKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
+        <constructor-arg index="0" value='feedbackOn'/>
+        <constructor-arg index="1" value='/lom/relation/[kind="feedbackOn"]'/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultUriValidator"/>
+    </bean>
+    <bean name="testStringListKey" class="roolo.elo.metadata.keys.StringMetadataKey">
+        <constructor-arg index="0" value='testStringList'/>
+        <constructor-arg index="1" value='/test/list'/>
+        <constructor-arg index="2" value="SPECIFIC"/>
+        <constructor-arg index="3" value="LIST"/>
+        <constructor-arg index="4" ref="defaultStringValidator"/>
+    </bean>
+    <bean name="lineCountKey" class="roolo.elo.metadata.keys.LongMetadataKey">
+        <constructor-arg index="0" value="lineCount"/>
+        <constructor-arg index="1" value="/lom/agentData/draw/lineCount"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultLongValidator"/>
+    </bean>
+    <bean name="rectangleCountKey" class="roolo.elo.metadata.keys.LongMetadataKey">
+        <constructor-arg index="0" value="rectangleCount"/>
+        <constructor-arg index="1"
+                         value="/lom/agentData/draw/rectangleCount"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultLongValidator"/>
+    </bean>
+    <bean name="ovalCountKey" class="roolo.elo.metadata.keys.LongMetadataKey">
+        <constructor-arg index="0" value="ovalCount"/>
+        <constructor-arg index="1" value="/lom/agentData/draw/ovalCount"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultLongValidator"/>
+    </bean>
+    <bean name="freehandCountKey" class="roolo.elo.metadata.keys.LongMetadataKey">
+        <constructor-arg index="0" value="freehandCount"/>
+        <constructor-arg index="1"
+                         value="/lom/agentData/draw/freehandCount"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultLongValidator"/>
+    </bean>
+    <bean name="textCountKey" class="roolo.elo.metadata.keys.LongMetadataKey">
+        <constructor-arg index="0" value="textCount"/>
+        <constructor-arg index="1" value="/lom/agentData/draw/textCount"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultLongValidator"/>
+    </bean>
+    <bean name="imageCountKey" class="roolo.elo.metadata.keys.LongMetadataKey">
+        <constructor-arg index="0" value="imageCount"/>
+        <constructor-arg index="1"
+                         value="/lom/agentData/draw/imageCount"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultLongValidator"/>
+    </bean>
+    <bean name="tagPointerCountKey" class="roolo.elo.metadata.keys.LongMetadataKey">
+        <constructor-arg index="0" value="tagPointerCount"/>
+        <constructor-arg index="1"
+                         value="/lom/agentData/draw/tagPointerCount"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultLongValidator"/>
+    </bean>
+    <bean name="socialTagsKey" class="roolo.elo.metadata.keys.SocialTagsMetadataKey">
+        <constructor-arg index="0" value='socialTags'/>
+        <constructor-arg index="1" value='/socialTags'/>
+        <!-- One SocialTags class containing all tags, language independent -->
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultStringValidator"/>
+    </bean>
+    <bean name="keywordsKey" class="roolo.elo.metadata.keys.KeyValueMetadataKey">
+        <constructor-arg index="0" value='keywords'/>
+        <constructor-arg index="1" value='/keywords'/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="LIST"/>
+        <constructor-arg index="4" ref="defaultStringValidator"/>
+    </bean>
+    <bean name="thumbnailKey" class="roolo.elo.metadata.keys.BinaryKey">
+        <constructor-arg index="0" value='thumbnail'/>
+        <constructor-arg index="1" value='/thumbnail'/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultUriValidator"/>
+    </bean>
 
-	<bean name="localMetadataTypeManager" class="roolo.elo.MetadataTypeManager"
-		factory-method="getInstance">
-		<property name="metadataKeys">
-			<list>
-				<ref bean="identifierKey" />
-				<ref bean="titleKey" />
-				<ref bean="technicalFormatKey" />
-				<ref bean="dateCreatedKey" />
-				<ref bean="dateLastModifiedKey" />
-				<ref bean="dateFirstUserSaveKey" />
-				<ref bean="authorKey" />
-				<ref bean="creatorKey" />
-				<ref bean="languagesKey" />
-				<ref bean="descriptionKey" />
-				<ref bean="isVersionOfKey" />
-				<ref bean="isVersionedByKey" />
-				<ref bean="isForkOfKey" />
-				<ref bean="isForkedByKey" />
-				<ref bean="usesRelationKey" />
-				<ref bean="annotatesRelationKey" />
-				<ref bean="versionKey" />
-				<!-- <ref bean="keywordsKey" /> -->
-				<ref bean="learningActivityKey" />
-				<ref bean="accessKey" />
-				<ref bean="missionRuntimeKey" />
-				<ref bean="missionKey" />
-				<ref bean="lasKey" />
-				<ref bean="anchorIdKey" />
-				<ref bean="activeAnchorEloKey" />
-				<ref bean="containsAssignmentEloKey" />
-				<ref bean="logicalTypeKey" />
-				<ref bean="functionalTypeKey" />
-				<ref bean="missionRunningKey" />
-				<ref bean="userRunningMissionKey" />
-				<ref bean="missionSpecificationEloKey" />
-				<ref bean="externalDocAnnotationKey" />
-				<ref bean="iconTypeAnnotationKey" />
-				<ref bean="colorSchemeIdAnnotationKey" />
-				<ref bean="mucIdKey" />
-				<ref bean="obligatoryInPortfolioKey" />
-				<ref bean="feedbackOnKey" />
+    <bean name="assignmentUriKey" class="roolo.elo.metadata.keys.UriMetadataKey">
+        <constructor-arg index="0" value="assignmentUri"/>
+        <constructor-arg index="1" value="/lom/resource/assignmentUri"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultUriValidator"/>
+    </bean>
 
-				<ref bean="lineCountKey" />
-				<ref bean="rectangleCountKey" />
-				<ref bean="ovalCountKey" />
-				<ref bean="freehandCountKey" />
-				<ref bean="textCountKey" />
-				<ref bean="imageCountKey" />
-				<ref bean="tagPointerCountKey" />
-				<ref bean="thumbnailKey" />
-				<ref bean="socialTagsKey" />
-				<ref bean="keywordsKey" />
-				<ref bean="assignmentUriKey" />
-				<ref bean="resourcesUriKey" />
-				<ref bean="testStringListKey" />
-			</list>
-		</property>
-	</bean>
-	<bean name="identifierKey" class="roolo.elo.metadata.keys.UriMetadataKey">
-		<constructor-arg index="0" value="identifier" />
-		<constructor-arg index="1" value="/lom/general/identifier" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultUriValidator" />
-	</bean>
-	<bean name="titleKey" class="roolo.elo.metadata.keys.StringMetadataKey">
-		<constructor-arg index="0" value="title" />
-		<constructor-arg index="1" value="/lom/general/title" />
-		<constructor-arg index="2" value="SPECIFIC" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultStringValidator" />
-	</bean>
-	<bean name="descriptionKey" class="roolo.elo.metadata.keys.StringMetadataKey">
-		<constructor-arg index="0" value="description" />
-		<constructor-arg index="1" value="/lom/general/description" />
-		<constructor-arg index="2" value="SPECIFIC" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultStringValidator" />
-	</bean>
-	<bean name="technicalFormatKey" class="roolo.elo.metadata.keys.StringMetadataKey">
-		<constructor-arg index="0" value="technicalFormat" />
-		<constructor-arg index="1" value="/lom/technical/format" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultStringValidator" />
-	</bean>
-	<bean name="dateCreatedKey" class="roolo.elo.metadata.keys.LongMetadataKey">
-		<constructor-arg index="0" value="dateCreated" />
-		<constructor-arg index="1"
-			value="/lom/technical/customElements/dateCreated" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultLongValidator" />
-	</bean>
-	<bean name="dateLastModifiedKey" class="roolo.elo.metadata.keys.LongMetadataKey">
-		<constructor-arg index="0" value="dateLastModified" />
-		<constructor-arg index="1"
-			value="/lom/technical/customElements/dateLastModified" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultLongValidator" />
-	</bean>
-	<bean name="dateFirstUserSaveKey" class="roolo.elo.metadata.keys.LongMetadataKey">
-		<constructor-arg index="0" value="dateFirstUserSave" />
-		<constructor-arg index="1"
-			value="/lom/technical/customElements/dateFirstUserSaveKey" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultLongValidator" />
-	</bean>
-	<bean name="languagesKey" class="roolo.elo.metadata.keys.StringMetadataKey">
-		<constructor-arg index="0" value="languages" />
-		<constructor-arg index="1" value="/lom/general/language" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="LIST" />
-		<constructor-arg index="4" ref="defaultUriValidator" />
-	</bean>
-	<bean name="isVersionOfKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
-		<constructor-arg index="0" value='isVersionOf' />
-		<constructor-arg index="1"
-			value='/lom/relation/[kind="is_version_of"]' />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultUriValidator" />
-	</bean>
-	<bean name="isVersionedByKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
-		<constructor-arg index="0" value='isVersionedBy' />
-		<constructor-arg index="1"
-			value='/lom/relation/[kind="is_versioned_by"]' />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="LIST" />
-		<constructor-arg index="4" ref="defaultUriValidator" />
-	</bean>
-	<bean name="isForkOfKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
-		<constructor-arg index="0" value='isForkOf' />
-		<constructor-arg index="1"
-			value='/lom/relation/[kind="is_fork_of"]' />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultUriValidator" />
-	</bean>
-	<bean name="isForkedByKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
-		<constructor-arg index="0" value='isForkedBy' />
-		<constructor-arg index="1"
-			value='/lom/relation/[kind="is_forked_by"]' />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="LIST" />
-		<constructor-arg index="4" ref="defaultUriValidator" />
-	</bean>
-	<bean name="usesRelationKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
-		<constructor-arg index="0" value='uses' />
-		<constructor-arg index="1" value='/lom/relationU/[kind="uses"]' />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="LIST" />
-		<constructor-arg index="4" ref="defaultUriValidator" />
-	</bean>
-	<bean name="authorKey" class="roolo.elo.metadata.keys.ContributeMetadataKey">
-		<constructor-arg index="0" value='author' />
-		<constructor-arg index="1"
-			value='/lom/lifecycle/contribute/[kind="author"]' />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="LIST" />
-		<constructor-arg index="4" ref="defaultContributeValidator" />
-	</bean>
-	<bean name="creatorKey" class="roolo.elo.metadata.keys.ContributeMetadataKey">
-		<constructor-arg index="0" value='creator' />
-		<constructor-arg index="1"
-			value='/lom/lifecycle/contribute/[kind="initiator"]' />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultContributeValidator" />
-	</bean>
-	<bean name="annotatesRelationKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
-		<constructor-arg index="0" value='annotates' />
-		<constructor-arg index="1"
-			value='/lom/relationA/[kind="annotates"]' />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultUriValidator" />
-	</bean>
-	<bean name="versionKey" class="roolo.elo.metadata.keys.LongMetadataKey">
-		<constructor-arg index="0" value="version" />
-		<constructor-arg index="1" value="/lom/lifecycle/version" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultLongValidator" />
-	</bean>
-	<!-- <bean name="keywordsKey" class="roolo.elo.metadata.keys.StringMetadataKey"> -->
-	<!-- <constructor-arg index="0" value="keywords" /> -->
-	<!-- <constructor-arg index="1" value="/lom/general/keyword" /> -->
-	<!-- <constructor-arg index="2" value="UNIVERSAL" /> -->
-	<!-- <constructor-arg index="3" value="LIST" /> -->
-	<!-- <constructor-arg index="4" ref="defaultStringValidator" /> -->
-	<!-- </bean> -->
-	<bean name="learningActivityKey" class="roolo.elo.metadata.keys.StringMetadataKey">
-		<constructor-arg index="0" value="learningActivity" />
-		<constructor-arg index="1" value="/lom/educational/context" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultStringValidator" />
-	</bean>
-	<bean name="accessKey" class="roolo.elo.metadata.keys.StringMetadataKey">
-		<constructor-arg index="0" value="access" />
-		<constructor-arg index="1"
-			value="/lom/rights/copyrightAndOtherRestrictions" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultStringValidator" />
-	</bean>
-	<bean name="missionRuntimeKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
-		<constructor-arg index="0" value='missionRuntime' />
-		<constructor-arg index="1"
-			value='/lom/relation/[kind="isbasedon",type="scy/missionruntime"]' />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultUriValidator" />
-	</bean>
-	<bean name="missionKey" class="roolo.elo.metadata.keys.StringMetadataKey">
-		<constructor-arg index="0" value="mission" />
-		<constructor-arg index="1" value="/lom/general/mission" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultStringValidator" />
-	</bean>
-	<bean name="lasKey" class="roolo.elo.metadata.keys.StringMetadataKey">
-		<constructor-arg index="0" value="las" />
-		<constructor-arg index="1" value="/lom/general/las" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultStringValidator" />
-	</bean>
-	<bean name="anchorIdKey" class="roolo.elo.metadata.keys.StringMetadataKey">
-		<constructor-arg index="0" value="anchorId" />
-		<constructor-arg index="1" value="/lom/general/anchorId" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultStringValidator" />
-	</bean>
-	<bean name="activeAnchorEloKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
-		<constructor-arg index="0" value='activeAnchorElo' />
-		<constructor-arg index="1"
-			value='/lom/relation/[kind="isbasedon",type="scy/anchor"]' />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultUriValidator" />
-	</bean>
-	<bean name="containsAssignmentEloKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
-		<constructor-arg index="0" value='containsAssignment' />
-		<constructor-arg index="1"
-			value='/lom/relation/[kind="containsAssignment",type="scy/anchor"]' />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultUriValidator" />
-	</bean>
-	<bean name="logicalTypeKey" class="roolo.elo.metadata.keys.StringMetadataKey">
-		<constructor-arg index="0" value="logicalType" />
-		<constructor-arg index="1" value="/lom/general/structure" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultStringValidator" />
-	</bean>
-	<bean name="functionalTypeKey" class="roolo.elo.metadata.keys.StringMetadataKey">
-		<constructor-arg index="0" value="functionalType" />
-		<constructor-arg index="1"
-			value="/lom/educational/learningResourceType" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultStringValidator" />
-	</bean>
-	<bean name="missionRunningKey" class="roolo.elo.metadata.keys.UriMetadataKey">
-		<constructor-arg index="0" value="missionRunning" />
-		<constructor-arg index="1" value="/lom/general/missionRunning" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultStringValidator" />
-	</bean>
-	<bean name="userRunningMissionKey" class="roolo.elo.metadata.keys.StringMetadataKey">
-		<constructor-arg index="0" value="userRunningMission" />
-		<constructor-arg index="1"
-			value="/lom/general/userRunningMission" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultStringValidator" />
-	</bean>
-	<bean name="missionSpecificationEloKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
-		<constructor-arg index="0" value='missionSpecificationElo' />
-		<constructor-arg index="1"
-			value='/lom/XXXrelation/[kind="isbasedon",type="scy/missionSpecification"]' />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultUriValidator" />
-	</bean>
-	<bean name="externalDocAnnotationKey" class="roolo.elo.metadata.keys.ExternalDocAnnotationKey">
-		<constructor-arg index="0" value="externalDoc" />
-		<constructor-arg index="1"
-			value='/lom/annotation/[entity="externalDoc"]' />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultStringValidator" />
-	</bean>
-	<bean name="iconTypeAnnotationKey" class="roolo.elo.metadata.keys.IconTypeAnnotationKey">
-		<constructor-arg index="0" value="iconType" />
-		<constructor-arg index="1"
-			value='/lom/annotation/[entity="icon"]' />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultStringValidator" />
-	</bean>
-	<bean name="colorSchemeIdAnnotationKey" class="roolo.elo.metadata.keys.ColorSchemeIdAnnotationKey">
-		<constructor-arg index="0" value="colorSchemeId" />
-		<constructor-arg index="1"
-			value='/lom/annotation/[entity="colorId"]' />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultStringValidator" />
-	</bean>
-	<bean name="mucIdKey" class="roolo.elo.metadata.keys.StringMetadataKey">
-		<constructor-arg index="0" value='mucId' />
-		<constructor-arg index="1" value='/lom/technical/mucId' />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultStringValidator" />
-	</bean>
-	<bean name="obligatoryInPortfolioKey" class="roolo.elo.metadata.keys.StringMetadataKey">
-		<constructor-arg index="0" value='obligatoryInPortfolio' />
-		<constructor-arg index="1"
-			value='/lom/educational/obligatoryInPortfolio' />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultStringValidator" />
-	</bean>
-	<bean name="feedbackOnKey" class="roolo.elo.metadata.keys.RelationMetadataKey">
-		<constructor-arg index="0" value='feedbackOn' />
-		<constructor-arg index="1"
-			value='/lom/relation/[kind="feedbackOn"]' />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultUriValidator" />
-	</bean>
-	<bean name="testStringListKey" class="roolo.elo.metadata.keys.StringMetadataKey">
-		<constructor-arg index="0" value='testStringList' />
-		<constructor-arg index="1" value='/test/list' />
-		<constructor-arg index="2" value="SPECIFIC" />
-		<constructor-arg index="3" value="LIST" />
-		<constructor-arg index="4" ref="defaultStringValidator" />
-	</bean>
-	<bean name="lineCountKey" class="roolo.elo.metadata.keys.LongMetadataKey">
-		<constructor-arg index="0" value="lineCount" />
-		<constructor-arg index="1" value="/lom/agentData/draw/lineCount" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultLongValidator" />
-	</bean>
-	<bean name="rectangleCountKey" class="roolo.elo.metadata.keys.LongMetadataKey">
-		<constructor-arg index="0" value="rectangleCount" />
-		<constructor-arg index="1"
-			value="/lom/agentData/draw/rectangleCount" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultLongValidator" />
-	</bean>
-	<bean name="ovalCountKey" class="roolo.elo.metadata.keys.LongMetadataKey">
-		<constructor-arg index="0" value="ovalCount" />
-		<constructor-arg index="1" value="/lom/agentData/draw/ovalCount" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultLongValidator" />
-	</bean>
-	<bean name="freehandCountKey" class="roolo.elo.metadata.keys.LongMetadataKey">
-		<constructor-arg index="0" value="freehandCount" />
-		<constructor-arg index="1"
-			value="/lom/agentData/draw/freehandCount" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultLongValidator" />
-	</bean>
-	<bean name="textCountKey" class="roolo.elo.metadata.keys.LongMetadataKey">
-		<constructor-arg index="0" value="textCount" />
-		<constructor-arg index="1" value="/lom/agentData/draw/textCount" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultLongValidator" />
-	</bean>
-	<bean name="imageCountKey" class="roolo.elo.metadata.keys.LongMetadataKey">
-		<constructor-arg index="0" value="imageCount" />
-		<constructor-arg index="1"
-			value="/lom/agentData/draw/imageCount" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultLongValidator" />
-	</bean>
-	<bean name="tagPointerCountKey" class="roolo.elo.metadata.keys.LongMetadataKey">
-		<constructor-arg index="0" value="tagPointerCount" />
-		<constructor-arg index="1"
-			value="/lom/agentData/draw/tagPointerCount" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultLongValidator" />
-	</bean>
-	<bean name="socialTagsKey" class="roolo.elo.metadata.keys.SocialTagsMetadataKey">
-		<constructor-arg index="0" value='socialTags' />
-		<constructor-arg index="1" value='/socialTags' />
-		<!-- One SocialTags class containing all tags, language independent -->
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultStringValidator" />
-	</bean>
-	<bean name="keywordsKey" class="roolo.elo.metadata.keys.KeyValueMetadataKey">
-		<constructor-arg index="0" value='keywords' />
-		<constructor-arg index="1" value='/keywords' />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="LIST" />
-		<constructor-arg index="4" ref="defaultStringValidator" />
-	</bean>
-	<bean name="thumbnailKey" class="roolo.elo.metadata.keys.BinaryKey">
-		<constructor-arg index="0" value='thumbnail' />
-		<constructor-arg index="1" value='/thumbnail' />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultUriValidator" />
-	</bean>
+    <bean name="resourcesUriKey" class="roolo.elo.metadata.keys.UriMetadataKey">
+        <constructor-arg index="0" value="resourcesUri"/>
+        <constructor-arg index="1" value="/lom/resource/resourcesUri"/>
+        <constructor-arg index="2" value="UNIVERSAL"/>
+        <constructor-arg index="3" value="SINGLE"/>
+        <constructor-arg index="4" ref="defaultUriValidator"/>
+    </bean>
 
-	<bean name="assignmentUriKey" class="roolo.elo.metadata.keys.UriMetadataKey">
-		<constructor-arg index="0" value="assignmentUri" />
-		<constructor-arg index="1" value="/lom/resource/assignmentUri" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultUriValidator" />
-	</bean>
+    <bean name="defaultStringValidator" class="roolo.elo.metadata.value.validators.StringValidator"></bean>
+    <bean name="defaultLongValidator" class="roolo.elo.metadata.value.validators.LongValidator"></bean>
+    <bean name="defaultUriValidator" class="roolo.elo.metadata.value.validators.UriValidator"></bean>
+    <bean name="defaultContributeValidator"
+          class="roolo.elo.metadata.value.validators.ContributeValidator"></bean>
 
-	<bean name="resourcesUriKey" class="roolo.elo.metadata.keys.UriMetadataKey">
-		<constructor-arg index="0" value="resourcesUri" />
-		<constructor-arg index="1" value="/lom/resource/resourcesUri" />
-		<constructor-arg index="2" value="UNIVERSAL" />
-		<constructor-arg index="3" value="SINGLE" />
-		<constructor-arg index="4" ref="defaultUriValidator" />
-	</bean>
+    <bean name="localExtensionManager" class="roolo.cms.repository.mock.MockExtensionManager">
+        <property name="extensions">
+            <map>
+                <entry>
+                    <key>
+                        <value>scy/agentmodels</value>
+                    </key>
+                    <value>.scyagentmodels</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/agentmodel</value>
+                    </key>
+                    <value>.scyagentmodel</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/missionmodel</value>
+                    </key>
+                    <value>.scymissionmodel</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/missionspecification</value>
+                    </key>
+                    <value>.scymissionspecification</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/missionmapmodel</value>
+                    </key>
+                    <value>.scymissionmapmodel</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/elotoolconfiguration</value>
+                    </key>
+                    <value>.scyelotoolconfiguration</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/missionruntime</value>
+                    </key>
+                    <value>.scymissionruntime</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/templateelos</value>
+                    </key>
+                    <value>.scytemplateelos</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/runtimesettings</value>
+                    </key>
+                    <value>.runtimesettings</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/drawing</value>
+                    </key>
+                    <value>.scydraw</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/model</value>
+                    </key>
+                    <value>.scymodel</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/dataset</value>
+                    </key>
+                    <value>.scydataset</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/simconfig</value>
+                    </key>
+                    <value>.scysimconfig</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/pds</value>
+                    </key>
+                    <value>.scypds</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/copex</value>
+                    </key>
+                    <value>.scycopex</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/text</value>
+                    </key>
+                    <value>.text</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/image</value>
+                    </key>
+                    <value>.jpg</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/mapping</value>
+                    </key>
+                    <value>.scymapping</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/melo</value>
+                    </key>
+                    <value>.melo</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/url</value>
+                    </key>
+                    <value>.url</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/interview</value>
+                    </key>
+                    <value>.scyinterview</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/video</value>
+                    </key>
+                    <value>.video</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/xproc</value>
+                    </key>
+                    <value>.scyxproc</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/webresourcer</value>
+                    </key>
+                    <value>.scywebresourcer</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/ppt</value>
+                    </key>
+                    <value>.ppt</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/rtf</value>
+                    </key>
+                    <value>.rtf</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/doc</value>
+                    </key>
+                    <value>.doc</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/skp</value>
+                    </key>
+                    <value>.skp</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/studentplanningtool</value>
+                    </key>
+                    <value>.studentplan</value>
+                </entry>
+                <entry>
+                    <key>
+                        <value>scy/speedtest</value>
+                    </key>
+                    <value>.speedtest</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
 
-	<bean name="defaultStringValidator" class="roolo.elo.metadata.value.validators.StringValidator"></bean>
-	<bean name="defaultLongValidator" class="roolo.elo.metadata.value.validators.LongValidator"></bean>
-	<bean name="defaultUriValidator" class="roolo.elo.metadata.value.validators.UriValidator"></bean>
-	<bean name="defaultContributeValidator"
-		class="roolo.elo.metadata.value.validators.ContributeValidator"></bean>
-
-	<bean name="defaultEntryValidator" class="roolo.elo.metadata.value.validators.KeyValueValidator"></bean>
-
-	<bean name="localExtensionManager" class="roolo.cms.repository.mock.MockExtensionManager">
-		<property name="extensions">
-			<map>
-				<entry>
-					<key>
-						<value>scy/agentmodels</value>
-					</key>
-					<value>.scyagentmodels</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/agentmodel</value>
-					</key>
-					<value>.scyagentmodel</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/missionmodel</value>
-					</key>
-					<value>.scymissionmodel</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/missionspecification</value>
-					</key>
-					<value>.scymissionspecification</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/missionmapmodel</value>
-					</key>
-					<value>.scymissionmapmodel</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/elotoolconfiguration</value>
-					</key>
-					<value>.scyelotoolconfiguration</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/missionruntime</value>
-					</key>
-					<value>.scymissionruntime</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/templateelos</value>
-					</key>
-					<value>.scytemplateelos</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/runtimesettings</value>
-					</key>
-					<value>.runtimesettings</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/drawing</value>
-					</key>
-					<value>.scydraw</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/model</value>
-					</key>
-					<value>.scymodel</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/dataset</value>
-					</key>
-					<value>.scydataset</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/simconfig</value>
-					</key>
-					<value>.scysimconfig</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/pds</value>
-					</key>
-					<value>.scypds</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/copex</value>
-					</key>
-					<value>.scycopex</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/text</value>
-					</key>
-					<value>.text</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/image</value>
-					</key>
-					<value>.jpg</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/mapping</value>
-					</key>
-					<value>.scymapping</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/melo</value>
-					</key>
-					<value>.melo</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/url</value>
-					</key>
-					<value>.url</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/interview</value>
-					</key>
-					<value>.scyinterview</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/video</value>
-					</key>
-					<value>.video</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/xproc</value>
-					</key>
-					<value>.scyxproc</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/webresourcer</value>
-					</key>
-					<value>.scywebresourcer</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/ppt</value>
-					</key>
-					<value>.ppt</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/rtf</value>
-					</key>
-					<value>.rtf</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/doc</value>
-					</key>
-					<value>.doc</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/skp</value>
-					</key>
-					<value>.skp</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/studentplanningtool</value>
-					</key>
-					<value>.studentplan</value>
-				</entry>
-				<entry>
-					<key>
-						<value>scy/speedtest</value>
-					</key>
-					<value>.speedtest</value>
-				</entry>
-			</map>
-		</property>
-	</bean>
-
-	<bean name="localEloFactory" class="roolo.elo.JDomBasicELOFactory"
-		depends-on="localMetadataTypeManager">
-		<constructor-arg index="0" ref="metadataTypeManager" />
-	</bean>
+    <bean name="localEloFactory" class="roolo.elo.JDomBasicELOFactory"
+          depends-on="localMetadataTypeManager">
+        <constructor-arg index="0" ref="metadataTypeManager"/>
+    </bean>
 
 </beans>
