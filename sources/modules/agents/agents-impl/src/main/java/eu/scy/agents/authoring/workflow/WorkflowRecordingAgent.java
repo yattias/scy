@@ -75,6 +75,8 @@ public class WorkflowRecordingAgent extends AbstractThreadedAgent implements
     protected void doRun() throws TupleSpaceException, AgentLifecycleException,
             InterruptedException {
         while (status == Status.Running) {
+            // check time constraints here
+            // set time > plan == notification as parameter
             sendAliveUpdate();
             Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 3);
         }

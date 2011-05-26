@@ -46,4 +46,8 @@ public class Workflow implements Serializable, Iterable<WorkflowItem> {
     public void setName(String name) {
         this.name = name;
     }
+
+    public int getNumberOfItems() {
+        return workflowItems.size();
+    }
 }
