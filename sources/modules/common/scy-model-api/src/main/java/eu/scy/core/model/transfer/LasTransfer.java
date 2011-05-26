@@ -13,6 +13,9 @@ public class LasTransfer extends BaseXMLTransfer{
     private String name;
     private AnchorEloTransfer anchorElo;
     private Integer minutesPlannedUsedInLas = 0;
+    private String comments;
+    private String lasType;
+    private String instructions;
 
     public String getOriginalLasId() {
         return originalLasId;
@@ -44,5 +47,29 @@ public class LasTransfer extends BaseXMLTransfer{
 
     public void setMinutesPlannedUsedInLas(Integer minutesPlannedUsedInLas) {
         this.minutesPlannedUsedInLas = minutesPlannedUsedInLas;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
+    public String getLasType() {
+        return lasType;
+    }
+
+    public void setLasType(String lasType) {
+        this.lasType = lasType;
+    }
+
+    public String getInstructions() {
+        return instructions;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
     }
 }

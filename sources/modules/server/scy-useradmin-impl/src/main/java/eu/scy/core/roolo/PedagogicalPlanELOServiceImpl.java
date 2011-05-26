@@ -59,6 +59,10 @@ public class PedagogicalPlanELOServiceImpl extends BaseELOServiceImpl implements
                     LasTransfer lasTransfer = new LasTransfer();
                     lasTransfer.setOriginalLasId(las.getId());
                     lasTransfer.setName(las.getTitle());
+                    lasTransfer.setLasType(las.getLasType().name());
+
+                    loadLasInstructions(lasTransfer, las);
+
                     pedagogicalPlan.getMissionPlan().addLas(lasTransfer);
 
                     MissionAnchor missionAnchor = las.getMissionAnchor();
@@ -79,6 +83,11 @@ public class PedagogicalPlanELOServiceImpl extends BaseELOServiceImpl implements
 
         }
 
+    }
+
+    private void loadLasInstructions(LasTransfer lasTransfer, Las las) {
+        String descriptionURI = "/webapp/useradmin/LoadExternalPage.html?url=" + String.valueOf(las.getInstructionUri());
+        lasTransfer.setInstructions(descriptionURI);
     }
 
     private void savePedagogicalPlan(PedagogicalPlanTransfer pedagogicalPlan, MissionSpecificationElo missionSpecificationElo) {
