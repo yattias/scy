@@ -45,12 +45,21 @@ public class AgendaNode extends CustomNode, Resizable {
     var entryUrlMap: HashMap;
     def dateFormat = SimpleDateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
     var messageEntries: Node[];
+    var messageScrollView: ScrollView;
+    var normalFont = Font {
+                size: 13
+                embolden: false
+            }
+    var headerFont = Font {
+                size: 15
+                embolden: true
+            }
 
     public override function create(): Node {
         entryUrlMap = new HashMap();
-        var messageScrollView = ScrollView {
+        messageScrollView = ScrollView {
                     fitToWidth: true
-                    hbarPolicy: ScrollBarPolicy.AS_NEEDED
+                    hbarPolicy: ScrollBarPolicy.NEVER
                     vbarPolicy: ScrollBarPolicy.AS_NEEDED
                     node: VBox {
                         spacing: 5
@@ -98,7 +107,8 @@ public class AgendaNode extends CustomNode, Resizable {
                     }
                     content: [
                         Label {
-                            text: "Messages:"
+                            text: "Messages"
+                            font: headerFont
                         },
                         messageScrollView
                     ]
@@ -118,6 +128,7 @@ public class AgendaNode extends CustomNode, Resizable {
                             }
                             textAlignment: TextAlignment.LEFT
                             text: "State"
+                            font: headerFont
                         },
                         Label {
                             layoutInfo: LayoutInfo {
@@ -127,6 +138,7 @@ public class AgendaNode extends CustomNode, Resizable {
                             }
                             textAlignment: TextAlignment.CENTER
                             text: "Activity"
+                            font: headerFont
                         },
                         Label {
                             layoutInfo: LayoutInfo {
@@ -135,7 +147,8 @@ public class AgendaNode extends CustomNode, Resizable {
                                 hpos: HPos.RIGHT
                             }
                             textAlignment: TextAlignment.RIGHT
-                            text: "Finished"
+                            text: "Completion Time"
+                            font: headerFont
                         }
                     ]
                 };
@@ -147,9 +160,6 @@ public class AgendaNode extends CustomNode, Resizable {
                         vgrow: Priority.ALWAYS
                     }
                     content: [
-                        Label {
-                            text: "Work Progress:"
-                        },
                         VBox {
                             layoutInfo: LayoutInfo {
                                 hfill: true
@@ -194,6 +204,8 @@ public class AgendaNode extends CustomNode, Resizable {
     public function addMessageEntry(timestamp: Long, text: String) {
         var messageEntry = Text {
                     content: "{dateFormat.format(new Date(timestamp))}: {text}"
+                    wrappingWidth: bind messageScrollView.layoutBounds.width - 15
+                    font: normalFont
                 }
         insert messageEntry before messageEntries[0];
         insert Separator {} after messageEntries[0];
@@ -215,20 +227,16 @@ public class AgendaNode extends CustomNode, Resizable {
                                 hshrink: Priority.NEVER
                                 hfill: true
                             }
-                            font: Font {
-                                size: 14
-                            }
+                            font: normalFont
                             text: text
                         },
                         Text {
-                            font: Font {
-                                size: 14
-                            }
+                            font: normalFont
                             layoutInfo: LayoutInfo {
                                 hgrow: Priority.NEVER
                                 hfill: true
                             }
-                            content: if (timestamp == 0) "{dateFormat.format(new Date(timestamp))}" else ""
+                            content: if (timestamp != 0) "{dateFormat.format(new Date(timestamp))}" else ""
                         }
                     ]
                 }
@@ -264,7 +272,7 @@ public class AgendaNode extends CustomNode, Resizable {
                 KeyFrame {
                     time: 3s
                     action: function() {
-                        addLogEntry(System.currentTimeMillis() - 1900000, "You could start to work on ELO 2", AgendaEntryState.ACTIVE, "elo2");
+                        addLogEntry(System.currentTimeMillis() - 1900000, "You could start to work on ELO 2", AgendaEntryState.ACTIVATED, "elo2");
                     }
                 },
                 KeyFrame {
@@ -276,7 +284,7 @@ public class AgendaNode extends CustomNode, Resizable {
                 KeyFrame {
                     time: 7s
                     action: function() {
-                        addMessageEntry(System.currentTimeMillis() - 1500000, "You could start to work on ELO 1");
+                        addMessageEntry(System.currentTimeMillis() - 1500000, "You could start to work on ELO 1, You could start to work on ELO 1, You could start to work on ELO 1, You could start to work on ELO 1, You could start to work on ELO 1, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla");
                     }
                 },
                 KeyFrame {
@@ -288,7 +296,7 @@ public class AgendaNode extends CustomNode, Resizable {
                 KeyFrame {
                     time: 12s
                     action: function() {
-                        addLogEntry(System.currentTimeMillis() - 1200000, "You could start to work on ELO 3", AgendaEntryState.REVOKED, "elo3");
+                        addLogEntry(System.currentTimeMillis() - 1200000, "You could start to work on ELO 3", AgendaEntryState.NEED2CHECK, "elo3");
                     }
                 },
                 KeyFrame {
@@ -300,7 +308,7 @@ public class AgendaNode extends CustomNode, Resizable {
                 KeyFrame {
                     time: 15s
                     action: function() {
-                        addLogEntry(System.currentTimeMillis() - 1000000, "You finished ELO 1", AgendaEntryState.ACTIVE, "elo1");
+                        addLogEntry(System.currentTimeMillis() - 1000000, "You finished ELO 1", AgendaEntryState.ACTIVATED, "elo1");
                     }
                 }
             ]
