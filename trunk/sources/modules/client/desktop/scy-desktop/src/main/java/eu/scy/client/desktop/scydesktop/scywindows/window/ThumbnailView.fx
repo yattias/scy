@@ -59,8 +59,9 @@ public class ThumbnailView extends WindowElement {
                y: -thumbnailBorder
                width: ArtSource.thumbnailWidth + 2 * thumbnailBorder
                height: ArtSource.thumbnailHeight + 2 * thumbnailBorder
-               fill: null
-               stroke: Color.GRAY
+               fill: windowColorScheme.backgroundColor
+               stroke: windowColorScheme.mainColor
+               strokeWidth: 0.5
             }
             noThumbnailView,
             thumbnailView,
