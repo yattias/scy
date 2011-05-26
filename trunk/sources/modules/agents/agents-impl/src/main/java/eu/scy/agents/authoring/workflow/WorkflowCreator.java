@@ -38,7 +38,7 @@ public class WorkflowCreator {
 
         PedagogicalPlanTransfer pedPlan = getPedPlan(missionSpecificationElo);
 
-        Workflow workflow = new Workflow();
+        Workflow workflow = new Workflow(pedPlan.getName());
 
         for (LasTransfer las : pedPlan.getMissionPlan().getLasTransfers()) {
             WorkflowItem workflowItem = new WorkflowItem(las.getOriginalLasId());
