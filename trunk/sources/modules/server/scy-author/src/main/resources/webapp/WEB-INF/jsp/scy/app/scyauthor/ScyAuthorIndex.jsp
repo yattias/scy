@@ -20,9 +20,9 @@
                 </c:forEach>
             </table>
             <br/>
-            <div class="createNewPedPlan">
+            <!--div class="createNewPedPlan">
                 <a href="createnewPedplansteps/PedPlanNameController.html">Create new pedagogical plan</a>
-            </div>
+            </div-->
 
             
 
