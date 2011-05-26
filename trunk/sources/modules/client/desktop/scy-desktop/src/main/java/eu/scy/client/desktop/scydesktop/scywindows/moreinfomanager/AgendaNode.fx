@@ -253,14 +253,13 @@ public class AgendaNode extends CustomNode, Resizable {
                         var t1 = hb1.content[2] as Text;
                         var hb2 = o2 as HBox;
                         var t2 = hb2.content[2] as Text;
-                        if (t1.visible == t2.visible) {
-                            return t1.content.compareTo(t2.content);
-                        } else if (t1.visible) {
-                            return -1;
-                        } else if (t2.visible) {
+                        if (t1.content.length() == 0) {
                             return 1;
+                        } else if (t2.content.length() == 0) {
+                            return -1;
+                        } else {
+                            return t1.content.compareTo(t2.content);
                         }
-                        return 0;
                     }
                 }) as Node[];
     }
@@ -284,13 +283,12 @@ public class AgendaNode extends CustomNode, Resizable {
                 KeyFrame {
                     time: 7s
                     action: function() {
-                        addMessageEntry(System.currentTimeMillis() - 1500000, "You could start to work on ELO 1, You could start to work on ELO 1, You could start to work on ELO 1, You could start to work on ELO 1, You could start to work on ELO 1, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla");
-                    }
+                        addMessageEntry(System.currentTimeMillis() - 1500000, "You could start to work on ELO 1, You could start to work on ELO 1, You could start to work on ELO 1, You could start to work on ELO 1, You could start to work on ELO 1, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, You could start to work on ELO 1, You could start to work on ELO 1, You could start to work on ELO 1, You could start to work on ELO 1, You could start to work on ELO 1, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla, bla,");                    }
                 },
                 KeyFrame {
                     time: 9s
                     action: function() {
-                        addLogEntry(System.currentTimeMillis() - 1300000, "You finished ELO 2", AgendaEntryState.ENABLED, "elo2");
+                        addLogEntry(0, "You finished ELO 2", AgendaEntryState.ENABLED, "elo2");
                     }
                 },
                 KeyFrame {
