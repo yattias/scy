@@ -124,6 +124,7 @@
                     </eu.scy.core.model.transfer.LasTransfer>
                 </lasTransfers>
             </missionPlan>
+            <name>TestPedPlanName</name>
         </eu.scy.core.model.transfer.PedagogicalPlanTransfer>
     </content>
     <resources>

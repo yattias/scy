@@ -21,6 +21,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import static junit.framework.Assert.assertEquals;
+
 public class WorkflowCreatorTest extends AbstractTestFixture {
 
     private WorkflowCreator workflowCreator;
@@ -43,9 +45,12 @@ public class WorkflowCreatorTest extends AbstractTestFixture {
         super.tearDown();
     }
 
+
     @Test
     public void testCreateWorkflow() throws URISyntaxException {
         Workflow workflow = workflowCreator.createWorkflow(new URI(MISSION1));
+        assertEquals("2d67d861-7867-4c5f-87af-9fe9ff209da6",workflow.getName());
+        assertEquals(11,workflow.getNumberOfItems());
     }
 
     @Ignore
@@ -60,6 +65,7 @@ public class WorkflowCreatorTest extends AbstractTestFixture {
         List<Las> lasses = missionModel.getLasses();
 
         PedagogicalPlanTransfer pedagogicalPlan = new PedagogicalPlanTransfer();// getPedagogicalPlanForMission(missionSpecificationElo);
+        pedagogicalPlan.setName("TestPedPlanName");
         pedagogicalPlan.setMissionPlan(new MissionPlanTransfer());
         if (pedagogicalPlan != null) {
 
