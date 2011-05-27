@@ -17,6 +17,7 @@
 		<module>action-logging-client</module>
 		<module>notification-receiver</module>
 		<module>tool-broker</module>
+		<module>desktop-utils</module>
 		<module>scy-desktop</module>
 		<module>scy-lab</module>
 		<module>local-tool-broker</module>
