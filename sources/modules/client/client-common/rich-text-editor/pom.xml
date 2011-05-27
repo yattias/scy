@@ -62,11 +62,23 @@
             <version>${pom.version}</version>
         </dependency>
 		
-		<dependency>
+        <dependency>
             <groupId>eu.scy.common</groupId>
             <artifactId>action-logging-api</artifactId>
             <version>${pom.version}</version>
         </dependency>
 		
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>data-sync-common</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>data-sync-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
     </dependencies>
 </project>

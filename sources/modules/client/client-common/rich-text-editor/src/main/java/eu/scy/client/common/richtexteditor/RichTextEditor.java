@@ -24,6 +24,10 @@ import java.util.ResourceBundle;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import eu.scy.actionlogging.api.IActionLogger;
+import eu.scy.client.common.datasync.ISyncListener;
+import eu.scy.client.common.datasync.ISyncSession;
+import eu.scy.common.datasync.ISyncObject;
+import eu.scy.common.datasync.SyncObject;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
@@ -33,11 +37,16 @@ import javax.swing.event.CaretListener;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-
+import java.util.UUID;
 /**
 * Rich text editor component for SCY project.
 */
-public class RichTextEditor extends JPanel implements DocumentListener, Printable, CaretListener {
+public class RichTextEditor extends JPanel implements DocumentListener, Printable, CaretListener, ISyncListener {
+    public final static String TOOLNAME = "scytexteditor";
+    public final static String SYNC_TOOL_INSTANCE_UUID = "sync_tool_instance_uuid";
+    public final static String SYNC_TEXT = "sync_text";
+    public final static String SYNC_POSITION_START = "sync_position_start";
+    public final static String SYNC_POSITION_END = "sync_position_end";
     private static final Logger logger = Logger.getLogger("eu.scy.client.common.richtexteditor.RichTextEditor");
     private ResourceBundle messages = ResourceBundle.getBundle("eu.scy.client.common.richtexteditor.RichTextEditor");
 	private JTextPane textPane;
@@ -53,6 +62,9 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
     private int typingLogIntervalMs = 30000;
     private Timer timer = null;
     private int typingOldPos = 0;
+    private ISyncSession syncSession = null;
+    private boolean syncing = false;
+    private UUID uuid = UUID.randomUUID();
 
     /**
     * Creates rich text editor component for rtf format.
@@ -242,6 +254,22 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         return typingLogIntervalMs;
     }
 
+    /**
+     * Gets synchronization session
+     * @return synchronization session
+     */
+    public ISyncSession getSyncSession() {
+        return syncSession;
+    }
+
+    /**
+     * Sets synchronization session
+     * @param synchronization session
+     */
+    public void setSyncSession(ISyncSession sess) {
+        syncSession = sess;
+    }
+
     private void showError(String messageID, Throwable e) {
         logger.error(messages.getString(messageID), e);
         System.err.println(messages.getString(messageID) + " " + new Date());
@@ -251,30 +279,30 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
     }
 
     private void initUI() {
-		this.setLayout(new BorderLayout());
-		rtfEditor = new RTFEditorKit();
+        this.setLayout(new BorderLayout());
+        rtfEditor = new RTFEditorKit();
         htmlEditor = new HTMLEditorKit();
-		textPane = new JTextPane();
+        textPane = new JTextPane();
         if (html) {
-    		textPane.setEditorKit(htmlEditor);
+            textPane.setEditorKit(htmlEditor);
             textPane.setContentType("text/html;charset=utf-8");
         } else {
-    		textPane.setEditorKit(rtfEditor);
+            textPane.setEditorKit(rtfEditor);
             textPane.setContentType("text/rtf;charset=utf-8");
         }
-		textPane.getDocument().addDocumentListener(this);
-		textPane.addCaretListener(this);
+        textPane.getDocument().addDocumentListener(this);
+        textPane.addCaretListener(this);
         this.add(new JScrollPane(textPane), BorderLayout.CENTER);
-		JPanel panel = new JPanel();
-		panel.setLayout(new BorderLayout());
-		this.fileToolbar = new RtfFileToolbar(this, authorMode);
-		panel.add(fileToolbar, BorderLayout.WEST);
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        this.fileToolbar = new RtfFileToolbar(this, authorMode);
+        panel.add(fileToolbar, BorderLayout.WEST);
         if (!html) {
-    		this.formatToolbar = new RtfFormatToolbar(this);
-        	panel.add(formatToolbar, BorderLayout.CENTER);
+            this.formatToolbar = new RtfFormatToolbar(this);
+            panel.add(formatToolbar, BorderLayout.CENTER);
         }
-		this.add(panel, BorderLayout.NORTH);
-	}
+        this.add(panel, BorderLayout.NORTH);
+    }
 
     public void insertedTextToActionLog() {
         if (timer != null) {
@@ -288,32 +316,61 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         }
     }
 
-    @Override
-	public void insertUpdate(DocumentEvent e) {
-        oldText = getPlainText();
-        if (typingOldPos!=e.getOffset()-1)
-            insertedText = insertedText + "\n";
-        typingOldPos = e.getOffset();
-        insertedText = insertedText + oldText.substring(e.getOffset(), e.getOffset()+e.getLength());
-        if (timer == null) {
-            timer = new Timer(typingLogIntervalMs, new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    insertedTextToActionLog();
-                }
-            });
-            timer.start();
-        }
-	}
+    private SyncObject createSyncObject() {
+        SyncObject syncObject = new SyncObject();
+        syncObject.setToolname(TOOLNAME);
+        syncObject.setProperty(SYNC_TOOL_INSTANCE_UUID, uuid.toString());
+        return syncObject;
+    }
 
     @Override
-	public void removeUpdate(DocumentEvent e) {
+    public void insertUpdate(DocumentEvent e) {
+        synchronized(this) {
+            if (!syncing) {
+                oldText = getPlainText();
+                if (typingOldPos!=e.getOffset()-1)
+                    insertedText = insertedText + "\n";
+                typingOldPos = e.getOffset();
+                insertedText = insertedText + oldText.substring(e.getOffset(), e.getOffset()+e.getLength());
+                if (timer == null) {
+                    timer = new Timer(typingLogIntervalMs, new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            insertedTextToActionLog();
+                        }
+                    });
+                    timer.start();
+                }
+                if (syncSession != null) {
+                    SyncObject syncObject = createSyncObject();
+                    String text = oldText.substring(e.getOffset(), e.getOffset()+e.getLength());
+                    String position = String.valueOf(e.getOffset());
+                    syncObject.setProperty(SYNC_TEXT, text);
+                    syncObject.setProperty(SYNC_POSITION_START, position);
+logger.info("sending inserted text '" + text + "' at position '" + position + "'.");
+                    syncSession.addSyncObject(syncObject);
+logger.info("after sending");
+                }
+            } else {
+                syncing = false;
+            }
+        }
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent e) {
         rtfLogger.logDeleteAction(oldText.substring(e.getOffset(), e.getOffset()+e.getLength()));
         oldText = getPlainText();
-	}
+        if (syncSession != null) {
+            SyncObject syncObject = createSyncObject();
+            syncObject.setProperty(SYNC_TEXT, oldText.substring(e.getOffset(), e.getOffset()+e.getLength()));
+            syncObject.setProperty(SYNC_POSITION_START, String.valueOf(e.getOffset()));
+            syncSession.removeSyncObject(syncObject);
+        }
+    }
 
     @Override
-	public void changedUpdate(DocumentEvent e) {
+    public void changedUpdate(DocumentEvent e) {
 /*
         logger.debug("formatted: "+oldText.substring(e.getOffset(), e.getOffset()+e.getLength()));
         AttributeSet attributeSet = ((StyledDocument) e.getDocument()).getCharacterElement(e.getOffset()).getAttributes();
@@ -328,7 +385,8 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         String subscript = (StyleConstants.isSubscript(rtfEditor.getInputAttributes())) ? "true" : "false";
         logger.debug("subscript: " + subscript);
 */
- }
+        //syncSession.changeSyncObject(syncObject);
+    }
 
     @Override
     public int print(Graphics g, PageFormat pageFormat, int pageIndex) throws PrinterException {
@@ -348,31 +406,35 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
 
     @Override
     public void caretUpdate(CaretEvent e) {
-        int location = e.getMark();
-        try {
-            if (location != 0 && textPane.getDocument().getLength()>0 &&
-                !textPane.getDocument().getText(location-1, 1).equals("\n"))
-                location--;
-        } catch (BadLocationException ex) {
-            logger.error("BadLocationException in caretUpdate");
+        synchronized(this) {
+            if (!syncing) {
+                int location = e.getMark();
+                try {
+                    if (location != 0 && textPane.getDocument().getLength()>0 &&
+                        !textPane.getDocument().getText(location-1, 1).equals("\n"))
+                        location--;
+                } catch (BadLocationException ex) {
+                    logger.error("BadLocationException in caretUpdate");
+                }
+                AttributeSet attributeSet = ((StyledDocument)textPane.getDocument()).getCharacterElement(location).getAttributes();
+                String underlineValue = "false";
+                if (attributeSet.getAttribute(StyleConstants.Underline)!=null)
+                    underlineValue = attributeSet.getAttribute(StyleConstants.Underline).toString();
+                String superscriptValue = "false";
+                if (attributeSet.getAttribute(StyleConstants.Superscript)!=null)
+                    superscriptValue = attributeSet.getAttribute(StyleConstants.Superscript).toString();
+                String subscriptValue = "false";
+                if (attributeSet.getAttribute(StyleConstants.Subscript)!=null)
+                    subscriptValue = attributeSet.getAttribute(StyleConstants.Subscript).toString();
+                formatToolbar.setFormatIcons(
+                    Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Bold).toString()),
+                    Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Italic).toString()),
+                    Boolean.parseBoolean(underlineValue),
+                    Boolean.parseBoolean(superscriptValue),
+                    Boolean.parseBoolean(subscriptValue)
+                );
+            }
         }
-        AttributeSet attributeSet = ((StyledDocument)textPane.getDocument()).getCharacterElement(location).getAttributes();
-        String underlineValue = "false";
-        if (attributeSet.getAttribute(StyleConstants.Underline)!=null)
-            underlineValue = attributeSet.getAttribute(StyleConstants.Underline).toString();
-        String superscriptValue = "false";
-        if (attributeSet.getAttribute(StyleConstants.Superscript)!=null)
-            superscriptValue = attributeSet.getAttribute(StyleConstants.Superscript).toString();
-        String subscriptValue = "false";
-        if (attributeSet.getAttribute(StyleConstants.Subscript)!=null)
-            subscriptValue = attributeSet.getAttribute(StyleConstants.Subscript).toString();
-        formatToolbar.setFormatIcons(
-            Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Bold).toString()),
-            Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Italic).toString()),
-            Boolean.parseBoolean(underlineValue),
-            Boolean.parseBoolean(superscriptValue),
-            Boolean.parseBoolean(subscriptValue)
-        );
     }
 /*
     @Override
@@ -385,4 +447,36 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         }
     }
  */
+    @Override
+    public void syncObjectAdded(ISyncObject syncObject) {
+        synchronized(this) {
+            if (syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID) == null ||
+                !syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID).equals(uuid.toString())) {
+                String text = syncObject.getProperty(SYNC_TEXT);
+                String position = syncObject.getProperty(SYNC_POSITION_START);
+logger.info("received inserted text '" + text + "' at position '" + position + "'.");
+                syncing = true;
+                try {
+logger.info("text before insert: " + getPlainText());
+//                    textPane.setEnabled(false);
+                    textPane.getDocument().insertString(Integer.parseInt(position), text, null);
+logger.info("text after insert: " + getPlainText());
+                } catch (Exception e) {
+                    logger.error("Error adding symbol",e);
+                } finally {
+//                    textPane.setEnabled(true);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void syncObjectChanged(ISyncObject syncObject) {
+
+    }
+
+    @Override
+    public void syncObjectRemoved(ISyncObject syncObject) {
+        
+    }
 }
