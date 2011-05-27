@@ -45,12 +45,15 @@ import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 import eu.scy.notification.api.INotifiable;
 import eu.scy.notification.api.INotification;
+import eu.scy.client.common.datasync.ISyncSession;
+import eu.scy.collaboration.api.CollaborationStartable;
+import eu.scy.client.desktop.scydesktop.tools.corner.contactlist.ContactFrame;
 
 /**
  * @author kaido
  */
 
-public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyToolFX, EloSaverCallBack {
+public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyToolFX, EloSaverCallBack, CollaborationStartable {
    def logger = Logger.getLogger("eu.scy.client.tools.fxrichtexteditor.RichTextEditorNode");
    def scyRichTextEditorType = "scy/rtf";
    def jdomStringConversion = new JDomStringConversion();
@@ -81,6 +84,8 @@ public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyT
               actionId: TitleBarButton.saveAsActionId
               action: doSaveAsElo
            }
+   public var syncSession: ISyncSession;
+   var collaborative: Boolean = false;
 
    function setLoggerEloUri() {
       var myEloUri:String = (scyWindow.scyToolsList.actionLoggerTool as ScyToolActionLogger).getURI();
@@ -229,6 +234,39 @@ public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyT
             return false;
         }
 
+    }
+
+    public override function startCollaboration(mucid: String) {
+        if (not collaborative) {
+            collaborative = true;
+            FX.deferAction(function(): Void {
+                def session : ISyncSession = toolBrokerAPI.getDataSyncService().joinSession(mucid, richTextEditor, RichTextEditor.TOOLNAME);
+                richTextEditor.setSyncSession(session);
+                session.addCollaboratorStatusListener(scyWindow.ownershipManager);
+                session.refreshOnlineCollaborators();
+                logger.debug("joined session, mucid: {mucid}");
+            });
+        }
+    }
+
+    public override function canAcceptDrop(object: Object): Boolean {
+        logger.debug("canAcceptDrop of {object.getClass()}");
+        if (object instanceof ContactFrame) {
+            var c: ContactFrame = object as ContactFrame;
+            if (not scyWindow.ownershipManager.isOwner(c.contact.name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public override function acceptDrop(object: Object): Void {
+        logger.debug("acceptDrop of {object.getClass()}");
+        var c: ContactFrame = object as ContactFrame;
+        logger.debug("acceptDrop user: {c.contact.name}");
+        scyWindow.ownershipManager.addPendingOwner(c.contact.name);
+        scyWindow.windowManager.scyDesktop.config.getToolBrokerAPI().proposeCollaborationWith("{c.contact.awarenessUser.getJid()}/Smack", scyWindow.eloUri.toString(), scyWindow.mucId);
+        logger.debug("scyDesktop: {scyWindow.windowManager.scyDesktop}");
     }
 
 }
