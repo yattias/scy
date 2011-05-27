@@ -841,7 +841,9 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    function scyDesktopShutdownAction(): Void {
       println("Scy desktop is shutting down....");
       logger.info("Scy desktop is shutting down....");
-      saveAll();
+      if (not initializer.globalReadOnlyMode){
+         saveAll();
+      }
       logLoggedOut();
       closeIfPossible(config.getToolBrokerAPI(), "tool broker");
    }
@@ -859,6 +861,8 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
    }
 
    function saveAll() {
+      println("Now saving all ELOs....");
+      logger.info("Now saving all ELOs....");
       for (window in windows.getScyWindows()) {
          if (window.eloUri != null) {
             try {

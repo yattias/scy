@@ -100,6 +100,7 @@ public class Initializer {
    public-init var dontUseMissionRuntimeElos = false;
    public-init var useBigMissionMap = true;
    public-init var showOnlyStartedMissions = false;
+   public-init var globalReadOnlyMode = false;
    public-read var languages: String[];
    public-read var localLoggingDirectory: File = null;
    public-read var toolBrokerLogin: ToolBrokerLogin;
@@ -157,6 +158,7 @@ public class Initializer {
    def dontUseMissionRuntimeElosOption = "dontUseMissionRuntimeElos";
    def useBigMissionMapOption = "useBigMissionMap";
    def showOnlyStartedMissionsOption = "showOnlyStartedMissions";
+   def globalReadOnlyModeOption = "globalReadOnlyMode";
    var setupLoggingToFiles: SetupLoggingToFiles;
    package var background: DynamicTypeBackground;
    public-read var loginTypeEnum: LoginType;
@@ -337,6 +339,9 @@ public class Initializer {
             } else if (option == showOnlyStartedMissionsOption.toLowerCase()) {
                showOnlyStartedMissions = argumentsList.nextBooleanValue(showOnlyStartedMissionsOption);
                logger.info("app: {showOnlyStartedMissionsOption}: {showOnlyStartedMissions}");
+            } else if (option == globalReadOnlyModeOption.toLowerCase()) {
+               globalReadOnlyMode = argumentsList.nextBooleanValue(globalReadOnlyModeOption);
+               logger.info("app: {globalReadOnlyModeOption}: {globalReadOnlyMode}");
             } else {
                logger.info("Unknown option: {option}");
             }
@@ -391,6 +396,7 @@ public class Initializer {
       printWriter.println("- dontUseMissionRuntimeElos: {dontUseMissionRuntimeElos}");
       printWriter.println("- useBigMissionMap: {useBigMissionMap}");
       printWriter.println("- showOnlyStartedMissions: {showOnlyStartedMissions}");
+      printWriter.println("- globalReadOnlyMode: {globalReadOnlyMode}");
    }
 
    public function isEmpty(string: String): Boolean {
