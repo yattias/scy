@@ -441,11 +441,6 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
             MultiUserChat muc;
             try {
                 muc = new MultiUserChat(xmppConnection, URLEncoder.encode(ELOUri, "utf-8") + CONFERENCE_EXT);
-            } catch (UnsupportedEncodingException e) {
-                throw new AwarenessServiceException(e.getMessage());
-            }
-            DiscussionHistory history = new DiscussionHistory();
-            try {
                 muc.addParticipantListener(new PacketListener() {
 
                     @Override
@@ -473,18 +468,39 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
                     }
                 });
                 muc.addParticipantStatusListener(new AwarenessParticipantListener());
-                // first check if the room exists
-                if (doesRoomExist(ELOUri)) {
-                    // am i joined
-                    if (hasJoinedRoom(ELOUri, xmppConnection.getUser()) == false) {
-                        muc.join(xmppConnection.getUser(), null, history, SmackConfiguration.getPacketReplyTimeout());
+            } catch (UnsupportedEncodingException e) {
+                throw new AwarenessServiceException(e.getMessage());
+            }
+            DiscussionHistory history = new DiscussionHistory();
+
+            // first check if the room exists, eventhough room should already exist (created by DataSyncModule)
+            if (doesRoomExist(ELOUri)) {
+                // chech if I am already joined
+                if (!hasJoinedRoom(ELOUri, xmppConnection.getUser())) {
+                    int tries = 5;
+                    boolean hasJoined = false;
+                    Exception ex = null;
+                    while (tries > 0 && !hasJoined) {
+                        try {
+                            muc.join(xmppConnection.getUser(), null, history, SmackConfiguration.getPacketReplyTimeout());
+                            hasJoined = true;
+                        } catch (XMPPException e) {
+                            // we give a shit and just try tries-- times again
+                            logger.info("Failed to join session " + ELOUri + ", " + tries + " tries left...");
+                            tries--;
+                            ex = e;
+                        }
                     }
+                    if (!hasJoined) {
+                        throw new AwarenessServiceException("Could not connect to chat session " + ELOUri + " " + ex.getMessage());
+                    }
+                }
 
-                } else {
-                    // create it
-                    // we need to create
+            } else {
+                // this should actually not happen, but we keep it in as a fall back case
+                // so we create the chat room
+                try {
                     muc.create(xmppConnection.getUser());
-
 
                     // Get the the room's configuration form
                     Form form = muc.getConfigurationForm();
@@ -511,12 +527,10 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
                     muc.sendConfigurationForm(submitForm);
                     // if( joinedMUCRooms.contains(ELOUri) == false )
                     // joinedMUCRooms.add(ELOUri);
+                } catch (XMPPException e) {
+                    throw new AwarenessServiceException("Could not create chat session " + ELOUri + " " + e.getMessage());
                 }
-            } catch (XMPPException e) {
-                e.printStackTrace();
-                return;
             }
-
             joinedMUCRooms.put(ELOUri, muc);
 
         }
