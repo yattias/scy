@@ -185,7 +185,11 @@ public class AgendaNode extends CustomNode, Resizable {
     }
 
     function sizeChanged(): Void {
+        if (width == getPrefWidth(0) or height == getPrefHeight(0)) {
+            return;
+        }
         Container.resizeNode(mainNode, width, height);
+        Container.layoutNode(mainNode, 0, 0, width, height);
     }
 
     public override function getPrefHeight(h: Number): Number {
