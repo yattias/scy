@@ -21,7 +21,12 @@ public class AgendaNotificationCommand extends ScyDesktopRemoteCommand {
 
     override public function executeRemoteCommand(notification: INotification): Void {
         logger.debug("*****************agenda_notify*Notification*********************");
-        def text = notification.getFirstProperty("text");
+        def textArray = notification.getPropertyArray("text");
+        var text = "";
+        for (t in textArray) {
+            text = "{text},{t}";
+        }
+        text = text.substring(1);
         var timestamp = notification.getFirstProperty("timestamp");
         if (timestamp == null or timestamp == "") {
             timestamp = "0";

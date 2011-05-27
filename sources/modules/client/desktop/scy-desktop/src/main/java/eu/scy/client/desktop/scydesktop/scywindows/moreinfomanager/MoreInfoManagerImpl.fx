@@ -68,6 +68,7 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
          infoTypeIcon: InstructionTypesIcon {}
          closeAction: hideAgendaWindow
          openAction: showAgendaWindow;
+         windowColorScheme: bind colorScheme;
          hideCloseButton: true
          visible: false
       }
@@ -129,7 +130,6 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
 
    function showAgendaWindow(): Void {
       initAgendaWindow();
-      agendaWindow.windowColorScheme = colorScheme;
       agendaWindow.eloIcon = windowStyler.getScyEloIcon(activeLas.mainAnchor.scyElo);
       agendaWindow.eloIcon.windowColorScheme = colorScheme;
       agendaWindow.title = "Agenda";
@@ -168,7 +168,8 @@ public class MoreInfoManagerImpl extends MoreInfoManager {
 
    function initAgendaWindow(): Void {
       if (agendaWindow.content == null) {
-         agendaNode = AgendaNode { };
+         agendaNode = AgendaNode {
+             };
          agendaWindow.content = agendaNode
       }
    }
