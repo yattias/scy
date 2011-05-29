@@ -465,6 +465,7 @@ logger.info("received inserted text '" + text + "' at position '" + position + "
 logger.info("text before insert: " + getPlainText());
                     textPane.setEditable(false);
                     textPane.getDocument().insertString(Integer.parseInt(position), text, null);
+                    oldText = getPlainText();
 logger.info("text after insert: " + getPlainText());
                 } catch (Exception e) {
                     logger.error("Error adding symbol",e);
