@@ -405,7 +405,8 @@ var swfobject = function() {
 	/* Cross-browser dynamic SWF creation
 	*/
 	function createSWF(attObj, parObj, id) {
-		var r, el = getElementById(id);
+		//alert("CreateSWF: ID : " + id);
+        var r, el = getElementById(id);
 		if (ua.wk && ua.wk < 312) { return r; }
 		if (el) {
 			if (typeof attObj.id == UNDEF) { // if no 'id' is defined for the object element, it will inherit the 'id' from the alternative content
@@ -645,7 +646,9 @@ var swfobject = function() {
 		},
 		
 		embedSWF: function(swfUrlStr, replaceElemIdStr, widthStr, heightStr, swfVersionStr, xiSwfUrlStr, flashvarsObj, parObj, attObj, callbackFn) {
-			var callbackObj = {success:false, id:replaceElemIdStr};
+			//alert("hei og haaaaaa");
+            //alert(flashvarsObj);
+            var callbackObj = {success:false, id:replaceElemIdStr};
 			if (ua.w3 && !(ua.wk && ua.wk < 312) && swfUrlStr && replaceElemIdStr && widthStr && heightStr && swfVersionStr) {
 				setVisibility(replaceElemIdStr, false);
 				addDomLoadEvent(function() {
@@ -675,24 +678,33 @@ var swfobject = function() {
 								par.flashvars = k + "=" + flashvarsObj[k];
 							}
 						}
+                        //alert("done setting par");
 					}
 					if (hasPlayerVersion(swfVersionStr)) { // create SWF
+                        //alert("has player version");
 						var obj = createSWF(att, par, replaceElemIdStr);
 						if (att.id == replaceElemIdStr) {
 							setVisibility(replaceElemIdStr, true);
 						}
 						callbackObj.success = true;
 						callbackObj.ref = obj;
+                        //alert("Done has player version");
 					}
 					else if (xiSwfUrlStr && canExpressInstall()) { // show Adobe Express Install
+                        //alert("Express install");
 						att.data = xiSwfUrlStr;
 						showExpressInstall(att, par, replaceElemIdStr, callbackFn);
 						return;
 					}
 					else { // show alternative content
+                        //alert("Showing alternative content");
 						setVisibility(replaceElemIdStr, true);
 					}
-					if (callbackFn) { callbackFn(callbackObj); }
+					if (callbackFn) {
+                        //alert("Callback fn " + callbackFn);
+                        callbackFn(callbackObj);
+                        //alert("Done callback fn");
+                    }
 				});
 			}
 			else if (callbackFn) { callbackFn(callbackObj);	}

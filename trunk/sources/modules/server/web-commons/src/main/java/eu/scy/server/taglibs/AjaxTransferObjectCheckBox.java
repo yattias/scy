@@ -29,8 +29,9 @@ public class AjaxTransferObjectCheckBox extends TagSupport {
             double id = Math.random();
             pageContext.getOut().write("<form id=\"checkboxForm" + id + "\" method=\"post\" action=\"/webapp/components/ajaxTransferObjectCheckBoxController.html\">");
             //pageContext.getOut().write("<input id=\"ajaxCheckBox" + id + "\" name=\"value\" value=\"true\" dojoType=\"dijit.form.CheckBox\" onChange=\"postForm('checkboxForm"+ id + "');\" "  +  getChecked() + " >");
-            pageContext.getOut().write("<input id=\"ajaxCheckBox" + id + "\" name=\"ajaxCheckBoxValue\" value=\"true\" dojoType=\"dijit.form.CheckBox\" onChange=\"postForm('checkboxForm"+ id + "');\" "  +  getChecked() + " >");
+            pageContext.getOut().write("<input id=\"ajaxCheckBox" + id + "\" name=\"ajaxCheckBoxValue\" value=\"true\" dojoType=\"dijit.form.CheckBox\" onChange=\"document.getElementById('ajaxCheckBoxValue"+id+"').value = this.checked; postForm('checkboxForm"+ id + "');\" "  +  getChecked() + " >");
 
+            pageContext.getOut().write("<input type=\"hidden\" name=\"value\" id=\"ajaxCheckBoxValue"+id+"\"/>");
             pageContext.getOut().write("<input type=\"hidden\" name=\"transferEloURI\" value=\"" + getTransferEloURI() + "\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"id\" value=\"" + getId() + "\">");
             pageContext.getOut().write("<input type=\"hidden\" name=\"property\" value=\"" + getProperty() + "\">");

@@ -54,21 +54,19 @@ public class AjaxTransferObjectCheckBoxController extends AbstractController {
     }
 
 
-    private Boolean executeSetter(BaseXMLTransfer transferObject, String property, String value) {
+    private void executeSetter(BaseXMLTransfer transferObject, String property, String value) {
         try {
             String firstLetter = property.substring(0, 1);
             firstLetter = firstLetter.toUpperCase();
             Boolean booleanValue = true;
-            if(value.equals("true")) booleanValue = false;   //yes - we need to flip the value....
+            if(value.equals("false")) booleanValue = false;   //yes - we need to flip the value....
 
             property = firstLetter + property.substring(1, property.length());
 
             Method method = transferObject.getClass().getMethod("set" + property, Boolean.class);
             logger.info("METHOD IS: " + method + " method name: " + method.getName());
 
-            Boolean returnValue = (Boolean) method.invoke(transferObject, booleanValue);
-            return returnValue;
-
+            method.invoke(transferObject, booleanValue);
         } catch (Exception e) {
             e.printStackTrace();
         }

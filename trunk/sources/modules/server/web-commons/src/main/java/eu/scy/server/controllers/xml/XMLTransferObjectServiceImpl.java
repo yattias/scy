@@ -87,16 +87,6 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
                     }
 
                     protected void writeText(QuickWriter writer, String text) {
-
-                        /*String thing = "\\[";
-                        String cdata = "<!CDATA";
-                        String end = "\\]";
-                        // System.out.println("TEXT IS: " + text);
-                        text = text.replaceAll(thing, "");
-                        text = text.replaceAll(cdata, "");
-                        text = text.replace(end, "");
-                        // System.out.println("TEXT_ NOW: " + text);
-                        */
                         writer.write(text);
                     }
                 };
@@ -119,11 +109,6 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
                 xml = xml.replaceAll("</content>", "");
             }
         }
-
-        //yet another cleanup:
-
-        //log.info("CHECKING FOR LEARNING GOALS");
-        //log.info(xml);
 
         if(xml.contains("<studentglg>")) {
             String start = xml.substring(0, xml.indexOf("<studentglg>"));
@@ -231,8 +216,6 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
         xStream.aliasField("technicalformat".toLowerCase(), ActionLogEntry.class, "technicalformat");
         xStream.aliasField("rawData".toLowerCase(), ActionLogEntry.class, "rawData");
 
-        //xStream.addImplicitCollection(TransferElo.class, "generalLearningGoals", LearningGoal.class);
-        //xStream.addImplicitCollection(TransferElo.class, "specificLearningGoals", LearningGoal.class);
         xStream.addImplicitCollection(NewestElos.class, "elos", TransferElo.class);
 
         xStream.aliasField("reflectionOnMissionQuestion".toLowerCase(), PortfolioConfig.class, "reflectionOnMissionQuestion");
@@ -260,12 +243,6 @@ public class XMLTransferObjectServiceImpl implements XMLTransferObjectService {
         xStream.aliasField("assessmentportfoliorating", Portfolio.class, "assessmentPortfolioRating");
         xStream.aliasField("mission", Portfolio.class, "missionName");
         xStream.aliasField("missionruntimeuri", Portfolio.class, "missionRuntimeURI");
-
-        //xStream.aliasField("generalLearningGoals".toLowerCase(), LearningGoals.class, "generalLearningGoals");
-        //xStream.aliasField("specificLearningGoals".toLowerCase(), LearningGoals.class, "specificLearningGoals");
-
-        //xStream.registerConverter(new LearningGoalConverter());
-
     }
 
 }

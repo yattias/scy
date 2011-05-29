@@ -200,7 +200,7 @@
         <property name="userService" ref="userService"/>
         <property name="fileService" ref="fileService"/>
     </bean>
-    
+
 
 
     <bean id="userProfileEditor" class="eu.scy.server.controllers.UserProfileController">
@@ -345,6 +345,7 @@
 
     <bean name="jnlpBuilder" class="eu.scy.server.jnlp.JNLPBuilder">
         <property name="userService" ref="userService"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
     </bean>
 
     <bean id="jnlpFilter" class="eu.scy.server.filters.JNLPFilter">
@@ -361,7 +362,7 @@
         <property name="authorKey" ref="authorKey"/>
 
     </bean>
-    
+
 
 
 </beans>

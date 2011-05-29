@@ -86,8 +86,7 @@
                 </table>
             </c:when>
         </c:choose>
-        <a href="ConfigureAssessment.html?action=addGeneralLearningGoal&eloURI=${missionSpecificationEloURI}">Add general learning goal</a>
-        <br/>
+        <a href="javascript:dijit.byId('portfolioConfiguration').attr('href', 'ConfigureAssessment.html?action=addGeneralLearningGoal&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">Add general learning goal</a>        <br/>
         <br/>
         <h2>Specific Learning goals</h2>
 
