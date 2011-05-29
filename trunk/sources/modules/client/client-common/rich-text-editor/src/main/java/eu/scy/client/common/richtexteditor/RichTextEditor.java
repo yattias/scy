@@ -496,6 +496,7 @@ logger.info("text before delete: " + getPlainText());
 //                    textPane.setEnabled(false);
                     textPane.setEditable(false);
                     textPane.getDocument().remove(Integer.parseInt(position), Integer.parseInt(length));
+                    oldText = getPlainText();
 logger.info("text after delete: " + getPlainText());
                 } catch (Exception e) {
                     logger.error("Error deleting text",e);
