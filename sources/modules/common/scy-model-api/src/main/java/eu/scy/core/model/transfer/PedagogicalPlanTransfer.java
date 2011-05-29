@@ -15,6 +15,7 @@ public class PedagogicalPlanTransfer extends BaseXMLTransfer {
 
     private AssessmentSetupTransfer assessmentSetup;
     private MissionPlanTransfer missionPlan;
+    private TechnicalInfo technicalInfo;
     private String name;
     private String pedagogicalPlanURI;
 
@@ -80,5 +81,14 @@ public class PedagogicalPlanTransfer extends BaseXMLTransfer {
         }
 
         return "";
+    }
+
+    public TechnicalInfo getTechnicalInfo() {
+        if(technicalInfo == null) setTechnicalInfo(new TechnicalInfo());
+        return technicalInfo;
+    }
+
+    public void setTechnicalInfo(TechnicalInfo technicalInfo) {
+        this.technicalInfo = technicalInfo;
     }
 }

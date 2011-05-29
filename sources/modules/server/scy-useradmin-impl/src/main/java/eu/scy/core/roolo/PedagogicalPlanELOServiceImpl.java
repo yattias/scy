@@ -5,10 +5,10 @@ import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.model.transfer.AnchorEloTransfer;
 import eu.scy.core.model.transfer.LasTransfer;
-import eu.scy.core.model.transfer.MissionPlanTransfer;
 import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -90,7 +90,8 @@ public class PedagogicalPlanELOServiceImpl extends BaseELOServiceImpl implements
         lasTransfer.setInstructions(descriptionURI);
     }
 
-    private void savePedagogicalPlan(PedagogicalPlanTransfer pedagogicalPlan, MissionSpecificationElo missionSpecificationElo) {
+    @Override
+    public void savePedagogicalPlan(PedagogicalPlanTransfer pedagogicalPlan, MissionSpecificationElo missionSpecificationElo) {
         URI pedagogicalPlanUri = missionSpecificationElo.getTypedContent().getPedagogicalPlanSettingsEloUri();
         ScyElo pedagogicalPlanELO = ScyElo.loadLastVersionElo(pedagogicalPlanUri, this);
         pedagogicalPlanELO.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlan));
@@ -112,5 +113,19 @@ public class PedagogicalPlanELOServiceImpl extends BaseELOServiceImpl implements
         }
 
         return transfer;
+    }
+
+    @Override
+    public PedagogicalPlanTransfer getPedagogicalPlanForMissionRuntimeElo(String missionSpecificationELOUri) {
+        try {
+            URI uri = new URI(missionSpecificationELOUri);
+            MissionRuntimeElo missionRuntimeElo = MissionRuntimeElo.loadLastVersionElo(uri, this);
+            URI missionURI = missionRuntimeElo.getMissionSpecificationEloUri();
+            MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadLastVersionElo(missionURI, this);
+            return getPedagogicalPlanForMission(missionSpecificationElo);
+        } catch (URISyntaxException e) {
+            log.warning(e.getMessage());
+        }
+        throw new RuntimeException("Something went wrong when loading mission specification");
     }
 }

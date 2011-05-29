@@ -2,9 +2,11 @@ package eu.scy.server.jnlp;
 
 import eu.scy.core.UserService;
 import eu.scy.core.model.User;
+import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
+import eu.scy.core.model.transfer.PropertyTransfer;
+import eu.scy.core.roolo.PedagogicalPlanELOService;
 
 import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,6 +25,7 @@ import java.net.URLConnection;
 public class JNLPBuilder {
 
     private UserService userService;
+    private PedagogicalPlanELOService pedagogicalPlanELOService;
 
 
     public void streamJnlpString(String userName, String mission, String password, String serverName, String serverPort, ServletRequest request, HttpServletResponse response) {
@@ -43,13 +46,15 @@ public class JNLPBuilder {
 
     public String generateJnlpString(String userName, String mission, String password, String serverName, String serverPort) throws MalformedURLException, IOException {
         String jnlpUrl = "";
-
+        /*
         if(serverName != null && serverPort != null) {
             jnlpUrl = "http://" + serverName + ":" + serverPort + "/extcomp/scy-lab.jnlp";
         } else {
             System.out.println("FREAK FUCKING SHIT HACK!");
             jnlpUrl = "http://scy.collide.info:8080/extcomp/scy-lab.jnlp";
         }
+        */
+        jnlpUrl = "http://scy.collide.info:8080/extcomp/scy-lab.jnlp";
         URL url = new URL(jnlpUrl);
         URLConnection connection = url.openConnection();
 
@@ -89,12 +94,25 @@ public class JNLPBuilder {
             }
             middle +="<argument>-autologin</argument>";
             middle +="<argument>true</argument>";
+
+            middle += getAdditionalArgumentsFromMission(mission);
             jnlpContent = start + middle + end;
         } else {
             // seems like we are not logged in -> no autologin in SCY-Lab
         }
         in.close();
         return jnlpContent;
+    }
+
+    private String getAdditionalArgumentsFromMission(String mission) {
+        PedagogicalPlanTransfer pedagogicalPlanTransfer = getPedagogicalPlanELOService().getPedagogicalPlanForMissionRuntimeElo(mission);
+        String returnString = "";
+        for (int i = 0; i < pedagogicalPlanTransfer.getTechnicalInfo().getJnlpProperties().size(); i++) {
+            PropertyTransfer propertyTransfer = (PropertyTransfer) pedagogicalPlanTransfer.getTechnicalInfo().getJnlpProperties().get(i);
+            returnString +="<argument>-" + propertyTransfer.getName() + "</argument>";
+            returnString +="<argument>" + propertyTransfer.getValue() + "</argument>";
+        }
+        return returnString;
     }
 
 
@@ -112,5 +130,13 @@ public class JNLPBuilder {
             return user.getUserDetails().getLocale();
         }
         return "en";
+    }
+
+    public PedagogicalPlanELOService getPedagogicalPlanELOService() {
+        return pedagogicalPlanELOService;
+    }
+
+    public void setPedagogicalPlanELOService(PedagogicalPlanELOService pedagogicalPlanELOService) {
+        this.pedagogicalPlanELOService = pedagogicalPlanELOService;
     }
 }
