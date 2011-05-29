@@ -46,7 +46,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
     public final static String SYNC_TOOL_INSTANCE_UUID = "sync_tool_instance_uuid";
     public final static String SYNC_TEXT = "sync_text";
     public final static String SYNC_POSITION_START = "sync_position_start";
-    public final static String SYNC_POSITION_END = "sync_position_end";
+    public final static String SYNC_LENGTH = "sync_length";
     private static final Logger logger = Logger.getLogger("eu.scy.client.common.richtexteditor.RichTextEditor");
     private ResourceBundle messages = ResourceBundle.getBundle("eu.scy.client.common.richtexteditor.RichTextEditor");
 	private JTextPane textPane;
@@ -359,13 +359,18 @@ logger.info("after sending");
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-        rtfLogger.logDeleteAction(oldText.substring(e.getOffset(), e.getOffset()+e.getLength()));
-        oldText = getPlainText();
-        if (syncSession != null) {
-            SyncObject syncObject = createSyncObject();
-            syncObject.setProperty(SYNC_TEXT, oldText.substring(e.getOffset(), e.getOffset()+e.getLength()));
-            syncObject.setProperty(SYNC_POSITION_START, String.valueOf(e.getOffset()));
-            syncSession.removeSyncObject(syncObject);
+        synchronized(this) {
+            if (!syncing) {
+                rtfLogger.logDeleteAction(oldText.substring(e.getOffset(), e.getOffset()+e.getLength()));
+                oldText = getPlainText();
+                if (syncSession != null) {
+                    SyncObject syncObject = createSyncObject();
+                    syncObject.setProperty(SYNC_TEXT, oldText.substring(e.getOffset(), e.getOffset()+e.getLength()));
+                    syncObject.setProperty(SYNC_POSITION_START, String.valueOf(e.getOffset()));
+                    syncObject.setProperty(SYNC_LENGTH, String.valueOf(e.getLength()));
+                    syncSession.removeSyncObject(syncObject);
+                }
+            }
         }
     }
 
@@ -458,13 +463,13 @@ logger.info("received inserted text '" + text + "' at position '" + position + "
                 syncing = true;
                 try {
 logger.info("text before insert: " + getPlainText());
-//                    textPane.setEnabled(false);
+                    textPane.setEditable(false);
                     textPane.getDocument().insertString(Integer.parseInt(position), text, null);
 logger.info("text after insert: " + getPlainText());
                 } catch (Exception e) {
                     logger.error("Error adding symbol",e);
                 } finally {
-//                    textPane.setEnabled(true);
+                    textPane.setEditable(true);
                 }
             }
         }
@@ -477,6 +482,27 @@ logger.info("text after insert: " + getPlainText());
 
     @Override
     public void syncObjectRemoved(ISyncObject syncObject) {
-        
+        synchronized(this) {
+            if (syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID) == null ||
+                !syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID).equals(uuid.toString())) {
+                String text = syncObject.getProperty(SYNC_TEXT);
+                String position = syncObject.getProperty(SYNC_POSITION_START);
+                String length = syncObject.getProperty(SYNC_LENGTH);
+logger.info("received deleted text '" + text + "' at position '" + position + "', length='" + length + ".");
+                syncing = true;
+                try {
+logger.info("text before delete: " + getPlainText());
+//                    textPane.setEnabled(false);
+                    textPane.setEditable(false);
+                    textPane.getDocument().remove(Integer.parseInt(position), Integer.parseInt(length));
+logger.info("text after delete: " + getPlainText());
+                } catch (Exception e) {
+                    logger.error("Error deleting text",e);
+                } finally {
+//                    textPane.setEnabled(true);
+                    textPane.setEditable(true);
+                }
+            }
+        }
     }
 }
