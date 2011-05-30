@@ -49,8 +49,8 @@
                     var pane2 = new dijit.layout.ContentPane({ title:"<spring:message code="STUDENTS"/>", href:"viewStudentsForPedagogicalPlan.html?eloURI=${missionSpecificationTransporter.uri}" });
                     tabs.addChild(pane2);
 
-                    var pane3 = new dijit.layout.ContentPane({ title:"<spring:message code="PORTFOLIOS"/>", href:"/webapp/app/assessment/teacherAssessmentOverview.html?eloURI=${missionSpecificationTransporter.uri}" });
-                    tabs.addChild(pane3);
+                    //var pane3 = new dijit.layout.ContentPane({ title:"<spring:message code="PORTFOLIOS"/>", href:"/webapp/app/assessment/teacherAssessmentOverview.html?eloURI=${missionSpecificationTransporter.uri}" });
+                    //tabs.addChild(pane3);
 
                     var pane4 = new dojox.layout.ContentPane({ title:"Assessment", executeScripts: true,  href:"/webapp/app/assessment/assessmentindex.html?eloURI=${missionSpecificationTransporter.uri}" });
                     tabs.addChild(pane4);
@@ -58,11 +58,11 @@
                     var paneAnchorElos = new dijit.layout.ContentPane({ title:"<spring:message code="ANCHOR_ELOS"/>", href:"MissionHighLevelOverview.html?eloURI=${missionSpecificationTransporter.uri}" });
                     tabs.addChild(paneAnchorElos);
 
-                    var technical = new dijit.layout.ContentPane({ title:"<spring:message code="TECHNICAL_INFO"/>", href:"viewTechnicalConfigurationForPedagogicalPlan.html?eloURI=${missionSpecificationTransporter.uri}" });
-                    tabs.addChild(technical);
+                    //var technical = new dijit.layout.ContentPane({ title:"<spring:message code="TECHNICAL_INFO"/>", href:"viewTechnicalConfigurationForPedagogicalPlan.html?eloURI=${missionSpecificationTransporter.uri}" });
+                    //tabs.addChild(technical);
 
 
-                    /*var refreshActive = false;
+                    var refreshActive = false;
                     var currentActivity = new dojox.layout.ContentPane({ title:"Current activity", executeScripts: true,  id:"currentActivityTab", href:"/webapp/app/scyauthorruntime/currentActivityView.html?eloURI=${missionSpecificationTransporter.uri}" });
                     currentActivity.refreshOnShow = true;
                     tabs.addChild(currentActivity);
@@ -73,7 +73,6 @@
                         }
                     }
 
-                    */
 
 
 
