@@ -1,0 +1,107 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>wouter</entity>
+        <date>
+          <dateTime>2011-05-26T15:40:19.467+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>wouter</entity>
+        <date>
+          <dateTime>2011-05-26T15:40:19.467+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1306417219468</dateCreated>
+        <dateFirstUserSaveKey>1306417219467</dateFirstUserSaveKey>
+        <dateLastModified>1306417219468</dateLastModified>
+      </customElements>
+      <format>scy/simconfig</format>
+    </technical>
+    <educational>
+      <learningResourceType>sourceData</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/50047/0/Simulation+of+Glucose+level.scysimconfig</entry>
+      </identifier>
+      <las>experiment</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/50046/0/RFYL+v2.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">Simulation of Glucose level</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAE1ElEQVR42u2cW08bVxDH/Q3yPeAJSxG88BDeKxSVeym89Al4AYTaSpUcVCS3iHJzaSJI5aaKFCEjlLpIhRZTYwnXBRTUC/CAiQAVbFJ8WXzFFyY7A+v4iu2NExuYI/01x7Nnzu75ec45a7BX4XQ6gSVfCoZQIIBc5BUGyAAZIANkgAyQAV47gB9/9bPskxYrtqQAmkzLsk9arNiSAri8LH8gxYplgAyQATLAXAC2qvUMkDOQATJABsgAGSADZIC3EOCnU7+T3do/AYfDkVY4kEzHsqlYsS6Xq+CxnIE8hRkgA2SADJABMsCbBHDDekz28++NsLa2Buvr6ySpjtZoNKb40rUrpdirfMnHcvVxBvIUZoAMkAEyQAbIAG8SwHAkSjZ6fg6hUAjC4TBJqqMFheLdaHZWPH8k43kRYLIvXbt0vmg0mrFdcnu8BkmRYBBAEABcrkSJ11u6GYgw31cG3rnz5g2U4NyYKWw2A9y9WziAtbUXoJaWbuEa+ODBxeBVKhkjVfAmkjZWqQS4d+/NFMTMMhguLL7G47wL820MA2SAeQB88us/ZJ8tbcLOzg5YrVaSVEeLA0n2pWtXSrG7u7sZ2yW3T/ZJscnt0gLc3PufM5CnMANkgAyQAcoDuGG1M0DOwCIC9AZCZPGXkXjB6YT/n810LJuKFWsymQoeyxnIU5gBMkAGyADfP0B+ZsJbAuTCAK8vQLxRlzMVP3tslB37wRc6ipM+JORTgqFIxljZAHP5VXu6Utc/S/aV2yf7DZAT2zTwk+xzXhUbAzipt8DD53/Ao0s9TLI33fdIpo+fYHnbHwHqcKTW5fjS9ZeL79oDDARcsrVt88WUb2zth40UlwDwyOUHZ+Cc6l1dXTA+Pp5ywWq1Oq8B7h0LJKx3dnZCe3s71X0+H5SVlaW0b25uzhvgJ18aYftQgK1Dd4LN5osvpx5HTPGgNDObCbGSPmppTtxEUM9/WYKKigo4PLJDfX09CIIABwcHMD8/T9bv98PAwACoVCryZRvcqRi/98pLwjrGtrW1gc1mI4Berxd6e3thZWUFKisrwW63Q11dHfT09JAvV4CRsCDKDeGQO8Fm8wnCMazsuCEUEkTf6aWEBIDYd3xsfB//niQBDPp9MPebqaBTTHC7Se9qCt+/XwsTE2Ni/QjOzgRoamqAly+34elTLbx4YYFw2CP63RmnIkA4xYfxY2PfgMEwDybTogj4lBJrcnKCpNGMxNpe+zWwo6ODZkRDQwNYLBYYHh4Gj8cDSqWSND09DTMzM3n1OTc3R79G7+vrE2FpqI/q6mrqD8vU1BQ/iJtvY0pAJ95wIkD1t09g8c+ty/sc3I0CZDN1gF/GltpmaqPR6ki0xgaD4np0FjsWiURoY8oUiw96QOu+XEOvOk8xlLILOz1npCPbxW7Y398PZrMZqqqq6NtJuLY0NjbC6uoq1NTU0M6JOzWW7u5uGB0dhZGRkYRduLy8nIT1oaEhaGlpgYWFBQKn1WopBnd0BIv+wcFB6r+1tRX29/dpt8Y/oup0OtDr9bRrS2CLrf+cgUSAX3/3I0wvbqRkYPzX/3FAUlbgazyOPum2RMrKWAb+oCNhHaEhKMzE+AzEWIxDP8JB4bklUNgOX2M9PoOLrb8PBF4D30aGvw7hNRgQg3oe9B6eAAAAAElFTkSuQmCC</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<simconfig simulationname="Blood Glucose level" simulationuri="http://www.scy-lab.eu/sqzx/glucose.sqzx" mode="collect_data">
+  <variable name="InsulineConcentration" value="0.0" />
+  <variable name="InsulineDecayRate" value="0.1" />
+  <variable name="GlucoseConcentration_dot" value="0.0033815867686434946" />
+  <variable name="GlucoseConcentration" value="3.9661841323135643" />
+  <variable name="startTime" value="0.0" />
+  <variable name="simulator__slowdown" value="0.0" />
+  <variable name="PancreasInsulineProduction" value="0.0" />
+  <variable name="InsulineBreakdownRate" value="0.0050" />
+  <variable name="time" value="90.000000000001" />
+  <variable name="startExercise" value="30.0" />
+  <variable name="stepSize" value="2.8620033599537653E-12" />
+  <variable name="tolerance" value="1.0E-6" />
+  <variable name="InsulineDecay" value="0.0" />
+  <variable name="finishTime" value="90.0" />
+  <variable name="ExerciseLevel" value="0.4" />
+  <variable name="InsulineProductionCoefficient" value="0.05" />
+  <variable name="tijd_dot" value="1.0" />
+  <variable name="GlucoseIntake" value="0.0" />
+  <variable name="ProductionInLiver" value="0.0033815867686435744" />
+  <variable name="GlucoseInDigestiveSystem_dot" value="-0.0" />
+  <variable name="Exercise" value="2.664535259100376E-16" />
+  <variable name="MuscleMetabolism" value="7.993605777301128E-17" />
+  <variable name="simulator__action" value="10.0" />
+  <variable name="MetabolismRate" value="0.3" />
+  <variable name="productionInLiverRate" value="0.1" />
+  <variable name="GlucoseInDigestiveSystem" value="30.0" />
+  <variable name="TargetGlucoseLevel" value="4.0" />
+  <variable name="outputAfterTime" value="0.05" />
+  <variable name="InsulineBreakdown" value="0.0" />
+  <variable name="stopExercise" value="55.0" />
+  <variable name="InsulineConcentration_dot" value="0.0" />
+  <variable name="tijd" value="89.999999999998" />
+  <variable name="GlucoseIntakeRate" value="0.0" />
+  <variable name="simulator__state" value="1.0" />
+</simconfig>
+</content>
+<resources>
+</resources>
+</elo>

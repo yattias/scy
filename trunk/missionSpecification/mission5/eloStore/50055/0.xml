@@ -1,0 +1,209 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>wouter</entity>
+        <date>
+          <dateTime>2011-05-27T12:44:32.426+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>wouter</entity>
+        <date>
+          <dateTime>2011-05-27T12:44:32.426+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1306493072426</dateCreated>
+        <dateFirstUserSaveKey>1306493072426</dateFirstUserSaveKey>
+        <dateLastModified>1306493072426</dateLastModified>
+      </customElements>
+      <format>scy/missionmapmodel</format>
+    </technical>
+    <educational>
+      <learningResourceType />
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/50055/0/RFYL+v3.scymissionmapmodel</entry>
+      </identifier>
+      <las>information</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/50046/0/RFYL+v2.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">RFYL v3</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<missionModel>
+  <activeLas>information</activeLas>
+  <missionMapBackgroundImageUri>http://www.scy-lab.eu/content/en/mission5/runners.fxz</missionMapBackgroundImageUri>
+  <missionMapInstructionUri>http://www.scy-lab.eu/content/en/mission5/curtain_MISSIONMAP.html</missionMapInstructionUri>
+  <missionMapButtonIconType />
+  <loElos />
+  <lasses>
+    <las>
+      <id>information</id>
+      <xPos>-50.0</xPos>
+      <yPos>-50.0</yPos>
+      <toolTip>tip_LAS_A</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission5/LAS_Information/curtain_INFORMATION.html</instructionUri>
+      <lasType>INFORMATION</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/50001/0/List+of+information.rtf</eloUri>
+        <iconType>information2</iconType>
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission5/LAS_Information/tip_LAS_A.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission5/LAS_Information/instruction_01_listOfInformation.html</assignmentUri>
+        <resourcesUri />
+        <colorScheme />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>conceptualization</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>conceptualization</id>
+      <xPos>50.0</xPos>
+      <yPos>-50.0</yPos>
+      <toolTip>tip_LAS_B</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission5/LAS_Conceptualization/curtain_CONCEPTUALIZATION.html</instructionUri>
+      <lasType>CONCEPTUALISATION</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/50002/0/Hypothesis.rtf</eloUri>
+        <iconType>alert_question</iconType>
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission5/LAS_Conceptualization/tip_LAS_B.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission5/LAS_Conceptualization/instruction_02_hypothesis.html</assignmentUri>
+        <resourcesUri />
+        <colorScheme />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>information</las>
+        <las>experiment</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>experiment</id>
+      <xPos>50.0</xPos>
+      <yPos>50.0</yPos>
+      <toolTip>tip_LAS_C</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/curtain_EXPERIMENT.html</instructionUri>
+      <lasType>EXPERIMENT</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/50007/0/Conclusion+of+experiment.rtf</eloUri>
+        <iconType>dataset</iconType>
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/tip_LAS_C.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/instruction_04_conclusionOfExperiment.html</assignmentUri>
+        <resourcesUri />
+        <colorScheme />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/50000/0/Glucose+Model.scymodel</eloUri>
+          <iconType>dataset</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/tip_LAS_C.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/instruction_03_visualRepresentationOfData.html</assignmentUri>
+          <resourcesUri />
+          <colorScheme />
+        </intermediateAnchor>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/50048/0/Glucose+level+simulation.scysimconfig</eloUri>
+          <iconType>dataset</iconType>
+          <loElos />
+          <inputAnchors />
+          <relations />
+          <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/tip_LAS_C.txt</targetDescriptionUri>
+          <assignmentUri>http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/instruction_03_visualRepresentationOfData.html</assignmentUri>
+          <resourcesUri />
+          <colorScheme />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses>
+        <las>conceptualization</las>
+        <las>report</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>report</id>
+      <xPos>-50.0</xPos>
+      <yPos>50.0</yPos>
+      <toolTip>tip_LAS_D</toolTip>
+      <title />
+      <instructionUri>http://www.scy-lab.eu/content/en/mission5/LAS_Report/curtain_REPORT.html</instructionUri>
+      <lasType>REPORTING</lasType>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/50008/0/Report.rtf</eloUri>
+        <iconType>report</iconType>
+        <loElos />
+        <inputAnchors />
+        <relations />
+        <targetDescriptionUri>http://www.scy-lab.eu/content/en/mission5/LAS_Report/tip_LAS_D.txt</targetDescriptionUri>
+        <assignmentUri>http://www.scy-lab.eu/content/en/mission5/LAS_Report/instruction_05_report.html</assignmentUri>
+        <resourcesUri />
+        <colorScheme />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>experiment</las>
+      </nextLasses>
+    </las>
+  </lasses>
+</missionModel>
+</content>
+<resources>
+</resources>
+</elo>
