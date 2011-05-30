@@ -426,7 +426,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
                 } catch (BadLocationException ex) {
                     logger.error("BadLocationException in caretUpdate");
                 }
-                AttributeSet attributeSet = ((StyledDocument)textPane.getDocument()).getCharacterElement(location).getAttributes();
+                AttributeSet attributeSet = textPane.getStyledDocument().getCharacterElement(location).getAttributes();
                 String underlineValue = "false";
                 if (attributeSet.getAttribute(StyleConstants.Underline)!=null)
                     underlineValue = attributeSet.getAttribute(StyleConstants.Underline).toString();
@@ -482,14 +482,16 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
                 logger.debug("received inserted text '" + text + "' at position '" + position + "'.");
                 syncing = true;
                 try {
+                    textPane.removeCaretListener(this);
                     textPane.setEditable(false);
-                    textPane.getDocument().insertString(Integer.parseInt(position), text,
+                    textPane.getStyledDocument().insertString(Integer.parseInt(position), text,
                         textPane.getStyledDocument().getCharacterElement(Integer.parseInt(position)).getAttributes());
                     oldText = getPlainText();
                 } catch (Exception e) {
                     logger.error("Error adding symbol",e);
                 } finally {
                     textPane.setEditable(true);
+                    textPane.addCaretListener(this);
                 }
             }
         }
@@ -507,6 +509,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
                 logger.debug("received format change action '" + format + "', text '" + text + "' at position '" + position + "'.");
                 syncing = true;
                 try {
+                    textPane.removeCaretListener(this);
                     textPane.setEditable(false);
                     AttributeSet attributeSet = textPane.getStyledDocument().getCharacterElement(Integer.parseInt(position)).getAttributes();
                     SimpleAttributeSet attributes = new SimpleAttributeSet();
@@ -541,6 +544,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
                     logger.error("Error formatting text",e);
                 } finally {
                     textPane.setEditable(true);
+                    textPane.addCaretListener(this);
                 }
             }
         }
@@ -557,13 +561,15 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
                 logger.debug("received deleted text '" + text + "' at position '" + position + "', length='" + length + ".");
                 syncing = true;
                 try {
+                    textPane.removeCaretListener(this);
                     textPane.setEditable(false);
-                    textPane.getDocument().remove(Integer.parseInt(position), Integer.parseInt(length));
+                    textPane.getStyledDocument().remove(Integer.parseInt(position), Integer.parseInt(length));
                     oldText = getPlainText();
                 } catch (Exception e) {
                     logger.error("Error deleting text",e);
                 } finally {
                     textPane.setEditable(true);
+                    textPane.addCaretListener(this);
                 }
             }
         }
