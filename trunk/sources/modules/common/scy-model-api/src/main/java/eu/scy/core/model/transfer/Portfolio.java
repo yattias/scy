@@ -134,6 +134,16 @@ public class Portfolio {
 
     public void addElo(TransferElo transferElo) {
         if (getElos() == null) setElos(new LinkedList());
+
+        List existingElos = getElos();
+        for (int i = 0; i < existingElos.size(); i++) {
+            TransferElo elo = (TransferElo) existingElos.get(i);
+            if(elo.getUri().equals(transferElo.getUri())) {
+                //the elo has already been added - returning without adding again...
+                return;
+            }
+        }
+
         getElos().add(transferElo);
     }
 

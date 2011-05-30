@@ -54,7 +54,7 @@
                    /app/scyauthor/viewAnchorELO.html=viewAnchorELOController
                    /app/scyauthor/viewAssignedStudents.html=viewAssignedStudentsController
                    /app/scyauthor/viewCreateNewPedagogicalPlan.html=viewCreateNewPedagogicalPlanController
-                   /app/scyauthor/selectStudentsForPedagogicalPlan.html=selectStudentsForPedagogicalPlan 
+                   /app/scyauthor/selectStudentsForPedagogicalPlan.html=selectStudentsForPedagogicalPlan
                    /app/scyauthor/viewPortfolio.html=viewPortfolioController
                    /app/scyauthor/addURLToMission.html=addURLToMissionController
                    /app/scyauthor/addFileToMission.html=addFileToMissionController
@@ -85,7 +85,7 @@
                </value>
            </property>
        </bean>
-    
+
      <!-- HEAD VERSION -->
     <bean id="scyauthorIndexController" class="eu.scy.server.controllers.ScyIndexController">
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
@@ -194,7 +194,7 @@
         <property name="serverService" ref="serverService"/>
         <property name="anchorELOService" ref="anchorELOService"/>
         <property name="urlInspector" ref="urlInspector"/>
-        <property name="assessmentService" ref="assessmentService"/> 
+        <property name="assessmentService" ref="assessmentService"/>
     </bean>
 
     <bean id="viewAssignedStudentsController" class="eu.scy.server.controllers.ViewAssignedStudentsController">
@@ -240,7 +240,7 @@
         <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
         <property name="urlInspector" ref="urlInspector"/>
     </bean>
-    
+
     <bean id="viewLASRuntimeInfoController" class="eu.scy.server.controllers.scyauthorruntime.ViewLASRuntimeInfo">
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
@@ -312,7 +312,7 @@
     </bean>
 
     <bean id="addURLToMissionController" class="eu.scy.server.controllers.AddURLToMissionController">
-        <property name="missionService" ref="missionService"/> 
+        <property name="missionService" ref="missionService"/>
         <property name="serverService" ref="serverService"/>
         <property name="learningMaterialService" ref="learningMaterialService"/>
     </bean>
@@ -325,7 +325,7 @@
 
 
     <bean id="scenarioJsonView" class="eu.scy.server.controllers.json.ScenarioJSONView">
-        
+
     </bean>
 
     <bean id="selectAnchorELOsToBePeerAssessedController" class="eu.scy.server.controllers.SelectAnchorELOToBePeerAssessedController">

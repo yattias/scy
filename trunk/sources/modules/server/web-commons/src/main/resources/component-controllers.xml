@@ -346,6 +346,7 @@
     <bean name="jnlpBuilder" class="eu.scy.server.jnlp.JNLPBuilder">
         <property name="userService" ref="userService"/>
         <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+        <property name="runtimeELOService" ref="runtimeELOService"/>
     </bean>
 
     <bean id="jnlpFilter" class="eu.scy.server.filters.JNLPFilter">

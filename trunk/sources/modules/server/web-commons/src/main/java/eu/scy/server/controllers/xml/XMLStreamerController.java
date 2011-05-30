@@ -62,7 +62,12 @@ public abstract class XMLStreamerController extends AbstractController {
         addAliases(xstream);
 
         Object objectToStream = getObjectToStream(request, httpServletResponse);
-        xstream.toXML(objectToStream, httpServletResponse.getWriter());
+        if(objectToStream instanceof ModelAndView) {
+            return (ModelAndView) objectToStream;
+        } else {
+            xstream.toXML(objectToStream, httpServletResponse.getWriter());    
+        }
+
 
         return null;
     }

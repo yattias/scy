@@ -59,7 +59,7 @@ public class TransferElo extends BaseXMLTransfer {
     private String feedbackEloUrl;
     private String feedbackEloURI;
 
-    private String snippeturl = "http://www.youtube.com/watch?v=3aQpNQqls3M";
+    private String snippeturl = "";
 
 
     public TransferElo() {
@@ -114,6 +114,11 @@ public class TransferElo extends BaseXMLTransfer {
 
 
         setStudentDescription("stydentdesc");
+        try {
+            setSnippeturl("scy-lab.jnlp?singleEloUri=" + URLEncoder.encode(getUri(), "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
 
     }

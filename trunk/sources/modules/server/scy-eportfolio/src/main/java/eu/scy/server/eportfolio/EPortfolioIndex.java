@@ -37,7 +37,12 @@ public class EPortfolioIndex extends BaseController {
         modelAndView.addObject("la", getCurrentUser(request).getUserDetails().getLocale());
         try {
             if(getScyElo() != null) {
-                modelAndView.addObject("missionURI", URLEncoder.encode(getScyElo().getUri().toString(), "UTF-8"));
+                if(request.getParameter("missionURI") != null) {
+                    modelAndView.addObject("missionURI", URLEncoder.encode(request.getParameter("missionURI"), "UTF-8"));
+                } else {
+                    modelAndView.addObject("missionURI", URLEncoder.encode(getScyElo().getUri().toString(), "UTF-8"));
+                }
+
             } else {
                 List runtimeElos = getRuntimeELOService().getRuntimeElosForUser(getCurrentUserName(request));
                 if(runtimeElos != null && runtimeElos.size() > 0) {
