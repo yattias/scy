@@ -8,6 +8,7 @@ import eu.scy.core.model.transfer.Portfolio;
 import eu.scy.server.controllers.xml.MissionRuntimeEnabledXMLService;
 import eu.scy.server.controllers.xml.ServiceStatusMessage;
 import eu.scy.server.controllers.xml.ServiceExceptionMessage;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -67,7 +68,13 @@ public class AddELOToPortfolioController extends MissionRuntimeEnabledXMLService
             logger.info("ADDING ELO: " + eloURI + " TO PORTFOLIO OF : " + missionURI);
 
 
-            return new ServiceStatusMessage("OK");
+
+
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.setViewName("forward:/app/eportfolio/EPortfolioIndex.html");
+            return modelAndView;
+
+            //return new ServiceStatusMessage("OK");
         } catch (URISyntaxException e) {
             logger.error(e.getMessage(), e);
             return new ServiceStatusMessage(e.getMessage());

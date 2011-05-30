@@ -67,6 +67,7 @@ public class AjaxTransferObjectCheckBoxController extends AbstractController {
             logger.info("METHOD IS: " + method + " method name: " + method.getName());
 
             method.invoke(transferObject, booleanValue);
+            return;
         } catch (Exception e) {
             e.printStackTrace();
         }

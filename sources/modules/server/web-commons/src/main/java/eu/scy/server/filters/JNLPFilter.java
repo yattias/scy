@@ -7,6 +7,7 @@ import eu.scy.server.jnlp.JNLPBuilder;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.servlet.LocaleResolver;
@@ -49,6 +50,13 @@ public class JNLPFilter implements Filter, ApplicationContextAware {
 
             String userName = servletRequest.getParameter("username");
             String mission = servletRequest.getParameter("mission");
+
+
+            if(userName == null) {
+                //userName = ((HttpServletRequest) servletRequest).getRemoteUser();
+                userName = SecurityContextHolder.getContext().getAuthentication().getName();
+            }
+
             if(mission != null) {
                 mission = URLDecoder.decode(mission, "UTF-8");
             }

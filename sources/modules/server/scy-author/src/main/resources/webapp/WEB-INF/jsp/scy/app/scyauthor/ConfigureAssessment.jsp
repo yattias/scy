@@ -105,7 +105,7 @@
                 </table>
             </c:when>
         </c:choose>
-        <a href="ConfigureAssessment.html?action=addSpecificLearningGoal&eloURI=${missionSpecificationEloURI}">Add specific learning goal</a>
+        <a href="javascript:dijit.byId('portfolioConfiguration').attr('href', 'ConfigureAssessment.html?action=addSpecificLearningGoal&eloURI=' + encodeURIComponent('${missionSpecificationEloURI}'));">Add specific learning goal</a>
 
 
 
