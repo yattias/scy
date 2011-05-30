@@ -38,6 +38,7 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.util.UUID;
+import javax.swing.text.SimpleAttributeSet;
 /**
 * Rich text editor component for SCY project.
 */
@@ -47,13 +48,14 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
     public final static String SYNC_TEXT = "sync_text";
     public final static String SYNC_POSITION_START = "sync_position_start";
     public final static String SYNC_LENGTH = "sync_length";
+    public final static String SYNC_FORMAT = "sync_format";
     private static final Logger logger = Logger.getLogger("eu.scy.client.common.richtexteditor.RichTextEditor");
     private ResourceBundle messages = ResourceBundle.getBundle("eu.scy.client.common.richtexteditor.RichTextEditor");
-	private JTextPane textPane;
-	private RTFEditorKit rtfEditor;
+    private JTextPane textPane;
+    private RTFEditorKit rtfEditor;
     private HTMLEditorKit htmlEditor;
     private RtfFileToolbar fileToolbar;
-	private RtfFormatToolbar formatToolbar;
+    private RtfFormatToolbar formatToolbar;
     private RichTextEditorLogger rtfLogger = null;
     private boolean html = false;
     private String oldText = "";
@@ -347,9 +349,8 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
                     String position = String.valueOf(e.getOffset());
                     syncObject.setProperty(SYNC_TEXT, text);
                     syncObject.setProperty(SYNC_POSITION_START, position);
-logger.info("sending inserted text '" + text + "' at position '" + position + "'.");
+                    logger.debug("sending inserted text '" + text + "' at position '" + position + "'.");
                     syncSession.addSyncObject(syncObject);
-logger.info("after sending");
                 }
             } else {
                 syncing = false;
@@ -370,6 +371,8 @@ logger.info("after sending");
                     syncObject.setProperty(SYNC_LENGTH, String.valueOf(e.getLength()));
                     syncSession.removeSyncObject(syncObject);
                 }
+            } else {
+                syncing = false;
             }
         }
     }
@@ -390,7 +393,9 @@ logger.info("after sending");
         String subscript = (StyleConstants.isSubscript(rtfEditor.getInputAttributes())) ? "true" : "false";
         logger.debug("subscript: " + subscript);
 */
-        //syncSession.changeSyncObject(syncObject);
+        synchronized(this) {
+            syncing = false;
+        }
     }
 
     @Override
@@ -452,6 +457,21 @@ logger.info("after sending");
         }
     }
  */
+    public void formatSync(String format, String text, int pos) {
+        synchronized(this) {
+            if (!syncing) {
+                if (syncSession != null) {
+                    SyncObject syncObject = createSyncObject();
+                    syncObject.setProperty(SYNC_FORMAT, format);
+                    syncObject.setProperty(SYNC_TEXT, text);
+                    syncObject.setProperty(SYNC_POSITION_START, String.valueOf(pos));
+                    syncObject.setProperty(SYNC_LENGTH, String.valueOf(text.length()));
+                    syncSession.changeSyncObject(syncObject);
+                }
+            }
+        }
+    }
+
     @Override
     public void syncObjectAdded(ISyncObject syncObject) {
         synchronized(this) {
@@ -459,14 +479,12 @@ logger.info("after sending");
                 !syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID).equals(uuid.toString())) {
                 String text = syncObject.getProperty(SYNC_TEXT);
                 String position = syncObject.getProperty(SYNC_POSITION_START);
-logger.info("received inserted text '" + text + "' at position '" + position + "'.");
+                logger.debug("received inserted text '" + text + "' at position '" + position + "'.");
                 syncing = true;
                 try {
-logger.info("text before insert: " + getPlainText());
                     textPane.setEditable(false);
                     textPane.getDocument().insertString(Integer.parseInt(position), text, null);
                     oldText = getPlainText();
-logger.info("text after insert: " + getPlainText());
                 } catch (Exception e) {
                     logger.error("Error adding symbol",e);
                 } finally {
@@ -478,7 +496,53 @@ logger.info("text after insert: " + getPlainText());
 
     @Override
     public void syncObjectChanged(ISyncObject syncObject) {
-
+        synchronized(this) {
+            if (syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID) == null ||
+                !syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID).equals(uuid.toString())) {
+                String format = syncObject.getProperty(SYNC_FORMAT);
+                String text = syncObject.getProperty(SYNC_TEXT);
+                String position = syncObject.getProperty(SYNC_POSITION_START);
+                String length = syncObject.getProperty(SYNC_LENGTH);
+                logger.debug("received format change action '" + format + "', text '" + text + "' at position '" + position + "'.");
+                syncing = true;
+                try {
+                    textPane.setEditable(false);
+                    AttributeSet attributeSet = textPane.getStyledDocument().getCharacterElement(Integer.parseInt(position)).getAttributes();
+                    SimpleAttributeSet attributes = new SimpleAttributeSet();
+                    if (format.equals(RtfFormatToolbar.BOLD_ACTION))
+                        StyleConstants.setBold(attributes, !Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Bold).toString()));
+                    if (format.equals(RtfFormatToolbar.ITALIC_ACTION))
+                        StyleConstants.setItalic(attributes, !Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Italic).toString()));
+                    if (format.equals(RtfFormatToolbar.UNDERLINE_ACTION)) {
+                        boolean underlineValue = false;
+                        if (attributeSet.getAttribute(StyleConstants.Underline)!=null)
+                            underlineValue = Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Underline).toString());
+                        StyleConstants.setUnderline(attributes, !underlineValue);
+                    }
+                    if (format.equals(RtfFormatToolbar.SUPERSCRIPT_ACTION)) {
+                        boolean superscriptValue = false;
+                        if (attributeSet.getAttribute(StyleConstants.Superscript)!=null)
+                            superscriptValue = Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Superscript).toString());
+                        StyleConstants.setSuperscript(attributes, !superscriptValue);
+                        if (!superscriptValue)
+                            StyleConstants.setSubscript(attributes, false);
+                    }
+                    if (format.equals(RtfFormatToolbar.SUBSCRIPT_ACTION)) {
+                        boolean subscriptValue = false;
+                        if (attributeSet.getAttribute(StyleConstants.Subscript)!=null)
+                            subscriptValue = Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Subscript).toString());
+                        StyleConstants.setSubscript(attributes, !subscriptValue);
+                        if (!subscriptValue)
+                            StyleConstants.setSuperscript(attributes, false);
+                    }
+                    textPane.getStyledDocument().setCharacterAttributes(Integer.parseInt(position),Integer.parseInt(length),attributes,false);
+                } catch (Exception e) {
+                    logger.error("Error formatting text",e);
+                } finally {
+                    textPane.setEditable(true);
+                }
+            }
+        }
     }
 
     @Override
@@ -489,19 +553,15 @@ logger.info("text after insert: " + getPlainText());
                 String text = syncObject.getProperty(SYNC_TEXT);
                 String position = syncObject.getProperty(SYNC_POSITION_START);
                 String length = syncObject.getProperty(SYNC_LENGTH);
-logger.info("received deleted text '" + text + "' at position '" + position + "', length='" + length + ".");
+                logger.debug("received deleted text '" + text + "' at position '" + position + "', length='" + length + ".");
                 syncing = true;
                 try {
-logger.info("text before delete: " + getPlainText());
-//                    textPane.setEnabled(false);
                     textPane.setEditable(false);
                     textPane.getDocument().remove(Integer.parseInt(position), Integer.parseInt(length));
                     oldText = getPlainText();
-logger.info("text after delete: " + getPlainText());
                 } catch (Exception e) {
                     logger.error("Error deleting text",e);
                 } finally {
-//                    textPane.setEnabled(true);
                     textPane.setEditable(true);
                 }
             }
