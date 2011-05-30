@@ -483,7 +483,8 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
                 syncing = true;
                 try {
                     textPane.setEditable(false);
-                    textPane.getDocument().insertString(Integer.parseInt(position), text, null);
+                    textPane.getDocument().insertString(Integer.parseInt(position), text,
+                        textPane.getStyledDocument().getCharacterElement(Integer.parseInt(position)).getAttributes());
                     oldText = getPlainText();
                 } catch (Exception e) {
                     logger.error("Error adding symbol",e);
