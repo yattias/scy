@@ -68,6 +68,19 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
     public AwarenessServiceXMPPImpl() {
     }
 
+   @Override
+   public String toString() {
+      String host="?";
+      int port=-1;
+      String user="?";
+      if (xmppConnection!=null){
+         host = xmppConnection.getHost();
+         port = xmppConnection.getPort();
+         user = xmppConnection.getUser();
+      }
+      return this.getClass().getName() + "{host=" + host + ",port=" + port + ",user=" + user  + '}';
+   }
+
     @Override
     public boolean isConnected() {
         if (xmppConnection != null) {
