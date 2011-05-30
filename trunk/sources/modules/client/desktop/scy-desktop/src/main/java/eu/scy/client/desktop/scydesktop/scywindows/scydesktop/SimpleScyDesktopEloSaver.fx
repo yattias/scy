@@ -100,6 +100,10 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       insert emptyFunctionalRoleContainer before functionalRoleContainers[0];
    }
 
+   public override function toString():String{
+      "SimpleScyDesktopEloSaver\{myEloChanged={myEloChanged}\}"
+   }
+
    public override function eloSaveAs(elo: IELO, eloSaverCallBack: EloSaverCallBack): Void {
       var forking = elo.getUri() != null;
       var currentEloTitle = elo.getMetadata().getMetadataValueContainer(titleKey).getValue() as String;

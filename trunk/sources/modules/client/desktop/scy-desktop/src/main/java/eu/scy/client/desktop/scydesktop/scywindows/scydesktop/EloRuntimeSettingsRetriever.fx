@@ -22,6 +22,10 @@ public class EloRuntimeSettingsRetriever extends RuntimeSettingsRetriever {
    public-init var runtimeSettingsManager: RuntimeSettingsManager;
    public var lasId:String;
 
+   public override function toString():String{
+      "EloRuntimeSettingsRetriever\{eloUri={eloUri},lasId={lasId}\}"
+   }
+
    override public function getSetting(name: String): String {
       return runtimeSettingsManager.getSetting(new RuntimeSettingKey(name, lasId, eloUri));
    }

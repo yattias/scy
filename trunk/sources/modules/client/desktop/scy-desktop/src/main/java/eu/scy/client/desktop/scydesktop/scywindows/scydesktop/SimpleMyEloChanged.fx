@@ -18,6 +18,10 @@ public class SimpleMyEloChanged extends MyEloChanged {
    def logger = Logger.getLogger(this.getClass());
    public var window: ScyWindow;
 
+   public override function toString():String{
+      "SimpleMyEloChanged\{window.eloUri: {window.eloUri} ({window.scyElo.getTitle()})\}"
+   }
+
    public override function myEloChanged(scyElo: ScyElo): Void {
       window.scyElo = scyElo;
       window.title = scyElo.getTitle();
