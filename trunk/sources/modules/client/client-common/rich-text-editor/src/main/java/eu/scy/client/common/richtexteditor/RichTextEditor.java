@@ -414,6 +414,26 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
         }
     }
 
+    private void updateIcons(int location) {
+        AttributeSet attributeSet = textPane.getStyledDocument().getCharacterElement(location).getAttributes();
+        String underlineValue = "false";
+        if (attributeSet.getAttribute(StyleConstants.Underline)!=null)
+            underlineValue = attributeSet.getAttribute(StyleConstants.Underline).toString();
+        String superscriptValue = "false";
+        if (attributeSet.getAttribute(StyleConstants.Superscript)!=null)
+            superscriptValue = attributeSet.getAttribute(StyleConstants.Superscript).toString();
+        String subscriptValue = "false";
+        if (attributeSet.getAttribute(StyleConstants.Subscript)!=null)
+            subscriptValue = attributeSet.getAttribute(StyleConstants.Subscript).toString();
+        formatToolbar.setFormatIcons(
+            Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Bold).toString()),
+            Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Italic).toString()),
+            Boolean.parseBoolean(underlineValue),
+            Boolean.parseBoolean(superscriptValue),
+            Boolean.parseBoolean(subscriptValue)
+        );
+    }
+
     @Override
     public void caretUpdate(CaretEvent e) {
         synchronized(this) {
@@ -426,23 +446,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
                 } catch (BadLocationException ex) {
                     logger.error("BadLocationException in caretUpdate");
                 }
-                AttributeSet attributeSet = textPane.getStyledDocument().getCharacterElement(location).getAttributes();
-                String underlineValue = "false";
-                if (attributeSet.getAttribute(StyleConstants.Underline)!=null)
-                    underlineValue = attributeSet.getAttribute(StyleConstants.Underline).toString();
-                String superscriptValue = "false";
-                if (attributeSet.getAttribute(StyleConstants.Superscript)!=null)
-                    superscriptValue = attributeSet.getAttribute(StyleConstants.Superscript).toString();
-                String subscriptValue = "false";
-                if (attributeSet.getAttribute(StyleConstants.Subscript)!=null)
-                    subscriptValue = attributeSet.getAttribute(StyleConstants.Subscript).toString();
-                formatToolbar.setFormatIcons(
-                    Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Bold).toString()),
-                    Boolean.parseBoolean(attributeSet.getAttribute(StyleConstants.Italic).toString()),
-                    Boolean.parseBoolean(underlineValue),
-                    Boolean.parseBoolean(superscriptValue),
-                    Boolean.parseBoolean(subscriptValue)
-                );
+                updateIcons(location);
             }
         }
     }
@@ -540,6 +544,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
                             StyleConstants.setSuperscript(attributes, false);
                     }
                     textPane.getStyledDocument().setCharacterAttributes(Integer.parseInt(position),Integer.parseInt(length),attributes,false);
+                    updateIcons(textPane.getCaretPosition());
                 } catch (Exception e) {
                     logger.error("Error formatting text",e);
                 } finally {
