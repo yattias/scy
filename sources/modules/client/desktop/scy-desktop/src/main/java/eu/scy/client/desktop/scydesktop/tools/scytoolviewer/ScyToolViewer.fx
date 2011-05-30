@@ -37,6 +37,7 @@ import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoManager;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
+import eu.scy.client.desktop.scydesktop.tools.RuntimeSettingsRetriever;
 
 /**
  * @author sikken
@@ -217,9 +218,11 @@ public class ScyToolViewer extends CustomNode, Resizable, ScyToolFX {
    }
 
    public override function setEloSaver(eloSaver: EloSaver): Void {
+      addMessage("setEloSaver({eloSaver})");
    }
 
    public override function setMyEloChanged(myEloChanged: MyEloChanged): Void {
+      addMessage("setMyEloChanged({myEloChanged})");
    }
 
    public override function canAcceptDrop(object: Object): Boolean {
@@ -229,6 +232,10 @@ public class ScyToolViewer extends CustomNode, Resizable, ScyToolFX {
 
    public override function acceptDrop(object: Object): Void {
       addMessage("acceptDrop of {object.getClass()}");
+   }
+
+   public override function setRuntimeSettingsRetriever(runtimeSettingsRetriever: RuntimeSettingsRetriever): Void{
+      addMessage("setRuntimeSettingsRetriever({runtimeSettingsRetriever})");
    }
 
    public override function setTitleBarButtonManager(titleBarButtonManager: TitleBarButtonManager, windowContent: Boolean): Void {
