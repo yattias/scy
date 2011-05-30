@@ -40,6 +40,19 @@ public class DataSyncService implements IDataSyncService {
 		packetLock = new SynchronousQueue<Packet>();
                 sessionMap = new HashMap<String, ISyncSession>();
 	}
+
+   @Override
+   public String toString() {
+      String host="?";
+      int port=-1;
+      String user="?";
+      if (connection!=null){
+         host = connection.getHost();
+         port = connection.getPort();
+         user = connection.getUser();
+      }
+      return this.getClass().getName() + "{host=" + host + ",port=" + port + ",user=" + user  + '}';
+   }
 	
 	public void init(Connection xmppConnection) {
 		
