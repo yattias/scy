@@ -24,6 +24,7 @@ import eu.scy.client.desktop.desktoputils.art.EloIcon;
 import javafx.scene.CustomNode;
 import javafx.scene.layout.Resizable;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 
 /**
  * @author SikkenJ
@@ -66,6 +67,11 @@ public abstract class GridSearchNode extends CustomNode, Resizable, ScyEloListCe
             vfill: true
             vgrow: Priority.ALWAYS
             vshrink: Priority.ALWAYS
+         }
+         onMouseClicked:function(e: MouseEvent):Void{
+            if (e.clickCount==2 and selectedSearchResult!=null){
+               openAction(this)
+            }
          }
       };
    def progressIndicator = ProgressIndicator {
