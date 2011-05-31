@@ -98,19 +98,21 @@ public class SyncSession implements ISyncSession {
                     SmacketExtension extension = (SmacketExtension) packet.getExtension(syncActionTransformer.getElementname(), syncActionTransformer.getNamespace());
                     SmacketExtension se = (SmacketExtension) extension;
                     SyncAction syncAction = (SyncAction) se.getTransformer().getObject();
-                    for (ISyncListener listener : listeners) {
-                        switch (syncAction.getType()) {
-                            case add:
-                                listener.syncObjectAdded(syncAction.getSyncObject());
-                                break;
-                            case change:
-                                listener.syncObjectChanged(syncAction.getSyncObject());
-                                break;
-                            case remove:
-                                listener.syncObjectRemoved(syncAction.getSyncObject());
-                                break;
-                            default:
-                                break;
+                    synchronized (listeners) {
+                        for (ISyncListener listener : listeners) {
+                            switch (syncAction.getType()) {
+                                case add:
+                                    listener.syncObjectAdded(syncAction.getSyncObject());
+                                    break;
+                                case change:
+                                    listener.syncObjectChanged(syncAction.getSyncObject());
+                                    break;
+                                case remove:
+                                    listener.syncObjectRemoved(syncAction.getSyncObject());
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
                 } else if (packet.getExtension(syncMessageTransformer.getElementname(), syncMessageTransformer.getNamespace()) != null) {
@@ -278,12 +280,16 @@ public class SyncSession implements ISyncSession {
 
     @Override
     public void addSyncListener(ISyncListener listener) {
-        this.listeners.add(listener);
+        synchronized (listeners) {
+            this.listeners.add(listener);
+        }
     }
 
     @Override
     public void removeSyncListener(ISyncListener listener) {
-        this.listeners.remove(listener);
+        synchronized (listeners) {
+            this.listeners.remove(listener);
+        }
     }
 
     @Override
@@ -294,7 +300,9 @@ public class SyncSession implements ISyncSession {
     @Override
     public void leaveSession() {
         muc.leave();
-        listeners.clear();
+        synchronized (listeners) {
+            listeners.clear();
+        }
     }
 
     @Override
@@ -348,8 +356,10 @@ public class SyncSession implements ISyncSession {
                 }
             });
             for (ISyncObject syncObject : syncObjects) {
-                for (ISyncListener l : listeners) {
-                    l.syncObjectAdded(syncObject);
+                synchronized (listeners) {
+                    for (ISyncListener l : listeners) {
+                        l.syncObjectAdded(syncObject);
+                    }
                 }
             }
         } catch (DataSyncException ex) {
