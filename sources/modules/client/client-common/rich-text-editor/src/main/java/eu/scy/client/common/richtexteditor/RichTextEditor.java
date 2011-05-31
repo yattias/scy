@@ -28,6 +28,7 @@ import eu.scy.client.common.datasync.ISyncListener;
 import eu.scy.client.common.datasync.ISyncSession;
 import eu.scy.common.datasync.ISyncObject;
 import eu.scy.common.datasync.SyncObject;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
@@ -36,9 +37,9 @@ import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
 import java.util.UUID;
 import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.MutableAttributeSet;
 /**
 * Rich text editor component for SCY project.
 */
@@ -67,6 +68,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
     private ISyncSession syncSession = null;
     private boolean syncing = false;
     private UUID uuid = UUID.randomUUID();
+    private String user = "";
 
     /**
     * Creates rich text editor component for rtf format.
@@ -119,6 +121,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
     public void setRichTextEditorLogger(IActionLogger actionLogger,
         String username, String toolname, String missionname,
         String sessionname, String parent) {
+        user = username;
         rtfLogger = new RichTextEditorLogger(actionLogger, username,
             toolname, missionname, sessionname, parent, this);
     }
@@ -432,6 +435,15 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
             Boolean.parseBoolean(superscriptValue),
             Boolean.parseBoolean(subscriptValue)
         );
+        SimpleAttributeSet blue = new SimpleAttributeSet();
+        StyleConstants.setForeground(blue, Color.blue);
+        MutableAttributeSet inputAtts = rtfEditor.getInputAttributes();
+        inputAtts.removeAttributes(blue);
+/*        SimpleAttributeSet black = new SimpleAttributeSet();
+        StyleConstants.setForeground(black, Color.black);
+//        textPane.setCharacterAttributes(black, false);
+        rtfEditor.getInputAttributes().addAttributes(black);*/
+//        textPane.setForeground(Color.black);
     }
 
     @Override
@@ -478,6 +490,15 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
 
     @Override
     public void syncObjectAdded(ISyncObject syncObject) {
+/*logger.info(
+    "SyncObject. ID=" + syncObject.getID() + " creator=" + syncObject.getCreator() +
+    " lastModificator=" + syncObject.getLastModificator() +
+    " creationTime=" + syncObject.getCreationTime() +
+    " lastModificationTime=" + syncObject.getLastModificationTime() +
+    " SYNC_TOOL_INSTANCE_UUID=" + syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID) +
+    " received inserted text '" + syncObject.getProperty(SYNC_TEXT) +
+    "' at position '" + syncObject.getProperty(SYNC_POSITION_START) + "'."
+);*/
         synchronized(this) {
             if (syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID) == null ||
                 !syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID).equals(uuid.toString())) {
@@ -488,8 +509,12 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
                 try {
                     textPane.removeCaretListener(this);
                     textPane.setEditable(false);
-                    textPane.getStyledDocument().insertString(Integer.parseInt(position), text,
-                        textPane.getStyledDocument().getCharacterElement(Integer.parseInt(position)).getAttributes());
+                    SimpleAttributeSet attributes = new SimpleAttributeSet();
+                    attributes.addAttributes(textPane.getStyledDocument().getCharacterElement(Integer.parseInt(position)).getAttributes());
+                    StyleConstants.setForeground(attributes, Color.black);
+                    if (!syncObject.getCreator().substring(0, syncObject.getCreator().indexOf('@')).equals(user))
+                        StyleConstants.setForeground(attributes, Color.blue);
+                    textPane.getStyledDocument().insertString(Integer.parseInt(position), text, attributes);
                     oldText = getPlainText();
                 } catch (Exception e) {
                     logger.error("Error adding symbol",e);
@@ -503,6 +528,16 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
 
     @Override
     public void syncObjectChanged(ISyncObject syncObject) {
+/*logger.info(
+    "SyncObject. ID=" + syncObject.getID() + " creator=" + syncObject.getCreator() +
+    " lastModificator=" + syncObject.getLastModificator() +
+    " creationTime=" + syncObject.getCreationTime() +
+    " lastModificationTime=" + syncObject.getLastModificationTime() +
+    " SYNC_TOOL_INSTANCE_UUID=" + syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID) +
+    " received format change action '" + syncObject.getProperty(SYNC_FORMAT) +
+    "', text '" + syncObject.getProperty(SYNC_TEXT) +
+    "' at position '" + syncObject.getProperty(SYNC_POSITION_START) + "'."
+);*/
         synchronized(this) {
             if (syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID) == null ||
                 !syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID).equals(uuid.toString())) {
@@ -557,6 +592,16 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
 
     @Override
     public void syncObjectRemoved(ISyncObject syncObject) {
+/*logger.info(
+    "SyncObject. ID=" + syncObject.getID() + " creator=" + syncObject.getCreator() +
+    " lastModificator=" + syncObject.getLastModificator() +
+    " creationTime=" + syncObject.getCreationTime() +
+    " lastModificationTime=" + syncObject.getLastModificationTime() +
+    " SYNC_TOOL_INSTANCE_UUID=" + syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID) +
+    " received deleted text '" + syncObject.getProperty(SYNC_TEXT) +
+    "' at position '" + syncObject.getProperty(SYNC_POSITION_START) +
+    "', length='" + syncObject.getProperty(SYNC_LENGTH) + "."
+);*/
         synchronized(this) {
             if (syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID) == null ||
                 !syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID).equals(uuid.toString())) {
