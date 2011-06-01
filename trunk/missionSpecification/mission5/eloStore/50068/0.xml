@@ -1,0 +1,103 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>wouter</entity>
+        <date>
+          <dateTime>2011-06-01T14:10:28.905+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>yuri</entity>
+        <date>
+          <dateTime>2011-04-29T11:04:37.788+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1304067877788</dateCreated>
+        <dateFirstUserSaveKey>1304067877788</dateFirstUserSaveKey>
+        <dateLastModified>1306930228905</dateLastModified>
+      </customElements>
+      <format>scy/rtf</format>
+    </technical>
+    <educational>
+      <learningResourceType>informationAssignment</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/50068/0/List+of+information.rtf</entry>
+      </identifier>
+      <las>information</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/50024/0/RFYL.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">List of information</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_fork_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/50001/0/List+of+information.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAE4klEQVR42u2byU9bVxTGvQksQPwDLJBYILroqotuWlVVu4hYdFEVCYhoRSDsEJVAETUQUFEkhCo1uLWY0wARBGRTCAZXIIY6DrSMgYIgaYEaGxszQ0w9+6vvIX7FsV1SBRYl50if7n1neLZ/vte+b5I1NjbiLPP5fKwIkjU0NGB3dxdbW1uwWq3Unu7v7e2hs7MTKpUqRMLvdDrhcrmkNtDv6uoKW1NdXQ21Wh02tr+/H9YvVFdXF9YvXifS/mpqaiK+v/PyycQIDAAMJwFQJNvtdjgdf/l10nrcTmxubmJ7e5vqT+v4+Bher/dFrl2qebLwFO3t7Sf7dATvz7q1DY/HQ/XBMTvlj42NwWazBe3P53GR7+DgIGR/3T/pID6beC8XKQlgvWYdZQ+2MTaxg7mFwyCADocDHi9Qod7DxPwhFD1GTK6eANzZ2YHDdoAlqws1vUuUf3h4SAAXjXY8fvocC1b4Wxvkd36UAIptoZPYc6ybzBJA4W9S6/DOu+9TPwAQXrdU92nGDcwYPARQjNxHyzYpJvTxtWICeHR0dKGSAN6+b0BhvRnyRguKen146+p00Ah0e3y4o/dhyexAjc6Ovl8MBFDUGo1G3CorR8HNYsoXPgHw8W9mdD9awZUrUf52Ffm3WyWAwq+dNKP/VxP1jacAim3FPQ1kMhn1JYDw0rZqZBmtfdPQTpikEaj++Q9809CN4fl9yvkoQ04ARe1FSgJ46+4qVH8C1753Ieq9Ffy+YgkC6HR5kN3pw+TkIt6uApq6JySAg4ODKCgoRHZ2NuULvwCo0S2iTjWGe5pZanPktRLAevU4+UUrYqcBKttHobg/jG+bByj+D0DQdqDmh4eTEkBlh558rdp53H04jQ/TighgpJ+m85IEUPFgBZ+VLCHly1l8kKUPmcJT88+QdfM7XPdLtDlfKaUp/PK3srGxQQDLqtspP1DzyY2vJYBZL3yBmHHDQgD3/bHrL8UCAE1ma9D+coqU0hT+vLA6qObqFycj0GKxXKhkTU1NZ/6J6HQ6DA0NhWhgYAAGgyFE6+vr0Ov1YWuUSmVYv5AAGCnW1tYW1j86Oorh4eGwsdraWnovFykCKL7Ff9Pa2horgmTzc08w59fpln2v7pOB7bWMAZ4XwObmZjrMEpaeni4lpKSkQKFQ0KKxr68PhYWFKCkpoSVLeXk5/YC3tLSguLgYaWlptHYTlpubi8zMTERFRdFRjDjcEr6Ojg76h46Njb38I1AcLL+KT1h8fPyZOTyF2RggA2SADJCNAZ4zwJiYmJBAUlKS1BcnG4QtLy8zsXAAe3p66MxFb28v+vv7UVpaiuTkZEqorKyk01mJiYmYmZmhxfTs7CyT4ynMABkgA2RjgAyQAV4CgCMjI8jPzyeHuEwpLgeK83tibTg1NcWUeAQyQAbIANkYIANkgG8IwIqKCibzXwAmJCTAZDLRfX3izoLA3QVsPIUZIANkgGwMkAEywMsNMC4uji6ei4vm9fX19OBKamoqJZjNZmqjo6Oh0WjoATtxIT6w2NZqtcjLy6PHGtxuN8bHx8mfkZEh1Yq7XN/YESiXy1/7RaqqqngKszFABsgAGSAbA2SADJABsjFABsgAGSAbA2SADJABMkA2BsgAGSADZGOADJABMkA2BsgAGSADZGOADPB/Y38DuSLMsbsgFpUAAAAASUVORK5CYII=</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Dolly;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+{\stylesheet{\s1\li0\ri0\fi0\sa80\sb80\sbasedon2\snext1 DP Document;}{\s2\f1\fs24\i0\b0\cf1 default;}}
+\margl1417\margr1417\margt1417\margb1417\widowctrl
+\s1\li0\ri0\fi0\sa80\sb80\f2\fs20\i0\b\ul0\cf0 List of information you collected\par
+\par
+Carbohydrates\par
+\par
+Glucose\par
+\par
+Insulin\par
+\par
+Role of glucose in the body\b0\par
+\pard\ql\sa80\sb80\f1\fs24\cf1\par
+\li0\ri0\fi0\ul0\par
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

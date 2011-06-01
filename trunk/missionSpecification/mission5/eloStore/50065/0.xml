@@ -1,0 +1,54 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>wouter</entity>
+        <date>
+          <dateTime>2011-06-01T13:46:16.282+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1306928776282</dateCreated>
+        <dateLastModified>1306928776282</dateLastModified>
+      </customElements>
+      <format>scy/runtimesettings</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/50065/0/runForYourLife.runtimesettings</entry>
+      </identifier>
+      <las>information</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/50024/0/RFYL.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">runForYourLife</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<runtimeSettings />
+</content>
+<resources>
+</resources>
+</elo>
