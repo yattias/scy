@@ -209,6 +209,12 @@
 			<artifactId>jopt-simple</artifactId>
 			<version>3.1</version>
 		</dependency>
+        <dependency>
+            <groupId>xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+
 	</dependencies>
 
 	<!-- <scm> <connection>scm:svn:http://scy.googlecode.com/svn/trunk/roolo-agents</connection> 
