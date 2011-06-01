@@ -32,8 +32,8 @@ public class Result implements Comparable<Result> {
 
 	@Override
 	public int compareTo(Result that) {
-		Double thatQuality = that.getQuality();
-		return thatQuality.compareTo(this.getQuality());
+		Double thisQuality = this.getQuality();
+		return thisQuality.compareTo(that.getQuality());
 	}
 	
 }
