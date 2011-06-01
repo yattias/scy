@@ -17,6 +17,7 @@ import roolo.elo.api.IMetadataTypeManager;
 import roolo.search.ISearchResult;
 import roolo.search.MetadataQueryComponent;
 import roolo.search.Query;
+import roolo.search.util.SearchResultUtils;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.impl.AbstractThreadedAgent;
@@ -141,11 +142,8 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
 
     private void sendResponse(List<ISearchResult> searchResults, String requestUID) {
         if (searchResults != null) {
-            StringBuilder sb = new StringBuilder();
-            for (ISearchResult result : searchResults) {
-                sb.append(result.getUri() + " ");
-            }
-            Tuple answerTuple = new Tuple(requestUID, ROOLO_RESPONSE, sb.toString().trim());
+            String xmlResults = SearchResultUtils.createXmlStringFromSearchResults(searchResults);
+            Tuple answerTuple = new Tuple(requestUID, ROOLO_RESPONSE, xmlResults);
             try {
                 getCommandSpace().write(answerTuple);
             } catch (TupleSpaceException e) {
