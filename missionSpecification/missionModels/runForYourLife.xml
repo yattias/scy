@@ -175,7 +175,7 @@
                <property name="uri" value="roolo://memory/50000/0/Glucose+Model.scymodel"/>
                <property name="iconType" value="dataset"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/tip_LAS_C.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/instruction_03_visualRepresentationOfData.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission5/LAS_Experiment/instruction_03a_Model.html"/>
                <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
                   <list />
