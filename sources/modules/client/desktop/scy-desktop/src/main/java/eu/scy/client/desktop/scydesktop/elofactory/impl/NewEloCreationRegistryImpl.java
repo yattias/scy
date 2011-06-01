@@ -9,7 +9,7 @@ import eu.scy.client.desktop.scydesktop.elofactory.NewEloCreationRegistry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
+import java.util.Set;
 import org.apache.log4j.Logger;
 
 /**
@@ -76,4 +76,9 @@ public class NewEloCreationRegistryImpl implements NewEloCreationRegistry
    {
       return typeNameMap.containsKey(eloType);
    }
+
+    @Override
+    public Set<String> getEloTypes() {
+        return typeNameMap.keySet();
+    }
 }

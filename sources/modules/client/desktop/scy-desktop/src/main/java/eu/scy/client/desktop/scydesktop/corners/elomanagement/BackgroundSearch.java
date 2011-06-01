@@ -95,6 +95,9 @@ public abstract class BackgroundSearch implements Runnable
          {
             ScyElo scyElo = new ScyElo(metadatas.get(i), tbi);
             ++i;
+            //XXX this skipping should now never happen!
+            //TODO check if filtering is not happening here. It is implemented and working on the server side
+            //now IQuery.setAllowedTypes(Set<String> allowedTypes) is used for serverside filtering
             if (newEloCreationRegistry.containsEloType(scyElo.getTechnicalFormat()))
             {
                ScySearchResult scySearchResult = new ScySearchResult(scyElo, searchResult.getRelevance());
