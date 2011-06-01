@@ -10,41 +10,47 @@ import roolo.search.ISearchResult;
  */
 public class SearchResultRanking {
 
-	private static final double WEIGHT_LENGTH = 0.5;
-	
-	private static final double WEIGHT_DIFFERENCE = 0.5;
+	private static final double WEIGHT_LENGTH = 0.3333;
 
-	
+	private static final double WEIGHT_DIFFERENCE = 0.3333;
+
+	private static final double WEIGHT_RELEVANCE = 0.3333;
+
+	private static final int RELEVANCE_NUMBER = 3;
+
 	private List<Result> ranking;
-	
+
 	private final int capacity;
-	
+
 	private List<ISearchResult> referenceResults;
-	
-	public SearchResultRanking(int capacity, List<ISearchResult> referenceResults) {
+
+	public SearchResultRanking(int capacity,
+			List<ISearchResult> referenceResults) {
 		this.capacity = capacity;
 		this.ranking = new LinkedList<Result>();
 		this.referenceResults = referenceResults;
 	}
-	
+
 	/**
-	 * Adds the search result in the ranking. 
+	 * Adds the search result in the ranking.
+	 * 
 	 * @param query
 	 * @param results
 	 */
 	public void add(String query, List<ISearchResult> results) {
 		double quality = evaluateQuality(this.referenceResults, results);
 		Result result = new Result(query, results, quality);
-		int index = -1;
-		for(int i = 0; i < this.ranking.size(); i++) {
-			if(result.compareTo(this.ranking.get(i)) >= 0) {
+		int index = this.ranking.size();
+		for (int i = 0; i < this.ranking.size(); i++) {
+			if (result.compareTo(this.ranking.get(i)) >= 0) {
 				index = i;
 				break;
 			}
 		}
-		if(index > -1) {
+
+		if (index < this.capacity) {
 			this.ranking.add(index, result);
-			if(this.ranking.size() > this.capacity) {
+			if (this.ranking.size() > this.capacity) {
 				// Ranking capacity has been reached, remote the last entry
 				this.ranking.remove(this.ranking.size() - 1);
 			}
@@ -55,25 +61,54 @@ public class SearchResultRanking {
 		Result[] resultArray = new Result[this.ranking.size()];
 		return this.ranking.toArray(resultArray);
 	}
-	
+
 	@Override
 	public String toString() {
 		return this.ranking.toString();
 	}
 
-	private double evaluateQuality(List<ISearchResult> referenceResult, List<ISearchResult> newResult) {
-		double lengthQuality = evaluateLength(newResult.size(), referenceResult.size());
-		double differenceQuality = evaluateDifference(newResult, referenceResult);
+	private double evaluateQuality(List<ISearchResult> referenceResult,
+			List<ISearchResult> newResult) {
+		double lengthQuality = evaluateLength(newResult.size(),
+				referenceResult.size());
+		double similarityQuality = evaluateSimilarity(newResult,
+				referenceResult);
+		double relevanceQuality = evaluateRelevance(newResult, referenceResult);
 
-		return WEIGHT_LENGTH * lengthQuality + WEIGHT_DIFFERENCE * differenceQuality;
+		return WEIGHT_LENGTH * lengthQuality + WEIGHT_DIFFERENCE
+				* similarityQuality + WEIGHT_RELEVANCE * relevanceQuality;
 	}
-	
-	private static int getIdenticalUriCount(List<ISearchResult> a, List<ISearchResult> b) {
+
+	private double evaluateRelevance(List<ISearchResult> newResult,
+			List<ISearchResult> referenceResult) {
+		// Compare the mean of the RELEVANCE_NUMBER first search results.
+		int n = RELEVANCE_NUMBER;
+		int min = Math.min(referenceResult.size(), newResult.size());
+		if (min == 0) {
+			return 1.0;
+		}
+		if (min < n) {
+			n = min;
+		}
+		double refMean = 0;
+		double newMean = 0;
+		for (int i = 0; i < n; i++) {
+			refMean += referenceResult.get(i).getRelevance();
+			newMean += newResult.get(i).getRelevance();
+		}
+		refMean /= n;
+		newMean /= n;
+		// Get the quotient of the means
+		return (newMean + 1) / (refMean + 1);
+	}
+
+	private static int getIdenticalUriCount(List<ISearchResult> a,
+			List<ISearchResult> b) {
 		// get the number of identical eloUris
 		int identicalResults = 0;
-		for(ISearchResult bRes : b){
-			for(ISearchResult aRes : a){
-				if(bRes.getUri().equals(aRes.getUri())) {
+		for (ISearchResult bRes : b) {
+			for (ISearchResult aRes : a) {
+				if (bRes.getUri().equals(aRes.getUri())) {
 					identicalResults++;
 					break;
 				}
@@ -81,68 +116,78 @@ public class SearchResultRanking {
 		}
 		return identicalResults;
 	}
-	
-	private static double evaluateDifference(List<ISearchResult> newResult, List<ISearchResult> refResult) {
+
+	private static double evaluateSimilarity(List<ISearchResult> newResult,
+			List<ISearchResult> refResult) {
 		int identicalUri = getIdenticalUriCount(newResult, refResult);
 		int minUri = Math.min(newResult.size(), refResult.size());
-		// TODO total similiarity is overweighted... 
-		return identicalUri / minUri;
+		// TODO full similiarity is overweighted...
+
+		// +1 to avoid division by zero
+		return (identicalUri + 1) / (minUri + 1);
 	}
-	
+
 	private static double evaluateLength(int newResult, int refResult) {
 		double quality;
-		if(newResult < refResult) {
+		if (newResult < refResult) {
 			// +1 to avoid division by zero
-			quality = ((refResult - newResult + 1) / (refResult + 1));			
+			quality = ((refResult - newResult + 1) / (refResult + 1));
 		} else {
 			quality = ((newResult - refResult + 1) / (newResult + 1));
 		}
 
 		double penalty = 1.0;
-		if(newResult < SearchResultEnricherAgent.INFIMUM_GOOD_SEARCH_RESULT) {
-			// query has not enough results, so use a penalty 
-			penalty = (SearchResultEnricherAgent.INFIMUM_GOOD_SEARCH_RESULT - newResult) / SearchResultEnricherAgent.INFIMUM_GOOD_SEARCH_RESULT;
-		} else if(newResult > SearchResultEnricherAgent.SUPREMUM_GOOD_SEARCH_RESULT ) {
-			// query has too many results, so use a penalty 
-			penalty = (newResult - SearchResultEnricherAgent.INFIMUM_GOOD_SEARCH_RESULT) / newResult;
+		if (newResult < SearchResultEnricherAgent.INFIMUM_GOOD_SEARCH_RESULT) {
+			// query has not enough results, so use a penalty
+			penalty = (SearchResultEnricherAgent.INFIMUM_GOOD_SEARCH_RESULT - newResult)
+					/ SearchResultEnricherAgent.INFIMUM_GOOD_SEARCH_RESULT;
+		} else if (newResult > SearchResultEnricherAgent.SUPREMUM_GOOD_SEARCH_RESULT) {
+			// query has too many results, so use a penalty
+			penalty = (newResult - SearchResultEnricherAgent.INFIMUM_GOOD_SEARCH_RESULT)
+					/ newResult;
 		}
-			
 
-//		if(newResult < SearchResultEnricherAgent.INFIMUM_GOOD_SEARCH_RESULT) {
-//			// query has not enough results, so use a penalty 
-//			penalty = (SearchResultEnricherAgent.INFIMUM_GOOD_SEARCH_RESULT - newResult) / SearchResultEnricherAgent.INFIMUM_GOOD_SEARCH_RESULT;
-//
-//			if(newResult < refResult) {
-//				// ... and less than the reference - bad (+1 to avoid division by zero)
-//				quality = ((refResult - newResult + 1) / (refResult + 1));
-//			} else
-//				// ... but more than the reference - good (+1 to avoid division by zero)
-//				quality = ((newResult - refResult + 1) / (newResult + 1));
-//			}
-//			
-//		} else if(newResult > SearchResultEnricherAgent.SUPREMUM_GOOD_SEARCH_RESULT ) {
-//			// query has too many results, so use a penalty 
-//			penalty = (newResult - SearchResultEnricherAgent.INFIMUM_GOOD_SEARCH_RESULT) / newResult;
-//			
-//			if(newResult > refResult) {
-//				// ... and more than the reference - bad
-//				quality -= ((newResult - refResult) / (newResult));
-//			} else if(newResult > refResult) {
-//				// ... but less than the reference - good
-//				quality += ((refResult - newResult) / (refResult));
-//			}
-//		} 
-//		else {
-//			// result number is ok
-//
-//			if(newResult > refResult) {
-//				// ... and more than the reference - good
-//				quality += ((newResult - refResult) / (newResult));
-//			} else if(newResult > refResult) {
-//				// ... but less than the reference - bad
-//				quality -= ((refResult - newResult) / (refResult));
-//			}
-//		}
+		// if(newResult < SearchResultEnricherAgent.INFIMUM_GOOD_SEARCH_RESULT)
+		// {
+		// // query has not enough results, so use a penalty
+		// penalty = (SearchResultEnricherAgent.INFIMUM_GOOD_SEARCH_RESULT -
+		// newResult) / SearchResultEnricherAgent.INFIMUM_GOOD_SEARCH_RESULT;
+		//
+		// if(newResult < refResult) {
+		// // ... and less than the reference - bad (+1 to avoid division by
+		// zero)
+		// quality = ((refResult - newResult + 1) / (refResult + 1));
+		// } else
+		// // ... but more than the reference - good (+1 to avoid division by
+		// zero)
+		// quality = ((newResult - refResult + 1) / (newResult + 1));
+		// }
+		//
+		// } else if(newResult >
+		// SearchResultEnricherAgent.SUPREMUM_GOOD_SEARCH_RESULT ) {
+		// // query has too many results, so use a penalty
+		// penalty = (newResult -
+		// SearchResultEnricherAgent.INFIMUM_GOOD_SEARCH_RESULT) / newResult;
+		//
+		// if(newResult > refResult) {
+		// // ... and more than the reference - bad
+		// quality -= ((newResult - refResult) / (newResult));
+		// } else if(newResult > refResult) {
+		// // ... but less than the reference - good
+		// quality += ((refResult - newResult) / (refResult));
+		// }
+		// }
+		// else {
+		// // result number is ok
+		//
+		// if(newResult > refResult) {
+		// // ... and more than the reference - good
+		// quality += ((newResult - refResult) / (newResult));
+		// } else if(newResult > refResult) {
+		// // ... but less than the reference - bad
+		// quality -= ((refResult - newResult) / (refResult));
+		// }
+		// }
 		return quality * penalty;
-	}	
+	}
 }
