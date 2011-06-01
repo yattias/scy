@@ -5,6 +5,8 @@
 
 package eu.scy.client.desktop.scydesktop.elofactory;
 
+import java.util.Set;
+
 /**
  * Registry for creating new ELOs.
  *
@@ -42,6 +44,13 @@ public interface NewEloCreationRegistry {
     * @return
     */
    public String[] getEloTypeNames();
+
+    /**
+    * Return all technical formats for registered ELO types
+    *
+    * @return all registered ELO types, not the display names
+    */
+   public Set<String> getEloTypes();
 
    /**
     * Returns true if the eloType is registered

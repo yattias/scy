@@ -12,7 +12,6 @@ import java.net.URI;
 
 import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import eu.scy.client.desktop.scydesktop.ScyDesktop;
-import java.lang.UnsupportedOperationException;
 import roolo.elo.api.IMetadata;
 
 

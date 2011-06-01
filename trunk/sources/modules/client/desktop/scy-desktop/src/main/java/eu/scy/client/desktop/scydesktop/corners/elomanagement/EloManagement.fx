@@ -501,7 +501,9 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
         def searchQuery = new Query(new MetadataQueryComponent(gridEloSearch.queryBox.rawText.trim()));
         def queryContext: QueryContext = createQueryContext(null);
         searchQuery.setQueryContext(queryContext);
+//        searchQuery.setAllowedEloTypes(getAllowedEloTypes());
         logger.info("Adding Query Context: {queryContext}");
+        searchQuery.setAllowedEloTypes(scyDesktop.newEloCreationRegistry.getEloTypes());
         backgroundQuerySearch = new BackgroundQuerySearch(tbi, scyDesktop.newEloCreationRegistry, searchQuery, this);
 
         backgroundQuerySearch.start();
