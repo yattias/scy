@@ -1,6 +1,7 @@
 package eu.scy.agents.search.searchresultenricher;
 
 import java.rmi.dgc.VMID;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -128,7 +129,12 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         map.put(AgentProtocol.TS_HOST, "scy.collide.info");
         map.put(AgentProtocol.TS_PORT, 2525);
         SearchResultEnricherAgent agent = new SearchResultEnricherAgent(map);
-        agent.start();
+        
+        try {
+        	agent.start();
+        } catch (AgentLifecycleException ex) {
+        	ex.printStackTrace();
+        }
     }
     
     class SearchQueryCallback implements Callback {
@@ -145,7 +151,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
      */
 	public void enrichSearchResult(Tuple tuple) {
 //        String id = tuple.getField(1).getValue().toString();
-//        String elouri = tuple.getField(8).getValue().toString();
+        String eloUri = tuple.getField(8).getValue().toString();
         String user = tuple.getField(4).getValue().toString();
         String mission = tuple.getField(6).getValue().toString();
         String session = tuple.getField(7).getValue().toString();
@@ -157,7 +163,6 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
             String key = prop.substring(0, indexfirstEqualSign);
             String value = prop.substring(indexfirstEqualSign + 1);
             props.put(key, value);
-            System.out.println(prop);
         }
         if(	props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY) == null || props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY).equals("") || 
         	props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT) == null || props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT).equals("")) {
@@ -180,7 +185,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 		SearchResultRanking ranking = null;
 		// Choose strategy
 		if (referenceResults.size() < INFIMUM_GOOD_SEARCH_RESULT) {
-			ranking = extendSearchResult(searchQuery, referenceResults);
+			ranking = extendSearchResult(user, eloUri, searchQuery, referenceResults);
 
 		} else if (referenceResults.size() > SUPREMUM_GOOD_SEARCH_RESULT) {
 			ranking = pruneSearchResult(items, referenceResults);
@@ -191,11 +196,10 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         
         // Propose better search queries, if found
 		if (ranking != null && ranking.getResults().length > 0) {
-			System.out.println(generateResponseTuple(user, mission, session, ranking.getResults()));
+			System.out.println(generateTuple(user, mission, session, ranking));
 			
-//			KeyValue<String, Integer>[] optimizedQueries = evaluateQueries(alternativeQueries);
 //			try {
-//				commandSpace.write(generateResponseTuple(id, user, mission, session, optimizedQueries));
+//				commandSpace.write(generateResponseTuple(user, mission, session, ranking.getResults()));
 //			} catch (TupleSpaceException e) {
 //				System.out.println(e);
 //			}
@@ -205,11 +209,11 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     /*
      * Tries to create another search query, that will provide more results.
      */
-	private SearchResultRanking extendSearchResult(String query, List<ISearchResult> referenceResults) {
+	private SearchResultRanking extendSearchResult(String userId, String eloUri, String query, List<ISearchResult> referenceResults) {
 		SearchResultRanking ranking = new SearchResultRanking(MAXIMAL_PROPOSAL_NUMBER, referenceResults);
 
 		// TODO ask ontology for synonyms
-		Result[] searchQueries = new Result[0];
+//		askOntologyForSynonym(userId, eloUri, "keyword");
 		return ranking;
     }
 
@@ -247,7 +251,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     		
     		String[] itemsets = generateItemSets(items);
     		
-			// Evaluate the new queries.
+			// Perform search and evaluate the results.
         	for(int i = 0; i < itemsets.length; i++) {
 
         		List<ISearchResult> result = performSearch(itemsets[i].toString());
@@ -260,22 +264,20 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     }
     
     /*
-     * Generate n * (n-1)-itemsets out of the n-itemset (i.e.: two 1-itemsets for one 2-itemset)
+     * Generate n * (n-1)-itemsets out of the n-itemset (i.e.: three 2-itemsets for one 3-itemset)
      */
     private String[] generateItemSets(String[] items) {
     	String[] itemsets = new String[items.length];
-    	// Generate queries with one
+
+    	// Generate queries
     	for (int i = 0; i < items.length; i++) {
-    		StringBuilder sb = new StringBuilder();
+    		String s = "";
     		for (int j = 0; j < items.length; j++) {
     			if (i != j) {
-    				sb.append(items[j]);
-    				if(j < items.length - 1) {
-    					sb.append(" ");
-    				}
+    				s = s + items[j] + " ";
     			}
     		}
-    		itemsets[i] = sb.toString().trim();
+    		itemsets[i] = s.trim();
     	}
     	return itemsets;
     }
@@ -284,15 +286,15 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
      * Generates the resulting tuple, containing the alterantive search requests and their hit counts.
      * ("notification":String, <ID>:String, <User>:String, <Tool>:String, <Mission>:String, <Session>, <Query=NumberOfHits>:String*)
      */
-    private Tuple generateResponseTuple(String userId, String mission, String session, Result[] results) {
-    	Tuple responseTuple = new Tuple(AgentProtocol.NOTIFICATION, new VMID().toString(), userId, SEARCH_TOOL, AGENT_NAME, mission, session);
+    private Tuple generateTuple(String userId, String mission, String session, SearchResultRanking ranking) {
+    	Tuple tuple = new Tuple(AgentProtocol.NOTIFICATION, new VMID().toString(), userId, SEARCH_TOOL, AGENT_NAME, mission, session);
 
-    	for(Result result : results) {
+    	for(Result result : ranking.getResults()) {
     		if(result != null) {
-    			responseTuple.add(result.toString());
+    			tuple.add(result.getQuery() + "=" + result.getResult().size());
     		}
     	}
-    	return responseTuple;
+    	return tuple;
     }
     
     /*
