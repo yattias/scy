@@ -38,7 +38,7 @@
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/50067/0/Run+for+your+life%21+-+2.scymissionspecification</entry>
+        <entry>roolo://memory/50067/0/Run+for+your+life%21.scymissionspecification</entry>
       </identifier>
       <las>information</las>
       <missionRunning>
@@ -46,7 +46,7 @@
         <entry>roolo://memory/50024/0/RFYL.scymissionspecification</entry>
       </missionRunning>
       <title>
-        <string language="en">Run for your life! - 2</string>
+        <string language="en">Run for your life!</string>
       </title>
     </general>
     <relation>
