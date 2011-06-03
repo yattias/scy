@@ -5,24 +5,31 @@ import eu.scy.agents.util.time.Duration;
 
 public class TimeExcess {
 
-	private WorkflowItem item;
+    private WorkflowItem item;
 
-	private Duration timeExcess;
+    private Duration timeExcess;
 
-	public WorkflowItem getItem() {
-		return item;
-	}
+    public WorkflowItem getItem() {
+        return item;
+    }
 
-	public void setItem(WorkflowItem item) {
-		this.item = item;
-	}
+    public void setItem(WorkflowItem item) {
+        this.item = item;
+    }
 
-	public Duration getTimeExcess() {
-		return timeExcess;
-	}
+    public Duration getTimeExcess() {
+        return timeExcess;
+    }
 
-	public void setTimeExcess(Duration timeExcess) {
-		this.timeExcess = timeExcess;
-	}
+    public void setTimeExcess(Duration timeExcess) {
+        this.timeExcess = timeExcess;
+    }
 
+    @Override
+    public String toString() {
+        return "TimeExcess{" +
+                "item=" + item +
+                ", timeExcess=" + timeExcess +
+                '}';
+    }
 }

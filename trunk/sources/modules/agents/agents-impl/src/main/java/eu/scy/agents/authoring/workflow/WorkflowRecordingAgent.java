@@ -6,10 +6,15 @@ import eu.scy.actionlogging.api.IAction;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
 import eu.scy.agents.authoring.workflow.paths.Path;
+import eu.scy.agents.authoring.workflow.paths.PathAnalyzer;
+import eu.scy.agents.authoring.workflow.paths.TimeExcess;
 import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
 import eu.scy.agents.impl.AgentRooloServiceImpl;
+import eu.scy.agents.util.time.DefaultTimer;
+import eu.scy.agents.util.time.Duration;
+import eu.scy.agents.util.time.Timer;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
@@ -18,16 +23,26 @@ import roolo.elo.api.IMetadataTypeManager;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class WorkflowRecordingAgent extends AbstractThreadedAgent implements
         IRepositoryAgent {
 
     static String NAME = WorkflowRecordingAgent.class.getName();
 
+    public static final String ALARM_EXCESS_DURATION = "AlarmExcessDuration";
     private static final String LAS = "newLasId";
     private static final String OLD_LAS = "oldLasId";
+    private static final String TIMER = "Timer";
+    private static final String CHECK_PERIOD = "CheckPeriod";
+
+    private int checkPeriod = 10;
 
     private int listenerId;
 
@@ -39,6 +54,7 @@ public class WorkflowRecordingAgent extends AbstractThreadedAgent implements
     private Map<String, Path> paths;
 
     private int logoutListenerId;
+    private Timer timer;
 
     public WorkflowRecordingAgent(Map<String, Object> params) {
         super(NAME, (String) params.get(AgentProtocol.PARAM_AGENT_ID));
@@ -48,10 +64,21 @@ public class WorkflowRecordingAgent extends AbstractThreadedAgent implements
         if (params.containsKey(AgentProtocol.TS_PORT)) {
             port = (Integer) params.get(AgentProtocol.TS_PORT);
         }
+        if (params.containsKey(TIMER)) {
+            timer = (Timer) params.get(TIMER);
+        } else {
+            timer = new DefaultTimer();
+        }
+        if (params.containsKey(CHECK_PERIOD)) {
+            checkPeriod = (Integer) params.get(CHECK_PERIOD);
+        }
+
 
         mission2workflows = new ConcurrentHashMap<String, String>();
         workflows = new ConcurrentHashMap<String, Workflow>();
         paths = new ConcurrentHashMap<String, Path>();
+
+
         rooloService = new AgentRooloServiceImpl();
 
         try {
@@ -74,12 +101,16 @@ public class WorkflowRecordingAgent extends AbstractThreadedAgent implements
     @Override
     protected void doRun() throws TupleSpaceException, AgentLifecycleException,
             InterruptedException {
+
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleAtFixedRate(new TimeConstraintsChecker(this), 0, checkPeriod, TimeUnit.MINUTES);
+
         while (status == Status.Running) {
-            // check time constraints here
-            // set time > plan == notification as parameter
             sendAliveUpdate();
-            Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 3);
+            Thread.sleep(AgentProtocol.ALIVE_INTERVAL / 2);
         }
+
+        service.shutdownNow();
     }
 
     @Override
@@ -132,6 +163,7 @@ public class WorkflowRecordingAgent extends AbstractThreadedAgent implements
         Path path = paths.get(user);
         if (path == null) {
             path = new Path();
+            path.setTimer(timer);
             paths.put(user, path);
         }
         return path;
@@ -162,5 +194,54 @@ public class WorkflowRecordingAgent extends AbstractThreadedAgent implements
     @Override
     public void setMetadataTypeManager(IMetadataTypeManager manager) {
         rooloService.setMetadataTypeManager(manager);
+    }
+
+    private static class TimeConstraintsChecker implements Runnable {
+
+        private Integer alarmExcessDuration;
+        private WorkflowRecordingAgent agent;
+
+        TimeConstraintsChecker(WorkflowRecordingAgent agent) {
+            this.agent = agent;
+        }
+
+        @Override
+        public void run() {
+            alarmExcessDuration = agent.configuration.getParameter(ALARM_EXCESS_DURATION);
+            if (alarmExcessDuration == null) {
+                alarmExcessDuration = 0;
+            }
+            for (Workflow workflow : agent.workflows.values()) {
+                PathAnalyzer analyzer = new PathAnalyzer(workflow);
+                for (String user : agent.paths.keySet()) {
+                    Path path = agent.paths.get(user);
+                    List<TimeExcess> timeExcesses = analyzer.getTimeExcesses(path);
+                    if (!timeExcesses.isEmpty()) {
+                        List<Tuple> report = generateReport(user, timeExcesses);
+                        sendReport(report);
+                    }
+                }
+            }
+        }
+
+        private List<Tuple> generateReport(String user, List<TimeExcess> timeExcesses) {
+            List<Tuple> reportTuples = new ArrayList<Tuple>();
+            for (TimeExcess timeExcess : timeExcesses) {
+                if (timeExcess.getTimeExcess().greater(Duration.fromMinutes(alarmExcessDuration))) {
+                    reportTuples.add(new Tuple("time_excess", user, timeExcess.getItem().getId(), timeExcess.getTimeExcess().toMinutes()));
+                }
+            }
+            return reportTuples;
+        }
+
+        private void sendReport(List<Tuple> report) {
+            for (Tuple tuple : report) {
+                try {
+                    agent.getSessionSpace().write(tuple);
+                } catch (TupleSpaceException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

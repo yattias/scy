@@ -27,6 +27,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.rmi.dgc.VMID;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,22 +35,24 @@ import java.util.Map;
 
 public class AbstractTestFixture {
 
+	public static final boolean STANDALONE = true;
+	
     protected static final String MISSION1 = "roolo://memory/0/0/Design+a+CO2-friendly+house.scymissionspecification";
-    // private static final String TM_MODEL_NAME = "TopicModel";
     protected static String TSHOST = "localhost";
     // protected static String TSHOST = "scy.collide.info";
     protected static int TSPORT = 2525;
-    public static final boolean STANDALONE = true;
+    protected static ClassPathXmlApplicationContext applicationContext;
+    
     protected IMetadataTypeManager typeManager;
     protected IExtensionManager extensionManager;
     protected IRepository repository;
     protected Map<String, Map<String, Object>> agentMap = new HashMap<String, Map<String, Object>>();
+    
     private AgentManager agentFramework;
     private ArrayList<String> agentList;
     private TupleSpace tupleSpace;
-    // private PersistentStorage storage;
+    private TupleSpace sessionSpace;
     private TupleSpace actionSpace;
-    protected static ClassPathXmlApplicationContext applicationContext;
 
     public AbstractTestFixture() {
     }
@@ -66,6 +69,8 @@ public class AbstractTestFixture {
                     false, false, AgentProtocol.COMMAND_SPACE_NAME);
             actionSpace = new TupleSpace(new User("test"), TSHOST, TSPORT,
                     false, false, AgentProtocol.ACTION_SPACE_NAME);
+            sessionSpace = new TupleSpace(new User("test"), TSHOST, TSPORT,
+                    false, false, AgentProtocol.SESSION_SPACE_NAME);
         }
 
         agentMap.clear();
@@ -165,6 +170,11 @@ public class AbstractTestFixture {
     public TupleSpace getCommandSpace() {
         return tupleSpace;
     }
+    
+    public TupleSpace getSessionSpace() {
+        return sessionSpace;
+    }
+
 
     public TupleSpace getActionSpace() {
         return actionSpace;
@@ -254,4 +264,27 @@ public class AbstractTestFixture {
     // this.getPersistentStorage().put(MISSION1, "en",
     // KeywordWorkflowConstants.DOCUMENT_FREQUENCY_MODEL, dfModel);
     // }
+
+    protected Tuple logout(String user, String mission) {
+        return new Tuple(ActionConstants.ACTION, new VMID().toString(),
+                System.currentTimeMillis(), ActionConstants.ACTION_LOG_OUT,
+                user, "scy-desktop", mission, "n/a",
+                "n/a");
+    }
+
+    protected Tuple lasChangeTuple(String user, String mission, String las, String oldLas, String eloUri) {
+        return new Tuple(ActionConstants.ACTION, new VMID().toString(),
+                System.currentTimeMillis(), ActionConstants.ACTION_LAS_CHANGED,
+                user, "scymapper", mission, "session1",
+                eloUri, "newLasId=" + las, "oldLasId=" + oldLas);
+    }
+
+    protected Tuple login(String user, String mission, String missionName) {
+        return new Tuple(ActionConstants.ACTION, new VMID().toString(),
+                System.currentTimeMillis(), ActionConstants.ACTION_LOG_IN,
+                user, "scy-desktop", mission, "n/a",
+                "roolo://memory/16/0/eco_reference_map.mapping",
+                "missionSpecification=" + mission, "language=en",
+                "missionName=" + missionName);
+    }
 }
