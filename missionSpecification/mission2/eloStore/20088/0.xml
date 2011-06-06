@@ -64,10 +64,10 @@
     <varspec>
       <variable>
         <descriptor>
-          <symbol>r</symbol>
+          <symbol>natural_growth_factor_of_prey</symbol>
         </descriptor>
         <type>double</type>
-        <color>#000000</color>
+        <color>#0000ff</color>
         <visible>true</visible>
       </variable>
       <specification>
@@ -83,12 +83,12 @@
           <symbol>gains_predator</symbol>
         </descriptor>
         <type>double</type>
-        <color>#73be1e</color>
+        <color>#ff00ff</color>
         <visible>true</visible>
       </variable>
       <specification>
         <auxSpec>
-          <expression>d*prey*predator</expression>
+          <expression>ability_of_predaore_to_convert_prey_biomass_in_predator_biomass*predator*prey</expression>
           <unit>?</unit>
           <exprType>0</exprType>
         </auxSpec>
@@ -100,7 +100,7 @@
           <symbol>prey</symbol>
         </descriptor>
         <type>double</type>
-        <color>#008000</color>
+        <color>#00b200</color>
         <visible>true</visible>
       </variable>
       <specification>
@@ -110,6 +110,22 @@
           <inflow>gains_prey</inflow>
           <outflow>losses_prey</outflow>
         </stockSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>natural_death_coefficient_of_predator</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#ffc800</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>0.2</expression>
+          <unit>?</unit>
+        </constSpec>
       </specification>
     </varspec>
     <varspec>
@@ -125,8 +141,40 @@
         <timeSpec>
           <unit>?</unit>
           <time start="0.0" stop="100.0" />
-          <integration method="RungeKuttaFehlberg" step="1.0" />
+          <integration method="RungeKuttaFehlberg" step="0.1" />
         </timeSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>ability_of_predator_to_catch_and_feed_on_prey</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#0000ff</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>0.1</expression>
+          <unit>?</unit>
+        </constSpec>
+      </specification>
+    </varspec>
+    <varspec>
+      <variable>
+        <descriptor>
+          <symbol>ability_of_predaore_to_convert_prey_biomass_in_predator_biomass</symbol>
+        </descriptor>
+        <type>double</type>
+        <color>#ff00ff</color>
+        <visible>true</visible>
+      </variable>
+      <specification>
+        <constSpec>
+          <expression>0.1</expression>
+          <unit>?</unit>
+        </constSpec>
       </specification>
     </varspec>
     <varspec>
@@ -135,12 +183,12 @@
           <symbol>gains_prey</symbol>
         </descriptor>
         <type>double</type>
-        <color>#4c47ff</color>
+        <color>#00b200</color>
         <visible>true</visible>
       </variable>
       <specification>
         <auxSpec>
-          <expression>prey*r</expression>
+          <expression>natural_growth_factor_of_prey*prey</expression>
           <unit>?</unit>
           <exprType>0</exprType>
         </auxSpec>
@@ -152,7 +200,7 @@
           <symbol>predator</symbol>
         </descriptor>
         <type>double</type>
-        <color>#2c92bb</color>
+        <color>#b20000</color>
         <visible>true</visible>
       </variable>
       <specification>
@@ -170,31 +218,15 @@
           <symbol>losses_prey</symbol>
         </descriptor>
         <type>double</type>
-        <color>#f86856</color>
+        <color>#b20000</color>
         <visible>true</visible>
       </variable>
       <specification>
         <auxSpec>
-          <expression>b*predator*prey</expression>
+          <expression>ability_of_predator_to_catch_and_feed_on_prey*prey*predator</expression>
           <unit>?</unit>
           <exprType>0</exprType>
         </auxSpec>
-      </specification>
-    </varspec>
-    <varspec>
-      <variable>
-        <descriptor>
-          <symbol>d</symbol>
-        </descriptor>
-        <type>double</type>
-        <color>#000000</color>
-        <visible>true</visible>
-      </variable>
-      <specification>
-        <constSpec>
-          <expression>0.1</expression>
-          <unit>?</unit>
-        </constSpec>
       </specification>
     </varspec>
     <varspec>
@@ -203,82 +235,50 @@
           <symbol>losses_predator</symbol>
         </descriptor>
         <type>double</type>
-        <color>#5ad8ff</color>
+        <color>#b2b200</color>
         <visible>true</visible>
       </variable>
       <specification>
         <auxSpec>
-          <expression>c*predator</expression>
+          <expression>natural_death_coefficient_of_predator*predator</expression>
           <unit>?</unit>
           <exprType>0</exprType>
         </auxSpec>
       </specification>
     </varspec>
-    <varspec>
-      <variable>
-        <descriptor>
-          <symbol>c</symbol>
-        </descriptor>
-        <type>double</type>
-        <color>#000000</color>
-        <visible>true</visible>
-      </variable>
-      <specification>
-        <constSpec>
-          <expression>0.2</expression>
-          <unit>?</unit>
-        </constSpec>
-      </specification>
-    </varspec>
-    <varspec>
-      <variable>
-        <descriptor>
-          <symbol>b</symbol>
-        </descriptor>
-        <type>double</type>
-        <color>#000000</color>
-        <visible>true</visible>
-      </variable>
-      <specification>
-        <constSpec>
-          <expression>0.1</expression>
-          <unit>?</unit>
-        </constSpec>
-      </specification>
-    </varspec>
   </variables>
   <layout>
     <nodes>
-      <nstock symbol="predator" id="90f13b66-afe9-4678-b8d9-11c7f5a0a8b4" x1="256" y1="190" x2="288" y2="210" label="south" color="#000000" labelColor="#2c92bb" />
-      <nstock symbol="prey" id="54d9b131-731f-4581-807b-9dcc4ab4073b" x1="261" y1="12" x2="293" y2="32" label="south" color="#000000" labelColor="#008000" />
-      <naux symbol="gains_predator" id="44d8d084-8a0c-4b41-8e8f-ae361b37fdfb" x1="132" y1="253" x2="164" y2="285" label="south" color="#000000" labelColor="#73be1e" />
-      <naux symbol="gains_prey" id="f789de23-ec3c-4aa2-a29c-9c6d7387ba38" x1="139" y1="66" x2="171" y2="98" label="south" color="#000000" labelColor="#4c47ff" />
-      <naux symbol="losses_prey" id="b1bddc1e-df38-4f2f-a4d1-4abbb8d15ba7" x1="365" y1="65" x2="397" y2="97" label="south" color="#000000" labelColor="#f86856" />
-      <naux symbol="losses_predator" id="f3c78b61-1621-4ff7-a3a3-81242901d434" x1="359" y1="243" x2="391" y2="275" label="south" color="#000000" labelColor="#5ad8ff" />
-      <nconst symbol="b" id="046fedeb-ff03-4ea8-86db-4723f57e1ca1" x1="478" y1="108" x2="510" y2="140" label="south" color="#000000" labelColor="#000000" />
-      <nconst symbol="r" id="1dc1691b-2a1f-417c-98db-d0d247bd868a" x1="43" y1="86" x2="75" y2="118" label="south" color="#000000" labelColor="#000000" />
-      <nconst symbol="d" id="eb244a18-79fe-4b4e-bf3c-6bb1e6753561" x1="60" y1="322" x2="92" y2="354" label="south" color="#000000" labelColor="#000000" />
-      <nconst symbol="c" id="684f77fb-08ca-49fd-8446-4be968a01aa2" x1="442" y1="306" x2="474" y2="338" label="south" color="#000000" labelColor="#000000" />
+      <nstock symbol="predator" id="040c3214-d649-4fc9-842d-65ab5cc1b781" x1="373" y1="254" x2="405" y2="274" label="south" color="#000000" labelColor="#b20000" />
+      <nstock symbol="prey" id="9082a177-e1e0-4a79-9852-d311469e7e21" x1="371" y1="44" x2="403" y2="64" label="south" color="#000000" labelColor="#00b200" />
+      <naux symbol="gains_predator" id="0cdd19a2-af6c-4f12-8702-33571823ce83" x1="259" y1="323" x2="291" y2="355" label="south" color="#000000" labelColor="#ff00ff" />
+      <naux symbol="gains_prey" id="c1ca3af5-6f06-4570-aa3d-dfd41ac16667" x1="239" y1="99" x2="271" y2="131" label="south" color="#000000" labelColor="#00b200" />
+      <naux symbol="losses_prey" id="7374814d-bf96-49af-a1d6-e90e7705729e" x1="521" y1="104" x2="553" y2="136" label="south" color="#000000" labelColor="#b20000" />
+      <naux symbol="losses_predator" id="15ab3523-3410-4f56-bcf0-43b049edc3cf" x1="488" y1="316" x2="520" y2="348" label="south" color="#000000" labelColor="#b2b200" />
+      <nconst symbol="ability_of_predaore_to_convert_prey_biomass_in_predator_biomass" id="0c4a8977-857c-495c-afab-42fe547d2e41" x1="179" y1="358" x2="211" y2="390" label="south" color="#000000" labelColor="#ff00ff" />
+      <nconst symbol="natural_growth_factor_of_prey" id="5e6346ad-852d-4b70-8e9b-cb300447317b" x1="138" y1="146" x2="170" y2="178" label="south" color="#000000" labelColor="#0000ff" />
+      <nconst symbol="natural_death_coefficient_of_predator" id="e3f6a936-fa2d-4183-868e-a56fc0548ffe" x1="545" y1="372" x2="577" y2="404" label="south" color="#000000" labelColor="#ffc800" />
+      <nconst symbol="ability_of_predator_to_catch_and_feed_on_prey" id="f4807122-8f41-4b1b-b75c-51e9d57d8346" x1="609" y1="144" x2="641" y2="176" label="south" color="#000000" labelColor="#0000ff" />
     </nodes>
     <links>
-      <lflow symbol="Flow_4" id="0f278e40-50b6-48de-9dbc-25b0ae3c2628" end="predator" x1="35" y1="200" x2="256" y2="200" cx1="256" cy1="200" type="lineal" color="#000000" />
-      <lflow symbol="Flow_3" id="34e3a378-c35c-436a-a099-ce79ee1b9061" end="prey" x1="46" y1="22" x2="261" y2="22" cx1="261" cy1="22" type="lineal" color="#000000" />
-      <lflow symbol="Flow_2" id="cbfc4f62-4d15-48c7-b278-42e5eace9faa" start="predator" x1="288" y1="202" x2="464" y2="202" cx1="464" cy1="202" type="lineal" color="#000000" />
-      <lflow symbol="Flow_1" id="733e5342-c905-46a1-aa21-c9c8ce0cc73d" start="prey" x1="293" y1="23" x2="473" y2="23" cx1="473" cy1="23" type="lineal" color="#000000" />
-      <lrelation symbol="Relation_9" id="be32d234-577a-4615-a904-ec0b833d4168" start="prey" end="gains_prey" type="0" x1="261" y1="31" x2="168" y2="74" cx1="231" cy1="48" cx2="197" cy2="56" color="#000000" />
-      <lrelation symbol="Relation_8" id="12a3ce4a-8d9c-49ae-a2d6-24fd2aea06f0" start="d" end="gains_predator" type="0" x1="78" y1="324" x2="137" y2="279" cx1="81" cy1="298" cx2="117" cy2="297" color="#000000" />
-      <lrelation symbol="Relation_14" id="d34365a7-cbea-4ee2-b5c7-4782dec5f62f" start="predator" end="losses_prey" type="0" x1="288" y1="190" x2="366" y2="81" cx1="329" cy1="164" cx2="319" cy2="81" color="#000000" />
-      <lrelation symbol="Relation_7" id="cfb96e99-046c-4697-907f-ad69415bfbee" start="c" end="losses_predator" type="0" x1="456" y1="307" x2="389" y2="267" cx1="453" cy1="280" cx2="412" cy2="280" color="#000000" />
-      <lrelation symbol="Relation_13" id="eb89c421-0e8e-4715-a3ec-ba8cf5d0e00c" start="prey" end="gains_predator" type="0" x1="266" y1="32" x2="156" y2="256" cx1="200" cy1="92" cx2="200" cy2="184" color="#000000" />
-      <lrelation symbol="Relation_6" id="cd0691d4-161c-4aba-ad80-638f88f93a03" start="b" end="losses_prey" type="0" x1="486" y1="115" x2="396" y2="87" cx1="465" cy1="91" cx2="426" cy2="99" color="#000000" />
-      <lrelation symbol="Relation_12" id="827a8275-e957-4f1d-9a47-e3c76c216d98" start="predator" end="losses_predator" type="0" x1="288" y1="209" x2="360" y2="259" cx1="314" cy1="223" cx2="331" cy2="259" color="#000000" />
-      <lrelation symbol="Relation_5" id="580c1fdb-543d-4263-bc74-fd41003e1b9e" start="r" end="gains_prey" type="0" x1="67" y1="94" x2="143" y2="73" cx1="86" cy1="75" cx2="122" cy2="57" color="#000000" />
-      <lrelation symbol="Relation_11" id="06d282f7-5476-4cea-bdc1-b87e8f4cb4bd" start="predator" end="gains_predator" type="0" x1="256" y1="209" x2="162" y2="263" cx1="224" cy1="227" cx2="195" cy2="249" color="#000000" />
-      <lrelation symbol="Relation_4" id="4e56ae13-0856-4d2e-9cc9-9370bff82fd1" start="losses_predator" end="Flow_2" type="0" x1="383" y1="246" x2="378" y2="209" cx1="389" cy1="236" cx2="381" cy2="221" color="#000000" />
-      <lrelation symbol="Relation_10" id="8730ea62-94b0-4eb4-823c-d06edd213209" start="prey" end="losses_prey" type="0" x1="287" y1="32" x2="371" y2="71" cx1="309" cy1="54" cx2="349" cy2="49" color="#000000" />
-      <lrelation symbol="Relation_3" id="60008926-1a74-4f62-8a85-4355b1a0292a" start="gains_predator" end="Flow_4" type="0" x1="148" y1="254" x2="139" y2="207" cx1="148" cy1="237" cx2="126" cy2="220" color="#000000" />
-      <lrelation symbol="Relation_2" id="a9d71eeb-b2bb-4f3c-ac4a-02d0d69d6013" start="losses_prey" end="Flow_1" type="0" x1="381" y1="66" x2="376" y2="30" cx1="381" cy1="53" cx2="366" cy2="40" color="#000000" />
-      <lrelation symbol="Relation_1" id="7e0f3915-4026-45a7-a6bb-5e76bc1be736" start="gains_prey" end="Flow_3" type="0" x1="158" y1="67" x2="161" y2="29" cx1="160" cy1="55" cx2="170" cy2="38" color="#000000" />
+      <lflow symbol="Flow_4" id="4ff91711-9076-4933-89f1-84dce0671705" start="predator" x1="405" y1="264" x2="656" y2="264" cx1="656" cy1="264" type="lineal" color="#000000" />
+      <lflow symbol="Flow_3" id="d2477805-b202-487b-89e5-eecce9d30414" end="predator" x1="115" y1="264" x2="373" y2="264" cx1="373" cy1="264" type="lineal" color="#000000" />
+      <lflow symbol="Flow_2" id="f4925e7e-0bc1-45c7-8cb9-3958a46b5ca8" start="prey" x1="403" y1="53" x2="635" y2="53" cx1="635" cy1="53" type="lineal" color="#000000" />
+      <lflow symbol="Flow_1" id="8d07d8ca-be48-4052-b38f-ba1190a0d0d9" end="prey" x1="120" y1="53" x2="371" y2="53" cx1="371" cy1="53" type="lineal" color="#000000" />
+      <lrelation symbol="Relation_9" id="12663421-2ad7-4159-8a26-83fe3408cd1f" start="prey" end="gains_prey" type="0" x1="371" y1="61" x2="270" y2="111" cx1="336" cy1="76" cx2="308" cy2="101" color="#000000" />
+      <lrelation symbol="Relation_8" id="1e97c2de-db62-463b-910d-b44cd580dd0e" start="natural_death_coefficient_of_predator" end="losses_predator" type="0" x1="553" y1="379" x2="518" y2="340" cx1="542" cy1="366" cx2="533" cy2="348" color="#000000" />
+      <lrelation symbol="Relation_14" id="7671ad69-836d-426c-9f79-41e32835df52" start="predator" end="losses_prey" type="0" x1="398" y1="254" x2="523" y2="126" cx1="439" cy1="208" cx2="467" cy2="150" color="#000000" />
+      <lrelation symbol="Relation_7" id="b35370bb-4451-4ead-b0c1-9f07d0b9dd89" start="ability_of_predaore_to_convert_prey_biomass_in_predator_biomass" end="gains_predator" type="0" x1="206" y1="369" x2="262" y2="347" cx1="224" cy1="361" cx2="245" cy2="357" color="#000000" />
+      <lrelation symbol="Relation_13" id="3cd42013-1c1d-40d0-8f0b-04ba805813c1" start="prey" end="gains_predator" type="0" x1="381" y1="64" x2="281" y2="325" cx1="331" cy1="148" cx2="318" cy2="239" color="#000000" />
+      <lrelation symbol="Relation_6" id="7eb0383e-0cab-4e7c-b974-59cdf489a6cd" start="ability_of_predator_to_catch_and_feed_on_prey" end="losses_prey" type="0" x1="613" y1="155" x2="548" y2="131" cx1="592" cy1="146" cx2="565" cy2="148" color="#000000" />
+      <lrelation symbol="Relation_12" id="425e4f09-6555-4035-a094-3f6cfa8bb018" start="predator" end="losses_predator" type="0" x1="405" y1="273" x2="492" y2="324" cx1="434" cy1="289" cx2="464" cy2="305" color="#000000" />
+      <lrelation symbol="Relation_5" id="e1de54e7-dd2b-4de3-8e3c-1db8fc76b52d" start="natural_growth_factor_of_prey" end="gains_prey" type="0" x1="164" y1="156" x2="241" y2="119" cx1="190" cy1="141" cx2="213" cy2="127" color="#000000" />
+      <lrelation symbol="Relation_11" id="e1ed4240-3d8e-499f-92a6-e561720228ea" start="predator" end="gains_predator" type="0" x1="373" y1="273" x2="289" y2="332" cx1="343" cy1="290" cx2="321" cy2="316" color="#000000" />
+      <lrelation symbol="Relation_4" id="73b57ca3-425f-49a1-b129-529aa50eb0dd" start="losses_predator" end="Flow_4" type="0" x1="510" y1="318" x2="527" y2="271" cx1="516" cy1="303" cx2="519" cy2="285" color="#000000" />
+      <lrelation symbol="Relation_10" id="41cb0a57-f4ae-4151-80e0-fec6a6ef43ee" start="prey" end="losses_prey" type="0" x1="403" y1="61" x2="522" y2="120" cx1="444" cy1="79" cx2="478" cy2="120" color="#000000" />
+      <lrelation symbol="Relation_3" id="c4248756-8e48-489b-8890-50a1b751d337" start="gains_predator" end="Flow_3" type="0" x1="269" y1="325" x2="243" y2="271" cx1="261" cy1="306" cx2="241" cy2="291" color="#000000" />
+      <lrelation symbol="Relation_2" id="bdd5bb5f-007b-47ca-b821-9909a31c09b6" start="losses_prey" end="Flow_2" type="0" x1="546" y1="108" x2="522" y2="60" cx1="557" cy1="93" cx2="530" cy2="79" color="#000000" />
+      <lrelation symbol="Relation_1" id="03fd75a6-6b37-410e-a3d3-23acf82fce72" start="gains_prey" end="Flow_1" type="0" x1="255" y1="100" x2="247" y2="60" cx1="255" cy1="87" cx2="248" cy2="73" color="#000000" />
     </links>
   </layout>
 </model>
