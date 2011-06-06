@@ -1,8 +1,0 @@
-content	scylighter	content/
-locale	scylighter	en-US	content/locale/en-US/
-skin	scylighter	classic/1.0	skin/
-overlay	chrome://browser/content/browser.xul	chrome://scylighter/content/firefoxOverlay.xul
-overlay	chrome://browser/content/browser.xul	chrome://scylighter/content/menubarOverlay.xul
-overlay	chrome://scylighter/content/firefoxOverlay.xul	chrome://scylighter/content/sidebar.xul
-style	chrome://global/content/customizeToolbar.xul	chrome://scylighter/skin/overlay.css
-resource scylighter modules/

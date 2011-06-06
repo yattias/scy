@@ -1,6 +1,0 @@
-<!DOCTYPE document SYSTEM "http://google-web-toolkit.googlecode.com/svn/releases/1.5/distro-source/core/src/gwt-module.dtd">
-<module>
-	<!-- Use this module to run the CO2Sim Tool on its own -->
-	<inherits name="eu.scy.tools.co2sim.CO2Sim" />
-	<entry-point class="eu.scy.tools.co2sim.client.CO2SimApp" />
-</module>

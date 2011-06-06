@@ -48,7 +48,7 @@ public abstract class TMParameters {
     /**
      * regular expressions needed to tokenize text and split into sentences
      */
-    public static final String ALPHA_PATTERN = "a-zA-ZäöüßáéíúóúàèìòùãõâêîôûåäëïöüçñøýÿÄÖÜÁÉÍÚÓÚÀÈÌÒÙÃÕÂÊÎÔÛÄËÏÖÜÇÑØÝ";
+    public static final String ALPHA_PATTERN = "a-zA";
     public static final String URL_PATTERN = "(http|https)://[-_\\.\\~" + ALPHA_PATTERN
             + "0-9/=&\\?]+";
     public static final String EMAIL_PATTERN = "[-" + ALPHA_PATTERN + "0-9\\.]+@[-" + ALPHA_PATTERN
