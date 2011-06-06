@@ -23,7 +23,6 @@ import javafx.geometry.Point2D;
 import eu.scy.client.desktop.scydesktop.owner.OwnershipManager;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 import eu.scy.client.desktop.desktoputils.art.EloIcon;
-import java.lang.IllegalArgumentException;
 
 /**
  * @author sikkenj

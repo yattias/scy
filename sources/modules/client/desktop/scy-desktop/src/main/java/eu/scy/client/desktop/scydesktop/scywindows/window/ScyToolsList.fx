@@ -19,6 +19,7 @@ import eu.scy.client.desktop.scydesktop.tools.RuntimeSettingsRetriever;
 import java.awt.image.BufferedImage;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 
 /**
  * @author sikken
@@ -200,6 +201,20 @@ public class ScyToolsList extends ScyToolFX {
       for (scyTool in scyToolList) {
          if (scyTool instanceof ScyToolFX){
             (scyTool as ScyToolFX).setTitleBarButtonManager(titleBarButtonManager,scyTool==windowContentTool);
+         }
+      }
+   }
+
+   public override function setReadOnly(readOnly: Boolean): Void {
+      for (scyTool in scyToolList) {
+         scyTool.setReadOnly(readOnly);
+      }
+   }
+
+   public override function setWindowColorScheme(windowColorScheme: WindowColorScheme): Void {
+      for (scyTool in scyToolList) {
+         if (scyTool instanceof ScyToolFX){
+            (scyTool as ScyToolFX).setWindowColorScheme(windowColorScheme);
          }
       }
    }

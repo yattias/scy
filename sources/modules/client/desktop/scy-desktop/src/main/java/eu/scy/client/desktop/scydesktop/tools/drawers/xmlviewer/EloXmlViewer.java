@@ -247,4 +247,9 @@ public class EloXmlViewer extends javax.swing.JPanel implements ScyTool, ScyTool
       return DrawerUIIndicator.XML_VIEWER;
    }
 
+   @Override
+   public void setReadOnly(boolean readOnly)
+   {
+   }
+
 }

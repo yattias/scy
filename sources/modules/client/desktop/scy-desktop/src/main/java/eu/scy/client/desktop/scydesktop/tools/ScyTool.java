@@ -143,4 +143,15 @@ public interface ScyTool
     * @returns the DrawerUIIndicator
     */
    public DrawerUIIndicator getDrawerUIIndicator();
+
+   /**
+    * Set the read only mode.
+    *
+    * If the ELO is in read only mode, then editing of the ELO should be prevented.
+    *
+    * @param readOnly
+    */
+   public void setReadOnly(boolean readOnly);
+
+
 }

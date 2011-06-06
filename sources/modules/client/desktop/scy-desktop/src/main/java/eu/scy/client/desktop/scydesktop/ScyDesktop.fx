@@ -788,6 +788,8 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
       scyToolsList.setMyEloChanged(myEloChanged);
       scyToolsList.setRuntimeSettingsRetriever(runtimeSettingsRetriever);
       scyToolsList.setTitleBarButtonManager(window.titleBarButtonManager);
+      scyToolsList.setReadOnly(initializer.globalReadOnlyMode);
+      scyToolsList.setWindowColorScheme(window.windowColorScheme);
       scyToolsList.initialize();
       scyToolsList.postInitialize();
       XFX.deferActionAndWait(function() {

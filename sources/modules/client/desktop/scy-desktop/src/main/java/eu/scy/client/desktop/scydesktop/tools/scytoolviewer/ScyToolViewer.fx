@@ -38,6 +38,7 @@ import eu.scy.client.desktop.scydesktop.scywindows.MoreInfoManager;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 import eu.scy.client.desktop.scydesktop.tools.DrawerUIIndicator;
 import eu.scy.client.desktop.scydesktop.tools.RuntimeSettingsRetriever;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 
 /**
  * @author sikken
@@ -245,6 +246,14 @@ public class ScyToolViewer extends CustomNode, Resizable, ScyToolFX {
    public override function getDrawerUIIndicator(): DrawerUIIndicator {
       addMessage("getDrawerUIIndicator");
       return DrawerUIIndicator.SCY_TOOL_VIEWER;
+   }
+
+   public override function setReadOnly(readOnly: Boolean): Void {
+      addMessage("setReadOnly({readOnly})");
+   }
+
+   public override function setWindowColorScheme(windowColorScheme: WindowColorScheme): Void {
+      addMessage("setWindowColorScheme({windowColorScheme.colorSchemeId})");
    }
 
    function sizeChanged(): Void {
