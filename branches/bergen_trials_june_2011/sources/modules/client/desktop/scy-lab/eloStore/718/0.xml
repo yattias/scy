@@ -1,0 +1,94 @@
+<elo>
+<metadata>
+  <lom>
+    <technical>
+      <format>scy/simconfig</format>
+      <customElements>
+        <dateCreated>1284988521692</dateCreated>
+        <dateLastModified>1284988521693</dateLastModified>
+      </customElements>
+    </technical>
+    <general>
+      <title>
+        <string language="en">pendulum_rotate</string>
+      </title>
+      <mission>co2Mission</mission>
+      <las>startPage</las>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/718/0/pendulum_rotate.scysimconfig</entry>
+      </identifier>
+    </general>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>lars</entity>
+        <date>
+          <dateTime>2010-09-20T15:15:21.692+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>isbasedon</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/740/0/Design+a+CO2-friendly+house.scymissionruntime</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<simconfig simulationname="New Equation Model" simulationuri="http://www.scy-lab.eu/sqzx/RotatingPendulum.sqzx">
+  <variable name="g" value="9.81" />
+  <variable name="orientation" value="0.005651708970649781" />
+  <variable name="a_dot" value="2.0277602915486628" />
+  <variable name="a" value="0.5485677435433375" />
+  <variable name="l" value="1.0" />
+  <variable name="simulator__action" value="1.0" />
+  <variable name="va_dot" value="-5.162804368075509" />
+  <variable name="startTime" value="0.0" />
+  <variable name="simulator__slowdown" value="0.0" />
+  <variable name="time" value="32.26899439006433" />
+  <variable name="outputAfterTime" value="0.01" />
+  <variable name="sleepTime" value="10.0" />
+  <variable name="rotation" value="0.3238190710544586" />
+  <variable name="stepSize" value="0.01587454570202283" />
+  <variable name="tolerance" value="1.0E-6" />
+  <variable name="finishTime" value="1000000.0" />
+  <variable name="aa" value="-5.162804368075509" />
+  <variable name="va" value="2.0277602915486628" />
+  <variable name="simulator__state" value="2.0" />
+  <variable name="y" value="-0.8532722695454205" />
+  <variable name="x" value="-0.521465659487571" />
+</simconfig>
+</content>
+<resources>
+</resources>
+</elo>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>eu.scy</groupId>
+        <version>34-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>eu.scy.server</groupId>
+    <artifactId>parent</artifactId>
+    <packaging>pom</packaging>
+    <name>scy-server</name>
+    <url>http://www.scy-net.eu</url>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>tomcat-maven-plugin</artifactId>
+                <version>1.0-beta-1</version>
+                <configuration>
+                    <url>http://134.91.34.200:8080/manager</url>
+                    <server>nightly-server</server>
+                </configuration>
+            </plugin>
+
+
+        </plugins>
+
+
+    </build>
+
+    <modules>
+    	<!--module>action-logging-hibernate</module-->
+    	<module>action-logging-server</module>
+    	<module>data-sync-module</module>
+    	<module>notification-module</module>
+	    <module>pedagogical-plan-service-impl</module>
+        <module>whacket-extension</module>
+        <module>scy-hub</module>
+        <module>roolo-web-accessor</module>
+        <module>scy-hub-commons</module>
+        <module>scy-loginservice-webservice-impl</module>
+        <module>scy-server</module>
+        <module>scy-server-utils</module>
+        <module>scy-sessionmanager-impl</module>
+        <module>scy-useradmin-api</module>
+        <module>scy-useradmin-impl</module>
+        <module>webbrowsingtoolELOSaver</module>
+        <module>server-external-components</module>
+        <module>scy-author</module>
+        <!--module>scy-playful</module-->
+        <module>web-commons</module>
+        <module>scy-feedback</module>
+        <module>scy-eportfolio</module>
+    <module>server-external-resources</module>
+  </modules>
+
+    <!--properties>
+        <cxf.version>2.1</cxf.version>
+    </properties -->
+
+</project>

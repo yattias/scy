@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-autowire="byName">
+           
+    <!-- Resolves ${...} placeholders from client.properties-->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>eu/scy/common/configuration/scyconfig.properties</value>
+        </property>
+    </bean>
+
+    <bean name="saveEloConfig" class="eu.scy.roolows.config.BasicConfig">
+        <property name="repository" ref="repository"/>
+        <property name="extensionManager" ref="extensionManager"/>
+        <property name="metadataTypeManager" ref="metadataTypeManager"/>
+        <property name="serverConfig" ref="serverConfig"/>
+        <property name="actionLogger" ref="actionLogger"/>
+    </bean>
+
+    <alias name="httpInvokerRepositoryProxy" alias="repository" />
+    <alias name="httpInvokerPedagogicalPlanServiceProxy" alias="pedagogicalPlanService" />
+    <alias name="httpInvokerMetadataTypeManagerProxy" alias="metadataTypeManager" />
+    <alias name="httpInvokerExtensionManagerProxy" alias="extensionManager" />
+    <alias name="httpInvokerSessionManagerProxy" alias="sessionManager" />
+    <alias name="localEloFactory" alias="eloFactory"/>
+
+    <bean name="localEloFactory" class="roolo.elo.JDomBasicELOFactory">
+        <constructor-arg index="0" ref="metadataTypeManager"/>
+    </bean>
+
+    <bean name="serverConfig" class="eu.scy.common.configuration.Configuration" factory-method="getInstance">
+    </bean>
+
+    <bean name="passwordServiceURL" class="java.lang.String">
+        <constructor-arg index="0">
+<!--            <value>http://localhost:33605/roolo-ws/mockPasswordService</value>-->
+            <value>http://${auth.cr.server}:${auth.cr.port}/${auth.cr.context}</value>
+        </constructor-arg>
+    </bean>
+
+    <bean name="actionLogger" class="eu.scy.actionlogging.SQLSpacesActionLogger">
+        <constructor-arg index="0">
+            <value>${sqlspaces.server.host}</value>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <value>${sqlspaces.server.port}</value>
+        </constructor-arg>
+        <constructor-arg index="2" value="actions"/>
+    </bean>
+
+    <!-- Proxy for the HTTP-invoker-exported repository -->
+    <!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
+    <bean id="httpInvokerRepositoryProxy"
+          class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>
+                http://${roolo.server}:${roolo.port}/${roolo.context}/remoting/repository-httpinvoker
+            </value>
+        </property>
+        <property name="serviceInterface">
+            <value>roolo.api.IRepository</value>
+        </property>
+    </bean>
+
+    <!-- Proxy for the HTTP-invoker-exported metadata type manager -->
+        <!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
+    <bean id="httpInvokerMetadataTypeManagerProxy"
+          class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>
+                http://${roolo.server}:${roolo.port}/${roolo.context}/remoting/metadataTypeManager-httpinvoker
+            </value>
+        </property>
+        <property name="serviceInterface">
+            <value>roolo.elo.api.IMetadataTypeManager
+            </value>
+        </property>
+    </bean>
+
+    <!-- Proxy for the HTTP-invoker-exported extension manager -->
+        <!-- Spring's HTTP invoker uses Java serialization via HTTP  -->
+    <bean id="httpInvokerExtensionManagerProxy"
+          class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean">
+        <property name="serviceUrl">
+            <value>
+                http://${roolo.server}:${roolo.port}/${roolo.context}/remoting/extensionManager-httpinvoker
+            </value>
+        </property>
+        <property name="serviceInterface">
+            <value>roolo.api.IExtensionManager</value>
+        </property>
+    </bean>
+
+</beans>

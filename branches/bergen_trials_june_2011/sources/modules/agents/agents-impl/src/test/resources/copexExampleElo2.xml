@@ -1,0 +1,140 @@
+<experimental_procedure>
+	<mission>
+		<initial_proc>
+			<name language="en">Procedure</name>
+			<question>
+				<description language="en" />
+				<task_right>
+					<edit_right>X</edit_right>
+					<delete_right>N</delete_right>
+					<copy_right>N</copy_right>
+					<move_right>N</move_right>
+					<parent_right>X</parent_right>
+					<draw_right>N</draw_right>
+					<repeat_right>N</repeat_right>
+				</task_right>
+			</question>
+			<proc_hypothesis>
+				<hypothesis language="en" />
+				<comment language="en" />
+				<hypothesis_hide>false</hypothesis_hide>
+			</proc_hypothesis>
+			<proc_general_principle>
+				<principle language="en" />
+				<principle_comment language="en" />
+				<principle_hide>false</principle_hide>
+			</proc_general_principle>
+			<manipulation />
+			<code>TEST</code>
+			<is_free_action>true</is_free_action>
+			<is_task>true</is_task>
+			<is_task_repeat>false</is_task_repeat>
+			<hypothesis_mode>M</hypothesis_mode>
+			<principle_mode>M</principle_mode>
+			<draw_principle>false</draw_principle>
+			<evaluation_mode>N</evaluation_mode>
+			<strategy_ref>
+				<code>S4</code>
+			</strategy_ref>
+		</initial_proc>
+	</mission>
+	<learner_proc>
+		<name language="en">Thermostat setting</name>
+		<question>
+			<description language="en">How does the air-conditioning
+				device's thermostat setting affect energy consumption?</description>
+			<comments language="en" />
+			<task_right>
+				<edit_right>X</edit_right>
+				<delete_right>N</delete_right>
+				<copy_right>N</copy_right>
+				<move_right>N</move_right>
+				<parent_right>X</parent_right>
+				<draw_right>N</draw_right>
+				<repeat_right>N</repeat_right>
+			</task_right>
+		</question>
+		<proc_hypothesis>
+			
+			<hypothesis language="en"> I don' know what to do here. If I would know, I would add some more intelligent sentences.
+      </hypothesis>
+			<comment language="en">any comments</comment>
+			<hypothesis_hide>false</hypothesis_hide>
+		</proc_hypothesis>
+		<proc_general_principle>
+			<principle language="en">To change operational standards of
+				electric appliances and check for corresponding effects on energy
+				consumption.
+				Dependent variable (what we will observe): Time needed for the
+				air-conditionning device to reach the pre-set operation temperaure
+				Independant variable (what we will change): pre-set operation
+				temperature
+				Controlled variable (what we will keep constant): operation of all others
+				electrical appliances (most probably switched off)</principle>
+			<principle_comment language="en" />
+			<principle_hide>false</principle_hide>
+		</proc_general_principle>
+		<manipulation>
+			<step>
+				<description language="en">Choose heating or cooling system
+				</description>
+				<comments language="en" />
+				<task_right>
+					<edit_right>X</edit_right>
+					<delete_right>X</delete_right>
+					<copy_right>X</copy_right>
+					<move_right>X</move_right>
+					<parent_right>X</parent_right>
+					<draw_right>N</draw_right>
+					<repeat_right>N</repeat_right>
+				</task_right>
+			</step>
+			<step>
+				<description language="en">Switch-off all the appliances of
+					your room or class.</description>
+				<comments language="en" />
+				<task_right>
+					<edit_right>X</edit_right>
+					<delete_right>X</delete_right>
+					<copy_right>X</copy_right>
+					<move_right>X</move_right>
+					<parent_right>X</parent_right>
+					<draw_right>N</draw_right>
+					<repeat_right>N</repeat_right>
+				</task_right>
+			</step>
+			<step>
+				<description language="en">Record energy consumption in
+					kilowatt-hours indicated on the electric meter that your room or
+					class is connected to.</description>
+				<comments language="en" />
+				<task_right>
+					<edit_right>X</edit_right>
+					<delete_right>X</delete_right>
+					<copy_right>X</copy_right>
+					<move_right>X</move_right>
+					<parent_right>X</parent_right>
+					<draw_right>N</draw_right>
+					<repeat_right>N</repeat_right>
+				</task_right>
+			</step>
+			<step>
+				<description language="en">Record outdoor temperature and
+					room or class temperature.</description>
+				<comments language="en" />
+				<task_right>
+					<edit_right>X</edit_right>
+					<delete_right>X</delete_right>
+					<copy_right>X</copy_right>
+					<move_right>X</move_right>
+					<parent_right>X</parent_right>
+					<draw_right>N</draw_right>
+					<repeat_right>N</repeat_right>
+				</task_right>
+			</step>
+		</manipulation>
+		<initial_proc_ref>
+			<code>TEST</code>
+		</initial_proc_ref>
+	</learner_proc>
+</experimental_procedure>

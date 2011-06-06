@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-autowire="byName">
+
+    <alias name="remoteRepository" alias="repository" />
+    <alias name="remoteMetadataTypeManager" alias="metadataTypeManager" />
+    <alias name="remoteExtensionManager" alias="extensionManager" />
+    <alias name="remoteEloFactory" alias="eloFactory" />
+
+    <bean name="remoteRepository" class="org.roolo.rooloimpljpa.repository.Repository"
+		depends-on="metadataTypeManager,sqlSpacesComponent">
+        <property name="metadataTypeManager" ref="remoteMetadataTypeManager" />
+        <property name="extensionManager" ref="remoteExtensionManager" />
+        <property name="eloFactory" ref="remoteEloFactory" />
+    </bean>
+
+    <import resource="remoteRooloMetadata.xml" />
+    <import resource="remoteRooloExtensions.xml" />
+    <bean name="remoteEloFactory" class="roolo.elo.JDomBasicELOFactory">
+        <constructor-arg index="0" ref="metadataTypeManager" />
+    </bean>
+</beans>

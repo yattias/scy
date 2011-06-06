@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+ 
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>eu.scy.client.tools</groupId>
+		<version>34-SNAPSHOT</version>
+	</parent> 	
+ 
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>dataprocesstool</artifactId>
+    <packaging>jar</packaging>
+    <name>DataProcessTool</name>
+
+    <developers>
+        <developer>
+			<id>cedric</id>
+			<name>Cedric D'Ham</name>
+			<email>cedric.dham@imag.fr</email>
+			<url>www.liglab.fr</url>
+			<organization>Joseph Fourier University</organization>
+			<organizationUrl>www.ujf-grenoble.fr</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+		<developer>
+			<id>marjolaine</id>
+			<name>Marjolaine Bodin</name>
+			<email>marjolaine.bodin@imag.fr</email>
+			<url>www.liglab.fr</url>
+			<organization>Joseph Fourier University</organization>
+			<organizationUrl>www.ujf-grenoble.fr</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                           <mainClass>eu.scy.tools.dataProcessTool.dataTool.DataProcessToolFrame</mainClass>
+                           <!--<mainClass>eu.scy.tools.fitex.MainInterface</mainClass> -->
+                            <classpathPrefix>lib/</classpathPrefix>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.0.2</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources/</directory>
+            </resource>
+        </resources>
+    </build>
+    
+    <dependencies>        
+        <dependency>
+            <groupId>net.java.dev.swing-layout</groupId>
+            <artifactId>swing-layout</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jdom</groupId>
+            <artifactId>jdom</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext</artifactId>
+            <version>2.1.4</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>bcprov-jdk14</artifactId>
+                    <groupId>bouncycastle</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>bcmail-jdk14</artifactId>
+                    <groupId>bouncycastle</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>1.0.9</version>
+        </dependency>
+        <dependency>
+        	<groupId>eu.scy.common</groupId>
+        	<artifactId>scy-commons</artifactId>
+        	<version>${pom.version}</version>
+                <exclusions>
+                   <exclusion>  
+                      <groupId>org.springframework</groupId>
+                      <artifactId>spring-dao</artifactId>
+                   </exclusion>
+                   <exclusion>  
+                      <groupId>org.springframework</groupId>
+                      <artifactId>spring-hibernate</artifactId>
+                   </exclusion>
+                </exclusions> 
+        </dependency>
+        <dependency>
+            <groupId>eu.scy.client.client-common</groupId>
+            <artifactId>scy-i18n</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.roolo</groupId>
+            <artifactId>elo-impl</artifactId>
+	</dependency>
+        <dependency>
+        <groupId>eu.scy.common</groupId>
+        <artifactId>data-sync-common</artifactId>
+        <version>${pom.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>eu.scy.common</groupId>
+        <artifactId>data-sync-api</artifactId>
+        <version>${pom.version}</version>
+    </dependency>
+    </dependencies>
+
+</project>
+

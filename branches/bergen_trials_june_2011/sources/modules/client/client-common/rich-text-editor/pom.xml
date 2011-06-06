@@ -1,0 +1,84 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>eu.scy.client.client-common</groupId>
+		<version>34-SNAPSHOT</version>
+	</parent>
+	
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>rich-text-editor</artifactId>
+	<name>rich text editor common</name>
+
+    <dependencies>
+	
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>jnlp</artifactId>
+            <version>0.1</version>
+        </dependency>
+		
+        <dependency>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext</artifactId>
+            <version>2.1.4</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>bcprov-jdk14</artifactId>
+                    <groupId>bouncycastle</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>bcmail-jdk14</artifactId>
+                    <groupId>bouncycastle</groupId>
+                </exclusion>
+            </exclusions> 
+        </dependency>
+		
+        <dependency>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext-rtf</artifactId>
+            <version>2.1.4</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>bcprov-jdk14</artifactId>
+                    <groupId>bouncycastle</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>bcmail-jdk14</artifactId>
+                    <groupId>bouncycastle</groupId>                
+                </exclusion>
+            </exclusions> 
+         </dependency>
+		
+         <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+		
+         <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>action-logging-commons</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+		
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>action-logging-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+		
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>data-sync-common</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>data-sync-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+    </dependencies>
+</project>

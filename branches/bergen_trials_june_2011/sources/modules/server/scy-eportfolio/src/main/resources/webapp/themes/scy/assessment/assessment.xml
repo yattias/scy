@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portfolios>
+    <portfolio>
+        <owner><![CDATA[Jeremy]]></owner>
+        <mission><![CDATA[CO2 friendly house]]></mission>
+        <portfoliostatus><![CDATA[NOT_SUBMITTED]]></portfoliostatus>
+        <reflectionmission />
+        <reflectioncollaboration />
+        <reflectioninquiry />
+        <reflectioneffort />
+        <assessmentportfoliocomment></assessmentportfoliocomment>
+        <assessmentportfoliorating></assessmentportfoliorating>
+        <assessed>false</assessed>
+        <elos>
+            <elo uri="aaa">
+                <createdby><![CDATA[Group1]]></createdby>
+                <catname><![CDATA[1st ideas of my design group]]></catname>
+                <thumbnail><![CDATA[assets/images/thumbs/red.jpg]]></thumbnail>
+                <fullsize><![CDATA[assets/images/thumbs/red.jpg]]></fullsize>
+                <myname><![CDATA[1st ideas of my design group]]></myname>
+                <modified><![CDATA[16.02.2010 14:00]]></modified>
+                <studentdescription><![CDATA[7897897]]></studentdescription>
+                <studentglg>
+                    <goal pos="1"><![CDATA[Are able to formulate (syntactically correct) hypotheses]]></goal>
+                    <goal pos="2"><![CDATA[Are able to write a report individually]]></goal>
+                </studentglg>
+                <studentslg>
+                    <goal pos="3"><![CDATA[Can explain how the surface area volume ratio (6) (sa/vol) changes with the size and shape of a specific object. Can express that heat cannot spontaneously flow from a material at lower temperature to a material at higher temperature.]]></goal>
+                </studentslg>
+                <studentreflection><![CDATA[45645465]]></studentreflection>
+                <hasbeenreflectedon>false</hasbeenreflectedon>
+                <hasbeenselectedforsubmit>false</hasbeenselectedforsubmit>
+                <inquiryquestion><![CDATA[How helpful was building a concept map in identifying the main concepts related to reducing global CO2 levels?]]></inquiryquestion>
+                <studentinquiry>4</studentinquiry>
+                <assessed>false</assessed>
+                <grade/>
+                <assessmentcomment/>
+                <reflectioncomment/>
+            </elo>
+            <elo uri="bbb">
+                <createdby><![CDATA[Group1]]></createdby>
+                <catname><![CDATA[1st ideas of my design group]]></catname>
+                <thumbnail><![CDATA[assets/images/thumbs/black.jpg]]></thumbnail>
+                <fullsize><![CDATA[assets/images/thumbs/black.jpg]]></fullsize>
+                <myname><![CDATA[1st ideas of my design group]]></myname>
+                <modified><![CDATA[16.02.2010 14:00]]></modified>
+                <studentdescription><![CDATA[7897897]]></studentdescription>
+                <studentglg>
+                    <goal pos="1"><![CDATA[Are able to formulate (syntactically correct) hypotheses]]></goal>
+                    <goal pos="2"><![CDATA[Are able to write a report individually]]></goal>
+                </studentglg>
+                <studentslg>
+                    <goal pos="3"><![CDATA[Can explain how the surface area volume ratio (6) (sa/vol) changes with the size and shape of a specific object. Can express that heat cannot spontaneously flow from a material at lower temperature to a material at higher temperature.]]></goal>
+                </studentslg>
+                <studentreflection><![CDATA[45645465]]></studentreflection>
+                <hasbeenreflectedon>false</hasbeenreflectedon>
+                <hasbeenselectedforsubmit>false</hasbeenselectedforsubmit>
+                <inquiryquestion><![CDATA[How helpful was building a concept map in identifying the main concepts related to reducing global CO2 levels?]]></inquiryquestion>
+                <studentinquiry>4</studentinquiry>
+                <assessed>false</assessed>
+                <grade/>
+                <assessmentcomment/>
+                <reflectioncomment/>
+            </elo>
+        </elos>
+    </portfolio>
+    <portfolio>
+        <owner><![CDATA[Henrik]]></owner>
+        <mission><![CDATA[CO2 friendly house]]></mission>
+        <portfoliostatus><![CDATA[NOT_SUBMITTED]]></portfoliostatus>
+        <reflectionmission />
+        <reflectioncollaboration />
+        <reflectioninquiry />
+        <reflectioneffort />
+        <assessmentportfoliocomment></assessmentportfoliocomment>
+        <assessmentportfoliorating></assessmentportfoliorating>
+        <assessed>false</assessed>
+        <elos>
+            <elo uri="ccc">
+                <createdby><![CDATA[Group1]]></createdby>
+                <catname><![CDATA[1st ideas of my design group]]></catname>
+                <thumbnail><![CDATA[assets/images/thumbs/blue.jpg]]></thumbnail>
+                <fullsize><![CDATA[assets/images/thumbs/blue.jpg]]></fullsize>
+                <myname><![CDATA[1st ideas of my design group]]></myname>
+                <modified><![CDATA[16.02.2010 14:00]]></modified>
+                <studentdescription><![CDATA[7897897]]></studentdescription>
+                <studentglg>
+                    <goal pos="1"><![CDATA[Are able to formulate (syntactically correct) hypotheses]]></goal>
+                    <goal pos="2"><![CDATA[Are able to write a report individually]]></goal>
+                </studentglg>
+                <studentslg>
+                    <goal pos="3"><![CDATA[Can explain how the surface area volume ratio (6) (sa/vol) changes with the size and shape of a specific object. Can express that heat cannot spontaneously flow from a material at lower temperature to a material at higher temperature.]]></goal>
+                </studentslg>
+                <studentreflection><![CDATA[45645465]]></studentreflection>
+                <hasbeenreflectedon>false</hasbeenreflectedon>
+                <hasbeenselectedforsubmit>false</hasbeenselectedforsubmit>
+                <inquiryquestion><![CDATA[How helpful was building a concept map in identifying the main concepts related to reducing global CO2 levels?]]></inquiryquestion>
+                <studentinquiry>4</studentinquiry>
+                <assessed>false</assessed>
+                <grade/>
+                <assessmentcomment/>
+                <reflectioncomment/>
+            </elo>
+            <elo uri="ddd">
+                <createdby><![CDATA[Group1]]></createdby>
+                <catname><![CDATA[1st ideas of my design group]]></catname>
+                <thumbnail><![CDATA[assets/images/thumbs/black.jpg]]></thumbnail>
+                <fullsize><![CDATA[assets/images/thumbs/black.jpg]]></fullsize>
+                <myname><![CDATA[1st ideas of my design group]]></myname>
+                <modified><![CDATA[16.02.2010 14:00]]></modified>
+                <studentdescription><![CDATA[7897897]]></studentdescription>
+                <studentglg>
+                    <goal pos="1"><![CDATA[Are able to formulate (syntactically correct) hypotheses]]></goal>
+                    <goal pos="2"><![CDATA[Are able to write a report individually]]></goal>
+                </studentglg>
+                <studentslg>
+                    <goal pos="3"><![CDATA[Can explain how the surface area volume ratio (6) (sa/vol) changes with the size and shape of a specific object. Can express that heat cannot spontaneously flow from a material at lower temperature to a material at higher temperature.]]></goal>
+                </studentslg>
+                <studentreflection><![CDATA[45645465]]></studentreflection>
+                <hasbeenreflectedon>false</hasbeenreflectedon>
+                <hasbeenselectedforsubmit>false</hasbeenselectedforsubmit>
+                <inquiryquestion><![CDATA[How helpful was building a concept map in identifying the main concepts related to reducing global CO2 levels?]]></inquiryquestion>
+                <studentinquiry>4</studentinquiry>
+                <assessed>false</assessed>
+                <grade/>
+                <assessmentcomment/>
+                <reflectioncomment/>
+            </elo>
+        </elos>
+    </portfolio>
+    <portfolio>
+        <owner><![CDATA[Barbara]]></owner>
+        <mission><![CDATA[CO2 friendly house]]></mission>
+        <portfoliostatus><![CDATA[NOT_SUBMITTED]]></portfoliostatus>
+        <reflectionmission />
+        <reflectioncollaboration />
+        <reflectioninquiry />
+        <reflectioneffort />
+        <assessmentportfoliocomment></assessmentportfoliocomment>
+        <assessmentportfoliorating></assessmentportfoliorating>
+        <assessed>false</assessed>
+        <elos>
+            <elo uri="eee">
+                <createdby><![CDATA[Group1]]></createdby>
+                <catname><![CDATA[1st ideas of my design group]]></catname>
+                <thumbnail><![CDATA[assets/images/thumbs/black.jpg]]></thumbnail>
+                <fullsize><![CDATA[assets/images/thumbs/black.jpg]]></fullsize>
+                <myname><![CDATA[1st ideas of my design group]]></myname>
+                <modified><![CDATA[16.02.2010 14:00]]></modified>
+                <studentdescription><![CDATA[7897897]]></studentdescription>
+                <studentglg>
+                    <goal pos="1"><![CDATA[Are able to formulate (syntactically correct) hypotheses]]></goal>
+                    <goal pos="2"><![CDATA[Are able to write a report individually]]></goal>
+                </studentglg>
+                <studentslg>
+                    <goal pos="3"><![CDATA[Can explain how the surface area volume ratio (6) (sa/vol) changes with the size and shape of a specific object. Can express that heat cannot spontaneously flow from a material at lower temperature to a material at higher temperature.]]></goal>
+                </studentslg>
+                <studentreflection><![CDATA[45645465]]></studentreflection>
+                <hasbeenreflectedon>false</hasbeenreflectedon>
+                <hasbeenselectedforsubmit>false</hasbeenselectedforsubmit>
+                <inquiryquestion><![CDATA[How helpful was building a concept map in identifying the main concepts related to reducing global CO2 levels?]]></inquiryquestion>
+                <studentinquiry>4</studentinquiry>
+                <assessed>false</assessed>
+                <grade/>
+                <assessmentcomment/>
+                <reflectioncomment/>
+            </elo>
+            <elo uri="fff">
+                <createdby><![CDATA[Group1]]></createdby>
+                <catname><![CDATA[1st ideas of my design group]]></catname>
+                <thumbnail><![CDATA[assets/images/thumbs/blue.jpg]]></thumbnail>
+                <fullsize><![CDATA[assets/images/thumbs/blue.jpg]]></fullsize>
+                <myname><![CDATA[1st ideas of my design group]]></myname>
+                <modified><![CDATA[16.02.2010 14:00]]></modified>
+                <studentdescription><![CDATA[7897897]]></studentdescription>
+                <studentglg>
+                    <goal pos="1"><![CDATA[Are able to formulate (syntactically correct) hypotheses]]></goal>
+                    <goal pos="2"><![CDATA[Are able to write a report individually]]></goal>
+                </studentglg>
+                <studentslg>
+                    <goal pos="3"><![CDATA[Can explain how the surface area volume ratio (6) (sa/vol) changes with the size and shape of a specific object. Can express that heat cannot spontaneously flow from a material at lower temperature to a material at higher temperature.]]></goal>
+                </studentslg>
+                <studentreflection><![CDATA[45645465]]></studentreflection>
+                <hasbeenreflectedon>false</hasbeenreflectedon>
+                <hasbeenselectedforsubmit>false</hasbeenselectedforsubmit>
+                <inquiryquestion><![CDATA[How helpful was building a concept map in identifying the main concepts related to reducing global CO2 levels?]]></inquiryquestion>
+                <studentinquiry>4</studentinquiry>
+                <assessed>false</assessed>
+                <grade/>
+                <assessmentcomment/>
+                <reflectioncomment/>
+            </elo>
+        </elos>
+    </portfolio>
+</portfolios>

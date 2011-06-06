@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DocumentRoot>
+  <MetaData version="2.0">
+    <DocumentProperties creationDate="2007-11-20 10:29:57.396" creatorsApplication="FreeStyler" creatorsApplicationVersion="CVS Revision 1.215" id="0" lastChanged="2008-12-04 14:54:53.587" name="101-Gustav-Raab-Obermayr-b-3.xml" readOnly="false" scenario="" version="1.1">
+      <Parents>
+        <Parent id="null" name="Gustav Raab-Obermayr_final.xml" version="1.0"/>
+      </Parents>
+    </DocumentProperties>
+    <UsedPalettes id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7d12">
+      <Palette name="FeedbackLoops"/>
+      <Palette name="Receiver"/>
+    </UsedPalettes>
+    <InvolvedUsers id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7d11"/>
+    <Project id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-7bc7" name=""/>
+    <Activity name=""/>
+    <WorkspaceMetaData id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7fb1" version="2.0" workspaceID="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7fb1">
+      <DocumentProperties creationDate="2007-11-20 10:30:02.443" id="0" name="" readOnly="false" scenario="" version="1.1">
+        <Parents>
+          <Parent id="null" name="Gustav Raab-Obermayr_final.xml" version="1.0"/>
+        </Parents>
+      </DocumentProperties>
+      <UsedPalettes id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7d0c"/>
+      <InvolvedUsers id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7d0b"/>
+      <Project id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-7bc5" name=""/>
+      <Activity name=""/>
+    </WorkspaceMetaData>
+    <WorkspaceMetaData id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7f9a" version="2.0" workspaceID="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7f9a">
+      <DocumentProperties creationDate="2007-11-20 10:30:03.131" id="0" name="" readOnly="false" scenario="" version="1.1">
+        <Parents>
+          <Parent id="null" name="Gustav Raab-Obermayr_final.xml" version="1.0"/>
+        </Parents>
+      </DocumentProperties>
+      <UsedPalettes id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7d09"/>
+      <InvolvedUsers id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7d08"/>
+      <Project id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-7bc4" name=""/>
+      <Activity name=""/>
+    </WorkspaceMetaData>
+    <WorkspaceMetaData id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7f7b" version="2.0" workspaceID="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7f7b">
+      <DocumentProperties creationDate="2007-11-20 10:30:03.49" id="0" name="" readOnly="false" scenario="" version="1.1">
+        <Parents>
+          <Parent id="null" name="Gustav Raab-Obermayr_final.xml" version="1.0"/>
+        </Parents>
+      </DocumentProperties>
+      <UsedPalettes id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7d06"/>
+      <InvolvedUsers id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7d05"/>
+      <Project id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-7bc3" name=""/>
+      <Activity name=""/>
+    </WorkspaceMetaData>
+    <WorkspaceMetaData id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7f33" version="2.0" workspaceID="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7f33">
+      <DocumentProperties creationDate="2007-11-20 10:30:05.443" id="0" name="" readOnly="false" scenario="" version="1.1">
+        <Parents>
+          <Parent id="null" name="Gustav Raab-Obermayr_final.xml" version="1.0"/>
+        </Parents>
+      </DocumentProperties>
+      <UsedPalettes id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7d00"/>
+      <InvolvedUsers id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7cff"/>
+      <Project id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-7bc1" name=""/>
+      <Activity name=""/>
+    </WorkspaceMetaData>
+    <WorkspaceMetaData id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7edd" version="2.0" workspaceID="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7edd">
+      <DocumentProperties creationDate="2007-11-20 10:30:07.256" id="0" name="" readOnly="false" scenario="" version="1.1">
+        <Parents>
+          <Parent id="null" name="Gustav Raab-Obermayr_final.xml" version="1.0"/>
+        </Parents>
+      </DocumentProperties>
+      <UsedPalettes id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7cfa"/>
+      <InvolvedUsers id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7cf9"/>
+      <Project id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-7bbf" name=""/>
+      <Activity name=""/>
+    </WorkspaceMetaData>
+    <WorkspaceMetaData id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7e74" version="2.0" workspaceID="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7e74">
+      <DocumentProperties creationDate="2007-11-20 10:30:08.74" id="0" name="" readOnly="false" scenario="" version="1.1">
+        <Parents>
+          <Parent id="null" name="Gustav Raab-Obermayr_final.xml" version="1.0"/>
+        </Parents>
+      </DocumentProperties>
+      <UsedPalettes id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7cf4"/>
+      <InvolvedUsers id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7cf3"/>
+      <Project id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-7bbd" name=""/>
+      <Activity name=""/>
+    </WorkspaceMetaData>
+    <WorkspaceMetaData id="act-bcdfcee4-1b1d-5373-dc96-d53410a3369a" version="2.0" workspaceID="act-bcdfcee4-1b1d-5373-dc96-d53410a3369a">
+      <DocumentProperties id="0" name="Plan" readOnly="false" scenario="" version="1.1">
+        <Keyword>Plan</Keyword>
+        <Parents>
+          <Parent id="null" name="Gustav Raab-Obermayr_final.xml" version="1.0"/>
+        </Parents>
+      </DocumentProperties>
+      <UsedPalettes id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7cf1">
+        <Palette name="Receiver"/>
+        <Palette name="FeedbackLoops"/>
+      </UsedPalettes>
+      <InvolvedUsers id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7cf0"/>
+      <Project id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-7bbc" name=""/>
+      <Activity name=""/>
+    </WorkspaceMetaData>
+  </MetaData>
+  <SessionData alt_classname="info.collide.freestyler.pagecomposer.PagePane" id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7ce9">
+    <Workspaces>
+      <Workspace alt_classname="info.collide.freestyler.swing.NLayerComposer" id="act-bcdfcee4-1b1d-5373-dc96-d53410a3369a">
+        <Title>Plan</Title>
+        <LayerOrder activeIndex="1">
+          <Layer id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-7b81" index="0"/>
+          <Layer id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-7b9b" index="1"/>
+          <Layer id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7bf4" index="2"/>
+        </LayerOrder>
+        <StrokeDrawingArea id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7bf4" visible="true">
+          <Color blue="0" green="0" id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-7aff" red="0"/>
+          <Thickness>4.0</Thickness>
+        </StrokeDrawingArea>
+        <JGraph alt_classname="info.collide.freestyler.graph.NodeJGraph" id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-7b81" mode="static" visible="true"/>
+        <JGraph alt_classname="info.collide.freestyler.graph.NodeJGraph" id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-7b9b" mode="copypaste" visible="true">
+          <ARRAY>
+            <NodeInfo>
+              <InfoNode Font="" FontSize="12" ID="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7e26" creationtime="1195551009771" creator="gusraa0622" lastModificator="none" package="info.collide.plugins.receiver.freestyler.nodes" palette="Receiver" resizeable="false" sticky="false" uiLocked="false">
+                <Content>Please arrange all Variables in a way so that you
+can display the relation from every variable to Biomass. 
+You can link the Variable by using the links
+from the toolbox right beside your workspace. 
+</Content>
+              </InfoNode>
+              <Point id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-7afe" x="10" y="10"/>
+            </NodeInfo>
+            <NodeInfo>
+              <StockNode ID="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7e0b" creationtime="1195551010459" creator="gusraa0622" lastModificator="none" name="Hours of Light" package="info.collide.plugins.feedback" palette="FeedbackLoops" resizeable="true" sticky="false" uiLocked="false">
+                <Size height="72" width="72"/>
+              </StockNode>
+              <Point id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-7afd" x="10" y="130"/>
+            </NodeInfo>
+            <NodeInfo>
+              <StockNode ID="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7e09" creationtime="1195551010459" creator="gusraa0622" lastModificator="none" name="Carbon Dioxide" package="info.collide.plugins.feedback" palette="FeedbackLoops" resizeable="true" sticky="false" uiLocked="false">
+                <Size height="72" width="72"/>
+              </StockNode>
+              <Point id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-7afc" x="10" y="210"/>
+            </NodeInfo>
+            <NodeInfo>
+              <StockNode ID="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7e07" creationtime="1195551010474" creator="gusraa0622" lastModificator="none" name="Temperature" package="info.collide.plugins.feedback" palette="FeedbackLoops" resizeable="true" sticky="false" uiLocked="false">
+                <Size height="72" width="72"/>
+              </StockNode>
+              <Point id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-7afb" x="10" y="290"/>
+            </NodeInfo>
+            <NodeInfo>
+              <StockNode ID="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7e05" creationtime="1195551010474" creator="gusraa0622" lastModificator="none" name="Oxygen" package="info.collide.plugins.feedback" palette="FeedbackLoops" resizeable="true" sticky="false" uiLocked="false">
+                <Size height="72" width="72"/>
+              </StockNode>
+              <Point id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-7afa" x="10" y="370"/>
+            </NodeInfo>
+            <NodeInfo>
+              <StockNode ID="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7e03" creationtime="1195551010474" creator="gusraa0622" lastModificator="none" name="Water" package="info.collide.plugins.feedback" palette="FeedbackLoops" resizeable="true" sticky="false" uiLocked="false">
+                <Size height="72" width="72"/>
+              </StockNode>
+              <Point id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-7af9" x="10" y="450"/>
+            </NodeInfo>
+            <NodeInfo>
+              <PropertyInputNode Font="" FontSize="11" ID="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7df7" creationtime="1195551010631" creator="gusraa0622" lastModificator="none" package="info.collide.plugins.receiver.freestyler.nodes" palette="Receiver" resizeable="false" sticky="false" uiLocked="false">
+                <Content>true</Content>
+                <Message>
+Did you link all variables meaningfully?  
+	</Message>
+              </PropertyInputNode>
+              <Point id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-7af8" x="777" y="770"/>
+            </NodeInfo>
+            <NodeInfo>
+              <StockNode ID="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7de2" creationtime="1195551011021" creator="gusraa0622" lastModificator="none" name="Biomass" package="info.collide.plugins.feedback" palette="FeedbackLoops" resizeable="true" sticky="false" uiLocked="false">
+                <Size height="72" width="72"/>
+              </StockNode>
+              <Point id="65d052c61c2ef1e4:-4d2854ba:11e0243837f:-7af7" x="491" y="392"/>
+            </NodeInfo>
+          </ARRAY>
+          <ARRAY>
+            <GraphEdge creationtime="1195551118598" creator="gusraa0622" id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7cdd" lastModificator="none" package="info.collide.plugins.feedback" uiLocked="false">
+              <UniqueID>a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7e0b</UniqueID>
+              <UniqueID>a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7de2</UniqueID>
+              <IconType type="0"/>
+            </GraphEdge>
+            <GraphEdge creationtime="1195551125113" creator="gusraa0622" id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7cdc" lastModificator="none" package="info.collide.plugins.feedback" uiLocked="false">
+              <UniqueID>a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7e09</UniqueID>
+              <UniqueID>a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7de2</UniqueID>
+              <IconType type="0"/>
+            </GraphEdge>
+            <GraphEdge creationtime="1195551128535" creator="gusraa0622" id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7cdb" lastModificator="none" package="info.collide.plugins.feedback" uiLocked="false">
+              <UniqueID>a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7e07</UniqueID>
+              <UniqueID>a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7de2</UniqueID>
+              <IconType type="0"/>
+            </GraphEdge>
+            <GraphEdge creationtime="1195551131317" creator="gusraa0622" id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7cda" lastModificator="none" package="info.collide.plugins.feedback" uiLocked="false">
+              <UniqueID>a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7e05</UniqueID>
+              <UniqueID>a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7de2</UniqueID>
+              <IconType type="0"/>
+            </GraphEdge>
+            <GraphEdge creationtime="1195551134051" creator="gusraa0622" id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7cd9" lastModificator="none" package="info.collide.plugins.feedback" uiLocked="false">
+              <UniqueID>a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7e03</UniqueID>
+              <UniqueID>a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7de2</UniqueID>
+              <IconType type="0"/>
+            </GraphEdge>
+          </ARRAY>
+        </JGraph>
+      </Workspace>
+    </Workspaces>
+    <ReferenceFrames id="a5adf2f95bd7814a:-5b28cf02:1165c646dc9:-7bf9" visible="true">
+      <ReferenceFrame active="true" location="info.collide.plugins.feedback.FeedbackRefFrame"/>
+      <ReferenceFrame active="false" location="info.collide.plugins.receiver.ReceiverRefFrame"/>
+    </ReferenceFrames>
+  </SessionData>
+</DocumentRoot>

@@ -1,0 +1,392 @@
+2010-09-22 17:31:39,064 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.Initializer.info:46
+ DEBUG: System information:
+
+Starting SCY-Lab on Wed Sep 22 17:31:39 CEST 2010
+
+Client IP address: 129.240.161.19
+
+System properties
+apple.awt.fakefullscreen     : true
+apple.awt.graphics.UseOpenGL : false
+apple.awt.graphics.UseQuartz : false
+awt.nativeDoubleBuffering    : true
+awt.toolkit                  : apple.awt.CToolkit
+enableLocalLogging           : true
+file.encoding                : MacRoman
+file.encoding.pkg            : sun.io
+file.separator               : /
+ftp.nonProxyHosts            : local|*.local|169.254/16|*.169.254/16
+gopherProxySet               : false
+http.nonProxyHosts           : local|*.local|169.254/16|*.169.254/16
+java.awt.graphicsenv         : apple.awt.CGraphicsEnvironment
+java.awt.printerjob          : apple.awt.CPrinterJob
+java.class.path              : . (2010.09.22, 17:25:08)
+                               /Users/jeremyt/projects/scyworkspace/scysvn/sources/modules/client/tools/fx-eportfolio/dist/fxeportfolio.jar (2010.09.22, 17:31:35)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/shared/javafxrt.jar (2010.07.25, 15:20:00)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/eula.jar (2010.07.25, 15:18:54)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/javafx-anim.jar (2010.07.25, 15:18:54)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/javafx-geom.jar (2010.07.25, 15:18:54)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/decora-runtime.jar (2010.07.25, 15:18:54)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/decora-j2d.jar (2010.07.25, 15:18:54)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/decora-jsw.jar (2010.07.25, 15:18:54)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/decora-sse.jar (2010.07.25, 15:18:54)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/decora-d3d.jar (does not exists)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/decora-j2d-rsl.jar (does not exists)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/decora-ogl.jar (2010.07.25, 15:18:54)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/decora-j2d-jogl.jar (2010.07.25, 15:18:54)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/javafx-sg-common.jar (2010.07.25, 15:18:54)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/javafx-sg-swing.jar (2010.07.25, 15:18:56)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/javafx-ui-common.jar (2010.07.25, 15:18:56)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/javafx-ui-desktop.jar (2010.07.25, 15:18:56)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/javafx-ui-swing.jar (2010.07.25, 15:18:58)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/javafx-ext-swing.jar (2010.07.25, 15:18:54)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/jogl-common.jar (2010.07.25, 15:18:58)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/jogl-awt.jar (2010.07.25, 15:18:58)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/fxdloader.jar (2010.07.25, 15:18:54)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/jmc.jar (2010.07.25, 15:18:58)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/websvc.jar (2010.07.25, 15:19:36)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/javafx-ui-controls.jar (2010.07.25, 15:18:56)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/javafx-ui-charts.jar (2010.07.25, 15:18:56)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/script-api.jar (2010.07.25, 15:19:36)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/javafx-common.jar (2010.07.25, 15:18:54)
+                               /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/javafx-io.jar (2010.07.25, 15:18:54)
+java.class.version           : 50.0
+java.endorsed.dirs           : /System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Home/lib/endorsed
+java.ext.dirs                : /Library/Java/Extensions:/System/Library/Java/Extensions:/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Home/lib/ext
+java.home                    : /System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Home
+java.io.tmpdir               : /var/folders/wr/wrr-cxzBGCi1pxfzGuybJ++++TI/-Tmp-/
+java.library.path            : /Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop (2010.09.13, 10:12:11)
+java.runtime.name            : Java(TM) SE Runtime Environment
+java.runtime.version         : 1.6.0_20-b02-279-10M3065
+java.specification.name      : Java Platform API Specification
+java.specification.vendor    : Sun Microsystems Inc.
+java.specification.version   : 1.6
+java.vendor                  : Apple Inc.
+java.vendor.url              : http://www.apple.com/
+java.vendor.url.bug          : http://bugreport.apple.com/
+java.version                 : 1.6.0_20
+java.vm.info                 : mixed mode
+java.vm.name                 : Java HotSpot(TM) 64-Bit Server VM
+java.vm.specification.name   : Java Virtual Machine Specification
+java.vm.specification.vendor : Sun Microsystems Inc.
+java.vm.specification.version: 1.0
+java.vm.vendor               : Apple Inc.
+java.vm.version              : 16.3-b01-279
+line.separator               : 
+
+loggingDirectory             : /Users/jeremyt/projects/scyworkspace/scysvn/sources/modules/client/tools/fx-eportfolio/logging
+mrj.build                    : 10M3065
+mrj.version                  : 1060.1.6.0_20-279
+os.arch                      : x86_64
+os.name                      : Mac OS X
+os.version                   : 10.6.4
+path.separator               : :
+socksNonProxyHosts           : local|*.local|169.254/16|*.169.254/16
+storeElosOnDisk              : true
+sun.arch.data.model          : 64
+sun.awt.exception.handler    : apple.awt.CToolkit$EventQueueExceptionHandler
+sun.boot.class.path          : /System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/jsfd.jar (does not exists)
+                               /System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/classes.jar (2010.05.05, 05:11:38)
+                               /System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar (2010.03.05, 22:46:28)
+                               /System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/ui.jar (2010.05.05, 05:14:16)
+                               /System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/laf.jar (does not exists)
+                               /System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/sunrsasign.jar (does not exists)
+                               /System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/jsse.jar (2010.05.05, 04:57:20)
+                               /System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/jce.jar (2010.05.05, 04:57:20)
+                               /System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/charsets.jar (2010.05.05, 05:07:04)
+sun.boot.library.path        : /System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Libraries (2010.06.15, 19:08:16)
+sun.cpu.endian               : little
+sun.cpu.isalist              : 
+sun.io.unicode.encoding      : UnicodeLittle
+sun.java.launcher            : SUN_STANDARD
+sun.jnu.encoding             : MacRoman
+sun.management.compiler      : HotSpot 64-Bit Server Compiler
+sun.os.patch.level           : unknown
+user.country                 : US
+user.dir                     : /Users/jeremyt/projects/scyworkspace/scysvn/sources/modules/client/tools/fx-eportfolio
+user.home                    : /Users/jeremyt
+user.language                : en
+user.name                    : jeremyt
+user.timezone                : Europe/Oslo
+
+Application parameters
+0: -defaultUserName
+1: jeremy
+2: -defaultPassword
+3: jeremy
+4: -autoLogin
+5: true
+
+
+Initializer properties:
+- log4JInitFile: 
+- javaUtilLoggingInitFile: 
+- backgroundImageUrl: jar:file:/Users/jeremyt/projects/scyworkspace/scysvn/sources/modules/client/tools/fx-eportfolio/dist/lib/scy-desktop-24-SNAPSHOT.jar!/eu/scy/client/desktop/scydesktop/images/bckgrnd2l.jpg
+- enableLocalLogging: true
+- loggingDirectoryName: logging
+- redirectSystemStream: false
+- writeJavaLoggingToFile: true
+- lookAndFeel: nimbus
+- loginType: local
+- localPasswordCheckMethod: same
+- localToolBrokerLoginConfigFile: /config/localScyServices.xml
+- remoteToolBrokerLoginConfigFile: /config/remoteScyServices.xml
+- defaultUserName: jeremy
+- defaultPassword: jeremy
+- autoLogin: true
+- scyDesktopConfigFile: config/scyDesktopFxEportfolioConfig.xml
+- storeElosOnDisk: true
+- createPersonalMissionMap: true
+- eloImagesPath: jar:file:/Users/jeremyt/projects/scyworkspace/scysvn/sources/modules/client/tools/fx-eportfolio/dist/lib/scy-desktop-24-SNAPSHOT.jar!/eu/scy/client/desktop/scydesktop/imagewindowstyler/images/
+- scyServerHost: 
+- useWebStartHost: true
+- windowPositioner: roleArea
+- debugMode: false
+- authorMode: true
+- usingWebStart: false
+- offlineMode: true
+- showOfflineContacts: true
+- indicateOnlineStateByOpacity: true
+- showEloRelations: true
+- languages: nl,en,et,fr,el,
+- missionMapSelectedImageScale: 1.5
+- missionMapNotSelectedImageScale: 1.0
+- missionMapPositionScale: 1.0
+- localUriReplacements: 
+- usingRooloCache: true
+
+2010-09-22 17:31:39,244 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.Initializer.info:46
+ DEBUG: set lookAndFeel to nimbus, class com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel
+2010-09-22 17:31:39,245 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.Initializer.info:46
+ DEBUG: cannot get scy server host from web start, as web start is not being used: javax.jnlp.UnavailableServiceException: uninitialized
+2010-09-22 17:31:40,363 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.login.LoginNode.languageSelected:89
+ INFO : languageSelected: 
+2010-09-22 17:31:40,435 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.login.LoginNode.languageSelected:89
+ INFO : languageSelected: en
+2010-09-22 17:31:41,033 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.login.LoginNode.languageSelected:89
+ INFO : languageSelected: en
+2010-09-22 17:31:42,108 [AWT-EventQueue-0] org.springframework.context.support.ClassPathXmlApplicationContext.prepareRefresh:411
+ INFO : Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@6177060f: display name [org.springframework.context.support.ClassPathXmlApplicationContext@6177060f]; startup date [Wed Sep 22 17:31:42 CEST 2010]; root of context hierarchy
+2010-09-22 17:31:42,165 [AWT-EventQueue-0] org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions:323
+ INFO : Loading XML bean definitions from class path resource [config/localScyServices.xml]
+2010-09-22 17:31:42,431 [AWT-EventQueue-0] org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions:323
+ INFO : Loading XML bean definitions from class path resource [config/localWrappedRooloConfig.xml]
+2010-09-22 17:31:42,481 [AWT-EventQueue-0] org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions:323
+ INFO : Loading XML bean definitions from class path resource [config/localRooloMetadata.xml]
+2010-09-22 17:31:42,603 [AWT-EventQueue-0] org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions:323
+ INFO : Loading XML bean definitions from class path resource [config/localRooloExtensions.xml]
+2010-09-22 17:31:42,641 [AWT-EventQueue-0] org.springframework.context.support.ClassPathXmlApplicationContext.obtainFreshBeanFactory:426
+ INFO : Bean factory for application context [org.springframework.context.support.ClassPathXmlApplicationContext@6177060f]: org.springframework.beans.factory.support.DefaultListableBeanFactory@5d4fa79d
+2010-09-22 17:31:42,740 [AWT-EventQueue-0] org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons:414
+ INFO : Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@5d4fa79d: defining beans [propertyConfigurer,wrappedRepository,cachedRepository,localRepository,localMetadataTypeManager,identifierKey,titleKey,descriptionKey,technicalFormatKey,dateCreatedKey,dateLastModifiedKey,languagesKey,isVersionOfKey,isVersionedByKey,isForkOfKey,isForkedByKey,usesRelationKey,authorKey,annotatesRelationKey,versionKey,keywordsKey,learningActivityKey,accessKey,missionRuntimeKey,missionKey,lasKey,anchorIdKey,activeAnchorEloKey,containsAssignmentEloKey,logicalTypeKey,functionalTypeKey,missionRunningKey,missionSpecificationEloKey,externalDocAnnotationKey,iconTypeAnnotationKey,mucIdKey,testStringListKey,lineCountKey,rectangleCountKey,ovalCountKey,freehandCountKey,textCountKey,imageCountKey,tagPointerCountKey,defaultStringValidator,defaultLongValidator,defaultUriValidator,defaultContributeValidator,localExtensionManager,localEloFactory,toolBrokerAPI,actionLogger,awarenessService,dataSyncService]; root of factory hierarchy
+2010-09-22 17:31:43,324 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.login.LoginDialog.info:46
+ DEBUG: tbi.getLoginUserName() : jeremy
+tbi.getMission() : null
+tbi.getRepository() : eu.scy.client.desktop.scydesktop.hacks.RepositoryWrapper@3bd85e85
+tbi.getMetaDataTypeManager() : roolo.elo.MockMetadataTypeManager@7a258c74
+tbi.getExtensionManager() : roolo.cms.repository.mock.MockExtensionManager@37285252
+tbi.getELOFactory() : roolo.elo.JDomBasicELOFactory@3834a1c8
+tbi.getActionLogger() : eu.scy.client.desktop.localtoolbroker.LocalFileActionLogger@7696e4c
+tbi.getAwarenessService() : eu.scy.client.desktop.localtoolbroker.DummyAwarenessService@1ac84361
+tbi.getDataSyncService() : eu.scy.client.desktop.localtoolbroker.DummyDataSyncService@51bfa303
+tbi.getPedagogicalPlanService() : null
+tbi.getStudentPedagogicalPlanService() : null
+2010-09-22 17:31:44,674 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.mission.MissionLocatorUtils.findMissions:47
+ WARN : could not find any mission specification elos, falling back to spring configuration
+2010-09-22 17:31:47,268 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX.debug:36
+ DEBUG: new activeLas null
+2010-09-22 17:31:47,269 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.tools.corner.missionmap.MissionModelFX.error:66
+ DEBUG: failed to update elo because repository and/or eloFactory is null
+2010-09-22 17:31:47,339 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.ScyDesktopCreator.info:46
+ DEBUG: reading spring config from class path: config/scyDesktopFxEportfolioConfig.xml
+2010-09-22 17:31:47,340 [AWT-EventQueue-0] org.springframework.context.support.ClassPathXmlApplicationContext.prepareRefresh:411
+ INFO : Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@710087: display name [org.springframework.context.support.ClassPathXmlApplicationContext@710087]; startup date [Wed Sep 22 17:31:47 CEST 2010]; root of context hierarchy
+2010-09-22 17:31:47,340 [AWT-EventQueue-0] org.springframework.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions:323
+ INFO : Loading XML bean definitions from class path resource [config/scyDesktopFxEportfolioConfig.xml]
+2010-09-22 17:31:47,406 [AWT-EventQueue-0] org.springframework.context.support.ClassPathXmlApplicationContext.obtainFreshBeanFactory:426
+ INFO : Bean factory for application context [org.springframework.context.support.ClassPathXmlApplicationContext@710087]: org.springframework.beans.factory.support.DefaultListableBeanFactory@6913e371
+2010-09-22 17:31:47,408 [AWT-EventQueue-0] org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons:414
+ INFO : Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@6913e371: defining beans [scyDesktopConfig]; root of factory hierarchy
+2010-09-22 17:31:47,576 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.art.BitmapImageLoader.loadImage:26
+ ERROR: failed to load image jar:file:/Users/jeremyt/projects/scyworkspace/scysvn/sources/modules/client/tools/fx-eportfolio/dist/lib/scy-desktop-24-SNAPSHOT.jar!/eu/scy/client/desktop/scydesktop/art/images/logo_gray_act.png
+2010-09-22 17:31:47,577 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.art.BitmapImageLoader.loadImage:26
+ ERROR: failed to load image jar:file:/Users/jeremyt/projects/scyworkspace/scysvn/sources/modules/client/tools/fx-eportfolio/dist/lib/scy-desktop-24-SNAPSHOT.jar!/eu/scy/client/desktop/scydesktop/art/images/logo_gray_inact.png
+2010-09-22 17:31:47,614 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.ScyDesktopCreator.info:46
+ DEBUG: missionRunConfigs elos:
+- mission specification: null
+- mission runtime: roolo://memory/4/1/Empty+mission.scymissionruntime
+- mission map model : roolo://memory/5/0/Empty+mission.scymissionmapmodel
+- elo tool configs: null
+- template elos: null
+- runtime settings: roolo://memory/6/0/Empty+mission.runtimesettings
+2010-09-22 17:31:47,631 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.remotecontrol.api.RemoteCommandRegistry.debug:36
+ DEBUG: registered IremoteCommand: eu.scy.client.desktop.scydesktop.remotecontrol.impl.CollaborationRequestCommand@138297fe
+2010-09-22 17:31:47,631 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.remotecontrol.api.RemoteCommandRegistry.debug:36
+ DEBUG: registered IremoteCommand: eu.scy.client.desktop.scydesktop.remotecontrol.impl.CollaborationResponseCommand@62c8aeb3
+2010-09-22 17:31:47,632 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.remotecontrol.api.RemoteCommandRegistry.debug:36
+ DEBUG: registered IremoteCommand: eu.scy.client.desktop.scydesktop.remotecontrol.impl.EloShowCommand@65459c6f
+2010-09-22 17:31:47,632 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.remotecontrol.api.RemoteCommandRegistry.debug:36
+ DEBUG: registered IremoteCommand: eu.scy.client.desktop.scydesktop.remotecontrol.impl.MessageDialogShowCommand@3d216f5a
+2010-09-22 17:31:47,632 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.remotecontrol.api.RemoteCommandRegistry.debug:36
+ DEBUG: registered IremoteCommand: eu.scy.client.desktop.scydesktop.remotecontrol.impl.OptionDialogShowCommand@5e159d10
+2010-09-22 17:31:47,640 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.ScyDesktop.info:46
+ DEBUG: repository class: class eu.scy.client.desktop.scydesktop.hacks.RepositoryWrapper
+2010-09-22 17:31:47,641 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.ScyDesktop.info:46
+ DEBUG: Added eloSavedActionHandler as EloSavedListener to the repositoryWrapper
+2010-09-22 17:31:47,641 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.ScyDesktop.info:46
+ DEBUG: create
+2010-09-22 17:31:47,738 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:26
+ INFO : initialising default configuration
+2010-09-22 17:31:47,739 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:28
+ INFO : loading configuration from file
+2010-09-22 17:31:47,740 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:30
+ INFO : configuration file found in jar:file:/Users/jeremyt/projects/scyworkspace/scysvn/sources/modules/client/tools/fx-eportfolio/dist/lib/configuration-24-SNAPSHOT.jar!/eu/scy/common/configuration/scyconfig.properties
+2010-09-22 17:31:47,740 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:32
+ INFO : loaded 26 keys
+2010-09-22 17:31:47,741 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:33
+ INFO : parsing system properties for configuration
+2010-09-22 17:31:47,741 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.runtime.name ----> 'Java(TM) SE Runtime Environment'
+2010-09-22 17:31:47,741 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: sun.boot.library.path ----> '/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Libraries'
+2010-09-22 17:31:47,745 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.vm.version ----> '16.3-b01-279'
+2010-09-22 17:31:47,746 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: awt.nativeDoubleBuffering ----> 'true'
+2010-09-22 17:31:47,746 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: gopherProxySet ----> 'false'
+2010-09-22 17:31:47,746 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: mrj.build ----> '10M3065'
+2010-09-22 17:31:47,747 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.vm.vendor ----> 'Apple Inc.'
+2010-09-22 17:31:47,747 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.vendor.url ----> 'http://www.apple.com/'
+2010-09-22 17:31:47,747 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: path.separator ----> ':'
+2010-09-22 17:31:47,747 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.vm.name ----> 'Java HotSpot(TM) 64-Bit Server VM'
+2010-09-22 17:31:47,748 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: file.encoding.pkg ----> 'sun.io'
+2010-09-22 17:31:47,748 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: sun.java.launcher ----> 'SUN_STANDARD'
+2010-09-22 17:31:47,748 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: user.country ----> 'US'
+2010-09-22 17:31:47,749 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: sun.os.patch.level ----> 'unknown'
+2010-09-22 17:31:47,749 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.vm.specification.name ----> 'Java Virtual Machine Specification'
+2010-09-22 17:31:47,749 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: user.dir ----> '/Users/jeremyt/projects/scyworkspace/scysvn/sources/modules/client/tools/fx-eportfolio'
+2010-09-22 17:31:47,749 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.runtime.version ----> '1.6.0_20-b02-279-10M3065'
+2010-09-22 17:31:47,750 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.awt.graphicsenv ----> 'apple.awt.CGraphicsEnvironment'
+2010-09-22 17:31:47,750 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.endorsed.dirs ----> '/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Home/lib/endorsed'
+2010-09-22 17:31:47,750 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: os.arch ----> 'x86_64'
+2010-09-22 17:31:47,751 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: apple.awt.graphics.UseOpenGL ----> 'false'
+2010-09-22 17:31:47,751 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.io.tmpdir ----> '/var/folders/wr/wrr-cxzBGCi1pxfzGuybJ++++TI/-Tmp-/'
+2010-09-22 17:31:47,751 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: line.separator ----> '
+'
+2010-09-22 17:31:47,752 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: apple.awt.fakefullscreen ----> 'true'
+2010-09-22 17:31:47,752 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.vm.specification.vendor ----> 'Sun Microsystems Inc.'
+2010-09-22 17:31:47,752 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: os.name ----> 'Mac OS X'
+2010-09-22 17:31:47,753 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: storeElosOnDisk ----> 'true'
+2010-09-22 17:31:47,753 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: sun.jnu.encoding ----> 'MacRoman'
+2010-09-22 17:31:47,753 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.library.path ----> '/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop'
+2010-09-22 17:31:47,753 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.specification.name ----> 'Java Platform API Specification'
+2010-09-22 17:31:47,754 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.class.version ----> '50.0'
+2010-09-22 17:31:47,754 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: sun.management.compiler ----> 'HotSpot 64-Bit Server Compiler'
+2010-09-22 17:31:47,754 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: userName ----> 'jeremy'
+2010-09-22 17:31:47,755 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: eloStoreDirectory ----> '/Users/jeremyt/projects/scyworkspace/scysvn/sources/modules/client/tools/fx-eportfolio/eloStore'
+2010-09-22 17:31:47,755 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: os.version ----> '10.6.4'
+2010-09-22 17:31:47,757 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: http.nonProxyHosts ----> 'local|*.local|169.254/16|*.169.254/16'
+2010-09-22 17:31:47,766 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: user.home ----> '/Users/jeremyt'
+2010-09-22 17:31:47,767 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: user.timezone ----> 'Europe/Oslo'
+2010-09-22 17:31:47,768 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.awt.printerjob ----> 'apple.awt.CPrinterJob'
+2010-09-22 17:31:47,768 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: file.encoding ----> 'MacRoman'
+2010-09-22 17:31:47,768 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.specification.version ----> '1.6'
+2010-09-22 17:31:47,768 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.class.path ----> '.:/Users/jeremyt/projects/scyworkspace/scysvn/sources/modules/client/tools/fx-eportfolio/dist/fxeportfolio.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/shared/javafxrt.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/eula.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/javafx-anim.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/javafx-geom.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/decora-runtime.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/decora-j2d.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/decora-jsw.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/decora-sse.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/decora-d3d.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/decora-j2d-rsl.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/decora-ogl.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/decora-j2d-jogl.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/javafx-sg-common.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/javafx-sg-swing.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/javafx-ui-common.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/javafx-ui-desktop.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/javafx-ui-swing.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/javafx-ext-swing.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/jogl-common.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/jogl-awt.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/fxdloader.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/jmc.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/websvc.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/javafx-ui-controls.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/javafx-ui-charts.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/script-api.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/javafx-common.jar:/Applications/NetBeans/NetBeans 6.9.1.app/Contents/Resources/NetBeans/javafx/javafx-sdk/bin/../lib/desktop/javafx-io.jar'
+2010-09-22 17:31:47,769 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: user.name ----> 'jeremyt'
+2010-09-22 17:31:47,769 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: apple.awt.graphics.UseQuartz ----> 'false'
+2010-09-22 17:31:47,769 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.vm.specification.version ----> '1.0'
+2010-09-22 17:31:47,770 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.home ----> '/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Home'
+2010-09-22 17:31:47,770 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: sun.arch.data.model ----> '64'
+2010-09-22 17:31:47,770 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: user.language ----> 'en'
+2010-09-22 17:31:47,770 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.specification.vendor ----> 'Sun Microsystems Inc.'
+2010-09-22 17:31:47,771 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: awt.toolkit ----> 'apple.awt.CToolkit'
+2010-09-22 17:31:47,771 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.vm.info ----> 'mixed mode'
+2010-09-22 17:31:47,771 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: loggingDirectory ----> '/Users/jeremyt/projects/scyworkspace/scysvn/sources/modules/client/tools/fx-eportfolio/logging'
+2010-09-22 17:31:47,772 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.version ----> '1.6.0_20'
+2010-09-22 17:31:47,772 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.ext.dirs ----> '/Library/Java/Extensions:/System/Library/Java/Extensions:/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Home/lib/ext'
+2010-09-22 17:31:47,772 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: sun.boot.class.path ----> '/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/jsfd.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/classes.jar:/System/Library/Frameworks/JavaVM.framework/Frameworks/JavaRuntimeSupport.framework/Resources/Java/JavaRuntimeSupport.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/ui.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/laf.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/sunrsasign.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/jsse.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/jce.jar:/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Classes/charsets.jar'
+2010-09-22 17:31:47,772 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.vendor ----> 'Apple Inc.'
+2010-09-22 17:31:47,773 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: enableLocalLogging ----> 'true'
+2010-09-22 17:31:47,773 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: file.separator ----> '/'
+2010-09-22 17:31:47,773 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: java.vendor.url.bug ----> 'http://bugreport.apple.com/'
+2010-09-22 17:31:47,778 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: sun.io.unicode.encoding ----> 'UnicodeLittle'
+2010-09-22 17:31:47,778 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: sun.cpu.endian ----> 'little'
+2010-09-22 17:31:47,779 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: mrj.version ----> '1060.1.6.0_20-279'
+2010-09-22 17:31:47,779 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: socksNonProxyHosts ----> 'local|*.local|169.254/16|*.169.254/16'
+2010-09-22 17:31:47,780 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: ftp.nonProxyHosts ----> 'local|*.local|169.254/16|*.169.254/16'
+2010-09-22 17:31:47,780 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: sun.awt.exception.handler ----> 'apple.awt.CToolkit$EventQueueExceptionHandler'
+2010-09-22 17:31:47,780 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:37
+ INFO : PROP: sun.cpu.isalist ----> ''
+2010-09-22 17:31:47,780 [AWT-EventQueue-0] eu.scy.common.configuration.Configuration.<init>:52
+ INFO : no keys loaded from system properties
+2010-09-22 17:31:48,330 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.ScyDesktopCreator.debug:36
+ DEBUG: ****************registering scyDesktop for notifications***************************
+2010-09-22 17:31:48,331 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.ScyDesktopCreator.debug:36
+ DEBUG: ****************registering RemoteControlRegistry for notifications***************************
+2010-09-22 17:31:53,172 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.ScyDesktop$1EdgesManager$ObjLit$4.debug:36
+ DEBUG: finding links...
+2010-09-22 17:31:53,363 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.ScyDesktop.info:46
+ DEBUG: realFillNewScyWindow2(null,false)
+2010-09-22 17:31:53,366 [AWT-EventQueue-0] eu.scy.client.desktop.scydesktop.ScyToolActionLogger.debug:36
+ DEBUG: ScyToolActionLogger created for jeremy@eportfoliotool...

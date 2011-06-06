@@ -1,0 +1,77 @@
+<elo>
+<metadata>
+  <lom>
+    <technical>
+      <format>scy/runtimesettings</format>
+      <customElements>
+        <dateCreated>1284110804641</dateCreated>
+        <dateLastModified>1284110804641</dateLastModified>
+      </customElements>
+    </technical>
+    <general>
+      <title>
+        <string language="nl">co2MissionUT</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/24/0/co2MissionUT.runtimesettings</entry>
+      </identifier>
+    </general>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2010-09-10T11:26:44.641+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+	<runtimeSettings>
+		<runtimeSetting>
+			<name>missionMap.positionScale</name>
+			<lasId />
+			<eloUri />
+			<value>1.4</value>
+		</runtimeSetting>
+		<runtimeSetting>
+			<name>missionMap.selectedScale</name>
+			<lasId />
+			<eloUri />
+			<value>2.5</value>
+		</runtimeSetting>
+		<runtimeSetting>
+			<name>missionMap.notSelectedScale</name>
+			<lasId />
+			<eloUri />
+			<value>2.0</value>
+		</runtimeSetting>
+	</runtimeSettings>
+</content>
+<resources>
+</resources>
+</elo>

@@ -1,0 +1,91 @@
+<elo>
+<metadata>
+  <lom>
+    <technical>
+      <format>scy/doc</format>
+      <customElements>
+        <dateCreated>1266931139671</dateCreated>
+        <dateLastModified>1266931139672</dateLastModified>
+      </customElements>
+    </technical>
+    <annotation>
+      <entity>externalDoc</entity>
+      <description />
+      <date>
+        <dateTime>2010-02-23T14:18:59.676+0100</dateTime>
+      </date>
+      <file>
+        <assignment>To make your report, you have to:&#xD;
+- Go to the Word application of your computer&#xD;
+- Create your report&#xD;
+- If you want to add some pictures, graphs, concept maps... you have created in SCY-Lab, use the "print screen" button of your keyboard (or the snipping tool of your computer) and paste your image in your report&#xD;
+- Save your report in your computer&#xD;
+- Then come back here and click on the upload file button&#xD;
+- Select your report document&#xD;
+- Press "open"&#xD;
+- Save your report in SCY-Lab</assignment>
+        <description />
+        <name />
+        <path />
+        <lastModified>0</lastModified>
+        <size>-1</size>
+      </file>
+    </annotation>
+    <general>
+      <title>
+        <string language="en">Individual report</string>
+	<string language="fr">Rapport individuel</string>
+      </title>
+      <description>
+        <string language="en" />
+      </description>
+      <structure />
+      <mission>co2Mission</mission>
+      <las>startPage</las>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/345/0/Individual_report.doc</entry>
+      </identifier>
+    </general>
+    <educational>
+      <learningResourceType>reportFinal</learningResourceType>
+    </educational>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2010-02-23T14:18:59.670+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true">
+
+</content>
+<resources>
+</resources>
+</elo>

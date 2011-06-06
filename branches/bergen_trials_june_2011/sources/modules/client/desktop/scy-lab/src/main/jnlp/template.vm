@@ -1,0 +1,39 @@
+<jnlp
+    spec="1.6+"
+    codebase="$$codebase">
+  <information>
+    <title>SCY-Lab</title>
+    <vendor>SCY</vendor>
+    <homepage href="http://www.scy-net.eu"/>
+#if($offlineAllowed)
+    <offline-allowed/>
+#end
+  </information>
+#if($allPermissions)
+  <security>
+     <all-permissions/>
+  </security>
+#end
+  <resources>
+    <j2se version="$j2seVersion" java-vm-args="-Xms512m -Xmx512m"/>
+    <extension name="JavaFX Runtime" href="$$site/javafx-libs/javafx-rt.jnlp"/>
+    <property name="jnlp.packEnabled" value="true"/>
+    <property name="jnlp.versionEnabled" value="true"/>
+     $dependencies
+  </resources>
+    <application-desc main-class="com.sun.javafx.runtime.Main">
+        <argument>MainJavaFXScript=$mainClass</argument>
+        <argument>-localToolBrokerLoginConfigFile</argument>
+        <argument>config/localReadOnlyScyServices.xml</argument>
+        <argument>-enableLocalLogging</argument>
+        <argument>true</argument>
+        <argument>-redirectSystemStream</argument>
+        <argument>false</argument>
+        <argument>-loginType</argument>
+        <argument>remote</argument>
+        <argument>-showOnlyStartedMissions</argument>
+        <argument>true</argument>
+    </application-desc>
+    <update check="always"/>
+</jnlp>
+

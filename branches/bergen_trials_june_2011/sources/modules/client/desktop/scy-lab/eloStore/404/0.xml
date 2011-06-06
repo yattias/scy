@@ -1,0 +1,121 @@
+<elo>
+<metadata>
+  <lom>
+    <technical>
+      <format>scy/dataset</format>
+      <customElements>
+        <dateCreated>1267436210274</dateCreated>
+        <dateLastModified>1267436210274</dateLastModified>
+      </customElements>
+    </technical>
+    <general>
+      <title>
+        <string language="en">Empty dataset</string>
+        <string language="fr">Nouveau jeu de données</string>
+      </title>
+      <mission>co2Mission</mission>
+      <las>startPage</las>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/404/0/Empty_dataset.dataset</entry>
+      </identifier>
+    </general>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2010-03-01T10:36:50.274+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<processDataset>
+  <dataset>
+    <header language="en">
+      <column>
+        <symbol>data 1</symbol>
+        <description />
+        <type>double</type>
+        <unit>unit</unit>
+      </column>
+      <column>
+        <symbol>data 2</symbol>
+        <description />
+        <type>double</type>
+        <unit>unit</unit>
+      </column>
+    </header>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+  </dataset>
+  <processed_dataset>
+    <name>Dataset</name>
+  </processed_dataset>
+</processDataset>
+</content>
+<resources>
+</resources>
+</elo>

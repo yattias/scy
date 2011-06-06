@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>eu.scy.common</groupId>
+	<artifactId>awareness-api</artifactId>
+	<packaging>jar</packaging>
+	<name>awareness-api</name>
+	
+ 	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>eu.scy.common</groupId>
+		<version>34-SNAPSHOT</version>
+	</parent> 	
+	
+	<dependencies>
+	<dependency>	
+            <groupId>org.igniterealtime</groupId>
+            <artifactId>smack</artifactId>
+            <version>3.2.0-BOSH</version>
+        </dependency>
+        
+	<dependency>	
+            <groupId>org.igniterealtime</groupId>
+            <artifactId>smackx</artifactId>
+            <version>3.2.0-BOSH</version>
+        </dependency>
+        
+	</dependencies>
+
+</project>

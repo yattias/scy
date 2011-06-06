@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	* Copyright (c) 2007 Encore Research Group, University of Toronto
+	*
+	* This library is free software; you can redistribute it and/or
+	* modify it under the terms of the GNU Lesser General Public
+	* License as published by the Free Software Foundation; either
+	* version 2.1 of the License, or (at your option) any later version.
+	*
+	* This library is distributed in the hope that it will be useful,
+	* but WITHOUT ANY WARRANTY; without even the implied warranty of
+	* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+	* Lesser General Public License for more details.
+	*
+	* You should have received a copy of the GNU Lesser General Public
+	* License along with this library; if not, write to the Free Software
+	* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+-->
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-2.0.xsd
+	http://www.directwebremoting.org/schema/spring-dwr
+	http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd">
+
+    <!-- no 'id' required, HandlerMapping beans are automatically detected by the DispatcherServlet -->
+    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="order" value="2"></property>
+        <property name="mappings">
+            <value>
+                /app/eportfolio/EPortfolioIndex.html=eportfolioIndexController
+                /app/eportfolio/xml/toolURLProvider.html=toolURLProvider
+                /app/eportfolio/xml/currentMissionProgressOverview.html=currentMissionProgressOverview
+                /app/eportfolio/xml/eportfolioELOSearch.html=eportfolioELOSearchController
+                /app/eportfolio/xml/obligatoryELOsInMission.html=obligatoryELOsInMissionController
+                /app/eportfolio/xml/loadPortfolio.html=loadPortfolioController
+                /app/eportfolio/xml/addEloToPortfolio.html=addELOToPortfolioController
+                /app/eportfolio/xml/loadLearningGoals.html=loadLearningGoalsController
+                /app/eportfolio/xml/eloSearchService.html=eloSearchService
+                /app/eportfolio/xml/savePortfolio.html=savePortfolioController
+                /app/eportfolio/xml/runtimeElosList.html=runtimeElosListController
+                /app/eportfolio/xml/currentMissionRuntimeInfo.html=currentMissionRuntimeInfo
+                /app/eportfolio/xml/portfolioConfigService.html=portfolioConfigController
+
+                /app/assessment/assessmentindex.html=assessmentIndexController
+                /app/assessment/teacherAssessmentOverview.html=teacherAssessmentOverviewController
+
+                /app/feedback/newElosForFeedbackService.html=newElosForFeedbackService
+
+                /app/feedback/feedbackindex.html=feedbackIndexController
+            </value>
+        </property>
+    </bean>
+                                                                           
+    <bean id="eportfolioIndexController" class="eu.scy.server.eportfolio.EPortfolioIndex">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="userService" ref="userService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="runtimeELOService" ref="runtimeELOService"/> 
+	</bean>
+
+    <bean id="assessmentIndexController" class="eu.scy.server.assessment.AssessmentIndex">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="userService" ref="userService"/>
+	</bean>
+
+    <bean id="teacherAssessmentOverviewController" class="eu.scy.server.assessment.TeacherAssessmentOverview">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="userService" ref="userService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+	</bean>
+
+    <bean id="feedbackIndexController" class="eu.scy.server.feedback.FeedbackIndexController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="userService" ref="userService"/>
+	</bean>
+
+    <bean id="toolURLProvider" class="eu.scy.server.controllers.xml.ToolURLProvider">
+        <property name="rooloAccessor" ref="rooloAccessor"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+	</bean>
+
+    <bean id="currentMissionProgressOverview" class="eu.scy.server.eportfolio.xml.CurrentMissionProgressOverviewController">
+        <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
+        <property name="userService" ref="userService"/>
+        <property name="lasService" ref="lasService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+	</bean>
+
+    <bean id="eportfolioELOSearchController" class="eu.scy.server.eportfolio.xml.EPortfolioELOSearch">
+        <property name="userService" ref="userService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+	</bean>
+
+    <bean id="obligatoryELOsInMissionController" class="eu.scy.server.eportfolio.xml.ObligatoryELOsInMission">
+        <property name="userService" ref="userService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+	</bean>
+
+    <bean id="loadPortfolioController" class="eu.scy.server.eportfolio.xml.LoadPortfolioController">
+        <property name="userService" ref="userService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+	</bean>
+
+    <bean id="loadLearningGoalsController" class="eu.scy.server.eportfolio.xml.LoadLearningGoalsService">
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+	</bean>
+
+    <bean id="eloSearchService" class="eu.scy.server.eportfolio.xml.EloSearchService">
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+	</bean>
+
+    <bean id="addELOToPortfolioController" class="eu.scy.server.eportfolio.xml.AddELOToPortfolioController">
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+	</bean>
+
+    <bean id="savePortfolioController" class="eu.scy.server.eportfolio.xml.SavePortfolioController">
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+	</bean>
+
+    <bean id="portfolioConfigController" class="eu.scy.server.eportfolio.xml.PortfolioConfigController">
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+	</bean>
+
+    <bean id="runtimeElosListController" class="eu.scy.server.eportfolio.xml.RuntimeElosController">
+        <property name="runtimeELOService" ref="runtimeELOService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+	</bean>
+
+    <bean id="newElosForFeedbackService" class="eu.scy.server.feedback.NewElosForFeedbackController">
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+	</bean>
+
+    <bean id="currentMissionRuntimeInfo" class="eu.scy.server.eportfolio.xml.CurrentMissionRuntimeInfoController">
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+	</bean>
+
+
+
+</beans>

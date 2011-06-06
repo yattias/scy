@@ -1,0 +1,164 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>eu.scy.client.tools</groupId>
+		<version>34-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>math-tool</artifactId>
+	<packaging>jar</packaging>
+	<name>math-tool</name>
+	<developers>
+		<developer>
+			<id>anthony</id>
+			<name>Anthony Perritano</name>
+			<email>aperritano@gmail.com</email>
+			<organization>University of Oslo, InterMedia</organization>
+			<organizationUrl>www.intermedia.uio.no</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
+	<build>
+		<plugins>
+
+		</plugins>
+	</build>
+   <profiles>
+      <profile>
+         <id>local</id>
+         <build>
+            <resources>
+               <resource>
+                  <directory>src/main/java</directory>
+                  <includes>
+                     <include>**/*</include>
+                  </includes>
+               </resource>
+            </resources>
+         </build>
+      </profile>
+      <profile>
+         <id>webstart</id>
+         <build>
+            <resources>
+               <resource>
+                  <targetPath>config</targetPath>
+                  <directory>src/main/java/config</directory>
+               </resource>
+               <resource>
+                  <directory>src/main/java</directory>
+                  <includes>
+                     <include>client.properties</include>
+                  </includes>
+               </resource>
+            </resources>
+            <plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo.webstart</groupId>
+				<artifactId>webstart-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>jnlp-inline</goal> <!-- use jnlp, jnlp-inline or jnlp-single as appropriate -->
+						</goals>
+					</execution>
+				</executions>
+
+				<configuration>
+					<!--outputDirectory></outputDirectory --> <!-- not required?? -->
+
+					<!-- Set to true to exclude all transitive dependencies. Default is
+						false. -->
+					<excludeTransitive>false</excludeTransitive>
+
+					<!-- The path where the libraries are stored within the jnlp structure.
+						not required. by default the libraries are within the working directory -->
+
+					<libPath>lib</libPath>
+					<!-- [optional] transitive dependencies filter - if omitted, all transitive
+						dependencies are included -->
+
+
+					<!-- JNLP generation -->
+					<jnlp>
+						<!-- default values -->
+						<!--inputTemplateResourcePath>${project.basedir}</inputTemplateResourcePath -->
+						<!--inputTemplate>src/main/jnlp/template.vm</inputTemplate --> <!-- relative to inputTemplateResourcePath -->
+						<outputFile>math-tool-${pom.version}.jnlp</outputFile> <!-- defaults to launch.jnlp -->
+
+						<!-- used to automatically identify the jar containing the main class. -->
+						<!-- this is perhaps going to change <mainClass>edu.scy.tools.math.StandAloneClientLauncher</mainClass> -->
+						<mainClass>eu.scy.tools.math.StandAloneClientLauncher</mainClass>
+					</jnlp>
+
+					<!-- SIGNING -->
+					<!-- defining this will automatically sign the jar and its dependencies,
+						if necessary -->
+							<unsign>true</unsign>
+
+
+					<!-- BUILDING PROCESS -->
+
+					<pack200>false</pack200>
+					<gzip>false</gzip> <!-- default force when pack200 false, true when pack200 selected ?? -->
+
+					<!-- causes a version attribute to be output in each jar resource element,
+						optional, default is false -->
+					<outputJarVersions>false</outputJarVersions>
+
+					<!--install>false</install --> <!-- not yet supported -->
+					<verbose>true</verbose>
+				</configuration>
+			</plugin>
+            </plugins>
+         </build>
+      </profile>
+   </profiles>
+	<dependencies>
+		<dependency>
+			<groupId>org.swinglabs</groupId>
+			<artifactId>swingx</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>com.miglayout</groupId>
+			<artifactId>miglayout</artifactId>
+			<version>3.7.3.1</version>
+			<classifier>swing</classifier>
+		</dependency>
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.jeval</groupId>
+			<artifactId>jeval</artifactId>
+			<version>0.9.4</version>
+		</dependency>
+	
+	<dependency>
+		<groupId>org.codehaus.jettison</groupId>
+		<artifactId>jettison</artifactId>
+		<version>1.2</version>
+	</dependency>
+		
+	
+		
+	</dependencies>
+</project>	

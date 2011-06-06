@@ -1,0 +1,221 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>eu.scy.client.desktop</groupId>
+		<version>34-SNAPSHOT</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>tool-broker</artifactId>
+	<packaging>jar</packaging>
+	<name>tool-broker</name>
+
+	<dependencies>
+	
+		<dependency>
+			<groupId>org.roolo</groupId>
+			<artifactId>elo-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.roolo</groupId>
+			<artifactId>roolo-api</artifactId>
+			<version>0.6.0-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>action-logging-api</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>scy-sessionmanager-api</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>notification-api</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>tool-broker-api</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>awareness-api</artifactId>
+			<version>${pom.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>smack</artifactId>
+					<groupId>jivesoftware</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>smackx</artifactId>
+					<groupId>jivesoftware</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.client.desktop</groupId>
+			<artifactId>action-logging-client</artifactId>
+			<version>${pom.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>smack</artifactId>
+					<groupId>jivesoftware</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>data-sync-api</artifactId>
+			<version>${pom.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>smack</artifactId>
+					<groupId>jivesoftware</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>smackx</artifactId>
+					<groupId>jivesoftware</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.client.desktop</groupId>
+			<artifactId>notification-receiver</artifactId>
+			<version>${pom.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>smack</artifactId>
+					<groupId>jivesoftware</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>configuration</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		
+		<dependency>	
+            <groupId>eu.scy.common</groupId>
+            <artifactId>pedagogical-plan-service-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+		
+		<dependency>	
+            <groupId>eu.scy.common</groupId>
+            <artifactId>scy-model-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+		
+		<dependency>	
+            <groupId>eu.scy.common</groupId>
+            <artifactId>action-logging-commons</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+		
+		<dependency>	
+            <groupId>info.collide</groupId>
+            <artifactId>sqlspaces-client</artifactId>
+        </dependency>
+		
+		<dependency>	
+            <groupId>info.collide</groupId>
+            <artifactId>sqlspaces-commons</artifactId>
+        </dependency>
+
+		<dependency>	
+            <groupId>org.igniterealtime</groupId>
+            <artifactId>smack</artifactId>
+            <version>3.2.0-BOSH</version>
+        </dependency>
+        
+		<dependency>	
+            <groupId>org.igniterealtime</groupId>
+            <artifactId>smackx</artifactId>
+            <version>3.2.0-BOSH</version>
+        </dependency>
+        
+		<dependency>	
+            <groupId>org.igniterealtime</groupId>
+            <artifactId>smack-bosh</artifactId>
+            <version>3.2.0-BOSH</version>
+        </dependency>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+		
+	</dependencies>
+
+    <build>
+        <resources outputDirectory="${project.build.outputDirectory}">
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+
+            </resource>
+        </resources>
+    </build>
+
+	<!--  
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptors>
+						<descriptor>src/main/assembly/src.xml 
+						</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>assembly</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+-->
+
+</project>

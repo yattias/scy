@@ -1,0 +1,78 @@
+<elo>
+<metadata>
+  <lom>
+    <technical>
+      <format>scy/missionmapmodel</format>
+      <customElements>
+        <dateCreated>1285244470310</dateCreated>
+        <dateLastModified>1285244470310</dateLastModified>
+      </customElements>
+    </technical>
+    <general>
+      <title>
+        <string language="en">Empty mission</string>
+      </title>
+      <missionRunning>jeremy</missionRunning>
+      <mission />
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/8/0/Empty+mission.scymissionmapmodel</entry>
+      </identifier>
+    </general>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jeremy</entity>
+        <date>
+          <dateTime>2010-09-23T14:21:10.310+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>isbasedon</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/7/0/Empty+mission.scymissionruntime</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<missionModel>
+  <id />
+  <name />
+  <activeLas />
+  <loElos />
+  <lasses />
+</missionModel>
+</content>
+<resources>
+</resources>
+</elo>

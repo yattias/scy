@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>eu.scy.client</groupId>
+		<version>34-SNAPSHOT</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>eu.scy.client.tools</groupId>
+	<artifactId>parent</artifactId>
+	<packaging>pom</packaging>
+	<name>SCY client tools</name>
+	<url>http://www.scy-net.eu</url>
+
+	<modules>
+		<module>scydynamics</module>
+		<module>scymapper</module>
+		<module>scysimulator</module>
+		<!--<module>student-planning-tool</module>-->
+    	<module>chat-tool</module>
+		<module>chat-presence-tool</module>
+		<module>colemo-model</module>
+		<module>copex</module>
+		<module>dataprocesstool</module>
+		<module>resultBinder</module>
+		<module>drawingtool</module>
+		<module>math-tool</module>
+		<module>math-tool-scy-extensions</module>
+		<module>fx-chattool</module>
+		<module>fx-drawingtool</module>
+		<module>fx-copex</module>
+		<module>fx-fitex</module>
+		<module>fx-resultBinder</module>
+		<module>fx-flying-saucer</module>
+		<module>fx-math-tool</module>
+		<module>fx-formauthor</module>
+		<module>fx-interviewtool</module>
+		<!--<module>fx-pictureviewer</module>-->
+		<module>fx-richtexteditor</module>
+		<module>fx-scydynamics</module>
+		<module>fx-scymapper</module>
+		<module>fx-simulator</module>
+		<module>fx-socialtaggingtool</module>
+		<!--<module>fx-student-planning-tool</module>-->
+		<module>fx-video</module>
+		<module>fx-webresourcer</module>
+		<module>fx-youtuber</module>
+   </modules>
+	
+</project>

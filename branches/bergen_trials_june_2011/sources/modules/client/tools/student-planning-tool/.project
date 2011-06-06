@@ -1,0 +1,21 @@
+<projectDescription>
+  <name>student-planning-tool</name>
+  <comment/>
+  <projects>
+    <project>awareness-api</project>
+    <project>awareness-impl</project>
+    <project>tool-broker</project>
+  </projects>
+  <buildSpec>
+    <buildCommand>
+      <name>org.eclipse.jdt.core.javabuilder</name>
+    </buildCommand>
+    <buildCommand>
+      <name>org.maven.ide.eclipse.maven2Builder</name>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.maven.ide.eclipse.maven2Nature</nature>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+  </natures>
+</projectDescription>

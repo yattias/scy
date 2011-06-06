@@ -1,0 +1,1 @@
+C:\WTK2.5.2_01\bin\wscompile -gen -d ./main/java/ client-stubs.xml

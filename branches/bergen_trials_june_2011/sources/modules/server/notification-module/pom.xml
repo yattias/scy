@@ -1,0 +1,72 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>eu.scy.server</groupId>
+		<version>34-SNAPSHOT</version>
+	</parent>
+	
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>eu.scy.server</groupId>
+  <artifactId>notification-module</artifactId>
+  <name>notification module</name>
+  <dependencies>
+  
+  	<dependency>
+  		<groupId>info.collide</groupId>
+  		<artifactId>sqlspaces-client</artifactId>
+  	</dependency>
+	
+  	<dependency>
+  		<groupId>eu.scy.common</groupId>
+  		<artifactId>notification-impl</artifactId>
+  		<version>${project.version}</version>
+  	</dependency>
+	
+  	<dependency>
+  		<groupId>eu.scy.server</groupId>
+  		<artifactId>scy-hub-commons</artifactId>
+  		<version>34-SNAPSHOT</version>
+  	</dependency>
+	
+  	<dependency>
+  		<groupId>jivesoftware</groupId>
+  		<artifactId>whack</artifactId>
+  		<version>1.0</version>
+  	</dependency>
+
+  	<dependency>
+  		<groupId>log4j</groupId>
+  		<artifactId>log4j</artifactId>
+  	</dependency>
+	
+  	<dependency>
+  		<groupId>eu.scy.common</groupId>
+  		<artifactId>configuration</artifactId>
+  		<version>${pom.version}</version>
+  	</dependency>
+		
+  	<dependency>
+  		<groupId>eu.scy.common</groupId>
+  		<artifactId>packet-transformer</artifactId>
+  		<version>${pom.version}</version>
+  	</dependency>
+		
+  	<dependency>
+  		<groupId>eu.scy.common</groupId>
+  		<artifactId>notification-api</artifactId>
+  		<version>${pom.version}</version>
+  	</dependency>
+			
+  	<dependency>
+  		<groupId>eu.scy.server</groupId>
+  		<artifactId>whacket-extension</artifactId>
+  		<version>${pom.version}</version>
+  	</dependency>
+	
+  	<dependency>
+  		<groupId>info.collide</groupId>
+  		<artifactId>sqlspaces-commons</artifactId>
+  	</dependency>
+	
+  </dependencies>
+</project>

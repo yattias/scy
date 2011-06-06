@@ -1,0 +1,590 @@
+<experimental_procedure>
+  <mission>
+    <initial_proc>
+      <name language="fr">Protocole d'aide</name>
+      <name language="en">Help Procedure</name>
+      <question>
+        <description language="fr" />
+        <description language="en" />
+        <task_right>
+          <edit_right>N</edit_right>
+          <delete_right>N</delete_right>
+          <copy_right>N</copy_right>
+          <move_right>N</move_right>
+          <parent_right>N</parent_right>
+          <draw_right>N</draw_right>
+          <repeat_right>N</repeat_right>
+        </task_right>
+      </question>
+      <proc_hypothesis>
+        <hypothesis language="en" />
+        <hypothesis language="fr" />
+        <comment language="en" />
+        <comment language="fr" />
+        <hypothesis_hide>false</hypothesis_hide>
+      </proc_hypothesis>
+      <proc_general_principle>
+        <principle language="en" />
+        <principle language="fr" />
+        <principle_comment language="en" />
+        <principle_comment language="fr" />
+        <principle_hide>false</principle_hide>
+      </proc_general_principle>
+      <manipulation />
+      <code>HELP</code>
+      <is_free_action>true</is_free_action>
+      <is_task>false</is_task>
+      <is_task_repeat>false</is_task_repeat>
+      <hypothesis_mode>M</hypothesis_mode>
+      <principle_mode>M</principle_mode>
+      <draw_principle>false</draw_principle>
+      <evaluation_mode>M</evaluation_mode>
+      <strategy_ref>
+        <code>S1</code>
+      </strategy_ref>
+      <material>
+        <id>MATERIAL_CHOU_ROUGE</id>
+        <name language="fr">Chou rouge</name>
+        <name language="en">Red cabbage</name>
+        <info language="fr" />
+        <type_ref>
+          <id>TYPE_INGREDIENT</id>
+        </type_ref>
+      </material>
+      <material>
+        <id>MATERIAL_EAU</id>
+        <name language="fr">Eau</name>
+        <name language="en">Water</name>
+        <info language="fr" />
+        <type_ref>
+          <id>TYPE_LIQUIDE</id>
+        </type_ref>
+      </material>
+      <material>
+        <id>MATERIAL_BOUILLOIRE</id>
+        <name language="fr">Bouilloire électrique</name>
+        <name language="en">Electric kettle</name>
+        <info language="fr" />
+       <type_ref>
+          <id>TYPE_USTENSILE</id>
+        </type_ref>
+      </material>
+      <material>
+       <id>MATERIAL_BECHER</id>
+        <name language="fr">Bécher de 500 mL</name>
+        <name language="en">500 ml glass beaker</name>
+        <info language="fr" />
+        <type_ref>
+          <id>TYPE_MESUREUR</id>
+        </type_ref>
+      </material>
+      <material>
+        <id>MATERIAL_PASSOIRE</id>
+        <name language="fr">Passoire</name>
+        <name language="en">sieve</name>
+        <info language="fr" />
+        <type_ref>
+          <id>TYPE_USTENSILE</id>
+        </type_ref>
+      </material>
+      <material>
+        <id>MATERIAL_TUBE</id>
+        <name language="fr">Tube de 20 mL (6)</name>
+        <name language="en">20 ml test tube (6)</name>
+        <info language="fr" />
+        <type_ref>
+          <id>TYPE_MESUREUR</id>
+        </type_ref>
+      </material>
+      <material>
+        <id>MATERIAL_CITRON</id>
+        <name language="fr">Citron</name>
+        <name language="en">Lemon</name>
+        <info language="fr" />
+        <type_ref>
+          <id>TYPE_INGREDIENT</id>
+        </type_ref>
+      </material>
+      <material>
+        <id>MATERIAL_VINAIGRE</id>
+        <name language="fr">Vinaigre</name>
+        <name language="en">Vinegar</name>
+        <info language="fr" />
+        <type_ref>
+          <id>TYPE_LIQUIDE</id>
+        </type_ref>
+      </material>
+      <material>
+       <id>MATERIAL_BICARBONATE_SOUDE</id>
+        <name language="fr">Bicarbonate de soude</name>
+        <name language="en">Sodium bicarbonate</name>
+        <info language="fr" />
+        <type_ref>
+          <id>TYPE_PROD_CHIM</id>
+        </type_ref>
+      </material>
+      <material>
+       <id>MATERIAL_SOUDE</id>
+        <name language="fr">Soude</name>
+        <name language="en">sodium hydroxyde in pellets</name>
+        <info language="fr" />
+        <type_ref>
+          <id>TYPE_PROD_CHIM</id>
+        </type_ref>
+      </material>
+      <material>
+        <id>MATERIAL_PIPETTE_PASTEUR</id>
+        <name language="fr">Pipette pasteur</name>
+        <name language="en">pipette</name>
+        <info language="fr" />
+        <type_ref>
+          <id>TYPE_MESUREUR</id>
+        </type_ref>
+      </material>
+      <material>
+        <id>MATERIAL_CUILLERE</id>
+        <name language="fr">Cuillère</name>
+        <name language="en">Spoon</name>
+        <info language="fr" />
+        <type_ref>
+          <id>TYPE_USTENSILE</id>
+        </type_ref>
+      </material>
+    </initial_proc>
+  </mission>
+  <learner_proc>
+    <name language="fr">Le chou rouge</name>
+    <name language="en">The red cabbage</name>
+    <question>
+      <description language="fr">Déterminer de quoi dépend la couleur du colorant contenu dans les feuilles de chou rouge</description>
+      <description language="en">Determine on what depends the color of the dye contained in the leaves of the red cabbage</description>
+      <comments language="fr">Suivant les préparations culinaires faites avec le chou rouge, on observe des variations de couleur de ce légume. A quoi sont dues ces variations ?</comments>
+      <comments language="en">Depending on the preparation made from red cabbages, color changes of this vegetable can be observed. What do these color changes depend on?</comments>
+      <task_right>
+        <edit_right>N</edit_right>
+        <delete_right>N</delete_right>
+        <copy_right>N</copy_right>
+        <move_right>N</move_right>
+        <parent_right>N</parent_right>
+        <draw_right>N</draw_right>
+        <repeat_right>N</repeat_right>
+      </task_right>
+    </question>
+    <proc_hypothesis>
+      <hypothesis language="fr">Les variations de couleur pourraient être dues au pH du milieu avec lequel le chou rouge est en contact</hypothesis>
+      <hypothesis language="en">Color changes might be due to the environmental pH the red cabbage is in touch with</hypothesis>
+      <comment language="en" />
+      <comment language="fr" />
+      <hypothesis_hide>false</hypothesis_hide>
+    </proc_hypothesis>
+    <proc_general_principle>
+      <principle language="fr">Nous allons extraire le colorant du chou rouge, puis nous mettrons ce colorant dans des  milieux de pH différents. Nous détermineront si la couleur change.</principle>
+      <principle language="en">We are going to extract the dye of a red cabbage, then we will put this dye in different environments with various pH. We will determine if the color changes.</principle>
+      <principle_comment language="en" />
+      <principle_comment language="fr" />
+      <principle_hide>false</principle_hide>
+    </proc_general_principle>
+    <manipulation>
+      <step>
+        <description language="fr">Extraire le colorant du chou rouge</description>
+        <description language="en">Extraction of the dye from a red cabbage</description>
+        <comments language="fr" />
+        <task_right>
+          <edit_right>N</edit_right>
+          <delete_right>N</delete_right>
+          <copy_right>N</copy_right>
+          <move_right>N</move_right>
+          <parent_right>N</parent_right>
+          <draw_right>N</draw_right>
+          <repeat_right>N</repeat_right>
+        </task_right>
+        <action>
+          <description language="fr">Couper quelques feuilles externes de chou rouge en petits morceaux.</description>
+          <description language="en">Cut up in little pieces some outer leaves of the red cabbage.</description>
+          <comments language="fr" />
+          <task_right>
+            <edit_right>N</edit_right>
+            <delete_right>N</delete_right>
+            <copy_right>N</copy_right>
+            <move_right>N</move_right>
+            <parent_right>N</parent_right>
+            <draw_right>N</draw_right>
+            <repeat_right>N</repeat_right>
+          </task_right>
+        </action>
+        <action>
+          <description language="fr">Mettre ces morceaux de feuilles dans un bécher de 500 mL.</description>
+          <description language="en">Put the pieces of red cabbage leaves in a 500 mL beaker.</description>
+          <comments language="fr" />
+          <task_right>
+            <edit_right>N</edit_right>
+            <delete_right>N</delete_right>
+            <copy_right>N</copy_right>
+            <move_right>N</move_right>
+            <parent_right>N</parent_right>
+            <draw_right>N</draw_right>
+            <repeat_right>N</repeat_right>
+          </task_right>
+        </action>
+        <action>
+          <description language="fr">Faire chauffer de l'eau dans la bouilloire électrique</description>
+          <description language="en">Heat water with the electric kettle</description>
+          <comments language="fr" />
+          <task_right>
+            <edit_right>N</edit_right>
+            <delete_right>N</delete_right>
+            <copy_right>N</copy_right>
+            <move_right>N</move_right>
+            <parent_right>N</parent_right>
+            <draw_right>N</draw_right>
+            <repeat_right>N</repeat_right>
+          </task_right>
+        </action>
+        <action>
+          <description language="fr">Verser un peu d'eau bouillante dans le bécher contenant le chou rouge découpé</description>
+          <description language="en">Add some boiling water in the beaker with the red cabbage leaves</description>
+          <comments language="fr">Mettre le minimum d'eau pour recouvrir le chou rouge</comments>
+          <comments language="en">Put the minimum of water to surround the leaves</comments>
+          <task_right>
+            <edit_right>N</edit_right>
+            <delete_right>N</delete_right>
+            <copy_right>N</copy_right>
+            <move_right>N</move_right>
+            <parent_right>N</parent_right>
+            <draw_right>N</draw_right>
+            <repeat_right>N</repeat_right>
+          </task_right>
+        </action>
+        <action>
+          <description language="fr">Attendre 10 min</description>
+          <description language="en">Wait for 10 min</description>
+          <comments language="fr" />
+          <task_right>
+            <edit_right>N</edit_right>
+            <delete_right>N</delete_right>
+            <copy_right>N</copy_right>
+            <move_right>N</move_right>
+            <parent_right>N</parent_right>
+            <draw_right>N</draw_right>
+            <repeat_right>N</repeat_right>
+          </task_right>
+        </action>
+        <action>
+          <description language="fr">Filtrer le contenu du bécher avec la passoire - On obtient le colorant extrait en solution</description>
+          <description language="en">Filter the content of the beaker with the sieve - we obtain a solution of the cabbage dye.</description>
+          <comments language="fr" />
+          <task_right>
+            <edit_right>N</edit_right>
+            <delete_right>N</delete_right>
+            <copy_right>N</copy_right>
+            <move_right>N</move_right>
+            <parent_right>N</parent_right>
+            <draw_right>N</draw_right>
+            <repeat_right>N</repeat_right>
+          </task_right>
+        </action>
+      </step>
+      <step>
+        <description language="fr">Test du colorant dans des solutions de pH différents</description>
+        <description language="en">Test of the dye in solutions with various pH</description>
+        <comments language="fr" />
+        <task_right>
+          <edit_right>N</edit_right>
+          <delete_right>N</delete_right>
+          <copy_right>N</copy_right>
+          <move_right>N</move_right>
+          <parent_right>N</parent_right>
+          <draw_right>N</draw_right>
+          <repeat_right>N</repeat_right>
+        </task_right>
+        <step>
+          <description language="fr">Préparation des différentes solutions</description>
+          <description language="en">Preparation of different solutions</description>
+          <comments language="fr" />
+          <task_right>
+            <edit_right>N</edit_right>
+            <delete_right>N</delete_right>
+            <copy_right>N</copy_right>
+            <move_right>N</move_right>
+            <parent_right>N</parent_right>
+            <draw_right>N</draw_right>
+            <repeat_right>N</repeat_right>
+          </task_right>
+          <action>
+            <description language="fr">Dans le tube 1, mettre du jus de citron</description>
+            <description language="en">In the tube 1, put lemon juice</description>
+            <comments language="fr">Solution acide</comments>
+            <comments language="en">Acid solution</comments>
+            <task_right>
+              <edit_right>N</edit_right>
+              <delete_right>N</delete_right>
+              <copy_right>N</copy_right>
+              <move_right>N</move_right>
+              <parent_right>N</parent_right>
+              <draw_right>N</draw_right>
+              <repeat_right>N</repeat_right>
+            </task_right>
+          </action>
+          <action>
+            <description language="fr">Dans le tube 2, mettre du vinaigre</description>
+            <description language="en">In the tube 2, put vinegar</description>
+            <comments language="fr">Solution acide</comments>
+            <comments language="en">Acid solution</comments>
+            <task_right>
+              <edit_right>N</edit_right>
+              <delete_right>N</delete_right>
+              <copy_right>N</copy_right>
+              <move_right>N</move_right>
+              <parent_right>N</parent_right>
+              <draw_right>N</draw_right>
+              <repeat_right>N</repeat_right>
+            </task_right>
+          </action>
+          <action>
+            <description language="fr">Dans le tube 3, mettre de l'eau</description>
+            <description language="een">In the tube 3, put water</description>
+            <comments language="fr">Solution neutre</comments>
+            <comments language="en">neutral solution</comments>
+            <task_right>
+              <edit_right>N</edit_right>
+              <delete_right>N</delete_right>
+              <copy_right>N</copy_right>
+              <move_right>N</move_right>
+              <parent_right>N</parent_right>
+              <draw_right>N</draw_right>
+              <repeat_right>N</repeat_right>
+            </task_right>
+          </action>
+          <step>
+            <description language="fr">Préparer une solution de bicarbonate de soude</description>
+            <description language="en">Prepare a solution of sodium bicarbonate</description>
+            <comments language="fr">Solution basique</comments>
+            <comments language="en">Solution basique</comments>
+            <task_right>
+              <edit_right>N</edit_right>
+              <delete_right>N</delete_right>
+              <copy_right>N</copy_right>
+              <move_right>N</move_right>
+              <parent_right>N</parent_right>
+              <draw_right>N</draw_right>
+              <repeat_right>N</repeat_right>
+            </task_right>
+            <action>
+              <description language="fr">Dans le tube 4, mettre 10 mL d'eau et 1 cuillère à café de bicarbonate de soude</description>
+              <description language="en">In the tube 4, put 10ml water and 1 teaspoon of sodium bicarbonate</description>
+              <comments language="fr" />
+              <task_right>
+                <edit_right>N</edit_right>
+                <delete_right>N</delete_right>
+                <copy_right>N</copy_right>
+                <move_right>N</move_right>
+                <parent_right>N</parent_right>
+                <draw_right>N</draw_right>
+                <repeat_right>N</repeat_right>
+              </task_right>
+            </action>
+            <action>
+              <description language="fr">Homogénéiser le contenu du tube 4</description>
+              <description language="en">Homogenize the content of the tube 4</description>
+              <comments language="fr" />
+              <task_right>
+                <edit_right>N</edit_right>
+                <delete_right>N</delete_right>
+                <copy_right>N</copy_right>
+                <move_right>N</move_right>
+                <parent_right>N</parent_right>
+                <draw_right>N</draw_right>
+                <repeat_right>N</repeat_right>
+              </task_right>
+            </action>
+          </step>
+          <step>
+            <description language="fr">Préparer une solution de soude</description>
+            <description language="en">Prepare a solution of sodium hydroxyde</description>
+            <comments language="fr">Solution très basique</comments>
+            <comments language="en">Very basic solution</comments>
+            <task_right>
+              <edit_right>N</edit_right>
+              <delete_right>N</delete_right>
+              <copy_right>N</copy_right>
+              <move_right>N</move_right>
+              <parent_right>N</parent_right>
+              <draw_right>N</draw_right>
+              <repeat_right>N</repeat_right>
+            </task_right>
+            <action>
+              <description language="fr">Dans le tube 5, mettre 1 pastille de soude et 10 mL d'eau</description>
+              <description language="en">In the tube 5, put 1 pellet of hydroxyde sodium and 10 mL of water</description>
+              <comments language="fr">Attention : la soude est un produit très agressif.</comments>
+              <comments language="en">Warning: hydroxyde sodium is a very agressive product</comments>
+              <task_right>
+                <edit_right>N</edit_right>
+                <delete_right>N</delete_right>
+                <copy_right>N</copy_right>
+                <move_right>N</move_right>
+                <parent_right>N</parent_right>
+                <draw_right>N</draw_right>
+                <repeat_right>N</repeat_right>
+              </task_right>
+            </action>
+            <action>
+              <description language="fr">Homogénéiser</description>
+              <description language="en">Homogenize</description>
+              <comments language="fr" />
+              <task_right>
+                <edit_right>N</edit_right>
+                <delete_right>N</delete_right>
+                <copy_right>N</copy_right>
+                <move_right>N</move_right>
+                <parent_right>N</parent_right>
+                <draw_right>N</draw_right>
+                <repeat_right>N</repeat_right>
+              </task_right>
+            </action>
+          </step>
+        </step>
+        <step>
+          <description language="fr">Tester le colorant dans les solutions à différents pH</description>
+          <description language="en">Test the color of the red dye in the different solutions</description>
+          <comments language="fr" />
+          <task_right>
+            <edit_right>X</edit_right>
+            <delete_right>X</delete_right>
+            <copy_right>X</copy_right>
+            <move_right>X</move_right>
+            <parent_right>X</parent_right>
+            <draw_right>N</draw_right>
+            <repeat_right>N</repeat_right>
+          </task_right>
+          <action>
+            <description language="fr">Ajouter quelques gouttes de solution de colorant dans chacun des tubes de la gamme de pH</description>
+            <description language="en">Add few drops of dye solution in each test tube</description>
+            <comments language="fr" />
+            <task_right>
+              <edit_right>X</edit_right>
+              <delete_right>X</delete_right>
+              <copy_right>X</copy_right>
+              <move_right>X</move_right>
+              <parent_right>X</parent_right>
+              <draw_right>N</draw_right>
+              <repeat_right>N</repeat_right>
+            </task_right>
+          </action>
+          <action>
+            <description language="fr">Observer la couleur prise par la solution dans chacun des tubes</description>
+            <description language="en">Observe the color of the solution in each tube</description>
+            <comments language="fr" />
+            <task_right>
+              <edit_right>X</edit_right>
+              <delete_right>X</delete_right>
+              <copy_right>X</copy_right>
+              <move_right>X</move_right>
+              <parent_right>X</parent_right>
+              <draw_right>N</draw_right>
+              <repeat_right>N</repeat_right>
+            </task_right>
+          </action>
+        </step>
+      </step>
+    </manipulation>
+    <material_used>
+      <material_ref>
+        <id>MATERIAL_CHOU_ROUGE</id>
+      </material_ref>
+      <used>true</used>
+      <user_material>false</user_material>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material_ref>
+        <id>MATERIAL_EAU</id>
+      </material_ref>
+      <used>true</used>
+      <user_material>false</user_material>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material_ref>
+        <id>MATERIAL_BOUILLOIRE</id>
+      </material_ref>
+      <used>true</used>
+      <user_material>false</user_material>
+      <comment language="en" />
+    </material_used>
+     <material_used>
+      <material_ref>
+        <id>MATERIAL_BECHER</id>
+      </material_ref>
+      <used>true</used>
+      <user_material>false</user_material>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material_ref>
+        <id>MATERIAL_PASSOIRE</id>
+      </material_ref>
+      <used>true</used>
+      <user_material>false</user_material>
+      <comment language="en" />
+    </material_used>
+     <material_used>
+      <material_ref>
+        <id>MATERIAL_TUBE</id>
+      </material_ref>
+      <used>true</used>
+      <user_material>false</user_material>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material_ref>
+        <id>MATERIAL_CITRON</id>
+      </material_ref>
+      <used>true</used>
+      <user_material>false</user_material>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material_ref>
+        <id>MATERIAL_VINAIGRE</id>
+      </material_ref>
+      <used>true</used>
+      <user_material>false</user_material>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material_ref>
+        <id>MATERIAL_BICARBONATE_SOUDE</id>
+      </material_ref>
+      <used>true</used>
+      <user_material>false</user_material>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material_ref>
+        <id>MATERIAL_SOUDE</id>
+      </material_ref>
+      <used>true</used>
+      <user_material>false</user_material>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material_ref>
+        <id>MATERIAL_PIPETTE_PASTEUR</id>
+      </material_ref>
+      <used>true</used>
+      <user_material>false</user_material>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material_ref>
+        <id>MATERIAL_CUILLERE</id>
+      </material_ref>
+      <used>true</used>
+      <user_material>false</user_material>
+      <comment language="en" />
+    </material_used>
+    <initial_proc_ref>
+      <code>HELP</code>
+    </initial_proc_ref>
+  </learner_proc>
+</experimental_procedure>

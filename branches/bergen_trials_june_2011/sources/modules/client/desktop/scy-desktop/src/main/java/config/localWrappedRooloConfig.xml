@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-autowire="byName">
+
+   <alias name="wrappedRepository" alias="repository"/>
+   <alias name="localMetadataTypeManager" alias="metadataTypeManager"/>
+   <alias name="localExtensionManager" alias="extensionManager"/>
+   <alias name="localEloFactory" alias="eloFactory"/>
+
+   <bean name="wrappedRepository" class="eu.scy.client.desktop.scydesktop.hacks.RepositoryWrapper">
+      <property name="repository" ref="cachedRepository"/>
+      <property name="metadataTypeManager" ref="localMetadataTypeManager"/>
+      <property name="sendEloSavedEvents" value="true"/>
+      <property name="userId" value="${userName}"/>
+   </bean>
+
+   <!--
+      caching not needed, roolo-mock keeps everything in memory
+      but just for testing purposes, use the cache
+   -->
+   <bean name="cachedRepository" class="roolo.cms.cache.RepositoryCache">
+      <constructor-arg index="0" ref="localRepository"/>
+      <constructor-arg index="1" ref="eloFactory"/>
+      <constructor-arg index="2" ref="metadataTypeManager"/>
+   </bean>
+
+   <bean name="localRepository" class="roolo.cms.repository.mock.MockRepository" init-method="initialise">
+      <property name="metadataTypeManager" ref="localMetadataTypeManager"/>
+      <property name="extensionManager" ref="localExtensionManager"/>
+      <property name="eloStoreDirectory" value="${eloStoreDirectory}"/>
+      <property name="storeElosInStoreDirectory" value="${storeElosOnDisk}"/>
+      <property name="minimumNewVersionListId" value="${minimumRooloNewVersionListId}"/>
+      <property name="disableEloVersioning" value="${disableRooloVersioning}"/>
+   </bean>
+
+   <import resource="localRooloMetadata.xml"/>
+   <import resource="localRooloExtensions.xml"/>
+
+   <bean name="localEloFactory" class="roolo.elo.JDomBasicELOFactory">
+      <constructor-arg index="0" ref="metadataTypeManager"/>
+   </bean>
+
+
+</beans>

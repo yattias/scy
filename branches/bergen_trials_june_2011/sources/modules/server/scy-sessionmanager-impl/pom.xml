@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<project>
+ 
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>eu.scy.server</groupId>
+		<version>34-SNAPSHOT</version>
+	</parent> 	
+ 
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>scy-sessionmanager-impl</artifactId>
+    <name>scy-sessionmanager-impl</name>
+
+    <dependencies>
+
+        <!-- SCY DEPENDENCIES -->
+		<!--
+		
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>scy-model-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${pom.groupId}</groupId>
+            <artifactId>scy-useradmin-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+		-->
+		
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>scy-sessionmanager-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${pom.groupId}</groupId>
+            <artifactId>scy-useradmin-impl</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <properties>
+        <filter.file>src/main/filters/serverfilter.properties</filter.file>
+    </properties>
+
+</project>

@@ -1,0 +1,68 @@
+<elo>
+<metadata>
+  <lom>
+    <technical>
+      <format>scy/url</format>
+      <customElements>
+        <dateCreated>1266922363814</dateCreated>
+        <dateLastModified>1266922363814</dateLastModified>
+      </customElements>
+    </technical>
+    <general>
+      <title>
+        <string language="en">Inventory of expert solutions</string>
+        <string language="fr">Inventaire des solutions des experts</string>
+      </title>
+      <description>
+        <string language="en" />
+      </description>
+      <structure>information</structure>
+      <mission>co2Mission</mission>
+      <las>experimentDesign</las>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/621/0/Inventory_of_expert_solutions.url</entry>
+      </identifier>
+    </general>
+    <educational>
+      <learningResourceType>informationAssignment</learningResourceType>
+    </educational>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2010-02-23T11:52:43.814+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<url>http://www.scy-lab.eu/content/en/mission1_UT1004/LAS_Design_design/Assignments/A_Inventory_solutions.html</url>
+</content>
+<resources>
+</resources>
+</elo>

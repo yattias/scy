@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Model modelID="fxc" modelVersion="40" rootInstance="DesignModel1" version="1">
+    <Instance classID="DesignModel" instanceID="DesignModel1">
+        <List name="stateVariables">
+            <Item value="inst:StateVariableModel1"/>
+        </List>
+        <List name="resources">
+            <Item value="inst:ToggleGroupModel1"/>
+        </List>
+        <List name="dataSources"/>
+        <List name="effects"/>
+        <Reference name="scene" value="inst:SceneModel1"/>
+        <Reference name="designWidth" value="flt:480.0"/>
+        <Reference name="designHeight" value="flt:320.0"/>
+        <Reference name="designProfile" value="profile:DESKTOP"/>
+        <Reference name="synchronizeDeviceAndSceneSizes" value="bool:true"/>
+    </Instance>
+    <Instance classID="StateVariableModel" instanceID="StateVariableModel1">
+        <Reference name="instanceName" value="str:currentState"/>
+        <List name="states"/>
+        <Reference name="startState" value="null"/>
+        <Reference name="stateChangeType" value="statechange:PAUSE_AND_PLAY_FROM_START"/>
+        <Reference name="defaultInterpolator" value="interpolator:DISCRETE"/>
+        <Reference name="defaultDuration" value="int:0"/>
+    </Instance>
+    <Instance classID="ToggleGroupModel" instanceID="ToggleGroupModel1">
+        <Reference name="instanceName" value="str:toggleGroup"/>
+        <Reference name="preCreationCode" value="null"/>
+        <Reference name="postCreationCode" value="null"/>
+    </Instance>
+    <Instance classID="SceneModel" instanceID="SceneModel1">
+        <Reference name="instanceName" value="str:scene"/>
+        <List name="nodes">
+            <Item value="inst:RadioButtonModel1"/>
+            <Item value="inst:RadioButtonModel2"/>
+            <Item value="inst:RadioButtonModel3"/>
+            <Item value="inst:StackModel1"/>
+            <Item value="inst:RadioButtonModel4"/>
+        </List>
+        <Reference name="width" value="prop:25,anim:0,DISCRETE,flt:480.0,"/>
+        <Reference name="height" value="prop:25,anim:0,DISCRETE,flt:320.0,"/>
+        <Reference name="generateSceneInstance" value="bool:true"/>
+        <Reference name="generateScenePanel" value="bool:true"/>
+        <Reference name="preCreationCode" value="null"/>
+        <Reference name="postCreationCode" value="null"/>
+        <Reference name="preInitCode" value="null"/>
+        <Reference name="postInitCode" value="null"/>
+    </Instance>
+    <Instance classID="RadioButtonModel" instanceID="RadioButtonModel1">
+        <Reference name="instanceName" value="str:multiImageButtonRadioButton"/>
+        <Reference name="layoutX" value="prop:14,anim:,,flt:6.0,4,null,"/>
+        <Reference name="layoutY" value="prop:14,anim:,,flt:5.0,4,null,"/>
+        <Reference name="onMouseClicked" value="prop:36,anim:,,str:radioButtonOnMouseClicked,4,null,"/>
+        <Reference name="preCreationCode" value="null"/>
+        <Reference name="postCreationCode" value="null"/>
+        <Reference name="graphicNode" value="null"/>
+        <Reference name="text" value="prop:27,anim:,,str:MultiImageButton,4,null,"/>
+        <Reference name="toggleGroup" value="prop:29,anim:,,inst:ToggleGroupModel1,4,null,"/>
+    </Instance>
+    <Instance classID="RadioButtonModel" instanceID="RadioButtonModel2">
+        <Reference name="instanceName" value="str:languageSelectorRadioButton"/>
+        <Reference name="layoutX" value="prop:16,anim:,,flt:290.0,4,null,"/>
+        <Reference name="layoutY" value="prop:14,anim:,,flt:5.0,4,null,"/>
+        <Reference name="onMouseClicked" value="prop:37,anim:,,str:radioButton2OnMouseClicked,4,null,"/>
+        <Reference name="preCreationCode" value="null"/>
+        <Reference name="postCreationCode" value="null"/>
+        <Reference name="graphicNode" value="null"/>
+        <Reference name="text" value="prop:27,anim:,,str:LanguageSelector,4,null,"/>
+        <Reference name="toggleGroup" value="prop:29,anim:,,inst:ToggleGroupModel1,4,null,"/>
+    </Instance>
+    <Instance classID="RadioButtonModel" instanceID="RadioButtonModel3">
+        <Reference name="instanceName" value="str:dynamicTypeBackgroundRadioButton"/>
+        <Reference name="layoutX" value="prop:16,anim:,,flt:126.0,4,null,"/>
+        <Reference name="layoutY" value="prop:14,anim:,,flt:5.0,4,null,"/>
+        <Reference name="onMouseClicked" value="prop:37,anim:,,str:radioButton3OnMouseClicked,4,null,"/>
+        <Reference name="preCreationCode" value="null"/>
+        <Reference name="postCreationCode" value="null"/>
+        <Reference name="graphicNode" value="null"/>
+        <Reference name="text" value="prop:32,anim:,,str:DynamicTypeBackground,4,null,"/>
+        <Reference name="toggleGroup" value="prop:29,anim:,,inst:ToggleGroupModel1,4,null,"/>
+    </Instance>
+    <Instance classID="StackModel" instanceID="StackModel1">
+        <Reference name="instanceName" value="str:stack"/>
+        <Reference name="layoutX" value="prop:14,anim:,,flt:0.0,4,null,"/>
+        <Reference name="layoutY" value="prop:15,anim:,,flt:35.0,4,null,"/>
+        <Reference name="layoutInfoWidth" value="prop:16,anim:,,flt:480.0,4,null,"/>
+        <Reference name="layoutInfoHeight" value="prop:16,anim:,,flt:285.0,4,null,"/>
+        <Reference name="preCreationCode" value="null"/>
+        <Reference name="postCreationCode" value="null"/>
+        <List name="content"/>
+        <Reference name="nodeHPos" value="prop:16,anim:,,hpos:LEFT,4,null,"/>
+        <Reference name="nodeVPos" value="prop:15,anim:,,vpos:TOP,4,null,"/>
+    </Instance>
+    <Instance classID="RadioButtonModel" instanceID="RadioButtonModel4">
+        <Reference name="instanceName" value="str:imagesRadioButton"/>
+        <Reference name="layoutX" value="prop:16,anim:,,flt:419.0,4,null,"/>
+        <Reference name="layoutY" value="prop:14,anim:,,flt:5.0,4,null,"/>
+        <Reference name="onMouseClicked" value="prop:42,anim:,,str:imagesRadioButtonOnMouseClicked,4,null,"/>
+        <Reference name="preCreationCode" value="null"/>
+        <Reference name="postCreationCode" value="null"/>
+        <Reference name="graphicNode" value="null"/>
+        <Reference name="text" value="prop:17,anim:,,str:Images,4,null,"/>
+        <Reference name="toggleGroup" value="prop:29,anim:,,inst:ToggleGroupModel1,4,null,"/>
+    </Instance>
+</Model>

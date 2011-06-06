@@ -1,0 +1,65 @@
+<elo>
+<metadata>
+  <lom>
+    <general>
+      <title>
+        <string language="en">adam</string>
+      </title>
+      <mission />
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/1/0/adam.scymissionmodel</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/missionmodel</format>
+      <customElements>
+        <dateCreated>1270812804649</dateCreated>
+        <dateLastModified>1270812804650</dateLastModified>
+      </customElements>
+    </technical>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>adam</entity>
+        <date>
+          <dateTime>2010-04-09T13:33:24.647+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<missionModel>
+  <id />
+  <name />
+  <activeLas />
+  <loElos />
+  <lasses />
+</missionModel>
+</content>
+<resources>
+</resources>
+</elo>

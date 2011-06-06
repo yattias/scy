@@ -1,0 +1,68 @@
+<elo>
+<metadata>
+  <lom>
+    <technical>
+      <format>scy/url</format>
+      <customElements>
+        <dateCreated>1267013657385</dateCreated>
+        <dateLastModified>1267013657385</dateLastModified>
+      </customElements>
+    </technical>
+    <general>
+      <title>
+        <string language="en">Videos about CO2-friendly houses</string>
+        <string language="fr">Vidéos sur les maisons à faible émission de CO2</string>
+      </title>
+      <description>
+        <string language="en" />
+      </description>
+      <structure>information</structure>
+      <mission>co2Mission</mission>
+      <las>startPage</las>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/651/0/Videos_about_CO2-friendly_houses.url</entry>
+      </identifier>
+    </general>
+    <educational>
+      <learningResourceType>informationResource</learningResourceType>
+    </educational>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2010-02-24T13:14:17.385+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<url>http://www.scy-lab.eu/content/en/mission1_UT1004/LAS_Conceptualization_design/Resources/R_Videos_CO2_houses.html</url>
+</content>
+<resources>
+</resources>
+</elo>

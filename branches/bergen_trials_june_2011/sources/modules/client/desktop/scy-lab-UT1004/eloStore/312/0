@@ -1,0 +1,126 @@
+<elo>
+<metadata>
+  <lom>
+    <technical>
+      <format>scy/pds</format>
+      <customElements>
+        <dateCreated>1266920430747</dateCreated>
+        <dateLastModified>1266920430747</dateLastModified>
+      </customElements>
+    </technical>
+    <general>
+      <title>
+        <string language="en">Data from real experiments</string>
+        <string language="fr">Données issues des expérimentations réelles</string>
+      </title>
+      <description>
+        <string language="en" />
+      </description>
+      <structure>dataset</structure>
+      <mission>co2Mission</mission>
+      <las>experimentDesign</las>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/312/0/Data_from_real_experiments.scypds</entry>
+      </identifier>
+    </general>
+    <educational>
+      <learningResourceType>datasetManual</learningResourceType>
+    </educational>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2010-02-23T11:20:30.747+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<processDataset>
+  <dataset>
+    <header language="en">
+      <column>
+        <symbol>data 1</symbol>
+        <description />
+        <type>unit</type>
+      </column>
+      <column>
+        <symbol>data 2</symbol>
+        <description />
+        <type>unit</type>
+      </column>
+    </header>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+    <row>
+      <value>NaN</value>
+      <value>NaN</value>
+    </row>
+  </dataset>
+  <processed_dataset>
+    <name>Dataset</name>
+  </processed_dataset>
+</processDataset>
+</content>
+<resources>
+</resources>
+</elo>

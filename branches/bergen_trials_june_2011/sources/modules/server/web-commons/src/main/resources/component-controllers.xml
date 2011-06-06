@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	* Copyright (c) 2007 Encore Research Group, University of Toronto
+	*
+	* This library is free software; you can redistribute it and/or
+	* modify it under the terms of the GNU Lesser General Public
+	* License as published by the Free Software Foundation; either
+	* version 2.1 of the License, or (at your option) any later version.
+	*
+	* This library is distributed in the hope that it will be useful,
+	* but WITHOUT ANY WARRANTY; without even the implied warranty of
+	* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+	* Lesser General Public License for more details.
+	*
+	* You should have received a copy of the GNU Lesser General Public
+	* License along with this library; if not, write to the Free Software
+	* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+-->
+
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-2.0.xsd
+	http://www.directwebremoting.org/schema/spring-dwr
+	http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd">
+
+    <!-- no 'id' required, HandlerMapping beans are automatically detected by the DispatcherServlet -->
+       <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+           <property name="order" value="2"></property>
+           <property name="mappings">
+               <value>
+                   /components/ajaxCheckBox.html=ajaxCheckBoxController
+                   /components/ajaxTextField.html=ajaxTextFieldController
+                   /components/ajaxTextFieldForUsers.html=ajaxTextFieldForUsersController
+                   /components/ajaxNumberField.html=ajaxNumberFieldController
+                   /components/ajaxCombobox.html=ajaxComboboxController
+                   /components/ajaxSlider.html=ajaxSliderController
+                   /components/ajaxTimePicker.html=ajaxTimePickerController
+                   /components/ajaxDatePicker.html=ajaxDatePickerController
+
+                   /components/ajaxELOTextField.html=ajaxELOTextFieldController
+                   /components/ajaxELOSlider.html=ajaxELOSliderController
+                   /components/agentParameterTextFieldController.html=agentParameterTextFieldController
+                   /components/ajaxTransferObjectTextFieldController.html=ajaxTransferObjectTextFieldController
+                   /components/ajaxTransferObjectCheckBoxController.html=ajaxTransferObjectCheckBoxController
+                   /components/ajaxTransferObjectNumberFieldController.html=ajaxTransferObjectNumberFieldController
+                   /components/profilePictureUploadController.html=profilePictureUploadController
+
+
+
+                   /editors/userProfileEditor.html=userProfileEditor
+                   /useradmin/manageAssignedStudent.html=manageAssignedStudentController
+                   /useradmin/LoadExternalPage.html=loadExternalPageController
+                   /components/fileupload/fileupload.html=fileUploadController
+                   /components/links/help.html=helpController
+                   /components/realtime/currentStudentActivity.html=currentStudentActivityController
+                   /components/realtime/myCurrentActivity.html=myCurrentActivity
+                   /components/json/JSonView.html=jsonView
+                   /components/json/ScenarioDiagramJSON.json=scenarioDiagramJSON
+                   /components/json/RuntimeUserInfoJSON.html=runtimeUserInfoJSON
+                   /components/xml/UserInfoController.html=userInfoController
+                   /UserCredentials.html=userCredentialController
+                   /components/xml/AssessmentService.html=assessmentServiceController
+                   /components/xml/RetrieveSingleEloService.html=retrieveSingleEloServiceController
+                   /components/xml/ActionLogger.html=actionLoggingService
+                   /components/resourceservice.html=resourceService
+                   /components/roleeditor/RoleEditorContoller.html=roleEditorController
+                   /components/runtimemissionselector/RuntimeMissionSelector.html=runtimemissionselector
+
+                   /components/runtimemissionselector/RuntimeMissionSelector.html=runtimemissionselector
+
+                   /components/util/EloChecker.html=eloCheckerController
+               </value>
+           </property>
+       </bean>
+
+    <bean name="myConfiguration" class="eu.scy.server.util.SQLSpacesConfigUtil"></bean>
+
+    <bean name="actionLogger" class="eu.scy.actionlogging.SQLSpacesActionLogger">
+        <constructor-arg index="0">
+            <util:property-path path="myConfiguration.ip"/>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <util:property-path path="myConfiguration.port"/>
+        </constructor-arg>
+        <constructor-arg index="2" value="actions"/>
+    </bean>
+
+    <bean name="portfolioTupleSpace" class="info.collide.sqlspaces.client.TupleSpace">
+        <constructor-arg index="0">
+            <util:property-path path="myConfiguration.ip"/>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <util:property-path path="myConfiguration.port"/>
+        </constructor-arg>
+        <constructor-arg index="2" value="command"/>
+    </bean>
+
+    <bean name="sessionTupleSpace" class="info.collide.sqlspaces.client.TupleSpace">
+        <constructor-arg index="0">
+            <util:property-path path="myConfiguration.ip"/>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <util:property-path path="myConfiguration.port"/>
+        </constructor-arg>
+        <constructor-arg index="2" value="session"/>
+    </bean>
+
+    <bean id="ajaxCheckBoxController" class="eu.scy.server.controllers.AjaxCheckBoxController">
+        <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
+	</bean>
+
+    <bean id="ajaxTextFieldController" class="eu.scy.server.controllers.AjaxTextFieldController">
+        <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
+	</bean>
+
+    <bean id="ajaxTextFieldForUsersController" class="eu.scy.server.controllers.AjaxTextFieldForUsersController">
+        <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
+        <property name="userService" ref="userService"/>
+	</bean>
+
+    <bean id="ajaxNumberFieldController" class="eu.scy.server.controllers.AjaxNumberFieldController">
+        <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
+	</bean>
+
+    <bean id="ajaxTimePickerController" class="eu.scy.server.controllers.AjaxTimePickerController">
+        <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
+	</bean>
+
+    <bean id="ajaxDatePickerController" class="eu.scy.server.controllers.AjaxDatePickerController">
+        <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
+	</bean>
+
+    <bean id="ajaxComboboxController" class="eu.scy.server.controllers.AjaxComboboxController">
+        <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
+	</bean>
+
+    <bean id="ajaxSliderController" class="eu.scy.server.controllers.AjaxSliderController">
+        <property name="ajaxPersistenceService" ref="ajaxPersistenceService"/>
+	</bean>
+
+    <bean id="ajaxELOTextFieldController" class="eu.scy.server.controllers.AjaxELOTextFieldController">
+        <property name="rooloServices" ref="missionELOService"/>
+        <property name="actionLoggingService" ref="actionLoggingService"/>
+	</bean>
+
+    <bean id="ajaxELOSliderController" class="eu.scy.server.controllers.AjaxELOSliderController">
+        <property name="rooloServices" ref="missionELOService"/>
+        <property name="actionLoggingService" ref="actionLoggingService"/>
+	</bean>
+
+    <bean id="agentParameterTextFieldController" class="eu.scy.server.controllers.AgentParameterTextFieldController">
+        <property name="agentParameterAPI" ref="agentParameterAPI"/>
+        <property name="actionLoggingService" ref="actionLoggingService"/>
+	</bean>
+
+    <bean id="ajaxTransferObjectTextFieldController" class="eu.scy.server.controllers.AjaxTransferObjectTextFieldController">
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="transferObjectMapService" ref="transferObjectMapService"/>
+	</bean>
+
+    <bean id="ajaxTransferObjectCheckBoxController" class="eu.scy.server.controllers.AjaxTransferObjectCheckBoxController">
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="transferObjectMapService" ref="transferObjectMapService"/>
+	</bean>
+
+    <bean id="ajaxTransferObjectNumberFieldController" class="eu.scy.server.controllers.AjaxTransferObjectNumberFieldController">
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="transferObjectMapService" ref="transferObjectMapService"/>
+	</bean>
+
+    <bean id="transferObjectServiceCollection" class="eu.scy.server.util.TransferObjectServiceCollection">
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="transferObjectMapService" ref="transferObjectMapService"/>
+	</bean>
+
+
+
+
+    <bean id="fileUploadController" class="eu.scy.server.controllers.components.fileupload.FileUploadController">
+        <property name="fileService" ref="fileService"/>
+        <property name="commandClass" value="eu.scy.server.controllers.components.fileupload.FileUploadBean"/>
+        <!--property name="formView" value="fileuploadform"/-->
+	</bean>
+
+    <bean id="profilePictureUploadController" class="eu.scy.server.controllers.components.fileupload.UserProfileUploadController">
+        <property name="commandClass" value="eu.scy.server.controllers.components.fileupload.FileUploadBean"/>
+        <property name="formView" value="fileuploadform"/>
+        <property name="successView" value="student/profile"/>
+        <property name="userService" ref="userService"/>
+        <property name="fileService" ref="fileService"/>
+    </bean>
+
+
+
+    <bean id="userProfileEditor" class="eu.scy.server.controllers.UserProfileController">
+        <property name="userService" ref="userService"/>
+	</bean>
+
+    <bean id="manageAssignedStudentController" class="eu.scy.server.controllers.ManageAssignedStudentController">
+        <property name="userService" ref="userService"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+	</bean>
+
+    <bean id="loadExternalPageController" class="eu.scy.server.controllers.LoadExternalPageController">
+	</bean>
+
+    <bean id="helpController" class="eu.scy.server.controllers.components.help.HelpController">
+	</bean>
+
+    <bean id="urlInspector" class="eu.scy.server.url.UrlInspector">
+        <property name="service" ref="ajaxPersistenceService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+    </bean>
+
+    <bean id="currentStudentActivityController" class="eu.scy.server.controllers.components.realtime.CurrentStudentActivityController">
+        <property name="runtimeService" ref="runtimeService"/>
+        <property name="userService" ref="userService"/>
+        <property name="runtimeELOService" ref="runtimeELOService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="tupleSpace" ref="portfolioTupleSpace"/>
+    </bean>
+
+    <bean id="myCurrentActivity" class="eu.scy.server.controllers.components.realtime.MyCurrentActivity">
+        <property name="runtimeService" ref="runtimeService"/>
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="scenarioDiagramJSON" class="eu.scy.server.controllers.json.ScenarioDiagramJSON">
+        <property name="scenarioService" ref="scenarioService"/>
+        <property name="lasService" ref="lasService"/>
+        <property name="successView" ref="scenarioDiagramJSONView"/>
+    </bean>
+
+    <bean id="scenarioDiagramJSONView" class="eu.scy.server.controllers.json.ScenarioDiagramJSONView">
+        <property name="scenarioService" ref="scenarioService"/>
+        <property name="lasService" ref="lasService"/>
+    </bean>
+
+    <bean id="runtimeUserInfoJSON" class="eu.scy.server.controllers.json.RuntimeUserInfoJSON">
+        <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="lasService" ref="lasService"/>
+        <property name="runtimeService" ref="runtimeService"/>
+        <property name="scenarioService" ref="scenarioService"/>
+    </bean>
+
+    <bean id="userInfoController" class="eu.scy.server.controllers.xml.UserInfoController">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="userCredentialController" class="eu.scy.server.controllers.xml.UserCredentialsController">
+        <property name="userService" ref="userService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+    </bean>
+
+    <bean id="assessmentServiceController" class="eu.scy.server.controllers.xml.AssessmentService">
+        <property name="userService" ref="userService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+    </bean>
+
+    <bean id="retrieveSingleEloServiceController" class="eu.scy.server.controllers.xml.RetrieveSingleEloService">
+        <property name="userService" ref="userService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+    </bean>
+
+    <bean id="actionLoggingService" class="eu.scy.server.controllers.xml.ActionLoggingService">
+        <property name="userService" ref="userService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="sqlSpacesActionLogger" ref="actionLogger"/>
+    </bean>
+
+    <bean id="resourceService" class="eu.scy.server.controllers.ResourceService">
+        <property name="fileService" ref="fileService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+    </bean>
+
+    <bean id="eloCheckerController" class="eu.scy.server.controllers.EloCheckerController">
+        <property name="commandClass" value="eu.scy.server.controllers.formutils.EloUriForm"/>
+        <property name="commandName" value="eloUriForm"/>
+    </bean>
+
+    <bean id="roleEditorController" class="eu.scy.server.controllers.components.roleeditor.RoleEditorController">
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="runtimemissionselector" class="eu.scy.server.controllers.components.runtimemissionselector.RuntimeMissionSelector">
+    </bean>
+
+    <bean id="xmlTransferObjectService" class="eu.scy.server.controllers.xml.XMLTransferObjectServiceImpl">
+    </bean>
+    <bean id="transferObjectMapService" class="eu.scy.server.util.TransferObjectMapService"/>
+
+    <bean name="jsonView" class="eu.scy.server.controllers.json.AbstractJSonView"/>
+
+    <bean name="agentParameterAPI" class="eu.scy.agents.impl.parameter.AgentParameterAPIImpl">
+
+    </bean>
+
+    <bean name="rooloAccessor" class="eu.scy.core.roolo.RooloAccessorImpl">
+        <property name="metaDataTypeManager" ref="metadataTypeManager"/>
+        <property name="extensionManager" ref="extensionManager"/>
+        <property name="repository" ref="repository"/>
+        <property name="eloFactory" ref="eloFactory"/>
+    </bean>
+
+    <bean name="missionELOService" class="eu.scy.core.roolo.MissionELOServiceImpl">
+        <property name="metaDataTypeManager" ref="metadataTypeManager"/>
+        <property name="extensionManager" ref="extensionManager"/>
+        <property name="repository" ref="repository"/>
+        <property name="eloFactory" ref="eloFactory"/>
+        <property name="authorKey" ref="authorKey"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="sqlSpacesActionLogger" ref="actionLogger"/>
+    </bean>
+
+    <bean name="pedagogicalPlanELOService" class="eu.scy.core.roolo.PedagogicalPlanELOServiceImpl">
+        <property name="metaDataTypeManager" ref="metadataTypeManager"/>
+        <property name="extensionManager" ref="extensionManager"/>
+        <property name="repository" ref="repository"/>
+        <property name="eloFactory" ref="eloFactory"/>
+        <property name="authorKey" ref="authorKey"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+    </bean>
+
+    <bean name="runtimeELOService" class="eu.scy.core.roolo.RuntimeELOServiceImpl">
+        <property name="metaDataTypeManager" ref="metadataTypeManager"/>
+        <property name="extensionManager" ref="extensionManager"/>
+        <property name="repository" ref="repository"/>
+        <property name="eloFactory" ref="eloFactory"/>
+        <property name="authorKey" ref="authorKey"/>
+    </bean>
+
+    <bean name="jnlpBuilder" class="eu.scy.server.jnlp.JNLPBuilder">
+        <property name="userService" ref="userService"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+        <property name="runtimeELOService" ref="runtimeELOService"/>
+    </bean>
+
+    <bean id="jnlpFilter" class="eu.scy.server.filters.JNLPFilter">
+        <property name="jnlpBuilder" ref="jnlpBuilder"/>
+
+    </bean>
+
+    <bean id="sessionService" class="eu.scy.core.runtime.SessionServiceImpl">
+        <property name="tupleSpace" ref="sessionTupleSpace"/>
+        <property name="metaDataTypeManager" ref="metadataTypeManager"/>
+        <property name="extensionManager" ref="extensionManager"/>
+        <property name="repository" ref="repository"/>
+        <property name="eloFactory" ref="eloFactory"/>
+        <property name="authorKey" ref="authorKey"/>
+
+    </bean>
+
+
+
+</beans>

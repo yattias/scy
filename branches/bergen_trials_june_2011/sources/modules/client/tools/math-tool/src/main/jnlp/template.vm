@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp codebase="file:///Users/anthonjp/dev/workspaces/scy/math-tool/target/jnlp" href="$outputFile">
+  <information>
+    <title>$project.Name</title>
+    <vendor>University of Oslo, Intermedia<vendor/>
+    <homepage>http://www.intermedia.uio.no<homepage/>
+    <description kind="one-line">Math-Tool StandAlone Launcher</description>
+  </information>
+  <security>
+     <all-permissions/>
+  </security>
+  <resources>
+    <j2se version="1.6"
+     initial-heap-size="32m"
+     max-heap-size="128m"
+     />
+     $dependencies
+  </resources>
+  <application-desc main-class="$mainClass">
+  </application-desc>
+</jnlp>

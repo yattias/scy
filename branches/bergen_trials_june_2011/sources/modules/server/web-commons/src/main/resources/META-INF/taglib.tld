@@ -1,0 +1,669 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN"
+        "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+<taglib>
+    <tlibversion>1.0</tlibversion>
+    <jspversion>1.1</jspversion>
+    <shortname>sc</shortname>
+    <uri>http://scy.collide.info/taglibs</uri>
+    <info>SCY-Taglib</info>
+    <tag>
+        <name>ajaxCheckBox</name>
+        <tagclass>eu.scy.server.taglibs.AjaxCheckBox</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax check box</info>
+        <attribute>
+            <name>model</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>ajaxDatePicker</name>
+        <tagclass>eu.scy.server.taglibs.AjaxDatePicker</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax datepicker</info>
+        <attribute>
+            <name>model</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>ajaxTimePicker</name>
+        <tagclass>eu.scy.server.taglibs.AjaxTimePicker</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax timepicker</info>
+        <attribute>
+            <name>model</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>ajaxNumberField</name>
+        <tagclass>eu.scy.server.taglibs.AjaxNumberField</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax numberfield</info>
+        <attribute>
+            <name>model</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>initialValue</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>ajaxTextField</name>
+        <tagclass>eu.scy.server.taglibs.AjaxTextField</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax text field</info>
+        <attribute>
+            <name>model</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>isMultiLine</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>ajaxCombobox</name>
+        <tagclass>eu.scy.server.taglibs.AjaxCombobox</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax combo box</info>
+        <attribute>
+            <name>model</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>comboBoxValues</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>ajaxSlider</name>
+        <tagclass>eu.scy.server.taglibs.AjaxSlider</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax slider</info>
+        <attribute>
+            <name>model</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>sliderValues</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>defaultValue</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+    </tag>
+
+    <tag>
+        <name>dialog</name>
+        <tagclass>eu.scy.server.taglibs.Dialog</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax slider</info>
+        <attribute>
+            <name>url</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>title</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>width</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>height</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>dialogHeader</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>extraParameters</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+    </tag>
+
+    <tag>
+        <name>studentEditor</name>
+        <tagclass>eu.scy.server.taglibs.editors.StudentEditor</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Student Editor</info>
+        <attribute>
+            <name>user</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>editUserRoles</name>
+        <tagclass>eu.scy.server.taglibs.editors.EditUserRoles</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Student Editor</info>
+        <attribute>
+            <name>user</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>availableAuthorities</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>successView</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>uploadFile</name>
+        <tagclass>eu.scy.server.taglibs.components.UploadFile</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Student Editor</info>
+        <attribute>
+            <name>listener</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>model</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>deleteLink</name>
+        <tagclass>eu.scy.server.taglibs.components.links.DeleteLink</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Delete link</info>
+        <attribute>
+            <name>href</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>title</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>confirmText</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+    </tag>
+
+    <tag>
+        <name>currentStudentActivity</name>
+        <tagclass>eu.scy.server.taglibs.components.realtime.CurrentStudentActivityController</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Delete link</info>
+        <attribute>
+            <name>username</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>missionURI</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>myCurrentActivity</name>
+        <tagclass>eu.scy.server.taglibs.components.realtime.MyCurrentActivityTag</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Students current activity</info>
+        <attribute>
+            <name>username</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>helpLink</name>
+        <tagclass>eu.scy.server.taglibs.components.links.HelpLink</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Help link</info>
+
+        <attribute>
+            <name>helpId</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>breadcrumbs</name>
+        <tagclass>eu.scy.server.taglibs.components.breadcrumbs.BreadCrumbs</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Bread crumbs</info>
+    </tag>
+
+    <tag>
+        <name>scenariodiagram</name>
+        <tagclass>eu.scy.server.taglibs.components.scenario.ScenarioDiagram</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Scenario diagram</info>
+        <attribute>
+            <name>scenario</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>pedagogicalPlan</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>lasLink</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>includeRuntimeInfo</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+    </tag>
+
+    <tag>
+        <name>modellink</name>
+        <tagclass>eu.scy.server.taglibs.components.links.ModelLink</tagclass>
+        <info>Model link</info>
+
+        <attribute>
+            <name>href</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>model</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+    </tag>
+
+    <tag>
+        <name>ajaxFileUpload</name>
+        <tagclass>eu.scy.server.taglibs.components.fileupload.AjaxFileUpload</tagclass>
+        <info>Ajax like upload form</info>
+
+        <attribute>
+            <name>listenerClass</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <!--attribute>
+            <name>model</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute-->
+
+    </tag>
+
+    <tag>
+        <name>scorePresentation</name>
+        <tagclass>eu.scy.server.taglibs.components.custom.ScorePresentation</tagclass>
+        <info>Presents score</info>
+
+        <attribute>
+            <name>score</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>imageId</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+
+    <tag>
+        <name>ajaxELOTextField</name>
+        <tagclass>eu.scy.server.taglibs.AjaxELOTextField</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax text field</info>
+        <attribute>
+            <name>eloURI</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>rooloServices</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>ajaxELOCheckBox</name>
+        <tagclass>eu.scy.server.taglibs.AjaxELOCheckBox</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax check box</info>
+        <attribute>
+            <name>eloURI</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>rooloServices</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>ajaxELOSlider</name>
+        <tagclass>eu.scy.server.taglibs.AjaxELOSlider</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax slider</info>
+        <attribute>
+            <name>eloURI</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>sliderValues</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>defaultValue</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>rooloServices</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+
+    </tag>
+
+    <tag>
+        <name>runtimeMissionController</name>
+        <tagclass>eu.scy.server.taglibs.components.runtimemissionselector.RuntimeMissionController</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Student can select mission</info>
+        <attribute>
+            <name>runtimeELOService</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>userService</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+    </tag>
+
+    <tag>
+        <name>agentParameterTextField</name>
+        <tagclass>eu.scy.server.taglibs.AgentParameterTextField</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax text field</info>
+        <attribute>
+            <name>missionURI</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>agentId</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>parameterName</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>las</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>agentParameterAPI</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>ajaxTransferObjectTextField</name>
+        <tagclass>eu.scy.server.taglibs.AjaxTransferObjectTextField</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax text field</info>
+        <attribute>
+            <name>transferObject</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>transferEloURI</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>id</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>transferObjectServiceCollection</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>ajaxTransferObjectCheckBox</name>
+        <tagclass>eu.scy.server.taglibs.AjaxTransferObjectCheckBox</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax text field</info>
+        <attribute>
+            <name>transferObject</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>transferEloURI</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>id</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>transferObjectServiceCollection</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>ajaxTransferObjectNumberField</name>
+        <tagclass>eu.scy.server.taglibs.AjaxTransferObjectNumberField</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax text field</info>
+        <attribute>
+            <name>transferObject</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>transferEloURI</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>id</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>transferObjectServiceCollection</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>ajaxTextFieldForUsers</name>
+        <tagclass>eu.scy.server.taglibs.AjaxTextFieldForUsers</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax text field</info>
+        <attribute>
+            <name>model</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>isMultiLine</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>ajaxPasswordField</name>
+        <tagclass>eu.scy.server.taglibs.AjaxPasswordField</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>Ajax text field</info>
+        <attribute>
+            <name>model</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>property</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>isMultiLine</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+
+
+
+</taglib>

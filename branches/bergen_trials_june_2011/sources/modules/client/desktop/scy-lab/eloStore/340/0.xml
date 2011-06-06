@@ -1,0 +1,204 @@
+<elo>
+<metadata>
+  <lom>
+    <technical>
+      <format>scy/simconfig</format>
+      <customElements>
+        <dateCreated>1266929624331</dateCreated>
+        <dateLastModified>1266929624332</dateLastModified>
+      </customElements>
+    </technical>
+    <general>
+      <title>
+        <string language="en">House data from the Thermal simulation</string>
+	<string language="fr">Données de la maison issues de la simulation sur l'énergie thermique</string>
+
+      </title>
+      <description>
+        <string language="en" />
+      </description>
+      <structure />
+      <mission>co2Mission</mission>
+      <las>startPage</las>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/340/0/House_data_from_the_Thermal_simulation.scysimconfig</entry>
+      </identifier>
+    </general>
+    <educational>
+      <learningResourceType>sourceData</learningResourceType>
+    </educational>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>rachel</entity>
+        <date>
+          <dateTime>2010-02-23T13:53:44.329+0100</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<simconfig simulationname="house" simulationuri="http://www.scy-lab.eu/sqzx/co2_house.sqzx">
+  <variable name="Sroof" value="110.0" />
+  <variable name="Rsie_w" value="0.17" />
+  <variable name="UglazingG" value="205.0" />
+  <variable name="Dc" value="2.8034405861739407" />
+  <variable name="kwh1" value="1.0" />
+  <variable name="Ug" value="0.9267059814658803" />
+  <variable name="people" value="1.0" />
+  <variable name="UglazingB" value="221.0" />
+  <variable name="Uf" value="0.02542911633820725" />
+  <variable name="startTime" value="0.0" />
+  <variable name="Ud" value="0.9267059814658803" />
+  <variable name="Uc" value="0.02548582351067219" />
+  <variable name="Rsie_c" value="0.14" />
+  <variable name="Ntv" value="0.0" />
+  <variable name="time" value="0.0" />
+  <variable name="Rsie_f" value="0.21" />
+  <variable name="tolerance" value="1.0E-6" />
+  <variable name="Ptv" value="0.0" />
+  <variable name="Rglazing" value="1.079090909090909" />
+  <variable name="Sdoors" value="6.0" />
+  <variable name="kair" value="0.34" />
+  <variable name="kwh" value="0.0" />
+  <variable name="Nbulb" value="0.0" />
+  <variable name="Swind" value="20.0" />
+  <variable name="hf" value="1.0" />
+  <variable name="Dv" value="51.00000000000001" />
+  <variable name="Dw" value="1.3687692483175544" />
+  <variable name="Oint" value="1.0" />
+  <variable name="materialCIname" value="0.0" />
+  <variable name="Uffi" value="6.25" />
+  <variable name="outputAfterTime" value="0.01" />
+  <variable name="Event1" value="1.0" />
+  <variable name="Df" value="2.2886204704386524" />
+  <variable name="Uglazing" value="1.1" />
+  <variable name="Pwash" value="0.0" />
+  <variable name="Dd" value="5.560235888795282" />
+  <variable name="St" value="2.0" />
+  <variable name="UglazingR" value="90.0" />
+  <variable name="Uffs" value="25.0" />
+  <variable name="UdoorR" value="164.0" />
+  <variable name="DoorType" value="1.0" />
+  <variable name="materialWname" value="0.0" />
+  <variable name="materialCname" value="0.0" />
+  <variable name="L" value="2.0" />
+  <variable name="UdoorG" value="163.0" />
+  <variable name="Pref" value="0.0" />
+  <variable name="materialFIname" value="0.0" />
+  <variable name="H" value="1.0" />
+  <variable name="Nwash" value="0.0" />
+  <variable name="W" value="1.0" />
+  <variable name="V" value="2.0" />
+  <variable name="Q" value="150.0" />
+  <variable name="Tref" value="0.0" />
+  <variable name="Tpc" value="0.0" />
+  <variable name="Nf" value="1.0" />
+  <variable name="Eref" value="0.0" />
+  <variable name="stepSize" value="0.01" />
+  <variable name="Towen" value="0.0" />
+  <variable name="Swalls" value="120.0" />
+  <variable name="Oout" value="1.0" />
+  <variable name="Doorname" value="0.0" />
+  <variable name="ewi" value="5.0" />
+  <variable name="b" value="0.8" />
+  <variable name="men1" value="1.0" />
+  <variable name="MaterialIF" value="1.0" />
+  <variable name="Rdoors" value="1.079090909090909" />
+  <variable name="simulator__action" value="0.0" />
+  <variable name="MaterialIC" value="1.0" />
+  <variable name="Glazingname" value="0.0" />
+  <variable name="Tmusic" value="0.0" />
+  <variable name="UdoorB" value="150.0" />
+  <variable name="Nref" value="0.0" />
+  <variable name="Yci" value="0.8" />
+  <variable name="MaterialIW" value="1.0" />
+  <variable name="Uw" value="0.011406410402646287" />
+  <variable name="simulator__state" value="1.0" />
+  <variable name="Ycs" value="0.2" />
+  <variable name="efi" value="5.0" />
+  <variable name="Ppc" value="0.0" />
+  <variable name="Ventname" value="0.0" />
+  <variable name="HL" value="0.0" />
+  <variable name="Ywi" value="0.08" />
+  <variable name="Pbulb" value="0.0" />
+  <variable name="MaterialC" value="1.0" />
+  <variable name="GlazingType" value="1.0" />
+  <variable name="MaterialF" value="1.0" />
+  <variable name="Yws" value="0.2" />
+  <variable name="Ufws" value="25.0" />
+  <variable name="finishTime" value="1000000.0" />
+  <variable name="Ufwi" value="62.5" />
+  <variable name="Npc" value="0.0" />
+  <variable name="efs" value="5.0" />
+  <variable name="Dwind" value="18.53411962931761" />
+  <variable name="Twash" value="0.0" />
+  <variable name="Powen" value="0.0" />
+  <variable name="Event" value="1.0" />
+  <variable name="Emusic" value="0.0" />
+  <variable name="Pmusic" value="0.0" />
+  <variable name="ews" value="5.0" />
+  <variable name="Etv" value="0.0" />
+  <variable name="materialWIname" value="0.0" />
+  <variable name="Nmusic" value="0.0" />
+  <variable name="Etotal" value="0.0" />
+  <variable name="Udoor" value="1.1" />
+  <variable name="MaterialW" value="1.0" />
+  <variable name="Stw2" value="6.0" />
+  <variable name="kwpower" value="0.0" />
+  <variable name="Sfall" value="2.0" />
+  <variable name="TE" value="0.8155518582304304" />
+  <variable name="Epc" value="0.0" />
+  <variable name="materialFname" value="0.0" />
+  <variable name="HLcoeff" value="81.55518582304305" />
+  <variable name="Ufci" value="6.25" />
+  <variable name="Ewash" value="0.0" />
+  <variable name="Ttv" value="0.0" />
+  <variable name="Yfi" value="0.8" />
+  <variable name="simulator__slowdown" value="0.0" />
+  <variable name="Eowen" value="0.0" />
+  <variable name="Nowen" value="0.0" />
+  <variable name="Rw" value="87.67" />
+  <variable name="Tbulb" value="0.0" />
+  <variable name="men" value="3.0" />
+  <variable name="Sb" value="90.0" />
+  <variable name="Rc" value="31.39" />
+  <variable name="SH" value="100.0" />
+  <variable name="eci" value="5.0" />
+  <variable name="Rf" value="31.46" />
+  <variable name="HL1" value="1000.0" />
+  <variable name="DC" value="30.55518582304304" />
+  <variable name="Yfs" value="0.2" />
+  <variable name="kJ" value="0.0" />
+  <variable name="ecs" value="5.0" />
+  <variable name="Ebulb" value="0.0" />
+  <variable name="Ufcs" value="25.0" />
+</simconfig>
+</content>
+<resources>
+</resources>
+</elo>

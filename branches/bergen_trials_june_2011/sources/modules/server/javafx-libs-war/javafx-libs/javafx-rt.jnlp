@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<jnlp codebase="http://scy.collide.info:8080/javafx-libs/" href="javafx-rt.jnlp" spec="1.0+" version="1.3.1_b101">
+	<information>
+		<title>JavaFX Runtime</title>
+		<vendor>Oracle Corporation</vendor>
+		<offline-allowed/>
+	</information>
+	<security>
+		<all-permissions/>
+	</security>
+	<update check="background"/>
+	<resources>
+		<jar download="progress" href="progressbar__V1.3.1_b101.jar" size="10806"/>
+	</resources>
+	<resources os="Windows">
+		<jar download="eager" href="javafx-rt-windows-i586__V1.3.1_b101.jar" part="javafx-rt" size="1093346"/>
+		<jar download="lazy" href="javafx-rt-lazy-windows-i586__V1.3.1_b101.jar" part="javafx-rt" size="221698"/>
+		<jar download="lazy" href="javafx-rt-fonts-windows-i586__V1.3.1_b101.jar" part="javafx-rt" size="155269"/>
+	</resources>
+	<resources arch="x86" os="Windows">
+		<nativelib download="eager" href="javafx-rt-natives-windows-i586__V1.3.1_b101.jar" part="javafx-rt" size="28970"/>
+		<nativelib download="eager" href="jmc-natives-windows-i586__V1.3.1_b101.jar" part="javafx-rt" size="550895"/>
+	</resources>
+	<resources os="Mac OS X">
+		<jar download="eager" href="javafx-rt-macosx-universal__V1.3.1_b101.jar" part="javafx-rt" size="1229513"/>
+		<jar download="lazy" href="javafx-rt-lazy-macosx-universal__V1.3.1_b101.jar" part="javafx-rt" size="221529"/>
+		<jar download="lazy" href="javafx-rt-fonts-macosx-universal__V1.3.1_b101.jar" part="javafx-rt" size="155282"/>
+	</resources>
+	<resources arch="ppc" os="Mac OS X">
+		<nativelib download="eager" href="javafx-rt-natives-macosx-universal__V1.3.1_b101.jar" part="javafx-rt" size="486786"/>
+	</resources>
+	<resources arch="i386" os="Mac OS X">
+		<nativelib download="eager" href="javafx-rt-natives-macosx-i386__V1.3.1_b101.jar" part="javafx-rt" size="224644"/>
+	</resources>
+	<resources arch="x86_64" os="Mac OS X">
+		<nativelib download="eager" href="javafx-rt-natives-macosx-x86_64__V1.3.1_b101.jar" part="javafx-rt" size="243787"/>
+	</resources>
+	<resources os="Linux">
+		<jar download="eager" href="javafx-rt-linux-i586__V1.3.1_b101.jar" part="javafx-rt" size="1089958"/>
+		<jar download="lazy" href="javafx-rt-lazy-linux-i586__V1.3.1_b101.jar" part="javafx-rt" size="221638"/>
+		<jar download="lazy" href="javafx-rt-fonts-linux-i586__V1.3.1_b101.jar" part="javafx-rt" size="155272"/>
+	</resources>
+	<resources arch="i386" os="Linux">
+		<nativelib download="eager" href="javafx-rt-natives-linux-i586__V1.3.1_b101.jar" part="javafx-rt" size="422337"/>
+	</resources>
+	<resources arch="x86" os="Linux">
+		<nativelib download="eager" href="javafx-rt-natives-linux-i586__V1.3.1_b101.jar" part="javafx-rt" size="422337"/>
+	</resources>
+	<resources os="SunOS">
+		<jar download="eager" href="javafx-rt-solaris-i586__V1.3.1_b101.jar" part="javafx-rt" size="1079380"/>
+		<jar download="lazy" href="javafx-rt-lazy-solaris-i586__V1.3.1_b101.jar" part="javafx-rt" size="221687"/>
+		<jar download="lazy" href="javafx-rt-fonts-solaris-i586__V1.3.1_b101.jar" part="javafx-rt" size="155270"/>
+	</resources>
+	<resources arch="x86" os="SunOS">
+		<nativelib download="eager" href="javafx-rt-natives-solaris-i586__V1.3.1_b101.jar" part="javafx-rt" size="189894"/>
+	</resources>
+	<component-desc progress-class="com.javafx.progressbar.ProgressManager"/>
+</jnlp>

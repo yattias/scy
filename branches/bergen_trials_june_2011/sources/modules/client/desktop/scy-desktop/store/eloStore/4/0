@@ -1,0 +1,64 @@
+<elo>
+<metadata>
+  <lom>
+    <technical>
+      <format>scy/missionruntime</format>
+      <customElements>
+        <dateCreated>1283175113777</dateCreated>
+        <dateLastModified>1283175113778</dateLastModified>
+      </customElements>
+    </technical>
+    <general>
+      <title>
+        <string language="nl">Empty mission</string>
+      </title>
+      <missionRunning>jakob</missionRunning>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/4/0/Lege+missie.scy</entry>
+      </identifier>
+    </general>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2010-08-30T15:31:53.776+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<missionRuntimeElo>
+  <missionSpecificationEloUri />
+  <missionMapModelEloUri />
+  <eloToolConfigsEloUri />
+  <templateElosEloUri />
+</missionRuntimeElo>
+</content>
+<resources>
+</resources>
+</elo>

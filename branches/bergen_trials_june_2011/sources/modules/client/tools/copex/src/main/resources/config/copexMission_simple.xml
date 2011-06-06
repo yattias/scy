@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : copexMission_simple.xml
+    Created on : 23 octobre 2009, 11:00
+    Author     : Marjolaine
+    Description:
+        simple mission demo
+-->
+
+<mission>
+    <initial_proc>
+        <code>TEST</code>
+        <name language="fr">Procedure</name>
+        <name language="en">Procedure</name>
+        <hypothesis_mode>M</hypothesis_mode>
+        <principle_mode>M</principle_mode>
+        <evaluation_mode>M</evaluation_mode>
+        <draw_principle>false</draw_principle>
+        <is_task_repeat>false</is_task_repeat>
+        <is_task_draw>false</is_task_draw>
+        <is_free_action>true</is_free_action>
+        <is_task>false</is_task>
+        <strategy_ref>
+            <code>S4</code>
+        </strategy_ref>
+        <initial_named_action>
+            <id>TEST_ACTION_DRAW</id>
+            <libelle language="fr">Montage du schéma</libelle>
+            <is_setting>false</is_setting>
+            <draw>true</draw>
+            <repeat>false</repeat>
+        </initial_named_action>
+        <question>
+            <description language="fr"></description>
+            <description language="en"></description>
+            <task_right>
+                <edit_right>X</edit_right>
+                <delete_right>N</delete_right>
+                <move_right>N</move_right>
+                <parent_right>X</parent_right>
+                <copy_right>N</copy_right>
+                <draw_right>N</draw_right>
+                <repeat_right>N</repeat_right>
+            </task_right>
+        </question>
+        <manipulation>
+        </manipulation>
+    </initial_proc>
+</mission>

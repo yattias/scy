@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <modelVersion>4.0.0</modelVersion>
+	
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>eu.scy.server</groupId>
+        <version>34-SNAPSHOT</version>
+    </parent>
+	
+    <groupId>eu.scy.server</groupId>
+    <artifactId>pedagogical-plan-service-impl</artifactId>
+    <name>pedagogical-plan-service-impl</name>
+
+    <dependencies>
+	
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>pedagogical-plan-service-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+		
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>scy-model-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+		
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>scy-model-impl</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+		
+        <dependency>
+            <groupId>eu.scy.server</groupId>
+            <artifactId>scy-useradmin-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+		
+        <!-- unused
+		<dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>tool-broker-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+		-->
+		
+    </dependencies>
+</project>

@@ -1,0 +1,430 @@
+<elo>
+<metadata>
+  <lom>
+    <general>
+      <title>
+        <string language="nl">j</string>
+      </title>
+      <mission>co2Mission</mission>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/456/1/j.scymissionmodel</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/missionmodel</format>
+      <customElements>
+        <dateCreated>1280920755637</dateCreated>
+        <dateLastModified>1280920846524</dateLastModified>
+      </customElements>
+    </technical>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>j</entity>
+        <date>
+          <dateTime>2010-08-04T13:20:46.524+0200</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/456/0/j.scymissionmodel</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/456/2/j.scymissionmodel</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<missionModel>
+  <id>co2Mission</id>
+  <name>Design a CO2-friendly house</name>
+  <activeLas>conceptualizationDesign</activeLas>
+  <loElos>
+    <eloUri>roolo://memory/37/0/Glossary.url</eloUri>
+  </loElos>
+  <lasses>
+    <las>
+      <id>startPage</id>
+      <xPos>0.0</xPos>
+      <yPos>0.0</yPos>
+      <toolTip>Challenge</toolTip>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/281/0/Challenge.url</eloUri>
+        <iconType />
+        <mainAnchor>true</mainAnchor>
+        <loElos>
+          <eloUri>roolo://memory/414/0/Welcome_to_SCY-Lab_.url</eloUri>
+          <eloUri>roolo://memory/413/0/Challenge_video.video</eloUri>
+        </loElos>
+        <inputAnchors />
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>conceptualizationDesign</las>
+        <las>conceptualizationIndividual</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>conceptualizationDesign</id>
+      <xPos>40.0</xPos>
+      <yPos>0.0</yPos>
+      <toolTip>First ideas of my design group</toolTip>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/438/0/First+ideas+of+my+design+group.scymapping</eloUri>
+        <iconType />
+        <mainAnchor>true</mainAnchor>
+        <loElos>
+          <eloUri>roolo://memory/302/0/First_ideas_of_my_design_group.url</eloUri>
+          <eloUri>roolo://memory/350/0/Texts_about_CO2-friendly_houses.url</eloUri>
+          <eloUri>roolo://memory/351/0/Videos_about_CO2-friendly_houses.url</eloUri>
+          <eloUri>roolo://memory/352/0/Websites_about_CO2-friendly_houses.url</eloUri>
+        </loElos>
+        <inputAnchors />
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>conceptualizationExperts</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>conceptualizationExperts</id>
+      <xPos>80.0</xPos>
+      <yPos>0.0</yPos>
+      <toolTip>Hypotheses of my expert group</toolTip>
+      <loElos>
+        <eloUri>roolo://memory/309/0/Becoming_an_expert.url</eloUri>
+        <eloUri>roolo://memory/310/0/Browse_for_information.url</eloUri>
+        <eloUri>roolo://memory/353/0/Websites_about_expert_domains.url</eloUri>
+      </loElos>
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/439/0/Hypotheses+of+my+expert+group.rtf</eloUri>
+        <iconType />
+        <mainAnchor>true</mainAnchor>
+        <loElos>
+          <eloUri>roolo://memory/306/0/Hypotheses_of_my_expert_group.url</eloUri>
+        </loElos>
+        <inputAnchors />
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/440/0/Research+questions+of+my+expert+group.rtf</eloUri>
+          <iconType />
+          <mainAnchor>true</mainAnchor>
+          <loElos>
+            <eloUri>roolo://memory/304/0/Research_questions_of_my_expert_group.url</eloUri>
+          </loElos>
+          <inputAnchors />
+          <relations />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses>
+        <las>experimentExperts</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>experimentExperts</id>
+      <xPos>120.0</xPos>
+      <yPos>0.0</yPos>
+      <toolTip>Conclusion of expert experiments</toolTip>
+      <loElos>
+        <eloUri>roolo://memory/309/0/Becoming_an_expert.url</eloUri>
+        <eloUri>roolo://memory/415/0/Data_from_the_energy_consumption_simulation.url</eloUri>
+      </loElos>
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/441/0/Conclusion+of+expert+experiments.rtf</eloUri>
+        <iconType />
+        <mainAnchor>true</mainAnchor>
+        <loElos>
+          <eloUri>roolo://memory/315/0/Conclusion_of_expert_experiments.url</eloUri>
+        </loElos>
+        <inputAnchors />
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/442/0/Experimental+procedure.scyxproc</eloUri>
+          <iconType />
+          <mainAnchor>true</mainAnchor>
+          <loElos>
+            <eloUri>roolo://memory/308/0/Experimental_procedure.url</eloUri>
+          </loElos>
+          <inputAnchors>
+            <anchor>roolo://memory/439/0/Hypotheses+of+my+expert+group.rtf</anchor>
+          </inputAnchors>
+          <relations />
+        </intermediateAnchor>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/443/0/Data+from+the+Thermal+simulation.scysimconfig</eloUri>
+          <iconType />
+          <mainAnchor>true</mainAnchor>
+          <loElos>
+            <eloUri>roolo://memory/417/0/Data_from_the_thermal_simulation.url</eloUri>
+          </loElos>
+          <inputAnchors />
+          <relations />
+        </intermediateAnchor>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/444/0/Data+from+the+Converter.scysimconfig</eloUri>
+          <iconType />
+          <mainAnchor>true</mainAnchor>
+          <loElos>
+            <eloUri>roolo://memory/416/0/Data_from_the_converter.url</eloUri>
+          </loElos>
+          <inputAnchors />
+          <relations />
+        </intermediateAnchor>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/445/0/Data+from+real+experiments.scypds</eloUri>
+          <iconType />
+          <mainAnchor>true</mainAnchor>
+          <loElos>
+            <eloUri>roolo://memory/313/0/Data_from_real_experiments.url</eloUri>
+          </loElos>
+          <inputAnchors />
+          <relations />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses>
+        <las>conceptualizationExperts</las>
+        <las>reportingExperts</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>conceptualizationIndividual</id>
+      <xPos>0.0</xPos>
+      <yPos>40.0</yPos>
+      <toolTip>Concept Map on CO2 emission</toolTip>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/446/0/Concept+map+on+CO2+emission.scymapping</eloUri>
+        <iconType />
+        <mainAnchor>true</mainAnchor>
+        <loElos>
+          <eloUri>roolo://memory/300/0/My_concept_map_on_a_CO2_level.url</eloUri>
+          <eloUri>roolo://memory/349/0/Texts_about_global_warming.url</eloUri>
+          <eloUri>roolo://memory/348/0/Websites_about_global_warming.url</eloUri>
+          <eloUri>roolo://memory/347/0/Videos_about_global_warming.url</eloUri>
+        </loElos>
+        <inputAnchors />
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses />
+    </las>
+    <las>
+      <id>construction</id>
+      <xPos>40.0</xPos>
+      <yPos>40.0</yPos>
+      <toolTip>House drawings</toolTip>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/447/0/House+drawings.skp</eloUri>
+        <iconType />
+        <mainAnchor>true</mainAnchor>
+        <loElos>
+          <eloUri>roolo://memory/342/0/House_drawings.url</eloUri>
+        </loElos>
+        <inputAnchors>
+          <anchor>roolo://memory/448/0/House+choices.scymapping</anchor>
+        </inputAnchors>
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses />
+    </las>
+    <las>
+      <id>design</id>
+      <xPos>80.0</xPos>
+      <yPos>40.0</yPos>
+      <toolTip>House choices</toolTip>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/448/0/House+choices.scymapping</eloUri>
+        <iconType />
+        <mainAnchor>true</mainAnchor>
+        <loElos>
+          <eloUri>roolo://memory/323/0/House_choices.url</eloUri>
+        </loElos>
+        <inputAnchors />
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/449/0/Inventory+of+expert+solutions.scymapping</eloUri>
+          <iconType />
+          <mainAnchor>true</mainAnchor>
+          <loElos>
+            <eloUri>roolo://memory/321/0/Inventory_of_expert_solutions.url</eloUri>
+          </loElos>
+          <inputAnchors>
+            <anchor>roolo://memory/450/0/Expert+presentation.ppt</anchor>
+          </inputAnchors>
+          <relations />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses>
+        <las>construction</las>
+        <las>experimentDesign</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>reportingExperts</id>
+      <xPos>120.0</xPos>
+      <yPos>40.0</yPos>
+      <toolTip>Expert presentation</toolTip>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/450/0/Expert+presentation.ppt</eloUri>
+        <iconType />
+        <mainAnchor>true</mainAnchor>
+        <loElos>
+          <eloUri>roolo://memory/319/0/Expert_presentation.url</eloUri>
+        </loElos>
+        <inputAnchors />
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/451/0/Expert+concept+map.scymapping</eloUri>
+          <iconType />
+          <mainAnchor>true</mainAnchor>
+          <loElos>
+            <eloUri>roolo://memory/317/0/Expert_concept_map.url</eloUri>
+          </loElos>
+          <inputAnchors>
+            <anchor>roolo://memory/441/0/Conclusion+of+expert+experiments.rtf</anchor>
+          </inputAnchors>
+          <relations />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses>
+        <las>design</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>experimentDesign</id>
+      <xPos>40.0</xPos>
+      <yPos>80.0</yPos>
+      <toolTip>House data</toolTip>
+      <loElos>
+        <eloUri>roolo://memory/299/0/House_data.url</eloUri>
+      </loElos>
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/452/0/House+data+from+the+Converter.scysimconfig</eloUri>
+        <iconType />
+        <mainAnchor>true</mainAnchor>
+        <loElos>
+          <eloUri>roolo://memory/355/0/Manual_for_converter.url</eloUri>
+        </loElos>
+        <inputAnchors />
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors>
+        <intermediateAnchor>
+          <eloUri>roolo://memory/453/0/House+data+from+the+Thermal+simulation.scysimconfig</eloUri>
+          <iconType />
+          <mainAnchor>true</mainAnchor>
+          <loElos>
+            <eloUri>roolo://memory/356/0/Thermal_simulation_manual.url</eloUri>
+          </loElos>
+          <inputAnchors>
+            <anchor>roolo://memory/448/0/House+choices.scymapping</anchor>
+          </inputAnchors>
+          <relations />
+        </intermediateAnchor>
+      </intermediateAnchors>
+      <nextLasses>
+        <las>reportingDesign</las>
+        <las>design</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>reportingDesign</id>
+      <xPos>80.0</xPos>
+      <yPos>80.0</yPos>
+      <toolTip>Presentation of house design</toolTip>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/454/0/Presentation+of+house+design.ppt</eloUri>
+        <iconType />
+        <mainAnchor>true</mainAnchor>
+        <loElos>
+          <eloUri>roolo://memory/344/0/Presentation_of_house_design.url</eloUri>
+        </loElos>
+        <inputAnchors>
+          <anchor>roolo://memory/447/0/House+drawings.skp</anchor>
+          <anchor>roolo://memory/452/0/House+data+from+the+Converter.scysimconfig</anchor>
+          <anchor>roolo://memory/453/0/House+data+from+the+Thermal+simulation.scysimconfig</anchor>
+          <anchor>roolo://memory/448/0/House+choices.scymapping</anchor>
+        </inputAnchors>
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses>
+        <las>reportingIndividual</las>
+      </nextLasses>
+    </las>
+    <las>
+      <id>reportingIndividual</id>
+      <xPos>120.0</xPos>
+      <yPos>80.0</yPos>
+      <toolTip>Individual report</toolTip>
+      <loElos />
+      <otherElos />
+      <mainAnchor>
+        <eloUri>roolo://memory/455/0/Individual+report.doc</eloUri>
+        <iconType />
+        <mainAnchor>true</mainAnchor>
+        <loElos>
+          <eloUri>roolo://memory/346/0/Individual_report.url</eloUri>
+        </loElos>
+        <inputAnchors />
+        <relations />
+      </mainAnchor>
+      <intermediateAnchors />
+      <nextLasses />
+    </las>
+  </lasses>
+</missionModel>
+</content>
+<resources>
+</resources>
+</elo>

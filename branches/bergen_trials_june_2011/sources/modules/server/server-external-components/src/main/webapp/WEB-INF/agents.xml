@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+        "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+	<!-- This file consists of a list of all defined agents. To enable or disable 
+		them, modify the external-components.xml, not this one! -->
+
+	<bean id="topicdetector" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.topics.TopicDetector" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+	<bean id="scysim" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.sensors.behaviourclassifier.ScySimBehaviourClassifier" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+	<bean id="supervisor" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.supervisor.SupervisingAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+	<bean id="ontologylookup" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.serviceprovider.ontology.OntologyLookupAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+	<bean id="votat" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.votat.VotatAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+	<bean id="canonical" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.canonical.CanonicalAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+	<bean id="toolexperience" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.sensors.userexperience.ToolExperienceSensor" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+	<bean id="collaboration" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.collaboration.CollaborationAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+	<bean id="keywordsTfIdf" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.keywords.ExtractTfIdfKeywordsAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+	<bean id="keywordsTopic" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.keywords.ExtractTopicModelKeywordsAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+	<bean id="keywordsOntology" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.keywords.OntologyKeywordsAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+	<bean id="keywords" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.keywords.ExtractKeywordsAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+	<bean id="keywordsDecisionMaker" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.keywords.ExtractKeywordsDecisionMakerAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+	<bean id="generalELOSavedAgent" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.roolo.elo.elobrowsernotification.ELOHasBeenSavedAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+	<bean id="addKeywordsToMetadataAgent" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.keywords.AddKeywordsToMetadataAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+
+	<bean id="notifyUserAgent" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.authoring.NotifyUserAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+
+	<bean id="hypothesisDecisionAgent" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.hypothesis.HypothesisDecisionMakerAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+
+	<bean id="hypothesisEvalAgent" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.hypothesis.HypothesisEvaluationAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+
+	<bean id="userLocationAgent" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.general.UserLocationAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+
+	<bean id="portfolioNotificator" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.portfolio.PortfolioNotificator" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+
+	<bean id="rooloAccessor" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.roolo.rooloaccessor.RooloAccessorAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+
+	<bean id="sessionAgent" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.session.SessionAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+
+	<bean id="groupFormation" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.groupformation.GroupFormationAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+
+	<bean id="cmEnricher" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.conceptmap.enrich.CMEnricherAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+	
+	<bean id="cmProposer" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.conceptmap.proposer.CMProposerAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+	
+	<bean id="cmModeller" class="eu.scy.agents.impl.AgentStartConfiguration">
+		<constructor-arg index="0"
+			value="eu.scy.agents.conceptmap.model.UserConceptMapAgent" />
+		<constructor-arg index="1">
+			<map />
+		</constructor-arg>
+	</bean>
+</beans>

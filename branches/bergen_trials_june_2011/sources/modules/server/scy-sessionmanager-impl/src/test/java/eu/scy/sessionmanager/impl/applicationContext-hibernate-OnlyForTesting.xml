@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+        "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+    <!-- Hibernate SessionFactory -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+        <property name="dataSource">
+            <ref bean="dataSource"/>
+        </property>
+
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</prop>
+
+                <!-- useful for debugging:-->
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="hibernate.format_sql">false</prop>
+
+                <prop key="hibernate.use_sql_comments">true</prop>
+                <!-- Turn this off to better understand exceptions-->
+                <prop key="hibernate.bytecode.use_reflection_optimizer">true</prop>
+
+                <!-- For performance tuning:-->
+                <prop key="hibernate.generate_statistics">true</prop>
+
+                <!-- General settings -->
+                <prop key="hibernate.connection.autocommit">false</prop>
+                <prop key="hibernate.connection.release_mode">auto</prop>
+                <prop key="hibernate.cache.use_query_cache">true</prop>
+                <prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+                <prop key="hibernate.connection.isolation">2</prop>
+                <prop key="hibernate.max_fetch_depth">1</prop>
+                <prop key="hibernate.jdbc.use_streams_for_binary">true</prop>
+                <!--prop key="hibernate.hbm2ddl.auto">update</prop-->
+                <prop key="hbm2ddl.auto">create</prop>
+            </props>
+        </property>
+        <property name="schemaUpdate" value="true"/>
+
+        <property name="lobHandler">
+            <bean class="org.springframework.jdbc.support.lob.DefaultLobHandler"/>
+        </property>
+
+
+        <property name="configLocation">
+            <value>classpath:/eu/scy/core/persistence/hibernate/hibernate.test.cfg.xml</value>
+        </property>
+    </bean>
+
+
+    <!-- Transaction manager for a single Hibernate SessionFactory (alternative to JTA) -->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+        <property name="sessionFactory">
+            <ref local="sessionFactory"/>
+        </property>
+    </bean>
+
+    <!-- BaseDAO: Hibernate implementation -->
+    <bean id="baseDAO" class="eu.scy.core.persistence.hibernate.ScyBaseDAOHibernate">
+        <property name="sessionFactory">
+            <ref local="sessionFactory"/>
+        </property>
+    </bean>
+
+    <!-- UserDAO: Hibernate implementation -->
+    <bean id="userDAO" class="eu.scy.core.persistence.hibernate.UserDAOHibernate">
+        <property name="sessionFactory">
+            <ref local="sessionFactory"/>
+        </property>
+        <property name="grantedAuthorityDao" ref="grantedAuthorityDao" />
+    </bean>
+
+    <!-- PROJECT DAO: Hibernate implementation -->
+    <bean id="projectDAO" class="eu.scy.core.persistence.hibernate.ProjectDAOHibernate">
+        <property name="sessionFactory">
+            <ref local="sessionFactory"/>
+        </property>
+    </bean>
+
+    <!-- GROUP DAO: Hibernate implementation -->
+    <bean id="groupDAO" class="eu.scy.core.persistence.hibernate.GroupDAOHibernate">
+        <property name="sessionFactory">
+            <ref local="sessionFactory"/>
+        </property>
+    </bean>
+
+    <bean id="userSessionDAO" class="eu.scy.core.persistence.hibernate.UserSessionDAOHibernate">
+        <property name="sessionFactory">
+            <ref local="sessionFactory"/>
+        </property>
+
+    </bean>
+
+    <bean id="grantedAuthorityDao"
+        class="net.sf.sail.webapp.dao.authentication.impl.HibernateGrantedAuthorityDao">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+
+    <!--bean id="roleDAO" class="eu.scy.core.persistence.hibernate.RoleDAOHibernate">
+        <property name="sessionFactory">
+            <ref local="sessionFactory"/>
+        </property>
+    </bean>
+
+    <bean id="projectDAO" class="eu.scy.core.persistence.hibernate.ProjectDAOHibernate">
+        <property name="sessionFactory">
+            <ref local="sessionFactory"/>
+        </property>
+    </bean>
+
+    <bean id="userSessionDAO" class="eu.scy.core.persistence.hibernate.UserSessionDAOHibernate">
+        <property name="sessionFactory">
+            <ref local="sessionFactory"/>
+        </property>
+    </bean-->
+
+    <!--bean id="eloContainerManager" class="eu.scy.core.service.impl.EloContainerManagerMock">
+        <property name="repository" ref="repository"/>
+        <property name="factory" ref="eloFactory"/>
+    </bean-->
+
+    <!--bean id="userSessionService" class="eu.scy.core.service.impl.UserSessionServiceImpl">
+
+    </bean-->
+
+
+    <bean id="jdbcUserService" class="org.springframework.security.userdetails.jdbc.JdbcDaoImpl">
+        <property name="rolePrefix" value="ROLE_"/>
+        <property name="dataSource" ref="dataSource"/>
+        <property name="usersByUsernameQuery" value="SELECT userName, passwordmmm, 1 from user_details where username = ?"/>
+        <property name="authoritiesByUsernameQuery" value="SELECT username, FROM user_details WHERE username = ?"/>
+    </bean>
+
+    <bean id="sessionRegistry" class="org.springframework.security.concurrent.SessionRegistryImpl"/>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName">
+            <value>com.mysql.jdbc.Driver</value>
+        </property>
+        <property name="url">
+            <value>jdbc:mysql://${db.host}/scy?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;useServerPrepStmts=false&amp;zeroDateTimeBehavior=round</value>
+        </property>
+        <property name="username">
+            <value>${db.user_name}</value>
+        </property>
+        <property name="password">
+            <value>${db.password}</value>
+        </property>
+    </bean>
+
+
+</beans>

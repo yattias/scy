@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+   <!-- (renderer*,appender*,(category|logger)*,root?,categoryFactory?) -->
+
+   <appender name="consoleAppender" class="org.apache.log4j.ConsoleAppender">
+      <layout class="org.apache.log4j.PatternLayout">
+         <param name="ConversionPattern" value="%d [%t] %c.%M:%L%n %-5p: %m%n" />
+      </layout>
+   </appender>
+
+   <logger name="eu.scy">
+      <level value="info" />
+   </logger>
+
+   <logger name="eu.scy.client.desktop.scydesktop">
+      <level value="warn" />
+   </logger>
+
+   <logger name="eu.scy.client.desktop.scydesktop.scywindows">
+      <level value="error" />
+   </logger>
+
+   <logger name="eu.scy.client.desktop.scydesktop.scywindows.scydesktop">
+      <level value="error" />
+   </logger>
+
+   <logger name="eu.scy.client.desktop.scydesktop.scywindows.window_positions">
+      <level value="error" />
+   </logger>
+
+   <logger name="eu.scy.client.desktop.scydesktop.scywindows.EloSavedActionHandler">
+      <level value="error" />
+   </logger>
+
+   <logger name="eu.scy.client.desktop.scydesktop.elofactory">
+      <level value="error" />
+   </logger>
+
+   <logger name="eu.scy.client.desktop.scydesktop.utils.InjectObjectsUtils">
+      <level value="error" />
+   </logger>
+
+   <logger name="eu.scy.common.configuration">
+      <level value="error" />
+   </logger>
+
+   <logger name="org.apache">
+      <level value="error" />
+   </logger>
+
+   <logger name="org.springframework">
+      <level value="error" />
+   </logger>
+
+   <root>
+      <priority value="debug" />
+      <appender-ref ref="consoleAppender"/>
+   </root>
+
+
+</log4j:configuration>
+

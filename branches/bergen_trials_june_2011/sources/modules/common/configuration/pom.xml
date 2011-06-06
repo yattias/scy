@@ -1,0 +1,317 @@
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>eu.scy.common</groupId>
+    <artifactId>configuration</artifactId>
+    
+    <!-- dear Lars, please don't remove this line again ;) 
+    <version>31-SNAPSHOT${version-name}</version>-->
+	<version>${parent.version}${version-name}</version>
+    <name>Configuration</name>
+    <packaging>jar</packaging>
+
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>eu.scy.common</groupId>
+        <version>34-SNAPSHOT</version>
+    </parent>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>UDE</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <version-name></version-name>
+                <serverfilter.db.username>root</serverfilter.db.username>
+                <serverfilter.db.password>root</serverfilter.db.password>
+                <serverfilter.db.url>java:comp/env/jdbc/scy</serverfilter.db.url>
+                <serverfilter.db.host>localhost</serverfilter.db.host>
+
+                <client.servername>scy.collide.info</client.servername>
+                <client.httpPort>80</client.httpPort>
+                <client.contextPath>/scy-useradmin-web</client.contextPath>
+
+                <sqlspaces.server.host>scy.collide.info</sqlspaces.server.host>
+                <sqlspaces.server.port>2525</sqlspaces.server.port>
+
+                <openfire.host>scy.collide.info</openfire.host>
+                <openfire.conference>conference</openfire.conference>
+                <openfire.client.port>5222</openfire.client.port>
+                <openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
+                <openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
+                <openfire.http-host>scy-xmpp.collide.info</openfire.http-host>
+                <openfire.client.http-port>80</openfire.client.http-port>
+                <scyhub.name>scyhub</scyhub.name>
+                <studentplanningtool.service.url>http://scy.collide.info:80/extcomp/remoting/studentPlan-httpinvoker</studentplanningtool.service.url>
+
+                <filestreamer.server>scy.collide.info</filestreamer.server>
+                <filestreamer.context>webapp/common/filestreamer.html</filestreamer.context>
+                <filestreamer.port>80</filestreamer.port>
+
+                <auth.cr.server>scy.collide.info</auth.cr.server>
+                <auth.cr.context>webapp/UserCredentials.html</auth.cr.context>
+                <auth.cr.port>80</auth.cr.port>
+                
+                <roolo.server>scy.collide.info</roolo.server>
+                <roolo.context>extcomp</roolo.context>
+                <roolo.port>80</roolo.port>
+            </properties>
+        </profile>
+        <profile>
+            <id>UDE-Review</id>
+            <properties>
+                <version-name>-review</version-name>
+                <serverfilter.db.username>root</serverfilter.db.username>
+                <serverfilter.db.password>root</serverfilter.db.password>
+                <serverfilter.db.url>java:comp/env/jdbc/scy</serverfilter.db.url>
+                <serverfilter.db.host>localhost</serverfilter.db.host>
+
+                <client.servername>scy-review.collide.info</client.servername>
+                <client.httpPort>80</client.httpPort>
+                <client.contextPath>/scy-useradmin-web</client.contextPath>
+
+                <sqlspaces.server.host>scy-review.collide.info</sqlspaces.server.host>
+                <sqlspaces.server.port>2525</sqlspaces.server.port>
+
+                <openfire.host>scy-review.collide.info</openfire.host>
+                <openfire.conference>conference</openfire.conference>
+                <openfire.client.port>5222</openfire.client.port>
+                <openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
+                <openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
+                <openfire.http-host>scy-review-xmpp.collide.info</openfire.http-host>
+                <openfire.client.http-port>80</openfire.client.http-port>
+                <scyhub.name>scyhub</scyhub.name>
+                <studentplanningtool.service.url>http://scy-review.collide.info:80/extcomp/remoting/studentPlan-httpinvoker</studentplanningtool.service.url>
+
+                <filestreamer.server>scy-review.collide.info</filestreamer.server>
+                <filestreamer.context>webapp/common/filestreamer.html</filestreamer.context>
+                <filestreamer.port>80</filestreamer.port>
+
+                <auth.cr.server>scy-review.collide.info</auth.cr.server>
+                <auth.cr.context>webapp/UserCredentials.html</auth.cr.context>
+                <auth.cr.port>80</auth.cr.port>
+
+                <roolo.server>scy-review.collide.info</roolo.server>
+                <roolo.context>extcomp</roolo.context>
+                <roolo.port>80</roolo.port>
+            </properties>
+        </profile>
+        <profile>
+            <id>TS</id>
+            <properties>
+                <version-name></version-name>
+                <serverfilter.db.username>root</serverfilter.db.username>
+                <serverfilter.db.password>root</serverfilter.db.password>
+                <serverfilter.db.url>java:comp/env/jdbc/scy</serverfilter.db.url>
+                <serverfilter.db.host>localhost</serverfilter.db.host>
+
+                <client.servername>http://83.168.205.138</client.servername>
+                <client.httpPort>80</client.httpPort>
+                <client.contextPath>/scy-useradmin-web</client.contextPath>
+
+                <sqlspaces.server.host>http://83.168.205.138</sqlspaces.server.host>
+                <sqlspaces.server.port>2525</sqlspaces.server.port>
+
+                <openfire.host>83.168.205.138</openfire.host>
+                <openfire.conference>conference</openfire.conference>
+                <openfire.client.port>5222</openfire.client.port>
+                <openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
+                <openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
+                <openfire.http-host>83.168.205.138</openfire.http-host>
+                <openfire.client.http-port>80</openfire.client.http-port>
+                <scyhub.name>scyhub</scyhub.name>
+                <studentplanningtool.service.url>http://83.168.205.138:8080/extcomp/remoting/studentPlan-httpinvoker</studentplanningtool.service.url>
+
+                <filestreamer.server>83.168.205.138</filestreamer.server>
+                <filestreamer.context>webapp/common/filestreamer.html</filestreamer.context>
+                <filestreamer.port>8080</filestreamer.port>
+
+                <auth.cr.server>83.168.205.138</auth.cr.server>
+                <auth.cr.context>webapp/UserCredentials.html</auth.cr.context>
+                <auth.cr.port>8080</auth.cr.port>
+
+                <roolo.server>http://83.168.205.138</roolo.server>
+                <roolo.context>extcomp</roolo.context>
+                <roolo.port>8080</roolo.port>
+            </properties>
+        </profile>
+        <profile>
+            <id>UIO</id>
+            <properties>
+                <version-name></version-name>
+                <serverfilter.db.username>root</serverfilter.db.username>
+                <serverfilter.db.password>root</serverfilter.db.password>
+                <serverfilter.db.url>java:comp/env/jdbc/scy</serverfilter.db.url>
+                <serverfilter.db.host>localhost</serverfilter.db.host>
+
+                <client.serverName>scy.intermedia.uio.no</client.serverName>
+                <client.httpPort>8080</client.httpPort>
+                <client.contextPath>/scy-useradmin-web</client.contextPath>
+
+                <sqlspaces.server.host>scy.intermedia.uio.no</sqlspaces.server.host>
+                <sqlspaces.server.port>2525</sqlspaces.server.port>
+
+                <openfire.host>scy.intermedia.uio.no</openfire.host>
+                <openfire.conference>conference</openfire.conference>
+                <openfire.client.port>5222</openfire.client.port>
+                <openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
+                <openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
+                <openfire.http-host>scy.intermedia.uio.no</openfire.http-host>
+                <openfire.client.http-port>80</openfire.client.http-port>
+                <scyhub.name>scyhub</scyhub.name>
+                <studentplanningtool.service.url>http://83.168.205.138:8080/extcomp/remoting/studentPlan-httpinvoker</studentplanningtool.service.url>
+
+                <filestreamer.server>scy.intermedia.uio.no</filestreamer.server>
+                <filestreamer.context>webapp/common/filestreamer.html</filestreamer.context>
+                <filestreamer.port>8080</filestreamer.port>
+
+                <auth.cr.server>scy.intermedia.uio.no</auth.cr.server>
+                <auth.cr.context>webapp/UserCredentials.html</auth.cr.context>
+                <auth.cr.port>8080</auth.cr.port>
+
+                <roolo.server>scy.intermedia.uio.no</roolo.server>
+                <roolo.context>extcomp</roolo.context>
+                <roolo.port>8080</roolo.port>
+            </properties>
+        </profile>
+        <profile>
+            <id>UJF</id>
+            <properties>
+                <version-name></version-name>
+                <serverfilter.db.username>root</serverfilter.db.username>
+                <serverfilter.db.password>root</serverfilter.db.password>
+                <serverfilter.db.url>java:comp/env/jdbc/scy</serverfilter.db.url>
+                <serverfilter.db.host>localhost</serverfilter.db.host>
+
+                <client.servername>scylab.imag.fr</client.servername>
+                <client.httpPort>80</client.httpPort>
+                <client.contextPath>/scy-useradmin-web</client.contextPath>
+
+                <sqlspaces.server.host>scylab.imag.fr</sqlspaces.server.host>
+                <sqlspaces.server.port>2525</sqlspaces.server.port>
+
+                <openfire.host>scylab.imag.fr</openfire.host>
+                <openfire.conference>conference</openfire.conference>
+                <openfire.client.port>5222</openfire.client.port>
+                <openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
+                <openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
+                <openfire.http-host>scylab.imag.fr</openfire.http-host>
+                <openfire.client.http-port>80</openfire.client.http-port>
+                <scyhub.name>scyhub</scyhub.name>
+                <studentplanningtool.service.url>http://scylab.imag.fr:8080/extcomp/remoting/studentPlan-httpinvoker</studentplanningtool.service.url>
+
+                <filestreamer.server>scylab.imag.fr</filestreamer.server>
+                <filestreamer.context>webapp/common/filestreamer.html</filestreamer.context>
+                <filestreamer.port>8080</filestreamer.port>
+
+                <auth.cr.server>scylab.imag.fr</auth.cr.server>
+                <auth.cr.context>webapp/UserCredentials.html</auth.cr.context>
+                <auth.cr.port>8080</auth.cr.port>
+
+                <roolo.server>scylab.imag.fr</roolo.server>
+                <roolo.context>extcomp</roolo.context>
+                <roolo.port>8080</roolo.port>
+            </properties>
+        </profile>
+        <profile>
+            <id>UT</id>
+            <properties>
+                <version-name>-ut</version-name>
+                <serverfilter.db.username>root</serverfilter.db.username>
+                <serverfilter.db.password>root</serverfilter.db.password>
+                <serverfilter.db.url>java:comp/env/jdbc/scy</serverfilter.db.url>
+                <serverfilter.db.host>localhost</serverfilter.db.host>
+
+                <client.servername>gw-scyserver.gw.utwente.nl</client.servername>
+                <client.httpPort>80</client.httpPort>
+                <client.contextPath>/scy-useradmin-web</client.contextPath>
+
+                <sqlspaces.server.host>localhost</sqlspaces.server.host>
+                <sqlspaces.server.port>2525</sqlspaces.server.port>
+
+                <openfire.host>gw-scyserver.gw.utwente.nl</openfire.host>
+                <openfire.conference>conference</openfire.conference>
+                <openfire.client.port>5222</openfire.client.port>
+                <openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
+                <openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
+                <openfire.http-host>scyserver1-xmpp.gw.utwente.nl</openfire.http-host>
+                <openfire.client.http-port>80</openfire.client.http-port>
+                <scyhub.name>scyhub</scyhub.name>
+
+                <filestreamer.server>gw-scyserver.gw.utwente.nl</filestreamer.server>
+                <filestreamer.context>webapp/common/filestreamer.html</filestreamer.context>
+                <filestreamer.port>80</filestreamer.port>
+
+                <auth.cr.server>gw-scyserver.gw.utwente.nl</auth.cr.server>
+                <auth.cr.context>webapp/UserCredentials.html</auth.cr.context>
+                <auth.cr.port>8080</auth.cr.port>
+
+                <roolo.server>gw-scyserver.gw.utwente.nl</roolo.server>
+                <roolo.context>extcomp</roolo.context>
+                <roolo.port>80</roolo.port>
+            </properties>
+        </profile>
+        <profile>
+            <id>UT2</id>
+            <properties>
+                <version-name>-ut2</version-name>
+                <serverfilter.db.username>root</serverfilter.db.username>
+                <serverfilter.db.password>root</serverfilter.db.password>
+                <serverfilter.db.url>java:comp/env/jdbc/scy</serverfilter.db.url>
+                <serverfilter.db.host>localhost</serverfilter.db.host>
+
+                <client.servername>gw-scyserver2.gw.utwente.nl</client.servername>
+                <client.httpPort>80</client.httpPort>
+                <client.contextPath>/scy-useradmin-web</client.contextPath>
+
+                <sqlspaces.server.host>localhost</sqlspaces.server.host>
+                <sqlspaces.server.port>2525</sqlspaces.server.port>
+
+                <openfire.host>gw-scyserver2.gw.utwente.nl</openfire.host>
+                <openfire.conference>conference</openfire.conference>
+                <openfire.client.port>5222</openfire.client.port>
+                <openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
+                <openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
+                <openfire.http-host>scyserver2-xmpp.gw.utwente.nl</openfire.http-host>
+                <openfire.client.http-port>80</openfire.client.http-port>
+                <scyhub.name>scyhub</scyhub.name>
+
+                <filestreamer.server>gw-scyserver2.gw.utwente.nl</filestreamer.server>
+                <filestreamer.context>webapp/common/filestreamer.html</filestreamer.context>
+                <filestreamer.port>80</filestreamer.port>
+
+                <auth.cr.server>gw-scyserver2.gw.utwente.nl</auth.cr.server>
+                <auth.cr.context>webapp/UserCredentials.html</auth.cr.context>
+                <auth.cr.port>8080</auth.cr.port>
+
+                <roolo.server>gw-scyserver2.gw.utwente.nl</roolo.server>
+                <roolo.context>extcomp</roolo.context>
+                <roolo.port>80</roolo.port>
+            </properties>
+        </profile>
+    </profiles>
+    <dependencies>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
+
+</project>

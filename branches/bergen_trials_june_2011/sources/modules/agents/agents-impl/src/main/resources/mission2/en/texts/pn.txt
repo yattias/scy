@@ -1,0 +1,87 @@
+Colorado Master Gardenersm Program Colorado Gardener Certificate Training
+
+Colorado State University Extension
+
+CMG GardenNotes #231
+
+Plant Nutrition
+Outline: Fertility and fertilizers, page 1 Plant nutrients, page 2 Colorado soils and plant nutritional needs, page 3 Nitrogen, page 3 Iron, page 4 Phosphorus, page 5 Potassium, page 5 Zinc, page 6
+
+Fertility and Fertilization
+Many people confuse plant nutrition with plant fertilization. Plant nutrition refers to the need for basic chemical elements for plant growth. The term fertilization refers to the application of plant nutrients to supplement the nutrients naturally occurring in the soil. Nutrients may be applied as commercial manufactured fertilizers, organic fertilizers and/or other soil amendments. Organic fertilizers and soil amendments are typically low in plant-available nutrient content. For additional information about fertilizers and soil amendments, refer to the CMG GardenNotes #232, Understanding Fertilizers and #241, Soil Amendments. Adequate soil fertility is only one of the many soil-related growth factors. Fertilizers will increase desirable plant growth only if the plant is deficient in the nutrient applied and other growth factors are not also significantly limiting plant growth. Fertilization will not compensate for poor soil preparation, the lack of water, weed competition and other non-nutrient growth limiting factors! Fertilization will not enhance desired growth if the nutrients applied are not deficient. From the nutritional perspective, a plant cannot tell if applied nutrients come from a manufactured fertilizer or a natural source. Plants use nutrients in ionic forms. Soil microorganisms must break down organic soil amendments, organic fertilizers and many manufactured fertilizers before the nutrients become usable by plants. From a nutritional perspective, the primary difference between manufactured and organic soil amendments/organic fertilizers is the speed at which nutrients become available for plant use. For manufactured fertilizer, their release is typically, but not always, a few days to weeks. Some are specially formulated as "controlled release", "slow release" or "time release" products that release over a period of
+
+
+months. With natural-organic fertilizer, nutrients typically become available over a period of months or years. However, there are exceptions to this general rule. The high salt content of some manufactured fertilizers and some organic soil amendments could slow the activity of beneficial soil microorganisms. Benefits of organic fertilizers and soil amendments include improvements in soil tilth (suitability of the soil to support plant growth). This should not be confused with "fertilization", a distinctly different soil management objective. Organic soil amendments are typically low in nutrient content. Remember that fertility is only part of the soil's role in supporting plant growth. The organic content of the soil also directly affects plant growth due to its influence on soil tilth and the activity of beneficial soil microorganisms. Relying solely on manufactured fertilizers is not recommended as this does not support good soil tilth.
+
+Plant Nutrients
+Plants need 17 elements for normal growth. Carbon, hydrogen, and oxygen come from the air and water. Soil is the principle source of other nutrients. Primary nutrients (nitrogen, phosphorus, and potassium) are used in relatively large amounts by plants, and often are supplemented as fertilizers. Secondary nutrients (calcium, magnesium, and sulfur) are also used in large amounts but are typically readily available and in adequate supply. Micronutrients or trace elements are needed only in small amounts. These include iron, zinc, molybdenum, manganese, boron, copper, cobalt, and chlorine. [Table 1]
+
+Table 1. Essential Plant Nutrients
+
+Nutrient
+
+Ions Absorbed by Plants
+
+Structural elements Carbon, C Hydrogen, H Oxygen, O Primary nutrients Nitrogen, N Phosphorus, P Potassium, K Secondary nutrients Calcium, Ca Magnesium, MG Sulfur, S Micronutrients Boron, B Chlorine, Cl Cobalt, Co Copper, Cu Iron, Fe Manganese, Mn Molybdenum, MO Zinc, Zn
+
+CO2 H2O O2 NO3-, NH4+ H2PO4-, HPO4-2 K+ Ca+2 Mg+2 SO4-2 H2BO3ClCo+2 Cu+2 +2 Fe , Fe+3 Mn+2 MoO4-2 Zn+2
+
+
+
+Roots take up nutrients primarily as ions dissolved in the soil's water. The ions may be positively charged (cations) or negatively charged (anions). The nutrient ion soup in the soil's water is in a constant state of flux as the variety of ions dissolve in and precipitate out of solution. Clay particles and organic matter in the soil are negatively charged, attracting the positively charged cations (like ammonium, NH4+, and potassium, K+) and making the cations resistant to leaching. Negatively charged anions (like nitrate, N03-) are prone to leaching and can become a water pollution problem. Both ammonium and nitrate are important plant nitrogen sources and are commonly found in salt forms in fertilizers. The Cation Exchange Capacity, CEC, is a measurement of the soil's capacity to hold cation nutrients. More precisely, it is a measurement of the capacity of the negatively charged clay and organic matter to attract and hold positively charged cations. CEC is useful in comparing the potential for different soils to hold and supply nutrients for plant growth.
+
+Colorado Soils and Plant Nutritional Needs
+Nitrogen
+Nitrogen is the one nutrient most often limiting plant growth. The need for nitrogen varies from plant to plant. For example, tomatoes and vine crops (cucumbers, squash, and melons) will put on excessive vine growth at the expense of fruiting with excess nitrogen. Whereas potatoes, corn, and cole crops (cabbage, broccoli, and cauliflower) are heavy feeders and benefit from high soil nitrogen levels. Bluegrass turf and many annuals also benefit from routine nitrogen applications. Trees and shrubs have a low relative need for soil nitrogen. Colorado soils benefit from nitrogen fertilization of the right amount and frequency to meet plant needs. General symptoms of nitrogen deficiency are shown in Table 2 and Figure 1.
+Table 2 & Figure 1. Symptoms of nitrogen deficiency Leaves · Uniform yellowish-green · More pronounced in older leaves · Small, thin leaves · Fewer leaflets · High fall color · Early leaf drop Shoots · Short, small diameter · May be reddish or reddish brown
+
+Soil tests have limited value in indicating nitrogen needs for a home garden or lawn since the value is constantly changing due to organic content, microorganism activity, and changes in temperature and water.
+
+
+Nitrogen is useable by plants in two forms, ammonium (NH4+), and nitrate (NO3-). Ammonium, being positively charged, is attracted to the negatively charged soil particles and thus is resistant to leaching (movement down through the soil profile). Soil microorganisms convert ammonium to nitrate. Nitrate, being negatively charged, readily leaches below the root zone with excess rain/irrigation on sandy soils. Prevent water pollution by avoiding over-fertilization of nitrogen, particularly on sandy soils. Soil microorganisms release nitrogen tied-up in organic matter over a period of time. Release rates from compost are very slow, over a period of years. The need for nitrogen fertilizer is based on the organic content of the soils. [Table 3]
+Table 3. Need for nitrogen fertilizer based on soil organic content
+
+Soil Organic Content 1% 2-3% 4-5%
+
+Routine Application Rate For Gardens
+
+2 pounds actual N / 1000 square feet 1 pound actual N / 1000 square feet 0
+
+Iron
+Iron chlorosis refers to a yellowing of leaves caused by an iron deficiency in the leaf tissues. Primary symptoms include interveinal chlorosis (i.e., a general yellowing of leaves with veins remaining green). Symptoms show first and more pronounced on younger leaves on the new growth. In severe cases, leaves may become pale yellow or whitish, but veins retain a greenish tint. Angular shaped brown spits may develop between veins and leave margins may scorch (brown along the edge). Symptoms may show on a single branch or on the entire tree. General symptoms of iron chlorosis are shown in Table 3 and Figure 2.
+
+Table 3 & Figure 2. Symptoms of iron chlorosis Leaves · General yellowing of leaf with veins remaining green · More pronounced in younger leaves and new growth · Angular brown spots and marginal scorch · Smaller · Curl, dry up and fall early Branches · May show on a single branch or the entire plant
+
+
+
+In western, high pH soils, iron is not deficient; but rather unavailable for plant uptake due to the soil's high lime (calcium carbonate) content. In western soils, iron chlorosis is a general symptom of other problems, including the following: · · · · Springtime over-watering is the primary cause of iron chlorosis in western soils! Attention to irrigation management, with season changes of the irrigation controller, will generally correct iron chlorosis. Soil compaction and low soil oxygen contributes to iron chlorosis. Iron chlorosis is an early symptom of trunk girdling roots (caused by planting tree too deep). Iron chlorosis expresses as a complication of winter trunk/bark injury.
+
+Attention to these contributing factors is much more effective than adding iron products. For additional details on dealing with iron chlorosis, refer to CMG GardenNotes #223, Iron Chlorosis.
+
+Phosphorus
+Note: Phosphorus, P, is a primary nutrient in plant growth. The word phosphate, P2O5, refers to the ionic compound containing two atoms of phosphorus and five atoms of oxygen. The phosphorus content of fertilizer is measured in percent phosphate.
+
+Phosphorus levels are naturally adequate in the majority of Colorado soils. Deficiencies are most likely to occur in new gardens where the organic matter content is low and the soil has a high pH (7.8 to 8.3). A soil test is the best method to determine the need for phosphorus fertilizers. Phosphorus is also less available to plants when soil temperatures are cool. In the spring, the use of starter fertilizers with phosphorus may be beneficial on herbaceous flowers and vegetable transplants. Phosphorus deficiency is difficult to diagnose, since other growth factors will give similar symptoms. General symptoms include sparse, green to dark green leaves. Veins, petioles, and lower leaf surface may be reddish, dull bronze, or purple, especially when young. Phosphorus deficiency may be observed on roses, in the early spring when soils are cold, but the condition corrects itself as soils warm. Excessive phosphorus fertilizer can aggravate iron and zinc deficiencies and increase the soil salt content. Many home gardener soils are significantly over fertilized with phosphates, aggravating soil salts and iron chlorosis.
+
+Potassium
+Note: Potassium, K, is a primary nutrient in plant growth. The word potash, K2O, refers to the ionic compound containing two atoms of potassium and one atom of oxygen. The potassium content of fertilizer is measured in percent potash.
+
+Potassium levels are naturally adequate and even high in most Colorado soils. Deficiencies occasionally occur in new gardens low in organic matter and in sandy soils low in organic matter. A soil test is the best method to determine the need for potassium fertilizers.
+
+
+
+Potassium deficiency is very difficult to diagnose, since other growth factors will give similar symptoms. General symptoms include a marginal and interveinal chlorosis (yellowing), followed by scorching that moves inward. Older leaves are affected first. Leaves may crinkle and roll upward. Shoots may show short, bushy, zigzag growth, with dieback late in season. Excessive potash fertilizer can aggravate soil salt levels. Many home garden soils are over fertilized with potash, leading to salt problems.
+
+Zinc
+Zinc deficiency occasionally occurs on sandy soils containing excessive lime, and soils low in organic matter (typical of new yards where the topsoil has been removed). Excessive phosphate fertilization may aggravate a zinc problem. It will be seen more in years with cold wet springs. Sweet corn, beans, and potatoes are the most likely vegetables to be affected. Symptoms include a general stunting of the plant due to shortening of internodes (stem length between leaves). Leaves on beans typically have a crinkled appearance and may become yellow or brown. On young corn, symptoms include a broad band of white­to-translucent tissue on both sides of the leaf midrib starting near the base of the leaf, but generally not extending to the tip. Occasional manure applications will supply the zinc needs. If a soil test indicates zinc deficiency (less than 10 ppm), apply a zinc-containing fertilizer according to label directions (typically 2-4 ounces per 1,000 sq. ft.).
+
+Additional Information ­ CMG GardenNotes on Soils, Fertilizers and Soil Amendments:
+#211 #212 #213 #214 #215 #218 #219 #221 #222 #223 #224 Introduction to Soils The Living Soil Managing Soil Tilth Estimating Soil Texture Soil Compaction Earthworms Soil Drainage Soil Test Soil pH Iron Chlorosis Saline Soils #231 #232 #233 #234 #241 #242 # 243 #244 #245 #251 Plant Nutrition Understanding Fertilizers Calculating Fertilizer Rates Organic Fertilizers Soil Amendments Using Manure Using Compost Cover Crops and Green Manure Crops Mulching with Wood/Bark Chips, Grass Clippings and Rock Asking Effective Questions About Soils
+
+Authors: David Whiting, Adrian Card and Carl Wilson (Colorado State University Extension) and Jean Reeder, Ph.D., (USDA-ARS, retired). Artwork by David Whiting.
+o o o o o o Colorado Master Gardener GardenNotes are available on-line at www.cmg.colostate.edu. Colorado Master Gardener training is made possible, in part, by a grant from the Colorado Garden Show, Inc. Colorado State University, U.S. Department of Agriculture and Colorado counties cooperating. Extension programs are available to all without discrimination. No endorsement of products mentioned is intended nor is criticism implied of products not mentioned. Copyright 2002-2008. Colorado State University Extension. All Rights Reserved. CMG GardenNotes may be reproduced, without change or additions, for non-profit educational use.
+
+Revised December 2009
+
+
+

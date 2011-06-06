@@ -1,0 +1,1 @@
+alter table `student_user_details` drop column `profilePictureUrl`;

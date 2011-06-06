@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : copexMission_TEA_FR.xml
+    Created on : 18 janvier 2011, 10:52
+    Author     : Marjolaine
+    Description:
+        mission configuration file, specifies:
+        - mission options,
+        - list initial procedure
+-->
+
+<mission>
+    <initial_proc>
+        <code>TEA_FR</code>
+        <name language="fr">Le thé à la française</name>
+        <name language="en">Le thé à la française</name>
+        <hypothesis_mode>N</hypothesis_mode>
+        <principle_mode>T</principle_mode>
+        <evaluation_mode>N</evaluation_mode>
+        <draw_principle>false</draw_principle>
+        <is_task_repeat>false</is_task_repeat>
+        <is_task_draw>false</is_task_draw>
+        <is_free_action>false</is_free_action>
+        <is_task>false</is_task>
+        <strategy_ref>
+            <code>S1</code>
+        </strategy_ref>
+        <question>
+            <description language="fr"></description>
+            <description language="en"></description>
+            <task_right>
+                <edit_right>X</edit_right>
+                <delete_right>N</delete_right>
+                <move_right>N</move_right>
+                <parent_right>X</parent_right>
+                <copy_right>N</copy_right>
+                <draw_right>N</draw_right>
+                <repeat_right>N</repeat_right>
+            </task_right>
+        </question>
+        <proc_general_principle>
+            <principle language="en"></principle>
+            <principle language="fr"></principle>
+            <principle_hide>false</principle_hide>
+           <principle_comment language="en"></principle_comment>
+           <principle_comment language="fr"></principle_comment>
+        </proc_general_principle>
+        <material>
+            <id>MATERIAL_KETTLE</id>
+            <name  language="fr">bouilloire</name>
+            <name  language="en">kettle</name>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_CUP</id>
+            <name  language="fr">tasse</name>
+            <name  language="en">cup</name>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_CUISINIERE</id>
+            <name  language="fr">cuisinière</name>
+            <name  language="en">cuisinière</name>
+            <type_ref>
+                <id>TYPE_CHAUFFANT</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_EAU</id>
+            <name  language="fr">eau du robinet</name>
+            <name  language="en">eau du robinet</name>
+            <type_ref>
+                <id>TYPE_PROD_CHIM</id>
+            </type_ref>
+            <type_ref>
+                <id>TYPE_LIQUIDE</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_TEA_BAG</id>
+            <name  language="fr">sachet de thé</name>
+            <name  language="en">tea bag</name>
+            <type_ref>
+                <id>TYPE_OBJET</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_SUGAR</id>
+            <name  language="fr">sucre</name>
+            <name  language="en">sugar</name>
+            <type_ref>
+                <id>TYPE_PROD_CHIM</id>
+            </type_ref>
+            <type_ref>
+                <id>TYPE_SOLIDE</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_SPOON</id>
+            <name  language="fr">cuillère</name>
+            <name  language="en">spoon</name>
+            <type_ref>
+                <id>TYPE_HOMOGENEISATEUR</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_FINGER</id>
+            <name  language="fr">doigt</name>
+            <name  language="en">finger</name>
+            <type_ref>
+                <id>TYPE_HOMOGENEISATEUR</id>
+            </type_ref>
+        </material>
+        <initial_action_manipulation>
+            <id>INITIAL_ACTION_MANIP_VIDER</id>
+            <libelle language="fr">Vider</libelle>
+            <libelle language="en">Vider</libelle>
+            <is_setting>true</is_setting>
+            <draw>false</draw>
+            <repeat>false</repeat>
+            <initial_action_variable>
+                <id>VAR_VIDER</id>
+                <nb_param>1</nb_param>
+                <libelle language="fr">Vider le/la {1}</libelle>
+                <libelle language="en">Vider le/la {1}</libelle>
+                <initial_param_material>
+                    <code>1</code>
+                    <name language="fr">Conteneur</name>
+                    <name language="en">Conteneur</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_CONTENEUR</id>
+                    </type_ref>
+                </initial_param_material>
+            </initial_action_variable>
+            <nb_material_prod>0</nb_material_prod>
+        </initial_action_manipulation>
+        <initial_action_manipulation>
+            <id>INITIAL_ACTION_MANIP_AJOUTER_QTT</id>
+            <libelle language="fr">Ajouter une quantité</libelle>
+            <libelle language="en">Ajouter une quantité</libelle>
+            <is_setting>true</is_setting>
+            <draw>false</draw>
+            <repeat>false</repeat>
+            <initial_action_variable>
+                <id>VAR_AJOUTER_QTT</id>
+                <nb_param>3</nb_param>
+                <libelle language="fr">Ajouter {2} de {3} dans le/la {4}</libelle>
+                <libelle language="en">Ajouter {2} de {3} dans le/la {4}</libelle>
+                <initial_param_quantity>
+                    <code>2</code>
+                    <name language="fr">volume</name>
+                    <name language="en">volume</name>
+                    <quantity_name language="fr">volume</quantity_name>
+                    <quantity_name language="en">volume</quantity_name>
+                    <quantity_ref>
+                        <id>QUANTITY_VOLUME</id>
+                    </quantity_ref>
+                </initial_param_quantity>
+                <initial_param_material>
+                    <code>3</code>
+                    <name language="fr">Produit chimique</name>
+                    <name language="en">Produit chimique</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_PROD_CHIM</id>
+                    </type_ref>
+                </initial_param_material>
+                <initial_param_material>
+                    <code>4</code>
+                    <name language="fr">Conteneur</name>
+                    <name language="en">Conteneur</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_CONTENEUR</id>
+                    </type_ref>
+                </initial_param_material>
+            </initial_action_variable>
+            <nb_material_prod>1</nb_material_prod>
+            <initial_manipulation_output>
+                <code_output>OUTPUT_SOL_PROD</code_output>
+                <param_name language="fr">Solution</param_name>
+                <param_name language="en">Solution</param_name>
+                <text_prod language="fr">Nom du contenu</text_prod>
+                <text_prod language="en">Nom du contenu</text_prod>
+                <type_ref>
+                    <id>TYPE_PROD_CHIM</id>
+                </type_ref>
+            </initial_manipulation_output>
+        </initial_action_manipulation>
+        <initial_action_manipulation>
+            <id>INITIAL_ACTION_MANIP_CHAUFFER</id>
+            <libelle language="fr">Chauffer</libelle>
+            <libelle language="en">Chauffer</libelle>
+            <is_setting>true</is_setting>
+            <draw>false</draw>
+            <repeat>false</repeat>
+            <initial_action_variable>
+                <id>VAR_CHAUFFER</id>
+                <nb_param>3</nb_param>
+                <libelle language="fr">Chauffer le/la {5} avec le/la {6} jusqu'à une température de {7}</libelle>
+                <libelle language="en">Chauffer {5} avec {6} jusqu'à une température de {7}.</libelle>
+                <initial_param_material>
+                    <code>5</code>
+                    <name language="fr">Contenu</name>
+                    <name language="en">Contenu</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_PROD_CHIM</id>
+                    </type_ref>
+                </initial_param_material>
+                <initial_param_material>
+                    <code>6</code>
+                    <name language="fr">Chauffant</name>
+                    <name language="en">Chauffant</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_CHAUFFANT</id>
+                    </type_ref>
+                </initial_param_material>
+                <initial_param_quantity>
+                    <code>7</code>
+                    <name language="fr">température</name>
+                    <name language="en">température</name>
+                    <quantity_name language="fr">température</quantity_name>
+                    <quantity_name language="en">température</quantity_name>
+                    <quantity_ref>
+                        <id>QUANTITY_TEMP</id>
+                    </quantity_ref>
+                </initial_param_quantity>
+            </initial_action_variable>
+            <nb_material_prod>0</nb_material_prod>
+        </initial_action_manipulation>
+        <initial_action_manipulation>
+            <id>INITIAL_ACTION_MANIP_AJOUTER</id>
+            <libelle language="fr">Ajouter</libelle>
+            <libelle language="en">Ajouter</libelle>
+            <is_setting>true</is_setting>
+            <draw>false</draw>
+            <repeat>false</repeat>
+            <initial_action_variable>
+                <id>VAR_AJOUTER</id>
+                <nb_param>2</nb_param>
+                <libelle language="fr">Ajouter un(e){8} du/de la {9}</libelle>
+                <libelle language="en">Ajouter {8} dans  {9}.</libelle>
+                <initial_param_material>
+                    <code>8</code>
+                    <name language="fr">Produit chimique</name>
+                    <name language="en">Produit chimique</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_OBJET</id>
+                    </type_ref>
+                </initial_param_material>
+                <initial_param_material>
+                    <code>9</code>
+                    <name language="fr">Conteneur</name>
+                    <name language="en">Conteneur</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_CONTENEUR</id>
+                    </type_ref>
+                </initial_param_material>
+            </initial_action_variable>
+            <nb_material_prod>1</nb_material_prod>
+            <initial_manipulation_output>
+                <code_output>OUTPUT_SOL_PROD</code_output>
+                <param_name language="fr">Solution</param_name>
+                <param_name language="en">Solution</param_name>
+                <text_prod language="fr">Nom du contenu</text_prod>
+                <text_prod language="en">Nom du contenu</text_prod>
+                <type_ref>
+                    <id>TYPE_PROD_CHIM</id>
+                </type_ref>
+            </initial_manipulation_output>
+        </initial_action_manipulation>
+        <initial_action_manipulation>
+            <id>INITIAL_ACTION_MANIP_ENLEVER</id>
+            <libelle language="fr">Retirer</libelle>
+            <libelle language="en">Enlever</libelle>
+            <is_setting>true</is_setting>
+            <draw>false</draw>
+            <repeat>false</repeat>
+            <initial_action_variable>
+                <id>VAR_ENLEVER</id>
+                <nb_param>2</nb_param>
+                <libelle language="fr">Retirer le/la {10} du/de la {11}.</libelle>
+                <libelle language="en">Enlever {10} du {11}.</libelle>
+                <initial_param_material>
+                    <code>10</code>
+                    <name language="fr">Produit chimique</name>
+                    <name language="en">Produit chimique</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_OBJET</id>
+                    </type_ref>
+                </initial_param_material>
+                <initial_param_material>
+                    <code>11</code>
+                    <name language="fr">Conteneur</name>
+                    <name language="en">Conteneur</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_CONTENEUR</id>
+                    </type_ref>
+                </initial_param_material>
+            </initial_action_variable>
+            <nb_material_prod>0</nb_material_prod>
+        </initial_action_manipulation>
+        <initial_action_manipulation>
+            <id>INITIAL_ACTION_MANIP_ATTENDRE</id>
+            <libelle language="fr">Attendre</libelle>
+            <libelle language="en">Attendre</libelle>
+            <is_setting>true</is_setting>
+            <draw>false</draw>
+            <repeat>false</repeat>
+            <initial_action_variable>
+                <id>VAR_ATTENDRE</id>
+                <nb_param>1</nb_param>
+                <libelle language="fr">Attendre {12}.</libelle>
+                <libelle language="en">Attendre {12}.</libelle>
+                <initial_param_quantity>
+                    <code>12</code>
+                    <name language="fr">temps</name>
+                    <name language="en">temps</name>
+                    <quantity_name language="fr">temps</quantity_name>
+                    <quantity_name language="en">temps</quantity_name>
+                    <quantity_ref>
+                        <id>QUANTITY_TPS</id>
+                    </quantity_ref>
+                </initial_param_quantity>
+            </initial_action_variable>
+            <nb_material_prod>0</nb_material_prod>
+        </initial_action_manipulation>
+        <initial_action_manipulation>
+            <id>INITIAL_ACTION_MANIP_HOMOGENEISER</id>
+            <libelle language="fr">Homogénéiser</libelle>
+            <libelle language="en">Homogénéiser</libelle>
+            <is_setting>true</is_setting>
+            <draw>false</draw>
+            <repeat>false</repeat>
+            <initial_action_variable>
+                <id>VAR_HOMOGENEISER</id>
+                <nb_param>2</nb_param>
+                <libelle language="fr">Homogénéiser le/la {13} avec le/la {14}.</libelle>
+                <libelle language="en">Homogénéiser {13} avec {14}.</libelle>
+                <initial_param_material>
+                    <code>13</code>
+                    <name language="fr">Contenu</name>
+                    <name language="en">Contenu</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_PROD_CHIM</id>
+                    </type_ref>
+                </initial_param_material>
+                <initial_param_material>
+                    <code>14</code>
+                    <name language="fr">Homogénéisateur</name>
+                    <name language="en">Homogénéisateur</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_HOMOGENEISATEUR</id>
+                    </type_ref>
+                </initial_param_material>
+            </initial_action_variable>
+            <nb_material_prod>0</nb_material_prod>
+        </initial_action_manipulation>
+        <manipulation>
+        </manipulation>
+    </initial_proc>
+</mission>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+   <bean name="scyDesktopConfig" class="eu.scy.client.desktop.scydesktop.config.BasicConfig" init-method="initialize">
+      
+      <property name="eloConfigs">
+         <list value-type="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/text"/>
+               <property name="display" value="Taggable"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="text"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
+               <!-- property name="rightDrawerCreatorId" value="propertiesViewer"/ -->
+               <property name="rightDrawerCreatorId" value="socialtagging"/>
+            </bean>
+         </list>
+      </property>
+   </bean>
+
+</beans>

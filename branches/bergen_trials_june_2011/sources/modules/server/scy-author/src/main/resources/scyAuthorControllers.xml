@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	* Copyright (c) 2007 Encore Research Group, University of Toronto
+	*
+	* This library is free software; you can redistribute it and/or
+	* modify it under the terms of the GNU Lesser General Public
+	* License as published by the Free Software Foundation; either
+	* version 2.1 of the License, or (at your option) any later version.
+	*
+	* This library is distributed in the hope that it will be useful,
+	* but WITHOUT ANY WARRANTY; without even the implied warranty of
+	* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+	* Lesser General Public License for more details.
+	*
+	* You should have received a copy of the GNU Lesser General Public
+	* License along with this library; if not, write to the Free Software
+	* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+-->
+
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-2.0.xsd
+	http://www.directwebremoting.org/schema/spring-dwr
+	http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd">
+
+    <!-- no 'id' required, HandlerMapping beans are automatically detected by the DispatcherServlet -->
+       <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+           <property name="order" value="2"></property>
+           <property name="mappings">
+               <value>
+                   /app/scyauthor/ScyAuthorIndex.html=scyauthorIndexController
+                   /app/scyauthor/viewPedagogicalPlan.html=viewPedagogicalPlanController
+                   /app/scyauthor/assessmentToolViewer.html=assessmentToolViewerController
+                   /app/scyauthor/ConfigureAssessment.html=configureAssessmentController
+                   /app/scyauthor/clearAllPortfolios.html=clearAllPortfolios
+                   /app/scyauthor/viewStudentsForPedagogicalPlan.html=viewStudentsForPedagogicalPlanController
+                   /app/scyauthor/viewGroupsForPedagogicalPlan.html=viewGroupsForPedagogicalPlanController
+                   /app/scyauthor/viewLAS.html=viewLASController
+                   /app/scyauthor/viewAllScenarioActivities.html=viewAllScenarioActivitiesController
+                   /app/scyauthor/viewActivity.html=viewActivityController
+                   /app/scyauthor/viewAgents.html=viewAgentsController
+                   /app/scyauthor/viewAgentConfiguration.html=agentConfigurationController
+                   /app/scyauthor/selectToolForActivity.html=selectToolsForActivityController
+                   /app/scyauthor/viewScenario.html=viewScenarioController
+                   /app/scyauthor/viewScenarioGraphically.html=viewScenarioGraphicallyController
+                   /app/scyauthor/viewMission.html=viewMissionController
+                   /app/scyauthor/viewAnchorELO.html=viewAnchorELOController
+                   /app/scyauthor/viewAssignedStudents.html=viewAssignedStudentsController
+                   /app/scyauthor/viewCreateNewPedagogicalPlan.html=viewCreateNewPedagogicalPlanController
+                   /app/scyauthor/selectStudentsForPedagogicalPlan.html=selectStudentsForPedagogicalPlan
+                   /app/scyauthor/viewPortfolio.html=viewPortfolioController
+                   /app/scyauthor/addURLToMission.html=addURLToMissionController
+                   /app/scyauthor/addFileToMission.html=addFileToMissionController
+                   /app/scyauthor/selectAnchorELOsToBePeerAssessed.html=selectAnchorELOsToBePeerAssessedController
+                   /app/scyauthor/MissionHighLevelOverview.html=missionHighLevelOverviewController
+                   /app/scyauthor/missionPlanner.html=missionPlannerController
+                   /app/scyauthor/viewTechnicalConfigurationForPedagogicalPlan.html=viewTechnicalConfigurationForPedagogicalPlanController
+
+                   /app/scyauthor/createnewPedplansteps/PedPlanNameController.html=pedPlanNameController
+                   /app/scyauthor/createnewPedplansteps/selectScenario.html=selectScenarioController
+                   /app/scyauthor/createnewPedplansteps/assignStudents.html=assignStudentsController
+
+                   /app/tools/Toolbank.html=toolbankController
+                   /app/tools/viewTool.html=viewToolController
+
+                   /app/agents/agentBank.html=agentBankController
+                   /app/agents/viewAgent.html=viewAgentController
+
+                   /app/scyauthorruntime/ScyAuthorRuntimeIndex.html=scyAuthorRuntimeIndexController
+                   /app/scyauthorruntime/ScyAuthorRuntimeGraphicalView.html=scyAuthorRuntimeGraphicalViewController
+                   /app/scyauthorruntime/viewActivePedagogicalPlan.html=viewActivePedagogicalPlanController
+                   /app/scyauthorruntime/viewStudentPlan.html=viewStudentPlanController
+                   /app/scyauthorruntime/viewLASRuntimeInfo.html=viewLASRuntimeInfoController
+                   /app/scyauthorruntime/viewSingleStudentStatus.html=viewSingleStudentStatusController
+                   /app/scyauthorruntime/currentActivityView.html=currentActivityViewController
+
+                   /app/scyauthor/scenarioJsonView.html=scenarioJsonView
+               </value>
+           </property>
+       </bean>
+
+     <!-- HEAD VERSION -->
+    <bean id="scyauthorIndexController" class="eu.scy.server.controllers.ScyIndexController">
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+	</bean>
+
+    <bean id="viewPedagogicalPlanController" class="eu.scy.server.controllers.ViewPedagogicalPlanController">
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="serverService" ref="serverService"/>
+        <property name="userService" ref="userService"/>
+        <property name="groupService" ref="groupService"/>
+        <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="eportfolioTupleSpace" ref="portfolioTupleSpace"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+    </bean>
+
+    <bean id="assessmentToolViewerController" class="eu.scy.server.controllers.AssessmentToolViewer">
+        <property name="serverService" ref="serverService"/>
+        <property name="userService" ref="userService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+    </bean>
+
+    <bean id="configureAssessmentController" class="eu.scy.server.controllers.ConfigureAssessmentController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="transferObjectServiceCollection" ref="transferObjectServiceCollection"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+    </bean>
+
+    <bean id="clearAllPortfolios" class="eu.scy.server.controllers.ClearAllPortfolios">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="missionELOService" ref="missionELOService"/>
+    </bean>
+
+    <bean id="viewStudentsForPedagogicalPlanController" class="eu.scy.server.controllers.ViewStudentsForPedagogicalPlanController">
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="serverService" ref="serverService"/>
+        <property name="userService" ref="userService"/>
+        <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="missionELOService" ref="missionELOService"/>
+    </bean>
+
+    <bean id="viewGroupsForPedagogicalPlanController" class="eu.scy.server.controllers.ViewGroupsForPedagogicalPlanController">
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="groupService" ref="groupService"/>
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+    </bean>
+
+    <bean id="viewLASController" class="eu.scy.server.controllers.ViewLASController">
+        <property name="lasService" ref="lasService"/>
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="viewAllScenarioActivitiesController" class="eu.scy.server.controllers.ViewAllScenarioActivitiesController">
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="lasService" ref="lasService"/>
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+    </bean>
+
+    <bean id="viewActivityController" class="eu.scy.server.controllers.ViewActivityController">
+        <property name="serverService" ref="serverService"/>
+        <property name="activityService" ref="activityService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+    </bean>
+
+    <bean id="viewAgentsController" class="eu.scy.server.controllers.ViewAgentsController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+    </bean>
+
+    <bean id="agentConfigurationController" class="eu.scy.server.controllers.AgentConfigurationController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="agentParameterAPI" ref="agentParameterAPI"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="portfolioTupleSpace" ref="portfolioTupleSpace"/>
+    </bean>
+
+    <bean id="viewScenarioController" class="eu.scy.server.controllers.ViewScenarioController">
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="lasService" ref="lasService"/>
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+    </bean>
+
+    <bean id="viewScenarioGraphicallyController" class="eu.scy.server.controllers.ViewScenarioGraphicallyController">
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="lasService" ref="lasService"/>
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+    </bean>
+
+    <bean id="viewAnchorELOController" class="eu.scy.server.controllers.ViewAnchorELOController">
+        <property name="serverService" ref="serverService"/>
+        <property name="anchorELOService" ref="anchorELOService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="assessmentService" ref="assessmentService"/>
+    </bean>
+
+    <bean id="viewAssignedStudentsController" class="eu.scy.server.controllers.ViewAssignedStudentsController">
+        <property name="serverService" ref="serverService"/>
+        <property name="userService" ref="userService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+    </bean>
+
+    <bean id="viewCreateNewPedagogicalPlanController" class="eu.scy.server.controllers.ViewCreateNewPedagogicalPlanController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="scenarioService" ref="scenarioService"/>
+    </bean>
+
+    <bean id="viewMissionController" class="eu.scy.server.controllers.ViewMissionController">
+        <property name="serverService" ref="serverService"/>
+        <property name="missionService" ref="missionService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="learningMaterialService" ref="learningMaterialService"/>
+    </bean>
+
+    <bean id="selectToolsForActivityController" class="eu.scy.server.controllers.SelectToolForActivityController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+    </bean>
+
+    <bean id="selectStudentsForPedagogicalPlan" class="eu.scy.server.controllers.SelectStudentsForPedagogicalPlan">
+        <property name="serverService" ref="serverService"/>
+        <property name="userService" ref="userService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="missionELOService" ref="missionELOService"/>
+    </bean>
+
+    <bean id="scyAuthorRuntimeIndexController" class="eu.scy.server.controllers.scyauthorruntime.ScyAuthorRuntimeIndexController">
+        <property name="serverService" ref="serverService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+    </bean>
+
+    <bean id="scyAuthorRuntimeGraphicalViewController" class="eu.scy.server.controllers.scyauthorruntime.ScyAuthorRuntimeGraphicalViewController">
+        <property name="serverService" ref="serverService"/>
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+    </bean>
+
+    <bean id="viewLASRuntimeInfoController" class="eu.scy.server.controllers.scyauthorruntime.ViewLASRuntimeInfo">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="lasService" ref="lasService"/>
+        <property name="userService" ref="userService"/>
+        <property name="runtimeService" ref="runtimeService"/>
+    </bean>
+
+    <bean id="viewSingleStudentStatusController" class="eu.scy.server.controllers.scyauthorruntime.SingleStudentStatusController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="userService" ref="userService"/>
+    </bean>
+
+    <bean id="currentActivityViewController" class="eu.scy.server.controllers.scyauthorruntime.CurrentActivityViewController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="tupleSpace" ref="sessionTupleSpace"/>
+        <property name="commandSpace" ref="portfolioTupleSpace"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="sessionService" ref="sessionService"/>
+    </bean>
+
+    <bean id="viewStudentPlanController" class="eu.scy.server.controllers.scyauthorruntime.ViewStudentPlanController">
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="studentPedagogicalPlanPersistenceService" ref="studentPedagogicalPlanService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+    </bean>
+
+    <bean id="viewActivePedagogicalPlanController" class="eu.scy.server.controllers.scyauthorruntime.ViewActivePedagogicalPlanController">
+        <property name="serverService" ref="serverService"/>
+        <property name="userService" ref="userService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+    </bean>
+
+    <bean id="toolbankController" class="eu.scy.server.controllers.tools.ToolbankController">
+        <property name="serverService" ref="serverService"/>
+        <property name="toolService" ref="toolService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+    </bean>
+
+    <bean id="viewToolController" class="eu.scy.server.controllers.tools.ViewToolController">
+        <property name="serverService" ref="serverService"/>
+        <property name="toolService" ref="toolService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+    </bean>
+
+    <bean id="agentBankController" class="eu.scy.server.controllers.agents.AgentBankController">
+        <property name="serverService" ref="serverService"/>
+        <property name="agentService" ref="agentService"/>
+    </bean>
+
+    <bean id="viewAgentController" class="eu.scy.server.controllers.agents.ViewAgentController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="agentService" ref="agentService"/>
+    </bean>
+
+
+
+    <bean id="viewPortfolioController" class="eu.scy.server.controllers.ViewPortfolioController">
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="lasService" ref="lasService"/>
+        <property name="anchorELOService" ref="anchorELOService"/>
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+    </bean>
+
+    <bean id="addURLToMissionController" class="eu.scy.server.controllers.AddURLToMissionController">
+        <property name="missionService" ref="missionService"/>
+        <property name="serverService" ref="serverService"/>
+        <property name="learningMaterialService" ref="learningMaterialService"/>
+    </bean>
+
+    <bean id="addFileToMissionController" class="eu.scy.server.controllers.AddFileToMissionController">
+        <property name="missionService" ref="missionService"/>
+        <property name="serverService" ref="serverService"/>
+        <property name="learningMaterialService" ref="learningMaterialService"/>
+    </bean>
+
+
+    <bean id="scenarioJsonView" class="eu.scy.server.controllers.json.ScenarioJSONView">
+
+    </bean>
+
+    <bean id="selectAnchorELOsToBePeerAssessedController" class="eu.scy.server.controllers.SelectAnchorELOToBePeerAssessedController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="anchorELOService" ref="anchorELOService"/>
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+	</bean>
+
+    <bean id="missionHighLevelOverviewController" class="eu.scy.server.controllers.MissionHighLevelOverviewController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="lasService" ref="lasService"/>
+        <property name="userService" ref="userService"/>
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+	</bean>
+
+    <bean id="missionPlannerController" class="eu.scy.server.controllers.MissionPlannerController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="userService" ref="userService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+        <property name="transferObjectServiceCollection" ref="transferObjectServiceCollection"/>
+	</bean>
+
+    <bean id="viewTechnicalConfigurationForPedagogicalPlanController" class="eu.scy.server.controllers.ViewTechnicalConfigurationForPedagogicalPlan">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="userService" ref="userService"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="transferObjectServiceCollection" ref="transferObjectServiceCollection"/>
+	</bean>
+
+    <bean id="pedPlanNameController" class="eu.scy.server.controllers.createnewpedplansteps.PedPlanNameController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+	</bean>
+
+    <bean id="selectScenarioController" class="eu.scy.server.controllers.createnewpedplansteps.SelectScenarioController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="scenarioService" ref="scenarioService"/>
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+        <property name="lasService" ref="lasService"/>
+        <property name="activityService" ref="activityService"/>
+        <property name="anchorELOService" ref="anchorELOService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+	</bean>
+
+    <bean id="assignStudentsController" class="eu.scy.server.controllers.createnewpedplansteps.AssignStudentsContoller">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+	</bean>
+
+    <bean id="addAssessmentScoreIconListener" class="eu.scy.server.controllers.AddAssessmentScoreIconListener">
+        <property name="fileService" ref="fileService"/>
+    </bean>
+
+    <bean id="addImageToLearningActivitySpaceListener" class="eu.scy.server.controllers.AddImageToLearningActivitySpaceListener">
+        <property name="fileService" ref="fileService"/>
+    </bean>
+
+
+
+    <!--bean id="userActivityService" class="eu.scy.server.services.impl.UserActivityServiceImpl">
+        <property name="userService" ref="userService"/>
+    </bean-->
+</beans>

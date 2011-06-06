@@ -1,0 +1,44 @@
+<elo>
+<metadata>
+  <lom>
+    <general>
+      <title>
+        <string language="en">help elo 2</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/3/0/help_elo_2.text</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/text</format>
+      <customElements>
+        <dateCreated>1258624546359</dateCreated>
+      </customElements>
+    </technical>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<text>help elo 2</text>
+</content>
+<resources>
+</resources>
+</elo>

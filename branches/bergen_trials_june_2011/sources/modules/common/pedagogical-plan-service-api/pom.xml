@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>eu.scy.common</groupId>
+        <version>34-SNAPSHOT</version>
+    </parent>
+    <artifactId>pedagogical-plan-service-api</artifactId>
+    <version>34-SNAPSHOT</version>
+    <name>pedagogical-plan-service-api</name>
+    <dependencies>
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>scy-model-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>scy-model-impl</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+
+       
+
+    </dependencies>
+</project>
+
+        

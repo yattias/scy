@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Document   : copex.xml
+    Created on : 19 août 2009, 09:03
+    Author     : Marjolaine
+    Description:
+        configuration file that specifies the objects that are general in Copex, namely:
+        - the quantities,
+        - the material strategies
+        - materials,
+        - actions pre-structured
+-->
+<copex languages="fr en">
+    <quantities>
+        <quantity>
+            <id>QUANTITY_LG</id>
+            <min_value>0</min_value>
+            <name  language="fr">Longueur</name>
+            <name language="en">Lenght</name>
+            <symbol  language="fr">Lg</symbol>
+            <symbol language="en">Lg</symbol>
+            <unit>
+                <id>UNIT_M</id>
+                <factor>1</factor>
+                <symbol language="fr">m</symbol>
+                <symbol language="en">m</symbol>
+                <name language="fr">mètre</name>
+                <name language="en">meter</name>
+            </unit>
+            <unit>
+                <id>UNIT_CM</id>
+                <factor>0,01</factor>
+                <symbol language="fr">cm</symbol>
+                <symbol language="en">cm</symbol>
+                <name language="fr">centimètre</name>
+                <name language="en">centimeter</name>
+            </unit>
+            <unit>
+                <id>UNIT_MM</id>
+                <factor>0,001</factor>
+                <symbol language="fr">mm</symbol>
+                <symbol language="en">mm</symbol>
+                <name language="fr">millimètre</name>
+                <name language="en">millimetre</name>
+            </unit>
+            <unit>
+                <id>UNIT_NM</id>
+                <factor>0,000000001</factor>
+                <symbol language="fr">nm</symbol>
+                <symbol language="en">nm</symbol>
+                <name language="fr">nanomètre</name>
+                <name language="en">nanometre</name>
+            </unit>
+        </quantity>
+        <quantity>
+            <id>QUANTITY_MASSE</id>
+            <min_value>0</min_value>
+            <name language="fr">Masse</name>
+            <name language="en">Mass</name>
+            <symbol language="fr">m</symbol>
+            <symbol language="en">m</symbol>
+            <unit>
+                <id>UNIT_G</id>
+                <factor>1</factor>
+                <symbol language="fr">g</symbol>
+                <symbol language="en">g</symbol>
+                <name language="fr">gramme</name>
+                <name language="en">gram</name>
+            </unit>
+            <unit>
+                <id>UNIT_KG</id>
+                <factor>1000</factor>
+                <symbol language="fr">kg</symbol>
+                <symbol language="en">kg</symbol>
+                <name language="fr">kilogramme</name>
+                <name language="en">kilogram</name>
+            </unit>
+            <unit>
+                <id>UNIT_MG</id>
+                <factor>0,001</factor>
+                <symbol language="fr">mg</symbol>
+                <name language="fr">milligramme</name>
+                <symbol language="en">mg</symbol>
+                <name language="en">milligram</name>
+            </unit>
+        </quantity>
+        <quantity>
+            <id>QUANTITY_TPS</id>
+            <min_value>0</min_value>
+            <name language="fr">Temps</name>
+            <name language="en">Time</name>
+            <symbol language="fr">tps</symbol>
+            <symbol language="en">T</symbol>
+            <unit>
+                <id>UNIT_S</id>
+                <factor>1</factor>
+                <symbol language="fr">s</symbol>
+                <symbol language="en">s</symbol>
+                <name language="fr">seconde</name>
+                <name language="en">second</name>
+            </unit>
+            <unit>
+                <id>UNIT_MIN</id>
+                <factor>60</factor>
+                <symbol language="fr">min</symbol>
+                <symbol language="en">min</symbol>
+                <name language="fr">minute</name>
+                <name language="en">minute</name>
+            </unit>
+            <unit>
+                <id>UNIT_H</id>
+                <factor>3600</factor>
+                <symbol language="fr">h</symbol>
+                <symbol language="en">h</symbol>
+                <name language="fr">heure</name>
+                <name language="en">hour</name>
+            </unit>
+        </quantity>
+        <quantity>
+            <id>QUANTITY_MATIERE</id>
+            <min_value>0</min_value>
+            <name language="fr">Quantité de matière</name>
+            <name language="en">Quantity</name>
+            <symbol language="fr">q</symbol>
+            <symbol language="en">q</symbol>
+            <unit>
+                <id>UNIT_MOL</id>
+                <factor>1</factor>
+                <symbol language="fr">mol</symbol>
+                <symbol language="en">mol</symbol>
+                <name language="fr">mole</name>
+                <name language="en">mole</name>
+            </unit>
+        </quantity>
+        <quantity>
+            <id>QUANTITY_TEMP</id>
+            <name language="fr">Température</name>
+            <name language="en">Temperature</name>
+            <symbol language="fr">t°</symbol>
+            <symbol language="en">t°</symbol>
+            <unit>
+                <id>UNIT_K</id>
+                <factor>1</factor>
+                <symbol language="fr">K</symbol>
+                <name language="fr">Kelvin</name>
+                <symbol language="en">K</symbol>
+                <name language="en">Kelvin</name>
+            </unit>
+            <unit>
+                <id>UNIT_CELSIUS</id>
+                <factor>273,15</factor>
+                <symbol language="fr">°C</symbol>
+                <name language="fr">Degré Celsius</name>
+                <symbol language="en">°C</symbol>
+                <name language="en">Degree Celsius</name>
+            </unit>
+        </quantity>
+        <quantity>
+            <id>QUANTITY_VOLUME</id>
+            <name language="fr">Volume</name>
+            <symbol language="fr">V</symbol>
+            <name language="en">Volume</name>
+            <symbol language="en">V</symbol>
+            <unit>
+                <id>UNIT_METRE_CUBE</id>
+                <factor>1</factor>
+                <symbol language="fr">m3</symbol>
+                <name language="fr">Mètre Cube</name>
+                <symbol language="en">m3</symbol>
+                <name language="en">cubic meter</name>
+            </unit>
+            <unit>
+                <id>UNIT_LITRE</id>
+                <factor>0,001</factor>
+                <symbol language="fr">L</symbol>
+                <name language="fr">litre</name>
+                <symbol language="en">L</symbol>
+                <name language="en">liter</name>
+            </unit>
+            <unit>
+                <id>UNIT_MLITRE</id>
+                <factor>0,00001</factor>
+                <symbol language="fr">mL</symbol>
+                <name language="fr">millilitre</name>
+                <symbol language="en">mL</symbol>
+                <name language="en">milliliter</name>
+            </unit>
+            <unit>
+                <id>UNIT_MICROLITRE</id>
+                <factor>0,00000001</factor>
+                <symbol language="fr">microL</symbol>
+                <name language="fr">microlitre</name>
+                <symbol language="en">microL</symbol>
+                <name language="en">microliter</name>
+            </unit>
+        </quantity>
+        <quantity>
+            <id>QUANTITY_FORCE</id>
+            <name language="fr">Force</name>
+            <symbol language="fr">F</symbol>
+            <name language="en">Force</name>
+            <symbol language="en">F</symbol>
+            <unit>
+                <id>UNIT_NEWTON</id>
+                <factor>1</factor>
+                <symbol language="fr">N</symbol>
+                <name language="fr">Newton</name>
+                <symbol language="en">N</symbol>
+                <name language="en">Newton</name>
+            </unit>
+        </quantity>
+        <quantity>
+            <id>QUANTITY_PRESSION</id>
+            <name language="fr">Pression</name>
+            <symbol language="fr">P</symbol>
+            <name language="en">Pression</name>
+            <symbol language="en">P</symbol>
+            <unit>
+                <id>UNIT_PASCAL</id>
+                <factor>1</factor>
+                <symbol language="fr">Pa</symbol>
+                <name language="fr">Pascal</name>
+                <symbol language="en">Pas</symbol>
+                <name language="en">Pascal</name>
+            </unit>
+            <unit>
+                <id>UNIT_ATM</id>
+                <factor>1</factor>
+                <symbol language="fr">atm</symbol>
+                <name language="fr">Atmosphère</name>
+                <symbol language="en">atm</symbol>
+                <name language="en">Atmosphère</name>
+            </unit>
+            <unit>
+                <id>UNIT_BAR</id>
+                <factor>1</factor>
+                <symbol language="fr">bar</symbol>
+                <name language="fr">Bar</name>
+                <symbol language="en">bar</symbol>
+                <name language="en">Bar</name>
+            </unit>
+            <unit>
+                <id>UNIT_TORR</id>
+                <factor>1</factor>
+                <symbol language="fr">torr</symbol>
+                <name language="fr">Torr</name>
+                <symbol language="en">torr</symbol>
+                <name language="en">Torr</name>
+            </unit>
+        </quantity>
+        <quantity>
+            <id>QUANTITY_ENERGIE</id>
+            <name language="fr">Energie</name>
+            <symbol language="fr">E</symbol>
+            <name language="en">Energy</name>
+            <symbol language="en">E</symbol>
+            <unit>
+                <id>UNIT_JOULE</id>
+                <factor>1</factor>
+                <symbol language="fr">J</symbol>
+                <name language="fr">Joule</name>
+                <symbol language="en">J</symbol>
+                <name language="en">Joule</name>
+            </unit>
+            <unit>
+                <id>UNIT_CAL</id>
+                <factor>4,1855</factor>
+                <symbol language="fr">cal</symbol>
+                <name language="fr">Calorie</name>
+                <symbol language="en">cal</symbol>
+                <name language="en">Calorie</name>
+            </unit>
+            <unit>
+                <id>UNIT_EVOLT</id>
+                <factor>1</factor>
+                <symbol language="fr">eV</symbol>
+                <name language="fr">Electron volt</name>
+                <symbol language="en">eV</symbol>
+                <name language="en">Calorie</name>
+            </unit>
+        </quantity>
+        <quantity>
+            <id>QUANTITY_ELEC</id>
+            <name language="fr">Quantité électricité</name>
+            <symbol language="fr">q</symbol>
+            <name language="en">Quantity electricity</name>
+            <symbol language="en">q</symbol>
+            <unit>
+                <id>UNIT_COULOMB</id>
+                <factor>1</factor>
+                <symbol language="fr">C</symbol>
+                <name language="fr">Coulomb</name>
+                <symbol language="en">C</symbol>
+                <name language="en">Coulomb</name>
+            </unit>
+            <unit>
+                <id>UNIT_ELECTRON</id>
+                <factor>1</factor>
+                <symbol language="fr">e</symbol>
+                <name language="fr">Charge de l'électron</name>
+                <symbol language="en">e</symbol>
+                <name language="en">Charge de l'électron</name>
+            </unit>
+            <unit>
+                <id>UNIT_FARADAY</id>
+                <factor>1</factor>
+                <symbol language="fr">F</symbol>
+                <name language="fr">Faraday</name>
+                <symbol language="en">F</symbol>
+                <name language="en">Faraday</name>
+            </unit>
+        </quantity>
+        <quantity>
+            <id>QUANTITY_INTENSITE</id>
+            <name language="fr">Intensité courant</name>
+            <symbol language="fr">I</symbol>
+            <name language="en">Strength</name>
+            <symbol language="en">I</symbol>
+            <unit>
+                <id>UNIT_AMPERE</id>
+                <factor>1</factor>
+                <symbol language="fr">A</symbol>
+                <name language="fr">Ampère</name>
+                <symbol language="en">A</symbol>
+                <name language="en">Ampère</name>
+            </unit>
+        </quantity>
+        <quantity>
+            <id>QUANTITY_MOMENT_DIPOLAIRE</id>
+            <name language="fr">Moment dipolaire</name>
+            <symbol language="fr">d</symbol>
+            <name language="en">Dipole moment</name>
+            <symbol language="en">d</symbol>
+            <unit>
+                <id>UNIT_DEBYE</id>
+                <factor>1</factor>
+                <symbol language="fr">D</symbol>
+                <name language="fr">Debye</name>
+                <symbol language="en">D</symbol>
+                <name language="en">Debye</name>
+            </unit>
+        </quantity>
+        <quantity>
+            <id>QUANTITY_MATIERE_VOL</id>
+            <name language="fr">Quantité de matière par volume</name>
+            <symbol language="fr">q</symbol>
+            <name language="en">Quantity matter per volume</name>
+            <symbol language="en">q</symbol>
+            <unit>
+                <id>UNIT_MOL_LITRE</id>
+                <factor>1</factor>
+                <symbol language="fr">mol.L-1</symbol>
+                <name language="fr">mole par litre</name>
+                <symbol language="en">mol.L-1</symbol>
+                <name language="en">mole a liter</name>
+            </unit>
+        </quantity>
+    </quantities>
+    <strategy_material>
+        <strategy>
+            <code>S0</code>
+            <is_item>false</is_item>
+            <add_mat>false</add_mat>
+            <choose_mat>false</choose_mat>
+            <comments_mat>true</comments_mat>
+        </strategy>
+        <strategy>
+            <code>S1</code>
+            <is_item>true</is_item>
+            <item language="fr">Matériel à utiliser</item>
+            <item language="en">Material to be used</item>
+            <add_mat>false</add_mat>
+            <choose_mat>false</choose_mat>
+            <comments_mat>true</comments_mat>
+        </strategy>
+        <strategy>
+            <code>S2</code>
+            <is_item>true</is_item>
+            <item language="fr">Matériel disponible</item>
+            <item language="en">Available material</item>
+            <add_mat>false</add_mat>
+            <choose_mat>true</choose_mat>
+            <comments_mat>true</comments_mat>
+        </strategy>
+        <strategy>
+            <code>S3</code>
+            <is_item>true</is_item>
+            <item language="fr">Matériel proposé</item>
+            <item language="en">Suggested material</item>
+            <add_mat>true</add_mat>
+            <choose_mat>true</choose_mat>
+            <comments_mat>true</comments_mat>
+        </strategy>
+        <strategy>
+            <code>S4</code>
+            <is_item>true</is_item>
+            <item language="fr">Matériel utilisé</item>
+            <item language="en">Used material</item>
+            <add_mat>true</add_mat>
+            <choose_mat>true</choose_mat>
+            <comments_mat>true</comments_mat>
+        </strategy>
+    </strategy_material>
+    <materials>
+            <type>
+                <id>TYPE_DEFAULT</id>
+                <name language="fr">Type de matériel par défaut</name>
+                <name language="en">Default material type</name>
+            </type>
+            <type>
+                <id>TYPE_LIQUIDE</id>
+                <name language="fr">Liquide</name>
+                <name language="en">Liquid</name>
+            </type>
+            <type>
+                <id>TYPE_PROD_CHIM</id>
+                <name language="fr">Produit chimique</name>
+                <name language="en">Chemical product</name>
+            </type>
+            <type>
+                <id>TYPE_MESUREUR</id>
+                <name language="fr">Mesureur</name>
+                <name language="en">Mesureur</name>
+            </type>
+            <type>
+                <id>TYPE_DELIVREUR</id>
+                <name language="fr">Délivreur</name>
+                <name language="en">Délivreur</name>
+            </type>
+            <type>
+                <id>TYPE_CONTENEUR</id>
+                <name language="fr">Conteneur</name>
+                <name language="en">Container</name>
+            </type>
+            <type>
+                <id>TYPE_USTENSILE</id>
+                <name language="fr">Ustensile</name>
+                <name language="en">Ustensil</name>
+            </type>
+            <type>
+                <id>TYPE_INGREDIENT</id>
+                <name language="fr">Ingrédient</name>
+                <name language="en">Ingredient</name>
+            </type>
+            <type>
+                <id>TYPE_CHAUFFANT</id>
+                <name language="fr">Chauffant</name>
+                <name language="en">Chauffant</name>
+            </type>
+            <type>
+                <id>TYPE_HOMOGENEISATEUR</id>
+                <name language="fr">Homogénéisateur</name>
+                <name language="en">Homogénéisateur</name>
+            </type>
+            <type>
+                <id>TYPE_SOLUTION</id>
+                <name language="fr">Solution</name>
+                <name language="en">Solution</name>
+            </type>
+            <type>
+                <id>TYPE_OBJET</id>
+                <name language="fr">Objet</name>
+                <name language="en">Object</name>
+            </type>
+            <type>
+                <id>TYPE_SOLIDE</id>
+                <name language="fr">Solide</name>
+                <name language="en">Solide</name>
+            </type>
+    </materials>
+    <actions_prestructured>
+        <initial_action_manipulation>
+            <id>INITIAL_ACTION_MANIP_WAIT</id>
+            <libelle language="fr">Attendre</libelle>
+            <libelle language="en">Wait</libelle>
+            <is_setting>true</is_setting>
+            <draw>false</draw>
+            <repeat>true</repeat>
+            <initial_action_variable>
+                <id>VAR_WAIT</id>
+                <nb_param>1</nb_param>
+                <libelle language="fr">Attendre {0}.</libelle>
+                <libelle language="en">Wait {0}</libelle>
+                <initial_param_quantity>
+                    <code>0</code>
+                    <name language="fr">Temps d'attente</name>
+                    <name language="en">Time</name>
+                    <quantity_name language="fr">Temps</quantity_name>
+                    <quantity_name language="en">Time</quantity_name>
+                    <quantity_ref>
+                        <id>QUANTITY_TPS</id>
+                    </quantity_ref>
+                </initial_param_quantity>
+            </initial_action_variable>
+            <nb_material_prod>0</nb_material_prod>
+        </initial_action_manipulation>
+    </actions_prestructured>
+</copex>

@@ -1,0 +1,57 @@
+<elo>
+<metadata>
+  <testpath>scy/text</testpath>
+  <lom>
+    <general>
+      <title>
+        <string language="en">Sun Demo Video</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/3/0/SunDemo.video</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/video</format>
+      <customElements>
+        <dateCreated>1252574962998</dateCreated>
+      </customElements>
+    </technical>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>isbasedon</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>somewhere</catalog>
+          <entry>roolo://somewhere/myMission.mission</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<document><title>Sun Demo Video</title><subtitle>this should work everywhere!</subtitle><URI>http://sun.edgeboss.net/download/sun/media/1460825906/1460825906_11810873001_09c01923-00.flv</URI></document>
+</content>
+<resources>
+</resources>
+</elo>

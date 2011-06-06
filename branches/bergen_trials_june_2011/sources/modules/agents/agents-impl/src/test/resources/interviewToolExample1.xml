@@ -1,0 +1,103 @@
+<elo>
+<metadata>
+  <lom>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>isbasedon</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>scy.collide.info</catalog>
+          <entry>roolo://scy.collide.info/scy-collide-server/32808.32808#0</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>joerg</entity>
+        <date>
+          <dateTime>2010-10-18T14:26:00.281+0200</dateTime>
+        </date>
+      </contribute>
+      <version>4</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1287403580835</dateCreated>
+        <dateLastModified>1287404734818</dateLastModified>
+      </customElements>
+      <format>scy/interview</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>scy.collide.info</catalog>
+        <entry>roolo://scy.collide.info/scy-collide-server/98402.98444#4</entry>
+      </identifier>
+      <las>conceptualizationDesign</las>
+      <mission>co2Mission</mission>
+      <title>
+        <string language="en">new Empty interview 1</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>scy.collide.info</catalog>
+          <entry>roolo://scy.collide.info/scy-collide-server/98402.98442#3</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<interview>
+  <question>When do you start heating the house?</question>
+  <topics>
+    <topic>
+      <topic>heating habits in summer</topic>
+      <indicators>
+        <indicator>
+          <indicator>bad weather</indicator>
+          <formulation>Do you turn on the heating if there is bad weather in summer</formulation>
+          <other>false</other>
+          <answers>
+            <answer>yes</answer>
+            <answer>no</answer>
+          </answers>
+        </indicator>
+      </indicators>
+    </topic>
+    <topic>
+      <topic>heating habits in autumn</topic>
+      <indicators />
+    </topic>
+    <topic>
+      <topic>heating habits in winter</topic>
+      <indicators />
+    </topic>
+    <topic>
+      <topic>heating habits in spring</topic>
+      <indicators />
+    </topic>
+  </topics>
+</interview>
+</content>
+<resources>
+</resources>
+</elo>
+
+
+
+
+
+
+

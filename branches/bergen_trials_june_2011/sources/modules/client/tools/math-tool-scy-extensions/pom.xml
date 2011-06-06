@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>eu.scy.client.tools</groupId>
+        <version>34-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>math-tool-scy-extensions</artifactId>
+    <packaging>jar</packaging>
+    <name>math-tool scy-extensions</name>
+    <developers>
+        <developer>
+            <id>anthony</id>
+            <name>Anthony Perritano</name>
+            <email>aperritano@gmail.com</email>
+            <organization>University of Oslo, InterMedia</organization>
+            <organizationUrl>www.intermedia.uio.no</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+    </developers>
+    <dependencies>
+    	<dependency>
+    		<groupId>eu.scy.client.tools</groupId>
+    		<artifactId>math-tool</artifactId>
+    		<version>${pom.version}</version>
+    	</dependency>
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>action-logging-commons</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.scy.common</groupId>
+            <artifactId>action-logging-api</artifactId>
+            <version>${pom.version}</version>
+        </dependency>
+    </dependencies>
+</project>

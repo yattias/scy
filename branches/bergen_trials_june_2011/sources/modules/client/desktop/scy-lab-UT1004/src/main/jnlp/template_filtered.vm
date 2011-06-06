@@ -1,0 +1,36 @@
+<jnlp
+    spec="$jnlpspec"
+    codebase="http://${client.serverName}:8080/${client.contextPath}/webstart/scylab"
+    href="$outputFile">
+  <information>
+    <title>SCY-Lab</title>
+    <vendor>SCY</vendor>
+    <homepage href="http://www.scy-net.eu"/>
+#if($offlineAllowed)
+    <offline-allowed/>
+#end
+  </information>
+#if($allPermissions)
+  <security>
+     <all-permissions/>
+  </security>
+#end
+  <resources>
+    <j2se version="$j2seVersion"/>
+    <extension name="JavaFX Runtime" href="http://dl.javafx.com/1.2/javafx-rt.jnlp"/>
+    <property name="jnlp.packEnabled" value="true"/>
+    <property name="jnlp.versionEnabled" value="true"/>
+     $dependencies
+  </resources>
+<!-- replaced by jakob
+  <application-desc main-class="$mainClass"/>
+-->
+    <application-desc main-class="com.sun.javafx.runtime.Main">
+        <argument>MainJavaFXScript=$mainClass</argument>
+        <argument>-localToolBrokerLoginConfigFile</argument>
+        <argument>config/localReadOnlyScyServices.xml</argument>
+    </application-desc>
+    <update check="always">
+
+</jnlp>
+

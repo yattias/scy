@@ -1,0 +1,834 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : copexMission_SCI131.xml
+    Created on : 16 octobre 2009, 16:03
+    Author     : Marjolaine
+    Description:
+        mission configuration file, specifies:
+        - mission options,
+        - list initial procedure
+-->
+
+<mission>
+    <initial_proc>
+        <code>PKA</code>
+        <name language="fr">Détermination du pKa du BBT</name>
+        <name language="en">Détermination du pKa du BBT</name>
+        <hypothesis_mode>N</hypothesis_mode>
+        <principle_mode>T</principle_mode>
+        <evaluation_mode>T</evaluation_mode>
+        <draw_principle>false</draw_principle>
+        <is_task_repeat>true</is_task_repeat>
+        <is_task_draw>false</is_task_draw>
+        <is_free_action>false</is_free_action>
+        <is_task>false</is_task>
+        <strategy_ref>
+            <code>S1</code>
+        </strategy_ref>
+        <question>
+            <description language="fr">Diagramme du pourcentage des formes du BBT et détermination du pKa</description>
+            <description language="en">Diagramme du pourcentage des formes du BBT et détermination du pKa</description>
+            <task_right>
+                <edit_right>X</edit_right>
+                <delete_right>N</delete_right>
+                <move_right>N</move_right>
+                <parent_right>X</parent_right>
+                <copy_right>N</copy_right>
+                <draw_right>N</draw_right>
+                <repeat_right>N</repeat_right>
+            </task_right>
+        </question>
+        <proc_general_principle>
+            <principle language="en"></principle>
+            <principle language="fr"></principle>
+            <principle_hide>false</principle_hide>
+           <principle_comment language="en"></principle_comment>
+           <principle_comment language="fr"></principle_comment>
+        </proc_general_principle>
+        <proc_evaluation>
+            <evaluation language="en"></evaluation>
+            <evaluation language="fr"></evaluation>
+            <evaluation_hide>false</evaluation_hide>
+           <evaluation_comment language="en"></evaluation_comment>
+           <evaluation_comment language="fr"></evaluation_comment>
+        </proc_evaluation>
+        <material>
+            <id>MATERIAL_EAU_DISTILLEE</id>
+            <name  language="fr">Eau distillée</name>
+            <name  language="en">Distilled water</name>
+            <type_ref>
+                <id>TYPE_LIQUIDE</id>
+            </type_ref>
+            <type_ref>
+                <id>TYPE_PROD_CHIM</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_SOL_BRITTON_ROBINSON</id>
+            <name  language="fr">Solution de Britton-Robinson</name>
+            <name  language="en">Solution de Britton-Robinsonl</name>
+            <type_ref>
+                <id>TYPE_LIQUIDE</id>
+            </type_ref>
+            <type_ref>
+                <id>TYPE_PROD_CHIM</id>
+            </type_ref>
+            <type_ref>
+                <id>TYPE_SOLUTION</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_SOLUTION_NAOH</id>
+            <name  language="fr">Solution de NaOH à 0.10 mol.L-1</name>
+            <name  language="en">Solution de NaOH à 0.10 mol.L-1</name>
+            <info language="fr"></info>
+            <info language="en"></info>
+            <type_ref>
+                <id>TYPE_LIQUIDE</id>
+            </type_ref>
+            <type_ref>
+                <id>TYPE_PROD_CHIM</id>
+            </type_ref>
+            <type_ref>
+                <id>TYPE_SOLUTION</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_BECHER_1</id>
+            <name  language="fr">Bécher 1 de 25 mL</name>
+            <name  language="en">Bécher 1 de 25 mL</name>
+            <info language="fr"></info>
+            <info language="en"></info>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_BECHER</id>
+                <name language="fr">volume_max</name>
+                <name language="en">volume_max</name>
+                <value>0.03</value>
+                <unit_ref>
+                    <id>UNIT_LITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_BECHER_2</id>
+            <name  language="fr">Bécher 2 de 25 mL</name>
+            <name  language="en">Bécher 2 de 25 mL</name>
+            <info language="fr"></info>
+            <info language="en"></info>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_BECHER</id>
+                <name language="fr">volume_max</name>
+                <name language="en">volume_max</name>
+                <value>0.03</value>
+                <unit_ref>
+                    <id>UNIT_LITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_BECHER_3</id>
+            <name  language="fr">Bécher 3 de 25 mL</name>
+            <name  language="en">Bécher 3 de 25 mL</name>
+            <info language="fr"></info>
+            <info language="en"></info>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_BECHER</id>
+                <name language="fr">volume_max</name>
+                <name language="en">volume_max</name>
+                <value>0.03</value>
+                <unit_ref>
+                    <id>UNIT_LITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_BECHER_4</id>
+            <name  language="fr">Bécher 4 de 25 mL</name>
+            <name  language="en">Bécher 4 de 25 mL</name>
+            <info language="fr"></info>
+            <info language="en"></info>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_BECHER</id>
+                <name language="fr">volume_max</name>
+                <name language="en">volume_max</name>
+                <value>0.03</value>
+                <unit_ref>
+                    <id>UNIT_LITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_BECHER_5</id>
+            <name  language="fr">Bécher 5 de 25 mL</name>
+            <name  language="en">Bécher 5 de 25 mL</name>
+            <info language="fr"></info>
+            <info language="en"></info>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_BECHER</id>
+                <name language="fr">volume_max</name>
+                <name language="en">volume_max</name>
+                <value>0.03</value>
+                <unit_ref>
+                    <id>UNIT_LITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_BECHER_6</id>
+            <name  language="fr">Bécher 6 de 25 mL</name>
+            <name  language="en">Bécher 6 de 25 mL</name>
+            <info language="fr"></info>
+            <info language="en"></info>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_BECHER</id>
+                <name language="fr">volume_max</name>
+                <name language="en">volume_max</name>
+                <value>0.03</value>
+                <unit_ref>
+                    <id>UNIT_LITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_BECHER_7</id>
+            <name  language="fr">Bécher 7 de 25 mL</name>
+            <name  language="en">Bécher 7 de 25 mL</name>
+            <info language="fr"></info>
+            <info language="en"></info>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_BECHER</id>
+                <name language="fr">volume_max</name>
+                <name language="en">volume_max</name>
+                <value>0.03</value>
+                <unit_ref>
+                    <id>UNIT_LITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_BECHER_8</id>
+            <name  language="fr">Bécher 8 de 25 mL</name>
+            <name  language="en">Bécher 8 de 25 mL</name>
+            <info language="fr"></info>
+            <info language="en"></info>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_BECHER</id>
+                <name language="fr">volume_max</name>
+                <name language="en">volume_max</name>
+                <value>0.03</value>
+                <unit_ref>
+                    <id>UNIT_LITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_BECHER_9</id>
+            <name  language="fr">Bécher 9 de 25 mL</name>
+            <name  language="en">Bécher 9 de 25 mL</name>
+            <info language="fr"></info>
+            <info language="en"></info>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_BECHER</id>
+                <name language="fr">volume_max</name>
+                <name language="en">volume_max</name>
+                <value>0.03</value>
+                <unit_ref>
+                    <id>UNIT_LITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_BECHER_10</id>
+            <name  language="fr">Bécher 10 de 25 mL</name>
+            <name  language="en">Bécher 10 de 25 mL</name>
+            <info language="fr"></info>
+            <info language="en"></info>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_BECHER</id>
+                <name language="fr">volume_max</name>
+                <name language="en">volume_max</name>
+                <value>0.03</value>
+                <unit_ref>
+                    <id>UNIT_LITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_PIPETTE_JAUGEE_2</id>
+            <name  language="fr">Pipette jaugée de 2 mL</name>
+            <name  language="en">Pipette jaugée de 2 mL</name>
+            <info language="fr"></info>
+            <info language="en"></info>
+            <type_ref>
+                <id>TYPE_DELIVREUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_PIPETTE</id>
+                <name language="fr">volume_max</name>
+                <name language="en">volume_max</name>
+                <value>0.002</value>
+                <unit_ref>
+                    <id>UNIT_LITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_PIPETTE_JAUGEE_5</id>
+            <name  language="fr">Pipette jaugée de 5 mL</name>
+            <name  language="en">Pipette jaugée de 5 mL</name>
+            <info language="fr"></info>
+            <info language="en"></info>
+            <type_ref>
+                <id>TYPE_DELIVREUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_PIPETTE</id>
+                <name language="fr">volume_max</name>
+                <name language="en">volume_max</name>
+                <value>0.005</value>
+                <unit_ref>
+                    <id>UNIT_LITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_PIPETTE_JAUGEE_10</id>
+            <name  language="fr">Pipette jaugée de 10 mL</name>
+            <name  language="en">Pipette jaugée de 10 mL</name>
+            <info language="fr"></info>
+            <info language="en"></info>
+            <type_ref>
+                <id>TYPE_DELIVREUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_PIPETTE</id>
+                <name language="fr">volume_max</name>
+                <name language="en">volume_max</name>
+                <value>0.01</value>
+                <unit_ref>
+                    <id>UNIT_LITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_PIPETTE_JAUGEE_20</id>
+            <name  language="fr">Pipette jaugée de 20 mL</name>
+            <name  language="en">Pipette jaugée de 20 mL</name>
+            <info language="fr"></info>
+            <info language="en"></info>
+            <type_ref>
+                <id>TYPE_DELIVREUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_PIPETTE</id>
+                <name language="fr">volume_max</name>
+                <name language="en">volume_max</name>
+                <value>0.02</value>
+                <unit_ref>
+                    <id>UNIT_LITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_PIPETTE_GRADUEE_5</id>
+            <name  language="fr">Pipette graduée de 5 mL</name>
+            <name  language="en">Pipette graduée de 5 mL</name>
+            <info language="fr"></info>
+            <info language="en"></info>
+            <type_ref>
+                <id>TYPE_DELIVREUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_PIPETTE</id>
+                <name language="fr">volume_max</name>
+                <name language="en">volume_max</name>
+                <value>0.005</value>
+                <unit_ref>
+                    <id>UNIT_LITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_EPROUVETTE_10</id>
+            <name  language="fr">Eprouvette de 10 mL</name>
+            <name  language="en">Eprouvette de 10 mL</name>
+            <info language="fr"></info>
+            <info language="en"></info>
+            <type_ref>
+                <id>TYPE_DELIVREUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_PIPETTE</id>
+                <name language="fr">volume_max</name>
+                <name language="en">volume_max</name>
+                <value>0.01</value>
+                <unit_ref>
+                    <id>UNIT_LITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_EPROUVETTE_20</id>
+            <name  language="fr">Eprouvette de 20 mL</name>
+            <name  language="en">Eprouvette de 20 mL</name>
+            <info language="fr"></info>
+            <info language="en"></info>
+            <type_ref>
+                <id>TYPE_DELIVREUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_PIPETTE</id>
+                <name language="fr">volume_max</name>
+                <name language="en">volume_max</name>
+                <value>0.02</value>
+                <unit_ref>
+                    <id>UNIT_LITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <material>
+            <id>MATERIAL_PHMETRE</id>
+            <name  language="fr">pH-mètre</name>
+            <name  language="en">pH-mètre</name>
+            <info language="fr"></info>
+            <info language="en"></info>
+            <type_ref>
+                <id>TYPE_MESUREUR</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_PAPIER_PH</id>
+            <name  language="fr">Papier pH</name>
+            <name  language="en">Papier pH</name>
+            <info language="fr"></info>
+            <info language="en"></info>
+            <type_ref>
+                <id>TYPE_MESUREUR</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_SOLUTION_TAMPON_4</id>
+            <name  language="fr">Solution tampon pH=4</name>
+            <name  language="en">Solution tampon pH=4</name>
+            <info language="fr"></info>
+            <info language="en"></info>
+            <type_ref>
+                <id>TYPE_LIQUIDE</id>
+            </type_ref>
+            <type_ref>
+                <id>TYPE_SOLUTION</id>
+            </type_ref>
+            <type_ref>
+                <id>TYPE_PROD_CHIM</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_SOLUTION_TAMPON_7</id>
+            <name  language="fr">Solution tampon pH=7</name>
+            <name  language="en">Solution tampon pH=7</name>
+            <info language="fr"></info>
+            <info language="en"></info>
+            <type_ref>
+                <id>TYPE_LIQUIDE</id>
+            </type_ref>
+            <type_ref>
+                <id>TYPE_SOLUTION</id>
+            </type_ref>
+            <type_ref>
+                <id>TYPE_PROD_CHIM</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_SPECTROPHOTOMETRE</id>
+            <name  language="fr">Spectrophotomètre</name>
+            <name  language="en">Spectrophotomètre</name>
+            <info language="fr"></info>
+            <info language="en"></info>
+            <type_ref>
+                <id>TYPE_MESUREUR</id>
+            </type_ref>
+        </material>
+        <material>
+            <id>MATERIAL_CUVE</id>
+            <name  language="fr">Cuve en plastique de 1 cm de large</name>
+            <name  language="en">Cuve en plastique de 1 cm de large</name>
+            <info language="fr"></info>
+            <info language="en"></info>
+            <type_ref>
+                <id>TYPE_CONTENEUR</id>
+            </type_ref>
+            <quantity>
+                <id>Q_MAT_CUVE</id>
+                <name language="fr">volume_max</name>
+                <name language="en">volume_max</name>
+                <value>0.0015</value>
+                <unit_ref>
+                    <id>UNIT_LITRE</id>
+                </unit_ref>
+            </quantity>
+        </material>
+        <initial_action_manipulation>
+            <id>INITIAL_ACTION_MANIP_AJOUTER_LIQUIDE</id>
+            <libelle language="fr">Ajouter une quantité précise de liquide</libelle>
+            <libelle language="en">Ajouter une quantité précise de liquide</libelle>
+            <is_setting>true</is_setting>
+            <draw>false</draw>
+            <repeat>true</repeat>
+            <initial_action_variable>
+                <id>VAR_AJOUTER_LIQUIDE</id>
+                <nb_param>5</nb_param>
+                <libelle language="fr">A l'aide d'un {1} rincé avec de {2}, ajouter {3} de {4} dans {5}</libelle>
+                <libelle language="en">A l'aide d'un {1} rincé avec de {2}, ajouter {3} de {4} dans {5}</libelle>
+                <initial_param_material>
+                    <code>1</code>
+                    <name language="fr">Délivreur</name>
+                    <name language="en">Délivreur</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_DELIVREUR</id>
+                    </type_ref>
+                </initial_param_material>
+                <initial_param_material>
+                    <code>2</code>
+                    <name language="fr">liquide</name>
+                    <name language="en">liquide</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_LIQUIDE</id>
+                    </type_ref>
+                </initial_param_material>
+                <initial_param_quantity>
+                    <code>3</code>
+                    <name language="fr">volume</name>
+                    <name language="en">volume</name>
+                    <quantity_name language="fr">volume</quantity_name>
+                    <quantity_name language="en">volume</quantity_name>
+                    <quantity_ref>
+                        <id>QUANTITY_VOLUME</id>
+                    </quantity_ref>
+                </initial_param_quantity>
+                <initial_param_material>
+                    <code>4</code>
+                    <name language="fr">Liquide</name>
+                    <name language="en">liquide</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_LIQUIDE</id>
+                    </type_ref>
+                </initial_param_material>
+                <initial_param_material>
+                    <code>5</code>
+                    <name language="fr">Conteneur</name>
+                    <name language="en">Conteneur</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_CONTENEUR</id>
+                    </type_ref>
+                </initial_param_material>
+            </initial_action_variable>
+            <nb_material_prod>1</nb_material_prod>
+            <initial_manipulation_output>
+                <code_output>OUTPUT_SOL_PROD</code_output>
+                <param_name language="fr">Solution</param_name>
+                <param_name language="en">Solution</param_name>
+                <text_prod language="fr">Nom du contenu</text_prod>
+                <text_prod language="en">Nom du contenu</text_prod>
+                <type_ref>
+                    <id>TYPE_LIQUIDE</id>
+                </type_ref>
+            </initial_manipulation_output>
+        </initial_action_manipulation>
+        <initial_action_manipulation>
+            <id>INITIAL_ACTION_MANIP_HOMOGENEISER</id>
+            <libelle language="fr">Homogénéiser par agitation manuelle</libelle>
+            <libelle language="en">Homogénéiser par agitation manuelle</libelle>
+            <is_setting>true</is_setting>
+            <draw>false</draw>
+            <repeat>true</repeat>
+            <initial_action_variable>
+                <id>VAR_HOMOGENEISER</id>
+                <nb_param>1</nb_param>
+                <libelle language="fr">Homogénéiser {6}</libelle>
+                <libelle language="en">Homogénéiser {6}</libelle>
+                <initial_param_material>
+                    <code>6</code>
+                    <name language="fr">liquide</name>
+                    <name language="en">liquide</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_LIQUIDE</id>
+                    </type_ref>
+                </initial_param_material>
+            </initial_action_variable>
+            <nb_material_prod>0</nb_material_prod>
+        </initial_action_manipulation>
+        <initial_action_manipulation>
+            <id>INITIAL_ACTION_MANIP_ETALONNER</id>
+            <libelle language="fr">Etalonner</libelle>
+            <libelle language="en">Etalonner</libelle>
+            <is_setting>true</is_setting>
+            <draw>false</draw>
+            <repeat>true</repeat>
+            <initial_action_variable>
+                <id>VAR_ETALONNER</id>
+                <nb_param>2</nb_param>
+                <libelle language="fr">Etalonner {7} avec {8}</libelle>
+                <libelle language="en">Etalonner {7} avec {8}</libelle>
+                <initial_param_material>
+                    <code>7</code>
+                    <name language="fr">mesureur</name>
+                    <name language="en">mesureur</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_MESUREUR</id>
+                    </type_ref>
+                </initial_param_material>
+                <initial_param_material>
+                    <code>8</code>
+                    <name language="fr">produit chimique</name>
+                    <name language="en">produit chimique</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_PROD_CHIM</id>
+                    </type_ref>
+                </initial_param_material>
+            </initial_action_variable>
+            <nb_material_prod>0</nb_material_prod>
+        </initial_action_manipulation>
+        <initial_action_manipulation>
+            <id>INITIAL_ACTION_MANIP_MESURER_PH</id>
+            <libelle language="fr">Mesurer le pH</libelle>
+            <libelle language="en">Mesurer le pH</libelle>
+            <is_setting>true</is_setting>
+            <draw>false</draw>
+            <repeat>true</repeat>
+            <initial_action_variable>
+                <id>VAR_MESURER_PH</id>
+                <nb_param>2</nb_param>
+                <libelle language="fr">Mesurer le pH de la solution {9} avec {10}.</libelle>
+                <libelle language="en">Mesurer le pH de la solution {9} avec {10}.</libelle>
+                <initial_param_material>
+                    <code>9</code>
+                    <name language="fr">liquide</name>
+                    <name language="en">liquide</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_LIQUIDE</id>
+                    </type_ref>
+                </initial_param_material>
+                <initial_param_material>
+                    <code>10</code>
+                    <name language="fr">mesureur</name>
+                    <name language="en">mesureur</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_MESUREUR</id>
+                    </type_ref>
+                </initial_param_material>
+            </initial_action_variable>
+            <nb_material_prod>0</nb_material_prod>
+        </initial_action_manipulation>
+        <initial_action_manipulation>
+            <id>INITIAL_ACTION_MANIP_REG_REF_SPECTRO</id>
+            <libelle language="fr">Enregistrer la référence du spectrophotomètre</libelle>
+            <libelle language="en">Enregistrer la référence du spectrophotomètre</libelle>
+            <is_setting>true</is_setting>
+            <draw>false</draw>
+            <repeat>true</repeat>
+            <initial_action_variable>
+                <id>VAR_REG_REF_SPECTRO</id>
+                <nb_param>2</nb_param>
+                <libelle language="fr">Enregistrer la référence du spectrophotomètre à l'aide de la solution {11} contenue dans {12}.</libelle>
+                <libelle language="en">Enregistrer la référence du spectrophotomètre à l'aide de la solution {11} contenue dans {12}.</libelle>
+                <initial_param_material>
+                    <code>11</code>
+                    <name language="fr">liquide</name>
+                    <name language="en">liquide</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_LIQUIDE</id>
+                    </type_ref>
+                </initial_param_material>
+                <initial_param_material>
+                    <code>12</code>
+                    <name language="fr">conteneur</name>
+                    <name language="en">conteneur</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_CONTENEUR</id>
+                    </type_ref>
+                </initial_param_material>
+            </initial_action_variable>
+            <nb_material_prod>0</nb_material_prod>
+        </initial_action_manipulation>
+        <initial_action_acquisition>
+            <id>INITIAL_ACTION_ACQ_SPECTRE</id>
+            <libelle language="fr">Acquérir un spectre d'abosrbance</libelle>
+            <libelle language="en">Acquérir un spectre d'abosrbance</libelle>
+            <is_setting>true</is_setting>
+            <draw>false</draw>
+            <repeat>true</repeat>
+            <initial_action_variable>
+                <id>VAR_ACQ_SPECTRE</id>
+                <nb_param>4</nb_param>
+                <libelle language="fr">Acquérir le spectre d'absorbance entre {13} et {14} de la solution {15} contenue dans {16}.</libelle>
+                <libelle language="en">Acquérir le spectre d'absorbance entre {13} et {14} de la solution {15} contenue dans {16}.</libelle>
+                <initial_param_quantity>
+                    <code>13</code>
+                    <name language="fr">longueur onde</name>
+                    <name language="en">longueur onde</name>
+                    <quantity_name language="fr">longueur onde</quantity_name>
+                    <quantity_name language="en">longueur onde</quantity_name>
+                    <quantity_ref>
+                        <id>QUANTITY_LG</id>
+                    </quantity_ref>
+                </initial_param_quantity>
+                <initial_param_quantity>
+                    <code>14</code>
+                    <name language="fr">longueur onde</name>
+                    <name language="en">longueur onde</name>
+                    <quantity_name language="fr">longueur onde</quantity_name>
+                    <quantity_name language="en">longueur onde</quantity_name>
+                    <quantity_ref>
+                        <id>QUANTITY_LG</id>
+                    </quantity_ref>
+                </initial_param_quantity>
+                <initial_param_material>
+                    <code>15</code>
+                    <name language="fr">liquide</name>
+                    <name language="en">liquide</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_LIQUIDE</id>
+                    </type_ref>
+                </initial_param_material>
+                <initial_param_material>
+                    <code>16</code>
+                    <name language="fr">conteneur</name>
+                    <name language="en">conteneur</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_CONTENEUR</id>
+                    </type_ref>
+                </initial_param_material>
+            </initial_action_variable>
+            <nb_data_prod>0</nb_data_prod>
+        </initial_action_acquisition>
+        <initial_action_acquisition>
+            <id>INITIAL_ACTION_MESURER_ABS</id>
+            <libelle language="fr">Mesurer une absorbance</libelle>
+            <libelle language="en">Mesurer une absorbance</libelle>
+            <is_setting>true</is_setting>
+            <draw>false</draw>
+            <repeat>true</repeat>
+            <initial_action_variable>
+                <id>VAR_MESURER_ABS</id>
+                <nb_param>3</nb_param>
+                <libelle language="fr">Mesurer l'absorbance à {17} de la solution {18} contenue dans {19}.</libelle>
+                <libelle language="en">Mesurer l'absorbance à {17} de la solution {18} contenue dans {19}.</libelle>
+                <initial_param_quantity>
+                    <code>17</code>
+                    <name language="fr">longueur onde</name>
+                    <name language="en">longueur onde</name>
+                    <quantity_name language="fr">longueur onde</quantity_name>
+                    <quantity_name language="en">longueur onde</quantity_name>
+                    <quantity_ref>
+                        <id>QUANTITY_LG</id>
+                    </quantity_ref>
+                </initial_param_quantity>
+                <initial_param_material>
+                    <code>18</code>
+                    <name language="fr">liquide</name>
+                    <name language="en">liquide</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_LIQUIDE</id>
+                    </type_ref>
+                </initial_param_material>
+                <initial_param_material>
+                    <code>19</code>
+                    <name language="fr">conteneur</name>
+                    <name language="en">conteneur</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_CONTENEUR</id>
+                    </type_ref>
+                </initial_param_material>
+            </initial_action_variable>
+            <nb_data_prod>0</nb_data_prod>
+        </initial_action_acquisition>
+        <initial_action_manipulation>
+            <id>INITIAL_ACTION_MANIP_VIDER</id>
+            <libelle language="fr">Vider</libelle>
+            <libelle language="en">Vider</libelle>
+            <is_setting>true</is_setting>
+            <draw>false</draw>
+            <repeat>true</repeat>
+            <initial_action_variable>
+                <id>VAR_VIDER</id>
+                <nb_param>1</nb_param>
+                <libelle language="fr">Vider {20}</libelle>
+                <libelle language="en">Vider {20}</libelle>
+                <initial_param_material>
+                    <code>20</code>
+                    <name language="fr">conteneur</name>
+                    <name language="en">conteneur</name>
+                    <and_type>true</and_type>
+                    <allType>false</allType>
+                    <type_ref>
+                        <id>TYPE_CONTENEUR</id>
+                    </type_ref>
+                </initial_param_material>
+            </initial_action_variable>
+            <nb_material_prod>0</nb_material_prod>
+        </initial_action_manipulation>
+        <manipulation>
+        </manipulation>
+    </initial_proc>
+</mission>

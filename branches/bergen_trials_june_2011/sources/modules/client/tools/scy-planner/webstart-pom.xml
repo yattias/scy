@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>eu.scy.client.tools</groupId>
+        <version>21-SNAPSHOT</version>
+    </parent>
+
+    <groupId>eu.scy</groupId>
+    <artifactId>scy-planner-webstart</artifactId>
+    <version>4.0.0-SNAPSHOT</version>
+    <name>scy-planner-webstart</name>
+    <url>http://maven.apache.org</url>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>eu.scy.client.tools</groupId>
+            <artifactId>scymapper</artifactId>
+            <version>21-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>eu.scy.client.tools</groupId>
+            <artifactId>scymapper</artifactId>
+            <version>21-SNAPSHOT</version>
+        </dependency>
+
+    </dependencies>
+
+    <repositories>
+        <repository>
+          <id>maven2-repository.dev.java.net</id>
+          <name>Java.net Repository for Maven</name>
+          <url>http://download.java.net/maven/2/</url>
+          <layout>default</layout>
+        </repository>
+    </repositories>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>eu.scy.scyplanner.SCYPlannerMain</mainClass>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo.webstart</groupId>
+                <artifactId>webstart-maven-plugin</artifactId>
+                <version>1.0-alpha-2</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jnlp</goal>
+                            <!-- use jnlp, jnlp-inline or jnlp-single as appropriate -->
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!--outputDirectory></outputDirectory--> <!-- not required?? -->
+
+                    <!--
+                    Set to true to exclude all transitive dependencies. Default is false.
+                    -->
+                    <excludeTransitive>false</excludeTransitive>
+
+                    <!-- The path where the libraries are stored within the jnlp structure. not required. by default the libraries are within the working directory -->
+                    <!--<libPath>lib</libPath>-->
+
+                    <!-- JNLP generation -->
+                    <jnlp>
+                        <!-- default values -->
+                        <!--inputTemplateResourcePath>${project.basedir}</inputTemplateResourcePath-->
+                        <inputTemplate>src/main/jnlp/template_filtered.vm</inputTemplate>
+                        <!-- relative to inputTemplateResourcePath -->
+                        <outputFile>scyplanner.jnlp</outputFile>
+                        <!-- defaults to launch.jnlp -->
+                        <!-- used to automatically identify the jar containing the main class. -->
+                        <!-- this is perhaps going to change -->
+                        <mainClass>eu.scy.scyplanner.SCYPlannerMain</mainClass>
+                    </jnlp>
+
+                    <sign>
+                        <keypass>scylab</keypass>
+                        <storepass>scylab</storepass>
+                        <alias>scykeystore</alias>
+                        <keystore>${project.build.directory}/../scykeystore.jks</keystore>
+                        <verify>true</verify>
+                        <keystoreConfig>
+                            <delete>false</delete>
+                            <gen>false</gen>
+                        </keystoreConfig>
+
+                    </sign>
+                    <unsign>true</unsign>
+
+                    <!-- BUILDING PROCESS -->
+
+                    <pack200>false</pack200>
+                    <gzip>false</gzip>
+                    <!-- default force when pack200 false, true when pack200 selected ?? -->
+
+                    <!-- causes a version attribute to be output in each jar resource element, optional, default is false -->
+                    <outputJarVersions>false</outputJarVersions>
+
+                    <!--install>false</install--> <!-- not yet supported -->
+                    <verbose>false</verbose>
+
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>move-scyplanner-jnlp</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/classes/scyplanner</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <includes>
+                                        <include>**/*.jnlp</include>
+                                    </includes>
+                                    <directory>target/jnlp</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>move-scyplanner-jars</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/classes/scyplanner</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <includes>
+                                        <include>**/*.jar</include>
+                                    </includes>
+                                    <directory>target/jnlp</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <targetPath>*.*</targetPath>
+                <includes>
+                    <include>*.gif</include>
+                    <include>*.png</include>
+                    <include>*.svg</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.*</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+</project>

@@ -1,0 +1,63 @@
+<elo>
+<metadata>
+  <lom>
+    <general>
+      <title>
+        <string language="en">testtitle</string>
+      </title>
+      <mission />
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/0/0/testtitle.scywebresourcer</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/webresourcer</format>
+      <customElements>
+        <dateCreated>1270812804649</dateCreated>
+        <dateLastModified>1270812804650</dateLastModified>
+      </customElements>
+    </technical>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>philipp</entity>
+        <date>
+          <dateTime>2010-04-09T13:33:24.647+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languages="de" contentType="xml">
+<preview><![CDATA[<document><head> <title></title> <style type="text/css">h1{font-family:Georgia,"Times New Roman",Times,serif; font-weight:normal; border-bottom:3px solid #E2E1DE; font-size:200%; margin-bottom:0.5em;} h2{ font-family:Georgia,"Times New Roman",Times,serif; font-weight:normal; font-size:130%; } p{ color:#25221D; font-family:Verdana,Tahoma,sans-serif;font-size:14px;font-size-adjust:none;font-style:normal;font-variant:normal;font-weight:normal;line-height:1.7; margin:0 0 1.7em; padding:0;} ul{ color:#25221D; font-family:Verdana,Tahoma,sans-serif;font-size:14px;font-size-adjust:none;font-style:normal;font-variant:normal;font-weight:normal;line-height:1.7; margin:0 0 1.7em; list-style-type: disc;} li{ color:#25221D; font-family:Verdana,Tahoma,sans-serif;font-size:14px;font-size-adjust:none;font-style:normal;font-variant:normal;font-weight:normal;line-height:1.7; margin:0 0 1.7em; margin-bottom:0.25em; } a{ font-family:Verdana,Sans-Serif;} </style></head><body><h1></h1><h2>Summary</h2><ul><li> <br><img src="http://188.40.38.84/~pg/lucas/uploads/5273_4997_pastaundsalat.jpg"><li>Anzeige fÃ¼r das B-West Potsdam </ul><h2>Comments</h2><p>dsagdsg</p><h2>Sources</h2><p><a href="http://188.40.38.84/~pg/lucas/show_image.php?id=60" target="_blank">http://188.40.38.84/~pg/lucas/show_image.php?id=60</a> <br><a href="http://188.40.38.84/~pg/lucas/show_image.php?id=60" target="_blank">http://188.40.38.84/~pg/lucas/show_image.php?id=60</a> <br></p></body> </document>]]></preview><annotations> <document><title></title><summary><bullet>http://188.40.38.84/~pg/lucas/uploads/5273_4997_pastaundsalat.jpg</bullet><bullet>Anzeige fÃ¼r das B-West Potsdam </bullet></summary><comments>dsagdsg</comments><sources>http://188.40.38.84/~pg/lucas/show_image.php?id=60
+http://188.40.38.84/~pg/lucas/show_image.php?id=60</sources></document> </annotations>
+ <html>
+ <![CDATA[<head></head><body><div id="display"><img src="uploads/5273_4997_pastaundsalat.jpg" style="margin: auto;" height="600" width="300"><br><span style="background-color: yellow;" belongsto="selection_4" highlighter="yellow">Anzeige fÃ¼r das B-West Potsdam </span><br></div>	</body>]]>
+ </html>
+</content>
+<resources>
+</resources>
+</elo>

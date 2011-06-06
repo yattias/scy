@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp codebase="http://www.intermedia.uio.no/www-data-public/app-scy/mathtool/" href="math-tool-31-SNAPSHOT.jnlp">
+  <information>
+    <title>Math-Tool</title>
+    <vendor>University of Oslo, Intermedia<vendor/>
+    <homepage>http://www.intermedia.uio.no<homepage/>
+    <description kind="one-line">Math-Tool StandAlone Launcher</description>
+  </information>
+  <security>
+     <all-permissions/>
+  </security>
+  <resources>
+    <j2se version="1.5+"
+     initial-heap-size="32m"
+     max-heap-size="128m"
+     />
+     
+<jar href="lib/math-tool-31-SNAPSHOT.jar" main="true"/>
+<jar href="lib/json-20070829.jar"/>
+<jar href="lib/jettison-1.2.jar"/>
+<jar href="lib/swingx-1.6.1.jar"/>
+<jar href="lib/filters-2.0.235.jar"/>
+<jar href="lib/swing-worker-1.1.jar"/>
+<jar href="lib/commons-lang-2.5.jar"/>
+<jar href="lib/miglayout-3.7.3.1-swing.jar"/>
+<jar href="lib/xstream-1.4-SNAPSHOT.jar"/>
+<jar href="lib/xpp3_min-1.1.4c.jar"/>
+<jar href="lib/commons-io-2.0.jar"/>
+<jar href="lib/jeval-0.9.4.jar"/>
+
+  </resources>
+  <application-desc main-class="eu.scy.tools.math.StandAloneClientLauncher">
+  </application-desc>
+</jnlp>

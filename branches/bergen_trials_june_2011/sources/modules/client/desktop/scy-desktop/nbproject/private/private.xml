@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/C:/Users/sven/Documents/NetBeansProjects/SCY/complete/trunk/sources/modules/client/desktop/scy-desktop/build.xml</file>
+        <file>file:/C:/Users/sven/Documents/NetBeansProjects/SCY/complete/trunk/sources/modules/client/desktop/scy-desktop/catalog.xml</file>
+        <file>file:/C:/Users/sven/Documents/NetBeansProjects/SCY/complete/trunk/sources/modules/client/desktop/scy-desktop/src/main/java/eu/scy/client/desktop/scydesktop/ScyDesktop.fx</file>
+        <file>file:/C:/Users/sven/Documents/NetBeansProjects/SCY/complete/trunk/sources/modules/client/desktop/scy-desktop/nbproject/project.properties</file>
+        <file>file:/C:/Users/sven/Documents/NetBeansProjects/SCY/complete/trunk/sources/modules/client/desktop/scy-desktop/src/main/java/eu/scy/client/desktop/scydesktop/config/BasicConfig.java</file>
+        <file>file:/C:/Users/sven/Documents/NetBeansProjects/SCY/complete/trunk/sources/modules/client/desktop/scy-desktop/src/main/java/eu/scy/client/desktop/scydesktop/tools/content/text/EloTextEditorActionWrapper.java</file>
+        <file>file:/C:/Users/sven/Documents/NetBeansProjects/SCY/complete/trunk/sources/modules/client/desktop/scy-desktop/src/main/java/eu/scy/client/desktop/scydesktop/corners/elomanagement/EloManagement.fx</file>
+        <file>file:/C:/Users/sven/Documents/NetBeansProjects/SCY/complete/trunk/sources/modules/client/desktop/scy-desktop/src/main/java/eu/scy/client/desktop/scydesktop/corners/elomanagement/GridEloSearch.fx</file>
+        <file>file:/C:/Users/sven/Documents/NetBeansProjects/SCY/complete/trunk/sources/modules/client/desktop/scy-desktop/src/main/java/eu/scy/client/desktop/scydesktop/mission/MissionLocatorUtils.java</file>
+        <file>file:/C:/Users/sven/Documents/NetBeansProjects/SCY/complete/trunk/sources/modules/client/desktop/scy-desktop/src/main/java/eu/scy/client/desktop/scydesktop/corners/elomanagement/QuerySearchFinished.java</file>
+        <file>file:/C:/Users/sven/Documents/NetBeansProjects/SCY/complete/trunk/sources/modules/client/desktop/scy-desktop/src/main/java/eu/scy/client/desktop/scydesktop/hacks/RepositoryWrapper.java</file>
+        <file>file:/C:/Users/sven/Documents/NetBeansProjects/SCY/complete/trunk/sources/modules/client/desktop/scy-desktop/src/main/java/eu/scy/client/desktop/scydesktop/corners/elomanagement/searchers/SameTechnicalFormatSearcher.java</file>
+        <file>file:/C:/Users/sven/Documents/NetBeansProjects/SCY/complete/trunk/sources/modules/client/desktop/scy-desktop/src/main/java/eu/scy/client/desktop/scydesktop/corners/elomanagement/searchers/SameAuthorSearcher.java</file>
+        <file>file:/C:/Users/sven/Documents/NetBeansProjects/SCY/complete/trunk/sources/modules/client/desktop/scy-desktop/src/main/java/eu/scy/client/desktop/scydesktop/scywindows/scydesktop/ScyWindowControlImpl.fx</file>
+    </open-files>
+</project-private>

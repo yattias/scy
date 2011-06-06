@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	* Copyright (c) 2007 Encore Research Group, University of Toronto
+	*
+	* This library is free software; you can redistribute it and/or
+	* modify it under the terms of the GNU Lesser General Public
+	* License as published by the Free Software Foundation; either
+	* version 2.1 of the License, or (at your option) any later version.
+	*
+	* This library is distributed in the hope that it will be useful,
+	* but WITHOUT ANY WARRANTY; without even the implied warranty of
+	* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+	* Lesser General Public License for more details.
+	*
+	* You should have received a copy of the GNU Lesser General Public
+	* License along with this library; if not, write to the Free Software
+	* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+-->
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-2.0.xsd
+	http://www.directwebremoting.org/schema/spring-dwr
+	http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd">
+
+    <!-- no 'id' required, HandlerMapping beans are automatically detected by the DispatcherServlet -->
+    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="order" value="2"></property>
+        <property name="mappings">
+            <value>
+                /app/student/StudentIndex.html=studentIndexController
+                /app/feedback/ScyFeedbackIndex.html=scyFeedbackIndexController
+                /app/feedback/FeedbackToolIndex.html=feedbackToolIndexController
+                /app/feedback/studentEloRefViewer.html=studentEloRefViewerController
+                /app/feedback/studentFeedbackForm.html=studentFeedbackFormController
+                /app/feedback/uploadELOForFeedbackForm.html=uploadELOForFeedbackFormController
+                /app/feedback/CriteriaBasedEvaluation.html=criteriaBasedEvaluationController
+                /app/feedback/storeCriteriaBasedEvaluation.html=storeNewCriteriaBasedEvaluationController
+                /app/feedback/storeELORefComment.html=storeELORefCommentController
+
+                /app/feedback/xml/feedbackEloService.html=feedbackEloService
+                /app/feedback/xml/myElosFeedbackService.html=myElosFeedbackService
+                /app/feedback/xml/myContributionElosFeedbackService.html=myContributionElosFeedbackService
+                /app/feedback/xml/savefeedback.html=saveFeedbackService
+                /app/feedback/xml/saveReplyTofeedback.html=savereplyfeedback
+            </value>
+        </property>
+    </bean>
+
+    <bean id="studentIndexController" class="eu.scy.server.controllers.student.StudentIndexController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+    </bean>
+
+    <bean id="scyFeedbackIndexController" class="eu.scy.server.controllers.scyfeedback.ScyFeedbackIndexController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="eloRefService" ref="eloRefService"/>
+        <property name="fileService" ref="fileService"/>
+        <property name="playfulAssessmentService" ref="playfulAssessmentService"/>
+        <property name="rooloAccessor" ref="rooloAccessor"/>
+        <property name="authorKey" ref="authorKey"/>
+    </bean>
+
+    <bean id="feedbackToolIndexController" class="eu.scy.server.controllers.scyfeedback.FeedbackToolIndex">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="missionELOService" ref="missionELOService"/>
+    </bean>
+
+    <bean id="feedbackEloService" class="eu.scy.server.controllers.scyfeedback.xml.FeedbackEloService">
+        <property name="userService" ref="userService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+    </bean>
+
+    <bean id="saveFeedbackService" class="eu.scy.server.controllers.scyfeedback.xml.SaveFeedbackService">
+        <property name="userService" ref="userService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+    </bean>
+
+    <bean id="savereplyfeedback" class="eu.scy.server.controllers.scyfeedback.xml.SaveReplyToFeedbackService">
+        <property name="userService" ref="userService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+    </bean>
+
+    <bean id="myElosFeedbackService" class="eu.scy.server.controllers.scyfeedback.xml.MyElosFeedbackService">
+        <property name="userService" ref="userService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+    </bean>
+
+    <bean id="myContributionElosFeedbackService" class="eu.scy.server.controllers.scyfeedback.xml.MyContributionElosFeedbackService">
+        <property name="userService" ref="userService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+    </bean>
+
+    <bean id="studentEloRefViewerController"
+          class="eu.scy.server.controllers.scyfeedback.StudentEloRefViewerController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="fileService" ref="fileService"/>
+        <property name="eloRefService" ref="eloRefService"/>
+        <property name="playfulAssessmentService" ref="playfulAssessmentService"/>
+        <property name="userService" ref="userService"/>
+        <property name="commandClass" value="eu.scy.server.controllers.scyfeedback.StudentFeedbackBean"/>
+        <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
+        <property name="assessmentService" ref="assessmentService"/>
+        <property name="rooloAccessor" ref="rooloAccessor"/>
+    </bean>
+
+    <bean id="uploadELOForFeedbackFormController"
+          class="eu.scy.server.controllers.scyfeedback.UploadELOForFeedbackFormController">
+        <property name="runtimeService" ref="runtimeService"/>
+        <property name="userService" ref="userService"/>
+        <property name="assignedPedagogicalPlanService" ref="assignedPedagogicalPlanService"/>
+        <property name="eloRefService" ref="eloRefService"/>
+        <property name="missionService" ref="missionService"/>
+        <property name="fileService" ref="fileService"/>
+        <property name="commandClass" value="eu.scy.server.controllers.scyfeedback.UploadELOBean"/>
+        <property name="anchorELOService" ref="anchorELOService"/>
+        <property name="pedagogicalPlanPersistenceService" ref="pedagogicalPlanPersistenceService"/>
+    </bean>
+
+    <bean id="studentFeedbackFormController"
+          class="eu.scy.server.controllers.scyfeedback.StudentFeedbackFormController">
+        <property name="commandClass" value="eu.scy.server.controllers.scyfeedback.StudentFeedbackBean"/>
+        <property name="userService" ref="userService"/>
+        <property name="eloRefService" ref="eloRefService"/>
+        <property name="playfulAssessmentService" ref="playfulAssessmentService"/>
+    </bean>
+
+    <bean id="criteriaBasedEvaluationController"
+          class="eu.scy.server.controllers.scyfeedback.CriteriaBasedEvaluationController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="anchorELOService" ref="anchorELOService"/>
+        <property name="assessmentService" ref="assessmentService"/>
+        <property name="eloRefService" ref="eloRefService"/>
+    </bean>
+
+    <bean id="storeNewCriteriaBasedEvaluationController"
+          class="eu.scy.server.controllers.scyfeedback.StoreNewCriteriaBasedEvaluationController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="commandClass" value="eu.scy.server.controllers.scyfeedback.CriteriaBasedEvaluationBean"/>
+        <property name="userService" ref="userService"/>
+        <property name="assessmentService" ref="assessmentService"/>
+    </bean>
+
+    <bean id="storeELORefCommentController" class="eu.scy.server.controllers.scyfeedback.StoreELORefCommentController">
+        <property name="commandClass" value="eu.scy.server.controllers.scyfeedback.StudentFeedbackBean"/>
+        <property name="userService" ref="userService"/>
+        <property name="eloRefService" ref="eloRefService"/>
+        <property name="playfulAssessmentService" ref="playfulAssessmentService"/>
+    </bean>
+
+
+    <bean id="fileUploadedForFeedbackListener"
+          class="eu.scy.server.controllers.scyfeedback.FileUploadedForFeedbackListener"/>
+    <bean id="fileUploadedForAssessmentScoreDefinition"
+          class="eu.scy.server.controllers.scyfeedback.FileAddedToAssessmentScoreDefinitionListener">
+        <property name="fileService" ref="fileService"/>
+    </bean>
+
+
+</beans>

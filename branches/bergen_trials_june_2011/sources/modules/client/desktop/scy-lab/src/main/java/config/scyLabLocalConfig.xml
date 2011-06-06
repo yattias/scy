@@ -1,0 +1,920 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+   <!-- <import resource="memoryRooloConfig.xml"/> -->
+   <!--<import resource="localRooloTemporaryConfig.xml"/>-->
+   <!--<import resource="localWrappedRooloConfig.xml"/>-->
+   <!--<import resource="localWrappedRooloTemporaryConfig.xml"/> -->
+   <!-- <import resource="remoteRooloConfig.xml"/> -->
+<!--
+   <bean name="eloFactory" class="roolo.elo.JDomBasicELOFactory">
+      <constructor-arg index="0" ref="metadataTypeManager"/>
+   </bean>
+-->
+
+   <import resource="logicalAndFunctionalTypes.xml"/>
+
+   <bean name="scyDesktopConfig" class="eu.scy.client.desktop.scydesktop.config.BasicConfig" init-method="initialize">
+      <!--
+      <property name="repository" ref="repository"/>
+      <property name="extensionManager" ref="extensionManager"/>
+      <property name="metadataTypeManager" ref="metadataTypeManager"/>
+      <property name="eloFactory" ref="eloFactory"/>
+      <property name="titleKey" ref="titleKey"/>
+      <property name="technicalFormatKey" ref="technicalFormatKey"/>
+      -->
+
+      <property name="logicalTypeDisplayNames" ref="logicalTypeDisplayNames"/>
+
+      <property name="functionalTypeDisplayNames" ref="functionalTypeDisplayNames"/>
+
+      <property name="eloConfigs">
+         <list value-type="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+         
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="eloType" value="defaultEloToolConfig"/>
+               <property name="rightDrawerCreatorId" value="chat"/>
+               <property name="rightDrawerCollaboration" value="true"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="bottomDrawerCollaboration" value="false"/>
+               <property name="leftDrawerCreatorId" value="assingmentInfo resourcesInfo testMoreInfo feedbackQuestion"/>
+               <property name="leftDrawerCollaboration" value="false"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/drawing"/>
+               <property name="display" value="Drawing"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="drawing"/>
+               <property name="logicalTypeNames">
+                  <list>
+                     <value>drawing</value>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>drawingDesign</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/studentplanningtool"/>
+               <property name="display" value="StudentPlanningTool"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="studentplanningtool"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/dataset"/>
+               <property name="display" value="Dataset"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="fitex"/>
+               <property name="logicalTypeNames">
+                  <list>
+                     <value>dataset</value>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>datasetManual</value>
+                     <value>datasetAutomatic</value>
+                     <value>datasetProcessed</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/pds"/>
+               <property name="display" value="Processed dataset"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="fitex"/>
+               <property name="logicalTypeNames">
+                  <list>
+                     <value>dataset</value>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>datasetManual</value>
+                     <value>datasetAutomatic</value>
+                     <value>datasetProcessed</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/xproc"/>
+               <property name="display" value="Experimental procedure"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="copex"/>
+               <property name="logicalTypeNames">
+                  <list>
+                     <value>structuredText</value>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>experimentalDesign</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/resultcard"/>
+               <property name="display" value="Health Passport"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="resultcard"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/simconfig"/>
+               <property name="display" value="Simulator"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="simulator"/>
+               <property name="logicalTypeNames">
+                  <list>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>sourceData</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/model"/>
+               <property name="display" value="Model"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="scy-dynamics"/>
+               <property name="logicalTypeNames">
+                  <list>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>sourceData</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/url"/>
+               <property name="display" value="Web page"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="flying-saucer"/>
+               <property name="contentStatic" value="true"/>
+               <property name="logicalTypeNames">
+                  <list>
+                     <value>information</value>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>informationResource</value>
+                     <value>informationAssignment</value>
+                     <value>informationHelp</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/mapping"/>
+               <property name="display" value="Concept Map"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="conceptmap"/>
+               <property name="logicalTypeNames">
+                  <list>
+                     <value>conceptMap</value>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>mapConcept</value>
+                     <value>mapInitialIdeas</value>
+                     <value>mapKeyIdeas</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/text"/>
+               <property name="display" value="Plain text"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="text"/>
+               <property name="logicalTypeNames">
+                  <list>
+                     <value>plainText</value>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>hypothesis</value>
+                     <value>documentDesign</value>
+                     <value>reportEvaluation</value>
+                     <value>reportFinal</value>
+                     <value>documentReflection</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/formauthor"/>
+               <property name="display" value="formauthor"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="formauthor"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/mathtool"/>
+               <property name="display" value="mathtool"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="mathtool"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/youtuber"/>
+               <property name="display" value="YouTuber"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="youtuber"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/rtf"/>
+               <property name="display" value="Rich text"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="richtext"/>
+               <property name="logicalTypeNames">
+                  <list>
+                     <value>plainText</value>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>hypothesis</value>
+                     <value>documentDesign</value>
+                     <value>reportEvaluation</value>
+                     <value>reportFinal</value>
+                     <value>documentReflection</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/interview"/>
+               <property name="display" value="Interview"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="interview"/>
+               <property name="logicalTypeNames">
+                  <list>
+                     <value>structuredText</value>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>interview</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/video"/>
+               <property name="display" value="Video"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="video"/>
+               <property name="logicalTypeNames">
+                  <list>
+                     <value>information</value>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>informationResource</value>
+                     <value>informationAssignment</value>
+                     <value>informationHelp</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/webresourcer"/>
+               <property name="display" value="Web resource"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="webresource"/>
+               <property name="logicalTypeNames">
+                  <list>
+                     <value>information</value>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>informationResource</value>
+                     <value>informationAssignment</value>
+                     <value>informationHelp</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/ppt"/>
+               <property name="display" value="Presentation"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="presentationUpload"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/skp"/>
+               <property name="display" value="Google SketchUp"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="sketchUpUpload"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/doc"/>
+               <property name="display" value="Word"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="wordUpload"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/image"/>
+               <property name="display" value="Image"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="image"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/speedTest"/>
+               <property name="display" value="Speed test"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="speedTestPanel"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/missionspecification"/>
+               <property name="display" value="Mission specification"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="missionSpecification"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/missionmapmodel"/>
+               <property name="display" value="Mission map model"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="missionMapModel"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/elotoolconfiguration"/>
+               <property name="display" value="Elo tool configuration"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="eloToolConfiguration"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/missionruntime"/>
+               <property name="display" value="Elo tool configuration"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="missionRuntime"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/templateelos"/>
+               <property name="display" value="Elo tool configuration"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="templateElos"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/runtimesettings"/>
+               <property name="display" value="Runtime settings"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="runtimeSettings"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/colorschemes"/>
+               <property name="display" value="Color schemes"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="colorSchemes"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
+            </bean>
+         </list>
+      </property>
+
+      <property name="basicMissionMap">
+         <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionMap">
+            <property name="id" value="co2Mission"/>
+            <property name="name" value="Design a CO2-friendly house"/>
+            <property name="loEloUris">
+               <list>
+                  <value>roolo://memory/37/0/Glossary.url</value>
+               </list>
+            </property>
+            <property name="lasses">
+               <list>
+                  <!--
+                  -->
+                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="startPage"/>
+                     <property name="xPosition" value="0"/>
+                     <property name="yPosition" value="0"/>
+                     <property name="tooltip" value="Challenge"/>
+                     <property name="loEloUris">
+                        <list>
+                        </list>
+                     </property>
+                     <property name="nextLasses">
+                        <list>
+                           <value>conceptualizationDesign</value>
+                           <value>conceptualizationIndividual</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="start"/>
+                     <property name="intermediateEloIds">
+                        <list>
+                        </list>
+                     </property>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="conceptualizationDesign"/>
+                     <property name="xPosition" value="40"/>
+                     <property name="yPosition" value="0"/>
+                     <property name="tooltip" value="First ideas of my design group"/>
+                     <property name="nextLasses">
+                        <list>
+                           <value>conceptualizationExperts</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="firstIdeas"/>
+                     <property name="intermediateEloIds">
+                        <list>
+                        </list>
+                     </property>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="conceptualizationExperts"/>
+                     <property name="xPosition" value="80"/>
+                     <property name="yPosition" value="0"/>
+                     <property name="tooltip" value="Hypotheses of my expert group"/>
+                     <property name="loEloUris">
+                        <list>
+                           <value>roolo://memory/309/0/Becoming_an_expert.url</value>
+                           <value>roolo://memory/310/0/Browse_for_information.url</value>
+                           <value>roolo://memory/353/0/Websites_about_expert_domains.url</value>
+                        </list>
+                     </property>
+                     <property name="nextLasses">
+                        <list>
+                           <value>experimentExperts</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="hypothesis"/>
+                     <property name="intermediateEloIds">
+                        <list>
+                           <value>researchQuestions</value>
+                        </list>
+                     </property>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="experimentExperts"/>
+                     <property name="xPosition" value="120"/>
+                     <property name="yPosition" value="0"/>
+                     <property name="tooltip" value="Conclusion of expert experiments"/>
+                     <property name="loEloUris">
+                        <list>
+                           <value>roolo://memory/309/0/Becoming_an_expert.url</value>
+                           <value>roolo://memory/415/0/Data_from_the_energy_consumption_simulation.url</value>
+                        </list>
+                     </property>
+                     <property name="nextLasses">
+                        <list>
+                           <value>conceptualizationExperts</value>
+                           <value>reportingExperts</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="conclusion"/>
+                     <property name="intermediateEloIds">
+                        <list>
+                           <value>experimentalProcedure</value>
+                           <value>simulatorExpertThermal</value>
+                           <value>simulatorExpertConverter</value>
+                           <value>dataExpertReal</value>
+                           <value>simulatorExpertEnergy</value>
+                        </list>
+                     </property>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="conceptualizationIndividual"/>
+                     <property name="xPosition" value="0"/>
+                     <property name="yPosition" value="40"/>
+                     <property name="tooltip" value="Concept Map on CO2 emission"/>
+                     <property name="nextLasses">
+                        <list>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="conceptMap"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="construction"/>
+                     <property name="xPosition" value="40"/>
+                     <property name="yPosition" value="40"/>
+                     <property name="tooltip" value="House drawings"/>
+                     <property name="nextLasses">
+                        <list>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="houseDrawing"/>
+                     <property name="intermediateEloIds">
+                        <list>
+                        </list>
+                     </property>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="design"/>
+                     <property name="xPosition" value="80"/>
+                     <property name="yPosition" value="40"/>
+                     <property name="tooltip" value="House choices"/>
+                     <property name="nextLasses">
+                        <list>
+                           <value>construction</value>
+                           <value>experimentDesign</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="firstChoices"/>
+                     <property name="intermediateEloIds">
+                        <list>
+                           <value>inventorySolution</value>
+                        </list>
+                     </property>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="reportingExperts"/>
+                     <property name="xPosition" value="120"/>
+                     <property name="yPosition" value="40"/>
+                     <property name="tooltip" value="Expert presentation"/>
+                     <property name="nextLasses">
+                        <list>
+                           <value>design</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="expertPresentation"/>
+                     <property name="intermediateEloIds">
+                        <list>
+                           <value>expertConceptMap</value>
+                        </list>
+                     </property>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="experimentDesign"/>
+                     <property name="xPosition" value="40"/>
+                     <property name="yPosition" value="80"/>
+                     <property name="tooltip" value="House data"/>
+                     <property name="loEloUris">
+                        <list>
+                           <value>roolo://memory/299/0/House_data.url</value>
+                        </list>
+                     </property>
+                     <property name="nextLasses">
+                        <list>
+                           <value>reportingDesign</value>
+                           <value>design</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="simulatorDesignConverter"/>
+                     <property name="intermediateEloIds">
+                        <list>
+                           <value>simulatorDesignThermal</value>
+                           <value>simulatorDesignEnergy</value>
+                        </list>
+                     </property>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="reportingDesign"/>
+                     <property name="xPosition" value="80"/>
+                     <property name="yPosition" value="80"/>
+                     <property name="tooltip" value="Presentation of house design"/>
+                     <property name="nextLasses">
+                        <list>
+                           <value>reportingIndividual</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="presentationDesign"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="reportingIndividual"/>
+                     <property name="xPosition" value="120"/>
+                     <property name="yPosition" value="80"/>
+                     <property name="tooltip" value="Individual report"/>
+                     <property name="nextLasses">
+                        <list>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="report"/>
+                  </bean>
+               </list>
+            </property>
+            <property name="initialLasId" value="startPage"/>
+         </bean>
+      </property>
+
+      <!-- version of Rachel -->
+      <property name="basicMissionAnchors">
+         <list>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="start"/>
+               <property name="uri" value="roolo://memory/281/0/Challenge.url"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                     <value>roolo://memory/414/0/Welcome_to_SCY-Lab_.url</value>
+                     <value>roolo://memory/413/0/Challenge_video.video</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="conceptMap"/>
+               <property name="uri" value="roolo://memory/282/0/Concept_map_on_CO2_emission.scymapping"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                     <value>roolo://memory/300/0/My_concept_map_on_a_CO2_level.url</value>
+                     <value>roolo://memory/349/0/Texts_about_global_warming.url</value>
+                     <value>roolo://memory/348/0/Websites_about_global_warming.url</value>
+                     <value>roolo://memory/347/0/Videos_about_global_warming.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="firstIdeas"/>
+               <property name="uri" value="roolo://memory/301/0/First_ideas_of_my_design_group.scymapping"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                     <value>roolo://memory/302/0/First_ideas_of_my_design_group.url</value>
+                     <value>roolo://memory/350/0/Texts_about_CO2-friendly_houses.url</value>
+                     <value>roolo://memory/351/0/Videos_about_CO2-friendly_houses.url</value>
+                     <value>roolo://memory/352/0/Websites_about_CO2-friendly_houses.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="researchQuestions"/>
+               <property name="uri" value="roolo://memory/303/0/Research_questions_of_my_expert_group.rtf"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                     <value>roolo://memory/304/0/Research_questions_of_my_expert_group.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="hypothesis"/>
+               <property name="uri" value="roolo://memory/305/0/Hypotheses_of_my_expert_group.rtf"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                     <value>roolo://memory/306/0/Hypotheses_of_my_expert_group.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="experimentalProcedure"/>
+               <property name="uri" value="roolo://memory/354/0/Experimental_procedure.scyxproc"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                     <value>hypothesis</value>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                     <value>roolo://memory/308/0/Experimental_procedure.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="simulatorExpertThermal"/>
+               <property name="uri" value="roolo://memory/311/0/Data_from_the_Thermal_simulation.scysimconfig"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                     <value>roolo://memory/417/0/Data_from_the_thermal_simulation.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="simulatorExpertConverter"/>
+               <property name="uri" value="roolo://memory/401/0/Data_from_the_Converter.scysimconfig"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                     <value>roolo://memory/416/0/Data_from_the_converter.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="simulatorExpertEnergy"/>
+               <!-- <property name="uri" value="Data from the Energy consumption simulation"/>-->
+               <property name="inputMissionAnchorIds">
+                  <list>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="dataExpertReal"/>
+               <property name="uri" value="roolo://memory/312/0/Data_from_real_experiments.scypds"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                     <value>roolo://memory/313/0/Data_from_real_experiments.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="conclusion"/>
+               <property name="uri" value="roolo://memory/314/0/Conclusion_of_expert_experiments.rtf"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                     <value>roolo://memory/315/0/Conclusion_of_expert_experiments.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="expertConceptMap"/>
+               <property name="uri" value="roolo://memory/316/0/Expert_concept_map.scymapping"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                     <value>conclusion</value>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                     <value>roolo://memory/317/0/Expert_concept_map.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="expertPresentation"/>
+               <property name="uri" value="roolo://memory/318/0/Expert_presentation.ppt"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                     <value>roolo://memory/319/0/Expert_presentation.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="inventorySolution"/>
+               <property name="uri" value="roolo://memory/320/0/Inventory_of_expert_solutions.scymapping"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                     <value>expertPresentation</value>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                     <value>roolo://memory/321/0/Inventory_of_expert_solutions.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="firstChoices"/>
+               <property name="uri" value="roolo://memory/322/0/House_choices.scymapping"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                     <value>roolo://memory/323/0/House_choices.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="simulatorDesignThermal"/>
+               <property name="uri" value="roolo://memory/340/0/House_data_from_the_Thermal_simulation.scysimconfig"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                     <value>firstChoices</value>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                     <value>roolo://memory/356/0/Thermal_simulation_manual.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="simulatorDesignConverter"/>
+               <property name="uri" value="roolo://memory/402/0/House_data_from_the_Converter.scysimconfig"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                     <value>roolo://memory/355/0/Manual_for_converter.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="simulatorDesignEnergy"/>
+               <!-- <property name="uri" value="House data from the Energy consumption simulation"/>-->
+               <property name="inputMissionAnchorIds">
+                  <list>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="houseDrawing"/>
+               <property name="uri" value="roolo://memory/341/0/House_drawings.skp"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                     <value>firstChoices</value>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                     <value>roolo://memory/342/0/House_drawings.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="presentationDesign"/>
+               <property name="uri" value="roolo://memory/343/0/Presentation_of_house_design.ppt"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                     <value>houseDrawing</value>
+                     <value>simulatorDesignEnergy</value>
+                     <value>simulatorDesignConverter</value>
+                     <value>simulatorDesignThermal</value>
+                     <value>firstChoices</value>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                     <value>roolo://memory/344/0/Presentation_of_house_design.url</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="report"/>
+               <property name="uri" value="roolo://memory/345/0/Individual_report.doc"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                     <value>roolo://memory/346/0/Individual_report.url</value>
+                  </list>
+               </property>
+            </bean>
+         </list>
+      </property>
+
+      <property name="templateEloUris">
+         <list>
+            <value>roolo://memory/403/0/Empty_concept_map.scymapping</value>
+            <value>roolo://memory/404/0/Empty_dataset.dataset</value>
+            <value>roolo://memory/405/0/Empty_drawing.scydraw</value>
+            <value>roolo://memory/406/0/Empty_experimental_procedure.scyxproc</value>
+            <value>roolo://memory/407/0/Google_SketchUp_document.skp</value>
+            <value>roolo://memory/408/0/Empty_interview.scyinterview</value>
+            <value>roolo://memory/409/0/Empty_plain_text.text</value>
+            <value>roolo://memory/410/0/Presentation_document.ppt</value>
+            <value>roolo://memory/411/0/Empty_rich_text.rtf</value>
+            <value>roolo://memory/412/0/Word_document.doc</value>
+         </list>
+      </property>
+
+   </bean>
+
+</beans>

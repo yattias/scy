@@ -1,0 +1,198 @@
+Methionine - Wikipedia, the free encyclopedia
+
+Methionine
+From Wikipedia, the free encyclopedia Jump to: navigation, search Methionine
+
+Abbreviations CAS number PubChem ChemSpider UNII EC-number KEGG ChEMBL ATC code
+
+IUPAC name Methionine Other names 2-amino-4-(methylthio)butanoic acid Identifiers Met, M 59-51-8 Y, 63-68-3 (L-isomer) Y, 348-67-4 (D-isomer) 876 853 Y, 5907 (L-isomer) 73JWT2K6T3 Y 200-432-1 D04983 N CHEMBL42336 N V03AB26,QA05BA90, QG04BA90 SMILES CSCCC(C(=O)O)N
+
+Y
+
+CSCCC(C(=O)O)N InChI InChI=1S/C5H11NO2S/c1-9-3-2-4(6)5(7)8/h4H,2-3,6H2,1H3,(H,7,8) Key: FFEARJCKVFRZRR-UHFFFAOYSA-N Y InChI=1/C5H11NO2S/c1-9-3-2-4(6)5(7)8/h4H,2-3,6H2,1H3,(H,7,8) Properties[2] Molecular formula C5H11NO2S Molar mass 149.21 g molâ 1 Appearance White crystalline powder Density 1.340 g/cm3 Methionine
+
+Y
+
+1
+
+Methionine - Wikipedia, the free encyclopedia Melting point 281 Â°C decomp. Solubility in water Soluble Acidity (pKa) 2.28 (carboxyl), 9.21 (amino)[1] Supplementary data page Structure and n, Îµr, etc. properties Thermodynamic Phase behaviour data Solid, liquid, gas Spectral data UV, IR, NMR, MS N(what is this?) (verify) Except where noted otherwise, data are given for materials in their standard state (at 25 Â°C, 100 kPa) Infobox references Methionine (pronounced /mÉ Ë Î¸aÉª.ÉµniË n/, /mÉ Ë Î¸aÉª.ÉµnÉªn/; abbreviated as Met or M)[3] is an Î±-amino acid with the chemical formula HO2CCH(NH2)CH2CH2SCH3. This essential amino acid is classified as nonpolar.
+
+Contents
+· 1 Function · 2 Betaines · 3 Biosynthesis · 4 Other biochemical pathways  4.1 Generation of homocysteine  4.2 Regeneration of methionine  4.3 Conversion to cysteine · 5 Synthesis · 6 Dietary sources · 7 Methionine restriction · 8 Other Uses · 9 See also · 10 References · 11 External links
+
+[edit] Function
+Together with cysteine, methionine is one of two sulfur-containing proteinogenic amino acids. Its derivative S-adenosyl methionine (SAM) serves as a methyl donor. Methionine is an intermediate in the biosynthesis of cysteine, carnitine, taurine, lecithin, phosphatidylcholine, and other phospholipids. Improper conversion of methionine can lead to atherosclerosis.[4] This amino acid is also used by plants for synthesis of ethylene. The process is known as the Yang Cycle or the methionine cycle. Contents 2
+
+Methionine - Wikipedia, the free encyclopedia Methionine is one of only two amino acids encoded by a single codon (AUG) in the standard genetic code (tryptophan, encoded by UGG, is the other). The codon AUG is also the "Start" message for a ribosome that signals the initiation of protein translation from mRNA. As a consequence, methionine is incorporated into the N-terminal position of all proteins in eukaryotes and archaea during translation, although it is usually removed by post-translational modification. In bacteria, the derivative N-formylmethionine is used as the initial amino acid. Rats fed a diet without methionine developed steatohepatitis. Administration of methionine ameliorated the pathological consequences of methionine deprivation. [5]
+
+[edit] Betaines
+
+(S)-Methionine (left) and (R)-methionine (right) in zwitterionic form at neutral pH
+
+[edit] Biosynthesis
+As an essential amino acid, methionine is not synthesized de novo in humans, hence we must ingest methionine or methionine-containing proteins. In plants and microorganisms, methionine is synthesized via a pathway that uses both aspartic acid and cysteine. First, aspartic acid is converted via Î²-aspartyl-semialdehyde into homoserine, introducing the pair of contiguous methylene groups. Homoserine converts to O-succinyl homoserine, which then reacts with cysteine to produce cystathionine, which is cleaved to yield homocysteine. Subsequent methylation of the thiol group by folates affords methionine. Both cystathionine-Î³-synthase and cystathionine-Î²-lyase require pyridoxyl-5'-phosphate as a cofactor, whereas homocysteine methyltransferase requires vitamin B12 as a cofactor.[6] Enzymes involved in methionine biosynthesis: 1. aspartokinase 2. Î²-aspartate semialdehyde dehydrogenase 3. homoserine dehydrogenase 4. homoserine O-transsuccinylase 5. cystathionine-Î³-synthase 6. cystathionine-Î²-lyase 7. methionine synthase (in mammals, this step is performed by homocysteine methyltransferase)
+
+[edit] Function
+
+3
+
+Methionine - Wikipedia, the free encyclopedia
+
+Methionine biosynthesis
+
+[edit] Other biochemical pathways
+
+[edit] Biosynthesis
+
+4
+
+Methionine - Wikipedia, the free encyclopedia
+
+Fates of methionine Although mammals cannot synthesize methionine, they can still use it in a variety of biochemical pathways:
+
+[edit] Generation of homocysteine
+Methionine is converted to S-adenosylmethionine (SAM) by (1) methionine adenosyltransferase. SAM serves as a methyl-donor in many (2) methyltransferase reactions, and is converted to S-adenosylhomocysteine (SAH). (3) Adenosylhomocysteinase converts SAH to homocysteine. There are two fates of homocysteine: it can be used to regenerate methionine, or to form cysteine.
+
+[edit] Regeneration of methionine
+Methionine can be regenerated from homocysteine via (4) methionine synthase. Homocysteine can also be remethylated using glycine betaine (NNN-trimethyl glycine, TMG) to methionine via the enzyme betaine-homocysteine methyltransferase (E.C.2.1.1.5, BHMT). BHMT makes up to 1.5% of all the soluble protein of the liver, and recent evidence suggests that it may have a greater influence on methionine and homocysteine homeostasis than methionine synthase.
+
+[edit] Other biochemical pathways
+
+5
+
+Methionine - Wikipedia, the free encyclopedia
+
+[edit] Conversion to cysteine
+Homocysteine can be converted to cysteine. · (5) Cystathionine-Î²-synthase (a PLP-dependent enzyme) combines homocysteine and serine to produce cystathionine. Instead of degrading cystathionine via cystathionine-Î²-lyase, as in the biosynthetic pathway, cystathionine is broken down to cysteine and Î±-ketobutyrate via (6) cystathionine-Î³-lyase. · (7) The enzyme Î±-ketoacid dehydrogenase converts Î±-ketobutyrate to propionyl-CoA, which is metabolized to succinyl-CoA in a three-step process (see propionyl-CoA for pathway).
+
+[edit] Synthesis
+Racemic methionine can be synthesized from diethyl sodium phthalimidomalonate by alkylation with chloroethylmethylsulfide (ClCH2CH2SCH3) followed by hydrolysis and decarboxylation.[7]
+
+[edit] Dietary sources
+Food sources of Methionine[8] Food g/100g Sesame seeds flour (low fat) 1.656 Brazil nuts 1.008 Soy protein concentrate 0.814 Wheat germ 0.456 Oat 0.312 Peanuts 0.309 Chickpea 0.253 Corn, yellow 0.197 Almonds 0.151 Beans, pinto, cooked 0.117 Lentils, cooked 0.077 Rice, brown, medium-grain, cooked 0.052 High levels of methionine can be found in sesame seeds, Brazil nuts, fish, meats and some other plant seeds; methionine is also found in cereal grains. Most fruits and vegetables contain very little of it. Most legumes are also low in methionine. The complement of cereal (methionine) and legumes (lysine), providing a complete protein,[9] is a classic combination, found throughout the world, such as in rice and beans or tortilla and beans. Racemic methionine is sometimes added as an ingredient to pet foods.[10]
+
+[edit] Methionine restriction
+There is a growing body of evidence that shows restricting methionine consumption can increase lifespans in some animals.[11] A 2005 study showed methionine restriction without energy restriction extends mouse lifespan.[12] [edit] Conversion to cysteine 6
+
+Methionine - Wikipedia, the free encyclopedia A study published in Nature showed adding just the essential amino acid methionine to fruit flies on a calorie restricted diet restored egg-laying without reducing lifespan.[13][14]
+
+[edit] Other Uses
+DL-methionine is sometimes given as a supplement to dogs; it helps keep dogs from damaging grass by reducing the pH of the urine.[15] One example is "Grass Saver" by NaturVet.[16]
+
+[edit] See also
+· Allantoin · Formylmethionine · Paracetamol poisoning#Treatment - A Methionine-Paracetamol preparation that might prevent hepatotoxicity. · Photo-reactive methionine
+
+[edit] References
+
+1. ^ Dawson, R.M.C., et al., Data for Biochemical Research, Oxford, Clarendon Press, 1959. 2. ^ Weast, Robert C., ed. (1981), CRC Handbook of Chemistry and Physics (62nd ed.), Boca Raton, FL: CRC Press, p. C-374, ISBN 0-8493-0462-8 . 3. ^ "Nomenclature and symbolism for amino acids and peptides (IUPAC-IUB Recommendations 1983)", Pure Appl. Chem. 56 (5): 595â 624, 1984, doi:10.1351/pac198456050595 . 4. ^ Refsum H, Ueland PM, NygÃ¥rd O, Vollset SE. Homocysteine and cardiovascular disease. Annual review of medicine, 1998, 49(1), pp.31-62. 5. ^ Oz HS, Chen TS, Neuman M (2008). "Methionine deficiency and hepatic injury in a dietary steatohepatitis model". DIGESTIVE DISEASES AND SCIENCES 53 (3): 767-776. PMID 17710550. http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2271115/. 6. ^ Lehninger, Albert L.; Nelson, David L.; Cox, Michael M. (2000), Principles of Biochemistry (3rd ed.), New York: W. H. Freeman, ISBN 1-57259-153-6 . 7. ^ Barger, G.; Weichselbaum, T. E. (1934), "dl-Methionine", Org. Synth. 14: 58, http://www.orgsyn.org/orgsyn/orgsyn/prepContent.asp?prep=CV2P0384 ; Coll. Vol. 2: 384 . 8. ^ National Nutrient Database for Standard Reference, U.S. Department of Agriculture, http://www.nal.usda.gov/fnic/foodcomp/search/, retrieved 2009-09-07 . 9. ^ Nutritional Value â Idaho Bean Commission 10. ^ What's in your dog's food?, Ojibwa Yorkies, ISBN 087605467X, http://www.yorkshire-terrier.com/dogfood.htm, retrieved 2009-09-07 . 11. ^ Alleyne, Richard (2009-12-03). "Vegetarian low protein diet could be key to long life". The Daily Telegraph (London). http://www.telegraph.co.uk/health/healthnews/6710896/Vegetarian-low-protein-diet-could-be-key-to-long-life. Retrieved 2010-05-12. 12. ^ Miller, Richard A.; Buehner, Gretchen; Chang, Yayi; Harper, James M.; Sigler, Robert; Smith-Wheelock, Michael (2005), "Methionine-deficient diet extends mouse lifespan, slows immune and lens aging, alters glucose, T4, IGF-I and insulin levels, and increases hepatocyte MIF levels and stress resistance", Aging cell 4 (3): 119â 125, doi:10.1111/j.1474-9726.2005.00152.x, PMID 15924568 . 13. ^ Grandison, R. C.; Piper, M. D. W.; Partridge, L. (2009). "Amino-acid imbalance explains extension of lifespan by dietary restriction in Drosophila". Nature 462 (7276): 1061â 1064. doi:10.1038/nature08619. PMC 2798000. PMID 19956092. [edit] Methionine restriction 7
+
+Methionine - Wikipedia, the free encyclopedia http://www.pubmedcentral.nih.gov/articlerender.fcgi?tool=pmcentrez&artid=2798000. Lay summary. edit 14. ^ http://www.sciencenews.org/view/generic/id/50275/title/Amino_acid_recipe_could_be_right_for_long_life 15. ^ Burn Baby Burn! Grass Burns from Dog Urine, About.Com, http://dogs.about.com/od/dogcarebasics/qt/grass_burns.htm, retrieved 2010-02-15 . 16. ^ Grass Saver" by NaturVet, NaturVet, http://www.naturvet.com/index.php?option=com_dogcat&catid=1&subcat=3&Itemid=33 . · Rudra, M. N.; Chowdhury, L. M. (30 September 1950), "Methionine Content of Cereals and Legumes", Nature 166 (568): 568, doi:10.1038/166568a0
+
+[edit] External links
+· Food Sources of Methionine · Foods containing methionine v Â· d Â· eThe 20 Common Amino Acids Aliphatic Aromatic By properties Branched-chain amino acids (Valine Â· Isoleucine Â· Leucine) Â· Methionine Â· Alanine Â· Proline Â· Glycine Phenylalanine Â· Tyrosine Â· Tryptophan Â· Histidine
+
+Polar, uncharged Asparagine Â· Glutamine Â· Serine Â· Threonine Positive charge (pKa) Lysine (â 10.8) Â· Arginine (â 12.5) Â· Histidine (â 6.1)
+
+Negative charge Aspartic acid (â 3.9) Â· Glutamic acid (â (pKa) (â 8.3) Â· Tyrosine (â 10.1) General Other classifications
+
+4.1) Â· Cysteine
+
+Essential amino acid Â· Protein Â· Peptide Â· Genetic code
+
+Essential amino acids Â· Ketogenic amino acid Â· Glucogenic amino acid
+
+biochemical families: prot Â· nucl Â· carb (glpr, alco, glys) Â· lipd (fata/i, phld, strd, gllp, eico) Â· amac/i Â· ncbs/i Â· ttpy/i v Â· d Â· eAntidotes (V03AB) Nerve agent / Atropine# â ¢ Biperiden â ¢ Diazepam# â ¢ Oximes Organophosphate poisoning (Pralidoxime, Obidoxime) â ¢ see also Cholinesterase Opioid overdose Nervous system Barbiturate overdose Benzodiazepine overdose GHB overdose Reversal of neuromuscular blockade Diprenorphine â ¢ Doxapram â ¢ Nalorphine â ¢ Naloxone# â ¢ Naltrexone â ¢ Nalmefene Bemegride â ¢ Ethamivan Cyprodenate â ¢ Flumazenil Physostigmine â ¢ SCH-50911 Sugammadex
+
+[edit] References
+
+8
+
+Methionine - Wikipedia, the free encyclopedia Heparin Protamine#
+
+Cardiovascular Digoxin toxicity Digoxin Immune Fab Beta blocker Glucagon
+
+Methanol / Ethylene glycol Ethanol â ¢ Fomepizole poisoning Paracetamol toxicity (Acetaminophen) Arsenic poisoning Cyanide poisoning Toxic metals (cadmium, mercury, lead, thallium) Hydrofluoric acid Other Emetic Acetylcysteine# â ¢ Glutathione â ¢ Methionine# Dimercaprol# â ¢ Succimer nitrite (Amyl nitrite, Sodium nitrite#) â ¢ Sodium thiosulfate# â ¢ 4-Dimethylaminophenol â ¢ Hydroxocobalamin Edetates â ¢ Dimercaprol# â ¢ Prussian blue# Calcium gluconate# Prednisolone/promethazine â ¢ oxidizing agent (potassium permanganate) â ¢ iodine-131 (Potassium iodide) â ¢ Methylthioninium chloride#
+
+Other
+
+Ipecacuanha (Syrup of ipecac) â ¢ Copper sulfate from market. Clinical trials: â Phase III. Â§Never to phase III
+
+#WHO-EM. â ¡Withdrawn
+
+M: gen pto ant TOX / txn v Â· d Â· eAmino acid metabolism metabolic intermediates lysineâ Saccharopine Â· Allysine Â· Î±-Aminoadipic acid Â· Î±-Aminoadipate Â· Glutaryl-CoA Â· Glutaconyl-CoA Â· Crotonyl-CoA Â· Î²-Hydroxybutyryl-CoA Î±-Ketoisocaproic acid Â· Isovaleryl-CoA Â· 3-Methylcrotonyl-CoA Â· 3-Methylglutaconyl-CoA Â· HMG-CoA N'-Formylkynurenine Â· Kynurenine Â· Anthranilic acid Â· 3-Hydroxykynurenine Â· 3-Hydroxyanthranilic acid Â· 2-Amino-3-carboxymuconic semialdehyde Â· 2-Aminomuconic semialdehyde Â· 2-Aminomuconic acid Â· Glutaryl-CoA 3-Phosphoglyceric acid Gâ pyruvateâ citrate glycineâ serineâ glycineâ creatine: Glycocyamine Â· Phosphocreatine Â· Creatinine
+
+leucineâ Kâ acetyl-CoA
+
+tryptophanâ
+
+alanineâ
+
+G
+
+[edit] External links
+
+9
+
+Methionine - Wikipedia, the free encyclopedia Urocanic acid Â· Imidazol-4-one-5-propionic acid Â· Formiminoglutamic acid Â· Glutamate-1-semialdehyde 1-Pyrroline-5-carboxylic acid Ornithine Â· Putrescine Â· Agmatine cysteine+glutamateâ Î³-Glutamylcysteine glutathione:
+
+histidineâ Gâ glutamateâ Î±-ketoglutarate prolineâ arginineâ other
+
+valineâ
+
+Î±-Ketoisovaleric acid Â· Isobutyryl-CoA Â· Methacrylyl-CoA Â· 3-Hydroxyisobutyryl-CoA Â· 3-Hydroxyisobutyric acid Â· 2-Methyl-3-oxopropanoic acid 2,3-Dihydroxy-3-methylpentanoic acid Â· 2-Methylbutyryl-CoA Â· Tiglyl-CoA Â· 2-Methylacetoacetyl-CoA generation of homocysteine: S-Adenosyl methionine Â· S-Adenosyl-L-homocysteine Â· Homocysteine conversion to cysteine: Cystathionine Â· alpha-Ketobutyric acid+Cysteine
+
+isoleucineâ Gâ propionyl-CoAâ succinyl-CoA methionineâ
+
+threonineâ propionyl-CoAâ Gâ Gâ Other fumarate oxaloacetate
+
+Î±-Ketobutyric acid Methylmalonyl-CoA 4-Hydroxyphenylpyruvic acid Â· Homogentisic acid Â· 4-Maleylacetoacetate
+
+phenylalanineâ see urea cycle
+
+tyrosineâ
+
+Cysteine metabolism Cysteine sulfinic acid
+
+mt, m(A16, k, C10),i(k, k, cgrp/y/i, c/g/r/p/y/i,c/g/r/p/y/i, M: f/h/s/l/o, f/h/s/l/o/e, f/h/s/o/e, au, n, MET a/u, a/u, h, n, n, epon h) h biochemical families: prot Â· nucl Â· carb (glpr, alco, glys) Â· lipd (fata/i, phld, strd, gllp, eico) Â· amac/i Â· ncbs/i Â· ttpy/i Retrieved from "http://en.wikipedia.org/wiki/Methionine" Categories: Proteinogenic amino acids | Glucogenic amino acids | Sulfur amino acids | Thioethers | Essential amino acids Hidden categories: Articles with changed KEGG identifier | Articles with changed EBI identifier | Chemboxes which contain changes to verified fields [edit] External links 10
+
+Methionine - Wikipedia, the free encyclopedia
+Personal tools
+
+· Log in / create account
+Namespaces
+
+· Article · Discussion
+Variants Views
+
+· Read · Edit · View history
+Actions Search
+
+Navigation
+
+· Main page · Contents · Featured content · Current events · Random article · Donate to Wikipedia
+Interaction
+
+· Help · About Wikipedia · Community portal · Recent changes · Contact Wikipedia
+Toolbox
+
+· What links here · Related changes · Upload file · Special pages · Permanent link · Cite this page
+Print/export
+
+· Create a book · Download as PDF · Printable version Personal tools 11
+
+Methionine - Wikipedia, the free encyclopedia
+Languages
+
+· Ø§Ù Ø¹Ø±Ø¨Ù Ø© · BÃ¢n-lÃ¢m-gÃº · CatalÃ · Ä esky · Deutsch · Î Î»Î»Î·Î½Î¹ÎºÎ¬ · EspaÃ±ol · Esperanto · Euskara · Ù Ø§Ø±Ø³Û · FranÃ§ais · í êµ-ì ´ · Hrvatski · Bahasa Indonesia · Italiano · ×¢× ×¨× ×ª · LatvieÅ¡u · LÃ«tzebuergesch · LietuviÅ³ · Magyar · Ð Ð°ÐºÐµÐ´Ð¾Ð½Ñ ÐºÐ¸ · Nederlands · æ ¥æ ¬èª · â ªNorsk (bokmÃ¥l)â ¬ · Occitan · Polski · PortuguÃªs · Ð Ñ Ñ Ñ ÐºÐ¸Ð¹ · SlovenÄ ina · Ð¡Ñ Ð¿Ñ ÐºÐ¸ / Srpski · Srpskohrvatski / Ð¡Ñ Ð¿Ñ ÐºÐ¾Ñ Ñ Ð²Ð°Ñ Ñ ÐºÐ¸ · Suomi · Svenska · TÃ¼rkÃ§e · Ð£ÐºÑ Ð°Ñ Ð½Ñ Ñ ÐºÐ° · ä¸-æ · This page was last modified on 25 February 2011 at 11:35. · Text is available under the Creative Commons Attribution-ShareAlike License; additional terms may apply. See Terms of Use for details. Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc., a non-profit organization. · Contact us · Privacy policy · About Wikipedia · Disclaimers ·
+
+Languages
+
+12
+
+Methionine - Wikipedia, the free encyclopedia ·
+
+Languages
+
+13
+
+

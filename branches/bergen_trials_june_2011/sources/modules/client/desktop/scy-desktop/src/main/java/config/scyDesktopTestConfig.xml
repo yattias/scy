@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+   <!--<import resource="localRooloConfig.xml"/>-->
+   <!--<import resource="localWrappedRooloConfig.xml"/> -->
+   <!--<import resource="localRooloTemporaryConfig.xml"/>-->
+   <!-- <import resource="remoteRooloConfig.xml"/> -->
+
+<!--
+   <bean name="eloFactory" class="roolo.elo.JDomBasicELOFactory">
+      <constructor-arg index="0" ref="metadataTypeManager"/>
+   </bean>
+-->
+
+   <import resource="logicalAndFunctionalTypes.xml"/>
+
+   <bean name="scyDesktopConfig" class="eu.scy.client.desktop.scydesktop.config.BasicConfig" init-method="initialize">
+      <!--
+      <property name="repository" ref="repository"/>
+      <property name="extensionManager" ref="extensionManager"/>
+      <property name="metadataTypeManager" ref="metadataTypeManager"/>
+      <property name="eloFactory" ref="eloFactory"/>
+      <property name="toolBrokerAPI" ref="toolBrokerAPI"/>
+      <property name="titleKey" ref="titleKey"/>
+      <property name="technicalFormatKey" ref="technicalFormatKey"/>
+      -->
+      <!--
+      <property name="missionModelCreator" ref="missionModelCreator"/>
+      -->
+      <!--
+      <property name="registerContentCreators">
+         <list>
+            <bean class="eu.scy.client.desktop.scydesktop.test.TestRegisterContentCreators"/>
+         </list>
+      </property>
+      -->
+
+      <property name="logicalTypeDisplayNames" ref="logicalTypeDisplayNames"/>
+
+      <property name="functionalTypeDisplayNames" ref="functionalTypeDisplayNames"/>
+
+      <property name="eloConfigs">
+         <list value-type="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="eloType" value="defaultEloToolConfig"/>
+               <property name="topDrawerCreatorId" value="versionViewer"/>
+               <property name="rightDrawerCreatorId" value="propertiesViewer"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="scyToolViewer xmlViewer testDialogs"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/test"/>
+               <property name="display" value="Test elo"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="test"/>
+               <property name="topDrawerCreatorId" value="xmlViewer"/>
+               <property name="rightDrawerCreatorId" value="propertiesViewer"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/tst"/>
+               <property name="display" value="Tst elo"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="tst"/>
+               <property name="topDrawerCreatorId" value="xmlViewer"/>
+               <property name="rightDrawerCreatorId" value="propertiesViewer"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/scytoolviewer"/>
+               <property name="display" value="ScyTool viewer"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="scyToolViewer"/>
+               <property name="topDrawerCreatorId" value="xmlViewer"/>
+               <property name="rightDrawerCreatorId" value="propertiesViewer"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/text"/>
+               <property name="display" value="Text"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="text"/>
+               <property name="logicalTypeNames">
+                  <list>
+                     <value>structuredText</value>
+                     <value>richText</value>
+                     <value>presentation</value>
+                  </list>
+               </property>
+               <property name="functionalTypeNames">
+                  <list>
+                     <value>hypothesis</value>
+                     <value>documentDesign</value>
+                     <value>reportEvaluation</value>
+                     <value>reportFinal</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/ppt"/>
+               <property name="display" value="Presentation"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="presentationUpload"/>
+               <property name="topDrawerCreatorId" value="xmlViewer"/>
+               <property name="rightDrawerCreatorId" value="propertiesViewer"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/image"/>
+               <property name="display" value="Image"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="image"/>
+               <property name="topDrawerCreatorId" value="xmlViewer"/>
+               <property name="rightDrawerCreatorId" value="propertiesViewer"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/speedTest"/>
+               <property name="display" value="Speed test"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="speedTestPanel"/>
+               <property name="topDrawerCreatorId" value="xmlViewer"/>
+               <property name="rightDrawerCreatorId" value="propertiesViewer"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/missionspecification"/>
+               <property name="display" value="Mission specification"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="missionSpecification"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/missionmapmodel"/>
+               <property name="display" value="Mission map model"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="missionMapModel"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/elotoolconfiguration"/>
+               <property name="display" value="Elo tool configuration"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="eloToolConfiguration"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/missionruntime"/>
+               <property name="display" value="Elo tool configuration"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="missionRuntime"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/templateelos"/>
+               <property name="display" value="Elo tool configuration"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="templateElos"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/runtimesettings"/>
+               <property name="display" value="Runtime settings"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="runtimeSettings"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicEloConfig">
+               <property name="type" value="scy/colorschemes"/>
+               <property name="display" value="Color schemes"/>
+               <property name="creatable" value="true"/>
+               <property name="contentCreatorId" value="colorSchemes"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+            </bean>
+         </list>
+      </property>
+
+      <property name="basicMissionMap">
+         <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionMap">
+            <property name="id" value="testMap"/>
+            <property name="name" value="test mission"/>
+            <property name="loEloUris">
+               <list>
+                  <value>roolo://memory/2/0/help_elo_1.text</value>
+                  <!--
+                  <value>roolo://memory/3/0/help_elo_2.text</value>
+                  -->
+               </list>
+            </property>
+            <property name="lasses">
+               <list>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="las1"/>
+                     <property name="xPosition" value="0"/>
+                     <property name="yPosition" value="0"/>
+                     <property name="tooltip" value="A great small las top left"/>
+                     <property name="loEloUris">
+                        <list>
+                           <value>roolo://memory/2/0/help_elo_1.text</value>
+                           <!--
+                           <value>roolo://memory/3/0/help_elo_2.text</value>
+                           -->
+                        </list>
+                     </property>
+                     <property name="nextLasses">
+                        <list>
+                           <value>las2</value>
+                           <value>las3</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="missionDescription"/>
+                     <property name="intermediateEloIds">
+                        <list>
+                           <value>testIntermediate1</value>
+                        </list>
+                     </property>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="las2"/>
+                     <property name="xPosition" value="20"/>
+                     <property name="yPosition" value="40"/>
+                     <property name="tooltip" value="A great small las at the bottom"/>
+                     <property name="nextLasses">
+                        <list>
+                           <value>las1</value>
+                           <value>las3</value>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="missionIntro"/>
+                  </bean>
+                  <bean class="eu.scy.client.desktop.scydesktop.config.BasicLas">
+                     <property name="id" value="las3"/>
+                     <property name="xPosition" value="40"/>
+                     <property name="yPosition" value="0"/>
+                     <property name="tooltip" value="A great small las to right"/>
+                     <property name="nextLasses">
+                        <list>
+                        </list>
+                     </property>
+                     <property name="anchorEloId" value="missionBackground"/>
+                  </bean>
+               </list>
+            </property>
+            <property name="initialLasId" value="las1"/>
+         </bean>
+      </property>
+
+      <property name="basicMissionAnchors">
+         <list>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="missionDescription"/>
+               <property name="uri" value="roolo://memory/0/0/Mission_description.text"/>
+               <property name="iconType" value="scy/drawing"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                     <value>missionBackground</value>
+                     <value>missionIntro</value>
+                  </list>
+               </property>
+               <property name="loEloUris">
+                  <list>
+                     <value>roolo://memory/2/0/help_elo_1.text</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="missionIntro"/>
+               <property name="uri" value="roolo://memory/99/0/Mission_intro.text"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                     <value>missionBackground</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="missionBackground"/>
+               <property name="uri" value="roolo://memory/1/0/Mission_background.text"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                     <value>missionDescription</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
+               <property name="id" value="testIntermediate1"/>
+               <property name="uri" value="roolo://memory/3/0/help_elo_2.text"/>
+               <property name="inputMissionAnchorIds">
+                  <list>
+                  </list>
+               </property>
+            </bean>
+         </list>
+      </property>
+
+<!--
+      <property name="activeMissionAnchorUri" value="roolo://memory/0/0/Mission_description.text"/>
+-->
+      <property name="templateEloUris">
+         <list>
+            <value>roolo://memory/0/0/Mission_description.text</value>
+            <value>roolo://memory/1/0/Mission_background.text</value>
+            <value>roolo://memory/2/0/help_elo_1.text</value>
+            <value>roolo://memory/3/0/help_elo_2.text</value>
+            <value>roolo://memory/99/0/help_elo_2.text</value>
+            <value>roolo://memory/3/0/help_elo_2.text</value>
+            <value>roolo://memory/99/0/help_elo_2.text</value>
+         </list>
+      </property>
+
+      <property name="backgroundImageFileName" value="bckgrnd2.jpg"/>
+      <property name="backgroundImageFileNameRelative" value="true"/>
+
+   </bean>
+
+</beans>

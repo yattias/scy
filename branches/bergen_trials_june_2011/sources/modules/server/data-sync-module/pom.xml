@@ -1,0 +1,86 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <artifactId>parent</artifactId>
+    <groupId>eu.scy.server</groupId>
+    <version>34-SNAPSHOT</version>
+  </parent>
+  
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>eu.scy.server</groupId>
+  <artifactId>data-sync-module</artifactId>
+  <name>Data Sync Module</name>
+
+  <dependencies>
+  
+  	<dependency>
+  		<groupId>eu.scy.common</groupId>
+  		<artifactId>data-sync-common</artifactId>
+  		<version>${project.version}</version>
+  	</dependency>
+	
+  	<dependency>	
+  		<groupId>eu.scy.server</groupId>
+  		<artifactId>scy-hub-commons</artifactId>
+  		<version>34-SNAPSHOT</version>
+  	</dependency>
+	
+  	<dependency>
+  		<groupId>info.collide</groupId>
+  		<artifactId>sqlspaces-client</artifactId>
+  	</dependency>
+	
+  	<dependency>
+  		<groupId>jivesoftware</groupId>
+  		<artifactId>smackx</artifactId>
+  		<version>3.1.0</version>
+  	</dependency>
+	
+	<dependency>
+  		<groupId>jivesoftware</groupId>
+  		<artifactId>smack</artifactId>
+  		<version>3.1.0</version>
+  	</dependency>
+	
+  	<dependency>
+  		<groupId>eu.scy.common</groupId>
+  		<artifactId>configuration</artifactId>
+  		<version>${project.version}</version>
+  	</dependency>
+		
+  	<dependency>
+  		<groupId>eu.scy.common</groupId>
+  		<artifactId>smacket-extension</artifactId>
+  		<version>${project.version}</version>
+  	</dependency>
+			
+  	<dependency>
+  		<groupId>eu.scy.common</groupId>
+  		<artifactId>packet-transformer</artifactId>
+  		<version>${project.version}</version>
+  	</dependency>
+		
+  	<dependency>
+  		<groupId>eu.scy.server</groupId>
+  		<artifactId>whacket-extension</artifactId>
+  		<version>${project.version}</version>
+  	</dependency>
+		
+    <dependency>
+  		<groupId>info.collide</groupId>
+  		<artifactId>sqlspaces-commons</artifactId>
+  	</dependency>
+		
+  	<dependency>
+  		<groupId>jivesoftware</groupId>
+  		<artifactId>whack</artifactId>
+  		<version>1.0</version>
+  	</dependency>
+		
+  	<dependency>
+  		<groupId>log4j</groupId>
+  		<artifactId>log4j</artifactId>
+  	</dependency>
+		
+  </dependencies>
+  
+</project>

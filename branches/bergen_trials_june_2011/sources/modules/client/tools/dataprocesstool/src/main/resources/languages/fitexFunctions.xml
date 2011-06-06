@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : fitexFunctions.xml
+    Author     : Marjolaine
+    Description:
+        List of pre-defined functions
+-->
+
+<root>
+    <function_class>
+        <name language="fr">Fonctions simples</name>
+        <name language="en">Simple functions</name>
+        <function>
+            <id_function>S.LINEAR</id_function>
+            <name language="fr">linéaire</name>
+            <name language="en">linear</name>
+            <type>y=f(x)</type>
+            <description>ax + b</description>
+            <expression>a*x+b</expression>
+        </function>
+        <function>
+            <id_function>S.POLY2</id_function>
+            <name language="fr"><![CDATA[polynôme 2<sup>nd</sup> degré]]></name>
+            <name language="en">quadratic polynomial</name>
+            <type>y=f(x)</type>
+            <description><![CDATA[ax<sup>2</sup> + bx + c]]></description>
+            <expression>a*x^2+b*x+c</expression>
+        </function>
+        <function>
+            <id_function>S.POLY3</id_function>
+            <name language="fr"><![CDATA[polynôme 3<sup>ème</sup> degré]]></name>
+            <name language="en">polynomial of degree 3</name>
+            <type>y=f(x)</type>
+            <description><![CDATA[ax<sup>3</sup> + bx<sup>2</sup> + cx + d]]></description>
+            <expression>a*x^3+b*x^2+c*x+d</expression>
+        </function>
+        <function>
+            <id_function>S.POLY4</id_function>
+            <name language="fr"><![CDATA[polynôme 4<sup>ème</sup> degré]]></name>
+            <name language="en">polynomial of degree 4</name>
+            <type>y=f(x)</type>
+            <description><![CDATA[ax<sup>4</sup> + bx<sup>3</sup> + cx<sup>2</sup> + dx + e]]></description>
+            <expression>a*x^4+b*x^3+c*x^2+d*x+e</expression>
+        </function>
+        <function>
+            <id_function>S.POWER</id_function>
+            <name language="fr">puissance</name>
+            <name language="en">power</name>
+            <type>y=f(x)</type>
+            <description><![CDATA[a(bx+c)<sup>d</sup> + e]]></description>
+            <expression>a*(b*x+c)^d+e</expression>
+        </function>
+        <function>
+            <id_function>S.EXP</id_function>
+            <name language="fr">exponentielle</name>
+            <name language="en">exponential</name>
+            <type>y=f(x)</type>
+            <description><![CDATA[a.e<sup>(bx+c)</sup> + d]]></description>
+            <expression>a*exp(b*x+c)+d</expression>
+        </function>
+        <function>
+            <id_function>S.LOG</id_function>
+            <name language="fr">logarithmique</name>
+            <name language="en">logarithm</name>
+            <type>y=f(x)</type>
+            <description>a.ln(bx+c) + d</description>
+            <expression>a*ln(b*x+c)+d</expression>
+        </function>
+        <function>
+            <id_function>S.SIN</id_function>
+            <name language="fr">sinus</name>
+            <name language="en">sine</name>
+            <type>y=f(x)</type>
+            <description><![CDATA[a.sin(2π/b.(x+c)) + d]]></description>
+            <expression>a*sin(2*pi/b*(x+c))+d</expression>
+        </function>
+        <function>
+            <id_function>S.TAN</id_function>
+            <name language="fr">tangente</name>
+            <name language="en">tangent</name>
+            <type>y=f(x)</type>
+            <description><![CDATA[a.tan(2π/b.(x+c)) + d]]></description>
+            <expression>a*tan(2*pi/b*(x+c))+d</expression>
+        </function>
+        <function>
+            <id_function>S.COSHYP</id_function>
+            <name language="fr">cosinus hyperbolique</name>
+            <name language="en">hyperbolic cosine</name>
+            <type>y=f(x)</type>
+            <description><![CDATA[a/2.(e<sup>bx</sup> + e<sup>-bx</sup>) + c]]></description>
+            <expression>a/2*(exp(b*x)+exp(-b*x))+c</expression>
+        </function>
+        <function>
+            <id_function>S.SINHYP</id_function>
+            <name language="fr">sinus hyperbolique</name>
+            <name language="en">hyperbolic sine</name>
+            <type>y=f(x)</type>
+            <description><![CDATA[a/2.(e<sup>bx</sup> - e<sup>-bx</sup>) + c]]></description>
+            <expression>a/2*(exp(b*x)-exp(-b*x))+c</expression>
+        </function>
+    </function_class>
+    <function_class>
+        <name language="fr">Oscillations et battements</name>
+        <name language="en">Oscillations</name>
+        <function>
+            <id_function>O.OSCPER</id_function>
+            <name language="fr">oscillations amorties pseudo-périodiques</name>
+            <name language="en">underdamped oscillations</name>
+            <type>y=f(x)</type>
+            <description><![CDATA[a.e<sup>-αx</sup>.cos(ωx + φ) + b]]></description>
+            <expression>a*exp(-α*x)*cos(ω*x+φ)+b</expression>
+        </function>
+        <function>
+            <id_function>O.OSCCRI</id_function>
+            <name language="fr">oscillations en amortissement critique</name>
+            <name language="en">critically damped oscillations</name>
+            <type>y=f(x)</type>
+            <description><![CDATA[(a+bx).e<sup>cx</sup> + d]]></description>
+            <expression>(a+b*x)*exp(c*x)+d</expression>
+        </function>
+        <function>
+            <id_function>O.BEATS</id_function>
+            <name language="fr">battements</name>
+            <name language="en">beats</name>
+            <type>y=f(x)</type>
+            <description><![CDATA[a.cos(ω<sub>1</sub>x + φ<sub>1</sub>).cos(ω<sub>2</sub>x + φ<sub>2</sub>) + b]]></description>
+            <expression>a*cos(ω1*x+φ1)*cos(ω2*x+φ2) + b</expression>
+        </function>
+    </function_class>
+    <function_class>
+        <name language="fr">Dosages pHmétriques</name>
+        <name language="en">pH titrations</name>
+        <function>
+            <id_function>PH.AF_BF</id_function>
+            <name language="fr">dosage d'un monoacide fort par une base forte</name>
+            <name language="en">titration of a strong monoprotic acid by a strong base</name>
+            <type>x=f(y)</type>
+            <description></description>
+            <expression>((Vacid+Vwater)*(1E-14/(1E-y)-(1E-y))+Cacid*Vacid)/((1E-y)+Cbase-1E-14/(1E-y))</expression>
+        </function>
+        <function>
+            <id_function>PH.AFA_BF</id_function>
+            <name language="fr">dosage d'un monoacide faible par une base forte</name>
+            <name language="en">titration of a weak monoprotic acid by a strong base</name>
+            <type>x=f(y)</type>
+            <description></description>
+            <expression>((Vacid+Vwater)*(1E-14/(1E-y)-(1E-y))+Cacid*Vacid/(1+(1E-y)/1E-pKa))/((1E-y)+Cbase-1E-14/(1E-y))</expression>
+        </function>
+        <function>
+            <id_function>PH.DIA_BF</id_function>
+            <name language="fr">dosage d'un diacide par une base forte</name>
+            <name language="en">titration of a diprotic acid by a strong base</name>
+            <type>x=f(y)</type>
+            <description></description>
+            <expression>((Vacid+Vwater)*(1E-14/(1E-y)-(1E-y))+Cacid*Vacid*((1E-y)+2*1E-pKa2)/(1E-pKa2+(1E-y)+(1E(-2*y))/1E-pKa1))/((1E-y)+Cbase-1E-14/(1E-y))</expression>
+        </function>
+        <function>
+            <id_function>PH.TRIA_BF</id_function>
+            <name language="fr">dosage d'un triacide par une base forte</name>
+            <name language="en">titration of a triprotic acid by a strong base</name>
+            <type>x=f(y)</type>
+            <description></description>
+            <expression>(((Vacid+Vwater)*((1E-14/(1E-y))-(1E-y)))+(Cacid*Vacid*((1E(-2*y))+2*(1E-pKa2)*(1E-y)+3*(1E-pKa2)*(1E-pKa3)))/(((1E-pKa2)*(1E-pKa3))+((1E-pKa2)*(1E-y))+(1E(-2*y))+((1E(-3*y))/(1E-pKa1))))/(1E-y+Cbase-(1E-14/(1E-y)))</expression>
+        </function>
+        <function>
+            <id_function>PH.BF_AF</id_function>
+            <name language="fr">dosage d'une monobase forte par un acide fort</name>
+            <name language="en">titration of a strong monoprotic base by a strong acid</name>
+            <type>x=f(y)</type>
+            <description></description>
+            <expression>((Vbase+Vwater)*(-1E-14/(1E-y)+(1E-y))+Cbase*Vbase)/(Cacid+1E-14/(1E-y)-(1E-y))</expression>
+        </function>
+        <function>
+            <id_function>PH.BFA_AF</id_function>
+            <name language="fr">dosage d'une monobase faible par un acide fort</name>
+            <name language="en">titration of a weak monoprotic base by a strong acid</name>
+            <type>x=f(y)</type>
+            <description></description>
+            <expression>((Vbase+Vwater)*((1E-y)-(1E-14/1E-y))+(Cbase*Vbase/(1+((1E-pKa)/(1E-y)))))/(Cacid+((1E-14)/(1E-y))-(1E-y))</expression>
+        </function>
+        <function>
+            <id_function>PH.DIB_AF</id_function>
+            <name language="fr">dosage d'une dibase par un acide fort</name>
+            <name language="en">titration of a diprotic base by a strong acid</name>
+            <type>x=f(y)</type>
+            <description></description>
+            <expression>((Vbase+Vwater)*((1E-y)-(1E-14/(1E-y)))+(Cbase*Vbase*((1E-pKa1)+2*(1E-y))/((1E-pKa1)*(1E-pKa2)/(1E-y)+(1E-y)+(1E-pKa1))))/(Cacid+(1E-14/1E-y)-(1E-y))</expression>
+        </function>
+        <function>
+            <id_function>PH.TIB_AF</id_function>
+            <name language="fr">dosage d'une tribase par un acide fort</name>
+            <name language="en">titration of a triprotic base by a strong acid</name>
+            <type>x=f(y)</type>
+            <description></description>
+            <expression>((Vbase+Vwater)*((1E-y)-(1E-14/(1E-y)))+(Cbase*Vbase*(((1E-pKa1)*(1E-pKa2))+(2*(1E-pKa1)*(1E-y))+(3*(1E(-2*y)))))/(((1E-pKa1)*(1E-pKa2)*((1E-pKa3)/(1E-y)))+((1E-pKa1)*(1E-pKa2))+((1E-pKa1)*(1E-y))+(1E(-2*y))))/(Cacid+(1E-14/1E-y)-(1E-y))</expression>
+        </function>
+    </function_class>
+    <function_class>
+        <name language="fr">Cinétiques de réaction</name>
+        <name language="en">Reaction kinetics</name>
+        <function>
+            <id_function>KI.1</id_function>
+            <name language="fr"><![CDATA[1<sup>er</sup> ordre : ν<sub>A</sub> A → produits]]></name>
+            <name language="en"><![CDATA[1<sup>st</sup> order : ν<sub>A</sub> A → products]]></name>
+            <type>y=f(x)</type>
+            <description><![CDATA[C<sub>0</sub>.e<sup>-ν<sub>A</sub>.k.x</sup>]]></description>
+            <expression>C0*exp(-νA*k*x)</expression>
+        </function>
+        <function>
+            <id_function>KI.2</id_function>
+            <name language="fr"><![CDATA[2<sup>ème</sup> ordre : ν<sub>A</sub> A → produits]]></name>
+            <name language="en"><![CDATA[2<sup>nd</sup> order : ν<sub>A</sub> A → products]]></name>
+            <type>y=f(x)</type>
+            <description><![CDATA[C<sub>0</sub> / (1 + ν<sub>A</sub>.k.C<sub>0</sub>.x)]]></description>
+            <expression>C0/(1+νA*k*C0*x)</expression>
+        </function>
+        <function>
+            <id_function>KI.MICHAELIS</id_function>
+            <name language="fr">cinétique de Michaëlis-Menten</name>
+            <name language="en">Michaëlis-Menten kinetic</name>
+            <type>y=f(x)</type>
+            <description><![CDATA[Vm.x / (Km + x)]]></description>
+            <expression>Vm*x/(Km+x)</expression>
+        </function>
+    </function_class>
+    <function_class>
+        <name language="fr">Statistique</name>
+        <name language="en">Statistics</name>
+        <function>
+             <id_function>ST.GAUSS</id_function>
+            <name language="fr">distribution normale (gaussienne)</name>
+            <name language="en">normal distribution (gaussian)</name>
+            <type>y=f(x)</type>
+            <description><![CDATA[a/(σ.√(2π)) . e<sup>-(x-x<sub>moy</sub>)² / (2σ²)</sup>]]></description>
+            <expression>a/(σ*sqrt(2*pi))*exp(-(x-xmoy)^2/(2*σ^2))</expression>
+        </function>
+    </function_class>
+</root>

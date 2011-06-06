@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+ 
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>eu.scy</groupId>
+		<version>34-SNAPSHOT</version>
+	</parent> 	
+ 
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>eu.scy.common</groupId>
+	<artifactId>parent</artifactId>
+	<name>common</name>
+	<packaging>pom</packaging>
+	<description>scy-common metamodule</description>
+
+	<modules>
+		<!-- this module has been replaced by
+		action-logging-client
+		action-logging-commons
+		action-logging-hibernate
+		<module>action-logging</module>
+		-->
+		<module>configuration</module>
+		<module>agent-commons</module>
+		<module>data-sync-api</module>
+		<module>data-sync-common</module>
+		<module>packet-transformer</module>
+		<module>action-logging-api</module>
+		<module>action-logging-commons</module>
+		<module>agent-api</module>
+		<module>awareness-api</module>
+		<module>awareness-impl</module>
+		<module>scy-elo</module>
+		<module>mission</module>
+		<module>scy-commons</module>
+		<module>scy-model-api</module>
+		<module>scy-model-impl</module>
+		<module>smacket-extension</module>
+		<module>notification-api</module>
+		<module>notification-impl</module>	
+		<module>scy-sessionmanager-api</module>
+		<module>tool-broker-api</module>
+       <module>pedagogical-plan-service-api</module>
+   </modules>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+				<inherited>true</inherited>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

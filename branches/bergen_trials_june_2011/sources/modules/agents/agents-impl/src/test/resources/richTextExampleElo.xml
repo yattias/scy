@@ -1,0 +1,122 @@
+<elo>
+<metadata>
+  <lom>
+    <technical>
+      <format>scy/rtf</format>
+      <customElements>
+        <dateCreated>1266853263318</dateCreated>
+        <dateLastModified>1272896384933</dateLastModified>
+      </customElements>
+    </technical>
+    <general>
+      <title>
+        <string language="en">Hypotheses of my expert group</string>
+        <string language="fr">Hypothèses de mon groupe d'expert</string>
+      </title>
+      <description>
+        <string language="en" />
+      </description>
+      <structure>plainText</structure>
+      <mission>co2Mission</mission>
+      <las>conceptualizationExperts</las>
+      <anchorId>hypothesis</anchorId>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/1147/10/Hypoth%C3%A8ses+de+mon+groupe+d%27expert.rtf</entry>
+      </identifier>
+    </general>
+    <educational>
+      <learningResourceType>hypothesis</learningResourceType>
+    </educational>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>expert11</entity>
+        <date>
+          <dateTime>2010-05-03T16:19:44.933+0200</dateTime>
+        </date>
+      </contribute>
+      <version>10</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>containsAssignment</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/306/0/Hypotheses_of_my_expert_group.url</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/1147/9/Hypoth%C3%A8ses+de+mon+groupe+d%27expert.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/1147/11/Hypoth%C3%A8ses+de+mon+groupe+d%27expert.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil sansserif;}&#xD;
+{\colortbl\red0\green0\blue0;\red0\green0\blue0;}&#xD;
+&#xD;
+\li0\ri0\fi0\f1\fs24\i0\b0\cf1 Quels sont les mat\'e9riaux les plus isolants? \par&#xD;
+- Terre, laine de verre, paille, bois, chanvre, vide\par&#xD;
+ Test : Avec des boites contenant ces differents isolants, on placerait une source de chaleur au milieux de ces 5 boites et un thermometre serait plac\'e9 a l'interieur pour mesurer les differents decalages entre la chaleur exterieure et interieure.\par&#xD;
+\par&#xD;
+Quel type de fen\'eatre isole le mieux ?\par&#xD;
+- Influence des diff\'e9rentes \'e9paisseurs de vitrage (double ou triple)\par&#xD;
+Test : Prendre un petit saladier qui repr\'e9sente une vitre. Mettre une source de chaleur sous le saladier ainsi qu'un thermom\'e8tre. Puis rajouter 1 saladier par dessus qui repr\'e9sente les doubles vitrage et un dernier saladier pour le 3eme vitrage.\par&#xD;
+\par&#xD;
+Est-ce que l'\'e9paisseur des murs est importante pour l'isolation ? Et qu'elle taille serait id\'e9ale ? \par&#xD;
+- Influence de l'\'e9paisseur des mur (plus le mur est \'e9pais mieux c'est ) \par&#xD;
+Test : Idem que pr\'e9cedemment mais avec des boites avec differentes \'e9paisseurs des murs avec l'isolant \'e0\par&#xD;
+l'interieur des 2 ''couches de murs'' et verifier quel largeur conviendrais le mieux\par&#xD;
+\par&#xD;
+Est ce que la taille de la maison joue un r\'f4le dans les perte d'\'e9nergie ? \par&#xD;
+- Plus elle est grande plus il faut de l'\'e9nergie plus elle est petit moins il en faut (pour remplir toute la maison)\par&#xD;
+Test : Toujours le m\'eame mais avec differente taille de boite pour voir avec la m\'eame quantit\'e9 d'\'e9nergie la quel est la mieux chauffer part exemple\par&#xD;
+\par&#xD;
+Comment doit \'eatre orient\'e9e la maison ? \par&#xD;
+- Plus elle est au sud, plus elle sera chauff\'e9 naturellement\par&#xD;
+Test: Une lampe repr\'e9sente le soleil et chauffe la boite. Il faut mettre la boite \'e0 diff\'e9rents endroits pour repr\'e9sent\'e9 les diff\'e9rents emplacements.\par&#xD;
+\par&#xD;
+Quelles salles ont besoin d'\'eatre le plus chauff\'e9e ? \par&#xD;
+- Les pi\'e8ces a vivre par exemple salon doivent \'eatre autour de 20\'b0C les chambres ont besoin de juste 15\'b0C la nuit mais il faut programmer le chauffage pour qu'il atteigne les 18\'b0C environ une heure avant le r\'e9veil. \par&#xD;
+Lorsqu'il n'y pa personne dans la maison, il faut baisser le chauffage de 2, 3 \'b0C\par&#xD;
+Comment doivent-elles \'eatre r\'e9partit ? \par&#xD;
+- Par rapport au test plac\'e9 les chambres plus du cot\'e9 ou il y aura moins de ''chaleurs'' et les autres pi\'e9ces a vivre du c\'f4te que le soleil chauffe plus.\par&#xD;
+\par&#xD;
+La forme et les materiaux du toit d\'e9pent-elle aussi des pertes d'\'e9nergies ? \par&#xD;
+-Triangulaire, plat, arrondie, vegetation, tuiles ...\par&#xD;
+test : Toujours avec les boites, voir avec diff\'e9rents materieux et formes et les quels conservent mieux l'\'e9nergie.\par&#xD;
+\par&#xD;
+}</RichText>
+</content>
+<resources>
+</resources>
+</elo>

@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>parent</artifactId>
+    <groupId>eu.scy.client.desktop</groupId>
+    <version>34-SNAPSHOT</version>
+  </parent>
+  
+  <groupId>eu.scy.client.desktop</groupId>
+  <artifactId>notification-receiver</artifactId>
+  <name>notification receiver</name>
+  <description>receives notifications on client side</description>
+  
+  <dependencies>
+  
+    <dependency>
+      <groupId>eu.scy.common</groupId>
+      <artifactId>notification-impl</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+	
+    <dependency>
+    	<groupId>eu.scy.common</groupId>
+    	<artifactId>smacket-extension</artifactId>
+    	<version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+    	<groupId>eu.scy.common</groupId>
+    	<artifactId>notification-api</artifactId>
+    	<version>${project.version}</version>
+    </dependency>
+	
+	<dependency>
+		<groupId>eu.scy.common</groupId>
+		<artifactId>packet-transformer</artifactId>
+		<version>${pom.version}</version>
+	</dependency>
+
+	<dependency>	
+            <groupId>org.igniterealtime</groupId>
+            <artifactId>smack</artifactId>
+            <version>3.2.0-BOSH</version>
+        </dependency>
+	
+  </dependencies>
+  
+</project>

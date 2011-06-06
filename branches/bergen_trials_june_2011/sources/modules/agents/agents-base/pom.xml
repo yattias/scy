@@ -1,0 +1,76 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>eu.scy.agents</groupId>
+		<version>34-SNAPSHOT</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>agents-base</artifactId>
+	<name>scy agents base</name>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.roolo</groupId>
+			<artifactId>elo-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.roolo</groupId>
+			<artifactId>roolo-api</artifactId>
+			<version>0.6.0-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>action-logging-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>agent-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>info.collide</groupId>
+			<artifactId>sqlspaces-server</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>info.collide</groupId>
+			<artifactId>sqlspaces-client</artifactId>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>info.collide</groupId>
+			<artifactId>sqlspaces-commons</artifactId>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>action-logging-commons</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.15</version>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>agent-commons</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+</project>

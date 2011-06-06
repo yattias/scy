@@ -1,0 +1,58 @@
+<elo>
+<metadata>
+  <lom>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>sikken</entity>
+        <date>
+          <dateTime>2011-02-10T13:25:13.272+0100</dateTime>
+        </date>
+      </contribute>
+    <general>
+      <title>
+        <string language="en">help elo 2</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/3/0/help_elo_2.text</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/text</format>
+      <customElements>
+        <dateCreated>1258624546359</dateCreated>
+      </customElements>
+    </technical>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAAyCAYAAADLLVz8AAAAtUlEQVR42u3QIQ6EQAxAUa6I4B4kWBwKheQmeM5BgmIugEGWzEiSNYva7PuqaateFXpVhQAgQIAABRDgjwIex0Hhy7JdlVKKYRhiXddomibato2u68pDvl3XVeZ5nok9yj4FsO/7mKapLDPgsiyx73vUdV1253nGOI7EPgE+27aNzhtAAQQIEKAAAgQIUAABAgQogAABAhRAgAABCiBAgAAFECBAgAABAgQIEKAAAgT4p4B61w0iuNplM5a1UwAAAABJRU5ErkJggg==</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<text>help elo 2</text>
+</content>
+<resources>
+</resources>
+</elo>

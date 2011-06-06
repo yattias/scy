@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-autowire="byName">
+
+
+   <bean name="eloToolConfigs" class="java.util.ArrayList">
+      <constructor-arg>
+         <list value-type="eu.scy.common.mission.EloToolConfig">
+            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
+               <property name="eloType" value="defaultEloToolConfig"/>
+               <property name="topDrawerCreatorId" value="versionViewer"/>
+               <property name="rightDrawerCreatorId" value="propertiesViewer"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="scyToolViewer testMoreInfo testDialogs feedbackQuestion"/>
+            </bean>
+            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
+               <property name="eloType" value="scy/test"/>
+               <property name="contentCreatorId" value="test"/>
+               <property name="topDrawerCreatorId" value="xmlViewer"/>
+               <property name="rightDrawerCreatorId" value="propertiesViewer"/>
+            </bean>
+            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
+               <property name="eloType" value="scy/tst"/>
+               <property name="contentCreatorId" value="tst"/>
+               <property name="topDrawerCreatorId" value="xmlViewer"/>
+               <property name="rightDrawerCreatorId" value="propertiesViewer"/>
+            </bean>
+            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
+               <property name="eloType" value="scy/scytoolviewer"/>
+               <property name="contentCreatorId" value="scyToolViewer"/>
+               <property name="topDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
+               <property name="rightDrawerCreatorId" value="propertiesViewer"/>
+            </bean>
+            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
+               <property name="eloType" value="scy/text"/>
+               <property name="contentCreatorId" value="text"/>
+                <property name="eloLogicalRoleValues">
+                  <list>
+                     <value>structured_Text</value>
+                     <value>rich_Text</value>
+                     <value>presentation</value>
+                  </list>
+               </property>
+               <property name="eloFunctionalRoleValues">
+                  <list>
+                     <value>hypothesis</value>
+                     <value>document_Design</value>
+                     <value>report_Evaluation</value>
+                     <value>report_Final</value>
+                  </list>
+               </property>
+            </bean>
+            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
+               <property name="eloType" value="scy/ppt"/>
+               <property name="contentCreatorId" value="presentationUpload"/>
+               <property name="topDrawerCreatorId" value="xmlViewer"/>
+               <property name="rightDrawerCreatorId" value="propertiesViewer"/>
+            </bean>
+            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
+               <property name="eloType" value="scy/image"/>
+               <property name="eloSystemRole" value="USER"/>
+               <property name="contentCreatorId" value="image"/>
+               <property name="topDrawerCreatorId" value="xmlViewer"/>
+               <property name="rightDrawerCreatorId" value="propertiesViewer"/>
+            </bean>
+            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
+               <property name="eloType" value="scy/speedTest"/>
+               <property name="eloSystemRole" value="SYSTEM"/>
+               <property name="contentCreatorId" value="speedTestPanel"/>
+               <property name="topDrawerCreatorId" value="xmlViewer"/>
+               <property name="rightDrawerCreatorId" value="propertiesViewer"/>
+            </bean>
+            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
+               <property name="eloType" value="scy/missionspecification"/>
+               <property name="eloSystemRole" value="SYSTEM"/>
+               <property name="contentCreatorId" value="missionSpecification"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
+            </bean>
+            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
+               <property name="eloType" value="scy/missionmapmodel"/>
+               <property name="eloSystemRole" value="SYSTEM"/>
+               <property name="contentCreatorId" value="missionMapModel"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
+            </bean>
+            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
+               <property name="eloType" value="scy/elotoolconfiguration"/>
+               <property name="eloSystemRole" value="SYSTEM"/>
+               <property name="contentCreatorId" value="eloToolConfiguration"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
+            </bean>
+            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
+               <property name="eloType" value="scy/missionruntime"/>
+               <property name="eloSystemRole" value="SYSTEM"/>
+               <property name="contentCreatorId" value="missionRuntime"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
+            </bean>
+            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
+               <property name="eloType" value="scy/templateelos"/>
+               <property name="eloSystemRole" value="SYSTEM"/>
+               <property name="contentCreatorId" value="templateElos"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
+            </bean>
+            <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
+               <property name="eloType" value="scy/runtimesettings"/>
+               <property name="eloSystemRole" value="SYSTEM"/>
+               <property name="contentCreatorId" value="runtimeSettings"/>
+               <property name="bottomDrawerCreatorId" value="xmlViewer"/>
+               <property name="leftDrawerCreatorId" value="scyToolViewer"/>
+            </bean>
+         </list>
+      </constructor-arg>
+   </bean>
+
+
+</beans>

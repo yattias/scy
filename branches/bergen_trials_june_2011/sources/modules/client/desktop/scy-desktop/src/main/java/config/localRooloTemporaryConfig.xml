@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	default-autowire="byName">
+
+   <alias name="localRepository" alias="repository"/>
+   <alias name="localMetadataTypeManager" alias="metadataTypeManager"/>
+   <alias name="localExtensionManager" alias="extensionManager"/>
+   <alias name="localEloFactory" alias="eloFactory"/>
+
+   <bean name="localRepository" class="roolo.cms.repository.mock.MockRepository" init-method="initialise">
+      <property name="metadataTypeManager" ref="localMetadataTypeManager"/>
+      <property name="extensionManager" ref="localExtensionManager"/>
+   </bean>
+
+   <import resource="localRooloMetadata.xml"/>
+   <import resource="localRooloExtensions.xml"/>
+
+   <bean name="localEloFactory" class="roolo.elo.JDomBasicELOFactory">
+      <constructor-arg index="0" ref="metadataTypeManager"/>
+   </bean>
+
+
+</beans>

@@ -1,0 +1,58 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>eu.scy.client.desktop</groupId>
+		<version>34-SNAPSHOT</version>
+	</parent>
+	
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>eu.scy.client.desktop</groupId>
+	<artifactId>action-logging-client</artifactId>
+	<name>action logging client</name>
+	
+	<dependencies>
+	
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>action-logging-commons</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>action-logging-api</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>packet-transformer</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>smacket-extension</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>configuration</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.igniterealtime</groupId>
+			<artifactId>smack</artifactId>
+			<version>3.2.0-BOSH</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+			
+	</dependencies>
+</project>

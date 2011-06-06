@@ -1,0 +1,144 @@
+Threonine - Wikipedia, the free encyclopedia
+
+Threonine
+From Wikipedia, the free encyclopedia Jump to: navigation, search Threonine
+
+IUPAC name Threonine Other names 2-Amino-3-hydroxybutanoic acid Identifiers 80-68-2 Y, CAS number 72-19-5 (L-isomer) PubChem 6288 ChemSpider 6051 Y EC number 201-300-6 SMILES C[C@H]([C@@H](C(=O)O)N)O InChI InChI=1S/C4H9NO3/c1-2(6)3(5)4(7)8/h2-3,6H,5H2,1H3,(H,7,8)/t2-,3+/m1/s1 Key: AYFVYJQAPQTCCC-GBXIJSLDSA-N Y InChI=1S/C4H9NO3/c1-2(6)3(5)4(7)8/h2-3,6H,5H2,1H3,(H,7,8)/t2-,3+/m1/s1 Properties Molecular formula C4H9NO3 Molar mass 119.12 g molâ 1 Acidity (pKa) 2.63 (carboxyl), 10.43 (amino)[1] Supplementary data page Structure and n, Îµr, etc. properties Thermodynamic Phase behaviour data Solid, liquid, gas Threonine
+
+Y
+
+1
+
+Threonine - Wikipedia, the free encyclopedia Spectral data UV, IR, NMR, MS Y(what is this?) (verify) Except where noted otherwise, data are given for materials in their standard state (at 25 Â°C, 100 kPa) Infobox references Threonine (abbreviated as Thr or T)[2] is an Î±-amino acid with the chemical formula HO2CCH(NH2)CH(OH)CH3. Its codons are ACU, ACA, ACC, and ACG. This essential amino acid is classified as polar. Together with serine, threonine is one of two proteinogenic amino acids bearing an alcohol group (tyrosine is not an alcohol but a phenol, since its hydroxyl group is bonded directly to an aromatic ring, giving it different acid/base and oxidative properties). The threonine residue is susceptible to numerous posttranslational modifications. The hydroxy side-chain can undergo O-linked glycosylation. In addition, threonine residues undergo phosphorylation through the action of a threonine kinase. In its phosphorylated form, it can be referred to as phosphothreonine.
+
+Contents
+· 1 History ·2 Stereoisomerism ·3 Biosynthesis ·4 Metabolism · 5 Sources ·6 References · 7 External links
+
+[edit] History
+Threonine was discovered as the last of the 20 common proteinogenic amino acids in the 1930s by William Cumming Rose.
+
+[edit] Stereoisomerism
+
+L-Threonine
+
+(2S,3R) and D-Threonine (2R,3S)
+
+Contents
+
+2
+
+Threonine - Wikipedia, the free encyclopedia (2S,3S) and D-allo-Threonine (2R,3R) Threonine is one of two amino acids out of the twenty with two chiral centers. Threonine can exist in four possible stereoisomers with the following configurations: (2S,3R), (2R,3S), (2S,3S) and (2R,3R). However, the name L-threonine is used for one single enantiomer, (2S,3R)-2-amino-3-hydroxybutanoic acid. The second stereoisomer (2S,3S), which is rarely present in nature, is called L-allo-threonine. The two stereoisomers (2R,3S)- and (2R,3R)-2-amino-3-hydroxybutanoic acid are only of minor importance.
+L-allo-Threonine
+
+[edit] Biosynthesis
+As an essential amino acid, threonine is not synthesized in humans, hence we must ingest threonine in the form of threonine-containing proteins. In plants and microorganisms, threonine is synthesized from aspartic acid via Î±-aspartyl-semialdehyde and homoserine. Homoserine undergoes O-phosphorylation; this phosphate ester undergoes hydrolysis concomitant with relocation of the OH group.[3] Enzymes involved in a typical biosynthesis of threonine include: 1. aspartokinase 2. Ã -aspartate semialdehyde dehydrogenase 3. homoserine dehydrogenase 4. homoserine kinase 5. threonine synthase.
+
+Threonine biosynthesis
+
+[edit] Metabolism
+Threonine is metabolized in two ways:
+
+[edit] Stereoisomerism
+
+3
+
+Threonine - Wikipedia, the free encyclopedia · It is converted to pyruvate via threonine dehydrogenase. An intermediate in this pathway can undergo thiolysis with CoA to produce acetyl-CoA and glycine. · In humans, it is converted to alpha-ketobutyrate in a less common pathway via the enzyme serine dehydratase, and thereby enters the pathway leading to succinyl-CoA.
+
+[edit] Sources
+Foods high in threonine include cottage cheese, poultry, fish, meat, lentils, and sesame seeds. Racemic threonine can be prepared from crotonic acid by alpha-functionalization using mercury(II) acetate.[4]
+
+[edit] References
+1. ^ Dawson, R.M.C., et al., Data for Biochemical Research, Oxford, Clarendon Press, 1959. 2. ^ "Nomenclature and symbolism for amino acids and peptides (IUPAC-IUB Recommendations 1983)", Pure Appl. Chem. 56 (5): 595â 624, 1984, doi:10.1351/pac198456050595 . 3. ^ Lehninger, Albert L.; Nelson, David L.; Cox, Michael M. (2000), Principles of Biochemistry (3rd ed.), New York: W. H. Freeman, ISBN 1-57259-153-6 . 4. ^ Carter, Herbert E.; West, Harold D. (1940), "dl-Threonine", Org. Synth. 20: 101, http://www.orgsyn.org/orgsyn/orgsyn/prepContent.asp?prep=cv3p0813 ; Coll. Vol. 3: 813 .
+
+[edit] External links
+· Food Sources of Threonine · Threonine biosynthesis · CID 205 · CID 6288
+
+v Â· d Â· eThe 20 Common Amino Acids Aliphatic Aromatic By properties Branched-chain amino acids (Valine Â· Isoleucine Â· Leucine) Â· Methionine Â· Alanine Â· Proline Â· Glycine Phenylalanine Â· Tyrosine Â· Tryptophan Â· Histidine
+
+Polar, uncharged Asparagine Â· Glutamine Â· Serine Â· Threonine Positive charge (pKa) Lysine (â 10.8) Â· Arginine (â 12.5) Â· Histidine (â 6.1)
+
+Negative charge Aspartic acid (â 3.9) Â· Glutamic acid (â (pKa) (â 8.3) Â· Tyrosine (â 10.1) General Other classifications
+
+4.1) Â· Cysteine
+
+Essential amino acid Â· Protein Â· Peptide Â· Genetic code
+
+Essential amino acids Â· Ketogenic amino acid Â· Glucogenic amino acid
+
+biochemical families: prot Â· nucl Â· carb (glpr, alco, glys) Â· lipd (fata/i, phld, strd, gllp, eico) Â· amac/i Â· ncbs/i Â· ttpy/i
+
+[edit] Metabolism
+
+4
+
+Threonine - Wikipedia, the free encyclopedia v Â· d Â· eAmino acid metabolism metabolic intermediates lysineâ Saccharopine Â· Allysine Â· Î±-Aminoadipic acid Â· Î±-Aminoadipate Â· Glutaryl-CoA Â· Glutaconyl-CoA Â· Crotonyl-CoA Â· Î²-Hydroxybutyryl-CoA Î±-Ketoisocaproic acid Â· Isovaleryl-CoA Â· 3-Methylcrotonyl-CoA Â· 3-Methylglutaconyl-CoA Â· HMG-CoA N'-Formylkynurenine Â· Kynurenine Â· Anthranilic acid Â· 3-Hydroxykynurenine Â· 3-Hydroxyanthranilic acid Â· 2-Amino-3-carboxymuconic semialdehyde Â· 2-Aminomuconic semialdehyde Â· 2-Aminomuconic acid Â· Glutaryl-CoA 3-Phosphoglyceric acid Gâ pyruvateâ citrate glycineâ serineâ glycineâ creatine: Glycocyamine Â· Phosphocreatine Â· Creatinine
+
+leucineâ Kâ acetyl-CoA
+
+tryptophanâ
+
+alanineâ
+
+G
+
+histidineâ Gâ glutamateâ Î±-ketoglutarate prolineâ arginineâ other
+
+Urocanic acid Â· Imidazol-4-one-5-propionic acid Â· Formiminoglutamic acid Â· Glutamate-1-semialdehyde 1-Pyrroline-5-carboxylic acid Ornithine Â· Putrescine Â· Agmatine cysteine+glutamateâ Î³-Glutamylcysteine glutathione:
+
+valineâ
+
+Î±-Ketoisovaleric acid Â· Isobutyryl-CoA Â· Methacrylyl-CoA Â· 3-Hydroxyisobutyryl-CoA Â· 3-Hydroxyisobutyric acid Â· 2-Methyl-3-oxopropanoic acid 2,3-Dihydroxy-3-methylpentanoic acid Â· 2-Methylbutyryl-CoA Â· Tiglyl-CoA Â· 2-Methylacetoacetyl-CoA generation of homocysteine: S-Adenosyl methionine Â· S-Adenosyl-L-homocysteine Â· Homocysteine conversion to cysteine: Cystathionine Â· alpha-Ketobutyric acid+Cysteine
+
+isoleucineâ Gâ propionyl-CoAâ succinyl-CoA methionineâ
+
+threonineâ propionyl-CoAâ Gâ fumarate
+
+Î±-Ketobutyric acid Methylmalonyl-CoA 4-Hydroxyphenylpyruvic acid Â· Homogentisic acid Â· 4-Maleylacetoacetate 5
+
+phenylalanineâ
+
+tyrosineâ
+
+[edit] External links
+
+Threonine - Wikipedia, the free encyclopedia Gâ Other oxaloacetate see urea cycle
+
+Cysteine metabolism Cysteine sulfinic acid
+
+mt, m(A16, k, k, C10),i(k, cgrp/y/i, c/g/r/p/y/i,c/g/r/p/y/i, M: f/h/s/l/o, f/h/s/l/o/e, f/h/s/o/e, MET au, n, a/u, a/u, h, n, n, epon h h) biochemical families: prot Â· nucl Â· carb (glpr, alco, glys) Â· lipd (fata/i, phld, strd, gllp, eico) Â· amac/i Â· ncbs/i Â· ttpy/i Retrieved from "http://en.wikipedia.org/wiki/Threonine" Categories: Proteinogenic amino acids | Glucogenic amino acids | Ketogenic amino acids | Essential amino acids Hidden categories: Chemboxes which contain changes to watched fields
+Personal tools
+
+· Log in / create account
+Namespaces
+
+· Article · Discussion
+Variants Views
+
+· Read · Edit · View history
+Actions Search
+
+Navigation
+
+· Main page · Contents · Featured content · Current events · Random article · Donate to Wikipedia
+Interaction
+
+· Help · About Wikipedia Personal tools 6
+
+Threonine - Wikipedia, the free encyclopedia · Community portal · Recent changes · Contact Wikipedia
+Toolbox
+
+· What links here · Related changes · Upload file · Special pages · Permanent link · Cite this page
+Print/export
+
+· Create a book · Download as PDF · Printable version
+Languages
+
+· Ø§Ù Ø¹Ø±Ø¨Ù Ø© · BÃ¢n-lÃ¢m-gÃº · CatalÃ · Ä esky · Deutsch · EspaÃ±ol · Esperanto · Euskara · Ù Ø§Ø±Ø³Û · FranÃ§ais · í êµ-ì ´ · Hrvatski · Bahasa Indonesia · Italiano · ×¢× ×¨× ×ª · LatvieÅ¡u · LÃ«tzebuergesch · LietuviÅ³ · Magyar · Ð Ð°ÐºÐµÐ´Ð¾Ð½Ñ ÐºÐ¸ · Nederlands · æ ¥æ ¬èª · Occitan · Polski · PortuguÃªs · Ð Ñ Ñ Ñ ÐºÐ¸Ð¹ · Ð¡Ñ Ð¿Ñ ÐºÐ¸ / Srpski · Suomi · Svenska · TÃ¼rkÃ§e Interaction 7
+
+Threonine - Wikipedia, the free encyclopedia · Ð£ÐºÑ Ð°Ñ Ð½Ñ Ñ ÐºÐ° · ä¸-æ · This page was last modified on 16 February 2011 at 21:57. · Text is available under the Creative Commons Attribution-ShareAlike License; additional terms may apply. See Terms of Use for details. Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc., a non-profit organization. · Contact us · Privacy policy · About Wikipedia · Disclaimers · ·
+
+Languages
+
+8
+
+

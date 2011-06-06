@@ -1,0 +1,60 @@
+<elo>
+<metadata>
+  <lom>
+    <general>
+      <title>
+        <string language="en">Mission description</string>
+      </title>
+      <anchorId />
+      <las>las1</las>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/1/0/Mission+description.text</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/formauthor</format>
+      <customElements>
+        <dateCreated>1255477743312</dateCreated>
+        <dateLastModified>1284027155354</dateLastModified>
+      </customElements>
+    </technical>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>phil</entity>
+        <date>
+          <dateTime>2010-09-09T12:12:35.354+0200</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<form description="" title="" version="0"><field cardinality="0" title="name" type="TEXT"/><field cardinality="0" title="zeit vorher" type="TIME"/><field cardinality="0" title="zeit nachher" type="TIME"/></form>
+</content>
+<resources>
+</resources>
+</elo>

@@ -1,0 +1,63 @@
+<elo>
+<metadata>
+  <lom>
+    <technical>
+      <format>scy/missionspecification</format>
+      <customElements>
+        <dateCreated>1284110820744</dateCreated>
+        <dateLastModified>1284110820744</dateLastModified>
+      </customElements>
+    </technical>
+    <general>
+      <title>
+        <string language="nl">Design a CO2-friendly house (UT version)</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/25/0/Design+a+CO2-friendly+house+(UT+version).scymissionspecification</entry>
+      </identifier>
+    </general>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2010-09-10T11:27:00.744+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<missionSpeicification>
+  <missionMapModelEloUri>roolo://memory/21/0/co2MissionUT.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/22/0/co2MissionUT.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/23/0/co2MissionUT.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/24/0/co2MissionUT.runtimesettings</runtimeSettingsEloUri>
+</missionSpeicification>
+</content>
+<resources>
+</resources>
+</elo>

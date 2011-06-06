@@ -1,0 +1,72 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>eu.scy.common</groupId>
+	<artifactId>tool-broker-api</artifactId>
+	<version>34-SNAPSHOT</version>
+	<name>tool-broker-api</name>
+	<packaging>jar</packaging>
+	
+ 	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>eu.scy.common</groupId>
+		<version>34-SNAPSHOT</version>
+	</parent> 	
+	
+	<dependencies>
+	
+		<dependency>
+			<groupId>org.roolo</groupId>
+			<artifactId>roolo-api</artifactId>
+			<version>0.6.0-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>action-logging-api</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>notification-api</artifactId>
+			<version>${pom.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>awareness-api</artifactId>
+			<version>${pom.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>scy-sessionmanager-api</artifactId>
+			<version>${pom.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>data-sync-api</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>pedagogical-plan-service-api</artifactId>
+			<version>${pom.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>scy-elo</artifactId>
+			<version>${pom.version}</version>
+		</dependency>
+		
+	</dependencies>
+
+</project>

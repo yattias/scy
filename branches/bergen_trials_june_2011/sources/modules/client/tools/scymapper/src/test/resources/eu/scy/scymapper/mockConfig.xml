@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+	   default-autowire="byName">
+
+	<import resource="mockShapes.xml"/>
+
+	<alias name="mockConfiguration" alias="configuration"/>
+	<bean id="mockConfiguration" class="eu.scy.scymapper.impl.configuration.SCYMapperToolConfiguration">
+		<property name="nodeFactories">
+			<list>
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
+					<property name="name" value="Factory"/>
+					<property name="nodeShape">
+						<bean class="eu.scy.scymapper.impl.shapes.nodes.SVGShape">
+							<constructor-arg value="/eu/scy/scymapper/impl/demo/shapes/factory.svg"/>
+						</bean>
+					</property>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
+					<property name="name" value="Star"/>
+					<property name="nodeShape" ref="starshape"/>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
+					<property name="name" value="Red non-filled star"/>
+					<property name="nodeShape" ref="starshape"/>
+					<property name="nodeStyle">
+						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+							<property name="background" ref="red"/>
+							<property name="opaque" value="true"/>
+						</bean>
+					</property>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
+					<property name="name" value="Diamond"/>
+					<property name="nodeShape" ref="diamondshape"/>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
+					<property name="name" value="Pollution"/>
+					<property name="description" value=""/>
+					<property name="nodeShape" ref="roundRectangle"/>
+					<property name="height" value="75"/>
+					<property name="width" value="150"/>
+					<property name="nodeStyle">
+						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+							<property name="background" ref="red"/>
+							<property name="opaque" value="true"/>
+						</bean>
+					</property>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
+					<property name="name" value="Safe to eat"/>
+					<property name="description" value=""/>
+					<property name="nodeShape" ref="roundRectangle"/>
+					<property name="nodeStyle">
+						<bean class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+							<property name="background" ref="blue"/>
+							<property name="opaque" value="true"/>
+						</bean>
+					</property>
+					<property name="height" value="75"/>
+					<property name="width" value="175"/>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultNodeFactory">
+					<property name="name" value="Egg"/>
+					<property name="nodeShape" ref="eggShape"/>
+				</bean>
+				<!--bean class="eu.scy.scymapper.impl.configuration.ConceptFactoryory">
+				 <property name="name" value="Bacon"/>
+				 <property name="nodeShape">
+					 <bean name="baconShape" class="eu.scy.scymapper.impl.shapes.nodesGShape
+						 <constructor-arg value="/eu/scy/scymapper/impl/demo/shapes/bacon.svg"/>
+					 </bean>
+				 </property>
+			 </bean-->
+			</list>
+		</property>
+		<property name="linkFactories">
+			<list>
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
+					<property name="label" value="Leads to"/>
+					<property name="linkShape" ref="arrow"/>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
+					<property name="label" value="Consequence of"/>
+					<property name="linkShape" ref="arrow"/>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
+					<property name="label" value="Causes"/>
+					<property name="linkShape" ref="arrow"/>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
+					<property name="label" value="Mutually influences"/>
+					<property name="linkShape" ref="bidirectional_arrow"/>
+				</bean>
+				<bean class="eu.scy.scymapper.impl.configuration.DefaultLinkFactory">
+					<property name="label" value="Related to"/>
+					<property name="linkShape" ref="line"/>
+				</bean>
+			</list>
+		</property>
+	</bean>
+</beans>

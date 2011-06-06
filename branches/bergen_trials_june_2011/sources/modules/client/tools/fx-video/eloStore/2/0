@@ -1,0 +1,57 @@
+<elo>
+<metadata>
+  <testpath>scy/text</testpath>
+  <lom>
+    <general>
+      <title>
+        <string language="en">Police at UDE</string>
+      </title>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/2/0/UDEPoliceB.video</entry>
+      </identifier>
+    </general>
+    <technical>
+      <format>scy/video</format>
+      <customElements>
+        <dateCreated>1252574962998</dateCreated>
+      </customElements>
+    </technical>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>isbasedon</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>somewhere</catalog>
+          <entry>roolo://somewhere/myMission.mission</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_versioned_by</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<document><title>Police at UDE</title><subtitle>fighting the revolting students!</subtitle><URI>http://188.40.38.84/~pg/scy/udepoliceb.flv</URI></document>
+</content>
+<resources>
+</resources>
+</elo>

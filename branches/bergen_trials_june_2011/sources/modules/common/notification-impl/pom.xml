@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>eu.scy.common</groupId>
+	<artifactId>notification-impl</artifactId>
+	<version>34-SNAPSHOT</version>
+	<name>notification-impl</name>
+	
+ 	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>eu.scy.common</groupId>
+		<version>34-SNAPSHOT</version>
+	</parent> 	
+
+	<dependencies>
+	
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>notification-api</artifactId>
+			<version>34-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		
+		<!-- unused
+		<dependency>
+			<groupId>info.collide</groupId>
+			<artifactId>sqlspaces-client</artifactId>
+		</dependency>
+		-->
+		
+		<dependency>
+			<groupId>eu.scy.common</groupId>
+			<artifactId>packet-transformer</artifactId>
+			<version>34-SNAPSHOT</version>
+		</dependency>
+		
+	</dependencies>
+	
+</project>
