@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy.agents</groupId>
-		<version>34-SNAPSHOT</version>
+		<version>34-bgtrials-SNAPSHOT</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
