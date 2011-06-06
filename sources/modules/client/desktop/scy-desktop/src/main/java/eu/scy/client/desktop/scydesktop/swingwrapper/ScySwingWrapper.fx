@@ -15,6 +15,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Math;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
+import eu.scy.client.desktop.desktoputils.metalthemes.CustomMetalThemeFactory;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.plaf.metal.MetalLookAndFeel;
 
 /**
  * @author SikkenJ
@@ -26,6 +31,7 @@ public class ScySwingWrapper extends CustomNode, Resizable {
    public override var width on replace {resizeContent()};
    public override var height on replace {resizeContent()};
    public-init var useJfx12Mode = false;
+   public var windowColorScheme: WindowColorScheme on replace { setSwingCustomMetalTheme() };
 
    var initialClickCatched = false;
    var contentGroup:Group;
@@ -51,10 +57,7 @@ public class ScySwingWrapper extends CustomNode, Resizable {
 //               node:contentGroup
 //            });
       }
-
    }
-
-
 
    public override function create(): Node {
       swingComponent = javafx.ext.swing.SwingComponent.wrap(component);
@@ -92,6 +95,15 @@ public class ScySwingWrapper extends CustomNode, Resizable {
 //      else{
 //         swingComponent
 //      }
+   }
+
+   function setSwingCustomMetalTheme(): Void {
+      if (windowColorScheme!=null){
+         def customMetalTheme = CustomMetalThemeFactory.createCustumMetalTheme(windowColorScheme.getColorScheme());
+         MetalLookAndFeel.setCurrentTheme(customMetalTheme);
+         UIManager.setLookAndFeel(new MetalLookAndFeel());
+         SwingUtilities.updateComponentTreeUI(component);
+      }
    }
 
    function resizeContent(): Void {
