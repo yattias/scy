@@ -9,7 +9,7 @@
  	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy.common</groupId>
-		<version>34-SNAPSHOT</version>
+		<version>34-bgtrials-SNAPSHOT</version>
 	</parent> 	
 	
 	<dependencies>

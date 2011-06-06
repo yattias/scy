@@ -4,7 +4,7 @@
     <parent>
         <artifactId>parent</artifactId>
         <groupId>eu.scy.server</groupId>
-        <version>34-SNAPSHOT</version>
+        <version>34-bgtrials-SNAPSHOT</version>
     </parent>
     <groupId>eu.scy.server</groupId>
     <artifactId>scy-server</artifactId>
