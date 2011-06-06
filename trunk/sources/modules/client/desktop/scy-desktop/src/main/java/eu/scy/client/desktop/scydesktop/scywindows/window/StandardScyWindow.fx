@@ -38,6 +38,7 @@ import eu.scy.actionlogging.Action;
 import eu.scy.actionlogging.Context;
 import eu.scy.client.desktop.desktoputils.XFX;
 import org.apache.log4j.Logger;
+import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 /**
  * @author sikkenj
  */
@@ -692,6 +693,13 @@ public class StandardScyWindow extends ScyWindow {
       resizeElement.windowColorScheme.assign(windowColorScheme);
       rotateElement.windowColorScheme.assign(windowColorScheme);
       closedWindow.windowColorScheme.assign(windowColorScheme);
+   }
+
+   function updateWindowColorScheme(node: Node): Void{
+      if (node instanceof ScyToolFX){
+         def scyToolFX = node as ScyToolFX;
+         scyToolFX.setWindowColorScheme(windowColorScheme);
+      }
    }
 
    public override function buddiesChanged(): Void{

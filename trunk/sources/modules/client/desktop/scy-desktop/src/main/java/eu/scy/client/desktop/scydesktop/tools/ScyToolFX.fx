@@ -8,6 +8,7 @@ package eu.scy.client.desktop.scydesktop.tools;
 import java.net.URI;
 import java.lang.IllegalStateException;
 import java.awt.image.BufferedImage;
+import eu.scy.client.desktop.desktoputils.art.WindowColorScheme;
 
 /**
  * @author sikken
@@ -17,6 +18,8 @@ public mixin class ScyToolFX extends ScyTool {
    public-read var eloSaver: EloSaver;
    public-read var myEloChanged: MyEloChanged;
    public-read var runtimeSettingsRetriever: RuntimeSettingsRetriever;
+   public-read var readOnly: Boolean;
+   public-read var windowColorScheme: WindowColorScheme;
 
    public override function initialize(windowContent: Boolean): Void {
    }
@@ -87,6 +90,14 @@ public mixin class ScyToolFX extends ScyTool {
 
    public override function getDrawerUIIndicator(): DrawerUIIndicator{
       return null;
+   }
+
+   public override function setReadOnly(readOnly: Boolean): Void {
+      this.readOnly = readOnly;
+   }
+
+   public function setWindowColorScheme(windowColorScheme: WindowColorScheme): Void {
+      this.windowColorScheme = windowColorScheme;
    }
 
 }
