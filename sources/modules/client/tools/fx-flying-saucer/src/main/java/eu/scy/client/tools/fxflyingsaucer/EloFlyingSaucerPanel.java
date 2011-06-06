@@ -329,4 +329,9 @@ public class EloFlyingSaucerPanel extends FlyingSaucerPanel implements ScyTool
    {
       return null;
    }
+
+   @Override
+   public void setReadOnly(boolean readOnly)
+   {
+   }
 }
