@@ -3,6 +3,7 @@ package eu.scy.core.roolo;
 import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.scyelo.Access;
 import eu.scy.common.scyelo.ScyElo;
+import eu.scy.core.model.transfer.UserActivityInfo;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -47,6 +48,8 @@ public class RuntimeELOServiceImpl extends BaseELOServiceImpl implements Runtime
 
         }
     }
+
+    
 
 
 }

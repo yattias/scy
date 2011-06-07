@@ -1,6 +1,8 @@
 package eu.scy.core.runtime;
 
 import eu.scy.common.mission.MissionSpecificationElo;
+import eu.scy.core.model.transfer.LasActivityInfo;
+import eu.scy.core.model.transfer.UserActivityInfo;
 
 import java.net.URI;
 import java.util.List;
@@ -15,5 +17,11 @@ import java.util.List;
 public interface SessionService {
     List getActiveStudentsOnMission(MissionSpecificationElo missionSpecificationElo);
 
-    public List findElosFor(URI missionURI, String username);
+    public List findElosFor(String username);
+
+    public UserActivityInfo getUserActivityInfo(MissionSpecificationElo missionSpecificationElo, String userName);
+
+    List getCurrentStudentActivity(MissionSpecificationElo missionSpecificationElo);
+
+    List<LasActivityInfo> getActiveLasses(MissionSpecificationElo missionSpecificationElo);
 }

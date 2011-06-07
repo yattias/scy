@@ -1,6 +1,7 @@
 package eu.scy.core.runtime;
 
 import eu.scy.common.mission.MissionSpecificationElo;
+import eu.scy.core.model.transfer.LasActivityInfo;
 import eu.scy.core.model.transfer.UserActivityInfo;
 import eu.scy.core.roolo.BaseELOServiceImpl;
 import info.collide.sqlspaces.client.TupleSpace;
@@ -37,12 +38,12 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
     }
 
 
-
+    @Override
     public List getCurrentStudentActivity(MissionSpecificationElo missionSpecificationElo) {
         List<UserActivityInfo> userActivityInfoList = new LinkedList<UserActivityInfo>();
 
         try {
-            Tuple missionTemplate = new Tuple(MISSION ,String.class, String.valueOf(missionSpecificationElo.getUri()), String.class);
+            Tuple missionTemplate = new Tuple(MISSION, String.class, String.valueOf(missionSpecificationElo.getUri()), String.class);
 
             Tuple[] missionTuples = getTupleSpace().readAll(missionTemplate);
             String missionString = "";
@@ -53,13 +54,18 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
                 Field[] missionFields = missionTuple.getFields();
                 for (int k = 0; k < missionFields.length; k++) {
                     Field missionField = missionFields[k];
-                    if(k == 1) userActivityInfo.setUserName((String) missionField.getValue());
-                    if(k == 2) userActivityInfo.setMissionSpecification((String) missionField.getValue());
-                    if(k == 3) userActivityInfo.setMissionName((String) missionField.getValue());
+                    if (k == 1) userActivityInfo.setUserName((String) missionField.getValue());
+                    if (k == 2) userActivityInfo.setMissionSpecification((String) missionField.getValue());
+                    if (k == 3) userActivityInfo.setMissionName((String) missionField.getValue());
                 }
 
                 addTool(userActivityInfo);
                 addLas(userActivityInfo);
+
+                List elos = findElosFor(userActivityInfo.getParsedUserName());
+                String size = String.valueOf(elos.size());
+
+                //userActivityInfo.setNumberOfElosProduced(size);
 
                 userActivityInfoList.add(userActivityInfo);
 
@@ -71,6 +77,39 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
 
 
         return userActivityInfoList;
+    }
+
+    public UserActivityInfo getUserActivityInfo(MissionSpecificationElo missionSpecificationElo, String userName) {
+
+        try {
+            Tuple missionTemplate = new Tuple(MISSION, userName, String.valueOf(missionSpecificationElo.getUri()), String.class);
+
+            Tuple[] missionTuples = getTupleSpace().readAll(missionTemplate);
+            String missionString = "";
+            missionString += missionTuples.length + "..";
+            for (int j = 0; j < missionTuples.length; j++) {
+                UserActivityInfo userActivityInfo = new UserActivityInfo();
+                Tuple missionTuple = missionTuples[j];
+                Field[] missionFields = missionTuple.getFields();
+                for (int k = 0; k < missionFields.length; k++) {
+                    Field missionField = missionFields[k];
+                    if (k == 1) userActivityInfo.setUserName((String) missionField.getValue());
+                    if (k == 2) userActivityInfo.setMissionSpecification((String) missionField.getValue());
+                    if (k == 3) userActivityInfo.setMissionName((String) missionField.getValue());
+                }
+
+                addTool(userActivityInfo);
+                addLas(userActivityInfo);
+
+                return userActivityInfo;
+
+            }
+        } catch (TupleSpaceException e) {
+            logger.error(e.getMessage(), e);
+        }
+
+        return null;
+
     }
 
     private void sendMessage(String missionURI) {
@@ -85,13 +124,13 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
     private void addTool(UserActivityInfo userActivityInfo) {
         try {
             Tuple toolTemplate = new Tuple(TOOL, userActivityInfo.getUserName(), String.class, String.class);
-            Tuple [] toolTuples = getTupleSpace().readAll(toolTemplate);
+            Tuple[] toolTuples = getTupleSpace().readAll(toolTemplate);
             for (int j = 0; j < toolTuples.length; j++) {
                 Tuple toolTuple = toolTuples[j];
                 Field[] toolFields = toolTuple.getFields();
                 for (int k = 0; k < toolFields.length; k++) {
                     Field toolField = toolFields[k];
-                    if(k == 2) userActivityInfo.setToolName((String) toolField.getValue());
+                    if (k == 2) userActivityInfo.setToolName((String) toolField.getValue());
                 }
             }
         } catch (TupleSpaceException e) {
@@ -102,17 +141,17 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
 
     private void addLas(UserActivityInfo userActivityInfo) {
         try {
-            Tuple lasTemplate = new Tuple(LAS,userActivityInfo.getUserName(), String.class, String.class);
+            Tuple lasTemplate = new Tuple(LAS, userActivityInfo.getUserName(), String.class, String.class);
 
-            Tuple [] lasTuples = getTupleSpace().readAll(lasTemplate);
+            Tuple[] lasTuples = getTupleSpace().readAll(lasTemplate);
             String lasString = "";
-            lasString +=lasTuples.length + "..";
+            lasString += lasTuples.length + "..";
             for (int j = 0; j < lasTuples.length; j++) {
                 Tuple lasTuple = lasTuples[j];
-                Field[] lasFields =lasTuple.getFields();
+                Field[] lasFields = lasTuple.getFields();
                 for (int k = 0; k < lasFields.length; k++) {
                     Field lasField = lasFields[k];
-                    if(k == 3) userActivityInfo.setLasName((String) lasField.getValue());
+                    if (k == 3) userActivityInfo.setLasName((String) lasField.getValue());
                 }
             }
         } catch (TupleSpaceException e) {
@@ -121,7 +160,72 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
 
     }
 
+    @Override
+    public List<LasActivityInfo> getActiveLasses(MissionSpecificationElo missionSpecificationElo) {
+        Tuple lasTemplate = new Tuple(LAS, String.class, missionSpecificationElo.getTitle(), String.class);
+        List<LasActivityInfo> returnList = new LinkedList<LasActivityInfo>();
+        try {
+            Tuple[] lasTuples = getTupleSpace().readAll(lasTemplate);
+            for (int i = 0; i < lasTuples.length; i++) {
+                String lasName = null;
 
+
+                Tuple lasTuple = lasTuples[i];
+                Field[] lasFields = lasTuple.getFields();
+                for (int k = 0; k < lasFields.length; k++) {
+                    Field lasField = lasFields[k];
+                    if (k == 3) lasName = ((String) lasField.getValue());
+                }
+
+                LasActivityInfo lasActivityInfo = null;
+
+                lasActivityInfo = getLasActivityInfo(lasName, returnList, missionSpecificationElo);
+                if(lasActivityInfo == null ) {
+                    lasActivityInfo = new LasActivityInfo();
+                    lasActivityInfo.setLasName(lasName);
+                    addActiveUsers(lasActivityInfo, missionSpecificationElo);
+                    returnList.add(lasActivityInfo);
+                }
+
+
+            }
+        } catch (TupleSpaceException e) {
+            logger.error(e.getMessage(), e);
+        }
+
+        return returnList;
+    }
+
+    private LasActivityInfo getLasActivityInfo(String lasName, List<LasActivityInfo> returnList, MissionSpecificationElo missionSpecificationElo) {
+        for (int j = 0; j < returnList.size(); j++) {
+            LasActivityInfo alreadyAddedLasActivityInfo = returnList.get(j);
+            if (alreadyAddedLasActivityInfo.getLasName().equals(lasName)) {
+                addActiveUsers(alreadyAddedLasActivityInfo, missionSpecificationElo);
+                return alreadyAddedLasActivityInfo;
+            }
+
+        }
+
+        return null;
+    }
+
+    private void addActiveUsers(LasActivityInfo lasActivityInfo, MissionSpecificationElo missionSpecificationElo) {
+        Tuple lasTemplate = new Tuple(LAS, String.class, missionSpecificationElo.getTitle(), lasActivityInfo.getLasName());
+        try {
+            Tuple[] lasTuples = getTupleSpace().readAll(lasTemplate);
+            for (int i = 0; i < lasTuples.length; i++) {
+                Tuple lasTuple = lasTuples[i];
+                Field[] lasFields = lasTuple.getFields();
+                for (int k = 0; k < lasFields.length; k++) {
+                    Field lasField = lasFields[k];
+                    if (k == 1) lasActivityInfo.addActiveUser((String) lasField.getValue());
+                }
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+
+    }
 
 
     public TupleSpace getTupleSpace() {
