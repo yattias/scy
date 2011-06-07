@@ -27,7 +27,6 @@
             </fieldset>
             <br/>
 
-
         <div style="width: 100%; height: 600px">
             <div id="tabContainer" dojoType="dijit.layout.TabContainer" style="width: 100%; height: 100%;">
             </div>
@@ -63,7 +62,7 @@
 
 
                     var refreshActive = false;
-                    var currentActivity = new dojox.layout.ContentPane({ title:"Current activity", executeScripts: true,  id:"currentActivityTab", href:"/webapp/app/scyauthorruntime/currentActivityView.html?eloURI=${missionSpecificationTransporter.uri}" });
+                    var currentActivity = new dojox.layout.ContentPane({ title:"<spring:message code="CURRENT_ACTIVITY"/>", executeScripts: true,  id:"currentActivityTab", href:"/webapp/app/scyauthorruntime/currentActivityView.html?eloURI=${missionSpecificationTransporter.uri}" });
                     currentActivity.refreshOnShow = true;
                     tabs.addChild(currentActivity);
                     if(dijit.byId("currentActivityTab")){

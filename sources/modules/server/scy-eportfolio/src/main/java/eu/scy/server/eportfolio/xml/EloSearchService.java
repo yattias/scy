@@ -45,7 +45,7 @@ public class EloSearchService extends MissionRuntimeEnabledXMLService {
 
             //String searchParameters = request.getParameter("searchParameters");
 
-            List elos = getMissionELOService().findElosFor(missionSpecificationElo.getUri(), getCurrentUserName(request));
+            List elos = getMissionELOService().findElosFor(getCurrentUserName(request));
             ELOSearchResult eloSearchResult = new ELOSearchResult();
             for (int i = 0; i < elos.size(); i++) {
                 BasicELO basicELO = (BasicELO) elos.get(i);
