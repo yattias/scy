@@ -177,7 +177,6 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 
         // Split search query in several items
 		String searchQuery = props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY);
-		String[] items = searchQuery.split(" ");
 
 		// use the results of the user query as reference
 		List<ISearchResult> referenceResults = SearchResultUtils.createSearchResultsFromXML(props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT));
@@ -188,7 +187,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 			ranking = extendSearchResult(user, eloUri, searchQuery, referenceResults);
 
 		} else if (referenceResults.size() > SUPREMUM_GOOD_SEARCH_RESULT) {
-			ranking = pruneSearchResult(items, referenceResults);
+			ranking = pruneSearchResult(searchQuery, referenceResults);
 
 		} else {
 			// Number of results is ok, so we do nothing
@@ -240,18 +239,13 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     /*
      * Tries to prune the search result.
      */
-	private SearchResultRanking pruneSearchResult(String[] items, List<ISearchResult> referenceResults) {
+	private SearchResultRanking pruneSearchResult(String searchQuery, List<ISearchResult> referenceResults) {
     	SearchResultRanking ranking = new SearchResultRanking(MAXIMAL_PROPOSAL_NUMBER, referenceResults);
+    	String[] items = searchQuery.split(" ");
 
-    	if(items.length <= 1) {
-    		// Only one item and too less results... this must be handled separately
-    		
-    		// TODO: this is just a stub
-    	} else {
-    		
+    	if(items.length > 1) {
+			// Itemset generation
     		String[] itemsets = generateItemSets(items);
-    		
-			// Perform search and evaluate the results.
         	for(int i = 0; i < itemsets.length; i++) {
 
         		List<ISearchResult> result = performSearch(itemsets[i].toString());
@@ -259,6 +253,17 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         			ranking.add(itemsets[i].toString(), result);
         		}
         	}
+        	
+        	// Replace OR by AND
+        	String anotherQuery = replaceOrByAnd(searchQuery);
+        	List <ISearchResult>  result = performSearch(anotherQuery);
+        	if(result != null) {
+        		ranking.add(anotherQuery, result);
+        	}
+    	} else {
+    		// Only one item and too less results... this must be handled separately
+    		
+    		// TODO: this is just a stub    		
     	}
     	return ranking;
     }
@@ -280,6 +285,14 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     		itemsets[i] = s.trim();
     	}
     	return itemsets;
+    }
+    
+    private String replaceOrByAnd(String query) {
+    	StringBuilder sb = new StringBuilder(query);
+    	while(sb.indexOf("OR") > -1) {
+    		sb.replace(sb.indexOf("OR"), sb.indexOf("OR") + 2, "AND");
+    	}
+    	return sb.toString();
     }
     
     /*

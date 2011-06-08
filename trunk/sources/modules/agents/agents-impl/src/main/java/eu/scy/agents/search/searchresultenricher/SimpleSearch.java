@@ -10,6 +10,9 @@ import info.collide.sqlspaces.commons.User;
 
 public class SimpleSearch {
 
+	/*
+	 * Just for testing purposes
+	 */
 	public static void main(String[] args) {
 		
 		TupleSpace actionSpace; 
