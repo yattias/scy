@@ -4,10 +4,10 @@
     <parent>
         <artifactId>parent</artifactId>
         <groupId>eu.scy.common</groupId>
-        <version>34-SNAPSHOT</version>
+        <version>35-SNAPSHOT</version>
     </parent>
     <artifactId>pedagogical-plan-service-api</artifactId>
-    <version>34-SNAPSHOT</version>
+    <version>35-SNAPSHOT</version>
     <name>pedagogical-plan-service-api</name>
     <dependencies>
         <dependency>
