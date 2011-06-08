@@ -67,9 +67,9 @@ public class Manipulation implements Cloneable{
                     }
                 }
             }
-		} else {
-			throw(new JDOMException("Manipulation expects <"+TAG_MANIPULATION+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+        } else {
+            throw(new JDOMException("Manipulation expects <"+TAG_MANIPULATION+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
 
     }
 
@@ -227,7 +227,7 @@ public class Manipulation implements Cloneable{
         return listB ;
     }
 
-    // retourne la tache avec ce dbKey
+    // returns the task with this dbkey
     private CopexTask getTask(long dbKey){
         for (Iterator<CopexTask> t = listTask.iterator(); t.hasNext();){
             CopexTask task = t.next();

@@ -14,26 +14,25 @@ import eu.scy.client.tools.copex.utilities.MyConstants;
 
 
 /**
- * renommer un protocole : gestion du undo redo
+ * undo redo on rename a proc
  * @author Marjolaine
  */
 public class UpdateProcNameUndoRedo extends CopexUndoRedo {
-    /* protocole */
+    /* procedure */
     private ExperimentalProcedure proc;
-    /* ancien nom */
+    /*  old name*/
     private String oldName;
-    /* nouveau nom */
+    /* new name */
     private String newName;
 
   
-    // CONSTRUCTEURS
      public UpdateProcNameUndoRedo(EdPPanel edP, ControllerInterface controller, CopexTree tree, ExperimentalProcedure proc, String oldName, String newName) {
         super(edP, controller, tree);
         this.proc = proc;
         this.oldName = oldName;
         this.newName = newName;
     }
-    // METHODES
+     
     /* undo */
     @Override
     public void undo(){

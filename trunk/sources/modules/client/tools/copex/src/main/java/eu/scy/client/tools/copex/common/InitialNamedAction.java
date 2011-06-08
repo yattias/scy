@@ -255,7 +255,7 @@ public class InitialNamedAction implements Cloneable {
 
     public Element toXMLRef(){
         Element element = new Element(TAG_INITIAL_NAMED_ACTION_REF);
-		return toXMLRef(element);
+        return toXMLRef(element);
     }
 
     protected Element toXMLRef(Element element){

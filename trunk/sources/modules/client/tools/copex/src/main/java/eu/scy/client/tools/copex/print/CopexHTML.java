@@ -9,7 +9,7 @@ import eu.scy.client.tools.copex.common.CopexAction;
 import eu.scy.client.tools.copex.common.CopexTask;
 import eu.scy.client.tools.copex.common.ExperimentalProcedure;
 import eu.scy.client.tools.copex.common.MaterialProc;
-import eu.scy.client.tools.copex.edp.CopexPanel;
+import eu.scy.client.tools.copex.main.CopexPanel;
 import eu.scy.client.tools.copex.utilities.CopexReturn;
 import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.util.ArrayList;
@@ -281,13 +281,13 @@ public class CopexHTML {
     /* returns the list of the children of a task  */
     private ArrayList<CopexTask> getTaskListChild(ExperimentalProcedure proc, CopexTask task){
         ArrayList<CopexTask> childs = new ArrayList();
-        // premier enfant
+        // first child
         long dbKeyFirstChild = task.getDbKeyChild();
         if (dbKeyFirstChild != -1){
             CopexTask t = getTask(proc.getListTask(), dbKeyFirstChild);
             if (t != null){
                  childs.add(t);
-                // recupere les freres de t
+                // gets the brothers of t 
                 ArrayList<CopexTask> brothers = getTaskBrother(proc, t);
                 int nbB = brothers.size();
                 for (int j=0; j<nbB; j++){

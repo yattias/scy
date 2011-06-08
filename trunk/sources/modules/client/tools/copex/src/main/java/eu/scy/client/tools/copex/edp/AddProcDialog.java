@@ -21,33 +21,32 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 /**
- * fenetre de dialogue appellee lors du clic sur le bouton +
- * permet a l'utlisateur de choisir entre :
- * - creer un nouveau protocole, 
- * - creer un nouveau protocole a partir d'un protocole existant
- * - ouvrir un protocole existant
- * @author  MBO
+ * dialog called when click on the + button,
+ * allows the user to choose between:
+ * - create a new proc,
+ * - create a new proc base on an existing proc
+ * - open a proc
+ * @author  Marjolaine
  */
+
 public class AddProcDialog extends JDialog {
 
-    // ATTRIBUTS
-    /* fenetre mere */
+    /* owner */
     private EdPPanel edP;
     /* controller */
     private ControllerInterface controller;
-    /* liste des proc initiaux*/
+    /*  list of initial proc */
     private ArrayList<InitialProcedure> listInitialProc;
-    /* liste des protocoles de la mission en cours */
+    /* list of proc. of the current mission  */
     private ArrayList<LearnerProcedure> listProcMission;
-    /* liste des missions */
+    /* list of missions */
     private ArrayList<CopexMission> listMission;
-    /* liste des protocoles de toutes les missions */
+    /* list of proc. of all missions  */
     private ArrayList<ArrayList<LearnerProcedure>> listAllProc;
     private boolean onlyOneInitProc;
 
     private boolean setDefaultProcName = false;
 
-    // CONSTRUCTEUR 
     public AddProcDialog(EdPPanel edP, ControllerInterface controller, ArrayList<LearnerProcedure> listProcMission, ArrayList<CopexMission> listMission, ArrayList<ArrayList<LearnerProcedure>> listAllProc, ArrayList<InitialProcedure> listInitialProc) {
         super(edP.getOwnerFrame());
         setLocationRelativeTo(edP);
@@ -66,10 +65,9 @@ public class AddProcDialog extends JDialog {
         setIconImage(edP.getIconDialog());
     }
     
-    // METHODES
     private void init(){
         setSize(500,350);
-        // initialisation types de proc initiaux
+        // inistialization of types of initial proc
         if (onlyOneInitProc){
             remove(this.cbProcInit);
             cbProcInit = null;
@@ -87,7 +85,7 @@ public class AddProcDialog extends JDialog {
                     textFieldProcName.setText(listInitialProc.get(0).getName(edP.getLocale()));
             }
         }
-        // initialisation liste des protocoles de la mission en cours
+        // inistialization of list of proc of the current mission
         int nb = listProcMission.size();
         for (int i=0; i<nb; i++){
             ExperimentalProcedure p = (ExperimentalProcedure)listProcMission.get(i);
@@ -97,7 +95,7 @@ public class AddProcDialog extends JDialog {
             cbListProc.setSelectedIndex(0);
         else
             rbCopyProc.setEnabled(false);
-        // initialisation liste des missions
+        // initialization of list of missions
         nb = listMission.size();
         for (int i=0; i<nb; i++){
             CopexMission m = (CopexMission)listMission.get(i);
@@ -107,14 +105,14 @@ public class AddProcDialog extends JDialog {
             cbListMission.setSelectedIndex(0);
         else
             rbOpenProc.setEnabled(false);
-        // resize des elements 
+        // resize elements
         resizeElements();
         repaint();
     }
     
     /*
-     * permet de resizer les elements de la fenetre en fonction de la longueur des textes
-     * variable selon la langue
+     * allows to resize the elements of the dialog, depending of the lenght of the string
+     * depending of the language
      */
    private void resizeElements(){
        // label
@@ -128,11 +126,11 @@ public class AddProcDialog extends JDialog {
        this.rbCopyProc.setSize(70+CopexUtilities.lenghtOfString(this.rbCopyProc.getText(), getFontMetrics(this.rbCopyProc.getFont())), this.rbCopyProc.getHeight());
        // rb open
        this.rbOpenProc.setSize(70+CopexUtilities.lenghtOfString(this.rbOpenProc.getText(), this.rbOpenProc.getFontMetrics(this.rbOpenProc.getFont())), this.rbOpenProc.getHeight());
-       // bouton Ok
+       // button Ok
        this.buttonOk.setSize(70+CopexUtilities.lenghtOfString(this.buttonOk.getText(), getFontMetrics(this.buttonOk.getFont())), this.buttonOk.getHeight());
-       // bouton Annuler
+       // button cancel
        this.buttonCancel.setSize(70+CopexUtilities.lenghtOfString(this.buttonCancel.getText(), getFontMetrics(this.buttonCancel.getFont())), this.buttonCancel.getHeight());
-       //on replace les elements :
+       //place elements
        int x = 10;
        int decalY = 1;
        this.rbNewProc.setBounds(x, 5, this.rbNewProc.getWidth(), this.rbNewProc.getHeight());
@@ -156,6 +154,7 @@ public class AddProcDialog extends JDialog {
        resizeWidth();
        
    }
+
    private void resizeWidth(){
        int nb = this.listAllProc.size();
        int m = 0;
@@ -177,7 +176,7 @@ public class AddProcDialog extends JDialog {
         initComponents();
     }
 
-    /* selection d'un proc initial => par defaut on met le nom du proc initial */
+    /* selection of a initial proc => by default, set the name of the initial proc   */
    private void selectInitProc(){
        if(setDefaultProcName){
         int id = this.cbProcInit.getSelectedIndex() ;
@@ -187,12 +186,12 @@ public class AddProcDialog extends JDialog {
        }
    }
    
-    /* validation de la dialog */
+    /*  dialog validation */
     private void validDialog(){
-        // recupere les donnees
+        // gets data
         setCursor(new Cursor(Cursor.WAIT_CURSOR));
         if (this.rbNewProc.isSelected()){
-            // creation d'un nouveau protocole
+            // creation of a new proc.
             String name = textFieldProcName.getText();
             if (name.length() == 0){
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -209,7 +208,7 @@ public class AddProcDialog extends JDialog {
                 edP.displayError(new CopexReturn(msg, false), edP.getBundleString("TITLE_DIALOG_ERROR"));
                 return;
             }
-            // recupere le proc initial
+            // gets initial proc
             InitialProcedure initProc = listInitialProc.get(0);
             if(!onlyOneInitProc){
                 int id = this.cbProcInit.getSelectedIndex() ;
@@ -231,8 +230,8 @@ public class AddProcDialog extends JDialog {
             edP.setQuestionDialog();
             return;
         }else if (this.rbCopyProc.isSelected()){
-            // copie d'un protocole existant  dans la mission
-            // nom de la copie
+            // copy of an existing proc in the mission
+            // copy name
             String name = textFieldProcNameCopy.getText();
             if (name.length() == 0){
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -249,7 +248,7 @@ public class AddProcDialog extends JDialog {
                 edP.displayError(new CopexReturn(msg, false), edP.getBundleString("TITLE_DIALOG_ERROR"));
                 return;
             }
-            // on recupere le protocole a copier
+            // gets the proc to copy
             int id = this.cbListProc.getSelectedIndex();
             if (id == -1){
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -270,7 +269,7 @@ public class AddProcDialog extends JDialog {
             }
         
         }else if (this.rbOpenProc.isSelected()){
-            // on recupere la mission et le protocole selectionne
+            // gets the mission and the selected proc
             int idM = this.cbListMission.getSelectedIndex();
             if (idM == -1){
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -521,13 +520,13 @@ private void rbOpenProcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 }//GEN-LAST:event_rbOpenProcActionPerformed
 
 private void cbListMissionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbListMissionActionPerformed
-    // mise a jour de la liste des protocoles en fonction de la mission choisie
+    // update the list of proc. depending of the selected mission 
     cbListMissionProc.removeAllItems();
     int id = cbListMission.getSelectedIndex();
     if (id != -1){
         ArrayList<LearnerProcedure> list = this.listAllProc.get(id);
         if (list != null){
-            // initialisation liste des missions
+            // initialization of the list of missions
             int nb = list.size();
             for (int i=0; i<nb; i++){
                 LearnerProcedure p = list.get(i);

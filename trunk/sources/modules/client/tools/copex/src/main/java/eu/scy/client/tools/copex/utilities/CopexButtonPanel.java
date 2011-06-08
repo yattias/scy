@@ -15,22 +15,22 @@ import javax.swing.*;
  */
 public class CopexButtonPanel extends JPanel {
 
-    /* action de clic */
+    /* click action */
     private ActionCopexButton actionCopexButton;
     /*
-     * image de fond
+     * background image
      */
     private Image bg;
     /*
-     * image normale
+     * image
      */
     private Image bgSimple;
     /*
-     * image survol
+     * image mouseover
      */
     private Image bgSurvol;
     /*
-     * image clic
+     * image click
      */
     private Image bgClic;
      /*
@@ -60,7 +60,7 @@ public class CopexButtonPanel extends JPanel {
     }
 
     /**
-    * Instancie l'objet ActionCopexButton.
+    * Instanciation ActionCopexButton.
     * @param action ActionCopexButton
     */
     public void addActionCopexButton(ActionCopexButton action){
@@ -71,7 +71,6 @@ public class CopexButtonPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (bg == null){
-            //System.out.println("bg null !!");
             bg = bgSimple;
         }
         boolean d  =g.drawImage(bg, 0, 0, null) ;
@@ -81,7 +80,7 @@ public class CopexButtonPanel extends JPanel {
     }
 
     /*
-     * rend le panel enabled
+     * set panel enabled
      */
     @Override
     public void setEnabled(boolean b){
@@ -94,7 +93,7 @@ public class CopexButtonPanel extends JPanel {
         repaint();
     }
     
-    /* mise a jour de l'icone */
+    /* update the image */
     public void setIcon(Image updateImg){
         this.bgSimple = updateImg;
         this.bg = updateImg;

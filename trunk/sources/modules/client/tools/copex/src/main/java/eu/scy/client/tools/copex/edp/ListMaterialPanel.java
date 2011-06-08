@@ -56,7 +56,7 @@ public class ListMaterialPanel extends JPanel implements ActionMaterialDetail{
     }
 
     /**
-    * Instancie l'objet ActionMaterial.
+    * action ActionMaterial.
     * @param action ActionMaterial
     */
     public void addActionMaterial(ActionMaterial action){

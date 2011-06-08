@@ -208,7 +208,7 @@ public class MaterialDialog extends JDialog implements ActionMaterial,ActionAddM
     
     
 
-    // fermeture de la fenetre ou retour a la liste
+    // close the frame or return to the list
     private void materialCancel(){
         if(modeAdd)
             this.newMaterialPanel.setPanelDetailsHide();
@@ -216,7 +216,7 @@ public class MaterialDialog extends JDialog implements ActionMaterial,ActionAddM
             this.dispose();
     }
 
-    // validation de la fentre
+    // valid the dialog
     private void materialFinish(){
         if(modeAdd){
             ArrayList v = new ArrayList();
@@ -279,7 +279,7 @@ public class MaterialDialog extends JDialog implements ActionMaterial,ActionAddM
             return true;
         return false;
     }
-    // validation de la fenetre de dialogue
+    // valid dialog 
     private void validDialog(){
         updateMaterialUsed();
         boolean isOk = edP.setMaterialUsed(listMaterialToCreate, listMaterialToDelete, listMaterialToUpdate);
@@ -288,7 +288,7 @@ public class MaterialDialog extends JDialog implements ActionMaterial,ActionAddM
     }
     
 
-    // affichage de  la liste du material
+    // display the material list
     private void setListMaterial(){
         this.modeAdd = false;
         getPanelCenter();
@@ -340,7 +340,7 @@ public class MaterialDialog extends JDialog implements ActionMaterial,ActionAddM
         return textAreaDescription;
     }
 
-    // affichage de creation de material
+    // creation material
     private void setCreateMaterial(){
         newMaterialPanel = new NewMaterialPanel(edP, panelMaterial, edP.getBundleString("LABEL_ADD_MATERIAL"));
         newMaterialPanel.addActionAddMaterial(this);
@@ -413,7 +413,6 @@ public class MaterialDialog extends JDialog implements ActionMaterial,ActionAddM
             id = getIdMaterial(listInitialMaterialUsed, mUsed);
             if(id!=-1){
                  if(isDifferent(mUsed, listInitialMaterialUsed.get(id))){
-                      //System.out.println("ajout dans la lsite des maj "+mUsed.getMaterial().getName(edP.getLocale()));
                       listMaterialToUpdate.add(mUsed);
                  }
             }

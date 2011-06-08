@@ -19,7 +19,7 @@ public class TaskRepeatParamData extends TaskRepeatParam{
     public final static String TAG_TASK_REPEAT_PARAM_DATA = "task_repeat_param_data";
     /*initial param data */
     private InitialParamData initialParamData;
-    /* liste des valeurs */
+    /* values list */
     private ArrayList<TaskRepeatValueParamData> listValue;
 
     public TaskRepeatParamData(long dbKey, long dbKeyActionParam, InitialParamData initialParamData, ArrayList<TaskRepeatValueParamData> listValue) {
@@ -47,9 +47,9 @@ public class TaskRepeatParamData extends TaskRepeatParam{
                 TaskRepeatValueParamData v = new TaskRepeatValueParamData(e, idValue++, idActionParam++, idQuantity++, listPhysicalQuantity, listInitialParamData);
                 listValue.add(v);
             }
-		} else {
-			throw(new JDOMException("Task repeat  param data expects <"+TAG_TASK_REPEAT_PARAM_DATA+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+        } else {
+            throw(new JDOMException("Task repeat  param data expects <"+TAG_TASK_REPEAT_PARAM_DATA+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public InitialParamData getInitialParamData() {
@@ -68,7 +68,6 @@ public class TaskRepeatParamData extends TaskRepeatParam{
         this.listValue = listValue;
     }
 
-    // OVERRIDE
     @Override
     public Object clone() {
         TaskRepeatParamData p = (TaskRepeatParamData) super.clone() ;

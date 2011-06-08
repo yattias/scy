@@ -38,7 +38,7 @@ public class Material implements Cloneable {
     private final static String TAG_MATERIAL_SOURCE_ACTION = "material_source_action";
     private final static String TAG_MATERIAL_SOURCE_USER = "material_source_user";
 
-    /* db id */
+    /* db identifier */
     private long dbKey;
     private String code;
     /* name of the material */

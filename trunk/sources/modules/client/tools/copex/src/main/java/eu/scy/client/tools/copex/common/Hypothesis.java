@@ -56,8 +56,8 @@ public class Hypothesis implements Cloneable{
     }
 
     public Hypothesis(Element xmlElem, long dbKey) throws JDOMException {
-		if (xmlElem.getName().equals(TAG_PROC_HYPOTHESIS)) {
-			this.dbKey = dbKey;
+	if (xmlElem.getName().equals(TAG_PROC_HYPOTHESIS)) {
+            this.dbKey = dbKey;
             listHypothesis = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_HYPOTHESIS).iterator(); variableElem.hasNext();) {
                 Element e = variableElem.next();
@@ -71,10 +71,10 @@ public class Hypothesis implements Cloneable{
                 listComments.add(new LocalText(e.getText(), l));
             }
             hide = xmlElem.getChild(TAG_HYPOTHESIS_HIDE).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
-		} else {
-			throw(new JDOMException("Hypothesis expects <"+TAG_PROC_HYPOTHESIS+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+        } else {
+            throw(new JDOMException("Hypothesis expects <"+TAG_PROC_HYPOTHESIS+"> as root element, but found <"+xmlElem.getName()+">."));
 	}
+    }
 
 
     public long getDbKey() {

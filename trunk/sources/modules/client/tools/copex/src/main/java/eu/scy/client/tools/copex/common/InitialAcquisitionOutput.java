@@ -10,19 +10,18 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-import org.jdom.Attribute;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 
 
 /**
- * output d'une action acquisition
+ * output  for an action acquisition
  * @author Marjolaine
  */
 public class InitialAcquisitionOutput extends InitialOutput implements Cloneable {
     public final static String TAG_INITIAL_OUTPUT_ACQUISITION = "initial_acquisition_output";
     public final static String TAG_INITIAL_OUTPUT_ACQUISITION_REF = "initial_acquisition_output_ref";
-    /* unites des data produites */
+    /* units of data prod. */
     private CopexUnit[] unitDataProd;
 
     public InitialAcquisitionOutput(long dbKey, List<LocalText>  listTextProd, List<LocalText>  listName, CopexUnit[] unitDataProd) {
@@ -32,7 +31,7 @@ public class InitialAcquisitionOutput extends InitialOutput implements Cloneable
 
     public InitialAcquisitionOutput(Element xmlElem, long idOutput, List<PhysicalQuantity> listPhysicalQuantity) throws JDOMException {
         super(xmlElem);
-		if (xmlElem.getName().equals(TAG_INITIAL_OUTPUT_ACQUISITION)) {
+	if (xmlElem.getName().equals(TAG_INITIAL_OUTPUT_ACQUISITION)) {
             this.dbKey = idOutput;
             this.code = xmlElem.getChild(TAG_INITIAL_OUTPUT_CODE).getText();
             listName = new LinkedList<LocalText>();
@@ -53,14 +52,14 @@ public class InitialAcquisitionOutput extends InitialOutput implements Cloneable
                 unitDataProd[i++] =new CopexUnit(variablElem.next(),listPhysicalQuantity);
             }
 
-		} else {
-			throw(new JDOMException("Initial acquisition output expects <"+TAG_INITIAL_OUTPUT_ACQUISITION+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("Initial acquisition output expects <"+TAG_INITIAL_OUTPUT_ACQUISITION+"> as root element, but found <"+xmlElem.getName()+">."));
 	}
+    }
 
     public InitialAcquisitionOutput(Element xmlElem, List<InitialAcquisitionOutput> list) throws JDOMException {
         super(xmlElem);
-		if (xmlElem.getName().equals(TAG_INITIAL_OUTPUT_ACQUISITION_REF)) {
+	if (xmlElem.getName().equals(TAG_INITIAL_OUTPUT_ACQUISITION_REF)) {
             this.code = xmlElem.getChild(TAG_INITIAL_OUTPUT_CODE).getText();
             for(Iterator<InitialAcquisitionOutput> a = list.iterator();a.hasNext();){
                 InitialAcquisitionOutput p = a.next();
@@ -72,8 +71,8 @@ public class InitialAcquisitionOutput extends InitialOutput implements Cloneable
                 }
             }
         }else {
-			throw(new JDOMException("Initial acquisition output expects <"+TAG_INITIAL_OUTPUT_ACQUISITION_REF+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+            throw(new JDOMException("Initial acquisition output expects <"+TAG_INITIAL_OUTPUT_ACQUISITION_REF+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public CopexUnit[] getUnitDataProd() {
@@ -106,7 +105,7 @@ public class InitialAcquisitionOutput extends InitialOutput implements Cloneable
         for(int i=0; i<unitDataProd.length; i++){
             element.addContent(unitDataProd[i].toXMLRef());
         }
-		return element;
+	return element;
     }
 
     @Override

@@ -27,11 +27,6 @@ import javax.swing.event.EventListenerList;
 import javax.swing.tree.TreeCellEditor;
 import org.jdom.Element;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * copex tree editor
  * @author Marjolaine
@@ -95,7 +90,7 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
         setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
         setBackground(CopexTreeCellRenderer.BG_COLOR);
         setAlignmentY(TOP_ALIGNMENT);
-        //icone
+        //icon
         icon = new JLabel() ;
         icon.setSize(38,40);
         icon.setPreferredSize(icon.getSize());
@@ -372,7 +367,7 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
             commentNode.setEditable(editable);
             commentNode.setEnabled(editable);
             int widthTree = ((CopexTree)tree).getTextWidth(value, row) - icon.getWidth();
-            // taille du text area des commentaires
+            // sizeof  text area comments
             int nbLC = commentNode.getLineCount() ;
             int commentTextWidth = CopexUtilities.lenghtOfString(comment, getFontMetrics(commentNode.getFont()))+5;
             boolean oneLineC = false;
@@ -429,7 +424,7 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
         if (isSelected){
             labelNode.setBackground(CopexTreeCellRenderer.SELECTED_COLOR);
             if(labelNode.getWidth() == 0 && textNode != null){
-                //cas de la question 
+                //question
                 //textNode.setBackground(CopexTreeCellRenderer.SELECTED_COLOR);
             }
         }else{

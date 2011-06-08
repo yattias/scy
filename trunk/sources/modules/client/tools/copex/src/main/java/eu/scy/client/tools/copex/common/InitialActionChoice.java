@@ -12,8 +12,9 @@ import java.util.List;
 import java.util.Locale;
 import org.jdom.Element;
 import org.jdom.JDOMException;
+
 /**
- * action de type choice
+ * initial action choice
  * TODO condition
  * uses data
  * @author Marjolaine
@@ -28,10 +29,10 @@ public class InitialActionChoice extends InitialNamedAction{
     }
 
     public InitialActionChoice(Element xmlElem, long idAction, Locale locale, long idActionParam, List<PhysicalQuantity> listPhysicalQuantity, List<TypeMaterial> listTypeMaterial, long idOutput) throws JDOMException {
-		super(xmlElem);
+	super(xmlElem);
         if (xmlElem.getName().equals(TAG_INITIAL_ACTION_CHOICE)) {
             this.dbKey = idAction;
-			code = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_CODE).getText();
+            code = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_CODE).getText();
             listLibelle = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_INITIAL_NAMED_ACTION_LIBELLE).iterator(); variableElem.hasNext();) {
                 Element e = variableElem.next();
@@ -45,15 +46,15 @@ public class InitialActionChoice extends InitialNamedAction{
                 variable = new InitialActionVariable(xmlElem.getChild(InitialActionVariable.TAG_INITIAL_ACTION_VARIABLE), locale, idActionParam, listPhysicalQuantity, listTypeMaterial);
             }
         }
-		else {
-			throw(new JDOMException("Initial action choice expects <"+TAG_INITIAL_ACTION_CHOICE+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	else {
+            throw(new JDOMException("Initial action choice expects <"+TAG_INITIAL_ACTION_CHOICE+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public InitialActionChoice(Element xmlElem,List<InitialNamedAction> list) throws JDOMException{
         super(xmlElem);
         if (xmlElem.getName().equals(TAG_INITIAL_ACTION_CHOICE_REF)) {
-			code = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_CODE).getText();
+            code = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_CODE).getText();
             for(Iterator<InitialNamedAction> q = list.iterator();q.hasNext();){
                 InitialNamedAction p = q.next();
                 if(p.getCode().equals(code)){
@@ -66,8 +67,8 @@ public class InitialActionChoice extends InitialNamedAction{
                 }
             }
         }else {
-			throw(new JDOMException("Initial action choice expects <"+TAG_INITIAL_ACTION_CHOICE_REF+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+            throw(new JDOMException("Initial action choice expects <"+TAG_INITIAL_ACTION_CHOICE_REF+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     @Override

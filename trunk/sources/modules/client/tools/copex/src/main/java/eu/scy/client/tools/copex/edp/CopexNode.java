@@ -96,7 +96,7 @@ public class CopexNode extends DefaultMutableTreeNode {
     public void setMouseover(boolean mouseover) {
     }
 
-    /* retourne vrai si peut etre parent */
+    /* returns true if it can be parent */
     public boolean canBeParent(){
         CopexTask task = getTask();
         if(task == null)
@@ -105,7 +105,7 @@ public class CopexNode extends DefaultMutableTreeNode {
             return task.getParentRight() == MyConstants.EXECUTE_RIGHT;
     }
 
-    /* retourne vrai si peut etre edites */
+    /* returns true if the node can be edited */
     public boolean canEdit(){
         CopexTask task = getTask();
         if(task == null)

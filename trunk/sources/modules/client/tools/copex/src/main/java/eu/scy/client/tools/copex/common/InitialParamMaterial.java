@@ -15,7 +15,7 @@ import org.jdom.JDOMException;
 
 
 /**
- * parametre initial action nommee de type type de materiel
+ * initial parameter for an initial action - type: material
  * @author Marjolaine
  */
 public class InitialParamMaterial extends InitialActionParam {
@@ -25,18 +25,17 @@ public class InitialParamMaterial extends InitialActionParam {
     public final static String TAG_INITIAL_PARAM_MATERIAL_ALLTYPE = "allType";
     public final static String TAG_INITIAL_PARAM_MATERIAL_MAT2 = "type2";
 
-    /* type de materiel */
+    /* material type*/
     private TypeMaterial typeMaterial;
-    /* type de materiel 2 eventuellement */
+    /* possibly type of material 2 */
     private TypeMaterial typeMaterial2;
-    /*indique si exclusif ou non */
+    /* material1 &/or material2?*/
     private boolean andTypes;
-    /* boolean indiquant s'il s'agit de tous les types de materiel du proc */
+    /* all type in the procedure*/
     private boolean allType;
-    /* eventuellementparam quantity dependant*/
+    /* possibly, quantity param*/
     private InitialParamQuantity paramQuantity ;
 
-    // CONSTRUCTOR
     public InitialParamMaterial(long dbKey, List<LocalText>  listParamName, TypeMaterial typeMaterial, TypeMaterial typeMaterial2, boolean andTypes, InitialParamQuantity paramQuantity, boolean allType) {
         super(dbKey, listParamName);
         this.typeMaterial = typeMaterial;
@@ -48,7 +47,7 @@ public class InitialParamMaterial extends InitialActionParam {
 
     public InitialParamMaterial(Element xmlElem, long idActionParam, List<TypeMaterial> listTypeMaterial, List<InitialParamQuantity> listParamQuantity) throws JDOMException {
         super(xmlElem);
-		if (xmlElem.getName().equals(TAG_INITIAL_PARAM_MATERIAL)) {
+	if (xmlElem.getName().equals(TAG_INITIAL_PARAM_MATERIAL)) {
             //this.dbKey = idActionParam;
             this.code = xmlElem.getChild(TAG_INITIAL_ACTION_PARAM_CODE).getText();
             this.dbKey = Long.parseLong(code);
@@ -70,14 +69,14 @@ public class InitialParamMaterial extends InitialActionParam {
                 paramQuantity = new InitialParamQuantity(xmlElem, listParamQuantity);
             }
 
-		} else {
-			throw(new JDOMException("Initial action param material expects <"+TAG_INITIAL_PARAM_MATERIAL+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("Initial action param material expects <"+TAG_INITIAL_PARAM_MATERIAL+"> as root element, but found <"+xmlElem.getName()+">."));
 	}
+    }
 
     public InitialParamMaterial(Element xmlElem, List<InitialParamMaterial> list) throws JDOMException {
         super(xmlElem);
-		if (xmlElem.getName().equals(TAG_INITIAL_PARAM_MATERIAL_REF)) {
+	if (xmlElem.getName().equals(TAG_INITIAL_PARAM_MATERIAL_REF)) {
             this.code = xmlElem.getChild(TAG_INITIAL_ACTION_PARAM_CODE).getText();
             for(Iterator<InitialParamMaterial> a = list.iterator();a.hasNext();){
                 InitialParamMaterial p = a.next();
@@ -96,7 +95,6 @@ public class InitialParamMaterial extends InitialActionParam {
 	}
     }
 
-    // GETTER AND SETTER
     public TypeMaterial getTypeMaterial() {
         return typeMaterial;
     }
@@ -154,7 +152,6 @@ public class InitialParamMaterial extends InitialActionParam {
         return false;
     }
 
-    // OVERRIDE
     @Override
     public Object clone() {
         InitialParamMaterial p = (InitialParamMaterial) super.clone() ;

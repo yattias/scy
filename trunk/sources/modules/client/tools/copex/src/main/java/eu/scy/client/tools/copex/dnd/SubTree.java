@@ -19,29 +19,29 @@ import java.util.ArrayList;
 import javax.swing.JTree;
 
 /**
- * partie de l'arbre destinees a etre collees ou glissee-deposee.
- * @author MBO
+ * sub tree that can be paste or drag'n'drop
+ * @author Marjolaine
  */
 public class SubTree extends JTree implements Serializable {
-    /* fenetre mere */
+    /* owner */
     private EdPPanel edP;
     /* controller */
     private ControllerInterface controller;
-    /* protocole initial */
+    /* initial procedure */
     private ExperimentalProcedure proc;
     /* arbre auquel il appartient a l'origine */
     private CopexTree owner;
-    /* modele de donnees */
+    /* data model */
     private CopexTreeModel subTreeModel;
-    /* liste des taches representees */
+    /* list task */
     private ArrayList<CopexTask> listTask;
-    /* liste des noeuds sources */
+    /* list nodes  */
     private ArrayList<CopexNode> listNodes;
-    /* tache frere */
+    /* brother task */
     private long lastBrother = -1;
-    /* premier noeud origine */
+    /* first node */
     private CopexTask firstTaskOriginal;
-    /* provient d'un drag and drop*/
+    /* is from drag and drop?*/
     private boolean dragNdrop;
     private Question fictivTask;
 
@@ -58,12 +58,11 @@ public class SubTree extends JTree implements Serializable {
         init();
     }
     
-    // METHODES 
-    /* initialisation */
+    /* initialization*/
     private void init(){
         lastBrother = -1;
         firstTaskOriginal = listTask.get(0);
-        // on passe les taches en droit RW
+        // change rights RW
         int nbT = listTask.size();
         if(!dragNdrop){
             for (int k=0; k<nbT; k++){
@@ -71,18 +70,18 @@ public class SubTree extends JTree implements Serializable {
             }
         }
         
-        // creation du modele
-        // on cree une racine fictive
+        // model creation
+        // fictiv root creation
         fictivTask = new Question(edP.getLocale());
         fictivTask.setDbKeyChild(listTask.get(0).getDbKey());
         subTreeModel = new CopexTreeModel(proc, listTask, fictivTask);
-        // sur la derniere tache a connecter on enleve le lien frere eventuel 
+        // on the last task to connect, remove the brother link, if exists
         int idL = getIdLastTask();
         if (idL != -1){
             lastBrother = listTask.get(idL).getDbKeyBrother();
             listTask.get(idL).setDbKeyBrother(-1);
         }
-        // si on a copier la question principale : 
+        // if we have to copy the question
         if (listTask.get(0).isQuestionRoot()){
             listTask.get(0).setRoot(false);
         }
@@ -90,7 +89,7 @@ public class SubTree extends JTree implements Serializable {
     }
     
     
-    /* clone la liste des taches */
+    /* clone task list */
     private ArrayList<CopexTask> cloneList(ArrayList<CopexTask> listT){
         ArrayList listClone = new ArrayList();
         int nbT = listT.size();
@@ -100,8 +99,7 @@ public class SubTree extends JTree implements Serializable {
         return listClone;
     }
     
-    /* retourne l'indice de la derniere tache a connecter : ie le dernier enfant de 
-     la racine, sinon elle meme */
+    /* returns the index of the last task to connect: ie the last child of the root, or the root */
     public int getIdLastTask(){
         CopexNode rootNode = (CopexNode)this.subTreeModel.getManipulationNode();
         CopexNode lastNode = (CopexNode)rootNode.getChildAt(rootNode.getChildCount()-1);
@@ -113,27 +111,28 @@ public class SubTree extends JTree implements Serializable {
         return this.listTask.indexOf(task);
     }
 
-    /* retourne la premiere tache */
+    /* returns the first task */
     public CopexTask getFirstTask(){
         return this.firstTaskOriginal;
     }
-    /* retourne vrai si le premier element (hors racine) de l'arbre est une question */
+
+    /* returns true if the first element (apart root) is a question  */
     public boolean isQuestion(){
         return listTask.get(0).isQuestion();
             
     }
     
-    /* retourne le noeud d'une tache */
+    /* returns the node of a task  */
     public TaskTreeNode getNode(CopexTask task){
         return getNode(task, (TaskTreeNode)subTreeModel.getRoot());
     }
     
-     /* renvoit le noeud crorrespondant a la tache */
+     /* returns the node that corresponds to the task */
     private TaskTreeNode getNode(CopexTask task, TaskTreeNode node){
        if (node.getTask().getDbKey() == task.getDbKey())
            return node;
        else{
-           // on cherche dans les enfants
+           // search in the childs
            if (node.getChildCount() > 0){
                for (int k=0; k<node.getChildCount(); k++){
                    TaskTreeNode n = getNode(task, (TaskTreeNode)subTreeModel.getChild(node, k));
@@ -141,7 +140,7 @@ public class SubTree extends JTree implements Serializable {
                        return n;
                }
            }
-           // on cherche dans les freres
+           // search in the brothers
            TaskTreeNode parent = (TaskTreeNode)node.getParent();
            if (parent != null){
                TaskTreeNode bn = (TaskTreeNode)parent.getChildAfter(node);
@@ -156,12 +155,12 @@ public class SubTree extends JTree implements Serializable {
        return null;    
     }
     
-    /* retourne le premier noeud */
+    /* returns the first node */
     public TaskTreeNode getFirstNode(){
         return (TaskTreeNode)subTreeModel.getChild((TaskTreeNode)subTreeModel.getRoot(), 0);
     }
     
-    /* retourne vrai si le noeud appartient au sous arbre */
+    /* returns true if the node belongs to the sub tree  */
     public boolean containNode(CopexNode node){
         int nbN = listNodes.size();
         for (int i=0; i<nbN; i++){
@@ -171,12 +170,11 @@ public class SubTree extends JTree implements Serializable {
         return false;
     }
     
-    /* mise a jour de la liste des taches */
+    /* update the tasks list  */
     public void updateListTask(ArrayList<CopexTask> listT){
         this.listTask = listT;
     }
     
-    // GETTER AND SETTER
     public ArrayList<CopexTask> getListTask() {
         return listTask;
     }

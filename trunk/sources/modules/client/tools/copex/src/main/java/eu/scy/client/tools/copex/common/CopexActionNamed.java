@@ -5,7 +5,7 @@
 
 package eu.scy.client.tools.copex.common;
 
-import eu.scy.client.tools.copex.edp.CopexPanel;
+import eu.scy.client.tools.copex.main.CopexPanel;
 import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -17,16 +17,15 @@ import org.jdom.JDOMException;
 
 
 /**
- * action nommee
+ * named actions
  * @author Marjolaine
  */
 public class CopexActionNamed extends CopexAction implements Cloneable {
     public final static String TAG_ACTION_NAMED = "action_named";
     public final static String TAG_ACTION_NAMED_TOSTRING="all_description";
-    /* action nommee */
+    /* initial named action */
     protected InitialNamedAction namedAction;
 
-    // CONSTRUCTOR
     public CopexActionNamed(List<LocalText> listDescription, List<LocalText> listComments, InitialNamedAction namedAction) {
         super(listDescription, listComments);
         this.namedAction = namedAction;
@@ -54,14 +53,14 @@ public class CopexActionNamed extends CopexAction implements Cloneable {
 
     public CopexActionNamed(Element xmlElem) throws JDOMException {
         super(xmlElem);
-	}
+    }
 
     public CopexActionNamed(Element xmlElem, long idTask, List<InitialNamedAction> listInitialNamedAction, long idRepeat, long idParam, long idValue, long idActionParam, long idQuantity, List<PhysicalQuantity> listPhysicalQuantity, List<TypeMaterial> listTypeMaterial, List<InitialParamData> listInitialParamData, List<InitialParamMaterial> listInitialParamMaterial, List<InitialParamQuantity> listInitialParamQuantity, List<InitialAcquisitionOutput> listInitialAcquisitionOutput, List<InitialManipulationOutput> listInitialManipulationOutput, List<InitialTreatmentOutput> listInitialTreatmentOutput, List<Material> listMaterial, List<ActionParamQuantity> listActionParamQuantity) throws JDOMException {
         super(xmlElem);
         this.dbKeyBrother = -1;
         this.dbKeyChild = -1;
         if (xmlElem.getName().equals(TAG_ACTION_NAMED)) {
-			dbKey = idTask;
+            dbKey = idTask;
             listName = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_TASK_NAME).iterator(); variableElem.hasNext();) {
                 Element e = variableElem.next();
@@ -102,7 +101,6 @@ public class CopexActionNamed extends CopexAction implements Cloneable {
 		}
     }
 
-    // GETTER AND SETTER
     public InitialNamedAction getNamedAction() {
         return namedAction;
     }
@@ -111,7 +109,6 @@ public class CopexActionNamed extends CopexAction implements Cloneable {
         this.namedAction = namedAction;
     }
 
-    // OVERRIDE
     @Override
     public Object clone() {
         CopexActionNamed a = (CopexActionNamed) super.clone() ;
@@ -120,8 +117,7 @@ public class CopexActionNamed extends CopexAction implements Cloneable {
         return a;
     }
 
-    // METHOD
-    /* mise a jour du nom */
+    /* update the name of the action */
      private void setName(){
         if (this.namedAction != null){
             for (int i=0; i<listDescription.size(); i++){
@@ -130,7 +126,8 @@ public class CopexActionNamed extends CopexAction implements Cloneable {
             }
         }
     }
-     /* construction de la description de l'action dans le cas d'une action parametree */
+
+    /*description of the action */
     @Override
      public String toDescription(CopexPanel edP){
         return toDescription(edP.getLocale());

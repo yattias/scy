@@ -18,24 +18,23 @@ import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 
 /**
- * fenetre de dialogue permettant de modifier le nom d'un protocole
- * on affiche pour info la mission du protocole
+ * dialog that allows the user to rename the proc
+ * display the mission labbook
  * @author  Marjolaine
  */
 public class EditProcDialog extends javax.swing.JDialog {
 
-    /* edP */
+    /* owner */
     private EdPPanel edP;
-    /* controlleur */
+    /* controller */
     private ControllerInterface controller;
-    /* droit sur la fenetre */
+    /* dialog right */
     private char right = MyConstants.EXECUTE_RIGHT;
-    /* protocole */
+    /* proc */
     private LearnerProcedure proc;
     private boolean isMission;
     
     
-    // CONSTRUCTEURS
     /** Creates new form EditProcDialog */
     public EditProcDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -58,9 +57,9 @@ public class EditProcDialog extends javax.swing.JDialog {
     }
 
     private void init(){
-        // nom du protocole 
+        // proc name
         textFieldProc.setText(this.proc.getName(edP.getLocale()));
-        // mission : nom + description 
+        // mission : name + description
         CopexMission mission = proc.getMission();
         String m = mission.getName();
         if (mission.getDescription() != null && mission.getDescription().length() != 0)
@@ -94,17 +93,16 @@ public class EditProcDialog extends javax.swing.JDialog {
     
     
     /*
-     * permet de resizer les elements de la fenetre en fonction de la longueur des textes
-     * variable selon la langue
+     * resize elements
      */
    private void resizeElements(){
        // label mission
        this.labelMission .setSize(CopexUtilities.lenghtOfString(this.labelMission.getText(), getFontMetrics(this.labelMission.getFont())), 14);
        // label proc
        this.labelProc.setSize(CopexUtilities.lenghtOfString(this.labelProc.getText(), getFontMetrics(this.labelProc.getFont())), 14);
-       // bouton Ok
+       // button Ok
        this.buttonOk.setSize(60+CopexUtilities.lenghtOfString(this.buttonOk.getText(), getFontMetrics(this.buttonOk.getFont())), 23);
-       // bouton Annuler
+       // button cancel
        this.buttonCancel.setSize(60+CopexUtilities.lenghtOfString(this.buttonCancel.getText(), getFontMetrics(this.buttonCancel.getFont())), 23);
    }
 
@@ -113,37 +111,38 @@ public class EditProcDialog extends javax.swing.JDialog {
     }
    
    private void validDialog(){
-        // recupere les donnees 
-    // recupere les donnees : 
-   String p = this.textFieldProc.getText();
-   if (controlLenght() && p.length() > MyConstants.MAX_LENGHT_PROC_NAME){
-       String msg = edP.getBundleString("MSG_LENGHT_MAX");
-       msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_PROC"));
-       msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_PROC_NAME);
-       edP.displayError(new CopexReturn(msg, false), edP.getBundleString("TITLE_DIALOG_ERROR")); 
-       return;
+        // gets data
+        String p = this.textFieldProc.getText();
+       if (controlLenght() && p.length() > MyConstants.MAX_LENGHT_PROC_NAME){
+            String msg = edP.getBundleString("MSG_LENGHT_MAX");
+            msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_PROC"));
+            msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_PROC_NAME);
+            edP.displayError(new CopexReturn(msg, false), edP.getBundleString("TITLE_DIALOG_ERROR"));
+            return;
+        }
+        if (p.length() == 0){
+            String msg = edP.getBundleString("MSG_ERROR_FIELD_NULL");
+            msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_PROC"));
+            edP.displayError(new CopexReturn(msg ,false), edP.getBundleString("TITLE_DIALOG_ERROR"));
+            return;
+        }
+        if (!p.equals(proc.getName(edP.getLocale()))){
+            CopexReturn cr = this.controller.updateProcName(proc, p, MyConstants.NOT_UNDOREDO);
+            if (cr.isError()){
+                edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
+                return;
+            }
+            edP.addEdit_renameProc(proc, p);
+        } // nothing if same name
+        this.dispose();
    }
-   if (p.length() == 0){
-       String msg = edP.getBundleString("MSG_ERROR_FIELD_NULL");
-       msg  = CopexUtilities.replace(msg, 0, edP.getBundleString("LABEL_PROC"));
-       edP.displayError(new CopexReturn(msg ,false), edP.getBundleString("TITLE_DIALOG_ERROR")); 
-       return;
-   }
-   if (!p.equals(proc.getName(edP.getLocale()))){
-       CopexReturn cr = this.controller.updateProcName(proc, p, MyConstants.NOT_UNDOREDO);
-       if (cr.isError()){
-           edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));
-           return;
-       }
-       edP.addEdit_renameProc(proc, p);
-   } // rien si le nom est identique
-    this.dispose();
-   }
-   /* permet de rendre disabled tous les elements, ne laisse qu'un bouton pour fermer  */
+
+
+   /* set disabled all elements, just a button close  */
     private void setDisabled(){
         this.textFieldProc.setEnabled(false);
         this.textAreaMission.setEnabled(false);
-        // on ne laisse que le bouton annuler, on change le texte et on le centre
+        // keep the cancel button, change text and center it 
         this.remove(buttonOk);
         this.buttonCancel.setText(edP.getBundleString("BUTTON_OK"));
         this.buttonCancel.setBounds((this.getWidth() - this.buttonCancel.getWidth())/2, this.buttonCancel.getY(), this.buttonCancel.getWidth(), this.buttonCancel.getHeight());

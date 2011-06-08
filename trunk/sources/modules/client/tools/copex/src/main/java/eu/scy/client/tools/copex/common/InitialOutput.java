@@ -24,12 +24,12 @@ public abstract class InitialOutput implements Cloneable{
     public final static String TAG_INITIAL_OUTPUT_PARAM_NAME = "param_name";
     public final static String TAG_INITIAL_OUTPUT_TEXT_PROD = "text_prod";
 
-    /* identifiant */
+    /* db identifier */
     protected long dbKey;
     protected String code;
     /*text prod */
     protected List<LocalText>  listTextProd;
-    /*nom du param */
+    /*name of the param */
     protected List<LocalText>  listName;
 
     public InitialOutput(long dbKey, List<LocalText>  listTextProd, List<LocalText>  listName) {

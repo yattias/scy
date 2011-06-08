@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * group of leaners
+ * group of learners in labbook
  * @author Marjolaine
  */
 public class CopexGroup implements Cloneable{
@@ -37,6 +37,7 @@ public class CopexGroup implements Cloneable{
     public void setLearners(List<CopexLearner> learners) {
         this.learners = learners;
     }
+    
     @Override
     public Object clone()  {
         try {

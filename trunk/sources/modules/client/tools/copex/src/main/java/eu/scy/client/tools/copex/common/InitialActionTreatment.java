@@ -5,7 +5,6 @@
 
 package eu.scy.client.tools.copex.common;
 
-import java.util.ArrayList;
 import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,7 +16,7 @@ import org.jdom.JDOMException;
 
 
 /**
- * action de type treatment
+ * initial action - treatment
  * uses data
  * produces data
  * @author Marjolaine
@@ -28,10 +27,9 @@ public class InitialActionTreatment extends InitialNamedAction implements Clonea
     public final static String TAG_INITIAL_ACTION_TREATMENT_NB_DATA_PROD = "nb_data_prod";
     /* nb data prod */
     private int nbDataProd ;
-    /* liste des output*/
+    /* list output*/
     private ArrayList<InitialTreatmentOutput> listOutput;
 
-    // CONSTRUCTOR
     public InitialActionTreatment(long dbKey, String code, List<LocalText> listLibelle, boolean isSetting, InitialActionVariable variable, boolean draw, boolean repeat, int nbDataProd, ArrayList<InitialTreatmentOutput> listOutput, Element defaultDraw) {
         super(dbKey, code, listLibelle, isSetting, variable, draw, repeat, defaultDraw);
         this.nbDataProd = nbDataProd;
@@ -39,10 +37,10 @@ public class InitialActionTreatment extends InitialNamedAction implements Clonea
     }
 
     public InitialActionTreatment(Element xmlElem, long idAction, Locale locale, long idActionParam, List<PhysicalQuantity> listPhysicalQuantity, List<TypeMaterial> listTypeMaterial, long idOutput) throws JDOMException {
-		super(xmlElem);
+	super(xmlElem);
         if (xmlElem.getName().equals(TAG_INITIAL_ACTION_TREATMENT)) {
             this.dbKey = idAction;
-			code = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_CODE).getText();
+            code = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_CODE).getText();
             listLibelle = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_INITIAL_NAMED_ACTION_LIBELLE).iterator(); variableElem.hasNext();) {
                 Element e = variableElem.next();
@@ -61,15 +59,15 @@ public class InitialActionTreatment extends InitialNamedAction implements Clonea
                 listOutput.add(new InitialTreatmentOutput(variablElem.next(), idOutput++, listPhysicalQuantity));
             }
         }
-		else {
-			throw(new JDOMException("Initial action treatment expects <"+TAG_INITIAL_ACTION_TREATMENT+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	else {
+            throw(new JDOMException("Initial action treatment expects <"+TAG_INITIAL_ACTION_TREATMENT+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public InitialActionTreatment(Element xmlElem,List<InitialNamedAction> list) throws JDOMException{
         super(xmlElem);
         if (xmlElem.getName().equals(TAG_INITIAL_ACTION_TREATMENT_REF)) {
-			code = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_CODE).getText();
+            code = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_CODE).getText();
             for(Iterator<InitialNamedAction> q = list.iterator();q.hasNext();){
                 InitialNamedAction p = q.next();
                 if(p instanceof InitialActionTreatment){
@@ -86,12 +84,11 @@ public class InitialActionTreatment extends InitialNamedAction implements Clonea
                 }
             }
         }else {
-			throw(new JDOMException("Initial action treatment expects <"+TAG_INITIAL_ACTION_TREATMENT_REF+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+            throw(new JDOMException("Initial action treatment expects <"+TAG_INITIAL_ACTION_TREATMENT_REF+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
 
-    // GETTER AND SETTER
     public int getNbDataProd() {
         return nbDataProd;
     }
@@ -110,7 +107,6 @@ public class InitialActionTreatment extends InitialNamedAction implements Clonea
 
     
 
-    // OVERRIDE
     @Override
     public Object clone() {
         InitialActionTreatment a = (InitialActionTreatment) super.clone() ;

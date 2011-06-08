@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 /**
- * Classe gerant la connection avec la base de donnees 
- * @author MBO
+ * Class that manages the methods to access to database
+ * @author marjolaine
  */
 public class AccesDB {
     private String idUser;
@@ -29,7 +29,6 @@ public class AccesDB {
     
     public AccesDB(URL copexURL, long idMission, String idUser){
        this.idUser = idUser;
-        //System.out.println("connection adresse IP applet signee v10");
         dbC = new DataBaseCommunication(copexURL, MyConstants.DB_LABBOOK_COPEX, idMission, idUser);
     }
 
@@ -45,8 +44,9 @@ public class AccesDB {
     public DataBaseCommunication getDbC(){
         return this.dbC;
     }
+
     /**
-     * On replace la chaine toReplace dans la chaine inText par la chaine newTextToReplace.
+     * replace the string toReplace in the string inText with the string newTextToReplace.
      * @return java.lang.String
      * @param toReplace java.lang.String
      * @param inText java.lang.String
@@ -94,50 +94,46 @@ public class AccesDB {
         return ExperimentalProcedureFromDB.getProcMissionFromDB(this.dbC, locker, controlLock, locale, dbKeyMission , dbKeyUser, dbKeyProc,  dbKeyInitProc, listPhysicalQuantity, listMaterialStrategy,  v);
     }
     
-    /* ajout d'une tache, retourne en v2[0] le nouvel id */
+    /* add a task, returns in v[0] the new id */
     public CopexReturn addTaskBrotherInDB(Locale locale,CopexTask task, long idProc, CopexTask brotherTask, ArrayList v){
-     
         CopexReturn cr = TaskFromDB.addTaskBrotherInDB(this.dbC,locale, task, idProc, brotherTask, v);
         return cr;
     }
-    /* ajout d'une tache, retourne en v2[0] le nouvel id */
+
+    /* add a task, returns in v[0] the new id  */
     public CopexReturn addTaskParentInDB(Locale locale,CopexTask task, long idProc, CopexTask parentTask, ArrayList v){
         return TaskFromDB.addTaskParentInDB(this.dbC,locale, task, idProc, parentTask, v);
-       
     }
     
     
     
-    /* modification d'une tache*/
+    /*update a task*/
     public CopexReturn updateTaskInDB(Locale locale,CopexTask newTask, long idProc, CopexTask oldTask, ArrayList v){
         return TaskFromDB.updateTaskInDB(this.dbC,locale, newTask, idProc, oldTask, v);
        
     }
     
-    /* suppression de taches */
+    /* delete tasks */
     public CopexReturn deleteTasksFromDB(long dbKeyProc, ArrayList<CopexTask> listTask){
         return TaskFromDB.deleteTasksFromDB(this.dbC, true, dbKeyProc, listTask);
         
     }
     
-     /* mise a jour des liens */
+     /* update links */
     public CopexReturn updateLinksInDB(long dbKeyProc, ArrayList<CopexTask> listTaskUpdateBrother, ArrayList<CopexTask> listTaskUpdateChild){
        return TaskFromDB.updateLinksInDB(this.dbC, dbKeyProc, listTaskUpdateBrother, listTaskUpdateChild);
         
     }
     
-      /* suppression d'un protocole */
+      /* remove a procedure */
     public CopexReturn removeProcInDB(LearnerProcedure proc){
-        
             CopexReturn cr;
-            
-            // supprime les taches liees au protocole 
+            // remove tasks of the proc
             cr = TaskFromDB.deleteTasksFromDB(this.dbC, false,  proc.getDbKey(), proc.getListTask());
-            
             if (cr.isError()){
                 return cr;
             }
-            // suppression hypothese, principle et evaluation
+            // sremove hypothesis, general principle and evaluation
             cr = ExperimentalProcedureFromDB.deleteHypothesisFromDB(dbC, proc);
             if (cr.isError()){
                 return cr;
@@ -150,21 +146,20 @@ public class AccesDB {
             if (cr.isError()){
                 return cr;
             }
-            // suppression du mat used
+            // remove material user
             cr = ExperimentalProcedureFromDB.deleteMaterialUsedFromDB(dbC, proc.getDbKey(), proc.getListMaterialUsed());
             if (cr.isError()){
                 return cr;
             }
-            // suppression du protocole 
+            // remove proc
             cr = ExperimentalProcedureFromDB.deleteProcedureFromDB(this.dbC, proc.getDbKey());
             if (cr.isError()){
                 return cr;
             }
-           
         return new CopexReturn();
     }
     
-    /* retourne les missions de l'utilisateur sauf celle avec cet id ainsi que les protocoles associes */
+    /* returns all mission of a user, expect tthe mission with the specified id; with the proc */
     public CopexReturn getAllMissionsFromDB(Locale locale,long dbKeyUser, long dbKeyMission, ArrayList v){
             ArrayList v2 = new ArrayList();
            CopexReturn cr = MissionFromDB.getAllMissionsFromDB(this.dbC, dbKeyUser, dbKeyMission, v2);
@@ -172,7 +167,7 @@ public class AccesDB {
                return cr;
            }
            ArrayList<CopexMission> listMission = (ArrayList<CopexMission>)v2.get(0);
-           // recuperation des protocoles
+           // gets proc
            ArrayList<ArrayList<LearnerProcedure>> listPM = new ArrayList();
            int nbM = listMission.size();
            for (int m=0; m<nbM; m++){
@@ -189,13 +184,13 @@ public class AccesDB {
            return new CopexReturn();
     }
     
-    /* mise a jour du nom du protocole */
+    /* update the proc name */
     public CopexReturn updateProcName(long dbKeyProc, String name){
         return  ExperimentalProcedureFromDB.updateProcNameInDB(dbC, dbKeyProc, name);
        
     }
     
-    /* mise a jour de la date de modif d'un protocole et de sa mission associee */
+    /* update the modification date of a proc and mission  */
     public CopexReturn updateDateProc(LearnerProcedure proc){
         java.sql.Date date = CopexUtilities.getCurrentDate();
         
@@ -208,7 +203,7 @@ public class AccesDB {
     
     
     
-    /* mise a jour du protocole actif d'une mission */
+    /* update the proc activ in a mission */
     public CopexReturn updateProcActiv(ArrayList<LearnerProcedure> listProc){
        CopexReturn cr ;
         int nbP = listProc.size();

@@ -21,34 +21,34 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 /**
- * fenetre d'ajout d'une etape
- * @author  MBO
+ * dialog to add a step
+ * @author  Marjolaine
  */
 public class StepDialog extends JDialog implements ActionComment, ActionTaskRepeat{
     private EdPPanel edP;
-     /* mode de visualisation  : ajout / modification */
+     /* visulization mode : add or modification  */
     private boolean modeAdd;
-    /* mode etape ou mode tache */
+    /* step or task mode  */
     private boolean stepMode;
-    /* droit sur la fenetre */
+    /* right */
     private char right = MyConstants.EXECUTE_RIGHT;
-    /* droit proc */
+    /* proc right */
     private char procRight = MyConstants.EXECUTE_RIGHT;
-    /* etape */
+    /* step */
     private Step step;
-    /* nom etape */
+    /* step name */
     private String name;
-    /* commentaires */
+    /* comments */
     private String comments;
-    /* icone */
+    /* icon */
     private ImageIcon taskImage;
     /* panelComments */
     private CommentsPanel panelComments;
-    /* commentaire en cours */
+    /* current comments */
     private String comment;
-    /* etape peut etre repetee */
+    /* step that can be repeat */
     private boolean isTaskRepeat;
-     /* repetition */
+     /* repeat */
     private TaskRepeat taskRepeat;
 
     private TaskRepeatPanel taskRepeatPanel;
@@ -78,7 +78,7 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
         setIconImage(edP.getIconDialog());
     }
 
-     /* constructeur de la fenetre d'edition de l'action */
+     /* constructor : edit step */
     public StepDialog(EdPPanel edP, boolean modeAdd, boolean stepMode, Step step,  ImageIcon taskImage, boolean isTaskRepeat, char right, char procRight ) {
         super(edP.getOwnerFrame());
         this.edP = edP;
@@ -126,10 +126,10 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
             if (this.taskImage != null ){
                 this.labelImage.setIcon(this.taskImage);
             }
-            // repetition
+            // repeat
             if (taskRepeat != null)
                 this.taskRepeatPanel.setTaskRepeat(taskRepeat);
-            // gestion des droits 
+            // manage rights
             if (right == MyConstants.NONE_RIGHT)
                setDisabled();
             if (procRight == MyConstants.NONE_RIGHT)
@@ -176,7 +176,7 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
         return taskRepeatPanel ;
     }
 
-    /* retourne la liste des parametres des actions de l'etape */
+    /* returns the list of parameters of actions in steps  */
     private ArrayList[] getStepInitialParam(){
         if(modeAdd){
             ArrayList[] list = new ArrayList[2];
@@ -189,7 +189,7 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
     }
 
 
-    /* retourne la liste des output des actions de l'etape */
+    /* returns the list of output of actions in step  */
     private ArrayList[] getStepInitialOutput(){
         if(modeAdd){
             ArrayList[] list = new ArrayList[2];
@@ -203,7 +203,7 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
 
 
     
-    /* mise en place du panel task repeat */
+    /* set panelTask repeat  */
     private void setPanelTaskRepeat(){
         if(this.panelComments == null)
             return;
@@ -219,8 +219,7 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
     }
 
 
-    /* permet de rendre disabled tous les elements, ne laisse qu'un bouton pour fermer 
-     * MBO le 09/10/08/ : seul le champ description n'est pas accessible
+    /* set disabled all elements, only a close button
      */
     private void setDisabled(){
         this.textAreaDescription.setEnabled(false);
@@ -240,20 +239,19 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
     }
     
     /*
-     * permet de resizer les elements de la fenetre en fonction de la longueur des textes
-     * variable selon la langue
+     * resize of all elements
      */
    private void resizeElements(){
-       // label nom
+       // label name
        this.labelName.setSize(CopexUtilities.lenghtOfString(this.labelName.getText(), getFontMetrics(this.labelName.getFont())), this.labelName.getHeight());
         // label image 
        if (this.taskImage != null )
             this.labelImage.setSize(this.taskImage.getIconWidth(), this.taskImage.getIconHeight());
        if (procRight != MyConstants.NONE_RIGHT){
-            // bouton Ok
+            // button Ok
             this.buttonOk.setSize(60+CopexUtilities.lenghtOfString(this.buttonOk.getText(), getFontMetrics(this.buttonOk.getFont())), this.buttonOk.getHeight());
        }
-       // bouton Annuler
+       // button cancel
        this.buttonCancel.setSize(60+CopexUtilities.lenghtOfString(this.buttonCancel.getText(), getFontMetrics(this.buttonCancel.getFont())), this.buttonCancel.getHeight());
  
    }
@@ -336,7 +334,7 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
         Step newStep = new Step(CopexUtilities.getLocalText(d, edP.getLocale()), CopexUtilities.getLocalText(c, edP.getLocale()));
         newStep.setTaskRepeat(taskRepeat);
         if (modeAdd){
-            // Cree l'etpae
+            // create step
             CopexReturn cr = edP.addStep(newStep, insertIn);
             if (cr.isError()){
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -356,13 +354,13 @@ public class StepDialog extends JDialog implements ActionComment, ActionTaskRepe
         this.dispose();
    }
 
-   /* sauvegarde des commentaires */
+   /*save comments */
     @Override
     public void saveComment(){
         this.comment = panelComments.getComments() ;
     }
 
-    /* met a jour le texte des commenraires */
+    /* update comments text */
     @Override
     public void setComment(){
         this.panelComments.setComments(this.comment);

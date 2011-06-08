@@ -5,7 +5,7 @@
 
 package eu.scy.client.tools.copex.common;
 
-import eu.scy.client.tools.copex.edp.CopexPanel;
+import eu.scy.client.tools.copex.main.CopexPanel;
 import java.util.ArrayList;
 import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.util.Iterator;
@@ -18,16 +18,15 @@ import org.jdom.JDOMException;
 
 
 /**
- * action de type acquisition
+ * action - acquisition type
  * @author Marjolaine
  */
 public class CopexActionAcquisition extends CopexActionParam{
     public final static String TAG_ACTION_ACQUISITION = "action_acquisistion";
     public final static String TAG_ACTION_ACQUISITION_LIST_DATA_PROD = "list_data_prod";
-    /* liste des data prod ou de liste de data prod */
+    /* list of data prod.  */
     private ArrayList<Object> listDataProd;
 
-    // CONSTRUCTOR
     public CopexActionAcquisition(List<LocalText> listDescription, List<LocalText> listComments, InitialNamedAction namedAction, Object[] tabParam, ArrayList<Object> listDataProd) {
         super(listDescription, listComments, namedAction, tabParam);
         this.listDataProd = listDataProd;
@@ -130,9 +129,9 @@ public class CopexActionAcquisition extends CopexActionParam{
                     listDataProd.add(list);
                 }
             }
-		} else {
-			throw(new JDOMException("Action Acquisition expects <"+TAG_ACTION_ACQUISITION+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("Action Acquisition expects <"+TAG_ACTION_ACQUISITION+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
 
@@ -165,7 +164,6 @@ public class CopexActionAcquisition extends CopexActionParam{
         }
     }
 
-    // GETTER AND SETTER
     public ArrayList<Object> getListDataProd() {
         return listDataProd;
     }
@@ -173,7 +171,7 @@ public class CopexActionAcquisition extends CopexActionParam{
     public void setListDataProd(ArrayList<Object> listDataProd) {
         this.listDataProd = listDataProd;
     }
-    // OVERRIDE
+    
     @Override
     public Object clone() {
         CopexActionAcquisition a = (CopexActionAcquisition) super.clone() ;

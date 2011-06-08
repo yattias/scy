@@ -11,6 +11,7 @@
 
 package eu.scy.client.tools.copex.edp;
 
+import eu.scy.client.tools.copex.main.CopexPanel;
 import eu.scy.client.tools.copex.common.*;
 import eu.scy.client.tools.copex.controller.ControllerInterface;
 import eu.scy.client.tools.copex.utilities.CopexReturn;
@@ -18,27 +19,24 @@ import eu.scy.client.tools.copex.utilities.CopexUtilities;
 import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.awt.Cursor;
 import java.util.List;
-import java.util.Locale;
 
 /**
- * ouverture editeur de proc, si aucun proc dans la mission et si plusieurs proc initiaux
- * on propose a l'etudiant le type de proc qu'il souhaite ouvrir
- * ressemble a AddProcDialog (1 ligne)
+ * open the proc editor, if no proc in the mission and if many inital proc
+ * ask the user which type of proc he wants open
+ * like AddProcDialog
  * @author Marjolaine
  */
 public class CreateProcDialog extends javax.swing.JDialog {
 
-    // PROPERTY 
-    /* editeur de protocole */
+    /* woner */
     private CopexPanel edP;
     /* controller */
     private ControllerInterface controller;
-    /* liste des proc initiaux */
+    /* initial proc list*/
     private List<InitialProcedure> listInitialProc;
 
     private boolean setDefaultProcName = true;
 
-    // CONSTRUCTOR
     public CreateProcDialog(CopexPanel edP, ControllerInterface controller, List<InitialProcedure> listInitialProc) {
         super(edP.getOwnerFrame());
         setLocationRelativeTo(edP);
@@ -59,9 +57,8 @@ public class CreateProcDialog extends javax.swing.JDialog {
         initComponents();
     }
 
-    // METHODES
     private void init(){
-        // initialisation types de proc initiaux
+        // initialization of types of initial proc
         int nb = this.listInitialProc.size();
         for (int i=0; i<nb; i++){
             InitialProcedure initProc = listInitialProc.get(i);
@@ -73,27 +70,26 @@ public class CreateProcDialog extends javax.swing.JDialog {
             if(setDefaultProcName)
                 this.fieldProcName.setText(this.listInitialProc.get(0).getName(edP.getLocale()));
         }
-        // resize des elements
+        // resize elements
         resizeElements();
         repaint();
     }
 
     /*
-     * permet de resizer les elements de la fenetre en fonction de la longueur des textes
-     * variable selon la langue
+     * resize elements depending language
      */
    private void resizeElements(){
        // label
        this.labelCreateProc.setSize(CopexUtilities.lenghtOfString(this.labelCreateProc.getText(), getFontMetrics(this.labelCreateProc.getFont())), this.labelCreateProc.getHeight());
        this.labelNameProc.setSize(CopexUtilities.lenghtOfString(this.labelNameProc.getText(), getFontMetrics(this.labelNameProc.getFont())), this.labelNameProc.getHeight());
-       // bouton Ok
+       // button Ok
        this.buttonOk.setSize(CopexUtilities.lenghtOfString(this.buttonOk.getText(), getFontMetrics(this.buttonOk.getFont())), this.buttonOk.getHeight());
-       // bouton Annuler
+       // button Cancel
        this.buttonCancel.setSize(CopexUtilities.lenghtOfString(this.buttonCancel.getText(), getFontMetrics(this.buttonCancel.getFont())), this.buttonCancel.getHeight());
       
    }
 
-   /* selection d'un proc initial => par defaut on met le nom du proc initial */
+   /* select an initial proc => by default, set the name of the initial proc */
    private void selectInitProc(){
        if(setDefaultProcName){
         int id = this.cbInitialProc.getSelectedIndex() ;
@@ -109,7 +105,7 @@ public class CreateProcDialog extends javax.swing.JDialog {
 
    private void validDialog(){
         setCursor(new Cursor(Cursor.WAIT_CURSOR));
-        // creation d'un nouveau protocole
+        // creation of the new proc
         String name = fieldProcName.getText();
         if (name.length() == 0){
             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -126,7 +122,7 @@ public class CreateProcDialog extends javax.swing.JDialog {
             edP.displayError(new CopexReturn(msg, false), edP.getBundleString("TITLE_DIALOG_ERROR"));
             return;
         }
-        // recupere le proc initial
+        // gets the initial proc 
         InitialProcedure initProc = listInitialProc.get(0);
         int id = this.cbInitialProc.getSelectedIndex() ;
         if (id == -1){

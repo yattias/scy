@@ -7,17 +7,13 @@ import javax.swing.JTable;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
  * @author Marjolaine
  */
 public class TextTableRenderer  extends DefaultTableCellRenderer{
-    /* font donnees */
+    /* font data */
     public static final Font dataFont = new Font("Tahoma", Font.PLAIN, 11);
     
     @Override

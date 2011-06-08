@@ -16,13 +16,13 @@ import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.util.ArrayList;
 
 /**
- * undo redo : ajout d'une tache
+ * undo redo : add a task
  * @author Marjolaine
  */
 public class AddTaskUndoRedo extends CopexUndoRedo {
-    /* tache */
+    /* task */
     private TaskSelected task;
-    /* positionnement dans l'arbre : tache sel lors de l'ajout */
+    /* position in the tree: selected task while adding */
     private TaskSelected ts ;
 
     public AddTaskUndoRedo(EdPPanel edP, ControllerInterface controller, CopexTree tree, TaskSelected task, TaskSelected ts) {

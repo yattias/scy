@@ -219,80 +219,86 @@ public class CopexPopUpMenu extends JPopupMenu implements ActionListener{
     }
     
 
-    /* colle */
+    /* paste in */
     private void pasteIn() {
         this.edP.pasteIn();
     }
 
-    /* colle */
+    /* paste under */
     private void pasteUnder() {
         this.edP.pasteUnder();
     }
 
-    /* supprimer */
+    /* delete */
     private void suppr() {
         this.edP.suppr();
     }
     
-    /* ajout d'une action*/
+    /*  add an action after the selected task*/
     private void addActionAfter() {
         this.edP.addActionAfter();
     }
 
-    /* ajout d'une etape */
+    /* add a step after the selected task */
     private void addStepAfter() {
         this.edP.addStepAfter();
     }
-    /* ajout d'une action*/
+    /*  add an action in the selected task*/
     private void addActionIn() {
         this.edP.addActionIn();
     }
 
-    /* ajout d'une etape */
+    /*  add a step in the selected task */
     private void addStepIn() {
         this.edP.addStepIn();
     }
 
-    /* copier */
+    /* copy */
     private void copy() {
         edP.copy();
     }
 
-    /* couper */
+    /* cut */
     private void cut() {
         edP.cut();
     }
 
-    /*edition */
+    /* edit a task */
     private void edit() {
         this.tree.edit(false);
     }
     
-    /* rend enabled l'item insert in */
+    /* set enabled the item insert in  */
     public void setInsertInEnabled(boolean enabled){
         this.canAddIn = enabled;
     }
-    /* rend enabled l'item insert after */
+
+    /* set enabled the item insert after */
     public void setInsertAfterEnabled(boolean enabled){
         this.canAddAfter = enabled;
     }
-    /* rend enabled l'item couper  */
+
+    /* set enabed the item cut  */
     public void setCutItemEnabled(boolean enabled){
         this.canCut = enabled;
     }
-    /* rend enabled l'item copier  */
+
+    /* set enabled the item copy  */
     public void setCopyItemEnabled(boolean enabled){
         this.canCopy = enabled;
     }
-    /* rend enabled l'item coller  */
+
+    /* set enabled the time paste */
     public void setPasteItemEnabled(boolean enabled){
         this.canPaste = enabled;
     }
-    /* rend enabled l'item suppr  */
+
+    /* set enabled the imte delete */
     public void setSupprItemEnabled(boolean enabled){
         this.canSuppr = enabled;
     }
-    /* rend enabled l'item edit  */
+
+    /* set enabled the item edit  */
     public void setEditItemEnabled(boolean enabled){
         this.canEdit = enabled;
     }

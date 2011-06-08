@@ -28,9 +28,9 @@ public class TaskRepeatValueParamMaterial extends TaskRepeatValue{
             dbKey = idValue++;
             noRepeat = Integer.parseInt(xmlElem.getChild(TAG_TASK_REPEAT_NO_REPEAT).getText());
             actionParamMaterial = new ActionParamMaterial(xmlElem.getChild(ActionParamMaterial.TAG_ACTION_PARAM_MATERIAL), idActionParam++, listInitialParamMaterial, listMaterial, listActionParamQuantity);
-		} else {
-			throw(new JDOMException("Task repeat value param material expects <"+TAG_TASK_REPEAT_VALUE_PARAM_MATERIAL+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("Task repeat value param material expects <"+TAG_TASK_REPEAT_VALUE_PARAM_MATERIAL+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public ActionParamMaterial getActionParamMaterial() {
@@ -40,7 +40,7 @@ public class TaskRepeatValueParamMaterial extends TaskRepeatValue{
     public void setActionParamMaterial(ActionParamMaterial actionParamMaterial) {
         this.actionParamMaterial = actionParamMaterial;
     }
-    // OVERRIDE
+    
     @Override
     public Object clone() {
         TaskRepeatValueParamMaterial v = (TaskRepeatValueParamMaterial) super.clone() ;

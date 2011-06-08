@@ -25,7 +25,7 @@ public class CopexTreeSelectionListener implements TreeSelectionListener {
         TreePath[] selPath = tree.getSelectionPaths();
         if (selPath == null || selPath.length == 0)
                return;
-        // recupere les objets selectionnes :
+        // gets the selected objects
         tree.selectNode();
     }
 }

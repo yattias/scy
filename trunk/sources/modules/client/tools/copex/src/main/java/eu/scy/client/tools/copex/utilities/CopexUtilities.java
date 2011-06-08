@@ -23,12 +23,13 @@ import org.jdom.output.Format;
 
 
 /**
- * utilitaires pour l'applet COPEX
- * @author MBO
+ * utils for copex
+ * @author Marjolaine
  */
 public class CopexUtilities {
     private static final Logger logger = Logger.getLogger(CopexUtilities.class.getName());
-    /* retourne la longueur pixel d'un texte */
+
+    /* returns the pixel lenght of a text  */
     static public int lenghtOfString(String s, FontMetrics fm) {
        if (fm == null || s == null)
             return 0;
@@ -36,8 +37,8 @@ public class CopexUtilities {
            return fm.stringWidth(s);
     }
     
-    /* remplace dans la chaine de caracteres un parametre par la valeur 
-     * le parametre est sous la forme {i}
+    /* replace in the string s a parameter with the value  remplace dans la chaine de caracteres un parametre par la valeur
+     * a parameter is like {i}
      */
     static public String replace(String s, int i, String rep){
         String p = "{"+i+"}";
@@ -50,13 +51,13 @@ public class CopexUtilities {
         return s;
     }
     
-    /* retourne la date courante */
+    /* returns the current date */
     static public java.sql.Date getCurrentDate(){
        java.sql.Date currentDate =  new java.sql.Date(Calendar.getInstance().getTimeInMillis()) ;
         return currentDate;
     }
     
-    /* retourne la date en format String pour la bd */
+    /* returns the date with a string format for the database*/
     static public String dateToSQL(java.sql.Date date){
        if (date == null)
            return "";
@@ -64,14 +65,15 @@ public class CopexUtilities {
         return d;
     }
     
-    /* retourne le temps en format String pour la bd */
+    /* returns the time with a string format for database */
     static public String timeToSQL(java.sql.Time time){
        if (time == null)
            return "";
         String t = time.toString();
         return t;
     }
-    /* retourne l'heure courante */
+
+    /* returns the current time */
     static public java.sql.Time getCurrentTime(){
        java.sql.Time currentTime =  new java.sql.Time(Calendar.getInstance().getTimeInMillis()) ;
         return currentTime;
@@ -103,7 +105,7 @@ public class CopexUtilities {
 
     
 
-    /* ajoute une extension au fichier */
+    /* add an extension to the file */
     public static  File setExtensionFile(File file, String extension){
         String pathName = file.getAbsolutePath() ;
         pathName += "."+extension;
@@ -111,9 +113,8 @@ public class CopexUtilities {
         return f;
     }
 
-    // METHODES
     /**
-     * On replace la chaine toReplace dans la chaine inText par la chaine newTextToReplace.
+     * replace the string toReplace in the string  inText with the string newTextToReplace.
      * @return java.lang.String
      * @param toReplace java.lang.String
      * @param inText java.lang.String
@@ -147,33 +148,31 @@ public class CopexUtilities {
     public static Element stringToXml(String string){
         if(string == null)
                 return null;
-		StringReader stringReader = new StringReader(string);
-		try{
-			SAXBuilder builder = new SAXBuilder(false);
+        StringReader stringReader = new StringReader(string);
+	try{
+            SAXBuilder builder = new SAXBuilder(false);
             Document doc = builder.build(stringReader);
-			return doc.getRootElement();
-		}
-		catch (Exception e){
-			// System.out.println("problems converting string status to jdom "+ e);
-                    logger.log(Level.SEVERE, "problems converting string status to jdom");
-			return null;
-		}
+            return doc.getRootElement();
 	}
+        catch (Exception e){
+            logger.log(Level.SEVERE, "problems converting string status to jdom");
+            return null;
+        }
+    }
 
     public static String xmlToString(Element element){
         if(element == null)
                 return null;
-		StringWriter stringWriter = new StringWriter();
-		try{
-			XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
+	StringWriter stringWriter = new StringWriter();
+	try{
+            XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
             xmlOutputter.output(element, stringWriter);
-		}
-		catch (IOException e){
-			// System.out.println("problems converting jdom status to string"+ e);
-                    logger.log(Level.SEVERE, "problems converting jdom status to string");
-		}
-		return stringWriter.toString();
 	}
+	catch (IOException e){
+            logger.log(Level.SEVERE, "problems converting jdom status to string");
+	}
+	return stringWriter.toString();
+    }
 
     public static String getUTF8String(String s){
 //        byte[] bytes;
@@ -198,9 +197,9 @@ public class CopexUtilities {
         return file.getName().substring(id+1);
     }
 
-     /* retourne l'element correspondant a la chaine*/
+     /* returns the element from the specified string */
     public static Element getElement(String s){
-        if(s == null ||s.length() == 0)
+        if(s == null ||s.trim().length() == 0 || s.equals("NULL") || s.equals("null"))
             return null;
         return stringToXml(s);
     }
@@ -219,7 +218,8 @@ public class CopexUtilities {
     public static LocalText getTextLocal(String text, Locale locale){
         return new LocalText(text, locale);
     }
-     public static String getText(List<LocalText> list, Locale locale){
+
+    public static String getText(List<LocalText> list, Locale locale){
         for (Iterator<LocalText> t= list.iterator(); t.hasNext();) {
             LocalText locaText = t.next();
             if(locaText.getLocale().getLanguage().equals(locale.getLanguage()))

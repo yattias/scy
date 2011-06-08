@@ -19,11 +19,11 @@ import eu.scy.client.tools.copex.utilities.MyConstants;
  * @author Marjolaine
  */
 public class DragAndDropUndoRedo extends CopexUndoRedo {
-    /*sous arbre */
+    /*sub tree*/
     private SubTree subTree;
-    /*tache insertion */
+    /*insertion task*/
     private TaskSelected ts;
-    /*ancinene tache insertion */
+    /* old insertion task */
     private TaskSelected oldTs;
 
     public DragAndDropUndoRedo(EdPPanel edP, ControllerInterface controller, CopexTree tree, SubTree subTree, TaskSelected ts, TaskSelected oldTs) {

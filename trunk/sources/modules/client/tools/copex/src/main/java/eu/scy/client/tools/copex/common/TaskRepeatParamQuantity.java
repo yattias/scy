@@ -45,9 +45,9 @@ public class TaskRepeatParamQuantity extends TaskRepeatParam {
                 TaskRepeatValueParamQuantity v = new TaskRepeatValueParamQuantity(e, idValue++, idActionParam++, idQuantity++, listPhysicalQuantity, listInitialParamQuantity);
                 listValue.add(v);
             }
-		} else {
-			throw(new JDOMException("Task repeat  param quantity expects <"+TAG_TASK_REPEAT_PARAM_QUANTITY+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("Task repeat  param quantity expects <"+TAG_TASK_REPEAT_PARAM_QUANTITY+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public InitialParamQuantity getInitialParamQuantity() {
@@ -66,7 +66,6 @@ public class TaskRepeatParamQuantity extends TaskRepeatParam {
         this.listValue = listValue;
     }
 
-    // OVERRIDE
     @Override
     public Object clone() {
         TaskRepeatParamQuantity p = (TaskRepeatParamQuantity) super.clone() ;

@@ -15,14 +15,14 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- * output d'une action manipulation
+ * output for an action - manipulation
  * @author Marjolaine
  */
 public class InitialManipulationOutput extends InitialOutput implements Cloneable{
     public final static String TAG_INITIAL_OUTPUT_MANIPULATION = "initial_manipulation_output";
     public final static String TAG_INITIAL_OUTPUT_MANIPULATION_REF = "initial_manipulation_output_ref";
     
-    /* liste des types de material attendu */
+    /* list of type of material expected */
     private ArrayList<TypeMaterial> typeMaterialProd ;
 
     public InitialManipulationOutput(long dbKey, List<LocalText>  listTextProd, List<LocalText>  listName, ArrayList<TypeMaterial> typeMaterialProd) {
@@ -32,7 +32,7 @@ public class InitialManipulationOutput extends InitialOutput implements Cloneabl
 
     public InitialManipulationOutput(Element xmlElem, long idOutput, List<TypeMaterial> listTypeMaterial) throws JDOMException {
         super(xmlElem);
-		if (xmlElem.getName().equals(TAG_INITIAL_OUTPUT_MANIPULATION)) {
+	if (xmlElem.getName().equals(TAG_INITIAL_OUTPUT_MANIPULATION)) {
             this.dbKey = idOutput;
             this.code = xmlElem.getChild(TAG_INITIAL_OUTPUT_CODE).getText();
             listName = new LinkedList<LocalText>();
@@ -54,14 +54,14 @@ public class InitialManipulationOutput extends InitialOutput implements Cloneabl
                 }
             }
 
-		} else {
-			throw(new JDOMException("Initial manipulation output expects <"+TAG_INITIAL_OUTPUT_MANIPULATION+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+        	throw(new JDOMException("Initial manipulation output expects <"+TAG_INITIAL_OUTPUT_MANIPULATION+"> as root element, but found <"+xmlElem.getName()+">."));
 	}
+    }
 
     public InitialManipulationOutput(Element xmlElem, List<InitialManipulationOutput> list) throws JDOMException {
         super(xmlElem);
-		if (xmlElem.getName().equals(TAG_INITIAL_OUTPUT_MANIPULATION_REF)) {
+	if (xmlElem.getName().equals(TAG_INITIAL_OUTPUT_MANIPULATION_REF)) {
             this.code = xmlElem.getChild(TAG_INITIAL_OUTPUT_CODE).getText();
             for(Iterator<InitialManipulationOutput> a = list.iterator();a.hasNext();){
                 InitialManipulationOutput p = a.next();
@@ -73,8 +73,8 @@ public class InitialManipulationOutput extends InitialOutput implements Cloneabl
                 }
             }
         }else {
-			throw(new JDOMException("Initial manipulation output expects <"+TAG_INITIAL_OUTPUT_MANIPULATION_REF+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+            throw(new JDOMException("Initial manipulation output expects <"+TAG_INITIAL_OUTPUT_MANIPULATION_REF+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public ArrayList<TypeMaterial> getTypeMaterialProd() {
@@ -117,7 +117,7 @@ public class InitialManipulationOutput extends InitialOutput implements Cloneabl
                 element.addContent(u.next().toXMLRef());
             }
         }
-		return element;
+	return element;
     }
 
     @Override

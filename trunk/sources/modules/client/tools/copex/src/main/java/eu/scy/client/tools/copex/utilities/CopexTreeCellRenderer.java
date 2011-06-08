@@ -25,18 +25,12 @@ import javax.swing.border.LineBorder;
 import javax.swing.tree.TreeCellRenderer;
 import org.jdom.Element;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * objet graphique  qui represente un noeud de l'arbre
- * la structure est la suivante :
- * - Icone pour representer le noeud ou la feuille
+ * graphic object that represents a node in the tree
+ * The structure is as following:
+ * - Icon which represents the node
  * - Panel
- * Pour composer ces 2 objets dans un seul on dit qu'un CellRenderer n'est autre qu'un
- * JPanel contenant ces 2 objets
+ * To compose with these 2 objects, a CellRenderer is a JPanel that contains these 2 objects
  * @author Marjolaine
  */
 public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  {
@@ -49,7 +43,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
     static public Font FONT_QUESTION = new Font("Dialog", Font.PLAIN, 11);
     static public Font FONT_NODE_DEFAULT_TEXT = new Font("Dialog", Font.ITALIC, 11);
     static public Font FONT_INTITULE= new Font("Dialog", Font.ITALIC,13);
-    /* longueur minimum du texte dans l'arbre, avant declenchement scroll*/
+    /*  minimum lenght of the text in the tree, before scroll apparition*/
     static public final int TEXT_AREA_MIN_WIDTH = 200;
     static public int HEIGHT_ONE_LINE = 15;
     static public int HEIGHT_ONE_LINE_COMMENT = 14;
@@ -86,7 +80,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
     public CopexTreeCellRenderer(final CopexTree copexTree) {
         super();
         this.copexTree = copexTree;
-        // recuperation des images
+        // images
         this.questionIcon = copexTree.getQuestionImageIcon();
         this.hypothesisIcon = copexTree.getHypothesisImageIcon();
         this.principleIcon = copexTree.getPrincipleImageIcon();
@@ -103,7 +97,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
         setLayout(new BoxLayout(this,BoxLayout.X_AXIS));
         setBackground(BG_COLOR);
         setAlignmentY(TOP_ALIGNMENT);
-        //icone
+        //icon
         icon = new JLabel() ;
         icon.setSize(38,40);
         icon.setPreferredSize(icon.getSize());
@@ -116,7 +110,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
         labelRepeat.setFont(FONT_COMMENT);
         labelRepeat.setAlignmentY(TOP_ALIGNMENT);
         add(labelRepeat);
-        // separation icone / texte
+        // separation icon / text
         add(Box.createHorizontalStrut(5));
         // panel node
         this.panelNode = new JPanel();
@@ -127,7 +121,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
         getTextNode();
         getMaterialTable();
         getCommentNode();
-        // ajout de l'image
+        // add image
         this.taskImageNode = new JLabel();
         this.panelNode.add(taskImageNode);
         getDrawPanel();
@@ -167,7 +161,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
             icon.setIcon(datasheetIcon);
         else if(value instanceof CopexNode && ((CopexNode)value).isEvaluation())
             icon.setIcon(evaluationIcon);
-        // ordre de priorite : interdit, warning, lock
+        // priority: forbidden, warning, locked 
         else if (value instanceof TaskTreeNode && ((TaskTreeNode)value).isDisabled() && ((TaskTreeNode)value).isAction()){
             icon.setIcon(actionReadOnlyIcon);
             this.setToolTipText(((CopexTree)tree).getToolTipText((TaskTreeNode)value));
@@ -252,21 +246,17 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
             int nbL = textNode.getLineCount() ;
             int widthTree = ((CopexTree)tree).getTextWidth(value, row) - icon.getWidth();
             boolean oneLine = false;
-            //System.out.println("widthTree, textWidth "+widthTree+", "+textWidth);
             if (textWidth < widthTree){
                 widthTree = textWidth ;
                 oneLine = true;
             }
-            //System.out.println("oneLine "+oneLine);
             int w = Math.max(widthTree, TEXT_AREA_MIN_WIDTH);
             int heightText = (int)((((float)(textWidth / w))+1)*hl) ;
             if (oneLine)
                 heightText = hl;
             heightText = Math.max(nbL*hl, heightText);
             textNode.setSize(w, heightText);
-            //System.out.println("heightText "+heightText);
             nbL = getNbLine(text, w-5, textNode.getFontMetrics(textNode.getFont()));
-            //System.out.println("nbL "+nbL);
             //textNode.setSize(w, nbL*hl+5);
             //textNode.setSize(w, nbL*hl);
             textNode.setBounds(0, labelNode.getHeight()+labelNode.getY(), textNode.getWidth(), textNode.getHeight());
@@ -280,7 +270,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
             commentNode = null;
         }else{
             int widthTree = ((CopexTree)tree).getTextWidth(value, row) - icon.getWidth();
-            // taille du text area des commentaires
+            // size area text comments
             int nbLC = commentNode.getLineCount() ;
             int commentTextWidth = CopexUtilities.lenghtOfString(comment, commentNode.getFontMetrics(commentNode.getFont()))+5;
             boolean oneLineC = false;
@@ -336,7 +326,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
         if (selected){
             labelNode.setBackground(SELECTED_COLOR);
             if(labelNode.getWidth() == 0 && textNode != null){
-                //cas de la question
+                //question
                 textNode.setBackground(SELECTED_COLOR);
             }
         }else{
@@ -389,6 +379,7 @@ public class CopexTreeCellRenderer extends JPanel implements  TreeCellRenderer  
         }
         return nbL;
     }
+    
     public JLabel getLabelNode(){
         if(this.labelNode == null){
             labelNode = new JLabel();

@@ -37,7 +37,6 @@ public class MaterialUsed implements Cloneable{
     /* use automatically by copex (=> used=true)*/
     private boolean autoUsed;
 
-    // CONSTRUCTEURS
     public MaterialUsed(Material material, List<LocalText> listComments, boolean used) {
         this.material = material;
         this.listComments = listComments;

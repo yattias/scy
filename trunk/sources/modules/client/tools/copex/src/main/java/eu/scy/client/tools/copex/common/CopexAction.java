@@ -5,7 +5,7 @@
 
 package eu.scy.client.tools.copex.common;
 
-import eu.scy.client.tools.copex.edp.CopexPanel;
+import eu.scy.client.tools.copex.main.CopexPanel;
 import eu.scy.client.tools.copex.utilities.CopexUtilities;
 import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.util.Iterator;
@@ -16,12 +16,16 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- * represente une action
- * @author MBO
+ * action, an action is a task (leaf of the tree)
+ * an action coulb be :
+ * - free
+ * - named
+ * - parameters (acquisition, manipulation, treatment, choice)
+ * @author Marjolaine
  */
 public class CopexAction extends CopexTask implements Cloneable {
     public final static String TAG_ACTION = "action";
-    // CONSTRUCTEURS
+
     public CopexAction(long dbKey, List<LocalText> listName, List<LocalText> listDescription, List<LocalText> listComments, String taskImage, Element draw,  boolean isVisible, TaskRight taskRight, TaskRepeat taskRepeat) {
         super(dbKey, listName, listDescription, listComments, taskImage, draw, isVisible, taskRight, false, taskRepeat);
     }
@@ -37,7 +41,7 @@ public class CopexAction extends CopexTask implements Cloneable {
         super(dbKey, CopexUtilities.getLocalText(name, locale), CopexUtilities.getLocalText(description, locale), CopexUtilities.getLocalText(comment, locale), taskImage, draw, isVisible, taskRight, false, dbkeyBrother, dbKeyChild, taskRepeat);
 
     }
-    /* constructeur d'une action suite a une saisie utilisateur */
+    /* constructor - user input */
     public CopexAction(List<LocalText> listDescription, List<LocalText> listComments){
         super(-1, new LinkedList(), listDescription, listComments, null, null, true, new TaskRight(MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT), false, null);
         
@@ -51,7 +55,7 @@ public class CopexAction extends CopexTask implements Cloneable {
         this.dbKeyBrother = -1;
         this.dbKeyChild = -1;
         if (xmlElem.getName().equals(TAG_ACTION)) {
-			dbKey = idTask;
+            dbKey = idTask;
             listName = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_TASK_NAME).iterator(); variableElem.hasNext();) {
                 Element e = variableElem.next();
@@ -76,12 +80,12 @@ public class CopexAction extends CopexTask implements Cloneable {
             if(xmlElem.getChild(TaskRepeat.TAG_REPEAT_TASK) != null){
                 taskRepeat = new TaskRepeat(xmlElem.getChild(TaskRepeat.TAG_REPEAT_TASK), idRepeat++, idParam++, idValue++, idActionParam++, idQuantity++,  listPhysicalQuantity, listTypeMaterial, listInitialParamData, listInitialParamMaterial, listInitialParamQuantity, listInitialAcquisitionOutput, listInitialManipulationOutput, listInitialTreatmentOutput, listMaterial, listActionParamQuantity);
             }
-		} else {
-			throw(new JDOMException("Action expects <"+TAG_ACTION+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("Action expects <"+TAG_ACTION+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
-    /* construction de la description de l'action dans le cas d'une action parametree */
+    /* description of the action - case paramter action  */
      public String toDescription(CopexPanel edP){
          return this.getDescription(edP.getLocale()) ;
      }

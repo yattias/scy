@@ -5,6 +5,7 @@
 
 package eu.scy.client.tools.copex.edp;
 
+import eu.scy.client.tools.copex.main.CopexPanel;
 import eu.scy.client.tools.copex.common.CopexMission;
 import eu.scy.client.tools.copex.common.InitialProcedure;
 import eu.scy.client.tools.copex.common.LearnerProcedure;
@@ -37,11 +38,11 @@ public class OpenCopexDialog  extends JDialog  {
 
     /* controller */
     private ControllerInterface controller;
-    /* liste des proc initiaux*/
+    /* initial proc list*/
     private List<InitialProcedure> listInitialProc;
-    /* liste des missions */
+    /* missions list */
     private ArrayList<CopexMission> listMission;
-    /* liste des protocoles de toutes les missions */
+    /* list of proc of all missions  */
     private ArrayList<ArrayList<LearnerProcedure>> listAllProc;
     private boolean onlyOneInitProc;
 
@@ -131,7 +132,7 @@ public class OpenCopexDialog  extends JDialog  {
             changeMissionOpen();
         }
 
-        // largeur
+        // width
         int width = 350;
         if(canNew)
             width = fieldName.getX()+fieldName.getWidth()+10;
@@ -377,13 +378,13 @@ public class OpenCopexDialog  extends JDialog  {
 
 
     private void changeMissionOpen(){
-        // mise a jour de la liste des protocoles en fonction de la mission choisie
+        // update the list of proc, depending the selected mission 
         cbProcOpen.removeAllItems();
         int id = cbMissionOpen.getSelectedIndex();
         if (id != -1){
             ArrayList<LearnerProcedure> list = this.listAllProc.get(id);
             if (list != null){
-                // initialisation liste des missions
+                // initialization of the list of missions 
                 int nb = list.size();
                 for (int i=0; i<nb; i++){
                     LearnerProcedure p = list.get(i);
@@ -439,10 +440,10 @@ public class OpenCopexDialog  extends JDialog  {
     }
 
     private void buttonOk(){
-        // recupere les donnees
+        // gets data
         setCursor(new Cursor(Cursor.WAIT_CURSOR));
         if (rbCreate != null && this.rbCreate.isSelected()){
-            // creation d'un nouveau protocole
+            // new proc creation
             String name = fieldName.getText();
             if (name.length() == 0){
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -459,7 +460,7 @@ public class OpenCopexDialog  extends JDialog  {
                 owner.displayError(new CopexReturn(msg, false), owner.getBundleString("TITLE_DIALOG_ERROR"));
                 return;
             }
-            // recupere le proc initial
+            // gets the initial proc
             InitialProcedure initProc = listInitialProc.get(0);
             if(!onlyOneInitProc){
                 int id = this.cbCreateProcInit.getSelectedIndex() ;
@@ -482,7 +483,7 @@ public class OpenCopexDialog  extends JDialog  {
             return;
         }else if (rbOpen != null && this.rbOpen.isSelected() || !canNew){
             if(dbMode){
-                // on recupere la mission et le protocole selectionne
+                // get the mission and selected proc 
                 int idM = this.cbMissionOpen.getSelectedIndex();
                 if (idM == -1){
                     setCursor(new Cursor(Cursor.DEFAULT_CURSOR));

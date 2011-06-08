@@ -11,8 +11,8 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- * represente un parametre lie a un  materiel
- * @author MBO
+ * parameter of a material
+ * @author marjolaine
  */
 public class Parameter extends Quantity{
 

@@ -16,7 +16,7 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- * Variable action nommee parametree
+ * Text for an initial named action
  * @author Marjolaine
  */
 public class InitialActionVariable implements Cloneable{
@@ -26,18 +26,17 @@ public class InitialActionVariable implements Cloneable{
     public final static String TAG_INITIAL_ACTION_VARIABLE_NB_PARAM = "nb_param";
     public final static String TAG_INITIAL_ACTION_VARIABLE_LIBELLE = "libelle";
 
-    /*identifiant */
+    /*db identifier */
     private long dbKey ;
     /*code */
     private String code;
-    /* nombre de parametres */
+    /* nb params*/
     private int nbParam;
-    /* libelle */
+    /* text */
     private List<LocalText> listLibelle;
-    /* tableau des parametres */
+    /* parameters array */
     private InitialActionParam[] tabParam;
 
-    // CONSTRUCTOR
     public InitialActionVariable(long dbKey, Locale locale, String code, int nbParam, List<LocalText> listLibelle, InitialActionParam[] tabParam) {
         this.dbKey = dbKey;
         this.code = code;
@@ -48,8 +47,8 @@ public class InitialActionVariable implements Cloneable{
     }
 
     public InitialActionVariable(Element xmlElem, Locale locale, long idActionParam, List<PhysicalQuantity> listPhysicalQuantity, List<TypeMaterial> listTypeMaterial) throws JDOMException {
-		if (xmlElem.getName().equals(TAG_INITIAL_ACTION_VARIABLE)) {
-			code = xmlElem.getChild(TAG_INITIAL_ACTION_VARIABLE_CODE).getText();
+        if (xmlElem.getName().equals(TAG_INITIAL_ACTION_VARIABLE)) {
+            code = xmlElem.getChild(TAG_INITIAL_ACTION_VARIABLE_CODE).getText();
             listLibelle = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_INITIAL_ACTION_VARIABLE_LIBELLE).iterator(); variableElem.hasNext();) {
                 Element e = variableElem.next();
@@ -78,14 +77,14 @@ public class InitialActionVariable implements Cloneable{
                 sortParam(locale);
             }
         }
-		else {
-			throw(new JDOMException("Initial Action Variable expects <"+TAG_INITIAL_ACTION_VARIABLE+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	else {
+            throw(new JDOMException("Initial Action Variable expects <"+TAG_INITIAL_ACTION_VARIABLE+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public InitialActionVariable(Element xmlElem, List<InitialActionVariable> list)  throws JDOMException{
         if (xmlElem.getName().equals(TAG_INITIAL_ACTION_VARIABLE_REF)) {
-			code = xmlElem.getChild(TAG_INITIAL_ACTION_VARIABLE_CODE).getText();
+            code = xmlElem.getChild(TAG_INITIAL_ACTION_VARIABLE_CODE).getText();
             for(Iterator<InitialActionVariable> q = list.iterator();q.hasNext();){
                 InitialActionVariable p = q.next();
                 if(p.getCode().equals(code)){
@@ -96,12 +95,11 @@ public class InitialActionVariable implements Cloneable{
                 }
             }
         }else {
-			throw(new JDOMException("InitialActionVariable expects <"+TAG_INITIAL_ACTION_VARIABLE_REF+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+            throw(new JDOMException("InitialActionVariable expects <"+TAG_INITIAL_ACTION_VARIABLE_REF+"> as root element, but found <"+xmlElem.getName()+">."));
+        }
     }
 
 
-    // GETTER AND SETTER
     public String getCode() {
         return code;
     }
@@ -193,7 +191,7 @@ public class InitialActionVariable implements Cloneable{
         }
     }
 
-    /* range les parametres dans l'ordre d'apparition */
+    /* sort parameters in order of appearence */
     private void sortParam(Locale locale){
         InitialActionParam[] tabParamC = new InitialActionParam[nbParam];
         String s = new String (getLibelle(locale));
@@ -228,19 +226,19 @@ public class InitialActionVariable implements Cloneable{
 
    
 
-    /* retourne le texte du libelle avant le parametre i (et superieur au parametre i-1)
-     *ex : texte {123} et surtout {124} ok ? => 0 : texte
-     *                              => 1 : et surtout
-     * si id -1 : texte fin :       => -1 : ok ?
+    /* returns the text before the param i (and sup. to param i-1)
+     *ex : text {123} and especially {124} ok ? => 0 : text
+     *                              => 1 : and especially
+     * if id -1 : final text :       => -1 : ok ?
      */
     public String getTextLibelle(Locale locale, int i){
         String libelle = getLibelle(locale);
         String pf = "}";
         if (i == -1){
-            // indice du dernier {}
+            // if of the last {}
             int id = libelle.lastIndexOf(pf);
             if (id == -1){
-                // pas trouve => renvoir la chaine complete
+                // not found => returns the complete string
                 return libelle;
             }else{
                 if (id == libelle.length() -1)
@@ -267,7 +265,7 @@ public class InitialActionVariable implements Cloneable{
     // toXML
     public Element toXML(){
         Element element = new Element(TAG_INITIAL_ACTION_VARIABLE);
-		element.addContent(new Element(TAG_INITIAL_ACTION_VARIABLE_CODE).setText(code));
+	element.addContent(new Element(TAG_INITIAL_ACTION_VARIABLE_CODE).setText(code));
         if(listLibelle != null && listLibelle.size() > 0){
             for (Iterator<LocalText> t = listLibelle.iterator(); t.hasNext();) {
                 LocalText l = t.next();
@@ -283,13 +281,13 @@ public class InitialActionVariable implements Cloneable{
                 element.addContent(tabParam[i].toXML());
             }
         }
-		return element;
+	return element;
     }
 
     // toXML
     public Element toXMLRef(){
         Element element = new Element(TAG_INITIAL_ACTION_VARIABLE_REF);
-		element.addContent(new Element(TAG_INITIAL_ACTION_VARIABLE_CODE).setText(code));
+	element.addContent(new Element(TAG_INITIAL_ACTION_VARIABLE_CODE).setText(code));
         return element;
     }
 

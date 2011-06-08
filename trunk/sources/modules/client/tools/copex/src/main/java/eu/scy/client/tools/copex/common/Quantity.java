@@ -16,8 +16,11 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- * represente une quantite
- * @author MBO
+ *  quantity, defined by
+ * - its name
+ * - a value
+ * - a unit
+ * @author Marjolaine
  */
 public class Quantity implements Cloneable{
     /* tag names */
@@ -29,21 +32,20 @@ public class Quantity implements Cloneable{
     private final static String TAG_PARAMETER_VALUE = "value";
     private final static String TAG_PARAMETER_UNCERTAINTY = "uncertainty";
 
-    /* cle primaire bd */
+    /* db identifier */
     private long dbKey;
     private String code;
-    /* nom */
+    /* name */
     private List<LocalText> listName;
     /*type  */
     private List<LocalText> listType;
-    /* valeur */
+    /* value */
     private double value;
-    /* incertitude */
+    /* uncertainty */
     private List<LocalText> listUncertainty;
-    /* unite */
+    /* unit */
     private CopexUnit unit;
 
-    // CONSTRUCTEURS
     public Quantity(long dbKey, List<LocalText> listName, List<LocalText> listType, double value, List<LocalText> listUncertainty, CopexUnit unit) {
         this.dbKey = dbKey;
         this.code = "QUANTITY";
@@ -71,7 +73,7 @@ public class Quantity implements Cloneable{
     }
 
     public Quantity(Element xmlElem, long dbKey, List<PhysicalQuantity> listPhysicalQuantity) throws JDOMException {
-		if (xmlElem.getName().equals(TAG_PARAMETER)) {
+	if (xmlElem.getName().equals(TAG_PARAMETER)) {
             code = xmlElem.getChildText(TAG_PARAMETER_ID);
             this.dbKey = dbKey;
             listName = new LinkedList<LocalText>();
@@ -95,14 +97,14 @@ public class Quantity implements Cloneable{
             }
             unit = new CopexUnit(xmlElem.getChild(CopexUnit.TAG_UNIT_REF), listPhysicalQuantity);
 
-		} else {
-			throw(new JDOMException("Quantity  expects <"+TAG_PARAMETER+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("Quantity  expects <"+TAG_PARAMETER+"> as root element, but found <"+xmlElem.getName()+">."));
 	}
+    }
 
     public Quantity(Element xmlElem, List<Quantity> list) throws JDOMException {
         if (xmlElem.getName().equals(TAG_PARAMETER_REF)) {
-			code = xmlElem.getChild(TAG_PARAMETER_ID).getText();
+            code = xmlElem.getChild(TAG_PARAMETER_ID).getText();
             for(Iterator<Quantity> q = list.iterator();q.hasNext();){
                 Quantity qtt = q.next();
                 if(qtt.getCode().equals(code)){
@@ -115,8 +117,8 @@ public class Quantity implements Cloneable{
                 }
             }
         }else {
-			throw(new JDOMException("Quantity expects <"+TAG_PARAMETER_REF+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+            throw(new JDOMException("Quantity expects <"+TAG_PARAMETER_REF+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
 
@@ -229,7 +231,7 @@ public class Quantity implements Cloneable{
      // toXML
     public Element toXML(){
         Element element = new Element(TAG_PARAMETER);
-		element.addContent(new Element(TAG_PARAMETER_ID).setText(code));
+	element.addContent(new Element(TAG_PARAMETER_ID).setText(code));
         if(listName != null && listName.size() > 0){
             for (Iterator<LocalText> t = listName.iterator(); t.hasNext();) {
                 LocalText l = t.next();
@@ -261,12 +263,12 @@ public class Quantity implements Cloneable{
         if (unit != null)
             element.addContent(unit.toXMLRef());
 
-		return element;
+	return element;
     }
 
     public Element toXMLRef(){
         Element element = new Element(TAG_PARAMETER_REF);
-		element.addContent(new Element(TAG_PARAMETER_ID).setText(code));
+	element.addContent(new Element(TAG_PARAMETER_ID).setText(code));
         return element;
     }
 

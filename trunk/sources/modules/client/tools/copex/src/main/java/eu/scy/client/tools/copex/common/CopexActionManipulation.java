@@ -5,7 +5,7 @@
 
 package eu.scy.client.tools.copex.common;
 
-import eu.scy.client.tools.copex.edp.CopexPanel;
+import eu.scy.client.tools.copex.main.CopexPanel;
 import java.util.ArrayList;
 import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.util.Iterator;
@@ -17,7 +17,7 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- * action de type manipulation
+ *  action - manipulation type
  * @author Marjolaine
  */
 public class CopexActionManipulation extends CopexActionParam implements Cloneable{
@@ -25,10 +25,9 @@ public class CopexActionManipulation extends CopexActionParam implements Cloneab
     public final static String TAG_ACTION_MANIPULATION_LIST_MAT_PROD = "list_material_prod";
 
 
-    /* liste du material prod : Material ou list de Material */
+    /* list of material prod. : Material or Material list */
     private ArrayList<Object> listMaterialProd;
 
-    // CONSTRUCTOR
     public CopexActionManipulation(List<LocalText> listDescription, List<LocalText> listComments, InitialNamedAction namedAction, Object[] tabParam, ArrayList<Object> listMaterialProd) {
         super(listDescription, listComments, namedAction, tabParam);
         this.listMaterialProd = listMaterialProd;
@@ -54,7 +53,7 @@ public class CopexActionManipulation extends CopexActionParam implements Cloneab
         this.dbKeyBrother = -1;
         this.dbKeyChild = -1;
         if (xmlElem.getName().equals(TAG_ACTION_MANIPULATION)) {
-			dbKey = idTask;
+            dbKey = idTask;
             listName = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_TASK_NAME).iterator(); variableElem.hasNext();) {
                 Element e = variableElem.next();
@@ -140,9 +139,9 @@ public class CopexActionManipulation extends CopexActionParam implements Cloneab
                     listMaterialProd.add(list);
                 }
             }
-		} else {
-			throw(new JDOMException("Action Manipulation expects <"+TAG_ACTION_MANIPULATION+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("Action Manipulation expects <"+TAG_ACTION_MANIPULATION+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     private void sortActionParam(List<Object> listActionParam, List<InitialNamedAction> listInitialNamedAction){
@@ -174,7 +173,6 @@ public class CopexActionManipulation extends CopexActionParam implements Cloneab
         }
     }
 
-    // GETTER AND SETTER
     public ArrayList<Object> getListMaterialProd() {
         return listMaterialProd;
     }
@@ -183,7 +181,6 @@ public class CopexActionManipulation extends CopexActionParam implements Cloneab
         this.listMaterialProd = listMaterialProd;
     }
 
-    // OVERRIDE
     @Override
     public Object clone() {
         CopexActionManipulation a = (CopexActionManipulation) super.clone() ;

@@ -5,10 +5,6 @@ import java.awt.FontMetrics;
 import java.util.List;
 import javax.swing.JTable;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *

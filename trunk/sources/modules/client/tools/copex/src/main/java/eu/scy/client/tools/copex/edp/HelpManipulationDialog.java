@@ -33,7 +33,7 @@ public class HelpManipulationDialog extends javax.swing.JDialog {
         super(edP.getOwnerFrame());
         this.edP = edP;
         this.taskProc = taskProc;
-        // 10/02/10: pas obligatoire de renseigner la question 
+        // 10/02/10: no obligation to fill the question
         //this.questionBefore = questionBefore;
         this.questionBefore = false;
         initComponents();
@@ -111,7 +111,7 @@ public class HelpManipulationDialog extends javax.swing.JDialog {
             w = label.getX()+label.getWidth()+10;
             y = label.getY()+label.getHeight()+20;
         }else{
-            // ajout du texte
+            // add text
             String text = this.taskProc ? edP.getBundleString("LABEL_HELP_MANIPULATION_TASK") : edP.getBundleString("LABEL_HELP_MANIPULATION");
             int id = text.indexOf("{");
             String t1 = text.substring(0, id);
@@ -119,7 +119,7 @@ public class HelpManipulationDialog extends javax.swing.JDialog {
             label1.setFont(new java.awt.Font("Tahoma", Font.PLAIN, 11));
             label1.setBounds(10, 10,CopexUtilities.lenghtOfString(label1.getText(), getFontMetrics(label1.getFont())), 14 );
             getContentPane().add(label1);
-            // bouton
+            // button
             String stepI = taskProc ? "Bouton-AdT-28_task.png" : "Bouton-AdT-28_step.png" ;
             Icon stepIcon = edP.getCopexImage(stepI);
             JLabel labelIconStep = new JLabel();
@@ -127,7 +127,6 @@ public class HelpManipulationDialog extends javax.swing.JDialog {
             labelIconStep.setSize(stepIcon.getIconWidth(), stepIcon.getIconHeight());
             labelIconStep.setBounds(label1.getX()+label1.getWidth()+5, label1.getY()-5, labelIconStep.getWidth(), labelIconStep.getHeight());
             getContentPane().add(labelIconStep);
-            //si bouton action en +
             int x = labelIconStep.getX()+labelIconStep.getWidth()+5;
             if(!taskProc){
                 int id2 = (text.substring(id+3, text.length())).indexOf("{")+text.substring(0,id+3).length();
@@ -145,17 +144,17 @@ public class HelpManipulationDialog extends javax.swing.JDialog {
                 id = id2;
                 x = labelIconAction.getX()+labelIconAction.getWidth()+5;
             }
-            // fin de la phrase
+            // end text
             String tend = text.substring(id+3, text.length());
             JLabel labelEnd = new JLabel(tend);
             labelEnd.setFont(new java.awt.Font("Tahoma", Font.PLAIN, 11));
             labelEnd.setBounds(x, 10,CopexUtilities.lenghtOfString(labelEnd.getText(), getFontMetrics(labelEnd.getFont())), 14 );
             getContentPane().add(labelEnd);
-            // taille de la fenetre
+            // dialog size
             w = labelEnd.getX()+labelEnd.getWidth()+10;
             y = label1.getY()+label1.getHeight()+20;
         }
-        // ajout du bouton ok
+        // add button ok
         getButtonOk();
         int x = (w-buttonOk.getWidth()) / 2 ;
         this.buttonOk.setBounds(x,y, buttonOk.getWidth(), buttonOk.getHeight());

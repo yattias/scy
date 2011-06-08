@@ -5,7 +5,7 @@
 
 package eu.scy.client.tools.copex.common;
 
-import eu.scy.client.tools.copex.edp.CopexPanel;
+import eu.scy.client.tools.copex.main.CopexPanel;
 import java.util.ArrayList;
 import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.util.Iterator;
@@ -17,17 +17,16 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- * action de type acquisition
+ * action - treatment type
  * @author Marjolaine
  */
 public class CopexActionTreatment extends CopexActionParam{
     public final static String TAG_ACTION_TREATMENT = "action_treatment";
     public final static String TAG_ACTION_TREATMENT_LIST_DATA_PROD = "list_data_prod";
-    /* liste des data prod ou de liste de data prod */
+    /* list of Data (or list Data)  prod. */
     private ArrayList<Object> listDataProd;
 
 
-    //CONSTRUCTOR
     public CopexActionTreatment(List<LocalText> listDescription, List<LocalText> listComments, InitialNamedAction namedAction, Object[] tabParam, ArrayList<Object> listDataProd) {
         super(listDescription, listComments, namedAction, tabParam);
         this.listDataProd = listDataProd;
@@ -52,7 +51,7 @@ public class CopexActionTreatment extends CopexActionParam{
         this.dbKeyBrother = -1;
         this.dbKeyChild = -1;
         if (xmlElem.getName().equals(TAG_ACTION_TREATMENT)) {
-			dbKey = idTask;
+            dbKey = idTask;
             listName = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_TASK_NAME).iterator(); variableElem.hasNext();) {
                 Element e = variableElem.next();
@@ -129,9 +128,9 @@ public class CopexActionTreatment extends CopexActionParam{
                     listDataProd.add(list);
                 }
             }
-		} else {
-			throw(new JDOMException("Action Treatment expects <"+TAG_ACTION_TREATMENT+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("Action Treatment expects <"+TAG_ACTION_TREATMENT+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     private void sortActionParam(List<Object> listActionParam, List<InitialNamedAction> listInitialNamedAction){
@@ -163,7 +162,6 @@ public class CopexActionTreatment extends CopexActionParam{
         }
     }
 
-    // GETTER AND SETTER
     public ArrayList<Object> getListDataProd() {
         return listDataProd;
     }
@@ -172,7 +170,6 @@ public class CopexActionTreatment extends CopexActionParam{
         this.listDataProd = listDataProd;
     }
 
-    // OVERRIDE
     @Override
     public Object clone() {
         CopexActionTreatment a = (CopexActionTreatment) super.clone() ;

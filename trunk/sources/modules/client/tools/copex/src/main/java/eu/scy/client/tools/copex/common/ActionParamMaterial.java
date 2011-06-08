@@ -12,17 +12,16 @@ import org.jdom.JDOMException;
 
 
 /**
- * parametre de l'action de type materiel
+ * paramter of an action - material type
  * @author Marjolaine
  */
 public class ActionParamMaterial extends ActionParam{
     public final static String TAG_ACTION_PARAM_MATERIAL = "action_param_material";
-    /* material associe */
+    /* material  */
     private Material material ;
-    /* eventuellement quantite associee */
+    /* possibliy quantity linked */
     private ActionParamQuantity quantity ;
 
-    // CONSTRUCTOR
     public ActionParamMaterial(long dbKey, InitialActionParam initialParam, Material material, ActionParamQuantity quantity) {
         super(dbKey, initialParam);
         this.material = material;
@@ -32,21 +31,19 @@ public class ActionParamMaterial extends ActionParam{
     public ActionParamMaterial(Element xmlElem, long idActionParam, List<InitialParamMaterial> listInitialParamMaterial, List<Material> listMaterial, List<ActionParamQuantity> listActionParamQuantity) throws JDOMException {
         super(xmlElem);
         if (xmlElem.getName().equals(TAG_ACTION_PARAM_MATERIAL)) {
-			dbKey = idActionParam;
+            dbKey = idActionParam;
             initialParam = new InitialParamMaterial(xmlElem.getChild(InitialParamMaterial.TAG_INITIAL_PARAM_MATERIAL_REF), listInitialParamMaterial);
             if(xmlElem.getChild(Material.TAG_MATERIAL_REF) != null)
                 material = new Material(xmlElem.getChild(Material.TAG_MATERIAL_REF), listMaterial);
             if(xmlElem.getChild(ActionParamQuantity.TAG_ACTION_PARAM_QUANTITY_REF) != null)
                 quantity = new ActionParamQuantity(xmlElem.getChild(ActionParamQuantity.TAG_ACTION_PARAM_QUANTITY_REF), listActionParamQuantity);
         }
-		else {
-			throw(new JDOMException("Action Param Material expects <"+TAG_ACTION_PARAM_MATERIAL+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
-        
+	else {
+            throw(new JDOMException("Action Param Material expects <"+TAG_ACTION_PARAM_MATERIAL+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
 
-    // GETTER AND SETTER
     public Material getMaterial() {
         return material;
     }
@@ -63,7 +60,6 @@ public class ActionParamMaterial extends ActionParam{
         this.quantity = quantity;
     }
 
-    // OVERRIDE
     @Override
     public Object clone() {
         ActionParamMaterial p = (ActionParamMaterial) super.clone() ;
@@ -77,7 +73,7 @@ public class ActionParamMaterial extends ActionParam{
         return p;
     }
 
-    /* description dans l'arbre*/
+    /* description for the tree*/
     @Override
     public String toDescription(Locale locale){
         return material.getName(locale);

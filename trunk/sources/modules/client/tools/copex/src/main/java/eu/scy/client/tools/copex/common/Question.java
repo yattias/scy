@@ -17,7 +17,7 @@ import org.jdom.JDOMException;
 
 
 /**
- * represente la question du protocole 
+ * question, goal of the procedure
  * @author MBO
  */
 public class Question extends CopexTask implements Cloneable{
@@ -39,7 +39,7 @@ public class Question extends CopexTask implements Cloneable{
         super(dbKey, CopexUtilities.getLocalText(question, locale), CopexUtilities.getLocalText(description, locale), CopexUtilities.getLocalText(comment, locale), taskImage, draw, isVisible, taskRight,  root, dbKeyBrother, dbKeyChild, null) ;
     }
 
-    /* constructeur appele par l'interface pour creer la sous question d'un utilisateur */
+    /*sub question */
     public Question(List<LocalText> listDescription, List<LocalText> listComments){
         super(-1, new LinkedList(), listDescription, listComments, null, null, true, new TaskRight(MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.EXECUTE_RIGHT, MyConstants.NONE_RIGHT, MyConstants.NONE_RIGHT), false, null) ;
     }
@@ -49,7 +49,7 @@ public class Question extends CopexTask implements Cloneable{
     }
 
 
-    /* racine fictive */
+    /* fictiv root */
     public Question(Locale locale){
         super(locale);
     }
@@ -59,7 +59,7 @@ public class Question extends CopexTask implements Cloneable{
         this.dbKeyBrother = -1;
         this.dbKeyChild = -1;
         if (xmlElem.getName().equals(TAG_QUESTION)) {
-			dbKey = idTask;
+            dbKey = idTask;
             setRoot(true);
             listName = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_TASK_NAME).iterator(); variableElem.hasNext();) {
@@ -82,9 +82,9 @@ public class Question extends CopexTask implements Cloneable{
             taskImage = xmlElem.getChildText(TAG_TASK_IMAGE);
             draw = xmlElem.getChild(TAG_TASK_DRAW);
             taskRight = new TaskRight(xmlElem.getChild(TaskRight.TAG_TASK_RIGHT));
-		} else {
-			throw(new JDOMException("Question expects <"+TAG_QUESTION+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+        } else {
+            throw(new JDOMException("Question expects <"+TAG_QUESTION+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
 

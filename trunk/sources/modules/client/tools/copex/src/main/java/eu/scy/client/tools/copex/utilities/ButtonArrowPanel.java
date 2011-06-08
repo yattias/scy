@@ -12,20 +12,19 @@ import java.awt.event.MouseListener;
 import javax.swing.*;
 
 /**
- * represente la fleche pour cacher  / montrer des elements
- * @author MBO
+ * represents the arrow to hide/show elements 
+ * @author Marjolaine
  */
 public class ButtonArrowPanel extends JPanel implements MouseListener{
-    //ATTRIBUTS 
-    /* fenetre mere */
+    /* copex editor */
     private EdPPanel edP;
     /* owner */
     private CopexPanelHideShow owner;
-    /* image de fond */
+    /* background image */
     private Image bg;
-    /* image fleche cachee */
+    /* arrow hide image */
     private ImageIcon bgHide;
-    /* image fleche montre */
+    /* arrow show image*/
     private ImageIcon bgShow;
     /* mode */
     private boolean modeHide;
@@ -33,7 +32,6 @@ public class ButtonArrowPanel extends JPanel implements MouseListener{
     private boolean buttonEnabled;
 
    
-    // CONSTRUCTEURS 
      public ButtonArrowPanel(EdPPanel edP, CopexPanelHideShow owner) {
          super();
          this.buttonEnabled = true;
@@ -49,12 +47,10 @@ public class ButtonArrowPanel extends JPanel implements MouseListener{
     
      
      
-    // OVERRIDE METHOD  
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         if (bg == null){
-            //System.out.println("image null");
             bg = bgHide.getImage();
         }
          boolean d  =g.drawImage(bg, 0, 0, null) ;
@@ -63,7 +59,6 @@ public class ButtonArrowPanel extends JPanel implements MouseListener{
         }
     }
     
-    // METHODE 
     public void setHide(){
         modeHide = true;
         bg = bgHide.getImage();

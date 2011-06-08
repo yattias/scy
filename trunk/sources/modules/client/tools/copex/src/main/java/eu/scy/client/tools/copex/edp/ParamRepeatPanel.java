@@ -53,7 +53,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 /**
- * panel qui contient les valeurs des parametres a repeter
+ * panel which contains all values of parameters to repeat
  * @author Marjolaine
  */
 public class ParamRepeatPanel extends JPanel{
@@ -141,7 +141,7 @@ public class ParamRepeatPanel extends JPanel{
         return initialOutput;
     }
     
-    // rend disabled tous les elements
+    // set disabled all elements
     public void disabled(){
         int nb = listComponents.size();
         for (int i=0; i<nb; i++){
@@ -149,12 +149,12 @@ public class ParamRepeatPanel extends JPanel{
         }
     }
 
-    /* nombre de "colonnes" => nbRepeat */
+    /* nb "columns" => nbRepeat */
     public int getColumnCount(){
         return this.nbRepeat;
     }
 
-    /* supprime des "colonnes" */
+    /*  remove "columns" */
     public void removeColumns(int nb){
         if(listComponents.size() > 0){
             for (int i=0; i<nb; i++){
@@ -169,7 +169,7 @@ public class ParamRepeatPanel extends JPanel{
         resizePanel();
     }
 
-    /*ajoute des colonnes */
+    /*add columns */
     public void addColumns(int nb){
         Vector listItem = new Vector();
         int n = 0;
@@ -220,7 +220,7 @@ public class ParamRepeatPanel extends JPanel{
         resizePanel();
     }
 
-    /*n'affiche rien */
+    /* no display */
     public void setNone(){
         setMode(MODE_NONE) ;
         this.removeAll();
@@ -228,7 +228,7 @@ public class ParamRepeatPanel extends JPanel{
         resizePanel();
     }
 
-    /* affichage param quantity : text fields + cb des unites*/
+    /* set param quantity : text fields + cb for units*/
     public void setParamQuantity(InitialParamQuantity initialParamQuantity, List<CopexUnit> listUnit, String quantityName){
         setNone();
         setMode(MODE_PARAM_QTT);
@@ -287,7 +287,7 @@ public class ParamRepeatPanel extends JPanel{
     }
 
 
-    /* affichage param materials  combo box*/
+    /* set param materials  combo box*/
     public void setParamMaterial(InitialParamMaterial initialParamMaterial, ArrayList<Material> listMaterial, ArrayList<Object[]> listMaterialProdRepeat){
         setNone();
         this.setMode(MODE_PARAM_MAT);
@@ -370,7 +370,7 @@ public class ParamRepeatPanel extends JPanel{
         return list;
     }
 
-    /* affichage param data  combo box*/
+    /* set param data  combo box*/
     public void setParamData(InitialParamData initialParamData, ArrayList<QData> listData){
         setNone();
         setMode(MODE_PARAM_DATA);
@@ -414,7 +414,7 @@ public class ParamRepeatPanel extends JPanel{
         return list;
     }
 
-    /* affichage output material : combobox*/
+    /* set output material : combobox*/
     public void setOutputMaterial(InitialManipulationOutput initialManipulationOutput, ArrayList<Material> listOutput, ArrayList<TypeMaterial> listType, ArrayList<Object[]> listMaterialProdRepeat){
         setNone();
         this.setMode(MODE_OUT_MAT);
@@ -509,7 +509,7 @@ public class ParamRepeatPanel extends JPanel{
         if(idCb == -1)
             return;
         if(idCb >-1 && actionTaskRepeat != null && !isMaterialOutput(matName)){
-            // liste des parametres
+            // parameters list
             List<Parameter> listParameters = new LinkedList();
             Material m = new Material(CopexUtilities.getLocalText(matName, edP.getLocale()), CopexUtilities.getLocalText(matName, edP.getLocale()), null, listOutTypeMaterial, listParameters, new MaterialSourceAction(-1));
             actionTaskRepeat.addOutputMaterial(index,idCb, m);
@@ -559,7 +559,7 @@ public class ParamRepeatPanel extends JPanel{
         return null;
     }
 
-    /* affichage output data : textfied */
+    /* set output data : textfied */
     public void setOutputData(InitialOutput initialOutput, CopexUnit unit){
         setNone();
         this.outputUnit = unit;

@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package eu.scy.client.tools.copex.edp;
+package eu.scy.client.tools.copex.main;
 
 import eu.scy.client.tools.copex.common.CopexAction;
 import eu.scy.client.tools.copex.common.CopexMission;
@@ -23,7 +23,6 @@ import eu.scy.client.tools.copex.logger.CopexLog;
 import eu.scy.client.tools.copex.logger.CopexProperty;
 import eu.scy.client.tools.copex.logger.TaskTreePosition;
 import eu.scy.client.tools.copex.utilities.ActionCopex;
-import eu.scy.client.tools.copex.utilities.CopexImage;
 import eu.scy.client.tools.copex.utilities.CopexReturn;
 import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.awt.BorderLayout;
@@ -33,6 +32,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.SystemColor;
+import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -48,7 +48,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.ToolTipManager;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -61,14 +60,23 @@ import eu.scy.client.tools.copex.common.MaterialStrategy;
 import eu.scy.client.tools.copex.common.TypeMaterial;
 import eu.scy.client.tools.copex.controller.CopexControllerAuth;
 import eu.scy.client.tools.copex.db.DataBaseCommunication;
+import eu.scy.client.tools.copex.edp.CopexSwingWorker;
+import eu.scy.client.tools.copex.edp.CopexTabbedPane;
+import eu.scy.client.tools.copex.edp.CreateProcDialog;
+import eu.scy.client.tools.copex.edp.EdPPanel;
+import eu.scy.client.tools.copex.edp.HelpDialog;
+import eu.scy.client.tools.copex.edp.OpenCopexDialog;
+import eu.scy.client.tools.copex.edp.TaskSelected;
 import java.awt.Container;
+import java.beans.PropertyChangeListener;
+import javax.swing.JLabel;
+import javax.swing.JProgressBar;
 
 /**
  * main panel COPEX
  * @author Marjolaine
  */
-public class CopexPanel extends JPanel {
-    // CONSTANTES
+public class CopexPanel extends JPanel implements PropertyChangeListener{
     /*panel size*/
     public final static int PANEL_WIDTH = 550;
     public final static int PANEL_HEIGHT = 350;
@@ -83,26 +91,22 @@ public class CopexPanel extends JPanel {
     //private ResourceBundle bundle;
     private ResourceBundleWrapper bundle;
     //private ResourceBundleWrapper bundle;
-    /* images de l'editeur */
-    private ArrayList<CopexImage> listImage;
     private boolean scyMode;
     private boolean dbMode;
     private ActionCopex actionCopex;
-    /* identifiant user */
+    /* user identifier */
     private String idUser;
-    /* identifiant mission */
+    /* mission identifier */
     private long dbKeyMission;
     private long dbKeyGroup;
     private long dbKeyLabDoc;
     private String labDocName;
     private CopexMission mission;
-    // liste des protocoles ouverts
+    // list of proc open
     private ArrayList<ExperimentalProcedure> listProc = null;
     private ArrayList<EdPPanel> listCopexPanel;
     private EdPPanel activCopex;
-    /* liste des images des taches */
-    private ArrayList<CopexImage> listTaskImage;
-    /* liste des grandeurs physiques */
+    /* list of physical quantitites  */
     private ArrayList<PhysicalQuantity> listPhysicalQuantity ;
 
     private File lastUsedFileOpen = null;
@@ -111,6 +115,8 @@ public class CopexPanel extends JPanel {
     private CopexTabbedPane copexTabbedPane;
     private JFrame ownerFrame;
 
+    private JProgressBar progressBar;
+    private JPanel paneProgess;
 
     public CopexPanel(JFrame ownerFrame,boolean scyMode, Locale locale){
         this.ownerFrame = ownerFrame;
@@ -120,7 +126,6 @@ public class CopexPanel extends JPanel {
         this.dbKeyGroup = 1;
         this.dbKeyLabDoc = 1;
         this.labDocName = "";
-        this.listTaskImage = new ArrayList();
         this.scyMode = scyMode;
         this.dbMode = false;
         initEdP(null);
@@ -134,7 +139,6 @@ public class CopexPanel extends JPanel {
         this.dbKeyGroup = 1;
         this.dbKeyLabDoc = 1;
         this.labDocName = "";
-        this.listTaskImage = new ArrayList();
         this.scyMode = scyMode;
         this.dbMode = false;
         initEdP(null);
@@ -148,7 +152,6 @@ public class CopexPanel extends JPanel {
         this.dbKeyMission = dbKeyMission;
         this.dbKeyGroup = dbKeyGroup;
         this.dbKeyLabDoc = dbKeyLabDoc;
-        this.listTaskImage = new ArrayList();
         this.scyMode = false;
         this.dbMode = true;
         this.labDocName = labDocName;
@@ -163,7 +166,6 @@ public class CopexPanel extends JPanel {
         this.dbKeyGroup = 0;
         this.dbKeyLabDoc = 0;
         this.labDocName = "";
-        this.listTaskImage = new ArrayList();
         this.scyMode = true;
         this.dbMode = false;
         initEdP(teacher, mission, initProc, listPhysicalQuantity, listMaterialStrategy, defaultTypeMaterial, null);
@@ -206,7 +208,7 @@ public class CopexPanel extends JPanel {
 //            }
 //        }
         bundle = new ResourceBundleWrapper(this);
-       // Initialisation du look and feel
+       // Initialization look and feel
 //        try{
 //            String myLookAndFeel=UIManager.getSystemLookAndFeelClassName();
 //            UIManager.setLookAndFeel(myLookAndFeel);
@@ -226,6 +228,26 @@ public class CopexPanel extends JPanel {
       setSize(PANEL_WIDTH, PANEL_HEIGHT);
       setLayout(new BorderLayout());
       setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+      if(!scyMode){
+        progressBar = new JProgressBar(0, 100);
+        progressBar.setValue(0);
+        paneProgess = new JPanel();
+        paneProgess.setLayout(new BorderLayout());
+        paneProgess.setOpaque(true);
+        paneProgess.add(progressBar, BorderLayout.CENTER);
+        JLabel labelprogess = new JLabel("Veuillez patienter pendant le chargement....");
+        paneProgess.add(labelprogess, BorderLayout.PAGE_END);
+        this.add(paneProgess, BorderLayout.PAGE_START);
+        CopexSwingWorker task = new CopexSwingWorker(this);
+        task.addPropertyChangeListener(this);
+        task.execute();
+        }else{
+          loadData();
+        }
+    }
+
+    public void setProgress(int value){
+        this.progressBar.setValue(value);
     }
 
     @Override
@@ -236,10 +258,12 @@ public class CopexPanel extends JPanel {
     public void addActionCopex(ActionCopex actionCopex){
         this.actionCopex = actionCopex;
     }
-    /* chargement des donnees */
+
+
+    /* load data */
     public void loadData(){
       setCursor(new Cursor(Cursor.WAIT_CURSOR));
-       // appel au noyau : chargement des donnees
+      
       //String logFileName = "logFile"+CopexUtilities.getCurrentDate()+"-"+dbKeyMission+"-"+idUser+".xml";
       //String fileMission = "copexMission_SCI121.xml";
       //String fileMission = "copexMission_simple.xml";
@@ -250,13 +274,17 @@ public class CopexPanel extends JPanel {
       CopexReturn cr = this.controller.initEdP(locale, idUser, dbKeyMission,dbKeyGroup, dbKeyLabDoc, labDocName, fileMission);
       if (cr.isError()){
           setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-          //System.out.println("erreur chargement des donnees ....");
           displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
           this.stop();
       }
+      if(!scyMode){
+        progressBar.setValue(100);
+        remove(paneProgess);
+        revalidate();
+      }
       setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
     }
-
+    
     public String getVersion(){
         return this.version;
     }
@@ -278,7 +306,7 @@ public class CopexPanel extends JPanel {
             return imgIcon;
     }
 
-    /* affichage des erreurs*/
+    /* display errors */
     public boolean displayError(CopexReturn dr, String title) {
         if (dr.mustConfirm ()){
             int erreur = JOptionPane.showConfirmDialog(this ,dr.getText() , title,JOptionPane.OK_CANCEL_OPTION);
@@ -296,7 +324,8 @@ public class CopexPanel extends JPanel {
 	}
         return false;
     }
-    /* retourne un message selon cle*/
+
+    /* returns the string for the specified key */
     public String getBundleString(String key){
         String s = getBundleStringKey(key);
 //        if(s == null){
@@ -312,7 +341,7 @@ public class CopexPanel extends JPanel {
         return s;
     }
 
-    /* retourne un message selon cle*/
+    /* returns the string for the specified key*/
     public String getBundleStringKey(String key){
         String s = "";
         try{
@@ -324,21 +353,6 @@ public class CopexPanel extends JPanel {
         }
     }
 
-    /**
-     * retourne l'image de la tache correspondant au nom
-     */
-    public  Image getTaskImage(String img){
-        if (img == null || img.equals(""))
-            return null;
-       int nbImg = listTaskImage.size();
-       for(int i=0; i<nbImg; i++){
-           if (listTaskImage.get(i).getImgName().equals(img)){
-               return listTaskImage.get(i).getImg();
-           }
-       }
-      displayError(new CopexReturn(getBundleString("MSG_ERROR_IMAGE")+img, false), getBundleString("TITLE_DIALOG_ERROR"));
-       return null;
-    }
     
      public void stop() {
         CopexReturn cr = this.controller.stopEdP();
@@ -347,17 +361,16 @@ public class CopexPanel extends JPanel {
     }
 
     
-      /* initialisation de l'application avec les donnees */
+      /* initialization of the application, with data */
     public void initEdp(CopexMission mission, ArrayList<ExperimentalProcedure> listProc,  ArrayList<PhysicalQuantity> listPhysicalQuantity) {
        setCursor(new Cursor(Cursor.WAIT_CURSOR));
-       // mise a jour des donnees :
+       // update
        this.mission = mission;
        this.listProc = listProc;
        this.listPhysicalQuantity = listPhysicalQuantity ;
        listCopexPanel = new ArrayList();
-       // augmente temps d'affichage du tooltiptext
-       ToolTipManager.sharedInstance().setDismissDelay(10000);
-       ToolTipManager.sharedInstance().setInitialDelay(0);
+       //ToolTipManager.sharedInstance().setDismissDelay(10000);
+       //ToolTipManager.sharedInstance().setInitialDelay(0);
        if(scyMode){
            initProcedure();
        }else{
@@ -379,8 +392,6 @@ public class CopexPanel extends JPanel {
         for (int i=0; i<nb; i++){
             addCopexPanel(listProc.get(i), false);
         }
-//        revalidate();
-//        repaint();
     }
 
     private CopexTabbedPane getCopexTabbedPane(){
@@ -403,13 +414,14 @@ public class CopexPanel extends JPanel {
         }
     }
 
-    /* retourne vrai si dans la mission on peut ajouter un proc */
+    /* returns true in the msision, we can add a proc */
     public boolean canAddProc(){
         if(mission == null)
             return true;
         return true;
     }
-    /* retourne le tooltiptext sur le bouton d'ouverture */
+
+    /* returns the  tooltiptext on th eopen button  */
     public String getToolTipTextOpen(){
         return getBundleString("TOOLTIPTEXT_OPEN_PROC");
     }
@@ -419,8 +431,7 @@ public class CopexPanel extends JPanel {
             activCopex.setQuestionDialog();
     }
 
-    /* recherche de l'indice
-     d'un protocole */
+    /* returns the index of  a procedure */
     private int getIdProc(long dbKey){
         int id = -1;
         int nbP = listProc.size();
@@ -430,7 +441,8 @@ public class CopexPanel extends JPanel {
         }
         return id;
     }
-    /* fermeture d'un protocole */
+
+    /*close proc */
     public void closeProc(ExperimentalProcedure proc) {
         int idP = getIdProc(proc.getDbKey());
         if (idP == -1){
@@ -446,23 +458,21 @@ public class CopexPanel extends JPanel {
         }
     }
 
-    /* retourne le protocole actif */
+    /* returns the activ proc*/
     public ExperimentalProcedure getProcActiv() {
         return this.getCopexTabbedPane().getProcActiv();
     }
     
-    /* renvoit vrai si aucun proc n'est ouvert */
+    /* returns true if any proc is open*/
      public boolean noProc(){
-         return listProc.size() == 0;
+         return listProc.isEmpty();
      }
 
 
-     /* affichage du proc d'aide */
+     /* show the help proc */
     public void displayHelpProc(LearnerProcedure helpProc){
         if(scyMode){
-//            // a terme il faut ouvrir un nouvel elo ?
-//            if(actionCopex != null)
-//                actionCopex.loadHelpProc(helpProc);
+//            // it could be a new elo?
             EdPPanel helpPanel = new EdPPanel(this, helpProc, controller,  listPhysicalQuantity);
             HelpDialog help = new HelpDialog(activCopex, helpPanel);
             help.setVisible(true);
@@ -475,7 +485,7 @@ public class CopexPanel extends JPanel {
     }
 
 
-   /* affichage d'un message concernant les proc lockes */
+   /* display a msg about the locked proc */
     public void displayProcLocked(ArrayList<String> listProcNameLocked){
         if(listProcNameLocked == null)
             return;
@@ -489,13 +499,13 @@ public class CopexPanel extends JPanel {
         displayError(new CopexReturn(msg, true), getBundleString("TITLE_DIALOG_WARNING"));
     }
 
-    /* demande quel proc initial pour creation d'un proc */
+    /* ask which initial proc for creation of a new proc  */
     public void askForInitialProc(){
         CreateProcDialog dialog = new CreateProcDialog(this, controller, mission.getListInitialProc()) ;
         dialog.setVisible(true);
     }
 
-    /* retourne le point pour afficher la boite de dialogue */
+    /* returns the point to display the dialog */
     public Point getLocationDialog(){
         if(activCopex == null)
             return new Point(10, 10);
@@ -574,7 +584,7 @@ public class CopexPanel extends JPanel {
         if(dbMode){
 //            CloseProcDialog closeD = new CloseProcDialog(this, controller, proc);
 //            closeD.setVisible(true);
-            // fermeture du proc
+            // close proc
             CopexReturn cr = controller.closeProc(proc);
             if(cr.isError()){
                 displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
@@ -599,7 +609,7 @@ public class CopexPanel extends JPanel {
 
     public void openDialogaddProc(){
         if(dbMode){
-            // liste des protocoles a copier :
+            // list of proc to copy
             ArrayList v = new ArrayList();
             CopexReturn cr = this.controller.getListProcToCopyOrOpen(v);
             if (cr.isError()){
@@ -641,7 +651,7 @@ public class CopexPanel extends JPanel {
 
     
 
-    // load/open ELO SCY ou non
+    // load/open ELO SCY or not
     public void loadELO(Element elo){
         if(scyMode){
             CopexReturn cr = this.controller.deleteProc(activCopex.getExperimentalProc());
@@ -659,7 +669,7 @@ public class CopexPanel extends JPanel {
     
     // new ELO SCY
     public void newELO(){
-        // scyMode est vrai
+        // scyMode is true
         CopexReturn cr = this.controller.deleteProc(activCopex.getExperimentalProc());
         if(cr.isError()){
             displayError(cr, getBundleString("TITLE_DIALOG_ERROR"));
@@ -673,7 +683,7 @@ public class CopexPanel extends JPanel {
         }
     }
 
-    // SCY : retourne l'elo courant
+    // SCY : returns the current elo
     public Element getXProc(){
         logSaveProc(activCopex.getExperimentalProc());
         return activCopex.getExperimentalProcedure();
@@ -824,7 +834,7 @@ public class CopexPanel extends JPanel {
         List<CopexProperty> attribute = CopexLog.logGeneralPrinciple(locale,proc, oldPrinciple, newGeneralPrinciple);
         actionCopex.logAction(MyConstants.LOG_TYPE_GENERAL_PRINCIPLE, attribute);
     }
-    /* log : evaluatione */
+    /* log : evaluation */
     public void logEvaluation(ExperimentalProcedure proc, Evaluation oldEvaluation, Evaluation newEvaluation){
         List<CopexProperty> attribute = CopexLog.logEvaluation(locale,proc, oldEvaluation, newEvaluation);
         actionCopex.logAction(MyConstants.LOG_TYPE_EVALUATION, attribute);
@@ -1051,5 +1061,13 @@ public class CopexPanel extends JPanel {
             return activCopex.getExperimentalProc().getHypothesisMode() != MyConstants.MODE_MENU_NO;
         }
         return false;
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if ("progress".equals(evt.getPropertyName())) {
+            int progress = (Integer) evt.getNewValue();
+            progressBar.setValue(progress);
+        } 
     }
 }

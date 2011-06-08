@@ -8,6 +8,7 @@ package eu.scy.client.tools.copex.edp;
 
 
 
+import eu.scy.client.tools.copex.main.CopexPanel;
 import eu.scy.client.tools.copex.common.LearnerProcedure;
 import eu.scy.client.tools.copex.controller.ControllerInterface;
 import eu.scy.client.tools.copex.utilities.CopexReturn;
@@ -16,25 +17,23 @@ import eu.scy.client.tools.copex.utilities.MyConstants;
 import javax.swing.*;
 
 /**
- * fenetre de dialogue qui s'affiche lorsqu'on clique sur la croix de l'onglet d'un protocole
- * permet a l'utilisateur de choisir entre 
- * - fermer l'onglet du protocole
- * - supprimer definitevement le protocole
- * @author  MBO
+ * dialog that appears when you click on the cross tab of a proc
+ * allows to ask the user if he wants to
+ * - close the proc tab
+ * - delete definitely the proc
+ * @author  Marjolaine
  */
 public class CloseProcDialog extends JDialog {
 
-    // ATTRIBUTS
-    /* fenetre mere */
+    /* owner */
     private CopexPanel edP;
     /* controller */
     private ControllerInterface controller;
-    /* boolean indiquant si protocole est a fermer (true) ou a supprimer (false) */
+    /* boolean: proc to close (true) or ot delete (false)*/
     private boolean isClose;
-    /* protocole */
+    /* proc */
     private LearnerProcedure proc;
-
-    // CONSTRUCTEURS 
+ 
     public CloseProcDialog(CopexPanel edP, ControllerInterface controller, LearnerProcedure proc) {
         super(edP.getOwnerFrame());
         this.edP = edP;
@@ -55,10 +54,9 @@ public class CloseProcDialog extends JDialog {
         initComponents();
     }
     
-    // METHODES
-    /* initialisation */
+    /* initialization */
     private void init(){
-        // parametres dans le texte des rb
+        // parameters in the text for radiobutton
         String s = edP.getBundleString("LABEL_CLOSE_PROC");
         s = CopexUtilities.replace(s,0, proc.getName(edP.getLocale()));
         rbClose.setText(s);
@@ -72,15 +70,14 @@ public class CloseProcDialog extends JDialog {
     }
 
     /*
-     * permet de resizer les elements de la fenetre en fonction de la longueur des textes
-     * variable selon la langue
+     * allows to resize the elements of the dialog depending of the string leght, (language dependant)
      */
    private void resizeElements(){
        // label question
        this.labelQuestion.setSize(CopexUtilities.lenghtOfString(this.labelQuestion.getText(), getFontMetrics(this.labelQuestion.getFont())), this.labelQuestion.getHeight());
-       // rb fermer
+       // rb close
        this.rbClose.setSize(CopexUtilities.lenghtOfString(this.rbClose.getText(), getFontMetrics(this.rbClose.getFont())), this.rbClose.getHeight());
-       // rb suppr
+       // rb delete
       this.rbSuppr.setSize(CopexUtilities.lenghtOfString(this.rbSuppr.getText(), getFontMetrics(this.rbSuppr.getFont())), this.rbSuppr.getHeight());
       this.rbSuppr.setPreferredSize(rbSuppr.getSize());
        int maxL = Math.max(rbClose.getWidth(), rbSuppr.getWidth());
@@ -88,11 +85,13 @@ public class CloseProcDialog extends JDialog {
            int newWidth = maxL + this.rbClose.getX() +20;
            setSize(newWidth, getHeight());
        }
-       // bouton Ok
+       // button Ok
        this.buttonOk.setSize(CopexUtilities.lenghtOfString(this.buttonOk.getText(), getFontMetrics(this.buttonOk.getFont())), this.buttonOk.getHeight());
-       // bouton Annuler
+       // button cancel
        this.buttonCancel.setSize(CopexUtilities.lenghtOfString(this.buttonCancel.getText(), getFontMetrics(this.buttonCancel.getFont())), this.buttonCancel.getHeight());
    }
+
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -201,7 +200,7 @@ private void rbSupprActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
 }//GEN-LAST:event_rbSupprActionPerformed
 
 private void buttonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOkActionPerformed
-    // recuperation des donnees
+    // gets data
     this.isClose = rbClose.isSelected();
     if (this.isClose){
         CopexReturn cr = controller.closeProc(this.proc);

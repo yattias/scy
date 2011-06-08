@@ -8,15 +8,13 @@ package eu.scy.client.tools.copex.db;
 import java.util.ArrayList;
 
 /**
- * resultat de la base de donnees
+ * result from the database
  * @author MBO
  */
 public class ResultSetXML {
-    // ATTRIBUTS
-    /* liste de resultats colonnes */
+    /* list data columns */
     private ArrayList<ColumnData> listData;
 
-    // CONSTRUCTEURS
     public ResultSetXML() {
         this.listData = new ArrayList();
     }
@@ -25,7 +23,6 @@ public class ResultSetXML {
         this.listData = listData;
     }
     
-    // METHODES
     public void addData(ColumnData data){
         this.listData.add(data);
     }

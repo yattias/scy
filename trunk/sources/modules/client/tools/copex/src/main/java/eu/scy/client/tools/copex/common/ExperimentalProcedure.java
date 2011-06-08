@@ -9,7 +9,6 @@ import eu.scy.client.tools.copex.logger.TaskTreePosition;
 import eu.scy.client.tools.copex.utilities.CopexUtilities;
 import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,66 +29,45 @@ public class ExperimentalProcedure implements Cloneable {
     public static final String TAG_EXP_MATERIAL_PROD = "material_prod";
 
 
-    /* identifiant base de donnees */
+    /* database identifier */
     protected long dbKey;
     /*
-     * nom du protocole
+     *procedure name
      */
     protected List<LocalText> listName;
-    /* date de derniere modif */
+    /* last modification date */
     protected java.sql.Date dateLastModification;
 
 
     /*
-     * question associee
+     * question 
      */
     protected Question question;
     /* hypotheses */
     protected Hypothesis hypothesis;
     /* general principle */
     protected GeneralPrinciple generalPrinciple;
-    /* liste du materiel utilise pour le protocole */
+    /* list of material used in the procedure */
     protected MaterialProc materials;
-    /* liste des taches */
+    /* task list */
     protected Manipulation manipulation;
-    /* Feuille de donnees */
+    /* datasheet : data prod. */
     protected DataSheet dataSheet;
     /*evaluation */
     protected Evaluation evaluation;
 
-    /* actif */
+    /* is activ (multi tab) */
     protected boolean activ;
-    /* droit */
+    /* right */
     protected char right;
-    /* protocole ouvert ou feme */
+    /* open or not (labbook)*/
     protected boolean open = true;
 
     public Evaluation getEvaluation() {
         return evaluation;
     }
 
-    public void setEvaluation(Evaluation evaluation) {
-        this.evaluation = evaluation;
-    }
-
-    public GeneralPrinciple getGeneralPrinciple() {
-        return generalPrinciple;
-    }
-
-    public void setGeneralPrinciple(GeneralPrinciple generalPrinciple) {
-        this.generalPrinciple = generalPrinciple;
-    }
-
-    public Hypothesis getHypothesis() {
-        return hypothesis;
-    }
-
-    public void setHypothesis(Hypothesis hypothesis) {
-        this.hypothesis = hypothesis;
-    }
-    
-    
-    // CONSTRUCTEURS
+   
     public ExperimentalProcedure(long dbKey, List<LocalText> listName, java.sql.Date dateLastModification, boolean isActiv, char right ) {
         this.dbKey = dbKey;
         this.listName = listName;
@@ -108,7 +86,7 @@ public class ExperimentalProcedure implements Cloneable {
 
 
 
-    /*creation d'un nouveau protocole */
+    /*creation of a new experimental procedure */
     public ExperimentalProcedure(List<LocalText> listName,  java.sql.Date dateLastModification){
         this.dbKey = -1;
         this.listName = listName;
@@ -145,7 +123,28 @@ public class ExperimentalProcedure implements Cloneable {
 
     public ExperimentalProcedure(Element xmlElem) throws JDOMException {
 		
-	}
+    }
+
+     public void setEvaluation(Evaluation evaluation) {
+        this.evaluation = evaluation;
+    }
+
+    public GeneralPrinciple getGeneralPrinciple() {
+        return generalPrinciple;
+    }
+
+    public void setGeneralPrinciple(GeneralPrinciple generalPrinciple) {
+        this.generalPrinciple = generalPrinciple;
+    }
+
+    public Hypothesis getHypothesis() {
+        return hypothesis;
+    }
+
+    public void setHypothesis(Hypothesis hypothesis) {
+        this.hypothesis = hypothesis;
+    }
+
 
     public Manipulation getManipulation() {
         return manipulation;
@@ -304,16 +303,13 @@ public class ExperimentalProcedure implements Cloneable {
         }
     }
     
-    // METHODES
-    
-    
-    /* retourne true si le protocole est actif  */
+    /* returns true if the proce. is activ */
     public boolean isActiv(){
         return  activ;
     }
 
     
-    /* suppression de taches - retourne vrai si ca s'est bien passe */
+    /* task delete - returns true if it is ok*/
     public boolean deleteTasks(ArrayList<CopexTask> listT){
         boolean isOk = true;
         int nbToDel = listT.size();
@@ -335,7 +331,7 @@ public class ExperimentalProcedure implements Cloneable {
         return isOk;
     }
     
-    /* ajout d'une tache */
+    /* add a task */
     public void addAction(CopexAction a){
         this.manipulation.add(a);
     }
@@ -347,7 +343,7 @@ public class ExperimentalProcedure implements Cloneable {
     }
     
     
-    /* ajout de taches */
+    /* add tasks */
     public void addTasks(ArrayList<CopexTask> listT){
         int nbT = listT.size();
         for (int i=0; i<nbT; i++){
@@ -582,7 +578,7 @@ public class ExperimentalProcedure implements Cloneable {
                 return getListTask().get(i);
             }
         }
-        // on n'a pas trouve on cherche dans les grands freres
+        // not found => search in the "big" brother
         CopexTask t = getOldBrotherTask(task);
         if(t==null)
             return null;
@@ -668,7 +664,7 @@ public class ExperimentalProcedure implements Cloneable {
         int nb = listC.size();
         for (int i=0; i<nb; i++){
             listAllChilds.add(listC.get(i));
-            // ajout des enfants
+            // add childs
             List<CopexTask> l = getAllChilds(listC.get(i));
             int n = l.size();
             for (int j=0; j<n; j++){
@@ -727,7 +723,7 @@ public class ExperimentalProcedure implements Cloneable {
     }
 
 
-    /* retourne la liste des output des actions de l'etape */
+    /* returns the list of  output of the actions in the step*/
     public ArrayList[] getTaskInitialOutput(CopexTask task){
         ArrayList[] tabList = new ArrayList[2];
        ArrayList<InitialOutput> list = new ArrayList();
@@ -770,7 +766,7 @@ public class ExperimentalProcedure implements Cloneable {
         return tabList;
     }
 
-    // retourne la tache avec ce dbKey
+    // returns the task with this dbkey
     public  CopexTask getTask(long dbKey){
         int nbT = getListTask().size() ;
         for (int i=0; i<nbT; i++){

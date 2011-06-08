@@ -14,11 +14,10 @@ import java.awt.*;
 
 
 /**
- * surcharge du menu
- * @author MBO
+ * menu copex
+ * @author Marjolaine
  */
 public class MyMenu extends JMenu implements MouseListener {
-    // ATTRIBUTS
     private EdPPanel edP;
     private Image bg;
     private ImageIcon img;
@@ -28,7 +27,6 @@ public class MyMenu extends JMenu implements MouseListener {
     private String toolTipText;
     private Color bgColor;
 
-    // CONSTRUCTEURS
     public MyMenu(EdPPanel edP, String toolTipText, Color bcolor, ImageIcon img, ImageIcon imgSurvol, ImageIcon imgClic, ImageIcon imgDisabled) {
         super("");
         this.edP = edP;
@@ -73,7 +71,8 @@ public class MyMenu extends JMenu implements MouseListener {
 
         
     }
-    // EVENEMENTS SOURIS
+
+    @Override
     public void mouseClicked(MouseEvent e) {
         if (isEnabled()){
             bg = this.imgClic.getImage();
@@ -81,9 +80,11 @@ public class MyMenu extends JMenu implements MouseListener {
         }
     }
 
+    @Override
     public void mousePressed(MouseEvent e) {
     }
 
+    @Override
     public void mouseReleased(MouseEvent e) {
         if (isEnabled()){ 
             bg = this.img.getImage();
@@ -91,6 +92,7 @@ public class MyMenu extends JMenu implements MouseListener {
         }
     }
 
+    @Override
     public void mouseEntered(MouseEvent e) {
         if (isEnabled()){
             bg = this.imgSurvol.getImage();
@@ -98,6 +100,7 @@ public class MyMenu extends JMenu implements MouseListener {
         }
     }
 
+    @Override
     public void mouseExited(MouseEvent e) {
         if (isEnabled()){
             bg = this.img.getImage();
@@ -117,22 +120,23 @@ public class MyMenu extends JMenu implements MouseListener {
         }
         repaint();
     }
-    // OPERATIONS
     
-    /* mise a jour de l'icone */
+    /* update iconne */
     public void setImage(ImageIcon img){
         this.img = img;
         this.bg = img.getImage();
     }
-    /* mise a jour de l'icone */
+    
+    /* update mouseover icon */
     public void setImageSurvol(ImageIcon img){
         this.imgSurvol = img;
     }
-    /* mise a jour de l'icone */
+    /* update click icon*/
     public void setImageClic(ImageIcon img){
         this.imgClic = img;
     }
-    /* mise a jour de l'icone */
+    
+    /* update disabled icon */
     public void setImageDisabled(ImageIcon img){
         this.imgDisabled = img;
     }

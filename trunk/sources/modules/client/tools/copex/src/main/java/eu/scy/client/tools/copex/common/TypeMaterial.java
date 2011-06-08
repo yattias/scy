@@ -44,23 +44,23 @@ public class TypeMaterial implements Cloneable {
     }
 
    public TypeMaterial(Element xmlElem, long dbKey) throws JDOMException {
-		if (xmlElem.getName().equals(TAG_TYPE)) {
+        if (xmlElem.getName().equals(TAG_TYPE)) {
             this.dbKey = dbKey;
-			code = xmlElem.getChild(TAG_TYPE_ID).getText();
+            code = xmlElem.getChild(TAG_TYPE_ID).getText();
             listType = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_TYPE_NAME).iterator(); variableElem.hasNext();) {
                 Element e = variableElem.next();
                 Locale l = new Locale(e.getAttribute(MyConstants.XMLNAME_LANGUAGE).getValue());
                 listType.add(new LocalText(e.getText(), l));
             }
-		} else {
-			throw(new JDOMException("Type Material expects <"+TAG_TYPE+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+        } else {
+            throw(new JDOMException("Type Material expects <"+TAG_TYPE+"> as root element, but found <"+xmlElem.getName()+">."));
 	}
+    }
 
     public TypeMaterial(Element xmlElem, List<TypeMaterial> list) throws JDOMException {
         if (xmlElem.getName().equals(TAG_TYPE_REF)) {
-			code = xmlElem.getChild(TAG_TYPE_ID).getText();
+            code = xmlElem.getChild(TAG_TYPE_ID).getText();
             for(Iterator<TypeMaterial> type = list.iterator();type.hasNext();){
                 TypeMaterial t = type.next();
                 if(t.getCode().equals(code)){
@@ -159,12 +159,12 @@ public class TypeMaterial implements Cloneable {
                 element.addContent(e);
             }
         }
-		return element;
+	return element;
     }
 
     public Element toXMLRef(){
         Element element = new Element(TAG_TYPE_REF);
-		element.addContent(new Element(TAG_TYPE_ID).setText(code.equals("")?""+dbKey:code));
+	element.addContent(new Element(TAG_TYPE_ID).setText(code.equals("")?""+dbKey:code));
         return element;
     }
     

@@ -11,12 +11,11 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 
 /**
- * sous arbre pouvant etre drag and drop
- * @author MBO 
+ * sub tree for the drag and drop
+ * @author Marjolaine
  */
 public class SubTreeTransferable implements Transferable {
-    // ATTRIBUTS
-    /* sous arbre */
+    /* sub tree */
     private SubTree subTree;
     
     /* flavor supporte*/
@@ -25,7 +24,6 @@ public class SubTreeTransferable implements Transferable {
    /* flavors */
    private DataFlavor[] flavors = {subTreeFlavor};
 
-    // CONSTRUCTEURS
     public SubTreeTransferable(SubTree subTree) {
         this.subTree = subTree;
     }

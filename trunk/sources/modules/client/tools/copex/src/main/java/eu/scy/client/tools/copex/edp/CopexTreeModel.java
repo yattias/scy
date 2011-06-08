@@ -23,7 +23,7 @@ import javax.swing.tree.DefaultTreeModel;
  */
 public class CopexTreeModel extends DefaultTreeModel{
     private ExperimentalProcedure proc;
-    /* liste des taches */
+    /* tasks list */
     private List<CopexTask> listTask;
     private CopexNode manipChild;
     private CopexTask fictivTask;
@@ -36,7 +36,7 @@ public class CopexTreeModel extends DefaultTreeModel{
         buildTree();
     }
 
-    // constructeur d'un sous arbre
+    // constructor subtree
     public CopexTreeModel(ExperimentalProcedure proc, ArrayList<CopexTask> listTask, CopexTask fictivTask){
         super(new CopexNode(proc.getQuestion()));
         this.proc = proc;
@@ -45,7 +45,7 @@ public class CopexTreeModel extends DefaultTreeModel{
         buildTree();
 
     }
-     /* construction de l'arbre */
+     /* build the tree */
     private void buildTree(){
         CopexNode rootNode = (CopexNode)root;
         // question
@@ -89,7 +89,8 @@ public class CopexTreeModel extends DefaultTreeModel{
     public CopexNode getManipulationNode(){
         return this.manipChild;
     }
-    /* construction de l'arbredes taches */
+
+    /* build the task tree */
     private void buildTaskTree(CopexNode node, List<CopexTask> listT){
         CopexTask task = node.getTask();
         if(task == null){
@@ -110,7 +111,7 @@ public class CopexTreeModel extends DefaultTreeModel{
        }
     }
 
-    /* renvoit la tache frere et enfant , null sinon */
+    /* returns the brother & child task, null if not found */
     private CopexTask[] getBrotherAndChild(CopexTask task, List<CopexTask> listT){
         int nbT = listT.size();
         CopexTask[] tabTask = new CopexTask[2];
@@ -140,7 +141,7 @@ public class CopexTreeModel extends DefaultTreeModel{
     
     private void updateNode(CopexNode node){
         int nbC = node.getChildCount();
-        // recherche de la tache
+        // search the task
         if(node.isQuestion()){
             node.setNode(proc.getQuestion());
         }else if(node.isHypothesis()){
@@ -273,7 +274,7 @@ public class CopexTreeModel extends DefaultTreeModel{
         return null;
     }
 
-    /* ajout de noeuds a partir d'un noeud donne*/
+    /* add nodes from a specified node */
     public void addNodes(TaskTreeNode node, ArrayList<CopexTask> listTask){
         buildTaskTree(node, listTask);
     }

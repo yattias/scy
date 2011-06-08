@@ -12,10 +12,10 @@ import javax.swing.*;
 
 /**
  *
- * @author  MBO
+ * @author  Marjolaine
  */
 public class CopexPanelHideShow extends JPanel {
-    // ATTRIBUTS
+    public final static int HEIGHT_SEP = 3;
     static public int HEIGHT_PANEL_HIDE = 30;
     public int HEIGHT_PANEL_SHOWN = 100;
     protected EdPPanel edP;
@@ -24,10 +24,10 @@ public class CopexPanelHideShow extends JPanel {
     protected JPanel panelDetails = null;
     /* mode */
     private boolean modeHide;
-    /* bouton fleche */
+    /* arrow button  */
     protected ButtonArrowPanel buttonArrow;
 
-    /* ecoute ou non evenemtn souris */
+    /* listen or not mouse events */
     protected boolean mouseListen;
 
     public CopexPanelHideShow(EdPPanel edP, JPanel owner, String titleLabel, boolean mouseListen) {
@@ -47,13 +47,14 @@ public class CopexPanelHideShow extends JPanel {
     }
 
    
-    // retourne la position de fin du label
+    // returns the end position of the label
     protected int getLabelEndX(){
         return this.labelTitle.getX()+this.labelTitle.getWidth();
     }
+
     private void initPanel(){
         modeHide = true;
-        HEIGHT_PANEL_SHOWN = owner.getHeight() / 2 - (2*MySeparator.HEIGHT_SEP) ;
+        HEIGHT_PANEL_SHOWN = owner.getHeight() / 2 - (2*HEIGHT_SEP) ;
         panelDetails = null;
         buttonArrow = new ButtonArrowPanel(edP, this);
         buttonArrow.setBounds(5, 7, buttonArrow.getWidth
@@ -85,7 +86,7 @@ public class CopexPanelHideShow extends JPanel {
         
     }
     /*
-     * cache le panel detail
+     * hide the detail panel
      */
     protected void setPanelDetailsHide(){
         if (panelDetails != null)
@@ -95,8 +96,9 @@ public class CopexPanelHideShow extends JPanel {
         modeHide = true;
         setSize(this.getWidth(), this.panelTitle.getHeight());
     }
+
     /*
-     * montre le panel detail
+     * show the detail panel
      */
     protected void setPanelDetailsShown(){
         this.add(getPanelDetails());
@@ -106,14 +108,15 @@ public class CopexPanelHideShow extends JPanel {
         modeHide = false;
         buttonArrow.setShow();
     }
-    /* clic sur titre => deploie ou non le panel*/
+
+    /* click on title => show the panel or not*/
     protected void labelMousePressed(){
         if(this.mouseListen){
             setHide(!modeHide);
         }
     }
     
-    /* resize du panel de detail */
+    /* detail panel resize */
     protected void resizePanelDetails(int newWidth, int newHeight){
         int nw = owner.getWidth();
         int nh = this.panelTitle.getHeight();
@@ -130,6 +133,7 @@ public class CopexPanelHideShow extends JPanel {
             panelDetails.setPreferredSize(new Dimension(nw, nh - panelTitle.getHeight()));
         }
     }
+    
    /**/
     protected void setButtonEnabled(boolean enabled){
         this.buttonArrow.setButtonEnabled(enabled);

@@ -27,7 +27,7 @@ public class CopexUnit implements Cloneable{
     public final static String TAG_UNIT_SYMBOL = "symbol";
     public final static String TAG_UNIT_NAME = "name";
 
-    /* identifiant  */
+    /* db identifier  */
     private long dbKey;
 
     private String id;
@@ -43,8 +43,8 @@ public class CopexUnit implements Cloneable{
     }
 
     public CopexUnit(Element xmlElem, long dbKey) throws JDOMException {
-		if (xmlElem.getName().equals(TAG_UNIT)) {
-			id = xmlElem.getChild(TAG_UNIT_ID).getText();
+        if (xmlElem.getName().equals(TAG_UNIT)) {
+            id = xmlElem.getChild(TAG_UNIT_ID).getText();
             this.dbKey = dbKey;
             listName = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_UNIT_NAME).iterator(); variableElem.hasNext();) {
@@ -64,9 +64,9 @@ public class CopexUnit implements Cloneable{
             }catch(NumberFormatException e){
             }
         }
-		else {
-			throw(new JDOMException("Unit expects <"+TAG_UNIT+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	else {
+            throw(new JDOMException("Unit expects <"+TAG_UNIT+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public CopexUnit(Element xmlElem, List<PhysicalQuantity> listPhysicalQuantity) throws JDOMException {
@@ -254,7 +254,7 @@ public class CopexUnit implements Cloneable{
 
     public Element toXMLRef(){
         Element element = new Element(TAG_UNIT_REF);
-		element.addContent(new Element(TAG_UNIT_ID).setText(id));
+	element.addContent(new Element(TAG_UNIT_ID).setText(id));
         return element;
     }
 }

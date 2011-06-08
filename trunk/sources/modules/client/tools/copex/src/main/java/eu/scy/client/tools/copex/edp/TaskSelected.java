@@ -9,40 +9,38 @@ import eu.scy.client.tools.copex.common.*;
 import java.util.ArrayList;
 
 /**
- * represente une selection simple
+ * selected task
  * @author Marjolaine
  */
 public class TaskSelected {
 
-    /* protocole */
+    /* proc */
     private ExperimentalProcedure proc;
-    /* tache selectionnee */
+    /* selected task */
     private CopexTask taskSelected;
-    /* tache frere */
+    /* brother task */
     private CopexTask taskBrother;
-    /* tache parent */
+    /* parent task */
     private CopexTask taskParent;
-    /* tache grand frere */
+    /* old brother task */
     private CopexTask taskOldBrother;
-    /* liste de tous les enfants - sur tous les niveaux */
+    /* list of all childs - all levels  */
     private ArrayList<CopexTask> listAllChildren;
-    /* tache parent */
+    /* parent task */
     private CopexTask parentTask;
-    // en graphique 
-    /* noeud selectionne */
+    /* selected node */
     private CopexNode selectedNode;
-    /* noeud frere */
+    /* brother node */
     private CopexNode brotherNode;
-    /* noeud parent */
+    /* parent node  */
     private CopexNode parentNode;
-    /* noeud grand frere */
+    /* old brother node */
     private CopexNode oldBrotherNode;
-    /* dernier noeud frere */
+    /* last brother node */
     private CopexNode lastBrotherNode;
-    /*grand frere eventuel */
+    /* old brother node, if exists */
     private CopexTask oldBrother ;
 
-    // CONSTRUCTEURS 
     public TaskSelected(ExperimentalProcedure proc, CopexTask selectedTask, CopexTask taskBrother, CopexTask taskParent, CopexTask taskOldBrother, CopexNode selectedNode, CopexNode brotherNode, CopexNode parentNode, CopexNode oldBrotherNode, ArrayList<CopexTask> listAllChildren, CopexTask parentTask, CopexNode lastBrotherNode, CopexTask oldBrother) {
         this.proc = proc;
         this.taskSelected = selectedTask;
@@ -64,7 +62,7 @@ public class TaskSelected {
     }
     
     
-    /* retourne la  tache selectionnee si selection simple, null sinon*/
+    /* returns the selected task, if simple selection, null otherwise*/
      public CopexTask getSelectedTask(){
          return this.taskSelected;
      }
@@ -73,7 +71,7 @@ public class TaskSelected {
         return lastBrotherNode;
     }
      
-     /* retourne la  noeud selectionne si selection simple, null sinon*/
+     /* returns the selected node, if simple selection, null otherwise*/
      public CopexNode getSelectedNode(){
          return this.selectedNode;
      }
@@ -82,11 +80,13 @@ public class TaskSelected {
     public ExperimentalProcedure getProc() {
         return proc;
     }
-    /* retourne la tache frere */ 
+
+    /* returns the brother task*/
      public CopexTask getTaskBrother(){
          return this.taskBrother;
      }
-     /* retourne la tache parent */ 
+
+     /*returns the parent task */
      public CopexTask getTaskParent(){
          return this.taskParent;
      }
@@ -111,12 +111,12 @@ public class TaskSelected {
         return parentTask;
     }
     
-    // retourne la tache a laquelle   on s'attache
+    // returns the task to attach
     public CopexTask getTaskToAttach(){
        return oldBrother == null ? parentTask : oldBrother;
     }
     
-    // retourne vrai si on s'attaache en frere
+    // returns true if connect as brother
     public boolean attachLikeBrother(){
         return oldBrother != null;
     }

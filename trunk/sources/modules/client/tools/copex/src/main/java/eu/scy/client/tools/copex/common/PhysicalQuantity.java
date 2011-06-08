@@ -31,7 +31,7 @@ public class PhysicalQuantity implements Cloneable{
     public final static String TAG_QUANTITY_UNIT_REFERENCE = "unit_reference";
     
     
-    /* identifiant */
+    /* db identifier */
     private long dbKey ;
     private String id;
     private Double min_value;
@@ -141,7 +141,7 @@ public class PhysicalQuantity implements Cloneable{
     public PhysicalQuantity(Element xmlElem, long dbKey, long idUnit) throws JDOMException {
 	if (xmlElem.getName().equals(TAG_QUANTITY)) {
             this.dbKey = dbKey;
-			id = xmlElem.getChild(TAG_QUANTITY_ID).getText();
+            id = xmlElem.getChild(TAG_QUANTITY_ID).getText();
             listName = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_QUANTITY_NAME).iterator(); variableElem.hasNext();) {
                 Element e = variableElem.next();
@@ -183,7 +183,7 @@ public class PhysicalQuantity implements Cloneable{
 
     public PhysicalQuantity(Element xmlElem, List<PhysicalQuantity> list)  throws JDOMException{
         if (xmlElem.getName().equals(TAG_QUANTITY_REF)) {
-			id = xmlElem.getChild(TAG_QUANTITY_ID).getText();
+            id = xmlElem.getChild(TAG_QUANTITY_ID).getText();
             for(Iterator<PhysicalQuantity> q = list.iterator();q.hasNext();){
                 PhysicalQuantity p = q.next();
                 if(p.getId().equals(id)){
@@ -362,7 +362,7 @@ public class PhysicalQuantity implements Cloneable{
         }
     }
 
-    /* retourne l'unite qui correspond au dbKey, null sinon */
+    /* returns the unit corresponding to the specifie ddbKey, null otherwise  */
     public CopexUnit getUnit(long dbKeyU){
         int nbu = listUnit.size();
         for (int i=0; i<nbu; i++){
@@ -388,7 +388,7 @@ public class PhysicalQuantity implements Cloneable{
     // toXML
     public Element toXML(){
         Element element = new Element(TAG_QUANTITY);
-		element.addContent(new Element(TAG_QUANTITY_ID).setText(id));
+	element.addContent(new Element(TAG_QUANTITY_ID).setText(id));
         if(listName != null && listName.size() > 0){
             for (Iterator<LocalText> t = listName.iterator(); t.hasNext();) {
                 LocalText l = t.next();
@@ -462,7 +462,7 @@ public class PhysicalQuantity implements Cloneable{
 
     /** get the index of a unit
      * @param unit to search for
-     * @return the index of the first occurence, -1 if the physicla quantity does not contain this unit
+     * @return the index of the first occurence, -1 if the physical quantity does not contain this unit
      */
     public int indexOfUnit(CopexUnit unit){
         return this.listUnit.indexOf(unit);

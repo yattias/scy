@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * parametres de l'applications par exemple liste des unites
+ * parameters of the applications, for example units list
  * @author Marjolaine
  */
 public class ParamFromDB {
@@ -63,7 +63,7 @@ public class ParamFromDB {
             }catch(NumberFormatException e){
                 
             }
-            // unites correspondantes :
+            //units
             ArrayList v3 = new ArrayList();
             cr = getAllUnitFromDB(dbC, dbKey, locale, v3);
             if (cr.isError())
@@ -78,7 +78,7 @@ public class ParamFromDB {
             PhysicalQuantity quantity = new PhysicalQuantity(dbKey, CopexUtilities.getLocalText(name, locale), CopexUtilities.getLocalText(symbol, locale), listUnit, p, unitRef);
             listPhysicalQuantities.add(quantity);
         }
-        // maj des physical qtt de ref
+        // update physical qtt  ref
         for(Iterator<PhysicalQuantity> p = listPhysicalQuantities.iterator(); p.hasNext();){
             PhysicalQuantity qtt = p.next();
             PhysicalQuantity pref = qtt.getPhysicalQttRef();
