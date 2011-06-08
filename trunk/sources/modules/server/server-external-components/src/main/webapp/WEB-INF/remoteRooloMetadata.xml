@@ -58,6 +58,7 @@
 				<ref bean="assignmentUriKey" />
 				<ref bean="resourcesUriKey" />
 				<ref bean="testStringListKey" />
+				<ref bean="templateKey" />
 			</list>
 		</property>
 	</bean>
@@ -435,6 +436,13 @@
 		<constructor-arg index="3" value="SINGLE" />
 		<constructor-arg index="4" ref="defaultUriValidator" />
 	</bean>
+	<bean name="templateKey" class="roolo.elo.metadata.keys.StringMetadataKey">
+        <constructor-arg index="0" value="template" />
+        <constructor-arg index="1" value="/template" />
+        <constructor-arg index="2" value="UNIVERSAL" />
+        <constructor-arg index="3" value="SINGLE" />
+        <constructor-arg index="4" ref="defaultStringValidator" />
+    </bean>
 
 	<bean name="defaultStringValidator" class="roolo.elo.metadata.value.validators.StringValidator"></bean>
 	<bean name="defaultLongValidator" class="roolo.elo.metadata.value.validators.LongValidator"></bean>
