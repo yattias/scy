@@ -96,7 +96,7 @@ public class UserToolExperienceModel {
             if (oldTime == null) {
                 logger.log(Level.FINER, "[UserToolExperienceModel for User " + getUserName() + " and active Tool " + activeTool + "] [setToolInactive] Tool " + tool + " not yet in Map...will add it now");
                 oldTime = 0l;
-                Tuple t = new Tuple(USER_EXP, this.getUserName(), tool, this.getMission(), this.getSession(), endTime, timeToAdd, startCount, stopCount, getEloUri());
+                Tuple t = new Tuple(USER_EXP, this.getUserName(), tool, this.getMission(), this.getSession(), getEloUri(), endTime, timeToAdd, startCount, stopCount);
                 TupleID id = null;
                 try {
                     id = sensorSpace.write(t);
@@ -113,7 +113,7 @@ public class UserToolExperienceModel {
             TupleID tupleID = toolTIDMap.get(tool);
             if (tupleID != null) {
                 try {
-                    sensorSpace.update(tupleID, new Tuple(USER_EXP, this.getUserName(), tool, this.getMission(), this.getSession(), timeOccured, this.getExperience(tool), startCount, stopCount, getEloUri()));
+                    sensorSpace.update(tupleID, new Tuple(USER_EXP, this.getUserName(), tool, this.getMission(), this.getSession(), getEloUri(), timeOccured, this.getExperience(tool), startCount, stopCount));
                 } catch (TupleSpaceException e) {
                     e.printStackTrace();
                 }

@@ -128,7 +128,7 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
     @Override
     public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
         String user = afterTuple.getField(1).getValue().toString();
-        String eloUri = afterTuple.getField(9).getValue().toString();
+        String eloUri = afterTuple.getField(5).getValue().toString();
 
         BehavioralModel model = null;
         if (seqnum == votatSeq) {
@@ -140,7 +140,7 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
            // lastVotat = newVotat;
 
         } else if (seqnum == userExpSeq) {
-            int newUserExp = ((Long) afterTuple.getField(6).getValue()).intValue();
+            int newUserExp = ((Long) afterTuple.getField(7).getValue()).intValue();
             // if (newUserExp != lastUserExp) {
             int l = (int) (newUserExp / MAX_EXP_TIME * 100);
             l = Math.min(l, 100);
