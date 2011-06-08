@@ -21,7 +21,7 @@ public class ScyDesktopNotificationRouter extends INotifiable {
     postinit {
         logger.debug("ScyDesktopNotificationRouter created with {scyDesktop}");
         notificationProcessor = GenericNotificationProcessor {
-            scyDesktop: scyDesktop;}
+                    scyDesktop: scyDesktop; }
     }
 
     override public function processNotification(notification: INotification): Boolean {
@@ -33,14 +33,14 @@ public class ScyDesktopNotificationRouter extends INotifiable {
         if (success) {
             // yep, has been handled by commandregistry
             logger.debug("notification successfully handled by RemoteCommandRegistry");
-	    logNotificationAccepted(notification);
+            logNotificationAccepted(notification);
             return true;
         }
 
         if (notification.getToolId().equals("scylab") and (notification.getFirstProperty("type") != null) and notification.getFirstProperty("type").equals("collaboration_response")) {
             // special case, handled by ToolBrokerImpl itself
             logger.debug("received collaboration_response notification (which is handled elsewhere).");
-	    logNotificationAccepted(notification);
+            logNotificationAccepted(notification);
             return true;
         }
 
@@ -51,10 +51,13 @@ public class ScyDesktopNotificationRouter extends INotifiable {
             var eloUri = new URI(notification.getToolId());
             var window = scyDesktop.windows.findScyWindow(eloUri);
             //XXX <noGoodIdea> this isnt a good idea in general, but somehow there is a misuse of notification attributes
-            if(window == null){
+            if (window == null) {
                 //try another URI
-                eloUri = new URI(notification.getFirstProperty("elo_uri"));
-                window = scyDesktop.windows.findScyWindow(eloUri);
+                def uriString: String = notification.getFirstProperty("elo_uri");
+                if ((not (uriString == null)) and (not(uriString.equals("")))){
+                    eloUri = new URI(uriString);
+                    window = scyDesktop.windows.findScyWindow(eloUri);
+                }
             }
             //</noGoodIdea>
 
@@ -78,10 +81,10 @@ public class ScyDesktopNotificationRouter extends INotifiable {
 
         if (success) {
             logNotificationAccepted(notification);
-	    return true;
+            return true;
         } else {
             logNotificationRejected(notification);
-	    return false;
+            return false;
         }
     }
 
