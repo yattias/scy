@@ -7,10 +7,13 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -23,6 +26,7 @@ import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.PacketExtension;
 import org.jivesoftware.smackx.Form;
 import org.jivesoftware.smackx.muc.MultiUserChat;
+import org.jivesoftware.whack.util.TaskEngine;
 
 import eu.scy.common.configuration.Configuration;
 import eu.scy.common.datasync.ISyncObject;
@@ -45,6 +49,8 @@ import eu.scy.common.smack.SmacketExtension;
  */
 public class DataSyncSessionBridge {
 	
+	private static final int DISCONNECTION_DELAY = 60 * 1000;
+
 	private final Logger logger = Logger.getLogger(DataSyncSessionBridge.class);
 	
 	private final Lock lock = new ReentrantLock();
@@ -58,11 +64,14 @@ public class DataSyncSessionBridge {
 	private XMPPConnection connection;
 	private MultiUserChat muc;
 
+        private Timer disconnectionTimer;
+
 	public DataSyncSessionBridge(String id) {
 		this.id = id;
 		users = new ArrayList<String>();
 		
 		logger.debug("DataSyncSessionBridge initialised for session " + id);
+		disconnectionTimer = new Timer(true);
 	}
 
 	public void connect(XMPPConnection connection) throws Exception {
@@ -90,12 +99,28 @@ public class DataSyncSessionBridge {
 	private void registerBridge(XMPPConnection connection)
 			throws TupleSpaceException {
 		DataSyncPacketFilterListener packetFilterListener = new DataSyncPacketFilterListener(id);
-        connection.addPacketListener(packetFilterListener, packetFilterListener);
-		sessionSpace = new TupleSpace(new User("SyncSessionBridge@" + id),
-				Configuration.getInstance().getSQLSpacesServerHost(),
-				Configuration.getInstance().getSQLSpacesServerPort(), id);
-		logger.debug("Successfully connected to TupleSpace @ " + Configuration.getInstance().getSQLSpacesServerHost() + ":" + Configuration.getInstance().getSQLSpacesServerPort());
+                connection.addPacketListener(packetFilterListener, packetFilterListener);
 	}
+	
+    private TupleSpace getSessionSpace() {
+        if (sessionSpace == null) {
+            try {
+                connectToSQLSpaces();
+                disconnectionTimer.schedule(new DisconnectionTask(), DISCONNECTION_DELAY);
+            } catch (TupleSpaceException e) {
+                logger.debug("Could not connect to session space in DataSyncSessionBridge for session " + id, e);
+            }
+        }
+        return sessionSpace;
+    }
+
+    /**
+     * @throws TupleSpaceException
+     */
+    public void connectToSQLSpaces() throws TupleSpaceException {
+        sessionSpace = new TupleSpace(new User("SyncSessionBridge@" + id.substring(id.lastIndexOf("-"))), Configuration.getInstance().getSQLSpacesServerHost(), Configuration.getInstance().getSQLSpacesServerPort(), id);
+        logger.debug("Successfully connected to TupleSpace @ " + Configuration.getInstance().getSQLSpacesServerHost() + ":" + Configuration.getInstance().getSQLSpacesServerPort());
+    }
 
 	public void process(SyncAction action) {
 		switch (action.getType()) {
@@ -121,7 +146,7 @@ public class DataSyncSessionBridge {
 			sat.add(SyncObject.PATH);
 			sat.add(syncObject.getID());
 			sat.add(Field.createWildCardField());
-			sessionSpace.take(sat);
+			getSessionSpace().take(sat);
 			logger.debug("Logged object removed event for object " + syncObject.getID() + " into " + id);
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
@@ -138,7 +163,7 @@ public class DataSyncSessionBridge {
 			qt.add(SyncObject.PATH);
 			qt.add(syncObject.getID());
 			qt.add(Field.createWildCardField());
-			Tuple sat = sessionSpace.read(qt);
+			Tuple sat = getSessionSpace().read(qt);
 			if (sat != null) {
 				Map<String, String> oldprops = new HashMap<String, String>();
 				for (int i = 7; i < sat.getNumberOfFields(); i++) {
@@ -174,7 +199,7 @@ public class DataSyncSessionBridge {
 					String value = oldprops.get(key);
 					nsat.add(key + "=" + value);
 				}
-				sessionSpace.update(sat.getTupleID(), nsat);
+				getSessionSpace().update(sat.getTupleID(), nsat);
 				logger.debug("Logged object update event for object " + syncObject.getID() + " into " + id);
 			} else {
 				logger.debug("WARNING: Logged object update event for object " + syncObject.getID() + " but no syncobject tuple found!");
@@ -208,7 +233,7 @@ public class DataSyncSessionBridge {
 		}
 		try {
 			lock.lock();
-			sessionSpace.write(sat);
+			getSessionSpace().write(sat);
 			logger.debug("Logged object added event for object " + syncObject.getID() + " into " + id);
 		} catch (TupleSpaceException e) {
 			e.printStackTrace();
@@ -224,7 +249,7 @@ public class DataSyncSessionBridge {
 		syncMessage.setSessionId(id);
 		try {
 			lock.lock();
-			Tuple[] tuples = sessionSpace.readAll(new Tuple());
+			Tuple[] tuples = getSessionSpace().readAll(new Tuple());
 			
 			List<ISyncObject> syncObjects = new LinkedList<ISyncObject>();
 			for (Tuple tuple : tuples) {
@@ -315,8 +340,8 @@ public class DataSyncSessionBridge {
 			muc.leave();
 		}
 		try {
-			if(sessionSpace.isConnected()) {
-				sessionSpace.disconnect();
+			if(getSessionSpace().isConnected()) {
+			    getSessionSpace().disconnect();
 			}
 		} catch (TupleSpaceException e) {
 			logger.error(e);
@@ -376,4 +401,22 @@ public class DataSyncSessionBridge {
         }
 
     }
+	
+	private class DisconnectionTask extends TimerTask {
+            
+            @Override
+            public void run() {
+                if (sessionSpace == null && sessionSpace.isConnected()) {
+                    try {
+                        lock.lock();
+                        sessionSpace.disconnect();
+                        sessionSpace = null;
+                    } catch (TupleSpaceException e) {
+                        logger.debug("Could not execute scheduled disconnection from tuplespace", e);
+                    } finally {
+                        lock.unlock();
+                    }
+                }
+            }
+        };
 }
