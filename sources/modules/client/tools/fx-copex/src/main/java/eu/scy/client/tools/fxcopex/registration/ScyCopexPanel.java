@@ -16,7 +16,7 @@ import eu.scy.notification.api.INotification;
 import eu.scy.client.desktop.desktoputils.jdom.JDomStringConversion;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import eu.scy.client.tools.copex.common.LearnerProcedure;
-import eu.scy.client.tools.copex.edp.CopexPanel;
+import eu.scy.client.tools.copex.main.CopexPanel;
 import eu.scy.client.tools.copex.logger.CopexProperty;
 import eu.scy.client.tools.copex.utilities.ActionCopex;
 import java.awt.BorderLayout;
@@ -74,7 +74,7 @@ public class ScyCopexPanel extends JPanel implements ActionCopex{
         setPreferredSize(new Dimension(550,350));
         copex.addActionCopex(this);
         this.add(this.copex, BorderLayout.CENTER);
-        copex.loadData();
+        //copex.loadData();
     }
 
     public void setEloUri(String eloUri){
