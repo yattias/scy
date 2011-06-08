@@ -16,7 +16,7 @@ public class SearchResultRanking {
 
 	private static final double WEIGHT_RELEVANCE = 0.3333;
 
-	private static final int RELEVANCE_NUMBER = 3;
+	private static final int NUMBER_OF_RELEVANCE_ENTRIES = 3;
 
 	private List<Result> ranking;
 
@@ -69,6 +69,10 @@ public class SearchResultRanking {
 
 	private double evaluateQuality(List<ISearchResult> referenceResult,
 			List<ISearchResult> newResult) {
+		if(newResult.size() == 0) {
+			// Queries without hits should be bad ranked
+			return 0.0;
+		}
 		double lengthQuality = evaluateLength(newResult.size(),
 				referenceResult.size());
 		double similarityQuality = evaluateSimilarity(newResult,
@@ -81,7 +85,7 @@ public class SearchResultRanking {
 
 	private double evaluateRelevance(List<ISearchResult> newResult, List<ISearchResult> referenceResult) {
 		// Compare the mean of the RELEVANCE_NUMBER first search results.
-		int n = RELEVANCE_NUMBER;
+		int n = NUMBER_OF_RELEVANCE_ENTRIES;
 		int min = Math.min(referenceResult.size(), newResult.size());
 		if (min == 0) {
 			return 1.0;
@@ -117,21 +121,21 @@ public class SearchResultRanking {
 
 	private static double evaluateSimilarity(List<ISearchResult> newResult,
 			List<ISearchResult> refResult) {
-		int identicalUri = getIdenticalUriCount(newResult, refResult);
-		int minUri = Math.min(newResult.size(), refResult.size());
+		double identicalUri = getIdenticalUriCount(newResult, refResult);
+		double minUri = Math.min(newResult.size(), refResult.size());
 		// TODO full similiarity is overweighted...
 
 		// +1 to avoid division by zero
-		return ((double)identicalUri + 1) / ((double)minUri + 1);
+		return (identicalUri + 1) / (minUri + 1);
 	}
 
 	private static double evaluateLength(int newResult, int refResult) {
 		double quality;
 		if (newResult < refResult) {
 			// +1 to avoid division by zero
-			quality = (((double)refResult - newResult + 1) / ((double)refResult + 1));
+			quality = (((double)refResult - newResult + 1) / (refResult + 1));
 		} else {
-			quality = (((double)newResult - refResult + 1) / ((double)newResult + 1));
+			quality = (((double)newResult - refResult + 1) / (newResult + 1));
 		}
 
 		double penalty = 1.0;
