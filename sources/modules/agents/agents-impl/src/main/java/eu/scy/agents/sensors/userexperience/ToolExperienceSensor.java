@@ -62,7 +62,6 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 
     private List<Action> actionQueue;
     
-   
 
     public ToolExperienceSensor(Map<String, Object> map) {
         super(ToolExperienceSensor.class.getName(), (String) map.get(AgentProtocol.PARAM_AGENT_ID), (String) map.get(AgentProtocol.TS_HOST), (Integer) map.get(AgentProtocol.TS_PORT));
@@ -106,13 +105,10 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
         for (Tuple tuple : userExpTuples) {
             String userName = (String) tuple.getField(1).getValue();
             String tool = (String) tuple.getField(2).getValue();
-            String mission = (String) tuple.getField(3).getValue();
-            String session = (String) tuple.getField(4).getValue();
-            long timestampOfAction = (Long) tuple.getField(5).getValue();
-            long expTime = (Long) tuple.getField(6).getValue();
-            int starts = (Integer) tuple.getField(7).getValue();
-            int stops = (Integer) tuple.getField(8).getValue();
-            String eloUri = (String) tuple.getField(9).getValue();
+            String eloUri = (String) tuple.getField(5).getValue();
+            long expTime = (Long) tuple.getField(7).getValue();
+            int starts = (Integer) tuple.getField(8).getValue();
+            int stops = (Integer) tuple.getField(9).getValue();
 
             if (starts > stops) {
                 logger.log(Level.FINE, "It seemed that the tool " + tool + " of the user " + userName + " crashed the last time...try to fix that!");
@@ -125,7 +121,7 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
             }
             UserToolExperienceModel model = userModels.get(userName+tool);
             if (model == null) {
-                IContext context = new Context(tool,mission,session,eloUri);
+                IContext context = new Context(tool,"n/a","n/a",eloUri);
                 
                 model = new UserToolExperienceModel(userName,context, commandSpace, starts, stops);
                 userModels.put(userName+tool, model);
