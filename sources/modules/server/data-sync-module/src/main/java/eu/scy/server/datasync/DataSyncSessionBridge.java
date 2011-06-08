@@ -62,14 +62,14 @@ public class DataSyncSessionBridge {
 	private XMPPConnection connection;
 	private MultiUserChat muc;
 
-        private Timer disconnectionTimer;
+	private Timer disconnectionTimer;
 
-	public DataSyncSessionBridge(String id) {
+	public DataSyncSessionBridge(String id, Timer disconnectionTimer) {
 		this.id = id;
+		this.disconnectionTimer = disconnectionTimer;
 		users = new ArrayList<String>();
 		
 		logger.debug("DataSyncSessionBridge initialised for session " + id);
-		disconnectionTimer = new Timer(true);
 	}
 
 	public void connect(XMPPConnection connection) throws Exception {

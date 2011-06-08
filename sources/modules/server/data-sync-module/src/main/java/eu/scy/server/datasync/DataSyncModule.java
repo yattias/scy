@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Timer;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
@@ -25,12 +26,10 @@ import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.provider.ProviderManager;
-import org.jivesoftware.smack.util.StringUtils;
 import org.jivesoftware.smackx.Form;
 import org.jivesoftware.smackx.FormField;
 import org.jivesoftware.smackx.muc.HostedRoom;
 import org.jivesoftware.smackx.muc.MultiUserChat;
-import org.jivesoftware.smackx.muc.RoomInfo;
 import org.xmpp.component.Component;
 import org.xmpp.packet.Message;
 import org.xmpp.packet.Packet;
@@ -64,6 +63,8 @@ public class DataSyncModule extends SCYHubModule {
     private XMPPConnection connection;
 
     private TupleSpace commandSpace;
+    
+    private Timer disconnectionTimer;
 
     /**
      * @param scyhub
@@ -72,7 +73,8 @@ public class DataSyncModule extends SCYHubModule {
         super(scyhub, new DataSyncMessagePacketTransformer());
 
         bridges = new HashMap<String, DataSyncSessionBridge>();
-
+        disconnectionTimer = new Timer(true);
+        
         try {
             ConnectionConfiguration cc = new ConnectionConfiguration(Configuration.getInstance().getOpenFireHost(), Configuration.getInstance().getOpenFirePort());
             cc.setSecurityMode(SecurityMode.disabled);
@@ -128,7 +130,7 @@ public class DataSyncModule extends SCYHubModule {
                 Collection<HostedRoom> hostedRooms = MultiUserChat.getHostedRooms(connection, serviceName);
                 for (HostedRoom hostedRoom : hostedRooms) {
                     final String sessionId = hostedRoom.getJid();
-                    DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId);
+                    DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId, disconnectionTimer);
                     // first check if connection is still alive
                     if (!connection.isConnected()) {
                         connection.connect();
@@ -187,7 +189,7 @@ public class DataSyncModule extends SCYHubModule {
         SyncMessage response = new SyncMessage(Type.answer);
         try {
             // try to create session bridge with the random id
-            DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId);
+            DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId, disconnectionTimer);
             // first check if connection is still alive
             if (!connection.isConnected()) {
                 connection.connect();
