@@ -4,12 +4,12 @@
 	<groupId>eu.scy.common</groupId>
 	<artifactId>notification-api</artifactId>
 	<name>notification-api</name>
-	<version>34-SNAPSHOT</version>
+	<version>35-SNAPSHOT</version>
 	
  	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>eu.scy.common</groupId>
-		<version>34-SNAPSHOT</version>
+		<version>35-SNAPSHOT</version>
 	</parent> 	
 	
 </project>
