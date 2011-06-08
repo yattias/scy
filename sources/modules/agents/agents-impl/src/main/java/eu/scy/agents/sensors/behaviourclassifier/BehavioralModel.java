@@ -42,15 +42,11 @@ public class BehavioralModel {
 
     private volatile int canonical =1;
 
-    private String tool;
+    private String eloUri;
 
     private String name;
 
     private TupleSpace commandSpace;
-
-    private String session;
-
-    private String mission;
 
     private List<SCAFFOLD> sentScaffolds;
 
@@ -72,12 +68,8 @@ public class BehavioralModel {
      * 
      * @param name
      *            The name of the user as <b>XMPP JID</b> (e.g. name@hub/smack)
-     * @param tool
-     *            The name of the tool this model is for
-     * @param mission
-     *            The mission name
-     * @param session
-     *            The session name
+     * @param eloUri
+     *            The elouri this model is for
      * @param canonical
      *            The actual value for canonical (0-100 - normalized)
      * @param votat
@@ -87,15 +79,13 @@ public class BehavioralModel {
      * @param commandSpace
      *            The {@link TupleSpace} where the notification will be delivered
      */
-    public BehavioralModel(String name, String tool, String mission, String session, int canonical, int votat, int userExp, TupleSpace commandSpace) {
+    public BehavioralModel(String name, String eloUri, int canonical, int votat, int userExp, TupleSpace commandSpace) {
         this.name = name;
-        this.tool = tool;
+        this.eloUri = eloUri;
         this.canonical = canonical;
         this.votat = votat;
         this.userExp = userExp;
         this.commandSpace = commandSpace;
-        this.mission = mission;
-        this.session = session;
         sentScaffolds = new Vector<SCAFFOLD>();
     }
 
@@ -127,12 +117,12 @@ public class BehavioralModel {
     }
 
     /**
-     * Retuns the tool of this model.
+     * Retuns the elouri of this model.
      * 
-     * @return The tool name of this model.
+     * @return The elouri of this model.
      */
-    public String getTool() {
-        return tool;
+    public String getEloUri() {
+        return eloUri;
     }
 
     /**
@@ -203,7 +193,6 @@ public class BehavioralModel {
                 sendNotification(SCAFFOLD.VOTAT);
             } else if (canonical < 1) {
                 sendNotification(SCAFFOLD.INC_CHANGE);
-
             } else {
                 sendNotification(SCAFFOLD.SHOWBUTTON);
             }
@@ -235,7 +224,7 @@ public class BehavioralModel {
             });
             timer.setRepeats(false);
             timer.start();
-            Tuple notificationTuple = new Tuple("notification", new VMID().toString(), name, tool, "ScySimBehaviorClassifier", mission, session, "type=scaffold", "level=" + level.name());
+            Tuple notificationTuple = new Tuple("notification", new VMID().toString(), name, eloUri, "ScySimBehaviorClassifier", "n/a", "n/a", "type=scaffold", "level=" + level.name());
             try {
                 commandSpace.write(notificationTuple);
             } catch (TupleSpaceException e) {
