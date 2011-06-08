@@ -112,13 +112,13 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
         logger.addHandler(cH);
     }
 
-    public  BehavioralModel getModel(String user, String tool, String mission, String session) {
+    public  BehavioralModel getModel(String user, String eloUri) {
        l.lock();
-        BehavioralModel model = userModels.get(user + "/" + tool + "/" + mission + "/" + session);
+        BehavioralModel model = userModels.get(user + "/" + eloUri);
         if (model == null) {
-            model = new BehavioralModel(user, tool, mission, session, 1, 1, 0, commandSpace);
-            userModels.put(user + "/" + tool + "/" + mission + "/" + session, model);
-            logger.log(Level.FINE, "New Model for " + user + " with tool " + tool  + " created...");
+            model = new BehavioralModel(user, eloUri, 1, 1, 0, commandSpace);
+            userModels.put(user + "/" + eloUri, model);
+            logger.log(Level.FINE, "New Model for " + user + " with tool " + eloUri  + " created...");
         }
         l.unlock();
         return model;
@@ -128,15 +128,13 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
     @Override
     public void call(Command cmd, int seqnum, Tuple afterTuple, Tuple beforeTuple) {
         String user = afterTuple.getField(1).getValue().toString();
-        String tool = afterTuple.getField(2).getValue().toString();
-        String mission = afterTuple.getField(3).getValue().toString();
-        String session = afterTuple.getField(4).getValue().toString();
+        String eloUri = afterTuple.getField(9).getValue().toString();
 
         BehavioralModel model = null;
         if (seqnum == votatSeq) {
             int newVotat = ((Double) afterTuple.getField(7).getValue()).intValue();
             // if (newVotat != lastVotat) {
-            model = getModel(user, tool, mission, session);
+            model = getModel(user, eloUri);
             model.updateVotat(newVotat);
             // }
            // lastVotat = newVotat;
@@ -146,7 +144,7 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
             // if (newUserExp != lastUserExp) {
             int l = (int) (newUserExp / MAX_EXP_TIME * 100);
             l = Math.min(l, 100);
-            model = getModel(user, tool, mission, session);
+            model = getModel(user, eloUri);
             model.updateUserExp(l);
             // }
           //  lastUserExp = newUserExp;
@@ -154,13 +152,13 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
         } else if (seqnum == canoSeq) {
             int newCanonical = ((Double) afterTuple.getField(7).getValue()).intValue();
             // if (newCanonical != lastCanonical) {
-            model = getModel(user, tool, mission, session);
+            model = getModel(user, eloUri);
             model.updateCanonical(newCanonical);
             // }
             //lastCanonical = newCanonical;
 
         } else if (seqnum == expPhaseSeq) {
-            model = getModel(user, tool, mission, session);
+            model = getModel(user, eloUri);
             model.setExpPhaseStarted();
 
         } else {
