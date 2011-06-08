@@ -1,7 +1,6 @@
 package eu.scy.client.desktop.scydesktop;
 
 import eu.scy.notification.api.INotifiable;
-import java.lang.UnsupportedOperationException;
 import eu.scy.notification.api.INotification;
 import eu.scy.client.desktop.desktoputils.log4j.Logger;
 import java.net.URI;
@@ -48,9 +47,17 @@ public class ScyDesktopNotificationRouter extends INotifiable {
         // no, has not been handled by commandregistry, go on...
         logger.debug("received notification for tool with eloURI {notification.getToolId()}");
         try {
+            //FIXME the eloUri must not be equals to the tool id
             var eloUri = new URI(notification.getToolId());
             var window = scyDesktop.windows.findScyWindow(eloUri);
-           
+            //XXX <noGoodIdea> this isnt a good idea in general, but somehow there is a misuse of notification attributes
+            if(window == null){
+                //try another URI
+                eloUri = new URI(notification.getFirstProperty("elo_uri"));
+                window = scyDesktop.windows.findScyWindow(eloUri);
+            }
+            //</noGoodIdea>
+
             if ((window != null) and (window.scyContent instanceof INotifiable)) {
                 // INotifiable tool/window found, forward the notification
                 success = (window.scyContent as INotifiable).processNotification(notification);
