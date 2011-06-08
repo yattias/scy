@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import javax.swing.JButton;
 
+@SuppressWarnings("serial")
 public class ColorDialog extends javax.swing.JDialog implements
 java.awt.event.ActionListener {
 	

@@ -2,7 +2,6 @@ package eu.scy.client.tools.scydynamics.editor;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
@@ -60,27 +59,28 @@ java.awt.event.ActionListener, java.awt.event.MouseListener {
 			JdFigure figure, ModelEditor editor, ResourceBundleWrapper bundle) {
 		super(owner, false);
 		this.bundle = bundle;
-		editor.getActionLogger().logActivateWindow("specification", figure.getID(), this);
-		//this.setLocation(position);
 		this.figure = figure;
 		this.props = figure.getProperties();
 		this.editor = editor;
 		this.label = (String) props.get("label");
 		setTitle(bundle.getString("VARIABLEDIALOG_TITLE")+" '" + this.label + "'");
+		editor.getActionLogger().logActivateWindow("specification", figure.getID(), this);
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(getSpecsPanel(), BorderLayout.NORTH);
 		getContentPane().add(getOkayCancelPanel(), BorderLayout.SOUTH);
-		if (editor.isQualitative()) {
-			if (this.figure.getType() == JdFigure.AUX) {
-				getContentPane().add(createQualitativeVariablePanel(), BorderLayout.CENTER);
+		if (editor.getMode()!=Mode.MODEL_SKETCHING) {
+			if (editor.getMode()==Mode.QUALITATIVE_MODELLING) {
+				if (this.figure.getType() == JdFigure.AUX) {
+					getContentPane().add(createQualitativeVariablePanel(), BorderLayout.CENTER);
+				}
+			} else {
+				if (this.figure.getType() == JdFigure.AUX) {
+					getContentPane().add(getQuantitativeVariablePanel(), BorderLayout.CENTER);
+				}
+				getContentPane().add(getCalculatorPanel(), BorderLayout.EAST);
 			}
-		} else {
-			if (this.figure.getType() == JdFigure.AUX) {
-				getContentPane().add(getQuantitativeVariablePanel(), BorderLayout.CENTER);
-			}
-			getContentPane().add(getCalculatorPanel(), BorderLayout.EAST);
-		}	
-		this.setPreferredSize(new Dimension(440, 300));
+		}
+		//this.setPreferredSize(new Dimension(440, 300));
 		updateView();
 		pack();
 		setLocation(Math.max(0, position.x-this.getWidth()/2), Math.max(0, position.y-this.getHeight()/2));
@@ -89,7 +89,6 @@ java.awt.event.ActionListener, java.awt.event.MouseListener {
 
 	private JButton makeButton(String s) {
 		JButton b = new JButton(s);
-		b.setEnabled(!editor.isQualitative());
 		b.setActionCommand(s);
 		b.addActionListener(this);
 		return b;
@@ -110,7 +109,7 @@ java.awt.event.ActionListener, java.awt.event.MouseListener {
 	private JPanel createQualitativeVariablePanel() {
 		JPanel panel = new JPanel();
 		JPanel listPanel = new JPanel();
-		panel.setBorder(javax.swing.BorderFactory.createTitledBorder("qualitative relations"));
+		panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Qualitative relations"));
 		listPanel.setLayout(new GridLayout(0,3));
 		qualitativeComboboxes = new ArrayList<JComboBox>();
 		for (String varName: ModelUtils.getInputVariableNames(editor.getModel(), this.label)) {
@@ -120,15 +119,12 @@ java.awt.event.ActionListener, java.awt.event.MouseListener {
 			JdRelation relation = ModelUtils.getRelationBetween(editor.getModel(), varName, this.label);
 			if (relation != null) {
 				if (relation.getRelationType() == 6) {
+					System.out.println("*** 6");
 					box.setSelectedIndex(0);
-				} else if (relation.getRelationType() == 4) {
-					box.setSelectedIndex(3);
-				} else if (relation.getRelationType() == 5) {
-					box.setSelectedIndex(4);
 				} else {
 					box.setSelectedIndex(relation.getRelationType());
 				}
-			} else box.setSelectedIndex(0);
+			}
 			qualitativeComboboxes.add(box);
 			listPanel.add(box);
 			listPanel.add(new JLabel(" "+props.get("label")));
@@ -185,20 +181,25 @@ java.awt.event.ActionListener, java.awt.event.MouseListener {
 		panel.setLayout(new java.awt.GridLayout(4, 2));
 		panel.add(nameLabel);
 		panel.add(nameField);
-		panel.add(valueLabel);
-		if (editor.isQualitative()) {
-			if (figure.getType() == JdFigure.AUX) {
-				// qualitative aux
-				valueQuantitative.setEditable(false);
-				panel.add(valueQuantitative);
+		
+		if (editor.getMode()!=Mode.MODEL_SKETCHING) {
+			panel.add(valueLabel);
+			if (editor.getMode()==Mode.QUALITATIVE_MODELLING) {
+				if (figure.getType() == JdFigure.AUX) {
+					// qualitative aux
+					valueQuantitative.setEditable(false);
+					panel.add(valueQuantitative);
+				} else {
+					// qualitative stock or const
+					valueQuantitative.setText("0");
+					panel.add(createQualitativeValueSlider());
+				}
 			} else {
-				// qualitative stock or const
-				valueQuantitative.setText("0");
-				panel.add(createQualitativeValueSlider());
+				// quantitative
+				panel.add(valueQuantitative);
 			}
 		} else {
-			// quantitative
-			panel.add(valueQuantitative);
+			// MODEL_SKETCHING
 		}
 
 		JLabel unitLabel = new javax.swing.JLabel(bundle.getString("VARIABLEDIALOG_UNIT")+": ");
@@ -318,7 +319,7 @@ java.awt.event.ActionListener, java.awt.event.MouseListener {
 		panel.add(makeButton("0"));
 		panel.add(makeButton("."));
 		panel.add(makeButton("C"));
-		if (editor.isQualitative()) {
+		if (editor.getMode()==Mode.QUALITATIVE_MODELLING) {
 			panel.setBorder(new TitledBorder(bundle.getString("VARIABLEDIALOG_INPUTPAD")+" (disabled/qualitative)"));        	
 		} else {
 			panel.setBorder(new TitledBorder(bundle.getString("VARIABLEDIALOG_INPUTPAD")));
@@ -329,7 +330,7 @@ java.awt.event.ActionListener, java.awt.event.MouseListener {
 	public void updateView() {
 		nameField.setText(figure.getProperties().get("label") + "");
 		valueQuantitative.setText(figure.getProperties().get("expr") + "");
-		if (editor.isQualitative()) {
+		if (editor.getMode()==Mode.QUALITATIVE_MODELLING) {
 			try {
 				// for the aux
 				valueQuantitative.setText("-qualitative-");
@@ -357,7 +358,7 @@ java.awt.event.ActionListener, java.awt.event.MouseListener {
 	public void actionPerformed(java.awt.event.ActionEvent event) {
 		if (event.getActionCommand() == "okay") {
 
-			if (editor.isQualitative() && this.figure.getType() == JdFigure.AUX) {
+			if (editor.getMode()==Mode.QUALITATIVE_MODELLING && this.figure.getType() == JdFigure.AUX) {
 				setQualitativeRelations();
 			}
 
@@ -386,16 +387,21 @@ java.awt.event.ActionListener, java.awt.event.MouseListener {
 
 			props.put("label", newName);
 			
-			if (editor.isQualitative()) {
+			if (editor.getMode()==Mode.QUALITATIVE_MODELLING) {
 				if (this.figure.getType() == JdFigure.AUX) {
 					System.out.println("+++ generating expression for "+this.label);
 					props.put("expr", ModelUtils.getQualitativeExpression(getQualitativeRelations(), editor.getModel()));
 				} else {
 					props.put("expr", getQualitativeValue()+"");
-				}
+				}	
 			} else {
 				props.put("expr", express);
 			}
+			
+			if (editor.getMode()==Mode.MODEL_SKETCHING && props.get("expr").toString().isEmpty()) {
+				props.put("expr", "0");
+			}
+			
 			props.put("unit", unit);            
 			editor.setFigureProperties(oldName, props);
 
@@ -471,10 +477,6 @@ java.awt.event.ActionListener, java.awt.event.MouseListener {
 		colorLabel.setForeground(newColor);
 	}
 
-	/**
-	 * Invoked when the mouse button has been clicked (pressed and released) on
-	 * a component.
-	 */
 	public void mouseClicked(MouseEvent e) {
 		if ((javax.swing.JList) e.getSource() == infoList) {
 			String selected = (infoList.getSelectedValue() == null ? ""
@@ -483,15 +485,11 @@ java.awt.event.ActionListener, java.awt.event.MouseListener {
 		}
 	}
 
-	public void mouseEntered(MouseEvent e) {
-	}
+	public void mouseEntered(MouseEvent e) {}
 
-	public void mouseExited(MouseEvent e) {
-	}
+	public void mouseExited(MouseEvent e) {}
 
-	public void mousePressed(MouseEvent e) {
-	}
+	public void mousePressed(MouseEvent e) {}
 
-	public void mouseReleased(MouseEvent e) {
-	}
+	public void mouseReleased(MouseEvent e) {}
 }

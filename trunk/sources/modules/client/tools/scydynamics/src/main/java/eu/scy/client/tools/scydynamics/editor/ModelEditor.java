@@ -20,8 +20,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Properties;
@@ -33,6 +31,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
+import javax.swing.UIManager;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -53,7 +52,7 @@ import java.util.logging.Logger;
 public class ModelEditor extends JPanel implements AdjustmentListener {
 
 	public enum Mode {
-	    BLACK_BOX, CLEAR_BOX, MODELLING;
+	    BLACK_BOX, CLEAR_BOX, MODEL_SKETCHING, QUALITATIVE_MODELLING, QUANTITATIVE_MODELLING;
 	}
 	
 	private final static Logger DEBUGLOGGER = Logger.getLogger(ModelEditor.class.getName());
@@ -67,12 +66,11 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	public final static int LNK_NOT_FREE = 6;
 	public final static int LNK_DATASET = 7;
 	public final static int LNK_NO_STOCK_ENDS = 8;
-	private Mode mode = Mode.MODELLING;
+	private Mode mode = Mode.QUANTITATIVE_MODELLING;
 	private JdPopups aPopups;
 	private Model model = null;
 	private ModelSelection aSelection;
 	private EditorPanel editorPanel;
-	private JScrollPane aScrollPane;
 	private EditorMouseListener mouseListener;
 	private int currentCursor;
 	private JdCursors cursors;
@@ -82,12 +80,10 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	private ArrayList<String> modelCheckMessages = new ArrayList<String>();
 	private final Properties properties;
 	protected JTabbedPane tabbedPane;
-	private GraphTab graphTab;
+	private SimulationPanel graphTab;
 	private TableTab tableTab;
 	private final ResourceBundleWrapper bundle;
 	//private ModelSyncControl modelSyncControl;
-
-	// private String eloUri = "n/a";
 
 	public ModelEditor() {
 		this(ModelEditor.getDefaultProperties());
@@ -105,23 +101,27 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		aSelection = new ModelSelection();
 		initComponents();
 		setNewModel();
-		setMode(properties.getProperty("editor.mode", "modelling"));
+		setMode(properties.getProperty("editor.mode", "quantitative_modelling"));
 	}
 	
 	public void setMode(String newMode) {
 		DEBUGLOGGER.info("setting mode to "+newMode);
 		if (newMode == null) {
 			DEBUGLOGGER.info("setting mode to 'null' not allowed, setting to default mode 'modelling'");
-			setMode(Mode.MODELLING);
+			setMode(Mode.QUANTITATIVE_MODELLING);
 		} else if (newMode.equalsIgnoreCase("black_box")) {
 			setMode(Mode.BLACK_BOX);
 		} else if (newMode.equalsIgnoreCase("clear_box")) {
 			setMode(Mode.CLEAR_BOX);
-		} else if (newMode.equalsIgnoreCase("modelling")) {
-			setMode(Mode.MODELLING);
+		} else if (newMode.equalsIgnoreCase("model_sketching")) {
+			setMode(Mode.MODEL_SKETCHING);
+		} else if (newMode.equalsIgnoreCase("qualitative_modelling")) {
+			setMode(Mode.QUALITATIVE_MODELLING);
+		} else if (newMode.equalsIgnoreCase("quantitative_modelling")) {
+			setMode(Mode.QUANTITATIVE_MODELLING);
 		} else {
 			DEBUGLOGGER.info("unknown mode '"+newMode+"', setting to default mode 'modelling'");
-			setMode(Mode.MODELLING);
+			setMode(Mode.QUANTITATIVE_MODELLING);
 		}
 	}
 	
@@ -131,11 +131,20 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 			switch (mode) {
 			case BLACK_BOX:
 			case CLEAR_BOX:
+				addGraph();
+				addTable();
 				toolbar.toCursorAction();
 				toolbar.setEnabled(false);
 				clearSelectedObjects();
 				break;
-			case MODELLING:
+			case MODEL_SKETCHING:
+				removeGraphAndTable();
+				toolbar.setEnabled(true);
+				break;
+			case QUALITATIVE_MODELLING:
+			case QUANTITATIVE_MODELLING:
+				addGraph();
+				addTable();
 				toolbar.setEnabled(true);
 				break;
 			}
@@ -144,14 +153,6 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 	
 	public Mode getMode() {
 		return this.mode;
-	}
-
-	public boolean isQualitative() {
-		if (properties.getProperty("editor.qualitative").equals("true")) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 	
 //	public ModelSyncControl getModelSyncControl() {
@@ -164,10 +165,6 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 
 	public DataSet getDataSet() {
 		return tableTab.getDataSet();
-	}
-
-	public void setQualitative(boolean q) {
-		properties.put("editor.qualitative", q);
 	}
 
 	public static Properties getDefaultProperties() {
@@ -183,7 +180,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		props.put("editor.fixedcalculationmethod", "false");
 		props.put("show.popouttabs", "false");
 		props.put("editor.qualitative", "false");
-		props.put("editor.mode", "modelling");
+		props.put("editor.mode", "quantitative_modelling");
 		return props;
 	}
 
@@ -226,7 +223,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		if (properties.get("show.graph").equals("true")) {
 			addGraph();
 		}
-		if (properties.get("show.table").equals("true") && !this.isQualitative()) {
+		if (properties.get("show.table").equals("true") && this.mode!=Mode.QUALITATIVE_MODELLING) {
 			addTable();
 		}
 
@@ -239,12 +236,17 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 
 	public void addGraph() {
 		tabbedPane.add(graphTab, 1);
-		tabbedPane.setTabComponentAt(1, new TabPanel("graph", graphTab, this, properties));
+		tabbedPane.setTabComponentAt(1, new TabPanel("Graph", graphTab, this, properties));
 	}
 
 	public void addTable() {
 		tabbedPane.add(tableTab, tabbedPane.getComponentCount() - 1);
-		tabbedPane.setTabComponentAt(tabbedPane.getComponentCount() - 2, new TabPanel("table", tableTab, this, properties));
+		tabbedPane.setTabComponentAt(tabbedPane.getComponentCount() - 2, new TabPanel("Table", tableTab, this, properties));
+	}
+	
+	public void removeGraphAndTable() {
+		tabbedPane.remove(graphTab);
+		tabbedPane.remove(tableTab);
 	}
 
 	public Model getModel() {

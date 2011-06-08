@@ -16,9 +16,11 @@ import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import colab.um.draw.JdFigure;
 import colab.um.draw.JdObject;
+import eu.scy.client.tools.scydynamics.editor.ModelEditor.Mode;
 import eu.scy.client.tools.scydynamics.model.Model;
 import java.util.logging.Logger;
 
@@ -34,18 +36,20 @@ public class VariableSelectionPanel extends JPanel {
 	private boolean showTime;
 	private Model model;
 	private FlowLayout leftFlow;
+	private FlowLayout rightFlow;
 
 	public VariableSelectionPanel(ModelEditor editor, ResourceBundleWrapper bundle, boolean showTime) {
 		super();
 		leftFlow = new FlowLayout();
 		leftFlow.setAlignment(FlowLayout.LEFT);
+		rightFlow = new FlowLayout();
+		rightFlow.setAlignment(FlowLayout.RIGHT);
 		this.editor = editor;
 		this.bundle = bundle;
 		this.showTime = showTime;
 		variables = new HashMap<String, JCheckBox>();
 		textFields = new HashSet<JTextField>();
 		this.setLayout(new BorderLayout());
-		this.setBorder(BorderFactory.createTitledBorder(bundle.getString("PANEL_VARIABLESELECTION")));
 		if (editor.getModel() != null) {
 			updateVariables();
 		}
@@ -83,8 +87,8 @@ public class VariableSelectionPanel extends JPanel {
 			// no relevant variables in model
 			this.add(new JLabel(bundle.getString("PANEL_NOVARIABLES")), BorderLayout.NORTH);
 		} else {
-			JPanel panel = new JPanel();
-			panel.setLayout(new GridLayout(variablecount, 1));
+			JPanel variablesPanel = new JPanel();
+			variablesPanel.setLayout(new GridLayout(variablecount, 1));
 			JCheckBox box;
 			JdObject object;
 			JLabel colorLabel;
@@ -99,7 +103,7 @@ public class VariableSelectionPanel extends JPanel {
 					box.setSelected(true);
 				}
 				vPanel.add(box);
-				panel.add(vPanel);
+				variablesPanel.add(vPanel);
 				variables.put("time", box);
 			}
 			Enumeration<JdObject> objects = model.getNodes().elements();
@@ -116,7 +120,7 @@ public class VariableSelectionPanel extends JPanel {
 						box.setSelected(true);
 					}
 					vPanel.add(box);
-					panel.add(vPanel);
+					variablesPanel.add(vPanel);
 					variables.put(object.getLabel(), box);
 				} else if (object.getType() == JdFigure.AUX) {
 					vPanel = new JPanel(leftFlow);
@@ -128,13 +132,23 @@ public class VariableSelectionPanel extends JPanel {
 						box.setSelected(true);
 					}
 					vPanel.add(box);
-					panel.add(vPanel);
+					variablesPanel.add(vPanel);
 					variables.put(object.getLabel(), box);
 				}
 			}
-			panel.setBorder(BorderFactory.createTitledBorder(bundle.getString("PANEL_VARIABLESELECTION")));
-			this.add(panel, BorderLayout.NORTH);
-			this.add(getValuesPanel(), BorderLayout.SOUTH);
+			variablesPanel.setBorder(BorderFactory.createTitledBorder(bundle.getString("PANEL_VARIABLESELECTION")));
+			
+/*			JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
+			splitPane.setOneTouchExpandable(true);
+			splitPane.setTopComponent(variablesPanel);
+			splitPane.setBottomComponent(getValuesPanel());			
+			this.add(splitPane, BorderLayout.NORTH);*/
+			
+			JPanel contentPanel = new JPanel();
+			contentPanel.setLayout(new BorderLayout());
+			contentPanel.add(variablesPanel, BorderLayout.NORTH);
+			contentPanel.add(getValuesPanel(), BorderLayout.SOUTH);
+			this.add(contentPanel, BorderLayout.NORTH);
 		}
 	}
 	
@@ -158,12 +172,14 @@ public class VariableSelectionPanel extends JPanel {
 				vPanel.add(colorLabel);
 				vPanel.add(new JLabel(object.getLabel()));
 				textField = new JTextField(6);
+				textField.setHorizontalAlignment(JTextField.RIGHT);
 				textField.setName(object.getLabel());
 				textField.setText(object.getExpr());
 				textFields.add(textField);
-				vPanel.add(textField);
-				if (!editor.isQualitative()) {
+				//vPanel.add(textField);
+				if (editor.getMode()!=Mode.QUALITATIVE_MODELLING) {
 					panel.add(vPanel);
+					panel.add(textField);
 				}
 			}
 		}

@@ -44,8 +44,8 @@ public class ModellingStandalone extends JFrame implements WindowListener {
 			LOGGER.warning(ex.getMessage());
 		}
 		props.put("show.popouttabs", "true");
-		props.put("editor.qualitative", "false");
-		props.put("editor.export_to_sqv", "false");
+		props.put("editor.mode", "quantitative_modelling");
+		props.put("editor.export_to_sqv", "true");
 		LOGGER.info("current props:");
 		LOGGER.log(Level.INFO, "{0}", props);
 		return props;

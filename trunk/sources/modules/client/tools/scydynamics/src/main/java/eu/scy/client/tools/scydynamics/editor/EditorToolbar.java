@@ -3,15 +3,12 @@ package eu.scy.client.tools.scydynamics.editor;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URL;
 import java.util.HashMap;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
-import colab.um.tools.JTools;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 
 @SuppressWarnings("serial")
@@ -41,20 +38,20 @@ public class EditorToolbar extends JToolBar implements ActionListener {
 		this.actionListener = actionListener;
 		setFloatable(false);
 		buttonMap = new HashMap<String, JToggleButton>();
-		add(createToggleButton(CURSOR, "EditorCursorTB", bundle.getString("EDITOR_CURSOR")));
-		add(createToggleButton(CONSTANT, "EditorConstantTB", bundle.getString("EDITOR_CONSTANT")));
-		add(createToggleButton(STOCK, "EditorStockTB", bundle.getString("EDITOR_STOCK")));
-		add(createToggleButton(FLOW, "EditorFlowTB", bundle.getString("EDITOR_FLOW")));
-		add(createToggleButton(RELATION, "EditorRelationTB", bundle.getString("EDITOR_RELATION")));
-		add(createToggleButton(AUX, "EditorAuxTB", bundle.getString("EDITOR_AUX")));
+		add(createToolbarToggleButton(CURSOR, "pointer_22.png", bundle.getString("EDITOR_CURSOR")));
+		add(createToolbarToggleButton(STOCK, "stock_22.png", bundle.getString("EDITOR_STOCK")));
+		add(createToolbarToggleButton(AUX, "aux_22.png", bundle.getString("EDITOR_AUX")));
+		add(createToolbarToggleButton(CONSTANT, "const_22.png", bundle.getString("EDITOR_CONSTANT")));
+		add(createToolbarToggleButton(FLOW, "flow_22.png", bundle.getString("EDITOR_FLOW")));
+		add(createToolbarToggleButton(RELATION, "relation_22.png", bundle.getString("EDITOR_RELATION")));
 		//add(createButton(DATASET, "EdDataset.gif"));
 		add(new JToolBar.Separator());
 		add(new JToolBar.Separator());
 		//add(createButton(DELETE, "EditorDeleteTB", "delete"));
-		add(createButton(DELETE, "delete", bundle.getString("EDITOR_DELETE")));
-		add(createButton(CUT, "cut", bundle.getString("EDITOR_CUT")));
-		add(createButton(COPY, "copy", bundle.getString("EDITOR_COPY")));
-		add(createButton(PASTE, "paste", bundle.getString("EDITOR_PASTE")));
+		add(createToolbarButton(DELETE, "delete_22.png", bundle.getString("EDITOR_DELETE")));
+		add(createToolbarButton(CUT, "cut_22.png", bundle.getString("EDITOR_CUT")));
+		add(createToolbarButton(COPY, "copy_22.png", bundle.getString("EDITOR_COPY")));
+		add(createToolbarButton(PASTE, "paste_22.png", bundle.getString("EDITOR_PASTE")));
 		buttonMap.get(CURSOR+"").setSelected(true);
 		currentAction = CURSOR;
 	}
@@ -67,10 +64,9 @@ public class EditorToolbar extends JToolBar implements ActionListener {
 			c.setEnabled(enabled);
 		}
 	}
-
-	private JToggleButton createToggleButton(int cmd, String icon, String tooltip) {
-		URL url = JTools.getSysResourceImage(icon);
-		JToggleButton button = new JToggleButton(new ImageIcon(url));
+	
+	private JToggleButton createToolbarToggleButton(int cmd, String icon, String tooltip) {
+		JToggleButton button = new JToggleButton(Util.getImageIcon(icon));
 		button.setActionCommand(cmd+"");
 		button.setToolTipText(tooltip);
 		button.addActionListener(this);
@@ -79,14 +75,34 @@ public class EditorToolbar extends JToolBar implements ActionListener {
 		return button;
 	}
 	
-	private JButton createButton(int cmd, String icon, String tooltip) {
-		URL url = JTools.getSysResourceImage(icon);
-		JButton button = new JButton(new ImageIcon(url));
+	private JButton createToolbarButton(int cmd, String icon, String tooltip) {
+		JButton button = new JButton(Util.getImageIcon(icon));
 		button.setActionCommand(cmd+"");
 		button.setToolTipText(tooltip);
 		button.addActionListener(actionListener);
 		return button;
 	}
+
+//	private JToggleButton createToggleButton(int cmd, String icon, String tooltip) {
+//		URL url = JTools.getSysResourceImage(icon);
+//		JToggleButton button = new JToggleButton(new ImageIcon(url));
+//		button.setActionCommand(cmd+"");
+//		button.setToolTipText(tooltip);
+//		button.addActionListener(this);
+//		button.setSelected(false);
+//		buttonMap.put(cmd+"", button);
+//		return button;
+//	}
+//	
+//	private JButton createButton(int cmd, String icon, String tooltip) {
+//		URL url = JTools.getSysResourceImage(icon);
+//		JButton button = new JButton(new ImageIcon(url));
+//		button.setActionCommand(cmd+"");
+//		button.setToolTipText(tooltip);
+//		button.addActionListener(actionListener);
+//		return button;
+//	}
+
 
 	public int getCurrentAction() {
 		return currentAction;

@@ -1,8 +1,10 @@
 package eu.scy.client.tools.scydynamics.editor;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -10,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import eu.scy.client.tools.scydynamics.editor.ModelEditor.Mode;
 import eu.scy.client.tools.scydynamics.model.Model;
 
 
@@ -23,47 +26,71 @@ public class SimulationSettingsPanel extends JPanel {
 	private JComboBox methodbox;
 	String[] methods = { "RungeKuttaFehlberg", "euler", "static"};
 	private String calculationMethod;
+	private AbstractButton runButton;
+	private JButton stopButton;
 
 	public SimulationSettingsPanel(ModelEditor editor, ActionListener listener) {
 		super();
 		this.editor = editor;
 		calculationMethod = (String) editor.getProperties().get("editor.fixedcalculationmethod");
 		this.setLayout(new BorderLayout());
-		this.setBorder(BorderFactory.createTitledBorder("simulation settings"));
+		this.setBorder(BorderFactory.createTitledBorder("Simulation settings"));
 		initUI(listener);
 	}
 
 	public void initUI(ActionListener listener) {
 		JPanel northPanel = new JPanel();
-		northPanel.setLayout(new java.awt.GridLayout(6, 2));
-		startField = new JTextField(10);
+		northPanel.setLayout(new java.awt.GridLayout(4, 2));
+		startField = new JTextField(6);
+		startField.setHorizontalAlignment(JTextField.RIGHT);
 		startField.setEditable(false);
-		stopField = new JTextField(10);
-		stepField = new JTextField(10);
+		stopField = new JTextField(6);
+		stopField.setHorizontalAlignment(JTextField.RIGHT);
+		stepField = new JTextField(6);
+		stepField.setHorizontalAlignment(JTextField.RIGHT);
 		methodbox = getMethodBox();
 		
-		if (!editor.isQualitative()) {
-			northPanel.add(new JLabel("start time"));
+		if (editor.getMode()!=Mode.QUALITATIVE_MODELLING) {
+			northPanel.add(new JLabel("Start time"));
 			northPanel.add(startField);
-			northPanel.add(new JLabel("stop time"));
+			northPanel.add(new JLabel("Stop time"));
 			northPanel.add(stopField);
-			northPanel.add(new JLabel("time step"));
+			northPanel.add(new JLabel("Time step"));
 			northPanel.add(stepField);
-			northPanel.add(new JLabel("method"));
+			northPanel.add(new JLabel("Method"));
 			northPanel.add(methodbox);
 		}
+		this.add(northPanel, BorderLayout.NORTH);
 		
-		JButton button = new JButton("run simulation");
-		button.setActionCommand("run");
-		button.addActionListener(listener);
-		northPanel.add(button);
-		button = new JButton("export to sqv");
+		JPanel southPanel = new JPanel();
+		FlowLayout flowCenter = new FlowLayout();
+		flowCenter.setAlignment(FlowLayout.CENTER);
+		runButton = new JButton(Util.getImageIcon("media-playback-start.png"));
+		runButton.setActionCommand("run");
+		runButton.setToolTipText("Run model");
+		runButton.addActionListener(listener);
+		southPanel.add(runButton);
+		
+		stopButton = new JButton(Util.getImageIcon("media-playback-stop.png"));
+		stopButton.setActionCommand("stop");
+		stopButton.setToolTipText("Stop model");
+		stopButton.setEnabled(false);
+		stopButton.addActionListener(listener);
+		southPanel.add(stopButton);
+		
+		JButton button = new JButton(Util.getImageIcon("media-floppy.png"));
 		button.setActionCommand("export");
+		button.setToolTipText("Export to SQX");
 		button.addActionListener(listener);
 		if (editor.getProperties().getProperty("editor.export_to_sqv", "false").equals("true")) {
-		    northPanel.add(button);
+			southPanel.add(button);
 		}
-		this.add(northPanel, BorderLayout.NORTH);
+		this.add(southPanel, BorderLayout.SOUTH);
+	}
+	
+	public void setRunning(boolean isRunning) {
+		runButton.setEnabled(!isRunning);
+		stopButton.setEnabled(isRunning);
 	}
 	
 	private JComboBox getMethodBox() {
