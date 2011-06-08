@@ -36,16 +36,16 @@ public class InitialProcedure extends ExperimentalProcedure {
 
     /*code */
     private String code;
-    /* liste action nommees */
+    /* action named list */
     private ArrayList<InitialNamedAction> listNamedAction;
-    /* action libre autorisee */
+    /* free action authorized? */
     private boolean isFreeAction;
     private boolean taskMode;
-    /* tache repeat */
+    /*repeat task */
     private boolean isTaskRepeat;
-    /* tache draw */
+    /* drawing task? */
     private boolean isTaskDraw;
-     /* liste du materiel disponible associe */
+     /* list of the material available  */
     private ArrayList<Material> listMaterial ;
 
     /*hypothese mode cf CST MODE_MENU*/
@@ -58,7 +58,6 @@ public class InitialProcedure extends ExperimentalProcedure {
 
     private MaterialStrategy materialStrategy;
 
-    // CONSTRUCTOR
     public InitialProcedure(long dbKey, List<LocalText> listName, Date dateLastModification, boolean isActiv, char right, String code, boolean isFreeAction, boolean isTaskMode, boolean isTaskRepeat, ArrayList<InitialNamedAction> listNamedAction,
             char hypothesisMode, char principleMode, boolean drawPrinciple, char evaluationMode, MaterialStrategy materialStrategy, boolean isTaskDraw) {
         super(dbKey, listName, dateLastModification, isActiv, right);
@@ -81,7 +80,7 @@ public class InitialProcedure extends ExperimentalProcedure {
             List<Material> listM,  List<TypeMaterial> listTypeMaterial, List<PhysicalQuantity> listPhysicalQuantity, List<InitialNamedAction> listInitialNamedAction, List<MaterialStrategy> listMaterialStrategy) throws JDOMException {
         super(xmlElem);
         if (xmlElem.getName().equals(TAG_INITIAL_PROC)) {
-			dbKey = idProc;
+            dbKey = idProc;
             listName = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_EXP_PROC_NAME).iterator(); variableElem.hasNext();) {
                 Element e = variableElem.next();
@@ -237,8 +236,8 @@ public class InitialProcedure extends ExperimentalProcedure {
                 }
             }
         } else {
-			throw(new JDOMException("Initial proc expects <"+TAG_INITIAL_PROC_REF+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+            throw(new JDOMException("Initial proc expects <"+TAG_INITIAL_PROC_REF+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public boolean isFreeAction() {

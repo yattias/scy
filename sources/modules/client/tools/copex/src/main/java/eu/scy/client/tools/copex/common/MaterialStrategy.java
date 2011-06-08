@@ -56,7 +56,7 @@ public class MaterialStrategy implements Cloneable{
     }
 
     public MaterialStrategy(Element xmlElem, long idMaterialStrategy) throws JDOMException {
-		if (xmlElem.getName().equals(TAG_MATERIAL_STRATEGY)) {
+        if (xmlElem.getName().equals(TAG_MATERIAL_STRATEGY)) {
             code = xmlElem.getChildText(TAG_MATERIAL_STRATEGY_CODE);
             dbKey = idMaterialStrategy;
             isItem = xmlElem.getChild(TAG_MATERIAL_STRATEGY_ISITEM).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
@@ -69,14 +69,14 @@ public class MaterialStrategy implements Cloneable{
             addMaterial = xmlElem.getChild(TAG_MATERIAL_STRATEGY_ADD_MATERIAL).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
             chooseMaterial = xmlElem.getChild(TAG_MATERIAL_STRATEGY_CHOOSE_MATERIAL).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
             commentsMaterial = xmlElem.getChild(TAG_MATERIAL_STRATEGY_COMMENT_MATERIAL).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
-		} else {
-			throw(new JDOMException("Material Strategy expects <"+TAG_MATERIAL_STRATEGY+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("Material Strategy expects <"+TAG_MATERIAL_STRATEGY+"> as root element, but found <"+xmlElem.getName()+">."));
 	}
+    }
 
     public MaterialStrategy(Element xmlElem, List<MaterialStrategy> list) throws JDOMException {
         if (xmlElem.getName().equals(TAG_MATERIAL_STRATEGY_REF)) {
-			code = xmlElem.getChildText(TAG_MATERIAL_STRATEGY_CODE);
+            code = xmlElem.getChildText(TAG_MATERIAL_STRATEGY_CODE);
             for(Iterator<MaterialStrategy> m = list.iterator();m.hasNext();){
                 MaterialStrategy s = m.next();
                 if(s.getCode().equals(code)){
@@ -89,8 +89,8 @@ public class MaterialStrategy implements Cloneable{
                 }
             }
         }else {
-			throw(new JDOMException("Material Strategy expects <"+TAG_MATERIAL_STRATEGY+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+            throw(new JDOMException("Material Strategy expects <"+TAG_MATERIAL_STRATEGY+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public boolean canAddMaterial() {

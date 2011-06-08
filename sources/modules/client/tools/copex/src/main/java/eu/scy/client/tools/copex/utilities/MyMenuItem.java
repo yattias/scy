@@ -12,8 +12,8 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * represente les items du menu
- * @author MBO 
+ * item menu
+ * @author Marjolaine
  */
 public class MyMenuItem extends JMenuItem implements  MouseListener {
     private Image bg ;
@@ -124,7 +124,7 @@ public class MyMenuItem extends JMenuItem implements  MouseListener {
         repaint();
     }
 
-    /* replace the image */
+    /* update icon*/
     public void setItemIcon(ImageIcon newImg){
         this.img = newImg;
         this.bg = newImg.getImage();

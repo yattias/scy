@@ -29,9 +29,9 @@ public class TaskRepeatValueDataProd extends TaskRepeatValue{
             dbKey = idValue++;
             noRepeat = Integer.parseInt(xmlElem.getChild(TAG_TASK_REPEAT_NO_REPEAT).getText());
             data = new QData(xmlElem.getChild(Quantity.TAG_PARAMETER), idQuantity++, listPhysicalQuantity);
-		} else {
-			throw(new JDOMException("Task repeat value data prod expects <"+TAG_TASK_REPEAT_VALUE_DATA_PROD+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("Task repeat value data prod expects <"+TAG_TASK_REPEAT_VALUE_DATA_PROD+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public QData getData() {
@@ -41,7 +41,7 @@ public class TaskRepeatValueDataProd extends TaskRepeatValue{
     public void setData(QData data) {
         this.data = data;
     }
-    // OVERRIDE
+    
     @Override
     public Object clone() {
         TaskRepeatValueDataProd v = (TaskRepeatValueDataProd) super.clone() ;

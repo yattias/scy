@@ -15,12 +15,12 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- *
+ * action - choice type
  * @author Marjolaine
  */
 public class CopexActionChoice extends CopexActionParam implements Cloneable {
     public final static String TAG_ACTION_CHOICE = "action_choice";
-    // CONSTRUCTOR
+
     public CopexActionChoice(List<LocalText> listDescription, List<LocalText> listComments, InitialNamedAction namedAction, Object[] tabParam) {
         super(listDescription, listComments, namedAction, tabParam);
     }
@@ -42,7 +42,7 @@ public class CopexActionChoice extends CopexActionParam implements Cloneable {
         this.dbKeyBrother = -1;
         this.dbKeyChild = -1;
         if (xmlElem.getName().equals(TAG_ACTION_CHOICE)) {
-			dbKey = idTask;
+            dbKey = idTask;
             listName = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_TASK_NAME).iterator(); variableElem.hasNext();) {
                 Element e = variableElem.next();
@@ -69,9 +69,9 @@ public class CopexActionChoice extends CopexActionParam implements Cloneable {
             }
             namedAction = new InitialNamedAction(xmlElem.getChild(InitialNamedAction.TAG_INITIAL_NAMED_ACTION), listInitialNamedAction);
             
-		} else {
-			throw(new JDOMException("Action Choice expects <"+TAG_ACTION_CHOICE+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("Action Choice expects <"+TAG_ACTION_CHOICE+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
 

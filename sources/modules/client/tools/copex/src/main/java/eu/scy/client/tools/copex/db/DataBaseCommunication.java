@@ -20,29 +20,28 @@ import java.util.ArrayList;
  * @author Marjolaine
  */
 public class DataBaseCommunication {
-    /* requete de selection avec envoit du resultat */
+    /* select query with result  */
     public final static int MODE_SELECT = 1;
-    /* requete simple */
+    /* simple querye */
     public final static int MODE_SIMPLE = 2;
-    /* insertion puis recuperation du dernier indice*/
+    /* insert then gets the last id */
     public final static int MODE_INSERT = 3;
-    /* nom du champ pour recupere le dernier indice */
+    /* field name to get the last id  */
     public final static String LAST_ID = "LAST ID";
     
  
-    // ATTRIBUTS
     /* URL */
     private URL codeBase;
-    /* repertoire Data */
+    /* data directory */
     private String directoryData;
-    /* repertoire Php */
+    /* Php directory */
     private String directoryPhP;
     private long idMission;
     private String idUser;
-    /* base par defaut cd constantes DB_COPEX */
+    /* database by default cf constants  DB_COPEX */
     private int db;
 
-    /* nom du fichier */
+    /* file name */
     private String fileName;
     private HttpURLConnection urlCon = null;
     private ObjectOutputStream out = null;
@@ -109,7 +108,7 @@ public class DataBaseCommunication {
     }
 
 
-    // envoie une requete de selection
+    // sent a select query
     public CopexReturn sendQuery(String query, ArrayList listFields, ArrayList v){
         dataBD = fileName+"\n";
         dataBD += "<data>"+this.db;
@@ -128,6 +127,7 @@ public class DataBaseCommunication {
         cr = receiveResponse(v);
         return cr;
     }
+
      /** send a  query (delete)
      * @param query the specified query
      * @return error code
@@ -182,7 +182,7 @@ public class DataBaseCommunication {
     }
     
     
-    // connection au serveur 
+    // connect to server
     private CopexReturn openConnectionServer(int mode, long lenght) {
         //// System.out.println("openConnectionServer");
         String file = "";
@@ -212,9 +212,8 @@ public class DataBaseCommunication {
         }
     }
     
-    // envoi des donnees
+    // send data
     private CopexReturn sendData(){
-        //// System.out.println("sendData");
         try{
            this.out.writeObject(this.dataBD);
            BufferedReader reader = new BufferedReader(new InputStreamReader(this.urlCon.getInputStream(), "utf-8"));
@@ -228,18 +227,17 @@ public class DataBaseCommunication {
            this.urlCon.disconnect();
            return new CopexReturn();
        }catch(IOException e){
-           // System.out.println("ERROR lors de l'ecriture du fichier : "+e);
            return new CopexReturn(e.getMessage(), false);
        }
     }
     
-    // lecture de la reponse
+    // gets answer
     private CopexReturn receiveResponse(ArrayList v){
         try{
             URL urlDB;
             urlDB = new URL(codeBase, directoryData+fileName);
             File fileToUpload = new File(directoryData+fileName);
-           urlCon = (HttpURLConnection)urlDB.openConnection();
+            urlCon = (HttpURLConnection)urlDB.openConnection();
             urlCon.setDoOutput(true);
             urlCon.setDoInput(true);
             urlCon.setRequestMethod("POST");
@@ -252,8 +250,7 @@ public class DataBaseCommunication {
             ResultSetXML rs  = null;
             String name = "";
             String value = "";
-           while ((ligne = reader.readLine()) != null) {
-               //// System.out.println("ligne lue : "+ligne);
+            while ((ligne = reader.readLine()) != null) {
                if (ligne.equals("<res>")){
                     rs = new ResultSetXML();
                }else if (ligne.equals("</res>")){
@@ -293,9 +290,7 @@ public class DataBaseCommunication {
     }
     private String getData(String ligne, String balise){
         String s = ligne.substring(balise.length()+2);
-        //// System.out.println("getData : "+s);
         s = s.substring(0, s.length() - (balise.length()+3));
-        //// System.out.println("fin getData : "+s);
         return s;
     }
     
@@ -314,7 +309,7 @@ public class DataBaseCommunication {
             if (cr.isError())
                 return cr;
             long dbKey = -1;
-            // recupere l'id :
+            // gets id :
             int nbR = v2.size();
             for (int j=0; j<nbR; j++){
                 ResultSetXML rs = (ResultSetXML)v2.get(j);
@@ -339,7 +334,8 @@ public class DataBaseCommunication {
         this.db = db;
         return new CopexReturn();
     }
-    /* retourne la base */
+    
+    /* returns database */
     public int getDb(){
         return this.db;
     }

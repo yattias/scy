@@ -15,7 +15,7 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- * action de type acquisition
+ * initial action acquisition
  * uses Material
  * produces Data
  * @author Marjolaine
@@ -28,10 +28,9 @@ public class InitialActionAcquisition extends InitialNamedAction implements Clon
 
     /* nb data prod*/
     private int nbDataProd;
-    /* liste des output*/
+    /* list  output*/
     private ArrayList<InitialAcquisitionOutput> listOutput;
 
-    // CONSTRUCTOR
     public InitialActionAcquisition(long dbKey, String code, List<LocalText> listLibelle, boolean isSetting, InitialActionVariable variable, boolean draw,  boolean repeat, int nbDataProd, ArrayList<InitialAcquisitionOutput> listOutput, Element defaultDraw) {
         super(dbKey, code, listLibelle, isSetting, variable, draw, repeat, defaultDraw);
         this.nbDataProd = nbDataProd;
@@ -39,10 +38,10 @@ public class InitialActionAcquisition extends InitialNamedAction implements Clon
     }
 
     public InitialActionAcquisition(Element xmlElem, long idAction, Locale locale, long idActionParam, List<PhysicalQuantity> listPhysicalQuantity, List<TypeMaterial> listTypeMaterial, long idOutput) throws JDOMException {
-		super(xmlElem);
+	super(xmlElem);
         if (xmlElem.getName().equals(TAG_INITIAL_ACTION_ACQUISITION)) {
             this.dbKey = idAction;
-			code = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_CODE).getText();
+            code = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_CODE).getText();
             listLibelle = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_INITIAL_NAMED_ACTION_LIBELLE).iterator(); variableElem.hasNext();) {
                 Element e = variableElem.next();
@@ -61,15 +60,15 @@ public class InitialActionAcquisition extends InitialNamedAction implements Clon
                 listOutput.add(new InitialAcquisitionOutput(variablElem.next(), idOutput++, listPhysicalQuantity));
             }
         }
-		else {
-			throw(new JDOMException("Initial action acquisition expects <"+TAG_INITIAL_ACTION_ACQUISITION+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	else {
+            throw(new JDOMException("Initial action acquisition expects <"+TAG_INITIAL_ACTION_ACQUISITION+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public InitialActionAcquisition(Element xmlElem,List<InitialNamedAction> list) throws JDOMException{
         super(xmlElem);
         if (xmlElem.getName().equals(TAG_INITIAL_ACTION_ACQUISITION_REF)) {
-			code = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_CODE).getText();
+            code = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_CODE).getText();
             for(Iterator<InitialNamedAction> q = list.iterator();q.hasNext();){
                 InitialNamedAction p = q.next();
                 if(p instanceof InitialActionAcquisition){
@@ -86,12 +85,11 @@ public class InitialActionAcquisition extends InitialNamedAction implements Clon
                 }
             }
         }else {
-			throw(new JDOMException("Initial action acquisition expects <"+TAG_INITIAL_ACTION_ACQUISITION_REF+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+            throw(new JDOMException("Initial action acquisition expects <"+TAG_INITIAL_ACTION_ACQUISITION_REF+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
 
-    // GETTER AND SETTER
     public int getNbDataProd() {
         return nbDataProd;
     }
@@ -109,7 +107,6 @@ public class InitialActionAcquisition extends InitialNamedAction implements Clon
     }
 
     
-    // OVERRIDE
     @Override
     public Object clone() {
         InitialActionAcquisition a = (InitialActionAcquisition) super.clone() ;

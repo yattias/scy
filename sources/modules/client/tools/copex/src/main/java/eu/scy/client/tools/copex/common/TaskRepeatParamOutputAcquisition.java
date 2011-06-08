@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.jdom.Element;
 import org.jdom.JDOMException;
+
 /**
  *
  * @author Marjolaine
@@ -45,9 +46,9 @@ public class TaskRepeatParamOutputAcquisition extends TaskRepeatParam {
                 TaskRepeatValueDataProd v = new TaskRepeatValueDataProd(e, idValue++,  idQuantity++, listPhysicalQuantity);
                 listValue.add(v);
             }
-		} else {
-			throw(new JDOMException("Task repeat  param output acquisition expects <"+TAG_TASK_REPEAT_PARAM_OUTPUT_ACQUISITION+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("Task repeat  param output acquisition expects <"+TAG_TASK_REPEAT_PARAM_OUTPUT_ACQUISITION+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public InitialAcquisitionOutput getOutput() {
@@ -66,7 +67,6 @@ public class TaskRepeatParamOutputAcquisition extends TaskRepeatParam {
         this.listValue = listValue;
     }
 
-    // OVERRIDE
     @Override
     public Object clone() {
         TaskRepeatParamOutputAcquisition p = (TaskRepeatParamOutputAcquisition) super.clone() ;

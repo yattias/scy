@@ -83,8 +83,8 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
     }
 
     /**
-    * Instancie l'objet ActionMaterialDetail.
-    * @param action ActionComment
+    * Instanciation ActionMaterialDetail.
+    * @param action ActionMaterialDetail
     */
     public void addActionMaterialDetail(ActionMaterialDetail action){
         this.action=action;
@@ -269,7 +269,6 @@ public class MaterialDetailPanel extends CopexPanelHideShow implements ActionCop
         getPanelDetails().add(getScrollDescription());
         
         if(!mUsed.isUserMaterial()){
-            // affiche type et parametres si besoin
             getPanelDetails().add(getLabelType1());
             getPanelDetails().add(getLabelType2());
             if(mUsed.getMaterial().getListParameters().size()> 0){

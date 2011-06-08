@@ -11,13 +11,12 @@ import java.util.ArrayList;
 import javax.swing.tree.DefaultTreeModel;
 
 /**
- * modele de donnees pour une selection dans un arbre
- * @author MBO
+ * data model for the selection in the tree
+ * @author Marjolaine
  */
 public class SubTreeModel extends DefaultTreeModel {
 
-    // ATTRIBUTS 
-    /* liste des taches */
+    /* tasks list  */
     private ArrayList<CopexTask> listTask;
     
     
@@ -29,7 +28,7 @@ public class SubTreeModel extends DefaultTreeModel {
     }
     
     
-    /* construction de l'arbre */
+    /* build the tree */
     private void buildTree(TaskTreeNode node){
        CopexTask[] tabTask = getBrotherAndChild(node.getTask());
        CopexTask tB = tabTask[0];
@@ -46,7 +45,7 @@ public class SubTreeModel extends DefaultTreeModel {
        }
     }
     
-    /* renvoit la tache frere et enfant , null sinon */
+    /* returns the tasks brother and child, null if not exist  */
     private CopexTask[] getBrotherAndChild(CopexTask task){
         CopexTask[] tabTask = new CopexTask[2];
         long dbKeyB = task.getDbKeyBrother();

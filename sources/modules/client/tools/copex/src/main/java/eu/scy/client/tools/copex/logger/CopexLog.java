@@ -158,7 +158,7 @@ public class CopexLog {
         list.add(new CopexProperty(TAG_PROC_MODEL, getModel(proc), null));
         return list;
     }
-    /* log : genral principle */
+    /* log : general principle */
     public static List<CopexProperty> logGeneralPrinciple(Locale locale, ExperimentalProcedure proc, GeneralPrinciple oldGeneralPrinciple, GeneralPrinciple newGeneralPrinciple){
         List<CopexProperty> list = new LinkedList();
         list.add(new CopexProperty(TAG_PROC_ID, Long.toString(proc.getDbKey()), null));

@@ -14,27 +14,24 @@ import eu.scy.client.tools.copex.common.Step;
 import eu.scy.client.tools.copex.utilities.MyConstants;
 
 /**
- * represente un noeud dans l'arbre : elle peut etre de nature diffenrente : 
- * - question ou sous question
- * - etape 
+ * represents a node in the tree, could be :
+ * - question o
+ * - step
  * - action
- * @author MBO
+ * @author Marjolaine
  */
 public class TaskTreeNode extends CopexNode {
-    // PROPERTY
-    /*tache associee */
+    /*task*/
     private CopexTask task;
-    /*boolean qui indique passage souris lors du drag and drop */
+    /*indicates the mouseover of the mouse :)during the drag and drop  */
     private boolean mouseover;
 
-    // CONSTRUCTOR
     public TaskTreeNode(CopexTask task) {
         super(task);
         this.task = task;
         this.mouseover = false;
     }
 
-    // GETTER AND SETTER
     @Override
     public CopexTask getTask() {
         return task;
@@ -48,6 +45,7 @@ public class TaskTreeNode extends CopexNode {
         return mouseover;
     }
 
+    @Override
     public void setMouseover(boolean mouseover) {
         if(!getTask().isAction())
             this.mouseover = mouseover;
@@ -55,47 +53,57 @@ public class TaskTreeNode extends CopexNode {
 
     
 
-    // METHOD
-    /* retourne vrai si en lecture seule */
+    /* returns true if readonly */
     @Override
     public boolean  isDisabled(){
         return !canEdit() || !canDelete() || !canCopy() || !canMove() || !canBeParent() ;
     }
     
-    /* retourne vrai si peut etre edite */
+    /* returns true if the node can be edited*/
+    @Override
     public boolean canEdit(){
         return this.getTask().getEditRight() == MyConstants.EXECUTE_RIGHT;
     }
-     /* retourne vrai si peut etre supprime */
+
+     /* returns true if the node can be deleted */
     @Override
     public boolean canDelete(){
         return this.getTask().getDeleteRight() == MyConstants.EXECUTE_RIGHT;
     }
-     /* retourne vrai si peut etre copiee */
+
+     /* returns true if the node can be copeid  */
     @Override
     public boolean canCopy(){
         return this.getTask().getCopyRight() == MyConstants.EXECUTE_RIGHT;
     }
-     /* retourne vrai si peut etre move */
+
+     /* returns true if the node can be mode */
     @Override
     public boolean canMove(){
         return this.getTask().getMoveRight() == MyConstants.EXECUTE_RIGHT;
     }
-     /* retourne vrai si peut etre parent */
+
+     /* returns true if the node can be parent*/
+    @Override
     public boolean canBeParent(){
         return this.getTask().getParentRight() == MyConstants.EXECUTE_RIGHT;
     }
+
     @Override
     public boolean isQuestion(){
         return (this.getTask() instanceof Question);
     }
+
      public boolean isStep(){
         return (this.getTask() instanceof Step);
     }
-     /* retourne vrai si c'est une etape vide */
+
+     /* returns true if the step has no child */
      public boolean isStepAlone(){
         return (this.getTask() instanceof Step) && this.getChildCount() == 0 ;
     }
+     
+     @Override
      public boolean isAction(){
         return (this.getTask() instanceof CopexAction);
     }

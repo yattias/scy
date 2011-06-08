@@ -9,7 +9,7 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- * valeur d'un parametre pour une tache iterative
+ * value of the parameter for a task repeat
  * @author Marjolaine
  */
 public abstract class TaskRepeatValue implements Cloneable{
@@ -42,7 +42,6 @@ public abstract class TaskRepeatValue implements Cloneable{
         this.noRepeat = noRepeat;
     }
 
-    // OVERRIDE
     @Override
     protected Object clone() {
        try {

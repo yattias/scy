@@ -9,7 +9,7 @@
  * Created on 27 avr. 2009, 15:35:15
  */
 
-package eu.scy.client.tools.copex.edp;
+package eu.scy.client.tools.copex.main;
 
 import eu.scy.client.tools.copex.common.LearnerProcedure;
 import eu.scy.client.tools.copex.logger.CopexProperty;
@@ -25,7 +25,7 @@ import javax.swing.UIManager;
  * Copex Application for LabBook
  * @author Marjolaine
  */
-public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
+public class CopexLabBookApp extends javax.swing.JFrame implements ActionCopex{
     /* edp panel*/
     private CopexPanel copex;
 
@@ -39,7 +39,7 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
 
     
     /** Creates new form CopexApplication */
-    public CopexApplication() {
+    public CopexLabBookApp() {
         initComponents();
         initEdP();
     }
@@ -72,8 +72,8 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
     }
 
     public void loadEdP(){
-        copex.loadData();
-        copex.setQuestionDialog();
+        //copex.loadData();
+        //copex.setQuestionDialog();
         setSize(695,495);
         //repaint();
     }
@@ -155,7 +155,7 @@ public class CopexApplication extends javax.swing.JFrame implements ActionCopex{
         }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                CopexApplication copex = new CopexApplication();
+                CopexLabBookApp copex = new CopexLabBookApp();
                 copex.setVisible(true);
                 copex.loadEdP();
             }

@@ -14,8 +14,8 @@ import eu.scy.client.tools.copex.common.QData;
  * @author Marjolaine
  */
 public interface ActionSelectParamTaskRepeat {
-    /* ajout d'un nouveau materiel */
+    /* add new material */
     public void addOutputMaterial(int index, int noRepeat,Material material);
-    /* ajout d'un nouveau data */
+    /* add new data */
     public void addOutputData(int index, int noRepeat,QData data);
 }

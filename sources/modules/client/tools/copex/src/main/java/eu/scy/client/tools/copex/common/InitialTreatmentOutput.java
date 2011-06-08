@@ -14,13 +14,13 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- * output d'une action treatment
+ * output -action treatment
  * @author Marjolaine
  */
 public class InitialTreatmentOutput extends InitialOutput implements Cloneable {
     public final static String TAG_INITIAL_OUTPUT_TREATMENT = "initial_treatment_output";
     public final static String TAG_INITIAL_OUTPUT_TREATMENT_REF = "initial_treatment_output_ref";
-    /* unites des data produites */
+    /* units of data prod. */
     private CopexUnit[] unitDataProd;
 
     
@@ -31,7 +31,7 @@ public class InitialTreatmentOutput extends InitialOutput implements Cloneable {
 
     public InitialTreatmentOutput(Element xmlElem, long idOutput, List<PhysicalQuantity> listPhysicalQuantity) throws JDOMException {
         super(xmlElem);
-		if (xmlElem.getName().equals(TAG_INITIAL_OUTPUT_TREATMENT)) {
+	if (xmlElem.getName().equals(TAG_INITIAL_OUTPUT_TREATMENT)) {
             this.dbKey = idOutput;
             this.code = xmlElem.getChild(TAG_INITIAL_OUTPUT_CODE).getText();
             listName = new LinkedList<LocalText>();
@@ -52,15 +52,15 @@ public class InitialTreatmentOutput extends InitialOutput implements Cloneable {
                 unitDataProd[i++] =new CopexUnit(variablElem.next(),listPhysicalQuantity);
             }
 
-		} else {
-			throw(new JDOMException("Initial treatment output expects <"+TAG_INITIAL_OUTPUT_TREATMENT+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("Initial treatment output expects <"+TAG_INITIAL_OUTPUT_TREATMENT+"> as root element, but found <"+xmlElem.getName()+">."));
 	}
+    }
 
 
     public InitialTreatmentOutput(Element xmlElem, List<InitialTreatmentOutput> list) throws JDOMException {
         super(xmlElem);
-		if (xmlElem.getName().equals(TAG_INITIAL_OUTPUT_TREATMENT_REF)) {
+	if (xmlElem.getName().equals(TAG_INITIAL_OUTPUT_TREATMENT_REF)) {
             this.code = xmlElem.getChild(TAG_INITIAL_OUTPUT_CODE).getText();
             for(Iterator<InitialTreatmentOutput> a = list.iterator();a.hasNext();){
                 InitialTreatmentOutput p = a.next();
@@ -72,8 +72,8 @@ public class InitialTreatmentOutput extends InitialOutput implements Cloneable {
                 }
             }
         }else {
-			throw(new JDOMException("Initial treatment output expects <"+TAG_INITIAL_OUTPUT_TREATMENT_REF+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+            throw(new JDOMException("Initial treatment output expects <"+TAG_INITIAL_OUTPUT_TREATMENT_REF+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public CopexUnit[] getUnitDataProd() {
@@ -105,7 +105,7 @@ public class InitialTreatmentOutput extends InitialOutput implements Cloneable {
         for(int i=0; i<unitDataProd.length; i++){
             element.addContent(unitDataProd[i].toXMLRef());
         }
-		return element;
+	return element;
     }
 
     @Override

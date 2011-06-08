@@ -17,15 +17,15 @@ import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.util.ArrayList;
 
 /**
- * undo redo de la modification d'une tache
+ * undo redo: update a task
  * @author Marjolaine
  */
 public class UpdateTaskUndoRedo extends CopexUndoRedo{
-    /* ancienne tache */
+    /* old task */
     private CopexTask oldTask;
-    /*noeud */
+    /*node */
     private CopexNode node;
-    /* nouvelle tache */
+    /* new task */
     private CopexTask newTask;
 
     public UpdateTaskUndoRedo(EdPPanel edP, ControllerInterface controller, CopexTree tree, CopexTask oldTask, CopexNode node, CopexTask newTask) {

@@ -14,8 +14,8 @@ import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.util.*;
 
 /**
- * gestion des utilisateurs
- * @author MBO
+ * manages users labbook
+ * @author Marjolaine
  */
 public class UserFromDB {
     

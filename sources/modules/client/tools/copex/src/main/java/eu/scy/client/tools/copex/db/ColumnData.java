@@ -6,23 +6,21 @@
 package eu.scy.client.tools.copex.db;
 
 /**
- * colonne
+ * column data
  * @author MBO
  */
+
 public class ColumnData {
-    // ATTRIBUTS
-    /* nom de la colonne */
+    /* column name */
     private String colName;
-    /* valeur */
+    /* value */
     private String value;
 
-    // CONSTRUCTEUR
     public ColumnData(String colName, String value) {
         this.colName = colName;
         this.value = value;
     }
 
-    // GETTER
     public String getValue() {
         return value;
     }

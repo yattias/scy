@@ -28,9 +28,9 @@ public class TaskRepeatValueParamQuantity extends TaskRepeatValue{
             dbKey = idValue++;
             noRepeat = Integer.parseInt(xmlElem.getChild(TAG_TASK_REPEAT_NO_REPEAT).getText());
             actionParamQuantity = new ActionParamQuantity(xmlElem.getChild(ActionParamQuantity.TAG_ACTION_PARAM_QUANTITY), idActionParam++, listInitialParamQuantity, idQuantity++, listPhysicalQuantity);
-		} else {
-			throw(new JDOMException("Task repeat value param quantity expects <"+TAG_TASK_REPEAT_VALUE_PARAM_QUANTITY+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("Task repeat value param quantity expects <"+TAG_TASK_REPEAT_VALUE_PARAM_QUANTITY+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public ActionParamQuantity getActionParamQuantity() {
@@ -40,7 +40,7 @@ public class TaskRepeatValueParamQuantity extends TaskRepeatValue{
     public void setActionParamQuantity(ActionParamQuantity actionParamQuantity) {
         this.actionParamQuantity = actionParamQuantity;
     }
-    // OVERRIDE
+    
     @Override
     public Object clone() {
         TaskRepeatValueParamQuantity v = (TaskRepeatValueParamQuantity) super.clone() ;

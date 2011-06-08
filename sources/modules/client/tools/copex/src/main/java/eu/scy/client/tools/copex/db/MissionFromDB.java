@@ -53,7 +53,7 @@ public class MissionFromDB {
    
     
    
-    /* chargement de toutes les missions  de l'utilisateur sauf idMission*/
+    /* load all missions of the user , expect the specified mission n*/
     public static CopexReturn getAllMissionsFromDB(DataBaseCommunication dbC, long dbKeyUser, long dbKeyMission,  ArrayList v) {
         dbC.updateDb(MyConstants.DB_LABBOOK);
         ArrayList<CopexMission> listMission = new ArrayList();

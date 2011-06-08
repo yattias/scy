@@ -6,15 +6,15 @@
 package eu.scy.client.tools.copex.utilities;
 
 /**
- * interface saisie commentaires
+ * comments
  * @author Marjolaine
  */
 public interface ActionComment {
-    /* action de commenter*/
+    /* action comment*/
     public void actionComment();
-    /* sauvegarde du texte des commentaires*/
+    /* save text of comments */
     public void saveComment();
-    /* met le texte  commentaires*/
+    /*set text comments */
     public void setComment();
     /* enter key pressed */
     public void enterKeyPressed();

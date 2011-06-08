@@ -4,6 +4,6 @@ package eu.scy.client.tools.copex.utilities;
  * @author Marjolaine
  */
 public interface ActionCopexButton {
-    /* action de clic*/
+    /* click action*/
     public void actionCopexButtonClic(CopexButtonPanel button);
 }

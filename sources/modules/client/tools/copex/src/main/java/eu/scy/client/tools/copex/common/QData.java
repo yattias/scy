@@ -11,7 +11,7 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- * quantity de type data
+ * quantity - data type
  * @author Marjolaine
  */
 public class QData extends Quantity {

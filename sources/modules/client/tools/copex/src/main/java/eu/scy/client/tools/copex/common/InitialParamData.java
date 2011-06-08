@@ -14,7 +14,7 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- * Parametre de type data
+ * parameter - type: data
  * @author Marjolaine
  */
 public class InitialParamData extends InitialActionParam{
@@ -23,14 +23,13 @@ public class InitialParamData extends InitialActionParam{
     public final static String TAG_INITIAL_PARAM_DATA_REF = "initial_param_data_ref";
 
     
-    // CONSTRUCTOR
     public InitialParamData(long dbKey, List<LocalText>  listParamName) {
         super(dbKey, listParamName);
     }
 
     public InitialParamData(Element xmlElem, long idActionParam) throws JDOMException {
         super(xmlElem);
-		if (xmlElem.getName().equals(TAG_INITIAL_PARAM_DATA)) {
+	if (xmlElem.getName().equals(TAG_INITIAL_PARAM_DATA)) {
             //this.dbKey = idActionParam;
             this.code = xmlElem.getChild(TAG_INITIAL_ACTION_PARAM_CODE).getText();
             this.dbKey = Long.parseLong(code);
@@ -41,14 +40,14 @@ public class InitialParamData extends InitialActionParam{
                 listParamName.add(new LocalText(e.getText(), l));
             }
 
-		} else {
-			throw(new JDOMException("Initial action param data expects <"+TAG_INITIAL_PARAM_DATA+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("Initial action param data expects <"+TAG_INITIAL_PARAM_DATA+"> as root element, but found <"+xmlElem.getName()+">."));
 	}
+    }
 
     public InitialParamData(Element xmlElem, List<InitialParamData> list) throws JDOMException {
         super(xmlElem);
-		if (xmlElem.getName().equals(TAG_INITIAL_PARAM_DATA_REF)) {
+	if (xmlElem.getName().equals(TAG_INITIAL_PARAM_DATA_REF)) {
             this.code = xmlElem.getChild(TAG_INITIAL_ACTION_PARAM_CODE).getText();
             for(Iterator<InitialParamData> a = list.iterator();a.hasNext();){
                 InitialParamData p = a.next();
@@ -58,8 +57,8 @@ public class InitialParamData extends InitialActionParam{
                 }
             }
         }else {
-			throw(new JDOMException("Initial action param data expects <"+TAG_INITIAL_PARAM_DATA_REF+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+            throw(new JDOMException("Initial action param data expects <"+TAG_INITIAL_PARAM_DATA_REF+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     // toXML
@@ -67,7 +66,7 @@ public class InitialParamData extends InitialActionParam{
     public Element toXML(){
         Element el = new Element(TAG_INITIAL_PARAM_DATA);
         Element element  = super.toXML(el);
-		return element;
+	return element;
     }
 
     @Override

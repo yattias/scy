@@ -9,7 +9,7 @@
  * Created on 6 avr. 2009, 15:52:59
  */
 
-package eu.scy.client.tools.copex.edp;
+package eu.scy.client.tools.copex.main;
 
 import eu.scy.client.tools.copex.common.LearnerProcedure;
 import eu.scy.client.tools.copex.logger.CopexProperty;
@@ -24,14 +24,14 @@ import java.util.Locale;
 import javax.swing.JOptionPane;
 
 /**
- * test frame edp
+ * stand alone application COPEX
  * @author Marjolaine
  */
-public class EdPFrame extends javax.swing.JFrame implements ActionCopex, WindowListener{
+public class CopexStandAloneApp extends javax.swing.JFrame implements ActionCopex, WindowListener{
     private CopexPanel copex;
 
     /** Creates new form EdPFrame */
-    public EdPFrame() {
+    public CopexStandAloneApp() {
         super();
         initComponents();
         setMinimumSize(new Dimension(550,350));
@@ -41,9 +41,9 @@ public class EdPFrame extends javax.swing.JFrame implements ActionCopex, WindowL
     }
 
     public void load(){
-        copex.loadData();
+//        copex.loadData();
         setSize(550,350);
-        copex.setQuestionDialog();
+//        copex.setQuestionDialog();
     }
     
     private void initEdP(){
@@ -84,7 +84,7 @@ public class EdPFrame extends javax.swing.JFrame implements ActionCopex, WindowL
     * @param args the command line arguments
     */
     public static void main(String args[]) {
-        // Initialisation du look and feel
+        // Initialization look and feel
 //        try{
 //            String myLookAndFeel=UIManager.getSystemLookAndFeelClassName();
 //            UIManager.setLookAndFeel(myLookAndFeel);
@@ -104,7 +104,7 @@ public class EdPFrame extends javax.swing.JFrame implements ActionCopex, WindowL
         }
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                EdPFrame edPFrame =new EdPFrame();
+                CopexStandAloneApp edPFrame =new CopexStandAloneApp();
                 edPFrame.setVisible(true);
                 edPFrame.load();
             }

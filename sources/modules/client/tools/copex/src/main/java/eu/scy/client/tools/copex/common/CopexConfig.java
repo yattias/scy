@@ -81,9 +81,9 @@ public class CopexConfig {
                     listInitialNamedAction.add(new InitialActionTreatment(variablElem.next(), idAction++, locale, idActionParam++, listQuantities, listTypeMaterial, idOutput++));
                 }
             }
-		} else {
-			throw(new JDOMException("Copex config expects <"+TAG_COPEX+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("Copex config expects <"+TAG_COPEX+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
 

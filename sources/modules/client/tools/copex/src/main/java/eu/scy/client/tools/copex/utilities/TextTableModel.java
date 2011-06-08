@@ -3,11 +3,6 @@ package eu.scy.client.tools.copex.utilities;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author Marjolaine
@@ -27,28 +22,6 @@ public class TextTableModel extends AbstractTableModel{
     }
 
     private void loadData(){
-        // nbCol
-//        nbCol = 2*nbDataCol-1;
-//        // nbrows ?
-//        int nbD = textList.size();
-//        if(nbD % nbDataCol == 0){
-//            nbRow = (nbD / nbDataCol);
-//        }else{
-//            nbRow = (nbD / nbDataCol)+1;
-//        }
-//        textData = new String[nbRow][nbCol];
-//        // initialization
-//        for(int j=0; j<nbDataCol; j++){
-//            for (int i=0; i<nbRow; i++){
-//                int k = i+(j*nbRow);
-//                if((2*j+1) < nbCol)
-//                    textData[i][2*j+1] = "";
-//                if(k < nbD)
-//                    textData[i][2*j] = textList.get(i+(j*nbRow));
-//                else
-//                    textData[i][2*j] = "";
-//            }
-//        }
         int nbD = textList.size();
         // nbCol
         nbCol = nbDataCol;

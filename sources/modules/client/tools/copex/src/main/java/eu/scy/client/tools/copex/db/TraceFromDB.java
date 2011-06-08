@@ -17,16 +17,16 @@ import org.jdom.Element;
 import roolo.elo.JDomStringConversion;
 
 /**
- * enregistrement de la trace en base
- * @author MBO
+ * logging in database
+ * @author Marjolaine
  */
 public class TraceFromDB {
 
-    /* creation de la trace */
+    /* create action log */
     public static CopexReturn logUserActionInDB(DataBaseCommunication dbC, long dbKeyMission, long dbKeyUser, long dbKeyTrace ,String type, List<CopexProperty> attribute){
         int oldDb = dbC.getDb();
         dbC.updateDb(MyConstants.DB_LABBOOK);
-        // enregistrement de l'action
+        // save action
        String queryAction = "INSERT INTO USER_ACTION (ID_ACTION, ID_TRACE, DATE_ACTION, TIME_ACTION, NAME_ACTION, CONTEXT_ACTION) " +
                "VALUES (NULL, "+dbKeyTrace+", CURDATE(), CURTIME(), '"+type+"', 'COPEX') ;";
        String queryID = "SELECT max(last_insert_id(`ID_ACTION`))   FROM USER_ACTION ;";
@@ -38,7 +38,7 @@ public class TraceFromDB {
        }
        long dbKeyAction = (Long)v2.get(0);
 
-        // enregistrement des parametres
+        // save parameters
        String[] querys = new String[attribute.size()];
        int i=0;
         for(Iterator<CopexProperty> p = attribute.iterator();p.hasNext();){

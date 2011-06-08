@@ -11,15 +11,14 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- * parametre d'une action de type data
+ * parameter of an action - data type
  * @author Marjolaine
  */
 public class ActionParamData extends ActionParam implements Cloneable{
     public final static String TAG_ACTION_PARAM_DATA = "action_param_data";
-    /*parametre/quantite lie */
+    /*quantity parameter linked*/
     private QData data;
 
-    // CONSTRUCTOR
     public ActionParamData(long dbKey, InitialActionParam initialParam, QData data) {
         super(dbKey, initialParam);
         this.data = data;
@@ -28,18 +27,15 @@ public class ActionParamData extends ActionParam implements Cloneable{
     public ActionParamData(Element xmlElem, long idActionParam, List<InitialParamData> listInitialParamData, long idQuantity, List<PhysicalQuantity> listPhysicalQuantity) throws JDOMException {
         super(xmlElem);
         if (xmlElem.getName().equals(TAG_ACTION_PARAM_DATA)) {
-			dbKey = idActionParam;
+            dbKey = idActionParam;
             initialParam = new InitialParamData(xmlElem.getChild(InitialParamData.TAG_INITIAL_PARAM_DATA_REF), listInitialParamData);
             data = new QData(xmlElem.getChild(QData.TAG_PARAMETER), idQuantity++, listPhysicalQuantity);
         }
-		else {
-			throw(new JDOMException("Action Param Data expects <"+TAG_ACTION_PARAM_DATA+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
-        
+	else {
+            throw(new JDOMException("Action Param Data expects <"+TAG_ACTION_PARAM_DATA+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
-
-    // GETTER AND SETTER
     public QData getData() {
         return data;
     }
@@ -48,7 +44,6 @@ public class ActionParamData extends ActionParam implements Cloneable{
         this.data = data;
     }
 
-    // OVERRIDE
     @Override
     public Object clone() {
         ActionParamData p = (ActionParamData) super.clone() ;
@@ -57,7 +52,7 @@ public class ActionParamData extends ActionParam implements Cloneable{
         return p;
     }
 
-    /* description dans l'arbre*/
+    /* description for the tree*/
     @Override
     public String toDescription(Locale locale){
         return data.getName(locale);

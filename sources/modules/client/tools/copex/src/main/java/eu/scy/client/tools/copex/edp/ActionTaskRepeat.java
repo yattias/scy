@@ -5,23 +5,17 @@
 
 package eu.scy.client.tools.copex.edp;
 
-import eu.scy.client.tools.copex.common.InitialAcquisitionOutput;
-import eu.scy.client.tools.copex.common.InitialManipulationOutput;
-import eu.scy.client.tools.copex.common.InitialParamData;
-import eu.scy.client.tools.copex.common.InitialParamMaterial;
-import eu.scy.client.tools.copex.common.InitialParamQuantity;
-import eu.scy.client.tools.copex.common.InitialTreatmentOutput;
 
 /**
  * action task repeat
  * @author Marjolaine
  */
 public interface ActionTaskRepeat {
-    /* reisze du panel */
+    /* panel resize */
     public void actionResize();
-    /* modification du nombre d erepetition */
+    /* modification of nb repeat */
     public void actionUpdateNbRepeat(int nbRepeat);
-    /* selection de parametre */
+    /* parameters selection */
     public void actionSetSelected(Object oldSel, Object newSel);
 
 }

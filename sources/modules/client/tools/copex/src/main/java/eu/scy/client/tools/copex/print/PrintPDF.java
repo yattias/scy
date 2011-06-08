@@ -19,7 +19,7 @@ import com.lowagie.text.Table;
 import com.lowagie.text.pdf.BaseFont;
 import com.lowagie.text.pdf.PdfWriter;
 import eu.scy.client.tools.copex.common.*;
-import eu.scy.client.tools.copex.edp.CopexPanel;
+import eu.scy.client.tools.copex.main.CopexPanel;
 import eu.scy.client.tools.copex.utilities.CopexReturn;
 import eu.scy.client.tools.copex.utilities.CopexTreeCellRenderer;
 import eu.scy.client.tools.copex.utilities.CopexUtilities;
@@ -681,13 +681,13 @@ public class PrintPDF {
     /* returns the list of the children of a task  */
     private ArrayList<CopexTask> getTaskListChild(ExperimentalProcedure proc, CopexTask task){
         ArrayList<CopexTask> childs = new ArrayList();
-        // premier enfant
+        // first child
         long dbKeyFirstChild = task.getDbKeyChild();
         if (dbKeyFirstChild != -1){
             CopexTask t = getTask(proc.getListTask(), dbKeyFirstChild);
             if (t != null){
                  childs.add(t);
-                // recupere les freres de t
+                // gets brothers of t
                 ArrayList<CopexTask> brothers = getTaskBrother(proc, t);
                 int nbB = brothers.size();
                 for (int j=0; j<nbB; j++){

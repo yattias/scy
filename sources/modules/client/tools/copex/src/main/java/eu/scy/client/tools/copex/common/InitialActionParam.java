@@ -16,8 +16,8 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- * parametres d'une action initiale nommee
- *  peut etre soit de type quantite soit de type type de materiel
+ * paramters for an initial action
+ * could be quantity or material
  * @author Marjolaine
  */
 public abstract class InitialActionParam implements Cloneable {
@@ -25,13 +25,12 @@ public abstract class InitialActionParam implements Cloneable {
     public static final String TAG_INITIAL_ACTION_PARAM_NAME = "name";
 
 
-    /* identifiant */
+    /* db identifier */
     protected long dbKey;
     protected String code;
-    /* nom du parametre */
+    /* parameter name */
     protected List<LocalText> listParamName;
 
-    // CONSTRUCTOR
     public InitialActionParam(long dbKey, List<LocalText>  listParamName) {
         this.dbKey = dbKey;
         this.listParamName = listParamName;
@@ -122,7 +121,7 @@ public abstract class InitialActionParam implements Cloneable {
                 element.addContent(e);
             }
         }
-		return element;
+	return element;
     }
 
     public Element toXMLRef(){

@@ -5,6 +5,7 @@
 
 package eu.scy.client.tools.copex.edp;
 
+import eu.scy.client.tools.copex.main.CopexPanel;
 import eu.scy.client.tools.copex.common.*;
 import eu.scy.client.tools.copex.utilities.ActionCloseTab;
 import eu.scy.client.tools.copex.utilities.CloseTab;
@@ -15,7 +16,7 @@ import javax.swing.*;
 
 /**
  * tabs which represents the differents procedures
- * @author MBO
+ * @author Marjolaine
  */
 public class CopexTabbedPane extends JTabbedPane implements ActionCloseTab{
     protected CopexPanel copex;
@@ -144,7 +145,7 @@ public class CopexTabbedPane extends JTabbedPane implements ActionCloseTab{
         if (this.listCopexPanel.size() > 0 && index == this.listCopexPanel.size()){
             return;
         }
-        if (listCopexPanel.size() == 0){
+        if (listCopexPanel.isEmpty()){
             if (this.closeTabAdd != null)
                 this.closeTabAdd.setSelected(true);
             return;

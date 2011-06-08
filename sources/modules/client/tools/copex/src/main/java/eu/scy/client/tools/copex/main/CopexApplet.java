@@ -3,8 +3,9 @@
  * and open the template in the editor.
  */
 
-package eu.scy.client.tools.copex.edp;
+package eu.scy.client.tools.copex.main;
 
+import eu.scy.client.tools.copex.main.CopexPanel;
 import eu.scy.client.tools.copex.common.LearnerProcedure;
 import eu.scy.client.tools.copex.logger.CopexProperty;
 import eu.scy.client.tools.copex.utilities.ActionCopex;
@@ -61,8 +62,8 @@ public class CopexApplet extends JApplet implements ActionCopex{
     }
 
     private void loadEdP(){
-        copexPanel.loadData();
-        copexPanel.setQuestionDialog();
+//        copexPanel.loadData();
+//        copexPanel.setQuestionDialog();
         setSize(550,350);
     }
 

@@ -17,18 +17,17 @@ import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.util.ArrayList;
 
 /**
- * undo redo : suppression de taches
+ * undo redo : delete tasks
  * @author Marjolaine
  */
 public class DeleteTaskUndoRedo extends CopexUndoRedo{
 
-    /* liste des taches supprimees */
+    /* list of deleted tasks*/
     private ArrayList<TaskSelected> listTask;
-    /*pour chaque tache, correspondance avec l'endroit ou il faut la remettre dans l'arbre */
+    /* for each task, position in the tree  */
     private ArrayList<TaskSelected> listTs;
 
     
-    // CONSTRUCTEURS
     public DeleteTaskUndoRedo(EdPPanel edP, ControllerInterface controller, CopexTree tree, ArrayList<TaskSelected> listTask, ArrayList<TaskSelected> listTs) {
         super(edP, controller, tree);
         this.listTask = listTask;
@@ -36,7 +35,6 @@ public class DeleteTaskUndoRedo extends CopexUndoRedo{
     }
     
     
-    //METHODES
     /* undo */
     @Override
     public void undo(){
@@ -53,9 +51,6 @@ public class DeleteTaskUndoRedo extends CopexUndoRedo{
             }else {
                 taskParent  = ts.getSelectedTask();
             }
-//            System.out.println("UNDO  : remet la tache : "+task.getSelectedTask().getDescription(edP.getLocale()));
-//            System.out.println("=> en l'attachant a "+ts.getSelectedTask().getDescription(edP.getLocale())+" ("+task.attachLikeBrother()+")");
-//           System.out.println(" => taskBrother : "+(taskBrother == null ? "taskBrother null" : taskBrother.getDescription(edP.getLocale())));
             CopexReturn cr = this.controller.addTask(task.getSelectedTask(), tree.getProc(), taskBrother ,taskParent, v, MyConstants.UNDO, false);
             if (cr.isError()){
                 edP.displayError(cr, edP.getBundleString("TITLE_DIALOG_ERROR"));

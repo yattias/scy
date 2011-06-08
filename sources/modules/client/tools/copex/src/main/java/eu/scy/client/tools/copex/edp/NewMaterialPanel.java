@@ -226,7 +226,7 @@ public class NewMaterialPanel extends CopexPanelHideShow {
     }
 
     /**
-    * Instancie l'objet ActionAddMAterial.
+    * ActionAddMAterial.
     * @param action ActionAddMAterial
     */
     public void addActionAddMaterial(ActionAddMaterial action){
@@ -235,7 +235,7 @@ public class NewMaterialPanel extends CopexPanelHideShow {
 
 
     public CopexReturn getMaterial(ArrayList v){
-        // nom
+        // name
         String name = fieldName.getText();
         if (controlLenght() && name.length() > MyConstants.MAX_LENGHT_MATERIAL_NAME){
             String msg = edP.getBundleString("MSG_LENGHT_MAX");
@@ -256,12 +256,12 @@ public class NewMaterialPanel extends CopexPanelHideShow {
             msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_MATERIAL_DESCRIPTION);
             return new CopexReturn(msg, false);
         }
-        // liste des types => type inconnu par defaut
+        // list of types => unknown type by default
         List<TypeMaterial> listType = new LinkedList();
         listType.add(edP.getDefaultMaterialType());
-        // liste des parametres
+        // list of paraemters
         List<Parameter> listParameters = new LinkedList();
-        // creation du material
+        // creation material
         Material m = new Material(CopexUtilities.getLocalText(name, edP.getLocale()), CopexUtilities.getLocalText(description, edP.getLocale()), null, listType, listParameters, new MaterialSourceUser());
         // used
         boolean used = this.cboxUsed.isSelected();
@@ -273,7 +273,7 @@ public class NewMaterialPanel extends CopexPanelHideShow {
             msg = CopexUtilities.replace(msg, 1, ""+MyConstants.MAX_LENGHT_MATERIAL_COMMENTS);
             return new CopexReturn(msg, false);
         }
-        // creation du materiel utilise
+        // creation material used
         MaterialUsed materialUsed = new MaterialUsed(m, CopexUtilities.getLocalText(comments, edP.getLocale()), used);
         v.add(materialUsed);
         return new CopexReturn();

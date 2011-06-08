@@ -15,18 +15,17 @@ import org.jdom.JDOMException;
 
 
 /**
- * parametre d'une action de type quantite
+ * parameter of an action - quantity type
  * @author Marjolaine
  */
 public class ActionParamQuantity extends ActionParam{
     public final static String TAG_ACTION_PARAM_QUANTITY = "action_param_quantity";
     public final static String TAG_ACTION_PARAM_QUANTITY_REF = "action_param_quantity_ref";
     public final static String TAG_ACTION_PARAM_QUANTITY_CODE = "code";
-    /*parametre/quantite lie */
+    /* quantity parameter  */
     private Parameter parameter;
     private String code;
 
-    // CONSTRUCTOR
     public ActionParamQuantity(long dbKey, InitialActionParam initialParam, Parameter parameter) {
         super(dbKey, initialParam);
         this.parameter = parameter;
@@ -36,15 +35,14 @@ public class ActionParamQuantity extends ActionParam{
     public ActionParamQuantity(Element xmlElem, long idActionParam, List<InitialParamQuantity> listInitialParamQuantity, long idQuantity, List<PhysicalQuantity> listPhysicalQuantity) throws JDOMException {
         super(xmlElem);
         if (xmlElem.getName().equals(TAG_ACTION_PARAM_QUANTITY)) {
-			dbKey = idActionParam;
+            dbKey = idActionParam;
             code =xmlElem.getChild(TAG_ACTION_PARAM_QUANTITY_CODE).getText();
             initialParam = new InitialParamQuantity(xmlElem.getChild(InitialParamQuantity.TAG_INITIAL_PARAM_QUANTITY_REF), listInitialParamQuantity);
             parameter = new Parameter(xmlElem.getChild(Quantity.TAG_PARAMETER), idQuantity++, listPhysicalQuantity);
         }
-		else {
-			throw(new JDOMException("Action Param Quantity expects <"+TAG_ACTION_PARAM_QUANTITY+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
-
+	else {
+            throw(new JDOMException("Action Param Quantity expects <"+TAG_ACTION_PARAM_QUANTITY+"> as root element, but found <"+xmlElem.getName()+">."));
+        }
     }
 
     public ActionParamQuantity(Element xmlElem,List<ActionParamQuantity> list)throws JDOMException {
@@ -65,7 +63,6 @@ public class ActionParamQuantity extends ActionParam{
 		}
     }
 
-    // GETTER AND SETTER
     public Parameter getParameter() {
         return parameter;
     }
@@ -82,7 +79,6 @@ public class ActionParamQuantity extends ActionParam{
         this.code = code;
     }
 
-    // OVERRIDE
     @Override
     public Object clone() {
         ActionParamQuantity p = (ActionParamQuantity) super.clone() ;
@@ -91,7 +87,7 @@ public class ActionParamQuantity extends ActionParam{
         return p;
     }
 
-    /* description dans l'arbre*/
+    /* description for the tree*/
     @Override
     public String toDescription(Locale locale){
         NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);

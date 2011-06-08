@@ -63,24 +63,24 @@ import javax.swing.event.ChangeListener;
 public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexButton, ActionSelectParamTaskRepeat {
 
     private final static int HEIGHT_PANEL_PARAM = 35;
-    /* edp*/
+    /* owner*/
     private EdPPanel edP;
-    /*liste des parametres */
+    /* parameters list */
     private ArrayList<InitialActionParam> listAllParams;
-    /* action ou etape */
+    /* action or step */
     private boolean isAction;
-    /* mode ajout ou non */
+    /* mode add or not */
     private boolean modeAdd;
     /* actions */
     private ActionTaskRepeat actionTaskRepeat;
 
     /* nb repeat */
     private int nbRepeat;
-    /* liste des parametres a faire varier */
+    /* list param to modify */
     private ArrayList<InitialActionParam> listParam;
-    /* liste des productions de taches */
+    /* list of prod. for tasks */
     private ArrayList<InitialOutput> listOutput;
-    /* liste des valeurs pour chaque iteration */
+    /* list of values for each iteration */
     private ArrayList<ActionParam[]> listValueParam;
 
     private ArrayList<Long> listDbKeyActionParam;
@@ -89,7 +89,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
     /* task repeat */
     private TaskRepeat taskRepeat;
 
-    /* graphique */
+    /* gui */
     private JLabel labelTaskRepeat;
     private JSpinner spinnerNbRepeat;
     private JLabel labelTaskRepeat2;
@@ -102,12 +102,12 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
     private ArrayList<JPanel> listPanels;
     private ArrayList<ArrayList<Object>> listParamPanel;
 
-    /* liste des objets cree dans les iterations precedentes */
+    /* list of objects created in the previous iterations  */
     // [noRepeat, material, indice panel]
     private ArrayList<Object[]> listMaterialProdRepeat;
     private ArrayList<Object[]> listDataProdRepeat;
 
-    /* liste des param selectionnees */
+    /* list of selected params  */
     private ArrayList<Object> listCbSel;
 
     public TaskRepeatPanel(EdPPanel edP, ArrayList<InitialActionParam> listAllParams,ArrayList<Long> listDbKeyActionParam, ArrayList<InitialOutput> listOutput, ArrayList<Long> listDbKeyActionOutput, boolean isAction, boolean modeAdd) {
@@ -134,12 +134,12 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
         this.listMaterialProdRepeat = new ArrayList();
         this.listDataProdRepeat = new ArrayList();
         setTaskRepeatLabels();
-        // cas ou il n'y a pas de parametres
+        // case no param
         resizePanel();
     }
 
-     /**
-    * Instancie l'objet ActionTaskRepeat.
+   /**
+    *  ActionTaskRepeat.
     * @param action ActionTaskRepeat
     */
     public void addActionTaskRepeat(ActionTaskRepeat action){
@@ -157,6 +157,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
         }
         return this.labelTaskRepeat;
     }
+
     private JSpinner getSpinnerNbRepeat(){
         if(this.spinnerNbRepeat == null){
             spinnerNbRepeat = new JSpinner();
@@ -224,14 +225,14 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
         for (int i=0; i<nb; i++){
             ParamRepeatPanel table = getTableWithId(i);
             if(table != null){
-                // modifcation du nombre de colonnes de la table
+                // modification of the nb columns in the table
                 int oldNbC = table.getColumnCount() ;
                 int newNbC = nbRepeat;
                 if(oldNbC > newNbC){
                     int nbCToRemove = oldNbC - newNbC ;
                     table.removeColumns(nbCToRemove);
                 }else{
-                    // ajoute des colonnes
+                    // add columns
                     int nbCToAdd = newNbC - oldNbC ;
                     table.addColumns(nbCToAdd);
                 }
@@ -327,7 +328,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
             for (int i=0; i<nb; i++){
                 list.add(this.listAllParams.get(i));
             }
-            // supprime les selections precedentes
+            // remove previous selections
             for (int i=0; i<id; i++){
                 InitialActionParam p = getSelectedParam(i);
                 if(p != null)
@@ -346,7 +347,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
             for (int i=0; i<nb; i++){
                 list.add(this.listOutput.get(i));
             }
-            // supprime les selections precedentes
+            // remove previsous selections
             for (int i=0; i<id; i++){
                 InitialOutput p = getSelectedOutput(i);
                 if(p != null)
@@ -447,7 +448,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
         repaint();
     }
 
-    /* retourne l'indice de la combo en param */
+    /* returns index of the combo */
     private int getIdComboBox(JComboBox cb){
         int nb = listPanels.size();
         for (int i=0; i<nb; i++){
@@ -630,7 +631,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
         resizePanel();
         actionTaskRepeat.actionUpdateNbRepeat(nbRepeat);
     }
-    /* rend disabled les combo box jusqu'a id non compris*/
+    /* set disabled all combo box until id excluding */
     private void disabledCb(int id){
         for (int i=0; i<id; i++){
             getCbWithId(i).setEnabled(false);
@@ -676,17 +677,17 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
         resizePanel();
     }
 
-    /* renvoit true si cas sans param */
+    /* returns true if without param  */
     private boolean isParam(){
         return this.listAllParams.size() > 0 || this.listOutput.size() > 0;
     }
 
-    /* retourne le nombre de repetitions */
+    /* returns the nb of repetions  */
     public int getNbRepeat(){
         return (Integer)this.spinnerNbRepeat.getValue();
     }
 
-    /* met les valeurs d'une task repeat */
+    /* set value of a task repeat */
     public void setTaskRepeat(TaskRepeat taskRepeat){
         this.taskRepeat = taskRepeat;
         if(taskRepeat == null)
@@ -732,7 +733,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
         }
     }
 
-    /* rend disabled les tables */
+    /* set disabled tables */
     private void disabledTable(){
         int nb = listPanels.size();
         for (int i=0; i<nb; i++){
@@ -960,7 +961,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
         }
     }
 
-    /* retourne la liste du mat prod pendant la repetition*/
+    /* returns the list of material prod during the repetion */
     private ArrayList<Object[]> getListMaterialProdRepeat(InitialParamMaterial p){
         ArrayList<Object[]> list = new ArrayList();
         int nb = this.listMaterialProdRepeat.size();
@@ -973,7 +974,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
         return list;
     }
 
-    /* retourne la liste du mat prod pendant la repetition*/
+    /* returns the list of material prod during the repetition */
     private ArrayList<Object[]> getListMaterialProdRepeat(InitialManipulationOutput o){
         ArrayList<Object[]> list = new ArrayList();
         int nb = this.listMaterialProdRepeat.size();
@@ -986,7 +987,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
         return list;
     }
 
-    /* mise à jour des listes existantes d'un nouveau mat */
+    /* update the list of new material */
     private void updateListsMaterial(Object[] o){
         int nb = this.listPanels.size();
         for (int i=0; i<nb; i++){
@@ -1005,7 +1006,7 @@ public class TaskRepeatPanel extends javax.swing.JPanel implements ActionCopexBu
         }
     }
 
-    /* mise à jour des listes existantes d'un nouveau data */
+    /* update the list for a new data  */
     private void updateListsData(Object[] o){
         int nb = this.listPanels.size();
 //        for (int i=0; i<nb; i++){

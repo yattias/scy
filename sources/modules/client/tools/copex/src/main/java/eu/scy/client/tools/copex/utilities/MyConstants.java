@@ -32,7 +32,7 @@ public class MyConstants {
     public static final int MAX_LENGHT_QUANTITY_NAME=32;
     
 
-    /* TRACE */
+    /* logging */
     public static final char TRACE_ACTIV = 'T';
     public static final char TRACE_INACTIV = 'N';
     
@@ -110,23 +110,4 @@ public class MyConstants {
     public final static String LOG_TYPE_UPDATE_MATERIAL_USED = "material_updated";
     public final static String LOG_TYPE_REDO = "action_redone";
     public final static String LOG_TYPE_UNDO = "action_undone";
-//    public final static String LOG_TYPE_REDO_DRAG_DROP = "redo_drag_drop";
-//    public final static String LOG_TYPE_REDO_RENAME_PROC = "redo_rename_proc";
-//    public final static String LOG_TYPE_REDO_EDIT_STEP = "redo_edit_step";
-//    public final static String LOG_TYPE_REDO_EDIT_ACTION = "redo_edit_action";
-//    public final static String LOG_TYPE_REDO_EDIT_QUESTION = "redo_edit_question";
-//    public final static String LOG_TYPE_REDO_ADD_STEP = "redo_add_step";
-//    public final static String LOG_TYPE_REDO_ADD_ACTION = "redo_add_action";
-//    public final static String LOG_TYPE_REDO_CUT = "redo_cut";
-//    public final static String LOG_TYPE_REDO_PASTE = "redo_paste";
-//    public final static String LOG_TYPE_REDO_DELETE_TASK = "redo_delete_task";
-//    public final static String LOG_TYPE_UNDO_PASTE = "undo_paste";
-//    public final static String LOG_TYPE_UNDO_DRAG_DROP = "undo_drag_drop";
-//    public final static String LOG_TYPE_UNDO_ADD_TASK = "undo_add_task";
-//    public final static String LOG_TYPE_UNDO_EDIT_STEP = "undo_edit_step";
-//    public final static String LOG_TYPE_UNDO_EDIT_ACTION = "undo_edit_action";
-//    public final static String LOG_TYPE_UNDO_EDIT_QUESTION = "undo_edit_question";
-//    public final static String LOG_TYPE_UNDO_CUT = "undo_cut";
-//    public final static String LOG_TYPE_UNDO_DELETE_TASK = "undo_delete_task";
-//    public final static String LOG_TYPE_UNDO_RENAME_PROC = "undo_rename_proc";
 }

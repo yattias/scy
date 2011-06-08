@@ -48,16 +48,17 @@ public class CopexMission implements Cloneable{
         this.description = description;
         this.activ = true;
     }
-   public CopexMission(String code, String name, String description){
+
+    public CopexMission(String code, String name, String description){
        this.name = name;
        this.code = code;
        this.description = description;
        this.dbKey = -1;
        this.activ = true;
        this.listInitialProc = null;
-   }
+    }
 
-   public CopexMission(Element xmlElem, Locale locale,long dbKeyMission,long idProc, long idRepeat, long idParam, long idValue, long idAction, long idActionParam, long idQuantity,
+    public CopexMission(Element xmlElem, Locale locale,long dbKeyMission,long idProc, long idRepeat, long idParam, long idValue, long idAction, long idActionParam, long idQuantity,
             long idMaterial, long idTask,long idHypothesis, long idPrinciple,long idEvaluation,long idTypeMaterial, long idInitialAction,long idOutput,
             List<Material> listMat,  List<TypeMaterial> listTypeMaterial, List<PhysicalQuantity> listPhysicalQuantity, List<InitialNamedAction> listIAction, List<MaterialStrategy> listMaterialStrategy) throws JDOMException {
         if (xmlElem.getName().equals(TAG_MISSION)) {
@@ -94,10 +95,10 @@ public class CopexMission implements Cloneable{
             this.description = "";
             this.dbKey = dbKeyMission;
             this.activ = true;
-            } else {
-                throw(new JDOMException("Mission expects <"+TAG_MISSION+"> as root element, but found <"+xmlElem.getName()+">."));
-            }
-	}
+        } else {
+            throw(new JDOMException("Mission expects <"+TAG_MISSION+"> as root element, but found <"+xmlElem.getName()+">."));
+       }
+    }
 
     public List<InitialProcedure> getListInitialProc() {
         return listInitialProc;
@@ -132,11 +133,6 @@ public class CopexMission implements Cloneable{
     public void setListType(List<TypeMaterial> listType) {
         this.listType = listType;
     }
-
-    
-
-
-
    
      @Override
     public Object clone()  {

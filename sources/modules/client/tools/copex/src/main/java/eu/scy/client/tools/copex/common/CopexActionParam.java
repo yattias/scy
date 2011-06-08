@@ -5,7 +5,7 @@
 
 package eu.scy.client.tools.copex.common;
 
-import eu.scy.client.tools.copex.edp.CopexPanel;
+import eu.scy.client.tools.copex.main.CopexPanel;
 import eu.scy.client.tools.copex.utilities.CopexUtilities;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -19,17 +19,16 @@ import org.jdom.JDOMException;
 
 
 /**
- * action parametree
+ * parameters action
  * @author Marjolaine
  */
 public abstract class CopexActionParam extends CopexActionNamed implements Cloneable{
     public final static String TAG_ACTION_PARAM_LIST ="action_param_list";
 
-    /* liste des parametres s'il s'agit d'une action parametree, si repetition => tableau de parametres */
+    /* list of parameters if it's a parameter action, if repeat => parameters array */
     protected Object[] tabParam;
     private final Logger logger = Logger.getLogger(CopexActionParam.class.getName());
 
-    // CONSTRUCTOR
     public CopexActionParam(long dbKey, List<LocalText> listName, List<LocalText> listDescription, List<LocalText> listComments, String taskImage,Element draw,  boolean isVisible, TaskRight taskRight, InitialNamedAction namedAction, Object[] tabParam, TaskRepeat taskRepeat) {
         super(dbKey, listName, listDescription, listComments, taskImage, draw, isVisible, taskRight, namedAction, taskRepeat);
         this.tabParam = tabParam;
@@ -57,7 +56,6 @@ public abstract class CopexActionParam extends CopexActionNamed implements Clone
 
     
    
-   // GETTER AND SETTER
     public Object[] getTabParam() {
         return tabParam;
     }
@@ -68,8 +66,7 @@ public abstract class CopexActionParam extends CopexActionNamed implements Clone
 
 
 
-    //METHOD
-    /* retourne le nombre de param */
+    /* returns the number of parameters*/
     public int getNbParam(){
         return this.tabParam.length ;
     }
@@ -78,52 +75,6 @@ public abstract class CopexActionParam extends CopexActionNamed implements Clone
     @Override
      public String toDescription(CopexPanel edP){
         return toDescription(edP.getLocale());
-//        NumberFormat numberFormat = NumberFormat.getNumberInstance(edP.getLocale());
-//        numberFormat.setMaximumFractionDigits(Integer.MAX_VALUE);
-//        numberFormat.setGroupingUsed(false);
-//        Locale locale = edP.getLocale();
-//         String s = "";
-//         int nbParam = tabParam.length ;
-//         boolean repeatParam = false;
-//         for (int i=0; i<nbParam; i++){
-//            String t = namedAction.getVariable().getTextLibelle(locale, i);
-//            s += t;
-//            if(tabParam[i] instanceof ActionParam){
-//                ActionParam param = (ActionParam)tabParam[i] ;
-//                if (param instanceof ActionParamQuantity){
-//                    String txt = CopexUtilities.getText(((ActionParamQuantity)param).getParameter().getUnit().getListSymbol(), locale);
-//                    s += " " +numberFormat.format(((ActionParamQuantity)param).getParameter().getValue())+" "+txt+" ";
-//                }else if (param instanceof ActionParamMaterial){ // material
-//                    s += " "+CopexUtilities.getText(((ActionParamMaterial)param).getMaterial().getListName(), locale)+" ";
-//                }else if (param instanceof ActionParamData){
-//                    s += " "+((ActionParamData)param).getData().getName(locale) +" ";
-//                }
-//            }else if (tabParam[i] instanceof ArrayList){
-//                // nom du parametres
-//                repeatParam = true;
-//                s += " ("+this.namedAction.getVariable().getTabParam()[i].getParamName(locale)+") ";
-//            }else{
-//                if(tabParam[i] == null) {
-//                    logger.log(Level.SEVERE, "CopexActionParam.toDescription, null param");
-//		} else {
-//                    logger.log(Level.SEVERE, "CopexActionParam.toDescription, param "+tabParam[i].getClass());
-//		}
-//            }
-//         }
-//         s += " "+ namedAction.getVariable().getTextLibelle(edP.getLocale(), -1);
-//         if(repeatParam){
-//             s+= "\n"+edP.getBundleString("LABEL_REPEAT_MODIFY_PARAM_TREE")+" ";
-//             for (int i=0; i<nbParam; i++){
-//                 if(tabParam[i] instanceof ArrayList){
-//                     s += "\n"+this.namedAction.getVariable().getTabParam()[i].getParamName(edP.getLocale())+" = ";
-//                     int nb = ((ArrayList)tabParam[i]).size();
-//                     for (int j=0; j<nb; j++){
-//                         s+= ((ArrayList<ActionParam>)tabParam[i]).get(j).toDescription(edP.getLocale())+" | ";
-//                     }
-//                 }
-//             }
-//         }
-//         return s;
      }
 
     @Override
@@ -148,7 +99,7 @@ public abstract class CopexActionParam extends CopexActionNamed implements Clone
                     s += " "+((ActionParamData)param).getData().getName(locale) +" ";
                 }
             }else if (tabParam[i] instanceof ArrayList){
-                // nom du parametres
+                // parameter name
                 repeatParam = true;
                 //s += " ("+this.namedAction.getVariable().getTabParam()[i].getParamName(locale)+") ";
                 s += " | ";

@@ -17,19 +17,17 @@ import javax.swing.JTextArea;
  * @author Marjolaine
  */
 public class CommentsPanel extends CopexPanelHideShow {
-    // ATTRIBUTS
-    /* taille */
+    /* size */
     private int width;
     /* area comments */
     private JScrollPane scrollPaneComments;
     private JTextArea areaComments;
 
-    /* action de commentaires */
+    /* comments action */
     private ActionComment actionComment;
 
 
 
-    // CONSTRUCTOR
     public CommentsPanel(EdPPanel edP, JPanel owner, String titleLabel, int width) {
         super(edP, owner, edP.getBundleString("LABEL_ADD_COMMENT"), true);
         this.width = width ;
@@ -37,7 +35,6 @@ public class CommentsPanel extends CopexPanelHideShow {
     }
 
 
-    // METHOD
     private void initPanel(){
         setSize(width, 30);
         setPreferredSize(getSize());
@@ -49,14 +46,13 @@ public class CommentsPanel extends CopexPanelHideShow {
     }
 
     /**
-    * Instancie l'objet ActionComment.
+    *Instanciation of object  ActionComment.
     * @param action ActionComment
     */
     public void addActionComment(ActionComment action){
         this.actionComment=action;
     }
 
-    // OVERRIDE METHODS
     @Override
     protected void setPanelDetailsHide() {
         actionComment.saveComment();

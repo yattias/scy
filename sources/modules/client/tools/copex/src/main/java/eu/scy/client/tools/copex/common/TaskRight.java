@@ -10,8 +10,8 @@ import org.jdom.JDOMException;
 
 
 /**
- * droit d'une tache
- * @author MBO
+ * right task
+ * @author Marjolaine
  */
 public class TaskRight implements Cloneable {
     /* tag names */
@@ -25,22 +25,21 @@ public class TaskRight implements Cloneable {
     private final static String TAG_REPEAT_RIGHT = "repeat_right";
 
     
-    /* droit edition */
+    /* edit right */
     private char editRight;
-    /* droit suppression */
+    /* delete right */
     private char deleteRight;
-    /* droit copie */
+    /* copy right */
     private char copyRight;
-    /* droit de deplacer */
+    /* move right */
     private char moveRight;
-    /* droit ajouter sous tache */
+    /* parent right : can add subtasks */
     private char parentRight;
-    /* droit de creer un dessin associe a la tache */
+    /* create draw associated to the task  */
     private char drawRight;
-    /* droit a la repetition */
+    /* repeat right */
     private char repeatRight;
 
-    // CONSTRUCTEURS
     public TaskRight(char editRight, char deleteRight, char copyRight, char moveRight, char parentRight, char drawRight, char repeatRight ) {
         this.editRight = editRight;
         this.deleteRight = deleteRight;
@@ -52,20 +51,19 @@ public class TaskRight implements Cloneable {
     }
 
     public TaskRight(Element xmlElem) throws JDOMException {
-		if (xmlElem.getName().equals(TAG_TASK_RIGHT)) {
-			editRight = xmlElem.getChild(TAG_EDIT_RIGHT).getText().charAt(0);
+        if (xmlElem.getName().equals(TAG_TASK_RIGHT)) {
+            editRight = xmlElem.getChild(TAG_EDIT_RIGHT).getText().charAt(0);
             deleteRight = xmlElem.getChild(TAG_DELETE_RIGHT).getText().charAt(0);
             copyRight = xmlElem.getChild(TAG_COPY_RIGHT).getText().charAt(0);
             moveRight = xmlElem.getChild(TAG_MOVE_RIGHT).getText().charAt(0);
             parentRight = xmlElem.getChild(TAG_PARENT_RIGHT).getText().charAt(0);
             drawRight = xmlElem.getChild(TAG_DRAW_RIGHT).getText().charAt(0);
             repeatRight = xmlElem.getChild(TAG_REPEAT_RIGHT).getText().charAt(0);
-		} else {
-			throw(new JDOMException("Task Right expects <"+TAG_TASK_RIGHT+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("Task Right expects <"+TAG_TASK_RIGHT+"> as root element, but found <"+xmlElem.getName()+">."));
 	}
+    }
 
-    // GETTER AND SETTER
     public char getCopyRight() {
         return copyRight;
     }
@@ -122,7 +120,6 @@ public class TaskRight implements Cloneable {
         this.repeatRight = repeatRight;
     }
 
-    // OVERRIDE
     @Override
     protected Object clone() throws CloneNotSupportedException {
        try {
@@ -145,28 +142,28 @@ public class TaskRight implements Cloneable {
 
     @Override
     public String toString() {
-        String s = "Droits de la tache : ";
-        s += "editer : "+getEditRight();
-        s += "supprimer : "+getDeleteRight();
-        s += "copier : "+getCopyRight();
-        s += "deplacer : "+getMoveRight();
-        s += "ajouter des sous taches : "+getParentRight();
-        s += "creer dessin : "+getDrawRight() ;
-        s += "repeter : "+getRepeatRight() ;
+        String s = "Task rights : ";
+        s += "edit : "+getEditRight();
+        s += "delete : "+getDeleteRight();
+        s += "copy : "+getCopyRight();
+        s += "move : "+getMoveRight();
+        s += "add sub tasks : "+getParentRight();
+        s += "drawing : "+getDrawRight() ;
+        s += "repeat : "+getRepeatRight() ;
         return s;
     }
 
     // toXML
     public Element toXML(){
         Element element = new Element(TAG_TASK_RIGHT);
-		element.addContent(new Element(TAG_EDIT_RIGHT).setText(Character.toString(editRight)));
+	element.addContent(new Element(TAG_EDIT_RIGHT).setText(Character.toString(editRight)));
         element.addContent(new Element(TAG_DELETE_RIGHT).setText(Character.toString(deleteRight)));
         element.addContent(new Element(TAG_COPY_RIGHT).setText(Character.toString(copyRight)));
         element.addContent(new Element(TAG_MOVE_RIGHT).setText(Character.toString(moveRight)));
         element.addContent(new Element(TAG_PARENT_RIGHT).setText(Character.toString(parentRight)));
         element.addContent(new Element(TAG_DRAW_RIGHT).setText(Character.toString(drawRight)));
         element.addContent(new Element(TAG_REPEAT_RIGHT).setText(Character.toString(repeatRight)));
-		return element;
+	return element;
     }
     
     

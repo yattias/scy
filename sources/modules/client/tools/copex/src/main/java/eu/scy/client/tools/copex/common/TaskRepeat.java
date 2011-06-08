@@ -21,15 +21,14 @@ public class TaskRepeat implements Cloneable {
     public final static String TAG_REPEAT_TASK = "repeat_task";
     private final static String TAG_REPEAT_TASK_NB = "nb_repeat_task";
 
-    /* identifiant de la repetition */
+    /* db identifier */
     private long dbKey;
-    /*nombre de repetition */
+    /*nb repeat */
     private int nbRepeat;
-    /* liste des parametres a modifier : de type InitialActionParam ou InitialOutput- si null et nbrepeat > 1 => aucun */
+    /* list of paramters to modify: type  InitialActionParam or InitialOutput- if null and nbrepeat > 1 => none */
     private ArrayList<TaskRepeatParam> listParam;
    
 
-    // CONSTRUCTOR
     public TaskRepeat(long dbKey, int nbRepeat) {
         this.dbKey = dbKey;
         this.nbRepeat = nbRepeat;
@@ -43,7 +42,7 @@ public class TaskRepeat implements Cloneable {
     }
 
     public TaskRepeat(Element xmlElem, long idRepeat, long idParam, long idValue, long idActionParam, long idQuantity, List<PhysicalQuantity> listPhysicalQuantity, List<TypeMaterial> listTypeMaterial, List<InitialParamData> listInitialParamData, List<InitialParamMaterial> listInitialParamMaterial, List<InitialParamQuantity> listInitialParamQuantity, List<InitialAcquisitionOutput> listInitialAcquisitionOutput, List<InitialManipulationOutput> listInitialManipulationOutput, List<InitialTreatmentOutput> listInitialTreatmentOutput, List<Material> listMaterial, List<ActionParamQuantity> listActionParamQuantity) throws JDOMException {
-		if (xmlElem.getName().equals(TAG_REPEAT_TASK)) {
+        if (xmlElem.getName().equals(TAG_REPEAT_TASK)) {
             this.dbKey = idRepeat;
             nbRepeat = Integer.parseInt(xmlElem.getChild(TAG_REPEAT_TASK_NB).getText());
             listParam = new ArrayList();
@@ -69,14 +68,13 @@ public class TaskRepeat implements Cloneable {
                     listParam.add(p);
                 }
             }
-		} else {
-			throw(new JDOMException("Task repeat expects <"+TAG_REPEAT_TASK+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+        } else {
+            throw(new JDOMException("Task repeat expects <"+TAG_REPEAT_TASK+"> as root element, but found <"+xmlElem.getName()+">."));
 	}
+    }
    
 
    
-    // GETTER AND SETTER
     public long getDbKey() {
         return dbKey;
     }
@@ -107,8 +105,6 @@ public class TaskRepeat implements Cloneable {
     }
 
 
-   
-     // OVERRIDE
     @Override
     protected Object clone() throws CloneNotSupportedException {
        try {
@@ -133,7 +129,7 @@ public class TaskRepeat implements Cloneable {
         }
     }
 
-    /* retourne la liste des repetitiosn pour un param donne, null sinon */
+    /* returns the list of repetitions for a specified param, otherwise null*/
     public ArrayList<ActionParam> getListActionParam(InitialActionParam initParam){
         ArrayList<ActionParam> l = null;
         if (listParam == null)
@@ -181,7 +177,7 @@ public class TaskRepeat implements Cloneable {
         for(Iterator<TaskRepeatParam> t = listParam.iterator();t.hasNext();){
             element.addContent(t.next().toXML());
         }
-		return element;
+	return element;
     }
 
     

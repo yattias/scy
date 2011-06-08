@@ -17,9 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 /**
- * Fenetre d'aide . Se compose d'une partie explication, un bouton fermer
- * et un bouton qui permet d'ouvrir le protocole d'aide
- * @author  MBO
+ * Help dialog: there is an explication part, a close button and a button to open the help proc
+ * @author  Marjolaine
  */
 public class HelpDialog extends javax.swing.JDialog {
 
@@ -31,7 +30,6 @@ public class HelpDialog extends javax.swing.JDialog {
     private JButton buttonOpenProc;
     
     
-   // CONSTRUCTEURS
     /** Creates new form HelpDialog */
     public HelpDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -62,7 +60,7 @@ public class HelpDialog extends javax.swing.JDialog {
         initHelpProc(helpPanel);
     }
     
-    // initialisation du texte de l'aide 
+    // initialization of the help text
     private void init(){
         setMinimumSize(new Dimension(500,400));
         setLayout(new BorderLayout());
@@ -76,10 +74,10 @@ public class HelpDialog extends javax.swing.JDialog {
         }
 
         this.panelButton.setSize(getWidth(), 60);
-        // bouton ouvrir proc
+        // button open proc
         this.buttonOpenProc.setSize(60+CopexUtilities.lenghtOfString(this.buttonOpenProc.getText(), getFontMetrics(this.buttonOpenProc.getFont())), this.buttonOpenProc.getHeight());
         this.buttonOpenProc.setBounds(30, 20, this.buttonOpenProc.getWidth(), this.buttonOpenProc.getHeight());
-        // bouton fermer
+        // button close
         this.buttonClose.setSize(60+CopexUtilities.lenghtOfString(this.buttonClose.getText(), getFontMetrics(this.buttonClose.getFont())), this.buttonClose.getHeight());
         this.buttonClose.setBounds(getWidth()-50-this.buttonClose.getWidth(), buttonOpenProc.getY(), this.buttonClose.getWidth(), this.buttonClose.getHeight());
     }
@@ -91,7 +89,7 @@ public class HelpDialog extends javax.swing.JDialog {
         this.panelButton.setSize(getWidth(), 60);
         panelButton.remove(buttonOpenProc);
         buttonOpenProc = null;
-        // bouton fermer
+        // button close
         this.buttonClose.setSize(60+CopexUtilities.lenghtOfString(this.buttonClose.getText(), getFontMetrics(this.buttonClose.getFont())), this.buttonClose.getHeight());
         this.buttonClose.setBounds((getWidth()-this.buttonClose.getWidth())/2, 20, this.buttonClose.getWidth(), this.buttonClose.getHeight());
     }
@@ -161,7 +159,7 @@ public class HelpDialog extends javax.swing.JDialog {
     }
 
 
-    // ouverture du proc d'aide 
+    // open the help proc
     private void openHelpProc(){
         edP.displayHelpProc();
         this.dispose();

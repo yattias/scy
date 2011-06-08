@@ -12,7 +12,7 @@ import javax.swing.JFileChooser;
 
 /**
  * open a JFileChooser
- * sinon probleme de focus lors de l'ouverture pour la premiere fois
+ * focus problem while opening the JFileChooser for the first time
  * @author Marjolaine
  */
 public class MyFileChooser extends JDialog{
@@ -20,7 +20,7 @@ public class MyFileChooser extends JDialog{
     private EdPPanel edP;
     /* path */
     private String path;
-    /*fenetre de dialog */
+    /*dialog */
     private JFileChooser fc;
 
     public MyFileChooser(EdPPanel edP, String path) {
@@ -34,7 +34,6 @@ public class MyFileChooser extends JDialog{
     }
 
     public int  showDialog(){
-        // ouverture fenetre de selection fichier
         fc = new JFileChooser(path);
         fc.setFileFilter(new ObjFilter());
         int r= fc.showSaveDialog(this);

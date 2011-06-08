@@ -11,20 +11,18 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.jdom.Attribute;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 
 
 /**
- * represente une tache de l'arbre (classe mere), cela peut etre :
- * - une question / sous-question
- * - une etape
- * - une action
- * MBO le 28/04/09 : taches iteratives
- * @author MBO
+ * task in copex, could be
+ * - a question
+ * - a step (or task)
+ * - an action
+ * MBO 28/04/09 : repeat task
+ * @author Marjolaine
  */
 public abstract  class CopexTask implements Cloneable {
     /*tag names */
@@ -36,30 +34,30 @@ public abstract  class CopexTask implements Cloneable {
 
 
 
-    /* identifiant base de donnees */
+    /* database identifier */
     protected long dbKey;
-    /* nom de la tache*/
+    /* task name*/
     protected List<LocalText> listName;
-    /*description de la tache */
+    /*description */
     protected List<LocalText> listDescription;
-    /* commentaires */
+    /* comments */
     protected List<LocalText> listComments;
-    /* image associee => nom du fichier */
+    /* image linked => file name */
     protected String taskImage ;
-    /* dessin associe : element xml */
+    /* drawing : => xml element  */
     protected Element draw;
-    /* dernier etat affiche*/
+    /* last state*/
     protected boolean isVisible;
-    /* droits de la tache */
+    /* rights */
     protected TaskRight taskRight;
     
-    /* identifiant frere */
+    /* brother identifier */
     protected long dbKeyBrother;
-    /* identifiant enfant */
+    /* child identifier */
     protected long dbKeyChild;
-    /* boolean indiquant s'il s'agit de la racine ou non */
+    /* true if it is the root */
     protected boolean root;
-    /* repetition - null sinon */
+    /* repeat of the task - null otherwise*/
     protected TaskRepeat taskRepeat;
 
     protected List<TaskRepeat> listTaskRepeatParent;
@@ -281,81 +279,81 @@ public abstract  class CopexTask implements Cloneable {
         return getDescription(locale);
     }
     
-    /* retourne vrai s'il s'agit de la racine */
+    /* returns true if it is the root  */
     public boolean isQuestionRoot(){
         return root;
     }
-    /* retourne vrai si de type question */
+    /* returns true if it a question*/
     public boolean isQuestion(){
         return this instanceof Question;
     }
-    /* retourne vrai si de type etape */
+    /* returns true if it is a step */
     public boolean isStep(){
         return this instanceof Step;
     }
-    /* retourne vrai si de type action */
+    /* return true if it's an action*/
     public boolean isAction(){
         return this instanceof CopexAction;
     }
 
-    /* retourne le droit editer */
+    /* returns the edit right */
     public char getEditRight(){
         return taskRight.getEditRight();
     }
-     /* retourne le droit supprimer */
+     /* returns the delete rights */
     public char getDeleteRight(){
         return taskRight.getDeleteRight();
     }
-     /* retourne le droit copier */
+     /*returns the copy right */
     public char getCopyRight(){
         return taskRight.getCopyRight();
     }
-     /* retourne le droit deplacer */
+     /* returns the move right */
     public char getMoveRight(){
         return taskRight.getMoveRight();
     }
-     /* retourne le droit parent */
+     /* returns the parent right*/
     public char getParentRight(){
         return taskRight.getParentRight();
     }
-     /* retourne le droit dessin */
+     /* returns the drawing right */
     public char getDrawRight(){
         return taskRight.getDrawRight();
     }
-     /* retourne le droit repeat */
+     /* returns the repeat right */
     public char getRepeatRight(){
         return taskRight.getRepeatRight();
     }
-     /* met le droit editer */
+     /* set the edit right */
     public void setEditRight(char right){
         taskRight.setEditRight(right);
     }
-     /* met le droit supprimer */
+     /* set the delete right */
     public void setDeleteRight(char right){
         taskRight.setDeleteRight(right);
     }
-     /* met le droit copier */
+     /* set the copy right */
     public void setCopyRight(char right){
         taskRight.setCopyRight(right);
     }
-     /* met le droit deplacer */
+     /* set the move right*/
     public void setMoveRight(char right){
         taskRight.setMoveRight(right);
     }
-     /* met le droit parent */
+     /* set the parent right*/
     public void setParentRight(char right){
         taskRight.setParentRight(right);
     }
-     /* met le droit draw */
+     /* set the drawing right */
     public void setDrawRight(char right){
         taskRight.setDrawRight(right);
     }
-     /* met le droit repeat */
+     /* set the repeat right */
     public void setRepeatRight(char right){
         taskRight.setRepeatRight(right);
     }
 
-    /* retourne vrai s'il s'agit d'une tache repetable */
+    /* returns true if the task can be repeat*/
     public boolean isTaskRepeat(){
         return this.taskRepeat != null;
     }

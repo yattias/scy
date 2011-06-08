@@ -8,11 +8,11 @@ package eu.scy.client.tools.copex.utilities;
  * @author Marjolaine
  */
 public interface ActionAddMaterial {
-    /* clic sur hide/show*/
+    /* click on hide/show*/
     public void actionHideAddMaterial();
     public void actionShowAddMaterial();
-    /* sauvegarde du texte de l'ajout de material*/
+    /* save text while adding material*/
     public void saveText();
-    /* met le texte de l'ajout de material*/
+    /* set text while adding material*/
     public void setMaterial();
 }

@@ -16,15 +16,15 @@ import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.util.ArrayList;
 
 /**
- * undo redo : coller
+ * undo redo : paste
  * @author Marjolaine
  */
 public class PasteUndoRedo extends CopexUndoRedo{
-    /* sous arbre */
+    /* sub tree */
     private SubTree subTree;
-    /* tache selectionne pour coller */
+    /* selected task to paste  */
     private TaskSelected ts;
-    /* liste des ts */
+    /* list of selected task */
     private ArrayList<TaskSelected> listTask;
 
     

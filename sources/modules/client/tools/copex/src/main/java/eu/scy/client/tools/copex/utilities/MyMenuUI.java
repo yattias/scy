@@ -19,7 +19,7 @@ import javax.swing.plaf.basic.BasicMenuUI;
 /**
  * look and feel menu
  *
- * @author MBO
+ * @author Marjolaine
  */
 public class MyMenuUI extends BasicMenuUI{
 

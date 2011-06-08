@@ -11,21 +11,20 @@ import org.jdom.JDOMException;
 
 
 /**
- * parametres d'une action :
- * - de type quantite
- * - de type material
- * - de type data
+ * parameters of an action, could be
+ * - quantity
+ * - material
+ * - data
  * @author Marjolaine
  */
 public class ActionParam implements Cloneable {
     public final static String TAG_ACTION_PARAM_ID= "id";
 
-    /* identifiant */
+    /* db identifier */
     protected long dbKey;
-    /* parametre initial auquel il est lie */
+    /* initial parameter which it is linked */
     protected InitialActionParam initialParam;
 
-    // CONSTRUCTOR
     public ActionParam(long dbKey, InitialActionParam initialParam) {
         this.dbKey = dbKey;
         this.initialParam = initialParam;
@@ -35,7 +34,6 @@ public class ActionParam implements Cloneable {
 		
     }
 
-    // GETTER AND SETTER
     public long getDbKey() {
         return dbKey;
     }
@@ -65,7 +63,7 @@ public class ActionParam implements Cloneable {
         }
     }
 
-    /* description dans l'arbre*/
+    /* description for the tree*/
     public String toDescription(Locale locale){
         return "";
     }

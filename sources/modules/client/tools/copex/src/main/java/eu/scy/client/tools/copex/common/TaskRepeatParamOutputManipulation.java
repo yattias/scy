@@ -15,6 +15,7 @@ import org.jdom.JDOMException;
  *
  * @author Marjolaine
  */
+
 public class TaskRepeatParamOutputManipulation extends TaskRepeatParam {
     public final static String TAG_TASK_REPEAT_PARAM_OUTPUT_MANIPULATION = "task_repeat_param_output_manipulation";
     /* output manipulation */
@@ -46,9 +47,9 @@ public class TaskRepeatParamOutputManipulation extends TaskRepeatParam {
                 TaskRepeatValueMaterialProd v = new TaskRepeatValueMaterialProd(e, idValue++,  idMaterial++, idQuantity++, listTypeMaterial, listPhysicalQuantity);
                 listValue.add(v);
             }
-		} else {
-			throw(new JDOMException("Task repeat  param output manipulation expects <"+TAG_TASK_REPEAT_PARAM_OUTPUT_MANIPULATION+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("Task repeat  param output manipulation expects <"+TAG_TASK_REPEAT_PARAM_OUTPUT_MANIPULATION+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public InitialManipulationOutput getOutput() {
@@ -67,7 +68,6 @@ public class TaskRepeatParamOutputManipulation extends TaskRepeatParam {
         this.listValue = listValue;
     }
 
-    // OVERRIDE
     @Override
     public Object clone() {
         TaskRepeatParamOutputManipulation p = (TaskRepeatParamOutputManipulation) super.clone() ;

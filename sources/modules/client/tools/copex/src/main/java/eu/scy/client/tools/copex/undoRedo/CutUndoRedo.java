@@ -17,19 +17,18 @@ import eu.scy.client.tools.copex.utilities.MyConstants;
 import java.util.ArrayList;
 
 /**
- * undo redo : couper
- * @author MBO
+ * undo redo : cut
+ * @author Marjolaine
  */
 public class CutUndoRedo extends CopexUndoRedo {
-    /* liste des taches supprimees */
+    /* list of tasks deleted  */
     private ArrayList<TaskSelected> listTask;
-    /*pour chaque tache, correspondance avec l'endroit ou il faut la remettre dans l'arbre */
+    /* for each task, position in the tree */
     private ArrayList<TaskSelected> listTs;
-    /* sous arbre */
+    /* sub tree */
     private SubTree subTree;
 
     
-    // CONSTRUCTEURS
     public CutUndoRedo(EdPPanel edP, ControllerInterface controller, CopexTree tree, ArrayList<TaskSelected> listTask, ArrayList<TaskSelected> listTs, SubTree subTree) {
         super(edP, controller, tree);
         this.listTask = listTask;
@@ -38,7 +37,6 @@ public class CutUndoRedo extends CopexUndoRedo {
     }
     
     
-    //METHODES
     /* undo */
     @Override
     public void undo(){

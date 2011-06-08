@@ -5,19 +5,7 @@
 
 package eu.scy.client.tools.copex.controller;
 
-import eu.scy.client.tools.copex.common.CopexAction;
-import eu.scy.client.tools.copex.common.CopexMission;
-import eu.scy.client.tools.copex.common.CopexTask;
-import eu.scy.client.tools.copex.common.Evaluation;
-import eu.scy.client.tools.copex.common.ExperimentalProcedure;
-import eu.scy.client.tools.copex.common.GeneralPrinciple;
-import eu.scy.client.tools.copex.common.Hypothesis;
-import eu.scy.client.tools.copex.common.InitialProcedure;
-import eu.scy.client.tools.copex.common.LearnerProcedure;
-import eu.scy.client.tools.copex.common.MaterialUsed;
-import eu.scy.client.tools.copex.common.Question;
-import eu.scy.client.tools.copex.common.Step;
-import eu.scy.client.tools.copex.common.TypeMaterial;
+import eu.scy.client.tools.copex.common.*;
 import eu.scy.client.tools.copex.dnd.SubTree;
 import eu.scy.client.tools.copex.edp.TaskSelected;
 import eu.scy.client.tools.copex.logger.CopexProperty;
@@ -27,10 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import org.jdom.Element;
+
 /**
- * controller interface
+ * controller interface for scy or standalone application
  * @author marjolaine
  */
+
 public interface ControllerInterface {
     /** initialization of the copex editor */
     public CopexReturn initEdP(Locale locale, String idUser, long dbKeyMission, long dbKeyGroup, long dbKeyLabDoc, String labDocName, String fileMission);

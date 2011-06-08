@@ -17,7 +17,7 @@ import org.jdom.JDOMException;
  */
 public class TaskRepeatParamOutputTreatment extends TaskRepeatParam {
     public final static String TAG_TASK_REPEAT_PARAM_OUTPUT_TREATMENT = "task_repeat_param_output_treatment";
-    /* initial output tretment */
+    /* initial output treatment */
     private InitialTreatmentOutput output ;
     private ArrayList<TaskRepeatValueDataProd> listValue;
 
@@ -46,9 +46,9 @@ public class TaskRepeatParamOutputTreatment extends TaskRepeatParam {
                 TaskRepeatValueDataProd v = new TaskRepeatValueDataProd(e, idValue++,  idQuantity++, listPhysicalQuantity);
                 listValue.add(v);
             }
-		} else {
-			throw(new JDOMException("Task repeat  param output treatment  expects <"+TAG_TASK_REPEAT_PARAM_OUTPUT_TREATMENT+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("Task repeat  param output treatment  expects <"+TAG_TASK_REPEAT_PARAM_OUTPUT_TREATMENT+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public InitialTreatmentOutput getOutput() {
@@ -67,7 +67,6 @@ public class TaskRepeatParamOutputTreatment extends TaskRepeatParam {
         this.listValue = listValue;
     }
 
-    // OVERRIDE
     @Override
     public Object clone() {
         TaskRepeatParamOutputTreatment p = (TaskRepeatParamOutputTreatment) super.clone() ;

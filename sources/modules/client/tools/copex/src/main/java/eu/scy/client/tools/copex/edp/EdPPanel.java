@@ -5,6 +5,7 @@
 
 package eu.scy.client.tools.copex.edp;
 
+import eu.scy.client.tools.copex.main.CopexPanel;
 import colab.vt.whiteboard.component.WhiteboardPanel;
 import eu.scy.client.tools.copex.common.*;
 import eu.scy.client.tools.copex.controller.ControllerInterface;
@@ -42,7 +43,9 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
 /**
- * panel copex : menu and tree
+ * copex panel, menu and tree
+ * in a tab pane for eg standalone app or labbook
+ * alone in scy
  * @author Marjolaine
  */
 public class EdPPanel extends JPanel implements ActionMenuEvent{
@@ -51,19 +54,17 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     // proc
     private ExperimentalProcedure proc = null;
    
-    /* liste des grandeurs physiques */
+    /* physical quantities lis  */
     private ArrayList<PhysicalQuantity> listPhysicalQuantity ;
 
     private File lastUsedFile = null;
     private XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
     
-     /* mode d'affichage des commentaires */
+     /* mode to show comments  */
     private char modeComments = MyConstants.COMMENTS;
-    /* level affiche */
+    /* showed level */
     private int levelMenu = 1;
     private boolean procModif;
-    /* action du panel*/
-    private EdPAction action;
     private boolean openQuestion=false;
 
 
@@ -72,10 +73,10 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
 
     private JScrollPane scrollPaneTree = null;
     private CopexTree copexTree;
-    /* elements copies */
+    /* copied elements */
     private SubTree subTreeCopy;
 
-    // boutons du menu
+    // menu buttons
     private JMenuBar menuBar ;
     private JSeparator sep1;
     private JSeparator sep2;
@@ -139,23 +140,17 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     public Image getIconDialog(){
         return copexPanel.getIconDialog();
     }
-     /**
-    * Instancie l'objet EdPAction.
-    * @param action EdPAction
-    */
-    public void addEdPAction(EdPAction action){
-        this.action=action;
-    }
 
     public  ImageIcon getCopexImage(String img){
         return copexPanel.getCopexImage(img);
     }
     
-    /* affichage des erreurs*/
+    /* display errors*/
     public boolean displayError(CopexReturn dr, String title) {
         return copexPanel.displayError(dr, title);
     }
-    /* retourne un message selon cle*/
+
+    /* returns a string from the specified key */
     public String getBundleString(String key){
         return copexPanel.getBundleString(key);
     }
@@ -164,18 +159,10 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     public Locale getLocale(){
         return copexPanel.getLocale();
     }
-    /**
-     * retourne l'image de la tache correspondant au nom
-     */
-    public  Image getTaskImage(String img){
-        return copexPanel.getTaskImage(img);
-    }
 
-  
-    
 
     /*
-     * retourne le controleur
+     * returns controller app
      */
     public ControllerInterface getController(){
         return this.controller;
@@ -183,7 +170,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     
     
     /**
-     * initialisation de la barre de menu
+     * initialization menu bar 
      */
     public void setMenuBar(){
         this.menuBar = new JMenuBar();
@@ -217,11 +204,11 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     private JSeparator getSep1(){
         if (sep1 == null){
             sep1 = new JSeparator(JSeparator.VERTICAL);
-            
             sep1.setBounds(menuItemSave.getX()+menuItemSave.getWidth(), 0, 5, menuBar.getHeight());
         }
         return sep1;
     }
+
     private JSeparator getSep2(){
         if (sep2 == null){
             sep2 = new JSeparator(JSeparator.VERTICAL);
@@ -229,6 +216,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         }
         return sep2;
     }
+
     private JSeparator getSep3(){
         if (sep3 == null){
             sep3 = new JSeparator(JSeparator.VERTICAL);
@@ -236,6 +224,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         }
         return sep3;
     }
+
     private MyMenuItem getMenuItemSave(){
         if (menuItemSave == null){
             menuItemSave = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_SAVE"), menuBar.getBackground(),getCopexImage("Bouton-AdT-28_save.png"), getCopexImage("Bouton-AdT-28_save_survol.png"),  getCopexImage("Bouton-AdT-28_save_clic.png"), getCopexImage("Bouton-AdT-28_save_grise.png"));
@@ -321,7 +310,8 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         }
         return menuItemComm;
     }
-     private MyMenuItem getMenuItemUndo(){
+
+    private MyMenuItem getMenuItemUndo(){
         if (menuItemUndo == null){
             menuItemUndo = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_UNDO"),menuBar.getBackground(),getCopexImage("Bouton-AdT-28_undo.png"), getCopexImage("Bouton-AdT-28_undo_survol.png"), getCopexImage("Bouton-AdT-28_undo_clic.png"), getCopexImage("Bouton-AdT-28_undo_grise.png"));
             menuItemUndo.addActionMenuEvent(this);
@@ -338,7 +328,8 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         }
         return menuItemRedo;
     }
-     private MyMenuItem getMenuItemHelp(){
+
+    private MyMenuItem getMenuItemHelp(){
         if (menuItemHelp == null){
             menuItemHelp = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_HELP"),menuBar.getBackground(),getCopexImage("Bouton-AdT-28_help.png"), getCopexImage("Bouton-AdT-28_help_survol.png"), getCopexImage("Bouton-AdT-28_help_clic.png"), getCopexImage("Bouton-AdT-28_help.png"));
             menuItemHelp.addActionMenuEvent(this);
@@ -492,11 +483,11 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     
    
     /*
-     * mise a jour du menu
+     * update menu
      */
    public void updateMenu(){
        if (proc == null){
-        // pas de protocole actif => on grise les menus
+        // no activ proc => disabled menu
            if(menuItemSave != null)
                menuItemSave.setEnabled(false);
            if(menuItemHypothesis != null)
@@ -511,14 +502,14 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
            getMenuItemRedo().setEnabled(false);
            if(copexPanel.canPrint())
                 getMenuItemPrint().setEnabled(false);
-       }else{ // un protocole est actif :
+       }else{ // a proc is activ
            boolean isQuestionFilled = proc.getQuestion().getDescription(getLocale()) != null && proc.getQuestion().getDescription(getLocale()).length()>0;
-           // le 10/02/10: pas besoin que la question soit renseignee
+           // 10/02/10: the question is not obligatory filled
            isQuestionFilled = true;
-           // arbor : mise a jour du menu / arbo du protocole
+           // level menu: update
            getMenuArbo().setEnabled(true);
            updateMenuArbo();
-           // commentaires
+           // comments
            getMenuItemComm().setEnabled(copexTree.isComments());
            // undo
             getMenuItemUndo().setEnabled(copexTree.canUndo());
@@ -569,19 +560,18 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
        repaint();
    }
 
-    /* peut on coller */
+    /* can paste? */
     public boolean canPaste(){
        return subTreeCopy != null;
     }
 
-   // mise a jour du menu arbo :
+   // update level menu
    private void updateMenuArbo(){
        int level = copexTree.getLevelTree();
        getMenuArbo().setEnabled(level>1);
        updateLevel(level);
    }
     public void updateLevel(int level){
-        // dans le menu arboresence on met jusqu'au niveau demande
         getMenuArbo().removeAll();
         menuItem1 = null;
         menuItem2 = null;
@@ -593,7 +583,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         menuItem8 = null;
         menuItem9 = null;
 
-        int maxL = Math.min(level, 9); // au dessus de 9 on ne gere plus les niveaux !!
+        int maxL = Math.min(level, 9); // 9 is a max
         for (int i=1; i<=maxL; i++){
             if (i == 1)
                 getMenuArbo().add(getMenuItem1());
@@ -615,8 +605,9 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
                 getMenuArbo().add(getMenuItem9());
         }
     }
+
     /*
-     * evenement souris
+     * mouse events
      */
     public void clickMenuEvent(MyMenuItem item){
         if (copexPanel.canPrint() && item.equals(getMenuItemPrint())){
@@ -680,7 +671,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     // End of variables declaration
 
 
-    /* ouverture de la fenetre de dialogue permettant la creation d'une etape */
+    /* open the dialog to create a step*/
     public void openDialogAddE(char insertIn) {
         if (proc == null)
             return;
@@ -693,7 +684,8 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         StepDialog addE = new StepDialog(this, initProc.isTaskRepeat(),!proc.isTaskProc(), insertIn);
         addE.setVisible(true);
     }
-    // ouverture de la fenetre de dialoguer permettant d'ajouter une action
+
+    // open the dialog to add an action
     public void openDialogAddA(char insertIn) {
         if (proc == null)
             return;
@@ -708,7 +700,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     }
 
 
-     /* ouverture de la fenetre d'aide */
+     /* open help dialog*/
     public void openDialogHelp() {
         CopexReturn cr = this.controller.openHelpDialog();
         if (cr.isError()){
@@ -720,7 +712,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     
     
 
-    // impression
+    // print as pdf
     public void printCopex(boolean printProc){
         CopexReturn cr = controller.printCopex(proc);
         if (cr.isError()){
@@ -729,11 +721,11 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     }
 
 
-    /* Affichage ou non des commentaires */
+    /* show or not comments  */
     private void setDisplayComments(){
         switch (modeComments){
             case MyConstants.COMMENTS :
-                // on enleve commentaires et on met a jour le bouton du menu
+                // remove comments and update menu button
                 modeComments = MyConstants.NO_COMMENTS;
                 getMenuItemComm().setItemIcon(getCopexImage("Bouton-AdT-28_comment.png"));
                 getMenuItemComm().setItemClicIcon(getCopexImage("Bouton-AdT-28_comment_clic.png"));
@@ -752,9 +744,9 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         repaint();
     }
 
-    /* ajout d'une nouvelle action */
+    /* add a new action  */
     public CopexReturn addAction(CopexAction newAction, char insertIn){
-        // determine le protocole actif et la position de l'ajout de l'action
+        // gets the activ proc and the position to add action 
         TaskSelected ts = copexTree.getTaskSelected(insertIn);
         if (ts == null || ts.getProc() == null )
             return new CopexReturn(getBundleString("MSG_ERROR_ADD_ACTION"), false);
@@ -774,7 +766,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
 
     /* modification action */
     public CopexReturn updateAction(CopexAction newAction){
-        // determine le protocole actif et la position de l'ajout de l'action
+        // gets the activ proc and the position to add action
         TaskSelected ts = copexTree.getTaskSelected();
         if (ts == null || ts.getProc() == null || ts.getSelectedTask() == null)
             return new CopexReturn(getBundleString("MSG_ERROR_UPDATE_ACTION"), false);
@@ -831,9 +823,9 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         }
     }
 
-    /* ajout d'une nouvelle etape */
+    /* add a new step */
     public CopexReturn addStep(Step newStep, char insertIn){
-        // determine le protocole actif et la position de l'ajout de l'etape
+        // gets the activ proc and the position to add step
         TaskSelected ts = copexTree.getTaskSelected(insertIn);
         if (ts == null || ts.getProc() == null )
             return new CopexReturn(getBundleString("MSG_ERROR_ADD_STEP"), false);
@@ -851,9 +843,9 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         return new CopexReturn();
     }
 
-    /* modification etape */
+    /* update step */
     public CopexReturn updateStep(Step newStep){
-        // determine le protocole actif
+        // gets the activ proc and the position to update step
         TaskSelected ts = copexTree.getTaskSelected();
         if (ts == null || ts.getProc() == null || ts.getSelectedTask() == null)
             return new CopexReturn(getBundleString("MSG_ERROR_UPDATE_STEP"), false);
@@ -872,7 +864,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         return new CopexReturn();
     }
 
-    /* modification sous question */
+    /* update question*/
     public CopexReturn updateQuestion(Question newQuestion){
         ArrayList v = new ArrayList();
         Question oldQuestion = (Question)proc.getQuestion().clone();
@@ -890,15 +882,15 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
 
     
 
-    /* affichage d'un niveau d'arboresence */
+    /* show the specified level */
     private void displayLevel(int level){
         copexTree.displayLevel(level);
-        // change icone du menu selon le niveau
+        // update icon depending the level
         levelMenu = level;
         updateIconMenu();
     }
 
-    /* mise a jour de l'icone du menu */
+    /* update the icon in menu*/
     private void updateIconMenu(){
         ImageIcon img = getCopexImage("Bouton-AdT-28_"+levelMenu+".png");
         ImageIcon imgSurvol = getCopexImage("Bouton-AdT-28_"+levelMenu+"_survol.png");
@@ -912,24 +904,25 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     }
 
 
-    /* suppression */
+    /* remove */
     public void suppr(){
         suppr(true);
     }
-    /* suppression avec ou non demande de confirmation */
+
+    /* remove with or not confirmation  */
     public void suppr(boolean confirm){
         CopexReturn cr = suppr(copexTree.getTasksSelected(), confirm);
         if (cr.isError()){
             displayError(cr , getBundleString("TITLE_DIALOG_ERROR"));
         }
     }
-    /* suppression de la selection de l'arbre */
-    public CopexReturn suppr(ArrayList<TaskSelected> listTs, boolean confirm){
 
-        // recupere la selection a supprimer
+    /* remove the selection in the tree */
+    public CopexReturn suppr(ArrayList<TaskSelected> listTs, boolean confirm){
+        // gets the selection to remove
         if (listTs == null )
             return new CopexReturn(getBundleString("MSG_ERROR_DELETE_TASK"), false);
-        // demande de confirmation :
+        // ask for confirmation
         boolean confirmRemove = true;
         if (confirm){
             CopexReturn cr = new CopexReturn();
@@ -941,7 +934,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         }
         if (confirmRemove){
             ArrayList v = new ArrayList();
-            // duplique la liste en ajoutant les enfants des taches
+            // copy the list while adding the childs to task
             ArrayList<TaskSelected> listTsSuppr = getListTs(listTs);
 
             ArrayList<TaskSelected> list = new ArrayList();
@@ -958,7 +951,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
             copexTree.suppr(listTs);
             updateProc(newProc);
 
-            if (confirm){ // suppression
+            if (confirm){ // remove
                 subTreeCopy = null;
                 copexTree.addEdit_deleteTask(listTsSuppr, list);
             }else{ // CUT
@@ -971,7 +964,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         return new CopexReturn();
     }
 
-    //retourne la liste des taches a supprimer en ajoutant les enfants
+    // returns tasks list to remove (add childs)
     private ArrayList<TaskSelected> getListTs(ArrayList<TaskSelected> listTs){
         ArrayList<TaskSelected> listT = new ArrayList();
         int nbTs = listTs.size();
@@ -979,19 +972,19 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
             TaskSelected ts = listTs.get(t);
             listT.add(ts);
             if (ts.getSelectedTask() instanceof Step || ts.getSelectedTask() instanceof Question){
-                // recupere les enfants
+                // gets childs
                ArrayList<CopexTask> lc = listTs.get(t).getListAllChildren();
-               // on les ajoute
+               // add
                int n = lc.size();
                for (int k=0; k<n; k++){
-                   // ajoute
+                   // add
                    listT.add(copexTree.getTaskSelected(lc.get(k)));
                }
             }
 
 
         }
-        // supprimes les occurences multiples
+        // remove multi-occ
         int nbT = listT.size();
         ArrayList<TaskSelected> lt = new ArrayList();
         ArrayList<TaskSelected> listTClean = new ArrayList();
@@ -1004,7 +997,8 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         }
         return listTClean;
     }
-     /* cherche un indice dans la liste, -1 si non trouve */
+
+     /* gets the index in the list , -1 if not found  */
     private int getId(ArrayList<TaskSelected> listT, long dbKey){
         int nbT = listT.size();
         for (int i=0; i<nbT; i++){
@@ -1023,7 +1017,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     }
 
     
-    // ouverture de la fenetre de dialoguer permettant de renommer un protocole
+    // open the dialog to rename the proc
     public void openDialogEditProc() {
         if (proc != null && proc instanceof LearnerProcedure){
             EditProcDialog editProcD = new EditProcDialog(this, copexPanel.isMission(),controller,  (LearnerProcedure)proc);
@@ -1035,7 +1029,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         return this.proc;
     }
 
-    /* mise a jour du statut actif d'un protocole */
+    /* update the status of a proc  */
     public void setActiv(boolean register){
         if (register){
             proc.setActiv(true);
@@ -1045,7 +1039,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         }
     }
 
-    /* retourne l'arbre a copier */
+    /* returns the tree to cpoy*/
     public SubTree getSubTreeCopy() {
         return this.subTreeCopy;
     }
@@ -1067,14 +1061,14 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         //}
     }
 
-    /* mise a jour proc*/
+    /*  update the proc*/
      public void updateProc(ExperimentalProcedure p) {
         this.proc = p;
         copexTree.setDatasheet(proc.getDataSheet());
         copexTree.updateProc(proc);
     }
 
-     /* mise a jour proc*/
+     /* update proc */
      public void updateProc(ExperimentalProcedure p, boolean update) {
         this.proc = p;
         copexTree.updateProc(proc, update);
@@ -1089,38 +1083,38 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         backgroundPanel.add(getScrollPaneTree(), BorderLayout.CENTER);
     }
 
-    /* ajout d'un evenement de undo redo pour renommer un protocole */
+    /* add event undo redo to rename proc  */
     public void  addEdit_renameProc(ExperimentalProcedure proc, String name){
         copexTree.addEdit_renameProc(proc, name);
         updateMenu();
     }
 
     
-    /* mise a jour de l'arbre */
+    /* update tree */
     public void setSubTree(SubTree subTree){
         this.subTreeCopy = subTree;
     }
 
-     /* ajout d'un evenement : cut */
+     /* add event : cut  */
      public void addEdit_cut(ArrayList<TaskSelected> listTask, ArrayList<TaskSelected> listTs, SubTree subTree ){
          copexTree.addEdit_cut(listTask, listTs, subTree);
          updateMenu();
      }
 
-     /* coller */
+     /* paste */
       public void addEdit_paste(SubTree subTree, TaskSelected ts, ArrayList<TaskSelected> listTask){
          copexTree.addEdit_paste(subTree, ts, listTask);
          updateMenu();
       }
 
 
-    /* retourne la liste des materiels de la mission de ce type de materiel */
+    /* returns the list of materials of the mission with the specified type of material  */
     public ArrayList<Material> getListMaterial(TypeMaterial type,TypeMaterial type2, boolean andTypes, boolean modeAdd){
         ArrayList<Material> listMaterial = new ArrayList();
         if (proc == null)
             return listMaterial ;
         if(type == null){
-            //tout
+            //all
             if(proc instanceof LearnerProcedure)
                 return ((LearnerProcedure)proc).getInitialProc().getListMaterial();
             else if(proc instanceof InitialProcedure){
@@ -1146,7 +1140,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
                 listMaterial.add(matMision.get(i));
             }
         }
-        // on ajoute les materiels de ce type qui ont ete cree jusqu'a maintenant
+        // add materials from this type, which have been created until now 
         ArrayList<CopexTask> listTaskBefore = copexTree.getListTaskBeforeSel(modeAdd);
         int nb = listTaskBefore.size();
         for (int i=0; i<nb; i++){
@@ -1199,7 +1193,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     }
 
 
-    /* retourne la liste du materiel produit jusqu'ici */
+    /* returns the materials list prod until now  */
     public ArrayList<Material> getMaterialProd(boolean modeAdd){
         ArrayList<Material> listMaterialProd = new ArrayList();
         ArrayList<CopexTask> listTaskBefore = copexTree.getListTaskBeforeSel(modeAdd);
@@ -1236,7 +1230,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         return listMaterialProd ;
     }
 
-    /* retourne la liste du data produit jusqu'ici */
+    /* returns the list of data prod  until now */
     public ArrayList<QData> getDataProd(boolean modeAdd){
         ArrayList<QData> listDataProd = new ArrayList();
         ArrayList<CopexTask> listTaskBefore = copexTree.getListTaskBeforeSel(modeAdd);
@@ -1278,12 +1272,12 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     }
 
 
-    /* retourne la liste des grandeurs physiques */
+    /*  returns the list of physical quantitites  */
     public ArrayList<PhysicalQuantity> getListPhysicalQuantity(){
         return this.listPhysicalQuantity ;
     }
 
-    /* retourne vrai s'il s'agit d'un material de la mission du proc */
+    /* returns true if it's a material from the mission proc  */
     public boolean isMaterialFromMission(long dbKeyMaterial){
         if (proc == null)
             return false;
@@ -1302,7 +1296,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     }
 
     
-    /* retourne le point pour afficher la boite de dialogue */
+    /* returns the point to display the dialog  */
     public Point getLocationDialog(){
         try{
         return new Point( (int)this.getLocationOnScreen().getX() +(this.getWidth() /3), (int)this.getLocationOnScreen().getY()+this.menuBar.getHeight());
@@ -1311,11 +1305,6 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         }
     }
 
-    
-    /* retourne vrai si applet est visiblee */
-    public boolean isAppletVisible(){
-        return this.isVisible();
-    }
 
     public URL getHelpManualPage(){
         String helpFile = "languages/copexHelpManual-"+getLocale().getLanguage()+".xhtml";
@@ -1326,7 +1315,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     }
 
 
-    /* retourne vrai si il y a une liste de materiel a afficher */
+    /* returns true if there is a list of material to display  */
     public boolean isMaterialAvailable(){
         if(proc == null)
             return false;
@@ -1342,13 +1331,12 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
 //       if(!proc.isValidQuestion(getLocale()))
 //            JOptionPane.showMessageDialog(this, this.getBundleString("MSG_QUESTION"), this.getBundleString("TITLE_DIALOG_WARNING"),JOptionPane.INFORMATION_MESSAGE );
         //copexTree.setQuestionEditor();
-        //le 10/02/10: plus de mode edition lors de l'ouverture
 //        if(!proc.isValidQuestion(getLocale())){
 //            openQuestion = true;
 //        }
     }
     
-    /* chargement ELO */
+    /* load ELO */
     public void loadELO(Element xmlContent){
         CopexReturn cr = this.controller.loadELO(xmlContent);
         if (cr.isError()){
@@ -1357,7 +1345,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     }
 
     
-    /* retourne ELO proc */
+    /* returns the experimental procedure ELO  */
     public Element getExperimentalProcedure(){
         if(proc != null)
             return this.controller.getExperimentalProcedure(proc);
@@ -1366,7 +1354,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
 
     
 
-    /* retourne la liste des parametres des actions de l'etape */
+    /* returns the list of parameters of actions in step */
     public ArrayList[]  getStepInitialParam(Step step){
         ArrayList v = new ArrayList();
         if (proc != null){
@@ -1384,7 +1372,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     }
 
 
-    /* retourne la liste des output des actions de l'etape */
+    /* returns the list of output of actions in step */
     public ArrayList[] getStepInitialOutput(Step step){
         ArrayList v = new ArrayList();
         if (proc != null){
@@ -1401,12 +1389,12 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         return list;
     }
 
-   /* renvoit le type de materiel par defaut*/
+   /* returns the type material by default */
     public TypeMaterial getDefaultMaterialType(){
         return this.controller.getDefaultMaterialType();
     }
 
-    /* affichage du proc d'aide */
+    /* sho wthe help proc  */
     public void displayHelpProc(){
         ArrayList v = new ArrayList();
         CopexReturn cr = this.controller.getHelpProc(v);
@@ -1426,7 +1414,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
 
 
 
-    /* fermeture fenetre aide*/
+    /* close help dialog*/
     public void closeHelpDialog(){
         CopexReturn cr = this.controller.closeHelpDialog();
         if (cr.isError()){
@@ -1453,7 +1441,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     public void addActionIn() {
         openDialogAddA(MyConstants.INSERT_TASK_IN);
     }
-    /* renommer un protocole*/
+    /* rename proc*/
     public void updateProcName(String name) {
         //proc.setName(CopexUtilities.getTextLocal(name, getLocale()));
         proc.setName(name);
@@ -1509,7 +1497,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         if(ts ==null)
             return;
         ExperimentalProcedure p = ts.getProc();
-        // liste des taches a copier
+        // list of tasks to copy
         SubTree subTree = getSubTreeCopy();
         CopexReturn cr = this.controller.paste(p, ts, subTree);
         if(cr.isError()){
@@ -1519,13 +1507,13 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     }
 
      public void pasteUnder(){
-       // tache selectionnee et protocole ou il faut copier
+       // selected task and proc
         //TaskSelected ts = getSelectedTask();
         TaskSelected ts = copexTree.getTaskSelected(MyConstants.INSERT_TASK_AFTER);
         if(ts ==null)
             return;
         ExperimentalProcedure p = ts.getProc();
-        // liste des taches a copier
+        // list of tasks to copy
         SubTree subTree = getSubTreeCopy();
         CopexReturn cr = this.controller.paste(p, ts, subTree);
         if(cr.isError()){
@@ -1556,33 +1544,28 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
             }
             setCursor(new Cursor(Cursor.WAIT_CURSOR));
             Element xproc = getExperimentalProcedure() ;
-			lastUsedFile = file;
-			OutputStreamWriter fileWriter = null;
-			try
-			{
+            lastUsedFile = file;
+            OutputStreamWriter fileWriter = null;
+            try{
                 fileWriter = new OutputStreamWriter(new FileOutputStream(file), "utf-8");
-				xmlOutputter.output(xproc, fileWriter);
+		xmlOutputter.output(xproc, fileWriter);
                 procModif=false;
                 copexPanel.logSaveProc(proc);
-			}
-			catch (IOException e)
-			{
+            }
+            catch (IOException e){
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-				displayError(new CopexReturn(getBundleString("MSG_ERROR_SAVE"), false), getBundleString("TITLE_DIALOG_ERROR"));
-			}
-			finally
-			{
-				setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+		displayError(new CopexReturn(getBundleString("MSG_ERROR_SAVE"), false), getBundleString("TITLE_DIALOG_ERROR"));
+            }
+            finally{
+                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 if (fileWriter != null)
-					try
-					{
-						fileWriter.close();
-					}
-					catch (IOException e)
-					{
-						displayError(new CopexReturn(getBundleString("MSG_ERROR_SAVE"), false), getBundleString("TITLE_DIALOG_ERROR"));
-					}
-			}
+		try{
+                    fileWriter.close();
+		}
+                catch (IOException e){
+                    displayError(new CopexReturn(getBundleString("MSG_ERROR_SAVE"), false), getBundleString("TITLE_DIALOG_ERROR"));
+		}
+            }
         }
     }
 
@@ -1593,12 +1576,15 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
             return ((InitialProcedure)proc);
         return null;
     }
+
     private boolean isMenuHypothesis(){
         return getInitProc().getHypothesisMode()== MyConstants.MODE_MENU;
     }
+
     private boolean  isMenuPrinciple(){
         return getInitProc().getPrincipleMode()== MyConstants.MODE_MENU;
     }
+
     private boolean isMenuEvaluation(){
         return getInitProc().getEvaluationMode()== MyConstants.MODE_MENU;
     }
@@ -1895,7 +1881,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
           matDialog.setVisible(true);
       }
 
-      // mise a jour du mat
+      // update the material used
       public boolean setMaterialUsed(ArrayList<MaterialUsed> listMaterialToCreate,ArrayList<MaterialUsed> listMaterialToDelete, ArrayList<MaterialUsed> listMaterialToUpdate ){
           setCursor(new Cursor(Cursor.WAIT_CURSOR));
           ArrayList v = new ArrayList();

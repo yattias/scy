@@ -64,7 +64,7 @@ public class GeneralPrinciple implements Cloneable{
     }
     
     public GeneralPrinciple(Element xmlElem, long dbKey) throws JDOMException {
-		if (xmlElem.getName().equals(TAG_PROC_GENERAL_PRINCIPLE)) {
+	if (xmlElem.getName().equals(TAG_PROC_GENERAL_PRINCIPLE)) {
             this.dbKey = dbKey;
             listPrinciple = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_PRINCIPLE).iterator(); variableElem.hasNext();) {
@@ -80,10 +80,10 @@ public class GeneralPrinciple implements Cloneable{
             }
             drawing = xmlElem.getChild(TAG_PRINCIPLE_DRAWING);
             hide = xmlElem.getChild(TAG_PRINCIPLE_HIDE).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
-		} else {
-			throw(new JDOMException("GeneralPrinciple expects <"+TAG_PROC_GENERAL_PRINCIPLE+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("GeneralPrinciple expects <"+TAG_PROC_GENERAL_PRINCIPLE+"> as root element, but found <"+xmlElem.getName()+">."));
 	}
+    }
 
     public long getDbKey() {
         return dbKey;

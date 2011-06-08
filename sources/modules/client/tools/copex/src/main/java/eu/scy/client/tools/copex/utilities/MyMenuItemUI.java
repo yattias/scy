@@ -14,7 +14,7 @@ import javax.swing.plaf.basic.BasicMenuItemUI;
 
 /**
  *
- * @author MBO
+ * @author Marjolaine
  */
 public class MyMenuItemUI extends BasicMenuItemUI{
     private Color bg;

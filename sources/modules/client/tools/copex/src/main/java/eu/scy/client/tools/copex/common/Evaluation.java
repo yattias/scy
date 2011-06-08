@@ -56,8 +56,8 @@ public class Evaluation implements Cloneable{
     }
 
     public Evaluation(Element xmlElem, long dbKey) throws JDOMException {
-		if (xmlElem.getName().equals(TAG_PROC_EVALUTATION)) {
-			this.dbKey = dbKey;
+        if (xmlElem.getName().equals(TAG_PROC_EVALUTATION)) {
+            this.dbKey = dbKey;
             listEvaluation = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_EVALUATION).iterator(); variableElem.hasNext();) {
                 Element e = variableElem.next();
@@ -71,10 +71,10 @@ public class Evaluation implements Cloneable{
                 listComments.add(new LocalText(e.getText(), l));
             }
             hide = xmlElem.getChild(TAG_EVALUATION_HIDE).getText().equals(MyConstants.XML_BOOLEAN_TRUE);
-		} else {
-			throw(new JDOMException("Evaluation expects <"+TAG_PROC_EVALUTATION+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+	} else {
+            throw(new JDOMException("Evaluation expects <"+TAG_PROC_EVALUTATION+"> as root element, but found <"+xmlElem.getName()+">."));
 	}
+    }
 
     public long getDbKey() {
         return dbKey;
@@ -173,7 +173,7 @@ public class Evaluation implements Cloneable{
     // toXML
     public Element toXML(){
         Element element = new Element(TAG_PROC_EVALUTATION);
-		if(listEvaluation != null && listEvaluation.size() > 0){
+	if(listEvaluation != null && listEvaluation.size() > 0){
             for (Iterator<LocalText> t = listEvaluation.iterator(); t.hasNext();) {
                 LocalText l = t.next();
                 Element e = new Element(TAG_EVALUATION);

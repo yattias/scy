@@ -15,7 +15,7 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- * action de type manipulation
+ * initial action manipulation
  * uses material
  * produces material
  * @author Marjolaine
@@ -27,10 +27,9 @@ public class InitialActionManipulation extends InitialNamedAction implements Clo
 
     /* nb material prod*/
     private int nbMaterialProd;
-    /* liste des output*/
+    /* list  output*/
     private ArrayList<InitialManipulationOutput> listOutput;
 
-    // CONSTRUCTOR
     public InitialActionManipulation(long dbKey, String code, List<LocalText> listLibelle, boolean isSetting, InitialActionVariable variable, boolean draw,  boolean repeat, int nbMaterialProd, ArrayList<InitialManipulationOutput> listOutput, Element defaultDraw) {
         super(dbKey, code, listLibelle, isSetting, variable, draw, repeat, defaultDraw);
         this.nbMaterialProd = nbMaterialProd;
@@ -38,10 +37,10 @@ public class InitialActionManipulation extends InitialNamedAction implements Clo
     }
 
     public InitialActionManipulation(Element xmlElem, long idAction, Locale locale, long idActionParam, List<PhysicalQuantity> listPhysicalQuantity, List<TypeMaterial> listTypeMaterial, long idOutput) throws JDOMException {
-		super(xmlElem);
+	super(xmlElem);
         if (xmlElem.getName().equals(TAG_INITIAL_ACTION_MANIPULATION)) {
             this.dbKey = idAction;
-			code = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_CODE).getText();
+            code = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_CODE).getText();
             listLibelle = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_INITIAL_NAMED_ACTION_LIBELLE).iterator(); variableElem.hasNext();) {
                 Element e = variableElem.next();
@@ -60,15 +59,15 @@ public class InitialActionManipulation extends InitialNamedAction implements Clo
                 listOutput.add(new InitialManipulationOutput(variablElem.next(), idOutput, listTypeMaterial));
             }
         }
-		else {
-			throw(new JDOMException("Initial action manipulation expects <"+TAG_INITIAL_ACTION_MANIPULATION+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+        else {
+            throw(new JDOMException("Initial action manipulation expects <"+TAG_INITIAL_ACTION_MANIPULATION+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public InitialActionManipulation(Element xmlElem,List<InitialNamedAction> list) throws JDOMException{
         super(xmlElem);
         if (xmlElem.getName().equals(TAG_INITIAL_ACTION_MANIPULATION_REF)) {
-			code = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_CODE).getText();
+            code = xmlElem.getChild(TAG_INITIAL_NAMED_ACTION_CODE).getText();
             for(Iterator<InitialNamedAction> q = list.iterator();q.hasNext();){
                 InitialNamedAction p = q.next();
                 if(p instanceof InitialActionManipulation){
@@ -85,11 +84,10 @@ public class InitialActionManipulation extends InitialNamedAction implements Clo
                 }
             }
         }else {
-			throw(new JDOMException("Initial action manipulation expects <"+TAG_INITIAL_ACTION_MANIPULATION_REF+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+            throw(new JDOMException("Initial action manipulation expects <"+TAG_INITIAL_ACTION_MANIPULATION_REF+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
-    // GETTER AND SETTER
     public int getNbMaterialProd() {
         return nbMaterialProd;
     }
@@ -108,18 +106,15 @@ public class InitialActionManipulation extends InitialNamedAction implements Clo
 
     
 
-    // OVERRIDE
     @Override
     public Object clone() {
         InitialActionManipulation a = (InitialActionManipulation) super.clone() ;
-
         a.setNbMaterialProd(this.nbMaterialProd);
         ArrayList<InitialManipulationOutput> list = new ArrayList();
         for (int i=0; i<listOutput.size(); i++){
             list.add((InitialManipulationOutput)this.listOutput.get(i).clone());
         }
         a.setListOutput(list);
-
         return a;
     }
 

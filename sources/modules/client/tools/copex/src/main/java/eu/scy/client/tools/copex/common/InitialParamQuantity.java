@@ -16,19 +16,18 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 
 /**
- * Parametres initial de type quantite
+ * initial parameter - type: quantity
  * @author Marjolaine
  */
 public class InitialParamQuantity extends InitialActionParam {
     public final static String TAG_INITIAL_PARAM_QUANTITY = "initial_param_quantity";
     public final static String TAG_INITIAL_PARAM_QUANTITY_REF = "initial_param_quantity_ref";
     public final static String TAG_INITIAl_PARAM_QUANTITY_NAME = "quantity_name";
-    /* valeur - fait reference a une grandeur physique */
+    /* value - refers to physical quantity */
     private PhysicalQuantity physicalQuantity ;
-    /* nom de la quantite */
+    /* quantity name */
     private List<LocalText> listQuantityName;
 
-    // CONSTRUCTOR
     public InitialParamQuantity(long dbKey, List<LocalText>  listParamName, PhysicalQuantity physicalQuantity, List<LocalText>  listQuantityName) {
         super(dbKey, listParamName);
         this.physicalQuantity = physicalQuantity;
@@ -37,7 +36,7 @@ public class InitialParamQuantity extends InitialActionParam {
 
     public InitialParamQuantity(Element xmlElem, long idActionParam, List<PhysicalQuantity> listPhysicalQuantity) throws JDOMException {
         super(xmlElem);
-		if (xmlElem.getName().equals(TAG_INITIAL_PARAM_QUANTITY)) {
+	if (xmlElem.getName().equals(TAG_INITIAL_PARAM_QUANTITY)) {
             //this.dbKey = idActionParam;
             this.code = xmlElem.getChild(TAG_INITIAL_ACTION_PARAM_CODE).getText();
             this.dbKey = Long.parseLong(code);
@@ -55,14 +54,14 @@ public class InitialParamQuantity extends InitialActionParam {
                 listQuantityName.add(new LocalText(e.getText(), l));
             }
 
-		} else {
-			throw(new JDOMException("Initial action param quantity expects <"+TAG_INITIAL_PARAM_QUANTITY+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
-	}
+	} else {
+            throw(new JDOMException("Initial action param quantity expects <"+TAG_INITIAL_PARAM_QUANTITY+"> as root element, but found <"+xmlElem.getName()+">."));
+        }
+    }
 
     public InitialParamQuantity(Element xmlElem, List<InitialParamQuantity> list) throws JDOMException {
         super(xmlElem);
-		if (xmlElem.getName().equals(TAG_INITIAL_PARAM_QUANTITY_REF)) {
+	if (xmlElem.getName().equals(TAG_INITIAL_PARAM_QUANTITY_REF)) {
             this.code = xmlElem.getChild(TAG_INITIAL_ACTION_PARAM_CODE).getText();
             for(Iterator<InitialParamQuantity> a = list.iterator();a.hasNext();){
                 InitialParamQuantity p = a.next();
@@ -74,8 +73,8 @@ public class InitialParamQuantity extends InitialActionParam {
                 }
             }
         }else {
-			throw(new JDOMException("Initial action param quantity expects <"+TAG_INITIAL_PARAM_QUANTITY_REF+"> as root element, but found <"+xmlElem.getName()+">."));
-		}
+            throw(new JDOMException("Initial action param quantity expects <"+TAG_INITIAL_PARAM_QUANTITY_REF+"> as root element, but found <"+xmlElem.getName()+">."));
+	}
     }
 
     public List<LocalText> getListQuantityName() {
@@ -127,7 +126,7 @@ public class InitialParamQuantity extends InitialActionParam {
     }
 
     // METHOD
-    /* retourne la liste des unites possibles pour cette grandeur */
+    /* returns the list of units for this physical quantity */
     public List<CopexUnit> getListUnit(){
         return physicalQuantity.getListUnit() ;
     }
@@ -147,7 +146,7 @@ public class InitialParamQuantity extends InitialActionParam {
                 element.addContent(e);
             }
         }
-		return element;
+	return element;
     }
 
     @Override

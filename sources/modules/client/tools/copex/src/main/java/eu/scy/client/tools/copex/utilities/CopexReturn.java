@@ -7,45 +7,43 @@ package eu.scy.client.tools.copex.utilities;
 
 /**
  *
- * @author MBO
- * permet de representer une erreur ou un warning dans COPEX
- * String text : le texte de l'erreur 
- * boolean ok : a true si aucune erreur
- * boolean warning : a true si il s'agit d'un warning
- * boolean confirm : a true si l'utilisateur doit confirmer => dans ce cas text contient le message de confirmation
- * boolean okCancel : a true s'il s'agit d'une confirmation OK/Cancel, sinon Oui/Non
+ * @author Marjolaine
+ * allows to represent an error or a warning in copex
+ * String text : error text
+ * boolean ok : true if any error
+ * boolean warning : true if it's a warning
+ * boolean confirm : true if the user has to confirm => in this case, the text contains the message of confirmation
+ * boolean okCancel : true if it's a confirmation  OK/Cancel, otherwise Yes/No
  * 
- * si error : ok=false, text=msg erreur, warning=false, confirm=false, okCancel=false
- * si ok : ok=true, text="", warning=false, confirm=false, okCancel=false
- * si warning : ok=false, text = msg warning, warning=true, confirm=false, okCancel=false
- * si warning a confirmer : ok=false, text=msg de confirm, warning=true, confirm=true, okCancel=true si Ok/Cancel okCancel=false si Oui/Non
+ * if error : ok=false, text=msg error, warning=false, confirm=false, okCancel=false
+ * if ok : ok=true, text="", warning=false, confirm=false, okCancel=false
+ * if warning : ok=false, text = msg warning, warning=true, confirm=false, okCancel=false
+ * if warning to confirm: ok=false, text=msg confirm, warning=true, confirm=true, okCancel=true if Ok/Cancel okCancel=false if yes/no
  */
 public class CopexReturn {
-// ATTRIBUTS
     /*
-     * texte du message d'erreur => internationaliser
+     * msg error
      */
     private String text;
     /*
-     * indique s'il s'agit d'une erreur ou non
+     * error or not
      */
     private boolean ok;
      /*
-     * indique s'il s'agit d'un warning ou non
+     * warning or not
      */
     private boolean warning;
      /*
-     * indique s'il s'agit d'une confirmation ou non
+     * confirmation or not
      */
     private boolean confirm;
      /*
-     * indique s'il s'agit d'un type Ok/Cancel ou non
+     *  type Ok/Cancel or not (yes/no)
      */
     private boolean okCancel;
 
-    //CONSTRUCTEURS
     /*
-     * Constructeur par defaut : pas d'erreur
+     * Constructor by default => no error, ok
      */
     public CopexReturn() {
         this.text = "";
@@ -56,7 +54,7 @@ public class CopexReturn {
     }
 
     /*
-     * Constructeur d'une erreur ou d'un warning
+     * Constructor for an error or a warning
      */
     public CopexReturn(String text, boolean warning) {
         this.text = text;
@@ -66,9 +64,8 @@ public class CopexReturn {
         this.okCancel = false;
     }
 
-    //GETTER AND SETTER
     /*
-     * REtourne le texte de l'erreur
+     * returns the error text
      */
     public String getText() {
         return text;
@@ -79,47 +76,52 @@ public class CopexReturn {
     }
     
     
-    // OPERATIONS
     /*
-     * retourne true si l'instance est une erreur
+     * returns true if it's an error
      */
     public boolean isError(){
         return !this.ok & !this.warning;
     }
+
      /*
-     * retourne true si l'instance n'est ni une erreur ni un warning
+     * returns true if it's not an error and not a warning
      */
     public boolean isOk(){
         return this.ok ;
     }
+
     /*
-     * retourne true si l'instance represente un warning
+     * returns true if it's a warning
      */
     public boolean isWarning(){
         return !this.ok && this.warning ;
     }
+
      /*
-     * retourne true si une confirmation doit etre demandee
+     * returns true if ask for a confirmation
      */
     public boolean mustConfirm(){
         return this.confirm ;
     }
+
     /*
-     * retourne true si de type OkCancel => sinon de type Oui/Non
+     * returns true if type OkCancel =>otherwise type Yes/No
      */
     public boolean isOkCancel(){
         return this.okCancel ;
     }
+
     /*
-     * demande de confirmation
+     *set confirm text
      */
     public void setConfirm(String text){
         this.confirm = true;
         this.text = text;
         this.okCancel = true;
     }
+
     /*
-     * demande de confirmation
+     * ask confirm
      */
     public void setConfirm(String text, boolean okCancel){
         this.confirm = true;
@@ -127,13 +129,13 @@ public class CopexReturn {
         this.okCancel = okCancel;
     }
     /*
-     * met a Ok
+     * set to ok
      */
     public void setOk(){
         this.ok = true;
     }
      /*
-     * met en erreur
+     * set error
      */
     public void setError(){
         this.ok = false;
