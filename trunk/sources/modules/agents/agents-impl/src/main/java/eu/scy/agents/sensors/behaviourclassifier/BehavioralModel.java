@@ -27,7 +27,7 @@ public class BehavioralModel {
     // TODO This enum has to be externalized, cause the client (ScySim) is
     // using it, too. Be aware of this. If you change anything here, it has to be
     // changed on client-side, too.
-    public enum SCAFFOLD {
+    public enum Scaffold {
         VOTAT,
         INC_CHANGE,
         EXTREME_VALUES,
@@ -48,7 +48,7 @@ public class BehavioralModel {
 
     private TupleSpace commandSpace;
 
-    private List<SCAFFOLD> sentScaffolds;
+    private List<Scaffold> sentScaffolds;
 
     private Timer timer;
 
@@ -86,7 +86,7 @@ public class BehavioralModel {
         this.votat = votat;
         this.userExp = userExp;
         this.commandSpace = commandSpace;
-        sentScaffolds = new Vector<SCAFFOLD>();
+        sentScaffolds = new Vector<Scaffold>();
     }
 
     /**
@@ -190,11 +190,11 @@ public class BehavioralModel {
             return;
         } else {
             if (votat < 1) {
-                sendNotification(SCAFFOLD.VOTAT);
+                sendNotification(Scaffold.VOTAT);
             } else if (canonical < 1) {
-                sendNotification(SCAFFOLD.INC_CHANGE);
+                sendNotification(Scaffold.INC_CHANGE);
             } else {
-                sendNotification(SCAFFOLD.SHOWBUTTON);
+                sendNotification(Scaffold.SHOWBUTTON);
             }
         }
     }
@@ -212,7 +212,7 @@ public class BehavioralModel {
     /*
      * If this model recognizes unsystematic behaviour, a notification is sent to the user. The timer makes sure that a message will only be repeated after a delay
      */
-    private void sendNotification(final SCAFFOLD level) {
+    private void sendNotification(final Scaffold level) {
         if (!sentScaffolds.contains(level)) {
             sentScaffolds.add(level);
             timer = new Timer(NOTIFICATION_DELAY, new ActionListener() {
