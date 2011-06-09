@@ -111,7 +111,6 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
             }
             mission = getSession().getMission(user).getName();
             URI eloURI = new URI(eloUri);
-            AgentRooloServiceImpl rooloServices = new AgentRooloServiceImpl();
             ScyElo elo = ScyElo.loadElo(URI.create(eloUri), rooloServices);
 
             if (!isCorrectEloType(elo)) {
