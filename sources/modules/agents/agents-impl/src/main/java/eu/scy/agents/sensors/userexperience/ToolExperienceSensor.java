@@ -124,7 +124,7 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
                 IContext context = new Context(tool,"n/a","n/a",eloUri);
                 
                 model = new UserToolExperienceModel(userName,context, commandSpace, starts, stops);
-                userModels.put(userName+tool, model);
+                userModels.put(userName+eloUri, model);
             }
             model.setToolTime(tool, expTime);
             model.setToolTID(tool, tuple.getTupleID());
@@ -183,10 +183,10 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
         }
         if (a.getType().equals("tool_opened")) {
             String sessionid = a.getContext(ContextConstants.session);
-            UserToolExperienceModel userModel = userModels.get(a.getUser()+a.getContext(ContextConstants.tool));
+            UserToolExperienceModel userModel = userModels.get(a.getUser()+a.getContext(ContextConstants.eloURI));
             if (userModel == null) {
                 userModel = new UserToolExperienceModel(a.getUser(), a.getContext(), commandSpace, 1, 0);
-                userModels.put(a.getUser()+a.getContext(ContextConstants.tool), userModel);
+                userModels.put(a.getUser()+a.getContext(ContextConstants.eloURI), userModel);
                 logger.log(Level.FINE, "new usermodel for " + a.getUser() + " created");
             } else {
                 userModel.setStarts(userModel.getStarts() + 1);
@@ -201,7 +201,7 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 //          }
         } else if (a.getType().equals("tool_closed")) {
             String sessionid = a.getContext(ContextConstants.session);
-            UserToolExperienceModel exp = userModels.get(a.getUser()+a.getContext(ContextConstants.tool));
+            UserToolExperienceModel exp = userModels.get(a.getUser()+a.getContext(ContextConstants.eloURI));
             exp.setToolInactive(a.getContext(ContextConstants.tool), a.getTimeInMillis(), true);
             logger.log(Level.FINE, "Tool stopped with user: " + a.getUser() + " and SessionID: " + sessionid);
 //            if (!initializing){
@@ -211,10 +211,10 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
         } else if (a.getType().equals("tool_got_focus")) {
             String sessionid = a.getContext(ContextConstants.session);
             long focusTime = a.getTimeInMillis();
-            UserToolExperienceModel exp = userModels.get(a.getUser()+a.getContext(ContextConstants.tool));
+            UserToolExperienceModel exp = userModels.get(a.getUser()+a.getContext(ContextConstants.eloURI));
             if (exp == null) {
                 exp = new UserToolExperienceModel(a.getUser(), a.getContext(),commandSpace, 1, 0);
-                userModels.put(a.getUser()+a.getContext(ContextConstants.tool), exp);
+                userModels.put(a.getUser()+a.getContext(ContextConstants.eloURI), exp);
                 logger.log(Level.FINE, "new usermodel for " + a.getUser() + " created");
             }
             exp.setActiveTool(a.getContext(ContextConstants.tool), focusTime, false);
@@ -225,7 +225,7 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
         } else if (a.getType().equals("tool_lost_focus")) {
             String sessionid = a.getContext(ContextConstants.session);
             long focusEndTime = a.getTimeInMillis();
-            UserToolExperienceModel exp = userModels.get(a.getUser()+a.getContext(ContextConstants.tool));
+            UserToolExperienceModel exp = userModels.get(a.getUser()+a.getContext(ContextConstants.eloURI));
            if (exp==null){
                //Q&D hack 4 review
                return;
@@ -237,7 +237,7 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
 //            }
         } else if (a.getType().equals("add_row")) {
             String sessionid = a.getContext(ContextConstants.session);
-            UserToolExperienceModel exp = userModels.get(a.getUser()+a.getContext(ContextConstants.tool));
+            UserToolExperienceModel exp = userModels.get(a.getUser()+a.getContext(ContextConstants.eloURI));
             exp.startExpPhase();
             logger.log(Level.FINE, "startExpPhase with user: " + a.getUser() + " and SessionID: " + sessionid);
 //            if (!initializing){
