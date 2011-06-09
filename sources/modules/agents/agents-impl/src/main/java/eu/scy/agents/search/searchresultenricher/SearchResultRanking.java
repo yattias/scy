@@ -69,7 +69,7 @@ public class SearchResultRanking {
 
 	private double evaluateQuality(List<ISearchResult> referenceResult,
 			List<ISearchResult> newResult) {
-		if(newResult.size() == 0) {
+		if(newResult.isEmpty()) {
 			// Queries without hits should be bad ranked
 			return 0.0;
 		}

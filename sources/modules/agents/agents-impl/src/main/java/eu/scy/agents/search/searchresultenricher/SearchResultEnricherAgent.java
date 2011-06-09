@@ -1,7 +1,6 @@
 package eu.scy.agents.search.searchresultenricher;
 
 import java.rmi.dgc.VMID;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -244,7 +243,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     	String[] items = searchQuery.split(" ");
 
     	if(items.length > 1) {
-			// Itemset generation
+                // Itemset generation
     		String[] itemsets = generateItemSets(items);
         	for(int i = 0; i < itemsets.length; i++) {
 
