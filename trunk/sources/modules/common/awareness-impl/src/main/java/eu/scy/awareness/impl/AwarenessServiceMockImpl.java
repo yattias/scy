@@ -12,6 +12,7 @@ import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.IAwarenessUser;
 import eu.scy.awareness.event.AwarenessRosterEvent;
 import eu.scy.awareness.event.IAwarePresenceEvent;
+import eu.scy.awareness.event.IAwarenessInvitationListener;
 import eu.scy.awareness.event.IAwarenessMessageListener;
 import eu.scy.awareness.event.IAwarenessPresenceListener;
 import eu.scy.awareness.event.IAwarenessRosterEvent;
@@ -24,6 +25,7 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
     private List<IAwarenessPresenceListener> awarenessPresenceListeners = new ArrayList<IAwarenessPresenceListener>();
     private List<IAwarenessMessageListener> awarenessMessageListeners = new ArrayList<IAwarenessMessageListener>();
     private List<IAwarenessUser> buddies = new ArrayList<IAwarenessUser>();
+    private List<IAwarenessInvitationListener> invitationListeners = new ArrayList<IAwarenessInvitationListener>();
     
     public AwarenessServiceMockImpl() {
         // System.out.println("AwarenessServiceMockImpl.AwarenessServiceMockImpl()");
@@ -46,6 +48,16 @@ public class AwarenessServiceMockImpl implements IAwarenessService {
     @Override
     public void addAwarenessMessageListener(IAwarenessMessageListener awarenessMessageListener) {
         this.awarenessMessageListeners.add(awarenessMessageListener);
+    }
+    
+    @Override
+    public void addInvitationListener(IAwarenessInvitationListener invitationListener) {
+        invitationListeners.add(invitationListener);
+    }
+    
+    @Override
+    public void removeInvitationListener(IAwarenessInvitationListener invitationListener) {
+        invitationListeners.remove(invitationListener);
     }
     
     @Override
