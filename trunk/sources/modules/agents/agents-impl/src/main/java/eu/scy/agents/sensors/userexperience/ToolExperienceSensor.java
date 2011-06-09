@@ -103,12 +103,23 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
         Tuple[] userExpTuples = commandSpace.readAll(new Tuple("user_exp", Field.createWildCardField()));
         long lastActionTime = 0L;
         for (Tuple tuple : userExpTuples) {
-            String userName = (String) tuple.getField(1).getValue();
-            String tool = (String) tuple.getField(2).getValue();
-            String eloUri = (String) tuple.getField(5).getValue();
-            long expTime = (Long) tuple.getField(7).getValue();
-            int starts = (Integer) tuple.getField(8).getValue();
-            int stops = (Integer) tuple.getField(9).getValue();
+            String userName;
+            String tool;
+            String eloUri;
+            long expTime;
+            int starts;
+            int stops;
+            try {
+                userName = (String) tuple.getField(1).getValue();
+                tool = (String) tuple.getField(2).getValue();
+                eloUri = (String) tuple.getField(5).getValue();
+                expTime = (Long) tuple.getField(7).getValue();
+                starts = (Integer) tuple.getField(8).getValue();
+                stops = (Integer) tuple.getField(9).getValue();
+            } catch (ClassCastException e) {
+                // okay, so we have deprecated tuples still there, ignore them
+                continue;
+            }
 
             if (starts > stops) {
                 logger.log(Level.FINE, "It seemed that the tool " + tool + " of the user " + userName + " crashed the last time...try to fix that!");
