@@ -39,7 +39,7 @@
         <dependency>
             <groupId>org.roolo</groupId>
             <artifactId>roolo-impl-jpa</artifactId>
-            <version>0.7.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         
 	<dependency>

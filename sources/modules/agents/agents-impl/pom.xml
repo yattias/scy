@@ -45,30 +45,32 @@
 		<dependency>
 			<groupId>org.roolo</groupId>
 			<artifactId>roolo-mock</artifactId>
-			<version>0.6.0-SNAPSHOT</version>
+			<version>${project.version}</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.roolo</groupId>
 			<artifactId>roolo-api</artifactId>
-			<version>0.6.0-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.roolo</groupId>
 			<artifactId>elo-api</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.roolo</groupId>
 			<artifactId>roolo-lucene</artifactId>
-			<version>0.7.0-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.roolo</groupId>
 			<artifactId>elo-impl</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
@@ -79,13 +81,11 @@
 		<dependency>
 			<groupId>info.collide</groupId>
 			<artifactId>sqlspaces-client</artifactId>
-			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>info.collide</groupId>
 			<artifactId>sqlspaces-commons</artifactId>
-			<scope>compile</scope>
 		</dependency>
 
 		<!--<dependency> <groupId>eu.scy.common</groupId> <artifactId>agent-api</artifactId> 
@@ -193,9 +193,7 @@
 		<dependency>
 			<groupId>org.roolo</groupId>
 			<artifactId>roolo-impl-jpa</artifactId>
-			<version>0.7.0-SNAPSHOT</version>
-			<type>jar</type>
-			<scope>compile</scope>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>de.fhg.iais.kd.tm</groupId>

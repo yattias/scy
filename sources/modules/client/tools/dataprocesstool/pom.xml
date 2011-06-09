@@ -130,6 +130,7 @@
         <dependency>
             <groupId>org.roolo</groupId>
             <artifactId>elo-impl</artifactId>
+			<version>${project.version}</version>
 	</dependency>
         <dependency>
         <groupId>eu.scy.common</groupId>
