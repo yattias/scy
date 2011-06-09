@@ -3,6 +3,7 @@ package eu.scy.client.desktop.localtoolbroker;
 import eu.scy.awareness.AwarenessServiceException;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.awareness.IAwarenessUser;
+import eu.scy.awareness.event.IAwarenessInvitationListener;
 import eu.scy.awareness.event.IAwarenessMessageListener;
 import eu.scy.awareness.event.IAwarenessPresenceListener;
 import eu.scy.awareness.event.IAwarenessRosterListener;
@@ -181,5 +182,13 @@ public class DummyAwarenessService implements IAwarenessService  {
    {
       return new ArrayList<IAwarenessUser>();
    }
+
+    @Override
+    public void addInvitationListener(IAwarenessInvitationListener invitationListener) {
+    }
+    
+    @Override
+    public void removeInvitationListener(IAwarenessInvitationListener invitationListener) {
+    }
 
 }
