@@ -13,7 +13,6 @@ import org.apache.log4j.Logger;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.Connection;
-import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.Roster;
@@ -30,6 +29,7 @@ import org.jivesoftware.smackx.FormField;
 import org.jivesoftware.smackx.muc.Affiliate;
 import org.jivesoftware.smackx.muc.DefaultParticipantStatusListener;
 import org.jivesoftware.smackx.muc.DiscussionHistory;
+import org.jivesoftware.smackx.muc.InvitationListener;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 import org.jivesoftware.smackx.muc.Occupant;
 import org.jivesoftware.smackx.muc.RoomInfo;
@@ -43,6 +43,7 @@ import eu.scy.awareness.event.AwarenessPresenceEvent;
 import eu.scy.awareness.event.AwarenessRosterEvent;
 import eu.scy.awareness.event.IAwarePresenceEvent;
 import eu.scy.awareness.event.IAwarenessEvent;
+import eu.scy.awareness.event.IAwarenessInvitationListener;
 import eu.scy.awareness.event.IAwarenessMessageListener;
 import eu.scy.awareness.event.IAwarenessPresenceListener;
 import eu.scy.awareness.event.IAwarenessRosterEvent;
@@ -55,7 +56,6 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
     private String CONFERENCE_EXT = null;
     private final static Logger logger = Logger.getLogger(AwarenessServiceXMPPImpl.class.getName());
-    private ConnectionConfiguration config;
     private ArrayList<IAwarenessPresenceListener> presenceListeners = new ArrayList<IAwarenessPresenceListener>();
     private List<IAwarenessMessageListener> messageListeners = new ArrayList<IAwarenessMessageListener>();
     private ArrayList<IAwarenessRosterListener> rosterListeners = new ArrayList<IAwarenessRosterListener>();
@@ -64,6 +64,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
     private Roster roster;
     public Map<String, MultiUserChat> joinedMUCRooms = new HashMap<String, MultiUserChat>();
     private Connection xmppConnection;
+    private ArrayList<IAwarenessInvitationListener> invitationListeners = new ArrayList<IAwarenessInvitationListener>();
 
     public AwarenessServiceXMPPImpl() {
     }
@@ -202,11 +203,21 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
             IAwarenessMessageListener awarenessMessageListener) {
         messageListeners.add(awarenessMessageListener);
     }
-
+    
     @Override
     public void addAwarenessRosterListener(
             IAwarenessRosterListener awarenessListListener) {
         rosterListeners.add(awarenessListListener);
+    }
+    
+    @Override
+    public void addInvitationListener(IAwarenessInvitationListener invitationListener) {
+        invitationListeners.add(invitationListener);
+    }
+    
+    @Override
+    public void removeInvitationListener(IAwarenessInvitationListener invitationListener) {
+        invitationListeners.remove(invitationListener);
     }
 
     @Override
@@ -356,6 +367,32 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
 
             }
         });
+        
+        MultiUserChat.addInvitationListener(connection, new InvitationListener() {
+            
+            @Override
+            public void invitationReceived(Connection conn, String room, String inviter, String reason, String password, Message message) {
+                try {
+                    if ("p2p".equals(reason)) {
+                        joinMUCRoom(room);
+                        for (IAwarenessInvitationListener listener : invitationListeners) {
+                            listener.handleInvitationEvent(inviter, room);
+                        }
+                    }
+                } catch (AwarenessServiceException e) {
+                    logger.debug("Could not join the room " + room + " on an invitation." , e);
+                }
+            }
+        });
+    }
+    
+    public boolean inviteUserToChat(String roomId, String username) {
+        MultiUserChat chat = joinedMUCRooms.get(roomId);
+        if (chat != null) {
+            chat.invite(username, "p2p");
+            return true;
+        }
+        return false;
     }
 
     public boolean hasJoinedRoom(String ELOUri, String user) throws AwarenessServiceException {
