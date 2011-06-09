@@ -138,6 +138,7 @@
         <dependency>
             <groupId>org.roolo</groupId>
             <artifactId>elo-api</artifactId>
+			<version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -171,14 +172,10 @@
             </exclusions>
         </dependency>
 
-
-
-
-
         <dependency>
             <groupId>org.roolo</groupId>
             <artifactId>roolo-api</artifactId>
-            <version>0.6.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
 
