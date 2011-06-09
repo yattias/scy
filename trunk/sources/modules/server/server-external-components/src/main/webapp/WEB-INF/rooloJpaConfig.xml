@@ -16,7 +16,7 @@
         <property name="eloFactory" ref="localEloFactory" />
     </bean>
 
-    <import resource="../roolo/elo/metadataTypeManagerConfig.xml"/>
+    <import resource="classpath:/roolo/elo/metadataTypeManagerConfig.xml"/>
     <import resource="rooloJpaExtensions.xml" />
     <bean name="localEloFactory" class="roolo.elo.JDomBasicELOFactory">
         <constructor-arg index="0" ref="metadataTypeManager" />
