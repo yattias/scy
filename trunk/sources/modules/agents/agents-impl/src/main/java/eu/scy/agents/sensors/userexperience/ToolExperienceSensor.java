@@ -207,18 +207,13 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
                 userModel.setStarts(userModel.getStops());
             }
             logger.log(Level.FINE, "Tool started with user: " + a.getUser() + " and SessionID: " + sessionid);
-//          if (!initializing){
-//              timer.start();
-//          }
         } else if (a.getType().equals("tool_closed")) {
             String sessionid = a.getContext(ContextConstants.session);
             UserToolExperienceModel exp = userModels.get(a.getUser()+a.getContext(ContextConstants.eloURI));
-            exp.setToolInactive(a.getContext(ContextConstants.tool), a.getTimeInMillis(), true);
-            logger.log(Level.FINE, "Tool stopped with user: " + a.getUser() + " and SessionID: " + sessionid);
-//            if (!initializing){
-//                timer.stop();
-//            }
-
+            if (exp != null) {
+                exp.setToolInactive(a.getContext(ContextConstants.tool), a.getTimeInMillis(), true);
+                logger.log(Level.FINE, "Tool stopped with user: " + a.getUser() + " and SessionID: " + sessionid);
+            }
         } else if (a.getType().equals("tool_got_focus")) {
             String sessionid = a.getContext(ContextConstants.session);
             long focusTime = a.getTimeInMillis();
@@ -230,30 +225,21 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
             }
             exp.setActiveTool(a.getContext(ContextConstants.tool), focusTime, false);
             logger.log(Level.FINE, "Focus gained with user: " + a.getUser() + " and SessionID: " + sessionid);
-//            if (!initializing){
-//                timer.start();
-//            }
         } else if (a.getType().equals("tool_lost_focus")) {
             String sessionid = a.getContext(ContextConstants.session);
             long focusEndTime = a.getTimeInMillis();
             UserToolExperienceModel exp = userModels.get(a.getUser()+a.getContext(ContextConstants.eloURI));
-           if (exp==null){
-               //Q&D hack 4 review
-               return;
+           if (exp!=null){
+               exp.setToolInactive(a.getContext(ContextConstants.tool), focusEndTime, false);
+               logger.log(Level.FINE, "Focus lost with user: " + a.getUser() + " and SessionID: " + sessionid);
            }
-            exp.setToolInactive(a.getContext(ContextConstants.tool), focusEndTime, false);
-            logger.log(Level.FINE, "Focus lost with user: " + a.getUser() + " and SessionID: " + sessionid);
-//            if (!initializing){
-//                timer.stop();
-//            }
         } else if (a.getType().equals("add_row")) {
             String sessionid = a.getContext(ContextConstants.session);
             UserToolExperienceModel exp = userModels.get(a.getUser()+a.getContext(ContextConstants.eloURI));
-            exp.startExpPhase();
-            logger.log(Level.FINE, "startExpPhase with user: " + a.getUser() + " and SessionID: " + sessionid);
-//            if (!initializing){
-//                timer.stop();
-//            }
+            if (exp != null) {
+                exp.startExpPhase();
+                logger.log(Level.FINE, "startExpPhase with user: " + a.getUser() + " and SessionID: " + sessionid);
+            }
         }
     }
 
