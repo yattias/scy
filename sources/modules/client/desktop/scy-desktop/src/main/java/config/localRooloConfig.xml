@@ -16,7 +16,7 @@
       <property name="storeElosInStoreDirectory" value="true"/>
    </bean>
 
-   <import resource="localRooloMetadata.xml"/>
+   <import resource="../roolo/elo/metadataTypeManagerConfig.xml"/>
    <import resource="localRooloExtensions.xml"/>
  
    <bean name="localEloFactory" class="roolo.elo.JDomBasicELOFactory">

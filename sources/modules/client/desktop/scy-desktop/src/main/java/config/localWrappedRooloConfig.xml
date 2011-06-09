@@ -35,7 +35,7 @@
       <property name="disableEloVersioning" value="${disableRooloVersioning}"/>
    </bean>
 
-   <import resource="localRooloMetadata.xml"/>
+   <import resource="../roolo/elo/metadataTypeManagerConfig.xml"/>
    <import resource="localRooloExtensions.xml"/>
 
    <bean name="localEloFactory" class="roolo.elo.JDomBasicELOFactory">
