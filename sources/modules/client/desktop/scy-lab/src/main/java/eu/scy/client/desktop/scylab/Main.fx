@@ -63,7 +63,7 @@ import eu.scy.client.desktop.scydesktop.tools.versionviewer.VersionViewerCreator
 var initializer = Initializer {
            scyDesktopConfigFile: "config/scyLabLocalConfig.xml"
            //localToolBrokerLoginConfigFile:"/config/localRemoteScyServices.xml"
-           loginType:"local"
+           loginType:"remote"
            storeElosOnDisk:true;
            createPersonalMissionMap:true
            redirectSystemStream:false
@@ -193,7 +193,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
 
    var awarenessService:IAwarenessService = missionRunConfigs.tbi.getAwarenessService();
    var chatControllerMap = new HashMap();
-   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(
             ChattoolDrawerContentCreatorFX {
                 awarenessService: awarenessService;
                 chatControllerMap: chatControllerMap;
