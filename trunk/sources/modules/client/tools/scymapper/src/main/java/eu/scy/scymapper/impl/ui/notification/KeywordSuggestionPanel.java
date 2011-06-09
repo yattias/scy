@@ -167,7 +167,9 @@ public class KeywordSuggestionPanel extends JPanel {
      */
     public synchronized void setSuggestions(String[] keywords, String[] categories, Collection<INodeFactory> nodeFactories, String type, boolean highlightChanged) {
         String text = null;
-        if (keywords.length == 0) {
+        if (type.equals("error")) {
+            text = Localization.getString("Mainframe.KeywordSuggestion.NoText");
+        } else if (keywords.length == 0) {
             text = Localization.getString("Mainframe.KeywordSuggestion.NoKeyword");
         } else {
             text = Localization.getString("Mainframe.KeywordSuggestion.Suggest");
@@ -182,7 +184,7 @@ public class KeywordSuggestionPanel extends JPanel {
                 doc.insertString(doc.getLength(), text, doc.getStyle("regular"));
             }
 
-            // following line is for broken Mac Java to have a correct layout in single mode, butt
+            // following line is for broken Mac Java to have a correct layout in single mode, but
             // will demolish layout in double keyword suggestion mode... amazing
             if (System.getProperty("java.vm.vendor").startsWith("Apple")) {
                 descriptionLabel.getPreferredSize();

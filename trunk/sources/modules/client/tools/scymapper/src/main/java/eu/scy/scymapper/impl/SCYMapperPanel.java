@@ -163,7 +163,7 @@ public class SCYMapperPanel extends JPanel implements INotifiable {
             return;
         }
 
-        suggestionPanel.setSuggestions(keywords, category, configuration.getNodeFactories(), "concept", false);
+        suggestionPanel.setSuggestions(keywords, category, configuration.getNodeFactories(), type, false);
 
         suggestionPanel.setSize(300, cmapPanel.getHeight()-2);
         suggestionPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.darkGray, 1),
