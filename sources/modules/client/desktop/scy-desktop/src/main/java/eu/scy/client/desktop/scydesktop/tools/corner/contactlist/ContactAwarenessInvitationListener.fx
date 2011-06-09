@@ -6,6 +6,7 @@
 package eu.scy.client.desktop.scydesktop.tools.corner.contactlist;
 
 import eu.scy.awareness.event.IAwarenessInvitationListener;
+import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 
 
 /**
@@ -18,7 +19,8 @@ public class ContactAwarenessInvitationListener extends IAwarenessInvitationList
 
     public override function handleInvitationEvent(inviter:String, room:String) : Void {
         var scyDesktop = awarenessServiceWrapper.contactlist.scyDesktop;
-        var chatWindow: ScyWindow = scyDesktop.scyWindowControl.windowManager.findScyWindow(room);
+        var chatWindow: ScyWindow;
+//        chatWindow = scyDesktop.scyWindowControl.windowManager.findScyWindow(room);
         if (chatWindow == null) {
             // create new chat window
             // tell window to join chat
