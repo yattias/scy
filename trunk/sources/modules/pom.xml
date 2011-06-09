@@ -263,27 +263,6 @@
                 <artifactId>sqlspaces-commons</artifactId>
                 <version>${sqlspaces-version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.roolo</groupId>
-                <artifactId>elo-api</artifactId>
-                <version>0.6.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>org.roolo</groupId>
-                <artifactId>elo-impl</artifactId>
-                <version>0.7.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>org.roolo</groupId>
-                <artifactId>search-api</artifactId>
-                <version>${search-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.roolo</groupId>
-                <artifactId>search-impl</artifactId>
-                <version>${search-version}</version>
-            </dependency>
-
         </dependencies>
     </dependencyManagement>
 
@@ -476,7 +455,6 @@
     <!--
          the modules may be commented out to avoid top-to-bottom dependencies
          in the pom hierarchy
-	-->
 	  
        	
     <modules>
@@ -485,6 +463,7 @@
         <module>client</module>
         <module>server</module>
     </modules>
+	-->
 	
 
     <properties>
@@ -494,7 +473,6 @@
         <spring-dao-version>2.0.8</spring-dao-version>
         <spring-security-version>2.0.4</spring-security-version>
         <sqlspaces-version>4.0.0-SNAPSHOT</sqlspaces-version>
-        <search-version>0.7.0-SNAPSHOT</search-version>
         <javafx-version>1.3.1</javafx-version>
         <filter.test.file>src/main/filters/serverfilter.properties</filter.test.file>
     </properties>
