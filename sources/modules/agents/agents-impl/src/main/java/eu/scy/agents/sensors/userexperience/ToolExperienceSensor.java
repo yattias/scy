@@ -214,7 +214,8 @@ public class ToolExperienceSensor extends AbstractThreadedAgent implements Actio
                 exp.setToolInactive(a.getContext(ContextConstants.tool), a.getTimeInMillis(), true);
                 logger.log(Level.FINE, "Tool stopped with user: " + a.getUser() + " and SessionID: " + sessionid);
             }
-        } else if (a.getType().equals("tool_got_focus")) {
+        }
+        if (a.getType().equals("tool_got_focus") || a.getType().equals("tool_opened")) {
             String sessionid = a.getContext(ContextConstants.session);
             long focusTime = a.getTimeInMillis();
             UserToolExperienceModel exp = userModels.get(a.getUser()+a.getContext(ContextConstants.eloURI));
