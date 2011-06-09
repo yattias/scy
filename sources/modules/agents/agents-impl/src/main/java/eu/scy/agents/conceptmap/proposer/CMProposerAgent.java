@@ -257,6 +257,9 @@ public class CMProposerAgent extends AbstractThreadedAgent {
 
         observer.setStatusText("Retrieving text");
         String text = getText(user);
+        if (text == null) {
+            return new Field[] { new Field("error=no-text") };
+        }
         observer.setCMText(text);
 
         observer.setStatusText("Determining keywords");
@@ -368,12 +371,11 @@ public class CMProposerAgent extends AbstractThreadedAgent {
     }
 
     private String getText(String user) {
-//        return ECO_TEXT_EN;
         try {
             Tuple t = getSessionSpace().read(new Tuple("tool", user, "webresource", String.class));
             if (t == null) {
                 // dude, no webresourcer open!
-                return "";
+                return null;
             }
             String eloUri = t.getField(3).getValue().toString();
             String id = new VMID().toString();
