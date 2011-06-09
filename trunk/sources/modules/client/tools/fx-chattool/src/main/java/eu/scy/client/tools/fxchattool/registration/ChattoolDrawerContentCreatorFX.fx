@@ -11,7 +11,6 @@ import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
 import java.net.URI;
 
-import eu.scy.client.desktop.scydesktop.elofactory.DrawerContentCreatorFX;
 import eu.scy.awareness.IAwarenessService;
 import eu.scy.chat.controller.ChatController;
 import java.util.*;
@@ -21,19 +20,21 @@ import roolo.api.IRepository;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
+import eu.scy.client.desktop.scydesktop.elofactory.ScyToolCreatorFX;
 
 
 /**
  * @author jeremyt
  */
 
-public class ChattoolDrawerContentCreatorFX extends DrawerContentCreatorFX {
+public class ChattoolDrawerContentCreatorFX extends ScyToolCreatorFX {
 
-    override public function getDrawerContent (eloUri:URI, scyWindow:ScyWindow) : Node {
+//    override public function getDrawerContent (eloUri:URI, scyWindow:ScyWindow) : Node {
+   public override function createScyToolNode(eloType:String, creatorId:String, scyWindow:ScyWindow,windowContent:Boolean):Node{
         repository = toolBrokerAPI.getRepository();
         awarenessService = toolBrokerAPI.getAwarenessService();
         metadataTypeManager = toolBrokerAPI.getMetaDataTypeManager();
-         return createChatToolNode(scyWindow,eloUri);
+         return createChatToolNode(scyWindow);
     }
 
     public var awarenessService:IAwarenessService;
@@ -44,8 +45,8 @@ public class ChattoolDrawerContentCreatorFX extends DrawerContentCreatorFX {
     public var metadataTypeManager: IMetadataTypeManager;
     public var toolBrokerAPI: ToolBrokerAPI;
 
-    function createChatToolNode(scyWindow:ScyWindow,eloUri:URI) : Node {
-        
+    function createChatToolNode(scyWindow:ScyWindow) : Node {
+        def eloUri:URI = null;
         if(eloUri != null) {
             var metadataFirstVersion = repository.retrieveMetadataFirstVersion(eloUri);
 
