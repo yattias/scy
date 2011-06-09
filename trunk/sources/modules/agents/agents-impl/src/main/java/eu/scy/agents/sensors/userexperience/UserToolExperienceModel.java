@@ -234,7 +234,7 @@ public class UserToolExperienceModel {
             if (activeTool == null) {
                 return;
             }
-            sensorSpace.write(new Tuple(EXP_PHASE, this.getUserName(), activeTool, this.getEloUri(), System.currentTimeMillis()));
+            sensorSpace.write(new Tuple(EXP_PHASE, this.getUserName(), activeTool, "n/a", "n/a", this.getEloUri(), System.currentTimeMillis()));
         } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
