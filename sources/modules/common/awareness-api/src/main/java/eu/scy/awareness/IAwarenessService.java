@@ -5,6 +5,7 @@ import java.util.List;
 import org.jivesoftware.smack.Connection;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 
+import eu.scy.awareness.event.IAwarenessInvitationListener;
 import eu.scy.awareness.event.IAwarenessMessageListener;
 import eu.scy.awareness.event.IAwarenessPresenceListener;
 import eu.scy.awareness.event.IAwarenessRosterListener;
@@ -92,6 +93,20 @@ public interface IAwarenessService {
      * @param awarenessListListener
      */
     public void addAwarenessMessageListener(IAwarenessMessageListener awarenessMessageListener);
+    
+    /**
+     * adds an invitation listener
+     * 
+     * @param invitationListener the invitation listener to add
+     */
+    public void addInvitationListener(IAwarenessInvitationListener invitationListener);
+    
+    /**
+     * removes an invitation listener
+     * 
+     * @param invitationListener the invitation listener to remove
+     */
+    public void removeInvitationListener(IAwarenessInvitationListener invitationListener);
     
     /**
      * Add buddy
