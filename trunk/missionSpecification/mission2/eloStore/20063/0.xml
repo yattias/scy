@@ -128,217 +128,253 @@
     <manipulation />
     <material_used>
       <material>
-        <id />
+        <id>305</id>
         <name language="en">PC or Laptop</name>
         <info language="en" />
-        <type_ref>
+        <type>
           <id>TYPE_DEFAULT</id>
-        </type_ref>
+          <name language="fr">Type de matériel par défaut</name>
+          <name language="en">Default material type</name>
+        </type>
       </material>
       <used>false</used>
       <comment language="en" />
     </material_used>
     <material_used>
       <material>
-        <id />
+        <id>306</id>
         <name language="en">Vernier computer interface</name>
         <info language="en" />
-        <type_ref>
+        <type>
           <id>TYPE_DEFAULT</id>
-        </type_ref>
+          <name language="fr">Type de matériel par défaut</name>
+          <name language="en">Default material type</name>
+        </type>
       </material>
       <used>false</used>
       <comment language="en" />
     </material_used>
     <material_used>
       <material>
-        <id />
+        <id>307</id>
         <name language="en">Vernier Dissolved Oxygen Probe</name>
         <info language="en" />
-        <type_ref>
+        <type>
           <id>TYPE_DEFAULT</id>
-        </type_ref>
+          <name language="fr">Type de matériel par défaut</name>
+          <name language="en">Default material type</name>
+        </type>
       </material>
       <used>false</used>
       <comment language="en" />
     </material_used>
     <material_used>
       <material>
-        <id />
-        <name language="en">Vernier Temperature Probe</name>
-        <info language="en" />
-        <type_ref>
-          <id>TYPE_DEFAULT</id>
-        </type_ref>
-      </material>
-      <used>false</used>
-      <comment language="en" />
-    </material_used>
-    <material_used>
-      <material>
-        <id />
-        <name language="en">Vernier Light Sensor</name>
-        <info language="en" />
-        <type_ref>
-          <id>TYPE_DEFAULT</id>
-        </type_ref>
-      </material>
-      <used>false</used>
-      <comment language="en" />
-    </material_used>
-    <material_used>
-      <material>
-        <id />
-        <name language="en">Scales</name>
-        <info language="en" />
-        <type_ref>
-          <id>TYPE_DEFAULT</id>
-        </type_ref>
-      </material>
-      <used>false</used>
-      <comment language="en" />
-    </material_used>
-    <material_used>
-      <material>
-        <id />
-        <name language="en">Beaker</name>
-        <info language="en">250ml</info>
-        <type_ref>
-          <id>TYPE_DEFAULT</id>
-        </type_ref>
-      </material>
-      <used>false</used>
-      <comment language="en" />
-    </material_used>
-    <material_used>
-      <material>
-        <id />
-        <name language="en">Transparent beaker</name>
-        <info language="en">750ml</info>
-        <type_ref>
-          <id>TYPE_DEFAULT</id>
-        </type_ref>
-      </material>
-      <used>false</used>
-      <comment language="en" />
-    </material_used>
-    <material_used>
-      <material>
-        <id />
-        <name language="en">Halogen lamp</name>
-        <info language="en">240W</info>
-        <type_ref>
-          <id>TYPE_DEFAULT</id>
-        </type_ref>
-      </material>
-      <used>false</used>
-      <comment language="en" />
-    </material_used>
-    <material_used>
-      <material>
-        <id />
-        <name language="en">Tap water</name>
-        <info language="en" />
-        <type_ref>
-          <id>TYPE_DEFAULT</id>
-        </type_ref>
-      </material>
-      <used>false</used>
-      <comment language="en" />
-    </material_used>
-	<material_used>
-      <material>
-        <id />
+        <id>315</id>
         <name language="en">Vernier pH sensor</name>
         <info language="en" />
-        <type_ref>
+        <type>
           <id>TYPE_DEFAULT</id>
-        </type_ref>
+          <name language="fr">Type de matériel par défaut</name>
+          <name language="en">Default material type</name>
+        </type>
       </material>
       <used>false</used>
       <comment language="en" />
     </material_used>
     <material_used>
       <material>
-        <id />
-        <name language="en">Distilled water</name>
-        <info language="en">3 litres</info>
-        <type_ref>
+        <id>308</id>
+        <name language="en">Vernier Temperature Probe</name>
+        <info language="en" />
+        <type>
           <id>TYPE_DEFAULT</id>
-        </type_ref>
+          <name language="fr">Type de matériel par défaut</name>
+          <name language="en">Default material type</name>
+        </type>
       </material>
       <used>false</used>
       <comment language="en" />
     </material_used>
     <material_used>
       <material>
-        <id />
-        <name language="en">Canadian waterweed</name>
-        <info language="en">20g Canadian waterweed (Elodea canadensis)</info>
-        <type_ref>
+        <id>309</id>
+        <name language="en">Vernier Light Sensor</name>
+        <info language="en" />
+        <type>
           <id>TYPE_DEFAULT</id>
-        </type_ref>
+          <name language="fr">Type de matériel par défaut</name>
+          <name language="en">Default material type</name>
+        </type>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id>310</id>
+        <name language="en">Scales</name>
+        <info language="en" />
+        <type>
+          <id>TYPE_DEFAULT</id>
+          <name language="fr">Type de matériel par défaut</name>
+          <name language="en">Default material type</name>
+        </type>
       </material>
       <used>false</used>
       <comment language="en" />
     </material_used>
 	    <material_used>
       <material>
-        <id />
-        <name language="en">Samples of ground</name>
-        <info language="en">limestone, granite, sand, peat</info>
-        <type_ref>
+        <id>313</id>
+        <name language="en">Halogen lamp</name>
+        <info language="en">240W</info>
+        <type>
           <id>TYPE_DEFAULT</id>
-        </type_ref>
+          <name language="fr">Type de matériel par défaut</name>
+          <name language="en">Default material type</name>
+        </type>
       </material>
       <used>false</used>
       <comment language="en" />
     </material_used>
     <material_used>
       <material>
-        <id />
+        <id>311</id>
+        <name language="en">Beaker</name>
+        <info language="en">250ml</info>
+        <type>
+          <id>TYPE_DEFAULT</id>
+          <name language="fr">Type de matériel par défaut</name>
+          <name language="en">Default material type</name>
+        </type>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id>312</id>
+        <name language="en">Transparent beaker</name>
+        <info language="en">750ml</info>
+        <type>
+          <id>TYPE_DEFAULT</id>
+          <name language="fr">Type de matériel par défaut</name>
+          <name language="en">Default material type</name>
+        </type>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id>319</id>
         <name language="en">Vessels</name>
         <info language="en">250 ml</info>
-        <type_ref>
+        <type>
           <id>TYPE_DEFAULT</id>
-        </type_ref>
+          <name language="fr">Type de matériel par défaut</name>
+          <name language="en">Default material type</name>
+        </type>
       </material>
       <used>false</used>
       <comment language="en" />
     </material_used>
     <material_used>
       <material>
-        <id />
+        <id>314</id>
+        <name language="en">Tap water</name>
+        <info language="en" />
+        <type>
+          <id>TYPE_DEFAULT</id>
+          <name language="fr">Type de matériel par défaut</name>
+          <name language="en">Default material type</name>
+        </type>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id>316</id>
+        <name language="en">Distilled water</name>
+        <info language="en">3 litres</info>
+        <type>
+          <id>TYPE_DEFAULT</id>
+          <name language="fr">Type de matériel par défaut</name>
+          <name language="en">Default material type</name>
+        </type>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id>320</id>
         <name language="en">Sulphuric acid solutions</name>
-        <info language="en">Solution A - 0,0001M&#xD;
+        <info language="en">Solution A - 0,0001M&#xD;&#xD;
 Solution B - 0,01 M</info>
-        <type_ref>
+        <type>
           <id>TYPE_DEFAULT</id>
-        </type_ref>
+          <name language="fr">Type de matériel par défaut</name>
+          <name language="en">Default material type</name>
+        </type>
       </material>
       <used>false</used>
       <comment language="en" />
     </material_used>
     <material_used>
       <material>
-        <id />
-        <name language="en">Syringes</name>
-        <info language="en">2ml and 10ml</info>
-        <type_ref>
+        <id>317</id>
+        <name language="en">Canadian waterweed</name>
+        <info language="en">20g Canadian waterweed (Elodea canadensis)</info>
+        <type>
           <id>TYPE_DEFAULT</id>
-        </type_ref>
+          <name language="fr">Type de matériel par défaut</name>
+          <name language="en">Default material type</name>
+        </type>
       </material>
       <used>false</used>
       <comment language="en" />
     </material_used>
     <material_used>
       <material>
-        <id />
+        <id>318</id>
+        <name language="en">Samples of ground</name>
+        <info language="en">limestone, granite, sand, peat</info>
+        <type>
+          <id>TYPE_DEFAULT</id>
+          <name language="fr">Type de matériel par défaut</name>
+          <name language="en">Default material type</name>
+        </type>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id>322</id>
         <name language="en">Paper towel</name>
         <info language="en" />
-        <type_ref>
+        <type>
           <id>TYPE_DEFAULT</id>
-        </type_ref>
+          <name language="fr">Type de matériel par défaut</name>
+          <name language="en">Default material type</name>
+        </type>
+      </material>
+      <used>false</used>
+      <comment language="en" />
+    </material_used>
+    <material_used>
+      <material>
+        <id>321</id>
+        <name language="en">Syringes</name>
+        <info language="en">2ml and 10ml</info>
+        <type>
+          <id>TYPE_DEFAULT</id>
+          <name language="fr">Type de matériel par défaut</name>
+          <name language="en">Default material type</name>
+        </type>
       </material>
       <used>false</used>
       <comment language="en" />

@@ -32,7 +32,6 @@
       <las>experiment_C1</las>
       <structure>plainText</structure>
       <mission>ecoMission</mission>
-      <missionRunning>roolo://memory/20193/0/ECO+mission.scymissionspecification</missionRunning>
       <title>
         <string language="en">Inferences</string>
       </title>
@@ -47,10 +46,13 @@
     <relation>
       <kind>
         <source>LOMv1.0</source>
-        <value>is_version_of</value>
+        <value>is_forked_by</value>
       </kind>
       <resource>
-        <identifier />
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20201/0/Copy+of+Inferences.rtf</entry>
+        </identifier>
       </resource>
     </relation>
   </lom>
@@ -60,13 +62,13 @@
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here your inferences.\par
-\f1\cf1\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here your inferences.\par&#xD;
+\f1\cf1\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>
