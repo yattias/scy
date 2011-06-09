@@ -110,7 +110,6 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
                 logger.warn(eloUri + " has no type");
             }
             mission = getSession().getMission(user).getName();
-            URI eloURI = new URI(eloUri);
             ScyElo elo = ScyElo.loadElo(URI.create(eloUri), rooloServices);
 
             if (!isCorrectEloType(elo)) {
@@ -163,8 +162,6 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
             Tuple activateDecisionMakerTuple = new Tuple(EVAL, user, mission,
                     session, tool, eloUri, bytesOut.toByteArray());
             getCommandSpace().write(activateDecisionMakerTuple);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (TupleSpaceException e) {
