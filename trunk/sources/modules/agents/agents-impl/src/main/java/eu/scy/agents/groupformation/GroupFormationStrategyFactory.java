@@ -1,41 +1,39 @@
 package eu.scy.agents.groupformation;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import eu.scy.agents.groupformation.strategies.ClusterStrategy;
 import eu.scy.agents.groupformation.strategies.DummyStrategy;
 import eu.scy.agents.groupformation.strategies.NoGroupStrategy;
 import eu.scy.agents.groupformation.strategies.SameGroupsStrategy;
+import eu.scy.common.mission.StrategyType;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class GroupFormationStrategyFactory {
 
-	private static final String SAME = "same";
-	private static final String CLUSTER = "cluster";
-	private static final String DUMMY = "dummy";
-	private Map<String, GroupFormationStrategy> strategyMap;
+    private Map<StrategyType, GroupFormationStrategy> strategyMap;
 
-	public GroupFormationStrategyFactory() {
-		strategyMap = new HashMap<String, GroupFormationStrategy>();
-		strategyMap.put(DUMMY, new DummyStrategy());
-		strategyMap.put(CLUSTER, new ClusterStrategy());
-		strategyMap.put(SAME, new SameGroupsStrategy());
-	}
+    public GroupFormationStrategyFactory() {
+        strategyMap = new HashMap<StrategyType, GroupFormationStrategy>();
+        strategyMap.put(StrategyType.DUMMY, new DummyStrategy());
+        strategyMap.put(StrategyType.CLUSTER, new ClusterStrategy());
+        strategyMap.put(StrategyType.SAME, new SameGroupsStrategy());
+    }
 
-	public GroupFormationStrategy getStrategy(String strategyName) {
-		GroupFormationStrategy strategy = strategyMap.get(strategyName);
-		if (strategy == null) {
-			return new NoGroupStrategy();
-		}
-		return strategy.makeNewEmptyInstance();
-	}
+    public GroupFormationStrategy getStrategy(StrategyType strategyType) {
+        GroupFormationStrategy strategy = strategyMap.get(strategyType);
+        if (strategy == null) {
+            return new NoGroupStrategy();
+        }
+        return strategy.makeNewEmptyInstance();
+    }
 
-	public Map<String, GroupFormationStrategy> getStrategyMap() {
-		return strategyMap;
-	}
+    public Map<StrategyType, GroupFormationStrategy> getStrategyMap() {
+        return strategyMap;
+    }
 
-	public void setStrategyMap(Map<String, GroupFormationStrategy> strategyMap) {
-		this.strategyMap = strategyMap;
-	}
+    public void setStrategyMap(Map<StrategyType, GroupFormationStrategy> strategyMap) {
+        this.strategyMap = strategyMap;
+    }
 
 }

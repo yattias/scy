@@ -1,5 +1,6 @@
 package eu.scy.agents.groupformation;
 
+import eu.scy.common.mission.StrategyType;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
@@ -39,7 +40,6 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 	private static final Logger LOGGER = Logger
 			.getLogger(GroupFormationAgent.class);
 
-	// private static final String LAS = "las";
 	private static final String LAS = "newLasId";
 	private static final String OLD_LAS = "oldLasId";
 	private static final String STRATEGY = "strategy";
@@ -54,7 +54,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 	private IRepository repository;
 	private GroupFormationStrategyFactory factory;
 
-	private Object lock;
+	private final Object lock;
 
 	private MissionGroupCache missionGroupsCache;
 
@@ -200,7 +200,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 
 		String eloUri = action.getContext(ContextConstants.eloURI);
 		IELO elo = getElo(eloUri);
-		String strategy = "dummy";// action.getAttribute(STRATEGY);
+		StrategyType strategy = StrategyType.DUMMY;// action.getAttribute(STRATEGY);
 		GroupFormationScope scope = GroupFormationScope.LAS;// valueOf(action.getAttribute(SCOPE));
 
 		Set<String> availableUsers = getAvailableUsers(scope, mission, las,
