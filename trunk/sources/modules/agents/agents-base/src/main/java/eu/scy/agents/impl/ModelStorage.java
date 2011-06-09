@@ -61,8 +61,7 @@ public class ModelStorage implements IPersistentStorage {
 	private String computePath(String mission, String language, String key) {
 		pathBuffer.setLength(0);
 		// pathBuffer.append(mapping.getMission(mission));
-		pathBuffer.append(Mission.getForName(mission).toString()
-				.toLowerCase());
+		pathBuffer.append(Mission.getForName(mission).getId());
 		pathBuffer.append("/");
 		pathBuffer.append(language);
 		pathBuffer.append("/");
