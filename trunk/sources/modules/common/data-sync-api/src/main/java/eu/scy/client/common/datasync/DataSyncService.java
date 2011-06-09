@@ -14,6 +14,7 @@ import org.jivesoftware.smack.packet.Message;
 import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.PacketExtension;
 import org.jivesoftware.smack.provider.ProviderManager;
+import org.jivesoftware.smack.util.StringUtils;
 import org.jivesoftware.smackx.muc.MultiUserChat;
 
 import eu.scy.common.configuration.Configuration;
@@ -148,7 +149,7 @@ public class DataSyncService implements IDataSyncService {
 					throw new DataSyncException("Session could not be created!");
 				}
 				MultiUserChat muc = new MultiUserChat(connection, mucID);
-				muc.join(connection.getUser());
+				muc.join(StringUtils.parseBareAddress(connection.getUser()));
 				newSession = new SyncSession(connection, muc, toolid, listener);
 				
 				logger.debug("Session successfully created with id: " + mucID);
@@ -197,7 +198,7 @@ public class DataSyncService implements IDataSyncService {
                 } else {
                     MultiUserChat muc = new MultiUserChat(connection, mucID);
                     try {
-                            muc.join(connection.getUser());
+                            muc.join(StringUtils.parseBareAddress(connection.getUser()));
                             ISyncSession joinedSession = new SyncSession(connection, muc, listener);
                             sessionMap.put(mucID, joinedSession);
                             if (fetchState) {
