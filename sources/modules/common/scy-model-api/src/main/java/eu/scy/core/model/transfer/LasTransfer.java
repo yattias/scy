@@ -11,6 +11,7 @@ public class LasTransfer extends BaseXMLTransfer{
 
     private String originalLasId;
     private String name;
+    private String fullName;
     private AnchorEloTransfer anchorElo;
     private Integer minutesPlannedUsedInLas = 0;
     private String comments;
@@ -71,5 +72,13 @@ public class LasTransfer extends BaseXMLTransfer{
 
     public void setInstructions(String instructions) {
         this.instructions = instructions;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 }

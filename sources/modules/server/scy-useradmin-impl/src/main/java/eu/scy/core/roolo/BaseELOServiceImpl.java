@@ -52,8 +52,8 @@ public class BaseELOServiceImpl extends RooloAccessorImpl implements BaseELOServ
         this.authorKey = authorKey;
     }
 
-    public List findElosFor(URI missionURI, String username) {
-        IQueryComponent bmq2 = new MetadataQueryComponent(getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR), SearchOperation.EQUALS, username);   //e.g. author = "jan"
+    public List findElosFor(String username) {
+        IQueryComponent bmq2 = new MetadataQueryComponent(getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR), SearchOperation.EQUALS, username);
 
         IQuery q = new Query(bmq2);
         List<ISearchResult> results = getRepository().search(q);
