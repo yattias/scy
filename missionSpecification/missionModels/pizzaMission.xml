@@ -456,7 +456,7 @@
                <property name="uri" value="roolo://memory/30014/0/Nutrition+Table.scypds"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_D.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_05_nutrientsTable.html"/>
-               <property name="resourcesUri" value=""/>
+               <property name="resourcesUri" value="http://www.scy-lab.eu/content/en/mission3/resource_05_nutrientsTable.html"/>
                <property name="inputMissionAnchorIds">
                   <list />
                </property>
