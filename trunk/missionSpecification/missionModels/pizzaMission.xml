@@ -353,7 +353,7 @@
                <property name="uri" value="roolo://memory/30139/0/My+Health+Passport.resultcard"/>
 			   <property name="iconType" value="Dataset_processed"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_20_healthPassport.html"/>
+               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_11_13_18_19_20.html"/>
                <property name="resourcesUri" value=""/>
                <property name="inputMissionAnchorIds">
                   <list />
@@ -697,62 +697,9 @@
                </property>
             </bean>
 
-            <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="evaluateDiet"/>
-               <property name="uri" value="roolo://memory/30079/0/Evaluate+Your+Diet+%28Health+Passport%29.rtf"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_11_evaluateDiet.html"/>
-               <property name="resourcesUri" value=""/>
-               <property name="inputMissionAnchorIds">
-                  <list />
-               </property>
-               <property name="loEloUris">
-                  <list />
-               </property>
-            </bean>
-			
-			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="basalMetabolicRate"/>
-               <property name="uri" value="roolo://memory/30076/0/Basal+Metabolic+Rate+%28Health+Passport%29.rtf"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_13_basalMetabolicRate.html"/>
-               <property name="resourcesUri" value=""/>
-               <property name="inputMissionAnchorIds">
-                  <list />
-               </property>
-               <property name="loEloUris">
-                  <list />
-               </property>
-            </bean>
 
-			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="heartRate"/>
-               <property name="uri" value="roolo://memory/30078/0/Heart+Rate+%28Health+Passport%29.rtf"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_19_heartRate.html"/>
-               <property name="resourcesUri" value=""/>
-               <property name="inputMissionAnchorIds">
-                  <list />
-               </property>
-               <property name="loEloUris">
-                  <list />
-               </property>
-            </bean>
 			
-			<bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="bodyMassIndex"/>
-               <property name="uri" value="roolo://memory/30077/0/Body+Mass+Index+%28Health+Passport%29.rtf"/>
-               <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_B.txt"/>
-               <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_18_bodyMassIndex.html"/>
-               <property name="resourcesUri" value=""/>
-               <property name="inputMissionAnchorIds">
-                  <list />
-               </property>
-               <property name="loEloUris">
-                  <list />
-               </property>
-            </bean>
-			
+
 			</list>
 			
       </property>
