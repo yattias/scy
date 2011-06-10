@@ -7,30 +7,26 @@
           <source>LOMv1.0</source>
           <value>author</value>
         </role>
-        <entity>wouter</entity>
+        <entity>Caspar</entity>
         <date>
-          <dateTime>2011-06-01T13:46:16.293+0200</dateTime>
+          <dateTime>2011-05-16T11:33:52.921+0200</dateTime>
         </date>
       </contribute>
       <version>0</version>
     </lifecycle>
     <technical>
       <customElements>
-        <dateCreated>1306928776293</dateCreated>
-        <dateLastModified>1306928776293</dateLastModified>
+        <dateCreated>1305538432921</dateCreated>
+        <dateLastModified>1305538432921</dateLastModified>
       </customElements>
-      <format>scy/pedagogicalplansettings</format>
+      <format>scy/templateelos</format>
     </technical>
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/50066/0/runForYourLife.scy</entry>
+        <entry>roolo://memory/50066/0/runForYourLife.scytemplateelos</entry>
       </identifier>
-      <las>information</las>
-      <missionRunning>
-        <catalog>memory</catalog>
-        <entry>roolo://memory/50024/0/RFYL.scymissionspecification</entry>
-      </missionRunning>
+      <las />
       <title>
         <string language="en">runForYourLife</string>
       </title>
@@ -46,8 +42,8 @@
     </relation>
   </lom>
 </metadata>
-<content languageIndependent="true">
-
+<content languageIndependent="true" contentType="xml">
+<templateElosEloUris />
 </content>
 <resources>
 </resources>
