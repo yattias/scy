@@ -29,7 +29,7 @@
 			[Bindable] private var createdby:String;
 			[Bindable] private var modified:String;
 			[Bindable] private var shown:String;
-			[Bindable] private var eval:String;
+			//[Bindable] private var eval:String;
 			[Bindable] private var score:String;
 			[Bindable] private var feedbackText:String;
 			[Bindable] private var quality:String;
@@ -160,7 +160,6 @@
 			private function refreshOverallDisplay(xml:XML):void {
 				feedbackText = xml.comment;
 				shown = xml.shown;
-				eval = xml.evaluation;
 				score = xml.scor;
 				quality = xml.quality;
 				feedbackURI = xml.uri;
