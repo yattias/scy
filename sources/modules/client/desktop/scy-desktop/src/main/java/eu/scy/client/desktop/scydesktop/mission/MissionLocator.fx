@@ -33,6 +33,9 @@ import eu.scy.client.desktop.desktoputils.XFX;
 import javafx.util.Sequences;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBox;
 import javafx.util.StringLocalizer;
+import javax.swing.JOptionPane;
+import java.lang.Exception;
+
 
 /**
  * @author SikkenJ
@@ -279,7 +282,7 @@ public class MissionLocator {
    }
 
    function startSingleEloMission() {
-      def eloUri = new URI(initializer.singleEloUri);
+      def eloUri = findSingleEloUri();
       def scyElo = ScyElo.loadElo(eloUri, tbi);
       if (scyElo != null) {
          var missionRuntimeModel: MissionRuntimeModel;
@@ -295,10 +298,37 @@ public class MissionLocator {
             scyEloToLoad: scyElo
          });
       } else {
-         logger.warn("Cannot find ELO with uri: {eloUri}");
-         DialogBox.showMessageDialog("Cannot find ELO with uri:\n{eloUri}\nSCY-Lab will quit.", "Cannot find ELO", null, function(): Void {
+         logger.warn("Cannot find product with uri: {eloUri}");
+         DialogBox.showMessageDialog(String.format(##"Cannot find product with url:%n%s%nSCY-Lab will quit.",eloUri), ##"Cannot find product", null, function(): Void {
             FX.exit();
          }, null);
+      }
+   }
+
+   function findSingleEloUri(): URI {
+      if (initializer.singleEloUri.equalsIgnoreCase("askuser")) {
+         var uriEntered = false;
+         var enteredUriString = "";
+         var message = ##"Please enter the product url:";
+         def uriStart = "roolo://";
+         while (not uriEntered) {
+            enteredUriString = JOptionPane.showInputDialog(null, message, enteredUriString);
+            if (enteredUriString == "") {
+               FX.exit();
+            } else if (enteredUriString.startsWith(uriStart)) {
+               try {
+                  return new URI(enteredUriString)
+               } catch (e: Exception) {
+                  println("e: {e}");
+                  message = String.format(##"The url is not valid: %s%nPlease enter valid product url:",e);
+               }
+            } else {
+               message = String.format(##"The url is not valid: it should start with %s%nPlease enter valid product url:",uriStart);
+            }
+         }
+         return null;
+      } else {
+         return new URI(initializer.singleEloUri);
       }
    }
 
