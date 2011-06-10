@@ -20,11 +20,11 @@ public class ModellingStandalone extends JFrame implements WindowListener {
 	private final static Logger LOGGER = Logger.getLogger(ModellingStandalone.class.getName());
 	private ModelEditor editor;
 
-	public ModellingStandalone() {
+	public ModellingStandalone(String[] args) {
 		super("SCYDynamics - standalone version");
 		this.addWindowListener(this);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		editor = new ModelEditor(getProperties());
+		editor = new ModelEditor(getProperties(args));
 		this.getContentPane().setLayout(new BorderLayout());
 		this.getContentPane().add(editor, BorderLayout.CENTER);
 		this.setPreferredSize(new Dimension(800, 600));
@@ -32,7 +32,7 @@ public class ModellingStandalone extends JFrame implements WindowListener {
 		this.setVisible(true);
 	}
 
-	private Properties getProperties() {
+	private Properties getProperties(String[] args) {
 		File confFile = new File("scydynamics.properties");
 		Properties props = ModelEditor.getDefaultProperties();
 		try {
@@ -43,7 +43,7 @@ public class ModellingStandalone extends JFrame implements WindowListener {
 		} catch (IOException ex) {
 			LOGGER.warning(ex.getMessage());
 		}
-		props.put("show.popouttabs", "true");
+		props.put("show.popouttabs", "false");
 		props.put("editor.mode", "quantitative_modelling");
 		props.put("editor.export_to_sqv", "true");
 		LOGGER.info("current props:");
@@ -52,7 +52,7 @@ public class ModellingStandalone extends JFrame implements WindowListener {
 	}
 
 	public static void main(String[] args) {
-		new ModellingStandalone();
+		new ModellingStandalone(args);
 	}
 
 	@Override

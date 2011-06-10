@@ -45,7 +45,7 @@ public abstract class SimulationPanel extends JPanel implements ActionListener, 
 		this.setLayout(new BorderLayout());
 		JPanel westPanel = new JPanel();
 		westPanel.setLayout(new BorderLayout());
-		westPanel.add(simulationPanel = new SimulationSettingsPanel(editor,	this), BorderLayout.NORTH);
+		westPanel.add(simulationPanel = new SimulationSettingsPanel(editor, this, withTimeVariable), BorderLayout.NORTH);
 		westPanel.add(variablePanel = new VariableSelectionPanel(editor, bundle, withTimeVariable), BorderLayout.CENTER);
 		JScrollPane scroller = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scroller.setViewportView(westPanel);

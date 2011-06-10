@@ -8,12 +8,14 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import eu.scy.client.tools.scydynamics.model.SimquestModelQuantitative;
 import eu.scy.elo.contenttype.dataset.DataSet;
@@ -125,7 +127,6 @@ public class TableTab extends SimulationPanel implements Runnable, ChangeListene
 
         // building the tablemodel
         ArrayList<ModelVariable> selectedVariables = new ArrayList<ModelVariable>();
-        //ModelVariable time = new ModelVariable();
         for (ModelVariable var : sqvModel.getVariables()) {
             // getting a reference to the time variable
             if (variablePanel.getSelectedVariables().contains(var.getName())) {
@@ -135,8 +136,11 @@ public class TableTab extends SimulationPanel implements Runnable, ChangeListene
 
         tableModel = null;
         tablePanel.remove(scrollPane);
-        tableModel = new SimulationTableModel(selectedVariables, dataServer);
+        tableModel = new SimulationTableModel(selectedVariables, dataServer, simulationPanel.getDigits());
         table = new JTable(tableModel);
+        DefaultTableCellRenderer defaultRenderer = new DefaultTableCellRenderer();
+        defaultRenderer.setHorizontalAlignment(JLabel.RIGHT);
+        table.setDefaultRenderer(String.class, defaultRenderer);
         table.setFillsViewportHeight(true);
         scrollPane = new JScrollPane(table);
         tablePanel.add(scrollPane, BorderLayout.CENTER);

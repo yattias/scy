@@ -10,7 +10,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class TabPanel extends JPanel implements ActionListener, WindowListener {
-	
+
 	private JPanel panel;
 	private String title;
 	private int index;
@@ -20,7 +20,7 @@ public class TabPanel extends JPanel implements ActionListener, WindowListener {
 	private class TabButton extends JButton {
 
 		public TabButton() {
-			super(new ImageIcon(JTools.getSysResourceImage("SortAsc")));
+			super(Util.getImageIcon("popout_16.png"));
 			setUI(new BasicButtonUI());
 			int size = 17;
 			setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -43,20 +43,26 @@ public class TabPanel extends JPanel implements ActionListener, WindowListener {
 		this.properties = properties;
 		setOpaque(false);
 		setLayout(new FlowLayout(0, 0, 0));
-		setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
+		//setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
+		setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		JLabel label;
-		if (title.equals("graph"))
-			label = new JLabel(new ImageIcon(
-					JTools.getSysResourceImage("JvtGraph")));
-		else
-			label = new JLabel(new ImageIcon(
-					JTools.getSysResourceImage("JvtTable")));
+		if (title.equalsIgnoreCase("graph")) {
+			label = new JLabel(Util.getImageIcon("graph_22.png"));
+		} else if (title.equalsIgnoreCase("table")) {
+			label = new JLabel(Util.getImageIcon("table_22.png"));
+		} else if (title.equalsIgnoreCase("editor")) {
+			label = new JLabel(Util.getImageIcon("editor_22.png"));
+		} else {
+			label = new JLabel("unknown");
+		}
+		//label.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 5));
 		label.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 5));
 		add(label);
 		label = new JLabel(title);
-		label.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 10));
+		//label.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 10));
+		label.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 5));
 		add(label);
-		if (properties.getProperty("show.popouttabs", "false").equals("true")) {
+		if (!title.equalsIgnoreCase("editor") && properties.getProperty("show.popouttabs", "false").equals("true")) {
 			JButton butt = new TabButton();
 			butt.addActionListener(this);
 			add(butt);
@@ -72,7 +78,7 @@ public class TabPanel extends JPanel implements ActionListener, WindowListener {
 		frame.setPreferredSize(new Dimension(600, 400));
 		frame.setSize(new Dimension(600, 400));
 		frame.addWindowListener(this);
-		((ChangeListener)panel).stateChanged(new ChangeEvent(this));
+		((ChangeListener) panel).stateChanged(new ChangeEvent(this));
 		frame.setVisible(true);
 	}
 
@@ -86,10 +92,11 @@ public class TabPanel extends JPanel implements ActionListener, WindowListener {
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		if (title.equals("graph"))
+		if (title.equals("graph")) {
 			modelEditor.addGraph();
-		else
+		} else {
 			modelEditor.addTable();
+		}
 	}
 
 	@Override
@@ -107,7 +114,6 @@ public class TabPanel extends JPanel implements ActionListener, WindowListener {
 	@Override
 	public void windowOpened(WindowEvent windowevent) {
 	}
-
 	private static final MouseListener buttonMouseListener = new MouseAdapter() {
 
 		@Override
@@ -127,7 +133,5 @@ public class TabPanel extends JPanel implements ActionListener, WindowListener {
 				button.setBorderPainted(false);
 			}
 		}
-
 	};
-
 }

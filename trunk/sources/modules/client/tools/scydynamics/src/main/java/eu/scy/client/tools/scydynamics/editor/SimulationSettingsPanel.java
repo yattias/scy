@@ -10,7 +10,9 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 
 import eu.scy.client.tools.scydynamics.editor.ModelEditor.Mode;
 import eu.scy.client.tools.scydynamics.model.Model;
@@ -24,23 +26,25 @@ public class SimulationSettingsPanel extends JPanel {
 	private JTextField stopField;
 	private JTextField stepField;
 	private JComboBox methodbox;
-	String[] methods = { "RungeKuttaFehlberg", "euler", "static"};
+	//private String[] methods = { "RungeKuttaFehlberg", "euler", "static"};
+	private String[] methods = { "RungeKuttaFehlberg", "euler"};
 	private String calculationMethod;
 	private AbstractButton runButton;
 	private JButton stopButton;
+	private JSpinner digitSpinner;
 
-	public SimulationSettingsPanel(ModelEditor editor, ActionListener listener) {
+	public SimulationSettingsPanel(ModelEditor editor, ActionListener listener, boolean withDigitSpinner) {
 		super();
 		this.editor = editor;
 		calculationMethod = (String) editor.getProperties().get("editor.fixedcalculationmethod");
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createTitledBorder("Simulation settings"));
-		initUI(listener);
+		initUI(listener, withDigitSpinner);
 	}
 
-	public void initUI(ActionListener listener) {
+	private void initUI(ActionListener listener, boolean withDigitSpinner) {
 		JPanel northPanel = new JPanel();
-		northPanel.setLayout(new java.awt.GridLayout(4, 2));
+		northPanel.setLayout(new java.awt.GridLayout(5, 2));
 		startField = new JTextField(6);
 		startField.setHorizontalAlignment(JTextField.RIGHT);
 		startField.setEditable(false);
@@ -49,6 +53,7 @@ public class SimulationSettingsPanel extends JPanel {
 		stepField = new JTextField(6);
 		stepField.setHorizontalAlignment(JTextField.RIGHT);
 		methodbox = getMethodBox();
+		digitSpinner = new JSpinner(new SpinnerNumberModel( 2, 0, 5, 1));
 		
 		if (editor.getMode()!=Mode.QUALITATIVE_MODELLING) {
 			northPanel.add(new JLabel("Start time"));
@@ -59,6 +64,10 @@ public class SimulationSettingsPanel extends JPanel {
 			northPanel.add(stepField);
 			northPanel.add(new JLabel("Method"));
 			northPanel.add(methodbox);
+			if (withDigitSpinner) {
+				northPanel.add(new JLabel("Digits in table"));
+				northPanel.add(digitSpinner);
+			}
 		}
 		this.add(northPanel, BorderLayout.NORTH);
 		
@@ -113,6 +122,10 @@ public class SimulationSettingsPanel extends JPanel {
 		} else {
 			methodbox.setSelectedItem(model.getMethod());
 		}
+	}
+
+	public Integer getDigits() {
+	    return (Integer) this.digitSpinner.getValue();
 	}
 
 	public String getStart() {
