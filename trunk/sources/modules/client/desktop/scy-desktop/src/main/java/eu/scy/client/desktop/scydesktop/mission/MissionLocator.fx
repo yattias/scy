@@ -33,6 +33,8 @@ import eu.scy.client.desktop.desktoputils.XFX;
 import javafx.util.Sequences;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.DialogBox;
 import javafx.util.StringLocalizer;
+import javax.swing.JOptionPane;
+import java.lang.Exception;
 
 /**
  * @author SikkenJ
@@ -160,7 +162,7 @@ public class MissionLocator {
                  scyElo: missionRuntimeElo
               }
       eloSaveAsPanel.setTitle(##"Empty mission");
-      Composer.localizeDesign(eloSaveAsPanel.getDesignRootNodes(), StringLocalizer{});
+      Composer.localizeDesign(eloSaveAsPanel.getDesignRootNodes(), StringLocalizer {});
       eloSaveAsPanel.modalDialogBox = ModalDialogBox {
                  content: Group {
                     content: eloSaveAsPanel.getDesignRootNodes()
@@ -245,7 +247,7 @@ public class MissionLocator {
       askUserForMissionNode.newMissionListView.cellFactory = missionCellFactory;
       var newMissions: MissionSpecificationElo[] = Sequences.sort(missions.getMissionSpecificationElosArray(), new ScyEloTitleComparator()) as MissionSpecificationElo[];
       askUserForMissionNode.newMissionListView.items = newMissions;
-      Composer.localizeDesign(askUserForMissionNode.getDesignRootNodes(), StringLocalizer{});
+      Composer.localizeDesign(askUserForMissionNode.getDesignRootNodes(), StringLocalizer {});
       window.scyContent = EmptyBorderNode {
                  content: Group {
                     content: askUserForMissionNode.getDesignRootNodes()
@@ -279,7 +281,7 @@ public class MissionLocator {
    }
 
    function startSingleEloMission() {
-      def eloUri = new URI(initializer.singleEloUri);
+      def eloUri = findSingleEloUri();
       def scyElo = ScyElo.loadElo(eloUri, tbi);
       if (scyElo != null) {
          var missionRuntimeModel: MissionRuntimeModel;
@@ -295,10 +297,37 @@ public class MissionLocator {
             scyEloToLoad: scyElo
          });
       } else {
-         logger.warn("Cannot find ELO with uri: {eloUri}");
-         DialogBox.showMessageDialog("Cannot find ELO with uri:\n{eloUri}\nSCY-Lab will quit.", "Cannot find ELO", null, function(): Void {
+         logger.warn("Cannot find product with uri: {eloUri}");
+         DialogBox.showMessageDialog("Cannot find product with uri:\n{eloUri}\nSCY-Lab will quit.", "Cannot find product", null, function(): Void {
             FX.exit();
          }, null);
+      }
+   }
+
+   function findSingleEloUri(): URI {
+      if (initializer.singleEloUri.equalsIgnoreCase("askuser")) {
+         var uriEntered = false;
+         var enteredUriString = "";
+         var message = "Please enter the product url:";
+         def uriStart = "roolo://";
+         while (not uriEntered) {
+            enteredUriString = JOptionPane.showInputDialog(null, message, enteredUriString);
+            if (enteredUriString == "") {
+               FX.exit();
+            } else if (enteredUriString.startsWith(uriStart)) {
+               try {
+                  return new URI(enteredUriString)
+               } catch (e: Exception) {
+                  println("e: {e}");
+                  message = "The url is not valid: {e}\nPlease enter valid product url";
+               }
+            } else {
+               message = "The url is not valid: it should start with {uriStart}\nPlease enter valid product url";
+            }
+         }
+         return null;
+      } else {
+         return new URI(initializer.singleEloUri);
       }
    }
 
