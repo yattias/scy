@@ -10,6 +10,7 @@ import javax.swing.*;
 import eu.scy.client.tools.scydynamics.editor.ModelEditor;
 import java.util.logging.Logger;
 
+@SuppressWarnings("serial")
 public class ModellingApplet extends JApplet {
 
     private final static Logger LOGGER = Logger.getLogger(ModellingApplet.class.getName());

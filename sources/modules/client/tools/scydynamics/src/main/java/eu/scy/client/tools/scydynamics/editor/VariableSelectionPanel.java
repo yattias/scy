@@ -16,7 +16,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import colab.um.draw.JdFigure;
 import colab.um.draw.JdObject;
@@ -138,12 +137,6 @@ public class VariableSelectionPanel extends JPanel {
 			}
 			variablesPanel.setBorder(BorderFactory.createTitledBorder(bundle.getString("PANEL_VARIABLESELECTION")));
 			
-/*			JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
-			splitPane.setOneTouchExpandable(true);
-			splitPane.setTopComponent(variablesPanel);
-			splitPane.setBottomComponent(getValuesPanel());			
-			this.add(splitPane, BorderLayout.NORTH);*/
-			
 			JPanel contentPanel = new JPanel();
 			contentPanel.setLayout(new BorderLayout());
 			contentPanel.add(variablesPanel, BorderLayout.NORTH);
@@ -155,7 +148,7 @@ public class VariableSelectionPanel extends JPanel {
 	private JPanel getValuesPanel() {
 		textFields.clear();
 		JPanel panel = new JPanel();
-		panel.setBorder(BorderFactory.createTitledBorder("values"));
+		panel.setBorder(BorderFactory.createTitledBorder(bundle.getString("PANEL_VARIABLEVALUES")));
 		int variablecount = model.getConstants().size() + model.getStocks().size();
 		panel.setLayout(new GridLayout(variablecount, 2));
 		JdObject object;

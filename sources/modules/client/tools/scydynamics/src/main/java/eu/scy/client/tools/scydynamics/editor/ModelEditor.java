@@ -205,6 +205,7 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		tabbedPane = new JTabbedPane();
 		tabbedPane.addChangeListener(new ChangeListener() {
 
+	    @Override
 			public void stateChanged(ChangeEvent evt) {
 				JTabbedPane pane = (JTabbedPane) evt.getSource();
 				((ChangeListener) pane.getSelectedComponent()).stateChanged(evt);
@@ -219,7 +220,9 @@ public class ModelEditor extends JPanel implements AdjustmentListener {
 		graphTab = new GraphTab(this, bundle);
 		tableTab = new TableTab(this, bundle);
 
-		tabbedPane.addTab(bundle.getString("PANEL_EDITOR"), new ImageIcon(JTools.getSysResourceImage("JvtEditor")), editorTab);
+		//tabbedPane.addTab(bundle.getString("PANEL_EDITOR"), Util.getImageIcon("editor_22.png"), editorTab);
+		tabbedPane.add(editorTab, 0);
+		tabbedPane.setTabComponentAt(0, new TabPanel(bundle.getString("PANEL_EDITOR"), editorTab, this, properties));
 		if (properties.get("show.graph").equals("true")) {
 			addGraph();
 		}
