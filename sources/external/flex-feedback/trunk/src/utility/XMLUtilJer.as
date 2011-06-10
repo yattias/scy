@@ -40,6 +40,9 @@ package utility
 			xmlObject.rawdatathumb = object.rawdata.thumbnail;
 			xmlObject.rawdatafull = object.rawdata.fullscreen;
 			xmlObject.rawdatadataset = object.rawdata.dataset;
+			xmlObject.shown = object.shown;
+			xmlObject.evalu = object.evalu;
+			xmlObject.score = object.score;
 			xmlObject.feedbackelourl = object.feedbackelourl;
 			xmlObject.snippeturl = object.snippeturl;
 			return xmlObject;
@@ -96,6 +99,9 @@ package utility
 			subCE.rawdatathumb = selectedElo.rawdatathumb;
 			subCE.rawdatafull = selectedElo.rawdatafull;
 			subCE.rawdatadataset = selectedElo.rawdatadataset;
+			subCE.shown = selectedElo.shown;
+			subCE.evalu = selectedElo.evalu;
+			subCE.score = selectedElo.score;
 			subCE.feedbackelourl = selectedElo.feedbackelourl;
 			subCE.snippeturl = selectedElo.snippeturl;
 			return subCE;
@@ -142,6 +148,9 @@ package utility
 			newELO.rawdata.thumbnail = <thumbnail>{cdata(ob.rawdatathumb)}</thumbnail>;
 			newELO.rawdata.fullscreen = <fullscreen>{cdata(ob.rawdatafull)}</fullscreen>;
 			newELO.rawdata.dataset = <dataset>{cdata(ob.rawdatadataset)}</dataset>;
+			//newELO.shown = <shown>{cdata(ob.shown)}</shown>;
+			newELO.evalu = <evalu>{cdata(ob.evalu)}</evalu>;
+			//newELO.score = <score>{cdata(ob.score)}</score>;
 			newELO.snippeturl = <snippeturl>{cdata(ob.snippeturl)}</snippeturl>;
 			newELO.inquiryquestion = <inquiryquestion>{cdata(ob.inquiryquestion)}</inquiryquestion>;
 			newELO.studentinquiry = <studentinquiry>{ob.studentinquiry}</studentinquiry>;
@@ -190,6 +199,7 @@ package utility
 			XMLfeed.calendardate = <calendardate>{cdata(getFormattedDate(my_date))}</calendardate>;
 			XMLfeed.calendartime = <calendartime>{cdata(getFormattedTime(my_date))}</calendartime>;
 			XMLfeed.comment = <comment>{cdata(dic["comment"])}</comment>;
+			XMLfeed.evalu = <evalu>{cdata(dic["evalu"])}</evalu>;
 			XMLfeed.replies = <replies />;
 			
 			return XMLfeed;

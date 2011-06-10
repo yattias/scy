@@ -135,9 +135,11 @@
 					var dico:Dictionary = new Dictionary();
 					dico["author"] = FlexGlobals.topLevelApplication.parameters.username;
 					dico["comment"] = feedbackArea.text;
+					dico["evalu"] = feedbackslider.getEvalu();
 					var ELOnewURL:String = feedbackURI;
 					
 					var ass:AutoSaveService;
+					trace(XMLUtilJer.getFeedBackXML(dico));
 					if(FlexGlobals.topLevelApplication.url.indexOf("file:///") > -1 || FlexGlobals.topLevelApplication.url.indexOf("www-data-public") > -1) {
 						ass = new AutoSaveService(new String(so.data.savefeedback).substring(1), "e4x");
 					}
@@ -313,7 +315,7 @@
 									<s:HGroup width="100%" verticalAlign="middle">
 										<s:Label text="Quality:" width="30%" color="#333333" textAlign="right" />
 										<mx:Spacer width="2" />
-										<local:feedbackSlider width="100%" />
+										<local:feedbackSlider id="feedbackslider" width="100%" />
 									</s:HGroup>
 								</s:VGroup>
 								<s:Button label="{resourceManager.getString('resources', 'GIVE_FEEDBACK_TITLE')}" click="button1_clickHandler(event)"/>

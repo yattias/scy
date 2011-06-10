@@ -40,7 +40,7 @@
 			[Bindable] public var rawdatafull:String = "";
 			[Bindable] public var rawdatadataset:String = "";
 			[Bindable] public var shown:String;
-			[Bindable] public var eval:String;
+			[Bindable] public var evalu:String;
 			[Bindable] public var score:String;
 			[Bindable] public var feedbackelourl:String;
 			[Bindable] public var snippeturl:String = "";
@@ -84,16 +84,7 @@
 
 		]]>
 	</fx:Script>
-	<!--
-	<s:BorderContainer id="cat" width="100%" height="25" backgroundColor="{index.THEME_COL}" borderColor="{index.THEME_LIGHT}" borderWeight="2" toolTip="{resourceManager.getString('resources', 'TOOLTIP_TABLE_CATEGORY')}"
-					   mouseOver="bordercontainer1_mouseOverHandler(event)"
-					   mouseOut="bordercontainer1_mouseOutHandler(event)"
-					   mouseChildren="false">
-		<s:VGroup width="100%" height="100%" verticalAlign="middle" horizontalAlign="center">
-			<s:Label id="titleLabel" text="{catname}" color="#FFFFFF" />
-		</s:VGroup>
-	</s:BorderContainer>
-	-->
+	
 	<s:BorderContainer id="elo" width="100%" height="100%" backgroundColor="{index.THEME_COL}" borderColor="{index.THEME_LIGHT}" borderWeight="2" toolTip="{resourceManager.getString('resources', 'TOOLTIP_TABLE_ELO')}"
 					   mouseOver="bordercontainer1_mouseOverHandler(event)"
 					   mouseOut="bordercontainer1_mouseOutHandler(event)"
@@ -117,7 +108,10 @@
 			<mx:Spacer height="3" />
 			<s:Label color="#333333" text="{resourceManager.getString('resources', 'DATE')+': '+modified}" width="100%" />
 			<mx:Spacer height="3" />
-			<s:Label color="#333333" text="{resourceManager.getString('resources', 'SHOWN')+': '+shown+' / '+resourceManager.getString('resources', 'EVALUATED')+': '+eval+' / '+resourceManager.getString('resources', 'SCORE')+': '+score}" width="100%" />
+			<!--
+			<s:Label color="#333333" text="{resourceManager.getString('resources', 'SHOWN')+': '+shown+' / '+resourceManager.getString('resources', 'EVALUATED')+': '+evalu+' / '+resourceManager.getString('resources', 'SCORE')+': '+score}" width="100%" />
+			-->
+			<s:Label color="#333333" text="{resourceManager.getString('resources', 'SHOWN')+': '+shown+' / '+resourceManager.getString('resources', 'SCORE')+': '+score}" width="100%" />
 		</s:VGroup>
 	</s:BorderContainer>
 </s:VGroup>

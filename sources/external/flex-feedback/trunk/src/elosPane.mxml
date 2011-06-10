@@ -32,9 +32,9 @@
 							tc.rawdatathumb = index.NOTHUMB;
 						}
 						
-						tc.shown = "0";
-						tc.eval = "0";
-						tc.score = "0";
+						tc.shown = eloObj.shown;
+						tc.evalu = eloObj.evalu;
+						tc.score = eloObj.score;
 						objectsToTile.addItem(tc);
 					}
 				}

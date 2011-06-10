@@ -6,6 +6,10 @@
 	<fx:Script>
 		<![CDATA[
 			[Bindable] private var inquiryNumber:Number;
+			
+			public function getEvalu():Number {
+				return refOnInqTextSlider.value;
+			}
 		]]>
 	</fx:Script>
 	
