@@ -90,7 +90,7 @@
 "close instruction"="sluit instructie"
 "open instruction"="open instructie"
 "My ELO list (last modified):"="Mijn producten (op laatste wijziging)"
-"Connection problems"="Connectie problemen"
+"Connection problems"="Problemen met de verbinding"
 "Could not connect to host %0%:%1%:\n%2%"="Kan geen verbinding met de host %0%:%1%:\n%2%"
 "Failed to complete login:\n%0%\nSCY-Lab will quit."="De login kan niet worden voltooid:\n%0%\nSCY-Lab zal stoppen."
 "Cannot find product with url:%n%s%nSCY-Lab will quit."="Kan geen product vinden met url:%n%s%nSCY-Lab zal stoppen."
