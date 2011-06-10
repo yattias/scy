@@ -262,6 +262,7 @@
         <property name="tupleSpace" ref="sessionTupleSpace"/>
         <property name="commandSpace" ref="portfolioTupleSpace"/>
         <property name="missionELOService" ref="missionELOService"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
         <property name="sessionService" ref="sessionService"/>
     </bean>
 

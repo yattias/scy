@@ -355,6 +355,7 @@
     </bean>
 
     <bean id="sessionService" class="eu.scy.core.runtime.SessionServiceImpl">
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
         <property name="tupleSpace" ref="sessionTupleSpace"/>
         <property name="metaDataTypeManager" ref="metadataTypeManager"/>
         <property name="extensionManager" ref="extensionManager"/>

@@ -67,7 +67,7 @@
                     tabs.addChild(currentActivity);
                     if(dijit.byId("currentActivityTab")){
                         if(!refreshActive) {
-                            setInterval('dijit.byId("currentActivityTab").refresh()', 10000);
+                            setInterval('dijit.byId("currentActivityTab").refresh()', 15000);
                             refreshActive = true;
                         }
                     }
