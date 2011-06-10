@@ -4,7 +4,6 @@ import info.collide.sqlspaces.client.TupleSpace;
 
 import java.util.Set;
 
-import eu.scy.agents.groupformation.GroupFormationScope;
 import eu.scy.agents.groupformation.GroupFormationStrategy;
 import eu.scy.agents.groupformation.cache.GroupCache;
 
@@ -13,7 +12,6 @@ public abstract class AbstractGroupFormationStrategy implements
 
 	protected GroupCache cache;
 	protected TupleSpace commandSpace;
-	protected GroupFormationScope scope;
 	protected String mission;
 	protected String las;
 
@@ -36,10 +34,6 @@ public abstract class AbstractGroupFormationStrategy implements
 		minimumGroupSize = minGroupSize;
 	}
 
-	public GroupFormationScope getScope() {
-		return scope;
-	}
-
 	public String getMission() {
 		return mission;
 	}
@@ -55,11 +49,6 @@ public abstract class AbstractGroupFormationStrategy implements
 	@Override
 	public void setMission(String mission) {
 		this.mission = mission;
-	}
-
-	@Override
-	public void setScope(GroupFormationScope scope) {
-		this.scope = scope;
 	}
 
 	public TupleSpace getCommandSpace() {

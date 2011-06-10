@@ -13,7 +13,13 @@ import eu.scy.agents.groupformation.cache.MissionGroupCache;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.ActionConstants;
 import eu.scy.agents.impl.AgentProtocol;
+import eu.scy.agents.impl.AgentRooloServiceImpl;
 import eu.scy.agents.session.Session;
+import eu.scy.common.mission.MissionSpecificationElo;
+import eu.scy.common.mission.RuntimeSetting;
+import eu.scy.common.mission.RuntimeSettingKey;
+import eu.scy.common.mission.RuntimeSettingsElo;
+import eu.scy.common.mission.RuntimeSettingsEloContent;
 import eu.scy.common.mission.StrategyType;
 import info.collide.sqlspaces.commons.Field;
 import info.collide.sqlspaces.commons.Tuple;
@@ -28,35 +34,43 @@ import java.net.URISyntaxException;
 import java.rmi.dgc.VMID;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class GroupFormationAgent extends AbstractRequestAgent implements
+public class GroupFormationAgent2 extends AbstractRequestAgent implements
         IRepositoryAgent {
 
-    private static final Logger LOGGER = Logger
-            .getLogger(GroupFormationAgent.class);
+    private static final Logger LOGGER = Logger.getLogger(GroupFormationAgent2.class);
+
+    private static final String GROUPFORMATION_SETTING = "groupformation";
+    private static final String GROUPFORMATION_STRATEGY_SETTING = "groupformation.strategy";
+    private static final String GROUPFORMATION_REFERENCEELO_SETTING = "groupformation.referenceElo";
+    private static final String GROUPFORMATION_MINUSER_SETTING = "groupformation.minUsers";
+    private static final String GROUPFORMATION_MAXUSER_SETTING = "groupformation.maxUsers";
 
     private static final String LAS = "newLasId";
     private static final String OLD_LAS = "oldLasId";
     private static final String STRATEGY = "strategy";
     private static final String FORM_GROUP = "form_group";
-    static final String NAME = GroupFormationAgent.class.getName();
+    static final String NAME = GroupFormationAgent2.class.getName();
     private static final String SCOPE = "scope";
 
     private static final String MIN_GROUP_SIZE_PARAMETER = "MinGroupSize";
     private static final String MAX_GROUP_SIZE_PARAMETER = "MaxGroupSize";
 
     private int listenerId;
-    private IRepository repository;
+    private AgentRooloServiceImpl rooloServices;
     private GroupFormationStrategyFactory factory;
 
     private final Object lock;
 
     private MissionGroupCache missionGroupsCache;
+    private Map<Mission, GroupFormationActivation> missionSpecsMap;
 
-    public GroupFormationAgent(Map<String, Object> params) {
+    public GroupFormationAgent2(Map<String, Object> params) {
         super(NAME, params);
         lock = new Object();
         if (params.containsKey(AgentProtocol.TS_HOST)) {
@@ -76,6 +90,8 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
             e.printStackTrace();
         }
         missionGroupsCache = new MissionGroupCache();
+        rooloServices = new AgentRooloServiceImpl();
+        missionSpecsMap = new HashMap<Mission, GroupFormationActivation>();
     }
 
     /* activated by action log */
@@ -131,41 +147,61 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
             super.call(command, seq, afterTuple, beforeTuple);
             return;
         } else {
-            IAction action = ActionTupleTransformer
-                    .getActionFromTuple(afterTuple);
+            IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
+            String missionUri = action.getContext(ContextConstants.mission);
             String type = action.getType();
-            String oldLas = action.getAttribute(OLD_LAS);
-            String las = action.getAttribute(LAS);
-            if (!correctLasEntry(oldLas, las)) {
-                return;
+            if (type.equals(ActionConstants.ACTION_LAS_CHANGED)) {
+                GroupFormationActivation groupformationActivation = getGroupFormationActivation(URI.create(missionUri), action.getUser());
             }
             if (type.equals(ActionConstants.ACTION_LOG_OUT)) {
-                synchronized (lock) {
-                    missionGroupsCache.removeUser(action.getUser());
-                    return;
-                }
-            }
-            if (!type.equals(ActionConstants.ACTION_LAS_CHANGED)) {
-                return;
-            }
-            if ("conceptualisatsionConceptMap".equals(oldLas)) {
-                synchronized (lock) {
-                    removeUserFromCache(
-                            action,
-                            (Integer) configuration.getParameter(new AgentParameter(
-                                    getSession().getMission(action.getUser())
-                                            .getName(),
-                                    MIN_GROUP_SIZE_PARAMETER)), oldLas);
-                }
-            }
-            if ("conceptualisatsionConceptMap".equals(las)) {
-                try {
-                    runGroupFormation(action);
-                } catch (TupleSpaceException e) {
-                    e.printStackTrace();
-                }
+
             }
         }
+    }
+
+
+    private GroupFormationActivation getGroupFormationActivation(URI missionUri, String user) {
+        Mission mission = getSession().getMission(user);
+        GroupFormationActivation groupformationActivation = missionSpecsMap.get(mission);
+        if (groupformationActivation == null) {
+            groupformationActivation = readGroupFormationActivation(missionUri, mission);
+        }
+        return groupformationActivation;
+    }
+
+    private GroupFormationActivation readGroupFormationActivation(URI missionUri, Mission mission) {
+        MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(missionUri, rooloServices);
+        URI runtimeSettingsEloUri = missionSpecificationElo.getTypedContent().getRuntimeSettingsEloUri();
+        RuntimeSettingsElo runtimeSettingsElo = RuntimeSettingsElo.loadElo(runtimeSettingsEloUri, rooloServices);
+        RuntimeSettingsEloContent runtimeSettingsEloContent = runtimeSettingsElo.getTypedContent();
+
+        GroupFormationActivation activation = new GroupFormationActivation();
+
+        List<RuntimeSetting> settings = runtimeSettingsEloContent.getAllSettings();
+        for (RuntimeSetting setting : settings) {
+            RuntimeSettingKey key = setting.getKey();
+            if (key.getName().equals(GROUPFORMATION_STRATEGY_SETTING)) {
+                String las = key.getLasId();
+                StrategyType strategy = StrategyType.valueOf(setting.getValue());
+                activation.addStrategy(las, strategy);
+            }
+            if (key.getName().equals(GROUPFORMATION_MAXUSER_SETTING)) {
+                String las = key.getLasId();
+                int maxUsers = Integer.parseInt(setting.getValue());
+                activation.addMaximumUsers(las, maxUsers);
+            }
+            if (key.getName().equals(GROUPFORMATION_MINUSER_SETTING)) {
+                String las = key.getLasId();
+                int minUsers = Integer.parseInt(setting.getValue());
+                activation.addMinimumUsers(las, minUsers);
+            }
+            if (key.getName().equals(GROUPFORMATION_REFERENCEELO_SETTING)) {
+                String las = key.getLasId();
+                URI referenceElo = URI.create(setting.getValue());
+                activation.addReferenceElo(las, referenceElo);
+            }
+        }
+        return activation;
     }
 
     private boolean correctLasEntry(String oldLas, String newLas) {
@@ -178,12 +214,6 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
         return true;
     }
 
-    private void removeUserFromCache(IAction action, int minGroupSize,
-                                     String las) {
-        Mission mission = getSession().getMission(action.getUser());
-        missionGroupsCache.removeFromCache(mission, las, action.getUser(),
-                minGroupSize);
-    }
 
     private void runGroupFormation(IAction action) throws TupleSpaceException {
         Mission mission = getSession().getMission(action.getUser());
@@ -198,7 +228,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 
         String eloUri = action.getContext(ContextConstants.eloURI);
         IELO elo = getElo(eloUri);
-        StrategyType strategy = StrategyType.DUMMY;// action.getAttribute(STsRATEGY);
+        StrategyType strategy = StrategyType.DUMMY;// action.getAttribute(STRATEGY);
 
         Set<String> availableUsers = getAvailableUsers(mission, las,
                 action.getUser());
@@ -235,7 +265,8 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 
     }
 
-    private Set<String> getAvailableUsers(Mission mission, String las, String thisUser)
+    private Set<String> getAvailableUsers(
+            Mission mission, String las, String thisUser)
             throws TupleSpaceException {
         Set<String> availableUsers = new HashSet<String>();
         availableUsers.add(thisUser);
@@ -425,7 +456,7 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 
     private IELO getElo(String eloUri) {
         try {
-            return repository.retrieveELO(new URI(eloUri));
+            return rooloServices.getRepository().retrieveELO(new URI(eloUri));
         } catch (URISyntaxException e) {
             e.printStackTrace();
             return null;
@@ -445,12 +476,12 @@ public class GroupFormationAgent extends AbstractRequestAgent implements
 
     @Override
     public void setMetadataTypeManager(IMetadataTypeManager manager) {
-        // metadataTypeManager = manager;
+        rooloServices.setMetadataTypeManager(manager);
     }
 
     @Override
     public void setRepository(IRepository rep) {
-        repository = rep;
+        rooloServices.setRepository(rep);
     }
 
     public GroupFormationStrategyFactory getFactory() {
