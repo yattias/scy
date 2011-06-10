@@ -93,3 +93,8 @@
 "Connection problems"="Connectie problemen"
 "Could not connect to host %0%:%1%:\n%2%"="Kan geen verbinding met de host %0%:%1%:\n%2%"
 "Failed to complete login:\n%0%\nSCY-Lab will quit."="De login kan niet worden voltooid:\n%0%\nSCY-Lab zal stoppen."
+"Cannot find product with url:%n%s%nSCY-Lab will quit."="Kan geen product vinden met url:%n%s%nSCY-Lab zal stoppen."
+"Cannot find product"="Kan product niet vinden"
+"Please enter the product url:"="Voer de url van het product in:"
+"The url is not valid: %s%nPlease enter valid product url:"="De url is niet goed: %s%nVoer de goede url van het product in:"
+"The url is not valid: it should start with %s%nPlease enter valid product url:"="De url is niet goed: het moet beginnen met %s%nVoer de goede url van het product in:"

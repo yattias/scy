@@ -298,7 +298,7 @@ public class MissionLocator {
          });
       } else {
          logger.warn("Cannot find product with uri: {eloUri}");
-         DialogBox.showMessageDialog("Cannot find product with uri:\n{eloUri}\nSCY-Lab will quit.", "Cannot find product", null, function(): Void {
+         DialogBox.showMessageDialog(String.format(##"Cannot find product with url:%n%s%nSCY-Lab will quit.",eloUri), ##"Cannot find product", null, function(): Void {
             FX.exit();
          }, null);
       }
@@ -308,7 +308,7 @@ public class MissionLocator {
       if (initializer.singleEloUri.equalsIgnoreCase("askuser")) {
          var uriEntered = false;
          var enteredUriString = "";
-         var message = "Please enter the product url:";
+         var message = ##"Please enter the product url:";
          def uriStart = "roolo://";
          while (not uriEntered) {
             enteredUriString = JOptionPane.showInputDialog(null, message, enteredUriString);
@@ -319,10 +319,10 @@ public class MissionLocator {
                   return new URI(enteredUriString)
                } catch (e: Exception) {
                   println("e: {e}");
-                  message = "The url is not valid: {e}\nPlease enter valid product url";
+                  message = String.format(##"The url is not valid: %s%nPlease enter valid product url:",e);
                }
             } else {
-               message = "The url is not valid: it should start with {uriStart}\nPlease enter valid product url";
+               message = String.format(##"The url is not valid: it should start with %s%nPlease enter valid product url:",uriStart);
             }
          }
          return null;
