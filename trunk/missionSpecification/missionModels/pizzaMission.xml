@@ -75,10 +75,6 @@
                         <list>
 								<value>foodAndExerciseDiary</value>
 								<value>dailyCalorieIntake</value>
-								<value>evaluateDiet</value>
-								<value>basalMetabolicRate</value>
-								<value>bodyMassIndex</value>
-								<value>heartRate</value>
 								<value>estimatedEnergyRequirements</value>
 							</list>
                      </property>
