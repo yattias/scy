@@ -11,22 +11,23 @@ import java.util.List;
  *
  * @author Christopher Krueger
  */
-public class QueryTerm {
+public class Query {
 
     private String term;
 
-    private QueryTerm term1;
+    private Query leftChild;
 
     private String operator;
     
-    private QueryTerm term2;
+    private Query rightChild;
 
     private boolean hasBracket;
 
 
     public static void main(String[] args) {
         // for testing purposes
-//        QueryTerm query = QueryTerm.parse("(test  AND evaluation  test2)");
+        Query query;
+//        query = QueryTerm.parse("(test  AND evaluation  test2)");
 //        System.out.println(query.toString());
 //        query = QueryTerm.parse("(test evaluation)");
 //        System.out.println(query.toString());
@@ -36,8 +37,10 @@ public class QueryTerm {
 //        System.out.println(query.toString());
 //        query = QueryTerm.parse("(test OR evaluation)");
 //        System.out.println(query.toString());
-//        query = QueryTerm.parse("first AND (test and evaluation) OR notLast last");
-//        System.out.println(query.toString());
+        query = Query.parse("first AND (test and evaluation) OR notLast last");
+        System.out.println(query.toString());
+        query = Query.parse("first AND (test and evaluation) OR notLast last");
+        System.out.println(query.replaceOperator("OR", "AND", 2));
 //        query = QueryTerm.parse("last");
 //        System.out.println(query.toString());
 //        query = QueryTerm.parse("(last) ()");
@@ -45,16 +48,32 @@ public class QueryTerm {
     }
 
 
-    private QueryTerm(String term) {
+    private Query(String term) {
         this.term = term;
         this.hasBracket = false;
     }
 
-    private QueryTerm(QueryTerm term1, String operator, QueryTerm term2) {
-        this.term1 = term1;
-        this.term2 = term2;
+    private Query(Query term1, String operator, Query term2) {
+        this.leftChild = term1;
+        this.rightChild = term2;
         this.operator = operator;
         this.hasBracket = false;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public String getTerm() {
+        return term;
+    }
+
+    public Query getLeftChild() {
+        return leftChild;
+    }
+
+    public Query getRightChild() {
+        return rightChild;
     }
 
     public boolean hasBracket() {
@@ -65,7 +84,7 @@ public class QueryTerm {
         this.hasBracket = hasBracket;
     }
 
-    public static QueryTerm parse(String query) {
+    public static Query parse(String query) {
         if(query == null) {
             throw new IllegalArgumentException("query can not be null");
         }
@@ -74,15 +93,15 @@ public class QueryTerm {
         return parse(list);
     }
 
-    private static QueryTerm parse(List<String> query) {
+    private static Query parse(List<String> query) {
         if(query.isEmpty()) {
-            return new QueryTerm("");
+            return new Query("");
         } else if(query.size() == 1) {
             // only one term
-            return new QueryTerm(query.get(0));
+            return new Query(query.get(0));
         } else if(query.size() == 2) {
             // two terms means they are linked by OR
-            return new QueryTerm(new QueryTerm(query.get(0)), "OR", new QueryTerm(query.get(1)));
+            return new Query(new Query(query.get(0)), "OR", new Query(query.get(1)));
         } else {
             // three or more terms...
 
@@ -90,10 +109,10 @@ public class QueryTerm {
                 // no bracket at the beginning
 
                 if(query.get(1).equals("AND") || query.get(1).equals("OR")) {
-                    return new QueryTerm(new QueryTerm(query.get(0)), query.get(1), parse(query.subList(2, query.size())));
+                    return new Query(new Query(query.get(0)), query.get(1), parse(query.subList(2, query.size())));
                 } else {
                     // if the second term is not AND and not OR, it must be a term
-                    return new QueryTerm(new QueryTerm(query.get(0)), "OR", parse(query.subList(1, query.size())));
+                    return new Query(new Query(query.get(0)), "OR", parse(query.subList(1, query.size())));
                 }
             } else {
                 // The term has brackets so we need to find the end...
@@ -117,13 +136,13 @@ public class QueryTerm {
                     for(String s : query) {
                         sb.append(s).append(' ');
                     }
-                    return new QueryTerm(sb.toString());
+                    return new Query(sb.toString());
 
                 } else {
 
                     if(endIndex == query.size() - 1) {
                         // no more terms behind the bracket... remove the brackets
-                        QueryTerm qt = parse(query.subList(1, endIndex));
+                        Query qt = parse(query.subList(1, endIndex));
                         qt.setBracket(true);
                         return qt;
                     } else {
@@ -131,24 +150,24 @@ public class QueryTerm {
 
                         if(endIndex + 2 == query.size()) {
                             // one other term behind the bracket
-                            QueryTerm leftTerm = parse(query.subList(0, endIndex));
-                            QueryTerm rightTerm = new QueryTerm(query.get(endIndex + 1));
-                            QueryTerm queryTerm = new QueryTerm(leftTerm, "OR", rightTerm);
+                            Query leftTerm = parse(query.subList(0, endIndex));
+                            Query rightTerm = new Query(query.get(endIndex + 1));
+                            Query queryTerm = new Query(leftTerm, "OR", rightTerm);
                             queryTerm.setBracket(true);
                             return queryTerm;
                         } else {
                             // more than one term behind the bracket
                             if(query.get(endIndex + 1).equals("AND") || query.get(endIndex + 1).equals("OR")) {
-                                QueryTerm leftTerm = parse(query.subList(0, endIndex + 1));
-                                QueryTerm rightTerm = parse(query.subList(endIndex + 2, query.size()));
-                                QueryTerm queryTerm = new QueryTerm(leftTerm, query.get(endIndex + 1), rightTerm);
+                                Query leftTerm = parse(query.subList(0, endIndex + 1));
+                                Query rightTerm = parse(query.subList(endIndex + 2, query.size()));
+                                Query queryTerm = new Query(leftTerm, query.get(endIndex + 1), rightTerm);
                                 queryTerm.setBracket(true);
                                 return queryTerm;
                             } else {
                                 // if the second term is not AND and not OR, it must be a term
-                                QueryTerm leftTerm = parse(query.subList(0, endIndex + 1));
-                                QueryTerm rightTerm = parse(query.subList(endIndex + 1, query.size() - 1));
-                                QueryTerm queryTerm = new QueryTerm(leftTerm, "OR", rightTerm);
+                                Query leftTerm = parse(query.subList(0, endIndex + 1));
+                                Query rightTerm = parse(query.subList(endIndex + 1, query.size() - 1));
+                                Query queryTerm = new Query(leftTerm, "OR", rightTerm);
                                 queryTerm.setBracket(true);
                                 return queryTerm;
 
@@ -159,7 +178,56 @@ public class QueryTerm {
             }
         }
     }
-    
+
+    public String replaceOperator(String from, String to, int numberOfReplacements) {
+        if(this.term != null) {
+            if(this.hasBracket()) {
+                return "(" + this.term + ")";
+            } else {
+                return this.term;
+            }
+        } else {
+            String result;
+            if(numberOfReplacements >= 0) {
+                // replace the operator
+                String op;
+                if(this.operator.equals(from)) {
+                    op = to;
+                } else {
+                    op = this.operator;
+                }
+
+                // get the left child
+                if(this.leftChild.getOperator() != null && this.leftChild.getOperator().equals(from)) {
+                    numberOfReplacements--;
+                }
+                String leftTerm = this.leftChild.replaceOperator(from, to, numberOfReplacements);
+
+                // get the right child
+                if(this.rightChild.getOperator() != null && this.rightChild.getOperator().equals(from)) {
+                    numberOfReplacements--;
+                }
+                String rightTerm = this.rightChild.replaceOperator(from, to, numberOfReplacements);
+                if(!op.equals("AND")) {
+                    result = leftTerm + " " + rightTerm;
+                } else {
+                    result = leftTerm + " " + op + " " + rightTerm;
+                }
+            } else {
+                if(!this.operator.equals("AND")) {
+                    result = this.leftChild.toString() + " " + this.rightChild.toString();
+                } else {
+                    result = this.leftChild.toString() + " " + this.operator + " " + this.rightChild.toString();
+                }
+            }
+            if(this.hasBracket()) {
+                return "(" + result + ")";
+            } else {
+                return result;
+            }
+        }
+    }
+
     @Override
     public String toString() {
         if(this.term != null) {
@@ -169,10 +237,16 @@ public class QueryTerm {
                 return this.term;
             }
         } else {
-            if(this.hasBracket()) {
-                return "(" + this.term1 + " " + this.operator + " " + this.term2 + ")";
+            String result;
+            if(!this.operator.equals("AND")) {
+                result = this.leftChild + " " + this.rightChild;
             } else {
-                return this.term1 + " " + this.operator + " " + this.term2;
+                result = this.leftChild + " " + this.operator + " " + this.rightChild;
+            }
+            if(this.hasBracket()) {
+                return "(" + result + ")";
+            } else {
+                return result;
             }
         }
     }
