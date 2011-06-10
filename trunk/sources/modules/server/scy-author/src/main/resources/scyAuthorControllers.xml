@@ -62,6 +62,8 @@
                    /app/scyauthor/MissionHighLevelOverview.html=missionHighLevelOverviewController
                    /app/scyauthor/missionPlanner.html=missionPlannerController
                    /app/scyauthor/viewTechnicalConfigurationForPedagogicalPlan.html=viewTechnicalConfigurationForPedagogicalPlanController
+                   /app/scyauthor/tabs/MissionDescription.html=missionDescriptionController
+                   /app/scyauthor/tabs/Finetune.html=fineTuneController
 
                    /app/scyauthor/createnewPedplansteps/PedPlanNameController.html=pedPlanNameController
                    /app/scyauthor/createnewPedplansteps/selectScenario.html=selectScenarioController
@@ -262,6 +264,7 @@
         <property name="tupleSpace" ref="sessionTupleSpace"/>
         <property name="commandSpace" ref="portfolioTupleSpace"/>
         <property name="missionELOService" ref="missionELOService"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
         <property name="sessionService" ref="sessionService"/>
     </bean>
 
@@ -360,6 +363,20 @@
         <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
         <property name="missionELOService" ref="missionELOService"/>
         <property name="transferObjectServiceCollection" ref="transferObjectServiceCollection"/>
+	</bean>
+
+    <bean id="missionDescriptionController" class="eu.scy.server.controllers.tabs.MissionDescriptionController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="userService" ref="userService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+	</bean>
+
+    <bean id="fineTuneController" class="eu.scy.server.controllers.tabs.FineTuneController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="userService" ref="userService"/>
+        <property name="missionELOService" ref="missionELOService"/>
 	</bean>
 
     <bean id="pedPlanNameController" class="eu.scy.server.controllers.createnewpedplansteps.PedPlanNameController">
