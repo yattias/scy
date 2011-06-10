@@ -64,7 +64,7 @@
 {\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
 {\colortbl\red0\green0\blue0;\red51\green51\blue51;}
 
-\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here your inferences.\par
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here your inferences. Please add limitations of the inferences.\par
 \li0\ri0\fi0\f1\ul0\cf1\par
 }</RichText>
 </content>
