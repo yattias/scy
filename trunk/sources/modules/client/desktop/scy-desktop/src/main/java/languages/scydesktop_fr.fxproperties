@@ -93,3 +93,8 @@
 "Connection problems"="Connection problems"
 "Could not connect to host %0%:%1%:\n%2%"="Could not connect to host %0%:%1%:\n%2%"
 "Failed to complete login:\n%0%\nSCY-Lab will quit."="Failed to complete login:\n%0%\nSCY-Lab will quit."
+"Cannot find product with url:%n%s%nSCY-Lab will quit."="Cannot find product with url:%n%s%nSCY-Lab will quit."
+"Cannot find product"="Cannot find product"
+"Please enter the product url:"="Please enter the product url:"
+"The url is not valid: %s%nPlease enter valid product url:"="The url is not valid: %s%nPlease enter valid product url:"
+"The url is not valid: it should start with %s%nPlease enter valid product url:"="The url is not valid: it should start with %s%nPlease enter valid product url:"
