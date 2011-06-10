@@ -2,6 +2,7 @@ package eu.scy.core.runtime;
 
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.core.model.transfer.LasActivityInfo;
+import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
 import eu.scy.core.model.transfer.UserActivityInfo;
 
 import java.net.URI;

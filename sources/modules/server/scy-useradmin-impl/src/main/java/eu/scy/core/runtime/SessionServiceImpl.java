@@ -1,7 +1,10 @@
 package eu.scy.core.runtime;
 
 import eu.scy.common.mission.MissionSpecificationElo;
+import eu.scy.common.scyelo.ScyElo;
+import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.model.transfer.LasActivityInfo;
+import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
 import eu.scy.core.model.transfer.UserActivityInfo;
 import eu.scy.core.roolo.BaseELOServiceImpl;
 import info.collide.sqlspaces.client.TupleSpace;
@@ -10,6 +13,7 @@ import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import org.apache.log4j.Logger;
 
+import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,6 +32,8 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
     private final static String MISSION = "mission";
     private final static String LAS = "las";
     private final static String SEND_NOTIFICATION = "send_notification";
+
+    private XMLTransferObjectService xmlTransferObjectService;
 
     private static final Logger logger = Logger.getLogger(SessionServiceImpl.class);
 
@@ -60,7 +66,7 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
                 }
 
                 addTool(userActivityInfo);
-                addLas(userActivityInfo);
+                addLas(userActivityInfo, getPedagogicalPlanForMission(missionSpecificationElo));
 
                 List elos = findElosFor(userActivityInfo.getParsedUserName());
                 String size = String.valueOf(elos.size());
@@ -99,7 +105,7 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
                 }
 
                 addTool(userActivityInfo);
-                addLas(userActivityInfo);
+                addLas(userActivityInfo, getPedagogicalPlanForMission(missionSpecificationElo));
 
                 return userActivityInfo;
 
@@ -111,6 +117,24 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
         return null;
 
     }
+
+
+    public PedagogicalPlanTransfer getPedagogicalPlanForMission(MissionSpecificationElo missionSpecificationElo) {
+        PedagogicalPlanTransfer transfer = null;
+        URI uri = missionSpecificationElo.getTypedContent().getPedagogicalPlanSettingsEloUri();
+        ScyElo scyElo = ScyElo.loadLastVersionElo(uri, this);
+        if (scyElo != null) {
+            String content = scyElo.getContent().getXmlString();
+            if (content != null && content.length() > 0) {
+                transfer = (PedagogicalPlanTransfer) getXmlTransferObjectService().getObject(content);
+            }
+
+
+        }
+
+        return transfer;
+    }
+
 
     private void sendMessage(String missionURI) {
         Tuple messageTuple = new Tuple(SEND_NOTIFICATION, "stefan@scy.collide.info/Smack", "digital@scy.collide.info/Smack", missionURI, "Norway rocks!");
@@ -139,7 +163,7 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
 
     }
 
-    private void addLas(UserActivityInfo userActivityInfo) {
+    private void addLas(UserActivityInfo userActivityInfo, PedagogicalPlanTransfer pedagogicalPlanForMission) {
         try {
             Tuple lasTemplate = new Tuple(LAS, userActivityInfo.getUserName(), String.class, String.class);
 
@@ -149,10 +173,12 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
             for (int j = 0; j < lasTuples.length; j++) {
                 Tuple lasTuple = lasTuples[j];
                 Field[] lasFields = lasTuple.getFields();
+                String lasId = "";
                 for (int k = 0; k < lasFields.length; k++) {
                     Field lasField = lasFields[k];
-                    if (k == 3) userActivityInfo.setLasName((String) lasField.getValue());
+                    if (k == 3) lasId = (String) lasField.getValue();
                 }
+                userActivityInfo.setLasName(pedagogicalPlanForMission.obtainLasName(lasId));
             }
         } catch (TupleSpaceException e) {
             logger.error(e.getMessage(), e);
@@ -234,5 +260,13 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
 
     public void setTupleSpace(TupleSpace tupleSpace) {
         this.tupleSpace = tupleSpace;
+    }
+
+    public XMLTransferObjectService getXmlTransferObjectService() {
+        return xmlTransferObjectService;
+    }
+
+    public void setXmlTransferObjectService(XMLTransferObjectService xmlTransferObjectService) {
+        this.xmlTransferObjectService = xmlTransferObjectService;
     }
 }

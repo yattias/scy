@@ -56,7 +56,9 @@ public class PedagogicalPlanELOServiceImpl extends BaseELOServiceImpl implements
 
                 for (int i = 0; i < lasses.size(); i++) {
                     Las las = lasses.get(i);
+
                     LasTransfer lasTransfer = new LasTransfer();
+                    //lasTransfer.setFullName(String.valueOf(las.getMissionAnchor().getScyElo().getTitle()));
                     lasTransfer.setOriginalLasId(las.getId());
                     lasTransfer.setName(las.getTitle());
                     lasTransfer.setLasType(las.getLasType().name());
@@ -72,6 +74,7 @@ public class PedagogicalPlanELOServiceImpl extends BaseELOServiceImpl implements
                         anchorEloTransfer.setName(missionAnchorElo.getTitle());
                         anchorEloTransfer.setObligatoryInPortfolio(missionAnchorElo.getObligatoryInPortfolio());
                         lasTransfer.setAnchorElo(anchorEloTransfer);
+                        lasTransfer.setFullName(missionAnchorElo.getTitle());
                     }
 
                 }
