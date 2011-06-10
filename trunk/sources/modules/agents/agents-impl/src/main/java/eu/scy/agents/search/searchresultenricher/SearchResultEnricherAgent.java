@@ -149,90 +149,90 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
      * If nothing needs to be enriched, an empty array will be returned.
      */
 	public void enrichSearchResult(Tuple tuple) {
-//        String id = tuple.getField(1).getValue().toString();
-        String eloUri = tuple.getField(8).getValue().toString();
-        String user = tuple.getField(4).getValue().toString();
-        String mission = tuple.getField(6).getValue().toString();
-        String session = tuple.getField(7).getValue().toString();
+//            String id = tuple.getField(1).getValue().toString();
+            String eloUri = tuple.getField(8).getValue().toString();
+            String user = tuple.getField(4).getValue().toString();
+            String mission = tuple.getField(6).getValue().toString();
+            String session = tuple.getField(7).getValue().toString();
 
-        Properties props = new Properties();
-        for (int i = 9; i < tuple.getNumberOfFields(); i++) {
-            String prop = tuple.getField(i).getValue().toString();
-            int indexfirstEqualSign = prop.indexOf("=");
-            String key = prop.substring(0, indexfirstEqualSign);
-            String value = prop.substring(indexfirstEqualSign + 1);
-            props.put(key, value);
-        }
-        if(	props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY) == null || props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY).equals("") || 
-        	props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT) == null || props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT).equals("")) {
-//        	logger.warn("Received action log with missing values! Query = " + 
-//        			props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY) + " | Result = " + 
-//        			props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT));
-        	System.out.println("Received action log with missing values! Query = " + 
-        			props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY) + " | Result = " + 
-        			props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT));
-        	return;
-        }
+            Properties props = new Properties();
+            for (int i = 9; i < tuple.getNumberOfFields(); i++) {
+                String prop = tuple.getField(i).getValue().toString();
+                int indexfirstEqualSign = prop.indexOf("=");
+                String key = prop.substring(0, indexfirstEqualSign);
+                String value = prop.substring(indexfirstEqualSign + 1);
+                props.put(key, value);
+            }
+            if(props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY) == null || props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY).equals("") ||
+                props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT) == null || props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT).equals("")) {
+//                logger.warn("Received action log with missing values! Query = " +
+//                                props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY) + " | Result = " +
+//                                props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT));
+                System.out.println("Received action log with missing values! Query = " +
+                                props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY) + " | Result = " +
+                                props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT));
+                return;
+            }
 
-        // Split search query in several items
-		String searchQuery = props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY);
+            // Split search query in several items
+            String searchQuery = props.getProperty(ACTION_LOG_ATTRIBUTE_QUERY);
 
-		// use the results of the user query as reference
-		List<ISearchResult> referenceResults = SearchResultUtils.createSearchResultsFromXML(props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT));
+            // use the results of the user query as reference
+            List<ISearchResult> referenceResults = SearchResultUtils.createSearchResultsFromXML(props.getProperty(ACTION_LOG_ATTRIBUTE_RESULT));
 
-		SearchResultRanking ranking = null;
-		// Choose strategy
-		if (referenceResults.size() < INFIMUM_GOOD_SEARCH_RESULT) {
-			ranking = extendSearchResult(user, eloUri, searchQuery, referenceResults);
+            SearchResultRanking ranking = null;
+            // Choose strategy
+            if (referenceResults.size() < INFIMUM_GOOD_SEARCH_RESULT) {
+                ranking = extendSearchResult(user, eloUri, searchQuery, referenceResults);
 
-		} else if (referenceResults.size() > SUPREMUM_GOOD_SEARCH_RESULT) {
-			ranking = pruneSearchResult(searchQuery, referenceResults);
+            } else if (referenceResults.size() > SUPREMUM_GOOD_SEARCH_RESULT) {
+                ranking = pruneSearchResult(searchQuery, referenceResults);
 
-		} else {
-			// Number of results is ok, so we do nothing
-		}
+            } else {
+                // Number of results is ok, so we do nothing
+            }
         
-        // Propose better search queries, if found
-		if (ranking != null && ranking.getResults().length > 0) {
-			System.out.println(generateTuple(user, mission, session, ranking));
-			
-//			try {
-//				commandSpace.write(generateResponseTuple(user, mission, session, ranking.getResults()));
-//			} catch (TupleSpaceException e) {
-//				System.out.println(e);
-//			}
-		}
-    }
-    
-    /*
-     * Tries to create another search query, that will provide more results.
-     */
-	private SearchResultRanking extendSearchResult(String userId, String eloUri, String query, List<ISearchResult> referenceResults) {
-		SearchResultRanking ranking = new SearchResultRanking(MAXIMAL_PROPOSAL_NUMBER, referenceResults);
+            // Propose better search queries, if found
+            if (ranking != null && ranking.getResults().length > 0) {
+                System.out.println(generateTuple(user, mission, session, ranking));
 
-		// TODO ask ontology for synonyms
+//                try {
+//                        commandSpace.write(generateResponseTuple(user, mission, session, ranking.getResults()));
+//                } catch (TupleSpaceException e) {
+//                        System.out.println(e);
+//                }
+            }
+        }
+    
+        /*
+         * Tries to create another search query, that will provide more results.
+         */
+        private SearchResultRanking extendSearchResult(String userId, String eloUri, String query, List<ISearchResult> referenceResults) {
+            SearchResultRanking ranking = new SearchResultRanking(MAXIMAL_PROPOSAL_NUMBER, referenceResults);
+
+            // TODO ask ontology for synonyms
 //		askOntologyForSynonym(userId, eloUri, "keyword");
-		return ranking;
-    }
+            return ranking;
+        }
 
 	private String[] askOntologyForSynonym(String userId, String eloUri, String keyword) {
-		// Asks the ontology for synonyms
-		try {
-			String id = new VMID().toString();
-			Tuple requestTuple = new Tuple(id, userId, ONTOLOGY_AGENT_NAME, ONTOLOGY_AGENT_COMMAND, userId, eloUri, keyword);
-			this.commandSpace.write(requestTuple);
-			Tuple responseTuple = this.commandSpace.waitToTake(new Tuple(id, "response", Field.createWildCardField()));
-			if(responseTuple != null) {
-		        String[] result = new String[responseTuple.getNumberOfFields() - 2];
-		        for (int i = 0; i < responseTuple.getNumberOfFields() - 2; i++) {
-		            result[i] = responseTuple.getField(i + 2).getValue().toString();
-		        }
-		        return result;
-			}
-		} catch (TupleSpaceException e) {
-			e.printStackTrace();
-		}
-		return new String[0];
+            // Asks the ontology for synonyms
+            try {
+                String id = new VMID().toString();
+                Tuple requestTuple = new Tuple(id, userId, ONTOLOGY_AGENT_NAME, ONTOLOGY_AGENT_COMMAND, userId, eloUri, keyword);
+                this.commandSpace.write(requestTuple);
+                Tuple responseTuple = this.commandSpace.waitToTake(new Tuple(id, "response", Field.createWildCardField()));
+                if(responseTuple != null) {
+                String[] result = new String[responseTuple.getNumberOfFields() - 2];
+                for (int i = 0; i < responseTuple.getNumberOfFields() - 2; i++) {
+                    result[i] = responseTuple.getField(i + 2).getValue().toString();
+                }
+                return result;
+                }
+            } catch (TupleSpaceException e) {
+                e.printStackTrace();
+            }
+            return new String[0];
 	}
 
     /*
@@ -260,9 +260,9 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         		ranking.add(anotherQuery, result);
         	}
     	} else {
-    		// Only one item and too less results... this must be handled separately
-    		
-    		// TODO: this is just a stub    		
+            // Only one item and too less results... this must be handled separately
+
+            // TODO: this is just a stub
     	}
     	return ranking;
     }
@@ -275,17 +275,18 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 
     	// Generate queries
     	for (int i = 0; i < items.length; i++) {
-    		String s = "";
-    		for (int j = 0; j < items.length; j++) {
-    			if (i != j) {
-    				s = s + items[j] + " ";
-    			}
-    		}
-    		itemsets[i] = s.trim();
+            String s = "";
+            for (int j = 0; j < items.length; j++) {
+                if (i != j) {
+                    s = s + items[j] + " ";
+                }
+            }
+            itemsets[i] = s.trim();
     	}
     	return itemsets;
     }
-    
+
+    // TODO replace with Query.replaceOperator(...)
     private String replaceOrByAnd(String query) {
     	StringBuilder sb = new StringBuilder(query);
     	while(sb.indexOf("OR") > -1) {
