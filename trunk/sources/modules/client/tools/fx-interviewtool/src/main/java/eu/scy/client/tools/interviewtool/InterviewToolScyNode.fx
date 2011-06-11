@@ -109,7 +109,7 @@ public class InterviewToolScyNode extends InterviewToolNode, Resizable, ScyToolF
        actionLogger = toolBrokerAPI.getActionLogger();
 
       var username:String = toolBrokerAPI.getLoginUserName();
-      var toolname:String = "interviewtool";
+      var toolname:String = "interview";
       var missionname:String = toolBrokerAPI.getMission();
       var sessionname:String = "n/a";
       technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT);
