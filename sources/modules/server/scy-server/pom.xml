@@ -4,7 +4,7 @@
     <parent>
         <artifactId>parent</artifactId>
         <groupId>eu.scy.server</groupId>
-        <version>35-SNAPSHOT</version>
+        <version>34-bgtrials-SNAPSHOT</version>
     </parent>
     <groupId>eu.scy.server</groupId>
     <artifactId>scy-server</artifactId>
@@ -44,7 +44,7 @@
         <dependency>
             <groupId>org.roolo</groupId>
             <artifactId>search-impl</artifactId>
-			<version>${project.version}</version>
+			<version>35-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <profiles>

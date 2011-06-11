@@ -58,6 +58,7 @@
 		<dependency>
 			<groupId>org.roolo</groupId>
 			<artifactId>elo-impl</artifactId>
+            <version>35-SNAPSHOT</version>
 		</dependency>
 				
 		<dependency>
