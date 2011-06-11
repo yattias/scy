@@ -3,13 +3,13 @@
   <parent>
     <artifactId>parent</artifactId>
     <groupId>eu.scy.server</groupId>
-    <version>35-SNAPSHOT</version>
+    <version>34-bgtrials-SNAPSHOT</version>
   </parent>
   
   <modelVersion>4.0.0</modelVersion>
   <groupId>eu.scy.server</groupId>
   <artifactId>scy-hub-commons</artifactId>
-  <version>35-SNAPSHOT</version>
+  <version>34-bgtrials-SNAPSHOT</version>
   <name>SCY-Hub-Commons</name>
   <description>Common classes for SCY-Hub and SCY-Hub-Modules</description>
   
@@ -18,13 +18,13 @@
   	<dependency>
   		<groupId>eu.scy.server</groupId>
   		<artifactId>whacket-extension</artifactId>
-  		<version>35-SNAPSHOT</version>
+  		<version>34-bgtrials-SNAPSHOT</version>
   	</dependency>
 	  
   	<dependency>
   		<groupId>eu.scy.common</groupId>
   		<artifactId>packet-transformer</artifactId>
-  		<version>35-SNAPSHOT</version>
+  		<version>34-bgtrials-SNAPSHOT</version>
   	</dependency>
 	  
   	<dependency>
