@@ -77,7 +77,9 @@ function createBasicAction(type:String):IAction {
     var action:IAction = new Action();
     action.setUser(username);
     action.setType(type);
-    action.addContext(ContextConstants.tool, "{toolname}_{loggerCount}");
+    //action.addContext(ContextConstants.tool, "{toolname}_{loggerCount}");
+	// instances of the logger doesn't need to be identified (e.g. by numbering)
+    action.addContext(ContextConstants.tool, "{toolname}");
     action.addContext(ContextConstants.mission, missionname);
     action.addContext(ContextConstants.session, sessionname);
     if (eloUri != null)
