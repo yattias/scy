@@ -4,7 +4,7 @@
     <parent>
         <artifactId>parent</artifactId>
         <groupId>eu.scy.server</groupId>
-        <version>34-bgtrials-SNAPSHOT</version>
+        <version>35-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -93,7 +93,7 @@
         <dependency>
             <groupId>eu.scy.server</groupId>
             <artifactId>scy-hub-commons</artifactId>
-            <version>34-bgtrials-SNAPSHOT</version>
+            <version>35-SNAPSHOT</version>
         </dependency>
 
         <!--dependency>
@@ -105,7 +105,7 @@
         <dependency>
             <groupId>eu.scy.common</groupId>
             <artifactId>action-logging-commons</artifactId>
-            <version>34-bgtrials-SNAPSHOT</version>
+            <version>35-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
 
@@ -138,7 +138,7 @@
         <dependency>
             <groupId>org.roolo</groupId>
             <artifactId>elo-api</artifactId>
-            <version>35-SNAPSHOT</version>
+			<version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -172,14 +172,10 @@
             </exclusions>
         </dependency>
 
-
-
-
-
         <dependency>
             <groupId>org.roolo</groupId>
             <artifactId>roolo-api</artifactId>
-            <version>35-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
 
 

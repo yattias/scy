@@ -14,6 +14,8 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Locale;
@@ -152,5 +154,16 @@ public abstract class BaseController extends AbstractController {
 
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    protected URI getURI(String uri) {
+        try {
+            URI _uri = new URI(uri);
+            return _uri;
+        } catch (URISyntaxException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return null;
+
     }
 }

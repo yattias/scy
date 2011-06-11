@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
 	default-autowire="byName">
 
-	<bean name="remoteExtensionManager" class="org.roolo.rooloimpljpa.repository.ExtensionManager">
+	<bean name="rooloJpaExtensionManager" class="org.roolo.rooloimpljpa.repository.ExtensionManager">
 		<property name="extensions">
 			<map>
 				<entry>
