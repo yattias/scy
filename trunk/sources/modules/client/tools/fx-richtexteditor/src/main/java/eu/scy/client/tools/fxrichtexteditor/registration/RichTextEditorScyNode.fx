@@ -105,7 +105,7 @@ public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyT
       }
       richTextEditor.setRichTextEditorLogger(actionLogger,
         toolBrokerAPI.getLoginUserName(), toolname, toolBrokerAPI.getMission(), "n/a",
-        "formatted text editor");
+        "richtext");
       setLoggerEloUri();
     }
 
