@@ -11,11 +11,13 @@ import info.collide.sqlspaces.commons.Tuple;
 import info.collide.sqlspaces.commons.TupleSpaceException;
 import info.collide.sqlspaces.commons.User;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Timer;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
@@ -25,12 +27,10 @@ import org.jivesoftware.smack.ConnectionListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.provider.ProviderManager;
-import org.jivesoftware.smack.util.StringUtils;
 import org.jivesoftware.smackx.Form;
 import org.jivesoftware.smackx.FormField;
 import org.jivesoftware.smackx.muc.HostedRoom;
 import org.jivesoftware.smackx.muc.MultiUserChat;
-import org.jivesoftware.smackx.muc.RoomInfo;
 import org.xmpp.component.Component;
 import org.xmpp.packet.Message;
 import org.xmpp.packet.Packet;
@@ -64,6 +64,8 @@ public class DataSyncModule extends SCYHubModule {
     private XMPPConnection connection;
 
     private TupleSpace commandSpace;
+    
+    private Timer disconnectionTimer;
 
     /**
      * @param scyhub
@@ -72,7 +74,8 @@ public class DataSyncModule extends SCYHubModule {
         super(scyhub, new DataSyncMessagePacketTransformer());
 
         bridges = new HashMap<String, DataSyncSessionBridge>();
-
+        disconnectionTimer = new Timer(true);
+        
         try {
             ConnectionConfiguration cc = new ConnectionConfiguration(Configuration.getInstance().getOpenFireHost(), Configuration.getInstance().getOpenFirePort());
             cc.setSecurityMode(SecurityMode.disabled);
@@ -107,12 +110,17 @@ public class DataSyncModule extends SCYHubModule {
                         final String elouri = afterTuple.getField(3).getValue().toString();
                         if (service.equals("create_session")) {
                             logger.debug("Got a create mucsession request with id " + id);
-                            final SyncMessage msg = createSession(elouri);
+                            final SyncMessage msg = createSession();
                             final String mucId = msg.getSessionId();
                             logger.debug("Answering id " + id + " with mucid " + mucId);
                             try {
+                                createChatFromELOUri(elouri);
                                 commandSpace.write(new Tuple(id, mucId));
                             } catch (TupleSpaceException e) {
+                                e.printStackTrace();
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            } catch (XMPPException e) {
                                 e.printStackTrace();
                             }
                         }
@@ -128,7 +136,7 @@ public class DataSyncModule extends SCYHubModule {
                 Collection<HostedRoom> hostedRooms = MultiUserChat.getHostedRooms(connection, serviceName);
                 for (HostedRoom hostedRoom : hostedRooms) {
                     final String sessionId = hostedRoom.getJid();
-                    DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId);
+                    DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId, disconnectionTimer);
                     // first check if connection is still alive
                     if (!connection.isConnected()) {
                         connection.connect();
@@ -159,7 +167,7 @@ public class DataSyncModule extends SCYHubModule {
             SyncMessage command = (SyncMessage) pojo;
             if (command.getEvent() == Event.create) {
                 logger.debug("Command: " + command.getEvent() + " " + command.getUserId() + " " + command.getToolId());
-                SyncMessage response = createSession("DataSyncModule.process.test");
+                SyncMessage response = createSession();
 
                 // we create the response message, add the extension and send it
                 // with the same id to the client
@@ -181,13 +189,13 @@ public class DataSyncModule extends SCYHubModule {
         }
     }
 
-    private SyncMessage createSession(String elouri) {
-        String sessionId = UUID.randomUUID().toString() + "@" + serviceName;
+    private SyncMessage createSession() {
+        String sessionId = UUID.randomUUID().toString().replace("-", "") + "@" + serviceName;
         // prepare response to client
         SyncMessage response = new SyncMessage(Type.answer);
         try {
             // try to create session bridge with the random id
-            DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId);
+            DataSyncSessionBridge dssl = new DataSyncSessionBridge(sessionId, disconnectionTimer);
             // first check if connection is still alive
             if (!connection.isConnected()) {
                 connection.connect();
@@ -195,41 +203,6 @@ public class DataSyncModule extends SCYHubModule {
             // try to connect the logger
             dssl.connect(connection);
             bridges.put(sessionId, dssl);
-
-            // now we create the chat session
-            elouri = elouri.replace("/", "");
-            elouri = elouri.replace(".", "");
-            elouri = elouri.replace(":", "");
-            String chatSessionName = URLEncoder.encode(elouri, "utf-8") + "@" + Configuration.getInstance().getOpenFireConference() + "." + Configuration.getInstance().getOpenFireHost();
-            
-            if (!chatRoomExists(connection, chatSessionName)) {
-                MultiUserChat muc = new MultiUserChat(connection, chatSessionName);
-                // we need to create
-                muc.create(connection.getUser());
-
-                // Get the the room's configuration form
-                Form form = muc.getConfigurationForm();
-
-                // Create a new form to submit based on the original form
-                Form submitForm = form.createAnswerForm();
-                // Add default answers to the form to submit
-                for (Iterator fields = form.getFields(); fields.hasNext();) {
-                    FormField field = (FormField) fields.next();
-                    if (!FormField.TYPE_HIDDEN.equals(field.getType()) && field.getVariable() != null) {
-                        // Sets the default value as the answer
-                        submitForm.setDefaultAnswer(field.getVariable());
-                    }
-                }
-                // Sets the new owner of the room
-                // List owners = new ArrayList();
-                // owners.add("djed11");
-                submitForm.setAnswer("muc#roomconfig_persistentroom", true);
-                submitForm.setAnswer("muc#roomconfig_enablelogging", true);
-                // Send the completed form (with default values) to the
-                // server to configure the room
-                muc.sendConfigurationForm(submitForm);
-                muc.leave();
-            }
 
             // if everything is okay we return success
             response.setEvent(Event.create);
@@ -242,6 +215,48 @@ public class DataSyncModule extends SCYHubModule {
             response.setResponse(Response.failure);
         }
         return response;
+    }
+
+    /**
+     * @param elouri
+     * @throws UnsupportedEncodingException
+     * @throws XMPPException
+     */
+    public void createChatFromELOUri(String elouri) throws UnsupportedEncodingException, XMPPException {
+        // now we create the chat session
+        elouri = elouri.replace("/", "");
+        elouri = elouri.replace(".", "");
+        elouri = elouri.replace(":", "");
+        String chatSessionName = URLEncoder.encode(elouri, "utf-8") + "@" + Configuration.getInstance().getOpenFireConference() + "." + Configuration.getInstance().getOpenFireHost();
+        
+        if (!chatRoomExists(connection, chatSessionName)) {
+            MultiUserChat muc = new MultiUserChat(connection, chatSessionName);
+            // we need to create
+            muc.create(connection.getUser());
+
+            // Get the the room's configuration form
+            Form form = muc.getConfigurationForm();
+
+            // Create a new form to submit based on the original form
+            Form submitForm = form.createAnswerForm();
+            // Add default answers to the form to submit
+            for (Iterator fields = form.getFields(); fields.hasNext();) {
+                FormField field = (FormField) fields.next();
+                if (!FormField.TYPE_HIDDEN.equals(field.getType()) && field.getVariable() != null) {
+                    // Sets the default value as the answer
+                    submitForm.setDefaultAnswer(field.getVariable());
+                }
+            }
+            // Sets the new owner of the room
+            // List owners = new ArrayList();
+            // owners.add("djed11");
+            submitForm.setAnswer("muc#roomconfig_persistentroom", true);
+            submitForm.setAnswer("muc#roomconfig_enablelogging", true);
+            // Send the completed form (with default values) to the
+            // server to configure the room
+            muc.sendConfigurationForm(submitForm);
+            muc.leave();
+        }
     }
 
     /**
