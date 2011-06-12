@@ -32,7 +32,7 @@
                 var pane1 = new dijit.layout.ContentPane({ id:"portfolioConfiguration", title:"<spring:message code="PORTFOLIO_CONFIGURATION"/>", href:"/webapp/app/scyauthor/ConfigureAssessment.html?eloURI=${missionSpecificationTransporter.uri}" });
                 fineTuneTabContainer.addChild(pane1);
 
-                var pane2 = new dijit.layout.ContentPane({ title:"<spring:message code="STUDENTS"/>", href:"viewStudentsForPedagogicalPlan.html?eloURI=${missionSpecificationTransporter.uri}" });
+                var pane2 = new dojox.layout.ContentPane({ title:"<spring:message code="STUDENTS"/>", href:"viewStudentsForPedagogicalPlan.html?eloURI=${missionSpecificationTransporter.uri}" });
                 fineTuneTabContainer.addChild(pane2);
 
                 var pane4 = new dojox.layout.ContentPane({ title:"Assessment", executeScripts: true,  href:"/webapp/app/assessment/assessmentindex.html?eloURI=${missionSpecificationTransporter.uri}" });

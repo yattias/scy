@@ -210,6 +210,8 @@
     <bean id="manageAssignedStudentController" class="eu.scy.server.controllers.ManageAssignedStudentController">
         <property name="userService" ref="userService"/>
         <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="runtimeELOService" ref="runtimeELOService"/>
 	</bean>
 
     <bean id="loadExternalPageController" class="eu.scy.server.controllers.LoadExternalPageController">

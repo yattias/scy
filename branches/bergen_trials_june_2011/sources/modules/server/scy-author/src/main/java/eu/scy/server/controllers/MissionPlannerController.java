@@ -46,15 +46,6 @@ public class MissionPlannerController extends BaseController{
         modelAndView.addObject("eloURI", getEncodedUri(request.getParameter(ELO_URI)));
     }
 
-    private String getEncodedUri(String parameter) {
-        try {
-            return URLEncoder.encode(parameter, "utf-8");
-        } catch (UnsupportedEncodingException e) {
-            logger.error(e.getMessage(), e);
-        }
-        return null;
-    }
-
     private void initializeMissionPlanning(MissionSpecificationElo missionSpecificationElo) {
         getPedagogicalPlanELOService().initializePedagogicalPlanWithLasses(missionSpecificationElo);
     }
