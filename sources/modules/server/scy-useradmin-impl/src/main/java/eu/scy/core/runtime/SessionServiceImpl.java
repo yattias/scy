@@ -188,6 +188,7 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
 
     @Override
     public List<LasActivityInfo> getActiveLasses(MissionSpecificationElo missionSpecificationElo) {
+        PedagogicalPlanTransfer pedagogicalPlan = getPedagogicalPlanForMission(missionSpecificationElo);
         Tuple lasTemplate = new Tuple(LAS, String.class, missionSpecificationElo.getTitle(), String.class);
         List<LasActivityInfo> returnList = new LinkedList<LasActivityInfo>();
         try {
@@ -209,6 +210,7 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
                 if(lasActivityInfo == null ) {
                     lasActivityInfo = new LasActivityInfo();
                     lasActivityInfo.setLasName(lasName);
+                    lasActivityInfo.setHumanReadableName(pedagogicalPlan.obtainLasName(lasName));
                     addActiveUsers(lasActivityInfo, missionSpecificationElo);
                     returnList.add(lasActivityInfo);
                 }
