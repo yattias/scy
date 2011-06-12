@@ -45,3 +45,6 @@
     </c:when>
 </c:choose>
 
+<a href="missionPlanner.html?eloURI=${eloURI}&action=reinitializePedagogicalPlan">Reinitialize plan</a>
+
+

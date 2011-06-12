@@ -82,6 +82,9 @@
                    /app/scyauthorruntime/viewLASRuntimeInfo.html=viewLASRuntimeInfoController
                    /app/scyauthorruntime/viewSingleStudentStatus.html=viewSingleStudentStatusController
                    /app/scyauthorruntime/currentActivityView.html=currentActivityViewController
+                   /app/scyauthorruntime/viewUsersInLas.html=viewUsersInLasController
+
+
 
                    /app/scyauthor/scenarioJsonView.html=scenarioJsonView
                </value>
@@ -265,6 +268,13 @@
         <property name="commandSpace" ref="portfolioTupleSpace"/>
         <property name="missionELOService" ref="missionELOService"/>
         <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+        <property name="sessionService" ref="sessionService"/>
+    </bean>
+
+    <bean id="viewUsersInLasController" class="eu.scy.server.controllers.scyauthorruntime.ViewUsersInLasController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="missionELOService" ref="missionELOService"/>
         <property name="sessionService" ref="sessionService"/>
     </bean>
 

@@ -9,8 +9,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 
 /**
  * Created by IntelliJ IDEA.
@@ -33,10 +35,24 @@ public class MissionPlannerController extends BaseController{
         if(action != null) {
             if(action.equals("clearMissionPlanning")) clearMissionPlanning(missionSpecificationElo);
             else if(action.equals("initializeMissionPlanning")) initializeMissionPlanning(missionSpecificationElo);
+            else if(action.equals("reinitializePedagogicalPlan")) {
+                clearMissionPlanning(missionSpecificationElo);
+                initializeMissionPlanning(missionSpecificationElo);
+            }
         }
 
         modelAndView.addObject("pedagogicalPlan", getPedagogicalPlanELOService().getPedagogicalPlanForMission(missionSpecificationElo));
         modelAndView.addObject("transferObjectServiceCollection", getTransferObjectServiceCollection());
+        modelAndView.addObject("eloURI", getEncodedUri(request.getParameter(ELO_URI)));
+    }
+
+    private String getEncodedUri(String parameter) {
+        try {
+            return URLEncoder.encode(parameter, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return null;
     }
 
     private void initializeMissionPlanning(MissionSpecificationElo missionSpecificationElo) {
