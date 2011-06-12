@@ -17,6 +17,7 @@ public class FeedbackTransfer extends BaseXMLTransfer {
     private String calendarDate;
     private String calendarTime;
     private String comment;
+    private String evalu;
 
     private List replies;
 
@@ -72,5 +73,13 @@ public class FeedbackTransfer extends BaseXMLTransfer {
     public void addReply(FeedbackReplyTransfer feedbackReplyTransfer) {
         if(getReplies() == null) setReplies(new LinkedList());
         getReplies().add(feedbackReplyTransfer);
+    }
+
+    public String getEvalu() {
+        return evalu;
+    }
+
+    public void setEvalu(String evalu) {
+        this.evalu = evalu;
     }
 }

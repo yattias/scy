@@ -1,4 +1,5 @@
 <%@ include file="common-taglibs.jsp" %>
+<div id="studentsForPedagogicalPlan">
         <p>
             Currently ${fn:length(users)} are assigned to this mission. Click link below to assign additional students.
         </p>
@@ -35,3 +36,4 @@
                 <br>
             </c:when>
         </c:choose>
+</div>
