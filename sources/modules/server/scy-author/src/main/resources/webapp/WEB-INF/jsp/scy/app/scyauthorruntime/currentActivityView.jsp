@@ -13,10 +13,7 @@
                     <spring:message code="LAS"/>
                 </th>
                 <th>
-                    <spring:message code="TOOL"/>
-                </th>
-                <th>
-                    <spring:message code="NUMBER_OF_ELOS"/>
+                    <spring:message code="NUMBER_OF_ELOS_IN_PORTFOLIO"/>
                 </th>
             </tr>
 
@@ -30,10 +27,7 @@
                     ${userActivityInfo.lasName}
                 </td>
                 <td>
-                    ${userActivityInfo.toolName}
-                </td>
-                <td>
-                    ${userActivityInfo.numberOfElosProduced}
+                    ${userActivityInfo.numberOfElosInPorfolio}
                 </td>
 
             </tr>

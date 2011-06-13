@@ -8,6 +8,7 @@ import eu.scy.common.mission.*;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.model.transfer.*;
+import eu.scy.core.roolo.util.EloComparator;
 import roolo.search.IQueryComponent;
 import roolo.search.MetadataQueryComponent;
 import roolo.search.IQuery;
@@ -20,6 +21,7 @@ import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -298,6 +300,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         NewestElos newestElos = new NewestElos();
 
         List feedbackList = getFeedback();
+        Collections.sort(feedbackList, new EloComparator());
         for (int i = 0; i < feedbackList.size(); i++) {
             ScyElo feedbackElo = (ScyElo) feedbackList.get(i);
             URI uri = feedbackElo.getFeedbackOnEloUri();
@@ -308,9 +311,13 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
                 transferElo.setFeedbackELO(feedbackElo);
                 newestElos.addElo(transferElo);
             }
-
-
         }
+
+        for (int i = 0; i < newestElos.getElos().size(); i++) {
+            TransferElo transferElo = (TransferElo) newestElos.getElos().get(i);
+            System.out.println(transferElo.getLastModified() + "  " + transferElo.getCatname());
+        }
+
 
         return newestElos;
     }
@@ -327,11 +334,7 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         for (int i = 0; i < results.size(); i++) {
             ISearchResult searchResult = (ISearchResult) results.get(i);
             ScyElo scyELO = getElo(searchResult.getUri());
-
             String xmlString = scyELO.getElo().getContent().getXmlString();
-
-            //log.info("***************** FEEDBACK: " + xmlString);
-
             if (xmlString.startsWith("<feedback>")) xmlString = fixXml(xmlString, scyELO);
         }
 
