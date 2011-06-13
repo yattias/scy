@@ -46,6 +46,7 @@ public class ViewPedagogicalPlanController extends BaseController {
 
         MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(uri, getMissionELOService());
         PedagogicalPlanTransfer pedagogicalPlanTransfer = null;
+        
 
         try {
             URI pedagogicalPlanUri = missionSpecificationElo.getTypedContent().getPedagogicalPlanSettingsEloUri();
