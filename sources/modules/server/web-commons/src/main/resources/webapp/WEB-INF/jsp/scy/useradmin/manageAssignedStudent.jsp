@@ -1,6 +1,6 @@
 <%@ include file="common-taglibs.jsp" %>
-<tiles:insertDefinition name="default-page">
-    <tiles:putAttribute name="main">
+<div id="menuBar">
+</div>
         <h2>${user.userDetails.firstName} ${user.userDetails.lastName}</h2>
 
 
@@ -24,10 +24,18 @@
                     </c:forEach>
                 </c:when>
         </c:choose>
-        <a href="manageAssignedStudent.html?eloURI=${eloURI}&username=${user.userDetails.username}&action=clearPortfolios">
-            Clear portfolios
+
+
+<script type="text/javascript">
+    alert("SCRIPTS ARE ENABLED!");
+</script>
+
+
+        <a href="javascript:openPage('viewStudents', '/webapp/useradmin/manageAssignedStudent.html?eloURI=${eloURI}&username=${user.userDetails.username}&action=clearPortfolios');">
+            <spring:message code="RESET_PORTFOLIO"/>
+        </a><a href="javascript:openPage('viewStudents', '/webapp/app/scyauthor/viewStudentsForPedagogicalPlan.html?eloURI=${eloURI}');">
+            <spring:message code="BACK_TO_STUDENT_LIST"/>
         </a>
 
 
-    </tiles:putAttribute>
-</tiles:insertDefinition>
+

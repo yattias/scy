@@ -46,13 +46,9 @@ public class ConfigureAssessmentController extends BaseController {
 
 
             if (action != null) {
-                if (action.equals("addGeneralLearningGoal"))
-                    addGeneralLearningGoal(missionSpecificationElo, pedagogicalPlanTransfer);
-                if (action.equals("addSpecificLearningGoal"))
-                    addSpecificLearningGoal(missionSpecificationElo, pedagogicalPlanTransfer);
                 if (action.equals("addReflectionQuestion"))
                     addReflectionQuestion(missionSpecificationElo, pedagogicalPlanTransfer, anchorEloURI, "");
-                if (action.equals("clearReflectionQuestions"))
+                else if (action.equals("clearReflectionQuestions"))
                     clearReflectionQuestions(missionSpecificationElo, pedagogicalPlanTransfer);
             }
 
@@ -64,7 +60,7 @@ public class ConfigureAssessmentController extends BaseController {
 
 
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
 
     }
@@ -132,31 +128,6 @@ public class ConfigureAssessmentController extends BaseController {
 
 
 
-    private void addSpecificLearningGoal(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer) {
-        LearningGoal learningGoal = new LearningGoal();
-        if (pedagogicalPlanTransfer != null) {
-            pedagogicalPlanTransfer.getAssessmentSetup().addSpecificLearningGoal(learningGoal);
-            ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
-            pedagogicalPlanElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer));
-            pedagogicalPlanElo.updateElo();
-        } else {
-            logger.info("PEDAGOGICAL PLAN TRANSFER IS NULL!!");
-        }
-    }
-
-    private void addGeneralLearningGoal(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer) {
-        LearningGoal learningGoal = new LearningGoal();
-        if (pedagogicalPlanTransfer != null) {
-            pedagogicalPlanTransfer.getAssessmentSetup().addGeneralLearningGoal(learningGoal);
-            ScyElo pedagogicalPlanElo = getPedagogicalPlanEloForMission(missionSpecificationElo);
-            pedagogicalPlanElo.getContent().setXmlString(getXmlTransferObjectService().getXStreamInstance().toXML(pedagogicalPlanTransfer));
-            pedagogicalPlanElo.updateElo();
-        } else {
-            logger.info("PEDAGOGICAL PLAN TRANSFER IS NULL!!");
-        }
-
-    }
-
     private void addReflectionQuestion(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlanTransfer, String anchorEloURI, String title) {
         logger.info("ADDING REFLECTION QUESTION " + anchorEloURI + " " + title);
 
@@ -197,7 +168,6 @@ public class ConfigureAssessmentController extends BaseController {
 
     private ScyElo getPedagogicalPlanEloForMission(MissionSpecificationElo missionSpecificationElo) {
         URI pedagogicalPlanUri = missionSpecificationElo.getTypedContent().getPedagogicalPlanSettingsEloUri();
-        logger.info("**** PEDAGOGICAL PLAN URI: " + pedagogicalPlanUri);
         ScyElo pedagogicalPlanELO = ScyElo.loadLastVersionElo(pedagogicalPlanUri, getMissionELOService());
         return pedagogicalPlanELO;
 
