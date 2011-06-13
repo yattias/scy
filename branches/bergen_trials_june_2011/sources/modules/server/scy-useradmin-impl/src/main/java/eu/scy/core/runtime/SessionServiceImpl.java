@@ -1,10 +1,12 @@
 package eu.scy.core.runtime;
 
+import eu.scy.common.mission.MissionRuntimeElo;
 import eu.scy.common.mission.MissionSpecificationElo;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.core.XMLTransferObjectService;
 import eu.scy.core.model.transfer.LasActivityInfo;
 import eu.scy.core.model.transfer.PedagogicalPlanTransfer;
+import eu.scy.core.model.transfer.Portfolio;
 import eu.scy.core.model.transfer.UserActivityInfo;
 import eu.scy.core.roolo.BaseELOServiceImpl;
 import info.collide.sqlspaces.client.TupleSpace;
@@ -71,9 +73,11 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
                 List elos = findElosFor(userActivityInfo.getParsedUserName());
                 String size = String.valueOf(elos.size());
 
+                addPortfolio(userActivityInfo, missionSpecificationElo);
                 //userActivityInfo.setNumberOfElosProduced(size);
 
                 userActivityInfoList.add(userActivityInfo);
+
 
             }
 
@@ -84,6 +88,47 @@ public class SessionServiceImpl extends BaseELOServiceImpl implements SessionSer
 
         return userActivityInfoList;
     }
+
+    private void addPortfolio(UserActivityInfo userActivityInfo, MissionSpecificationElo missionSpecificationElo) {
+        MissionRuntimeElo runtime = getMissionRuntime(userActivityInfo.getParsedUserName());
+        Portfolio portfolio  = getPortfolio(runtime);
+        userActivityInfo.setPortfolio(portfolio);
+    }
+
+    private Portfolio getPortfolio(MissionRuntimeElo missionRuntimeElo) {
+        URI portfolioURI = missionRuntimeElo.getTypedContent().getEPortfolioEloUri();
+        ScyElo scyElo = ScyElo.loadLastVersionElo(portfolioURI, this);
+        if (scyElo != null) {
+            String xml = scyElo.getContent().getXmlString();
+            if (xml != null && xml.length() > 0) {
+                return (Portfolio) getXmlTransferObjectService().getObject(xml);
+            }
+        }
+
+        return null;
+    }
+
+
+    private MissionRuntimeElo getMissionRuntime(String userNname) {
+        return (MissionRuntimeElo) getRuntimeElosForUser(userNname).get(0);
+    }
+
+    private List getRuntimeElosForUser(String userName) {
+        List runtimeElos = new LinkedList();
+        List<ScyElo> runtimeModels = getRuntimeElos(null);
+        for (int i = 0; i < runtimeModels.size(); i++) {
+            MissionRuntimeElo missionRuntimeElo = new MissionRuntimeElo(runtimeModels.get(i).getElo(), this);
+            if (missionRuntimeElo != null) {
+                String missionRunningHAHAHA = missionRuntimeElo.getUserRunningMission();
+                if (missionRunningHAHAHA != null && missionRunningHAHAHA.equals(userName)) {
+                    runtimeElos.add(missionRuntimeElo);
+                }
+            }
+        }
+        return runtimeElos;
+    }
+
+
 
     public UserActivityInfo getUserActivityInfo(MissionSpecificationElo missionSpecificationElo, String userName) {
 

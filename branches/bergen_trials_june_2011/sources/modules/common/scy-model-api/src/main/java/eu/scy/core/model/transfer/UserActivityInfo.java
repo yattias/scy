@@ -16,6 +16,7 @@ public class UserActivityInfo {
     private String toolName;
     private String lasName;
     private String numberOfElosProduced;
+    private Portfolio portfolio;
 
     public String getUserName() {
         return userName;
@@ -77,5 +78,23 @@ public class UserActivityInfo {
 
     public void setNumberOfElosProduced(String numberOfElosProduced) {
         this.numberOfElosProduced = numberOfElosProduced;
+    }
+
+    public Portfolio getPortfolio() {
+        return portfolio;
+    }
+
+    public void setPortfolio(Portfolio portfolio) {
+        this.portfolio = portfolio;
+    }
+    
+    public int getNumberOfElosInPorfolio() {
+        if(getPortfolio() != null) {
+            if(getPortfolio().getElos() != null ) {
+                return getPortfolio().getElos().size();
+            }
+        }
+
+        return 0;
     }
 }

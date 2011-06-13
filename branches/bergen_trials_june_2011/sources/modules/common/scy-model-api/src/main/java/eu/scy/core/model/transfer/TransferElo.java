@@ -71,7 +71,7 @@ public class TransferElo extends BaseXMLTransfer {
         super();
         setMyname(scyElo.getTitle());
         setUri(scyElo.getUri().toString());
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM HH:mm");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM HH:mm");
         if (scyElo.getDateLastModified() != null) {
             Date lastModified = new Date(scyElo.getDateLastModified());
             setLastModified(formatter.format(lastModified));
