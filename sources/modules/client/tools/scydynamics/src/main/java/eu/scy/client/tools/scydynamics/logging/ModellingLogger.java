@@ -23,7 +23,7 @@ public class ModellingLogger implements IModellingLogger {
     private IActionLogger logger;
     private String username;
     private String mission = "mission1";
-    private String toolname = "scydynamics";
+    private String toolname = "scy-dynamics";
     private String session = "n/a";
     private String eloURI = "n/a";
     public static final String AUXILIARY_ADDED = "auxiliary_added";

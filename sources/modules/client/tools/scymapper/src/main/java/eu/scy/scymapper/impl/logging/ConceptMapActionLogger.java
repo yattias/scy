@@ -38,7 +38,7 @@ public class ConceptMapActionLogger extends DiagramElementAdapter {
     private ISyncSession session;
     protected String username;
     private String mission = "mission1";
-    private String toolname = "scymapper";
+    private String toolname = "conceptmap";
     protected String eloURI = "n/a";
     private final static Logger syslog = Logger.getLogger(ConceptMapActionLogger.class);
     public static final String REQUEST_CONCEPT = "concept_help_requested";

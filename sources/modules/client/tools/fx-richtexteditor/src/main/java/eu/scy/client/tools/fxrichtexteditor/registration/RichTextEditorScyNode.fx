@@ -57,7 +57,7 @@ public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyT
    def logger = Logger.getLogger("eu.scy.client.tools.fxrichtexteditor.RichTextEditorNode");
    def scyRichTextEditorType = "scy/rtf";
    def jdomStringConversion = new JDomStringConversion();
-   def toolname = "formatted text editor";
+   def toolname = "richtext";
    public var eloFactory:IELOFactory;
    public var metadataTypeManager: IMetadataTypeManager;
    public var repository:IRepository;
@@ -105,7 +105,7 @@ public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyT
       }
       richTextEditor.setRichTextEditorLogger(actionLogger,
         toolBrokerAPI.getLoginUserName(), toolname, toolBrokerAPI.getMission(), "n/a",
-        "formatted text editor");
+        "richtext");
       setLoggerEloUri();
     }
 
