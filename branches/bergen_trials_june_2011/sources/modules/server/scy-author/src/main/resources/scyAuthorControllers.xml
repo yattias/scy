@@ -39,6 +39,8 @@
                    /app/scyauthor/viewPedagogicalPlan.html=viewPedagogicalPlanController
                    /app/scyauthor/assessmentToolViewer.html=assessmentToolViewerController
                    /app/scyauthor/ConfigureAssessment.html=configureAssessmentController
+                   /app/scyauthor/ScaffoldingLevel.html=scaffoldingLevelController
+                   /app/scyauthor/LearningGoals.html=learningGoalsController
                    /app/scyauthor/clearAllPortfolios.html=clearAllPortfolios
                    /app/scyauthor/viewStudentsForPedagogicalPlan.html=viewStudentsForPedagogicalPlanController
                    /app/scyauthor/viewGroupsForPedagogicalPlan.html=viewGroupsForPedagogicalPlanController
@@ -118,6 +120,21 @@
     </bean>
 
     <bean id="configureAssessmentController" class="eu.scy.server.controllers.ConfigureAssessmentController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="missionELOService" ref="missionELOService"/>
+        <property name="xmlTransferObjectService" ref="xmlTransferObjectService"/>
+        <property name="transferObjectServiceCollection" ref="transferObjectServiceCollection"/>
+        <property name="pedagogicalPlanELOService" ref="pedagogicalPlanELOService"/>
+    </bean>
+
+    <bean id="scaffoldingLevelController" class="eu.scy.server.controllers.ScaffoldingLevelController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="missionELOService" ref="missionELOService"/>
+    </bean>
+
+    <bean id="learningGoalsController" class="eu.scy.server.controllers.LearningGoalsController">
         <property name="serverService" ref="serverService"/>
         <property name="urlInspector" ref="urlInspector"/>
         <property name="missionELOService" ref="missionELOService"/>
