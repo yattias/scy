@@ -23,7 +23,7 @@ def node:InterviewToolNode = InterviewToolNode{};
 node.interviewLogger = InterviewLogger{
    actionLogger: new DevNullActionLogger()
    username: "n/a"
-   toolname: "interviewtool"
+   toolname: "interview"
    missionname: "n/a"
    sessionname: "n/a"
 };
