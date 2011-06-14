@@ -149,7 +149,7 @@ public class DataSyncService implements IDataSyncService {
 					throw new DataSyncException("Session could not be created!");
 				}
 				MultiUserChat muc = new MultiUserChat(connection, mucID);
-				muc.join(StringUtils.parseBareAddress(connection.getUser()));
+				muc.join(StringUtils.parseBareAddress(connection.getUser()), null, null, 10 * 1000);
 				newSession = new SyncSession(connection, muc, toolid, listener);
 				
 				logger.debug("Session successfully created with id: " + mucID);
@@ -198,7 +198,7 @@ public class DataSyncService implements IDataSyncService {
                 } else {
                     MultiUserChat muc = new MultiUserChat(connection, mucID);
                     try {
-                            muc.join(StringUtils.parseBareAddress(connection.getUser()));
+                            muc.join(StringUtils.parseBareAddress(connection.getUser()), null, null, 10 * 1000);
                             ISyncSession joinedSession = new SyncSession(connection, muc, listener);
                             sessionMap.put(mucID, joinedSession);
                             if (fetchState) {
