@@ -7,6 +7,7 @@
             
 
         <s:dialog url="selectStudentsForPedagogicalPlan.html" title="Click to assign another student" dialogHeader="Select students" extraParameters="eloURI=${eloURI}"/>
+        <a href="/webapp/teacher/studentList.html">User admin</a>
 
         <c:choose>
             <c:when test="${fn:length(users) > 0}">
