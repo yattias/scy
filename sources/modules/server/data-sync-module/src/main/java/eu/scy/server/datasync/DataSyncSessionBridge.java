@@ -64,10 +64,14 @@ public class DataSyncSessionBridge {
 
 	private Timer disconnectionTimer;
 
+        private User user;
+
 	public DataSyncSessionBridge(String id, Timer disconnectionTimer) {
 		this.id = id;
 		this.disconnectionTimer = disconnectionTimer;
 		users = new ArrayList<String>();
+		String userId = id.substring(id.indexOf("@") - 12, id.indexOf("@"));
+		user = new User("DSSB@" + userId);
 		
 		logger.debug("DataSyncSessionBridge initialised for session " + id);
 	}
@@ -116,7 +120,7 @@ public class DataSyncSessionBridge {
      * @throws TupleSpaceException
      */
     public void connectToSQLSpaces() throws TupleSpaceException {
-        sessionSpace = new TupleSpace(new User("SyncSessionBridge@" + id.substring(id.lastIndexOf("-"))), Configuration.getInstance().getSQLSpacesServerHost(), Configuration.getInstance().getSQLSpacesServerPort(), id);
+        sessionSpace = new TupleSpace(user, Configuration.getInstance().getSQLSpacesServerHost(), Configuration.getInstance().getSQLSpacesServerPort(), id);
         logger.debug("Successfully connected to TupleSpace @ " + Configuration.getInstance().getSQLSpacesServerHost() + ":" + Configuration.getInstance().getSQLSpacesServerPort());
     }
 
