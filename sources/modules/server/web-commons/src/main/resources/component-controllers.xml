@@ -76,6 +76,7 @@
                    /components/runtimemissionselector/RuntimeMissionSelector.html=runtimemissionselector
 
                    /components/util/EloChecker.html=eloCheckerController
+                   /util/OpenScyLabInSingleEloMode.html=openScyLabInSingleEloModeController
                </value>
            </property>
        </bean>
@@ -247,6 +248,12 @@
     <bean id="scenarioDiagramJSONView" class="eu.scy.server.controllers.json.ScenarioDiagramJSONView">
         <property name="scenarioService" ref="scenarioService"/>
         <property name="lasService" ref="lasService"/>
+    </bean>
+
+    <bean id="openScyLabInSingleEloModeController" class="eu.scy.server.controllers.util.OpenScyLabInSingleEloModeController">
+        <property name="serverService" ref="serverService"/>
+        <property name="urlInspector" ref="urlInspector"/>
+        <property name="userService" ref="userService"/>
     </bean>
 
     <bean id="runtimeUserInfoJSON" class="eu.scy.server.controllers.json.RuntimeUserInfoJSON">

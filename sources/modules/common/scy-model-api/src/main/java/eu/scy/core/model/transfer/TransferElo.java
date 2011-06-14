@@ -119,7 +119,8 @@ public class TransferElo extends BaseXMLTransfer {
 
         //setStudentDescription("stydentdesc");
         try {
-            setSnippeturl("scy-lab.jnlp?singleEloUri=" + URLEncoder.encode(getUri(), "UTF-8"));
+            //setSnippeturl("scy-lab.jnlp?singleEloUri=" + URLEncoder.encode(getUri(), "UTF-8"));
+            setSnippeturl("/webapp/util/OpenScyLabInSingleEloMode.html?eloURI=" + URLEncoder.encode(getUri(), "UTF-8"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
