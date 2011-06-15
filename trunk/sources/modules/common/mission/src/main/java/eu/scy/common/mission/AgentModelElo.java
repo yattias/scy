@@ -47,6 +47,7 @@ public class AgentModelElo extends ContentTypedScyElo<AgentModelEloContent> {
 	public AgentModelElo(IELO elo, RooloServices rooloServices) {
 		super(elo, rooloServices, agentEloContentCreator,
 				MissionEloType.AGENT_MODELS.getType());
+      setTemplate(true);
 	}
 
 	public static AgentModelElo loadElo(URI uri, RooloServices rooloServices) {

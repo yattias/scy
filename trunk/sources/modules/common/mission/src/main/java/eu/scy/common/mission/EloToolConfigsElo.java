@@ -50,6 +50,7 @@ public class EloToolConfigsElo extends ContentTypedScyElo<EloToolConfigsEloConte
    {
       super(elo, rooloServices, eloToolConfigsEloContentCreator,
                MissionEloType.ELO_TOOL_CONFIGURATION.getType());
+      setTemplate(true);
    }
 
    public static EloToolConfigsElo loadElo(URI uri, RooloServices rooloServices)

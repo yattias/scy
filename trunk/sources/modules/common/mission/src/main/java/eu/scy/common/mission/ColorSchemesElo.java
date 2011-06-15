@@ -45,6 +45,7 @@ public class ColorSchemesElo extends ContentTypedScyElo<ColorSchemesEloContent>
 	{
 		super(elo, rooloServices, colorSchemesEloContentCreator, MissionEloType.COLOR_SCHEMES
 					.getType());
+      setTemplate(true);
 	}
 
 	public static ColorSchemesElo loadElo(URI uri, RooloServices rooloServices)

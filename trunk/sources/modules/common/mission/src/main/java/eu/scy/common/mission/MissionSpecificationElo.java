@@ -61,6 +61,7 @@ public class MissionSpecificationElo extends ContentTypedScyElo<MissionSpecifica
    {
       super(elo, rooloServices, missionSpecificationEloContentCreator,
                MissionEloType.MISSION_SPECIFICATIOM.getType());
+      setTemplate(true);
    }
 
    public static MissionSpecificationElo loadElo(URI uri, RooloServices rooloServices)

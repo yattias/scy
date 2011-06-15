@@ -60,6 +60,7 @@ public class TemplateElosElo extends ContentTypedScyElo<TemplateElosEloContent>
    {
       super(elo, rooloServices, templateElosEloContentCreator, MissionEloType.TEMPLATES_ELOS
                .getType());
+      setTemplate(true);
    }
 
    public static TemplateElosElo loadElo(URI uri, RooloServices rooloServices)
