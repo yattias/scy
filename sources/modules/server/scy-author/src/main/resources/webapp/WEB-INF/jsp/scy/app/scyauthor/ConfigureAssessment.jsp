@@ -49,10 +49,10 @@
                     <c:forEach var="reflectionTab" items="${pedagogicalPlan.assessmentSetup.reflectionTabs}">
                         <tr  class="${oddEven.oddEven}">
                             <td>
-                                ${reflectionTab.title}
+                                <s:ajaxTransferObjectTextField transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${reflectionTab}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${reflectionTab.id}" property="title"/>
                             </td>
                             <td>
-                                ${reflectionTab.question}
+                                <s:ajaxTransferObjectTextField transferObjectServiceCollection="${transferObjectServiceCollection}" transferObject="${reflectionTab}" transferEloURI="${pedagogicalPlan.pedagogicalPlanURI}" id="${reflectionTab.id}" property="question"/>
                             </td>
                             <td>
                                 ${reflectionTab.type}

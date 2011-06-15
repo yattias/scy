@@ -38,7 +38,10 @@ public class AjaxTransferObjectTextFieldController extends AbstractController {
         String property = request.getParameter("property");
         String value = request.getParameter("value");
 
+        transferEloURI = URLDecoder.decode(transferEloURI, "UTF-8");
+        
         URI uri = new URI(transferEloURI);
+
 
         ScyElo scyElo = ScyElo.loadLastVersionElo(uri, getMissionELOService());
         BaseXMLTransfer rootTransferObject = (BaseXMLTransfer) getXmlTransferObjectService().getObject(scyElo.getContent().getXmlString());

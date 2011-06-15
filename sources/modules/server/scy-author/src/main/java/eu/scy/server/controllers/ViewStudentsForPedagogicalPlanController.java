@@ -83,8 +83,10 @@ public class ViewStudentsForPedagogicalPlanController extends BaseController {
                 users.add(user);
 
             }
+            String encodedURI = getEncodedUri(request.getParameter(ELO_URI));
+
             modelAndView.addObject("users", users);
-            modelAndView.addObject("eloURI", getEncodedUri(request.getParameter(ELO_URI)));
+            modelAndView.addObject("eloURI", encodedURI);
 
             logger.info("DECODED URI: " + missionURI);
             if (missionURI != null && missionURI.length() > 0) {

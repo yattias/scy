@@ -48,28 +48,28 @@
                  teacherTabs.addChild(runTimeTabContainer);
 
                 var refreshActive = false;
-                var currentActivity = new dojox.layout.ContentPane({ title:"<spring:message code="CURRENT_ACTIVITY"/>", executeScripts: true,  id:"currentActivityTab", href:"/webapp/app/scyauthorruntime/currentActivityView.html?eloURI=${missionSpecificationTransporter.uri}" });
+                var currentActivity = new dojox.layout.ContentPane({ title:"<spring:message code="STUDENT"/>", executeScripts: true,  id:"currentActivityTab", href:"/webapp/app/scyauthorruntime/currentActivityView.html?eloURI=${missionSpecificationTransporter.uri}" });
                 currentActivity.refreshOnShow = true;
                 runTimeTabContainer.addChild(currentActivity);
                 if(dijit.byId("currentActivityTab")){
                     if(!refreshActive) {
-                        setInterval('dijit.byId("currentActivityTab").refresh()', 25000);
+                        setInterval('dijit.byId("currentActivityTab").refresh()', 120000);
                         refreshActive = true;
                     }
                 }
 
                 var usersInLasRefreshActive = false;
-                var usersInLasActivity = new dojox.layout.ContentPane({title: "<spring:message code="CURRENT_ACTIVITY_IN_LAS"/>", executeScripts: true, id: "usersInLasTab", href:"/webapp/app/scyauthorruntime/viewUsersInLas.html?eloURI=${missionSpecificationTransporter.uri}"});
+                var usersInLasActivity = new dojox.layout.ContentPane({title: "<spring:message code="LAS"/>", executeScripts: true, id: "usersInLasTab", href:"/webapp/app/scyauthorruntime/viewUsersInLas.html?eloURI=${missionSpecificationTransporter.uri}"});
                 usersInLasActivity.refreshOnShow = true;
                 runTimeTabContainer.addChild(usersInLasActivity);
                 if(dijit.byId("usersInLasTab")) {
                     if(!usersInLasRefreshActive) {
-                        setInterval('dijit.byId("usersInLasTab").refresh()', 25000);
+                        setInterval('dijit.byId("usersInLasTab").refresh()', 120000);
                         usersInLasRefreshActive = true;
                     }
                 }
 
-                 var assessmentTabContainer = new dijit.layout.TabContainer({nested:true, id:"assessmentTabContainer", title:"<spring:message code="SCY_ASSESSMENT"/>"});
+                 var assessmentTabContainer = new dijit.layout.TabContainer({nested:true, id:"assessmentTabContainer", title:"<spring:message code="ASSESSMENT"/>"});
                  teacherTabs.addChild(assessmentTabContainer);
 
                 var assessmentTab = new dojox.layout.ContentPane({ title:"<spring:message code="SCY_ASSESSMENT"/>", executeScripts: true,  href:"/webapp/app/assessment/assessmentindex.html?eloURI=${missionSpecificationTransporter.uri}" });

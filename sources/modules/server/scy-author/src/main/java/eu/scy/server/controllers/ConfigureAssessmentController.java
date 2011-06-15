@@ -100,20 +100,13 @@ public class ConfigureAssessmentController extends BaseController {
             reflectionMap.put(reflectionQuestion, reflectionQuestion.getAnchorEloURI());
         }
 
-        for (int i = 0; i < anchorELOs.size(); i++) {
-            ScyElo scyElo = (ScyElo) anchorELOs.get(i);
-            if (scyElo.getObligatoryInPortfolio() != null && scyElo.getObligatoryInPortfolio()) {
-                ReflectionQuestion question = (ReflectionQuestion) reflectionMap.get(String.valueOf(scyElo.getUri()));
-                if (question != null) {
-                    syncedList.add(question);
-                } else {
-                    addReflectionQuestion(missionSpecificationElo, pedagogicalPlanTransfer, String.valueOf(scyElo.getUri()), scyElo.getTitle());
-                }
-            }
-
+        List obligatoryAnchorElos = getMissionELOService().getObligatoryAnchorELOs(missionSpecificationElo, pedagogicalPlanTransfer);
+        for (int i = 0; i < obligatoryAnchorElos.size(); i++) {
+            TransferElo transferElo = (TransferElo) obligatoryAnchorElos.get(i);
+            ReflectionQuestion question = (ReflectionQuestion) reflectionMap.get(String.valueOf(transferElo.getUri()));
+            addReflectionQuestion(missionSpecificationElo, pedagogicalPlanTransfer, String.valueOf(transferElo.getUri()), transferElo.getMyname());
 
         }
-
 
     }
 

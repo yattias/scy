@@ -171,7 +171,7 @@ public abstract class BaseController extends AbstractController {
 
     protected String getEncodedUri(String parameter) {
         try {
-            return URLEncoder.encode(parameter, "utf-8");
+            return URLEncoder.encode(parameter, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             logger.error(e.getMessage(), e);
         }

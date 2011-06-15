@@ -48,49 +48,15 @@ public class LoadLearningGoalsService extends XMLStreamerController {
 
                 for (int i = 0; i < pedagogicalPlanTransfer.getAssessmentSetup().getGeneralLearningGoals().size(); i++) {
                     LearningGoal learningGoal = (LearningGoal) pedagogicalPlanTransfer.getAssessmentSetup().getGeneralLearningGoals().get(i);
-                    addGeneralLearninigGoal(learningGoal.getGoal(), learningGoals);
+                    if(learningGoal.getUse() != null && learningGoal.getUse()) addGeneralLearninigGoal(learningGoal.getGoal(), learningGoals);
                 }
                 for (int i = 0; i < pedagogicalPlanTransfer.getAssessmentSetup().getSpecificLearningGoals().size(); i++) {
                     LearningGoal learningGoal = (LearningGoal) pedagogicalPlanTransfer.getAssessmentSetup().getSpecificLearningGoals().get(i);
-                    addSpecificLearningGoal(learningGoal.getGoal(), learningGoals);
+                    if(learningGoal.getUse() != null && learningGoal.getUse()) addSpecificLearningGoal(learningGoal.getGoal(), learningGoals);
                 }
             } else {
                 logger.info("missionSpecification not found!!");
             }
-            /*
-            addGeneralLearninigGoal("I can write a correct hypothesis", learningGoals);
-            addGeneralLearninigGoal("I can design, plan and perform experiments to test a hypothesis", learningGoals);
-            addGeneralLearninigGoal("I can organize, visualize and interpret data", learningGoals);
-            addGeneralLearninigGoal("I can construct a dynamic model", learningGoals);
-            addGeneralLearninigGoal("I can collaborate with peers", learningGoals);
-            addGeneralLearninigGoal("I can plan and execute my own learning process", learningGoals);
-            addGeneralLearninigGoal("I can reflect on my current knowledge and learning goals", learningGoals);
-            addGeneralLearninigGoal("I can hold a presentation for a large group", learningGoals);
-            addGeneralLearninigGoal("I can write an individual report", learningGoals);
-            addGeneralLearninigGoal("I can collaborate to write a report", learningGoals);
-            addGeneralLearninigGoal("I can develop research questions", learningGoals);
-            addGeneralLearninigGoal("I can justify conclusions", learningGoals);
-            addGeneralLearninigGoal("I can identify a problem", learningGoals);
-            addGeneralLearninigGoal("I can gather and analyse information", learningGoals);
-            addGeneralLearninigGoal("I can make decisions", learningGoals);
-            addGeneralLearninigGoal("I can generate solutions to a problem", learningGoals);
-            addGeneralLearninigGoal("I can manage my work effectively", learningGoals);
-            addGeneralLearninigGoal("I can document and discuss research results", learningGoals);
-
-            addSpecificLearningGoal("I can elaborate on factors that influence the size of a population in a fresh water eco system", learningGoals);
-            addSpecificLearningGoal("I can provide examples of nature management and changes of natural environments", learningGoals);
-            addSpecificLearningGoal("I can outline the main components in a fresh water eco system", learningGoals);
-            addSpecificLearningGoal("I can identify the important factors that might influence and cause changes in teh composition or structure of an ecological community", learningGoals);
-            addSpecificLearningGoal("I can describe the photosynthesis and outline its main components", learningGoals);
-            addSpecificLearningGoal("I can use knowledge about the relation between parameters to construct a (dynamic) model, and vice-versa make inferences about the relation between parameters from the behaviour of a model", learningGoals);
-            addSpecificLearningGoal("I can examine an eco system and describe its main abiotic and biotic components", learningGoals);
-            addSpecificLearningGoal("I can describe the importance of light in an ecosystem", learningGoals);
-            addSpecificLearningGoal("I can plan examinations in cooperation with others where parameters are identified and varied", learningGoals);
-            addSpecificLearningGoal("I can specify experiments where the intensity of light is central", learningGoals);
-            addSpecificLearningGoal("I can explain and assess wheat might be done to reduce uncertainty and error sources in measurements and result", learningGoals);
-            addSpecificLearningGoal("I can examine an eco system and describe how light is of importance for the components in the ecological community", learningGoals);
-            */
-
             return learningGoals;
         } catch (URISyntaxException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.

@@ -408,7 +408,7 @@ public class TransferElo extends BaseXMLTransfer {
             String raw =  writer.toString();
             //return URLEncoder.encode(raw, "UTF-8");
             System.out.println("RAW: " + raw);
-            
+
             return raw;
         } catch (Exception ex) {
             return txt;
