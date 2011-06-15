@@ -42,6 +42,7 @@ public class ScyElo {
     private IELO elo;
     private IMetadata metadata;
     private URI uriFirstVersion;
+    private boolean template = false;
     private final RooloServices rooloServices;
     private final IMetadataTypeManager metadataTypemanager;
     private final IMetadataKey identifierKey;
@@ -75,6 +76,7 @@ public class ScyElo {
     private final IMetadataKey obligatoryInPortfolioKey;
     private final IMetadataKey feedbackOnKey;
     private final IMetadataKey mucIdKey;
+    private final IMetadataKey templateKey;
 
     private ScyElo(IELO elo, IMetadata metadata, RooloServices rooloServices) {
         assert metadata != null;
@@ -114,6 +116,7 @@ public class ScyElo {
         feedbackOnKey = findMetadataKey(ScyRooloMetadataKeyIds.FEEDBACK_ON);
         dateFirstUserSaveKey = findMetadataKey(ScyRooloMetadataKeyIds.DATE_FIRST_USER_SAVE);
         mucIdKey = findMetadataKey(ScyRooloMetadataKeyIds.MUC_ID);
+        templateKey = findMetadataKey(CoreRooloMetadataKeyIds.TEMPLATE);
     }
 
     public ScyElo(IELO elo, RooloServices rooloServices) {
@@ -188,16 +191,25 @@ public class ScyElo {
     }
 
     public void saveAsNewElo() {
+       if (template){
+          setTemplate(template);
+       }
         IMetadata mdata = rooloServices.getRepository().addNewELO(getUpdatedElo());
         updateMetadata(mdata);
     }
 
     public void updateElo() {
+       if (template){
+          setTemplate(template);
+       }
         IMetadata mdata = rooloServices.getRepository().updateELO(getUpdatedElo());
         updateMetadata(mdata);
     }
 
     public void saveAsForkedElo() {
+       if (template){
+          setTemplate(template);
+       }
         IMetadata mdata = rooloServices.getRepository().addForkedELO(getUpdatedElo());
         updateMetadata(mdata);
     }
@@ -698,5 +710,26 @@ public class ScyElo {
       getMetadataValueContainer(mucIdKey).setValue(mucId);
   }
 
+   public Boolean getTemplate() {
+      // needed to do a little trickery to convert a string to boolesn, because of lack of a boolean metadata key
+      String value = (String) getMetadataValueContainer(templateKey).getValue();
+      if (value==null){
+         return null;
+      }
+      return Boolean.valueOf(value);
+   }
+
+   public void setTemplate(Boolean template) {
+     // needed to do a little trickery to convert a boolean to string, because of lack of a boolean metadata key
+     String value = null;
+     if (template!=null){
+        value = template.toString();
+        this.template = Boolean.valueOf(template);
+        if (!template){
+           System.out.println("template set to false of " + elo.getUri());
+        }
+     }
+     getMetadataValueContainer(templateKey).setValue(value);
+  }
 
 }
