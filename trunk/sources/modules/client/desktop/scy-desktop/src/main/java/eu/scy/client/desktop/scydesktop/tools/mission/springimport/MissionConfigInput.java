@@ -29,4 +29,10 @@ public interface MissionConfigInput {
    public List<URI> getTemplateEloUris();
 
    public List<String> getErrors();
+
+   public String getMissionId();
+
+   public String getXhtmlVersionId();
+
+   public String getLanguageId();
 }
