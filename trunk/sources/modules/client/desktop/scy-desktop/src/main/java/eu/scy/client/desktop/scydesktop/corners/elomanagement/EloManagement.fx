@@ -65,6 +65,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
     public var buttonActionScheme = -1;
     def showCreateBlankElo = scyDesktop.initializer.authorMode;
     def authorKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
+    def templateKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TEMPLATE);
     def userId = scyDesktop.config.getToolBrokerAPI().getLoginUserName();
     def tbi = scyDesktop.config.getToolBrokerAPI();
     var newFromEloTemplateButton: EloIconButton;
@@ -257,6 +258,7 @@ public class EloManagement extends CustomNode, EloBasedSearchFinished, QuerySear
                 var titleContainer = newElo.getMetadata().getMetadataValueContainer(titleKey);
                 var templateTitle = titleContainer.getValue() as String;
                 titleContainer.setValue(scyDesktop.newTitleGenerator.generateNewTitleFromName(templateTitle));
+                newElo.getMetadata().getMetadataValueContainer(templateKey).setValue("true");
                 var metadata = repository.addForkedELO(newElo);
                 eloFactory.updateELOWithResult(newElo, metadata);
                 scyWindowControl.addOtherScyWindow(newElo.getUri());
