@@ -56,6 +56,7 @@ public class RuntimeSettingsElo extends ContentTypedScyElo<RuntimeSettingsEloCon
    {
       super(elo, rooloServices, runtimeSettingsEloContentCreator, MissionEloType.RUNTIME_SETTINGS
                .getType());
+      setTemplate(true);
    }
 
    public static RuntimeSettingsElo loadElo(URI uri, RooloServices rooloServices)

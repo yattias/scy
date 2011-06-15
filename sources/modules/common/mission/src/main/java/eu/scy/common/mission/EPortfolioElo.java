@@ -52,6 +52,7 @@ public class EPortfolioElo extends ContentTypedScyElo<EPortfolioEloContent>
    {
       super(elo, rooloServices, ePortfoloEloContentCreator, MissionEloType.EPORTFOLIO
                .getType());
+      setTemplate(true);
    }
 
    public static EPortfolioElo loadElo(URI uri, RooloServices rooloServices)

@@ -69,6 +69,7 @@ public class MissionRuntimeElo extends ContentTypedScyElo<MissionRuntimeEloConte
 					.getType());
 		userRunningMissionKey = findMetadataKey(ScyRooloMetadataKeyIds.USER_RUNNING_MISSION);
 		missionSpecificationEloKey = findMetadataKey(ScyRooloMetadataKeyIds.MISSION_SPECIFICATION_ELO);
+      setTemplate(true);
 	}
 
 	public static MissionRuntimeElo loadElo(URI uri, RooloServices rooloServices)

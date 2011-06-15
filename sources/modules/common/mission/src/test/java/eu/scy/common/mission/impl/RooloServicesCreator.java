@@ -157,6 +157,10 @@ public class RooloServicesCreator
 					ScyRooloMetadataKeyIds.FEEDBACK_ON.getId(),
 					"/lom/relation/[kind=\"feedbackOn\"]",
 					I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
+		IMetadataKey mucKey = new StringMetadataKey(ScyRooloMetadataKeyIds.MUC_ID.getId(),
+					"/lom/technical/mucId", I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
+		IMetadataKey templateKey = new StringMetadataKey(CoreRooloMetadataKeyIds.TEMPLATE.getId(),
+					"/template", I18nType.UNIVERSAL, MetadataValueCount.SINGLE, null);
 
 		metadataTypeManager.registerMetadataKey(identifierKey);
 		metadataTypeManager.registerMetadataKey(titleKey);
@@ -188,6 +192,8 @@ public class RooloServicesCreator
 		metadataTypeManager.registerMetadataKey(resourcesUriKey);
 		metadataTypeManager.registerMetadataKey(obligatoryInPortfolioKey);
 		metadataTypeManager.registerMetadataKey(feedbackOnKey);
+		metadataTypeManager.registerMetadataKey(mucKey);
+		metadataTypeManager.registerMetadataKey(templateKey);
 
 		MockRepository repository = new MockRepository();
 		MockExtensionManager extensionManager = new MockExtensionManager();

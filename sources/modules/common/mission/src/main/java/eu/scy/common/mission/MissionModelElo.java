@@ -51,6 +51,7 @@ public class MissionModelElo extends ContentTypedScyElo<MissionModelEloContent>
    {
       super(elo, rooloServices, missionMapModelEloContentCreator, MissionEloType.MISSION_MAP_MODEL
                .getType());
+      setTemplate(true);
    }
 
    public static MissionModelElo loadElo(URI uri, RooloServices rooloServices)
