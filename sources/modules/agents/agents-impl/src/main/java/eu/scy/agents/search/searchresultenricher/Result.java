@@ -10,14 +10,20 @@ public class Result implements Comparable<Result> {
 	
 	private List<ISearchResult> result;
 	
-	private double quality;
+    private double lengthQuality;
+
+    private double similarityQuality;
+
+    private double relevanceQuality;
 	
-	public Result(String query, List<ISearchResult> result, double quality) {
+	public Result(String query, List<ISearchResult> result, double lengthQuality, double similarityQuality, double relevanceQuality) {
 		this.query = query;
 		this.result = result;
-		this.quality = quality;
+		this.lengthQuality = lengthQuality;
+        this.similarityQuality = similarityQuality;
+        this.relevanceQuality = relevanceQuality;
 	}
-	
+
 	public String getQuery() {
 		return this.query;
 	}
@@ -26,9 +32,35 @@ public class Result implements Comparable<Result> {
 		return result;
 	}
 	
-	public double getQuality() {
-		return this.quality;
-	}
+    public double getLengthQuality() {
+        return lengthQuality;
+    }
+
+    public double getRelevanceQuality() {
+        return relevanceQuality;
+    }
+
+    public double getSimilarityQuality() {
+        return similarityQuality;
+    }
+
+    public double getQuality() {
+        double result = SearchResultRanking.WEIGHT_LENGTH * lengthQuality +
+                SearchResultRanking.WEIGHT_DIFFERENCE * similarityQuality +
+                SearchResultRanking.WEIGHT_RELEVANCE * relevanceQuality;
+		if(this.result.isEmpty()) {
+            return result - 1;
+		} else {
+            return result;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Query: " + this.query + " | Results: " + this.result.size() + " | Quality: [ Length: " +
+                this.lengthQuality + " | Similiarity: " + this.similarityQuality + " | Relevance: " +
+                this.relevanceQuality + " ]";
+    }
 
 	@Override
 	public int compareTo(Result that) {

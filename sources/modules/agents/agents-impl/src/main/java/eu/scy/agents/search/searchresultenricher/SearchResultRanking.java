@@ -10,12 +10,14 @@ import roolo.search.ISearchResult;
  */
 public class SearchResultRanking {
 
-	private static final double WEIGHT_LENGTH = 0.3333;
+	public static final double WEIGHT_LENGTH = 0.3333;
 
-	private static final double WEIGHT_DIFFERENCE = 0.3333;
+	public static final double WEIGHT_DIFFERENCE = 0.3333;
 
-	private static final double WEIGHT_RELEVANCE = 0.3333;
+	public static final double WEIGHT_RELEVANCE = 0.3333;
 
+    private static final double OPTIMUM_SIMILARITY_VALUE = 0.75;
+    
 	private static final int NUMBER_OF_RELEVANCE_ENTRIES = 3;
 
 	private List<Result> ranking;
@@ -38,8 +40,11 @@ public class SearchResultRanking {
 	 * @param results
 	 */
 	public void add(String query, List<ISearchResult> results) {
-		double quality = evaluateQuality(this.referenceResults, results);
-		Result result = new Result(query, results, quality);
+		double lengthQuality = evaluateLength(results.size(), this.referenceResults.size());
+		double similarityQuality = evaluateSimilarity(results, this.referenceResults);
+		double relevanceQuality = evaluateRelevance(results, this.referenceResults);
+
+		Result result = new Result(query, results, lengthQuality, similarityQuality, relevanceQuality);
 		int index = this.ranking.size();
 		for (int i = 0; i < this.ranking.size(); i++) {
 			if (result.compareTo(this.ranking.get(i)) >= 0) {
@@ -64,26 +69,35 @@ public class SearchResultRanking {
 
 	@Override
 	public String toString() {
-		return this.ranking.toString();
+        StringBuilder sb = new StringBuilder();
+        for(Result result : this.ranking) {
+            sb.append(result.toString());
+            sb.append("\n");
+        }
+		return sb.toString().trim();
 	}
 
-	private double evaluateQuality(List<ISearchResult> referenceResult,
-			List<ISearchResult> newResult) {
-		if(newResult.isEmpty()) {
-			// Queries without hits should be bad ranked
-			return 0.0;
-		}
-		double lengthQuality = evaluateLength(newResult.size(),
-				referenceResult.size());
-		double similarityQuality = evaluateSimilarity(newResult,
-				referenceResult);
-		double relevanceQuality = evaluateRelevance(newResult, referenceResult);
-
-		return WEIGHT_LENGTH * lengthQuality + WEIGHT_DIFFERENCE
-				* similarityQuality + WEIGHT_RELEVANCE * relevanceQuality;
-	}
+//	private double evaluateQuality(List<ISearchResult> referenceResult,
+//			List<ISearchResult> newResult) {
+//		double lengthQuality = evaluateLength(newResult.size(),
+//				referenceResult.size());
+//		double similarityQuality = evaluateSimilarity(newResult,
+//				referenceResult);
+//		double relevanceQuality = evaluateRelevance(newResult, referenceResult);
+//
+//        double result = WEIGHT_LENGTH * lengthQuality + WEIGHT_DIFFERENCE
+//                    * similarityQuality + WEIGHT_RELEVANCE * relevanceQuality;
+//		if(newResult.isEmpty()) {
+//            return result - 1;
+//		} else {
+//            return result;
+//        }
+//	}
 
 	private double evaluateRelevance(List<ISearchResult> newResult, List<ISearchResult> referenceResult) {
+        if(newResult.isEmpty()) {
+            return 0.0;
+        }
 		// Compare the mean of the RELEVANCE_NUMBER first search results.
 		int n = NUMBER_OF_RELEVANCE_ENTRIES;
 		int min = Math.min(referenceResult.size(), newResult.size());
@@ -105,7 +119,7 @@ public class SearchResultRanking {
 		return (newMean + 1) / (refMean + 1);
 	}
 
-	private static int getIdenticalUriCount(List<ISearchResult> a, List<ISearchResult> b) {
+	private static int getIntersectionUriCount(List<ISearchResult> a, List<ISearchResult> b) {
 		// get the number of identical eloUris
 		int identicalResults = 0;
 		for (ISearchResult bRes : b) {
@@ -119,17 +133,45 @@ public class SearchResultRanking {
 		return identicalResults;
 	}
 
+    private static int getUnionUriCount(List<ISearchResult> a, List<ISearchResult> b) {
+        int result = a.size();
+        for (ISearchResult bRes : b) {
+            boolean exists = false;
+            for(ISearchResult aRes : a) {
+                if(bRes.getUri().equals(aRes.getUri())) {
+                    exists = true;
+                    break;
+                }
+            }
+            if(!exists) {
+                result++;
+            }
+        }
+        return result;
+    }
+
 	private static double evaluateSimilarity(List<ISearchResult> newResult,
 			List<ISearchResult> refResult) {
-		double identicalUri = getIdenticalUriCount(newResult, refResult);
-		double minUri = Math.min(newResult.size(), refResult.size());
-		// TODO full similiarity is overweighted...
+        if(newResult.isEmpty()) {
+            return 0.0;
+        }
+		double intersectionCount = getIntersectionUriCount(newResult, refResult);
+        double unionCount = getUnionUriCount(newResult, refResult);
 
-		// +1 to avoid division by zero
-		return (identicalUri + 1) / (minUri + 1);
+        // calculate ratio of intersection and union (+1 to avoid division by zero)
+        double ratio = (intersectionCount + 1) / (unionCount + 1);
+
+        // calculate distance between optimum similarity value and the calculated ratio
+        double distance = Math.abs(OPTIMUM_SIMILARITY_VALUE - ratio);
+
+		return OPTIMUM_SIMILARITY_VALUE - distance;
 	}
 
 	private static double evaluateLength(int newResult, int refResult) {
+        if(newResult == 0) {
+            return 0.0;
+        }
+        
 		double quality;
 		if (newResult < refResult) {
 			// +1 to avoid division by zero

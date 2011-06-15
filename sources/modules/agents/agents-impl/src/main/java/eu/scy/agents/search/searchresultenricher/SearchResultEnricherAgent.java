@@ -19,6 +19,7 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.impl.AbstractThreadedAgent;
 import eu.scy.agents.impl.AgentProtocol;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /*
  * This agent suggests other search queries, if the users search provided too less or too  many results.
@@ -50,12 +51,13 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
 		
 	private static final String ACTION_LOG_ATTRIBUTE_RESULT = "search_results";
 
-	private static final int MAXIMAL_PROPOSAL_NUMBER = 5;
+	private static final int MAXIMAL_PROPOSAL_NUMBER = 10;
 	
+    private static final int MAXIMAL_REPLACE_NUMBER = 5;
+
     public static final int INFIMUM_GOOD_SEARCH_RESULT = 5;
     
     public static final int SUPREMUM_GOOD_SEARCH_RESULT = 20;
-    
 
     private static final Tuple TEMPLATE_FOR_SEARCH_QUERY = new Tuple("action", String.class, Long.class, SEARCH_TYPE, String.class, SEARCH_TOOL, Field.createWildCardField());
     
@@ -194,6 +196,7 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         
             // Propose better search queries, if found
             if (ranking != null && ranking.getResults().length > 0) {
+                System.out.println(ranking.toString());
                 System.out.println(generateTuple(user, mission, session, ranking));
 
 //                try {
@@ -207,9 +210,26 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         /*
          * Tries to create another search query, that will provide more results.
          */
-        private SearchResultRanking extendSearchResult(String userId, String eloUri, String query, List<ISearchResult> referenceResults) {
+        private SearchResultRanking extendSearchResult(String userId, String eloUri, String searchQuery, List<ISearchResult> referenceResults) {
             SearchResultRanking ranking = new SearchResultRanking(MAXIMAL_PROPOSAL_NUMBER, referenceResults);
 
+            // Replace AND by OR
+            Query query = Query.parse(searchQuery);
+            String last = "";
+            for(int i = 1; i <= MAXIMAL_REPLACE_NUMBER; i++) {
+                String newQuery = query.replaceOperator("AND", "OR", new AtomicInteger(i));
+                if(newQuery.equals(last)) {
+                    // if a replace operation does not change the query anymore, stop
+                    break;
+                } else {
+                    last = newQuery;
+                    List<ISearchResult> result =  performSearch(newQuery);
+                    if(result != null) {
+                        ranking.add(newQuery, result);
+                    }
+                }
+            }
+            
             // TODO ask ontology for synonyms
 //		askOntologyForSynonym(userId, eloUri, "keyword");
             return ranking;
@@ -252,13 +272,24 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
         			ranking.add(itemsets[i].toString(), result);
         		}
         	}
-        	
-        	// Replace OR by AND
-        	String anotherQuery = replaceOrByAnd(searchQuery);
-        	List <ISearchResult>  result = performSearch(anotherQuery);
-        	if(result != null) {
-        		ranking.add(anotherQuery, result);
-        	}
+            // Replace OR by AND
+            Query query = Query.parse(searchQuery);
+            String last = "";
+            AtomicInteger ai = new AtomicInteger(0);
+            for(int i = 1; i <= MAXIMAL_REPLACE_NUMBER; i++) {
+                ai.set(i);
+                String newQuery = query.replaceOperator("OR", "AND", ai);
+                if(newQuery.equals(last)) {
+                    // if a replace operation does not change the query anymore, stop
+                    break;
+                } else {
+                    last = newQuery;
+                    List<ISearchResult> result =  performSearch(newQuery);
+                    if(result != null) {
+                        ranking.add(newQuery, result);
+                    }
+                }
+            }
     	} else {
             // Only one item and too less results... this must be handled separately
 
@@ -284,15 +315,6 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
             itemsets[i] = s.trim();
     	}
     	return itemsets;
-    }
-
-    // TODO replace with Query.replaceOperator(...)
-    private String replaceOrByAnd(String query) {
-    	StringBuilder sb = new StringBuilder(query);
-    	while(sb.indexOf("OR") > -1) {
-    		sb.replace(sb.indexOf("OR"), sb.indexOf("OR") + 2, "AND");
-    	}
-    	return sb.toString();
     }
     
     /*
@@ -337,5 +359,4 @@ public class SearchResultEnricherAgent extends AbstractThreadedAgent{
     	String xmlResults = responseTuple.getField(2).getValue().toString();
     	return SearchResultUtils.createSearchResultsFromXML(xmlResults);
     }
-    
 }
