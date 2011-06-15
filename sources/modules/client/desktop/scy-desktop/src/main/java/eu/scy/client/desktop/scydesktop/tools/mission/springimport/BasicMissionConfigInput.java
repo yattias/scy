@@ -24,6 +24,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.apache.log4j.Logger;
+import roolo.elo.api.IMetadata;
+import roolo.elo.api.exceptions.ELODoesNotExistException;
+import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
 
 /**
  *
@@ -42,10 +45,16 @@ public class BasicMissionConfigInput implements MissionConfigInput
    private URI missionDescriptionUri;
    private URI colorSchemesEloUri;
    private URI agentModelsEloUri;
+   private String missionId;
+   private String xhtmlVersionId;
+   private String languageId;
+   private IMetadata templateTrueMetadata;
 
    public void parseEloConfigs(ToolBrokerAPI tbi)
    {
       this.tbi = tbi;
+      templateTrueMetadata = tbi.getELOFactory().createMetadata();
+      templateTrueMetadata.getMetadataValueContainer(tbi.getMetaDataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.TEMPLATE)).setValue(Boolean.TRUE.toString());
       Set<URI> templateEloUriSet = new HashSet<URI>();
       for (URI uri : templateEloUris)
       {
@@ -55,11 +64,31 @@ public class BasicMissionConfigInput implements MissionConfigInput
          }
          else
          {
+            setTemplateFlag(uri);
             templateEloUriSet.add(uri);
          }
       }
       templateEloUris.clear();
       templateEloUris.addAll(templateEloUriSet);
+      for (eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor anchor : basicMissionAnchors)
+      {
+         setTemplateFlag(anchor.getUri());
+      }
+   }
+
+   private void setTemplateFlag(URI eloUri)
+   {
+      if (eloUri != null)
+      {
+         try
+         {
+            tbi.getRepository().addMetadata(eloUri, templateTrueMetadata);
+         }
+         catch (ELODoesNotExistException e)
+         {
+            // elo does not exists, ignore it, this problem is handled elsewhere
+         }
+      }
    }
 
    @Override
@@ -337,7 +366,8 @@ public class BasicMissionConfigInput implements MissionConfigInput
          las.setIntermediateAnchors(intermediateAnchors);
       }
 
-      for (Las errorLas : errorLasses){
+      for (Las errorLas : errorLasses)
+      {
          lasses.remove(errorLas);
       }
 
@@ -354,5 +384,38 @@ public class BasicMissionConfigInput implements MissionConfigInput
    public List<String> getErrors()
    {
       return errors;
+   }
+
+   @Override
+   public String getMissionId()
+   {
+      return missionId;
+   }
+
+   public void setMissionId(String missionId)
+   {
+      this.missionId = missionId;
+   }
+
+   @Override
+   public String getXhtmlVersionId()
+   {
+      return xhtmlVersionId;
+   }
+
+   public void setXhtmlVersionId(String xhtmlVersionId)
+   {
+      this.xhtmlVersionId = xhtmlVersionId;
+   }
+
+   @Override
+   public String getLanguageId()
+   {
+      return languageId;
+   }
+
+   public void setLanguageId(String languageId)
+   {
+      this.languageId = languageId;
    }
 }
