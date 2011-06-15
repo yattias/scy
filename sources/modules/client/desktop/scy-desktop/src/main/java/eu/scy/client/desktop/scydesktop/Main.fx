@@ -8,7 +8,6 @@ package eu.scy.client.desktop.scydesktop;
 import javafx.stage.Stage;
 
 
-import eu.scy.client.desktop.scydesktop.tools.scytoolviewer.ScyToolViewerCreator;
 import eu.scy.client.desktop.scydesktop.tools.propertiesviewer.PropertiesViewerCreator;
 import eu.scy.client.desktop.scydesktop.tools.content.eloImporter.ExternalDocCreator;
 import eu.scy.client.desktop.scydesktop.tools.imageviewer.ImageViewerCreator;
@@ -27,7 +26,8 @@ import eu.scy.client.desktop.scydesktop.tools.colorscheme.ColorSchemeEditorCreat
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.test.TestDialogsNodeCreator;
 import eu.scy.client.desktop.scydesktop.feedbackquestion.FeedbackQuestionNodeCreator;
 import eu.scy.client.desktop.scydesktop.tools.versionviewer.VersionViewerCreator;
-import eu.scy.client.desktop.scydesktop.tools.swingtest.SwingElementsCreator.SwingElementsCreatortor;
+import eu.scy.client.desktop.scydesktop.tools.content.text.SwingTextEditorScyToolContentCreator;
+import eu.scy.client.desktop.scydesktop.tools.scytoolviewer.ScyToolViewerCreator;
 
 /**
  * @author sikkenj
@@ -91,9 +91,9 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
    initializer.loadTimer.startActivity("registering tool creators");
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ScyToolViewerCreator{}, scyToolViewerId);
 //   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(TextEditorScyToolContentCreator {}, scyTextId);
-//   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(SwingTextEditorScyToolContentCreator {}, scyTextId);
+   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(SwingTextEditorScyToolContentCreator {}, scyTextId);
 //   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreator(new EloXmlViewerCreator(), eloXmlViewerId);
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(SwingElementsCreatortor {}, scyTextId);
+//   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(SwingElementsCreatortor {}, scyTextId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(EloXmlViewerCreatorFX{}, eloXmlViewerId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(new PropertiesViewerCreator(), propertiesViewerId);
    scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(ExternalDocCreator{extensions: ["ppt","pptx"];fileFilterDescription:"PowerPoint Presentations"}, presentationViewerId);

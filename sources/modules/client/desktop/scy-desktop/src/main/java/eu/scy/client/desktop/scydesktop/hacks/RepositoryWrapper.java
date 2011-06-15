@@ -49,6 +49,7 @@ public class RepositoryWrapper implements IRepository
    private IMetadataKey activeAnchorEloKey;
    private IMetadataKey missionRuntimeKey;
    private IMetadataKey missionRunningKey;
+   private IMetadataKey templateKey;
 //	private IMetadataKey typeKey;
 //	private IMetadataKey annotatesRelationKey;
    private List<EloSavedListener> eloSavedListeners = new CopyOnWriteArrayList<EloSavedListener>();
@@ -171,6 +172,7 @@ public class RepositoryWrapper implements IRepository
       activeAnchorEloKey = getMetadataKey(ScyRooloMetadataKeyIds.ACTIVE_ANCHOR_ELO);
       missionRuntimeKey = getMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNTIME);
       missionRunningKey = getMetadataKey(ScyRooloMetadataKeyIds.MISSION_RUNNING);
+      templateKey = getMetadataKey(CoreRooloMetadataKeyIds.TEMPLATE);
    }
 
    private IMetadataKey getMetadataKey(IMetadataKeyIdDefinition keyId)
@@ -220,6 +222,7 @@ public class RepositoryWrapper implements IRepository
       {
          elo.getMetadata().getMetadataValueContainer(lasKey).setValue(lasId);
       }
+      clearTemplateIfNeeded(elo);
       // TODO store active anchor relation
 //		else
 //		{
@@ -429,4 +432,19 @@ public class RepositoryWrapper implements IRepository
 	public IMetadata updateWithMinorChange(IELO elo) {
 		throw new UnsupportedOperationException("Not yet implemented...");
 	}
+
+   private void clearTemplateIfNeeded(IELO elo)
+   {
+      if (elo.getMetadata().metadataKeyExists(templateKey)){
+         final String templateValue = (String) elo.getMetadata().getMetadataValueContainer(templateKey).getValue();
+         if (Boolean.valueOf(templateValue)){
+            if ("TRUE".equals(templateValue)){
+               elo.getMetadata().getMetadataValueContainer(templateKey).setValue("false");
+            }
+            else{
+               elo.getMetadata().getMetadataValueContainer(templateKey).setValue("TRUE");
+            }
+         }
+      }
+   }
 }
