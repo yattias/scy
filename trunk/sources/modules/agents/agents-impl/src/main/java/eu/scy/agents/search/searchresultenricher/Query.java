@@ -6,6 +6,7 @@ package eu.scy.agents.search.searchresultenricher;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  *
@@ -40,7 +41,7 @@ public class Query {
         query = Query.parse("first AND (test and evaluation) OR notLast last");
         System.out.println(query.toString());
         query = Query.parse("first AND (test and evaluation) OR notLast last");
-        System.out.println(query.replaceOperator("OR", "AND", 2));
+        System.out.println(query.replaceOperator("OR", "AND", new AtomicInteger(2)));
 //        query = QueryTerm.parse("last");
 //        System.out.println(query.toString());
 //        query = QueryTerm.parse("(last) ()");
@@ -179,7 +180,7 @@ public class Query {
         }
     }
 
-    public String replaceOperator(String from, String to, int numberOfReplacements) {
+    public String replaceOperator(String from, String to, AtomicInteger numberOfReplacements) {
         if(this.term != null) {
             if(this.hasBracket()) {
                 return "(" + this.term + ")";
@@ -188,26 +189,22 @@ public class Query {
             }
         } else {
             String result;
-            if(numberOfReplacements >= 0) {
-                // replace the operator
+            if(numberOfReplacements.get() > 0) {
                 String op;
                 if(this.operator.equals(from)) {
+                    // replace the operator
                     op = to;
+                    numberOfReplacements.decrementAndGet();
                 } else {
                     op = this.operator;
                 }
 
-                // get the left child
-                if(this.leftChild.getOperator() != null && this.leftChild.getOperator().equals(from)) {
-                    numberOfReplacements--;
-                }
+                // Replace on the left child
                 String leftTerm = this.leftChild.replaceOperator(from, to, numberOfReplacements);
 
-                // get the right child
-                if(this.rightChild.getOperator() != null && this.rightChild.getOperator().equals(from)) {
-                    numberOfReplacements--;
-                }
+                // Replace on the right child
                 String rightTerm = this.rightChild.replaceOperator(from, to, numberOfReplacements);
+
                 if(!op.equals("AND")) {
                     result = leftTerm + " " + rightTerm;
                 } else {
@@ -220,6 +217,7 @@ public class Query {
                     result = this.leftChild.toString() + " " + this.operator + " " + this.rightChild.toString();
                 }
             }
+            
             if(this.hasBracket()) {
                 return "(" + result + ")";
             } else {
