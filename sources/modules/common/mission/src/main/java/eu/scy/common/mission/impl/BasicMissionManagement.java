@@ -281,6 +281,7 @@ public class BasicMissionManagement implements MissionManagement
             missionAnchor.getScyElo().setMissionSpecificationEloUri(missionSpecificationEloUri);
             missionAnchor.getScyElo().setDateFirstUserSave(null);
             missionAnchor.getScyElo().setCreator(null);
+            missionAnchor.getScyElo().setTemplate(true);
             missionAnchor.getScyElo().saveAsForkedElo();
             missionAnchor.setEloUri(missionAnchor.getScyElo().getUri());
          }
