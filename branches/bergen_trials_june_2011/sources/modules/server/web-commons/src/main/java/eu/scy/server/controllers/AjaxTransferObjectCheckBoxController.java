@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 import java.net.URI;
+import java.net.URLDecoder;
 
 /**
  * Created by IntelliJ IDEA.
@@ -33,6 +34,8 @@ public class AjaxTransferObjectCheckBoxController extends AbstractController {
         String transferEloURI = request.getParameter("transferEloURI");
         String property = request.getParameter("property");
         String value = request.getParameter("value");
+
+        transferEloURI = URLDecoder.decode(transferEloURI, "UTF-8");
 
         URI uri = new URI(transferEloURI);
 

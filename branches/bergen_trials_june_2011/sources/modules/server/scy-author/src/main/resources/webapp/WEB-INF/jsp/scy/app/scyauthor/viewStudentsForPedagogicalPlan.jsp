@@ -27,7 +27,7 @@
                             <td><img src="/webapp/common/filestreamer.html?username=${user.userDetails.username}&showIcon"/>
                             </td>
                             <td>
-                                <a href="javascript:openPage('viewStudents', '/webapp/useradmin/manageAssignedStudent.html?eloURI=${eloURI}&username=${user.userDetails.username}')">
+                                <a href="javascript:openPage('viewStudents', '/webapp/useradmin/manageAssignedStudent.html?eloURI=' + encodeURIComponent('${eloURI}') + '&username=${user.userDetails.username}');">
                                     ${user.userDetails.username}
                                 </a>
                             </td>

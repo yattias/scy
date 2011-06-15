@@ -31,9 +31,9 @@
 </script>
 
 
-        <a href="javascript:openPage('viewStudents', '/webapp/useradmin/manageAssignedStudent.html?eloURI=${eloURI}&username=${user.userDetails.username}&action=clearPortfolios');">
+        <a href="javascript:openPage('viewStudents', '/webapp/useradmin/manageAssignedStudent.html?eloURI=' + encodeURIComponent('${eloURI}') + '&username=${user.userDetails.username}&action=clearPortfolios');">
             <spring:message code="RESET_PORTFOLIO"/>
-        </a><a href="javascript:openPage('viewStudents', '/webapp/app/scyauthor/viewStudentsForPedagogicalPlan.html?eloURI=${eloURI}');">
+        </a><a href="javascript:openPage('viewStudents', '/webapp/app/scyauthor/viewStudentsForPedagogicalPlan.html?eloURI='+ encodeURIComponent('${eloURI}'));">
             <spring:message code="BACK_TO_STUDENT_LIST"/>
         </a>
 

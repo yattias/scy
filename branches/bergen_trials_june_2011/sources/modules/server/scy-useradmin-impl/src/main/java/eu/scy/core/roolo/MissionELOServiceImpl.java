@@ -239,6 +239,37 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
         return missionAnchors;
     }
 
+
+    @Override
+    public List getObligatoryAnchorELOs(MissionSpecificationElo missionSpecificationElo, PedagogicalPlanTransfer pedagogicalPlan){
+        List anchorElos = getAnchorELOs(missionSpecificationElo);
+        List returnList = new LinkedList();
+        for (int i = 0; i < anchorElos.size(); i++) {
+            ScyElo scyElo = (ScyElo) anchorElos.get(i);
+            if (getIsDefinedAsObligatoryInPedagogicalPlan(pedagogicalPlan, scyElo)) {
+                TransferElo transferElo = new TransferElo(scyElo);
+                returnList.add(transferElo);
+            }
+        }
+
+        return returnList;
+
+    }
+
+    private boolean getIsDefinedAsObligatoryInPedagogicalPlan(PedagogicalPlanTransfer pedagogicalPlan, ScyElo scyElo) {
+        List <LasTransfer> lasses = pedagogicalPlan.getMissionPlan().getLasTransfers();
+        for (int i = 0; i < lasses.size(); i++) {
+            LasTransfer lasTransfer = lasses.get(i);
+            if(lasTransfer.getAnchorElo() != null) {
+                if(lasTransfer.getAnchorElo().getObligatoryInPortfolio() != null) {
+                    if(lasTransfer.getAnchorElo().getObligatoryInPortfolio() && lasTransfer.getAnchorElo().getName().equals(scyElo.getTitle())) return true;    
+                }
+
+            }
+        }
+        return false;
+    }
+
     private RuntimeSettingsElo getRuntimeSettingsElo(MissionSpecificationElo missionSpecificationElo) {
         return RuntimeSettingsElo.loadLastVersionElo(missionSpecificationElo.getTypedContent().getRuntimeSettingsEloUri(), this);
     }
