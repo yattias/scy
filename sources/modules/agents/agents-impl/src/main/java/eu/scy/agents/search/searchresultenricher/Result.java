@@ -6,6 +6,10 @@ import roolo.search.ISearchResult;
 
 public class Result implements Comparable<Result> {	
 	
+	private static final double WEIGHT_LENGTH = 0.3333;
+	private static final double WEIGHT_SIMILARITY = 0.3333;
+	private static final double WEIGHT_RELEVANCE = 0.3333;
+	
 	private String query;
 	
 	private List<ISearchResult> result;
@@ -45,9 +49,9 @@ public class Result implements Comparable<Result> {
     }
 
     public double getQuality() {
-        double result = SearchResultRanking.WEIGHT_LENGTH * lengthQuality +
-                SearchResultRanking.WEIGHT_DIFFERENCE * similarityQuality +
-                SearchResultRanking.WEIGHT_RELEVANCE * relevanceQuality;
+        double result = WEIGHT_LENGTH * lengthQuality +
+                WEIGHT_SIMILARITY * similarityQuality +
+                WEIGHT_RELEVANCE * relevanceQuality;
 		if(this.result.isEmpty()) {
             return result - 1;
 		} else {
