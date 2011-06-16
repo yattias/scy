@@ -27,6 +27,8 @@ public class MissionSpecificationEloContentXmlUtils
    static final String pedagogicalPlanSettingsEloUriName = "pedagogicalPlanSettingsEloUri";
    static final String colorSchemesEloUriName = "colorSchemesEloUri";
    static final String missionDescriptionUriName = "missionDescriptionUri";
+   static final String missionIdName = "missionId";
+   static final String xhtmlVersionIdName = "xhtmlVersionId";
 
    private MissionSpecificationEloContentXmlUtils()
    {
@@ -43,6 +45,8 @@ public class MissionSpecificationEloContentXmlUtils
       root.addContent(JDomConversionUtils.createElement(pedagogicalPlanSettingsEloUriName, missionSpecification.getPedagogicalPlanSettingsEloUri()));
       root.addContent(JDomConversionUtils.createElement(colorSchemesEloUriName, missionSpecification.getColorSchemesEloUri()));
       root.addContent(JDomConversionUtils.createElement(missionDescriptionUriName, missionSpecification.getMissionDescriptionUri()));
+      root.addContent(JDomConversionUtils.createElement(missionIdName, missionSpecification.getMissionId()));
+      root.addContent(JDomConversionUtils.createElement(xhtmlVersionIdName, missionSpecification.getXhtmlVersionId()));
       return new JDomStringConversion().xmlToString(root);
    }
 
@@ -61,6 +65,8 @@ public class MissionSpecificationEloContentXmlUtils
       missionSpecification.setPedagogicalPlanSettingsEloUri(JDomConversionUtils.getUriValue(root, pedagogicalPlanSettingsEloUriName));
       missionSpecification.setColorSchemesEloUri(JDomConversionUtils.getUriValue(root, colorSchemesEloUriName));
       missionSpecification.setMissionDescriptionUri(JDomConversionUtils.getUriValue(root, missionDescriptionUriName));
+      missionSpecification.setMissionId(root.getChildTextTrim(missionIdName));
+      missionSpecification.setXhtmlVersionId(root.getChildTextTrim(xhtmlVersionIdName));
       return missionSpecification;
    }
 }

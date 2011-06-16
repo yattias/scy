@@ -45,4 +45,11 @@ public interface MissionRuntimeEloContent
 
 	public void setColorSchemesEloUri(URI colorSchemesEloUri);
 	
+	public String getMissionId();
+
+	public void setMissionId(String missionId);
+
+	public String getXhtmlVersionId();
+
+	public void setXhtmlVersionId(String xhtmlVersionId);
 }

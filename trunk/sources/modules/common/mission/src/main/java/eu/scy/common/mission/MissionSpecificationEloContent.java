@@ -44,4 +44,12 @@ public interface MissionSpecificationEloContent
 	public URI getMissionDescriptionUri();
 
 	public void setMissionDescriptionUri(URI missionDescriptionUri);
+
+	public String getMissionId();
+
+	public void setMissionId(String missionId);
+
+	public String getXhtmlVersionId();
+
+	public void setXhtmlVersionId(String xhtmlVersionId);
 }
