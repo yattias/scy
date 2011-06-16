@@ -32,6 +32,7 @@ public class TemplateElosEloEditor  extends EloXmlEditor {
                tbi: toolBrokerAPI
             }
          setContent(springConfigFileImporter.templateElosXml,springConfigFileImporter.errors);
+         language = springConfigFileImporter.language;
       }
    }
 

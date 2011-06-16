@@ -275,9 +275,27 @@ public class MissionLocator {
       var listCell: ListCell;
       listCell = ListCell {
                  node: Label {
-                    text: bind (listCell.item as ScyElo).getTitle()
+                    text: bind getMissionDisplayText(listCell.item as ScyElo)
                  }
               }
+   }
+
+   function getMissionDisplayText(scyElo: ScyElo): String {
+      if (scyElo==null){
+         return ""
+      }
+      def languages = scyElo.getElo().getLanguages();
+      var languageDisplay = "";
+      if (languages != null and languages.size() > 0) {
+         for (language in languages) {
+            if (indexof language > 0) {
+               languageDisplay += ", ";
+            }
+            languageDisplay += language.getISO3Language();
+         }
+         languageDisplay = "({languageDisplay})"
+      }
+      "{scyElo.getTitle()} {languageDisplay}"
    }
 
    function startSingleEloMission() {
@@ -298,7 +316,7 @@ public class MissionLocator {
          });
       } else {
          logger.warn("Cannot find product with uri: {eloUri}");
-         DialogBox.showMessageDialog(String.format(##"Cannot find product with url:%n%s%nSCY-Lab will quit.",eloUri), ##"Cannot find product", null, function(): Void {
+         DialogBox.showMessageDialog(String.format(##"Cannot find product with url:%n%s%nSCY-Lab will quit.", eloUri), ##"Cannot find product", null, function(): Void {
             FX.exit();
          }, null);
       }
@@ -319,10 +337,10 @@ public class MissionLocator {
                   return new URI(enteredUriString)
                } catch (e: Exception) {
                   println("e: {e}");
-                  message = String.format(##"The url is not valid: %s%nPlease enter valid product url:",e);
+                  message = String.format(##"The url is not valid: %s%nPlease enter valid product url:", e);
                }
             } else {
-               message = String.format(##"The url is not valid: it should start with %s%nPlease enter valid product url:",uriStart);
+               message = String.format(##"The url is not valid: it should start with %s%nPlease enter valid product url:", uriStart);
             }
          }
          return null;

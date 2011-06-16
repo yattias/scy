@@ -13,6 +13,7 @@ import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.net.URI;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import org.apache.log4j.Logger;
 import roolo.elo.api.IELO;
 import roolo.elo.api.IMetadataKey;
@@ -84,8 +85,9 @@ public class MissionLocatorUtils
                MissionSpecificationElo missionSpecificationElo = new MissionSpecificationElo(elo, tbi);
                if (missionSpecificationElo.getAccess() != Access.DELETED)
                {
-
-                  missions.missionSpecificationElos.add(missionSpecificationElo);
+                  if (missionSpecificationElo.getElo().supportsLanguage(Locale.getDefault())){
+                     missions.missionSpecificationElos.add(missionSpecificationElo);
+                  }
                }
             }
          }

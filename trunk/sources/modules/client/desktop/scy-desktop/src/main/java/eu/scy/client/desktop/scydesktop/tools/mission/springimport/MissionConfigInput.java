@@ -9,6 +9,7 @@ import eu.scy.common.mission.EloToolConfig;
 import eu.scy.common.mission.MissionModelEloContent;
 import java.net.URI;
 import java.util.List;
+import java.util.Locale;
 
 /**
  *
@@ -34,5 +35,5 @@ public interface MissionConfigInput {
 
    public String getXhtmlVersionId();
 
-   public String getLanguageId();
+   public Locale getLanguage();
 }

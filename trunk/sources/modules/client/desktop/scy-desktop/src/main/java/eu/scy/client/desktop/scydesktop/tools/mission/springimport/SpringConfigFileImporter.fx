@@ -15,6 +15,7 @@ import eu.scy.common.mission.impl.jdom.MissionModelEloContentXmlUtils;
 import eu.scy.toolbrokerapi.ToolBrokerAPI;
 import java.lang.StringBuilder;
 import java.net.URI;
+import java.util.Locale;
 
 /**
  * @author SikkenJ
@@ -31,6 +32,9 @@ public class SpringConfigFileImporter {
    public-read var missionMapXml: String;
    public-read var eloToolConfigsXml: String;
    public-read var templateElosXml: String;
+   public-read var missionId: String;
+   public-read var xhtmlVersionId: String;
+   public-read var language: Locale;
    public-read var errors: String;
    var missionConfigInput: MissionConfigInput;
    def missionConfigInputBeanName = "missionConfigInput";
@@ -40,6 +44,9 @@ public class SpringConfigFileImporter {
       missionDescriptionUri = missionConfigInput.getMissionDescriptionUri();
       colorSchemesEloUri = missionConfigInput.getColorSchemesEloUri();
       agentModelsEloUri = missionConfigInput.getAgentModelsEloUri();
+      missionId = missionConfigInput.getMissionId();
+      xhtmlVersionId = missionConfigInput.getXhtmlVersionId();
+      language = missionConfigInput.getLanguage();
       def missionModel = missionConfigInput.getMissionModelEloContent();
       missionMapXml = MissionModelEloContentXmlUtils.missionModelToXml(missionModel);
       def eloToolConfigsEloContent = new BasicEloToolConfigsEloContent();

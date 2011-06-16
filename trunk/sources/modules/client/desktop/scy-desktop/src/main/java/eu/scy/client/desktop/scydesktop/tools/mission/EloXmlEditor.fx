@@ -12,7 +12,6 @@ import roolo.elo.api.IELOFactory;
 import roolo.elo.api.IMetadataTypeManager;
 import eu.scy.client.desktop.scydesktop.tools.ScyToolFX;
 import roolo.elo.api.IMetadataKey;
-import javafx.scene.control.Button;
 import java.awt.Component;
 import javafx.scene.layout.Resizable;
 import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
@@ -36,6 +35,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
+import java.util.Locale;
+import java.util.ArrayList;
 
 /**
  * @author sikken
@@ -111,6 +112,7 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
               action: doImport
               tooltip: ##"Import specification file"
            }
+   protected var language:Locale;
 
    override protected function create(): Node {
       nodeBox = VBox {
@@ -220,7 +222,16 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
       }
 
       elo.getContent().setXmlString(eloXml);
+      setContentLanguage(elo,language);
       return elo;
+   }
+
+   protected function setContentLanguage(aElo: IELO, lang: Locale): Void{
+      if (lang==null){
+         aElo.getContent().setLanguages(new ArrayList());
+      } else {
+         aElo.getContent().setLanguage(lang);
+      }
    }
 
    function isValidXml(xml: String): Boolean {

@@ -33,6 +33,7 @@ public class MissionMapModelEditor extends EloXmlEditor {
                tbi: toolBrokerAPI
             }
          setContent(springConfigFileImporter.missionMapXml,springConfigFileImporter.errors);
+         language = springConfigFileImporter.language;
       }
    }
 
