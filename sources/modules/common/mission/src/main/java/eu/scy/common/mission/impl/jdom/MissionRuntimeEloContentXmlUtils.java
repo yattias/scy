@@ -37,6 +37,8 @@ public class MissionRuntimeEloContentXmlUtils {
       root.addContent(JDomConversionUtils.createElement(ePortfolioEloUriName, missionRuntime.getEPortfolioEloUri()));
       root.addContent(JDomConversionUtils.createElement(MissionSpecificationEloContentXmlUtils.pedagogicalPlanSettingsEloUriName, missionRuntime.getPedagogicalPlanSettingsEloUri()));
       root.addContent(JDomConversionUtils.createElement(MissionSpecificationEloContentXmlUtils.colorSchemesEloUriName, missionRuntime.getColorSchemesEloUri()));
+      root.addContent(JDomConversionUtils.createElement(MissionSpecificationEloContentXmlUtils.missionIdName, missionRuntime.getMissionId()));
+      root.addContent(JDomConversionUtils.createElement(MissionSpecificationEloContentXmlUtils.xhtmlVersionIdName, missionRuntime.getXhtmlVersionId()));
       return new JDomStringConversion().xmlToString(root);
    }
 
@@ -55,6 +57,8 @@ public class MissionRuntimeEloContentXmlUtils {
       missionRuntimeElo.setEPortfolioEloUri(JDomConversionUtils.getUriValue(root,ePortfolioEloUriName));
       missionRuntimeElo.setPedagogicalPlanSettingsEloUri(JDomConversionUtils.getUriValue(root,MissionSpecificationEloContentXmlUtils.pedagogicalPlanSettingsEloUriName));
       missionRuntimeElo.setColorSchemesEloUri(JDomConversionUtils.getUriValue(root,MissionSpecificationEloContentXmlUtils.colorSchemesEloUriName));
+      missionRuntimeElo.setMissionId(root.getChildTextTrim(MissionSpecificationEloContentXmlUtils.missionIdName));
+      missionRuntimeElo.setXhtmlVersionId(root.getChildTextTrim(MissionSpecificationEloContentXmlUtils.xhtmlVersionIdName));
       return missionRuntimeElo;
    }
 
