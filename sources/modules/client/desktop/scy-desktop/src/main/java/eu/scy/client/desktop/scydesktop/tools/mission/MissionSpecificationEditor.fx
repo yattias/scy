@@ -13,6 +13,8 @@ import java.io.File;
 import eu.scy.common.mission.MissionEloType;
 import eu.scy.common.mission.RuntimeSettingsElo;
 import eu.scy.common.scyelo.ScyElo;
+import java.util.Locale;
+import java.util.ArrayList;
 
 /**
  * @author sikken
@@ -45,10 +47,11 @@ public class MissionSpecificationEditor extends EloXmlEditor {
             file: file.getAbsolutePath()
             tbi: toolBrokerAPI
          }
-      def missionMapModelElo = saveXmlInElo(MissionEloType.MISSION_MAP_MODEL.getType(), name, springConfigFileImporter.missionMapXml);
-      def eloToolConfigsElo = saveXmlInElo(MissionEloType.ELO_TOOL_CONFIGURATION.getType(), name, springConfigFileImporter.eloToolConfigsXml);
-      def templateElosElo = saveXmlInElo(MissionEloType.TEMPLATES_ELOS.getType(), name, springConfigFileImporter.templateElosXml);
+      def missionMapModelElo = saveXmlInElo(MissionEloType.MISSION_MAP_MODEL.getType(), name, springConfigFileImporter.missionMapXml,springConfigFileImporter.language);
+      def eloToolConfigsElo = saveXmlInElo(MissionEloType.ELO_TOOL_CONFIGURATION.getType(), name, springConfigFileImporter.eloToolConfigsXml,null);
+      def templateElosElo = saveXmlInElo(MissionEloType.TEMPLATES_ELOS.getType(), name, springConfigFileImporter.templateElosXml,springConfigFileImporter.language);
       def runtimeSettingsElo = RuntimeSettingsElo.createElo(toolBrokerAPI);
+      setContentLanguage(runtimeSettingsElo.getElo(),springConfigFileImporter.language);
       runtimeSettingsElo.setTitle(name);
       runtimeSettingsElo.saveAsNewElo();
       def missionSpecification = new BasicMissionSpecificationEloContent();
@@ -65,12 +68,14 @@ public class MissionSpecificationEditor extends EloXmlEditor {
       pedagogicalPlanSettings.saveAsNewElo();
       missionSpecification.setPedagogicalPlanSettingsEloUri(pedagogicalPlanSettings.getUri());
       setContent(MissionSpecificationEloContentXmlUtils.missionSpecificationToXml(missionSpecification), springConfigFileImporter.errors);
+      language = springConfigFileImporter.language;
    }
 
-   function saveXmlInElo(type: String, name: String, xml: String): ScyElo {
+   function saveXmlInElo(type: String, name: String, xml: String, lang: Locale): ScyElo {
       def scyElo = ScyElo.createElo(type, toolBrokerAPI);
       scyElo.setTitle(name);
       scyElo.getContent().setXmlString(xml);
+      setContentLanguage(scyElo.getElo(),lang);
       scyElo.saveAsNewElo();
       scyElo
    }

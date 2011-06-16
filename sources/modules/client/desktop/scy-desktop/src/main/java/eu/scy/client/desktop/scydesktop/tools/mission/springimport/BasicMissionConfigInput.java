@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import org.apache.log4j.Logger;
@@ -47,7 +48,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
    private URI agentModelsEloUri;
    private String missionId;
    private String xhtmlVersionId;
-   private String languageId;
+   private Locale language;
    private IMetadata templateTrueMetadata;
 
    public void parseEloConfigs(ToolBrokerAPI tbi)
@@ -409,13 +410,13 @@ public class BasicMissionConfigInput implements MissionConfigInput
    }
 
    @Override
-   public String getLanguageId()
+   public Locale getLanguage()
    {
-      return languageId;
+      return language;
    }
 
    public void setLanguageId(String languageId)
    {
-      this.languageId = languageId;
+      this.language = new Locale(languageId);
    }
 }
