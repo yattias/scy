@@ -35,6 +35,8 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
 
     private static final String SEARCH = "search";
 
+    private static final String HIT_COUNT = "hit-count";
+    
     static final String AGENT_NAME = "roolo-agent";
 
     public static final String NAME = RooloAccessorAgent.class.getName();
@@ -129,6 +131,15 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
                 } else {
                     logger.debug("Request to search for ELOs, but Repository is null: " + keywords + " RequestID was: " + requestUID);
                 }
+            } else if (type.equals(HIT_COUNT)) {
+            	String keywords = new String(tuple.getField(3).getValue().toString());
+            	if (rooloServices != null) {
+            		logger.debug("Request hit number for search: " + keywords + " RequestID was: " + requestUID);
+            		List<ISearchResult> searchResults = rooloServices.search(new Query(new MetadataQueryComponent("contents", keywords)));
+            		sendResponse(searchResults.size(), requestUID);
+            	} else {
+            		logger.debug("Request to search for ELOs, but Repository is null: " + keywords + " RequestID was: " + requestUID);
+            	}
             }
 
             else {
@@ -140,6 +151,15 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
         }
     }
 
+    private void sendResponse(int hitCount, String requestUID) {
+		Tuple answerTuple = new Tuple(requestUID, ROOLO_RESPONSE, hitCount);
+		try {
+			getCommandSpace().write(answerTuple);
+		} catch (TupleSpaceException e) {
+			e.printStackTrace();
+		}
+    }
+    
     private void sendResponse(List<ISearchResult> searchResults, String requestUID) {
         if (searchResults != null) {
             String xmlResults = SearchResultUtils.createXmlStringFromSearchResults(searchResults);
