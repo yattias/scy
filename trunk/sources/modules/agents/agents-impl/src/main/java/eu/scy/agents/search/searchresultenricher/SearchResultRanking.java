@@ -2,6 +2,7 @@ package eu.scy.agents.search.searchresultenricher;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import roolo.search.ISearchResult;
 
@@ -10,27 +11,39 @@ import roolo.search.ISearchResult;
  */
 public class SearchResultRanking {
 
-	public static final double WEIGHT_LENGTH = 0.3333;
+	public static final String OPTIMUM_SIMILARITY_VALUE = "result_ranking_optimal_similiarity_value";
+	public static final String RELEVANCE_ENTRIES = "result_ranking_relevance_entries";
 
-	public static final double WEIGHT_DIFFERENCE = 0.3333;
-
-	public static final double WEIGHT_RELEVANCE = 0.3333;
-
-    private static final double OPTIMUM_SIMILARITY_VALUE = 0.75;
-    
-	private static final int NUMBER_OF_RELEVANCE_ENTRIES = 3;
-
-	private List<Result> ranking;
-
-	private final int capacity;
-
+	private LinkedList<Result> ranking;
 	private List<ISearchResult> referenceResults;
 
+	private int capacity;
+	private double optimalSimilarityValue;
+	private int relevanceEntryNumber;
+	private int infGoodSearchInterval;
+	private int supGoodSearchInterval;
+	
 	public SearchResultRanking(int capacity,
-			List<ISearchResult> referenceResults) {
-		this.capacity = capacity;
+			List<ISearchResult> referenceResults, Map<String, Object> config, int infGoodSearchInterval, int supGoodSearchInterval) {
 		this.ranking = new LinkedList<Result>();
 		this.referenceResults = referenceResults;
+		this.capacity = capacity;
+		this.infGoodSearchInterval = infGoodSearchInterval;
+		this.supGoodSearchInterval = supGoodSearchInterval;
+		configure(config);
+	}
+	
+	private void configure(Map<String, Object> config) {
+        if(config.get(OPTIMUM_SIMILARITY_VALUE) != null) {
+        	this.optimalSimilarityValue = (Double) config.get(OPTIMUM_SIMILARITY_VALUE);
+        } else {
+        	this.optimalSimilarityValue = 0.75;
+        }
+        if(config.get(RELEVANCE_ENTRIES) != null) {
+        	this.relevanceEntryNumber = (Integer) config.get(RELEVANCE_ENTRIES);
+        } else {
+        	this.relevanceEntryNumber = 3;
+        }
 	}
 
 	/**
@@ -40,8 +53,8 @@ public class SearchResultRanking {
 	 * @param results
 	 */
 	public void add(String query, List<ISearchResult> results) {
-		double lengthQuality = evaluateLength(results.size(), this.referenceResults.size());
-		double similarityQuality = evaluateSimilarity(results, this.referenceResults);
+		double lengthQuality = evaluateLength(results.size(), this.referenceResults.size(), this.infGoodSearchInterval, this.supGoodSearchInterval);
+		double similarityQuality = evaluateSimilarity(results, this.referenceResults, this.optimalSimilarityValue);
 		double relevanceQuality = evaluateRelevance(results, this.referenceResults);
 
 		Result result = new Result(query, results, lengthQuality, similarityQuality, relevanceQuality);
@@ -57,7 +70,7 @@ public class SearchResultRanking {
 			this.ranking.add(index, result);
 			if (this.ranking.size() > this.capacity) {
 				// Ranking capacity has been reached, remote the last entry
-				this.ranking.remove(this.ranking.size() - 1);
+				this.ranking.removeLast();
 			}
 		}
 	}
@@ -77,29 +90,12 @@ public class SearchResultRanking {
 		return sb.toString().trim();
 	}
 
-//	private double evaluateQuality(List<ISearchResult> referenceResult,
-//			List<ISearchResult> newResult) {
-//		double lengthQuality = evaluateLength(newResult.size(),
-//				referenceResult.size());
-//		double similarityQuality = evaluateSimilarity(newResult,
-//				referenceResult);
-//		double relevanceQuality = evaluateRelevance(newResult, referenceResult);
-//
-//        double result = WEIGHT_LENGTH * lengthQuality + WEIGHT_DIFFERENCE
-//                    * similarityQuality + WEIGHT_RELEVANCE * relevanceQuality;
-//		if(newResult.isEmpty()) {
-//            return result - 1;
-//		} else {
-//            return result;
-//        }
-//	}
-
 	private double evaluateRelevance(List<ISearchResult> newResult, List<ISearchResult> referenceResult) {
         if(newResult.isEmpty()) {
             return 0.0;
         }
-		// Compare the mean of the RELEVANCE_NUMBER first search results.
-		int n = NUMBER_OF_RELEVANCE_ENTRIES;
+		// Compare the mean of RELEVANCE_NUMBER search results.
+		int n = this.relevanceEntryNumber;
 		int min = Math.min(referenceResult.size(), newResult.size());
 		if (min == 0) {
 			return 1.0;
@@ -134,6 +130,7 @@ public class SearchResultRanking {
 	}
 
     private static int getUnionUriCount(List<ISearchResult> a, List<ISearchResult> b) {
+    	// get the number of all unique eloUris in both results
         int result = a.size();
         for (ISearchResult bRes : b) {
             boolean exists = false;
@@ -151,7 +148,7 @@ public class SearchResultRanking {
     }
 
 	private static double evaluateSimilarity(List<ISearchResult> newResult,
-			List<ISearchResult> refResult) {
+			List<ISearchResult> refResult, double optimalSimilarityValue) {
         if(newResult.isEmpty()) {
             return 0.0;
         }
@@ -159,15 +156,15 @@ public class SearchResultRanking {
         double unionCount = getUnionUriCount(newResult, refResult);
 
         // calculate ratio of intersection and union (+1 to avoid division by zero)
-        double ratio = (intersectionCount + 1) / (unionCount + 1);
+        double ratio = (intersectionCount) / (unionCount + 1);
 
-        // calculate distance between optimum similarity value and the calculated ratio
-        double distance = Math.abs(OPTIMUM_SIMILARITY_VALUE - ratio);
+        // calculate distance between optimal similarity value and the calculated ratio
+        double distance = Math.abs(optimalSimilarityValue - ratio);
 
-		return OPTIMUM_SIMILARITY_VALUE - distance;
+		return optimalSimilarityValue - distance;
 	}
 
-	private static double evaluateLength(int newResult, int refResult) {
+	private static double evaluateLength(int newResult, int refResult, int infGoodSearchInterval, int supGoodSearchInterval) {
         if(newResult == 0) {
             return 0.0;
         }
@@ -175,20 +172,18 @@ public class SearchResultRanking {
 		double quality;
 		if (newResult < refResult) {
 			// +1 to avoid division by zero
-			quality = (((double)refResult - newResult + 1) / (refResult + 1));
+			quality = (((double)refResult - newResult) / (refResult + 1));
 		} else {
-			quality = (((double)newResult - refResult + 1) / (newResult + 1));
+			quality = (((double)newResult - refResult) / (newResult + 1));
 		}
 
 		double penalty = 1.0;
-		if (newResult < SearchResultEnricherAgent.INFIMUM_GOOD_SEARCH_RESULT) {
+		if (newResult < infGoodSearchInterval) {
 			// query has not enough results, so use a penalty
-			penalty = (SearchResultEnricherAgent.INFIMUM_GOOD_SEARCH_RESULT - (double)newResult)
-					/ SearchResultEnricherAgent.INFIMUM_GOOD_SEARCH_RESULT;
-		} else if (newResult > SearchResultEnricherAgent.SUPREMUM_GOOD_SEARCH_RESULT) {
+			penalty = (infGoodSearchInterval - (double)newResult) / infGoodSearchInterval;
+		} else if (newResult > supGoodSearchInterval) {
 			// query has too many results, so use a penalty
-			penalty = ((double)newResult - SearchResultEnricherAgent.INFIMUM_GOOD_SEARCH_RESULT)
-					/ newResult;
+			penalty = ((double)newResult - infGoodSearchInterval) / newResult;
 		}
 
 		return quality * penalty;

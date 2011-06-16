@@ -254,7 +254,6 @@ public class Query {
      * bracket. So we can simply split the query using white spaces.
      */
     private static String insertWhiteSpaces(String query) {
-        query = query.trim();
         StringBuilder newQuery = new StringBuilder();
         for(int i = 0; i < query.length(); i++) {
             if(query.charAt(i) == '(') {
