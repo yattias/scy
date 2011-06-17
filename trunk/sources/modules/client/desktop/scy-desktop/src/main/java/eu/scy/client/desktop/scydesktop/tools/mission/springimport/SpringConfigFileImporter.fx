@@ -33,6 +33,7 @@ public class SpringConfigFileImporter {
    public-read var eloToolConfigsXml: String;
    public-read var templateElosXml: String;
    public-read var missionId: String;
+   public-read var missionTitle: String;
    public-read var xhtmlVersionId: String;
    public-read var language: Locale;
    public-read var errors: String;
@@ -45,6 +46,7 @@ public class SpringConfigFileImporter {
       colorSchemesEloUri = missionConfigInput.getColorSchemesEloUri();
       agentModelsEloUri = missionConfigInput.getAgentModelsEloUri();
       missionId = missionConfigInput.getMissionId();
+      missionTitle = missionConfigInput.getMissionTitle();
       xhtmlVersionId = missionConfigInput.getXhtmlVersionId();
       language = missionConfigInput.getLanguage();
       def missionModel = missionConfigInput.getMissionModelEloContent();

@@ -47,6 +47,7 @@ public class BasicMissionConfigInput implements MissionConfigInput
    private URI colorSchemesEloUri;
    private URI agentModelsEloUri;
    private String missionId;
+   private String missionTitle;
    private String xhtmlVersionId;
    private Locale language;
    private IMetadata templateTrueMetadata;
@@ -419,4 +420,16 @@ public class BasicMissionConfigInput implements MissionConfigInput
    {
       this.language = new Locale(languageId);
    }
+
+   @Override
+   public String getMissionTitle()
+   {
+      return missionTitle;
+   }
+
+   public void setMissionTitle(String missionTitle)
+   {
+      this.missionTitle = missionTitle;
+   }
+   
 }

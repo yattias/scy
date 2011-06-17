@@ -761,6 +761,7 @@ public class ScyDesktop extends /*CustomNode,*/ INotifiable {
 
       def myEloSaver = SimpleScyDesktopEloSaver {
                  config: config
+                 toolBrokerAPI: config.getToolBrokerAPI()
                  repository: config.getRepository()
                  eloFactory: config.getEloFactory()
                  titleKey: config.getTitleKey()

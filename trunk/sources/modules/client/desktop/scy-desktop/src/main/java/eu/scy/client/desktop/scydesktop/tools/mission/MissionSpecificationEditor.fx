@@ -15,6 +15,7 @@ import eu.scy.common.mission.RuntimeSettingsElo;
 import eu.scy.common.scyelo.ScyElo;
 import java.util.Locale;
 import java.util.ArrayList;
+import roolo.elo.api.IELO;
 
 /**
  * @author sikken
@@ -23,7 +24,7 @@ public class MissionSpecificationEditor extends EloXmlEditor {
 
    override protected function getEloType(): String {
       MissionEloType.MISSION_SPECIFICATIOM.getType()
-       }
+   }
 
    override protected function doImport(): Void {
       var fileChooser = new JFileChooser();
@@ -33,25 +34,25 @@ public class MissionSpecificationEditor extends EloXmlEditor {
          //getting the file from the fileChooser
          lastUsedDirectory = fileChooser.getCurrentDirectory();
          doImport(fileChooser.getSelectedFile());
-          }
-       }
+      }
+   }
 
    function doImport(file: File) {
       var name = file.getName();
       def lastPointIndex = name.lastIndexOf(".");
       if (lastPointIndex >= 0) {
          name = name.substring(0, lastPointIndex);
-          }
+      }
 
       def springConfigFileImporter = SpringConfigFileImporter {
-            file: file.getAbsolutePath()
-            tbi: toolBrokerAPI
-         }
-      def missionMapModelElo = saveXmlInElo(MissionEloType.MISSION_MAP_MODEL.getType(), name, springConfigFileImporter.missionMapXml,springConfigFileImporter.language);
-      def eloToolConfigsElo = saveXmlInElo(MissionEloType.ELO_TOOL_CONFIGURATION.getType(), name, springConfigFileImporter.eloToolConfigsXml,null);
-      def templateElosElo = saveXmlInElo(MissionEloType.TEMPLATES_ELOS.getType(), name, springConfigFileImporter.templateElosXml,springConfigFileImporter.language);
+                 file: file.getAbsolutePath()
+                 tbi: toolBrokerAPI
+              }
+      def missionMapModelElo = saveXmlInElo(MissionEloType.MISSION_MAP_MODEL.getType(), name, springConfigFileImporter.missionMapXml, springConfigFileImporter.language);
+      def eloToolConfigsElo = saveXmlInElo(MissionEloType.ELO_TOOL_CONFIGURATION.getType(), name, springConfigFileImporter.eloToolConfigsXml, null);
+      def templateElosElo = saveXmlInElo(MissionEloType.TEMPLATES_ELOS.getType(), name, springConfigFileImporter.templateElosXml, springConfigFileImporter.language);
       def runtimeSettingsElo = RuntimeSettingsElo.createElo(toolBrokerAPI);
-      setContentLanguage(runtimeSettingsElo.getElo(),springConfigFileImporter.language);
+      setContentLanguage(runtimeSettingsElo.getElo(), springConfigFileImporter.language);
       runtimeSettingsElo.setTitle(name);
       runtimeSettingsElo.saveAsNewElo();
       def missionSpecification = new BasicMissionSpecificationEloContent();
@@ -63,19 +64,22 @@ public class MissionSpecificationEditor extends EloXmlEditor {
       missionSpecification.setColorSchemesEloUri(springConfigFileImporter.colorSchemesEloUri);
       missionSpecification.setAgentModelsEloUri(springConfigFileImporter.agentModelsEloUri);
       def pedagogicalPlanSettings = ScyElo.createElo(MissionEloType.PADAGOGICAL_PLAN_SETTINGS.getType(),
-         toolBrokerAPI);
+              toolBrokerAPI);
       pedagogicalPlanSettings.setTitle(missionMapModelElo.getTitle());
       pedagogicalPlanSettings.saveAsNewElo();
       missionSpecification.setPedagogicalPlanSettingsEloUri(pedagogicalPlanSettings.getUri());
+      missionSpecification.setMissionId(springConfigFileImporter.missionId);
+      missionSpecification.setXhtmlVersionId(springConfigFileImporter.xhtmlVersionId);
       setContent(MissionSpecificationEloContentXmlUtils.missionSpecificationToXml(missionSpecification), springConfigFileImporter.errors);
       language = springConfigFileImporter.language;
+      suggestedTitle = springConfigFileImporter.missionTitle;
    }
 
    function saveXmlInElo(type: String, name: String, xml: String, lang: Locale): ScyElo {
       def scyElo = ScyElo.createElo(type, toolBrokerAPI);
       scyElo.setTitle(name);
       scyElo.getContent().setXmlString(xml);
-      setContentLanguage(scyElo.getElo(),lang);
+      setContentLanguage(scyElo.getElo(), lang);
       scyElo.saveAsNewElo();
       scyElo
    }
@@ -86,9 +90,9 @@ public class MissionSpecificationEditor extends EloXmlEditor {
          def missionSpecification = MissionSpecificationEloContentXmlUtils.missionSpecificationFromXml(xml);
          if (missionSpecification == null) {
             errors = "The xml is not valid for mission specification";
-             }
-          }
+         }
+      }
       errors
-       }
+   }
 
 }

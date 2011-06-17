@@ -29,7 +29,6 @@ import eu.scy.common.scyelo.ScyElo;
 import eu.scy.client.desktop.desktoputils.ImageUtils;
 import javafx.geometry.BoundingBox;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.design.EloSaveAsMixin;
-import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.design.SimpleAuthorSaveAsNodeDesign;
 import eu.scy.common.scyelo.EloFunctionalRole;
 import eu.scy.client.common.scyi18n.ResourceBundleWrapper;
 import java.lang.IllegalArgumentException;
@@ -43,6 +42,8 @@ import roolo.elo.api.IMetadataKey;
 import roolo.elo.metadata.keys.SocialTags;
 import roolo.elo.api.IMetadata;
 import javafx.util.StringLocalizer;
+import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.design.MultiLanguageAuthorSaveAsNodeDesign;
+import eu.scy.client.desktop.desktoputils.art.ImageLoader;
 
 /**
  * @author sikken
@@ -84,6 +85,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
    public var authorMode = false;
    public var functionalRoles: EloFunctionalRole[];
    public var loginName: String;
+   public-init var imageLoader: ImageLoader;
    var socialtagsKey = config.getMetadataTypeManager().getMetadataKey("socialTags");
 //   def authorKey = config.getMetadataTypeManager().getMetadataKey(CoreRooloMetadataKeyIds.AUTHOR);
    var dateFirstUserSaveKey = config.getMetadataTypeManager().getMetadataKey(ScyRooloMetadataKeyIds.DATE_FIRST_USER_SAVE);
@@ -121,7 +123,8 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       var eloSaveAsPanel: EloSaveAsMixin;
       def scyElo = new ScyElo(elo, config.getToolBrokerAPI());
       if (authorMode) {
-         eloSaveAsPanel = SimpleAuthorSaveAsNodeDesign {
+         eloSaveAsPanel = MultiLanguageAuthorSaveAsNodeDesign {
+                    tbi: toolBrokerAPI
                     saveAction: saveAction
                     cancelAction: cancelAction
                     elo: elo
@@ -168,7 +171,8 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       var elo = eloSaveAsPanel.elo;
       updateTags(elo);
       def scyElo = eloSaveAsPanel.scyElo;
-      scyElo.setTitle(eloSaveAsPanel.getTitle());
+      eloSaveAsPanel.setTitleAndLanguagesInElo();
+//      scyElo.setTitle(eloSaveAsPanel.getTitle());
       scyElo.setFunctionalRole(eloSaveAsPanel.getFunctionalRole());
       addThumbnail(scyElo);
       scyElo.setDateFirstUserSave(System.currentTimeMillis());

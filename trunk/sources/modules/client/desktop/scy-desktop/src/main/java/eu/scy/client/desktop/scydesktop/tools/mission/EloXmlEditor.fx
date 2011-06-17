@@ -37,6 +37,7 @@ import eu.scy.client.desktop.scydesktop.tools.TitleBarButton;
 import eu.scy.client.desktop.scydesktop.tools.TitleBarButtonManager;
 import java.util.Locale;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 /**
  * @author sikken
@@ -113,6 +114,7 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
               tooltip: ##"Import specification file"
            }
    protected var language:Locale;
+   protected var suggestedTitle:String;
 
    override protected function create(): Node {
       nodeBox = VBox {
@@ -223,6 +225,7 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
 
       elo.getContent().setXmlString(eloXml);
       setContentLanguage(elo,language);
+      setSuggestedTitle(elo,language,suggestedTitle);
       return elo;
    }
 
@@ -231,6 +234,18 @@ public abstract class EloXmlEditor extends CustomNode, Resizable, ScyToolFX, Elo
          aElo.getContent().setLanguages(new ArrayList());
       } else {
          aElo.getContent().setLanguage(lang);
+      }
+   }
+
+   function setSuggestedTitle(aElo: IELO, lang: Locale, title: String): Void{
+      if (title != null and title.length() > 0) {
+         def titleMap = new LinkedHashMap();
+         if (lang != null) {
+            titleMap.put(lang,title)
+         } else {
+            titleMap.put(Locale.getDefault(),title)
+         }
+         elo.getMetadata().getMetadataValueContainer(titleKey).setValuesI18n(titleMap);
       }
    }
 

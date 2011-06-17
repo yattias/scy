@@ -34,6 +34,7 @@ public class MissionMapModelEditor extends EloXmlEditor {
             }
          setContent(springConfigFileImporter.missionMapXml,springConfigFileImporter.errors);
          language = springConfigFileImporter.language;
+         suggestedTitle = springConfigFileImporter.missionTitle;
       }
    }
 
