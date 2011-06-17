@@ -135,7 +135,9 @@ public class RooloAccessorAgent extends AbstractThreadedAgent implements IReposi
             	String keywords = new String(tuple.getField(3).getValue().toString());
             	if (rooloServices != null) {
             		logger.debug("Request hit number for search: " + keywords + " RequestID was: " + requestUID);
-            		List<ISearchResult> searchResults = rooloServices.search(new Query(new MetadataQueryComponent("contents", keywords)));
+            		Query query = new Query(new MetadataQueryComponent("contents", keywords));
+            		query.setMaxResults(Integer.MAX_VALUE);
+            		List<ISearchResult> searchResults = rooloServices.search(query);
             		sendResponse(searchResults.size(), requestUID);
             	} else {
             		logger.debug("Request to search for ELOs, but Repository is null: " + keywords + " RequestID was: " + requestUID);
