@@ -35,8 +35,8 @@ public class SCYSimulatorStandalone implements INotifiable {
 		// URI fileUri = new
 		// URI("http://www.scy-lab.eu/sqzx/RotatingPendulum.sqzx");
 		// URI fileUri = new URI("http://www.scy-lab.eu/sqzx/balance.sqzx");
-		 URI fileUri = new URI("http://www.scy-lab.eu/sqzx/co2_house.sqzx");
-		// URI fileUri = new URI("http://www.scy-lab.eu/sqzx/pizza.sqzx");
+		 //URI fileUri = new URI("http://www.scy-lab.eu/sqzx/co2_house.sqzx");
+		URI fileUri = new URI("http://www.scy-lab.eu/sqzx/pizzanl.sqzx");
 		// URI fileUri = new URI("http://alephnull.de/co2_house.sqzx");
 
 		// FileName fileName = new
