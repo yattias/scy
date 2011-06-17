@@ -47,7 +47,7 @@ public class ComputeKeywordsInSentenceHistogramTest extends AbstractTestFixture 
   public void setup() throws Exception {
     super.setUp();
 
-    InputStream inStream = this.getClass().getResourceAsStream("/conceptMap1.xml");
+    InputStream inStream = this.getClass().getResourceAsStream("/copexExampleElo.xml");
     String eloContent = readFile(inStream);
     largeElo = createNewElo("TestCopex1", EloTypes.SCY_XPROC);
     largeElo.setContent(new BasicContent(eloContent));
