@@ -33,6 +33,7 @@ public class TemplateElosEloEditor  extends EloXmlEditor {
             }
          setContent(springConfigFileImporter.templateElosXml,springConfigFileImporter.errors);
          language = springConfigFileImporter.language;
+         suggestedTitle = springConfigFileImporter.missionTitle;
       }
    }
 

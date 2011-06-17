@@ -9,6 +9,7 @@ import eu.scy.client.desktop.scydesktop.tools.EloSaverCallBack;
 import eu.scy.common.scyelo.ScyElo;
 import roolo.elo.api.IELO;
 import eu.scy.common.scyelo.EloFunctionalRole;
+import java.util.Locale;
 import eu.scy.client.desktop.scydesktop.scywindows.scydesktop.SimpleScyDesktopEloSaver.FunctionalRoleContainer;
 
 /**
@@ -35,6 +36,11 @@ public mixin class EloSaveAsMixin {
 
    public function setTitle(title:String): Void{
       localTitle = title;
+   }
+
+   public function setTitleAndLanguagesInElo(): Void{
+      scyElo.setTitle(getTitle());
+      elo.getContent().setLanguage(Locale.getDefault());
    }
 
    public function setFunctionalRoleContainers(functionalRoleContainers: FunctionalRoleContainer[]): Void{

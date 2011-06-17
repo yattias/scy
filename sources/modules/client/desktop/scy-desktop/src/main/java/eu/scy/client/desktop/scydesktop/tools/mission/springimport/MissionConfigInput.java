@@ -36,4 +36,6 @@ public interface MissionConfigInput {
    public String getXhtmlVersionId();
 
    public Locale getLanguage();
+
+   public String getMissionTitle();
 }
