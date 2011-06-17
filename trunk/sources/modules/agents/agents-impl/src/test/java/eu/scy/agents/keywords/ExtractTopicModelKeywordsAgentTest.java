@@ -64,7 +64,7 @@ public class ExtractTopicModelKeywordsAgentTest extends AbstractTestFixture {
 				.write(new Tuple(
 						ExtractTopicModelKeywordsAgent.EXTRACT_TOPIC_MODEL_KEYWORDS,
 						AgentProtocol.QUERY, queryId.toString(), TEXT,
-						Mission.MISSION1.getName(), LANGUAGE));
+						Mission.MISSION2.getName(), LANGUAGE));
 		Tuple response = getCommandSpace()
 				.waitToRead(
 						new Tuple(

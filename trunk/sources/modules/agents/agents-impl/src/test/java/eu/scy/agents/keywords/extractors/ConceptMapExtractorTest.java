@@ -14,9 +14,11 @@ public class ConceptMapExtractorTest extends AbstractExtractorTest {
 
 	@Before
 	public void setup() throws Exception {
-		loadElo("/conceptMap1.xml", "TestInterview", "scy/interview");
 		extractor = new ConceptMapExtractor();
-		extractor.setMission(Mission.MISSION1);
+      loadElo("/conceptMap1.xml", "TestInterview", "scy/interview");
+      extractor.setMission(Mission.MISSION1);
+//        loadElo("/eco_reference_concept_map.xml", "TestInterview", "scy/interview");
+//        extractor.setMission(Mission.MISSION2);
 		extractor.setTupleSpace(getCommandSpace());
 	}
 
