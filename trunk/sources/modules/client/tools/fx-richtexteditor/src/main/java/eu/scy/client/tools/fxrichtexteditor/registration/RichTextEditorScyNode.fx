@@ -218,7 +218,7 @@ public class RichTextEditorScyNode extends INotifiable, RichTextEditorNode, ScyT
    }
 
     public override function processNotification (notification: INotification) : Boolean {
-        if (notification.getSender().equals("eu.scy.agents.hypothesis.HypothesisDecisionMaker")) {
+        if (notification.getSender().equals("eu.scy.agents.hypothesis.HypothesisDecisionMakerAgent")) {
             var messageFromAgent = notification.getFirstProperty("message");
             var messageToUser = "";
             if (messageFromAgent.equals("ok"))
