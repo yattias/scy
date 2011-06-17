@@ -8,7 +8,6 @@ import eu.scy.actionlogging.api.IAction;
 import eu.scy.agents.Mission;
 import eu.scy.agents.api.AgentLifecycleException;
 import eu.scy.agents.api.IRepositoryAgent;
-import eu.scy.agents.api.parameter.AgentParameter;
 import eu.scy.agents.groupformation.cache.MissionGroupCache;
 import eu.scy.agents.impl.AbstractRequestAgent;
 import eu.scy.agents.impl.ActionConstants;
@@ -37,13 +36,17 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Set;
 
-public class GroupFormationAgent2 extends AbstractRequestAgent implements
+public class GroupFormationAgent2 extends AbstractRequestAgent
+        implements
         IRepositoryAgent {
 
-    private static final Logger LOGGER = Logger.getLogger(GroupFormationAgent2.class);
+    private static final Logger LOGGER = Logger
+            .getLogger(GroupFormationAgent2.class);
 
     private static final String GROUPFORMATION_SETTING = "groupformation";
     private static final String GROUPFORMATION_STRATEGY_SETTING = "groupformation.strategy";
@@ -79,29 +82,23 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements
         if (params.containsKey(AgentProtocol.TS_PORT)) {
             port = (Integer) params.get(AgentProtocol.TS_PORT);
         }
-        params.put(MIN_GROUP_SIZE_PARAMETER, 2);
-        params.put(MAX_GROUP_SIZE_PARAMETER, 10);
         configuration.addAllParameter(params);
         factory = new GroupFormationStrategyFactory();
+
         try {
             listenerId = getActionSpace().eventRegister(Command.WRITE,
                     getActivationTuple(), this, true);
         } catch (TupleSpaceException e) {
             e.printStackTrace();
         }
+
         missionGroupsCache = new MissionGroupCache();
         rooloServices = new AgentRooloServiceImpl();
         missionSpecsMap = new HashMap<Mission, GroupFormationActivation>();
     }
 
-    /* activated by action log */
     private Tuple getActivationTuple() {
-        /*
-           * return new Tuple(AgentProtocol.ACTION, String.class, Long.class,
-           * FORM_GROUP, Field.createWildCardField());
-           */
-        return new Tuple(ActionConstants.ACTION, String.class, Long.class,
-                String.class, Field.createWildCardField());
+        return new Tuple(ActionConstants.ACTION, String.class, Long.class, String.class, Field.createWildCardField());
     }
 
     @Override
@@ -147,11 +144,23 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements
             super.call(command, seq, afterTuple, beforeTuple);
             return;
         } else {
-            IAction action = ActionTupleTransformer.getActionFromTuple(afterTuple);
+            IAction action = ActionTupleTransformer
+                    .getActionFromTuple(afterTuple);
             String missionUri = action.getContext(ContextConstants.mission);
             String type = action.getType();
             if (type.equals(ActionConstants.ACTION_LAS_CHANGED)) {
-                GroupFormationActivation groupformationActivation = getGroupFormationActivation(URI.create(missionUri), action.getUser());
+                String las = action.getAttribute(LAS);
+                GroupFormationActivation groupFormationActivation = getGroupFormationActivation(
+                        URI.create(missionUri), action.getUser());
+                if (groupFormationActivation.shouldActivate(las)) {
+                    try {
+                        runGroupFormation(action, groupFormationActivation.getGroupFormationInfo(las));
+                    } catch (TupleSpaceException e) {
+                        LOGGER.warn("", e);
+                    }
+                } else {
+
+                }
             }
             if (type.equals(ActionConstants.ACTION_LOG_OUT)) {
 
@@ -159,30 +168,39 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements
         }
     }
 
-
-    private GroupFormationActivation getGroupFormationActivation(URI missionUri, String user) {
+    private GroupFormationActivation getGroupFormationActivation(
+            URI missionUri, String user) {
         Mission mission = getSession().getMission(user);
-        GroupFormationActivation groupformationActivation = missionSpecsMap.get(mission);
+        GroupFormationActivation groupformationActivation = missionSpecsMap
+                .get(mission);
         if (groupformationActivation == null) {
-            groupformationActivation = readGroupFormationActivation(missionUri, mission);
+            groupformationActivation = readGroupFormationActivation(missionUri,
+                    mission);
         }
         return groupformationActivation;
     }
 
-    private GroupFormationActivation readGroupFormationActivation(URI missionUri, Mission mission) {
-        MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo.loadElo(missionUri, rooloServices);
-        URI runtimeSettingsEloUri = missionSpecificationElo.getTypedContent().getRuntimeSettingsEloUri();
-        RuntimeSettingsElo runtimeSettingsElo = RuntimeSettingsElo.loadElo(runtimeSettingsEloUri, rooloServices);
-        RuntimeSettingsEloContent runtimeSettingsEloContent = runtimeSettingsElo.getTypedContent();
+    private GroupFormationActivation readGroupFormationActivation(
+            URI missionUri, Mission mission) {
+        MissionSpecificationElo missionSpecificationElo = MissionSpecificationElo
+                .loadElo(missionUri, rooloServices);
+        URI runtimeSettingsEloUri = missionSpecificationElo.getTypedContent()
+                .getRuntimeSettingsEloUri();
+        RuntimeSettingsElo runtimeSettingsElo = RuntimeSettingsElo.loadElo(
+                runtimeSettingsEloUri, rooloServices);
+        RuntimeSettingsEloContent runtimeSettingsEloContent = runtimeSettingsElo
+                .getTypedContent();
 
         GroupFormationActivation activation = new GroupFormationActivation();
 
-        List<RuntimeSetting> settings = runtimeSettingsEloContent.getAllSettings();
+        List<RuntimeSetting> settings = runtimeSettingsEloContent
+                .getAllSettings();
         for (RuntimeSetting setting : settings) {
             RuntimeSettingKey key = setting.getKey();
             if (key.getName().equals(GROUPFORMATION_STRATEGY_SETTING)) {
                 String las = key.getLasId();
-                StrategyType strategy = StrategyType.valueOf(setting.getValue());
+                StrategyType strategy = StrategyType
+                        .valueOf(setting.getValue());
                 activation.addStrategy(las, strategy);
             }
             if (key.getName().equals(GROUPFORMATION_MAXUSER_SETTING)) {
@@ -204,100 +222,71 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements
         return activation;
     }
 
-    private boolean correctLasEntry(String oldLas, String newLas) {
-        if (oldLas == null) {
-            return false;
-        }
-        if (oldLas.equals(newLas)) {
-            return false;
-        }
-        return true;
-    }
+    private void runGroupFormation(IAction action, GroupFormationActivation.GroupFormationInfo gfInfo)
+            throws
+            TupleSpaceException {
 
-
-    private void runGroupFormation(IAction action) throws TupleSpaceException {
         Mission mission = getSession().getMission(action.getUser());
         String las = action.getAttribute(LAS);
+        String language = getSession().getLanguage(action.getUser());
+        IELO referenceElo = rooloServices.getRepository().retrieveELO(gfInfo.getReferenceElo());
+        Set<String> availableUsers = getAvailableUsers(mission, las, action.getUser());
+        int n = 1;
 
-        int minGroupSize = (Integer) configuration
-                .getParameter(new AgentParameter(mission.getName(),
-                        MIN_GROUP_SIZE_PARAMETER));
-        int maxGroupSize = (Integer) configuration
-                .getParameter(new AgentParameter(mission.getName(),
-                        MAX_GROUP_SIZE_PARAMETER));
-
-        String eloUri = action.getContext(ContextConstants.eloURI);
-        IELO elo = getElo(eloUri);
-        StrategyType strategy = StrategyType.DUMMY;// action.getAttribute(STRATEGY);
-
-        Set<String> availableUsers = getAvailableUsers(mission, las,
-                action.getUser());
-        if (availableUsers.size() < minGroupSize) {
-            if (!missionGroupsCache.contains(mission, las, action.getUser())) {
-                sendWaitNotification(action);
+        if (missionGroupsCache.contains(mission, las, action.getUser())) {
+            // user was already assigned to a group in this las
+            Set<String> group = missionGroupsCache.getGroup(mission, las, action.getUser());
+            if (availableUsers.containsAll(group)) {
+                // if all user from this group are available send a new gf notification
+            } else {
+                // send a wait notification to wait for other members to join
             }
-            return;
-        }
+        } else {
+            // user was not assigned will be assigned.
+            if (availableUsers.size() < n * gfInfo.getMinimumUsers()) {
+                // to few user available to assign to a group
+                sendWaitNotification(action, language);
+            } else {
+                // enough users available assign a new group
+                GroupFormationStrategy groupFormationStrategy = factory.getStrategy(gfInfo.getStrategy());
+                groupFormationStrategy.setGroupFormationCache(missionGroupsCache.get(mission, las));
+                groupFormationStrategy.setLas(las);
+                groupFormationStrategy.setMission(mission.getName());
+                groupFormationStrategy.setMinimumGroupSize(gfInfo.getMinimumUsers());
+                groupFormationStrategy.setMaximumGroupSize(gfInfo.getMaximumUsers());
+                groupFormationStrategy.setAvailableUsers(availableUsers);
 
-        GroupFormationStrategy groupFormationStrategy = factory
-                .getStrategy(strategy);
-        groupFormationStrategy.setGroupFormationCache(missionGroupsCache.get(
-                mission, las));
-        groupFormationStrategy.setLas(las);
-        groupFormationStrategy.setMission(mission.getName());
-        groupFormationStrategy.setMinimumGroupSize(minGroupSize);
-        groupFormationStrategy.setMaximumGroupSize(maxGroupSize);
-        groupFormationStrategy.setAvailableUsers(availableUsers);
-
-        Collection<Set<String>> formedGroups = groupFormationStrategy
-                .formGroup(elo);
-
-        // if (groupsAreOk(formedGroup, minGroupSize, maxGroupSize)) {
-        missionGroupsCache.addGroups(mission, las, formedGroups);
-        // }
-        try {
-            synchronized (lock) {
-                sendGroupNotification(action, formedGroups);
+                Collection<Set<String>> formedGroups = groupFormationStrategy.formGroup(referenceElo);
+                missionGroupsCache.addGroups(mission, las, formedGroups);
+                try {
+                    synchronized (lock) {
+                        sendGroupNotification(action, formedGroups, language);
+                    }
+                } catch (TupleSpaceException e) {
+                    LOGGER.error("Could not write into Tuplespace", e);
+                }
             }
-        } catch (TupleSpaceException e) {
-            LOGGER.error("Could not write into Tuplespace", e);
         }
-
     }
 
-    private Set<String> getAvailableUsers(
-            Mission mission, String las, String thisUser)
-            throws TupleSpaceException {
+    private Set<String> getAvailableUsers(Mission mission, String las, String thisUser) throws TupleSpaceException {
         Set<String> availableUsers = new HashSet<String>();
         availableUsers.add(thisUser);
-        Tuple[] allUsersInLas = getSessionSpace()
-                .readAll(
-                        new Tuple(Session.LAS, String.class, mission
-                                .getName(), las));
+        Tuple[] allUsersInLas = getSessionSpace().readAll(new Tuple(Session.LAS, String.class, mission.getName(),
+                las));
         for (Tuple t : allUsersInLas) {
             availableUsers.add((String) t.getField(1).getValue());
         }
-        Collection<Set<String>> groups = missionGroupsCache.getGroups(mission,
-                las);
+        Collection<Set<String>> groups = missionGroupsCache.getGroups(mission, las);
         for (Set<String> group : groups) {
             availableUsers.removeAll(group);
         }
         return availableUsers;
     }
 
-    // private boolean groupsAreOk(Collection<Set<String>> formedGroup,
-    // int minGroupSize, int maxGroupSize) {
-    // for (Set<String> group : formedGroup) {
-    // if (group.size() < minGroupSize || group.size() > maxGroupSize) {
-    // return false;
-    // }
-    // }
-    // return true;
-    // }
-
-    private void sendGroupNotification(IAction action,
-                                       Collection<Set<String>> formedGroups) throws TupleSpaceException {
-
+    private void sendGroupNotification(IAction action, Collection<Set<String>> formedGroups,
+                                       String language) throws TupleSpaceException {
+        ResourceBundle messages = ResourceBundle.getBundle("agent_messages", new Locale(language));
         for (Set<String> group : formedGroups) {
 
             for (String user : group) {
@@ -306,16 +295,16 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements
                         action, notificationId, user);
                 getCommandSpace().write(removeAllBuddiesTuple);
 
-                waitForNotificationProcessedAction(notificationId,
-                        "remove all buddies for " + user
-                                + " notification was not processed");
+                waitForNotificationProcessedAction(notificationId, "remove all buddies for " + user + " notification "
+                        + "was not processed");
             }
 
             for (String user : group) {
                 StringBuilder message = new StringBuilder();
-                message.append("Please consider collaboration with these students:\n");
+                message.append(messages.getString("GF_COLLABORATE"));
+                message.append("\n");
 
-                String userListString = createUserListString(user, group);
+                String userListString = createUserListString(user, new HashSet<String>(group));
                 message.append(userListString);
 
                 String messageNotificationId = createId();
@@ -349,7 +338,7 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements
         Tuple notificationProcessedTuple = getActionSpace().waitToRead(
                 new Tuple(ActionConstants.ACTION, notificationId, Long.class,
                         String.class, Field.createWildCardField()),
-                AgentProtocol.MILLI_SECOND * 50);
+                AgentProtocol.MILLI_SECOND * 10);
         if (notificationProcessedTuple == null) {
             logger.warn(message);
         }
@@ -432,6 +421,7 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements
     String createUserListString(String userToNotify, Set<String> group) {
         StringBuilder message = new StringBuilder();
         int i = 0;
+        group.remove(userToNotify);
         for (String user : group) {
             if (user.equals(userToNotify)) {
                 i++;
@@ -463,10 +453,10 @@ public class GroupFormationAgent2 extends AbstractRequestAgent implements
         }
     }
 
-    private void sendWaitNotification(IAction action) {
-        Tuple notificationTuple = createMessageNotificationTuple(action,
-                createId(), "please wait for other users to be available",
-                action.getUser());
+    private void sendWaitNotification(IAction action, String language) {
+        ResourceBundle messages = ResourceBundle.getBundle("agent_messages", new Locale(language));
+        Tuple notificationTuple = createMessageNotificationTuple(action, createId(),
+                messages.getString("GF_WAIT_MESSAGE"), action.getUser());
         try {
             getCommandSpace().write(notificationTuple);
         } catch (TupleSpaceException e) {

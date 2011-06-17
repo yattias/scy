@@ -63,9 +63,9 @@ public class GroupformationAgentTest extends AbstractTestFixture {
 
     @Test
     public void testRun() throws TupleSpaceException {
-        getActionSpace().write(login("user1", MISSION1, Mission.MISSION1.getName()));
-        getActionSpace().write(login("user2", MISSION1, Mission.MISSION1.getName()));
-        getActionSpace().write(login("user3", MISSION1, Mission.MISSION1.getName()));
+        getActionSpace().write(login("user1", MISSION1, Mission.MISSION1.getName(), "en"));
+        getActionSpace().write(login("user2", MISSION1, Mission.MISSION1.getName(), "en"));
+        getActionSpace().write(login("user3", MISSION1, Mission.MISSION1.getName(), "en"));
 
         getActionSpace()
                 .write(lasChangeTuple("user2", MISSION1, "conceptualisatsionConceptMap",

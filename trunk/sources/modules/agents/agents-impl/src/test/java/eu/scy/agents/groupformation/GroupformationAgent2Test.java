@@ -22,12 +22,13 @@ import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /** @author fschulz */
 public class GroupformationAgent2Test extends AbstractTestFixture {
 
     private static final String REFERENCE_MAP = "roolo://memory/16/0/eco_reference_map.mapping";
-//    private String MISSION1 = "mission1";
+    //    private String MISSION1 = "mission1";
 
     @BeforeClass
     public static void startTS() {
@@ -63,16 +64,25 @@ public class GroupformationAgent2Test extends AbstractTestFixture {
 
     @Test
     public void testRun() throws TupleSpaceException {
-        getActionSpace().write(login("user1", MISSION1, Mission.MISSION1.getName()));
-        getActionSpace().write(login("user2", MISSION1, Mission.MISSION1.getName()));
-        getActionSpace().write(login("user3", MISSION1, Mission.MISSION1.getName()));
+        getActionSpace().write(login("user1", MISSION1, Mission.MISSION1.getName(), "en"));
+        getActionSpace().write(login("user2", MISSION1, Mission.MISSION1.getName(), "en"));
+        getActionSpace().write(login("user3", MISSION1, Mission.MISSION1.getName(), "en"));
 
         getActionSpace()
                 .write(lasChangeTuple("user2", MISSION1, "conceptualisatsionConceptMap",
                         "some", REFERENCE_MAP));
+        Tuple[] response = getAllResponses("user2");
+        assertTrue("no response received", response.length == 1);
+        assertEquals("text=please wait for other users to be available", response[0].getField(7).getValue());
+
         getActionSpace()
                 .write(lasChangeTuple("user1", MISSION1, "conceptualisatsionConceptMap",
                         "some", REFERENCE_MAP));
+        Tuple[] response2 = getAllResponses("user1");
+        assertEquals("not enough responses received", 3, response2.length);
+        assertEquals("text=Please consider collaboration with these students:\nuser2",
+                response2[0].getField(7).getValue());
+
         getActionSpace()
                 .write(lasChangeTuple("user3", MISSION1, "conceptualisatsionConceptMap",
                         "some", REFERENCE_MAP));
@@ -80,16 +90,23 @@ public class GroupformationAgent2Test extends AbstractTestFixture {
                 .write(lasChangeTuple("user3", MISSION1, "some",
                         "conceptualisatsionConceptMap", REFERENCE_MAP));
         getActionSpace().write(logout("user2", MISSION1));
-        Tuple response = this.getCommandSpace()
+        Tuple response3 = this.getCommandSpace()
                 .waitToTake(
                         new Tuple(AgentProtocol.NOTIFICATION, String.class,
                                 String.class, String.class, String.class,
                                 String.class, String.class, String.class,
                                 Field.createWildCardField()),
                         AgentProtocol.ALIVE_INTERVAL * 16);
-        assertNotNull("no response received", response);
-        String message = (String) response.getField(8).getValue();
+        assertNotNull("no response received", response3);
+        String message = (String) response3.getField(7).getValue();
         System.out.println(message);
+    }
+
+    private Tuple[] getAllResponses(String user) throws TupleSpaceException {
+        return this.getCommandSpace().takeAll(new Tuple(AgentProtocol.NOTIFICATION, String.class,
+                user, String.class, "eu.scy.agents.groupformation.GroupFormationAgent2",
+                String.class, String.class, String.class,
+                Field.createWildCardField()));
     }
 
     @Test
@@ -113,8 +130,4 @@ public class GroupformationAgent2Test extends AbstractTestFixture {
         assertEquals("user2", createUserListString2);
     }
 
-    @Test
-    public void testStringConcat() {
-        assertEquals("null", "" + null);
-    }
 }
