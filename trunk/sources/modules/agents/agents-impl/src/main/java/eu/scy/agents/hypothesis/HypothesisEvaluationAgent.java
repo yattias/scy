@@ -126,7 +126,7 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
             logger.debug("found in ont keywords: " + ontologyKeywords);
             Set<String> keyPharses = callKeywordsAgent(
                     ExtractKeyphrasesAgent.EXTRACT_KEYPHRASES, text, mission,
-                    AgentProtocol.MINUTE * 3);
+                    AgentProtocol.SECOND * 10);
             logger.debug("found in keyphrases: " + keyPharses);
 
             Set<String> keywords = new HashSet<String>();
