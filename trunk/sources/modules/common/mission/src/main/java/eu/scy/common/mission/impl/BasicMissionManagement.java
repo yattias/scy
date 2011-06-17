@@ -32,6 +32,7 @@ import eu.scy.common.scyelo.QueryFactory;
 import eu.scy.common.scyelo.RooloServices;
 import eu.scy.common.scyelo.ScyElo;
 import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
+import java.util.Locale;
 
 public class BasicMissionManagement implements MissionManagement
 {
@@ -97,6 +98,9 @@ public class BasicMissionManagement implements MissionManagement
          missionRuntimeElo.setMissionSpecificationEloUri(missionSpecificationElo.getUri());
          missionRuntimeElo.setUserRunningMission(userName);
          missionRuntimeElo.setAuthor(userName);
+         missionRuntimeElo.getTypedContent().setMissionId(missionSpecification.getMissionId());
+         missionRuntimeElo.getTypedContent().setXhtmlVersionId(missionSpecification.getXhtmlVersionId());
+         missionRuntimeElo.getContent().setLanguages(missionSpecificationElo.getContent().getLanguages());
          if (!runSpecificationElos)
          {
             missionRuntimeElo.saveAsNewElo();
@@ -282,6 +286,11 @@ public class BasicMissionManagement implements MissionManagement
             missionAnchor.getScyElo().setDateFirstUserSave(null);
             missionAnchor.getScyElo().setCreator(null);
             missionAnchor.getScyElo().setTemplate(true);
+            List<Locale> missionLanguages = missionSpecificationElo.getElo().getLanguages();
+            if (missionLanguages==null){
+               missionLanguages = new ArrayList<Locale>();
+            }
+            missionAnchor.getScyElo().getContent().setLanguages(missionLanguages);
             missionAnchor.getScyElo().saveAsForkedElo();
             missionAnchor.setEloUri(missionAnchor.getScyElo().getUri());
          }
