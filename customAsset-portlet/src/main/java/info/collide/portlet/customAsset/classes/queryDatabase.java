@@ -178,6 +178,9 @@ public class queryDatabase {
 		
 		if(results.size()>0){
 			
+			String tempTitle = "";
+			
+			
 			finalResult = finalResult
 				+"<table width='100%'>"
 				+"<tr>"
@@ -207,7 +210,9 @@ public class queryDatabase {
 				+ "<option value='all'>"
 				+ all
 				+ "</option>"
-				+ "<option value='community' selected>" 
+				+ "<option value='community' selected" 
+				+ tempTitle
+				+ ">" 
 				+ communityName
 				+ "</option>"
 				+ "</select>"
@@ -502,7 +507,6 @@ public class queryDatabase {
 				System.out.println("An error occured in 'Get all Documents'-> getGroupImages: "+e);
 			}
 		}
-	
 		// Add allImages to imageResults.
 		for(int i =0; i<allImages.size(); i++){
 			DataStorage d = new DataStorage();

@@ -401,6 +401,7 @@ function Sorting(tableName) {
 		    	this.tableContent[i][1] = rows[i].cells[1].innerHTML;
 		    	this.tableContent[i][2] = rows[i].cells[2].innerHTML;
 		    	this.tableContent[i][3] = rows[i].cells[3].innerHTML;
+		    	this.tableContent[i][4] = rows[i].id;
 	    	}
 	    }
     }
@@ -526,8 +527,13 @@ function Sorting(tableName) {
     	newHtml = newHtml +	"<tr><th onclick='sort.sortTable(0)'>" + this.header[0] + "</th><th onclick='sort.sortTable(1)'>" + this.header[1] + "</th><th onclick='sort.sortTable(2)'>" + this.header[2] + "</th><th onclick='sort.sortTable(3)'>" + this.header[3] + "</th></tr>";
     		
     	for (var i = 0; i < this.length; i++) {
-    		
-    		newHtml = newHtml + "<tr>";
+    		if(this.sortetContent[i][4].toString().length > 0){
+        		newHtml = newHtml + "<tr id='" + this.sortetContent[i][4].toString() + "'>";
+    		}
+    		else{
+        		newHtml = newHtml + "<tr>";
+    		}
+
     		newHtml = newHtml + "<td>" + this.sortetContent[i][0] + "</td>";
     		newHtml = newHtml + "<td>" + this.sortetContent[i][1] + "</td>";
     		newHtml = newHtml + "<td>" + this.sortetContent[i][2] + "</td>";
@@ -538,6 +544,6 @@ function Sorting(tableName) {
     	newHtml = newHtml + "</table>";
     	document.getElementById(tableName).innerHTML = newHtml;
     	
-    	customAssetPager.showPage(1);
+    	customAssetPager.changeCommunity();
     }
 }

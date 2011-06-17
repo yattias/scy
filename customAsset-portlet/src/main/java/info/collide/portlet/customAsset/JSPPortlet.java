@@ -28,23 +28,15 @@ import info.collide.portlet.customAsset.classes.queryDatabase;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Locale;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
-import javax.portlet.Event;
-import javax.portlet.EventRequest;
-import javax.portlet.EventResponse;
 import javax.portlet.GenericPortlet;
 import javax.portlet.PortletException;
 import javax.portlet.PortletRequestDispatcher;
-import javax.portlet.ProcessEvent;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
-import com.liferay.portal.PortalException;
-import com.liferay.portal.SystemException;
-import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -104,49 +96,75 @@ public class JSPPortlet extends GenericPortlet {
 		} 
 		catch(Exception e){
 			System.out.println("customAsset-Portlet: doView: "+e);
-		}
-		
-	    String userId = String.valueOf(liferayUser.getUserId());
-	    String companyId = String.valueOf(liferayUser.getCompanyId());
-	    
-	    ThemeDisplay td = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);  
-	    
-	    String root = td.getPortalURL();
-	    String pathMain = td.getPathMain();
-	    String plid = String.valueOf(td.getPlid());
-	    String imagePath = td.getPathImage();
-	    String local = td.getLocale().toString();
-	    String community = td.getURLCurrent();
-	    
-	    // Generate the Dropdown-Box Code
-	    DropdownBoxGenerator d = new DropdownBoxGenerator();
-	    d.setServer(root);
-	    d.setLocal(local);
-	    d.setCommunity(community);
-	    String dropbox = d.getDropdownBox();
+		}			
+		    
+		ThemeDisplay td = (ThemeDisplay) renderRequest.getAttribute(WebKeys.THEME_DISPLAY);  
 
-		// Initialize the query.
-		queryDatabase query = new queryDatabase();
-		query.setRoot(root);
-		query.setPathMain(pathMain);
-		query.setPlid(plid);
-		query.setImagePath(imagePath);
-		query.setUserId(userId);
-		query.setCompanyId(companyId);
-		query.SetCommunity(community);
-		query.setLanguage(local);
-		
-		// Start the query an get the results.
-		String searchResults = query.getAllResults();
-		
-		// Generate the View.
-		renderResponse.setContentType("text/html");
- 		PrintWriter out = renderResponse.getWriter();
- 		out.println(dropbox);
- 		out.println("<br>");
- 		out.println(searchResults);
- 		 		
-		//include(viewJSP, renderRequest, renderResponse);
+		// Is the user a quest?
+		if(liferayUser != null){  
+		    String userId = String.valueOf(liferayUser.getUserId());
+		    String companyId = String.valueOf(liferayUser.getCompanyId());
+		    
+		    String root = td.getPortalURL();
+		    String pathMain = td.getPathMain();
+		    String plid = String.valueOf(td.getPlid());
+		    String imagePath = td.getPathImage();
+		    String local = td.getLocale().toString();
+		    String community = td.getURLCurrent();	    
+
+		    if(community.contains("?")){
+		    	community = community.substring(0, community.indexOf("?"));
+		    }
+		    
+		    // Generate the Dropdown-Box Code
+		    DropdownBoxGenerator d = new DropdownBoxGenerator();
+		    d.setServer(root);
+		    d.setLocal(local);
+		    d.setCommunity(community); 
+		    String dropbox = d.getDropdownBox();
+
+			// Initialize the query.
+			queryDatabase query = new queryDatabase();
+			query.setRoot(root);
+			query.setPathMain(pathMain);
+			query.setPlid(plid);
+			query.setImagePath(imagePath);
+			query.setUserId(userId);
+			query.setCompanyId(companyId);
+			query.SetCommunity(community);
+			query.setLanguage(local);
+
+			// Start the query an get the results.
+			String searchResults = query.getAllResults();
+
+			// Generate the View.
+			renderResponse.setContentType("text/html");
+	 		PrintWriter out = renderResponse.getWriter();
+	 		out.println(dropbox);
+	 		out.println("<br>");	 		
+	 		out.println(searchResults);
+	 		
+			//include(viewJSP, renderRequest, renderResponse);
+	 		
+		}
+		else{
+			// Generate the View.
+			renderResponse.setContentType("text/html");
+	 		PrintWriter out = renderResponse.getWriter();
+	 		
+	 		String output = td.translate("bad-request");
+	 		
+	 		out.println("<b>" + output +":</b><br>");
+	 		
+	 		output = td.translate("please-sign-in-to-access-this-application");
+	 		
+	 		// Adjust the German output.
+	 		if(output.contains("zurück")){
+	 			output = output.replace("rück", "");
+	 		}
+	 		
+	 		out.println(output);
+		}
 	}
 
 
