@@ -35,19 +35,19 @@ import java.util.Map;
 
 public class AbstractTestFixture {
 
-	public static final boolean STANDALONE = true;
-	
+    public static final boolean STANDALONE = true;
+
     protected static final String MISSION1 = "roolo://memory/0/0/Design+a+CO2-friendly+house.scymissionspecification";
     protected static String TSHOST = "localhost";
     // protected static String TSHOST = "scy.collide.info";
     protected static int TSPORT = 2525;
     protected static ClassPathXmlApplicationContext applicationContext;
-    
+
     protected IMetadataTypeManager typeManager;
     protected IExtensionManager extensionManager;
     protected IRepository repository;
     protected Map<String, Map<String, Object>> agentMap = new HashMap<String, Map<String, Object>>();
-    
+
     private AgentManager agentFramework;
     private ArrayList<String> agentList;
     private TupleSpace tupleSpace;
@@ -170,7 +170,7 @@ public class AbstractTestFixture {
     public TupleSpace getCommandSpace() {
         return tupleSpace;
     }
-    
+
     public TupleSpace getSessionSpace() {
         return sessionSpace;
     }
@@ -279,12 +279,12 @@ public class AbstractTestFixture {
                 eloUri, "newLasId=" + las, "oldLasId=" + oldLas);
     }
 
-    protected Tuple login(String user, String mission, String missionName) {
+    protected Tuple login(String user, String mission, String missionName, String language) {
         return new Tuple(ActionConstants.ACTION, new VMID().toString(),
                 System.currentTimeMillis(), ActionConstants.ACTION_LOG_IN,
                 user, "scy-desktop", mission, "n/a",
                 "roolo://memory/16/0/eco_reference_map.mapping",
-                "missionSpecification=" + mission, "language=en",
+                "missionSpecification=" + mission, "language=" + language,
                 "missionName=" + missionName);
     }
 }

@@ -7,15 +7,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by IntelliJ IDEA.
- * User: fschulz
- * Date: 09.06.11
- * Time: 15:51
- * To change this template use File | Settings | File Templates.
+ * Created by IntelliJ IDEA. User: fschulz Date: 09.06.11 Time: 15:51 To change this template use File | Settings |
+ * File
+ * Templates.
  */
 public class GroupFormationActivation {
 
-    private static class GroupFormationInfo {
+
+    public static class GroupFormationInfo {
 
         private StrategyType strategy;
         private int maxUsers;
@@ -38,6 +37,22 @@ public class GroupFormationActivation {
             this.referenceElo = referenceElo;
         }
 
+        public int getMaximumUsers() {
+            return maxUsers;
+        }
+
+        public int getMinimumUsers() {
+            return minUsers;
+        }
+
+        public URI getReferenceElo() {
+            return referenceElo;
+        }
+
+        public StrategyType getStrategy() {
+            return strategy;
+        }
+
         @Override
         public String toString() {
             return "GroupFormationInfo{" +
@@ -56,11 +71,11 @@ public class GroupFormationActivation {
     }
 
     public void addStrategy(String las, StrategyType strategy) {
-        GroupFormationInfo groupFormationInfo = getGroupFormationInfo(las);
+        GroupFormationInfo groupFormationInfo = getOrAddGroupFormationInfo(las);
         groupFormationInfo.setStrategy(strategy);
     }
 
-    private GroupFormationInfo getGroupFormationInfo(String las) {
+    private GroupFormationInfo getOrAddGroupFormationInfo(String las) {
         GroupFormationInfo groupFormationInfo = groupFormationInfoMap.get(las);
         if (groupFormationInfo == null) {
             groupFormationInfo = new GroupFormationInfo();
@@ -69,18 +84,23 @@ public class GroupFormationActivation {
         return groupFormationInfo;
     }
 
+    public GroupFormationInfo getGroupFormationInfo(String las) {
+        GroupFormationInfo groupFormationInfo = groupFormationInfoMap.get(las);
+        return groupFormationInfo;
+    }
+
     public void addMaximumUsers(String las, int maxUsers) {
-        GroupFormationInfo groupFormationInfo = getGroupFormationInfo(las);
+        GroupFormationInfo groupFormationInfo = getOrAddGroupFormationInfo(las);
         groupFormationInfo.setMaximumUsers(maxUsers);
     }
 
     public void addMinimumUsers(String las, int minUsers) {
-        GroupFormationInfo groupFormationInfo = getGroupFormationInfo(las);
+        GroupFormationInfo groupFormationInfo = getOrAddGroupFormationInfo(las);
         groupFormationInfo.setMinimumUsers(minUsers);
     }
 
     public void addReferenceElo(String las, URI referenceElo) {
-        GroupFormationInfo groupFormationInfo = getGroupFormationInfo(las);
+        GroupFormationInfo groupFormationInfo = getOrAddGroupFormationInfo(las);
         groupFormationInfo.setReferenceElo(referenceElo);
     }
 
@@ -89,5 +109,9 @@ public class GroupFormationActivation {
         return "GroupFormationActivation{" +
                 "groupFormationInfoMap=" + groupFormationInfoMap +
                 '}';
+    }
+
+    public boolean shouldActivate(String las) {
+        return groupFormationInfoMap.containsKey(las);
     }
 }
