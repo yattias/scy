@@ -1,0 +1,912 @@
+<elo>
+<metadata>
+  <lom>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>isbasedon</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>scy.collide.info</catalog>
+          <entry>roolo://scy.collide.info/scy-collide-server/231168.231168#0</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <resource>
+      <assignmentUri>
+        <catalog>www.scy-lab.eu</catalog>
+        <entry>http://www.scy-lab.eu/content/en/mission2/assignment_conceptmap.html</entry>
+      </assignmentUri>
+      <resourcesUri>
+        <catalog>www.scy-lab.eu</catalog>
+        <entry>http://www.scy-lab.eu/content/en/mission2/resources_conceptmap.html</entry>
+      </resourcesUri>
+    </resource>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>margus</entity>
+        <date>
+          <dateTime>2011-04-05T16:52:14.127+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>margus</entity>
+        <date>
+          <dateTime>2011-04-04T08:52:12.014+0200</dateTime>
+        </date>
+      </contribute>
+      <version>1</version>
+    </lifecycle>
+    <annotation>
+      <entity>colorId</entity>
+      <colorSchemeId />
+    </annotation>
+    <technical>
+      <customElements>
+        <dateCreated>1301899953880</dateCreated>
+        <dateFirstUserSaveKey>1301899932014</dateFirstUserSaveKey>
+        <dateLastModified>1302015161473</dateLastModified>
+      </customElements>
+      <format>scy/mapping</format>
+    </technical>
+    <educational>
+      <learningResourceType>mapConcept</learningResourceType>
+    </educational>
+    <annotation>
+      <entity>icon</entity>
+      <iconType>Concept_map3</iconType>
+    </annotation>
+    <general>
+      <identifier>
+        <catalog>scy.collide.info</catalog>
+        <entry>roolo://scy.collide.info/scy-collide-server/233574.234105#1</entry>
+      </identifier>
+      <las>conceptualisatsionConceptMap</las>
+      <missionRunning>
+        <catalog>scy.collide.info</catalog>
+        <entry>roolo://scy.collide.info/scy-collide-server/199.199#0</entry>
+      </missionRunning>
+      <title>
+        <string language="en">ECO simple concept map 3</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>scy.collide.info</catalog>
+          <entry>roolo://scy.collide.info/scy-collide-server/233576.233576#0</entry>
+        </identifier>
+      </resource>
+    </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>scy.collide.info</catalog>
+          <entry>roolo://scy.collide.info/scy-collide-server/233574.233574#0</entry>
+        </identifier>
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languageIndependent="true" contentType="xml">
+<eu.scy.scymapper.impl.model.DefaultConceptMap>
+  <name>Untitled</name>
+  <diagram class="eu.scy.scymapper.impl.DiagramModel">
+    <nodes>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>plants</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle">
+          <mode>1</mode>
+        </shape>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor>
+            <red>0</red>
+            <green>0</green>
+            <blue>0</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <backgroundColor>
+            <red>198</red>
+            <green>210</green>
+            <blue>255</blue>
+            <alpha>255</alpha>
+          </backgroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>2.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>true</shadow>
+          <border class="javax.swing.border.EmptyBorder">
+            <left>0</left>
+            <right>0</right>
+            <top>0</top>
+            <bottom>0</bottom>
+          </border>
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>410</x>
+        <y>315</y>
+        <height>46</height>
+        <width>78</width>
+        <id>b6562807-faad-4edb-9209-d7f4eb9d34b4</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label />
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.ImageShape">
+          <mode>1</mode>
+          <imageData>iVBORw0KGgoAAAANSUhEUgAAAPkAAAAfCAYAAAAlUmsPAAAACXBIWXMAAAsTAAALEwEAmpwYAAAK
+TWlDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVN3WJP3Fj7f92UPVkLY8LGXbIEAIiOsCMgQ
+WaIQkgBhhBASQMWFiApWFBURnEhVxILVCkidiOKgKLhnQYqIWotVXDjuH9yntX167+3t+9f7vOec
+5/zOec8PgBESJpHmomoAOVKFPDrYH49PSMTJvYACFUjgBCAQ5svCZwXFAADwA3l4fnSwP/wBr28A
+AgBw1S4kEsfh/4O6UCZXACCRAOAiEucLAZBSAMguVMgUAMgYALBTs2QKAJQAAGx5fEIiAKoNAOz0
+ST4FANipk9wXANiiHKkIAI0BAJkoRyQCQLsAYFWBUiwCwMIAoKxAIi4EwK4BgFm2MkcCgL0FAHaO
+WJAPQGAAgJlCLMwAIDgCAEMeE80DIEwDoDDSv+CpX3CFuEgBAMDLlc2XS9IzFLiV0Bp38vDg4iHi
+wmyxQmEXKRBmCeQinJebIxNI5wNMzgwAABr50cH+OD+Q5+bk4eZm52zv9MWi/mvwbyI+IfHf/ryM
+AgQAEE7P79pf5eXWA3DHAbB1v2upWwDaVgBo3/ldM9sJoFoK0Hr5i3k4/EAenqFQyDwdHAoLC+0l
+YqG9MOOLPv8z4W/gi372/EAe/tt68ABxmkCZrcCjg/1xYW52rlKO58sEQjFu9+cj/seFf/2OKdHi
+NLFcLBWK8ViJuFAiTcd5uVKRRCHJleIS6X8y8R+W/QmTdw0ArIZPwE62B7XLbMB+7gECiw5Y0nYA
+QH7zLYwaC5EAEGc0Mnn3AACTv/mPQCsBAM2XpOMAALzoGFyolBdMxggAAESggSqwQQcMwRSswA6c
+wR28wBcCYQZEQAwkwDwQQgbkgBwKoRiWQRlUwDrYBLWwAxqgEZrhELTBMTgN5+ASXIHrcBcGYBie
+whi8hgkEQcgIE2EhOogRYo7YIs4IF5mOBCJhSDSSgKQg6YgUUSLFyHKkAqlCapFdSCPyLXIUOY1c
+QPqQ28ggMor8irxHMZSBslED1AJ1QLmoHxqKxqBz0XQ0D12AlqJr0Rq0Hj2AtqKn0UvodXQAfYqO
+Y4DRMQ5mjNlhXIyHRWCJWBomxxZj5Vg1Vo81Yx1YN3YVG8CeYe8IJAKLgBPsCF6EEMJsgpCQR1hM
+WEOoJewjtBK6CFcJg4Qxwicik6hPtCV6EvnEeGI6sZBYRqwm7iEeIZ4lXicOE1+TSCQOyZLkTgoh
+JZAySQtJa0jbSC2kU6Q+0hBpnEwm65Btyd7kCLKArCCXkbeQD5BPkvvJw+S3FDrFiOJMCaIkUqSU
+Eko1ZT/lBKWfMkKZoKpRzame1AiqiDqfWkltoHZQL1OHqRM0dZolzZsWQ8ukLaPV0JppZ2n3aC/p
+dLoJ3YMeRZfQl9Jr6Afp5+mD9HcMDYYNg8dIYigZaxl7GacYtxkvmUymBdOXmchUMNcyG5lnmA+Y
+b1VYKvYqfBWRyhKVOpVWlX6V56pUVXNVP9V5qgtUq1UPq15WfaZGVbNQ46kJ1Bar1akdVbupNq7O
+UndSj1DPUV+jvl/9gvpjDbKGhUaghkijVGO3xhmNIRbGMmXxWELWclYD6yxrmE1iW7L57Ex2Bfsb
+di97TFNDc6pmrGaRZp3mcc0BDsax4PA52ZxKziHODc57LQMtPy2x1mqtZq1+rTfaetq+2mLtcu0W
+7eva73VwnUCdLJ31Om0693UJuja6UbqFutt1z+o+02PreekJ9cr1Dund0Uf1bfSj9Rfq79bv0R83
+MDQINpAZbDE4Y/DMkGPoa5hpuNHwhOGoEctoupHEaKPRSaMnuCbuh2fjNXgXPmasbxxirDTeZdxr
+PGFiaTLbpMSkxeS+Kc2Ua5pmutG003TMzMgs3KzYrMnsjjnVnGueYb7ZvNv8jYWlRZzFSos2i8eW
+2pZ8ywWWTZb3rJhWPlZ5VvVW16xJ1lzrLOtt1ldsUBtXmwybOpvLtqitm63Edptt3xTiFI8p0in1
+U27aMez87ArsmuwG7Tn2YfYl9m32zx3MHBId1jt0O3xydHXMdmxwvOuk4TTDqcSpw+lXZxtnoXOd
+8zUXpkuQyxKXdpcXU22niqdun3rLleUa7rrStdP1o5u7m9yt2W3U3cw9xX2r+00umxvJXcM970H0
+8PdY4nHM452nm6fC85DnL152Xlle+70eT7OcJp7WMG3I28Rb4L3Le2A6Pj1l+s7pAz7GPgKfep+H
+vqa+It89viN+1n6Zfgf8nvs7+sv9j/i/4XnyFvFOBWABwQHlAb2BGoGzA2sDHwSZBKUHNQWNBbsG
+Lww+FUIMCQ1ZH3KTb8AX8hv5YzPcZyya0RXKCJ0VWhv6MMwmTB7WEY6GzwjfEH5vpvlM6cy2CIjg
+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
+SUVORK5CYII=</imageData>
+          <format>png</format>
+        </shape>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor>
+            <red>0</red>
+            <green>0</green>
+            <blue>0</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <backgroundColor>
+            <red>153</red>
+            <green>204</green>
+            <blue>255</blue>
+            <alpha>255</alpha>
+          </backgroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>2.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>true</shadow>
+          <border class="javax.swing.border.EmptyBorder">
+            <left>0</left>
+            <right>0</right>
+            <top>0</top>
+            <bottom>0</bottom>
+          </border>
+        </style>
+        <labelHidden>true</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>false</canMove>
+          <canDelete>false</canDelete>
+          <canResize>false</canResize>
+          <canEditLabel>false</canEditLabel>
+          <canConnect>false</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>false</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>192</x>
+        <y>429</y>
+        <height>31</height>
+        <width>249</width>
+        <id>c8ff7394-ff42-4468-8a33-76baa2530123</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>light</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel/shape" />
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/foregroundColor" />
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/backgroundColor" />
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/stroke" />
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>true</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/border" />
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>348</x>
+        <y>123</y>
+        <height>46</height>
+        <width>82</width>
+        <id>87d12684-ca6f-4f3a-80ac-d59c1a10d51e</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>carbon dioxide</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel/shape" />
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/foregroundColor" />
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/backgroundColor" />
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/stroke" />
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>true</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/border" />
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>146</x>
+        <y>124</y>
+        <height>56</height>
+        <width>93</width>
+        <id>3481816f-1108-4710-a957-d512d380c939</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>Land</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.ImageShape">
+          <mode>1</mode>
+          <imageData>iVBORw0KGgoAAAANSUhEUgAAAcYAAAACCAYAAADCbHw/AAAACXBIWXMAAAsTAAALEwEAmpwYAAAK
+TWlDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVN3WJP3Fj7f92UPVkLY8LGXbIEAIiOsCMgQ
+WaIQkgBhhBASQMWFiApWFBURnEhVxILVCkidiOKgKLhnQYqIWotVXDjuH9yntX167+3t+9f7vOec
+5/zOec8PgBESJpHmomoAOVKFPDrYH49PSMTJvYACFUjgBCAQ5svCZwXFAADwA3l4fnSwP/wBr28A
+AgBw1S4kEsfh/4O6UCZXACCRAOAiEucLAZBSAMguVMgUAMgYALBTs2QKAJQAAGx5fEIiAKoNAOz0
+ST4FANipk9wXANiiHKkIAI0BAJkoRyQCQLsAYFWBUiwCwMIAoKxAIi4EwK4BgFm2MkcCgL0FAHaO
+WJAPQGAAgJlCLMwAIDgCAEMeE80DIEwDoDDSv+CpX3CFuEgBAMDLlc2XS9IzFLiV0Bp38vDg4iHi
+wmyxQmEXKRBmCeQinJebIxNI5wNMzgwAABr50cH+OD+Q5+bk4eZm52zv9MWi/mvwbyI+IfHf/ryM
+AgQAEE7P79pf5eXWA3DHAbB1v2upWwDaVgBo3/ldM9sJoFoK0Hr5i3k4/EAenqFQyDwdHAoLC+0l
+YqG9MOOLPv8z4W/gi372/EAe/tt68ABxmkCZrcCjg/1xYW52rlKO58sEQjFu9+cj/seFf/2OKdHi
+NLFcLBWK8ViJuFAiTcd5uVKRRCHJleIS6X8y8R+W/QmTdw0ArIZPwE62B7XLbMB+7gECiw5Y0nYA
+QH7zLYwaC5EAEGc0Mnn3AACTv/mPQCsBAM2XpOMAALzoGFyolBdMxggAAESggSqwQQcMwRSswA6c
+wR28wBcCYQZEQAwkwDwQQgbkgBwKoRiWQRlUwDrYBLWwAxqgEZrhELTBMTgN5+ASXIHrcBcGYBie
+whi8hgkEQcgIE2EhOogRYo7YIs4IF5mOBCJhSDSSgKQg6YgUUSLFyHKkAqlCapFdSCPyLXIUOY1c
+QPqQ28ggMor8irxHMZSBslED1AJ1QLmoHxqKxqBz0XQ0D12AlqJr0Rq0Hj2AtqKn0UvodXQAfYqO
+Y4DRMQ5mjNlhXIyHRWCJWBomxxZj5Vg1Vo81Yx1YN3YVG8CeYe8IJAKLgBPsCF6EEMJsgpCQR1hM
+WEOoJewjtBK6CFcJg4Qxwicik6hPtCV6EvnEeGI6sZBYRqwm7iEeIZ4lXicOE1+TSCQOyZLkTgoh
+JZAySQtJa0jbSC2kU6Q+0hBpnEwm65Btyd7kCLKArCCXkbeQD5BPkvvJw+S3FDrFiOJMCaIkUqSU
+Eko1ZT/lBKWfMkKZoKpRzame1AiqiDqfWkltoHZQL1OHqRM0dZolzZsWQ8ukLaPV0JppZ2n3aC/p
+dLoJ3YMeRZfQl9Jr6Afp5+mD9HcMDYYNg8dIYigZaxl7GacYtxkvmUymBdOXmchUMNcyG5lnmA+Y
+b1VYKvYqfBWRyhKVOpVWlX6V56pUVXNVP9V5qgtUq1UPq15WfaZGVbNQ46kJ1Bar1akdVbupNq7O
+UndSj1DPUV+jvl/9gvpjDbKGhUaghkijVGO3xhmNIRbGMmXxWELWclYD6yxrmE1iW7L57Ex2Bfsb
+di97TFNDc6pmrGaRZp3mcc0BDsax4PA52ZxKziHODc57LQMtPy2x1mqtZq1+rTfaetq+2mLtcu0W
+7eva73VwnUCdLJ31Om0693UJuja6UbqFutt1z+o+02PreekJ9cr1Dund0Uf1bfSj9Rfq79bv0R83
+MDQINpAZbDE4Y/DMkGPoa5hpuNHwhOGoEctoupHEaKPRSaMnuCbuh2fjNXgXPmasbxxirDTeZdxr
+PGFiaTLbpMSkxeS+Kc2Ua5pmutG003TMzMgs3KzYrMnsjjnVnGueYb7ZvNv8jYWlRZzFSos2i8eW
+2pZ8ywWWTZb3rJhWPlZ5VvVW16xJ1lzrLOtt1ldsUBtXmwybOpvLtqitm63Edptt3xTiFI8p0in1
+U27aMez87ArsmuwG7Tn2YfYl9m32zx3MHBId1jt0O3xydHXMdmxwvOuk4TTDqcSpw+lXZxtnoXOd
+8zUXpkuQyxKXdpcXU22niqdun3rLleUa7rrStdP1o5u7m9yt2W3U3cw9xX2r+00umxvJXcM970H0
+8PdY4nHM452nm6fC85DnL152Xlle+70eT7OcJp7WMG3I28Rb4L3Le2A6Pj1l+s7pAz7GPgKfep+H
+vqa+It89viN+1n6Zfgf8nvs7+sv9j/i/4XnyFvFOBWABwQHlAb2BGoGzA2sDHwSZBKUHNQWNBbsG
+Lww+FUIMCQ1ZH3KTb8AX8hv5YzPcZyya0RXKCJ0VWhv6MMwmTB7WEY6GzwjfEH5vpvlM6cy2CIjg
+R2yIuB9pGZkX+X0UKSoyqi7qUbRTdHF09yzWrORZ+2e9jvGPqYy5O9tqtnJ2Z6xqbFJsY+ybuIC4
+qriBeIf4RfGXEnQTJAntieTE2MQ9ieNzAudsmjOc5JpUlnRjruXcorkX5unOy553PFk1WZB8OIWY
+EpeyP+WDIEJQLxhP5aduTR0T8oSbhU9FvqKNolGxt7hKPJLmnVaV9jjdO31D+miGT0Z1xjMJT1Ir
+eZEZkrkj801WRNberM/ZcdktOZSclJyjUg1plrQr1zC3KLdPZisrkw3keeZtyhuTh8r35CP5c/Pb
+FWyFTNGjtFKuUA4WTC+oK3hbGFt4uEi9SFrUM99m/ur5IwuCFny9kLBQuLCz2Lh4WfHgIr9FuxYj
+i1MXdy4xXVK6ZHhp8NJ9y2jLspb9UOJYUlXyannc8o5Sg9KlpUMrglc0lamUycturvRauWMVYZVk
+Ve9ql9VbVn8qF5VfrHCsqK74sEa45uJXTl/VfPV5bdra3kq3yu3rSOuk626s91m/r0q9akHV0Ibw
+Da0b8Y3lG19tSt50oXpq9Y7NtM3KzQM1YTXtW8y2rNvyoTaj9nqdf13LVv2tq7e+2Sba1r/dd3vz
+DoMdFTve75TsvLUreFdrvUV99W7S7oLdjxpiG7q/5n7duEd3T8Wej3ulewf2Re/ranRvbNyvv7+y
+CW1SNo0eSDpw5ZuAb9qb7Zp3tXBaKg7CQeXBJ9+mfHvjUOihzsPcw83fmX+39QjrSHkr0jq/dawt
+o22gPaG97+iMo50dXh1Hvrf/fu8x42N1xzWPV56gnSg98fnkgpPjp2Snnp1OPz3Umdx590z8mWtd
+UV29Z0PPnj8XdO5Mt1/3yfPe549d8Lxw9CL3Ytslt0utPa49R35w/eFIr1tv62X3y+1XPK509E3r
+O9Hv03/6asDVc9f41y5dn3m978bsG7duJt0cuCW69fh29u0XdwruTNxdeo94r/y+2v3qB/oP6n+0
+/rFlwG3g+GDAYM/DWQ/vDgmHnv6U/9OH4dJHzEfVI0YjjY+dHx8bDRq98mTOk+GnsqcTz8p+Vv95
+63Or59/94vtLz1j82PAL+YvPv655qfNy76uprzrHI8cfvM55PfGm/K3O233vuO+638e9H5ko/ED+
+UPPR+mPHp9BP9z7nfP78L/eE8/sl0p8zAAAABGdBTUEAALGOfPtRkwAAACBjSFJNAAB6JQAAgIMA
+APn/AACA6QAAdTAAAOpgAAA6mAAAF2+SX8VGAAAAKUlEQVR42uzQQQEAIAwAoZuV7J/NPS0BEZhu
+LwCgqqMAAL4FAAD//wMAHvcBNvEr8L0AAAAASUVORK5CYII=</imageData>
+          <format>png</format>
+        </shape>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle" reference="../../eu.scy.scymapper.impl.model.NodeModel[2]/style" />
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>false</canMove>
+          <canDelete>false</canDelete>
+          <canResize>false</canResize>
+          <canEditLabel>false</canEditLabel>
+          <canConnect>false</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>false</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>101</x>
+        <y>427</y>
+        <height>2</height>
+        <width>454</width>
+        <id>c8ff7394-ff42-4468-8a33-76baa2530321</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>Land</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle">
+          <mode>0</mode>
+        </shape>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor>
+            <red>0</red>
+            <green>0</green>
+            <blue>0</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <backgroundColor>
+            <red>204</red>
+            <green>204</green>
+            <blue>204</blue>
+            <alpha>255</alpha>
+          </backgroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>2.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <opaque>false</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>false</shadow>
+          <border class="javax.swing.border.EmptyBorder">
+            <left>0</left>
+            <right>0</right>
+            <top>0</top>
+            <bottom>0</bottom>
+          </border>
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>false</canMove>
+          <canDelete>false</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>false</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>447</x>
+        <y>387</y>
+        <height>46</height>
+        <width>120</width>
+        <id>0efb9512-b97d-420d-a6f0-039bcbdd5826</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>Air</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.ImageShape">
+          <mode>1</mode>
+          <imageData>iVBORw0KGgoAAAANSUhEUgAAALYAAABjCAYAAAA2A/qYAAAACXBIWXMAAAsTAAALEwEAmpwYAAAK
+TWlDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVN3WJP3Fj7f92UPVkLY8LGXbIEAIiOsCMgQ
+WaIQkgBhhBASQMWFiApWFBURnEhVxILVCkidiOKgKLhnQYqIWotVXDjuH9yntX167+3t+9f7vOec
+5/zOec8PgBESJpHmomoAOVKFPDrYH49PSMTJvYACFUjgBCAQ5svCZwXFAADwA3l4fnSwP/wBr28A
+AgBw1S4kEsfh/4O6UCZXACCRAOAiEucLAZBSAMguVMgUAMgYALBTs2QKAJQAAGx5fEIiAKoNAOz0
+ST4FANipk9wXANiiHKkIAI0BAJkoRyQCQLsAYFWBUiwCwMIAoKxAIi4EwK4BgFm2MkcCgL0FAHaO
+WJAPQGAAgJlCLMwAIDgCAEMeE80DIEwDoDDSv+CpX3CFuEgBAMDLlc2XS9IzFLiV0Bp38vDg4iHi
+wmyxQmEXKRBmCeQinJebIxNI5wNMzgwAABr50cH+OD+Q5+bk4eZm52zv9MWi/mvwbyI+IfHf/ryM
+AgQAEE7P79pf5eXWA3DHAbB1v2upWwDaVgBo3/ldM9sJoFoK0Hr5i3k4/EAenqFQyDwdHAoLC+0l
+YqG9MOOLPv8z4W/gi372/EAe/tt68ABxmkCZrcCjg/1xYW52rlKO58sEQjFu9+cj/seFf/2OKdHi
+NLFcLBWK8ViJuFAiTcd5uVKRRCHJleIS6X8y8R+W/QmTdw0ArIZPwE62B7XLbMB+7gECiw5Y0nYA
+QH7zLYwaC5EAEGc0Mnn3AACTv/mPQCsBAM2XpOMAALzoGFyolBdMxggAAESggSqwQQcMwRSswA6c
+wR28wBcCYQZEQAwkwDwQQgbkgBwKoRiWQRlUwDrYBLWwAxqgEZrhELTBMTgN5+ASXIHrcBcGYBie
+whi8hgkEQcgIE2EhOogRYo7YIs4IF5mOBCJhSDSSgKQg6YgUUSLFyHKkAqlCapFdSCPyLXIUOY1c
+QPqQ28ggMor8irxHMZSBslED1AJ1QLmoHxqKxqBz0XQ0D12AlqJr0Rq0Hj2AtqKn0UvodXQAfYqO
+Y4DRMQ5mjNlhXIyHRWCJWBomxxZj5Vg1Vo81Yx1YN3YVG8CeYe8IJAKLgBPsCF6EEMJsgpCQR1hM
+WEOoJewjtBK6CFcJg4Qxwicik6hPtCV6EvnEeGI6sZBYRqwm7iEeIZ4lXicOE1+TSCQOyZLkTgoh
+JZAySQtJa0jbSC2kU6Q+0hBpnEwm65Btyd7kCLKArCCXkbeQD5BPkvvJw+S3FDrFiOJMCaIkUqSU
+Eko1ZT/lBKWfMkKZoKpRzame1AiqiDqfWkltoHZQL1OHqRM0dZolzZsWQ8ukLaPV0JppZ2n3aC/p
+dLoJ3YMeRZfQl9Jr6Afp5+mD9HcMDYYNg8dIYigZaxl7GacYtxkvmUymBdOXmchUMNcyG5lnmA+Y
+b1VYKvYqfBWRyhKVOpVWlX6V56pUVXNVP9V5qgtUq1UPq15WfaZGVbNQ46kJ1Bar1akdVbupNq7O
+UndSj1DPUV+jvl/9gvpjDbKGhUaghkijVGO3xhmNIRbGMmXxWELWclYD6yxrmE1iW7L57Ex2Bfsb
+di97TFNDc6pmrGaRZp3mcc0BDsax4PA52ZxKziHODc57LQMtPy2x1mqtZq1+rTfaetq+2mLtcu0W
+7eva73VwnUCdLJ31Om0693UJuja6UbqFutt1z+o+02PreekJ9cr1Dund0Uf1bfSj9Rfq79bv0R83
+MDQINpAZbDE4Y/DMkGPoa5hpuNHwhOGoEctoupHEaKPRSaMnuCbuh2fjNXgXPmasbxxirDTeZdxr
+PGFiaTLbpMSkxeS+Kc2Ua5pmutG003TMzMgs3KzYrMnsjjnVnGueYb7ZvNv8jYWlRZzFSos2i8eW
+2pZ8ywWWTZb3rJhWPlZ5VvVW16xJ1lzrLOtt1ldsUBtXmwybOpvLtqitm63Edptt3xTiFI8p0in1
+U27aMez87ArsmuwG7Tn2YfYl9m32zx3MHBId1jt0O3xydHXMdmxwvOuk4TTDqcSpw+lXZxtnoXOd
+8zUXpkuQyxKXdpcXU22niqdun3rLleUa7rrStdP1o5u7m9yt2W3U3cw9xX2r+00umxvJXcM970H0
+8PdY4nHM452nm6fC85DnL152Xlle+70eT7OcJp7WMG3I28Rb4L3Le2A6Pj1l+s7pAz7GPgKfep+H
+vqa+It89viN+1n6Zfgf8nvs7+sv9j/i/4XnyFvFOBWABwQHlAb2BGoGzA2sDHwSZBKUHNQWNBbsG
+Lww+FUIMCQ1ZH3KTb8AX8hv5YzPcZyya0RXKCJ0VWhv6MMwmTB7WEY6GzwjfEH5vpvlM6cy2CIjg
+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</imageData>
+          <format>png</format>
+        </shape>
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle" reference="../../eu.scy.scymapper.impl.model.NodeModel[2]/style" />
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>false</canMove>
+          <canDelete>false</canDelete>
+          <canResize>false</canResize>
+          <canEditLabel>false</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>false</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>216</x>
+        <y>14</y>
+        <height>99</height>
+        <width>182</width>
+        <id>c8ff7394-ff42-4468-8a33-76baa2530127</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>photosynthesis</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel/shape" />
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/foregroundColor" />
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/backgroundColor" />
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/stroke" />
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>true</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/border" />
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>228</x>
+        <y>237</y>
+        <height>48</height>
+        <width>145</width>
+        <id>df4aeb7e-cbfb-4d12-94d5-2440c6e2fa2d</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>Water</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel[6]/shape" />
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor>
+            <red>0</red>
+            <green>0</green>
+            <blue>0</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel[6]/style/backgroundColor" />
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel[6]/style/stroke" />
+          <opaque>false</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>false</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel[6]/style/border" />
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>false</canMove>
+          <canDelete>false</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>false</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>142</x>
+        <y>428</y>
+        <height>46</height>
+        <width>120</width>
+        <id>9d7b6b4a-7bcd-456e-bd16-b1b4881b1962</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+      <eu.scy.scymapper.impl.model.NodeModel>
+        <label>oxygen</label>
+        <shape class="eu.scy.scymapper.impl.shapes.nodes.RoundRectangle" reference="../../eu.scy.scymapper.impl.model.NodeModel/shape" />
+        <style class="eu.scy.scymapper.impl.model.DefaultNodeStyle">
+          <foregroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/foregroundColor" />
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/backgroundColor" />
+          <stroke class="java.awt.BasicStroke" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/stroke" />
+          <opaque>true</opaque>
+          <minWidth>60</minWidth>
+          <minHeight>46</minHeight>
+          <shadow>true</shadow>
+          <border class="javax.swing.border.EmptyBorder" reference="../../../eu.scy.scymapper.impl.model.NodeModel/style/border" />
+        </style>
+        <labelHidden>false</labelHidden>
+        <deleted>false</deleted>
+        <constraints class="eu.scy.scymapper.impl.model.NodeModelConstraints">
+          <canMove>true</canMove>
+          <canDelete>true</canDelete>
+          <canResize>true</canResize>
+          <canEditLabel>true</canEditLabel>
+          <canConnect>true</canConnect>
+          <canSelect>true</canSelect>
+          <canChangeStyle>true</canChangeStyle>
+          <alwaysOnTop>false</alwaysOnTop>
+        </constraints>
+        <x>459</x>
+        <y>205</y>
+        <height>46</height>
+        <width>84</width>
+        <id>c50df7f7-7799-4d8e-a08e-973e672f6c77</id>
+      </eu.scy.scymapper.impl.model.NodeModel>
+    </nodes>
+    <links>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>influences</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow">
+          <arrowhead>
+            <length>10.0</length>
+            <fixedSize>true</fixedSize>
+          </arrowhead>
+          <lineShape class="eu.scy.scymapper.impl.shapes.links.Line" />
+        </shape>
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor>
+            <red>0</red>
+            <green>0</green>
+            <blue>0</blue>
+            <alpha>255</alpha>
+          </backgroundColor>
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>a38e4f9e-b8c8-4ea9-af1e-1e1d6d3a43db</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[9]" />
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[8]" />
+        <myLabel>influences</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>influences</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape" />
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor" />
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>1516bf0f-725e-4bd1-873f-d0d9e8da788a</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[3]" />
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[8]" />
+        <myLabel>influences</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>influences</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape" />
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor" />
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>7bd8cbd9-f25c-4be7-b408-9f9117bdd79f</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[4]" />
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[8]" />
+        <myLabel>influences</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>characterizes</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape" />
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor" />
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>288db78f-c360-4b1a-9c34-d925abd44c09</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[8]" />
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel" />
+        <myLabel>characterizes</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>produce</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape" />
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor" />
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>94e16a33-6a7c-4212-946a-8b4584fd1496</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel" />
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[10]" />
+        <myLabel>produce</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+      <eu.scy.scymapper.impl.model.NodeLinkModel>
+        <label>produce</label>
+        <shape class="eu.scy.scymapper.impl.shapes.links.Arrow" reference="../../eu.scy.scymapper.impl.model.NodeLinkModel/shape" />
+        <style class="eu.scy.scymapper.impl.model.DefaultLinkStyle">
+          <foregroundColor>
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </foregroundColor>
+          <stroke class="java.awt.BasicStroke">
+            <width>1.0</width>
+            <join>0</join>
+            <cap>2</cap>
+            <miterlimit>10.0</miterlimit>
+            <dash__phase>0.0</dash__phase>
+          </stroke>
+          <backgroundColor reference="../../../eu.scy.scymapper.impl.model.NodeLinkModel/style/backgroundColor" />
+        </style>
+        <labelHidden>false</labelHidden>
+        <id>318a70ab-da27-441c-b866-9da59a2c0f4e</id>
+        <fromNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[8]" />
+        <toNode class="eu.scy.scymapper.impl.model.NodeModel" reference="../../../nodes/eu.scy.scymapper.impl.model.NodeModel[10]" />
+        <myLabel>produce</myLabel>
+      </eu.scy.scymapper.impl.model.NodeLinkModel>
+    </links>
+  </diagram>
+</eu.scy.scymapper.impl.model.DefaultConceptMap>
+</content>
+<resources>
+</resources>
+</elo>
