@@ -29,7 +29,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.rmi.dgc.VMID;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -123,7 +122,7 @@ public class HypothesisEvaluationAgent extends AbstractELOSavedAgent implements
             logger.debug("found in tm keywords: " + topicKeywords);
             Set<String> ontologyKeywords = callKeywordsAgent(
                     OntologyKeywordsAgent.EXTRACT_ONTOLOGY_KEYWORDS, text,
-                    mission, AgentProtocol.MINUTE);
+                    mission, AgentProtocol.SECOND * 10);
             logger.debug("found in ont keywords: " + ontologyKeywords);
             Set<String> keyPharses = callKeywordsAgent(
                     ExtractKeyphrasesAgent.EXTRACT_KEYPHRASES, text, mission,
