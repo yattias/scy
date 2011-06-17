@@ -307,6 +307,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
             panel.add(formatToolbar, BorderLayout.CENTER);
         }
         this.add(panel, BorderLayout.NORTH);
+        textPane.setBackground(Color.white);
     }
 
     public void insertedTextToActionLog() {
@@ -490,7 +491,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
 
     @Override
     public void syncObjectAdded(ISyncObject syncObject) {
-/*logger.info(
+logger.info(
     "SyncObject. ID=" + syncObject.getID() + " creator=" + syncObject.getCreator() +
     " lastModificator=" + syncObject.getLastModificator() +
     " creationTime=" + syncObject.getCreationTime() +
@@ -498,7 +499,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
     " SYNC_TOOL_INSTANCE_UUID=" + syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID) +
     " received inserted text '" + syncObject.getProperty(SYNC_TEXT) +
     "' at position '" + syncObject.getProperty(SYNC_POSITION_START) + "'."
-);*/
+);
         synchronized(this) {
             if (syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID) == null ||
                 !syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID).equals(uuid.toString())) {
@@ -528,7 +529,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
 
     @Override
     public void syncObjectChanged(ISyncObject syncObject) {
-/*logger.info(
+logger.info(
     "SyncObject. ID=" + syncObject.getID() + " creator=" + syncObject.getCreator() +
     " lastModificator=" + syncObject.getLastModificator() +
     " creationTime=" + syncObject.getCreationTime() +
@@ -537,7 +538,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
     " received format change action '" + syncObject.getProperty(SYNC_FORMAT) +
     "', text '" + syncObject.getProperty(SYNC_TEXT) +
     "' at position '" + syncObject.getProperty(SYNC_POSITION_START) + "'."
-);*/
+);
         synchronized(this) {
             if (syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID) == null ||
                 !syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID).equals(uuid.toString())) {
@@ -592,7 +593,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
 
     @Override
     public void syncObjectRemoved(ISyncObject syncObject) {
-/*logger.info(
+logger.info(
     "SyncObject. ID=" + syncObject.getID() + " creator=" + syncObject.getCreator() +
     " lastModificator=" + syncObject.getLastModificator() +
     " creationTime=" + syncObject.getCreationTime() +
@@ -601,7 +602,7 @@ public class RichTextEditor extends JPanel implements DocumentListener, Printabl
     " received deleted text '" + syncObject.getProperty(SYNC_TEXT) +
     "' at position '" + syncObject.getProperty(SYNC_POSITION_START) +
     "', length='" + syncObject.getProperty(SYNC_LENGTH) + "."
-);*/
+);
         synchronized(this) {
             if (syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID) == null ||
                 !syncObject.getProperty(SYNC_TOOL_INSTANCE_UUID).equals(uuid.toString())) {
