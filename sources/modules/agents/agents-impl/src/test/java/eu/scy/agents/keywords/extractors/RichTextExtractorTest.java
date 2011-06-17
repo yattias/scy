@@ -26,8 +26,8 @@ public class RichTextExtractorTest extends AbstractExtractorTest {
 	@Test
 	public void testGetKeywords() {
 		List<String> keywords = extractor.getKeywords(elo);
-		assertEquals(10, keywords.size());
+		assertEquals(9, keywords.size());
 		assertTrue(hasItems(keywords, "par", "plus", "test", "triple", "toute",
-				"pour", "influence", "part", "double", "comment", "un"));
+				"pour", "influence", "double", "comment", "un"));
 	}
 }

@@ -36,8 +36,10 @@ import java.util.Map;
 public class AbstractTestFixture {
 
     public static final boolean STANDALONE = true;
-
     protected static final String MISSION1 = "roolo://memory/0/0/Design+a+CO2-friendly+house.scymissionspecification";
+
+    protected static final String MISSION2 = "roolo://memory/1/0/Eco.scymissionspecification";
+
     protected static String TSHOST = "localhost";
     // protected static String TSHOST = "scy.collide.info";
     protected static int TSPORT = 2525;
