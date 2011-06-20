@@ -9,7 +9,7 @@
    <bean name="missionConfigInput" class="eu.scy.client.desktop.scydesktop.tools.mission.springimport.BasicMissionConfigInput">
 
       <property name="missionId" value="pizza2"/>
-      <property name="missionTitle" value="Υγιεινή πίτσα"/>
+      <property name="missionTitle" value="A greek pizza"/>
       <property name="languageId" value="el"/>
       <property name="xhtmlVersionId" value=""/>
 
