@@ -12,7 +12,7 @@
           <dateTime>2011-01-26T17:55:04.062+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>6</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -34,27 +34,19 @@
         <string language="en">Group Report</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAAiCAYAAADI+15nAAABkklEQVR42u2VvU7CYBSGv8kLcDEOJlyCN+Al6Gq8DuPixGQ0ps52cXJzIi5WxvoTQ4zAgEtNTUBIQEtoSCMJ5cghacNXvlYiFhjeN3lC4fSFw0NKha7rNE183wcKBAt0HIeazaYSnnH4PBU87/V6SuI6iyBux1mZWiA/qoibeZ4X21kEvE8aTAisvNao3faVAp8sj7JnZcpqpdHx+Gz7+J4+3e9wYdd1w06U4Jx5znifNJAEPpfb1O8TZXaLdHjZmRB4/fA+PBrQV2dAq+sn0mzn9JFKtT6Zpin98tyJEp0JIWJnSb3x7jS9NJAEfgzl7V8NaGXrjdY27yYEXuQKtHdQpMKLTRsZWaCmaWQYBuXz+dHzVqsVdhj+osFx8OHR16OzpN5vs+h78j5pIAnk1OtdurmtKC/ho/OcRNJ/YKPRUHaC3rxnvE8a/MtNRJVqtbpUNxHeJw1CgUlwbNsGCoRlWQT+jiBkpkAgBEIgBEIgAoEQCIEQiEAgBEIgBCIQCIEQCIEIBEIgBEIgAoEQuOT5AQ6jHC60vQJuAAAAAElFTkSuQmCC</base64>
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\f1\fs24\i0\b0\cf1\par
+<RichText>{\rtf1\ansi&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
+&#xD;&#xD;
+\f1\fs24\i0\b0\cf1\par&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

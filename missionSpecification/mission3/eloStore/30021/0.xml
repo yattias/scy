@@ -12,7 +12,7 @@
           <dateTime>2011-01-20T17:12:23.078+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>6</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -34,95 +34,87 @@
         <string language="en">Fact Sheet Of One Organ</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>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</base64>
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Arial;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-\margl1417\margr1417\margt1417\margb1417\widowctrl
-\li0\ri0\fi0\f2\fs24\i0\b\ul0\cf0 Mouth\b0\par
-\par
-1. What is the approximate length/size of this organ?\par
-2. Is there secretion of digestive juice? yes / no\par
-3. If so, what nutrients are broken down? carbohydrates / proteins / fats\par
-4. Is there absorption of nutrients? yes / no\par
-5. If so, what nutrients? carbohydrates / proteins / fats / water\par
-6. What is the function of your teeth in the process of digestion?\par
-\par
-\par
-\b Oesophagus\b0\par
-\par
-1. What is the approximate length/size of this organ?\par
-2. Is there secretion of digestive juice? yes / no\par
-3. If so, what nutrients are broken down? carbohydrates / proteins / fats\par
-4. Is there absorption of nutrients? yes / no\par
-5. If so, what nutrients? carbohydrates / proteins / fats / water\par
-6. Food travels through the oesophagus as a result of peristalsis. What is peristalsis?\par
-\par
-\par
-\b Stomach\b0\par
-\par
-1. What is the approximate length/size of this organ?\par
-2. Is there secretion of digestive juice? yes / no\par
-3. If so, what nutrients are broken down? carbohydrates / proteins / fats\par
-4. Is there absorption of nutrients? yes / no\par
-5. If so, what nutrients? carbohydrates / proteins / fats / water\par
-6. The stomach wall secretes acids. What is the function of these acids?\par
-\par
-\par
-\b Duodenum and pancreas\b0\par
-\par
-1. What is the approximate length/size of this organ?\par
-2. Is there secretion of digestive juice? yes / no\par
-3. If so, what nutrients are broken down? carbohydrates / proteins / fats\par
-4. Is there absorption of nutrients? yes / no\par
-5. If so, what nutrients? carbohydrates / proteins / fats / water\par
-6. The gall bladder releases bile, which is mixed with our food in the duodenum. What is the function of bile?\par
-\par
-\par
-\b Small intestine\b0\par
-\par
-1. What is the approximate length/size of this organ?\par
-2. Is there secretion of digestive juice? yes / no\par
-3. If so, what nutrients are broken down? carbohydrates / proteins / fats\par
-4. Is there absorption of nutrients? yes / no\par
-5. If so, what nutrients? carbohydrates / proteins / fats / water\par
-6. The total surface of the inner wall of the small intestine is extremely large. How come?\par
-\par
-\par
-\b Large intestine\b0\par
-\par
-1. What is the approximate length/size of this organ?\par
-2. Is there secretion of digestive juice? yes / no\par
-3. If so, what nutrients are broken down? carbohydrates / proteins / fats\par
-4. Is there absorption of nutrients? yes / no\par
-5. If so, what nutrients? carbohydrates / proteins / fats / water\par
-6. The cecum is a pouch at the beginning of the large intestine. In humans, the cecum is relatively small. What kinds of mammals have much larger cecums?\par
-\par
-\par
-\b Rectum and anus\b0\par
-\par
-1. What is the approximate length/size of this organ?\par
-2. Is there secretion of digestive juice? yes / no\par
-3. If so, what nutrients are broken down? carbohydrates / proteins / fats\par
-4. Is there absorption of nutrients? yes / no\par
-5. If so, what nutrients? carbohydrates / proteins / fats / water\par
-6. Your anus is, in fact, a circular muscle. If you are not defecating (shitting), is this muscle relaxed or contracted?\par
-\li0\ri0\fi0\f1\ul0\cf1\par
+<RichText>{\rtf1\ansi&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil Arial;}&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
+\margl1417\margr1417\margt1417\margb1417\widowctrl&#xD;&#xD;
+\li0\ri0\fi0\f2\fs24\i0\b\ul0\cf0 Mouth\b0\par&#xD;&#xD;
+\par&#xD;&#xD;
+1. What is the approximate length/size of this organ?\par&#xD;&#xD;
+2. Is there secretion of digestive juice? yes / no\par&#xD;&#xD;
+3. If so, what nutrients are broken down? carbohydrates / proteins / fats\par&#xD;&#xD;
+4. Is there absorption of nutrients? yes / no\par&#xD;&#xD;
+5. If so, what nutrients? carbohydrates / proteins / fats / water\par&#xD;&#xD;
+6. What is the function of your teeth in the process of digestion?\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b Oesophagus\b0\par&#xD;&#xD;
+\par&#xD;&#xD;
+1. What is the approximate length/size of this organ?\par&#xD;&#xD;
+2. Is there secretion of digestive juice? yes / no\par&#xD;&#xD;
+3. If so, what nutrients are broken down? carbohydrates / proteins / fats\par&#xD;&#xD;
+4. Is there absorption of nutrients? yes / no\par&#xD;&#xD;
+5. If so, what nutrients? carbohydrates / proteins / fats / water\par&#xD;&#xD;
+6. Food travels through the oesophagus as a result of peristalsis. What is peristalsis?\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b Stomach\b0\par&#xD;&#xD;
+\par&#xD;&#xD;
+1. What is the approximate length/size of this organ?\par&#xD;&#xD;
+2. Is there secretion of digestive juice? yes / no\par&#xD;&#xD;
+3. If so, what nutrients are broken down? carbohydrates / proteins / fats\par&#xD;&#xD;
+4. Is there absorption of nutrients? yes / no\par&#xD;&#xD;
+5. If so, what nutrients? carbohydrates / proteins / fats / water\par&#xD;&#xD;
+6. The stomach wall secretes acids. What is the function of these acids?\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b Duodenum and pancreas\b0\par&#xD;&#xD;
+\par&#xD;&#xD;
+1. What is the approximate length/size of this organ?\par&#xD;&#xD;
+2. Is there secretion of digestive juice? yes / no\par&#xD;&#xD;
+3. If so, what nutrients are broken down? carbohydrates / proteins / fats\par&#xD;&#xD;
+4. Is there absorption of nutrients? yes / no\par&#xD;&#xD;
+5. If so, what nutrients? carbohydrates / proteins / fats / water\par&#xD;&#xD;
+6. The gall bladder releases bile, which is mixed with our food in the duodenum. What is the function of bile?\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b Small intestine\b0\par&#xD;&#xD;
+\par&#xD;&#xD;
+1. What is the approximate length/size of this organ?\par&#xD;&#xD;
+2. Is there secretion of digestive juice? yes / no\par&#xD;&#xD;
+3. If so, what nutrients are broken down? carbohydrates / proteins / fats\par&#xD;&#xD;
+4. Is there absorption of nutrients? yes / no\par&#xD;&#xD;
+5. If so, what nutrients? carbohydrates / proteins / fats / water\par&#xD;&#xD;
+6. The total surface of the inner wall of the small intestine is extremely large. How come?\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b Large intestine\b0\par&#xD;&#xD;
+\par&#xD;&#xD;
+1. What is the approximate length/size of this organ?\par&#xD;&#xD;
+2. Is there secretion of digestive juice? yes / no\par&#xD;&#xD;
+3. If so, what nutrients are broken down? carbohydrates / proteins / fats\par&#xD;&#xD;
+4. Is there absorption of nutrients? yes / no\par&#xD;&#xD;
+5. If so, what nutrients? carbohydrates / proteins / fats / water\par&#xD;&#xD;
+6. The cecum is a pouch at the beginning of the large intestine. In humans, the cecum is relatively small. What kinds of mammals have much larger cecums?\par&#xD;&#xD;
+\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b Rectum and anus\b0\par&#xD;&#xD;
+\par&#xD;&#xD;
+1. What is the approximate length/size of this organ?\par&#xD;&#xD;
+2. Is there secretion of digestive juice? yes / no\par&#xD;&#xD;
+3. If so, what nutrients are broken down? carbohydrates / proteins / fats\par&#xD;&#xD;
+4. Is there absorption of nutrients? yes / no\par&#xD;&#xD;
+5. If so, what nutrients? carbohydrates / proteins / fats / water\par&#xD;&#xD;
+6. Your anus is, in fact, a circular muscle. If you are not defecating (shitting), is this muscle relaxed or contracted?\par&#xD;&#xD;
+\li0\ri0\fi0\f1\ul0\cf1\par&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

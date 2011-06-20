@@ -12,7 +12,7 @@
           <dateTime>2011-01-20T17:17:05.953+0100</dateTime>
         </date>
       </contribute>
-      <version>1</version>
+      <version>7</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -34,27 +34,19 @@
         <string language="en">Reflection On Importance Of Criteria</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAD4AAABQCAYAAABBP8ZuAAAB30lEQVR42u3TsUsbYRjH8fw5/gndXB1KJ3c7Oji23cRBlLpKsKVDo1RdjCI1SgYXh6qRmqE1QYXqgRfTpPECSUqix/HI88K95HpxulKKfgM/nvfe93l57kO4lOu60mq1BiYIgkeblMLr9XosjUZDMpmMeJ4XSaFQEL3Tn16vF+vTdDqd2J7v+wN7ByWXy8X28vm8mZc0Mfj30lUE7nq+fL3s2ShcX2B++1TcasOs2+22qf19Ibx/byq9aeDdbjfWqzm+vLU5KpYM/Kx6F+lVuM5LGgvPHrek8suX1yvtCLzseHLrB3J9E8jWvmPhJz+qUr64Nutms2mqni+s7poawnW99PnI1Fdzqxauz+mPWdsb3tc8Hx2z8IPST3kznbZnCtd5SWPhG8XfMrV+J0MvyhH44TdH3i0XZTpzLu/Xvlj44tInmZl9a9a1Ws1UPQ8Twvv3xic/WPiz4RGTsPfP+yF8a+/EPL+cmDRV4Tovaf7KN16pVP7pN67zksbAHxrsOM6jTUr/2aeYlDzB32J2Bzhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MD/F/g9Hp1UBqkKsKoAAAAASUVORK5CYII=</base64>
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\f1\fs24\i0\b0\cf1\par
+<RichText>{\rtf1\ansi&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
+&#xD;&#xD;
+\f1\fs24\i0\b0\cf1\par&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

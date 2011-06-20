@@ -22,7 +22,7 @@
           <dateTime>2011-03-16T14:59:35.390+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>6</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -49,62 +49,54 @@
         <string language="en">Nutrient And Energy Calculations</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAFAklEQVR42u2c20sjdxTH8y/03Qehgn1T8cUL3hW8IcWHQm8+qHiXliKy6j4UtWAvrg+lIFqWrZpWVLxVJFYr1qXKKtVKaEGki8QbeDeJ0UT01O9pZ0jcbTvJpLhhzhcOcX6ZOeLHM7/bOTMmutXR0dELdn19LabBTAC4v7/vY8fHx3R6esqfinV3d5O3Li4ufL4/OTmh9fV1nzan03nnnGOanJz0abPb7T7HMJfLxf5DwRjgwcE+tc9e0N6exwfgux89o71joqXnDgaI9p+fu/nz7OyMI/Xj9scU/voblPXeQwb4028nNPZ0g57+fsoAcY5lyUYmk4mKH3QyQJwDe/aHWwW4dOsXbY965/h3w38omArQbPXQa3k75HIeqgDf//BH2rLt0rc//MoAu7q6aG5ujuLj42+vOWA4jW1fM5z0txsYoNliJfOUlZ58/4sK8Jvbn9s7v6O3ar9ggPjug4eP+FMBiJ/ffKecHrQP8D8R/kPB1Fv44hac23XkE4FNnz5WDQDxxyq2s7ND506H+v1XT4YZoPc1AGi3n6nHn3f2M0Dvc+ALt7Zy/MmXfbS9vU27u7shYQzwbh8E29zcFNNgpsbPOkkscDORH7q5uSGRr0wWi4Wys7MpMjKSpqamqLGxkc7PzykzM5MWFxe5r7u6ulIvqKioEGreAAVBEAAeHh7yQV9fny5ndXV1/JmYmCgRKPID4PDwME94R0dH6a+J9YF6wsjICHV0dGh2iPOlDxT5BzAuLi5oDh0Oh/SBogBG4eTkZJqenqbKykrdTuEP80uJQJEAFICvOkCsf7F9lZWVRfX19dyIfTwoKSmJcnJyaGNjg2ZnZ7kNeQD0cQkJCUJPIjBIALEKwQ7M4OCgGmWBqLq6mmJiYjhqJQJ1aGhoyFgAzWYzG/IhUEREBJWXl9Pq6irl5ubS/Py8JmfoQwcGBnhtbegIxC2tR7iNDQMQq4/8/Hzd0JQ+EELCWfpAHSotLTUWwMvLSz5ALnhlZYXGx8d1O0b+15AR2NDQELAzJWtnpOydTKQF4D0DXF5e9vsizAs9Ho/QUyLQ7Xbz5kBUVBS1tbVReno6tzU1NfFEOjU1lVJSUl642Gq1CsBgOjPSBNoHINKYZWVl1NzczI0oHAxEhYWF6nJQIvBvbW1taXaGtbMhAaKf41Jcr0QQ6pQhJMozMjI0OUNCamJigv1JBIq0AwzW2rWqqor6+/ulDxT5CRBJIpR3oLiopqZGt1P4U/pQiUCRABSAoQAQifWwsDAuMvceVZVtepFE4P87CkMFBQW6HSInLAWWIv8BYt6mFJmjzANCbgNrYX8KiaTIXHR/AGdmZmhhYYFiY2MFoMgPgNgLjI6OpvDwcHVXWo+ww60k6yUCRQJQAL7KANfW1qi1tZUPSkpKqKioiBNJKDz3ntcpqxWRxgh8WSJd9A8A8eqR4uJi6u3t5UY9eWHDR2CgFfqKbDab3MLo/5S5XE9Pj9ynWgDejTxl0ECRkVYZcaAJ6jQGpcFGe7eMChADiV4ZqbhcJtLBBKgMGNiOR2I9LS1Nt2OjPC8nESgA7xkgpikvmzzjnaj+TmMMCRBFldhQxdva8MxcS0sLP7GORDuO70rPgziGuIXlHYEBAFRWEEgK6RFKQZSn3mUQEWkHiDnbv729TetAIu8PFAUGsLa2NmgOpbRDFNgojIdpxsbGglJQCX95eXkSgaL/1p/aGbERUdsolgAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\f1\fs24\i0\b0\cf1\par
-\b Edam cheese\b0  (100 g)\par
-protein:\tab\tab 26 g\par
-carbohydrate:\tab 0 g\par
-fat:\tab\tab 23 g\par
-energy:\tab\tab ... kcal\par
-\par
-\b Chicken breast\b0  (100 g)\par
-protein:\tab\tab 15 g\par
-carbohydrate:\tab 15 g\par
-fat:\tab\tab 16 g\par
-energy:\tab\tab ... kcal\par
-\par
-\b Tomato sauce\b0  (100 g)\par
-protein:\tab\tab 2 g\par
-carbohydrate:\tab 14 g\par
-fat:\tab\tab 1 g\par
-energy:\tab\tab ... kcal\par
-\par
-\b Salami\b0  (100 g)\par
-protein:\tab\tab 23 g\par
-carbohydrate:\tab 0 g\par
-fat:\tab\tab 44 g\par
-energy:\tab\tab ... kcal\par
-\b\par
-Onions\b0  (100 g)\par
-protein:\tab\tab 1 g\par
-carbohydrate:\tab 9 g\par
-fat:\tab\tab 0 g\par
-energy:\tab\tab ... kcal\par
-\b\par
-Pineapple\b0  (100 g)\par
-protein:\tab\tab 1 g\par
-carbohydrate:\tab 23 g\par
-fat:\tab\tab 0 g\par
-energy:\tab\tab ... kcal\par
+<RichText>{\rtf1\ansi&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
+&#xD;&#xD;
+\f1\fs24\i0\b0\cf1\par&#xD;&#xD;
+\b Edam cheese\b0  (100 g)\par&#xD;&#xD;
+protein:\tab\tab 26 g\par&#xD;&#xD;
+carbohydrate:\tab 0 g\par&#xD;&#xD;
+fat:\tab\tab 23 g\par&#xD;&#xD;
+energy:\tab\tab ... kcal\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b Chicken breast\b0  (100 g)\par&#xD;&#xD;
+protein:\tab\tab 15 g\par&#xD;&#xD;
+carbohydrate:\tab 15 g\par&#xD;&#xD;
+fat:\tab\tab 16 g\par&#xD;&#xD;
+energy:\tab\tab ... kcal\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b Tomato sauce\b0  (100 g)\par&#xD;&#xD;
+protein:\tab\tab 2 g\par&#xD;&#xD;
+carbohydrate:\tab 14 g\par&#xD;&#xD;
+fat:\tab\tab 1 g\par&#xD;&#xD;
+energy:\tab\tab ... kcal\par&#xD;&#xD;
+\par&#xD;&#xD;
+\b Salami\b0  (100 g)\par&#xD;&#xD;
+protein:\tab\tab 23 g\par&#xD;&#xD;
+carbohydrate:\tab 0 g\par&#xD;&#xD;
+fat:\tab\tab 44 g\par&#xD;&#xD;
+energy:\tab\tab ... kcal\par&#xD;&#xD;
+\b\par&#xD;&#xD;
+Onions\b0  (100 g)\par&#xD;&#xD;
+protein:\tab\tab 1 g\par&#xD;&#xD;
+carbohydrate:\tab 9 g\par&#xD;&#xD;
+fat:\tab\tab 0 g\par&#xD;&#xD;
+energy:\tab\tab ... kcal\par&#xD;&#xD;
+\b\par&#xD;&#xD;
+Pineapple\b0  (100 g)\par&#xD;&#xD;
+protein:\tab\tab 1 g\par&#xD;&#xD;
+carbohydrate:\tab 23 g\par&#xD;&#xD;
+fat:\tab\tab 0 g\par&#xD;&#xD;
+energy:\tab\tab ... kcal\par&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

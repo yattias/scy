@@ -12,7 +12,7 @@
           <dateTime>2011-01-26T17:54:25.140+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>6</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -34,27 +34,19 @@
         <string language="en">Individual Report</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAA+CAYAAAC875yHAAAB+klEQVR42u3csUsbYRjH8ftLOrg0cwenjm4Zi0uXOpeqFOxoh3YRqhR0aYcqkVAJYtFKyJLaKUsTkXpLMW2uRhOaSDIkQs5cwqPvC+9xZwyWCCHC94Ef75vn3uPNfXJ3Y6xyuSyNRuPGdDodckssBVitVntSq9UknU5LvV4PJRaLSaFQCMV13Z51/RKPx3t6yWTyxrXqR7ze63a7er9RSQ/g7z/lEODhyYVkC64fBagu5NX6T/+ims2mHoPrzLFgL7GzpwGdMy/UN4C5q7mJAQyueza3LJ7n6f1GJT5gItsQ++pLvvzcCgF+2z+Vc7cjf/958jXj+IB7P37Jxy+Z0N2hjs+/+6THYG/88YQeDeBB/kyi0ahEIhHdN4Bq/npx1T9fAaq5ZVl6fDq7JO12+7/v9mHEB0wfufJ260IePbFDgBupfVnbyMnU+2P5sJnxAbd3U/JiekbPK5WKHtVxE7NBsGcAv2fz8mDsoY7qG8Dr5ytA8/nNSkImny/ox0btNyoZ6B1o23YopVJpaO/AVqul9xuVaMB+F+s4DrklVrFYFDJ4LKHuVAACCCCAAFIAAggggBSAAAIIIAUggAACSAEIIIAAUgACCCCAFIAAAgggBSCAAAJIAQgggABSAAIIIIAUgAACCCCAFIAAAgggBSCA9xJQ/RcVGTyXB7BkPFg7Ua8AAAAASUVORK5CYII=</base64>
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\f1\fs24\i0\b0\cf1\par
+<RichText>{\rtf1\ansi&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
+&#xD;&#xD;
+\f1\fs24\i0\b0\cf1\par&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

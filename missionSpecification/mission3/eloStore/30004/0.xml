@@ -12,7 +12,7 @@
           <dateTime>2011-01-18T16:05:53.640+0100</dateTime>
         </date>
       </contribute>
-      <version>2</version>
+      <version>8</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -34,16 +34,8 @@
         <string language="en">Food And Exercise Diary</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAFoElEQVR42u1bPUhlRxR+YCOIxTbKswgxhRAXRbcQ0imJnQ8sgrIWaiyUoBZBFmVBFAV/QNfiyaLIRo3xRUExaBMVVBALDQHTaboUio0WWmihnOSb5Qzz5t3ne65749zNGTjcOTNn5t77vbkz53wzL0QOpoE3URp5FwuEhFwEMPrrNv3yNwVCBEABUABMSC+bWujFN5E4aY/GBMCHjkAAxw/6ZueYfvrrml79uKaE86/nN1X9xB9nuk4A9ADw2x966e3vp/T96Ay9PTihz74sVtfh3/6k1z9v0FeRWqVDPn9eKgAmA/DVu1WlP8vNU1cuC39RoGwgz3LCAuBDAXzxdZW2xecsAD4QwO/6xvWCg09aABQ3RgAUANMBsL+/n4aHh52SgYEBGh0dDYSEpqam6Pj42CnZ3t6moCQBUAAUAD0B7O3tVRKLxdSD7uzs6DI7wcasu7y81DryqRLu6dU35jivxLZopwDc29ujtrY2ZwAsLy/XD7u2tkYnJyfU09Ojy6qqqnT+9PSUVldXtQ67cDis9by8vJQAmv1xW1wzMjISbM3+IpHIewCnp6cFQAvAZG09AcRD/18ARH8QAfADAURfkI8KYFdXF7W3tzsDIE/S5kJg6rywACy7zlyAki06yRYFCC8cyGdnZ+v2AIsXFtNe3BjxAwXAYAMoZIKQCfIJC4ACoHsAcsRwcHCgH/b6+prOzs4SXgI2ZoQBO9aRT5XQpx2hsI7nsRPXoV2osbGRcnJyqLOz0xkA4bRyxLCwsKAeFBN2bm5uXNTBLw8bth8ZGaHi4mKtI58q1dbWavvS0lJqaGjQuu2Io57r0E6PQJciEa9Qzits85tM4IgkZSgHOsulEegngLCHpALw5uZG2WFE3wsgRt7Y2JhTc6CfAMLW7sMLwNbW1gS7pABWVFQocQXA5uZmPVGPj4/T+fm5Kp+dnaXu7m69sAAs1MGG7efn56mmpkbryKdKAIvt6+vrFTCs88LCZALquRztnF2FeaIGQEzTe5UhQTdpqtvbW60jnyphpTbbm/2ZZTYlhnbiB4oj/cQADg0NEUB0SaLRqCJNgyAyAuUTFgAFQD8A5IiB3YerqyvPKALp4uIiru7u7k7r6bgxHHWYfbPudbKB65Qbw440gnVXAGxpadERAzvScJq5rK+vT78MO9Jch4kdQT7ryKfjSLM9iASw9KzbsTDquS7OkQ4CmfBfn0xIm0woLCx0fmPdHAFmVOAXgBsbG6qtuaF/78kE10cgn86yCc6HAui12f6oEegqocoT9eLioiJNOzo6EhYWgMWEKteBfioqKtJ6OoQqCAe2LykpUYQB6/bJBNRzXRyh6toqzBP1/v5+HA1llh0dHakrdJOmwurIerqUvk1zsW7ew65TlL74geJIPy2A8P+Wl5edkpmZGbVoBEFkBMonLAAKgALgvw89NzcXuCO+vLHkxxFfPs5rh3KeR3yxsZ6VlSVkghHKcQSUMhbmjfUgsDF4YIgZFfgBIOgsvkdaAIIPzM/Pp+rq6k9+BKKt2d4LQPCNbFdQUPBpsDHmGRV+YZT5zQfyCASNdi+AQfyzIa/Wfv3Z0L6HvejoPxuKGyN+4NMBiFMAW1tbTsnS0pJzP2oyCU1MTNDh4aFTsr6+ruauIIh8wjIHCoDBBnBwcJAwD0JcAXByclJHAtj9540hXMvKyhJOl8KG7dEecSzryKdKONnA9pubm8pBZt2OWlDP5WgXqquro5WVFdrd3XU+FsYWZWVl5aP2hdOJRHgL0yslRCIAsKmpySk6ywtAe3/WTwDNyCatox1BiIXxYpDMzEy18f2hAHI/H+1kArMxQTkbY45AjBS/6CwbQC4LDJnAE7V5lA3J1PGfEC4zJ3wc/WDdPIiULIH7sxcM1s172HVoJ26M+IFPDKDEwo+MhYWNeZz8A7KRWU7AbBQNAAAAAElFTkSuQmCC</base64>
