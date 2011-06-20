@@ -59,6 +59,7 @@ import eu.scy.client.tools.copex.common.InitialProcedure;
 import eu.scy.client.tools.copex.common.MaterialStrategy;
 import eu.scy.client.tools.copex.common.TypeMaterial;
 import eu.scy.client.tools.copex.controller.CopexControllerAuth;
+import eu.scy.client.tools.copex.controller.CopexControllerLabBook;
 import eu.scy.client.tools.copex.db.DataBaseCommunication;
 import eu.scy.client.tools.copex.edp.CopexSwingWorker;
 import eu.scy.client.tools.copex.edp.CopexTabbedPane;
@@ -220,7 +221,8 @@ public class CopexPanel extends JPanel implements PropertyChangeListener{
       setSize(PANEL_WIDTH, PANEL_HEIGHT);
       setCursor(new Cursor(Cursor.WAIT_CURSOR));
       if(url != null){
-          this.controller = new CopexControllerDB(this, url);
+          //this.controller = new CopexControllerDB(this, url);
+          this.controller = new CopexControllerLabBook(this, url);
       }else
           this.controller = new CopexController(this) ;
       
@@ -1070,4 +1072,11 @@ public class CopexPanel extends JPanel implements PropertyChangeListener{
             progressBar.setValue(progress);
         } 
     }
+
+    public String getPreview(){
+        if(activCopex != null){
+            return activCopex.getPreview();
+        }
+        return "";
+     }
 }

@@ -15,6 +15,7 @@
     <quantities>
         <quantity>
             <id>QUANTITY_LG</id>
+            <dbKey>1</dbKey>
             <min_value>0</min_value>
             <name  language="fr">Longueur</name>
             <name language="en">Lenght</name>
@@ -22,6 +23,7 @@
             <symbol language="en">Lg</symbol>
             <unit>
                 <id>UNIT_M</id>
+                <dbKey>1</dbKey>
                 <factor>1</factor>
                 <symbol language="fr">m</symbol>
                 <symbol language="en">m</symbol>
@@ -30,6 +32,7 @@
             </unit>
             <unit>
                 <id>UNIT_CM</id>
+                <dbKey>34</dbKey>
                 <factor>0,01</factor>
                 <symbol language="fr">cm</symbol>
                 <symbol language="en">cm</symbol>
@@ -38,6 +41,7 @@
             </unit>
             <unit>
                 <id>UNIT_MM</id>
+                <dbKey>27</dbKey>
                 <factor>0,001</factor>
                 <symbol language="fr">mm</symbol>
                 <symbol language="en">mm</symbol>
@@ -46,6 +50,7 @@
             </unit>
             <unit>
                 <id>UNIT_NM</id>
+                <dbKey>35</dbKey>
                 <factor>0,000000001</factor>
                 <symbol language="fr">nm</symbol>
                 <symbol language="en">nm</symbol>
@@ -55,6 +60,7 @@
         </quantity>
         <quantity>
             <id>QUANTITY_MASSE</id>
+            <dbKey>2</dbKey>
             <min_value>0</min_value>
             <name language="fr">Masse</name>
             <name language="en">Mass</name>
@@ -62,6 +68,7 @@
             <symbol language="en">m</symbol>
             <unit>
                 <id>UNIT_G</id>
+                <dbKey>28</dbKey>
                 <factor>1</factor>
                 <symbol language="fr">g</symbol>
                 <symbol language="en">g</symbol>
@@ -70,6 +77,7 @@
             </unit>
             <unit>
                 <id>UNIT_KG</id>
+                <dbKey>2</dbKey>
                 <factor>1000</factor>
                 <symbol language="fr">kg</symbol>
                 <symbol language="en">kg</symbol>
@@ -78,6 +86,7 @@
             </unit>
             <unit>
                 <id>UNIT_MG</id>
+                <dbKey>36</dbKey>
                 <factor>0,001</factor>
                 <symbol language="fr">mg</symbol>
                 <name language="fr">milligramme</name>
@@ -87,6 +96,7 @@
         </quantity>
         <quantity>
             <id>QUANTITY_TPS</id>
+            <dbKey>3</dbKey>
             <min_value>0</min_value>
             <name language="fr">Temps</name>
             <name language="en">Time</name>
@@ -94,6 +104,7 @@
             <symbol language="en">T</symbol>
             <unit>
                 <id>UNIT_S</id>
+                <dbKey>3</dbKey>
                 <factor>1</factor>
                 <symbol language="fr">s</symbol>
                 <symbol language="en">s</symbol>
@@ -102,6 +113,7 @@
             </unit>
             <unit>
                 <id>UNIT_MIN</id>
+                <dbKey>4</dbKey>
                 <factor>60</factor>
                 <symbol language="fr">min</symbol>
                 <symbol language="en">min</symbol>
@@ -110,6 +122,7 @@
             </unit>
             <unit>
                 <id>UNIT_H</id>
+                <dbKey>5</dbKey>
                 <factor>3600</factor>
                 <symbol language="fr">h</symbol>
                 <symbol language="en">h</symbol>
@@ -119,6 +132,7 @@
         </quantity>
         <quantity>
             <id>QUANTITY_MATIERE</id>
+            <dbKey>4</dbKey>
             <min_value>0</min_value>
             <name language="fr">Quantité de matière</name>
             <name language="en">Quantity</name>
@@ -126,6 +140,7 @@
             <symbol language="en">q</symbol>
             <unit>
                 <id>UNIT_MOL</id>
+                <dbKey>6</dbKey>
                 <factor>1</factor>
                 <symbol language="fr">mol</symbol>
                 <symbol language="en">mol</symbol>
@@ -135,12 +150,14 @@
         </quantity>
         <quantity>
             <id>QUANTITY_TEMP</id>
+            <dbKey>5</dbKey>
             <name language="fr">Température</name>
             <name language="en">Temperature</name>
             <symbol language="fr">t°</symbol>
             <symbol language="en">t°</symbol>
             <unit>
                 <id>UNIT_K</id>
+                <dbKey>7</dbKey>
                 <factor>1</factor>
                 <symbol language="fr">K</symbol>
                 <name language="fr">Kelvin</name>
@@ -149,6 +166,7 @@
             </unit>
             <unit>
                 <id>UNIT_CELSIUS</id>
+                <dbKey>8</dbKey>
                 <factor>273,15</factor>
                 <symbol language="fr">°C</symbol>
                 <name language="fr">Degré Celsius</name>
@@ -158,12 +176,14 @@
         </quantity>
         <quantity>
             <id>QUANTITY_VOLUME</id>
+            <dbKey>6</dbKey>
             <name language="fr">Volume</name>
             <symbol language="fr">V</symbol>
             <name language="en">Volume</name>
             <symbol language="en">V</symbol>
             <unit>
                 <id>UNIT_METRE_CUBE</id>
+                <dbKey>9</dbKey>
                 <factor>1</factor>
                 <symbol language="fr">m3</symbol>
                 <name language="fr">Mètre Cube</name>
@@ -172,6 +192,7 @@
             </unit>
             <unit>
                 <id>UNIT_LITRE</id>
+                <dbKey>10</dbKey>
                 <factor>0,001</factor>
                 <symbol language="fr">L</symbol>
                 <name language="fr">litre</name>
@@ -180,6 +201,7 @@
             </unit>
             <unit>
                 <id>UNIT_MLITRE</id>
+                <dbKey>37</dbKey>
                 <factor>0,00001</factor>
                 <symbol language="fr">mL</symbol>
                 <name language="fr">millilitre</name>
@@ -188,6 +210,7 @@
             </unit>
             <unit>
                 <id>UNIT_MICROLITRE</id>
+                <dbKey>38</dbKey>
                 <factor>0,00000001</factor>
                 <symbol language="fr">microL</symbol>
                 <name language="fr">microlitre</name>
@@ -197,12 +220,14 @@
         </quantity>
         <quantity>
             <id>QUANTITY_FORCE</id>
+            <dbKey>7</dbKey>
             <name language="fr">Force</name>
             <symbol language="fr">F</symbol>
             <name language="en">Force</name>
             <symbol language="en">F</symbol>
             <unit>
                 <id>UNIT_NEWTON</id>
+                <dbKey>11</dbKey>
                 <factor>1</factor>
                 <symbol language="fr">N</symbol>
                 <name language="fr">Newton</name>
@@ -212,12 +237,14 @@
         </quantity>
         <quantity>
             <id>QUANTITY_PRESSION</id>
+            <dbKey>8</dbKey>
             <name language="fr">Pression</name>
             <symbol language="fr">P</symbol>
             <name language="en">Pression</name>
             <symbol language="en">P</symbol>
             <unit>
                 <id>UNIT_PASCAL</id>
+                <dbKey>12</dbKey>
                 <factor>1</factor>
                 <symbol language="fr">Pa</symbol>
                 <name language="fr">Pascal</name>
@@ -226,6 +253,7 @@
             </unit>
             <unit>
                 <id>UNIT_ATM</id>
+                <dbKey>13</dbKey>
                 <factor>1</factor>
                 <symbol language="fr">atm</symbol>
                 <name language="fr">Atmosphère</name>
@@ -234,6 +262,7 @@
             </unit>
             <unit>
                 <id>UNIT_BAR</id>
+                <dbKey>14</dbKey>
                 <factor>1</factor>
                 <symbol language="fr">bar</symbol>
                 <name language="fr">Bar</name>
@@ -242,6 +271,7 @@
             </unit>
             <unit>
                 <id>UNIT_TORR</id>
+                <dbKey>15</dbKey>
                 <factor>1</factor>
                 <symbol language="fr">torr</symbol>
                 <name language="fr">Torr</name>
@@ -251,12 +281,14 @@
         </quantity>
         <quantity>
             <id>QUANTITY_ENERGIE</id>
+            <dbKey>9</dbKey>
             <name language="fr">Energie</name>
             <symbol language="fr">E</symbol>
             <name language="en">Energy</name>
             <symbol language="en">E</symbol>
             <unit>
                 <id>UNIT_JOULE</id>
+                <dbKey>16</dbKey>
                 <factor>1</factor>
                 <symbol language="fr">J</symbol>
                 <name language="fr">Joule</name>
@@ -265,6 +297,7 @@
             </unit>
             <unit>
                 <id>UNIT_CAL</id>
+                <dbKey>17</dbKey>
                 <factor>4,1855</factor>
                 <symbol language="fr">cal</symbol>
                 <name language="fr">Calorie</name>
@@ -273,6 +306,7 @@
             </unit>
             <unit>
                 <id>UNIT_EVOLT</id>
+                <dbKey>18</dbKey>
                 <factor>1</factor>
                 <symbol language="fr">eV</symbol>
                 <name language="fr">Electron volt</name>
@@ -282,12 +316,14 @@
         </quantity>
         <quantity>
             <id>QUANTITY_ELEC</id>
+            <dbKey>10</dbKey>
             <name language="fr">Quantité électricité</name>
             <symbol language="fr">q</symbol>
             <name language="en">Quantity electricity</name>
             <symbol language="en">q</symbol>
             <unit>
                 <id>UNIT_COULOMB</id>
+                <dbKey>19</dbKey>
                 <factor>1</factor>
                 <symbol language="fr">C</symbol>
                 <name language="fr">Coulomb</name>
@@ -296,6 +332,7 @@
             </unit>
             <unit>
                 <id>UNIT_ELECTRON</id>
+                <dbKey>20</dbKey>
                 <factor>1</factor>
                 <symbol language="fr">e</symbol>
                 <name language="fr">Charge de l'électron</name>
@@ -304,6 +341,7 @@
             </unit>
             <unit>
                 <id>UNIT_FARADAY</id>
+                <dbKey>21</dbKey>
                 <factor>1</factor>
                 <symbol language="fr">F</symbol>
                 <name language="fr">Faraday</name>
@@ -313,12 +351,14 @@
         </quantity>
         <quantity>
             <id>QUANTITY_INTENSITE</id>
+            <dbKey>11</dbKey>
             <name language="fr">Intensité courant</name>
             <symbol language="fr">I</symbol>
             <name language="en">Strength</name>
             <symbol language="en">I</symbol>
             <unit>
                 <id>UNIT_AMPERE</id>
+                <dbKey>22</dbKey>
                 <factor>1</factor>
                 <symbol language="fr">A</symbol>
                 <name language="fr">Ampère</name>
@@ -328,12 +368,14 @@
         </quantity>
         <quantity>
             <id>QUANTITY_MOMENT_DIPOLAIRE</id>
+            <dbKey>12</dbKey>
             <name language="fr">Moment dipolaire</name>
             <symbol language="fr">d</symbol>
             <name language="en">Dipole moment</name>
             <symbol language="en">d</symbol>
             <unit>
                 <id>UNIT_DEBYE</id>
+                <dbKey>23</dbKey>
                 <factor>1</factor>
                 <symbol language="fr">D</symbol>
                 <name language="fr">Debye</name>
@@ -343,17 +385,90 @@
         </quantity>
         <quantity>
             <id>QUANTITY_MATIERE_VOL</id>
+            <dbKey>26</dbKey>
             <name language="fr">Quantité de matière par volume</name>
             <symbol language="fr">q</symbol>
             <name language="en">Quantity matter per volume</name>
             <symbol language="en">q</symbol>
             <unit>
                 <id>UNIT_MOL_LITRE</id>
+                <dbKey>39</dbKey>
                 <factor>1</factor>
                 <symbol language="fr">mol.L-1</symbol>
                 <name language="fr">mole par litre</name>
                 <symbol language="en">mol.L-1</symbol>
                 <name language="en">mole a liter</name>
+            </unit>
+        </quantity>
+        <quantity>
+            <id>QUANTITY_VOLUME_MASSE</id>
+            <dbKey>27</dbKey>
+            <name language="fr">Volume/Masse</name>
+            <symbol language="fr">V/m</symbol>
+            <name language="en">Volume/Mass</name>
+            <symbol language="en">V/m</symbol>
+            <unit>
+                <id>UNIT_G</id>
+                <dbKey>28</dbKey>
+                <factor>1</factor>
+                <symbol language="fr">g</symbol>
+                <symbol language="en">g</symbol>
+                <name language="fr">gramme</name>
+                <name language="en">gram</name>
+            </unit>
+            <unit>
+                <id>UNIT_KG</id>
+                <dbKey>2</dbKey>
+                <factor>1000</factor>
+                <symbol language="fr">kg</symbol>
+                <symbol language="en">kg</symbol>
+                <name language="fr">kilogramme</name>
+                <name language="en">kilogram</name>
+            </unit>
+            <unit>
+                <id>UNIT_MG</id>
+                <dbKey>36</dbKey>
+                <factor>0,001</factor>
+                <symbol language="fr">mg</symbol>
+                <name language="fr">milligramme</name>
+                <symbol language="en">mg</symbol>
+                <name language="en">milligram</name>
+            </unit>
+            <unit>
+                <id>UNIT_METRE_CUBE</id>
+                <dbKey>9</dbKey>
+                <factor>1</factor>
+                <symbol language="fr">m3</symbol>
+                <name language="fr">Mètre Cube</name>
+                <symbol language="en">m3</symbol>
+                <name language="en">cubic meter</name>
+            </unit>
+            <unit>
+                <id>UNIT_LITRE</id>
+                <dbKey>10</dbKey>
+                <factor>0,001</factor>
+                <symbol language="fr">L</symbol>
+                <name language="fr">litre</name>
+                <symbol language="en">L</symbol>
+                <name language="en">liter</name>
+            </unit>
+            <unit>
+                <id>UNIT_MLITRE</id>
+                <dbKey>37</dbKey>
+                <factor>0,00001</factor>
+                <symbol language="fr">mL</symbol>
+                <name language="fr">millilitre</name>
+                <symbol language="en">mL</symbol>
+                <name language="en">milliliter</name>
+            </unit>
+            <unit>
+                <id>UNIT_MICROLITRE</id>
+                <dbKey>138</dbKey>
+                <factor>0,00000001</factor>
+                <symbol language="fr">microL</symbol>
+                <name language="fr">microlitre</name>
+                <symbol language="en">microL</symbol>
+                <name language="en">microliter</name>
             </unit>
         </quantity>
     </quantities>

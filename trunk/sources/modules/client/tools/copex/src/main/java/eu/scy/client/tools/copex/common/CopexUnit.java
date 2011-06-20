@@ -46,6 +46,12 @@ public class CopexUnit implements Cloneable{
         if (xmlElem.getName().equals(TAG_UNIT)) {
             id = xmlElem.getChild(TAG_UNIT_ID).getText();
             this.dbKey = dbKey;
+            if(xmlElem.getChild("dbKey") != null){
+                try{
+                    this.dbKey = Long.parseLong(xmlElem.getChild("dbKey").getText());
+                }catch(NumberFormatException ex){
+                }
+            }
             listName = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_UNIT_NAME).iterator(); variableElem.hasNext();) {
                 Element e = variableElem.next();

@@ -7,13 +7,22 @@ package eu.scy.client.tools.copex.controller;
 
 
 import eu.scy.client.tools.copex.common.*;
+import eu.scy.client.tools.copex.db.AccesDB;
+import eu.scy.client.tools.copex.db.DataBaseCommunication;
+import eu.scy.client.tools.copex.db.ExperimentalProcedureFromDB;
+import eu.scy.client.tools.copex.db.LabBookFromDB;
 import eu.scy.client.tools.copex.dnd.SubTree;
 import eu.scy.client.tools.copex.main.CopexPanel;
 import eu.scy.client.tools.copex.edp.TaskSelected;
 import eu.scy.client.tools.copex.logger.CopexProperty;
 import eu.scy.client.tools.copex.logger.TaskTreePosition;
+import eu.scy.client.tools.copex.print.CopexHTML;
 import eu.scy.client.tools.copex.print.PrintPDF;
+import eu.scy.client.tools.copex.synchro.Locker;
+import eu.scy.client.tools.copex.synchro.Saver;
 import eu.scy.client.tools.copex.utilities.*;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -27,13 +36,15 @@ import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * le 03/03/09 : many initial proc linked to a mission
  * copex controller, for scy or standalone app
  * @author Marjolaine
  */
-public class CopexController implements ControllerInterface {
+public class CopexControllerLabBook implements ControllerInterface {
     private final static boolean mission1= true;
 
     /*locale */
@@ -96,9 +107,19 @@ public class CopexController implements ControllerInterface {
 
     private String copexConfigFileName = "copex.xml";
 
+    private CopexHTML copexHtml;
+    /*URL */
+    private URL copexURL;
+    /* database access */
+    private AccesDB db;
+    /* locker */
+    private Locker locker;
 
-    public CopexController(CopexPanel copex) {
+
+    public CopexControllerLabBook(CopexPanel copex, URL copexURL) {
         this.copex = copex;
+        this.copexURL = copexURL;
+        this.copexHtml = new CopexHTML(copex);
     }
 
     /* loggin? */
@@ -119,11 +140,14 @@ public class CopexController implements ControllerInterface {
         this.locale = locale;
         this.fileMission = fileMission;
         this.dbKeyUser = 1;
+        this.dbKeyLabDoc = dbKeyLabDoc;
+        copex.setProgress(5);
         // load parameters
         // read copex file config
         CopexReturn cr = loadCopexConfig();
         if(cr.isError())
             return cr;
+        copex.setProgress(20);
         // load material type
         //defaultMaterialType = new TypeMaterial(idTypeMaterial++, CopexUtilities.getLocalText(copex.getBundleString("DEFAULT_TYPE_MATERIAL"), getLocale()));
         for(Iterator<TypeMaterial> type = config.getListTypeMaterial().iterator();type.hasNext();){
@@ -133,15 +157,45 @@ public class CopexController implements ControllerInterface {
                 break;
             }
         }
+        // initialization of the access to database
+        db = new AccesDB(copexURL, dbKeyMission, idUser);
+        this.dbKeyUser = Long.parseLong(idUser);
+        db.setIdUser(""+dbKeyUser);
+        this.dbKeyGroup = dbKeyGroup;
+        // LOCKER
+        DataBaseCommunication dbLabBook = new DataBaseCommunication(copexURL, MyConstants.DB_LABBOOK, dbKeyMission, idUser);
+        this.locker = new Locker(copex, dbLabBook, dbKeyUser);
         // load user : name, first name
         group = new CopexGroup(1, new LinkedList());
-
         // load mission
-        cr = loadCopexMission();
+        ArrayList v = new ArrayList();
+        cr = db.getMissionFromDB(dbKeyMission, v);
+        if (cr.isError()){
+            msgError += cr.getText();
+        }else{
+            mission = (CopexMission)v.get(0);
+        }
+        copex.setProgress(30);
+        if (mission == null)
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_NULL_MISSION"), false);
+        v = new ArrayList();
+        cr = LabBookFromDB.getInitialProcedureMissionFromDB(db.getDbC(), dbKeyMission, v);
         if(cr.isError())
             return cr;
+        Element missionElem = (Element)v.get(0);
+        try {
+            mission = new CopexMission(missionElem, getLocale(), idMission++, idProc++, idRepeat++, idParam++, idValue++, idAction++, idActionParam++, idQuantity++, idMaterial++, idTask++, idHypothesis++, idGeneralPrinciple++, idEvaluation++, idTypeMaterial++, idInitialAction++, idOutput++, config.getListMaterial(), config.getListTypeMaterial(), listPhysicalQuantity, config.getListInitialNamedAction(), config.getListMaterialStrategy());
+            dbKeyProblem();
+        } catch (JDOMException ex) {
+            Logger.getLogger(CopexControllerLabBook.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        copex.setProgress(40);
         List<InitialProcedure> listInitialProc = mission.getListInitialProc();
-        
+
+//        cr = loadCopexMission();
+//        if(cr.isError())
+//            return cr;
+//        List<InitialProcedure> listInitialProc = mission.getListInitialProc();
         listProc = new ArrayList();
         boolean allProcLocked = false;
         // load datasheet : none for the initial proc
@@ -153,7 +207,74 @@ public class CopexController implements ControllerInterface {
         if (cr.isError()){
             msgError += cr.getText();
         }
-        
+        //load proc
+        v = new ArrayList();
+        cr = LabBookFromDB.getAllExperimentalProcedureFromDB(db.getDbC(), locker,dbKeyLabDoc, v);
+        if (cr.isError()){
+            return cr;
+        }
+        copex.setProgress(50);
+        ArrayList<String> listProcLocked = new ArrayList();
+        if(!v.isEmpty()){
+            Element e =  (Element)v.get(0);
+            if(e != null){
+                LearnerProcedure proc =getLearnerProc(e);
+                proc.setDbKeyLabDoc(dbKeyLabDoc);
+                setLockers(listProc);
+                copex.setProgress(60);
+            }
+        }else{
+            // try to load an "old" proc
+            db.getDbC().updateDb(MyConstants.DB_LABBOOK_COPEX);
+            v = new ArrayList();
+            cr = ExperimentalProcedureFromDB.controlLearnerProcInDB(db.getDbC(),dbKeyLabDoc,  v );
+            if (cr.isError()){
+                msgError += cr.getText();
+            }else{
+                copex.setProgress(60);
+                boolean isLearnerProc = (Boolean)v.get(0);
+                if(isLearnerProc){
+                    ArrayList<Long> listIdInitProc = (ArrayList<Long>)v.get(1);
+                    v = new ArrayList();
+                    // load proc.
+                    ArrayList<PhysicalQuantity> listPhysicalQuantityC = new ArrayList();
+                    int nbPhysQ = this.listPhysicalQuantity.size();
+                    for (int k=0; k<nbPhysQ; k++){
+                        listPhysicalQuantityC.add(this.listPhysicalQuantity.get(k));
+                    }
+                    ArrayList<MaterialStrategy> listMaterialStrategyC = new ArrayList();
+                    int nb = this.listMaterialStrategy.size();
+                    for (int k=0; k<nb; k++){
+                        listMaterialStrategyC.add(this.listMaterialStrategy.get(k));
+                    }
+                    cr = ExperimentalProcedureFromDB.getProcMissionFromDB(db.getDbC(), locker, locale, dbKeyMission, dbKeyLabDoc, listIdInitProc, listPhysicalQuantityC,listMaterialStrategyC, v);
+                    if (cr.isError()){
+                            msgError += cr.getText();
+                    }else{
+                        listProc = (ArrayList<LearnerProcedure>)v.get(0);
+                        listInitialProc = (ArrayList<InitialProcedure>)v.get(1);
+                        listProcLocked = (ArrayList<String>)v.get(2);
+                        allProcLocked = (Boolean)v.get(3);
+                    }
+                    copex.setProgress(70);
+                }
+            }
+            copex.setProgress(80);
+            mission.setListInitialProc(listInitialProc);
+            mission.setListType(getListType(listInitialProc));
+            setLockers(listProc);
+            int nbP = listProc.size();
+            for (int k=0; k<nbP; k++){
+                listProc.get(k).setMission(mission);
+                cr = db.updateProcName(listProc.get(k).getDbKey(), labDocName);
+                if (cr.isError())
+                    return cr;
+                listProc.get(k).setName(labDocName);
+                listProc.get(k).lockMaterialUsed();
+            }
+            db.getDbC().updateDb(MyConstants.DB_LABBOOK);
+        }
+        copex.setProgress(90);
         // result
         cr = new CopexReturn();
         if(msgError.length() > 0)
@@ -176,6 +297,7 @@ public class CopexController implements ControllerInterface {
         for (int k=0; k<nbPhysQ; k++){
             listPhysicalQuantityC.add((PhysicalQuantity)this.listPhysicalQuantity.get(k).clone());
         }
+        copex.setProgress(100);
         copex.initEdp(m, listP, listPhysicalQuantityC);
         // if there is no proc, create
         // MBo - 27/02/2009 : if all proc. of the mission are locked => don't create a new
@@ -192,13 +314,57 @@ public class CopexController implements ControllerInterface {
         }
         if (listProc.size() > 0)
             printRecap(listProc.get(0));
-        ArrayList<String> listProcLocked = new ArrayList();
         copex.displayProcLocked(listProcLocked);
+        Saver saver = new Saver(copex, dbLabBook, dbKeyUser);
         if (askForInitProc)
             copex.askForInitialProc();
         return cr;
     }
 
+    private CopexReturn insertInitialProcedureInDB(){
+        InputStreamReader fileReader = null;
+        SAXBuilder builder = new SAXBuilder(false);
+        File file = new File("C:/Users/Marjolaine/Documents/LabBook/LabBook/missions/dipole/mission_dipole.xml");
+        long dbKeyMiss = 11;
+        try{
+            //InputStream s = this.getClass().getClassLoader().getResourceAsStream("config/"+copexConfigFileName);
+            fileReader = new InputStreamReader(new FileInputStream(file), "utf-8");
+            //fileReader = new InputStreamReader(s, "utf-8");
+            Document doc = builder.build(fileReader);
+            Element ip = doc.getRootElement();
+            CopexReturn cr = LabBookFromDB.saveInitialProcedureInDB(db.getDbC(), dbKeyMiss, ip);
+            return cr;
+        }catch(IOException e1){
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_LOAD_COPEX_CONFIG")+" "+e1, false);
+        }catch(JDOMException e2){
+            return new CopexReturn(copex.getBundleString("MSG_ERROR_LOAD_COPEX_CONFIG")+" "+e2, false);
+        }
+    }
+
+
+    private static List<TypeMaterial> getListType(List<InitialProcedure> listInitProc){
+        List<TypeMaterial> list = new LinkedList();
+        for(Iterator<InitialProcedure> p = listInitProc.iterator();p.hasNext();){
+            list.addAll(p.next().getListTypeMaterial());
+        }
+        return list;
+    }
+
+    /* set lockers on a labdoc/proc */
+    private void setLocker(long dbKeylabdoc){
+        this.locker.setLabdocLocker(dbKeylabdoc);
+    }
+
+
+    /* set lockers for a list of proc */
+    private void setLockers(ArrayList<LearnerProcedure> listP){
+        int nb = listP.size();
+        ArrayList listId = new ArrayList();
+        for (int i=0; i<nb; i++){
+            listId.add(listP.get(i).getDbKeyLabDoc());
+        }
+        this.locker.setLabdocLockers(listId);
+    }
     
     private boolean canAddProc(){
         if(mission == null)
@@ -1552,12 +1718,32 @@ public class CopexController implements ControllerInterface {
     public CopexReturn saveProcXML(){
         return new CopexReturn();
     }
+
+    /* unset lockers for a list of proc. */
+    private void unsetLockers(ArrayList<LearnerProcedure> listP){
+        int nb = listP.size();
+        ArrayList listId = new ArrayList();
+        for (int i=0; i<nb; i++){
+            listId.add(listP.get(i).getDbKeyLabDoc());
+        }
+        this.locker.unsetLabdocLockers(listId);
+    }
     
     /* stop copx */
     @Override
     public CopexReturn stopEdP(){
+        if(listProc == null || listProc.isEmpty()){
+            return new CopexReturn();
+        }
+        db.getDbC().updateDb(MyConstants.DB_LABBOOK);
+        CopexReturn cr= LabBookFromDB.setExperimentalProcedureInDB(db.getDbC(), dbKeyLabDoc, copex.getXProc(), copex.getPreview());
+        if(cr.isError())
+            return cr;
+        // unset the lockers
+        unsetLockers(this.listProc);
+        this.locker.stop();
         // save visisble tasks
-        CopexReturn cr = saveTaskVisible();
+        cr = saveTaskVisible();
         if (cr.isError())
                return cr;
         // logging
@@ -1693,13 +1879,22 @@ public class CopexController implements ControllerInterface {
      /* load  ELO*/
     @Override
     public CopexReturn loadELO(Element xmlContent){
+        LearnerProcedure proc = getLearnerProc(xmlContent);
+        copex.createProc((LearnerProcedure)proc.clone());
+        if(setTrace())
+            copex.logLoadELO(proc);
+        return new CopexReturn();
+    }
+
+    private LearnerProcedure getLearnerProc(Element xmlContent){
+        LearnerProcedure proc = null;
         try {
             // load mission
             mission = new CopexMission(xmlContent.getChild(CopexMission.TAG_MISSION), getLocale(), idMission++, idProc++, idRepeat++, idParam++, idValue++,idAction++,idActionParam++, idQuantity++, idMaterial++, idTask++, idHypothesis++, idGeneralPrinciple++, idEvaluation++, idTypeMaterial++, idInitialAction++,idOutput++,
                   config.getListMaterial(), config.getListTypeMaterial(), listPhysicalQuantity, config.getListInitialNamedAction(), config.getListMaterialStrategy() );
 
              // load proc
-            LearnerProcedure proc = new LearnerProcedure(xmlContent.getChild(LearnerProcedure.TAG_LEARNER_PROC), mission,
+            proc = new LearnerProcedure(xmlContent.getChild(LearnerProcedure.TAG_LEARNER_PROC), mission,
                     idProc++, idRepeat++, idParam++, idValue++, idActionParam++, idQuantity++, idMaterial++, idTask++,
                     idHypothesis++, idGeneralPrinciple++, idEvaluation++,
                     mission.getListInitialProc(), mission.getListMaterial(),mission.getListType(),  listPhysicalQuantity);
@@ -1720,13 +1915,10 @@ public class CopexController implements ControllerInterface {
             updateDatasheetProd(proc);
             proc.lockMaterialUsed();
             dbKeyProblem();
-            copex.createProc((LearnerProcedure)proc.clone());
-            if(setTrace())
-                copex.logLoadELO(proc);
         } catch (JDOMException ex) {
-            return new CopexReturn(copex.getBundleString("MSG_ERROR_OPEN_PROC"), false);
+            return null;
         }
-        return new CopexReturn();
+        return proc;
     }
    
      /*  create new ELO*/
@@ -2004,6 +2196,12 @@ public class CopexController implements ControllerInterface {
     /** get export in html format */
     @Override
     public CopexReturn getPreview(ExperimentalProcedure p, ArrayList v){
+        ArrayList v2 = new ArrayList();
+        CopexReturn cr = copexHtml.exportProcHTML(p, v2);
+        if(cr.isError())
+            return cr;
+        String s = (String)v2.get(0);
+        v.add(s);
         return new CopexReturn();
     }
 }

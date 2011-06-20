@@ -122,18 +122,18 @@ public class CopexLabBookApp extends javax.swing.JFrame implements ActionCopex{
         }
         if(args == null || args.length  < 6){
             try {
-                copexURL = new URL("http://localhost/LabBook/pages/");
+                copexURL = new URL("http://localhost/LabBookAuthor/pages/");
                 idUser = "2";
-                mission= "1";
+                mission= "10000";
                 group = "1";
-                labDoc = "10148";
-                labDocName = "default_proc";
+                labDoc = "10157";
+                labDocName = "procMTA";
 //                copexURL = new URL("http://labbook.imag.fr/pages/");
 //                idUser = "1";
-//                mission= "5";
+//                mission= "6";
 //                group = "1";
-//                labDoc = "508";
-//                labDocName = "Détermination du pKa du BBT";
+//                labDoc = "852";
+//                labDocName = "procMTA";
             } catch (MalformedURLException ex) {
 
             }
