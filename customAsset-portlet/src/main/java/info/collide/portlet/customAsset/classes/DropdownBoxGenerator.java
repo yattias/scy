@@ -1,33 +1,10 @@
 package info.collide.portlet.customAsset.classes;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.portlet.PortletMode;
-import javax.portlet.PortletRequest;
-import javax.portlet.PortletURL;
-import javax.portlet.RenderRequest;
-import javax.portlet.WindowState;
-
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.theme.ThemeDisplay;
-import com.liferay.portal.util.PortletKeys;
-import com.liferay.portlet.assetpublisher.util.AssetPublisherUtil;
-import com.liferay.portlet.documentlibrary.model.DLFileEntry;
-import com.liferay.portlet.tags.model.TagsAssetType;
-import com.liferay.portlet.tags.service.TagsAssetServiceUtil;
-import com.liferay.portlet.PortletRequestImpl;
-import com.liferay.portlet.PortletURLImpl;
-import com.liferay.portlet.RenderRequestImpl;
 
 public class DropdownBoxGenerator {
 	
 	private String addNew = "Add new";
 	private String document = "Document";
-	private String dropbox = "";
 	private String image = "Image";
 	private String local = "";
 	private String server = "";
@@ -60,30 +37,54 @@ public class DropdownBoxGenerator {
 	public String getDropdownBox(){
 		
 		if(local.toLowerCase().contains("de")){
-			addNew = "Neues hinzufügen";
+			addNew = "Neues hinzuf&uuml;gen";
 			document = "Dokument";
 			image = "Bild";
 		}
-				
-		dropbox = "<form name=\"formName\" action=\"\"><div><select id=\"selector\" name=\"customAssetURL\" onchange=\"addNewAsset();\"><option value=\"\"><liferay-ui:message key=\"add-new\" />" + addNew + "...</option><option value=\""
-			+ server
-			+ community
-			+ "?p_p_id=20&p_p_lifecycle=0&p_p_state=maximized&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_20_struts_action=%2Fdocument_library" 
-			+ "%2Fedit_file_entry&_20_folderId=0&_20_uploader=classic&_20_redirect=%2Fweb%2Fguest%2F" 
-			+ community
-			+ "&_20_backURL=%2Fweb%2Fguest%2F"
-			+ community
-			+ "&_20_tagsEntries=\"><liferay-ui:message key='<%= \"model.resource.com.liferay.portlet.documentlibrary.model.DLFileEntry\" %>' />" + document + "</option><option value=\""
-			+ server
-			+ community
-			+ "?p_p_id=31&p_p_lifecycle=0&p_p_state=maximized&p_p_mode=view&p_p_col_id=column-2&p_p_col_count=1&_31_struts_action=%2Fimage_gallery%2Fedit_image&_31_folderId=0&_31_uploader=classic&_31_redirect=%2Fweb%2Fguest%2F"
-			+ community
-			+ "&_31_backURL=%2Fweb%2Fguest%2F" 
-			+ community
-			+ "&_31_tagsEntries=\"><liferay-ui:message key='<%= \"model.resource.com.liferay.portlet.imagegallery\" %>' />" + image + "</option></select></div></form>"
-			+ "<script language=\"JavaScript\">function addNewAsset() {var val = document.getElementById(\"selector\").selectedIndex;var url = document.getElementById(\"selector\").options[val].value;if (url != '') {location = url;}	}</script>";
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("<form name=\"formName\" action=\"\"><div><select id=\"selector\" name=\"customAssetURL\" onchange=\"addNewAsset();\"><option value=\"\"><liferay-ui:message key=\"add-new\" />");
+		sb.append(addNew);
+		sb.append("...</option><option value=\"");
+		sb.append(server);
+		sb.append(community);
+		sb.append("?p_p_id=20");
+		sb.append("&p_p_lifecycle=0");
+		sb.append("&p_p_state=maximized");
+		sb.append("&p_p_mode=view");
+		sb.append("&p_p_col_id=column-2");
+	        sb.append("&p_p_col_count=1");
+	        sb.append("&_20_struts_action=%2Fdocument_library%2Fedit_file_entry");
+		sb.append("&_20_folderId=15262"); // folderId 15262 is the "Educational materials" folder
+		sb.append("&_20_uploader=classic");
+		sb.append("&_20_redirect="); 
+		sb.append(community);
+		sb.append("&_20_backURL=");
+		sb.append(community);
+		sb.append("&_20_tagsEntries=\"><liferay-ui:message key='<%= \"model.resource.com.liferay.portlet.documentlibrary.model.DLFileEntry\" %>' />");
+		sb.append(document);
+		sb.append("</option><option value=\"");
+		sb.append(server);
+		sb.append(community);
+		sb.append("?p_p_id=31");
+		sb.append("&p_p_lifecycle=0");
+		sb.append("&p_p_state=maximized");
+		sb.append("&p_p_mode=view");
+		sb.append("&p_p_col_id=column-2");
+		sb.append("&p_p_col_count=1");
+		sb.append("&_31_struts_action=%2Fimage_gallery%2Fedit_image");
+		sb.append("&_31_folderId=10844"); // folderId 10844 is the "SCYCOM picture" folder
+		sb.append("&_31_uploader=classic");
+		sb.append("&_31_redirect=");
+		sb.append(community);
+		sb.append("&_31_backURL="); 
+		sb.append(community);
+		sb.append("&_31_tagsEntries=\"><liferay-ui:message key='<%= \"model.resource.com.liferay.portlet.imagegallery\" %>' />");
+		sb.append(image);
+		sb.append("</option></select></div></form>");
+		sb.append("<script language=\"JavaScript\">function addNewAsset() {var val = document.getElementById(\"selector\").selectedIndex;var url = document.getElementById(\"selector\").options[val].value;if (url != '') {location = url;}	}</script>");
 
-		return dropbox;
+		return sb.toString();
 	}
 
 }
