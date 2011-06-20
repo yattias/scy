@@ -9,8 +9,8 @@
    <bean name="missionConfigInput" class="eu.scy.client.desktop.scydesktop.tools.mission.springimport.BasicMissionConfigInput">
 
       <property name="missionId" value="pizza2"/>
-      <property name="missionTitle" value="A healthy pizza"/>
-      <property name="languageId" value="en"/>
+      <property name="missionTitle" value="Een gezonde pizza"/>
+      <property name="languageId" value="nl"/>
       <property name="xhtmlVersionId" value=""/>
 
       <property name="missionDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/curtain_MISSION.html"/>
@@ -308,7 +308,7 @@
          <list>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="myOptimizedHealthyPizza"/>
-               <property name="uri" value="roolo://memory/30091/0/My+Optimized+Healthy+Pizza.scysimconfig"/>
+               <property name="uri" value="roolo://memory/30094/0/Mijn+geoptimaliseerde+gezonde+pizza.scysimconfig"/>
                <property name="iconType" value="Pizza"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_A.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_27_myOptimizedHealthyPizza.html"/>
@@ -323,7 +323,7 @@
 
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="myFavouritePizza"/>
-               <property name="uri" value="roolo://memory/30089/0/My+Favourite+Pizza.scysimconfig"/>
+               <property name="uri" value="roolo://memory/30092/0/Mijn+favoriete+pizza.scysimconfig"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_A.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_01_myFavouritePizza.html"/>
                <property name="resourcesUri" value=""/>
@@ -337,7 +337,7 @@
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
                <property name="id" value="myFirstHealthyPizza"/>
-               <property name="uri" value="roolo://memory/30090/0/My+First+Healthy+Pizza.scysimconfig"/>
+               <property name="uri" value="roolo://memory/30093/0/Mijn+eerste+gezonde+pizza.scysimconfig"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_A.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_21_myFirstHealthyPizza.html"/>
                <property name="resourcesUri" value=""/>
