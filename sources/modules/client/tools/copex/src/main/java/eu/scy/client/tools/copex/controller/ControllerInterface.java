@@ -114,4 +114,6 @@ public interface ControllerInterface {
     public CopexReturn isLabDocProc(ExperimentalProcedure p, ArrayList v);
     /** returns the copex url */
     public URL getCopexURL();
+    /** get export in html format */
+    public CopexReturn getPreview(ExperimentalProcedure p, ArrayList v) ;
 }

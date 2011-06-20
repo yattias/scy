@@ -430,7 +430,7 @@ public class CopexCellEditor extends JPanel implements TreeCellEditor{
         }else{
             labelNode.setBackground(CopexTreeCellRenderer.BG_COLOR);
             if(textNode != null)
-                textNode.setBackground(CopexTreeCellRenderer.BG_COLOR);
+               textNode.setBackground(CopexTreeCellRenderer.BG_COLOR);
         }
         // resize
         Dimension d = getPanelPreferredSize() ;

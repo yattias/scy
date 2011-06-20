@@ -141,6 +141,12 @@ public class PhysicalQuantity implements Cloneable{
     public PhysicalQuantity(Element xmlElem, long dbKey, long idUnit) throws JDOMException {
 	if (xmlElem.getName().equals(TAG_QUANTITY)) {
             this.dbKey = dbKey;
+            if(xmlElem.getChild("dbKey") != null){
+                try{
+                    this.dbKey = Long.parseLong(xmlElem.getChild("dbKey").getText());
+                }catch(NumberFormatException ex){
+                }
+            }
             id = xmlElem.getChild(TAG_QUANTITY_ID).getText();
             listName = new LinkedList<LocalText>();
             for (Iterator<Element> variableElem = xmlElem.getChildren(TAG_QUANTITY_NAME).iterator(); variableElem.hasNext();) {

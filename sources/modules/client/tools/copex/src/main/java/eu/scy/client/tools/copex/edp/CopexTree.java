@@ -48,6 +48,7 @@ import eu.scy.client.tools.copex.utilities.CopexTreeCellRenderer;
 import eu.scy.client.tools.copex.utilities.CopexTreeSelectionListener;
 import eu.scy.client.tools.copex.utilities.MyBasicTreeUI;
 import eu.scy.client.tools.copex.utilities.MyConstants;
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -100,6 +101,7 @@ public class CopexTree extends JTree implements MouseListener, KeyListener, Mous
     public CopexTree(EdPPanel owner, ExperimentalProcedure proc) {
         this.proc = proc;
         this.owner = owner;
+        this.setBackground(Color.WHITE);
         isEditingNode = false;
         lastPath = null;
         // model creation

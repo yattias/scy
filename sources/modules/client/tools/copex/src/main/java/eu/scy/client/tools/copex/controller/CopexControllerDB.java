@@ -2175,4 +2175,16 @@ public class CopexControllerDB implements ControllerInterface {
     public URL getCopexURL(){
         return this.copexURL;
     }
+
+    /** get export in html format */
+    @Override
+    public CopexReturn getPreview(ExperimentalProcedure p, ArrayList v){
+        ArrayList v2 = new ArrayList();
+        CopexReturn cr = copexHtml.exportProcHTML(p, v2);
+        if(cr.isError())
+            return cr;
+        String s = (String)v2.get(0);
+        v.add(s);
+        return new CopexReturn();
+    }
 }

@@ -5,7 +5,6 @@
 
 package eu.scy.client.tools.copex.main;
 
-import eu.scy.client.tools.copex.main.CopexPanel;
 import eu.scy.client.tools.copex.common.LearnerProcedure;
 import eu.scy.client.tools.copex.logger.CopexProperty;
 import eu.scy.client.tools.copex.utilities.ActionCopex;

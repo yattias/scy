@@ -83,7 +83,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                            <!--<mainClass>eu.scy.tools.copex.edp.CopexApplet</mainClass> -->
-                           <mainClass>eu.scy.client.tools.copex.edp.EdPFrame</mainClass>
+                           <mainClass>eu.scy.client.tools.copex.main.CopexStandAloneApp</mainClass>
                             <classpathPrefix>lib/</classpathPrefix>
                         </manifest>
                     </archive>

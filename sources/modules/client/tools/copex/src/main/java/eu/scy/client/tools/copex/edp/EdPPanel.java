@@ -12,9 +12,11 @@ import eu.scy.client.tools.copex.controller.ControllerInterface;
 import eu.scy.client.tools.copex.dnd.SubTree;
 import eu.scy.client.tools.copex.utilities.*;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics2D;
 import java.awt.IllegalComponentStateException;
 import java.awt.Image;
@@ -174,7 +176,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
      */
     public void setMenuBar(){
         this.menuBar = new JMenuBar();
-        this.menuBar.setLayout( null);
+        this.menuBar.setLayout( new FlowLayout(FlowLayout.LEFT, 0, 0));
         this.menuBar.setSize(this.getWidth(), 28);
         //this.menuBar.setBackground(backgroundColor);
         this.menuBar.setPreferredSize(this.menuBar.getSize());
@@ -204,7 +206,8 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     private JSeparator getSep1(){
         if (sep1 == null){
             sep1 = new JSeparator(JSeparator.VERTICAL);
-            sep1.setBounds(menuItemSave.getX()+menuItemSave.getWidth(), 0, 5, menuBar.getHeight());
+            sep1.setSize(5, menuBar.getHeight());
+            //sep1.setBounds(menuItemSave.getX()+menuItemSave.getWidth(), 0, 5, menuBar.getHeight());
         }
         return sep1;
     }
@@ -212,7 +215,8 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     private JSeparator getSep2(){
         if (sep2 == null){
             sep2 = new JSeparator(JSeparator.VERTICAL);
-            sep2.setBounds(menuArbo.getX()+menuArbo.getWidth(), 0, 5, menuBar.getHeight());
+            sep2.setSize(5, menuBar.getHeight());
+            //sep2.setBounds(menuArbo.getX()+menuArbo.getWidth(), 0, 5, menuBar.getHeight());
         }
         return sep2;
     }
@@ -220,7 +224,8 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
     private JSeparator getSep3(){
         if (sep3 == null){
             sep3 = new JSeparator(JSeparator.VERTICAL);
-            sep3.setBounds(menuItemRedo.getX()+menuItemRedo.getWidth(), 0, 5, menuBar.getHeight());
+            sep3.setSize(5, menuBar.getHeight());
+            //sep3.setBounds(menuItemRedo.getX()+menuItemRedo.getWidth(), 0, 5, menuBar.getHeight());
         }
         return sep3;
     }
@@ -229,7 +234,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         if (menuItemSave == null){
             menuItemSave = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_SAVE"), menuBar.getBackground(),getCopexImage("Bouton-AdT-28_save.png"), getCopexImage("Bouton-AdT-28_save_survol.png"),  getCopexImage("Bouton-AdT-28_save_clic.png"), getCopexImage("Bouton-AdT-28_save_grise.png"));
             menuItemSave.addActionMenuEvent(this);
-            menuItemSave.setBounds(0, 0, menuItemSave.getWidth(), menuItemSave.getHeight());
+           // menuItemSave.setBounds(0, 0, menuItemSave.getWidth(), menuItemSave.getHeight());
         }
         return menuItemSave;
     }
@@ -242,7 +247,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
             if(copexPanel.canSave()){
                 x = sep1.getX()+sep1.getWidth();
             }
-            menuItemHypothesis.setBounds(x, 0, menuItemHypothesis.getWidth(), menuItemHypothesis.getHeight());
+            //menuItemHypothesis.setBounds(x, 0, menuItemHypothesis.getWidth(), menuItemHypothesis.getHeight());
         }
         return menuItemHypothesis;
     }
@@ -257,7 +262,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
             if(isMenuHypothesis()){
                 x = menuItemHypothesis.getX()+menuItemHypothesis.getWidth();
             }
-            menuItemPrinciple.setBounds(x, 0, menuItemPrinciple.getWidth(), menuItemPrinciple.getHeight());
+            //menuItemPrinciple.setBounds(x, 0, menuItemPrinciple.getWidth(), menuItemPrinciple.getHeight());
         }
         return menuItemPrinciple;
     }
@@ -274,7 +279,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
             }else if (isMenuHypothesis()){
                 x = menuItemHypothesis.getX()+menuItemHypothesis.getWidth();
             }
-            menuItemEvaluation.setBounds(x, 0, menuItemEvaluation.getWidth(), menuItemEvaluation.getHeight());
+            //menuItemEvaluation.setBounds(x, 0, menuItemEvaluation.getWidth(), menuItemEvaluation.getHeight());
         }
         return menuItemEvaluation;
     }
@@ -286,7 +291,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
             String toolTipText = getBundleString("TOOLTIPTEXT_MENU_ARBO_GENERAL");
             menuArbo = new MyMenu(this,toolTipText,menuBar.getBackground(),getCopexImage("Bouton-AdT-28_1.png"), getCopexImage("Bouton-AdT-28_1_survol.png"), getCopexImage("Bouton-AdT-28_1_clic.png"), getCopexImage("Bouton-AdT-28_1na.png"));
            // menuArbo.setBackground(this.menuBar.getBackground());
-            menuArbo.setBounds(menuItemComm.getX()+menuItemComm.getWidth(), 0, menuArbo.getWidth(), menuArbo.getHeight());
+            //menuArbo.setBounds(menuItemComm.getX()+menuItemComm.getWidth(), 0, menuArbo.getWidth(), menuArbo.getHeight());
 
         }
         return menuArbo;
@@ -306,7 +311,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
             }else if (isMenuHypothesis()){
                 x = menuItemHypothesis.getX()+menuItemHypothesis.getWidth();
             }
-            menuItemComm.setBounds(x, 0, menuItemComm.getWidth(), menuItemComm.getHeight());
+            //menuItemComm.setBounds(x, 0, menuItemComm.getWidth(), menuItemComm.getHeight());
         }
         return menuItemComm;
     }
@@ -315,7 +320,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         if (menuItemUndo == null){
             menuItemUndo = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_UNDO"),menuBar.getBackground(),getCopexImage("Bouton-AdT-28_undo.png"), getCopexImage("Bouton-AdT-28_undo_survol.png"), getCopexImage("Bouton-AdT-28_undo_clic.png"), getCopexImage("Bouton-AdT-28_undo_grise.png"));
             menuItemUndo.addActionMenuEvent(this);
-            menuItemUndo.setBounds(sep2.getX()+sep2.getWidth(), 0, menuItemUndo.getWidth(), menuItemUndo.getHeight());
+            //menuItemUndo.setBounds(sep2.getX()+sep2.getWidth(), 0, menuItemUndo.getWidth(), menuItemUndo.getHeight());
         }
         return menuItemUndo;
     }
@@ -324,7 +329,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         if (menuItemRedo == null){
             menuItemRedo = new MyMenuItem(getBundleString("TOOLTIPTEXT_MENU_REDO"),menuBar.getBackground(),getCopexImage("Bouton-AdT-28_redo.png"), getCopexImage("Bouton-AdT-28_redo_survol.png"), getCopexImage("Bouton-AdT-28_redo_clic.png"),getCopexImage("Bouton-AdT-28_redo_grise.png"));
             menuItemRedo.addActionMenuEvent(this);
-            menuItemRedo.setBounds(menuItemUndo.getX()+menuItemUndo.getWidth(), 0, menuItemRedo.getWidth(), menuItemRedo.getHeight());
+           // menuItemRedo.setBounds(menuItemUndo.getX()+menuItemUndo.getWidth(), 0, menuItemRedo.getWidth(), menuItemRedo.getHeight());
         }
         return menuItemRedo;
     }
@@ -336,7 +341,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
             int x = sep3.getX()+sep3.getWidth();
             if(copexPanel.canPrint())
                 x = menuItemPrint.getX()+menuItemPrint.getWidth();
-            menuItemHelp.setBounds(x, 0, menuItemHelp.getWidth(), menuItemHelp.getHeight());
+            //menuItemHelp.setBounds(x, 0, menuItemHelp.getWidth(), menuItemHelp.getHeight());
         }
         return menuItemHelp;
     }
@@ -347,7 +352,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
             menuItemPrint.addActionMenuEvent(this);
             menuItemPrint.setSize(menuItemPrint.getWidth(), menuItemPrint.getHeight());
             menuItemPrint.setPreferredSize(new Dimension(menuItemPrint.getWidth(), menuItemPrint.getHeight()));
-            menuItemPrint.setBounds(sep3.getX()+sep3.getWidth(), 0, menuItemPrint.getWidth(), menuItemPrint.getHeight());
+           // menuItemPrint.setBounds(sep3.getX()+sep3.getWidth(), 0, menuItemPrint.getWidth(), menuItemPrint.getHeight());
         }
         return menuItemPrint;
     }
@@ -1078,6 +1083,7 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
 
     public void initCopex(){
         backgroundPanel = new JPanel();
+        backgroundPanel.setBackground(Color.WHITE);
         backgroundPanel.setLayout(new BorderLayout());
         this.add(backgroundPanel, BorderLayout.CENTER);
         backgroundPanel.add(getScrollPaneTree(), BorderLayout.CENTER);
@@ -1975,5 +1981,16 @@ public class EdPPanel extends JPanel implements ActionMenuEvent{
         updateMenu();
         procModif = true;
      }
+
+     public String getPreview(){
+        ArrayList v = new ArrayList();
+        CopexReturn cr = this.controller.getPreview(proc, v);
+        if(cr.isError()){
+            displayError(cr,  getBundleString("TITLE_DIALOG_ERROR"));
+            return "";
+        }else{
+            return (String)v.get(0);
+        }
+    }
 
 }

@@ -947,4 +947,10 @@ public class CopexControllerAuth implements ControllerInterface{
     public URL getCopexURL(){
         return null;
     }
+
+    /** get export in html format */
+    @Override
+    public CopexReturn getPreview(ExperimentalProcedure p, ArrayList v){
+        return new CopexReturn();
+    }
 }

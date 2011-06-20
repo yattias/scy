@@ -232,12 +232,13 @@ public class DataBaseCommunication {
     }
     
     // gets answer
+    // read result
     private CopexReturn receiveResponse(ArrayList v){
         try{
             URL urlDB;
             urlDB = new URL(codeBase, directoryData+fileName);
             File fileToUpload = new File(directoryData+fileName);
-            urlCon = (HttpURLConnection)urlDB.openConnection();
+           urlCon = (HttpURLConnection)urlDB.openConnection();
             urlCon.setDoOutput(true);
             urlCon.setDoInput(true);
             urlCon.setRequestMethod("POST");
@@ -250,30 +251,30 @@ public class DataBaseCommunication {
             ResultSetXML rs  = null;
             String name = "";
             String value = "";
-            while ((ligne = reader.readLine()) != null) {
+           while ((ligne = reader.readLine()) != null) {
                if (ligne.equals("<res>")){
                     rs = new ResultSetXML();
                }else if (ligne.equals("</res>")){
                    v.add(rs);
                    rs = null;
-               }else if (ligne.startsWith("<name>")){
+               }else if (ligne.startsWith("<db_name>")){
                    name = getName(ligne);
-               }else if (ligne.startsWith("<value>")){
-                   if (ligne.endsWith("</value>"))
-                        value = getValue(ligne); 
+               }else if (ligne.startsWith("<db_value>")){
+                   if (ligne.endsWith("</db_value>"))
+                        value = getValue(ligne);
                    else{
-                       value = ligne.substring(7);
+                       value = ligne.substring(10);
                    }
-                }else if (ligne.equals("</col>")){ 
+                }else if (ligne.equals("</db_col>")){
                    ColumnData data = new ColumnData(name, value);
                     rs.addData(data);
                 }else {
-                   if (ligne.endsWith("</value>")){
-                       value += " \n"+ligne.substring(0, ligne.length() - 8);
+                   if (ligne.endsWith("</db_value>")){
+                       value += " \n"+ligne.substring(0, ligne.length() - 11);
                    }else
                        value += " \n"+ligne;
                 }
-           } 
+           }
             reader.close();
             urlCon.disconnect();
             return new CopexReturn();
@@ -281,12 +282,12 @@ public class DataBaseCommunication {
             return new CopexReturn(e.getMessage(), false);
         }
     }
-    
+
     private String getName(String ligne){
-        return getData(ligne, "name");
+        return getData(ligne, "db_name");
     }
     private String getValue(String ligne){
-        return getData(ligne, "value");
+        return getData(ligne, "db_value");
     }
     private String getData(String ligne, String balise){
         String s = ligne.substring(balise.length()+2);
