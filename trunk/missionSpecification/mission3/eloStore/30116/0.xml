@@ -22,7 +22,7 @@
           <dateTime>2011-03-03T15:55:43.834+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>6</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -49,27 +49,19 @@
         <string language="en">newText</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAACHUlEQVR42u3UTUsbURTG8Vn6gdx345dwL7jqqiiFfhFBMeBeigtNFwFrKQqKr6nGom1oIROayUxIJmZQkp7mXJnbmUkqE9008H/gcN+H68+rjgzj+/5IDQaDVPX7/ZG5SfaMW8vOJcfZfjx+6sxz7zHJXZOtlqOAjUYjVUEQGERt4+p2u5JMFEWpda1ms5ka1+t1289+L57rdDoje/TbvV7PtHE/Hifnx43/NZdnLc83k62WAQz8hqzshuK6DynA2fkDqQcie198A6jzJz96ptUfXOM4jny+7sh9dGfO6F6d01YBq78iWXy9JB/LfwF1Tcf7X0MJw1B2L3z5dNmye9rt9tSUBVw9+y0zr74PX5FnAecWDuXb7U9Z3zoygIVCQUqlknm6+tpiwI2dMwOoczrW/VoKeFypybu3y2YcA2p/fuGNbGyfml/E2vtDe0bXPc+bmrJ/wooY+F7qBR5fVB7rvGIAk+W6rpSvbuyeVqs1ckYBT8vXdhwD2j3D0hd4ktlTq9Wmph5fYOZ/k1a1WqVylLNZ3BNTH8a0yRo3N8mePN8sPtEv5jjz3HtMctdi+k6OkBcFQAABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAABJAACCCCABEAAAQSQAAgggAASAAEEEEACIIAAAkgABBBAAAmAAP6f+QNPGdojQAI7QwAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\f1\fs24\i0\b0\cf1\par
+<RichText>{\rtf1\ansi&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
+&#xD;&#xD;
+\f1\fs24\i0\b0\cf1\par&#xD;&#xD;
 }</RichText>
 </content>
 <resources>

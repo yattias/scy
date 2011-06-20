@@ -38,11 +38,11 @@
     <general>
       <identifier>
         <catalog>memory</catalog>
-        <entry>roolo://memory/30092/0/Mijn+favoriete+pizza.scysimconfig</entry>
+        <entry>roolo://memory/30093/0/Mijn+eerste+gezonde+pizza.scysimconfig</entry>
       </identifier>
       <las>experimentDesign</las>
       <title>
-        <string language="nl">Mijn favoriete pizza</string>
+        <string language="nl">Mijn eerste gezonde pizza</string>
       </title>
     </general>
   </lom>

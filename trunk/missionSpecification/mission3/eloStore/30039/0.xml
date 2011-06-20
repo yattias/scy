@@ -12,7 +12,7 @@
           <dateTime>2011-01-26T17:27:52.937+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>6</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -34,16 +34,8 @@
         <string language="en">Criteria Weight Table</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAADxklEQVR42u2YvU9TURjG+zcQAoE/oIkMGgZZcEANgwoJ6ECKESKylYpujZFAIAzVNDLgYErSjwEZJCqNMaIJJFpJMaaJGlM0jhAWGGCAAXLsc+x7Obe00BY1hT5P8ube8/a855z3d8/H7XWoAjU/P68CE49paXMUA/DHrxgtbQR4XAF+/T6nkj/flyfAtvZLVgNtV/fu++/2Zu2k/85+/5PAA/Vh4aXN9+z5hPr0+fXJB3j5ykX1MR5VCynD/Zt3T9W31Iy6fuOabjQUGdOAgqmrgBFopgGgWc/tuakePLyv2zvRACVxgeC53bMHIzymoq/CuowryucvNKq6Oqf2wRrPndV1KysrbPV8KXgvokGV+PK2PAB6+m/pZHE1ofb0urQPV5QBsKqq0uoUZXMJZz6QsjhEAKE9vf9573ksQCYEHBI4LEyA8MkMLHuAZkMCSPZF/C57Je6xL4rv9JlTWQFKrP/REF9jspnMMjls+B5YoMkhgmVNgLQ/AEdGRpTP58vbRkdHld/vp6XNEQgE1NLSUt42PT2tqD0RIAEeQ4ArKyuqs7NTTU5O5tUJ4jY2Nv5JAtiHMoXxzczM2HzoH+M4SIODg8UBjMViqq+vryCA5gBRhm1tbant7W21s7Ojy6urq/r3cDisEomETmJ3d9eqj3qbm5vah1gRfKK1tTWbb3193YqHpA/xiWF8Zj30j3FIe+b4TIBmTK7czDw0wGAwWDTA7u5ufQ9zu90qGo2q5uZmXZ6amlKLi4tqYGBAhUIhlUwmVUdHh1Uf90NDQ/pqJgOfqKWlxfIh+fHxcSseK6CmpkYNDw9bPpfLpcfX0NBgq4f+MY54PG6NeXZ21gbQ6XRaMWgzV25mHtYSLhZgbW2tbhiGQeO6vLxsW0qmr6KiwqqPexOWKYBpbW21YmV2AILEwyf1TPiZK0RixdfV1aXjD1rCeHAH5SZ5/BWAaFTsMIDV1dW2+oUCxEySWCylYgBCiK+vrz8UYK7cJA8N0Ov1Ko/HUxRAbOIYtFg2gIjDb3Nzc7a6YtmU+ZDkIDDj0B4AYomKr6mpKStAiUVdGXPmAZQJ8KDcxFf0KWxuyKUg2exzPZCSeo3BiYQnjA25VCSbPTZ4vkgfpxdpfkw44seEfP9NUDlmIAESIAESIAFSBEiABEiAFAH+f4CRSER/K6MVZ45CvsTQ9puDi/CIS5gICJAACZAAKQIkQAIkQIoACZAACZAiQAIkQAKkCJAACZAAKQIkQAIkQIoACZAACZAiQAIkQAKkCJAACZAAKQIkwNLQb1O6y7llGAswAAAAAElFTkSuQmCC</base64>

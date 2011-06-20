@@ -22,7 +22,7 @@
           <dateTime>2011-03-03T15:57:37.396+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>6</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -49,16 +49,8 @@
         <string language="en">newDrawing</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABt0lEQVR42u3TzUoCURjG8dkIrrwGr0m8Hi/AO3CtuBBchRYRs2vTogiinc6mGMjxExIU4dTzxhnmRBNDtHDxf+DhnPfMOMmvMbp5enO383d39fDqrh9Tt1wu845Go2Au9nA4BPNiscj3vV4vuKb4/Xa7Da4NBoNgbrVa1na77aIoyqtZ59ofj8ezaSRAJX7ODHC1WtmX9ICam82mrb77/d4AdZ8/0/3dbtf2AvTP0arY+jnvdjvbT6dTa7/ft3m9XufPVk+nk31e0brZbFyn03GTycT+Cb46L85lZ1WuVXlmcVUN8PL+xV3cJTmgGsexATYajQCvVqtZBehnD6i3pAywXq9bPaA+p+t6AzUnSWJrmqbWLMuCN3A4HNr5eDzO7zmHRvriZZ3P5+636//R739DszqbzYK9n4vnP81lZ1WuVXlmcVW/fiPkzwEQQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAAJgAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAPz3fACL3vxIDGjnkAAAAABJRU5ErkJggg==</base64>

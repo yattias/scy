@@ -1,0 +1,79 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-06-20T15:19:51.201+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-06-20T15:19:51.201+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1308575991201</dateCreated>
+        <dateFirstUserSaveKey>1308575991201</dateFirstUserSaveKey>
+        <dateLastModified>1308575991201</dateLastModified>
+      </customElements>
+      <format>scy/missionspecification</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentDesign</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30181/0/Een+gezonde+pizza.scymissionspecification</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="nl">Een gezonde pizza</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languages="nl" contentType="xml">
+<missionSpeicification>
+  <missionMapModelEloUri>roolo://memory/30176/0/pizzaMission-dutch.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/30177/0/pizzaMission-dutch.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/30178/0/pizzaMission-dutch.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/30179/0/pizzaMission-dutch.runtimesettings</runtimeSettingsEloUri>
+  <agentModelsEloUri />
+  <pedagogicalPlanSettingsEloUri>roolo://memory/30180/0/pizzaMission-dutch.scy</pedagogicalPlanSettingsEloUri>
+  <colorSchemesEloUri>roolo://memory/30100/0/colorschemes1.colorschemes</colorSchemesEloUri>
+  <missionDescriptionUri>http://www.scy-lab.eu/content/en/mission3/curtain_MISSION.html</missionDescriptionUri>
+  <missionId>pizza2</missionId>
+  <xhtmlVersionId />
+</missionSpeicification>
+</content>
+<resources>
+</resources>
+</elo>
