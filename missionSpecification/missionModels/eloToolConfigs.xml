@@ -286,6 +286,11 @@
                <property name="contentCreatorId" value="missionSpecification"/>
                <property name="bottomDrawerCreatorId" value="xmlViewer"/>
                <property name="leftDrawerCreatorId" value="scyToolViewer"/>
+               <property name="eloFunctionalRoleValues">
+                  <list>
+                     <value>document_Design</value>
+                  </list>
+               </property>
             </bean>
             <bean class="eu.scy.common.mission.impl.BasicEloToolConfig">
                <property name="eloType" value="scy/missionmapmodel"/>
