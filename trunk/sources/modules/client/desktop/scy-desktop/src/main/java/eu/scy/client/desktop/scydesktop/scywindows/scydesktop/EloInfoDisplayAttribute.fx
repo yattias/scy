@@ -8,7 +8,6 @@ package eu.scy.client.desktop.scydesktop.scywindows.scydesktop;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindowAttribute;
 import javafx.scene.Node;
 import eu.scy.client.desktop.scydesktop.scywindows.ScyWindow;
-import eu.scy.client.desktop.scydesktop.tooltips.TooltipCreator;
 import roolo.api.IRepository;
 import roolo.elo.api.IMetadataTypeManager;
 import roolo.elo.api.metadata.CoreRooloMetadataKeyIds;
@@ -16,32 +15,26 @@ import eu.scy.common.scyelo.ScyRooloMetadataKeyIds;
 import eu.scy.client.desktop.scydesktop.tooltips.TooltipManager;
 import java.net.URI;
 import eu.scy.client.desktop.desktoputils.art.eloicons.EloIconFactory;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.paint.Color;
-import javafx.scene.layout.Stack;
-import eu.scy.client.desktop.scydesktop.tooltips.impl.TextTooltip;
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
+import eu.scy.client.desktop.scydesktop.uicontrols.EloIconButton;
 
 /**
  * @author sikken
  */
-public class EloInfoDisplayAttribute extends ScyWindowAttribute, TooltipCreator {
+public class EloInfoDisplayAttribute extends ScyWindowAttribute {
 
    public var window: ScyWindow;
    public var repository: IRepository;
    public var metadataTypeManager: IMetadataTypeManager;
    public var tooltipManager: TooltipManager;
    override public var priority = 1;
-   def circleRadius = 6.0;
    def identifierKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IDENTIFIER.getId());
    def technicalFormatKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.TECHNICAL_FORMAT.getId());
    def isForkOfKey = metadataTypeManager.getMetadataKey(CoreRooloMetadataKeyIds.IS_FORK_OF.getId());
    def lasKey = metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.LAS.getId());
    def anchorIdKey = metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.ANCHOR_ID.getId());
    def functionalTypeKey = metadataTypeManager.getMetadataKey(ScyRooloMetadataKeyIds.FUNCTIONAL_TYPE.getId());
-
-   init {
-//      tooltipManager.registerNode(this, this);
-   }
 
    public override function clone(): EloInfoDisplayAttribute {
       EloInfoDisplayAttribute {
@@ -56,27 +49,36 @@ public class EloInfoDisplayAttribute extends ScyWindowAttribute, TooltipCreator 
    override protected function create(): Node {
       def eloIcon = EloIconFactory {}.createEloIcon("information2");
       eloIcon.windowColorScheme = window.windowColorScheme;
-      eloIcon.size = itemSize;
-      tooltipManager.registerNode(eloIcon, this);
-
-      Stack {
-         //         blocksMouse:true
-         content: [
-            Rectangle {
-               x: 0, y: 0
-               width: mouseOverItemSize, height: mouseOverItemSize
-               fill: Color.TRANSPARENT
-            }
-            eloIcon
-         ]
+      EloIconButton{
+         size: itemSize
+         mouseOverSize: mouseOverItemSize
+         eloIcon: eloIcon
+         tooltipFunction: tooltipFunction
+         tooltipManager: tooltipManager
+         hideBackground: true
+         actionScheme: 1
+         action: placeUriOnClipboard
       }
    }
 
-   override public function createTooltipNode(sourceNode: Node): Node {
-      TextTooltip {
-         content: getEloInfo()
-         windowColorScheme: window.windowColorScheme
-      }
+   function tooltipFunction(): String{
+      "Click to copy URI to clipboard\n\n{getEloInfo()}"
+   }
+
+   function placeUriOnClipboard(): Void {
+      //Get the toolkit
+      def toolkit = Toolkit.getDefaultToolkit();
+
+      //Get the clipboard
+      def clipboard = toolkit.getSystemClipboard();
+
+      //The setContents method of the Clipboard instance takes a Transferable
+      //as first parameter. The StringSelection class implements the Transferable
+      //interface.
+      def stringSel = new StringSelection(window.eloUri.toString());
+
+      //We specify null as the clipboard owner
+      clipboard.setContents(stringSel, null);
    }
 
    function getEloInfo(): String {
@@ -96,7 +98,7 @@ public class EloInfoDisplayAttribute extends ScyWindowAttribute, TooltipCreator 
          anchorId = "";
       }
 
-      "uri: {window.eloUri}\n""tech type: {technicalFormat}\n""func type: {functionalType}\n""las: {lasId}\n""anchorId: {anchorId}\n""def uri: {if (window.eloUri == rootUri) 'same as uri' else rootUri}"
+      "uri: {window.eloUri}\n""tech type: {technicalFormat}\n""func role: {functionalType}\n""las: {lasId}\n""anchorId: {anchorId}\n""def uri: {if (window.eloUri == rootUri) 'same as uri' else rootUri}"
    }
 
    function getRootUri(uri: URI): URI {

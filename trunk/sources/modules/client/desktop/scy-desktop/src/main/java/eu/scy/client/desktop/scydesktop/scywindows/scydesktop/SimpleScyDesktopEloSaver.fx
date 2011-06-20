@@ -102,7 +102,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       insert emptyFunctionalRoleContainer before functionalRoleContainers[0];
    }
 
-   public override function toString():String{
+   public override function toString(): String {
       "SimpleScyDesktopEloSaver\{myEloChanged={myEloChanged}\}"
    }
 
@@ -116,10 +116,10 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       if (forking) {
          suggestedEloTitle = "Copy of {suggestedEloTitle}";
       }
-      showEloSaveAsPanel(elo, suggestedEloTitle, true, eloSaverCallBack);
+      showEloSaveAsPanel(elo, suggestedEloTitle, true, false, eloSaverCallBack);
    }
 
-   function showEloSaveAsPanel(elo: IELO, suggestedEloTitle: String, myElo: Boolean, eloSaverCallBack: EloSaverCallBack): Void {
+   function showEloSaveAsPanel(elo: IELO, suggestedEloTitle: String, myElo: Boolean, authorUpdate: Boolean, eloSaverCallBack: EloSaverCallBack): Void {
       var eloSaveAsPanel: EloSaveAsMixin;
       def scyElo = new ScyElo(elo, config.getToolBrokerAPI());
       if (authorMode) {
@@ -131,6 +131,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
                     scyElo: scyElo
                     myElo: myElo
                     eloSaverCallBack: eloSaverCallBack
+                    authorUpdate: authorUpdate
                  }
       } else {
          eloSaveAsPanel = SimpleSaveAsNodeDesign {
@@ -155,7 +156,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
          windowColorScheme = windowStyler.getWindowColorScheme(window.eloType);
       }
       eloIcon.selected = true;
-      Composer.localizeDesign(eloSaveAsPanel.getDesignNodes(), StringLocalizer{});
+      Composer.localizeDesign(eloSaveAsPanel.getDesignNodes(), StringLocalizer {});
       eloSaveAsPanel.modalDialogBox = ModalDialogBox {
                  content: Group {
                     content: eloSaveAsPanel.getDesignNodes()
@@ -172,17 +173,21 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       updateTags(elo);
       def scyElo = eloSaveAsPanel.scyElo;
       eloSaveAsPanel.setTitleAndLanguagesInElo();
-//      scyElo.setTitle(eloSaveAsPanel.getTitle());
       scyElo.setFunctionalRole(eloSaveAsPanel.getFunctionalRole());
       addThumbnail(scyElo);
       scyElo.setDateFirstUserSave(System.currentTimeMillis());
       scyElo.setCreator(loginName);
-      if (elo.getUri() != null) {
+
+      if (eloSaveAsPanel.authorUpdate) {
+         // the call is  caused by an update action, so that the author can modify the titles
+         // so do not create a new elo, but do just an update
+         scyElo.updateElo();
+      } else if (elo.getUri() != null) {
          scyElo.saveAsForkedElo();
       } else {
          scyElo.saveAsNewElo();
       }
-      if (eloSaveAsPanel.myElo) {
+      if (eloSaveAsPanel.myElo or eloSaveAsPanel.authorUpdate) {
          myEloChanged.myEloChanged(scyElo);
       }
       eloSaveAsPanel.eloSaverCallBack.eloSaved(elo);
@@ -220,46 +225,52 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
 
       if (elo.getUri() != null) {
          def scyElo = new ScyElo(elo, config.getToolBrokerAPI());
-         def myElo = scyElo.getAuthors().contains(config.getToolBrokerAPI().getLoginUserName());
-         if (myElo or window.isQuiting) {
-            // it is (also) my elo
-            var dateFirstUserSaveSet = false;
-            var creatorSet = false;
-            addThumbnail(scyElo);
-            if (scyElo.getDateFirstUserSave() == null) {
-               scyElo.setDateFirstUserSave(System.currentTimeMillis());
-               dateFirstUserSaveSet = true;
-            }
-            if (scyElo.getCreator() == null) {
-               scyElo.setCreator(loginName);
-               creatorSet = true;
-            }
-            if (myElo) {
-               try {
-                  scyElo.updateElo();
-               } catch (e: ELONotLastVersionException) {
-                  logger.error("unexpected ELONotLastVersionException for elo: {e.getURI()}, now doing a save as");
-                  if (dateFirstUserSaveSet) {
-                     scyElo.getMetadata().deleteMetatadata(dateFirstUserSaveKey);
-                  }
-                  if (creatorSet) {
-                     scyElo.getMetadata().deleteMetatadata(creatorKey);
-                  }
-                  eloSaveAs(elo, eloSaverCallBack);
-               }
-            } else {
-               // it is not my, but as this window is being quit, i may not ask the user anything
-               scyElo.saveAsForkedElo();
-            }
-            myEloChanged.myEloChanged(scyElo);
-            eloSaverCallBack.eloSaved(scyElo.getElo());
+         if (authorMode) {
+            // force a save as dialog box, so that new titles can entered or existing ones modified
+            showEloSaveAsPanel(elo, scyElo.getTitle(), true, true, eloSaverCallBack);
          } else {
-            // it is not my elo, do a save as
-            eloSaveAs(elo, eloSaverCallBack);
+            def myElo = scyElo.getAuthors().contains(config.getToolBrokerAPI().getLoginUserName());
+            if (myElo or window.isQuiting) {
+               // it is (also) my elo
+               var dateFirstUserSaveSet = false;
+               var creatorSet = false;
+               addThumbnail(scyElo);
+               if (scyElo.getDateFirstUserSave() == null) {
+                  scyElo.setDateFirstUserSave(System.currentTimeMillis());
+                  dateFirstUserSaveSet = true;
+               }
+               if (scyElo.getCreator() == null) {
+                  scyElo.setCreator(loginName);
+                  creatorSet = true;
+               }
+               if (myElo) {
+                  try {
+                     scyElo.updateElo();
+                  } catch (e: ELONotLastVersionException) {
+                     logger.error("unexpected ELONotLastVersionException for elo: {e.getURI()}, now doing a save as");
+                     if (dateFirstUserSaveSet) {
+                        scyElo.getMetadata().deleteMetatadata(dateFirstUserSaveKey);
+                     }
+                     if (creatorSet) {
+                        scyElo.getMetadata().deleteMetatadata(creatorKey);
+                     }
+                     eloSaveAs(elo, eloSaverCallBack);
+                  }
+               } else {
+                  // it is not my, but as this window is being quit, i may not ask the user anything
+                  scyElo.saveAsForkedElo();
+               }
+               myEloChanged.myEloChanged(scyElo);
+               eloSaverCallBack.eloSaved(scyElo.getElo());
+            } else {
+               // it is not my elo, do a save as
+               eloSaveAs(elo, eloSaverCallBack);
+            }
          }
       } else {
          eloSaveAs(elo, eloSaverCallBack);
       }
+
       scyToolActionLogger.eloSaved(elo);
    }
 
@@ -278,7 +289,7 @@ public class SimpleScyDesktopEloSaver extends EloSaver {
       if (forking) {
          suggestedEloTitle = "Copy of {suggestedEloTitle}";
       }
-      showEloSaveAsPanel(elo, suggestedEloTitle, false, eloSaverCallBack);
+      showEloSaveAsPanel(elo, suggestedEloTitle, false, false, eloSaverCallBack);
    }
 
    function addThumbnail(scyElo: ScyElo): Void {

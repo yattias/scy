@@ -26,6 +26,7 @@ public mixin class EloSaveAsMixin {
    public var eloSaverCallBack: EloSaverCallBack;
    public var modalDialogBox: ModalDialogBox;
    public var scyElo: ScyElo;
+   public var authorUpdate = false;
 
    var localTitle = "";
    var localFunctionalRole: EloFunctionalRole = null;
