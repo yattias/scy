@@ -16,7 +16,7 @@ public class CMapFeatureExtractorTest extends AbstractFeatureExtractorTest {
     @Before
     public void setup() throws Exception {
         extractor = new CMapFeatureExtractor();
-        referenceElo = loadElo("/conceptMap1.xml", "TestInterview", "scy/interview");
+        referenceElo = loadElo("/eco_reference_concept_map.xml", "TestInterview", "scy/interview");
         elo = loadElo("/ecoExpertMaps/expertMap1.xml", "TestInterview", "scy/interview");
         // extractor.setMission(Mission.MISSION1);
         // loadElo("/eco_reference_concept_map.xml", "TestInterview", "scy/interview");
