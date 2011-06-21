@@ -7,46 +7,75 @@
           <source>LOMv1.0</source>
           <value>author</value>
         </role>
-        <entity>Caspar</entity>
+        <entity>costas</entity>
         <date>
-          <dateTime>2011-01-20T17:17:05.953+0100</dateTime>
+          <dateTime>2011-06-21T16:19:01.453+0300</dateTime>
         </date>
       </contribute>
-      <version>7</version>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>costas</entity>
+        <date>
+          <dateTime>2011-06-21T16:19:01.453+0300</dateTime>
+        </date>
+      </contribute>
+      <version>8</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1295540223843</dateCreated>
-        <dateLastModified>1295540225953</dateLastModified>
+        <dateFirstUserSaveKey>1308662341453</dateFirstUserSaveKey>
+        <dateLastModified>1308662341453</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
     <educational>
-      <learningResourceType>argument</learningResourceType>
+      <learningResourceType>reportEvaluation</learningResourceType>
     </educational>
     <general>
       <identifier>
         <catalog>memory</catalog>
         <entry>roolo://memory/30024/0/Reflection+On+Importance+Of+Criteria.rtf</entry>
       </identifier>
-      <las />
+      <las>reflection2</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30175/0/A+healthy+pizza.scymissionspecification</entry>
+      </missionRunning>
       <title>
         <string language="en">Reflection On Importance Of Criteria</string>
+        <string language="el">Αξιολόγηση της Στρατγηγικής της Βελτιστοποίησης</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
-  <template>true</template>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAD4AAABQCAYAAABBP8ZuAAAB30lEQVR42u3TsUsbYRjH8fw5/gndXB1KJ3c7Oji23cRBlLpKsKVDo1RdjCI1SgYXh6qRmqE1QYXqgRfTpPECSUqix/HI88K95HpxulKKfgM/nvfe93l57kO4lOu60mq1BiYIgkeblMLr9XosjUZDMpmMeJ4XSaFQEL3Tn16vF+vTdDqd2J7v+wN7ByWXy8X28vm8mZc0Mfj30lUE7nq+fL3s2ShcX2B++1TcasOs2+22qf19Ibx/byq9aeDdbjfWqzm+vLU5KpYM/Kx6F+lVuM5LGgvPHrek8suX1yvtCLzseHLrB3J9E8jWvmPhJz+qUr64Nutms2mqni+s7poawnW99PnI1Fdzqxauz+mPWdsb3tc8Hx2z8IPST3kznbZnCtd5SWPhG8XfMrV+J0MvyhH44TdH3i0XZTpzLu/Xvlj44tInmZl9a9a1Ws1UPQ8Twvv3xic/WPiz4RGTsPfP+yF8a+/EPL+cmDRV4Tovaf7KN16pVP7pN67zksbAHxrsOM6jTUr/2aeYlDzB32J2Bzhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MCBAwcOHDhw4MD/F/g9Hp1UBqkKsKoAAAAASUVORK5CYII=</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABvUlEQVR42u3UzUoCURjG8bmL7iRo1SLoEtp3A3UNUesWFZm1qjZ9Egh9UNHKChclkeBCPFbSKBNlKVpg9dQ54qBlELQy/g88zLxzZgbmN8x4Fd2opFxbH96NSnX6m3rlT8AgCNrqAC2kjOtXYL/Web05P+lKqVwinG1vK+m2ufniWu9ReDZdV88+yONDIJtM7iUErKqg9zdpIf4SAl36b/Krafn39qGzShUlz/P0+nmuXT9MFt08Mber1FXCzUcXgdtawP2zgts/OPMdYFl59fUPumMOsGS6rg7wqXSn8Z26egbSIWBNRa1uJdU7qRBweiaiWCwmP2gALm5faG79OARc3rtUdONEI+NLDnB+81RDw6PumAWcXY0rshZ31zQB7drY1EoD8M50XR3gT59wazPF87DZ6+/rX2sBW2cL2Dp3+veavOm6etFoVJ1qcob+op7InwIggAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAfyX+QDlGv0mp+r2gwAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
-<content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
-&#xD;&#xD;
-\f1\fs24\i0\b0\cf1\par&#xD;&#xD;
+<content languages="en el" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>

@@ -7,46 +7,75 @@
           <source>LOMv1.0</source>
           <value>author</value>
         </role>
-        <entity>Caspar</entity>
+        <entity>costas</entity>
         <date>
-          <dateTime>2011-01-26T18:05:59.656+0100</dateTime>
+          <dateTime>2011-06-21T16:24:12.390+0300</dateTime>
         </date>
       </contribute>
-      <version>6</version>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>costas</entity>
+        <date>
+          <dateTime>2011-06-21T16:24:12.390+0300</dateTime>
+        </date>
+      </contribute>
+      <version>7</version>
     </lifecycle>
     <technical>
       <customElements>
         <dateCreated>1296061559656</dateCreated>
-        <dateLastModified>1296061559656</dateLastModified>
+        <dateFirstUserSaveKey>1308662652390</dateFirstUserSaveKey>
+        <dateLastModified>1308662652390</dateLastModified>
       </customElements>
       <format>scy/rtf</format>
     </technical>
     <educational>
-      <learningResourceType>argument</learningResourceType>
+      <learningResourceType>reportFinal</learningResourceType>
     </educational>
     <general>
       <identifier>
         <catalog>memory</catalog>
         <entry>roolo://memory/30044/0/Letter+To+School+Canteen.rtf</entry>
       </identifier>
-      <las />
+      <las>evaluation</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30175/0/A+healthy+pizza.scymissionspecification</entry>
+      </missionRunning>
       <title>
         <string language="en">Letter To School Canteen</string>
+        <string language="el">Γράμμα στην Καντίνα του Σχολείου (αναστοχασμός)</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
   </lom>
-  <template>true</template>
+  <socialTags>
+    <tags />
+  </socialTags>
+  <template>TRUE</template>
   <thumbnail>
     <mime>png</mime>
-    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAAAiCAYAAADI+15nAAABkklEQVR42u2VvU7CYBSGv8kLcDEOJlyCN+Al6Gq8DuPixGQ0ps52cXJzIi5WxvoTQ4zAgEtNTUBIQEtoSCMJ5cghacNXvlYiFhjeN3lC4fSFw0NKha7rNE183wcKBAt0HIeazaYSnnH4PBU87/V6SuI6iyBux1mZWiA/qoibeZ4X21kEvE8aTAisvNao3faVAp8sj7JnZcpqpdHx+Gz7+J4+3e9wYdd1w06U4Jx5znifNJAEPpfb1O8TZXaLdHjZmRB4/fA+PBrQV2dAq+sn0mzn9JFKtT6Zpin98tyJEp0JIWJnSb3x7jS9NJAEfgzl7V8NaGXrjdY27yYEXuQKtHdQpMKLTRsZWaCmaWQYBuXz+dHzVqsVdhj+osFx8OHR16OzpN5vs+h78j5pIAnk1OtdurmtKC/ho/OcRNJ/YKPRUHaC3rxnvE8a/MtNRJVqtbpUNxHeJw1CgUlwbNsGCoRlWQT+jiBkpkAgBEIgBEIgAoEQCIEQiEAgBEIgBCIQCIEQCIEIBEIgBEIgAoEQuOT5AQ6jHC60vQJuAAAAAElFTkSuQmCC</base64>
+    <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAABvUlEQVR42u3UzUoCURjG8bmL7iRo1SLoEtp3A3UNUesWFZm1qjZ9Egh9UNHKChclkeBCPFbSKBNlKVpg9dQ54qBlELQy/g88zLxzZgbmN8x4Fd2opFxbH96NSnX6m3rlT8AgCNrqAC2kjOtXYL/Web05P+lKqVwinG1vK+m2ufniWu9ReDZdV88+yONDIJtM7iUErKqg9zdpIf4SAl36b/Krafn39qGzShUlz/P0+nmuXT9MFt08Mber1FXCzUcXgdtawP2zgts/OPMdYFl59fUPumMOsGS6rg7wqXSn8Z26egbSIWBNRa1uJdU7qRBweiaiWCwmP2gALm5faG79OARc3rtUdONEI+NLDnB+81RDw6PumAWcXY0rshZ31zQB7drY1EoD8M50XR3gT59wazPF87DZ6+/rX2sBW2cL2Dp3+veavOm6etFoVJ1qcob+op7InwIggAACCCABEEAAASQAAggggARAAAEEkAAIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggAASAAEEEEACIIAAAkgABBBAAAmAAAIIIAEQQAABJAACCCCABEAAAfyX+QDlGv0mp+r2gwAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
-<content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
-&#xD;&#xD;
-\f1\fs24\i0\b0\cf1\par&#xD;&#xD;
+<content languages="en el" contentType="xml">
+<RichText>{\rtf1\ansi
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
+
+\li0\ri0\fi0\f1\fs24\i0\b0\ul0\cf1\par
+\li0\ri0\fi0\ul0\par
 }</RichText>
 </content>
 <resources>
