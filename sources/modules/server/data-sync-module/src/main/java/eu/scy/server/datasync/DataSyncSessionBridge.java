@@ -408,7 +408,7 @@ public class DataSyncSessionBridge {
             
             @Override
             public void run() {
-                if (sessionSpace == null && sessionSpace.isConnected()) {
+                if (sessionSpace != null && sessionSpace.isConnected()) {
                     try {
                         lock.lock();
                         sessionSpace.disconnect();
