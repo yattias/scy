@@ -447,4 +447,9 @@ public class RepositoryWrapper implements IRepository
          }
       }
    }
+
+    @Override
+    public int getHits(IQuery query) {
+        return repository.getHits(query);
+    }
 }
