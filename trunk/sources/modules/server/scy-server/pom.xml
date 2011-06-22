@@ -197,6 +197,12 @@
                 <version-name>-ut2</version-name>
             </properties>
         </profile>
+        <profile>
+            <id>UT3</id>
+            <properties>
+                <version-name>-ut3</version-name>
+            </properties>
+        </profile>
     </profiles>
     <dependencyManagement>
         <dependencies>
