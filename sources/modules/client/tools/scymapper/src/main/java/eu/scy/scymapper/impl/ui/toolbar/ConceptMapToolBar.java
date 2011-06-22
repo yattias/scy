@@ -49,12 +49,10 @@ public class ConceptMapToolBar extends JPanel {
 		
 		add(new ClearConceptMapButton());
 		add(new RemoveConceptButton());
-		// removed temporarily
-		//add(new BackgroundColorButton());
-		//add(new ForegroundColorButton());
-		//add(new OpaqueCheckbox());
-		//add(new NodeShadowCheckbox());
-
+		add(new BackgroundColorButton());
+		add(new ForegroundColorButton());
+		add(new OpaqueCheckbox());
+		add(new NodeShadowCheckbox());
 	}
 
 	class RemoveConceptButton extends JButton implements ActionListener {

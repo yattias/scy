@@ -154,9 +154,9 @@ public class SCYMapperPanelCollide extends SCYMapperPanel {
                     }
 
                 });
-				// temporarily removed
-                //toolBar.add(requestConceptHelpButton);
-                //toolBar.add(requestRelationHelpButton);
+
+                toolBar.add(requestConceptHelpButton);
+                toolBar.add(requestRelationHelpButton);
 
                 invalidate();
                 break;
