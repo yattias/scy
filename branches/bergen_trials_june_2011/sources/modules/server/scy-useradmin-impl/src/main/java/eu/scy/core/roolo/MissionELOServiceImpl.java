@@ -300,7 +300,9 @@ for (int i = 0; i < missionSpecifications.size(); i++) {
                 if (xml != null) {
                     Portfolio portfolio = (Portfolio) getXmlTransferObjectService().getObject(xml);
                     portfolio.setMissionRuntimeURI(missionRuntimeElo.getUri().toString());
-                    if (portfolio.getIsPortfolioSubmitted() && portfolio.getIsPortfolioAssessed() == false) {
+                    boolean portfolioSubmitted = portfolio.getIsPortfolioSubmitted();
+                    boolean portfolioAssessed = portfolio.getIsPortfolioAssessed();
+                    if (portfolioSubmitted && !portfolioAssessed) {
                         returnList.add(portfolio);
                     } else {
                         log.info("PORTFOLIO " + portfolio.getOwner() + " STATUS: " + portfolio.getPortfolioStatus() + " :: " + portfolio.getIsPortfolioSubmitted());

@@ -32,30 +32,20 @@ public class StudentIndexController extends BaseController {
     @Override
     protected void handleRequest(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
         MissionRuntimeElo missionRuntimeElo = (MissionRuntimeElo) getScyElo();
-        URI portfolioURI = missionRuntimeElo.getTypedContent().getEPortfolioEloUri();
-        modelAndView.addObject("portfolioStatus", "Not Submitted");
-        if (portfolioURI != null) {
-            ScyElo scyElo = ScyElo.loadLastVersionElo(portfolioURI, getMissionELOService());
-            String xmlContent = scyElo.getContent().getXmlString();
-            if (xmlContent != null) {
-                Portfolio portfolio = (Portfolio) getXmlTransferObjectService().getObject(xmlContent);
-                if (portfolio != null) {
-                    portfolio.unCdatify();
-                    modelAndView.addObject("portfolio", portfolio);
-                    if(portfolio.getPortfolioStatus() == null) portfolio.setPortfolioStatus("PORTFOLIO_NOT_SUBMITTED");
-                    if(portfolio.getPortfolioStatus().equals("PORTFOLIO_SUBMITTED")) modelAndView.addObject("portfolioStatus", "Submitted");
-                    if(portfolio.getPortfolioStatus().equals("PORTFOLIO_ASSESSED")) modelAndView.addObject("portfolioStatus", "<strong>Assessed</strong>");
-                    else modelAndView.addObject("portfolioStatus", "Not Submitted");
-                    logger.info("SET PORTFOLIO: " + portfolio.getPortfolioStatus());
-                } else {
-                    logger.info("PORTFOLIO IS NULL!!");
-                }
-            } else {
-                logger.info("XML CONTENT IS NULL!");
-            }
-
+        Portfolio portfolio = getMissionELOService().getPortfolio(missionRuntimeElo);
+        if (portfolio != null) {
+            portfolio.unCdatify();
+            modelAndView.addObject("portfolio", portfolio);
+            if (portfolio.getPortfolioStatus() == null) {
+                portfolio.setPortfolioStatus("PORTFOLIO_NOT_SUBMITTED");
+            } else if (portfolio.getPortfolioStatus().equals("PORTFOLIO_SUBMITTED")) {
+                modelAndView.addObject("portfolioStatus", "Submitted");
+            }else if (portfolio.getPortfolioStatus().equals("PORTFOLIO_ASSESSED")) {
+                modelAndView.addObject("portfolioStatus", "<strong>Assessed</strong>");
+            } 
+            logger.info("SET PORTFOLIO: " + portfolio.getPortfolioStatus());
         } else {
-            logger.info("NO PORTFOLIO URI!");
+            logger.info("PORTFOLIO IS NULL!!");
         }
 
 
