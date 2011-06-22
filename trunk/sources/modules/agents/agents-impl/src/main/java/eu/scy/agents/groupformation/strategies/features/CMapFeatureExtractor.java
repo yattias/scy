@@ -6,6 +6,7 @@ import info.collide.sqlspaces.commons.TupleSpaceException;
 
 import java.io.IOException;
 import java.rmi.dgc.VMID;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -15,6 +16,7 @@ import de.fhg.iais.kd.tm.elo.CmapImporter;
 import de.fhg.iais.kd.tm.graphmatching.editdistance.EditCostFunction;
 import de.fhg.iais.kd.tm.graphmatching.editdistance.EditDistanceCalculator;
 import de.fhg.iais.kd.tm.graphmatching.graph.Graph;
+import de.fhg.iais.kd.tm.graphmatching.graph.Vertex;
 
 import org.jaxen.JaxenException;
 import org.jdom.JDOMException;
@@ -44,18 +46,30 @@ public class CMapFeatureExtractor implements FeatureExtractor {
         double refDist = 0.0, nOfNodes = 0.0, nOfLinks = 0.0;
         try {
             IContent content = referenceElo.getContent();
-            String contentText = content.getXmlString(); // TODO: find out why imageData tag is not
-                                                         // accepted by org.jaxen.XPath
-            contentText = contentText.replaceAll("<imageData>.*</imageData>", "");
+            String contentText = content.getXmlString(); // TODO: find out why imageData tag is
+                                                         // sometimes not accepted by
+                                                         // org.jaxen.XPath
+                                                         // theory 1: IELO.getXml does not work here
+                                                         // (why?)
+            // contentText = contentText.replaceAll("<imageData>.*</imageData>", "");
             Graph rg = CmapImporter.convertCmap(contentText);
-            contentText = userElo.getXml();
-            contentText = contentText.replaceAll("<imageData>.*</imageData>", "");
+
+            content = userElo.getContent();
+            contentText = content.getXmlString();
+            // contentText = contentText.replaceAll("<imageData>.*</imageData>",
+            // "<imageData> </imageData>\n");
             Graph g = CmapImporter.convertCmap(contentText);
             EditCostFunction cost = EditCostFunction.simpleEditCost;
 
             refDist = EditDistanceCalculator.calcDistance(rg, g, cost);
             nOfNodes = (double) g.getVertexes().size();
             nOfLinks = (double) g.getEdges().size();
+            // how to process vertices to extract labels, etc.
+            // Collection<Vertex> v = g.getVertexes();
+            // while (v.iterator().hasNext()) {
+            // Vertex vx = (Vertex) v.iterator().next();
+            // vx.getLabel();
+            // }
         } catch (JaxenException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
