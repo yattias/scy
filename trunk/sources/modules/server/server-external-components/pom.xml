@@ -196,7 +196,7 @@
 			</resource>
 		</resources>
 		<plugins>
-			<plugin>
+			<!--plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>dependency-maven-plugin</artifactId>
 				<executions>
@@ -218,7 +218,7 @@
 					</artifactItems>
 					<outputDirectory>${project.build.directory}/${project.build.finalName}/</outputDirectory>
 				</configuration>
-			</plugin>
+			</plugin-->
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>maven-jetty-plugin</artifactId>
@@ -285,6 +285,12 @@
 			<id>UT2</id>
 			<properties>
 				<version-name>-ut2</version-name>
+			</properties>
+		</profile>
+		<profile>
+			<id>UT3</id>
+			<properties>
+				<version-name>-ut3</version-name>
 			</properties>
 		</profile>
 	</profiles>
