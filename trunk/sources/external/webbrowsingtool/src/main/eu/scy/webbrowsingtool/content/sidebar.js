@@ -944,7 +944,7 @@ if ("undefined" == typeof(scylighter)) {
                 //                var htmlDoc = window.content.document.documentElement.innerHTML;
 
                 // extract language and country:
-                var lang = navigator.language;
+                var lang =  general.useragent.locale;
                 var languageCode = "en";
                 var countryCode = null;
                 if (lang !=null){
