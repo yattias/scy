@@ -125,6 +125,12 @@
 			<groupId>de.fhg.iais.kd.tm</groupId>
 			<artifactId>obwious-mallet</artifactId>
 			<version>1.0.3-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>xercesImpl</artifactId>
+					<groupId>xerces</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -144,11 +150,17 @@
 			<artifactId>obwious-featurecarrier</artifactId>
 			<version>1.1.0</version>
 		</dependency>
-<dependency>
-<groupId>de.fhg.iais.kd.tm</groupId>
-<artifactId>graph-edit</artifactId>
-<version>0.0.1-SNAPSHOT</version>
-</dependency> 
+		<dependency>
+			<groupId>de.fhg.iais.kd.tm</groupId>
+			<artifactId>graph-edit</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>xercesImpl</artifactId>
+					<groupId>xerces</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency> 
 
 		<dependency>
 			<groupId>org.tartarus</groupId>
