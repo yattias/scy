@@ -85,7 +85,8 @@ public class MissionLocatorUtils
                MissionSpecificationElo missionSpecificationElo = new MissionSpecificationElo(elo, tbi);
                if (missionSpecificationElo.getAccess() != Access.DELETED)
                {
-                  if (missionSpecificationElo.getElo().supportsLanguage(Locale.getDefault())){
+                  if (missionSpecificationElo.getElo().supportsLanguage(Locale.getDefault()) || missionSpecificationElo.getElo().supportsLanguage(Locale.ENGLISH))
+                  {
                      missions.missionSpecificationElos.add(missionSpecificationElo);
                   }
                }
