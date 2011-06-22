@@ -67,7 +67,7 @@
         <dependency>
             <groupId>jivesoftware</groupId>
             <artifactId>smack</artifactId>
-            <version>3.1.0</version>
+            <version>3.2.0</version>
         </dependency>
 
         <dependency>
@@ -122,9 +122,9 @@
         </dependency>
 
         <dependency>
-            <groupId>jivesoftware</groupId>
+            <groupId>org.igniterealtime</groupId>
             <artifactId>smackx</artifactId>
-            <version>3.1.0</version>
+            <version>3.2.0</version>
             <type>jar</type>
             <scope>test</scope>
         </dependency>
