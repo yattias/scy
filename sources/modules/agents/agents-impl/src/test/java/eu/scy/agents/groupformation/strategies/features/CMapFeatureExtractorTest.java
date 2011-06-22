@@ -28,6 +28,6 @@ public class CMapFeatureExtractorTest extends AbstractFeatureExtractorTest {
     public void testGetKeywords() {
         double[] features = ((CMapFeatureExtractor) extractor).getCMapFeatures("x", "y",
                                                                                referenceElo, elo);
-        assertEquals(16, features.length);
+        assertEquals(3, features.length);
     }
 }
