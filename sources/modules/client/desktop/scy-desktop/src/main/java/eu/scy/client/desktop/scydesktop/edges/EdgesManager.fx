@@ -43,7 +43,7 @@ public class EdgesManager extends IEdgesManager {
                     visible: true;
                     opacity: 0.5
                 }
-        logger.error("adding a datasync-edge {edge} from {scyWindowStart} to {scyWindowEnd}.");
+        logger.debug("adding a datasync-edge {edge} from {scyWindowStart} to {scyWindowEnd}.");
         insert edge into nodes;
         insert edge into datasyncNodes;
         return edge;
@@ -72,7 +72,7 @@ public class EdgesManager extends IEdgesManager {
     }
 
     public override function findLinks(sourceWindow: ScyWindow) {
-        logger.error("finding links...");
+        logger.debug("finding links...");
         delete  nodes;
         // insert datasyncnodes if according window is visible
         insertDatasyncNodes();
@@ -123,7 +123,7 @@ public class EdgesManager extends IEdgesManager {
         for (datasyncNode in datasyncNodes) {
             var window = windowManager.findScyWindow((datasyncNode as DatasyncEdge).scyWindowStart.eloUri);
             if (not (window == null)) {
-		logger.error("insert {datasyncNode} into {sizeof nodes}");
+		logger.debug("insert {datasyncNode} into {sizeof nodes}");
                 insert datasyncNode into nodes;
                 (datasyncNode as DatasyncEdge).update();
             }
