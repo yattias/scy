@@ -28,7 +28,7 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
     private static final Logger logger = Logger.getLogger(ScySimBehaviourClassifier.class.getName());
 
     private boolean isStopped;
-    
+
     private ReentrantLock l = new ReentrantLock();
 
     private static final Tuple USER_EXP_TEMPLATE = new Tuple("user_exp", Field.createWildCardField());
@@ -118,7 +118,7 @@ public class ScySimBehaviourClassifier extends AbstractThreadedAgent implements 
         if (model == null) {
             model = new BehavioralModel(user, eloUri, 1, 1, 0, commandSpace);
             userModels.put(user + "/" + eloUri, model);
-            logger.log(Level.FINE, "New Model for " + user + " with tool " + eloUri  + " created...");
+            //logger.log(Level.FINE, "New Model for " + user + " with tool " + eloUri  + " created...");
         }
         l.unlock();
         return model;
