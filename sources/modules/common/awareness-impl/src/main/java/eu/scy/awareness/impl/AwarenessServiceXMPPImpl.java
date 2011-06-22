@@ -532,7 +532,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
                     Exception ex = null;
                     while (tries > 0 && !hasJoined) {
                         try {
-                            muc.join(xmppConnection.getUser(), null, history, SmackConfiguration.getPacketReplyTimeout());
+                            muc.join(StringUtils.parseBareAddress(xmppConnection.getUser()), null, history, SmackConfiguration.getPacketReplyTimeout());
                             hasJoined = true;
                         } catch (XMPPException e) {
                             // we give a shit and just try tries-- times again
@@ -550,7 +550,7 @@ public class AwarenessServiceXMPPImpl implements IAwarenessService, MessageListe
                 // this should actually not happen, but we keep it in as a fall back case
                 // so we create the chat room
                 try {
-                    muc.create(xmppConnection.getUser());
+                    muc.create(StringUtils.parseBareAddress(xmppConnection.getUser()));
 
                     // Get the the room's configuration form
                     Form form = muc.getConfigurationForm();
