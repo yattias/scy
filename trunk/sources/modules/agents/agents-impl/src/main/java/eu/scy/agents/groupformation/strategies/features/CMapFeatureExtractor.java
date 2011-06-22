@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.rmi.dgc.VMID;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -15,6 +16,7 @@ import java.util.Set;
 import de.fhg.iais.kd.tm.elo.CmapImporter;
 import de.fhg.iais.kd.tm.graphmatching.editdistance.EditCostFunction;
 import de.fhg.iais.kd.tm.graphmatching.editdistance.EditDistanceCalculator;
+import de.fhg.iais.kd.tm.graphmatching.graph.Edge;
 import de.fhg.iais.kd.tm.graphmatching.graph.Graph;
 import de.fhg.iais.kd.tm.graphmatching.graph.Vertex;
 
@@ -31,72 +33,95 @@ import eu.scy.agents.impl.AgentProtocol;
 
 public class CMapFeatureExtractor implements FeatureExtractor {
 
-    private TupleSpace commandSpace;
+	private TupleSpace commandSpace;
 
-    @Override
-    public Map<String, double[]> getFeatures(Set<String> availableUsers, String mission, IELO elo) {
-        Map<String, double[]> results = new LinkedHashMap<String, double[]>();
-        for (String user : availableUsers) {
-            results.put(user, getCMapFeatures(user, mission, elo, null));
-        }
-        return results;
-    }
+	@Override
+	public Map<String, double[]> getFeatures(Set<String> availableUsers, String mission, IELO elo) {
+		Map<String, double[]> results = new LinkedHashMap<String, double[]>();
+		for (String user : availableUsers) {
+			results.put(user, this.getCMapFeatures(user, mission, elo, null));
+		}
+		return results;
+	}
 
-    public double[] getCMapFeatures(String user, String mission, IELO referenceElo, IELO userElo) {
-        double refDist = 0.0, nOfNodes = 0.0, nOfLinks = 0.0;
-        try {
-            IContent content = referenceElo.getContent();
-            String contentText = content.getXmlString(); // TODO: find out why imageData tag is
-                                                         // sometimes not accepted by
-                                                         // org.jaxen.XPath
-                                                         // theory 1: IELO.getXml does not work here
-                                                         // (why?)
-            // contentText = contentText.replaceAll("<imageData>.*</imageData>", "");
-            Graph rg = CmapImporter.convertCmap(contentText);
+	public double[] getCMapFeatures(String user, String mission, IELO referenceElo, IELO userElo) {
+		double refDist = 0.0, nOfNodes = 0.0, nOfLinks = 0.0, nOfLabels = 0.0;
+		try {
+			IContent content = referenceElo.getContent();
+			String contentText = content.getXmlString(); // TODO: find out why imageData tag is
+															// sometimes not accepted by
+															// org.jaxen.XPath
+															// theory 1: IELO.getXml does not work here
+															// (why?)
+			// contentText = contentText.replaceAll("<imageData>.*</imageData>", "");
+			Graph rg = CmapImporter.convertCmap(contentText);
 
-            content = userElo.getContent();
-            contentText = content.getXmlString();
-            // contentText = contentText.replaceAll("<imageData>.*</imageData>",
-            // "<imageData> </imageData>\n");
-            Graph g = CmapImporter.convertCmap(contentText);
-            EditCostFunction cost = EditCostFunction.simpleEditCost;
+			content = userElo.getContent();
+			contentText = content.getXmlString();
+			// contentText = contentText.replaceAll("<imageData>.*</imageData>",
+			// "<imageData> </imageData>\n");
+			Graph g = CmapImporter.convertCmap(contentText);
+			EditCostFunction cost = EditCostFunction.simpleEditCost;
 
-            refDist = EditDistanceCalculator.calcDistance(rg, g, cost);
-            nOfNodes = (double) g.getVertexes().size();
-            nOfLinks = (double) g.getEdges().size();
-            // how to process vertices to extract labels, etc.
-            // Collection<Vertex> v = g.getVertexes();
-            // while (v.iterator().hasNext()) {
-            // Vertex vx = (Vertex) v.iterator().next();
-            // vx.getLabel();
-            // }
-        } catch (JaxenException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (JDOMException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+			refDist = EditDistanceCalculator.calcDistance(rg, g, cost);
+			nOfNodes = (double) g.getVertexes().size();
+			nOfLinks = (double) g.getEdges().size();
 
-        return new double[] { refDist, nOfNodes, nOfLinks };
-    }
+			// count non-empty labels
+			nOfLabels = (double) this.countLabels(g);
+		} catch (JaxenException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JDOMException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-    @Override
-    public TupleSpace getCommandSpace() {
-        return commandSpace;
-    }
+		return new double[] { refDist, nOfNodes, nOfLinks, nOfLabels };
+	}
 
-    @Override
-    public void setCommandSpace(TupleSpace commandSpace) {
-        this.commandSpace = commandSpace;
-    }
+	/**
+	 * @param g count number of non-empty edge and vertex labels
+	 */
+	private int countLabels(Graph g) {
+		int numOfLabels = 0;
+		// process vertices to extract labels
+		Collection<Vertex> v = g.getVertexes();
+		Iterator<Vertex> vIt = v.iterator();
+		while (vIt.hasNext()) {
+			Vertex vx = (Vertex) vIt.next();
+			if (!vx.getLabel().matches("")) {
+				numOfLabels++;
+			}
+		}
+		// process edges to extract labels
+		Collection<Edge> e = g.getEdges();
+		Iterator<Edge> eIt = e.iterator();
+		while (eIt.hasNext()) {
+			Edge ex = (Edge) eIt.next();
+			if (!ex.getLabel().matches("")) {
+				numOfLabels++;
+			}
+		}
+		return numOfLabels;
+	}
 
-    @Override
-    public boolean canRun(IELO elo) {
-        return true;
-    }
+	@Override
+	public TupleSpace getCommandSpace() {
+		return this.commandSpace;
+	}
+
+	@Override
+	public void setCommandSpace(TupleSpace commandSpace) {
+		this.commandSpace = commandSpace;
+	}
+
+	@Override
+	public boolean canRun(IELO elo) {
+		return true;
+	}
 
 }
