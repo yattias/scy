@@ -304,6 +304,44 @@
                 <roolo.port>80</roolo.port>
             </properties>
         </profile>
+        <profile>
+            <id>UT3</id>
+            <properties>
+                <version-name>-ut3</version-name>
+                <serverfilter.db.username>root</serverfilter.db.username>
+                <serverfilter.db.password>root</serverfilter.db.password>
+                <serverfilter.db.url>java:comp/env/jdbc/scy</serverfilter.db.url>
+                <serverfilter.db.host>localhost</serverfilter.db.host>
+
+                <client.servername>gw-scyserver3.gw.utwente.nl</client.servername>
+                <client.httpPort>80</client.httpPort>
+                <client.contextPath>/scy-useradmin-web</client.contextPath>
+
+                <sqlspaces.server.host>localhost</sqlspaces.server.host>
+                <sqlspaces.server.port>2525</sqlspaces.server.port>
+
+                <openfire.host>gw-scyserver3.gw.utwente.nl</openfire.host>
+                <openfire.conference>conference</openfire.conference>
+                <openfire.client.port>5222</openfire.client.port>
+                <openfire.externalcomponent.port>5275</openfire.externalcomponent.port>
+                <openfire.externalcomponent.secretkey>java</openfire.externalcomponent.secretkey>
+                <openfire.http-host>scyserver3-xmpp.gw.utwente.nl</openfire.http-host>
+                <openfire.client.http-port>80</openfire.client.http-port>
+                <scyhub.name>scyhub</scyhub.name>
+
+                <filestreamer.server>gw-scyserver3.gw.utwente.nl</filestreamer.server>
+                <filestreamer.context>webapp/common/filestreamer.html</filestreamer.context>
+                <filestreamer.port>80</filestreamer.port>
+
+                <auth.cr.server>gw-scyserver3.gw.utwente.nl</auth.cr.server>
+                <auth.cr.context>webapp/UserCredentials.html</auth.cr.context>
+                <auth.cr.port>8080</auth.cr.port>
+
+                <roolo.server>gw-scyserver3.gw.utwente.nl</roolo.server>
+                <roolo.context>extcomp</roolo.context>
+                <roolo.port>80</roolo.port>
+            </properties>
+        </profile>
     </profiles>
     <dependencies>
         <dependency>
