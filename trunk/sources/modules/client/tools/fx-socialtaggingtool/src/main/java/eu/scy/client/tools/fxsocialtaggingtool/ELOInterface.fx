@@ -239,7 +239,7 @@ public class ELOInterface extends ISyncListener {
     }
 
     public function joinSession(mucId:String) : Void {
-        syncSession = tbi.getDataSyncService().joinSession(mucId, this, "socialtagging");
+        syncSession = tbi.getDataSyncService().joinSession(mucId, this, "socialtagging", false);
     }
 
     override public function syncObjectRemoved (syncObject : ISyncObject) : Void {
