@@ -35,26 +35,17 @@ public class DataSyncService implements IDataSyncService {
 	
 	private Connection connection;
 
-        private HashMap<String, ISyncSession> sessionMap;
+        private final HashMap<String, ISyncSession> sessionMap;
+
+        private PacketFilter sessionCreateAnswerFilter;
+
+        private PacketListener sessionCreateAnswerListener;
 
 	public DataSyncService() {
 		packetLock = new SynchronousQueue<Packet>();
                 sessionMap = new HashMap<String, ISyncSession>();
 	}
 
-   @Override
-   public String toString() {
-      String host="?";
-      int port=-1;
-      String user="?";
-      if (connection!=null){
-         host = connection.getHost();
-         port = connection.getPort();
-         user = connection.getUser();
-      }
-      return this.getClass().getName() + "{host=" + host + ",port=" + port + ",user=" + user  + '}';
-   }
-	
 	public void init(Connection xmppConnection) {
 		
 		this.connection = xmppConnection;
@@ -67,7 +58,7 @@ public class DataSyncService implements IDataSyncService {
 		providerManager.addExtensionProvider(transformer.getElementname(), transformer
 				.getNamespace(), new SmacketExtensionProvider());
 		
-		xmppConnection.addPacketListener(new PacketListener(){
+		sessionCreateAnswerListener = new PacketListener() {
 		
 			@Override
 			public void processPacket(Packet packet) {
@@ -77,7 +68,8 @@ public class DataSyncService implements IDataSyncService {
 					e.printStackTrace();
 				}
 			}
-		}, new PacketFilter() {
+		};
+		sessionCreateAnswerFilter = new PacketFilter() {
 		
 			@Override
 			public boolean accept(Packet packet) {
@@ -85,13 +77,13 @@ public class DataSyncService implements IDataSyncService {
 				if(extension != null) {
 					SmacketExtension se = (SmacketExtension) extension;
 					SyncMessage message = (SyncMessage) se.getTransformer().getObject();
-					if (message.getType().equals(Type.answer) && message.getEvent().equals(Event.create)) {
+					if (message != null && message.getType().equals(Type.answer) && message.getEvent().equals(Event.create)) {
 						return true;
 					}
 				}
 				return false;
 			}
-		});
+		};
 	}
 	
 	/**
@@ -122,22 +114,32 @@ public class DataSyncService implements IDataSyncService {
 		SmacketExtension extension = new SmacketExtension(transformer);
 		sentPacket.addExtension(extension);
 		
-		logger.debug("Sending message to create session for tool " + toolid + " to receiver: " + Configuration.getInstance().getSCYHubName() + "." + Configuration.getInstance().getOpenFireHost());
-		
-		connection.sendPacket(sentPacket);
-		
 		Message receivedPacket = null;
 		ISyncSession newSession = null;
 		
 		try {
-			// TODO: check IDs for request and response
-			receivedPacket = (Message) packetLock.poll(10, TimeUnit.SECONDS);
-			
+		        connection.addPacketListener(sessionCreateAnswerListener, sessionCreateAnswerFilter);
+		        
+		        int tries = 5;
+		        
+		        while (tries > 0) {
+		            logger.debug("Sending message to create session for tool " + toolid + " to receiver: " + Configuration.getInstance().getSCYHubName() + "." + Configuration.getInstance().getOpenFireHost());
+		            connection.sendPacket(sentPacket);
+		            
+		            receivedPacket = (Message) packetLock.poll(5, TimeUnit.SECONDS);
+		            
+		            if (receivedPacket == null) {
+		                tries--;
+		            } else {
+		                break;
+		            }
+		        }
+		        
 			if (receivedPacket == null) {
 				logger.error("Creating session with toolid " + toolid + " timed out!");
 				throw new DataSyncException("Creating session with toolid " + toolid + " timed out!");
 			}
-			
+			connection.removePacketListener(sessionCreateAnswerListener);
 			logger.debug("Received response for session creating from server.");
 			
 			extension = (SmacketExtension) receivedPacket.getExtension(transformer.getElementname(), transformer.getNamespace());
@@ -148,21 +150,15 @@ public class DataSyncService implements IDataSyncService {
 				if (mucID == null) {
 					throw new DataSyncException("Session could not be created!");
 				}
-				MultiUserChat muc = new MultiUserChat(connection, mucID);
-				muc.join(StringUtils.parseBareAddress(connection.getUser()), null, null, 10 * 1000);
-				newSession = new SyncSession(connection, muc, toolid, listener);
-				
+				joinSession(mucID, listener, toolid, false);
 				logger.debug("Session successfully created with id: " + mucID);
 			} else if (message.getResponse().equals(Response.failure)) {
 				logger.error("Failure during session creation");
-				throw new DataSyncException("Creating session with toolid " + toolid + " timed out!");
+				throw new DataSyncException("Creating session with toolid " + toolid + " failed!");
 			}
 		} catch (InterruptedException e) {
 			logger.error("Exception while creating session", e);
 			throw new DataSyncException("Something really bad happened ...", e);
-		} catch (XMPPException e) {
-			logger.error("Exception while creating session", e);
-			throw new DataSyncException("Exception in XMPP communication during session creation process", e);
 		}
 		return newSession;
 	}
@@ -188,26 +184,41 @@ public class DataSyncService implements IDataSyncService {
 	@Override
 	public ISyncSession joinSession(String mucID, ISyncListener listener, String toolid, boolean fetchState) throws DataSyncException {
 		checkConnectionState();
-		if (sessionMap.containsKey(mucID) && sessionMap.get(mucID).isConnected()) {
-                    ISyncSession session = sessionMap.get(mucID);
-                    session.addSyncListener(listener);
-                    if (fetchState) {
-                        session.fetchState(toolid);
-                    }
-                    return session;
-                } else {
-                    MultiUserChat muc = new MultiUserChat(connection, mucID);
-                    try {
-                            muc.join(StringUtils.parseBareAddress(connection.getUser()), null, null, 10 * 1000);
-                            ISyncSession joinedSession = new SyncSession(connection, muc, listener);
-                            sessionMap.put(mucID, joinedSession);
-                            if (fetchState) {
-                                joinedSession.fetchState(toolid);
-                            }
-                            return joinedSession;
-                    } catch (XMPPException e) {
-                            throw new DataSyncException(e);
+                synchronized (sessionMap) {
+                    if (sessionMap.containsKey(mucID) && sessionMap.get(mucID).isConnected()) {
+                        ISyncSession session = sessionMap.get(mucID);
+                        session.addSyncListener(listener);
+                        if (fetchState) {
+                            session.fetchState(toolid);
+                        }
+                        return session;
+                    } else {
+                        MultiUserChat muc = new MultiUserChat(connection, mucID);
+                        try {
+                                muc.join(StringUtils.parseBareAddress(connection.getUser()), null, null, 10 * 1000);
+                                ISyncSession joinedSession = new SyncSession(connection, muc, toolid, listener);
+                                sessionMap.put(mucID, joinedSession);
+                                if (fetchState) {
+                                    joinedSession.fetchState(toolid);
+                                }
+                                return joinedSession;
+                        } catch (XMPPException e) {
+                                throw new DataSyncException(e);
+                        }
                     }
                 }
 	}
+
+    @Override
+       public String toString() {
+          String host="?";
+          int port=-1;
+          String user="?";
+          if (connection!=null){
+             host = connection.getHost();
+             port = connection.getPort();
+             user = connection.getUser();
+          }
+          return this.getClass().getName() + "{host=" + host + ", port=" + port + ", user=" + user  + '}';
+       }
 }

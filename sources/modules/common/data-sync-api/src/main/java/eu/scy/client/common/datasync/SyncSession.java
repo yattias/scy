@@ -9,12 +9,10 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+import org.apache.log4j.Logger;
 import org.jivesoftware.smack.Connection;
 import org.jivesoftware.smack.PacketListener;
-import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.packet.Message;
@@ -39,6 +37,8 @@ import eu.scy.common.smack.SmacketExtensionProvider;
 
 public class SyncSession implements ISyncSession {
 
+    private static final Logger logger = Logger.getLogger(SyncSession.class);
+
     private MultiUserChat muc;
 
     private Connection connection;
@@ -54,6 +54,14 @@ public class SyncSession implements ISyncSession {
     private BlockingQueue<Packet> queryQueue;
 
     private boolean fetchState;
+
+    private PacketListener syncPacketListener;
+
+    private PacketListener queryAllListener;
+
+    private PacketFilter syncPacketFilter;
+
+    private PacketFilter queryAllFilter;
 
     public SyncSession(Connection xmppConnection, MultiUserChat muc, String toolid, ISyncListener listener) throws DataSyncException {
         this(xmppConnection, muc, toolid, listener, false);
@@ -90,8 +98,8 @@ public class SyncSession implements ISyncSession {
         providerManager.addExtensionProvider(syncActionTransformer.getElementname(), syncActionTransformer.getNamespace(), extensionProvider);
         providerManager.addExtensionProvider(syncMessageTransformer.getElementname(), syncMessageTransformer.getNamespace(), extensionProvider);
 
-        xmppConnection.addPacketListener(new PacketListener() {
-
+        syncPacketListener = new PacketListener() {
+            
             @Override
             public void processPacket(Packet packet) {
                 if (packet.getExtension(syncActionTransformer.getElementname(), syncActionTransformer.getNamespace()) != null) {
@@ -115,35 +123,55 @@ public class SyncSession implements ISyncSession {
                             }
                         }
                     }
-                } else if (packet.getExtension(syncMessageTransformer.getElementname(), syncMessageTransformer.getNamespace()) != null) {
-                    try {
-                        queryQueue.put(packet);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                 }
             }
-        }, new PacketFilter() {
-
+        };
+        syncPacketFilter = new PacketFilter() {
+            
             @Override
             public boolean accept(Packet packet) {
                 if (packet.getFrom().startsWith(mucRoomId)) {
                     if (packet.getExtension(syncActionTransformer.getElementname(), syncActionTransformer.getNamespace()) != null) {
                         return true;
                     }
-                } else if (packet.getFrom().startsWith("datasynclistener")) { // this string should be made generic somehow
+                }
+                return false;
+            }
+        };
+        
+        queryAllListener = new PacketListener() {
+            
+            @Override
+            public void processPacket(Packet packet) {
+                if (packet.getExtension(syncMessageTransformer.getElementname(), syncMessageTransformer.getNamespace()) != null) {
+                    try {
+                        logger.debug("Putting packet with id " + packet.getPacketID() + " into query queue.");
+                        queryQueue.put(packet);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        queryAllFilter = new PacketFilter() {
+            
+            @Override
+            public boolean accept(Packet packet) {
+                if (packet.getFrom().startsWith("datasynclistener")) { // this string should be made generic somehow
                     if (packet.getExtension(syncMessageTransformer.getElementname(), syncMessageTransformer.getNamespace()) != null) {
                         PacketExtension extension = packet.getExtension(syncMessageTransformer.getElementname(), syncMessageTransformer.getNamespace());
                         SmacketExtension se = (SmacketExtension) extension;
                         SyncMessage message = (SyncMessage) se.getTransformer().getObject();
-                        if (message.getType().equals(eu.scy.common.message.SyncMessage.Type.answer) && message.getEvent().equals(Event.queryall)) {
+                        if (message.getType().equals(eu.scy.common.message.SyncMessage.Type.answer) && message.getEvent().equals(Event.queryall) && message.getSessionId().equals(getId())) {
+                            logger.debug("Accepting query answer packet with id " + packet.getPacketID() + " for session " + message.getSessionId());
                             return true;
                         }
                     }
                 }
                 return false;
             }
-        });
+        };
+        xmppConnection.addPacketListener(syncPacketListener, syncPacketFilter);
 
         if (fetchState) {
             fetchState(toolid);
@@ -226,7 +254,7 @@ public class SyncSession implements ISyncSession {
 
     @Override
     public List<ISyncObject> getAllSyncObjects(String toolId) throws DataSyncException {
-        return getAllSyncObjects(toolId, 20, TimeUnit.SECONDS);
+        return getAllSyncObjects(toolId, 5, TimeUnit.SECONDS);
     }
 
     @Override
@@ -248,23 +276,35 @@ public class SyncSession implements ISyncSession {
         sentPacket.addExtension(extension);
 
         try {
-            muc.sendMessage(sentPacket);
-
-            Packet packet = queryQueue.poll(time, unit);
+            connection.addPacketListener(queryAllListener, queryAllFilter);
+            Packet packet = null; 
+            int tries = 5;
+            while (tries > 0) {
+                logger.debug("Sending request for querying all objects from session " + getId());
+                muc.sendMessage(sentPacket);
+                
+                packet = queryQueue.poll(time, unit);
+                logger.debug("Polled packet from queue in " + (6-tries) + " is " + packet);
+                if (packet != null) {
+                    extension = (SmacketExtension) packet.getExtension(syncMessageTransformer.getElementname(), syncMessageTransformer.getNamespace());
+                    SyncMessage reply = (SyncMessage) extension.getTransformer().getObject();
+                    if (reply != null && Response.success.equals(reply.getResponse())) {
+                        logger.debug("Successfully returning objects from received packet with id " + packet.getPacketID());
+                        return reply.getSyncObjects();
+                    }
+                }
+                logger.debug("Try " + (6-tries) + " failed. One more time?");
+                tries--;
+            }
             if (packet == null) {
                 throw new DataSyncException("Exception during querying session data");
-            }
-            extension = (SmacketExtension) packet.getExtension(syncMessageTransformer.getElementname(), syncMessageTransformer.getNamespace());
-            SyncMessage reply = (SyncMessage) extension.getTransformer().getObject();
-            if (reply.getResponse().equals(Response.success)) {
-                return reply.getSyncObjects();
-            } else {
-                // TODO throw new exception, now return empty list
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (XMPPException e) {
             e.printStackTrace();
+        } finally {
+            connection.removePacketListener(queryAllListener);
         }
 
         return list;
@@ -363,7 +403,7 @@ public class SyncSession implements ISyncSession {
                 }
             }
         } catch (DataSyncException ex) {
-            Logger.getLogger(SyncSession.class.getName()).log(Level.SEVERE, null, ex);
+            logger.error(ex);
         }
     }
 
