@@ -193,7 +193,7 @@ function createScyDesktop(missionRunConfigs: MissionRunConfigs): ScyDesktop {
 
    var awarenessService:IAwarenessService = missionRunConfigs.tbi.getAwarenessService();
    var chatControllerMap = new HashMap();
-   scyDesktopCreator.scyToolCreatorRegistryFX.registerScyToolCreatorFX(
+   scyDesktopCreator.drawerContentCreatorRegistryFX.registerDrawerContentCreatorFX(
             ChattoolDrawerContentCreatorFX {
                 awarenessService: awarenessService;
                 chatControllerMap: chatControllerMap;
