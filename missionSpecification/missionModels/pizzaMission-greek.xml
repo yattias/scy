@@ -307,7 +307,7 @@
       <property name="basicMissionAnchors">
          <list>
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="myOptimizedHealthyPizza"/>
+               <property name="id" value="Η Βελτιωμένη Υγιεινή σας Πίτσα"/>
                <property name="uri" value="roolo://memory/30091/0/My+Optimized+Healthy+Pizza.scysimconfig"/>
                <property name="iconType" value="Pizza"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_A.txt"/>
@@ -322,7 +322,7 @@
             </bean>
 
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="myFavouritePizza"/>
+               <property name="id" value="Δημιουργία της Αγαπημένης σας Πίτσας"/>
                <property name="uri" value="roolo://memory/30089/0/My+Favourite+Pizza.scysimconfig"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_A.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_01_myFavouritePizza.html"/>
@@ -336,7 +336,7 @@
             </bean>
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="myFirstHealthyPizza"/>
+               <property name="id" value="Η Πρώτη Υγιεινή σας Πίτσα"/>
                <property name="uri" value="roolo://memory/30090/0/My+First+Healthy+Pizza.scysimconfig"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_A.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_21_myFirstHealthyPizza.html"/>
@@ -407,7 +407,7 @@
             </bean>
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="questionsAboutPizzaBenefits"/>
+               <property name="id" value="Πλεονεκτήματα από την Κατανάλωση Πίτσας"/>
                <property name="uri" value="roolo://memory/30013/0/Questions+About+Pizza+Benefits.rtf"/>
                <property name="iconType" value="Information2"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_C.txt"/>
@@ -424,7 +424,7 @@
 
 	
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="notesOnUnhealthyDiet"/>
+               <property name="id" value="Ανθυγιεινή Διατροφή"/>
                <property name="uri" value="roolo://memory/30012/0/Notes+On+Unhealthy+Diet.rtf"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_C.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_02_notesOnUnhealthyDiet.html"/>
@@ -438,8 +438,8 @@
             </bean>
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="nutrientAndEnergyCalculations"/>
-               <property name="uri" value="roolo://memory/30151/0/Nutrient+And+Energy+Calculations.rtf"/>
+               <property name="id" value="Θρεπτικές Ουσίες και Υπολογισμός Ενέργειας"/>
+               <property name="uri" value="roolo://memory/30183/0/Nutrient+And+Energy+Calculations.rtf"/>
                <property name="iconType" value="Analyse"/>
 			   <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_D.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_06_nutrientAndEnergyCalculations.html"/>
@@ -453,7 +453,7 @@
             </bean>
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="nutritionTable"/>
+               <property name="id" value="Πίνακας Θρεπτικών Ουσιών"/>
                <property name="uri" value="roolo://memory/30014/0/Nutrition+Table.scypds"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_D.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_05_nutrientsTable.html"/>
@@ -467,7 +467,7 @@
             </bean>
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="pizzaIngredientTable"/>
+               <property name="id" value="Πίνακας Συστατικών της Πίτσας"/>
                <property name="uri" value="roolo://memory/30016/0/Pizza+Ingredient+Table.scypds"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_D.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_07_pizzaIngredientTable.html"/>
@@ -496,7 +496,7 @@
             </bean>
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="questionsAboutTheFoodPyramid"/>
+               <property name="id" value="Ερώτηση για την Τροφική Πυραμίδα"/>
                <property name="uri" value="roolo://memory/30017/0/Questions+About+The+Food+Pyramid.rtf"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_E.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_08_questionsAboutTheFoodPyramid.html"/>
@@ -510,8 +510,8 @@
             </bean>
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="energyFactSheet"/>
-               <property name="uri" value="roolo://memory/30019/0/Energy+Fact+Sheet.scymapping"/>
+               <property name="id" value="Εννοιολογικός Χάρτης Ενέργειας"/>
+               <property name="uri" value="roolo://memory/30184/0/Energy+Fact+Sheet.scymapping"/>
 			   <property name="iconType" value="Analyse"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_F.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_12_energyFactSheet.html"/>
@@ -540,8 +540,8 @@
             </bean>
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="factSheetOfOneOrgan"/>
-               <property name="uri" value="roolo://memory/30021/0/Fact+Sheet+Of+One+Organ.rtf"/>
+               <property name="id" value="Μοντελοποίηση του Πεπτικού Συστήματος"/>
+               <property name="uri" value="roolo://memory/30185/0/Fact+Sheet+Of+One+Organ.rtf"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_G.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_16_factSheetOfOneOrgan.html"/>
                <property name="resourcesUri" value=""/>
@@ -554,8 +554,8 @@
             </bean>
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="personalComments"/>
-               <property name="uri" value="roolo://memory/30022/0/Personal+Comments.rtf"/>
+               <property name="id" value="Προβλήματα Υγείας που σχετίζονται με τη Διατροφή"/>
+               <property name="uri" value="roolo://memory/30186/0/Personal+Comments.rtf"/>
 			   <property name="iconType" value="Evaluation_report"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_H.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_17_personalComments.html"/>
@@ -584,7 +584,7 @@
             </bean>
 		
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="reflectionOnImportanceOfCriteria"/>
+               <property name="id" value="Αξιολόγηση της Στρατγηγικής της Βελτιστοποίησης"/>
                <property name="uri" value="roolo://memory/30024/0/Reflection+On+Importance+Of+Criteria.rtf"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_I.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_23_reflectionOnImportanceOfCriteria.html"/>
@@ -641,7 +641,7 @@
             </bean>
 				
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="individualReport"/>
+               <property name="id" value="Συγκρίνετε τις Πίτσες σας"/>
                <property name="uri" value="roolo://memory/30041/0/Individual+Report.rtf"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_J.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_28_individualReport.html"/>
@@ -655,7 +655,7 @@
             </bean>
 				
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="groupReport"/>
+               <property name="id" value="Σύγκριση Πίτσας εντός Ομάδων"/>
                <property name="uri" value="roolo://memory/30042/0/Group+Report.rtf"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_J.txt"/>
                <property name="assignmentUri" value="http://www.scy-lab.eu/content/en/mission3/instruction_29_groupReport.html"/>
@@ -684,7 +684,7 @@
             </bean>
 			
             <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionAnchor">
-               <property name="id" value="letterToSchoolCanteen"/>
+               <property name="id" value="Γράμμα στην Καντίνα του Σχολείου (αναστοχασμός)"/>
                <property name="uri" value="roolo://memory/30044/0/Letter+To+School+Canteen.rtf"/>
                <property name="iconType" value="Report"/>
                <property name="targetDescriptionUri" value="http://www.scy-lab.eu/content/en/mission3/tip_LAS_J.txt"/>
