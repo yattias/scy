@@ -9,7 +9,7 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-03-03T14:51:24.787+0100</dateTime>
+          <dateTime>2011-03-03T15:51:24.787+0200</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -19,7 +19,7 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-03-03T14:50:40.224+0100</dateTime>
+          <dateTime>2011-03-03T15:50:40.224+0200</dateTime>
         </date>
       </contribute>
       <version>15</version>
@@ -49,6 +49,18 @@
         <string language="en">Energy Fact Sheet</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/30184/0/Energy+Fact+Sheet.scymapping</entry>
+        </identifier>
+      </resource>
+    </relation>
   </lom>
   <template>true</template>
   <thumbnail>

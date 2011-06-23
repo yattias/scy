@@ -9,7 +9,7 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-03-16T14:59:35.390+0100</dateTime>
+          <dateTime>2011-03-16T15:59:35.390+0200</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -19,7 +19,7 @@
         </role>
         <entity>Caspar</entity>
         <date>
-          <dateTime>2011-03-16T14:59:35.390+0100</dateTime>
+          <dateTime>2011-03-16T15:59:35.390+0200</dateTime>
         </date>
       </contribute>
       <version>6</version>
@@ -49,6 +49,18 @@
         <string language="en">Nutrient And Energy Calculations</string>
       </title>
     </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_forked_by</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/30183/0/Nutrient+And+Energy+Calculations.rtf</entry>
+        </identifier>
+      </resource>
+    </relation>
   </lom>
   <template>true</template>
   <thumbnail>
@@ -57,46 +69,46 @@
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi&#xD;&#xD;
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;
-&#xD;&#xD;
-\f1\fs24\i0\b0\cf1\par&#xD;&#xD;
-\b Edam cheese\b0  (100 g)\par&#xD;&#xD;
-protein:\tab\tab 26 g\par&#xD;&#xD;
-carbohydrate:\tab 0 g\par&#xD;&#xD;
-fat:\tab\tab 23 g\par&#xD;&#xD;
-energy:\tab\tab ... kcal\par&#xD;&#xD;
-\par&#xD;&#xD;
-\b Chicken breast\b0  (100 g)\par&#xD;&#xD;
-protein:\tab\tab 15 g\par&#xD;&#xD;
-carbohydrate:\tab 15 g\par&#xD;&#xD;
-fat:\tab\tab 16 g\par&#xD;&#xD;
-energy:\tab\tab ... kcal\par&#xD;&#xD;
-\par&#xD;&#xD;
-\b Tomato sauce\b0  (100 g)\par&#xD;&#xD;
-protein:\tab\tab 2 g\par&#xD;&#xD;
-carbohydrate:\tab 14 g\par&#xD;&#xD;
-fat:\tab\tab 1 g\par&#xD;&#xD;
-energy:\tab\tab ... kcal\par&#xD;&#xD;
-\par&#xD;&#xD;
-\b Salami\b0  (100 g)\par&#xD;&#xD;
-protein:\tab\tab 23 g\par&#xD;&#xD;
-carbohydrate:\tab 0 g\par&#xD;&#xD;
-fat:\tab\tab 44 g\par&#xD;&#xD;
-energy:\tab\tab ... kcal\par&#xD;&#xD;
-\b\par&#xD;&#xD;
-Onions\b0  (100 g)\par&#xD;&#xD;
-protein:\tab\tab 1 g\par&#xD;&#xD;
-carbohydrate:\tab 9 g\par&#xD;&#xD;
-fat:\tab\tab 0 g\par&#xD;&#xD;
-energy:\tab\tab ... kcal\par&#xD;&#xD;
-\b\par&#xD;&#xD;
-Pineapple\b0  (100 g)\par&#xD;&#xD;
-protein:\tab\tab 1 g\par&#xD;&#xD;
-carbohydrate:\tab 23 g\par&#xD;&#xD;
-fat:\tab\tab 0 g\par&#xD;&#xD;
-energy:\tab\tab ... kcal\par&#xD;&#xD;
+<RichText>{\rtf1\ansi&#xD;&#xD;&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;}&#xD;&#xD;&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;&#xD;&#xD;
+&#xD;&#xD;&#xD;
+\f1\fs24\i0\b0\cf1\par&#xD;&#xD;&#xD;
+\b Edam cheese\b0  (100 g)\par&#xD;&#xD;&#xD;
+protein:\tab\tab 26 g\par&#xD;&#xD;&#xD;
+carbohydrate:\tab 0 g\par&#xD;&#xD;&#xD;
+fat:\tab\tab 23 g\par&#xD;&#xD;&#xD;
+energy:\tab\tab ... kcal\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+\b Chicken breast\b0  (100 g)\par&#xD;&#xD;&#xD;
+protein:\tab\tab 15 g\par&#xD;&#xD;&#xD;
+carbohydrate:\tab 15 g\par&#xD;&#xD;&#xD;
+fat:\tab\tab 16 g\par&#xD;&#xD;&#xD;
+energy:\tab\tab ... kcal\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+\b Tomato sauce\b0  (100 g)\par&#xD;&#xD;&#xD;
+protein:\tab\tab 2 g\par&#xD;&#xD;&#xD;
+carbohydrate:\tab 14 g\par&#xD;&#xD;&#xD;
+fat:\tab\tab 1 g\par&#xD;&#xD;&#xD;
+energy:\tab\tab ... kcal\par&#xD;&#xD;&#xD;
+\par&#xD;&#xD;&#xD;
+\b Salami\b0  (100 g)\par&#xD;&#xD;&#xD;
+protein:\tab\tab 23 g\par&#xD;&#xD;&#xD;
+carbohydrate:\tab 0 g\par&#xD;&#xD;&#xD;
+fat:\tab\tab 44 g\par&#xD;&#xD;&#xD;
+energy:\tab\tab ... kcal\par&#xD;&#xD;&#xD;
+\b\par&#xD;&#xD;&#xD;
+Onions\b0  (100 g)\par&#xD;&#xD;&#xD;
+protein:\tab\tab 1 g\par&#xD;&#xD;&#xD;
+carbohydrate:\tab 9 g\par&#xD;&#xD;&#xD;
+fat:\tab\tab 0 g\par&#xD;&#xD;&#xD;
+energy:\tab\tab ... kcal\par&#xD;&#xD;&#xD;
+\b\par&#xD;&#xD;&#xD;
+Pineapple\b0  (100 g)\par&#xD;&#xD;&#xD;
+protein:\tab\tab 1 g\par&#xD;&#xD;&#xD;
+carbohydrate:\tab 23 g\par&#xD;&#xD;&#xD;
+fat:\tab\tab 0 g\par&#xD;&#xD;&#xD;
+energy:\tab\tab ... kcal\par&#xD;&#xD;&#xD;
 }</RichText>
 </content>
 <resources>
