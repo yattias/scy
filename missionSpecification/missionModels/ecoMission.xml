@@ -8,6 +8,11 @@
 
    <bean name="missionConfigInput" class="eu.scy.client.desktop.scydesktop.tools.mission.springimport.BasicMissionConfigInput">
 
+      <property name="missionId" value="eco"/>
+      <property name="missionTitle" value="ECO mission"/>
+      <property name="languageId" value="en"/>
+      <property name="xhtmlVersionId" value=""/>
+
       <property name="missionDescriptionUri" value="http://www.scy-lab.eu/content/en/mission2/las_description_challenge.html"/>
 
       <property name="colorSchemesEloUri" value="roolo://memory/20010/0/colorschemes1.colorschemes"/>

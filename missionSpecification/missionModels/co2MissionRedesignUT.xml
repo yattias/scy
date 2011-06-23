@@ -8,6 +8,11 @@
 
    <bean name="missionConfigInput" class="eu.scy.client.desktop.scydesktop.tools.mission.springimport.BasicMissionConfigInput">
 
+      <property name="missionId" value="co2_2_UT"/>
+      <property name="missionTitle" value="Design a CO2 freindly house (UT version)"/>
+      <property name="languageId" value="en"/>
+      <property name="xhtmlVersionId" value=""/>
+
       <property name="missionDescriptionUri" value="http://www.scy-lab.eu/content/en/mission1Redesign_UT/startPage/A_Challenge.html"/>
 
       <property name="colorSchemesEloUri" value="roolo://memory/200/0/colorschemes1.colorschemes"/>
