@@ -8,6 +8,11 @@
 
    <bean name="missionConfigInput" class="eu.scy.client.desktop.scydesktop.tools.mission.springimport.BasicMissionConfigInput">
 
+      <property name="missionId" value="gmo"/>
+      <property name="missionTitle" value="GMO mission"/>
+      <property name="languageId" value="en"/>
+      <property name="xhtmlVersionId" value=""/>
+
       <property name="missionDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/GMO/missionMapInstruction.html"/>
 		<!--Need to update this link!-->
       <property name="eloToolConfigs" ref="eloToolConfigs"/>

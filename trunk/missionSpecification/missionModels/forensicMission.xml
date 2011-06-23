@@ -8,6 +8,11 @@
 
    <bean name="missionConfigInput" class="eu.scy.client.desktop.scydesktop.tools.mission.springimport.BasicMissionConfigInput">
    
+	  <property name="missionId" value="forensic"/>
+	  <property name="missionTitle" value="Forensic mission"/>
+	  <property name="languageId" value="en"/>
+	  <property name="xhtmlVersionId" value=""/>
+
       <property name="missionDescriptionUri" value="http://www.scy-lab.eu/content/en/mission4/missionMapInstruction.html"/>
 	  
       <property name="colorSchemesEloUri" value="roolo://memory/40036/0/Color+schemes+Mission4.colorschemes"/>
@@ -16,6 +21,7 @@
 
       <property name="basicMissionMap">
          <bean class="eu.scy.client.desktop.scydesktop.config.BasicMissionMap">
+
 		 	<!--<property name="missionMapBackgroundImageUri" value="http://www.scy-lab.eu/content/en/mission4/loupe.png"/>-->
 			<property name="missionMapInstructionUri" value="http://www.scy-lab.eu/content/en/mission4/missionMapInstruction.html"/>
             <property name="initialLasId" value="Information"/>
