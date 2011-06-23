@@ -9,10 +9,10 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2011-02-22T17:09:26.343+0200</dateTime>
+          <dateTime>2011-02-22T16:09:26.343+0100</dateTime>
         </date>
       </contribute>
-      <version>9</version>
+      <version>11</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -32,7 +32,6 @@
       <las>orientation_B2</las>
       <structure>plainText</structure>
       <mission>ecoMission</mission>
-      <missionRunning>roolo://memory/20193/0/ECO+mission.scymissionspecification</missionRunning>
       <title>
         <string language="en">Research questions</string>
       </title>
@@ -44,28 +43,20 @@
       <entity>icon</entity>
       <iconType>Research_question</iconType>
     </annotation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAEDElEQVR42u2dzUtbaRTGIy5EKEzpplv3Qv+CAaG0m44dZuFmtn4grtwMtEJRK1Sp/RoKVnSYtjOlzGIsSpu2ggxSKbbFDpnppLQ1UXsTUZOoSTRJY+LNmZyj720+3psqpouW54GH9+O859z7/rg3995VHENDQ5TJZEp6dnaWTNOENXYwwPX1dQoGg1qvra2Rz+cjXjc8PJxnnhsfH6etrS2tC9ernNxWNzc4OKjNZQ8MDBTlF9bROZlM2p7nQbxngLyG+7mORiM0MTFB4XC4yIlEgliFOWyuFY/HbWNut1t7PJ4bGxuzjTEouxhvls+p3M4DGF0PkmEs0+YmaQG+DmxTz8//0flrr+jM5dfUeemmAOTYk399ZIRi9CEWlnE0GhWAZobohTeRZwUwG9XGGGA6ldyZ88TJ5TetGAOMZU9QrXevkBVTAAtrRiJhOd7GxkbZbQGMhkM0PROSTZ/66S2d+32tCOBfrsVsNEORLOCak4+o68ptC+DN+0/pTTb9h76n1lXA2s4SdD4zqKKighwOh/Q/AtyJfXv8O3r43G/FGKCZTsl40h2mk9//aMUEYGxTxg+m3+fVVAB5rObZDJA3y7FyOwdgkHwfMnR2NEOHThh09Nh0EcC743/TxeFX9H7eR8dOP6LzV3+zAI6OjtLk5CT19/dbVzQrvW3SrfsvZUM91/+Q/keARN8cPmLNqxgDzJhpGdfU1NDtnBgDjMdiMr5+ZyIvTwFUcxdu/CltZPdnJRQKld0WwM3oztUX30jS82deuvd4rgjgxV+cdOnXh5Z7rt2xAAZWw/SPZ4neGQEZLy0tSb1Uelvycp0LUBdjgHx762IMMBGPaWMKYGGMr8DV1VVaXl4uu/f1ENGZn8K6woZhCCC7PAZoF1MPEZ3VQ0RnBVDnQCBAfr+/7LYAlvLc3BzNz8/bemFhQetSOZ/DpY5pd44HtWNxcdH26lNeWVkhj8cDa+wg6EAqAsifbtA+AXZ0dMigtbVVWn48s+rr66Wtq6uT+12pvb1d2oaGBgv6yMiI9KuqqnZeX9JpaeVlM/sKw2u4lYPutpWVlTQzMyP9qakpqq2tlc84Vm9v75cDMJVKUXd3t2yW1dfXJxv2er0yVm1jY6OV2NzcTC6XK69YW1ub1OCP7K6uLmppaZFvUKXOzk6pW11dLflKXLepqSmvltPp/DJvYQgAARAAARACQAAEQACEABAAARAAIQAEQAAEQAgAARAAARACQAAEQACEABAAARAAIQAEQAAEQACEABAAARAAIQAEQAAEQAgAARAAARACQAAEQACEABAAARAAIQAEQAAEQAgAARAAARACQAAEwK8OoO7vL8xdF859ap1ZYu2n6uw339xj7VJ55h7rmCVq/w9poBx3gSATYgAAAABJRU5ErkJggg==</base64>
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here your research questions.\par
-\li0\ri0\fi0\f1\ul0\cf1\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here your research questions.\par&#xD;
+\li0\ri0\fi0\f1\ul0\cf1\par&#xD;
 }</RichText>
 </content>
 <resources>

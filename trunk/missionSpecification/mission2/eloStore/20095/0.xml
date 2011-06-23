@@ -1,18 +1,6 @@
 <elo>
 <metadata>
   <lom>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>isbasedon</value>
-      </kind>
-      <resource>
-        <identifier>
-          <catalog>memory</catalog>
-          <entry>roolo://memory/20005/0/ecoMission.runtimesettings</entry>
-        </identifier>
-      </resource>
-    </relation>
     <lifecycle>
       <contribute>
         <role>
@@ -21,10 +9,10 @@
         </role>
         <entity>lars</entity>
         <date>
-          <dateTime>2011-01-21T16:52:15.399+0200</dateTime>
+          <dateTime>2011-01-21T15:52:15.399+0100</dateTime>
         </date>
       </contribute>
-      <version>11</version>
+      <version>13</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -62,7 +50,20 @@
         </identifier>
       </resource>
     </relation>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>isbasedon</value>
+      </kind>
+      <resource>
+        <identifier>
+          <catalog>memory</catalog>
+          <entry>roolo://memory/20005/0/ecoMission.runtimesettings</entry>
+        </identifier>
+      </resource>
+    </relation>
   </lom>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAAeElEQVR42u3QMQEAAAwCIPuX1hDbCRFIOYkCgQIFCkSgQIECEShQoEAEChQoEIECBQpEoECBAhEoUKBABAoUKBCBAgUKRKBAgQIRKFCgQIEIFChQIAIFChSIQIECBSJQoECBCBQoUCACBQoUiECBAgUiUKBAgQj8M5Hzoc7Xq3ytAAAAAElFTkSuQmCC</base64>
@@ -72,8 +73,8 @@
 <eu.scy.scymapper.impl.model.DefaultConceptMap>
   <name>Untitled</name>
   <diagram class="eu.scy.scymapper.impl.DiagramModel">
-    <nodes/>
-    <links/>
+    <nodes />
+    <links />
   </diagram>
 </eu.scy.scymapper.impl.model.DefaultConceptMap>
 </content>

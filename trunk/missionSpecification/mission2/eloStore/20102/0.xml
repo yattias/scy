@@ -9,10 +9,10 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2011-02-22T19:13:02.687+0200</dateTime>
+          <dateTime>2011-02-22T18:13:02.687+0100</dateTime>
         </date>
       </contribute>
-      <version>9</version>
+      <version>11</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -32,7 +32,6 @@
       <las>experiment_B1</las>
       <structure>dataset</structure>
       <mission>ecoMission</mission>
-      <missionRunning>roolo://memory/20193/0/ECO+mission.scymissionspecification</missionRunning>
       <title>
         <string language="en">Data from experiments</string>
       </title>
@@ -44,16 +43,8 @@
       <entity>icon</entity>
       <iconType>scy/dataset</iconType>
     </annotation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>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</base64>

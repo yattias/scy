@@ -9,10 +9,10 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2011-02-22T18:56:13.953+0200</dateTime>
+          <dateTime>2011-02-22T17:56:13.953+0100</dateTime>
         </date>
       </contribute>
-      <version>9</version>
+      <version>11</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -35,21 +35,12 @@
       </identifier>
       <las>experiment_B1</las>
       <mission>ecoMission</mission>
-      <missionRunning>roolo://memory/20193/0/ECO+mission.scymissionspecification</missionRunning>
       <title>
         <string language="en">Influence of nutrients on biomass</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>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</base64>
