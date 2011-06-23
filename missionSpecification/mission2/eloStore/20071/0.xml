@@ -9,7 +9,7 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2011-02-22T19:49:35.593+0200</dateTime>
+          <dateTime>2011-02-22T18:49:35.593+0100</dateTime>
         </date>
       </contribute>
       <contribute>
@@ -19,10 +19,10 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2011-06-09T16:40:34.734+0300</dateTime>
+          <dateTime>2011-06-09T15:40:34.734+0200</dateTime>
         </date>
       </contribute>
-      <version>10</version>
+      <version>12</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -58,32 +58,21 @@
       <entity>icon</entity>
       <iconType>scy/simconfig</iconType>
     </annotation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
-  <socialTags>
-    <tags />
-  </socialTags>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAAEIklEQVR42u3XXUhbZxgH8IDXExEEbx3sYoMxy2Cwu4624i7GrqTMOCsTHG6MsQ+yrB9sVAZSelFCVrXJjFCnpk4d0+IQJkkWqXMzobXbrFYq0WzGRo0xRmKq/+V55ZwlJunG1tzI/4E/5z3P++HxZxLV4HA48E+1t7fH5IlBAMPhMFZXVxEKhdQ1fRyLxeByuXJmZmYGiUQiK1L59vT09OTsDw4O5t0zPT2ds+92u+HxePKel+vZnnQyAHNFADc3N1Mvw0fY15OEw3kTS0tLWFtbw/r6up7l5WXs7u6qsaxL3yM9n8+n5vfTzkvuJuD3+9VZmXseYWsrqn5Q2XNJRCIRJJOZ6yWt1m4MDw9je3u74NEBj5vu4Q3LQ0RSVpZrs1mA7t+i+HMjgXBq/uX3fsH7n1kVoKC8bfMhsJ7ExsYBYDweV33v7BbG74QxfjusxtKTVxOwr+7dv0ZScw/huruhA0r/xWPPw3Z9SI134jEdUO4lBoNBXTXAqfsxfU5yqtasAOW5Cx0d8LUL99HSt4aPbCG83gm8+bE/A7B//B4G/Al8fSuOkxcC+ODzqzqg9cpldNqvIRgMKsBoNKr6Q+559c1KZKy9AqWGPPN4qrhEXb8Zn9UBZV111Qlc7byh5tIBZa61rR8/3D4Ya4DfTz7AmXfM6HC61J5Txk8xMjKivt7hd0h6Hjf3b9cZurq6FOBJ0yy+fQC8ZYnh6VfvZr0CLT0emLqCcHvuoNr0Oz682KYDtn5xEW3tNvXQAqgd3t4/gc7vpuEY9qlxOqD0pSf50vmjDij3zzx3DM++8BIuf3UzA1Dm2m549X0a4PWRn9W9bfAndAzcQpXxrHoW+RwvdHTA4B8hLGsJhrIAT9SZ8crpT1SOnzbB6hjQAQ9/BsrBMpZ16Xu0t/D5S3a9L6k6c1YHTO9LtmNbClAgD5+nAVY3nMvY8+75KwpQ3hGFjg74uF8ifX19cDqderT7lZUVBAKBrMjB6evSx93d3RlnaXO9vb1Ze7QsLi7mPS/XeulNTU3lfLYnHYPVasXo6GjejI2NYWFhgckTw7lLHfg77XnGh3MU13X8p3UGsP5XKcCWlhaUlpaisbERJSUlMBqNarKpqQl1dXUoKipSV63q6+tRWVmp309MTGB+fh7av4Uyll8kDQ0NqK2tRXNzs+rb7fajCSjl9XoPGqm/2crKytRY/k0qLy9XPblKTU5OoqKiAhaLRT9E1pnNZszNzal7+TtwZ2dHpbi4GDU1NaovH7pHFpBFQAISkIAsAhKQgARkEZCABCQgi4AEJCABWQQkIAEJyCIgAQlIQBYBCUhAArIISEACEpBFQAISkIAsAhKQgAQkIIuABCQgAVkEJCABCcgiIAEJSEAWAQlIQAKyCEhAAhKQRUACEpCALAIWov4CRWWePo7zbFQAAAAASUVORK5CYII=</base64>
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<RichText>{\rtf1\ansi
-{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}
-{\colortbl\red0\green0\blue0;\red51\green51\blue51;}
-
-\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here your inferences. Please add limitations of the inferences.\par
-\f1\cf1\par
-\li0\ri0\fi0\ul0\par
+<RichText>{\rtf1\ansi&#xD;
+{\fonttbl\f0\fnil Monospaced;\f1\fnil Dialog;\f2\fnil sansserif;}&#xD;
+{\colortbl\red0\green0\blue0;\red51\green51\blue51;}&#xD;
+&#xD;
+\li0\ri0\fi0\f2\fs24\i0\b0\ul0\cf0 Write here your inferences. Please add limitations of the inferences.\par&#xD;
+\f1\cf1\par&#xD;
+\li0\ri0\fi0\ul0\par&#xD;
 }</RichText>
 </content>
 <resources>

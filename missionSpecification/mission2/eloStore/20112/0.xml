@@ -1,24 +1,6 @@
 <elo>
 <metadata>
   <lom>
-    <technical>
-      <format>scy/text</format>
-      <customElements>
-        <dateCreated>1267436454587</dateCreated>
-        <dateLastModified>1267436454587</dateLastModified>
-      </customElements>
-    </technical>
-    <general>
-      <title>
-        <string language="en">Empty plain text</string>
-       </title>
-      <mission>ecoMission</mission>
-      <las>startPage</las>
-      <identifier>
-        <catalog>memory</catalog>
-        <entry>roolo://memory/20112/0/Empty_plain_text.text</entry>
-      </identifier>
-    </general>
     <lifecycle>
       <contribute>
         <role>
@@ -30,27 +12,28 @@
           <dateTime>2010-03-01T10:40:54.587+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>2</version>
     </lifecycle>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_versioned_by</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
+    <technical>
+      <customElements>
+        <dateCreated>1267436454587</dateCreated>
+        <dateLastModified>1267436454587</dateLastModified>
+      </customElements>
+      <format>scy/text</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20112/0/Empty_plain_text.text</entry>
+      </identifier>
+      <las>startPage</las>
+      <mission>ecoMission</mission>
+      <title>
+        <string language="en">Empty plain text</string>
+      </title>
+    </general>
   </lom>
+  <template>true</template>
 </metadata>
 <content languageIndependent="true" contentType="xml">
 <text />

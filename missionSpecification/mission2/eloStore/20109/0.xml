@@ -1,24 +1,6 @@
 <elo>
 <metadata>
   <lom>
-    <general>
-      <title>
-        <string language="en">Empty concept map</string>
-      </title>
-      <mission>ecoMission</mission>
-      <las>startPage</las>
-      <identifier>
-        <catalog>memory</catalog>
-        <entry>roolo://memory/20109/0/Empty_concept_map.scymapping</entry>
-      </identifier>
-    </general>
-    <technical>
-      <format>scy/mapping</format>
-      <customElements>
-        <dateCreated>1267436104852</dateCreated>
-        <dateLastModified>1267436150649</dateLastModified>
-      </customElements>
-    </technical>
     <lifecycle>
       <contribute>
         <role>
@@ -30,34 +12,35 @@
           <dateTime>2010-03-01T10:35:50.649+0100</dateTime>
         </date>
       </contribute>
-      <version>0</version>
+      <version>2</version>
     </lifecycle>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_versioned_by</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
+    <technical>
+      <customElements>
+        <dateCreated>1267436104852</dateCreated>
+        <dateLastModified>1267436150649</dateLastModified>
+      </customElements>
+      <format>scy/mapping</format>
+    </technical>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/20109/0/Empty_concept_map.scymapping</entry>
+      </identifier>
+      <las>startPage</las>
+      <mission>ecoMission</mission>
+      <title>
+        <string language="en">Empty concept map</string>
+      </title>
+    </general>
   </lom>
+  <template>true</template>
 </metadata>
 <content languageIndependent="true" contentType="xml">
 <eu.scy.scymapper.impl.model.DefaultConceptMap>
   <name>Untitled</name>
   <diagram class="eu.scy.scymapper.impl.DiagramModel">
-    <nodes/>
-    <links/>
+    <nodes />
+    <links />
   </diagram>
 </eu.scy.scymapper.impl.model.DefaultConceptMap>
 </content>

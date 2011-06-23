@@ -9,10 +9,10 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2011-02-22T18:39:39.546+0200</dateTime>
+          <dateTime>2011-02-22T17:39:39.546+0100</dateTime>
         </date>
       </contribute>
-      <version>9</version>
+      <version>11</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -35,21 +35,12 @@
       </identifier>
       <las>experiment_B3</las>
       <mission>ecoMission</mission>
-      <missionRunning>roolo://memory/20193/0/ECO+mission.scymissionspecification</missionRunning>
       <title>
         <string language="en">Prey-predator relationships</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAYAAACOEfKtAAADy0lEQVR42u3ZXUhTYRgH8OMnhCAM1BvBG90QBPFGVLzTi25GFwqiVxESiFAwL5ICSzE/CqJiYZDUrIEYiikiOJ1LRLGGmtMawwuvUpbo0BtN3Xx6z8nNObfpPo7zbP8HHs7ZOdtz8Mf7cd5XjhAhBQcCAAIQgABEABCAAAQgAoAABCAAEQAEIAABiAAgAAEIQAQAAQhAACIACEAAAhABQAACEIAIAAIQgABEABCAAAQgAoAABCAAAYgAIAABCEARYnp6mjQaDen1empvbxf1DzGbzWSxWIRcXl4W5Rm2PRtxzzjiulhqWQ5x4gJWVla6zgcGBig1NVVUxJycHOE4Ozsb9tp8Q9j5u0Pca4b2gWU/yzERARsaGkipVJ67npubS3K5nBQKhSvdP3ue+7vnWSMvL49SUlLOXL9Muj/Hs64zMzMzqe1FG3HvGFovyxGWU1x0jYFGo1E4ZmVlhb12XV3d/xb4iaENspxgOSciYFNTE2VkZFBpaamQaWlp1N3dfWWY5eXlZDAYwjthJDAwGcsbJ2NgPxe9szDHcVRTUxOWWvn5+WQymejw8JDm5uZi5zVme3s7pN/zQ8Hk5KTr8/j4uHDsnOkUjnaHPXoBtVptUL87OjoSWq9n9PX1uc67jF3Ccc22Fr2AhYWFAX2/urqaVCqV13vFxcVnPh8fH2Mlwsfu7q7X1uY5lsbcUi4pKcnv/aqqKuro6LiwTn19ffSthfnu43A4hPQVLS0tXq/Hx8fT/v5+7G0m9PT0UHJyMq2srJy5Pjw8TDKZTDhXv2Srn/tECvktodtNGU67YElJCa2vrwf0zIKCAukD8i/go6Ojfr9TVlYmIKnuET1+RPSc9cy3b9gs/JFh5tym1dVVv631ojW8JAH5FQvf6i4b3vCGBommvgb3/I2NDekCJiQkBPT937+94+kniL5/C24FI5kxcH5+3nW+ublJIyMjAdfge6cvPIs5sFp2uz3g7h4xwLi4OGFW3Nraoubm5pBqqV+dxzP/JFLeFLf1RQzQiccn32Vra2tDrvm51w3vF9HdO1e0aRFpPD4TExMDGrh9vyMSfRkMfvfm2gMuLi56xeOT3zuU4s7NlbdAm812Di87Ozvoeg8fnGw1jRG1ug2lT9li5ODgZM27QzSh812jqKhIWiuRhYUFF57zH0GBxtIPor2905n2j5XItHR6v/WJW8tnk73mvZ9JSK2W3lLOarVSenp6xN87Z2Zmon8tLOosynHSBdTpdBEHDHXbP6ZbYGNjo/TeA69TOLfCABjJMTRW//CKioqw1PkHos3ceNDnfBIAAAAASUVORK5CYII=</base64>

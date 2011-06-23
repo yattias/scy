@@ -9,10 +9,10 @@
         </role>
         <entity>arle</entity>
         <date>
-          <dateTime>2011-02-22T19:28:01.593+0200</dateTime>
+          <dateTime>2011-02-22T18:28:01.593+0100</dateTime>
         </date>
       </contribute>
-      <version>10</version>
+      <version>12</version>
     </lifecycle>
     <technical>
       <customElements>
@@ -34,28 +34,19 @@
         <entry>roolo://memory/20159/0/Video+report.scyyoutuber</entry>
       </identifier>
       <las>reportingVideo</las>
-      <missionRunning>roolo://memory/20193/0/ECO+mission.scymissionspecification</missionRunning>
       <title>
         <string language="en">Video report</string>
       </title>
     </general>
-    <relation>
-      <kind>
-        <source>LOMv1.0</source>
-        <value>is_version_of</value>
-      </kind>
-      <resource>
-        <identifier />
-      </resource>
-    </relation>
   </lom>
+  <template>true</template>
   <thumbnail>
     <mime>png</mime>
     <base64>iVBORw0KGgoAAAANSUhEUgAAAFAAAABNCAYAAAAxWePoAAACCklEQVR42u3STWsTURjF8Wz9AIpfw40Lv4LgQqF2Z0UFF1poEF1JFSolqUqgVbIRMo2Cm1iTIAnMLDKEvKAuEhKQIpRMmhDcJFIhsZRwdC7mQsGduoj8DxzIfXjmDvwykdFopCAIbDudjv09HA4VplarHdvZD/btXr/fNzsXtuqqVCqm1WrVdHYOezJ5qPF4bJ4L2w3v6QbqdgM7GwwGmrdEms2mGo2GWq2W7kSjiq6syHU9Mwsbptfr2fPbr+90123q2uuFYzs7L18ol8uZvqps6nFuVdPp1M5Oxz6rXq/bZ575ccXdLQ2/fbezTCYzf4C+7yts+MWkG0e6nfmkR/EHZlYqlcxSu93WbC/WLOv8ZllP3kTtLIzz/Kkcx/nZbV3f+air2/c1mUx+zRydWt+1+2HvfSjqYjKn950jO0ulUvMHWCwWzRdSKBS0unxLC7EzWoydNbN8Pm+WPM+zX9IV55KWkzd00zlnztls1uw8XN9QIpEwPTgc2RfMZifW9syfNLtnaaMsf++Ldg9kZ+l0ev4A/+Zli97ve9nVf5uICIAAAgggARBAAAEkAAIIIIAEQAABBJAACCCAABIAAQQQQAIggAACSAAEEEAACYAAAgggARBAAAEkAAIIIIAAEgABBBBAAiCAAAJIAAQQQAAJgAACCCABEEAAASQAAggggATAfwNI/iw/APxLM0wZSPhsAAAAAElFTkSuQmCC</base64>
   </thumbnail>
 </metadata>
 <content languageIndependent="true" contentType="xml">
-<youtuber/>
+<youtuber />
 </content>
 <resources>
 <resource languageIndependent="true" contentType="binary" name="thumbnail" technicalFormat="scy/png">
