@@ -1,0 +1,209 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>costas</entity>
+        <date>
+          <dateTime>2011-06-21T14:50:16.875+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>costas</entity>
+        <date>
+          <dateTime>2011-06-21T14:50:16.875+0200</dateTime>
+        </date>
+      </contribute>
+      <version>6</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1297173711501</dateCreated>
+        <dateFirstUserSaveKey>1308660616875</dateFirstUserSaveKey>
+        <dateLastModified>1308660616875</dateLastModified>
+      </customElements>
+      <format>scy/simconfig</format>
+    </technical>
+    <educational>
+      <learningResourceType>sourceData</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30095/0/My+Favourite+Pizza.scysimconfig</entry>
+      </identifier>
+      <las>design</las>
+      <missionRunning>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/30175/0/A+healthy+pizza.scymissionspecification</entry>
+      </missionRunning>
+      <title>
+        <string language="en">My Favourite Pizza</string>
+        <string language="el">Δημιουργία της Αγαπημένης σας Πίτσας</string>
+      </title>
+    </general>
+  </lom>
+  <template>true</template>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languages="en el" contentType="xml">
+<simconfig simulationname="New Equation Model" simulationuri="http://www.scy-lab.eu/sqzx/pizzagr.sqzx" mode="explore_simple_data">
+  <variable name="nutritientsVector" value="0.0" />
+  <variable name="saturatedFat" value="7.0" />
+  <variable name="startTime" value="0.0" />
+  <variable name="time" value="0.0" />
+  <variable name="i42" value="0.0" />
+  <variable name="dough" value="3.0" />
+  <variable name="i41" value="0.0" />
+  <variable name="protein" value="26.0" />
+  <variable name="i40" value="0.0" />
+  <variable name="tolerance" value="1.0E-6" />
+  <variable name="i46" value="0.0" />
+  <variable name="finishTime" value="1000000.0" />
+  <variable name="i45" value="0.0" />
+  <variable name="i44" value="0.0" />
+  <variable name="i43" value="0.0" />
+  <variable name="i49" value="0.0" />
+  <variable name="i48" value="0.0" />
+  <variable name="i47" value="0.0" />
+  <variable name="i9" value="0.0" />
+  <variable name="totalFat" value="51.0" />
+  <variable name="cholesterol" value="0.0" />
+  <variable name="cost" value="1.6" />
+  <variable name="outputAfterTime" value="0.01" />
+  <variable name="i31" value="0.0" />
+  <variable name="i30" value="0.0" />
+  <variable name="i8" value="0.0" />
+  <variable name="i33" value="0.0" />
+  <variable name="i7" value="0.0" />
+  <variable name="i32" value="0.0" />
+  <variable name="nutritientsTable" value="0.0" />
+  <variable name="i6" value="0.0" />
+  <variable name="i35" value="0.0" />
+  <variable name="i5" value="0.0" />
+  <variable name="i34" value="0.0" />
+  <variable name="i37" value="0.0" />
+  <variable name="i4" value="0.0" />
+  <variable name="i3" value="1.0" />
+  <variable name="i36" value="0.0" />
+  <variable name="i2" value="0.0" />
+  <variable name="i39" value="0.0" />
+  <variable name="i1" value="0.0" />
+  <variable name="i38" value="0.0" />
+  <variable name="ingredientsSelection" value="0.0" />
+  <variable name="fiber" value="8.0" />
+  <variable name="i29" value="0.0" />
+  <variable name="i27" value="0.0" />
+  <variable name="simulator__slowdown" value="0.0" />
+  <variable name="i28" value="0.0" />
+  <variable name="i25" value="0.0" />
+  <variable name="i26" value="0.0" />
+  <variable name="totalCarbs" value="160.0" />
+  <variable name="i23" value="0.0" />
+  <variable name="i24" value="0.0" />
+  <variable name="i21" value="0.0" />
+  <variable name="stepSize" value="0.01" />
+  <variable name="i22" value="0.0" />
+  <variable name="i20" value="0.0" />
+  <variable name="simulator__action" value="0.0" />
+  <variable name="sodium" value="1414.0" />
+  <variable name="i19" value="0.0" />
+  <variable name="i18" value="0.0" />
+  <variable name="i51" value="0.0" />
+  <variable name="i14" value="0.0" />
+  <variable name="i50" value="0.0" />
+  <variable name="i15" value="0.0" />
+  <variable name="i53" value="0.0" />
+  <variable name="i16" value="0.0" />
+  <variable name="i52" value="0.0" />
+  <variable name="i17" value="0.0" />
+  <variable name="i10" value="0.0" />
+  <variable name="i11" value="0.0" />
+  <variable name="i12" value="0.0" />
+  <variable name="i13" value="0.0" />
+  <variable name="simulator__state" value="1.0" />
+  <variable name="energy" value="1164.0" />
+  <variable name="sugar" value="3.0" />
+  <relevantVariable name="cholesterol" />
+  <relevantVariable name="cost" />
+  <relevantVariable name="dough" />
+  <relevantVariable name="energy" />
+  <relevantVariable name="fiber" />
+  <relevantVariable name="i10" />
+  <relevantVariable name="i11" />
+  <relevantVariable name="i12" />
+  <relevantVariable name="i13" />
+  <relevantVariable name="i14" />
+  <relevantVariable name="i15" />
+  <relevantVariable name="i16" />
+  <relevantVariable name="i17" />
+  <relevantVariable name="i18" />
+  <relevantVariable name="i19" />
+  <relevantVariable name="i1" />
+  <relevantVariable name="i20" />
+  <relevantVariable name="i21" />
+  <relevantVariable name="i22" />
+  <relevantVariable name="i23" />
+  <relevantVariable name="i24" />
+  <relevantVariable name="i25" />
+  <relevantVariable name="i26" />
+  <relevantVariable name="i27" />
+  <relevantVariable name="i28" />
+  <relevantVariable name="i29" />
+  <relevantVariable name="i2" />
+  <relevantVariable name="i30" />
+  <relevantVariable name="i31" />
+  <relevantVariable name="i32" />
+  <relevantVariable name="i33" />
+  <relevantVariable name="i34" />
+  <relevantVariable name="i35" />
+  <relevantVariable name="i36" />
+  <relevantVariable name="i37" />
+  <relevantVariable name="i38" />
+  <relevantVariable name="i39" />
+  <relevantVariable name="i3" />
+  <relevantVariable name="i40" />
+  <relevantVariable name="i41" />
+  <relevantVariable name="i42" />
+  <relevantVariable name="i43" />
+  <relevantVariable name="i44" />
+  <relevantVariable name="i45" />
+  <relevantVariable name="i46" />
+  <relevantVariable name="i47" />
+  <relevantVariable name="i48" />
+  <relevantVariable name="i49" />
+  <relevantVariable name="i4" />
+  <relevantVariable name="i50" />
+  <relevantVariable name="i51" />
+  <relevantVariable name="i52" />
+  <relevantVariable name="i53" />
+  <relevantVariable name="i5" />
+  <relevantVariable name="i6" />
+  <relevantVariable name="i7" />
+  <relevantVariable name="i8" />
+  <relevantVariable name="i9" />
+  <relevantVariable name="ingredientsSelection" />
+  <relevantVariable name="nutritientsTable" />
+  <relevantVariable name="nutritientsVector" />
+  <relevantVariable name="protein" />
+  <relevantVariable name="saturatedFat" />
+  <relevantVariable name="sodium" />
+  <relevantVariable name="sugar" />
+  <relevantVariable name="totalCarbs" />
+  <relevantVariable name="totalFat" />
+</simconfig>
+</content>
+<resources>
+</resources>
+</elo>
