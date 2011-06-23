@@ -1,0 +1,79 @@
+<elo>
+<metadata>
+  <lom>
+    <lifecycle>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>author</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-06-23T17:05:43.449+0200</dateTime>
+        </date>
+      </contribute>
+      <contribute>
+        <role>
+          <source>LOMv1.0</source>
+          <value>initiator</value>
+        </role>
+        <entity>jakob</entity>
+        <date>
+          <dateTime>2011-06-23T17:05:43.449+0200</dateTime>
+        </date>
+      </contribute>
+      <version>0</version>
+    </lifecycle>
+    <technical>
+      <customElements>
+        <dateCreated>1308841543449</dateCreated>
+        <dateFirstUserSaveKey>1308841543449</dateFirstUserSaveKey>
+        <dateLastModified>1308841543449</dateLastModified>
+      </customElements>
+      <format>scy/missionspecification</format>
+    </technical>
+    <educational>
+      <learningResourceType>documentDesign</learningResourceType>
+    </educational>
+    <general>
+      <identifier>
+        <catalog>memory</catalog>
+        <entry>roolo://memory/40590/0/GMO+mission.scymissionspecification</entry>
+      </identifier>
+      <las />
+      <title>
+        <string language="en">GMO mission</string>
+      </title>
+    </general>
+    <relation>
+      <kind>
+        <source>LOMv1.0</source>
+        <value>is_version_of</value>
+      </kind>
+      <resource>
+        <identifier />
+      </resource>
+    </relation>
+  </lom>
+  <thumbnail>
+    <mime>png</mime>
+    <base64>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</base64>
+  </thumbnail>
+</metadata>
+<content languages="en" contentType="xml">
+<missionSpeicification>
+  <missionMapModelEloUri>roolo://memory/40585/0/gmoMission.scymissionmapmodel</missionMapModelEloUri>
+  <eloToolConfigsEloUri>roolo://memory/40586/0/gmoMission.scyelotoolconfiguration</eloToolConfigsEloUri>
+  <templateElosEloUri>roolo://memory/40587/0/gmoMission.scytemplateelos</templateElosEloUri>
+  <runtimeSettingsEloUri>roolo://memory/40588/0/gmoMission.runtimesettings</runtimeSettingsEloUri>
+  <agentModelsEloUri />
+  <pedagogicalPlanSettingsEloUri>roolo://memory/40589/0/gmoMission.scy</pedagogicalPlanSettingsEloUri>
+  <colorSchemesEloUri>roolo://memory/40509/0/Color+schemes+Mission4+GMO.colorschemes</colorSchemesEloUri>
+  <missionDescriptionUri>http://www.scy-lab.eu/content/en/mission4/GMO/missionMapInstruction.html</missionDescriptionUri>
+  <missionId>gmo</missionId>
+  <xhtmlVersionId />
+</missionSpeicification>
+</content>
+<resources>
+</resources>
+</elo>
